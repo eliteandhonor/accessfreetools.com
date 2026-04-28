@@ -1,7 +1,10 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
 import BasicCalculator from '../../components/BasicCalculator';
+import BinaryCalculator from '../../components/BinaryCalculator';
+import ExponentCalculator from '../../components/ExponentCalculator';
 import FractionCalculator from '../../components/FractionCalculator';
+import PercentErrorCalculator from '../../components/PercentErrorCalculator';
 import PercentageCalculator from '../../components/PercentageCalculator';
 import RandomNumberGenerator from '../../components/RandomNumberGenerator';
 import ScientificCalculator from '../../components/ScientificCalculator';
@@ -27,6 +30,9 @@ const isKawaiiTool = tool.slug === 'kawaii-calculator';
 const isScientificTool = tool.slug === 'scientific-calculator';
 const isFractionTool = tool.slug === 'fraction-calculator';
 const isPercentageTool = tool.slug === 'percentage-calculator';
+const isPercentErrorTool = tool.slug === 'percent-error-calculator';
+const isExponentTool = tool.slug === 'exponent-calculator';
+const isBinaryTool = tool.slug === 'binary-calculator';
 const isRandomTool = tool.slug === 'random-number-generator';
 const toolInstructions = isPercentageTool
   ? [
@@ -34,6 +40,27 @@ const toolInstructions = isPercentageTool
       'Enter the values for percent-of, what-percent, percentage change, adjustment, or reverse percentage.',
       'Press Calculate percentage to see the answer, formula, and steps.',
       'Use examples, recent answers, or copy answer while you compare values.',
+    ]
+  : isPercentErrorTool
+  ? [
+      'Enter the measured or experimental value from your result.',
+      'Enter the accepted, true, or theoretical value you are comparing against.',
+      'Add a unit label if it helps your answer read clearly.',
+      'Press Calculate percent error to see absolute percent error, signed percent error, and steps.',
+    ]
+  : isExponentTool
+  ? [
+      'Enter the base number.',
+      'Enter the exponent as a whole number, decimal, or simple fraction such as 1/2.',
+      'Press Calculate exponent to see the power, scientific notation, and steps.',
+      'Use examples, recent answers, or copy the answer while you compare powers.',
+    ]
+  : isBinaryTool
+  ? [
+      'Enter the first binary number using only 0 and 1.',
+      'Choose add, subtract, multiply, or divide.',
+      'Enter the second binary number, then press Calculate binary.',
+      'Review the binary answer, decimal answer, steps, conversions, and recent answers.',
     ]
   : isRandomTool
   ? [
@@ -126,6 +153,39 @@ const toolInstructions = isPercentageTool
     }
 
     {
+      isExponentTool && (
+        <div class="exponent-tool-points" aria-label="Exponent calculator highlights">
+          <span>Positive powers</span>
+          <span>Negative exponents</span>
+          <span>Fraction exponents</span>
+          <span>Scientific notation</span>
+        </div>
+      )
+    }
+
+    {
+      isBinaryTool && (
+        <div class="binary-tool-points" aria-label="Binary calculator highlights">
+          <span>Binary arithmetic</span>
+          <span>Decimal conversion</span>
+          <span>Remainders</span>
+          <span>Copy results</span>
+        </div>
+      )
+    }
+
+    {
+      isPercentErrorTool && (
+        <div class="percent-error-tool-points" aria-label="Percent error calculator highlights">
+          <span>Accepted vs measured</span>
+          <span>Absolute percent error</span>
+          <span>Signed direction</span>
+          <span>Step-by-step work</span>
+        </div>
+      )
+    }
+
+    {
       isRandomTool && (
         <div class="random-tool-points" aria-label="Random number generator highlights">
           <span>Min and max range</span>
@@ -149,6 +209,9 @@ const toolInstructions = isPercentageTool
 
     {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
     {isPercentageTool && <PercentageCalculator client:load />}
+    {isPercentErrorTool && <PercentErrorCalculator client:load />}
+    {isExponentTool && <ExponentCalculator client:load />}
+    {isBinaryTool && <BinaryCalculator client:load />}
     {isScientificTool && <ScientificCalculator client:load />}
     {isFractionTool && <FractionCalculator client:load />}
     {isRandomTool && <RandomNumberGenerator client:load />}
@@ -182,12 +245,15 @@ const toolInstructions = isPercentageTool
       </div>
     </section>
 
-    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section']}>
+    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isExponentTool && 'exponent-faq-section', isBinaryTool && 'binary-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section']}>
       <div class="section-title-block">
         <h2>Frequently asked questions</h2>
         {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
         {isScientificTool && <p>Quick answers about angle mode, supported functions, typing expressions, and privacy.</p>}
         {isPercentageTool && <p>Quick answers about percent-of, percentage change, discounts, reverse percentages, and privacy.</p>}
+        {isPercentErrorTool && <p>Quick answers about formulas, accepted values, signed error, zero values, units, and privacy.</p>}
+        {isExponentTool && <p>Quick answers about powers, negative exponents, zero exponents, fraction exponents, and privacy.</p>}
+        {isBinaryTool && <p>Quick answers about base-2 numbers, arithmetic, division remainders, conversion, and privacy.</p>}
         {isFractionTool && <p>Quick answers about simplifying, mixed numbers, denominators, division, and privacy.</p>}
         {isRandomTool && <p>Quick answers about ranges, unique results, exclusions, everyday randomness, and privacy.</p>}
       </div>

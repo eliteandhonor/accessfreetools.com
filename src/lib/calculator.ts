@@ -24,6 +24,31 @@ export interface RandomNumberOptions {
   excludedNumbers?: number[];
 }
 
+export interface PercentErrorResult {
+  measuredValue: number;
+  acceptedValue: number;
+  error: number;
+  absoluteError: number;
+  relativeError: number;
+  percentError: number;
+  signedPercentError: number;
+}
+
+export interface ExponentResult {
+  base: number;
+  exponent: number;
+  value: number;
+}
+
+export interface BinaryIntegerOperationResult {
+  left: bigint;
+  operator: CalculatorOperator;
+  right: bigint;
+  result: bigint;
+  quotient?: bigint;
+  remainder?: bigint;
+}
+
 const randomUint32Bound = 0x100000000;
 const maxRandomQuantity = 1000;
 const maxPoolGenerationRange = 100000;
@@ -93,6 +118,193 @@ export function percentDisplayValue(
   }
 
   return formatCalculatorNumber(displayValue / 100);
+}
+
+export function calculatePercentError(measuredValue: number, acceptedValue: number): PercentErrorResult {
+  if (!Number.isFinite(measuredValue)) {
+    throw new Error('Measured value must be a number');
+  }
+
+  if (!Number.isFinite(acceptedValue)) {
+    throw new Error('Accepted value must be a number');
+  }
+
+  if (acceptedValue === 0) {
+    throw new Error('Accepted value cannot be zero');
+  }
+
+  const error = measuredValue - acceptedValue;
+  const absoluteError = Math.abs(error);
+  const relativeError = absoluteError / Math.abs(acceptedValue);
+  const signedPercentError = (error / Math.abs(acceptedValue)) * 100;
+
+  return {
+    measuredValue,
+    acceptedValue,
+    error,
+    absoluteError,
+    relativeError,
+    percentError: relativeError * 100,
+    signedPercentError,
+  };
+}
+
+export function parseExponentInput(input: string): number {
+  const trimmed = input.trim();
+
+  if (!trimmed) {
+    throw new Error('Exponent is required');
+  }
+
+  const fractionMatch = trimmed.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*\/\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))$/);
+
+  if (fractionMatch) {
+    const numerator = Number(fractionMatch[1]);
+    const denominator = Number(fractionMatch[2]);
+
+    if (denominator === 0) {
+      throw new Error('Exponent fraction denominator cannot be zero');
+    }
+
+    return numerator / denominator;
+  }
+
+  const parsed = Number(trimmed);
+
+  if (!Number.isFinite(parsed)) {
+    throw new Error('Exponent must be a number or simple fraction');
+  }
+
+  return parsed;
+}
+
+export function calculateExponent(base: number, exponent: number): ExponentResult {
+  if (!Number.isFinite(base)) {
+    throw new Error('Base must be a number');
+  }
+
+  if (!Number.isFinite(exponent)) {
+    throw new Error('Exponent must be a number');
+  }
+
+  if (base === 0 && exponent < 0) {
+    throw new Error('Zero cannot be raised to a negative exponent');
+  }
+
+  if (base === 0 && exponent === 0) {
+    throw new Error('0 to the power of 0 is indeterminate');
+  }
+
+  if (base < 0 && !Number.isInteger(exponent)) {
+    throw new Error('Negative bases need a whole-number exponent in this calculator');
+  }
+
+  const value = base ** exponent;
+
+  if (!Number.isFinite(value)) {
+    throw new Error('Result is outside calculator range');
+  }
+
+  return {
+    base,
+    exponent,
+    value,
+  };
+}
+
+export function parseBinaryInteger(input: string, label = 'Binary value'): bigint {
+  const normalized = input.trim().replace(/[\s_]/g, '');
+
+  if (!normalized || normalized === '-' || !/^-?[01]+$/.test(normalized)) {
+    throw new Error(`${label} must contain only 0 and 1`);
+  }
+
+  const negative = normalized.startsWith('-');
+  const digits = negative ? normalized.slice(1) : normalized;
+  const value = BigInt(`0b${digits}`);
+
+  return negative ? -value : value;
+}
+
+export function parseDecimalInteger(input: string, label = 'Decimal value'): bigint {
+  const normalized = input.trim().replace(/[,\s_]/g, '');
+
+  if (!normalized || normalized === '-' || !/^-?\d+$/.test(normalized)) {
+    throw new Error(`${label} must be a whole decimal number`);
+  }
+
+  return BigInt(normalized);
+}
+
+export function formatBinaryInteger(value: bigint): string {
+  const negative = value < 0n;
+  const absoluteValue = negative ? -value : value;
+
+  return `${negative ? '-' : ''}${absoluteValue.toString(2)}`;
+}
+
+export function groupBinaryDigits(value: bigint): string {
+  const raw = formatBinaryInteger(value);
+  const negative = raw.startsWith('-');
+  const digits = negative ? raw.slice(1) : raw;
+  const groups: string[] = [];
+
+  for (let index = digits.length; index > 0; index -= 4) {
+    groups.unshift(digits.slice(Math.max(0, index - 4), index));
+  }
+
+  return `${negative ? '-' : ''}${groups.join(' ')}`;
+}
+
+export function calculateBinaryIntegerOperation(
+  left: bigint,
+  operator: CalculatorOperator,
+  right: bigint,
+): BinaryIntegerOperationResult {
+  switch (operator) {
+    case '+':
+      return {
+        left,
+        operator,
+        right,
+        result: left + right,
+      };
+    case '-':
+      return {
+        left,
+        operator,
+        right,
+        result: left - right,
+      };
+    case '*':
+      return {
+        left,
+        operator,
+        right,
+        result: left * right,
+      };
+    case '/': {
+      if (right === 0n) {
+        throw new Error('Cannot divide by zero');
+      }
+
+      const quotient = left / right;
+      const remainder = left % right;
+
+      return {
+        left,
+        operator,
+        right,
+        result: quotient,
+        quotient,
+        remainder,
+      };
+    }
+    default: {
+      const exhaustiveCheck: never = operator;
+      return exhaustiveCheck;
+    }
+  }
 }
 
 function greatestCommonDivisor(left: number, right: number) {

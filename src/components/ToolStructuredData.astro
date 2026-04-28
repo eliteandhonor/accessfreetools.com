@@ -9,14 +9,29 @@ const { tool } = Astro.props;
 const url = new URL(`/tools/${tool.slug}/`, Astro.site ?? 'https://accessfreetools.com').toString();
 const structuredData = {
   '@context': 'https://schema.org',
-  '@type': 'WebApplication',
-  name: tool.name,
-  applicationCategory: 'UtilitiesApplication',
-  operatingSystem: 'Any',
-  url,
-  description: tool.seoDescription,
-  isAccessibleForFree: true,
-  keywords: [tool.name, getCategoryName(tool.category), 'free online tool', 'Access Free Tools'],
+  '@graph': [
+    {
+      '@type': 'WebApplication',
+      name: tool.name,
+      applicationCategory: 'UtilitiesApplication',
+      operatingSystem: 'Any',
+      url,
+      description: tool.seoDescription,
+      isAccessibleForFree: true,
+      keywords: [tool.name, getCategoryName(tool.category), 'free online tool', 'Access Free Tools'],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: tool.faq.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
+    },
+  ],
 };
 ---
 

@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const percentErrorCalculator = getTool('percent-error-calculator');
+const examples = percentErrorCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Percent Error Calculator',
+  description:
+    'A practical guide to using the Access Free Tools percent error calculator, including measured values, accepted values, absolute percent error, signed percent error, units, steps, history, and privacy.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-percent-error-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Percent Error Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools percent error calculator for measured values, accepted values, absolute percent error, signed percent error, units, steps, history, and privacy."
+  path="/blog/how-to-use-percent-error-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Percent Error Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Percent error calculator guide</span>
+      <h1>How to use the Percent Error Calculator</h1>
+      <p>
+        The Percent Error Calculator compares a measured or experimental value with an accepted,
+        true, or theoretical value. It shows the standard absolute percent error, signed percent
+        error, absolute error, relative error, and the steps behind the result.
+      </p>
+      <a class="button-primary" href="/tools/percent-error-calculator/">Open the percent error calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Enter your measured or experimental value.</li>
+            <li>Enter the accepted, true, reference, or theoretical value.</li>
+            <li>Add a unit label if the values have units, such as cm, g/cm3, or mL.</li>
+            <li>Press Calculate percent error.</li>
+            <li>Review the percent error, signed percent error, absolute error, and steps.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>The formula</h2>
+          <p>
+            The standard percent error formula is the absolute value of measured minus accepted,
+            divided by the absolute value of the accepted value, multiplied by 100.
+          </p>
+          <p>
+            In plain words: find how far your result is from the accepted value, compare that
+            difference with the accepted value, then write the comparison as a percent.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Measured and accepted values</h2>
+          <p>
+            The measured value is the result you observed, tested, or calculated in an experiment.
+            It may also be called the experimental value.
+          </p>
+          <p>
+            The accepted value is the reference value you are comparing against. In science classes,
+            this could be a textbook value, teacher-provided value, theoretical value, or known
+            standard.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Signed percent error</h2>
+          <p>
+            Standard percent error is usually positive because it uses absolute error. Signed
+            percent error keeps the direction: a positive result means the measured value was high,
+            while a negative result means the measured value was low.
+          </p>
+          <p>
+            Use the absolute percent error when your assignment asks for percent error. Use the
+            signed percent error when you also need to explain whether the measurement was above or
+            below the accepted value.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Examples</h2>
+          <div class="shortcut-table" role="table" aria-label="Percent error calculator examples">
+            <div role="row">
+              <strong role="cell">2.45 vs 2.70</strong>
+              <span role="cell">Density-style lab example with about 9.259% percent error.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">48 vs 50</strong>
+              <span role="cell">A measurement that is low by 2 units and has 4% percent error.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">105 vs 100</strong>
+              <span role="cell">A high reading with 5% percent error and signed percent error of +5%.</span>
+            </div>
+          </div>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the percent error calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Common mistakes to avoid</h2>
+          <p>
+            Make sure the measured value and accepted value use the same unit before calculating.
+            Do not compare centimeters with meters or grams with kilograms until they are converted
+            into the same unit.
+          </p>
+          <p>
+            The accepted value cannot be zero because the formula divides by the accepted value. If
+            the accepted value is zero, percent error is undefined.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent percent error answers stay visible in the page while you work. The history is
+            kept only in the current browser tab and is not sent to a server.
+          </p>
+          <p>
+            Copy answer copies the percent error, signed percent error, and absolute error so you
+            can paste the result into notes, homework, or a lab report draft.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the percent error calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/percent-error-calculator/">Percent Error Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

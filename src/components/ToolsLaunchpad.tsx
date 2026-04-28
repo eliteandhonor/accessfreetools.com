@@ -88,6 +88,20 @@ function CalculatorGlyph({ mark }: { mark: CalculatorIconMark }) {
         <text className="calculator-percent-mark" x="18" y="25.5" textAnchor="middle">
           %
         </text>
+      ) : mark === 'error' ? (
+        <>
+          <circle className="calculator-mark" cx="18" cy="21.3" r="5.4" />
+          <path className="calculator-mark" d="M18 18.1v3.8" />
+          <path className="calculator-mark" d="M18 25h.1" />
+        </>
+      ) : mark === 'power' ? (
+        <text className="calculator-power-mark" x="18" y="24.4" textAnchor="middle">
+          x^n
+        </text>
+      ) : mark === 'binary' ? (
+        <text className="calculator-binary-mark" x="18" y="25" textAnchor="middle">
+          01
+        </text>
       ) : mark === 'fraction' ? (
         <>
           <path className="calculator-mark" d="M13.2 21.2h9.6" />
@@ -195,7 +209,15 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
     return tools.filter((tool) => {
       const matchesQuery =
         normalizedQuery.length === 0 ||
-        [tool.name, tool.summary, tool.description, tool.category]
+        [
+          tool.name,
+          tool.summary,
+          tool.description,
+          tool.category,
+          ...tool.useCases,
+          ...tool.examples.flatMap((example) => [example.label, example.expression, example.result]),
+          ...tool.faq.flatMap((item) => [item.question, item.answer]),
+        ]
           .join(' ')
           .toLowerCase()
           .includes(normalizedQuery);
@@ -228,7 +250,7 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
         <input
           id="tool-library-search"
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search calculator, fractions, percentages..."
+          placeholder="Search calculator, binary, exponents..."
           type="search"
           value={query}
         />

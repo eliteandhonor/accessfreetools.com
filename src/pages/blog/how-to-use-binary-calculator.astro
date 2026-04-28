@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const binaryCalculator = getTool('binary-calculator');
+const examples = binaryCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Binary Calculator',
+  description:
+    'A practical guide to using the Access Free Tools binary calculator, including base-2 place values, binary arithmetic, division remainders, conversions, copying, history, and privacy.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-binary-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Binary Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools binary calculator for binary addition, subtraction, multiplication, division with remainders, binary-to-decimal conversion, and decimal-to-binary conversion."
+  path="/blog/how-to-use-binary-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Binary Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Binary calculator guide</span>
+      <h1>How to use the Binary Calculator</h1>
+      <p>
+        The Binary Calculator works with base-2 whole numbers. It can add, subtract, multiply,
+        divide, convert binary to decimal, convert decimal to binary, and show steps that make each
+        answer easier to check.
+      </p>
+      <a class="button-primary" href="/tools/binary-calculator/">Open the binary calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Enter the first binary number using only 0 and 1.</li>
+            <li>Choose Add, Subtract, Multiply, or Divide.</li>
+            <li>Enter the second binary number.</li>
+            <li>Press Calculate binary.</li>
+            <li>Read the binary answer, decimal answer, and steps.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>What binary means</h2>
+          <p>
+            Binary is base 2. Instead of ten possible digits, binary uses only 0 and 1. Each place
+            value is a power of 2, so 1011 means 8 + 0 + 2 + 1, which equals 11 in decimal.
+          </p>
+          <p>
+            The calculator shows both forms so you can check a base-2 answer against the decimal
+            value you may already know.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Binary arithmetic</h2>
+          <p>
+            Addition, subtraction, and multiplication return a binary answer and the same result in
+            decimal. For example, 1011 + 110 equals 10001, which is 17 in decimal.
+          </p>
+          <p>
+            Binary division returns a quotient. If the division is not even, the calculator also
+            shows the remainder. For example, 1101 / 10 equals 110 remainder 1.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Converting binary and decimal</h2>
+          <p>
+            Use the conversion panel when you only need to change number systems. Binary to decimal
+            turns a base-2 number such as 101010 into 42. Decimal to binary turns a whole decimal
+            number such as 42 into 101010.
+          </p>
+          <p>
+            Spaces and underscores are ignored in binary inputs, so grouped values like 1111 0000
+            are accepted.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Common examples</h2>
+          <div class="shortcut-table" role="table" aria-label="Binary calculator examples">
+            <div role="row">
+              <strong role="cell">1011 + 110</strong>
+              <span role="cell">Adds two binary numbers and returns 10001.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">10000 - 1</strong>
+              <span role="cell">Subtracts one and returns 1111.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">101 x 11</strong>
+              <span role="cell">Multiplies 5 by 3 and returns 1111.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">1101 / 10</strong>
+              <span role="cell">Divides 13 by 2 and returns 110 remainder 1.</span>
+            </div>
+          </div>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the binary calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Signed numbers</h2>
+          <p>
+            You can type a leading minus sign for simple signed whole-number calculations, such as
+            -101 + 10. This is useful for quick math, but it is not the same as fixed-width two's
+            complement notation.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent binary answers stay visible in the page while you work. The history is kept only
+            in the current browser tab and is not sent to a server.
+          </p>
+          <p>
+            Copy answer copies the binary result and decimal result so you can paste it into notes,
+            homework, a message, or another document.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the binary calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/binary-calculator/">Binary Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

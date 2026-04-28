@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const exponentCalculator = getTool('exponent-calculator');
+const examples = exponentCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Exponent Calculator',
+  description:
+    'A practical guide to using the Access Free Tools exponent calculator, including bases, powers, zero exponents, negative exponents, fraction exponents, scientific notation, history, and privacy.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-exponent-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Exponent Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools exponent calculator for powers, negative exponents, zero exponents, fraction exponents, scientific notation, history, and privacy."
+  path="/blog/how-to-use-exponent-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Exponent Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Exponent calculator guide</span>
+      <h1>How to use the Exponent Calculator</h1>
+      <p>
+        The Exponent Calculator raises a base to a power and shows the result with scientific
+        notation and steps. It handles positive powers, zero exponents, negative exponents,
+        decimals, and simple fraction exponents such as 1/2.
+      </p>
+      <a class="button-primary" href="/tools/exponent-calculator/">Open the exponent calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Enter the base, which is the number being raised to a power.</li>
+            <li>Enter the exponent as a whole number, decimal, or simple fraction such as 1/2.</li>
+            <li>Press Calculate exponent.</li>
+            <li>Review the answer, scientific notation, and steps.</li>
+            <li>Use quick examples or copy the answer while comparing powers.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>What exponents mean</h2>
+          <p>
+            An exponent tells how many times to use the base as a factor. For example, 2^4 means
+            2 x 2 x 2 x 2, which equals 16.
+          </p>
+          <p>
+            The calculator writes the expression as base^exponent, then gives the result in normal
+            notation and scientific notation.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Zero and negative exponents</h2>
+          <p>
+            Any nonzero base raised to the power of 0 equals 1. For example, 9^0 equals 1.
+          </p>
+          <p>
+            A negative exponent means reciprocal. For example, 5^-3 means 1 / 5^3, which equals
+            0.008.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Fraction exponents</h2>
+          <p>
+            Fraction exponents can represent roots and powers. An exponent of 1/2 is the same as a
+            square root, so 81^(1/2) equals 9.
+          </p>
+          <p>
+            Negative bases with non-whole-number exponents can require complex numbers. This
+            calculator focuses on real-number results, so negative bases need whole-number
+            exponents.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Examples</h2>
+          <div class="shortcut-table" role="table" aria-label="Exponent calculator examples">
+            <div role="row">
+              <strong role="cell">2^8</strong>
+              <span role="cell">Multiplies 2 by itself 8 times and returns 256.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">10^6</strong>
+              <span role="cell">Shows a power of 10 and scientific notation.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">5^-3</strong>
+              <span role="cell">Uses the reciprocal rule and returns 0.008.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">81^(1/2)</strong>
+              <span role="cell">Uses a fraction exponent and returns 9.</span>
+            </div>
+          </div>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the exponent calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Scientific notation</h2>
+          <p>
+            Exponent answers can become very large or very small. Scientific notation gives a more
+            compact version of the same value, which is useful for science, engineering, and study
+            problems.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent exponent answers stay visible in the page while you work. The history is kept
+            only in the current browser tab and is not sent to a server.
+          </p>
+          <p>
+            Copy answer copies the expression and result so you can paste it into notes, homework,
+            a message, or another document.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the exponent calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/exponent-calculator/">Exponent Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

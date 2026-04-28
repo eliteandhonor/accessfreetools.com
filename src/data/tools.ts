@@ -156,7 +156,226 @@ export const tools: ToolDefinition[] = [
           'Yes. Recent percentage answers stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['basic-calculator', 'fraction-calculator', 'scientific-calculator'],
+    relatedSlugs: ['percent-error-calculator', 'basic-calculator', 'fraction-calculator'],
+  },
+  {
+    slug: 'percent-error-calculator',
+    name: 'Percent Error Calculator',
+    category: 'calculators',
+    summary: 'Compare measured and accepted values with percent error, signed error, and steps.',
+    description:
+      'Use this free percent error calculator to compare an experimental or measured value with an accepted value and see percent error, signed percent error, absolute error, relative error, and step-by-step work.',
+    icon: 'calculator-error',
+    seoTitle: 'Percent Error Calculator | Free Online Percentage Error Tool',
+    seoDescription:
+      'Use the free Access Free Tools percent error calculator to compare measured and accepted values, find absolute percent error, signed percent error, absolute error, relative error, and steps.',
+    useCases: [
+      'Check lab results against an accepted, true, or theoretical value.',
+      'See whether a measured value is higher or lower than the accepted value.',
+      'Show percent error steps for chemistry, physics, math, and science homework.',
+      'Copy the answer with absolute error and signed percent error for notes or reports.',
+    ],
+    examples: [
+      {
+        label: 'Density lab',
+        expression: 'Measured 2.45 vs accepted 2.70',
+        result: '9.25925925926% error',
+      },
+      {
+        label: 'Length measurement',
+        expression: 'Measured 48 vs accepted 50',
+        result: '4% error',
+      },
+      {
+        label: 'High reading',
+        expression: 'Measured 105 vs accepted 100',
+        result: '5% error, signed +5%',
+      },
+    ],
+    faq: [
+      {
+        question: 'What formula does the Percent Error Calculator use?',
+        answer:
+          'It uses absolute percent error: absolute value of measured minus accepted, divided by the absolute value of the accepted value, multiplied by 100.',
+      },
+      {
+        question: 'What is the accepted value?',
+        answer:
+          'The accepted value is the true, theoretical, reference, or expected value you are comparing against. In many science classes, this is the value from a table, textbook, or teacher-provided reference.',
+      },
+      {
+        question: 'What is the measured value?',
+        answer:
+          'The measured value is the experimental result, observed result, or value you collected. The calculator compares this value with the accepted value.',
+      },
+      {
+        question: 'Can percent error be negative?',
+        answer:
+          'Standard percent error is usually shown as a positive value because it uses absolute error. This calculator also shows signed percent error so you can see whether the measured value was high or low.',
+      },
+      {
+        question: 'Why can the accepted value not be zero?',
+        answer:
+          'Percent error divides by the accepted value. If the accepted value is zero, the percentage comparison is undefined, so the calculator will ask for a nonzero accepted value.',
+      },
+      {
+        question: 'Do the units matter?',
+        answer:
+          'Yes. The measured value and accepted value should use the same unit before you calculate percent error. The unit label is optional and only helps make the answer easier to read.',
+      },
+      {
+        question: 'Is my percent error history private?',
+        answer:
+          'Yes. Recent percent error calculations stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['percentage-calculator', 'scientific-calculator', 'basic-calculator'],
+  },
+  {
+    slug: 'exponent-calculator',
+    name: 'Exponent Calculator',
+    category: 'calculators',
+    summary: 'Calculate powers with positive, negative, zero, decimal, and fraction exponents.',
+    description:
+      'Use this free exponent calculator to raise a base to a power and see the result, scientific notation, zero exponent rules, negative exponent steps, fractional exponent notes, examples, copy, and history.',
+    icon: 'calculator-power',
+    seoTitle: 'Exponent Calculator | Free Online Power Calculator',
+    seoDescription:
+      'Use the free Access Free Tools exponent calculator to calculate base to a power, including positive, negative, zero, decimal, and simple fraction exponents with steps and scientific notation.',
+    useCases: [
+      'Calculate squares, cubes, powers of 10, and larger powers.',
+      'Check zero exponent and negative exponent homework problems.',
+      'Use simple fraction exponents such as 1/2 for square-root style calculations.',
+      'Copy exponent answers and compare recent calculations while studying.',
+    ],
+    examples: [
+      {
+        label: 'Power of two',
+        expression: '2^8',
+        result: '256',
+      },
+      {
+        label: 'Negative exponent',
+        expression: '5^-3',
+        result: '0.008',
+      },
+      {
+        label: 'Fraction exponent',
+        expression: '81^(1/2)',
+        result: '9',
+      },
+    ],
+    faq: [
+      {
+        question: 'What does an exponent mean?',
+        answer:
+          'An exponent tells how many times to use the base as a factor. For example, 2^4 means 2 x 2 x 2 x 2, which equals 16.',
+      },
+      {
+        question: 'Can this calculator handle negative exponents?',
+        answer:
+          'Yes. A negative exponent is shown as a reciprocal. For example, 5^-3 means 1 / 5^3, which equals 0.008.',
+      },
+      {
+        question: 'What happens when the exponent is zero?',
+        answer:
+          'Any nonzero base raised to the power of 0 equals 1. The calculator will show this rule in the steps.',
+      },
+      {
+        question: 'Can I use fraction exponents?',
+        answer:
+          'Yes. You can enter simple fraction exponents such as 1/2 or 3/2. Fractional exponents can represent roots and powers.',
+      },
+      {
+        question: 'Why are some negative-base powers not supported?',
+        answer:
+          'Negative bases with non-whole-number exponents can lead to complex numbers. This calculator focuses on real-number results, so negative bases need whole-number exponents.',
+      },
+      {
+        question: 'Does the calculator show scientific notation?',
+        answer:
+          'Yes. The result card shows the normal result and a scientific-notation version, which is useful for very large or very small powers.',
+      },
+      {
+        question: 'Is my exponent history private?',
+        answer:
+          'Yes. Recent exponent calculations stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['scientific-calculator', 'binary-calculator', 'basic-calculator'],
+  },
+  {
+    slug: 'binary-calculator',
+    name: 'Binary Calculator',
+    category: 'calculators',
+    summary: 'Add, subtract, multiply, divide, and convert binary numbers.',
+    description:
+      'Use this free binary calculator for base-2 addition, subtraction, multiplication, division with remainders, binary-to-decimal conversion, decimal-to-binary conversion, copy, and history.',
+    icon: 'calculator-binary',
+    seoTitle: 'Binary Calculator | Free Online Base-2 Calculator',
+    seoDescription:
+      'Use the free Access Free Tools binary calculator to add, subtract, multiply, divide, and convert binary numbers to decimal or decimal numbers to binary with steps.',
+    useCases: [
+      'Check binary addition, subtraction, multiplication, and division homework.',
+      'Convert binary values such as 101010 into decimal numbers.',
+      'Convert whole decimal numbers into grouped binary output.',
+      'See quotient and remainder for binary division problems that do not divide evenly.',
+    ],
+    examples: [
+      {
+        label: 'Binary addition',
+        expression: '1011 + 110',
+        result: '10001',
+      },
+      {
+        label: 'Binary subtraction',
+        expression: '10000 - 1',
+        result: '1111',
+      },
+      {
+        label: 'Binary division',
+        expression: '1101 / 10',
+        result: '110 remainder 1',
+      },
+    ],
+    faq: [
+      {
+        question: 'What is a binary number?',
+        answer:
+          'A binary number is written in base 2, so each digit is either 0 or 1. Each place value is a power of 2 instead of a power of 10.',
+      },
+      {
+        question: 'What can I use the Binary Calculator for?',
+        answer:
+          'Use it to add, subtract, multiply, divide, and convert whole binary numbers. It also shows decimal values and simple steps so you can check the work.',
+      },
+      {
+        question: 'Can I enter spaces in a binary number?',
+        answer:
+          'Yes. Spaces and underscores are ignored, so you can type grouped values such as 1111 0000 to make longer binary numbers easier to read.',
+      },
+      {
+        question: 'How does binary division work in this calculator?',
+        answer:
+          'Binary division returns a whole-number quotient. If the division is not even, the calculator also shows the remainder in binary and decimal.',
+      },
+      {
+        question: 'Does the calculator convert decimal to binary?',
+        answer:
+          'Yes. The quick conversions panel converts whole decimal numbers into binary and converts binary numbers back into decimal.',
+      },
+      {
+        question: 'Can this calculator handle negative binary numbers?',
+        answer:
+          "Yes, you can use a leading minus sign for simple signed whole-number calculations. It does not use fixed-width two's complement notation yet.",
+      },
+      {
+        question: 'Is my binary calculation history private?',
+        answer:
+          'Yes. Recent binary answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['scientific-calculator', 'exponent-calculator', 'basic-calculator'],
   },
   {
     slug: 'kawaii-calculator',
@@ -282,7 +501,7 @@ export const tools: ToolDefinition[] = [
           'Use it when you need trig functions, logs, roots, powers, constants, parentheses, or DEG/RAD angle mode. For plain totals and quick percentages, the Basic Calculator is simpler.',
       },
     ],
-    relatedSlugs: ['basic-calculator', 'percentage-calculator', 'fraction-calculator'],
+    relatedSlugs: ['exponent-calculator', 'binary-calculator', 'basic-calculator'],
   },
   {
     slug: 'fraction-calculator',
@@ -350,7 +569,7 @@ export const tools: ToolDefinition[] = [
           'Yes. Recent fraction calculations stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['percentage-calculator', 'basic-calculator', 'scientific-calculator'],
+    relatedSlugs: ['percentage-calculator', 'binary-calculator', 'scientific-calculator'],
   },
   {
     slug: 'random-number-generator',

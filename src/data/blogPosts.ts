@@ -21,6 +21,27 @@ export const blogPosts: BlogPostDefinition[] = [
       'Learn how to find percent of a number, what percent one number is of another, percentage change, discounts, markups, and reverse percentages.',
   },
   {
+    slug: 'how-to-use-percent-error-calculator',
+    title: 'How to use the Percent Error Calculator',
+    label: 'Percent error calculator guide',
+    summary:
+      'Learn how to compare measured and accepted values, calculate percent error, read signed percent error, and avoid common lab-report mistakes.',
+  },
+  {
+    slug: 'how-to-use-exponent-calculator',
+    title: 'How to use the Exponent Calculator',
+    label: 'Exponent calculator guide',
+    summary:
+      'Learn how to calculate powers, negative exponents, zero exponents, fraction exponents, scientific notation, and common exponent mistakes.',
+  },
+  {
+    slug: 'how-to-use-binary-calculator',
+    title: 'How to use the Binary Calculator',
+    label: 'Binary calculator guide',
+    summary:
+      'Learn how to add, subtract, multiply, divide, and convert binary numbers with base-2 place values, decimal checks, and remainders.',
+  },
+  {
     slug: 'how-to-use-kawaii-calculator',
     title: 'How to use the Kawaii Calculator',
     label: 'Kawaii calculator guide',

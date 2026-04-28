@@ -1,17 +1,25 @@
 import {
   calculateBinary,
+  calculateBinaryIntegerOperation,
   calculateFraction,
   calculatePercentageChange,
   calculatePercentageOf,
+  calculateExponent,
+  calculatePercentError,
   calculatePercentOf,
   calculateScientificExpression,
   formatCalculatorNumber,
+  formatBinaryInteger,
   formatImproperFraction,
   formatMixedFraction,
   fractionToDecimal,
+  groupBinaryDigits,
   generateRandomNumbers,
   applyPercentageAdjustment,
   mixedToFraction,
+  parseBinaryInteger,
+  parseDecimalInteger,
+  parseExponentInput,
   parseExcludedNumbers,
   parseDisplayValue,
   percentDisplayValue,
@@ -140,6 +148,67 @@ describe('percentage helpers', () => {
     expect(() => calculatePercentOf(10, 0)).toThrow('Whole value cannot be zero');
     expect(() => calculatePercentageChange(0, 10)).toThrow('Original value cannot be zero');
     expect(() => reversePercentageValue(30, 0)).toThrow('Percentage cannot be zero');
+  });
+
+  it('calculates percent error with signed direction', () => {
+    const result = calculatePercentError(2.45, 2.7);
+
+    expect(formatCalculatorNumber(result.absoluteError)).toBe('0.25');
+    expect(formatCalculatorNumber(result.percentError)).toBe('9.2592592593');
+    expect(formatCalculatorNumber(result.signedPercentError)).toBe('-9.2592592593');
+  });
+
+  it('rejects percent error with a zero accepted value', () => {
+    expect(() => calculatePercentError(10, 0)).toThrow('Accepted value cannot be zero');
+  });
+});
+
+describe('exponent helpers', () => {
+  it('calculates positive, zero, negative, and fractional exponents', () => {
+    expect(formatCalculatorNumber(calculateExponent(2, 8).value)).toBe('256');
+    expect(formatCalculatorNumber(calculateExponent(9, 0).value)).toBe('1');
+    expect(formatCalculatorNumber(calculateExponent(5, -3).value)).toBe('0.008');
+    expect(formatCalculatorNumber(calculateExponent(81, 0.5).value)).toBe('9');
+  });
+
+  it('parses decimal and simple fraction exponents', () => {
+    expect(parseExponentInput('1/2')).toBe(0.5);
+    expect(parseExponentInput('-3 / 2')).toBe(-1.5);
+    expect(parseExponentInput('2.25')).toBe(2.25);
+  });
+
+  it('rejects unsupported exponent cases', () => {
+    expect(() => parseExponentInput('2/0')).toThrow('Exponent fraction denominator cannot be zero');
+    expect(() => calculateExponent(0, -1)).toThrow('Zero cannot be raised to a negative exponent');
+    expect(() => calculateExponent(0, 0)).toThrow('0 to the power of 0 is indeterminate');
+    expect(() => calculateExponent(-8, 1 / 3)).toThrow('Negative bases need a whole-number exponent');
+  });
+});
+
+describe('binary integer helpers', () => {
+  it('parses and formats binary and decimal integers', () => {
+    expect(parseBinaryInteger('1011')).toBe(11n);
+    expect(parseBinaryInteger('1111 0000')).toBe(240n);
+    expect(parseDecimalInteger('1,024')).toBe(1024n);
+    expect(formatBinaryInteger(-13n)).toBe('-1101');
+    expect(groupBinaryDigits(255n)).toBe('1111 1111');
+  });
+
+  it('calculates binary addition, subtraction, multiplication, and division', () => {
+    expect(calculateBinaryIntegerOperation(0b1011n, '+', 0b110n).result).toBe(0b10001n);
+    expect(calculateBinaryIntegerOperation(0b10000n, '-', 0b1n).result).toBe(0b1111n);
+    expect(calculateBinaryIntegerOperation(0b101n, '*', 0b11n).result).toBe(0b1111n);
+
+    const division = calculateBinaryIntegerOperation(0b1101n, '/', 0b10n);
+
+    expect(division.quotient).toBe(0b110n);
+    expect(division.remainder).toBe(0b1n);
+  });
+
+  it('rejects invalid binary values and division by zero', () => {
+    expect(() => parseBinaryInteger('102')).toThrow('Binary value must contain only 0 and 1');
+    expect(() => parseDecimalInteger('12.5')).toThrow('Decimal value must be a whole decimal number');
+    expect(() => calculateBinaryIntegerOperation(0b101n, '/', 0n)).toThrow('Cannot divide by zero');
   });
 });
 
