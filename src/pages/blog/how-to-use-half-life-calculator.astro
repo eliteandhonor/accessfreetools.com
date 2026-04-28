@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const halfLifeCalculator = getTool('half-life-calculator');
+const examples = halfLifeCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Half-Life Calculator',
+  description:
+    'A practical guide to using the Access Free Tools half-life calculator for remaining amount, elapsed time, half-life, units, decay formulas, examples, and privacy.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-half-life-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Half-Life Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools half-life calculator to find remaining amount, elapsed time, or half-life with decay formulas, units, examples, and steps."
+  path="/blog/how-to-use-half-life-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Half-Life Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Half-life calculator guide</span>
+      <h1>How to use the Half-Life Calculator</h1>
+      <p>
+        The Half-Life Calculator helps you solve exponential decay questions. Use it to find how
+        much remains after time passes, how much time a decay process took, or what the half-life is
+        when you know the starting amount, ending amount, and elapsed time.
+      </p>
+      <a class="button-primary" href="/tools/half-life-calculator/">Open the half-life calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Choose Remaining amount, Elapsed time, or Half-life.</li>
+            <li>Enter the values the selected mode asks for.</li>
+            <li>Use the same time unit for elapsed time and half-life.</li>
+            <li>Press Calculate half-life.</li>
+            <li>Review the answer, percent remaining, half-lives passed, and formula steps.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>The half-life formula</h2>
+          <p>
+            The remaining amount formula is remaining amount = initial amount x (1/2)^(elapsed
+            time / half-life). The exponent tells how many half-lives have passed.
+          </p>
+          <p>
+            For example, if 18 hours pass and the half-life is 6 hours, then 18 / 6 = 3 half-lives.
+            After 3 half-lives, 100 mg becomes 12.5 mg.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Choose the right mode</h2>
+          <div class="shortcut-table" role="table" aria-label="Half-life calculator modes">
+            <div role="row">
+              <strong role="cell">Remaining amount</strong>
+              <span role="cell">Use this when you know the initial amount, half-life, and elapsed time.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">Elapsed time</strong>
+              <span role="cell">Use this when you know the initial amount, final amount, and half-life.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">Half-life</strong>
+              <span role="cell">Use this when you know the initial amount, final amount, and elapsed time.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Unit tips</h2>
+          <p>
+            Keep time units consistent. If the half-life is in hours, enter elapsed time in hours.
+            If the half-life is in years, enter elapsed time in years.
+          </p>
+          <p>
+            The amount unit is a label for readability. You can use mg, g, kg, %, atoms, or another
+            unit as long as the initial and final amounts use the same unit.
+          </p>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the half-life calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Common mistakes</h2>
+          <p>
+            Do not mix time units, such as entering half-life in hours and elapsed time in days.
+            Convert one value first so the calculator compares the same kind of time.
+          </p>
+          <p>
+            For elapsed-time and half-life modes, the final amount must be greater than zero. To
+            solve the half-life itself, the final amount must also be less than the initial amount.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Safety and privacy</h2>
+          <p>
+            This calculator is for general math, science study, and planning examples. It is not
+            medical advice, dosing advice, or radiation safety guidance.
+          </p>
+          <p>
+            Recent half-life answers stay only in the current browser tab while you work. They are
+            not sent to a server.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the half-life calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/half-life-calculator/">Half-Life Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

@@ -4,6 +4,8 @@ import BasicCalculator from '../../components/BasicCalculator';
 import BinaryCalculator from '../../components/BinaryCalculator';
 import ExponentCalculator from '../../components/ExponentCalculator';
 import FractionCalculator from '../../components/FractionCalculator';
+import HalfLifeCalculator from '../../components/HalfLifeCalculator';
+import HexCalculator from '../../components/HexCalculator';
 import PercentErrorCalculator from '../../components/PercentErrorCalculator';
 import PercentageCalculator from '../../components/PercentageCalculator';
 import RandomNumberGenerator from '../../components/RandomNumberGenerator';
@@ -31,8 +33,10 @@ const isScientificTool = tool.slug === 'scientific-calculator';
 const isFractionTool = tool.slug === 'fraction-calculator';
 const isPercentageTool = tool.slug === 'percentage-calculator';
 const isPercentErrorTool = tool.slug === 'percent-error-calculator';
+const isHalfLifeTool = tool.slug === 'half-life-calculator';
 const isExponentTool = tool.slug === 'exponent-calculator';
 const isBinaryTool = tool.slug === 'binary-calculator';
+const isHexTool = tool.slug === 'hex-calculator';
 const isRandomTool = tool.slug === 'random-number-generator';
 const toolInstructions = isPercentageTool
   ? [
@@ -48,6 +52,13 @@ const toolInstructions = isPercentageTool
       'Add a unit label if it helps your answer read clearly.',
       'Press Calculate percent error to see absolute percent error, signed percent error, and steps.',
     ]
+  : isHalfLifeTool
+  ? [
+      'Choose whether you want remaining amount, elapsed time, or half-life.',
+      'Enter the known initial amount and the other values requested for that mode.',
+      'Use matching time units for elapsed time and half-life, such as hours with hours.',
+      'Press Calculate half-life to see the answer, percentages, formula steps, and recent history.',
+    ]
   : isExponentTool
   ? [
       'Enter the base number.',
@@ -61,6 +72,13 @@ const toolInstructions = isPercentageTool
       'Choose add, subtract, multiply, or divide.',
       'Enter the second binary number, then press Calculate binary.',
       'Review the binary answer, decimal answer, steps, conversions, and recent answers.',
+    ]
+  : isHexTool
+  ? [
+      'Enter the first hex number using 0-9 and A-F.',
+      'Choose add, subtract, multiply, or divide.',
+      'Enter the second hex number, then press Calculate hex.',
+      'Review the hex answer, decimal answer, binary answer, steps, conversions, and recent answers.',
     ]
   : isRandomTool
   ? [
@@ -175,6 +193,28 @@ const toolInstructions = isPercentageTool
     }
 
     {
+      isHexTool && (
+        <div class="binary-tool-points hex-tool-points" aria-label="Hex calculator highlights">
+          <span>Hex arithmetic</span>
+          <span>Decimal conversion</span>
+          <span>Binary output</span>
+          <span>Remainders</span>
+        </div>
+      )
+    }
+
+    {
+      isHalfLifeTool && (
+        <div class="half-life-tool-points" aria-label="Half-life calculator highlights">
+          <span>Remaining amount</span>
+          <span>Elapsed time</span>
+          <span>Solve half-life</span>
+          <span>Decay steps</span>
+        </div>
+      )
+    }
+
+    {
       isPercentErrorTool && (
         <div class="percent-error-tool-points" aria-label="Percent error calculator highlights">
           <span>Accepted vs measured</span>
@@ -210,8 +250,10 @@ const toolInstructions = isPercentageTool
     {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
     {isPercentageTool && <PercentageCalculator client:load />}
     {isPercentErrorTool && <PercentErrorCalculator client:load />}
+    {isHalfLifeTool && <HalfLifeCalculator client:load />}
     {isExponentTool && <ExponentCalculator client:load />}
     {isBinaryTool && <BinaryCalculator client:load />}
+    {isHexTool && <HexCalculator client:load />}
     {isScientificTool && <ScientificCalculator client:load />}
     {isFractionTool && <FractionCalculator client:load />}
     {isRandomTool && <RandomNumberGenerator client:load />}
@@ -245,15 +287,17 @@ const toolInstructions = isPercentageTool
       </div>
     </section>
 
-    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isExponentTool && 'exponent-faq-section', isBinaryTool && 'binary-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section']}>
+    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section']}>
       <div class="section-title-block">
         <h2>Frequently asked questions</h2>
         {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
         {isScientificTool && <p>Quick answers about angle mode, supported functions, typing expressions, and privacy.</p>}
         {isPercentageTool && <p>Quick answers about percent-of, percentage change, discounts, reverse percentages, and privacy.</p>}
         {isPercentErrorTool && <p>Quick answers about formulas, accepted values, signed error, zero values, units, and privacy.</p>}
+        {isHalfLifeTool && <p>Quick answers about decay formulas, units, elapsed time, solving half-life, safety limits, and privacy.</p>}
         {isExponentTool && <p>Quick answers about powers, negative exponents, zero exponents, fraction exponents, and privacy.</p>}
         {isBinaryTool && <p>Quick answers about base-2 numbers, arithmetic, division remainders, conversion, and privacy.</p>}
+        {isHexTool && <p>Quick answers about base-16 digits, 0x inputs, arithmetic, conversion, remainders, and privacy.</p>}
         {isFractionTool && <p>Quick answers about simplifying, mixed numbers, denominators, division, and privacy.</p>}
         {isRandomTool && <p>Quick answers about ranges, unique results, exclusions, everyday randomness, and privacy.</p>}
       </div>

@@ -1,0 +1,159 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const hexCalculator = getTool('hex-calculator');
+const examples = hexCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Hex Calculator',
+  description:
+    'A practical guide to using the Access Free Tools hex calculator, including base-16 digits, hex arithmetic, division remainders, hex-to-decimal conversion, decimal-to-hex conversion, binary output, copying, history, and privacy.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-hex-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Hex Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools hex calculator for hexadecimal addition, subtraction, multiplication, division with remainders, hex-to-decimal conversion, decimal-to-hex conversion, and binary output."
+  path="/blog/how-to-use-hex-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Hex Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Hex calculator guide</span>
+      <h1>How to use the Hex Calculator</h1>
+      <p>
+        The Hex Calculator works with base-16 whole numbers. It can add, subtract, multiply,
+        divide, convert hex to decimal, convert decimal to hex, show binary output, and explain
+        each answer with simple steps.
+      </p>
+      <a class="button-primary" href="/tools/hex-calculator/">Open the hex calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Enter the first hex number using digits 0-9 and letters A-F.</li>
+            <li>Choose Add, Subtract, Multiply, or Divide.</li>
+            <li>Enter the second hex number.</li>
+            <li>Press Calculate hex.</li>
+            <li>Read the hex answer, decimal answer, binary answer, and steps.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>What hexadecimal means</h2>
+          <p>
+            Hexadecimal is base 16. It uses 0-9 for the first ten values and A-F for values 10
+            through 15. Each place value is a power of 16, so A3 means 10 x 16 plus 3, which
+            equals 163 in decimal.
+          </p>
+          <p>
+            The calculator accepts uppercase or lowercase letters. It also accepts an optional 0x
+            prefix, so 0xFF and FF mean the same value.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Hex arithmetic</h2>
+          <p>
+            Addition, subtraction, and multiplication return a hex answer with matching decimal and
+            binary versions. For example, A3 + 1F equals C2, which is 194 in decimal.
+          </p>
+          <p>
+            Hex division returns a quotient. If the division is not even, the calculator also shows
+            the remainder. For example, 2F / A equals 4 remainder 7.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Converting hex, decimal, and binary</h2>
+          <p>
+            Use the conversion panel when you only need to change number systems. Hex to decimal
+            turns a base-16 value such as 2A into 42. Decimal to hex turns a whole decimal number
+            such as 42 into 2A.
+          </p>
+          <p>
+            The same panel also shows hex to binary. This is helpful because one hex digit maps to
+            four binary bits, which makes hex a compact way to read binary values.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Common examples</h2>
+          <div class="shortcut-table" role="table" aria-label="Hex calculator examples">
+            <div role="row">
+              <strong role="cell">A3 + 1F</strong>
+              <span role="cell">Adds two hexadecimal numbers and returns C2.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">FF - 2A</strong>
+              <span role="cell">Subtracts 2A from FF and returns D5.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">1A x 3</strong>
+              <span role="cell">Multiplies 26 by 3 and returns 4E.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">2F / A</strong>
+              <span role="cell">Divides 47 by 10 and returns 4 remainder 7.</span>
+            </div>
+          </div>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the hex calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Signed values</h2>
+          <p>
+            You can type a leading minus sign for simple signed whole-number calculations, such as
+            -A + 2. This is useful for quick math, but it is not the same as fixed-width two's
+            complement notation.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent hex answers stay visible in the page while you work. The history is kept only in
+            the current browser tab and is not sent to a server.
+          </p>
+          <p>
+            Copy answer copies the hex, decimal, and binary answer so you can paste it into notes,
+            homework, a message, or another document.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the hex calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/hex-calculator/">Hex Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

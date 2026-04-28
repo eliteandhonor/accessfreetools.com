@@ -3,7 +3,9 @@ export type CalculatorIconMark =
   | 'percent'
   | 'error'
   | 'power'
+  | 'half-life'
   | 'binary'
+  | 'hex'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -15,7 +17,9 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-percent': 'percent',
   'calculator-error': 'error',
   'calculator-power': 'power',
+  'calculator-half-life': 'half-life',
   'calculator-binary': 'binary',
+  'calculator-hex': 'hex',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',

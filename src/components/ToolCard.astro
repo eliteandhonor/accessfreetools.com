@@ -44,8 +44,12 @@ const calculatorMark = getCalculatorIconMark(tool.icon);
             </>
           ) : calculatorMark === 'power' ? (
             <text class="calculator-power-mark" x="18" y="24.4" text-anchor="middle">x^n</text>
+          ) : calculatorMark === 'half-life' ? (
+            <text class="calculator-half-life-mark" x="18" y="24.7" text-anchor="middle">t1/2</text>
           ) : calculatorMark === 'binary' ? (
             <text class="calculator-binary-mark" x="18" y="25" text-anchor="middle">01</text>
+          ) : calculatorMark === 'hex' ? (
+            <text class="calculator-hex-mark" x="18" y="25" text-anchor="middle">0x</text>
           ) : calculatorMark === 'fraction' ? (
             <>
               <path class="calculator-mark" d="M13.2 21.2h9.6"></path>

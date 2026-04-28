@@ -505,7 +505,9 @@ main {
 .calculator-text-mark,
 .calculator-percent-mark,
 .calculator-power-mark,
+.calculator-half-life-mark,
 .calculator-binary-mark,
+.calculator-hex-mark,
 .calculator-fraction-mark {
   fill: currentColor;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
@@ -521,8 +523,16 @@ main {
   font-size: 7.4px;
 }
 
+.calculator-half-life-mark {
+  font-size: 7px;
+}
+
 .calculator-binary-mark {
   font-size: 9.8px;
+}
+
+.calculator-hex-mark {
+  font-size: 9.2px;
 }
 
 .calculator-fraction-mark {
@@ -546,10 +556,22 @@ main {
   color: color-mix(in srgb, var(--primary-strong) 82%, #23345b);
 }
 
+.tool-card-icon-half-life {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #c8f7e7 58%, white), color-mix(in srgb, #ffe6a8 42%, white));
+  color: color-mix(in srgb, #275a47 80%, var(--primary-strong));
+}
+
 .tool-card-icon-binary {
   background:
     linear-gradient(135deg, color-mix(in srgb, #c8f7e7 58%, white), color-mix(in srgb, #d9e8ff 46%, white));
   color: color-mix(in srgb, var(--primary-strong) 86%, #112f4f);
+}
+
+.tool-card-icon-hex {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #ffe6a8 62%, white), color-mix(in srgb, #d9e8ff 38%, white));
+  color: color-mix(in srgb, #7a4308 80%, var(--primary-strong));
 }
 
 .tool-card-icon-fraction {
@@ -2359,6 +2381,289 @@ main {
   outline: none;
 }
 
+.half-life-calculator {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) 360px;
+}
+
+.half-life-tool-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.half-life-tool-points span {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #c8f7e7 58%, white), color-mix(in srgb, #ffe6a8 30%, white));
+  border: 1px solid color-mix(in srgb, #2d8068 22%, var(--border));
+  border-radius: 8px;
+  box-shadow: var(--soft-shadow);
+  color: var(--text);
+  font-weight: 850;
+  min-height: 38px;
+  padding: 9px 14px;
+}
+
+.half-life-panel,
+.half-life-side-panel {
+  backdrop-filter: blur(16px);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), color-mix(in srgb, #c8f7e7 18%, rgba(255, 255, 255, 0.84)));
+  border: 1px solid color-mix(in srgb, #2d8068 24%, var(--border));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.half-life-panel {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+.half-life-mode-grid,
+.half-life-fields {
+  display: grid;
+  gap: 10px;
+}
+
+.half-life-mode-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.half-life-mode-grid button {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  display: grid;
+  gap: 6px;
+  min-height: 94px;
+  padding: 12px;
+  text-align: left;
+}
+
+.half-life-mode-grid button strong {
+  color: var(--text);
+  font-size: 0.98rem;
+  line-height: 1.15;
+}
+
+.half-life-mode-grid button span {
+  line-height: 1.35;
+}
+
+.half-life-mode-grid button[aria-pressed='true'] {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--primary) 92%, #275a47), color-mix(in srgb, var(--text) 82%, #275a47));
+  border-color: transparent;
+  color: color-mix(in srgb, #c8f7e7 84%, white);
+}
+
+.half-life-mode-grid button[aria-pressed='true'] strong {
+  color: #fff;
+}
+
+.half-life-fields {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.half-life-field {
+  display: grid;
+  gap: 6px;
+}
+
+.half-life-field span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.half-life-field input {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 1.08rem;
+  font-weight: 900;
+  min-height: 48px;
+  min-width: 0;
+  outline: none;
+  padding: 0 12px;
+}
+
+.half-life-field input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
+}
+
+.half-life-actions {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+}
+
+.half-life-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.half-life-result-card {
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(135deg, color-mix(in srgb, #275a47 72%, black), color-mix(in srgb, var(--text) 86%, black));
+  border-radius: 10px;
+  color: #fff;
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.half-life-result-card > span {
+  color: color-mix(in srgb, #c8f7e7 82%, white);
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.half-life-result-card > strong {
+  font-size: clamp(1.85rem, 4.8vw, 3.15rem);
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.half-life-result-card p {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 850;
+  margin: 0;
+  padding: 10px;
+}
+
+.half-life-result-card dl {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.half-life-result-card dl div {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.half-life-result-card dt {
+  color: color-mix(in srgb, #c8f7e7 82%, white);
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.half-life-result-card dd {
+  color: #fff;
+  font-weight: 950;
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.half-life-steps {
+  background: color-mix(in srgb, var(--surface-solid) 80%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.half-life-steps h2,
+.half-life-side-panel h2 {
+  font-size: 1.2rem;
+  line-height: 1.1;
+  margin: 0 0 10px;
+}
+
+.half-life-steps ol,
+.half-life-side-panel ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.half-life-steps li,
+.half-life-note p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.half-life-side-panel {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.half-life-example-list {
+  display: grid;
+  gap: 8px;
+}
+
+.half-life-example-list button,
+.half-life-side-panel li,
+.half-life-note {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.half-life-example-list button {
+  color: var(--primary-strong);
+  font-weight: 950;
+  min-height: 46px;
+  text-align: left;
+}
+
+.half-life-mode-grid button:hover,
+.half-life-mode-grid button:focus-visible,
+.half-life-example-list button:hover,
+.half-life-example-list button:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
+  outline: none;
+}
+
+.half-life-side-panel ol {
+  list-style: none;
+  padding: 0;
+}
+
+.half-life-side-panel li {
+  display: grid;
+  gap: 4px;
+}
+
+.half-life-side-panel li span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.half-life-side-panel li strong {
+  color: var(--primary-strong);
+  font-size: 1.08rem;
+  overflow-wrap: anywhere;
+}
+
+.half-life-note p {
+  margin: 0;
+}
+
+.half-life-note p + p {
+  margin-top: 8px;
+}
+
 .binary-calculator {
   display: grid;
   gap: 18px;
@@ -2382,6 +2687,12 @@ main {
   font-weight: 850;
   min-height: 38px;
   padding: 9px 14px;
+}
+
+.hex-tool-points span {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #ffe6a8 62%, white), color-mix(in srgb, #d9e8ff 26%, white));
+  border-color: color-mix(in srgb, #d88916 28%, var(--border));
 }
 
 .binary-panel,
@@ -2612,9 +2923,42 @@ main {
   overflow-wrap: anywhere;
 }
 
+.hex-calculator .binary-panel,
+.hex-calculator .binary-side-panel {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), color-mix(in srgb, #ffe6a8 18%, rgba(255, 255, 255, 0.84)));
+  border-color: color-mix(in srgb, #d88916 24%, var(--border));
+}
+
+.hex-calculator .binary-result-card {
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(135deg, color-mix(in srgb, #5d3307 78%, black), color-mix(in srgb, var(--text) 88%, black));
+}
+
+.hex-calculator .binary-result-card > span,
+.hex-calculator .binary-result-card dt {
+  color: color-mix(in srgb, #ffe6a8 82%, white);
+}
+
 .binary-converter-card {
   display: grid;
   gap: 12px;
+}
+
+.hex-binary-preview {
+  background: color-mix(in srgb, var(--bg) 62%, white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+}
+
+.hex-binary-preview span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
 }
 
 .binary-note p {
@@ -3096,6 +3440,20 @@ main {
   color: var(--primary-strong);
 }
 
+.half-life-faq-section .faq-list details {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: color-mix(in srgb, #2d8068 24%, var(--border));
+}
+
+.half-life-faq-section .faq-list details[open] {
+  border-color: color-mix(in srgb, #2d8068 48%, var(--border));
+}
+
+.half-life-faq-section .faq-list summary::after {
+  background: color-mix(in srgb, #c8f7e7 52%, white);
+  color: color-mix(in srgb, #275a47 82%, var(--primary-strong));
+}
+
 .binary-faq-section .faq-list details {
   background: rgba(255, 255, 255, 0.82);
   border-color: color-mix(in srgb, var(--primary) 26%, var(--border));
@@ -3108,6 +3466,20 @@ main {
 .binary-faq-section .faq-list summary::after {
   background: color-mix(in srgb, #c8f7e7 52%, white);
   color: var(--primary-strong);
+}
+
+.hex-faq-section .faq-list details {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: color-mix(in srgb, #d88916 26%, var(--border));
+}
+
+.hex-faq-section .faq-list details[open] {
+  border-color: color-mix(in srgb, #d88916 52%, var(--border));
+}
+
+.hex-faq-section .faq-list summary::after {
+  background: color-mix(in srgb, #ffe6a8 54%, white);
+  color: color-mix(in srgb, #7a4308 80%, var(--primary-strong));
 }
 
 .fraction-faq-section .faq-list details {
@@ -3599,6 +3971,7 @@ main {
   .scientific-calculator,
   .percentage-calculator,
   .percent-error-calculator,
+  .half-life-calculator,
   .exponent-calculator,
   .binary-calculator,
   .fraction-calculator,
@@ -3632,6 +4005,8 @@ main {
   .example-grid,
   .feature-list,
   .launchpad-tool-grid,
+  .half-life-mode-grid,
+  .half-life-fields,
   .percentage-mode-grid,
   .random-toggle-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3691,6 +4066,10 @@ main {
   .percent-error-actions,
   .percent-error-fields,
   .percent-error-result-card dl,
+  .half-life-actions,
+  .half-life-fields,
+  .half-life-mode-grid,
+  .half-life-result-card dl,
   .exponent-actions,
   .exponent-fields,
   .exponent-quick-grid,

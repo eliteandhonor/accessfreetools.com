@@ -2,6 +2,10 @@ import {
   calculateBinary,
   calculateBinaryIntegerOperation,
   calculateFraction,
+  calculateHexIntegerOperation,
+  calculateHalfLifeElapsedTime,
+  calculateHalfLifeRemaining,
+  calculateHalfLifeValue,
   calculatePercentageChange,
   calculatePercentageOf,
   calculateExponent,
@@ -10,16 +14,19 @@ import {
   calculateScientificExpression,
   formatCalculatorNumber,
   formatBinaryInteger,
+  formatHexInteger,
   formatImproperFraction,
   formatMixedFraction,
   fractionToDecimal,
   groupBinaryDigits,
+  groupHexDigits,
   generateRandomNumbers,
   applyPercentageAdjustment,
   mixedToFraction,
   parseBinaryInteger,
   parseDecimalInteger,
   parseExponentInput,
+  parseHexInteger,
   parseExcludedNumbers,
   parseDisplayValue,
   percentDisplayValue,
@@ -209,6 +216,63 @@ describe('binary integer helpers', () => {
     expect(() => parseBinaryInteger('102')).toThrow('Binary value must contain only 0 and 1');
     expect(() => parseDecimalInteger('12.5')).toThrow('Decimal value must be a whole decimal number');
     expect(() => calculateBinaryIntegerOperation(0b101n, '/', 0n)).toThrow('Cannot divide by zero');
+  });
+});
+
+describe('hex integer helpers', () => {
+  it('parses and formats hexadecimal and decimal integers', () => {
+    expect(parseHexInteger('A3')).toBe(163n);
+    expect(parseHexInteger('0xff')).toBe(255n);
+    expect(parseHexInteger('ffff ffff')).toBe(4294967295n);
+    expect(formatHexInteger(-213n)).toBe('-D5');
+    expect(groupHexDigits(0xFFFFFFFFn)).toBe('FFFF FFFF');
+  });
+
+  it('calculates hex addition, subtraction, multiplication, and division', () => {
+    expect(calculateHexIntegerOperation(0xA3n, '+', 0x1Fn).result).toBe(0xC2n);
+    expect(calculateHexIntegerOperation(0xFFn, '-', 0x2An).result).toBe(0xD5n);
+    expect(calculateHexIntegerOperation(0x1An, '*', 0x3n).result).toBe(0x4En);
+
+    const division = calculateHexIntegerOperation(0x2Fn, '/', 0xAn);
+
+    expect(division.quotient).toBe(0x4n);
+    expect(division.remainder).toBe(0x7n);
+  });
+
+  it('rejects invalid hex values and division by zero', () => {
+    expect(() => parseHexInteger('G1')).toThrow('Hex value must contain only 0-9 and A-F');
+    expect(() => parseHexInteger('0x')).toThrow('Hex value must contain only 0-9 and A-F');
+    expect(() => calculateHexIntegerOperation(0xAn, '/', 0n)).toThrow('Cannot divide by zero');
+  });
+});
+
+describe('half-life helpers', () => {
+  it('calculates remaining amount, decayed amount, and percentages', () => {
+    const result = calculateHalfLifeRemaining(100, 6, 18);
+
+    expect(formatCalculatorNumber(result.halfLives)).toBe('3');
+    expect(formatCalculatorNumber(result.remainingAmount)).toBe('12.5');
+    expect(formatCalculatorNumber(result.decayedAmount)).toBe('87.5');
+    expect(formatCalculatorNumber(result.percentRemaining)).toBe('12.5');
+    expect(formatCalculatorNumber(result.percentDecayed)).toBe('87.5');
+  });
+
+  it('solves elapsed time from initial amount, final amount, and half-life', () => {
+    expect(formatCalculatorNumber(calculateHalfLifeElapsedTime(80, 10, 12))).toBe('36');
+    expect(formatCalculatorNumber(calculateHalfLifeElapsedTime(80, 80, 12))).toBe('0');
+  });
+
+  it('solves half-life from initial amount, final amount, and elapsed time', () => {
+    expect(formatCalculatorNumber(calculateHalfLifeValue(100, 25, 10))).toBe('5');
+  });
+
+  it('rejects invalid half-life inputs', () => {
+    expect(() => calculateHalfLifeRemaining(100, 0, 10)).toThrow('Half-life must be greater than zero');
+    expect(() => calculateHalfLifeRemaining(100, 5, -1)).toThrow('Elapsed time cannot be negative');
+    expect(() => calculateHalfLifeElapsedTime(100, 120, 5)).toThrow(
+      'Final amount cannot be greater than initial amount',
+    );
+    expect(() => calculateHalfLifeValue(100, 100, 5)).toThrow('Final amount must be less than initial amount');
   });
 });
 

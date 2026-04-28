@@ -98,9 +98,17 @@ function CalculatorGlyph({ mark }: { mark: CalculatorIconMark }) {
         <text className="calculator-power-mark" x="18" y="24.4" textAnchor="middle">
           x^n
         </text>
+      ) : mark === 'half-life' ? (
+        <text className="calculator-half-life-mark" x="18" y="24.7" textAnchor="middle">
+          t1/2
+        </text>
       ) : mark === 'binary' ? (
         <text className="calculator-binary-mark" x="18" y="25" textAnchor="middle">
           01
+        </text>
+      ) : mark === 'hex' ? (
+        <text className="calculator-hex-mark" x="18" y="25" textAnchor="middle">
+          0x
         </text>
       ) : mark === 'fraction' ? (
         <>
@@ -250,7 +258,7 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
         <input
           id="tool-library-search"
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search calculator, binary, exponents..."
+          placeholder="Search calculator, half-life, hex..."
           type="search"
           value={query}
         />

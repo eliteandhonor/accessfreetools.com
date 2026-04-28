@@ -229,7 +229,80 @@ export const tools: ToolDefinition[] = [
           'Yes. Recent percent error calculations stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['percentage-calculator', 'scientific-calculator', 'basic-calculator'],
+    relatedSlugs: ['percentage-calculator', 'half-life-calculator', 'scientific-calculator'],
+  },
+  {
+    slug: 'half-life-calculator',
+    name: 'Half-Life Calculator',
+    category: 'calculators',
+    summary: 'Calculate remaining amount, elapsed time, or half-life with decay steps.',
+    description:
+      'Use this free half-life calculator to find remaining amount, elapsed time, or half-life from initial and final amounts with formulas, percentages, steps, copy, and history.',
+    icon: 'calculator-half-life',
+    seoTitle: 'Half-Life Calculator | Free Online Decay Calculator',
+    seoDescription:
+      'Use the free Access Free Tools half-life calculator to find remaining amount, elapsed time, or half-life with decay formulas, percentages, steps, and examples.',
+    useCases: [
+      'Estimate how much of a substance remains after a number of half-lives.',
+      'Find elapsed time when you know the initial amount, final amount, and half-life.',
+      'Solve for half-life when you know initial amount, final amount, and elapsed time.',
+      'Check chemistry, physics, biology, environmental science, and study decay examples.',
+    ],
+    examples: [
+      {
+        label: 'Remaining amount',
+        expression: '100 mg, half-life 6 hours, time 18 hours',
+        result: '12.5 mg remaining',
+      },
+      {
+        label: 'Find elapsed time',
+        expression: '80 g to 10 g, half-life 12 hours',
+        result: '36 hours',
+      },
+      {
+        label: 'Find half-life',
+        expression: '100 g to 25 g in 10 days',
+        result: '5 days',
+      },
+    ],
+    faq: [
+      {
+        question: 'What formula does the Half-Life Calculator use?',
+        answer:
+          'For remaining amount, it uses remaining amount = initial amount x (1/2)^(elapsed time / half-life). It also rearranges that formula to solve for elapsed time or half-life.',
+      },
+      {
+        question: 'What is a half-life?',
+        answer:
+          'A half-life is the time it takes for a quantity to decrease to half of its starting amount under exponential decay.',
+      },
+      {
+        question: 'Can I solve for elapsed time?',
+        answer:
+          'Yes. Choose Elapsed time, enter the initial amount, final amount, and known half-life, then calculate. The final amount must be greater than zero and not greater than the initial amount.',
+      },
+      {
+        question: 'Can I solve for the half-life itself?',
+        answer:
+          'Yes. Choose Half-life, enter the initial amount, final amount, and elapsed time. The final amount must be less than the initial amount so the decay rate can be calculated.',
+      },
+      {
+        question: 'Do the units matter?',
+        answer:
+          'Yes. Keep elapsed time and half-life in the same time unit, such as hours with hours or years with years. The amount unit is only a label and should match between initial and final amounts.',
+      },
+      {
+        question: 'Can I use this for medicine dosing or radiation safety decisions?',
+        answer:
+          'No. This tool is for general math, study, and planning examples. Do not use it as medical advice, dosing advice, or radiation safety guidance.',
+      },
+      {
+        question: 'Is my half-life calculation history private?',
+        answer:
+          'Yes. Recent half-life answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['scientific-calculator', 'exponent-calculator', 'percentage-calculator'],
   },
   {
     slug: 'exponent-calculator',
@@ -302,7 +375,7 @@ export const tools: ToolDefinition[] = [
           'Yes. Recent exponent calculations stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['scientific-calculator', 'binary-calculator', 'basic-calculator'],
+    relatedSlugs: ['scientific-calculator', 'half-life-calculator', 'binary-calculator'],
   },
   {
     slug: 'binary-calculator',
@@ -375,7 +448,80 @@ export const tools: ToolDefinition[] = [
           'Yes. Recent binary answers stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['scientific-calculator', 'exponent-calculator', 'basic-calculator'],
+    relatedSlugs: ['hex-calculator', 'scientific-calculator', 'basic-calculator'],
+  },
+  {
+    slug: 'hex-calculator',
+    name: 'Hex Calculator',
+    category: 'calculators',
+    summary: 'Add, subtract, multiply, divide, and convert hexadecimal numbers.',
+    description:
+      'Use this free hex calculator for base-16 addition, subtraction, multiplication, division with remainders, hex-to-decimal conversion, decimal-to-hex conversion, hex-to-binary conversion, copy, and history.',
+    icon: 'calculator-hex',
+    seoTitle: 'Hex Calculator | Free Online Hexadecimal Calculator',
+    seoDescription:
+      'Use the free Access Free Tools hex calculator to add, subtract, multiply, divide, and convert hexadecimal numbers to decimal or binary with steps and remainders.',
+    useCases: [
+      'Check hexadecimal addition, subtraction, multiplication, and division problems.',
+      'Convert hex values such as 2A or 0xFF into decimal numbers.',
+      'Convert whole decimal numbers into hexadecimal output.',
+      'Compare hex, decimal, and binary answers while studying number systems or coding examples.',
+    ],
+    examples: [
+      {
+        label: 'Hex addition',
+        expression: 'A3 + 1F',
+        result: 'C2',
+      },
+      {
+        label: 'Hex subtraction',
+        expression: 'FF - 2A',
+        result: 'D5',
+      },
+      {
+        label: 'Hex division',
+        expression: '2F / A',
+        result: '4 remainder 7',
+      },
+    ],
+    faq: [
+      {
+        question: 'What is a hexadecimal number?',
+        answer:
+          'A hexadecimal number is written in base 16. It uses digits 0-9 plus letters A-F, where A is 10, B is 11, C is 12, D is 13, E is 14, and F is 15.',
+      },
+      {
+        question: 'What can I use the Hex Calculator for?',
+        answer:
+          'Use it to add, subtract, multiply, divide, and convert whole hexadecimal numbers. The calculator also shows decimal and binary versions of the answer.',
+      },
+      {
+        question: 'Can I enter 0x before a hex number?',
+        answer:
+          'Yes. Optional 0x prefixes are accepted, so 0xFF and FF both work. Spaces and underscores are also ignored for readability.',
+      },
+      {
+        question: 'How does hex division work in this calculator?',
+        answer:
+          'Hex division returns a whole-number quotient. If the division is not even, the calculator also shows the remainder in hex, decimal, and binary.',
+      },
+      {
+        question: 'Does the calculator convert decimal to hex?',
+        answer:
+          'Yes. The quick conversions panel converts whole decimal numbers into hex and converts hex numbers back into decimal and binary.',
+      },
+      {
+        question: 'Can this calculator handle lowercase hex letters?',
+        answer:
+          'Yes. You can enter uppercase or lowercase letters A-F. Results are shown in uppercase for cleaner reading.',
+      },
+      {
+        question: 'Is my hex calculation history private?',
+        answer:
+          'Yes. Recent hex answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['binary-calculator', 'scientific-calculator', 'exponent-calculator'],
   },
   {
     slug: 'kawaii-calculator',
@@ -501,7 +647,7 @@ export const tools: ToolDefinition[] = [
           'Use it when you need trig functions, logs, roots, powers, constants, parentheses, or DEG/RAD angle mode. For plain totals and quick percentages, the Basic Calculator is simpler.',
       },
     ],
-    relatedSlugs: ['exponent-calculator', 'binary-calculator', 'basic-calculator'],
+    relatedSlugs: ['exponent-calculator', 'half-life-calculator', 'binary-calculator'],
   },
   {
     slug: 'fraction-calculator',

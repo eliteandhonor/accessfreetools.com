@@ -40,7 +40,18 @@ export interface ExponentResult {
   value: number;
 }
 
-export interface BinaryIntegerOperationResult {
+export interface HalfLifeRemainingResult {
+  initialAmount: number;
+  halfLife: number;
+  elapsedTime: number;
+  halfLives: number;
+  remainingAmount: number;
+  decayedAmount: number;
+  percentRemaining: number;
+  percentDecayed: number;
+}
+
+export interface IntegerOperationResult {
   left: bigint;
   operator: CalculatorOperator;
   right: bigint;
@@ -48,6 +59,8 @@ export interface BinaryIntegerOperationResult {
   quotient?: bigint;
   remainder?: bigint;
 }
+
+export type BinaryIntegerOperationResult = IntegerOperationResult;
 
 const randomUint32Bound = 0x100000000;
 const maxRandomQuantity = 1000;
@@ -212,6 +225,86 @@ export function calculateExponent(base: number, exponent: number): ExponentResul
   };
 }
 
+function assertFiniteNumber(value: number, label: string) {
+  if (!Number.isFinite(value)) {
+    throw new Error(`${label} must be a number`);
+  }
+}
+
+function assertPositiveNumber(value: number, label: string) {
+  assertFiniteNumber(value, label);
+
+  if (value <= 0) {
+    throw new Error(`${label} must be greater than zero`);
+  }
+}
+
+export function calculateHalfLifeRemaining(
+  initialAmount: number,
+  halfLife: number,
+  elapsedTime: number,
+): HalfLifeRemainingResult {
+  assertPositiveNumber(initialAmount, 'Initial amount');
+  assertPositiveNumber(halfLife, 'Half-life');
+  assertFiniteNumber(elapsedTime, 'Elapsed time');
+
+  if (elapsedTime < 0) {
+    throw new Error('Elapsed time cannot be negative');
+  }
+
+  const halfLives = elapsedTime / halfLife;
+  const remainingAmount = initialAmount * 0.5 ** halfLives;
+  const decayedAmount = initialAmount - remainingAmount;
+  const percentRemaining = (remainingAmount / initialAmount) * 100;
+
+  return {
+    initialAmount,
+    halfLife,
+    elapsedTime,
+    halfLives,
+    remainingAmount,
+    decayedAmount,
+    percentRemaining,
+    percentDecayed: 100 - percentRemaining,
+  };
+}
+
+export function calculateHalfLifeElapsedTime(
+  initialAmount: number,
+  finalAmount: number,
+  halfLife: number,
+): number {
+  assertPositiveNumber(initialAmount, 'Initial amount');
+  assertPositiveNumber(finalAmount, 'Final amount');
+  assertPositiveNumber(halfLife, 'Half-life');
+
+  if (finalAmount > initialAmount) {
+    throw new Error('Final amount cannot be greater than initial amount');
+  }
+
+  if (finalAmount === initialAmount) {
+    return 0;
+  }
+
+  return halfLife * (Math.log(finalAmount / initialAmount) / Math.log(0.5));
+}
+
+export function calculateHalfLifeValue(
+  initialAmount: number,
+  finalAmount: number,
+  elapsedTime: number,
+): number {
+  assertPositiveNumber(initialAmount, 'Initial amount');
+  assertPositiveNumber(finalAmount, 'Final amount');
+  assertPositiveNumber(elapsedTime, 'Elapsed time');
+
+  if (finalAmount >= initialAmount) {
+    throw new Error('Final amount must be less than initial amount');
+  }
+
+  return elapsedTime * (Math.log(0.5) / Math.log(finalAmount / initialAmount));
+}
+
 export function parseBinaryInteger(input: string, label = 'Binary value'): bigint {
   const normalized = input.trim().replace(/[\s_]/g, '');
 
@@ -256,11 +349,46 @@ export function groupBinaryDigits(value: bigint): string {
   return `${negative ? '-' : ''}${groups.join(' ')}`;
 }
 
+export function parseHexInteger(input: string, label = 'Hex value'): bigint {
+  const normalized = input.trim().replace(/[\s_]/g, '');
+  const negative = normalized.startsWith('-');
+  const unsigned = negative ? normalized.slice(1) : normalized;
+  const digits = unsigned.replace(/^0x/i, '');
+
+  if (!digits || !/^[0-9a-f]+$/i.test(digits)) {
+    throw new Error(`${label} must contain only 0-9 and A-F`);
+  }
+
+  const value = BigInt(`0x${digits}`);
+
+  return negative ? -value : value;
+}
+
+export function formatHexInteger(value: bigint): string {
+  const negative = value < 0n;
+  const absoluteValue = negative ? -value : value;
+
+  return `${negative ? '-' : ''}${absoluteValue.toString(16).toUpperCase()}`;
+}
+
+export function groupHexDigits(value: bigint): string {
+  const raw = formatHexInteger(value);
+  const negative = raw.startsWith('-');
+  const digits = negative ? raw.slice(1) : raw;
+  const groups: string[] = [];
+
+  for (let index = digits.length; index > 0; index -= 4) {
+    groups.unshift(digits.slice(Math.max(0, index - 4), index));
+  }
+
+  return `${negative ? '-' : ''}${groups.join(' ')}`;
+}
+
 export function calculateBinaryIntegerOperation(
   left: bigint,
   operator: CalculatorOperator,
   right: bigint,
-): BinaryIntegerOperationResult {
+): IntegerOperationResult {
   switch (operator) {
     case '+':
       return {
@@ -305,6 +433,14 @@ export function calculateBinaryIntegerOperation(
       return exhaustiveCheck;
     }
   }
+}
+
+export function calculateHexIntegerOperation(
+  left: bigint,
+  operator: CalculatorOperator,
+  right: bigint,
+): IntegerOperationResult {
+  return calculateBinaryIntegerOperation(left, operator, right);
 }
 
 function greatestCommonDivisor(left: number, right: number) {

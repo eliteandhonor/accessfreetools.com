@@ -28,6 +28,13 @@ export const blogPosts: BlogPostDefinition[] = [
       'Learn how to compare measured and accepted values, calculate percent error, read signed percent error, and avoid common lab-report mistakes.',
   },
   {
+    slug: 'how-to-use-half-life-calculator',
+    title: 'How to use the Half-Life Calculator',
+    label: 'Half-life calculator guide',
+    summary:
+      'Learn how to calculate remaining amount, elapsed time, and half-life with decay formulas, matching units, examples, and privacy notes.',
+  },
+  {
     slug: 'how-to-use-exponent-calculator',
     title: 'How to use the Exponent Calculator',
     label: 'Exponent calculator guide',
@@ -40,6 +47,13 @@ export const blogPosts: BlogPostDefinition[] = [
     label: 'Binary calculator guide',
     summary:
       'Learn how to add, subtract, multiply, divide, and convert binary numbers with base-2 place values, decimal checks, and remainders.',
+  },
+  {
+    slug: 'how-to-use-hex-calculator',
+    title: 'How to use the Hex Calculator',
+    label: 'Hex calculator guide',
+    summary:
+      'Learn how to add, subtract, multiply, divide, and convert hexadecimal numbers with base-16 digits, decimal checks, binary output, and remainders.',
   },
   {
     slug: 'how-to-use-kawaii-calculator',
