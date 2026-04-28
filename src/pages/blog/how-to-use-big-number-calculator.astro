@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="big-number-calculator"
+  label="Big number calculator guide"
+  title="How to use the Big Number Calculator"
+  description="Learn how to use the free Access Free Tools big number calculator for exact whole-number arithmetic, large integers, and division remainders."
+  path="/blog/how-to-use-big-number-calculator/"
+  intro="The Big Number Calculator adds, subtracts, multiplies, and divides very large whole numbers exactly. It is made for integer values that normal decimal calculators may round."
+  quickStart={[
+    'Enter the left whole number and right whole number.',
+    'Choose add, subtract, multiply, or divide.',
+    'Press Calculate big number.',
+    'Review the exact answer, digit count, quotient and remainder, steps, and recent answers.',
+  ]}
+  sections={[
+    {
+      title: 'Why exact integer math matters',
+      paragraphs: [
+        'Many everyday calculators use floating-point number math, which can lose precision with very large integers. This calculator uses BigInt integer arithmetic so whole-number digits stay exact.',
+        'That makes it useful for coding examples, number theory checks, large IDs, base conversions, and study problems where every digit matters.',
+      ],
+    },
+    {
+      title: 'Division and limits',
+      paragraphs: [
+        'Division returns a whole-number quotient. If the division is not even, the calculator also shows the remainder.',
+        'The tool supports very large whole numbers, but browser memory and responsiveness still matter. Extremely huge inputs may become slow.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Big Number Calculator while you follow the guide."
+/>

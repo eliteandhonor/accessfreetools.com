@@ -992,7 +992,987 @@ export const tools: ToolDefinition[] = [
           'Yes. Recent fraction calculations stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['ratio-calculator', 'percentage-calculator', 'scientific-calculator'],
+    relatedSlugs: ['least-common-multiple-calculator', 'greatest-common-factor-calculator', 'percentage-calculator'],
+  },
+  {
+    slug: 'least-common-multiple-calculator',
+    name: 'Least Common Multiple Calculator',
+    category: 'calculators',
+    summary: 'Find the least common multiple of two or more whole numbers with steps.',
+    description:
+      'Use this free least common multiple calculator to find the LCM of two or more positive whole numbers with exact integer math, examples, copy, history, and step-by-step notes.',
+    icon: 'calculator-lcm',
+    seoTitle: 'Least Common Multiple Calculator | Free Online LCM Calculator',
+    seoDescription:
+      'Use the free Access Free Tools least common multiple calculator to find the LCM of two or more whole numbers with exact answers, examples, history, and steps.',
+    useCases: [
+      'Find a common denominator before adding or comparing fractions.',
+      'Solve schedule problems where events repeat at different intervals.',
+      'Check school math problems involving multiples and divisibility.',
+      'Compare two or more positive whole numbers with exact integer results.',
+    ],
+    examples: [
+      {
+        label: 'Three numbers',
+        expression: 'LCM of 12, 18, 30',
+        result: '180',
+      },
+      {
+        label: 'Two numbers',
+        expression: 'LCM of 8 and 14',
+        result: '56',
+      },
+      {
+        label: 'Common denominator',
+        expression: 'LCM of 6, 15, 25',
+        result: '150',
+      },
+    ],
+    faq: [
+      {
+        question: 'What is the least common multiple?',
+        answer:
+          'The least common multiple is the smallest positive number that is a multiple of every number in the list.',
+      },
+      {
+        question: 'How does the LCM Calculator find the answer?',
+        answer:
+          'It combines the numbers with the relationship LCM(a,b) = a x b / GCF(a,b). That keeps the answer exact while it moves through the list.',
+      },
+      {
+        question: 'Can I enter more than two numbers?',
+        answer:
+          'Yes. Enter at least two positive whole numbers separated by commas, spaces, or semicolons. The calculator finds one LCM for the whole list.',
+      },
+      {
+        question: 'Why do the inputs need to be positive whole numbers?',
+        answer:
+          'LCM is normally used for positive integers. Zero and negative values make the idea of the smallest positive shared multiple unclear for this everyday calculator.',
+      },
+      {
+        question: 'When should I use the Greatest Common Factor Calculator instead?',
+        answer:
+          'Use GCF when you need the largest shared divisor. Use LCM when you need the smallest shared multiple, such as a common denominator.',
+      },
+      {
+        question: 'Is my LCM history private?',
+        answer:
+          'Yes. Recent LCM answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['greatest-common-factor-calculator', 'factor-calculator', 'fraction-calculator'],
+  },
+  {
+    slug: 'greatest-common-factor-calculator',
+    name: 'Greatest Common Factor Calculator',
+    category: 'calculators',
+    summary: 'Find the greatest common factor of two or more whole numbers with steps.',
+    description:
+      'Use this free greatest common factor calculator to find the GCF of two or more positive whole numbers with exact integer math, examples, copy, history, and step-by-step notes.',
+    icon: 'calculator-gcf',
+    seoTitle: 'Greatest Common Factor Calculator | Free Online GCF Calculator',
+    seoDescription:
+      'Use the free Access Free Tools greatest common factor calculator to find the GCF of two or more whole numbers with exact answers, examples, history, and steps.',
+    useCases: [
+      'Simplify fractions by finding the largest shared divisor.',
+      'Factor numbers in school math, ratios, and divisibility problems.',
+      'Find the largest equal group size that fits multiple quantities.',
+      'Check multi-number GCF problems with exact integer results.',
+    ],
+    examples: [
+      {
+        label: 'Three numbers',
+        expression: 'GCF of 24, 36, 60',
+        result: '12',
+      },
+      {
+        label: 'Two numbers',
+        expression: 'GCF of 48 and 180',
+        result: '12',
+      },
+      {
+        label: 'Larger list',
+        expression: 'GCF of 81, 153, 225',
+        result: '9',
+      },
+    ],
+    faq: [
+      {
+        question: 'What is the greatest common factor?',
+        answer:
+          'The greatest common factor is the largest positive whole number that divides every number in the list without a remainder.',
+      },
+      {
+        question: 'How does the GCF Calculator find the answer?',
+        answer:
+          'It uses the Euclidean algorithm to compare pairs of numbers, then carries the shared factor through the rest of the list.',
+      },
+      {
+        question: 'Can I find the GCF of more than two numbers?',
+        answer:
+          'Yes. Enter two or more positive whole numbers separated by commas, spaces, or semicolons. The calculator returns one shared GCF.',
+      },
+      {
+        question: 'What is the difference between GCF and LCM?',
+        answer:
+          'GCF is the largest shared factor. LCM is the smallest shared multiple. GCF helps with simplifying, while LCM helps with common denominators and repeating schedules.',
+      },
+      {
+        question: 'Can the GCF be 1?',
+        answer:
+          'Yes. If the numbers do not share any factor larger than 1, the greatest common factor is 1.',
+      },
+      {
+        question: 'Is my GCF history private?',
+        answer:
+          'Yes. Recent GCF answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['least-common-multiple-calculator', 'factor-calculator', 'ratio-calculator'],
+  },
+  {
+    slug: 'factor-calculator',
+    name: 'Factor Calculator',
+    category: 'calculators',
+    summary: 'List factors, factor pairs, and prime factorization for a whole number.',
+    description:
+      'Use this free factor calculator to list every factor of a positive whole number, show factor pairs, identify prime numbers, and write prime factorization with steps.',
+    icon: 'calculator-factor',
+    seoTitle: 'Factor Calculator | Free Online Factors and Prime Factorization',
+    seoDescription:
+      'Use the free Access Free Tools factor calculator to find factors, factor pairs, prime factorization, and prime-number checks for positive whole numbers.',
+    useCases: [
+      'List all factors of a number for divisibility and homework checks.',
+      'Find factor pairs before simplifying, factoring, or grouping values.',
+      'Write prime factorization in repeated-prime or exponent form.',
+      'Check whether a positive whole number is prime or composite.',
+    ],
+    examples: [
+      {
+        label: 'All factors',
+        expression: 'Factors of 84',
+        result: '1, 2, 3, 4, 6, 7, 12, 14, 21, 28, 42, 84',
+      },
+      {
+        label: 'Prime number',
+        expression: 'Factors of 97',
+        result: '1, 97',
+      },
+      {
+        label: 'Prime factorization',
+        expression: '360',
+        result: '2^3 x 3^2 x 5',
+      },
+    ],
+    faq: [
+      {
+        question: 'What is a factor?',
+        answer:
+          'A factor is a whole number that divides another whole number without a remainder. For example, 6 is a factor of 24 because 24 / 6 = 4.',
+      },
+      {
+        question: 'What does the Factor Calculator show?',
+        answer:
+          'It shows all factors, factor pairs, prime factors, prime factor powers, and whether the input is prime.',
+      },
+      {
+        question: 'Is 1 a prime number?',
+        answer:
+          'No. A prime number has exactly two positive factors: 1 and itself. The number 1 has only one positive factor.',
+      },
+      {
+        question: 'What is the largest input this factor tool supports?',
+        answer:
+          'The tool supports positive safe whole numbers up to 1,000,000,000,000. That keeps browser factor searches responsive.',
+      },
+      {
+        question: 'When should I use GCF or LCM instead?',
+        answer:
+          'Use the Factor Calculator for one number. Use GCF to compare shared factors across multiple numbers, and LCM to compare shared multiples.',
+      },
+      {
+        question: 'Is my factor history private?',
+        answer:
+          'Yes. Recent factor answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['greatest-common-factor-calculator', 'least-common-multiple-calculator', 'fraction-calculator'],
+  },
+  {
+    slug: 'rounding-calculator',
+    name: 'Rounding Calculator',
+    category: 'calculators',
+    summary: 'Round numbers by decimal places, significant figures, or place value.',
+    description:
+      'Use this free rounding calculator to round numbers to decimal places, significant figures, or place values with nearest, up, down, and truncate methods.',
+    icon: 'calculator-round',
+    seoTitle: 'Rounding Calculator | Decimal, Significant Figures, and Place Value',
+    seoDescription:
+      'Use the free Access Free Tools rounding calculator to round numbers by decimal places, significant figures, or place value with steps and examples.',
+    useCases: [
+      'Round money, measurements, and everyday decimal values.',
+      'Round study answers to a required number of significant figures.',
+      'Round whole numbers to tens, hundreds, thousands, or decimal places.',
+      'Compare nearest, round up, round down, and truncate methods.',
+    ],
+    examples: [
+      {
+        label: 'Decimal places',
+        expression: '12.3456 to 2 decimal places',
+        result: '12.35',
+      },
+      {
+        label: 'Significant figures',
+        expression: '98,765 to 3 significant figures',
+        result: '98,800',
+      },
+      {
+        label: 'Place value',
+        expression: '1,846 to the nearest hundred',
+        result: '1,800',
+      },
+    ],
+    faq: [
+      {
+        question: 'What rounding modes are supported?',
+        answer:
+          'The calculator supports decimal places, significant figures, and place value rounding.',
+      },
+      {
+        question: 'How do I round to a place value?',
+        answer:
+          'Use place-value mode. Exponent 1 means nearest 10, exponent 2 means nearest 100, exponent 3 means nearest 1,000, and exponent -2 means nearest 0.01.',
+      },
+      {
+        question: 'What is the difference between nearest, up, down, and truncate?',
+        answer:
+          'Nearest rounds to the closest value. Up uses the next higher rounding value, down uses the next lower rounding value, and truncate drops extra digits toward zero.',
+      },
+      {
+        question: 'Can I round negative numbers?',
+        answer:
+          'Yes. The calculator accepts negative numbers. For nearest rounding, half values move away from zero.',
+      },
+      {
+        question: 'Why can rounded decimals sometimes look surprising?',
+        answer:
+          'Browsers store many decimals in binary floating-point form. The calculator cleans display values, but very precise decimal work can still have normal floating-point limits.',
+      },
+      {
+        question: 'Is my rounding history private?',
+        answer:
+          'Yes. Recent rounded values stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['scientific-notation-calculator', 'percentage-calculator', 'basic-calculator'],
+  },
+  {
+    slug: 'matrix-calculator',
+    name: 'Matrix Calculator',
+    category: 'calculators',
+    summary: 'Add, subtract, multiply, transpose, and find determinants for 2x2 and 3x3 matrices.',
+    description:
+      'Use this free matrix calculator for 2x2 and 3x3 matrix addition, subtraction, multiplication, transpose, and determinant calculations with steps, examples, copy, and history.',
+    icon: 'calculator-matrix',
+    seoTitle: 'Matrix Calculator | Free Online Matrix Operations',
+    seoDescription:
+      'Use the free Access Free Tools matrix calculator to add, subtract, multiply, transpose, and find determinants for 2x2 and 3x3 matrices with steps.',
+    useCases: [
+      'Check 2x2 and 3x3 matrix addition or subtraction problems.',
+      'Multiply square matrices while seeing row-by-column steps.',
+      'Find determinants for 2x2 and 3x3 matrices.',
+      'Transpose a matrix for algebra, precalculus, or linear algebra practice.',
+    ],
+    examples: [
+      {
+        label: '2x2 multiply',
+        expression: '[[1,2],[3,4]] x [[5,6],[7,8]]',
+        result: '[[19,22],[43,50]]',
+      },
+      {
+        label: '2x2 determinant',
+        expression: 'det([[1,2],[3,4]])',
+        result: '-2',
+      },
+      {
+        label: '3x3 determinant',
+        expression: 'det([[6,1,1],[4,-2,5],[2,8,7]])',
+        result: '-306',
+      },
+    ],
+    faq: [
+      {
+        question: 'What matrix operations are supported?',
+        answer:
+          'The Matrix Calculator supports addition, subtraction, multiplication, determinant, and transpose for 2x2 and 3x3 square matrices.',
+      },
+      {
+        question: 'Does order matter for matrix multiplication?',
+        answer:
+          'Yes. Matrix multiplication is order-sensitive. A x B can be different from B x A because each result entry uses rows from the first matrix and columns from the second.',
+      },
+      {
+        question: 'What is a determinant?',
+        answer:
+          'A determinant is a single value calculated from a square matrix. For a 2x2 matrix [[a,b],[c,d]], the determinant is ad - bc.',
+      },
+      {
+        question: 'Can this solve systems of equations?',
+        answer:
+          'Not yet. This version focuses on core matrix operations. Systems of equations can be a later tool or future expansion.',
+      },
+      {
+        question: 'Can I use decimals or negative values?',
+        answer:
+          'Yes. Matrix entries can be positive, negative, whole, or decimal numbers.',
+      },
+      {
+        question: 'Is my matrix history private?',
+        answer:
+          'Yes. Recent matrix answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['scientific-calculator', 'quadratic-formula-calculator', 'big-number-calculator'],
+  },
+  {
+    slug: 'scientific-notation-calculator',
+    name: 'Scientific Notation Calculator',
+    category: 'calculators',
+    summary: 'Convert numbers to scientific notation or back to standard form.',
+    description:
+      'Use this free scientific notation calculator to convert standard numbers into scientific notation or convert coefficient and exponent form back into standard form with steps.',
+    icon: 'calculator-scientific-notation',
+    seoTitle: 'Scientific Notation Calculator | Convert Standard and Scientific Form',
+    seoDescription:
+      'Use the free Access Free Tools scientific notation calculator to convert numbers to scientific notation or back to standard form with examples and steps.',
+    useCases: [
+      'Rewrite very large or very small numbers in scientific notation.',
+      'Convert a coefficient and power of 10 back into standard form.',
+      'Check science, chemistry, physics, astronomy, and math notation examples.',
+      'Compare coefficient, exponent, and standard-form output in one place.',
+    ],
+    examples: [
+      {
+        label: 'Large number',
+        expression: '4,500,000',
+        result: '4.5 x 10^6',
+      },
+      {
+        label: 'Small number',
+        expression: '0.00042',
+        result: '4.2 x 10^-4',
+      },
+      {
+        label: 'Back to standard',
+        expression: '6.02 x 10^23',
+        result: '602,000,000,000,000,000,000,000',
+      },
+    ],
+    faq: [
+      {
+        question: 'What is scientific notation?',
+        answer:
+          'Scientific notation writes a number as a coefficient times a power of 10. Normalized scientific notation uses one nonzero digit to the left of the decimal point.',
+      },
+      {
+        question: 'How do I convert a number to scientific notation?',
+        answer:
+          'Choose To scientific, enter the standard number, and calculate. The calculator moves the decimal point and counts those moves as the exponent.',
+      },
+      {
+        question: 'How do I convert scientific notation to standard form?',
+        answer:
+          'Choose To standard, enter the coefficient and whole-number exponent, and calculate. Positive exponents move the decimal right; negative exponents move it left.',
+      },
+      {
+        question: 'Can scientific notation handle negative numbers?',
+        answer:
+          'Yes. A negative number keeps a negative coefficient, such as -3.2 x 10^5.',
+      },
+      {
+        question: 'What is the difference between this and the Big Number Calculator?',
+        answer:
+          'Scientific notation is best for compact display and powers of 10. The Big Number Calculator is best for exact whole-number arithmetic with very large integers.',
+      },
+      {
+        question: 'Is my scientific notation history private?',
+        answer:
+          'Yes. Recent notation conversions stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['exponent-calculator', 'rounding-calculator', 'big-number-calculator'],
+  },
+  {
+    slug: 'big-number-calculator',
+    name: 'Big Number Calculator',
+    category: 'calculators',
+    summary: 'Add, subtract, multiply, and divide very large whole numbers exactly.',
+    description:
+      'Use this free big number calculator for exact whole-number addition, subtraction, multiplication, and division with remainders beyond normal safe integer limits.',
+    icon: 'calculator-big-number',
+    seoTitle: 'Big Number Calculator | Exact Large Integer Calculator',
+    seoDescription:
+      'Use the free Access Free Tools big number calculator to add, subtract, multiply, and divide very large whole numbers exactly with quotient and remainder output.',
+    useCases: [
+      'Calculate with integers larger than normal calculator safe-number limits.',
+      'Add or multiply long whole numbers without losing digits.',
+      'Divide large integers and see quotient plus remainder.',
+      'Check coding, number theory, base conversion, and study examples.',
+    ],
+    examples: [
+      {
+        label: 'Beyond safe integer',
+        expression: '9,007,199,254,740,993 + 7',
+        result: '9,007,199,254,741,000',
+      },
+      {
+        label: 'Large multiplication',
+        expression: '12,345,678,901,234,567,890 x 10',
+        result: '123,456,789,012,345,678,900',
+      },
+      {
+        label: 'Large division',
+        expression: '100,000,000,000,000,000,000 / 9',
+        result: '11,111,111,111,111,111,111 remainder 1',
+      },
+    ],
+    faq: [
+      {
+        question: 'What makes this a big number calculator?',
+        answer:
+          'It uses exact BigInt integer arithmetic, so large whole-number results do not lose digits the way normal floating-point number math can.',
+      },
+      {
+        question: 'When should I use this instead of the Basic Calculator?',
+        answer:
+          'Use the Basic Calculator for everyday decimals and percentages. Use the Big Number Calculator when you need exact whole-number arithmetic with very large integers.',
+      },
+      {
+        question: 'Can I enter decimals?',
+        answer:
+          'No. This tool is for whole numbers only. Decimal support belongs in normal calculators because BigInt works with integers.',
+      },
+      {
+        question: 'How does division work?',
+        answer:
+          'Division returns a whole-number quotient. If the values do not divide evenly, the calculator also shows the remainder.',
+      },
+      {
+        question: 'How large can the numbers be?',
+        answer:
+          'Very large whole numbers are supported, but browser memory and page responsiveness still matter. Extremely huge inputs may become slow.',
+      },
+      {
+        question: 'Is my big number history private?',
+        answer:
+          'Yes. Recent big number answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['scientific-notation-calculator', 'binary-calculator', 'hex-calculator'],
+  },
+  {
+    slug: 'standard-deviation-calculator',
+    name: 'Standard Deviation Calculator',
+    category: 'calculators',
+    summary: 'Calculate sample or population standard deviation, variance, mean, and count.',
+    description:
+      'Use this free standard deviation calculator to find sample standard deviation, population standard deviation, variance, mean, count, steps, copy, and history.',
+    icon: 'calculator-standard-deviation',
+    seoTitle: 'Standard Deviation Calculator | Sample and Population SD',
+    seoDescription:
+      'Use the free Access Free Tools standard deviation calculator to calculate sample or population standard deviation, variance, mean, count, and steps.',
+    useCases: [
+      'Measure how spread out a list of numbers is from its mean.',
+      'Compare sample standard deviation with population standard deviation.',
+      'Check statistics homework, study data, measurements, and class examples.',
+      'Copy the standard deviation, variance, mean, and count for notes.',
+    ],
+    examples: [
+      { label: 'Population data', expression: '2, 4, 4, 4, 5, 5, 7, 9', result: 'Population SD = 2' },
+      { label: 'Sample data', expression: '2, 4, 4, 4, 5, 5, 7, 9', result: 'Sample SD = 2.1380899353' },
+      { label: 'Small data set', expression: '12, 15, 19, 21, 22, 26', result: 'Mean = 19.1666666667' },
+    ],
+    faq: [
+      {
+        question: 'What does standard deviation measure?',
+        answer:
+          'Standard deviation measures how far data values typically are from the mean. A larger standard deviation means the values are more spread out.',
+      },
+      {
+        question: 'Should I use sample or population standard deviation?',
+        answer:
+          'Use sample standard deviation when your data is a sample that estimates a larger population. Use population standard deviation when the data includes the whole group you care about.',
+      },
+      {
+        question: 'Why does sample standard deviation divide by n - 1?',
+        answer:
+          'Sample standard deviation divides by n - 1 to correct for estimating population spread from a sample. This is often called Bessel correction.',
+      },
+      {
+        question: 'How many values can I enter?',
+        answer:
+          'You can enter up to 1,000 values separated by commas, spaces, semicolons, or new lines.',
+      },
+      {
+        question: 'Can the standard deviation be zero?',
+        answer:
+          'Yes. Standard deviation is zero when every value in the data set is exactly the same.',
+      },
+      {
+        question: 'Is my standard deviation history private?',
+        answer:
+          'Yes. Recent answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['statistics-calculator', 'mean-median-mode-range-calculator', 'z-score-calculator'],
+  },
+  {
+    slug: 'number-sequence-calculator',
+    name: 'Number Sequence Calculator',
+    category: 'calculators',
+    summary: 'Generate arithmetic, geometric, and Fibonacci-style number sequences.',
+    description:
+      'Use this free number sequence calculator to generate arithmetic sequences, geometric sequences, Fibonacci-style sequences, next terms, formulas, steps, copy, and history.',
+    icon: 'calculator-sequence',
+    seoTitle: 'Number Sequence Calculator | Arithmetic, Geometric, Fibonacci',
+    seoDescription:
+      'Use the free Access Free Tools number sequence calculator to generate arithmetic, geometric, and Fibonacci-style sequences with next terms and steps.',
+    useCases: [
+      'Create arithmetic sequences from a first term and common difference.',
+      'Create geometric sequences from a first term and common ratio.',
+      'Generate Fibonacci-style sequences from two starting terms.',
+      'Check next terms and sequence formulas for study examples.',
+    ],
+    examples: [
+      { label: 'Arithmetic', expression: 'First 3, difference 4', result: '3, 7, 11, 15, 19' },
+      { label: 'Geometric', expression: 'First 2, ratio 3', result: '2, 6, 18, 54, 162' },
+      { label: 'Fibonacci', expression: 'Start 1, 1', result: '1, 1, 2, 3, 5, 8, 13' },
+    ],
+    faq: [
+      {
+        question: 'What sequence types are supported?',
+        answer:
+          'The calculator supports arithmetic, geometric, and Fibonacci-style sequences. More sequence types can be added later.',
+      },
+      {
+        question: 'What is an arithmetic sequence?',
+        answer:
+          'An arithmetic sequence changes by the same amount each time. That constant amount is called the common difference.',
+      },
+      {
+        question: 'What is a geometric sequence?',
+        answer:
+          'A geometric sequence changes by multiplying by the same value each time. That value is called the common ratio.',
+      },
+      {
+        question: 'How does the Fibonacci-style mode work?',
+        answer:
+          'It starts with two values, then adds the previous two terms to make each next term.',
+      },
+      {
+        question: 'Can I generate decimals or negative terms?',
+        answer:
+          'Yes. The first term, common difference, common ratio, and second Fibonacci-style term can be decimals or negative numbers.',
+      },
+      {
+        question: 'Is my sequence history private?',
+        answer:
+          'Yes. Recent sequences stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['statistics-calculator', 'scientific-calculator', 'exponent-calculator'],
+  },
+  {
+    slug: 'sample-size-calculator',
+    name: 'Sample Size Calculator',
+    category: 'calculators',
+    summary: 'Estimate survey sample size from confidence level, margin of error, and proportion.',
+    description:
+      'Use this free sample size calculator to estimate a survey sample size from confidence level, margin of error, estimated proportion, and optional population size.',
+    icon: 'calculator-sample-size',
+    seoTitle: 'Sample Size Calculator | Survey Sample Size Estimator',
+    seoDescription:
+      'Use the free Access Free Tools sample size calculator to estimate survey sample size from confidence level, margin of error, population proportion, and population size.',
+    useCases: [
+      'Estimate how many survey responses you need for a proportion.',
+      'Compare 90%, 95%, 98%, and 99% confidence levels.',
+      'Use 50% estimated proportion for a conservative planning estimate.',
+      'Apply finite population correction when the total population is known.',
+    ],
+    examples: [
+      { label: 'Common survey', expression: '95%, 5% margin, 50% proportion', result: '385' },
+      { label: 'Finite population', expression: '95%, 5%, 50%, population 1,000', result: '278' },
+      { label: 'Higher confidence', expression: '99%, 5%, 50%', result: '664' },
+    ],
+    faq: [
+      {
+        question: 'What kind of sample size does this calculator estimate?',
+        answer:
+          'It estimates sample size for a population proportion, which is common for surveys, polls, yes/no questions, and percentage estimates.',
+      },
+      {
+        question: 'What should I enter for population proportion?',
+        answer:
+          'Use your best estimate. If you are unsure, use 50%, which gives the most conservative and usually largest sample size.',
+      },
+      {
+        question: 'What is margin of error?',
+        answer:
+          'Margin of error is the maximum difference you are planning to tolerate between the sample estimate and the true population proportion.',
+      },
+      {
+        question: 'What does finite population correction do?',
+        answer:
+          'When the total population is known, finite population correction can reduce the required sample size because the sample is a larger share of the whole group.',
+      },
+      {
+        question: 'Can this replace professional survey design?',
+        answer:
+          'No. It is a planning calculator for common proportion estimates. Professional surveys may need design effects, stratification, weighting, and nonresponse planning.',
+      },
+      {
+        question: 'Is my sample size history private?',
+        answer:
+          'Yes. Recent sample size answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['confidence-interval-calculator', 'probability-calculator', 'statistics-calculator'],
+  },
+  {
+    slug: 'probability-calculator',
+    name: 'Probability Calculator',
+    category: 'calculators',
+    summary: 'Calculate event union, intersection, complements, and independent-event probability.',
+    description:
+      'Use this free probability calculator to find P(A and B), P(A or B), complements, independent-event intersections, steps, copy, and history.',
+    icon: 'calculator-probability',
+    seoTitle: 'Probability Calculator | Union, Intersection, Complement',
+    seoDescription:
+      'Use the free Access Free Tools probability calculator to calculate P(A and B), P(A or B), complements, independent events, and probability steps.',
+    useCases: [
+      'Find the chance of A or B happening using the union rule.',
+      'Calculate complements such as not A or not B.',
+      'Assume independent events when no intersection is entered.',
+      'Check classroom probability examples and quick planning estimates.',
+    ],
+    examples: [
+      { label: 'Independent events', expression: 'P(A)=40%, P(B)=25%', result: 'P(A or B)=55%' },
+      { label: 'Known overlap', expression: 'P(A)=60%, P(B)=30%, P(A and B)=15%', result: 'P(A or B)=75%' },
+      { label: 'Complement', expression: 'P(A)=40%', result: 'P(not A)=60%' },
+    ],
+    faq: [
+      {
+        question: 'What does P(A or B) mean?',
+        answer:
+          'P(A or B) is the probability that event A happens, event B happens, or both happen.',
+      },
+      {
+        question: 'What formula does the calculator use for union?',
+        answer:
+          'It uses P(A or B) = P(A) + P(B) - P(A and B), so the overlapping part is not counted twice.',
+      },
+      {
+        question: 'What happens if I leave P(A and B) blank?',
+        answer:
+          'The calculator assumes the events are independent and uses P(A and B) = P(A) x P(B).',
+      },
+      {
+        question: 'What is a complement?',
+        answer:
+          'The complement of A is not A. Its probability is 1 - P(A), or 100% minus P(A) when using percentages.',
+      },
+      {
+        question: 'Can probabilities be more than 100%?',
+        answer:
+          'No. Each probability must be between 0% and 100%, and the final union cannot be more than 100%.',
+      },
+      {
+        question: 'Is my probability history private?',
+        answer:
+          'Yes. Recent probability answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['permutation-and-combination-calculator', 'sample-size-calculator', 'statistics-calculator'],
+  },
+  {
+    slug: 'statistics-calculator',
+    name: 'Statistics Calculator',
+    category: 'calculators',
+    summary: 'Calculate count, sum, mean, median, mode, range, quartiles, variance, and standard deviation.',
+    description:
+      'Use this free statistics calculator to summarize a data set with count, sum, mean, median, mode, min, max, range, quartiles, IQR, variance, standard deviation, steps, copy, and history.',
+    icon: 'calculator-statistics',
+    seoTitle: 'Statistics Calculator | Descriptive Statistics Summary',
+    seoDescription:
+      'Use the free Access Free Tools statistics calculator to find mean, median, mode, range, quartiles, variance, standard deviation, count, sum, and steps.',
+    useCases: [
+      'Summarize a list of data values in one result card.',
+      'Find center, spread, quartiles, and standard deviation together.',
+      'Check homework, class data, survey responses, and measurement lists.',
+      'Copy descriptive statistics into notes or reports.',
+    ],
+    examples: [
+      { label: 'Data summary', expression: '10, 12, 12, 15, 18, 21, 21, 21, 25', result: 'Mean = 17.2222222222' },
+      { label: 'No repeated values', expression: '4, 8, 15, 16, 23, 42', result: 'No mode' },
+      { label: 'Exam scores', expression: '72, 84, 84, 90, 93', result: 'Median = 84' },
+    ],
+    faq: [
+      {
+        question: 'What does the Statistics Calculator calculate?',
+        answer:
+          'It calculates count, sum, mean, median, mode, min, max, range, quartiles, IQR, variance, and standard deviation.',
+      },
+      {
+        question: 'How is the mean calculated?',
+        answer:
+          'The mean is the sum of all values divided by the number of values.',
+      },
+      {
+        question: 'How is the median calculated?',
+        answer:
+          'The data is sorted from smallest to largest. The median is the middle value, or the average of the two middle values when there is an even count.',
+      },
+      {
+        question: 'Can a data set have no mode?',
+        answer:
+          'Yes. This calculator reports no mode when every value appears only once.',
+      },
+      {
+        question: 'What is IQR?',
+        answer:
+          'IQR means interquartile range. It is Q3 minus Q1 and describes the spread of the middle half of the data.',
+      },
+      {
+        question: 'Is my statistics history private?',
+        answer:
+          'Yes. Recent statistics answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['mean-median-mode-range-calculator', 'standard-deviation-calculator', 'z-score-calculator'],
+  },
+  {
+    slug: 'mean-median-mode-range-calculator',
+    name: 'Mean, Median, Mode, Range Calculator',
+    category: 'calculators',
+    summary: 'Find the four headline descriptive statistics for a list of numbers.',
+    description:
+      'Use this free mean, median, mode, range calculator to find the average, middle value, most frequent value, range, sorted data, steps, copy, and history.',
+    icon: 'calculator-mean',
+    seoTitle: 'Mean, Median, Mode, Range Calculator | Free Data Summary',
+    seoDescription:
+      'Use the free Access Free Tools mean, median, mode, range calculator to find average, middle value, most frequent values, range, sorted data, and steps.',
+    useCases: [
+      'Find the average, median, most frequent value, and range quickly.',
+      'Check small data sets for school, study, and everyday comparisons.',
+      'See sorted data so the median and range are easy to verify.',
+      'Copy the four headline statistics into notes or homework.',
+    ],
+    examples: [
+      { label: 'Repeated mode', expression: '10, 12, 12, 15, 18, 21, 21, 21, 25', result: 'Mode = 21' },
+      { label: 'No mode', expression: '4, 8, 15, 16, 23, 42', result: 'No mode' },
+      { label: 'Simple range', expression: '72, 84, 84, 90, 93', result: 'Range = 21' },
+    ],
+    faq: [
+      {
+        question: 'What is the mean?',
+        answer:
+          'The mean is the arithmetic average. Add all values, then divide by how many values there are.',
+      },
+      {
+        question: 'What is the median?',
+        answer:
+          'The median is the middle value after the data is sorted. If there are two middle values, their average is the median.',
+      },
+      {
+        question: 'What is the mode?',
+        answer:
+          'The mode is the most frequent value. A data set can have one mode, multiple modes, or no mode.',
+      },
+      {
+        question: 'What is the range?',
+        answer:
+          'The range is the maximum value minus the minimum value.',
+      },
+      {
+        question: 'When should I use the full Statistics Calculator?',
+        answer:
+          'Use the full Statistics Calculator when you also need quartiles, variance, standard deviation, count, or sum.',
+      },
+      {
+        question: 'Is my data history private?',
+        answer:
+          'Yes. Recent answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['statistics-calculator', 'standard-deviation-calculator', 'z-score-calculator'],
+  },
+  {
+    slug: 'permutation-and-combination-calculator',
+    name: 'Permutation and Combination Calculator',
+    category: 'calculators',
+    summary: 'Calculate nPr and nCr for counting arrangements and selections.',
+    description:
+      'Use this free permutation and combination calculator to find nPr and nCr with exact integer answers, steps, examples, copy, and history.',
+    icon: 'calculator-permutation',
+    seoTitle: 'Permutation and Combination Calculator | nPr and nCr',
+    seoDescription:
+      'Use the free Access Free Tools permutation and combination calculator to calculate nPr and nCr exact integer answers for counting problems.',
+    useCases: [
+      'Find permutations when order matters.',
+      'Find combinations when order does not matter.',
+      'Check probability and counting homework examples.',
+      'Copy exact nPr and nCr results for notes or study.',
+    ],
+    examples: [
+      { label: 'Choose 3 from 10', expression: '10P3 and 10C3', result: '720 permutations, 120 combinations' },
+      { label: 'Cards example', expression: '52C5', result: '2,598,960 combinations' },
+      { label: 'Podium order', expression: '8P3', result: '336 permutations' },
+    ],
+    faq: [
+      {
+        question: 'What is a permutation?',
+        answer:
+          'A permutation counts arrangements where order matters. ABC and BAC are different permutations.',
+      },
+      {
+        question: 'What is a combination?',
+        answer:
+          'A combination counts selections where order does not matter. ABC and BAC are the same combination.',
+      },
+      {
+        question: 'What do n and r mean?',
+        answer:
+          'n is the total number of items. r is the number of items selected or arranged.',
+      },
+      {
+        question: 'What input range is supported?',
+        answer:
+          'This calculator supports whole-number n values from 0 to 500 and r values from 0 to n.',
+      },
+      {
+        question: 'How does this connect to probability?',
+        answer:
+          'Many probability problems use combinations or permutations to count favorable outcomes and total possible outcomes.',
+      },
+      {
+        question: 'Is my counting history private?',
+        answer:
+          'Yes. Recent nPr and nCr answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['probability-calculator', 'statistics-calculator', 'sample-size-calculator'],
+  },
+  {
+    slug: 'z-score-calculator',
+    name: 'Z-score Calculator',
+    category: 'calculators',
+    summary: 'Calculate a z-score and approximate standard normal percentile.',
+    description:
+      'Use this free z-score calculator to standardize a value from its mean and standard deviation, see whether it is above or below average, and estimate percentile.',
+    icon: 'calculator-z-score',
+    seoTitle: 'Z-score Calculator | Standard Score and Percentile',
+    seoDescription:
+      'Use the free Access Free Tools z-score calculator to calculate standard score, distance from mean, and approximate standard normal percentile.',
+    useCases: [
+      'Standardize a value using mean and standard deviation.',
+      'See how many standard deviations a value is above or below average.',
+      'Estimate a percentile under the standard normal curve.',
+      'Check statistics, normal distribution, and study examples.',
+    ],
+    examples: [
+      { label: 'Above average', expression: 'x=85, mean=70, SD=10', result: 'z = 1.5' },
+      { label: 'At the mean', expression: 'x=70, mean=70, SD=10', result: 'z = 0' },
+      { label: 'Below average', expression: 'x=55, mean=70, SD=10', result: 'z = -1.5' },
+    ],
+    faq: [
+      {
+        question: 'What is a z-score?',
+        answer:
+          'A z-score tells how many standard deviations a value is above or below the mean.',
+      },
+      {
+        question: 'What formula does the calculator use?',
+        answer:
+          'It uses z = (x - mean) / standard deviation.',
+      },
+      {
+        question: 'What does a negative z-score mean?',
+        answer:
+          'A negative z-score means the value is below the mean. A positive z-score means it is above the mean.',
+      },
+      {
+        question: 'What does the percentile estimate mean?',
+        answer:
+          'The percentile estimates the area to the left of the z-score on a standard normal curve.',
+      },
+      {
+        question: 'Can the standard deviation be zero?',
+        answer:
+          'No. A z-score divides by standard deviation, so the standard deviation must be greater than zero.',
+      },
+      {
+        question: 'Is my z-score history private?',
+        answer:
+          'Yes. Recent z-score answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['standard-deviation-calculator', 'statistics-calculator', 'confidence-interval-calculator'],
+  },
+  {
+    slug: 'confidence-interval-calculator',
+    name: 'Confidence Interval Calculator',
+    category: 'calculators',
+    summary: 'Calculate z confidence intervals for a mean or a proportion.',
+    description:
+      'Use this free confidence interval calculator to find z confidence intervals for a mean or proportion with margin of error, standard error, point estimate, steps, copy, and history.',
+    icon: 'calculator-confidence',
+    seoTitle: 'Confidence Interval Calculator | Mean and Proportion CI',
+    seoDescription:
+      'Use the free Access Free Tools confidence interval calculator to calculate z confidence intervals for a mean or proportion with margin of error and steps.',
+    useCases: [
+      'Calculate a confidence interval for a mean using standard deviation and sample size.',
+      'Calculate a confidence interval for a sample proportion.',
+      'Compare common confidence levels from 80% through 99%.',
+      'Copy the interval, margin of error, z-score, and point estimate.',
+    ],
+    examples: [
+      { label: 'Mean interval', expression: 'Mean 68, SD 3, n=36, 95%', result: '67.02 to 68.98' },
+      { label: 'Proportion interval', expression: '52 successes, n=100, 95%', result: '42.2% to 61.8%' },
+      { label: 'Narrower level', expression: 'Mean 68, SD 3, n=36, 90%', result: '67.1775 to 68.8225' },
+    ],
+    faq: [
+      {
+        question: 'What is a confidence interval?',
+        answer:
+          'A confidence interval is a range around a sample estimate that is built to capture a population value at a chosen confidence level.',
+      },
+      {
+        question: 'What interval types are supported?',
+        answer:
+          'This version supports z intervals for a single mean and a single proportion.',
+      },
+      {
+        question: 'What is margin of error?',
+        answer:
+          'Margin of error is the amount added to and subtracted from the point estimate to create the lower and upper bounds.',
+      },
+      {
+        question: 'Should I use mean or proportion mode?',
+        answer:
+          'Use mean mode for numeric averages. Use proportion mode for successes out of a total, such as yes responses or defect counts.',
+      },
+      {
+        question: 'Can this replace advanced statistical software?',
+        answer:
+          'No. It is a quick educational calculator for common z intervals. Advanced studies may need t intervals, design effects, or exact methods.',
+      },
+      {
+        question: 'Is my confidence interval history private?',
+        answer:
+          'Yes. Recent confidence interval answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['sample-size-calculator', 'z-score-calculator', 'statistics-calculator'],
   },
   {
     slug: 'random-number-generator',

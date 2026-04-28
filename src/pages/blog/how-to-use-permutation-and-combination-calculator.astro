@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="permutation-and-combination-calculator"
+  label="Permutation combination guide"
+  title="How to use the Permutation and Combination Calculator"
+  description="Learn how to use the free Access Free Tools permutation and combination calculator for nPr, nCr, order-matters problems, and exact integer answers."
+  path="/blog/how-to-use-permutation-and-combination-calculator/"
+  intro="The Permutation and Combination Calculator finds nPr and nCr from the same n and r inputs so you can compare order-matters and order-does-not-matter counts."
+  quickStart={[
+    'Enter n, the total number of items.',
+    'Enter r, the number of items selected.',
+    'Press Calculate nPr and nCr.',
+    'Use the permutation answer when order matters and the combination answer when order does not matter.',
+  ]}
+  sections={[
+    {
+      title: 'Permutation vs combination',
+      paragraphs: [
+        'A permutation counts arrangements, so ABC and BAC are different outcomes. Use nPr when the order matters.',
+        'A combination counts groups, so ABC and BAC are the same group. Use nCr when the order does not matter.',
+      ],
+    },
+    {
+      title: 'Using counting in probability',
+      paragraphs: [
+        'Many probability problems compare favorable outcomes with total possible outcomes.',
+        'Permutations and combinations help count those outcomes without listing every case one by one.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Permutation and Combination Calculator while you follow the guide."
+/>

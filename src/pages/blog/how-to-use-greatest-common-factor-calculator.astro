@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="greatest-common-factor-calculator"
+  label="GCF calculator guide"
+  title="How to use the Greatest Common Factor Calculator"
+  description="Learn how to use the free Access Free Tools greatest common factor calculator to find GCF answers, simplify fractions, compare factors, and read exact steps."
+  path="/blog/how-to-use-greatest-common-factor-calculator/"
+  intro="The Greatest Common Factor Calculator finds the largest positive whole number that divides every number you enter. It is a good companion for simplifying fractions, ratios, and grouping problems."
+  quickStart={[
+    'Enter two or more positive whole numbers separated by commas, spaces, or semicolons.',
+    'Press Calculate GCF.',
+    'Read the greatest common factor in the result card.',
+    'Review the Euclidean-algorithm style steps, then copy the answer if needed.',
+  ]}
+  sections={[
+    {
+      title: 'GCF vs LCM',
+      paragraphs: [
+        'GCF looks downward for the largest shared factor. LCM looks upward for the smallest shared multiple. If you are simplifying, use GCF. If you are finding a common denominator, use LCM.',
+        'For example, the GCF of 24, 36, and 60 is 12 because 12 divides all three numbers and no larger whole number does.',
+      ],
+    },
+    {
+      title: 'How the calculation works',
+      paragraphs: [
+        'The calculator uses the Euclidean algorithm, which repeatedly compares remainders until the shared divisor is found. For more than two numbers, it carries the current GCF through the rest of the list.',
+        'A GCF can be 1 when the numbers do not share any larger factor.',
+      ],
+    },
+  ]}
+  sidecarText="Use the GCF calculator while you follow the guide."
+/>

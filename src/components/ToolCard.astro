@@ -64,6 +64,38 @@ const calculatorMark = getCalculatorIconMark(tool.icon);
               <text class="calculator-fraction-mark" x="18" y="19" text-anchor="middle">1</text>
               <text class="calculator-fraction-mark" x="18" y="27.3" text-anchor="middle">2</text>
             </>
+          ) : calculatorMark === 'lcm' ? (
+            <text class="calculator-lcm-mark" x="18" y="24.8" text-anchor="middle">lcm</text>
+          ) : calculatorMark === 'gcf' ? (
+            <text class="calculator-gcf-mark" x="18" y="24.8" text-anchor="middle">gcf</text>
+          ) : calculatorMark === 'factor' ? (
+            <text class="calculator-factor-mark" x="18" y="24.8" text-anchor="middle">fac</text>
+          ) : calculatorMark === 'round' ? (
+            <text class="calculator-round-mark" x="18" y="24.8" text-anchor="middle">rnd</text>
+          ) : calculatorMark === 'matrix' ? (
+            <text class="calculator-matrix-mark" x="18" y="24.8" text-anchor="middle">mat</text>
+          ) : calculatorMark === 'sci-notation' ? (
+            <text class="calculator-sci-notation-mark" x="18" y="24.8" text-anchor="middle">sci</text>
+          ) : calculatorMark === 'big-number' ? (
+            <text class="calculator-big-number-mark" x="18" y="24.8" text-anchor="middle">big</text>
+          ) : calculatorMark === 'stddev' ? (
+            <text class="calculator-stddev-mark" x="18" y="24.8" text-anchor="middle">sd</text>
+          ) : calculatorMark === 'sequence' ? (
+            <text class="calculator-sequence-mark" x="18" y="24.8" text-anchor="middle">seq</text>
+          ) : calculatorMark === 'sample-size' ? (
+            <text class="calculator-sample-size-mark" x="18" y="24.8" text-anchor="middle">n</text>
+          ) : calculatorMark === 'probability' ? (
+            <text class="calculator-probability-mark" x="18" y="24.8" text-anchor="middle">p</text>
+          ) : calculatorMark === 'stats' ? (
+            <text class="calculator-stats-mark" x="18" y="24.8" text-anchor="middle">stat</text>
+          ) : calculatorMark === 'mean' ? (
+            <text class="calculator-mean-mark" x="18" y="24.8" text-anchor="middle">xbar</text>
+          ) : calculatorMark === 'permutation' ? (
+            <text class="calculator-permutation-mark" x="18" y="24.8" text-anchor="middle">ncr</text>
+          ) : calculatorMark === 'z-score' ? (
+            <text class="calculator-z-score-mark" x="18" y="24.8" text-anchor="middle">z</text>
+          ) : calculatorMark === 'confidence' ? (
+            <text class="calculator-confidence-mark" x="18" y="24.8" text-anchor="middle">ci</text>
           ) : (
             <>
               <path class="calculator-mark" d="M18 16.8v8.2"></path>

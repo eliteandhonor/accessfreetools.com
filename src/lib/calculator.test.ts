@@ -1,14 +1,27 @@
 import {
   calculateBinary,
+  calculateBigIntegerOperation,
   calculateBinaryIntegerOperation,
+  calculateDescriptiveStatistics,
+  calculateFactors,
   calculateFraction,
   calculateEquivalentRatio,
+  calculateGreatestCommonFactor,
   calculateHexIntegerOperation,
   calculateHalfLifeElapsedTime,
   calculateHalfLifeRemaining,
   calculateHalfLifeValue,
+  calculateLeastCommonMultiple,
   calculateLogarithm,
+  calculateMatrixDeterminant,
+  calculateMatrixOperation,
+  calculateMeanConfidenceInterval,
+  calculateNumberSequence,
   calculateNthRoot,
+  calculatePermutationCombination,
+  calculateProbability,
+  calculateProportionConfidenceInterval,
+  calculateRoundedValue,
   calculatePercentageChange,
   calculatePercentageOf,
   calculateExponent,
@@ -16,8 +29,13 @@ import {
   calculatePercentOf,
   calculateQuadraticFormula,
   calculateRatioShare,
+  calculateSampleSize,
   calculateScientificExpression,
+  calculateStandardDeviation,
+  calculateZScore,
+  fromScientificNotation,
   formatCalculatorNumber,
+  formatBigInteger,
   formatBinaryInteger,
   formatHexInteger,
   formatImproperFraction,
@@ -28,17 +46,21 @@ import {
   generateRandomNumbers,
   applyPercentageAdjustment,
   mixedToFraction,
+  parseBigInteger,
+  parseBigIntegerList,
   parseBinaryInteger,
   parseDecimalInteger,
   parseExponentInput,
   parseHexInteger,
   parseExcludedNumbers,
   parseDisplayValue,
+  parseNumberList,
   percentDisplayValue,
   randomIntegerInRange,
   reversePercentageValue,
   simplifyRatioValues,
   simplifyFraction,
+  toScientificNotation,
   toggleDisplaySign,
 } from './calculator';
 
@@ -248,6 +270,203 @@ describe('ratio helpers', () => {
     expect(() => simplifyRatioValues([0, 0])).toThrow('At least one ratio value must be greater than zero');
     expect(() => simplifyRatioValues([2, -3])).toThrow('Ratio value 2 cannot be negative');
     expect(() => calculateEquivalentRatio(0, 7, 20)).toThrow('Known left value must be greater than zero');
+  });
+});
+
+describe('number theory helpers', () => {
+  it('calculates greatest common factor and least common multiple', () => {
+    expect(calculateGreatestCommonFactor([24n, 36n, 60n])).toBe(12n);
+    expect(calculateLeastCommonMultiple([12n, 18n, 30n])).toBe(180n);
+  });
+
+  it('parses and formats big integer lists', () => {
+    expect(parseBigInteger('1,234,567')).toBe(1234567n);
+    expect(parseBigIntegerList('12, 18; 30')).toEqual([12n, 18n, 30n]);
+    expect(formatBigInteger(12345678901234567890n)).toBe('12,345,678,901,234,567,890');
+  });
+
+  it('finds factors, factor pairs, and prime factorization', () => {
+    const result = calculateFactors(84);
+
+    expect(result.factors).toEqual([1, 2, 3, 4, 6, 7, 12, 14, 21, 28, 42, 84]);
+    expect(result.factorPairs).toContainEqual([7, 12]);
+    expect(result.primeFactors).toEqual([2, 2, 3, 7]);
+    expect(result.primeFactorPowers).toEqual([
+      { prime: 2, exponent: 2 },
+      { prime: 3, exponent: 1 },
+      { prime: 7, exponent: 1 },
+    ]);
+    expect(calculateFactors(97).isPrime).toBe(true);
+  });
+
+  it('rejects invalid number theory inputs', () => {
+    expect(() => calculateGreatestCommonFactor([0n, 4n])).toThrow('Value 1 must be greater than zero');
+    expect(() => calculateLeastCommonMultiple([12n])).toThrow('Enter at least two whole numbers');
+    expect(() => parseBigInteger('12.5')).toThrow('Value must be a whole number');
+    expect(() => calculateFactors(0)).toThrow('Value must be greater than zero');
+  });
+});
+
+describe('rounding helpers', () => {
+  it('rounds decimal places, significant figures, and place values', () => {
+    expect(formatCalculatorNumber(calculateRoundedValue(12.3456, 'decimal-places', 2).result)).toBe('12.35');
+    expect(formatCalculatorNumber(calculateRoundedValue(98765, 'significant-figures', 3).result)).toBe('98800');
+    expect(formatCalculatorNumber(calculateRoundedValue(1846, 'place-value', 2).result)).toBe('1800');
+  });
+
+  it('supports up, down, and truncate methods', () => {
+    expect(formatCalculatorNumber(calculateRoundedValue(12.341, 'decimal-places', 2, 'up').result)).toBe('12.35');
+    expect(formatCalculatorNumber(calculateRoundedValue(12.349, 'decimal-places', 2, 'down').result)).toBe('12.34');
+    expect(formatCalculatorNumber(calculateRoundedValue(-12.349, 'decimal-places', 2, 'truncate').result)).toBe('-12.34');
+  });
+
+  it('rejects invalid rounding precision', () => {
+    expect(() => calculateRoundedValue(12.3, 'decimal-places', -1)).toThrow('Decimal places must be between 0 and 12');
+    expect(() => calculateRoundedValue(12.3, 'significant-figures', 0)).toThrow(
+      'Significant figures must be between 1 and 15',
+    );
+  });
+});
+
+describe('matrix helpers', () => {
+  const left = [
+    [1, 2],
+    [3, 4],
+  ];
+  const right = [
+    [5, 6],
+    [7, 8],
+  ];
+
+  it('adds, subtracts, multiplies, transposes, and finds determinants', () => {
+    expect(calculateMatrixOperation('add', left, right).result).toEqual([
+      [6, 8],
+      [10, 12],
+    ]);
+    expect(calculateMatrixOperation('subtract', right, left).result).toEqual([
+      [4, 4],
+      [4, 4],
+    ]);
+    expect(calculateMatrixOperation('multiply', left, right).result).toEqual([
+      [19, 22],
+      [43, 50],
+    ]);
+    expect(calculateMatrixOperation('transpose', left).result).toEqual([
+      [1, 3],
+      [2, 4],
+    ]);
+    expect(calculateMatrixDeterminant(left)).toBe(-2);
+  });
+
+  it('finds a 3 by 3 determinant and rejects bad sizes', () => {
+    expect(
+      calculateMatrixDeterminant([
+        [6, 1, 1],
+        [4, -2, 5],
+        [2, 8, 7],
+      ]),
+    ).toBe(-306);
+    expect(() => calculateMatrixOperation('add', [[1, 2]], [[1]])).toThrow('Matrices must have the same size');
+  });
+});
+
+describe('scientific notation helpers', () => {
+  it('converts standard numbers to scientific notation', () => {
+    const result = toScientificNotation(4500000);
+
+    expect(result.coefficient).toBe(4.5);
+    expect(result.exponent).toBe(6);
+    expect(result.notation).toBe('4.5 x 10^6');
+  });
+
+  it('converts scientific notation to standard numbers', () => {
+    const result = fromScientificNotation(6.02, 23);
+
+    expect(result.notation).toBe('6.02 x 10^23');
+    expect(formatCalculatorNumber(result.original)).toContain('e+');
+  });
+
+  it('rejects invalid scientific notation exponents', () => {
+    expect(() => fromScientificNotation(1.2, 3.5)).toThrow('Exponent must be a whole number');
+  });
+});
+
+describe('big number helpers', () => {
+  it('calculates exact large integer arithmetic', () => {
+    expect(calculateBigIntegerOperation(9007199254740993n, '+', 7n).result).toBe(9007199254741000n);
+    expect(calculateBigIntegerOperation(12345678901234567890n, '*', 10n).result).toBe(123456789012345678900n);
+
+    const division = calculateBigIntegerOperation(100n, '/', 9n);
+
+    expect(division.quotient).toBe(11n);
+    expect(division.remainder).toBe(1n);
+  });
+});
+
+describe('statistics helpers', () => {
+  it('parses number lists and calculates descriptive statistics', () => {
+    const values = parseNumberList('2, 4, 4, 4, 5, 5, 7, 9');
+    const result = calculateDescriptiveStatistics(values);
+
+    expect(result.count).toBe(8);
+    expect(result.mean).toBe(5);
+    expect(result.median).toBe(4.5);
+    expect(result.modes).toEqual([4]);
+    expect(result.range).toBe(7);
+    expect(formatCalculatorNumber(result.populationStandardDeviation)).toBe('2');
+  });
+
+  it('calculates sample and population standard deviation', () => {
+    const values = [2, 4, 4, 4, 5, 5, 7, 9];
+
+    expect(formatCalculatorNumber(calculateStandardDeviation(values, false).standardDeviation)).toBe('2');
+    expect(formatCalculatorNumber(calculateStandardDeviation(values, true).standardDeviation)).toBe('2.1380899353');
+    expect(() => calculateStandardDeviation([10], true)).toThrow(
+      'Sample standard deviation needs at least two numbers',
+    );
+  });
+
+  it('generates arithmetic, geometric, and fibonacci sequences', () => {
+    expect(calculateNumberSequence('arithmetic', 3, 4, 5).terms).toEqual([3, 7, 11, 15, 19]);
+    expect(calculateNumberSequence('geometric', 2, 3, 5).terms).toEqual([2, 6, 18, 54, 162]);
+    expect(calculateNumberSequence('fibonacci', 1, 1, 7).terms).toEqual([1, 1, 2, 3, 5, 8, 13]);
+  });
+
+  it('calculates probability union, complements, and independent intersection', () => {
+    const result = calculateProbability(0.4, 0.25);
+
+    expect(formatCalculatorNumber(result.intersection)).toBe('0.1');
+    expect(formatCalculatorNumber(result.union)).toBe('0.55');
+    expect(formatCalculatorNumber(result.complementA)).toBe('0.6');
+    expect(result.independentIntersection).toBe(true);
+    expect(() => calculateProbability(0.8, 0.7, 0.1)).toThrow('Union probability cannot be greater than 1');
+  });
+
+  it('calculates sample size with and without finite population correction', () => {
+    const openPopulation = calculateSampleSize(95, 5, 50);
+    const finitePopulation = calculateSampleSize(95, 5, 50, 1000);
+
+    expect(openPopulation.requiredSampleSize).toBe(385);
+    expect(finitePopulation.requiredSampleSize).toBe(278);
+  });
+
+  it('calculates permutations and combinations exactly', () => {
+    const result = calculatePermutationCombination(10, 3);
+
+    expect(result.permutations).toBe(720n);
+    expect(result.combinations).toBe(120n);
+    expect(() => calculatePermutationCombination(4, 5)).toThrow('r must be between 0 and n');
+  });
+
+  it('calculates z-scores and confidence intervals', () => {
+    const zScore = calculateZScore(85, 70, 10);
+    const meanInterval = calculateMeanConfidenceInterval(68, 3, 36, 90);
+    const proportionInterval = calculateProportionConfidenceInterval(52, 100, 95);
+
+    expect(formatCalculatorNumber(zScore.zScore)).toBe('1.5');
+    expect(formatCalculatorNumber(zScore.percentile * 100)).toBe('93.3192769023');
+    expect(formatCalculatorNumber(meanInterval.marginOfError)).toBe('0.8225');
+    expect(formatCalculatorNumber(proportionInterval.pointEstimate)).toBe('0.52');
   });
 });
 

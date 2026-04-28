@@ -2,18 +2,24 @@
 import BaseLayout from '../../components/BaseLayout.astro';
 import BasicCalculator from '../../components/BasicCalculator';
 import BinaryCalculator from '../../components/BinaryCalculator';
+import BigNumberCalculator from '../../components/BigNumberCalculator';
 import ExponentCalculator from '../../components/ExponentCalculator';
 import FractionCalculator from '../../components/FractionCalculator';
 import HalfLifeCalculator from '../../components/HalfLifeCalculator';
 import HexCalculator from '../../components/HexCalculator';
 import LogCalculator from '../../components/LogCalculator';
+import MatrixCalculator from '../../components/MatrixCalculator';
+import NumberTheoryCalculator from '../../components/NumberTheoryCalculator';
 import PercentErrorCalculator from '../../components/PercentErrorCalculator';
 import PercentageCalculator from '../../components/PercentageCalculator';
 import QuadraticFormulaCalculator from '../../components/QuadraticFormulaCalculator';
 import RatioCalculator from '../../components/RatioCalculator';
 import RandomNumberGenerator from '../../components/RandomNumberGenerator';
 import RootCalculator from '../../components/RootCalculator';
+import RoundingCalculator from '../../components/RoundingCalculator';
 import ScientificCalculator from '../../components/ScientificCalculator';
+import ScientificNotationCalculator from '../../components/ScientificNotationCalculator';
+import StatsCalculator, { type StatsToolVariant } from '../../components/StatsCalculator';
 import ToolCard from '../../components/ToolCard.astro';
 import ToolStructuredData from '../../components/ToolStructuredData.astro';
 import { getCategoryName, getRelatedTools, tools, type ToolDefinition } from '../../data/tools';
@@ -46,7 +52,84 @@ const isQuadraticTool = tool.slug === 'quadratic-formula-calculator';
 const isBinaryTool = tool.slug === 'binary-calculator';
 const isHexTool = tool.slug === 'hex-calculator';
 const isRandomTool = tool.slug === 'random-number-generator';
-const toolInstructions = isPercentageTool
+const isLeastCommonMultipleTool = tool.slug === 'least-common-multiple-calculator';
+const isGreatestCommonFactorTool = tool.slug === 'greatest-common-factor-calculator';
+const isFactorTool = tool.slug === 'factor-calculator';
+const isRoundingTool = tool.slug === 'rounding-calculator';
+const isMatrixTool = tool.slug === 'matrix-calculator';
+const isScientificNotationTool = tool.slug === 'scientific-notation-calculator';
+const isBigNumberTool = tool.slug === 'big-number-calculator';
+const isNumberTheoryTool = isLeastCommonMultipleTool || isGreatestCommonFactorTool || isFactorTool;
+const statsToolVariants = {
+  'standard-deviation-calculator': 'standard-deviation',
+  'number-sequence-calculator': 'number-sequence',
+  'sample-size-calculator': 'sample-size',
+  'probability-calculator': 'probability',
+  'statistics-calculator': 'statistics',
+  'mean-median-mode-range-calculator': 'mean-median-mode-range',
+  'permutation-and-combination-calculator': 'permutation-combination',
+  'z-score-calculator': 'z-score',
+  'confidence-interval-calculator': 'confidence-interval',
+} as const satisfies Partial<Record<string, StatsToolVariant>>;
+const statsToolVariant = statsToolVariants[tool.slug];
+const isStatsSuiteTool = Boolean(statsToolVariant);
+const statsToolInstructions: Record<string, string[]> = {
+  'standard-deviation-calculator': [
+    'Enter a list of numbers separated by commas, spaces, or line breaks.',
+    'Choose Sample when your values are a sample, or Population when the list is the full group.',
+    'Press Calculate standard deviation to see variance, mean, range, and formula steps.',
+    'Use examples, recent answers, or copy the result while checking statistics work.',
+  ],
+  'number-sequence-calculator': [
+    'Choose arithmetic, geometric, or Fibonacci sequence mode.',
+    'Enter the starting values and how many terms you want.',
+    'Press Generate sequence to see the list, rule, and next term.',
+    'Use examples, recent answers, or copy the sequence while studying patterns.',
+  ],
+  'sample-size-calculator': [
+    'Choose a confidence level such as 90%, 95%, or 99%.',
+    'Enter the margin of error and estimated population proportion as percentages.',
+    'Add a finite population size only when you know the population is limited.',
+    'Press Calculate sample size to see the required sample and formula steps.',
+  ],
+  'probability-calculator': [
+    'Enter P(A) and P(B) as percentages.',
+    'Leave the intersection blank for independent-event multiplication, or enter P(A and B).',
+    'Press Calculate probability to see union, intersection, complements, and steps.',
+    'Use examples, recent answers, or copy the result while checking probability problems.',
+  ],
+  'statistics-calculator': [
+    'Enter a list of numbers separated by commas, spaces, or line breaks.',
+    'Press Calculate statistics to see mean, median, modes, range, quartiles, and standard deviation.',
+    'Review the sorted values and formula steps.',
+    'Use examples, recent answers, or copy the summary while comparing data sets.',
+  ],
+  'mean-median-mode-range-calculator': [
+    'Enter the data set using commas, spaces, or line breaks.',
+    'Press Calculate summary to see the mean, median, mode, and range.',
+    'Review the sorted values to understand how the center and spread were found.',
+    'Use examples, recent answers, or copy the answer while doing quick statistics checks.',
+  ],
+  'permutation-and-combination-calculator': [
+    'Enter n for the total items and r for the items selected.',
+    'Press Calculate nPr and nCr to see permutation and combination counts.',
+    'Use nPr when order matters and nCr when order does not matter.',
+    'Review the formulas, examples, recent answers, and exact integer output.',
+  ],
+  'z-score-calculator': [
+    'Enter the value, mean, and standard deviation.',
+    'Press Calculate z-score to standardize the value.',
+    'Review whether the value is above or below the mean and the approximate normal percentile.',
+    'Use examples, recent answers, or copy the result while checking statistics work.',
+  ],
+  'confidence-interval-calculator': [
+    'Choose mean interval or proportion interval mode.',
+    'Choose a confidence level, then enter the sample values requested for that mode.',
+    'Press Calculate interval to see the lower bound, upper bound, margin of error, and steps.',
+    'Use examples, recent answers, or copy the interval while checking estimates.',
+  ],
+};
+const toolInstructions = statsToolInstructions[tool.slug] ?? (isPercentageTool
   ? [
       'Choose the percentage question you want to answer.',
       'Enter the values for percent-of, what-percent, percentage change, adjustment, or reverse percentage.',
@@ -123,6 +206,55 @@ const toolInstructions = isPercentageTool
       'Turn on unique results, sorting, or exclusions when your list needs those rules.',
       'Press Generate numbers, then copy the result or compare it with recent results.',
     ]
+  : isLeastCommonMultipleTool
+  ? [
+      'Enter at least two positive whole numbers separated by commas, spaces, or semicolons.',
+      'Press Calculate LCM to find the smallest shared positive multiple.',
+      'Review the exact answer, input range, and LCM steps.',
+      'Use examples, recent answers, or copy answer while checking fraction or schedule problems.',
+    ]
+  : isGreatestCommonFactorTool
+  ? [
+      'Enter at least two positive whole numbers separated by commas, spaces, or semicolons.',
+      'Press Calculate GCF to find the largest shared divisor.',
+      'Review the exact answer, input range, and Euclidean-algorithm style steps.',
+      'Use examples, recent answers, or copy answer while simplifying fractions or ratios.',
+    ]
+  : isFactorTool
+  ? [
+      'Enter one positive whole number.',
+      'Press Find factors to list all factors and factor pairs.',
+      'Review the prime factorization and whether the number is prime.',
+      'Use examples, recent answers, or copy answer while checking divisibility work.',
+    ]
+  : isRoundingTool
+  ? [
+      'Choose decimal places, significant figures, or place value mode.',
+      'Choose nearest, round up, round down, or truncate.',
+      'Enter the number and precision, then press Round value.',
+      'Review the rounded answer, difference, steps, examples, and recent answers.',
+    ]
+  : isMatrixTool
+  ? [
+      'Choose 2x2 or 3x3 matrix size.',
+      'Choose add, subtract, multiply, determinant, or transpose.',
+      'Enter Matrix A and Matrix B when the operation needs both matrices.',
+      'Press Calculate matrix to see the result, steps, examples, copy, and history.',
+    ]
+  : isScientificNotationTool
+  ? [
+      'Choose To scientific or To standard mode.',
+      'Enter the standard number, or enter the coefficient and exponent.',
+      'Press Convert notation to see scientific notation, standard form, coefficient, and exponent.',
+      'Use examples, recent answers, or copy answer while checking science notation.',
+    ]
+  : isBigNumberTool
+  ? [
+      'Enter two whole numbers, using commas or spaces if that makes long values easier to read.',
+      'Choose add, subtract, multiply, or divide.',
+      'Press Calculate big number to get an exact integer answer.',
+      'Review quotient and remainder for division, steps, recent answers, and copy output.',
+    ]
   : isFractionTool
   ? [
       'Enter each fraction using the whole number, numerator, and denominator boxes.',
@@ -142,7 +274,7 @@ const toolInstructions = isPercentageTool
       'Choose an operation such as plus, minus, multiply, or divide.',
       'Enter the next number, then press equals or Enter.',
       'Copy the result or keep calculating with the history panel nearby.',
-    ];
+    ]);
 ---
 
 <BaseLayout title={tool.seoTitle} description={tool.seoDescription} path={`/tools/${tool.slug}/`}>
@@ -327,6 +459,94 @@ const toolInstructions = isPercentageTool
       )
     }
 
+    {
+      isLeastCommonMultipleTool && (
+        <div class="advanced-tool-points" aria-label="Least common multiple calculator highlights">
+          <span>Two or more numbers</span>
+          <span>Exact LCM</span>
+          <span>Common denominators</span>
+          <span>Copy results</span>
+        </div>
+      )
+    }
+
+    {
+      isGreatestCommonFactorTool && (
+        <div class="advanced-tool-points" aria-label="Greatest common factor calculator highlights">
+          <span>Two or more numbers</span>
+          <span>Exact GCF</span>
+          <span>Euclidean steps</span>
+          <span>Copy results</span>
+        </div>
+      )
+    }
+
+    {
+      isFactorTool && (
+        <div class="advanced-tool-points" aria-label="Factor calculator highlights">
+          <span>All factors</span>
+          <span>Factor pairs</span>
+          <span>Prime factorization</span>
+          <span>Prime check</span>
+        </div>
+      )
+    }
+
+    {
+      isRoundingTool && (
+        <div class="advanced-tool-points" aria-label="Rounding calculator highlights">
+          <span>Decimal places</span>
+          <span>Significant figures</span>
+          <span>Place value</span>
+          <span>Multiple methods</span>
+        </div>
+      )
+    }
+
+    {
+      isMatrixTool && (
+        <div class="advanced-tool-points" aria-label="Matrix calculator highlights">
+          <span>2x2 and 3x3</span>
+          <span>Multiply matrices</span>
+          <span>Determinants</span>
+          <span>Transpose</span>
+        </div>
+      )
+    }
+
+    {
+      isScientificNotationTool && (
+        <div class="advanced-tool-points" aria-label="Scientific notation calculator highlights">
+          <span>To scientific</span>
+          <span>To standard</span>
+          <span>Coefficient</span>
+          <span>Exponent</span>
+        </div>
+      )
+    }
+
+    {
+      isBigNumberTool && (
+        <div class="advanced-tool-points" aria-label="Big number calculator highlights">
+          <span>Exact integers</span>
+          <span>Huge values</span>
+          <span>Remainders</span>
+          <span>Copy results</span>
+        </div>
+      )
+    }
+
+    {
+      isStatsSuiteTool && (
+        <div class="advanced-tool-points" aria-label={`${tool.name} highlights`}>
+          <span>Formula steps</span>
+          <span>Examples included</span>
+          <span>Copy results</span>
+          <span>Private history</span>
+        </div>
+      )
+    }
+
     {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
     {isPercentageTool && <PercentageCalculator client:load />}
     {isPercentErrorTool && <PercentErrorCalculator client:load />}
@@ -341,6 +561,14 @@ const toolInstructions = isPercentageTool
     {isScientificTool && <ScientificCalculator client:load />}
     {isFractionTool && <FractionCalculator client:load />}
     {isRandomTool && <RandomNumberGenerator client:load />}
+    {isLeastCommonMultipleTool && <NumberTheoryCalculator variant="lcm" client:load />}
+    {isGreatestCommonFactorTool && <NumberTheoryCalculator variant="gcf" client:load />}
+    {isFactorTool && <NumberTheoryCalculator variant="factor" client:load />}
+    {isRoundingTool && <RoundingCalculator client:load />}
+    {isMatrixTool && <MatrixCalculator client:load />}
+    {isScientificNotationTool && <ScientificNotationCalculator client:load />}
+    {isBigNumberTool && <BigNumberCalculator client:load />}
+    {statsToolVariant && <StatsCalculator variant={statsToolVariant} client:load />}
 
     <section class="content-section">
       <h2>How to use the {tool.name.toLowerCase()}</h2>
@@ -371,7 +599,7 @@ const toolInstructions = isPercentageTool
       </div>
     </section>
 
-    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section']}>
+    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section']}>
       <div class="section-title-block">
         <h2>Frequently asked questions</h2>
         {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
@@ -388,6 +616,14 @@ const toolInstructions = isPercentageTool
         {isHexTool && <p>Quick answers about base-16 digits, 0x inputs, arithmetic, conversion, remainders, and privacy.</p>}
         {isFractionTool && <p>Quick answers about simplifying, mixed numbers, denominators, division, and privacy.</p>}
         {isRandomTool && <p>Quick answers about ranges, unique results, exclusions, everyday randomness, and privacy.</p>}
+        {isLeastCommonMultipleTool && <p>Quick answers about shared multiples, common denominators, positive integers, LCM steps, and privacy.</p>}
+        {isGreatestCommonFactorTool && <p>Quick answers about shared factors, simplifying, Euclidean steps, comparing with LCM, and privacy.</p>}
+        {isFactorTool && <p>Quick answers about factors, factor pairs, prime numbers, prime factorization, input limits, and privacy.</p>}
+        {isRoundingTool && <p>Quick answers about decimal places, significant figures, place values, rounding methods, and privacy.</p>}
+        {isMatrixTool && <p>Quick answers about matrix operations, multiplication order, determinants, supported sizes, and privacy.</p>}
+        {isScientificNotationTool && <p>Quick answers about powers of 10, coefficients, exponents, standard form, and privacy.</p>}
+        {isBigNumberTool && <p>Quick answers about exact integer math, huge whole numbers, division remainders, limits, and privacy.</p>}
+        {isStatsSuiteTool && <p>Quick answers about formulas, inputs, examples, result copying, and private in-browser history.</p>}
       </div>
       <div class="faq-list">
         {

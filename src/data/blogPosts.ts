@@ -105,6 +105,118 @@ export const blogPosts: BlogPostDefinition[] = [
       'Learn how to add, subtract, multiply, divide, simplify, and convert fractions and mixed numbers with the Fraction Calculator.',
   },
   {
+    slug: 'how-to-use-least-common-multiple-calculator',
+    title: 'How to use the Least Common Multiple Calculator',
+    label: 'LCM calculator guide',
+    summary:
+      'Learn how to find the least common multiple of two or more whole numbers, read the steps, and use LCM for fractions and schedules.',
+  },
+  {
+    slug: 'how-to-use-greatest-common-factor-calculator',
+    title: 'How to use the Greatest Common Factor Calculator',
+    label: 'GCF calculator guide',
+    summary:
+      'Learn how to find the greatest common factor, compare GCF with LCM, simplify fractions, and read exact integer steps.',
+  },
+  {
+    slug: 'how-to-use-factor-calculator',
+    title: 'How to use the Factor Calculator',
+    label: 'Factor calculator guide',
+    summary:
+      'Learn how to list factors, factor pairs, prime factors, and prime factorization for positive whole numbers.',
+  },
+  {
+    slug: 'how-to-use-rounding-calculator',
+    title: 'How to use the Rounding Calculator',
+    label: 'Rounding calculator guide',
+    summary:
+      'Learn how to round by decimal places, significant figures, and place value using nearest, up, down, and truncate methods.',
+  },
+  {
+    slug: 'how-to-use-matrix-calculator',
+    title: 'How to use the Matrix Calculator',
+    label: 'Matrix calculator guide',
+    summary:
+      'Learn how to add, subtract, multiply, transpose, and find determinants for 2x2 and 3x3 matrices.',
+  },
+  {
+    slug: 'how-to-use-scientific-notation-calculator',
+    title: 'How to use the Scientific Notation Calculator',
+    label: 'Scientific notation guide',
+    summary:
+      'Learn how to convert standard numbers to scientific notation and convert coefficient-times-power-of-10 form back to standard form.',
+  },
+  {
+    slug: 'how-to-use-big-number-calculator',
+    title: 'How to use the Big Number Calculator',
+    label: 'Big number calculator guide',
+    summary:
+      'Learn how to add, subtract, multiply, and divide very large whole numbers exactly with quotient and remainder output.',
+  },
+  {
+    slug: 'how-to-use-standard-deviation-calculator',
+    title: 'How to use the Standard Deviation Calculator',
+    label: 'Standard deviation guide',
+    summary:
+      'Learn how to calculate sample or population standard deviation, variance, mean, range, and formula steps from a data set.',
+  },
+  {
+    slug: 'how-to-use-number-sequence-calculator',
+    title: 'How to use the Number Sequence Calculator',
+    label: 'Number sequence guide',
+    summary:
+      'Learn how to generate arithmetic, geometric, and Fibonacci sequences, find the rule, and copy the next terms.',
+  },
+  {
+    slug: 'how-to-use-sample-size-calculator',
+    title: 'How to use the Sample Size Calculator',
+    label: 'Sample size guide',
+    summary:
+      'Learn how confidence level, margin of error, population proportion, and finite population size affect survey sample size.',
+  },
+  {
+    slug: 'how-to-use-probability-calculator',
+    title: 'How to use the Probability Calculator',
+    label: 'Probability calculator guide',
+    summary:
+      'Learn how to calculate P(A and B), P(A or B), complements, independent-event intersections, and probability steps.',
+  },
+  {
+    slug: 'how-to-use-statistics-calculator',
+    title: 'How to use the Statistics Calculator',
+    label: 'Statistics calculator guide',
+    summary:
+      'Learn how to get mean, median, mode, range, quartiles, variance, and standard deviation from one list of values.',
+  },
+  {
+    slug: 'how-to-use-mean-median-mode-range-calculator',
+    title: 'How to use the Mean, Median, Mode, Range Calculator',
+    label: 'Mean median mode range guide',
+    summary:
+      'Learn how to find the main measures of center and spread: mean, median, mode, and range.',
+  },
+  {
+    slug: 'how-to-use-permutation-and-combination-calculator',
+    title: 'How to use the Permutation and Combination Calculator',
+    label: 'Permutation combination guide',
+    summary:
+      'Learn when to use nPr or nCr, how order changes counting, and how exact integer answers are calculated.',
+  },
+  {
+    slug: 'how-to-use-z-score-calculator',
+    title: 'How to use the Z-score Calculator',
+    label: 'Z-score calculator guide',
+    summary:
+      'Learn how to standardize a value, read above-or-below-average direction, and estimate a normal percentile.',
+  },
+  {
+    slug: 'how-to-use-confidence-interval-calculator',
+    title: 'How to use the Confidence Interval Calculator',
+    label: 'Confidence interval guide',
+    summary:
+      'Learn how to calculate z confidence intervals for a mean or proportion with margin of error and clear formula steps.',
+  },
+  {
     slug: 'how-to-use-random-number-generator',
     title: 'How to use the Random Number Generator',
     label: 'Random number generator guide',

@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="standard-deviation-calculator"
+  label="Standard deviation guide"
+  title="How to use the Standard Deviation Calculator"
+  description="Learn how to use the free Access Free Tools standard deviation calculator for sample standard deviation, population standard deviation, variance, mean, and steps."
+  path="/blog/how-to-use-standard-deviation-calculator/"
+  intro="The Standard Deviation Calculator turns a list of values into standard deviation, variance, mean, count, range, and clear formula steps."
+  quickStart={[
+    'Enter values separated by commas, spaces, or line breaks.',
+    'Choose Sample for a sample data set or Population for the full group.',
+    'Press Calculate standard deviation.',
+    'Review the answer, variance, mean, range, and steps.',
+  ]}
+  sections={[
+    {
+      title: 'Sample vs population',
+      paragraphs: [
+        'Use Sample when your data is only part of a larger group. Sample standard deviation divides by n - 1, which is the common classroom and survey choice.',
+        'Use Population when your list contains every value in the group. Population standard deviation divides by n.',
+      ],
+    },
+    {
+      title: 'Reading the result',
+      paragraphs: [
+        'A smaller standard deviation means the values are closer to the mean. A larger standard deviation means the values are more spread out.',
+        'The calculator also shows variance because standard deviation is the square root of variance.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Standard Deviation Calculator while you follow the guide."
+/>

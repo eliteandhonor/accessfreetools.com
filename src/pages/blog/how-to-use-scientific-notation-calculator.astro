@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="scientific-notation-calculator"
+  label="Scientific notation guide"
+  title="How to use the Scientific Notation Calculator"
+  description="Learn how to use the free Access Free Tools scientific notation calculator to convert standard numbers to scientific notation and back."
+  path="/blog/how-to-use-scientific-notation-calculator/"
+  intro="The Scientific Notation Calculator converts standard numbers into coefficient-times-power-of-10 form and converts scientific notation back to standard form."
+  quickStart={[
+    'Choose To scientific or To standard.',
+    'Enter the standard number, or enter the coefficient and exponent.',
+    'Press Convert notation.',
+    'Review the notation, standard form, coefficient, exponent, and steps.',
+  ]}
+  sections={[
+    {
+      title: 'Scientific notation basics',
+      paragraphs: [
+        'Scientific notation writes a number as a coefficient times a power of 10. In normalized form, the coefficient is at least 1 and less than 10, except when the original number is zero.',
+        'A positive exponent moves the decimal to the right in standard form. A negative exponent moves it to the left.',
+      ],
+    },
+    {
+      title: 'When to use it',
+      paragraphs: [
+        'Scientific notation is useful for very large and very small values in science, chemistry, physics, astronomy, and engineering examples.',
+        'If you need exact whole-number arithmetic with huge integers, use the Big Number Calculator instead.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Scientific Notation Calculator while you follow the guide."
+/>

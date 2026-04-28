@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="z-score-calculator"
+  label="Z-score calculator guide"
+  title="How to use the Z-score Calculator"
+  description="Learn how to use the free Access Free Tools z-score calculator for standard score, distance from mean, and approximate normal percentile."
+  path="/blog/how-to-use-z-score-calculator/"
+  intro="The Z-score Calculator standardizes a value by comparing it with the mean and standard deviation, then estimates its normal percentile."
+  quickStart={[
+    'Enter the value you want to standardize.',
+    'Enter the mean.',
+    'Enter the standard deviation.',
+    'Press Calculate z-score and review the direction and percentile.',
+  ]}
+  sections={[
+    {
+      title: 'Reading a z-score',
+      paragraphs: [
+        'A positive z-score means the value is above the mean. A negative z-score means the value is below the mean.',
+        'The size of the z-score tells how many standard deviations the value is from the mean.',
+      ],
+    },
+    {
+      title: 'Percentile estimate',
+      paragraphs: [
+        'The percentile is an approximate area to the left of the z-score on a standard normal curve.',
+        'Use it as a quick estimate for normal-distribution examples, not as a substitute for a full statistics report.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Z-score Calculator while you follow the guide."
+/>

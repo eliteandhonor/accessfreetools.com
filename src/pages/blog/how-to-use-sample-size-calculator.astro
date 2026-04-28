@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="sample-size-calculator"
+  label="Sample size guide"
+  title="How to use the Sample Size Calculator"
+  description="Learn how to use the free Access Free Tools sample size calculator for confidence level, margin of error, population proportion, and finite population correction."
+  path="/blog/how-to-use-sample-size-calculator/"
+  intro="The Sample Size Calculator estimates how many responses you need for a proportion survey based on confidence level, margin of error, and expected proportion."
+  quickStart={[
+    'Choose a confidence level.',
+    'Enter the margin of error as a percentage.',
+    'Enter the estimated population proportion, often 50% when unknown.',
+    'Add a finite population size only when the population is limited.',
+  ]}
+  sections={[
+    {
+      title: 'What the inputs mean',
+      paragraphs: [
+        'Higher confidence levels usually require a larger sample. Smaller margins of error also require a larger sample.',
+        'The estimated proportion is the expected percent of people with the answer or trait you are measuring. If you do not know it, 50% is the conservative default.',
+      ],
+    },
+    {
+      title: 'Finite population correction',
+      paragraphs: [
+        'If the total population is small and known, enter it to apply a finite population adjustment.',
+        'If the audience is very large or unknown, leave population size blank and use the standard large-population estimate.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Sample Size Calculator while you follow the guide."
+/>

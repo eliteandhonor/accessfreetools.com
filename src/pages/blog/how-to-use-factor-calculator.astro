@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="factor-calculator"
+  label="Factor calculator guide"
+  title="How to use the Factor Calculator"
+  description="Learn how to use the free Access Free Tools factor calculator to list factors, factor pairs, prime factors, and prime factorization."
+  path="/blog/how-to-use-factor-calculator/"
+  intro="The Factor Calculator lists every positive factor of one whole number. It also shows factor pairs, prime factors, prime factor powers, and whether the number is prime."
+  quickStart={[
+    'Enter one positive whole number.',
+    'Press Find factors.',
+    'Read the full factor list in the result card.',
+    'Review the factor pairs, prime factorization, steps, and recent answers.',
+  ]}
+  sections={[
+    {
+      title: 'Factors and factor pairs',
+      paragraphs: [
+        'A factor divides a number evenly. A factor pair is two factors that multiply together to make the original number.',
+        'For 84, one factor pair is 7 and 12 because 7 x 12 = 84. The calculator checks divisors up to the square root, then adds the matching pair.',
+      ],
+    },
+    {
+      title: 'Prime factorization',
+      paragraphs: [
+        'Prime factorization rewrites a number as prime numbers multiplied together. The tool also groups repeated primes with exponents, such as 360 = 2^3 x 3^2 x 5.',
+        'The number 1 is not prime because a prime number needs exactly two positive factors: 1 and itself.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Factor Calculator while you follow the guide."
+/>

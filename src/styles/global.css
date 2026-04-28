@@ -105,7 +105,8 @@ a {
 }
 
 button,
-input {
+input,
+textarea {
   font: inherit;
 }
 
@@ -512,7 +513,23 @@ main {
 .calculator-half-life-mark,
 .calculator-binary-mark,
 .calculator-hex-mark,
-.calculator-fraction-mark {
+.calculator-fraction-mark,
+.calculator-lcm-mark,
+.calculator-gcf-mark,
+.calculator-factor-mark,
+.calculator-round-mark,
+.calculator-matrix-mark,
+.calculator-sci-notation-mark,
+.calculator-big-number-mark,
+.calculator-stddev-mark,
+.calculator-sequence-mark,
+.calculator-sample-size-mark,
+.calculator-probability-mark,
+.calculator-stats-mark,
+.calculator-mean-mark,
+.calculator-permutation-mark,
+.calculator-z-score-mark,
+.calculator-confidence-mark {
   fill: currentColor;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   font-size: 8px;
@@ -557,6 +574,26 @@ main {
 
 .calculator-fraction-mark {
   font-size: 7px;
+}
+
+.calculator-lcm-mark,
+.calculator-gcf-mark,
+.calculator-factor-mark,
+.calculator-round-mark,
+.calculator-matrix-mark,
+.calculator-sci-notation-mark,
+.calculator-big-number-mark,
+.calculator-stddev-mark,
+.calculator-sequence-mark,
+.calculator-sample-size-mark,
+.calculator-probability-mark,
+.calculator-stats-mark,
+.calculator-mean-mark,
+.calculator-permutation-mark,
+.calculator-z-score-mark,
+.calculator-confidence-mark {
+  font-size: 6.8px;
+  text-transform: uppercase;
 }
 
 .tool-card-icon-percent {
@@ -621,6 +658,102 @@ main {
 .tool-card-icon-fraction {
   background:
     linear-gradient(135deg, color-mix(in srgb, #f6e79a 58%, white), color-mix(in srgb, var(--primary) 18%, white));
+}
+
+.tool-card-icon-lcm {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #d8f86f 45%, white), color-mix(in srgb, #c8f7e7 34%, white));
+  color: color-mix(in srgb, #315c16 78%, var(--primary-strong));
+}
+
+.tool-card-icon-gcf {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #c8f7e7 58%, white), color-mix(in srgb, #fff2aa 34%, white));
+  color: color-mix(in srgb, #275a47 82%, var(--primary-strong));
+}
+
+.tool-card-icon-factor {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #ffe6a8 60%, white), color-mix(in srgb, #c8f7e7 32%, white));
+  color: color-mix(in srgb, #7a4308 76%, var(--primary-strong));
+}
+
+.tool-card-icon-round {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #d9e8ff 62%, white), color-mix(in srgb, #d8f86f 26%, white));
+  color: color-mix(in srgb, #243b7a 74%, var(--primary-strong));
+}
+
+.tool-card-icon-matrix {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #e8ddff 62%, white), color-mix(in srgb, #c8f7e7 34%, white));
+  color: color-mix(in srgb, #4f3aa7 78%, var(--primary-strong));
+}
+
+.tool-card-icon-sci-notation {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #d9e8ff 58%, white), color-mix(in srgb, #ffe6a8 32%, white));
+  color: color-mix(in srgb, #243b7a 80%, var(--primary-strong));
+}
+
+.tool-card-icon-big-number {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #e8fffa 58%, white), color-mix(in srgb, #ffd3c5 34%, white));
+  color: color-mix(in srgb, #0f4d56 78%, var(--primary-strong));
+}
+
+.tool-card-icon-stddev {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #d9e8ff 62%, white), color-mix(in srgb, #c8f7e7 34%, white));
+  color: color-mix(in srgb, #263d8a 78%, var(--primary-strong));
+}
+
+.tool-card-icon-sequence {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #ffe6a8 56%, white), color-mix(in srgb, #d8f86f 28%, white));
+  color: color-mix(in srgb, #76520a 78%, var(--primary-strong));
+}
+
+.tool-card-icon-sample-size {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #e8ddff 58%, white), color-mix(in srgb, #c8f7e7 34%, white));
+  color: color-mix(in srgb, #4f3aa7 80%, var(--primary-strong));
+}
+
+.tool-card-icon-probability {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #ffd3c5 56%, white), color-mix(in srgb, #d9e8ff 32%, white));
+  color: color-mix(in srgb, #9b3726 76%, var(--primary-strong));
+}
+
+.tool-card-icon-stats {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #c8f7e7 58%, white), color-mix(in srgb, #e8ddff 32%, white));
+  color: color-mix(in srgb, #275a47 82%, var(--primary-strong));
+}
+
+.tool-card-icon-mean {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #fff2aa 52%, white), color-mix(in srgb, #d9e8ff 34%, white));
+  color: color-mix(in srgb, #705000 80%, var(--primary-strong));
+}
+
+.tool-card-icon-permutation {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #e8ddff 62%, white), color-mix(in srgb, #ffd3c5 30%, white));
+  color: color-mix(in srgb, #5b3997 78%, var(--primary-strong));
+}
+
+.tool-card-icon-z-score {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #d9e8ff 60%, white), color-mix(in srgb, #fff2aa 32%, white));
+  color: color-mix(in srgb, #243b7a 80%, var(--primary-strong));
+}
+
+.tool-card-icon-confidence {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #e8fffa 60%, white), color-mix(in srgb, #ffe6a8 32%, white));
+  color: color-mix(in srgb, #0f4d56 80%, var(--primary-strong));
 }
 
 .tool-card-icon-dice {
@@ -3686,6 +3819,354 @@ main {
   outline: none;
 }
 
+.advanced-calculator {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) 360px;
+}
+
+.advanced-tool-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.advanced-tool-points span {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #e8fffa 58%, white), color-mix(in srgb, #d9e8ff 30%, white));
+  border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--border));
+  border-radius: 8px;
+  box-shadow: var(--soft-shadow);
+  color: var(--text);
+  font-weight: 850;
+  min-height: 38px;
+  padding: 9px 14px;
+}
+
+.advanced-panel,
+.advanced-side-panel {
+  backdrop-filter: blur(16px);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), color-mix(in srgb, #e8fffa 18%, rgba(255, 255, 255, 0.84)));
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--border));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.advanced-panel {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+.advanced-fields {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.advanced-field {
+  display: grid;
+  gap: 6px;
+}
+
+.advanced-field span,
+.matrix-input-block h2 {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.advanced-field input,
+.advanced-field textarea,
+.matrix-grid input {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 1.04rem;
+  font-weight: 900;
+  min-height: 48px;
+  min-width: 0;
+  outline: none;
+  padding: 0 12px;
+  width: 100%;
+}
+
+.advanced-field textarea {
+  line-height: 1.45;
+  min-height: 118px;
+  padding-bottom: 12px;
+  padding-top: 12px;
+  resize: vertical;
+}
+
+.advanced-field input:focus,
+.advanced-field textarea:focus,
+.matrix-grid input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
+}
+
+.advanced-mode-grid,
+.advanced-quick-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.advanced-mode-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.matrix-operation-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.advanced-quick-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.advanced-mode-grid button,
+.advanced-quick-grid button,
+.advanced-side-panel li,
+.advanced-note {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.advanced-mode-grid button {
+  color: var(--muted);
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  min-height: 54px;
+}
+
+.advanced-mode-grid button strong {
+  color: var(--text);
+  font-size: 1.28rem;
+  line-height: 1;
+}
+
+.advanced-mode-grid button[aria-pressed='true'] {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--primary) 92%, #112f4f), color-mix(in srgb, var(--text) 82%, #112f4f));
+  border-color: transparent;
+  color: color-mix(in srgb, #c8f7e7 84%, white);
+}
+
+.advanced-mode-grid button[aria-pressed='true'] strong {
+  color: #fff;
+}
+
+.advanced-quick-grid button {
+  color: var(--primary-strong);
+  font-weight: 950;
+  min-height: 48px;
+}
+
+.advanced-actions {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+}
+
+.advanced-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.advanced-result-card {
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(135deg, color-mix(in srgb, var(--primary-strong) 88%, black), color-mix(in srgb, #112f4f 82%, black));
+  border-radius: 10px;
+  color: #fff;
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.advanced-result-card > span {
+  color: color-mix(in srgb, #c8f7e7 82%, white);
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.advanced-result-card > strong {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: clamp(1.55rem, 4.2vw, 2.65rem);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.advanced-result-card dl {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.advanced-result-card dl div {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.advanced-result-card dt {
+  color: color-mix(in srgb, #c8f7e7 80%, white);
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.advanced-result-card dd {
+  color: #fff;
+  font-weight: 950;
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.advanced-steps {
+  background: color-mix(in srgb, var(--surface-solid) 80%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.advanced-steps h2,
+.advanced-side-panel h2 {
+  font-size: 1.2rem;
+  line-height: 1.1;
+  margin: 0 0 10px;
+}
+
+.advanced-steps ol,
+.advanced-side-panel ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.advanced-steps li,
+.advanced-note p,
+.advanced-side-panel p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.advanced-side-panel {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.advanced-side-panel ol {
+  list-style: none;
+  padding: 0;
+}
+
+.advanced-side-panel li {
+  display: grid;
+  gap: 4px;
+}
+
+.advanced-side-panel li span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.advanced-side-panel li strong {
+  color: var(--primary-strong);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 1.08rem;
+  overflow-wrap: anywhere;
+}
+
+.advanced-note p {
+  margin: 0;
+}
+
+.advanced-note p + p {
+  margin-top: 8px;
+}
+
+.advanced-mode-grid button:hover,
+.advanced-mode-grid button:focus-visible,
+.advanced-quick-grid button:hover,
+.advanced-quick-grid button:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
+  outline: none;
+}
+
+.advanced-calculator-factor .advanced-result-card > strong,
+.advanced-calculator-matrix .advanced-result-card > strong,
+.advanced-calculator-big-number .advanced-result-card > strong {
+  font-size: clamp(1.25rem, 3.2vw, 2.2rem);
+}
+
+.matrix-inputs {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.matrix-input-block {
+  background: color-mix(in srgb, var(--surface-solid) 82%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--border) 76%, transparent);
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.matrix-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.matrix-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.matrix-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.matrix-grid label {
+  display: grid;
+  gap: 4px;
+}
+
+.matrix-grid span {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 850;
+}
+
+.advanced-faq-section .faq-list details {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: color-mix(in srgb, var(--primary) 24%, var(--border));
+}
+
+.advanced-faq-section .faq-list details[open] {
+  border-color: color-mix(in srgb, var(--primary) 48%, var(--border));
+}
+
+.advanced-faq-section .faq-list summary::after {
+  background: color-mix(in srgb, #e8fffa 52%, white);
+  color: var(--primary-strong);
+}
+
 .random-generator {
   display: grid;
   gap: 18px;
@@ -4592,6 +5073,48 @@ main {
   line-height: 1.7;
 }
 
+.blog-search-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.blog-search-bar {
+  align-items: center;
+  background: var(--surface-solid);
+  border: 2px solid color-mix(in srgb, var(--primary) 34%, var(--border));
+  border-radius: 8px;
+  box-shadow: var(--soft-shadow);
+  display: grid;
+  gap: 12px;
+  grid-template-columns: auto auto 1fr;
+  min-height: 56px;
+  padding: 0 14px;
+}
+
+.blog-search-bar label {
+  color: var(--primary-strong);
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.blog-search-bar input {
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  font-size: 1rem;
+  min-height: 50px;
+  outline: none;
+  width: 100%;
+}
+
+.blog-search-count {
+  color: var(--muted);
+  font-weight: 800;
+  margin: 0;
+}
+
 .blog-list-grid {
   display: grid;
   gap: 14px;
@@ -4744,6 +5267,7 @@ main {
   .binary-calculator,
   .fraction-calculator,
   .random-generator,
+  .advanced-calculator,
   .kawaii-tool-hero,
   .blog-article-layout,
   .kawaii-guide-visual,
@@ -4784,7 +5308,10 @@ main {
   .quadratic-quick-grid,
   .quadratic-fields,
   .percentage-mode-grid,
-  .random-toggle-grid {
+  .random-toggle-grid,
+  .advanced-fields,
+  .advanced-quick-grid,
+  .matrix-inputs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -4874,6 +5401,13 @@ main {
   .random-actions,
   .random-settings-grid,
   .random-toggle-grid,
+  .advanced-actions,
+  .advanced-fields,
+  .advanced-mode-grid,
+  .advanced-quick-grid,
+  .advanced-result-card dl,
+  .matrix-inputs,
+  .matrix-operation-grid,
   .fraction-actions,
   .fraction-fieldset,
   .fraction-result-card dl,
@@ -4902,12 +5436,20 @@ main {
     padding: 10px 12px;
   }
 
+  .blog-search-bar {
+    gap: 8px;
+    grid-template-columns: auto 1fr;
+    padding: 10px 12px;
+  }
+
   .tool-command-bar label,
-  .tool-command-bar kbd {
+  .tool-command-bar kbd,
+  .blog-search-bar label {
     display: none;
   }
 
-  .tool-command-bar input {
+  .tool-command-bar input,
+  .blog-search-bar input {
     min-height: 46px;
   }
 

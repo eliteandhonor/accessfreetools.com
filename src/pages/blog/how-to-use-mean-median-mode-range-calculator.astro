@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="mean-median-mode-range-calculator"
+  label="Mean median mode range guide"
+  title="How to use the Mean, Median, Mode, Range Calculator"
+  description="Learn how to use the free Access Free Tools mean, median, mode, range calculator for quick data summaries and sorted-value checks."
+  path="/blog/how-to-use-mean-median-mode-range-calculator/"
+  intro="The Mean, Median, Mode, Range Calculator focuses on the four statistics people usually need first when summarizing a small data set."
+  quickStart={[
+    'Enter the numbers in your data set.',
+    'Press Calculate summary.',
+    'Read the mean, median, mode, and range.',
+    'Check the sorted values when you want to verify the median or modes.',
+  ]}
+  sections={[
+    {
+      title: 'What each answer means',
+      paragraphs: [
+        'Mean is the total divided by the count. Median is the middle sorted value. Mode is the most repeated value. Range is maximum minus minimum.',
+        'The calculator keeps repeated modes when more than one value ties for most frequent.',
+      ],
+    },
+    {
+      title: 'When this tool is enough',
+      paragraphs: [
+        'Use this calculator for homework, quick checks, scores, small samples, and everyday data summaries.',
+        'Use the full Statistics Calculator when you also need quartiles, variance, or standard deviation.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Mean, Median, Mode, Range Calculator while you follow the guide."
+/>

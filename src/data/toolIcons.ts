@@ -10,6 +10,22 @@ export type CalculatorIconMark =
   | 'half-life'
   | 'binary'
   | 'hex'
+  | 'lcm'
+  | 'gcf'
+  | 'factor'
+  | 'round'
+  | 'matrix'
+  | 'sci-notation'
+  | 'big-number'
+  | 'stddev'
+  | 'sequence'
+  | 'sample-size'
+  | 'probability'
+  | 'stats'
+  | 'mean'
+  | 'permutation'
+  | 'z-score'
+  | 'confidence'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -28,6 +44,22 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-half-life': 'half-life',
   'calculator-binary': 'binary',
   'calculator-hex': 'hex',
+  'calculator-lcm': 'lcm',
+  'calculator-gcf': 'gcf',
+  'calculator-factor': 'factor',
+  'calculator-round': 'round',
+  'calculator-matrix': 'matrix',
+  'calculator-scientific-notation': 'sci-notation',
+  'calculator-big-number': 'big-number',
+  'calculator-standard-deviation': 'stddev',
+  'calculator-sequence': 'sequence',
+  'calculator-sample-size': 'sample-size',
+  'calculator-probability': 'probability',
+  'calculator-statistics': 'stats',
+  'calculator-mean': 'mean',
+  'calculator-permutation': 'permutation',
+  'calculator-z-score': 'z-score',
+  'calculator-confidence': 'confidence',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',

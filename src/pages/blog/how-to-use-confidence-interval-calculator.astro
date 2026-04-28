@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="confidence-interval-calculator"
+  label="Confidence interval guide"
+  title="How to use the Confidence Interval Calculator"
+  description="Learn how to use the free Access Free Tools confidence interval calculator for mean intervals, proportion intervals, z critical values, and margin of error."
+  path="/blog/how-to-use-confidence-interval-calculator/"
+  intro="The Confidence Interval Calculator builds z intervals for a mean or a proportion, showing the point estimate, margin of error, and lower and upper bounds."
+  quickStart={[
+    'Choose Mean interval or Proportion interval.',
+    'Choose a confidence level.',
+    'Enter the sample values requested by that mode.',
+    'Press Calculate interval and review the bounds and formula steps.',
+  ]}
+  sections={[
+    {
+      title: 'Mean intervals',
+      paragraphs: [
+        'Mean mode uses the sample mean, standard deviation, and sample size to estimate a range around the mean.',
+        'The calculator shows the standard error and z critical value used in the margin of error.',
+      ],
+    },
+    {
+      title: 'Proportion intervals',
+      paragraphs: [
+        'Proportion mode uses successes divided by sample size as the point estimate.',
+        'The interval is clipped to stay within 0% and 100% because proportions cannot fall outside that range.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Confidence Interval Calculator while you follow the guide."
+/>

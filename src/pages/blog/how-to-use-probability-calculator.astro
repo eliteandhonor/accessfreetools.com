@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="probability-calculator"
+  label="Probability calculator guide"
+  title="How to use the Probability Calculator"
+  description="Learn how to use the free Access Free Tools probability calculator for union, intersection, complements, independent events, and steps."
+  path="/blog/how-to-use-probability-calculator/"
+  intro="The Probability Calculator finds P(A and B), P(A or B), complements, and independent-event intersections from percentage inputs."
+  quickStart={[
+    'Enter P(A) and P(B) as percentages.',
+    'Leave P(A and B) blank for independent events, or enter it when known.',
+    'Press Calculate probability.',
+    'Review the union, intersection, complements, and formula steps.',
+  ]}
+  sections={[
+    {
+      title: 'Independent events',
+      paragraphs: [
+        'When events are independent, one event does not change the chance of the other. The calculator uses P(A) times P(B) to estimate the intersection.',
+        'If you already know the overlap, type it into the intersection field instead of leaving it blank.',
+      ],
+    },
+    {
+      title: 'Union and complement',
+      paragraphs: [
+        'P(A or B) includes event A, event B, or both. The calculator uses P(A) + P(B) - P(A and B).',
+        'The complement of A is the chance that A does not happen, which is 100% - P(A).',
+      ],
+    },
+  ]}
+  sidecarText="Use the Probability Calculator while you follow the guide."
+/>

@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="statistics-calculator"
+  label="Statistics calculator guide"
+  title="How to use the Statistics Calculator"
+  description="Learn how to use the free Access Free Tools statistics calculator for mean, median, mode, range, quartiles, variance, and standard deviation."
+  path="/blog/how-to-use-statistics-calculator/"
+  intro="The Statistics Calculator summarizes one data set with measures of center, spread, quartiles, variance, and standard deviation."
+  quickStart={[
+    'Enter a list of numbers separated by commas, spaces, or line breaks.',
+    'Press Calculate statistics.',
+    'Review the mean, median, mode, range, quartiles, and standard deviation.',
+    'Copy the summary or choose an example to compare data sets quickly.',
+  ]}
+  sections={[
+    {
+      title: 'Measures of center',
+      paragraphs: [
+        'Mean is the arithmetic average. Median is the middle value after sorting. Mode is the value or values that appear most often.',
+        'Different measures can tell different stories, especially when the data has outliers.',
+      ],
+    },
+    {
+      title: 'Measures of spread',
+      paragraphs: [
+        'Range shows the distance from the smallest value to the largest value. Quartiles divide sorted data into lower, middle, and upper portions.',
+        'Standard deviation and variance show how far values tend to sit from the mean.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Statistics Calculator while you follow the guide."
+/>

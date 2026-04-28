@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="rounding-calculator"
+  label="Rounding calculator guide"
+  title="How to use the Rounding Calculator"
+  description="Learn how to use the free Access Free Tools rounding calculator for decimal places, significant figures, place values, and rounding methods."
+  path="/blog/how-to-use-rounding-calculator/"
+  intro="The Rounding Calculator rounds numbers by decimal places, significant figures, or place value. It also lets you compare nearest, round up, round down, and truncate methods."
+  quickStart={[
+    'Choose Decimal places, Significant figures, or Place value.',
+    'Choose the rounding method.',
+    'Enter the value and precision.',
+    'Press Round value, then review the rounded answer, difference, and steps.',
+  ]}
+  sections={[
+    {
+      title: 'Choosing a rounding mode',
+      paragraphs: [
+        'Decimal places count digits after the decimal point. Significant figures count meaningful digits in the whole number. Place value rounds by powers of 10, such as nearest ten, hundred, or thousand.',
+        'In place-value mode, exponent 2 means nearest 100 and exponent -2 means nearest 0.01.',
+      ],
+    },
+    {
+      title: 'Choosing a method',
+      paragraphs: [
+        'Nearest rounds to the closest value. Round up moves to the next higher rounded value, round down moves to the next lower rounded value, and truncate removes extra digits toward zero.',
+        'Use the examples when you want to quickly switch between common cases like two decimal places or three significant figures.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Rounding Calculator while you follow the guide."
+/>

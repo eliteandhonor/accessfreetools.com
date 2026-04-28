@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="least-common-multiple-calculator"
+  label="LCM calculator guide"
+  title="How to use the Least Common Multiple Calculator"
+  description="Learn how to use the free Access Free Tools least common multiple calculator to find LCM answers, common denominators, repeating schedules, and exact steps."
+  path="/blog/how-to-use-least-common-multiple-calculator/"
+  intro="The Least Common Multiple Calculator finds the smallest positive multiple shared by two or more whole numbers. It is useful for common denominators, repeated schedules, and divisibility practice."
+  quickStart={[
+    'Enter at least two positive whole numbers separated by commas, spaces, or semicolons.',
+    'Press Calculate LCM.',
+    'Read the exact least common multiple in the result card.',
+    'Review the steps, then copy the answer or compare it with recent calculations.',
+  ]}
+  sections={[
+    {
+      title: 'When LCM is useful',
+      paragraphs: [
+        'LCM is the number to reach for when different counts need one shared multiple. In fraction work, the LCM of denominators gives a common denominator. In schedule problems, it shows when repeating events line up again.',
+        'For example, the LCM of 12, 18, and 30 is 180 because 180 is the smallest positive number that all three divide into evenly.',
+      ],
+    },
+    {
+      title: 'How the steps work',
+      paragraphs: [
+        'The calculator combines numbers using LCM(a,b) = a x b / GCF(a,b). That relationship keeps the result exact and avoids checking every possible multiple one by one.',
+        'Inputs must be positive whole numbers because LCM is normally defined as a positive shared multiple.',
+      ],
+    },
+  ]}
+  sidecarText="Use the LCM calculator while you follow the guide."
+/>

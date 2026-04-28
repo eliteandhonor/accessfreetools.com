@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="matrix-calculator"
+  label="Matrix calculator guide"
+  title="How to use the Matrix Calculator"
+  description="Learn how to use the free Access Free Tools matrix calculator for 2x2 and 3x3 addition, subtraction, multiplication, transpose, and determinants."
+  path="/blog/how-to-use-matrix-calculator/"
+  intro="The Matrix Calculator handles common 2x2 and 3x3 matrix operations: add, subtract, multiply, determinant, and transpose. It is built for quick checking and study examples."
+  quickStart={[
+    'Choose 2x2 or 3x3.',
+    'Choose the operation you want.',
+    'Enter Matrix A and Matrix B when the operation needs both matrices.',
+    'Press Calculate matrix and review the result, steps, examples, and recent answers.',
+  ]}
+  sections={[
+    {
+      title: 'Matrix multiplication order',
+      paragraphs: [
+        'Matrix multiplication uses rows from Matrix A and columns from Matrix B. Because of that, A x B can produce a different result than B x A.',
+        'The calculator keeps the current version focused on square 2x2 and 3x3 matrices so the inputs stay simple and mobile-friendly.',
+      ],
+    },
+    {
+      title: 'Determinant and transpose',
+      paragraphs: [
+        'A determinant is a single value calculated from a square matrix. For a 2x2 matrix [[a,b],[c,d]], the determinant is ad - bc.',
+        'Transpose swaps rows and columns. Entry row 1, column 2 becomes row 2, column 1.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Matrix Calculator while you follow the guide."
+/>

@@ -1,0 +1,112 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { getTool } from '../data/tools';
+
+interface GuideSection {
+  title: string;
+  paragraphs: string[];
+}
+
+interface Props {
+  toolSlug: string;
+  label: string;
+  title: string;
+  description: string;
+  path: string;
+  intro: string;
+  quickStart: string[];
+  sections: GuideSection[];
+  sidecarText: string;
+}
+
+const {
+  toolSlug,
+  label,
+  title,
+  description,
+  path,
+  intro,
+  quickStart,
+  sections,
+  sidecarText,
+} = Astro.props;
+const tool = getTool(toolSlug);
+const examples = tool?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  mainEntityOfPage: `https://accessfreetools.com${path}`,
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout title={`${title} | Access Free Tools`} description={description} path={path}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / {label}</p>
+
+    <header class="blog-article-header">
+      <span>{label}</span>
+      <h1>{title}</h1>
+      <p>{intro}</p>
+      {tool && <a class="button-primary" href={`/tools/${tool.slug}/`}>Open the {tool.name.toLowerCase()}</a>}
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            {quickStart.map((step) => <li>{step}</li>)}
+          </ol>
+        </section>
+
+        {sections.map((section) => (
+          <section class="content-section">
+            <h2>{section.title}</h2>
+            {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          </section>
+        ))}
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent answers stay visible in the page while you work. The history is kept only in the
+            current browser tab and is not sent to a server.
+          </p>
+          <p>
+            Copy answer copies the expression and result so you can paste it into notes, homework,
+            a message, or another document.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>{sidecarText}</p>
+        {tool && <a class="button-primary" href={`/tools/${tool.slug}/`}>{tool.name}</a>}
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
+import BlogSearch from '../../components/BlogSearch';
 import { blogPosts } from '../../data/blogPosts';
 ---
 
@@ -17,19 +18,6 @@ import { blogPosts } from '../../data/blogPosts';
       </p>
     </div>
 
-    <div class="blog-list-grid">
-      {
-        blogPosts.map((post) => (
-          <article class="blog-post-card">
-            <span>{post.label}</span>
-            <h2>
-              <a href={`/blog/${post.slug}/`}>{post.title}</a>
-            </h2>
-            <p>{post.summary}</p>
-            <a class="card-link" href={`/blog/${post.slug}/`}>Read guide</a>
-          </article>
-        ))
-      }
-    </div>
+    <BlogSearch posts={blogPosts} client:load />
   </section>
 </BaseLayout>

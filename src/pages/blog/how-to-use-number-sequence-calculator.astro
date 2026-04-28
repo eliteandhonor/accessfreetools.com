@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="number-sequence-calculator"
+  label="Number sequence guide"
+  title="How to use the Number Sequence Calculator"
+  description="Learn how to use the free Access Free Tools number sequence calculator for arithmetic, geometric, and Fibonacci sequences."
+  path="/blog/how-to-use-number-sequence-calculator/"
+  intro="The Number Sequence Calculator generates common sequences, shows the rule, and gives the next term so patterns are easier to check."
+  quickStart={[
+    'Choose Arithmetic, Geometric, or Fibonacci.',
+    'Enter the first values requested by that mode.',
+    'Choose how many terms to generate.',
+    'Press Generate sequence and review the rule and next term.',
+  ]}
+  sections={[
+    {
+      title: 'Choosing a sequence type',
+      paragraphs: [
+        'Arithmetic sequences add the same difference each time. Geometric sequences multiply by the same ratio each time.',
+        'Fibonacci-style sequences add the previous two terms to make the next term.',
+      ],
+    },
+    {
+      title: 'Checking a pattern',
+      paragraphs: [
+        'Use the first two values to define the pattern, then compare the generated terms with the sequence in your notes or assignment.',
+        'Copy the result when you need to paste the sequence into another document.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Number Sequence Calculator while you follow the guide."
+/>
