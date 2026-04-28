@@ -200,6 +200,51 @@ function CalculatorGlyph({ mark }: { mark: CalculatorIconMark }) {
         <text className="calculator-confidence-mark" x="18" y="24.8" textAnchor="middle">
           ci
         </text>
+      ) : mark === 'triangle' ? (
+        <>
+          <path className="calculator-mark" d="M18 16l-6 10h12L18 16Z" />
+          <path className="calculator-mark" d="M14.7 26h3.1" />
+        </>
+      ) : mark === 'volume' ? (
+        <text className="calculator-volume-mark" x="18" y="24.8" textAnchor="middle">
+          vol
+        </text>
+      ) : mark === 'slope' ? (
+        <>
+          <path className="calculator-mark" d="M12 25h12" />
+          <path className="calculator-mark" d="M13 24l10-8" />
+          <text className="calculator-slope-mark" x="18" y="28.4" textAnchor="middle">
+            m
+          </text>
+        </>
+      ) : mark === 'area' ? (
+        <text className="calculator-area-mark" x="18" y="24.8" textAnchor="middle">
+          area
+        </text>
+      ) : mark === 'distance' ? (
+        <>
+          <path className="calculator-mark" d="M12 25l12-8" />
+          <circle className="calculator-dot-mark" cx="12" cy="25" r="1.8" />
+          <circle className="calculator-dot-mark" cx="24" cy="17" r="1.8" />
+        </>
+      ) : mark === 'circle' ? (
+        <>
+          <circle className="calculator-mark" cx="18" cy="21.5" r="6" />
+          <path className="calculator-mark" d="M18 21.5h6" />
+        </>
+      ) : mark === 'surface-area' ? (
+        <text className="calculator-surface-area-mark" x="18" y="24.8" textAnchor="middle">
+          sa
+        </text>
+      ) : mark === 'pythagorean' ? (
+        <text className="calculator-pythagorean-mark" x="18" y="24.8" textAnchor="middle">
+          a2
+        </text>
+      ) : mark === 'right-triangle' ? (
+        <>
+          <path className="calculator-mark" d="M12 26h13L12 15v11Z" />
+          <path className="calculator-mark" d="M12 22h4v4" />
+        </>
       ) : (
         <>
           <path className="calculator-mark" d="M18 16.8v8.2" />

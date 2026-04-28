@@ -106,14 +106,14 @@ export const blogPosts: BlogPostDefinition[] = [
   },
   {
     slug: 'how-to-use-least-common-multiple-calculator',
-    title: 'How to use the Least Common Multiple Calculator',
+    title: 'LCM Calculator Guide',
     label: 'LCM calculator guide',
     summary:
       'Learn how to find the least common multiple of two or more whole numbers, read the steps, and use LCM for fractions and schedules.',
   },
   {
     slug: 'how-to-use-greatest-common-factor-calculator',
-    title: 'How to use the Greatest Common Factor Calculator',
+    title: 'GCF Calculator Guide',
     label: 'GCF calculator guide',
     summary:
       'Learn how to find the greatest common factor, compare GCF with LCM, simplify fractions, and read exact integer steps.',
@@ -215,6 +215,69 @@ export const blogPosts: BlogPostDefinition[] = [
     label: 'Confidence interval guide',
     summary:
       'Learn how to calculate z confidence intervals for a mean or proportion with margin of error and clear formula steps.',
+  },
+  {
+    slug: 'how-to-use-triangle-calculator',
+    title: 'How to use the Triangle Calculator',
+    label: 'Triangle calculator guide',
+    summary:
+      'Learn how to calculate triangle area, perimeter, angles, and triangle type from three side lengths.',
+  },
+  {
+    slug: 'how-to-use-volume-calculator',
+    title: 'How to use the Volume Calculator',
+    label: 'Volume calculator guide',
+    summary:
+      'Learn how to calculate volume for rectangular prisms, cubes, cylinders, spheres, and cones with cubic units.',
+  },
+  {
+    slug: 'how-to-use-slope-calculator',
+    title: 'How to use the Slope Calculator',
+    label: 'Slope calculator guide',
+    summary:
+      'Learn how to find slope from two points, read rise over run, identify vertical lines, and use line equations.',
+  },
+  {
+    slug: 'how-to-use-area-calculator',
+    title: 'How to use the Area Calculator',
+    label: 'Area calculator guide',
+    summary:
+      'Learn how to calculate area for rectangles, triangles, circles, trapezoids, and parallelograms.',
+  },
+  {
+    slug: 'how-to-use-distance-calculator',
+    title: 'How to use the Distance Calculator',
+    label: 'Distance calculator guide',
+    summary:
+      'Learn how to calculate distance between two points, delta x, delta y, and midpoint from coordinates.',
+  },
+  {
+    slug: 'how-to-use-circle-calculator',
+    title: 'How to use the Circle Calculator',
+    label: 'Circle calculator guide',
+    summary:
+      'Learn how to find radius, diameter, circumference, and area from one known circle measurement.',
+  },
+  {
+    slug: 'how-to-use-surface-area-calculator',
+    title: 'How to use the Surface Area Calculator',
+    label: 'Surface area guide',
+    summary:
+      'Learn how to calculate surface area for rectangular prisms, cubes, cylinders, spheres, and cones.',
+  },
+  {
+    slug: 'how-to-use-pythagorean-theorem-calculator',
+    title: 'How to use the Pythagorean Theorem Calculator',
+    label: 'Pythagorean theorem guide',
+    summary:
+      'Learn how to solve a missing right-triangle side with a^2 + b^2 = c^2.',
+  },
+  {
+    slug: 'how-to-use-right-triangle-calculator',
+    title: 'How to use the Right Triangle Calculator',
+    label: 'Right triangle guide',
+    summary:
+      'Learn how to solve right triangle sides, area, perimeter, and acute angles from two known sides.',
   },
   {
     slug: 'how-to-use-random-number-generator',

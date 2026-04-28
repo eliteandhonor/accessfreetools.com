@@ -1,0 +1,42 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="volume-calculator"
+  label="Volume calculator guide"
+  title="How to use the Volume Calculator"
+  description="Learn how to calculate volume for rectangular prisms, cubes, cylinders, spheres, and cones with cubic units."
+  path="/blog/how-to-use-volume-calculator/"
+  intro="The Volume Calculator finds the space inside common solid shapes and shows the formula used for each shape."
+  quickStart={[
+    'Choose the solid shape you want to calculate.',
+    'Enter the required dimensions for that shape.',
+    'Use one length unit for all measurements.',
+    'Press Calculate volume and read the cubic-unit result.',
+  ]}
+  sections={[
+    {
+      title: 'Supported volume shapes',
+      paragraphs: [
+        'The calculator supports rectangular prisms, cubes, cylinders, spheres, and cones. Each mode shows only the fields needed for that shape.',
+        'Rectangular prism and cube modes use straight side lengths. Cylinder, sphere, and cone modes use radius, and cone and cylinder modes also use height.',
+      ],
+    },
+    {
+      title: 'Understanding cubic units',
+      paragraphs: [
+        'Volume is reported in cubic units because it measures three-dimensional space. If the input is in centimeters, the answer is in cm^3.',
+        'Use the unit label field to make copied answers easier to read in notes, homework, or planning examples.',
+      ],
+    },
+    {
+      title: 'Volume versus surface area',
+      paragraphs: [
+        'Volume measures the inside capacity of a solid. Surface area measures the outside area.',
+        'If you need wrapping, painting, or outside material estimates, use the Surface Area Calculator instead.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Volume Calculator while you follow the guide."
+/>

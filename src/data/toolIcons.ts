@@ -26,6 +26,15 @@ export type CalculatorIconMark =
   | 'permutation'
   | 'z-score'
   | 'confidence'
+  | 'triangle'
+  | 'volume'
+  | 'slope'
+  | 'area'
+  | 'distance'
+  | 'circle'
+  | 'surface-area'
+  | 'pythagorean'
+  | 'right-triangle'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -60,6 +69,15 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-permutation': 'permutation',
   'calculator-z-score': 'z-score',
   'calculator-confidence': 'confidence',
+  'calculator-triangle': 'triangle',
+  'calculator-volume': 'volume',
+  'calculator-slope': 'slope',
+  'calculator-area': 'area',
+  'calculator-distance': 'distance',
+  'calculator-circle': 'circle',
+  'calculator-surface-area': 'surface-area',
+  'calculator-pythagorean': 'pythagorean',
+  'calculator-right-triangle': 'right-triangle',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',

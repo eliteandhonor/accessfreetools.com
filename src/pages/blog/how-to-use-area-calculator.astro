@@ -1,0 +1,42 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="area-calculator"
+  label="Area calculator guide"
+  title="How to use the Area Calculator"
+  description="Learn how to calculate area for rectangles, triangles, circles, trapezoids, and parallelograms."
+  path="/blog/how-to-use-area-calculator/"
+  intro="The Area Calculator finds square-unit area for common flat shapes and shows the formula for each one."
+  quickStart={[
+    'Choose rectangle, triangle, circle, trapezoid, or parallelogram.',
+    'Enter the measurements requested for that shape.',
+    'Add a unit label if useful.',
+    'Press Calculate area and review the formula steps.',
+  ]}
+  sections={[
+    {
+      title: 'Choosing the right shape mode',
+      paragraphs: [
+        'Use rectangle mode for length times width, triangle mode for base and height, circle mode for radius, trapezoid mode for two bases and height, and parallelogram mode for base and height.',
+        'Each shape mode keeps the fields focused so you do not have to ignore irrelevant inputs.',
+      ],
+    },
+    {
+      title: 'Square units',
+      paragraphs: [
+        'Area is reported in square units because it measures a flat surface. If the measurements are in meters, the area is in m^2.',
+        'Make sure every measurement uses the same unit before calculating.',
+      ],
+    },
+    {
+      title: 'When to use another tool',
+      paragraphs: [
+        'Use the Circle Calculator if you want radius, diameter, circumference, and area together.',
+        'Use the Volume Calculator or Surface Area Calculator for three-dimensional solid shapes.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Area Calculator while you follow the guide."
+/>

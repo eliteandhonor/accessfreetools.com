@@ -936,7 +936,7 @@ export const tools: ToolDefinition[] = [
     icon: 'calculator-fraction',
     seoTitle: 'Fraction Calculator | Free Online Fraction Calculator',
     seoDescription:
-      'Use the free Access Free Tools fraction calculator to add, subtract, multiply, divide, simplify, and convert fractions, mixed numbers, improper fractions, and decimals.',
+      'Add, subtract, multiply, divide, simplify, and convert fractions, mixed numbers, improper fractions, and decimals.',
     useCases: [
       'Add or subtract fractions with different denominators.',
       'Multiply and divide fractions while seeing the simplified answer.',
@@ -1206,7 +1206,7 @@ export const tools: ToolDefinition[] = [
     description:
       'Use this free rounding calculator to round numbers to decimal places, significant figures, or place values with nearest, up, down, and truncate methods.',
     icon: 'calculator-round',
-    seoTitle: 'Rounding Calculator | Decimal, Significant Figures, and Place Value',
+    seoTitle: 'Rounding Calculator | Decimal and Significant Figures',
     seoDescription:
       'Use the free Access Free Tools rounding calculator to round numbers by decimal places, significant figures, or place value with steps and examples.',
     useCases: [
@@ -1342,7 +1342,7 @@ export const tools: ToolDefinition[] = [
     description:
       'Use this free scientific notation calculator to convert standard numbers into scientific notation or convert coefficient and exponent form back into standard form with steps.',
     icon: 'calculator-scientific-notation',
-    seoTitle: 'Scientific Notation Calculator | Convert Standard and Scientific Form',
+    seoTitle: 'Scientific Notation Calculator | Standard Form Converter',
     seoDescription:
       'Use the free Access Free Tools scientific notation calculator to convert numbers to scientific notation or back to standard form with examples and steps.',
     useCases: [
@@ -1592,7 +1592,7 @@ export const tools: ToolDefinition[] = [
     icon: 'calculator-sample-size',
     seoTitle: 'Sample Size Calculator | Survey Sample Size Estimator',
     seoDescription:
-      'Use the free Access Free Tools sample size calculator to estimate survey sample size from confidence level, margin of error, population proportion, and population size.',
+      'Estimate survey sample size from confidence level, margin of error, population proportion, and optional population size.',
     useCases: [
       'Estimate how many survey responses you need for a proportion.',
       'Compare 90%, 95%, 98%, and 99% confidence levels.',
@@ -1973,6 +1973,510 @@ export const tools: ToolDefinition[] = [
       },
     ],
     relatedSlugs: ['sample-size-calculator', 'z-score-calculator', 'statistics-calculator'],
+  },
+  {
+    slug: 'triangle-calculator',
+    name: 'Triangle Calculator',
+    category: 'calculators',
+    summary: 'Find triangle area, perimeter, angles, and type from three side lengths.',
+    description:
+      'Use this free triangle calculator to enter three sides and find area with Heron\'s formula, perimeter, semiperimeter, angles, side type, and angle type.',
+    icon: 'calculator-triangle',
+    seoTitle: 'Triangle Calculator | Area, Perimeter, and Angles',
+    seoDescription:
+      'Calculate triangle area, perimeter, semiperimeter, angles, and triangle type from three side lengths with formula steps.',
+    useCases: [
+      'Find the area of a triangle when you know all three side lengths.',
+      'Check whether side lengths form a valid triangle.',
+      'Estimate triangle angles with the law of cosines.',
+      'Classify triangles as scalene, isosceles, equilateral, acute, right, or obtuse.',
+    ],
+    examples: [
+      { label: 'Classic Heron example', expression: '13, 14, 15', result: 'Area = 84' },
+      { label: 'Right triangle', expression: '3, 4, 5', result: 'Area = 6' },
+      { label: 'Isosceles triangle', expression: '8, 8, 10', result: 'Area = 31.2249899919' },
+    ],
+    faq: [
+      {
+        question: 'What can I use the Triangle Calculator for?',
+        answer:
+          'Use it to calculate triangle area, perimeter, semiperimeter, angles, and triangle type when you know all three side lengths.',
+      },
+      {
+        question: 'What formula does the Triangle Calculator use?',
+        answer:
+          'It uses Heron\'s formula for area: s = (a + b + c) / 2, then area = sqrt(s(s-a)(s-b)(s-c)). Angles are estimated with the law of cosines.',
+      },
+      {
+        question: 'Can any three numbers make a triangle?',
+        answer:
+          'No. The sides must pass the triangle inequality: each pair of sides must add to more than the third side.',
+      },
+      {
+        question: 'Does this replace a right triangle calculator?',
+        answer:
+          'Use this tool for any triangle from three sides. Use the Right Triangle Calculator or Pythagorean Theorem Calculator when the triangle is known to have a 90-degree angle.',
+      },
+      {
+        question: 'How should I enter units?',
+        answer:
+          'Enter the same length unit for every side. The calculator reports perimeter in that unit and area in square units.',
+      },
+      {
+        question: 'Is my triangle history private?',
+        answer:
+          'Yes. Recent triangle answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['area-calculator', 'right-triangle-calculator', 'pythagorean-theorem-calculator'],
+  },
+  {
+    slug: 'volume-calculator',
+    name: 'Volume Calculator',
+    category: 'calculators',
+    summary: 'Calculate volume for boxes, cubes, cylinders, spheres, and cones.',
+    description:
+      'Use this free volume calculator to find cubic volume for rectangular prisms, cubes, cylinders, spheres, and cones with formula steps and examples.',
+    icon: 'calculator-volume',
+    seoTitle: 'Volume Calculator | Free Solid Geometry Tool',
+    seoDescription:
+      'Calculate volume for rectangular prisms, cubes, cylinders, spheres, and cones with cubic units, examples, and formula steps.',
+    useCases: [
+      'Find volume for common classroom solid geometry problems.',
+      'Estimate container, box, cylinder, sphere, or cone capacity.',
+      'Compare shape dimensions before copying a result into notes.',
+      'Check formula substitutions with clear step-by-step work.',
+    ],
+    examples: [
+      { label: 'Rectangular prism', expression: '8 x 5 x 3', result: '120 cubic units' },
+      { label: 'Cylinder', expression: 'r=3, h=10', result: '282.743338823 cubic units' },
+      { label: 'Sphere', expression: 'r=4', result: '268.0825731063 cubic units' },
+    ],
+    faq: [
+      {
+        question: 'Which shapes are supported?',
+        answer:
+          'The Volume Calculator supports rectangular prism, cube, cylinder, sphere, and cone modes.',
+      },
+      {
+        question: 'What units should I use?',
+        answer:
+          'Use the same length unit for every measurement. The calculator reports volume in cubic units, such as cm^3 or in^3.',
+      },
+      {
+        question: 'What formula does cylinder volume use?',
+        answer:
+          'Cylinder volume uses V = pi r^2 h, where r is radius and h is height.',
+      },
+      {
+        question: 'What formula does cone volume use?',
+        answer:
+          'Cone volume uses V = pi r^2 h / 3, which is one third of a cylinder with the same radius and height.',
+      },
+      {
+        question: 'Can I calculate surface area here?',
+        answer:
+          'This tool is for cubic volume. Use the Surface Area Calculator when you need the outside area of a solid.',
+      },
+      {
+        question: 'Is my volume history private?',
+        answer:
+          'Yes. Recent volume answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['surface-area-calculator', 'area-calculator', 'circle-calculator'],
+  },
+  {
+    slug: 'slope-calculator',
+    name: 'Slope Calculator',
+    category: 'calculators',
+    summary: 'Find slope, rise, run, and a line equation from two points.',
+    description:
+      'Use this free slope calculator to enter two coordinate points and find rise, run, slope, y-intercept, and a line equation with steps.',
+    icon: 'calculator-slope',
+    seoTitle: 'Slope Calculator | Find Slope from Two Points',
+    seoDescription:
+      'Calculate slope from two points with rise, run, y-intercept, vertical-line handling, equation output, and steps.',
+    useCases: [
+      'Find slope from two coordinate points.',
+      'Check rise over run for graphing and algebra homework.',
+      'Identify vertical lines with undefined slope.',
+      'Write a simple line equation from calculated slope and intercept.',
+    ],
+    examples: [
+      { label: 'Positive slope', expression: '(1, 2) to (5, 10)', result: 'm = 2' },
+      { label: 'Negative slope', expression: '(-2, 7) to (4, 1)', result: 'm = -1' },
+      { label: 'Vertical line', expression: '(3, 2) to (3, 8)', result: 'Undefined slope' },
+    ],
+    faq: [
+      {
+        question: 'What formula does the Slope Calculator use?',
+        answer:
+          'It uses slope = (y2 - y1) / (x2 - x1), often described as rise over run.',
+      },
+      {
+        question: 'What is an undefined slope?',
+        answer:
+          'A vertical line has a run of zero because both points have the same x-value. Division by zero is undefined, so the slope is undefined.',
+      },
+      {
+        question: 'Can the two points be the same?',
+        answer:
+          'No. The two points must be different, or there is no single line direction to calculate.',
+      },
+      {
+        question: 'Does this calculator show the line equation?',
+        answer:
+          'Yes. For non-vertical lines it shows y = mx + b. For vertical lines it shows x = constant.',
+      },
+      {
+        question: 'Should I use the Distance Calculator instead?',
+        answer:
+          'Use Slope Calculator for line steepness and equations. Use Distance Calculator for the straight-line length between two points.',
+      },
+      {
+        question: 'Is my slope history private?',
+        answer:
+          'Yes. Recent slope answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['distance-calculator', 'right-triangle-calculator', 'triangle-calculator'],
+  },
+  {
+    slug: 'area-calculator',
+    name: 'Area Calculator',
+    category: 'calculators',
+    summary: 'Calculate area for rectangles, triangles, circles, trapezoids, and parallelograms.',
+    description:
+      'Use this free area calculator to find square-unit area for rectangles, triangles, circles, trapezoids, and parallelograms with formula steps.',
+    icon: 'calculator-area',
+    seoTitle: 'Area Calculator | Rectangle, Triangle, Circle',
+    seoDescription:
+      'Calculate area for rectangles, triangles, circles, trapezoids, and parallelograms with square units, examples, and steps.',
+    useCases: [
+      'Find area for common 2D geometry shapes.',
+      'Compare rectangle, triangle, circle, trapezoid, and parallelogram measurements.',
+      'Check square-unit answers for homework or planning examples.',
+      'Copy area results and formula steps into notes.',
+    ],
+    examples: [
+      { label: 'Rectangle', expression: '12 x 8', result: '96 square units' },
+      { label: 'Triangle', expression: 'base 10, height 6', result: '30 square units' },
+      { label: 'Circle', expression: 'radius 5', result: '78.5398163397 square units' },
+    ],
+    faq: [
+      {
+        question: 'Which shapes are supported?',
+        answer:
+          'The Area Calculator supports rectangle, triangle, circle, trapezoid, and parallelogram modes.',
+      },
+      {
+        question: 'What formula does triangle area use?',
+        answer:
+          'Triangle area uses A = base x height / 2. If you know three sides instead of base and height, use the Triangle Calculator.',
+      },
+      {
+        question: 'What formula does circle area use?',
+        answer:
+          'Circle area uses A = pi r^2, where r is the radius.',
+      },
+      {
+        question: 'What units should I enter?',
+        answer:
+          'Use the same length unit for every measurement. The result is reported in square units, such as cm^2 or ft^2.',
+      },
+      {
+        question: 'Can this calculate volume?',
+        answer:
+          'No. This calculator is for flat 2D area. Use the Volume Calculator for cubic volume.',
+      },
+      {
+        question: 'Is my area history private?',
+        answer:
+          'Yes. Recent area answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['triangle-calculator', 'circle-calculator', 'volume-calculator'],
+  },
+  {
+    slug: 'distance-calculator',
+    name: 'Distance Calculator',
+    category: 'calculators',
+    summary: 'Find distance, delta x, delta y, and midpoint from two coordinate points.',
+    description:
+      'Use this free distance calculator to enter two points and find straight-line distance, delta x, delta y, midpoint, and formula steps.',
+    icon: 'calculator-distance',
+    seoTitle: 'Distance Calculator | Distance Between Two Points',
+    seoDescription:
+      'Calculate distance between two points with delta x, delta y, midpoint, optional units, examples, and formula steps.',
+    useCases: [
+      'Find straight-line distance between two coordinate points.',
+      'Calculate midpoint while checking coordinate geometry problems.',
+      'Compare distance with slope for the same pair of points.',
+      'Copy distance formula steps into notes or homework.',
+    ],
+    examples: [
+      { label: '3-4-5 distance', expression: '(1, 2) to (4, 6)', result: '5 units' },
+      { label: 'Origin to point', expression: '(0, 0) to (8, 15)', result: '17 units' },
+      { label: 'Negative coordinates', expression: '(-3, 4) to (5, -2)', result: '10 units' },
+    ],
+    faq: [
+      {
+        question: 'What formula does the Distance Calculator use?',
+        answer:
+          'It uses d = sqrt((x2 - x1)^2 + (y2 - y1)^2), the standard distance formula for two points in a plane.',
+      },
+      {
+        question: 'Does it show midpoint?',
+        answer:
+          'Yes. It shows midpoint as ((x1 + x2) / 2, (y1 + y2) / 2).',
+      },
+      {
+        question: 'Can I use negative coordinates?',
+        answer:
+          'Yes. Negative x and y values are accepted as long as each coordinate is a valid number.',
+      },
+      {
+        question: 'Should I use this or the Slope Calculator?',
+        answer:
+          'Use Distance Calculator for length between points. Use Slope Calculator for steepness, rise, run, and line equations.',
+      },
+      {
+        question: 'What units does the answer use?',
+        answer:
+          'The answer uses the unit label you enter. If your coordinates are in meters, the distance is in meters.',
+      },
+      {
+        question: 'Is my distance history private?',
+        answer:
+          'Yes. Recent distance answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['slope-calculator', 'pythagorean-theorem-calculator', 'right-triangle-calculator'],
+  },
+  {
+    slug: 'circle-calculator',
+    name: 'Circle Calculator',
+    category: 'calculators',
+    summary: 'Find radius, diameter, circumference, and area from one circle measurement.',
+    description:
+      'Use this free circle calculator to start from radius, diameter, circumference, or area and find the other circle measurements with steps.',
+    icon: 'calculator-circle',
+    seoTitle: 'Circle Calculator | Radius, Diameter, Area',
+    seoDescription:
+      'Calculate circle radius, diameter, circumference, and area from one known value with formula steps and examples.',
+    useCases: [
+      'Convert radius into diameter, circumference, and area.',
+      'Work backward from diameter, circumference, or area.',
+      'Check circle formulas for geometry class or quick planning.',
+      'Copy circle measurements and formula steps into notes.',
+    ],
+    examples: [
+      { label: 'Known radius', expression: 'r = 5', result: 'Area = 78.5398163397' },
+      { label: 'Known diameter', expression: 'd = 10', result: 'Radius = 5' },
+      { label: 'Known circumference', expression: 'C = 31.4159', result: 'Radius is about 5' },
+    ],
+    faq: [
+      {
+        question: 'What circle measurements can I start with?',
+        answer:
+          'You can start with radius, diameter, circumference, or area. The calculator finds the remaining circle measurements.',
+      },
+      {
+        question: 'What formulas does the Circle Calculator use?',
+        answer:
+          'It uses d = 2r, C = 2pi r, and A = pi r^2. It rearranges those formulas when you start from diameter, circumference, or area.',
+      },
+      {
+        question: 'What is the difference between radius and diameter?',
+        answer:
+          'Radius is the distance from the center to the circle edge. Diameter is the full distance across the circle through the center, so diameter is twice the radius.',
+      },
+      {
+        question: 'Can I enter area to find radius?',
+        answer:
+          'Yes. Area mode uses r = sqrt(A / pi) to work backward from a known area.',
+      },
+      {
+        question: 'Should I use Area Calculator instead?',
+        answer:
+          'Use Circle Calculator when you want all circle measurements. Use Area Calculator when you only need area for one of several common shapes.',
+      },
+      {
+        question: 'Is my circle history private?',
+        answer:
+          'Yes. Recent circle answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['area-calculator', 'surface-area-calculator', 'volume-calculator'],
+  },
+  {
+    slug: 'surface-area-calculator',
+    name: 'Surface Area Calculator',
+    category: 'calculators',
+    summary: 'Calculate surface area for boxes, cubes, cylinders, spheres, and cones.',
+    description:
+      'Use this free surface area calculator to find outside area for rectangular prisms, cubes, cylinders, spheres, and cones with formula steps.',
+    icon: 'calculator-surface-area',
+    seoTitle: 'Surface Area Calculator | Solid Geometry Tool',
+    seoDescription:
+      'Calculate surface area for rectangular prisms, cubes, cylinders, spheres, and cones with square units, examples, and steps.',
+    useCases: [
+      'Find the outside area of common 3D solids.',
+      'Compare surface area for boxes, cylinders, spheres, and cones.',
+      'Check square-unit answers for geometry homework.',
+      'Copy formulas and results into notes while comparing shapes.',
+    ],
+    examples: [
+      { label: 'Rectangular prism', expression: '8 x 5 x 3', result: '158 square units' },
+      { label: 'Sphere', expression: 'r=4', result: '201.06192983 square units' },
+      { label: 'Cylinder', expression: 'r=3, h=10', result: '245.04422698 square units' },
+    ],
+    faq: [
+      {
+        question: 'Which shapes are supported?',
+        answer:
+          'The Surface Area Calculator supports rectangular prism, cube, cylinder, sphere, and cone modes.',
+      },
+      {
+        question: 'What units should I use?',
+        answer:
+          'Use the same length unit for every measurement. The result is reported in square units, such as cm^2 or ft^2.',
+      },
+      {
+        question: 'How does cone surface area work?',
+        answer:
+          'Cone surface area uses pi r(r + l). This calculator finds slant height l from radius and vertical height using the Pythagorean theorem.',
+      },
+      {
+        question: 'What is the difference between surface area and volume?',
+        answer:
+          'Surface area measures the outside of a solid in square units. Volume measures the space inside a solid in cubic units.',
+      },
+      {
+        question: 'Can this calculate flat 2D shapes?',
+        answer:
+          'Use the Area Calculator for flat shapes such as rectangles, triangles, circles, trapezoids, and parallelograms.',
+      },
+      {
+        question: 'Is my surface area history private?',
+        answer:
+          'Yes. Recent surface area answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['volume-calculator', 'area-calculator', 'circle-calculator'],
+  },
+  {
+    slug: 'pythagorean-theorem-calculator',
+    name: 'Pythagorean Theorem Calculator',
+    category: 'calculators',
+    summary: 'Solve a missing right-triangle side with a^2 + b^2 = c^2.',
+    description:
+      'Use this free Pythagorean theorem calculator to solve for the hypotenuse or a missing leg of a right triangle with steps and examples.',
+    icon: 'calculator-pythagorean',
+    seoTitle: 'Pythagorean Theorem Calculator | Solve a Side',
+    seoDescription:
+      'Solve a missing right-triangle side using a^2 + b^2 = c^2 with hypotenuse, leg, examples, and formula steps.',
+    useCases: [
+      'Find the hypotenuse when both legs are known.',
+      'Find a missing leg when one leg and the hypotenuse are known.',
+      'Check right triangle side lengths for homework.',
+      'Copy formula steps for Pythagorean theorem practice.',
+    ],
+    examples: [
+      { label: 'Find c', expression: 'a=3, b=4', result: 'c = 5' },
+      { label: 'Find a', expression: 'b=12, c=13', result: 'a = 5' },
+      { label: 'Find b', expression: 'a=8, c=17', result: 'b = 15' },
+    ],
+    faq: [
+      {
+        question: 'What formula does the calculator use?',
+        answer:
+          'It uses the Pythagorean theorem: a^2 + b^2 = c^2, where c is the hypotenuse of a right triangle.',
+      },
+      {
+        question: 'Can it solve for a missing leg?',
+        answer:
+          'Yes. If you know the hypotenuse and one leg, it subtracts the known leg squared from the hypotenuse squared, then takes the square root.',
+      },
+      {
+        question: 'Does the Pythagorean theorem work for every triangle?',
+        answer:
+          'No. It only applies to right triangles with one 90-degree angle.',
+      },
+      {
+        question: 'What if the hypotenuse is shorter than a leg?',
+        answer:
+          'That input is invalid for a right triangle. The hypotenuse must be the longest side.',
+      },
+      {
+        question: 'Should I use the Right Triangle Calculator instead?',
+        answer:
+          'Use this tool when you only need a missing side. Use the Right Triangle Calculator when you also want area, perimeter, and angles.',
+      },
+      {
+        question: 'Is my Pythagorean history private?',
+        answer:
+          'Yes. Recent Pythagorean answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['right-triangle-calculator', 'distance-calculator', 'triangle-calculator'],
+  },
+  {
+    slug: 'right-triangle-calculator',
+    name: 'Right Triangle Calculator',
+    category: 'calculators',
+    summary: 'Solve right triangle sides, area, perimeter, and acute angles.',
+    description:
+      'Use this free right triangle calculator to enter two sides and find the missing side, area, perimeter, hypotenuse, and acute angles.',
+    icon: 'calculator-right-triangle',
+    seoTitle: 'Right Triangle Calculator | Sides, Area, Angles',
+    seoDescription:
+      'Solve right triangle sides, hypotenuse, area, perimeter, and acute angles from two known sides with formula steps.',
+    useCases: [
+      'Complete a right triangle from two known side lengths.',
+      'Find hypotenuse, missing leg, area, perimeter, and angles together.',
+      'Check 3-4-5, 5-12-13, and other right-triangle examples.',
+      'Copy right-triangle formula steps into notes or homework.',
+    ],
+    examples: [
+      { label: 'Two legs', expression: 'a=9, b=12', result: 'c = 15' },
+      { label: 'Leg and hypotenuse', expression: 'leg=5, c=13', result: 'missing leg = 12' },
+      { label: 'Classic 3-4-5', expression: 'a=3, b=4', result: 'Area = 6' },
+    ],
+    faq: [
+      {
+        question: 'What does the Right Triangle Calculator find?',
+        answer:
+          'It finds the missing side, hypotenuse, area, perimeter, and the two acute angles for a right triangle.',
+      },
+      {
+        question: 'What inputs can I use?',
+        answer:
+          'Use two legs mode when both legs are known. Use leg and hypotenuse mode when you know one leg and the hypotenuse.',
+      },
+      {
+        question: 'How are the angles calculated?',
+        answer:
+          'After the sides are known, the calculator uses sine ratios to estimate the two acute angles. The third angle is always 90 degrees.',
+      },
+      {
+        question: 'What formula is used for area?',
+        answer:
+          'Right triangle area uses A = leg a x leg b / 2.',
+      },
+      {
+        question: 'How is this different from the Pythagorean Theorem Calculator?',
+        answer:
+          'The Pythagorean tool focuses on one missing side. This calculator also shows area, perimeter, and angles.',
+      },
+      {
+        question: 'Is my right triangle history private?',
+        answer:
+          'Yes. Recent right triangle answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['pythagorean-theorem-calculator', 'triangle-calculator', 'distance-calculator'],
   },
   {
     slug: 'random-number-generator',

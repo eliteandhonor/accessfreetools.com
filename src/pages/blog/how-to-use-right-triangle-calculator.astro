@@ -1,0 +1,42 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="right-triangle-calculator"
+  label="Right triangle guide"
+  title="How to use the Right Triangle Calculator"
+  description="Learn how to solve right triangle sides, area, perimeter, and acute angles from two known sides."
+  path="/blog/how-to-use-right-triangle-calculator/"
+  intro="The Right Triangle Calculator completes a right triangle from two known sides and adds area, perimeter, and angles."
+  quickStart={[
+    'Choose two legs mode or leg and hypotenuse mode.',
+    'Enter the known side lengths.',
+    'Add a unit label if useful.',
+    'Press Calculate right triangle.',
+  ]}
+  sections={[
+    {
+      title: 'Choosing input mode',
+      paragraphs: [
+        'Use two legs mode when both shorter sides are known. The calculator finds the hypotenuse.',
+        'Use leg and hypotenuse mode when one leg and the longest side are known. The calculator finds the missing leg.',
+      ],
+    },
+    {
+      title: 'What the calculator returns',
+      paragraphs: [
+        'The calculator returns side lengths, area, perimeter, and the two acute angles. The third angle is always 90 degrees.',
+        'Area is reported in square units, while perimeter and side lengths use the length unit you entered.',
+      ],
+    },
+    {
+      title: 'When to use the simpler theorem tool',
+      paragraphs: [
+        'Use the Pythagorean Theorem Calculator when you only need one missing side.',
+        'Use this right triangle tool when you also need area, perimeter, and angles.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Right Triangle Calculator while you follow the guide."
+/>

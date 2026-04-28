@@ -1,0 +1,42 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="circle-calculator"
+  label="Circle calculator guide"
+  title="How to use the Circle Calculator"
+  description="Learn how to find radius, diameter, circumference, and area from one known circle measurement."
+  path="/blog/how-to-use-circle-calculator/"
+  intro="The Circle Calculator starts from one known circle measurement and finds the rest."
+  quickStart={[
+    'Choose radius, diameter, circumference, or area mode.',
+    'Enter the known value.',
+    'Add a unit label if useful.',
+    'Press Calculate circle to find radius, diameter, circumference, and area.',
+  ]}
+  sections={[
+    {
+      title: 'Circle formulas used',
+      paragraphs: [
+        'The calculator uses d = 2r, C = 2pi r, and A = pi r^2.',
+        'When you start from diameter, circumference, or area, it rearranges the formula to find radius first.',
+      ],
+    },
+    {
+      title: 'Choosing a starting value',
+      paragraphs: [
+        'Use radius mode when you know the distance from the center to the edge.',
+        'Use diameter mode when you know the full width through the center. Use circumference or area mode when those measurements are already known.',
+      ],
+    },
+    {
+      title: 'Reading units',
+      paragraphs: [
+        'Radius, diameter, and circumference use length units. Area uses square units.',
+        'If you enter cm as the unit label, the area result is shown as cm^2.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Circle Calculator while you follow the guide."
+/>

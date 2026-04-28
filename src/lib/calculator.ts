@@ -243,6 +243,82 @@ export interface ConfidenceIntervalResult {
   upperBound: number;
 }
 
+export type AreaShape = 'rectangle' | 'triangle' | 'circle' | 'trapezoid' | 'parallelogram';
+export type VolumeShape = 'rectangular-prism' | 'cube' | 'cylinder' | 'sphere' | 'cone';
+export type SurfaceAreaShape = 'rectangular-prism' | 'cube' | 'cylinder' | 'sphere' | 'cone';
+export type PythagoreanSolveFor = 'hypotenuse' | 'leg-a' | 'leg-b';
+export type RightTriangleMode = 'legs' | 'leg-hypotenuse';
+
+export interface TriangleFromSidesResult {
+  sideA: number;
+  sideB: number;
+  sideC: number;
+  semiperimeter: number;
+  perimeter: number;
+  area: number;
+  angleA: number;
+  angleB: number;
+  angleC: number;
+  sideType: 'equilateral' | 'isosceles' | 'scalene';
+  angleType: 'acute' | 'right' | 'obtuse';
+}
+
+export interface ShapeMeasurementResult {
+  shape: string;
+  value: number;
+  formula: string;
+  metrics: Array<{ label: string; value: number }>;
+}
+
+export interface CircleMeasurementResult {
+  radius: number;
+  diameter: number;
+  circumference: number;
+  area: number;
+}
+
+export interface SlopeResult {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  rise: number;
+  run: number;
+  slope: number | null;
+  yIntercept: number | null;
+}
+
+export interface DistanceResult {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  deltaX: number;
+  deltaY: number;
+  distance: number;
+  midpoint: {
+    x: number;
+    y: number;
+  };
+}
+
+export interface PythagoreanResult {
+  solveFor: PythagoreanSolveFor;
+  legA: number;
+  legB: number;
+  hypotenuse: number;
+}
+
+export interface RightTriangleResult {
+  legA: number;
+  legB: number;
+  hypotenuse: number;
+  area: number;
+  perimeter: number;
+  angleA: number;
+  angleB: number;
+}
+
 const randomUint32Bound = 0x100000000;
 const maxRandomQuantity = 1000;
 const maxPoolGenerationRange = 100000;
@@ -469,6 +545,491 @@ function assertNonNegativeNumber(value: number, label: string) {
   if (value < 0) {
     throw new Error(`${label} cannot be negative`);
   }
+}
+
+function degreesFromRadians(value: number) {
+  return (value * 180) / Math.PI;
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function square(value: number) {
+  return value * value;
+}
+
+function assertTriangleSides(sideA: number, sideB: number, sideC: number) {
+  assertPositiveNumber(sideA, 'Side a');
+  assertPositiveNumber(sideB, 'Side b');
+  assertPositiveNumber(sideC, 'Side c');
+
+  if (sideA + sideB <= sideC || sideA + sideC <= sideB || sideB + sideC <= sideA) {
+    throw new Error('Triangle sides must satisfy the triangle inequality');
+  }
+}
+
+export function calculateTriangleFromSides(
+  sideA: number,
+  sideB: number,
+  sideC: number,
+): TriangleFromSidesResult {
+  assertTriangleSides(sideA, sideB, sideC);
+
+  const semiperimeter = (sideA + sideB + sideC) / 2;
+  const area = Math.sqrt(
+    semiperimeter * (semiperimeter - sideA) * (semiperimeter - sideB) * (semiperimeter - sideC),
+  );
+  const angleA = degreesFromRadians(
+    Math.acos(clamp((square(sideB) + square(sideC) - square(sideA)) / (2 * sideB * sideC), -1, 1)),
+  );
+  const angleB = degreesFromRadians(
+    Math.acos(clamp((square(sideA) + square(sideC) - square(sideB)) / (2 * sideA * sideC), -1, 1)),
+  );
+  const angleC = 180 - angleA - angleB;
+  const sortedSides = [sideA, sideB, sideC].sort((left, right) => left - right);
+  const rightDelta = Math.abs(square(sortedSides[0]) + square(sortedSides[1]) - square(sortedSides[2]));
+  const tolerance = Math.max(1e-10, square(sortedSides[2]) * 1e-10);
+  const sideType =
+    sideA === sideB && sideB === sideC ? 'equilateral' : sideA === sideB || sideA === sideC || sideB === sideC ? 'isosceles' : 'scalene';
+  const angleType =
+    rightDelta <= tolerance ? 'right' : square(sortedSides[0]) + square(sortedSides[1]) < square(sortedSides[2]) ? 'obtuse' : 'acute';
+
+  return {
+    sideA,
+    sideB,
+    sideC,
+    semiperimeter,
+    perimeter: sideA + sideB + sideC,
+    area,
+    angleA,
+    angleB,
+    angleC,
+    sideType,
+    angleType,
+  };
+}
+
+export function calculateShapeArea(shape: AreaShape, measurements: Record<string, number>): ShapeMeasurementResult {
+  const metric = (label: string, value: number) => ({ label, value });
+
+  switch (shape) {
+    case 'rectangle': {
+      const length = measurements.length;
+      const width = measurements.width;
+      assertPositiveNumber(length, 'Length');
+      assertPositiveNumber(width, 'Width');
+
+      return {
+        shape,
+        value: length * width,
+        formula: 'A = length x width',
+        metrics: [metric('Length', length), metric('Width', width)],
+      };
+    }
+    case 'triangle': {
+      const base = measurements.base;
+      const height = measurements.height;
+      assertPositiveNumber(base, 'Base');
+      assertPositiveNumber(height, 'Height');
+
+      return {
+        shape,
+        value: (base * height) / 2,
+        formula: 'A = base x height / 2',
+        metrics: [metric('Base', base), metric('Height', height)],
+      };
+    }
+    case 'circle': {
+      const radius = measurements.radius;
+      assertPositiveNumber(radius, 'Radius');
+
+      return {
+        shape,
+        value: Math.PI * square(radius),
+        formula: 'A = pi x r^2',
+        metrics: [metric('Radius', radius), metric('Diameter', radius * 2)],
+      };
+    }
+    case 'trapezoid': {
+      const baseA = measurements.baseA;
+      const baseB = measurements.baseB;
+      const height = measurements.height;
+      assertPositiveNumber(baseA, 'Base 1');
+      assertPositiveNumber(baseB, 'Base 2');
+      assertPositiveNumber(height, 'Height');
+
+      return {
+        shape,
+        value: ((baseA + baseB) * height) / 2,
+        formula: 'A = (base 1 + base 2) x height / 2',
+        metrics: [metric('Base 1', baseA), metric('Base 2', baseB), metric('Height', height)],
+      };
+    }
+    case 'parallelogram': {
+      const base = measurements.base;
+      const height = measurements.height;
+      assertPositiveNumber(base, 'Base');
+      assertPositiveNumber(height, 'Height');
+
+      return {
+        shape,
+        value: base * height,
+        formula: 'A = base x height',
+        metrics: [metric('Base', base), metric('Height', height)],
+      };
+    }
+    default: {
+      const exhaustiveCheck: never = shape;
+      return exhaustiveCheck;
+    }
+  }
+}
+
+export function calculateShapeVolume(shape: VolumeShape, measurements: Record<string, number>): ShapeMeasurementResult {
+  const metric = (label: string, value: number) => ({ label, value });
+
+  switch (shape) {
+    case 'rectangular-prism': {
+      const length = measurements.length;
+      const width = measurements.width;
+      const height = measurements.height;
+      assertPositiveNumber(length, 'Length');
+      assertPositiveNumber(width, 'Width');
+      assertPositiveNumber(height, 'Height');
+
+      return {
+        shape,
+        value: length * width * height,
+        formula: 'V = length x width x height',
+        metrics: [metric('Length', length), metric('Width', width), metric('Height', height)],
+      };
+    }
+    case 'cube': {
+      const side = measurements.side;
+      assertPositiveNumber(side, 'Side length');
+
+      return {
+        shape,
+        value: side ** 3,
+        formula: 'V = side^3',
+        metrics: [metric('Side length', side)],
+      };
+    }
+    case 'cylinder': {
+      const radius = measurements.radius;
+      const height = measurements.height;
+      assertPositiveNumber(radius, 'Radius');
+      assertPositiveNumber(height, 'Height');
+
+      return {
+        shape,
+        value: Math.PI * square(radius) * height,
+        formula: 'V = pi x r^2 x h',
+        metrics: [metric('Radius', radius), metric('Height', height)],
+      };
+    }
+    case 'sphere': {
+      const radius = measurements.radius;
+      assertPositiveNumber(radius, 'Radius');
+
+      return {
+        shape,
+        value: (4 / 3) * Math.PI * radius ** 3,
+        formula: 'V = 4/3 x pi x r^3',
+        metrics: [metric('Radius', radius), metric('Diameter', radius * 2)],
+      };
+    }
+    case 'cone': {
+      const radius = measurements.radius;
+      const height = measurements.height;
+      assertPositiveNumber(radius, 'Radius');
+      assertPositiveNumber(height, 'Height');
+
+      return {
+        shape,
+        value: (Math.PI * square(radius) * height) / 3,
+        formula: 'V = pi x r^2 x h / 3',
+        metrics: [metric('Radius', radius), metric('Height', height)],
+      };
+    }
+    default: {
+      const exhaustiveCheck: never = shape;
+      return exhaustiveCheck;
+    }
+  }
+}
+
+export function calculateShapeSurfaceArea(
+  shape: SurfaceAreaShape,
+  measurements: Record<string, number>,
+): ShapeMeasurementResult {
+  const metric = (label: string, value: number) => ({ label, value });
+
+  switch (shape) {
+    case 'rectangular-prism': {
+      const length = measurements.length;
+      const width = measurements.width;
+      const height = measurements.height;
+      assertPositiveNumber(length, 'Length');
+      assertPositiveNumber(width, 'Width');
+      assertPositiveNumber(height, 'Height');
+
+      return {
+        shape,
+        value: 2 * (length * width + length * height + width * height),
+        formula: 'SA = 2lw + 2lh + 2wh',
+        metrics: [metric('Length', length), metric('Width', width), metric('Height', height)],
+      };
+    }
+    case 'cube': {
+      const side = measurements.side;
+      assertPositiveNumber(side, 'Side length');
+
+      return {
+        shape,
+        value: 6 * square(side),
+        formula: 'SA = 6s^2',
+        metrics: [metric('Side length', side)],
+      };
+    }
+    case 'cylinder': {
+      const radius = measurements.radius;
+      const height = measurements.height;
+      assertPositiveNumber(radius, 'Radius');
+      assertPositiveNumber(height, 'Height');
+
+      return {
+        shape,
+        value: 2 * Math.PI * square(radius) + 2 * Math.PI * radius * height,
+        formula: 'SA = 2pi r^2 + 2pi rh',
+        metrics: [metric('Radius', radius), metric('Height', height)],
+      };
+    }
+    case 'sphere': {
+      const radius = measurements.radius;
+      assertPositiveNumber(radius, 'Radius');
+
+      return {
+        shape,
+        value: 4 * Math.PI * square(radius),
+        formula: 'SA = 4pi r^2',
+        metrics: [metric('Radius', radius), metric('Diameter', radius * 2)],
+      };
+    }
+    case 'cone': {
+      const radius = measurements.radius;
+      const height = measurements.height;
+      assertPositiveNumber(radius, 'Radius');
+      assertPositiveNumber(height, 'Height');
+      const slantHeight = Math.sqrt(square(radius) + square(height));
+
+      return {
+        shape,
+        value: Math.PI * radius * (radius + slantHeight),
+        formula: 'SA = pi r(r + l), where l = sqrt(r^2 + h^2)',
+        metrics: [metric('Radius', radius), metric('Height', height), metric('Slant height', slantHeight)],
+      };
+    }
+    default: {
+      const exhaustiveCheck: never = shape;
+      return exhaustiveCheck;
+    }
+  }
+}
+
+export function calculateCircleFromRadius(radius: number): CircleMeasurementResult {
+  assertPositiveNumber(radius, 'Radius');
+
+  return {
+    radius,
+    diameter: radius * 2,
+    circumference: 2 * Math.PI * radius,
+    area: Math.PI * square(radius),
+  };
+}
+
+export function calculateCircleFromMeasurement(
+  knownMeasure: 'radius' | 'diameter' | 'circumference' | 'area',
+  value: number,
+): CircleMeasurementResult {
+  assertPositiveNumber(value, 'Known circle value');
+
+  switch (knownMeasure) {
+    case 'radius':
+      return calculateCircleFromRadius(value);
+    case 'diameter':
+      return calculateCircleFromRadius(value / 2);
+    case 'circumference':
+      return calculateCircleFromRadius(value / (2 * Math.PI));
+    case 'area':
+      return calculateCircleFromRadius(Math.sqrt(value / Math.PI));
+    default: {
+      const exhaustiveCheck: never = knownMeasure;
+      return exhaustiveCheck;
+    }
+  }
+}
+
+export function calculateSlope(x1: number, y1: number, x2: number, y2: number): SlopeResult {
+  assertFiniteNumber(x1, 'x1');
+  assertFiniteNumber(y1, 'y1');
+  assertFiniteNumber(x2, 'x2');
+  assertFiniteNumber(y2, 'y2');
+
+  if (x1 === x2 && y1 === y2) {
+    throw new Error('The two points must be different');
+  }
+
+  const rise = y2 - y1;
+  const run = x2 - x1;
+
+  if (run === 0) {
+    return {
+      x1,
+      y1,
+      x2,
+      y2,
+      rise,
+      run,
+      slope: null,
+      yIntercept: null,
+    };
+  }
+
+  const slope = rise / run;
+
+  return {
+    x1,
+    y1,
+    x2,
+    y2,
+    rise,
+    run,
+    slope,
+    yIntercept: y1 - slope * x1,
+  };
+}
+
+export function calculateDistance2d(x1: number, y1: number, x2: number, y2: number): DistanceResult {
+  assertFiniteNumber(x1, 'x1');
+  assertFiniteNumber(y1, 'y1');
+  assertFiniteNumber(x2, 'x2');
+  assertFiniteNumber(y2, 'y2');
+
+  const deltaX = x2 - x1;
+  const deltaY = y2 - y1;
+
+  return {
+    x1,
+    y1,
+    x2,
+    y2,
+    deltaX,
+    deltaY,
+    distance: Math.sqrt(square(deltaX) + square(deltaY)),
+    midpoint: {
+      x: (x1 + x2) / 2,
+      y: (y1 + y2) / 2,
+    },
+  };
+}
+
+export function calculatePythagorean(
+  solveFor: PythagoreanSolveFor,
+  measurements: Record<string, number>,
+): PythagoreanResult {
+  switch (solveFor) {
+    case 'hypotenuse': {
+      const legA = measurements.legA;
+      const legB = measurements.legB;
+      assertPositiveNumber(legA, 'Leg a');
+      assertPositiveNumber(legB, 'Leg b');
+
+      return {
+        solveFor,
+        legA,
+        legB,
+        hypotenuse: Math.sqrt(square(legA) + square(legB)),
+      };
+    }
+    case 'leg-a': {
+      const legB = measurements.legB;
+      const hypotenuse = measurements.hypotenuse;
+      assertPositiveNumber(legB, 'Leg b');
+      assertPositiveNumber(hypotenuse, 'Hypotenuse');
+
+      if (hypotenuse <= legB) {
+        throw new Error('Hypotenuse must be longer than the known leg');
+      }
+
+      return {
+        solveFor,
+        legA: Math.sqrt(square(hypotenuse) - square(legB)),
+        legB,
+        hypotenuse,
+      };
+    }
+    case 'leg-b': {
+      const legA = measurements.legA;
+      const hypotenuse = measurements.hypotenuse;
+      assertPositiveNumber(legA, 'Leg a');
+      assertPositiveNumber(hypotenuse, 'Hypotenuse');
+
+      if (hypotenuse <= legA) {
+        throw new Error('Hypotenuse must be longer than the known leg');
+      }
+
+      return {
+        solveFor,
+        legA,
+        legB: Math.sqrt(square(hypotenuse) - square(legA)),
+        hypotenuse,
+      };
+    }
+    default: {
+      const exhaustiveCheck: never = solveFor;
+      return exhaustiveCheck;
+    }
+  }
+}
+
+export function calculateRightTriangle(
+  mode: RightTriangleMode,
+  measurements: Record<string, number>,
+): RightTriangleResult {
+  let legA: number;
+  let legB: number;
+  let hypotenuse: number;
+
+  if (mode === 'legs') {
+    legA = measurements.legA;
+    legB = measurements.legB;
+    assertPositiveNumber(legA, 'Leg a');
+    assertPositiveNumber(legB, 'Leg b');
+    hypotenuse = Math.sqrt(square(legA) + square(legB));
+  } else {
+    legA = measurements.leg;
+    hypotenuse = measurements.hypotenuse;
+    assertPositiveNumber(legA, 'Known leg');
+    assertPositiveNumber(hypotenuse, 'Hypotenuse');
+
+    if (hypotenuse <= legA) {
+      throw new Error('Hypotenuse must be longer than the known leg');
+    }
+
+    legB = Math.sqrt(square(hypotenuse) - square(legA));
+  }
+
+  return {
+    legA,
+    legB,
+    hypotenuse,
+    area: (legA * legB) / 2,
+    perimeter: legA + legB + hypotenuse,
+    angleA: degreesFromRadians(Math.asin(legA / hypotenuse)),
+    angleB: degreesFromRadians(Math.asin(legB / hypotenuse)),
+  };
 }
 
 function assertPositiveBigInteger(value: bigint, label: string) {

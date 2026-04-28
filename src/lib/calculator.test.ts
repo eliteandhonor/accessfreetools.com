@@ -2,6 +2,8 @@ import {
   calculateBinary,
   calculateBigIntegerOperation,
   calculateBinaryIntegerOperation,
+  calculateCircleFromMeasurement,
+  calculateDistance2d,
   calculateDescriptiveStatistics,
   calculateFactors,
   calculateFraction,
@@ -27,11 +29,18 @@ import {
   calculateExponent,
   calculatePercentError,
   calculatePercentOf,
+  calculatePythagorean,
   calculateQuadraticFormula,
   calculateRatioShare,
+  calculateRightTriangle,
   calculateSampleSize,
+  calculateShapeArea,
+  calculateShapeSurfaceArea,
+  calculateShapeVolume,
   calculateScientificExpression,
   calculateStandardDeviation,
+  calculateSlope,
+  calculateTriangleFromSides,
   calculateZScore,
   fromScientificNotation,
   formatCalculatorNumber,
@@ -248,6 +257,60 @@ describe('root helpers', () => {
     expect(() => calculateNthRoot(-16, 2)).toThrow('Even roots of negative numbers are not real numbers');
     expect(() => calculateNthRoot(16, 1)).toThrow('Root index must be at least 2');
     expect(() => calculateNthRoot(16, 2.5)).toThrow('Root index must be a whole number');
+  });
+});
+
+describe('geometry helpers', () => {
+  it('solves a triangle from three sides', () => {
+    const result = calculateTriangleFromSides(13, 14, 15);
+
+    expect(formatCalculatorNumber(result.area)).toBe('84');
+    expect(formatCalculatorNumber(result.perimeter)).toBe('42');
+    expect(result.sideType).toBe('scalene');
+    expect(result.angleType).toBe('acute');
+  });
+
+  it('calculates common area, volume, and surface area formulas', () => {
+    expect(formatCalculatorNumber(calculateShapeArea('trapezoid', { baseA: 8, baseB: 14, height: 5 }).value)).toBe('55');
+    expect(formatCalculatorNumber(calculateShapeVolume('cylinder', { radius: 3, height: 10 }).value)).toBe('282.743338823');
+    expect(formatCalculatorNumber(calculateShapeSurfaceArea('sphere', { radius: 4 }).value)).toBe('201.06192983');
+  });
+
+  it('converts circle measurements from different known values', () => {
+    const fromDiameter = calculateCircleFromMeasurement('diameter', 10);
+
+    expect(formatCalculatorNumber(fromDiameter.radius)).toBe('5');
+    expect(formatCalculatorNumber(fromDiameter.area)).toBe('78.5398163397');
+  });
+
+  it('calculates slope, distance, and midpoint from two points', () => {
+    const slope = calculateSlope(1, 2, 5, 10);
+    const distance = calculateDistance2d(1, 2, 4, 6);
+
+    expect(formatCalculatorNumber(slope.slope ?? 0)).toBe('2');
+    expect(formatCalculatorNumber(slope.yIntercept ?? 0)).toBe('0');
+    expect(formatCalculatorNumber(distance.distance)).toBe('5');
+    expect(distance.midpoint).toEqual({ x: 2.5, y: 4 });
+  });
+
+  it('handles vertical slopes', () => {
+    expect(calculateSlope(3, 2, 3, 8).slope).toBeNull();
+  });
+
+  it('solves Pythagorean and right triangle values', () => {
+    const pythagorean = calculatePythagorean('hypotenuse', { legA: 3, legB: 4 });
+    const rightTriangle = calculateRightTriangle('leg-hypotenuse', { leg: 5, hypotenuse: 13 });
+
+    expect(formatCalculatorNumber(pythagorean.hypotenuse)).toBe('5');
+    expect(formatCalculatorNumber(rightTriangle.legB)).toBe('12');
+    expect(formatCalculatorNumber(rightTriangle.area)).toBe('30');
+    expect(formatCalculatorNumber(rightTriangle.perimeter)).toBe('30');
+  });
+
+  it('rejects impossible geometry inputs', () => {
+    expect(() => calculateTriangleFromSides(1, 2, 3)).toThrow('triangle inequality');
+    expect(() => calculatePythagorean('leg-a', { legB: 5, hypotenuse: 4 })).toThrow('Hypotenuse');
+    expect(() => calculateCircleFromMeasurement('radius', 0)).toThrow('greater than zero');
   });
 });
 

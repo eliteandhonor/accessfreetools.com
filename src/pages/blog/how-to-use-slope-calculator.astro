@@ -1,0 +1,42 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="slope-calculator"
+  label="Slope calculator guide"
+  title="How to use the Slope Calculator"
+  description="Learn how to find slope from two points, read rise over run, identify vertical lines, and use line equations."
+  path="/blog/how-to-use-slope-calculator/"
+  intro="The Slope Calculator finds rise, run, slope, and a line equation from two coordinate points."
+  quickStart={[
+    'Enter x1 and y1 for the first point.',
+    'Enter x2 and y2 for the second point.',
+    'Press Calculate slope.',
+    'Review rise, run, slope, and the line equation.',
+  ]}
+  sections={[
+    {
+      title: 'What slope means',
+      paragraphs: [
+        'Slope tells how steep a line is. It compares vertical change to horizontal change, often called rise over run.',
+        'Positive slope rises from left to right. Negative slope falls from left to right. A slope of zero is horizontal.',
+      ],
+    },
+    {
+      title: 'Vertical lines',
+      paragraphs: [
+        'If both points have the same x-value, the run is zero. Division by zero is undefined, so the slope is undefined.',
+        'The calculator still shows the vertical line equation as x equals the shared x-value.',
+      ],
+    },
+    {
+      title: 'Slope or distance',
+      paragraphs: [
+        'Use the Slope Calculator when you need steepness or a line equation.',
+        'Use the Distance Calculator when you need the straight-line length between the same two points.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Slope Calculator while you follow the guide."
+/>

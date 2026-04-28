@@ -1,0 +1,42 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="pythagorean-theorem-calculator"
+  label="Pythagorean theorem guide"
+  title="How to use the Pythagorean Theorem Calculator"
+  description="Learn how to solve a missing right-triangle side with a^2 + b^2 = c^2."
+  path="/blog/how-to-use-pythagorean-theorem-calculator/"
+  intro="The Pythagorean Theorem Calculator solves one missing side of a right triangle."
+  quickStart={[
+    'Choose whether to find the hypotenuse, leg a, or leg b.',
+    'Enter the two known side lengths.',
+    'Add a unit label if useful.',
+    'Press Calculate side to solve the missing side.',
+  ]}
+  sections={[
+    {
+      title: 'When the theorem applies',
+      paragraphs: [
+        'The Pythagorean theorem only works for right triangles. The hypotenuse is always the side opposite the 90-degree angle.',
+        'If the triangle is not a right triangle, use the Triangle Calculator instead.',
+      ],
+    },
+    {
+      title: 'Finding the hypotenuse',
+      paragraphs: [
+        'When both legs are known, the calculator uses c = sqrt(a^2 + b^2).',
+        'The hypotenuse should always be longer than either leg.',
+      ],
+    },
+    {
+      title: 'Finding a missing leg',
+      paragraphs: [
+        'When the hypotenuse and one leg are known, the calculator subtracts the known leg squared from the hypotenuse squared, then takes the square root.',
+        'If the known leg is longer than the hypotenuse, the input cannot describe a real right triangle.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Pythagorean Theorem Calculator while you follow the guide."
+/>

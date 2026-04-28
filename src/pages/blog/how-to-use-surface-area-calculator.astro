@@ -1,0 +1,42 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="surface-area-calculator"
+  label="Surface area guide"
+  title="How to use the Surface Area Calculator"
+  description="Learn how to calculate surface area for rectangular prisms, cubes, cylinders, spheres, and cones."
+  path="/blog/how-to-use-surface-area-calculator/"
+  intro="The Surface Area Calculator finds the outside area of common 3D solids."
+  quickStart={[
+    'Choose the solid shape you want to calculate.',
+    'Enter the required dimensions for that shape.',
+    'Use one length unit for every measurement.',
+    'Press Calculate surface area and read the square-unit result.',
+  ]}
+  sections={[
+    {
+      title: 'Supported surface area shapes',
+      paragraphs: [
+        'The calculator supports rectangular prisms, cubes, cylinders, spheres, and cones.',
+        'Cone mode asks for radius and vertical height, then calculates slant height before finding surface area.',
+      ],
+    },
+    {
+      title: 'Square units',
+      paragraphs: [
+        'Surface area is reported in square units because it measures the outside surface of a solid.',
+        'If the measurements are in inches, the surface area is shown in in^2.',
+      ],
+    },
+    {
+      title: 'Surface area versus volume',
+      paragraphs: [
+        'Surface area measures the outside of a solid. Volume measures how much space is inside.',
+        'Use the Volume Calculator for cubic-unit capacity or space problems.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Surface Area Calculator while you follow the guide."
+/>

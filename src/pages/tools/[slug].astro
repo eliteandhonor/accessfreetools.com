@@ -5,6 +5,7 @@ import BinaryCalculator from '../../components/BinaryCalculator';
 import BigNumberCalculator from '../../components/BigNumberCalculator';
 import ExponentCalculator from '../../components/ExponentCalculator';
 import FractionCalculator from '../../components/FractionCalculator';
+import GeometryCalculator, { type GeometryToolVariant } from '../../components/GeometryCalculator';
 import HalfLifeCalculator from '../../components/HalfLifeCalculator';
 import HexCalculator from '../../components/HexCalculator';
 import LogCalculator from '../../components/LogCalculator';
@@ -73,6 +74,19 @@ const statsToolVariants = {
 } as const satisfies Partial<Record<string, StatsToolVariant>>;
 const statsToolVariant = statsToolVariants[tool.slug];
 const isStatsSuiteTool = Boolean(statsToolVariant);
+const geometryToolVariants = {
+  'triangle-calculator': 'triangle',
+  'volume-calculator': 'volume',
+  'slope-calculator': 'slope',
+  'area-calculator': 'area',
+  'distance-calculator': 'distance',
+  'circle-calculator': 'circle',
+  'surface-area-calculator': 'surface-area',
+  'pythagorean-theorem-calculator': 'pythagorean',
+  'right-triangle-calculator': 'right-triangle',
+} as const satisfies Partial<Record<string, GeometryToolVariant>>;
+const geometryToolVariant = geometryToolVariants[tool.slug];
+const isGeometryTool = Boolean(geometryToolVariant);
 const statsToolInstructions: Record<string, string[]> = {
   'standard-deviation-calculator': [
     'Enter a list of numbers separated by commas, spaces, or line breaks.',
@@ -129,7 +143,63 @@ const statsToolInstructions: Record<string, string[]> = {
     'Use examples, recent answers, or copy the interval while checking estimates.',
   ],
 };
-const toolInstructions = statsToolInstructions[tool.slug] ?? (isPercentageTool
+const geometryToolInstructions: Record<string, string[]> = {
+  'triangle-calculator': [
+    'Enter the three side lengths of the triangle.',
+    'Add an optional unit label such as cm, m, or in.',
+    'Press Calculate triangle to find area, perimeter, angles, and triangle type.',
+    'Use examples, recent answers, or copy the result while checking geometry work.',
+  ],
+  'volume-calculator': [
+    'Choose the solid shape: rectangular prism, cube, cylinder, sphere, or cone.',
+    'Enter the required radius, height, side, length, or width values.',
+    'Press Calculate volume to see the cubic result and formula steps.',
+    'Use examples, recent answers, or copy the result for notes or homework.',
+  ],
+  'slope-calculator': [
+    'Enter the first point as x1 and y1.',
+    'Enter the second point as x2 and y2.',
+    'Press Calculate slope to see rise, run, slope, and the line equation.',
+    'Use examples, recent answers, or copy the result while checking coordinate problems.',
+  ],
+  'area-calculator': [
+    'Choose the shape: rectangle, triangle, circle, trapezoid, or parallelogram.',
+    'Enter the required measurements for that shape.',
+    'Press Calculate area to see the square-unit result and formula steps.',
+    'Use examples, recent answers, or copy the result while comparing shapes.',
+  ],
+  'distance-calculator': [
+    'Enter the first point as x1 and y1.',
+    'Enter the second point as x2 and y2.',
+    'Press Calculate distance to see distance, delta x, delta y, and midpoint.',
+    'Use examples, recent answers, or copy the result while checking coordinate geometry.',
+  ],
+  'circle-calculator': [
+    'Choose the known circle measurement: radius, diameter, circumference, or area.',
+    'Enter the known value and an optional unit label.',
+    'Press Calculate circle to find radius, diameter, circumference, and area.',
+    'Use examples, recent answers, or copy the result while solving circle problems.',
+  ],
+  'surface-area-calculator': [
+    'Choose the solid shape: rectangular prism, cube, cylinder, sphere, or cone.',
+    'Enter the required measurements for that shape.',
+    'Press Calculate surface area to see the square-unit result and formula steps.',
+    'Use examples, recent answers, or copy the result while checking geometry work.',
+  ],
+  'pythagorean-theorem-calculator': [
+    'Choose whether you need the hypotenuse, leg a, or leg b.',
+    'Enter the two known side lengths of the right triangle.',
+    'Press Calculate side to solve the missing side with a^2 + b^2 = c^2.',
+    'Use examples, recent answers, or copy the result while checking right-triangle work.',
+  ],
+  'right-triangle-calculator': [
+    'Choose two legs or leg and hypotenuse mode.',
+    'Enter the known side lengths and optional unit label.',
+    'Press Calculate right triangle to find sides, area, perimeter, and acute angles.',
+    'Use examples, recent answers, or copy the result while solving right triangles.',
+  ],
+};
+const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? (isPercentageTool
   ? [
       'Choose the percentage question you want to answer.',
       'Enter the values for percent-of, what-percent, percentage change, adjustment, or reverse percentage.',
@@ -547,6 +617,17 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? (isPercentageTool
       )
     }
 
+    {
+      isGeometryTool && (
+        <div class="advanced-tool-points" aria-label={`${tool.name} highlights`}>
+          <span>Formula steps</span>
+          <span>Examples included</span>
+          <span>Copy results</span>
+          <span>Private history</span>
+        </div>
+      )
+    }
+
     {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
     {isPercentageTool && <PercentageCalculator client:load />}
     {isPercentErrorTool && <PercentErrorCalculator client:load />}
@@ -569,6 +650,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? (isPercentageTool
     {isScientificNotationTool && <ScientificNotationCalculator client:load />}
     {isBigNumberTool && <BigNumberCalculator client:load />}
     {statsToolVariant && <StatsCalculator variant={statsToolVariant} client:load />}
+    {geometryToolVariant && <GeometryCalculator variant={geometryToolVariant} client:load />}
 
     <section class="content-section">
       <h2>How to use the {tool.name.toLowerCase()}</h2>
@@ -599,7 +681,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? (isPercentageTool
       </div>
     </section>
 
-    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section']}>
+    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section']}>
       <div class="section-title-block">
         <h2>Frequently asked questions</h2>
         {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
@@ -624,6 +706,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? (isPercentageTool
         {isScientificNotationTool && <p>Quick answers about powers of 10, coefficients, exponents, standard form, and privacy.</p>}
         {isBigNumberTool && <p>Quick answers about exact integer math, huge whole numbers, division remainders, limits, and privacy.</p>}
         {isStatsSuiteTool && <p>Quick answers about formulas, inputs, examples, result copying, and private in-browser history.</p>}
+        {isGeometryTool && <p>Quick answers about formulas, units, valid measurements, examples, copying, and private in-browser history.</p>}
       </div>
       <div class="faq-list">
         {

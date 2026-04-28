@@ -1,0 +1,42 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="triangle-calculator"
+  label="Triangle calculator guide"
+  title="How to use the Triangle Calculator"
+  description="Learn how to calculate triangle area, perimeter, angles, and triangle type from three side lengths."
+  path="/blog/how-to-use-triangle-calculator/"
+  intro="The Triangle Calculator takes three side lengths and turns them into area, perimeter, angles, and triangle classification."
+  quickStart={[
+    'Enter side a, side b, and side c using the same unit.',
+    'Add a unit label if you want the result to show cm, m, in, or another unit.',
+    'Press Calculate triangle.',
+    'Review area, perimeter, semiperimeter, angles, side type, and angle type.',
+  ]}
+  sections={[
+    {
+      title: 'When to use three-side triangle mode',
+      paragraphs: [
+        'Use this calculator when you know all three side lengths but do not know the height. The calculator first checks that the sides can form a real triangle.',
+        'After the sides pass the triangle inequality check, it uses Heron\'s formula for area and the law of cosines for angle estimates.',
+      ],
+    },
+    {
+      title: 'Reading the answer',
+      paragraphs: [
+        'Area is shown in square units. Perimeter and semiperimeter are shown in the same length unit you entered.',
+        'The classification helps you spot whether the triangle is scalene, isosceles, equilateral, acute, right, or obtuse.',
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'Do not mix units in the same calculation. Convert all sides first if one side is in inches and another is in centimeters.',
+        'If the calculator says the triangle inequality fails, the three side lengths cannot close into a triangle.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Triangle Calculator while you follow the guide."
+/>

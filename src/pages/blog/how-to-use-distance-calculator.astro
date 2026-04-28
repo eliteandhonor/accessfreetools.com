@@ -1,0 +1,42 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="distance-calculator"
+  label="Distance calculator guide"
+  title="How to use the Distance Calculator"
+  description="Learn how to calculate distance between two points, delta x, delta y, and midpoint from coordinates."
+  path="/blog/how-to-use-distance-calculator/"
+  intro="The Distance Calculator finds the straight-line distance and midpoint between two coordinate points."
+  quickStart={[
+    'Enter x1 and y1 for the first point.',
+    'Enter x2 and y2 for the second point.',
+    'Add a unit label if the coordinates represent real measurements.',
+    'Press Calculate distance.',
+  ]}
+  sections={[
+    {
+      title: 'Distance formula basics',
+      paragraphs: [
+        'The calculator uses d = sqrt((x2-x1)^2 + (y2-y1)^2). This is the coordinate version of the Pythagorean theorem.',
+        'Delta x and delta y show the horizontal and vertical changes before they are squared and combined.',
+      ],
+    },
+    {
+      title: 'Using midpoint',
+      paragraphs: [
+        'The midpoint is the point halfway between the two coordinates. It is useful for graphing, geometry, and checking symmetry.',
+        'The midpoint formula averages the x-values and averages the y-values.',
+      ],
+    },
+    {
+      title: 'Distance or slope',
+      paragraphs: [
+        'Use distance when you need length between points.',
+        'Use slope when you need rise over run, steepness, or a line equation.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Distance Calculator while you follow the guide."
+/>
