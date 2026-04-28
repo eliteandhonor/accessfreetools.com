@@ -100,7 +100,7 @@ export const tools: ToolDefinition[] = [
     icon: 'calculator-percent',
     seoTitle: 'Percentage Calculator | Free Online Percent Calculator',
     seoDescription:
-      'Use the free Access Free Tools percentage calculator to find percent of a number, what percent one value is of another, percentage change, discounts, markups, and reverse percentages.',
+      'Find percent of a number, percentage change, discounts, markups, reverse percentages, and what-percent answers.',
     useCases: [
       'Find a discount, tip, tax amount, sale price, or markup.',
       'Calculate what percent one number is of another number.',
@@ -236,7 +236,7 @@ export const tools: ToolDefinition[] = [
     icon: 'calculator-error',
     seoTitle: 'Percent Error Calculator | Free Online Percentage Error Tool',
     seoDescription:
-      'Use the free Access Free Tools percent error calculator to compare measured and accepted values, find absolute percent error, signed percent error, absolute error, relative error, and steps.',
+      'Compare measured and accepted values, then find absolute percent error, signed percent error, absolute error, and steps.',
     useCases: [
       'Check lab results against an accepted, true, or theoretical value.',
       'See whether a measured value is higher or lower than the accepted value.',
@@ -382,7 +382,7 @@ export const tools: ToolDefinition[] = [
     icon: 'calculator-power',
     seoTitle: 'Exponent Calculator | Free Online Power Calculator',
     seoDescription:
-      'Use the free Access Free Tools exponent calculator to calculate base to a power, including positive, negative, zero, decimal, and simple fraction exponents with steps and scientific notation.',
+      'Calculate powers with positive, negative, zero, decimal, and simple fraction exponents plus steps and scientific notation.',
     useCases: [
       'Calculate squares, cubes, powers of 10, and larger powers.',
       'Check zero exponent and negative exponent homework problems.',
@@ -1984,7 +1984,7 @@ export const tools: ToolDefinition[] = [
     icon: 'random-dice',
     seoTitle: 'Random Number Generator | Free Online Number Picker',
     seoDescription:
-      'Use the free Access Free Tools random number generator to pick one or many random integers with min and max values, unique results, exclusions, sorting, copy, and private in-browser history.',
+      'Pick one or many random integers with min and max values, unique results, exclusions, sorting, copy, and private history.',
     useCases: [
       'Pick a random number for a classroom activity, game, raffle practice, or quick decision.',
       'Generate several random values at once for examples, testing, or simple lists.',

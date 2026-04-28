@@ -32,7 +32,18 @@ const canonical = new URL(path, Astro.site ?? 'https://accessfreetools.com').toS
     <script is:inline>
       (() => {
         try {
-          const themes = new Set(['fresh', 'coral', 'violet', 'mono']);
+          const themes = new Set([
+            'fresh',
+            'coral',
+            'violet',
+            'lagoon',
+            'bloom',
+            'sunrise',
+            'forest',
+            'slate',
+            'orchid',
+            'mono',
+          ]);
           const storedTheme = window.localStorage.getItem('access-tools-theme');
           document.documentElement.dataset.theme = themes.has(storedTheme) ? storedTheme : 'fresh';
         } catch {
