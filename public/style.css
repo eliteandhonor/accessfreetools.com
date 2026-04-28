@@ -1,0 +1,99 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f5f7fa;
+  color: #1a1a2e;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: #16213e;
+  color: #e2e8f0;
+  padding: 2rem 1.5rem 1.5rem;
+  text-align: center;
+}
+
+header h1 { font-size: 2.2rem; letter-spacing: -0.5px; }
+header h1 .tld { color: #4ecca3; }
+header .tagline { margin-top: 0.4rem; font-size: 1rem; opacity: 0.75; }
+
+main { flex: 1; max-width: 960px; margin: 2.5rem auto; padding: 0 1rem; width: 100%; }
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.tool-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.5rem 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 2px 8px rgba(0,0,0,.07);
+  transition: transform .15s, box-shadow .15s;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.tool-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.12);
+}
+
+.tool-card .icon {
+  font-size: 1.7rem;
+  flex-shrink: 0;
+}
+
+.tool-card .label { font-weight: 600; font-size: 0.95rem; }
+
+/* Tool pages */
+.tool-page { max-width: 760px; margin: 2rem auto; padding: 0 1rem; }
+.tool-page h2 { margin-bottom: 1rem; }
+.tool-page textarea,
+.tool-page input[type="text"],
+.tool-page input[type="number"] {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  resize: vertical;
+}
+.tool-page .btn-row { margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.tool-page button {
+  padding: 0.5rem 1.1rem;
+  background: #16213e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background .15s;
+}
+.tool-page button:hover { background: #4ecca3; color: #16213e; }
+.tool-page .output { margin-top: 1rem; }
+
+a.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #16213e;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+a.back-link:hover { text-decoration: underline; }
+
+footer {
+  text-align: center;
+  padding: 1.2rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+  border-top: 1px solid #e5e7eb;
+}
