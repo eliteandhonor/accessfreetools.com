@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const quadraticCalculator = getTool('quadratic-formula-calculator');
+const examples = quadraticCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Quadratic Formula Calculator',
+  description:
+    'A practical guide to using the Access Free Tools quadratic formula calculator for roots, discriminants, vertex, axis of symmetry, complex roots, examples, and privacy.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-quadratic-formula-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Quadratic Formula Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools quadratic formula calculator to solve ax^2 + bx + c = 0, read the discriminant, find roots, and use graph details."
+  path="/blog/how-to-use-quadratic-formula-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Quadratic Formula Guide</p>
+
+    <header class="blog-article-header">
+      <span>Quadratic formula guide</span>
+      <h1>How to use the Quadratic Formula Calculator</h1>
+      <p>
+        The Quadratic Formula Calculator solves equations in standard form ax^2 + bx + c = 0. It
+        shows real or complex roots, the discriminant, the vertex, the axis of symmetry, and the
+        steps used to reach the answer.
+      </p>
+      <a class="button-primary" href="/tools/quadratic-formula-calculator/">Open the quadratic calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Rewrite your equation in standard form: ax^2 + bx + c = 0.</li>
+            <li>Enter the coefficient a from the x^2 term.</li>
+            <li>Enter the coefficient b from the x term.</li>
+            <li>Enter the constant c.</li>
+            <li>Press Calculate roots and review the roots, discriminant, vertex, axis, and steps.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>The quadratic formula</h2>
+          <p>
+            The calculator uses x = (-b +/- sqrt(b^2 - 4ac)) / 2a. The expression inside the
+            square root, b^2 - 4ac, is called the discriminant.
+          </p>
+          <p>
+            For x^2 - 3x + 2 = 0, the coefficients are a = 1, b = -3, and c = 2. The roots are
+            x = 2 and x = 1.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Reading the discriminant</h2>
+          <div class="shortcut-table" role="table" aria-label="Quadratic discriminant guide">
+            <div role="row">
+              <strong role="cell">Positive</strong>
+              <span role="cell">The equation has two real roots.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">Zero</strong>
+              <span role="cell">The equation has one repeated real root.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">Negative</strong>
+              <span role="cell">The equation has two complex conjugate roots.</span>
+            </div>
+          </div>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the quadratic calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Graph details</h2>
+          <p>
+            The calculator also shows the vertex and axis of symmetry. The axis of symmetry is
+            x = -b / 2a, and the vertex is the point where the parabola reaches its maximum or
+            minimum value.
+          </p>
+          <p>
+            If a is positive, the parabola opens up. If a is negative, it opens down. The constant
+            c is the y-intercept.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Common mistakes</h2>
+          <p>
+            Make sure the equation is equal to zero before entering coefficients. For example,
+            x^2 = 3x - 2 should be rewritten as x^2 - 3x + 2 = 0.
+          </p>
+          <p>
+            Coefficient a cannot be zero. If a is zero, the equation is linear, not quadratic, and
+            the quadratic formula does not apply.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent quadratic answers stay visible in the current browser tab while you work. They
+            are not sent to a server.
+          </p>
+          <p>
+            Copy answer copies the equation and roots so you can paste the result into notes,
+            homework, a message, or another document.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the quadratic formula calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/quadratic-formula-calculator/">Quadratic Formula Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

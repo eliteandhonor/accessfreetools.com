@@ -98,6 +98,22 @@ function CalculatorGlyph({ mark }: { mark: CalculatorIconMark }) {
         <text className="calculator-power-mark" x="18" y="24.4" textAnchor="middle">
           x^n
         </text>
+      ) : mark === 'log' ? (
+        <text className="calculator-log-mark" x="18" y="24.8" textAnchor="middle">
+          log
+        </text>
+      ) : mark === 'root' ? (
+        <text className="calculator-root-mark" x="18" y="24.8" textAnchor="middle">
+          rt
+        </text>
+      ) : mark === 'ratio' ? (
+        <text className="calculator-ratio-mark" x="18" y="24.7" textAnchor="middle">
+          a:b
+        </text>
+      ) : mark === 'quadratic' ? (
+        <text className="calculator-quadratic-mark" x="18" y="24.5" textAnchor="middle">
+          x^2
+        </text>
       ) : mark === 'half-life' ? (
         <text className="calculator-half-life-mark" x="18" y="24.7" textAnchor="middle">
           t1/2
@@ -258,7 +274,7 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
         <input
           id="tool-library-search"
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search calculator, half-life, hex..."
+          placeholder="Search calculator, log, ratio, root..."
           type="search"
           value={query}
         />

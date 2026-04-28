@@ -21,6 +21,13 @@ export const blogPosts: BlogPostDefinition[] = [
       'Learn how to find percent of a number, what percent one number is of another, percentage change, discounts, markups, and reverse percentages.',
   },
   {
+    slug: 'how-to-use-ratio-calculator',
+    title: 'How to use the Ratio Calculator',
+    label: 'Ratio calculator guide',
+    summary:
+      'Learn how to simplify ratios, make equivalent ratios, split totals by ratio parts, handle decimals, and check proportions.',
+  },
+  {
     slug: 'how-to-use-percent-error-calculator',
     title: 'How to use the Percent Error Calculator',
     label: 'Percent error calculator guide',
@@ -40,6 +47,27 @@ export const blogPosts: BlogPostDefinition[] = [
     label: 'Exponent calculator guide',
     summary:
       'Learn how to calculate powers, negative exponents, zero exponents, fraction exponents, scientific notation, and common exponent mistakes.',
+  },
+  {
+    slug: 'how-to-use-log-calculator',
+    title: 'How to use the Log Calculator',
+    label: 'Log calculator guide',
+    summary:
+      'Learn how to calculate logarithms with custom bases, use ln and log10, read change-of-base steps, and check answers with exponents.',
+  },
+  {
+    slug: 'how-to-use-root-calculator',
+    title: 'How to use the Root Calculator',
+    label: 'Root calculator guide',
+    summary:
+      'Learn how to calculate square roots, cube roots, nth roots, exponent form, negative radicands, and real-number root checks.',
+  },
+  {
+    slug: 'how-to-use-quadratic-formula-calculator',
+    title: 'How to use the Quadratic Formula Calculator',
+    label: 'Quadratic formula guide',
+    summary:
+      'Learn how to solve ax^2 + bx + c = 0, read the discriminant, find real or complex roots, and use vertex details.',
   },
   {
     slug: 'how-to-use-binary-calculator',

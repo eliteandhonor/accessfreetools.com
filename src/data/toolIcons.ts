@@ -3,6 +3,10 @@ export type CalculatorIconMark =
   | 'percent'
   | 'error'
   | 'power'
+  | 'log'
+  | 'root'
+  | 'ratio'
+  | 'quadratic'
   | 'half-life'
   | 'binary'
   | 'hex'
@@ -17,6 +21,10 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-percent': 'percent',
   'calculator-error': 'error',
   'calculator-power': 'power',
+  'calculator-log': 'log',
+  'calculator-root': 'root',
+  'calculator-ratio': 'ratio',
+  'calculator-quadratic': 'quadratic',
   'calculator-half-life': 'half-life',
   'calculator-binary': 'binary',
   'calculator-hex': 'hex',

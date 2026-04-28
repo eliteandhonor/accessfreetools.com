@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const logCalculator = getTool('log-calculator');
+const examples = logCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Log Calculator',
+  description:
+    'A practical guide to using the Access Free Tools log calculator, including custom bases, ln, log10, change-of-base steps, exponent checks, history, and privacy.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-log-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Log Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools log calculator for custom-base logarithms, ln, log10, change-of-base steps, exponent checks, history, and privacy."
+  path="/blog/how-to-use-log-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Log Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Log calculator guide</span>
+      <h1>How to use the Log Calculator</h1>
+      <p>
+        The Log Calculator finds logarithms with a custom base and shows the same value as ln and
+        log10. It also explains the change-of-base formula and gives a power check so the answer is
+        easier to trust.
+      </p>
+      <a class="button-primary" href="/tools/log-calculator/">Open the log calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Enter the value you want inside the logarithm.</li>
+            <li>Enter the base, such as 2, 10, or e.</li>
+            <li>Press Calculate log.</li>
+            <li>Review the answer, ln(value), log10(value), power check, and steps.</li>
+            <li>Use examples, recent answers, or Copy answer while comparing log problems.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>What a logarithm means</h2>
+          <p>
+            A logarithm answers an exponent question. If log base b of x equals y, then b^y equals
+            x. For example, log_2(8) equals 3 because 2^3 equals 8.
+          </p>
+          <p>
+            This is why the calculator shows a power check beside the main answer. It gives a quick
+            way to confirm that the logarithm result matches the original value.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Valid inputs</h2>
+          <p>
+            The value inside a logarithm must be greater than zero. The base must also be greater
+            than zero, and the base cannot equal 1.
+          </p>
+          <p>
+            Log answers can be positive, zero, or negative. For a base greater than 1, values above
+            1 create positive answers, value 1 creates answer 0, and values between 0 and 1 create
+            negative answers.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Change of base</h2>
+          <p>
+            The calculator uses log_b(x) = ln(x) / ln(b). This lets it calculate logarithms for any
+            valid base, even when the browser only gives direct natural-log and common-log math.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Common log and natural log</h2>
+          <p>
+            log10 means base 10. It is common in scientific notation, pH examples, decibels, and
+            powers of 10.
+          </p>
+          <p>
+            ln means natural log, which uses base e. Natural logs show up often in growth, decay,
+            calculus, and exponential models.
+          </p>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the log calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent log answers stay visible in the page while you work. The history is kept only in
+            the current browser tab and is not sent to a server.
+          </p>
+          <p>
+            Copy answer copies the expression and result so you can paste it into notes, homework,
+            a message, or another document.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the log calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/log-calculator/">Log Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

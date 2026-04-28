@@ -2,15 +2,20 @@ import {
   calculateBinary,
   calculateBinaryIntegerOperation,
   calculateFraction,
+  calculateEquivalentRatio,
   calculateHexIntegerOperation,
   calculateHalfLifeElapsedTime,
   calculateHalfLifeRemaining,
   calculateHalfLifeValue,
+  calculateLogarithm,
+  calculateNthRoot,
   calculatePercentageChange,
   calculatePercentageOf,
   calculateExponent,
   calculatePercentError,
   calculatePercentOf,
+  calculateQuadraticFormula,
+  calculateRatioShare,
   calculateScientificExpression,
   formatCalculatorNumber,
   formatBinaryInteger,
@@ -32,6 +37,7 @@ import {
   percentDisplayValue,
   randomIntegerInRange,
   reversePercentageValue,
+  simplifyRatioValues,
   simplifyFraction,
   toggleDisplaySign,
 } from './calculator';
@@ -192,6 +198,59 @@ describe('exponent helpers', () => {
   });
 });
 
+describe('logarithm helpers', () => {
+  it('calculates custom-base, common, and natural logs', () => {
+    const binaryLog = calculateLogarithm(8, 2);
+    const naturalLog = calculateLogarithm(Math.E ** 3, Math.E);
+
+    expect(formatCalculatorNumber(binaryLog.result)).toBe('3');
+    expect(formatCalculatorNumber(binaryLog.commonLog)).toBe('0.903089987');
+    expect(formatCalculatorNumber(naturalLog.result)).toBe('3');
+    expect(formatCalculatorNumber(calculateLogarithm(1000, 10).result)).toBe('3');
+  });
+
+  it('rejects invalid logarithm inputs', () => {
+    expect(() => calculateLogarithm(0, 2)).toThrow('Log value must be greater than zero');
+    expect(() => calculateLogarithm(8, 1)).toThrow('Log base cannot be 1');
+  });
+});
+
+describe('root helpers', () => {
+  it('calculates square, cube, and fourth roots', () => {
+    expect(formatCalculatorNumber(calculateNthRoot(144, 2).value)).toBe('12');
+    expect(formatCalculatorNumber(calculateNthRoot(-125, 3).value)).toBe('-5');
+    expect(formatCalculatorNumber(calculateNthRoot(81, 4).value)).toBe('3');
+  });
+
+  it('rejects unsupported real-number roots', () => {
+    expect(() => calculateNthRoot(-16, 2)).toThrow('Even roots of negative numbers are not real numbers');
+    expect(() => calculateNthRoot(16, 1)).toThrow('Root index must be at least 2');
+    expect(() => calculateNthRoot(16, 2.5)).toThrow('Root index must be a whole number');
+  });
+});
+
+describe('ratio helpers', () => {
+  it('simplifies whole-number and decimal ratios', () => {
+    expect(simplifyRatioValues([12, 18]).simplifiedValues).toEqual([2, 3]);
+    expect(simplifyRatioValues([1.5, 2.5]).simplifiedValues).toEqual([3, 5]);
+    expect(simplifyRatioValues([0, 12]).simplifiedValues).toEqual([0, 1]);
+  });
+
+  it('calculates equivalent ratios and ratio shares', () => {
+    expect(formatCalculatorNumber(calculateEquivalentRatio(4, 7, 20).newRight)).toBe('35');
+
+    const split = calculateRatioShare(100, [2, 3]);
+
+    expect(split.shares.map((share) => formatCalculatorNumber(share))).toEqual(['40', '60']);
+  });
+
+  it('rejects invalid ratio inputs', () => {
+    expect(() => simplifyRatioValues([0, 0])).toThrow('At least one ratio value must be greater than zero');
+    expect(() => simplifyRatioValues([2, -3])).toThrow('Ratio value 2 cannot be negative');
+    expect(() => calculateEquivalentRatio(0, 7, 20)).toThrow('Known left value must be greater than zero');
+  });
+});
+
 describe('binary integer helpers', () => {
   it('parses and formats binary and decimal integers', () => {
     expect(parseBinaryInteger('1011')).toBe(11n);
@@ -273,6 +332,54 @@ describe('half-life helpers', () => {
       'Final amount cannot be greater than initial amount',
     );
     expect(() => calculateHalfLifeValue(100, 100, 5)).toThrow('Final amount must be less than initial amount');
+  });
+});
+
+describe('quadratic formula helpers', () => {
+  it('solves two real roots and vertex values', () => {
+    const result = calculateQuadraticFormula(1, -3, 2);
+
+    expect(result.rootType).toBe('two-real');
+    expect(result.discriminant).toBe(1);
+    expect(formatCalculatorNumber(result.roots[0].real)).toBe('2');
+    expect(formatCalculatorNumber(result.roots[1].real)).toBe('1');
+    expect(formatCalculatorNumber(result.vertex.x)).toBe('1.5');
+    expect(formatCalculatorNumber(result.vertex.y)).toBe('-0.25');
+  });
+
+  it('solves one repeated real root', () => {
+    const result = calculateQuadraticFormula(1, -4, 4);
+
+    expect(result.rootType).toBe('one-real');
+    expect(result.discriminant).toBe(0);
+    expect(formatCalculatorNumber(result.roots[0].real)).toBe('2');
+    expect(formatCalculatorNumber(result.vertex.y)).toBe('0');
+  });
+
+  it('solves complex conjugate roots', () => {
+    const result = calculateQuadraticFormula(1, 2, 5);
+
+    expect(result.rootType).toBe('complex');
+    expect(result.discriminant).toBe(-16);
+    expect(formatCalculatorNumber(result.roots[0].real)).toBe('-1');
+    expect(formatCalculatorNumber(result.roots[0].imaginary)).toBe('2');
+    expect(formatCalculatorNumber(result.roots[1].imaginary)).toBe('-2');
+  });
+
+  it('handles negative leading coefficients', () => {
+    const result = calculateQuadraticFormula(-16, 64, 0);
+
+    expect(result.opens).toBe('down');
+    expect(formatCalculatorNumber(result.roots[0].real)).toBe('0');
+    expect(formatCalculatorNumber(result.roots[1].real)).toBe('4');
+    expect(formatCalculatorNumber(result.vertex.x)).toBe('2');
+    expect(formatCalculatorNumber(result.vertex.y)).toBe('64');
+  });
+
+  it('rejects non-quadratic equations', () => {
+    expect(() => calculateQuadraticFormula(0, 2, 1)).toThrow(
+      'Coefficient a cannot be zero for a quadratic equation',
+    );
   });
 });
 

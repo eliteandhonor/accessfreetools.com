@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const ratioCalculator = getTool('ratio-calculator');
+const examples = ratioCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Ratio Calculator',
+  description:
+    'A practical guide to using the Access Free Tools ratio calculator, including simplified ratios, equivalent ratios, splitting totals, decimals, history, and privacy.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-ratio-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Ratio Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools ratio calculator for simplified ratios, equivalent ratios, splitting totals, decimal ratios, steps, history, and privacy."
+  path="/blog/how-to-use-ratio-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Ratio Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Ratio calculator guide</span>
+      <h1>How to use the Ratio Calculator</h1>
+      <p>
+        The Ratio Calculator helps with three common proportional tasks: simplifying ratios,
+        finding equivalent ratios, and splitting a total into shares based on ratio parts.
+      </p>
+      <a class="button-primary" href="/tools/ratio-calculator/">Open the ratio calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Choose Simplify, Equivalent, or Split total.</li>
+            <li>Enter the ratio parts or known values for the selected mode.</li>
+            <li>Press Calculate ratio.</li>
+            <li>Review the answer, scale factor or shares, and step-by-step work.</li>
+            <li>Use examples, recent answers, or Copy answer while checking proportions.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>Simplify mode</h2>
+          <p>
+            Simplify mode reduces a two-part or three-part ratio to lowest terms. For 12:18, the
+            greatest common divisor is 6, so the simplified ratio is 2:3.
+          </p>
+          <p>
+            Decimal ratios are allowed. The calculator first clears the decimal places, then
+            simplifies the whole-number version.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Equivalent mode</h2>
+          <p>
+            Equivalent ratios keep the same relationship between parts. If 4:7 becomes 20:?, the
+            first part was multiplied by 5, so the second part is also multiplied by 5. The answer is
+            20:35.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Split total mode</h2>
+          <p>
+            Split total mode divides an amount by ratio parts. For 100 split by 2:3, there are 5
+            total parts. One part is 20, so the shares are 40 and 60.
+          </p>
+          <p>
+            This is useful for recipes, classroom examples, group shares, mixtures, and simple
+            proportional planning.
+          </p>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the ratio calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Common mistakes</h2>
+          <p>
+            Keep ratio parts in the same order. A ratio of 2:3 is not the same as 3:2 because the
+            parts describe different shares.
+          </p>
+          <p>
+            Do not mix units without converting first. For example, compare inches to inches or
+            centimeters to centimeters before simplifying a measurement ratio.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent ratio answers stay visible in the page while you work. The history is kept only
+            in the current browser tab and is not sent to a server.
+          </p>
+          <p>
+            Copy answer copies the ratio expression and result so you can paste it into notes,
+            homework, a message, or another document.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the ratio calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/ratio-calculator/">Ratio Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

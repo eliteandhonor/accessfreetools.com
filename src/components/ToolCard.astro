@@ -44,6 +44,14 @@ const calculatorMark = getCalculatorIconMark(tool.icon);
             </>
           ) : calculatorMark === 'power' ? (
             <text class="calculator-power-mark" x="18" y="24.4" text-anchor="middle">x^n</text>
+          ) : calculatorMark === 'log' ? (
+            <text class="calculator-log-mark" x="18" y="24.8" text-anchor="middle">log</text>
+          ) : calculatorMark === 'root' ? (
+            <text class="calculator-root-mark" x="18" y="24.8" text-anchor="middle">rt</text>
+          ) : calculatorMark === 'ratio' ? (
+            <text class="calculator-ratio-mark" x="18" y="24.7" text-anchor="middle">a:b</text>
+          ) : calculatorMark === 'quadratic' ? (
+            <text class="calculator-quadratic-mark" x="18" y="24.5" text-anchor="middle">x^2</text>
           ) : calculatorMark === 'half-life' ? (
             <text class="calculator-half-life-mark" x="18" y="24.7" text-anchor="middle">t1/2</text>
           ) : calculatorMark === 'binary' ? (

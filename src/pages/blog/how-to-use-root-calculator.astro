@@ -1,0 +1,133 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const rootCalculator = getTool('root-calculator');
+const examples = rootCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Root Calculator',
+  description:
+    'A practical guide to using the Access Free Tools root calculator, including square roots, cube roots, nth roots, exponent form, negative radicands, history, and privacy.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-root-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Root Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools root calculator for square roots, cube roots, nth roots, exponent form, negative radicands, steps, history, and privacy."
+  path="/blog/how-to-use-root-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Root Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Root calculator guide</span>
+      <h1>How to use the Root Calculator</h1>
+      <p>
+        The Root Calculator finds square roots, cube roots, and nth roots. It shows the exponent
+        form, a power check, and steps so the answer is easier to understand.
+      </p>
+      <a class="button-primary" href="/tools/root-calculator/">Open the root calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Enter the radicand, which is the number inside the root.</li>
+            <li>Enter the root index, such as 2 for square root or 3 for cube root.</li>
+            <li>Press Calculate root.</li>
+            <li>Review the answer, exponent form, power check, and steps.</li>
+            <li>Use examples, recent answers, or Copy answer while checking root problems.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>What roots mean</h2>
+          <p>
+            A root asks what number can be raised to a power to return the radicand. For example,
+            root_2(144) equals 12 because 12^2 equals 144.
+          </p>
+          <p>
+            A cube root asks for a number that returns the radicand when cubed. root_3(125) equals
+            5 because 5^3 equals 125.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Exponent form</h2>
+          <p>
+            Roots can be rewritten as rational exponents. The nth root of x is the same as x^(1/n).
+            That is why root_4(81) can also be written as 81^(1/4).
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Negative radicands</h2>
+          <p>
+            Odd roots of negative numbers can have real-number answers. For example, root_3(-125)
+            equals -5 because -5 cubed equals -125.
+          </p>
+          <p>
+            Even roots of negative numbers are not real numbers. The calculator will show an error
+            for cases such as root_2(-16).
+          </p>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the root calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Common mistakes</h2>
+          <p>
+            Use a whole-number root index. Index 2 means square root, index 3 means cube root, and
+            larger whole numbers are nth roots.
+          </p>
+          <p>
+            Check whether the answer is exact or rounded. Some roots, such as root_2(2), are
+            irrational and will appear as a decimal approximation.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent root answers stay visible in the page while you work. The history is kept only in
+            the current browser tab and is not sent to a server.
+          </p>
+          <p>
+            Copy answer copies the root expression and result so you can paste it into notes,
+            homework, a message, or another document.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the root calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/root-calculator/">Root Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

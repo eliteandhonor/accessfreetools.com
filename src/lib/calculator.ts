@@ -51,6 +51,65 @@ export interface HalfLifeRemainingResult {
   percentDecayed: number;
 }
 
+export interface ComplexNumberValue {
+  real: number;
+  imaginary: number;
+}
+
+export type QuadraticRootType = 'two-real' | 'one-real' | 'complex';
+
+export interface QuadraticFormulaResult {
+  a: number;
+  b: number;
+  c: number;
+  discriminant: number;
+  rootType: QuadraticRootType;
+  roots: ComplexNumberValue[];
+  vertex: {
+    x: number;
+    y: number;
+  };
+  axisOfSymmetry: number;
+  opens: 'up' | 'down';
+  yIntercept: number;
+}
+
+export interface LogarithmResult {
+  value: number;
+  base: number;
+  result: number;
+  naturalLog: number;
+  commonLog: number;
+}
+
+export interface RootResult {
+  radicand: number;
+  index: number;
+  value: number;
+  exponent: number;
+}
+
+export interface RatioSimplificationResult {
+  originalValues: number[];
+  scaledValues: number[];
+  simplifiedValues: number[];
+  scaleFactor: number;
+  divisor: number;
+}
+
+export interface EquivalentRatioResult {
+  knownLeft: number;
+  knownRight: number;
+  newLeft: number;
+  newRight: number;
+}
+
+export interface RatioShareResult {
+  total: number;
+  ratioValues: number[];
+  shares: number[];
+}
+
 export interface IntegerOperationResult {
   left: bigint;
   operator: CalculatorOperator;
@@ -239,6 +298,14 @@ function assertPositiveNumber(value: number, label: string) {
   }
 }
 
+function assertNonNegativeNumber(value: number, label: string) {
+  assertFiniteNumber(value, label);
+
+  if (value < 0) {
+    throw new Error(`${label} cannot be negative`);
+  }
+}
+
 export function calculateHalfLifeRemaining(
   initialAmount: number,
   halfLife: number,
@@ -303,6 +370,181 @@ export function calculateHalfLifeValue(
   }
 
   return elapsedTime * (Math.log(0.5) / Math.log(finalAmount / initialAmount));
+}
+
+export function calculateQuadraticFormula(a: number, b: number, c: number): QuadraticFormulaResult {
+  assertFiniteNumber(a, 'Coefficient a');
+  assertFiniteNumber(b, 'Coefficient b');
+  assertFiniteNumber(c, 'Coefficient c');
+
+  if (a === 0) {
+    throw new Error('Coefficient a cannot be zero for a quadratic equation');
+  }
+
+  const discriminant = b ** 2 - 4 * a * c;
+  const denominator = 2 * a;
+  const vertexX = -b / denominator;
+  const vertexY = a * vertexX ** 2 + b * vertexX + c;
+  let rootType: QuadraticRootType;
+  let roots: ComplexNumberValue[];
+
+  if (discriminant > 0) {
+    const squareRoot = Math.sqrt(discriminant);
+    rootType = 'two-real';
+    roots = [
+      { real: (-b + squareRoot) / denominator, imaginary: 0 },
+      { real: (-b - squareRoot) / denominator, imaginary: 0 },
+    ];
+  } else if (discriminant === 0) {
+    rootType = 'one-real';
+    roots = [{ real: -b / denominator, imaginary: 0 }];
+  } else {
+    const squareRoot = Math.sqrt(Math.abs(discriminant));
+    rootType = 'complex';
+    roots = [
+      { real: -b / denominator, imaginary: squareRoot / denominator },
+      { real: -b / denominator, imaginary: -squareRoot / denominator },
+    ];
+  }
+
+  return {
+    a,
+    b,
+    c,
+    discriminant,
+    rootType,
+    roots,
+    vertex: {
+      x: vertexX,
+      y: vertexY,
+    },
+    axisOfSymmetry: vertexX,
+    opens: a > 0 ? 'up' : 'down',
+    yIntercept: c,
+  };
+}
+
+export function calculateLogarithm(value: number, base: number): LogarithmResult {
+  assertPositiveNumber(value, 'Log value');
+  assertPositiveNumber(base, 'Log base');
+
+  if (base === 1) {
+    throw new Error('Log base cannot be 1');
+  }
+
+  return {
+    value,
+    base,
+    result: Math.log(value) / Math.log(base),
+    naturalLog: Math.log(value),
+    commonLog: Math.log10(value),
+  };
+}
+
+export function calculateNthRoot(radicand: number, index: number): RootResult {
+  assertFiniteNumber(radicand, 'Radicand');
+  assertPositiveNumber(index, 'Root index');
+
+  if (!Number.isInteger(index)) {
+    throw new Error('Root index must be a whole number');
+  }
+
+  if (index < 2) {
+    throw new Error('Root index must be at least 2');
+  }
+
+  if (radicand < 0 && index % 2 === 0) {
+    throw new Error('Even roots of negative numbers are not real numbers');
+  }
+
+  const absoluteRoot = Math.abs(radicand) ** (1 / index);
+  const value = radicand < 0 ? -absoluteRoot : absoluteRoot;
+
+  if (!Number.isFinite(value)) {
+    throw new Error('Root result is outside calculator range');
+  }
+
+  return {
+    radicand,
+    index,
+    value,
+    exponent: 1 / index,
+  };
+}
+
+function getDecimalPlaces(value: number) {
+  const text = value.toString().toLowerCase();
+
+  if (text.includes('e-')) {
+    return Math.min(Number(text.split('e-')[1]), 8);
+  }
+
+  if (text.includes('e+')) {
+    return 0;
+  }
+
+  return Math.min(text.split('.')[1]?.length ?? 0, 8);
+}
+
+export function simplifyRatioValues(values: number[]): RatioSimplificationResult {
+  if (values.length < 2) {
+    throw new Error('Enter at least two ratio values');
+  }
+
+  values.forEach((value, index) => {
+    assertNonNegativeNumber(value, `Ratio value ${index + 1}`);
+  });
+
+  if (values.every((value) => value === 0)) {
+    throw new Error('At least one ratio value must be greater than zero');
+  }
+
+  const decimalPlaces = Math.max(...values.map(getDecimalPlaces));
+  const scaleFactor = 10 ** decimalPlaces;
+  const scaledValues = values.map((value) => Math.round(value * scaleFactor));
+  const divisor = scaledValues.filter((value) => value !== 0).reduce(
+    (currentDivisor, value) => greatestCommonDivisor(currentDivisor, value),
+    0,
+  );
+
+  return {
+    originalValues: values,
+    scaledValues,
+    simplifiedValues: scaledValues.map((value) => value / divisor),
+    scaleFactor,
+    divisor,
+  };
+}
+
+export function calculateEquivalentRatio(
+  knownLeft: number,
+  knownRight: number,
+  newLeft: number,
+): EquivalentRatioResult {
+  assertPositiveNumber(knownLeft, 'Known left value');
+  assertNonNegativeNumber(knownRight, 'Known right value');
+  assertPositiveNumber(newLeft, 'New left value');
+
+  return {
+    knownLeft,
+    knownRight,
+    newLeft,
+    newRight: (knownRight * newLeft) / knownLeft,
+  };
+}
+
+export function calculateRatioShare(total: number, ratioValues: number[]): RatioShareResult {
+  assertNonNegativeNumber(total, 'Total');
+  simplifyRatioValues(ratioValues);
+
+  const ratioTotal = ratioValues.reduce((sum, value) => sum + value, 0);
+  const shares = ratioValues.map((value) => (total * value) / ratioTotal);
+
+  return {
+    total,
+    ratioValues,
+    shares,
+  };
 }
 
 export function parseBinaryInteger(input: string, label = 'Binary value'): bigint {

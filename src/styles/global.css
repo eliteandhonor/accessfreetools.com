@@ -505,6 +505,10 @@ main {
 .calculator-text-mark,
 .calculator-percent-mark,
 .calculator-power-mark,
+.calculator-log-mark,
+.calculator-root-mark,
+.calculator-ratio-mark,
+.calculator-quadratic-mark,
 .calculator-half-life-mark,
 .calculator-binary-mark,
 .calculator-hex-mark,
@@ -521,6 +525,22 @@ main {
 
 .calculator-power-mark {
   font-size: 7.4px;
+}
+
+.calculator-log-mark {
+  font-size: 7.4px;
+}
+
+.calculator-root-mark {
+  font-size: 8.4px;
+}
+
+.calculator-ratio-mark {
+  font-size: 7.2px;
+}
+
+.calculator-quadratic-mark {
+  font-size: 7.6px;
 }
 
 .calculator-half-life-mark {
@@ -554,6 +574,30 @@ main {
   background:
     linear-gradient(135deg, color-mix(in srgb, #d9e8ff 64%, white), color-mix(in srgb, var(--primary) 18%, white));
   color: color-mix(in srgb, var(--primary-strong) 82%, #23345b);
+}
+
+.tool-card-icon-log {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #c8f7e7 60%, white), color-mix(in srgb, #d9e8ff 34%, white));
+  color: color-mix(in srgb, var(--primary-strong) 84%, #112f4f);
+}
+
+.tool-card-icon-root {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #d9e8ff 58%, white), color-mix(in srgb, #fff2aa 38%, white));
+  color: color-mix(in srgb, #243b7a 72%, var(--primary-strong));
+}
+
+.tool-card-icon-ratio {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #ffe6a8 58%, white), color-mix(in srgb, #c8f7e7 38%, white));
+  color: color-mix(in srgb, #7a4308 68%, var(--primary-strong));
+}
+
+.tool-card-icon-quadratic {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #d9e8ff 60%, white), color-mix(in srgb, #f6e79a 34%, white));
+  color: color-mix(in srgb, #243b7a 76%, var(--primary-strong));
 }
 
 .tool-card-icon-half-life {
@@ -2381,6 +2425,406 @@ main {
   outline: none;
 }
 
+.log-calculator,
+.ratio-calculator,
+.root-calculator {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) 360px;
+}
+
+.log-tool-points,
+.ratio-tool-points,
+.root-tool-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.log-tool-points span,
+.ratio-tool-points span,
+.root-tool-points span {
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--border));
+  border-radius: 8px;
+  box-shadow: var(--soft-shadow);
+  color: var(--text);
+  font-weight: 850;
+  min-height: 38px;
+  padding: 9px 14px;
+}
+
+.log-tool-points span {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #c8f7e7 60%, white), color-mix(in srgb, #d9e8ff 28%, white));
+}
+
+.ratio-tool-points span {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #ffe6a8 58%, white), color-mix(in srgb, #c8f7e7 32%, white));
+  border-color: color-mix(in srgb, #d88916 24%, var(--border));
+}
+
+.root-tool-points span {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #d9e8ff 58%, white), color-mix(in srgb, #fff2aa 34%, white));
+  border-color: color-mix(in srgb, #4966c7 22%, var(--border));
+}
+
+.log-panel,
+.log-side-panel,
+.ratio-panel,
+.ratio-side-panel,
+.root-panel,
+.root-side-panel {
+  backdrop-filter: blur(16px);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), color-mix(in srgb, #c8f7e7 18%, rgba(255, 255, 255, 0.84)));
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--border));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.ratio-panel,
+.ratio-side-panel {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), color-mix(in srgb, #ffe6a8 18%, rgba(255, 255, 255, 0.84)));
+  border-color: color-mix(in srgb, #d88916 24%, var(--border));
+}
+
+.root-panel,
+.root-side-panel {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), color-mix(in srgb, #d9e8ff 20%, rgba(255, 255, 255, 0.84)));
+  border-color: color-mix(in srgb, #4966c7 24%, var(--border));
+}
+
+.log-panel,
+.ratio-panel,
+.root-panel {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+.log-fields,
+.ratio-fields,
+.root-fields,
+.log-quick-grid,
+.ratio-quick-grid,
+.root-quick-grid,
+.ratio-mode-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.log-fields,
+.root-fields {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ratio-fields {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.log-quick-grid,
+.root-quick-grid,
+.ratio-quick-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ratio-mode-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.log-field,
+.ratio-field,
+.root-field {
+  display: grid;
+  gap: 6px;
+}
+
+.log-field span,
+.ratio-field span,
+.root-field span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.ratio-field small {
+  color: color-mix(in srgb, var(--muted) 78%, white);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.log-field input,
+.ratio-field input,
+.root-field input {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 1.08rem;
+  font-weight: 900;
+  min-height: 48px;
+  min-width: 0;
+  outline: none;
+  padding: 0 12px;
+}
+
+.log-field input:focus,
+.ratio-field input:focus,
+.root-field input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
+}
+
+.log-quick-grid button,
+.ratio-quick-grid button,
+.root-quick-grid button,
+.ratio-mode-grid button,
+.log-side-panel li,
+.ratio-side-panel li,
+.root-side-panel li,
+.log-note,
+.ratio-note,
+.root-note {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.log-quick-grid button,
+.ratio-quick-grid button,
+.root-quick-grid button,
+.ratio-mode-grid button {
+  color: var(--primary-strong);
+  font-weight: 950;
+  min-height: 48px;
+}
+
+.ratio-mode-grid button {
+  color: var(--muted);
+}
+
+.ratio-mode-grid button[aria-pressed='true'] {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #7a4308 70%, var(--primary)), color-mix(in srgb, var(--text) 82%, black));
+  border-color: transparent;
+  color: #fff;
+}
+
+.log-actions,
+.ratio-actions,
+.root-actions {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+}
+
+.log-actions button:disabled,
+.ratio-actions button:disabled,
+.root-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.log-result-card,
+.ratio-result-card,
+.root-result-card {
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(135deg, color-mix(in srgb, var(--primary-strong) 88%, black), color-mix(in srgb, #112f4f 82%, black));
+  border-radius: 10px;
+  color: #fff;
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.ratio-result-card {
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(135deg, color-mix(in srgb, #5d3307 78%, black), color-mix(in srgb, var(--text) 88%, black));
+}
+
+.root-result-card {
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(135deg, color-mix(in srgb, #243b7a 76%, black), color-mix(in srgb, var(--text) 86%, black));
+}
+
+.log-result-card > span,
+.ratio-result-card > span,
+.root-result-card > span {
+  color: color-mix(in srgb, #c8f7e7 82%, white);
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.ratio-result-card > span,
+.ratio-result-card dt {
+  color: color-mix(in srgb, #ffe6a8 82%, white);
+}
+
+.root-result-card > span,
+.root-result-card dt {
+  color: color-mix(in srgb, #d9e8ff 82%, white);
+}
+
+.log-result-card > strong,
+.ratio-result-card > strong,
+.root-result-card > strong {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: clamp(1.75rem, 4.6vw, 3rem);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.log-result-card dl,
+.ratio-result-card dl,
+.root-result-card dl {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.log-result-card dl div,
+.ratio-result-card dl div,
+.root-result-card dl div {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.log-result-card dt,
+.ratio-result-card dt,
+.root-result-card dt {
+  color: color-mix(in srgb, #c8f7e7 80%, white);
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.log-result-card dd,
+.ratio-result-card dd,
+.root-result-card dd {
+  color: #fff;
+  font-weight: 950;
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.log-steps,
+.ratio-steps,
+.root-steps {
+  background: color-mix(in srgb, var(--surface-solid) 80%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.log-steps h2,
+.ratio-steps h2,
+.root-steps h2,
+.log-side-panel h2,
+.ratio-side-panel h2,
+.root-side-panel h2 {
+  font-size: 1.2rem;
+  line-height: 1.1;
+  margin: 0 0 10px;
+}
+
+.log-steps ol,
+.ratio-steps ol,
+.root-steps ol,
+.log-side-panel ol,
+.ratio-side-panel ol,
+.root-side-panel ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.log-steps li,
+.ratio-steps li,
+.root-steps li,
+.log-note p,
+.ratio-note p,
+.root-note p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.log-side-panel,
+.ratio-side-panel,
+.root-side-panel {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.log-side-panel ol,
+.ratio-side-panel ol,
+.root-side-panel ol {
+  list-style: none;
+  padding: 0;
+}
+
+.log-side-panel li,
+.ratio-side-panel li,
+.root-side-panel li {
+  display: grid;
+  gap: 4px;
+}
+
+.log-side-panel li span,
+.ratio-side-panel li span,
+.root-side-panel li span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.log-side-panel li strong,
+.ratio-side-panel li strong,
+.root-side-panel li strong {
+  color: var(--primary-strong);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 1.08rem;
+  overflow-wrap: anywhere;
+}
+
+.log-note p,
+.ratio-note p,
+.root-note p {
+  margin: 0;
+}
+
+.log-note p + p,
+.ratio-note p + p,
+.root-note p + p {
+  margin-top: 8px;
+}
+
+.log-quick-grid button:hover,
+.log-quick-grid button:focus-visible,
+.ratio-quick-grid button:hover,
+.ratio-quick-grid button:focus-visible,
+.ratio-mode-grid button:hover,
+.ratio-mode-grid button:focus-visible,
+.root-quick-grid button:hover,
+.root-quick-grid button:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
+  outline: none;
+}
+
 .half-life-calculator {
   display: grid;
   gap: 18px;
@@ -2661,6 +3105,270 @@ main {
 }
 
 .half-life-note p + p {
+  margin-top: 8px;
+}
+
+.quadratic-calculator {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) 360px;
+}
+
+.quadratic-tool-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.quadratic-tool-points span {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #d9e8ff 62%, white), color-mix(in srgb, #f6e79a 28%, white));
+  border: 1px solid color-mix(in srgb, #4966c7 22%, var(--border));
+  border-radius: 8px;
+  box-shadow: var(--soft-shadow);
+  color: var(--text);
+  font-weight: 850;
+  min-height: 38px;
+  padding: 9px 14px;
+}
+
+.quadratic-panel,
+.quadratic-side-panel {
+  backdrop-filter: blur(16px);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), color-mix(in srgb, #d9e8ff 20%, rgba(255, 255, 255, 0.84)));
+  border: 1px solid color-mix(in srgb, #4966c7 24%, var(--border));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.quadratic-panel {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+.quadratic-equation-preview {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--primary-strong) 88%, #172554), color-mix(in srgb, #243b7a 72%, black));
+  border-radius: 10px;
+  color: #fff;
+  display: grid;
+  gap: 8px;
+  min-height: 96px;
+  padding: 16px;
+}
+
+.quadratic-equation-preview span,
+.quadratic-result-card > span {
+  color: color-mix(in srgb, #d9e8ff 82%, white);
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.quadratic-equation-preview strong {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: clamp(1.45rem, 3.8vw, 2.45rem);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.quadratic-fields {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.quadratic-field {
+  display: grid;
+  gap: 6px;
+}
+
+.quadratic-field span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.quadratic-field input {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 1.08rem;
+  font-weight: 900;
+  min-height: 48px;
+  min-width: 0;
+  outline: none;
+  padding: 0 12px;
+}
+
+.quadratic-field input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
+}
+
+.quadratic-quick-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.quadratic-quick-grid button,
+.quadratic-side-panel li,
+.quadratic-note,
+.quadratic-detail-list p {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.quadratic-quick-grid button {
+  color: var(--primary-strong);
+  font-weight: 950;
+  min-height: 48px;
+}
+
+.quadratic-actions {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+}
+
+.quadratic-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.quadratic-result-card {
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(135deg, color-mix(in srgb, #243b7a 76%, black), color-mix(in srgb, var(--text) 86%, black));
+  border-radius: 10px;
+  color: #fff;
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.quadratic-result-card > strong {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: clamp(1.65rem, 4.4vw, 2.85rem);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.quadratic-result-card dl {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.quadratic-result-card dl div {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.quadratic-result-card dt {
+  color: color-mix(in srgb, #d9e8ff 82%, white);
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.quadratic-result-card dd {
+  color: #fff;
+  font-weight: 950;
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.quadratic-steps {
+  background: color-mix(in srgb, var(--surface-solid) 80%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.quadratic-steps h2,
+.quadratic-side-panel h2 {
+  font-size: 1.2rem;
+  line-height: 1.1;
+  margin: 0 0 10px;
+}
+
+.quadratic-steps ol,
+.quadratic-side-panel ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.quadratic-steps li,
+.quadratic-note p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.quadratic-side-panel {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.quadratic-detail-list {
+  display: grid;
+  gap: 8px;
+}
+
+.quadratic-detail-list p {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.quadratic-detail-list span,
+.quadratic-side-panel li span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.quadratic-detail-list strong,
+.quadratic-side-panel li strong {
+  color: var(--primary-strong);
+  font-size: 1.08rem;
+  overflow-wrap: anywhere;
+}
+
+.quadratic-quick-grid button:hover,
+.quadratic-quick-grid button:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
+  outline: none;
+}
+
+.quadratic-side-panel ol {
+  list-style: none;
+  padding: 0;
+}
+
+.quadratic-side-panel li {
+  display: grid;
+  gap: 4px;
+}
+
+.quadratic-note p {
+  margin: 0;
+}
+
+.quadratic-note p + p {
   margin-top: 8px;
 }
 
@@ -3454,6 +4162,62 @@ main {
   color: color-mix(in srgb, #275a47 82%, var(--primary-strong));
 }
 
+.log-faq-section .faq-list details {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: color-mix(in srgb, var(--primary) 24%, var(--border));
+}
+
+.log-faq-section .faq-list details[open] {
+  border-color: color-mix(in srgb, var(--primary) 48%, var(--border));
+}
+
+.log-faq-section .faq-list summary::after {
+  background: color-mix(in srgb, #c8f7e7 52%, white);
+  color: var(--primary-strong);
+}
+
+.ratio-faq-section .faq-list details {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: color-mix(in srgb, #d88916 24%, var(--border));
+}
+
+.ratio-faq-section .faq-list details[open] {
+  border-color: color-mix(in srgb, #d88916 48%, var(--border));
+}
+
+.ratio-faq-section .faq-list summary::after {
+  background: color-mix(in srgb, #ffe6a8 52%, white);
+  color: color-mix(in srgb, #7a4308 78%, var(--primary-strong));
+}
+
+.root-faq-section .faq-list details {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: color-mix(in srgb, #4966c7 22%, var(--border));
+}
+
+.root-faq-section .faq-list details[open] {
+  border-color: color-mix(in srgb, #4966c7 46%, var(--border));
+}
+
+.root-faq-section .faq-list summary::after {
+  background: color-mix(in srgb, #d9e8ff 54%, white);
+  color: color-mix(in srgb, #243b7a 78%, var(--primary-strong));
+}
+
+.quadratic-faq-section .faq-list details {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: color-mix(in srgb, #4966c7 22%, var(--border));
+}
+
+.quadratic-faq-section .faq-list details[open] {
+  border-color: color-mix(in srgb, #4966c7 46%, var(--border));
+}
+
+.quadratic-faq-section .faq-list summary::after {
+  background: color-mix(in srgb, #d9e8ff 54%, white);
+  color: color-mix(in srgb, #243b7a 78%, var(--primary-strong));
+}
+
 .binary-faq-section .faq-list details {
   background: rgba(255, 255, 255, 0.82);
   border-color: color-mix(in srgb, var(--primary) 26%, var(--border));
@@ -3973,6 +4737,10 @@ main {
   .percent-error-calculator,
   .half-life-calculator,
   .exponent-calculator,
+  .log-calculator,
+  .ratio-calculator,
+  .root-calculator,
+  .quadratic-calculator,
   .binary-calculator,
   .fraction-calculator,
   .random-generator,
@@ -4007,6 +4775,14 @@ main {
   .launchpad-tool-grid,
   .half-life-mode-grid,
   .half-life-fields,
+  .log-quick-grid,
+  .log-fields,
+  .ratio-quick-grid,
+  .ratio-fields,
+  .root-quick-grid,
+  .root-fields,
+  .quadratic-quick-grid,
+  .quadratic-fields,
   .percentage-mode-grid,
   .random-toggle-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4070,10 +4846,27 @@ main {
   .half-life-fields,
   .half-life-mode-grid,
   .half-life-result-card dl,
+  .quadratic-actions,
+  .quadratic-fields,
+  .quadratic-quick-grid,
+  .quadratic-result-card dl,
   .exponent-actions,
   .exponent-fields,
   .exponent-quick-grid,
   .exponent-result-card dl,
+  .log-actions,
+  .log-fields,
+  .log-quick-grid,
+  .log-result-card dl,
+  .ratio-actions,
+  .ratio-fields,
+  .ratio-mode-grid,
+  .ratio-quick-grid,
+  .ratio-result-card dl,
+  .root-actions,
+  .root-fields,
+  .root-quick-grid,
+  .root-result-card dl,
   .binary-actions,
   .binary-operator-grid,
   .binary-quick-grid,

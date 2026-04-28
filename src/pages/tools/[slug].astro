@@ -6,9 +6,13 @@ import ExponentCalculator from '../../components/ExponentCalculator';
 import FractionCalculator from '../../components/FractionCalculator';
 import HalfLifeCalculator from '../../components/HalfLifeCalculator';
 import HexCalculator from '../../components/HexCalculator';
+import LogCalculator from '../../components/LogCalculator';
 import PercentErrorCalculator from '../../components/PercentErrorCalculator';
 import PercentageCalculator from '../../components/PercentageCalculator';
+import QuadraticFormulaCalculator from '../../components/QuadraticFormulaCalculator';
+import RatioCalculator from '../../components/RatioCalculator';
 import RandomNumberGenerator from '../../components/RandomNumberGenerator';
+import RootCalculator from '../../components/RootCalculator';
 import ScientificCalculator from '../../components/ScientificCalculator';
 import ToolCard from '../../components/ToolCard.astro';
 import ToolStructuredData from '../../components/ToolStructuredData.astro';
@@ -35,6 +39,10 @@ const isPercentageTool = tool.slug === 'percentage-calculator';
 const isPercentErrorTool = tool.slug === 'percent-error-calculator';
 const isHalfLifeTool = tool.slug === 'half-life-calculator';
 const isExponentTool = tool.slug === 'exponent-calculator';
+const isLogTool = tool.slug === 'log-calculator';
+const isRatioTool = tool.slug === 'ratio-calculator';
+const isRootTool = tool.slug === 'root-calculator';
+const isQuadraticTool = tool.slug === 'quadratic-formula-calculator';
 const isBinaryTool = tool.slug === 'binary-calculator';
 const isHexTool = tool.slug === 'hex-calculator';
 const isRandomTool = tool.slug === 'random-number-generator';
@@ -65,6 +73,34 @@ const toolInstructions = isPercentageTool
       'Enter the exponent as a whole number, decimal, or simple fraction such as 1/2.',
       'Press Calculate exponent to see the power, scientific notation, and steps.',
       'Use examples, recent answers, or copy the answer while you compare powers.',
+    ]
+  : isLogTool
+  ? [
+      'Enter the positive value you want to evaluate.',
+      'Enter a positive base that is not 1, such as 2, 10, or e.',
+      'Press Calculate log to see the logarithm, ln, log10, power check, and steps.',
+      'Use examples, recent answers, or copy the answer while you study logarithms.',
+    ]
+  : isRatioTool
+  ? [
+      'Choose Simplify, Equivalent, or Split total.',
+      'Enter the ratio parts or the known equivalent-ratio values.',
+      'Press Calculate ratio to see the answer, scale factor or shares, and steps.',
+      'Use examples, recent answers, or copy the answer while comparing proportions.',
+    ]
+  : isRootTool
+  ? [
+      'Enter the radicand, which is the value inside the root.',
+      'Enter a whole-number root index, such as 2 for square root or 3 for cube root.',
+      'Press Calculate root to see the answer, exponent form, power check, and steps.',
+      'Use examples, recent answers, or copy the answer while checking root problems.',
+    ]
+  : isQuadraticTool
+  ? [
+      'Enter coefficients a, b, and c from standard form ax^2 + bx + c = 0.',
+      'Press Calculate roots to use the quadratic formula.',
+      'Review the roots, discriminant, vertex, axis of symmetry, and step-by-step work.',
+      'Use examples, recent answers, or copy the answer while you study or graph.',
     ]
   : isBinaryTool
   ? [
@@ -182,6 +218,50 @@ const toolInstructions = isPercentageTool
     }
 
     {
+      isLogTool && (
+        <div class="log-tool-points" aria-label="Log calculator highlights">
+          <span>Custom bases</span>
+          <span>ln and log10</span>
+          <span>Change-of-base steps</span>
+          <span>Power check</span>
+        </div>
+      )
+    }
+
+    {
+      isRatioTool && (
+        <div class="ratio-tool-points" aria-label="Ratio calculator highlights">
+          <span>Simplify ratios</span>
+          <span>Equivalent ratios</span>
+          <span>Split totals</span>
+          <span>Step-by-step work</span>
+        </div>
+      )
+    }
+
+    {
+      isRootTool && (
+        <div class="root-tool-points" aria-label="Root calculator highlights">
+          <span>Square roots</span>
+          <span>Cube roots</span>
+          <span>Nth roots</span>
+          <span>Exponent form</span>
+        </div>
+      )
+    }
+
+    {
+      isQuadraticTool && (
+        <div class="quadratic-tool-points" aria-label="Quadratic formula calculator highlights">
+          <span>Real and complex roots</span>
+          <span>Discriminant</span>
+          <span>Vertex and axis</span>
+          <span>Step-by-step work</span>
+        </div>
+      )
+    }
+
+    {
       isBinaryTool && (
         <div class="binary-tool-points" aria-label="Binary calculator highlights">
           <span>Binary arithmetic</span>
@@ -252,6 +332,10 @@ const toolInstructions = isPercentageTool
     {isPercentErrorTool && <PercentErrorCalculator client:load />}
     {isHalfLifeTool && <HalfLifeCalculator client:load />}
     {isExponentTool && <ExponentCalculator client:load />}
+    {isLogTool && <LogCalculator client:load />}
+    {isRatioTool && <RatioCalculator client:load />}
+    {isRootTool && <RootCalculator client:load />}
+    {isQuadraticTool && <QuadraticFormulaCalculator client:load />}
     {isBinaryTool && <BinaryCalculator client:load />}
     {isHexTool && <HexCalculator client:load />}
     {isScientificTool && <ScientificCalculator client:load />}
@@ -287,7 +371,7 @@ const toolInstructions = isPercentageTool
       </div>
     </section>
 
-    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section']}>
+    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section']}>
       <div class="section-title-block">
         <h2>Frequently asked questions</h2>
         {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
@@ -296,6 +380,10 @@ const toolInstructions = isPercentageTool
         {isPercentErrorTool && <p>Quick answers about formulas, accepted values, signed error, zero values, units, and privacy.</p>}
         {isHalfLifeTool && <p>Quick answers about decay formulas, units, elapsed time, solving half-life, safety limits, and privacy.</p>}
         {isExponentTool && <p>Quick answers about powers, negative exponents, zero exponents, fraction exponents, and privacy.</p>}
+        {isLogTool && <p>Quick answers about valid bases, ln, log10, change-of-base, exponential checks, and privacy.</p>}
+        {isRatioTool && <p>Quick answers about simplifying, equivalent ratios, splitting totals, decimals, and privacy.</p>}
+        {isRootTool && <p>Quick answers about square roots, cube roots, nth roots, negative radicands, exponent form, and privacy.</p>}
+        {isQuadraticTool && <p>Quick answers about the quadratic formula, discriminants, complex roots, graph details, coefficients, and privacy.</p>}
         {isBinaryTool && <p>Quick answers about base-2 numbers, arithmetic, division remainders, conversion, and privacy.</p>}
         {isHexTool && <p>Quick answers about base-16 digits, 0x inputs, arithmetic, conversion, remainders, and privacy.</p>}
         {isFractionTool && <p>Quick answers about simplifying, mixed numbers, denominators, division, and privacy.</p>}

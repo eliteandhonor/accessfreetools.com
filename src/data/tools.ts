@@ -156,7 +156,75 @@ export const tools: ToolDefinition[] = [
           'Yes. Recent percentage answers stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['percent-error-calculator', 'basic-calculator', 'fraction-calculator'],
+    relatedSlugs: ['ratio-calculator', 'percent-error-calculator', 'fraction-calculator'],
+  },
+  {
+    slug: 'ratio-calculator',
+    name: 'Ratio Calculator',
+    category: 'calculators',
+    summary: 'Simplify ratios, find equivalent ratios, and split totals by ratio parts.',
+    description:
+      'Use this free ratio calculator to simplify two-part or three-part ratios, find equivalent ratios, split totals by a ratio, and see clear step-by-step work.',
+    icon: 'calculator-ratio',
+    seoTitle: 'Ratio Calculator | Free Online Ratio Solver',
+    seoDescription:
+      'Use the free Access Free Tools ratio calculator to simplify ratios, find equivalent ratios, split totals by ratio parts, and see step-by-step work.',
+    useCases: [
+      'Simplify ratios such as 12:18 into lowest terms.',
+      'Find an equivalent ratio when one side changes.',
+      'Split a total amount into shares using ratio parts.',
+      'Compare recipes, mixtures, maps, classroom examples, and proportional relationships.',
+    ],
+    examples: [
+      {
+        label: 'Simplify a ratio',
+        expression: '12:18',
+        result: '2:3',
+      },
+      {
+        label: 'Find an equivalent ratio',
+        expression: '4:7 = 20:?',
+        result: '20:35',
+      },
+      {
+        label: 'Split a total',
+        expression: '100 split by 2:3',
+        result: '40, 60',
+      },
+    ],
+    faq: [
+      {
+        question: 'What can I use the Ratio Calculator for?',
+        answer:
+          'Use it to simplify ratios, scale a ratio into an equivalent ratio, or split a total amount into parts based on a ratio.',
+      },
+      {
+        question: 'How do I simplify a ratio?',
+        answer:
+          'Enter two or three ratio parts, choose Simplify, and calculate. The calculator clears decimals if needed, then divides each part by the greatest common divisor.',
+      },
+      {
+        question: 'How do equivalent ratios work?',
+        answer:
+          'Equivalent ratios keep the same relationship between parts. If 4:7 is scaled so the first part becomes 20, the scale factor is 5 and the second part becomes 35.',
+      },
+      {
+        question: 'How do I split a total by a ratio?',
+        answer:
+          'Choose Split total, enter the ratio parts and the total. The calculator adds the ratio parts, finds the value of one part, then multiplies each part by that value.',
+      },
+      {
+        question: 'Can ratios include decimals?',
+        answer:
+          'Yes. Decimal ratio parts are accepted in Simplify and Split total modes. The calculator converts them to whole-number parts before simplifying.',
+      },
+      {
+        question: 'Is my ratio history private?',
+        answer:
+          'Yes. Recent ratio answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['percentage-calculator', 'fraction-calculator', 'basic-calculator'],
   },
   {
     slug: 'percent-error-calculator',
@@ -302,7 +370,7 @@ export const tools: ToolDefinition[] = [
           'Yes. Recent half-life answers stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['scientific-calculator', 'exponent-calculator', 'percentage-calculator'],
+    relatedSlugs: ['quadratic-formula-calculator', 'scientific-calculator', 'exponent-calculator'],
   },
   {
     slug: 'exponent-calculator',
@@ -375,7 +443,216 @@ export const tools: ToolDefinition[] = [
           'Yes. Recent exponent calculations stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['scientific-calculator', 'half-life-calculator', 'binary-calculator'],
+    relatedSlugs: ['log-calculator', 'root-calculator', 'quadratic-formula-calculator'],
+  },
+  {
+    slug: 'log-calculator',
+    name: 'Log Calculator',
+    category: 'calculators',
+    summary: 'Calculate logarithms with custom bases, ln, log10, and change-of-base steps.',
+    description:
+      'Use this free log calculator to find logarithms with any valid base, compare ln and log10 values, check the exponential form, and see change-of-base steps.',
+    icon: 'calculator-log',
+    seoTitle: 'Log Calculator | Free Online Logarithm Calculator',
+    seoDescription:
+      'Use the free Access Free Tools log calculator to calculate logarithms with custom bases, natural logs, common logs, exponential checks, and change-of-base steps.',
+    useCases: [
+      'Calculate log base 2, base 10, natural log, or another custom base.',
+      'Check logarithm homework with change-of-base steps.',
+      'Compare log, ln, and log10 values from one input.',
+      'Confirm a logarithm by seeing the matching exponential power check.',
+    ],
+    examples: [
+      {
+        label: 'Base 2 logarithm',
+        expression: 'log_2(8)',
+        result: '3',
+      },
+      {
+        label: 'Common logarithm',
+        expression: 'log_10(1000)',
+        result: '3',
+      },
+      {
+        label: 'Natural logarithm',
+        expression: 'ln(e^3)',
+        result: '3',
+      },
+    ],
+    faq: [
+      {
+        question: 'What formula does the Log Calculator use?',
+        answer:
+          'It uses the change-of-base formula: log_b(x) = ln(x) / ln(b). This lets the calculator solve logarithms for any valid positive base except 1.',
+      },
+      {
+        question: 'What values can I enter?',
+        answer:
+          'The log value must be greater than zero. The base must also be greater than zero, and the base cannot be 1.',
+      },
+      {
+        question: 'What is the difference between log, log10, and ln?',
+        answer:
+          'log10 means base 10, ln means base e, and a custom log lets you choose another base such as 2, 3, or 5.',
+      },
+      {
+        question: 'How can I check a logarithm answer?',
+        answer:
+          'Rewrite it as an exponent. If log base b of x equals y, then b^y should equal x. The calculator shows this check in the result card.',
+      },
+      {
+        question: 'Can logarithm answers be negative?',
+        answer:
+          'Yes. A logarithm can be negative when the value is between 0 and 1 for a base greater than 1, such as log_10(0.01) = -2.',
+      },
+      {
+        question: 'Is my log calculation history private?',
+        answer:
+          'Yes. Recent log answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['exponent-calculator', 'root-calculator', 'scientific-calculator'],
+  },
+  {
+    slug: 'root-calculator',
+    name: 'Root Calculator',
+    category: 'calculators',
+    summary: 'Calculate square roots, cube roots, nth roots, exponent form, and steps.',
+    description:
+      'Use this free root calculator to find square roots, cube roots, and nth roots with real-number guardrails, exponent form, power checks, examples, and steps.',
+    icon: 'calculator-root',
+    seoTitle: 'Root Calculator | Free Online Nth Root Calculator',
+    seoDescription:
+      'Use the free Access Free Tools root calculator to calculate square roots, cube roots, and nth roots with exponent form, power checks, and step-by-step work.',
+    useCases: [
+      'Find square roots and cube roots for math, science, and study problems.',
+      'Calculate nth roots such as fourth roots or fifth roots.',
+      'Convert root notation into rational exponent form.',
+      'Check whether a negative radicand has a real-number root.',
+    ],
+    examples: [
+      {
+        label: 'Square root',
+        expression: 'root_2(144)',
+        result: '12',
+      },
+      {
+        label: 'Cube root',
+        expression: 'root_3(-125)',
+        result: '-5',
+      },
+      {
+        label: 'Fourth root',
+        expression: 'root_4(81)',
+        result: '3',
+      },
+    ],
+    faq: [
+      {
+        question: 'What is an nth root?',
+        answer:
+          'An nth root asks what number raised to the nth power gives the radicand. For example, the cube root of 125 is 5 because 5^3 = 125.',
+      },
+      {
+        question: 'What is the difference between square root and cube root?',
+        answer:
+          'A square root uses index 2, so the answer squared returns the radicand. A cube root uses index 3, so the answer cubed returns the radicand.',
+      },
+      {
+        question: 'Can this calculator handle negative numbers?',
+        answer:
+          'It can calculate real odd roots of negative numbers, such as root_3(-125) = -5. Even roots of negative numbers are not real numbers, so the calculator shows an error.',
+      },
+      {
+        question: 'How are roots related to exponents?',
+        answer:
+          'A root can be rewritten as a rational exponent. The nth root of x is the same as x^(1/n).',
+      },
+      {
+        question: 'Can the root index be a decimal?',
+        answer:
+          'No. This calculator uses whole-number root indexes, such as 2, 3, 4, or 5.',
+      },
+      {
+        question: 'Is my root calculation history private?',
+        answer:
+          'Yes. Recent root answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['exponent-calculator', 'log-calculator', 'scientific-calculator'],
+  },
+  {
+    slug: 'quadratic-formula-calculator',
+    name: 'Quadratic Formula Calculator',
+    category: 'calculators',
+    summary: 'Solve ax^2 + bx + c = 0 with roots, discriminant, vertex, and steps.',
+    description:
+      'Use this free quadratic formula calculator to solve ax^2 + bx + c = 0, find real or complex roots, discriminant, vertex, axis of symmetry, steps, copy, and history.',
+    icon: 'calculator-quadratic',
+    seoTitle: 'Quadratic Formula Calculator | Free Online Root Solver',
+    seoDescription:
+      'Use the free Access Free Tools quadratic formula calculator to solve ax^2 + bx + c = 0 with real or complex roots, discriminant, vertex, steps, and examples.',
+    useCases: [
+      'Solve quadratic equations in standard form ax^2 + bx + c = 0.',
+      'Check whether an equation has two real roots, one repeated root, or complex roots.',
+      'Find the discriminant, vertex, axis of symmetry, opening direction, and y-intercept.',
+      'Copy roots and steps for algebra homework, graphing, studying, or checking work.',
+    ],
+    examples: [
+      {
+        label: 'Two real roots',
+        expression: 'x^2 - 3x + 2 = 0',
+        result: 'x = 2, 1',
+      },
+      {
+        label: 'Repeated root',
+        expression: 'x^2 - 4x + 4 = 0',
+        result: 'x = 2',
+      },
+      {
+        label: 'Complex roots',
+        expression: 'x^2 + 2x + 5 = 0',
+        result: 'x = -1 +/- 2i',
+      },
+    ],
+    faq: [
+      {
+        question: 'What formula does the Quadratic Formula Calculator use?',
+        answer:
+          'It uses x = (-b +/- sqrt(b^2 - 4ac)) / 2a for equations written in standard form ax^2 + bx + c = 0.',
+      },
+      {
+        question: 'What is the discriminant?',
+        answer:
+          'The discriminant is b^2 - 4ac. It tells you the root type: positive means two real roots, zero means one repeated real root, and negative means two complex conjugate roots.',
+      },
+      {
+        question: 'Why can coefficient a not be zero?',
+        answer:
+          'A quadratic equation needs an x^2 term. If a is zero, the equation becomes linear, so the quadratic formula does not apply.',
+      },
+      {
+        question: 'Can this calculator show complex roots?',
+        answer:
+          'Yes. When the discriminant is negative, the calculator shows the complex conjugate roots using i.',
+      },
+      {
+        question: 'Does this calculator show graph details?',
+        answer:
+          'Yes. It shows the vertex, axis of symmetry, y-intercept, and whether the parabola opens up or down.',
+      },
+      {
+        question: 'What form should I enter the equation in?',
+        answer:
+          'Enter the coefficients from standard form ax^2 + bx + c = 0. For example, x^2 - 3x + 2 = 0 uses a = 1, b = -3, and c = 2.',
+      },
+      {
+        question: 'Is my quadratic calculation history private?',
+        answer:
+          'Yes. Recent quadratic answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+      },
+    ],
+    relatedSlugs: ['root-calculator', 'scientific-calculator', 'exponent-calculator'],
   },
   {
     slug: 'binary-calculator',
@@ -647,7 +924,7 @@ export const tools: ToolDefinition[] = [
           'Use it when you need trig functions, logs, roots, powers, constants, parentheses, or DEG/RAD angle mode. For plain totals and quick percentages, the Basic Calculator is simpler.',
       },
     ],
-    relatedSlugs: ['exponent-calculator', 'half-life-calculator', 'binary-calculator'],
+    relatedSlugs: ['log-calculator', 'root-calculator', 'quadratic-formula-calculator'],
   },
   {
     slug: 'fraction-calculator',
@@ -715,7 +992,7 @@ export const tools: ToolDefinition[] = [
           'Yes. Recent fraction calculations stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['percentage-calculator', 'binary-calculator', 'scientific-calculator'],
+    relatedSlugs: ['ratio-calculator', 'percentage-calculator', 'scientific-calculator'],
   },
   {
     slug: 'random-number-generator',
