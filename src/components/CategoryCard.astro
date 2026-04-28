@@ -1,0 +1,14 @@
+---
+import type { ToolCategory } from '../data/categories';
+
+interface Props {
+  category: ToolCategory;
+}
+
+const { category } = Astro.props;
+---
+
+<a class="category-card" href={`/categories/${category.slug}/`}>
+  <span>{category.name}</span>
+  <p>{category.summary}</p>
+</a>

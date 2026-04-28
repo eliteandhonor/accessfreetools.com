@@ -1,0 +1,26 @@
+---
+import BrandLogo from './BrandLogo.astro';
+import ThemePicker from './ThemePicker';
+
+const navItems = [
+  { href: '/tools/', label: 'Tools' },
+  { href: '/categories/calculators/', label: 'Calculators' },
+  { href: '/categories/everyday-tools/', label: 'Everyday Tools' },
+  { href: '/blog/', label: 'Blog' },
+];
+---
+
+<header class="site-header">
+  <a class="brand" href="/" aria-label="Access Free Tools home">
+    <span class="brand-mark" aria-hidden="true">
+      <BrandLogo />
+    </span>
+    <span>Access Free Tools</span>
+  </a>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+  </nav>
+
+  <ThemePicker client:load />
+</header>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Access Free Tools">
+  <defs>
+    <linearGradient id="bg" x1="8" x2="56" y1="7" y2="58">
+      <stop stop-color="#0f766e"/>
+      <stop offset="0.52" stop-color="#ff7a59"/>
+      <stop offset="1" stop-color="#b7e85f"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="16" x2="49" y1="15" y2="49">
+      <stop stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.78"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
+  <path
+    d="M17 48 29.4 16h6L48 48h-7.1l-2.1-6H25.9l-2.1 6H17Zm11.2-12.5h8.2L32.3 23.7l-4.1 11.8Z"
+    fill="url(#panel)"
+  />
+  <path d="M22 50h20" stroke="#fff" stroke-linecap="round" stroke-opacity="0.58" stroke-width="3"/>
+  <g fill="#fff" fill-opacity="0.92">
+    <rect height="4.8" rx="1.6" width="4.8" x="45" y="15"/>
+    <rect height="4.8" rx="1.6" width="4.8" x="51" y="21"/>
+    <rect height="4.8" rx="1.6" width="4.8" x="45" y="27"/>
+  </g>
+</svg>

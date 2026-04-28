@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { categories, getCategory, type ToolCategory } from '../../data/categories';
+import { getToolsByCategory, tools } from '../../data/tools';
+
+export function getStaticPaths() {
+  return categories
+    .filter((category) => tools.some((tool) => tool.category === category.slug))
+    .map((category) => ({
+      params: { slug: category.slug },
+      props: { category },
+    }));
+}
+
+interface Props {
+  category: ToolCategory;
+}
+
+const { category } = Astro.props;
+const categoryTools = getToolsByCategory(category.slug);
+const categoryName = getCategory(category.slug)?.name ?? category.name;
+---
+
+<BaseLayout
+  title={`${categoryName} | Access Free Tools`}
+  description={`${category.summary} Browse ${category.name.toLowerCase()} from Access Free Tools.`}
+  path={`/categories/${category.slug}/`}
+>
+  <section class="page-intro">
+    <p class="breadcrumb"><a href="/">Home</a> / Categories</p>
+    <h1>{category.name}</h1>
+    <p>{category.summary}</p>
+  </section>
+
+  <section class="section-band">
+    <div class="tool-grid">
+      {categoryTools.map((tool) => <ToolCard tool={tool} />)}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const kawaiiCalculator = getTool('kawaii-calculator');
+const examples = kawaiiCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Kawaii Calculator',
+  description:
+    'A practical guide to using the Access Free Tools kawaii calculator, including cute design details, keypad controls, keyboard shortcuts, percentages, history, privacy, and copying results.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-kawaii-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Kawaii Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools kawaii calculator for cute pastel everyday math, percentages, keyboard shortcuts, history, privacy, and copying results."
+  path="/blog/how-to-use-kawaii-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Kawaii Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Kawaii calculator guide</span>
+      <h1>How to use the Kawaii Calculator</h1>
+      <p>
+        The Kawaii Calculator gives the same everyday math controls a softer pastel workspace.
+        Use it for quick totals, percentages, shopping math, study notes, and any moment where
+        a cute calculator makes the task feel a little lighter.
+      </p>
+      <a class="button-primary" href="/tools/kawaii-calculator/">Open the kawaii calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section kawaii-guide-visual">
+          <div>
+            <h2>A cute calculator that still works like a real tool</h2>
+            <p>
+              The pastel shell, face display, blush details, and mascot artwork are there for
+              personality. The math behavior stays practical: addition, subtraction,
+              multiplication, division, percentages, decimals, keyboard input, copying, and
+              session history.
+            </p>
+          </div>
+          <img
+            src="/images/kawaii-calculator-mascot.webp"
+            alt="A pastel kawaii calculator mascot with cute stationery."
+            height="720"
+            width="900"
+            loading="eager"
+          />
+        </section>
+
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Open the Kawaii Calculator and enter your first number.</li>
+            <li>Choose plus, minus, multiply, divide, percent, decimal, or sign change.</li>
+            <li>Enter the next number, then press equals or Enter.</li>
+            <li>Use Copy result if you want to paste the answer into notes, messages, or homework.</li>
+            <li>Use Calculation History to compare recent totals without leaving the page.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>When the kawaii version is useful</h2>
+          <div class="feature-list">
+            <p>Use it for cute stationery totals, craft supply costs, or small shopping lists.</p>
+            <p>Keep it open beside notes when a softer design helps the task feel less plain.</p>
+            <p>Check discounts, split small totals, and compare recent answers in the history panel.</p>
+            <p>Share copied results while keeping the calculations in your own browser session.</p>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Keyboard shortcuts</h2>
+          <div class="shortcut-table" role="table" aria-label="Kawaii calculator keyboard shortcuts">
+            <div role="row">
+              <strong role="cell">Numbers 0-9</strong>
+              <span role="cell">Enter digits</span>
+            </div>
+            <div role="row">
+              <strong role="cell">+ - * / x</strong>
+              <span role="cell">Choose an operation</span>
+            </div>
+            <div role="row">
+              <strong role="cell">Enter or =</strong>
+              <span role="cell">Calculate the result</span>
+            </div>
+            <div role="row">
+              <strong role="cell">Backspace</strong>
+              <span role="cell">Delete the last digit</span>
+            </div>
+            <div role="row">
+              <strong role="cell">Escape or Delete</strong>
+              <span role="cell">Clear the calculator</span>
+            </div>
+          </div>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the kawaii calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Privacy and history</h2>
+          <p>
+            The Kawaii Calculator runs in your browser. Recent calculations stay visible only on
+            the page during the current browser session, so you can compare totals without sending
+            the history to a server.
+          </p>
+          <p>
+            The Copy result button copies only the current result to your clipboard. Clear history
+            removes the visible list while keeping the current calculator result available.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the kawaii calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/kawaii-calculator/">Kawaii Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

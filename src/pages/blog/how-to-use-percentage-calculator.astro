@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const percentageCalculator = getTool('percentage-calculator');
+const examples = percentageCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Percentage Calculator',
+  description:
+    'A practical guide to using the Access Free Tools percentage calculator, including percent-of questions, what-percent questions, percentage change, discounts, markups, reverse percentages, history, privacy, and copying answers.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-percentage-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Percentage Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools percentage calculator for percent-of questions, what-percent questions, percentage change, discounts, markups, reverse percentages, history, privacy, and copying answers."
+  path="/blog/how-to-use-percentage-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Percentage Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Percentage calculator guide</span>
+      <h1>How to use the Percentage Calculator</h1>
+      <p>
+        The Percentage Calculator handles the percentage questions people ask most often:
+        percent of a number, what percent one number is of another, percentage increase or
+        decrease, adding or subtracting a percent, and reverse percentage problems.
+      </p>
+      <a class="button-primary" href="/tools/percentage-calculator/">Open the percentage calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Choose the percentage question you want to answer.</li>
+            <li>Enter the numbers shown for that mode.</li>
+            <li>Press Calculate percentage to get the answer.</li>
+            <li>Review the formula line and steps if you want to check the work.</li>
+            <li>Use examples, recent answers, or Copy answer while comparing values.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>Choosing the right mode</h2>
+          <div class="feature-list">
+            <p><strong>Percent of a number:</strong> use this for questions like 20% of 80.</p>
+            <p><strong>What percent:</strong> use this for questions like 25 is what percent of 200.</p>
+            <p><strong>Percentage change:</strong> use this to compare an original value and a new value.</p>
+            <p><strong>Add or subtract percent:</strong> use this for discounts, markups, tax, tips, or growth.</p>
+            <p><strong>Reverse percent:</strong> use this when you know the part and the percentage but need the original whole.</p>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Percentage examples</h2>
+          <div class="shortcut-table" role="table" aria-label="Percentage calculator examples">
+            <div role="row">
+              <strong role="cell">20% of 80</strong>
+              <span role="cell">Turns 20% into 0.20, then multiplies by 80 to get 16.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">25 is what % of 200</strong>
+              <span role="cell">Divides 25 by 200, then multiplies by 100 to get 12.5%.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">160 to 116</strong>
+              <span role="cell">Finds a decrease of 44, then compares it with 160 to get 27.5% decrease.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">120 plus 25%</strong>
+              <span role="cell">Finds 25% of 120, then adds 30 to get 150.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">30 is 15% of what?</strong>
+              <span role="cell">Divides 30 by 0.15 to get 200.</span>
+            </div>
+          </div>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the percentage calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Discounts, tips, and markups</h2>
+          <p>
+            For a discount, choose Add or subtract percent, enter the original price, enter the
+            percentage, and choose Decrease. For tax, tips, markup, or growth, use the same mode
+            and choose Increase.
+          </p>
+          <p>
+            The result shows the final value. The formula line also shows the amount added or
+            subtracted, which makes it easier to check the math.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Common mistakes to check</h2>
+          <p>
+            If you are finding what percent one number is of another, the whole value cannot be
+            zero. If you are finding percentage change, the original value cannot be zero because
+            the calculator has nothing to compare against.
+          </p>
+          <p>
+            For reverse percentages, the percentage cannot be zero. A question like "30 is 0% of
+            what?" does not have one useful original whole.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent percentage answers stay visible in the current page while you work. This is
+            useful when comparing discounts, prices, growth rates, or percentage changes. The
+            history is kept only in the current browser tab and is not sent to a server.
+          </p>
+          <p>
+            Copy answer copies the displayed answer to your clipboard so you can paste it into
+            notes, homework, a spreadsheet, or a message.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the percentage calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/percentage-calculator/">Percentage Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { blogPosts } from '../../data/blogPosts';
+---
+
+<BaseLayout
+  title="Blog | Access Free Tools"
+  description="Helpful guides for Access Free Tools utilities."
+  path="/blog/"
+>
+  <section class="blog-hub">
+    <div class="blog-hero">
+      <p class="breadcrumb"><a href="/">Home</a> / Blog</p>
+      <h1>Utility Guides</h1>
+      <p>
+        Real guides for tools that are available on Access Free Tools.
+      </p>
+    </div>
+
+    <div class="blog-list-grid">
+      {
+        blogPosts.map((post) => (
+          <article class="blog-post-card">
+            <span>{post.label}</span>
+            <h2>
+              <a href={`/blog/${post.slug}/`}>{post.title}</a>
+            </h2>
+            <p>{post.summary}</p>
+            <a class="card-link" href={`/blog/${post.slug}/`}>Read guide</a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

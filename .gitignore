@@ -1,0 +1,10 @@
+node_modules
+dist
+.astro
+.env
+.env.*
+npm-debug.log*
+coverage
+output
+.playwright-cli
+dev-server.log

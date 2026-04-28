@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import ToolCard from '../components/ToolCard.astro';
+import { categories } from '../data/categories';
+import { tools } from '../data/tools';
+
+const categoriesWithTools = categories.filter((category) =>
+  tools.some((tool) => tool.category === category.slug),
+);
+---
+
+<BaseLayout
+  title="Access Free Tools | Free Online Calculators and Utilities"
+  description="Access Free Tools offers fast, free online calculators and everyday browser utilities."
+>
+  <section class="home-hero">
+    <div class="hero-copy">
+      <h1>Access Free Tools</h1>
+      <p>
+        Fast, free calculators and everyday browser utilities with clear controls, helpful
+        guides, and no signup.
+      </p>
+      <div class="hero-actions">
+        <a class="button-primary" href="/tools/">Browse tools</a>
+        <a class="button-secondary" href="/blog/">Read guides</a>
+      </div>
+    </div>
+
+    <form class="tool-search" action="/tools/" role="search">
+      <label for="tool-search">Search free tools</label>
+      <input id="tool-search" name="q" type="search" placeholder="Calculator, fractions, percentages..." />
+      <p>Color-customizable, mobile-first, and quick to search.</p>
+    </form>
+  </section>
+
+  <section class="section-band">
+    <div class="section-heading">
+      <h2>Available Tools</h2>
+      <p>Open a tool and use it right away.</p>
+    </div>
+    <div class="tool-grid">
+      {tools.map((tool) => <ToolCard tool={tool} />)}
+    </div>
+  </section>
+
+  <section class="section-band section-band-soft">
+    <div class="section-heading">
+      <h2>Browse Categories</h2>
+      <p>Find tools by the task you want to complete.</p>
+    </div>
+    <div class="category-grid">
+      {categoriesWithTools.map((category) => <CategoryCard category={category} />)}
+    </div>
+  </section>
+</BaseLayout>

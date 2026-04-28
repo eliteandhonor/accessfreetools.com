@@ -1,0 +1,163 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const randomNumberGenerator = getTool('random-number-generator');
+const examples = randomNumberGenerator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Random Number Generator',
+  description:
+    'A practical guide to using the Access Free Tools random number generator, including min and max values, quantity, unique results, exclusions, sorting, copying, history, privacy, and everyday-use limits.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-random-number-generator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Random Number Generator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools random number generator for min and max ranges, multiple results, unique numbers, exclusions, sorting, copy, history, and privacy."
+  path="/blog/how-to-use-random-number-generator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Random Number Generator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Random number generator guide</span>
+      <h1>How to use the Random Number Generator</h1>
+      <p>
+        The Random Number Generator helps you pick one number or build a short list of random
+        integers. Set the range, choose how many results you need, then add unique results,
+        exclusions, sorting, and copy when the task needs a cleaner output.
+      </p>
+      <a class="button-primary" href="/tools/random-number-generator/">Open the random number generator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Enter the minimum and maximum whole numbers for the range.</li>
+            <li>Enter Quantity to choose how many random numbers to generate.</li>
+            <li>Turn on Unique results if every number in the list must be different.</li>
+            <li>Add excluded numbers when certain values should not appear.</li>
+            <li>Press Generate numbers, then copy the results or compare recent results.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>Choosing the range</h2>
+          <p>
+            The minimum and maximum values are inclusive. If you enter 1 and 10, the generator can
+            return 1, 10, or any whole number between them. The minimum must be less than or equal
+            to the maximum.
+          </p>
+          <p>
+            Use a small range when you want a simple pick, such as a number from 1 to 6 or 1 to 10.
+            Use a larger range when you need sample values, classroom examples, or a numbered list
+            with more possible outcomes.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Unique results and duplicates</h2>
+          <p>
+            When duplicates are allowed, the same number can appear more than once. That is useful
+            when each draw should behave like a fresh independent pick.
+          </p>
+          <p>
+            When Unique results is turned on, each number can appear only once in the generated
+            list. For example, if the range is 1 to 5 and you ask for 5 unique numbers, the result
+            will include every available number once.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Exclusions and sorting</h2>
+          <p>
+            Exclusions are useful when a numbered option is unavailable. Enter excluded numbers
+            separated by commas, spaces, or semicolons, such as 7, 13, 24. Numbers outside the
+            selected range are ignored.
+          </p>
+          <p>
+            Sort results changes the display order from draw order to low-to-high order. This is
+            useful when you plan to copy the list into notes, a worksheet, or a message.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Common examples</h2>
+          <div class="shortcut-table" role="table" aria-label="Random number generator examples">
+            <div role="row">
+              <strong role="cell">1 to 10, quantity 1</strong>
+              <span role="cell">Pick one number from a short numbered list.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">1 to 100, quantity 5</strong>
+              <span role="cell">Generate a small list of random sample values.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">1 to 50, unique sorted</strong>
+              <span role="cell">Build a clean list with no repeated numbers.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">1 to 20, exclude 7 and 13</strong>
+              <span role="cell">Skip numbers that should not appear in the result.</span>
+            </div>
+          </div>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the random number generator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Everyday randomness limits</h2>
+          <p>
+            This tool is designed for ordinary web utility tasks: practice picks, classroom
+            examples, simple games, quick decisions, and sample data. It should not be used for
+            passwords, gambling, legal drawings, security decisions, or any process that needs
+            audited randomness.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent random results stay visible in the page while you work. This is useful when you
+            want to compare a few attempts without writing each one down. The history is kept only
+            in the current browser tab and is not sent to a server.
+          </p>
+          <p>
+            Copy results copies the current list exactly as displayed, separated by commas, so you
+            can paste it into notes, homework, a message, or another document.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the random number generator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/random-number-generator/">Random Number Generator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

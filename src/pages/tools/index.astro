@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import ToolsLaunchpad from '../../components/ToolsLaunchpad';
+import { categories } from '../../data/categories';
+import { tools } from '../../data/tools';
+---
+
+<BaseLayout
+  title="All Free Tools | Access Free Tools"
+  description="Browse free calculators, converters, text tools, and everyday browser utilities from Access Free Tools."
+  path="/tools/"
+>
+  <ToolsLaunchpad categories={categories} tools={tools} client:load />
+</BaseLayout>

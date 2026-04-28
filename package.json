@@ -1,0 +1,29 @@
+{
+  "name": "accessfreetools.com",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Access Free Tools - fast, free web utilities starting with a basic calculator.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@astrojs/react": "^5.0.4",
+    "astro": "^6.1.9",
+    "lucide-react": "^1.11.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.5"
+  }
+}

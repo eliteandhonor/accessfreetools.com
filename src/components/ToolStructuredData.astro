@@ -1,0 +1,23 @@
+---
+import { getCategoryName, type ToolDefinition } from '../data/tools';
+
+interface Props {
+  tool: ToolDefinition;
+}
+
+const { tool } = Astro.props;
+const url = new URL(`/tools/${tool.slug}/`, Astro.site ?? 'https://accessfreetools.com').toString();
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: tool.name,
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'Any',
+  url,
+  description: tool.seoDescription,
+  isAccessibleForFree: true,
+  keywords: [tool.name, getCategoryName(tool.category), 'free online tool', 'Access Free Tools'],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

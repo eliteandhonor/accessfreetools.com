@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const calculator = getTool('basic-calculator');
+const examples = calculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Basic Calculator',
+  description:
+    'A practical guide to using the Access Free Tools basic calculator, including keypad controls, keyboard shortcuts, percentages, history, and copying results.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-basic-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Basic Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools basic calculator for everyday math, percentages, keyboard shortcuts, history, and copying results."
+  path="/blog/how-to-use-basic-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Calculator guide</span>
+      <h1>How to use the Basic Calculator</h1>
+      <p>
+        The Access Free Tools basic calculator is built for quick everyday math in your browser.
+        You can click the keypad, use your keyboard, copy the result, and keep recent calculations
+        visible while you compare numbers.
+      </p>
+      <a class="button-primary" href="/tools/basic-calculator/">Open the calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Enter the first number using the on-screen keypad or your keyboard.</li>
+            <li>Choose an operation: add, subtract, multiply, or divide.</li>
+            <li>Enter the next number and press equals or Enter.</li>
+            <li>Use Copy result if you want to paste the answer somewhere else.</li>
+            <li>Check the Calculation History panel if you need to compare recent totals.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>What each button does</h2>
+          <div class="feature-list">
+            <p><strong>AC</strong> clears the calculator and starts over.</p>
+            <p><strong>DEL</strong> removes the last digit you entered.</p>
+            <p><strong>%</strong> turns the current number into a percentage value. For plus or minus, it uses the first number as the base.</p>
+            <p><strong>+/-</strong> switches the current number between positive and negative.</p>
+            <p><strong>x</strong> multiplies two numbers.</p>
+            <p><strong>/</strong> divides one number by another.</p>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Keyboard shortcuts</h2>
+          <div class="shortcut-table" role="table" aria-label="Basic calculator keyboard shortcuts">
+            <div role="row">
+              <strong role="cell">Numbers 0-9</strong>
+              <span role="cell">Enter digits</span>
+            </div>
+            <div role="row">
+              <strong role="cell">+ - * /</strong>
+              <span role="cell">Choose an operation</span>
+            </div>
+            <div role="row">
+              <strong role="cell">x or X</strong>
+              <span role="cell">Multiply</span>
+            </div>
+            <div role="row">
+              <strong role="cell">Enter or =</strong>
+              <span role="cell">Calculate the result</span>
+            </div>
+            <div role="row">
+              <strong role="cell">Backspace</strong>
+              <span role="cell">Delete the last digit</span>
+            </div>
+            <div role="row">
+              <strong role="cell">Escape or Delete</strong>
+              <span role="cell">Clear the calculator</span>
+            </div>
+          </div>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Using history and copy</h2>
+          <p>
+            After a calculation finishes, the result is added to the history panel. This is useful
+            when you are comparing totals, checking several discounts, or working through a few
+            quick numbers in a row.
+          </p>
+          <p>
+            The Copy result button copies the current display value to your clipboard. The Clear
+            history button clears only the visible history list; it does not change the current
+            calculator result.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Privacy note</h2>
+          <p>
+            The calculator runs in your browser. The recent calculation history is kept only on
+            the page during the current session and is not sent to a server by this tool.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/basic-calculator/">Basic Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

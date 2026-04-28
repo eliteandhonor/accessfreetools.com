@@ -1,0 +1,65 @@
+---
+import type { ToolDefinition } from '../data/tools';
+import { getCalculatorIconMark } from '../data/toolIcons';
+
+interface Props {
+  tool: ToolDefinition;
+}
+
+const { tool } = Astro.props;
+const href = `/tools/${tool.slug}/`;
+const calculatorMark = getCalculatorIconMark(tool.icon);
+---
+
+<a class="tool-card" href={href}>
+  <span class:list={['tool-card-icon', calculatorMark && `tool-card-icon-${calculatorMark}`]} aria-hidden="true">
+    {
+      calculatorMark === 'dice' ? (
+        <svg viewBox="0 0 36 36" role="img">
+          <rect class="dice-body" x="7" y="7" width="22" height="22" rx="6"></rect>
+          <circle class="dice-pip" cx="13" cy="13" r="2"></circle>
+          <circle class="dice-pip" cx="23" cy="13" r="2"></circle>
+          <circle class="dice-pip" cx="18" cy="18" r="2"></circle>
+          <circle class="dice-pip" cx="13" cy="23" r="2"></circle>
+          <circle class="dice-pip" cx="23" cy="23" r="2"></circle>
+        </svg>
+      ) : calculatorMark ? (
+        <svg viewBox="0 0 36 36" role="img">
+          <rect class="calculator-body" x="8" y="5" width="20" height="26" rx="4"></rect>
+          <rect class="calculator-screen" x="11" y="9" width="14" height="5" rx="1.4"></rect>
+          {calculatorMark === 'heart' ? (
+            <path
+              class="calculator-mark"
+              d="M18 25.4l-4.4-4.1c-1.8-1.7-1.8-4.4.1-5.4 1.2-.7 2.8-.3 3.7.9.9-1.2 2.5-1.6 3.7-.9 1.9 1.1 1.9 3.8.1 5.4L18 25.4Z"
+            ></path>
+          ) : calculatorMark === 'fx' ? (
+            <text class="calculator-text-mark" x="18" y="25" text-anchor="middle">fx</text>
+          ) : calculatorMark === 'percent' ? (
+            <text class="calculator-percent-mark" x="18" y="25.5" text-anchor="middle">%</text>
+          ) : calculatorMark === 'fraction' ? (
+            <>
+              <path class="calculator-mark" d="M13.2 21.2h9.6"></path>
+              <text class="calculator-fraction-mark" x="18" y="19" text-anchor="middle">1</text>
+              <text class="calculator-fraction-mark" x="18" y="27.3" text-anchor="middle">2</text>
+            </>
+          ) : (
+            <>
+              <path class="calculator-mark" d="M18 16.8v8.2"></path>
+              <path class="calculator-mark" d="M13.9 20.9h8.2"></path>
+            </>
+          )}
+        </svg>
+      ) : (
+        <svg viewBox="0 0 36 36" role="img">
+          <path class="calculator-mark" d="M23.5 8.5l4 4-12.8 12.8-5.2 1.2 1.2-5.2L23.5 8.5Z"></path>
+          <path class="calculator-mark" d="M20.8 11.2l4 4"></path>
+        </svg>
+      )
+    }
+  </span>
+  <span>
+    <strong>{tool.name}</strong>
+    <small>{tool.summary}</small>
+  </span>
+  <em>Open</em>
+</a>

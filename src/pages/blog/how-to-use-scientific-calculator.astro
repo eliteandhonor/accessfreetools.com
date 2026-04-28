@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const scientificCalculator = getTool('scientific-calculator');
+const examples = scientificCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Scientific Calculator',
+  description:
+    'A practical guide to using the Access Free Tools scientific calculator, including DEG/RAD mode, typed expressions, trig functions, logs, roots, powers, constants, history, privacy, and copying results.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-scientific-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Scientific Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools scientific calculator for trig functions, logs, roots, powers, constants, DEG/RAD mode, history, privacy, and copying results."
+  path="/blog/how-to-use-scientific-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Scientific Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Scientific calculator guide</span>
+      <h1>How to use the Scientific Calculator</h1>
+      <p>
+        The Scientific Calculator is built for expressions that need more than basic arithmetic:
+        trig functions, logs, roots, powers, constants, parentheses, DEG/RAD angle mode, and
+        reusable calculation history.
+      </p>
+      <a class="button-primary" href="/tools/scientific-calculator/">Open the scientific calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Type an expression directly or build it with the scientific keypad.</li>
+            <li>Choose DEG or RAD before using sin, cos, tan, or inverse trig functions.</li>
+            <li>Use parentheses when you need to control the order of operations.</li>
+            <li>Press equals or Enter to calculate the expression.</li>
+            <li>Use history to reload recent expressions or Copy result to paste the answer elsewhere.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>DEG and RAD mode</h2>
+          <p>
+            DEG means degrees. Use DEG when a problem says angles like 30 degrees, 45 degrees,
+            or 90 degrees. RAD means radians. Use RAD for expressions written in radians, such
+            as many calculus, physics, and advanced math problems.
+          </p>
+          <p>
+            Choose the angle mode before calculating a trigonometry expression. For example,
+            sin(30) in DEG mode returns 0.5, while RAD mode treats 30 as radians.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Supported expression types</h2>
+          <div class="feature-list">
+            <p><strong>Trig:</strong> sin, cos, tan, asin, acos, and atan.</p>
+            <p><strong>Logs:</strong> log for base 10 and ln for natural log.</p>
+            <p><strong>Roots:</strong> sqrt for square root and cbrt for cube root.</p>
+            <p><strong>Powers:</strong> use x^y style expressions such as 2^5.</p>
+            <p><strong>Constants:</strong> use pi and e inside expressions.</p>
+            <p><strong>Grouping:</strong> use parentheses to control calculation order.</p>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Keyboard examples</h2>
+          <div class="shortcut-table" role="table" aria-label="Scientific calculator keyboard examples">
+            <div role="row">
+              <strong role="cell">sin(30)+cos(60)</strong>
+              <span role="cell">Checks a simple trig identity in DEG mode.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">log(1000)</strong>
+              <span role="cell">Finds the base 10 logarithm.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">sqrt(25)+cbrt(8)</strong>
+              <span role="cell">Adds a square root and cube root result.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">2^5</strong>
+              <span role="cell">Calculates a power.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">ln(e)</strong>
+              <span role="cell">Uses the natural log constant.</span>
+            </div>
+          </div>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the scientific calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent scientific expressions stay visible in the history panel so you can compare
+            answers and reopen an expression. This history is only kept in the current browser
+            tab while you use the page.
+          </p>
+          <p>
+            Copy result copies the current displayed result to your clipboard. The calculator
+            does not need an account, and the expression history is not sent to a server.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the scientific calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/scientific-calculator/">Scientific Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

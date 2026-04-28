@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import { getTool } from '../../data/tools';
+
+const fractionCalculator = getTool('fraction-calculator');
+const examples = fractionCalculator?.examples ?? [];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Fraction Calculator',
+  description:
+    'A practical guide to using the Access Free Tools fraction calculator, including adding, subtracting, multiplying, dividing, simplifying, mixed numbers, decimal conversion, history, privacy, and copying answers.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-fraction-calculator/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
+---
+
+<BaseLayout
+  title="How to use the Fraction Calculator | Access Free Tools"
+  description="Learn how to use the free Access Free Tools fraction calculator for adding, subtracting, multiplying, dividing, simplifying, mixed numbers, decimal conversion, history, privacy, and copying answers."
+  path="/blog/how-to-use-fraction-calculator/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Fraction Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Fraction calculator guide</span>
+      <h1>How to use the Fraction Calculator</h1>
+      <p>
+        The Fraction Calculator helps with fraction arithmetic in a way that is easy to check:
+        enter whole numbers, numerators, and denominators, choose an operation, then review the
+        simplified answer, improper fraction, decimal value, and working steps.
+      </p>
+      <a class="button-primary" href="/tools/fraction-calculator/">Open the fraction calculator</a>
+    </header>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Enter the first fraction. Use Whole only when the number is mixed, such as 2 1/4.</li>
+            <li>Enter the numerator and denominator for the second fraction.</li>
+            <li>Choose add, subtract, multiply, or divide.</li>
+            <li>Press Calculate fraction to see the simplified answer.</li>
+            <li>Read the steps, copy the answer, try an example, or swap the two fractions.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>How to enter fractions</h2>
+          <div class="feature-list">
+            <p><strong>Simple fraction:</strong> leave Whole blank and enter the numerator and denominator, such as 1 and 2 for 1/2.</p>
+            <p><strong>Mixed number:</strong> enter the whole number plus the fraction part, such as 2, 1, and 4 for 2 1/4.</p>
+            <p><strong>Improper fraction:</strong> enter a numerator larger than the denominator, such as 9 and 4 for 9/4.</p>
+            <p><strong>Negative fraction:</strong> use a negative whole number or numerator when the value should be below zero.</p>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>What the answer shows</h2>
+          <p>
+            The main answer is shown as a mixed number when that is easier to read. The result box
+            also includes the improper fraction and a decimal value, so you can compare the answer
+            with homework, recipes, measurements, or a calculator that expects decimals.
+          </p>
+          <p>
+            The steps section shows the common denominator method for addition and subtraction,
+            direct multiplication for multiplying fractions, and reciprocal multiplication when
+            dividing fractions.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Operation examples</h2>
+          <div class="shortcut-table" role="table" aria-label="Fraction calculator operation examples">
+            <div role="row">
+              <strong role="cell">1/2 + 1/3</strong>
+              <span role="cell">Finds a common denominator and simplifies to 5/6.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">2 1/4 - 3/8</strong>
+              <span role="cell">Converts the mixed number, subtracts, and returns 1 7/8.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">3/4 x 2/5</strong>
+              <span role="cell">Multiplies numerators and denominators, then simplifies.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">5/6 / 2/3</strong>
+              <span role="cell">Flips the second fraction, multiplies, and simplifies.</span>
+            </div>
+          </div>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the fraction calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Common mistakes to check</h2>
+          <p>
+            A denominator cannot be zero. If the calculator shows an input error, check that both
+            denominators are filled in with whole numbers and that the denominator is not 0.
+          </p>
+          <p>
+            For mixed numbers, keep the whole number separate from the fraction part. For example,
+            2 1/4 should be entered as Whole 2, Numerator 1, Denominator 4.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent fraction answers stay visible in the page while you work. This is useful when
+            comparing a few homework problems or recipe measurements. The history is kept only in
+            the current browser tab and is not sent to a server.
+          </p>
+          <p>
+            Copy answer copies the current mixed-number answer to your clipboard so you can paste
+            it into notes, homework, a message, or another document.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the fraction calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/fraction-calculator/">Fraction Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

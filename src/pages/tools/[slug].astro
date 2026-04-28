@@ -1,0 +1,215 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import BasicCalculator from '../../components/BasicCalculator';
+import FractionCalculator from '../../components/FractionCalculator';
+import PercentageCalculator from '../../components/PercentageCalculator';
+import RandomNumberGenerator from '../../components/RandomNumberGenerator';
+import ScientificCalculator from '../../components/ScientificCalculator';
+import ToolCard from '../../components/ToolCard.astro';
+import ToolStructuredData from '../../components/ToolStructuredData.astro';
+import { getCategoryName, getRelatedTools, tools, type ToolDefinition } from '../../data/tools';
+
+export function getStaticPaths() {
+  return tools.map((tool) => ({
+    params: { slug: tool.slug },
+    props: { tool },
+  }));
+}
+
+interface Props {
+  tool: ToolDefinition;
+}
+
+const { tool } = Astro.props;
+const relatedTools = getRelatedTools(tool);
+const isCalculatorTool = tool.slug === 'basic-calculator' || tool.slug === 'kawaii-calculator';
+const isKawaiiTool = tool.slug === 'kawaii-calculator';
+const isScientificTool = tool.slug === 'scientific-calculator';
+const isFractionTool = tool.slug === 'fraction-calculator';
+const isPercentageTool = tool.slug === 'percentage-calculator';
+const isRandomTool = tool.slug === 'random-number-generator';
+const toolInstructions = isPercentageTool
+  ? [
+      'Choose the percentage question you want to answer.',
+      'Enter the values for percent-of, what-percent, percentage change, adjustment, or reverse percentage.',
+      'Press Calculate percentage to see the answer, formula, and steps.',
+      'Use examples, recent answers, or copy answer while you compare values.',
+    ]
+  : isRandomTool
+  ? [
+      'Enter the minimum and maximum whole numbers for the range.',
+      'Choose how many random numbers to generate.',
+      'Turn on unique results, sorting, or exclusions when your list needs those rules.',
+      'Press Generate numbers, then copy the result or compare it with recent results.',
+    ]
+  : isFractionTool
+  ? [
+      'Enter each fraction using the whole number, numerator, and denominator boxes.',
+      'Choose add, subtract, multiply, or divide.',
+      'Press Calculate fraction to see the simplified answer, improper fraction, decimal, and steps.',
+      'Use examples, swap, copy answer, or recent answers while you work.',
+    ]
+  : isScientificTool
+  ? [
+      'Type an expression or use the scientific keypad.',
+      'Choose DEG or RAD before using trigonometry.',
+      'Use functions such as sin, cos, tan, log, ln, sqrt, cbrt, powers, pi, and e.',
+      'Press equals or Enter, then copy the result or reuse an expression from history.',
+    ]
+  : [
+      'Enter your first number using the buttons or keyboard.',
+      'Choose an operation such as plus, minus, multiply, or divide.',
+      'Enter the next number, then press equals or Enter.',
+      'Copy the result or keep calculating with the history panel nearby.',
+    ];
+---
+
+<BaseLayout title={tool.seoTitle} description={tool.seoDescription} path={`/tools/${tool.slug}/`}>
+  <ToolStructuredData tool={tool} />
+
+  <section class="tool-page">
+    <p class="breadcrumb">
+      <a href="/">Home</a> / <a href="/tools/">Tools</a> /
+      <a href={`/categories/${tool.category}/`}>{getCategoryName(tool.category)}</a>
+    </p>
+
+    <div class="tool-title-row">
+      <div>
+        <h1>{tool.name}</h1>
+        <p>{tool.description}</p>
+      </div>
+      <a class="button-secondary" href="/tools/">All tools</a>
+    </div>
+
+    {
+      isKawaiiTool && (
+        <section class="kawaii-tool-hero" aria-label="Kawaii calculator style">
+          <div>
+            <span>Kawaii math mode</span>
+            <h2>Soft colors, same useful calculator.</h2>
+            <p>
+              A playful pastel version of the calculator with copy result, keyboard support,
+              percentages, and session history.
+            </p>
+          </div>
+          <img
+            src="/images/kawaii-calculator-mascot.webp"
+            alt="A pastel kawaii calculator mascot with cute stationery."
+            height="720"
+            loading="eager"
+            width="900"
+          />
+        </section>
+      )
+    }
+
+    {
+      isScientificTool && (
+        <div class="scientific-tool-points" aria-label="Scientific calculator highlights">
+          <span>Keyboard support</span>
+          <span>DEG / RAD mode</span>
+          <span>Expression history</span>
+          <span>Copy results</span>
+        </div>
+      )
+    }
+
+    {
+      isPercentageTool && (
+        <div class="percentage-tool-points" aria-label="Percentage calculator highlights">
+          <span>Percent of</span>
+          <span>Percentage change</span>
+          <span>Discounts and markups</span>
+          <span>Reverse percent</span>
+        </div>
+      )
+    }
+
+    {
+      isRandomTool && (
+        <div class="random-tool-points" aria-label="Random number generator highlights">
+          <span>Min and max range</span>
+          <span>Multiple results</span>
+          <span>Unique mode</span>
+          <span>Exclude and copy</span>
+        </div>
+      )
+    }
+
+    {
+      isFractionTool && (
+        <div class="fraction-tool-points" aria-label="Fraction calculator highlights">
+          <span>Mixed numbers</span>
+          <span>Simplified answers</span>
+          <span>Step-by-step work</span>
+          <span>Decimal conversion</span>
+        </div>
+      )
+    }
+
+    {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
+    {isPercentageTool && <PercentageCalculator client:load />}
+    {isScientificTool && <ScientificCalculator client:load />}
+    {isFractionTool && <FractionCalculator client:load />}
+    {isRandomTool && <RandomNumberGenerator client:load />}
+
+    <section class="content-section">
+      <h2>How to use the {tool.name.toLowerCase()}</h2>
+      <ol class="instruction-list">
+        {toolInstructions.map((instruction) => <li>{instruction}</li>)}
+      </ol>
+    </section>
+
+    <section class="content-section">
+      <h2>Common uses</h2>
+      <div class="feature-list">
+        {tool.useCases.map((useCase) => <p>{useCase}</p>)}
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>Examples</h2>
+      <div class="example-grid">
+        {
+          tool.examples.map((example) => (
+            <article>
+              <span>{example.label}</span>
+              <strong>{example.expression}</strong>
+              <p>{example.result}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section']}>
+      <div class="section-title-block">
+        <h2>Frequently asked questions</h2>
+        {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
+        {isScientificTool && <p>Quick answers about angle mode, supported functions, typing expressions, and privacy.</p>}
+        {isPercentageTool && <p>Quick answers about percent-of, percentage change, discounts, reverse percentages, and privacy.</p>}
+        {isFractionTool && <p>Quick answers about simplifying, mixed numbers, denominators, division, and privacy.</p>}
+        {isRandomTool && <p>Quick answers about ranges, unique results, exclusions, everyday randomness, and privacy.</p>}
+      </div>
+      <div class="faq-list">
+        {
+          tool.faq.map((item) => (
+            <details>
+              <summary>{item.question}</summary>
+              <p>{item.answer}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    {relatedTools.length > 0 && (
+      <section class="content-section">
+        <h2>Related tools</h2>
+        <div class="tool-grid">
+          {relatedTools.map((relatedTool) => <ToolCard tool={relatedTool} />)}
+        </div>
+      </section>
+    )}
+  </section>
+</BaseLayout>
