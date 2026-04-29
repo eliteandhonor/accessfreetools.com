@@ -1,4 +1,6 @@
+import { financeBlogPosts } from './financeBlogGuides';
 import { healthBlogPosts } from './healthBlogGuides';
+import { utilityBlogPosts } from './utilityBlogGuides';
 
 export interface BlogPostDefinition {
   slug: string;
@@ -288,5 +290,7 @@ export const blogPosts: BlogPostDefinition[] = [
     summary:
       'Learn how to pick one random number, generate lists, use unique results, exclude numbers, sort results, copy answers, and understand everyday-use limits.',
   },
+  ...financeBlogPosts,
   ...healthBlogPosts,
+  ...utilityBlogPosts,
 ];

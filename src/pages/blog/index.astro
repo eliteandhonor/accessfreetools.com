@@ -1,20 +1,29 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import BlogSearch from '../../components/BlogSearch';
 import { blogPosts } from '../../data/blogPosts';
 ---
 
 <BaseLayout
-  title="Blog | Access Free Tools"
-  description="Helpful guides for Access Free Tools utilities."
+  title="Utility Guides | Access Free Tools"
+  description="Search practical guides for Access Free Tools calculators, finance tools, health estimates, statistics, geometry, and everyday utilities."
   path="/blog/"
 >
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Blog', path: '/blog/' },
+    ]}
+  />
+
   <section class="blog-hub">
     <div class="blog-hero">
       <p class="breadcrumb"><a href="/">Home</a> / Blog</p>
       <h1>Utility Guides</h1>
       <p>
-        Real guides for tools that are available on Access Free Tools.
+        Practical guides for the tools that are live on Access Free Tools, with examples,
+        formula notes, estimate limits, and links back to the matching calculator.
       </p>
     </div>
 

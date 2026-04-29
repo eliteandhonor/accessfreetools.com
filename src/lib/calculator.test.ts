@@ -53,26 +53,47 @@ import {
   groupBinaryDigits,
   groupHexDigits,
   generateRandomNumbers,
+  calculateAge,
   applyPercentageAdjustment,
   addDaysToIsoDate,
+  calculateConcrete,
+  calculateDateDifference,
+  calculateDateShift,
   calculateBmi,
+  calculateAmortizationSummary,
+  calculateAutoLoanSummary,
   calculateBodySurfaceArea,
   calculateBoerLeanBodyMass,
   calculateCaloriesBurned,
+  calculateCompoundInterest,
   calculateDevineIdealWeight,
   calculateDueDateFromLmp,
+  calculateFederalIncomeTax2026,
   calculateGfr2021CkdEpi,
+  calculateInflationAdjustment,
+  calculateInterestRateFromPayment,
+  calculateLoanSummary,
   calculateMacroSplit,
   calculateMifflinStJeor,
+  calculateMortgagePayment,
   calculateNavyBodyFat,
   calculateOneRepMax,
   calculatePace,
   calculatePregnancyWeightGain,
+  calculateSalaryBreakdown,
+  calculateSalesTax,
+  calculateGpa,
+  calculateHoursWorked,
+  calculateNeededFinalGrade,
+  calculateSubnet,
+  calculateTimeDuration,
+  convertMeasurement,
   calculateTargetHeartRate,
   calculateTdeeFromBmr,
   classifyBodyType,
   daysBetweenIsoDates,
   estimateBac,
+  generatePassword,
   mixedToFraction,
   parseBigInteger,
   parseBigIntegerList,
@@ -810,5 +831,148 @@ describe('health and fitness helpers', () => {
     expect(formatCalculatorNumber(bsa.mosteller)).toBe('1.8181186858');
     expect(classifyBodyType(96, 76, 101, 100)).toBe('Hourglass');
     expect(formatCalculatorNumber(bac.bacPercent)).toBe('0.0364880515');
+  });
+});
+
+describe('finance helpers', () => {
+  it('calculates loan, mortgage, and auto loan payment summaries', () => {
+    const loan = calculateLoanSummary(250000, 6.5, 30);
+    const mortgage = calculateMortgagePayment({
+      homePrice: 400000,
+      downPayment: 80000,
+      annualRatePercent: 6.5,
+      years: 30,
+      annualPropertyTax: 4800,
+      monthlyInsurance: 140,
+      monthlyPmi: 0,
+      monthlyHoa: 75,
+    });
+    const auto = calculateAutoLoanSummary({
+      purchasePrice: 32000,
+      downPayment: 4000,
+      tradeIn: 3000,
+      fees: 900,
+      salesTaxPercent: 6,
+      annualRatePercent: 7.2,
+      years: 5,
+    });
+
+    expect(formatCalculatorNumber(loan.monthlyPayment)).toBe('1580.17005873');
+    expect(formatCalculatorNumber(mortgage.totalMonthlyPayment)).toBe('2637.61767518');
+    expect(formatCalculatorNumber(mortgage.loanToValuePercent)).toBe('80');
+    expect(formatCalculatorNumber(auto.amountFinanced)).toBe('27640');
+    expect(auto.monthlyPayment).toBeGreaterThan(540);
+  });
+
+  it('calculates compound growth, inflation, amortization savings, and sales tax', () => {
+    const compound = calculateCompoundInterest(1000, 6, 10, 12, 100);
+    const inflation = calculateInflationAdjustment(100, 3, 10);
+    const amortization = calculateAmortizationSummary(200000, 6, 30, 100);
+    const salesTax = calculateSalesTax(80, 7.5);
+
+    expect(formatCalculatorNumber(compound.endingBalance)).toBe('18207.3314147');
+    expect(formatCalculatorNumber(inflation.futureCost)).toBe('134.391637934');
+    expect(amortization.monthsToPayoff).toBeLessThan(360);
+    expect(amortization.interestSaved).toBeGreaterThan(40000);
+    expect(formatCalculatorNumber(salesTax.total)).toBe('86');
+  });
+
+  it('estimates 2026 federal income tax and salary breakdowns', () => {
+    const tax = calculateFederalIncomeTax2026({ filingStatus: 'single', grossIncome: 100000 });
+    const salary = calculateSalaryBreakdown({
+      annualSalary: 78000,
+      hoursPerWeek: 40,
+      weeksPerYear: 52,
+      estimatedTaxRatePercent: 22,
+    });
+
+    expect(formatCalculatorNumber(tax.taxableIncome)).toBe('83900');
+    expect(formatCalculatorNumber(tax.federalTax)).toBe('13170');
+    expect(tax.marginalRatePercent).toBe(22);
+    expect(formatCalculatorNumber(salary.grossHourly)).toBe('37.5');
+    expect(formatCalculatorNumber(salary.estimatedTakeHomeMonthly)).toBe('5070');
+  });
+
+  it('solves an estimated annual rate from payment and rejects impossible payments', () => {
+    const rate = calculateInterestRateFromPayment(25000, 483.32, 5);
+
+    expect(formatCalculatorNumber(rate.annualRatePercent)).toBe('5.9999967108');
+    expect(() => calculateInterestRateFromPayment(25000, 200, 5)).toThrow(
+      'Monthly payment is too low to repay the principal within this term',
+    );
+  });
+});
+
+describe('utility helpers', () => {
+  it('calculates age, date differences, and date shifts with calendar dates', () => {
+    const age = calculateAge('2000-01-01', '2026-04-29');
+    const difference = calculateDateDifference('2026-04-29', '2026-12-31');
+    const shifted = calculateDateShift('2026-04-29', 0, 1, 2, 3, 'add');
+
+    expect(age.years).toBe(26);
+    expect(age.months).toBe(3);
+    expect(age.days).toBe(28);
+    expect(difference.days).toBe(246);
+    expect(difference.weeks).toBe(35);
+    expect(difference.remainingDays).toBe(1);
+    expect(shifted.resultDate).toBe('2026-06-15');
+  });
+
+  it('calculates time durations and hours worked', () => {
+    const duration = calculateTimeDuration(
+      { hours: 2, minutes: 45, seconds: 30 },
+      { hours: 1, minutes: 20, seconds: 45 },
+      'add',
+    );
+    const hours = calculateHoursWorked('09:00', '17:30', 30, 25);
+
+    expect(duration.totalSeconds).toBe(14775);
+    expect(formatCalculatorNumber(duration.totalSeconds / 3600)).toBe('4.1041666667');
+    expect(formatCalculatorNumber(hours.decimalHours)).toBe('8');
+    expect(hours.grossPay).toBe(200);
+  });
+
+  it('calculates GPA and final grade needs', () => {
+    const gpa = calculateGpa([
+      { credits: 3, grade: 'A' },
+      { credits: 4, grade: 'B+' },
+      { credits: 3, grade: 'A-' },
+      { credits: 2, grade: 'B' },
+    ]);
+    const needed = calculateNeededFinalGrade(87, 30, 90);
+
+    expect(formatCalculatorNumber(gpa.gpa)).toBe('3.525');
+    expect(formatCalculatorNumber(gpa.totalQualityPoints)).toBe('42.3');
+    expect(formatCalculatorNumber(needed.neededFinalPercent)).toBe('97');
+    expect(needed.possibleWithoutExtraCredit).toBe(true);
+  });
+
+  it('calculates concrete volume, IPv4 subnet details, conversions, and passwords', () => {
+    const concrete = calculateConcrete({ lengthFeet: 10, widthFeet: 12, depthInches: 4, wastePercent: 10 });
+    const subnet = calculateSubnet('192.168.1.10', 24);
+    const length = convertMeasurement('length', 12, 'foot', 'meter');
+    const temperature = convertMeasurement('temperature', 72, 'fahrenheit', 'celsius');
+    const password = generatePassword(
+      {
+        length: 12,
+        includeUppercase: true,
+        includeLowercase: true,
+        includeNumbers: true,
+        includeSymbols: false,
+        avoidAmbiguous: true,
+      },
+      sequenceSource([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]),
+    );
+
+    expect(formatCalculatorNumber(concrete.cubicFeet)).toBe('44');
+    expect(formatCalculatorNumber(concrete.cubicYards)).toBe('1.6296296296');
+    expect(concrete.bags80lb).toBe(74);
+    expect(subnet.networkAddress).toBe('192.168.1.0');
+    expect(subnet.broadcastAddress).toBe('192.168.1.255');
+    expect(subnet.usableAddresses).toBe(254);
+    expect(formatCalculatorNumber(length.result)).toBe('3.6576');
+    expect(formatCalculatorNumber(temperature.result)).toBe('22.2222222222');
+    expect(password.password).toHaveLength(12);
+    expect(password.estimatedEntropyBits).toBeGreaterThan(60);
   });
 });

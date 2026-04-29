@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import ToolCard from '../../components/ToolCard.astro';
+import { blogPosts } from '../../data/blogPosts';
 import { categories, getCategory, type ToolCategory } from '../../data/categories';
 import { getToolsByCategory, tools } from '../../data/tools';
 
@@ -20,6 +22,56 @@ interface Props {
 const { category } = Astro.props;
 const categoryTools = getToolsByCategory(category.slug);
 const categoryName = getCategory(category.slug)?.name ?? category.name;
+const toolSlugs = new Set(categoryTools.map((tool) => `how-to-use-${tool.slug}`));
+const categoryGuides = blogPosts.filter((post) => toolSlugs.has(post.slug));
+const topTools = categoryTools.slice(0, 6);
+const categoryTasks: Record<string, string[]> = {
+  calculators: [
+    'Quick math checks, school work, percentage problems, fractions, powers, roots, and number theory.',
+    'Formula-based calculators that show enough context to understand the answer, not just copy it.',
+    'Related blog guides that explain common mistakes and practical examples.',
+  ],
+  finance: [
+    'Loan, mortgage, interest, tax, salary, retirement, and investment estimates from clear assumptions.',
+    'Scenario comparison before you ask a lender, payroll provider, tax professional, or financial adviser.',
+    'Transparent warnings when a result is a planning estimate rather than a quote or recommendation.',
+  ],
+  'health-fitness': [
+    'Fitness, nutrition, pregnancy, kidney, alcohol, and body-measurement estimates with visible limits.',
+    'Educational calculators that explain inputs and formulas without turning estimates into diagnoses.',
+    'Guide links and source notes for topics where context matters.',
+  ],
+  'everyday-tools': [
+    'Small browser utilities for everyday decisions, random picks, and quick personal tasks.',
+    'Private in-browser workflows that avoid signup and keep simple answers easy to copy.',
+    'A growing place for practical tools that do not fit a strict math category.',
+  ],
+  'date-time': [
+    'Date, age, time, and hours calculators for planning, schedules, deadlines, and time-card math.',
+    'Calendar-aware helpers that explain whether they are counting dates, durations, or clock times.',
+    'Private in-browser answers with examples and guide pages for common date and time mistakes.',
+  ],
+  'school-study': [
+    'Student-friendly grade and GPA planning tools with clear scale and syllabus assumptions.',
+    'Step-by-step result cards that show how credits, percentages, and weights affect the answer.',
+    'Study guides that explain where official school policy may differ from a quick calculator.',
+  ],
+  'developer-tools': [
+    'Technical browser utilities for subnetting, passwords, encoding-style tasks, and developer checks.',
+    'Local-first tools that avoid sending sensitive technical inputs to a server.',
+    'Research-backed notes for standards-sensitive workflows such as CIDR and password generation.',
+  ],
+  converters: [
+    'Fast metric and U.S. customary conversions for length, mass, volume, temperature, and future unit tools.',
+    'Formula steps that show whether a conversion uses a factor or a temperature offset.',
+    'Clear caveats for regulated, scientific, lab, engineering, or legal measurement work.',
+  ],
+};
+const taskNotes = categoryTasks[category.slug] ?? [
+  'Fast tools grouped by the task visitors are trying to complete.',
+  'Clear summaries, examples, and related guides for the tools in this category.',
+  'A growing category hub that can expand into subtopics as Access Free Tools grows.',
+];
 ---
 
 <BaseLayout
@@ -27,15 +79,89 @@ const categoryName = getCategory(category.slug)?.name ?? category.name;
   description={`${category.summary} Browse ${category.name.toLowerCase()} from Access Free Tools.`}
   path={`/categories/${category.slug}/`}
 >
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Categories', path: '/categories/' },
+      { name: category.name, path: `/categories/${category.slug}/` },
+    ]}
+  />
+
   <section class="page-intro">
-    <p class="breadcrumb"><a href="/">Home</a> / Categories</p>
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/categories/">Categories</a></p>
     <h1>{category.name}</h1>
     <p>{category.summary}</p>
   </section>
 
+  <section class="category-overview section-band section-band-soft">
+    <div class="category-stat-grid" aria-label={`${category.name} category summary`}>
+      <article>
+        <span>{categoryTools.length}</span>
+        <p>{categoryTools.length === 1 ? 'tool' : 'tools'} available</p>
+      </article>
+      <article>
+        <span>{categoryGuides.length}</span>
+        <p>{categoryGuides.length === 1 ? 'guide' : 'guides'} available</p>
+      </article>
+      <article>
+        <span>Free</span>
+        <p>No signup needed</p>
+      </article>
+    </div>
+
+    <div class="category-context-grid">
+      <div>
+        <h2>What this category helps with</h2>
+        <ul class="guide-bullet-list">
+          {taskNotes.map((note) => <li>{note}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>Start with these tools</h2>
+        <div class="category-link-list">
+          {topTools.map((tool) => (
+            <a href={`/tools/${tool.slug}/`}>
+              <strong>{tool.name}</strong>
+              <span>{tool.summary}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section-band">
+    <div class="section-heading">
+      <h2>All {category.name.toLowerCase()} tools</h2>
+      <p>Open a tool, check the examples, then jump to the matching guide when you need more context.</p>
+    </div>
     <div class="tool-grid">
       {categoryTools.map((tool) => <ToolCard tool={tool} />)}
     </div>
   </section>
+
+  {
+    categoryGuides.length > 0 && (
+      <section class="section-band category-guide-band">
+        <div class="section-heading">
+          <h2>Guides for this category</h2>
+          <p>Each guide uses the matching Access Free Tools calculator as the example.</p>
+        </div>
+        <div class="blog-list-grid">
+          {categoryGuides.slice(0, 9).map((post) => (
+            <article class="blog-post-card">
+              <span>{post.label}</span>
+              <h2>
+                <a href={`/blog/${post.slug}/`}>{post.title}</a>
+              </h2>
+              <p>{post.summary}</p>
+              <a class="card-link" href={`/blog/${post.slug}/`}>
+                Read guide
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+    )
+  }
 </BaseLayout>

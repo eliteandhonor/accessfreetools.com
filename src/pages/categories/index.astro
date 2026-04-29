@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
+import CategoryCard from '../../components/CategoryCard.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { blogPosts } from '../../data/blogPosts';
+import { categories } from '../../data/categories';
+import { tools } from '../../data/tools';
+
+const liveCategories = categories.filter((category) =>
+  tools.some((tool) => tool.category === category.slug),
+);
+
+const categoryStats = liveCategories.map((category) => {
+  const categoryTools = tools.filter((tool) => tool.category === category.slug);
+  const guideSlugs = new Set(categoryTools.map((tool) => `how-to-use-${tool.slug}`));
+  const guideCount = blogPosts.filter((post) => guideSlugs.has(post.slug)).length;
+
+  return {
+    ...category,
+    toolCount: categoryTools.length,
+    guideCount,
+    featuredTools: categoryTools.slice(0, 3),
+  };
+});
+---
+
+<BaseLayout
+  title="Tool Categories | Access Free Tools"
+  description="Browse Access Free Tools by category, including calculators, date and time tools, converters, finance, health, school, and developer utilities."
+  path="/categories/"
+>
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Categories', path: '/categories/' },
+    ]}
+  />
+
+  <section class="page-intro">
+    <p class="breadcrumb"><a href="/">Home</a> / Categories</p>
+    <h1>Tool Categories</h1>
+    <p>
+      Browse the growing Access Free Tools library by task, then open the tool or guide that
+      matches what you are trying to finish.
+    </p>
+  </section>
+
+  <section class="section-band section-band-soft">
+    <div class="section-heading">
+      <h2>Browse by task</h2>
+      <p>
+        Categories keep the site readable as the library grows, with calculators, guides, and
+        related utilities grouped together.
+      </p>
+    </div>
+    <div class="category-grid">
+      {liveCategories.map((category) => <CategoryCard category={category} />)}
+    </div>
+  </section>
+
+  <section class="section-band">
+    <div class="section-heading">
+      <h2>Category snapshot</h2>
+      <p>Start with a major section, or jump into one of its most useful tools.</p>
+    </div>
+    <div class="category-snapshot-grid">
+      {categoryStats.map((category) => (
+        <article class="category-snapshot-card">
+          <div>
+            <span>{category.name}</span>
+            <h2><a href={`/categories/${category.slug}/`}>{category.toolCount} tools</a></h2>
+            <p>{category.summary}</p>
+          </div>
+          <p class="category-snapshot-meta">{category.guideCount} guides available</p>
+          <div class="category-snapshot-tools">
+            {category.featuredTools.map((tool) => <ToolCard tool={tool} />)}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

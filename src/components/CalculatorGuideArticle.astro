@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import BreadcrumbStructuredData from './BreadcrumbStructuredData.astro';
 import { getTool } from '../data/tools';
 
 interface GuideSection {
@@ -42,21 +43,43 @@ const faqItems = tool?.faq ?? [];
 const relatedTools = (tool?.relatedSlugs ?? [])
   .map((relatedSlug) => getTool(relatedSlug))
   .filter((relatedTool): relatedTool is NonNullable<typeof relatedTool> => Boolean(relatedTool));
+const updatedDate = '2026-04-29';
+const imageUrl = 'https://accessfreetools.com/social-card.svg';
 const articleStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: title,
   description,
   mainEntityOfPage: `https://accessfreetools.com${path}`,
+  image: imageUrl,
+  datePublished: updatedDate,
+  dateModified: updatedDate,
+  author: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+    url: 'https://accessfreetools.com/about/',
+  },
   publisher: {
     '@type': 'Organization',
     name: 'Access Free Tools',
+    url: 'https://accessfreetools.com/',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://accessfreetools.com/favicon.svg',
+    },
   },
 };
 ---
 
 <BaseLayout title={`${title} | Access Free Tools`} description={description} path={path}>
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Blog', path: '/blog/' },
+      { name: title, path },
+    ]}
+  />
 
   <article class="blog-article">
     <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / {label}</p>
@@ -64,6 +87,7 @@ const articleStructuredData = {
     <header class="blog-article-header">
       <span>{label}</span>
       <h1>{title}</h1>
+      <p class="article-meta-line">Access Free Tools editorial guide. Updated April 29, 2026.</p>
       <p>{intro}</p>
       {tool && <a class="button-primary" href={`/tools/${tool.slug}/`}>Open the {tool.name}</a>}
     </header>

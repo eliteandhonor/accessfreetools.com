@@ -29,7 +29,7 @@ export default function BlogSearch({ posts }: Props) {
         <input
           id="blog-guide-search"
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search BMI, pregnancy, probability, statistics..."
+          placeholder="Search mortgage, tax, BMI, probability, statistics..."
           type="search"
           value={query}
         />

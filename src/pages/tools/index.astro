@@ -1,8 +1,25 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import ToolsLaunchpad from '../../components/ToolsLaunchpad';
 import { categories } from '../../data/categories';
 import { tools } from '../../data/tools';
+
+const searchTools = tools.map((tool) => ({
+  slug: tool.slug,
+  name: tool.name,
+  category: tool.category,
+  summary: tool.summary,
+  icon: tool.icon,
+  searchText: [
+    tool.name,
+    tool.summary,
+    tool.description,
+    tool.category,
+    ...tool.useCases,
+    ...tool.examples.map((example) => example.label),
+  ].join(' '),
+}));
 ---
 
 <BaseLayout
@@ -10,5 +27,11 @@ import { tools } from '../../data/tools';
   description="Browse free calculators, converters, text tools, and everyday browser utilities from Access Free Tools."
   path="/tools/"
 >
-  <ToolsLaunchpad categories={categories} tools={tools} client:load />
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Tools', path: '/tools/' },
+    ]}
+  />
+  <ToolsLaunchpad categories={categories} tools={searchTools} client:load />
 </BaseLayout>

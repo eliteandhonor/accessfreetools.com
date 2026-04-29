@@ -8,6 +8,27 @@ import { tools } from '../data/tools';
 const categoriesWithTools = categories.filter((category) =>
   tools.some((tool) => tool.category === category.slug),
 );
+const featuredToolSlugs = [
+  'mortgage-calculator',
+  'loan-calculator',
+  'age-calculator',
+  'date-calculator',
+  'percentage-calculator',
+  'fraction-calculator',
+  'scientific-calculator',
+  'random-number-generator',
+  'password-generator',
+  'conversion-calculator',
+  'statistics-calculator',
+  'triangle-calculator',
+  'bmi-calculator',
+  'calorie-calculator',
+  'compound-interest-calculator',
+  'sales-tax-calculator',
+];
+const featuredTools = featuredToolSlugs
+  .map((slug) => tools.find((tool) => tool.slug === slug))
+  .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
 ---
 
 <BaseLayout
@@ -29,18 +50,21 @@ const categoriesWithTools = categories.filter((category) =>
 
     <form class="tool-search" action="/tools/" role="search">
       <label for="tool-search">Search free tools</label>
-      <input id="tool-search" name="q" type="search" placeholder="Calculator, log, ratio, root..." />
+      <input id="tool-search" name="q" type="search" placeholder="Mortgage, BMI, percentage, tax..." />
       <p>Color-customizable, mobile-first, and quick to search.</p>
     </form>
   </section>
 
   <section class="section-band">
     <div class="section-heading">
-      <h2>Available Tools</h2>
-      <p>Open a tool and use it right away.</p>
+      <h2>Popular starting points</h2>
+      <p>Open a common calculator now, or use the full tool search when you need the whole library.</p>
     </div>
     <div class="tool-grid">
-      {tools.map((tool) => <ToolCard tool={tool} />)}
+      {featuredTools.map((tool) => <ToolCard tool={tool} />)}
+    </div>
+    <div class="section-actions">
+      <a class="button-secondary" href="/tools/">Browse all {tools.length} tools</a>
     </div>
   </section>
 

@@ -18,14 +18,22 @@ import {
   Wrench,
 } from 'lucide-react';
 import type { ToolCategory } from '../data/categories';
-import type { ToolDefinition } from '../data/tools';
 import { getCalculatorIconMark, getCalculatorIconTextLabel, type CalculatorIconMark } from '../data/toolIcons';
 
 type CategoryFilter = 'all' | ToolCategory['slug'];
 
+export interface ToolSearchItem {
+  slug: string;
+  name: string;
+  category: ToolCategory['slug'];
+  summary: string;
+  icon: string;
+  searchText: string;
+}
+
 interface Props {
   categories: ToolCategory[];
-  tools: ToolDefinition[];
+  tools: ToolSearchItem[];
 }
 
 const toolIcons = {
@@ -259,7 +267,7 @@ function CalculatorGlyph({ mark }: { mark: CalculatorIconMark }) {
   );
 }
 
-function ToolGlyph({ tool }: { tool: ToolDefinition }) {
+function ToolGlyph({ tool }: { tool: ToolSearchItem }) {
   const calculatorMark = getCalculatorIconMark(tool.icon);
 
   if (calculatorMark) {
@@ -346,18 +354,7 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
     return tools.filter((tool) => {
       const matchesQuery =
         normalizedQuery.length === 0 ||
-        [
-          tool.name,
-          tool.summary,
-          tool.description,
-          tool.category,
-          ...tool.useCases,
-          ...tool.examples.flatMap((example) => [example.label, example.expression, example.result]),
-          ...tool.faq.flatMap((item) => [item.question, item.answer]),
-        ]
-          .join(' ')
-          .toLowerCase()
-          .includes(normalizedQuery);
+        tool.searchText.toLowerCase().includes(normalizedQuery);
       const matchesCategory = category === 'all' || tool.category === category;
 
       return matchesQuery && matchesCategory;
@@ -387,7 +384,7 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
         <input
           id="tool-library-search"
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search calculator, log, ratio, root..."
+          placeholder="Search mortgage, loan, tax, BMI, ratio..."
           type="search"
           value={query}
         />

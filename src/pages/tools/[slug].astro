@@ -1,9 +1,11 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import BasicCalculator from '../../components/BasicCalculator';
 import BinaryCalculator from '../../components/BinaryCalculator';
 import BigNumberCalculator from '../../components/BigNumberCalculator';
 import ExponentCalculator from '../../components/ExponentCalculator';
+import FinanceCalculator, { type FinanceToolVariant } from '../../components/FinanceCalculator';
 import FractionCalculator from '../../components/FractionCalculator';
 import GeometryCalculator, { type GeometryToolVariant } from '../../components/GeometryCalculator';
 import HalfLifeCalculator from '../../components/HalfLifeCalculator';
@@ -24,6 +26,7 @@ import ScientificNotationCalculator from '../../components/ScientificNotationCal
 import StatsCalculator, { type StatsToolVariant } from '../../components/StatsCalculator';
 import ToolCard from '../../components/ToolCard.astro';
 import ToolStructuredData from '../../components/ToolStructuredData.astro';
+import UtilityCalculator, { type UtilityToolVariant } from '../../components/UtilityCalculator';
 import { getCategoryName, getRelatedTools, tools, type ToolDefinition } from '../../data/tools';
 
 export function getStaticPaths() {
@@ -120,6 +123,39 @@ const healthToolVariants = {
 } as const satisfies Partial<Record<string, HealthToolVariant>>;
 const healthToolVariant = healthToolVariants[tool.slug];
 const isHealthTool = Boolean(healthToolVariant);
+const financeToolVariants = {
+  'mortgage-calculator': 'mortgage',
+  'loan-calculator': 'loan',
+  'auto-loan-calculator': 'auto-loan',
+  'interest-calculator': 'interest',
+  'payment-calculator': 'payment',
+  'retirement-calculator': 'retirement',
+  'amortization-calculator': 'amortization',
+  'investment-calculator': 'investment',
+  'inflation-calculator': 'inflation',
+  'finance-calculator': 'finance',
+  'income-tax-calculator': 'income-tax',
+  'compound-interest-calculator': 'compound-interest',
+  'salary-calculator': 'salary',
+  'interest-rate-calculator': 'interest-rate',
+  'sales-tax-calculator': 'sales-tax',
+} as const satisfies Partial<Record<string, FinanceToolVariant>>;
+const financeToolVariant = financeToolVariants[tool.slug];
+const isFinanceTool = Boolean(financeToolVariant);
+const utilityToolVariants = {
+  'age-calculator': 'age',
+  'date-calculator': 'date',
+  'time-calculator': 'time',
+  'hours-calculator': 'hours',
+  'gpa-calculator': 'gpa',
+  'grade-calculator': 'grade',
+  'concrete-calculator': 'concrete',
+  'subnet-calculator': 'subnet',
+  'password-generator': 'password-generator',
+  'conversion-calculator': 'conversion',
+} as const satisfies Partial<Record<string, UtilityToolVariant>>;
+const utilityToolVariant = utilityToolVariants[tool.slug];
+const isUtilityTool = Boolean(utilityToolVariant);
 const statsToolInstructions: Record<string, string[]> = {
   'standard-deviation-calculator': [
     'Enter a list of numbers separated by commas, spaces, or line breaks.',
@@ -240,7 +276,23 @@ const healthToolInstructions = healthToolVariant
       'Read the estimate with the health disclaimer in mind, then copy the result if you need it for notes.',
     ]
   : undefined;
-const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? healthToolInstructions ?? (isPercentageTool
+const financeToolInstructions = financeToolVariant
+  ? [
+      'Enter the requested dollar amounts, rates, terms, tax settings, or contribution details.',
+      'Use rates as percentages, such as 6.5 for 6.5%, and check whether a field asks for a monthly or annual amount.',
+      'Press the calculate button to see the answer, supporting metrics, and formula steps.',
+      'Use the result as a planning estimate only, then copy it if the assumptions look right.',
+    ]
+  : undefined;
+const utilityToolInstructions = utilityToolVariant
+  ? [
+      'Enter the requested dates, times, grades, dimensions, network values, password options, or units.',
+      'Check the assumptions shown on the page, especially school scales, payroll rules, concrete waste, subnet type, or security handling.',
+      'Press the calculate button to see the answer, supporting metrics, and formula steps.',
+      'Use examples, recent answers, or copy the result while keeping the estimate limits in mind.',
+    ]
+  : undefined;
+const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? (isPercentageTool
   ? [
       'Choose the percentage question you want to answer.',
       'Enter the values for percent-of, what-percent, percentage change, adjustment, or reverse percentage.',
@@ -390,6 +442,14 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
 
 <BaseLayout title={tool.seoTitle} description={tool.seoDescription} path={`/tools/${tool.slug}/`}>
   <ToolStructuredData tool={tool} />
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Tools', path: '/tools/' },
+      { name: getCategoryName(tool.category), path: `/categories/${tool.category}/` },
+      { name: tool.name, path: `/tools/${tool.slug}/` },
+    ]}
+  />
 
   <section class="tool-page">
     <p class="breadcrumb">
@@ -680,6 +740,66 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       )
     }
 
+    {
+      isFinanceTool && (
+        <div class="advanced-tool-points finance-tool-points" aria-label={`${tool.name} highlights`}>
+          <span>Formula steps</span>
+          <span>Estimate limits shown</span>
+          <span>Examples included</span>
+          <span>Private history</span>
+        </div>
+      )
+    }
+
+    {
+      isUtilityTool && (
+        <div class="advanced-tool-points utility-tool-points" aria-label={`${tool.name} highlights`}>
+          <span>Research-backed assumptions</span>
+          <span>Formula steps</span>
+          <span>Examples included</span>
+          <span>Private in-browser use</span>
+        </div>
+      )
+    }
+
+    {
+      isHealthTool && (
+        <aside class="trust-note trust-note-health" aria-label={`${tool.name} estimate limits`}>
+          <strong>Educational health estimate</strong>
+          <p>
+            This tool is for learning, planning, and quick comparison. It does not diagnose health, pregnancy,
+            nutrition, kidney, alcohol, medication, or safety decisions. Use a qualified professional for decisions
+            with real consequences.
+          </p>
+        </aside>
+      )
+    }
+
+    {
+      isFinanceTool && (
+        <aside class="trust-note trust-note-finance" aria-label={`${tool.name} estimate limits`}>
+          <strong>Planning estimate, not financial advice</strong>
+          <p>
+            This calculator helps compare scenarios from the inputs you provide. It does not include every fee, tax,
+            lender rule, payroll rule, penalty, or personal financial detail.
+          </p>
+        </aside>
+      )
+    }
+
+    {
+      isUtilityTool && (
+        <aside class="trust-note trust-note-utility" aria-label={`${tool.name} assumptions`}>
+          <strong>Check the assumptions before relying on the result</strong>
+          <p>
+            This tool is built for fast browser-based estimates and learning. Official school policies, payroll rules,
+            construction conditions, network configuration, account security, and regulated unit conversions can require
+            a specific authority or professional check.
+          </p>
+        </aside>
+      )
+    }
+
     {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
     {isPercentageTool && <PercentageCalculator client:load />}
     {isPercentErrorTool && <PercentErrorCalculator client:load />}
@@ -704,6 +824,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {statsToolVariant && <StatsCalculator variant={statsToolVariant} client:load />}
     {geometryToolVariant && <GeometryCalculator variant={geometryToolVariant} client:load />}
     {healthToolVariant && <HealthFitnessCalculator variant={healthToolVariant} client:load />}
+    {financeToolVariant && <FinanceCalculator variant={financeToolVariant} client:load />}
+    {utilityToolVariant && <UtilityCalculator variant={utilityToolVariant} client:load />}
 
     <section class="content-section">
       <h2>How to use the {tool.name.toLowerCase()}</h2>
@@ -734,7 +856,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       </div>
     </section>
 
-    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section', isHealthTool && 'advanced-faq-section']}>
+    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section', isHealthTool && 'advanced-faq-section', isFinanceTool && 'advanced-faq-section', isUtilityTool && 'advanced-faq-section']}>
       <div class="section-title-block">
         <h2>Frequently asked questions</h2>
         {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
@@ -761,6 +883,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         {isStatsSuiteTool && <p>Quick answers about formulas, inputs, examples, result copying, and private in-browser history.</p>}
         {isGeometryTool && <p>Quick answers about formulas, units, valid measurements, examples, copying, and private in-browser history.</p>}
         {isHealthTool && <p>Quick answers about formulas, inputs, estimate limits, professional guidance, examples, and private in-browser history.</p>}
+        {isFinanceTool && <p>Quick answers about formulas, rates, payment assumptions, estimate limits, examples, and private in-browser history.</p>}
+        {isUtilityTool && <p>Quick answers about formulas, inputs, assumptions, examples, copying, and private in-browser use.</p>}
       </div>
       <div class="faq-list">
         {

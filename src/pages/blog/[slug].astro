@@ -1,16 +1,20 @@
 ---
 import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+import { financeBlogGuides, type FinanceGuideDefinition } from '../../data/financeBlogGuides';
 import { healthBlogGuides, type HealthGuideDefinition } from '../../data/healthBlogGuides';
+import { utilityBlogGuides, type UtilityGuideDefinition } from '../../data/utilityBlogGuides';
 
 export function getStaticPaths() {
-  return healthBlogGuides.map((guide) => ({
+  const dynamicBlogGuides = [...financeBlogGuides, ...healthBlogGuides, ...utilityBlogGuides];
+
+  return dynamicBlogGuides.map((guide) => ({
     params: { slug: guide.slug },
     props: { guide },
   }));
 }
 
 interface Props {
-  guide: HealthGuideDefinition;
+  guide: FinanceGuideDefinition | HealthGuideDefinition | UtilityGuideDefinition;
 }
 
 const { guide } = Astro.props;

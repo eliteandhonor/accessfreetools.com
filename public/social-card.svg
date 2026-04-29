@@ -1,0 +1,43 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630">
+      <stop stop-color="#d9f5ff"/>
+      <stop offset="0.46" stop-color="#f0ecff"/>
+      <stop offset="1" stop-color="#fff2e8"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="100" y1="88" x2="280" y2="270">
+      <stop stop-color="#0f766e"/>
+      <stop offset="0.55" stop-color="#6d5dfc"/>
+      <stop offset="1" stop-color="#ff7a59"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#12202f" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <path d="M0 0h1200v630H0z" fill="none" stroke="#0f172a" stroke-opacity="0.08"/>
+  <g opacity="0.18" stroke="#0f172a" stroke-width="1">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200"/>
+    <path d="M90 0v630M180 0v630M270 0v630M360 0v630M450 0v630M540 0v630M630 0v630M720 0v630M810 0v630M900 0v630M990 0v630M1080 0v630"/>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="86" y="84" width="198" height="198" rx="44" fill="url(#mark)"/>
+    <path d="M129 232 169 129h31l41 103h-35l-7-22h-35l-7 22h-28Zm42-48h21l-10-32-11 32Z" fill="#fff"/>
+    <path d="M144 252h83" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-opacity="0.62"/>
+    <g fill="#fff" fill-opacity="0.9">
+      <rect x="232" y="124" width="18" height="18" rx="5"/>
+      <rect x="256" y="148" width="18" height="18" rx="5"/>
+      <rect x="232" y="172" width="18" height="18" rx="5"/>
+    </g>
+  </g>
+  <text x="330" y="176" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="800">Access Free Tools</text>
+  <text x="330" y="244" fill="#334155" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600">Fast calculators, clear guides, no signup.</text>
+  <g transform="translate(330 315)">
+    <rect width="650" height="96" rx="24" fill="#fff" fill-opacity="0.78" stroke="#ffffff"/>
+    <text x="34" y="59" fill="#0f766e" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="800">Calculate</text>
+    <text x="188" y="59" fill="#6d5dfc" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="800">Compare</text>
+    <text x="340" y="59" fill="#e14f3d" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="800">Learn</text>
+    <text x="456" y="59" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="800">Grow</text>
+  </g>
+  <text x="330" y="496" fill="#475569" font-family="Arial, Helvetica, sans-serif" font-size="25">accessfreetools.com</text>
+</svg>

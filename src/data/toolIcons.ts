@@ -35,6 +35,21 @@ export type CalculatorIconMark =
   | 'surface-area'
   | 'pythagorean'
   | 'right-triangle'
+  | 'mortgage'
+  | 'loan'
+  | 'auto-loan'
+  | 'interest'
+  | 'payment'
+  | 'retirement'
+  | 'amortization'
+  | 'investment'
+  | 'inflation'
+  | 'finance'
+  | 'tax'
+  | 'compound'
+  | 'salary'
+  | 'rate'
+  | 'sales-tax'
   | 'bmi'
   | 'calorie'
   | 'body-fat'
@@ -63,6 +78,16 @@ export type CalculatorIconMark =
   | 'body-type'
   | 'bsa'
   | 'bac'
+  | 'age'
+  | 'date'
+  | 'time'
+  | 'hours'
+  | 'gpa'
+  | 'grade'
+  | 'concrete'
+  | 'subnet'
+  | 'password'
+  | 'conversion'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -106,6 +131,21 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-surface-area': 'surface-area',
   'calculator-pythagorean': 'pythagorean',
   'calculator-right-triangle': 'right-triangle',
+  'calculator-mortgage': 'mortgage',
+  'calculator-loan': 'loan',
+  'calculator-auto-loan': 'auto-loan',
+  'calculator-interest': 'interest',
+  'calculator-payment': 'payment',
+  'calculator-retirement': 'retirement',
+  'calculator-amortization': 'amortization',
+  'calculator-investment': 'investment',
+  'calculator-inflation': 'inflation',
+  'calculator-finance': 'finance',
+  'calculator-tax': 'tax',
+  'calculator-compound': 'compound',
+  'calculator-salary': 'salary',
+  'calculator-rate': 'rate',
+  'calculator-sales-tax': 'sales-tax',
   'calculator-bmi': 'bmi',
   'calculator-calorie': 'calorie',
   'calculator-body-fat': 'body-fat',
@@ -134,6 +174,16 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-body-type': 'body-type',
   'calculator-bsa': 'bsa',
   'calculator-bac': 'bac',
+  'calculator-age': 'age',
+  'calculator-date': 'date',
+  'calculator-time': 'time',
+  'calculator-hours': 'hours',
+  'calculator-gpa': 'gpa',
+  'calculator-grade': 'grade',
+  'calculator-concrete': 'concrete',
+  'calculator-subnet': 'subnet',
+  'password-key': 'password',
+  'calculator-conversion': 'conversion',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',
@@ -150,6 +200,21 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   'surface-area': 'sa',
   pythagorean: 'a2',
   'right-triangle': 'rt',
+  mortgage: 'mtg',
+  loan: 'loan',
+  'auto-loan': 'auto',
+  interest: 'int',
+  payment: 'pay',
+  retirement: 'ret',
+  amortization: 'amort',
+  investment: 'inv',
+  inflation: 'cpi',
+  finance: 'fin',
+  tax: 'tax',
+  compound: 'cmp',
+  salary: 'sal',
+  rate: 'apr',
+  'sales-tax': 'tax',
   bmi: 'bmi',
   calorie: 'kcal',
   'body-fat': 'fat',
@@ -178,6 +243,16 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   'body-type': 'type',
   bsa: 'bsa',
   bac: 'bac',
+  age: 'age',
+  date: 'date',
+  time: 'time',
+  hours: 'hrs',
+  gpa: 'gpa',
+  grade: 'grd',
+  concrete: 'yd3',
+  subnet: '/24',
+  password: 'key',
+  conversion: 'unit',
 };
 
 export function getCalculatorIconMark(icon: string): CalculatorIconMark | null {

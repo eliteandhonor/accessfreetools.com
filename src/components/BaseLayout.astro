@@ -10,7 +10,35 @@ interface Props {
 }
 
 const { title, description, path = '/' } = Astro.props;
-const canonical = new URL(path, Astro.site ?? 'https://accessfreetools.com').toString();
+const site = Astro.site ?? 'https://accessfreetools.com';
+const canonical = new URL(path, site).toString();
+const socialImage = new URL('/social-card.svg', site).toString();
+const siteStructuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${new URL('/', site).toString()}#organization`,
+      name: 'Access Free Tools',
+      url: new URL('/', site).toString(),
+      logo: new URL('/favicon.svg', site).toString(),
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${new URL('/', site).toString()}#website`,
+      name: 'Access Free Tools',
+      url: new URL('/', site).toString(),
+      publisher: {
+        '@id': `${new URL('/', site).toString()}#organization`,
+      },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${new URL('/tools/', site).toString()}?q={search_term_string}`,
+        'query-input': 'required name=search_term_string',
+      },
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -27,8 +55,12 @@ const canonical = new URL(path, Astro.site ?? 'https://accessfreetools.com').toS
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Access Free Tools" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content="Access Free Tools calculator and utility workspace" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={socialImage} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(siteStructuredData)} />
     <script is:inline>
       (() => {
         try {
