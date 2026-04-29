@@ -27,20 +27,43 @@ import StatsCalculator, { type StatsToolVariant } from '../../components/StatsCa
 import ToolCard from '../../components/ToolCard.astro';
 import ToolStructuredData from '../../components/ToolStructuredData.astro';
 import UtilityCalculator, { type UtilityToolVariant } from '../../components/UtilityCalculator';
+import { toolAliases, type ToolAlias } from '../../data/toolAliases';
 import { getCategoryName, getRelatedTools, tools, type ToolDefinition } from '../../data/tools';
 
 export function getStaticPaths() {
-  return tools.map((tool) => ({
+  const toolPaths = tools.map((tool) => ({
     params: { slug: tool.slug },
     props: { tool },
   }));
+
+  const aliasPaths = toolAliases
+    .map((alias) => {
+      const tool = tools.find((candidate) => candidate.slug === alias.targetSlug);
+
+      return tool
+        ? {
+            params: { slug: alias.slug },
+            props: { tool, alias },
+          }
+        : undefined;
+    })
+    .filter((path): path is { params: { slug: string }; props: { tool: ToolDefinition; alias: ToolAlias } } =>
+      Boolean(path),
+    );
+
+  return [...toolPaths, ...aliasPaths];
 }
 
 interface Props {
   tool: ToolDefinition;
+  alias?: ToolAlias;
 }
 
-const { tool } = Astro.props;
+const { tool, alias } = Astro.props;
+const isAliasPage = Boolean(alias);
+const displayName = alias?.name ?? tool.name;
+const displayDescription = alias?.description ?? tool.description;
+const currentPath = `/tools/${alias?.slug ?? tool.slug}/`;
 const relatedTools = getRelatedTools(tool);
 const isCalculatorTool = tool.slug === 'basic-calculator' || tool.slug === 'kawaii-calculator';
 const isKawaiiTool = tool.slug === 'kawaii-calculator';
@@ -807,14 +830,18 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     ]);
 ---
 
-<BaseLayout title={tool.seoTitle} description={tool.seoDescription} path={`/tools/${tool.slug}/`}>
-  <ToolStructuredData tool={tool} />
+<BaseLayout
+  title={isAliasPage ? `${displayName} | Access Free Tools` : tool.seoTitle}
+  description={isAliasPage ? displayDescription : tool.seoDescription}
+  path={`/tools/${tool.slug}/`}
+>
+  {!isAliasPage && <ToolStructuredData tool={tool} />}
   <BreadcrumbStructuredData
     items={[
       { name: 'Home', path: '/' },
       { name: 'Tools', path: '/tools/' },
       { name: getCategoryName(tool.category), path: `/categories/${tool.category}/` },
-      { name: tool.name, path: `/tools/${tool.slug}/` },
+      { name: displayName, path: currentPath },
     ]}
   />
 
@@ -826,11 +853,24 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
 
     <div class="tool-title-row">
       <div>
-        <h1>{tool.name}</h1>
-        <p>{tool.description}</p>
+        <h1>{displayName}</h1>
+        <p>{displayDescription}</p>
       </div>
       <a class="button-secondary" href="/tools/">All tools</a>
     </div>
+
+    {
+      isAliasPage && (
+        <div class="alias-notice">
+          <strong>{displayName} is available as the {tool.name}.</strong>
+          <p>
+            We keep one canonical tool page for this calculation so results, examples, FAQs, and blog links stay
+            consistent. Use the calculator below, or open the canonical page directly.
+          </p>
+          <a class="button-primary" href={`/tools/${tool.slug}/`}>Open {tool.name}</a>
+        </div>
+      )
+    }
 
     {
       isKawaiiTool && (

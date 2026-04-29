@@ -22,6 +22,7 @@ export interface ToolDefinition {
   summary: string;
   description: string;
   icon: string;
+  aliases?: string[];
   seoTitle: string;
   seoDescription: string;
   useCases: string[];
@@ -1074,6 +1075,7 @@ export const tools: ToolDefinition[] = [
     description:
       'Use this free greatest common factor calculator to find the GCF of two or more positive whole numbers with exact integer math, examples, copy, history, and step-by-step notes.',
     icon: 'calculator-gcf',
+    aliases: ['Common Factor Calculator', 'Common Factors Calculator', 'GCF Calculator'],
     seoTitle: 'Greatest Common Factor Calculator | Free Online GCF Calculator',
     seoDescription:
       'Use the free Access Free Tools greatest common factor calculator to find the GCF of two or more whole numbers with exact answers, examples, history, and steps.',

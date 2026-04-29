@@ -166,3 +166,14 @@ Completed as safer alternatives instead of copying directly:
 - Nutrition Points Calculator, replacing proprietary Weight Watchers-style points with an original transparent label-reading score.
 - Overweight BMI Calculator, using adult BMI screening language and people-first cautions.
 - Love Calculator, shipped as a clear entertainment-only name-match game.
+
+## Alias And Search-Intent Cleanup
+
+Status: completed after the direct tool roadmap.
+
+Some sitemap entries are duplicate search names for calculators Access Free Tools already provides. These should not become thin duplicate tools, so they are handled as canonical alias pages pointing to the stronger tool page and added search terms in the tools launchpad. Google recommends `rel="canonical"` for duplicate or very similar pages; the canonical tool stays in the sitemap while aliases stay out.
+
+- Mortgage Amortization Calculator -> Amortization Calculator
+- Common Factor Calculator -> Greatest Common Factor Calculator
+- IP Subnet Calculator -> Subnet Calculator
+- Time Duration Calculator -> Hours Calculator

@@ -4,6 +4,7 @@ import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.
 import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
 import ToolsLaunchpad from '../../components/ToolsLaunchpad';
 import { categories } from '../../data/categories';
+import { toolAliases } from '../../data/toolAliases';
 import { tools } from '../../data/tools';
 
 const searchTools = tools.map((tool) => ({
@@ -17,6 +18,10 @@ const searchTools = tools.map((tool) => ({
     tool.summary,
     tool.description,
     tool.category,
+    ...(tool.aliases ?? []),
+    ...toolAliases
+      .filter((alias) => alias.targetSlug === tool.slug)
+      .flatMap((alias) => [alias.name, alias.description, ...alias.searchTerms]),
     ...tool.useCases,
     ...tool.examples.map((example) => example.label),
   ].join(' '),

@@ -6,6 +6,7 @@ interface FinanceToolSpec {
   summary: string;
   description: string;
   icon: string;
+  aliases?: string[];
   formula: string;
   limit: string;
   useCases: string[];
@@ -48,6 +49,7 @@ function makeFinanceTool(spec: FinanceToolSpec): ToolDefinition {
     summary: spec.summary,
     description: spec.description,
     icon: spec.icon,
+    aliases: spec.aliases,
     seoTitle: `${spec.name} | Free Online Finance Calculator`,
     seoDescription: spec.description,
     useCases: spec.useCases,
@@ -761,6 +763,7 @@ export const financeTools: ToolDefinition[] = [
     description:
       'Use this free amortization calculator to estimate scheduled payment, payoff time, total interest, and savings from extra monthly payments.',
     icon: 'calculator-amortization',
+    aliases: ['Mortgage Amortization Calculator', 'Loan Amortization Calculator', 'Amortization Schedule Calculator'],
     formula:
       'The calculator starts with the scheduled amortized payment, then simulates monthly interest and principal reduction with any extra payment you enter.',
     limit: financeLimit,

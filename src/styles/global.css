@@ -1360,6 +1360,32 @@ main {
   margin-bottom: 14px;
 }
 
+.alias-notice {
+  background: color-mix(in srgb, var(--surface) 88%, var(--primary) 12%);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+  max-width: 760px;
+  padding: 16px;
+}
+
+.alias-notice strong {
+  color: var(--text);
+  font-size: 1.02rem;
+}
+
+.alias-notice p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.alias-notice .button-primary {
+  justify-self: start;
+}
+
 .calculator-tool {
   display: grid;
   gap: 18px;

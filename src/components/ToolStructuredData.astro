@@ -17,7 +17,7 @@ const structuredData = {
   url,
   description: tool.seoDescription,
   isAccessibleForFree: true,
-  keywords: [tool.name, getCategoryName(tool.category), 'free online tool', 'Access Free Tools'],
+  keywords: [tool.name, ...(tool.aliases ?? []), getCategoryName(tool.category), 'free online tool', 'Access Free Tools'],
   publisher: {
     '@type': 'Organization',
     name: 'Access Free Tools',

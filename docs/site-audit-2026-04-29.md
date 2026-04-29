@@ -48,6 +48,8 @@ References checked:
 - The Underweight BMI page explicitly avoids "anorexic BMI" diagnosis language and links BMI screening to professional support boundaries.
 - The Nutrition Points page avoids proprietary Weight Watchers formulas and uses an original transparent Nutrition Facts label score.
 - Updated the calculator.net roadmap counts to 201 local tools and 201 local guide pages, with no direct action items remaining from the reviewed sitemap.
+- Added canonical alias pages for duplicate search-intent names instead of creating thin duplicate calculators: Mortgage Amortization, Common Factor, IP Subnet, and Time Duration.
+- Added those alias names to the tools search index and structured-data keywords on the canonical tool pages.
 
 ## Audit Findings
 
@@ -66,7 +68,7 @@ References checked:
 - Category pages are generated only for categories with live tools, which avoids thin empty category pages.
 - Tools and blog pages have search, but blog search did not support URL query state before this pass; fixed.
 - Footer and header provide broad internal links to core hubs.
-- The calculator.net roadmap now exists at `docs/calculator-net-roadmap.md`, keeping future batches grouped and safer. The reviewed competitor-inspired list is now complete, with sensitive/proprietary topics handled as safer alternatives.
+- The calculator.net roadmap now exists at `docs/calculator-net-roadmap.md`, keeping future batches grouped and safer. The reviewed competitor-inspired list is now complete, with sensitive/proprietary topics handled as safer alternatives and duplicate names handled through canonical alias pages.
 
 ### Content Quality
 

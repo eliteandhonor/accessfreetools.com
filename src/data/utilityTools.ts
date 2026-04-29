@@ -8,6 +8,7 @@ interface UtilityToolSpec {
   summary: string;
   description: string;
   icon: string;
+  aliases?: string[];
   formula: string;
   limit: string;
   useCases: string[];
@@ -53,6 +54,7 @@ function makeUtilityTool(spec: UtilityToolSpec): ToolDefinition {
     summary: spec.summary,
     description: spec.description,
     icon: spec.icon,
+    aliases: spec.aliases,
     seoTitle: `${spec.name} | ${titleType}`,
     seoDescription: spec.description,
     useCases: spec.useCases,
@@ -146,6 +148,7 @@ export const utilityTools: ToolDefinition[] = [
     description:
       'Use this free hours calculator to find shift length, decimal hours, overnight time, break deductions, and optional gross pay.',
     icon: 'calculator-hours',
+    aliases: ['Time Duration Calculator', 'Duration Calculator', 'Time Difference Calculator'],
     formula:
       'The calculator converts start and end clock times into seconds, handles overnight shifts, subtracts break minutes, and converts the result to decimal hours.',
     limit:
@@ -246,6 +249,7 @@ export const utilityTools: ToolDefinition[] = [
     description:
       'Use this free subnet calculator to convert an IPv4 address and CIDR prefix into subnet mask, wildcard mask, network, broadcast, and usable addresses.',
     icon: 'calculator-subnet',
+    aliases: ['IP Subnet Calculator', 'IPv4 Subnet Calculator', 'CIDR Calculator'],
     formula:
       'The calculator converts IPv4 octets to a 32-bit number, builds the CIDR subnet mask, then uses bitwise network and wildcard math.',
     limit:
