@@ -294,14 +294,15 @@ function getCategoryIcon(slug: ToolCategory['slug']) {
 function ToolsTitleGraphic() {
   return (
     <h1 className="tools-title-art">
-      <span className="sr-only">All Free Tools</span>
-      <svg aria-hidden="true" focusable="false" viewBox="0 0 690 156" xmlns="http://www.w3.org/2000/svg">
+      <span className="tools-title-text">All Free Tools</span>
+      <svg
+        aria-hidden="true"
+        className="tools-title-ribbon"
+        focusable="false"
+        viewBox="0 0 690 156"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <defs>
-          <linearGradient id="toolsTitleText" x1="28" x2="632" y1="18" y2="116">
-            <stop stopColor="var(--text)" />
-            <stop offset="0.52" stopColor="var(--primary-strong)" />
-            <stop offset="1" stopColor="var(--primary)" />
-          </linearGradient>
           <linearGradient id="toolsTitleRibbon" x1="34" x2="668" y1="108" y2="108">
             <stop stopColor="var(--accent)" stopOpacity="0.88" />
             <stop offset="0.55" stopColor="var(--primary)" stopOpacity="0.52" />
@@ -321,12 +322,6 @@ function ToolsTitleGraphic() {
           strokeOpacity="0.86"
           strokeWidth="7"
         />
-        <text className="title-word title-word-shadow" x="18" y="89">
-          All Free Tools
-        </text>
-        <text className="title-word" fill="url(#toolsTitleText)" x="18" y="89">
-          All Free Tools
-        </text>
       </svg>
     </h1>
   );

@@ -55,6 +55,58 @@ const sourceLinks = {
     href: 'https://www.irs.gov/pub/irs-drop/rp-25-32.pdf',
     label: 'IRS Revenue Procedure 2025-32',
   },
+  irs401k: {
+    href: 'https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-401k-and-profit-sharing-plan-contribution-limits',
+    label: 'IRS: 401(k) and profit-sharing plan contribution limits',
+  },
+  cfpbCreditCards: {
+    href: 'https://www.consumerfinance.gov/consumer-tools/credit-cards/answers/basics/',
+    label: 'Consumer Financial Protection Bureau: Credit card basics',
+  },
+  cfpbDebtCollection: {
+    href: 'https://www.consumerfinance.gov/consumer-tools/debt-collection/',
+    label: 'Consumer Financial Protection Bureau: Debt collection resources',
+  },
+  fsaRepaymentPlans: {
+    href: 'https://studentaid.gov/manage-loans/repayment/plans',
+    label: 'Federal Student Aid: Loan repayment plans',
+  },
+  fdicCdShopping: {
+    href: 'https://www.fdic.gov/consumer-resource-center/2023-11/shopping-certificate-deposit',
+    label: 'FDIC: Shopping for a Certificate of Deposit',
+  },
+  investorBonds: {
+    href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/bonds-or-fixed-income-products',
+    label: 'Investor.gov: Bonds and fixed income products',
+  },
+  investorMutualFunds: {
+    href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs/mutual-funds',
+    label: 'Investor.gov: Mutual Funds',
+  },
+  irsIraLimits: {
+    href: 'https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-ira-contribution-limits',
+    label: 'IRS: IRA contribution limits',
+  },
+  euVat: {
+    href: 'https://taxation-customs.ec.europa.eu/taxation/vat_en',
+    label: 'European Commission: VAT overview',
+  },
+  cfpbApr: {
+    href: 'https://www.consumerfinance.gov/rules-policy/regulations/1026/22',
+    label: 'CFPB Regulation Z: Annual percentage rate',
+  },
+  ftcAutoLease: {
+    href: 'https://consumer.ftc.gov/financing-or-leasing-car',
+    label: 'FTC: Financing or Leasing a Car',
+  },
+  irsDepreciation: {
+    href: 'https://www.irs.gov/publications/p946',
+    label: 'IRS Publication 946: How To Depreciate Property',
+  },
+  cfpbDebtToIncome: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-debt-to-income-ratio-en-1791/',
+    label: 'Consumer Financial Protection Bureau: Debt-to-income ratio',
+  },
 };
 
 function getFormulaAnswer(toolSlug: string) {
@@ -66,8 +118,76 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.cfpbMortgage];
   }
 
-  if (['compound-interest-calculator', 'investment-calculator', 'retirement-calculator', 'finance-calculator', 'interest-calculator'].includes(toolSlug)) {
+  if (['mortgage-payoff-calculator', 'house-affordability-calculator'].includes(toolSlug)) {
+    return [sourceLinks.cfpbMortgage];
+  }
+
+  if (['compound-interest-calculator', 'investment-calculator', 'retirement-calculator', 'finance-calculator', 'interest-calculator', 'savings-calculator', 'annuity-calculator', 'annuity-payout-calculator', 'pension-calculator', 'simple-interest-calculator', 'college-cost-calculator'].includes(toolSlug)) {
     return [sourceLinks.investorCompound];
+  }
+
+  if (['credit-cards-payoff-calculator', 'debt-payoff-calculator', 'repayment-calculator'].includes(toolSlug)) {
+    return [sourceLinks.cfpbDebtCollection, sourceLinks.cfpbCreditCards];
+  }
+
+  if (toolSlug === 'debt-consolidation-calculator') {
+    return [sourceLinks.cfpbDebtCollection];
+  }
+
+  if (toolSlug === 'student-loan-calculator') {
+    return [sourceLinks.fsaRepaymentPlans];
+  }
+
+  if (toolSlug === 'cd-calculator') {
+    return [sourceLinks.fdicCdShopping];
+  }
+
+  if (toolSlug === 'bond-calculator') {
+    return [sourceLinks.investorBonds];
+  }
+
+  if (toolSlug === 'mutual-fund-calculator') {
+    return [sourceLinks.investorMutualFunds];
+  }
+
+  if (['ira-calculator', 'roth-ira-calculator'].includes(toolSlug)) {
+    return [sourceLinks.irsIraLimits, sourceLinks.investorCompound];
+  }
+
+  if (toolSlug === 'vat-calculator') {
+    return [sourceLinks.euVat];
+  }
+
+  if (['cash-back-or-low-interest-calculator', 'personal-loan-calculator', 'business-loan-calculator'].includes(toolSlug)) {
+    return [sourceLinks.cfpbApr];
+  }
+
+  if (['auto-lease-calculator', 'boat-loan-calculator', 'lease-calculator'].includes(toolSlug)) {
+    return [sourceLinks.ftcAutoLease, sourceLinks.cfpbApr];
+  }
+
+  if (toolSlug === 'depreciation-calculator') {
+    return [sourceLinks.irsDepreciation];
+  }
+
+  if (toolSlug === 'average-return-calculator') {
+    return [sourceLinks.investorCompound];
+  }
+
+  if (toolSlug === 'debt-to-income-ratio-calculator') {
+    return [sourceLinks.cfpbDebtToIncome];
+  }
+
+  if (toolSlug === 'refinance-calculator') {
+    return [sourceLinks.cfpbMortgage, sourceLinks.cfpbApr];
+  }
+
+  if (toolSlug === '401k-calculator') {
+    return [sourceLinks.irs401k, sourceLinks.investorCompound];
+  }
+
+  if (toolSlug === 'credit-card-calculator') {
+    return [sourceLinks.cfpbCreditCards];
   }
 
   if (toolSlug === 'inflation-calculator') {
@@ -457,29 +577,239 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
     next: ['Use Percentage Calculator for discount-before-tax math.', 'Use Auto Loan Calculator when vehicle price, tax, fees, and financing all matter.'],
   },
+  'currency-calculator': {
+    summary: 'Learn how to convert currency with a manual exchange rate, optional fee, and clear conversion steps.',
+    purpose:
+      'The Currency Calculator is for manual-rate conversions. It helps when you already have a rate from a bank, card, transfer service, or rate table and want to see the converted amount after an optional fee.',
+    enter: [
+      'Enter the amount you want to convert.',
+      'Enter the exchange rate as target currency per 1 source currency.',
+      'Enter a fee percent only if your bank, card, or transfer service charges one.',
+    ],
+    example: [
+      'If you convert 100 at a rate of 1.25, the before-fee result is 125 target units.',
+      'If a 2.5% fee applies, the calculator subtracts that percentage from the converted amount.',
+    ],
+    read: [
+      'Converted amount is the final estimate after any fee.',
+      'Before fee shows the pure amount times rate calculation.',
+      'Fee amount shows how much the optional fee removed from the converted value.',
+    ],
+    mistakes: [
+      'Do not use this as a live exchange-rate lookup.',
+      'Do not enter the inverse rate unless that is the rate you intend to use.',
+      'Do not forget that card networks, banks, and transfer services may use different rates.',
+    ],
+    next: ['Use Percentage Calculator if you need to compare fees.', 'Use Finance Calculator for general money projections.'],
+  },
+  'mortgage-payoff-calculator': {
+    summary: 'Learn how extra monthly payments or a one-time principal payment can shorten a mortgage payoff estimate.',
+    purpose:
+      'The Mortgage Payoff Calculator estimates how long a fixed-rate mortgage balance may take to pay off when you add extra principal payments. It is for planning before you request an official lender payoff quote.',
+    enter: [
+      'Enter the current loan balance, not the original home price.',
+      'Enter the remaining term and current fixed interest rate.',
+      'Add an extra monthly payment or one-time extra payment only if you plan to pay it toward principal.',
+    ],
+    example: [
+      'A $280,000 balance at 6.25% with 25 years remaining gets a scheduled payment first.',
+      'Adding $200 per month increases the principal paid each month and can reduce both months and interest.',
+    ],
+    read: [
+      'Payoff time is the estimated number of months until the balance reaches zero.',
+      'Interest saved compares the extra-payment scenario with the scheduled payment.',
+      'Months saved shows how much sooner the loan may be paid off.',
+    ],
+    mistakes: [
+      'Do not use this as an official payoff statement.',
+      'Do not include escrow payments as extra principal.',
+      'Do not assume your lender applies every extra payment the same way without checking.',
+    ],
+    next: ['Use Mortgage Calculator for the full monthly payment estimate.', 'Use Amortization Calculator to test extra payments on other fixed loans.'],
+  },
+  '401k-calculator': {
+    summary: 'Learn how salary contributions, employer match, time, and return assumptions affect a 401K projection.',
+    purpose:
+      'The 401K Calculator projects a retirement account balance from current savings, your salary contribution percent, an estimated employer match, time, and return assumption. It is built for scenario planning, not plan administration.',
+    enter: [
+      'Enter your current 401K balance and annual salary.',
+      'Enter your contribution as a percent of salary.',
+      'Enter employer match as a percent of your contribution and the salary percent where the match stops.',
+    ],
+    example: [
+      'With a $75,000 salary and 8% contribution, your monthly contribution is based on salary x 8% / 12.',
+      'A 50% match up to 6% of salary means the employer match is based on the first 6% you contribute.',
+    ],
+    read: [
+      'Projected balance is the estimated future account value.',
+      'Your monthly contribution and employer monthly match show the deposit split.',
+      'The projection does not tell you whether contributions are inside current legal or plan limits.',
+    ],
+    mistakes: [
+      'Do not treat the result as guaranteed investment performance.',
+      'Do not ignore vesting, fees, taxes, Roth/traditional choices, loans, or withdrawals.',
+      'Do not rely on this tool to enforce IRS contribution limits.',
+    ],
+    next: ['Use Retirement Calculator for a broader savings target.', 'Use Compound Interest Calculator to compare deposit and rate assumptions.'],
+  },
+  'house-affordability-calculator': {
+    summary: 'Learn how income, debts, down payment, mortgage rate, taxes, insurance, and HOA affect a home price estimate.',
+    purpose:
+      'The House Affordability Calculator estimates a possible home price from a monthly housing budget. It uses a debt-to-income target so you can see how debts and housing costs compete for the same monthly income.',
+    enter: [
+      'Enter annual gross income and existing monthly debts.',
+      'Enter down payment, mortgage rate, and loan term.',
+      'Enter estimated property tax percent, insurance, and HOA so the monthly payment is not principal and interest only.',
+    ],
+    example: [
+      'For $110,000 annual income, the calculator first estimates monthly income.',
+      'At a 36% debt-to-income target, it subtracts monthly debts and searches for a home price whose payment fits the remaining amount.',
+    ],
+    read: [
+      'Affordable home price is the highest estimate that fits the selected monthly target.',
+      'Loan amount is home price minus down payment.',
+      'Tax, insurance, and HOA reduce the room left for principal and interest.',
+    ],
+    mistakes: [
+      'Do not treat this as mortgage approval.',
+      'Do not leave out HOA, insurance, or tax if they apply.',
+      'Do not forget closing costs, emergency savings, repairs, credit requirements, and lender rules.',
+    ],
+    next: ['Use Mortgage Calculator to inspect the monthly payment.', 'Use Mortgage Payoff Calculator later when comparing extra principal payments.'],
+  },
+  'savings-calculator': {
+    summary: 'Learn how current savings, monthly deposits, interest rate, and time affect a savings goal.',
+    purpose:
+      'The Savings Calculator projects a future balance and compares it with a target. It is useful for emergency funds, travel funds, down payments, and other goals with regular deposits.',
+    enter: [
+      'Enter current savings and the monthly amount you plan to deposit.',
+      'Enter an annual rate as a percent, such as 4 for 4%.',
+      'Enter the time horizon and optional target amount.',
+    ],
+    example: [
+      '$2,500 saved plus $300 per month at 4% for 5 years compounds into a projected balance.',
+      'The calculator compares that balance with the target so you can see whether there is a gap.',
+    ],
+    read: [
+      'Projected balance is the estimate at the end of the time period.',
+      'Total deposits shows money you put in, while estimated interest shows growth from the rate.',
+      'Target gap tells you how far the projection is from your goal.',
+    ],
+    mistakes: [
+      'Do not assume the rate will stay fixed unless your account guarantees it.',
+      'Do not forget taxes, fees, withdrawals, or changed deposit habits.',
+      'Do not compare savings and investments as if their risk is the same.',
+    ],
+    next: ['Use Compound Interest Calculator for compounding frequency controls.', 'Use Investment Calculator for longer risk-based growth scenarios.'],
+  },
+  'rent-calculator': {
+    summary: 'Learn how to estimate a rent budget from income, target percentage, debts, and utilities.',
+    purpose:
+      'The Rent Calculator helps turn monthly income into a practical rent ceiling. It subtracts debts and estimated utilities from a target rent percentage so the estimate is easier to compare with real listings.',
+    enter: [
+      'Enter monthly income after choosing the income basis you want to use.',
+      'Enter a target rent percent such as 25, 30, or 35.',
+      'Enter monthly debt payments and estimated utilities so they reduce the rent ceiling.',
+    ],
+    example: [
+      'If monthly income is $5,200 and the target is 30%, the starting rent target is $1,560.',
+      'Subtracting $350 debts and $180 utilities leaves an estimated rent ceiling of $1,030.',
+    ],
+    read: [
+      'Max rent is the monthly rent estimate after debts and utilities.',
+      'Annual rent simply multiplies the monthly estimate by 12.',
+      'Income left after rent, debts, and utilities shows breathing room before other expenses.',
+    ],
+    mistakes: [
+      'Do not forget deposits, renters insurance, parking, pet fees, or moving costs.',
+      'Do not use a rent percentage that ignores your real monthly bills.',
+      'Do not treat the estimate as a landlord approval rule.',
+    ],
+    next: ['Use Salary Calculator to convert annual salary into monthly pay.', 'Use Percentage Calculator to compare rent targets.'],
+  },
+  'annuity-calculator': {
+    summary: 'Learn how fixed payments, rate, timing, and years affect annuity present value and future value.',
+    purpose:
+      'The Annuity Calculator estimates the present value and future value of a repeated fixed payment. It supports ordinary annuity timing and annuity-due timing for payments made at the beginning of each period.',
+    enter: [
+      'Enter the fixed payment amount.',
+      'Enter annual rate, number of years, and payments per year.',
+      'Choose whether payments happen at the end or beginning of each period.',
+    ],
+    example: [
+      '$500 per month for 20 years means 240 payments.',
+      'The calculator converts the annual rate to a monthly rate, then estimates future value and present value.',
+    ],
+    read: [
+      'Future value estimates what the payment stream could grow to.',
+      'Present value estimates the value of that payment stream today at the selected rate.',
+      'Beginning-of-period payments are worth more in the formula because each payment has one extra period to grow.',
+    ],
+    mistakes: [
+      'Do not treat this as an insurance annuity quote.',
+      'Do not ignore fees, taxes, inflation riders, surrender charges, or contract guarantees.',
+      'Do not mix monthly payments with annual payments without changing payments per year.',
+    ],
+    next: ['Use Investment Calculator for contribution growth.', 'Use Retirement Calculator for broader retirement savings scenarios.'],
+  },
+  'credit-card-calculator': {
+    summary: 'Learn how balance, APR, monthly payment, and new charges affect credit card payoff time.',
+    purpose:
+      'The Credit Card Calculator estimates how long a balance may take to pay off with a fixed monthly payment. It shows interest cost and makes it easier to compare regular payment and extra-payment scenarios.',
+    enter: [
+      'Enter the current credit card balance.',
+      'Enter APR as a percent, such as 22.9 for 22.9%.',
+      'Enter the monthly payment and optional new monthly charges.',
+    ],
+    example: [
+      'A $4,500 balance at 22.9% APR and $250 per month gets monthly interest added before the payment is subtracted.',
+      'Increasing the payment to $350 usually shortens payoff time and reduces total interest.',
+    ],
+    read: [
+      'Payoff time is the estimated number of months until the balance reaches zero.',
+      'Total interest shows estimated interest paid during payoff.',
+      'Final payment may be smaller than the normal monthly payment.',
+    ],
+    mistakes: [
+      'Do not keep adding new charges if your goal is fast payoff.',
+      'Do not assume this matches the issuer daily-balance method exactly.',
+      'Do not ignore late fees, annual fees, promotional APRs, or variable APR changes.',
+    ],
+    next: ['Use Interest Calculator to understand APR math.', 'Use Payment Calculator for fixed-payment debt comparisons.'],
+  },
 };
 
 function buildDefaultGuideDetail(tool: (typeof financeTools)[number]): GuideDetail {
+  const firstExample = tool.examples[0];
+  const secondExample = tool.examples[1] ?? firstExample;
+
   return {
-    summary: `Learn how to use the ${tool.name} with clean inputs, readable results, examples, and finance estimate limits.`,
-    purpose: tool.description,
+    summary: `Learn how to use the ${tool.name} in plain language: what to enter, what the result means, and what the estimate leaves out.`,
+    purpose: `${tool.description} It is best for ${tool.useCases[0]?.toLowerCase() ?? 'quick planning'} and for comparing scenarios before you rely on a number.`,
     enter: [
-      'Enter the requested dollar amounts, rates, and time periods exactly as labeled.',
-      'Use annual rates as percentages, such as 6.5 for 6.5%.',
-      'Review the first example before replacing the fields with your own numbers.',
+      `Start with the fields shown on the ${tool.name} page and enter values in the same units used by the labels.`,
+      'Use annual rates as percentages, such as 6.5 for 6.5%, and keep monthly amounts in monthly fields.',
+      firstExample
+        ? `Try the first example first: ${firstExample.expression}. Then replace one number at a time so you can see what changed.`
+        : 'Try a built-in example before entering your own numbers.',
     ],
     example: [
-      `Try the example "${tool.examples[0]?.expression ?? tool.name}" to see a complete estimate.`,
-      `Compare the result with the formula line so you can see how the ${tool.name} reached the answer.`,
+      firstExample
+        ? `${firstExample.label} uses ${firstExample.expression}, and the result focuses on ${firstExample.result.toLowerCase()}.`
+        : `Use the first example on the ${tool.name} page to see a complete estimate.`,
+      secondExample
+        ? `Use ${secondExample.label.toLowerCase()} as a quick comparison so the guide is not based on only one scenario.`
+        : `Compare the result with the formula line so you can see how the ${tool.name} reached the answer.`,
     ],
     read: [
-      'Read the main answer first, then check the supporting lines for interest, total paid, or contribution details.',
-      'Use the result as a planning estimate, not a final quote or professional recommendation.',
+      'Read the large answer first, because it is the main result the calculator is built around.',
+      'Then read the supporting lines. They explain what drove the result, such as payment, interest, total cost, savings gap, return, or time.',
+      `Check the formula note: ${tool.formula}`,
     ],
     mistakes: [
       'Do not mix monthly and annual amounts.',
       'Do not copy an answer before checking the rate and term.',
-      'Do not treat a simplified estimate as tax, legal, lending, or investment advice.',
+      tool.limit,
     ],
     next: tool.relatedSlugs.length > 0
       ? [`Try ${tool.relatedSlugs[0].replaceAll('-', ' ')} next to compare the same question from another angle.`]

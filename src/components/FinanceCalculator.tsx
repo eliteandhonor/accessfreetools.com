@@ -2,19 +2,51 @@ import { useMemo, useState, type HTMLAttributes } from 'react';
 import {
   calculateAmortizationSummary,
   calculateAutoLoanSummary,
+  calculateAnnuity,
+  calculateAnnuityPayout,
+  calculateAssetLease,
+  calculateAutoLease,
+  calculateBondEstimate,
+  calculateAverageReturn,
+  calculateBudget,
+  calculateBusinessLoan,
+  calculateCashBackLowInterest,
+  calculateCdEstimate,
+  calculateCollegeCost,
+  calculateCreditCardPayoff,
   calculateCompoundInterest,
+  calculateCurrencyConversion,
+  calculateDebtConsolidation,
+  calculateDebtToIncome,
+  calculateDepreciationEstimate,
+  calculateDiscountEstimate,
   calculateFederalIncomeTax2026,
+  calculateFixedDebtPayoff,
+  calculateFourOhOneKProjection,
+  calculateHouseAffordability,
   calculateInflationAdjustment,
   calculateInterestRateFromPayment,
+  calculateIraProjection,
   calculateInvestmentGrowth,
   calculateLoanSummary,
+  calculateMarginEstimate,
+  calculateMutualFundEstimate,
+  calculateMortgagePayoffSummary,
   calculateMortgagePayment,
+  calculatePensionEstimate,
+  calculateRefinance,
   calculateRetirementSavings,
   calculateSalaryBreakdown,
+  calculateSavingsProjection,
+  calculateRentAffordability,
   calculateSalesTax,
   calculateSimpleInterest,
+  calculateVat,
   formatCalculatorNumber,
+  type AnnuityTiming,
+  type DepreciationMethod,
   type FederalFilingStatus,
+  type VatMode,
 } from '../lib/calculator';
 
 export type FinanceToolVariant =
@@ -26,8 +58,44 @@ export type FinanceToolVariant =
   | 'retirement'
   | 'amortization'
   | 'investment'
+  | 'currency'
   | 'inflation'
   | 'finance'
+  | 'mortgage-payoff'
+  | '401k'
+  | 'house-affordability'
+  | 'savings'
+  | 'rent'
+  | 'annuity'
+  | 'credit-card'
+  | 'pension'
+  | 'annuity-payout'
+  | 'credit-cards-payoff'
+  | 'debt-payoff'
+  | 'debt-consolidation'
+  | 'repayment'
+  | 'student-loan'
+  | 'college-cost'
+  | 'simple-interest'
+  | 'cd'
+  | 'bond'
+  | 'mutual-fund'
+  | 'roth-ira'
+  | 'ira'
+  | 'vat'
+  | 'cash-back-low-interest'
+  | 'auto-lease'
+  | 'depreciation'
+  | 'average-return'
+  | 'margin'
+  | 'discount'
+  | 'business-loan'
+  | 'debt-to-income'
+  | 'personal-loan'
+  | 'boat-loan'
+  | 'lease'
+  | 'refinance'
+  | 'budget'
   | 'income-tax'
   | 'compound-interest'
   | 'salary'
@@ -114,6 +182,16 @@ const filingStatusOptions: SelectOption[] = [
   { label: 'Married filing jointly', value: 'married-joint' },
   { label: 'Married filing separately', value: 'married-separate' },
   { label: 'Head of household', value: 'head-household' },
+];
+
+const vatModeOptions: SelectOption[] = [
+  { label: 'Add VAT to net price', value: 'add' },
+  { label: 'Remove VAT from gross price', value: 'remove' },
+];
+
+const depreciationMethodOptions: SelectOption[] = [
+  { label: 'Straight-line', value: 'straight-line' },
+  { label: 'Declining balance', value: 'declining-balance' },
 ];
 
 const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
@@ -345,6 +423,940 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
           { label: '$250/month', inputs: { principal: '5000', monthlyContribution: '250', annualReturnPercent: '7', years: '20' } },
           { label: 'No deposits', inputs: { principal: '10000', monthlyContribution: '0', annualReturnPercent: '6', years: '15' } },
           { label: '$300/month', inputs: { principal: '2000', monthlyContribution: '300', annualReturnPercent: '5.5', years: '12' } },
+        ],
+      },
+    ],
+  },
+  currency: {
+    title: 'Currency Calculator',
+    buttonLabel: 'Convert currency',
+    emptyHistory: 'Recent currency conversions will appear here.',
+    privacyNote: 'Currency estimates use the manual exchange rate you enter. This tool does not look up live market, bank, or card rates.',
+    modes: [
+      {
+        id: 'currency',
+        label: 'Manual rate',
+        symbol: 'FX',
+        fields: [
+          numberField('amount', 'Amount to convert'),
+          numberField('exchangeRate', 'Exchange rate (target per 1 source)'),
+          numberField('feePercent', 'Exchange fee (%)'),
+        ],
+        defaultInputs: { amount: '100', exchangeRate: '1.25', feePercent: '0' },
+        examples: [
+          { label: '100 at 1.25', inputs: { amount: '100', exchangeRate: '1.25', feePercent: '0' } },
+          { label: 'Travel fee check', inputs: { amount: '500', exchangeRate: '0.92', feePercent: '2.5' } },
+          { label: 'No-fee transfer', inputs: { amount: '1000', exchangeRate: '1.47', feePercent: '0' } },
+        ],
+      },
+    ],
+  },
+  'mortgage-payoff': {
+    title: 'Mortgage Payoff Calculator',
+    buttonLabel: 'Estimate payoff',
+    emptyHistory: 'Recent mortgage payoff estimates will appear here.',
+    privacyNote: 'Mortgage payoff estimates assume a fixed rate and do not include lender payoff quotes, escrow, fees, or prepayment rules.',
+    modes: [
+      {
+        id: 'mortgage-payoff',
+        label: 'Payoff',
+        symbol: 'PAYOFF',
+        fields: [
+          numberField('principal', 'Current loan balance ($)'),
+          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('years', 'Remaining term (years)'),
+          numberField('extraMonthlyPayment', 'Extra monthly payment ($)'),
+          numberField('oneTimePayment', 'One-time extra payment ($)'),
+        ],
+        defaultInputs: { principal: '280000', annualRatePercent: '6.25', years: '25', extraMonthlyPayment: '200', oneTimePayment: '0' },
+        examples: [
+          { label: '+$200/month', inputs: { principal: '280000', annualRatePercent: '6.25', years: '25', extraMonthlyPayment: '200', oneTimePayment: '0' } },
+          { label: '$5k one-time', inputs: { principal: '240000', annualRatePercent: '5.8', years: '22', extraMonthlyPayment: '0', oneTimePayment: '5000' } },
+          { label: 'Aggressive payoff', inputs: { principal: '320000', annualRatePercent: '6.6', years: '28', extraMonthlyPayment: '500', oneTimePayment: '10000' } },
+        ],
+      },
+    ],
+  },
+  '401k': {
+    title: '401K Calculator',
+    buttonLabel: 'Project 401K',
+    emptyHistory: 'Recent 401K projections will appear here.',
+    privacyNote: '401K projections do not enforce plan rules, IRS limits, vesting, taxes, fees, loans, withdrawals, or market volatility.',
+    modes: [
+      {
+        id: '401k',
+        label: '401K',
+        symbol: '401K',
+        fields: [
+          numberField('currentBalance', 'Current balance ($)'),
+          numberField('annualSalary', 'Annual salary ($)'),
+          numberField('employeeContributionPercent', 'Your contribution (%)'),
+          numberField('employerMatchPercent', 'Employer match (%)'),
+          numberField('employerMatchLimitPercent', 'Match limit (% of salary)'),
+          numberField('annualReturnPercent', 'Estimated return (%)'),
+          numberField('years', 'Years to grow'),
+        ],
+        defaultInputs: { currentBalance: '25000', annualSalary: '75000', employeeContributionPercent: '8', employerMatchPercent: '50', employerMatchLimitPercent: '6', annualReturnPercent: '7', years: '25' },
+        examples: [
+          { label: '8% with 50% match', inputs: { currentBalance: '25000', annualSalary: '75000', employeeContributionPercent: '8', employerMatchPercent: '50', employerMatchLimitPercent: '6', annualReturnPercent: '7', years: '25' } },
+          { label: 'Start from zero', inputs: { currentBalance: '0', annualSalary: '60000', employeeContributionPercent: '6', employerMatchPercent: '100', employerMatchLimitPercent: '4', annualReturnPercent: '6', years: '30' } },
+          { label: 'Catch-up scenario', inputs: { currentBalance: '120000', annualSalary: '95000', employeeContributionPercent: '12', employerMatchPercent: '50', employerMatchLimitPercent: '6', annualReturnPercent: '5.5', years: '15' } },
+        ],
+      },
+    ],
+  },
+  'house-affordability': {
+    title: 'House Affordability Calculator',
+    buttonLabel: 'Estimate affordability',
+    emptyHistory: 'Recent house affordability estimates will appear here.',
+    privacyNote: 'House affordability estimates are simple planning numbers and are not mortgage approval, underwriting, or financial advice.',
+    modes: [
+      {
+        id: 'house-affordability',
+        label: 'Affordability',
+        symbol: 'HOME',
+        fields: [
+          numberField('annualIncome', 'Annual gross income ($)'),
+          numberField('monthlyDebts', 'Monthly debt payments ($)'),
+          numberField('downPayment', 'Down payment ($)'),
+          numberField('annualRatePercent', 'Mortgage rate (%)'),
+          numberField('years', 'Loan term (years)'),
+          numberField('debtToIncomePercent', 'Debt-to-income target (%)'),
+          numberField('propertyTaxPercent', 'Property tax (% of home/year)'),
+          numberField('monthlyInsurance', 'Insurance per month ($)'),
+          numberField('monthlyHoa', 'HOA per month ($)'),
+        ],
+        defaultInputs: { annualIncome: '110000', monthlyDebts: '450', downPayment: '60000', annualRatePercent: '6.5', years: '30', debtToIncomePercent: '36', propertyTaxPercent: '1.2', monthlyInsurance: '140', monthlyHoa: '0' },
+        examples: [
+          { label: '$110k income', inputs: { annualIncome: '110000', monthlyDebts: '450', downPayment: '60000', annualRatePercent: '6.5', years: '30', debtToIncomePercent: '36', propertyTaxPercent: '1.2', monthlyInsurance: '140', monthlyHoa: '0' } },
+          { label: 'Lower debts', inputs: { annualIncome: '90000', monthlyDebts: '150', downPayment: '45000', annualRatePercent: '6.25', years: '30', debtToIncomePercent: '33', propertyTaxPercent: '1.1', monthlyInsurance: '120', monthlyHoa: '75' } },
+          { label: 'Higher down payment', inputs: { annualIncome: '140000', monthlyDebts: '700', downPayment: '120000', annualRatePercent: '6.8', years: '30', debtToIncomePercent: '36', propertyTaxPercent: '1.3', monthlyInsurance: '170', monthlyHoa: '0' } },
+        ],
+      },
+    ],
+  },
+  savings: {
+    title: 'Savings Calculator',
+    buttonLabel: 'Project savings',
+    emptyHistory: 'Recent savings projections will appear here.',
+    privacyNote: 'Savings projections use your chosen rate and do not include taxes, fees, changing rates, or account rules.',
+    modes: [
+      {
+        id: 'savings',
+        label: 'Savings',
+        symbol: 'SAVE',
+        fields: [
+          numberField('currentSavings', 'Current savings ($)'),
+          numberField('monthlyDeposit', 'Monthly deposit ($)'),
+          numberField('annualRatePercent', 'Annual rate (%)'),
+          numberField('years', 'Time (years)'),
+          numberField('targetAmount', 'Target amount ($)'),
+        ],
+        defaultInputs: { currentSavings: '2500', monthlyDeposit: '300', annualRatePercent: '4', years: '5', targetAmount: '25000' },
+        examples: [
+          { label: '$300/month goal', inputs: { currentSavings: '2500', monthlyDeposit: '300', annualRatePercent: '4', years: '5', targetAmount: '25000' } },
+          { label: 'Emergency fund', inputs: { currentSavings: '1000', monthlyDeposit: '250', annualRatePercent: '3.5', years: '2', targetAmount: '8000' } },
+          { label: 'Longer horizon', inputs: { currentSavings: '5000', monthlyDeposit: '200', annualRatePercent: '4.5', years: '10', targetAmount: '40000' } },
+        ],
+      },
+    ],
+  },
+  rent: {
+    title: 'Rent Calculator',
+    buttonLabel: 'Estimate rent',
+    emptyHistory: 'Recent rent affordability estimates will appear here.',
+    privacyNote: 'Rent estimates are planning numbers and do not include application rules, deposits, local market changes, or lease terms.',
+    modes: [
+      {
+        id: 'rent',
+        label: 'Rent budget',
+        symbol: 'RENT',
+        fields: [
+          numberField('monthlyIncome', 'Monthly income ($)'),
+          numberField('targetRentPercent', 'Target rent percent (%)'),
+          numberField('monthlyDebts', 'Monthly debts ($)'),
+          numberField('monthlyUtilities', 'Estimated utilities ($)'),
+        ],
+        defaultInputs: { monthlyIncome: '5200', targetRentPercent: '30', monthlyDebts: '350', monthlyUtilities: '180' },
+        examples: [
+          { label: '30% rent check', inputs: { monthlyIncome: '5200', targetRentPercent: '30', monthlyDebts: '350', monthlyUtilities: '180' } },
+          { label: 'Lower income', inputs: { monthlyIncome: '3600', targetRentPercent: '30', monthlyDebts: '150', monthlyUtilities: '160' } },
+          { label: 'Conservative target', inputs: { monthlyIncome: '6200', targetRentPercent: '25', monthlyDebts: '500', monthlyUtilities: '220' } },
+        ],
+      },
+    ],
+  },
+  annuity: {
+    title: 'Annuity Calculator',
+    buttonLabel: 'Calculate annuity',
+    emptyHistory: 'Recent annuity estimates will appear here.',
+    privacyNote: 'Annuity estimates use a simplified fixed-rate formula and do not include insurer terms, fees, taxes, guarantees, or surrender charges.',
+    modes: [
+      {
+        id: 'annuity',
+        label: 'Annuity',
+        symbol: 'ANN',
+        fields: [
+          numberField('payment', 'Payment amount ($)'),
+          numberField('annualRatePercent', 'Annual rate (%)'),
+          numberField('years', 'Time (years)'),
+          numberField('paymentsPerYear', 'Payments per year'),
+          selectField('timing', 'Payment timing', [
+            { label: 'End of period', value: 'ordinary' },
+            { label: 'Beginning of period', value: 'due' },
+          ]),
+        ],
+        defaultInputs: { payment: '500', annualRatePercent: '5', years: '20', paymentsPerYear: '12', timing: 'ordinary' },
+        examples: [
+          { label: '$500/month', inputs: { payment: '500', annualRatePercent: '5', years: '20', paymentsPerYear: '12', timing: 'ordinary' } },
+          { label: 'Annual payments', inputs: { payment: '6000', annualRatePercent: '4.5', years: '15', paymentsPerYear: '1', timing: 'ordinary' } },
+          { label: 'Payments upfront', inputs: { payment: '400', annualRatePercent: '5.5', years: '10', paymentsPerYear: '12', timing: 'due' } },
+        ],
+      },
+    ],
+  },
+  'credit-card': {
+    title: 'Credit Card Calculator',
+    buttonLabel: 'Estimate payoff',
+    emptyHistory: 'Recent credit card payoff estimates will appear here.',
+    privacyNote: 'Credit card estimates do not include fees, variable APR changes, minimum-payment rules, promotional rates, or issuer terms.',
+    modes: [
+      {
+        id: 'credit-card',
+        label: 'Payoff',
+        symbol: 'CARD',
+        fields: [
+          numberField('balance', 'Current balance ($)'),
+          numberField('annualRatePercent', 'APR (%)'),
+          numberField('monthlyPayment', 'Monthly payment ($)'),
+          numberField('monthlyNewCharges', 'New charges per month ($)'),
+        ],
+        defaultInputs: { balance: '4500', annualRatePercent: '22.9', monthlyPayment: '250', monthlyNewCharges: '0' },
+        examples: [
+          { label: '$4.5k payoff', inputs: { balance: '4500', annualRatePercent: '22.9', monthlyPayment: '250', monthlyNewCharges: '0' } },
+          { label: '$100 extra', inputs: { balance: '4500', annualRatePercent: '22.9', monthlyPayment: '350', monthlyNewCharges: '0' } },
+          { label: 'With new charges', inputs: { balance: '3000', annualRatePercent: '19.9', monthlyPayment: '250', monthlyNewCharges: '50' } },
+        ],
+      },
+    ],
+  },
+  pension: {
+    title: 'Pension Calculator',
+    buttonLabel: 'Estimate pension',
+    emptyHistory: 'Recent pension estimates will appear here.',
+    privacyNote: 'Pension estimates use a simple defined-benefit formula and do not include vesting, plan rules, survivor options, COLA, or taxes.',
+    modes: [
+      {
+        id: 'pension',
+        label: 'Pension',
+        symbol: 'PEN',
+        fields: [
+          numberField('finalAverageSalary', 'Final average salary ($)'),
+          numberField('yearsOfService', 'Years of service'),
+          numberField('multiplierPercent', 'Benefit multiplier (%)'),
+        ],
+        defaultInputs: { finalAverageSalary: '80000', yearsOfService: '25', multiplierPercent: '1.5' },
+        examples: [
+          { label: 'Public plan style', inputs: { finalAverageSalary: '80000', yearsOfService: '25', multiplierPercent: '1.5' } },
+          { label: 'Long service', inputs: { finalAverageSalary: '95000', yearsOfService: '32', multiplierPercent: '1.7' } },
+          { label: 'Shorter service', inputs: { finalAverageSalary: '65000', yearsOfService: '15', multiplierPercent: '1.25' } },
+        ],
+      },
+    ],
+  },
+  'annuity-payout': {
+    title: 'Annuity Payout Calculator',
+    buttonLabel: 'Estimate payout',
+    emptyHistory: 'Recent annuity payout estimates will appear here.',
+    privacyNote: 'This payout estimate is a simplified fixed-rate drawdown and is not an annuity contract, insurance quote, or investment recommendation.',
+    modes: [
+      {
+        id: 'annuity-payout',
+        label: 'Payout',
+        symbol: 'PAY',
+        fields: [
+          numberField('principal', 'Starting balance ($)'),
+          numberField('annualRatePercent', 'Annual rate (%)'),
+          numberField('years', 'Payout time (years)'),
+          numberField('paymentsPerYear', 'Payments per year'),
+        ],
+        defaultInputs: { principal: '100000', annualRatePercent: '5', years: '20', paymentsPerYear: '12' },
+        examples: [
+          { label: '$100k over 20 years', inputs: { principal: '100000', annualRatePercent: '5', years: '20', paymentsPerYear: '12' } },
+          { label: 'Annual payments', inputs: { principal: '75000', annualRatePercent: '4', years: '15', paymentsPerYear: '1' } },
+          { label: 'Short payout', inputs: { principal: '50000', annualRatePercent: '3.5', years: '10', paymentsPerYear: '12' } },
+        ],
+      },
+    ],
+  },
+  'credit-cards-payoff': {
+    title: 'Credit Cards Payoff Calculator',
+    buttonLabel: 'Estimate card payoff',
+    emptyHistory: 'Recent credit card payoff estimates will appear here.',
+    privacyNote: 'This combines card balances into one payoff estimate and does not model daily balance methods, fees, or changing minimum payments.',
+    modes: [
+      {
+        id: 'credit-cards-payoff',
+        label: 'Cards',
+        symbol: 'CARD',
+        fields: [
+          numberField('balance', 'Combined card balance ($)'),
+          numberField('annualRatePercent', 'Weighted APR (%)'),
+          numberField('monthlyPayment', 'Monthly payment ($)'),
+          numberField('extraMonthlyPayment', 'Extra monthly payment ($)'),
+        ],
+        defaultInputs: { balance: '8500', annualRatePercent: '21.5', monthlyPayment: '350', extraMonthlyPayment: '100' },
+        examples: [
+          { label: 'Two-card payoff', inputs: { balance: '8500', annualRatePercent: '21.5', monthlyPayment: '350', extraMonthlyPayment: '100' } },
+          { label: 'Minimum plus extra', inputs: { balance: '6000', annualRatePercent: '19.9', monthlyPayment: '220', extraMonthlyPayment: '80' } },
+          { label: 'Aggressive payoff', inputs: { balance: '12000', annualRatePercent: '24.9', monthlyPayment: '500', extraMonthlyPayment: '250' } },
+        ],
+      },
+    ],
+  },
+  'debt-payoff': {
+    title: 'Debt Payoff Calculator',
+    buttonLabel: 'Estimate payoff',
+    emptyHistory: 'Recent debt payoff estimates will appear here.',
+    privacyNote: 'Debt payoff estimates are simplified and do not include fees, collections, settlement terms, changing rates, or creditor rules.',
+    modes: [
+      {
+        id: 'debt-payoff',
+        label: 'Payoff',
+        symbol: 'DEBT',
+        fields: [
+          numberField('balance', 'Debt balance ($)'),
+          numberField('annualRatePercent', 'Annual interest rate (%)'),
+          numberField('monthlyPayment', 'Monthly payment ($)'),
+          numberField('extraMonthlyPayment', 'Extra monthly payment ($)'),
+        ],
+        defaultInputs: { balance: '10000', annualRatePercent: '12', monthlyPayment: '300', extraMonthlyPayment: '100' },
+        examples: [
+          { label: '$10k debt', inputs: { balance: '10000', annualRatePercent: '12', monthlyPayment: '300', extraMonthlyPayment: '100' } },
+          { label: 'No extra payment', inputs: { balance: '7500', annualRatePercent: '15', monthlyPayment: '260', extraMonthlyPayment: '0' } },
+          { label: 'Fast payoff', inputs: { balance: '5000', annualRatePercent: '18', monthlyPayment: '250', extraMonthlyPayment: '150' } },
+        ],
+      },
+    ],
+  },
+  'debt-consolidation': {
+    title: 'Debt Consolidation Calculator',
+    buttonLabel: 'Compare consolidation',
+    emptyHistory: 'Recent consolidation comparisons will appear here.',
+    privacyNote: 'Debt consolidation estimates compare simple payment math only and do not include approval, balance transfer rules, origination terms, or credit effects.',
+    modes: [
+      {
+        id: 'debt-consolidation',
+        label: 'Consolidate',
+        symbol: 'CONS',
+        fields: [
+          numberField('totalDebt', 'Total debt ($)'),
+          numberField('currentAnnualRatePercent', 'Current average rate (%)'),
+          numberField('currentMonthlyPayment', 'Current monthly payment ($)'),
+          numberField('newAnnualRatePercent', 'New loan rate (%)'),
+          numberField('newYears', 'New loan term (years)'),
+          numberField('fees', 'Fees added ($)'),
+        ],
+        defaultInputs: { totalDebt: '18000', currentAnnualRatePercent: '18', currentMonthlyPayment: '650', newAnnualRatePercent: '10.5', newYears: '3', fees: '300' },
+        examples: [
+          { label: 'Lower-rate loan', inputs: { totalDebt: '18000', currentAnnualRatePercent: '18', currentMonthlyPayment: '650', newAnnualRatePercent: '10.5', newYears: '3', fees: '300' } },
+          { label: 'No fee option', inputs: { totalDebt: '12000', currentAnnualRatePercent: '16', currentMonthlyPayment: '420', newAnnualRatePercent: '11', newYears: '3', fees: '0' } },
+          { label: 'Longer term', inputs: { totalDebt: '25000', currentAnnualRatePercent: '20', currentMonthlyPayment: '750', newAnnualRatePercent: '13', newYears: '5', fees: '500' } },
+        ],
+      },
+    ],
+  },
+  repayment: {
+    title: 'Repayment Calculator',
+    buttonLabel: 'Estimate repayment',
+    emptyHistory: 'Recent repayment estimates will appear here.',
+    privacyNote: 'Repayment estimates use fixed payment math and do not include hardship plans, deferment, fees, changing rates, or provider-specific rules.',
+    modes: [
+      {
+        id: 'repayment',
+        label: 'Repayment',
+        symbol: 'REPAY',
+        fields: [
+          numberField('balance', 'Balance ($)'),
+          numberField('annualRatePercent', 'Annual interest rate (%)'),
+          numberField('monthlyPayment', 'Monthly payment ($)'),
+          numberField('extraMonthlyPayment', 'Extra monthly payment ($)'),
+        ],
+        defaultInputs: { balance: '12000', annualRatePercent: '8', monthlyPayment: '300', extraMonthlyPayment: '50' },
+        examples: [
+          { label: 'General balance', inputs: { balance: '12000', annualRatePercent: '8', monthlyPayment: '300', extraMonthlyPayment: '50' } },
+          { label: 'Small payoff', inputs: { balance: '3500', annualRatePercent: '14', monthlyPayment: '150', extraMonthlyPayment: '25' } },
+          { label: 'No extra payment', inputs: { balance: '9000', annualRatePercent: '9.5', monthlyPayment: '250', extraMonthlyPayment: '0' } },
+        ],
+      },
+    ],
+  },
+  'student-loan': {
+    title: 'Student Loan Calculator',
+    buttonLabel: 'Estimate student loan',
+    emptyHistory: 'Recent student loan estimates will appear here.',
+    privacyNote: 'Student loan estimates are not official federal loan repayment plan results and do not include income-driven repayment, forgiveness, deferment, or subsidies.',
+    modes: [
+      {
+        id: 'student-loan',
+        label: 'Student loan',
+        symbol: 'STU',
+        fields: [
+          numberField('principal', 'Loan balance ($)'),
+          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('years', 'Repayment term (years)'),
+          numberField('extraMonthlyPayment', 'Extra monthly payment ($)'),
+        ],
+        defaultInputs: { principal: '30000', annualRatePercent: '6.5', years: '10', extraMonthlyPayment: '50' },
+        examples: [
+          { label: '10-year plan', inputs: { principal: '30000', annualRatePercent: '6.5', years: '10', extraMonthlyPayment: '50' } },
+          { label: 'No extra payment', inputs: { principal: '25000', annualRatePercent: '5.5', years: '10', extraMonthlyPayment: '0' } },
+          { label: 'Aggressive payment', inputs: { principal: '45000', annualRatePercent: '7', years: '10', extraMonthlyPayment: '200' } },
+        ],
+      },
+    ],
+  },
+  'college-cost': {
+    title: 'College Cost Calculator',
+    buttonLabel: 'Estimate college cost',
+    emptyHistory: 'Recent college cost estimates will appear here.',
+    privacyNote: 'College estimates do not include financial aid, scholarships, tuition guarantees, taxes, or school-specific billing rules.',
+    modes: [
+      {
+        id: 'college-cost',
+        label: 'College cost',
+        symbol: 'COL',
+        fields: [
+          numberField('currentAnnualCost', 'Current annual cost ($)'),
+          numberField('yearsUntilStart', 'Years until start'),
+          numberField('yearsInSchool', 'Years in school'),
+          numberField('annualCostIncreasePercent', 'Annual cost increase (%)'),
+          numberField('currentSavings', 'Current savings ($)'),
+          numberField('monthlySavings', 'Monthly savings ($)'),
+          numberField('annualSavingsReturnPercent', 'Savings return (%)'),
+        ],
+        defaultInputs: { currentAnnualCost: '28000', yearsUntilStart: '8', yearsInSchool: '4', annualCostIncreasePercent: '4', currentSavings: '10000', monthlySavings: '250', annualSavingsReturnPercent: '5' },
+        examples: [
+          { label: 'Four-year plan', inputs: { currentAnnualCost: '28000', yearsUntilStart: '8', yearsInSchool: '4', annualCostIncreasePercent: '4', currentSavings: '10000', monthlySavings: '250', annualSavingsReturnPercent: '5' } },
+          { label: 'Sooner start', inputs: { currentAnnualCost: '22000', yearsUntilStart: '3', yearsInSchool: '4', annualCostIncreasePercent: '3.5', currentSavings: '5000', monthlySavings: '300', annualSavingsReturnPercent: '4' } },
+          { label: 'Two-year program', inputs: { currentAnnualCost: '12000', yearsUntilStart: '5', yearsInSchool: '2', annualCostIncreasePercent: '3', currentSavings: '2500', monthlySavings: '150', annualSavingsReturnPercent: '4.5' } },
+        ],
+      },
+    ],
+  },
+  'simple-interest': {
+    title: 'Simple Interest Calculator',
+    buttonLabel: 'Calculate simple interest',
+    emptyHistory: 'Recent simple interest estimates will appear here.',
+    privacyNote: 'Simple interest estimates do not include compounding, fees, taxes, payment schedules, or changing rates.',
+    modes: [
+      {
+        id: 'simple-interest',
+        label: 'Simple',
+        symbol: 'SI',
+        fields: [
+          numberField('principal', 'Principal ($)'),
+          numberField('annualRatePercent', 'Annual rate (%)'),
+          numberField('years', 'Time (years)'),
+        ],
+        defaultInputs: { principal: '1000', annualRatePercent: '5', years: '3' },
+        examples: [
+          { label: '$1k at 5%', inputs: { principal: '1000', annualRatePercent: '5', years: '3' } },
+          { label: '$10k for 18 months', inputs: { principal: '10000', annualRatePercent: '4.5', years: '1.5' } },
+          { label: 'Zero interest', inputs: { principal: '2500', annualRatePercent: '0', years: '2' } },
+        ],
+      },
+    ],
+  },
+  cd: {
+    title: 'CD Calculator',
+    buttonLabel: 'Estimate CD',
+    emptyHistory: 'Recent CD estimates will appear here.',
+    privacyNote: 'CD estimates use APY math and a manual penalty estimate. Check your bank disclosures for exact maturity, renewal, and early withdrawal terms.',
+    modes: [
+      {
+        id: 'cd',
+        label: 'CD',
+        symbol: 'CD',
+        fields: [
+          numberField('principal', 'Deposit amount ($)'),
+          numberField('annualPercentageYield', 'APY (%)'),
+          numberField('termMonths', 'Term (months)'),
+          numberField('earlyWithdrawalPenaltyMonths', 'Penalty months of interest'),
+        ],
+        defaultInputs: { principal: '10000', annualPercentageYield: '4.25', termMonths: '12', earlyWithdrawalPenaltyMonths: '3' },
+        examples: [
+          { label: 'One-year CD', inputs: { principal: '10000', annualPercentageYield: '4.25', termMonths: '12', earlyWithdrawalPenaltyMonths: '3' } },
+          { label: 'Six-month CD', inputs: { principal: '5000', annualPercentageYield: '3.9', termMonths: '6', earlyWithdrawalPenaltyMonths: '1' } },
+          { label: 'Five-year CD', inputs: { principal: '25000', annualPercentageYield: '4.1', termMonths: '60', earlyWithdrawalPenaltyMonths: '6' } },
+        ],
+      },
+    ],
+  },
+  bond: {
+    title: 'Bond Calculator',
+    buttonLabel: 'Estimate bond',
+    emptyHistory: 'Recent bond estimates will appear here.',
+    privacyNote: 'Bond estimates use simple current yield and approximate yield-to-maturity formulas, not a full pricing model or investment advice.',
+    modes: [
+      {
+        id: 'bond',
+        label: 'Bond',
+        symbol: 'BOND',
+        fields: [
+          numberField('faceValue', 'Face value ($)'),
+          numberField('marketPrice', 'Market price ($)'),
+          numberField('couponRatePercent', 'Coupon rate (%)'),
+          numberField('yearsToMaturity', 'Years to maturity'),
+          numberField('paymentsPerYear', 'Coupon payments per year'),
+        ],
+        defaultInputs: { faceValue: '1000', marketPrice: '950', couponRatePercent: '5', yearsToMaturity: '10', paymentsPerYear: '2' },
+        examples: [
+          { label: 'Discount bond', inputs: { faceValue: '1000', marketPrice: '950', couponRatePercent: '5', yearsToMaturity: '10', paymentsPerYear: '2' } },
+          { label: 'Premium bond', inputs: { faceValue: '1000', marketPrice: '1050', couponRatePercent: '6', yearsToMaturity: '8', paymentsPerYear: '2' } },
+          { label: 'Annual coupon', inputs: { faceValue: '5000', marketPrice: '4800', couponRatePercent: '4.5', yearsToMaturity: '5', paymentsPerYear: '1' } },
+        ],
+      },
+    ],
+  },
+  'mutual-fund': {
+    title: 'Mutual Fund Calculator',
+    buttonLabel: 'Project fund balance',
+    emptyHistory: 'Recent mutual fund projections will appear here.',
+    privacyNote: 'Mutual fund projections are hypothetical and do not include taxes, changing returns, transaction fees, loads, or fund-specific risks.',
+    modes: [
+      {
+        id: 'mutual-fund',
+        label: 'Mutual fund',
+        symbol: 'FUND',
+        fields: [
+          numberField('principal', 'Initial investment ($)'),
+          numberField('monthlyContribution', 'Monthly contribution ($)'),
+          numberField('annualReturnPercent', 'Estimated annual return (%)'),
+          numberField('expenseRatioPercent', 'Expense ratio (%)'),
+          numberField('years', 'Time (years)'),
+        ],
+        defaultInputs: { principal: '5000', monthlyContribution: '250', annualReturnPercent: '7', expenseRatioPercent: '0.5', years: '20' },
+        examples: [
+          { label: 'Index-style fund', inputs: { principal: '5000', monthlyContribution: '250', annualReturnPercent: '7', expenseRatioPercent: '0.5', years: '20' } },
+          { label: 'Higher fee', inputs: { principal: '10000', monthlyContribution: '300', annualReturnPercent: '7', expenseRatioPercent: '1.2', years: '15' } },
+          { label: 'Small start', inputs: { principal: '1000', monthlyContribution: '100', annualReturnPercent: '6', expenseRatioPercent: '0.3', years: '10' } },
+        ],
+      },
+    ],
+  },
+  'roth-ira': {
+    title: 'Roth IRA Calculator',
+    buttonLabel: 'Project Roth IRA',
+    emptyHistory: 'Recent Roth IRA projections will appear here.',
+    privacyNote: 'Roth IRA estimates do not check contribution eligibility, income phaseouts, tax treatment, penalties, fees, or IRS limit compliance.',
+    modes: [
+      {
+        id: 'roth-ira',
+        label: 'Roth IRA',
+        symbol: 'ROTH',
+        fields: [
+          numberField('currentBalance', 'Current balance ($)'),
+          numberField('annualContribution', 'Annual contribution ($)'),
+          numberField('annualReturnPercent', 'Estimated annual return (%)'),
+          numberField('years', 'Years to grow'),
+        ],
+        defaultInputs: { currentBalance: '12000', annualContribution: '7000', annualReturnPercent: '7', years: '25' },
+        examples: [
+          { label: 'Annual max-style saving', inputs: { currentBalance: '12000', annualContribution: '7000', annualReturnPercent: '7', years: '25' } },
+          { label: 'Starting from zero', inputs: { currentBalance: '0', annualContribution: '4000', annualReturnPercent: '6.5', years: '30' } },
+          { label: 'Near retirement', inputs: { currentBalance: '85000', annualContribution: '8000', annualReturnPercent: '5', years: '10' } },
+        ],
+      },
+    ],
+  },
+  ira: {
+    title: 'IRA Calculator',
+    buttonLabel: 'Project IRA',
+    emptyHistory: 'Recent IRA projections will appear here.',
+    privacyNote: 'IRA estimates do not handle deductions, Roth eligibility, tax rules, required distributions, penalties, fees, or contribution-limit compliance.',
+    modes: [
+      {
+        id: 'ira',
+        label: 'IRA',
+        symbol: 'IRA',
+        fields: [
+          numberField('currentBalance', 'Current balance ($)'),
+          numberField('annualContribution', 'Annual contribution ($)'),
+          numberField('annualReturnPercent', 'Estimated annual return (%)'),
+          numberField('years', 'Years to grow'),
+        ],
+        defaultInputs: { currentBalance: '25000', annualContribution: '7000', annualReturnPercent: '6.5', years: '20' },
+        examples: [
+          { label: 'Traditional IRA projection', inputs: { currentBalance: '25000', annualContribution: '7000', annualReturnPercent: '6.5', years: '20' } },
+          { label: 'Catch-up style saving', inputs: { currentBalance: '60000', annualContribution: '8000', annualReturnPercent: '6', years: '12' } },
+          { label: 'Small annual contribution', inputs: { currentBalance: '5000', annualContribution: '3000', annualReturnPercent: '7', years: '30' } },
+        ],
+      },
+    ],
+  },
+  vat: {
+    title: 'VAT Calculator',
+    buttonLabel: 'Calculate VAT',
+    emptyHistory: 'Recent VAT calculations will appear here.',
+    privacyNote: 'VAT estimates use the manual rate you enter and do not check country-specific exemptions, invoices, or tax rules.',
+    modes: [
+      {
+        id: 'vat',
+        label: 'VAT',
+        symbol: 'VAT',
+        fields: [
+          numberField('amount', 'Amount'),
+          numberField('vatPercent', 'VAT rate (%)'),
+          selectField('mode', 'Mode', vatModeOptions),
+        ],
+        defaultInputs: { amount: '100', vatPercent: '20', mode: 'add' },
+        examples: [
+          { label: 'Add 20% VAT', inputs: { amount: '100', vatPercent: '20', mode: 'add' } },
+          { label: 'Remove 20% VAT', inputs: { amount: '120', vatPercent: '20', mode: 'remove' } },
+          { label: 'Lower rate', inputs: { amount: '80', vatPercent: '10', mode: 'add' } },
+        ],
+      },
+    ],
+  },
+  'cash-back-low-interest': {
+    title: 'Cash Back or Low Interest Calculator',
+    buttonLabel: 'Compare offers',
+    emptyHistory: 'Recent offer comparisons will appear here.',
+    privacyNote: 'Offer comparisons are simple payment estimates and do not include dealer restrictions, taxes, fees, rebates you do not qualify for, or credit approval.',
+    modes: [
+      {
+        id: 'cash-back-low-interest',
+        label: 'Offer comparison',
+        symbol: 'OFFER',
+        fields: [
+          numberField('purchaseAmount', 'Purchase amount ($)'),
+          numberField('payoffMonths', 'Payoff term (months)'),
+          numberField('cashBackPercent', 'Cash back (%)'),
+          numberField('cashBackAprPercent', 'APR with cash back (%)'),
+          numberField('lowInterestAprPercent', 'Low-interest APR (%)'),
+        ],
+        defaultInputs: { purchaseAmount: '32000', payoffMonths: '60', cashBackPercent: '4', cashBackAprPercent: '7.2', lowInterestAprPercent: '3.9' },
+        examples: [
+          { label: 'Dealer incentive', inputs: { purchaseAmount: '32000', payoffMonths: '60', cashBackPercent: '4', cashBackAprPercent: '7.2', lowInterestAprPercent: '3.9' } },
+          { label: 'Big rebate', inputs: { purchaseAmount: '28000', payoffMonths: '48', cashBackPercent: '6', cashBackAprPercent: '8', lowInterestAprPercent: '4.5' } },
+          { label: 'Short payoff', inputs: { purchaseAmount: '18000', payoffMonths: '36', cashBackPercent: '3', cashBackAprPercent: '6.5', lowInterestAprPercent: '2.9' } },
+        ],
+      },
+    ],
+  },
+  'auto-lease': {
+    title: 'Auto Lease Calculator',
+    buttonLabel: 'Estimate lease',
+    emptyHistory: 'Recent auto lease estimates will appear here.',
+    privacyNote: 'Auto lease estimates are simplified and do not include mileage fees, wear charges, acquisition fees beyond the entered fee field, registration, or lease-end terms.',
+    modes: [
+      {
+        id: 'auto-lease',
+        label: 'Auto lease',
+        symbol: 'LEASE',
+        fields: [
+          numberField('vehiclePrice', 'Vehicle price ($)'),
+          numberField('downPayment', 'Down payment ($)'),
+          numberField('tradeIn', 'Trade-in value ($)'),
+          numberField('residualValue', 'Residual value ($)'),
+          numberField('moneyFactor', 'Money factor'),
+          numberField('termMonths', 'Lease term (months)'),
+          numberField('taxPercent', 'Tax rate (%)'),
+          numberField('fees', 'Fees ($)'),
+        ],
+        defaultInputs: { vehiclePrice: '36000', downPayment: '2500', tradeIn: '0', residualValue: '21000', moneyFactor: '0.0025', termMonths: '36', taxPercent: '6', fees: '950' },
+        examples: [
+          { label: '36-month lease', inputs: { vehiclePrice: '36000', downPayment: '2500', tradeIn: '0', residualValue: '21000', moneyFactor: '0.0025', termMonths: '36', taxPercent: '6', fees: '950' } },
+          { label: 'Higher residual', inputs: { vehiclePrice: '42000', downPayment: '3000', tradeIn: '1500', residualValue: '28000', moneyFactor: '0.0022', termMonths: '36', taxPercent: '7', fees: '1200' } },
+          { label: '48-month lease', inputs: { vehiclePrice: '30000', downPayment: '1500', tradeIn: '0', residualValue: '16000', moneyFactor: '0.0028', termMonths: '48', taxPercent: '6.5', fees: '900' } },
+        ],
+      },
+    ],
+  },
+  depreciation: {
+    title: 'Depreciation Calculator',
+    buttonLabel: 'Estimate depreciation',
+    emptyHistory: 'Recent depreciation estimates will appear here.',
+    privacyNote: 'Depreciation estimates are simplified book-value math and do not determine tax depreciation, accounting policy, or IRS compliance.',
+    modes: [
+      {
+        id: 'depreciation',
+        label: 'Depreciation',
+        symbol: 'DEPR',
+        fields: [
+          numberField('cost', 'Original cost ($)'),
+          numberField('salvageValue', 'Salvage value ($)'),
+          numberField('lifeYears', 'Useful life (years)'),
+          numberField('ageYears', 'Age (years)'),
+          selectField('method', 'Method', depreciationMethodOptions),
+          numberField('decliningRatePercent', 'Declining balance rate (%)'),
+        ],
+        defaultInputs: { cost: '12000', salvageValue: '2000', lifeYears: '5', ageYears: '2', method: 'straight-line', decliningRatePercent: '20' },
+        examples: [
+          { label: 'Straight-line asset', inputs: { cost: '12000', salvageValue: '2000', lifeYears: '5', ageYears: '2', method: 'straight-line', decliningRatePercent: '20' } },
+          { label: 'Declining balance', inputs: { cost: '25000', salvageValue: '5000', lifeYears: '8', ageYears: '3', method: 'declining-balance', decliningRatePercent: '25' } },
+          { label: 'One-year check', inputs: { cost: '6000', salvageValue: '1000', lifeYears: '5', ageYears: '1', method: 'straight-line', decliningRatePercent: '20' } },
+        ],
+      },
+    ],
+  },
+  'average-return': {
+    title: 'Average Return Calculator',
+    buttonLabel: 'Calculate return',
+    emptyHistory: 'Recent return estimates will appear here.',
+    privacyNote: 'Average return estimates are simple performance math and do not include taxes, risk, fees, time-weighted returns, or investment advice.',
+    modes: [
+      {
+        id: 'average-return',
+        label: 'Average return',
+        symbol: 'AVG',
+        fields: [
+          numberField('beginningValue', 'Beginning value ($)'),
+          numberField('endingValue', 'Ending value ($)'),
+          numberField('years', 'Time (years)'),
+          numberField('contributions', 'Additional contributions ($)'),
+          numberField('withdrawals', 'Withdrawals ($)'),
+        ],
+        defaultInputs: { beginningValue: '10000', endingValue: '16000', years: '5', contributions: '2000', withdrawals: '0' },
+        examples: [
+          { label: 'Five-year return', inputs: { beginningValue: '10000', endingValue: '16000', years: '5', contributions: '2000', withdrawals: '0' } },
+          { label: 'With withdrawals', inputs: { beginningValue: '25000', endingValue: '31000', years: '4', contributions: '3000', withdrawals: '1500' } },
+          { label: 'No contributions', inputs: { beginningValue: '8000', endingValue: '12000', years: '3', contributions: '0', withdrawals: '0' } },
+        ],
+      },
+    ],
+  },
+  margin: {
+    title: 'Margin Calculator',
+    buttonLabel: 'Calculate margin',
+    emptyHistory: 'Recent margin estimates will appear here.',
+    privacyNote: 'Margin estimates are business profit math only and do not evaluate brokerage margin accounts, leverage risk, taxes, or accounting rules.',
+    modes: [
+      {
+        id: 'margin',
+        label: 'Profit margin',
+        symbol: 'MARG',
+        fields: [
+          numberField('revenue', 'Revenue or selling price ($)'),
+          numberField('cost', 'Cost ($)'),
+        ],
+        defaultInputs: { revenue: '100', cost: '60' },
+        examples: [
+          { label: 'Retail item', inputs: { revenue: '100', cost: '60' } },
+          { label: 'Service job', inputs: { revenue: '2500', cost: '1400' } },
+          { label: 'Low margin', inputs: { revenue: '1200', cost: '1050' } },
+        ],
+      },
+    ],
+  },
+  discount: {
+    title: 'Discount Calculator',
+    buttonLabel: 'Calculate discount',
+    emptyHistory: 'Recent discount estimates will appear here.',
+    privacyNote: 'Discount estimates use the prices and rates you enter and do not check store policy, coupon restrictions, shipping, or local tax rules.',
+    modes: [
+      {
+        id: 'discount',
+        label: 'Discount',
+        symbol: 'OFF',
+        fields: [
+          numberField('originalPrice', 'Original price ($)'),
+          numberField('discountPercent', 'Discount (%)'),
+          numberField('extraDiscountPercent', 'Extra discount (%)'),
+          numberField('taxPercent', 'Tax rate (%)'),
+        ],
+        defaultInputs: { originalPrice: '100', discountPercent: '20', extraDiscountPercent: '10', taxPercent: '5' },
+        examples: [
+          { label: 'Stacked sale', inputs: { originalPrice: '100', discountPercent: '20', extraDiscountPercent: '10', taxPercent: '5' } },
+          { label: 'Simple 30% off', inputs: { originalPrice: '80', discountPercent: '30', extraDiscountPercent: '0', taxPercent: '0' } },
+          { label: 'Taxed purchase', inputs: { originalPrice: '250', discountPercent: '15', extraDiscountPercent: '5', taxPercent: '7.25' } },
+        ],
+      },
+    ],
+  },
+  'business-loan': {
+    title: 'Business Loan Calculator',
+    buttonLabel: 'Estimate business loan',
+    emptyHistory: 'Recent business loan estimates will appear here.',
+    privacyNote: 'Business loan estimates do not include underwriting, collateral, variable rates, late fees, SBA rules, tax effects, or lender approval.',
+    modes: [
+      {
+        id: 'business-loan',
+        label: 'Business loan',
+        symbol: 'BIZ',
+        fields: [
+          numberField('principal', 'Loan amount ($)'),
+          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('years', 'Loan term (years)'),
+          numberField('originationFeePercent', 'Origination fee (%)'),
+        ],
+        defaultInputs: { principal: '50000', annualRatePercent: '9.5', years: '5', originationFeePercent: '2' },
+        examples: [
+          { label: 'Small business loan', inputs: { principal: '50000', annualRatePercent: '9.5', years: '5', originationFeePercent: '2' } },
+          { label: 'Short term', inputs: { principal: '25000', annualRatePercent: '11', years: '2', originationFeePercent: '3' } },
+          { label: 'No fee', inputs: { principal: '100000', annualRatePercent: '8.25', years: '7', originationFeePercent: '0' } },
+        ],
+      },
+    ],
+  },
+  'debt-to-income': {
+    title: 'Debt-to-Income Ratio Calculator',
+    buttonLabel: 'Calculate DTI',
+    emptyHistory: 'Recent DTI estimates will appear here.',
+    privacyNote: 'DTI estimates are simplified and do not decide loan approval, qualifying income, creditworthiness, or lender rules.',
+    modes: [
+      {
+        id: 'debt-to-income',
+        label: 'DTI',
+        symbol: 'DTI',
+        fields: [
+          numberField('monthlyIncome', 'Gross monthly income ($)'),
+          numberField('monthlyDebtPayments', 'Monthly debt payments ($)'),
+          numberField('proposedHousingPayment', 'Proposed housing payment ($)'),
+        ],
+        defaultInputs: { monthlyIncome: '6000', monthlyDebtPayments: '900', proposedHousingPayment: '1500' },
+        examples: [
+          { label: 'Mortgage check', inputs: { monthlyIncome: '6000', monthlyDebtPayments: '900', proposedHousingPayment: '1500' } },
+          { label: 'Debt only', inputs: { monthlyIncome: '4800', monthlyDebtPayments: '650', proposedHousingPayment: '0' } },
+          { label: 'Higher payment', inputs: { monthlyIncome: '8000', monthlyDebtPayments: '1200', proposedHousingPayment: '2300' } },
+        ],
+      },
+    ],
+  },
+  'personal-loan': {
+    title: 'Personal Loan Calculator',
+    buttonLabel: 'Estimate personal loan',
+    emptyHistory: 'Recent personal loan estimates will appear here.',
+    privacyNote: 'Personal loan estimates do not include lender approval, APR disclosures, late fees, prepayment rules, insurance, or credit impact.',
+    modes: [
+      {
+        id: 'personal-loan',
+        label: 'Personal loan',
+        symbol: 'PERS',
+        fields: [
+          numberField('principal', 'Loan amount ($)'),
+          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('years', 'Loan term (years)'),
+          numberField('originationFeePercent', 'Origination fee (%)'),
+        ],
+        defaultInputs: { principal: '12000', annualRatePercent: '10.5', years: '4', originationFeePercent: '2' },
+        examples: [
+          { label: '$12k personal loan', inputs: { principal: '12000', annualRatePercent: '10.5', years: '4', originationFeePercent: '2' } },
+          { label: 'Debt refinance', inputs: { principal: '18000', annualRatePercent: '11.9', years: '5', originationFeePercent: '3' } },
+          { label: 'Short payoff', inputs: { principal: '5000', annualRatePercent: '8.5', years: '2', originationFeePercent: '0' } },
+        ],
+      },
+    ],
+  },
+  'boat-loan': {
+    title: 'Boat Loan Calculator',
+    buttonLabel: 'Estimate boat loan',
+    emptyHistory: 'Recent boat loan estimates will appear here.',
+    privacyNote: 'Boat loan estimates do not include registration, marina costs, insurance, maintenance, inspections, taxes beyond the entered rate, or lender approval.',
+    modes: [
+      {
+        id: 'boat-loan',
+        label: 'Boat loan',
+        symbol: 'BOAT',
+        fields: [
+          numberField('purchasePrice', 'Boat price ($)'),
+          numberField('downPayment', 'Down payment ($)'),
+          numberField('tradeIn', 'Trade-in value ($)'),
+          numberField('fees', 'Fees ($)'),
+          numberField('salesTaxPercent', 'Sales tax (%)'),
+          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('years', 'Loan term (years)'),
+        ],
+        defaultInputs: { purchasePrice: '45000', downPayment: '9000', tradeIn: '0', fees: '1200', salesTaxPercent: '6', annualRatePercent: '8.5', years: '10' },
+        examples: [
+          { label: 'Used boat', inputs: { purchasePrice: '45000', downPayment: '9000', tradeIn: '0', fees: '1200', salesTaxPercent: '6', annualRatePercent: '8.5', years: '10' } },
+          { label: 'Smaller loan', inputs: { purchasePrice: '22000', downPayment: '4000', tradeIn: '2000', fees: '750', salesTaxPercent: '5.5', annualRatePercent: '9', years: '7' } },
+          { label: 'Long term', inputs: { purchasePrice: '85000', downPayment: '17000', tradeIn: '0', fees: '1800', salesTaxPercent: '6.25', annualRatePercent: '7.75', years: '15' } },
+        ],
+      },
+    ],
+  },
+  lease: {
+    title: 'Lease Calculator',
+    buttonLabel: 'Estimate lease',
+    emptyHistory: 'Recent lease estimates will appear here.',
+    privacyNote: 'Lease estimates are simplified and do not include every contract fee, tax rule, insurance requirement, renewal option, or early-termination clause.',
+    modes: [
+      {
+        id: 'lease',
+        label: 'Lease',
+        symbol: 'LEASE',
+        fields: [
+          numberField('assetValue', 'Asset value ($)'),
+          numberField('residualValue', 'Residual value ($)'),
+          numberField('annualRatePercent', 'Finance rate (%)'),
+          numberField('termMonths', 'Lease term (months)'),
+          numberField('upfrontPayment', 'Upfront payment ($)'),
+          numberField('fees', 'Fees ($)'),
+        ],
+        defaultInputs: { assetValue: '30000', residualValue: '14000', annualRatePercent: '6', termMonths: '36', upfrontPayment: '1500', fees: '800' },
+        examples: [
+          { label: 'Equipment lease', inputs: { assetValue: '30000', residualValue: '14000', annualRatePercent: '6', termMonths: '36', upfrontPayment: '1500', fees: '800' } },
+          { label: 'Lower residual', inputs: { assetValue: '18000', residualValue: '5000', annualRatePercent: '8', termMonths: '48', upfrontPayment: '1000', fees: '500' } },
+          { label: 'Short term', inputs: { assetValue: '10000', residualValue: '6500', annualRatePercent: '5', termMonths: '24', upfrontPayment: '500', fees: '250' } },
+        ],
+      },
+    ],
+  },
+  refinance: {
+    title: 'Refinance Calculator',
+    buttonLabel: 'Estimate refinance',
+    emptyHistory: 'Recent refinance estimates will appear here.',
+    privacyNote: 'Refinance estimates do not include underwriting, taxes, escrow changes, credit rules, prepayment penalties, or lender disclosures.',
+    modes: [
+      {
+        id: 'refinance',
+        label: 'Refinance',
+        symbol: 'REFI',
+        fields: [
+          numberField('currentBalance', 'Current balance ($)'),
+          numberField('currentAnnualRatePercent', 'Current rate (%)'),
+          numberField('currentYears', 'Current remaining term (years)'),
+          numberField('newAnnualRatePercent', 'New rate (%)'),
+          numberField('newYears', 'New term (years)'),
+          numberField('closingCosts', 'Closing costs ($)'),
+        ],
+        defaultInputs: { currentBalance: '280000', currentAnnualRatePercent: '7', currentYears: '26', newAnnualRatePercent: '5.9', newYears: '30', closingCosts: '4500' },
+        examples: [
+          { label: 'Mortgage refinance', inputs: { currentBalance: '280000', currentAnnualRatePercent: '7', currentYears: '26', newAnnualRatePercent: '5.9', newYears: '30', closingCosts: '4500' } },
+          { label: 'Shorter term', inputs: { currentBalance: '220000', currentAnnualRatePercent: '6.8', currentYears: '24', newAnnualRatePercent: '5.7', newYears: '15', closingCosts: '3800' } },
+          { label: 'Small cost', inputs: { currentBalance: '120000', currentAnnualRatePercent: '8', currentYears: '10', newAnnualRatePercent: '6.5', newYears: '10', closingCosts: '1500' } },
+        ],
+      },
+    ],
+  },
+  budget: {
+    title: 'Budget Calculator',
+    buttonLabel: 'Calculate budget',
+    emptyHistory: 'Recent budget summaries will appear here.',
+    privacyNote: 'Budget estimates stay in your browser tab and do not include bank syncing, personal advice, taxes, or bill due-date tracking.',
+    modes: [
+      {
+        id: 'budget',
+        label: 'Monthly budget',
+        symbol: 'BUDG',
+        fields: [
+          numberField('monthlyIncome', 'Monthly income ($)'),
+          numberField('housing', 'Housing ($)'),
+          numberField('utilities', 'Utilities ($)'),
+          numberField('food', 'Food ($)'),
+          numberField('transportation', 'Transportation ($)'),
+          numberField('insurance', 'Insurance ($)'),
+          numberField('debt', 'Debt payments ($)'),
+          numberField('savings', 'Savings ($)'),
+          numberField('other', 'Other ($)'),
+        ],
+        defaultInputs: { monthlyIncome: '5200', housing: '1600', utilities: '250', food: '650', transportation: '420', insurance: '280', debt: '350', savings: '600', other: '500' },
+        examples: [
+          { label: 'Household budget', inputs: { monthlyIncome: '5200', housing: '1600', utilities: '250', food: '650', transportation: '420', insurance: '280', debt: '350', savings: '600', other: '500' } },
+          { label: 'Lower debt', inputs: { monthlyIncome: '4300', housing: '1200', utilities: '220', food: '520', transportation: '300', insurance: '210', debt: '120', savings: '500', other: '450' } },
+          { label: 'Aggressive saving', inputs: { monthlyIncome: '7200', housing: '2100', utilities: '320', food: '800', transportation: '500', insurance: '400', debt: '600', savings: '1200', other: '600' } },
         ],
       },
     ],
@@ -806,6 +1818,893 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Estimated growth equals ending balance minus total contributions.',
         ],
         note: 'This is a projection, not a guaranteed return.',
+      };
+    }
+    case 'currency': {
+      const amount = parseNumber(inputs.amount, 'Amount');
+      const exchangeRate = parseNumber(inputs.exchangeRate, 'Exchange rate');
+      const feePercent = parseNumber(inputs.feePercent, 'Fee percent');
+      const result = calculateCurrencyConversion(amount, exchangeRate, feePercent);
+
+      return {
+        label: 'Converted amount',
+        expression: `${formatCalculatorNumber(amount)} x ${formatCalculatorNumber(exchangeRate)} with ${percent(feePercent)} fee`,
+        answer: `${formatCalculatorNumber(result.convertedAmount)} target units`,
+        metrics: [
+          { label: 'Before fee', value: formatCalculatorNumber(result.grossConverted) },
+          { label: 'Fee amount', value: formatCalculatorNumber(result.feeAmount) },
+          { label: 'Rate used', value: formatCalculatorNumber(result.exchangeRate) },
+        ],
+        steps: [
+          'Enter the current exchange rate manually from your bank, card, or rate source.',
+          'Multiply the source amount by the exchange rate.',
+          'Subtract any exchange fee percentage from the converted amount.',
+        ],
+        note: 'This calculator does not fetch live exchange rates.',
+      };
+    }
+    case 'mortgage-payoff': {
+      const principal = parseNumber(inputs.principal, 'Current loan balance');
+      const annualRatePercent = parseNumber(inputs.annualRatePercent, 'Interest rate');
+      const loanYears = parseNumber(inputs.years, 'Remaining term');
+      const extraMonthlyPayment = parseNumber(inputs.extraMonthlyPayment, 'Extra monthly payment');
+      const oneTimePayment = parseNumber(inputs.oneTimePayment, 'One-time extra payment');
+      const result = calculateMortgagePayoffSummary(principal, annualRatePercent, loanYears, extraMonthlyPayment, oneTimePayment);
+
+      return {
+        label: 'Estimated payoff time',
+        expression: `${compactMoney(principal)} balance with ${money(extraMonthlyPayment)} extra/mo`,
+        answer: monthCount(result.monthsToPayoff),
+        metrics: [
+          { label: 'Scheduled payment', value: money(result.scheduledMonthlyPayment) },
+          { label: 'Interest saved', value: money(result.interestSaved) },
+          { label: 'Months saved', value: monthCount(result.monthsSaved) },
+          { label: 'One-time payment', value: money(result.oneTimePayment) },
+        ],
+        steps: [
+          'Calculate the regular payment from current balance, rate, and remaining term.',
+          'Subtract any one-time extra payment from the balance.',
+          'Add the extra monthly payment to the regular payment.',
+          'Simulate monthly interest and principal until the balance reaches zero.',
+        ],
+        note: 'Ask your lender for an official payoff quote before sending a final payoff amount.',
+      };
+    }
+    case '401k': {
+      const result = calculateFourOhOneKProjection({
+        currentBalance: parseNumber(inputs.currentBalance, 'Current balance'),
+        annualSalary: parseNumber(inputs.annualSalary, 'Annual salary'),
+        employeeContributionPercent: parseNumber(inputs.employeeContributionPercent, 'Your contribution'),
+        employerMatchPercent: parseNumber(inputs.employerMatchPercent, 'Employer match'),
+        employerMatchLimitPercent: parseNumber(inputs.employerMatchLimitPercent, 'Employer match limit'),
+        annualReturnPercent: parseNumber(inputs.annualReturnPercent, 'Estimated return'),
+        years: parseNumber(inputs.years, 'Years to grow'),
+      });
+
+      return {
+        label: 'Projected 401K balance',
+        expression: `${percent(result.employeeContributionPercent)} of ${compactMoney(result.annualSalary)} salary for ${years(result.years)}`,
+        answer: money(result.endingBalance),
+        metrics: [
+          { label: 'Your monthly contribution', value: money(result.monthlyEmployeeContribution) },
+          { label: 'Employer monthly match', value: money(result.monthlyEmployerContribution) },
+          { label: 'Your total contributions', value: money(result.totalEmployeeContributions) },
+          { label: 'Employer total match', value: money(result.totalEmployerContributions) },
+        ],
+        steps: [
+          'Convert your salary contribution percent into a monthly contribution.',
+          'Estimate employer match from match percent and match limit.',
+          'Add employee and employer contributions each month.',
+          'Compound the current balance and monthly contributions using the estimated return.',
+        ],
+        note: 'This projection does not enforce current IRS limits or your employer plan rules.',
+      };
+    }
+    case 'house-affordability': {
+      const result = calculateHouseAffordability({
+        annualIncome: parseNumber(inputs.annualIncome, 'Annual income'),
+        monthlyDebts: parseNumber(inputs.monthlyDebts, 'Monthly debts'),
+        downPayment: parseNumber(inputs.downPayment, 'Down payment'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Mortgage rate'),
+        years: parseNumber(inputs.years, 'Loan term'),
+        debtToIncomePercent: parseNumber(inputs.debtToIncomePercent, 'Debt-to-income target'),
+        propertyTaxPercent: parseNumber(inputs.propertyTaxPercent, 'Property tax percent'),
+        monthlyInsurance: parseNumber(inputs.monthlyInsurance, 'Monthly insurance'),
+        monthlyHoa: parseNumber(inputs.monthlyHoa, 'Monthly HOA'),
+      });
+
+      return {
+        label: 'Estimated affordable home price',
+        expression: `${compactMoney(result.annualIncome)} income at ${percent(result.debtToIncomePercent)} DTI target`,
+        answer: money(result.homePrice),
+        metrics: [
+          { label: 'Estimated loan amount', value: money(result.loanAmount) },
+          { label: 'Monthly housing budget', value: money(result.maxMonthlyHousingPayment) },
+          { label: 'Principal and interest', value: money(result.principalAndInterest) },
+          { label: 'Estimated tax/insurance/HOA', value: money(result.monthlyPropertyTax + result.monthlyInsurance + result.monthlyHoa) },
+        ],
+        steps: [
+          'Convert annual income to monthly income.',
+          'Apply the debt-to-income target, then subtract monthly debts.',
+          'Estimate principal, interest, property tax, insurance, and HOA for candidate home prices.',
+          'Search for the highest home price that fits the monthly housing budget.',
+        ],
+        note: 'This is not mortgage approval and does not include credit, reserves, closing costs, or underwriting rules.',
+      };
+    }
+    case 'savings': {
+      const result = calculateSavingsProjection(
+        parseNumber(inputs.currentSavings, 'Current savings'),
+        parseNumber(inputs.monthlyDeposit, 'Monthly deposit'),
+        parseNumber(inputs.annualRatePercent, 'Annual rate'),
+        parseNumber(inputs.years, 'Time'),
+        parseNumber(inputs.targetAmount, 'Target amount'),
+      );
+
+      return {
+        label: 'Projected savings balance',
+        expression: `${compactMoney(result.principal)} plus ${money(result.monthlyContribution)}/mo for ${years(result.years)}`,
+        answer: money(result.endingBalance),
+        metrics: [
+          { label: 'Total deposits', value: money(result.totalContributions) },
+          { label: 'Estimated interest', value: money(result.totalInterest) },
+          { label: result.targetMet ? 'Above target' : 'Target gap', value: money(Math.abs(result.targetGap)) },
+        ],
+        steps: [
+          'Start with current savings.',
+          'Add the monthly deposit at the end of each month.',
+          'Compound the balance monthly using the annual rate you entered.',
+          'Compare the projected balance with your target amount.',
+        ],
+      };
+    }
+    case 'rent': {
+      const result = calculateRentAffordability(
+        parseNumber(inputs.monthlyIncome, 'Monthly income'),
+        parseNumber(inputs.targetRentPercent, 'Target rent percent'),
+        parseNumber(inputs.monthlyDebts, 'Monthly debts'),
+        parseNumber(inputs.monthlyUtilities, 'Monthly utilities'),
+      );
+
+      return {
+        label: 'Estimated max monthly rent',
+        expression: `${percent(result.targetRentPercent)} of ${compactMoney(result.monthlyIncome)} monthly income`,
+        answer: money(result.maxRent),
+        metrics: [
+          { label: 'Annual rent', value: money(result.annualRent) },
+          { label: 'Monthly debts', value: money(result.monthlyDebts) },
+          { label: 'Estimated utilities', value: money(result.monthlyUtilities) },
+          { label: 'Income left after rent/debts/utilities', value: money(result.incomeAfterRentAndBills) },
+        ],
+        steps: [
+          'Multiply monthly income by the target rent percentage.',
+          'Subtract monthly debts and estimated utilities.',
+          'Treat the result as a planning rent ceiling before deposits, fees, or moving costs.',
+        ],
+      };
+    }
+    case 'annuity': {
+      const timing = (inputs.timing || 'ordinary') as AnnuityTiming;
+      const result = calculateAnnuity(
+        parseNumber(inputs.payment, 'Payment amount'),
+        parseNumber(inputs.annualRatePercent, 'Annual rate'),
+        parseNumber(inputs.years, 'Time'),
+        parseNumber(inputs.paymentsPerYear, 'Payments per year'),
+        timing,
+      );
+
+      return {
+        label: 'Estimated annuity future value',
+        expression: `${money(result.payment)} payments, ${result.paymentCount} total payments`,
+        answer: money(result.futureValue),
+        metrics: [
+          { label: 'Present value', value: money(result.presentValue) },
+          { label: 'Total payments', value: money(result.totalPayments) },
+          { label: 'Payments', value: `${result.paymentCount}` },
+          { label: 'Timing', value: result.timing === 'due' ? 'Beginning of period' : 'End of period' },
+        ],
+        steps: [
+          'Convert the annual rate to a periodic rate based on payments per year.',
+          'Calculate future value from the payment stream.',
+          'Calculate present value using the same rate and payment count.',
+          'Adjust for beginning-of-period payments when annuity due is selected.',
+        ],
+        note: 'This is a simplified annuity formula, not an insurance quote or investment recommendation.',
+      };
+    }
+    case 'credit-card': {
+      const result = calculateCreditCardPayoff({
+        balance: parseNumber(inputs.balance, 'Current balance'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'APR'),
+        monthlyPayment: parseNumber(inputs.monthlyPayment, 'Monthly payment'),
+        monthlyNewCharges: parseNumber(inputs.monthlyNewCharges, 'Monthly new charges'),
+      });
+
+      return {
+        label: 'Estimated payoff time',
+        expression: `${compactMoney(result.startingBalance)} balance at ${percent(result.annualRatePercent)} APR`,
+        answer: monthCount(result.monthsToPayoff),
+        metrics: [
+          { label: 'Total interest', value: money(result.totalInterest) },
+          { label: 'Total paid', value: money(result.totalPaid) },
+          { label: 'Final payment', value: money(result.finalPayment) },
+          { label: 'New charges per month', value: money(result.monthlyNewCharges) },
+        ],
+        steps: [
+          'Convert APR to an estimated monthly interest rate.',
+          'Add monthly interest and any new charges to the balance.',
+          'Subtract the monthly payment.',
+          'Repeat until the balance is paid off.',
+        ],
+        note: 'Actual credit card payoff can change with fees, daily interest, APR changes, and new purchases.',
+      };
+    }
+    case 'pension': {
+      const result = calculatePensionEstimate(
+        parseNumber(inputs.finalAverageSalary, 'Final average salary'),
+        parseNumber(inputs.yearsOfService, 'Years of service'),
+        parseNumber(inputs.multiplierPercent, 'Benefit multiplier'),
+      );
+
+      return {
+        label: 'Estimated monthly pension',
+        expression: `${percent(result.multiplierPercent)} x ${formatCalculatorNumber(result.yearsOfService)} years x ${compactMoney(result.finalAverageSalary)}`,
+        answer: money(result.monthlyPension),
+        metrics: [
+          { label: 'Estimated annual pension', value: money(result.annualPension) },
+          { label: 'Replacement rate', value: percent(result.replacementRatePercent) },
+          { label: 'Years of service', value: years(result.yearsOfService) },
+        ],
+        steps: [
+          'Multiply final average salary by years of service.',
+          'Multiply that result by the benefit multiplier percentage.',
+          'Divide the estimated annual pension by 12 for a monthly estimate.',
+          'Compare annual pension with final average salary for replacement rate.',
+        ],
+        note: 'Check the real plan document for vesting, service credit, survivor benefit, COLA, and tax rules.',
+      };
+    }
+    case 'annuity-payout': {
+      const result = calculateAnnuityPayout(
+        parseNumber(inputs.principal, 'Starting balance'),
+        parseNumber(inputs.annualRatePercent, 'Annual rate'),
+        parseNumber(inputs.years, 'Payout time'),
+        parseNumber(inputs.paymentsPerYear, 'Payments per year'),
+      );
+
+      return {
+        label: 'Estimated payout per period',
+        expression: `${compactMoney(result.principal)} over ${years(result.years)} with ${result.paymentCount} payments`,
+        answer: money(result.payment),
+        metrics: [
+          { label: 'Total paid out', value: money(result.totalPaid) },
+          { label: 'Estimated interest', value: money(result.estimatedInterest) },
+          { label: 'Payments', value: `${result.paymentCount}` },
+          { label: 'Payments per year', value: `${result.paymentsPerYear}` },
+        ],
+        steps: [
+          'Convert the annual rate to a periodic rate.',
+          'Use the fixed annuity payout formula to spread the balance over the payout term.',
+          'Multiply payment by payment count to estimate total paid out.',
+          'Estimated interest equals total payout minus starting balance.',
+        ],
+        note: 'This is a math estimate and not an annuity contract quote.',
+      };
+    }
+    case 'credit-cards-payoff':
+    case 'debt-payoff':
+    case 'repayment': {
+      const result = calculateFixedDebtPayoff({
+        balance: parseNumber(inputs.balance, 'Balance'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Annual interest rate'),
+        monthlyPayment: parseNumber(inputs.monthlyPayment, 'Monthly payment'),
+        extraMonthlyPayment: parseNumber(inputs.extraMonthlyPayment, 'Extra monthly payment'),
+      });
+      const heading =
+        variant === 'credit-cards-payoff'
+          ? 'Estimated credit card payoff time'
+          : variant === 'debt-payoff'
+            ? 'Estimated debt payoff time'
+            : 'Estimated repayment time';
+
+      return {
+        label: heading,
+        expression: `${compactMoney(result.startingBalance)} at ${percent(result.annualRatePercent)} with ${money(result.monthlyPayment + result.extraMonthlyPayment)}/mo`,
+        answer: monthCount(result.monthsToPayoff),
+        metrics: [
+          { label: 'Total interest', value: money(result.totalInterest) },
+          { label: 'Total paid', value: money(result.totalPaid) },
+          { label: 'Base monthly payment', value: money(result.monthlyPayment) },
+          { label: 'Extra monthly payment', value: money(result.extraMonthlyPayment) },
+        ],
+        steps: [
+          'Convert the annual interest rate to a monthly rate.',
+          'Add monthly interest to the remaining balance.',
+          'Subtract the base payment plus any extra monthly amount.',
+          'Repeat until the balance reaches zero, then add up interest and total paid.',
+        ],
+        note: 'Real balances can change with fees, payment timing, minimum-payment rules, collections, or new charges.',
+      };
+    }
+    case 'debt-consolidation': {
+      const result = calculateDebtConsolidation({
+        totalDebt: parseNumber(inputs.totalDebt, 'Total debt'),
+        currentAnnualRatePercent: parseNumber(inputs.currentAnnualRatePercent, 'Current average rate'),
+        currentMonthlyPayment: parseNumber(inputs.currentMonthlyPayment, 'Current monthly payment'),
+        newAnnualRatePercent: parseNumber(inputs.newAnnualRatePercent, 'New loan rate'),
+        newYears: parseNumber(inputs.newYears, 'New loan term'),
+        fees: parseNumber(inputs.fees, 'Fees'),
+      });
+
+      return {
+        label: 'Estimated new monthly payment',
+        expression: `${compactMoney(result.newPrincipal)} consolidated at ${percent(result.consolidationLoan.annualRatePercent)}`,
+        answer: money(result.consolidationLoan.monthlyPayment),
+        metrics: [
+          { label: 'Current payoff time', value: monthCount(result.currentDebt.monthsToPayoff) },
+          { label: 'Monthly payment change', value: money(result.monthlyPaymentChange) },
+          { label: 'Total cost change', value: money(result.totalCostChange) },
+          { label: 'Fees added', value: money(result.fees) },
+        ],
+        steps: [
+          'Estimate current payoff using the current average rate and monthly payment.',
+          'Add any fees to the new consolidated loan principal.',
+          'Estimate the new fixed loan payment over the new term.',
+          'Compare monthly payment and total paid between the two scenarios.',
+        ],
+        note: 'A lower payment can still cost more if the new term is much longer.',
+      };
+    }
+    case 'student-loan': {
+      const principal = parseNumber(inputs.principal, 'Loan balance');
+      const annualRatePercent = parseNumber(inputs.annualRatePercent, 'Interest rate');
+      const loanYears = parseNumber(inputs.years, 'Repayment term');
+      const extraMonthlyPayment = parseNumber(inputs.extraMonthlyPayment, 'Extra monthly payment');
+      const scheduled = calculateLoanSummary(principal, annualRatePercent, loanYears);
+      const payoff = calculateAmortizationSummary(principal, annualRatePercent, loanYears, extraMonthlyPayment);
+
+      return {
+        label: 'Estimated student loan payment',
+        expression: `${compactMoney(principal)} at ${percent(annualRatePercent)} for ${years(loanYears)}`,
+        answer: money(scheduled.monthlyPayment),
+        metrics: [
+          { label: 'Monthly paid with extra', value: money(payoff.monthlyPayment) },
+          { label: 'Estimated payoff time', value: monthCount(payoff.monthsToPayoff) },
+          { label: 'Total interest', value: money(payoff.totalInterest) },
+          { label: 'Interest saved', value: money(payoff.interestSaved) },
+        ],
+        steps: [
+          'Calculate the scheduled fixed monthly payment from balance, rate, and term.',
+          'Add any extra monthly amount to the scheduled payment.',
+          'Simulate monthly interest and principal reduction.',
+          'Compare payoff time and interest with the scheduled repayment term.',
+        ],
+        note: 'Federal loan options can include income-driven repayment, deferment, forbearance, and forgiveness rules not modeled here.',
+      };
+    }
+    case 'college-cost': {
+      const result = calculateCollegeCost({
+        currentAnnualCost: parseNumber(inputs.currentAnnualCost, 'Current annual cost'),
+        yearsUntilStart: parseNumber(inputs.yearsUntilStart, 'Years until start'),
+        yearsInSchool: parseNumber(inputs.yearsInSchool, 'Years in school'),
+        annualCostIncreasePercent: parseNumber(inputs.annualCostIncreasePercent, 'Annual cost increase'),
+        currentSavings: parseNumber(inputs.currentSavings, 'Current savings'),
+        monthlySavings: parseNumber(inputs.monthlySavings, 'Monthly savings'),
+        annualSavingsReturnPercent: parseNumber(inputs.annualSavingsReturnPercent, 'Savings return'),
+      });
+
+      return {
+        label: 'Estimated total college cost',
+        expression: `${compactMoney(result.currentAnnualCost)} today, starting in ${years(result.yearsUntilStart)}`,
+        answer: money(result.totalEstimatedCost),
+        metrics: [
+          { label: 'First year estimate', value: money(result.firstYearCost) },
+          { label: 'Projected savings', value: money(result.projectedSavings) },
+          { label: result.savingsGap > 0 ? 'Savings gap' : 'Savings surplus', value: money(Math.abs(result.savingsGap)) },
+          { label: 'Years in school', value: years(result.yearsInSchool) },
+        ],
+        steps: [
+          'Grow today’s annual cost by the yearly cost increase until school starts.',
+          'Add each school year, increasing the cost year by year.',
+          'Project current savings and monthly savings until the start year.',
+          'Compare projected savings with total estimated school cost.',
+        ],
+        note: 'Financial aid, scholarships, grants, tax credits, housing, and school-specific costs can change the real amount.',
+      };
+    }
+    case 'simple-interest': {
+      const principal = parseNumber(inputs.principal, 'Principal');
+      const annualRatePercent = parseNumber(inputs.annualRatePercent, 'Annual rate');
+      const interestYears = parseNumber(inputs.years, 'Time');
+      const result = calculateSimpleInterest(principal, annualRatePercent, interestYears);
+
+      return {
+        label: 'Simple interest',
+        expression: `${compactMoney(principal)} x ${percent(annualRatePercent)} x ${years(interestYears)}`,
+        answer: money(result.interest),
+        metrics: [
+          { label: 'Ending balance', value: money(result.endingBalance) },
+          { label: 'Principal', value: money(result.principal) },
+          { label: 'Time', value: years(result.years) },
+        ],
+        steps: [
+          `Convert ${percent(annualRatePercent)} to decimal rate ${formatCalculatorNumber(annualRatePercent / 100)}.`,
+          'Multiply principal by annual rate and time.',
+          'Add simple interest to principal for the ending balance.',
+        ],
+      };
+    }
+    case 'cd': {
+      const result = calculateCdEstimate(
+        parseNumber(inputs.principal, 'Deposit amount'),
+        parseNumber(inputs.annualPercentageYield, 'APY'),
+        parseNumber(inputs.termMonths, 'Term months'),
+        parseNumber(inputs.earlyWithdrawalPenaltyMonths, 'Penalty months of interest'),
+      );
+
+      return {
+        label: 'Estimated value at maturity',
+        expression: `${compactMoney(result.principal)} at ${percent(result.annualPercentageYield)} APY for ${monthCount(result.termMonths)}`,
+        answer: money(result.maturityValue),
+        metrics: [
+          { label: 'Interest earned', value: money(result.interestEarned) },
+          { label: 'Early withdrawal penalty estimate', value: money(result.earlyWithdrawalPenalty) },
+          { label: 'Value after penalty estimate', value: money(result.valueAfterPenalty) },
+        ],
+        steps: [
+          'Apply APY growth over the CD term.',
+          'Subtract principal from maturity value to estimate interest earned.',
+          'Estimate early withdrawal penalty as months of simple interest.',
+          'Subtract that penalty from maturity value for the penalty scenario.',
+        ],
+        note: 'Bank CD disclosures control the actual APY, compounding, maturity date, renewal, and early withdrawal penalty.',
+      };
+    }
+    case 'bond': {
+      const result = calculateBondEstimate(
+        parseNumber(inputs.faceValue, 'Face value'),
+        parseNumber(inputs.marketPrice, 'Market price'),
+        parseNumber(inputs.couponRatePercent, 'Coupon rate'),
+        parseNumber(inputs.yearsToMaturity, 'Years to maturity'),
+        parseNumber(inputs.paymentsPerYear, 'Coupon payments per year'),
+      );
+
+      return {
+        label: 'Approximate yield to maturity',
+        expression: `${compactMoney(result.faceValue)} face value, ${compactMoney(result.marketPrice)} market price`,
+        answer: percent(result.approximateYieldToMaturityPercent),
+        metrics: [
+          { label: 'Annual coupon', value: money(result.annualCoupon) },
+          { label: 'Total coupon payments', value: money(result.totalCouponPayments) },
+          { label: 'Current yield', value: percent(result.currentYieldPercent) },
+          { label: 'Coupon payments per year', value: `${result.paymentsPerYear}` },
+        ],
+        steps: [
+          'Multiply face value by coupon rate to estimate annual coupon income.',
+          'Divide annual coupon by market price for current yield.',
+          'Use the gain or loss from market price to face value across years to maturity.',
+          'Combine coupon income and price change for an approximate yield-to-maturity estimate.',
+        ],
+        note: 'This is an approximate yield formula and does not price callable bonds, reinvestment, taxes, credit risk, or market risk.',
+      };
+    }
+    case 'mutual-fund': {
+      const result = calculateMutualFundEstimate(
+        parseNumber(inputs.principal, 'Initial investment'),
+        parseNumber(inputs.monthlyContribution, 'Monthly contribution'),
+        parseNumber(inputs.annualReturnPercent, 'Estimated annual return'),
+        parseNumber(inputs.expenseRatioPercent, 'Expense ratio'),
+        parseNumber(inputs.years, 'Time'),
+      );
+
+      return {
+        label: 'Projected fund balance after expenses',
+        expression: `${compactMoney(result.principal)} plus ${money(result.monthlyContribution)}/mo for ${years(result.years)}`,
+        answer: money(result.endingBalance),
+        metrics: [
+          { label: 'Balance before expense estimate', value: money(result.grossEndingBalance) },
+          { label: 'Estimated expense drag', value: money(result.estimatedExpenseDrag) },
+          { label: 'Total contributions', value: money(result.totalContributions) },
+          { label: 'Net annual return used', value: percent(result.annualRatePercent) },
+        ],
+        steps: [
+          'Project the balance with the annual return before expenses.',
+          'Subtract the expense ratio from the return assumption for a simple net-return estimate.',
+          'Project the balance again with the net return.',
+          'Compare the two balances to estimate expense drag.',
+        ],
+        note: 'Actual fund returns, taxes, distributions, loads, and fees vary and are not guaranteed.',
+      };
+    }
+    case 'roth-ira':
+    case 'ira': {
+      const result = calculateIraProjection(
+        parseNumber(inputs.currentBalance, 'Current balance'),
+        parseNumber(inputs.annualContribution, 'Annual contribution'),
+        parseNumber(inputs.annualReturnPercent, 'Estimated annual return'),
+        parseNumber(inputs.years, 'Years to grow'),
+      );
+
+      return {
+        label: variant === 'roth-ira' ? 'Projected Roth IRA balance' : 'Projected IRA balance',
+        expression: `${compactMoney(result.principal)} plus ${money(result.monthlyContribution)}/mo for ${years(result.years)}`,
+        answer: money(result.endingBalance),
+        metrics: [
+          { label: 'Total contributions', value: money(result.totalContributions) },
+          { label: 'Estimated growth', value: money(result.totalInterest) },
+          { label: 'Annual contribution', value: money(result.monthlyContribution * 12) },
+        ],
+        steps: [
+          'Convert the annual contribution to a monthly contribution for the projection.',
+          'Compound the current balance monthly using the estimated return.',
+          'Add monthly contributions at the end of each month.',
+          'Separate total contributions from estimated growth.',
+        ],
+        note: 'This does not check IRS contribution limits, eligibility, deductions, tax treatment, penalties, or required distributions.',
+      };
+    }
+    case 'vat': {
+      const amount = parseNumber(inputs.amount, 'Amount');
+      const vatPercent = parseNumber(inputs.vatPercent, 'VAT rate');
+      const mode = (inputs.mode || 'add') as VatMode;
+      const result = calculateVat(amount, vatPercent, mode);
+
+      return {
+        label: mode === 'add' ? 'Gross amount with VAT' : 'Net amount before VAT',
+        expression: mode === 'add' ? `${compactMoney(amount)} plus ${percent(vatPercent)} VAT` : `${compactMoney(amount)} gross with ${percent(vatPercent)} VAT included`,
+        answer: mode === 'add' ? money(result.grossAmount) : money(result.netAmount),
+        metrics: [
+          { label: 'VAT amount', value: money(result.vatAmount) },
+          { label: 'Net amount', value: money(result.netAmount) },
+          { label: 'Gross amount', value: money(result.grossAmount) },
+          { label: 'Rate used', value: percent(result.vatPercent) },
+        ],
+        steps: [
+          `Convert ${percent(vatPercent)} to decimal rate ${formatCalculatorNumber(vatPercent / 100)}.`,
+          mode === 'add' ? 'Multiply net amount by the rate to find VAT.' : 'Divide the gross amount by one plus the VAT rate to find net amount.',
+          'Gross amount equals net amount plus VAT amount.',
+        ],
+        note: 'VAT rules, exemptions, invoices, and reporting requirements vary by country and transaction type.',
+      };
+    }
+    case 'cash-back-low-interest': {
+      const result = calculateCashBackLowInterest({
+        purchaseAmount: parseNumber(inputs.purchaseAmount, 'Purchase amount'),
+        payoffMonths: parseNumber(inputs.payoffMonths, 'Payoff months'),
+        cashBackPercent: parseNumber(inputs.cashBackPercent, 'Cash back percent'),
+        cashBackAprPercent: parseNumber(inputs.cashBackAprPercent, 'APR with cash back'),
+        lowInterestAprPercent: parseNumber(inputs.lowInterestAprPercent, 'Low-interest APR'),
+      });
+      const betterLabel = result.betterOption === 'cash-back' ? 'Cash back offer' : 'Low-interest offer';
+
+      return {
+        label: 'Estimated better offer',
+        expression: `${compactMoney(result.purchaseAmount)} over ${monthCount(result.payoffMonths)}`,
+        answer: betterLabel,
+        metrics: [
+          { label: 'Estimated savings', value: money(result.savings) },
+          { label: 'Cash back value', value: money(result.cashBackValue) },
+          { label: 'Cash back net cost', value: money(result.cashBackTotalCost) },
+          { label: 'Low-interest total cost', value: money(result.lowInterestTotalCost) },
+        ],
+        steps: [
+          'Estimate the loan payment and total paid with the cash-back APR.',
+          'Subtract the cash-back value from that total paid.',
+          'Estimate the loan payment and total paid with the low-interest APR.',
+          'Choose the lower estimated total cost.',
+        ],
+        note: 'Dealer incentives can have eligibility rules, model limits, fees, tax treatment, and offer dates that this calculator does not check.',
+      };
+    }
+    case 'auto-lease': {
+      const result = calculateAutoLease({
+        vehiclePrice: parseNumber(inputs.vehiclePrice, 'Vehicle price'),
+        downPayment: parseNumber(inputs.downPayment, 'Down payment'),
+        tradeIn: parseNumber(inputs.tradeIn, 'Trade-in value'),
+        residualValue: parseNumber(inputs.residualValue, 'Residual value'),
+        moneyFactor: parseNumber(inputs.moneyFactor, 'Money factor'),
+        termMonths: parseNumber(inputs.termMonths, 'Lease term'),
+        taxPercent: parseNumber(inputs.taxPercent, 'Tax rate'),
+        fees: parseNumber(inputs.fees, 'Fees'),
+      });
+
+      return {
+        label: 'Estimated monthly lease payment',
+        expression: `${compactMoney(result.vehiclePrice)} vehicle, ${monthCount(result.termMonths)} lease`,
+        answer: money(result.monthlyPayment),
+        metrics: [
+          { label: 'Adjusted capitalized cost', value: money(result.adjustedCapitalizedCost) },
+          { label: 'Depreciation fee', value: money(result.depreciationFee) },
+          { label: 'Finance fee', value: money(result.financeFee) },
+          { label: 'Estimated total lease cost', value: money(result.totalLeaseCost) },
+        ],
+        steps: [
+          'Add fees to vehicle price, then subtract down payment and trade-in value.',
+          'Spread the difference between adjusted cost and residual value across the lease term.',
+          'Estimate the monthly finance fee with the money factor.',
+          'Add tax to the pretax payment.',
+        ],
+        note: 'Lease contracts can add acquisition, disposition, mileage, wear, registration, and early termination charges.',
+      };
+    }
+    case 'depreciation': {
+      const method = (inputs.method || 'straight-line') as DepreciationMethod;
+      const result = calculateDepreciationEstimate({
+        cost: parseNumber(inputs.cost, 'Original cost'),
+        salvageValue: parseNumber(inputs.salvageValue, 'Salvage value'),
+        lifeYears: parseNumber(inputs.lifeYears, 'Useful life'),
+        ageYears: parseNumber(inputs.ageYears, 'Age'),
+        method,
+        decliningRatePercent: parseNumber(inputs.decliningRatePercent, 'Declining balance rate'),
+      });
+
+      return {
+        label: 'Estimated book value',
+        expression: `${compactMoney(result.cost)} ${method === 'straight-line' ? 'straight-line' : 'declining-balance'} depreciation`,
+        answer: money(result.bookValue),
+        metrics: [
+          { label: 'Accumulated depreciation', value: money(result.accumulatedDepreciation) },
+          { label: 'Annual depreciation estimate', value: money(result.annualDepreciation) },
+          { label: 'Salvage value', value: money(result.salvageValue) },
+          { label: 'Age used', value: years(result.ageYears) },
+        ],
+        steps: [
+          'Subtract salvage value from cost to find depreciable amount.',
+          method === 'straight-line' ? 'Divide depreciable amount by useful life for annual depreciation.' : 'Apply the declining balance rate to the remaining book value each year.',
+          'Cap depreciation so book value does not fall below salvage value.',
+        ],
+        note: 'Tax depreciation can use specific rules and schedules that are not modeled here.',
+      };
+    }
+    case 'average-return': {
+      const result = calculateAverageReturn({
+        beginningValue: parseNumber(inputs.beginningValue, 'Beginning value'),
+        endingValue: parseNumber(inputs.endingValue, 'Ending value'),
+        years: parseNumber(inputs.years, 'Time'),
+        contributions: parseNumber(inputs.contributions, 'Contributions'),
+        withdrawals: parseNumber(inputs.withdrawals, 'Withdrawals'),
+      });
+
+      return {
+        label: 'Average annual return',
+        expression: `${compactMoney(result.beginningValue)} to ${compactMoney(result.endingValue)} over ${years(result.years)}`,
+        answer: percent(result.averageAnnualReturnPercent),
+        metrics: [
+          { label: 'Cumulative return', value: percent(result.cumulativeReturnPercent) },
+          { label: 'CAGR estimate', value: percent(result.cagrPercent) },
+          { label: 'Net gain', value: money(result.netGain) },
+          { label: 'Contributions adjusted', value: money(result.contributions) },
+        ],
+        steps: [
+          'Add withdrawals back to ending value, then subtract beginning value and contributions.',
+          'Divide net gain by beginning value plus contributions for cumulative return.',
+          'Divide cumulative return by years for simple average annual return.',
+          'Also show CAGR from beginning value to ending value for a growth-rate comparison.',
+        ],
+        note: 'This is not a time-weighted or money-weighted return and does not include taxes, fees, or risk.',
+      };
+    }
+    case 'margin': {
+      const result = calculateMarginEstimate(
+        parseNumber(inputs.revenue, 'Revenue'),
+        parseNumber(inputs.cost, 'Cost'),
+      );
+
+      return {
+        label: 'Profit margin',
+        expression: `${compactMoney(result.revenue)} revenue - ${compactMoney(result.cost)} cost`,
+        answer: percent(result.marginPercent),
+        metrics: [
+          { label: 'Profit', value: money(result.profit) },
+          { label: 'Markup', value: percent(result.markupPercent) },
+          { label: 'Revenue', value: money(result.revenue) },
+          { label: 'Cost', value: money(result.cost) },
+        ],
+        steps: [
+          'Subtract cost from revenue to find profit.',
+          'Divide profit by revenue to calculate profit margin.',
+          'Divide profit by cost to calculate markup.',
+        ],
+        note: 'This is business profit-margin math, not brokerage margin or leveraged investing advice.',
+      };
+    }
+    case 'discount': {
+      const result = calculateDiscountEstimate({
+        originalPrice: parseNumber(inputs.originalPrice, 'Original price'),
+        discountPercent: parseNumber(inputs.discountPercent, 'Discount percent'),
+        extraDiscountPercent: parseNumber(inputs.extraDiscountPercent, 'Extra discount percent'),
+        taxPercent: parseNumber(inputs.taxPercent, 'Tax rate'),
+      });
+
+      return {
+        label: 'Final price after discount',
+        expression: `${compactMoney(result.originalPrice)} less ${percent(result.discountPercent)} and ${percent(result.extraDiscountPercent)} extra`,
+        answer: money(result.finalPrice),
+        metrics: [
+          { label: 'Total savings before tax', value: money(result.totalSavings) },
+          { label: 'Effective discount', value: percent(result.effectiveDiscountPercent) },
+          { label: 'Subtotal after discounts', value: money(result.subtotalAfterDiscounts) },
+          { label: 'Tax amount', value: money(result.taxAmount) },
+        ],
+        steps: [
+          'Apply the first discount to the original price.',
+          'Apply the extra discount to the already-discounted subtotal.',
+          'Add tax to the discounted subtotal if a tax rate is entered.',
+        ],
+      };
+    }
+    case 'business-loan':
+    case 'personal-loan': {
+      const result = calculateBusinessLoan({
+        principal: parseNumber(inputs.principal, 'Loan amount'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Interest rate'),
+        years: parseNumber(inputs.years, 'Loan term'),
+        originationFeePercent: parseNumber(inputs.originationFeePercent, 'Origination fee'),
+      });
+      const label = variant === 'business-loan' ? 'Estimated business loan payment' : 'Estimated personal loan payment';
+
+      return {
+        label,
+        expression: `${compactMoney(result.principal)} at ${percent(result.annualRatePercent)} for ${years(result.years)}`,
+        answer: money(result.monthlyPayment),
+        metrics: [
+          { label: 'Total paid', value: money(result.totalPaid) },
+          { label: 'Total interest', value: money(result.totalInterest) },
+          { label: 'Origination fee', value: money(result.originationFee) },
+          { label: 'Cash received after fee', value: money(result.cashReceived) },
+        ],
+        steps: [
+          'Use the fixed-payment loan formula for monthly payment.',
+          'Multiply the loan amount by the origination fee percent.',
+          'Subtract the fee from principal to estimate cash received when the fee is taken upfront.',
+          'Add interest and fee context when comparing offers.',
+        ],
+        note: 'APR, fees, underwriting, collateral, and repayment terms can change the real loan cost.',
+      };
+    }
+    case 'debt-to-income': {
+      const result = calculateDebtToIncome(
+        parseNumber(inputs.monthlyIncome, 'Monthly income'),
+        parseNumber(inputs.monthlyDebtPayments, 'Monthly debt payments'),
+        parseNumber(inputs.proposedHousingPayment, 'Proposed housing payment'),
+      );
+
+      return {
+        label: 'Debt-to-income ratio',
+        expression: `${compactMoney(result.totalMonthlyDebt)} monthly debt / ${compactMoney(result.monthlyIncome)} income`,
+        answer: percent(result.debtToIncomePercent),
+        metrics: [
+          { label: 'Total monthly debt', value: money(result.totalMonthlyDebt) },
+          { label: 'Existing debt payments', value: money(result.monthlyDebtPayments) },
+          { label: 'Proposed housing payment', value: money(result.proposedHousingPayment) },
+          { label: 'Income after listed debts', value: money(result.remainingIncome) },
+        ],
+        steps: [
+          'Add existing monthly debt payments and proposed housing payment.',
+          'Divide that total by gross monthly income.',
+          'Convert the result to a percentage.',
+        ],
+        note: 'Lenders can count income and debts differently, so this is a planning ratio only.',
+      };
+    }
+    case 'boat-loan': {
+      const result = calculateAutoLoanSummary({
+        purchasePrice: parseNumber(inputs.purchasePrice, 'Boat price'),
+        downPayment: parseNumber(inputs.downPayment, 'Down payment'),
+        tradeIn: parseNumber(inputs.tradeIn, 'Trade-in value'),
+        fees: parseNumber(inputs.fees, 'Fees'),
+        salesTaxPercent: parseNumber(inputs.salesTaxPercent, 'Sales tax rate'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Interest rate'),
+        years: parseNumber(inputs.years, 'Loan term'),
+      });
+
+      return {
+        label: 'Estimated boat loan payment',
+        expression: `${compactMoney(result.amountFinanced)} financed at ${percent(result.annualRatePercent)} for ${years(result.years)}`,
+        answer: money(result.monthlyPayment),
+        metrics: [
+          { label: 'Amount financed', value: money(result.amountFinanced) },
+          { label: 'Sales tax', value: money(result.salesTax) },
+          { label: 'Total interest', value: money(result.totalInterest) },
+          { label: 'Total paid', value: money(result.totalPaid) },
+        ],
+        steps: [
+          'Estimate taxable amount from boat price minus trade-in value.',
+          'Add sales tax and fees, then subtract down payment and trade-in value.',
+          'Use the amount financed in the fixed-payment loan formula.',
+          'Total interest equals total paid minus amount financed.',
+        ],
+        note: 'This does not include storage, maintenance, registration, insurance, inspections, or marina costs.',
+      };
+    }
+    case 'lease': {
+      const result = calculateAssetLease({
+        assetValue: parseNumber(inputs.assetValue, 'Asset value'),
+        residualValue: parseNumber(inputs.residualValue, 'Residual value'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Finance rate'),
+        termMonths: parseNumber(inputs.termMonths, 'Lease term'),
+        upfrontPayment: parseNumber(inputs.upfrontPayment, 'Upfront payment'),
+        fees: parseNumber(inputs.fees, 'Fees'),
+      });
+
+      return {
+        label: 'Estimated monthly lease payment',
+        expression: `${compactMoney(result.assetValue)} asset over ${monthCount(result.termMonths)}`,
+        answer: money(result.monthlyPayment),
+        metrics: [
+          { label: 'Adjusted cost', value: money(result.adjustedCost) },
+          { label: 'Depreciation fee', value: money(result.depreciationFee) },
+          { label: 'Finance fee', value: money(result.financeFee) },
+          { label: 'Estimated total lease cost', value: money(result.totalLeaseCost) },
+        ],
+        steps: [
+          'Add fees to asset value and subtract upfront payment.',
+          'Spread the amount above residual value across the lease term.',
+          'Estimate monthly finance charge from adjusted cost, residual value, and rate.',
+          'Add depreciation and finance portions for monthly payment.',
+        ],
+        note: 'Use the actual lease contract for taxes, buyout terms, maintenance, renewal, and early-exit costs.',
+      };
+    }
+    case 'refinance': {
+      const result = calculateRefinance({
+        currentBalance: parseNumber(inputs.currentBalance, 'Current balance'),
+        currentAnnualRatePercent: parseNumber(inputs.currentAnnualRatePercent, 'Current rate'),
+        currentYears: parseNumber(inputs.currentYears, 'Current remaining term'),
+        newAnnualRatePercent: parseNumber(inputs.newAnnualRatePercent, 'New rate'),
+        newYears: parseNumber(inputs.newYears, 'New loan term'),
+        closingCosts: parseNumber(inputs.closingCosts, 'Closing costs'),
+      });
+
+      return {
+        label: 'Estimated new monthly payment',
+        expression: `${compactMoney(result.newPrincipal)} new balance at ${percent(result.newLoan.annualRatePercent)}`,
+        answer: money(result.newLoan.monthlyPayment),
+        metrics: [
+          { label: 'Monthly savings', value: money(result.monthlySavings) },
+          { label: 'Current payment', value: money(result.currentLoan.monthlyPayment) },
+          { label: 'Break-even time', value: result.breakEvenMonths === null ? 'No monthly savings' : monthCount(result.breakEvenMonths) },
+          { label: 'Total cost change', value: money(result.totalCostChange) },
+        ],
+        steps: [
+          'Estimate the remaining current loan payment and cost.',
+          'Add closing costs to the new principal for a rolled-cost comparison.',
+          'Estimate the new fixed payment and compare monthly payments.',
+          'Divide closing costs by monthly savings when the new payment is lower.',
+        ],
+        note: 'Refinancing can lower payment but still cost more if the term is extended or closing costs are high.',
+      };
+    }
+    case 'budget': {
+      const result = calculateBudget({
+        monthlyIncome: parseNumber(inputs.monthlyIncome, 'Monthly income'),
+        housing: parseNumber(inputs.housing, 'Housing'),
+        utilities: parseNumber(inputs.utilities, 'Utilities'),
+        food: parseNumber(inputs.food, 'Food'),
+        transportation: parseNumber(inputs.transportation, 'Transportation'),
+        insurance: parseNumber(inputs.insurance, 'Insurance'),
+        debt: parseNumber(inputs.debt, 'Debt payments'),
+        savings: parseNumber(inputs.savings, 'Savings'),
+        other: parseNumber(inputs.other, 'Other'),
+      });
+
+      return {
+        label: result.leftover >= 0 ? 'Money left after budget' : 'Budget shortfall',
+        expression: `${compactMoney(result.monthlyIncome)} income - ${compactMoney(result.totalExpenses)} planned spending`,
+        answer: money(result.leftover),
+        metrics: [
+          { label: 'Total planned expenses', value: money(result.totalExpenses) },
+          { label: 'Expense ratio', value: percent(result.expenseRatioPercent) },
+          { label: 'Savings rate', value: percent(result.savingsRatePercent) },
+          { label: 'Largest category', value: result.categories.reduce((largest, category) => (category.amount > largest.amount ? category : largest), result.categories[0]).label },
+        ],
+        steps: [
+          'Add each monthly spending and savings category.',
+          'Subtract total planned expenses from monthly income.',
+          'Divide total expenses by income for an expense ratio.',
+          'Divide planned savings by income for a savings-rate check.',
+        ],
+        note: 'This is a simple monthly budget worksheet and does not sync with accounts or forecast irregular bills.',
       };
     }
     case 'inflation': {

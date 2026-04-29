@@ -56,11 +56,29 @@ import {
   groupHexDigits,
   generateRandomNumbers,
   calculateAge,
+  calculateDayOfWeek,
+  calculateDensity,
+  calculateDiceRoll,
   applyPercentageAdjustment,
   addDaysToIsoDate,
+  calculateAnnuity,
+  calculateAnnuityPayout,
+  calculateAssetLease,
+  calculateAutoLease,
+  calculateAverageReturn,
+  calculateBudget,
+  calculateBusinessLoan,
+  calculateCashBackLowInterest,
+  calculateBondEstimate,
+  calculateCdEstimate,
+  calculateCollegeCost,
+  calculateCreditCardPayoff,
   calculateConcrete,
+  calculateCurrencyConversion,
   calculateDateDifference,
   calculateDateShift,
+  calculateFuelCost,
+  calculateGasMileage,
   calculateBmi,
   calculateAmortizationSummary,
   calculateAutoLoanSummary,
@@ -68,34 +86,63 @@ import {
   calculateBoerLeanBodyMass,
   calculateCaloriesBurned,
   calculateCompoundInterest,
+  calculateDebtConsolidation,
+  calculateDebtToIncome,
+  calculateDepreciationEstimate,
   calculateDevineIdealWeight,
+  calculateDiscountEstimate,
   calculateDueDateFromLmp,
   calculateFederalIncomeTax2026,
+  calculateFixedDebtPayoff,
+  calculateFourOhOneKProjection,
   calculateGfr2021CkdEpi,
+  calculateHouseAffordability,
   calculateInflationAdjustment,
   calculateInterestRateFromPayment,
+  calculateIraProjection,
   calculateLoanSummary,
+  calculateMarginEstimate,
   calculateMacroSplit,
   calculateMifflinStJeor,
+  calculateMutualFundEstimate,
   calculateMortgagePayment,
+  calculateMortgagePayoffSummary,
   calculateNavyBodyFat,
   calculateOneRepMax,
   calculatePace,
+  calculatePensionEstimate,
   calculatePregnancyWeightGain,
+  calculateRentAffordability,
+  calculateRefinance,
   calculateSalaryBreakdown,
+  calculateSavingsProjection,
   calculateSalesTax,
+  calculateVat,
   calculateGpa,
   calculateHoursWorked,
+  calculateMassFromDensity,
+  calculateMileageCost,
   calculateNeededFinalGrade,
+  calculateSpeed,
+  calculateSquareFootage,
   calculateSubnet,
+  calculateTimeCard,
   calculateTimeDuration,
+  calculateTimeZoneComparison,
+  calculateTip,
+  calculateWeightForce,
   convertMeasurement,
+  decodeBase64,
+  decodeUrlComponentValue,
+  encodeBase64,
+  encodeUrlComponentValue,
   calculateTargetHeartRate,
   calculateTdeeFromBmr,
   classifyBodyType,
   daysBetweenIsoDates,
   estimateBac,
   generatePassword,
+  numberToRomanNumeral,
   mixedToFraction,
   parseBigInteger,
   parseBigIntegerList,
@@ -109,6 +156,7 @@ import {
   percentDisplayValue,
   randomIntegerInRange,
   reversePercentageValue,
+  romanNumeralToNumber,
   simplifyRatioValues,
   simplifyFraction,
   toScientificNotation,
@@ -921,6 +969,193 @@ describe('finance helpers', () => {
       'Monthly payment is too low to repay the principal within this term',
     );
   });
+
+  it('calculates the next finance batch estimates', () => {
+    const currency = calculateCurrencyConversion(500, 0.92, 2.5);
+    const payoff = calculateMortgagePayoffSummary(280000, 6.25, 25, 200, 0);
+    const fourOhOneK = calculateFourOhOneKProjection({
+      currentBalance: 25000,
+      annualSalary: 75000,
+      employeeContributionPercent: 8,
+      employerMatchPercent: 50,
+      employerMatchLimitPercent: 6,
+      annualReturnPercent: 7,
+      years: 25,
+    });
+    const affordability = calculateHouseAffordability({
+      annualIncome: 110000,
+      monthlyDebts: 450,
+      downPayment: 60000,
+      annualRatePercent: 6.5,
+      years: 30,
+      debtToIncomePercent: 36,
+      propertyTaxPercent: 1.2,
+      monthlyInsurance: 140,
+      monthlyHoa: 0,
+    });
+    const savings = calculateSavingsProjection(2500, 300, 4, 5, 25000);
+    const rent = calculateRentAffordability(5200, 30, 350, 180);
+    const annuity = calculateAnnuity(500, 5, 20, 12, 'ordinary');
+    const creditCard = calculateCreditCardPayoff({
+      balance: 4500,
+      annualRatePercent: 22.9,
+      monthlyPayment: 250,
+    });
+
+    expect(formatCalculatorNumber(currency.convertedAmount)).toBe('448.5');
+    expect(payoff.monthsToPayoff).toBeLessThan(300);
+    expect(fourOhOneK.monthlyEmployeeContribution).toBe(500);
+    expect(fourOhOneK.monthlyEmployerContribution).toBe(187.5);
+    expect(affordability.homePrice).toBeGreaterThan(300000);
+    expect(savings.targetMet).toBe(false);
+    expect(formatCalculatorNumber(rent.maxRent)).toBe('1030');
+    expect(formatCalculatorNumber(annuity.totalPayments)).toBe('120000');
+    expect(creditCard.monthsToPayoff).toBeGreaterThan(20);
+    expect(() =>
+      calculateCreditCardPayoff({ balance: 4500, annualRatePercent: 22.9, monthlyPayment: 50 }),
+    ).toThrow('Monthly payment must be higher');
+  });
+
+  it('calculates the retirement, debt, education, and investment sitemap batch', () => {
+    const pension = calculatePensionEstimate(80000, 25, 1.5);
+    const annuityPayout = calculateAnnuityPayout(100000, 5, 20, 12);
+    const debtPayoff = calculateFixedDebtPayoff({
+      balance: 10000,
+      annualRatePercent: 12,
+      monthlyPayment: 300,
+      extraMonthlyPayment: 100,
+    });
+    const consolidation = calculateDebtConsolidation({
+      totalDebt: 18000,
+      currentAnnualRatePercent: 18,
+      currentMonthlyPayment: 650,
+      newAnnualRatePercent: 10.5,
+      newYears: 3,
+      fees: 300,
+    });
+    const college = calculateCollegeCost({
+      currentAnnualCost: 28000,
+      yearsUntilStart: 8,
+      yearsInSchool: 4,
+      annualCostIncreasePercent: 4,
+      currentSavings: 10000,
+      monthlySavings: 250,
+      annualSavingsReturnPercent: 5,
+    });
+    const cd = calculateCdEstimate(10000, 4.25, 12, 3);
+    const bond = calculateBondEstimate(1000, 950, 5, 10, 2);
+    const mutualFund = calculateMutualFundEstimate(5000, 250, 7, 0.5, 20);
+    const ira = calculateIraProjection(25000, 7000, 6.5, 20);
+
+    expect(pension.annualPension).toBe(30000);
+    expect(pension.monthlyPension).toBe(2500);
+    expect(annuityPayout.payment).toBeGreaterThan(600);
+    expect(annuityPayout.payment).toBeLessThan(700);
+    expect(debtPayoff.monthsToPayoff).toBeLessThan(30);
+    expect(consolidation.consolidationLoan.monthlyPayment).toBeLessThan(consolidation.currentDebt.monthlyPayment);
+    expect(college.firstYearCost).toBeGreaterThan(college.currentAnnualCost);
+    expect(college.totalEstimatedCost).toBeGreaterThan(college.firstYearCost);
+    expect(cd.interestEarned).toBeGreaterThan(400);
+    expect(formatCalculatorNumber(bond.currentYieldPercent)).toBe('5.2631578947');
+    expect(mutualFund.estimatedExpenseDrag).toBeGreaterThan(0);
+    expect(ira.endingBalance).toBeGreaterThan(ira.totalContributions);
+    expect(() =>
+      calculateFixedDebtPayoff({ balance: 5000, annualRatePercent: 18, monthlyPayment: 50 }),
+    ).toThrow('Monthly payment must be higher');
+  });
+
+  it('calculates the next finance comparison and planning sitemap batch', () => {
+    const vatAdded = calculateVat(100, 20, 'add');
+    const vatRemoved = calculateVat(120, 20, 'remove');
+    const offer = calculateCashBackLowInterest({
+      purchaseAmount: 32000,
+      payoffMonths: 60,
+      cashBackPercent: 4,
+      cashBackAprPercent: 7.2,
+      lowInterestAprPercent: 3.9,
+    });
+    const autoLease = calculateAutoLease({
+      vehiclePrice: 36000,
+      downPayment: 2500,
+      tradeIn: 0,
+      residualValue: 21000,
+      moneyFactor: 0.0025,
+      termMonths: 36,
+      taxPercent: 6,
+      fees: 950,
+    });
+    const depreciation = calculateDepreciationEstimate({
+      cost: 12000,
+      salvageValue: 2000,
+      lifeYears: 5,
+      ageYears: 2,
+      method: 'straight-line',
+      decliningRatePercent: 20,
+    });
+    const averageReturn = calculateAverageReturn({
+      beginningValue: 10000,
+      endingValue: 16000,
+      years: 5,
+      contributions: 2000,
+      withdrawals: 0,
+    });
+    const margin = calculateMarginEstimate(100, 60);
+    const discount = calculateDiscountEstimate({
+      originalPrice: 100,
+      discountPercent: 20,
+      extraDiscountPercent: 10,
+      taxPercent: 5,
+    });
+    const businessLoan = calculateBusinessLoan({
+      principal: 50000,
+      annualRatePercent: 9.5,
+      years: 5,
+      originationFeePercent: 2,
+    });
+    const dti = calculateDebtToIncome(6000, 900, 1500);
+    const lease = calculateAssetLease({
+      assetValue: 30000,
+      residualValue: 14000,
+      annualRatePercent: 6,
+      termMonths: 36,
+      upfrontPayment: 1500,
+      fees: 800,
+    });
+    const refinance = calculateRefinance({
+      currentBalance: 280000,
+      currentAnnualRatePercent: 7,
+      currentYears: 26,
+      newAnnualRatePercent: 5.9,
+      newYears: 30,
+      closingCosts: 4500,
+    });
+    const budget = calculateBudget({
+      monthlyIncome: 5200,
+      housing: 1600,
+      utilities: 250,
+      food: 650,
+      transportation: 420,
+      insurance: 280,
+      debt: 350,
+      savings: 600,
+      other: 500,
+    });
+
+    expect(vatAdded.grossAmount).toBe(120);
+    expect(vatRemoved.netAmount).toBe(100);
+    expect(offer.savings).toBeGreaterThan(0);
+    expect(['cash-back', 'low-interest']).toContain(offer.betterOption);
+    expect(autoLease.monthlyPayment).toBeGreaterThan(400);
+    expect(depreciation.bookValue).toBe(8000);
+    expect(averageReturn.netGain).toBe(4000);
+    expect(margin.marginPercent).toBe(40);
+    expect(discount.finalPrice).toBe(75.6);
+    expect(businessLoan.originationFee).toBe(1000);
+    expect(dti.debtToIncomePercent).toBe(40);
+    expect(lease.monthlyPayment).toBeGreaterThan(0);
+    expect(refinance.newLoan.monthlyPayment).toBeLessThan(refinance.currentLoan.monthlyPayment);
+    expect(budget.leftover).toBe(550);
+  });
 });
 
 describe('utility helpers', () => {
@@ -994,5 +1229,50 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(temperature.result)).toBe('22.2222222222');
     expect(password.password).toHaveLength(12);
     expect(password.estimatedEntropyBits).toBeGreaterThan(60);
+  });
+
+  it('calculates everyday utility batch formulas', () => {
+    const dice = calculateDiceRoll(2, 6, 1, sequenceSource([0, 5]));
+    const fuel = calculateFuelCost(120, 28, 3.75, true);
+    const squareFeet = calculateSquareFootage(12, 10, 2);
+    const gasMileage = calculateGasMileage(350, 12.5);
+    const tip = calculateTip(84.5, 20, 8.25, 2);
+    const mileage = calculateMileageCost(125, 0.67, 12);
+
+    expect(dice.rolls).toEqual([1, 6]);
+    expect(dice.total).toBe(8);
+    expect(formatCalculatorNumber(fuel.fuelCost)).toBe('32.1428571429');
+    expect(squareFeet.totalSquareFeet).toBe(240);
+    expect(formatCalculatorNumber(gasMileage.milesPerGallon)).toBe('28');
+    expect(formatCalculatorNumber(tip.perPerson)).toBe('54.185625');
+    expect(formatCalculatorNumber(mileage.total)).toBe('95.75');
+  });
+
+  it('calculates science, date, encoding, and time helpers for the utility batch', () => {
+    const density = calculateDensity(27, 10);
+    const mass = calculateMassFromDensity(2.7, 10);
+    const weight = calculateWeightForce(70);
+    const speed = calculateSpeed(180, 3, 0, 0);
+    const day = calculateDayOfWeek('2026-04-29');
+    const timeZone = calculateTimeZoneComparison('2026-04-29', '12:00', 'America/New_York');
+    const timeCard = calculateTimeCard([
+      { label: 'Monday', startTime: '09:00', endTime: '17:30', breakMinutes: 30 },
+      { label: 'Tuesday', startTime: '09:00', endTime: '17:30', breakMinutes: 30 },
+    ], 25);
+
+    expect(formatCalculatorNumber(density.density)).toBe('2.7');
+    expect(formatCalculatorNumber(mass.mass)).toBe('27');
+    expect(formatCalculatorNumber(weight.weightNewtons)).toBe('686.4655');
+    expect(formatCalculatorNumber(speed.milesPerHour)).toBe('60');
+    expect(numberToRomanNumeral(2026)).toBe('MMXXVI');
+    expect(romanNumeralToNumber('MMMCMXCIX')).toBe(3999);
+    expect(encodeBase64('Hello tools')).toBe('SGVsbG8gdG9vbHM=');
+    expect(decodeBase64('SGVsbG8gdG9vbHM=')).toBe('Hello tools');
+    expect(encodeUrlComponentValue('price=10&tax=2')).toBe('price%3D10%26tax%3D2');
+    expect(decodeUrlComponentValue('hello+tools', true)).toBe('hello tools');
+    expect(day.weekday).toBe('Wednesday');
+    expect(timeZone.offsetLabel).toBe('UTC-04:00');
+    expect(formatCalculatorNumber(timeCard.totalHours)).toBe('16');
+    expect(timeCard.grossPay).toBe(400);
   });
 });

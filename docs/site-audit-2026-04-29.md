@@ -21,6 +21,18 @@ References checked:
 - Made tools search update `?q=` as visitors type, so filtered searches are shareable and crawl-friendly as navigational URLs.
 - Added dev-server log ignore coverage so local preview logs do not get committed.
 
+## Current Expansion Update
+
+- Added the next finance roadmap batch: VAT, Cash Back or Low Interest, Auto Lease, Depreciation, Average Return, Margin, Discount, Business Loan, Debt-to-Income Ratio, Personal Loan, Boat Loan, Lease, Refinance, and Budget calculators.
+- Added a matching guide page for each new calculator through the shared finance guide system.
+- Added official-source links where useful for context, including European Commission VAT, CFPB APR and debt-to-income references, FTC car financing/leasing guidance, and IRS depreciation guidance.
+- Added a homepage "Recently added tools" section so new tools are discoverable without relying only on search.
+- Updated the calculator.net roadmap counts to 133 local tools and 133 local guide pages.
+- Added the everyday utility roadmap batch: Dice Roller, Fuel Cost, Square Footage, Time Card, Time Zone, Gas Mileage, Tip, Mileage, Density, Mass, Weight, Speed, Roman Numeral, Base64, URL Encode/Decode, and Day of the Week tools.
+- Added matching guide pages for the everyday utility batch through the shared utility guide system.
+- Added source-backed notes for IETF Base64 and URI percent-encoding, IANA time zones, U.S. DOL hours recordkeeping, U.S. EPA fuel economy context, IRS 2026 mileage rate context, and NIST unit guidance.
+- Updated the calculator.net roadmap counts to 149 local tools and 149 local guide pages.
+
 ## Audit Findings
 
 ### Technical SEO
@@ -61,8 +73,8 @@ References checked:
 
 ## Next Recommended Batches
 
-1. Add the everyday/utility quick-win batch from the roadmap: Dice Roller, Tip Calculator, Gas Mileage, Square Footage, Base64, URL Encode/Decode, Roman Numeral, Time Card, Time Zone, Day of the Week.
+1. Start Batch 3 from the roadmap: construction, home, weather, practical science, and networking tools with clear unit assumptions.
 2. Rewrite older static math blogs to match the newer plain-language standard.
-3. Add a "new tools" or "recently added" section to the home page so returning users can discover expansion.
-4. Add a compact compare/related-tools block for large categories once each category passes 30 tools.
-5. Add automated internal-link and metadata checks as a test script when the page count gets larger.
+3. Add a compact compare/related-tools block for large categories once each category passes 30 tools.
+4. Add automated internal-link and metadata checks as a test script when the page count gets larger.
+5. Review sensitive future health/entertainment topics before creating one-to-one competitor pages.

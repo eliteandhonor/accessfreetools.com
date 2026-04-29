@@ -3413,6 +3413,309 @@ export interface InterestRateResult extends LoanPaymentSummary {
   monthlyRatePercent: number;
 }
 
+export interface CurrencyConversionResult {
+  amount: number;
+  exchangeRate: number;
+  feePercent: number;
+  grossConverted: number;
+  feeAmount: number;
+  convertedAmount: number;
+}
+
+export interface MortgagePayoffResult extends AmortizationSummary {
+  oneTimePayment: number;
+  remainingPrincipal: number;
+}
+
+export interface FourOhOneKProjectionResult extends CompoundInterestResult {
+  annualSalary: number;
+  employeeContributionPercent: number;
+  employerMatchPercent: number;
+  employerMatchLimitPercent: number;
+  monthlyEmployeeContribution: number;
+  monthlyEmployerContribution: number;
+  totalEmployeeContributions: number;
+  totalEmployerContributions: number;
+}
+
+export interface HouseAffordabilityResult {
+  annualIncome: number;
+  monthlyDebts: number;
+  debtToIncomePercent: number;
+  maxMonthlyDebtPayment: number;
+  maxMonthlyHousingPayment: number;
+  homePrice: number;
+  downPayment: number;
+  loanAmount: number;
+  principalAndInterest: number;
+  monthlyPropertyTax: number;
+  monthlyInsurance: number;
+  monthlyHoa: number;
+  totalMonthlyHousingPayment: number;
+}
+
+export interface SavingsProjectionResult extends CompoundInterestResult {
+  targetAmount: number;
+  targetGap: number;
+  targetMet: boolean;
+}
+
+export interface RentAffordabilityResult {
+  monthlyIncome: number;
+  targetRentPercent: number;
+  monthlyDebts: number;
+  monthlyUtilities: number;
+  maxRent: number;
+  annualRent: number;
+  incomeAfterRentAndBills: number;
+}
+
+export type AnnuityTiming = 'ordinary' | 'due';
+
+export interface AnnuityResult {
+  payment: number;
+  annualRatePercent: number;
+  years: number;
+  paymentsPerYear: number;
+  paymentCount: number;
+  timing: AnnuityTiming;
+  totalPayments: number;
+  futureValue: number;
+  presentValue: number;
+}
+
+export interface CreditCardPayoffResult {
+  startingBalance: number;
+  annualRatePercent: number;
+  monthlyPayment: number;
+  monthlyNewCharges: number;
+  monthsToPayoff: number;
+  totalInterest: number;
+  totalPaid: number;
+  finalPayment: number;
+}
+
+export interface PensionEstimateResult {
+  finalAverageSalary: number;
+  yearsOfService: number;
+  multiplierPercent: number;
+  annualPension: number;
+  monthlyPension: number;
+  replacementRatePercent: number;
+}
+
+export interface AnnuityPayoutResult {
+  principal: number;
+  annualRatePercent: number;
+  years: number;
+  paymentsPerYear: number;
+  paymentCount: number;
+  payment: number;
+  totalPaid: number;
+  estimatedInterest: number;
+}
+
+export interface DebtPayoffResult {
+  startingBalance: number;
+  annualRatePercent: number;
+  monthlyPayment: number;
+  extraMonthlyPayment: number;
+  monthsToPayoff: number;
+  totalInterest: number;
+  totalPaid: number;
+  finalPayment: number;
+}
+
+export interface DebtConsolidationResult {
+  currentDebt: DebtPayoffResult;
+  consolidationLoan: LoanPaymentSummary;
+  newPrincipal: number;
+  fees: number;
+  monthlyPaymentChange: number;
+  totalCostChange: number;
+}
+
+export interface CollegeCostResult {
+  currentAnnualCost: number;
+  yearsUntilStart: number;
+  yearsInSchool: number;
+  annualCostIncreasePercent: number;
+  firstYearCost: number;
+  totalEstimatedCost: number;
+  projectedSavings: number;
+  savingsGap: number;
+}
+
+export interface CdEstimateResult {
+  principal: number;
+  annualPercentageYield: number;
+  termMonths: number;
+  maturityValue: number;
+  interestEarned: number;
+  earlyWithdrawalPenalty: number;
+  valueAfterPenalty: number;
+}
+
+export interface BondEstimateResult {
+  faceValue: number;
+  marketPrice: number;
+  couponRatePercent: number;
+  yearsToMaturity: number;
+  paymentsPerYear: number;
+  annualCoupon: number;
+  totalCouponPayments: number;
+  currentYieldPercent: number;
+  approximateYieldToMaturityPercent: number;
+}
+
+export interface MutualFundEstimateResult extends CompoundInterestResult {
+  grossEndingBalance: number;
+  estimatedExpenseDrag: number;
+  expenseRatioPercent: number;
+}
+
+export type VatMode = 'add' | 'remove';
+
+export interface VatResult {
+  mode: VatMode;
+  amount: number;
+  vatPercent: number;
+  netAmount: number;
+  vatAmount: number;
+  grossAmount: number;
+}
+
+export interface CashBackLowInterestResult {
+  purchaseAmount: number;
+  payoffMonths: number;
+  cashBackPercent: number;
+  cashBackAprPercent: number;
+  lowInterestAprPercent: number;
+  cashBackValue: number;
+  cashBackLoan: LoanPaymentSummary;
+  lowInterestLoan: LoanPaymentSummary;
+  cashBackTotalCost: number;
+  lowInterestTotalCost: number;
+  betterOption: 'cash-back' | 'low-interest';
+  savings: number;
+}
+
+export interface AutoLeaseResult {
+  vehiclePrice: number;
+  downPayment: number;
+  tradeIn: number;
+  residualValue: number;
+  moneyFactor: number;
+  termMonths: number;
+  taxPercent: number;
+  fees: number;
+  adjustedCapitalizedCost: number;
+  depreciationFee: number;
+  financeFee: number;
+  pretaxMonthlyPayment: number;
+  monthlyTax: number;
+  monthlyPayment: number;
+  totalLeaseCost: number;
+}
+
+export type DepreciationMethod = 'straight-line' | 'declining-balance';
+
+export interface DepreciationEstimateResult {
+  cost: number;
+  salvageValue: number;
+  lifeYears: number;
+  ageYears: number;
+  method: DepreciationMethod;
+  decliningRatePercent: number;
+  annualDepreciation: number;
+  accumulatedDepreciation: number;
+  bookValue: number;
+}
+
+export interface AverageReturnResult {
+  beginningValue: number;
+  endingValue: number;
+  years: number;
+  contributions: number;
+  withdrawals: number;
+  netGain: number;
+  cumulativeReturnPercent: number;
+  averageAnnualReturnPercent: number;
+  cagrPercent: number;
+}
+
+export interface MarginEstimateResult {
+  revenue: number;
+  cost: number;
+  profit: number;
+  marginPercent: number;
+  markupPercent: number;
+}
+
+export interface DiscountEstimateResult {
+  originalPrice: number;
+  discountPercent: number;
+  extraDiscountPercent: number;
+  taxPercent: number;
+  firstDiscountAmount: number;
+  extraDiscountAmount: number;
+  subtotalAfterDiscounts: number;
+  taxAmount: number;
+  finalPrice: number;
+  totalSavings: number;
+  effectiveDiscountPercent: number;
+}
+
+export interface BusinessLoanResult extends LoanPaymentSummary {
+  originationFeePercent: number;
+  originationFee: number;
+  cashReceived: number;
+  totalCostWithFee: number;
+}
+
+export interface DebtToIncomeResult {
+  monthlyIncome: number;
+  monthlyDebtPayments: number;
+  proposedHousingPayment: number;
+  totalMonthlyDebt: number;
+  debtToIncomePercent: number;
+  remainingIncome: number;
+}
+
+export interface AssetLeaseResult {
+  assetValue: number;
+  residualValue: number;
+  annualRatePercent: number;
+  termMonths: number;
+  upfrontPayment: number;
+  fees: number;
+  adjustedCost: number;
+  depreciationFee: number;
+  financeFee: number;
+  monthlyPayment: number;
+  totalLeaseCost: number;
+}
+
+export interface RefinanceResult {
+  currentLoan: LoanPaymentSummary;
+  newLoan: LoanPaymentSummary;
+  closingCosts: number;
+  newPrincipal: number;
+  monthlySavings: number;
+  totalInterestChange: number;
+  totalCostChange: number;
+  breakEvenMonths: number | null;
+}
+
+export interface BudgetResult {
+  monthlyIncome: number;
+  totalExpenses: number;
+  leftover: number;
+  expenseRatioPercent: number;
+  savingsRatePercent: number;
+  categories: Array<{ label: string; amount: number; percentOfIncome: number }>;
+}
+
 interface TaxBracket {
   over: number;
   rate: number;
@@ -3932,6 +4235,1038 @@ export function calculateSalesTax(subtotal: number, salesTaxPercent: number) {
   };
 }
 
+export function calculateCurrencyConversion(
+  amount: number,
+  exchangeRate: number,
+  feePercent = 0,
+): CurrencyConversionResult {
+  assertPositiveNumber(amount, 'Amount');
+  assertPositiveNumber(exchangeRate, 'Exchange rate');
+  assertPercentRange(feePercent, 'Fee percent', 100);
+
+  const grossConverted = amount * exchangeRate;
+  const feeAmount = grossConverted * (feePercent / 100);
+
+  return {
+    amount,
+    exchangeRate,
+    feePercent,
+    grossConverted,
+    feeAmount,
+    convertedAmount: grossConverted - feeAmount,
+  };
+}
+
+export function calculateMortgagePayoffSummary(
+  principal: number,
+  annualRatePercent: number,
+  years: number,
+  extraMonthlyPayment = 0,
+  oneTimePayment = 0,
+): MortgagePayoffResult {
+  assertPositiveNumber(principal, 'Loan balance');
+  assertNonNegativeNumber(extraMonthlyPayment, 'Extra monthly payment');
+  assertNonNegativeNumber(oneTimePayment, 'One-time payment');
+
+  if (oneTimePayment >= principal) {
+    throw new Error('One-time payment must be less than the loan balance');
+  }
+
+  const scheduled = calculateLoanSummary(principal, annualRatePercent, years);
+  const remainingPrincipal = principal - oneTimePayment;
+  const payoff = calculateAmortizationSummary(remainingPrincipal, annualRatePercent, years, extraMonthlyPayment);
+
+  return {
+    ...payoff,
+    principal,
+    scheduledMonthlyPayment: scheduled.monthlyPayment,
+    oneTimePayment,
+    remainingPrincipal,
+    interestSaved: Math.max(0, scheduled.totalInterest - payoff.totalInterest),
+    monthsSaved: Math.max(0, scheduled.paymentCount - payoff.monthsToPayoff),
+  };
+}
+
+export function calculateFourOhOneKProjection(input: {
+  currentBalance: number;
+  annualSalary: number;
+  employeeContributionPercent: number;
+  employerMatchPercent: number;
+  employerMatchLimitPercent: number;
+  annualReturnPercent: number;
+  years: number;
+}): FourOhOneKProjectionResult {
+  assertNonNegativeNumber(input.currentBalance, 'Current balance');
+  assertPositiveNumber(input.annualSalary, 'Annual salary');
+  assertPercentRange(input.employeeContributionPercent, 'Employee contribution percent', 100);
+  assertPercentRange(input.employerMatchPercent, 'Employer match percent', 300);
+  assertPercentRange(input.employerMatchLimitPercent, 'Employer match limit percent', 100);
+
+  const monthlyEmployeeContribution = (input.annualSalary * (input.employeeContributionPercent / 100)) / 12;
+  const matchedSalaryPercent = Math.min(input.employeeContributionPercent, input.employerMatchLimitPercent);
+  const monthlyEmployerContribution = (input.annualSalary * (matchedSalaryPercent / 100) * (input.employerMatchPercent / 100)) / 12;
+  const projection = calculateCompoundInterest(
+    input.currentBalance,
+    input.annualReturnPercent,
+    input.years,
+    12,
+    monthlyEmployeeContribution + monthlyEmployerContribution,
+  );
+
+  return {
+    ...projection,
+    annualSalary: input.annualSalary,
+    employeeContributionPercent: input.employeeContributionPercent,
+    employerMatchPercent: input.employerMatchPercent,
+    employerMatchLimitPercent: input.employerMatchLimitPercent,
+    monthlyEmployeeContribution,
+    monthlyEmployerContribution,
+    totalEmployeeContributions: monthlyEmployeeContribution * projection.years * 12,
+    totalEmployerContributions: monthlyEmployerContribution * projection.years * 12,
+  };
+}
+
+export function calculateHouseAffordability(input: {
+  annualIncome: number;
+  monthlyDebts: number;
+  downPayment: number;
+  annualRatePercent: number;
+  years: number;
+  debtToIncomePercent: number;
+  propertyTaxPercent?: number;
+  monthlyInsurance?: number;
+  monthlyHoa?: number;
+}): HouseAffordabilityResult {
+  assertPositiveNumber(input.annualIncome, 'Annual income');
+  assertNonNegativeNumber(input.monthlyDebts, 'Monthly debts');
+  assertNonNegativeNumber(input.downPayment, 'Down payment');
+  assertPercentRange(input.debtToIncomePercent, 'Debt-to-income target', 100);
+  assertPercentRange(input.propertyTaxPercent ?? 0, 'Property tax percent', 10);
+  assertNonNegativeNumber(input.monthlyInsurance ?? 0, 'Monthly insurance');
+  assertNonNegativeNumber(input.monthlyHoa ?? 0, 'Monthly HOA');
+
+  const monthlyIncome = input.annualIncome / 12;
+  const maxMonthlyDebtPayment = monthlyIncome * (input.debtToIncomePercent / 100);
+  const maxMonthlyHousingPayment = maxMonthlyDebtPayment - input.monthlyDebts;
+
+  if (maxMonthlyHousingPayment <= 0) {
+    throw new Error('Monthly debts leave no room under the selected debt-to-income target');
+  }
+
+  const propertyTaxPercent = input.propertyTaxPercent ?? 0;
+  const monthlyInsurance = input.monthlyInsurance ?? 0;
+  const monthlyHoa = input.monthlyHoa ?? 0;
+  const paymentForHome = (homePrice: number) => {
+    const loanAmount = Math.max(0, homePrice - input.downPayment);
+    const principalAndInterest = loanAmount === 0 ? 0 : calculateLoanPayment(loanAmount, input.annualRatePercent, input.years);
+    const monthlyPropertyTax = (homePrice * (propertyTaxPercent / 100)) / 12;
+
+    return principalAndInterest + monthlyPropertyTax + monthlyInsurance + monthlyHoa;
+  };
+
+  let low = 0;
+  let high = Math.max(input.downPayment + input.annualIncome * 6, 100000);
+
+  while (paymentForHome(high) <= maxMonthlyHousingPayment && high < 50000000) {
+    low = high;
+    high *= 2;
+  }
+
+  for (let index = 0; index < 80; index += 1) {
+    const mid = (low + high) / 2;
+
+    if (paymentForHome(mid) <= maxMonthlyHousingPayment) {
+      low = mid;
+    } else {
+      high = mid;
+    }
+  }
+
+  const homePrice = low;
+  const loanAmount = Math.max(0, homePrice - input.downPayment);
+  const principalAndInterest = loanAmount === 0 ? 0 : calculateLoanPayment(loanAmount, input.annualRatePercent, input.years);
+  const monthlyPropertyTax = (homePrice * (propertyTaxPercent / 100)) / 12;
+
+  return {
+    annualIncome: input.annualIncome,
+    monthlyDebts: input.monthlyDebts,
+    debtToIncomePercent: input.debtToIncomePercent,
+    maxMonthlyDebtPayment,
+    maxMonthlyHousingPayment,
+    homePrice,
+    downPayment: input.downPayment,
+    loanAmount,
+    principalAndInterest,
+    monthlyPropertyTax,
+    monthlyInsurance,
+    monthlyHoa,
+    totalMonthlyHousingPayment: principalAndInterest + monthlyPropertyTax + monthlyInsurance + monthlyHoa,
+  };
+}
+
+export function calculateSavingsProjection(
+  currentSavings: number,
+  monthlyDeposit: number,
+  annualRatePercent: number,
+  years: number,
+  targetAmount = 0,
+): SavingsProjectionResult {
+  assertNonNegativeNumber(targetAmount, 'Target amount');
+
+  const projection = calculateCompoundInterest(currentSavings, annualRatePercent, years, 12, monthlyDeposit);
+  const targetGap = targetAmount > 0 ? targetAmount - projection.endingBalance : 0;
+
+  return {
+    ...projection,
+    targetAmount,
+    targetGap,
+    targetMet: targetAmount > 0 ? targetGap <= 0 : true,
+  };
+}
+
+export function calculateRentAffordability(
+  monthlyIncome: number,
+  targetRentPercent: number,
+  monthlyDebts = 0,
+  monthlyUtilities = 0,
+): RentAffordabilityResult {
+  assertPositiveNumber(monthlyIncome, 'Monthly income');
+  assertPercentRange(targetRentPercent, 'Target rent percent', 100);
+  assertNonNegativeNumber(monthlyDebts, 'Monthly debts');
+  assertNonNegativeNumber(monthlyUtilities, 'Monthly utilities');
+
+  const targetRent = monthlyIncome * (targetRentPercent / 100);
+  const maxRent = Math.max(0, targetRent - monthlyDebts - monthlyUtilities);
+
+  return {
+    monthlyIncome,
+    targetRentPercent,
+    monthlyDebts,
+    monthlyUtilities,
+    maxRent,
+    annualRent: maxRent * 12,
+    incomeAfterRentAndBills: monthlyIncome - maxRent - monthlyDebts - monthlyUtilities,
+  };
+}
+
+export function calculateAnnuity(
+  payment: number,
+  annualRatePercent: number,
+  years: number,
+  paymentsPerYear = 12,
+  timing: AnnuityTiming = 'ordinary',
+): AnnuityResult {
+  assertPositiveNumber(payment, 'Payment');
+  assertPercentGreaterThanNegativeHundred(annualRatePercent, 'Annual rate');
+  assertPositiveNumber(years, 'Time');
+  assertPositiveNumber(paymentsPerYear, 'Payments per year');
+
+  if (!Number.isInteger(paymentsPerYear)) {
+    throw new Error('Payments per year must be a whole number');
+  }
+
+  const paymentCount = Math.round(years * paymentsPerYear);
+  const periodicRate = annualRatePercent / 100 / paymentsPerYear;
+  const timingMultiplier = timing === 'due' ? 1 + periodicRate : 1;
+  const futureValue =
+    periodicRate === 0
+      ? payment * paymentCount
+      : payment * (((1 + periodicRate) ** paymentCount - 1) / periodicRate) * timingMultiplier;
+  const presentValue =
+    periodicRate === 0
+      ? payment * paymentCount
+      : payment * ((1 - (1 + periodicRate) ** -paymentCount) / periodicRate) * timingMultiplier;
+
+  return {
+    payment,
+    annualRatePercent,
+    years,
+    paymentsPerYear,
+    paymentCount,
+    timing,
+    totalPayments: payment * paymentCount,
+    futureValue,
+    presentValue,
+  };
+}
+
+export function calculateCreditCardPayoff(input: {
+  balance: number;
+  annualRatePercent: number;
+  monthlyPayment: number;
+  monthlyNewCharges?: number;
+}): CreditCardPayoffResult {
+  assertPositiveNumber(input.balance, 'Balance');
+  assertNonNegativeNumber(input.annualRatePercent, 'APR');
+  assertPositiveNumber(input.monthlyPayment, 'Monthly payment');
+  assertNonNegativeNumber(input.monthlyNewCharges ?? 0, 'Monthly new charges');
+
+  const monthlyRate = input.annualRatePercent / 100 / 12;
+  const monthlyNewCharges = input.monthlyNewCharges ?? 0;
+
+  if (input.monthlyPayment <= input.balance * monthlyRate + monthlyNewCharges) {
+    throw new Error('Monthly payment must be higher than monthly interest and new charges');
+  }
+
+  let balance = input.balance;
+  let monthsToPayoff = 0;
+  let totalInterest = 0;
+  let totalPaid = 0;
+  let finalPayment = 0;
+
+  while (balance > 0.005 && monthsToPayoff < 1200) {
+    const interest = balance * monthlyRate;
+    balance += interest + monthlyNewCharges;
+    const payment = Math.min(input.monthlyPayment, balance);
+
+    balance -= payment;
+    totalInterest += interest;
+    totalPaid += payment;
+    finalPayment = payment;
+    monthsToPayoff += 1;
+  }
+
+  if (monthsToPayoff >= 1200) {
+    throw new Error('Payoff takes too long with these inputs');
+  }
+
+  return {
+    startingBalance: input.balance,
+    annualRatePercent: input.annualRatePercent,
+    monthlyPayment: input.monthlyPayment,
+    monthlyNewCharges,
+    monthsToPayoff,
+    totalInterest,
+    totalPaid,
+    finalPayment,
+  };
+}
+
+export function calculatePensionEstimate(
+  finalAverageSalary: number,
+  yearsOfService: number,
+  multiplierPercent: number,
+): PensionEstimateResult {
+  assertPositiveNumber(finalAverageSalary, 'Final average salary');
+  assertNonNegativeNumber(yearsOfService, 'Years of service');
+  assertPercentRange(multiplierPercent, 'Multiplier', 10);
+
+  const annualPension = finalAverageSalary * yearsOfService * (multiplierPercent / 100);
+
+  return {
+    finalAverageSalary,
+    yearsOfService,
+    multiplierPercent,
+    annualPension,
+    monthlyPension: annualPension / 12,
+    replacementRatePercent: (annualPension / finalAverageSalary) * 100,
+  };
+}
+
+export function calculateAnnuityPayout(
+  principal: number,
+  annualRatePercent: number,
+  years: number,
+  paymentsPerYear = 12,
+): AnnuityPayoutResult {
+  assertPositiveNumber(principal, 'Principal');
+  assertPercentGreaterThanNegativeHundred(annualRatePercent, 'Annual rate');
+  assertPositiveNumber(years, 'Payout time');
+  assertPositiveNumber(paymentsPerYear, 'Payments per year');
+
+  if (!Number.isInteger(paymentsPerYear)) {
+    throw new Error('Payments per year must be a whole number');
+  }
+
+  const paymentCount = Math.round(years * paymentsPerYear);
+  const periodicRate = annualRatePercent / 100 / paymentsPerYear;
+  const payment =
+    periodicRate === 0
+      ? principal / paymentCount
+      : (principal * periodicRate) / (1 - (1 + periodicRate) ** -paymentCount);
+  const totalPaid = payment * paymentCount;
+
+  return {
+    principal,
+    annualRatePercent,
+    years,
+    paymentsPerYear,
+    paymentCount,
+    payment,
+    totalPaid,
+    estimatedInterest: totalPaid - principal,
+  };
+}
+
+export function calculateFixedDebtPayoff(input: {
+  balance: number;
+  annualRatePercent: number;
+  monthlyPayment: number;
+  extraMonthlyPayment?: number;
+}): DebtPayoffResult {
+  assertPositiveNumber(input.balance, 'Balance');
+  assertNonNegativeNumber(input.annualRatePercent, 'Annual interest rate');
+  assertPositiveNumber(input.monthlyPayment, 'Monthly payment');
+  assertNonNegativeNumber(input.extraMonthlyPayment ?? 0, 'Extra monthly payment');
+
+  const extraMonthlyPayment = input.extraMonthlyPayment ?? 0;
+  const totalMonthlyPayment = input.monthlyPayment + extraMonthlyPayment;
+  const monthlyRate = input.annualRatePercent / 100 / 12;
+
+  if (totalMonthlyPayment <= input.balance * monthlyRate) {
+    throw new Error('Monthly payment must be higher than monthly interest');
+  }
+
+  let balance = input.balance;
+  let monthsToPayoff = 0;
+  let totalInterest = 0;
+  let totalPaid = 0;
+  let finalPayment = 0;
+
+  while (balance > 0.005 && monthsToPayoff < 1200) {
+    const interest = balance * monthlyRate;
+    balance += interest;
+    const payment = Math.min(totalMonthlyPayment, balance);
+
+    balance -= payment;
+    totalInterest += interest;
+    totalPaid += payment;
+    finalPayment = payment;
+    monthsToPayoff += 1;
+  }
+
+  if (monthsToPayoff >= 1200) {
+    throw new Error('Payoff takes too long with these inputs');
+  }
+
+  return {
+    startingBalance: input.balance,
+    annualRatePercent: input.annualRatePercent,
+    monthlyPayment: input.monthlyPayment,
+    extraMonthlyPayment,
+    monthsToPayoff,
+    totalInterest,
+    totalPaid,
+    finalPayment,
+  };
+}
+
+export function calculateDebtConsolidation(input: {
+  totalDebt: number;
+  currentAnnualRatePercent: number;
+  currentMonthlyPayment: number;
+  newAnnualRatePercent: number;
+  newYears: number;
+  fees?: number;
+}): DebtConsolidationResult {
+  assertPositiveNumber(input.totalDebt, 'Total debt');
+  assertNonNegativeNumber(input.currentAnnualRatePercent, 'Current annual interest rate');
+  assertPositiveNumber(input.currentMonthlyPayment, 'Current monthly payment');
+  assertNonNegativeNumber(input.newAnnualRatePercent, 'New annual interest rate');
+  assertPositiveNumber(input.newYears, 'New loan term');
+  assertNonNegativeNumber(input.fees ?? 0, 'Fees');
+
+  const fees = input.fees ?? 0;
+  const newPrincipal = input.totalDebt + fees;
+  const currentDebt = calculateFixedDebtPayoff({
+    balance: input.totalDebt,
+    annualRatePercent: input.currentAnnualRatePercent,
+    monthlyPayment: input.currentMonthlyPayment,
+  });
+  const consolidationLoan = calculateLoanSummary(newPrincipal, input.newAnnualRatePercent, input.newYears);
+
+  return {
+    currentDebt,
+    consolidationLoan,
+    newPrincipal,
+    fees,
+    monthlyPaymentChange: consolidationLoan.monthlyPayment - currentDebt.monthlyPayment,
+    totalCostChange: consolidationLoan.totalPaid - currentDebt.totalPaid,
+  };
+}
+
+export function calculateCollegeCost(input: {
+  currentAnnualCost: number;
+  yearsUntilStart: number;
+  yearsInSchool: number;
+  annualCostIncreasePercent: number;
+  currentSavings: number;
+  monthlySavings: number;
+  annualSavingsReturnPercent: number;
+}): CollegeCostResult {
+  assertPositiveNumber(input.currentAnnualCost, 'Current annual cost');
+  assertNonNegativeNumber(input.yearsUntilStart, 'Years until start');
+  assertPositiveNumber(input.yearsInSchool, 'Years in school');
+  assertPercentGreaterThanNegativeHundred(input.annualCostIncreasePercent, 'Annual cost increase');
+  assertNonNegativeNumber(input.currentSavings, 'Current savings');
+  assertNonNegativeNumber(input.monthlySavings, 'Monthly savings');
+  assertPercentGreaterThanNegativeHundred(input.annualSavingsReturnPercent, 'Annual savings return');
+
+  if (!Number.isInteger(input.yearsInSchool)) {
+    throw new Error('Years in school must be a whole number');
+  }
+
+  const firstYearCost = input.currentAnnualCost * (1 + input.annualCostIncreasePercent / 100) ** input.yearsUntilStart;
+  let totalEstimatedCost = 0;
+
+  for (let year = 0; year < input.yearsInSchool; year += 1) {
+    totalEstimatedCost += firstYearCost * (1 + input.annualCostIncreasePercent / 100) ** year;
+  }
+
+  const savings = calculateCompoundInterest(
+    input.currentSavings,
+    input.annualSavingsReturnPercent,
+    input.yearsUntilStart,
+    12,
+    input.monthlySavings,
+  );
+
+  return {
+    currentAnnualCost: input.currentAnnualCost,
+    yearsUntilStart: input.yearsUntilStart,
+    yearsInSchool: input.yearsInSchool,
+    annualCostIncreasePercent: input.annualCostIncreasePercent,
+    firstYearCost,
+    totalEstimatedCost,
+    projectedSavings: savings.endingBalance,
+    savingsGap: totalEstimatedCost - savings.endingBalance,
+  };
+}
+
+export function calculateCdEstimate(
+  principal: number,
+  annualPercentageYield: number,
+  termMonths: number,
+  earlyWithdrawalPenaltyMonths = 0,
+): CdEstimateResult {
+  assertPositiveNumber(principal, 'Principal');
+  assertNonNegativeNumber(annualPercentageYield, 'Annual percentage yield');
+  assertPositiveNumber(termMonths, 'Term months');
+  assertNonNegativeNumber(earlyWithdrawalPenaltyMonths, 'Early withdrawal penalty months');
+
+  if (!Number.isInteger(termMonths)) {
+    throw new Error('Term months must be a whole number');
+  }
+
+  const maturityValue = principal * (1 + annualPercentageYield / 100) ** (termMonths / 12);
+  const interestEarned = maturityValue - principal;
+  const earlyWithdrawalPenalty = principal * (annualPercentageYield / 100 / 12) * earlyWithdrawalPenaltyMonths;
+
+  return {
+    principal,
+    annualPercentageYield,
+    termMonths,
+    maturityValue,
+    interestEarned,
+    earlyWithdrawalPenalty,
+    valueAfterPenalty: Math.max(0, maturityValue - earlyWithdrawalPenalty),
+  };
+}
+
+export function calculateBondEstimate(
+  faceValue: number,
+  marketPrice: number,
+  couponRatePercent: number,
+  yearsToMaturity: number,
+  paymentsPerYear = 2,
+): BondEstimateResult {
+  assertPositiveNumber(faceValue, 'Face value');
+  assertPositiveNumber(marketPrice, 'Market price');
+  assertNonNegativeNumber(couponRatePercent, 'Coupon rate');
+  assertPositiveNumber(yearsToMaturity, 'Years to maturity');
+  assertPositiveNumber(paymentsPerYear, 'Payments per year');
+
+  if (!Number.isInteger(paymentsPerYear)) {
+    throw new Error('Payments per year must be a whole number');
+  }
+
+  const annualCoupon = faceValue * (couponRatePercent / 100);
+  const totalCouponPayments = annualCoupon * yearsToMaturity;
+  const currentYieldPercent = (annualCoupon / marketPrice) * 100;
+  const approximateYieldToMaturityPercent =
+    ((annualCoupon + (faceValue - marketPrice) / yearsToMaturity) / ((faceValue + marketPrice) / 2)) * 100;
+
+  return {
+    faceValue,
+    marketPrice,
+    couponRatePercent,
+    yearsToMaturity,
+    paymentsPerYear,
+    annualCoupon,
+    totalCouponPayments,
+    currentYieldPercent,
+    approximateYieldToMaturityPercent,
+  };
+}
+
+export function calculateMutualFundEstimate(
+  principal: number,
+  monthlyContribution: number,
+  annualReturnPercent: number,
+  expenseRatioPercent: number,
+  years: number,
+): MutualFundEstimateResult {
+  assertNonNegativeNumber(principal, 'Initial investment');
+  assertNonNegativeNumber(monthlyContribution, 'Monthly contribution');
+  assertPercentGreaterThanNegativeHundred(annualReturnPercent, 'Annual return');
+  assertPercentRange(expenseRatioPercent, 'Expense ratio', 20);
+  assertNonNegativeNumber(years, 'Years');
+
+  const netReturnPercent = annualReturnPercent - expenseRatioPercent;
+
+  if (netReturnPercent <= -100) {
+    throw new Error('Annual return after expenses must be greater than -100%');
+  }
+
+  const gross = calculateInvestmentGrowth(principal, monthlyContribution, annualReturnPercent, years);
+  const net = calculateInvestmentGrowth(principal, monthlyContribution, netReturnPercent, years);
+
+  return {
+    ...net,
+    grossEndingBalance: gross.endingBalance,
+    estimatedExpenseDrag: gross.endingBalance - net.endingBalance,
+    expenseRatioPercent,
+  };
+}
+
+export function calculateIraProjection(
+  currentBalance: number,
+  annualContribution: number,
+  annualReturnPercent: number,
+  years: number,
+): CompoundInterestResult {
+  assertNonNegativeNumber(annualContribution, 'Annual contribution');
+
+  return calculateCompoundInterest(currentBalance, annualReturnPercent, years, 12, annualContribution / 12);
+}
+
+export function calculateVat(amount: number, vatPercent: number, mode: VatMode = 'add'): VatResult {
+  assertNonNegativeNumber(amount, 'Amount');
+  assertPercentRange(vatPercent, 'VAT rate', 100);
+
+  if (mode !== 'add' && mode !== 'remove') {
+    throw new Error('VAT mode must be add or remove');
+  }
+
+  const rate = vatPercent / 100;
+  const netAmount = mode === 'add' ? amount : amount / (1 + rate);
+  const grossAmount = mode === 'add' ? amount * (1 + rate) : amount;
+  const vatAmount = grossAmount - netAmount;
+
+  return {
+    mode,
+    amount,
+    vatPercent,
+    netAmount,
+    vatAmount,
+    grossAmount,
+  };
+}
+
+export function calculateCashBackLowInterest(input: {
+  purchaseAmount: number;
+  payoffMonths: number;
+  cashBackPercent: number;
+  cashBackAprPercent: number;
+  lowInterestAprPercent: number;
+}): CashBackLowInterestResult {
+  assertPositiveNumber(input.purchaseAmount, 'Purchase amount');
+  assertPositiveNumber(input.payoffMonths, 'Payoff months');
+  assertPercentRange(input.cashBackPercent, 'Cash back percent', 100);
+  assertNonNegativeNumber(input.cashBackAprPercent, 'Cash back APR');
+  assertNonNegativeNumber(input.lowInterestAprPercent, 'Low interest APR');
+
+  if (!Number.isInteger(input.payoffMonths)) {
+    throw new Error('Payoff months must be a whole number');
+  }
+
+  const years = input.payoffMonths / 12;
+  const cashBackValue = input.purchaseAmount * (input.cashBackPercent / 100);
+  const cashBackLoan = calculateLoanSummary(input.purchaseAmount, input.cashBackAprPercent, years);
+  const lowInterestLoan = calculateLoanSummary(input.purchaseAmount, input.lowInterestAprPercent, years);
+  const cashBackTotalCost = cashBackLoan.totalPaid - cashBackValue;
+  const lowInterestTotalCost = lowInterestLoan.totalPaid;
+  const betterOption = cashBackTotalCost <= lowInterestTotalCost ? 'cash-back' : 'low-interest';
+
+  return {
+    purchaseAmount: input.purchaseAmount,
+    payoffMonths: input.payoffMonths,
+    cashBackPercent: input.cashBackPercent,
+    cashBackAprPercent: input.cashBackAprPercent,
+    lowInterestAprPercent: input.lowInterestAprPercent,
+    cashBackValue,
+    cashBackLoan,
+    lowInterestLoan,
+    cashBackTotalCost,
+    lowInterestTotalCost,
+    betterOption,
+    savings: Math.abs(cashBackTotalCost - lowInterestTotalCost),
+  };
+}
+
+export function calculateAutoLease(input: {
+  vehiclePrice: number;
+  downPayment: number;
+  tradeIn: number;
+  residualValue: number;
+  moneyFactor: number;
+  termMonths: number;
+  taxPercent: number;
+  fees: number;
+}): AutoLeaseResult {
+  assertPositiveNumber(input.vehiclePrice, 'Vehicle price');
+  assertNonNegativeNumber(input.downPayment, 'Down payment');
+  assertNonNegativeNumber(input.tradeIn, 'Trade-in value');
+  assertNonNegativeNumber(input.residualValue, 'Residual value');
+  assertNonNegativeNumber(input.moneyFactor, 'Money factor');
+  assertPositiveNumber(input.termMonths, 'Lease term');
+  assertPercentRange(input.taxPercent, 'Tax rate', 30);
+  assertNonNegativeNumber(input.fees, 'Fees');
+
+  if (!Number.isInteger(input.termMonths)) {
+    throw new Error('Lease term must be a whole number of months');
+  }
+
+  const adjustedCapitalizedCost = input.vehiclePrice + input.fees - input.downPayment - input.tradeIn;
+
+  if (adjustedCapitalizedCost <= input.residualValue) {
+    throw new Error('Adjusted capitalized cost must be greater than residual value');
+  }
+
+  const depreciationFee = (adjustedCapitalizedCost - input.residualValue) / input.termMonths;
+  const financeFee = (adjustedCapitalizedCost + input.residualValue) * input.moneyFactor;
+  const pretaxMonthlyPayment = depreciationFee + financeFee;
+  const monthlyTax = pretaxMonthlyPayment * (input.taxPercent / 100);
+  const monthlyPayment = pretaxMonthlyPayment + monthlyTax;
+
+  return {
+    vehiclePrice: input.vehiclePrice,
+    downPayment: input.downPayment,
+    tradeIn: input.tradeIn,
+    residualValue: input.residualValue,
+    moneyFactor: input.moneyFactor,
+    termMonths: input.termMonths,
+    taxPercent: input.taxPercent,
+    fees: input.fees,
+    adjustedCapitalizedCost,
+    depreciationFee,
+    financeFee,
+    pretaxMonthlyPayment,
+    monthlyTax,
+    monthlyPayment,
+    totalLeaseCost: input.downPayment + monthlyPayment * input.termMonths,
+  };
+}
+
+export function calculateDepreciationEstimate(input: {
+  cost: number;
+  salvageValue: number;
+  lifeYears: number;
+  ageYears: number;
+  method: DepreciationMethod;
+  decliningRatePercent?: number;
+}): DepreciationEstimateResult {
+  assertPositiveNumber(input.cost, 'Cost');
+  assertNonNegativeNumber(input.salvageValue, 'Salvage value');
+  assertPositiveNumber(input.lifeYears, 'Useful life');
+  assertNonNegativeNumber(input.ageYears, 'Age');
+
+  if (input.salvageValue >= input.cost) {
+    throw new Error('Salvage value must be less than cost');
+  }
+
+  if (input.method !== 'straight-line' && input.method !== 'declining-balance') {
+    throw new Error('Depreciation method must be straight-line or declining-balance');
+  }
+
+  const decliningRatePercent = input.decliningRatePercent ?? 20;
+  assertPercentRange(decliningRatePercent, 'Declining balance rate', 100);
+
+  const depreciableAmount = input.cost - input.salvageValue;
+  let accumulatedDepreciation = 0;
+  let annualDepreciation = depreciableAmount / input.lifeYears;
+
+  if (input.method === 'straight-line') {
+    accumulatedDepreciation = Math.min(depreciableAmount, annualDepreciation * input.ageYears);
+  } else {
+    let bookValue = input.cost;
+    let remainingAge = input.ageYears;
+    annualDepreciation = Math.min(bookValue - input.salvageValue, bookValue * (decliningRatePercent / 100));
+
+    while (remainingAge > 0 && bookValue > input.salvageValue) {
+      const yearFraction = Math.min(1, remainingAge);
+      const yearDepreciation = Math.min(
+        bookValue - input.salvageValue,
+        bookValue * (decliningRatePercent / 100) * yearFraction,
+      );
+
+      accumulatedDepreciation += yearDepreciation;
+      bookValue -= yearDepreciation;
+      remainingAge -= yearFraction;
+    }
+  }
+
+  return {
+    cost: input.cost,
+    salvageValue: input.salvageValue,
+    lifeYears: input.lifeYears,
+    ageYears: input.ageYears,
+    method: input.method,
+    decliningRatePercent,
+    annualDepreciation,
+    accumulatedDepreciation,
+    bookValue: input.cost - accumulatedDepreciation,
+  };
+}
+
+export function calculateAverageReturn(input: {
+  beginningValue: number;
+  endingValue: number;
+  years: number;
+  contributions?: number;
+  withdrawals?: number;
+}): AverageReturnResult {
+  assertPositiveNumber(input.beginningValue, 'Beginning value');
+  assertNonNegativeNumber(input.endingValue, 'Ending value');
+  assertPositiveNumber(input.years, 'Years');
+  assertNonNegativeNumber(input.contributions ?? 0, 'Contributions');
+  assertNonNegativeNumber(input.withdrawals ?? 0, 'Withdrawals');
+
+  const contributions = input.contributions ?? 0;
+  const withdrawals = input.withdrawals ?? 0;
+  const netGain = input.endingValue + withdrawals - input.beginningValue - contributions;
+  const investedBase = input.beginningValue + contributions;
+  const cumulativeReturnPercent = investedBase === 0 ? 0 : (netGain / investedBase) * 100;
+  const cagrPercent = input.endingValue > 0 ? ((input.endingValue / input.beginningValue) ** (1 / input.years) - 1) * 100 : -100;
+
+  return {
+    beginningValue: input.beginningValue,
+    endingValue: input.endingValue,
+    years: input.years,
+    contributions,
+    withdrawals,
+    netGain,
+    cumulativeReturnPercent,
+    averageAnnualReturnPercent: cumulativeReturnPercent / input.years,
+    cagrPercent,
+  };
+}
+
+export function calculateMarginEstimate(revenue: number, cost: number): MarginEstimateResult {
+  assertPositiveNumber(revenue, 'Revenue');
+  assertNonNegativeNumber(cost, 'Cost');
+
+  const profit = revenue - cost;
+
+  return {
+    revenue,
+    cost,
+    profit,
+    marginPercent: (profit / revenue) * 100,
+    markupPercent: cost === 0 ? 0 : (profit / cost) * 100,
+  };
+}
+
+export function calculateDiscountEstimate(input: {
+  originalPrice: number;
+  discountPercent: number;
+  extraDiscountPercent?: number;
+  taxPercent?: number;
+}): DiscountEstimateResult {
+  assertNonNegativeNumber(input.originalPrice, 'Original price');
+  assertPercentRange(input.discountPercent, 'Discount percent', 100);
+  assertPercentRange(input.extraDiscountPercent ?? 0, 'Extra discount percent', 100);
+  assertPercentRange(input.taxPercent ?? 0, 'Tax rate', 100);
+
+  const extraDiscountPercent = input.extraDiscountPercent ?? 0;
+  const taxPercent = input.taxPercent ?? 0;
+  const firstDiscountAmount = input.originalPrice * (input.discountPercent / 100);
+  const afterFirstDiscount = input.originalPrice - firstDiscountAmount;
+  const extraDiscountAmount = afterFirstDiscount * (extraDiscountPercent / 100);
+  const subtotalAfterDiscounts = afterFirstDiscount - extraDiscountAmount;
+  const taxAmount = subtotalAfterDiscounts * (taxPercent / 100);
+  const finalPrice = subtotalAfterDiscounts + taxAmount;
+  const totalSavings = input.originalPrice - subtotalAfterDiscounts;
+
+  return {
+    originalPrice: input.originalPrice,
+    discountPercent: input.discountPercent,
+    extraDiscountPercent,
+    taxPercent,
+    firstDiscountAmount,
+    extraDiscountAmount,
+    subtotalAfterDiscounts,
+    taxAmount,
+    finalPrice,
+    totalSavings,
+    effectiveDiscountPercent: input.originalPrice === 0 ? 0 : (totalSavings / input.originalPrice) * 100,
+  };
+}
+
+export function calculateBusinessLoan(input: {
+  principal: number;
+  annualRatePercent: number;
+  years: number;
+  originationFeePercent?: number;
+}): BusinessLoanResult {
+  assertPercentRange(input.originationFeePercent ?? 0, 'Origination fee percent', 100);
+
+  const loan = calculateLoanSummary(input.principal, input.annualRatePercent, input.years);
+  const originationFeePercent = input.originationFeePercent ?? 0;
+  const originationFee = input.principal * (originationFeePercent / 100);
+
+  return {
+    ...loan,
+    originationFeePercent,
+    originationFee,
+    cashReceived: input.principal - originationFee,
+    totalCostWithFee: loan.totalPaid + originationFee,
+  };
+}
+
+export function calculateDebtToIncome(
+  monthlyIncome: number,
+  monthlyDebtPayments: number,
+  proposedHousingPayment = 0,
+): DebtToIncomeResult {
+  assertPositiveNumber(monthlyIncome, 'Monthly income');
+  assertNonNegativeNumber(monthlyDebtPayments, 'Monthly debt payments');
+  assertNonNegativeNumber(proposedHousingPayment, 'Proposed housing payment');
+
+  const totalMonthlyDebt = monthlyDebtPayments + proposedHousingPayment;
+
+  return {
+    monthlyIncome,
+    monthlyDebtPayments,
+    proposedHousingPayment,
+    totalMonthlyDebt,
+    debtToIncomePercent: (totalMonthlyDebt / monthlyIncome) * 100,
+    remainingIncome: monthlyIncome - totalMonthlyDebt,
+  };
+}
+
+export function calculateAssetLease(input: {
+  assetValue: number;
+  residualValue: number;
+  annualRatePercent: number;
+  termMonths: number;
+  upfrontPayment?: number;
+  fees?: number;
+}): AssetLeaseResult {
+  assertPositiveNumber(input.assetValue, 'Asset value');
+  assertNonNegativeNumber(input.residualValue, 'Residual value');
+  assertNonNegativeNumber(input.annualRatePercent, 'Annual rate');
+  assertPositiveNumber(input.termMonths, 'Lease term');
+  assertNonNegativeNumber(input.upfrontPayment ?? 0, 'Upfront payment');
+  assertNonNegativeNumber(input.fees ?? 0, 'Fees');
+
+  if (!Number.isInteger(input.termMonths)) {
+    throw new Error('Lease term must be a whole number of months');
+  }
+
+  const upfrontPayment = input.upfrontPayment ?? 0;
+  const fees = input.fees ?? 0;
+  const adjustedCost = input.assetValue + fees - upfrontPayment;
+
+  if (adjustedCost <= input.residualValue) {
+    throw new Error('Adjusted cost must be greater than residual value');
+  }
+
+  const monthlyRate = input.annualRatePercent / 100 / 12;
+  const depreciationFee = (adjustedCost - input.residualValue) / input.termMonths;
+  const financeFee = (adjustedCost + input.residualValue) * monthlyRate;
+  const monthlyPayment = depreciationFee + financeFee;
+
+  return {
+    assetValue: input.assetValue,
+    residualValue: input.residualValue,
+    annualRatePercent: input.annualRatePercent,
+    termMonths: input.termMonths,
+    upfrontPayment,
+    fees,
+    adjustedCost,
+    depreciationFee,
+    financeFee,
+    monthlyPayment,
+    totalLeaseCost: upfrontPayment + monthlyPayment * input.termMonths,
+  };
+}
+
+export function calculateRefinance(input: {
+  currentBalance: number;
+  currentAnnualRatePercent: number;
+  currentYears: number;
+  newAnnualRatePercent: number;
+  newYears: number;
+  closingCosts?: number;
+}): RefinanceResult {
+  assertPositiveNumber(input.currentBalance, 'Current balance');
+  assertNonNegativeNumber(input.currentAnnualRatePercent, 'Current interest rate');
+  assertPositiveNumber(input.currentYears, 'Current remaining term');
+  assertNonNegativeNumber(input.newAnnualRatePercent, 'New interest rate');
+  assertPositiveNumber(input.newYears, 'New loan term');
+  assertNonNegativeNumber(input.closingCosts ?? 0, 'Closing costs');
+
+  const closingCosts = input.closingCosts ?? 0;
+  const currentLoan = calculateLoanSummary(input.currentBalance, input.currentAnnualRatePercent, input.currentYears);
+  const newPrincipal = input.currentBalance + closingCosts;
+  const newLoan = calculateLoanSummary(newPrincipal, input.newAnnualRatePercent, input.newYears);
+  const monthlySavings = currentLoan.monthlyPayment - newLoan.monthlyPayment;
+  const breakEvenMonths = monthlySavings > 0 ? closingCosts / monthlySavings : null;
+
+  return {
+    currentLoan,
+    newLoan,
+    closingCosts,
+    newPrincipal,
+    monthlySavings,
+    totalInterestChange: newLoan.totalInterest - currentLoan.totalInterest,
+    totalCostChange: newLoan.totalPaid - currentLoan.totalPaid,
+    breakEvenMonths,
+  };
+}
+
+export function calculateBudget(input: {
+  monthlyIncome: number;
+  housing: number;
+  utilities: number;
+  food: number;
+  transportation: number;
+  insurance: number;
+  debt: number;
+  savings: number;
+  other: number;
+}): BudgetResult {
+  assertPositiveNumber(input.monthlyIncome, 'Monthly income');
+
+  const categories = [
+    { label: 'Housing', amount: input.housing },
+    { label: 'Utilities', amount: input.utilities },
+    { label: 'Food', amount: input.food },
+    { label: 'Transportation', amount: input.transportation },
+    { label: 'Insurance', amount: input.insurance },
+    { label: 'Debt payments', amount: input.debt },
+    { label: 'Savings', amount: input.savings },
+    { label: 'Other', amount: input.other },
+  ];
+
+  categories.forEach((category) => assertNonNegativeNumber(category.amount, category.label));
+
+  const totalExpenses = categories.reduce((total, category) => total + category.amount, 0);
+
+  return {
+    monthlyIncome: input.monthlyIncome,
+    totalExpenses,
+    leftover: input.monthlyIncome - totalExpenses,
+    expenseRatioPercent: (totalExpenses / input.monthlyIncome) * 100,
+    savingsRatePercent: (input.savings / input.monthlyIncome) * 100,
+    categories: categories.map((category) => ({
+      ...category,
+      percentOfIncome: (category.amount / input.monthlyIncome) * 100,
+    })),
+  };
+}
+
 export interface AgeCalculationResult {
   birthDate: string;
   asOfDate: string;
@@ -4061,9 +5396,137 @@ export interface ConversionResult {
   result: number;
 }
 
+export interface DiceRollResult {
+  diceCount: number;
+  sides: number;
+  modifier: number;
+  rolls: number[];
+  subtotal: number;
+  total: number;
+}
+
+export interface FuelCostResult {
+  oneWayDistanceMiles: number;
+  totalDistanceMiles: number;
+  milesPerGallon: number;
+  pricePerGallon: number;
+  gallonsNeeded: number;
+  fuelCost: number;
+  costPerMile: number;
+  roundTrip: boolean;
+}
+
+export interface SquareFootageResult {
+  lengthFeet: number;
+  widthFeet: number;
+  quantity: number;
+  squareFeetEach: number;
+  totalSquareFeet: number;
+  totalSquareYards: number;
+  totalSquareMeters: number;
+}
+
+export interface GasMileageResult {
+  milesDriven: number;
+  gallonsUsed: number;
+  milesPerGallon: number;
+  gallonsPer100Miles: number;
+  litersPer100Km: number;
+}
+
+export interface TipResult {
+  subtotal: number;
+  tipPercent: number;
+  taxPercent: number;
+  people: number;
+  tipAmount: number;
+  taxAmount: number;
+  total: number;
+  perPerson: number;
+}
+
+export interface MileageCostResult {
+  miles: number;
+  ratePerMile: number;
+  extraCosts: number;
+  mileageAmount: number;
+  total: number;
+}
+
+export interface DensityResult {
+  mass: number;
+  volume: number;
+  density: number;
+}
+
+export interface MassFromDensityResult {
+  density: number;
+  volume: number;
+  mass: number;
+}
+
+export interface WeightForceResult {
+  massKg: number;
+  gravityMps2: number;
+  weightNewtons: number;
+  weightPoundsForce: number;
+  massPounds: number;
+}
+
+export interface SpeedResult {
+  distanceMiles: number;
+  totalSeconds: number;
+  hours: number;
+  milesPerHour: number;
+  kilometersPerHour: number;
+  metersPerSecond: number;
+}
+
+export interface DayOfWeekResult {
+  date: string;
+  weekday: string;
+  weekdayIndex: number;
+  isoWeekday: number;
+}
+
+export interface TimeZoneComparisonResult {
+  utcDateTime: string;
+  timeZone: string;
+  localDate: string;
+  localTime: string;
+  offsetMinutes: number;
+  offsetLabel: string;
+}
+
+export interface TimeCardDayInput {
+  label: string;
+  startTime: string;
+  endTime: string;
+  breakMinutes: number;
+}
+
+export interface TimeCardDayResult extends TimeCardDayInput {
+  decimalHours: number;
+  crossedMidnight: boolean;
+}
+
+export interface TimeCardResult {
+  days: TimeCardDayResult[];
+  totalHours: number;
+  hourlyRate: number | null;
+  grossPay: number | null;
+}
+
 const millisecondsPerDay = 86400000;
 const secondsPerHour = 3600;
 const secondsPerMinute = 60;
+const milesToKilometers = 1.609344;
+const milesToMeters = 1609.344;
+const litersPer100KmFromMpg = 235.214583;
+const standardGravity = 9.80665;
+const newtonsPerPoundForce = 4.4482216152605;
+const poundsPerKilogram = 2.20462262185;
+const base64Alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 const concreteBagYieldsCubicFeet = {
   '40lb': 0.3,
   '60lb': 0.45,
@@ -4647,5 +6110,461 @@ export function convertMeasurement(
     fromUnit,
     toUnit,
     result: (input * categoryFactors[fromUnit]) / categoryFactors[toUnit],
+  };
+}
+
+export function calculateDiceRoll(
+  diceCount: number,
+  sides: number,
+  modifier = 0,
+  getRandomUint32: RandomUint32Source = secureRandomUint32,
+): DiceRollResult {
+  assertSafeInteger(diceCount, 'Dice count');
+  assertSafeInteger(sides, 'Sides');
+  assertInteger(modifier, 'Modifier');
+
+  if (diceCount < 1 || diceCount > 50) {
+    throw new Error('Dice count must be between 1 and 50');
+  }
+
+  if (sides < 2 || sides > 1000) {
+    throw new Error('Sides must be between 2 and 1000');
+  }
+
+  const rolls = Array.from({ length: diceCount }, () => randomIntegerInRange(1, sides, getRandomUint32));
+  const subtotal = rolls.reduce((sum, roll) => sum + roll, 0);
+
+  return {
+    diceCount,
+    sides,
+    modifier,
+    rolls,
+    subtotal,
+    total: subtotal + modifier,
+  };
+}
+
+export function calculateFuelCost(
+  distanceMiles: number,
+  milesPerGallon: number,
+  pricePerGallon: number,
+  roundTrip = false,
+): FuelCostResult {
+  assertPositiveNumber(distanceMiles, 'Distance');
+  assertPositiveNumber(milesPerGallon, 'Miles per gallon');
+  assertNonNegativeNumber(pricePerGallon, 'Fuel price');
+
+  const totalDistanceMiles = distanceMiles * (roundTrip ? 2 : 1);
+  const gallonsNeeded = totalDistanceMiles / milesPerGallon;
+  const fuelCost = gallonsNeeded * pricePerGallon;
+
+  return {
+    oneWayDistanceMiles: distanceMiles,
+    totalDistanceMiles,
+    milesPerGallon,
+    pricePerGallon,
+    gallonsNeeded,
+    fuelCost,
+    costPerMile: pricePerGallon / milesPerGallon,
+    roundTrip,
+  };
+}
+
+export function calculateSquareFootage(
+  lengthFeet: number,
+  widthFeet: number,
+  quantity = 1,
+): SquareFootageResult {
+  assertPositiveNumber(lengthFeet, 'Length');
+  assertPositiveNumber(widthFeet, 'Width');
+  assertSafeInteger(quantity, 'Quantity');
+
+  if (quantity < 1 || quantity > 100000) {
+    throw new Error('Quantity must be between 1 and 100,000');
+  }
+
+  const squareFeetEach = lengthFeet * widthFeet;
+  const totalSquareFeet = squareFeetEach * quantity;
+
+  return {
+    lengthFeet,
+    widthFeet,
+    quantity,
+    squareFeetEach,
+    totalSquareFeet,
+    totalSquareYards: totalSquareFeet / 9,
+    totalSquareMeters: totalSquareFeet * 0.09290304,
+  };
+}
+
+export function calculateGasMileage(milesDriven: number, gallonsUsed: number): GasMileageResult {
+  assertPositiveNumber(milesDriven, 'Miles driven');
+  assertPositiveNumber(gallonsUsed, 'Gallons used');
+
+  const milesPerGallon = milesDriven / gallonsUsed;
+
+  return {
+    milesDriven,
+    gallonsUsed,
+    milesPerGallon,
+    gallonsPer100Miles: (gallonsUsed / milesDriven) * 100,
+    litersPer100Km: litersPer100KmFromMpg / milesPerGallon,
+  };
+}
+
+export function calculateTip(
+  subtotal: number,
+  tipPercent: number,
+  taxPercent = 0,
+  people = 1,
+): TipResult {
+  assertNonNegativeNumber(subtotal, 'Subtotal');
+  assertPercentRange(tipPercent, 'Tip percent', 100);
+  assertPercentRange(taxPercent, 'Tax percent', 100);
+  assertSafeInteger(people, 'People');
+
+  if (people < 1 || people > 1000) {
+    throw new Error('People must be between 1 and 1,000');
+  }
+
+  const tipAmount = subtotal * (tipPercent / 100);
+  const taxAmount = subtotal * (taxPercent / 100);
+  const total = subtotal + tipAmount + taxAmount;
+
+  return {
+    subtotal,
+    tipPercent,
+    taxPercent,
+    people,
+    tipAmount,
+    taxAmount,
+    total,
+    perPerson: total / people,
+  };
+}
+
+export function calculateMileageCost(miles: number, ratePerMile: number, extraCosts = 0): MileageCostResult {
+  assertNonNegativeNumber(miles, 'Miles');
+  assertNonNegativeNumber(ratePerMile, 'Rate per mile');
+  assertNonNegativeNumber(extraCosts, 'Extra costs');
+
+  const mileageAmount = miles * ratePerMile;
+
+  return {
+    miles,
+    ratePerMile,
+    extraCosts,
+    mileageAmount,
+    total: mileageAmount + extraCosts,
+  };
+}
+
+export function calculateDensity(mass: number, volume: number): DensityResult {
+  assertPositiveNumber(mass, 'Mass');
+  assertPositiveNumber(volume, 'Volume');
+
+  return {
+    mass,
+    volume,
+    density: mass / volume,
+  };
+}
+
+export function calculateMassFromDensity(density: number, volume: number): MassFromDensityResult {
+  assertPositiveNumber(density, 'Density');
+  assertPositiveNumber(volume, 'Volume');
+
+  return {
+    density,
+    volume,
+    mass: density * volume,
+  };
+}
+
+export function calculateWeightForce(massKg: number, gravityMps2 = standardGravity): WeightForceResult {
+  assertPositiveNumber(massKg, 'Mass');
+  assertPositiveNumber(gravityMps2, 'Gravity');
+
+  const weightNewtons = massKg * gravityMps2;
+
+  return {
+    massKg,
+    gravityMps2,
+    weightNewtons,
+    weightPoundsForce: weightNewtons / newtonsPerPoundForce,
+    massPounds: massKg * poundsPerKilogram,
+  };
+}
+
+export function calculateSpeed(
+  distanceMiles: number,
+  hours: number,
+  minutes = 0,
+  seconds = 0,
+): SpeedResult {
+  assertPositiveNumber(distanceMiles, 'Distance');
+  const totalSeconds = parseDurationToSeconds(hours, minutes, seconds, 'Travel time');
+
+  if (totalSeconds <= 0) {
+    throw new Error('Travel time must be greater than zero');
+  }
+
+  const totalHours = totalSeconds / secondsPerHour;
+  const milesPerHour = distanceMiles / totalHours;
+
+  return {
+    distanceMiles,
+    totalSeconds,
+    hours: totalHours,
+    milesPerHour,
+    kilometersPerHour: milesPerHour * milesToKilometers,
+    metersPerSecond: (distanceMiles * milesToMeters) / totalSeconds,
+  };
+}
+
+export function numberToRomanNumeral(value: number): string {
+  assertSafeInteger(value, 'Number');
+
+  if (value < 1 || value > 3999) {
+    throw new Error('Number must be between 1 and 3,999');
+  }
+
+  const symbols: Array<[number, string]> = [
+    [1000, 'M'],
+    [900, 'CM'],
+    [500, 'D'],
+    [400, 'CD'],
+    [100, 'C'],
+    [90, 'XC'],
+    [50, 'L'],
+    [40, 'XL'],
+    [10, 'X'],
+    [9, 'IX'],
+    [5, 'V'],
+    [4, 'IV'],
+    [1, 'I'],
+  ];
+  let remaining = value;
+  let roman = '';
+
+  for (const [amount, symbol] of symbols) {
+    while (remaining >= amount) {
+      roman += symbol;
+      remaining -= amount;
+    }
+  }
+
+  return roman;
+}
+
+export function romanNumeralToNumber(input: string): number {
+  const roman = input.trim().toUpperCase();
+
+  if (!/^(?=.)M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/.test(roman)) {
+    throw new Error('Enter a standard Roman numeral from I to MMMCMXCIX');
+  }
+
+  const values: Record<string, number> = {
+    I: 1,
+    V: 5,
+    X: 10,
+    L: 50,
+    C: 100,
+    D: 500,
+    M: 1000,
+  };
+  let total = 0;
+
+  for (let index = 0; index < roman.length; index += 1) {
+    const current = values[roman[index]];
+    const next = values[roman[index + 1]] ?? 0;
+    total += current < next ? -current : current;
+  }
+
+  return total;
+}
+
+export function encodeBase64(input: string): string {
+  const bytes = new TextEncoder().encode(input);
+  let output = '';
+
+  for (let index = 0; index < bytes.length; index += 3) {
+    const first = bytes[index];
+    const second = bytes[index + 1];
+    const third = bytes[index + 2];
+    const combined = (first << 16) | ((second ?? 0) << 8) | (third ?? 0);
+
+    output += base64Alphabet[(combined >> 18) & 63];
+    output += base64Alphabet[(combined >> 12) & 63];
+    output += second === undefined ? '=' : base64Alphabet[(combined >> 6) & 63];
+    output += third === undefined ? '=' : base64Alphabet[combined & 63];
+  }
+
+  return output;
+}
+
+export function decodeBase64(input: string): string {
+  let normalized = input.trim().replace(/\s+/g, '').replace(/-/g, '+').replace(/_/g, '/');
+
+  if (!normalized) {
+    return '';
+  }
+
+  if (/[^A-Za-z0-9+/=]/.test(normalized)) {
+    throw new Error('Base64 text contains unsupported characters');
+  }
+
+  if (normalized.length % 4 === 1) {
+    throw new Error('Base64 text has invalid padding');
+  }
+
+  while (normalized.length % 4 !== 0) {
+    normalized += '=';
+  }
+
+  const bytes: number[] = [];
+
+  for (let index = 0; index < normalized.length; index += 4) {
+    const chunk = normalized.slice(index, index + 4);
+    const values = chunk.split('').map((character) => (character === '=' ? 0 : base64Alphabet.indexOf(character)));
+
+    if (values.some((value) => value < 0)) {
+      throw new Error('Base64 text contains unsupported characters');
+    }
+
+    const combined = (values[0] << 18) | (values[1] << 12) | (values[2] << 6) | values[3];
+    bytes.push((combined >> 16) & 255);
+    if (chunk[2] !== '=') bytes.push((combined >> 8) & 255);
+    if (chunk[3] !== '=') bytes.push(combined & 255);
+  }
+
+  try {
+    return new TextDecoder('utf-8', { fatal: true }).decode(new Uint8Array(bytes));
+  } catch {
+    throw new Error('Base64 text did not decode to valid UTF-8');
+  }
+}
+
+export function encodeUrlComponentValue(value: string, spaceAsPlus = false): string {
+  const encoded = encodeURIComponent(value);
+  return spaceAsPlus ? encoded.replace(/%20/g, '+') : encoded;
+}
+
+export function decodeUrlComponentValue(value: string, plusAsSpace = false): string {
+  const normalized = plusAsSpace ? value.replace(/\+/g, '%20') : value;
+
+  try {
+    return decodeURIComponent(normalized);
+  } catch {
+    throw new Error('URL-encoded text is not valid percent-encoding');
+  }
+}
+
+export function calculateDayOfWeek(dateValue: string): DayOfWeekResult {
+  const { date } = parseIsoDateParts(dateValue, 'Date');
+  const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const weekdayIndex = date.getUTCDay();
+
+  return {
+    date: dateValue,
+    weekday: weekdays[weekdayIndex],
+    weekdayIndex,
+    isoWeekday: weekdayIndex === 0 ? 7 : weekdayIndex,
+  };
+}
+
+function getTimeZoneParts(date: Date, timeZone: string) {
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    day: '2-digit',
+    hour: '2-digit',
+    hour12: false,
+    minute: '2-digit',
+    month: '2-digit',
+    second: '2-digit',
+    timeZone,
+    year: 'numeric',
+  });
+  const parts = Object.fromEntries(formatter.formatToParts(date).map((part) => [part.type, part.value]));
+
+  return {
+    year: Number(parts.year),
+    month: Number(parts.month),
+    day: Number(parts.day),
+    hour: Number(parts.hour === '24' ? '0' : parts.hour),
+    minute: Number(parts.minute),
+    second: Number(parts.second),
+  };
+}
+
+function formatOffset(minutes: number) {
+  const sign = minutes < 0 ? '-' : '+';
+  const absolute = Math.abs(minutes);
+  const hours = Math.floor(absolute / 60).toString().padStart(2, '0');
+  const remainingMinutes = Math.round(absolute % 60).toString().padStart(2, '0');
+  return `UTC${sign}${hours}:${remainingMinutes}`;
+}
+
+export function calculateTimeZoneComparison(
+  utcDate: string,
+  utcTime: string,
+  timeZone: string,
+): TimeZoneComparisonResult {
+  const { year, month, day } = parseIsoDateParts(utcDate, 'UTC date');
+  const seconds = parseClockTime(utcTime, 'UTC time');
+  const hours = Math.floor(seconds / secondsPerHour);
+  const minutes = Math.floor((seconds - hours * secondsPerHour) / secondsPerMinute);
+  const remainingSeconds = seconds - hours * secondsPerHour - minutes * secondsPerMinute;
+  const instant = new Date(Date.UTC(year, month - 1, day, hours, minutes, remainingSeconds));
+  const parts = getTimeZoneParts(instant, timeZone);
+  const localAsUtc = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
+  const offsetMinutes = Math.round((localAsUtc - instant.getTime()) / 60000);
+
+  return {
+    utcDateTime: instant.toISOString().replace('.000Z', 'Z'),
+    timeZone,
+    localDate: `${parts.year}-${String(parts.month).padStart(2, '0')}-${String(parts.day).padStart(2, '0')}`,
+    localTime: `${String(parts.hour).padStart(2, '0')}:${String(parts.minute).padStart(2, '0')}:${String(parts.second).padStart(2, '0')}`,
+    offsetMinutes,
+    offsetLabel: formatOffset(offsetMinutes),
+  };
+}
+
+export function calculateTimeCard(
+  entries: TimeCardDayInput[],
+  hourlyRate?: number,
+): TimeCardResult {
+  if (entries.length === 0) {
+    throw new Error('Enter at least one time card row');
+  }
+
+  const days = entries
+    .filter((entry) => entry.startTime.trim() || entry.endTime.trim())
+    .map((entry) => {
+      const worked = calculateHoursWorked(entry.startTime, entry.endTime, entry.breakMinutes);
+
+      return {
+        ...entry,
+        decimalHours: worked.decimalHours,
+        crossedMidnight: worked.crossedMidnight,
+      };
+    });
+
+  if (days.length === 0) {
+    throw new Error('Enter at least one start and end time');
+  }
+
+  const rate = hourlyRate === undefined ? null : hourlyRate;
+
+  if (rate !== null) {
+    assertNonNegativeNumber(rate, 'Hourly rate');
+  }
+
+  const totalHours = days.reduce((sum, day) => sum + day.decimalHours, 0);
+
+  return {
+    days,
+    totalHours,
+    hourlyRate: rate,
+    grossPay: rate === null ? null : totalHours * rate,
   };
 }

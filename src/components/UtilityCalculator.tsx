@@ -2,18 +2,38 @@ import { useMemo, useState, type HTMLAttributes } from 'react';
 import {
   calculateAge,
   calculateConcrete,
+  calculateDayOfWeek,
+  calculateDensity,
+  calculateDiceRoll,
   calculateDateDifference,
   calculateDateShift,
+  calculateFuelCost,
+  calculateGasMileage,
   calculateGpa,
   calculateHoursWorked,
+  calculateMassFromDensity,
+  calculateMileageCost,
   calculateNeededFinalGrade,
+  calculateSpeed,
+  calculateSquareFootage,
   calculateSubnet,
+  calculateTimeCard,
   calculateTimeDuration,
+  calculateTimeZoneComparison,
+  calculateTip,
+  calculateWeightForce,
   convertMeasurement,
+  decodeBase64,
+  decodeUrlComponentValue,
+  encodeBase64,
+  encodeUrlComponentValue,
   formatCalculatorNumber,
   generatePassword,
+  numberToRomanNumeral,
+  romanNumeralToNumber,
   type ConversionCategory,
   type GpaCourseInput,
+  type TimeCardDayInput,
 } from '../lib/calculator';
 
 export type UtilityToolVariant =
@@ -26,7 +46,23 @@ export type UtilityToolVariant =
   | 'concrete'
   | 'subnet'
   | 'password-generator'
-  | 'conversion';
+  | 'conversion'
+  | 'dice-roller'
+  | 'fuel-cost'
+  | 'square-footage'
+  | 'time-card'
+  | 'time-zone'
+  | 'gas-mileage'
+  | 'tip'
+  | 'mileage'
+  | 'density'
+  | 'mass'
+  | 'weight'
+  | 'speed'
+  | 'roman-numeral'
+  | 'base64'
+  | 'url-encode-decode'
+  | 'day-of-week';
 
 type InputMode = HTMLAttributes<HTMLInputElement>['inputMode'];
 type UtilityInputs = Record<string, string>;
@@ -117,6 +153,28 @@ const directionOptions: SelectOption[] = [
 const operationOptions: SelectOption[] = [
   { label: 'Add', value: 'add' },
   { label: 'Subtract', value: 'subtract' },
+];
+
+const textOperationOptions: SelectOption[] = [
+  { label: 'Encode', value: 'encode' },
+  { label: 'Decode', value: 'decode' },
+];
+
+const romanModeOptions: SelectOption[] = [
+  { label: 'Number to Roman', value: 'number-to-roman' },
+  { label: 'Roman to number', value: 'roman-to-number' },
+];
+
+const timeZoneOptions: SelectOption[] = [
+  { label: 'New York', value: 'America/New_York' },
+  { label: 'Los Angeles', value: 'America/Los_Angeles' },
+  { label: 'Chicago', value: 'America/Chicago' },
+  { label: 'London', value: 'Europe/London' },
+  { label: 'Paris', value: 'Europe/Paris' },
+  { label: 'Tokyo', value: 'Asia/Tokyo' },
+  { label: 'Sydney', value: 'Australia/Sydney' },
+  { label: 'Brisbane', value: 'Australia/Brisbane' },
+  { label: 'UTC', value: 'UTC' },
 ];
 
 const gradeOptions: SelectOption[] = [
@@ -498,6 +556,365 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
       },
     ],
   },
+  'dice-roller': {
+    title: 'Dice Roller',
+    buttonLabel: 'Roll dice',
+    emptyHistory: 'Recent rolls will appear here.',
+    privacyNote: 'Dice rolls use browser random values for everyday games, teaching, and quick picks.',
+    modes: [
+      {
+        id: 'dice',
+        label: 'Roll',
+        symbol: 'D6',
+        fields: [integerField('diceCount', 'Dice count'), integerField('sides', 'Sides per die'), integerField('modifier', 'Modifier')],
+        defaultInputs: { diceCount: '2', sides: '6', modifier: '0' },
+        examples: [
+          { label: '2d6', inputs: { diceCount: '2', sides: '6', modifier: '0' } },
+          { label: '1d20 + 5', inputs: { diceCount: '1', sides: '20', modifier: '5' } },
+          { label: '4d10', inputs: { diceCount: '4', sides: '10', modifier: '0' } },
+        ],
+      },
+    ],
+  },
+  'fuel-cost': {
+    title: 'Fuel Cost Calculator',
+    buttonLabel: 'Estimate fuel cost',
+    emptyHistory: 'Recent fuel cost estimates will appear here.',
+    privacyNote: 'Fuel cost estimates stay in this tab and depend on the MPG and fuel price you enter.',
+    modes: [
+      {
+        id: 'fuel-cost',
+        label: 'Trip',
+        symbol: '$/mi',
+        fields: [
+          numberField('distanceMiles', 'One-way distance (mi)'),
+          numberField('milesPerGallon', 'Fuel economy (MPG)'),
+          numberField('pricePerGallon', 'Fuel price ($/gal)'),
+          checkboxField('roundTrip', 'Round trip'),
+        ],
+        defaultInputs: { distanceMiles: '120', milesPerGallon: '28', pricePerGallon: '3.75', roundTrip: 'true' },
+        examples: [
+          { label: 'Weekend drive', inputs: { distanceMiles: '120', milesPerGallon: '28', pricePerGallon: '3.75', roundTrip: 'true' } },
+          { label: 'Commute', inputs: { distanceMiles: '18', milesPerGallon: '31', pricePerGallon: '3.60', roundTrip: 'true' } },
+          { label: 'One-way move', inputs: { distanceMiles: '450', milesPerGallon: '22', pricePerGallon: '3.90', roundTrip: 'false' } },
+        ],
+      },
+    ],
+  },
+  'square-footage': {
+    title: 'Square Footage Calculator',
+    buttonLabel: 'Calculate square footage',
+    emptyHistory: 'Recent square footage results will appear here.',
+    privacyNote: 'Room and project dimensions stay in your browser tab.',
+    modes: [
+      {
+        id: 'square-footage',
+        label: 'Area',
+        symbol: 'ft2',
+        fields: [numberField('lengthFeet', 'Length (ft)'), numberField('widthFeet', 'Width (ft)'), integerField('quantity', 'Quantity')],
+        defaultInputs: { lengthFeet: '12', widthFeet: '10', quantity: '1' },
+        examples: [
+          { label: 'Bedroom', inputs: { lengthFeet: '12', widthFeet: '10', quantity: '1' } },
+          { label: 'Three panels', inputs: { lengthFeet: '8', widthFeet: '4', quantity: '3' } },
+          { label: 'Flooring area', inputs: { lengthFeet: '22.5', widthFeet: '14', quantity: '1' } },
+        ],
+      },
+    ],
+  },
+  'time-card': {
+    title: 'Time Card Calculator',
+    buttonLabel: 'Calculate time card',
+    emptyHistory: 'Recent weekly time card totals will appear here.',
+    privacyNote: 'Time card estimates are simple arithmetic and do not apply payroll rounding or labor rules.',
+    modes: [
+      {
+        id: 'week',
+        label: 'Week',
+        symbol: '40h',
+        fields: [
+          timeField('monStart', 'Mon start'),
+          timeField('monEnd', 'Mon end'),
+          integerField('monBreak', 'Mon break min'),
+          timeField('tueStart', 'Tue start'),
+          timeField('tueEnd', 'Tue end'),
+          integerField('tueBreak', 'Tue break min'),
+          timeField('wedStart', 'Wed start'),
+          timeField('wedEnd', 'Wed end'),
+          integerField('wedBreak', 'Wed break min'),
+          timeField('thuStart', 'Thu start'),
+          timeField('thuEnd', 'Thu end'),
+          integerField('thuBreak', 'Thu break min'),
+          timeField('friStart', 'Fri start'),
+          timeField('friEnd', 'Fri end'),
+          integerField('friBreak', 'Fri break min'),
+          numberField('hourlyRate', 'Hourly rate ($, optional)', 'Optional'),
+        ],
+        defaultInputs: {
+          monStart: '09:00',
+          monEnd: '17:30',
+          monBreak: '30',
+          tueStart: '09:00',
+          tueEnd: '17:30',
+          tueBreak: '30',
+          wedStart: '09:00',
+          wedEnd: '17:30',
+          wedBreak: '30',
+          thuStart: '09:00',
+          thuEnd: '17:30',
+          thuBreak: '30',
+          friStart: '09:00',
+          friEnd: '16:00',
+          friBreak: '30',
+          hourlyRate: '25',
+        },
+        examples: [
+          { label: 'Standard week', inputs: { monStart: '09:00', monEnd: '17:30', monBreak: '30', tueStart: '09:00', tueEnd: '17:30', tueBreak: '30', wedStart: '09:00', wedEnd: '17:30', wedBreak: '30', thuStart: '09:00', thuEnd: '17:30', thuBreak: '30', friStart: '09:00', friEnd: '16:00', friBreak: '30', hourlyRate: '25' } },
+          { label: 'Four tens', inputs: { monStart: '07:00', monEnd: '17:30', monBreak: '30', tueStart: '07:00', tueEnd: '17:30', tueBreak: '30', wedStart: '07:00', wedEnd: '17:30', wedBreak: '30', thuStart: '07:00', thuEnd: '17:30', thuBreak: '30', friStart: '', friEnd: '', friBreak: '0', hourlyRate: '30' } },
+          { label: 'No rate', inputs: { monStart: '08:00', monEnd: '14:00', monBreak: '0', tueStart: '08:00', tueEnd: '14:00', tueBreak: '0', wedStart: '08:00', wedEnd: '14:00', wedBreak: '0', thuStart: '', thuEnd: '', thuBreak: '0', friStart: '', friEnd: '', friBreak: '0', hourlyRate: '' } },
+        ],
+      },
+    ],
+  },
+  'time-zone': {
+    title: 'Time Zone Calculator',
+    buttonLabel: 'Convert UTC time',
+    emptyHistory: 'Recent time zone conversions will appear here.',
+    privacyNote: 'Time zone conversions use the browser Intl time zone data available on this device.',
+    modes: [
+      {
+        id: 'utc-to-zone',
+        label: 'UTC to zone',
+        symbol: 'TZ',
+        fields: [dateField('utcDate', 'UTC date'), timeField('utcTime', 'UTC time'), selectField('timeZone', 'Target time zone', timeZoneOptions)],
+        defaultInputs: { utcDate: '2026-04-29', utcTime: '12:00', timeZone: 'America/New_York' },
+        examples: [
+          { label: 'New York', inputs: { utcDate: '2026-04-29', utcTime: '12:00', timeZone: 'America/New_York' } },
+          { label: 'London', inputs: { utcDate: '2026-04-29', utcTime: '12:00', timeZone: 'Europe/London' } },
+          { label: 'Tokyo', inputs: { utcDate: '2026-04-29', utcTime: '12:00', timeZone: 'Asia/Tokyo' } },
+        ],
+      },
+    ],
+  },
+  'gas-mileage': {
+    title: 'Gas Mileage Calculator',
+    buttonLabel: 'Calculate gas mileage',
+    emptyHistory: 'Recent gas mileage calculations will appear here.',
+    privacyNote: 'Trip miles and fuel use stay in this browser tab.',
+    modes: [
+      {
+        id: 'gas-mileage',
+        label: 'MPG',
+        symbol: 'MPG',
+        fields: [numberField('milesDriven', 'Miles driven'), numberField('gallonsUsed', 'Gallons used')],
+        defaultInputs: { milesDriven: '350', gallonsUsed: '12.5' },
+        examples: [
+          { label: 'Road trip', inputs: { milesDriven: '350', gallonsUsed: '12.5' } },
+          { label: 'Commute tank', inputs: { milesDriven: '275', gallonsUsed: '9.8' } },
+          { label: 'Truck tank', inputs: { milesDriven: '420', gallonsUsed: '24' } },
+        ],
+      },
+    ],
+  },
+  tip: {
+    title: 'Tip Calculator',
+    buttonLabel: 'Calculate tip',
+    emptyHistory: 'Recent tip calculations will appear here.',
+    privacyNote: 'Tip and split calculations stay in your browser tab.',
+    modes: [
+      {
+        id: 'tip',
+        label: 'Bill',
+        symbol: 'TIP',
+        fields: [numberField('subtotal', 'Subtotal ($)'), numberField('tipPercent', 'Tip (%)'), numberField('taxPercent', 'Tax (%)'), integerField('people', 'People')],
+        defaultInputs: { subtotal: '84.50', tipPercent: '20', taxPercent: '8.25', people: '2' },
+        examples: [
+          { label: 'Dinner for two', inputs: { subtotal: '84.50', tipPercent: '20', taxPercent: '8.25', people: '2' } },
+          { label: 'Coffee tip', inputs: { subtotal: '18', tipPercent: '18', taxPercent: '0', people: '1' } },
+          { label: 'Group split', inputs: { subtotal: '240', tipPercent: '20', taxPercent: '8', people: '6' } },
+        ],
+      },
+    ],
+  },
+  mileage: {
+    title: 'Mileage Calculator',
+    buttonLabel: 'Calculate mileage amount',
+    emptyHistory: 'Recent mileage totals will appear here.',
+    privacyNote: 'Mileage estimates stay in this browser tab and use the rate you enter.',
+    modes: [
+      {
+        id: 'mileage',
+        label: 'Rate',
+        symbol: '$/mi',
+        fields: [numberField('miles', 'Miles'), numberField('ratePerMile', 'Rate per mile ($)'), numberField('extraCosts', 'Parking, tolls, or extras ($)')],
+        defaultInputs: { miles: '125', ratePerMile: '0.67', extraCosts: '12' },
+        examples: [
+          { label: 'Client visit', inputs: { miles: '125', ratePerMile: '0.67', extraCosts: '12' } },
+          { label: 'Local errand', inputs: { miles: '18.4', ratePerMile: '0.67', extraCosts: '0' } },
+          { label: 'Delivery day', inputs: { miles: '92', ratePerMile: '0.55', extraCosts: '8' } },
+        ],
+      },
+    ],
+  },
+  density: {
+    title: 'Density Calculator',
+    buttonLabel: 'Calculate density',
+    emptyHistory: 'Recent density calculations will appear here.',
+    privacyNote: 'Density calculations stay in this browser tab.',
+    modes: [
+      {
+        id: 'density',
+        label: 'm/V',
+        symbol: 'rho',
+        fields: [numberField('mass', 'Mass'), numberField('volume', 'Volume'), textField('unitLabel', 'Unit label', 'g/mL')],
+        defaultInputs: { mass: '27', volume: '10', unitLabel: 'g/mL' },
+        examples: [
+          { label: 'Lab sample', inputs: { mass: '27', volume: '10', unitLabel: 'g/mL' } },
+          { label: 'Box material', inputs: { mass: '15', volume: '2', unitLabel: 'kg/m3' } },
+          { label: 'Liquid', inputs: { mass: '997', volume: '1000', unitLabel: 'g/mL' } },
+        ],
+      },
+    ],
+  },
+  mass: {
+    title: 'Mass Calculator',
+    buttonLabel: 'Calculate mass',
+    emptyHistory: 'Recent mass calculations will appear here.',
+    privacyNote: 'Mass calculations stay in this browser tab.',
+    modes: [
+      {
+        id: 'density-volume',
+        label: 'Density x volume',
+        symbol: 'm',
+        fields: [numberField('density', 'Density'), numberField('volume', 'Volume'), textField('unitLabel', 'Unit label', 'kg')],
+        defaultInputs: { density: '2.7', volume: '10', unitLabel: 'g' },
+        examples: [
+          { label: 'Density sample', inputs: { density: '2.7', volume: '10', unitLabel: 'g' } },
+          { label: 'Water-like', inputs: { density: '1', volume: '250', unitLabel: 'g' } },
+          { label: 'Bulk material', inputs: { density: '1600', volume: '0.5', unitLabel: 'kg' } },
+        ],
+      },
+    ],
+  },
+  weight: {
+    title: 'Weight Calculator',
+    buttonLabel: 'Calculate weight force',
+    emptyHistory: 'Recent weight force calculations will appear here.',
+    privacyNote: 'Weight force estimates stay in this browser tab and use the gravity value shown.',
+    modes: [
+      {
+        id: 'weight-force',
+        label: 'Force',
+        symbol: 'N',
+        fields: [numberField('massKg', 'Mass (kg)'), numberField('gravityMps2', 'Gravity (m/s^2)')],
+        defaultInputs: { massKg: '70', gravityMps2: '9.80665' },
+        examples: [
+          { label: 'Earth standard', inputs: { massKg: '70', gravityMps2: '9.80665' } },
+          { label: 'Moon example', inputs: { massKg: '70', gravityMps2: '1.62' } },
+          { label: 'Small object', inputs: { massKg: '2.5', gravityMps2: '9.80665' } },
+        ],
+      },
+    ],
+  },
+  speed: {
+    title: 'Speed Calculator',
+    buttonLabel: 'Calculate speed',
+    emptyHistory: 'Recent speed calculations will appear here.',
+    privacyNote: 'Speed calculations stay in this browser tab.',
+    modes: [
+      {
+        id: 'speed',
+        label: 'Distance / time',
+        symbol: 'MPH',
+        fields: [numberField('distanceMiles', 'Distance (mi)'), integerField('hours', 'Hours'), integerField('minutes', 'Minutes'), integerField('seconds', 'Seconds')],
+        defaultInputs: { distanceMiles: '26.2', hours: '3', minutes: '45', seconds: '0' },
+        examples: [
+          { label: 'Marathon', inputs: { distanceMiles: '26.2', hours: '3', minutes: '45', seconds: '0' } },
+          { label: 'Drive', inputs: { distanceMiles: '180', hours: '3', minutes: '0', seconds: '0' } },
+          { label: 'Sprint', inputs: { distanceMiles: '0.0621371', hours: '0', minutes: '0', seconds: '12' } },
+        ],
+      },
+    ],
+  },
+  'roman-numeral': {
+    title: 'Roman Numeral Converter',
+    buttonLabel: 'Convert Roman numeral',
+    emptyHistory: 'Recent Roman numeral conversions will appear here.',
+    privacyNote: 'Roman numeral conversions stay in this browser tab.',
+    modes: [
+      {
+        id: 'roman',
+        label: 'Convert',
+        symbol: 'XIV',
+        fields: [selectField('operation', 'Operation', romanModeOptions), textField('value', 'Value', '2026 or MMXXVI')],
+        defaultInputs: { operation: 'number-to-roman', value: '2026' },
+        examples: [
+          { label: '2026', inputs: { operation: 'number-to-roman', value: '2026' } },
+          { label: 'MMXXVI', inputs: { operation: 'roman-to-number', value: 'MMXXVI' } },
+          { label: '3999', inputs: { operation: 'number-to-roman', value: '3999' } },
+        ],
+      },
+    ],
+  },
+  base64: {
+    title: 'Base64 Encode / Decode',
+    buttonLabel: 'Run Base64 tool',
+    emptyHistory: 'Recent Base64 conversions will appear here.',
+    privacyNote: 'Base64 encoding and decoding runs locally in your browser tab.',
+    modes: [
+      {
+        id: 'base64',
+        label: 'Text',
+        symbol: '64',
+        fields: [selectField('operation', 'Operation', textOperationOptions), textField('text', 'Text', 'Hello tools')],
+        defaultInputs: { operation: 'encode', text: 'Hello tools' },
+        examples: [
+          { label: 'Encode text', inputs: { operation: 'encode', text: 'Hello tools' } },
+          { label: 'Decode text', inputs: { operation: 'decode', text: 'SGVsbG8gdG9vbHM=' } },
+          { label: 'Unicode', inputs: { operation: 'encode', text: 'cafe math' } },
+        ],
+      },
+    ],
+  },
+  'url-encode-decode': {
+    title: 'URL Encode / Decode',
+    buttonLabel: 'Run URL tool',
+    emptyHistory: 'Recent URL conversions will appear here.',
+    privacyNote: 'URL encoding and decoding runs locally in your browser tab.',
+    modes: [
+      {
+        id: 'url',
+        label: 'Component',
+        symbol: '%20',
+        fields: [selectField('operation', 'Operation', textOperationOptions), textField('text', 'Text', 'price=10&tax=2'), checkboxField('plusSpaces', 'Use plus for spaces')],
+        defaultInputs: { operation: 'encode', text: 'price=10&tax=2', plusSpaces: 'false' },
+        examples: [
+          { label: 'Query value', inputs: { operation: 'encode', text: 'price=10&tax=2', plusSpaces: 'false' } },
+          { label: 'Decode URL text', inputs: { operation: 'decode', text: 'price%3D10%26tax%3D2', plusSpaces: 'false' } },
+          { label: 'Form spaces', inputs: { operation: 'encode', text: 'hello tools', plusSpaces: 'true' } },
+        ],
+      },
+    ],
+  },
+  'day-of-week': {
+    title: 'Day of the Week Calculator',
+    buttonLabel: 'Find day of week',
+    emptyHistory: 'Recent day-of-week checks will appear here.',
+    privacyNote: 'Date checks use UTC calendar dates in this browser tab.',
+    modes: [
+      {
+        id: 'day-of-week',
+        label: 'Date',
+        symbol: 'DAY',
+        fields: [dateField('date', 'Date')],
+        defaultInputs: { date: '2026-04-29' },
+        examples: [
+          { label: 'Today', inputs: { date: '2026-04-29' } },
+          { label: 'New Year 2027', inputs: { date: '2027-01-01' } },
+          { label: 'Leap day', inputs: { date: '2024-02-29' } },
+        ],
+      },
+    ],
+  },
 };
 
 function parseNumber(value: string, label: string) {
@@ -581,6 +998,23 @@ function readCourses(inputs: UtilityInputs): GpaCourseInput[] {
   }
 
   return courses;
+}
+
+function readTimeCardEntries(inputs: UtilityInputs): TimeCardDayInput[] {
+  const days = [
+    { key: 'mon', label: 'Monday' },
+    { key: 'tue', label: 'Tuesday' },
+    { key: 'wed', label: 'Wednesday' },
+    { key: 'thu', label: 'Thursday' },
+    { key: 'fri', label: 'Friday' },
+  ];
+
+  return days.map((day) => ({
+    label: day.label,
+    startTime: inputs[`${day.key}Start`] ?? '',
+    endTime: inputs[`${day.key}End`] ?? '',
+    breakMinutes: parseNumber(inputs[`${day.key}Break`] || '0', `${day.label} break`),
+  }));
 }
 
 function calculateUtility(variant: UtilityToolVariant, modeId: string, inputs: UtilityInputs): UtilityCalculation {
@@ -833,6 +1267,344 @@ function calculateUtility(variant: UtilityToolVariant, modeId: string, inputs: U
             ? 'Convert Celsius into the target temperature unit.'
             : 'Divide by the target unit factor to get the converted value.',
           'Round the displayed result for readability while keeping the formula direct.',
+        ],
+      };
+    }
+    case 'dice-roller': {
+      const result = calculateDiceRoll(
+        parseNumber(inputs.diceCount, 'Dice count'),
+        parseNumber(inputs.sides, 'Sides'),
+        parseNumber(inputs.modifier || '0', 'Modifier'),
+      );
+      return {
+        label: `${result.diceCount}d${result.sides}${result.modifier ? result.modifier > 0 ? ` + ${result.modifier}` : ` - ${Math.abs(result.modifier)}` : ''}`,
+        expression: result.rolls.join(', '),
+        answer: formatCalculatorNumber(result.total),
+        metrics: [
+          { label: 'Rolls', value: result.rolls.join(', ') },
+          { label: 'Subtotal', value: formatCalculatorNumber(result.subtotal) },
+          { label: 'Modifier', value: formatCalculatorNumber(result.modifier) },
+        ],
+        steps: [
+          `Roll ${result.diceCount} dice with ${result.sides} sides each.`,
+          `Add the rolls to get subtotal ${formatCalculatorNumber(result.subtotal)}.`,
+          `Apply modifier ${formatCalculatorNumber(result.modifier)} for total ${formatCalculatorNumber(result.total)}.`,
+        ],
+      };
+    }
+    case 'fuel-cost': {
+      const result = calculateFuelCost(
+        parseNumber(inputs.distanceMiles, 'Distance'),
+        parseNumber(inputs.milesPerGallon, 'Miles per gallon'),
+        parseNumber(inputs.pricePerGallon, 'Fuel price'),
+        booleanInput(inputs.roundTrip),
+      );
+      return {
+        label: result.roundTrip ? 'Estimated round-trip fuel cost' : 'Estimated one-way fuel cost',
+        expression: `${formatCalculatorNumber(result.totalDistanceMiles)} mi at ${formatCalculatorNumber(result.milesPerGallon)} MPG`,
+        answer: money(result.fuelCost),
+        metrics: [
+          { label: 'Gallons needed', value: formatCalculatorNumber(result.gallonsNeeded) },
+          { label: 'Cost per mile', value: money(result.costPerMile) },
+          { label: 'Total distance', value: `${formatCalculatorNumber(result.totalDistanceMiles)} mi` },
+        ],
+        steps: [
+          result.roundTrip ? 'Double the one-way distance for a round trip.' : 'Use the one-way distance as entered.',
+          'Divide miles by MPG to estimate gallons needed.',
+          'Multiply gallons by price per gallon to estimate trip fuel cost.',
+        ],
+      };
+    }
+    case 'square-footage': {
+      const result = calculateSquareFootage(
+        parseNumber(inputs.lengthFeet, 'Length'),
+        parseNumber(inputs.widthFeet, 'Width'),
+        parseNumber(inputs.quantity, 'Quantity'),
+      );
+      return {
+        label: 'Total square footage',
+        expression: `${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.widthFeet)} ft x ${result.quantity}`,
+        answer: `${formatCalculatorNumber(result.totalSquareFeet)} ft2`,
+        metrics: [
+          { label: 'Each item', value: `${formatCalculatorNumber(result.squareFeetEach)} ft2` },
+          { label: 'Square yards', value: formatCalculatorNumber(result.totalSquareYards) },
+          { label: 'Square meters', value: formatCalculatorNumber(result.totalSquareMeters) },
+        ],
+        steps: [
+          'Multiply length by width to find square feet for one rectangle.',
+          'Multiply by quantity when you have repeated rooms, panels, or sections.',
+          'Convert square feet to square yards and square meters for comparison.',
+        ],
+      };
+    }
+    case 'time-card': {
+      const result = calculateTimeCard(readTimeCardEntries(inputs), parseOptionalNumber(inputs.hourlyRate || '', 'Hourly rate'));
+      return {
+        label: 'Weekly time card total',
+        expression: `${result.days.length} worked days`,
+        answer: `${formatCalculatorNumber(result.totalHours)} hours`,
+        metrics: [
+          { label: 'Hours and minutes', value: durationText(result.totalHours * 3600) },
+          { label: 'Gross pay estimate', value: result.grossPay === null ? 'Add hourly rate' : money(result.grossPay) },
+          { label: 'Worked days', value: formatCalculatorNumber(result.days.length) },
+        ],
+        steps: [
+          'Calculate each day from start time, end time, and unpaid break minutes.',
+          'Add all daily decimal hours for the weekly total.',
+          'Multiply by hourly rate only when a rate is entered.',
+        ],
+        note: 'This does not apply overtime, payroll rounding, paid break rules, or local labor policies.',
+      };
+    }
+    case 'time-zone': {
+      const result = calculateTimeZoneComparison(inputs.utcDate, inputs.utcTime, inputs.timeZone);
+      return {
+        label: `${result.timeZone} local time`,
+        expression: `${result.utcDateTime} UTC`,
+        answer: `${result.localDate} ${result.localTime}`,
+        metrics: [
+          { label: 'UTC offset', value: result.offsetLabel },
+          { label: 'IANA zone', value: result.timeZone },
+          { label: 'UTC time', value: result.utcDateTime },
+        ],
+        steps: [
+          'Treat the entered date and time as a UTC instant.',
+          'Use browser time zone data for the selected IANA time zone.',
+          'Return the local calendar date, local clock time, and current UTC offset for that instant.',
+        ],
+      };
+    }
+    case 'gas-mileage': {
+      const result = calculateGasMileage(
+        parseNumber(inputs.milesDriven, 'Miles driven'),
+        parseNumber(inputs.gallonsUsed, 'Gallons used'),
+      );
+      return {
+        label: 'Fuel economy',
+        expression: `${formatCalculatorNumber(result.milesDriven)} mi / ${formatCalculatorNumber(result.gallonsUsed)} gal`,
+        answer: `${formatCalculatorNumber(result.milesPerGallon)} MPG`,
+        metrics: [
+          { label: 'Gallons per 100 mi', value: formatCalculatorNumber(result.gallonsPer100Miles) },
+          { label: 'L/100 km', value: formatCalculatorNumber(result.litersPer100Km) },
+          { label: 'Miles driven', value: formatCalculatorNumber(result.milesDriven) },
+        ],
+        steps: [
+          'Divide miles driven by gallons used.',
+          'Convert the same result into gallons per 100 miles for comparison.',
+          'Use the standard MPG to L/100 km conversion for metric comparison.',
+        ],
+      };
+    }
+    case 'tip': {
+      const result = calculateTip(
+        parseNumber(inputs.subtotal, 'Subtotal'),
+        parseNumber(inputs.tipPercent, 'Tip percent'),
+        parseNumber(inputs.taxPercent || '0', 'Tax percent'),
+        parseNumber(inputs.people || '1', 'People'),
+      );
+      return {
+        label: 'Bill total with tip',
+        expression: `${money(result.subtotal)} subtotal, ${percent(result.tipPercent)} tip`,
+        answer: money(result.total),
+        metrics: [
+          { label: 'Tip', value: money(result.tipAmount) },
+          { label: 'Tax', value: money(result.taxAmount) },
+          { label: 'Per person', value: money(result.perPerson) },
+        ],
+        steps: [
+          'Multiply subtotal by tip percent to find the tip amount.',
+          'Multiply subtotal by tax percent when tax is entered.',
+          'Add subtotal, tip, and tax, then divide by people for a split bill.',
+        ],
+      };
+    }
+    case 'mileage': {
+      const result = calculateMileageCost(
+        parseNumber(inputs.miles, 'Miles'),
+        parseNumber(inputs.ratePerMile, 'Rate per mile'),
+        parseNumber(inputs.extraCosts || '0', 'Extra costs'),
+      );
+      return {
+        label: 'Mileage amount',
+        expression: `${formatCalculatorNumber(result.miles)} mi x ${money(result.ratePerMile)}/mi`,
+        answer: money(result.total),
+        metrics: [
+          { label: 'Mileage only', value: money(result.mileageAmount) },
+          { label: 'Extras', value: money(result.extraCosts) },
+          { label: 'Rate', value: `${money(result.ratePerMile)} per mile` },
+        ],
+        steps: [
+          'Multiply miles by the rate per mile.',
+          'Add parking, tolls, or other extra costs if entered.',
+          'Use the rate required by your employer, client, or tax authority.',
+        ],
+      };
+    }
+    case 'density': {
+      const result = calculateDensity(parseNumber(inputs.mass, 'Mass'), parseNumber(inputs.volume, 'Volume'));
+      const unit = inputs.unitLabel?.trim() || 'mass/volume';
+      return {
+        label: 'Density',
+        expression: `${formatCalculatorNumber(result.mass)} / ${formatCalculatorNumber(result.volume)}`,
+        answer: `${formatCalculatorNumber(result.density)} ${unit}`,
+        metrics: [
+          { label: 'Mass', value: formatCalculatorNumber(result.mass) },
+          { label: 'Volume', value: formatCalculatorNumber(result.volume) },
+          { label: 'Formula', value: 'mass / volume' },
+        ],
+        steps: [
+          'Check that mass and volume use matching units.',
+          'Divide mass by volume.',
+          'Label the result with the density unit you entered.',
+        ],
+      };
+    }
+    case 'mass': {
+      const result = calculateMassFromDensity(parseNumber(inputs.density, 'Density'), parseNumber(inputs.volume, 'Volume'));
+      const unit = inputs.unitLabel?.trim() || 'mass units';
+      return {
+        label: 'Mass from density and volume',
+        expression: `${formatCalculatorNumber(result.density)} x ${formatCalculatorNumber(result.volume)}`,
+        answer: `${formatCalculatorNumber(result.mass)} ${unit}`,
+        metrics: [
+          { label: 'Density', value: formatCalculatorNumber(result.density) },
+          { label: 'Volume', value: formatCalculatorNumber(result.volume) },
+          { label: 'Formula', value: 'density x volume' },
+        ],
+        steps: [
+          'Check that density and volume units match.',
+          'Multiply density by volume.',
+          'Label the result with the mass unit you entered.',
+        ],
+      };
+    }
+    case 'weight': {
+      const result = calculateWeightForce(
+        parseNumber(inputs.massKg, 'Mass'),
+        parseNumber(inputs.gravityMps2, 'Gravity'),
+      );
+      return {
+        label: 'Weight force',
+        expression: `${formatCalculatorNumber(result.massKg)} kg x ${formatCalculatorNumber(result.gravityMps2)} m/s2`,
+        answer: `${formatCalculatorNumber(result.weightNewtons)} N`,
+        metrics: [
+          { label: 'Pounds-force', value: `${formatCalculatorNumber(result.weightPoundsForce)} lbf` },
+          { label: 'Mass in pounds', value: `${formatCalculatorNumber(result.massPounds)} lb mass` },
+          { label: 'Gravity', value: `${formatCalculatorNumber(result.gravityMps2)} m/s2` },
+        ],
+        steps: [
+          'Use weight force = mass x gravity.',
+          'Standard Earth gravity is about 9.80665 m/s2.',
+          'Convert newtons to pounds-force for comparison.',
+        ],
+      };
+    }
+    case 'speed': {
+      const result = calculateSpeed(
+        parseNumber(inputs.distanceMiles, 'Distance'),
+        parseNumber(inputs.hours || '0', 'Hours'),
+        parseNumber(inputs.minutes || '0', 'Minutes'),
+        parseNumber(inputs.seconds || '0', 'Seconds'),
+      );
+      return {
+        label: 'Average speed',
+        expression: `${formatCalculatorNumber(result.distanceMiles)} miles in ${durationText(result.totalSeconds)}`,
+        answer: `${formatCalculatorNumber(result.milesPerHour)} mph`,
+        metrics: [
+          { label: 'km/h', value: formatCalculatorNumber(result.kilometersPerHour) },
+          { label: 'm/s', value: formatCalculatorNumber(result.metersPerSecond) },
+          { label: 'Decimal hours', value: formatCalculatorNumber(result.hours) },
+        ],
+        steps: [
+          'Convert the entered time into total seconds and decimal hours.',
+          'Divide distance by decimal hours for miles per hour.',
+          'Convert mph to km/h and m/s for comparison.',
+        ],
+      };
+    }
+    case 'roman-numeral': {
+      const numberMode = inputs.operation !== 'roman-to-number';
+      const answer = numberMode
+        ? numberToRomanNumeral(parseNumber(inputs.value, 'Number'))
+        : formatCalculatorNumber(romanNumeralToNumber(inputs.value));
+      return {
+        label: numberMode ? 'Roman numeral' : 'Number',
+        expression: inputs.value,
+        answer,
+        metrics: [
+          { label: 'Mode', value: numberMode ? 'Number to Roman' : 'Roman to number' },
+          { label: 'Range', value: '1 to 3,999' },
+          { label: 'Standard form', value: 'Subtractive notation' },
+        ],
+        steps: numberMode
+          ? [
+              'Start with the largest Roman symbol that fits the number.',
+              'Subtract its value and keep moving downward through the symbol list.',
+              'Use subtractive pairs such as IV, IX, XL, XC, CD, and CM where needed.',
+            ]
+          : [
+              'Read each Roman symbol from left to right.',
+              'Subtract a symbol when it appears before a larger symbol.',
+              'Add the adjusted values to get the standard number.',
+            ],
+      };
+    }
+    case 'base64': {
+      const encoding = inputs.operation !== 'decode';
+      const answer = encoding ? encodeBase64(inputs.text ?? '') : decodeBase64(inputs.text ?? '');
+      return {
+        label: encoding ? 'Base64 encoded text' : 'Decoded text',
+        expression: encoding ? 'UTF-8 text to Base64' : 'Base64 to UTF-8 text',
+        answer,
+        metrics: [
+          { label: 'Input length', value: formatCalculatorNumber((inputs.text ?? '').length) },
+          { label: 'Output length', value: formatCalculatorNumber(answer.length) },
+          { label: 'Mode', value: encoding ? 'Encode' : 'Decode' },
+        ],
+        steps: [
+          encoding ? 'Convert the text to UTF-8 bytes.' : 'Read the Base64 characters and padding.',
+          encoding ? 'Group bytes into 6-bit Base64 values.' : 'Convert Base64 values back into bytes.',
+          encoding ? 'Add padding when the byte count is not a multiple of three.' : 'Decode the bytes as UTF-8 text.',
+        ],
+      };
+    }
+    case 'url-encode-decode': {
+      const encoding = inputs.operation !== 'decode';
+      const plusSpaces = booleanInput(inputs.plusSpaces);
+      const answer = encoding
+        ? encodeUrlComponentValue(inputs.text ?? '', plusSpaces)
+        : decodeUrlComponentValue(inputs.text ?? '', plusSpaces);
+      return {
+        label: encoding ? 'URL-encoded component' : 'Decoded URL component',
+        expression: encoding ? 'Text to percent-encoding' : 'Percent-encoding to text',
+        answer,
+        metrics: [
+          { label: 'Input length', value: formatCalculatorNumber((inputs.text ?? '').length) },
+          { label: 'Output length', value: formatCalculatorNumber(answer.length) },
+          { label: 'Spaces', value: plusSpaces ? '+ form style' : '%20 URI style' },
+        ],
+        steps: [
+          encoding ? 'Read the text as a URL component, such as a query value.' : 'Read percent-encoded triplets such as %20.',
+          encoding ? 'Percent-encode reserved characters that would change URL meaning.' : 'Convert percent-encoded bytes back into characters.',
+          plusSpaces ? 'Treat spaces as plus signs for form-style values.' : 'Treat spaces as %20 for URI-style values.',
+        ],
+      };
+    }
+    case 'day-of-week': {
+      const result = calculateDayOfWeek(inputs.date);
+      return {
+        label: 'Day of the week',
+        expression: dateText(result.date),
+        answer: result.weekday,
+        metrics: [
+          { label: 'ISO weekday', value: formatCalculatorNumber(result.isoWeekday) },
+          { label: 'Sunday-based index', value: formatCalculatorNumber(result.weekdayIndex) },
+          { label: 'Date', value: result.date },
+        ],
+        steps: [
+          'Read the entered date as a calendar date.',
+          'Use UTC date math so daylight-saving time does not shift the date.',
+          'Return both the weekday name and ISO weekday number.',
         ],
       };
     }

@@ -61,6 +61,30 @@ const sourceLinks = {
     href: 'https://www.quikrete.com/calculator/main.asp',
     label: 'QUIKRETE: Concrete calculator reference',
   },
+  rfc4648: {
+    href: 'https://datatracker.ietf.org/doc/html/rfc4648/',
+    label: 'IETF RFC 4648: Base-N Encodings',
+  },
+  rfc3986: {
+    href: 'https://datatracker.ietf.org/doc/rfc3986/',
+    label: 'IETF RFC 3986: URI Generic Syntax',
+  },
+  ianaTimeZones: {
+    href: 'https://www.iana.org/time-zones',
+    label: 'IANA: Time Zone Database',
+  },
+  dolHours: {
+    href: 'https://www.dol.gov/general/topic/workhours/hoursrecordkeeping',
+    label: 'U.S. Department of Labor: Hours recordkeeping',
+  },
+  epaFuelEconomy: {
+    href: 'https://www.epa.gov/fueleconomy',
+    label: 'U.S. EPA: Fuel Economy',
+  },
+  irsMileage: {
+    href: 'https://www.irs.gov/newsroom/irs-sets-2026-business-standard-mileage-rate-at-725-cents-per-mile-up-25-cents',
+    label: 'IRS: 2026 standard mileage rates',
+  },
 };
 
 const guideDetails: Record<string, UtilityGuideDetail> = {
@@ -274,6 +298,342 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Check whether a recipe or product uses U.S., imperial, dry, or metric units.',
     ],
     sources: [sourceLinks.nistUnits],
+  },
+  'dice-roller': {
+    summary: 'Learn how to roll custom dice, read each roll, and understand everyday randomness limits.',
+    purpose:
+      'The Dice Roller is for quick, casual random rolls. It shows every die, the subtotal, the modifier, and the final total so the result is easy to check.',
+    enter: [
+      'Enter how many dice you want to roll.',
+      'Enter the number of sides per die.',
+      'Add a modifier only when the game or example calls for one.',
+    ],
+    read: [
+      'The main answer is the final total after the modifier.',
+      'Rolls shows the individual die results.',
+      'Subtotal is the dice total before the modifier.',
+    ],
+    mistakes: [
+      'Do not use this for gambling, official drawings, or audited random selection.',
+      'Check whether your game needs one die, multiple dice, or a modifier.',
+      'Remember that random rolls can repeat and do not balance out in short runs.',
+    ],
+    sources: [],
+  },
+  'fuel-cost-calculator': {
+    summary: 'Learn how distance, MPG, and fuel price combine into a trip fuel estimate.',
+    purpose:
+      'The Fuel Cost Calculator helps you turn a trip distance into an estimated fuel budget using your vehicle MPG and the fuel price you expect to pay.',
+    enter: [
+      'Enter the one-way trip distance in miles.',
+      'Enter the vehicle MPG you want to use.',
+      'Enter fuel price per gallon and turn on round trip when needed.',
+    ],
+    read: [
+      'Fuel cost is the headline estimate.',
+      'Gallons needed shows how much fuel the trip uses at the entered MPG.',
+      'Cost per mile helps compare trips and vehicles.',
+    ],
+    mistakes: [
+      'Do not assume EPA MPG is exactly what your trip will get.',
+      'Check whether the distance is one-way or round-trip.',
+      'Use the fuel price you expect to pay, not an old saved value.',
+    ],
+    sources: [sourceLinks.epaFuelEconomy],
+  },
+  'square-footage-calculator': {
+    summary: 'Learn how to calculate square footage for rooms, panels, and repeated rectangles.',
+    purpose:
+      'The Square Footage Calculator handles rectangular areas. It is useful for rooms, floors, walls, panels, garden beds, and repeated sections.',
+    enter: [
+      'Enter length and width in feet.',
+      'Use quantity when the same rectangle repeats.',
+      'Keep all measurements in feet before calculating.',
+    ],
+    read: [
+      'Total square feet is the main area answer.',
+      'Each item shows the area of one rectangle.',
+      'Square yards and square meters are shown for conversion context.',
+    ],
+    mistakes: [
+      'Do not use a rectangle formula for irregular shapes without splitting them into sections.',
+      'Add waste separately for flooring, tile, paint, or cuts.',
+      'Check whether product coverage is listed per box, per roll, or per gallon.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'time-card-calculator': {
+    summary: 'Learn how to total work hours from daily start times, end times, and breaks.',
+    purpose:
+      'The Time Card Calculator adds simple weekday shifts into a weekly total. It is for quick personal estimates before checking official payroll rules.',
+    enter: [
+      'Enter start time, end time, and unpaid break minutes for each worked day.',
+      'Leave a day blank when it was not worked.',
+      'Add hourly rate only when you want a gross pay estimate.',
+    ],
+    read: [
+      'Weekly hours is the main result.',
+      'Hours and minutes gives a readable version of the decimal total.',
+      'Gross pay estimate multiplies total hours by the rate you entered.',
+    ],
+    mistakes: [
+      'Do not treat this as payroll or overtime advice.',
+      'Check employer rounding, paid break, meal, and overtime rules.',
+      'Make sure overnight shifts use the intended next-day end time.',
+    ],
+    sources: [sourceLinks.dolHours],
+  },
+  'time-zone-calculator': {
+    summary: 'Learn how to convert a UTC date and time into an IANA time zone.',
+    purpose:
+      'The Time Zone Calculator uses UTC as the starting point because UTC avoids ambiguity. It then shows the local date, local time, and offset for the selected time zone.',
+    enter: [
+      'Enter the UTC calendar date.',
+      'Enter the UTC clock time.',
+      'Choose the target IANA time zone.',
+    ],
+    read: [
+      'The main answer shows the local date and time in the selected zone.',
+      'UTC offset shows how far that zone is from UTC at that instant.',
+      'The IANA zone name is shown so you can copy the exact zone identifier.',
+    ],
+    mistakes: [
+      'Do not enter a local time and assume it is UTC.',
+      'Check daylight-saving dates carefully.',
+      'Use an official calendar invite or scheduling system for critical meetings.',
+    ],
+    sources: [sourceLinks.ianaTimeZones],
+  },
+  'gas-mileage-calculator': {
+    summary: 'Learn how to calculate MPG from miles driven and gallons used.',
+    purpose:
+      'The Gas Mileage Calculator turns a real tank or trip into MPG. It also shows gallons per 100 miles and liters per 100 km for comparison.',
+    enter: [
+      'Enter miles driven since the last fill or for the trip.',
+      'Enter gallons used for the same distance.',
+      'Use the same trip window for both numbers.',
+    ],
+    read: [
+      'MPG is the main fuel economy answer.',
+      'Gallons per 100 miles shows consumption rather than distance per gallon.',
+      'L/100 km is useful for metric comparisons.',
+    ],
+    mistakes: [
+      'Do not mix miles from one trip with gallons from another.',
+      'Fill-level differences can make one-tank MPG noisy.',
+      'Weather, traffic, load, and speed can change the result.',
+    ],
+    sources: [sourceLinks.epaFuelEconomy, sourceLinks.nistUnits],
+  },
+  'tip-calculator': {
+    summary: 'Learn how to calculate a tip, optional tax, total bill, and split amount.',
+    purpose:
+      'The Tip Calculator is for quick bill math. It helps you compare tip percentages and split the estimated total between people.',
+    enter: [
+      'Enter the bill subtotal.',
+      'Enter the tip percentage you want to use.',
+      'Enter tax percentage and people only when needed.',
+    ],
+    read: [
+      'Total is subtotal plus tip plus optional tax.',
+      'Tip shows the dollar amount from the tip percent.',
+      'Per person divides the total evenly by the number of people.',
+    ],
+    mistakes: [
+      'Check whether the receipt already includes service charge or gratuity.',
+      'Check whether you want to tip before tax or after tax.',
+      'For uneven splits, calculate each person separately.',
+    ],
+    sources: [],
+  },
+  'mileage-calculator': {
+    summary: 'Learn how to multiply miles by a rate and add trip extras.',
+    purpose:
+      'The Mileage Calculator estimates a mileage amount from miles and a rate per mile. It can also add parking, tolls, or other entered trip costs.',
+    enter: [
+      'Enter the miles driven.',
+      'Enter the rate per mile you are allowed or choosing to use.',
+      'Enter parking, tolls, or extras only if they should be included.',
+    ],
+    read: [
+      'Total is mileage amount plus extras.',
+      'Mileage only shows miles multiplied by rate.',
+      'Rate is shown so you can confirm the assumption.',
+    ],
+    mistakes: [
+      'Do not assume the default example rate is the rate you should use.',
+      'Use your employer, client, tax authority, or contract rule first.',
+      'Keep documentation if the mileage is for reimbursement or taxes.',
+    ],
+    sources: [sourceLinks.irsMileage],
+  },
+  'density-calculator': {
+    summary: 'Learn how mass divided by volume gives density.',
+    purpose:
+      'The Density Calculator is a direct formula helper for science, materials, and classroom examples where mass and volume are known.',
+    enter: [
+      'Enter mass.',
+      'Enter volume.',
+      'Enter a unit label such as g/mL or kg/m3 if it helps your notes.',
+    ],
+    read: [
+      'Density is the main answer.',
+      'Mass and volume are repeated so you can check the formula.',
+      'The unit label is only text, so make sure the units match.',
+    ],
+    mistakes: [
+      'Do not mix grams with cubic meters unless your density label reflects that.',
+      'Use calibrated measurements for lab or engineering work.',
+      'Temperature and material condition can affect real density.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'mass-calculator': {
+    summary: 'Learn how density multiplied by volume gives mass.',
+    purpose:
+      'The Mass Calculator rearranges the density formula. If density and volume are known, multiplying them gives mass.',
+    enter: [
+      'Enter density.',
+      'Enter volume.',
+      'Enter the mass unit label you want to show.',
+    ],
+    read: [
+      'Mass is the main answer.',
+      'Density and volume are repeated for checking.',
+      'Formula shows density multiplied by volume.',
+    ],
+    mistakes: [
+      'Do not use mismatched density and volume units.',
+      'Remember that this is not a scale measurement.',
+      'Use material-specific density when estimating real objects.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'weight-calculator': {
+    summary: 'Learn the difference between mass and weight force.',
+    purpose:
+      'The Weight Calculator estimates weight force from mass and gravity. In physics, weight is a force, while mass is the amount of matter.',
+    enter: [
+      'Enter mass in kilograms.',
+      'Use 9.80665 m/s2 for standard Earth gravity or enter another gravity value.',
+      'Calculate to see newtons and pounds-force.',
+    ],
+    read: [
+      'Newtons is the main weight force result.',
+      'Pounds-force gives a familiar force comparison.',
+      'Mass in pounds is shown separately so mass and force are not confused.',
+    ],
+    mistakes: [
+      'Do not use weight force as a safety-rated load calculation.',
+      'Do not confuse pounds mass with pounds-force.',
+      'Gravity changes by location, altitude, and planet or moon.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'speed-calculator': {
+    summary: 'Learn how distance divided by time gives average speed.',
+    purpose:
+      'The Speed Calculator finds average speed over a whole trip or activity. It converts the time fields into decimal hours before calculating mph.',
+    enter: [
+      'Enter distance in miles.',
+      'Enter hours, minutes, and seconds for the elapsed time.',
+      'Use zero for unused time fields.',
+    ],
+    read: [
+      'MPH is the main average speed.',
+      'km/h and m/s are converted versions of the same speed.',
+      'Decimal hours shows the time value used in the division.',
+    ],
+    mistakes: [
+      'Do not use this as instant speed.',
+      'Include stops if you want whole-trip average speed.',
+      'Use matching distance and elapsed time from the same trip.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'roman-numeral-converter': {
+    summary: 'Learn how standard Roman numerals convert to and from numbers.',
+    purpose:
+      'The Roman Numeral Converter supports standard modern Roman numerals from 1 through 3,999, including subtractive pairs like IV and CM.',
+    enter: [
+      'Choose number-to-Roman or Roman-to-number mode.',
+      'Enter a number from 1 to 3,999 or a standard Roman numeral.',
+      'Calculate and compare the result with the examples.',
+    ],
+    read: [
+      'The main answer is the converted numeral or number.',
+      'Mode confirms which direction was used.',
+      'Range reminds you that overline notation is not supported.',
+    ],
+    mistakes: [
+      'Do not enter nonstandard repeats like IIII.',
+      'Use subtractive pairs such as IV for 4 and IX for 9.',
+      'Numbers 4,000 and above need notation this tool does not support.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'base64-encode-decode': {
+    summary: 'Learn how Base64 turns bytes into printable text and back again.',
+    purpose:
+      'The Base64 tool encodes text as UTF-8 bytes before converting to Base64. It can also decode Base64 back into UTF-8 text when the data is valid text.',
+    enter: [
+      'Choose Encode when starting with readable text.',
+      'Choose Decode when starting with Base64.',
+      'Paste the text into the input field and run the tool.',
+    ],
+    read: [
+      'The main answer is the encoded or decoded text.',
+      'Input and output length help you check whether the conversion looks reasonable.',
+      'Mode confirms whether you encoded or decoded.',
+    ],
+    mistakes: [
+      'Do not treat Base64 as encryption.',
+      'Do not paste secrets into tools unless you trust the environment.',
+      'Decode mode expects Base64 that represents valid UTF-8 text.',
+    ],
+    sources: [sourceLinks.rfc4648],
+  },
+  'url-encode-decode': {
+    summary: 'Learn how URL percent-encoding protects reserved characters in URL components.',
+    purpose:
+      'The URL Encode / Decode tool is made for URL components, especially query values. It turns reserved characters into percent-encoded text and decodes them back.',
+    enter: [
+      'Choose Encode for readable text or Decode for percent-encoded text.',
+      'Paste the URL component value, not necessarily a whole URL.',
+      'Turn on plus-spaces when working with form-style values.',
+    ],
+    read: [
+      'The main answer is the encoded or decoded text.',
+      'Spaces line shows whether spaces used %20 or plus signs.',
+      'Input and output length help spot accidental extra characters.',
+    ],
+    mistakes: [
+      'Do not encode a full URL the same way as one query value.',
+      'Do not decode the same value repeatedly unless you know it was double-encoded.',
+      'Use plus mode only for form-style values where plus means space.',
+    ],
+    sources: [sourceLinks.rfc3986],
+  },
+  'day-of-the-week-calculator': {
+    summary: 'Learn how to find the weekday for any valid calendar date.',
+    purpose:
+      'The Day of the Week Calculator answers a simple date question: what weekday does this calendar date fall on?',
+    enter: [
+      'Choose a valid date.',
+      'Calculate to get the weekday name.',
+      'Use examples for today, future dates, and leap-day checks.',
+    ],
+    read: [
+      'The main answer is the weekday name.',
+      'ISO weekday uses Monday as 1 and Sunday as 7.',
+      'Sunday-based index uses Sunday as 0, matching many programming APIs.',
+    ],
+    mistakes: [
+      'Do not use this for historical calendar reform research.',
+      'Check time zones separately when an event happens near midnight.',
+      'Use the Date Calculator when you need days between two dates.',
+    ],
+    sources: [sourceLinks.isoDate],
   },
 };
 

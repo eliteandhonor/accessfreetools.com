@@ -54,6 +54,42 @@ export type CalculatorIconMark =
   | 'salary'
   | 'rate'
   | 'sales-tax'
+  | 'currency'
+  | 'mortgage-payoff'
+  | '401k'
+  | 'house'
+  | 'savings'
+  | 'rent'
+  | 'annuity'
+  | 'credit-card'
+  | 'pension'
+  | 'annuity-payout'
+  | 'card-payoff'
+  | 'debt-payoff'
+  | 'debt-consolidation'
+  | 'repayment'
+  | 'student-loan'
+  | 'college-cost'
+  | 'simple-interest'
+  | 'cd'
+  | 'bond'
+  | 'mutual-fund'
+  | 'roth-ira'
+  | 'ira'
+  | 'vat'
+  | 'cash-back'
+  | 'auto-lease'
+  | 'depreciation'
+  | 'avg-return'
+  | 'margin'
+  | 'discount'
+  | 'business-loan'
+  | 'dti'
+  | 'personal-loan'
+  | 'boat-loan'
+  | 'lease'
+  | 'refinance'
+  | 'budget'
   | 'bmi'
   | 'calorie'
   | 'body-fat'
@@ -92,6 +128,21 @@ export type CalculatorIconMark =
   | 'subnet'
   | 'password'
   | 'conversion'
+  | 'fuel-cost'
+  | 'square-footage'
+  | 'time-card'
+  | 'time-zone'
+  | 'gas-mileage'
+  | 'tip'
+  | 'mileage'
+  | 'density'
+  | 'mass'
+  | 'weight'
+  | 'speed'
+  | 'roman'
+  | 'base64'
+  | 'url'
+  | 'day-week'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -154,6 +205,42 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-salary': 'salary',
   'calculator-rate': 'rate',
   'calculator-sales-tax': 'sales-tax',
+  'calculator-currency': 'currency',
+  'calculator-mortgage-payoff': 'mortgage-payoff',
+  'calculator-401k': '401k',
+  'calculator-house-affordability': 'house',
+  'calculator-savings': 'savings',
+  'calculator-rent': 'rent',
+  'calculator-annuity': 'annuity',
+  'calculator-credit-card': 'credit-card',
+  'calculator-pension': 'pension',
+  'calculator-annuity-payout': 'annuity-payout',
+  'calculator-card-payoff': 'card-payoff',
+  'calculator-debt-payoff': 'debt-payoff',
+  'calculator-debt-consolidation': 'debt-consolidation',
+  'calculator-repayment': 'repayment',
+  'calculator-student-loan': 'student-loan',
+  'calculator-college-cost': 'college-cost',
+  'calculator-simple-interest': 'simple-interest',
+  'calculator-cd': 'cd',
+  'calculator-bond': 'bond',
+  'calculator-mutual-fund': 'mutual-fund',
+  'calculator-roth-ira': 'roth-ira',
+  'calculator-ira': 'ira',
+  'calculator-vat': 'vat',
+  'calculator-cash-back': 'cash-back',
+  'calculator-auto-lease': 'auto-lease',
+  'calculator-depreciation': 'depreciation',
+  'calculator-average-return': 'avg-return',
+  'calculator-margin': 'margin',
+  'calculator-discount': 'discount',
+  'calculator-business-loan': 'business-loan',
+  'calculator-dti': 'dti',
+  'calculator-personal-loan': 'personal-loan',
+  'calculator-boat-loan': 'boat-loan',
+  'calculator-lease': 'lease',
+  'calculator-refinance': 'refinance',
+  'calculator-budget': 'budget',
   'calculator-bmi': 'bmi',
   'calculator-calorie': 'calorie',
   'calculator-body-fat': 'body-fat',
@@ -192,6 +279,21 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-subnet': 'subnet',
   'password-key': 'password',
   'calculator-conversion': 'conversion',
+  'calculator-fuel-cost': 'fuel-cost',
+  'calculator-square-footage': 'square-footage',
+  'calculator-time-card': 'time-card',
+  'calculator-time-zone': 'time-zone',
+  'calculator-gas-mileage': 'gas-mileage',
+  'calculator-tip': 'tip',
+  'calculator-mileage': 'mileage',
+  'calculator-density': 'density',
+  'calculator-mass': 'mass',
+  'calculator-weight': 'weight',
+  'calculator-speed': 'speed',
+  'calculator-roman': 'roman',
+  'calculator-base64': 'base64',
+  'calculator-url': 'url',
+  'calculator-day-of-week': 'day-week',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',
@@ -223,6 +325,42 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   salary: 'sal',
   rate: 'apr',
   'sales-tax': 'tax',
+  currency: 'fx',
+  'mortgage-payoff': 'pay',
+  '401k': '401k',
+  house: 'home',
+  savings: 'save',
+  rent: 'rent',
+  annuity: 'ann',
+  'credit-card': 'card',
+  pension: 'pen',
+  'annuity-payout': 'pay',
+  'card-payoff': 'cc',
+  'debt-payoff': 'debt',
+  'debt-consolidation': 'debt',
+  repayment: 'repay',
+  'student-loan': 'stu',
+  'college-cost': 'edu',
+  'simple-interest': 'si',
+  cd: 'cd',
+  bond: 'bond',
+  'mutual-fund': 'fund',
+  'roth-ira': 'roth',
+  ira: 'ira',
+  vat: 'vat',
+  'cash-back': 'cash',
+  'auto-lease': 'car',
+  depreciation: 'depr',
+  'avg-return': 'avg',
+  margin: 'marg',
+  discount: 'off',
+  'business-loan': 'biz',
+  dti: 'dti',
+  'personal-loan': 'pers',
+  'boat-loan': 'boat',
+  lease: 'lease',
+  refinance: 'refi',
+  budget: 'budg',
   bmi: 'bmi',
   calorie: 'kcal',
   'body-fat': 'fat',
@@ -261,6 +399,21 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   subnet: '/24',
   password: 'key',
   conversion: 'unit',
+  'fuel-cost': 'fuel',
+  'square-footage': 'ft2',
+  'time-card': 'card',
+  'time-zone': 'tz',
+  'gas-mileage': 'mpg',
+  tip: 'tip',
+  mileage: 'mi',
+  density: 'rho',
+  mass: 'mass',
+  weight: 'wt',
+  speed: 'mph',
+  roman: 'xiv',
+  base64: '64',
+  url: '%',
+  'day-week': 'day',
   prime: 'pf',
   'long-division': 'div',
   average: 'avg',

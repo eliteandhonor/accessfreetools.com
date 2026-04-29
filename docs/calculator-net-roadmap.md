@@ -5,8 +5,9 @@ Source reviewed: Calculator.net sitemap on 2026-04-29. This is a competitor inve
 ## Current Coverage Snapshot
 
 - Sitemap utility-style entries reviewed: 203.
-- Existing Access Free Tools coverage after aliases: 95.
-- Remaining roadmap items: 108.
+- Local tool pages after the latest everyday utility expansion: 149.
+- Local guide pages after the latest everyday utility expansion: 149.
+- Remaining competitor-inspired roadmap items from the current comparison: about 56.
 - Aliases already covered: IP Subnet -> Subnet, Common Factor -> Greatest Common Factor, Mortgage Amortization -> Amortization, Time Duration -> Time.
 
 ## New-Tool Standard
@@ -22,7 +23,7 @@ Every new tool should ship as a complete content unit:
 
 ## Batch 1: Finish Math Coverage
 
-Status: shipping first because this closes the smallest remaining category gap.
+Status: completed.
 
 - Prime Factorization Calculator
 - Long Division Calculator
@@ -31,7 +32,7 @@ Status: shipping first because this closes the smallest remaining category gap.
 
 ## Batch 2: Everyday and Utility Quick Wins
 
-These are useful, low-risk tools that can grow search coverage quickly.
+Status: completed in the latest everyday utility pass.
 
 - Dice Roller
 - Fuel Cost Calculator
@@ -80,19 +81,18 @@ These need clear units, assumptions, and disclaimers.
 
 Financial tools need current rules, assumptions, and visible "planning estimate, not financial advice" notes.
 
+Recently completed from this batch:
+
 - Currency Calculator
 - Mortgage Payoff Calculator
 - 401K Calculator
 - House Affordability Calculator
 - Savings Calculator
 - Rent Calculator
-- Marriage Tax Calculator
-- Estate Tax Calculator
-- Pension Calculator
-- Social Security Calculator
 - Annuity Calculator
-- Annuity Payout Calculator
 - Credit Card Calculator
+- Pension Calculator
+- Annuity Payout Calculator
 - Credit Cards Payoff Calculator
 - Debt Payoff Calculator
 - Debt Consolidation Calculator
@@ -105,7 +105,6 @@ Financial tools need current rules, assumptions, and visible "planning estimate,
 - Mutual Fund Calculator
 - Roth IRA Calculator
 - IRA Calculator
-- RMD Calculator
 - VAT Calculator
 - Cash Back or Low Interest Calculator
 - Auto Lease Calculator
@@ -115,13 +114,20 @@ Financial tools need current rules, assumptions, and visible "planning estimate,
 - Discount Calculator
 - Business Loan Calculator
 - Debt-to-Income Ratio Calculator
-- Real Estate Calculator
-- Take-Home-Paycheck Calculator
 - Personal Loan Calculator
 - Boat Loan Calculator
 - Lease Calculator
 - Refinance Calculator
 - Budget Calculator
+
+Still queued:
+
+- Marriage Tax Calculator
+- Estate Tax Calculator
+- Social Security Calculator
+- RMD Calculator
+- Real Estate Calculator
+- Take-Home-Paycheck Calculator
 - Rental Property Calculator
 - IRR Calculator
 - ROI Calculator

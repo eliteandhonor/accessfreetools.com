@@ -29,6 +29,19 @@ const featuredToolSlugs = [
 const featuredTools = featuredToolSlugs
   .map((slug) => tools.find((tool) => tool.slug === slug))
   .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
+const recentlyAddedToolSlugs = [
+  'dice-roller',
+  'fuel-cost-calculator',
+  'square-footage-calculator',
+  'time-card-calculator',
+  'time-zone-calculator',
+  'gas-mileage-calculator',
+  'base64-encode-decode',
+  'url-encode-decode',
+];
+const recentlyAddedTools = recentlyAddedToolSlugs
+  .map((slug) => tools.find((tool) => tool.slug === slug))
+  .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
 ---
 
 <BaseLayout
@@ -53,6 +66,19 @@ const featuredTools = featuredToolSlugs
       <input id="tool-search" name="q" type="search" placeholder="Mortgage, BMI, percentage, tax..." />
       <p>Color-customizable, mobile-first, and quick to search.</p>
     </form>
+  </section>
+
+  <section class="section-band section-band-soft">
+    <div class="section-heading">
+      <h2>Recently added tools</h2>
+      <p>Fresh everyday utilities added from the sitemap roadmap, each with a matching guide.</p>
+    </div>
+    <div class="tool-grid">
+      {recentlyAddedTools.map((tool) => <ToolCard tool={tool} />)}
+    </div>
+    <div class="section-actions">
+      <a class="button-secondary" href="/categories/everyday-tools/">Browse everyday tools</a>
+    </div>
   </section>
 
   <section class="section-band">

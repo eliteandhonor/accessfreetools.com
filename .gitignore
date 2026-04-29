@@ -9,3 +9,4 @@ output
 .playwright-cli
 dev-server.log
 dev-server-*.log
+dev-server-*.log.err
