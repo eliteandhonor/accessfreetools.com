@@ -2622,6 +2622,43 @@ export interface BmiResult {
   healthyMaxKg: number;
 }
 
+export interface UnderweightBmiResult extends BmiResult {
+  kgToHealthyMinimum: number;
+  poundsToHealthyMinimum: number;
+  percentBelowHealthyMinimum: number;
+}
+
+export interface OverweightBmiResult extends BmiResult {
+  kgToHealthyMaximum: number;
+  poundsToHealthyMaximum: number;
+  kgToObesityThreshold: number;
+  poundsToObesityThreshold: number;
+}
+
+export interface NutritionPointsInput {
+  calories: number;
+  saturatedFatG: number;
+  addedSugarG: number;
+  sodiumMg: number;
+  fiberG: number;
+  proteinG: number;
+}
+
+export interface NutritionPointsResult {
+  points: number;
+  moderationPoints: number;
+  supportCredits: number;
+  pointsPer100Calories: number;
+  category: string;
+}
+
+export interface LoveCompatibilityResult {
+  score: number;
+  label: string;
+  normalizedA: string;
+  normalizedB: string;
+}
+
 export interface BodyFatInput {
   sex: HealthSex;
   heightCm: number;
@@ -2725,6 +2762,87 @@ export function calculateBmi(weightKg: number, heightCm: number): BmiResult {
   const healthyMaxKg = 24.9 * square(heightMeters);
 
   return { bmi, category, healthyMinKg, healthyMaxKg };
+}
+
+export function calculateUnderweightBmiCheck(weightKg: number, heightCm: number): UnderweightBmiResult {
+  const result = calculateBmi(weightKg, heightCm);
+  const kgToHealthyMinimum = Math.max(0, result.healthyMinKg - weightKg);
+  const percentBelowHealthyMinimum =
+    kgToHealthyMinimum === 0 ? 0 : (kgToHealthyMinimum / result.healthyMinKg) * 100;
+
+  return {
+    ...result,
+    kgToHealthyMinimum,
+    poundsToHealthyMinimum: kgToPounds(kgToHealthyMinimum),
+    percentBelowHealthyMinimum,
+  };
+}
+
+export function calculateOverweightBmiCheck(weightKg: number, heightCm: number): OverweightBmiResult {
+  const result = calculateBmi(weightKg, heightCm);
+  const obesityThresholdKg = 30 * square(heightCm / 100);
+
+  return {
+    ...result,
+    kgToHealthyMaximum: Math.max(0, weightKg - result.healthyMaxKg),
+    poundsToHealthyMaximum: kgToPounds(Math.max(0, weightKg - result.healthyMaxKg)),
+    kgToObesityThreshold: obesityThresholdKg - weightKg,
+    poundsToObesityThreshold: kgToPounds(obesityThresholdKg - weightKg),
+  };
+}
+
+export function calculateNutritionPoints(input: NutritionPointsInput): NutritionPointsResult {
+  assertNonNegativeNumber(input.calories, 'Calories');
+  assertNonNegativeNumber(input.saturatedFatG, 'Saturated fat');
+  assertNonNegativeNumber(input.addedSugarG, 'Added sugar');
+  assertNonNegativeNumber(input.sodiumMg, 'Sodium');
+  assertNonNegativeNumber(input.fiberG, 'Dietary fiber');
+  assertNonNegativeNumber(input.proteinG, 'Protein');
+
+  if (input.calories === 0) {
+    throw new Error('Calories must be greater than zero');
+  }
+
+  const moderationPoints =
+    input.calories / 50 + input.saturatedFatG * 1.5 + input.addedSugarG / 5 + input.sodiumMg / 600;
+  const supportCredits = input.fiberG * 0.6 + input.proteinG * 0.25;
+  const points = Math.max(0, moderationPoints - supportCredits);
+  const pointsPer100Calories = (points / input.calories) * 100;
+  const category = points < 3 ? 'Lower points' : points < 7 ? 'Moderate points' : 'Higher points';
+
+  return { points, moderationPoints, supportCredits, pointsPer100Calories, category };
+}
+
+function normalizeCompatibilityName(value: string, label: string) {
+  const normalized = value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '');
+
+  if (!normalized) {
+    throw new Error(`${label} needs at least one letter or number`);
+  }
+
+  return normalized;
+}
+
+function hashCompatibilitySeed(seed: string) {
+  let hash = 2166136261;
+
+  for (const character of seed) {
+    hash ^= character.charCodeAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+
+  return hash >>> 0;
+}
+
+export function calculateLoveCompatibility(nameA: string, nameB: string): LoveCompatibilityResult {
+  const normalizedA = normalizeCompatibilityName(nameA, 'First name');
+  const normalizedB = normalizeCompatibilityName(nameB, 'Second name');
+  const [left, right] = [normalizedA, normalizedB].sort();
+  const hash = hashCompatibilitySeed(`${left}|${right}|access-free-tools`);
+  const score = normalizedA === normalizedB ? 96 : 40 + (hash % 61);
+  const label = score >= 85 ? 'Sparkly match' : score >= 70 ? 'Sweet match' : score >= 55 ? 'Curious match' : 'Playful mystery';
+
+  return { score, label, normalizedA, normalizedB };
 }
 
 export function calculateMifflinStJeor(input: BmrInput) {

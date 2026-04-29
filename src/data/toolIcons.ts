@@ -91,6 +91,9 @@ export type CalculatorIconMark =
   | 'refinance'
   | 'budget'
   | 'bmi'
+  | 'underweight-bmi'
+  | 'overweight'
+  | 'nutrition-points'
   | 'calorie'
   | 'body-fat'
   | 'bmr'
@@ -168,6 +171,7 @@ export type CalculatorIconMark =
   | 'horsepower'
   | 'engine-horsepower'
   | 'golf-handicap'
+  | 'love'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -267,6 +271,9 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-refinance': 'refinance',
   'calculator-budget': 'budget',
   'calculator-bmi': 'bmi',
+  'calculator-underweight-bmi': 'underweight-bmi',
+  'calculator-overweight': 'overweight',
+  'calculator-nutrition-points': 'nutrition-points',
   'calculator-calorie': 'calorie',
   'calculator-body-fat': 'body-fat',
   'calculator-bmr': 'bmr',
@@ -344,6 +351,7 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-horsepower': 'horsepower',
   'calculator-engine-horsepower': 'engine-horsepower',
   'calculator-golf-handicap': 'golf-handicap',
+  'calculator-love': 'love',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',
@@ -412,6 +420,9 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   refinance: 'refi',
   budget: 'budg',
   bmi: 'bmi',
+  'underweight-bmi': '18.5',
+  overweight: '25',
+  'nutrition-points': 'pts',
   calorie: 'kcal',
   'body-fat': 'fat',
   bmr: 'bmr',
@@ -489,6 +500,7 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   horsepower: 'hp',
   'engine-horsepower': 'rpm',
   'golf-handicap': 'golf',
+  love: 'love',
   prime: 'pf',
   'long-division': 'div',
   average: 'avg',

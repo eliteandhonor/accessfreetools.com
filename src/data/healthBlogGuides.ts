@@ -25,6 +25,12 @@ export interface HealthGuideDefinition {
 }
 
 const extraSafetyNotes: Record<string, string> = {
+  'underweight-bmi-calculator':
+    'BMI can show that a weight is below the adult 18.5 screening threshold, but it cannot diagnose anorexia, malnutrition, or any eating disorder. If eating, exercise, body image, or weight feels hard to control, use qualified professional support.',
+  'overweight-calculator':
+    'BMI can show an adult screening category, but it does not measure body composition, waist size, blood pressure, labs, medications, or personal health history.',
+  'nutrition-points-calculator':
+    'This is an original Access Free Tools label-reading score. It is not Weight Watchers Points, not affiliated with WW, and not a medical nutrition plan.',
   'bac-calculator':
     'BAC estimates are especially uncertain because food, medication, drinking speed, tolerance, and body composition can change real-world results. Never use a BAC estimate to decide whether to drive.',
   'gfr-calculator':
@@ -53,6 +59,12 @@ function getSourceLinks(toolSlug: string) {
     { href: 'https://www.cdc.gov/BMI/', label: 'CDC: Adult BMI categories and screening notes' },
     { href: 'https://www.nhlbi.nih.gov/health/educational/lose_wt/bmitools', label: 'NHLBI: Healthy weight and BMI tools' },
   ];
+  const eatingDisorderSources = [
+    { href: 'https://www.nimh.nih.gov/health/publications/eating-disorders', label: 'NIMH: Eating disorders signs, symptoms, and help' },
+  ];
+  const nutritionLabelSources = [
+    { href: 'https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/changes-nutrition-facts-label', label: 'FDA: Changes to the Nutrition Facts label' },
+  ];
   const energySources = [
     {
       href: 'https://academic.oup.com/ajcn/article-abstract/51/2/241/4695104',
@@ -80,7 +92,11 @@ function getSourceLinks(toolSlug: string) {
     },
   ];
 
-  if (['bmi-calculator', 'healthy-weight-calculator', 'ideal-weight-calculator', 'body-fat-calculator', 'army-body-fat-calculator', 'lean-body-mass-calculator', 'body-type-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'underweight-bmi-calculator') {
+    return [...bmiSources, ...eatingDisorderSources];
+  }
+
+  if (['bmi-calculator', 'overweight-calculator', 'healthy-weight-calculator', 'ideal-weight-calculator', 'body-fat-calculator', 'army-body-fat-calculator', 'lean-body-mass-calculator', 'body-type-calculator'].includes(toolSlug)) {
     return bmiSources;
   }
 
@@ -108,6 +124,10 @@ function getSourceLinks(toolSlug: string) {
 
   if (['macro-calculator', 'carbohydrate-calculator', 'protein-calculator', 'fat-intake-calculator'].includes(toolSlug)) {
     return macroSources;
+  }
+
+  if (toolSlug === 'nutrition-points-calculator') {
+    return nutritionLabelSources;
   }
 
   if (toolSlug === 'gfr-calculator') {
@@ -168,6 +188,90 @@ const guideDetails: Record<string, GuideDetail> = {
     next: [
       'Use Healthy Weight Calculator for the height-based range.',
       'Use Body Fat Calculator if you want a tape-measure estimate alongside BMI.',
+    ],
+  },
+  'underweight-bmi-calculator': {
+    summary: 'Learn how to check adult BMI against the underweight threshold without treating BMI as an eating-disorder diagnosis.',
+    purpose:
+      'The Underweight BMI Calculator is a safer replacement for harmful "anorexic BMI" style tools. It checks adult BMI against the underweight screening threshold, then explains why BMI cannot diagnose anorexia, malnutrition, or any eating disorder.',
+    enter: [
+      'Enter adult height in centimeters and weight in kilograms.',
+      'Use a current, real measurement if you are checking today, or use the same measurement conditions if you are tracking a trend.',
+      'Use this adult screening page for adults, not child or teen BMI percentiles.',
+    ],
+    example: [
+      'For 170 cm and 50 kg, the calculator converts height to meters and divides 50 by height squared.',
+      'The result is about BMI 17.3, which is below the adult BMI 18.5 screening threshold.',
+    ],
+    read: [
+      'The BMI category says whether the result is below 18.5, not why it is there.',
+      'The "to BMI 18.5" metric shows the difference from the lower adult healthy-BMI boundary.',
+      'The safety note matters: eating-disorder concerns need professional support, not a calculator label.',
+    ],
+    mistakes: [
+      'Do not call someone anorexic from a BMI number.',
+      'Do not use this page as a goal to reach a lower weight.',
+      'Do not ignore symptoms, restriction, over-exercise, fear of weight gain, or body-image distress because BMI looks normal.',
+    ],
+    next: [
+      'Use BMI Calculator for the broader category view.',
+      'Use Healthy Weight Calculator for the full adult BMI reference range.',
+    ],
+  },
+  'overweight-calculator': {
+    summary: 'Learn how adult BMI is compared with the overweight screening range and why the result is not a full health judgment.',
+    purpose:
+      'The Overweight BMI Calculator checks adult BMI against the BMI 25 and BMI 30 screening thresholds. It is designed with people-first language and clear limits, because BMI categories are screening labels, not a complete story about health.',
+    enter: [
+      'Enter adult height in centimeters and weight in kilograms.',
+      'Use the same measurement conditions when comparing changes over time.',
+      'Use this adult screening page for adults, not child or teen BMI percentiles.',
+    ],
+    example: [
+      'For 170 cm and 78 kg, the calculator divides 78 by height in meters squared.',
+      'The result is about BMI 27.0, which falls in the adult overweight screening category.',
+    ],
+    read: [
+      'The category is a broad screen: BMI 25 to less than 30 is the overweight range.',
+      'The "above BMI 24.9" metric shows the difference from the upper adult healthy-BMI boundary.',
+      'The BMI 30 comparison shows how far the result is from the obesity screening threshold.',
+    ],
+    mistakes: [
+      'Do not use BMI as a measure of worth, fitness, or effort.',
+      'Do not ignore waist size, body composition, blood pressure, lab results, medications, or health history.',
+      'Do not use this page for children, teens, pregnancy, or medical decisions.',
+    ],
+    next: [
+      'Use Healthy Weight Calculator for the height-based BMI reference range.',
+      'Use Body Fat Calculator if you want a tape-measure estimate alongside BMI.',
+    ],
+  },
+  'nutrition-points-calculator': {
+    summary: 'Learn how to use a transparent food-label score without copying proprietary diet-program points.',
+    purpose:
+      'The Nutrition Points Calculator gives Access Free Tools its own visible formula for rough food comparisons. It uses label fields that people can actually find: calories, saturated fat, added sugar, sodium, dietary fiber, and protein.',
+    enter: [
+      'Enter the values from one serving on the Nutrition Facts label.',
+      'Use saturated fat and added sugar, not total fat and total sugar, because those are the fields this score asks for.',
+      'Use the same serving size when comparing two foods.',
+    ],
+    example: [
+      'For the snack-label example, calories, saturated fat, added sugar, and sodium add moderation points.',
+      'Fiber and protein subtract support credits, then the calculator shows the remaining points and a plain category.',
+    ],
+    read: [
+      'Lower points usually means the food scored lighter by this formula.',
+      'Moderation points show the part added by calories, saturated fat, added sugar, and sodium.',
+      'Fiber/protein credits show the part subtracted for fiber and protein.',
+    ],
+    mistakes: [
+      'Do not compare this with Weight Watchers Points; it is not the same formula and is not affiliated with WW.',
+      'Do not use points alone to decide whether a food is good or bad.',
+      'Do not ignore medical nutrition advice, allergies, diabetes care, kidney restrictions, pregnancy, or eating-disorder recovery needs.',
+    ],
+    next: [
+      'Use Calorie Calculator for daily energy estimates.',
+      'Use Macro Calculator for calorie splits across protein, fat, and carbohydrate.',
     ],
   },
   'calorie-calculator': {

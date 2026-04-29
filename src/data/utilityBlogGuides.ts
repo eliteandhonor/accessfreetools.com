@@ -1217,6 +1217,27 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
     sources: [sourceLinks.usgaScoreDifferential, sourceLinks.usgaCourseHandicap],
   },
+  'love-calculator': {
+    summary: 'Learn how the Love Calculator works as a private, deterministic name-match game.',
+    purpose:
+      'The Love Calculator is a novelty game. It turns two names into a repeatable playful score, but it does not claim to measure attraction, trust, communication, consent, or relationship health.',
+    enter: [
+      'Enter the first name or nickname.',
+      'Enter the second name or nickname.',
+      'Press Calculate match to see the same playful score any time those two names are entered the same way.',
+    ],
+    read: [
+      'The percentage is entertainment only.',
+      'The game label is a light caption, not advice.',
+      'The cleaned name keys show what the browser used to make the repeatable score.',
+    ],
+    mistakes: [
+      'Do not treat the result as real compatibility science.',
+      'Do not use the score to pressure, judge, or make decisions about another person.',
+      'Do not enter sensitive private information; names or nicknames are enough for the game.',
+    ],
+    sources: [],
+  },
 };
 
 function getFormulaAnswer(toolSlug: string) {

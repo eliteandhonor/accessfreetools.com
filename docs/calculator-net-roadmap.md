@@ -5,9 +5,9 @@ Source reviewed: Calculator.net sitemap on 2026-04-29. This is a competitor inve
 ## Current Coverage Snapshot
 
 - Sitemap utility-style entries reviewed: 203.
-- Local tool pages after the safe Batch 5 expansion: 197.
-- Local guide pages after the safe Batch 5 expansion: 197.
-- Remaining competitor-inspired roadmap items from the current comparison: about 4 editorial-review items.
+- Local tool pages after the safe editorial Batch 6 expansion: 201.
+- Local guide pages after the safe editorial Batch 6 expansion: 201.
+- Remaining competitor-inspired roadmap items from the current comparison: 0 direct action items. The final sensitive/proprietary topics were covered with safer Access Free Tools alternatives instead of one-to-one copies.
 - Aliases already covered: IP Subnet -> Subnet, Common Factor -> Greatest Common Factor, Mortgage Amortization -> Amortization, Time Duration -> Time.
 
 ## New-Tool Standard
@@ -151,7 +151,7 @@ Completed from this batch:
 
 These need careful naming and safety decisions before shipping. Some competitor topics may need safer alternatives rather than one-to-one copies.
 
-Status: safe utility-style items completed; proprietary, medically sensitive, and low-trust entertainment items remain in editorial review.
+Status: completed with safer Access Free Tools framing where direct copying would be harmful, proprietary, or low trust.
 
 Completed from this batch:
 
@@ -160,9 +160,9 @@ Completed from this batch:
 - Engine Horsepower Calculator
 - Golf Handicap Calculator
 
-Held for editorial review instead of copying directly:
+Completed as safer alternatives instead of copying directly:
 
-- Anorexic BMI Calculator
-- Weight Watcher Points Calculator
-- Overweight Calculator
-- Love Calculator
+- Underweight BMI Calculator, replacing harmful "anorexic BMI" framing with BMI screening and eating-disorder safety notes.
+- Nutrition Points Calculator, replacing proprietary Weight Watchers-style points with an original transparent label-reading score.
+- Overweight BMI Calculator, using adult BMI screening language and people-first cautions.
+- Love Calculator, shipped as a clear entertainment-only name-match game.

@@ -90,10 +90,14 @@ import {
   calculateGdpEstimate,
   calculateGolfCourseHandicap,
   calculateGolfScoreDifferential,
+  calculateLoveCompatibility,
   calculateGravelEstimate,
   calculateHeatIndex,
   calculateHeightEstimate,
   calculateBmi,
+  calculateNutritionPoints,
+  calculateOverweightBmiCheck,
+  calculateUnderweightBmiCheck,
   calculateAmortizationSummary,
   calculateAutoLoanSummary,
   calculateBodySurfaceArea,
@@ -884,6 +888,26 @@ describe('health and fitness helpers', () => {
     expect(formatCalculatorNumber(result.healthyMaxKg)).toBe('71.961');
   });
 
+  it('checks underweight, overweight, and nutrition point helpers', () => {
+    const underweight = calculateUnderweightBmiCheck(50, 170);
+    const overweight = calculateOverweightBmiCheck(78, 170);
+    const points = calculateNutritionPoints({
+      calories: 240,
+      saturatedFatG: 2,
+      addedSugarG: 8,
+      sodiumMg: 320,
+      fiberG: 5,
+      proteinG: 9,
+    });
+
+    expect(underweight.category).toBe('Underweight');
+    expect(formatCalculatorNumber(underweight.kgToHealthyMinimum)).toBe('3.465');
+    expect(overweight.category).toBe('Overweight');
+    expect(formatCalculatorNumber(overweight.kgToHealthyMaximum)).toBe('6.039');
+    expect(points.category).toBe('Moderate points');
+    expect(formatCalculatorNumber(points.points)).toBe('4.6833333333');
+  });
+
   it('calculates BMR, TDEE, and macro splits', () => {
     const bmr = calculateMifflinStJeor({ sex: 'male', age: 35, heightCm: 178, weightKg: 82 });
     const tdee = calculateTdeeFromBmr(bmr, 'moderate');
@@ -1521,6 +1545,8 @@ describe('utility helpers', () => {
     const engine = calculateEngineHorsepower(300, 5252.1131, 15);
     const differential = calculateGolfScoreDifferential(86, 71.2, 128, 0);
     const courseHandicap = calculateGolfCourseHandicap(14.2, 128, 71.2, 72, 95);
+    const love = calculateLoveCompatibility('Alex', 'Sam');
+    const loveReversed = calculateLoveCompatibility('Sam', 'Alex');
 
     expect(gdp.gdp).toBe(28600);
     expect(formatCalculatorNumber(gdp.gdpPerPerson ?? 0)).toBe('0.0000841176');
@@ -1531,5 +1557,7 @@ describe('utility helpers', () => {
     expect(differential.scoreDifferential).toBe(13.1);
     expect(courseHandicap.courseHandicap).toBe(15);
     expect(courseHandicap.playingHandicap).toBe(14);
+    expect(love.score).toBe(loveReversed.score);
+    expect(love.label.length).toBeGreaterThan(0);
   });
 });

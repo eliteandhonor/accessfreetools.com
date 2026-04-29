@@ -30,14 +30,14 @@ const featuredTools = featuredToolSlugs
   .map((slug) => tools.find((tool) => tool.slug === slug))
   .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
 const recentlyAddedToolSlugs = [
+  'underweight-bmi-calculator',
+  'overweight-calculator',
+  'nutrition-points-calculator',
+  'love-calculator',
   'gdp-calculator',
   'horsepower-calculator',
   'engine-horsepower-calculator',
   'golf-handicap-calculator',
-  'social-security-calculator',
-  'rmd-calculator',
-  'rent-vs-buy-calculator',
-  'apr-calculator',
 ];
 const recentlyAddedTools = recentlyAddedToolSlugs
   .map((slug) => tools.find((tool) => tool.slug === slug))

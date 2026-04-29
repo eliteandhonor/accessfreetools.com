@@ -81,6 +81,78 @@ export const healthTools: ToolDefinition[] = [
     relatedSlugs: ['healthy-weight-calculator', 'body-fat-calculator', 'ideal-weight-calculator'],
   }),
   makeHealthTool({
+    slug: 'underweight-bmi-calculator',
+    name: 'Underweight BMI Calculator',
+    summary: 'Check adult BMI against the underweight screening threshold with careful safety notes.',
+    description:
+      'Use this free underweight BMI calculator to compare adult BMI with the BMI 18.5 screening threshold and healthy BMI reference range.',
+    icon: 'calculator-underweight-bmi',
+    formula:
+      'BMI is weight in kilograms divided by height in meters squared. The calculator compares the result with the adult underweight threshold of BMI less than 18.5.',
+    caution:
+      'BMI cannot diagnose anorexia, malnutrition, or any eating disorder. If eating, weight, exercise, or body image feels hard to control, talk with a qualified health professional.',
+    useCases: [
+      'Check whether an adult BMI is below 18.5.',
+      'See how far a weight is from the BMI 18.5 reference threshold.',
+      'Read why BMI alone cannot diagnose an eating disorder.',
+      'Use a safer alternative to harmful anorexic-BMI style pages.',
+    ],
+    examples: [
+      { label: 'Underweight screen', expression: '170 cm, 50 kg', result: 'BMI about 17.3' },
+      { label: 'Near threshold', expression: '160 cm, 47 kg', result: 'BMI about 18.4' },
+      { label: 'Taller adult', expression: '183 cm, 62 kg', result: 'BMI about 18.5' },
+    ],
+    relatedSlugs: ['bmi-calculator', 'healthy-weight-calculator', 'ideal-weight-calculator'],
+  }),
+  makeHealthTool({
+    slug: 'overweight-calculator',
+    name: 'Overweight BMI Calculator',
+    summary: 'Check adult BMI against overweight and obesity screening categories.',
+    description:
+      'Use this free overweight BMI calculator to compare adult BMI with the 25 and 30 BMI screening thresholds.',
+    icon: 'calculator-overweight',
+    formula:
+      'BMI is weight in kilograms divided by height in meters squared. Adult BMI 25 to less than 30 is the overweight category, and 30 or greater is the obesity category.',
+    caution:
+      'BMI is a screening tool, not a complete health judgment. Body composition, waist size, medical history, medications, and clinician review can change the real health picture.',
+    useCases: [
+      'Check whether an adult BMI is in the overweight screening category.',
+      'See how far a weight is above the BMI 24.9 reference boundary.',
+      'Compare the result with the BMI 30 obesity screening threshold.',
+      'Use people-first, non-shaming language around BMI categories.',
+    ],
+    examples: [
+      { label: 'Overweight screen', expression: '170 cm, 78 kg', result: 'BMI about 27.0' },
+      { label: 'Taller adult', expression: '183 cm, 92 kg', result: 'BMI about 27.5' },
+      { label: 'Smaller adult', expression: '160 cm, 70 kg', result: 'BMI about 27.3' },
+    ],
+    relatedSlugs: ['bmi-calculator', 'healthy-weight-calculator', 'body-fat-calculator'],
+  }),
+  makeHealthTool({
+    slug: 'nutrition-points-calculator',
+    name: 'Nutrition Points Calculator',
+    summary: 'Create a transparent food-label score from calories, saturated fat, added sugar, sodium, fiber, and protein.',
+    description:
+      'Use this free nutrition points calculator to compare foods with an original transparent score based on common Nutrition Facts label fields.',
+    icon: 'calculator-nutrition-points',
+    formula:
+      'The calculator adds moderation points from calories, saturated fat, added sugar, and sodium, then subtracts support credits from fiber and protein.',
+    caution:
+      'This is not Weight Watchers Points, not affiliated with WW, and not medical nutrition advice. It is a transparent educational score for rough comparisons.',
+    useCases: [
+      'Compare two packaged foods using the same label-based score.',
+      'See how added sugar, saturated fat, sodium, fiber, and protein change a food score.',
+      'Use a non-proprietary alternative to branded points calculators.',
+      'Practice reading Nutrition Facts labels more carefully.',
+    ],
+    examples: [
+      { label: 'Snack label', expression: '240 kcal, 2 g sat fat, 8 g added sugar', result: 'Moderate points' },
+      { label: 'Greek yogurt', expression: '150 kcal, 15 g protein', result: 'Lower points' },
+      { label: 'Sweet drink', expression: '180 kcal, 38 g added sugar', result: 'Higher points' },
+    ],
+    relatedSlugs: ['calorie-calculator', 'macro-calculator', 'protein-calculator'],
+  }),
+  makeHealthTool({
     slug: 'calorie-calculator',
     name: 'Calorie Calculator',
     summary: 'Estimate daily calories from BMR, activity level, and goal.',

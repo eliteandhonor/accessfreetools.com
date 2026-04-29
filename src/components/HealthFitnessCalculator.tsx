@@ -3,6 +3,9 @@ import {
   activityLevelFactors,
   addDaysToIsoDate,
   calculateBmi,
+  calculateNutritionPoints,
+  calculateOverweightBmiCheck,
+  calculateUnderweightBmiCheck,
   calculateBodySurfaceArea,
   calculateBoerLeanBodyMass,
   calculateCaloriesBurned,
@@ -28,6 +31,9 @@ import {
 
 export type HealthToolVariant =
   | 'bmi'
+  | 'underweight-bmi'
+  | 'overweight'
+  | 'nutrition-points'
   | 'calorie'
   | 'body-fat'
   | 'bmr'
@@ -192,6 +198,73 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
           { label: '170 cm, 70 kg', inputs: { heightCm: '170', weightKg: '70' } },
           { label: '183 cm, 82 kg', inputs: { heightCm: '183', weightKg: '82' } },
           { label: '160 cm, 52 kg', inputs: { heightCm: '160', weightKg: '52' } },
+        ],
+      },
+    ],
+  },
+  'underweight-bmi': {
+    title: 'Underweight BMI Calculator',
+    buttonLabel: 'Check BMI category',
+    emptyHistory: 'Recent underweight BMI checks will appear here.',
+    privacyNote: 'BMI is a screening estimate. It cannot diagnose anorexia, malnutrition, or any eating disorder.',
+    modes: [
+      {
+        id: 'underweight-bmi',
+        label: 'Underweight',
+        symbol: 'BMI',
+        fields: [numberField('heightCm', 'Height (cm)'), numberField('weightKg', 'Weight (kg)')],
+        defaultInputs: { heightCm: '170', weightKg: '50' },
+        examples: [
+          { label: '170 cm, 50 kg', inputs: { heightCm: '170', weightKg: '50' } },
+          { label: '160 cm, 47 kg', inputs: { heightCm: '160', weightKg: '47' } },
+          { label: '183 cm, 62 kg', inputs: { heightCm: '183', weightKg: '62' } },
+        ],
+      },
+    ],
+  },
+  overweight: {
+    title: 'Overweight BMI Calculator',
+    buttonLabel: 'Check BMI category',
+    emptyHistory: 'Recent overweight BMI checks will appear here.',
+    privacyNote: 'BMI is a screening estimate. It does not measure body fat, fitness, or individual health risk by itself.',
+    modes: [
+      {
+        id: 'overweight',
+        label: 'Overweight',
+        symbol: 'BMI',
+        fields: [numberField('heightCm', 'Height (cm)'), numberField('weightKg', 'Weight (kg)')],
+        defaultInputs: { heightCm: '170', weightKg: '78' },
+        examples: [
+          { label: '170 cm, 78 kg', inputs: { heightCm: '170', weightKg: '78' } },
+          { label: '183 cm, 92 kg', inputs: { heightCm: '183', weightKg: '92' } },
+          { label: '160 cm, 70 kg', inputs: { heightCm: '160', weightKg: '70' } },
+        ],
+      },
+    ],
+  },
+  'nutrition-points': {
+    title: 'Nutrition Points Calculator',
+    buttonLabel: 'Calculate points',
+    emptyHistory: 'Recent nutrition point checks will appear here.',
+    privacyNote: 'This is an original transparent score from nutrition-label fields, not a proprietary diet-program formula or medical nutrition advice.',
+    modes: [
+      {
+        id: 'nutrition-points',
+        label: 'Food points',
+        symbol: 'PTS',
+        fields: [
+          numberField('calories', 'Calories'),
+          numberField('saturatedFatG', 'Saturated fat (g)'),
+          numberField('addedSugarG', 'Added sugar (g)'),
+          numberField('sodiumMg', 'Sodium (mg)'),
+          numberField('fiberG', 'Dietary fiber (g)'),
+          numberField('proteinG', 'Protein (g)'),
+        ],
+        defaultInputs: { calories: '240', saturatedFatG: '2', addedSugarG: '8', sodiumMg: '320', fiberG: '5', proteinG: '9' },
+        examples: [
+          { label: 'Snack label', inputs: { calories: '240', saturatedFatG: '2', addedSugarG: '8', sodiumMg: '320', fiberG: '5', proteinG: '9' } },
+          { label: 'Greek yogurt', inputs: { calories: '150', saturatedFatG: '0', addedSugarG: '4', sodiumMg: '75', fiberG: '0', proteinG: '15' } },
+          { label: 'Sweet drink', inputs: { calories: '180', saturatedFatG: '0', addedSugarG: '38', sodiumMg: '40', fiberG: '0', proteinG: '0' } },
         ],
       },
     ],
@@ -835,6 +908,10 @@ function formatKg(value: number) {
   return `${formatCalculatorNumber(value)} kg`;
 }
 
+function formatLb(value: number) {
+  return `${formatCalculatorNumber(value)} lb`;
+}
+
 function formatKcal(value: number) {
   return `${formatCalculatorNumber(Math.round(value))} kcal`;
 }
@@ -899,6 +976,83 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
           'BMI = weight in kilograms / height in meters squared.',
           'Compare the result with adult BMI screening categories.',
         ],
+      };
+    }
+    case 'underweight-bmi': {
+      const weightKg = parseNumber(inputs.weightKg, 'Weight');
+      const heightCm = parseNumber(inputs.heightCm, 'Height');
+      const result = calculateUnderweightBmiCheck(weightKg, heightCm);
+      return {
+        label: 'Underweight BMI screen',
+        expression: `${formatKg(weightKg)} at ${formatCalculatorNumber(heightCm)} cm`,
+        answer: `BMI ${formatCalculatorNumber(result.bmi)}`,
+        metrics: [
+          { label: 'Category', value: result.category },
+          { label: 'To BMI 18.5', value: result.kgToHealthyMinimum === 0 ? 'Already at or above 18.5' : `${formatKg(result.kgToHealthyMinimum)} / ${formatLb(result.poundsToHealthyMinimum)}` },
+          { label: 'Healthy range', value: `${formatKg(result.healthyMinKg)}-${formatKg(result.healthyMaxKg)}` },
+        ],
+        steps: [
+          'Convert height from centimeters to meters.',
+          'BMI = weight in kilograms / height in meters squared.',
+          'Compare with the adult underweight threshold of BMI less than 18.5.',
+        ],
+        note:
+          'BMI cannot diagnose anorexia or any eating disorder. If food, weight, exercise, or body image feels hard to control, talk with a qualified health professional.',
+      };
+    }
+    case 'overweight': {
+      const weightKg = parseNumber(inputs.weightKg, 'Weight');
+      const heightCm = parseNumber(inputs.heightCm, 'Height');
+      const result = calculateOverweightBmiCheck(weightKg, heightCm);
+      return {
+        label: 'Overweight BMI screen',
+        expression: `${formatKg(weightKg)} at ${formatCalculatorNumber(heightCm)} cm`,
+        answer: `BMI ${formatCalculatorNumber(result.bmi)}`,
+        metrics: [
+          { label: 'Category', value: result.category },
+          { label: 'Above BMI 24.9', value: result.kgToHealthyMaximum === 0 ? 'Within healthy BMI range' : `${formatKg(result.kgToHealthyMaximum)} / ${formatLb(result.poundsToHealthyMaximum)}` },
+          {
+            label: 'To BMI 30',
+            value:
+              result.kgToObesityThreshold > 0
+                ? `${formatKg(result.kgToObesityThreshold)} below`
+                : `${formatKg(Math.abs(result.kgToObesityThreshold))} above`,
+          },
+        ],
+        steps: [
+          'Convert height from centimeters to meters.',
+          'BMI = weight in kilograms / height in meters squared.',
+          'Compare with adult BMI screening ranges: 25 to less than 30 is the overweight category.',
+        ],
+        note:
+          'BMI is only a screening tool. Waist size, body composition, health history, medications, and clinician review can change the real health picture.',
+      };
+    }
+    case 'nutrition-points': {
+      const result = calculateNutritionPoints({
+        calories: parseNumber(inputs.calories, 'Calories'),
+        saturatedFatG: parseNumber(inputs.saturatedFatG, 'Saturated fat'),
+        addedSugarG: parseNumber(inputs.addedSugarG, 'Added sugar'),
+        sodiumMg: parseNumber(inputs.sodiumMg, 'Sodium'),
+        fiberG: parseNumber(inputs.fiberG, 'Dietary fiber'),
+        proteinG: parseNumber(inputs.proteinG, 'Protein'),
+      });
+      return {
+        label: 'Nutrition points',
+        expression: `${formatKcal(parseNumber(inputs.calories, 'Calories'))}, ${formatCalculatorNumber(parseNumber(inputs.proteinG, 'Protein'))} g protein`,
+        answer: `${formatCalculatorNumber(result.points)} points`,
+        metrics: [
+          { label: 'Category', value: result.category },
+          { label: 'Moderation points', value: formatCalculatorNumber(result.moderationPoints) },
+          { label: 'Fiber/protein credits', value: formatCalculatorNumber(result.supportCredits) },
+        ],
+        steps: [
+          'Add moderation points from calories, saturated fat, added sugar, and sodium.',
+          'Subtract support credits from dietary fiber and protein.',
+          'Compare foods only as a simple label-reading aid, not as a branded diet score.',
+        ],
+        note:
+          'This is an Access Free Tools score, not Weight Watchers Points and not medical nutrition advice. Use the same formula only for rough comparisons.',
       };
     }
     case 'calorie':

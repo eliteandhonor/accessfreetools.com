@@ -44,6 +44,10 @@ References checked:
 - Tightened the GDP calculator example so GDP-per-person uses a consistent billions scale instead of mixing billion-dollar inputs with raw population.
 - Hardened the deployed footer again so the brand, tagline, links, and copyright cannot collapse into narrow vertical text columns on hosted pages.
 - Updated the calculator.net roadmap counts to 197 local tools and 197 local guide pages, with 4 editorial-review items remaining.
+- Completed the final editorial-review topics with safer framing: Underweight BMI, Overweight BMI, Nutrition Points, and Love calculators.
+- The Underweight BMI page explicitly avoids "anorexic BMI" diagnosis language and links BMI screening to professional support boundaries.
+- The Nutrition Points page avoids proprietary Weight Watchers formulas and uses an original transparent Nutrition Facts label score.
+- Updated the calculator.net roadmap counts to 201 local tools and 201 local guide pages, with no direct action items remaining from the reviewed sitemap.
 
 ## Audit Findings
 
@@ -62,7 +66,7 @@ References checked:
 - Category pages are generated only for categories with live tools, which avoids thin empty category pages.
 - Tools and blog pages have search, but blog search did not support URL query state before this pass; fixed.
 - Footer and header provide broad internal links to core hubs.
-- The calculator.net roadmap now exists at `docs/calculator-net-roadmap.md`, keeping future batches grouped and safer. The only remaining competitor-inspired entries are held for proprietary, medically sensitive, or low-trust editorial review.
+- The calculator.net roadmap now exists at `docs/calculator-net-roadmap.md`, keeping future batches grouped and safer. The reviewed competitor-inspired list is now complete, with sensitive/proprietary topics handled as safer alternatives.
 
 ### Content Quality
 
@@ -85,8 +89,8 @@ References checked:
 
 ## Next Recommended Batches
 
-1. Decide whether to omit or safely rename the remaining review topics: Anorexic BMI, Weight Watcher Points, Overweight, and Love Calculator.
-2. Rewrite older static math blogs to match the newer plain-language standard.
-3. Add a compact compare/related-tools block for large categories once each category passes 30 tools.
-4. Add automated internal-link and metadata checks as a test script now that the site is near 200 tools.
-5. Consider adding screenshots or small generated illustrations only where they clarify a tool, not as decorative filler.
+1. Run one editorial rewrite pass over older static math blogs so their language matches the newer plain-English guide style.
+2. Add a compact compare/related-tools block for large categories once each category passes 30 tools.
+3. Add automated internal-link and metadata checks as a test script now that the site is over 200 tools.
+4. Consider adding screenshots or small generated illustrations only where they clarify a tool, not as decorative filler.
+5. Keep reviewing future health/body-image requests before implementation so the site stays useful and non-harmful.

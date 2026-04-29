@@ -1314,4 +1314,28 @@ export const utilityTools: ToolDefinition[] = [
     ],
     relatedSlugs: ['percentage-calculator', 'average-calculator', 'rounding-calculator'],
   }),
+  makeUtilityTool({
+    slug: 'love-calculator',
+    name: 'Love Calculator',
+    category: 'everyday-tools',
+    summary: 'A playful name compatibility game that runs locally in your browser.',
+    description:
+      'Use this free love calculator as a light name-match game with a deterministic score and clear entertainment-only notes.',
+    icon: 'calculator-love',
+    formula:
+      'The calculator cleans the two names, creates a deterministic local hash, and turns it into a playful percentage score from 40 to 100.',
+    limit:
+      'This is only a game. It cannot measure attraction, trust, communication, values, consent, or relationship health.',
+    useCases: [
+      'Play a harmless name-match game with friends.',
+      'Get the same score for the same two names on the same page.',
+      'Use a novelty calculator without pretending it is real compatibility science.',
+      'Keep entered names private in the browser tab.',
+    ],
+    examples: [
+      { label: 'Alex + Sam', expression: 'Alex and Sam', result: 'Playful match score' },
+      { label: 'Taylor + Jordan', expression: 'Taylor and Jordan', result: 'Playful match score' },
+    ],
+    relatedSlugs: ['random-number-generator', 'dice-roller', 'percentage-calculator'],
+  }),
 ];

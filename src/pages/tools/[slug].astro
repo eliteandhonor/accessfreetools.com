@@ -98,6 +98,9 @@ const geometryToolVariant = geometryToolVariants[tool.slug];
 const isGeometryTool = Boolean(geometryToolVariant);
 const healthToolVariants = {
   'bmi-calculator': 'bmi',
+  'underweight-bmi-calculator': 'underweight-bmi',
+  'overweight-calculator': 'overweight',
+  'nutrition-points-calculator': 'nutrition-points',
   'calorie-calculator': 'calorie',
   'body-fat-calculator': 'body-fat',
   'bmr-calculator': 'bmr',
@@ -258,6 +261,7 @@ const utilityToolVariants = {
   'horsepower-calculator': 'horsepower',
   'engine-horsepower-calculator': 'engine-horsepower',
   'golf-handicap-calculator': 'golf-handicap',
+  'love-calculator': 'love',
 } as const satisfies Partial<Record<string, UtilityToolVariant>>;
 const utilityToolVariant = utilityToolVariants[tool.slug];
 const isUtilityTool = Boolean(utilityToolVariant);
@@ -431,6 +435,12 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Press Convert UTC time to see the local date, local time, and UTC offset.',
     'Try nearby dates when daylight-saving time could change the offset.',
     'Use official calendar invites for critical meetings or deadlines.',
+  ],
+  'love-calculator': [
+    'Enter two names or nicknames.',
+    'Press Calculate match to create a repeatable playful score.',
+    'Read the result as a game only, not real relationship advice.',
+    'Use names only; do not enter sensitive private information.',
   ],
   'gas-mileage-calculator': [
     'Enter miles driven and gallons used from the same tank or trip.',

@@ -23,6 +23,7 @@ import {
   calculateHeightEstimate,
   calculateHoursWorked,
   calculateHorsepowerConversion,
+  calculateLoveCompatibility,
   calculateMassFromDensity,
   calculateMileageCost,
   calculateMolarity,
@@ -115,7 +116,8 @@ export type UtilityToolVariant =
   | 'gdp'
   | 'horsepower'
   | 'engine-horsepower'
-  | 'golf-handicap';
+  | 'golf-handicap'
+  | 'love';
 
 type InputMode = HTMLAttributes<HTMLInputElement>['inputMode'];
 type UtilityInputs = Record<string, string>;
@@ -1605,6 +1607,26 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
       },
     ],
   },
+  love: {
+    title: 'Love Calculator',
+    buttonLabel: 'Calculate match',
+    emptyHistory: 'Recent playful matches will appear here.',
+    privacyNote: 'Names stay in your browser. This is a deterministic game, not relationship advice or a real compatibility test.',
+    modes: [
+      {
+        id: 'love',
+        label: 'Name match',
+        symbol: 'LOVE',
+        fields: [textField('nameA', 'First name', 'Alex'), textField('nameB', 'Second name', 'Sam')],
+        defaultInputs: { nameA: 'Alex', nameB: 'Sam' },
+        examples: [
+          { label: 'Alex + Sam', inputs: { nameA: 'Alex', nameB: 'Sam' } },
+          { label: 'Taylor + Jordan', inputs: { nameA: 'Taylor', nameB: 'Jordan' } },
+          { label: 'Kai + Riley', inputs: { nameA: 'Kai', nameB: 'Riley' } },
+        ],
+      },
+    ],
+  },
 };
 
 function parseNumber(value: string, label: string) {
@@ -2859,6 +2881,25 @@ function calculateUtility(variant: UtilityToolVariant, modeId: string, inputs: U
           'Round the score differential to one decimal place.',
         ],
         note: 'An official Handicap Index can include caps, exceptional-score reductions, 9-hole rules, and committee adjustments.',
+      };
+    }
+    case 'love': {
+      const result = calculateLoveCompatibility(inputs.nameA ?? '', inputs.nameB ?? '');
+      return {
+        label: 'Playful match score',
+        expression: `${inputs.nameA ?? ''} + ${inputs.nameB ?? ''}`,
+        answer: `${formatCalculatorNumber(result.score)}%`,
+        metrics: [
+          { label: 'Game label', value: result.label },
+          { label: 'First name key', value: result.normalizedA },
+          { label: 'Second name key', value: result.normalizedB },
+        ],
+        steps: [
+          'Clean the two names into simple letters and numbers.',
+          'Use a deterministic local hash so the same pair gets the same playful score.',
+          'Show the result as entertainment only, not a real compatibility reading.',
+        ],
+        note: 'This is a light browser game. It cannot measure feelings, trust, communication, or relationship health.',
       };
     }
     default: {
