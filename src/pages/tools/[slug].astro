@@ -297,6 +297,16 @@ const utilityToolVariants = {
   'engine-horsepower-calculator': 'engine-horsepower',
   'golf-handicap-calculator': 'golf-handicap',
   'love-calculator': 'love',
+  'word-counter': 'word-counter',
+  'character-counter': 'character-counter',
+  'text-case-converter': 'text-case-converter',
+  'slug-generator': 'slug-generator',
+  'json-formatter': 'json-formatter',
+  'uuid-generator': 'uuid-generator',
+  'hash-generator': 'hash-generator',
+  'unix-timestamp-converter': 'unix-timestamp-converter',
+  'color-contrast-checker': 'color-contrast-checker',
+  'aspect-ratio-calculator': 'aspect-ratio-calculator',
 } as const satisfies Partial<Record<string, UtilityToolVariant>>;
 const utilityToolVariant = utilityToolVariants[tool.slug];
 const isUtilityTool = Boolean(utilityToolVariant);
@@ -476,6 +486,66 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Press Calculate match to create a repeatable playful score.',
     'Read the result as a game only, not real relationship advice.',
     'Use names only; do not enter sensitive private information.',
+  ],
+  'word-counter': [
+    'Paste or type the plain text you want to measure.',
+    'Press Count words to see word count, character count, sentences, paragraphs, lines, and reading time.',
+    'Use examples to compare short text, meta copy, and multi-paragraph drafts.',
+    'Check the target editor separately when a platform has a strict counting rule.',
+  ],
+  'character-counter': [
+    'Paste or type the title, message, snippet, or technical text you want to check.',
+    'Press Count characters to see characters with spaces, without spaces, lines, words, and UTF-8 bytes.',
+    'Use the no-spaces and byte counts only when those are the limits you actually need.',
+    'Check the target platform separately when emojis or rich text are involved.',
+  ],
+  'text-case-converter': [
+    'Choose the output case style, such as title case, sentence case, camelCase, or kebab-case.',
+    'Paste or type the text you want to convert.',
+    'Press Convert case to generate copy-ready output.',
+    'Review proper nouns, brand names, and punctuation before using the converted text.',
+  ],
+  'slug-generator': [
+    'Paste a title, heading, or phrase.',
+    'Add a maximum length only when you need a shorter URL slug.',
+    'Press Generate slug to create lowercase hyphenated text.',
+    'Use one clear canonical page for each intent instead of making near-duplicate slug pages.',
+  ],
+  'json-formatter': [
+    'Paste JSON text into the input box.',
+    'Turn on Sort object keys only when alphabetical order will help comparison.',
+    'Press Format JSON to parse and pretty-print the output.',
+    'Treat parse errors as syntax checks, not full API schema validation.',
+  ],
+  'uuid-generator': [
+    'Enter how many UUID v4 values you need.',
+    'Choose uppercase or no-hyphen formatting only when another system expects it.',
+    'Press Generate UUIDs and copy the output.',
+    'Use UUIDs as identifiers, not as passwords, secrets, or authorization proof.',
+  ],
+  'hash-generator': [
+    'Choose SHA-256, SHA-384, or SHA-512.',
+    'Paste or type the text you want to hash.',
+    'Press Generate hash to create a hexadecimal digest.',
+    'Remember that hashing is not encryption and a raw digest is not a password storage design.',
+  ],
+  'unix-timestamp-converter': [
+    'Choose Date to timestamp when you have a UTC date and time.',
+    'Choose Timestamp to date when you have Unix seconds or milliseconds.',
+    'Check the unit carefully because milliseconds are 1,000 times larger than seconds.',
+    'Use UTC for the calculation, then handle local time-zone display in the app that needs it.',
+  ],
+  'color-contrast-checker': [
+    'Enter foreground and background colors as #RGB or #RRGGBB hex values.',
+    'Press Check contrast to calculate the contrast ratio.',
+    'Read AA and AAA pass/fail results for normal and large text.',
+    'Also check hover, focus, selected, disabled, icon, and real-page states before publishing.',
+  ],
+  'aspect-ratio-calculator': [
+    'Choose Simplify ratio, Scale by width, or Scale by height.',
+    'Enter the original width and height.',
+    'Add the new width or height when scaling.',
+    'Check final export dimensions when a platform or print job requires exact pixels.',
   ],
   'gas-mileage-calculator': [
     'Enter miles driven and gallons used from the same tank or trip.',
@@ -1305,9 +1375,9 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         <aside class="trust-note trust-note-utility" aria-label={`${tool.name} assumptions`}>
           <strong>Check the assumptions before relying on the result</strong>
           <p>
-            This tool is built for fast browser-based estimates and learning. Official school policies, payroll rules,
-            construction conditions, network configuration, account security, and regulated unit conversions can require
-            a specific authority or professional check.
+            This tool is built for fast browser-based estimates, formatting, checks, and learning. Official school
+            policies, payroll rules, construction conditions, accessibility reviews, network configuration, account
+            security, API schemas, and regulated unit conversions can require a specific authority or professional check.
           </p>
         </aside>
       )

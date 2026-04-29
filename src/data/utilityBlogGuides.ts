@@ -153,6 +153,30 @@ const sourceLinks = {
     href: 'https://www.usga.org/HandicapFAQ/handicap.asp',
     label: 'USGA: World Handicap System FAQ',
   },
+  googleHelpfulContent: {
+    href: 'https://developers.google.com/search/docs/fundamentals/creating-helpful-content',
+    label: 'Google Search Central: Creating helpful, reliable, people-first content',
+  },
+  googleSeoStarter: {
+    href: 'https://developers.google.com/search/docs/fundamentals/seo-starter-guide',
+    label: 'Google Search Central: SEO Starter Guide',
+  },
+  rfc9562: {
+    href: 'https://www.rfc-editor.org/rfc/rfc9562',
+    label: 'RFC 9562: Universally Unique IDentifiers',
+  },
+  mdnSubtleCryptoDigest: {
+    href: 'https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest',
+    label: 'MDN: SubtleCrypto digest()',
+  },
+  nistFips180: {
+    href: 'https://csrc.nist.gov/pubs/fips/180-4/upd1/final',
+    label: 'NIST FIPS 180-4: Secure Hash Standard',
+  },
+  wcagContrast: {
+    href: 'https://www.w3.org/TR/WCAG22/',
+    label: 'W3C: Web Content Accessibility Guidelines 2.2',
+  },
 };
 
 const guideDetails: Record<string, UtilityGuideDetail> = {
@@ -1499,6 +1523,216 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not treat the result as real compatibility science.',
       'Do not use the score to pressure, judge, or make decisions about another person.',
       'Do not enter sensitive private information; names or nicknames are enough for the game.',
+    ],
+    sources: [],
+  },
+  'word-counter': {
+    summary: 'Learn how to count words, characters, sentences, paragraphs, and reading time from plain text.',
+    purpose:
+      'The Word Counter helps writers, students, site owners, and editors understand the size of a draft before publishing. It is especially useful when a tool, class, search snippet, or platform has a practical length target.',
+    enter: [
+      'Paste or type plain text into the text box.',
+      'Use the examples when you want to see how sentence, paragraph, and line counts behave.',
+      'Press Count words to refresh the result after editing.',
+    ],
+    read: [
+      'The headline number is the word count.',
+      'Characters, sentences, paragraphs, lines, and UTF-8 bytes explain the text from different angles.',
+      'Reading time is a rough estimate, not a promise about every reader.',
+    ],
+    mistakes: [
+      'Do not assume every publishing platform counts emojis, punctuation, and links the same way.',
+      'Do not optimize only for word count; helpful content still needs clear answers and useful examples.',
+      'Check the target editor when a school, client, or social platform has a strict limit.',
+    ],
+    sources: [sourceLinks.googleHelpfulContent],
+  },
+  'character-counter': {
+    summary: 'Learn how to count characters with spaces, without spaces, by line, and by UTF-8 byte length.',
+    purpose:
+      'The Character Counter is for short text where length matters: page titles, meta descriptions, captions, messages, form text, and technical strings. It shows the main character count plus related counts that catch common surprises.',
+    enter: [
+      'Paste or type the text you want to check.',
+      'Include line breaks if the target field will include them.',
+      'Press Count characters after changing the draft.',
+    ],
+    read: [
+      'Characters is the main visible character count.',
+      'Without spaces is useful when a task ignores whitespace.',
+      'UTF-8 bytes helps when a technical system limits bytes rather than visible characters.',
+    ],
+    mistakes: [
+      'Do not assume emojis and combined symbols count the same everywhere.',
+      'Do not rely on byte length when a platform says it uses visible characters.',
+      'For search snippets, remember Google may choose different snippet text from the page.',
+    ],
+    sources: [sourceLinks.googleSeoStarter],
+  },
+  'text-case-converter': {
+    summary: 'Learn how to convert plain text into common writing, code, filename, and URL case styles.',
+    purpose:
+      'The Text Case Converter saves small editing time by turning a phrase into uppercase, lowercase, title case, sentence case, camelCase, PascalCase, snake_case, or kebab-case.',
+    enter: [
+      'Choose the case style you need.',
+      'Paste or type the text to convert.',
+      'Press Convert case and copy the output when it looks right.',
+    ],
+    read: [
+      'The output box is the copy-ready converted text.',
+      'Mode tells you which case style was applied.',
+      'Changed positions gives a quick sense of how different the output is from the input.',
+    ],
+    mistakes: [
+      'Do not treat generated title case as a full style-guide editor.',
+      'Identifier modes remove punctuation, so check names that need symbols.',
+      'Review proper nouns and brand names after converting.',
+    ],
+    sources: [],
+  },
+  'slug-generator': {
+    summary: 'Learn how to turn titles and phrases into clean lowercase URL slugs.',
+    purpose:
+      'The Slug Generator turns a readable title into a URL-friendly draft path. It is useful for planning blog guides and tool pages while keeping one clear canonical page for each search intent.',
+    enter: [
+      'Paste a title, heading, or tool name.',
+      'Add a maximum length only when you need a shorter slug.',
+      'Press Generate slug and review the output before using it in a URL.',
+    ],
+    read: [
+      'The generated slug is lowercase and hyphen-separated.',
+      'Characters shows the final slug length.',
+      'Max length shows whether the optional trim was applied.',
+    ],
+    mistakes: [
+      'Do not create multiple near-duplicate pages just because several slug versions are possible.',
+      'Do not remove important words if the slug becomes unclear.',
+      'Keep slugs readable, but prioritize the page title and content quality first.',
+    ],
+    sources: [sourceLinks.googleSeoStarter],
+  },
+  'json-formatter': {
+    summary: 'Learn how to format, validate, sort, and copy JSON in the browser.',
+    purpose:
+      'The JSON Formatter helps you read copied JSON by parsing it and printing it with indentation. It is for syntax and readability, not for proving that an API payload follows a particular business schema.',
+    enter: [
+      'Paste JSON into the JSON text box.',
+      'Turn on Sort object keys only when alphabetical key order will help comparison.',
+      'Press Format JSON to parse and pretty-print the text.',
+    ],
+    read: [
+      'The output box shows formatted JSON with two-space indentation.',
+      'Root type tells you whether the JSON starts as an object, array, string, number, boolean, or null.',
+      'Keys counts object keys across nested objects.',
+    ],
+    mistakes: [
+      'Do not paste private tokens or secrets unless you are comfortable viewing them in this tab.',
+      'Do not confuse valid JSON syntax with valid API data.',
+      'Check trailing commas, missing quotes, and mismatched braces when parsing fails.',
+    ],
+    sources: [],
+  },
+  'uuid-generator': {
+    summary: 'Learn how to generate UUID v4 identifiers locally in the browser.',
+    purpose:
+      'The UUID Generator creates version 4 UUIDs for development workflows, test data, mock records, and local prototypes. It uses random bytes and formats them as standard UUID strings.',
+    enter: [
+      'Choose how many UUIDs to generate.',
+      'Turn on uppercase or remove hyphens only when another system expects that format.',
+      'Press Generate UUIDs and copy the output.',
+    ],
+    read: [
+      'Each line is one generated UUID.',
+      'Quantity confirms how many IDs were generated.',
+      'Case and hyphen settings describe the chosen output format.',
+    ],
+    mistakes: [
+      'Do not use UUIDs as passwords or secret tokens.',
+      'Do not assume UUIDs prove authorization or ownership.',
+      'Do not use generated IDs as ordered timestamps; UUID v4 is random, not chronological.',
+    ],
+    sources: [sourceLinks.rfc9562],
+  },
+  'hash-generator': {
+    summary: 'Learn how to generate SHA-256, SHA-384, and SHA-512 text digests.',
+    purpose:
+      'The Hash Generator creates SHA-2 digests from text using the browser SubtleCrypto API. It is useful for learning, quick comparisons, and small debugging tasks.',
+    enter: [
+      'Choose SHA-256, SHA-384, or SHA-512.',
+      'Paste or type the text to hash.',
+      'Press Generate hash and copy the hexadecimal digest.',
+    ],
+    read: [
+      'The output is the lowercase hexadecimal digest.',
+      'Input bytes shows the UTF-8 byte length of the text.',
+      'Digest bytes changes by algorithm: SHA-256 is 32 bytes, SHA-384 is 48 bytes, and SHA-512 is 64 bytes.',
+    ],
+    mistakes: [
+      'Do not treat hashing as encryption; a hash cannot be decrypted.',
+      'Do not use a raw hash as a password storage design.',
+      'Do not use a hash alone as proof that a message came from a trusted sender.',
+    ],
+    sources: [sourceLinks.mdnSubtleCryptoDigest, sourceLinks.nistFips180],
+  },
+  'unix-timestamp-converter': {
+    summary: 'Learn how to convert UTC dates to Unix timestamps and timestamps back to UTC time.',
+    purpose:
+      'The Unix Timestamp Converter is for log, API, database, and developer work where time is stored as a count from the Unix epoch. It uses UTC so the conversion does not silently depend on the viewer’s local time zone.',
+    enter: [
+      'Use Date to timestamp mode when you have a UTC date and time.',
+      'Use Timestamp to date mode when you have Unix seconds or milliseconds.',
+      'Choose the correct unit before converting a timestamp.',
+    ],
+    read: [
+      'Unix seconds is the common compact timestamp form.',
+      'Milliseconds is often used in JavaScript and browser APIs.',
+      'UTC ISO output shows the converted instant in a readable standard format.',
+    ],
+    mistakes: [
+      'Do not mix seconds and milliseconds; millisecond timestamps are 1,000 times larger.',
+      'Do not enter local time unless you have already converted it to UTC.',
+      'Check application-specific time-zone rules before scheduling real events.',
+    ],
+    sources: [sourceLinks.mdnDate, sourceLinks.isoDate],
+  },
+  'color-contrast-checker': {
+    summary: 'Learn how to compare two colors with the WCAG contrast ratio formula.',
+    purpose:
+      'The Color Contrast Checker helps you catch low-contrast text and background combinations before they become a design or accessibility problem. It reports WCAG AA and AAA pass or fail results.',
+    enter: [
+      'Enter the text color as #RGB or #RRGGBB.',
+      'Enter the background color as #RGB or #RRGGBB.',
+      'Press Check contrast to calculate the ratio.',
+    ],
+    read: [
+      'The contrast ratio compares the lighter luminance with the darker luminance.',
+      'AA normal text should be at least 4.5:1.',
+      'AA large text should be at least 3:1.',
+    ],
+    mistakes: [
+      'Do not check only the default state; hover, focus, disabled, and selected states matter too.',
+      'Do not rely on color alone to communicate state.',
+      'Do not assume a passing contrast ratio fixes all accessibility issues.',
+    ],
+    sources: [sourceLinks.wcagContrast],
+  },
+  'aspect-ratio-calculator': {
+    summary: 'Learn how to simplify image and video dimensions or resize while preserving proportions.',
+    purpose:
+      'The Aspect Ratio Calculator keeps designs, screenshots, images, and video frames from stretching. It simplifies width and height into a ratio and can calculate a matching width or height for resizing.',
+    enter: [
+      'Use Simplify ratio when you only need the width-to-height relationship.',
+      'Use Scale by width when you know the new width and need the matching height.',
+      'Use Scale by height when you know the new height and need the matching width.',
+    ],
+    read: [
+      'Ratio shows the simplified width-to-height relationship.',
+      'Decimal shows width divided by height.',
+      'Scaled size shows the missing dimension when you resize by width or height.',
+    ],
+    mistakes: [
+      'Do not round too early when a platform needs exact pixels.',
+      'Do not crop and resize as if they are the same thing; cropping changes what is visible.',
+      'Check the final export dimensions after compression or image editing.',
     ],
     sources: [],
   },

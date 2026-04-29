@@ -54,6 +54,11 @@ References checked:
 - Added a dedicated Home & Projects category so material takeoff tools no longer have to sit in generic everyday/math buckets.
 - Added matching utility guide pages for the batch, with references for paint coverage, board-foot measurement, asphalt quantity estimating, and NIST unit conversions.
 - Updated construction/material calculator tests and verified the site now builds 447 static pages.
+- Added the next post-calculator.net browser utility batch: Word Counter, Character Counter, Text Case Converter, Slug Generator, JSON Formatter, UUID Generator, Hash Generator, Unix Timestamp Converter, Color Contrast Checker, and Aspect Ratio Calculator.
+- Filled previously thin Text Tools and Image Tools category paths with real tools, clearer category guidance, icons, examples, FAQs, and matching guide pages.
+- Added multiline text-output rendering to the shared utility interface so JSON, hashes, UUID lists, text stats, and generated slugs are easier to copy and read.
+- Added source-backed guide references for Google helpful-content guidance, Google SEO basics, RFC 9562 UUIDs, MDN SubtleCrypto hashing, NIST FIPS 180-4 hash standards, WCAG 2.2 contrast guidance, ISO date formats, and MDN Date handling.
+- Updated footer/category discovery for Text and Image hubs and verified the site now builds 469 static pages.
 
 ## Audit Findings
 

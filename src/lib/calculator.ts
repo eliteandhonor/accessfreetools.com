@@ -7050,6 +7050,97 @@ export interface GolfCourseHandicapResult {
   playingHandicap: number;
 }
 
+export interface TextAnalysisResult {
+  text: string;
+  characters: number;
+  charactersNoSpaces: number;
+  words: number;
+  sentences: number;
+  paragraphs: number;
+  lines: number;
+  bytesUtf8: number;
+  estimatedReadingMinutes: number;
+}
+
+export type TextCaseMode = 'uppercase' | 'lowercase' | 'title' | 'sentence' | 'camel' | 'pascal' | 'snake' | 'kebab';
+
+export interface TextCaseResult {
+  input: string;
+  mode: TextCaseMode;
+  output: string;
+  changedCharacters: number;
+}
+
+export interface SlugResult {
+  input: string;
+  slug: string;
+  maxLength: number | null;
+  wordCount: number;
+  characterCount: number;
+}
+
+export interface JsonFormatResult {
+  input: string;
+  output: string;
+  rootType: string;
+  keyCount: number;
+  byteLength: number;
+}
+
+export interface UuidBatchResult {
+  uuids: string[];
+  quantity: number;
+  uppercase: boolean;
+  hyphens: boolean;
+}
+
+export type HashAlgorithm = 'SHA-256' | 'SHA-384' | 'SHA-512';
+
+export interface TextDigestResult {
+  algorithm: HashAlgorithm;
+  input: string;
+  hexDigest: string;
+  bytesUtf8: number;
+  digestBytes: number;
+}
+
+export interface UnixTimestampFromDateResult {
+  utcIso: string;
+  seconds: number;
+  milliseconds: number;
+}
+
+export interface UnixTimestampToDateResult {
+  timestamp: number;
+  unit: 'seconds' | 'milliseconds';
+  utcIso: string;
+  utcDate: string;
+  utcTime: string;
+}
+
+export interface ColorContrastResult {
+  foreground: string;
+  background: string;
+  foregroundRgb: [number, number, number];
+  backgroundRgb: [number, number, number];
+  contrastRatio: number;
+  passesAaNormal: boolean;
+  passesAaLarge: boolean;
+  passesAaaNormal: boolean;
+  passesAaaLarge: boolean;
+}
+
+export interface AspectRatioResult {
+  width: number;
+  height: number;
+  ratioWidth: number;
+  ratioHeight: number;
+  ratioLabel: string;
+  decimal: number;
+  scaledWidth?: number;
+  scaledHeight?: number;
+}
+
 const millisecondsPerDay = 86400000;
 const secondsPerHour = 3600;
 const secondsPerMinute = 60;
@@ -9116,6 +9207,429 @@ export function calculateGolfCourseHandicap(
     courseHandicap,
     playingHandicap: Math.round(courseHandicap * (allowancePercent / 100)),
   };
+}
+
+function tokenizeWords(text: string) {
+  return text.match(/[\p{L}\p{N}]+(?:['-][\p{L}\p{N}]+)*/gu) ?? [];
+}
+
+export function analyzeText(text: string): TextAnalysisResult {
+  const trimmed = text.trim();
+  const words = tokenizeWords(text);
+  const sentences = trimmed ? trimmed.split(/[.!?]+(?=\s|$)/).filter((sentence) => sentence.trim()).length : 0;
+  const paragraphs = trimmed ? trimmed.split(/\n\s*\n/).filter((paragraph) => paragraph.trim()).length : 0;
+  const lines = text.length ? text.split(/\r\n|\r|\n/).length : 0;
+
+  return {
+    text,
+    characters: [...text].length,
+    charactersNoSpaces: [...text.replace(/\s/g, '')].length,
+    words: words.length,
+    sentences,
+    paragraphs,
+    lines,
+    bytesUtf8: new TextEncoder().encode(text).length,
+    estimatedReadingMinutes: words.length / 200,
+  };
+}
+
+function titleCaseWord(word: string) {
+  if (!word) return '';
+  return `${word.charAt(0).toLocaleUpperCase()}${word.slice(1).toLocaleLowerCase()}`;
+}
+
+function sentenceCaseText(text: string) {
+  let shouldCapitalize = true;
+
+  return [...text.toLocaleLowerCase()]
+    .map((character) => {
+      if (/[.!?]/.test(character)) {
+        shouldCapitalize = true;
+        return character;
+      }
+
+      if (/\p{L}/u.test(character) && shouldCapitalize) {
+        shouldCapitalize = false;
+        return character.toLocaleUpperCase();
+      }
+
+      if (/\p{L}/u.test(character)) {
+        shouldCapitalize = false;
+      }
+
+      return character;
+    })
+    .join('')
+    .replace(/[.!?]\s+/g, (ending) => {
+      shouldCapitalize = true;
+      return ending;
+    });
+}
+
+function wordsForIdentifier(text: string) {
+  return tokenizeWords(text.normalize('NFKD').replace(/[\u0300-\u036f]/g, ''));
+}
+
+export function convertTextCase(input: string, mode: TextCaseMode): TextCaseResult {
+  let output = input;
+  const words = wordsForIdentifier(input);
+
+  switch (mode) {
+    case 'uppercase':
+      output = input.toLocaleUpperCase();
+      break;
+    case 'lowercase':
+      output = input.toLocaleLowerCase();
+      break;
+    case 'title':
+      output = input.replace(/[\p{L}\p{N}]+(?:['-][\p{L}\p{N}]+)*/gu, titleCaseWord);
+      break;
+    case 'sentence':
+      output = sentenceCaseText(input);
+      break;
+    case 'camel':
+      output = words.map((word, index) => (index === 0 ? word.toLocaleLowerCase() : titleCaseWord(word))).join('');
+      break;
+    case 'pascal':
+      output = words.map(titleCaseWord).join('');
+      break;
+    case 'snake':
+      output = words.map((word) => word.toLocaleLowerCase()).join('_');
+      break;
+    case 'kebab':
+      output = words.map((word) => word.toLocaleLowerCase()).join('-');
+      break;
+    default:
+      output = input;
+  }
+
+  const inputCharacters = [...input];
+  const outputCharacters = [...output];
+  const changedCharacters = Math.max(inputCharacters.length, outputCharacters.length)
+    - inputCharacters.filter((character, index) => character === outputCharacters[index]).length;
+
+  return {
+    input,
+    mode,
+    output,
+    changedCharacters,
+  };
+}
+
+export function generateSlug(input: string, maxLength?: number): SlugResult {
+  const max = maxLength === undefined || maxLength === 0 ? null : maxLength;
+
+  if (max !== null) {
+    assertSafeInteger(max, 'Maximum length');
+
+    if (max < 8 || max > 120) {
+      throw new Error('Maximum length should be between 8 and 120 characters');
+    }
+  }
+
+  const words = wordsForIdentifier(input.replace(/&/g, ' and '));
+  let slug = words.map((word) => word.toLocaleLowerCase()).join('-');
+
+  if (!slug) {
+    throw new Error('Enter text that can become a slug');
+  }
+
+  if (max !== null && slug.length > max) {
+    slug = slug.slice(0, max).replace(/-+$/g, '');
+  }
+
+  return {
+    input,
+    slug,
+    maxLength: max,
+    wordCount: words.length,
+    characterCount: slug.length,
+  };
+}
+
+function sortJsonValue(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    return value.map(sortJsonValue);
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.keys(value as Record<string, unknown>)
+      .sort((left, right) => left.localeCompare(right))
+      .reduce<Record<string, unknown>>((sorted, key) => {
+        sorted[key] = sortJsonValue((value as Record<string, unknown>)[key]);
+        return sorted;
+      }, {});
+  }
+
+  return value;
+}
+
+function countJsonKeys(value: unknown): number {
+  if (Array.isArray(value)) {
+    return value.reduce((count, item) => count + countJsonKeys(item), 0);
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.entries(value as Record<string, unknown>).reduce(
+      (count, [, child]) => count + 1 + countJsonKeys(child),
+      0,
+    );
+  }
+
+  return 0;
+}
+
+function jsonRootType(value: unknown) {
+  if (Array.isArray(value)) return 'array';
+  if (value === null) return 'null';
+  return typeof value;
+}
+
+export function formatJsonText(input: string, sortKeys = false): JsonFormatResult {
+  if (!input.trim()) {
+    throw new Error('Enter JSON text to format');
+  }
+
+  let parsed: unknown;
+
+  try {
+    parsed = JSON.parse(input);
+  } catch {
+    throw new Error('JSON could not be parsed. Check quotes, commas, braces, and brackets.');
+  }
+
+  const normalized = sortKeys ? sortJsonValue(parsed) : parsed;
+  const output = JSON.stringify(normalized, null, 2);
+
+  return {
+    input,
+    output,
+    rootType: jsonRootType(parsed),
+    keyCount: countJsonKeys(parsed),
+    byteLength: new TextEncoder().encode(output).length,
+  };
+}
+
+function randomBytes(length: number, getRandomUint32: RandomUint32Source) {
+  const bytes = new Uint8Array(length);
+
+  for (let index = 0; index < length; index += 4) {
+    const value = getRandomUint32();
+    bytes[index] = value & 255;
+    if (index + 1 < length) bytes[index + 1] = (value >>> 8) & 255;
+    if (index + 2 < length) bytes[index + 2] = (value >>> 16) & 255;
+    if (index + 3 < length) bytes[index + 3] = (value >>> 24) & 255;
+  }
+
+  return bytes;
+}
+
+export function generateUuidV4(getRandomUint32: RandomUint32Source = secureRandomUint32): string {
+  const bytes = randomBytes(16, getRandomUint32);
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = [...bytes].map((byte) => byte.toString(16).padStart(2, '0'));
+
+  return `${hex.slice(0, 4).join('')}-${hex.slice(4, 6).join('')}-${hex.slice(6, 8).join('')}-${hex
+    .slice(8, 10)
+    .join('')}-${hex.slice(10, 16).join('')}`;
+}
+
+export function generateUuidBatch(
+  quantity: number,
+  uppercase = false,
+  hyphens = true,
+  getRandomUint32: RandomUint32Source = secureRandomUint32,
+): UuidBatchResult {
+  assertSafeInteger(quantity, 'Quantity');
+
+  if (quantity < 1 || quantity > 100) {
+    throw new Error('Quantity must be between 1 and 100');
+  }
+
+  const uuids = Array.from({ length: quantity }, () => {
+    let uuid = generateUuidV4(getRandomUint32);
+    if (!hyphens) uuid = uuid.replace(/-/g, '');
+    if (uppercase) uuid = uuid.toUpperCase();
+    return uuid;
+  });
+
+  return {
+    uuids,
+    quantity,
+    uppercase,
+    hyphens,
+  };
+}
+
+export async function digestText(input: string, algorithm: HashAlgorithm): Promise<TextDigestResult> {
+  if (!globalThis.crypto?.subtle) {
+    throw new Error('Secure hash generation needs the browser SubtleCrypto API.');
+  }
+
+  const bytes = new TextEncoder().encode(input);
+  const digest = await globalThis.crypto.subtle.digest(algorithm, bytes);
+  const digestBytes = new Uint8Array(digest);
+  const hexDigest = [...digestBytes].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+
+  return {
+    algorithm,
+    input,
+    hexDigest,
+    bytesUtf8: bytes.length,
+    digestBytes: digestBytes.length,
+  };
+}
+
+export function calculateUnixTimestampFromDate(utcDate: string, utcTime: string): UnixTimestampFromDateResult {
+  const { year, month, day } = parseIsoDateParts(utcDate, 'UTC date');
+  const seconds = parseClockTime(utcTime, 'UTC time');
+  const hours = Math.floor(seconds / secondsPerHour);
+  const minutes = Math.floor((seconds - hours * secondsPerHour) / secondsPerMinute);
+  const remainingSeconds = seconds - hours * secondsPerHour - minutes * secondsPerMinute;
+  const milliseconds = Date.UTC(year, month - 1, day, hours, minutes, remainingSeconds);
+
+  return {
+    utcIso: new Date(milliseconds).toISOString(),
+    seconds: Math.floor(milliseconds / 1000),
+    milliseconds,
+  };
+}
+
+export function calculateDateFromUnixTimestamp(
+  timestamp: number,
+  unit: 'seconds' | 'milliseconds',
+): UnixTimestampToDateResult {
+  assertFiniteNumber(timestamp, 'Timestamp');
+
+  const milliseconds = unit === 'seconds' ? timestamp * 1000 : timestamp;
+  const date = new Date(milliseconds);
+
+  if (!Number.isFinite(date.getTime())) {
+    throw new Error('Timestamp is outside the supported date range');
+  }
+
+  const utcIso = date.toISOString();
+
+  return {
+    timestamp,
+    unit,
+    utcIso,
+    utcDate: utcIso.slice(0, 10),
+    utcTime: utcIso.slice(11, 19),
+  };
+}
+
+function normalizeHexColor(input: string) {
+  const trimmed = input.trim().replace(/^#/, '');
+
+  if (/^[0-9a-f]{3}$/i.test(trimmed)) {
+    return `#${trimmed
+      .split('')
+      .map((character) => character + character)
+      .join('')
+      .toLowerCase()}`;
+  }
+
+  if (/^[0-9a-f]{6}$/i.test(trimmed)) {
+    return `#${trimmed.toLowerCase()}`;
+  }
+
+  throw new Error('Enter colors as #RGB or #RRGGBB hex values');
+}
+
+function hexToRgb(input: string): [number, number, number] {
+  const normalized = normalizeHexColor(input).slice(1);
+  return [
+    Number.parseInt(normalized.slice(0, 2), 16),
+    Number.parseInt(normalized.slice(2, 4), 16),
+    Number.parseInt(normalized.slice(4, 6), 16),
+  ];
+}
+
+function linearizedSrgb(channel: number) {
+  const value = channel / 255;
+  return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+}
+
+function relativeLuminance(rgb: [number, number, number]) {
+  return 0.2126 * linearizedSrgb(rgb[0]) + 0.7152 * linearizedSrgb(rgb[1]) + 0.0722 * linearizedSrgb(rgb[2]);
+}
+
+export function calculateColorContrast(foreground: string, background: string): ColorContrastResult {
+  const foregroundHex = normalizeHexColor(foreground);
+  const backgroundHex = normalizeHexColor(background);
+  const foregroundRgb = hexToRgb(foregroundHex);
+  const backgroundRgb = hexToRgb(backgroundHex);
+  const foregroundLuminance = relativeLuminance(foregroundRgb);
+  const backgroundLuminance = relativeLuminance(backgroundRgb);
+  const lighter = Math.max(foregroundLuminance, backgroundLuminance);
+  const darker = Math.min(foregroundLuminance, backgroundLuminance);
+  const contrastRatio = (lighter + 0.05) / (darker + 0.05);
+
+  return {
+    foreground: foregroundHex,
+    background: backgroundHex,
+    foregroundRgb,
+    backgroundRgb,
+    contrastRatio,
+    passesAaNormal: contrastRatio >= 4.5,
+    passesAaLarge: contrastRatio >= 3,
+    passesAaaNormal: contrastRatio >= 7,
+    passesAaaLarge: contrastRatio >= 4.5,
+  };
+}
+
+function decimalPlaces(value: number) {
+  const text = value.toString();
+  if (!text.includes('.')) return 0;
+  return text.split('.')[1].length;
+}
+
+function scaledWholeNumber(value: number, scale: number) {
+  return Math.round(value * scale);
+}
+
+export function calculateAspectRatio(
+  width: number,
+  height: number,
+  targetWidth?: number,
+  targetHeight?: number,
+): AspectRatioResult {
+  assertPositiveNumber(width, 'Width');
+  assertPositiveNumber(height, 'Height');
+
+  if (targetWidth !== undefined && targetHeight !== undefined) {
+    throw new Error('Enter target width or target height, not both');
+  }
+
+  if (targetWidth !== undefined) assertPositiveNumber(targetWidth, 'Target width');
+  if (targetHeight !== undefined) assertPositiveNumber(targetHeight, 'Target height');
+
+  const scale = 10 ** Math.min(6, Math.max(decimalPlaces(width), decimalPlaces(height)));
+  const ratioDivisor = greatestCommonDivisor(scaledWholeNumber(width, scale), scaledWholeNumber(height, scale));
+  const ratioWidth = scaledWholeNumber(width, scale) / ratioDivisor;
+  const ratioHeight = scaledWholeNumber(height, scale) / ratioDivisor;
+  const result: AspectRatioResult = {
+    width,
+    height,
+    ratioWidth,
+    ratioHeight,
+    ratioLabel: `${ratioWidth}:${ratioHeight}`,
+    decimal: width / height,
+  };
+
+  if (targetWidth !== undefined) {
+    result.scaledWidth = targetWidth;
+    result.scaledHeight = targetWidth / (width / height);
+  }
+
+  if (targetHeight !== undefined) {
+    result.scaledHeight = targetHeight;
+    result.scaledWidth = targetHeight * (width / height);
+  }
+
+  return result;
 }
 
 export function numberToRomanNumeral(value: number): string {

@@ -56,13 +56,17 @@ import {
   groupHexDigits,
   generateRandomNumbers,
   calculateAge,
+  analyzeText,
   calculateAsphaltEstimate,
+  calculateAspectRatio,
   calculateBandwidthTime,
   calculateBoardFoot,
   calculateBraSize,
   calculateBtuEstimate,
   calculateCarpetEstimate,
+  calculateColorContrast,
   calculateDayOfWeek,
+  calculateDateFromUnixTimestamp,
   calculateDeckCostEstimate,
   calculateDensity,
   calculateDiceRoll,
@@ -194,8 +198,11 @@ import {
   calculateWeightForce,
   calculateWindChill,
   calculateEngineHorsepower,
+  calculateUnixTimestampFromDate,
   convertMeasurement,
   convertShoeSize,
+  convertTextCase,
+  digestText,
   decodeBase64,
   decodeUrlComponentValue,
   encodeBase64,
@@ -205,7 +212,11 @@ import {
   classifyBodyType,
   daysBetweenIsoDates,
   estimateBac,
+  formatJsonText,
   generatePassword,
+  generateSlug,
+  generateUuidBatch,
+  generateUuidV4,
   numberToRomanNumeral,
   mixedToFraction,
   parseBigInteger,
@@ -1595,5 +1606,42 @@ describe('utility helpers', () => {
     expect(courseHandicap.playingHandicap).toBe(14);
     expect(love.score).toBe(loveReversed.score);
     expect(love.label.length).toBeGreaterThan(0);
+  });
+
+  it('calculates text, developer, timestamp, color, and aspect-ratio utility helpers', async () => {
+    const text = analyzeText('Access Free Tools helps people.\n\nTools stay local.');
+    const caseResult = convertTextCase('basic calculator result', 'camel');
+    const slug = generateSlug('How to Use the Kawaii Calculator', 60);
+    const json = formatJsonText('{"z":3,"a":{"b":2,"a":1}}', true);
+    const uuid = generateUuidV4(sequenceSource([0x03020100, 0x07060504, 0x0b0a0908, 0x0f0e0d0c]));
+    const batch = generateUuidBatch(2, true, false, sequenceSource([
+      0x03020100,
+      0x07060504,
+      0x0b0a0908,
+      0x0f0e0d0c,
+      0x13121110,
+      0x17161514,
+      0x1b1a1918,
+      0x1f1e1d1c,
+    ]));
+    const digest = await digestText('abc', 'SHA-256');
+    const timestamp = calculateUnixTimestampFromDate('2026-04-29', '12:00');
+    const dateFromTimestamp = calculateDateFromUnixTimestamp(timestamp.seconds, 'seconds');
+    const contrast = calculateColorContrast('#101828', '#ffffff');
+    const aspect = calculateAspectRatio(1920, 1080, 1280);
+
+    expect(text.words).toBe(8);
+    expect(text.paragraphs).toBe(2);
+    expect(caseResult.output).toBe('basicCalculatorResult');
+    expect(slug.slug).toBe('how-to-use-the-kawaii-calculator');
+    expect(json.output).toContain('"a": 1');
+    expect(uuid).toBe('00010203-0405-4607-8809-0a0b0c0d0e0f');
+    expect(batch.uuids[0]).toBe('000102030405460788090A0B0C0D0E0F');
+    expect(digest.hexDigest).toBe('ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');
+    expect(timestamp.utcIso).toBe('2026-04-29T12:00:00.000Z');
+    expect(dateFromTimestamp.utcDate).toBe('2026-04-29');
+    expect(contrast.passesAaNormal).toBe(true);
+    expect(aspect.ratioLabel).toBe('16:9');
+    expect(aspect.scaledHeight).toBe(720);
   });
 });

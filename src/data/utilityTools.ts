@@ -1672,4 +1672,264 @@ export const utilityTools: ToolDefinition[] = [
     ],
     relatedSlugs: ['random-number-generator', 'dice-roller', 'percentage-calculator'],
   }),
+  makeUtilityTool({
+    slug: 'word-counter',
+    name: 'Word Counter',
+    category: 'text-tools',
+    summary: 'Count words, characters, sentences, paragraphs, lines, and estimated reading time.',
+    description:
+      'Use this free word counter to count words, characters, sentences, paragraphs, lines, UTF-8 bytes, and estimated reading time in your browser.',
+    icon: 'tool-word-counter',
+    aliases: ['Online Word Counter', 'Text Word Count Tool'],
+    formula:
+      'The tool splits plain text into word-like groups, counts the surrounding text structure, and estimates reading time at about 200 words per minute.',
+    limit:
+      'Different editors and social platforms can count emojis, punctuation, links, line breaks, or hyphenated words differently.',
+    useCases: [
+      'Check blog drafts, essays, product copy, and article sections before publishing.',
+      'Estimate reading time from a rough word count.',
+      'Count sentences, paragraphs, and lines while editing text.',
+      'Compare word count and character count in one local browser tool.',
+    ],
+    examples: [
+      { label: 'Short sentence', expression: 'Access Free Tools helps people finish quick browser tasks.', result: 'Word count and reading time' },
+      { label: 'Meta copy', expression: 'A 150-character summary draft', result: 'Words, characters, and bytes' },
+      { label: 'Paragraph draft', expression: 'Two paragraphs separated by a blank line', result: 'Paragraph and line counts' },
+    ],
+    relatedSlugs: ['character-counter', 'text-case-converter', 'slug-generator'],
+  }),
+  makeUtilityTool({
+    slug: 'character-counter',
+    name: 'Character Counter',
+    category: 'text-tools',
+    summary: 'Count characters with spaces, characters without spaces, lines, words, and UTF-8 bytes.',
+    description:
+      'Use this free character counter to check total characters, characters without spaces, UTF-8 byte length, words, and lines for short-form text.',
+    icon: 'tool-character-counter',
+    aliases: ['Letter Counter', 'Online Character Counter'],
+    formula:
+      'The tool counts Unicode characters, removes whitespace for a no-spaces count, and encodes the text as UTF-8 to estimate byte length.',
+    limit:
+      'Hard limits can vary by app because some platforms count emoji sequences, links, rich text, or line breaks in their own way.',
+    useCases: [
+      'Check page titles, snippets, captions, messages, and form text against limits.',
+      'Compare character count with and without spaces.',
+      'Estimate UTF-8 byte length for technical inputs.',
+      'Review line and word counts while editing short text.',
+    ],
+    examples: [
+      { label: 'Page title', expression: 'Free calculator tools for quick everyday math.', result: 'Character total' },
+      { label: 'Short message', expression: 'Meeting moved to 2:30 PM.', result: 'Characters and words' },
+      { label: 'Technical text', expression: 'Text with line breaks', result: 'Lines and UTF-8 bytes' },
+    ],
+    relatedSlugs: ['word-counter', 'text-case-converter', 'slug-generator'],
+  }),
+  makeUtilityTool({
+    slug: 'text-case-converter',
+    name: 'Text Case Converter',
+    category: 'text-tools',
+    summary: 'Convert text to uppercase, lowercase, title case, sentence case, camelCase, snake_case, and kebab-case.',
+    description:
+      'Use this free text case converter to rewrite plain text into common writing, coding, and URL case styles without sending text to a server.',
+    icon: 'tool-text-case',
+    aliases: ['Case Converter', 'Title Case Converter', 'Uppercase Lowercase Converter'],
+    formula:
+      'The tool reads plain text, tokenizes words for identifier-style modes, and applies the selected case transformation to produce copy-ready output.',
+    limit:
+      'Title case rules vary by style guide, and identifier modes remove punctuation that may matter in the original wording.',
+    useCases: [
+      'Convert headings between uppercase, lowercase, title case, and sentence case.',
+      'Create camelCase, PascalCase, snake_case, or kebab-case labels.',
+      'Clean inconsistent capitalization in drafts.',
+      'Prepare quick variable names, file names, or URL text.',
+    ],
+    examples: [
+      { label: 'Title case', expression: 'access free tools utility website', result: 'Access Free Tools Utility Website' },
+      { label: 'kebab-case', expression: 'Kawaii Calculator Blog Guide', result: 'kawaii-calculator-blog-guide' },
+      { label: 'camelCase', expression: 'basic calculator result', result: 'basicCalculatorResult' },
+    ],
+    relatedSlugs: ['slug-generator', 'word-counter', 'character-counter'],
+  }),
+  makeUtilityTool({
+    slug: 'slug-generator',
+    name: 'Slug Generator',
+    category: 'text-tools',
+    summary: 'Turn titles and phrases into clean lowercase URL slugs with optional length control.',
+    description:
+      'Use this free slug generator to convert titles, tool names, and blog ideas into lowercase hyphenated URL slugs with optional maximum length.',
+    icon: 'tool-slug',
+    aliases: ['URL Slug Generator', 'SEO Slug Generator'],
+    formula:
+      'The generator normalizes text, keeps letters and numbers, changes spaces and punctuation to hyphens, trims repeated hyphens, and applies an optional length limit.',
+    limit:
+      'A clean slug helps readability, but one canonical helpful page matters more than several thin pages with nearly identical slugs.',
+    useCases: [
+      'Create draft URL paths for tool pages and blog guides.',
+      'Shorten long titles into readable slugs.',
+      'Turn headings into lowercase hyphenated text.',
+      'Keep search-intent variations on one canonical page instead of creating duplicates.',
+    ],
+    examples: [
+      { label: 'Blog title', expression: 'How to Use the Kawaii Calculator', result: 'how-to-use-the-kawaii-calculator' },
+      { label: 'Tool name', expression: 'Color Contrast Checker', result: 'color-contrast-checker' },
+      { label: 'Long phrase', expression: 'Simple SEO-Friendly Guide for Free Online Utility Tools', result: 'Short hyphenated slug' },
+    ],
+    relatedSlugs: ['text-case-converter', 'word-counter', 'json-formatter'],
+  }),
+  makeUtilityTool({
+    slug: 'json-formatter',
+    name: 'JSON Formatter',
+    category: 'developer-tools',
+    summary: 'Format and validate JSON with two-space indentation and optional sorted object keys.',
+    description:
+      'Use this free JSON formatter to parse JSON, format it with readable indentation, optionally sort object keys, and copy the formatted output.',
+    icon: 'tool-json',
+    aliases: ['JSON Beautifier', 'JSON Validator', 'JSON Pretty Print'],
+    formula:
+      'The tool parses JSON text in the browser, optionally sorts object keys recursively, then serializes the result with two-space indentation.',
+    limit:
+      'This checks JSON syntax, not whether the data matches an API schema, security rule, or business requirement.',
+    useCases: [
+      'Pretty-print minified JSON before reading or sharing it.',
+      'Check whether copied JSON has valid quotes, commas, braces, and brackets.',
+      'Sort keys when comparing small JSON objects.',
+      'Copy formatted output for notes, debugging, or documentation.',
+    ],
+    examples: [
+      { label: 'Tool object', expression: '{"tool":"calculator","live":true}', result: 'Formatted JSON' },
+      { label: 'Array data', expression: '[{"name":"Basic"},{"name":"Scientific"}]', result: 'Indented array' },
+      { label: 'Sorted keys', expression: '{"z":3,"a":1}', result: 'Keys sorted alphabetically' },
+    ],
+    relatedSlugs: ['base64-encode-decode', 'url-encode-decode', 'hash-generator'],
+  }),
+  makeUtilityTool({
+    slug: 'uuid-generator',
+    name: 'UUID Generator',
+    category: 'developer-tools',
+    summary: 'Generate UUID v4 identifiers with quantity, uppercase, and hyphen options.',
+    description:
+      'Use this free UUID generator to create browser-generated UUID v4 values for identifiers, test data, database records, and development workflows.',
+    icon: 'tool-uuid',
+    aliases: ['GUID Generator', 'UUID v4 Generator'],
+    formula:
+      'The generator creates random bytes in the browser, sets the UUID version and variant bits for UUID v4, then formats the identifier.',
+    limit:
+      'UUIDs are useful identifiers, but they do not prove identity, authorization, ordering, or secrecy by themselves.',
+    useCases: [
+      'Generate IDs for mock data, test records, fixtures, or local prototypes.',
+      'Create one UUID or a small batch at once.',
+      'Choose uppercase or compact no-hyphen formatting when another system needs it.',
+      'Avoid sending identifier-generation requests to a server.',
+    ],
+    examples: [
+      { label: 'Five IDs', expression: '5 lowercase UUID v4 values', result: 'Five random UUIDs' },
+      { label: 'Uppercase ID', expression: '1 uppercase UUID', result: 'Uppercase formatted UUID' },
+      { label: 'Compact IDs', expression: '3 UUIDs without hyphens', result: '32-character identifiers' },
+    ],
+    relatedSlugs: ['password-generator', 'hash-generator', 'random-number-generator'],
+  }),
+  makeUtilityTool({
+    slug: 'hash-generator',
+    name: 'Hash Generator',
+    category: 'developer-tools',
+    summary: 'Generate SHA-256, SHA-384, or SHA-512 text digests in hexadecimal format.',
+    description:
+      'Use this free hash generator to create SHA-256, SHA-384, or SHA-512 hex digests from text with the browser SubtleCrypto API.',
+    icon: 'tool-hash',
+    aliases: ['SHA-256 Generator', 'SHA Hash Generator', 'Text Hash Generator'],
+    formula:
+      'The tool encodes text as UTF-8 bytes, passes those bytes to browser SubtleCrypto for the selected SHA-2 digest, and formats digest bytes as hex.',
+    limit:
+      'A hash is not encryption. Do not use a raw digest as a password storage design, signature system, or proof of authenticity.',
+    useCases: [
+      'Create a quick SHA-256 digest for a text sample.',
+      'Compare whether two pasted text values produce the same digest.',
+      'Generate SHA-384 or SHA-512 outputs for learning and debugging.',
+      'Keep small text hashing local in the browser.',
+    ],
+    examples: [
+      { label: 'SHA-256 text', expression: 'Access Free Tools', result: '64-character hex digest' },
+      { label: 'SHA-384 note', expression: 'browser utility', result: '96-character hex digest' },
+      { label: 'SHA-512 phrase', expression: 'local hash example', result: '128-character hex digest' },
+    ],
+    relatedSlugs: ['uuid-generator', 'password-generator', 'json-formatter'],
+  }),
+  makeUtilityTool({
+    slug: 'unix-timestamp-converter',
+    name: 'Unix Timestamp Converter',
+    category: 'date-time',
+    summary: 'Convert UTC dates to Unix timestamps and Unix timestamps back to UTC date-time strings.',
+    description:
+      'Use this free Unix timestamp converter to convert UTC date-time values into Unix seconds and milliseconds or convert timestamps back to UTC ISO time.',
+    icon: 'tool-timestamp',
+    aliases: ['Epoch Converter', 'Timestamp Converter', 'Unix Time Converter'],
+    formula:
+      'Date mode counts seconds and milliseconds since 1970-01-01T00:00:00Z. Timestamp mode reverses that count back to UTC date and time.',
+    limit:
+      'The converter uses UTC on purpose. Local time zones, daylight saving time, and application storage rules can change how a timestamp appears elsewhere.',
+    useCases: [
+      'Convert a UTC date and time into Unix seconds for logs or APIs.',
+      'Convert Unix seconds or milliseconds into an ISO UTC timestamp.',
+      'Check whether a timestamp is seconds or milliseconds.',
+      'Compare date-time values without local time-zone ambiguity.',
+    ],
+    examples: [
+      { label: 'Date to seconds', expression: '2026-04-29 12:00 UTC', result: 'Unix seconds' },
+      { label: 'Milliseconds', expression: '1777464000000 ms', result: 'UTC ISO date-time' },
+      { label: 'Unix epoch', expression: '0 seconds', result: '1970-01-01T00:00:00Z' },
+    ],
+    relatedSlugs: ['time-zone-calculator', 'date-calculator', 'day-of-the-week-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'color-contrast-checker',
+    name: 'Color Contrast Checker',
+    category: 'image-tools',
+    summary: 'Check WCAG contrast ratio for text and background hex colors.',
+    description:
+      'Use this free color contrast checker to compare two hex colors, calculate contrast ratio, and see WCAG AA and AAA pass or fail results.',
+    icon: 'tool-contrast',
+    aliases: ['WCAG Contrast Checker', 'Accessibility Contrast Checker'],
+    formula:
+      'The checker converts hex colors to sRGB, calculates relative luminance, then uses the WCAG contrast formula: (lighter + 0.05) / (darker + 0.05).',
+    limit:
+      'Contrast ratio is one accessibility check. Also review font size, focus states, hover states, icons, disabled controls, and real page context.',
+    useCases: [
+      'Check text color against a page background before publishing.',
+      'Compare brand colors against WCAG AA and AAA thresholds.',
+      'Test button, label, and navigation color pairs.',
+      'Quickly reject low-contrast combinations during design work.',
+    ],
+    examples: [
+      { label: 'Dark on white', expression: '#101828 on #ffffff', result: 'High contrast ratio' },
+      { label: 'Muted text', expression: '#667085 on #f9fafb', result: 'AA pass/fail check' },
+      { label: 'Brand color', expression: '#0f766e on #ecfeff', result: 'Contrast ratio' },
+    ],
+    relatedSlugs: ['aspect-ratio-calculator', 'text-case-converter', 'word-counter'],
+  }),
+  makeUtilityTool({
+    slug: 'aspect-ratio-calculator',
+    name: 'Aspect Ratio Calculator',
+    category: 'image-tools',
+    summary: 'Simplify aspect ratios and scale width or height while keeping proportions.',
+    description:
+      'Use this free aspect ratio calculator to simplify width and height ratios or resize a design, image, video, or screenshot without stretching it.',
+    icon: 'tool-aspect-ratio',
+    aliases: ['Image Ratio Calculator', 'Video Aspect Ratio Calculator'],
+    formula:
+      'The calculator divides width and height by their greatest common divisor for the ratio, then scales the missing dimension from the same width-to-height relationship.',
+    limit:
+      'Use the exact upload specs for platforms, products, and print jobs. Rounding a scaled dimension can cause a one-pixel difference.',
+    useCases: [
+      'Simplify image, video, thumbnail, and screenshot dimensions.',
+      'Resize a design to a new width while preserving height proportion.',
+      'Resize a design to a new height while preserving width proportion.',
+      'Compare landscape, square, and portrait formats before exporting.',
+    ],
+    examples: [
+      { label: 'HD video', expression: '1920 x 1080', result: '16:9' },
+      { label: 'Square post', expression: '1080 x 1080', result: '1:1' },
+      { label: 'Scale width', expression: '1920 x 1080 to 1280 wide', result: '1280 x 720' },
+    ],
+    relatedSlugs: ['color-contrast-checker', 'square-footage-calculator', 'conversion-calculator'],
+  }),
 ];

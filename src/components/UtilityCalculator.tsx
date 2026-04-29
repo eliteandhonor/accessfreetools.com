@@ -30,6 +30,9 @@ import {
   calculateHeightEstimate,
   calculateHoursWorked,
   calculateHorsepowerConversion,
+  calculateAspectRatio,
+  calculateColorContrast,
+  calculateDateFromUnixTimestamp,
   calculateLoveCompatibility,
   calculateMassFromDensity,
   calculateMileageCost,
@@ -55,25 +58,34 @@ import {
   calculateTimeCard,
   calculateTimeDuration,
   calculateTimeZoneComparison,
+  calculateUnixTimestampFromDate,
   calculateTip,
   calculateVoltageDrop,
   calculateWeightForce,
   calculateWindChill,
   calculateEngineHorsepower,
+  analyzeText,
   convertMeasurement,
   convertShoeSize,
+  convertTextCase,
+  digestText,
   decodeBase64,
   decodeUrlComponentValue,
   encodeBase64,
   encodeUrlComponentValue,
   formatCalculatorNumber,
+  formatJsonText,
+  generateSlug,
   generatePassword,
+  generateUuidBatch,
   getCopperResistanceOhmsPer1000Feet,
   numberToRomanNumeral,
   romanNumeralToNumber,
   type ConversionCategory,
   type GpaCourseInput,
+  type HashAlgorithm,
   type HorsepowerUnit,
+  type TextCaseMode,
   type TimeCardDayInput,
 } from '../lib/calculator';
 
@@ -141,7 +153,17 @@ export type UtilityToolVariant =
   | 'horsepower'
   | 'engine-horsepower'
   | 'golf-handicap'
-  | 'love';
+  | 'love'
+  | 'word-counter'
+  | 'character-counter'
+  | 'text-case-converter'
+  | 'slug-generator'
+  | 'json-formatter'
+  | 'uuid-generator'
+  | 'hash-generator'
+  | 'unix-timestamp-converter'
+  | 'color-contrast-checker'
+  | 'aspect-ratio-calculator';
 
 type InputMode = HTMLAttributes<HTMLInputElement>['inputMode'];
 type UtilityInputs = Record<string, string>;
@@ -154,7 +176,7 @@ interface SelectOption {
 interface UtilityField {
   key: string;
   label: string;
-  type?: 'number' | 'select' | 'date' | 'time' | 'checkbox' | 'text';
+  type?: 'number' | 'select' | 'date' | 'time' | 'checkbox' | 'text' | 'textarea';
   inputMode?: InputMode;
   placeholder?: string;
   options?: SelectOption[];
@@ -190,6 +212,7 @@ interface UtilityCalculation {
   steps: string[];
   note?: string;
   keepOutOfHistory?: boolean;
+  textOutput?: boolean;
 }
 
 interface Props {
@@ -216,6 +239,7 @@ const integerField = (key: string, label: string, placeholder?: string): Utility
 const dateField = (key: string, label: string): UtilityField => ({ key, label, type: 'date' });
 const timeField = (key: string, label: string): UtilityField => ({ key, label, type: 'time' });
 const textField = (key: string, label: string, placeholder?: string): UtilityField => ({ key, label, placeholder, type: 'text' });
+const textareaField = (key: string, label: string, placeholder?: string): UtilityField => ({ key, label, placeholder, type: 'textarea' });
 const checkboxField = (key: string, label: string): UtilityField => ({ key, label, type: 'checkbox' });
 const selectField = (key: string, label: string, options: SelectOption[]): UtilityField => ({
   key,
@@ -237,6 +261,28 @@ const operationOptions: SelectOption[] = [
 const textOperationOptions: SelectOption[] = [
   { label: 'Encode', value: 'encode' },
   { label: 'Decode', value: 'decode' },
+];
+
+const textCaseOptions: SelectOption[] = [
+  { label: 'Uppercase', value: 'uppercase' },
+  { label: 'Lowercase', value: 'lowercase' },
+  { label: 'Title Case', value: 'title' },
+  { label: 'Sentence case', value: 'sentence' },
+  { label: 'camelCase', value: 'camel' },
+  { label: 'PascalCase', value: 'pascal' },
+  { label: 'snake_case', value: 'snake' },
+  { label: 'kebab-case', value: 'kebab' },
+];
+
+const hashAlgorithmOptions: SelectOption[] = [
+  { label: 'SHA-256', value: 'SHA-256' },
+  { label: 'SHA-384', value: 'SHA-384' },
+  { label: 'SHA-512', value: 'SHA-512' },
+];
+
+const timestampUnitOptions: SelectOption[] = [
+  { label: 'Seconds', value: 'seconds' },
+  { label: 'Milliseconds', value: 'milliseconds' },
 ];
 
 const romanModeOptions: SelectOption[] = [
@@ -1954,6 +2000,242 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
       },
     ],
   },
+  'word-counter': {
+    title: 'Word Counter',
+    buttonLabel: 'Count words',
+    emptyHistory: 'Recent text counts will appear here.',
+    privacyNote: 'Text is counted in your browser. Use it for drafts, meta copy, social posts, essays, and quick editing checks.',
+    modes: [
+      {
+        id: 'word-counter',
+        label: 'Word count',
+        symbol: 'ABC',
+        fields: [textareaField('text', 'Text to count', 'Paste or type text here...')],
+        defaultInputs: { text: 'Access Free Tools helps people finish quick browser tasks without signup.' },
+        examples: [
+          { label: 'Short sentence', inputs: { text: 'Access Free Tools helps people finish quick browser tasks without signup.' } },
+          { label: 'Meta description', inputs: { text: 'Use this free browser tool to count words, characters, sentences, and reading time before publishing.' } },
+          { label: 'Paragraph draft', inputs: { text: 'Write the first paragraph here.\n\nAdd a second paragraph to see paragraph and line counts.' } },
+        ],
+      },
+    ],
+  },
+  'character-counter': {
+    title: 'Character Counter',
+    buttonLabel: 'Count characters',
+    emptyHistory: 'Recent character counts will appear here.',
+    privacyNote: 'Character counts run locally, which is useful for titles, snippets, messages, and form limits.',
+    modes: [
+      {
+        id: 'character-counter',
+        label: 'Character count',
+        symbol: '123',
+        fields: [textareaField('text', 'Text to count', 'Type a title, message, or snippet...')],
+        defaultInputs: { text: 'Free calculator tools for quick everyday math.' },
+        examples: [
+          { label: 'Page title', inputs: { text: 'Free calculator tools for quick everyday math.' } },
+          { label: 'Short message', inputs: { text: 'Meeting moved to 2:30 PM. Bring the latest estimate.' } },
+          { label: 'Emoji check', inputs: { text: 'Launch day notes: calculators, converters, and design tools.' } },
+        ],
+      },
+    ],
+  },
+  'text-case-converter': {
+    title: 'Text Case Converter',
+    buttonLabel: 'Convert case',
+    emptyHistory: 'Recent case conversions will appear here.',
+    privacyNote: 'Case conversion runs in your browser, so drafts and labels are not sent to a server.',
+    modes: [
+      {
+        id: 'case',
+        label: 'Convert case',
+        symbol: 'Aa',
+        fields: [selectField('mode', 'Case style', textCaseOptions), textareaField('text', 'Text to convert', 'Paste text here...')],
+        defaultInputs: { mode: 'title', text: 'access free tools utility website' },
+        examples: [
+          { label: 'Title case', inputs: { mode: 'title', text: 'access free tools utility website' } },
+          { label: 'Slug words', inputs: { mode: 'kebab', text: 'Kawaii Calculator Blog Guide' } },
+          { label: 'Variable name', inputs: { mode: 'camel', text: 'basic calculator result' } },
+        ],
+      },
+    ],
+  },
+  'slug-generator': {
+    title: 'Slug Generator',
+    buttonLabel: 'Generate slug',
+    emptyHistory: 'Recent slugs will appear here.',
+    privacyNote: 'Slug text stays in this tab. Use the generated slug as a draft URL path and keep one canonical page per search intent.',
+    modes: [
+      {
+        id: 'slug',
+        label: 'URL slug',
+        symbol: 'URL',
+        fields: [textareaField('text', 'Title or phrase', 'How to Use the Kawaii Calculator'), integerField('maxLength', 'Max length (optional)', 'Optional')],
+        defaultInputs: { text: 'How to Use the Kawaii Calculator', maxLength: '60' },
+        examples: [
+          { label: 'Blog title', inputs: { text: 'How to Use the Kawaii Calculator', maxLength: '60' } },
+          { label: 'Tool name', inputs: { text: 'Color Contrast Checker', maxLength: '50' } },
+          { label: 'Long title', inputs: { text: 'Simple SEO-Friendly Guide for Free Online Utility Tools', maxLength: '48' } },
+        ],
+      },
+    ],
+  },
+  'json-formatter': {
+    title: 'JSON Formatter',
+    buttonLabel: 'Format JSON',
+    emptyHistory: 'Recent JSON formatting results will appear here.',
+    privacyNote: 'JSON parsing and formatting run in your browser. Avoid pasting secrets unless you are comfortable viewing them in this tab.',
+    modes: [
+      {
+        id: 'json',
+        label: 'Format JSON',
+        symbol: '{}',
+        fields: [textareaField('json', 'JSON text', '{"tool":"calculator","live":true,"count":3}'), checkboxField('sortKeys', 'Sort object keys')],
+        defaultInputs: { json: '{"tool":"calculator","live":true,"count":3}', sortKeys: 'false' },
+        examples: [
+          { label: 'Tool object', inputs: { json: '{"tool":"calculator","live":true,"count":3}', sortKeys: 'false' } },
+          { label: 'Array data', inputs: { json: '[{"name":"Basic"},{"name":"Scientific"}]', sortKeys: 'false' } },
+          { label: 'Sorted keys', inputs: { json: '{"z":3,"a":{"b":2,"a":1}}', sortKeys: 'true' } },
+        ],
+      },
+    ],
+  },
+  'uuid-generator': {
+    title: 'UUID Generator',
+    buttonLabel: 'Generate UUIDs',
+    emptyHistory: 'Generated UUIDs are not saved in recent history.',
+    privacyNote: 'UUIDs are generated locally with browser random values. Use them for identifiers, test data, and development workflows.',
+    modes: [
+      {
+        id: 'uuid',
+        label: 'UUID v4',
+        symbol: 'ID',
+        fields: [integerField('quantity', 'Quantity'), checkboxField('uppercase', 'Uppercase'), checkboxField('hyphens', 'Include hyphens')],
+        defaultInputs: { quantity: '5', uppercase: 'false', hyphens: 'true' },
+        examples: [
+          { label: 'Five UUIDs', inputs: { quantity: '5', uppercase: 'false', hyphens: 'true' } },
+          { label: 'One uppercase', inputs: { quantity: '1', uppercase: 'true', hyphens: 'true' } },
+          { label: 'Compact IDs', inputs: { quantity: '3', uppercase: 'false', hyphens: 'false' } },
+        ],
+      },
+    ],
+  },
+  'hash-generator': {
+    title: 'Hash Generator',
+    buttonLabel: 'Generate hash',
+    emptyHistory: 'Recent hashes will appear here.',
+    privacyNote: 'Hashing runs with the browser SubtleCrypto API. A hash is not encryption and should not be used as a password storage system by itself.',
+    modes: [
+      {
+        id: 'hash',
+        label: 'Text digest',
+        symbol: '#',
+        fields: [selectField('algorithm', 'Algorithm', hashAlgorithmOptions), textareaField('text', 'Text to hash', 'Access Free Tools')],
+        defaultInputs: { algorithm: 'SHA-256', text: 'Access Free Tools' },
+        examples: [
+          { label: 'SHA-256 text', inputs: { algorithm: 'SHA-256', text: 'Access Free Tools' } },
+          { label: 'SHA-384 note', inputs: { algorithm: 'SHA-384', text: 'browser utility' } },
+          { label: 'SHA-512 phrase', inputs: { algorithm: 'SHA-512', text: 'local hash example' } },
+        ],
+      },
+    ],
+  },
+  'unix-timestamp-converter': {
+    title: 'Unix Timestamp Converter',
+    buttonLabel: 'Convert timestamp',
+    emptyHistory: 'Recent timestamp conversions will appear here.',
+    privacyNote: 'Timestamp conversion runs locally and uses UTC so date-time assumptions stay visible.',
+    modes: [
+      {
+        id: 'date-to-timestamp',
+        label: 'Date to timestamp',
+        symbol: 'UTC',
+        fields: [dateField('date', 'UTC date'), timeField('time', 'UTC time')],
+        defaultInputs: { date: '2026-04-29', time: '12:00' },
+        examples: [
+          { label: 'Noon UTC', inputs: { date: '2026-04-29', time: '12:00' } },
+          { label: 'Start of 2026', inputs: { date: '2026-01-01', time: '00:00' } },
+          { label: 'End of day', inputs: { date: '2026-12-31', time: '23:59' } },
+        ],
+      },
+      {
+        id: 'timestamp-to-date',
+        label: 'Timestamp to date',
+        symbol: 'TS',
+        fields: [textField('timestamp', 'Timestamp', '1777464000'), selectField('unit', 'Unit', timestampUnitOptions)],
+        defaultInputs: { timestamp: '1777464000', unit: 'seconds' },
+        examples: [
+          { label: 'Seconds', inputs: { timestamp: '1777464000', unit: 'seconds' } },
+          { label: 'Milliseconds', inputs: { timestamp: '1777464000000', unit: 'milliseconds' } },
+          { label: 'Unix epoch', inputs: { timestamp: '0', unit: 'seconds' } },
+        ],
+      },
+    ],
+  },
+  'color-contrast-checker': {
+    title: 'Color Contrast Checker',
+    buttonLabel: 'Check contrast',
+    emptyHistory: 'Recent contrast checks will appear here.',
+    privacyNote: 'Color contrast checks run locally and use WCAG contrast math for quick design accessibility checks.',
+    modes: [
+      {
+        id: 'contrast',
+        label: 'Contrast ratio',
+        symbol: 'AA',
+        fields: [textField('foreground', 'Text color', '#101828'), textField('background', 'Background color', '#ffffff')],
+        defaultInputs: { foreground: '#101828', background: '#ffffff' },
+        examples: [
+          { label: 'Dark on white', inputs: { foreground: '#101828', background: '#ffffff' } },
+          { label: 'Muted on light', inputs: { foreground: '#667085', background: '#f9fafb' } },
+          { label: 'Brand teal', inputs: { foreground: '#0f766e', background: '#ecfeff' } },
+        ],
+      },
+    ],
+  },
+  'aspect-ratio-calculator': {
+    title: 'Aspect Ratio Calculator',
+    buttonLabel: 'Calculate ratio',
+    emptyHistory: 'Recent aspect-ratio results will appear here.',
+    privacyNote: 'Aspect-ratio math runs locally. Use exact platform specs when artwork must match a required upload size.',
+    modes: [
+      {
+        id: 'ratio',
+        label: 'Simplify ratio',
+        symbol: '16:9',
+        fields: [numberField('width', 'Width'), numberField('height', 'Height')],
+        defaultInputs: { width: '1920', height: '1080' },
+        examples: [
+          { label: 'HD video', inputs: { width: '1920', height: '1080' } },
+          { label: 'Square', inputs: { width: '1080', height: '1080' } },
+          { label: 'Vertical story', inputs: { width: '1080', height: '1920' } },
+        ],
+      },
+      {
+        id: 'scale-width',
+        label: 'Scale by width',
+        symbol: 'W',
+        fields: [numberField('width', 'Original width'), numberField('height', 'Original height'), numberField('targetWidth', 'New width')],
+        defaultInputs: { width: '1920', height: '1080', targetWidth: '1280' },
+        examples: [
+          { label: 'HD to 1280 wide', inputs: { width: '1920', height: '1080', targetWidth: '1280' } },
+          { label: 'Story to 720 wide', inputs: { width: '1080', height: '1920', targetWidth: '720' } },
+          { label: 'Square resize', inputs: { width: '1200', height: '1200', targetWidth: '600' } },
+        ],
+      },
+      {
+        id: 'scale-height',
+        label: 'Scale by height',
+        symbol: 'H',
+        fields: [numberField('width', 'Original width'), numberField('height', 'Original height'), numberField('targetHeight', 'New height')],
+        defaultInputs: { width: '1920', height: '1080', targetHeight: '720' },
+        examples: [
+          { label: 'HD to 720 tall', inputs: { width: '1920', height: '1080', targetHeight: '720' } },
+          { label: 'Banner height', inputs: { width: '1600', height: '900', targetHeight: '450' } },
+          { label: 'Portrait height', inputs: { width: '1080', height: '1920', targetHeight: '1280' } },
+        ],
+      },
+    ],
+  },
 };
 
 function parseNumber(value: string, label: string) {
@@ -2069,7 +2351,11 @@ function readTimeCardEntries(inputs: UtilityInputs): TimeCardDayInput[] {
   }));
 }
 
-function calculateUtility(variant: UtilityToolVariant, modeId: string, inputs: UtilityInputs): UtilityCalculation {
+function calculateUtility(
+  variant: UtilityToolVariant,
+  modeId: string,
+  inputs: UtilityInputs,
+): UtilityCalculation | Promise<UtilityCalculation> {
   switch (variant) {
     case 'age': {
       const result = calculateAge(inputs.birthDate, inputs.asOfDate);
@@ -3491,6 +3777,224 @@ function calculateUtility(variant: UtilityToolVariant, modeId: string, inputs: U
         note: 'This is a light browser game. It cannot measure feelings, trust, communication, or relationship health.',
       };
     }
+    case 'word-counter': {
+      const result = analyzeText(inputs.text ?? '');
+      return {
+        label: 'Word count',
+        expression: result.words === 1 ? '1 word entered' : `${formatCalculatorNumber(result.words)} words entered`,
+        answer: formatCalculatorNumber(result.words),
+        metrics: [
+          { label: 'Characters', value: formatCalculatorNumber(result.characters) },
+          { label: 'Sentences', value: formatCalculatorNumber(result.sentences) },
+          { label: 'Reading time', value: `${formatCalculatorNumber(result.estimatedReadingMinutes)} min` },
+        ],
+        steps: [
+          'Split the text into word-like groups of letters and numbers.',
+          'Count sentences, paragraphs, lines, characters, and UTF-8 bytes separately.',
+          'Estimate reading time at about 200 words per minute.',
+        ],
+        note: 'Different editors can count hyphenated words, emojis, and punctuation differently. Use the target platform count when a hard limit matters.',
+      };
+    }
+    case 'character-counter': {
+      const result = analyzeText(inputs.text ?? '');
+      return {
+        label: 'Character count',
+        expression: `${formatCalculatorNumber(result.words)} words, ${formatCalculatorNumber(result.lines)} lines`,
+        answer: formatCalculatorNumber(result.characters),
+        metrics: [
+          { label: 'Without spaces', value: formatCalculatorNumber(result.charactersNoSpaces) },
+          { label: 'UTF-8 bytes', value: formatCalculatorNumber(result.bytesUtf8) },
+          { label: 'Lines', value: formatCalculatorNumber(result.lines) },
+        ],
+        steps: [
+          'Count visible Unicode characters in the text.',
+          'Count a second value after removing whitespace characters.',
+          'Encode the text as UTF-8 to estimate byte length for technical limits.',
+        ],
+        note: 'Some platforms count emoji sequences, line breaks, and rich text differently. Use this as a fast drafting check.',
+      };
+    }
+    case 'text-case-converter': {
+      const result = convertTextCase(inputs.text ?? '', (inputs.mode || 'title') as TextCaseMode);
+      return {
+        label: `${unitLabel(result.mode)} output`,
+        expression: `${formatCalculatorNumber(analyzeText(result.input).characters)} input characters`,
+        answer: result.output,
+        metrics: [
+          { label: 'Output characters', value: formatCalculatorNumber(analyzeText(result.output).characters) },
+          { label: 'Mode', value: unitLabel(result.mode) },
+          { label: 'Changed positions', value: formatCalculatorNumber(result.changedCharacters) },
+        ],
+        steps: [
+          'Read the text as plain text.',
+          'Apply the selected case style.',
+          'Return copy-ready output without sending the text to a server.',
+        ],
+        textOutput: true,
+      };
+    }
+    case 'slug-generator': {
+      const result = generateSlug(inputs.text ?? '', parseOptionalNumber(inputs.maxLength ?? '', 'Maximum length'));
+      return {
+        label: 'Generated slug',
+        expression: `${formatCalculatorNumber(result.wordCount)} words`,
+        answer: result.slug,
+        metrics: [
+          { label: 'Characters', value: formatCalculatorNumber(result.characterCount) },
+          { label: 'Max length', value: result.maxLength === null ? 'No limit' : formatCalculatorNumber(result.maxLength) },
+          { label: 'Separator', value: 'Hyphen' },
+        ],
+        steps: [
+          'Normalize accented letters where possible.',
+          'Keep letters and numbers, then convert spaces and punctuation to hyphens.',
+          'Trim repeated hyphens and apply the optional maximum length.',
+        ],
+        note: 'Keep one canonical URL for one search intent. Do not create several thin pages with only slightly different slugs.',
+        textOutput: true,
+      };
+    }
+    case 'json-formatter': {
+      const result = formatJsonText(inputs.json ?? '', booleanInput(inputs.sortKeys));
+      return {
+        label: 'Formatted JSON',
+        expression: `${result.rootType} root, ${formatCalculatorNumber(result.keyCount)} keys`,
+        answer: result.output,
+        metrics: [
+          { label: 'Root type', value: result.rootType },
+          { label: 'Keys', value: formatCalculatorNumber(result.keyCount) },
+          { label: 'UTF-8 bytes', value: formatCalculatorNumber(result.byteLength) },
+        ],
+        steps: [
+          'Parse the text with JSON.parse.',
+          booleanInput(inputs.sortKeys) ? 'Sort object keys recursively before output.' : 'Keep object key order from the input.',
+          'Stringify the result with two-space indentation.',
+        ],
+        note: 'Formatting does not validate a business schema. It only checks whether the text is valid JSON.',
+        textOutput: true,
+      };
+    }
+    case 'uuid-generator': {
+      const result = generateUuidBatch(parseNumber(inputs.quantity, 'Quantity'), booleanInput(inputs.uppercase), booleanInput(inputs.hyphens));
+      return {
+        label: 'UUID v4 values',
+        expression: `${formatCalculatorNumber(result.quantity)} random UUID${result.quantity === 1 ? '' : 's'}`,
+        answer: result.uuids.join('\n'),
+        metrics: [
+          { label: 'Quantity', value: formatCalculatorNumber(result.quantity) },
+          { label: 'Case', value: result.uppercase ? 'Uppercase' : 'Lowercase' },
+          { label: 'Hyphens', value: result.hyphens ? 'Included' : 'Removed' },
+        ],
+        steps: [
+          'Generate random bytes in the browser.',
+          'Set the UUID version and variant bits for UUID v4.',
+          'Format the identifier with your case and hyphen options.',
+        ],
+        keepOutOfHistory: true,
+        textOutput: true,
+      };
+    }
+    case 'hash-generator': {
+      return digestText(inputs.text ?? '', (inputs.algorithm || 'SHA-256') as HashAlgorithm).then((result) => ({
+        label: `${result.algorithm} digest`,
+        expression: `${formatCalculatorNumber(result.bytesUtf8)} UTF-8 input bytes`,
+        answer: result.hexDigest,
+        metrics: [
+          { label: 'Algorithm', value: result.algorithm },
+          { label: 'Input bytes', value: formatCalculatorNumber(result.bytesUtf8) },
+          { label: 'Digest bytes', value: formatCalculatorNumber(result.digestBytes) },
+        ],
+        steps: [
+          'Encode the text as UTF-8 bytes.',
+          `Pass the bytes to browser SubtleCrypto using ${result.algorithm}.`,
+          'Convert the digest bytes into lowercase hexadecimal text.',
+        ],
+        note: 'A hash is one-way digest text, not encryption. Do not use raw hashes as a password storage design.',
+        textOutput: true,
+      }));
+    }
+    case 'unix-timestamp-converter': {
+      if (modeId === 'timestamp-to-date') {
+        const result = calculateDateFromUnixTimestamp(parseNumber(inputs.timestamp, 'Timestamp'), (inputs.unit || 'seconds') as 'seconds' | 'milliseconds');
+        return {
+          label: 'UTC date and time',
+          expression: `${formatCalculatorNumber(result.timestamp)} ${result.unit}`,
+          answer: result.utcIso,
+          metrics: [
+            { label: 'UTC date', value: result.utcDate },
+            { label: 'UTC time', value: result.utcTime },
+            { label: 'Unit', value: result.unit },
+          ],
+          steps: [
+            result.unit === 'seconds' ? 'Multiply seconds by 1,000 to get milliseconds.' : 'Read the timestamp directly as milliseconds.',
+            'Create a JavaScript Date from the millisecond value.',
+            'Display the result as an ISO UTC timestamp.',
+          ],
+        };
+      }
+
+      const result = calculateUnixTimestampFromDate(inputs.date, inputs.time);
+      return {
+        label: 'Unix timestamp',
+        expression: `${inputs.date} ${inputs.time} UTC`,
+        answer: formatCalculatorNumber(result.seconds),
+        metrics: [
+          { label: 'Milliseconds', value: formatCalculatorNumber(result.milliseconds) },
+          { label: 'UTC ISO', value: result.utcIso },
+          { label: 'Time zone', value: 'UTC' },
+        ],
+        steps: [
+          'Read the entered date and time as UTC.',
+          'Convert the UTC date-time to milliseconds since 1970-01-01T00:00:00Z.',
+          'Divide milliseconds by 1,000 for Unix seconds.',
+        ],
+      };
+    }
+    case 'color-contrast-checker': {
+      const result = calculateColorContrast(inputs.foreground, inputs.background);
+      return {
+        label: 'Contrast ratio',
+        expression: `${result.foreground} on ${result.background}`,
+        answer: `${formatCalculatorNumber(result.contrastRatio)}:1`,
+        metrics: [
+          { label: 'AA normal text', value: result.passesAaNormal ? 'Pass' : 'Fail' },
+          { label: 'AA large text', value: result.passesAaLarge ? 'Pass' : 'Fail' },
+          { label: 'AAA normal text', value: result.passesAaaNormal ? 'Pass' : 'Fail' },
+        ],
+        steps: [
+          'Convert each hex color to sRGB channel values.',
+          'Calculate relative luminance for foreground and background.',
+          'Use the WCAG contrast formula: (lighter + 0.05) / (darker + 0.05).',
+        ],
+        note: 'WCAG AA uses 4.5:1 for normal text and 3:1 for large text. Also check focus, hover, disabled, and icon states.',
+      };
+    }
+    case 'aspect-ratio-calculator': {
+      const result = calculateAspectRatio(
+        parseNumber(inputs.width, 'Width'),
+        parseNumber(inputs.height, 'Height'),
+        modeId === 'scale-width' ? parseNumber(inputs.targetWidth, 'New width') : undefined,
+        modeId === 'scale-height' ? parseNumber(inputs.targetHeight, 'New height') : undefined,
+      );
+      return {
+        label: modeId === 'ratio' ? 'Simplified aspect ratio' : 'Scaled size',
+        expression: `${formatCalculatorNumber(result.width)} x ${formatCalculatorNumber(result.height)}`,
+        answer:
+          modeId === 'ratio'
+            ? result.ratioLabel
+            : `${formatCalculatorNumber(result.scaledWidth ?? result.width)} x ${formatCalculatorNumber(result.scaledHeight ?? result.height)}`,
+        metrics: [
+          { label: 'Ratio', value: result.ratioLabel },
+          { label: 'Decimal', value: formatCalculatorNumber(result.decimal) },
+          { label: 'Orientation', value: result.width === result.height ? 'Square' : result.width > result.height ? 'Landscape' : 'Portrait' },
+        ],
+        steps: [
+          'Divide width and height by their greatest common divisor to simplify the ratio.',
+          modeId === 'scale-width' ? 'Use the original ratio to calculate the new height from the new width.' : modeId === 'scale-height' ? 'Use the original ratio to calculate the new width from the new height.' : 'Report the simplified width-to-height relationship.',
+          'Round the displayed scaled dimensions for readability.',
+        ],
+      };
+    }
     default: {
       const exhaustiveCheck: never = variant;
       return exhaustiveCheck;
@@ -3500,6 +4004,7 @@ function calculateUtility(variant: UtilityToolVariant, modeId: string, inputs: U
 
 export default function UtilityCalculator({ variant }: Props) {
   const config = utilityConfigs[variant];
+  const waitsForUserAction = variant === 'password-generator' || variant === 'uuid-generator' || variant === 'hash-generator';
   const [modeId, setModeId] = useState(config.modes[0].id);
   const activeMode = useMemo(
     () => config.modes.find((mode) => mode.id === modeId) ?? config.modes[0],
@@ -3507,7 +4012,7 @@ export default function UtilityCalculator({ variant }: Props) {
   );
   const [inputs, setInputs] = useState<UtilityInputs>(activeMode.defaultInputs);
   const [result, setResult] = useState<UtilityCalculation | null>(() =>
-    variant === 'password-generator' ? null : calculateUtility(variant, activeMode.id, activeMode.defaultInputs),
+    waitsForUserAction ? null : (calculateUtility(variant, activeMode.id, activeMode.defaultInputs) as UtilityCalculation),
   );
   const [error, setError] = useState('');
   const [history, setHistory] = useState<UtilityCalculation[]>([]);
@@ -3516,7 +4021,7 @@ export default function UtilityCalculator({ variant }: Props) {
   function changeMode(nextMode: UtilityMode) {
     setModeId(nextMode.id);
     setInputs(nextMode.defaultInputs);
-    setResult(variant === 'password-generator' ? null : calculateUtility(variant, nextMode.id, nextMode.defaultInputs));
+    setResult(waitsForUserAction ? null : (calculateUtility(variant, nextMode.id, nextMode.defaultInputs) as UtilityCalculation));
     setError('');
     setCopied(false);
   }
@@ -3526,9 +4031,9 @@ export default function UtilityCalculator({ variant }: Props) {
     setCopied(false);
   }
 
-  function runCalculation(nextInputs = inputs) {
+  async function runCalculation(nextInputs = inputs) {
     try {
-      const nextResult = calculateUtility(variant, activeMode.id, nextInputs);
+      const nextResult = await Promise.resolve(calculateUtility(variant, activeMode.id, nextInputs));
       setResult(nextResult);
       setHistory((current) => (nextResult.keepOutOfHistory ? current : [nextResult, ...current].slice(0, 4)));
       setError('');
@@ -3541,12 +4046,12 @@ export default function UtilityCalculator({ variant }: Props) {
 
   function useExample(example: UtilityExample) {
     setInputs(example.inputs);
-    runCalculation(example.inputs);
+    void runCalculation(example.inputs);
   }
 
   async function copyResult() {
     if (!result || !navigator.clipboard) return;
-    await navigator.clipboard.writeText(variant === 'password-generator' ? result.answer : `${result.expression} = ${result.answer}`);
+    await navigator.clipboard.writeText(result.textOutput || variant === 'password-generator' ? result.answer : `${result.expression} = ${result.answer}`);
     setCopied(true);
   }
 
@@ -3592,6 +4097,12 @@ export default function UtilityCalculator({ variant }: Props) {
                         </option>
                       ))}
                     </select>
+                  ) : field.type === 'textarea' ? (
+                    <textarea
+                      onChange={(event) => updateInput(field.key, event.target.value)}
+                      placeholder={field.placeholder}
+                      value={inputs[field.key] ?? ''}
+                    />
                   ) : (
                     <input
                       inputMode={field.inputMode}
@@ -3608,7 +4119,7 @@ export default function UtilityCalculator({ variant }: Props) {
         </div>
 
         <div className="advanced-actions">
-          <button className="button-primary" onClick={() => runCalculation()} type="button">
+          <button className="button-primary" onClick={() => void runCalculation()} type="button">
             {config.buttonLabel}
           </button>
           <button className="button-secondary" disabled={!result || Boolean(error)} onClick={copyResult} type="button">
@@ -3621,7 +4132,7 @@ export default function UtilityCalculator({ variant }: Props) {
         {result && (
           <article className="advanced-result-card utility-result-card" aria-live="polite">
             <span>{result.label}</span>
-            <strong>{result.answer}</strong>
+            {result.textOutput ? <pre className="utility-text-output">{result.answer}</pre> : <strong>{result.answer}</strong>}
             <p>{result.expression}</p>
             <dl>
               {result.metrics.map((metric) => (

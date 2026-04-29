@@ -184,6 +184,16 @@ export type CalculatorIconMark =
   | 'engine-horsepower'
   | 'golf-handicap'
   | 'love'
+  | 'word'
+  | 'character'
+  | 'case'
+  | 'slug'
+  | 'json'
+  | 'uuid'
+  | 'hash'
+  | 'timestamp'
+  | 'contrast'
+  | 'aspect'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -376,6 +386,16 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-engine-horsepower': 'engine-horsepower',
   'calculator-golf-handicap': 'golf-handicap',
   'calculator-love': 'love',
+  'tool-word-counter': 'word',
+  'tool-character-counter': 'character',
+  'tool-text-case': 'case',
+  'tool-slug': 'slug',
+  'tool-json': 'json',
+  'tool-uuid': 'uuid',
+  'tool-hash': 'hash',
+  'tool-timestamp': 'timestamp',
+  'tool-contrast': 'contrast',
+  'tool-aspect-ratio': 'aspect',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',
@@ -537,6 +557,16 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   'engine-horsepower': 'rpm',
   'golf-handicap': 'golf',
   love: 'love',
+  word: 'word',
+  character: 'char',
+  case: 'Aa',
+  slug: 'slug',
+  json: '{}',
+  uuid: 'uuid',
+  hash: '#',
+  timestamp: 'ts',
+  contrast: 'AA',
+  aspect: '16:9',
   prime: 'pf',
   'long-division': 'div',
   average: 'avg',
