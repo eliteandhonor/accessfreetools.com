@@ -5,6 +5,7 @@ interface FinanceToolSpec {
   name: string;
   summary: string;
   description: string;
+  seoDescription?: string;
   icon: string;
   aliases?: string[];
   formula: string;
@@ -51,7 +52,7 @@ function makeFinanceTool(spec: FinanceToolSpec): ToolDefinition {
     icon: spec.icon,
     aliases: spec.aliases,
     seoTitle: `${spec.name} | Free Online Finance Calculator`,
-    seoDescription: spec.description,
+    seoDescription: spec.seoDescription ?? spec.description,
     useCases: spec.useCases,
     examples: spec.examples,
     faq: makeFaq(spec),
@@ -162,6 +163,8 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     summary: 'Estimate property sale profit, ROI, and equity multiple from purchase and sale numbers.',
     description:
       'Use this free real estate calculator to estimate property sale profit, ROI, net sale proceeds, and equity multiple from purchase, cash invested, selling costs, and loan payoff.',
+    seoDescription:
+      'Estimate property profit, ROI, net sale proceeds, and equity multiple from purchase, sale, costs, cash invested, and loan payoff.',
     icon: 'calculator-house-affordability',
     formula:
       'The calculator adds cash invested, subtracts selling costs and loan payoff from sale price, then compares net sale proceeds with cash invested.',
@@ -1048,6 +1051,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate an affordable home price from income, debts, down payment, rate, and costs.',
     description:
       'Use this free house affordability calculator to estimate a home price from income, monthly debts, down payment, mortgage rate, debt-to-income target, tax, insurance, and HOA.',
+    seoDescription:
+      'Estimate an affordable home price from income, debts, down payment, mortgage rate, DTI target, taxes, insurance, and HOA.',
     icon: 'calculator-house-affordability',
     formula:
       'The calculator applies a debt-to-income target to monthly income, subtracts monthly debts, then searches for the highest home price whose estimated housing payment fits.',
@@ -1168,6 +1173,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate a defined-benefit pension from salary, service years, and multiplier.',
     description:
       'Use this free pension calculator to estimate annual pension, monthly pension, and salary replacement rate from final average salary, years of service, and benefit multiplier.',
+    seoDescription:
+      'Estimate annual pension, monthly pension, and replacement rate from final average salary, service years, and benefit multiplier.',
     icon: 'calculator-pension',
     formula:
       'The calculator multiplies final average salary by years of service and the benefit multiplier, then divides the annual pension by 12 for a monthly estimate.',
@@ -1192,6 +1199,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate a fixed payout from a starting balance, rate, payout time, and frequency.',
     description:
       'Use this free annuity payout calculator to estimate fixed payment amount, total paid, and estimated interest from a starting balance, rate, payout term, and payment frequency.',
+    seoDescription:
+      'Estimate annuity payout amount, total paid, and interest from starting balance, rate, payout term, and payment frequency.',
     icon: 'calculator-annuity-payout',
     formula:
       'The calculator converts annual rate to a periodic rate, then uses the present-value annuity payout formula to spread the balance over the selected payment count.',
@@ -1216,6 +1225,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate payoff time and interest for combined credit card balances.',
     description:
       'Use this free credit cards payoff calculator to estimate payoff months, total interest, total paid, and final payment from combined card balance, weighted APR, monthly payment, and extra payment.',
+    seoDescription:
+      'Estimate credit card payoff months, total interest, total paid, and final payment from balance, APR, monthly payment, and extra payment.',
     icon: 'calculator-card-payoff',
     formula:
       'The calculator converts APR to a monthly rate, adds monthly interest, subtracts the base payment plus extra payment, and repeats until the combined balance is paid off.',
@@ -1240,6 +1251,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate payoff time, total interest, and total paid for a debt balance.',
     description:
       'Use this free debt payoff calculator to estimate payoff months, total interest, total paid, and final payment from debt balance, interest rate, monthly payment, and extra payment.',
+    seoDescription:
+      'Estimate debt payoff months, total interest, total paid, and final payment from balance, rate, monthly payment, and extra payment.',
     icon: 'calculator-debt-payoff',
     formula:
       'The calculator adds monthly interest to the balance, subtracts the monthly payment plus extra payment, and repeats until the balance reaches zero.',
@@ -1264,6 +1277,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Compare current debt payoff with a new consolidation loan.',
     description:
       'Use this free debt consolidation calculator to compare current payoff time and cost with a new consolidation loan payment, fees, monthly payment change, and total cost change.',
+    seoDescription:
+      'Compare current debt payoff with a consolidation loan payment, fees, monthly payment change, and total cost change.',
     icon: 'calculator-debt-consolidation',
     formula:
       'The calculator estimates current debt payoff with the current payment, then compares it with a new fixed-payment loan after adding any consolidation fees.',
@@ -1336,6 +1351,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate future college cost and savings gap from cost inflation and savings.',
     description:
       'Use this free college cost calculator to estimate future annual college cost, total school cost, projected savings, and savings gap from current cost, years until start, school length, and savings plan.',
+    seoDescription:
+      'Estimate future college cost, total school cost, projected savings, and savings gap from current costs and savings plan.',
     icon: 'calculator-college-cost',
     formula:
       'The calculator grows today’s annual cost until school starts, adds each school year with annual increases, then compares that total with projected savings.',
@@ -1384,6 +1401,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate certificate of deposit maturity value, interest, and penalty scenario.',
     description:
       'Use this free CD calculator to estimate maturity value, interest earned, early withdrawal penalty, and value after penalty from deposit amount, APY, term, and penalty months.',
+    seoDescription:
+      'Estimate CD maturity value, interest earned, early withdrawal penalty, and value after penalty from deposit, APY, and term.',
     icon: 'calculator-cd',
     formula:
       'The calculator applies APY growth over the CD term, estimates interest earned, and subtracts a manual early withdrawal penalty measured in months of interest.',
@@ -1408,6 +1427,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate bond coupon income, current yield, and approximate yield to maturity.',
     description:
       'Use this free bond calculator to estimate annual coupon income, total coupon payments, current yield, and approximate yield to maturity from face value, market price, coupon rate, and maturity.',
+    seoDescription:
+      'Estimate bond coupon income, total coupon payments, current yield, and approximate yield to maturity from face value, price, and coupon rate.',
     icon: 'calculator-bond',
     formula:
       'The calculator multiplies face value by coupon rate for annual coupon, divides coupon by market price for current yield, then estimates yield to maturity from coupon income plus price gain or loss.',
@@ -1432,6 +1453,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Project mutual fund growth after a simple expense ratio estimate.',
     description:
       'Use this free mutual fund calculator to project balance, total contributions, estimated growth, and expense drag from initial investment, monthly contribution, return, expense ratio, and time.',
+    seoDescription:
+      'Project mutual fund balance, contributions, growth, and expense drag from starting investment, monthly contribution, return, fees, and time.',
     icon: 'calculator-mutual-fund',
     formula:
       'The calculator projects balance before expenses, subtracts expense ratio from the annual return assumption for a simple net-return estimate, then compares the two balances.',
@@ -1456,6 +1479,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Project Roth IRA growth from current balance, annual contribution, return, and time.',
     description:
       'Use this free Roth IRA calculator to project future balance, total contributions, and estimated growth from current balance, annual contribution, annual return, and years to grow.',
+    seoDescription:
+      'Project Roth IRA future balance, total contributions, and growth from current balance, annual contribution, return, and years.',
     icon: 'calculator-roth-ira',
     formula:
       'The calculator converts annual contribution to a monthly deposit, compounds the current balance monthly, and adds each monthly contribution through the projection period.',
@@ -1480,6 +1505,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Project IRA growth from balance, annual contribution, return, and years.',
     description:
       'Use this free IRA calculator to project future balance, total contributions, and estimated growth from current IRA balance, annual contribution, annual return, and years to grow.',
+    seoDescription:
+      'Project IRA future balance, total contributions, and estimated growth from current balance, annual contribution, return, and years.',
     icon: 'calculator-ira',
     formula:
       'The calculator converts annual contribution to a monthly deposit, compounds the current balance monthly, and adds monthly contributions through the projection period.',
@@ -1600,6 +1627,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate cumulative return, simple average annual return, and CAGR.',
     description:
       'Use this free average return calculator to estimate net gain, cumulative return, average annual return, and CAGR from beginning value, ending value, time, contributions, and withdrawals.',
+    seoDescription:
+      'Estimate net gain, cumulative return, average annual return, and CAGR from beginning value, ending value, time, deposits, and withdrawals.',
     icon: 'calculator-average-return',
     formula:
       'The calculator adjusts ending value for withdrawals and contributions, divides net gain by invested base for cumulative return, then divides by years for average annual return.',
@@ -1744,6 +1773,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate boat loan payment, amount financed, tax, and interest.',
     description:
       'Use this free boat loan calculator to estimate monthly payment, amount financed, sales tax, total paid, and total interest from price, down payment, trade-in, fees, rate, and term.',
+    seoDescription:
+      'Estimate boat loan monthly payment, amount financed, sales tax, total paid, and interest from price, down payment, rate, and term.',
     icon: 'calculator-boat-loan',
     formula:
       'The calculator estimates taxable amount, adds sales tax and fees, subtracts down payment and trade-in value, then uses the fixed-payment loan formula.',

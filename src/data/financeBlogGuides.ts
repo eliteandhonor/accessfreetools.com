@@ -907,12 +907,19 @@ function formatExample(example: (typeof financeTools)[number]['examples'][number
   return `${example.label}: ${example.expression}`;
 }
 
+function getGuideTitle(tool: (typeof financeTools)[number]) {
+  const standardTitle = `How to use the ${tool.name}`;
+  const pageTitle = `${standardTitle} | Access Free Tools`;
+
+  return pageTitle.length > 70 ? `How to use ${tool.name}` : standardTitle;
+}
+
 export const financeBlogPosts: BlogPostDefinition[] = financeTools.map((tool) => {
   const detail = getGuideDetail(tool);
 
   return {
     slug: `how-to-use-${tool.slug}`,
-    title: `How to use the ${tool.name}`,
+    title: getGuideTitle(tool),
     label: `${tool.name.replace(' Calculator', '')} guide`,
     summary: detail.summary,
   };
@@ -928,7 +935,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     slug: `how-to-use-${tool.slug}`,
     toolSlug: tool.slug,
     label: `${tool.name.replace(' Calculator', '')} guide`,
-    title: `How to use the ${tool.name}`,
+    title: getGuideTitle(tool),
     description: detail.summary,
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,

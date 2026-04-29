@@ -215,14 +215,14 @@ export const blogPosts: BlogPostDefinition[] = [
   },
   {
     slug: 'how-to-use-mean-median-mode-range-calculator',
-    title: 'How to use the Mean, Median, Mode, Range Calculator',
+    title: 'Mean, Median, Mode, Range Calculator Guide',
     label: 'Mean median mode range guide',
     summary:
       'Learn how to find the main measures of center and spread: mean, median, mode, and range.',
   },
   {
     slug: 'how-to-use-permutation-and-combination-calculator',
-    title: 'How to use the Permutation and Combination Calculator',
+    title: 'Permutation and Combination Calculator Guide',
     label: 'Permutation combination guide',
     summary:
       'Learn when to use nPr or nCr, how order changes counting, and how exact integer answers are calculated.',

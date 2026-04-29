@@ -738,6 +738,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Boy estimate', expression: 'Mother 5 ft 4 in, father 5 ft 10 in', result: 'About 5 ft 9 in' },
       { label: 'Girl estimate', expression: 'Mother 5 ft 3 in, father 6 ft 0 in', result: 'About 5 ft 5 in' },
+      { label: 'Centimeter check', expression: 'Mother 162 cm, father 178 cm', result: 'Adult height estimate in cm' },
     ],
     relatedSlugs: ['healthy-weight-calculator', 'ideal-weight-calculator', 'bmi-calculator'],
   }),
@@ -762,6 +763,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Simple estimate', expression: '32 in underbust, 36 in bust', result: 'About 32D' },
       { label: 'Rounded band', expression: '33 in underbust, 36 in bust', result: 'About 34B' },
+      { label: 'Cup difference', expression: '34 in underbust, 39 in bust', result: 'Starting size estimate' },
     ],
     relatedSlugs: ['body-type-calculator', 'body-surface-area-calculator', 'conversion-calculator'],
   }),
@@ -786,6 +788,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Branch run', expression: '120 V, 15 A, 75 ft, 12 AWG copper', result: 'Voltage drop estimate' },
       { label: 'Longer 240 V run', expression: '240 V, 30 A, 100 ft, 8 AWG copper', result: 'Percent drop estimate' },
+      { label: 'Three-phase run', expression: '208 V, 20 A, 150 ft, 6 AWG copper', result: 'Load voltage estimate' },
     ],
     relatedSlugs: ['ohms-law-calculator', 'electricity-calculator', 'resistor-calculator'],
   }),
@@ -810,6 +813,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Bedroom', expression: '180 ft2, 8 ft ceiling', result: 'Approximate room BTU' },
       { label: 'Sunny room', expression: '420 ft2, 9 ft ceiling, sunny, 3 people', result: 'Adjusted BTU estimate' },
+      { label: 'Kitchen area', expression: '300 ft2, kitchen heat selected', result: 'Higher BTU estimate' },
     ],
     relatedSlugs: ['square-footage-calculator', 'electricity-calculator', 'area-calculator'],
   }),
@@ -834,6 +838,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Basement rise', expression: '108 in rise, 7.5 in target riser, 10 in tread', result: '14 risers' },
       { label: 'Deck rise', expression: '36 in rise, 7 in target riser, 11 in tread', result: 'Simple stair estimate' },
+      { label: 'Tall rise', expression: '144 in rise, 7.75 in target riser, 10.5 in tread', result: 'Riser and run estimate' },
     ],
     relatedSlugs: ['slope-calculator', 'right-triangle-calculator', 'distance-calculator'],
   }),
@@ -858,6 +863,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: '1 kOhm', expression: 'brown black red gold', result: '1,000 ohms +/- 5%' },
       { label: '4.7 kOhm', expression: 'yellow violet red gold', result: '4,700 ohms +/- 5%' },
+      { label: '220 ohm', expression: 'red red brown gold', result: '220 ohms +/- 5%' },
     ],
     relatedSlugs: ['ohms-law-calculator', 'voltage-drop-calculator', 'electricity-calculator'],
   }),
@@ -882,6 +888,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Voltage and current', expression: '12 V and 2 A', result: '6 ohms and 24 W' },
       { label: 'Current and resistance', expression: '2 A and 6 ohms', result: '12 V and 24 W' },
+      { label: 'Voltage and resistance', expression: '9 V and 3 ohms', result: '3 A and 27 W' },
     ],
     relatedSlugs: ['resistor-calculator', 'voltage-drop-calculator', 'electricity-calculator'],
   }),
@@ -906,6 +913,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Space heater', expression: '1,500 W, 4 h/day, 30 days, $0.16/kWh', result: '$28.80' },
       { label: 'LED bulb', expression: '10 W, 5 h/day, 365 days, $0.16/kWh', result: 'Low yearly estimate' },
+      { label: 'Gaming PC', expression: '450 W, 3 h/day, 30 days, $0.18/kWh', result: 'Monthly energy cost' },
     ],
     relatedSlugs: ['btu-calculator', 'voltage-drop-calculator', 'ohms-law-calculator'],
   }),
@@ -930,6 +938,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: '26 cm foot', expression: '26 cm', result: 'Approximate adult sizes' },
       { label: '24 cm foot', expression: '24 cm', result: 'Compare US, UK, and EU sizes' },
+      { label: '28 cm foot', expression: '28 cm', result: 'Larger adult size estimate' },
     ],
     relatedSlugs: ['conversion-calculator', 'height-calculator', 'body-type-calculator'],
   }),
@@ -954,6 +963,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Simple molarity', expression: '0.5 mol / 1 L', result: '0.5 M' },
       { label: 'NaCl grams', expression: '58.44 g / 58.44 g/mol / 1 L', result: '1 M' },
+      { label: 'Dilute sample', expression: '0.25 mol / 0.5 L', result: '0.5 M' },
     ],
     relatedSlugs: ['molecular-weight-calculator', 'conversion-calculator', 'density-calculator'],
   }),
@@ -1003,6 +1013,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Wake at 7:00', expression: '5 cycles plus 15 min buffer', result: 'Suggested bedtime' },
       { label: 'Bed at 10:30 PM', expression: '5 cycles plus 15 min buffer', result: 'Suggested wake time' },
+      { label: 'Short night', expression: '4 cycles plus 20 min buffer', result: 'Alternate sleep time' },
     ],
     relatedSlugs: ['time-calculator', 'hours-calculator', 'target-heart-rate-calculator'],
   }),
@@ -1027,6 +1038,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Common size', expression: '225/60R16', result: 'Diameter and revs per mile' },
       { label: 'Low profile comparison', expression: '235/45R18', result: 'Sidewall and diameter estimate' },
+      { label: 'Truck tire', expression: '275/65R18', result: 'Larger diameter estimate' },
     ],
     relatedSlugs: ['conversion-calculator', 'speed-calculator', 'mileage-calculator'],
   }),
@@ -1051,6 +1063,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Simple roof', expression: '40 ft x 30 ft, 6/12 pitch, 10% waste', result: 'Roof squares and bundles' },
       { label: 'Low pitch', expression: '30 ft x 24 ft, 3/12 pitch', result: 'Pitch-adjusted area' },
+      { label: 'Higher waste', expression: '48 ft x 32 ft, 8/12 pitch, 15% waste', result: 'Roofing material estimate' },
     ],
     relatedSlugs: ['square-footage-calculator', 'area-calculator', 'slope-calculator'],
   }),
@@ -1075,6 +1088,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: '12 inch tile', expression: '120 ft2, 12 x 12 in tile, 10% waste', result: '132 tiles' },
       { label: 'Large format tile', expression: '200 ft2, 12 x 24 in tile', result: 'Tile count estimate' },
+      { label: 'Small wall tile', expression: '60 ft2, 6 x 6 in tile, 12% waste', result: 'Tile quantity estimate' },
     ],
     relatedSlugs: ['square-footage-calculator', 'area-calculator', 'conversion-calculator'],
   }),
@@ -1099,6 +1113,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Garden bed', expression: '200 ft2 at 3 in, 5% extra', result: 'About 1.94 yd3' },
       { label: 'Refresh layer', expression: '150 ft2 at 2 in', result: 'Bulk and bag estimate' },
+      { label: 'Large bed', expression: '500 ft2 at 2.5 in, 10% extra', result: 'Cubic yards and bags' },
     ],
     relatedSlugs: ['gravel-calculator', 'square-footage-calculator', 'volume-calculator'],
   }),
@@ -1123,6 +1138,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Driveway bed', expression: '20 ft x 10 ft x 3 in, 1.4 tons/yd3', result: 'Cubic yards and tons' },
       { label: 'Path', expression: '30 ft x 3 ft x 2 in', result: 'Material estimate' },
+      { label: 'Parking pad', expression: '18 ft x 18 ft x 4 in, 1.5 tons/yd3', result: 'Bulk gravel estimate' },
     ],
     relatedSlugs: ['mulch-calculator', 'volume-calculator', 'square-footage-calculator'],
   }),
@@ -1147,6 +1163,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Cold windy day', expression: '30 F and 15 mph', result: 'Feels colder than 30 F' },
       { label: 'Freezing wind', expression: '20 F and 25 mph', result: 'Wind chill estimate' },
+      { label: 'Very cold wind', expression: '5 F and 20 mph', result: 'Severe feels-like estimate' },
     ],
     relatedSlugs: ['heat-index-calculator', 'dew-point-calculator', 'conversion-calculator'],
   }),
@@ -1171,6 +1188,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Humid heat', expression: '90 F and 70% RH', result: 'Higher apparent temperature' },
       { label: 'Dryer heat', expression: '95 F and 35% RH', result: 'Adjusted heat index' },
+      { label: 'Danger check', expression: '100 F and 55% RH', result: 'High heat index estimate' },
     ],
     relatedSlugs: ['wind-chill-calculator', 'dew-point-calculator', 'btu-calculator'],
   }),
@@ -1195,6 +1213,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Humid day', expression: '75 F and 60% RH', result: 'Dew point estimate' },
       { label: 'Dry indoor air', expression: '70 F and 30% RH', result: 'Lower dew point' },
+      { label: 'Muggy evening', expression: '82 F and 75% RH', result: 'Higher dew point estimate' },
     ],
     relatedSlugs: ['heat-index-calculator', 'wind-chill-calculator', 'conversion-calculator'],
   }),
@@ -1219,6 +1238,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Large download', expression: '5 GB at 100 Mbps', result: 'About 6m 40s' },
       { label: 'Medium file', expression: '700 MB at 25 Mbps', result: 'Transfer time estimate' },
+      { label: 'Backup upload', expression: '50 GB at 20 Mbps', result: 'Long transfer estimate' },
     ],
     relatedSlugs: ['subnet-calculator', 'base64-encode-decode', 'url-encode-decode'],
   }),
@@ -1243,6 +1263,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Economy example', expression: '18,000 + 5,000 + 6,500 + (3,200 - 4,100), population 0.34', result: '28,600 and about 84,118 per person' },
       { label: 'Classroom example', expression: '700 + 150 + 220 + (90 - 120)', result: '1,040' },
+      { label: 'Net exports surplus', expression: '900 + 180 + 250 + (140 - 100)', result: '1,370' },
     ],
     relatedSlugs: ['inflation-calculator', 'finance-calculator', 'percentage-calculator'],
   }),
@@ -1267,6 +1288,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: '150 mechanical hp', expression: '150 hp', result: '111,854.985 W' },
       { label: '100 kW', expression: '100 kW', result: '134.1022 hp' },
+      { label: 'Metric hp', expression: '100 metric hp', result: '73,549.88 W' },
     ],
     relatedSlugs: ['engine-horsepower-calculator', 'conversion-calculator', 'ohms-law-calculator'],
   }),
@@ -1291,6 +1313,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: '300 lb-ft at 5,252 rpm', expression: '300 x 5,252 / 5,252.1131', result: 'About 300 hp' },
       { label: '250 lb-ft at 4,000 rpm', expression: '250 x 4,000 / 5,252.1131', result: 'About 190.4 hp' },
+      { label: 'Wheel estimate', expression: '400 lb-ft at 5,000 rpm with 15% loss', result: 'Engine and wheel hp' },
     ],
     relatedSlugs: ['horsepower-calculator', 'speed-calculator', 'conversion-calculator'],
   }),
@@ -1315,6 +1338,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Score differential', expression: '(113 / 128) x (86 - 71.2 - 0)', result: 'About 13.1' },
       { label: 'Course handicap', expression: '14.2 x (128 / 113) + (71.2 - 72)', result: 'About 15' },
+      { label: 'Playing handicap', expression: 'Course handicap 15 with 85% allowance', result: 'About 13' },
     ],
     relatedSlugs: ['percentage-calculator', 'average-calculator', 'rounding-calculator'],
   }),
@@ -1339,6 +1363,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Alex + Sam', expression: 'Alex and Sam', result: 'Playful match score' },
       { label: 'Taylor + Jordan', expression: 'Taylor and Jordan', result: 'Playful match score' },
+      { label: 'Case check', expression: 'alex and SAM', result: 'Same deterministic style score' },
     ],
     relatedSlugs: ['random-number-generator', 'dice-roller', 'percentage-calculator'],
   }),
