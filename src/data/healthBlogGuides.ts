@@ -4,6 +4,7 @@ import { healthTools } from './healthTools';
 interface GuideSection {
   title: string;
   paragraphs: string[];
+  bullets?: string[];
   links?: Array<{
     href: string;
     label: string;
@@ -131,61 +132,911 @@ function getSourceLinks(toolSlug: string) {
   return [];
 }
 
-export const healthBlogPosts: BlogPostDefinition[] = healthTools.map((tool) => ({
-  slug: `how-to-use-${tool.slug}`,
-  title: `How to use the ${tool.name}`,
-  label: `${tool.name.replace(' Calculator', '')} guide`,
-  summary: `Learn how to use the ${tool.name}, read the estimate, understand the formula, and avoid common interpretation mistakes.`,
-}));
+interface GuideDetail {
+  summary: string;
+  purpose: string;
+  enter: string[];
+  example: string[];
+  read: string[];
+  mistakes: string[];
+  next: string[];
+}
 
-export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) => ({
-  slug: `how-to-use-${tool.slug}`,
-  toolSlug: tool.slug,
-  label: `${tool.name.replace(' Calculator', '')} guide`,
-  title: `How to use the ${tool.name}`,
-  description: `Learn how to use the ${tool.name}, what inputs matter, how the estimate is calculated, and when to get professional guidance.`,
-  path: `/blog/how-to-use-${tool.slug}/`,
-  intro: `${tool.summary} This guide explains the inputs, the result, and the limits of the estimate so the tool stays useful and responsible.`,
-  quickStart: [
-    `Open the ${tool.name} and enter the requested measurements or dates.`,
-    'Use the examples if you want to see a complete filled-out calculation first.',
-    'Press the calculate button to update the answer, formula steps, and supporting metrics.',
-    'Copy the answer only after checking that the units, dates, and assumptions match your situation.',
-  ],
-  sections: [
-    {
-      title: 'What this calculator estimates',
-      paragraphs: [
-        tool.description,
-        `The best use is practical comparison: ${tool.useCases[0].toLowerCase()} ${tool.useCases[1]}`,
-      ],
-    },
-    {
-      title: 'Formula and inputs',
-      paragraphs: [
-        getFormulaAnswer(tool.slug),
-        'Small input changes can move the result, so use consistent units and repeat measurements the same way when tracking trends.',
-      ],
-    },
-    {
-      title: 'How to read the answer',
-      paragraphs: [
-        'Read the main answer first, then check the supporting metrics and formula steps underneath it. Those extra lines explain what the calculator did and what assumptions shaped the result.',
-        extraSafetyNotes[tool.slug] ??
-          'Use the result as an educational estimate. For health, pregnancy, nutrition, kidney, alcohol, or training decisions with real consequences, get qualified professional guidance.',
-      ],
-    },
-    {
-      title: 'Sources and safety notes',
-      paragraphs: [
-        'This guide uses public-health, clinical, or peer-reviewed references where the calculator needs a specific formula or interpretation boundary.',
-        'Source links are provided for transparency, but they do not turn the calculator into medical advice or a replacement for professional care.',
-      ],
-      links: getSourceLinks(tool.slug),
-    },
-  ],
-  sidecarText: `Use the ${tool.name} with the guide open so you can compare the result, formula steps, examples, and safety notes in one place.`,
-}));
+const guideDetails: Record<string, GuideDetail> = {
+  'bmi-calculator': {
+    summary: 'Learn what BMI needs, what the category means, and why adult BMI is only a screening estimate.',
+    purpose:
+      'The BMI Calculator turns height and weight into one adult screening number. It is useful for a quick reference, but it does not see muscle, pregnancy, age-related body composition, or a clinician view of health.',
+    enter: [
+      'Enter height and weight in the same unit system you normally use.',
+      'Use a recent weight if you are checking today, or use the same measurement conditions if you are tracking a trend.',
+      'Use this adult tool for adults, not for child or teen BMI percentiles.',
+    ],
+    example: [
+      'For 170 cm and 70 kg, the calculator converts height to meters, squares it, then divides 70 by that squared height.',
+      'The result is about 24.2, which sits inside the common adult healthy-weight BMI category.',
+    ],
+    read: [
+      'Start with the BMI number, then read the category label as a broad screen rather than a final health score.',
+      'The healthy weight range shows what weights would land between BMI 18.5 and 24.9 for the same height.',
+    ],
+    mistakes: [
+      'Do not use BMI alone to judge fitness, body fat, or medical risk.',
+      'Do not mix pounds with centimeters or kilograms with feet unless the tool mode expects it.',
+      'Do not use adult BMI categories for children, teens, or pregnancy weight questions.',
+    ],
+    next: [
+      'Use Healthy Weight Calculator for the height-based range.',
+      'Use Body Fat Calculator if you want a tape-measure estimate alongside BMI.',
+    ],
+  },
+  'calorie-calculator': {
+    summary: 'Learn how maintenance calories are estimated from BMR, activity, and goal settings.',
+    purpose:
+      'The Calorie Calculator estimates daily energy needs so you can compare maintenance, gentle loss, and gentle gain targets. It is a planning estimate, not a promise about exact weight change.',
+    enter: [
+      'Enter age, formula sex, height, and weight because they set the BMR estimate.',
+      'Choose the activity level that describes an average week, not your best workout day.',
+      'Pick a goal only after checking the maintenance number first.',
+    ],
+    example: [
+      'A moderate-activity example first estimates BMR, then multiplies it by the activity factor.',
+      'If a goal is selected, the tool adjusts from maintenance instead of replacing the maintenance estimate.',
+    ],
+    read: [
+      'Maintenance is the anchor number. Loss and gain targets are offsets from that anchor.',
+      'If real-world weight trends do not match after a few weeks, the activity estimate or intake tracking may need adjustment.',
+    ],
+    mistakes: [
+      'Do not choose very active because of one hard session if most days are desk-based.',
+      'Do not treat the estimate as exact metabolism.',
+      'Do not make aggressive diet changes without professional support, especially with medical conditions or pregnancy.',
+    ],
+    next: [
+      'Use TDEE Calculator if you want to focus only on daily expenditure.',
+      'Use Macro Calculator to split calories into protein, fat, and carbohydrate grams.',
+    ],
+  },
+  'body-fat-calculator': {
+    summary: 'Learn how tape measurements create a body-fat estimate and how to measure more consistently.',
+    purpose:
+      'The Body Fat Calculator uses circumference measurements to estimate body fat percentage, fat mass, and lean mass. The value is most useful for consistent trend checks.',
+    enter: [
+      'Measure height, neck, and waist; add hips when the selected formula requires it.',
+      'Keep the tape level, snug, and not digging into the skin.',
+      'Measure at the same time of day when comparing changes over time.',
+    ],
+    example: [
+      'In the female tape example, height, neck, waist, and hips are used together because hip measurement changes the equation.',
+      'The result separates estimated fat mass from lean mass so the percentage is easier to understand.',
+    ],
+    read: [
+      'Read the body fat percentage as an estimate, then look at fat mass and lean mass for context.',
+      'A small change can come from measurement placement, posture, or tape tension, not only body composition.',
+    ],
+    mistakes: [
+      'Do not compare one tape-method result with a scale or scan as if every method uses the same assumptions.',
+      'Do not pull the tape tighter on later measurements just to see a lower number.',
+      'Do not use the estimate as a diagnosis.',
+    ],
+    next: [
+      'Use Army Body Fat Calculator if you want a military-style tape estimate.',
+      'Use Lean Body Mass Calculator for a formula-based lean-mass comparison.',
+    ],
+  },
+  'bmr-calculator': {
+    summary: 'Learn what basal metabolic rate means and why it is the base for calorie planning.',
+    purpose:
+      'The BMR Calculator estimates the calories your body may use at rest. It does not include exercise, work, steps, or daily movement until another activity factor is added.',
+    enter: [
+      'Enter age, formula sex, height, and weight.',
+      'Use current measurements for today, or consistent measurements if comparing changes.',
+      'Keep BMR separate from TDEE: BMR is rest, TDEE is rest plus activity.',
+    ],
+    example: [
+      'For a male example, the formula adds the weight and height terms, subtracts the age term, then applies the sex adjustment.',
+      'For a female example, the same structure is used with the female adjustment.',
+    ],
+    read: [
+      'A higher BMR estimate usually reflects larger body size, taller height, younger age, or the formula sex setting.',
+      'Use BMR as a starting point, then move to TDEE or Calorie Calculator for daily planning.',
+    ],
+    mistakes: [
+      'Do not eat at BMR just because it appears on the page; daily needs usually include activity.',
+      'Do not compare BMR results across formulas without noting which formula was used.',
+      'Do not use BMR as medical nutrition advice.',
+    ],
+    next: [
+      'Use TDEE Calculator to add activity.',
+      'Use Calorie Calculator to compare maintenance and goal estimates.',
+    ],
+  },
+  'ideal-weight-calculator': {
+    summary: 'Learn how ideal body weight formulas differ from healthy BMI ranges.',
+    purpose:
+      'The Ideal Weight Calculator gives a height-based formula reference and compares it with a healthy BMI range. It is a reference point, not a personal requirement.',
+    enter: [
+      'Enter height and formula sex because the Devine formula uses both.',
+      'Use the healthy BMI range as a wider comparison beside the single formula estimate.',
+      'Remember that frame size, muscle, age, and health history are not included.',
+    ],
+    example: [
+      'For a 180 cm male example, the calculator converts height above 5 feet into inches and adds the Devine amount per inch.',
+      'The BMI range then shows a broader weight span for the same height.',
+    ],
+    read: [
+      'Treat the ideal weight number as one historical formula output.',
+      'The BMI range is usually more useful than a single target because bodies vary.',
+    ],
+    mistakes: [
+      'Do not treat the word ideal as a command.',
+      'Do not use this for children, pregnancy, athletic performance, or medical dosing decisions.',
+      'Do not ignore how you feel, lab results, and clinician advice.',
+    ],
+    next: [
+      'Use Healthy Weight Calculator for BMI range only.',
+      'Use BMI Calculator to compare current weight with adult BMI categories.',
+    ],
+  },
+  'pace-calculator': {
+    summary: 'Learn how to convert workout distance and time into pace and speed.',
+    purpose:
+      'The Pace Calculator turns a distance and elapsed time into pace per mile or kilometer, plus speed per hour. It is useful for running, walking, cycling, and race planning.',
+    enter: [
+      'Enter the total distance and choose miles or kilometers.',
+      'Enter the full elapsed time, including minutes and seconds.',
+      'Use the same distance unit when comparing workouts.',
+    ],
+    example: [
+      'For 5 km in 25:00, the calculator divides 25 minutes by 5.',
+      'The result is 5:00 per kilometer, and speed is the same effort expressed as distance per hour.',
+    ],
+    read: [
+      'Lower pace means faster because it is time per distance.',
+      'Higher speed means faster because it is distance per hour.',
+    ],
+    mistakes: [
+      'Do not mix moving time and total elapsed time when comparing sessions.',
+      'Do not compare mile pace with kilometer pace without converting.',
+      'Do not use pace alone to judge effort on hills, heat, or trails.',
+    ],
+    next: [
+      'Use Calories Burned Calculator to estimate workout energy.',
+      'Use Target Heart Rate Calculator to compare effort zones.',
+    ],
+  },
+  'army-body-fat-calculator': {
+    summary: 'Learn how circumference inputs affect a military-style body-fat estimate.',
+    purpose:
+      'The Army Body Fat Calculator provides an educational tape-method estimate. It is not an official record, waiver, or pass/fail decision.',
+    enter: [
+      'Enter height and the circumference fields requested for the selected formula.',
+      'Use a flexible tape and keep it level at every measurement site.',
+      'Repeat measurements the same way if you are comparing over time.',
+    ],
+    example: [
+      'A male tape example uses height, neck, and abdomen measurements.',
+      'A female tape example also uses waist and hips because the equation needs a different circumference set.',
+    ],
+    read: [
+      'Read the percent as a formula estimate based on tape sites.',
+      'Use the supporting details to see which measurements moved the result.',
+    ],
+    mistakes: [
+      'Do not use this page for official military decisions.',
+      'Do not round or adjust measurements to force a preferred result.',
+      'Do not compare results if the tape sites changed.',
+    ],
+    next: [
+      'Use Body Fat Calculator for a general tape estimate.',
+      'Use Lean Body Mass Calculator to compare estimated lean mass.',
+    ],
+  },
+  'lean-body-mass-calculator': {
+    summary: 'Learn how lean body mass is estimated from height, weight, and formula sex.',
+    purpose:
+      'The Lean Body Mass Calculator estimates fat-free mass with the Boer equation. It is a simple formula reference, not a scan of your body composition.',
+    enter: [
+      'Enter height, weight, and formula sex.',
+      'Use current values if you want a current estimate.',
+      'Use the same formula when tracking changes.',
+    ],
+    example: [
+      'For 180 cm and 82 kg, the calculator applies the height and weight terms in the Boer equation.',
+      'The result estimates lean body mass, and the remaining weight is a rough implied fat mass.',
+    ],
+    read: [
+      'Lean body mass includes muscle, bone, organs, and water.',
+      'The estimate can be useful beside body fat percentage, but it is still formula-based.',
+    ],
+    mistakes: [
+      'Do not read lean mass as muscle mass only.',
+      'Do not compare formula estimates with DEXA or other methods as if they are identical.',
+      'Do not use it for medication or clinical decisions.',
+    ],
+    next: [
+      'Use Body Fat Calculator for a tape-based estimate.',
+      'Use BMR Calculator to see how body size affects resting energy estimates.',
+    ],
+  },
+  'healthy-weight-calculator': {
+    summary: 'Learn how the healthy-weight range is built from adult BMI 18.5 to 24.9.',
+    purpose:
+      'The Healthy Weight Calculator shows the weight range that corresponds to adult BMI 18.5 to 24.9 for a chosen height.',
+    enter: [
+      'Enter height accurately because the range is entirely height-based.',
+      'Optionally enter current weight if you want a current BMI comparison.',
+      'Use this for adult screening ranges, not child growth charts.',
+    ],
+    example: [
+      'For a height example, the calculator squares height in meters and multiplies it by 18.5 and 24.9.',
+      'Those two calculations become the lower and upper ends of the range.',
+    ],
+    read: [
+      'The range is a reference zone, not a required personal target.',
+      'The optional current BMI helps place today’s weight next to the range.',
+    ],
+    mistakes: [
+      'Do not use the range for pregnancy weight gain.',
+      'Do not treat it as a complete health assessment.',
+      'Do not ignore body composition, age, and medical context.',
+    ],
+    next: [
+      'Use BMI Calculator for the exact current BMI number.',
+      'Use Ideal Weight Calculator if you want a formula comparison.',
+    ],
+  },
+  'calories-burned-calculator': {
+    summary: 'Learn how MET, body weight, and duration create a workout calorie estimate.',
+    purpose:
+      'The Calories Burned Calculator estimates exercise energy from activity intensity, weight, and time. It is best for comparing activities, not measuring exact calories.',
+    enter: [
+      'Choose the activity or MET value that most closely matches the workout.',
+      'Enter body weight and workout duration.',
+      'Use the same MET choice when comparing similar sessions.',
+    ],
+    example: [
+      'For a brisk walk at 3.8 MET, the calculator multiplies MET by weight and duration.',
+      'A heavier body weight or longer duration increases the estimate.',
+    ],
+    read: [
+      'The answer is an estimate of energy used during the activity.',
+      'Calories per hour helps compare activities of different lengths.',
+    ],
+    mistakes: [
+      'Do not treat watch, machine, and formula calories as exact truth.',
+      'Do not pick a higher MET than the effort really matched.',
+      'Do not use exercise calories as medical nutrition advice.',
+    ],
+    next: [
+      'Use Pace Calculator for running or walking pace.',
+      'Use Calorie Calculator to compare workout estimates with daily needs.',
+    ],
+  },
+  'one-rep-max-calculator': {
+    summary: 'Learn how rep sets estimate one-rep max without testing a true max.',
+    purpose:
+      'The One Rep Max Calculator estimates strength from a weight you lifted for multiple reps. It helps plan training percentages without requiring a risky max attempt.',
+    enter: [
+      'Enter the weight lifted and the number of completed reps.',
+      'Use a set that was close to hard but performed with good form.',
+      'Keep reps in a normal estimating range; very high reps are less reliable.',
+    ],
+    example: [
+      'For 100 kg x 5, the Epley formula adds one sixth of the weight to the original load.',
+      'The result is an estimated 1RM of about 117 kg, with another formula shown for comparison.',
+    ],
+    read: [
+      'Use the estimate to plan percentages, not to prove what you must lift today.',
+      'If formulas disagree, treat the range as uncertainty.',
+    ],
+    mistakes: [
+      'Do not test heavy singles without proper setup and supervision.',
+      'Do not use failed reps or partial reps as clean input.',
+      'Do not expect the same estimate across every lift.',
+    ],
+    next: [
+      'Use Protein Calculator for nutrition planning around training.',
+      'Use Target Heart Rate Calculator for conditioning work.',
+    ],
+  },
+  'target-heart-rate-calculator': {
+    summary: 'Learn how age and intensity ranges become estimated exercise heart-rate zones.',
+    purpose:
+      'The Target Heart Rate Calculator estimates exercise zones using age-predicted max heart rate, and can also show heart-rate reserve when resting pulse is entered.',
+    enter: [
+      'Enter age to estimate maximum heart rate.',
+      'Choose moderate, vigorous, or custom intensity.',
+      'Add resting heart rate if you want the heart-rate-reserve method.',
+    ],
+    example: [
+      'For age 35, the simple maximum estimate is 220 minus 35.',
+      'The calculator then multiplies that maximum by the selected intensity range.',
+    ],
+    read: [
+      'A zone is a range, not a single perfect number.',
+      'Breathing, heat, sleep, medication, and fitness can all change real effort at the same heart rate.',
+    ],
+    mistakes: [
+      'Do not push into a zone that feels unsafe just because the calculator shows it.',
+      'Do not use the simple 220-minus-age estimate as a clinical test.',
+      'Do not ignore medical advice about exercise limits.',
+    ],
+    next: [
+      'Use Pace Calculator to compare heart rate with speed.',
+      'Use Calories Burned Calculator for an activity energy estimate.',
+    ],
+  },
+  'pregnancy-calculator': {
+    summary: 'Learn how LMP and cycle length estimate due date, gestational age, and trimester.',
+    purpose:
+      'The Pregnancy Calculator uses the first day of the last menstrual period and cycle length to estimate due date, gestational age today, conception timing, and trimester.',
+    enter: [
+      'Enter the first day of the last menstrual period, not the last day bleeding occurred.',
+      'Adjust cycle length if your usual cycle is shorter or longer than 28 days.',
+      'Use the current date on the page to read gestational age today.',
+    ],
+    example: [
+      'For an LMP of Apr 1 with a 28-day cycle, the calculator adds about 280 days for the due date.',
+      'If the cycle is longer, ovulation is estimated later and the due date can shift later.',
+    ],
+    read: [
+      'Gestational age is counted from LMP, so it is usually about two weeks more than conception age.',
+      'Trimester labels are planning references and may change after clinical dating.',
+    ],
+    mistakes: [
+      'Do not treat the estimated conception date as proof of one exact day.',
+      'Do not use calendar dating instead of ultrasound or clinician guidance.',
+      'Do not forget to adjust for a cycle that is not 28 days.',
+    ],
+    next: [
+      'Use Due Date Calculator for a focused due-date page.',
+      'Use Pregnancy Weight Gain Calculator for BMI-based gain references.',
+    ],
+  },
+  'pregnancy-weight-gain-calculator': {
+    summary: 'Learn how pre-pregnancy BMI connects to pregnancy weight-gain guideline ranges.',
+    purpose:
+      'The Pregnancy Weight Gain Calculator compares current gain with BMI-based guideline ranges for singleton pregnancy planning.',
+    enter: [
+      'Enter pre-pregnancy height and weight so the tool can estimate pre-pregnancy BMI.',
+      'Enter current weight and pregnancy week.',
+      'Use the singleton/twin context shown by the tool carefully because guidance differs.',
+    ],
+    example: [
+      'For week 24, the calculator finds the gain from pre-pregnancy weight to current weight.',
+      'It then compares that gain with the guideline range tied to the pre-pregnancy BMI category.',
+    ],
+    read: [
+      'The range is a conversation starter for prenatal care, not a judgment.',
+      'Week-by-week gain can vary, especially with nausea, fluid shifts, and medical needs.',
+    ],
+    mistakes: [
+      'Do not use adult weight-loss logic during pregnancy.',
+      'Do not use the result to restrict food without a clinician.',
+      'Do not ignore twin, triplet, or high-risk pregnancy guidance.',
+    ],
+    next: [
+      'Use Pregnancy Calculator to check due date and gestational age.',
+      'Bring the result to prenatal care if you have concerns.',
+    ],
+  },
+  'pregnancy-conception-calculator': {
+    summary: 'Learn how a due date can be counted backward to estimate a conception window.',
+    purpose:
+      'The Pregnancy Conception Calculator starts from a due date and estimates conception timing, possible conception window, and LMP.',
+    enter: [
+      'Enter the due date you were given or estimated.',
+      'Use the window, not just the center date, when reading the result.',
+      'Remember that clinical dating may update the due date later.',
+    ],
+    example: [
+      'For a due date example, the calculator subtracts about 266 days to estimate conception.',
+      'It then shows a wider window because ovulation and fertilization vary.',
+    ],
+    read: [
+      'The center date is a best estimate, not proof.',
+      'The window is more honest than a single day because biology and dating methods are imperfect.',
+    ],
+    mistakes: [
+      'Do not use the estimate for legal, relationship, or medical proof.',
+      'Do not ignore ultrasound or clinician dating.',
+      'Do not assume conception and intercourse happened on the same day.',
+    ],
+    next: [
+      'Use Due Date Calculator if you want to start from LMP instead.',
+      'Use Ovulation Calculator for forward cycle estimates.',
+    ],
+  },
+  'due-date-calculator': {
+    summary: 'Learn how LMP and cycle length estimate a pregnancy due date.',
+    purpose:
+      'The Due Date Calculator focuses on expected delivery date from the first day of the last menstrual period and usual cycle length.',
+    enter: [
+      'Enter the first day of the last menstrual period.',
+      'Set the usual cycle length if it differs from 28 days.',
+      'Use the result as a planning date until clinical dating is confirmed.',
+    ],
+    example: [
+      'With Apr 1 as LMP and a 28-day cycle, the calculator adds 280 days.',
+      'A longer cycle moves estimated ovulation later, so the date can shift later.',
+    ],
+    read: [
+      'A due date is an estimate; many healthy pregnancies deliver before or after it.',
+      'The conception estimate is backward math from the due date, not a confirmed event date.',
+    ],
+    mistakes: [
+      'Do not enter ovulation date into an LMP field.',
+      'Do not treat the due date as an appointment guarantee.',
+      'Do not ignore clinician updates after ultrasound.',
+    ],
+    next: [
+      'Use Pregnancy Calculator for gestational age and trimester too.',
+      'Use Pregnancy Conception Calculator to work backward from a due date.',
+    ],
+  },
+  'ovulation-calculator': {
+    summary: 'Learn how cycle length and luteal phase estimate ovulation and fertile window.',
+    purpose:
+      'The Ovulation Calculator estimates ovulation date, fertile window, and next period for regular cycles.',
+    enter: [
+      'Enter the first day of the last period.',
+      'Enter typical cycle length, not the length of bleeding.',
+      'Adjust luteal phase only if you have a reason to use a value other than 14 days.',
+    ],
+    example: [
+      'For a 28-day cycle with a 14-day luteal phase, ovulation is estimated around cycle day 14.',
+      'The fertile window is shown around ovulation because sperm can survive for several days.',
+    ],
+    read: [
+      'Use the window as a planning estimate, not a guarantee.',
+      'Irregular cycles, postpartum cycles, illness, stress, and medication can shift ovulation.',
+    ],
+    mistakes: [
+      'Do not use calendar ovulation estimates as contraception.',
+      'Do not count period length as cycle length.',
+      'Do not assume every cycle ovulates on day 14.',
+    ],
+    next: [
+      'Use Period Calculator to estimate upcoming periods.',
+      'Use Conception Calculator if you want the same cycle math framed around conception timing.',
+    ],
+  },
+  'conception-calculator': {
+    summary: 'Learn how cycle details estimate conception timing and why the date is approximate.',
+    purpose:
+      'The Conception Calculator estimates ovulation-based conception timing from last period, cycle length, and luteal phase.',
+    enter: [
+      'Enter the first day of the last period and usual cycle length.',
+      'Use luteal phase only if you know it; otherwise keep the default.',
+      'Read the fertile window beside the estimated conception date.',
+    ],
+    example: [
+      'For a typical 28-day cycle, the calculator estimates ovulation near day 14.',
+      'The estimated conception date is placed near ovulation, with a wider window for uncertainty.',
+    ],
+    read: [
+      'Conception timing is a range because ovulation, sperm survival, and fertilization timing vary.',
+      'A due-date-based estimate and a cycle-based estimate can differ.',
+    ],
+    mistakes: [
+      'Do not treat the date as proof of exactly when conception happened.',
+      'Do not use the tool when cycles are highly irregular without expecting uncertainty.',
+      'Do not confuse LMP date with ovulation date.',
+    ],
+    next: [
+      'Use Ovulation Calculator for fertile-window planning.',
+      'Use Pregnancy Conception Calculator when you only know the due date.',
+    ],
+  },
+  'period-calculator': {
+    summary: 'Learn how last period date, cycle length, and period length predict upcoming dates.',
+    purpose:
+      'The Period Calculator estimates the next period start, expected end, and upcoming cycle dates from your usual cycle pattern.',
+    enter: [
+      'Enter the first day of the last period.',
+      'Enter average cycle length from one period start to the next period start.',
+      'Enter period length to estimate the expected end date.',
+    ],
+    example: [
+      'If the last period started Apr 1 and the cycle is 28 days, the next start is estimated 28 days later.',
+      'If period length is 5 days, the expected end is shown from that start date.',
+    ],
+    read: [
+      'Use the dates for planning, not diagnosis.',
+      'A cycle that arrives earlier or later than usual can be normal once in a while.',
+    ],
+    mistakes: [
+      'Do not count from the last day of bleeding when the field asks for start date.',
+      'Do not assume predictions stay accurate during irregular cycles, postpartum changes, or medication changes.',
+      'Do not use period prediction as contraception.',
+    ],
+    next: [
+      'Use Ovulation Calculator to estimate a fertile window.',
+      'Track actual dates over a few cycles for better averages.',
+    ],
+  },
+  'macro-calculator': {
+    summary: 'Learn how calorie targets turn into grams of protein, fat, and carbs.',
+    purpose:
+      'The Macro Calculator splits daily calories into protein, fat, and carbohydrate grams so a calorie target becomes easier to plan as meals.',
+    enter: [
+      'Enter daily calories first.',
+      'Choose a macro split that matches your goal or use the balanced preset.',
+      'Check that the percentages add up to 100%.',
+    ],
+    example: [
+      'For 2000 calories with a balanced split, the calculator assigns a percent to each macro.',
+      'Protein and carbs use 4 calories per gram, while fat uses 9 calories per gram.',
+    ],
+    read: [
+      'Grams are easier to use on food labels than percentages.',
+      'The split is a planning template; food quality, fiber, medical needs, and preference still matter.',
+    ],
+    mistakes: [
+      'Do not copy someone else’s macro split without context.',
+      'Do not forget that alcohol calories are not counted as protein, fat, or carbohydrate in these targets.',
+      'Do not use macros as medical diet advice.',
+    ],
+    next: [
+      'Use Protein Calculator for a body-weight-based protein target.',
+      'Use Calorie Calculator if you still need a daily calorie estimate.',
+    ],
+  },
+  'carbohydrate-calculator': {
+    summary: 'Learn how daily calories and carb percent become carbohydrate grams.',
+    purpose:
+      'The Carbohydrate Calculator converts a calorie target and carbohydrate percentage into grams per day.',
+    enter: [
+      'Enter daily calories.',
+      'Enter the percentage of calories you want from carbohydrate.',
+      'Keep the percentage realistic for your goal and health needs.',
+    ],
+    example: [
+      'For 2000 calories at 50% carbohydrate, the calculator assigns 1000 calories to carbs.',
+      'It then divides by 4 calories per gram to show 250 grams.',
+    ],
+    read: [
+      'The answer is grams per day, which can be split across meals.',
+      'Fiber, food quality, diabetes care, and training demands can change what target makes sense.',
+    ],
+    mistakes: [
+      'Do not confuse grams of food with grams of carbohydrate.',
+      'Do not choose extreme percentages without professional advice.',
+      'Do not ignore medical guidance for blood sugar or kidney conditions.',
+    ],
+    next: [
+      'Use Macro Calculator to check all macros together.',
+      'Use Protein Calculator and Fat Intake Calculator for matching targets.',
+    ],
+  },
+  'protein-calculator': {
+    summary: 'Learn how body weight and grams-per-kilogram targets estimate daily protein.',
+    purpose:
+      'The Protein Calculator estimates daily protein grams from body weight and a selected grams-per-kilogram target.',
+    enter: [
+      'Enter body weight and choose kg or lb if the tool offers units.',
+      'Choose the target factor that matches the context, such as general adult, active, or strength training.',
+      'Use a clinician-approved target if you have kidney disease or another medical condition.',
+    ],
+    example: [
+      'For 70 kg at 0.8 g/kg, the calculator multiplies 70 by 0.8.',
+      'The result is 56 grams per day, before any personal adjustment.',
+    ],
+    read: [
+      'The number is a daily target estimate, not a per-meal requirement.',
+      'Higher training targets may not be right for every body or medical situation.',
+    ],
+    mistakes: [
+      'Do not treat protein grams as calories; protein has about 4 calories per gram.',
+      'Do not use high protein targets if a clinician has told you to limit protein.',
+      'Do not forget total calories and food quality.',
+    ],
+    next: [
+      'Use Macro Calculator to fit protein into total calories.',
+      'Use TDEE Calculator to estimate daily energy needs.',
+    ],
+  },
+  'fat-intake-calculator': {
+    summary: 'Learn how daily calories and fat percent become fat grams.',
+    purpose:
+      'The Fat Intake Calculator converts a calorie target and fat percentage into grams per day.',
+    enter: [
+      'Enter daily calories.',
+      'Enter the percent of calories planned from fat.',
+      'Use a percentage that fits your nutrition context rather than chasing the lowest number.',
+    ],
+    example: [
+      'For 2000 calories at 30% fat, the calculator assigns 600 calories to fat.',
+      'It divides 600 by 9 calories per gram to show about 66.7 grams.',
+    ],
+    read: [
+      'The answer is total fat grams per day.',
+      'The calculator does not separate saturated, unsaturated, or trans fats.',
+    ],
+    mistakes: [
+      'Do not confuse fat grams with body fat.',
+      'Do not ignore fat quality and medical nutrition advice.',
+      'Do not use macro percentages without checking total calories.',
+    ],
+    next: [
+      'Use Macro Calculator to see protein, carb, and fat together.',
+      'Use Carbohydrate Calculator for the matching carb target.',
+    ],
+  },
+  'tdee-calculator': {
+    summary: 'Learn how BMR and activity level estimate total daily energy expenditure.',
+    purpose:
+      'The TDEE Calculator estimates maintenance calories by calculating BMR and multiplying it by an activity factor.',
+    enter: [
+      'Enter age, formula sex, height, and weight.',
+      'Choose the activity level that describes your normal week.',
+      'Use the same activity setting when comparing changes over time.',
+    ],
+    example: [
+      'A moderate activity example estimates BMR first.',
+      'Then the calculator multiplies BMR by 1.55 to estimate total daily expenditure.',
+    ],
+    read: [
+      'TDEE is a maintenance estimate, not a fat-loss target by itself.',
+      'Real-world tracking can help refine the estimate because activity labels are broad.',
+    ],
+    mistakes: [
+      'Do not double-count exercise if your activity level already includes it.',
+      'Do not treat one day of activity as your normal week.',
+      'Do not use TDEE as medical nutrition advice.',
+    ],
+    next: [
+      'Use Calorie Calculator to compare goal adjustments.',
+      'Use Macro Calculator to turn calories into grams.',
+    ],
+  },
+  'gfr-calculator': {
+    summary: 'Learn what eGFR inputs mean and why kidney results need clinical context.',
+    purpose:
+      'The GFR Calculator estimates adult eGFR from age, sex, and serum creatinine using the 2021 CKD-EPI creatinine equation.',
+    enter: [
+      'Enter age and formula sex exactly as required by the equation.',
+      'Enter serum creatinine from a standardized lab result.',
+      'Use the creatinine unit shown by the tool and do not convert by guessing.',
+    ],
+    example: [
+      'For a creatinine example, the calculator compares creatinine with the equation constant for the selected sex.',
+      'Age and sex factors then adjust the final eGFR estimate.',
+    ],
+    read: [
+      'eGFR is reported as mL/min/1.73 m2.',
+      'A clinician may compare eGFR with urine albumin, repeat labs, medications, and health history.',
+    ],
+    mistakes: [
+      'Do not use eGFR to diagnose yourself from one calculator result.',
+      'Do not enter non-standard or old lab values without checking units.',
+      'Do not use this for children or pregnancy without clinician guidance.',
+    ],
+    next: [
+      'Bring lab questions to a qualified clinician.',
+      'Use Body Surface Area Calculator only as a separate educational reference.',
+    ],
+  },
+  'body-type-calculator': {
+    summary: 'Learn how measurement relationships estimate a broad body-shape label.',
+    purpose:
+      'The Body Type Calculator compares shoulders or bust, waist, and hips to estimate a broad style category.',
+    enter: [
+      'Measure shoulders or bust, waist, and hips at the same unit.',
+      'Keep the tape level and relaxed.',
+      'Use the same measurement sites if comparing later.',
+    ],
+    example: [
+      'If hips are clearly wider than the top measurement, the tool may classify the shape as triangle-style.',
+      'If top and hips are close with a smaller waist, it may classify as balanced or hourglass-style.',
+    ],
+    read: [
+      'The label is a style helper, not a health score.',
+      'Close measurements can make categories overlap, so the result may be approximate.',
+    ],
+    mistakes: [
+      'Do not rank bodies by category.',
+      'Do not use clothing labels or vanity sizing as body measurements.',
+      'Do not treat the result as medical information.',
+    ],
+    next: [
+      'Use Body Fat Calculator only if you want a separate body-composition estimate.',
+      'Use Healthy Weight Calculator for an adult BMI range reference.',
+    ],
+  },
+  'body-surface-area-calculator': {
+    summary: 'Learn how height and weight estimate body surface area with common formulas.',
+    purpose:
+      'The Body Surface Area Calculator estimates BSA in square meters using Mosteller and comparison formulas.',
+    enter: [
+      'Enter height and weight in the units the tool asks for.',
+      'Use measured values rather than rounded guesses when possible.',
+      'Keep BSA separate from BMI; they answer different questions.',
+    ],
+    example: [
+      'For 170 cm and 70 kg, the Mosteller formula multiplies height by weight, divides by 3600, then takes the square root.',
+      'The result is about 1.82 m2.',
+    ],
+    read: [
+      'BSA is a clinical math reference, not a health grade.',
+      'Different formulas can produce slightly different estimates.',
+    ],
+    mistakes: [
+      'Do not use this page for medication dosing decisions.',
+      'Do not confuse square meters of BSA with body fat or BMI.',
+      'Do not ignore formula differences in clinical contexts.',
+    ],
+    next: [
+      'Use GFR Calculator for kidney-equation education.',
+      'Ask a clinician before using BSA for care decisions.',
+    ],
+  },
+  'bac-calculator': {
+    summary: 'Learn how drink size, ABV, body weight, sex, and time affect a BAC estimate.',
+    purpose:
+      'The BAC Calculator estimates blood alcohol concentration with a Widmark-style formula. It is for education only and must never be used to decide whether to drive.',
+    enter: [
+      'Enter drink volume, alcohol by volume, number of drinks, body weight, formula sex, and time since drinking began.',
+      'Use actual ABV and pour size where possible, not guesses.',
+      'Remember that mixed drinks can contain more alcohol than one standard drink.',
+    ],
+    example: [
+      'For two 355 mL beers at 5%, the calculator estimates grams of alcohol first.',
+      'It then applies a body-water factor and subtracts an average elimination amount for elapsed time.',
+    ],
+    read: [
+      'The estimate can be wrong because absorption, food, medications, health, tolerance, and timing vary.',
+      'A lower estimate does not mean safe or legal to drive.',
+    ],
+    mistakes: [
+      'Do not use the result for driving, work, legal, or safety decisions.',
+      'Do not enter the label serving size if your actual pour was larger.',
+      'Do not assume alcohol leaves the body at the same rate for everyone.',
+    ],
+    next: [
+      'Plan transportation before drinking.',
+      'Use official public-health guidance for alcohol safety questions.',
+    ],
+  },
+};
+
+function buildDefaultGuideDetail(tool: (typeof healthTools)[number]): GuideDetail {
+  return {
+    summary: `Learn how to use the ${tool.name} with clearer inputs, examples, answer notes, and common mistakes.`,
+    purpose: tool.description,
+    enter: [
+      'Enter the requested values exactly as the tool labels them.',
+      'Use matching units and avoid rounded guesses when a precise value matters.',
+      'Review the examples on the tool page before using the result in notes or planning.',
+    ],
+    example: [
+      `Try the example "${tool.examples[0]?.expression ?? tool.name}" to see a complete calculation.`,
+      `Compare the result with the formula line so you can see how the ${tool.name} reached the answer.`,
+    ],
+    read: [
+      'Read the main answer first, then use the supporting lines to understand the formula and assumptions.',
+      extraSafetyNotes[tool.slug] ??
+        'Use the result as an educational estimate and get qualified professional guidance for decisions with real consequences.',
+    ],
+    mistakes: [
+      'Do not mix units.',
+      'Do not copy the answer before checking the inputs.',
+      'Do not treat an estimate as a professional decision.',
+    ],
+    next: tool.relatedSlugs.length > 0
+      ? [`Try a related calculator next, especially ${tool.relatedSlugs[0].replaceAll('-', ' ')}.`]
+      : ['Save or copy the answer only after checking the assumptions.'],
+  };
+}
+
+function getGuideDetail(tool: (typeof healthTools)[number]) {
+  return guideDetails[tool.slug] ?? buildDefaultGuideDetail(tool);
+}
+
+function formatExample(example: (typeof healthTools)[number]['examples'][number] | undefined) {
+  if (!example) {
+    return 'the first filled-out example';
+  }
+
+  return `${example.label}: ${example.expression}`;
+}
+
+export const healthBlogPosts: BlogPostDefinition[] = healthTools.map((tool) => {
+  const detail = getGuideDetail(tool);
+
+  return {
+    slug: `how-to-use-${tool.slug}`,
+    title: `How to use the ${tool.name}`,
+    label: `${tool.name.replace(' Calculator', '')} guide`,
+    summary: detail.summary,
+  };
+});
+
+export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) => {
+  const detail = getGuideDetail(tool);
+  const primaryExample = tool.examples[0];
+  const primaryExampleText = formatExample(primaryExample);
+
+  return {
+    slug: `how-to-use-${tool.slug}`,
+    toolSlug: tool.slug,
+    label: `${tool.name.replace(' Calculator', '')} guide`,
+    title: `How to use the ${tool.name}`,
+    description: detail.summary,
+    path: `/blog/how-to-use-${tool.slug}/`,
+    intro: `${detail.summary} This guide explains what to enter, what the answer means, and what mistakes to avoid before you copy the result.`,
+    quickStart: [
+      `Open the ${tool.name}.`,
+      detail.enter[0],
+      `Use the first example, "${primaryExampleText}", if you want to see a filled-out calculation before entering your own values.`,
+      'Calculate, read the formula line, then copy the result only after the units and assumptions look right.',
+    ],
+    sections: [
+      {
+        title: 'What this calculator is for',
+        paragraphs: [
+          detail.purpose,
+          `Use it when you want to: ${tool.useCases.slice(0, 2).join(' ')}`,
+        ],
+      },
+      {
+        title: 'What to enter',
+        paragraphs: [
+          'Good answers start with clean inputs. Before calculating, check the labels, units, and dates so the tool is solving the same problem you actually have.',
+        ],
+        bullets: detail.enter,
+      },
+      {
+        title: 'Example walkthrough',
+        paragraphs: [
+          primaryExample
+            ? `Try the calculator example: ${primaryExampleText}. The example result is ${primaryExample.result}.`
+            : 'Use one of the examples on the tool page to see a complete calculation before entering your own values.',
+        ],
+        bullets: detail.example,
+      },
+      {
+        title: 'Formula and steps',
+        paragraphs: [
+          getFormulaAnswer(tool.slug),
+          'The formula line on the calculator page is there so the answer is not a mystery. Read it when you need to understand where the number came from.',
+        ],
+      },
+      {
+        title: 'How to read the answer',
+        paragraphs: [
+          extraSafetyNotes[tool.slug] ??
+            'Use the result as an educational estimate. For health, pregnancy, nutrition, kidney, alcohol, or training decisions with real consequences, get qualified professional guidance.',
+        ],
+        bullets: detail.read,
+      },
+      {
+        title: 'Common mistakes to avoid',
+        paragraphs: [
+          'Most bad calculator results come from a small input mistake or from using a good estimate for the wrong decision.',
+        ],
+        bullets: detail.mistakes,
+      },
+      {
+        title: 'What to try next',
+        paragraphs: [
+          'A related calculator can help check the same topic from another angle instead of relying on one number.',
+        ],
+        bullets: detail.next,
+      },
+      {
+        title: 'Sources and safety notes',
+        paragraphs: [
+          'This guide uses public-health, clinical, or peer-reviewed references where the calculator needs a specific formula or interpretation boundary.',
+          'Source links are provided for transparency, but they do not turn the calculator into medical advice or a replacement for professional care.',
+        ],
+        links: getSourceLinks(tool.slug),
+      },
+    ],
+    sidecarText: `Keep the ${tool.name} open beside this guide so you can compare your inputs, the formula line, the example, and the safety notes before copying the result.`,
+  };
+});
 
 export function getHealthBlogGuide(slug: string) {
   return healthBlogGuides.find((guide) => guide.slug === slug);

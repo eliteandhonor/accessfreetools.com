@@ -5,6 +5,7 @@ import { getTool } from '../data/tools';
 interface GuideSection {
   title: string;
   paragraphs: string[];
+  bullets?: string[];
   links?: Array<{
     href: string;
     label: string;
@@ -36,6 +37,11 @@ const {
 } = Astro.props;
 const tool = getTool(toolSlug);
 const examples = tool?.examples ?? [];
+const useCases = tool?.useCases ?? [];
+const faqItems = tool?.faq ?? [];
+const relatedTools = (tool?.relatedSlugs ?? [])
+  .map((relatedSlug) => getTool(relatedSlug))
+  .filter((relatedTool): relatedTool is NonNullable<typeof relatedTool> => Boolean(relatedTool));
 const articleStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -59,7 +65,7 @@ const articleStructuredData = {
       <span>{label}</span>
       <h1>{title}</h1>
       <p>{intro}</p>
-      {tool && <a class="button-primary" href={`/tools/${tool.slug}/`}>Open the {tool.name.toLowerCase()}</a>}
+      {tool && <a class="button-primary" href={`/tools/${tool.slug}/`}>Open the {tool.name}</a>}
     </header>
 
     <div class="blog-article-layout">
@@ -71,10 +77,25 @@ const articleStructuredData = {
           </ol>
         </section>
 
+        {useCases.length > 0 && (
+          <section class="content-section">
+            <h2>Best uses</h2>
+            <p>Use this guide when one of these tasks matches what you are trying to do.</p>
+            <ul class="guide-bullet-list">
+              {useCases.slice(0, 4).map((useCase) => <li>{useCase}</li>)}
+            </ul>
+          </section>
+        )}
+
         {sections.map((section) => (
           <section class="content-section">
             <h2>{section.title}</h2>
             {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            {section.bullets && section.bullets.length > 0 && (
+              <ul class="guide-bullet-list">
+                {section.bullets.map((bullet) => <li>{bullet}</li>)}
+              </ul>
+            )}
             {section.links && section.links.length > 0 && (
               <ul class="source-link-list">
                 {section.links.map((link) => (
@@ -99,6 +120,34 @@ const articleStructuredData = {
                 </article>
               ))}
             </div>
+          </section>
+        )}
+
+        {faqItems.length > 0 && (
+          <section class="content-section">
+            <h2>Common questions</h2>
+            <div class="guide-question-list">
+              {faqItems.slice(0, 3).map((item) => (
+                <article>
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {relatedTools.length > 0 && (
+          <section class="content-section">
+            <h2>Related tools</h2>
+            <ul class="guide-link-list">
+              {relatedTools.map((relatedTool) => (
+                <li>
+                  <a href={`/tools/${relatedTool.slug}/`}>{relatedTool.name}</a>
+                  <span>{relatedTool.summary}</span>
+                </li>
+              ))}
+            </ul>
           </section>
         )}
 

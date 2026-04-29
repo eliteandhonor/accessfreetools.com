@@ -4837,13 +4837,25 @@ main {
 
 .content-section p,
 .instruction-list,
+.guide-bullet-list,
 .legal-copy p {
   color: var(--muted);
   line-height: 1.75;
 }
 
-.instruction-list {
+.instruction-list,
+.guide-bullet-list {
   padding-left: 22px;
+}
+
+.guide-bullet-list {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 0;
+}
+
+.guide-bullet-list li::marker {
+  color: var(--brand);
 }
 
 .source-link-list {
@@ -4857,6 +4869,49 @@ main {
 .source-link-list a {
   color: var(--primary-strong);
   font-weight: 850;
+}
+
+.guide-question-list {
+  display: grid;
+  gap: 12px;
+}
+
+.guide-question-list article,
+.guide-link-list li {
+  background: color-mix(in srgb, var(--bg) 74%, white);
+  border: 1px solid color-mix(in srgb, var(--border) 62%, transparent);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.guide-question-list h3 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.guide-question-list p {
+  margin: 0;
+}
+
+.guide-link-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.guide-link-list a {
+  color: var(--primary-strong);
+  display: inline-block;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+
+.guide-link-list span {
+  color: var(--muted);
+  display: block;
+  line-height: 1.55;
 }
 
 .feature-list {
