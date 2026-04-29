@@ -5,6 +5,7 @@ export type CategorySlug =
   | 'date-time'
   | 'finance'
   | 'health-fitness'
+  | 'home-projects'
   | 'developer-tools'
   | 'image-tools'
   | 'school-study'
@@ -46,6 +47,11 @@ export const categories: ToolCategory[] = [
     slug: 'health-fitness',
     name: 'Health & Fitness',
     summary: 'Simple wellness calculators with clear educational disclaimers.',
+  },
+  {
+    slug: 'home-projects',
+    name: 'Home & Projects',
+    summary: 'Material, room, yard, and building-project estimators for rough planning.',
   },
   {
     slug: 'developer-tools',

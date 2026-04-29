@@ -219,7 +219,7 @@ export const utilityTools: ToolDefinition[] = [
   makeUtilityTool({
     slug: 'concrete-calculator',
     name: 'Concrete Calculator',
-    category: 'calculators',
+    category: 'home-projects',
     summary: 'Estimate concrete volume for a slab in cubic feet, cubic yards, and bags.',
     description:
       'Use this free concrete calculator to estimate slab volume from length, width, depth, waste percentage, cubic yards, cubic meters, and bag counts.',
@@ -1045,7 +1045,7 @@ export const utilityTools: ToolDefinition[] = [
   makeUtilityTool({
     slug: 'roofing-calculator',
     name: 'Roofing Calculator',
-    category: 'calculators',
+    category: 'home-projects',
     summary: 'Estimate roof squares and shingle bundles from footprint, pitch, and waste.',
     description:
       'Use this free roofing calculator to estimate roof area, roofing squares, and shingle bundles for a simple pitched roof.',
@@ -1070,7 +1070,7 @@ export const utilityTools: ToolDefinition[] = [
   makeUtilityTool({
     slug: 'tile-calculator',
     name: 'Tile Calculator',
-    category: 'calculators',
+    category: 'home-projects',
     summary: 'Estimate tile count from area, tile size, and waste percentage.',
     description:
       'Use this free tile calculator to estimate how many tiles you need from project square feet and tile dimensions.',
@@ -1095,7 +1095,7 @@ export const utilityTools: ToolDefinition[] = [
   makeUtilityTool({
     slug: 'mulch-calculator',
     name: 'Mulch Calculator',
-    category: 'everyday-tools',
+    category: 'home-projects',
     summary: 'Estimate mulch cubic yards, cubic feet, and 2-cubic-foot bags from area and depth.',
     description:
       'Use this free mulch calculator to estimate bulk cubic yards or common bag counts from square feet, depth, and waste.',
@@ -1120,7 +1120,7 @@ export const utilityTools: ToolDefinition[] = [
   makeUtilityTool({
     slug: 'gravel-calculator',
     name: 'Gravel Calculator',
-    category: 'everyday-tools',
+    category: 'home-projects',
     summary: 'Estimate gravel cubic yards and tons from length, width, depth, and density.',
     description:
       'Use this free gravel calculator to estimate cubic yards and tons for a rectangular gravel area.',
@@ -1141,6 +1141,311 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Parking pad', expression: '18 ft x 18 ft x 4 in, 1.5 tons/yd3', result: 'Bulk gravel estimate' },
     ],
     relatedSlugs: ['mulch-calculator', 'volume-calculator', 'square-footage-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'paint-calculator',
+    name: 'Paint Calculator',
+    category: 'home-projects',
+    summary: 'Estimate interior wall paint gallons from room size, openings, coats, coverage, and extra percent.',
+    description:
+      'Use this free paint calculator to estimate wall paint gallons from room dimensions, doors, windows, coats, coverage, and extra percent.',
+    icon: 'calculator-paint',
+    aliases: ['Wall Paint Calculator', 'Room Paint Calculator'],
+    formula:
+      'The calculator finds wall area from room perimeter and height, subtracts estimated doors and windows, multiplies by coats and extra percent, then divides by square-foot coverage per gallon.',
+    limit:
+      'Paint coverage depends on product, primer, surface texture, color change, application method, and how much paint remains in the can or tray.',
+    useCases: [
+      'Estimate gallons for a bedroom, office, or living room.',
+      'Adjust for one or two coats before buying paint.',
+      'Subtract common doors and windows from wall area.',
+      'Compare coverage values from different paint labels.',
+    ],
+    examples: [
+      { label: 'Bedroom', expression: '12 x 10 x 8 ft, 1 door, 2 windows, 2 coats', result: 'Gallons to buy' },
+      { label: 'Living room', expression: '18 x 14 x 9 ft, 2 doors, 3 windows, 2 coats', result: 'Paintable area and gallons' },
+      { label: 'Accent wall planning', expression: '10 x 8 ft wall, 1 coat, 350 ft2/gal', result: 'Low paint estimate' },
+    ],
+    relatedSlugs: ['square-footage-calculator', 'drywall-calculator', 'tile-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'drywall-calculator',
+    name: 'Drywall Calculator',
+    category: 'home-projects',
+    summary: 'Estimate drywall sheet count from project area, sheet size, and waste percentage.',
+    description:
+      'Use this free drywall calculator to estimate whole drywall sheets from wall or ceiling square feet, sheet size, and waste percentage.',
+    icon: 'calculator-drywall',
+    aliases: ['Sheetrock Calculator', 'Plasterboard Calculator'],
+    formula:
+      'The calculator multiplies sheet length by width for sheet area, adds waste to the project area, then rounds up project area divided by sheet area.',
+    limit:
+      'Drywall layout depends on openings, sheet orientation, seams, thickness, fire rating, moisture rating, ceiling lift, and local building requirements.',
+    useCases: [
+      'Estimate drywall sheets for a room or basement wall area.',
+      'Compare 4x8, 4x10, and 4x12 sheet sizes.',
+      'Add a waste allowance for cuts and broken sheets.',
+      'Plan a rough material count before measuring openings and layout.',
+    ],
+    examples: [
+      { label: '4x8 sheets', expression: '480 ft2, 4 x 8 sheet, 10% waste', result: 'Sheet count' },
+      { label: 'Long sheets', expression: '720 ft2, 4 x 12 sheet, 12% waste', result: 'Fewer sheets, larger panels' },
+      { label: 'Small repair area', expression: '96 ft2, 4 x 8 sheet, 5% waste', result: 'Repair sheet count' },
+    ],
+    relatedSlugs: ['paint-calculator', 'square-footage-calculator', 'cubic-yard-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'carpet-calculator',
+    name: 'Carpet Calculator',
+    category: 'home-projects',
+    summary: 'Estimate carpet square yards and roll linear feet from room dimensions and waste.',
+    description:
+      'Use this free carpet calculator to estimate carpet square yards, adjusted square feet, and linear feet from room size and roll width.',
+    icon: 'calculator-carpet',
+    formula:
+      'The calculator multiplies room length by width, adds waste, divides by 9 for square yards, and divides by roll width for approximate linear feet.',
+    limit:
+      'Carpet orders depend on seam placement, stairs, closets, pile direction, pattern matching, roll width, and installer layout.',
+    useCases: [
+      'Estimate carpet for a simple rectangular room.',
+      'Convert square feet into square yards.',
+      'Estimate linear feet from common roll width.',
+      'Add waste before talking with an installer.',
+    ],
+    examples: [
+      { label: 'Bedroom carpet', expression: '15 ft x 12 ft, 12 ft roll, 10% waste', result: 'Square yards and linear feet' },
+      { label: 'Large room', expression: '22 ft x 16 ft, 12 ft roll, 12% waste', result: 'Adjusted carpet area' },
+      { label: 'Small office', expression: '10 ft x 11 ft, 12 ft roll, 8% waste', result: 'Rough carpet order' },
+    ],
+    relatedSlugs: ['square-footage-calculator', 'area-calculator', 'paint-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'fence-calculator',
+    name: 'Fence Calculator',
+    category: 'home-projects',
+    summary: 'Estimate fence panels and posts from perimeter, panel width, post spacing, and gates.',
+    description:
+      'Use this free fence calculator to estimate panels, line posts, gate posts, and fence run from a simple perimeter layout.',
+    icon: 'calculator-fence',
+    formula:
+      'The calculator subtracts gate width from total perimeter, divides the remaining run by panel width, estimates line posts from spacing, and adds two gate posts per gate.',
+    limit:
+      'Real fences need corner posts, end posts, bracing, slope handling, permits, setbacks, gate hardware, terrain checks, and local code review.',
+    useCases: [
+      'Estimate panels for a backyard fence.',
+      'Plan post counts from a chosen spacing.',
+      'Account for one or more gates.',
+      'Compare 6-foot and 8-foot panel layouts.',
+    ],
+    examples: [
+      { label: 'Backyard fence', expression: '120 ft perimeter, 8 ft panels, 1 gate', result: 'Panels and posts' },
+      { label: 'Two gates', expression: '180 ft perimeter, 6 ft panels, 2 gates', result: 'Gate-adjusted estimate' },
+      { label: 'Small side yard', expression: '48 ft run, 8 ft panels, no gate', result: 'Simple run count' },
+    ],
+    relatedSlugs: ['square-footage-calculator', 'distance-calculator', 'deck-cost-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'deck-cost-calculator',
+    name: 'Deck Cost Calculator',
+    category: 'home-projects',
+    summary: 'Estimate rough deck project cost from deck size, decking price, railing, stairs, and waste.',
+    description:
+      'Use this free deck cost calculator to estimate rough decking, railing, stair allowance, and total project cost from simple inputs.',
+    icon: 'calculator-deck',
+    aliases: ['Deck Calculator', 'Decking Cost Calculator'],
+    formula:
+      'The calculator multiplies deck area by a waste factor and cost per square foot, then adds railing cost and stair allowance.',
+    limit:
+      'Deck costs vary widely with framing, footings, fasteners, railing code, permits, demolition, labor, height, stairs, material grade, and location.',
+    useCases: [
+      'Create a rough deck material budget.',
+      'Compare different decking cost assumptions.',
+      'Add railing and stair allowances to a surface estimate.',
+      'Discuss scope before requesting contractor quotes.',
+    ],
+    examples: [
+      { label: 'Small deck', expression: '16 x 12 ft, $12/ft2 decking, 40 ft railing', result: 'Rough total cost' },
+      { label: 'Larger deck', expression: '24 x 14 ft, $18/ft2 decking, 58 ft railing', result: 'Expanded budget estimate' },
+      { label: 'No railing pad', expression: '12 x 10 ft, $10/ft2 decking, no railing', result: 'Simple platform estimate' },
+    ],
+    relatedSlugs: ['area-calculator', 'fence-calculator', 'board-foot-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'paver-calculator',
+    name: 'Paver Calculator',
+    category: 'home-projects',
+    summary: 'Estimate paver count from project area, paver dimensions, and waste percentage.',
+    description:
+      'Use this free paver calculator to estimate whole pavers from patio, path, or driveway area, paver size, and waste percentage.',
+    icon: 'calculator-paver',
+    aliases: ['Patio Paver Calculator', 'Paving Stone Calculator'],
+    formula:
+      'The calculator converts paver dimensions from square inches to square feet, adds waste to project area, then rounds up adjusted area divided by paver area.',
+    limit:
+      'Paver projects also need base material, bedding sand, joint sand, edging, cuts, pattern planning, compaction, and drainage checks.',
+    useCases: [
+      'Estimate paver count for a patio or walkway.',
+      'Compare different paver sizes.',
+      'Add waste for cuts and broken pieces.',
+      'Prepare a rough count before checking box quantities.',
+    ],
+    examples: [
+      { label: 'Patio pavers', expression: '180 ft2, 8 x 4 in pavers, 10% waste', result: 'Pavers needed' },
+      { label: 'Large pavers', expression: '240 ft2, 12 x 12 in pavers, 8% waste', result: 'Lower piece count' },
+      { label: 'Walkway', expression: '75 ft2, 6 x 9 in pavers, 12% waste', result: 'Path estimate' },
+    ],
+    relatedSlugs: ['sand-calculator', 'gravel-calculator', 'area-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'board-foot-calculator',
+    name: 'Board Foot Calculator',
+    category: 'home-projects',
+    summary: 'Calculate lumber board feet from thickness, width, length, and quantity.',
+    description:
+      'Use this free board foot calculator to estimate lumber volume from thickness in inches, width in inches, length in feet, and quantity.',
+    icon: 'calculator-board-foot',
+    formula:
+      'The calculator multiplies thickness in inches by width in inches by length in feet, divides by 12, then multiplies by quantity.',
+    limit:
+      'Board feet measure volume only. Nominal sizes, surfaced dimensions, seller rules, moisture, defects, species, grade, and waste can change real buying needs.',
+    useCases: [
+      'Estimate lumber volume before visiting a lumber yard.',
+      'Compare rough boards with different dimensions.',
+      'Multiply one board size by quantity.',
+      'Understand board-foot pricing better.',
+    ],
+    examples: [
+      { label: 'Four 1x6 boards', expression: '1 in x 6 in x 8 ft x 4', result: '16 board feet' },
+      { label: 'Rough boards', expression: '2 in x 8 in x 10 ft x 3', result: '40 board feet' },
+      { label: 'Single slab', expression: '2 in x 18 in x 7 ft', result: '21 board feet' },
+    ],
+    relatedSlugs: ['deck-cost-calculator', 'factor-calculator', 'conversion-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'cubic-yard-calculator',
+    name: 'Cubic Yard Calculator',
+    category: 'home-projects',
+    summary: 'Convert length, width, depth, and waste into cubic feet and cubic yards.',
+    description:
+      'Use this free cubic yard calculator to estimate cubic feet and cubic yards from rectangular dimensions, depth, and waste percent.',
+    icon: 'calculator-cubic-yard',
+    formula:
+      'The calculator converts depth from inches to feet, multiplies length by width by depth, adds waste, then divides cubic feet by 27 for cubic yards.',
+    limit:
+      'This is a simple rectangular-volume estimate. Uneven ground, compaction, slopes, forms, settling, and supplier rounding can change orders.',
+    useCases: [
+      'Estimate cubic yards for fill, soil, mulch, sand, or gravel.',
+      'Convert a shallow depth in inches into cubic yards.',
+      'Add waste before ordering bulk material.',
+      'Check the math behind material calculators.',
+    ],
+    examples: [
+      { label: 'Material bed', expression: '20 ft x 10 ft x 3 in, 5% waste', result: 'Cubic yards' },
+      { label: 'Deep fill', expression: '12 ft x 8 ft x 6 in, 10% waste', result: 'Cubic feet and yards' },
+      { label: 'Small patch', expression: '6 ft x 4 ft x 2 in', result: 'Low-volume estimate' },
+    ],
+    relatedSlugs: ['soil-calculator', 'sand-calculator', 'gravel-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'pool-volume-calculator',
+    name: 'Pool Volume Calculator',
+    category: 'home-projects',
+    summary: 'Estimate pool gallons from shape, length, width, and average depth.',
+    description:
+      'Use this free pool volume calculator to estimate U.S. gallons for rectangular, round, or oval pools from simple measurements.',
+    icon: 'calculator-pool',
+    formula:
+      'The calculator estimates pool cubic feet from the selected shape and average depth, then multiplies cubic feet by 7.48052 gallons per cubic foot.',
+    limit:
+      'Sloped bottoms, steps, benches, freeform shapes, rounded corners, waterline height, and measurement error can change real pool volume.',
+    useCases: [
+      'Estimate gallons before adding pool chemicals.',
+      'Compare rectangular, round, and oval pool volume.',
+      'Use average depth for shallow and deep ends.',
+      'Plan fill volume or rough equipment context.',
+    ],
+    examples: [
+      { label: 'Rectangle pool', expression: '24 ft x 12 ft x 4.5 ft average depth', result: 'Gallons estimate' },
+      { label: 'Round pool', expression: '18 ft diameter, 4 ft depth', result: 'Circular pool gallons' },
+      { label: 'Oval pool', expression: '30 ft x 15 ft x 4.3 ft average depth', result: 'Oval volume estimate' },
+    ],
+    relatedSlugs: ['volume-calculator', 'conversion-calculator', 'cubic-yard-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'sand-calculator',
+    name: 'Sand Calculator',
+    category: 'home-projects',
+    summary: 'Estimate sand cubic yards and tons from length, width, depth, density, and waste.',
+    description:
+      'Use this free sand calculator to estimate cubic yards, cubic feet, and tons for sand beds, leveling layers, and small projects.',
+    icon: 'calculator-sand',
+    formula:
+      'The calculator converts depth from inches to feet, multiplies length by width by depth, adds waste, divides by 27 for cubic yards, and multiplies by tons per cubic yard.',
+    limit:
+      'Sand density changes with moisture, material type, compaction, and supplier measurement. Ask your supplier for the best tons-per-yard value.',
+    useCases: [
+      'Estimate sand for paver bedding or leveling.',
+      'Estimate sand volume for a sandbox or small base layer.',
+      'Convert cubic yards into estimated tons.',
+      'Compare different depth assumptions.',
+    ],
+    examples: [
+      { label: 'Leveling sand', expression: '20 ft x 10 ft x 2 in, 1.35 tons/yd3', result: 'Yards and tons' },
+      { label: 'Sandbox', expression: '8 ft x 6 ft x 8 in, 1.25 tons/yd3', result: 'Fill estimate' },
+      { label: 'Path base', expression: '30 ft x 3 ft x 1 in', result: 'Small layer estimate' },
+    ],
+    relatedSlugs: ['paver-calculator', 'gravel-calculator', 'cubic-yard-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'soil-calculator',
+    name: 'Soil Calculator',
+    category: 'home-projects',
+    summary: 'Estimate soil cubic yards, cubic feet, and common bag counts from area and depth.',
+    description:
+      'Use this free soil calculator to estimate garden soil volume and bag counts from square feet, depth in inches, and extra percent.',
+    icon: 'calculator-soil',
+    aliases: ['Garden Soil Calculator', 'Topsoil Calculator'],
+    formula:
+      'The calculator converts depth from inches to feet, multiplies by area, adds extra percent, divides by 27 for cubic yards, and estimates common bag counts.',
+    limit:
+      'Soil settles and bag fill varies. Existing bed depth, compost mix, moisture, raised bed shape, and plant needs can change the amount to buy.',
+    useCases: [
+      'Estimate soil for raised beds or garden top-offs.',
+      'Convert square feet and inches deep into cubic yards.',
+      'Estimate 1.5-cubic-foot and 2-cubic-foot bag counts.',
+      'Add extra percent for settling or uneven beds.',
+    ],
+    examples: [
+      { label: 'Raised bed top-off', expression: '120 ft2 at 4 in, 10% extra', result: 'Cubic yards and bags' },
+      { label: 'Small garden', expression: '48 ft2 at 6 in, 5% extra', result: 'Bag count estimate' },
+      { label: 'Thin topdress', expression: '300 ft2 at 1 in', result: 'Low-depth soil estimate' },
+    ],
+    relatedSlugs: ['mulch-calculator', 'cubic-yard-calculator', 'area-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'asphalt-calculator',
+    name: 'Asphalt Calculator',
+    category: 'home-projects',
+    summary: 'Estimate asphalt tons from length, width, compacted depth, density, and waste.',
+    description:
+      'Use this free asphalt calculator to estimate cubic yards and tons from pavement dimensions, compacted depth, density, and waste.',
+    icon: 'calculator-asphalt',
+    formula:
+      'The calculator converts compacted depth from inches to feet, multiplies length by width by depth, adds waste, converts to cubic yards, then multiplies by tons per cubic yard.',
+    limit:
+      'Asphalt quantity depends on mix type, compaction, lift thickness, base condition, paving specs, plant minimums, and professional site measurement.',
+    useCases: [
+      'Estimate asphalt tons for a simple driveway section.',
+      'Convert compacted depth into cubic yards.',
+      'Compare 2-inch, 3-inch, and 4-inch depth assumptions.',
+      'Use supplier density before talking with a paving contractor.',
+    ],
+    examples: [
+      { label: 'Driveway section', expression: '30 ft x 12 ft x 3 in, 2 tons/yd3', result: 'Estimated tons' },
+      { label: 'Parking pad', expression: '20 ft x 18 ft x 4 in, 2 tons/yd3', result: 'Cubic yards and tons' },
+      { label: 'Thin overlay', expression: '40 ft x 10 ft x 2 in, 5% waste', result: 'Overlay estimate' },
+    ],
+    relatedSlugs: ['gravel-calculator', 'cubic-yard-calculator', 'area-calculator'],
   }),
   makeUtilityTool({
     slug: 'wind-chill-calculator',

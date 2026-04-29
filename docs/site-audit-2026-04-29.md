@@ -50,6 +50,10 @@ References checked:
 - Updated the calculator.net roadmap counts to 201 local tools and 201 local guide pages, with no direct action items remaining from the reviewed sitemap.
 - Added canonical alias pages for duplicate search-intent names instead of creating thin duplicate calculators: Mortgage Amortization, Common Factor, IP Subnet, and Time Duration.
 - Added those alias names to the tools search index and structured-data keywords on the canonical tool pages.
+- Began the post-calculator.net expansion with a researched Home & Projects batch: Paint, Drywall, Carpet, Fence, Deck Cost, Paver, Board Foot, Cubic Yard, Pool Volume, Sand, Soil, and Asphalt calculators.
+- Added a dedicated Home & Projects category so material takeoff tools no longer have to sit in generic everyday/math buckets.
+- Added matching utility guide pages for the batch, with references for paint coverage, board-foot measurement, asphalt quantity estimating, and NIST unit conversions.
+- Updated construction/material calculator tests and verified the site now builds 447 static pages.
 
 ## Audit Findings
 

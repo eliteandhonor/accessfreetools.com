@@ -163,6 +163,18 @@ export type CalculatorIconMark =
   | 'tile'
   | 'mulch'
   | 'gravel'
+  | 'paint'
+  | 'drywall'
+  | 'carpet'
+  | 'fence'
+  | 'deck'
+  | 'paver'
+  | 'board-foot'
+  | 'cubic-yard'
+  | 'pool'
+  | 'sand'
+  | 'soil'
+  | 'asphalt'
   | 'wind-chill'
   | 'heat-index'
   | 'dew-point'
@@ -343,6 +355,18 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-tile': 'tile',
   'calculator-mulch': 'mulch',
   'calculator-gravel': 'gravel',
+  'calculator-paint': 'paint',
+  'calculator-drywall': 'drywall',
+  'calculator-carpet': 'carpet',
+  'calculator-fence': 'fence',
+  'calculator-deck': 'deck',
+  'calculator-paver': 'paver',
+  'calculator-board-foot': 'board-foot',
+  'calculator-cubic-yard': 'cubic-yard',
+  'calculator-pool': 'pool',
+  'calculator-sand': 'sand',
+  'calculator-soil': 'soil',
+  'calculator-asphalt': 'asphalt',
   'calculator-wind-chill': 'wind-chill',
   'calculator-heat-index': 'heat-index',
   'calculator-dew-point': 'dew-point',
@@ -492,6 +516,18 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   tile: 'tile',
   mulch: 'mul',
   gravel: 'grv',
+  paint: 'pnt',
+  drywall: 'dry',
+  carpet: 'carp',
+  fence: 'fnc',
+  deck: 'deck',
+  paver: 'pave',
+  'board-foot': 'bf',
+  'cubic-yard': 'yd3',
+  pool: 'gal',
+  sand: 'sand',
+  soil: 'soil',
+  asphalt: 'asp',
   'wind-chill': 'wind',
   'heat-index': 'heat',
   'dew-point': 'dew',

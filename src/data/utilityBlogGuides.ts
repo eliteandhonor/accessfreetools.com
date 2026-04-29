@@ -133,6 +133,18 @@ const sourceLinks = {
     href: 'https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8',
     label: 'NIST SP 811: Conversion factors listed alphabetically',
   },
+  sherwinPaintCoverage: {
+    href: 'https://www.sherwin-williams.com/en-us/color/color-tools/paint-calculator',
+    label: 'Sherwin-Williams: Paint calculator coverage notes',
+  },
+  ukBoardFoot: {
+    href: 'https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/for9.htm',
+    label: 'University of Kentucky Extension: Measuring farm timber',
+  },
+  mndotAsphalt: {
+    href: 'https://www.dot.minnesota.gov/materials/manuals/bituminous/Minnesota_Department_of_Transportation_Bituminous_Manual.pdf',
+    label: 'MnDOT: Bituminous manual quantity estimating',
+  },
   usgaScoreDifferential: {
     href: 'https://www.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---what-is-a-score-differential.html',
     label: 'USGA: What is a Score Differential?',
@@ -1047,6 +1059,258 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Ask the supplier about delivery minimums and recommended overage.',
     ],
     sources: [sourceLinks.nistUnits],
+  },
+  'paint-calculator': {
+    summary: 'Learn how room size, openings, coats, and coverage estimate paint gallons.',
+    purpose:
+      'The Paint Calculator estimates interior wall paint for a simple room. It starts with wall area, subtracts typical door and window areas, then applies coats, coverage, and extra percent.',
+    enter: [
+      'Enter the room length, width, and wall height in feet.',
+      'Enter the number of doors, windows, coats, and paint coverage from the can or product page.',
+      'Use extra percent when the surface is textured, patched, or you want a safer buying estimate.',
+    ],
+    read: [
+      'Gallons to buy rounds the calculated need up to whole gallons.',
+      'Paintable wall area shows the wall estimate after subtracting openings.',
+      'Coverage used reminds you which square-feet-per-gallon assumption drove the result.',
+    ],
+    mistakes: [
+      'Do not use floor square footage as wall square footage.',
+      'Do not forget that two coats roughly doubles the paintable area.',
+      'Check the actual product label because coverage varies by paint, surface, color, and primer.',
+    ],
+    sources: [sourceLinks.sherwinPaintCoverage, sourceLinks.nistUnits],
+  },
+  'drywall-calculator': {
+    summary: 'Learn how project area, sheet size, and waste become a drywall sheet count.',
+    purpose:
+      'The Drywall Calculator estimates whole sheets from wall or ceiling square footage. It works best after you already have a measured area or a rough takeoff from room dimensions.',
+    enter: [
+      'Enter the wall or ceiling area in square feet.',
+      'Enter the drywall sheet length and width in feet.',
+      'Add waste for cuts, broken corners, layout changes, and small offcuts.',
+    ],
+    read: [
+      'The main answer is whole drywall sheets needed.',
+      'Sheet area shows how many square feet one panel covers.',
+      'Area with waste shows the adjusted project area before rounding up sheets.',
+    ],
+    mistakes: [
+      'Do not forget windows, doors, closets, and ceiling areas when measuring.',
+      'Do not assume every room lays out cleanly with no offcuts.',
+      'Check thickness, moisture resistance, fire requirements, and local rules before buying.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'carpet-calculator': {
+    summary: 'Learn how room dimensions become carpet square yards and approximate roll length.',
+    purpose:
+      'The Carpet Calculator estimates carpet area for one simple room. It reports adjusted square feet, square yards, and approximate linear feet from a roll width.',
+    enter: [
+      'Enter the room length and width in feet.',
+      'Enter the roll width, commonly 12 feet for many carpets.',
+      'Add waste for trimming, seams, closets, and layout constraints.',
+    ],
+    read: [
+      'Square yards is the common carpet area unit.',
+      'Adjusted area includes the waste percentage.',
+      'Linear feet estimates how much length would be needed at the roll width entered.',
+    ],
+    mistakes: [
+      'Do not rely on this for final carpet ordering when seams or pattern direction matter.',
+      'Do not forget closets, doorways, and stairs.',
+      'Ask the installer how they will lay out the roll before buying.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'fence-calculator': {
+    summary: 'Learn how perimeter, panel width, post spacing, and gates estimate fence materials.',
+    purpose:
+      'The Fence Calculator gives a rough material count for simple panel fencing. It subtracts gate width, estimates panels, and counts line and gate posts.',
+    enter: [
+      'Enter the full fence perimeter or run length in feet.',
+      'Enter panel width and post spacing in feet.',
+      'Enter gate count and gate width so the calculator can remove gate openings.',
+    ],
+    read: [
+      'Panels needed rounds up the remaining fence run divided by panel width.',
+      'Fence run after gates shows how much perimeter is still filled with panels.',
+      'Total posts includes line posts plus two posts per gate.',
+    ],
+    mistakes: [
+      'Do not forget corner, end, brace, and terminal post requirements.',
+      'Do not ignore slope, soil, setbacks, utilities, and permits.',
+      'Gate hardware, latch clearance, and custom panel cuts need separate planning.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'deck-cost-calculator': {
+    summary: 'Learn how deck size, decking price, railing, stairs, and waste build a rough budget.',
+    purpose:
+      'The Deck Cost Calculator is a rough planning tool. It estimates a deck surface allowance, then adds railing and stairs so you can compare early scope ideas.',
+    enter: [
+      'Enter deck length and width in feet.',
+      'Enter decking waste percent and a cost per square foot for the deck surface.',
+      'Add railing linear feet, railing cost per foot, and a stair allowance if needed.',
+    ],
+    read: [
+      'The main answer is the rough total cost from the entered allowances.',
+      'Decking area with waste shows how much surface the decking cost used.',
+      'Decking and railing cost separate the two largest visible assumptions.',
+    ],
+    mistakes: [
+      'Do not treat this as a contractor quote.',
+      'Do not forget framing, footings, fasteners, permits, demolition, labor, railing rules, and stairs.',
+      'Use local prices and professional measurements before making purchase decisions.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'paver-calculator': {
+    summary: 'Learn how project area, paver size, and waste estimate paver count.',
+    purpose:
+      'The Paver Calculator estimates how many pavers cover a patio, walkway, or other simple area. It converts each paver into square feet before rounding up the count.',
+    enter: [
+      'Enter the project area in square feet.',
+      'Enter the paver length and width in inches.',
+      'Add waste for cuts, broken pieces, edge pieces, and pattern layout.',
+    ],
+    read: [
+      'The main answer is whole pavers needed.',
+      'Each paver area shows the coverage of one piece.',
+      'Area with waste shows the adjusted area used before rounding.',
+    ],
+    mistakes: [
+      'Do not forget base gravel, bedding sand, joint sand, edging, and compaction.',
+      'Do not ignore pattern direction or cut-heavy borders.',
+      'Check whether the supplier sells by piece, pallet, bundle, or square foot.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'board-foot-calculator': {
+    summary: 'Learn how thickness, width, length, and quantity become lumber board feet.',
+    purpose:
+      'The Board Foot Calculator estimates lumber volume. It is useful when comparing rough lumber, sawmill boards, or board-foot pricing.',
+    enter: [
+      'Enter thickness and width in inches.',
+      'Enter length in feet.',
+      'Enter quantity when you have several boards with the same dimensions.',
+    ],
+    read: [
+      'Total board feet is the combined lumber volume.',
+      'Board feet each shows one board before multiplying by quantity.',
+      'The formula divisor is 12 because thickness and width are inches while length is feet.',
+    ],
+    mistakes: [
+      'Do not confuse nominal size with actual measured size unless the seller tells you which to use.',
+      'Do not treat board feet as weight or structural strength.',
+      'Allow for defects, milling, waste, species, grade, and moisture content.',
+    ],
+    sources: [sourceLinks.ukBoardFoot, sourceLinks.nistUnits],
+  },
+  'cubic-yard-calculator': {
+    summary: 'Learn how rectangular dimensions and depth estimate cubic yards.',
+    purpose:
+      'The Cubic Yard Calculator is the general volume helper behind many material estimates. It converts length, width, and depth into cubic feet and cubic yards.',
+    enter: [
+      'Enter length and width in feet.',
+      'Enter depth in inches.',
+      'Add waste when material will settle, compact, spill, or need rounding up.',
+    ],
+    read: [
+      'Cubic yards is the bulk material number many suppliers use.',
+      'Cubic feet shows the raw volume before yard conversion.',
+      'Waste added confirms the extra percentage included in the result.',
+    ],
+    mistakes: [
+      'Do not mix inches, feet, and yards without converting them.',
+      'Do not ignore uneven depth or sloped ground.',
+      'Supplier minimums and rounding can change the purchase amount.',
+    ],
+    sources: [sourceLinks.nistUnits, sourceLinks.nistConversionFactors],
+  },
+  'pool-volume-calculator': {
+    summary: 'Learn how pool shape, measurements, and average depth estimate gallons.',
+    purpose:
+      'The Pool Volume Calculator estimates gallons from simple pool measurements. It is meant for rough chemical, fill, and equipment context, not precise survey work.',
+    enter: [
+      'Choose rectangle, round, or oval pool shape.',
+      'Enter length and width, or use the diameter in both fields for a round pool.',
+      'Enter average depth, especially when the pool has shallow and deep ends.',
+    ],
+    read: [
+      'Gallons is the main volume estimate.',
+      'Cubic feet shows the intermediate volume before gallon conversion.',
+      'Shape factor shows whether the calculator used a rectangle or rounded shape adjustment.',
+    ],
+    mistakes: [
+      'Do not use maximum depth when the pool has a shallow end; use average depth.',
+      'Do not ignore benches, steps, curves, and waterline height.',
+      'Use measured water testing and product labels for chemical dosing decisions.',
+    ],
+    sources: [sourceLinks.nistUnits, sourceLinks.nistConversionFactors],
+  },
+  'sand-calculator': {
+    summary: 'Learn how dimensions, depth, density, and waste estimate sand yards and tons.',
+    purpose:
+      'The Sand Calculator estimates volume and tonnage for a rectangular sand layer. It is useful for paver bedding, leveling layers, sandboxes, and small base projects.',
+    enter: [
+      'Enter length and width in feet.',
+      'Enter depth in inches.',
+      'Enter tons per cubic yard from your supplier when you have it, then add waste if needed.',
+    ],
+    read: [
+      'Cubic yards is the bulk volume estimate.',
+      'Estimated tons multiplies cubic yards by the density you entered.',
+      'Density used reminds you how weight was estimated.',
+    ],
+    mistakes: [
+      'Do not assume dry and wet sand weigh the same.',
+      'Do not forget compaction and leveling loss.',
+      'Ask the supplier for material-specific density and delivery minimums.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'soil-calculator': {
+    summary: 'Learn how bed area and depth estimate soil volume and bag counts.',
+    purpose:
+      'The Soil Calculator estimates garden soil, raised bed top-offs, and topsoil volume. It reports bulk cubic yards and common retail bag counts.',
+    enter: [
+      'Enter bed area in square feet.',
+      'Enter soil depth in inches.',
+      'Add extra percent for settling, uneven beds, or a safer order.',
+    ],
+    read: [
+      'Cubic yards is useful for bulk soil orders.',
+      'Cubic feet helps compare bagged soil.',
+      'Bag counts show estimates for 1.5-cubic-foot and 2-cubic-foot bags.',
+    ],
+    mistakes: [
+      'Do not forget that soil settles after watering.',
+      'Do not ignore existing soil, compost mix, and bed shape.',
+      'Check the actual bag volume because retail bags vary.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'asphalt-calculator': {
+    summary: 'Learn how pavement dimensions, compacted depth, density, and waste estimate asphalt tons.',
+    purpose:
+      'The Asphalt Calculator estimates rough asphalt quantity from dimensions and compacted depth. It is best for early planning before a paving contractor measures the job.',
+    enter: [
+      'Enter pavement length and width in feet.',
+      'Enter compacted asphalt depth in inches.',
+      'Enter tons per cubic yard from the supplier or use the default only as a rough assumption.',
+    ],
+    read: [
+      'Estimated tons is the main quantity for asphalt planning.',
+      'Cubic yards and cubic feet show the volume behind the tonnage.',
+      'Density used reminds you which tons-per-yard factor was applied.',
+    ],
+    mistakes: [
+      'Do not use this as a paving specification.',
+      'Do not ignore base condition, lift thickness, compaction, mix type, and plant minimums.',
+      'Ask a paving professional or supplier for project-specific density and ordering guidance.',
+    ],
+    sources: [sourceLinks.mndotAsphalt, sourceLinks.nistUnits],
   },
   'wind-chill-calculator': {
     summary: 'Learn how the NWS wind chill formula estimates feels-like cold.',

@@ -6853,6 +6853,133 @@ export interface GravelEstimateResult {
   tons: number;
 }
 
+export interface PaintEstimateResult {
+  lengthFeet: number;
+  widthFeet: number;
+  wallHeightFeet: number;
+  doors: number;
+  windows: number;
+  coats: number;
+  coverageSquareFeetPerGallon: number;
+  wastePercent: number;
+  wallSquareFeet: number;
+  openingSquareFeet: number;
+  paintableSquareFeet: number;
+  adjustedSquareFeet: number;
+  gallonsNeeded: number;
+  gallonsToBuy: number;
+}
+
+export interface DrywallEstimateResult {
+  areaSquareFeet: number;
+  sheetLengthFeet: number;
+  sheetWidthFeet: number;
+  wastePercent: number;
+  sheetAreaSquareFeet: number;
+  adjustedAreaSquareFeet: number;
+  sheetsNeeded: number;
+}
+
+export interface CarpetEstimateResult {
+  lengthFeet: number;
+  widthFeet: number;
+  rollWidthFeet: number;
+  wastePercent: number;
+  areaSquareFeet: number;
+  adjustedAreaSquareFeet: number;
+  squareYards: number;
+  linearFeet: number;
+}
+
+export interface FenceEstimateResult {
+  perimeterFeet: number;
+  panelWidthFeet: number;
+  postSpacingFeet: number;
+  gateCount: number;
+  gateWidthFeet: number;
+  fenceRunFeet: number;
+  panelsNeeded: number;
+  linePosts: number;
+  gatePosts: number;
+  totalPosts: number;
+}
+
+export interface DeckCostEstimateResult {
+  lengthFeet: number;
+  widthFeet: number;
+  wastePercent: number;
+  deckCostPerSquareFoot: number;
+  railingLinearFeet: number;
+  railingCostPerFoot: number;
+  stairsCost: number;
+  deckAreaSquareFeet: number;
+  adjustedDeckAreaSquareFeet: number;
+  surfaceCost: number;
+  railingCost: number;
+  totalCost: number;
+}
+
+export interface PaverEstimateResult {
+  areaSquareFeet: number;
+  paverLengthInches: number;
+  paverWidthInches: number;
+  wastePercent: number;
+  paverAreaSquareFeet: number;
+  adjustedAreaSquareFeet: number;
+  paversNeeded: number;
+}
+
+export interface BoardFootResult {
+  thicknessInches: number;
+  widthInches: number;
+  lengthFeet: number;
+  quantity: number;
+  boardFeetEach: number;
+  totalBoardFeet: number;
+}
+
+export interface CubicYardEstimateResult {
+  lengthFeet: number;
+  widthFeet: number;
+  depthInches: number;
+  wastePercent: number;
+  cubicFeet: number;
+  cubicYards: number;
+}
+
+export type PoolShape = 'rectangle' | 'round' | 'oval';
+
+export interface PoolVolumeResult {
+  shape: PoolShape;
+  lengthFeet: number;
+  widthFeet: number;
+  averageDepthFeet: number;
+  surfaceFactor: number;
+  cubicFeet: number;
+  gallons: number;
+}
+
+export interface BulkMaterialEstimateResult {
+  lengthFeet: number;
+  widthFeet: number;
+  depthInches: number;
+  tonsPerCubicYard: number;
+  wastePercent: number;
+  cubicFeet: number;
+  cubicYards: number;
+  tons: number;
+}
+
+export interface SoilEstimateResult {
+  areaSquareFeet: number;
+  depthInches: number;
+  wastePercent: number;
+  cubicFeet: number;
+  cubicYards: number;
+  oneAndHalfCubicFootBags: number;
+  twoCubicFootBags: number;
+}
+
 export interface WeatherFeelsLikeResult {
   temperatureFahrenheit: number;
   relativeHumidity?: number;
@@ -8395,6 +8522,322 @@ export function calculateGravelEstimate(
     cubicYards,
     tons: cubicYards * tonsPerCubicYard,
   };
+}
+
+export function calculatePaintEstimate(input: {
+  lengthFeet: number;
+  widthFeet: number;
+  wallHeightFeet: number;
+  doors: number;
+  windows: number;
+  coats: number;
+  coverageSquareFeetPerGallon: number;
+  wastePercent: number;
+}): PaintEstimateResult {
+  assertPositiveNumber(input.lengthFeet, 'Room length');
+  assertPositiveNumber(input.widthFeet, 'Room width');
+  assertPositiveNumber(input.wallHeightFeet, 'Wall height');
+  assertNonNegativeNumber(input.doors, 'Doors');
+  assertNonNegativeNumber(input.windows, 'Windows');
+  assertInteger(input.doors, 'Doors');
+  assertInteger(input.windows, 'Windows');
+  assertPositiveNumber(input.coats, 'Coats');
+  assertInteger(input.coats, 'Coats');
+  assertPositiveNumber(input.coverageSquareFeetPerGallon, 'Coverage');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const wallSquareFeet = 2 * (input.lengthFeet + input.widthFeet) * input.wallHeightFeet;
+  const openingSquareFeet = input.doors * 20 + input.windows * 15;
+  const paintableSquareFeet = Math.max(0, wallSquareFeet - openingSquareFeet);
+  const adjustedSquareFeet = paintableSquareFeet * input.coats * (1 + input.wastePercent / 100);
+  const gallonsNeeded = adjustedSquareFeet / input.coverageSquareFeetPerGallon;
+
+  return {
+    ...input,
+    wallSquareFeet,
+    openingSquareFeet,
+    paintableSquareFeet,
+    adjustedSquareFeet,
+    gallonsNeeded,
+    gallonsToBuy: Math.ceil(gallonsNeeded),
+  };
+}
+
+export function calculateDrywallEstimate(
+  areaSquareFeet: number,
+  sheetLengthFeet: number,
+  sheetWidthFeet: number,
+  wastePercent: number,
+): DrywallEstimateResult {
+  assertPositiveNumber(areaSquareFeet, 'Area');
+  assertPositiveNumber(sheetLengthFeet, 'Sheet length');
+  assertPositiveNumber(sheetWidthFeet, 'Sheet width');
+  assertPercentRange(wastePercent, 'Waste percent', 100);
+
+  const sheetAreaSquareFeet = sheetLengthFeet * sheetWidthFeet;
+  const adjustedAreaSquareFeet = areaSquareFeet * (1 + wastePercent / 100);
+
+  return {
+    areaSquareFeet,
+    sheetLengthFeet,
+    sheetWidthFeet,
+    wastePercent,
+    sheetAreaSquareFeet,
+    adjustedAreaSquareFeet,
+    sheetsNeeded: Math.ceil(adjustedAreaSquareFeet / sheetAreaSquareFeet),
+  };
+}
+
+export function calculateCarpetEstimate(
+  lengthFeet: number,
+  widthFeet: number,
+  rollWidthFeet: number,
+  wastePercent: number,
+): CarpetEstimateResult {
+  assertPositiveNumber(lengthFeet, 'Length');
+  assertPositiveNumber(widthFeet, 'Width');
+  assertPositiveNumber(rollWidthFeet, 'Roll width');
+  assertPercentRange(wastePercent, 'Waste percent', 100);
+
+  const areaSquareFeet = lengthFeet * widthFeet;
+  const adjustedAreaSquareFeet = areaSquareFeet * (1 + wastePercent / 100);
+
+  return {
+    lengthFeet,
+    widthFeet,
+    rollWidthFeet,
+    wastePercent,
+    areaSquareFeet,
+    adjustedAreaSquareFeet,
+    squareYards: adjustedAreaSquareFeet / 9,
+    linearFeet: adjustedAreaSquareFeet / rollWidthFeet,
+  };
+}
+
+export function calculateFenceEstimate(input: {
+  perimeterFeet: number;
+  panelWidthFeet: number;
+  postSpacingFeet: number;
+  gateCount: number;
+  gateWidthFeet: number;
+}): FenceEstimateResult {
+  assertPositiveNumber(input.perimeterFeet, 'Perimeter');
+  assertPositiveNumber(input.panelWidthFeet, 'Panel width');
+  assertPositiveNumber(input.postSpacingFeet, 'Post spacing');
+  assertNonNegativeNumber(input.gateCount, 'Gate count');
+  assertInteger(input.gateCount, 'Gate count');
+  assertNonNegativeNumber(input.gateWidthFeet, 'Gate width');
+
+  const fenceRunFeet = Math.max(0, input.perimeterFeet - input.gateCount * input.gateWidthFeet);
+  const linePosts = fenceRunFeet === 0 ? 0 : Math.ceil(fenceRunFeet / input.postSpacingFeet) + 1;
+  const gatePosts = input.gateCount * 2;
+
+  return {
+    ...input,
+    fenceRunFeet,
+    panelsNeeded: Math.ceil(fenceRunFeet / input.panelWidthFeet),
+    linePosts,
+    gatePosts,
+    totalPosts: linePosts + gatePosts,
+  };
+}
+
+export function calculateDeckCostEstimate(input: {
+  lengthFeet: number;
+  widthFeet: number;
+  wastePercent: number;
+  deckCostPerSquareFoot: number;
+  railingLinearFeet: number;
+  railingCostPerFoot: number;
+  stairsCost: number;
+}): DeckCostEstimateResult {
+  assertPositiveNumber(input.lengthFeet, 'Length');
+  assertPositiveNumber(input.widthFeet, 'Width');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+  assertNonNegativeNumber(input.deckCostPerSquareFoot, 'Deck cost per square foot');
+  assertNonNegativeNumber(input.railingLinearFeet, 'Railing length');
+  assertNonNegativeNumber(input.railingCostPerFoot, 'Railing cost per foot');
+  assertNonNegativeNumber(input.stairsCost, 'Stairs cost');
+
+  const deckAreaSquareFeet = input.lengthFeet * input.widthFeet;
+  const adjustedDeckAreaSquareFeet = deckAreaSquareFeet * (1 + input.wastePercent / 100);
+  const surfaceCost = adjustedDeckAreaSquareFeet * input.deckCostPerSquareFoot;
+  const railingCost = input.railingLinearFeet * input.railingCostPerFoot;
+
+  return {
+    ...input,
+    deckAreaSquareFeet,
+    adjustedDeckAreaSquareFeet,
+    surfaceCost,
+    railingCost,
+    totalCost: surfaceCost + railingCost + input.stairsCost,
+  };
+}
+
+export function calculatePaverEstimate(
+  areaSquareFeet: number,
+  paverLengthInches: number,
+  paverWidthInches: number,
+  wastePercent: number,
+): PaverEstimateResult {
+  assertPositiveNumber(areaSquareFeet, 'Area');
+  assertPositiveNumber(paverLengthInches, 'Paver length');
+  assertPositiveNumber(paverWidthInches, 'Paver width');
+  assertPercentRange(wastePercent, 'Waste percent', 100);
+
+  const paverAreaSquareFeet = (paverLengthInches * paverWidthInches) / 144;
+  const adjustedAreaSquareFeet = areaSquareFeet * (1 + wastePercent / 100);
+
+  return {
+    areaSquareFeet,
+    paverLengthInches,
+    paverWidthInches,
+    wastePercent,
+    paverAreaSquareFeet,
+    adjustedAreaSquareFeet,
+    paversNeeded: Math.ceil(adjustedAreaSquareFeet / paverAreaSquareFeet - 1e-10),
+  };
+}
+
+export function calculateBoardFoot(
+  thicknessInches: number,
+  widthInches: number,
+  lengthFeet: number,
+  quantity: number,
+): BoardFootResult {
+  assertPositiveNumber(thicknessInches, 'Thickness');
+  assertPositiveNumber(widthInches, 'Width');
+  assertPositiveNumber(lengthFeet, 'Length');
+  assertPositiveNumber(quantity, 'Quantity');
+  assertInteger(quantity, 'Quantity');
+
+  const boardFeetEach = (thicknessInches * widthInches * lengthFeet) / 12;
+
+  return {
+    thicknessInches,
+    widthInches,
+    lengthFeet,
+    quantity,
+    boardFeetEach,
+    totalBoardFeet: boardFeetEach * quantity,
+  };
+}
+
+export function calculateCubicYardEstimate(
+  lengthFeet: number,
+  widthFeet: number,
+  depthInches: number,
+  wastePercent: number,
+): CubicYardEstimateResult {
+  assertPositiveNumber(lengthFeet, 'Length');
+  assertPositiveNumber(widthFeet, 'Width');
+  assertPositiveNumber(depthInches, 'Depth');
+  assertPercentRange(wastePercent, 'Waste percent', 100);
+
+  const cubicFeet = lengthFeet * widthFeet * (depthInches / 12) * (1 + wastePercent / 100);
+
+  return {
+    lengthFeet,
+    widthFeet,
+    depthInches,
+    wastePercent,
+    cubicFeet,
+    cubicYards: cubicFeet / 27,
+  };
+}
+
+export function calculatePoolVolume(
+  shape: PoolShape,
+  lengthFeet: number,
+  widthFeet: number,
+  averageDepthFeet: number,
+): PoolVolumeResult {
+  assertPositiveNumber(lengthFeet, 'Length or diameter');
+  assertPositiveNumber(widthFeet, 'Width or diameter');
+  assertPositiveNumber(averageDepthFeet, 'Average depth');
+
+  if (!['rectangle', 'round', 'oval'].includes(shape)) {
+    throw new Error('Choose a supported pool shape');
+  }
+
+  const surfaceFactor = shape === 'rectangle' ? 1 : Math.PI / 4;
+  const cubicFeet = lengthFeet * widthFeet * averageDepthFeet * surfaceFactor;
+
+  return {
+    shape,
+    lengthFeet,
+    widthFeet,
+    averageDepthFeet,
+    surfaceFactor,
+    cubicFeet,
+    gallons: cubicFeet * 7.48052,
+  };
+}
+
+function calculateBulkMaterialEstimate(input: {
+  lengthFeet: number;
+  widthFeet: number;
+  depthInches: number;
+  tonsPerCubicYard: number;
+  wastePercent: number;
+}): BulkMaterialEstimateResult {
+  assertPositiveNumber(input.lengthFeet, 'Length');
+  assertPositiveNumber(input.widthFeet, 'Width');
+  assertPositiveNumber(input.depthInches, 'Depth');
+  assertPositiveNumber(input.tonsPerCubicYard, 'Tons per cubic yard');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const cubicFeet = input.lengthFeet * input.widthFeet * (input.depthInches / 12) * (1 + input.wastePercent / 100);
+  const cubicYards = cubicFeet / 27;
+
+  return {
+    ...input,
+    cubicFeet,
+    cubicYards,
+    tons: cubicYards * input.tonsPerCubicYard,
+  };
+}
+
+export function calculateSandEstimate(input: {
+  lengthFeet: number;
+  widthFeet: number;
+  depthInches: number;
+  tonsPerCubicYard: number;
+  wastePercent: number;
+}): BulkMaterialEstimateResult {
+  return calculateBulkMaterialEstimate(input);
+}
+
+export function calculateSoilEstimate(
+  areaSquareFeet: number,
+  depthInches: number,
+  wastePercent: number,
+): SoilEstimateResult {
+  assertPositiveNumber(areaSquareFeet, 'Area');
+  assertPositiveNumber(depthInches, 'Depth');
+  assertPercentRange(wastePercent, 'Waste percent', 100);
+
+  const cubicFeet = areaSquareFeet * (depthInches / 12) * (1 + wastePercent / 100);
+
+  return {
+    areaSquareFeet,
+    depthInches,
+    wastePercent,
+    cubicFeet,
+    cubicYards: cubicFeet / 27,
+    oneAndHalfCubicFootBags: Math.ceil(cubicFeet / 1.5),
+    twoCubicFootBags: Math.ceil(cubicFeet / 2),
+  };
+}
+
+export function calculateAsphaltEstimate(input: {
+  lengthFeet: number;
+  widthFeet: number;
+  depthInches: number;
+  tonsPerCubicYard: number;
+  wastePercent: number;
+}): BulkMaterialEstimateResult {
+  return calculateBulkMaterialEstimate(input);
 }
 
 export function calculateWindChill(temperatureFahrenheit: number, windSpeedMph: number): WeatherFeelsLikeResult {

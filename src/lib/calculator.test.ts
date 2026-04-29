@@ -56,14 +56,20 @@ import {
   groupHexDigits,
   generateRandomNumbers,
   calculateAge,
+  calculateAsphaltEstimate,
   calculateBandwidthTime,
+  calculateBoardFoot,
   calculateBraSize,
   calculateBtuEstimate,
+  calculateCarpetEstimate,
   calculateDayOfWeek,
+  calculateDeckCostEstimate,
   calculateDensity,
   calculateDiceRoll,
   calculateDewPoint,
+  calculateDrywallEstimate,
   calculateElectricityCost,
+  calculateCubicYardEstimate,
   applyPercentageAdjustment,
   addDaysToIsoDate,
   calculateAnnuity,
@@ -86,6 +92,7 @@ import {
   calculateDateDifference,
   calculateDateShift,
   calculateFuelCost,
+  calculateFenceEstimate,
   calculateGasMileage,
   calculateGdpEstimate,
   calculateGolfCourseHandicap,
@@ -165,9 +172,14 @@ import {
   calculateNeededFinalGrade,
   calculateOhmsLaw,
   calculateMulchEstimate,
+  calculatePaintEstimate,
+  calculatePaverEstimate,
+  calculatePoolVolume,
   calculateResistorColorCode,
   calculateRoofingEstimate,
+  calculateSandEstimate,
   calculateSleepSchedule,
+  calculateSoilEstimate,
   calculateSpeed,
   calculateSquareFootage,
   calculateSubnet,
@@ -1510,6 +1522,18 @@ describe('utility helpers', () => {
     const tile = calculateTileEstimate(120, 12, 12, 10);
     const mulch = calculateMulchEstimate(200, 3, 5);
     const gravel = calculateGravelEstimate(20, 10, 3, 1.4);
+    const paint = calculatePaintEstimate({ lengthFeet: 12, widthFeet: 10, wallHeightFeet: 8, doors: 1, windows: 2, coats: 2, coverageSquareFeetPerGallon: 350, wastePercent: 10 });
+    const drywall = calculateDrywallEstimate(480, 8, 4, 10);
+    const carpet = calculateCarpetEstimate(15, 12, 12, 10);
+    const fence = calculateFenceEstimate({ perimeterFeet: 120, panelWidthFeet: 8, postSpacingFeet: 8, gateCount: 1, gateWidthFeet: 4 });
+    const deck = calculateDeckCostEstimate({ lengthFeet: 16, widthFeet: 12, wastePercent: 10, deckCostPerSquareFoot: 12, railingLinearFeet: 40, railingCostPerFoot: 35, stairsCost: 750 });
+    const pavers = calculatePaverEstimate(180, 8, 4, 10);
+    const boardFoot = calculateBoardFoot(1, 6, 8, 4);
+    const cubicYard = calculateCubicYardEstimate(20, 10, 3, 5);
+    const pool = calculatePoolVolume('rectangle', 24, 12, 4.5);
+    const sand = calculateSandEstimate({ lengthFeet: 20, widthFeet: 10, depthInches: 2, tonsPerCubicYard: 1.35, wastePercent: 5 });
+    const soil = calculateSoilEstimate(120, 4, 10);
+    const asphalt = calculateAsphaltEstimate({ lengthFeet: 30, widthFeet: 12, depthInches: 3, tonsPerCubicYard: 2, wastePercent: 5 });
     const windChill = calculateWindChill(30, 15);
     const heatIndex = calculateHeatIndex(90, 70);
     const dewPoint = calculateDewPoint(75, 60);
@@ -1532,6 +1556,18 @@ describe('utility helpers', () => {
     expect(tile.tilesNeeded).toBe(132);
     expect(formatCalculatorNumber(mulch.cubicYards)).toBe('1.9444444444');
     expect(formatCalculatorNumber(gravel.tons)).toBe('2.5925925926');
+    expect(paint.gallonsToBuy).toBe(2);
+    expect(drywall.sheetsNeeded).toBe(17);
+    expect(formatCalculatorNumber(carpet.squareYards)).toBe('22');
+    expect(fence.totalPosts).toBe(18);
+    expect(deck.totalCost).toBe(4684.4);
+    expect(pavers.paversNeeded).toBe(891);
+    expect(boardFoot.totalBoardFeet).toBe(16);
+    expect(formatCalculatorNumber(cubicYard.cubicYards)).toBe('1.9444444444');
+    expect(formatCalculatorNumber(pool.gallons)).toBe('9694.75392');
+    expect(formatCalculatorNumber(sand.tons)).toBe('1.75');
+    expect(soil.twoCubicFootBags).toBe(22);
+    expect(asphalt.tons).toBe(7);
     expect(windChill.resultFahrenheit).toBeLessThan(30);
     expect(heatIndex.resultFahrenheit).toBeGreaterThan(90);
     expect(dewPoint.resultFahrenheit).toBeLessThan(75);

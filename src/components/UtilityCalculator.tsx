@@ -1,17 +1,24 @@
 import { useMemo, useState, type HTMLAttributes } from 'react';
 import {
   calculateAge,
+  calculateAsphaltEstimate,
   calculateBandwidthTime,
+  calculateBoardFoot,
   calculateBraSize,
   calculateBtuEstimate,
+  calculateCarpetEstimate,
   calculateConcrete,
+  calculateCubicYardEstimate,
   calculateDayOfWeek,
+  calculateDeckCostEstimate,
   calculateDensity,
   calculateDiceRoll,
   calculateDewPoint,
+  calculateDrywallEstimate,
   calculateElectricityCost,
   calculateDateDifference,
   calculateDateShift,
+  calculateFenceEstimate,
   calculateFuelCost,
   calculateGasMileage,
   calculateGdpEstimate,
@@ -31,9 +38,14 @@ import {
   calculateNeededFinalGrade,
   calculateOhmsLaw,
   calculateMulchEstimate,
+  calculatePaintEstimate,
+  calculatePaverEstimate,
+  calculatePoolVolume,
   calculateResistorColorCode,
   calculateRoofingEstimate,
+  calculateSandEstimate,
   calculateSleepSchedule,
+  calculateSoilEstimate,
   calculateSpeed,
   calculateSquareFootage,
   calculateSubnet,
@@ -109,6 +121,18 @@ export type UtilityToolVariant =
   | 'tile'
   | 'mulch'
   | 'gravel'
+  | 'paint'
+  | 'drywall'
+  | 'carpet'
+  | 'fence'
+  | 'deck-cost'
+  | 'paver'
+  | 'board-foot'
+  | 'cubic-yard'
+  | 'pool-volume'
+  | 'sand'
+  | 'soil'
+  | 'asphalt'
   | 'wind-chill'
   | 'heat-index'
   | 'dew-point'
@@ -347,6 +371,12 @@ const horsepowerUnitOptions: SelectOption[] = [
   { label: 'Watts', value: 'watt' },
   { label: 'Kilowatts', value: 'kilowatt' },
   { label: 'Metric hp', value: 'metric-horsepower' },
+];
+
+const poolShapeOptions: SelectOption[] = [
+  { label: 'Rectangle', value: 'rectangle' },
+  { label: 'Round', value: 'round' },
+  { label: 'Oval', value: 'oval' },
 ];
 
 const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
@@ -1413,6 +1443,303 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         ],
         defaultInputs: { lengthFeet: '20', widthFeet: '10', depthInches: '3', tonsPerCubicYard: '1.4' },
         examples: [{ label: 'Driveway bed', inputs: { lengthFeet: '20', widthFeet: '10', depthInches: '3', tonsPerCubicYard: '1.4' } }],
+      },
+    ],
+  },
+  paint: {
+    title: 'Paint Calculator',
+    buttonLabel: 'Estimate paint',
+    emptyHistory: 'Recent paint estimates will appear here.',
+    privacyNote: 'Paint estimates stay local and use the room dimensions, openings, coats, and coverage you enter.',
+    modes: [
+      {
+        id: 'room-walls',
+        label: 'Room walls',
+        symbol: 'PAINT',
+        fields: [
+          numberField('lengthFeet', 'Room length feet', '12'),
+          numberField('widthFeet', 'Room width feet', '10'),
+          numberField('wallHeightFeet', 'Wall height feet', '8'),
+          integerField('doors', 'Doors', '1'),
+          integerField('windows', 'Windows', '2'),
+          integerField('coats', 'Coats', '2'),
+          numberField('coverageSquareFeetPerGallon', 'Coverage ft2 per gallon', '350'),
+          numberField('wastePercent', 'Extra percent', '10'),
+        ],
+        defaultInputs: { lengthFeet: '12', widthFeet: '10', wallHeightFeet: '8', doors: '1', windows: '2', coats: '2', coverageSquareFeetPerGallon: '350', wastePercent: '10' },
+        examples: [
+          { label: 'Small bedroom', inputs: { lengthFeet: '12', widthFeet: '10', wallHeightFeet: '8', doors: '1', windows: '2', coats: '2', coverageSquareFeetPerGallon: '350', wastePercent: '10' } },
+          { label: 'Living room', inputs: { lengthFeet: '18', widthFeet: '14', wallHeightFeet: '9', doors: '2', windows: '3', coats: '2', coverageSquareFeetPerGallon: '375', wastePercent: '10' } },
+        ],
+      },
+    ],
+  },
+  drywall: {
+    title: 'Drywall Calculator',
+    buttonLabel: 'Estimate drywall',
+    emptyHistory: 'Recent drywall estimates will appear here.',
+    privacyNote: 'Drywall estimates stay local and use the sheet size and waste percent you choose.',
+    modes: [
+      {
+        id: 'sheet-count',
+        label: 'Sheet count',
+        symbol: 'DRY',
+        fields: [
+          numberField('areaSquareFeet', 'Wall or ceiling area ft2', '480'),
+          numberField('sheetLengthFeet', 'Sheet length feet', '8'),
+          numberField('sheetWidthFeet', 'Sheet width feet', '4'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { areaSquareFeet: '480', sheetLengthFeet: '8', sheetWidthFeet: '4', wastePercent: '10' },
+        examples: [
+          { label: '480 ft2 with 4x8 sheets', inputs: { areaSquareFeet: '480', sheetLengthFeet: '8', sheetWidthFeet: '4', wastePercent: '10' } },
+          { label: 'Basement room', inputs: { areaSquareFeet: '720', sheetLengthFeet: '12', sheetWidthFeet: '4', wastePercent: '12' } },
+        ],
+      },
+    ],
+  },
+  carpet: {
+    title: 'Carpet Calculator',
+    buttonLabel: 'Estimate carpet',
+    emptyHistory: 'Recent carpet estimates will appear here.',
+    privacyNote: 'Carpet estimates stay local and assume one simple rectangular area.',
+    modes: [
+      {
+        id: 'room-carpet',
+        label: 'Room area',
+        symbol: 'CARP',
+        fields: [
+          numberField('lengthFeet', 'Room length feet', '15'),
+          numberField('widthFeet', 'Room width feet', '12'),
+          numberField('rollWidthFeet', 'Roll width feet', '12'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { lengthFeet: '15', widthFeet: '12', rollWidthFeet: '12', wastePercent: '10' },
+        examples: [
+          { label: 'Bedroom carpet', inputs: { lengthFeet: '15', widthFeet: '12', rollWidthFeet: '12', wastePercent: '10' } },
+          { label: 'Large room', inputs: { lengthFeet: '22', widthFeet: '16', rollWidthFeet: '12', wastePercent: '12' } },
+        ],
+      },
+    ],
+  },
+  fence: {
+    title: 'Fence Calculator',
+    buttonLabel: 'Estimate fence',
+    emptyHistory: 'Recent fence estimates will appear here.',
+    privacyNote: 'Fence estimates stay local and use simple perimeter, gate, panel, and post spacing assumptions.',
+    modes: [
+      {
+        id: 'panel-fence',
+        label: 'Panels and posts',
+        symbol: 'FENCE',
+        fields: [
+          numberField('perimeterFeet', 'Fence perimeter feet', '120'),
+          numberField('panelWidthFeet', 'Panel width feet', '8'),
+          numberField('postSpacingFeet', 'Post spacing feet', '8'),
+          integerField('gateCount', 'Gate count', '1'),
+          numberField('gateWidthFeet', 'Gate width feet', '4'),
+        ],
+        defaultInputs: { perimeterFeet: '120', panelWidthFeet: '8', postSpacingFeet: '8', gateCount: '1', gateWidthFeet: '4' },
+        examples: [
+          { label: 'Backyard fence', inputs: { perimeterFeet: '120', panelWidthFeet: '8', postSpacingFeet: '8', gateCount: '1', gateWidthFeet: '4' } },
+          { label: 'Two gates', inputs: { perimeterFeet: '180', panelWidthFeet: '6', postSpacingFeet: '6', gateCount: '2', gateWidthFeet: '4' } },
+        ],
+      },
+    ],
+  },
+  'deck-cost': {
+    title: 'Deck Cost Calculator',
+    buttonLabel: 'Estimate deck cost',
+    emptyHistory: 'Recent deck estimates will appear here.',
+    privacyNote: 'Deck cost estimates stay local and are rough planning numbers, not contractor quotes.',
+    modes: [
+      {
+        id: 'deck-cost',
+        label: 'Deck cost',
+        symbol: 'DECK',
+        fields: [
+          numberField('lengthFeet', 'Deck length feet', '16'),
+          numberField('widthFeet', 'Deck width feet', '12'),
+          numberField('wastePercent', 'Decking waste percent', '10'),
+          numberField('deckCostPerSquareFoot', 'Decking cost per ft2', '12'),
+          numberField('railingLinearFeet', 'Railing linear feet', '40'),
+          numberField('railingCostPerFoot', 'Railing cost per foot', '35'),
+          numberField('stairsCost', 'Stairs allowance', '750'),
+        ],
+        defaultInputs: { lengthFeet: '16', widthFeet: '12', wastePercent: '10', deckCostPerSquareFoot: '12', railingLinearFeet: '40', railingCostPerFoot: '35', stairsCost: '750' },
+        examples: [
+          { label: 'Small deck', inputs: { lengthFeet: '16', widthFeet: '12', wastePercent: '10', deckCostPerSquareFoot: '12', railingLinearFeet: '40', railingCostPerFoot: '35', stairsCost: '750' } },
+          { label: 'Larger deck', inputs: { lengthFeet: '24', widthFeet: '14', wastePercent: '10', deckCostPerSquareFoot: '18', railingLinearFeet: '58', railingCostPerFoot: '45', stairsCost: '1200' } },
+        ],
+      },
+    ],
+  },
+  paver: {
+    title: 'Paver Calculator',
+    buttonLabel: 'Estimate pavers',
+    emptyHistory: 'Recent paver estimates will appear here.',
+    privacyNote: 'Paver estimates stay local and use the paver dimensions and waste percent you enter.',
+    modes: [
+      {
+        id: 'paver-count',
+        label: 'Paver count',
+        symbol: 'PAVE',
+        fields: [
+          numberField('areaSquareFeet', 'Project area ft2', '180'),
+          numberField('paverLengthInches', 'Paver length inches', '8'),
+          numberField('paverWidthInches', 'Paver width inches', '4'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { areaSquareFeet: '180', paverLengthInches: '8', paverWidthInches: '4', wastePercent: '10' },
+        examples: [
+          { label: 'Patio pavers', inputs: { areaSquareFeet: '180', paverLengthInches: '8', paverWidthInches: '4', wastePercent: '10' } },
+          { label: 'Large pavers', inputs: { areaSquareFeet: '240', paverLengthInches: '12', paverWidthInches: '12', wastePercent: '8' } },
+        ],
+      },
+    ],
+  },
+  'board-foot': {
+    title: 'Board Foot Calculator',
+    buttonLabel: 'Calculate board feet',
+    emptyHistory: 'Recent board-foot calculations will appear here.',
+    privacyNote: 'Board-foot math stays local and measures lumber volume only.',
+    modes: [
+      {
+        id: 'lumber-volume',
+        label: 'Lumber volume',
+        symbol: 'BF',
+        fields: [
+          numberField('thicknessInches', 'Thickness inches', '1'),
+          numberField('widthInches', 'Width inches', '6'),
+          numberField('lengthFeet', 'Length feet', '8'),
+          integerField('quantity', 'Quantity', '4'),
+        ],
+        defaultInputs: { thicknessInches: '1', widthInches: '6', lengthFeet: '8', quantity: '4' },
+        examples: [
+          { label: 'Four 1x6 boards', inputs: { thicknessInches: '1', widthInches: '6', lengthFeet: '8', quantity: '4' } },
+          { label: 'Rough lumber', inputs: { thicknessInches: '2', widthInches: '8', lengthFeet: '10', quantity: '3' } },
+        ],
+      },
+    ],
+  },
+  'cubic-yard': {
+    title: 'Cubic Yard Calculator',
+    buttonLabel: 'Calculate cubic yards',
+    emptyHistory: 'Recent cubic-yard estimates will appear here.',
+    privacyNote: 'Cubic-yard estimates stay local and assume an even rectangular area.',
+    modes: [
+      {
+        id: 'volume',
+        label: 'Area and depth',
+        symbol: 'YD3',
+        fields: [
+          numberField('lengthFeet', 'Length feet', '20'),
+          numberField('widthFeet', 'Width feet', '10'),
+          numberField('depthInches', 'Depth inches', '3'),
+          numberField('wastePercent', 'Waste percent', '5'),
+        ],
+        defaultInputs: { lengthFeet: '20', widthFeet: '10', depthInches: '3', wastePercent: '5' },
+        examples: [
+          { label: 'Material bed', inputs: { lengthFeet: '20', widthFeet: '10', depthInches: '3', wastePercent: '5' } },
+          { label: 'Deep fill', inputs: { lengthFeet: '12', widthFeet: '8', depthInches: '6', wastePercent: '10' } },
+        ],
+      },
+    ],
+  },
+  'pool-volume': {
+    title: 'Pool Volume Calculator',
+    buttonLabel: 'Calculate pool volume',
+    emptyHistory: 'Recent pool volume estimates will appear here.',
+    privacyNote: 'Pool volume estimates stay local and use simple shape formulas.',
+    modes: [
+      {
+        id: 'pool-volume',
+        label: 'Pool volume',
+        symbol: 'POOL',
+        fields: [
+          selectField('shape', 'Pool shape', poolShapeOptions),
+          numberField('lengthFeet', 'Length or diameter feet', '24'),
+          numberField('widthFeet', 'Width or diameter feet', '12'),
+          numberField('averageDepthFeet', 'Average depth feet', '4.5'),
+        ],
+        defaultInputs: { shape: 'rectangle', lengthFeet: '24', widthFeet: '12', averageDepthFeet: '4.5' },
+        examples: [
+          { label: 'Rectangular pool', inputs: { shape: 'rectangle', lengthFeet: '24', widthFeet: '12', averageDepthFeet: '4.5' } },
+          { label: 'Round pool', inputs: { shape: 'round', lengthFeet: '18', widthFeet: '18', averageDepthFeet: '4' } },
+        ],
+      },
+    ],
+  },
+  sand: {
+    title: 'Sand Calculator',
+    buttonLabel: 'Estimate sand',
+    emptyHistory: 'Recent sand estimates will appear here.',
+    privacyNote: 'Sand estimates stay local. Moisture, compaction, and supplier density can change tonnage.',
+    modes: [
+      {
+        id: 'sand-volume',
+        label: 'Area and depth',
+        symbol: 'SAND',
+        fields: [
+          numberField('lengthFeet', 'Length feet', '20'),
+          numberField('widthFeet', 'Width feet', '10'),
+          numberField('depthInches', 'Depth inches', '2'),
+          numberField('tonsPerCubicYard', 'Tons per cubic yard', '1.35'),
+          numberField('wastePercent', 'Waste percent', '5'),
+        ],
+        defaultInputs: { lengthFeet: '20', widthFeet: '10', depthInches: '2', tonsPerCubicYard: '1.35', wastePercent: '5' },
+        examples: [
+          { label: 'Leveling sand', inputs: { lengthFeet: '20', widthFeet: '10', depthInches: '2', tonsPerCubicYard: '1.35', wastePercent: '5' } },
+          { label: 'Sandbox', inputs: { lengthFeet: '8', widthFeet: '6', depthInches: '8', tonsPerCubicYard: '1.25', wastePercent: '0' } },
+        ],
+      },
+    ],
+  },
+  soil: {
+    title: 'Soil Calculator',
+    buttonLabel: 'Estimate soil',
+    emptyHistory: 'Recent soil estimates will appear here.',
+    privacyNote: 'Soil estimates stay local and use area, depth, and common bag sizes.',
+    modes: [
+      {
+        id: 'soil-volume',
+        label: 'Area and depth',
+        symbol: 'SOIL',
+        fields: [
+          numberField('areaSquareFeet', 'Bed area ft2', '120'),
+          numberField('depthInches', 'Soil depth inches', '4'),
+          numberField('wastePercent', 'Extra percent', '10'),
+        ],
+        defaultInputs: { areaSquareFeet: '120', depthInches: '4', wastePercent: '10' },
+        examples: [
+          { label: 'Raised bed top-off', inputs: { areaSquareFeet: '120', depthInches: '4', wastePercent: '10' } },
+          { label: 'Small garden', inputs: { areaSquareFeet: '48', depthInches: '6', wastePercent: '5' } },
+        ],
+      },
+    ],
+  },
+  asphalt: {
+    title: 'Asphalt Calculator',
+    buttonLabel: 'Estimate asphalt',
+    emptyHistory: 'Recent asphalt estimates will appear here.',
+    privacyNote: 'Asphalt estimates stay local and are rough planning numbers, not paving specifications.',
+    modes: [
+      {
+        id: 'asphalt-volume',
+        label: 'Area and depth',
+        symbol: 'ASPH',
+        fields: [
+          numberField('lengthFeet', 'Length feet', '30'),
+          numberField('widthFeet', 'Width feet', '12'),
+          numberField('depthInches', 'Compacted depth inches', '3'),
+          numberField('tonsPerCubicYard', 'Tons per cubic yard', '2'),
+          numberField('wastePercent', 'Waste percent', '5'),
+        ],
+        defaultInputs: { lengthFeet: '30', widthFeet: '12', depthInches: '3', tonsPerCubicYard: '2', wastePercent: '5' },
+        examples: [
+          { label: 'Driveway section', inputs: { lengthFeet: '30', widthFeet: '12', depthInches: '3', tonsPerCubicYard: '2', wastePercent: '5' } },
+          { label: 'Parking pad', inputs: { lengthFeet: '20', widthFeet: '18', depthInches: '4', tonsPerCubicYard: '2', wastePercent: '8' } },
+        ],
       },
     ],
   },
@@ -2688,6 +3015,268 @@ function calculateUtility(variant: UtilityToolVariant, modeId: string, inputs: U
           'Divide by 27 for cubic yards, then multiply by tons per cubic yard.',
         ],
         note: 'Compaction, moisture, stone type, and supplier density can change the real delivered amount.',
+      };
+    }
+    case 'paint': {
+      const result = calculatePaintEstimate({
+        lengthFeet: parseNumber(inputs.lengthFeet, 'Room length'),
+        widthFeet: parseNumber(inputs.widthFeet, 'Room width'),
+        wallHeightFeet: parseNumber(inputs.wallHeightFeet, 'Wall height'),
+        doors: parseNumber(inputs.doors, 'Doors'),
+        windows: parseNumber(inputs.windows, 'Windows'),
+        coats: parseNumber(inputs.coats, 'Coats'),
+        coverageSquareFeetPerGallon: parseNumber(inputs.coverageSquareFeetPerGallon, 'Coverage'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Paint to buy',
+        expression: `${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.widthFeet)} ft room, ${formatCalculatorNumber(result.coats)} coats`,
+        answer: `${formatCalculatorNumber(result.gallonsToBuy)} gallons`,
+        metrics: [
+          { label: 'Paintable wall area', value: `${formatCalculatorNumber(result.paintableSquareFeet)} ft2` },
+          { label: 'Gallons before rounding', value: formatCalculatorNumber(result.gallonsNeeded) },
+          { label: 'Coverage used', value: `${formatCalculatorNumber(result.coverageSquareFeetPerGallon)} ft2/gal` },
+        ],
+        steps: [
+          'Find wall area from room perimeter times wall height.',
+          'Subtract estimated openings using 20 square feet per door and 15 square feet per window.',
+          'Multiply by coats, add extra percent, divide by coverage, then round up gallons.',
+        ],
+        note: 'Actual paint use changes with product, surface texture, primer, color change, and application method.',
+      };
+    }
+    case 'drywall': {
+      const result = calculateDrywallEstimate(parseNumber(inputs.areaSquareFeet, 'Area'), parseNumber(inputs.sheetLengthFeet, 'Sheet length'), parseNumber(inputs.sheetWidthFeet, 'Sheet width'), parseNumber(inputs.wastePercent, 'Waste percent'));
+      return {
+        label: 'Drywall sheets',
+        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2 with ${formatCalculatorNumber(result.sheetWidthFeet)} x ${formatCalculatorNumber(result.sheetLengthFeet)} ft sheets`,
+        answer: formatCalculatorNumber(result.sheetsNeeded),
+        metrics: [
+          { label: 'Sheet area', value: `${formatCalculatorNumber(result.sheetAreaSquareFeet)} ft2` },
+          { label: 'Area with waste', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Waste added', value: percent(result.wastePercent) },
+        ],
+        steps: [
+          'Multiply sheet length by sheet width for square feet per sheet.',
+          'Add waste to the wall or ceiling area.',
+          'Divide adjusted area by sheet area and round up to whole sheets.',
+        ],
+        note: 'Layout, seams, openings, sheet orientation, thickness, and local fire or moisture rules can change the real order.',
+      };
+    }
+    case 'carpet': {
+      const result = calculateCarpetEstimate(parseNumber(inputs.lengthFeet, 'Length'), parseNumber(inputs.widthFeet, 'Width'), parseNumber(inputs.rollWidthFeet, 'Roll width'), parseNumber(inputs.wastePercent, 'Waste percent'));
+      return {
+        label: 'Carpet area',
+        expression: `${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.widthFeet)} ft`,
+        answer: `${formatCalculatorNumber(result.squareYards)} yd2`,
+        metrics: [
+          { label: 'Area with waste', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Linear feet at roll width', value: `${formatCalculatorNumber(result.linearFeet)} ft` },
+          { label: 'Roll width used', value: `${formatCalculatorNumber(result.rollWidthFeet)} ft` },
+        ],
+        steps: [
+          'Multiply room length by width for square feet.',
+          'Add waste for trimming, seams, and layout.',
+          'Divide by 9 for square yards and by roll width for approximate linear feet.',
+        ],
+        note: 'Carpet orders depend heavily on seam placement, pattern direction, stairs, closets, and installer layout.',
+      };
+    }
+    case 'fence': {
+      const result = calculateFenceEstimate({
+        perimeterFeet: parseNumber(inputs.perimeterFeet, 'Perimeter'),
+        panelWidthFeet: parseNumber(inputs.panelWidthFeet, 'Panel width'),
+        postSpacingFeet: parseNumber(inputs.postSpacingFeet, 'Post spacing'),
+        gateCount: parseNumber(inputs.gateCount, 'Gate count'),
+        gateWidthFeet: parseNumber(inputs.gateWidthFeet, 'Gate width'),
+      });
+      return {
+        label: 'Fence materials',
+        expression: `${formatCalculatorNumber(result.perimeterFeet)} ft perimeter, ${formatCalculatorNumber(result.gateCount)} gate(s)`,
+        answer: `${formatCalculatorNumber(result.panelsNeeded)} panels`,
+        metrics: [
+          { label: 'Fence run after gates', value: `${formatCalculatorNumber(result.fenceRunFeet)} ft` },
+          { label: 'Total posts', value: formatCalculatorNumber(result.totalPosts) },
+          { label: 'Gate posts included', value: formatCalculatorNumber(result.gatePosts) },
+        ],
+        steps: [
+          'Subtract gate width from the total perimeter.',
+          'Divide the remaining run by panel width and round up.',
+          'Estimate line posts from spacing, then add two posts per gate.',
+        ],
+        note: 'Corners, ends, slope, terrain, bracing, custom panels, and local code can change post and panel needs.',
+      };
+    }
+    case 'deck-cost': {
+      const result = calculateDeckCostEstimate({
+        lengthFeet: parseNumber(inputs.lengthFeet, 'Length'),
+        widthFeet: parseNumber(inputs.widthFeet, 'Width'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        deckCostPerSquareFoot: parseNumber(inputs.deckCostPerSquareFoot, 'Decking cost per square foot'),
+        railingLinearFeet: parseNumber(inputs.railingLinearFeet, 'Railing length'),
+        railingCostPerFoot: parseNumber(inputs.railingCostPerFoot, 'Railing cost per foot'),
+        stairsCost: parseNumber(inputs.stairsCost, 'Stairs cost'),
+      });
+      return {
+        label: 'Estimated deck cost',
+        expression: `${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.widthFeet)} ft deck`,
+        answer: money(result.totalCost),
+        metrics: [
+          { label: 'Decking area with waste', value: `${formatCalculatorNumber(result.adjustedDeckAreaSquareFeet)} ft2` },
+          { label: 'Decking cost', value: money(result.surfaceCost) },
+          { label: 'Railing cost', value: money(result.railingCost) },
+        ],
+        steps: [
+          'Multiply deck length by width for surface area.',
+          'Add waste and multiply by deck cost per square foot.',
+          'Add railing and stair allowances for a rough planning total.',
+        ],
+        note: 'Permits, framing, footings, fasteners, railing code, stairs, demolition, labor, and local prices can dominate real deck cost.',
+      };
+    }
+    case 'paver': {
+      const result = calculatePaverEstimate(parseNumber(inputs.areaSquareFeet, 'Area'), parseNumber(inputs.paverLengthInches, 'Paver length'), parseNumber(inputs.paverWidthInches, 'Paver width'), parseNumber(inputs.wastePercent, 'Waste percent'));
+      return {
+        label: 'Pavers needed',
+        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2, ${formatCalculatorNumber(result.paverLengthInches)} x ${formatCalculatorNumber(result.paverWidthInches)} in pavers`,
+        answer: formatCalculatorNumber(result.paversNeeded),
+        metrics: [
+          { label: 'Each paver area', value: `${formatCalculatorNumber(result.paverAreaSquareFeet)} ft2` },
+          { label: 'Area with waste', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Waste added', value: percent(result.wastePercent) },
+        ],
+        steps: [
+          'Convert paver length and width from square inches to square feet.',
+          'Add waste to the project area.',
+          'Divide adjusted area by paver area and round up.',
+        ],
+        note: 'Patterns, cuts, edging, base depth, joint sand, broken pavers, and box quantities can change what you buy.',
+      };
+    }
+    case 'board-foot': {
+      const result = calculateBoardFoot(parseNumber(inputs.thicknessInches, 'Thickness'), parseNumber(inputs.widthInches, 'Width'), parseNumber(inputs.lengthFeet, 'Length'), parseNumber(inputs.quantity, 'Quantity'));
+      return {
+        label: 'Board feet',
+        expression: `${formatCalculatorNumber(result.thicknessInches)} in x ${formatCalculatorNumber(result.widthInches)} in x ${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.quantity)}`,
+        answer: `${formatCalculatorNumber(result.totalBoardFeet)} board ft`,
+        metrics: [
+          { label: 'Board feet each', value: formatCalculatorNumber(result.boardFeetEach) },
+          { label: 'Quantity', value: formatCalculatorNumber(result.quantity) },
+          { label: 'Formula divisor', value: '12' },
+        ],
+        steps: [
+          'Multiply thickness in inches by width in inches.',
+          'Multiply by length in feet.',
+          'Divide by 12 to convert the mixed units into board feet.',
+        ],
+        note: 'Board feet measure lumber volume. Nominal vs actual dimensions, grade, species, moisture, and seller rules can differ.',
+      };
+    }
+    case 'cubic-yard': {
+      const result = calculateCubicYardEstimate(parseNumber(inputs.lengthFeet, 'Length'), parseNumber(inputs.widthFeet, 'Width'), parseNumber(inputs.depthInches, 'Depth'), parseNumber(inputs.wastePercent, 'Waste percent'));
+      return {
+        label: 'Cubic yards',
+        expression: `${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.widthFeet)} ft x ${formatCalculatorNumber(result.depthInches)} in`,
+        answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
+        metrics: [
+          { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
+          { label: 'Waste added', value: percent(result.wastePercent) },
+          { label: 'Cubic feet per yard', value: '27' },
+        ],
+        steps: [
+          'Convert depth from inches to feet.',
+          'Multiply length, width, and depth for cubic feet.',
+          'Add waste and divide by 27 to convert cubic feet to cubic yards.',
+        ],
+      };
+    }
+    case 'pool-volume': {
+      const result = calculatePoolVolume((inputs.shape || 'rectangle') as 'rectangle' | 'round' | 'oval', parseNumber(inputs.lengthFeet, 'Length or diameter'), parseNumber(inputs.widthFeet, 'Width or diameter'), parseNumber(inputs.averageDepthFeet, 'Average depth'));
+      return {
+        label: 'Pool volume',
+        expression: `${unitLabel(result.shape)} pool, ${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.widthFeet)} ft x ${formatCalculatorNumber(result.averageDepthFeet)} ft average depth`,
+        answer: `${formatCalculatorNumber(result.gallons)} gallons`,
+        metrics: [
+          { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
+          { label: 'Shape factor', value: formatCalculatorNumber(result.surfaceFactor) },
+          { label: 'Gallons per cubic foot', value: '7.48052' },
+        ],
+        steps: [
+          'Find surface area from the selected shape.',
+          'Multiply by average depth for cubic feet.',
+          'Multiply cubic feet by 7.48052 to estimate U.S. gallons.',
+        ],
+        note: 'Sloped bottoms, steps, benches, freeform curves, and actual water line can change real pool volume.',
+      };
+    }
+    case 'sand': {
+      const result = calculateSandEstimate({
+        lengthFeet: parseNumber(inputs.lengthFeet, 'Length'),
+        widthFeet: parseNumber(inputs.widthFeet, 'Width'),
+        depthInches: parseNumber(inputs.depthInches, 'Depth'),
+        tonsPerCubicYard: parseNumber(inputs.tonsPerCubicYard, 'Tons per cubic yard'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Sand needed',
+        expression: `${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.widthFeet)} ft x ${formatCalculatorNumber(result.depthInches)} in`,
+        answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
+        metrics: [
+          { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
+          { label: 'Estimated tons', value: formatCalculatorNumber(result.tons) },
+          { label: 'Density used', value: `${formatCalculatorNumber(result.tonsPerCubicYard)} tons/yd3` },
+        ],
+        steps: [
+          'Convert depth from inches to feet.',
+          'Multiply length, width, and depth, then add waste.',
+          'Divide by 27 for cubic yards and multiply by density for tons.',
+        ],
+        note: 'Sand density changes with moisture, compaction, and material type. Ask your supplier for a project-specific value.',
+      };
+    }
+    case 'soil': {
+      const result = calculateSoilEstimate(parseNumber(inputs.areaSquareFeet, 'Area'), parseNumber(inputs.depthInches, 'Depth'), parseNumber(inputs.wastePercent, 'Waste percent'));
+      return {
+        label: 'Soil needed',
+        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2 at ${formatCalculatorNumber(result.depthInches)} in`,
+        answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
+        metrics: [
+          { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
+          { label: '1.5 ft3 bags', value: formatCalculatorNumber(result.oneAndHalfCubicFootBags) },
+          { label: '2 ft3 bags', value: formatCalculatorNumber(result.twoCubicFootBags) },
+        ],
+        steps: [
+          'Convert soil depth from inches to feet.',
+          'Multiply bed area by depth and add extra percent.',
+          'Convert to cubic yards and common bag counts.',
+        ],
+        note: 'Soil settles. Raised beds, existing soil, compost mix, moisture, and bag fill can change the amount needed.',
+      };
+    }
+    case 'asphalt': {
+      const result = calculateAsphaltEstimate({
+        lengthFeet: parseNumber(inputs.lengthFeet, 'Length'),
+        widthFeet: parseNumber(inputs.widthFeet, 'Width'),
+        depthInches: parseNumber(inputs.depthInches, 'Depth'),
+        tonsPerCubicYard: parseNumber(inputs.tonsPerCubicYard, 'Tons per cubic yard'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Asphalt needed',
+        expression: `${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.widthFeet)} ft x ${formatCalculatorNumber(result.depthInches)} in compacted depth`,
+        answer: `${formatCalculatorNumber(result.tons)} tons`,
+        metrics: [
+          { label: 'Cubic yards', value: formatCalculatorNumber(result.cubicYards) },
+          { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
+          { label: 'Density used', value: `${formatCalculatorNumber(result.tonsPerCubicYard)} tons/yd3` },
+        ],
+        steps: [
+          'Convert compacted depth from inches to feet.',
+          'Multiply length, width, and depth, then add waste.',
+          'Convert cubic feet to cubic yards and multiply by tons per cubic yard.',
+        ],
+        note: 'Asphalt mix, compaction target, base, lift thickness, plant minimums, and paving specifications matter for real jobs.',
       };
     }
     case 'wind-chill': {
