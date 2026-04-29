@@ -523,7 +523,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     title: `How to use the ${tool.name}`,
     description: detail.summary,
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: `${detail.summary} This guide explains what to enter, how to read the answer, and what not to assume from a quick estimate.`,
+    intro: `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
     quickStart: [
       `Open the ${tool.name}.`,
       detail.enter[0],
@@ -535,7 +535,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         title: 'What this calculator is for',
         paragraphs: [
           detail.purpose,
-          `Use it when you want to: ${tool.useCases.slice(0, 2).join(' ')}`,
+          `Good fit examples: ${tool.useCases.slice(0, 2).join(' ')}`,
         ],
       },
       {
@@ -558,13 +558,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         title: 'Formula and steps',
         paragraphs: [
           getFormulaAnswer(tool.slug),
-          'The formula line on the calculator page is there so the number is not a black box. Read it before using the answer in a budget, comparison, or planning note.',
+          'The formula line on the calculator page is there so the number is not a black box. If the estimate is surprising, check the formula line and the inputs before using the answer in a budget, comparison, or planning note.',
         ],
       },
       {
         title: 'How to read the answer',
         paragraphs: [
-          'Start with the headline result, then use the supporting metrics to understand what made the result larger or smaller.',
+          'Start with the headline result. Then read the supporting lines to see what made the number larger or smaller, such as rate, term, principal, tax, fees, or contributions.',
         ],
         bullets: detail.read,
       },
@@ -593,7 +593,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         links: sourceLinks,
       },
     ],
-    sidecarText: `Keep the ${tool.name} open beside this guide so you can compare your inputs, the formula line, the examples, and the estimate limits before copying the result.`,
+    sidecarText: `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,
   };
 });
 

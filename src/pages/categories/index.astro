@@ -2,6 +2,7 @@
 import BaseLayout from '../../components/BaseLayout.astro';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import CategoryCard from '../../components/CategoryCard.astro';
+import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import { blogPosts } from '../../data/blogPosts';
 import { categories } from '../../data/categories';
@@ -35,6 +36,16 @@ const categoryStats = liveCategories.map((category) => {
       { name: 'Home', path: '/' },
       { name: 'Categories', path: '/categories/' },
     ]}
+  />
+  <CollectionStructuredData
+    name="Tool Categories"
+    description="Browse Access Free Tools by category."
+    path="/categories/"
+    items={liveCategories.map((category) => ({
+      name: category.name,
+      path: `/categories/${category.slug}/`,
+      description: category.summary,
+    }))}
   />
 
   <section class="page-intro">

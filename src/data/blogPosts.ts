@@ -130,6 +130,20 @@ export const blogPosts: BlogPostDefinition[] = [
       'Learn how to list factors, factor pairs, prime factors, and prime factorization for positive whole numbers.',
   },
   {
+    slug: 'how-to-use-prime-factorization-calculator',
+    title: 'How to use the Prime Factorization Calculator',
+    label: 'Prime factorization guide',
+    summary:
+      'Learn how to break a whole number into prime factors, read exponent form, and check whether a number is prime.',
+  },
+  {
+    slug: 'how-to-use-long-division-calculator',
+    title: 'How to use the Long Division Calculator',
+    label: 'Long division guide',
+    summary:
+      'Learn how quotient, remainder, decimal form, and the multiplication check work in whole-number long division.',
+  },
+  {
     slug: 'how-to-use-rounding-calculator',
     title: 'How to use the Rounding Calculator',
     label: 'Rounding calculator guide',
@@ -193,6 +207,13 @@ export const blogPosts: BlogPostDefinition[] = [
       'Learn how to get mean, median, mode, range, quartiles, variance, and standard deviation from one list of values.',
   },
   {
+    slug: 'how-to-use-average-calculator',
+    title: 'How to use the Average Calculator',
+    label: 'Average calculator guide',
+    summary:
+      'Learn how to find the arithmetic mean, check the sum and count, and compare average with median, mode, and range.',
+  },
+  {
     slug: 'how-to-use-mean-median-mode-range-calculator',
     title: 'How to use the Mean, Median, Mode, Range Calculator',
     label: 'Mean median mode range guide',
@@ -212,6 +233,13 @@ export const blogPosts: BlogPostDefinition[] = [
     label: 'Z-score calculator guide',
     summary:
       'Learn how to standardize a value, read above-or-below-average direction, and estimate a normal percentile.',
+  },
+  {
+    slug: 'how-to-use-p-value-calculator',
+    title: 'How to use the P-value Calculator',
+    label: 'P-value calculator guide',
+    summary:
+      'Learn how to estimate left-tailed, right-tailed, and two-tailed p-values from a z-score on the normal curve.',
   },
   {
     slug: 'how-to-use-confidence-interval-calculator',

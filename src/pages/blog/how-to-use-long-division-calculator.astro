@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="long-division-calculator"
+  label="Long division guide"
+  title="How to use the Long Division Calculator"
+  description="Learn how to use the free Access Free Tools long division calculator for quotient, remainder, decimal answer, and division checks."
+  path="/blog/how-to-use-long-division-calculator/"
+  intro="The Long Division Calculator divides whole numbers and shows the quotient, remainder, decimal value, and a quick check so the answer is easier to understand."
+  quickStart={[
+    'Type the problem as dividend / divisor, such as 9876 / 24.',
+    'Press Divide.',
+    'Read the quotient and remainder.',
+    'Use the decimal answer and multiplication check to confirm the result.',
+  ]}
+  sections={[
+    {
+      title: 'Quotient and remainder',
+      paragraphs: [
+        'The quotient is how many full times the divisor fits into the dividend. The remainder is what is left after those full groups are counted.',
+        'For 9876 / 24, the quotient is 411 and the remainder is 12. That means 24 fits into 9876 a total of 411 full times, with 12 left over.',
+      ],
+    },
+    {
+      title: 'How to check the answer',
+      paragraphs: [
+        'Use this check: quotient x divisor + remainder = dividend. If the check equals the original dividend, the whole-number division result is consistent.',
+        'The decimal result is helpful for comparison, but many classroom problems ask specifically for quotient and remainder.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Long Division Calculator while you follow the guide."
+/>

@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="prime-factorization-calculator"
+  label="Prime factorization guide"
+  title="How to use the Prime Factorization Calculator"
+  description="Learn how to use the free Access Free Tools prime factorization calculator to break whole numbers into prime factors and exponent form."
+  path="/blog/how-to-use-prime-factorization-calculator/"
+  intro="The Prime Factorization Calculator rewrites one whole number as prime numbers multiplied together. It also shows whether the number is prime and gives you related factor details for checking your work."
+  quickStart={[
+    'Enter one positive whole number.',
+    'Press Factor into primes.',
+    'Read the prime factorization in the result card.',
+    'Use the steps to check repeated factors, prime powers, and recent answers.',
+  ]}
+  sections={[
+    {
+      title: 'What the answer means',
+      paragraphs: [
+        'Prime factorization is a clean way to break a number into building blocks. Prime numbers cannot be broken into smaller whole-number factors other than 1 and themselves.',
+        'For example, 360 becomes 2^3 x 3^2 x 5. That means 2 x 2 x 2 x 3 x 3 x 5. Multiplying those factors returns 360.',
+      ],
+    },
+    {
+      title: 'When to use it',
+      paragraphs: [
+        'Prime factorization helps when you are simplifying fractions, finding GCF or LCM, checking divisibility, or studying how numbers are built.',
+        'If you need every factor pair instead, use the Factor Calculator. If you only need the largest shared factor across several numbers, use the Greatest Common Factor Calculator.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Prime Factorization Calculator while you follow the guide."
+/>

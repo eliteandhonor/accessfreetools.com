@@ -1,0 +1,36 @@
+---
+interface CollectionItem {
+  name: string;
+  path: string;
+  description?: string;
+}
+
+interface Props {
+  name: string;
+  description: string;
+  path: string;
+  items: CollectionItem[];
+}
+
+const { name, description, path, items } = Astro.props;
+const site = Astro.site ?? 'https://accessfreetools.com';
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name,
+  description,
+  url: new URL(path, site).toString(),
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      url: new URL(item.path, site).toString(),
+      description: item.description,
+    })),
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

@@ -903,7 +903,7 @@ const guideDetails: Record<string, GuideDetail> = {
 
 function buildDefaultGuideDetail(tool: (typeof healthTools)[number]): GuideDetail {
   return {
-    summary: `Learn how to use the ${tool.name} with clearer inputs, examples, answer notes, and common mistakes.`,
+    summary: `Learn how to use the ${tool.name} with plain input notes, examples, answer meaning, and common mistakes.`,
     purpose: tool.description,
     enter: [
       'Enter the requested values exactly as the tool labels them.',
@@ -965,7 +965,7 @@ export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) 
     title: `How to use the ${tool.name}`,
     description: detail.summary,
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: `${detail.summary} This guide explains what to enter, what the answer means, and what mistakes to avoid before you copy the result.`,
+    intro: `${detail.summary} Use this guide as a plain-English walkthrough: enter the measurements carefully, read what the estimate means, then check the safety notes before using or copying the result.`,
     quickStart: [
       `Open the ${tool.name}.`,
       detail.enter[0],
@@ -977,7 +977,7 @@ export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) 
         title: 'What this calculator is for',
         paragraphs: [
           detail.purpose,
-          `Use it when you want to: ${tool.useCases.slice(0, 2).join(' ')}`,
+          `Good fit examples: ${tool.useCases.slice(0, 2).join(' ')}`,
         ],
       },
       {
@@ -1000,14 +1000,14 @@ export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) 
         title: 'Formula and steps',
         paragraphs: [
           getFormulaAnswer(tool.slug),
-          'The formula line on the calculator page is there so the answer is not a mystery. Read it when you need to understand where the number came from.',
+          'The formula line on the calculator page is there so the answer is not a mystery. Read it when you need to understand where the number came from, especially before comparing results over time.',
         ],
       },
       {
         title: 'How to read the answer',
         paragraphs: [
           extraSafetyNotes[tool.slug] ??
-            'Use the result as an educational estimate. For health, pregnancy, nutrition, kidney, alcohol, or training decisions with real consequences, get qualified professional guidance.',
+            'Read the main estimate first, then read the note beside it. For health, pregnancy, nutrition, kidney, alcohol, or training decisions with real consequences, use qualified professional guidance.',
         ],
         bullets: detail.read,
       },
@@ -1034,7 +1034,7 @@ export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) 
         links: getSourceLinks(tool.slug),
       },
     ],
-    sidecarText: `Keep the ${tool.name} open beside this guide so you can compare your inputs, the formula line, the example, and the safety notes before copying the result.`,
+    sidecarText: `Keep the ${tool.name} open beside this guide. Try the example first, then replace it with your own values and read the safety notes before copying the result.`,
   };
 });
 

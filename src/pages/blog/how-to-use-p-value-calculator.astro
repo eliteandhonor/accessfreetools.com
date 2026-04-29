@@ -1,0 +1,45 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="p-value-calculator"
+  label="P-value calculator guide"
+  title="How to use the P-value Calculator"
+  description="Learn how to use the free Access Free Tools p-value calculator to estimate left-tailed, right-tailed, and two-tailed normal p-values from a z-score."
+  path="/blog/how-to-use-p-value-calculator/"
+  intro="The P-value Calculator estimates a p-value from a z-score using the standard normal curve. It is useful for introductory z-test examples where you already have the z-score."
+  quickStart={[
+    'Choose two-tailed, right-tailed, or left-tailed mode.',
+    'Enter the z-score.',
+    'Press Calculate p-value.',
+    'Read the p-value and the left-tail and right-tail normal areas.',
+  ]}
+  sections={[
+    {
+      title: 'Choose the correct tail',
+      paragraphs: [
+        'Use a right-tailed test when unusually high values matter. Use a left-tailed test when unusually low values matter. Use a two-tailed test when a difference in either direction matters.',
+        'A two-tailed p-value doubles the smaller tail area because it counts extreme results on both sides of the normal curve.',
+      ],
+    },
+    {
+      title: 'What this calculator can and cannot do',
+      paragraphs: [
+        'This calculator uses the standard normal distribution. It is not a replacement for t tests, chi-square tests, ANOVA, exact tests, or software output that uses a different distribution.',
+        'A p-value helps describe how far into the comparison tail a result is. It does not prove a claim by itself, and it should be read with the study design, assumptions, and chosen significance level.',
+      ],
+      links: [
+        {
+          href: 'https://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm',
+          label: 'NIST Engineering Statistics Handbook: Normal Distribution',
+        },
+        {
+          href: 'https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-22r1a.pdf',
+          label: 'NIST SP 800-22: examples of p-value use in statistical testing',
+        },
+      ],
+    },
+  ]}
+  sidecarText="Use the P-value Calculator while you follow the guide."
+/>

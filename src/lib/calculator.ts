@@ -119,6 +119,14 @@ export interface FactorizationResult {
   isPrime: boolean;
 }
 
+export interface LongDivisionResult {
+  dividend: number;
+  divisor: number;
+  quotient: number;
+  remainder: number;
+  decimal: number;
+}
+
 export type RoundingMode = 'decimal-places' | 'significant-figures' | 'place-value';
 export type RoundingMethod = 'nearest' | 'up' | 'down' | 'truncate';
 
@@ -227,6 +235,16 @@ export interface ZScoreResult {
   standardDeviation: number;
   zScore: number;
   percentile: number;
+}
+
+export type PValueTail = 'left' | 'right' | 'two';
+
+export interface PValueResult {
+  zScore: number;
+  tail: PValueTail;
+  leftTail: number;
+  rightTail: number;
+  pValue: number;
 }
 
 export type ConfidenceIntervalMode = 'mean' | 'proportion';
@@ -1373,6 +1391,31 @@ export function calculateFactors(value: number): FactorizationResult {
   };
 }
 
+export function calculateLongDivision(dividend: number, divisor: number): LongDivisionResult {
+  assertSafeInteger(dividend, 'Dividend');
+  assertSafeInteger(divisor, 'Divisor');
+
+  if (dividend < 0) {
+    throw new Error('Dividend cannot be negative');
+  }
+
+  if (divisor <= 0) {
+    throw new Error('Divisor must be greater than zero');
+  }
+
+  const quotient = Math.floor(dividend / divisor);
+  const remainder = dividend % divisor;
+  const decimal = dividend / divisor;
+
+  return {
+    dividend,
+    divisor,
+    quotient,
+    remainder,
+    decimal,
+  };
+}
+
 function applyRoundingMethod(value: number, method: RoundingMethod) {
   if (method === 'up') return Math.ceil(value);
   if (method === 'down') return Math.floor(value);
@@ -1989,6 +2032,23 @@ export function normalCdf(zScore: number) {
   assertFiniteNumber(zScore, 'z-score');
 
   return 0.5 * (1 + erf(zScore / Math.SQRT2));
+}
+
+export function calculateNormalPValue(zScore: number, tail: PValueTail = 'two'): PValueResult {
+  assertFiniteNumber(zScore, 'z-score');
+
+  const leftTail = normalCdf(zScore);
+  const rightTail = 1 - leftTail;
+  const pValue =
+    tail === 'left' ? leftTail : tail === 'right' ? rightTail : Math.min(1, 2 * Math.min(leftTail, rightTail));
+
+  return {
+    zScore,
+    tail,
+    leftTail,
+    rightTail,
+    pValue,
+  };
 }
 
 export function calculateZScore(value: number, mean: number, standardDeviation: number): ZScoreResult {

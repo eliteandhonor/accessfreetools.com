@@ -2,6 +2,7 @@
 import BaseLayout from '../../components/BaseLayout.astro';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import BlogSearch from '../../components/BlogSearch';
+import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
 import { blogPosts } from '../../data/blogPosts';
 ---
 
@@ -15,6 +16,16 @@ import { blogPosts } from '../../data/blogPosts';
       { name: 'Home', path: '/' },
       { name: 'Blog', path: '/blog/' },
     ]}
+  />
+  <CollectionStructuredData
+    name="Utility Guides"
+    description="Practical guides for Access Free Tools calculators and browser utilities."
+    path="/blog/"
+    items={blogPosts.map((post) => ({
+      name: post.title,
+      path: `/blog/${post.slug}/`,
+      description: post.summary,
+    }))}
   />
 
   <section class="blog-hub">

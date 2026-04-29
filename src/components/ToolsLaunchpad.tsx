@@ -344,6 +344,21 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
     }
   }, []);
 
+  const updateQuery = (nextQuery: string) => {
+    setQuery(nextQuery);
+
+    const url = new URL(window.location.href);
+    const trimmedQuery = nextQuery.trim();
+
+    if (trimmedQuery) {
+      url.searchParams.set('q', trimmedQuery);
+    } else {
+      url.searchParams.delete('q');
+    }
+
+    window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+  };
+
   const availableCategories = categories.filter((item) =>
     tools.some((tool) => tool.category === item.slug),
   );
@@ -383,7 +398,7 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
         <label htmlFor="tool-library-search">Search tools</label>
         <input
           id="tool-library-search"
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => updateQuery(event.target.value)}
           placeholder="Search mortgage, loan, tax, BMI, ratio..."
           type="search"
           value={query}

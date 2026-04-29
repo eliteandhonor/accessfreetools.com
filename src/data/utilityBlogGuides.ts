@@ -151,7 +151,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   'gpa-calculator': {
     summary: 'Learn how credits, letter grades, grade points, and quality points create a GPA.',
     purpose:
-      'The GPA Calculator explains the standard weighted-average idea behind GPA: grade points multiplied by credits, then divided by total credits.',
+      'The GPA Calculator explains GPA as a weighted average, not a simple average of letter grades. Each letter grade becomes grade points, those points are multiplied by course credits, and the total is divided by total credits. That is why a 4-credit class changes GPA more than a 1-credit class.',
     enter: [
       'Enter each course credit value.',
       'Choose the letter grade for each course.',
@@ -159,8 +159,9 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
     read: [
       'GPA is total quality points divided by total credits.',
-      'A higher-credit course has more impact than a lower-credit course.',
-      'The result uses a common unweighted 4.0 scale.',
+      'Quality points are grade points multiplied by credits for each class.',
+      'A higher-credit course has more impact than a lower-credit course because it adds more quality points.',
+      'The result uses a common unweighted 4.0 scale unless your school says otherwise.',
     ],
     mistakes: [
       'Do not assume every school uses this exact scale.',
@@ -295,21 +296,35 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
     title: `How to use the ${tool.name}`,
     description: detail.summary,
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: `${detail.purpose} This guide shows what to enter, how to read the result, and which assumptions to double-check.`,
+    intro: `${detail.purpose} Use this guide as a short walkthrough: enter the values the calculator asks for, read the main answer first, then check the notes so you know what the number does and does not mean.`,
     quickStart: detail.enter,
     sections: [
       {
-        title: 'What the calculator is doing',
-        paragraphs: [getFormulaAnswer(tool.slug)],
+        title: 'What this calculator is solving',
+        paragraphs: [
+          detail.purpose,
+          'You do not need to memorize the formula first. Start by matching each input label on the calculator to the number, date, unit, or setting you actually have.',
+        ],
+      },
+      {
+        title: 'The formula in plain language',
+        paragraphs: [
+          getFormulaAnswer(tool.slug),
+          'If that sounds abstract, use the example cards on the calculator page. They show a complete set of inputs and the kind of answer you should expect.',
+        ],
       },
       {
         title: 'How to read the answer',
-        paragraphs: ['After calculating, read the main answer first, then use the supporting metrics to understand the context.'],
+        paragraphs: [
+          'Read the headline result first. Then look at the smaller supporting lines because they explain the parts behind the answer, such as totals, units, ranges, or formula steps.',
+        ],
         bullets: detail.read,
       },
       {
         title: 'Common mistakes to avoid',
-        paragraphs: ['Most wrong answers come from using the wrong unit, date, weight, scale, or policy assumption.'],
+        paragraphs: [
+          'If the answer looks strange, the most likely cause is a small input mismatch: the wrong unit, date, weight, scale, mode, or policy assumption.',
+        ],
         bullets: detail.mistakes,
       },
       {
@@ -317,12 +332,12 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
         paragraphs: [
           detail.sources.length > 0
             ? 'These references shaped the calculator assumptions, unit choices, or safety notes.'
-            : 'This guide uses the calculator inputs, formula notes, and common school or everyday usage patterns. Confirm official policy with your school, workplace, or organization when needed.',
+            : 'This guide is based on the calculator inputs, the formula note on the tool page, and common school or everyday usage patterns. If your school, workplace, or organization has an official rule, use that rule first.',
         ],
         links: detail.sources,
       },
     ],
-    sidecarText: `Open the ${tool.name} and try the examples from this guide with your own values.`,
+    sidecarText: `Open the ${tool.name} beside this guide. Try one example first, then replace the example inputs with your own values.`,
   };
 }
 

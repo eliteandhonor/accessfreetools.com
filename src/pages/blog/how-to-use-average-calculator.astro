@@ -1,0 +1,35 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="average-calculator"
+  label="Average calculator guide"
+  title="How to use the Average Calculator"
+  description="Learn how to use the free Access Free Tools average calculator to find arithmetic mean, sum, count, median, mode, and range."
+  path="/blog/how-to-use-average-calculator/"
+  intro="The Average Calculator finds the arithmetic mean of a list of numbers. It also shows the count, sum, median, mode, range, and sorted values so the average is easier to judge."
+  quickStart={[
+    'Enter numbers separated by commas, spaces, semicolons, or new lines.',
+    'Press Calculate average.',
+    'Read the average in the result card.',
+    'Check the sum, count, median, mode, range, and steps for context.',
+  ]}
+  sections={[
+    {
+      title: 'Average in plain language',
+      paragraphs: [
+        'Average usually means arithmetic mean. Add all the values, then divide by how many values you entered.',
+        'For 10, 12, 12, 15, and 18, the sum is 67. There are 5 values, so the average is 67 / 5 = 13.4.',
+      ],
+    },
+    {
+      title: 'Why the extra summary matters',
+      paragraphs: [
+        'A single large or small value can pull the average away from what most values look like. That is why the calculator also shows median, mode, and range.',
+        'Use the average for a quick center point, then glance at the range and sorted values before you decide what the data is really saying.',
+      ],
+    },
+  ]}
+  sidecarText="Use the Average Calculator while you follow the guide."
+/>

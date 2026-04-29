@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
 import type { BlogPostDefinition } from '../data/blogPosts';
 
@@ -8,6 +8,29 @@ interface Props {
 
 export default function BlogSearch({ posts }: Props) {
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const queryFromUrl = new URLSearchParams(window.location.search).get('q')?.trim() ?? '';
+
+    if (queryFromUrl) {
+      setQuery(queryFromUrl);
+    }
+  }, []);
+
+  const updateQuery = (nextQuery: string) => {
+    setQuery(nextQuery);
+
+    const url = new URL(window.location.href);
+    const trimmedQuery = nextQuery.trim();
+
+    if (trimmedQuery) {
+      url.searchParams.set('q', trimmedQuery);
+    } else {
+      url.searchParams.delete('q');
+    }
+
+    window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+  };
 
   const filteredPosts = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -28,7 +51,7 @@ export default function BlogSearch({ posts }: Props) {
         <label htmlFor="blog-guide-search">Search guides</label>
         <input
           id="blog-guide-search"
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => updateQuery(event.target.value)}
           placeholder="Search mortgage, tax, BMI, probability, statistics..."
           type="search"
           value={query}

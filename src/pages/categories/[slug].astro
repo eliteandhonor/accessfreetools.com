@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
+import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import { blogPosts } from '../../data/blogPosts';
 import { categories, getCategory, type ToolCategory } from '../../data/categories';
@@ -85,6 +86,16 @@ const taskNotes = categoryTasks[category.slug] ?? [
       { name: 'Categories', path: '/categories/' },
       { name: category.name, path: `/categories/${category.slug}/` },
     ]}
+  />
+  <CollectionStructuredData
+    name={`${category.name} tools`}
+    description={category.summary}
+    path={`/categories/${category.slug}/`}
+    items={categoryTools.map((tool) => ({
+      name: tool.name,
+      path: `/tools/${tool.slug}/`,
+      description: tool.summary,
+    }))}
   />
 
   <section class="page-intro">

@@ -15,9 +15,11 @@ import {
   calculateHalfLifeValue,
   calculateLeastCommonMultiple,
   calculateLogarithm,
+  calculateLongDivision,
   calculateMatrixDeterminant,
   calculateMatrixOperation,
   calculateMeanConfidenceInterval,
+  calculateNormalPValue,
   calculateNumberSequence,
   calculateNthRoot,
   calculatePermutationCombination,
@@ -402,6 +404,15 @@ describe('number theory helpers', () => {
     expect(calculateFactors(97).isPrime).toBe(true);
   });
 
+  it('calculates long division quotient and remainder', () => {
+    const result = calculateLongDivision(9876, 24);
+
+    expect(result.quotient).toBe(411);
+    expect(result.remainder).toBe(12);
+    expect(formatCalculatorNumber(result.decimal)).toBe('411.5');
+    expect(() => calculateLongDivision(10, 0)).toThrow('Divisor must be greater than zero');
+  });
+
   it('rejects invalid number theory inputs', () => {
     expect(() => calculateGreatestCommonFactor([0n, 4n])).toThrow('Value 1 must be greater than zero');
     expect(() => calculateLeastCommonMultiple([12n])).toThrow('Enter at least two whole numbers');
@@ -570,6 +581,15 @@ describe('statistics helpers', () => {
     expect(formatCalculatorNumber(zScore.percentile * 100)).toBe('93.3192769023');
     expect(formatCalculatorNumber(meanInterval.marginOfError)).toBe('0.8225');
     expect(formatCalculatorNumber(proportionInterval.pointEstimate)).toBe('0.52');
+  });
+
+  it('calculates normal-curve p-values from z-scores', () => {
+    const twoTail = calculateNormalPValue(1.96, 'two');
+    const rightTail = calculateNormalPValue(1.96, 'right');
+
+    expect(formatCalculatorNumber(twoTail.pValue)).toBe('0.0499956522');
+    expect(formatCalculatorNumber(rightTail.pValue)).toBe('0.0249978261');
+    expect(formatCalculatorNumber(twoTail.leftTail)).toBe('0.9750021739');
   });
 });
 

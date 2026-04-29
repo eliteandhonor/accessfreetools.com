@@ -3,12 +3,15 @@ import {
   calculateFactors,
   calculateGreatestCommonFactor,
   calculateLeastCommonMultiple,
+  calculateLongDivision,
   formatBigInteger,
+  formatCalculatorNumber,
   parseBigIntegerList,
   type FactorizationResult,
+  type LongDivisionResult,
 } from '../lib/calculator';
 
-type NumberTheoryVariant = 'lcm' | 'gcf' | 'factor';
+type NumberTheoryVariant = 'lcm' | 'gcf' | 'factor' | 'prime-factorization' | 'long-division';
 
 interface Props {
   variant: NumberTheoryVariant;
@@ -21,6 +24,7 @@ interface NumberTheoryCalculation {
   metrics: Array<{ label: string; value: string }>;
   steps: string[];
   factorResult?: FactorizationResult;
+  longDivisionResult?: LongDivisionResult;
 }
 
 interface NumberTheoryExample {
@@ -75,6 +79,30 @@ const variantConfig: Record<
       { label: '360', value: '360' },
     ],
   },
+  'prime-factorization': {
+    title: 'Prime Factorization',
+    inputLabel: 'Whole number',
+    defaultValue: '360',
+    buttonLabel: 'Factor into primes',
+    emptyHistory: 'Recent prime factorizations will appear here.',
+    examples: [
+      { label: '360', value: '360' },
+      { label: '9973', value: '9973' },
+      { label: '5040', value: '5040' },
+    ],
+  },
+  'long-division': {
+    title: 'Long Division',
+    inputLabel: 'Dividend / divisor',
+    defaultValue: '9876 / 24',
+    buttonLabel: 'Divide',
+    emptyHistory: 'Recent long division answers will appear here.',
+    examples: [
+      { label: '9876 / 24', value: '9876 / 24' },
+      { label: '1250 / 8', value: '1250 / 8' },
+      { label: '1001 / 7', value: '1001 / 7' },
+    ],
+  },
 };
 
 function parseSafeInteger(value: string, label: string) {
@@ -101,29 +129,75 @@ function formatPrimePowers(result: FactorizationResult) {
     .join(' x ');
 }
 
+function parseLongDivisionInput(input: string) {
+  const normalized = input.trim().replace(/,/g, '');
+  const parts = normalized.includes('/') ? normalized.split('/') : normalized.split(/[\s;]+/);
+
+  if (parts.length !== 2 || parts.some((part) => part.trim().length === 0)) {
+    throw new Error('Enter long division as dividend / divisor');
+  }
+
+  return {
+    dividend: parseSafeInteger(parts[0], 'Dividend'),
+    divisor: parseSafeInteger(parts[1], 'Divisor'),
+  };
+}
+
 function buildCalculation(variant: NumberTheoryVariant, input: string): NumberTheoryCalculation {
-  if (variant === 'factor') {
+  if (variant === 'factor' || variant === 'prime-factorization') {
     const value = parseSafeInteger(input, 'Value');
     const factorResult = calculateFactors(value);
     const factorsText = factorResult.factors.join(', ');
     const primeText = formatPrimePowers(factorResult);
+    const primeMode = variant === 'prime-factorization';
 
     return {
-      expression: `Factors of ${value}`,
-      answer: factorsText,
-      label: factorResult.isPrime ? 'Prime number' : `${factorResult.factors.length} factors`,
+      expression: primeMode ? `Prime factorization of ${value}` : `Factors of ${value}`,
+      answer: primeMode ? primeText : factorsText,
+      label: factorResult.isPrime ? 'Prime number' : primeMode ? `${factorResult.primeFactors.length} prime factors` : `${factorResult.factors.length} factors`,
       metrics: [
         { label: 'Factor count', value: `${factorResult.factors.length}` },
         { label: 'Factor pairs', value: `${factorResult.factorPairs.length}` },
         { label: 'Prime factors', value: primeText },
       ],
-      steps: [
-        `Test whole-number divisors from 1 through the square root of ${value}.`,
-        'When a divisor works, pair it with the matching quotient.',
-        `Sort the factors from least to greatest: ${factorsText}.`,
-        `Prime factorization: ${primeText}.`,
-      ],
+      steps: primeMode
+        ? [
+            `Start with ${value} and try the smallest prime factor first.`,
+            'Divide by that prime until it no longer divides evenly, then move to the next prime.',
+            `Group repeated primes as powers: ${primeText}.`,
+            factorResult.isPrime ? `${value} is prime because its only positive factors are 1 and itself.` : `As a check, multiply the prime factors back to get ${value}.`,
+          ]
+        : [
+            `Test whole-number divisors from 1 through the square root of ${value}.`,
+            'When a divisor works, pair it with the matching quotient.',
+            `Sort the factors from least to greatest: ${factorsText}.`,
+            `Prime factorization: ${primeText}.`,
+          ],
       factorResult,
+    };
+  }
+
+  if (variant === 'long-division') {
+    const { dividend, divisor } = parseLongDivisionInput(input);
+    const longDivisionResult = calculateLongDivision(dividend, divisor);
+    const answer = `${formatCalculatorNumber(longDivisionResult.quotient)} R ${formatCalculatorNumber(longDivisionResult.remainder)}`;
+
+    return {
+      expression: `${formatCalculatorNumber(dividend)} divided by ${formatCalculatorNumber(divisor)}`,
+      answer,
+      label: longDivisionResult.remainder === 0 ? 'Divides evenly' : 'Quotient with remainder',
+      metrics: [
+        { label: 'Quotient', value: formatCalculatorNumber(longDivisionResult.quotient) },
+        { label: 'Remainder', value: formatCalculatorNumber(longDivisionResult.remainder) },
+        { label: 'Decimal', value: formatCalculatorNumber(longDivisionResult.decimal) },
+      ],
+      steps: [
+        `Divide ${formatCalculatorNumber(dividend)} by ${formatCalculatorNumber(divisor)}.`,
+        `The whole-number quotient is ${formatCalculatorNumber(longDivisionResult.quotient)}.`,
+        `Multiply ${formatCalculatorNumber(longDivisionResult.quotient)} x ${formatCalculatorNumber(divisor)} = ${formatCalculatorNumber(longDivisionResult.quotient * divisor)}.`,
+        `Subtract from the dividend to get remainder ${formatCalculatorNumber(longDivisionResult.remainder)}.`,
+      ],
+      longDivisionResult,
     };
   }
 
@@ -200,7 +274,11 @@ export default function NumberTheoryCalculator({ variant }: Props) {
       <div className="advanced-panel">
         <label className="advanced-field">
           <span>{config.inputLabel}</span>
-          <input inputMode="numeric" onChange={(event) => setInput(event.target.value)} value={input} />
+          <input
+            inputMode={variant === 'long-division' ? 'text' : 'numeric'}
+            onChange={(event) => setInput(event.target.value)}
+            value={input}
+          />
         </label>
 
         <div className="advanced-quick-grid" aria-label={`${config.title} examples`}>
@@ -274,6 +352,16 @@ export default function NumberTheoryCalculator({ variant }: Props) {
             <>
               <p>Enter one positive whole number up to 1,000,000,000,000.</p>
               <p>The tool lists factors, factor pairs, and prime factorization.</p>
+            </>
+          ) : variant === 'prime-factorization' ? (
+            <>
+              <p>Enter one positive whole number up to 1,000,000,000,000.</p>
+              <p>The tool rewrites it as prime numbers multiplied together.</p>
+            </>
+          ) : variant === 'long-division' ? (
+            <>
+              <p>Enter the problem as dividend / divisor, such as 9876 / 24.</p>
+              <p>The divisor must be a positive whole number. The result shows quotient, remainder, and decimal form.</p>
             </>
           ) : (
             <>

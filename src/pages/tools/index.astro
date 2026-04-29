@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
+import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
 import ToolsLaunchpad from '../../components/ToolsLaunchpad';
 import { categories } from '../../data/categories';
 import { tools } from '../../data/tools';
@@ -32,6 +33,16 @@ const searchTools = tools.map((tool) => ({
       { name: 'Home', path: '/' },
       { name: 'Tools', path: '/tools/' },
     ]}
+  />
+  <CollectionStructuredData
+    name="All Free Tools"
+    description="Browse free calculators and browser utilities from Access Free Tools."
+    path="/tools/"
+    items={tools.map((tool) => ({
+      name: tool.name,
+      path: `/tools/${tool.slug}/`,
+      description: tool.summary,
+    }))}
   />
   <ToolsLaunchpad categories={categories} tools={searchTools} client:load />
 </BaseLayout>

@@ -15,25 +15,26 @@ interface UtilityToolSpec {
   relatedSlugs: string[];
 }
 
-function makeFaq(name: string, formula: string, limit: string): ToolFaq[] {
+function makeFaq(spec: UtilityToolSpec): ToolFaq[] {
+  const exampleUses = spec.useCases.slice(0, 2).join(' ');
+
   return [
     {
-      question: `What can I use the ${name} for?`,
+      question: `When should I use the ${spec.name}?`,
+      answer: `Use it when your task matches one of these common needs: ${exampleUses} It works best when you already know the values, dates, units, or settings the page asks for.`,
+    },
+    {
+      question: `What is the ${spec.name} doing with my inputs?`,
+      answer: `In plain language: ${spec.formula} The examples on the page are there so you can compare your inputs with a filled-out calculation before copying the answer.`,
+    },
+    {
+      question: 'What should I double-check before trusting the answer?',
+      answer: `${spec.limit} Also check that you used the right unit, date, scale, or mode because small input changes can change the result.`,
+    },
+    {
+      question: 'Does the site save what I enter?',
       answer:
-        'Use it for quick everyday planning, school work, technical checks, or comparison tasks when the inputs match the tool page.',
-    },
-    {
-      question: `How does the ${name} calculate the result?`,
-      answer: formula,
-    },
-    {
-      question: 'What should I double-check before using the answer?',
-      answer: limit,
-    },
-    {
-      question: 'Are my inputs private?',
-      answer:
-        'Yes. The calculator runs in your browser tab. Recent answers stay only on the page while you use it and are not sent to a server.',
+        'No. The calculator runs in your browser tab. Your recent answers stay only on the page while you use it, and they are not sent to a server.',
     },
   ];
 }
@@ -56,7 +57,7 @@ function makeUtilityTool(spec: UtilityToolSpec): ToolDefinition {
     seoDescription: spec.description,
     useCases: spec.useCases,
     examples: spec.examples,
-    faq: makeFaq(spec.name, spec.formula, spec.limit),
+    faq: makeFaq(spec),
     relatedSlugs: spec.relatedSlugs,
   };
 }

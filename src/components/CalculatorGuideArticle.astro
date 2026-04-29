@@ -104,7 +104,10 @@ const articleStructuredData = {
         {useCases.length > 0 && (
           <section class="content-section">
             <h2>Best uses</h2>
-            <p>Use this guide when one of these tasks matches what you are trying to do.</p>
+            <p>
+              These are the situations this tool is meant for. If your task is close to one of
+              these, the examples and notes below can help you choose the right inputs.
+            </p>
             <ul class="guide-bullet-list">
               {useCases.slice(0, 4).map((useCase) => <li>{useCase}</li>)}
             </ul>
@@ -149,7 +152,7 @@ const articleStructuredData = {
 
         {faqItems.length > 0 && (
           <section class="content-section">
-            <h2>Common questions</h2>
+            <h2>FAQ in plain language</h2>
             <div class="guide-question-list">
               {faqItems.slice(0, 3).map((item) => (
                 <article>
@@ -176,14 +179,14 @@ const articleStructuredData = {
         )}
 
         <section class="content-section">
-          <h2>History, privacy, and copying</h2>
+          <h2>Privacy and copying results</h2>
           <p>
-            Recent answers stay visible in the page while you work. The history is kept only in the
-            current browser tab and is not sent to a server.
+            Recent answers stay visible only while you work in the current browser tab. They are
+            not sent to a server.
           </p>
           <p>
-            Copy answer copies the expression and result so you can paste it into notes, homework,
-            a message, or another document.
+            Use Copy answer when you want to paste the expression and result into notes, homework,
+            a message, or another document. Check the units and assumptions before copying.
           </p>
         </section>
       </div>

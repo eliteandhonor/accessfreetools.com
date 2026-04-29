@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   calculateDescriptiveStatistics,
   calculateMeanConfidenceInterval,
+  calculateNormalPValue,
   calculateNumberSequence,
   calculatePermutationCombination,
   calculateProbability,
@@ -15,6 +16,7 @@ import {
   probabilityPercentToDecimal,
   type ConfidenceIntervalMode,
   type ConfidenceLevel,
+  type PValueTail,
   type SequenceKind,
 } from '../lib/calculator';
 
@@ -25,8 +27,10 @@ export type StatsToolVariant =
   | 'probability'
   | 'statistics'
   | 'mean-median-mode-range'
+  | 'average'
   | 'permutation-combination'
   | 'z-score'
+  | 'p-value'
   | 'confidence-interval';
 
 interface Props {
@@ -240,7 +244,9 @@ function StandardDeviationTool() {
   );
 }
 
-function SummaryTool({ focused }: { focused: boolean }) {
+function SummaryTool({ mode }: { mode: 'statistics' | 'mean-median-mode-range' | 'average' }) {
+  const focused = mode !== 'statistics';
+  const averageMode = mode === 'average';
   const [input, setInput] = useState('10, 12, 12, 15, 18, 21, 21, 21, 25');
   const [statistics, setStatistics] = useState(() =>
     calculateDescriptiveStatistics(parseNumberList('10, 12, 12, 15, 18, 21, 21, 21, 25')),
@@ -255,7 +261,11 @@ function SummaryTool({ focused }: { focused: boolean }) {
       setStatistics(result);
       addHistory({
         expression: `${result.count} values`,
-        answer: focused ? `Mean ${numberText(result.mean)}, range ${numberText(result.range)}` : `Mean ${numberText(result.mean)}`,
+        answer: averageMode
+          ? `Average ${numberText(result.mean)}`
+          : focused
+            ? `Mean ${numberText(result.mean)}, range ${numberText(result.range)}`
+            : `Mean ${numberText(result.mean)}`,
       });
       setError('');
       setCopied(false);
@@ -268,13 +278,18 @@ function SummaryTool({ focused }: { focused: boolean }) {
   const copyAnswer = async () => {
     if (!navigator.clipboard || error) return;
     await navigator.clipboard.writeText(
-      `Mean ${numberText(statistics.mean)}, median ${numberText(statistics.median)}, mode ${modesText(statistics.modes)}, range ${numberText(statistics.range)}`,
+      averageMode
+        ? `Average ${numberText(statistics.mean)} from ${statistics.count} values`
+        : `Mean ${numberText(statistics.mean)}, median ${numberText(statistics.median)}, mode ${modesText(statistics.modes)}, range ${numberText(statistics.range)}`,
     );
     setCopied(true);
   };
 
   return (
-    <section className="advanced-calculator advanced-calculator-statistics" aria-label={focused ? 'Mean median mode range calculator' : 'Statistics calculator'}>
+    <section
+      className="advanced-calculator advanced-calculator-statistics"
+      aria-label={averageMode ? 'Average calculator' : focused ? 'Mean median mode range calculator' : 'Statistics calculator'}
+    >
       <div className="advanced-panel">
         <label className="advanced-field">
           <span>Data values</span>
@@ -298,7 +313,7 @@ function SummaryTool({ focused }: { focused: boolean }) {
 
         <div className="advanced-actions">
           <button className="button-primary" onClick={() => calculate()} type="button">
-            Calculate statistics
+            {averageMode ? 'Calculate average' : 'Calculate statistics'}
           </button>
           <button className="button-secondary" disabled={Boolean(error)} onClick={copyAnswer} type="button">
             {copied ? 'Copied' : 'Copy answer'}
@@ -306,12 +321,12 @@ function SummaryTool({ focused }: { focused: boolean }) {
         </div>
 
         <div className="advanced-result-card" aria-live="polite">
-          <span>{error ? 'Check input' : focused ? 'Mean, median, mode, range' : 'Statistics summary'}</span>
+          <span>{error ? 'Check input' : averageMode ? 'Average' : focused ? 'Mean, median, mode, range' : 'Statistics summary'}</span>
           {error ? (
             <strong>{error}</strong>
           ) : (
             <>
-              <strong>{focused ? `Mean ${numberText(statistics.mean)}` : `${statistics.count} values`}</strong>
+              <strong>{averageMode ? numberText(statistics.mean) : focused ? `Mean ${numberText(statistics.mean)}` : `${statistics.count} values`}</strong>
               <dl>
                 <div>
                   <dt>Mean</dt>
@@ -351,7 +366,7 @@ function SummaryTool({ focused }: { focused: boolean }) {
             <h2>Steps</h2>
             <ol>
               <li>Sort the data: {listText(statistics.sortedValues)}.</li>
-              <li>Add all values for sum {numberText(statistics.sum)} and divide by {statistics.count}.</li>
+              <li>Add all values for sum {numberText(statistics.sum)} and divide by {statistics.count} to get the average.</li>
               <li>Use the middle value for the median and most frequent value for the mode.</li>
               <li>Subtract min {numberText(statistics.min)} from max {numberText(statistics.max)} for the range.</li>
             </ol>
@@ -363,7 +378,11 @@ function SummaryTool({ focused }: { focused: boolean }) {
         history={history}
         note={[
           'Separate values with commas, spaces, or new lines.',
-          focused ? 'This version focuses on the four headline descriptive statistics.' : 'The full summary includes spread, quartiles, and standard deviation.',
+          averageMode
+            ? 'Average usually means the arithmetic mean: sum divided by count.'
+            : focused
+              ? 'This version focuses on the four headline descriptive statistics.'
+              : 'The full summary includes spread, quartiles, and standard deviation.',
         ]}
       />
     </section>
@@ -859,6 +878,130 @@ function ZScoreTool() {
   );
 }
 
+const pValueTailOptions: Array<{ value: PValueTail; label: string; note: string }> = [
+  { value: 'two', label: 'Two-tailed', note: 'Tests difference in either direction.' },
+  { value: 'right', label: 'Right-tailed', note: 'Tests unusually high values.' },
+  { value: 'left', label: 'Left-tailed', note: 'Tests unusually low values.' },
+];
+
+function PValueTool() {
+  const [zScore, setZScore] = useState('1.96');
+  const [tail, setTail] = useState<PValueTail>('two');
+  const [calculation, setCalculation] = useState(() => calculateNormalPValue(1.96, 'two'));
+  const [history, addHistory] = useHistory();
+  const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  const calculate = (nextZScore = zScore, nextTail = tail) => {
+    try {
+      const result = calculateNormalPValue(Number(nextZScore), nextTail);
+      setCalculation(result);
+      addHistory({ expression: `z=${numberText(result.zScore)}, ${result.tail}`, answer: `p=${numberText(result.pValue)}` });
+      setError('');
+      setCopied(false);
+    } catch (caughtError) {
+      setError(caughtError instanceof Error ? caughtError.message : 'Check the z-score');
+      setCopied(false);
+    }
+  };
+
+  const setExample = (nextZScore: string, nextTail: PValueTail) => {
+    setZScore(nextZScore);
+    setTail(nextTail);
+    calculate(nextZScore, nextTail);
+  };
+
+  const copyAnswer = async () => {
+    if (!navigator.clipboard || error) return;
+    await navigator.clipboard.writeText(`P-value = ${numberText(calculation.pValue)} for z=${numberText(calculation.zScore)}`);
+    setCopied(true);
+  };
+
+  const tailLabel = pValueTailOptions.find((option) => option.value === calculation.tail)?.label ?? 'P-value';
+
+  return (
+    <section className="advanced-calculator advanced-calculator-statistics" aria-label="P-value calculator">
+      <div className="advanced-panel">
+        <div className="advanced-mode-grid">
+          {pValueTailOptions.map((option) => (
+            <button
+              aria-pressed={tail === option.value}
+              key={option.value}
+              onClick={() => {
+                setTail(option.value);
+                calculate(zScore, option.value);
+              }}
+              type="button"
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+
+        <label className="advanced-field">
+          <span>Z-score</span>
+          <input inputMode="decimal" onChange={(event) => setZScore(event.target.value)} value={zScore} />
+        </label>
+
+        <div className="advanced-quick-grid">
+          <button onClick={() => setExample('1.96', 'two')} type="button">z 1.96, two-tailed</button>
+          <button onClick={() => setExample('1.645', 'right')} type="button">z 1.645, right</button>
+          <button onClick={() => setExample('-1.28', 'left')} type="button">z -1.28, left</button>
+        </div>
+
+        <div className="advanced-actions">
+          <button className="button-primary" onClick={() => calculate()} type="button">Calculate p-value</button>
+          <button className="button-secondary" disabled={Boolean(error)} onClick={copyAnswer} type="button">
+            {copied ? 'Copied' : 'Copy answer'}
+          </button>
+        </div>
+
+        <div className="advanced-result-card" aria-live="polite">
+          <span>{error ? 'Check input' : tailLabel}</span>
+          {error ? (
+            <strong>{error}</strong>
+          ) : (
+            <>
+              <strong>p = {numberText(calculation.pValue)}</strong>
+              <dl>
+                <div>
+                  <dt>Left tail</dt>
+                  <dd>{numberText(calculation.leftTail)}</dd>
+                </div>
+                <div>
+                  <dt>Right tail</dt>
+                  <dd>{numberText(calculation.rightTail)}</dd>
+                </div>
+                <div>
+                  <dt>Z-score</dt>
+                  <dd>{numberText(calculation.zScore)}</dd>
+                </div>
+              </dl>
+            </>
+          )}
+        </div>
+
+        {!error && (
+          <div className="advanced-steps">
+            <h2>Steps</h2>
+            <ol>
+              <li>Use the standard normal curve where mean is 0 and standard deviation is 1.</li>
+              <li>Find the left-tail area for z = {numberText(calculation.zScore)}.</li>
+              <li>{calculation.tail === 'two' ? 'Double the smaller tail area for a two-tailed p-value.' : `Use the ${calculation.tail}-tail area as the p-value.`}</li>
+              <li>The p-value is {numberText(calculation.pValue)}.</li>
+            </ol>
+          </div>
+        )}
+      </div>
+
+      <HistoryPanel
+        history={history}
+        note={pValueTailOptions.map((option) => `${option.label}: ${option.note}`)}
+      />
+    </section>
+  );
+}
+
 function ConfidenceIntervalTool() {
   const [mode, setMode] = useState<ConfidenceIntervalMode>('mean');
   const [confidenceLevel, setConfidenceLevel] = useState<ConfidenceLevel>(95);
@@ -1010,10 +1153,12 @@ export default function StatsCalculator({ variant }: Props) {
   if (variant === 'number-sequence') return <SequenceTool />;
   if (variant === 'sample-size') return <SampleSizeTool />;
   if (variant === 'probability') return <ProbabilityTool />;
-  if (variant === 'statistics') return <SummaryTool focused={false} />;
-  if (variant === 'mean-median-mode-range') return <SummaryTool focused />;
+  if (variant === 'statistics') return <SummaryTool mode="statistics" />;
+  if (variant === 'mean-median-mode-range') return <SummaryTool mode="mean-median-mode-range" />;
+  if (variant === 'average') return <SummaryTool mode="average" />;
   if (variant === 'permutation-combination') return <PermutationCombinationTool />;
   if (variant === 'z-score') return <ZScoreTool />;
+  if (variant === 'p-value') return <PValueTool />;
 
   return <ConfidenceIntervalTool />;
 }

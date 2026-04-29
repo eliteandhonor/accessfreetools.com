@@ -13,25 +13,26 @@ interface HealthToolSpec {
   relatedSlugs: string[];
 }
 
-function makeFaq(name: string, formula: string, caution: string): ToolFaq[] {
+function makeFaq(spec: HealthToolSpec): ToolFaq[] {
+  const exampleUses = spec.useCases.slice(0, 2).join(' ');
+
   return [
     {
-      question: `What can I use the ${name} for?`,
+      question: `When should I use the ${spec.name}?`,
+      answer: `Use it for simple educational checks, trend tracking, or planning tasks like these: ${exampleUses} It can help you understand a number, but it cannot explain your whole health situation.`,
+    },
+    {
+      question: `What is the ${spec.name} doing with my inputs?`,
+      answer: `In plain language: ${spec.formula} Read the result together with the notes on the page, because health and fitness numbers often need personal context.`,
+    },
+    {
+      question: 'Can I use this as medical advice?',
+      answer: `${spec.caution} Use the calculator as a learning tool, then ask a qualified professional about decisions that affect care, pregnancy, medication, nutrition, or safety.`,
+    },
+    {
+      question: 'Does the site save my health inputs?',
       answer:
-        'Use it for quick educational estimates, planning, comparison, and trend checks. Health and fitness results should be interpreted with context, not as a diagnosis.',
-    },
-    {
-      question: `How does the ${name} calculate the result?`,
-      answer: formula,
-    },
-    {
-      question: 'Is this medical advice?',
-      answer: caution,
-    },
-    {
-      question: 'Are my health inputs private?',
-      answer:
-        'Yes. The calculator runs in your browser tab. Recent answers stay only on the page while you use it and are not sent to a server.',
+        'No. The calculator runs in your browser tab. Recent answers stay only on the page while you use it, and they are not sent to a server.',
     },
   ];
 }
@@ -48,7 +49,7 @@ function makeHealthTool(spec: HealthToolSpec): ToolDefinition {
     seoDescription: spec.description,
     useCases: spec.useCases,
     examples: spec.examples,
-    faq: makeFaq(spec.name, spec.formula, spec.caution),
+    faq: makeFaq(spec),
     relatedSlugs: spec.relatedSlugs,
   };
 }

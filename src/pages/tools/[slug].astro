@@ -60,11 +60,14 @@ const isRandomTool = tool.slug === 'random-number-generator';
 const isLeastCommonMultipleTool = tool.slug === 'least-common-multiple-calculator';
 const isGreatestCommonFactorTool = tool.slug === 'greatest-common-factor-calculator';
 const isFactorTool = tool.slug === 'factor-calculator';
+const isPrimeFactorizationTool = tool.slug === 'prime-factorization-calculator';
+const isLongDivisionTool = tool.slug === 'long-division-calculator';
 const isRoundingTool = tool.slug === 'rounding-calculator';
 const isMatrixTool = tool.slug === 'matrix-calculator';
 const isScientificNotationTool = tool.slug === 'scientific-notation-calculator';
 const isBigNumberTool = tool.slug === 'big-number-calculator';
-const isNumberTheoryTool = isLeastCommonMultipleTool || isGreatestCommonFactorTool || isFactorTool;
+const isNumberTheoryTool =
+  isLeastCommonMultipleTool || isGreatestCommonFactorTool || isFactorTool || isPrimeFactorizationTool || isLongDivisionTool;
 const statsToolVariants = {
   'standard-deviation-calculator': 'standard-deviation',
   'number-sequence-calculator': 'number-sequence',
@@ -72,8 +75,10 @@ const statsToolVariants = {
   'probability-calculator': 'probability',
   'statistics-calculator': 'statistics',
   'mean-median-mode-range-calculator': 'mean-median-mode-range',
+  'average-calculator': 'average',
   'permutation-and-combination-calculator': 'permutation-combination',
   'z-score-calculator': 'z-score',
+  'p-value-calculator': 'p-value',
   'confidence-interval-calculator': 'confidence-interval',
 } as const satisfies Partial<Record<string, StatsToolVariant>>;
 const statsToolVariant = statsToolVariants[tool.slug];
@@ -193,6 +198,12 @@ const statsToolInstructions: Record<string, string[]> = {
     'Review the sorted values to understand how the center and spread were found.',
     'Use examples, recent answers, or copy the answer while doing quick statistics checks.',
   ],
+  'average-calculator': [
+    'Enter a list of numbers separated by commas, spaces, or line breaks.',
+    'Press Calculate average to find the arithmetic mean.',
+    'Review the sum, count, median, mode, range, and sorted values for context.',
+    'Use examples, recent answers, or copy the average while checking your work.',
+  ],
   'permutation-and-combination-calculator': [
     'Enter n for the total items and r for the items selected.',
     'Press Calculate nPr and nCr to see permutation and combination counts.',
@@ -204,6 +215,12 @@ const statsToolInstructions: Record<string, string[]> = {
     'Press Calculate z-score to standardize the value.',
     'Review whether the value is above or below the mean and the approximate normal percentile.',
     'Use examples, recent answers, or copy the result while checking statistics work.',
+  ],
+  'p-value-calculator': [
+    'Choose left-tailed, right-tailed, or two-tailed mode.',
+    'Enter the z-score from your statistics problem.',
+    'Press Calculate p-value to see the standard-normal tail areas.',
+    'Use the result as a quick normal-curve estimate, then check whether your assignment needs a different distribution.',
   ],
   'confidence-interval-calculator': [
     'Choose mean interval or proportion interval mode.',
@@ -389,6 +406,20 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       'Press Find factors to list all factors and factor pairs.',
       'Review the prime factorization and whether the number is prime.',
       'Use examples, recent answers, or copy answer while checking divisibility work.',
+    ]
+  : isPrimeFactorizationTool
+  ? [
+      'Enter one positive whole number.',
+      'Press Factor into primes to break it into prime factors.',
+      'Review repeated prime factors as exponents and check whether the number is prime.',
+      'Use examples, recent answers, or copy the result while checking factorization work.',
+    ]
+  : isLongDivisionTool
+  ? [
+      'Enter the problem as dividend / divisor, such as 9876 / 24.',
+      'Press Divide to find the quotient and remainder.',
+      'Review the decimal answer and the multiplication check.',
+      'Use examples, recent answers, or copy the result while practicing division.',
     ]
   : isRoundingTool
   ? [
@@ -664,6 +695,28 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     }
 
     {
+      isPrimeFactorizationTool && (
+        <div class="advanced-tool-points" aria-label="Prime factorization calculator highlights">
+          <span>Prime factors</span>
+          <span>Power form</span>
+          <span>Prime check</span>
+          <span>Copy results</span>
+        </div>
+      )
+    }
+
+    {
+      isLongDivisionTool && (
+        <div class="advanced-tool-points" aria-label="Long division calculator highlights">
+          <span>Quotient</span>
+          <span>Remainder</span>
+          <span>Decimal answer</span>
+          <span>Division check</span>
+        </div>
+      )
+    }
+
+    {
       isRoundingTool && (
         <div class="advanced-tool-points" aria-label="Rounding calculator highlights">
           <span>Decimal places</span>
@@ -817,6 +870,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {isLeastCommonMultipleTool && <NumberTheoryCalculator variant="lcm" client:load />}
     {isGreatestCommonFactorTool && <NumberTheoryCalculator variant="gcf" client:load />}
     {isFactorTool && <NumberTheoryCalculator variant="factor" client:load />}
+    {isPrimeFactorizationTool && <NumberTheoryCalculator variant="prime-factorization" client:load />}
+    {isLongDivisionTool && <NumberTheoryCalculator variant="long-division" client:load />}
     {isRoundingTool && <RoundingCalculator client:load />}
     {isMatrixTool && <MatrixCalculator client:load />}
     {isScientificNotationTool && <ScientificNotationCalculator client:load />}
@@ -876,15 +931,17 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         {isLeastCommonMultipleTool && <p>Quick answers about shared multiples, common denominators, positive integers, LCM steps, and privacy.</p>}
         {isGreatestCommonFactorTool && <p>Quick answers about shared factors, simplifying, Euclidean steps, comparing with LCM, and privacy.</p>}
         {isFactorTool && <p>Quick answers about factors, factor pairs, prime numbers, prime factorization, input limits, and privacy.</p>}
+        {isPrimeFactorizationTool && <p>Quick answers about prime factors, repeated factors, exponents, prime checks, input limits, and privacy.</p>}
+        {isLongDivisionTool && <p>Quick answers about quotient, remainder, decimal form, division checks, zero division, and privacy.</p>}
         {isRoundingTool && <p>Quick answers about decimal places, significant figures, place values, rounding methods, and privacy.</p>}
         {isMatrixTool && <p>Quick answers about matrix operations, multiplication order, determinants, supported sizes, and privacy.</p>}
         {isScientificNotationTool && <p>Quick answers about powers of 10, coefficients, exponents, standard form, and privacy.</p>}
         {isBigNumberTool && <p>Quick answers about exact integer math, huge whole numbers, division remainders, limits, and privacy.</p>}
         {isStatsSuiteTool && <p>Quick answers about formulas, inputs, examples, result copying, and private in-browser history.</p>}
         {isGeometryTool && <p>Quick answers about formulas, units, valid measurements, examples, copying, and private in-browser history.</p>}
-        {isHealthTool && <p>Quick answers about formulas, inputs, estimate limits, professional guidance, examples, and private in-browser history.</p>}
-        {isFinanceTool && <p>Quick answers about formulas, rates, payment assumptions, estimate limits, examples, and private in-browser history.</p>}
-        {isUtilityTool && <p>Quick answers about formulas, inputs, assumptions, examples, copying, and private in-browser use.</p>}
+        {isHealthTool && <p>Plain-language answers about when to use the estimate, what the formula means, what it cannot decide for you, and how privacy works.</p>}
+        {isFinanceTool && <p>Plain-language answers about when to use the estimate, what your numbers mean, what is left out, and how privacy works.</p>}
+        {isUtilityTool && <p>Plain-language answers about when to use the tool, what it does with your inputs, what to double-check, and how privacy works.</p>}
       </div>
       <div class="faq-list">
         {

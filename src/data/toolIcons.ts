@@ -13,6 +13,8 @@ export type CalculatorIconMark =
   | 'lcm'
   | 'gcf'
   | 'factor'
+  | 'prime'
+  | 'long-division'
   | 'round'
   | 'matrix'
   | 'sci-notation'
@@ -25,6 +27,8 @@ export type CalculatorIconMark =
   | 'mean'
   | 'permutation'
   | 'z-score'
+  | 'p-value'
+  | 'average'
   | 'confidence'
   | 'triangle'
   | 'volume'
@@ -109,6 +113,8 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-lcm': 'lcm',
   'calculator-gcf': 'gcf',
   'calculator-factor': 'factor',
+  'calculator-prime': 'prime',
+  'calculator-long-division': 'long-division',
   'calculator-round': 'round',
   'calculator-matrix': 'matrix',
   'calculator-scientific-notation': 'sci-notation',
@@ -121,6 +127,8 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-mean': 'mean',
   'calculator-permutation': 'permutation',
   'calculator-z-score': 'z-score',
+  'calculator-p-value': 'p-value',
+  'calculator-average': 'average',
   'calculator-confidence': 'confidence',
   'calculator-triangle': 'triangle',
   'calculator-volume': 'volume',
@@ -253,6 +261,10 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   subnet: '/24',
   password: 'key',
   conversion: 'unit',
+  prime: 'pf',
+  'long-division': 'div',
+  average: 'avg',
+  'p-value': 'p',
 };
 
 export function getCalculatorIconMark(icon: string): CalculatorIconMark | null {

@@ -16,25 +16,26 @@ interface FinanceToolSpec {
 const financeLimit =
   'This calculator gives an educational estimate only. It does not include every fee, lender rule, tax rule, local rate, credit, penalty, or personal financial detail.';
 
-function makeFaq(name: string, formula: string, limit: string): ToolFaq[] {
+function makeFaq(spec: FinanceToolSpec): ToolFaq[] {
+  const exampleUses = spec.useCases.slice(0, 2).join(' ');
+
   return [
     {
-      question: `What can I use the ${name} for?`,
+      question: `When should I use the ${spec.name}?`,
+      answer: `Use it for early planning and side-by-side comparisons, especially for tasks like these: ${exampleUses} Treat the answer as a planning estimate, not a final quote.`,
+    },
+    {
+      question: `What is the ${spec.name} doing with my numbers?`,
+      answer: `In plain language: ${spec.formula} If the result seems too high or too low, first check whether each field expects a monthly amount, annual amount, dollar value, or percent.`,
+    },
+    {
+      question: 'What does this estimate leave out?',
+      answer: `${spec.limit} Real finance decisions can also depend on fees, timing, local rules, credit details, and provider-specific terms.`,
+    },
+    {
+      question: 'Does the site save my finance inputs?',
       answer:
-        'Use it for quick planning, comparison, and what-if estimates before you check exact numbers with a lender, tax professional, payroll provider, or financial adviser.',
-    },
-    {
-      question: `How does the ${name} calculate the result?`,
-      answer: formula,
-    },
-    {
-      question: 'Is this financial, tax, or legal advice?',
-      answer: limit,
-    },
-    {
-      question: 'Are my finance inputs private?',
-      answer:
-        'Yes. The calculator runs in your browser tab. Recent answers stay only on the page while you use it and are not sent to a server.',
+        'No. The calculator runs in your browser tab. Recent answers stay only on the page while you use it, and they are not sent to a server.',
     },
   ];
 }
@@ -51,7 +52,7 @@ function makeFinanceTool(spec: FinanceToolSpec): ToolDefinition {
     seoDescription: spec.description,
     useCases: spec.useCases,
     examples: spec.examples,
-    faq: makeFaq(spec.name, spec.formula, spec.limit),
+    faq: makeFaq(spec),
     relatedSlugs: spec.relatedSlugs,
   };
 }
