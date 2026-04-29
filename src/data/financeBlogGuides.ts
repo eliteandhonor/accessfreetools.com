@@ -107,6 +107,42 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-debt-to-income-ratio-en-1791/',
     label: 'Consumer Financial Protection Bureau: Debt-to-income ratio',
   },
+  irsRmd: {
+    href: 'https://www.irs.gov/publications/p590b',
+    label: 'IRS Publication 590-B: RMD Uniform Lifetime Table',
+  },
+  ssaClaimingAge: {
+    href: 'https://www.ssa.gov/OACT/quickcalc/early_late.html',
+    label: 'SSA: Early or late retirement effects',
+  },
+  irsFica: {
+    href: 'https://www.irs.gov/taxtopics/tc751',
+    label: 'IRS Topic 751: Social Security and Medicare withholding rates',
+  },
+  vaFundingFee: {
+    href: 'https://www.va.gov/housing-assistance/home-loans/funding-fee-and-closing-costs',
+    label: 'VA: Funding fee and loan closing costs',
+  },
+  hudFhaMip: {
+    href: 'https://www.hud.gov/hud-partners/housing-mip',
+    label: 'HUD: FHA single family mortgage insurance premiums',
+  },
+  cfpbHeloc: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-home-equity-line-of-credit-heloc-en-107/',
+    label: 'CFPB: What is a HELOC?',
+  },
+  cfpbHomeEquity: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-home-equity-loan-en-106/',
+    label: 'CFPB: What is a home equity loan?',
+  },
+  canadaMortgage: {
+    href: 'https://www.canada.ca/en/financial-consumer-agency/services/mortgages/mortgage-terms-amortization.html',
+    label: 'Canada.ca: Mortgage terms and amortization',
+  },
+  govUkMortgage: {
+    href: 'https://www.gov.uk/algorithmic-transparency-records/money-and-pensions-service-mortgage-repayment-calculator',
+    label: 'GOV.UK: Mortgage repayment calculator transparency record',
+  },
 };
 
 function getFormulaAnswer(toolSlug: string) {
@@ -114,15 +150,15 @@ function getFormulaAnswer(toolSlug: string) {
 }
 
 function getSourceLinks(toolSlug: string) {
-  if (['mortgage-calculator', 'amortization-calculator'].includes(toolSlug)) {
+  if (['mortgage-calculator', 'amortization-calculator', 'down-payment-calculator', 'rent-vs-buy-calculator'].includes(toolSlug)) {
     return [sourceLinks.cfpbMortgage];
   }
 
-  if (['mortgage-payoff-calculator', 'house-affordability-calculator'].includes(toolSlug)) {
+  if (['mortgage-payoff-calculator', 'house-affordability-calculator', 'real-estate-calculator', 'rental-property-calculator'].includes(toolSlug)) {
     return [sourceLinks.cfpbMortgage];
   }
 
-  if (['compound-interest-calculator', 'investment-calculator', 'retirement-calculator', 'finance-calculator', 'interest-calculator', 'savings-calculator', 'annuity-calculator', 'annuity-payout-calculator', 'pension-calculator', 'simple-interest-calculator', 'college-cost-calculator'].includes(toolSlug)) {
+  if (['compound-interest-calculator', 'investment-calculator', 'retirement-calculator', 'finance-calculator', 'interest-calculator', 'savings-calculator', 'annuity-calculator', 'annuity-payout-calculator', 'pension-calculator', 'simple-interest-calculator', 'college-cost-calculator', 'present-value-calculator', 'future-value-calculator', 'irr-calculator', 'roi-calculator', 'payback-period-calculator'].includes(toolSlug)) {
     return [sourceLinks.investorCompound];
   }
 
@@ -158,7 +194,7 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.euVat];
   }
 
-  if (['cash-back-or-low-interest-calculator', 'personal-loan-calculator', 'business-loan-calculator'].includes(toolSlug)) {
+  if (['cash-back-or-low-interest-calculator', 'personal-loan-calculator', 'business-loan-calculator', 'apr-calculator'].includes(toolSlug)) {
     return [sourceLinks.cfpbApr];
   }
 
@@ -178,6 +214,42 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.cfpbDebtToIncome];
   }
 
+  if (toolSlug === 'social-security-calculator') {
+    return [sourceLinks.ssaClaimingAge];
+  }
+
+  if (toolSlug === 'rmd-calculator') {
+    return [sourceLinks.irsRmd];
+  }
+
+  if (toolSlug === 'take-home-paycheck-calculator') {
+    return [sourceLinks.irsFica];
+  }
+
+  if (toolSlug === 'fha-loan-calculator') {
+    return [sourceLinks.hudFhaMip, sourceLinks.cfpbMortgage];
+  }
+
+  if (toolSlug === 'va-mortgage-calculator') {
+    return [sourceLinks.vaFundingFee, sourceLinks.cfpbMortgage];
+  }
+
+  if (toolSlug === 'home-equity-loan-calculator') {
+    return [sourceLinks.cfpbHomeEquity, sourceLinks.cfpbMortgage];
+  }
+
+  if (toolSlug === 'heloc-calculator') {
+    return [sourceLinks.cfpbHeloc, sourceLinks.cfpbHomeEquity];
+  }
+
+  if (toolSlug === 'mortgage-calculator-uk') {
+    return [sourceLinks.govUkMortgage];
+  }
+
+  if (toolSlug === 'canadian-mortgage-calculator') {
+    return [sourceLinks.canadaMortgage];
+  }
+
   if (toolSlug === 'refinance-calculator') {
     return [sourceLinks.cfpbMortgage, sourceLinks.cfpbApr];
   }
@@ -194,7 +266,7 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.blsInflation];
   }
 
-  if (toolSlug === 'income-tax-calculator') {
+  if (['income-tax-calculator', 'marriage-tax-calculator', 'estate-tax-calculator'].includes(toolSlug)) {
     return [sourceLinks.irs2026, sourceLinks.irsRevenueProcedure];
   }
 
@@ -782,6 +854,12 @@ const guideDetails: Record<string, GuideDetail> = {
 function buildDefaultGuideDetail(tool: (typeof financeTools)[number]): GuideDetail {
   const firstExample = tool.examples[0];
   const secondExample = tool.examples[1] ?? firstExample;
+  const formulaNote =
+    tool.faq.find((item) => item.question.includes('doing with my numbers'))?.answer ??
+    'Use the formula and steps shown on the calculator page to check how the estimate was produced.';
+  const limitNote =
+    tool.faq.find((item) => item.question.includes('leave out'))?.answer ??
+    'This is a planning estimate, not a final quote, tax result, contract term, or professional financial recommendation.';
 
   return {
     summary: `Learn how to use the ${tool.name} in plain language: what to enter, what the result means, and what the estimate leaves out.`,
@@ -804,12 +882,12 @@ function buildDefaultGuideDetail(tool: (typeof financeTools)[number]): GuideDeta
     read: [
       'Read the large answer first, because it is the main result the calculator is built around.',
       'Then read the supporting lines. They explain what drove the result, such as payment, interest, total cost, savings gap, return, or time.',
-      `Check the formula note: ${tool.formula}`,
+      formulaNote,
     ],
     mistakes: [
       'Do not mix monthly and annual amounts.',
       'Do not copy an answer before checking the rate and term.',
-      tool.limit,
+      limitNote,
     ],
     next: tool.relatedSlugs.length > 0
       ? [`Try ${tool.relatedSlugs[0].replaceAll('-', ' ')} next to compare the same question from another angle.`]

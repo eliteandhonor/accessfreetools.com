@@ -3716,6 +3716,184 @@ export interface BudgetResult {
   categories: Array<{ label: string; amount: number; percentOfIncome: number }>;
 }
 
+export interface MarriageTaxComparisonResult {
+  spouseOneTax: FederalIncomeTaxResult;
+  spouseTwoTax: FederalIncomeTaxResult;
+  jointTax: FederalIncomeTaxResult;
+  combinedSingleTax: number;
+  marriageDifference: number;
+}
+
+export interface EstateTaxEstimateResult {
+  grossEstate: number;
+  deductions: number;
+  taxableEstateBeforeExclusion: number;
+  remainingBasicExclusion: number;
+  taxableAboveExclusion: number;
+  estimatedFederalEstateTax: number;
+}
+
+export interface SocialSecurityClaimingResult {
+  birthYear: number;
+  fullRetirementAgeYears: number;
+  claimingAgeYears: number;
+  fullRetirementAgeBenefit: number;
+  monthlyBenefit: number;
+  adjustmentPercent: number;
+  annualBenefit: number;
+}
+
+export interface RmdEstimateResult {
+  accountBalance: number;
+  age: number;
+  lifeExpectancyFactor: number;
+  requiredDistribution: number;
+  remainingBalanceAfterRmd: number;
+}
+
+export interface RealEstateReturnResult {
+  purchasePrice: number;
+  sellingPrice: number;
+  cashInvested: number;
+  netSaleProceeds: number;
+  profit: number;
+  roiPercent: number;
+  equityMultiple: number;
+}
+
+export interface TakeHomePaycheckResult {
+  annualGrossPay: number;
+  grossPerPaycheck: number;
+  pretaxDeductionsAnnual: number;
+  federalTax: number;
+  stateTax: number;
+  localTax: number;
+  socialSecurityTax: number;
+  medicareTax: number;
+  annualTakeHomePay: number;
+  takeHomePerPaycheck: number;
+}
+
+export interface RentalPropertyResult {
+  loanAmount: number;
+  monthlyMortgagePayment: number;
+  monthlyVacancyReserve: number;
+  monthlyOperatingExpenses: number;
+  monthlyNoi: number;
+  monthlyCashFlow: number;
+  capRatePercent: number;
+  cashOnCashReturnPercent: number;
+}
+
+export interface IrrResult {
+  periodicIrrPercent: number;
+  annualizedIrrPercent: number;
+  netCashFlow: number;
+}
+
+export interface RoiResult {
+  gain: number;
+  roiPercent: number;
+  endingValue: number;
+}
+
+export interface AprEstimateResult {
+  loan: LoanPaymentSummary;
+  fees: number;
+  amountReceived: number;
+  aprPercent: number;
+}
+
+export interface FhaLoanResult extends MortgagePaymentResult {
+  baseLoanAmount: number;
+  upfrontMip: number;
+  annualMipPercent: number;
+  monthlyMip: number;
+}
+
+export interface VaMortgageResult extends MortgagePaymentResult {
+  baseLoanAmount: number;
+  fundingFeePercent: number;
+  fundingFee: number;
+  fundingFeeFinanced: boolean;
+}
+
+export interface HomeEquityLoanResult extends LoanPaymentSummary {
+  homeValue: number;
+  currentMortgageBalance: number;
+  maxCombinedLoanToValuePercent: number;
+  availableEquity: number;
+  combinedLoanToValuePercent: number;
+}
+
+export interface HelocResult {
+  homeValue: number;
+  currentMortgageBalance: number;
+  maxCombinedLoanToValuePercent: number;
+  creditLine: number;
+  currentDraw: number;
+  availableEquity: number;
+  interestOnlyPayment: number;
+  repaymentPayment: number;
+  combinedLoanToValuePercent: number;
+}
+
+export interface DownPaymentResult {
+  homePrice: number;
+  downPayment: number;
+  downPaymentPercent: number;
+  loanAmount: number;
+  loanToValuePercent: number;
+  estimatedClosingCosts: number;
+  cashNeeded: number;
+}
+
+export interface RentVsBuyResult {
+  totalRentCost: number;
+  totalBuyingCashOutflow: number;
+  estimatedHomeValue: number;
+  remainingLoanBalance: number;
+  estimatedSaleProceeds: number;
+  netBuyingCost: number;
+  buyMinusRent: number;
+}
+
+export interface PaybackPeriodResult {
+  initialCost: number;
+  annualCashFlow: number;
+  paybackYears: number;
+  netProfitAfterHorizon: number;
+}
+
+export interface PresentValueResult {
+  presentValue: number;
+  lumpSumPresentValue: number;
+  annuityPresentValue: number;
+}
+
+export interface FutureValueResult {
+  futureValue: number;
+  principalFutureValue: number;
+  contributionFutureValue: number;
+  totalContributions: number;
+}
+
+export interface CommissionResult {
+  salesAmount: number;
+  commission: number;
+  splitAmount: number;
+  totalPay: number;
+}
+
+export interface LocalMortgageResult extends LoanPaymentSummary {
+  propertyPrice: number;
+  deposit: number;
+  loanAmount: number;
+  loanToValuePercent: number;
+  monthlyFees: number;
+  totalMonthlyPayment: number;
+}
+
 interface TaxBracket {
   over: number;
   rate: number;
@@ -5267,6 +5445,892 @@ export function calculateBudget(input: {
   };
 }
 
+const estateTaxBasicExclusion2026 = 15000000;
+const estateTaxTopRate = 0.4;
+const socialSecurityWageBase2026 = 184500;
+const additionalMedicareThreshold = 200000;
+
+const uniformLifetimeFactors: Record<number, number> = {
+  72: 27.4,
+  73: 26.5,
+  74: 25.5,
+  75: 24.6,
+  76: 23.7,
+  77: 22.9,
+  78: 22.0,
+  79: 21.1,
+  80: 20.2,
+  81: 19.4,
+  82: 18.5,
+  83: 17.7,
+  84: 16.8,
+  85: 16.0,
+  86: 15.2,
+  87: 14.4,
+  88: 13.7,
+  89: 12.9,
+  90: 12.2,
+  91: 11.5,
+  92: 10.8,
+  93: 10.1,
+  94: 9.5,
+  95: 8.9,
+  96: 8.4,
+  97: 7.8,
+  98: 7.3,
+  99: 6.8,
+  100: 6.4,
+  101: 6.0,
+  102: 5.6,
+  103: 5.2,
+  104: 4.9,
+  105: 4.6,
+  106: 4.3,
+  107: 4.1,
+  108: 3.9,
+  109: 3.7,
+  110: 3.5,
+  111: 3.4,
+  112: 3.3,
+  113: 3.1,
+  114: 3.0,
+  115: 2.9,
+  116: 2.8,
+  117: 2.7,
+  118: 2.5,
+  119: 2.3,
+  120: 2.0,
+};
+
+function fullRetirementAgeYearsForBirthYear(birthYear: number) {
+  if (birthYear <= 1937) {
+    return 65;
+  }
+
+  if (birthYear >= 1938 && birthYear <= 1942) {
+    return 65 + ((birthYear - 1937) * 2) / 12;
+  }
+
+  if (birthYear >= 1943 && birthYear <= 1954) {
+    return 66;
+  }
+
+  if (birthYear >= 1955 && birthYear <= 1959) {
+    return 66 + ((birthYear - 1954) * 2) / 12;
+  }
+
+  return 67;
+}
+
+function loanBalanceAfterPayments(principal: number, annualRatePercent: number, years: number, paymentsMade: number) {
+  const scheduled = calculateLoanSummary(principal, annualRatePercent, years);
+  const monthlyRate = annualRatePercent / 100 / 12;
+  const periods = Math.max(0, Math.min(scheduled.paymentCount, Math.round(paymentsMade)));
+
+  if (monthlyRate === 0) {
+    return Math.max(0, principal - scheduled.monthlyPayment * periods);
+  }
+
+  const growth = (1 + monthlyRate) ** periods;
+
+  return Math.max(0, principal * growth - scheduled.monthlyPayment * ((growth - 1) / monthlyRate));
+}
+
+function solveRateForPayment(presentValue: number, payment: number, periods: number) {
+  assertPositiveNumber(presentValue, 'Present value');
+  assertPositiveNumber(payment, 'Payment');
+  assertPositiveNumber(periods, 'Payment count');
+
+  if (payment * periods <= presentValue) {
+    return 0;
+  }
+
+  let low = 0;
+  let high = 1;
+
+  while (calculatePaymentForMonthlyRate(presentValue, high, periods) < payment && high < 10) {
+    high *= 2;
+  }
+
+  for (let index = 0; index < 100; index += 1) {
+    const mid = (low + high) / 2;
+    const estimated = calculatePaymentForMonthlyRate(presentValue, mid, periods);
+
+    if (estimated > payment) {
+      high = mid;
+    } else {
+      low = mid;
+    }
+  }
+
+  return (low + high) / 2;
+}
+
+export function calculateMarriageTaxComparison(input: {
+  spouseOneIncome: number;
+  spouseTwoIncome: number;
+  spouseOneDeduction?: number;
+  spouseTwoDeduction?: number;
+  jointDeduction?: number;
+  credits?: number;
+}): MarriageTaxComparisonResult {
+  assertNonNegativeNumber(input.spouseOneIncome, 'Spouse one income');
+  assertNonNegativeNumber(input.spouseTwoIncome, 'Spouse two income');
+  assertNonNegativeNumber(input.credits ?? 0, 'Credits');
+
+  const spouseOneTax = calculateFederalIncomeTax2026({
+    filingStatus: 'single',
+    grossIncome: input.spouseOneIncome,
+    deduction: input.spouseOneDeduction,
+    credits: 0,
+  });
+  const spouseTwoTax = calculateFederalIncomeTax2026({
+    filingStatus: 'single',
+    grossIncome: input.spouseTwoIncome,
+    deduction: input.spouseTwoDeduction,
+    credits: 0,
+  });
+  const jointTax = calculateFederalIncomeTax2026({
+    filingStatus: 'married-joint',
+    grossIncome: input.spouseOneIncome + input.spouseTwoIncome,
+    deduction: input.jointDeduction,
+    credits: input.credits,
+  });
+  const combinedSingleTax = spouseOneTax.federalTax + spouseTwoTax.federalTax;
+
+  return {
+    spouseOneTax,
+    spouseTwoTax,
+    jointTax,
+    combinedSingleTax,
+    marriageDifference: jointTax.federalTax - combinedSingleTax,
+  };
+}
+
+export function calculateEstateTaxEstimate(input: {
+  grossEstate: number;
+  debtsAndExpenses?: number;
+  charitableBequests?: number;
+  spouseTransfers?: number;
+  lifetimeTaxableGifts?: number;
+}): EstateTaxEstimateResult {
+  assertNonNegativeNumber(input.grossEstate, 'Gross estate');
+  assertNonNegativeNumber(input.debtsAndExpenses ?? 0, 'Debts and expenses');
+  assertNonNegativeNumber(input.charitableBequests ?? 0, 'Charitable bequests');
+  assertNonNegativeNumber(input.spouseTransfers ?? 0, 'Spouse transfers');
+  assertNonNegativeNumber(input.lifetimeTaxableGifts ?? 0, 'Lifetime taxable gifts');
+
+  const deductions = (input.debtsAndExpenses ?? 0) + (input.charitableBequests ?? 0) + (input.spouseTransfers ?? 0);
+  const taxableEstateBeforeExclusion = Math.max(0, input.grossEstate - deductions);
+  const remainingBasicExclusion = Math.max(0, estateTaxBasicExclusion2026 - (input.lifetimeTaxableGifts ?? 0));
+  const taxableAboveExclusion = Math.max(0, taxableEstateBeforeExclusion - remainingBasicExclusion);
+
+  return {
+    grossEstate: input.grossEstate,
+    deductions,
+    taxableEstateBeforeExclusion,
+    remainingBasicExclusion,
+    taxableAboveExclusion,
+    estimatedFederalEstateTax: taxableAboveExclusion * estateTaxTopRate,
+  };
+}
+
+export function calculateSocialSecurityClaiming(input: {
+  birthYear: number;
+  fullRetirementAgeBenefit: number;
+  claimingAgeYears: number;
+}): SocialSecurityClaimingResult {
+  assertFiniteNumber(input.birthYear, 'Birth year');
+  assertPositiveNumber(input.fullRetirementAgeBenefit, 'Full retirement age benefit');
+  assertPositiveNumber(input.claimingAgeYears, 'Claiming age');
+
+  if (!Number.isInteger(input.birthYear)) {
+    throw new Error('Birth year must be a whole number');
+  }
+
+  if (input.claimingAgeYears < 62 || input.claimingAgeYears > 70) {
+    throw new Error('Claiming age must be between 62 and 70');
+  }
+
+  const fullRetirementAgeYears = fullRetirementAgeYearsForBirthYear(input.birthYear);
+  const monthsDifference = Math.round((input.claimingAgeYears - fullRetirementAgeYears) * 12);
+  let adjustment = 0;
+
+  if (monthsDifference < 0) {
+    const monthsEarly = Math.abs(monthsDifference);
+    const first36Months = Math.min(36, monthsEarly);
+    const extraMonths = Math.max(0, monthsEarly - 36);
+    adjustment = -(first36Months * (5 / 9 / 100) + extraMonths * (5 / 12 / 100));
+  } else if (monthsDifference > 0) {
+    adjustment = monthsDifference * (2 / 3 / 100);
+  }
+
+  const monthlyBenefit = input.fullRetirementAgeBenefit * (1 + adjustment);
+
+  return {
+    birthYear: input.birthYear,
+    fullRetirementAgeYears,
+    claimingAgeYears: input.claimingAgeYears,
+    fullRetirementAgeBenefit: input.fullRetirementAgeBenefit,
+    monthlyBenefit,
+    adjustmentPercent: adjustment * 100,
+    annualBenefit: monthlyBenefit * 12,
+  };
+}
+
+export function calculateRmdEstimate(accountBalance: number, age: number): RmdEstimateResult {
+  assertPositiveNumber(accountBalance, 'Account balance');
+  assertFiniteNumber(age, 'Age');
+
+  const roundedAge = Math.floor(age);
+  const lifeExpectancyFactor = uniformLifetimeFactors[Math.min(120, roundedAge)];
+
+  if (!lifeExpectancyFactor || roundedAge < 72) {
+    throw new Error('Age must be at least 72 for the Uniform Lifetime Table lookup');
+  }
+
+  const requiredDistribution = accountBalance / lifeExpectancyFactor;
+
+  return {
+    accountBalance,
+    age: roundedAge,
+    lifeExpectancyFactor,
+    requiredDistribution,
+    remainingBalanceAfterRmd: accountBalance - requiredDistribution,
+  };
+}
+
+export function calculateRealEstateReturn(input: {
+  purchasePrice: number;
+  downPayment: number;
+  buyingCosts?: number;
+  improvements?: number;
+  sellingPrice: number;
+  sellingCosts?: number;
+  loanPayoff?: number;
+}): RealEstateReturnResult {
+  assertPositiveNumber(input.purchasePrice, 'Purchase price');
+  assertNonNegativeNumber(input.downPayment, 'Down payment');
+  assertNonNegativeNumber(input.buyingCosts ?? 0, 'Buying costs');
+  assertNonNegativeNumber(input.improvements ?? 0, 'Improvements');
+  assertPositiveNumber(input.sellingPrice, 'Selling price');
+  assertNonNegativeNumber(input.sellingCosts ?? 0, 'Selling costs');
+  assertNonNegativeNumber(input.loanPayoff ?? 0, 'Loan payoff');
+
+  const buyingCosts = input.buyingCosts ?? 0;
+  const improvements = input.improvements ?? 0;
+  const loanPayoff = input.loanPayoff ?? Math.max(0, input.purchasePrice - input.downPayment);
+  const sellingCosts = input.sellingCosts ?? 0;
+  const cashInvested = input.downPayment + buyingCosts + improvements;
+  const netSaleProceeds = input.sellingPrice - sellingCosts - loanPayoff;
+  const profit = netSaleProceeds - cashInvested;
+
+  return {
+    purchasePrice: input.purchasePrice,
+    sellingPrice: input.sellingPrice,
+    cashInvested,
+    netSaleProceeds,
+    profit,
+    roiPercent: cashInvested === 0 ? 0 : (profit / cashInvested) * 100,
+    equityMultiple: cashInvested === 0 ? 0 : netSaleProceeds / cashInvested,
+  };
+}
+
+export function calculateTakeHomePaycheck(input: {
+  annualGrossPay: number;
+  payPeriodsPerYear: number;
+  pretaxDeductionsPerPaycheck?: number;
+  federalTaxPercent?: number;
+  stateTaxPercent?: number;
+  localTaxPercent?: number;
+}): TakeHomePaycheckResult {
+  assertPositiveNumber(input.annualGrossPay, 'Annual gross pay');
+  assertPositiveNumber(input.payPeriodsPerYear, 'Pay periods per year');
+  assertNonNegativeNumber(input.pretaxDeductionsPerPaycheck ?? 0, 'Pretax deductions');
+  assertPercentRange(input.federalTaxPercent ?? 0, 'Federal tax estimate');
+  assertPercentRange(input.stateTaxPercent ?? 0, 'State tax estimate');
+  assertPercentRange(input.localTaxPercent ?? 0, 'Local tax estimate');
+
+  const pretaxDeductionsAnnual = (input.pretaxDeductionsPerPaycheck ?? 0) * input.payPeriodsPerYear;
+  const taxableEstimate = Math.max(0, input.annualGrossPay - pretaxDeductionsAnnual);
+  const federalTax = taxableEstimate * ((input.federalTaxPercent ?? 0) / 100);
+  const stateTax = taxableEstimate * ((input.stateTaxPercent ?? 0) / 100);
+  const localTax = taxableEstimate * ((input.localTaxPercent ?? 0) / 100);
+  const socialSecurityTax = Math.min(input.annualGrossPay, socialSecurityWageBase2026) * 0.062;
+  const medicareTax = input.annualGrossPay * 0.0145 + Math.max(0, input.annualGrossPay - additionalMedicareThreshold) * 0.009;
+  const annualTakeHomePay =
+    input.annualGrossPay - pretaxDeductionsAnnual - federalTax - stateTax - localTax - socialSecurityTax - medicareTax;
+
+  return {
+    annualGrossPay: input.annualGrossPay,
+    grossPerPaycheck: input.annualGrossPay / input.payPeriodsPerYear,
+    pretaxDeductionsAnnual,
+    federalTax,
+    stateTax,
+    localTax,
+    socialSecurityTax,
+    medicareTax,
+    annualTakeHomePay,
+    takeHomePerPaycheck: annualTakeHomePay / input.payPeriodsPerYear,
+  };
+}
+
+export function calculateRentalProperty(input: {
+  propertyPrice: number;
+  downPayment: number;
+  annualRatePercent: number;
+  loanYears: number;
+  monthlyRent: number;
+  vacancyPercent?: number;
+  monthlyOperatingExpenses?: number;
+  annualPropertyTax?: number;
+  monthlyInsurance?: number;
+  maintenancePercent?: number;
+  closingCosts?: number;
+}): RentalPropertyResult {
+  assertPositiveNumber(input.propertyPrice, 'Property price');
+  assertNonNegativeNumber(input.downPayment, 'Down payment');
+  assertPositiveNumber(input.monthlyRent, 'Monthly rent');
+  assertPercentRange(input.vacancyPercent ?? 0, 'Vacancy reserve', 100);
+  assertNonNegativeNumber(input.monthlyOperatingExpenses ?? 0, 'Monthly operating expenses');
+  assertNonNegativeNumber(input.annualPropertyTax ?? 0, 'Annual property tax');
+  assertNonNegativeNumber(input.monthlyInsurance ?? 0, 'Monthly insurance');
+  assertPercentRange(input.maintenancePercent ?? 0, 'Maintenance reserve', 100);
+  assertNonNegativeNumber(input.closingCosts ?? 0, 'Closing costs');
+
+  if (input.downPayment >= input.propertyPrice) {
+    throw new Error('Down payment must be less than property price');
+  }
+
+  const loanAmount = input.propertyPrice - input.downPayment;
+  const loan = calculateLoanSummary(loanAmount, input.annualRatePercent, input.loanYears);
+  const monthlyVacancyReserve = input.monthlyRent * ((input.vacancyPercent ?? 0) / 100);
+  const monthlyMaintenanceReserve = (input.propertyPrice * ((input.maintenancePercent ?? 0) / 100)) / 12;
+  const monthlyOperatingExpenses =
+    (input.monthlyOperatingExpenses ?? 0) +
+    (input.annualPropertyTax ?? 0) / 12 +
+    (input.monthlyInsurance ?? 0) +
+    monthlyMaintenanceReserve +
+    monthlyVacancyReserve;
+  const monthlyNoi = input.monthlyRent - monthlyOperatingExpenses;
+  const monthlyCashFlow = monthlyNoi - loan.monthlyPayment;
+  const cashInvested = input.downPayment + (input.closingCosts ?? 0);
+
+  return {
+    loanAmount,
+    monthlyMortgagePayment: loan.monthlyPayment,
+    monthlyVacancyReserve,
+    monthlyOperatingExpenses,
+    monthlyNoi,
+    monthlyCashFlow,
+    capRatePercent: ((monthlyNoi * 12) / input.propertyPrice) * 100,
+    cashOnCashReturnPercent: cashInvested === 0 ? 0 : ((monthlyCashFlow * 12) / cashInvested) * 100,
+  };
+}
+
+export function calculateIrr(cashFlows: number[], periodsPerYear = 1): IrrResult {
+  if (cashFlows.length < 2) {
+    throw new Error('Enter at least two cash flows');
+  }
+
+  cashFlows.forEach((cashFlow, index) => assertFiniteNumber(cashFlow, `Cash flow ${index + 1}`));
+  assertPositiveNumber(periodsPerYear, 'Periods per year');
+
+  const hasPositive = cashFlows.some((cashFlow) => cashFlow > 0);
+  const hasNegative = cashFlows.some((cashFlow) => cashFlow < 0);
+
+  if (!hasPositive || !hasNegative) {
+    throw new Error('Cash flows need at least one negative and one positive value');
+  }
+
+  const npv = (rate: number) => cashFlows.reduce((total, cashFlow, index) => total + cashFlow / (1 + rate) ** index, 0);
+  let low = -0.999999;
+  let high = 10;
+  let lowValue = npv(low);
+  let highValue = npv(high);
+
+  if (Math.sign(lowValue) === Math.sign(highValue)) {
+    high = 100;
+    highValue = npv(high);
+  }
+
+  if (Math.sign(lowValue) === Math.sign(highValue)) {
+    throw new Error('These cash flows do not produce a simple IRR estimate');
+  }
+
+  for (let index = 0; index < 160; index += 1) {
+    const mid = (low + high) / 2;
+    const midValue = npv(mid);
+
+    if (Math.sign(midValue) === Math.sign(lowValue)) {
+      low = mid;
+      lowValue = midValue;
+    } else {
+      high = mid;
+      highValue = midValue;
+    }
+  }
+
+  const periodicRate = (low + high) / 2;
+
+  return {
+    periodicIrrPercent: periodicRate * 100,
+    annualizedIrrPercent: ((1 + periodicRate) ** periodsPerYear - 1) * 100,
+    netCashFlow: cashFlows.reduce((total, cashFlow) => total + cashFlow, 0),
+  };
+}
+
+export function calculateRoi(input: {
+  initialInvestment: number;
+  endingValue: number;
+  income?: number;
+  costs?: number;
+}): RoiResult {
+  assertPositiveNumber(input.initialInvestment, 'Initial investment');
+  assertNonNegativeNumber(input.endingValue, 'Ending value');
+  assertNonNegativeNumber(input.income ?? 0, 'Income');
+  assertNonNegativeNumber(input.costs ?? 0, 'Costs');
+
+  const gain = input.endingValue + (input.income ?? 0) - (input.costs ?? 0) - input.initialInvestment;
+
+  return {
+    gain,
+    roiPercent: (gain / input.initialInvestment) * 100,
+    endingValue: input.endingValue,
+  };
+}
+
+export function calculateAprEstimate(input: {
+  principal: number;
+  annualRatePercent: number;
+  years: number;
+  fees?: number;
+}): AprEstimateResult {
+  assertNonNegativeNumber(input.fees ?? 0, 'Fees');
+
+  const loan = calculateLoanSummary(input.principal, input.annualRatePercent, input.years);
+  const fees = input.fees ?? 0;
+  const amountReceived = input.principal - fees;
+
+  if (amountReceived <= 0) {
+    throw new Error('Fees must be less than principal');
+  }
+
+  const monthlyAprRate = solveRateForPayment(amountReceived, loan.monthlyPayment, loan.paymentCount);
+
+  return {
+    loan,
+    fees,
+    amountReceived,
+    aprPercent: monthlyAprRate * 12 * 100,
+  };
+}
+
+export function calculateFhaLoan(input: {
+  homePrice: number;
+  downPayment: number;
+  annualRatePercent: number;
+  years: number;
+  upfrontMipPercent?: number;
+  annualMipPercent?: number;
+  annualPropertyTax?: number;
+  monthlyInsurance?: number;
+}): FhaLoanResult {
+  assertPercentRange(input.upfrontMipPercent ?? 1.75, 'Upfront MIP', 10);
+  assertPercentRange(input.annualMipPercent ?? 0.55, 'Annual MIP', 10);
+
+  const baseLoanAmount = input.homePrice - input.downPayment;
+  const upfrontMip = baseLoanAmount * ((input.upfrontMipPercent ?? 1.75) / 100);
+  const annualMipPercent = input.annualMipPercent ?? 0.55;
+  const mortgage = calculateMortgagePayment({
+    homePrice: input.homePrice + upfrontMip,
+    downPayment: input.downPayment,
+    annualRatePercent: input.annualRatePercent,
+    years: input.years,
+    annualPropertyTax: input.annualPropertyTax ?? 0,
+    monthlyInsurance: input.monthlyInsurance ?? 0,
+    monthlyPmi: 0,
+    monthlyHoa: 0,
+  });
+  const monthlyMip = (baseLoanAmount * (annualMipPercent / 100)) / 12;
+
+  return {
+    ...mortgage,
+    baseLoanAmount,
+    upfrontMip,
+    annualMipPercent,
+    monthlyMip,
+    totalMonthlyPayment: mortgage.totalMonthlyPayment + monthlyMip,
+  };
+}
+
+export function calculateVaMortgage(input: {
+  homePrice: number;
+  downPayment: number;
+  annualRatePercent: number;
+  years: number;
+  firstUse?: boolean;
+  exemptFundingFee?: boolean;
+  financeFundingFee?: boolean;
+  annualPropertyTax?: number;
+  monthlyInsurance?: number;
+}): VaMortgageResult {
+  const downPaymentPercent = (input.downPayment / input.homePrice) * 100;
+  const firstUse = input.firstUse ?? true;
+  let fundingFeePercent = 0;
+
+  if (!(input.exemptFundingFee ?? false)) {
+    if (downPaymentPercent >= 10) {
+      fundingFeePercent = 1.25;
+    } else if (downPaymentPercent >= 5) {
+      fundingFeePercent = 1.5;
+    } else {
+      fundingFeePercent = firstUse ? 2.15 : 3.3;
+    }
+  }
+
+  const baseLoanAmount = input.homePrice - input.downPayment;
+  const fundingFee = baseLoanAmount * (fundingFeePercent / 100);
+  const fundingFeeFinanced = input.financeFundingFee ?? true;
+  const financedHomePrice = input.homePrice + (fundingFeeFinanced ? fundingFee : 0);
+  const mortgage = calculateMortgagePayment({
+    homePrice: financedHomePrice,
+    downPayment: input.downPayment,
+    annualRatePercent: input.annualRatePercent,
+    years: input.years,
+    annualPropertyTax: input.annualPropertyTax ?? 0,
+    monthlyInsurance: input.monthlyInsurance ?? 0,
+    monthlyPmi: 0,
+    monthlyHoa: 0,
+  });
+
+  return {
+    ...mortgage,
+    baseLoanAmount,
+    fundingFeePercent,
+    fundingFee,
+    fundingFeeFinanced,
+  };
+}
+
+export function calculateHomeEquityLoan(input: {
+  homeValue: number;
+  currentMortgageBalance: number;
+  desiredLoanAmount: number;
+  annualRatePercent: number;
+  years: number;
+  maxCombinedLoanToValuePercent?: number;
+}): HomeEquityLoanResult {
+  assertPositiveNumber(input.homeValue, 'Home value');
+  assertNonNegativeNumber(input.currentMortgageBalance, 'Current mortgage balance');
+  assertPositiveNumber(input.desiredLoanAmount, 'Desired loan amount');
+  assertPercentRange(input.maxCombinedLoanToValuePercent ?? 85, 'Max CLTV', 100);
+
+  const maxCombinedLoanToValuePercent = input.maxCombinedLoanToValuePercent ?? 85;
+  const availableEquity = Math.max(0, input.homeValue * (maxCombinedLoanToValuePercent / 100) - input.currentMortgageBalance);
+  const loan = calculateLoanSummary(input.desiredLoanAmount, input.annualRatePercent, input.years);
+
+  return {
+    ...loan,
+    homeValue: input.homeValue,
+    currentMortgageBalance: input.currentMortgageBalance,
+    maxCombinedLoanToValuePercent,
+    availableEquity,
+    combinedLoanToValuePercent: ((input.currentMortgageBalance + input.desiredLoanAmount) / input.homeValue) * 100,
+  };
+}
+
+export function calculateHeloc(input: {
+  homeValue: number;
+  currentMortgageBalance: number;
+  creditLine: number;
+  currentDraw: number;
+  annualRatePercent: number;
+  repaymentYears: number;
+  maxCombinedLoanToValuePercent?: number;
+}): HelocResult {
+  assertPositiveNumber(input.homeValue, 'Home value');
+  assertNonNegativeNumber(input.currentMortgageBalance, 'Current mortgage balance');
+  assertPositiveNumber(input.creditLine, 'Credit line');
+  assertNonNegativeNumber(input.currentDraw, 'Current draw');
+  assertNonNegativeNumber(input.annualRatePercent, 'Interest rate');
+  assertPositiveNumber(input.repaymentYears, 'Repayment years');
+  assertPercentRange(input.maxCombinedLoanToValuePercent ?? 85, 'Max CLTV', 100);
+
+  if (input.currentDraw > input.creditLine) {
+    throw new Error('Current draw cannot be larger than credit line');
+  }
+
+  const maxCombinedLoanToValuePercent = input.maxCombinedLoanToValuePercent ?? 85;
+  const availableEquity = Math.max(0, input.homeValue * (maxCombinedLoanToValuePercent / 100) - input.currentMortgageBalance);
+  const monthlyRate = input.annualRatePercent / 100 / 12;
+  const interestOnlyPayment = input.currentDraw * monthlyRate;
+  const repayment = input.currentDraw > 0 ? calculateLoanSummary(input.currentDraw, input.annualRatePercent, input.repaymentYears) : null;
+
+  return {
+    homeValue: input.homeValue,
+    currentMortgageBalance: input.currentMortgageBalance,
+    maxCombinedLoanToValuePercent,
+    creditLine: input.creditLine,
+    currentDraw: input.currentDraw,
+    availableEquity,
+    interestOnlyPayment,
+    repaymentPayment: repayment?.monthlyPayment ?? 0,
+    combinedLoanToValuePercent: ((input.currentMortgageBalance + input.currentDraw) / input.homeValue) * 100,
+  };
+}
+
+export function calculateDownPayment(input: {
+  homePrice: number;
+  downPayment?: number;
+  downPaymentPercent?: number;
+  closingCostPercent?: number;
+}): DownPaymentResult {
+  assertPositiveNumber(input.homePrice, 'Home price');
+  assertNonNegativeNumber(input.downPayment ?? 0, 'Down payment');
+  assertPercentRange(input.downPaymentPercent ?? 0, 'Down payment percent');
+  assertPercentRange(input.closingCostPercent ?? 0, 'Closing cost percent', 20);
+
+  const downPayment = input.downPayment && input.downPayment > 0 ? input.downPayment : input.homePrice * ((input.downPaymentPercent ?? 0) / 100);
+
+  if (downPayment >= input.homePrice) {
+    throw new Error('Down payment must be less than home price');
+  }
+
+  const loanAmount = input.homePrice - downPayment;
+  const estimatedClosingCosts = input.homePrice * ((input.closingCostPercent ?? 0) / 100);
+
+  return {
+    homePrice: input.homePrice,
+    downPayment,
+    downPaymentPercent: (downPayment / input.homePrice) * 100,
+    loanAmount,
+    loanToValuePercent: (loanAmount / input.homePrice) * 100,
+    estimatedClosingCosts,
+    cashNeeded: downPayment + estimatedClosingCosts,
+  };
+}
+
+export function calculateRentVsBuy(input: {
+  monthlyRent: number;
+  rentIncreasePercent: number;
+  homePrice: number;
+  downPayment: number;
+  annualRatePercent: number;
+  years: number;
+  annualPropertyTax: number;
+  monthlyInsurance: number;
+  maintenancePercent: number;
+  appreciationPercent: number;
+  sellingCostPercent: number;
+}): RentVsBuyResult {
+  assertPositiveNumber(input.monthlyRent, 'Monthly rent');
+  assertPercentGreaterThanNegativeHundred(input.rentIncreasePercent, 'Rent increase');
+  assertPositiveNumber(input.homePrice, 'Home price');
+  assertNonNegativeNumber(input.downPayment, 'Down payment');
+  assertPositiveNumber(input.years, 'Years');
+  assertPercentRange(input.maintenancePercent, 'Maintenance percent', 20);
+  assertPercentGreaterThanNegativeHundred(input.appreciationPercent, 'Appreciation');
+  assertPercentRange(input.sellingCostPercent, 'Selling cost percent', 20);
+
+  const months = Math.round(input.years * 12);
+  let totalRentCost = 0;
+
+  for (let month = 0; month < months; month += 1) {
+    const yearIndex = Math.floor(month / 12);
+    totalRentCost += input.monthlyRent * (1 + input.rentIncreasePercent / 100) ** yearIndex;
+  }
+
+  const loanAmount = input.homePrice - input.downPayment;
+  const mortgage = calculateLoanSummary(loanAmount, input.annualRatePercent, 30);
+  const monthlyOwnershipCosts =
+    mortgage.monthlyPayment + input.annualPropertyTax / 12 + input.monthlyInsurance + (input.homePrice * (input.maintenancePercent / 100)) / 12;
+  const totalBuyingCashOutflow = input.downPayment + monthlyOwnershipCosts * months;
+  const estimatedHomeValue = input.homePrice * (1 + input.appreciationPercent / 100) ** input.years;
+  const remainingLoanBalance = loanBalanceAfterPayments(loanAmount, input.annualRatePercent, 30, months);
+  const estimatedSaleProceeds = estimatedHomeValue * (1 - input.sellingCostPercent / 100) - remainingLoanBalance;
+  const netBuyingCost = totalBuyingCashOutflow - estimatedSaleProceeds;
+
+  return {
+    totalRentCost,
+    totalBuyingCashOutflow,
+    estimatedHomeValue,
+    remainingLoanBalance,
+    estimatedSaleProceeds,
+    netBuyingCost,
+    buyMinusRent: netBuyingCost - totalRentCost,
+  };
+}
+
+export function calculatePaybackPeriod(input: {
+  initialCost: number;
+  annualCashFlow: number;
+  horizonYears?: number;
+}): PaybackPeriodResult {
+  assertPositiveNumber(input.initialCost, 'Initial cost');
+  assertPositiveNumber(input.annualCashFlow, 'Annual cash flow');
+  assertNonNegativeNumber(input.horizonYears ?? 0, 'Horizon years');
+
+  const paybackYears = input.initialCost / input.annualCashFlow;
+
+  return {
+    initialCost: input.initialCost,
+    annualCashFlow: input.annualCashFlow,
+    paybackYears,
+    netProfitAfterHorizon: input.annualCashFlow * (input.horizonYears ?? 0) - input.initialCost,
+  };
+}
+
+export function calculatePresentValue(input: {
+  futureValue?: number;
+  payment?: number;
+  annualRatePercent: number;
+  years: number;
+  paymentsPerYear?: number;
+}): PresentValueResult {
+  assertNonNegativeNumber(input.futureValue ?? 0, 'Future value');
+  assertNonNegativeNumber(input.payment ?? 0, 'Payment');
+  assertPercentGreaterThanNegativeHundred(input.annualRatePercent, 'Discount rate');
+  assertNonNegativeNumber(input.years, 'Years');
+  assertPositiveNumber(input.paymentsPerYear ?? 12, 'Payments per year');
+
+  const paymentsPerYear = input.paymentsPerYear ?? 12;
+  const periods = Math.round(input.years * paymentsPerYear);
+  const periodicRate = input.annualRatePercent / 100 / paymentsPerYear;
+  const lumpSumPresentValue = (input.futureValue ?? 0) / (1 + periodicRate) ** periods;
+  const annuityPresentValue =
+    periodicRate === 0 ? (input.payment ?? 0) * periods : (input.payment ?? 0) * ((1 - (1 + periodicRate) ** -periods) / periodicRate);
+
+  return {
+    presentValue: lumpSumPresentValue + annuityPresentValue,
+    lumpSumPresentValue,
+    annuityPresentValue,
+  };
+}
+
+export function calculateFutureValue(input: {
+  principal?: number;
+  payment?: number;
+  annualRatePercent: number;
+  years: number;
+  paymentsPerYear?: number;
+}): FutureValueResult {
+  assertNonNegativeNumber(input.principal ?? 0, 'Principal');
+  assertNonNegativeNumber(input.payment ?? 0, 'Payment');
+  assertPercentGreaterThanNegativeHundred(input.annualRatePercent, 'Interest rate');
+  assertNonNegativeNumber(input.years, 'Years');
+  assertPositiveNumber(input.paymentsPerYear ?? 12, 'Payments per year');
+
+  const paymentsPerYear = input.paymentsPerYear ?? 12;
+  const periods = Math.round(input.years * paymentsPerYear);
+  const periodicRate = input.annualRatePercent / 100 / paymentsPerYear;
+  const principalFutureValue = (input.principal ?? 0) * (1 + periodicRate) ** periods;
+  const contributionFutureValue =
+    periodicRate === 0 ? (input.payment ?? 0) * periods : (input.payment ?? 0) * (((1 + periodicRate) ** periods - 1) / periodicRate);
+
+  return {
+    futureValue: principalFutureValue + contributionFutureValue,
+    principalFutureValue,
+    contributionFutureValue,
+    totalContributions: (input.principal ?? 0) + (input.payment ?? 0) * periods,
+  };
+}
+
+export function calculateCommission(input: {
+  salesAmount: number;
+  commissionPercent: number;
+  splitPercent?: number;
+  basePay?: number;
+  bonus?: number;
+}): CommissionResult {
+  assertNonNegativeNumber(input.salesAmount, 'Sales amount');
+  assertPercentRange(input.commissionPercent, 'Commission percent', 100);
+  assertPercentRange(input.splitPercent ?? 100, 'Split percent', 100);
+  assertNonNegativeNumber(input.basePay ?? 0, 'Base pay');
+  assertNonNegativeNumber(input.bonus ?? 0, 'Bonus');
+
+  const commission = input.salesAmount * (input.commissionPercent / 100);
+  const splitAmount = commission * ((input.splitPercent ?? 100) / 100);
+
+  return {
+    salesAmount: input.salesAmount,
+    commission,
+    splitAmount,
+    totalPay: splitAmount + (input.basePay ?? 0) + (input.bonus ?? 0),
+  };
+}
+
+export function calculateUkMortgage(input: {
+  propertyPrice: number;
+  deposit: number;
+  annualRatePercent: number;
+  years: number;
+  monthlyFees?: number;
+}): LocalMortgageResult {
+  assertPositiveNumber(input.propertyPrice, 'Property price');
+  assertNonNegativeNumber(input.deposit, 'Deposit');
+  assertNonNegativeNumber(input.monthlyFees ?? 0, 'Monthly fees');
+
+  if (input.deposit >= input.propertyPrice) {
+    throw new Error('Deposit must be less than property price');
+  }
+
+  const loanAmount = input.propertyPrice - input.deposit;
+  const loan = calculateLoanSummary(loanAmount, input.annualRatePercent, input.years);
+
+  return {
+    ...loan,
+    propertyPrice: input.propertyPrice,
+    deposit: input.deposit,
+    loanAmount,
+    loanToValuePercent: (loanAmount / input.propertyPrice) * 100,
+    monthlyFees: input.monthlyFees ?? 0,
+    totalMonthlyPayment: loan.monthlyPayment + (input.monthlyFees ?? 0),
+  };
+}
+
+export function calculateCanadianMortgage(input: {
+  propertyPrice: number;
+  downPayment: number;
+  annualRatePercent: number;
+  years: number;
+  paymentsPerYear?: number;
+}): LocalMortgageResult {
+  assertPositiveNumber(input.propertyPrice, 'Property price');
+  assertNonNegativeNumber(input.downPayment, 'Down payment');
+  assertNonNegativeNumber(input.annualRatePercent, 'Interest rate');
+  assertPositiveNumber(input.years, 'Amortization');
+  assertPositiveNumber(input.paymentsPerYear ?? 12, 'Payments per year');
+
+  if (input.downPayment >= input.propertyPrice) {
+    throw new Error('Down payment must be less than property price');
+  }
+
+  const paymentsPerYear = input.paymentsPerYear ?? 12;
+  const loanAmount = input.propertyPrice - input.downPayment;
+  const effectiveAnnualRate = (1 + input.annualRatePercent / 100 / 2) ** 2 - 1;
+  const periodicRate = (1 + effectiveAnnualRate) ** (1 / paymentsPerYear) - 1;
+  const paymentCount = Math.round(input.years * paymentsPerYear);
+  const payment = calculatePaymentForMonthlyRate(loanAmount, periodicRate, paymentCount);
+  const totalPaid = payment * paymentCount;
+
+  return {
+    principal: loanAmount,
+    annualRatePercent: input.annualRatePercent,
+    years: input.years,
+    paymentCount,
+    monthlyPayment: payment,
+    totalPaid,
+    totalInterest: totalPaid - loanAmount,
+    propertyPrice: input.propertyPrice,
+    deposit: input.downPayment,
+    loanAmount,
+    loanToValuePercent: (loanAmount / input.propertyPrice) * 100,
+    monthlyFees: 0,
+    totalMonthlyPayment: payment,
+  };
+}
+
 export interface AgeCalculationResult {
   birthDate: string;
   asOfDate: string;
@@ -5517,6 +6581,230 @@ export interface TimeCardResult {
   grossPay: number | null;
 }
 
+export interface HeightEstimateResult {
+  childSex: 'male' | 'female';
+  motherHeightInches: number;
+  fatherHeightInches: number;
+  estimatedAdultHeightInches: number;
+  lowRangeInches: number;
+  highRangeInches: number;
+  estimatedAdultHeightCm: number;
+}
+
+export interface BraSizeResult {
+  underbustInches: number;
+  bustInches: number;
+  bandSize: number;
+  cupSize: string;
+  sizeLabel: string;
+  differenceInches: number;
+}
+
+export interface VoltageDropResult {
+  sourceVoltage: number;
+  currentAmps: number;
+  oneWayLengthFeet: number;
+  resistanceOhmsPer1000Feet: number;
+  phase: 'single' | 'three';
+  voltageDrop: number;
+  percentDrop: number;
+  loadVoltage: number;
+}
+
+export interface BtuEstimateResult {
+  squareFeet: number;
+  ceilingHeightFeet: number;
+  baseBtu: number;
+  adjustedBtu: number;
+  recommendedBtu: number;
+}
+
+export interface StairLayoutResult {
+  totalRiseInches: number;
+  riserCount: number;
+  treadCount: number;
+  actualRiserInches: number;
+  treadDepthInches: number;
+  totalRunInches: number;
+  stairAngleDegrees: number;
+}
+
+export interface ResistorColorResult {
+  band1: string;
+  band2: string;
+  multiplier: string;
+  tolerance: string;
+  resistanceOhms: number;
+  tolerancePercent: number;
+}
+
+export interface OhmsLawResult {
+  voltage: number;
+  current: number;
+  resistance: number;
+  power: number;
+}
+
+export interface ElectricityCostResult {
+  watts: number;
+  hoursPerDay: number;
+  days: number;
+  ratePerKwh: number;
+  kilowattHours: number;
+  cost: number;
+}
+
+export interface ShoeSizeResult {
+  footLengthCm: number;
+  footLengthInches: number;
+  usMen: number;
+  usWomen: number;
+  ukAdult: number;
+  euAdult: number;
+}
+
+export interface MolarityResult {
+  moles: number;
+  volumeLiters: number;
+  molarity: number;
+  grams?: number;
+  molarMass?: number;
+}
+
+export interface MolecularWeightResult {
+  formula: string;
+  molarMass: number;
+  atomCount: number;
+  composition: Array<{ element: string; count: number; mass: number; percent: number }>;
+}
+
+export interface SleepScheduleResult {
+  mode: 'wake-up' | 'bedtime';
+  inputTime: string;
+  fallAsleepMinutes: number;
+  cycles: number;
+  targetTime: string;
+  sleepDurationMinutes: number;
+}
+
+export interface TireSizeResult {
+  widthMm: number;
+  aspectRatio: number;
+  wheelDiameterInches: number;
+  sidewallInches: number;
+  tireDiameterInches: number;
+  circumferenceInches: number;
+  revolutionsPerMile: number;
+}
+
+export interface RoofingEstimateResult {
+  footprintSquareFeet: number;
+  pitchRisePer12: number;
+  pitchFactor: number;
+  roofSquareFeet: number;
+  wastePercent: number;
+  roofSquares: number;
+  shingleBundles: number;
+}
+
+export interface TileEstimateResult {
+  areaSquareFeet: number;
+  tileLengthInches: number;
+  tileWidthInches: number;
+  wastePercent: number;
+  tileAreaSquareFeet: number;
+  tilesNeeded: number;
+}
+
+export interface MulchEstimateResult {
+  areaSquareFeet: number;
+  depthInches: number;
+  wastePercent: number;
+  cubicFeet: number;
+  cubicYards: number;
+  twoCubicFootBags: number;
+}
+
+export interface GravelEstimateResult {
+  lengthFeet: number;
+  widthFeet: number;
+  depthInches: number;
+  tonsPerCubicYard: number;
+  cubicFeet: number;
+  cubicYards: number;
+  tons: number;
+}
+
+export interface WeatherFeelsLikeResult {
+  temperatureFahrenheit: number;
+  relativeHumidity?: number;
+  windSpeedMph?: number;
+  resultFahrenheit: number;
+  resultCelsius: number;
+}
+
+export interface BandwidthTimeResult {
+  dataAmount: number;
+  dataUnit: string;
+  speedAmount: number;
+  speedUnit: string;
+  seconds: number;
+  minutes: number;
+  hours: number;
+}
+
+export interface GdpEstimateResult {
+  consumption: number;
+  investment: number;
+  governmentSpending: number;
+  exports: number;
+  imports: number;
+  netExports: number;
+  gdp: number;
+  population: number | null;
+  gdpPerPerson: number | null;
+}
+
+export type HorsepowerUnit = 'horsepower' | 'watt' | 'kilowatt' | 'metric-horsepower';
+
+export interface HorsepowerConversionResult {
+  inputPower: number;
+  inputUnit: HorsepowerUnit;
+  watts: number;
+  kilowatts: number;
+  mechanicalHorsepower: number;
+  metricHorsepower: number;
+}
+
+export interface EngineHorsepowerResult {
+  torquePoundFeet: number;
+  rpm: number;
+  drivetrainLossPercent: number;
+  engineHorsepower: number;
+  wheelHorsepower: number;
+  kilowatts: number;
+}
+
+export interface GolfScoreDifferentialResult {
+  adjustedGrossScore: number;
+  courseRating: number;
+  slopeRating: number;
+  playingConditionsAdjustment: number;
+  rawDifferential: number;
+  scoreDifferential: number;
+}
+
+export interface GolfCourseHandicapResult {
+  handicapIndex: number;
+  slopeRating: number;
+  courseRating: number;
+  par: number;
+  allowancePercent: number;
+  rawCourseHandicap: number;
+  courseHandicap: number;
+  playingHandicap: number;
+}
+
 const millisecondsPerDay = 86400000;
 const secondsPerHour = 3600;
 const secondsPerMinute = 60;
@@ -5526,6 +6814,10 @@ const litersPer100KmFromMpg = 235.214583;
 const standardGravity = 9.80665;
 const newtonsPerPoundForce = 4.4482216152605;
 const poundsPerKilogram = 2.20462262185;
+const millimetersPerInch = 25.4;
+const wattsPerMechanicalHorsepower = 745.6999;
+const wattsPerMetricHorsepower = 735.4988;
+const engineHorsepowerTorqueConstant = 5252.1131;
 const base64Alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 const concreteBagYieldsCubicFeet = {
   '40lb': 0.3,
@@ -5590,6 +6882,122 @@ const conversionFactorsToBase: Record<ConversionCategory, Record<string, number>
     fahrenheit: 1,
     kelvin: 1,
   },
+};
+const copperResistanceOhmsPer1000Feet: Record<string, number> = {
+  '14': 2.525,
+  '12': 1.588,
+  '10': 0.999,
+  '8': 0.6282,
+  '6': 0.3951,
+  '4': 0.2485,
+  '2': 0.1563,
+  '1/0': 0.0983,
+  '2/0': 0.0779,
+  '4/0': 0.049,
+};
+const resistorDigitBands: Record<string, number> = {
+  black: 0,
+  brown: 1,
+  red: 2,
+  orange: 3,
+  yellow: 4,
+  green: 5,
+  blue: 6,
+  violet: 7,
+  gray: 8,
+  white: 9,
+};
+const resistorMultiplierBands: Record<string, number> = {
+  black: 1,
+  brown: 10,
+  red: 100,
+  orange: 1000,
+  yellow: 10000,
+  green: 100000,
+  blue: 1000000,
+  violet: 10000000,
+  gray: 100000000,
+  white: 1000000000,
+  gold: 0.1,
+  silver: 0.01,
+};
+const resistorToleranceBands: Record<string, number> = {
+  brown: 1,
+  red: 2,
+  green: 0.5,
+  blue: 0.25,
+  violet: 0.1,
+  gray: 0.05,
+  gold: 5,
+  silver: 10,
+};
+const btuCapacityTable = [
+  { maxSquareFeet: 150, btu: 5000 },
+  { maxSquareFeet: 250, btu: 6000 },
+  { maxSquareFeet: 300, btu: 7000 },
+  { maxSquareFeet: 350, btu: 8000 },
+  { maxSquareFeet: 400, btu: 9000 },
+  { maxSquareFeet: 450, btu: 10000 },
+  { maxSquareFeet: 550, btu: 12000 },
+  { maxSquareFeet: 700, btu: 14000 },
+  { maxSquareFeet: 1000, btu: 18000 },
+  { maxSquareFeet: 1200, btu: 21000 },
+  { maxSquareFeet: 1400, btu: 23000 },
+  { maxSquareFeet: 1500, btu: 24000 },
+  { maxSquareFeet: 2000, btu: 30000 },
+  { maxSquareFeet: 2500, btu: 34000 },
+];
+const atomicWeights: Record<string, number> = {
+  H: 1.008,
+  He: 4.0026,
+  Li: 6.94,
+  Be: 9.0122,
+  B: 10.81,
+  C: 12.011,
+  N: 14.007,
+  O: 15.999,
+  F: 18.998,
+  Ne: 20.18,
+  Na: 22.99,
+  Mg: 24.305,
+  Al: 26.982,
+  Si: 28.085,
+  P: 30.974,
+  S: 32.06,
+  Cl: 35.45,
+  Ar: 39.948,
+  K: 39.098,
+  Ca: 40.078,
+  Sc: 44.956,
+  Ti: 47.867,
+  V: 50.942,
+  Cr: 51.996,
+  Mn: 54.938,
+  Fe: 55.845,
+  Co: 58.933,
+  Ni: 58.693,
+  Cu: 63.546,
+  Zn: 65.38,
+  Ga: 69.723,
+  Ge: 72.63,
+  As: 74.922,
+  Se: 78.971,
+  Br: 79.904,
+  Kr: 83.798,
+  Rb: 85.468,
+  Sr: 87.62,
+  Y: 88.906,
+  Zr: 91.224,
+  Ag: 107.868,
+  Cd: 112.414,
+  I: 126.904,
+  Ba: 137.327,
+  W: 183.84,
+  Pt: 195.084,
+  Au: 196.967,
+  Hg: 200.592,
+  Pb: 207.2,
+  U: 238.029,
 };
 
 function parseIsoDateParts(value: string, label: string) {
@@ -6319,6 +7727,833 @@ export function calculateSpeed(
     milesPerHour,
     kilometersPerHour: milesPerHour * milesToKilometers,
     metersPerSecond: (distanceMiles * milesToMeters) / totalSeconds,
+  };
+}
+
+export function calculateHeightEstimate(
+  childSex: 'male' | 'female',
+  motherHeightInches: number,
+  fatherHeightInches: number,
+): HeightEstimateResult {
+  assertPositiveNumber(motherHeightInches, 'Mother height');
+  assertPositiveNumber(fatherHeightInches, 'Father height');
+
+  const estimatedAdultHeightInches =
+    childSex === 'male'
+      ? (motherHeightInches + fatherHeightInches + 5) / 2
+      : (motherHeightInches + fatherHeightInches - 5) / 2;
+
+  return {
+    childSex,
+    motherHeightInches,
+    fatherHeightInches,
+    estimatedAdultHeightInches,
+    lowRangeInches: estimatedAdultHeightInches - 4,
+    highRangeInches: estimatedAdultHeightInches + 4,
+    estimatedAdultHeightCm: estimatedAdultHeightInches * 2.54,
+  };
+}
+
+export function calculateBraSize(underbustInches: number, bustInches: number): BraSizeResult {
+  assertPositiveNumber(underbustInches, 'Underbust');
+  assertPositiveNumber(bustInches, 'Bust');
+
+  if (bustInches <= underbustInches) {
+    throw new Error('Bust measurement should be larger than underbust measurement');
+  }
+
+  let bandSize = Math.ceil(underbustInches);
+  if (bandSize % 2 !== 0) bandSize += 1;
+
+  const differenceInches = bustInches - bandSize;
+  const cupSteps = [
+    { max: 0.75, cup: 'AA' },
+    { max: 1.75, cup: 'A' },
+    { max: 2.75, cup: 'B' },
+    { max: 3.75, cup: 'C' },
+    { max: 4.75, cup: 'D' },
+    { max: 5.75, cup: 'DD/E' },
+    { max: 6.75, cup: 'DDD/F' },
+    { max: 7.75, cup: 'G' },
+    { max: 8.75, cup: 'H' },
+  ];
+  const cupSize = cupSteps.find((step) => differenceInches <= step.max)?.cup ?? 'I+';
+
+  return {
+    underbustInches,
+    bustInches,
+    bandSize,
+    cupSize,
+    sizeLabel: `${bandSize}${cupSize}`,
+    differenceInches,
+  };
+}
+
+export function getCopperResistanceOhmsPer1000Feet(awg: string) {
+  const resistance = copperResistanceOhmsPer1000Feet[awg];
+
+  if (resistance === undefined) {
+    throw new Error('Choose a supported copper wire size');
+  }
+
+  return resistance;
+}
+
+export function calculateVoltageDrop(input: {
+  sourceVoltage: number;
+  currentAmps: number;
+  oneWayLengthFeet: number;
+  resistanceOhmsPer1000Feet: number;
+  phase: 'single' | 'three';
+}): VoltageDropResult {
+  assertPositiveNumber(input.sourceVoltage, 'Source voltage');
+  assertPositiveNumber(input.currentAmps, 'Current');
+  assertPositiveNumber(input.oneWayLengthFeet, 'One-way length');
+  assertPositiveNumber(input.resistanceOhmsPer1000Feet, 'Resistance');
+
+  const conductorFactor = input.phase === 'three' ? Math.sqrt(3) : 2;
+  const voltageDrop =
+    input.currentAmps * (input.resistanceOhmsPer1000Feet / 1000) * input.oneWayLengthFeet * conductorFactor;
+
+  return {
+    ...input,
+    voltageDrop,
+    percentDrop: (voltageDrop / input.sourceVoltage) * 100,
+    loadVoltage: input.sourceVoltage - voltageDrop,
+  };
+}
+
+export function calculateBtuEstimate(input: {
+  squareFeet: number;
+  ceilingHeightFeet: number;
+  sunlight: 'normal' | 'shaded' | 'sunny';
+  people: number;
+  kitchen: boolean;
+}): BtuEstimateResult {
+  assertPositiveNumber(input.squareFeet, 'Square feet');
+  assertPositiveNumber(input.ceilingHeightFeet, 'Ceiling height');
+  assertNonNegativeNumber(input.people, 'People');
+
+  const tableMatch = btuCapacityTable.find((row) => input.squareFeet <= row.maxSquareFeet);
+  const baseBtu = tableMatch?.btu ?? input.squareFeet * 20;
+  let adjustedBtu = baseBtu * (input.ceilingHeightFeet / 8);
+
+  if (input.sunlight === 'shaded') adjustedBtu *= 0.9;
+  if (input.sunlight === 'sunny') adjustedBtu *= 1.1;
+  if (input.people > 2) adjustedBtu += (input.people - 2) * 600;
+  if (input.kitchen) adjustedBtu += 4000;
+
+  return {
+    squareFeet: input.squareFeet,
+    ceilingHeightFeet: input.ceilingHeightFeet,
+    baseBtu,
+    adjustedBtu,
+    recommendedBtu: Math.round(adjustedBtu / 500) * 500,
+  };
+}
+
+export function calculateStairLayout(
+  totalRiseInches: number,
+  targetRiserInches: number,
+  treadDepthInches: number,
+): StairLayoutResult {
+  assertPositiveNumber(totalRiseInches, 'Total rise');
+  assertPositiveNumber(targetRiserInches, 'Target riser');
+  assertPositiveNumber(treadDepthInches, 'Tread depth');
+
+  const riserCount = Math.max(1, Math.round(totalRiseInches / targetRiserInches));
+  const actualRiserInches = totalRiseInches / riserCount;
+  const treadCount = Math.max(0, riserCount - 1);
+  const totalRunInches = treadCount * treadDepthInches;
+  const stairAngleDegrees = (Math.atan(actualRiserInches / treadDepthInches) * 180) / Math.PI;
+
+  return {
+    totalRiseInches,
+    riserCount,
+    treadCount,
+    actualRiserInches,
+    treadDepthInches,
+    totalRunInches,
+    stairAngleDegrees,
+  };
+}
+
+export function calculateResistorColorCode(
+  band1: string,
+  band2: string,
+  multiplier: string,
+  tolerance: string,
+): ResistorColorResult {
+  const firstDigit = resistorDigitBands[band1];
+  const secondDigit = resistorDigitBands[band2];
+  const multiplierValue = resistorMultiplierBands[multiplier];
+  const tolerancePercent = resistorToleranceBands[tolerance];
+
+  if (firstDigit === undefined || secondDigit === undefined || multiplierValue === undefined || tolerancePercent === undefined) {
+    throw new Error('Choose valid resistor color bands');
+  }
+
+  return {
+    band1,
+    band2,
+    multiplier,
+    tolerance,
+    resistanceOhms: (firstDigit * 10 + secondDigit) * multiplierValue,
+    tolerancePercent,
+  };
+}
+
+export function calculateOhmsLaw(mode: string, firstValue: number, secondValue: number): OhmsLawResult {
+  assertPositiveNumber(firstValue, 'First value');
+  assertPositiveNumber(secondValue, 'Second value');
+
+  let voltage: number;
+  let current: number;
+  let resistance: number;
+
+  switch (mode) {
+    case 'voltage-current':
+      voltage = firstValue;
+      current = secondValue;
+      resistance = voltage / current;
+      break;
+    case 'voltage-resistance':
+      voltage = firstValue;
+      resistance = secondValue;
+      current = voltage / resistance;
+      break;
+    case 'current-resistance':
+      current = firstValue;
+      resistance = secondValue;
+      voltage = current * resistance;
+      break;
+    case 'voltage-power':
+      voltage = firstValue;
+      current = secondValue / voltage;
+      resistance = voltage / current;
+      break;
+    case 'current-power':
+      current = firstValue;
+      voltage = secondValue / current;
+      resistance = voltage / current;
+      break;
+    case 'resistance-power':
+      resistance = firstValue;
+      voltage = Math.sqrt(secondValue * resistance);
+      current = voltage / resistance;
+      break;
+    default:
+      throw new Error('Choose a supported Ohm law mode');
+  }
+
+  return {
+    voltage,
+    current,
+    resistance,
+    power: voltage * current,
+  };
+}
+
+export function calculateElectricityCost(
+  watts: number,
+  hoursPerDay: number,
+  days: number,
+  ratePerKwh: number,
+): ElectricityCostResult {
+  assertPositiveNumber(watts, 'Watts');
+  assertNonNegativeNumber(hoursPerDay, 'Hours per day');
+  assertPositiveNumber(days, 'Days');
+  assertNonNegativeNumber(ratePerKwh, 'Rate per kWh');
+
+  const kilowattHours = (watts / 1000) * hoursPerDay * days;
+
+  return {
+    watts,
+    hoursPerDay,
+    days,
+    ratePerKwh,
+    kilowattHours,
+    cost: kilowattHours * ratePerKwh,
+  };
+}
+
+export function convertShoeSize(footLengthCm: number): ShoeSizeResult {
+  assertPositiveNumber(footLengthCm, 'Foot length');
+
+  const footLengthInches = footLengthCm / 2.54;
+  const usMen = 3 * footLengthInches - 22;
+  const usWomen = usMen + 1.5;
+
+  return {
+    footLengthCm,
+    footLengthInches,
+    usMen,
+    usWomen,
+    ukAdult: usMen - 0.5,
+    euAdult: 1.5 * (footLengthCm + 1.5),
+  };
+}
+
+export function calculateMolarity(input: {
+  moles?: number;
+  grams?: number;
+  molarMass?: number;
+  volumeLiters: number;
+}): MolarityResult {
+  assertPositiveNumber(input.volumeLiters, 'Volume');
+
+  const moles =
+    input.moles === undefined
+      ? (() => {
+          assertPositiveNumber(input.grams ?? 0, 'Grams');
+          assertPositiveNumber(input.molarMass ?? 0, 'Molar mass');
+          return (input.grams ?? 0) / (input.molarMass ?? 1);
+        })()
+      : input.moles;
+
+  assertPositiveNumber(moles, 'Moles');
+
+  return {
+    moles,
+    volumeLiters: input.volumeLiters,
+    molarity: moles / input.volumeLiters,
+    grams: input.grams,
+    molarMass: input.molarMass,
+  };
+}
+
+function mergeAtomCount(target: Record<string, number>, element: string, count: number) {
+  target[element] = (target[element] ?? 0) + count;
+}
+
+function parseFormulaNumber(formula: string, index: number) {
+  let end = index;
+
+  while (/\d/.test(formula[end] ?? '')) end += 1;
+
+  return {
+    value: end === index ? 1 : Number(formula.slice(index, end)),
+    index: end,
+  };
+}
+
+function parseFormulaGroup(formula: string, startIndex: number): { atoms: Record<string, number>; index: number } {
+  const atoms: Record<string, number> = {};
+  let index = startIndex;
+
+  while (index < formula.length) {
+    const character = formula[index];
+
+    if (character === ')') {
+      return { atoms, index: index + 1 };
+    }
+
+    if (character === '(') {
+      const group = parseFormulaGroup(formula, index + 1);
+      const multiplier = parseFormulaNumber(formula, group.index);
+      Object.entries(group.atoms).forEach(([element, count]) => mergeAtomCount(atoms, element, count * multiplier.value));
+      index = multiplier.index;
+      continue;
+    }
+
+    if (!/[A-Z]/.test(character)) {
+      throw new Error('Chemical formula can only use element symbols, numbers, parentheses, and dot hydrates');
+    }
+
+    let element = character;
+    index += 1;
+
+    if (/[a-z]/.test(formula[index] ?? '')) {
+      element += formula[index];
+      index += 1;
+    }
+
+    if (atomicWeights[element] === undefined) {
+      throw new Error(`Element ${element} is not in the supported atomic-weight table yet`);
+    }
+
+    const count = parseFormulaNumber(formula, index);
+    mergeAtomCount(atoms, element, count.value);
+    index = count.index;
+  }
+
+  return { atoms, index };
+}
+
+export function calculateMolecularWeight(formulaInput: string): MolecularWeightResult {
+  const formula = formulaInput.trim().replace(/\s+/g, '');
+
+  if (!formula) {
+    throw new Error('Chemical formula is required');
+  }
+
+  const atoms: Record<string, number> = {};
+
+  formula.split('.').forEach((part) => {
+    if (!part) throw new Error('Chemical formula contains an empty hydrate part');
+    const coefficientMatch = part.match(/^(\d+)(?=[A-Z(])/);
+    const coefficient = coefficientMatch ? Number(coefficientMatch[1]) : 1;
+    const formulaPart = coefficientMatch ? part.slice(coefficientMatch[1].length) : part;
+    const parsed = parseFormulaGroup(formulaPart, 0);
+
+    if (parsed.index !== formulaPart.length) {
+      throw new Error('Chemical formula has unmatched parentheses');
+    }
+
+    Object.entries(parsed.atoms).forEach(([element, count]) => mergeAtomCount(atoms, element, count * coefficient));
+  });
+
+  const composition = Object.entries(atoms).map(([element, count]) => ({
+    element,
+    count,
+    mass: atomicWeights[element] * count,
+    percent: 0,
+  }));
+  const molarMass = composition.reduce((sum, item) => sum + item.mass, 0);
+
+  return {
+    formula,
+    molarMass,
+    atomCount: composition.reduce((sum, item) => sum + item.count, 0),
+    composition: composition.map((item) => ({
+      ...item,
+      percent: (item.mass / molarMass) * 100,
+    })),
+  };
+}
+
+function timeFromMinutes(totalMinutesInput: number) {
+  const totalMinutes = ((Math.round(totalMinutesInput) % 1440) + 1440) % 1440;
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+}
+
+export function calculateSleepSchedule(
+  mode: 'wake-up' | 'bedtime',
+  inputTime: string,
+  cycles: number,
+  fallAsleepMinutes: number,
+): SleepScheduleResult {
+  const timeMinutes = parseClockTime(inputTime, 'Time') / secondsPerMinute;
+  assertPositiveNumber(cycles, 'Sleep cycles');
+  assertNonNegativeNumber(fallAsleepMinutes, 'Fall-asleep minutes');
+
+  if (!Number.isInteger(cycles) || cycles < 1 || cycles > 8) {
+    throw new Error('Sleep cycles must be a whole number from 1 to 8');
+  }
+
+  const sleepDurationMinutes = cycles * 90;
+  const targetMinutes =
+    mode === 'wake-up'
+      ? timeMinutes - sleepDurationMinutes - fallAsleepMinutes
+      : timeMinutes + sleepDurationMinutes + fallAsleepMinutes;
+
+  return {
+    mode,
+    inputTime,
+    fallAsleepMinutes,
+    cycles,
+    targetTime: timeFromMinutes(targetMinutes),
+    sleepDurationMinutes,
+  };
+}
+
+export function calculateTireSize(
+  widthMm: number,
+  aspectRatio: number,
+  wheelDiameterInches: number,
+): TireSizeResult {
+  assertPositiveNumber(widthMm, 'Tire width');
+  assertPositiveNumber(aspectRatio, 'Aspect ratio');
+  assertPositiveNumber(wheelDiameterInches, 'Wheel diameter');
+
+  const sidewallInches = (widthMm * (aspectRatio / 100)) / millimetersPerInch;
+  const tireDiameterInches = wheelDiameterInches + sidewallInches * 2;
+  const circumferenceInches = tireDiameterInches * Math.PI;
+
+  return {
+    widthMm,
+    aspectRatio,
+    wheelDiameterInches,
+    sidewallInches,
+    tireDiameterInches,
+    circumferenceInches,
+    revolutionsPerMile: 63360 / circumferenceInches,
+  };
+}
+
+export function calculateRoofingEstimate(
+  lengthFeet: number,
+  widthFeet: number,
+  pitchRisePer12: number,
+  wastePercent: number,
+): RoofingEstimateResult {
+  assertPositiveNumber(lengthFeet, 'Length');
+  assertPositiveNumber(widthFeet, 'Width');
+  assertNonNegativeNumber(pitchRisePer12, 'Pitch rise');
+  assertPercentRange(wastePercent, 'Waste percent', 100);
+
+  const footprintSquareFeet = lengthFeet * widthFeet;
+  const pitchFactor = Math.sqrt(pitchRisePer12 ** 2 + 12 ** 2) / 12;
+  const roofSquareFeet = footprintSquareFeet * pitchFactor * (1 + wastePercent / 100);
+  const roofSquares = roofSquareFeet / 100;
+
+  return {
+    footprintSquareFeet,
+    pitchRisePer12,
+    pitchFactor,
+    roofSquareFeet,
+    wastePercent,
+    roofSquares,
+    shingleBundles: Math.ceil(roofSquares * 3),
+  };
+}
+
+export function calculateTileEstimate(
+  areaSquareFeet: number,
+  tileLengthInches: number,
+  tileWidthInches: number,
+  wastePercent: number,
+): TileEstimateResult {
+  assertPositiveNumber(areaSquareFeet, 'Area');
+  assertPositiveNumber(tileLengthInches, 'Tile length');
+  assertPositiveNumber(tileWidthInches, 'Tile width');
+  assertPercentRange(wastePercent, 'Waste percent', 100);
+
+  const tileAreaSquareFeet = (tileLengthInches * tileWidthInches) / 144;
+
+  return {
+    areaSquareFeet,
+    tileLengthInches,
+    tileWidthInches,
+    wastePercent,
+    tileAreaSquareFeet,
+    tilesNeeded: Math.ceil((areaSquareFeet * (1 + wastePercent / 100)) / tileAreaSquareFeet),
+  };
+}
+
+export function calculateMulchEstimate(
+  areaSquareFeet: number,
+  depthInches: number,
+  wastePercent: number,
+): MulchEstimateResult {
+  assertPositiveNumber(areaSquareFeet, 'Area');
+  assertPositiveNumber(depthInches, 'Depth');
+  assertPercentRange(wastePercent, 'Waste percent', 100);
+
+  const cubicFeet = areaSquareFeet * (depthInches / 12) * (1 + wastePercent / 100);
+
+  return {
+    areaSquareFeet,
+    depthInches,
+    wastePercent,
+    cubicFeet,
+    cubicYards: cubicFeet / 27,
+    twoCubicFootBags: Math.ceil(cubicFeet / 2),
+  };
+}
+
+export function calculateGravelEstimate(
+  lengthFeet: number,
+  widthFeet: number,
+  depthInches: number,
+  tonsPerCubicYard: number,
+): GravelEstimateResult {
+  assertPositiveNumber(lengthFeet, 'Length');
+  assertPositiveNumber(widthFeet, 'Width');
+  assertPositiveNumber(depthInches, 'Depth');
+  assertPositiveNumber(tonsPerCubicYard, 'Tons per cubic yard');
+
+  const cubicFeet = lengthFeet * widthFeet * (depthInches / 12);
+  const cubicYards = cubicFeet / 27;
+
+  return {
+    lengthFeet,
+    widthFeet,
+    depthInches,
+    tonsPerCubicYard,
+    cubicFeet,
+    cubicYards,
+    tons: cubicYards * tonsPerCubicYard,
+  };
+}
+
+export function calculateWindChill(temperatureFahrenheit: number, windSpeedMph: number): WeatherFeelsLikeResult {
+  assertFiniteNumber(temperatureFahrenheit, 'Temperature');
+  assertPositiveNumber(windSpeedMph, 'Wind speed');
+
+  const windPower = windSpeedMph ** 0.16;
+  const resultFahrenheit =
+    35.74 +
+    0.6215 * temperatureFahrenheit -
+    35.75 * windPower +
+    0.4275 * temperatureFahrenheit * windPower;
+
+  return {
+    temperatureFahrenheit,
+    windSpeedMph,
+    resultFahrenheit,
+    resultCelsius: ((resultFahrenheit - 32) * 5) / 9,
+  };
+}
+
+export function calculateHeatIndex(temperatureFahrenheit: number, relativeHumidity: number): WeatherFeelsLikeResult {
+  assertFiniteNumber(temperatureFahrenheit, 'Temperature');
+  assertPercentRange(relativeHumidity, 'Relative humidity', 100);
+
+  const t = temperatureFahrenheit;
+  const rh = relativeHumidity;
+  let resultFahrenheit =
+    -42.379 +
+    2.04901523 * t +
+    10.14333127 * rh -
+    0.22475541 * t * rh -
+    0.00683783 * t * t -
+    0.05481717 * rh * rh +
+    0.00122874 * t * t * rh +
+    0.00085282 * t * rh * rh -
+    0.00000199 * t * t * rh * rh;
+
+  if (rh < 13 && t >= 80 && t <= 112) {
+    resultFahrenheit -= ((13 - rh) / 4) * Math.sqrt((17 - Math.abs(t - 95)) / 17);
+  } else if (rh > 85 && t >= 80 && t <= 87) {
+    resultFahrenheit += ((rh - 85) / 10) * ((87 - t) / 5);
+  }
+
+  return {
+    temperatureFahrenheit,
+    relativeHumidity,
+    resultFahrenheit,
+    resultCelsius: ((resultFahrenheit - 32) * 5) / 9,
+  };
+}
+
+export function calculateDewPoint(temperatureFahrenheit: number, relativeHumidity: number): WeatherFeelsLikeResult {
+  assertFiniteNumber(temperatureFahrenheit, 'Temperature');
+  assertPercentRange(relativeHumidity, 'Relative humidity', 100);
+
+  if (relativeHumidity <= 0) {
+    throw new Error('Relative humidity must be greater than zero');
+  }
+
+  const temperatureCelsius = ((temperatureFahrenheit - 32) * 5) / 9;
+  const a = 17.625;
+  const b = 243.04;
+  const gamma = Math.log(relativeHumidity / 100) + (a * temperatureCelsius) / (b + temperatureCelsius);
+  const resultCelsius = (b * gamma) / (a - gamma);
+  const resultFahrenheit = (resultCelsius * 9) / 5 + 32;
+
+  return {
+    temperatureFahrenheit,
+    relativeHumidity,
+    resultFahrenheit,
+    resultCelsius,
+  };
+}
+
+export function calculateBandwidthTime(
+  dataAmount: number,
+  dataUnit: string,
+  speedAmount: number,
+  speedUnit: string,
+): BandwidthTimeResult {
+  assertPositiveNumber(dataAmount, 'Data amount');
+  assertPositiveNumber(speedAmount, 'Speed');
+
+  const dataUnitBits: Record<string, number> = {
+    KB: 8_000,
+    MB: 8_000_000,
+    GB: 8_000_000_000,
+    TB: 8_000_000_000_000,
+  };
+  const speedUnitBitsPerSecond: Record<string, number> = {
+    Kbps: 1_000,
+    Mbps: 1_000_000,
+    Gbps: 1_000_000_000,
+  };
+  const bits = dataAmount * (dataUnitBits[dataUnit] ?? 0);
+  const bitsPerSecond = speedAmount * (speedUnitBitsPerSecond[speedUnit] ?? 0);
+
+  if (!bits || !bitsPerSecond) {
+    throw new Error('Choose supported data and speed units');
+  }
+
+  const seconds = bits / bitsPerSecond;
+
+  return {
+    dataAmount,
+    dataUnit,
+    speedAmount,
+    speedUnit,
+    seconds,
+    minutes: seconds / 60,
+    hours: seconds / 3600,
+  };
+}
+
+export function calculateGdpEstimate(
+  consumption: number,
+  investment: number,
+  governmentSpending: number,
+  exportsValue: number,
+  importsValue: number,
+  population?: number,
+): GdpEstimateResult {
+  assertNonNegativeNumber(consumption, 'Personal consumption');
+  assertNonNegativeNumber(investment, 'Private investment');
+  assertNonNegativeNumber(governmentSpending, 'Government spending');
+  assertNonNegativeNumber(exportsValue, 'Exports');
+  assertNonNegativeNumber(importsValue, 'Imports');
+
+  const populationValue = population === undefined || population === 0 ? null : population;
+
+  if (populationValue !== null) {
+    assertPositiveNumber(populationValue, 'Population');
+  }
+
+  const netExports = exportsValue - importsValue;
+  const gdp = consumption + investment + governmentSpending + netExports;
+
+  if (gdp <= 0) {
+    throw new Error('GDP must be greater than zero after net exports');
+  }
+
+  return {
+    consumption,
+    investment,
+    governmentSpending,
+    exports: exportsValue,
+    imports: importsValue,
+    netExports,
+    gdp,
+    population: populationValue,
+    gdpPerPerson: populationValue === null ? null : gdp / populationValue,
+  };
+}
+
+export function calculateHorsepowerConversion(
+  inputPower: number,
+  inputUnit: HorsepowerUnit,
+): HorsepowerConversionResult {
+  assertPositiveNumber(inputPower, 'Power');
+
+  const unitToWatts: Record<HorsepowerUnit, number> = {
+    horsepower: wattsPerMechanicalHorsepower,
+    watt: 1,
+    kilowatt: 1000,
+    'metric-horsepower': wattsPerMetricHorsepower,
+  };
+  const watts = inputPower * unitToWatts[inputUnit];
+
+  if (!Number.isFinite(watts)) {
+    throw new Error('Power is outside calculator range');
+  }
+
+  return {
+    inputPower,
+    inputUnit,
+    watts,
+    kilowatts: watts / 1000,
+    mechanicalHorsepower: watts / wattsPerMechanicalHorsepower,
+    metricHorsepower: watts / wattsPerMetricHorsepower,
+  };
+}
+
+export function calculateEngineHorsepower(
+  torquePoundFeet: number,
+  rpm: number,
+  drivetrainLossPercent = 0,
+): EngineHorsepowerResult {
+  assertPositiveNumber(torquePoundFeet, 'Torque');
+  assertPositiveNumber(rpm, 'RPM');
+  assertNonNegativeNumber(drivetrainLossPercent, 'Drivetrain loss');
+
+  if (drivetrainLossPercent >= 100) {
+    throw new Error('Drivetrain loss must be less than 100%');
+  }
+
+  const engineHorsepower = (torquePoundFeet * rpm) / engineHorsepowerTorqueConstant;
+  const wheelHorsepower = engineHorsepower * (1 - drivetrainLossPercent / 100);
+
+  return {
+    torquePoundFeet,
+    rpm,
+    drivetrainLossPercent,
+    engineHorsepower,
+    wheelHorsepower,
+    kilowatts: (engineHorsepower * wattsPerMechanicalHorsepower) / 1000,
+  };
+}
+
+function assertSlopeRating(slopeRating: number) {
+  assertFiniteNumber(slopeRating, 'Slope rating');
+
+  if (slopeRating < 55 || slopeRating > 155) {
+    throw new Error('Slope rating must be between 55 and 155');
+  }
+}
+
+export function calculateGolfScoreDifferential(
+  adjustedGrossScore: number,
+  courseRating: number,
+  slopeRating: number,
+  playingConditionsAdjustment = 0,
+): GolfScoreDifferentialResult {
+  assertPositiveNumber(adjustedGrossScore, 'Adjusted gross score');
+  assertPositiveNumber(courseRating, 'Course rating');
+  assertSlopeRating(slopeRating);
+  assertFiniteNumber(playingConditionsAdjustment, 'Playing conditions adjustment');
+
+  if (playingConditionsAdjustment < -1 || playingConditionsAdjustment > 3) {
+    throw new Error('PCC adjustment should usually be between -1 and +3');
+  }
+
+  const rawDifferential = ((adjustedGrossScore - courseRating - playingConditionsAdjustment) * 113) / slopeRating;
+
+  return {
+    adjustedGrossScore,
+    courseRating,
+    slopeRating,
+    playingConditionsAdjustment,
+    rawDifferential,
+    scoreDifferential: Math.round(rawDifferential * 10) / 10,
+  };
+}
+
+export function calculateGolfCourseHandicap(
+  handicapIndex: number,
+  slopeRating: number,
+  courseRating: number,
+  par: number,
+  allowancePercent = 100,
+): GolfCourseHandicapResult {
+  assertFiniteNumber(handicapIndex, 'Handicap index');
+  assertSlopeRating(slopeRating);
+  assertPositiveNumber(courseRating, 'Course rating');
+  assertPositiveNumber(par, 'Par');
+  assertPositiveNumber(allowancePercent, 'Allowance');
+
+  if (handicapIndex < -10 || handicapIndex > 54) {
+    throw new Error('Handicap index should be between -10.0 and 54.0 for this estimate');
+  }
+
+  if (allowancePercent > 100) {
+    throw new Error('Allowance cannot be above 100%');
+  }
+
+  const rawCourseHandicap = handicapIndex * (slopeRating / 113) + (courseRating - par);
+  const courseHandicap = Math.round(rawCourseHandicap);
+
+  return {
+    handicapIndex,
+    slopeRating,
+    courseRating,
+    par,
+    allowancePercent,
+    rawCourseHandicap,
+    courseHandicap,
+    playingHandicap: Math.round(courseHandicap * (allowancePercent / 100)),
   };
 }
 

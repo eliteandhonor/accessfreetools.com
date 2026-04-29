@@ -85,6 +85,62 @@ const sourceLinks = {
     href: 'https://www.irs.gov/newsroom/irs-sets-2026-business-standard-mileage-rate-at-725-cents-per-mile-up-25-cents',
     label: 'IRS: 2026 standard mileage rates',
   },
+  cdcSleep: {
+    href: 'https://www.cdc.gov/sleep/about/index.html',
+    label: 'CDC: Sleep recommendations by age',
+  },
+  energyStarAc: {
+    href: 'https://www.energystar.gov/productfinder/product/certified-room-air-conditioners/',
+    label: 'ENERGY STAR: Room air conditioner sizing guidance',
+  },
+  doeAc: {
+    href: 'https://www.energy.gov/energysaver/room-air-conditioners',
+    label: 'U.S. Department of Energy: Room air conditioners',
+  },
+  oshaStairs: {
+    href: 'https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.25',
+    label: 'OSHA: Stairways standard',
+  },
+  nwsWindChill: {
+    href: 'https://www.weather.gov/gjt/windchill',
+    label: 'National Weather Service: Wind chill formula',
+  },
+  noaaHeatIndex: {
+    href: 'https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml',
+    label: 'NOAA/NWS: Heat index equation',
+  },
+  bipmSi: {
+    href: 'https://www.bipm.org/en/publications/si-brochure',
+    label: 'BIPM: The International System of Units',
+  },
+  nistAtomicWeights: {
+    href: 'https://www.nist.gov/physical-measurement-laboratory/atomic-weights-and-isotopic-compositions',
+    label: 'NIST: Atomic weights and isotopic compositions',
+  },
+  nhtsaTireSize: {
+    href: 'https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/811051',
+    label: 'NHTSA: Tire size sidewall fields reference',
+  },
+  teResistorCode: {
+    href: 'https://www.te.com/usa-en/products/passive-components/resistors/intersection/resistor-color-codes.html',
+    label: 'TE Connectivity: Resistor color codes and IEC 60062 context',
+  },
+  beaGdp: {
+    href: 'https://www.bea.gov/help/glossary/gross-domestic-product-gdp',
+    label: 'BEA: Gross domestic product glossary',
+  },
+  nistConversionFactors: {
+    href: 'https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8',
+    label: 'NIST SP 811: Conversion factors listed alphabetically',
+  },
+  usgaScoreDifferential: {
+    href: 'https://www.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---what-is-a-score-differential.html',
+    label: 'USGA: What is a Score Differential?',
+  },
+  usgaCourseHandicap: {
+    href: 'https://www.usga.org/HandicapFAQ/handicap.asp',
+    label: 'USGA: World Handicap System FAQ',
+  },
 };
 
 const guideDetails: Record<string, UtilityGuideDetail> = {
@@ -634,6 +690,532 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Use the Date Calculator when you need days between two dates.',
     ],
     sources: [sourceLinks.isoDate],
+  },
+  'height-calculator': {
+    summary: 'Learn how parent heights can give a rough adult-height estimate.',
+    purpose:
+      'The Height Calculator uses a simple mid-parental estimate. It is useful for understanding the math behind a rough family-height prediction, but it should not be treated as a medical growth forecast.',
+    enter: [
+      'Choose the estimate type for the child.',
+      'Enter each parent height using feet and extra inches.',
+      'Calculate to see an estimated height and a rough range.',
+    ],
+    read: [
+      'The main answer is the estimated adult height in feet and inches.',
+      'The range line is important because real growth does not follow one exact number.',
+      'The centimeter line helps when you need metric context.',
+    ],
+    mistakes: [
+      'Do not use this for medical decisions.',
+      'Do not ignore growth patterns, puberty timing, nutrition, or health history.',
+      'Check that feet and inches were entered separately and not as one decimal height.',
+    ],
+    sources: [sourceLinks.cdcSleep],
+  },
+  'bra-size-calculator': {
+    summary: 'Learn how bust and underbust measurements create a starting bra size estimate.',
+    purpose:
+      'The Bra Size Calculator gives a practical starting point from two measurements. It helps explain band and cup math, while making it clear that real fit depends on brand, style, and body shape.',
+    enter: [
+      'Measure underbust in inches.',
+      'Measure around the fullest bust point in inches.',
+      'Calculate to get a starting band and cup estimate.',
+    ],
+    read: [
+      'Band is based on the underbust measurement rounded to an even size.',
+      'Cup is based on the difference between bust and band.',
+      'The tolerance note matters because the same label can fit differently across brands.',
+    ],
+    mistakes: [
+      'Do not treat the estimate as a guaranteed size.',
+      'Do not pull the tape so tight that the measurement changes.',
+      'Check brand size charts and nearby sister sizes before buying.',
+    ],
+    sources: [],
+  },
+  'voltage-drop-calculator': {
+    summary: 'Learn how current, wire resistance, distance, and voltage affect voltage drop.',
+    purpose:
+      'The Voltage Drop Calculator is for early planning and learning. It estimates the voltage lost across a copper conductor run, then shows the percent drop and load voltage.',
+    enter: [
+      'Enter source voltage and current in amps.',
+      'Enter one-way wire length in feet.',
+      'Choose copper AWG size and phase type.',
+    ],
+    read: [
+      'Voltage drop is the estimated volts lost in the conductor.',
+      'Percent drop compares that loss with source voltage.',
+      'Load voltage is the source voltage minus estimated drop.',
+    ],
+    mistakes: [
+      'Do not use this as a final wiring design.',
+      'Do not forget that conductor material, temperature, and installation method matter.',
+      'Ask a qualified electrician for real installations.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'btu-calculator': {
+    summary: 'Learn how to estimate room cooling BTU from room size and simple adjustments.',
+    purpose:
+      'The BTU Calculator estimates room air conditioner cooling capacity. It starts with a room-size table and then adjusts for ceiling height, sunlight, extra people, and kitchen heat.',
+    enter: [
+      'Enter the room square footage.',
+      'Enter ceiling height and choose sunlight level.',
+      'Add people count and check kitchen only when the room has kitchen heat load.',
+    ],
+    read: [
+      'The main answer is the rounded BTU per hour estimate.',
+      'Base table value shows the starting point before adjustments.',
+      'Adjusted estimate shows the number before practical rounding.',
+    ],
+    mistakes: [
+      'Do not assume bigger is always better.',
+      'Do not use one room estimate for a whole house.',
+      'Consider insulation, windows, climate, and humidity before buying.',
+    ],
+    sources: [sourceLinks.energyStarAc, sourceLinks.doeAc],
+  },
+  'stair-calculator': {
+    summary: 'Learn how total rise turns into risers, treads, run, and stair angle.',
+    purpose:
+      'The Stair Calculator helps with rough stair layout math. It rounds total rise into a whole number of risers, then shows the actual riser height, tread count, run, and angle.',
+    enter: [
+      'Enter total rise from lower finished floor to upper finished floor.',
+      'Enter your target riser height.',
+      'Enter planned tread depth.',
+    ],
+    read: [
+      'Riser count is the number of vertical step rises.',
+      'Actual riser shows the height after rounding to a whole number of risers.',
+      'Total run estimates horizontal space for the treads.',
+    ],
+    mistakes: [
+      'Do not build from this estimate alone.',
+      'Do not ignore finished flooring thickness.',
+      'Check local code for uniformity, handrails, landings, headroom, and tread rules.',
+    ],
+    sources: [sourceLinks.oshaStairs],
+  },
+  'resistor-calculator': {
+    summary: 'Learn how 4-band resistor colors decode into ohms and tolerance.',
+    purpose:
+      'The Resistor Calculator turns common 4-band color codes into a nominal resistance and tolerance range. It is made for electronics study and quick component identification.',
+    enter: [
+      'Choose the first digit color.',
+      'Choose the second digit color.',
+      'Choose multiplier and tolerance colors.',
+    ],
+    read: [
+      'The main answer is nominal resistance in ohms.',
+      'Tolerance shows the possible range around the nominal value.',
+      'Minimum and maximum help you understand what the tolerance means.',
+    ],
+    mistakes: [
+      'Do not read the bands backward.',
+      'Do not trust faded colors without checking.',
+      'Use a multimeter when the exact part value matters.',
+    ],
+    sources: [sourceLinks.teResistorCode],
+  },
+  'ohms-law-calculator': {
+    summary: 'Learn how voltage, current, resistance, and power fit together.',
+    purpose:
+      'The Ohms Law Calculator solves the basic resistor relationships. Enter two known values and it fills in voltage, current, resistance, and power.',
+    enter: [
+      'Choose the pair of values you know.',
+      'Enter the two values in the labels shown.',
+      'Calculate to get the remaining circuit values.',
+    ],
+    read: [
+      'Voltage is electrical potential difference.',
+      'Current is flow in amps.',
+      'Resistance is ohms, and power is watts.',
+    ],
+    mistakes: [
+      'Do not use simple DC resistor math for every AC or reactive circuit.',
+      'Do not ignore component power ratings and heat.',
+      'Never test live circuits without proper training and equipment.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'electricity-calculator': {
+    summary: 'Learn how watts and time turn into kWh and estimated electricity cost.',
+    purpose:
+      'The Electricity Calculator estimates energy use and cost for a device. It is useful when you know wattage, daily hours, days used, and your rate per kWh.',
+    enter: [
+      'Enter the device wattage.',
+      'Enter hours per day and number of days.',
+      'Enter your electricity price per kWh.',
+    ],
+    read: [
+      'kWh is the energy amount your bill commonly uses.',
+      'Cost multiplies kWh by the rate you entered.',
+      'The rate line reminds you which price was used.',
+    ],
+    mistakes: [
+      'Do not forget that some devices cycle on and off.',
+      'Do not confuse watts with kilowatts.',
+      'Real bills can include fees, taxes, and tiered rates.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'shoe-size-conversion': {
+    summary: 'Learn how measured foot length converts into approximate adult shoe sizes.',
+    purpose:
+      'The Shoe Size Conversion tool starts with foot length in centimeters and estimates US men, US women, UK, and EU adult sizes. It is best for orientation before checking a brand chart.',
+    enter: [
+      'Measure foot length in centimeters.',
+      'Enter the length in the tool.',
+      'Calculate to compare size systems.',
+    ],
+    read: [
+      'US men is shown as the main answer.',
+      'US women, UK, and EU estimates appear as supporting lines.',
+      'Foot inches shows the conversion behind the estimate.',
+    ],
+    mistakes: [
+      'Do not buy from the estimate alone when fit matters.',
+      'Do not ignore shoe width and shape.',
+      'Use the manufacturer chart because brands use different lasts.',
+    ],
+    sources: [],
+  },
+  'molarity-calculator': {
+    summary: 'Learn how moles, grams, molar mass, and liters create molarity.',
+    purpose:
+      'The Molarity Calculator finds mol/L concentration. It can use moles directly, or it can convert grams to moles first when you know molar mass.',
+    enter: [
+      'Choose moles and volume when moles are already known.',
+      'Choose grams and molar mass when starting from a weighed amount.',
+      'Enter final solution volume in liters.',
+    ],
+    read: [
+      'The main answer is molarity, written as M.',
+      'Moles shows the amount of solute used in the final division.',
+      'Molar mass appears when grams mode is used.',
+    ],
+    mistakes: [
+      'Do not use solvent volume when the problem asks for final solution volume.',
+      'Do not mix grams and moles without converting.',
+      'Check hydrate state and lab instructions.',
+    ],
+    sources: [sourceLinks.bipmSi, sourceLinks.nistAtomicWeights],
+  },
+  'molecular-weight-calculator': {
+    summary: 'Learn how a chemical formula becomes an estimated molar mass.',
+    purpose:
+      'The Molecular Weight Calculator parses a common chemical formula, counts atoms, multiplies each count by a rounded atomic weight, and adds the parts.',
+    enter: [
+      'Enter a formula such as H2O, C6H12O6, or Ca(OH)2.',
+      'Use normal element capitalization.',
+      'Use a period for dot hydrates, such as CuSO4.5H2O.',
+    ],
+    read: [
+      'The main answer is estimated grams per mole.',
+      'Atoms counted tells you whether subscripts and parentheses were read.',
+      'Composition shows the mass share by element.',
+    ],
+    mistakes: [
+      'Do not use lowercase-only formulas.',
+      'Do not expect isotope-exact mass from rounded atomic weights.',
+      'Unsupported elements need a reference lookup before they can be calculated.',
+    ],
+    sources: [sourceLinks.bipmSi, sourceLinks.nistAtomicWeights],
+  },
+  'sleep-calculator': {
+    summary: 'Learn how to count sleep cycles from bedtime or wake-up time.',
+    purpose:
+      'The Sleep Calculator counts 90-minute sleep cycles forward or backward and includes a fall-asleep buffer. It helps plan a bedtime or wake-up time without pretending sleep is only math.',
+    enter: [
+      'Choose wake-up time or bedtime mode.',
+      'Enter the clock time.',
+      'Enter sleep cycles and minutes to fall asleep.',
+    ],
+    read: [
+      'The main answer is the suggested bedtime or wake-up time.',
+      'Sleep time shows cycle duration only.',
+      'Fall-asleep buffer shows the extra time included.',
+    ],
+    mistakes: [
+      'Do not ignore sleep quality.',
+      'Do not assume everyone needs the same number of cycles.',
+      'Talk to a healthcare provider if sleep problems persist.',
+    ],
+    sources: [sourceLinks.cdcSleep],
+  },
+  'tire-size-calculator': {
+    summary: 'Learn how tire width, aspect ratio, and wheel diameter create tire diameter.',
+    purpose:
+      'The Tire Size Calculator explains a metric tire size such as 225/60R16. It estimates sidewall height, total diameter, circumference, and revolutions per mile.',
+    enter: [
+      'Enter width in millimeters.',
+      'Enter aspect ratio as a percent.',
+      'Enter wheel diameter in inches.',
+    ],
+    read: [
+      'Diameter is the overall tire height estimate.',
+      'Sidewall shows one sidewall height.',
+      'Revs per mile helps compare rolling size changes.',
+    ],
+    mistakes: [
+      'Do not assume a size fits because the math looks close.',
+      'Do not ignore load rating, rim width, clearance, and manufacturer guidance.',
+      'Changing diameter can affect speedometer and safety systems.',
+    ],
+    sources: [sourceLinks.nhtsaTireSize],
+  },
+  'roofing-calculator': {
+    summary: 'Learn how footprint, pitch, and waste estimate roof squares and bundles.',
+    purpose:
+      'The Roofing Calculator estimates materials for a simple pitched roof. It turns a footprint into slope-adjusted roof area, adds waste, then estimates roofing squares and bundles.',
+    enter: [
+      'Enter footprint length and width.',
+      'Enter pitch rise per 12 inches of run.',
+      'Enter waste percent.',
+    ],
+    read: [
+      'Roof squares are 100-square-foot units.',
+      'Bundles estimate assumes 3 shingle bundles per square.',
+      'Pitch factor shows how slope increased the footprint area.',
+    ],
+    mistakes: [
+      'Do not use this as a contractor measurement.',
+      'Do not ignore hips, valleys, dormers, waste, openings, and product coverage.',
+      'Check local roofing practices before ordering.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'tile-calculator': {
+    summary: 'Learn how area, tile dimensions, and waste estimate tile count.',
+    purpose:
+      'The Tile Calculator estimates whole tiles needed from project area and tile size. It is useful for early material planning before checking box coverage.',
+    enter: [
+      'Enter project area in square feet.',
+      'Enter tile length and width in inches.',
+      'Enter waste percent.',
+    ],
+    read: [
+      'The main answer is whole tiles needed.',
+      'Each tile area shows the square-foot coverage of one tile.',
+      'Area with waste shows the adjusted project area.',
+    ],
+    mistakes: [
+      'Do not forget grout spacing and layout pattern.',
+      'Do not ignore cuts, breakage, and box quantities.',
+      'Measure irregular rooms carefully.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'mulch-calculator': {
+    summary: 'Learn how square feet and depth become cubic yards of mulch.',
+    purpose:
+      'The Mulch Calculator estimates bulk cubic yards, cubic feet, and common 2-cubic-foot bag count from area and depth.',
+    enter: [
+      'Enter bed area in square feet.',
+      'Enter desired mulch depth in inches.',
+      'Add a small waste percent if wanted.',
+    ],
+    read: [
+      'Cubic yards is the bulk-order number.',
+      'Cubic feet is useful for bag comparison.',
+      '2-cubic-foot bags estimates common retail bag count.',
+    ],
+    mistakes: [
+      'Do not forget mulch settles.',
+      'Do not measure uneven beds as if they were perfect rectangles unless the area estimate is still close.',
+      'Check bag volume or supplier yard size before buying.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'gravel-calculator': {
+    summary: 'Learn how dimensions and density estimate gravel cubic yards and tons.',
+    purpose:
+      'The Gravel Calculator estimates volume and tonnage for a rectangular gravel area. It is most useful when you can enter your supplier tons-per-cubic-yard value.',
+    enter: [
+      'Enter length and width in feet.',
+      'Enter depth in inches.',
+      'Enter tons per cubic yard from your supplier when available.',
+    ],
+    read: [
+      'Cubic yards is the volume estimate.',
+      'Estimated tons multiplies cubic yards by density.',
+      'Density used reminds you which conversion factor was applied.',
+    ],
+    mistakes: [
+      'Do not assume every gravel type weighs the same.',
+      'Do not ignore compaction and moisture.',
+      'Ask the supplier about delivery minimums and recommended overage.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'wind-chill-calculator': {
+    summary: 'Learn how the NWS wind chill formula estimates feels-like cold.',
+    purpose:
+      'The Wind Chill Calculator combines air temperature and wind speed to estimate how cold exposed skin may feel in cold, windy weather.',
+    enter: [
+      'Enter air temperature in Fahrenheit.',
+      'Enter wind speed in miles per hour.',
+      'Calculate to see wind chill in Fahrenheit and Celsius.',
+    ],
+    read: [
+      'The main answer is the wind chill temperature.',
+      'Celsius gives metric context.',
+      'Air temperature and wind speed confirm what went into the formula.',
+    ],
+    mistakes: [
+      'Do not use wind chill for warm weather.',
+      'Do not ignore local frostbite and cold-weather warnings.',
+      'Remember wind chill affects people, not the actual temperature of objects.',
+    ],
+    sources: [sourceLinks.nwsWindChill],
+  },
+  'heat-index-calculator': {
+    summary: 'Learn how temperature and humidity estimate apparent heat.',
+    purpose:
+      'The Heat Index Calculator uses the NWS heat index regression to estimate apparent temperature in warm, humid conditions.',
+    enter: [
+      'Enter air temperature in Fahrenheit.',
+      'Enter relative humidity percent.',
+      'Calculate to see apparent temperature in Fahrenheit and Celsius.',
+    ],
+    read: [
+      'The main answer is heat index.',
+      'Celsius gives metric context.',
+      'Humidity confirms how much moisture was used in the estimate.',
+    ],
+    mistakes: [
+      'Do not use heat index as the only heat-safety signal.',
+      'Do not ignore direct sun, exertion, wind, clothing, or health conditions.',
+      'Follow local heat advisories and emergency guidance.',
+    ],
+    sources: [sourceLinks.noaaHeatIndex],
+  },
+  'dew-point-calculator': {
+    summary: 'Learn how temperature and relative humidity estimate dew point.',
+    purpose:
+      'The Dew Point Calculator estimates the temperature at which air would become saturated with water vapor, using temperature and relative humidity.',
+    enter: [
+      'Enter air temperature in Fahrenheit.',
+      'Enter relative humidity percent.',
+      'Calculate to see dew point in Fahrenheit and Celsius.',
+    ],
+    read: [
+      'The main answer is dew point.',
+      'Celsius gives metric context.',
+      'Dew point can explain comfort better than relative humidity alone.',
+    ],
+    mistakes: [
+      'Do not enter zero humidity.',
+      'Do not treat the approximation as an official instrument reading.',
+      'Use local weather data for safety-sensitive planning.',
+    ],
+    sources: [sourceLinks.noaaHeatIndex],
+  },
+  'bandwidth-calculator': {
+    summary: 'Learn how data size and network speed estimate transfer time.',
+    purpose:
+      'The Bandwidth Calculator estimates download or upload time by converting file size to bits and dividing by bits per second.',
+    enter: [
+      'Enter the data amount and unit.',
+      'Enter the connection speed and unit.',
+      'Calculate to see seconds, minutes, and hours.',
+    ],
+    read: [
+      'The main answer is a readable duration.',
+      'Seconds is the exact base result.',
+      'Minutes and hours help with larger transfers.',
+    ],
+    mistakes: [
+      'Do not confuse bits and bytes.',
+      'Do not expect real transfers to match perfectly.',
+      'Wi-Fi, server limits, congestion, and overhead can slow the result.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'gdp-calculator': {
+    summary: 'Learn how the expenditure approach adds spending categories into GDP.',
+    purpose:
+      'The GDP Calculator is a classroom-style way to understand gross domestic product. It uses consumption, investment, government spending, exports, and imports to show how the expenditure identity works.',
+    enter: [
+      'Enter personal consumption, private investment, and government spending in the same money unit.',
+      'Enter exports and imports separately so the calculator can find net exports.',
+      'Add population only when you want GDP per person, and keep the scale consistent. If the money values are in billions, enter population in billions too.',
+    ],
+    read: [
+      'Estimated GDP is the total after adding net exports.',
+      'Net exports can be negative when imports are larger than exports.',
+      'GDP per person divides the GDP result by the population scale you entered.',
+    ],
+    mistakes: [
+      'Do not mix dollars, millions, and billions in the same calculation.',
+      'Do not enter 340,000,000 as population while your GDP values are in billions. Use 0.34 for 340 million people in that example.',
+      'Do not add imports; imports are subtracted in the expenditure approach.',
+      'Do not treat this as an official economic release or forecast.',
+    ],
+    sources: [sourceLinks.beaGdp],
+  },
+  'horsepower-calculator': {
+    summary: 'Learn how horsepower, watts, kilowatts, and metric horsepower convert.',
+    purpose:
+      'The Horsepower Calculator converts a power value through watts so mechanical horsepower and metric horsepower can be compared clearly.',
+    enter: [
+      'Enter the power amount.',
+      'Choose whether your starting value is mechanical horsepower, watts, kilowatts, or metric horsepower.',
+      'Calculate to see all common output units together.',
+    ],
+    read: [
+      'Mechanical horsepower is the main answer when comparing U.S. horsepower labels.',
+      'Watts and kilowatts are SI power units.',
+      'Metric horsepower is close to, but not the same as, mechanical horsepower.',
+    ],
+    mistakes: [
+      'Do not assume every hp label means the same unit.',
+      'Do not use this as a certified motor-rating test.',
+      'Check whether your source uses mechanical, metric, electric, boiler, or water horsepower.',
+    ],
+    sources: [sourceLinks.nistConversionFactors],
+  },
+  'engine-horsepower-calculator': {
+    summary: 'Learn how torque and RPM combine into an engine horsepower estimate.',
+    purpose:
+      'The Engine Horsepower Calculator explains the common torque-RPM relationship: torque shows twisting force, RPM shows how fast that force is applied, and together they create power.',
+    enter: [
+      'Enter torque in pound-feet.',
+      'Enter engine speed in RPM.',
+      'Add drivetrain loss only when you want a rough wheel horsepower estimate.',
+    ],
+    read: [
+      'Engine horsepower is the formula result from torque and RPM.',
+      'Wheel horsepower applies the drivetrain loss percentage you entered.',
+      'Kilowatts converts the engine horsepower into SI power units.',
+    ],
+    mistakes: [
+      'Do not treat this as a dyno-certified rating.',
+      'Do not enter peak torque and peak horsepower RPM unless they happen at the same RPM.',
+      'Use measured torque at the RPM you enter for a meaningful result.',
+    ],
+    sources: [sourceLinks.nistConversionFactors],
+  },
+  'golf-handicap-calculator': {
+    summary: 'Learn how score differential and course handicap estimates use rating, slope, par, and index.',
+    purpose:
+      'The Golf Handicap Calculator gives two useful estimates: a score differential for one adjusted round and a course handicap for playing a specific set of tees.',
+    enter: [
+      'Use Score differential mode when you have adjusted gross score, course rating, slope rating, and PCC.',
+      'Use Course handicap mode when you have a Handicap Index, slope rating, course rating, and par.',
+      'Enter the handicap allowance when your casual format uses one.',
+    ],
+    read: [
+      'Score differential is rounded to one decimal place.',
+      'Course handicap is rounded to a whole number.',
+      'Playing handicap applies the allowance to the rounded course handicap.',
+    ],
+    mistakes: [
+      'Do not call the result an official Handicap Index.',
+      'Do not ignore course rating, slope rating, and par from the exact tees played.',
+      'Remember official WHS records can include caps, exceptional-score reductions, and committee adjustments.',
+    ],
+    sources: [sourceLinks.usgaScoreDifferential, sourceLinks.usgaCourseHandicap],
   },
 };
 

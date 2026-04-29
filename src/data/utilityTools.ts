@@ -713,4 +713,605 @@ export const utilityTools: ToolDefinition[] = [
     ],
     relatedSlugs: ['date-calculator', 'age-calculator', 'time-zone-calculator'],
   }),
+  makeUtilityTool({
+    slug: 'height-calculator',
+    name: 'Height Calculator',
+    category: 'health-fitness',
+    summary: 'Estimate adult height from parent heights with a rough expected range.',
+    description:
+      'Use this free height calculator to estimate adult height from mother and father heights using a mid-parental height method and a clear rough range.',
+    icon: 'calculator-height',
+    formula:
+      'The calculator converts parent heights to inches, averages them, then adds 5 inches for a male estimate or subtracts 5 inches for a female estimate.',
+    limit:
+      'This is only a family-height estimate. Nutrition, health, puberty timing, genetics, and medical conditions can change growth.',
+    useCases: [
+      'Estimate a child adult height from parent heights.',
+      'Compare the result in feet, inches, and centimeters.',
+      'See an approximate plus-or-minus range instead of one exact promise.',
+      'Understand why growth estimates are not medical predictions.',
+    ],
+    examples: [
+      { label: 'Boy estimate', expression: 'Mother 5 ft 4 in, father 5 ft 10 in', result: 'About 5 ft 9 in' },
+      { label: 'Girl estimate', expression: 'Mother 5 ft 3 in, father 6 ft 0 in', result: 'About 5 ft 5 in' },
+    ],
+    relatedSlugs: ['healthy-weight-calculator', 'ideal-weight-calculator', 'bmi-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'bra-size-calculator',
+    name: 'Bra Size Calculator',
+    category: 'everyday-tools',
+    summary: 'Estimate a starting bra band and cup size from bust and underbust measurements.',
+    description:
+      'Use this free bra size calculator to estimate a US-style starting bra size from underbust and bust measurements in inches.',
+    icon: 'calculator-bra-size',
+    formula:
+      'The calculator rounds underbust up to an even band size, subtracts band size from bust size, and maps the difference to an approximate cup label.',
+    limit:
+      'Bra sizing varies by brand, body shape, country, and style. Use this as a fitting starting point, not a guaranteed size.',
+    useCases: [
+      'Get a quick starting size before checking brand charts.',
+      'Understand the difference between band size and cup difference.',
+      'Compare nearby sizes before trying bras on.',
+      'Avoid treating a single measurement as a final fit answer.',
+    ],
+    examples: [
+      { label: 'Simple estimate', expression: '32 in underbust, 36 in bust', result: 'About 32D' },
+      { label: 'Rounded band', expression: '33 in underbust, 36 in bust', result: 'About 34B' },
+    ],
+    relatedSlugs: ['body-type-calculator', 'body-surface-area-calculator', 'conversion-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'voltage-drop-calculator',
+    name: 'Voltage Drop Calculator',
+    category: 'calculators',
+    summary: 'Estimate voltage drop from current, wire length, voltage, phase, and copper AWG size.',
+    description:
+      'Use this free voltage drop calculator to estimate voltage drop, percent drop, and load voltage for simple copper wire runs.',
+    icon: 'calculator-voltage-drop',
+    formula:
+      'The calculator multiplies current by conductor resistance and one-way length. Single-phase/DC uses a 2x path factor; three-phase uses the square root of 3.',
+    limit:
+      'This is a simplified planning estimate. Real electrical work needs code checks, conductor temperature, material, installation method, and a qualified professional.',
+    useCases: [
+      'Estimate voltage drop for a branch circuit run.',
+      'Compare common copper AWG wire sizes.',
+      'Check percent voltage drop from source voltage.',
+      'See load voltage after the estimated drop.',
+    ],
+    examples: [
+      { label: 'Branch run', expression: '120 V, 15 A, 75 ft, 12 AWG copper', result: 'Voltage drop estimate' },
+      { label: 'Longer 240 V run', expression: '240 V, 30 A, 100 ft, 8 AWG copper', result: 'Percent drop estimate' },
+    ],
+    relatedSlugs: ['ohms-law-calculator', 'electricity-calculator', 'resistor-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'btu-calculator',
+    name: 'BTU Calculator',
+    category: 'everyday-tools',
+    summary: 'Estimate room air conditioner BTU capacity from room size and simple adjustments.',
+    description:
+      'Use this free BTU calculator to estimate room cooling capacity from square feet, ceiling height, sunlight, people, and kitchen heat load.',
+    icon: 'calculator-btu',
+    formula:
+      'The calculator starts with a room-size BTU table, adjusts for ceiling height, sunlight, extra people, and kitchen heat, then rounds to a practical BTU amount.',
+    limit:
+      'This is a room AC shopping estimate, not a full HVAC load calculation. Insulation, climate, windows, ducts, and humidity matter.',
+    useCases: [
+      'Estimate a window or room air conditioner size.',
+      'Adjust for sunny or shaded rooms.',
+      'Account for extra people and kitchen heat.',
+      'Avoid buying a unit that is wildly under- or oversized.',
+    ],
+    examples: [
+      { label: 'Bedroom', expression: '180 ft2, 8 ft ceiling', result: 'Approximate room BTU' },
+      { label: 'Sunny room', expression: '420 ft2, 9 ft ceiling, sunny, 3 people', result: 'Adjusted BTU estimate' },
+    ],
+    relatedSlugs: ['square-footage-calculator', 'electricity-calculator', 'area-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'stair-calculator',
+    name: 'Stair Calculator',
+    category: 'calculators',
+    summary: 'Estimate risers, treads, stair run, and angle from total rise and tread depth.',
+    description:
+      'Use this free stair calculator to estimate riser count, actual riser height, tread count, total run, and stair angle for a simple stair layout.',
+    icon: 'calculator-stair',
+    formula:
+      'The calculator divides total rise by target riser height, rounds to a whole riser count, then calculates actual riser height and run from tread depth.',
+    limit:
+      'Stairs are safety critical. Check local building code, uniformity, headroom, landings, handrails, and professional requirements before building.',
+    useCases: [
+      'Estimate a simple straight stair layout.',
+      'Find actual riser height after rounding to a whole step count.',
+      'Estimate total horizontal run.',
+      'Check the stair angle for planning conversation.',
+    ],
+    examples: [
+      { label: 'Basement rise', expression: '108 in rise, 7.5 in target riser, 10 in tread', result: '14 risers' },
+      { label: 'Deck rise', expression: '36 in rise, 7 in target riser, 11 in tread', result: 'Simple stair estimate' },
+    ],
+    relatedSlugs: ['slope-calculator', 'right-triangle-calculator', 'distance-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'resistor-calculator',
+    name: 'Resistor Calculator',
+    category: 'calculators',
+    summary: 'Decode 4-band resistor color codes into ohms and tolerance range.',
+    description:
+      'Use this free resistor calculator to convert common 4-band resistor color codes into resistance, tolerance, minimum, and maximum values.',
+    icon: 'calculator-resistor',
+    formula:
+      'The first two bands are digits, the third band is a multiplier, and the fourth band gives tolerance percentage.',
+    limit:
+      'Use a multimeter and circuit safety practices for real parts. Color bands can be faded, damaged, or read in the wrong direction.',
+    useCases: [
+      'Decode a common 4-band resistor.',
+      'See the tolerance range around the nominal resistance.',
+      'Check a breadboard or electronics study example.',
+      'Compare resistor values before using Ohm law.',
+    ],
+    examples: [
+      { label: '1 kOhm', expression: 'brown black red gold', result: '1,000 ohms +/- 5%' },
+      { label: '4.7 kOhm', expression: 'yellow violet red gold', result: '4,700 ohms +/- 5%' },
+    ],
+    relatedSlugs: ['ohms-law-calculator', 'voltage-drop-calculator', 'electricity-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'ohms-law-calculator',
+    name: 'Ohms Law Calculator',
+    category: 'calculators',
+    summary: 'Solve voltage, current, resistance, and power from two known circuit values.',
+    description:
+      'Use this free Ohms law calculator to solve V, I, R, and P from common voltage-current-resistance pairs.',
+    icon: 'calculator-ohms-law',
+    formula:
+      'The calculator uses V = I x R and P = V x I after the missing voltage, current, or resistance value is solved.',
+    limit:
+      'This is simple DC or resistive-circuit math. AC circuits, impedance, heat, component ratings, and electrical safety require more care.',
+    useCases: [
+      'Find resistance from voltage and current.',
+      'Find current from voltage and resistance.',
+      'Find voltage from current and resistance.',
+      'Estimate power after the core values are known.',
+    ],
+    examples: [
+      { label: 'Voltage and current', expression: '12 V and 2 A', result: '6 ohms and 24 W' },
+      { label: 'Current and resistance', expression: '2 A and 6 ohms', result: '12 V and 24 W' },
+    ],
+    relatedSlugs: ['resistor-calculator', 'voltage-drop-calculator', 'electricity-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'electricity-calculator',
+    name: 'Electricity Calculator',
+    category: 'everyday-tools',
+    summary: 'Estimate electricity use and cost from watts, hours, days, and rate per kWh.',
+    description:
+      'Use this free electricity calculator to estimate kilowatt-hours and cost for an appliance or device from wattage and usage time.',
+    icon: 'calculator-electricity',
+    formula:
+      'The calculator divides watts by 1,000 to get kilowatts, multiplies by hours and days for kWh, then multiplies by the rate per kWh.',
+    limit:
+      'Real bills include taxes, fees, tiered rates, demand charges, standby use, and variable device power draw.',
+    useCases: [
+      'Estimate appliance energy use.',
+      'Compare a heater, AC, computer, or light over time.',
+      'Turn watts and usage time into kWh.',
+      'Multiply kWh by your local rate.',
+    ],
+    examples: [
+      { label: 'Space heater', expression: '1,500 W, 4 h/day, 30 days, $0.16/kWh', result: '$28.80' },
+      { label: 'LED bulb', expression: '10 W, 5 h/day, 365 days, $0.16/kWh', result: 'Low yearly estimate' },
+    ],
+    relatedSlugs: ['btu-calculator', 'voltage-drop-calculator', 'ohms-law-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'shoe-size-conversion',
+    name: 'Shoe Size Conversion',
+    category: 'converters',
+    summary: 'Convert foot length into approximate US men, US women, UK, and EU adult shoe sizes.',
+    description:
+      'Use this free shoe size conversion tool to estimate adult shoe sizes from foot length in centimeters.',
+    icon: 'calculator-shoe-size',
+    formula:
+      'The converter turns centimeters into inches, applies common US and UK adult size formulas, and estimates EU size from centimeter length.',
+    limit:
+      'Shoe sizing varies by brand, last shape, socks, width, and country. Use official brand size charts when fit matters.',
+    useCases: [
+      'Estimate adult shoe size from measured foot length.',
+      'Compare US men, US women, UK, and EU sizes.',
+      'Check nearby half sizes before reading a brand chart.',
+      'Understand why shoe conversions are approximate.',
+    ],
+    examples: [
+      { label: '26 cm foot', expression: '26 cm', result: 'Approximate adult sizes' },
+      { label: '24 cm foot', expression: '24 cm', result: 'Compare US, UK, and EU sizes' },
+    ],
+    relatedSlugs: ['conversion-calculator', 'height-calculator', 'body-type-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'molarity-calculator',
+    name: 'Molarity Calculator',
+    category: 'school-study',
+    summary: 'Calculate molarity from moles and liters or from grams, molar mass, and liters.',
+    description:
+      'Use this free molarity calculator to find mol/L concentration from moles or from grams and molar mass.',
+    icon: 'calculator-molarity',
+    formula:
+      'The calculator uses molarity = moles of solute / liters of solution. In grams mode, it first divides grams by molar mass to find moles.',
+    limit:
+      'Lab work needs correct significant figures, final solution volume, purity, hydration state, safety procedures, and teacher or lab instructions.',
+    useCases: [
+      'Calculate molarity from moles and liters.',
+      'Calculate moles from grams and molar mass first.',
+      'Check chemistry homework setup.',
+      'Use molecular weight output as a molar mass input.',
+    ],
+    examples: [
+      { label: 'Simple molarity', expression: '0.5 mol / 1 L', result: '0.5 M' },
+      { label: 'NaCl grams', expression: '58.44 g / 58.44 g/mol / 1 L', result: '1 M' },
+    ],
+    relatedSlugs: ['molecular-weight-calculator', 'conversion-calculator', 'density-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'molecular-weight-calculator',
+    name: 'Molecular Weight Calculator',
+    category: 'school-study',
+    summary: 'Estimate molecular weight from a chemical formula with element counts and mass shares.',
+    description:
+      'Use this free molecular weight calculator to parse common chemical formulas and estimate molar mass in grams per mole.',
+    icon: 'calculator-molecular-weight',
+    formula:
+      'The calculator parses element symbols, subscripts, parentheses, and dot hydrate parts, then adds each element count times its rounded atomic weight.',
+    limit:
+      'The atomic-weight table is rounded and supports common classroom elements. Isotopes, charges, exact masses, and unsupported elements need reference data.',
+    useCases: [
+      'Find molar mass for common formulas.',
+      'Check element counts in parentheses.',
+      'Estimate mass percentage by element.',
+      'Use the result in the Molarity Calculator.',
+    ],
+    examples: [
+      { label: 'Water', expression: 'H2O', result: 'About 18.015 g/mol' },
+      { label: 'Glucose', expression: 'C6H12O6', result: 'About 180.156 g/mol' },
+      { label: 'Calcium hydroxide', expression: 'Ca(OH)2', result: 'Parentheses parsed' },
+    ],
+    relatedSlugs: ['molarity-calculator', 'scientific-calculator', 'conversion-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'sleep-calculator',
+    name: 'Sleep Calculator',
+    category: 'health-fitness',
+    summary: 'Find a bedtime or wake-up time from 90-minute sleep cycles and a fall-asleep buffer.',
+    description:
+      'Use this free sleep calculator to count sleep cycles backward from wake-up time or forward from bedtime.',
+    icon: 'calculator-sleep',
+    formula:
+      'The calculator treats one sleep cycle as about 90 minutes, then adds or subtracts cycles and your fall-asleep buffer from the clock time.',
+    limit:
+      'Sleep needs vary by age, health, schedule, stress, and sleep quality. This is a planning helper, not medical advice.',
+    useCases: [
+      'Find a bedtime from a planned wake-up time.',
+      'Find a wake-up time from bedtime.',
+      'Compare 4, 5, or 6 sleep cycles.',
+      'Add a realistic fall-asleep buffer.',
+    ],
+    examples: [
+      { label: 'Wake at 7:00', expression: '5 cycles plus 15 min buffer', result: 'Suggested bedtime' },
+      { label: 'Bed at 10:30 PM', expression: '5 cycles plus 15 min buffer', result: 'Suggested wake time' },
+    ],
+    relatedSlugs: ['time-calculator', 'hours-calculator', 'target-heart-rate-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'tire-size-calculator',
+    name: 'Tire Size Calculator',
+    category: 'everyday-tools',
+    summary: 'Calculate sidewall, diameter, circumference, and revs per mile from a metric tire size.',
+    description:
+      'Use this free tire size calculator for metric tire sizes such as 225/60R16 to estimate diameter, circumference, and revolutions per mile.',
+    icon: 'calculator-tire-size',
+    formula:
+      'The calculator multiplies width by aspect ratio for sidewall height, converts millimeters to inches, then adds two sidewalls to wheel diameter.',
+    limit:
+      'Tire changes can affect safety, fitment, load rating, speedometer readings, braking, and driver-assist systems. Follow manufacturer guidance.',
+    useCases: [
+      'Decode a metric tire size.',
+      'Compare tire diameter and circumference.',
+      'Estimate revolutions per mile.',
+      'Understand how aspect ratio changes sidewall height.',
+    ],
+    examples: [
+      { label: 'Common size', expression: '225/60R16', result: 'Diameter and revs per mile' },
+      { label: 'Low profile comparison', expression: '235/45R18', result: 'Sidewall and diameter estimate' },
+    ],
+    relatedSlugs: ['conversion-calculator', 'speed-calculator', 'mileage-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'roofing-calculator',
+    name: 'Roofing Calculator',
+    category: 'calculators',
+    summary: 'Estimate roof squares and shingle bundles from footprint, pitch, and waste.',
+    description:
+      'Use this free roofing calculator to estimate roof area, roofing squares, and shingle bundles for a simple pitched roof.',
+    icon: 'calculator-roofing',
+    formula:
+      'The calculator multiplies footprint area by a pitch factor, adds waste, divides by 100 square feet per roofing square, and estimates 3 bundles per square.',
+    limit:
+      'Complex roofs, valleys, hips, dormers, openings, product coverage, and local installation practices can change material needs.',
+    useCases: [
+      'Estimate roof squares for a simple footprint.',
+      'Adjust for roof pitch and waste.',
+      'Estimate shingle bundles at 3 bundles per square.',
+      'Prepare a rough number before contractor measurement.',
+    ],
+    examples: [
+      { label: 'Simple roof', expression: '40 ft x 30 ft, 6/12 pitch, 10% waste', result: 'Roof squares and bundles' },
+      { label: 'Low pitch', expression: '30 ft x 24 ft, 3/12 pitch', result: 'Pitch-adjusted area' },
+    ],
+    relatedSlugs: ['square-footage-calculator', 'area-calculator', 'slope-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'tile-calculator',
+    name: 'Tile Calculator',
+    category: 'calculators',
+    summary: 'Estimate tile count from area, tile size, and waste percentage.',
+    description:
+      'Use this free tile calculator to estimate how many tiles you need from project square feet and tile dimensions.',
+    icon: 'calculator-tile',
+    formula:
+      'The calculator converts tile length and width from square inches to square feet, adds waste to project area, then rounds up the tile count.',
+    limit:
+      'Real projects need layout planning, cuts, breakage, pattern matching, grout spacing, boxes, and product coverage checks.',
+    useCases: [
+      'Estimate floor or wall tile count.',
+      'Add a waste percentage before buying.',
+      'Compare tile sizes for the same room.',
+      'Convert tile dimensions into square feet per tile.',
+    ],
+    examples: [
+      { label: '12 inch tile', expression: '120 ft2, 12 x 12 in tile, 10% waste', result: '132 tiles' },
+      { label: 'Large format tile', expression: '200 ft2, 12 x 24 in tile', result: 'Tile count estimate' },
+    ],
+    relatedSlugs: ['square-footage-calculator', 'area-calculator', 'conversion-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'mulch-calculator',
+    name: 'Mulch Calculator',
+    category: 'everyday-tools',
+    summary: 'Estimate mulch cubic yards, cubic feet, and 2-cubic-foot bags from area and depth.',
+    description:
+      'Use this free mulch calculator to estimate bulk cubic yards or common bag counts from square feet, depth, and waste.',
+    icon: 'calculator-mulch',
+    formula:
+      'The calculator converts depth from inches to feet, multiplies by area for cubic feet, adds waste, then divides by 27 for cubic yards.',
+    limit:
+      'Mulch settles and bag fill can vary. Bed shape, old mulch, slope, and desired finished depth affect real material needs.',
+    useCases: [
+      'Estimate mulch for a garden bed.',
+      'Convert square feet and inches deep into cubic yards.',
+      'Estimate common 2-cubic-foot bag count.',
+      'Add a small waste buffer before buying.',
+    ],
+    examples: [
+      { label: 'Garden bed', expression: '200 ft2 at 3 in, 5% extra', result: 'About 1.94 yd3' },
+      { label: 'Refresh layer', expression: '150 ft2 at 2 in', result: 'Bulk and bag estimate' },
+    ],
+    relatedSlugs: ['gravel-calculator', 'square-footage-calculator', 'volume-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'gravel-calculator',
+    name: 'Gravel Calculator',
+    category: 'everyday-tools',
+    summary: 'Estimate gravel cubic yards and tons from length, width, depth, and density.',
+    description:
+      'Use this free gravel calculator to estimate cubic yards and tons for a rectangular gravel area.',
+    icon: 'calculator-gravel',
+    formula:
+      'The calculator converts depth from inches to feet, multiplies length by width by depth, divides by 27 for cubic yards, then multiplies by tons per cubic yard.',
+    limit:
+      'Stone type, compaction, moisture, supplier density, and delivery minimums can change the actual order amount.',
+    useCases: [
+      'Estimate gravel for a path, pad, or driveway section.',
+      'Convert cubic feet into cubic yards.',
+      'Estimate tons from supplier density.',
+      'Check how changing depth changes material needs.',
+    ],
+    examples: [
+      { label: 'Driveway bed', expression: '20 ft x 10 ft x 3 in, 1.4 tons/yd3', result: 'Cubic yards and tons' },
+      { label: 'Path', expression: '30 ft x 3 ft x 2 in', result: 'Material estimate' },
+    ],
+    relatedSlugs: ['mulch-calculator', 'volume-calculator', 'square-footage-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'wind-chill-calculator',
+    name: 'Wind Chill Calculator',
+    category: 'everyday-tools',
+    summary: 'Calculate wind chill from Fahrenheit temperature and wind speed using the NWS formula.',
+    description:
+      'Use this free wind chill calculator to estimate what cold weather feels like from air temperature and wind speed.',
+    icon: 'calculator-wind-chill',
+    formula:
+      'The calculator uses the National Weather Service wind chill equation with air temperature in Fahrenheit and wind speed in miles per hour.',
+    limit:
+      'The formula is intended for cold temperatures with meaningful wind. Follow local alerts for frostbite and outdoor safety decisions.',
+    useCases: [
+      'Estimate wind chill before going outside.',
+      'Compare actual air temperature with feels-like temperature.',
+      'Convert the result to Celsius.',
+      'Understand wind chill limits and safety notes.',
+    ],
+    examples: [
+      { label: 'Cold windy day', expression: '30 F and 15 mph', result: 'Feels colder than 30 F' },
+      { label: 'Freezing wind', expression: '20 F and 25 mph', result: 'Wind chill estimate' },
+    ],
+    relatedSlugs: ['heat-index-calculator', 'dew-point-calculator', 'conversion-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'heat-index-calculator',
+    name: 'Heat Index Calculator',
+    category: 'everyday-tools',
+    summary: 'Calculate heat index from Fahrenheit temperature and relative humidity.',
+    description:
+      'Use this free heat index calculator to estimate apparent temperature from air temperature and humidity using the NWS regression.',
+    icon: 'calculator-heat-index',
+    formula:
+      'The calculator uses the National Weather Service Rothfusz regression for heat index and applies the standard humidity adjustments.',
+    limit:
+      'Heat risk depends on sun, exertion, wind, hydration, clothing, health, and local warnings. Do not rely on a calculator alone.',
+    useCases: [
+      'Estimate how hot humid weather feels.',
+      'Compare air temperature with heat index.',
+      'Convert apparent temperature to Celsius.',
+      'Understand why humidity changes heat stress.',
+    ],
+    examples: [
+      { label: 'Humid heat', expression: '90 F and 70% RH', result: 'Higher apparent temperature' },
+      { label: 'Dryer heat', expression: '95 F and 35% RH', result: 'Adjusted heat index' },
+    ],
+    relatedSlugs: ['wind-chill-calculator', 'dew-point-calculator', 'btu-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'dew-point-calculator',
+    name: 'Dew Point Calculator',
+    category: 'everyday-tools',
+    summary: 'Estimate dew point from Fahrenheit temperature and relative humidity.',
+    description:
+      'Use this free dew point calculator to estimate dew point in Fahrenheit and Celsius from temperature and relative humidity.',
+    icon: 'calculator-dew-point',
+    formula:
+      'The calculator converts Fahrenheit to Celsius, uses the Magnus approximation with relative humidity, then converts the dew point back to Fahrenheit.',
+    limit:
+      'This is an approximation from temperature and relative humidity. Instrument readings and official forecasts can differ.',
+    useCases: [
+      'Estimate dew point from weather readings.',
+      'Compare humidity comfort more clearly than relative humidity alone.',
+      'Convert dew point between Fahrenheit and Celsius.',
+      'Use with heat index for weather context.',
+    ],
+    examples: [
+      { label: 'Humid day', expression: '75 F and 60% RH', result: 'Dew point estimate' },
+      { label: 'Dry indoor air', expression: '70 F and 30% RH', result: 'Lower dew point' },
+    ],
+    relatedSlugs: ['heat-index-calculator', 'wind-chill-calculator', 'conversion-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'bandwidth-calculator',
+    name: 'Bandwidth Calculator',
+    category: 'developer-tools',
+    summary: 'Estimate file transfer time from data size and network bandwidth.',
+    description:
+      'Use this free bandwidth calculator to estimate how long a file transfer takes from KB, MB, GB, or TB and Kbps, Mbps, or Gbps.',
+    icon: 'calculator-bandwidth',
+    formula:
+      'The calculator converts data size to bits, converts speed to bits per second, then divides bits by bits per second for transfer time.',
+    limit:
+      'Real transfer time depends on Wi-Fi, server speed, congestion, overhead, protocol limits, and whether units are decimal or binary.',
+    useCases: [
+      'Estimate download or upload time.',
+      'Compare file sizes against connection speed.',
+      'Convert seconds into minutes and hours.',
+      'Plan rough transfer windows for large files.',
+    ],
+    examples: [
+      { label: 'Large download', expression: '5 GB at 100 Mbps', result: 'About 6m 40s' },
+      { label: 'Medium file', expression: '700 MB at 25 Mbps', result: 'Transfer time estimate' },
+    ],
+    relatedSlugs: ['subnet-calculator', 'base64-encode-decode', 'url-encode-decode'],
+  }),
+  makeUtilityTool({
+    slug: 'gdp-calculator',
+    name: 'GDP Calculator',
+    category: 'finance',
+    summary: 'Estimate gross domestic product from consumption, investment, government spending, exports, and imports.',
+    description:
+      'Use this free GDP calculator to learn the expenditure approach: consumption plus investment plus government spending plus net exports.',
+    icon: 'calculator-gdp',
+    formula:
+      'The calculator uses the expenditure approach: GDP = C + I + G + (exports - imports). If population is entered in the same scale, it divides GDP by population for GDP per person.',
+    limit:
+      'Use consistent money units. This is a learning estimate, not an official national account, forecast, or economic policy model.',
+    useCases: [
+      'Practice GDP homework examples with the expenditure formula.',
+      'See how imports reduce net exports in the GDP identity.',
+      'Estimate GDP per person when population is known.',
+      'Compare how each spending category changes the headline GDP number.',
+    ],
+    examples: [
+      { label: 'Economy example', expression: '18,000 + 5,000 + 6,500 + (3,200 - 4,100), population 0.34', result: '28,600 and about 84,118 per person' },
+      { label: 'Classroom example', expression: '700 + 150 + 220 + (90 - 120)', result: '1,040' },
+    ],
+    relatedSlugs: ['inflation-calculator', 'finance-calculator', 'percentage-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'horsepower-calculator',
+    name: 'Horsepower Calculator',
+    category: 'converters',
+    summary: 'Convert mechanical horsepower, metric horsepower, watts, and kilowatts.',
+    description:
+      'Use this free horsepower calculator to convert between mechanical horsepower, metric horsepower, watts, and kilowatts.',
+    icon: 'calculator-horsepower',
+    formula:
+      'The calculator converts the starting unit to watts, then divides by 745.6999 for mechanical horsepower or 735.4988 for metric horsepower.',
+    limit:
+      'Horsepower units are not all the same. Confirm whether your label means mechanical, metric, electric, boiler, or another horsepower standard.',
+    useCases: [
+      'Convert horsepower to watts or kilowatts.',
+      'Convert kilowatts into mechanical horsepower.',
+      'Compare mechanical horsepower with metric horsepower.',
+      'Check power-unit labels on motors, tools, and engines.',
+    ],
+    examples: [
+      { label: '150 mechanical hp', expression: '150 hp', result: '111,854.985 W' },
+      { label: '100 kW', expression: '100 kW', result: '134.1022 hp' },
+    ],
+    relatedSlugs: ['engine-horsepower-calculator', 'conversion-calculator', 'ohms-law-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'engine-horsepower-calculator',
+    name: 'Engine Horsepower Calculator',
+    category: 'everyday-tools',
+    summary: 'Estimate engine horsepower from torque and RPM with optional drivetrain loss.',
+    description:
+      'Use this free engine horsepower calculator to estimate horsepower from pound-feet of torque and RPM, plus optional wheel horsepower after drivetrain loss.',
+    icon: 'calculator-engine-horsepower',
+    formula:
+      'The calculator uses horsepower = torque in lb-ft x RPM / 5252.1131, then applies optional drivetrain loss to estimate wheel horsepower.',
+    limit:
+      'This is formula math, not a certified dyno result. Real engine ratings depend on test standard, correction factor, drivetrain loss, and conditions.',
+    useCases: [
+      'Estimate horsepower from a torque and RPM point.',
+      'Compare engine horsepower with wheel horsepower after estimated loss.',
+      'Convert horsepower into kilowatts.',
+      'Understand why torque and RPM both matter for power.',
+    ],
+    examples: [
+      { label: '300 lb-ft at 5,252 rpm', expression: '300 x 5,252 / 5,252.1131', result: 'About 300 hp' },
+      { label: '250 lb-ft at 4,000 rpm', expression: '250 x 4,000 / 5,252.1131', result: 'About 190.4 hp' },
+    ],
+    relatedSlugs: ['horsepower-calculator', 'speed-calculator', 'conversion-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'golf-handicap-calculator',
+    name: 'Golf Handicap Calculator',
+    category: 'everyday-tools',
+    summary: 'Estimate a score differential or course handicap from rating, slope, par, and index inputs.',
+    description:
+      'Use this free golf handicap calculator to estimate score differential and course handicap using common World Handicap System formulas.',
+    icon: 'calculator-golf-handicap',
+    formula:
+      'Score differential uses (113 / slope rating) x (adjusted gross score - course rating - PCC). Course handicap uses Handicap Index x (slope / 113) + (course rating - par).',
+    limit:
+      'This is not an official Handicap Index. Official records may include caps, exceptional-score reductions, 9-hole rules, and committee adjustments.',
+    useCases: [
+      'Estimate a round score differential from adjusted score, rating, slope, and PCC.',
+      'Estimate course handicap from Handicap Index and tee ratings.',
+      'Apply a playing handicap allowance for casual formats.',
+      'Learn why course rating and slope change handicap math.',
+    ],
+    examples: [
+      { label: 'Score differential', expression: '(113 / 128) x (86 - 71.2 - 0)', result: 'About 13.1' },
+      { label: 'Course handicap', expression: '14.2 x (128 / 113) + (71.2 - 72)', result: 'About 15' },
+    ],
+    relatedSlugs: ['percentage-calculator', 'average-calculator', 'rounding-calculator'],
+  }),
 ];

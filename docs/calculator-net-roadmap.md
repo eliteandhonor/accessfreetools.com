@@ -5,9 +5,9 @@ Source reviewed: Calculator.net sitemap on 2026-04-29. This is a competitor inve
 ## Current Coverage Snapshot
 
 - Sitemap utility-style entries reviewed: 203.
-- Local tool pages after the latest everyday utility expansion: 149.
-- Local guide pages after the latest everyday utility expansion: 149.
-- Remaining competitor-inspired roadmap items from the current comparison: about 56.
+- Local tool pages after the safe Batch 5 expansion: 197.
+- Local guide pages after the safe Batch 5 expansion: 197.
+- Remaining competitor-inspired roadmap items from the current comparison: about 4 editorial-review items.
 - Aliases already covered: IP Subnet -> Subnet, Common Factor -> Greatest Common Factor, Mortgage Amortization -> Amortization, Time Duration -> Time.
 
 ## New-Tool Standard
@@ -53,7 +53,9 @@ Status: completed in the latest everyday utility pass.
 
 ## Batch 3: Construction, Home, Weather, and Practical Science
 
-These need clear units, assumptions, and disclaimers.
+Status: completed in the construction, home, weather, and practical science pass.
+
+These shipped with clear units, assumptions, disclaimers, FAQs, and guide pages.
 
 - Height Calculator
 - Bra Size Calculator
@@ -81,7 +83,9 @@ These need clear units, assumptions, and disclaimers.
 
 Financial tools need current rules, assumptions, and visible "planning estimate, not financial advice" notes.
 
-Recently completed from this batch:
+Status: completed in the finance expansion passes.
+
+Completed from this batch:
 
 - Currency Calculator
 - Mortgage Payoff Calculator
@@ -119,9 +123,6 @@ Recently completed from this batch:
 - Lease Calculator
 - Refinance Calculator
 - Budget Calculator
-
-Still queued:
-
 - Marriage Tax Calculator
 - Estate Tax Calculator
 - Social Security Calculator
@@ -146,15 +147,22 @@ Still queued:
 - Canadian Mortgage Calculator
 - Percent Off Calculator
 
-## Batch 5: Sensitive Health and Entertainment Review
+## Batch 5: Sensitive Health, Entertainment, and Edge-Case Review
 
 These need careful naming and safety decisions before shipping. Some competitor topics may need safer alternatives rather than one-to-one copies.
+
+Status: safe utility-style items completed; proprietary, medically sensitive, and low-trust entertainment items remain in editorial review.
+
+Completed from this batch:
+
+- GDP Calculator
+- Horsepower Calculator
+- Engine Horsepower Calculator
+- Golf Handicap Calculator
+
+Held for editorial review instead of copying directly:
 
 - Anorexic BMI Calculator
 - Weight Watcher Points Calculator
 - Overweight Calculator
 - Love Calculator
-- GDP Calculator
-- Horsepower Calculator
-- Engine Horsepower Calculator
-- Golf Handicap Calculator

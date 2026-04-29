@@ -143,6 +143,31 @@ export type CalculatorIconMark =
   | 'base64'
   | 'url'
   | 'day-week'
+  | 'height'
+  | 'bra-size'
+  | 'voltage-drop'
+  | 'btu'
+  | 'stair'
+  | 'resistor'
+  | 'ohms-law'
+  | 'electricity'
+  | 'shoe-size'
+  | 'molarity'
+  | 'molecular-weight'
+  | 'sleep'
+  | 'tire-size'
+  | 'roofing'
+  | 'tile'
+  | 'mulch'
+  | 'gravel'
+  | 'wind-chill'
+  | 'heat-index'
+  | 'dew-point'
+  | 'bandwidth'
+  | 'gdp'
+  | 'horsepower'
+  | 'engine-horsepower'
+  | 'golf-handicap'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -294,6 +319,31 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-base64': 'base64',
   'calculator-url': 'url',
   'calculator-day-of-week': 'day-week',
+  'calculator-height': 'height',
+  'calculator-bra-size': 'bra-size',
+  'calculator-voltage-drop': 'voltage-drop',
+  'calculator-btu': 'btu',
+  'calculator-stair': 'stair',
+  'calculator-resistor': 'resistor',
+  'calculator-ohms-law': 'ohms-law',
+  'calculator-electricity': 'electricity',
+  'calculator-shoe-size': 'shoe-size',
+  'calculator-molarity': 'molarity',
+  'calculator-molecular-weight': 'molecular-weight',
+  'calculator-sleep': 'sleep',
+  'calculator-tire-size': 'tire-size',
+  'calculator-roofing': 'roofing',
+  'calculator-tile': 'tile',
+  'calculator-mulch': 'mulch',
+  'calculator-gravel': 'gravel',
+  'calculator-wind-chill': 'wind-chill',
+  'calculator-heat-index': 'heat-index',
+  'calculator-dew-point': 'dew-point',
+  'calculator-bandwidth': 'bandwidth',
+  'calculator-gdp': 'gdp',
+  'calculator-horsepower': 'horsepower',
+  'calculator-engine-horsepower': 'engine-horsepower',
+  'calculator-golf-handicap': 'golf-handicap',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',
@@ -414,6 +464,31 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   base64: '64',
   url: '%',
   'day-week': 'day',
+  height: 'ht',
+  'bra-size': 'bra',
+  'voltage-drop': 'vd',
+  btu: 'btu',
+  stair: 'str',
+  resistor: 'ohm',
+  'ohms-law': 'VIR',
+  electricity: 'kwh',
+  'shoe-size': 'shoe',
+  molarity: 'M',
+  'molecular-weight': 'mw',
+  sleep: 'zzz',
+  'tire-size': 'tire',
+  roofing: 'roof',
+  tile: 'tile',
+  mulch: 'mul',
+  gravel: 'grv',
+  'wind-chill': 'wind',
+  'heat-index': 'heat',
+  'dew-point': 'dew',
+  bandwidth: 'mbps',
+  gdp: 'gdp',
+  horsepower: 'hp',
+  'engine-horsepower': 'rpm',
+  'golf-handicap': 'golf',
   prime: 'pf',
   'long-division': 'div',
   average: 'avg',

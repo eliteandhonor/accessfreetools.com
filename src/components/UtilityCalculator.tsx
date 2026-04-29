@@ -1,38 +1,66 @@
 import { useMemo, useState, type HTMLAttributes } from 'react';
 import {
   calculateAge,
+  calculateBandwidthTime,
+  calculateBraSize,
+  calculateBtuEstimate,
   calculateConcrete,
   calculateDayOfWeek,
   calculateDensity,
   calculateDiceRoll,
+  calculateDewPoint,
+  calculateElectricityCost,
   calculateDateDifference,
   calculateDateShift,
   calculateFuelCost,
   calculateGasMileage,
+  calculateGdpEstimate,
+  calculateGolfCourseHandicap,
+  calculateGolfScoreDifferential,
   calculateGpa,
+  calculateGravelEstimate,
+  calculateHeatIndex,
+  calculateHeightEstimate,
   calculateHoursWorked,
+  calculateHorsepowerConversion,
   calculateMassFromDensity,
   calculateMileageCost,
+  calculateMolarity,
+  calculateMolecularWeight,
   calculateNeededFinalGrade,
+  calculateOhmsLaw,
+  calculateMulchEstimate,
+  calculateResistorColorCode,
+  calculateRoofingEstimate,
+  calculateSleepSchedule,
   calculateSpeed,
   calculateSquareFootage,
   calculateSubnet,
+  calculateStairLayout,
+  calculateTileEstimate,
+  calculateTireSize,
   calculateTimeCard,
   calculateTimeDuration,
   calculateTimeZoneComparison,
   calculateTip,
+  calculateVoltageDrop,
   calculateWeightForce,
+  calculateWindChill,
+  calculateEngineHorsepower,
   convertMeasurement,
+  convertShoeSize,
   decodeBase64,
   decodeUrlComponentValue,
   encodeBase64,
   encodeUrlComponentValue,
   formatCalculatorNumber,
   generatePassword,
+  getCopperResistanceOhmsPer1000Feet,
   numberToRomanNumeral,
   romanNumeralToNumber,
   type ConversionCategory,
   type GpaCourseInput,
+  type HorsepowerUnit,
   type TimeCardDayInput,
 } from '../lib/calculator';
 
@@ -62,7 +90,32 @@ export type UtilityToolVariant =
   | 'roman-numeral'
   | 'base64'
   | 'url-encode-decode'
-  | 'day-of-week';
+  | 'day-of-week'
+  | 'height'
+  | 'bra-size'
+  | 'voltage-drop'
+  | 'btu'
+  | 'stair'
+  | 'resistor'
+  | 'ohms-law'
+  | 'electricity'
+  | 'shoe-size'
+  | 'molarity'
+  | 'molecular-weight'
+  | 'sleep'
+  | 'tire-size'
+  | 'roofing'
+  | 'tile'
+  | 'mulch'
+  | 'gravel'
+  | 'wind-chill'
+  | 'heat-index'
+  | 'dew-point'
+  | 'bandwidth'
+  | 'gdp'
+  | 'horsepower'
+  | 'engine-horsepower'
+  | 'golf-handicap';
 
 type InputMode = HTMLAttributes<HTMLInputElement>['inputMode'];
 type UtilityInputs = Record<string, string>;
@@ -230,6 +283,69 @@ const conversionUnitOptions: Record<ConversionCategory, SelectOption[]> = {
     { label: 'Kelvin', value: 'kelvin' },
   ],
 };
+
+const sexOptions: SelectOption[] = [
+  { label: 'Boy / male estimate', value: 'male' },
+  { label: 'Girl / female estimate', value: 'female' },
+];
+
+const phaseOptions: SelectOption[] = [
+  { label: 'Single-phase / DC', value: 'single' },
+  { label: 'Three-phase', value: 'three' },
+];
+
+const copperAwgOptions: SelectOption[] = [
+  '14',
+  '12',
+  '10',
+  '8',
+  '6',
+  '4',
+  '2',
+  '1/0',
+  '2/0',
+  '4/0',
+].map((value) => ({ label: `${value} AWG copper`, value }));
+
+const sunlightOptions: SelectOption[] = [
+  { label: 'Normal room', value: 'normal' },
+  { label: 'Heavy shade', value: 'shaded' },
+  { label: 'Very sunny', value: 'sunny' },
+];
+
+const resistorDigitOptions: SelectOption[] = [
+  'black',
+  'brown',
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'blue',
+  'violet',
+  'gray',
+  'white',
+].map((value) => ({ label: value, value }));
+
+const resistorMultiplierOptions: SelectOption[] = [
+  ...resistorDigitOptions,
+  { label: 'gold', value: 'gold' },
+  { label: 'silver', value: 'silver' },
+];
+
+const resistorToleranceOptions: SelectOption[] = ['brown', 'red', 'green', 'blue', 'violet', 'gray', 'gold', 'silver'].map(
+  (value) => ({ label: value, value }),
+);
+
+const bandwidthDataUnitOptions: SelectOption[] = ['KB', 'MB', 'GB', 'TB'].map((value) => ({ label: value, value }));
+
+const bandwidthSpeedUnitOptions: SelectOption[] = ['Kbps', 'Mbps', 'Gbps'].map((value) => ({ label: value, value }));
+
+const horsepowerUnitOptions: SelectOption[] = [
+  { label: 'Mechanical hp', value: 'horsepower' },
+  { label: 'Watts', value: 'watt' },
+  { label: 'Kilowatts', value: 'kilowatt' },
+  { label: 'Metric hp', value: 'metric-horsepower' },
+];
 
 const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
   age: {
@@ -915,6 +1031,580 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
       },
     ],
   },
+  height: {
+    title: 'Height Calculator',
+    buttonLabel: 'Estimate height',
+    emptyHistory: 'Recent height estimates will appear here.',
+    privacyNote: 'Height estimates run locally and are only rough family-height math.',
+    modes: [
+      {
+        id: 'mid-parental',
+        label: 'Parent heights',
+        symbol: 'HT',
+        fields: [
+          selectField('childSex', 'Child estimate', sexOptions),
+          integerField('motherFeet', 'Mother feet', '5'),
+          numberField('motherInches', 'Mother extra inches', '4'),
+          integerField('fatherFeet', 'Father feet', '5'),
+          numberField('fatherInches', 'Father extra inches', '10'),
+        ],
+        defaultInputs: { childSex: 'male', motherFeet: '5', motherInches: '4', fatherFeet: '5', fatherInches: '10' },
+        examples: [
+          { label: 'Boy estimate', inputs: { childSex: 'male', motherFeet: '5', motherInches: '4', fatherFeet: '5', fatherInches: '10' } },
+          { label: 'Girl estimate', inputs: { childSex: 'female', motherFeet: '5', motherInches: '3', fatherFeet: '6', fatherInches: '0' } },
+        ],
+      },
+    ],
+  },
+  'bra-size': {
+    title: 'Bra Size Calculator',
+    buttonLabel: 'Estimate bra size',
+    emptyHistory: 'Recent bra size estimates will appear here.',
+    privacyNote: 'Measurements stay in this browser tab. Fit varies by brand and style.',
+    modes: [
+      {
+        id: 'us-band-cup',
+        label: 'US estimate',
+        symbol: 'BRA',
+        fields: [numberField('underbustInches', 'Underbust inches', '32'), numberField('bustInches', 'Bust inches', '36')],
+        defaultInputs: { underbustInches: '32', bustInches: '36' },
+        examples: [
+          { label: '32D estimate', inputs: { underbustInches: '32', bustInches: '36' } },
+          { label: '34B estimate', inputs: { underbustInches: '33', bustInches: '36' } },
+        ],
+      },
+    ],
+  },
+  'voltage-drop': {
+    title: 'Voltage Drop Calculator',
+    buttonLabel: 'Calculate voltage drop',
+    emptyHistory: 'Recent voltage drop estimates will appear here.',
+    privacyNote: 'This is a planning estimate only. Electrical design should be checked by a qualified professional.',
+    modes: [
+      {
+        id: 'awg-copper',
+        label: 'Copper AWG',
+        symbol: 'VD',
+        fields: [
+          numberField('sourceVoltage', 'Source voltage', '120'),
+          numberField('currentAmps', 'Current amps', '15'),
+          numberField('oneWayLengthFeet', 'One-way length feet', '75'),
+          selectField('wireGauge', 'Copper wire size', copperAwgOptions),
+          selectField('phase', 'Circuit type', phaseOptions),
+        ],
+        defaultInputs: { sourceVoltage: '120', currentAmps: '15', oneWayLengthFeet: '75', wireGauge: '12', phase: 'single' },
+        examples: [
+          { label: '120 V branch', inputs: { sourceVoltage: '120', currentAmps: '15', oneWayLengthFeet: '75', wireGauge: '12', phase: 'single' } },
+          { label: '240 V run', inputs: { sourceVoltage: '240', currentAmps: '30', oneWayLengthFeet: '100', wireGauge: '8', phase: 'single' } },
+        ],
+      },
+    ],
+  },
+  btu: {
+    title: 'BTU Calculator',
+    buttonLabel: 'Estimate BTU',
+    emptyHistory: 'Recent BTU estimates will appear here.',
+    privacyNote: 'BTU estimates use room sizing assumptions in your browser and do not replace HVAC design.',
+    modes: [
+      {
+        id: 'room-cooling',
+        label: 'Room cooling',
+        symbol: 'BTU',
+        fields: [
+          numberField('squareFeet', 'Room square feet', '300'),
+          numberField('ceilingHeightFeet', 'Ceiling height feet', '8'),
+          selectField('sunlight', 'Sunlight', sunlightOptions),
+          integerField('people', 'Regular people in room', '2'),
+          checkboxField('kitchen', 'Kitchen heat load'),
+        ],
+        defaultInputs: { squareFeet: '300', ceilingHeightFeet: '8', sunlight: 'normal', people: '2', kitchen: 'false' },
+        examples: [
+          { label: 'Bedroom', inputs: { squareFeet: '180', ceilingHeightFeet: '8', sunlight: 'normal', people: '2', kitchen: 'false' } },
+          { label: 'Sunny living room', inputs: { squareFeet: '420', ceilingHeightFeet: '9', sunlight: 'sunny', people: '3', kitchen: 'false' } },
+        ],
+      },
+    ],
+  },
+  stair: {
+    title: 'Stair Calculator',
+    buttonLabel: 'Calculate stair layout',
+    emptyHistory: 'Recent stair layouts will appear here.',
+    privacyNote: 'Stair math stays local. Building-code and safety checks must be verified separately.',
+    modes: [
+      {
+        id: 'rise-run',
+        label: 'Rise and run',
+        symbol: 'STR',
+        fields: [
+          numberField('totalRiseInches', 'Total rise inches', '108'),
+          numberField('targetRiserInches', 'Target riser inches', '7.5'),
+          numberField('treadDepthInches', 'Tread depth inches', '10'),
+        ],
+        defaultInputs: { totalRiseInches: '108', targetRiserInches: '7.5', treadDepthInches: '10' },
+        examples: [
+          { label: 'Basement stairs', inputs: { totalRiseInches: '108', targetRiserInches: '7.5', treadDepthInches: '10' } },
+          { label: 'Short deck', inputs: { totalRiseInches: '36', targetRiserInches: '7', treadDepthInches: '11' } },
+        ],
+      },
+    ],
+  },
+  resistor: {
+    title: 'Resistor Calculator',
+    buttonLabel: 'Decode resistor',
+    emptyHistory: 'Recent resistor color decodes will appear here.',
+    privacyNote: 'Resistor color decoding is local and for component identification, not live circuit testing.',
+    modes: [
+      {
+        id: 'four-band',
+        label: '4-band color',
+        symbol: 'OHM',
+        fields: [
+          selectField('band1', 'First digit band', resistorDigitOptions),
+          selectField('band2', 'Second digit band', resistorDigitOptions),
+          selectField('multiplier', 'Multiplier band', resistorMultiplierOptions),
+          selectField('tolerance', 'Tolerance band', resistorToleranceOptions),
+        ],
+        defaultInputs: { band1: 'brown', band2: 'black', multiplier: 'red', tolerance: 'gold' },
+        examples: [
+          { label: '1 kOhm', inputs: { band1: 'brown', band2: 'black', multiplier: 'red', tolerance: 'gold' } },
+          { label: '4.7 kOhm', inputs: { band1: 'yellow', band2: 'violet', multiplier: 'red', tolerance: 'gold' } },
+        ],
+      },
+    ],
+  },
+  'ohms-law': {
+    title: 'Ohms Law Calculator',
+    buttonLabel: 'Calculate circuit values',
+    emptyHistory: 'Recent Ohm law calculations will appear here.',
+    privacyNote: 'This simple resistor math stays in your browser. Use proper electrical safety practices.',
+    modes: [
+      {
+        id: 'voltage-current',
+        label: 'V and I',
+        symbol: 'VIR',
+        fields: [numberField('firstValue', 'Voltage V', '12'), numberField('secondValue', 'Current A', '2')],
+        defaultInputs: { firstValue: '12', secondValue: '2' },
+        examples: [{ label: '12 V and 2 A', inputs: { firstValue: '12', secondValue: '2' } }],
+      },
+      {
+        id: 'voltage-resistance',
+        label: 'V and R',
+        symbol: 'VIR',
+        fields: [numberField('firstValue', 'Voltage V', '12'), numberField('secondValue', 'Resistance ohms', '6')],
+        defaultInputs: { firstValue: '12', secondValue: '6' },
+        examples: [{ label: '12 V and 6 ohms', inputs: { firstValue: '12', secondValue: '6' } }],
+      },
+      {
+        id: 'current-resistance',
+        label: 'I and R',
+        symbol: 'VIR',
+        fields: [numberField('firstValue', 'Current A', '2'), numberField('secondValue', 'Resistance ohms', '6')],
+        defaultInputs: { firstValue: '2', secondValue: '6' },
+        examples: [{ label: '2 A and 6 ohms', inputs: { firstValue: '2', secondValue: '6' } }],
+      },
+    ],
+  },
+  electricity: {
+    title: 'Electricity Calculator',
+    buttonLabel: 'Estimate electricity cost',
+    emptyHistory: 'Recent electricity estimates will appear here.',
+    privacyNote: 'Electricity cost math stays local and uses the rate you enter.',
+    modes: [
+      {
+        id: 'energy-cost',
+        label: 'Energy cost',
+        symbol: 'KWH',
+        fields: [
+          numberField('watts', 'Watts', '1000'),
+          numberField('hoursPerDay', 'Hours per day', '3'),
+          numberField('days', 'Days', '30'),
+          numberField('ratePerKwh', 'Rate per kWh', '0.16'),
+        ],
+        defaultInputs: { watts: '1000', hoursPerDay: '3', days: '30', ratePerKwh: '0.16' },
+        examples: [
+          { label: 'Space heater month', inputs: { watts: '1500', hoursPerDay: '4', days: '30', ratePerKwh: '0.16' } },
+          { label: 'LED bulb year', inputs: { watts: '10', hoursPerDay: '5', days: '365', ratePerKwh: '0.16' } },
+        ],
+      },
+    ],
+  },
+  'shoe-size': {
+    title: 'Shoe Size Conversion',
+    buttonLabel: 'Convert shoe size',
+    emptyHistory: 'Recent shoe size estimates will appear here.',
+    privacyNote: 'Shoe conversion is approximate and stays local. Brands and lasts vary.',
+    modes: [
+      {
+        id: 'length-to-sizes',
+        label: 'Foot length',
+        symbol: 'SHOE',
+        fields: [numberField('footLengthCm', 'Foot length cm', '26')],
+        defaultInputs: { footLengthCm: '26' },
+        examples: [
+          { label: '26 cm foot', inputs: { footLengthCm: '26' } },
+          { label: '24 cm foot', inputs: { footLengthCm: '24' } },
+        ],
+      },
+    ],
+  },
+  molarity: {
+    title: 'Molarity Calculator',
+    buttonLabel: 'Calculate molarity',
+    emptyHistory: 'Recent molarity calculations will appear here.',
+    privacyNote: 'Chemistry math runs locally. Lab work needs measured values and safety procedures.',
+    modes: [
+      {
+        id: 'moles-volume',
+        label: 'Moles and volume',
+        symbol: 'M',
+        fields: [numberField('moles', 'Moles solute', '0.5'), numberField('volumeLiters', 'Volume liters', '1')],
+        defaultInputs: { moles: '0.5', volumeLiters: '1' },
+        examples: [{ label: '0.5 mol in 1 L', inputs: { moles: '0.5', volumeLiters: '1' } }],
+      },
+      {
+        id: 'grams-volume',
+        label: 'Grams and molar mass',
+        symbol: 'M',
+        fields: [
+          numberField('grams', 'Grams solute', '58.44'),
+          numberField('molarMass', 'Molar mass g/mol', '58.44'),
+          numberField('volumeLiters', 'Volume liters', '1'),
+        ],
+        defaultInputs: { grams: '58.44', molarMass: '58.44', volumeLiters: '1' },
+        examples: [{ label: 'NaCl solution', inputs: { grams: '58.44', molarMass: '58.44', volumeLiters: '1' } }],
+      },
+    ],
+  },
+  'molecular-weight': {
+    title: 'Molecular Weight Calculator',
+    buttonLabel: 'Calculate molecular weight',
+    emptyHistory: 'Recent formula weights will appear here.',
+    privacyNote: 'Formula parsing happens locally. Atomic weights are rounded reference values.',
+    modes: [
+      {
+        id: 'formula',
+        label: 'Formula',
+        symbol: 'MW',
+        fields: [textField('formula', 'Chemical formula', 'H2O')],
+        defaultInputs: { formula: 'H2O' },
+        examples: [
+          { label: 'Water', inputs: { formula: 'H2O' } },
+          { label: 'Glucose', inputs: { formula: 'C6H12O6' } },
+          { label: 'Calcium hydroxide', inputs: { formula: 'Ca(OH)2' } },
+        ],
+      },
+    ],
+  },
+  sleep: {
+    title: 'Sleep Calculator',
+    buttonLabel: 'Calculate sleep time',
+    emptyHistory: 'Recent sleep time checks will appear here.',
+    privacyNote: 'Sleep timing stays local. It is a planning helper, not medical advice.',
+    modes: [
+      {
+        id: 'wake-up',
+        label: 'Wake-up time',
+        symbol: 'ZZZ',
+        fields: [timeField('inputTime', 'Wake-up time'), integerField('cycles', 'Sleep cycles', '5'), integerField('fallAsleepMinutes', 'Minutes to fall asleep', '15')],
+        defaultInputs: { inputTime: '07:00', cycles: '5', fallAsleepMinutes: '15' },
+        examples: [{ label: 'Wake at 7:00', inputs: { inputTime: '07:00', cycles: '5', fallAsleepMinutes: '15' } }],
+      },
+      {
+        id: 'bedtime',
+        label: 'Bedtime',
+        symbol: 'ZZZ',
+        fields: [timeField('inputTime', 'Bedtime'), integerField('cycles', 'Sleep cycles', '5'), integerField('fallAsleepMinutes', 'Minutes to fall asleep', '15')],
+        defaultInputs: { inputTime: '22:30', cycles: '5', fallAsleepMinutes: '15' },
+        examples: [{ label: 'Bed at 10:30 PM', inputs: { inputTime: '22:30', cycles: '5', fallAsleepMinutes: '15' } }],
+      },
+    ],
+  },
+  'tire-size': {
+    title: 'Tire Size Calculator',
+    buttonLabel: 'Calculate tire size',
+    emptyHistory: 'Recent tire size calculations will appear here.',
+    privacyNote: 'Tire size math stays local. Always follow vehicle and tire manufacturer fitment guidance.',
+    modes: [
+      {
+        id: 'metric-tire',
+        label: 'Metric tire',
+        symbol: 'TIRE',
+        fields: [numberField('widthMm', 'Width mm', '225'), numberField('aspectRatio', 'Aspect ratio', '60'), numberField('wheelDiameterInches', 'Wheel diameter inches', '16')],
+        defaultInputs: { widthMm: '225', aspectRatio: '60', wheelDiameterInches: '16' },
+        examples: [{ label: '225/60R16', inputs: { widthMm: '225', aspectRatio: '60', wheelDiameterInches: '16' } }],
+      },
+    ],
+  },
+  roofing: {
+    title: 'Roofing Calculator',
+    buttonLabel: 'Estimate roofing',
+    emptyHistory: 'Recent roofing estimates will appear here.',
+    privacyNote: 'Roofing estimates stay local and assume a simple roof footprint.',
+    modes: [
+      {
+        id: 'shingles',
+        label: 'Shingles',
+        symbol: 'ROOF',
+        fields: [
+          numberField('lengthFeet', 'Footprint length feet', '40'),
+          numberField('widthFeet', 'Footprint width feet', '30'),
+          numberField('pitchRisePer12', 'Pitch rise per 12', '6'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { lengthFeet: '40', widthFeet: '30', pitchRisePer12: '6', wastePercent: '10' },
+        examples: [{ label: '40 x 30, 6/12', inputs: { lengthFeet: '40', widthFeet: '30', pitchRisePer12: '6', wastePercent: '10' } }],
+      },
+    ],
+  },
+  tile: {
+    title: 'Tile Calculator',
+    buttonLabel: 'Estimate tile',
+    emptyHistory: 'Recent tile estimates will appear here.',
+    privacyNote: 'Tile estimates stay local and use the tile size and waste percent you enter.',
+    modes: [
+      {
+        id: 'floor-tile',
+        label: 'Area and tile',
+        symbol: 'TILE',
+        fields: [
+          numberField('areaSquareFeet', 'Area square feet', '120'),
+          numberField('tileLengthInches', 'Tile length inches', '12'),
+          numberField('tileWidthInches', 'Tile width inches', '12'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { areaSquareFeet: '120', tileLengthInches: '12', tileWidthInches: '12', wastePercent: '10' },
+        examples: [{ label: '120 ft2, 12 x 12', inputs: { areaSquareFeet: '120', tileLengthInches: '12', tileWidthInches: '12', wastePercent: '10' } }],
+      },
+    ],
+  },
+  mulch: {
+    title: 'Mulch Calculator',
+    buttonLabel: 'Estimate mulch',
+    emptyHistory: 'Recent mulch estimates will appear here.',
+    privacyNote: 'Mulch estimates stay local and assume an even average depth.',
+    modes: [
+      {
+        id: 'area-depth',
+        label: 'Area and depth',
+        symbol: 'MUL',
+        fields: [numberField('areaSquareFeet', 'Area square feet', '200'), numberField('depthInches', 'Depth inches', '3'), numberField('wastePercent', 'Waste percent', '5')],
+        defaultInputs: { areaSquareFeet: '200', depthInches: '3', wastePercent: '5' },
+        examples: [{ label: '200 ft2 at 3 in', inputs: { areaSquareFeet: '200', depthInches: '3', wastePercent: '5' } }],
+      },
+    ],
+  },
+  gravel: {
+    title: 'Gravel Calculator',
+    buttonLabel: 'Estimate gravel',
+    emptyHistory: 'Recent gravel estimates will appear here.',
+    privacyNote: 'Gravel estimates stay local. Supplier density and compaction can change tons needed.',
+    modes: [
+      {
+        id: 'area-depth',
+        label: 'Area and depth',
+        symbol: 'GRV',
+        fields: [
+          numberField('lengthFeet', 'Length feet', '20'),
+          numberField('widthFeet', 'Width feet', '10'),
+          numberField('depthInches', 'Depth inches', '3'),
+          numberField('tonsPerCubicYard', 'Tons per cubic yard', '1.4'),
+        ],
+        defaultInputs: { lengthFeet: '20', widthFeet: '10', depthInches: '3', tonsPerCubicYard: '1.4' },
+        examples: [{ label: 'Driveway bed', inputs: { lengthFeet: '20', widthFeet: '10', depthInches: '3', tonsPerCubicYard: '1.4' } }],
+      },
+    ],
+  },
+  'wind-chill': {
+    title: 'Wind Chill Calculator',
+    buttonLabel: 'Calculate wind chill',
+    emptyHistory: 'Recent wind chill calculations will appear here.',
+    privacyNote: 'Weather math stays local. Follow local weather alerts for safety decisions.',
+    modes: [
+      {
+        id: 'nws',
+        label: 'NWS formula',
+        symbol: 'WIND',
+        fields: [numberField('temperatureFahrenheit', 'Temperature F', '30'), numberField('windSpeedMph', 'Wind speed mph', '15')],
+        defaultInputs: { temperatureFahrenheit: '30', windSpeedMph: '15' },
+        examples: [{ label: 'Cold and windy', inputs: { temperatureFahrenheit: '30', windSpeedMph: '15' } }],
+      },
+    ],
+  },
+  'heat-index': {
+    title: 'Heat Index Calculator',
+    buttonLabel: 'Calculate heat index',
+    emptyHistory: 'Recent heat index calculations will appear here.',
+    privacyNote: 'Weather math stays local. Follow local heat warnings for safety decisions.',
+    modes: [
+      {
+        id: 'nws',
+        label: 'NWS regression',
+        symbol: 'HEAT',
+        fields: [numberField('temperatureFahrenheit', 'Temperature F', '90'), numberField('relativeHumidity', 'Relative humidity %', '70')],
+        defaultInputs: { temperatureFahrenheit: '90', relativeHumidity: '70' },
+        examples: [{ label: 'Humid heat', inputs: { temperatureFahrenheit: '90', relativeHumidity: '70' } }],
+      },
+    ],
+  },
+  'dew-point': {
+    title: 'Dew Point Calculator',
+    buttonLabel: 'Calculate dew point',
+    emptyHistory: 'Recent dew point calculations will appear here.',
+    privacyNote: 'Dew point math stays local and uses temperature and relative humidity only.',
+    modes: [
+      {
+        id: 'magnus',
+        label: 'Temperature and humidity',
+        symbol: 'DEW',
+        fields: [numberField('temperatureFahrenheit', 'Temperature F', '75'), numberField('relativeHumidity', 'Relative humidity %', '60')],
+        defaultInputs: { temperatureFahrenheit: '75', relativeHumidity: '60' },
+        examples: [{ label: 'Mild humid day', inputs: { temperatureFahrenheit: '75', relativeHumidity: '60' } }],
+      },
+    ],
+  },
+  bandwidth: {
+    title: 'Bandwidth Calculator',
+    buttonLabel: 'Calculate transfer time',
+    emptyHistory: 'Recent bandwidth calculations will appear here.',
+    privacyNote: 'Transfer-time math stays local and uses decimal network units.',
+    modes: [
+      {
+        id: 'download-time',
+        label: 'Transfer time',
+        symbol: 'NET',
+        fields: [
+          numberField('dataAmount', 'Data amount', '5'),
+          selectField('dataUnit', 'Data unit', bandwidthDataUnitOptions),
+          numberField('speedAmount', 'Speed amount', '100'),
+          selectField('speedUnit', 'Speed unit', bandwidthSpeedUnitOptions),
+        ],
+        defaultInputs: { dataAmount: '5', dataUnit: 'GB', speedAmount: '100', speedUnit: 'Mbps' },
+        examples: [
+          { label: '5 GB at 100 Mbps', inputs: { dataAmount: '5', dataUnit: 'GB', speedAmount: '100', speedUnit: 'Mbps' } },
+          { label: '700 MB at 25 Mbps', inputs: { dataAmount: '700', dataUnit: 'MB', speedAmount: '25', speedUnit: 'Mbps' } },
+        ],
+      },
+    ],
+  },
+  gdp: {
+    title: 'GDP Calculator',
+    buttonLabel: 'Calculate GDP',
+    emptyHistory: 'Recent GDP estimates will appear here.',
+    privacyNote: 'GDP entries stay in your browser and are for learning or rough economic examples, not official national accounts.',
+    modes: [
+      {
+        id: 'expenditure',
+        label: 'Expenditure',
+        symbol: 'GDP',
+        fields: [
+          numberField('consumption', 'Personal consumption'),
+          numberField('investment', 'Private investment'),
+          numberField('governmentSpending', 'Government spending'),
+          numberField('exports', 'Exports'),
+          numberField('imports', 'Imports'),
+          numberField('population', 'Population (same scale)', 'Optional'),
+        ],
+        defaultInputs: {
+          consumption: '18000',
+          investment: '5000',
+          governmentSpending: '6500',
+          exports: '3200',
+          imports: '4100',
+          population: '0.34',
+        },
+        examples: [
+          { label: 'Economy example', inputs: { consumption: '18000', investment: '5000', governmentSpending: '6500', exports: '3200', imports: '4100', population: '0.34' } },
+          { label: 'Classroom numbers', inputs: { consumption: '700', investment: '150', governmentSpending: '220', exports: '90', imports: '120', population: '' } },
+        ],
+      },
+    ],
+  },
+  horsepower: {
+    title: 'Horsepower Calculator',
+    buttonLabel: 'Convert power',
+    emptyHistory: 'Recent horsepower conversions will appear here.',
+    privacyNote: 'Power conversions run locally and use NIST-style conversion factors for common horsepower units.',
+    modes: [
+      {
+        id: 'conversion',
+        label: 'Convert',
+        symbol: 'HP',
+        fields: [
+          numberField('power', 'Power'),
+          selectField('unit', 'Starting unit', horsepowerUnitOptions),
+        ],
+        defaultInputs: { power: '150', unit: 'horsepower' },
+        examples: [
+          { label: '150 hp', inputs: { power: '150', unit: 'horsepower' } },
+          { label: '100 kW', inputs: { power: '100', unit: 'kilowatt' } },
+        ],
+      },
+    ],
+  },
+  'engine-horsepower': {
+    title: 'Engine Horsepower Calculator',
+    buttonLabel: 'Calculate horsepower',
+    emptyHistory: 'Recent engine horsepower estimates will appear here.',
+    privacyNote: 'Engine horsepower estimates stay in the browser and are simple torque-RPM math.',
+    modes: [
+      {
+        id: 'torque-rpm',
+        label: 'Torque and RPM',
+        symbol: 'RPM',
+        fields: [
+          numberField('torquePoundFeet', 'Torque (lb-ft)'),
+          numberField('rpm', 'RPM'),
+          numberField('drivetrainLossPercent', 'Drivetrain loss % (optional)', 'Optional'),
+        ],
+        defaultInputs: { torquePoundFeet: '300', rpm: '5252', drivetrainLossPercent: '15' },
+        examples: [
+          { label: '300 lb-ft at 5,252 rpm', inputs: { torquePoundFeet: '300', rpm: '5252', drivetrainLossPercent: '15' } },
+          { label: '250 lb-ft at 4,000 rpm', inputs: { torquePoundFeet: '250', rpm: '4000', drivetrainLossPercent: '0' } },
+        ],
+      },
+    ],
+  },
+  'golf-handicap': {
+    title: 'Golf Handicap Calculator',
+    buttonLabel: 'Calculate handicap',
+    emptyHistory: 'Recent golf handicap estimates will appear here.',
+    privacyNote: 'Golf calculations stay local. Use your official scoring record or golf association for an official Handicap Index.',
+    modes: [
+      {
+        id: 'score-differential',
+        label: 'Score differential',
+        symbol: 'DIFF',
+        fields: [
+          numberField('adjustedGrossScore', 'Adjusted gross score'),
+          numberField('courseRating', 'Course rating'),
+          integerField('slopeRating', 'Slope rating'),
+          numberField('playingConditionsAdjustment', 'PCC adjustment', 'Usually -1 to +3'),
+        ],
+        defaultInputs: { adjustedGrossScore: '86', courseRating: '71.2', slopeRating: '128', playingConditionsAdjustment: '0' },
+        examples: [
+          { label: '86 on 71.2 / 128', inputs: { adjustedGrossScore: '86', courseRating: '71.2', slopeRating: '128', playingConditionsAdjustment: '0' } },
+          { label: 'Hard weather PCC +1', inputs: { adjustedGrossScore: '92', courseRating: '73.4', slopeRating: '136', playingConditionsAdjustment: '1' } },
+        ],
+      },
+      {
+        id: 'course-handicap',
+        label: 'Course handicap',
+        symbol: 'CH',
+        fields: [
+          numberField('handicapIndex', 'Handicap index'),
+          integerField('slopeRating', 'Slope rating'),
+          numberField('courseRating', 'Course rating'),
+          numberField('par', 'Par'),
+          numberField('allowancePercent', 'Allowance %'),
+        ],
+        defaultInputs: { handicapIndex: '14.2', slopeRating: '128', courseRating: '71.2', par: '72', allowancePercent: '100' },
+        examples: [
+          { label: 'Full allowance', inputs: { handicapIndex: '14.2', slopeRating: '128', courseRating: '71.2', par: '72', allowancePercent: '100' } },
+          { label: '95% allowance', inputs: { handicapIndex: '9.8', slopeRating: '136', courseRating: '73.4', par: '72', allowancePercent: '95' } },
+        ],
+      },
+    ],
+  },
 };
 
 function parseNumber(value: string, label: string) {
@@ -971,6 +1661,19 @@ function durationText(totalSeconds: number) {
   const minutes = Math.floor(remaining / 60);
   const seconds = remaining - minutes * 60;
   return `${sign}${hours}h ${minutes}m ${seconds}s`;
+}
+
+function clockDurationText(totalMinutes: number) {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = Math.round(totalMinutes - hours * 60);
+  return `${hours}h ${minutes}m`;
+}
+
+function heightText(inches: number) {
+  const totalInches = Math.round(inches);
+  const feet = Math.floor(totalInches / 12);
+  const remainingInches = totalInches - feet * 12;
+  return `${feet} ft ${remainingInches} in`;
 }
 
 function booleanInput(value: string) {
@@ -1606,6 +2309,556 @@ function calculateUtility(variant: UtilityToolVariant, modeId: string, inputs: U
           'Use UTC date math so daylight-saving time does not shift the date.',
           'Return both the weekday name and ISO weekday number.',
         ],
+      };
+    }
+    case 'height': {
+      const motherHeight = parseNumber(inputs.motherFeet, 'Mother feet') * 12 + parseNumber(inputs.motherInches, 'Mother inches');
+      const fatherHeight = parseNumber(inputs.fatherFeet, 'Father feet') * 12 + parseNumber(inputs.fatherInches, 'Father inches');
+      const result = calculateHeightEstimate((inputs.childSex || 'male') as 'male' | 'female', motherHeight, fatherHeight);
+      return {
+        label: 'Estimated adult height',
+        expression: `${heightText(result.motherHeightInches)} and ${heightText(result.fatherHeightInches)}`,
+        answer: heightText(result.estimatedAdultHeightInches),
+        metrics: [
+          { label: 'Approximate range', value: `${heightText(result.lowRangeInches)} - ${heightText(result.highRangeInches)}` },
+          { label: 'Centimeters', value: `${formatCalculatorNumber(result.estimatedAdultHeightCm)} cm` },
+          { label: 'Method', value: 'Mid-parental estimate' },
+        ],
+        steps: [
+          'Convert each parent height to total inches.',
+          result.childSex === 'male' ? 'Add 5 inches for a male estimate, then average.' : 'Subtract 5 inches for a female estimate, then average.',
+          'Show a rough plus-or-minus 4 inch range because real growth varies.',
+        ],
+        note: 'Children grow differently. Pediatric growth concerns should be checked with a healthcare professional.',
+      };
+    }
+    case 'bra-size': {
+      const result = calculateBraSize(parseNumber(inputs.underbustInches, 'Underbust'), parseNumber(inputs.bustInches, 'Bust'));
+      return {
+        label: 'Estimated US bra size',
+        expression: `${formatCalculatorNumber(result.underbustInches)} in underbust, ${formatCalculatorNumber(result.bustInches)} in bust`,
+        answer: result.sizeLabel,
+        metrics: [
+          { label: 'Band', value: formatCalculatorNumber(result.bandSize) },
+          { label: 'Cup', value: result.cupSize },
+          { label: 'Bust minus band', value: `${formatCalculatorNumber(result.differenceInches)} in` },
+        ],
+        steps: [
+          'Round the underbust up to the next even band size.',
+          'Subtract the band size from the bust measurement.',
+          'Map that difference to an approximate cup label.',
+        ],
+        note: 'Bra sizing varies a lot by brand, body shape, and style. Treat this as a fitting starting point.',
+      };
+    }
+    case 'voltage-drop': {
+      const resistance = getCopperResistanceOhmsPer1000Feet(inputs.wireGauge || '12');
+      const result = calculateVoltageDrop({
+        sourceVoltage: parseNumber(inputs.sourceVoltage, 'Source voltage'),
+        currentAmps: parseNumber(inputs.currentAmps, 'Current'),
+        oneWayLengthFeet: parseNumber(inputs.oneWayLengthFeet, 'One-way length'),
+        resistanceOhmsPer1000Feet: resistance,
+        phase: (inputs.phase || 'single') as 'single' | 'three',
+      });
+      return {
+        label: 'Estimated voltage drop',
+        expression: `${formatCalculatorNumber(result.currentAmps)} A over ${formatCalculatorNumber(result.oneWayLengthFeet)} ft`,
+        answer: `${formatCalculatorNumber(result.voltageDrop)} V`,
+        metrics: [
+          { label: 'Percent drop', value: percent(result.percentDrop) },
+          { label: 'Load voltage', value: `${formatCalculatorNumber(result.loadVoltage)} V` },
+          { label: 'Wire resistance', value: `${formatCalculatorNumber(result.resistanceOhmsPer1000Feet)} ohms / 1000 ft` },
+        ],
+        steps: [
+          'Look up the approximate copper conductor resistance for the selected AWG size.',
+          result.phase === 'three' ? 'Use the square-root-of-3 factor for a balanced three-phase estimate.' : 'Double the one-way length for the out-and-back circuit path.',
+          'Divide the voltage drop by source voltage to show the percent drop.',
+        ],
+        note: 'This is a simplified estimate. Use local electrical code, conductor temperature, material, raceway, and a licensed electrician for real installations.',
+      };
+    }
+    case 'btu': {
+      const result = calculateBtuEstimate({
+        squareFeet: parseNumber(inputs.squareFeet, 'Square feet'),
+        ceilingHeightFeet: parseNumber(inputs.ceilingHeightFeet, 'Ceiling height'),
+        sunlight: (inputs.sunlight || 'normal') as 'normal' | 'shaded' | 'sunny',
+        people: parseNumber(inputs.people, 'People'),
+        kitchen: booleanInput(inputs.kitchen),
+      });
+      return {
+        label: 'Recommended cooling capacity',
+        expression: `${formatCalculatorNumber(result.squareFeet)} ft2 room`,
+        answer: `${formatCalculatorNumber(result.recommendedBtu)} BTU/h`,
+        metrics: [
+          { label: 'Base table value', value: `${formatCalculatorNumber(result.baseBtu)} BTU/h` },
+          { label: 'Adjusted estimate', value: `${formatCalculatorNumber(result.adjustedBtu)} BTU/h` },
+          { label: 'Ceiling height', value: `${formatCalculatorNumber(result.ceilingHeightFeet)} ft` },
+        ],
+        steps: [
+          'Start with a room-size BTU table for an 8-foot ceiling.',
+          'Adjust for ceiling height, sun exposure, people, and kitchen heat when selected.',
+          'Round to a practical 500 BTU increment.',
+        ],
+        note: 'Oversized air conditioners can cool without dehumidifying well. Use this as a shopping estimate, not HVAC design.',
+      };
+    }
+    case 'stair': {
+      const result = calculateStairLayout(
+        parseNumber(inputs.totalRiseInches, 'Total rise'),
+        parseNumber(inputs.targetRiserInches, 'Target riser'),
+        parseNumber(inputs.treadDepthInches, 'Tread depth'),
+      );
+      return {
+        label: 'Stair layout',
+        expression: `${formatCalculatorNumber(result.totalRiseInches)} in total rise`,
+        answer: `${formatCalculatorNumber(result.riserCount)} risers`,
+        metrics: [
+          { label: 'Actual riser', value: `${formatCalculatorNumber(result.actualRiserInches)} in` },
+          { label: 'Treads', value: formatCalculatorNumber(result.treadCount) },
+          { label: 'Total run', value: `${formatCalculatorNumber(result.totalRunInches)} in` },
+          { label: 'Angle', value: `${formatCalculatorNumber(result.stairAngleDegrees)} deg` },
+        ],
+        steps: [
+          'Divide total rise by the target riser height and round to a whole riser count.',
+          'Divide total rise by that riser count to get the actual riser height.',
+          'Use one fewer tread than risers for a typical straight stair run.',
+        ],
+        note: 'Stair rules are safety critical and local. Check code, landings, headroom, handrails, and uniformity before building.',
+      };
+    }
+    case 'resistor': {
+      const result = calculateResistorColorCode(inputs.band1, inputs.band2, inputs.multiplier, inputs.tolerance);
+      return {
+        label: 'Resistor value',
+        expression: `${result.band1}, ${result.band2}, ${result.multiplier}, ${result.tolerance}`,
+        answer: `${formatCalculatorNumber(result.resistanceOhms)} ohms`,
+        metrics: [
+          { label: 'Tolerance', value: `+/- ${formatCalculatorNumber(result.tolerancePercent)}%` },
+          { label: 'Minimum', value: `${formatCalculatorNumber(result.resistanceOhms * (1 - result.tolerancePercent / 100))} ohms` },
+          { label: 'Maximum', value: `${formatCalculatorNumber(result.resistanceOhms * (1 + result.tolerancePercent / 100))} ohms` },
+        ],
+        steps: [
+          'Read the first two color bands as digits.',
+          'Multiply by the multiplier color band.',
+          'Read the tolerance band as the expected manufacturing range.',
+        ],
+      };
+    }
+    case 'ohms-law': {
+      const result = calculateOhmsLaw(modeId, parseNumber(inputs.firstValue, 'First value'), parseNumber(inputs.secondValue, 'Second value'));
+      return {
+        label: 'Circuit values',
+        expression: modeId.replace(/-/g, ' and '),
+        answer: `${formatCalculatorNumber(result.power)} W`,
+        metrics: [
+          { label: 'Voltage', value: `${formatCalculatorNumber(result.voltage)} V` },
+          { label: 'Current', value: `${formatCalculatorNumber(result.current)} A` },
+          { label: 'Resistance', value: `${formatCalculatorNumber(result.resistance)} ohms` },
+        ],
+        steps: [
+          'Use Ohm law V = I x R to solve the missing core value.',
+          'Use power P = V x I after voltage and current are known.',
+          'Show voltage, current, resistance, and power together for checking.',
+        ],
+        note: 'This is simple DC/resistive-circuit math. Real circuits can involve AC, impedance, heat, and safety limits.',
+      };
+    }
+    case 'electricity': {
+      const result = calculateElectricityCost(
+        parseNumber(inputs.watts, 'Watts'),
+        parseNumber(inputs.hoursPerDay, 'Hours per day'),
+        parseNumber(inputs.days, 'Days'),
+        parseNumber(inputs.ratePerKwh, 'Rate per kWh'),
+      );
+      return {
+        label: 'Estimated electricity cost',
+        expression: `${formatCalculatorNumber(result.watts)} W for ${formatCalculatorNumber(result.hoursPerDay)} h/day`,
+        answer: money(result.cost),
+        metrics: [
+          { label: 'Energy', value: `${formatCalculatorNumber(result.kilowattHours)} kWh` },
+          { label: 'Days', value: formatCalculatorNumber(result.days) },
+          { label: 'Rate', value: `${money(result.ratePerKwh)} per kWh` },
+        ],
+        steps: [
+          'Convert watts to kilowatts by dividing by 1,000.',
+          'Multiply by hours per day and number of days to get kWh.',
+          'Multiply kWh by your electricity rate.',
+        ],
+      };
+    }
+    case 'shoe-size': {
+      const result = convertShoeSize(parseNumber(inputs.footLengthCm, 'Foot length'));
+      return {
+        label: 'Approximate shoe sizes',
+        expression: `${formatCalculatorNumber(result.footLengthCm)} cm foot length`,
+        answer: `US men ${formatCalculatorNumber(result.usMen)}`,
+        metrics: [
+          { label: 'US women', value: formatCalculatorNumber(result.usWomen) },
+          { label: 'UK adult', value: formatCalculatorNumber(result.ukAdult) },
+          { label: 'EU adult', value: formatCalculatorNumber(result.euAdult) },
+          { label: 'Foot inches', value: formatCalculatorNumber(result.footLengthInches) },
+        ],
+        steps: [
+          'Convert foot length from centimeters to inches.',
+          'Apply common adult-size conversion formulas.',
+          'Round only for display so you can compare nearby half sizes.',
+        ],
+        note: 'Shoe conversions are approximate. Try manufacturer size charts when fit matters.',
+      };
+    }
+    case 'molarity': {
+      const result =
+        modeId === 'grams-volume'
+          ? calculateMolarity({
+              grams: parseNumber(inputs.grams, 'Grams'),
+              molarMass: parseNumber(inputs.molarMass, 'Molar mass'),
+              volumeLiters: parseNumber(inputs.volumeLiters, 'Volume'),
+            })
+          : calculateMolarity({
+              moles: parseNumber(inputs.moles, 'Moles'),
+              volumeLiters: parseNumber(inputs.volumeLiters, 'Volume'),
+            });
+      return {
+        label: 'Molarity',
+        expression: `${formatCalculatorNumber(result.moles)} mol / ${formatCalculatorNumber(result.volumeLiters)} L`,
+        answer: `${formatCalculatorNumber(result.molarity)} M`,
+        metrics: [
+          { label: 'Moles', value: `${formatCalculatorNumber(result.moles)} mol` },
+          { label: 'Volume', value: `${formatCalculatorNumber(result.volumeLiters)} L` },
+          { label: 'Molar mass', value: result.molarMass ? `${formatCalculatorNumber(result.molarMass)} g/mol` : 'Entered moles directly' },
+        ],
+        steps: [
+          modeId === 'grams-volume' ? 'Divide grams by molar mass to get moles.' : 'Use the moles you entered directly.',
+          'Divide moles of solute by liters of solution.',
+          'Report the result as mol/L, commonly written as M.',
+        ],
+        note: 'Use lab-safe procedures and measured final solution volume for real chemistry work.',
+      };
+    }
+    case 'molecular-weight': {
+      const result = calculateMolecularWeight(inputs.formula);
+      return {
+        label: 'Molecular weight',
+        expression: result.formula,
+        answer: `${formatCalculatorNumber(result.molarMass)} g/mol`,
+        metrics: [
+          { label: 'Atoms counted', value: formatCalculatorNumber(result.atomCount) },
+          { label: 'Elements', value: result.composition.map((item) => item.element).join(', ') },
+          { label: 'Largest mass share', value: result.composition.slice().sort((a, b) => b.percent - a.percent)[0]?.element ?? 'None' },
+        ],
+        steps: [
+          'Parse element symbols, subscripts, and parentheses in the formula.',
+          'Multiply each element count by its rounded atomic weight.',
+          'Add the element masses to estimate molar mass.',
+        ],
+        note: `Composition: ${result.composition
+          .map((item) => `${item.element} ${formatCalculatorNumber(item.count)} (${formatCalculatorNumber(item.percent)}%)`)
+          .join(', ')}`,
+      };
+    }
+    case 'sleep': {
+      const result = calculateSleepSchedule(modeId as 'wake-up' | 'bedtime', inputs.inputTime, parseNumber(inputs.cycles, 'Sleep cycles'), parseNumber(inputs.fallAsleepMinutes, 'Fall-asleep minutes'));
+      return {
+        label: result.mode === 'wake-up' ? 'Suggested bedtime' : 'Suggested wake-up time',
+        expression: `${result.cycles} cycles from ${result.inputTime}`,
+        answer: result.targetTime,
+        metrics: [
+          { label: 'Sleep time', value: clockDurationText(result.sleepDurationMinutes) },
+          { label: 'Fall-asleep buffer', value: `${formatCalculatorNumber(result.fallAsleepMinutes)} min` },
+          { label: 'Cycle length used', value: '90 min' },
+        ],
+        steps: [
+          'Treat one sleep cycle as about 90 minutes.',
+          result.mode === 'wake-up' ? 'Count backward from wake-up time by cycles and fall-asleep buffer.' : 'Count forward from bedtime by cycles and fall-asleep buffer.',
+          'Wrap around midnight when needed.',
+        ],
+        note: 'Adults commonly need at least 7 hours of sleep, but quality and personal needs matter too.',
+      };
+    }
+    case 'tire-size': {
+      const result = calculateTireSize(parseNumber(inputs.widthMm, 'Width'), parseNumber(inputs.aspectRatio, 'Aspect ratio'), parseNumber(inputs.wheelDiameterInches, 'Wheel diameter'));
+      return {
+        label: 'Tire diameter',
+        expression: `${formatCalculatorNumber(result.widthMm)}/${formatCalculatorNumber(result.aspectRatio)}R${formatCalculatorNumber(result.wheelDiameterInches)}`,
+        answer: `${formatCalculatorNumber(result.tireDiameterInches)} in`,
+        metrics: [
+          { label: 'Sidewall', value: `${formatCalculatorNumber(result.sidewallInches)} in` },
+          { label: 'Circumference', value: `${formatCalculatorNumber(result.circumferenceInches)} in` },
+          { label: 'Revs per mile', value: formatCalculatorNumber(result.revolutionsPerMile) },
+        ],
+        steps: [
+          'Multiply tire width by aspect ratio to get sidewall height.',
+          'Convert sidewall height from millimeters to inches.',
+          'Add two sidewalls to the wheel diameter for total tire diameter.',
+        ],
+        note: 'Changing tire size can affect fitment, speedometer readings, braking, and safety systems.',
+      };
+    }
+    case 'roofing': {
+      const result = calculateRoofingEstimate(parseNumber(inputs.lengthFeet, 'Length'), parseNumber(inputs.widthFeet, 'Width'), parseNumber(inputs.pitchRisePer12, 'Pitch rise'), parseNumber(inputs.wastePercent, 'Waste percent'));
+      return {
+        label: 'Estimated roof material',
+        expression: `${formatCalculatorNumber(result.footprintSquareFeet)} ft2 footprint, ${formatCalculatorNumber(result.pitchRisePer12)}/12 pitch`,
+        answer: `${formatCalculatorNumber(result.roofSquares)} squares`,
+        metrics: [
+          { label: 'Roof area with waste', value: `${formatCalculatorNumber(result.roofSquareFeet)} ft2` },
+          { label: 'Pitch factor', value: formatCalculatorNumber(result.pitchFactor) },
+          { label: 'Bundles', value: formatCalculatorNumber(result.shingleBundles) },
+        ],
+        steps: [
+          'Multiply footprint length by width.',
+          'Apply a pitch factor from the 12-inch roof run and pitch rise.',
+          'Add waste and divide by 100 square feet per roofing square.',
+        ],
+        note: 'Complex roofs, valleys, hips, dormers, tear-off, and product coverage can change real orders.',
+      };
+    }
+    case 'tile': {
+      const result = calculateTileEstimate(parseNumber(inputs.areaSquareFeet, 'Area'), parseNumber(inputs.tileLengthInches, 'Tile length'), parseNumber(inputs.tileWidthInches, 'Tile width'), parseNumber(inputs.wastePercent, 'Waste percent'));
+      return {
+        label: 'Tiles needed',
+        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2 with ${formatCalculatorNumber(result.tileLengthInches)} x ${formatCalculatorNumber(result.tileWidthInches)} in tile`,
+        answer: formatCalculatorNumber(result.tilesNeeded),
+        metrics: [
+          { label: 'Each tile area', value: `${formatCalculatorNumber(result.tileAreaSquareFeet)} ft2` },
+          { label: 'Waste added', value: percent(result.wastePercent) },
+          { label: 'Area with waste', value: `${formatCalculatorNumber(result.areaSquareFeet * (1 + result.wastePercent / 100))} ft2` },
+        ],
+        steps: [
+          'Convert tile dimensions from square inches to square feet.',
+          'Add waste to the project area.',
+          'Divide adjusted area by tile area and round up to a whole tile.',
+        ],
+      };
+    }
+    case 'mulch': {
+      const result = calculateMulchEstimate(parseNumber(inputs.areaSquareFeet, 'Area'), parseNumber(inputs.depthInches, 'Depth'), parseNumber(inputs.wastePercent, 'Waste percent'));
+      return {
+        label: 'Mulch needed',
+        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2 at ${formatCalculatorNumber(result.depthInches)} in`,
+        answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
+        metrics: [
+          { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
+          { label: '2 ft3 bags', value: formatCalculatorNumber(result.twoCubicFootBags) },
+          { label: 'Waste added', value: percent(result.wastePercent) },
+        ],
+        steps: [
+          'Convert depth from inches to feet.',
+          'Multiply area by depth to get cubic feet.',
+          'Divide by 27 for cubic yards and by 2 for common bag count.',
+        ],
+      };
+    }
+    case 'gravel': {
+      const result = calculateGravelEstimate(parseNumber(inputs.lengthFeet, 'Length'), parseNumber(inputs.widthFeet, 'Width'), parseNumber(inputs.depthInches, 'Depth'), parseNumber(inputs.tonsPerCubicYard, 'Tons per cubic yard'));
+      return {
+        label: 'Gravel needed',
+        expression: `${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.widthFeet)} ft x ${formatCalculatorNumber(result.depthInches)} in`,
+        answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
+        metrics: [
+          { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
+          { label: 'Estimated tons', value: formatCalculatorNumber(result.tons) },
+          { label: 'Density used', value: `${formatCalculatorNumber(result.tonsPerCubicYard)} tons/yd3` },
+        ],
+        steps: [
+          'Convert depth from inches to feet.',
+          'Multiply length, width, and depth for cubic feet.',
+          'Divide by 27 for cubic yards, then multiply by tons per cubic yard.',
+        ],
+        note: 'Compaction, moisture, stone type, and supplier density can change the real delivered amount.',
+      };
+    }
+    case 'wind-chill': {
+      const result = calculateWindChill(parseNumber(inputs.temperatureFahrenheit, 'Temperature'), parseNumber(inputs.windSpeedMph, 'Wind speed'));
+      return {
+        label: 'Wind chill',
+        expression: `${formatCalculatorNumber(result.temperatureFahrenheit)} F, ${formatCalculatorNumber(result.windSpeedMph ?? 0)} mph`,
+        answer: `${formatCalculatorNumber(result.resultFahrenheit)} F`,
+        metrics: [
+          { label: 'Celsius', value: `${formatCalculatorNumber(result.resultCelsius)} C` },
+          { label: 'Air temperature', value: `${formatCalculatorNumber(result.temperatureFahrenheit)} F` },
+          { label: 'Wind speed', value: `${formatCalculatorNumber(result.windSpeedMph ?? 0)} mph` },
+        ],
+        steps: [
+          'Use the National Weather Service wind chill equation.',
+          'Raise wind speed to the 0.16 power.',
+          'Combine temperature and wind terms to estimate exposed-skin heat loss.',
+        ],
+        note: 'The NWS formula is intended for cold temperatures with meaningful wind. Follow local weather alerts for frostbite risk.',
+      };
+    }
+    case 'heat-index': {
+      const result = calculateHeatIndex(parseNumber(inputs.temperatureFahrenheit, 'Temperature'), parseNumber(inputs.relativeHumidity, 'Relative humidity'));
+      return {
+        label: 'Heat index',
+        expression: `${formatCalculatorNumber(result.temperatureFahrenheit)} F, ${formatCalculatorNumber(result.relativeHumidity ?? 0)}% RH`,
+        answer: `${formatCalculatorNumber(result.resultFahrenheit)} F`,
+        metrics: [
+          { label: 'Celsius', value: `${formatCalculatorNumber(result.resultCelsius)} C` },
+          { label: 'Air temperature', value: `${formatCalculatorNumber(result.temperatureFahrenheit)} F` },
+          { label: 'Humidity', value: percent(result.relativeHumidity ?? 0) },
+        ],
+        steps: [
+          'Use the NWS Rothfusz regression for warm, humid conditions.',
+          'Apply humidity adjustment when the formula range calls for it.',
+          'Report the apparent temperature in Fahrenheit and Celsius.',
+        ],
+        note: 'Heat illness risk depends on sun, exertion, hydration, wind, and health. Follow local heat advisories.',
+      };
+    }
+    case 'dew-point': {
+      const result = calculateDewPoint(parseNumber(inputs.temperatureFahrenheit, 'Temperature'), parseNumber(inputs.relativeHumidity, 'Relative humidity'));
+      return {
+        label: 'Dew point',
+        expression: `${formatCalculatorNumber(result.temperatureFahrenheit)} F, ${formatCalculatorNumber(result.relativeHumidity ?? 0)}% RH`,
+        answer: `${formatCalculatorNumber(result.resultFahrenheit)} F`,
+        metrics: [
+          { label: 'Celsius', value: `${formatCalculatorNumber(result.resultCelsius)} C` },
+          { label: 'Air temperature', value: `${formatCalculatorNumber(result.temperatureFahrenheit)} F` },
+          { label: 'Humidity', value: percent(result.relativeHumidity ?? 0) },
+        ],
+        steps: [
+          'Convert Fahrenheit to Celsius.',
+          'Use the Magnus approximation with temperature and relative humidity.',
+          'Convert the dew point back to Fahrenheit for display.',
+        ],
+      };
+    }
+    case 'bandwidth': {
+      const result = calculateBandwidthTime(parseNumber(inputs.dataAmount, 'Data amount'), inputs.dataUnit, parseNumber(inputs.speedAmount, 'Speed'), inputs.speedUnit);
+      return {
+        label: 'Estimated transfer time',
+        expression: `${formatCalculatorNumber(result.dataAmount)} ${result.dataUnit} at ${formatCalculatorNumber(result.speedAmount)} ${result.speedUnit}`,
+        answer: durationText(result.seconds),
+        metrics: [
+          { label: 'Seconds', value: formatCalculatorNumber(result.seconds) },
+          { label: 'Minutes', value: formatCalculatorNumber(result.minutes) },
+          { label: 'Hours', value: formatCalculatorNumber(result.hours) },
+        ],
+        steps: [
+          'Convert the data amount to bits using decimal network units.',
+          'Convert bandwidth to bits per second.',
+          'Divide total bits by bits per second to estimate transfer time.',
+        ],
+        note: 'Real downloads also depend on Wi-Fi, congestion, server speed, protocol overhead, and device limits.',
+      };
+    }
+    case 'gdp': {
+      const result = calculateGdpEstimate(
+        parseNumber(inputs.consumption, 'Personal consumption'),
+        parseNumber(inputs.investment, 'Private investment'),
+        parseNumber(inputs.governmentSpending, 'Government spending'),
+        parseNumber(inputs.exports, 'Exports'),
+        parseNumber(inputs.imports, 'Imports'),
+        parseOptionalNumber(inputs.population, 'Population'),
+      );
+      return {
+        label: 'Estimated GDP',
+        expression: 'C + I + G + (X - M)',
+        answer: money(result.gdp),
+        metrics: [
+          { label: 'Net exports', value: money(result.netExports) },
+          { label: 'GDP per person', value: result.gdpPerPerson === null ? 'Add population' : money(result.gdpPerPerson) },
+          { label: 'Imports subtracted', value: money(result.imports) },
+        ],
+        steps: [
+          'Add personal consumption, private investment, and government spending.',
+          'Subtract imports from exports to find net exports.',
+          'Add net exports to the other spending categories.',
+        ],
+        note: 'Use one scale throughout. If money values are in billions, enter population in billions too, such as 0.34 for 340 million people.',
+      };
+    }
+    case 'horsepower': {
+      const result = calculateHorsepowerConversion(parseNumber(inputs.power, 'Power'), inputs.unit as HorsepowerUnit);
+      return {
+        label: 'Mechanical horsepower',
+        expression: `${formatCalculatorNumber(result.inputPower)} ${unitLabel(result.inputUnit)}`,
+        answer: `${formatCalculatorNumber(result.mechanicalHorsepower)} hp`,
+        metrics: [
+          { label: 'Watts', value: `${formatCalculatorNumber(result.watts)} W` },
+          { label: 'Kilowatts', value: `${formatCalculatorNumber(result.kilowatts)} kW` },
+          { label: 'Metric horsepower', value: `${formatCalculatorNumber(result.metricHorsepower)} PS` },
+        ],
+        steps: [
+          'Convert the starting unit to watts.',
+          'Divide watts by 745.6999 for mechanical horsepower.',
+          'Divide watts by 735.4988 for metric horsepower.',
+        ],
+        note: 'Mechanical horsepower, metric horsepower, electric horsepower, and boiler horsepower are different units. This tool reports common mechanical and metric values.',
+      };
+    }
+    case 'engine-horsepower': {
+      const result = calculateEngineHorsepower(
+        parseNumber(inputs.torquePoundFeet, 'Torque'),
+        parseNumber(inputs.rpm, 'RPM'),
+        parseOptionalNumber(inputs.drivetrainLossPercent, 'Drivetrain loss') ?? 0,
+      );
+      return {
+        label: 'Estimated engine horsepower',
+        expression: `${formatCalculatorNumber(result.torquePoundFeet)} lb-ft x ${formatCalculatorNumber(result.rpm)} rpm / 5252`,
+        answer: `${formatCalculatorNumber(result.engineHorsepower)} hp`,
+        metrics: [
+          { label: 'Kilowatts', value: `${formatCalculatorNumber(result.kilowatts)} kW` },
+          { label: 'Wheel horsepower estimate', value: `${formatCalculatorNumber(result.wheelHorsepower)} whp` },
+          { label: 'Loss used', value: percent(result.drivetrainLossPercent) },
+        ],
+        steps: [
+          'Multiply torque in pound-feet by engine speed in RPM.',
+          'Divide by the unit conversion constant 5252.1131.',
+          'Apply optional drivetrain loss only to the wheel horsepower estimate.',
+        ],
+        note: 'Dyno standards, correction factors, drivetrain loss, and engine conditions can change measured horsepower.',
+      };
+    }
+    case 'golf-handicap': {
+      if (modeId === 'course-handicap') {
+        const result = calculateGolfCourseHandicap(
+          parseNumber(inputs.handicapIndex, 'Handicap index'),
+          parseNumber(inputs.slopeRating, 'Slope rating'),
+          parseNumber(inputs.courseRating, 'Course rating'),
+          parseNumber(inputs.par, 'Par'),
+          parseNumber(inputs.allowancePercent, 'Allowance'),
+        );
+        return {
+          label: 'Course handicap estimate',
+          expression: `${formatCalculatorNumber(result.handicapIndex)} x (${formatCalculatorNumber(result.slopeRating)} / 113) + (${formatCalculatorNumber(result.courseRating)} - ${formatCalculatorNumber(result.par)})`,
+          answer: formatCalculatorNumber(result.courseHandicap),
+          metrics: [
+            { label: 'Raw course handicap', value: formatCalculatorNumber(result.rawCourseHandicap) },
+            { label: 'Playing handicap', value: formatCalculatorNumber(result.playingHandicap) },
+            { label: 'Allowance', value: percent(result.allowancePercent) },
+          ],
+          steps: [
+            'Scale Handicap Index by slope rating over the standard 113 slope.',
+            'Adjust for course rating compared with par.',
+            'Round to a whole course handicap and then apply the allowance for playing handicap.',
+          ],
+          note: 'This is an estimate. Official scores can include WHS adjustments and must come from your golf association or official scoring record.',
+        };
+      }
+
+      const result = calculateGolfScoreDifferential(
+        parseNumber(inputs.adjustedGrossScore, 'Adjusted gross score'),
+        parseNumber(inputs.courseRating, 'Course rating'),
+        parseNumber(inputs.slopeRating, 'Slope rating'),
+        parseNumber(inputs.playingConditionsAdjustment, 'PCC adjustment'),
+      );
+      return {
+        label: 'Score differential estimate',
+        expression: `(113 / ${formatCalculatorNumber(result.slopeRating)}) x (${formatCalculatorNumber(result.adjustedGrossScore)} - ${formatCalculatorNumber(result.courseRating)} - ${formatCalculatorNumber(result.playingConditionsAdjustment)})`,
+        answer: formatCalculatorNumber(result.scoreDifferential),
+        metrics: [
+          { label: 'Raw differential', value: formatCalculatorNumber(result.rawDifferential) },
+          { label: 'Slope rating', value: formatCalculatorNumber(result.slopeRating) },
+          { label: 'PCC adjustment', value: formatCalculatorNumber(result.playingConditionsAdjustment) },
+        ],
+        steps: [
+          'Subtract course rating and PCC from adjusted gross score.',
+          'Multiply by 113 divided by slope rating.',
+          'Round the score differential to one decimal place.',
+        ],
+        note: 'An official Handicap Index can include caps, exceptional-score reductions, 9-hole rules, and committee adjustments.',
       };
     }
     default: {

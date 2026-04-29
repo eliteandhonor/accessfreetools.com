@@ -5497,28 +5497,44 @@ main {
 .site-footer {
   border-top: 1px solid var(--border);
   color: var(--muted);
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 18px;
-  grid-template-columns: 1fr auto;
   margin-top: 48px;
   padding-bottom: 32px;
   padding-top: 28px;
+}
+
+.site-footer > div {
+  max-width: 520px;
+  min-width: 0;
+  width: min(100%, 520px);
+}
+
+.site-footer > div p {
+  margin-bottom: 0;
+  max-width: 42rem;
 }
 
 .site-footer nav {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  min-width: 0;
 }
 
 .site-footer nav a {
   color: var(--muted);
   font-weight: 800;
+  white-space: nowrap;
 }
 
 .footer-note {
-  grid-column: 1 / -1;
   margin: 0;
+}
+
+.footer-brand {
+  white-space: nowrap;
 }
 
 .tools-launchpad {
@@ -6039,8 +6055,7 @@ main {
   .category-context-grid,
   .kawaii-guide-visual,
   .tool-title-row,
-  .section-heading,
-  .site-footer {
+  .section-heading {
     grid-template-columns: 1fr;
   }
 

@@ -6,6 +6,7 @@ import {
   calculateAnnuityPayout,
   calculateAssetLease,
   calculateAutoLease,
+  calculateAprEstimate,
   calculateBondEstimate,
   calculateAverageReturn,
   calculateBudget,
@@ -13,6 +14,8 @@ import {
   calculateCashBackLowInterest,
   calculateCdEstimate,
   calculateCollegeCost,
+  calculateCanadianMortgage,
+  calculateCommission,
   calculateCreditCardPayoff,
   calculateCompoundInterest,
   calculateCurrencyConversion,
@@ -20,24 +23,43 @@ import {
   calculateDebtToIncome,
   calculateDepreciationEstimate,
   calculateDiscountEstimate,
+  calculateDownPayment,
+  calculateEstateTaxEstimate,
   calculateFederalIncomeTax2026,
+  calculateFhaLoan,
   calculateFixedDebtPayoff,
   calculateFourOhOneKProjection,
+  calculateFutureValue,
+  calculateHeloc,
+  calculateHomeEquityLoan,
   calculateHouseAffordability,
   calculateInflationAdjustment,
   calculateInterestRateFromPayment,
+  calculateIrr,
   calculateIraProjection,
   calculateInvestmentGrowth,
   calculateLoanSummary,
   calculateMarginEstimate,
+  calculateMarriageTaxComparison,
   calculateMutualFundEstimate,
   calculateMortgagePayoffSummary,
   calculateMortgagePayment,
+  calculatePaybackPeriod,
   calculatePensionEstimate,
+  calculatePresentValue,
   calculateRefinance,
+  calculateRealEstateReturn,
   calculateRetirementSavings,
+  calculateRentalProperty,
+  calculateRentVsBuy,
+  calculateRmdEstimate,
+  calculateRoi,
   calculateSalaryBreakdown,
   calculateSavingsProjection,
+  calculateSocialSecurityClaiming,
+  calculateTakeHomePaycheck,
+  calculateUkMortgage,
+  calculateVaMortgage,
   calculateRentAffordability,
   calculateSalesTax,
   calculateSimpleInterest,
@@ -96,6 +118,29 @@ export type FinanceToolVariant =
   | 'lease'
   | 'refinance'
   | 'budget'
+  | 'marriage-tax'
+  | 'estate-tax'
+  | 'social-security'
+  | 'rmd'
+  | 'real-estate'
+  | 'take-home-paycheck'
+  | 'rental-property'
+  | 'irr'
+  | 'roi'
+  | 'apr'
+  | 'fha-loan'
+  | 'va-mortgage'
+  | 'home-equity-loan'
+  | 'heloc'
+  | 'down-payment'
+  | 'rent-vs-buy'
+  | 'payback-period'
+  | 'present-value'
+  | 'future-value'
+  | 'commission'
+  | 'mortgage-uk'
+  | 'canadian-mortgage'
+  | 'percent-off'
   | 'income-tax'
   | 'compound-interest'
   | 'salary'
@@ -192,6 +237,25 @@ const vatModeOptions: SelectOption[] = [
 const depreciationMethodOptions: SelectOption[] = [
   { label: 'Straight-line', value: 'straight-line' },
   { label: 'Declining balance', value: 'declining-balance' },
+];
+
+const yesNoOptions: SelectOption[] = [
+  { label: 'Yes', value: 'yes' },
+  { label: 'No', value: 'no' },
+];
+
+const payPeriodOptions: SelectOption[] = [
+  { label: 'Weekly (52)', value: '52' },
+  { label: 'Biweekly (26)', value: '26' },
+  { label: 'Semimonthly (24)', value: '24' },
+  { label: 'Monthly (12)', value: '12' },
+];
+
+const paymentFrequencyOptions: SelectOption[] = [
+  { label: 'Monthly', value: '12' },
+  { label: 'Semimonthly', value: '24' },
+  { label: 'Biweekly', value: '26' },
+  { label: 'Weekly', value: '52' },
 ];
 
 const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
@@ -1361,6 +1425,587 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
       },
     ],
   },
+  'marriage-tax': {
+    title: 'Marriage Tax Calculator',
+    buttonLabel: 'Compare tax',
+    emptyHistory: 'Recent marriage tax comparisons will appear here.',
+    privacyNote: 'Marriage tax estimates use simplified 2026 federal ordinary-income brackets only and are not tax advice.',
+    modes: [
+      {
+        id: 'marriage-tax',
+        label: 'Federal comparison',
+        symbol: 'MARR',
+        fields: [
+          numberField('spouseOneIncome', 'Person 1 income ($)'),
+          numberField('spouseTwoIncome', 'Person 2 income ($)'),
+          numberField('spouseOneDeduction', 'Person 1 deduction ($, blank uses standard)', 'Use standard'),
+          numberField('spouseTwoDeduction', 'Person 2 deduction ($, blank uses standard)', 'Use standard'),
+          numberField('jointDeduction', 'Joint deduction ($, blank uses standard)', 'Use standard'),
+          numberField('credits', 'Joint credits ($)'),
+        ],
+        defaultInputs: { spouseOneIncome: '90000', spouseTwoIncome: '70000', spouseOneDeduction: '', spouseTwoDeduction: '', jointDeduction: '', credits: '0' },
+        examples: [
+          { label: 'Two earners', inputs: { spouseOneIncome: '90000', spouseTwoIncome: '70000', spouseOneDeduction: '', spouseTwoDeduction: '', jointDeduction: '', credits: '0' } },
+          { label: 'One higher earner', inputs: { spouseOneIncome: '180000', spouseTwoIncome: '25000', spouseOneDeduction: '', spouseTwoDeduction: '', jointDeduction: '', credits: '0' } },
+          { label: 'Custom deductions', inputs: { spouseOneIncome: '120000', spouseTwoIncome: '80000', spouseOneDeduction: '18000', spouseTwoDeduction: '16100', jointDeduction: '38000', credits: '1000' } },
+        ],
+      },
+    ],
+  },
+  'estate-tax': {
+    title: 'Estate Tax Calculator',
+    buttonLabel: 'Estimate estate tax',
+    emptyHistory: 'Recent estate tax estimates will appear here.',
+    privacyNote: 'Estate tax estimates use a simplified federal 2026 exclusion and top-rate model. Estate planning needs professional advice.',
+    modes: [
+      {
+        id: 'estate-tax',
+        label: 'Federal estimate',
+        symbol: 'EST',
+        fields: [
+          numberField('grossEstate', 'Gross estate ($)'),
+          numberField('debtsAndExpenses', 'Debts and expenses ($)'),
+          numberField('charitableBequests', 'Charitable bequests ($)'),
+          numberField('spouseTransfers', 'Spouse transfers ($)'),
+          numberField('lifetimeTaxableGifts', 'Prior taxable gifts using exclusion ($)'),
+        ],
+        defaultInputs: { grossEstate: '18000000', debtsAndExpenses: '500000', charitableBequests: '0', spouseTransfers: '0', lifetimeTaxableGifts: '0' },
+        examples: [
+          { label: '$18M estate', inputs: { grossEstate: '18000000', debtsAndExpenses: '500000', charitableBequests: '0', spouseTransfers: '0', lifetimeTaxableGifts: '0' } },
+          { label: 'Charitable plan', inputs: { grossEstate: '22000000', debtsAndExpenses: '600000', charitableBequests: '2000000', spouseTransfers: '0', lifetimeTaxableGifts: '0' } },
+          { label: 'Prior gifts', inputs: { grossEstate: '16000000', debtsAndExpenses: '300000', charitableBequests: '0', spouseTransfers: '0', lifetimeTaxableGifts: '1000000' } },
+        ],
+      },
+    ],
+  },
+  'social-security': {
+    title: 'Social Security Calculator',
+    buttonLabel: 'Estimate benefit',
+    emptyHistory: 'Recent Social Security estimates will appear here.',
+    privacyNote: 'Social Security estimates use claiming-age adjustment rules and your entered benefit. Use SSA records for official benefits.',
+    modes: [
+      {
+        id: 'social-security',
+        label: 'Claiming age',
+        symbol: 'SSA',
+        fields: [
+          numberField('birthYear', 'Birth year'),
+          numberField('fullRetirementAgeBenefit', 'Monthly benefit at full retirement age ($)'),
+          numberField('claimingAgeYears', 'Claiming age (62 to 70)'),
+        ],
+        defaultInputs: { birthYear: '1962', fullRetirementAgeBenefit: '2400', claimingAgeYears: '67' },
+        examples: [
+          { label: 'Full retirement age', inputs: { birthYear: '1962', fullRetirementAgeBenefit: '2400', claimingAgeYears: '67' } },
+          { label: 'Claim at 62', inputs: { birthYear: '1962', fullRetirementAgeBenefit: '2400', claimingAgeYears: '62' } },
+          { label: 'Delay to 70', inputs: { birthYear: '1960', fullRetirementAgeBenefit: '2600', claimingAgeYears: '70' } },
+        ],
+      },
+    ],
+  },
+  rmd: {
+    title: 'RMD Calculator',
+    buttonLabel: 'Estimate RMD',
+    emptyHistory: 'Recent RMD estimates will appear here.',
+    privacyNote: 'RMD estimates use the IRS Uniform Lifetime Table only and do not cover inherited IRA or younger-spouse special rules.',
+    modes: [
+      {
+        id: 'rmd',
+        label: 'Uniform table',
+        symbol: 'RMD',
+        fields: [numberField('accountBalance', 'Prior Dec. 31 balance ($)'), numberField('age', 'Age this year')],
+        defaultInputs: { accountBalance: '500000', age: '75' },
+        examples: [
+          { label: 'Age 75', inputs: { accountBalance: '500000', age: '75' } },
+          { label: 'Age 80', inputs: { accountBalance: '750000', age: '80' } },
+          { label: 'Age 90', inputs: { accountBalance: '300000', age: '90' } },
+        ],
+      },
+    ],
+  },
+  'real-estate': {
+    title: 'Real Estate Calculator',
+    buttonLabel: 'Estimate return',
+    emptyHistory: 'Recent real estate return estimates will appear here.',
+    privacyNote: 'Real estate estimates are simplified and do not include taxes, depreciation recapture, financing changes, or local transaction rules.',
+    modes: [
+      {
+        id: 'real-estate',
+        label: 'Sale ROI',
+        symbol: 'RE',
+        fields: [
+          numberField('purchasePrice', 'Purchase price ($)'),
+          numberField('downPayment', 'Cash down payment ($)'),
+          numberField('buyingCosts', 'Buying costs ($)'),
+          numberField('improvements', 'Improvements ($)'),
+          numberField('sellingPrice', 'Selling price ($)'),
+          numberField('sellingCosts', 'Selling costs ($)'),
+          numberField('loanPayoff', 'Loan payoff at sale ($)'),
+        ],
+        defaultInputs: { purchasePrice: '350000', downPayment: '70000', buyingCosts: '8000', improvements: '15000', sellingPrice: '430000', sellingCosts: '25800', loanPayoff: '260000' },
+        examples: [
+          { label: 'Home sale', inputs: { purchasePrice: '350000', downPayment: '70000', buyingCosts: '8000', improvements: '15000', sellingPrice: '430000', sellingCosts: '25800', loanPayoff: '260000' } },
+          { label: 'Renovation', inputs: { purchasePrice: '240000', downPayment: '48000', buyingCosts: '6000', improvements: '35000', sellingPrice: '330000', sellingCosts: '19800', loanPayoff: '185000' } },
+          { label: 'Small gain', inputs: { purchasePrice: '500000', downPayment: '100000', buyingCosts: '12000', improvements: '10000', sellingPrice: '545000', sellingCosts: '32700', loanPayoff: '382000' } },
+        ],
+      },
+    ],
+  },
+  'take-home-paycheck': {
+    title: 'Take-Home-Paycheck Calculator',
+    buttonLabel: 'Estimate paycheck',
+    emptyHistory: 'Recent paycheck estimates will appear here.',
+    privacyNote: 'Paycheck estimates use simplified tax percentages plus 2026 employee FICA rates. They are not payroll advice.',
+    modes: [
+      {
+        id: 'take-home-paycheck',
+        label: 'Paycheck',
+        symbol: 'NET',
+        fields: [
+          numberField('annualGrossPay', 'Annual gross pay ($)'),
+          selectField('payPeriodsPerYear', 'Pay schedule', payPeriodOptions),
+          numberField('pretaxDeductionsPerPaycheck', 'Pretax deductions per paycheck ($)'),
+          numberField('federalTaxPercent', 'Federal withholding estimate (%)'),
+          numberField('stateTaxPercent', 'State withholding estimate (%)'),
+          numberField('localTaxPercent', 'Local withholding estimate (%)'),
+        ],
+        defaultInputs: { annualGrossPay: '78000', payPeriodsPerYear: '26', pretaxDeductionsPerPaycheck: '120', federalTaxPercent: '12', stateTaxPercent: '4', localTaxPercent: '0' },
+        examples: [
+          { label: 'Biweekly salary', inputs: { annualGrossPay: '78000', payPeriodsPerYear: '26', pretaxDeductionsPerPaycheck: '120', federalTaxPercent: '12', stateTaxPercent: '4', localTaxPercent: '0' } },
+          { label: 'Monthly pay', inputs: { annualGrossPay: '96000', payPeriodsPerYear: '12', pretaxDeductionsPerPaycheck: '300', federalTaxPercent: '14', stateTaxPercent: '5', localTaxPercent: '1' } },
+          { label: 'Weekly pay', inputs: { annualGrossPay: '52000', payPeriodsPerYear: '52', pretaxDeductionsPerPaycheck: '60', federalTaxPercent: '10', stateTaxPercent: '3', localTaxPercent: '0' } },
+        ],
+      },
+    ],
+  },
+  'rental-property': {
+    title: 'Rental Property Calculator',
+    buttonLabel: 'Estimate rental',
+    emptyHistory: 'Recent rental property estimates will appear here.',
+    privacyNote: 'Rental estimates are simplified and do not include tax depreciation, repairs timing, financing changes, or local landlord rules.',
+    modes: [
+      {
+        id: 'rental-property',
+        label: 'Monthly cash flow',
+        symbol: 'RENT',
+        fields: [
+          numberField('propertyPrice', 'Property price ($)'),
+          numberField('downPayment', 'Down payment ($)'),
+          numberField('annualRatePercent', 'Mortgage rate (%)'),
+          numberField('loanYears', 'Loan term (years)'),
+          numberField('monthlyRent', 'Monthly rent ($)'),
+          numberField('vacancyPercent', 'Vacancy reserve (%)'),
+          numberField('monthlyOperatingExpenses', 'Other monthly operating expenses ($)'),
+          numberField('annualPropertyTax', 'Annual property tax ($)'),
+          numberField('monthlyInsurance', 'Monthly insurance ($)'),
+          numberField('maintenancePercent', 'Maintenance reserve (% of property/year)'),
+          numberField('closingCosts', 'Cash closing costs ($)'),
+        ],
+        defaultInputs: { propertyPrice: '300000', downPayment: '75000', annualRatePercent: '6.75', loanYears: '30', monthlyRent: '2400', vacancyPercent: '5', monthlyOperatingExpenses: '260', annualPropertyTax: '3600', monthlyInsurance: '140', maintenancePercent: '1', closingCosts: '7000' },
+        examples: [
+          { label: 'Rental house', inputs: { propertyPrice: '300000', downPayment: '75000', annualRatePercent: '6.75', loanYears: '30', monthlyRent: '2400', vacancyPercent: '5', monthlyOperatingExpenses: '260', annualPropertyTax: '3600', monthlyInsurance: '140', maintenancePercent: '1', closingCosts: '7000' } },
+          { label: 'Condo', inputs: { propertyPrice: '220000', downPayment: '55000', annualRatePercent: '6.5', loanYears: '30', monthlyRent: '1750', vacancyPercent: '6', monthlyOperatingExpenses: '350', annualPropertyTax: '2400', monthlyInsurance: '95', maintenancePercent: '0.8', closingCosts: '5000' } },
+          { label: 'Higher rent', inputs: { propertyPrice: '420000', downPayment: '105000', annualRatePercent: '6.9', loanYears: '30', monthlyRent: '3400', vacancyPercent: '5', monthlyOperatingExpenses: '400', annualPropertyTax: '5200', monthlyInsurance: '180', maintenancePercent: '1', closingCosts: '9500' } },
+        ],
+      },
+    ],
+  },
+  irr: {
+    title: 'IRR Calculator',
+    buttonLabel: 'Calculate IRR',
+    emptyHistory: 'Recent IRR estimates will appear here.',
+    privacyNote: 'IRR estimates assume evenly spaced cash flows and may not represent reinvestment returns or unusual cash-flow patterns.',
+    modes: [
+      {
+        id: 'irr',
+        label: 'Annual cash flows',
+        symbol: 'IRR',
+        fields: [
+          numberField('initialOutflow', 'Initial investment outflow ($)'),
+          numberField('cashFlow1', 'Year 1 cash flow ($)'),
+          numberField('cashFlow2', 'Year 2 cash flow ($)'),
+          numberField('cashFlow3', 'Year 3 cash flow ($)'),
+          numberField('cashFlow4', 'Year 4 cash flow ($)'),
+          numberField('cashFlow5', 'Year 5 cash flow ($)'),
+          selectField('periodsPerYear', 'Periods per year', [{ label: 'Annual', value: '1' }, { label: 'Quarterly', value: '4' }, { label: 'Monthly', value: '12' }]),
+        ],
+        defaultInputs: { initialOutflow: '10000', cashFlow1: '2200', cashFlow2: '2400', cashFlow3: '2600', cashFlow4: '2800', cashFlow5: '4500', periodsPerYear: '1' },
+        examples: [
+          { label: 'Five-year project', inputs: { initialOutflow: '10000', cashFlow1: '2200', cashFlow2: '2400', cashFlow3: '2600', cashFlow4: '2800', cashFlow5: '4500', periodsPerYear: '1' } },
+          { label: 'Uneven cash flows', inputs: { initialOutflow: '25000', cashFlow1: '4000', cashFlow2: '6500', cashFlow3: '7000', cashFlow4: '8000', cashFlow5: '9000', periodsPerYear: '1' } },
+          { label: 'Monthly shorthand', inputs: { initialOutflow: '5000', cashFlow1: '500', cashFlow2: '550', cashFlow3: '575', cashFlow4: '600', cashFlow5: '650', periodsPerYear: '12' } },
+        ],
+      },
+    ],
+  },
+  roi: {
+    title: 'ROI Calculator',
+    buttonLabel: 'Calculate ROI',
+    emptyHistory: 'Recent ROI estimates will appear here.',
+    privacyNote: 'ROI is simple gain divided by initial investment and does not adjust for time, risk, taxes, or inflation.',
+    modes: [
+      {
+        id: 'roi',
+        label: 'Return',
+        symbol: 'ROI',
+        fields: [numberField('initialInvestment', 'Initial investment ($)'), numberField('endingValue', 'Ending value ($)'), numberField('income', 'Income received ($)'), numberField('costs', 'Costs paid ($)')],
+        defaultInputs: { initialInvestment: '10000', endingValue: '12500', income: '600', costs: '250' },
+        examples: [
+          { label: 'Investment gain', inputs: { initialInvestment: '10000', endingValue: '12500', income: '600', costs: '250' } },
+          { label: 'Small project', inputs: { initialInvestment: '3000', endingValue: '3900', income: '0', costs: '150' } },
+          { label: 'Loss check', inputs: { initialInvestment: '8000', endingValue: '7200', income: '300', costs: '100' } },
+        ],
+      },
+    ],
+  },
+  apr: {
+    title: 'APR Calculator',
+    buttonLabel: 'Estimate APR',
+    emptyHistory: 'Recent APR estimates will appear here.',
+    privacyNote: 'APR estimates are simplified and are not official Truth in Lending disclosures.',
+    modes: [
+      {
+        id: 'apr',
+        label: 'Loan APR',
+        symbol: 'APR',
+        fields: [numberField('principal', 'Loan amount ($)'), numberField('annualRatePercent', 'Note rate (%)'), numberField('years', 'Term (years)'), numberField('fees', 'Finance charges / fees ($)')],
+        defaultInputs: { principal: '20000', annualRatePercent: '8', years: '5', fees: '600' },
+        examples: [
+          { label: 'Personal loan APR', inputs: { principal: '20000', annualRatePercent: '8', years: '5', fees: '600' } },
+          { label: 'Low fee', inputs: { principal: '12000', annualRatePercent: '9.5', years: '4', fees: '150' } },
+          { label: 'Large loan', inputs: { principal: '250000', annualRatePercent: '6.5', years: '30', fees: '5000' } },
+        ],
+      },
+    ],
+  },
+  'fha-loan': {
+    title: 'FHA Loan Calculator',
+    buttonLabel: 'Estimate FHA payment',
+    emptyHistory: 'Recent FHA loan estimates will appear here.',
+    privacyNote: 'FHA loan estimates use entered MIP assumptions and do not decide eligibility, underwriting, or official FHA costs.',
+    modes: [
+      {
+        id: 'fha-loan',
+        label: 'FHA payment',
+        symbol: 'FHA',
+        fields: [
+          numberField('homePrice', 'Home price ($)'),
+          numberField('downPayment', 'Down payment ($)'),
+          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('years', 'Loan term (years)'),
+          numberField('upfrontMipPercent', 'Upfront MIP (%)'),
+          numberField('annualMipPercent', 'Annual MIP (%)'),
+          numberField('annualPropertyTax', 'Annual property tax ($)'),
+          numberField('monthlyInsurance', 'Monthly insurance ($)'),
+        ],
+        defaultInputs: { homePrice: '325000', downPayment: '11375', annualRatePercent: '6.5', years: '30', upfrontMipPercent: '1.75', annualMipPercent: '0.55', annualPropertyTax: '3900', monthlyInsurance: '130' },
+        examples: [
+          { label: '3.5% down', inputs: { homePrice: '325000', downPayment: '11375', annualRatePercent: '6.5', years: '30', upfrontMipPercent: '1.75', annualMipPercent: '0.55', annualPropertyTax: '3900', monthlyInsurance: '130' } },
+          { label: 'Lower price', inputs: { homePrice: '260000', downPayment: '9100', annualRatePercent: '6.75', years: '30', upfrontMipPercent: '1.75', annualMipPercent: '0.55', annualPropertyTax: '3000', monthlyInsurance: '110' } },
+          { label: 'Larger down', inputs: { homePrice: '400000', downPayment: '40000', annualRatePercent: '6.25', years: '30', upfrontMipPercent: '1.75', annualMipPercent: '0.5', annualPropertyTax: '5200', monthlyInsurance: '160' } },
+        ],
+      },
+    ],
+  },
+  'va-mortgage': {
+    title: 'VA Mortgage Calculator',
+    buttonLabel: 'Estimate VA payment',
+    emptyHistory: 'Recent VA mortgage estimates will appear here.',
+    privacyNote: 'VA estimates use the public funding-fee rate logic for common purchase loans and do not decide eligibility or lender terms.',
+    modes: [
+      {
+        id: 'va-mortgage',
+        label: 'VA purchase',
+        symbol: 'VA',
+        fields: [
+          numberField('homePrice', 'Home price ($)'),
+          numberField('downPayment', 'Down payment ($)'),
+          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('years', 'Loan term (years)'),
+          selectField('firstUse', 'First VA loan use?', yesNoOptions),
+          selectField('exemptFundingFee', 'Funding fee exempt?', yesNoOptions),
+          selectField('financeFundingFee', 'Finance funding fee?', yesNoOptions),
+          numberField('annualPropertyTax', 'Annual property tax ($)'),
+          numberField('monthlyInsurance', 'Monthly insurance ($)'),
+        ],
+        defaultInputs: { homePrice: '360000', downPayment: '0', annualRatePercent: '6.25', years: '30', firstUse: 'yes', exemptFundingFee: 'no', financeFundingFee: 'yes', annualPropertyTax: '4200', monthlyInsurance: '140' },
+        examples: [
+          { label: 'First use, no down', inputs: { homePrice: '360000', downPayment: '0', annualRatePercent: '6.25', years: '30', firstUse: 'yes', exemptFundingFee: 'no', financeFundingFee: 'yes', annualPropertyTax: '4200', monthlyInsurance: '140' } },
+          { label: '5% down', inputs: { homePrice: '360000', downPayment: '18000', annualRatePercent: '6.1', years: '30', firstUse: 'yes', exemptFundingFee: 'no', financeFundingFee: 'yes', annualPropertyTax: '4200', monthlyInsurance: '140' } },
+          { label: 'Exempt fee', inputs: { homePrice: '300000', downPayment: '0', annualRatePercent: '6.3', years: '30', firstUse: 'yes', exemptFundingFee: 'yes', financeFundingFee: 'no', annualPropertyTax: '3600', monthlyInsurance: '125' } },
+        ],
+      },
+    ],
+  },
+  'home-equity-loan': {
+    title: 'Home Equity Loan Calculator',
+    buttonLabel: 'Estimate equity loan',
+    emptyHistory: 'Recent home equity loan estimates will appear here.',
+    privacyNote: 'Home equity estimates do not approve borrowing and do not include lender limits, fees, foreclosure risk, or tax rules.',
+    modes: [
+      {
+        id: 'home-equity-loan',
+        label: 'Fixed equity loan',
+        symbol: 'HEL',
+        fields: [
+          numberField('homeValue', 'Home value ($)'),
+          numberField('currentMortgageBalance', 'Current mortgage balance ($)'),
+          numberField('desiredLoanAmount', 'Desired equity loan ($)'),
+          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('years', 'Loan term (years)'),
+          numberField('maxCombinedLoanToValuePercent', 'Max combined LTV (%)'),
+        ],
+        defaultInputs: { homeValue: '450000', currentMortgageBalance: '260000', desiredLoanAmount: '50000', annualRatePercent: '8.25', years: '10', maxCombinedLoanToValuePercent: '85' },
+        examples: [
+          { label: '$50k loan', inputs: { homeValue: '450000', currentMortgageBalance: '260000', desiredLoanAmount: '50000', annualRatePercent: '8.25', years: '10', maxCombinedLoanToValuePercent: '85' } },
+          { label: 'Higher CLTV', inputs: { homeValue: '520000', currentMortgageBalance: '320000', desiredLoanAmount: '75000', annualRatePercent: '8.5', years: '15', maxCombinedLoanToValuePercent: '90' } },
+          { label: 'Small loan', inputs: { homeValue: '350000', currentMortgageBalance: '180000', desiredLoanAmount: '25000', annualRatePercent: '9', years: '7', maxCombinedLoanToValuePercent: '80' } },
+        ],
+      },
+    ],
+  },
+  heloc: {
+    title: 'HELOC Calculator',
+    buttonLabel: 'Estimate HELOC',
+    emptyHistory: 'Recent HELOC estimates will appear here.',
+    privacyNote: 'HELOC estimates are simplified and do not include variable-rate changes, fees, minimum draws, or lender freezes.',
+    modes: [
+      {
+        id: 'heloc',
+        label: 'Line of credit',
+        symbol: 'HELOC',
+        fields: [
+          numberField('homeValue', 'Home value ($)'),
+          numberField('currentMortgageBalance', 'Current mortgage balance ($)'),
+          numberField('creditLine', 'Credit line ($)'),
+          numberField('currentDraw', 'Current draw ($)'),
+          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('repaymentYears', 'Repayment period (years)'),
+          numberField('maxCombinedLoanToValuePercent', 'Max combined LTV (%)'),
+        ],
+        defaultInputs: { homeValue: '450000', currentMortgageBalance: '260000', creditLine: '80000', currentDraw: '30000', annualRatePercent: '9', repaymentYears: '15', maxCombinedLoanToValuePercent: '85' },
+        examples: [
+          { label: '$30k draw', inputs: { homeValue: '450000', currentMortgageBalance: '260000', creditLine: '80000', currentDraw: '30000', annualRatePercent: '9', repaymentYears: '15', maxCombinedLoanToValuePercent: '85' } },
+          { label: 'Large line', inputs: { homeValue: '600000', currentMortgageBalance: '350000', creditLine: '120000', currentDraw: '60000', annualRatePercent: '8.75', repaymentYears: '20', maxCombinedLoanToValuePercent: '85' } },
+          { label: 'Small draw', inputs: { homeValue: '380000', currentMortgageBalance: '210000', creditLine: '50000', currentDraw: '10000', annualRatePercent: '9.5', repaymentYears: '10', maxCombinedLoanToValuePercent: '80' } },
+        ],
+      },
+    ],
+  },
+  'down-payment': {
+    title: 'Down Payment Calculator',
+    buttonLabel: 'Calculate down payment',
+    emptyHistory: 'Recent down payment estimates will appear here.',
+    privacyNote: 'Down payment estimates do not include all cash-to-close details, lender rules, assistance programs, or escrow reserves.',
+    modes: [
+      {
+        id: 'down-payment',
+        label: 'Home cash needed',
+        symbol: 'DOWN',
+        fields: [
+          numberField('homePrice', 'Home price ($)'),
+          numberField('downPayment', 'Down payment amount ($, optional)'),
+          numberField('downPaymentPercent', 'Down payment percent (%)'),
+          numberField('closingCostPercent', 'Closing cost estimate (%)'),
+        ],
+        defaultInputs: { homePrice: '400000', downPayment: '', downPaymentPercent: '20', closingCostPercent: '3' },
+        examples: [
+          { label: '20% down', inputs: { homePrice: '400000', downPayment: '', downPaymentPercent: '20', closingCostPercent: '3' } },
+          { label: '3.5% down', inputs: { homePrice: '325000', downPayment: '', downPaymentPercent: '3.5', closingCostPercent: '3.5' } },
+          { label: 'Exact cash', inputs: { homePrice: '450000', downPayment: '50000', downPaymentPercent: '0', closingCostPercent: '3' } },
+        ],
+      },
+    ],
+  },
+  'rent-vs-buy': {
+    title: 'Rent vs. Buy Calculator',
+    buttonLabel: 'Compare rent and buy',
+    emptyHistory: 'Recent rent-vs-buy comparisons will appear here.',
+    privacyNote: 'Rent-vs-buy estimates are simplified and do not include taxes, investment returns, repairs timing, or personal mobility needs.',
+    modes: [
+      {
+        id: 'rent-vs-buy',
+        label: 'Compare',
+        symbol: 'R/B',
+        fields: [
+          numberField('monthlyRent', 'Monthly rent ($)'),
+          numberField('rentIncreasePercent', 'Annual rent increase (%)'),
+          numberField('homePrice', 'Home price ($)'),
+          numberField('downPayment', 'Down payment ($)'),
+          numberField('annualRatePercent', 'Mortgage rate (%)'),
+          numberField('years', 'Compare over years'),
+          numberField('annualPropertyTax', 'Annual property tax ($)'),
+          numberField('monthlyInsurance', 'Monthly insurance ($)'),
+          numberField('maintenancePercent', 'Maintenance (% of home/year)'),
+          numberField('appreciationPercent', 'Home appreciation (%)'),
+          numberField('sellingCostPercent', 'Selling cost (%)'),
+        ],
+        defaultInputs: { monthlyRent: '2100', rentIncreasePercent: '3', homePrice: '420000', downPayment: '84000', annualRatePercent: '6.5', years: '7', annualPropertyTax: '5000', monthlyInsurance: '150', maintenancePercent: '1', appreciationPercent: '3', sellingCostPercent: '6' },
+        examples: [
+          { label: 'Seven-year compare', inputs: { monthlyRent: '2100', rentIncreasePercent: '3', homePrice: '420000', downPayment: '84000', annualRatePercent: '6.5', years: '7', annualPropertyTax: '5000', monthlyInsurance: '150', maintenancePercent: '1', appreciationPercent: '3', sellingCostPercent: '6' } },
+          { label: 'Short stay', inputs: { monthlyRent: '1800', rentIncreasePercent: '3', homePrice: '350000', downPayment: '70000', annualRatePercent: '6.75', years: '3', annualPropertyTax: '4000', monthlyInsurance: '130', maintenancePercent: '1', appreciationPercent: '2', sellingCostPercent: '6' } },
+          { label: 'Higher rent market', inputs: { monthlyRent: '3200', rentIncreasePercent: '4', homePrice: '650000', downPayment: '130000', annualRatePercent: '6.25', years: '10', annualPropertyTax: '7600', monthlyInsurance: '220', maintenancePercent: '1', appreciationPercent: '3.5', sellingCostPercent: '6' } },
+        ],
+      },
+    ],
+  },
+  'payback-period': {
+    title: 'Payback Period Calculator',
+    buttonLabel: 'Calculate payback',
+    emptyHistory: 'Recent payback estimates will appear here.',
+    privacyNote: 'Payback period ignores financing, discount rates, risk, taxes, and cash-flow timing inside each year.',
+    modes: [
+      {
+        id: 'payback-period',
+        label: 'Simple payback',
+        symbol: 'PAY',
+        fields: [numberField('initialCost', 'Initial cost ($)'), numberField('annualCashFlow', 'Annual cash flow ($)'), numberField('horizonYears', 'Horizon years')],
+        defaultInputs: { initialCost: '15000', annualCashFlow: '3600', horizonYears: '8' },
+        examples: [
+          { label: 'Efficiency project', inputs: { initialCost: '15000', annualCashFlow: '3600', horizonYears: '8' } },
+          { label: 'Equipment', inputs: { initialCost: '42000', annualCashFlow: '9500', horizonYears: '7' } },
+          { label: 'Small upgrade', inputs: { initialCost: '2500', annualCashFlow: '600', horizonYears: '5' } },
+        ],
+      },
+    ],
+  },
+  'present-value': {
+    title: 'Present Value Calculator',
+    buttonLabel: 'Calculate present value',
+    emptyHistory: 'Recent present value estimates will appear here.',
+    privacyNote: 'Present value estimates depend heavily on the discount rate you choose and are not investment advice.',
+    modes: [
+      {
+        id: 'present-value',
+        label: 'PV',
+        symbol: 'PV',
+        fields: [
+          numberField('futureValue', 'Future lump sum ($)'),
+          numberField('payment', 'Regular payment ($)'),
+          numberField('annualRatePercent', 'Discount rate (%)'),
+          numberField('years', 'Years'),
+          selectField('paymentsPerYear', 'Payments per year', paymentFrequencyOptions),
+        ],
+        defaultInputs: { futureValue: '10000', payment: '200', annualRatePercent: '5', years: '6', paymentsPerYear: '12' },
+        examples: [
+          { label: 'Future plus payments', inputs: { futureValue: '10000', payment: '200', annualRatePercent: '5', years: '6', paymentsPerYear: '12' } },
+          { label: 'Lump sum only', inputs: { futureValue: '50000', payment: '0', annualRatePercent: '6', years: '10', paymentsPerYear: '12' } },
+          { label: 'Annual payments', inputs: { futureValue: '0', payment: '5000', annualRatePercent: '4', years: '8', paymentsPerYear: '1' } },
+        ],
+      },
+    ],
+  },
+  'future-value': {
+    title: 'Future Value Calculator',
+    buttonLabel: 'Calculate future value',
+    emptyHistory: 'Recent future value estimates will appear here.',
+    privacyNote: 'Future value estimates use steady rates and payments. Real results can vary with fees, timing, and market returns.',
+    modes: [
+      {
+        id: 'future-value',
+        label: 'FV',
+        symbol: 'FV',
+        fields: [
+          numberField('principal', 'Starting amount ($)'),
+          numberField('payment', 'Regular payment ($)'),
+          numberField('annualRatePercent', 'Interest / return rate (%)'),
+          numberField('years', 'Years'),
+          selectField('paymentsPerYear', 'Payments per year', paymentFrequencyOptions),
+        ],
+        defaultInputs: { principal: '5000', payment: '250', annualRatePercent: '6', years: '10', paymentsPerYear: '12' },
+        examples: [
+          { label: 'Monthly saving', inputs: { principal: '5000', payment: '250', annualRatePercent: '6', years: '10', paymentsPerYear: '12' } },
+          { label: 'No new payments', inputs: { principal: '20000', payment: '0', annualRatePercent: '5', years: '8', paymentsPerYear: '12' } },
+          { label: 'Annual contribution', inputs: { principal: '10000', payment: '3000', annualRatePercent: '7', years: '12', paymentsPerYear: '1' } },
+        ],
+      },
+    ],
+  },
+  commission: {
+    title: 'Commission Calculator',
+    buttonLabel: 'Calculate commission',
+    emptyHistory: 'Recent commission estimates will appear here.',
+    privacyNote: 'Commission estimates use the simple rate and split you enter and do not include payroll tax, clawbacks, tiers, or plan rules.',
+    modes: [
+      {
+        id: 'commission',
+        label: 'Commission',
+        symbol: 'COMM',
+        fields: [numberField('salesAmount', 'Sales amount ($)'), numberField('commissionPercent', 'Commission rate (%)'), numberField('splitPercent', 'Your split (%)'), numberField('basePay', 'Base pay ($)'), numberField('bonus', 'Bonus ($)')],
+        defaultInputs: { salesAmount: '50000', commissionPercent: '3', splitPercent: '100', basePay: '0', bonus: '0' },
+        examples: [
+          { label: 'Sales commission', inputs: { salesAmount: '50000', commissionPercent: '3', splitPercent: '100', basePay: '0', bonus: '0' } },
+          { label: 'Split commission', inputs: { salesAmount: '750000', commissionPercent: '2.5', splitPercent: '50', basePay: '0', bonus: '0' } },
+          { label: 'Base plus bonus', inputs: { salesAmount: '120000', commissionPercent: '1.25', splitPercent: '100', basePay: '2500', bonus: '500' } },
+        ],
+      },
+    ],
+  },
+  'mortgage-uk': {
+    title: 'Mortgage Calculator UK',
+    buttonLabel: 'Estimate UK mortgage',
+    emptyHistory: 'Recent UK mortgage estimates will appear here.',
+    privacyNote: 'UK mortgage estimates are repayment-payment estimates only and do not include lender affordability rules, stamp duty, or product fees beyond what you enter.',
+    modes: [
+      {
+        id: 'mortgage-uk',
+        label: 'Repayment',
+        symbol: 'UK',
+        fields: [numberField('propertyPrice', 'Property price'), numberField('deposit', 'Deposit'), numberField('annualRatePercent', 'Interest rate (%)'), numberField('years', 'Mortgage term (years)'), numberField('monthlyFees', 'Monthly fees')],
+        defaultInputs: { propertyPrice: '300000', deposit: '60000', annualRatePercent: '5.2', years: '25', monthlyFees: '0' },
+        examples: [
+          { label: '25-year mortgage', inputs: { propertyPrice: '300000', deposit: '60000', annualRatePercent: '5.2', years: '25', monthlyFees: '0' } },
+          { label: 'Higher deposit', inputs: { propertyPrice: '425000', deposit: '125000', annualRatePercent: '4.9', years: '30', monthlyFees: '20' } },
+          { label: 'Shorter term', inputs: { propertyPrice: '250000', deposit: '50000', annualRatePercent: '5.5', years: '15', monthlyFees: '0' } },
+        ],
+      },
+    ],
+  },
+  'canadian-mortgage': {
+    title: 'Canadian Mortgage Calculator',
+    buttonLabel: 'Estimate Canadian mortgage',
+    emptyHistory: 'Recent Canadian mortgage estimates will appear here.',
+    privacyNote: 'Canadian mortgage estimates use semi-annual compounding conversion and do not include default insurance, taxes, fees, or lender approval.',
+    modes: [
+      {
+        id: 'canadian-mortgage',
+        label: 'Mortgage',
+        symbol: 'CAD',
+        fields: [
+          numberField('propertyPrice', 'Property price'),
+          numberField('downPayment', 'Down payment'),
+          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('years', 'Amortization (years)'),
+          selectField('paymentsPerYear', 'Payment frequency', paymentFrequencyOptions),
+        ],
+        defaultInputs: { propertyPrice: '600000', downPayment: '120000', annualRatePercent: '5.1', years: '25', paymentsPerYear: '12' },
+        examples: [
+          { label: 'Monthly payments', inputs: { propertyPrice: '600000', downPayment: '120000', annualRatePercent: '5.1', years: '25', paymentsPerYear: '12' } },
+          { label: 'Biweekly', inputs: { propertyPrice: '520000', downPayment: '104000', annualRatePercent: '4.9', years: '25', paymentsPerYear: '26' } },
+          { label: 'Short amortization', inputs: { propertyPrice: '450000', downPayment: '90000', annualRatePercent: '5.25', years: '20', paymentsPerYear: '12' } },
+        ],
+      },
+    ],
+  },
+  'percent-off': {
+    title: 'Percent Off Calculator',
+    buttonLabel: 'Calculate sale price',
+    emptyHistory: 'Recent percent-off estimates will appear here.',
+    privacyNote: 'Percent-off estimates apply the discounts and tax rate you enter. Retail totals can differ with coupons, shipping, and local tax rules.',
+    modes: [
+      {
+        id: 'percent-off',
+        label: 'Sale price',
+        symbol: 'OFF',
+        fields: [numberField('originalPrice', 'Original price ($)'), numberField('discountPercent', 'Percent off (%)'), numberField('extraDiscountPercent', 'Extra percent off (%)'), numberField('taxPercent', 'Tax rate (%)')],
+        defaultInputs: { originalPrice: '80', discountPercent: '25', extraDiscountPercent: '10', taxPercent: '7.5' },
+        examples: [
+          { label: 'Sale plus tax', inputs: { originalPrice: '80', discountPercent: '25', extraDiscountPercent: '10', taxPercent: '7.5' } },
+          { label: 'Half off', inputs: { originalPrice: '120', discountPercent: '50', extraDiscountPercent: '0', taxPercent: '0' } },
+          { label: 'Stacked sale', inputs: { originalPrice: '200', discountPercent: '30', extraDiscountPercent: '15', taxPercent: '6' } },
+        ],
+      },
+    ],
+  },
   inflation: {
     title: 'Inflation Calculator',
     buttonLabel: 'Calculate inflation',
@@ -1567,18 +2212,18 @@ function parseOptionalNumber(value: string | undefined, label: string) {
   return parsed;
 }
 
-function money(value: number) {
+function money(value: number, currency = 'USD') {
   return value.toLocaleString('en-US', {
-    currency: 'USD',
+    currency,
     maximumFractionDigits: 2,
     minimumFractionDigits: 2,
     style: 'currency',
   });
 }
 
-function compactMoney(value: number) {
+function compactMoney(value: number, currency = 'USD') {
   return value.toLocaleString('en-US', {
-    currency: 'USD',
+    currency,
     maximumFractionDigits: 0,
     style: 'currency',
   });
@@ -2705,6 +3350,628 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide planned savings by income for a savings-rate check.',
         ],
         note: 'This is a simple monthly budget worksheet and does not sync with accounts or forecast irregular bills.',
+      };
+    }
+    case 'marriage-tax': {
+      const result = calculateMarriageTaxComparison({
+        spouseOneIncome: parseNumber(inputs.spouseOneIncome, 'Person 1 income'),
+        spouseTwoIncome: parseNumber(inputs.spouseTwoIncome, 'Person 2 income'),
+        spouseOneDeduction: parseOptionalNumber(inputs.spouseOneDeduction, 'Person 1 deduction'),
+        spouseTwoDeduction: parseOptionalNumber(inputs.spouseTwoDeduction, 'Person 2 deduction'),
+        jointDeduction: parseOptionalNumber(inputs.jointDeduction, 'Joint deduction'),
+        credits: parseNumber(inputs.credits, 'Credits'),
+      });
+
+      return {
+        label: result.marriageDifference > 0 ? 'Estimated marriage penalty' : 'Estimated marriage bonus',
+        expression: `${compactMoney(result.spouseOneTax.grossIncome)} + ${compactMoney(result.spouseTwoTax.grossIncome)} compared with joint filing`,
+        answer: money(Math.abs(result.marriageDifference)),
+        metrics: [
+          { label: 'Joint federal tax', value: money(result.jointTax.federalTax) },
+          { label: 'Two single returns', value: money(result.combinedSingleTax) },
+          { label: 'Joint taxable income', value: money(result.jointTax.taxableIncome) },
+          { label: 'Joint marginal bracket', value: percent(result.jointTax.marginalRatePercent) },
+        ],
+        steps: [
+          'Estimate each person as a single filer using 2026 federal ordinary-income brackets.',
+          'Estimate the same income as married filing jointly.',
+          'Subtract the combined single estimate from the joint estimate.',
+        ],
+        note: 'This excludes state tax, payroll tax, credits, phaseouts, itemized deduction limits, AMT, and many tax details.',
+      };
+    }
+    case 'estate-tax': {
+      const result = calculateEstateTaxEstimate({
+        grossEstate: parseNumber(inputs.grossEstate, 'Gross estate'),
+        debtsAndExpenses: parseNumber(inputs.debtsAndExpenses, 'Debts and expenses'),
+        charitableBequests: parseNumber(inputs.charitableBequests, 'Charitable bequests'),
+        spouseTransfers: parseNumber(inputs.spouseTransfers, 'Spouse transfers'),
+        lifetimeTaxableGifts: parseNumber(inputs.lifetimeTaxableGifts, 'Prior taxable gifts'),
+      });
+
+      return {
+        label: 'Simplified federal estate tax',
+        expression: `${compactMoney(result.grossEstate)} estate less deductions and 2026 exclusion`,
+        answer: money(result.estimatedFederalEstateTax),
+        metrics: [
+          { label: 'Deductions entered', value: money(result.deductions) },
+          { label: 'Estate before exclusion', value: money(result.taxableEstateBeforeExclusion) },
+          { label: 'Remaining basic exclusion', value: money(result.remainingBasicExclusion) },
+          { label: 'Above exclusion', value: money(result.taxableAboveExclusion) },
+        ],
+        steps: [
+          'Subtract debts, expenses, charitable bequests, and spouse transfers from the gross estate.',
+          'Reduce the 2026 federal basic exclusion by prior taxable gifts you entered.',
+          'Apply a simplified 40% federal top-rate estimate to the amount above the remaining exclusion.',
+        ],
+        note: 'Estate tax is complex. This page is only a rough planning screen before professional estate and tax advice.',
+      };
+    }
+    case 'social-security': {
+      const result = calculateSocialSecurityClaiming({
+        birthYear: parseNumber(inputs.birthYear, 'Birth year'),
+        fullRetirementAgeBenefit: parseNumber(inputs.fullRetirementAgeBenefit, 'Full retirement age benefit'),
+        claimingAgeYears: parseNumber(inputs.claimingAgeYears, 'Claiming age'),
+      });
+
+      return {
+        label: 'Estimated monthly benefit',
+        expression: `Born ${result.birthYear}, claiming at ${formatCalculatorNumber(result.claimingAgeYears)}`,
+        answer: money(result.monthlyBenefit),
+        metrics: [
+          { label: 'Full retirement age', value: years(result.fullRetirementAgeYears) },
+          { label: 'Adjustment', value: percent(result.adjustmentPercent) },
+          { label: 'Benefit at FRA', value: money(result.fullRetirementAgeBenefit) },
+          { label: 'Annual estimate', value: money(result.annualBenefit) },
+        ],
+        steps: [
+          'Estimate full retirement age from birth year.',
+          'Apply SSA-style early claiming reductions before full retirement age.',
+          'Apply delayed retirement credits after full retirement age through age 70.',
+        ],
+        note: 'Use your official my Social Security record for real earnings history, spousal benefits, survivor benefits, and taxes.',
+      };
+    }
+    case 'rmd': {
+      const result = calculateRmdEstimate(parseNumber(inputs.accountBalance, 'Account balance'), parseNumber(inputs.age, 'Age'));
+
+      return {
+        label: 'Estimated RMD',
+        expression: `${compactMoney(result.accountBalance)} / ${formatCalculatorNumber(result.lifeExpectancyFactor)}`,
+        answer: money(result.requiredDistribution),
+        metrics: [
+          { label: 'Uniform table factor', value: formatCalculatorNumber(result.lifeExpectancyFactor) },
+          { label: 'Age used', value: `${result.age}` },
+          { label: 'Balance after RMD', value: money(result.remainingBalanceAfterRmd) },
+        ],
+        steps: [
+          'Use the account balance from the prior December 31.',
+          'Look up the age factor in the IRS Uniform Lifetime Table.',
+          'Divide the balance by the factor.',
+        ],
+        note: 'Inherited accounts and a spouse more than 10 years younger may use different IRS tables.',
+      };
+    }
+    case 'real-estate': {
+      const result = calculateRealEstateReturn({
+        purchasePrice: parseNumber(inputs.purchasePrice, 'Purchase price'),
+        downPayment: parseNumber(inputs.downPayment, 'Down payment'),
+        buyingCosts: parseNumber(inputs.buyingCosts, 'Buying costs'),
+        improvements: parseNumber(inputs.improvements, 'Improvements'),
+        sellingPrice: parseNumber(inputs.sellingPrice, 'Selling price'),
+        sellingCosts: parseNumber(inputs.sellingCosts, 'Selling costs'),
+        loanPayoff: parseNumber(inputs.loanPayoff, 'Loan payoff'),
+      });
+
+      return {
+        label: result.profit >= 0 ? 'Estimated profit' : 'Estimated loss',
+        expression: `${compactMoney(result.purchasePrice)} purchase to ${compactMoney(result.sellingPrice)} sale`,
+        answer: money(result.profit),
+        metrics: [
+          { label: 'Cash invested', value: money(result.cashInvested) },
+          { label: 'Net sale proceeds', value: money(result.netSaleProceeds) },
+          { label: 'ROI', value: percent(result.roiPercent) },
+          { label: 'Equity multiple', value: `${formatCalculatorNumber(result.equityMultiple)}x` },
+        ],
+        steps: [
+          'Add down payment, buying costs, and improvements for cash invested.',
+          'Subtract selling costs and loan payoff from sale price.',
+          'Compare net sale proceeds with cash invested.',
+        ],
+      };
+    }
+    case 'take-home-paycheck': {
+      const result = calculateTakeHomePaycheck({
+        annualGrossPay: parseNumber(inputs.annualGrossPay, 'Annual gross pay'),
+        payPeriodsPerYear: parseNumber(inputs.payPeriodsPerYear, 'Pay periods'),
+        pretaxDeductionsPerPaycheck: parseNumber(inputs.pretaxDeductionsPerPaycheck, 'Pretax deductions'),
+        federalTaxPercent: parseNumber(inputs.federalTaxPercent, 'Federal withholding estimate'),
+        stateTaxPercent: parseNumber(inputs.stateTaxPercent, 'State withholding estimate'),
+        localTaxPercent: parseNumber(inputs.localTaxPercent, 'Local withholding estimate'),
+      });
+
+      return {
+        label: 'Estimated take-home paycheck',
+        expression: `${compactMoney(result.annualGrossPay)} over ${formatCalculatorNumber(result.annualGrossPay / result.grossPerPaycheck)} pay periods`,
+        answer: money(result.takeHomePerPaycheck),
+        metrics: [
+          { label: 'Gross per paycheck', value: money(result.grossPerPaycheck) },
+          { label: 'Annual take-home', value: money(result.annualTakeHomePay) },
+          { label: 'FICA estimate', value: money(result.socialSecurityTax + result.medicareTax) },
+          { label: 'Pretax deductions/year', value: money(result.pretaxDeductionsAnnual) },
+        ],
+        steps: [
+          'Annualize pretax paycheck deductions.',
+          'Apply your estimated federal, state, and local withholding percentages.',
+          'Apply employee Social Security and Medicare tax estimates.',
+          'Divide annual take-home pay by the number of paychecks.',
+        ],
+        note: 'Actual payroll can differ because of W-4 settings, benefits, state rules, local taxes, bonuses, and employer systems.',
+      };
+    }
+    case 'rental-property': {
+      const result = calculateRentalProperty({
+        propertyPrice: parseNumber(inputs.propertyPrice, 'Property price'),
+        downPayment: parseNumber(inputs.downPayment, 'Down payment'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Mortgage rate'),
+        loanYears: parseNumber(inputs.loanYears, 'Loan term'),
+        monthlyRent: parseNumber(inputs.monthlyRent, 'Monthly rent'),
+        vacancyPercent: parseNumber(inputs.vacancyPercent, 'Vacancy reserve'),
+        monthlyOperatingExpenses: parseNumber(inputs.monthlyOperatingExpenses, 'Operating expenses'),
+        annualPropertyTax: parseNumber(inputs.annualPropertyTax, 'Annual property tax'),
+        monthlyInsurance: parseNumber(inputs.monthlyInsurance, 'Monthly insurance'),
+        maintenancePercent: parseNumber(inputs.maintenancePercent, 'Maintenance reserve'),
+        closingCosts: parseNumber(inputs.closingCosts, 'Closing costs'),
+      });
+
+      return {
+        label: result.monthlyCashFlow >= 0 ? 'Monthly cash flow' : 'Monthly shortfall',
+        expression: `${compactMoney(result.loanAmount)} loan, rent less operating costs`,
+        answer: money(result.monthlyCashFlow),
+        metrics: [
+          { label: 'Mortgage payment', value: money(result.monthlyMortgagePayment) },
+          { label: 'Monthly NOI', value: money(result.monthlyNoi) },
+          { label: 'Cap rate', value: percent(result.capRatePercent) },
+          { label: 'Cash-on-cash return', value: percent(result.cashOnCashReturnPercent) },
+        ],
+        steps: [
+          'Subtract vacancy reserve and operating costs from rent to estimate NOI.',
+          'Estimate mortgage payment from loan amount, rate, and term.',
+          'Subtract mortgage payment from NOI for cash flow.',
+          'Compare NOI with property price and annual cash flow with cash invested.',
+        ],
+      };
+    }
+    case 'irr': {
+      const initialOutflow = parseNumber(inputs.initialOutflow, 'Initial investment');
+      const cashFlows = [
+        -initialOutflow,
+        parseNumber(inputs.cashFlow1, 'Year 1 cash flow'),
+        parseNumber(inputs.cashFlow2, 'Year 2 cash flow'),
+        parseNumber(inputs.cashFlow3, 'Year 3 cash flow'),
+        parseNumber(inputs.cashFlow4, 'Year 4 cash flow'),
+        parseNumber(inputs.cashFlow5, 'Year 5 cash flow'),
+      ];
+      const result = calculateIrr(cashFlows, parseNumber(inputs.periodsPerYear, 'Periods per year'));
+
+      return {
+        label: 'Estimated annualized IRR',
+        expression: `${compactMoney(initialOutflow)} outflow, five entered cash-flow periods`,
+        answer: percent(result.annualizedIrrPercent),
+        metrics: [
+          { label: 'Periodic IRR', value: percent(result.periodicIrrPercent) },
+          { label: 'Net cash flow', value: money(result.netCashFlow) },
+          { label: 'Periods per year', value: inputs.periodsPerYear || '1' },
+        ],
+        steps: [
+          'Treat the initial investment as a negative cash flow.',
+          'Discount each future cash flow until net present value is near zero.',
+          'Annualize the periodic IRR using the selected period frequency.',
+        ],
+        note: 'Unusual cash-flow signs can produce multiple IRRs or no simple IRR.',
+      };
+    }
+    case 'roi': {
+      const result = calculateRoi({
+        initialInvestment: parseNumber(inputs.initialInvestment, 'Initial investment'),
+        endingValue: parseNumber(inputs.endingValue, 'Ending value'),
+        income: parseNumber(inputs.income, 'Income'),
+        costs: parseNumber(inputs.costs, 'Costs'),
+      });
+
+      return {
+        label: result.gain >= 0 ? 'Estimated gain' : 'Estimated loss',
+        expression: `Gain divided by ${compactMoney(parseNumber(inputs.initialInvestment, 'Initial investment'))}`,
+        answer: percent(result.roiPercent),
+        metrics: [
+          { label: 'Gain or loss', value: money(result.gain) },
+          { label: 'Ending value', value: money(result.endingValue) },
+        ],
+        steps: [
+          'Add ending value and income.',
+          'Subtract costs and initial investment.',
+          'Divide gain or loss by initial investment.',
+        ],
+      };
+    }
+    case 'apr': {
+      const result = calculateAprEstimate({
+        principal: parseNumber(inputs.principal, 'Loan amount'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Note rate'),
+        years: parseNumber(inputs.years, 'Term'),
+        fees: parseNumber(inputs.fees, 'Fees'),
+      });
+
+      return {
+        label: 'Estimated APR',
+        expression: `${compactMoney(result.amountReceived)} received, ${money(result.loan.monthlyPayment)}/mo payment`,
+        answer: percent(result.aprPercent),
+        metrics: [
+          { label: 'Note rate', value: percent(result.loan.annualRatePercent) },
+          { label: 'Fees included', value: money(result.fees) },
+          { label: 'Amount received', value: money(result.amountReceived) },
+          { label: 'Monthly payment', value: money(result.loan.monthlyPayment) },
+        ],
+        steps: [
+          'Estimate the scheduled monthly payment from loan amount and note rate.',
+          'Subtract fees from principal to estimate net amount received.',
+          'Solve the rate that makes the payment stream match the amount received.',
+        ],
+        note: 'Official APR disclosures can include different finance charges and rounding rules.',
+      };
+    }
+    case 'fha-loan': {
+      const result = calculateFhaLoan({
+        homePrice: parseNumber(inputs.homePrice, 'Home price'),
+        downPayment: parseNumber(inputs.downPayment, 'Down payment'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Interest rate'),
+        years: parseNumber(inputs.years, 'Loan term'),
+        upfrontMipPercent: parseNumber(inputs.upfrontMipPercent, 'Upfront MIP'),
+        annualMipPercent: parseNumber(inputs.annualMipPercent, 'Annual MIP'),
+        annualPropertyTax: parseNumber(inputs.annualPropertyTax, 'Annual property tax'),
+        monthlyInsurance: parseNumber(inputs.monthlyInsurance, 'Monthly insurance'),
+      });
+
+      return {
+        label: 'Estimated FHA monthly payment',
+        expression: `${compactMoney(result.baseLoanAmount)} base loan plus FHA MIP assumptions`,
+        answer: money(result.totalMonthlyPayment),
+        metrics: [
+          { label: 'Principal and interest', value: money(result.principalAndInterest) },
+          { label: 'Upfront MIP', value: money(result.upfrontMip) },
+          { label: 'Monthly MIP', value: money(result.monthlyMip) },
+          { label: 'Loan-to-value', value: percent(result.loanToValuePercent) },
+        ],
+        steps: [
+          'Calculate the base loan from price minus down payment.',
+          'Add entered upfront MIP to the financed balance.',
+          'Estimate principal and interest, tax, insurance, and monthly MIP.',
+        ],
+        note: 'FHA MIP duration, eligibility, loan limits, and underwriting depend on official FHA and lender rules.',
+      };
+    }
+    case 'va-mortgage': {
+      const result = calculateVaMortgage({
+        homePrice: parseNumber(inputs.homePrice, 'Home price'),
+        downPayment: parseNumber(inputs.downPayment, 'Down payment'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Interest rate'),
+        years: parseNumber(inputs.years, 'Loan term'),
+        firstUse: inputs.firstUse !== 'no',
+        exemptFundingFee: inputs.exemptFundingFee === 'yes',
+        financeFundingFee: inputs.financeFundingFee !== 'no',
+        annualPropertyTax: parseNumber(inputs.annualPropertyTax, 'Annual property tax'),
+        monthlyInsurance: parseNumber(inputs.monthlyInsurance, 'Monthly insurance'),
+      });
+
+      return {
+        label: 'Estimated VA monthly payment',
+        expression: `${compactMoney(result.baseLoanAmount)} base loan, ${percent(result.fundingFeePercent)} funding fee`,
+        answer: money(result.totalMonthlyPayment),
+        metrics: [
+          { label: 'Principal and interest', value: money(result.principalAndInterest) },
+          { label: 'Funding fee', value: money(result.fundingFee) },
+          { label: 'Funding fee rate', value: percent(result.fundingFeePercent) },
+          { label: 'Loan-to-value', value: percent(result.loanToValuePercent) },
+        ],
+        steps: [
+          'Calculate base loan from home price minus down payment.',
+          'Choose a common VA purchase funding-fee rate from down payment and first-use status.',
+          'Finance the fee into the loan if selected, then estimate payment.',
+        ],
+        note: 'VA eligibility, exemption status, lender fees, and closing costs must be verified with official documents.',
+      };
+    }
+    case 'home-equity-loan': {
+      const result = calculateHomeEquityLoan({
+        homeValue: parseNumber(inputs.homeValue, 'Home value'),
+        currentMortgageBalance: parseNumber(inputs.currentMortgageBalance, 'Current mortgage balance'),
+        desiredLoanAmount: parseNumber(inputs.desiredLoanAmount, 'Desired loan amount'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Interest rate'),
+        years: parseNumber(inputs.years, 'Loan term'),
+        maxCombinedLoanToValuePercent: parseNumber(inputs.maxCombinedLoanToValuePercent, 'Max combined LTV'),
+      });
+
+      return {
+        label: 'Estimated equity loan payment',
+        expression: `${compactMoney(result.principal)} at ${percent(result.annualRatePercent)} for ${years(result.years)}`,
+        answer: money(result.monthlyPayment),
+        metrics: [
+          { label: 'Available equity at limit', value: money(result.availableEquity) },
+          { label: 'Combined LTV', value: percent(result.combinedLoanToValuePercent) },
+          { label: 'Total interest', value: money(result.totalInterest) },
+          { label: 'Total paid', value: money(result.totalPaid) },
+        ],
+        steps: [
+          'Estimate available equity from home value, current mortgage balance, and max combined LTV.',
+          'Calculate the fixed home equity loan payment.',
+          'Compare requested loan amount with the available-equity estimate.',
+        ],
+        note: 'Home equity borrowing can put the home at risk if payments are not made.',
+      };
+    }
+    case 'heloc': {
+      const result = calculateHeloc({
+        homeValue: parseNumber(inputs.homeValue, 'Home value'),
+        currentMortgageBalance: parseNumber(inputs.currentMortgageBalance, 'Current mortgage balance'),
+        creditLine: parseNumber(inputs.creditLine, 'Credit line'),
+        currentDraw: parseNumber(inputs.currentDraw, 'Current draw'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Interest rate'),
+        repaymentYears: parseNumber(inputs.repaymentYears, 'Repayment years'),
+        maxCombinedLoanToValuePercent: parseNumber(inputs.maxCombinedLoanToValuePercent, 'Max combined LTV'),
+      });
+
+      return {
+        label: 'Estimated interest-only payment',
+        expression: `${compactMoney(result.currentDraw)} draw at ${percent(parseNumber(inputs.annualRatePercent, 'Interest rate'))}`,
+        answer: money(result.interestOnlyPayment),
+        metrics: [
+          { label: 'Repayment payment estimate', value: money(result.repaymentPayment) },
+          { label: 'Available equity at limit', value: money(result.availableEquity) },
+          { label: 'Combined LTV on draw', value: percent(result.combinedLoanToValuePercent) },
+          { label: 'Credit line', value: money(result.creditLine) },
+        ],
+        steps: [
+          'Estimate available equity from max combined LTV.',
+          'Calculate draw-period interest-only payment from current balance and rate.',
+          'Estimate repayment-period payment if the drawn balance is amortized.',
+        ],
+        note: 'HELOCs often have variable rates, fees, draw rules, and payment changes after the draw period.',
+      };
+    }
+    case 'down-payment': {
+      const result = calculateDownPayment({
+        homePrice: parseNumber(inputs.homePrice, 'Home price'),
+        downPayment: parseOptionalNumber(inputs.downPayment, 'Down payment'),
+        downPaymentPercent: parseNumber(inputs.downPaymentPercent, 'Down payment percent'),
+        closingCostPercent: parseNumber(inputs.closingCostPercent, 'Closing cost estimate'),
+      });
+
+      return {
+        label: 'Estimated cash needed',
+        expression: `${percent(result.downPaymentPercent)} down on ${compactMoney(result.homePrice)}`,
+        answer: money(result.cashNeeded),
+        metrics: [
+          { label: 'Down payment', value: money(result.downPayment) },
+          { label: 'Loan amount', value: money(result.loanAmount) },
+          { label: 'Loan-to-value', value: percent(result.loanToValuePercent) },
+          { label: 'Closing cost estimate', value: money(result.estimatedClosingCosts) },
+        ],
+        steps: [
+          'Use exact down payment if entered, otherwise multiply price by down payment percent.',
+          'Subtract down payment from home price for estimated loan amount.',
+          'Add estimated closing costs to down payment for cash needed.',
+        ],
+      };
+    }
+    case 'rent-vs-buy': {
+      const result = calculateRentVsBuy({
+        monthlyRent: parseNumber(inputs.monthlyRent, 'Monthly rent'),
+        rentIncreasePercent: parseNumber(inputs.rentIncreasePercent, 'Rent increase'),
+        homePrice: parseNumber(inputs.homePrice, 'Home price'),
+        downPayment: parseNumber(inputs.downPayment, 'Down payment'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Mortgage rate'),
+        years: parseNumber(inputs.years, 'Years'),
+        annualPropertyTax: parseNumber(inputs.annualPropertyTax, 'Annual property tax'),
+        monthlyInsurance: parseNumber(inputs.monthlyInsurance, 'Monthly insurance'),
+        maintenancePercent: parseNumber(inputs.maintenancePercent, 'Maintenance percent'),
+        appreciationPercent: parseNumber(inputs.appreciationPercent, 'Appreciation'),
+        sellingCostPercent: parseNumber(inputs.sellingCostPercent, 'Selling cost percent'),
+      });
+
+      return {
+        label: result.buyMinusRent <= 0 ? 'Buying lower by estimate' : 'Renting lower by estimate',
+        expression: `${years(parseNumber(inputs.years, 'Years'))} rent total vs buy-and-sell estimate`,
+        answer: money(Math.abs(result.buyMinusRent)),
+        metrics: [
+          { label: 'Total rent cost', value: money(result.totalRentCost) },
+          { label: 'Net buying cost', value: money(result.netBuyingCost) },
+          { label: 'Estimated sale proceeds', value: money(result.estimatedSaleProceeds) },
+          { label: 'Remaining loan balance', value: money(result.remainingLoanBalance) },
+        ],
+        steps: [
+          'Project rent with the entered annual rent increase.',
+          'Estimate buying cash outflow from down payment, mortgage, tax, insurance, and maintenance.',
+          'Estimate sale proceeds after appreciation, selling costs, and remaining loan balance.',
+          'Compare rent cost with net buying cost.',
+        ],
+      };
+    }
+    case 'payback-period': {
+      const result = calculatePaybackPeriod({
+        initialCost: parseNumber(inputs.initialCost, 'Initial cost'),
+        annualCashFlow: parseNumber(inputs.annualCashFlow, 'Annual cash flow'),
+        horizonYears: parseNumber(inputs.horizonYears, 'Horizon years'),
+      });
+
+      return {
+        label: 'Simple payback period',
+        expression: `${compactMoney(result.initialCost)} / ${compactMoney(result.annualCashFlow)} per year`,
+        answer: years(result.paybackYears),
+        metrics: [
+          { label: 'Initial cost', value: money(result.initialCost) },
+          { label: 'Annual cash flow', value: money(result.annualCashFlow) },
+          { label: 'Net after horizon', value: money(result.netProfitAfterHorizon) },
+        ],
+        steps: [
+          'Divide initial cost by annual cash flow.',
+          'Compare the payback time with your chosen horizon.',
+          'Subtract initial cost from horizon cash flow for a simple net check.',
+        ],
+      };
+    }
+    case 'present-value': {
+      const result = calculatePresentValue({
+        futureValue: parseNumber(inputs.futureValue, 'Future value'),
+        payment: parseNumber(inputs.payment, 'Regular payment'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Discount rate'),
+        years: parseNumber(inputs.years, 'Years'),
+        paymentsPerYear: parseNumber(inputs.paymentsPerYear, 'Payments per year'),
+      });
+
+      return {
+        label: 'Estimated present value',
+        expression: `${compactMoney(parseNumber(inputs.futureValue, 'Future value'))} future value plus payments discounted`,
+        answer: money(result.presentValue),
+        metrics: [
+          { label: 'Lump-sum present value', value: money(result.lumpSumPresentValue) },
+          { label: 'Payment stream present value', value: money(result.annuityPresentValue) },
+          { label: 'Discount rate', value: percent(parseNumber(inputs.annualRatePercent, 'Discount rate')) },
+        ],
+        steps: [
+          'Discount the future lump sum back to today.',
+          'Discount each regular payment as an annuity.',
+          'Add both present value parts.',
+        ],
+      };
+    }
+    case 'future-value': {
+      const result = calculateFutureValue({
+        principal: parseNumber(inputs.principal, 'Starting amount'),
+        payment: parseNumber(inputs.payment, 'Regular payment'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Interest rate'),
+        years: parseNumber(inputs.years, 'Years'),
+        paymentsPerYear: parseNumber(inputs.paymentsPerYear, 'Payments per year'),
+      });
+
+      return {
+        label: 'Estimated future value',
+        expression: `${compactMoney(parseNumber(inputs.principal, 'Starting amount'))} plus regular payments`,
+        answer: money(result.futureValue),
+        metrics: [
+          { label: 'Principal growth', value: money(result.principalFutureValue) },
+          { label: 'Payment growth', value: money(result.contributionFutureValue) },
+          { label: 'Total contributions', value: money(result.totalContributions) },
+          { label: 'Estimated growth', value: money(result.futureValue - result.totalContributions) },
+        ],
+        steps: [
+          'Compound the starting amount over the selected time.',
+          'Compound each regular payment using the selected payment frequency.',
+          'Add both future value parts.',
+        ],
+      };
+    }
+    case 'commission': {
+      const result = calculateCommission({
+        salesAmount: parseNumber(inputs.salesAmount, 'Sales amount'),
+        commissionPercent: parseNumber(inputs.commissionPercent, 'Commission rate'),
+        splitPercent: parseNumber(inputs.splitPercent, 'Split percent'),
+        basePay: parseNumber(inputs.basePay, 'Base pay'),
+        bonus: parseNumber(inputs.bonus, 'Bonus'),
+      });
+
+      return {
+        label: 'Estimated total pay',
+        expression: `${percent(parseNumber(inputs.commissionPercent, 'Commission rate'))} on ${compactMoney(result.salesAmount)}`,
+        answer: money(result.totalPay),
+        metrics: [
+          { label: 'Gross commission', value: money(result.commission) },
+          { label: 'Your split', value: money(result.splitAmount) },
+          { label: 'Sales amount', value: money(result.salesAmount) },
+        ],
+        steps: [
+          'Multiply sales amount by commission rate.',
+          'Apply your split percentage if commission is shared.',
+          'Add base pay and bonus amounts entered.',
+        ],
+      };
+    }
+    case 'mortgage-uk': {
+      const result = calculateUkMortgage({
+        propertyPrice: parseNumber(inputs.propertyPrice, 'Property price'),
+        deposit: parseNumber(inputs.deposit, 'Deposit'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Interest rate'),
+        years: parseNumber(inputs.years, 'Mortgage term'),
+        monthlyFees: parseNumber(inputs.monthlyFees, 'Monthly fees'),
+      });
+
+      return {
+        label: 'Estimated monthly repayment',
+        expression: `${compactMoney(result.loanAmount, 'GBP')} at ${percent(result.annualRatePercent)} for ${years(result.years)}`,
+        answer: money(result.totalMonthlyPayment, 'GBP'),
+        metrics: [
+          { label: 'Loan amount', value: money(result.loanAmount, 'GBP') },
+          { label: 'Loan-to-value', value: percent(result.loanToValuePercent) },
+          { label: 'Total interest', value: money(result.totalInterest, 'GBP') },
+          { label: 'Monthly fees', value: money(result.monthlyFees, 'GBP') },
+        ],
+        steps: [
+          'Subtract deposit from property price.',
+          'Use a repayment mortgage formula to estimate monthly principal and interest.',
+          'Add any monthly fee entered.',
+        ],
+        note: 'This does not include stamp duty, arrangement fees, valuation fees, insurance, or affordability checks.',
+      };
+    }
+    case 'canadian-mortgage': {
+      const result = calculateCanadianMortgage({
+        propertyPrice: parseNumber(inputs.propertyPrice, 'Property price'),
+        downPayment: parseNumber(inputs.downPayment, 'Down payment'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Interest rate'),
+        years: parseNumber(inputs.years, 'Amortization'),
+        paymentsPerYear: parseNumber(inputs.paymentsPerYear, 'Payments per year'),
+      });
+
+      return {
+        label: 'Estimated mortgage payment',
+        expression: `${compactMoney(result.loanAmount, 'CAD')} at ${percent(result.annualRatePercent)} with semi-annual conversion`,
+        answer: money(result.totalMonthlyPayment, 'CAD'),
+        metrics: [
+          { label: 'Loan amount', value: money(result.loanAmount, 'CAD') },
+          { label: 'Loan-to-value', value: percent(result.loanToValuePercent) },
+          { label: 'Total interest', value: money(result.totalInterest, 'CAD') },
+          { label: 'Payments', value: monthCount(result.paymentCount) },
+        ],
+        steps: [
+          'Subtract down payment from property price.',
+          'Convert the nominal rate through semi-annual compounding.',
+          'Calculate the payment for the selected payment frequency.',
+        ],
+        note: 'This does not include mortgage default insurance, property tax, closing costs, or lender qualification rules.',
+      };
+    }
+    case 'percent-off': {
+      const result = calculateDiscountEstimate({
+        originalPrice: parseNumber(inputs.originalPrice, 'Original price'),
+        discountPercent: parseNumber(inputs.discountPercent, 'Discount percent'),
+        extraDiscountPercent: parseNumber(inputs.extraDiscountPercent, 'Extra discount percent'),
+        taxPercent: parseNumber(inputs.taxPercent, 'Tax rate'),
+      });
+
+      return {
+        label: 'Final sale price',
+        expression: `${percent(result.discountPercent)} off ${compactMoney(result.originalPrice)}`,
+        answer: money(result.finalPrice),
+        metrics: [
+          { label: 'Savings before tax', value: money(result.totalSavings) },
+          { label: 'Effective discount', value: percent(result.effectiveDiscountPercent) },
+          { label: 'Subtotal after discounts', value: money(result.subtotalAfterDiscounts) },
+          { label: 'Tax amount', value: money(result.taxAmount) },
+        ],
+        steps: [
+          'Apply the first percent-off discount.',
+          'Apply the extra discount to the reduced price.',
+          'Add tax after discounts if a tax rate is entered.',
+        ],
       };
     }
     case 'inflation': {

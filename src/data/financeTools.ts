@@ -57,6 +57,561 @@ function makeFinanceTool(spec: FinanceToolSpec): ToolDefinition {
   };
 }
 
+const remainingFinanceToolSpecs: FinanceToolSpec[] = [
+  {
+    slug: 'marriage-tax-calculator',
+    name: 'Marriage Tax Calculator',
+    summary: 'Compare a simplified 2026 federal tax estimate for two single filers versus married filing jointly.',
+    description:
+      'Use this free marriage tax calculator to compare two single federal tax estimates with a married filing jointly estimate using 2026 ordinary-income brackets.',
+    icon: 'calculator-tax',
+    formula:
+      'The calculator estimates each person as a single filer, estimates the combined income as married filing jointly, then subtracts the two-single total from the joint total.',
+    limit:
+      'This is a simplified federal ordinary-income estimate. It does not include state tax, payroll tax, phaseouts, itemized deduction limits, AMT, credits, dependents, or filing advice.',
+    useCases: [
+      'Compare whether the entered incomes show a rough marriage bonus or penalty.',
+      'Test how custom deductions or joint credits affect the simple comparison.',
+      'See taxable income and marginal bracket before discussing tax planning.',
+      'Use as an education screen, not as tax filing guidance.',
+    ],
+    examples: [
+      { label: 'Two earners', expression: '$90,000 and $70,000 income', result: 'Joint vs two-single tax comparison' },
+      { label: 'One higher earner', expression: '$180,000 and $25,000 income', result: 'Marriage difference estimate' },
+      { label: 'Custom deductions', expression: 'Two incomes with custom deduction entries', result: 'Adjusted comparison' },
+    ],
+    relatedSlugs: ['income-tax-calculator', 'salary-calculator', 'take-home-paycheck-calculator'],
+  },
+  {
+    slug: 'estate-tax-calculator',
+    name: 'Estate Tax Calculator',
+    summary: 'Estimate a simplified 2026 federal estate tax amount above the basic exclusion.',
+    description:
+      'Use this free estate tax calculator to estimate a rough federal estate tax amount from gross estate, deductions, prior taxable gifts, and the 2026 basic exclusion.',
+    icon: 'calculator-tax',
+    formula:
+      'The calculator subtracts entered debts, charitable bequests, and spouse transfers, reduces the 2026 basic exclusion by prior taxable gifts, then applies a simplified 40% top-rate estimate above the remaining exclusion.',
+    limit:
+      'Estate tax is complex. This estimate does not include state estate tax, generation-skipping tax, gift tax calculations, portability, valuation discounts, trusts, elections, or legal advice.',
+    useCases: [
+      'Screen whether a large estate might exceed the 2026 federal exclusion.',
+      'See how debts, charitable bequests, or spouse transfers change the rough taxable amount.',
+      'Account for prior taxable gifts at a high level.',
+      'Prepare better questions for an estate attorney or tax professional.',
+    ],
+    examples: [
+      { label: '$18M estate', expression: '$18,000,000 estate with $500,000 deductions', result: 'Simplified tax above exclusion' },
+      { label: 'Charitable bequest', expression: '$22M estate and $2M charity', result: 'Lower taxable amount' },
+      { label: 'Prior gifts', expression: '$16M estate with prior taxable gifts', result: 'Reduced remaining exclusion' },
+    ],
+    relatedSlugs: ['income-tax-calculator', 'finance-calculator', 'future-value-calculator'],
+  },
+  {
+    slug: 'social-security-calculator',
+    name: 'Social Security Calculator',
+    summary: 'Estimate how claiming age can change a monthly Social Security retirement benefit.',
+    description:
+      'Use this free Social Security calculator to estimate a monthly retirement benefit from birth year, full-retirement-age benefit, and claiming age.',
+    icon: 'calculator-retirement',
+    formula:
+      'The calculator estimates full retirement age from birth year, then applies early claiming reductions before full retirement age or delayed retirement credits after full retirement age through age 70.',
+    limit:
+      'This does not access SSA records, earnings history, spousal benefits, survivor benefits, disability benefits, taxation, COLA changes, or official benefit estimates.',
+    useCases: [
+      'Compare claiming at 62, full retirement age, and 70.',
+      'Use your SSA full-retirement-age benefit estimate as the starting point.',
+      'See the monthly and annual effect of claiming age.',
+      'Plan questions before using official SSA tools.',
+    ],
+    examples: [
+      { label: 'Claim at FRA', expression: 'Born 1962, $2,400 FRA benefit, claim at 67', result: 'Full benefit estimate' },
+      { label: 'Early claim', expression: 'Claim at age 62', result: 'Reduced monthly estimate' },
+      { label: 'Delayed claim', expression: 'Claim at age 70', result: 'Delayed-credit estimate' },
+    ],
+    relatedSlugs: ['retirement-calculator', 'pension-calculator', 'rmd-calculator'],
+  },
+  {
+    slug: 'rmd-calculator',
+    name: 'RMD Calculator',
+    summary: 'Estimate a required minimum distribution using the IRS Uniform Lifetime Table.',
+    description:
+      'Use this free RMD calculator to estimate a required minimum distribution from prior year-end balance and age using the IRS Uniform Lifetime Table.',
+    icon: 'calculator-retirement',
+    formula:
+      'The calculator divides the prior December 31 account balance by the Uniform Lifetime Table factor for the entered age.',
+    limit:
+      'This does not cover inherited IRAs, Roth IRA owner rules, spouse more than 10 years younger rules, multiple account aggregation, penalties, or tax advice.',
+    useCases: [
+      'Estimate an annual RMD from a traditional retirement account.',
+      'Look up the Uniform Lifetime Table factor for an age.',
+      'See the balance left after the estimated distribution.',
+      'Prepare before checking custodian records.',
+    ],
+    examples: [
+      { label: 'Age 75', expression: '$500,000 balance at age 75', result: 'Balance divided by table factor' },
+      { label: 'Age 80', expression: '$750,000 balance at age 80', result: 'RMD estimate' },
+      { label: 'Age 90', expression: '$300,000 balance at age 90', result: 'RMD estimate' },
+    ],
+    relatedSlugs: ['ira-calculator', 'retirement-calculator', 'social-security-calculator'],
+  },
+  {
+    slug: 'real-estate-calculator',
+    name: 'Real Estate Calculator',
+    summary: 'Estimate property sale profit, ROI, and equity multiple from purchase and sale numbers.',
+    description:
+      'Use this free real estate calculator to estimate property sale profit, ROI, net sale proceeds, and equity multiple from purchase, cash invested, selling costs, and loan payoff.',
+    icon: 'calculator-house-affordability',
+    formula:
+      'The calculator adds cash invested, subtracts selling costs and loan payoff from sale price, then compares net sale proceeds with cash invested.',
+    limit:
+      'This does not include tax basis, depreciation, depreciation recapture, capital gains tax, rent history, refinancing, local transfer taxes, or legal costs.',
+    useCases: [
+      'Estimate profit from a property sale.',
+      'Include improvements, buying costs, selling costs, and loan payoff.',
+      'Compare ROI against cash invested.',
+      'Screen a real estate scenario before a full spreadsheet.',
+    ],
+    examples: [
+      { label: 'Home sale', expression: '$350k purchase to $430k sale', result: 'Estimated profit and ROI' },
+      { label: 'Renovation', expression: 'Purchase plus improvements', result: 'Cash invested comparison' },
+      { label: 'Small gain', expression: 'Higher loan payoff and selling costs', result: 'Net proceeds check' },
+    ],
+    relatedSlugs: ['rental-property-calculator', 'mortgage-calculator', 'rent-vs-buy-calculator'],
+  },
+  {
+    slug: 'take-home-paycheck-calculator',
+    name: 'Take-Home-Paycheck Calculator',
+    summary: 'Estimate net pay per paycheck from salary, pay schedule, deductions, taxes, and FICA.',
+    description:
+      'Use this free take-home-paycheck calculator to estimate net pay from annual gross pay, pay frequency, pretax deductions, estimated tax percentages, and employee FICA.',
+    icon: 'calculator-salary',
+    formula:
+      'The calculator annualizes pretax deductions, applies entered tax percentages, applies employee Social Security and Medicare estimates, then divides annual take-home pay by pay periods.',
+    limit:
+      'This is not a payroll system. It does not use your W-4, exact state rules, benefit plan rules, garnishments, employer payroll timing, bonus withholding, or official withholding tables.',
+    useCases: [
+      'Estimate take-home pay before accepting a salary.',
+      'Compare weekly, biweekly, semimonthly, and monthly pay schedules.',
+      'Include simple pretax deductions and estimated tax percentages.',
+      'See a rough FICA estimate separately.',
+    ],
+    examples: [
+      { label: 'Biweekly salary', expression: '$78,000 salary over 26 paychecks', result: 'Estimated net paycheck' },
+      { label: 'Monthly pay', expression: '$96,000 salary over 12 paychecks', result: 'Monthly take-home estimate' },
+      { label: 'Weekly pay', expression: '$52,000 salary over 52 paychecks', result: 'Weekly take-home estimate' },
+    ],
+    relatedSlugs: ['salary-calculator', 'income-tax-calculator', 'marriage-tax-calculator'],
+  },
+  {
+    slug: 'rental-property-calculator',
+    name: 'Rental Property Calculator',
+    summary: 'Estimate rental property cash flow, NOI, cap rate, and cash-on-cash return.',
+    description:
+      'Use this free rental property calculator to estimate mortgage payment, operating expenses, monthly cash flow, NOI, cap rate, and cash-on-cash return.',
+    icon: 'calculator-rent',
+    formula:
+      'The calculator subtracts vacancy and operating expenses from rent for NOI, subtracts mortgage payment for cash flow, then compares NOI and cash flow with property price and cash invested.',
+    limit:
+      'This does not include depreciation, income tax, repairs timing, tenant risk, rent control, property management contracts, refinancing, or local landlord rules.',
+    useCases: [
+      'Screen whether monthly rent covers estimated costs.',
+      'Estimate cap rate before financing effects.',
+      'Estimate cash-on-cash return after mortgage payment.',
+      'Compare vacancy, maintenance, and expense assumptions.',
+    ],
+    examples: [
+      { label: 'Rental house', expression: '$300k property renting for $2,400/mo', result: 'Cash flow and cap rate' },
+      { label: 'Condo', expression: 'Condo rent with higher monthly expenses', result: 'Cash-flow estimate' },
+      { label: 'Higher rent', expression: '$420k property renting for $3,400/mo', result: 'Return estimate' },
+    ],
+    relatedSlugs: ['real-estate-calculator', 'mortgage-calculator', 'roi-calculator'],
+  },
+  {
+    slug: 'irr-calculator',
+    name: 'IRR Calculator',
+    summary: 'Estimate internal rate of return from an initial outflow and five cash-flow periods.',
+    description:
+      'Use this free IRR calculator to estimate periodic and annualized internal rate of return from an initial investment and five cash-flow periods.',
+    icon: 'calculator-rate',
+    formula:
+      'The calculator treats the initial investment as a negative cash flow, then solves for the rate that makes the net present value of all entered cash flows approximately zero.',
+    limit:
+      'IRR can be misleading for unusual cash-flow signs, reinvestment assumptions, different project sizes, taxes, fees, inflation, or risk.',
+    useCases: [
+      'Estimate a project internal rate of return.',
+      'Compare uneven cash flows against a target return.',
+      'See periodic and annualized IRR.',
+      'Screen an investment before a detailed model.',
+    ],
+    examples: [
+      { label: 'Five-year project', expression: '$10,000 outflow and five annual inflows', result: 'IRR estimate' },
+      { label: 'Uneven cash flows', expression: 'Different cash flow each year', result: 'Solved rate' },
+      { label: 'Monthly shorthand', expression: 'Monthly-style period selection', result: 'Annualized IRR estimate' },
+    ],
+    relatedSlugs: ['roi-calculator', 'payback-period-calculator', 'present-value-calculator'],
+  },
+  {
+    slug: 'roi-calculator',
+    name: 'ROI Calculator',
+    summary: 'Calculate simple return on investment from initial investment, ending value, income, and costs.',
+    description:
+      'Use this free ROI calculator to estimate gain or loss and return on investment percentage from initial investment, ending value, income, and costs.',
+    icon: 'calculator-average-return',
+    formula:
+      'The calculator adds ending value and income, subtracts costs and initial investment, then divides gain or loss by the initial investment.',
+    limit:
+      'Simple ROI does not adjust for time, compounding, risk, taxes, inflation, financing, or cash-flow timing.',
+    useCases: [
+      'Calculate simple investment ROI.',
+      'Include income and costs in the gain calculation.',
+      'Check whether a project produced a positive or negative return.',
+      'Use before comparing with IRR or payback period.',
+    ],
+    examples: [
+      { label: 'Investment gain', expression: '$10,000 grows to $12,500 plus income', result: 'ROI estimate' },
+      { label: 'Small project', expression: '$3,000 project ending at $3,900', result: 'Simple ROI' },
+      { label: 'Loss check', expression: 'Lower ending value with some income', result: 'Negative ROI check' },
+    ],
+    relatedSlugs: ['irr-calculator', 'average-return-calculator', 'payback-period-calculator'],
+  },
+  {
+    slug: 'apr-calculator',
+    name: 'APR Calculator',
+    summary: 'Estimate APR from loan amount, note rate, term, and finance charges.',
+    description:
+      'Use this free APR calculator to estimate an approximate annual percentage rate from loan amount, note rate, repayment term, and entered finance charges.',
+    icon: 'calculator-rate',
+    formula:
+      'The calculator estimates the scheduled payment at the note rate, subtracts entered fees from amount received, then solves the annualized rate implied by that payment stream.',
+    limit:
+      'This is not an official Truth in Lending disclosure. APR rules can include specific finance charges, timing rules, tolerances, and lender disclosures.',
+    useCases: [
+      'Estimate how fees can raise APR above note rate.',
+      'Compare loan offers with different fees.',
+      'See amount received after finance charges.',
+      'Prepare questions before reading official disclosures.',
+    ],
+    examples: [
+      { label: 'Personal loan APR', expression: '$20,000 at 8% with $600 fees', result: 'APR estimate' },
+      { label: 'Low fee', expression: '$12,000 at 9.5% with $150 fees', result: 'Smaller APR gap' },
+      { label: 'Large loan', expression: '$250,000 mortgage with $5,000 fees', result: 'APR approximation' },
+    ],
+    relatedSlugs: ['loan-calculator', 'interest-rate-calculator', 'personal-loan-calculator'],
+  },
+  {
+    slug: 'fha-loan-calculator',
+    name: 'FHA Loan Calculator',
+    summary: 'Estimate FHA-style monthly payment with upfront and annual MIP assumptions.',
+    description:
+      'Use this free FHA loan calculator to estimate principal, interest, taxes, insurance, upfront MIP, monthly MIP, and total monthly payment.',
+    icon: 'calculator-mortgage',
+    formula:
+      'The calculator adds entered upfront MIP to the financed balance, calculates principal and interest, then adds tax, insurance, and monthly MIP from the entered annual MIP rate.',
+    limit:
+      'FHA eligibility, loan limits, MIP duration, property rules, lender underwriting, closing costs, and official MIP schedules can change the real result.',
+    useCases: [
+      'Estimate an FHA-style payment with 3.5% down.',
+      'Test upfront and annual MIP assumptions.',
+      'Compare monthly MIP against a conventional mortgage estimate.',
+      'Screen payment before lender preapproval.',
+    ],
+    examples: [
+      { label: '3.5% down', expression: '$325,000 home with 1.75% upfront MIP', result: 'FHA payment estimate' },
+      { label: 'Lower price', expression: '$260,000 home with default MIP assumptions', result: 'Monthly estimate' },
+      { label: 'Larger down', expression: '$400,000 home with larger down payment', result: 'Payment estimate' },
+    ],
+    relatedSlugs: ['mortgage-calculator', 'down-payment-calculator', 'house-affordability-calculator'],
+  },
+  {
+    slug: 'va-mortgage-calculator',
+    name: 'VA Mortgage Calculator',
+    summary: 'Estimate a VA-backed purchase loan payment with common funding-fee logic.',
+    description:
+      'Use this free VA mortgage calculator to estimate monthly payment, VA funding fee, loan-to-value, and financing effect for a common VA purchase scenario.',
+    icon: 'calculator-mortgage',
+    formula:
+      'The calculator estimates a common VA purchase funding-fee rate from down payment and first-use status, adds the fee to the loan if selected, then calculates monthly mortgage payment.',
+    limit:
+      'This does not determine VA eligibility, exemption status, appraisal rules, entitlement, lender overlays, closing costs, seller concessions, or official loan terms.',
+    useCases: [
+      'Estimate payment on a VA purchase loan.',
+      'Compare first-use, subsequent-use, down payment, and exemption scenarios.',
+      'See the funding fee as a dollar amount.',
+      'Screen monthly payment before lender quotes.',
+    ],
+    examples: [
+      { label: 'First use, no down', expression: '$360,000 home, first VA use, no down payment', result: 'Payment and funding fee' },
+      { label: '5% down', expression: '$360,000 home with 5% down', result: 'Lower funding fee rate' },
+      { label: 'Exempt fee', expression: 'Funding-fee exemption selected', result: 'No funding fee estimate' },
+    ],
+    relatedSlugs: ['mortgage-calculator', 'fha-loan-calculator', 'down-payment-calculator'],
+  },
+  {
+    slug: 'home-equity-loan-calculator',
+    name: 'Home Equity Loan Calculator',
+    summary: 'Estimate fixed home equity loan payment, available equity, and combined loan-to-value.',
+    description:
+      'Use this free home equity loan calculator to estimate a fixed payment, total interest, available equity, and combined loan-to-value.',
+    icon: 'calculator-house-affordability',
+    formula:
+      'The calculator estimates available equity from home value, mortgage balance, and max combined LTV, then applies the fixed-payment loan formula to the requested loan amount.',
+    limit:
+      'This does not approve credit, protect against foreclosure risk, include lender fees, tax rules, property value changes, or underwriting limits.',
+    useCases: [
+      'Estimate payment on a lump-sum home equity loan.',
+      'Compare requested loan with available-equity estimate.',
+      'Check combined loan-to-value after borrowing.',
+      'See total interest over the fixed term.',
+    ],
+    examples: [
+      { label: '$50k loan', expression: '$450,000 home, $260,000 mortgage, $50,000 loan', result: 'Payment and CLTV' },
+      { label: 'Higher CLTV', expression: '90% max combined LTV', result: 'Available equity estimate' },
+      { label: 'Small loan', expression: '$25,000 equity loan', result: 'Monthly payment' },
+    ],
+    relatedSlugs: ['heloc-calculator', 'mortgage-calculator', 'loan-calculator'],
+  },
+  {
+    slug: 'heloc-calculator',
+    name: 'HELOC Calculator',
+    summary: 'Estimate HELOC interest-only payment, repayment payment, available equity, and CLTV.',
+    description:
+      'Use this free HELOC calculator to estimate draw-period interest-only payment, repayment-period payment, available equity, and combined loan-to-value.',
+    icon: 'calculator-loan',
+    formula:
+      'The calculator estimates available equity from max combined LTV, computes draw-period interest-only payment on the current draw, and estimates repayment payment over the entered years.',
+    limit:
+      'HELOCs often have variable rates, draws, fees, freezes, minimums, balloon payments, and repayment changes that this simple calculator does not model.',
+    useCases: [
+      'Estimate monthly interest-only payment on a current draw.',
+      'Estimate repayment payment after the draw period.',
+      'Check available equity against a line limit.',
+      'Compare HELOC with a fixed home equity loan.',
+    ],
+    examples: [
+      { label: '$30k draw', expression: '$80,000 line with $30,000 drawn', result: 'Interest-only and repayment estimates' },
+      { label: 'Large line', expression: '$120,000 line and $60,000 draw', result: 'HELOC estimate' },
+      { label: 'Small draw', expression: '$10,000 current draw', result: 'Payment estimate' },
+    ],
+    relatedSlugs: ['home-equity-loan-calculator', 'loan-calculator', 'mortgage-calculator'],
+  },
+  {
+    slug: 'down-payment-calculator',
+    name: 'Down Payment Calculator',
+    summary: 'Estimate down payment, loan amount, loan-to-value, closing costs, and cash needed.',
+    description:
+      'Use this free down payment calculator to estimate down payment amount, loan amount, loan-to-value, closing costs, and total cash needed.',
+    icon: 'calculator-house-affordability',
+    formula:
+      'The calculator uses an exact down payment if entered, otherwise multiplies home price by down payment percent, then adds estimated closing costs.',
+    limit:
+      'This does not include lender reserves, assistance programs, seller credits, escrow deposits, mortgage insurance rules, or official cash-to-close disclosures.',
+    useCases: [
+      'Estimate cash needed for a home purchase.',
+      'Compare 20%, 10%, 5%, and 3.5% down payment scenarios.',
+      'See loan-to-value from the down payment.',
+      'Add a rough closing cost percentage.',
+    ],
+    examples: [
+      { label: '20% down', expression: '$400,000 home and 20% down', result: 'Cash needed estimate' },
+      { label: '3.5% down', expression: '$325,000 home and 3.5% down', result: 'FHA-style cash screen' },
+      { label: 'Exact cash', expression: '$50,000 exact down payment', result: 'Loan amount and LTV' },
+    ],
+    relatedSlugs: ['mortgage-calculator', 'fha-loan-calculator', 'house-affordability-calculator'],
+  },
+  {
+    slug: 'rent-vs-buy-calculator',
+    name: 'Rent vs. Buy Calculator',
+    summary: 'Compare simplified renting cost with buying and selling over a chosen time horizon.',
+    description:
+      'Use this free rent vs. buy calculator to compare projected rent cost with simplified home buying, ownership, and sale proceeds over time.',
+    icon: 'calculator-rent',
+    formula:
+      'The calculator projects rent with annual increases, estimates buying cash outflow, estimates sale proceeds after appreciation and selling costs, then compares net buying cost with rent cost.',
+    limit:
+      'This does not include taxes, investment returns on cash, repairs timing, moving costs, HOA, PMI, local rules, opportunity cost, or personal flexibility needs.',
+    useCases: [
+      'Compare renting and buying over a specific number of years.',
+      'Test rent growth, appreciation, and selling cost assumptions.',
+      'Include basic mortgage, tax, insurance, and maintenance estimates.',
+      'Screen whether time horizon changes the answer.',
+    ],
+    examples: [
+      { label: 'Seven-year compare', expression: '$2,100 rent vs $420,000 home', result: 'Rent-vs-buy gap' },
+      { label: 'Short stay', expression: 'Three-year comparison', result: 'Short horizon estimate' },
+      { label: 'Higher rent market', expression: '$3,200 rent vs $650,000 home', result: 'Longer comparison' },
+    ],
+    relatedSlugs: ['rent-calculator', 'mortgage-calculator', 'real-estate-calculator'],
+  },
+  {
+    slug: 'payback-period-calculator',
+    name: 'Payback Period Calculator',
+    summary: 'Estimate how many years it takes for annual cash flow to recover an initial cost.',
+    description:
+      'Use this free payback period calculator to estimate simple payback years and net profit after a chosen horizon.',
+    icon: 'calculator-repayment',
+    formula:
+      'The calculator divides initial cost by annual cash flow, then compares total horizon cash flow with the initial cost.',
+    limit:
+      'Simple payback ignores discount rates, financing, taxes, inflation, risk, maintenance, and cash-flow timing inside the year.',
+    useCases: [
+      'Estimate how quickly a project recovers its cost.',
+      'Compare a payback period with a target horizon.',
+      'Screen energy, equipment, or business improvement projects.',
+      'Use alongside ROI and IRR for more context.',
+    ],
+    examples: [
+      { label: 'Efficiency project', expression: '$15,000 cost and $3,600 annual savings', result: 'Simple payback time' },
+      { label: 'Equipment', expression: '$42,000 cost and $9,500 annual cash flow', result: 'Payback estimate' },
+      { label: 'Small upgrade', expression: '$2,500 cost and $600 annual savings', result: 'Payback estimate' },
+    ],
+    relatedSlugs: ['roi-calculator', 'irr-calculator', 'present-value-calculator'],
+  },
+  {
+    slug: 'present-value-calculator',
+    name: 'Present Value Calculator',
+    summary: 'Estimate present value of a future lump sum and regular payment stream.',
+    description:
+      'Use this free present value calculator to discount a future lump sum and regular payments back to today using an entered rate and time period.',
+    icon: 'calculator-investment',
+    formula:
+      'The calculator discounts a future lump sum and discounts regular payments as an annuity, then adds both present value parts.',
+    limit:
+      'Present value depends on the discount rate and timing assumption. It does not include tax, risk, liquidity, inflation surprises, or professional investment advice.',
+    useCases: [
+      'Estimate what a future amount is worth today.',
+      'Discount a regular payment stream.',
+      'Compare different discount rates.',
+      'Use with future value and IRR for planning math.',
+    ],
+    examples: [
+      { label: 'Future plus payments', expression: '$10,000 future amount plus $200 monthly', result: 'Present value estimate' },
+      { label: 'Lump sum only', expression: '$50,000 in 10 years', result: 'Discounted value today' },
+      { label: 'Annual payments', expression: '$5,000 annual payments', result: 'Annuity present value' },
+    ],
+    relatedSlugs: ['future-value-calculator', 'irr-calculator', 'investment-calculator'],
+  },
+  {
+    slug: 'future-value-calculator',
+    name: 'Future Value Calculator',
+    summary: 'Estimate future value of a starting amount and regular payments.',
+    description:
+      'Use this free future value calculator to project a starting amount and regular payments forward with an entered rate, time period, and payment frequency.',
+    icon: 'calculator-finance',
+    formula:
+      'The calculator compounds the starting amount and compounds each regular payment using the selected payment frequency, then adds both future value parts.',
+    limit:
+      'This assumes steady rate and payment timing. It does not include market volatility, tax, fees, missed payments, inflation, or account rules.',
+    useCases: [
+      'Project a savings or investment balance.',
+      'Compare payment frequencies and return assumptions.',
+      'Separate growth from total contributions.',
+      'Use alongside present value for time-value math.',
+    ],
+    examples: [
+      { label: 'Monthly saving', expression: '$5,000 start plus $250 monthly for 10 years', result: 'Future value estimate' },
+      { label: 'No new payments', expression: '$20,000 compounded for 8 years', result: 'Lump-sum future value' },
+      { label: 'Annual contribution', expression: '$3,000 per year for 12 years', result: 'Future value estimate' },
+    ],
+    relatedSlugs: ['present-value-calculator', 'compound-interest-calculator', 'investment-calculator'],
+  },
+  {
+    slug: 'commission-calculator',
+    name: 'Commission Calculator',
+    summary: 'Estimate commission, split amount, and total pay from sales, rate, base pay, and bonus.',
+    description:
+      'Use this free commission calculator to estimate gross commission, split commission, and total pay from sales amount, commission rate, split, base pay, and bonus.',
+    icon: 'calculator-margin',
+    formula:
+      'The calculator multiplies sales by commission rate, applies the split percentage, then adds base pay and bonus entered.',
+    limit:
+      'This does not include tiered plans, quotas, accelerators, clawbacks, payroll tax, draw plans, chargebacks, or employer policy rules.',
+    useCases: [
+      'Estimate commission from a sale amount.',
+      'Apply a shared commission split.',
+      'Add base pay or bonus to commission.',
+      'Check a simple commission plan before payroll.',
+    ],
+    examples: [
+      { label: 'Sales commission', expression: '$50,000 sale at 3%', result: 'Commission estimate' },
+      { label: 'Split commission', expression: '$750,000 sale at 2.5% with 50% split', result: 'Split amount' },
+      { label: 'Base plus bonus', expression: 'Commission plus base pay and bonus', result: 'Total pay estimate' },
+    ],
+    relatedSlugs: ['salary-calculator', 'margin-calculator', 'take-home-paycheck-calculator'],
+  },
+  {
+    slug: 'mortgage-calculator-uk',
+    name: 'Mortgage Calculator UK',
+    summary: 'Estimate a UK-style repayment mortgage from property price, deposit, rate, term, and monthly fees.',
+    description:
+      'Use this free UK mortgage calculator to estimate repayment mortgage payment, loan amount, loan-to-value, total interest, and monthly fees.',
+    icon: 'calculator-mortgage',
+    formula:
+      'The calculator subtracts deposit from property price, applies a repayment mortgage formula to the loan amount, then adds monthly fees entered.',
+    limit:
+      'This does not include stamp duty, arrangement fees, valuation fees, insurance, product rules, interest-only mortgages, or lender affordability checks.',
+    useCases: [
+      'Estimate monthly repayment on a UK mortgage scenario.',
+      'See loan-to-value from price and deposit.',
+      'Compare term length and interest rate assumptions.',
+      'Add simple monthly product fees.',
+    ],
+    examples: [
+      { label: '25-year mortgage', expression: '300,000 property, 60,000 deposit, 5.2%', result: 'Monthly repayment estimate' },
+      { label: 'Higher deposit', expression: '425,000 property with 125,000 deposit', result: 'Lower LTV estimate' },
+      { label: 'Shorter term', expression: '15-year repayment scenario', result: 'Higher payment, lower interest' },
+    ],
+    relatedSlugs: ['mortgage-calculator', 'canadian-mortgage-calculator', 'down-payment-calculator'],
+  },
+  {
+    slug: 'canadian-mortgage-calculator',
+    name: 'Canadian Mortgage Calculator',
+    summary: 'Estimate a Canadian mortgage payment with semi-annual compounding conversion.',
+    description:
+      'Use this free Canadian mortgage calculator to estimate payment, loan amount, loan-to-value, and interest with semi-annual compounding conversion.',
+    icon: 'calculator-mortgage',
+    formula:
+      'The calculator subtracts down payment from property price, converts the nominal annual rate through semi-annual compounding, then calculates payment for the selected frequency.',
+    limit:
+      'This does not include mortgage default insurance, property tax, closing costs, prepayment privileges, renewal risk, or lender qualification rules.',
+    useCases: [
+      'Estimate a Canadian mortgage payment.',
+      'Compare monthly, biweekly, weekly, and semimonthly payment frequencies.',
+      'See loan-to-value from property price and down payment.',
+      'Use semi-annual compounding conversion for Canadian-style payment math.',
+    ],
+    examples: [
+      { label: 'Monthly payments', expression: '600,000 property, 120,000 down, 5.1%', result: 'Payment estimate' },
+      { label: 'Biweekly', expression: 'Biweekly payment frequency', result: 'Payment estimate' },
+      { label: 'Short amortization', expression: '20-year amortization', result: 'Higher payment estimate' },
+    ],
+    relatedSlugs: ['mortgage-calculator', 'mortgage-calculator-uk', 'down-payment-calculator'],
+  },
+  {
+    slug: 'percent-off-calculator',
+    name: 'Percent Off Calculator',
+    summary: 'Calculate sale price, savings, effective discount, and tax after one or two percent-off discounts.',
+    description:
+      'Use this free percent off calculator to estimate final sale price, savings before tax, effective discount, and tax after one or two discounts.',
+    icon: 'calculator-discount',
+    formula:
+      'The calculator applies the first percent-off discount, applies an optional extra discount to the reduced price, then adds tax if entered.',
+    limit:
+      'Retail totals can differ because of coupon exclusions, shipping, minimum spend rules, price matching, fees, and local tax treatment.',
+    useCases: [
+      'Calculate a final sale price.',
+      'Stack two percent-off discounts correctly.',
+      'Estimate tax after discounts.',
+      'See total savings and effective discount.',
+    ],
+    examples: [
+      { label: 'Sale plus tax', expression: '$80 with 25% off, extra 10% off, and 7.5% tax', result: 'Final price' },
+      { label: 'Half off', expression: '$120 with 50% off', result: 'Sale price' },
+      { label: 'Stacked sale', expression: '$200 with 30% then 15% off', result: 'Effective discount' },
+    ],
+    relatedSlugs: ['discount-calculator', 'percentage-calculator', 'sales-tax-calculator'],
+  },
+];
+
 export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'mortgage-calculator',
@@ -1276,4 +1831,5 @@ export const financeTools: ToolDefinition[] = [
     ],
     relatedSlugs: ['rent-calculator', 'debt-to-income-ratio-calculator', 'savings-calculator'],
   }),
+  ...remainingFinanceToolSpecs.map(makeFinanceTool),
 ];

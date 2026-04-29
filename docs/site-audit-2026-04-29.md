@@ -32,6 +32,18 @@ References checked:
 - Added matching guide pages for the everyday utility batch through the shared utility guide system.
 - Added source-backed notes for IETF Base64 and URI percent-encoding, IANA time zones, U.S. DOL hours recordkeeping, U.S. EPA fuel economy context, IRS 2026 mileage rate context, and NIST unit guidance.
 - Updated the calculator.net roadmap counts to 149 local tools and 149 local guide pages.
+- Fixed a hosted-footer layout gap where the navigation column could squeeze the brand text into a vertical stack on deployment. The footer now uses a stacked flex layout with wrapping links.
+- Added the construction, home, weather, and practical science roadmap batch: Height, Bra Size, Voltage Drop, BTU, Stair, Resistor, Ohms Law, Electricity, Shoe Size Conversion, Molarity, Molecular Weight, Sleep, Tire Size, Roofing, Tile, Mulch, Gravel, Wind Chill, Heat Index, Dew Point, and Bandwidth tools.
+- Added matching utility guide pages and clearer FAQ/content notes for the new batch with source-backed references where formulas or safety assumptions matter.
+- Updated the calculator.net roadmap counts to 170 local tools and 170 local guide pages.
+- Added the remaining finance roadmap tools: Marriage Tax, Estate Tax, Social Security, RMD, Real Estate, Take-Home Paycheck, Rental Property, IRR, ROI, APR, FHA Loan, VA Mortgage, Home Equity Loan, HELOC, Down Payment, Rent vs. Buy, Payback Period, Present Value, Future Value, Commission, Mortgage Calculator UK, Canadian Mortgage, and Percent Off calculators.
+- Added matching finance guide pages through the shared guide system, with official-source references for IRS 2026 tax adjustments, IRS RMD tables, SSA claiming-age rules, IRS FICA withholding, HUD FHA MIP context, VA funding-fee rules, CFPB home-equity/HELOC explainers, Canada.ca mortgage amortization context, and GOV.UK mortgage calculator context.
+- Updated the calculator.net roadmap counts to 193 local tools and 193 local guide pages.
+- Added the safe Batch 5 roadmap tools: GDP, Horsepower, Engine Horsepower, and Golf Handicap calculators.
+- Added matching guide pages with official-source references from BEA, NIST SP 811 conversion factors, and USGA handicap resources.
+- Tightened the GDP calculator example so GDP-per-person uses a consistent billions scale instead of mixing billion-dollar inputs with raw population.
+- Hardened the deployed footer again so the brand, tagline, links, and copyright cannot collapse into narrow vertical text columns on hosted pages.
+- Updated the calculator.net roadmap counts to 197 local tools and 197 local guide pages, with 4 editorial-review items remaining.
 
 ## Audit Findings
 
@@ -50,7 +62,7 @@ References checked:
 - Category pages are generated only for categories with live tools, which avoids thin empty category pages.
 - Tools and blog pages have search, but blog search did not support URL query state before this pass; fixed.
 - Footer and header provide broad internal links to core hubs.
-- The calculator.net roadmap now exists at `docs/calculator-net-roadmap.md`, keeping future batches grouped and safer.
+- The calculator.net roadmap now exists at `docs/calculator-net-roadmap.md`, keeping future batches grouped and safer. The only remaining competitor-inspired entries are held for proprietary, medically sensitive, or low-trust editorial review.
 
 ### Content Quality
 
@@ -73,8 +85,8 @@ References checked:
 
 ## Next Recommended Batches
 
-1. Start Batch 3 from the roadmap: construction, home, weather, practical science, and networking tools with clear unit assumptions.
+1. Decide whether to omit or safely rename the remaining review topics: Anorexic BMI, Weight Watcher Points, Overweight, and Love Calculator.
 2. Rewrite older static math blogs to match the newer plain-language standard.
 3. Add a compact compare/related-tools block for large categories once each category passes 30 tools.
-4. Add automated internal-link and metadata checks as a test script when the page count gets larger.
-5. Review sensitive future health/entertainment topics before creating one-to-one competitor pages.
+4. Add automated internal-link and metadata checks as a test script now that the site is near 200 tools.
+5. Consider adding screenshots or small generated illustrations only where they clarify a tool, not as decorative filler.

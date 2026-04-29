@@ -56,13 +56,19 @@ import {
   groupHexDigits,
   generateRandomNumbers,
   calculateAge,
+  calculateBandwidthTime,
+  calculateBraSize,
+  calculateBtuEstimate,
   calculateDayOfWeek,
   calculateDensity,
   calculateDiceRoll,
+  calculateDewPoint,
+  calculateElectricityCost,
   applyPercentageAdjustment,
   addDaysToIsoDate,
   calculateAnnuity,
   calculateAnnuityPayout,
+  calculateAprEstimate,
   calculateAssetLease,
   calculateAutoLease,
   calculateAverageReturn,
@@ -70,8 +76,10 @@ import {
   calculateBusinessLoan,
   calculateCashBackLowInterest,
   calculateBondEstimate,
+  calculateCanadianMortgage,
   calculateCdEstimate,
   calculateCollegeCost,
+  calculateCommission,
   calculateCreditCardPayoff,
   calculateConcrete,
   calculateCurrencyConversion,
@@ -79,6 +87,12 @@ import {
   calculateDateShift,
   calculateFuelCost,
   calculateGasMileage,
+  calculateGdpEstimate,
+  calculateGolfCourseHandicap,
+  calculateGolfScoreDifferential,
+  calculateGravelEstimate,
+  calculateHeatIndex,
+  calculateHeightEstimate,
   calculateBmi,
   calculateAmortizationSummary,
   calculateAutoLoanSummary,
@@ -91,17 +105,25 @@ import {
   calculateDepreciationEstimate,
   calculateDevineIdealWeight,
   calculateDiscountEstimate,
+  calculateDownPayment,
   calculateDueDateFromLmp,
+  calculateEstateTaxEstimate,
   calculateFederalIncomeTax2026,
+  calculateFhaLoan,
   calculateFixedDebtPayoff,
   calculateFourOhOneKProjection,
+  calculateFutureValue,
   calculateGfr2021CkdEpi,
+  calculateHeloc,
+  calculateHomeEquityLoan,
   calculateHouseAffordability,
   calculateInflationAdjustment,
   calculateInterestRateFromPayment,
+  calculateIrr,
   calculateIraProjection,
   calculateLoanSummary,
   calculateMarginEstimate,
+  calculateMarriageTaxComparison,
   calculateMacroSplit,
   calculateMifflinStJeor,
   calculateMutualFundEstimate,
@@ -110,28 +132,54 @@ import {
   calculateNavyBodyFat,
   calculateOneRepMax,
   calculatePace,
+  calculatePaybackPeriod,
   calculatePensionEstimate,
   calculatePregnancyWeightGain,
+  calculatePresentValue,
   calculateRentAffordability,
+  calculateRealEstateReturn,
   calculateRefinance,
+  calculateRentalProperty,
+  calculateRentVsBuy,
+  calculateRmdEstimate,
+  calculateRoi,
   calculateSalaryBreakdown,
   calculateSavingsProjection,
   calculateSalesTax,
+  calculateSocialSecurityClaiming,
+  calculateTakeHomePaycheck,
+  calculateUkMortgage,
   calculateVat,
+  calculateVaMortgage,
   calculateGpa,
   calculateHoursWorked,
+  calculateHorsepowerConversion,
   calculateMassFromDensity,
   calculateMileageCost,
+  calculateMolarity,
+  calculateMolecularWeight,
   calculateNeededFinalGrade,
+  calculateOhmsLaw,
+  calculateMulchEstimate,
+  calculateResistorColorCode,
+  calculateRoofingEstimate,
+  calculateSleepSchedule,
   calculateSpeed,
   calculateSquareFootage,
   calculateSubnet,
+  calculateStairLayout,
+  calculateTileEstimate,
+  calculateTireSize,
   calculateTimeCard,
   calculateTimeDuration,
   calculateTimeZoneComparison,
   calculateTip,
+  calculateVoltageDrop,
   calculateWeightForce,
+  calculateWindChill,
+  calculateEngineHorsepower,
   convertMeasurement,
+  convertShoeSize,
   decodeBase64,
   decodeUrlComponentValue,
   encodeBase64,
@@ -1156,6 +1204,144 @@ describe('finance helpers', () => {
     expect(refinance.newLoan.monthlyPayment).toBeLessThan(refinance.currentLoan.monthlyPayment);
     expect(budget.leftover).toBe(550);
   });
+
+  it('calculates the remaining finance roadmap estimates', () => {
+    const marriage = calculateMarriageTaxComparison({ spouseOneIncome: 90000, spouseTwoIncome: 70000 });
+    const estate = calculateEstateTaxEstimate({ grossEstate: 18000000, debtsAndExpenses: 500000 });
+    const socialSecurity = calculateSocialSecurityClaiming({
+      birthYear: 1962,
+      fullRetirementAgeBenefit: 2400,
+      claimingAgeYears: 70,
+    });
+    const rmd = calculateRmdEstimate(500000, 75);
+    const realEstate = calculateRealEstateReturn({
+      purchasePrice: 350000,
+      downPayment: 70000,
+      buyingCosts: 8000,
+      improvements: 15000,
+      sellingPrice: 430000,
+      sellingCosts: 25800,
+      loanPayoff: 260000,
+    });
+    const paycheck = calculateTakeHomePaycheck({
+      annualGrossPay: 78000,
+      payPeriodsPerYear: 26,
+      pretaxDeductionsPerPaycheck: 120,
+      federalTaxPercent: 12,
+      stateTaxPercent: 4,
+    });
+    const rental = calculateRentalProperty({
+      propertyPrice: 300000,
+      downPayment: 75000,
+      annualRatePercent: 6.75,
+      loanYears: 30,
+      monthlyRent: 2400,
+      vacancyPercent: 5,
+      monthlyOperatingExpenses: 260,
+      annualPropertyTax: 3600,
+      monthlyInsurance: 140,
+      maintenancePercent: 1,
+      closingCosts: 7000,
+    });
+    const irr = calculateIrr([-10000, 2200, 2400, 2600, 2800, 4500]);
+    const roi = calculateRoi({ initialInvestment: 10000, endingValue: 12500, income: 600, costs: 250 });
+    const apr = calculateAprEstimate({ principal: 20000, annualRatePercent: 8, years: 5, fees: 600 });
+    const fha = calculateFhaLoan({
+      homePrice: 325000,
+      downPayment: 11375,
+      annualRatePercent: 6.5,
+      years: 30,
+      upfrontMipPercent: 1.75,
+      annualMipPercent: 0.55,
+    });
+    const va = calculateVaMortgage({
+      homePrice: 360000,
+      downPayment: 0,
+      annualRatePercent: 6.25,
+      years: 30,
+      firstUse: true,
+    });
+    const homeEquity = calculateHomeEquityLoan({
+      homeValue: 450000,
+      currentMortgageBalance: 260000,
+      desiredLoanAmount: 50000,
+      annualRatePercent: 8.25,
+      years: 10,
+    });
+    const heloc = calculateHeloc({
+      homeValue: 450000,
+      currentMortgageBalance: 260000,
+      creditLine: 80000,
+      currentDraw: 30000,
+      annualRatePercent: 9,
+      repaymentYears: 15,
+    });
+    const downPayment = calculateDownPayment({ homePrice: 400000, downPaymentPercent: 20, closingCostPercent: 3 });
+    const rentVsBuy = calculateRentVsBuy({
+      monthlyRent: 2100,
+      rentIncreasePercent: 3,
+      homePrice: 420000,
+      downPayment: 84000,
+      annualRatePercent: 6.5,
+      years: 7,
+      annualPropertyTax: 5000,
+      monthlyInsurance: 150,
+      maintenancePercent: 1,
+      appreciationPercent: 3,
+      sellingCostPercent: 6,
+    });
+    const payback = calculatePaybackPeriod({ initialCost: 15000, annualCashFlow: 3600, horizonYears: 8 });
+    const presentValue = calculatePresentValue({
+      futureValue: 10000,
+      payment: 200,
+      annualRatePercent: 5,
+      years: 6,
+      paymentsPerYear: 12,
+    });
+    const futureValue = calculateFutureValue({
+      principal: 5000,
+      payment: 250,
+      annualRatePercent: 6,
+      years: 10,
+      paymentsPerYear: 12,
+    });
+    const commission = calculateCommission({ salesAmount: 50000, commissionPercent: 3 });
+    const ukMortgage = calculateUkMortgage({
+      propertyPrice: 300000,
+      deposit: 60000,
+      annualRatePercent: 5.2,
+      years: 25,
+    });
+    const canadianMortgage = calculateCanadianMortgage({
+      propertyPrice: 600000,
+      downPayment: 120000,
+      annualRatePercent: 5.1,
+      years: 25,
+    });
+
+    expect(marriage.jointTax.federalTax).toBeGreaterThan(0);
+    expect(estate.taxableAboveExclusion).toBe(2500000);
+    expect(socialSecurity.monthlyBenefit).toBeGreaterThan(socialSecurity.fullRetirementAgeBenefit);
+    expect(rmd.lifeExpectancyFactor).toBe(24.6);
+    expect(realEstate.profit).toBeGreaterThan(0);
+    expect(paycheck.takeHomePerPaycheck).toBeGreaterThan(0);
+    expect(rental.monthlyMortgagePayment).toBeGreaterThan(0);
+    expect(irr.annualizedIrrPercent).toBeGreaterThan(0);
+    expect(roi.roiPercent).toBeCloseTo(28.5, 8);
+    expect(apr.aprPercent).toBeGreaterThan(8);
+    expect(fha.monthlyMip).toBeGreaterThan(0);
+    expect(va.fundingFeePercent).toBe(2.15);
+    expect(homeEquity.availableEquity).toBeGreaterThan(homeEquity.principal);
+    expect(heloc.interestOnlyPayment).toBe(225);
+    expect(downPayment.downPayment).toBe(80000);
+    expect(Number.isFinite(rentVsBuy.buyMinusRent)).toBe(true);
+    expect(payback.paybackYears).toBeCloseTo(4.1667, 4);
+    expect(presentValue.presentValue).toBeGreaterThan(0);
+    expect(futureValue.futureValue).toBeGreaterThan(futureValue.totalContributions);
+    expect(commission.totalPay).toBe(1500);
+    expect(ukMortgage.loanToValuePercent).toBe(80);
+    expect(canadianMortgage.totalInterest).toBeGreaterThan(0);
+  });
 });
 
 describe('utility helpers', () => {
@@ -1274,5 +1460,76 @@ describe('utility helpers', () => {
     expect(timeZone.offsetLabel).toBe('UTC-04:00');
     expect(formatCalculatorNumber(timeCard.totalHours)).toBe('16');
     expect(timeCard.grossPay).toBe(400);
+  });
+
+  it('calculates construction, weather, chemistry, and practical science helpers', () => {
+    const height = calculateHeightEstimate('male', 64, 70);
+    const bra = calculateBraSize(32, 36);
+    const voltageDrop = calculateVoltageDrop({
+      sourceVoltage: 120,
+      currentAmps: 15,
+      oneWayLengthFeet: 75,
+      resistanceOhmsPer1000Feet: 1.588,
+      phase: 'single',
+    });
+    const btu = calculateBtuEstimate({ squareFeet: 300, ceilingHeightFeet: 8, sunlight: 'normal', people: 2, kitchen: false });
+    const stairs = calculateStairLayout(108, 7.5, 10);
+    const resistor = calculateResistorColorCode('brown', 'black', 'red', 'gold');
+    const ohms = calculateOhmsLaw('voltage-current', 12, 2);
+    const electricity = calculateElectricityCost(1500, 4, 30, 0.16);
+    const shoe = convertShoeSize(26);
+    const molarity = calculateMolarity({ grams: 58.44, molarMass: 58.44, volumeLiters: 1 });
+    const molecularWeight = calculateMolecularWeight('C6H12O6');
+    const sleep = calculateSleepSchedule('wake-up', '07:00', 5, 15);
+    const tire = calculateTireSize(225, 60, 16);
+    const roof = calculateRoofingEstimate(40, 30, 6, 10);
+    const tile = calculateTileEstimate(120, 12, 12, 10);
+    const mulch = calculateMulchEstimate(200, 3, 5);
+    const gravel = calculateGravelEstimate(20, 10, 3, 1.4);
+    const windChill = calculateWindChill(30, 15);
+    const heatIndex = calculateHeatIndex(90, 70);
+    const dewPoint = calculateDewPoint(75, 60);
+    const bandwidth = calculateBandwidthTime(5, 'GB', 100, 'Mbps');
+
+    expect(formatCalculatorNumber(height.estimatedAdultHeightInches)).toBe('69.5');
+    expect(bra.sizeLabel).toBe('32D');
+    expect(formatCalculatorNumber(voltageDrop.percentDrop)).toBe('2.9775');
+    expect(btu.recommendedBtu).toBe(7000);
+    expect(stairs.riserCount).toBe(14);
+    expect(resistor.resistanceOhms).toBe(1000);
+    expect(ohms.resistance).toBe(6);
+    expect(electricity.cost).toBe(28.8);
+    expect(shoe.usWomen).toBeGreaterThan(shoe.usMen);
+    expect(molarity.molarity).toBe(1);
+    expect(formatCalculatorNumber(molecularWeight.molarMass)).toBe('180.156');
+    expect(sleep.targetTime).toBe('23:15');
+    expect(formatCalculatorNumber(tire.tireDiameterInches)).toBe('26.6299212598');
+    expect(roof.shingleBundles).toBeGreaterThan(40);
+    expect(tile.tilesNeeded).toBe(132);
+    expect(formatCalculatorNumber(mulch.cubicYards)).toBe('1.9444444444');
+    expect(formatCalculatorNumber(gravel.tons)).toBe('2.5925925926');
+    expect(windChill.resultFahrenheit).toBeLessThan(30);
+    expect(heatIndex.resultFahrenheit).toBeGreaterThan(90);
+    expect(dewPoint.resultFahrenheit).toBeLessThan(75);
+    expect(bandwidth.seconds).toBe(400);
+  });
+
+  it('calculates GDP, horsepower, engine horsepower, and golf handicap helpers', () => {
+    const gdp = calculateGdpEstimate(18000, 5000, 6500, 3200, 4100, 340000000);
+    const scaledGdp = calculateGdpEstimate(18000, 5000, 6500, 3200, 4100, 0.34);
+    const horsepower = calculateHorsepowerConversion(100, 'kilowatt');
+    const engine = calculateEngineHorsepower(300, 5252.1131, 15);
+    const differential = calculateGolfScoreDifferential(86, 71.2, 128, 0);
+    const courseHandicap = calculateGolfCourseHandicap(14.2, 128, 71.2, 72, 95);
+
+    expect(gdp.gdp).toBe(28600);
+    expect(formatCalculatorNumber(gdp.gdpPerPerson ?? 0)).toBe('0.0000841176');
+    expect(formatCalculatorNumber(scaledGdp.gdpPerPerson ?? 0)).toBe('84117.6470588');
+    expect(formatCalculatorNumber(horsepower.mechanicalHorsepower)).toBe('134.102203849');
+    expect(formatCalculatorNumber(engine.engineHorsepower)).toBe('300');
+    expect(formatCalculatorNumber(engine.wheelHorsepower)).toBe('255');
+    expect(differential.scoreDifferential).toBe(13.1);
+    expect(courseHandicap.courseHandicap).toBe(15);
+    expect(courseHandicap.playingHandicap).toBe(14);
   });
 });

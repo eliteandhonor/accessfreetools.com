@@ -30,14 +30,14 @@ const featuredTools = featuredToolSlugs
   .map((slug) => tools.find((tool) => tool.slug === slug))
   .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
 const recentlyAddedToolSlugs = [
-  'dice-roller',
-  'fuel-cost-calculator',
-  'square-footage-calculator',
-  'time-card-calculator',
-  'time-zone-calculator',
-  'gas-mileage-calculator',
-  'base64-encode-decode',
-  'url-encode-decode',
+  'gdp-calculator',
+  'horsepower-calculator',
+  'engine-horsepower-calculator',
+  'golf-handicap-calculator',
+  'social-security-calculator',
+  'rmd-calculator',
+  'rent-vs-buy-calculator',
+  'apr-calculator',
 ];
 const recentlyAddedTools = recentlyAddedToolSlugs
   .map((slug) => tools.find((tool) => tool.slug === slug))
@@ -71,13 +71,13 @@ const recentlyAddedTools = recentlyAddedToolSlugs
   <section class="section-band section-band-soft">
     <div class="section-heading">
       <h2>Recently added tools</h2>
-      <p>Fresh everyday utilities added from the sitemap roadmap, each with a matching guide.</p>
+      <p>Fresh researched utilities from the sitemap roadmap, including economics, power conversion, golf, and finance tools.</p>
     </div>
     <div class="tool-grid">
       {recentlyAddedTools.map((tool) => <ToolCard tool={tool} />)}
     </div>
     <div class="section-actions">
-      <a class="button-secondary" href="/categories/everyday-tools/">Browse everyday tools</a>
+      <a class="button-secondary" href="/tools/">Browse all new tools</a>
     </div>
   </section>
 
