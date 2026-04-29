@@ -5,6 +5,10 @@ import { getTool } from '../data/tools';
 interface GuideSection {
   title: string;
   paragraphs: string[];
+  links?: Array<{
+    href: string;
+    label: string;
+  }>;
 }
 
 interface Props {
@@ -71,6 +75,15 @@ const articleStructuredData = {
           <section class="content-section">
             <h2>{section.title}</h2>
             {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            {section.links && section.links.length > 0 && (
+              <ul class="source-link-list">
+                {section.links.map((link) => (
+                  <li>
+                    <a href={link.href} rel="noreferrer" target="_blank">{link.label}</a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </section>
         ))}
 

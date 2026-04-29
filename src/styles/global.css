@@ -836,6 +836,12 @@ main {
   text-transform: uppercase;
 }
 
+.calculator-dynamic-mark {
+  font-size: 6.7px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
 .calculator-slope-mark {
   font-size: 7px;
 }
@@ -1056,6 +1062,65 @@ main {
   background:
     linear-gradient(135deg, color-mix(in srgb, #fff2aa 54%, white), color-mix(in srgb, #e8ddff 34%, white));
   color: color-mix(in srgb, #705000 80%, var(--primary-strong));
+}
+
+.tool-card-icon-bmi,
+.tool-card-icon-healthy-weight,
+.tool-card-icon-ideal-weight,
+.tool-card-icon-body-type {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #d9e8ff 58%, white), color-mix(in srgb, #c8f7e7 34%, white));
+  color: color-mix(in srgb, #263d8a 78%, var(--primary-strong));
+}
+
+.tool-card-icon-calorie,
+.tool-card-icon-bmr,
+.tool-card-icon-tdee,
+.tool-card-icon-macro,
+.tool-card-icon-carbohydrate,
+.tool-card-icon-protein,
+.tool-card-icon-fat-intake {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #fff2aa 56%, white), color-mix(in srgb, #d8f86f 28%, white));
+  color: color-mix(in srgb, #705000 82%, var(--primary-strong));
+}
+
+.tool-card-icon-body-fat,
+.tool-card-icon-army-body-fat,
+.tool-card-icon-lean-mass,
+.tool-card-icon-body-surface-area,
+.tool-card-icon-bsa,
+.tool-card-icon-gfr {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #c8f7e7 58%, white), color-mix(in srgb, #e8ddff 32%, white));
+  color: color-mix(in srgb, #275a47 82%, var(--primary-strong));
+}
+
+.tool-card-icon-pace,
+.tool-card-icon-calories-burned,
+.tool-card-icon-one-rep-max,
+.tool-card-icon-target-heart {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #ffd3c5 54%, white), color-mix(in srgb, #d9e8ff 34%, white));
+  color: color-mix(in srgb, #9b3726 76%, var(--primary-strong));
+}
+
+.tool-card-icon-pregnancy,
+.tool-card-icon-pregnancy-weight,
+.tool-card-icon-pregnancy-conception,
+.tool-card-icon-due-date,
+.tool-card-icon-ovulation,
+.tool-card-icon-conception,
+.tool-card-icon-period {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #ffe6f2 60%, white), color-mix(in srgb, #e8ddff 34%, white));
+  color: color-mix(in srgb, #9b3c6a 78%, var(--primary-strong));
+}
+
+.tool-card-icon-bac {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #ffe6a8 58%, white), color-mix(in srgb, #ffd3c5 34%, white));
+  color: color-mix(in srgb, #9b3726 80%, var(--primary-strong));
 }
 
 .tool-card-icon-dice {
@@ -4183,6 +4248,7 @@ main {
 
 .advanced-field input,
 .advanced-field textarea,
+.advanced-field select,
 .matrix-grid input {
   background: var(--surface-solid);
   border: 1px solid var(--border);
@@ -4208,6 +4274,7 @@ main {
 
 .advanced-field input:focus,
 .advanced-field textarea:focus,
+.advanced-field select:focus,
 .matrix-grid input:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
@@ -4423,6 +4490,34 @@ main {
 
 .advanced-calculator-geometry .advanced-result-card dl {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.advanced-calculator-health .advanced-result-card dl {
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+}
+
+.advanced-calculator-health .advanced-result-card > strong {
+  font-size: clamp(1.2rem, 3.1vw, 2.15rem);
+}
+
+.advanced-calculator-health .advanced-result-card p {
+  color: color-mix(in srgb, #e8fffa 82%, white);
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.health-fields {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.health-example-grid {
+  grid-template-columns: 1fr;
+}
+
+.health-tool-points span {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #e8fffa 60%, white), color-mix(in srgb, #ffe6f2 30%, white));
 }
 
 .matrix-inputs {
@@ -4749,6 +4844,19 @@ main {
 
 .instruction-list {
   padding-left: 22px;
+}
+
+.source-link-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.source-link-list a {
+  color: var(--primary-strong);
+  font-weight: 850;
 }
 
 .feature-list {

@@ -54,6 +54,25 @@ import {
   groupHexDigits,
   generateRandomNumbers,
   applyPercentageAdjustment,
+  addDaysToIsoDate,
+  calculateBmi,
+  calculateBodySurfaceArea,
+  calculateBoerLeanBodyMass,
+  calculateCaloriesBurned,
+  calculateDevineIdealWeight,
+  calculateDueDateFromLmp,
+  calculateGfr2021CkdEpi,
+  calculateMacroSplit,
+  calculateMifflinStJeor,
+  calculateNavyBodyFat,
+  calculateOneRepMax,
+  calculatePace,
+  calculatePregnancyWeightGain,
+  calculateTargetHeartRate,
+  calculateTdeeFromBmr,
+  classifyBodyType,
+  daysBetweenIsoDates,
+  estimateBac,
   mixedToFraction,
   parseBigInteger,
   parseBigIntegerList,
@@ -715,5 +734,81 @@ describe('random number helpers', () => {
     ).toThrow('Quantity cannot be larger than the available unique numbers');
 
     expect(() => parseExcludedNumbers('1, two')).toThrow('Excluded numbers must be whole numbers');
+  });
+});
+
+describe('health and fitness helpers', () => {
+  it('calculates BMI and healthy adult BMI range', () => {
+    const result = calculateBmi(70, 170);
+
+    expect(formatCalculatorNumber(result.bmi)).toBe('24.2214532872');
+    expect(result.category).toBe('Healthy weight');
+    expect(formatCalculatorNumber(result.healthyMinKg)).toBe('53.465');
+    expect(formatCalculatorNumber(result.healthyMaxKg)).toBe('71.961');
+  });
+
+  it('calculates BMR, TDEE, and macro splits', () => {
+    const bmr = calculateMifflinStJeor({ sex: 'male', age: 35, heightCm: 178, weightKg: 82 });
+    const tdee = calculateTdeeFromBmr(bmr, 'moderate');
+    const macros = calculateMacroSplit(2000, 25, 30, 45);
+
+    expect(formatCalculatorNumber(bmr)).toBe('1762.5');
+    expect(formatCalculatorNumber(tdee)).toBe('2731.875');
+    expect(formatCalculatorNumber(macros.proteinGrams)).toBe('125');
+    expect(formatCalculatorNumber(macros.fatGrams)).toBe('66.6666666667');
+    expect(formatCalculatorNumber(macros.carbGrams)).toBe('225');
+  });
+
+  it('estimates body composition with tape, lean mass, and ideal weight formulas', () => {
+    const bodyFat = calculateNavyBodyFat({
+      sex: 'male',
+      heightCm: 180,
+      weightKg: 84,
+      neckCm: 40,
+      waistCm: 88,
+    });
+    const leanMass = calculateBoerLeanBodyMass({ sex: 'female', age: 30, heightCm: 165, weightKg: 62 });
+    const idealWeight = calculateDevineIdealWeight('female', 165);
+
+    expect(bodyFat.bodyFatPercent).toBeGreaterThan(15);
+    expect(bodyFat.bodyFatPercent).toBeLessThan(25);
+    expect(formatCalculatorNumber(leanMass)).toBe('45.369');
+    expect(formatCalculatorNumber(idealWeight)).toBe('56.9094488189');
+  });
+
+  it('calculates fitness pace, calories burned, one-rep max, and target heart rate', () => {
+    const pace = calculatePace(5, 25 * 60);
+    const calories = calculateCaloriesBurned(3.8, 70, 45);
+    const oneRepMax = calculateOneRepMax(100, 5);
+    const heartRate = calculateTargetHeartRate(35, 50, 85, 65);
+
+    expect(formatCalculatorNumber(pace.secondsPerUnit)).toBe('300');
+    expect(formatCalculatorNumber(calories)).toBe('209.475');
+    expect(formatCalculatorNumber(oneRepMax.epleyKg)).toBe('116.666666667');
+    expect(formatCalculatorNumber(heartRate.maxHeartRate)).toBe('185');
+    expect(formatCalculatorNumber(heartRate.karvonenLowerBpm ?? 0)).toBe('125');
+  });
+
+  it('calculates pregnancy dates and guideline ranges', () => {
+    expect(calculateDueDateFromLmp('2026-04-01')).toBe('2027-01-06');
+    expect(addDaysToIsoDate('2026-04-01', 14)).toBe('2026-04-15');
+    expect(daysBetweenIsoDates('2026-04-01', '2026-04-15')).toBe(14);
+
+    const weightGain = calculatePregnancyWeightGain(165, 62, 70);
+
+    expect(weightGain.category).toBe('Healthy weight');
+    expect(formatCalculatorNumber(weightGain.gainedKg)).toBe('8');
+    expect(formatCalculatorNumber(weightGain.minGainKg)).toBe('11.3398092503');
+  });
+
+  it('calculates clinical-reference estimates and body shape labels', () => {
+    const gfr = calculateGfr2021CkdEpi(50, 'female', 0.9);
+    const bsa = calculateBodySurfaceArea(170, 70);
+    const bac = estimateBac('male', 80, 2, 355, 5, 1);
+
+    expect(gfr.egfr).toBeGreaterThan(70);
+    expect(formatCalculatorNumber(bsa.mosteller)).toBe('1.8181186858');
+    expect(classifyBodyType(96, 76, 101, 100)).toBe('Hourglass');
+    expect(formatCalculatorNumber(bac.bacPercent)).toBe('0.0364880515');
   });
 });

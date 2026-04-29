@@ -2552,6 +2552,406 @@ export function reversePercentageValue(value: number, percent: number): number {
   return value / (percent / 100);
 }
 
+export type HealthSex = 'male' | 'female';
+export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'very' | 'extra';
+
+export interface BmiResult {
+  bmi: number;
+  category: string;
+  healthyMinKg: number;
+  healthyMaxKg: number;
+}
+
+export interface BodyFatInput {
+  sex: HealthSex;
+  heightCm: number;
+  neckCm: number;
+  waistCm: number;
+  hipCm?: number;
+  weightKg?: number;
+}
+
+export interface BodyFatResult {
+  bodyFatPercent: number;
+  fatMassKg?: number;
+  leanMassKg?: number;
+}
+
+export interface BmrInput {
+  sex: HealthSex;
+  age: number;
+  heightCm: number;
+  weightKg: number;
+}
+
+export interface MacroSplit {
+  calories: number;
+  proteinPercent: number;
+  fatPercent: number;
+  carbPercent: number;
+  proteinGrams: number;
+  fatGrams: number;
+  carbGrams: number;
+}
+
+export interface PregnancyWeightGainResult {
+  bmi: number;
+  category: string;
+  gainedKg: number;
+  minGainKg: number;
+  maxGainKg: number;
+  weeklyMinKg: number;
+  weeklyMaxKg: number;
+}
+
+export interface OneRepMaxResult {
+  epleyKg: number;
+  brzyckiKg: number;
+}
+
+export interface TargetHeartRateResult {
+  maxHeartRate: number;
+  lowerBpm: number;
+  upperBpm: number;
+  karvonenLowerBpm?: number;
+  karvonenUpperBpm?: number;
+}
+
+export interface GfrResult {
+  egfr: number;
+  note: string;
+}
+
+export interface BodySurfaceAreaResult {
+  mosteller: number;
+  dubois: number;
+}
+
+export interface BacResult {
+  gramsAlcohol: number;
+  bacPercent: number;
+  hoursToZero: number;
+}
+
+export const activityLevelFactors: Record<ActivityLevel, number> = {
+  sedentary: 1.2,
+  light: 1.375,
+  moderate: 1.55,
+  very: 1.725,
+  extra: 1.9,
+};
+
+export function cmToInches(value: number) {
+  return value / 2.54;
+}
+
+export function kgToPounds(value: number) {
+  return value * 2.2046226218;
+}
+
+export function poundsToKg(value: number) {
+  return value / 2.2046226218;
+}
+
+export function calculateBmi(weightKg: number, heightCm: number): BmiResult {
+  assertPositiveNumber(weightKg, 'Weight');
+  assertPositiveNumber(heightCm, 'Height');
+
+  const heightMeters = heightCm / 100;
+  const bmi = weightKg / square(heightMeters);
+  const category =
+    bmi < 18.5 ? 'Underweight' : bmi < 25 ? 'Healthy weight' : bmi < 30 ? 'Overweight' : 'Obesity range';
+  const healthyMinKg = 18.5 * square(heightMeters);
+  const healthyMaxKg = 24.9 * square(heightMeters);
+
+  return { bmi, category, healthyMinKg, healthyMaxKg };
+}
+
+export function calculateMifflinStJeor(input: BmrInput) {
+  assertPositiveNumber(input.weightKg, 'Weight');
+  assertPositiveNumber(input.heightCm, 'Height');
+  assertPositiveNumber(input.age, 'Age');
+
+  const sexAdjustment = input.sex === 'male' ? 5 : -161;
+  return 10 * input.weightKg + 6.25 * input.heightCm - 5 * input.age + sexAdjustment;
+}
+
+export function calculateTdeeFromBmr(bmr: number, activityLevel: ActivityLevel) {
+  assertPositiveNumber(bmr, 'BMR');
+  return bmr * activityLevelFactors[activityLevel];
+}
+
+export function calculateNavyBodyFat(input: BodyFatInput): BodyFatResult {
+  const heightIn = cmToInches(input.heightCm);
+  const neckIn = cmToInches(input.neckCm);
+  const waistIn = cmToInches(input.waistCm);
+  const hipIn = input.hipCm === undefined ? undefined : cmToInches(input.hipCm);
+
+  assertPositiveNumber(heightIn, 'Height');
+  assertPositiveNumber(neckIn, 'Neck');
+  assertPositiveNumber(waistIn, 'Waist');
+
+  const circumferenceValue =
+    input.sex === 'male' ? waistIn - neckIn : waistIn + (hipIn ?? 0) - neckIn;
+
+  if (input.sex === 'female' && hipIn === undefined) {
+    throw new Error('Hip measurement is required for the female circumference method');
+  }
+
+  if (circumferenceValue <= 0) {
+    throw new Error('Circumference measurements must create a positive tape value');
+  }
+
+  const bodyFatPercent =
+    input.sex === 'male'
+      ? 86.01 * Math.log10(circumferenceValue) - 70.041 * Math.log10(heightIn) + 36.76
+      : 163.205 * Math.log10(circumferenceValue) - 97.684 * Math.log10(heightIn) - 78.387;
+
+  if (!Number.isFinite(bodyFatPercent) || bodyFatPercent <= 0) {
+    throw new Error('Body fat estimate could not be calculated from those measurements');
+  }
+
+  const fatMassKg = input.weightKg ? input.weightKg * (bodyFatPercent / 100) : undefined;
+  const leanMassKg = input.weightKg ? input.weightKg - (fatMassKg ?? 0) : undefined;
+
+  return { bodyFatPercent, fatMassKg, leanMassKg };
+}
+
+export function calculateBoerLeanBodyMass(input: BmrInput) {
+  assertPositiveNumber(input.weightKg, 'Weight');
+  assertPositiveNumber(input.heightCm, 'Height');
+
+  return input.sex === 'male'
+    ? 0.407 * input.weightKg + 0.267 * input.heightCm - 19.2
+    : 0.252 * input.weightKg + 0.473 * input.heightCm - 48.3;
+}
+
+export function calculateDevineIdealWeight(sex: HealthSex, heightCm: number) {
+  assertPositiveNumber(heightCm, 'Height');
+
+  const inchesOverFiveFeet = Math.max(0, cmToInches(heightCm) - 60);
+  return (sex === 'male' ? 50 : 45.5) + 2.3 * inchesOverFiveFeet;
+}
+
+export function calculateCaloriesBurned(met: number, weightKg: number, minutes: number) {
+  assertPositiveNumber(met, 'MET');
+  assertPositiveNumber(weightKg, 'Weight');
+  assertPositiveNumber(minutes, 'Minutes');
+  return ((met * 3.5 * weightKg) / 200) * minutes;
+}
+
+export function calculateOneRepMax(weightKg: number, reps: number): OneRepMaxResult {
+  assertPositiveNumber(weightKg, 'Weight');
+  assertPositiveNumber(reps, 'Reps');
+
+  if (reps > 30) {
+    throw new Error('Use 30 reps or fewer for a practical one-rep max estimate');
+  }
+
+  const epleyKg = weightKg * (1 + reps / 30);
+  const brzyckiKg = reps === 1 ? weightKg : weightKg * (36 / (37 - reps));
+
+  return { epleyKg, brzyckiKg };
+}
+
+export function calculateTargetHeartRate(
+  age: number,
+  lowerPercent: number,
+  upperPercent: number,
+  restingHeartRate?: number,
+): TargetHeartRateResult {
+  assertPositiveNumber(age, 'Age');
+  assertPositiveNumber(lowerPercent, 'Lower intensity');
+  assertPositiveNumber(upperPercent, 'Upper intensity');
+
+  const maxHeartRate = 220 - age;
+  const lowerBpm = maxHeartRate * (lowerPercent / 100);
+  const upperBpm = maxHeartRate * (upperPercent / 100);
+  const result: TargetHeartRateResult = { maxHeartRate, lowerBpm, upperBpm };
+
+  if (restingHeartRate !== undefined && Number.isFinite(restingHeartRate) && restingHeartRate > 0) {
+    const reserve = maxHeartRate - restingHeartRate;
+    result.karvonenLowerBpm = reserve * (lowerPercent / 100) + restingHeartRate;
+    result.karvonenUpperBpm = reserve * (upperPercent / 100) + restingHeartRate;
+  }
+
+  return result;
+}
+
+export function calculatePace(distance: number, seconds: number) {
+  assertPositiveNumber(distance, 'Distance');
+  assertPositiveNumber(seconds, 'Time');
+
+  return {
+    secondsPerUnit: seconds / distance,
+    speedPerHour: distance / (seconds / 3600),
+  };
+}
+
+export function calculatePregnancyWeightGain(
+  heightCm: number,
+  prePregnancyWeightKg: number,
+  currentWeightKg: number,
+) {
+  const bmiResult = calculateBmi(prePregnancyWeightKg, heightCm);
+  const bmi = bmiResult.bmi;
+  const poundsRange =
+    bmi < 18.5
+      ? [28, 40, 1, 1.3]
+      : bmi < 25
+        ? [25, 35, 0.8, 1]
+        : bmi < 30
+          ? [15, 25, 0.5, 0.7]
+          : [11, 20, 0.4, 0.6];
+
+  return {
+    bmi,
+    category: bmiResult.category,
+    gainedKg: currentWeightKg - prePregnancyWeightKg,
+    minGainKg: poundsToKg(poundsRange[0]),
+    maxGainKg: poundsToKg(poundsRange[1]),
+    weeklyMinKg: poundsToKg(poundsRange[2]),
+    weeklyMaxKg: poundsToKg(poundsRange[3]),
+  } satisfies PregnancyWeightGainResult;
+}
+
+export function calculateMacroSplit(
+  calories: number,
+  proteinPercent: number,
+  fatPercent: number,
+  carbPercent: number,
+): MacroSplit {
+  assertPositiveNumber(calories, 'Calories');
+
+  const totalPercent = proteinPercent + fatPercent + carbPercent;
+  if (Math.abs(totalPercent - 100) > 0.001) {
+    throw new Error('Macro percentages must add up to 100');
+  }
+
+  return {
+    calories,
+    proteinPercent,
+    fatPercent,
+    carbPercent,
+    proteinGrams: (calories * (proteinPercent / 100)) / 4,
+    fatGrams: (calories * (fatPercent / 100)) / 9,
+    carbGrams: (calories * (carbPercent / 100)) / 4,
+  };
+}
+
+export function calculateProteinGrams(weightKg: number, gramsPerKg: number) {
+  assertPositiveNumber(weightKg, 'Weight');
+  assertPositiveNumber(gramsPerKg, 'Protein factor');
+  return weightKg * gramsPerKg;
+}
+
+export function calculateGfr2021CkdEpi(age: number, sex: HealthSex, serumCreatinineMgDl: number): GfrResult {
+  assertPositiveNumber(age, 'Age');
+  assertPositiveNumber(serumCreatinineMgDl, 'Serum creatinine');
+
+  const k = sex === 'female' ? 0.7 : 0.9;
+  const alpha = sex === 'female' ? -0.241 : -0.302;
+  const ratio = serumCreatinineMgDl / k;
+  const egfr =
+    142 *
+    Math.min(ratio, 1) ** alpha *
+    Math.max(ratio, 1) ** -1.2 *
+    0.9938 ** age *
+    (sex === 'female' ? 1.012 : 1);
+  const note =
+    egfr >= 90
+      ? 'Usually reported as normal or high when other kidney markers are normal'
+      : egfr >= 60
+        ? 'Mildly decreased range'
+        : egfr >= 45
+          ? 'Mild to moderately decreased range'
+          : egfr >= 30
+            ? 'Moderately to severely decreased range'
+            : egfr >= 15
+              ? 'Severely decreased range'
+              : 'Kidney failure range';
+
+  return { egfr, note };
+}
+
+export function calculateBodySurfaceArea(heightCm: number, weightKg: number): BodySurfaceAreaResult {
+  assertPositiveNumber(heightCm, 'Height');
+  assertPositiveNumber(weightKg, 'Weight');
+
+  return {
+    mosteller: Math.sqrt((heightCm * weightKg) / 3600),
+    dubois: 0.007184 * heightCm ** 0.725 * weightKg ** 0.425,
+  };
+}
+
+export function estimateBac(
+  sex: HealthSex,
+  weightKg: number,
+  drinkCount: number,
+  volumeMl: number,
+  alcoholPercent: number,
+  hours: number,
+): BacResult {
+  assertPositiveNumber(weightKg, 'Weight');
+  assertNonNegativeNumber(drinkCount, 'Drink count');
+  assertPositiveNumber(volumeMl, 'Drink volume');
+  assertPositiveNumber(alcoholPercent, 'Alcohol percentage');
+  assertNonNegativeNumber(hours, 'Hours');
+
+  const gramsAlcohol = drinkCount * volumeMl * (alcoholPercent / 100) * 0.789;
+  const widmarkR = sex === 'male' ? 0.68 : 0.55;
+  const rawBac = (gramsAlcohol / (weightKg * 1000 * widmarkR)) * 100;
+  const bacPercent = Math.max(0, rawBac - 0.015 * hours);
+
+  return {
+    gramsAlcohol,
+    bacPercent,
+    hoursToZero: bacPercent / 0.015,
+  };
+}
+
+export function addDaysToIsoDate(isoDate: string, days: number) {
+  const parsed = Date.parse(`${isoDate}T00:00:00Z`);
+  if (!Number.isFinite(parsed)) {
+    throw new Error('Date must be a valid date');
+  }
+
+  const result = new Date(parsed + days * 86_400_000);
+  return result.toISOString().slice(0, 10);
+}
+
+export function daysBetweenIsoDates(startIsoDate: string, endIsoDate: string) {
+  const start = Date.parse(`${startIsoDate}T00:00:00Z`);
+  const end = Date.parse(`${endIsoDate}T00:00:00Z`);
+
+  if (!Number.isFinite(start) || !Number.isFinite(end)) {
+    throw new Error('Dates must be valid dates');
+  }
+
+  return Math.round((end - start) / 86_400_000);
+}
+
+export function calculateDueDateFromLmp(lastPeriodIsoDate: string, cycleLengthDays = 28) {
+  assertPositiveNumber(cycleLengthDays, 'Cycle length');
+  return addDaysToIsoDate(lastPeriodIsoDate, 280 + (cycleLengthDays - 28));
+}
+
+export function classifyBodyType(bustCm: number, waistCm: number, hipsCm: number, shouldersCm: number) {
+  assertPositiveNumber(bustCm, 'Bust');
+  assertPositiveNumber(waistCm, 'Waist');
+  assertPositiveNumber(hipsCm, 'Hips');
+  assertPositiveNumber(shouldersCm, 'Shoulders');
+
+  const top = Math.max(bustCm, shouldersCm);
+  const waistDefinition = Math.min(top, hipsCm) - waistCm;
+
+  if (Math.abs(top - hipsCm) <= 5 && waistDefinition >= 20) return 'Hourglass';
+  if (hipsCm - top >= 7) return 'Triangle or pear';
+  if (top - hipsCm >= 7) return 'Inverted triangle';
+  if (waistDefinition < 20) return 'Rectangle';
+  return 'Balanced';
+}
+
 type ScientificAngleMode = 'deg' | 'rad';
 
 type ScientificToken =

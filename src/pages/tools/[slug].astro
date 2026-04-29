@@ -7,6 +7,7 @@ import ExponentCalculator from '../../components/ExponentCalculator';
 import FractionCalculator from '../../components/FractionCalculator';
 import GeometryCalculator, { type GeometryToolVariant } from '../../components/GeometryCalculator';
 import HalfLifeCalculator from '../../components/HalfLifeCalculator';
+import HealthFitnessCalculator, { type HealthToolVariant } from '../../components/HealthFitnessCalculator';
 import HexCalculator from '../../components/HexCalculator';
 import LogCalculator from '../../components/LogCalculator';
 import MatrixCalculator from '../../components/MatrixCalculator';
@@ -87,6 +88,38 @@ const geometryToolVariants = {
 } as const satisfies Partial<Record<string, GeometryToolVariant>>;
 const geometryToolVariant = geometryToolVariants[tool.slug];
 const isGeometryTool = Boolean(geometryToolVariant);
+const healthToolVariants = {
+  'bmi-calculator': 'bmi',
+  'calorie-calculator': 'calorie',
+  'body-fat-calculator': 'body-fat',
+  'bmr-calculator': 'bmr',
+  'ideal-weight-calculator': 'ideal-weight',
+  'pace-calculator': 'pace',
+  'army-body-fat-calculator': 'army-body-fat',
+  'lean-body-mass-calculator': 'lean-body-mass',
+  'healthy-weight-calculator': 'healthy-weight',
+  'calories-burned-calculator': 'calories-burned',
+  'one-rep-max-calculator': 'one-rep-max',
+  'target-heart-rate-calculator': 'target-heart-rate',
+  'pregnancy-calculator': 'pregnancy',
+  'pregnancy-weight-gain-calculator': 'pregnancy-weight-gain',
+  'pregnancy-conception-calculator': 'pregnancy-conception',
+  'due-date-calculator': 'due-date',
+  'ovulation-calculator': 'ovulation',
+  'conception-calculator': 'conception',
+  'period-calculator': 'period',
+  'macro-calculator': 'macro',
+  'carbohydrate-calculator': 'carbohydrate',
+  'protein-calculator': 'protein',
+  'fat-intake-calculator': 'fat-intake',
+  'tdee-calculator': 'tdee',
+  'gfr-calculator': 'gfr',
+  'body-type-calculator': 'body-type',
+  'body-surface-area-calculator': 'body-surface-area',
+  'bac-calculator': 'bac',
+} as const satisfies Partial<Record<string, HealthToolVariant>>;
+const healthToolVariant = healthToolVariants[tool.slug];
+const isHealthTool = Boolean(healthToolVariant);
 const statsToolInstructions: Record<string, string[]> = {
   'standard-deviation-calculator': [
     'Enter a list of numbers separated by commas, spaces, or line breaks.',
@@ -199,7 +232,15 @@ const geometryToolInstructions: Record<string, string[]> = {
     'Use examples, recent answers, or copy the result while solving right triangles.',
   ],
 };
-const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? (isPercentageTool
+const healthToolInstructions = healthToolVariant
+  ? [
+      'Enter the requested measurements, dates, lab values, or workout details.',
+      'Check that the units and formula assumptions match what the tool is asking for.',
+      'Press the calculate button to see the answer, supporting metrics, and formula steps.',
+      'Read the estimate with the health disclaimer in mind, then copy the result if you need it for notes.',
+    ]
+  : undefined;
+const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? healthToolInstructions ?? (isPercentageTool
   ? [
       'Choose the percentage question you want to answer.',
       'Enter the values for percent-of, what-percent, percentage change, adjustment, or reverse percentage.',
@@ -628,6 +669,17 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       )
     }
 
+    {
+      isHealthTool && (
+        <div class="advanced-tool-points health-tool-points" aria-label={`${tool.name} highlights`}>
+          <span>Research-based formula</span>
+          <span>Estimate limits shown</span>
+          <span>Examples included</span>
+          <span>Private history</span>
+        </div>
+      )
+    }
+
     {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
     {isPercentageTool && <PercentageCalculator client:load />}
     {isPercentErrorTool && <PercentErrorCalculator client:load />}
@@ -651,6 +703,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {isBigNumberTool && <BigNumberCalculator client:load />}
     {statsToolVariant && <StatsCalculator variant={statsToolVariant} client:load />}
     {geometryToolVariant && <GeometryCalculator variant={geometryToolVariant} client:load />}
+    {healthToolVariant && <HealthFitnessCalculator variant={healthToolVariant} client:load />}
 
     <section class="content-section">
       <h2>How to use the {tool.name.toLowerCase()}</h2>
@@ -681,7 +734,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       </div>
     </section>
 
-    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section']}>
+    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section', isHealthTool && 'advanced-faq-section']}>
       <div class="section-title-block">
         <h2>Frequently asked questions</h2>
         {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
@@ -707,6 +760,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         {isBigNumberTool && <p>Quick answers about exact integer math, huge whole numbers, division remainders, limits, and privacy.</p>}
         {isStatsSuiteTool && <p>Quick answers about formulas, inputs, examples, result copying, and private in-browser history.</p>}
         {isGeometryTool && <p>Quick answers about formulas, units, valid measurements, examples, copying, and private in-browser history.</p>}
+        {isHealthTool && <p>Quick answers about formulas, inputs, estimate limits, professional guidance, examples, and private in-browser history.</p>}
       </div>
       <div class="faq-list">
         {

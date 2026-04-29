@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import type { ToolCategory } from '../data/categories';
 import type { ToolDefinition } from '../data/tools';
-import { getCalculatorIconMark, type CalculatorIconMark } from '../data/toolIcons';
+import { getCalculatorIconMark, getCalculatorIconTextLabel, type CalculatorIconMark } from '../data/toolIcons';
 
 type CategoryFilter = 'all' | ToolCategory['slug'];
 
@@ -245,6 +245,10 @@ function CalculatorGlyph({ mark }: { mark: CalculatorIconMark }) {
           <path className="calculator-mark" d="M12 26h13L12 15v11Z" />
           <path className="calculator-mark" d="M12 22h4v4" />
         </>
+      ) : getCalculatorIconTextLabel(mark) ? (
+        <text className="calculator-dynamic-mark" x="18" y="24.8" textAnchor="middle">
+          {getCalculatorIconTextLabel(mark)}
+        </text>
       ) : (
         <>
           <path className="calculator-mark" d="M18 16.8v8.2" />

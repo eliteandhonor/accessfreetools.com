@@ -1,6 +1,6 @@
 ---
 import type { ToolDefinition } from '../data/tools';
-import { getCalculatorIconMark } from '../data/toolIcons';
+import { getCalculatorIconMark, getCalculatorIconTextLabel } from '../data/toolIcons';
 
 interface Props {
   tool: ToolDefinition;
@@ -96,6 +96,8 @@ const calculatorMark = getCalculatorIconMark(tool.icon);
             <text class="calculator-z-score-mark" x="18" y="24.8" text-anchor="middle">z</text>
           ) : calculatorMark === 'confidence' ? (
             <text class="calculator-confidence-mark" x="18" y="24.8" text-anchor="middle">ci</text>
+          ) : getCalculatorIconTextLabel(calculatorMark) ? (
+            <text class="calculator-dynamic-mark" x="18" y="24.8" text-anchor="middle">{getCalculatorIconTextLabel(calculatorMark)}</text>
           ) : (
             <>
               <path class="calculator-mark" d="M18 16.8v8.2"></path>

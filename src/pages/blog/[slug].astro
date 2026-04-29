@@ -1,0 +1,29 @@
+---
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+import { healthBlogGuides, type HealthGuideDefinition } from '../../data/healthBlogGuides';
+
+export function getStaticPaths() {
+  return healthBlogGuides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: { guide },
+  }));
+}
+
+interface Props {
+  guide: HealthGuideDefinition;
+}
+
+const { guide } = Astro.props;
+---
+
+<CalculatorGuideArticle
+  toolSlug={guide.toolSlug}
+  label={guide.label}
+  title={guide.title}
+  description={guide.description}
+  path={guide.path}
+  intro={guide.intro}
+  quickStart={guide.quickStart}
+  sections={guide.sections}
+  sidecarText={guide.sidecarText}
+/>

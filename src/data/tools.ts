@@ -1,4 +1,5 @@
 import { categories, type CategorySlug } from './categories';
+import { healthTools } from './healthTools';
 
 export interface ToolFaq {
   question: string;
@@ -2546,6 +2547,7 @@ export const tools: ToolDefinition[] = [
     ],
     relatedSlugs: ['basic-calculator', 'percentage-calculator', 'fraction-calculator'],
   },
+  ...healthTools,
 ];
 
 export function getTool(slug: string) {

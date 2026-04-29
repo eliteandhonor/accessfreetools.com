@@ -35,6 +35,34 @@ export type CalculatorIconMark =
   | 'surface-area'
   | 'pythagorean'
   | 'right-triangle'
+  | 'bmi'
+  | 'calorie'
+  | 'body-fat'
+  | 'bmr'
+  | 'ideal-weight'
+  | 'pace'
+  | 'army-body-fat'
+  | 'lean-mass'
+  | 'healthy-weight'
+  | 'calories-burned'
+  | 'one-rep-max'
+  | 'target-heart'
+  | 'pregnancy'
+  | 'pregnancy-weight'
+  | 'pregnancy-conception'
+  | 'due-date'
+  | 'ovulation'
+  | 'conception'
+  | 'period'
+  | 'macro'
+  | 'carbohydrate'
+  | 'protein'
+  | 'fat-intake'
+  | 'tdee'
+  | 'gfr'
+  | 'body-type'
+  | 'bsa'
+  | 'bac'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -78,12 +106,84 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-surface-area': 'surface-area',
   'calculator-pythagorean': 'pythagorean',
   'calculator-right-triangle': 'right-triangle',
+  'calculator-bmi': 'bmi',
+  'calculator-calorie': 'calorie',
+  'calculator-body-fat': 'body-fat',
+  'calculator-bmr': 'bmr',
+  'calculator-ideal-weight': 'ideal-weight',
+  'calculator-pace': 'pace',
+  'calculator-army-body-fat': 'army-body-fat',
+  'calculator-lean-mass': 'lean-mass',
+  'calculator-healthy-weight': 'healthy-weight',
+  'calculator-calories-burned': 'calories-burned',
+  'calculator-one-rep-max': 'one-rep-max',
+  'calculator-target-heart': 'target-heart',
+  'calculator-pregnancy': 'pregnancy',
+  'calculator-pregnancy-weight': 'pregnancy-weight',
+  'calculator-pregnancy-conception': 'pregnancy-conception',
+  'calculator-due-date': 'due-date',
+  'calculator-ovulation': 'ovulation',
+  'calculator-conception': 'conception',
+  'calculator-period': 'period',
+  'calculator-macro': 'macro',
+  'calculator-carbohydrate': 'carbohydrate',
+  'calculator-protein': 'protein',
+  'calculator-fat-intake': 'fat-intake',
+  'calculator-tdee': 'tdee',
+  'calculator-gfr': 'gfr',
+  'calculator-body-type': 'body-type',
+  'calculator-bsa': 'bsa',
+  'calculator-bac': 'bac',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',
   'random-dice': 'dice',
 };
 
+const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
+  triangle: 'tri',
+  volume: 'vol',
+  slope: 'm',
+  area: 'area',
+  distance: 'dist',
+  circle: 'circ',
+  'surface-area': 'sa',
+  pythagorean: 'a2',
+  'right-triangle': 'rt',
+  bmi: 'bmi',
+  calorie: 'kcal',
+  'body-fat': 'fat',
+  bmr: 'bmr',
+  'ideal-weight': 'iw',
+  pace: 'pace',
+  'army-body-fat': 'army',
+  'lean-mass': 'lbm',
+  'healthy-weight': 'hw',
+  'calories-burned': 'burn',
+  'one-rep-max': '1rm',
+  'target-heart': 'hr',
+  pregnancy: 'preg',
+  'pregnancy-weight': 'gain',
+  'pregnancy-conception': 'pc',
+  'due-date': 'due',
+  ovulation: 'ovu',
+  conception: 'conc',
+  period: 'cyc',
+  macro: 'mac',
+  carbohydrate: 'carb',
+  protein: 'pro',
+  'fat-intake': 'fat',
+  tdee: 'tdee',
+  gfr: 'gfr',
+  'body-type': 'type',
+  bsa: 'bsa',
+  bac: 'bac',
+};
+
 export function getCalculatorIconMark(icon: string): CalculatorIconMark | null {
   return calculatorIconMarks[icon] ?? null;
+}
+
+export function getCalculatorIconTextLabel(mark: CalculatorIconMark) {
+  return calculatorIconTextLabels[mark] ?? null;
 }

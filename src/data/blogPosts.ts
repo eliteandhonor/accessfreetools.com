@@ -1,3 +1,5 @@
+import { healthBlogPosts } from './healthBlogGuides';
+
 export interface BlogPostDefinition {
   slug: string;
   title: string;
@@ -286,4 +288,5 @@ export const blogPosts: BlogPostDefinition[] = [
     summary:
       'Learn how to pick one random number, generate lists, use unique results, exclude numbers, sort results, copy answers, and understand everyday-use limits.',
   },
+  ...healthBlogPosts,
 ];
