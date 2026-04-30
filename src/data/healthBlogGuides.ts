@@ -50,7 +50,7 @@ const extraSafetyNotes: Record<string, string> = {
 };
 
 function getFormulaAnswer(toolSlug: string) {
-  const formulaFaq = healthTools.find((tool) => tool.slug === toolSlug)?.faq[1]?.answer;
+  const formulaFaq = healthTools.find((tool) => tool.slug === toolSlug)?.faq[2]?.answer;
   return formulaFaq ?? 'The calculator uses the formula and inputs shown on the tool page.';
 }
 

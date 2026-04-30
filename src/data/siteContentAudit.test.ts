@@ -8,7 +8,12 @@ import { categories } from './categories';
 import { financeBlogGuides } from './financeBlogGuides';
 import { healthBlogGuides } from './healthBlogGuides';
 import { toolAliases } from './toolAliases';
-import { BASELINE_AUDIT_SCOPE, DEEP_AUDIT_REQUIRED_SCOPE, toolDeepAuditRecords } from './toolDeepAudit';
+import {
+  BASELINE_AUDIT_SCOPE,
+  DEEP_AUDIT_REQUIRED_SCOPE,
+  manualDeepReviewProgress,
+  toolDeepAuditRecords,
+} from './toolDeepAudit';
 import { getCalculatorIconMark } from './toolIcons';
 import { tools } from './tools';
 import { utilityBlogGuides } from './utilityBlogGuides';
@@ -564,8 +569,8 @@ describe('site content audit guardrails', () => {
       return counts;
     }, {});
 
-    expect(statusCounts['deep-reviewed']).toBe(10);
-    expect(statusCounts['baseline-reviewed']).toBeGreaterThan(0);
+    expect(statusCounts['deep-reviewed']).toBe(tools.length);
+    expect(statusCounts['baseline-reviewed'] ?? 0).toBe(0);
     expect(statusCounts['alias-reviewed']).toBe(toolAliases.length);
     expect(CALCULATOR_GUIDE_ARTICLE_SOURCE).toContain("auditRecord?.status === 'deep-reviewed'");
     expect(CALCULATOR_GUIDE_ARTICLE_SOURCE).toContain('Reference sources');
@@ -620,18 +625,37 @@ describe('site content audit guardrails', () => {
     expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Do not change a generated or baseline record to `deep-reviewed` in bulk');
   });
 
+  it('keeps full manual review truthfully complete only after every canonical tool is individually checked', () => {
+    expect(manualDeepReviewProgress.canonicalTools).toBe(tools.length);
+    expect(manualDeepReviewProgress.aliasUrls).toBe(toolAliases.length);
+    expect(manualDeepReviewProgress.publicToolUrls).toBe(tools.length + toolAliases.length);
+    expect(manualDeepReviewProgress.deepReviewedCanonicalTools).toBe(tools.length);
+    expect(manualDeepReviewProgress.baselineReviewedCanonicalTools).toBe(0);
+    expect(manualDeepReviewProgress.aliasReviewedUrls).toBe(toolAliases.length);
+    expect(manualDeepReviewProgress.isComplete).toBe(true);
+    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Manual review completion status: complete for the current canonical library');
+    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Do not mark a future full-library manual review complete while any canonical tool remains `baseline-reviewed`');
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('The current 234-tool canonical library has completed manual deep-review coverage');
+  });
+
   it('keeps the complete improvement plan aligned to every requested quality area', () => {
     const requiredPlanSections = [
+      'Completion Truth',
+      'Priority Order',
       'Manual Deep Review',
       'SEO',
       'Content Quality',
       'Structured Data',
       'Performance',
       'Accessibility',
-      'Trust and Legal',
-      'Security',
-      'UX',
+      'Trust, Legal, And Monetization',
+      'Security And Privacy',
+      'UX And Visual Design',
       'QA System',
+      'Deployment And Production',
+      'Analytics And Measurement',
+      'Future Tool Creation Standard',
+      'Complete Definition Of Done',
     ];
 
     for (const section of requiredPlanSections) {
@@ -645,6 +669,12 @@ describe('site content audit guardrails', () => {
     expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('CLS: 0.1');
     expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('WCAG 2.2 AA');
     expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('Google-certified CMP');
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('No resend is needed for the plan itself');
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('the current canonical library has full manual review coverage');
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('Every new tool must follow the Access Free Tools build order');
+    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Full-library review is complete only when');
+    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('All 234 canonical tools are manually checked');
+    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('complete manual deep-review coverage for 234 canonical tools');
     expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Playwright Visual Smoke Lane');
     expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Internal link validation');
     expect(QA_AUTOMATION_PLAN_SOURCE).toContain('JSON-LD parse validation');

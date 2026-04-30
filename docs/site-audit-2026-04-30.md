@@ -4,14 +4,14 @@ This audit records the current local proof after the calculator.net roadmap comp
 
 ## Current Snapshot
 
-- Built routes: 491 pages.
+- Built routes: 492 pages.
 - Canonical tools: 234.
 - Intentional alias tool URLs: 4.
 - Public tool URLs in the launchpad search data: 238.
 - Matching how-to guide pages: 234.
 - Tool audit records: 238 total.
-- Manual deep-review records: 10.
-- Baseline-review records: 224.
+- Manual deep-review records: 234.
+- Baseline-review records: 0.
 - Alias-review records: 4.
 - `/tools/index.html` after launchpad limiting: about 341 KB in the production build.
 
@@ -26,15 +26,18 @@ This audit records the current local proof after the calculator.net roadmap comp
 - Added release and manual-review documentation so future batches have a clearer quality gate.
 - Expanded Privacy, Terms, Contact, and Advertising Disclosure pages for AdSense and affiliate readiness.
 - Added a full-site improvement plan, all-tools review register, QA automation plan, internal link checker, JSON-LD checker, and dependency audit script.
+- Expanded the full-site improvement plan into a complete execution standard with priority order, completion truth, deployment rules, analytics rules, new-tool rules, and a clear definition of done for all 238 public tool URLs.
+- Manual deep-review total now includes all 234 canonical tools: the original math-foundation tools, priority/risk tools, finance, health, home-project, construction, electrical, weather, science, school, math, statistics, date/time, converter, developer, image, text, random, everyday, and final cleanup tools. Batch 6 is now complete.
 
 ## Current Gaps
 
-- Only 10 tools have manual deep-review records. The rest have useful baseline checks, but every canonical tool and alias still needs the slower per-tool manual pass.
-- High-risk finance and health tools need source checks from official or primary references before being marked deep-reviewed.
+- No current canonical tool remains `baseline-reviewed`; all 234 canonical tools now have manual deep-review records.
+- Future new tools still need the same one-tool-at-a-time review process before they can be called `deep-reviewed`.
 - The tools page is lighter now, but a 1000+ tool library will eventually need indexed pagination or server-side search data splitting.
 - Production deployment still needs owner-side proof in Hostinger and Google Search Console after each push.
 - Affiliate and AdSense placements should wait until account approval, working contact inboxes, CMP setup where required, and disclosure placement are ready.
 - Playwright visual smoke tests are planned but not yet added as a project dependency.
+- The execution plan is complete for the current 234 canonical tools and 4 alias URLs, but future tools must reopen the manual review queue before release.
 
 ## Proof Commands
 
@@ -57,7 +60,7 @@ npm run security:audit
 
 ## Priority Recommendations
 
-1. Manually deep-review the top 25 tools in `docs/manual-deep-review-plan.md`.
+1. Keep future tools on the same build standard: research, tool, FAQ, guide, tests, audit record, preview, and release proof.
 2. Keep improving FAQs and blogs for high-value tools before adding new batches.
 3. Add production deployment proof after every GitHub push.
 4. Keep the launchpad fast as the library grows beyond 500 and 1000 tools.

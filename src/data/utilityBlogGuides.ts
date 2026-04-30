@@ -42,6 +42,10 @@ const sourceLinks = {
     href: 'https://www.iso.org/iso-8601-date-and-time-format.html',
     label: 'ISO: ISO 8601 date and time format',
   },
+  nistTime: {
+    href: 'https://www.nist.gov/time-and-frequency-services/time-and-frequency-z-ti',
+    label: 'NIST: Time and frequency definitions',
+  },
   mdnDate: {
     href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date',
     label: 'MDN: JavaScript Date reference',
@@ -110,6 +114,46 @@ const sourceLinks = {
     href: 'https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml',
     label: 'NOAA/NWS: Heat index equation',
   },
+  noaaDewPoint: {
+    href: 'https://www.wpc.ncep.noaa.gov/html/dewrh.shtml',
+    label: 'NOAA/NWS: Dew point and relative humidity calculator',
+  },
+  doeRoomAc: {
+    href: 'https://www.energy.gov/energysaver/room-air-conditioners',
+    label: 'U.S. Department of Energy: Room air conditioners',
+  },
+  doeApplianceEnergy: {
+    href: 'https://www.energy.gov/energysaver/articles/estimating-appliance-and-home-electronic-energy-use',
+    label: 'U.S. Department of Energy: Estimating appliance energy use',
+  },
+  eiaKwh: {
+    href: 'https://www.eia.gov/energyexplained/electricity/electricity-in-the-us-generation-capacity-and-sales.php',
+    label: 'U.S. Energy Information Administration: kWh electricity unit',
+  },
+  openStaxSpeed: {
+    href: 'https://openstax.org/books/physics/pages/2-2-speed-and-velocity',
+    label: 'OpenStax Physics: Speed and velocity',
+  },
+  openStaxMassWeight: {
+    href: 'https://openstax.org/books/university-physics-volume-1/pages/5-4-mass-and-weight',
+    label: 'OpenStax University Physics: Mass and weight',
+  },
+  openStaxOhmsLaw: {
+    href: 'https://openstax.org/books/physics/pages/19-1-ohms-law',
+    label: 'OpenStax Physics: Ohm\'s law',
+  },
+  openStaxMolarity: {
+    href: 'https://openstax.org/books/chemistry-2e/pages/3-3-molarity',
+    label: 'OpenStax Chemistry 2e: Molarity',
+  },
+  usaceVoltageDrop: {
+    href: 'https://www.tad.usace.army.mil/Portals/53/docs/TAA/AEDDesignRequirements/AED%20Design%20Requirements%20-%20Voltage%20Drop%20Calculations_Mar_09.pdf',
+    label: 'U.S. Army Corps of Engineers: Voltage drop calculations',
+  },
+  iecResistorCode: {
+    href: 'https://webstore.iec.ch/en/publication/12579',
+    label: 'IEC 60062: Resistor and capacitor marking codes',
+  },
   bipmSi: {
     href: 'https://www.bipm.org/en/publications/si-brochure',
     label: 'BIPM: The International System of Units',
@@ -137,6 +181,10 @@ const sourceLinks = {
   sherwinPaintCoverage: {
     href: 'https://www.sherwin-williams.com/en-us/color/color-tools/paint-calculator',
     label: 'Sherwin-Williams: Paint calculator coverage notes',
+  },
+  lowesTile: {
+    href: 'https://www.lowes.com/n/calculators/tile-floor-calculator',
+    label: 'Lowe\'s: Tile flooring calculator estimating notes',
   },
   ukBoardFoot: {
     href: 'https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/for9.htm',
@@ -298,7 +346,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Keep minutes and seconds between 0 and 59.',
       'Use the Hours Calculator when you have clock start and end times.',
     ],
-    sources: [sourceLinks.isoDate],
+    sources: [sourceLinks.isoDate, sourceLinks.nistTime],
   },
   'hours-calculator': {
     summary: 'Learn how to calculate hours worked from a start time, end time, and break.',
@@ -446,7 +494,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'For regulated work, use the exact standard your field requires.',
       'Check whether a recipe or product uses U.S., imperial, dry, or metric units.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [sourceLinks.nistUnits, sourceLinks.bipmSi],
   },
   'dice-roller': {
     summary: 'Learn how to roll custom dice, read each roll, and understand everyday randomness limits.',
@@ -509,7 +557,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Add waste separately for flooring, tile, paint, or cuts.',
       'Check whether product coverage is listed per box, per roll, or per gallon.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [sourceLinks.nistUnits, sourceLinks.bipmSi],
   },
   'time-card-calculator': {
     summary: 'Learn how to total work hours from daily start times, end times, and breaks.',
@@ -635,7 +683,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Use calibrated measurements for lab or engineering work.',
       'Temperature and material condition can affect real density.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [sourceLinks.nistUnits, sourceLinks.bipmSi],
   },
   'mass-calculator': {
     summary: 'Learn how density multiplied by volume gives mass and when the estimate needs real measurements.',
@@ -656,7 +704,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Remember that this is not a scale measurement.',
       'Use material-specific density when estimating real objects.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [sourceLinks.nistUnits, sourceLinks.bipmSi],
   },
   'weight-calculator': {
     summary: 'Learn the difference between mass and weight force, including newtons and pounds-force.',
@@ -677,7 +725,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not confuse pounds mass with pounds-force.',
       'Gravity changes by location, altitude, and planet or moon.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [sourceLinks.nistUnits, sourceLinks.openStaxMassWeight],
   },
   'speed-calculator': {
     summary: 'Learn how distance divided by time gives average speed.',
@@ -698,7 +746,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Include stops if you want whole-trip average speed.',
       'Use matching distance and elapsed time from the same trip.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [sourceLinks.nistUnits, sourceLinks.openStaxSpeed],
   },
   'roman-numeral-converter': {
     summary: 'Learn how standard Roman numerals convert to and from numbers.',
@@ -845,7 +893,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not forget that conductor material, temperature, and installation method matter.',
       'Ask a qualified electrician for real installations.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [sourceLinks.usaceVoltageDrop, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
   },
   'btu-calculator': {
     summary: 'Learn how to estimate room cooling BTU from room size and simple adjustments.',
@@ -866,7 +914,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not use one room estimate for a whole house.',
       'Consider insulation, windows, climate, and humidity before buying.',
     ],
-    sources: [sourceLinks.energyStarAc, sourceLinks.doeAc],
+    sources: [sourceLinks.energyStarAc, sourceLinks.doeRoomAc, sourceLinks.doeAc],
   },
   'stair-calculator': {
     summary: 'Learn how total rise turns into risers, treads, run, and stair angle.',
@@ -908,7 +956,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not trust faded colors without checking.',
       'Use a multimeter when the exact part value matters.',
     ],
-    sources: [sourceLinks.teResistorCode],
+    sources: [sourceLinks.iecResistorCode, sourceLinks.teResistorCode],
   },
   'ohms-law-calculator': {
     summary: 'Learn how voltage, current, resistance, and power fit together.',
@@ -929,7 +977,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not ignore component power ratings and heat.',
       'Never test live circuits without proper training and equipment.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
   },
   'electricity-calculator': {
     summary: 'Learn how watts and time turn into kWh and estimated electricity cost.',
@@ -950,7 +998,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not confuse watts with kilowatts.',
       'Real bills can include fees, taxes, and tiered rates.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [sourceLinks.eiaKwh, sourceLinks.doeApplianceEnergy, sourceLinks.nistUnits],
   },
   'shoe-size-conversion': {
     summary: 'Learn how measured foot length converts into approximate adult shoe sizes.',
@@ -992,7 +1040,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not mix grams and moles without converting.',
       'Check hydrate state and lab instructions.',
     ],
-    sources: [sourceLinks.bipmSi, sourceLinks.nistAtomicWeights],
+    sources: [sourceLinks.openStaxMolarity, sourceLinks.bipmSi, sourceLinks.nistAtomicWeights],
   },
   'molecular-weight-calculator': {
     summary: 'Learn how a chemical formula becomes an estimated molar mass.',
@@ -1097,7 +1145,23 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not ignore cuts, breakage, and box quantities.',
       'Measure irregular rooms carefully.',
     ],
-    sources: [sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'What waste percent means for tile',
+        paragraphs: [
+          'Waste percent is extra tile added before the calculator rounds up. It covers cuts at walls, broken pieces, layout changes, chipped corners, and a few spare tiles for future repair.',
+          'A simple straight layout may be close with about 10% waste. Diagonal layouts, herringbone, small rooms with lots of cuts, or expensive patterned tile often need a higher allowance.',
+        ],
+      },
+      {
+        title: 'Why grout spacing is not in the tile count',
+        paragraphs: [
+          'The calculator uses the visible tile size you enter. Real grout joints can slightly change layout spacing, but final ordering usually depends more on box coverage, cuts, waste, and layout plan.',
+          'Use the product box, installer plan, or store calculator when you need exact carton counts, grout amount, thinset, transitions, or a professional takeoff.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.lowesTile, sourceLinks.nistUnits],
   },
   'mulch-calculator': {
     summary: 'Learn how square feet and depth become cubic yards of mulch.',
@@ -1589,12 +1653,12 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not ignore local frostbite and cold-weather warnings.',
       'Remember wind chill affects people, not the actual temperature of objects.',
     ],
-    sources: [sourceLinks.nwsWindChill],
+    sources: [sourceLinks.nwsWindChill, sourceLinks.nistUnits],
   },
   'heat-index-calculator': {
     summary: 'Learn how temperature and humidity estimate apparent heat.',
     purpose:
-      'The Heat Index Calculator uses the NWS heat index regression to estimate apparent temperature in warm, humid conditions.',
+      'The Heat Index Calculator uses the NWS heat index method to estimate apparent temperature in warm, humid conditions. It starts with the simple branch, then uses the Rothfusz regression when the preliminary value reaches about 80 F.',
     enter: [
       'Enter air temperature in Fahrenheit.',
       'Enter relative humidity percent.',
@@ -1610,7 +1674,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not ignore direct sun, exertion, wind, clothing, or health conditions.',
       'Follow local heat advisories and emergency guidance.',
     ],
-    sources: [sourceLinks.noaaHeatIndex],
+    sources: [sourceLinks.noaaHeatIndex, sourceLinks.nistUnits],
   },
   'dew-point-calculator': {
     summary: 'Learn how temperature and relative humidity estimate dew point.',
@@ -1631,7 +1695,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not treat the approximation as an official instrument reading.',
       'Use local weather data for safety-sensitive planning.',
     ],
-    sources: [sourceLinks.noaaHeatIndex],
+    sources: [sourceLinks.noaaDewPoint, sourceLinks.noaaHeatIndex],
   },
   'bandwidth-calculator': {
     summary: 'Learn how data size and network speed estimate transfer time.',

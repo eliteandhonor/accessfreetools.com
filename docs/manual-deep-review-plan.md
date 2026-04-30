@@ -25,31 +25,31 @@ The top 25 list is the first priority batch, not the whole job. Priority is base
 
 | Priority | Tool | Slug | Status | Next manual focus |
 | --- | --- | --- | --- | --- |
-| 1 | Mortgage Calculator | `mortgage-calculator` | queued | Payment formula, escrow wording, amortization link, examples. |
-| 2 | Loan Calculator | `loan-calculator` | queued | APR versus rate wording, payoff math, monthly payment checks. |
+| 1 | Mortgage Calculator | `mortgage-calculator` | deep-reviewed | 2026-04-30: Checked payment formula, escrow-style cost wording, guide, examples, privacy note, and source coverage. |
+| 2 | Loan Calculator | `loan-calculator` | deep-reviewed | 2026-04-30: Checked amortized payment formula, zero-rate behavior, APR caveat, guide, examples, and source coverage. |
 | 3 | Percentage Calculator | `percentage-calculator` | deep-reviewed | Keep examples fresh and add long-tail FAQ ideas from search data. |
-| 4 | BMI Calculator | `bmi-calculator` | queued | Adult screening language, metric/US units, safety notes. |
-| 5 | Calorie Calculator | `calorie-calculator` | queued | BMR/TDEE assumptions, activity multipliers, health disclaimers. |
+| 4 | BMI Calculator | `bmi-calculator` | deep-reviewed | 2026-04-30: Checked adult screening language, BMI formula, health cautions, guide, examples, and source coverage. |
+| 5 | Calorie Calculator | `calorie-calculator` | deep-reviewed | 2026-04-30: Checked Mifflin-St Jeor/TDEE flow, activity assumptions, health cautions, guide, and examples. |
 | 6 | Scientific Calculator | `scientific-calculator` | deep-reviewed | Keep trig angle mode and scientific notation explanations clear. |
 | 7 | Fraction Calculator | `fraction-calculator` | deep-reviewed | Keep simplification and mixed-number wording clear. |
-| 8 | Salary Calculator | `salary-calculator` | queued | Pay frequency, gross versus net boundaries, tax caveats. |
-| 9 | Income Tax Calculator | `income-tax-calculator` | queued | Tax-year wording, jurisdiction limits, estimate disclaimers. |
-| 10 | Compound Interest Calculator | `compound-interest-calculator` | queued | Compounding frequency, deposits, interest versus principal. |
-| 11 | Auto Loan Calculator | `auto-loan-calculator` | queued | Down payment, trade-in, taxes/fees, total cost explanation. |
-| 12 | Interest Calculator | `interest-calculator` | queued | Simple versus compound interest, time units, rate conversion. |
-| 13 | Sales Tax Calculator | `sales-tax-calculator` | queued | Tax-inclusive versus add-on tax, local-rate caveats. |
-| 14 | Password Generator | `password-generator` | queued | Browser-only privacy, randomness wording, strength explanation. |
-| 15 | Subnet Calculator | `subnet-calculator` | queued | CIDR math, usable host counts, network/broadcast addresses. |
-| 16 | GPA Calculator | `gpa-calculator` | queued | Weighted grades, credits, school policy caveats. |
-| 17 | Due Date Calculator | `due-date-calculator` | queued | LMP versus conception estimate, medical disclaimer wording. |
-| 18 | Pregnancy Calculator | `pregnancy-calculator` | queued | Week counting, trimester labels, medical advice boundaries. |
-| 19 | GFR Calculator | `gfr-calculator` | queued | CKD-EPI scope, lab units, clinician-use safety note. |
-| 20 | Concrete Calculator | `concrete-calculator` | queued | Shape formulas, waste percent, bag versus volume estimates. |
-| 21 | Wallpaper Calculator | `wallpaper-calculator` | queued | Waste percent, roll coverage, repeat pattern, lot/batch risk. |
-| 22 | Paint Calculator | `paint-calculator` | queued | Coats, coverage, porous surfaces, waste allowance. |
-| 23 | Tile Calculator | `tile-calculator` | queued | Grout spacing, cut waste, layout pattern risk. |
-| 24 | Time Calculator | `time-calculator` | queued | Time duration versus clock time, overnight spans, time zones. |
-| 25 | Random Number Generator | `random-number-generator` | queued | Inclusive ranges, repeats, fairness, cryptographic limits. |
+| 8 | Salary Calculator | `salary-calculator` | deep-reviewed | 2026-04-30: Checked gross pay conversions, simple tax estimate boundaries, guide, examples, and source coverage. |
+| 9 | Income Tax Calculator | `income-tax-calculator` | deep-reviewed | 2026-04-30: Checked 2026 federal bracket wording, deduction behavior, jurisdiction limits, guide, and source coverage. |
+| 10 | Compound Interest Calculator | `compound-interest-calculator` | deep-reviewed | 2026-04-30: Checked compounding frequency, monthly deposits, interest/principal split, guide, and risk caveats. |
+| 11 | Auto Loan Calculator | `auto-loan-calculator` | deep-reviewed | 2026-04-30: Checked amount-financed math, trade-in/tax/fee caveats, guide, examples, and source coverage. |
+| 12 | Interest Calculator | `interest-calculator` | deep-reviewed | 2026-04-30: Checked simple/compound paths, rate/time wording, examples, guide, and source coverage. |
+| 13 | Sales Tax Calculator | `sales-tax-calculator` | deep-reviewed | 2026-04-30: Checked subtotal/rate/total math, manual-rate caveats, IRS source coverage, guide, and examples. |
+| 14 | Password Generator | `password-generator` | deep-reviewed | 2026-04-30: Checked crypto-random generation, no-history behavior, entropy wording, guide, and privacy cautions. |
+| 15 | Subnet Calculator | `subnet-calculator` | deep-reviewed | 2026-04-30: Checked IPv4 CIDR math, /31 and /32 host counts, guide, alias coverage, and source references. |
+| 16 | GPA Calculator | `gpa-calculator` | deep-reviewed | 2026-04-30: Checked credit-weighted GPA math, school-policy caveats, guide, examples, and related tools. |
+| 17 | Due Date Calculator | `due-date-calculator` | deep-reviewed | 2026-04-30: Checked LMP/cycle-length math, conception estimate wording, medical cautions, guide, and sources. |
+| 18 | Pregnancy Calculator | `pregnancy-calculator` | deep-reviewed | 2026-04-30: Checked LMP dating, gestational age, trimester labels, clinician-dating caution, guide, and sources. |
+| 19 | GFR Calculator | `gfr-calculator` | deep-reviewed | 2026-04-30: Checked 2021 CKD-EPI scope, lab units, no-race-coefficient wording, clinician cautions, and guide. |
+| 20 | Concrete Calculator | `concrete-calculator` | deep-reviewed | 2026-04-30: Checked slab volume math, waste percent, bag estimates, guide, examples, and source coverage. |
+| 21 | Wallpaper Calculator | `wallpaper-calculator` | deep-reviewed | 2026-04-30: Checked waste percent, roll coverage, pattern repeat, dye lot/batch risk, detailed FAQ, and guide. |
+| 22 | Paint Calculator | `paint-calculator` | deep-reviewed | 2026-04-30: Checked coats, coverage, openings, extra percent, product-label caveats, guide, and sources. |
+| 23 | Tile Calculator | `tile-calculator` | deep-reviewed | 2026-04-30: Checked tile-area math, waste percent, grout/layout caveats, expanded guide, and source coverage. |
+| 24 | Time Calculator | `time-calculator` | deep-reviewed | 2026-04-30: Checked duration math, seconds normalization, clock/time-zone boundary, guide, and source coverage. |
+| 25 | Random Number Generator | `random-number-generator` | deep-reviewed | 2026-04-30: Checked inclusive ranges, exclusions, unique/sorted lists, randomness caveats, FAQ, and guide. |
 
 ## Done Rule
 
@@ -69,7 +69,9 @@ The manual review program does not stop at the top 25. The top 25 are the first 
 2. Health, pregnancy, nutrition, BAC, and body measurement calculators.
 3. Home, project, construction, electrical, weather, and science calculators.
 4. School, statistics, math, date/time, and converter tools.
-5. Developer, image, text, random, and everyday utilities.
+5. Developer, image, text, random, everyday utilities, and final GDP/height/sleep cleanup.
 6. Alias pages, to confirm canonical tags, search terms, and redirect-like user guidance.
 
-Every batch should update tool content, FAQ detail, guide clarity, source notes, privacy notes, and visual checks before records are promoted from `baseline-reviewed` or `alias-reviewed` to `deep-reviewed`.
+Batch 1, Batch 2, Batch 3, Batch 4, Batch 5, and Batch 6 are complete as of 2026-04-30. The current 234-tool canonical library has no remaining baseline-reviewed tools.
+
+Every future batch should update tool content, FAQ detail, guide clarity, source notes, privacy notes, and visual checks before records are promoted from `baseline-reviewed` or `alias-reviewed` to `deep-reviewed`. New tools reopen the manual queue until their exact page, guide, examples, and tool behavior are checked.

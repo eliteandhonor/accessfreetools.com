@@ -1607,6 +1607,9 @@ describe('utility helpers', () => {
     expect(asphalt.tons).toBe(7);
     expect(windChill.resultFahrenheit).toBeLessThan(30);
     expect(heatIndex.resultFahrenheit).toBeGreaterThan(90);
+    expect(formatCalculatorNumber(calculateHeatIndex(70, 50).resultFahrenheit)).toBe('69.525');
+    expect(() => calculateWindChill(60, 10)).toThrow(/50 F or colder/);
+    expect(() => calculateWindChill(30, 3)).toThrow(/above 3 mph/);
     expect(dewPoint.resultFahrenheit).toBeLessThan(75);
     expect(bandwidth.seconds).toBe(400);
   });

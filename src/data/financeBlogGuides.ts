@@ -39,6 +39,18 @@ const sourceLinks = {
     href: 'https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator',
     label: 'Investor.gov: Compound Interest Calculator',
   },
+  investorAnnuities: {
+    href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/annuities',
+    label: 'Investor.gov: Annuities',
+  },
+  consumerBudgetWorksheet: {
+    href: 'https://consumer.gov/your-money/budget-worksheet',
+    label: 'consumer.gov: Budget Worksheet',
+  },
+  pbgcPensionCoverage: {
+    href: 'https://www.pbgc.gov/workers-retirees/learn/understanding-your-pension-pbgc-coverage',
+    label: 'PBGC: Understanding your pension and PBGC coverage',
+  },
   cfpbMortgage: {
     href: 'https://www.consumerfinance.gov/language/cfpb-in-english/mortgages-key-terms/',
     label: 'Consumer Financial Protection Bureau: Mortgage key terms',
@@ -50,6 +62,10 @@ const sourceLinks = {
   irs2026: {
     href: 'https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill',
     label: 'IRS: Tax year 2026 inflation adjustments',
+  },
+  irsSalesTax: {
+    href: 'https://www.irs.gov/salestax',
+    label: 'IRS: Sales Tax Deduction Calculator and state/local sales tax context',
   },
   irsRevenueProcedure: {
     href: 'https://www.irs.gov/pub/irs-drop/rp-25-32.pdf',
@@ -70,6 +86,10 @@ const sourceLinks = {
   fsaRepaymentPlans: {
     href: 'https://studentaid.gov/manage-loans/repayment/plans',
     label: 'Federal Student Aid: Loan repayment plans',
+  },
+  educationNetPrice: {
+    href: 'https://collegecost.ed.gov/net-price',
+    label: 'U.S. Department of Education: Net Price Calculator Center',
   },
   fdicCdShopping: {
     href: 'https://www.fdic.gov/consumer-resource-center/2023-11/shopping-certificate-deposit',
@@ -95,6 +115,66 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/rules-policy/regulations/1026/22',
     label: 'CFPB Regulation Z: Annual percentage rate',
   },
+  cfpbAprVsInterest: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/',
+    label: 'CFPB: Loan interest rate vs. APR',
+  },
+  cfpbPersonalInstallmentFees: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/do-personal-installment-loans-have-fees-en-2120/',
+    label: 'CFPB: Personal installment loan fees',
+  },
+  cfpbAutoFinancingOffers: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/how-do-i-qualify-for-an-advertised-0-auto-financing-en-781/',
+    label: 'CFPB: Advertised 0% auto financing and cash rebate incentives',
+  },
+  sbaLoans: {
+    href: 'https://www.sba.gov/funding-programs/loans',
+    label: 'U.S. Small Business Administration: Loans',
+  },
+  investorAnnualReturn: {
+    href: 'https://www.investor.gov/introduction-investing/investing-basics/glossary/annual-return',
+    label: 'Investor.gov: Annual Return',
+  },
+  openStaxDiscounts: {
+    href: 'https://openstax.org/books/contemporary-mathematics/pages/6-2-discounts-markups-and-sales-tax',
+    label: 'OpenStax: Discounts, markups, and sales tax',
+  },
+  openStaxPercent: {
+    href: 'https://openstax.org/books/contemporary-mathematics/pages/6-1-understanding-percent',
+    label: 'OpenStax: Understanding Percent',
+  },
+  openStaxInvestments: {
+    href: 'https://openstax.org/books/contemporary-mathematics/pages/6-7-investments',
+    label: 'OpenStax: Investments and return on investment',
+  },
+  openStaxPayback: {
+    href: 'https://openstax.org/books/principles-finance/pages/16-1-payback-period-method',
+    label: 'OpenStax Principles of Finance: Payback Period Method',
+  },
+  openStaxPresentValue: {
+    href: 'https://openstax.org/books/principles-finance/pages/8-2-annuities',
+    label: 'OpenStax Principles of Finance: Annuities and present value',
+  },
+  openStaxFutureValue: {
+    href: 'https://openstax.org/books/principles-finance/pages/7-2-time-value-of-money-tvm-basics',
+    label: 'OpenStax Principles of Finance: Time value of money basics',
+  },
+  openStaxNpv: {
+    href: 'https://openstax.org/books/principles-finance/pages/16-2-net-present-value-npv-method',
+    label: 'OpenStax Principles of Finance: Net Present Value method',
+  },
+  dolCommissions: {
+    href: 'https://www.dol.gov/general/topic/wages/commissions',
+    label: 'U.S. Department of Labor: Commissions',
+  },
+  moneyHelperMortgage: {
+    href: 'https://www.moneyhelper.org.uk/en/homes/buying-a-home/mortgage-calculator',
+    label: 'MoneyHelper: Mortgage calculators',
+  },
+  canadaInterestAct: {
+    href: 'https://laws-lois.justice.gc.ca/eng/acts/I-15/FullText.html',
+    label: 'Justice Laws Canada: Interest Act',
+  },
   ftcAutoLease: {
     href: 'https://consumer.ftc.gov/financing-or-leasing-car',
     label: 'FTC: Financing or Leasing a Car',
@@ -103,9 +183,17 @@ const sourceLinks = {
     href: 'https://www.irs.gov/publications/p946',
     label: 'IRS Publication 946: How To Depreciate Property',
   },
+  openStaxDepreciation: {
+    href: 'https://openstax.org/books/principles-financial-accounting/pages/11-3-explain-and-apply-depreciation-methods-to-allocate-capitalized-costs',
+    label: 'OpenStax: Depreciation methods',
+  },
   cfpbDebtToIncome: {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-debt-to-income-ratio-en-1791/',
     label: 'Consumer Financial Protection Bureau: Debt-to-income ratio',
+  },
+  irsEstateGift: {
+    href: 'https://www.irs.gov/businesses/small-businesses-self-employed/whats-new-estate-and-gift-tax',
+    label: 'IRS: Estate and gift tax updates',
   },
   irsRmd: {
     href: 'https://www.irs.gov/publications/p590b',
@@ -118,6 +206,14 @@ const sourceLinks = {
   irsFica: {
     href: 'https://www.irs.gov/taxtopics/tc751',
     label: 'IRS Topic 751: Social Security and Medicare withholding rates',
+  },
+  irsWithholdingEstimatorFaqs: {
+    href: 'https://www.irs.gov/individuals/tax-withholding-estimator-faqs',
+    label: 'IRS: Tax Withholding Estimator FAQs',
+  },
+  openStaxIrr: {
+    href: 'https://openstax.org/books/principles-finance/pages/16-3-internal-rate-of-return-irr-method',
+    label: 'OpenStax Principles of Finance: Internal Rate of Return method',
   },
   vaFundingFee: {
     href: 'https://www.va.gov/housing-assistance/home-loans/funding-fee-and-closing-costs',
@@ -135,6 +231,10 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-home-equity-loan-en-106/',
     label: 'CFPB: What is a home equity loan?',
   },
+  cfpbDownPayment: {
+    href: 'https://www.consumerfinance.gov/owning-a-home/your-down-payment-decision/',
+    label: 'CFPB: Your down payment decision',
+  },
   canadaMortgage: {
     href: 'https://www.canada.ca/en/financial-consumer-agency/services/mortgages/mortgage-terms-amortization.html',
     label: 'Canada.ca: Mortgage terms and amortization',
@@ -146,19 +246,76 @@ const sourceLinks = {
 };
 
 function getFormulaAnswer(toolSlug: string) {
-  return financeTools.find((tool) => tool.slug === toolSlug)?.faq[1]?.answer ?? 'The calculator uses the formula shown on the tool page.';
+  return (
+    financeTools
+      .find((tool) => tool.slug === toolSlug)
+      ?.faq.find((item) => item.question.includes('doing with my numbers'))?.answer ??
+    'The calculator uses the formula shown on the tool page.'
+  );
 }
 
 function getSourceLinks(toolSlug: string) {
-  if (['mortgage-calculator', 'amortization-calculator', 'down-payment-calculator', 'rent-vs-buy-calculator'].includes(toolSlug)) {
+  if (['mortgage-calculator', 'amortization-calculator'].includes(toolSlug)) {
     return [sourceLinks.cfpbMortgage];
   }
 
-  if (['mortgage-payoff-calculator', 'house-affordability-calculator', 'real-estate-calculator', 'rental-property-calculator'].includes(toolSlug)) {
+  if (['mortgage-payoff-calculator', 'house-affordability-calculator'].includes(toolSlug)) {
     return [sourceLinks.cfpbMortgage];
   }
 
-  if (['compound-interest-calculator', 'investment-calculator', 'retirement-calculator', 'finance-calculator', 'interest-calculator', 'savings-calculator', 'annuity-calculator', 'annuity-payout-calculator', 'pension-calculator', 'simple-interest-calculator', 'college-cost-calculator', 'present-value-calculator', 'future-value-calculator', 'irr-calculator', 'roi-calculator', 'payback-period-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'savings-calculator') {
+    return [sourceLinks.investorCompound, sourceLinks.consumerBudgetWorksheet];
+  }
+
+  if (toolSlug === 'budget-calculator') {
+    return [sourceLinks.consumerBudgetWorksheet, sourceLinks.cfpbDebtToIncome];
+  }
+
+  if (toolSlug === 'rent-calculator') {
+    return [sourceLinks.consumerBudgetWorksheet, sourceLinks.cfpbDebtToIncome];
+  }
+
+  if (['annuity-calculator', 'annuity-payout-calculator'].includes(toolSlug)) {
+    return [sourceLinks.investorAnnuities, sourceLinks.investorCompound];
+  }
+
+  if (toolSlug === 'pension-calculator') {
+    return [sourceLinks.pbgcPensionCoverage, sourceLinks.investorCompound];
+  }
+
+  if (toolSlug === 'college-cost-calculator') {
+    return [sourceLinks.educationNetPrice, sourceLinks.investorCompound];
+  }
+
+  if (toolSlug === 'irr-calculator') {
+    return [sourceLinks.openStaxIrr, sourceLinks.investorCompound];
+  }
+
+  if (toolSlug === 'roi-calculator') {
+    return [sourceLinks.openStaxInvestments, sourceLinks.investorAnnualReturn];
+  }
+
+  if (toolSlug === 'payback-period-calculator') {
+    return [sourceLinks.openStaxPayback, sourceLinks.openStaxNpv];
+  }
+
+  if (toolSlug === 'present-value-calculator') {
+    return [sourceLinks.openStaxPresentValue, sourceLinks.openStaxNpv];
+  }
+
+  if (toolSlug === 'future-value-calculator') {
+    return [sourceLinks.openStaxFutureValue, sourceLinks.openStaxPresentValue, sourceLinks.investorCompound];
+  }
+
+  if (toolSlug === 'commission-calculator') {
+    return [sourceLinks.dolCommissions, sourceLinks.irsFica];
+  }
+
+  if (toolSlug === 'interest-rate-calculator') {
+    return [sourceLinks.cfpbAprVsInterest, sourceLinks.cfpbApr];
+  }
+
+  if (['compound-interest-calculator', 'investment-calculator', 'retirement-calculator', 'finance-calculator', 'interest-calculator', 'simple-interest-calculator', 'future-value-calculator'].includes(toolSlug)) {
     return [sourceLinks.investorCompound];
   }
 
@@ -194,20 +351,40 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.euVat];
   }
 
-  if (['cash-back-or-low-interest-calculator', 'personal-loan-calculator', 'business-loan-calculator', 'apr-calculator'].includes(toolSlug)) {
-    return [sourceLinks.cfpbApr];
+  if (toolSlug === 'cash-back-or-low-interest-calculator') {
+    return [sourceLinks.cfpbAutoFinancingOffers, sourceLinks.cfpbApr];
   }
 
-  if (['auto-lease-calculator', 'boat-loan-calculator', 'lease-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'business-loan-calculator') {
+    return [sourceLinks.sbaLoans, sourceLinks.cfpbAprVsInterest];
+  }
+
+  if (toolSlug === 'personal-loan-calculator') {
+    return [sourceLinks.cfpbPersonalInstallmentFees, sourceLinks.cfpbAprVsInterest];
+  }
+
+  if (toolSlug === 'apr-calculator') {
+    return [sourceLinks.cfpbAprVsInterest, sourceLinks.cfpbApr];
+  }
+
+  if (['auto-lease-calculator', 'lease-calculator'].includes(toolSlug)) {
     return [sourceLinks.ftcAutoLease, sourceLinks.cfpbApr];
   }
 
+  if (toolSlug === 'boat-loan-calculator') {
+    return [sourceLinks.cfpbAprVsInterest, sourceLinks.cfpbAutoFinancingOffers];
+  }
+
   if (toolSlug === 'depreciation-calculator') {
-    return [sourceLinks.irsDepreciation];
+    return [sourceLinks.irsDepreciation, sourceLinks.openStaxDepreciation];
   }
 
   if (toolSlug === 'average-return-calculator') {
-    return [sourceLinks.investorCompound];
+    return [sourceLinks.investorAnnualReturn, sourceLinks.investorCompound];
+  }
+
+  if (['margin-calculator', 'discount-calculator', 'percent-off-calculator'].includes(toolSlug)) {
+    return [sourceLinks.openStaxDiscounts, sourceLinks.openStaxPercent];
   }
 
   if (toolSlug === 'debt-to-income-ratio-calculator') {
@@ -223,7 +400,15 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'take-home-paycheck-calculator') {
-    return [sourceLinks.irsFica];
+    return [sourceLinks.irsFica, sourceLinks.irsWithholdingEstimatorFaqs];
+  }
+
+  if (toolSlug === 'real-estate-calculator') {
+    return [sourceLinks.cfpbMortgage, sourceLinks.investorCompound];
+  }
+
+  if (toolSlug === 'rental-property-calculator') {
+    return [sourceLinks.cfpbMortgage, sourceLinks.consumerBudgetWorksheet];
   }
 
   if (toolSlug === 'fha-loan-calculator') {
@@ -242,16 +427,24 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.cfpbHeloc, sourceLinks.cfpbHomeEquity];
   }
 
+  if (toolSlug === 'down-payment-calculator') {
+    return [sourceLinks.cfpbDownPayment, sourceLinks.cfpbMortgage];
+  }
+
+  if (toolSlug === 'rent-vs-buy-calculator') {
+    return [sourceLinks.cfpbDownPayment, sourceLinks.cfpbMortgage];
+  }
+
   if (toolSlug === 'mortgage-calculator-uk') {
-    return [sourceLinks.govUkMortgage];
+    return [sourceLinks.govUkMortgage, sourceLinks.moneyHelperMortgage];
   }
 
   if (toolSlug === 'canadian-mortgage-calculator') {
-    return [sourceLinks.canadaMortgage];
+    return [sourceLinks.canadaMortgage, sourceLinks.canadaInterestAct];
   }
 
   if (toolSlug === 'refinance-calculator') {
-    return [sourceLinks.cfpbMortgage, sourceLinks.cfpbApr];
+    return [sourceLinks.cfpbMortgage, sourceLinks.cfpbAprVsInterest];
   }
 
   if (toolSlug === '401k-calculator') {
@@ -266,8 +459,16 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.blsInflation];
   }
 
-  if (['income-tax-calculator', 'marriage-tax-calculator', 'estate-tax-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'estate-tax-calculator') {
+    return [sourceLinks.irs2026, sourceLinks.irsEstateGift];
+  }
+
+  if (['income-tax-calculator', 'marriage-tax-calculator'].includes(toolSlug)) {
     return [sourceLinks.irs2026, sourceLinks.irsRevenueProcedure];
+  }
+
+  if (toolSlug === 'sales-tax-calculator') {
+    return [sourceLinks.irsSalesTax];
   }
 
   return [];
@@ -848,6 +1049,1281 @@ const guideDetails: Record<string, GuideDetail> = {
       'Do not ignore late fees, annual fees, promotional APRs, or variable APR changes.',
     ],
     next: ['Use Interest Calculator to understand APR math.', 'Use Payment Calculator for fixed-payment debt comparisons.'],
+  },
+  'pension-calculator': {
+    summary: 'Learn how final average salary, service years, and a benefit multiplier create a simple pension estimate.',
+    purpose:
+      'The Pension Calculator is for defined-benefit style planning when you know the salary, years of service, and multiplier you want to test. It gives a rough annual and monthly pension estimate, not an official plan statement.',
+    enter: [
+      'Enter final average salary as a yearly dollar amount.',
+      'Enter years of service, including decimals only if your plan counts partial years that way.',
+      'Enter the benefit multiplier as a percent, such as 1.5 for 1.5%.',
+    ],
+    example: [
+      '$80,000 final average salary x 25 years x 1.5% gives a $30,000 annual estimate.',
+      'Dividing $30,000 by 12 gives a $2,500 monthly estimate before taxes or plan adjustments.',
+    ],
+    read: [
+      'Annual pension is the main estimate from the simple salary-service formula.',
+      'Monthly pension divides the annual amount by 12.',
+      'Replacement rate shows the annual estimate as a percent of final average salary.',
+    ],
+    mistakes: [
+      'Do not treat this as your official pension benefit.',
+      'Do not ignore vesting, survivor choices, early retirement reductions, cost-of-living adjustments, service-credit rules, or taxes.',
+      'Do not use a multiplier from another plan unless your own plan document uses the same rule.',
+    ],
+    next: ['Use Retirement Calculator for broader savings planning.', 'Use Annuity Payout Calculator to compare fixed payout math.'],
+  },
+  'annuity-payout-calculator': {
+    summary: 'Learn how a starting balance, rate, payout time, and payment frequency affect a fixed payout estimate.',
+    purpose:
+      'The Annuity Payout Calculator spreads a starting balance across a fixed number of payments. It is useful for learning drawdown math, but it is not an insurance-company quote or a guaranteed lifetime income promise.',
+    enter: [
+      'Enter the starting balance or lump sum you want to spread across payments.',
+      'Enter the annual rate as a percent and the payout time in years.',
+      'Enter payments per year, such as 12 for monthly payments or 1 for annual payments.',
+    ],
+    example: [
+      '$100,000 at 5% over 20 years with monthly payments means 240 payments.',
+      'The calculator uses the rate and payment count to estimate one fixed payment amount.',
+    ],
+    read: [
+      'Payment is the estimated amount for each payout period.',
+      'Total paid is payment amount times payment count.',
+      'Estimated interest is total paid minus the starting balance.',
+    ],
+    mistakes: [
+      'Do not treat the result as a real annuity quote.',
+      'Do not forget fees, taxes, surrender charges, inflation riders, guarantees, or contract rules.',
+      'Do not enter annual payments while thinking the result is monthly.',
+    ],
+    next: ['Use Annuity Calculator for present value and future value of payments.', 'Use Retirement Calculator for a wider retirement scenario.'],
+  },
+  'credit-cards-payoff-calculator': {
+    summary: 'Learn how combined card balance, weighted APR, regular payment, and extra payment affect payoff time.',
+    purpose:
+      'The Credit Cards Payoff Calculator is for a quick combined-balance payoff estimate. It works best when you already know the total balance, a reasonable weighted APR, and the total monthly payment you can make.',
+    enter: [
+      'Add your card balances together and enter the combined balance.',
+      'Enter a weighted APR if the cards have different rates, or use the rate that best represents the balance you are paying down.',
+      'Enter the regular monthly payment and any extra monthly amount you can add.',
+    ],
+    example: [
+      '$8,500 at 21.5% APR with $350 regular payment plus $100 extra is treated as one combined balance.',
+      'Each month, interest is added first, then the total payment is subtracted.',
+    ],
+    read: [
+      'Payoff months estimates how long the combined balance may take to reach zero.',
+      'Total interest shows the estimated interest cost during payoff.',
+      'Final payment may be lower than the regular monthly payment.',
+    ],
+    mistakes: [
+      'Do not use this as a full avalanche or snowball plan.',
+      'Do not forget separate APR tiers, balance transfer fees, promotional rates, late fees, and new purchases.',
+      'Do not enter a payment that is lower than the monthly interest on the balance.',
+    ],
+    next: ['Use Credit Card Calculator for a single-card payoff.', 'Use Debt Consolidation Calculator to compare a new loan offer.'],
+  },
+  'debt-payoff-calculator': {
+    summary: 'Learn how a fixed debt balance, interest rate, monthly payment, and extra payment affect payoff time.',
+    purpose:
+      'The Debt Payoff Calculator estimates how long a fixed-rate balance may take to repay. It is useful for testing whether extra money shortens payoff time and reduces interest.',
+    enter: [
+      'Enter the debt balance you want to pay down.',
+      'Enter the annual interest rate as a percent.',
+      'Enter your regular monthly payment and any extra payment you plan to add.',
+    ],
+    example: [
+      '$10,000 at 12% with $300 regular payment plus $100 extra means $400 goes toward the balance each month after interest is added.',
+      'If the payment is too small to cover monthly interest, the calculator stops instead of showing a fake payoff date.',
+    ],
+    read: [
+      'Payoff months is the estimated number of months until the balance reaches zero.',
+      'Total interest is the estimated interest paid along the way.',
+      'Final payment shows the last smaller payment if the balance ends before a full payment is needed.',
+    ],
+    mistakes: [
+      'Do not ignore fees, penalties, settlement terms, collection rules, or creditor agreements.',
+      'Do not use this as legal advice if a debt is in collections or court.',
+      'Do not forget that variable rates can change the real payoff path.',
+    ],
+    next: ['Use Repayment Calculator for a general balance estimate.', 'Use Debt Consolidation Calculator before comparing a new loan.'],
+  },
+  'debt-consolidation-calculator': {
+    summary: 'Learn how to compare your current debt payoff path with a new consolidation loan.',
+    purpose:
+      'The Debt Consolidation Calculator compares two paths: continuing your current payoff and replacing the debt with a new fixed-payment loan. It helps show when a lower monthly payment may still raise total cost.',
+    enter: [
+      'Enter total current debt, current average rate, and current monthly payment.',
+      'Enter the new loan rate, new term, and any fees added to the consolidation loan.',
+      'Use realistic offer numbers, because a small fee or longer term can change the answer.',
+    ],
+    example: [
+      '$18,000 of debt at 18% with a $650 current payment is compared with a new 10.5% loan for 3 years plus $300 fees.',
+      'The calculator estimates the current payoff, then estimates the new loan payment and total cost.',
+    ],
+    read: [
+      'New payment is the estimated monthly payment on the consolidation loan.',
+      'Monthly payment change shows whether the new payment is higher or lower than the current payment.',
+      'Total cost change shows whether the new path costs more or less overall.',
+    ],
+    mistakes: [
+      'Do not choose a consolidation option by monthly payment alone.',
+      'Do not forget origination fees, balance transfer rules, credit impact, hardship plans, or settlement offers.',
+      'Do not assume approval or the advertised rate is guaranteed.',
+    ],
+    next: ['Use Debt Payoff Calculator to test the current path with extra payments.', 'Use Loan Calculator to inspect the new loan payment by itself.'],
+  },
+  'repayment-calculator': {
+    summary: 'Learn how balance, interest rate, regular payment, and extra payment affect a repayment estimate.',
+    purpose:
+      'The Repayment Calculator is a general fixed-balance payoff tool. It is useful when you want to know how long a balance may take to repay at a chosen payment amount.',
+    enter: [
+      'Enter the current balance.',
+      'Enter the annual interest rate as a percent.',
+      'Enter the regular monthly payment and optional extra monthly payment.',
+    ],
+    example: [
+      '$12,000 at 8% with $300/month plus $50 extra creates a fixed-payment payoff estimate.',
+      'The calculator adds interest, subtracts the payment, and repeats until the balance is gone.',
+    ],
+    read: [
+      'Repayment time is the estimated number of months to reach zero.',
+      'Total interest helps you compare one payment plan with another.',
+      'Final payment may be smaller than your usual payment.',
+    ],
+    mistakes: [
+      'Do not use this for official student loan, hardship, income-based, deferment, or provider-specific plans.',
+      'Do not ignore fees, payment pauses, or changing rates.',
+      'Do not enter annual payment amounts in monthly payment fields.',
+    ],
+    next: ['Use Payment Calculator if you know the term and want the payment.', 'Use Debt Payoff Calculator for debt-specific payoff language.'],
+  },
+  'student-loan-calculator': {
+    summary: 'Learn how loan balance, interest rate, term, and extra monthly payment affect a standard student loan estimate.',
+    purpose:
+      'The Student Loan Calculator estimates a standard fixed-payment repayment path. It is helpful for learning the math, but it is not an official federal repayment plan or servicer result.',
+    enter: [
+      'Enter the current loan balance.',
+      'Enter the annual interest rate and repayment term in years.',
+      'Enter extra monthly payment only if you plan to pay more than the scheduled payment.',
+    ],
+    example: [
+      '$30,000 at 6.5% for 10 years creates a scheduled monthly payment first.',
+      'Adding $50 extra per month lets the calculator estimate interest saved and faster payoff.',
+    ],
+    read: [
+      'Scheduled payment is the estimated fixed payment before any extra amount.',
+      'Monthly paid with extra shows the scheduled payment plus the extra monthly amount.',
+      'Interest saved compares the extra-payment path with the standard scheduled path.',
+    ],
+    mistakes: [
+      'Do not treat this as an income-driven repayment, forgiveness, deferment, forbearance, or servicer quote.',
+      'Do not ignore capitalization, subsidies, fees, payment pauses, or federal program rules.',
+      'Do not assume extra payments are handled the same way by every servicer.',
+    ],
+    next: ['Use Loan Calculator for a plain fixed loan payment.', 'Use Repayment Calculator for a general balance payoff estimate.'],
+  },
+  'college-cost-calculator': {
+    summary: 'Learn how current annual cost, cost increases, savings, and years until school affect a college cost estimate.',
+    purpose:
+      'The College Cost Calculator projects a future school cost from today\'s annual cost and a yearly increase assumption. It is a planning number to use before checking each school\'s official net price calculator.',
+    enter: [
+      'Enter today\'s annual cost for one school year.',
+      'Enter years until school starts, years in school, and expected annual cost increase.',
+      'Enter current savings, monthly savings, and savings return if you want to compare cost with projected savings.',
+    ],
+    example: [
+      '$28,000 today, starting in 8 years, grows the first school year before adding later school years.',
+      'The savings side projects current savings and monthly deposits only until school starts, then compares them with total estimated cost.',
+    ],
+    read: [
+      'Total estimated cost is the projected cost for all school years entered.',
+      'First year estimate shows the projected cost of the first school year.',
+      'Savings gap or surplus compares projected savings with the estimated total cost.',
+    ],
+    mistakes: [
+      'Do not treat this as a school financial aid offer.',
+      'Do not forget scholarships, grants, loans, work-study, housing, travel, books, program fees, residency, or net price calculators.',
+      'Do not use one national cost increase assumption for every school without checking the school\'s published costs.',
+    ],
+    next: ['Use Savings Calculator to adjust monthly savings.', 'Use Student Loan Calculator to inspect a possible loan payment.'],
+  },
+  'simple-interest-calculator': {
+    summary: 'Learn how principal, annual rate, and time create a simple interest result.',
+    purpose:
+      'The Simple Interest Calculator uses the basic principal x rate x time formula. It is useful for classwork and quick examples where interest does not earn more interest.',
+    enter: [
+      'Enter principal as the starting dollar amount.',
+      'Enter the annual rate as a percent, such as 5 for 5%.',
+      'Enter time in years, using 1.5 for 18 months.',
+    ],
+    example: [
+      '$1,000 at 5% for 3 years gives $1,000 x 0.05 x 3 = $150 interest.',
+      'The ending balance is principal plus interest, so $1,000 plus $150 equals $1,150.',
+    ],
+    read: [
+      'Simple interest is the amount earned or charged before compounding.',
+      'Ending balance is principal plus simple interest.',
+      'Time is the number of years used in the multiplication.',
+    ],
+    mistakes: [
+      'Do not use simple interest when the account or loan compounds.',
+      'Do not enter 5% as 0.05 in the percent field.',
+      'Do not forget fees, taxes, payment schedules, and changing rates.',
+    ],
+    next: ['Use Compound Interest Calculator when interest earns interest.', 'Use Interest Calculator to compare simple and compound modes.'],
+  },
+  'cd-calculator': {
+    summary: 'Learn how deposit amount, APY, term, and penalty months affect a certificate of deposit estimate.',
+    purpose:
+      'The CD Calculator estimates maturity value from deposit amount, APY, and term. It also shows a rough early withdrawal penalty scenario using months of interest.',
+    enter: [
+      'Enter the deposit amount and APY from the CD offer.',
+      'Enter the term in whole months.',
+      'Enter penalty months only as a simple estimate after reading the bank disclosure.',
+    ],
+    example: [
+      '$10,000 at 4.25% APY for 12 months estimates maturity value and interest earned.',
+      'A 3-month penalty estimate subtracts about three months of simple interest from the maturity value.',
+    ],
+    read: [
+      'Maturity value is the estimated value at the end of the term.',
+      'Interest earned is maturity value minus the starting deposit.',
+      'Value after penalty is only a rough what-if for early withdrawal.',
+    ],
+    mistakes: [
+      'Do not use this instead of the bank\'s CD disclosure.',
+      'Do not forget renewal rules, grace periods, exact compounding, brokered CDs, minimum balances, or early withdrawal terms.',
+      'Do not assume every CD is FDIC-insured without checking the institution.',
+    ],
+    next: ['Use Savings Calculator for flexible deposits.', 'Use Compound Interest Calculator for compounding-frequency comparisons.'],
+  },
+  'bond-calculator': {
+    summary: 'Learn how face value, market price, coupon rate, and maturity affect bond income and approximate yield.',
+    purpose:
+      'The Bond Calculator estimates annual coupon income, current yield, and an approximate yield to maturity. It is a quick teaching tool, not a full bond pricing model.',
+    enter: [
+      'Enter face value and current market price.',
+      'Enter coupon rate as a percent and years to maturity.',
+      'Enter coupon payments per year, such as 2 for semiannual coupons.',
+    ],
+    example: [
+      'A $1,000 face value bond at a $950 market price and 5% coupon pays about $50 per year in coupon income.',
+      'Because the market price is below face value, the approximate yield to maturity includes coupon income plus the price gain toward face value.',
+    ],
+    read: [
+      'Annual coupon is face value times coupon rate.',
+      'Current yield compares annual coupon with market price.',
+      'Approximate yield to maturity is only a rough estimate, not a precise bond valuation.',
+    ],
+    mistakes: [
+      'Do not use this for callable, floating-rate, inflation-linked, or complex bonds without deeper pricing.',
+      'Do not ignore accrued interest, taxes, reinvestment risk, duration, credit risk, or changing market rates.',
+      'Do not treat approximate yield as a guaranteed return.',
+    ],
+    next: ['Use Investment Calculator for broad growth scenarios.', 'Use Mutual Fund Calculator for fund-style projections.'],
+  },
+  'mutual-fund-calculator': {
+    summary: 'Learn how starting investment, monthly contributions, estimated return, expense ratio, and time affect a mutual fund projection.',
+    purpose:
+      'The Mutual Fund Calculator projects a hypothetical balance before and after a simple expense-ratio adjustment. It helps explain fee drag, not predict actual fund performance.',
+    enter: [
+      'Enter initial investment and monthly contribution.',
+      'Enter estimated annual return as a percent.',
+      'Enter expense ratio as a percent, such as 0.5 for 0.5%.',
+    ],
+    example: [
+      '$5,000 plus $250 per month at 7% for 20 years creates a before-expense projection.',
+      'The calculator subtracts the 0.5% expense ratio from the return assumption to create a simple after-expense estimate.',
+    ],
+    read: [
+      'Projected fund balance after expenses is the main estimate.',
+      'Balance before expense estimate shows the same projection without the expense-ratio adjustment.',
+      'Estimated expense drag is the difference between those two projections.',
+    ],
+    mistakes: [
+      'Do not treat an estimated return as a promise.',
+      'Do not forget taxes, loads, trading costs, distributions, changing expenses, or market losses.',
+      'Do not compare funds by expense ratio alone without checking risk and investment objective.',
+    ],
+    next: ['Use Investment Calculator for a simpler growth model.', 'Use Bond Calculator for fixed-income basics.'],
+  },
+  'roth-ira-calculator': {
+    summary: 'Learn how current balance, annual contribution, estimated return, and time affect a Roth IRA projection.',
+    purpose:
+      'The Roth IRA Calculator projects growth using monthly compounding and monthly contribution timing. It is a retirement savings scenario tool, not an eligibility or tax calculator.',
+    enter: [
+      'Enter current Roth IRA balance.',
+      'Enter annual contribution, knowing the tool does not enforce IRS limits or income phaseouts.',
+      'Enter estimated annual return and years to grow.',
+    ],
+    example: [
+      '$12,000 starting balance plus $7,000 per year is converted into monthly deposits for the projection.',
+      'At 7% for 25 years, the result separates total contributions from estimated growth.',
+    ],
+    read: [
+      'Projected Roth IRA balance is the estimate at the end of the entered years.',
+      'Total contributions shows current balance plus deposits counted in the projection.',
+      'Estimated growth is the difference created by the return assumption.',
+    ],
+    mistakes: [
+      'Do not assume you are eligible to contribute just because the calculator accepts the amount.',
+      'Do not ignore IRS contribution limits, income phaseouts, withdrawal rules, penalties, taxes, fees, or market risk.',
+      'Do not treat Roth IRA tax treatment as the same for every situation.',
+    ],
+    next: ['Use IRA Calculator for general IRA projection math.', 'Use Retirement Calculator for a wider savings goal.'],
+  },
+  'ira-calculator': {
+    summary: 'Learn how current IRA balance, annual contribution, estimated return, and time affect an IRA projection.',
+    purpose:
+      'The IRA Calculator projects a future balance from current savings and annual contributions. It keeps the math simple so you can compare scenarios before checking official IRA rules.',
+    enter: [
+      'Enter current IRA balance.',
+      'Enter annual contribution, annual return, and years to grow.',
+      'Use a realistic contribution amount because the calculator does not check IRS limits.',
+    ],
+    example: [
+      '$25,000 current balance plus $7,000 per year at 6.5% for 20 years is converted into monthly deposits.',
+      'The projection shows total contributions and estimated growth separately.',
+    ],
+    read: [
+      'Projected IRA balance is the future balance estimate.',
+      'Total contributions includes the starting balance and projected deposits.',
+      'Estimated growth depends completely on the return assumption.',
+    ],
+    mistakes: [
+      'Do not use this as tax advice or an official IRA limit checker.',
+      'Do not ignore deductions, Roth eligibility, contribution limits, required minimum distributions, penalties, fees, or investment risk.',
+      'Do not compare IRA choices without understanding tax treatment.',
+    ],
+    next: ['Use Roth IRA Calculator for Roth-specific planning language.', 'Use 401K Calculator for workplace contribution scenarios.'],
+  },
+  'vat-calculator': {
+    summary: 'Learn how to add VAT to a net amount or remove VAT from a gross amount.',
+    purpose:
+      'The VAT Calculator handles two common tasks: add VAT to a before-tax amount or remove VAT from a tax-included amount. It uses the rate you enter and does not know local tax rules.',
+    enter: [
+      'Enter the amount as net amount when adding VAT or gross amount when removing VAT.',
+      'Enter the VAT rate as a percent.',
+      'Choose add or remove before calculating.',
+    ],
+    example: [
+      '$100 net at 20% VAT adds $20 VAT and gives $120 gross.',
+      '$120 gross at 20% VAT divides by 1.20 to get $100 net and $20 VAT.',
+    ],
+    read: [
+      'Net amount is the price before VAT.',
+      'VAT amount is the tax portion at the entered rate.',
+      'Gross amount is net amount plus VAT.',
+    ],
+    mistakes: [
+      'Do not use the wrong mode: add starts from net, remove starts from gross.',
+      'Do not assume the entered rate is correct for every country, product, or invoice.',
+      'Do not use this for registration, reverse charge, exemption, or tax filing decisions.',
+    ],
+    next: ['Use Sales Tax Calculator for U.S.-style sales tax math.', 'Use Percentage Calculator to check rate math.'],
+  },
+  'cash-back-or-low-interest-calculator': {
+    summary: 'Learn how to compare a cash-back rebate offer with a low-interest financing offer by estimated total cost.',
+    purpose:
+      'The Cash Back or Low Interest Calculator compares two incentive paths over the same payoff term. It estimates the total paid with a rebate-style offer and compares it with the total paid under a lower APR offer.',
+    enter: [
+      'Enter the purchase amount and payoff term in months.',
+      'Enter the cash back percent and the APR that goes with the cash-back option.',
+      'Enter the low-interest APR from the competing offer.',
+    ],
+    example: [
+      '$32,000 over 60 months with 4% cash back at 7.2% APR is compared with the same amount at 3.9% APR.',
+      'The calculator subtracts the rebate value from the cash-back loan total, then chooses the lower estimated total cost.',
+    ],
+    read: [
+      'Estimated better offer is the option with lower estimated total cost.',
+      'Cash back value is the rebate amount based on purchase price.',
+      'Estimated savings is the difference between the two options.',
+    ],
+    mistakes: [
+      'Do not compare by monthly payment only.',
+      'Do not ignore taxes, fees, credit approval, model restrictions, rebate eligibility, expiration dates, or dealer add-ons.',
+      'Do not assume an advertised low APR is available to every buyer.',
+    ],
+    next: ['Use Auto Loan Calculator for the full vehicle loan estimate.', 'Use Interest Rate Calculator when you know payment but not rate.'],
+  },
+  'auto-lease-calculator': {
+    summary: 'Learn how vehicle price, residual value, money factor, taxes, fees, and term shape an auto lease payment.',
+    purpose:
+      'The Auto Lease Calculator estimates a monthly lease payment by separating the depreciation part, the finance part, and the tax part. It helps you understand a lease quote before reading the contract.',
+    enter: [
+      'Enter vehicle price, fees, down payment, trade-in value, residual value, money factor, term, and tax rate.',
+      'Use residual value as a dollar amount, not a percent, because the calculator compares it directly with adjusted capitalized cost.',
+      'Enter the money factor exactly as shown in the quote, such as 0.0025, instead of converting it to APR first.',
+    ],
+    example: [
+      '$36,000 vehicle price, $21,000 residual value, and a 36-month term creates the depreciation portion first.',
+      'The finance fee uses adjusted capitalized cost plus residual value times the money factor, then tax is added to the pretax payment.',
+    ],
+    read: [
+      'Monthly payment is the estimated lease payment before contract-specific add-ons.',
+      'Depreciation fee shows the part caused by the vehicle losing value during the lease.',
+      'Finance fee is the rent-charge style part based on the money factor.',
+    ],
+    mistakes: [
+      'Do not compare leases by monthly payment alone.',
+      'Do not forget mileage limits, acquisition fees, disposition fees, wear charges, registration, insurance, and early termination rules.',
+      'Do not enter residual percent when the field asks for residual dollars.',
+    ],
+    next: ['Use Auto Loan Calculator if buying might be better.', 'Use Cash Back or Low Interest Calculator for dealer incentive comparisons.'],
+  },
+  'depreciation-calculator': {
+    summary: 'Learn how cost, salvage value, useful life, age, and method affect depreciation and book value.',
+    purpose:
+      'The Depreciation Calculator estimates book value using straight-line or declining-balance math. It is useful for learning the idea, not for filing taxes or setting accounting policy.',
+    enter: [
+      'Enter original cost and estimated salvage value as dollar amounts.',
+      'Enter useful life and asset age in years.',
+      'Choose straight-line for even depreciation or declining balance for faster early depreciation.',
+    ],
+    example: [
+      '$12,000 cost minus $2,000 salvage gives $10,000 of depreciable amount.',
+      'With a 5-year straight-line life, the calculator estimates $2,000 of depreciation per year until salvage value is reached.',
+    ],
+    read: [
+      'Book value is cost minus accumulated depreciation.',
+      'Accumulated depreciation is the total depreciation counted so far.',
+      'Annual depreciation estimate shows the current simple yearly amount for the selected method.',
+    ],
+    mistakes: [
+      'Do not use this as tax depreciation advice.',
+      'Do not ignore MACRS class life, partial-year conventions, bonus depreciation, recapture, or accounting policy.',
+      'Do not set salvage value equal to or above cost.',
+    ],
+    next: ['Use Business Loan Calculator if the asset was financed.', 'Use Average Return Calculator to compare investment-style performance.'],
+  },
+  'average-return-calculator': {
+    summary: 'Learn how beginning value, ending value, time, contributions, and withdrawals affect simple average return.',
+    purpose:
+      'The Average Return Calculator estimates net gain, cumulative return, simple average annual return, and a basic CAGR comparison. It is a quick performance check, not a professional performance report.',
+    enter: [
+      'Enter beginning value, ending value, and number of years.',
+      'Add contributions and withdrawals if you want the simple gain estimate to account for money you added or removed.',
+      'Use years as the full measurement period, such as 5 for five years.',
+    ],
+    example: [
+      '$10,000 to $16,000 over 5 years with $2,000 added gives a net gain after adjusting for the added money.',
+      'The calculator divides adjusted net gain by beginning value plus contributions for cumulative return, then divides by years for simple average annual return.',
+    ],
+    read: [
+      'Average annual return is the simple yearly average of the cumulative return.',
+      'CAGR estimate shows a growth-rate comparison from beginning value to ending value only.',
+      'Net gain adjusts for contributions and withdrawals so the result is not just ending value minus beginning value.',
+    ],
+    mistakes: [
+      'Do not treat this as a time-weighted return or internal rate of return.',
+      'Do not ignore taxes, fees, dividends, deposits timing, withdrawals timing, and risk.',
+      'Do not compare two investments unless the measurement periods and cash flows are similar.',
+    ],
+    next: ['Use IRR Calculator for uneven cash flows.', 'Use ROI Calculator for a simpler gain-versus-cost check.'],
+  },
+  'margin-calculator': {
+    summary: 'Learn how revenue and cost turn into profit, profit margin, and markup.',
+    purpose:
+      'The Margin Calculator is for business pricing math. It shows profit, margin, and markup side by side so users do not mix up the two percentages.',
+    enter: [
+      'Enter revenue or selling price as the amount collected from the customer.',
+      'Enter cost as the direct cost you want to compare against the revenue.',
+      'Use the same time period or product unit for both numbers.',
+    ],
+    example: [
+      '$100 revenue minus $60 cost gives $40 profit.',
+      '$40 profit divided by $100 revenue is 40% margin, while $40 divided by $60 cost is 66.67% markup.',
+    ],
+    read: [
+      'Profit is revenue minus cost.',
+      'Margin shows profit as a percent of revenue.',
+      'Markup shows profit as a percent of cost, so it is usually higher than margin for the same sale.',
+    ],
+    mistakes: [
+      'Do not use margin and markup as if they mean the same thing.',
+      'Do not forget overhead, labor, shipping, refunds, taxes, and marketplace fees if they matter to the real business result.',
+      'Do not use this for brokerage margin or borrowed-investing risk.',
+    ],
+    next: ['Use Discount Calculator to see how a sale affects price.', 'Use Percentage Calculator for a basic percent check.'],
+  },
+  'discount-calculator': {
+    summary: 'Learn how one discount, an extra discount, and tax affect the final checkout price.',
+    purpose:
+      'The Discount Calculator estimates a sale price after a percent discount, an optional second discount, and optional tax. It helps show why stacked discounts are not simply added together.',
+    enter: [
+      'Enter the original price before discounts.',
+      'Enter the first discount percent and optional extra discount percent.',
+      'Enter tax rate only if you want to estimate tax on the discounted subtotal.',
+    ],
+    example: [
+      '$100 with 20% off becomes $80 after the first discount.',
+      'A second 10% discount applies to $80, not the original $100, so the pretax subtotal becomes $72 before tax.',
+    ],
+    read: [
+      'Final price is the estimated amount after discounts and tax.',
+      'Total savings before tax shows how much the discounts removed from the original price.',
+      'Effective discount shows the combined discount as one percentage of the original price.',
+    ],
+    mistakes: [
+      'Do not add stacked discounts together unless the store says it works that way.',
+      'Do not forget shipping, coupon exclusions, minimum purchase rules, tax exemptions, and local tax rules.',
+      'Do not enter 20% as 0.20 in a percent field.',
+    ],
+    next: ['Use Sales Tax Calculator for tax-only checks.', 'Use VAT Calculator for tax-included price math.'],
+  },
+  'business-loan-calculator': {
+    summary: 'Learn how loan amount, rate, term, and origination fee affect a business loan payment and cash received.',
+    purpose:
+      'The Business Loan Calculator estimates a fixed monthly payment and adds simple origination-fee context. It is a planning tool for comparing offers, not an approval or SBA eligibility check.',
+    enter: [
+      'Enter the loan amount, annual rate, and repayment term.',
+      'Enter origination fee percent if the lender takes a fee from the proceeds or charges it upfront.',
+      'Use the quoted APR and fee details carefully because business loans can structure costs differently.',
+    ],
+    example: [
+      '$50,000 at 9.5% for 5 years estimates a fixed monthly payment first.',
+      'A 2% origination fee equals $1,000, so cash received after fee is shown separately from the repayment amount.',
+    ],
+    read: [
+      'Monthly payment is based on the full principal.',
+      'Cash received after fee shows how much money may be left if the fee is taken upfront.',
+      'Total cost with fee adds the origination fee to the payment total for a fuller comparison.',
+    ],
+    mistakes: [
+      'Do not treat this as a lender offer or approval.',
+      'Do not ignore collateral, underwriting, SBA rules, draw schedules, variable rates, late fees, and prepayment terms.',
+      'Do not compare offers by interest rate alone when fees are different.',
+    ],
+    next: ['Use Loan Calculator for a plain fixed-payment estimate.', 'Use Debt-to-Income Ratio Calculator to check payment pressure.'],
+  },
+  'debt-to-income-ratio-calculator': {
+    summary: 'Learn how gross monthly income, existing debts, and a proposed housing payment create a DTI estimate.',
+    purpose:
+      'The Debt-to-Income Ratio Calculator adds monthly debt payments and divides them by gross monthly income. It gives a planning ratio that can help before a loan or mortgage conversation.',
+    enter: [
+      'Enter gross monthly income before taxes and deductions.',
+      'Enter existing monthly debt payments, such as loans, credit cards, or other recurring debt payments.',
+      'Add a proposed housing payment if you want to see how a new rent or mortgage payment changes the ratio.',
+    ],
+    example: [
+      '$900 of existing monthly debt plus a $1,500 proposed housing payment gives $2,400 total monthly debt.',
+      '$2,400 divided by $6,000 gross monthly income equals 40% DTI.',
+    ],
+    read: [
+      'Debt-to-income ratio is the main percentage result.',
+      'Total monthly debt shows the numerator used in the ratio.',
+      'Income after listed debts is a simple leftover-income check, not a full budget.',
+    ],
+    mistakes: [
+      'Do not use take-home pay if the field asks for gross income.',
+      'Do not assume every lender counts debts, housing costs, and income the same way.',
+      'Do not forget taxes, insurance, HOA dues, childcare, utilities, food, and other budget items outside the ratio.',
+    ],
+    next: ['Use House Affordability Calculator for home-buying context.', 'Use Mortgage Calculator to estimate a possible housing payment.'],
+  },
+  'personal-loan-calculator': {
+    summary: 'Learn how a personal loan amount, APR, term, and origination fee affect payment and total cost.',
+    purpose:
+      'The Personal Loan Calculator estimates a fixed monthly payment and shows how an origination fee can reduce cash received. It is for comparing offers before reading the lender disclosure.',
+    enter: [
+      'Enter the loan amount, annual rate, and repayment term.',
+      'Enter an origination fee percent if the lender charges one.',
+      'Use the lender disclosure to decide whether the rate field should use APR or stated interest rate for your comparison.',
+    ],
+    example: [
+      '$12,000 at 10.5% for 4 years estimates the monthly payment from the full principal.',
+      'A 2% origination fee is $240, so the cash received after fee is $11,760 if the fee is taken from proceeds.',
+    ],
+    read: [
+      'Monthly payment is the estimated fixed payment.',
+      'Total interest is payment total minus principal.',
+      'Cash received after fee helps explain why a loan can feel smaller than the principal you repay.',
+    ],
+    mistakes: [
+      'Do not ignore origination fees, late fees, credit insurance, prepayment rules, and variable-rate terms.',
+      'Do not assume an advertised rate applies to your credit profile.',
+      'Do not use this as a debt plan without checking the full loan disclosure.',
+    ],
+    next: ['Use Debt Payoff Calculator to compare keeping the current debt.', 'Use Interest Rate Calculator if you know payment but not rate.'],
+  },
+  'boat-loan-calculator': {
+    summary: 'Learn how boat price, down payment, trade-in, tax, fees, rate, and term affect a boat loan payment.',
+    purpose:
+      'The Boat Loan Calculator uses purchase-price financing math similar to an auto loan. It estimates amount financed, monthly payment, sales tax, total paid, and interest.',
+    enter: [
+      'Enter boat price, down payment, trade-in value, fees, sales tax rate, loan rate, and term.',
+      'Use the tax and fee numbers from your location or seller when possible.',
+      'Use a realistic term because long terms can lower payment but raise interest.',
+    ],
+    example: [
+      '$45,000 with $9,000 down is financed after tax, fees, and any trade-in adjustment.',
+      'The calculator then uses the fixed-payment loan formula to estimate monthly payment and total interest.',
+    ],
+    read: [
+      'Amount financed is the balance used in the payment formula.',
+      'Sales tax is estimated from the price and entered tax rate.',
+      'Total interest shows the borrowing cost before storage, insurance, fuel, or maintenance.',
+    ],
+    mistakes: [
+      'Do not forget registration, marina fees, storage, maintenance, inspections, insurance, winterization, fuel, and trailer costs.',
+      'Do not compare only monthly payment when terms are different.',
+      'Do not assume boat trade-in tax treatment is the same everywhere.',
+    ],
+    next: ['Use Loan Calculator for a plain loan estimate.', 'Use Personal Loan Calculator for non-collateral borrowing comparisons.'],
+  },
+  'lease-calculator': {
+    summary: 'Learn how asset value, residual value, finance rate, term, upfront payment, and fees affect a lease estimate.',
+    purpose:
+      'The Lease Calculator is a generic asset lease estimator. It separates depreciation and finance portions so a lease quote is easier to inspect before reading the actual contract.',
+    enter: [
+      'Enter asset value, residual value, finance rate, lease term, upfront payment, and fees.',
+      'Use residual value as the expected value at the end of the lease.',
+      'Enter term in whole months because the lease payment is monthly.',
+    ],
+    example: [
+      '$30,000 asset value and $14,000 residual value over 36 months creates a depreciation portion first.',
+      'The calculator adds fees, subtracts upfront payment, estimates finance charge, then returns the monthly payment.',
+    ],
+    read: [
+      'Monthly payment is depreciation fee plus finance fee.',
+      'Adjusted cost is asset value plus fees minus upfront payment.',
+      'Estimated total lease cost includes upfront payment plus monthly payments over the term.',
+    ],
+    mistakes: [
+      'Do not treat this as a contract review.',
+      'Do not forget taxes, maintenance duties, insurance, renewal terms, buyout rights, use limits, and early-exit costs.',
+      'Do not set residual value higher than the adjusted cost.',
+    ],
+    next: ['Use Auto Lease Calculator for vehicle-specific money-factor math.', 'Use Business Loan Calculator if buying the asset is an option.'],
+  },
+  'refinance-calculator': {
+    summary: 'Learn how a refinance changes payment, loan balance, closing costs, break-even time, and long-term cost.',
+    purpose:
+      'The Refinance Calculator compares the loan you have now with a new loan. It is best for seeing whether a lower payment is really from a lower rate or just from stretching the debt over more years.',
+    enter: [
+      'Enter the current balance, current rate, and remaining years on the loan you already have.',
+      'Enter the new rate, new term, and closing costs from the refinance idea you want to test.',
+      'Use closing costs as dollars. In this calculator those costs are added to the new principal, so the new loan balance starts higher.',
+    ],
+    example: [
+      '$280,000 at 7% for the remaining term is compared with a new loan at 5.9% plus $4,500 in costs.',
+      'The calculator estimates both payments, subtracts the new payment from the current payment, then divides closing costs by monthly savings when savings are positive.',
+    ],
+    read: [
+      'Monthly savings is useful, but it is not the whole story.',
+      'Break-even months shows about how long the payment savings may take to cover closing costs.',
+      'Total cost change helps catch the sneaky part: a longer new term can lower the monthly payment but raise total cost over time.',
+    ],
+    mistakes: [
+      'Do not ignore closing costs, escrow changes, points, prepaids, lender fees, title fees, appraisal fees, and prepayment penalties.',
+      'Do not call a refinance better just because the monthly payment drops.',
+      'Do not use this as a loan disclosure. Use the lender Loan Estimate for real terms.',
+    ],
+    next: ['Use Mortgage Payoff Calculator if you want to compare extra payments instead.', 'Use APR Calculator if fees make two rate offers hard to compare.'],
+  },
+  'budget-calculator': {
+    summary: 'Learn how income, monthly spending, savings, and debt payments turn into leftover money and budget ratios.',
+    purpose:
+      'The Budget Calculator is a monthly money map. It adds the categories you enter and shows whether the plan has money left over or is already overspending.',
+    enter: [
+      'Enter monthly take-home or spendable income, then enter each monthly category.',
+      'Put debt payments in the debt field and planned savings in the savings field so they are visible instead of hidden inside other spending.',
+      'Use average monthly amounts for bills that change, such as utilities or groceries.',
+    ],
+    example: [
+      '$5,200 monthly income with housing, utilities, food, transport, debt, savings, and other spending creates a total expense number.',
+      'If total expenses are $4,850, the leftover is $350 and the category percentages show where the money is going.',
+    ],
+    read: [
+      'Leftover money is income minus everything you entered.',
+      'Expense ratio shows how much of income is already assigned to spending and savings.',
+      'Savings rate shows planned savings as a percent of income, which is easier to compare than dollars alone.',
+    ],
+    mistakes: [
+      'Do not mix yearly bills with monthly fields without dividing by 12 first.',
+      'Do not forget irregular costs like car repairs, school fees, holidays, subscriptions, and medical copays.',
+      'Do not treat the biggest category as automatically bad. Housing or childcare can be high because real life is expensive.',
+    ],
+    next: ['Use Debt-to-Income Ratio Calculator for loan-style debt pressure.', 'Use Savings Calculator to see what a monthly savings amount could become.'],
+  },
+  'marriage-tax-calculator': {
+    summary: 'Learn how two single federal tax estimates compare with a married filing jointly estimate.',
+    purpose:
+      'The Marriage Tax Calculator is a simplified federal tax comparison. It answers one narrow question: with the incomes and deductions entered, does the joint estimate look higher or lower than two single estimates?',
+    enter: [
+      'Enter each person\'s income separately.',
+      'Use deduction fields only if you want to override the default 2026 standard deduction style assumptions.',
+      'Enter joint credits if you want to reduce the married filing jointly estimate in the comparison.',
+    ],
+    example: [
+      '$90,000 and $70,000 are first estimated as two single filers.',
+      'Then the calculator combines the income as married filing jointly and subtracts the two-single total from the joint total.',
+    ],
+    read: [
+      'A negative marriage difference means the joint estimate is lower than the two-single estimate.',
+      'A positive marriage difference means the joint estimate is higher in this simplified model.',
+      'The marginal bracket lines are clues, not a full tax return.',
+    ],
+    mistakes: [
+      'Do not use this for filing advice or wedding decisions.',
+      'Do not forget state tax, payroll tax, credits, dependents, AMT, itemized deductions, student loans, benefits, and phaseouts.',
+      'Do not assume a marriage bonus or penalty stays the same when income changes.',
+    ],
+    next: ['Use Income Tax Calculator for one filing-status estimate.', 'Use Take-Home-Paycheck Calculator to estimate paycheck impact separately.'],
+  },
+  'estate-tax-calculator': {
+    summary: 'Learn how gross estate, deductions, lifetime taxable gifts, and the 2026 exclusion affect a rough federal estate tax estimate.',
+    purpose:
+      'The Estate Tax Calculator is a high-level screen for very large estates. It shows whether the entered estate might sit above the 2026 federal basic exclusion, but it is not legal or tax planning.',
+    enter: [
+      'Enter gross estate before deductions.',
+      'Enter debts and expenses, charitable bequests, and spouse transfers if they apply.',
+      'Enter prior lifetime taxable gifts because they reduce the remaining exclusion in this simplified model.',
+    ],
+    example: [
+      'An $18,000,000 estate with $500,000 of deductions starts with $17,500,000 before exclusion.',
+      'The calculator subtracts the remaining 2026 exclusion and applies a simplified 40% estimate only to the amount above that exclusion.',
+    ],
+    read: [
+      'Taxable estate before exclusion is the estate after the deductions you entered.',
+      'Remaining exclusion shows how much of the 2026 basic exclusion is still available after prior taxable gifts.',
+      'Estimated federal estate tax is simplified. Real estate tax work is much more detailed.',
+    ],
+    mistakes: [
+      'Do not use this for trusts, portability, generation-skipping tax, state estate tax, valuation discounts, or Form 706 decisions.',
+      'Do not forget that asset values, debts, deductions, and elections can change the result.',
+      'Do not treat the 40% estimate as the full IRS rate schedule for every case.',
+    ],
+    next: ['Use Future Value Calculator to test how estate value might grow.', 'Talk to an estate attorney or tax professional for real planning.'],
+  },
+  'social-security-calculator': {
+    summary: 'Learn how claiming before or after full retirement age can change a Social Security retirement benefit estimate.',
+    purpose:
+      'The Social Security Calculator uses your full-retirement-age benefit as the starting point and estimates how claiming age changes it. It is a planning screen before using official SSA records.',
+    enter: [
+      'Enter birth year so the calculator can estimate full retirement age.',
+      'Enter the monthly benefit you expect at full retirement age, usually from an official SSA estimate.',
+      'Enter a claiming age from 62 through 70.',
+    ],
+    example: [
+      'A person born in 1962 with a $2,400 full-retirement-age benefit is tested at age 67, 62, or 70.',
+      'The calculator applies early reduction before full retirement age or delayed credits after full retirement age, then shows monthly and annual estimates.',
+    ],
+    read: [
+      'Monthly benefit is the adjusted estimate at the claiming age you entered.',
+      'Adjustment percent shows how far the estimate moved from the full-retirement-age benefit.',
+      'Annual benefit is monthly benefit times 12, not a lifetime break-even analysis.',
+    ],
+    mistakes: [
+      'Do not use this instead of your official SSA account.',
+      'Do not forget earnings history, spousal benefits, survivor benefits, disability benefits, taxes, COLA changes, Medicare premiums, and work rules.',
+      'Do not compare only the monthly amount without thinking about health, job plans, savings, and household needs.',
+    ],
+    next: ['Use Retirement Calculator for savings planning.', 'Use RMD Calculator if retirement account withdrawals are part of the plan.'],
+  },
+  'rmd-calculator': {
+    summary: 'Learn how prior year-end balance and IRS life expectancy factor create a required minimum distribution estimate.',
+    purpose:
+      'The RMD Calculator estimates a traditional retirement account withdrawal using the IRS Uniform Lifetime Table. It is a quick check, not a custodian statement.',
+    enter: [
+      'Enter the account balance from the previous December 31.',
+      'Enter your age for the distribution year.',
+      'Use this only for the simple owner-style Uniform Lifetime Table case shown on the page.',
+    ],
+    example: [
+      '$500,000 at age 75 uses the age 75 table factor.',
+      'The calculator divides the prior year-end balance by that factor and shows the estimated required distribution.',
+    ],
+    read: [
+      'Required distribution is the estimated minimum amount for the year.',
+      'Life expectancy factor is the denominator used in the IRS table.',
+      'Remaining balance after RMD is just balance minus the estimate. It does not include market movement or taxes.',
+    ],
+    mistakes: [
+      'Do not use this for inherited IRA rules, spouse-more-than-10-years-younger rules, Roth IRA owner rules, or beneficiary cases.',
+      'Do not use a current balance when the rule calls for the prior December 31 balance.',
+      'Do not assume extra withdrawals this year reduce next year\'s RMD.',
+    ],
+    next: ['Use IRA Calculator for contribution-style planning.', 'Use Retirement Calculator for a wider retirement savings estimate.'],
+  },
+  'real-estate-calculator': {
+    summary: 'Learn how purchase price, sale price, cash invested, selling costs, and loan payoff affect property profit and ROI.',
+    purpose:
+      'The Real Estate Calculator is for a sale scenario. It compares money put into a property with estimated net sale proceeds so profit, ROI, and equity multiple are easier to read.',
+    enter: [
+      'Enter purchase price, down payment, buying costs, and improvements to build cash invested.',
+      'Enter selling price, selling costs, and loan payoff to estimate net sale proceeds.',
+      'If loan payoff is blank, use a careful estimate because it strongly changes the result.',
+    ],
+    example: [
+      '$350,000 purchase, $70,000 down, $20,000 improvements, $430,000 sale price, costs, and payoff are put into one sale picture.',
+      'The calculator subtracts selling costs and payoff from sale price, then compares the remainder with cash invested.',
+    ],
+    read: [
+      'Net sale proceeds is what is left after selling costs and payoff in this simplified model.',
+      'Profit is net sale proceeds minus cash invested.',
+      'ROI percent compares profit with cash invested, while equity multiple compares proceeds with cash invested.',
+    ],
+    mistakes: [
+      'Do not use this as a tax-basis or capital-gains calculator.',
+      'Do not forget depreciation, depreciation recapture, transfer taxes, agent commissions, legal costs, refinancing, rent history, and repairs.',
+      'Do not compare two properties unless cash invested is measured the same way.',
+    ],
+    next: ['Use Rental Property Calculator for monthly cash-flow screening.', 'Use ROI Calculator for a simpler investment return check.'],
+  },
+  'take-home-paycheck-calculator': {
+    summary: 'Learn how salary, pay frequency, pretax deductions, estimated taxes, and FICA affect net pay per paycheck.',
+    purpose:
+      'The Take-Home-Paycheck Calculator turns an annual salary into a rough paycheck estimate. It separates gross pay, pretax deductions, entered tax estimates, Social Security, Medicare, and net pay.',
+    enter: [
+      'Enter annual gross pay before deductions.',
+      'Choose pay periods per year, such as 26 for biweekly or 12 for monthly.',
+      'Enter pretax deductions per paycheck and tax percentages as estimates, not decimals.',
+    ],
+    example: [
+      '$78,000 salary over 26 paychecks gives $3,000 gross per paycheck before deductions.',
+      'The calculator annualizes pretax deductions, applies the entered tax percentages, estimates employee FICA, then divides annual take-home pay by pay periods.',
+    ],
+    read: [
+      'Gross per paycheck is salary divided by pay periods.',
+      'Take-home per paycheck is the rough net amount after the deductions and taxes in the model.',
+      'FICA is shown separately so Social Security and Medicare are not hidden inside the tax percentage fields.',
+    ],
+    mistakes: [
+      'Do not enter a dollar withholding amount in a percent field.',
+      'Do not assume this matches payroll exactly. Real payroll can use W-4 details, state rules, benefit plans, bonuses, garnishments, and employer timing.',
+      'Do not include Social Security or Medicare inside the federal tax percent if you want to avoid double counting.',
+    ],
+    next: ['Use Salary Calculator for annual-to-hourly comparisons.', 'Use Income Tax Calculator for a broader federal tax estimate.'],
+  },
+  'rental-property-calculator': {
+    summary: 'Learn how rent, vacancy, operating costs, mortgage payment, NOI, cap rate, and cash-on-cash return fit together.',
+    purpose:
+      'The Rental Property Calculator screens a rental deal. It separates the property performance before financing from the cash flow after the mortgage payment.',
+    enter: [
+      'Enter property price, down payment, loan rate, loan term, and monthly rent.',
+      'Enter vacancy percent, operating expenses, property tax, insurance, maintenance reserve, and closing costs.',
+      'Use realistic monthly expense numbers. A rental can look good only because repairs or vacancy were left out.',
+    ],
+    example: [
+      '$300,000 property with $2,400 rent, vacancy reserve, expenses, taxes, insurance, maintenance, and a mortgage creates monthly NOI first.',
+      'The calculator subtracts mortgage payment from NOI for cash flow, then calculates cap rate and cash-on-cash return.',
+    ],
+    read: [
+      'NOI means net operating income before loan payment.',
+      'Cap rate compares annual NOI with property price before financing.',
+      'Cash-on-cash return compares annual cash flow after mortgage payment with cash invested.',
+    ],
+    mistakes: [
+      'Do not forget repairs, vacancy, property management, HOA, utilities, legal costs, local rules, rent control, and tenant risk.',
+      'Do not treat cap rate and cash-on-cash return as the same thing.',
+      'Do not use this as tax advice because depreciation and tax treatment are not included.',
+    ],
+    next: ['Use Real Estate Calculator for a sale-profit estimate.', 'Use Mortgage Calculator to inspect the loan payment separately.'],
+  },
+  'irr-calculator': {
+    summary: 'Learn how cash flows are used to solve the rate that makes net present value close to zero.',
+    purpose:
+      'The IRR Calculator is for uneven cash flows. It estimates the periodic and annualized return rate that balances an initial outflow against later inflows.',
+    enter: [
+      'Enter the first cash flow as the initial investment or outflow. The tool treats it as negative in the project-style setup.',
+      'Enter later cash flows in order by period.',
+      'Set periods per year carefully. Use 1 for annual cash flows, 12 for monthly cash flows, or another value that matches the spacing.',
+    ],
+    example: [
+      '$10,000 outflow followed by five annual inflows is solved by searching for the rate where NPV is about zero.',
+      'If the cash-flow periods are monthly, the periodic IRR is converted into an annualized estimate using the periods-per-year setting.',
+    ],
+    read: [
+      'Periodic IRR is the solved rate for one cash-flow period.',
+      'Annualized IRR converts that rate to a yearly-style estimate.',
+      'Net cash flow is simple dollars in minus dollars out. It is not time-adjusted like IRR.',
+    ],
+    mistakes: [
+      'Do not use IRR alone when project sizes are very different.',
+      'Do not trust a simple IRR when cash flows switch signs more than once, because there can be more than one IRR.',
+      'Do not forget taxes, fees, inflation, risk, and reinvestment assumptions.',
+    ],
+    next: ['Use ROI Calculator for a simpler gain-versus-cost number.', 'Use Payback Period Calculator to see how long recovery takes.'],
+  },
+  'roi-calculator': {
+    summary: 'Learn how simple ROI compares gain or loss with the original investment.',
+    purpose:
+      'The ROI Calculator is for a quick gain-versus-cost check. It is simple on purpose, so it is useful for one snapshot but not enough for full investment analysis.',
+    enter: [
+      'Enter the initial investment as the money or cost you are measuring against.',
+      'Enter ending value, extra income, and costs separately so the gain is not guessed.',
+      'Use the same currency and the same project boundary for every field.',
+    ],
+    example: [
+      '$10,000 initial investment, $12,500 ending value, $300 income, and $100 costs gives a gain of $2,700.',
+      'The calculator divides that gain by the $10,000 initial investment to estimate ROI.',
+    ],
+    read: [
+      'ROI percent shows gain or loss compared with the starting investment.',
+      'Gain or loss is the dollar result after ending value plus income minus costs and initial investment.',
+      'A positive ROI does not tell you whether the return was fast, slow, risky, or better than another option.',
+    ],
+    mistakes: [
+      'Do not compare ROI across projects with very different time lengths without another metric.',
+      'Do not forget fees, taxes, financing cost, repairs, subscriptions, or labor if they belong in the project.',
+      'Do not use ROI as if it were IRR, annual return, or profit margin.',
+    ],
+    next: ['Use IRR Calculator for uneven cash flows over time.', 'Use Payback Period Calculator to see how long cost recovery takes.'],
+  },
+  'apr-calculator': {
+    summary: 'Learn how loan fees can make APR higher than the note interest rate.',
+    purpose:
+      'The APR Calculator estimates a rough annual percentage rate from the payment stream and the amount actually received after fees. It is a comparison tool, not an official disclosure.',
+    enter: [
+      'Enter the loan amount, note rate, term, and finance charges or fees.',
+      'Use fees that reduce what you effectively receive or raise the borrowing cost.',
+      'Keep the note rate separate from APR. The tool solves the APR-style rate after estimating the scheduled payment.',
+    ],
+    example: [
+      '$20,000 at an 8% note rate with $600 in fees produces a payment from the full $20,000 loan.',
+      'Then the calculator treats the borrower as receiving $19,400 and solves the rate implied by making that same payment.',
+    ],
+    read: [
+      'Estimated APR is the main comparison number.',
+      'Amount received shows why fees can raise APR even when the note rate stays the same.',
+      'Monthly payment comes from the note rate and full principal in this simplified model.',
+    ],
+    mistakes: [
+      'Do not treat this as a Truth in Lending disclosure.',
+      'Do not enter fees that are not finance charges unless that is the comparison you intentionally want.',
+      'Do not compare two loans by note rate alone when one has higher fees.',
+    ],
+    next: ['Use Loan Calculator for the basic payment.', 'Use Personal Loan Calculator if origination fees reduce cash received.'],
+  },
+  'fha-loan-calculator': {
+    summary: 'Learn how FHA upfront MIP and annual MIP assumptions affect a monthly mortgage estimate.',
+    purpose:
+      'The FHA Loan Calculator is for FHA-style payment planning. It adds mortgage insurance assumptions to the usual principal, interest, tax, and insurance estimate.',
+    enter: [
+      'Enter home price, down payment, rate, loan term, annual property tax, and monthly insurance.',
+      'Enter upfront MIP percent and annual MIP percent from the scenario you want to test.',
+      'Use 3.5% down only as a common example, not as an eligibility answer.',
+    ],
+    example: [
+      '$325,000 with 3.5% down creates a base loan first.',
+      'The calculator estimates upfront MIP from the base loan, adds it to the financed balance, then adds monthly MIP to the payment.',
+    ],
+    read: [
+      'Total monthly payment includes principal, interest, tax, insurance, and monthly MIP.',
+      'Upfront MIP is shown as a separate dollar amount so it is not hidden inside the loan.',
+      'Loan-to-value helps explain how much of the purchase price is financed before program-specific rules.',
+    ],
+    mistakes: [
+      'Do not use this to decide FHA eligibility or loan limits.',
+      'Do not ignore MIP duration, property rules, lender overlays, closing costs, escrow, or official FHA updates.',
+      'Do not assume the entered MIP rates are current for every FHA loan type.',
+    ],
+    next: ['Use Mortgage Calculator for a non-FHA comparison.', 'Use Down Payment Calculator to test cash needed.'],
+  },
+  'va-mortgage-calculator': {
+    summary: 'Learn how a VA purchase funding fee can affect loan amount and payment.',
+    purpose:
+      'The VA Mortgage Calculator estimates a common VA-backed purchase scenario. It focuses on payment and funding-fee logic, not eligibility.',
+    enter: [
+      'Enter home price, down payment, rate, term, property tax, and insurance.',
+      'Choose first use or later use, funding-fee exemption, and whether to finance the funding fee.',
+      'Use the VA funding fee result as a planning estimate before checking official loan documents.',
+    ],
+    example: [
+      '$360,000 with no down payment and first VA use uses the common first-use funding-fee rate.',
+      'The calculator adds the fee to the loan if financed, then estimates the mortgage payment.',
+    ],
+    read: [
+      'Funding fee rate is chosen from down payment, first-use status, and exemption setting.',
+      'Funding fee dollars show the one-time fee amount in this simplified purchase model.',
+      'Total monthly payment changes if the fee is financed because the loan balance is higher.',
+    ],
+    mistakes: [
+      'Do not use this to prove VA eligibility or exemption status.',
+      'Do not forget lender fees, discount points, appraisal, title, seller credits, and VA closing-cost rules.',
+      'Do not use purchase funding-fee logic for every VA refinance type.',
+    ],
+    next: ['Use FHA Loan Calculator for another government-backed loan comparison.', 'Use Mortgage Calculator for a plain mortgage estimate.'],
+  },
+  'home-equity-loan-calculator': {
+    summary: 'Learn how home value, mortgage balance, loan amount, and CLTV affect a fixed home equity loan estimate.',
+    purpose:
+      'The Home Equity Loan Calculator estimates a lump-sum second loan. It shows both the fixed payment and whether the requested loan fits inside a combined loan-to-value limit.',
+    enter: [
+      'Enter home value and current mortgage balance first.',
+      'Enter the desired loan amount, rate, term, and max combined loan-to-value percent.',
+      'Use a realistic home value because available equity depends on it.',
+    ],
+    example: [
+      '$450,000 home value, $260,000 mortgage balance, and an 85% max CLTV gives an available-equity estimate.',
+      'A $50,000 requested loan is then run through the fixed-payment loan formula.',
+    ],
+    read: [
+      'Available equity at limit is the maximum borrowing room under the entered CLTV cap.',
+      'Combined LTV shows mortgage balance plus requested loan compared with home value.',
+      'Monthly payment and total interest are for the desired loan amount, not the whole mortgage balance.',
+    ],
+    mistakes: [
+      'Do not forget that the home is collateral and can be at risk if payments are missed.',
+      'Do not compare by payment alone when upfront fees, closing costs, and rate type differ.',
+      'Do not assume an estimated home value or CLTV cap means approval.',
+    ],
+    next: ['Use HELOC Calculator if the borrowing is a line of credit.', 'Use Loan Calculator for a non-home-secured comparison.'],
+  },
+  'heloc-calculator': {
+    summary: 'Learn how a HELOC draw, variable-rate assumption, equity limit, and repayment period affect payment estimates.',
+    purpose:
+      'The HELOC Calculator separates the draw-period interest-only estimate from a later repayment estimate. That matters because HELOC payments can jump after the draw period ends.',
+    enter: [
+      'Enter home value, current mortgage balance, credit line, current draw, rate, repayment years, and max CLTV.',
+      'Use current draw for the amount already borrowed, not the full credit line.',
+      'Use the rate as a planning rate because many HELOCs are variable.',
+    ],
+    example: [
+      '$80,000 credit line with $30,000 drawn at 9% creates an interest-only draw-period estimate.',
+      'The same $30,000 draw is also amortized over the repayment years to estimate a later repayment payment.',
+    ],
+    read: [
+      'Interest-only payment is based only on the current draw and rate.',
+      'Repayment payment estimate shows what the drawn balance might cost if paid down over the repayment period.',
+      'Combined LTV on draw uses current mortgage balance plus current draw, not the full credit line.',
+    ],
+    mistakes: [
+      'Do not treat the interest-only payment as the forever payment.',
+      'Do not ignore variable rates, freezes, minimum draws, fees, balloon payments, and lender line rules.',
+      'Do not forget that missing payments can put the home at risk.',
+    ],
+    next: ['Use Home Equity Loan Calculator for a fixed lump-sum option.', 'Use APR Calculator if fees make a quote hard to compare.'],
+  },
+  'down-payment-calculator': {
+    summary: 'Learn how home price, down payment percent, exact cash, and closing costs shape cash needed.',
+    purpose:
+      'The Down Payment Calculator estimates upfront cash for a home purchase. It keeps down payment separate from closing costs because they are not the same thing.',
+    enter: [
+      'Enter home price first.',
+      'Either enter an exact down payment dollar amount or use the down payment percent.',
+      'Enter closing cost percent as a rough planning estimate, separate from the down payment.',
+    ],
+    example: [
+      '$400,000 with 20% down gives an $80,000 down payment and a $320,000 estimated loan.',
+      'If closing costs are estimated at 3%, the calculator adds $12,000 to show $92,000 estimated cash needed.',
+    ],
+    read: [
+      'Cash needed is down payment plus estimated closing costs.',
+      'Loan amount is home price minus down payment.',
+      'Loan-to-value is the loan amount as a percent of the home price.',
+    ],
+    mistakes: [
+      'Do not treat closing costs as part of the down payment.',
+      'Do not forget escrow deposits, lender reserves, moving costs, inspections, insurance, and assistance-program rules.',
+      'Do not assume the calculator is a final cash-to-close number.',
+    ],
+    next: ['Use Mortgage Calculator to estimate the monthly payment.', 'Use FHA Loan Calculator to test a common low-down-payment scenario.'],
+  },
+  'rent-vs-buy-calculator': {
+    summary: 'Learn how rent growth, mortgage costs, maintenance, appreciation, sale proceeds, and time horizon affect a rent-versus-buy estimate.',
+    purpose:
+      'The Rent vs. Buy Calculator compares renting with buying and selling after a chosen number of years. It is built for testing assumptions, not declaring one choice right for everyone.',
+    enter: [
+      'Enter monthly rent and expected rent increase.',
+      'Enter home price, down payment, mortgage rate, years, tax, insurance, maintenance, appreciation, and selling cost.',
+      'Use the number of years you realistically expect to stay, because short and long horizons can give very different answers.',
+    ],
+    example: [
+      '$2,100 rent versus a $420,000 home over seven years compares projected rent cost with buying cash outflow.',
+      'The calculator estimates home value, remaining loan balance, and sale proceeds, then compares net buying cost with total rent cost.',
+    ],
+    read: [
+      'Buy minus rent is the final gap between estimated buying cost and rent cost.',
+      'Net buying cost subtracts estimated sale proceeds from buying cash outflow.',
+      'Estimated sale proceeds depend heavily on appreciation, selling costs, and remaining loan balance.',
+    ],
+    mistakes: [
+      'Do not ignore opportunity cost, taxes, PMI, HOA, repairs timing, moving costs, or lifestyle flexibility.',
+      'Do not assume appreciation is guaranteed.',
+      'Do not compare a short stay with a long stay using the same conclusion.',
+    ],
+    next: ['Use Rent Calculator for rent affordability.', 'Use Real Estate Calculator for a sale-profit estimate.'],
+  },
+  'payback-period-calculator': {
+    summary: 'Learn how initial cost and yearly cash flow create a simple payback time.',
+    purpose:
+      'The Payback Period Calculator answers a basic recovery question: how many years until the project pays back its starting cost from steady annual cash flow?',
+    enter: [
+      'Enter the initial cost as the amount paid upfront.',
+      'Enter annual cash flow as the yearly savings or extra cash the project creates.',
+      'Enter horizon years if you want a simple net check after a specific time.',
+    ],
+    example: [
+      '$15,000 upfront cost and $3,600 yearly savings gives about 4.17 years to pay back.',
+      'If the horizon is 6 years, the calculator also shows yearly cash flow over 6 years minus the initial cost.',
+    ],
+    read: [
+      'Payback years is initial cost divided by annual cash flow.',
+      'Net after horizon is a simple total cash-flow check after the chosen number of years.',
+      'A shorter payback is usually easier to understand, but it does not mean the project is automatically best.',
+    ],
+    mistakes: [
+      'Do not forget that simple payback ignores time value of money.',
+      'Do not ignore cash flows that happen after the payback point.',
+      'Do not use this alone for risky, long, or uneven projects.',
+    ],
+    next: ['Use IRR Calculator for uneven cash flows.', 'Use Present Value Calculator to include discounting.'],
+  },
+  'present-value-calculator': {
+    summary: 'Learn how a discount rate turns future money and regular payments into a value in today’s dollars.',
+    purpose:
+      'The Present Value Calculator discounts a future lump sum and a regular payment stream back to today. It helps explain why money later is usually worth less than money now when a positive discount rate is used.',
+    enter: [
+      'Enter a future value if there is a lump sum at the end.',
+      'Enter regular payment, years, discount rate, and payments per year if there is a payment stream.',
+      'Use the discount rate as the comparison rate or required return for the scenario.',
+    ],
+    example: [
+      '$50,000 in 10 years at a 6% discount rate is divided by the growth factor to estimate today’s value.',
+      'If regular payments are also entered, the calculator discounts the payment stream as an ordinary annuity and adds it to the lump-sum present value.',
+    ],
+    read: [
+      'Present value is the combined today-value estimate.',
+      'Lump-sum present value and payment-stream present value show the two parts separately.',
+      'A higher discount rate lowers present value, all else equal.',
+    ],
+    mistakes: [
+      'Do not treat the discount rate as guaranteed investment return.',
+      'Do not mix monthly payments with annual payments unless payments per year matches.',
+      'Do not forget taxes, fees, inflation surprises, risk, and payment timing.',
+    ],
+    next: ['Use Future Value Calculator to project money forward.', 'Use IRR Calculator when the cash flows are uneven.'],
+  },
+  'future-value-calculator': {
+    summary: 'Learn how a starting amount, regular payments, rate, and time can grow into a future value.',
+    purpose:
+      'The Future Value Calculator moves money forward in time. It estimates what a starting balance and equal regular payments could become if the entered rate, time, and payment frequency stay the same.',
+    enter: [
+      'Enter principal for the money already saved or invested.',
+      'Enter payment for the amount added each period, then set payments per year to match that payment amount.',
+      'Enter annual rate and years as planning assumptions, not as guaranteed growth.',
+    ],
+    example: [
+      '$5,000 plus $250 monthly for 10 years at 6% compounds the $5,000 and each monthly payment separately.',
+      'The calculator treats regular payments as end-of-period payments, so the timing is closer to an ordinary annuity than money deposited at the start of each period.',
+    ],
+    read: [
+      'Future value is the projected ending balance.',
+      'Principal future value shows what the starting amount becomes by itself.',
+      'Contribution future value shows the growth of the regular payment stream.',
+    ],
+    mistakes: [
+      'Do not mix monthly payments with annual payment frequency.',
+      'Do not treat the entered rate as guaranteed investment performance.',
+      'Do not forget that taxes, fees, inflation, missed payments, and account rules can change the real result.',
+    ],
+    next: ['Use Present Value Calculator to discount future money back to today.', 'Use Compound Interest Calculator for more compounding-frequency control.'],
+  },
+  'commission-calculator': {
+    summary: 'Learn how sales amount, commission rate, split percent, base pay, and bonus combine into simple commission pay.',
+    purpose:
+      'The Commission Calculator is for checking a simple commission plan. It multiplies sales by a commission rate, applies a split if there is one, and then adds base pay or bonus amounts entered.',
+    enter: [
+      'Enter sales amount for the sale, revenue, or production value the commission is based on.',
+      'Enter commission percent as a normal percent, such as 3 for 3%.',
+      'Use split percent only when you receive part of the gross commission, then add base pay or bonus if those belong in the same pay estimate.',
+    ],
+    example: [
+      '$50,000 in sales at 3% creates $1,500 gross commission.',
+      'If the split is 50%, the split commission is $750 before any base pay or bonus is added.',
+    ],
+    read: [
+      'Commission is the gross commission before split.',
+      'Split amount is the part assigned to you after the split percent.',
+      'Total pay adds split commission, base pay, and bonus, but it is still before tax or company policy adjustments.',
+    ],
+    mistakes: [
+      'Do not use this for tiered, quota, accelerator, clawback, draw, or chargeback plans without a separate agreement check.',
+      'Do not assume commission is owed or payable just because this simple math produces a number.',
+      'Do not forget payroll tax, written plan rules, timing, returns, cancellations, or employer policy.',
+    ],
+    next: ['Use Salary Calculator to compare base pay.', 'Use Take-Home-Paycheck Calculator for a rough net-pay screen.'],
+  },
+  'mortgage-calculator-uk': {
+    summary: 'Learn how a UK-style repayment mortgage estimate uses property price, deposit, rate, term, and monthly fees.',
+    purpose:
+      'The UK Mortgage Calculator estimates a repayment mortgage payment. It subtracts the deposit from the property price, calculates the repayment amount, and adds any monthly fees entered.',
+    enter: [
+      'Enter property price and deposit in the same currency.',
+      'Enter the annual interest rate and repayment term in years.',
+      'Add monthly fees only when you want them included in the monthly payment estimate.',
+    ],
+    example: [
+      'A 300,000 property with a 60,000 deposit creates a 240,000 loan.',
+      'The calculator estimates the repayment mortgage payment on that loan, then adds monthly fees if entered.',
+    ],
+    read: [
+      'Monthly repayment is the loan payment before optional monthly fees.',
+      'Total monthly payment includes the optional monthly fee field.',
+      'Loan-to-value shows the loan amount compared with property price, which is useful for comparing deposit scenarios.',
+    ],
+    mistakes: [
+      'Do not use this as a lender affordability check.',
+      'Do not forget stamp duty, arrangement fees, valuation fees, insurance, solicitor costs, product rules, or interest-only mortgage differences.',
+      'Do not enter a deposit equal to or larger than the property price.',
+    ],
+    next: ['Use Mortgage Calculator for the U.S.-style version.', 'Use Canadian Mortgage Calculator if the loan follows Canadian payment conventions.'],
+  },
+  'canadian-mortgage-calculator': {
+    summary: 'Learn how a Canadian mortgage estimate converts semi-annual compounding into the selected payment frequency.',
+    purpose:
+      'The Canadian Mortgage Calculator estimates payments using a Canadian-style semi-annual compounding conversion. That makes it different from a basic annual-rate-divided-by-12 mortgage estimate.',
+    enter: [
+      'Enter property price and down payment in the same currency.',
+      'Enter the nominal annual rate, amortization years, and payment frequency.',
+      'Use the payment frequency that matches the comparison you want: monthly, biweekly, weekly, or another page option.',
+    ],
+    example: [
+      'For a 600,000 property with 120,000 down, the loan amount is 480,000.',
+      'The calculator converts the nominal annual rate through semi-annual compounding, then converts that effective rate to the chosen payment period.',
+    ],
+    read: [
+      'Payment is for the selected frequency, not always a monthly amount.',
+      'Loan-to-value shows the loan amount as a percent of property price.',
+      'Total interest depends on amortization length and does not include future renewal-rate changes.',
+    ],
+    mistakes: [
+      'Do not use a U.S. monthly-compounding mortgage calculator for this exact comparison.',
+      'Do not forget mortgage default insurance, closing costs, property tax, renewal risk, prepayment privileges, or lender qualification rules.',
+      'Do not compare payment frequencies without checking whether they are accelerated or just regular-frequency payments.',
+    ],
+    next: ['Use Mortgage Calculator UK for a UK repayment estimate.', 'Use Down Payment Calculator to compare deposit size and loan-to-value.'],
+  },
+  'percent-off-calculator': {
+    summary: 'Learn how one or two discounts, tax, and effective discount percent turn a tag price into a final sale price.',
+    purpose:
+      'The Percent Off Calculator is for sale and coupon math. It applies the first discount, then applies the second discount to the already-reduced price, which is how stacked percentage discounts usually work.',
+    enter: [
+      'Enter original price before any discount.',
+      'Enter first discount percent and optional second discount percent as normal percentages.',
+      'Enter sales tax percent only if you want an after-tax total.',
+    ],
+    example: [
+      '$80 with 25% off drops to $60 before any second discount.',
+      'An extra 10% off is then applied to $60, not to the original $80, giving a stronger but not additive discount.',
+    ],
+    read: [
+      'Final price is the amount after discounts and optional tax.',
+      'Savings before tax shows the dollar amount removed from the original price.',
+      'Effective discount shows the real percent saved after stacked discounts.',
+    ],
+    mistakes: [
+      'Do not add 25% and 10% and assume the discount is exactly 35%.',
+      'Do not forget that tax, shipping, coupon exclusions, minimum spend, and fees can change checkout totals.',
+      'Do not enter 0.25 when the field asks for 25%.',
+    ],
+    next: ['Use Discount Calculator for a broader discount setup.', 'Use Sales Tax Calculator when tax is the main question.'],
   },
 };
 

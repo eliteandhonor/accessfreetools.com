@@ -2169,7 +2169,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     modes: [
       {
         id: 'nws',
-        label: 'NWS regression',
+        label: 'NWS method',
         symbol: 'HEAT',
         fields: [numberField('temperatureFahrenheit', 'Temperature F', '90'), numberField('relativeHumidity', 'Relative humidity %', '70')],
         defaultInputs: { temperatureFahrenheit: '90', relativeHumidity: '70' },
@@ -4243,8 +4243,8 @@ function calculateUtility(
           { label: 'Humidity', value: percent(result.relativeHumidity ?? 0) },
         ],
         steps: [
-          'Use the NWS Rothfusz regression for warm, humid conditions.',
-          'Apply humidity adjustment when the formula range calls for it.',
+          'Compute the simple NWS heat index branch first.',
+          'Use the Rothfusz regression and humidity adjustments when the preliminary value reaches about 80 F.',
           'Report the apparent temperature in Fahrenheit and Celsius.',
         ],
         note: 'Heat illness risk depends on sun, exertion, hydration, wind, and health. Follow local heat advisories.',

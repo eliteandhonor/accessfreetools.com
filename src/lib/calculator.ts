@@ -9242,6 +9242,14 @@ export function calculateWindChill(temperatureFahrenheit: number, windSpeedMph: 
   assertFiniteNumber(temperatureFahrenheit, 'Temperature');
   assertPositiveNumber(windSpeedMph, 'Wind speed');
 
+  if (temperatureFahrenheit > 50) {
+    throw new Error('Wind chill is intended for air temperatures of 50 F or colder');
+  }
+
+  if (windSpeedMph <= 3) {
+    throw new Error('Wind chill is intended for wind speeds above 3 mph');
+  }
+
   const windPower = windSpeedMph ** 0.16;
   const resultFahrenheit =
     35.74 +
@@ -9263,6 +9271,18 @@ export function calculateHeatIndex(temperatureFahrenheit: number, relativeHumidi
 
   const t = temperatureFahrenheit;
   const rh = relativeHumidity;
+  const simpleHeatIndex = 0.5 * (t + 61 + (t - 68) * 1.2 + rh * 0.094);
+  const averagedSimpleHeatIndex = (simpleHeatIndex + t) / 2;
+
+  if (averagedSimpleHeatIndex < 80) {
+    return {
+      temperatureFahrenheit,
+      relativeHumidity,
+      resultFahrenheit: averagedSimpleHeatIndex,
+      resultCelsius: ((averagedSimpleHeatIndex - 32) * 5) / 9,
+    };
+  }
+
   let resultFahrenheit =
     -42.379 +
     2.04901523 * t +

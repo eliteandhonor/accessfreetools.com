@@ -547,6 +547,18 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator uses density = mass / volume. The mass and volume units should match the density unit you want to read.',
     limit:
       'Use consistent units before calculating. Lab, engineering, and material decisions can require calibrated measurements and official standards.',
+    inputExplanations: [
+      { term: 'Mass', meaning: 'how much matter the sample has, such as grams, kilograms, pounds, or another mass unit.' },
+      { term: 'Volume', meaning: 'how much space the sample takes up, such as mL, L, cm3, ft3, or another volume unit.' },
+      { term: 'Unit label', meaning: 'plain text for the answer, like g/mL. The calculator does not convert units inside that label.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why do density units have to match?',
+        answer:
+          'Density is a ratio. If mass is in grams and volume is in milliliters, the answer is g/mL. If mass is in kilograms and volume is in cubic meters, the answer is kg/m3. Mixing units without converting first makes the label wrong even when the division is correct.',
+      },
+    ],
     useCases: [
       'Find density from a measured mass and volume.',
       'Check a classroom density formula.',
@@ -572,6 +584,18 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator uses mass = density x volume. Density and volume must be in matching units for the result label to make sense.',
     limit:
       'This is a formula helper, not a scale. Material density, temperature, moisture, and measurement precision can change real mass.',
+    inputExplanations: [
+      { term: 'Density', meaning: 'mass per volume, such as g/mL, kg/m3, lb/ft3, or a supplier density.' },
+      { term: 'Volume', meaning: 'the space the material fills, written in the matching volume unit for the density.' },
+      { term: 'Mass unit label', meaning: 'the label you want printed beside the answer, such as g, kg, or lb.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Is this the same as weighing something on a scale?',
+        answer:
+          'No. This estimates mass from a density value and a volume value. A real scale measures the object directly, while this calculator is only as good as the density and volume you enter.',
+      },
+    ],
     useCases: [
       'Find mass when density and volume are known.',
       'Check science homework that rearranges density formulas.',
@@ -597,6 +621,18 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator uses weight force = mass x gravity. Standard Earth gravity is about 9.80665 m/s2.',
     limit:
       'In everyday speech weight and mass are often mixed. This tool separates mass from weight force and should not replace safety-rated load calculations.',
+    inputExplanations: [
+      { term: 'Mass kg', meaning: 'the amount of matter in kilograms. Mass does not change just because gravity changes.' },
+      { term: 'Gravity m/s2', meaning: 'the gravitational acceleration. Earth standard gravity is about 9.80665 m/s2.' },
+      { term: 'Newtons', meaning: 'the SI force unit used for the main weight-force answer.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why is weight different from mass?',
+        answer:
+          'Mass is the amount of matter. Weight is the force gravity pulls on that mass. The same 70 kg mass has less weight force on the Moon because lunar gravity is smaller.',
+      },
+    ],
     useCases: [
       'Calculate force in newtons from mass and gravity.',
       'Compare Earth and Moon gravity examples.',
@@ -622,6 +658,18 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts hours, minutes, and seconds into decimal hours, then divides distance by time.',
     limit:
       'This gives average speed over the whole distance. It does not show instant speed, stops, traffic, pace changes, or route conditions.',
+    inputExplanations: [
+      { term: 'Distance miles', meaning: 'the total distance covered across the whole trip or activity.' },
+      { term: 'Hours, minutes, seconds', meaning: 'the full elapsed time for that same distance, including stops if you want whole-trip average speed.' },
+      { term: 'Average speed', meaning: 'distance divided by total time, not the fastest speed reached.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why is my average speed lower than my fastest speed?',
+        answer:
+          'Average speed spreads the whole distance over the whole time. Stops, slower sections, and waiting time all lower the average even if you were moving faster for part of the trip.',
+      },
+    ],
     useCases: [
       'Find average speed for a drive, run, ride, or race.',
       'Convert the same speed into mph, km/h, and m/s.',
@@ -797,6 +845,19 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator multiplies current by conductor resistance and one-way length. Single-phase/DC uses a 2x path factor; three-phase uses the square root of 3.',
     limit:
       'This is a simplified planning estimate. Real electrical work needs code checks, conductor temperature, material, installation method, and a qualified professional.',
+    inputExplanations: [
+      { term: 'Source voltage', meaning: 'the voltage at the supply side before the wire run loses voltage.' },
+      { term: 'Current amps', meaning: 'the load current flowing through the conductor.' },
+      { term: 'One-way length', meaning: 'the distance from source to load. The calculator applies the circuit-path factor for the selected phase.' },
+      { term: 'Copper wire size', meaning: 'the AWG size used to look up approximate copper resistance.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does circuit type change voltage drop?',
+        answer:
+          'A simple single-phase or DC run uses an out-and-back path, so the length factor is 2. A balanced three-phase estimate uses the square root of 3. Real installations can need more detailed impedance and code checks.',
+      },
+    ],
     useCases: [
       'Estimate voltage drop for a branch circuit run.',
       'Compare common copper AWG wire sizes.',
@@ -822,6 +883,19 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator starts with a room-size BTU table, adjusts for ceiling height, sunlight, extra people, and kitchen heat, then rounds to a practical BTU amount.',
     limit:
       'This is a room AC shopping estimate, not a full HVAC load calculation. Insulation, climate, windows, ducts, and humidity matter.',
+    inputExplanations: [
+      { term: 'Room square feet', meaning: 'the floor area of the room you want to cool.' },
+      { term: 'Ceiling height', meaning: 'the room height. Taller rooms have more air volume than a normal 8-foot room.' },
+      { term: 'Sunlight', meaning: 'whether the room is normally shaded, average, or sunny.' },
+      { term: 'Kitchen heat load', meaning: 'extra cooling demand from cooking appliances and kitchen heat.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why is a bigger BTU number not always better?',
+        answer:
+          'An oversized room air conditioner can cool the air quickly but cycle off before removing enough humidity. That can make the room feel cold and clammy instead of comfortable.',
+      },
+    ],
     useCases: [
       'Estimate a window or room air conditioner size.',
       'Adjust for sunny or shaded rooms.',
@@ -847,6 +921,18 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator divides total rise by target riser height, rounds to a whole riser count, then calculates actual riser height and run from tread depth.',
     limit:
       'Stairs are safety critical. Check local building code, uniformity, headroom, landings, handrails, and professional requirements before building.',
+    inputExplanations: [
+      { term: 'Total rise', meaning: 'the vertical distance from the lower finished floor to the upper finished floor.' },
+      { term: 'Target riser', meaning: 'the step height you are aiming for before the calculator rounds to a whole number of risers.' },
+      { term: 'Tread depth', meaning: 'the horizontal walking depth of each tread used to estimate total run and angle.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why can stair math not replace building code?',
+        answer:
+          'Stairs affect safety every time someone uses them. Code rules can cover riser limits, tread depth, uniformity, landings, headroom, handrails, guardrails, and local inspection requirements.',
+      },
+    ],
     useCases: [
       'Estimate a simple straight stair layout.',
       'Find actual riser height after rounding to a whole step count.',
@@ -872,6 +958,18 @@ export const utilityTools: ToolDefinition[] = [
       'The first two bands are digits, the third band is a multiplier, and the fourth band gives tolerance percentage.',
     limit:
       'Use a multimeter and circuit safety practices for real parts. Color bands can be faded, damaged, or read in the wrong direction.',
+    inputExplanations: [
+      { term: 'First and second digit bands', meaning: 'the first two significant digits of a common 4-band resistor.' },
+      { term: 'Multiplier band', meaning: 'the power-of-ten multiplier that scales the first two digits.' },
+      { term: 'Tolerance band', meaning: 'the expected manufacturing range around the nominal resistance.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does resistor tolerance mean?',
+        answer:
+          'Tolerance says how far the real part may be from the printed value. A 1,000 ohm resistor with +/- 5% tolerance may be roughly 950 to 1,050 ohms and still match its rating.',
+      },
+    ],
     useCases: [
       'Decode a common 4-band resistor.',
       'See the tolerance range around the nominal resistance.',
@@ -897,6 +995,19 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator uses V = I x R and P = V x I after the missing voltage, current, or resistance value is solved.',
     limit:
       'This is simple DC or resistive-circuit math. AC circuits, impedance, heat, component ratings, and electrical safety require more care.',
+    inputExplanations: [
+      { term: 'Voltage V', meaning: 'electrical potential difference, measured in volts.' },
+      { term: 'Current A', meaning: 'electrical flow through the circuit, measured in amps.' },
+      { term: 'Resistance ohms', meaning: 'how much the component or circuit resists current flow.' },
+      { term: 'Power W', meaning: 'energy rate, calculated after voltage and current are known.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why do I only enter two values?',
+        answer:
+          'Ohm law connects voltage, current, and resistance. If you know any valid pair, the calculator can solve the missing core value and then calculate power from voltage times current.',
+      },
+    ],
     useCases: [
       'Find resistance from voltage and current.',
       'Find current from voltage and resistance.',
@@ -922,6 +1033,19 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator divides watts by 1,000 to get kilowatts, multiplies by hours and days for kWh, then multiplies by the rate per kWh.',
     limit:
       'Real bills include taxes, fees, tiered rates, demand charges, standby use, and variable device power draw.',
+    inputExplanations: [
+      { term: 'Watts', meaning: 'the device power draw. One kilowatt is 1,000 watts.' },
+      { term: 'Hours per day', meaning: 'how long the device runs on an average day.' },
+      { term: 'Days', meaning: 'how many days you want to estimate.' },
+      { term: 'Rate per kWh', meaning: 'your electricity price for one kilowatt-hour before any extra bill fees.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What is a kilowatt-hour?',
+        answer:
+          'A kilowatt-hour is energy use. Running a 1,000 watt device for 1 hour uses 1 kWh. Running a 100 watt device for 10 hours also uses 1 kWh.',
+      },
+    ],
     useCases: [
       'Estimate appliance energy use.',
       'Compare a heater, AC, computer, or light over time.',
@@ -972,6 +1096,19 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator uses molarity = moles of solute / liters of solution. In grams mode, it first divides grams by molar mass to find moles.',
     limit:
       'Lab work needs correct significant figures, final solution volume, purity, hydration state, safety procedures, and teacher or lab instructions.',
+    inputExplanations: [
+      { term: 'Moles solute', meaning: 'the amount of dissolved substance in moles.' },
+      { term: 'Grams solute', meaning: 'mass of the solute when you are starting from a weighed amount.' },
+      { term: 'Molar mass', meaning: 'grams per mole for the substance, often found from the Molecular Weight Calculator.' },
+      { term: 'Volume liters', meaning: 'the final solution volume in liters, not just the solvent poured in first.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does final solution volume matter?',
+        answer:
+          'Molarity uses moles per liter of final solution. If you dissolve a solid and then fill to the final mark in a flask, use that final volume, not only the amount of water you started with.',
+      },
+    ],
     useCases: [
       'Calculate molarity from moles and liters.',
       'Calculate moles from grams and molar mass first.',
@@ -997,6 +1134,18 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator parses element symbols, subscripts, parentheses, and dot hydrate parts, then adds each element count times its rounded atomic weight.',
     limit:
       'The atomic-weight table is rounded and supports common classroom elements. Isotopes, charges, exact masses, and unsupported elements need reference data.',
+    inputExplanations: [
+      { term: 'Chemical formula', meaning: 'the element symbols and counts, such as H2O, C6H12O6, Ca(OH)2, or CuSO4.5H2O.' },
+      { term: 'Subscripts', meaning: 'the numbers after element symbols or parentheses that multiply atom counts.' },
+      { term: 'Dot hydrates', meaning: 'formula parts separated by a period, where a leading number multiplies the following hydrate group.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does capitalization matter in a formula?',
+        answer:
+          'Element symbols use one capital letter and sometimes one lowercase letter. CO means carbon and oxygen, but Co means cobalt. The calculator reads capitalization as part of the chemistry symbol.',
+      },
+    ],
     useCases: [
       'Find molar mass for common formulas.',
       'Check element counts in parentheses.',
@@ -1782,6 +1931,18 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator uses the National Weather Service wind chill equation with air temperature in Fahrenheit and wind speed in miles per hour.',
     limit:
       'The formula is intended for cold temperatures with meaningful wind. Follow local alerts for frostbite and outdoor safety decisions.',
+    inputExplanations: [
+      { term: 'Temperature F', meaning: 'the air temperature in degrees Fahrenheit, intended for 50 F or colder.' },
+      { term: 'Wind speed mph', meaning: 'the wind speed in miles per hour, intended for speeds above 3 mph.' },
+      { term: 'Wind chill', meaning: 'a feels-like estimate for exposed skin in cold, windy weather.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the Wind Chill Calculator reject warm weather?',
+        answer:
+          'The NWS wind chill equation is designed for cold air and meaningful wind. Warm-weather comfort uses other ideas, like heat index and dew point.',
+      },
+    ],
     useCases: [
       'Estimate wind chill before going outside.',
       'Compare actual air temperature with feels-like temperature.',
@@ -1804,9 +1965,21 @@ export const utilityTools: ToolDefinition[] = [
       'Use this free heat index calculator to estimate apparent temperature from air temperature and humidity using the NWS regression.',
     icon: 'calculator-heat-index',
     formula:
-      'The calculator uses the National Weather Service Rothfusz regression for heat index and applies the standard humidity adjustments.',
+      'The calculator uses the National Weather Service heat index method: a simple branch first, then the Rothfusz regression and standard humidity adjustments when the preliminary value reaches about 80 F.',
     limit:
       'Heat risk depends on sun, exertion, wind, hydration, clothing, health, and local warnings. Do not rely on a calculator alone.',
+    inputExplanations: [
+      { term: 'Temperature F', meaning: 'the air temperature in degrees Fahrenheit.' },
+      { term: 'Relative humidity %', meaning: 'how much water vapor is in the air compared with the most it could hold at that temperature.' },
+      { term: 'Heat index', meaning: 'an apparent-temperature estimate for hot, humid conditions.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why can direct sun make heat feel worse?',
+        answer:
+          'Heat index is usually based on air temperature and humidity in shade-like conditions. Direct sun, hard activity, heavy clothing, and low wind can raise real heat stress.',
+      },
+    ],
     useCases: [
       'Estimate how hot humid weather feels.',
       'Compare air temperature with heat index.',
@@ -1832,6 +2005,18 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts Fahrenheit to Celsius, uses the Magnus approximation with relative humidity, then converts the dew point back to Fahrenheit.',
     limit:
       'This is an approximation from temperature and relative humidity. Instrument readings and official forecasts can differ.',
+    inputExplanations: [
+      { term: 'Temperature F', meaning: 'the current air temperature in degrees Fahrenheit.' },
+      { term: 'Relative humidity %', meaning: 'how close the air is to saturation at that temperature.' },
+      { term: 'Dew point', meaning: 'the temperature where the air would be saturated and water vapor could start condensing.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why can dew point feel clearer than relative humidity?',
+        answer:
+          'Relative humidity changes when temperature changes. Dew point gives a more direct clue about how much moisture is actually in the air, so a higher dew point usually feels more humid.',
+      },
+    ],
     useCases: [
       'Estimate dew point from weather readings.',
       'Compare humidity comfort more clearly than relative humidity alone.',

@@ -490,7 +490,7 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
               <p>
                 {visibleTools.length === filteredTools.length
                   ? `Showing ${filteredTools.length} ${filteredTools.length === 1 ? 'tool' : 'tools'}.`
-                  : `Showing ${visibleTools.length} of ${filteredTools.length} tools.`}
+                  : `Showing first ${visibleTools.length} of ${filteredTools.length} tools. Search, filter, or show all to browse the full library.`}
               </p>
             </div>
           </div>

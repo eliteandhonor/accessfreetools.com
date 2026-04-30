@@ -2562,7 +2562,7 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'Is this random number generator safe for high-stakes use?',
         answer:
-          'It uses browser random values for everyday utility use, but it is not meant for passwords, gambling, legal drawings, security decisions, or any high-stakes process that needs audited randomness.',
+          'It tries to use browser cryptographic random values when available and maps them into your range without modulo bias. It can fall back to normal browser randomness, so it is still for everyday picks, examples, and practice. Do not use it for passwords, gambling, legal drawings, security decisions, or any process that needs audited randomness.',
       },
       {
         question: 'Is my random number history private?',
