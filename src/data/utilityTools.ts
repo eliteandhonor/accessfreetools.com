@@ -1220,6 +1220,58 @@ export const utilityTools: ToolDefinition[] = [
     relatedSlugs: ['square-footage-calculator', 'area-calculator', 'paint-calculator'],
   }),
   makeUtilityTool({
+    slug: 'flooring-calculator',
+    name: 'Flooring Calculator',
+    category: 'home-projects',
+    summary: 'Estimate flooring boxes, adjusted square feet, coverage ordered, and optional material cost.',
+    description:
+      'Use this free flooring calculator to estimate whole flooring boxes from project area, waste percentage, box coverage, and optional box price.',
+    icon: 'calculator-flooring',
+    aliases: ['Floor Calculator', 'Flooring Box Calculator', 'Laminate Flooring Calculator'],
+    formula:
+      'The calculator adds waste to the measured floor area, divides by square feet per box, rounds up to whole boxes, and multiplies by box price when entered.',
+    limit:
+      'Flooring orders depend on room shape, product layout, pattern direction, stairs, closets, damaged pieces, overage for repairs, and matching dye lots.',
+    useCases: [
+      'Estimate laminate, vinyl plank, engineered wood, or boxed flooring.',
+      'Add waste before buying boxes.',
+      'Compare product box coverage values.',
+      'Estimate material cost when you know price per box.',
+    ],
+    examples: [
+      { label: 'Living room', expression: '240 ft2, 10% waste, 24 ft2/box, $48/box', result: '11 boxes' },
+      { label: 'Small bedroom', expression: '120 ft2, 8% waste, 22.5 ft2/box', result: 'Box count estimate' },
+      { label: 'Whole level', expression: '850 ft2, 12% waste, 20 ft2/box', result: 'Large flooring order' },
+    ],
+    relatedSlugs: ['square-footage-calculator', 'carpet-calculator', 'tile-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'wallpaper-calculator',
+    name: 'Wallpaper Calculator',
+    category: 'home-projects',
+    summary: 'Estimate wallpaper rolls from room dimensions, openings, roll coverage, and waste.',
+    description:
+      'Use this free wallpaper calculator to estimate whole wallpaper rolls for simple room walls from dimensions, doors, windows, roll coverage, and waste.',
+    icon: 'calculator-wallpaper',
+    aliases: ['Wallpaper Roll Calculator', 'Wall Covering Calculator'],
+    formula:
+      'The calculator finds wall area from room perimeter and height, subtracts estimated doors and windows, adds waste, divides by roll coverage, and rounds up.',
+    limit:
+      'Wallpaper needs can change with pattern repeat, usable roll yield, accent walls, odd wall shapes, trimming, damaged strips, and dye lots.',
+    useCases: [
+      'Estimate rolls for a bedroom, office, or powder room.',
+      'Subtract common doors and windows from wall area.',
+      'Compare roll coverage from different wallpaper products.',
+      'Add waste for pattern matching before buying.',
+    ],
+    examples: [
+      { label: 'Bedroom', expression: '12 x 10 x 8 ft, 1 door, 2 windows, 56 ft2/roll', result: '6 rolls' },
+      { label: 'Small office', expression: '10 x 9 x 8 ft, 48 ft2/roll, 12% waste', result: 'Wallpaper roll estimate' },
+      { label: 'Accent room', expression: 'Measured wall area and roll coverage', result: 'Whole rolls to buy' },
+    ],
+    relatedSlugs: ['paint-calculator', 'drywall-calculator', 'square-footage-calculator'],
+  }),
+  makeUtilityTool({
     slug: 'fence-calculator',
     name: 'Fence Calculator',
     category: 'home-projects',
@@ -1295,6 +1347,110 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Walkway', expression: '75 ft2, 6 x 9 in pavers, 12% waste', result: 'Path estimate' },
     ],
     relatedSlugs: ['sand-calculator', 'gravel-calculator', 'area-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'siding-calculator',
+    name: 'Siding Calculator',
+    category: 'home-projects',
+    summary: 'Estimate siding squares from wall area, openings, waste, and optional price per square.',
+    description:
+      'Use this free siding calculator to estimate exterior siding squares from wall square footage, door and window openings, waste, and optional price per square.',
+    icon: 'calculator-siding',
+    aliases: ['Siding Squares Calculator', 'Vinyl Siding Calculator'],
+    formula:
+      'The calculator subtracts openings from wall area, adds waste, divides by 100 square feet per siding square, and rounds up.',
+    limit:
+      'Siding projects also need gables, corners, starter strips, trim, channels, product exposure, color lots, installer layout, and local building review.',
+    useCases: [
+      'Estimate vinyl, fiber cement, wood, or engineered siding squares.',
+      'Convert wall square footage into 100-square-foot siding squares.',
+      'Subtract doors and windows before adding waste.',
+      'Add optional price per square for an early material estimate.',
+    ],
+    examples: [
+      { label: 'Small exterior', expression: '1,200 ft2 wall area, 120 ft2 openings, 10% waste', result: '12 squares' },
+      { label: 'One wall', expression: '240 ft2, 35 ft2 openings, 12% waste', result: 'Siding squares estimate' },
+      { label: 'Budget check', expression: 'Add price per square', result: 'Estimated material cost' },
+    ],
+    relatedSlugs: ['paint-calculator', 'square-footage-calculator', 'roofing-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'brick-calculator',
+    name: 'Brick Calculator',
+    category: 'home-projects',
+    summary: 'Estimate brick count from wall area, brick face dimensions, mortar joint, and waste.',
+    description:
+      'Use this free brick calculator to estimate whole bricks from wall face area, brick dimensions, mortar joint thickness, and waste percentage.',
+    icon: 'calculator-brick',
+    aliases: ['Brick Wall Calculator', 'Masonry Brick Calculator'],
+    formula:
+      'The calculator adds the mortar joint to brick length and height, converts the face area to square feet, adds waste to wall area, and rounds up.',
+    limit:
+      'Brick counts can change with bond pattern, corners, openings, piers, cuts, wall thickness, damaged units, mortar, and professional masonry layout.',
+    useCases: [
+      'Estimate brick count for a simple wall face.',
+      'Use actual brick face dimensions and mortar joint thickness.',
+      'Add waste for cuts and broken pieces.',
+      'Compare brick sizes for the same wall area.',
+    ],
+    examples: [
+      { label: 'Modular brick wall', expression: '120 ft2, 7.625 x 2.25 in brick, 3/8 in joint, 10% waste', result: '906 bricks' },
+      { label: 'Garden wall face', expression: '64 ft2, modular brick, 12% waste', result: 'Brick estimate' },
+      { label: 'Veneer planning', expression: 'Measured wall face plus waste', result: 'Whole bricks to buy' },
+    ],
+    relatedSlugs: ['concrete-block-calculator', 'paver-calculator', 'square-footage-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'concrete-block-calculator',
+    name: 'Concrete Block Calculator',
+    category: 'home-projects',
+    summary: 'Estimate concrete block count, courses, and blocks per course from wall dimensions.',
+    description:
+      'Use this free concrete block calculator to estimate CMU or concrete block count from wall length, height, block face size, openings, and waste.',
+    icon: 'calculator-concrete-block',
+    aliases: ['CMU Calculator', 'Cinder Block Calculator', 'Block Wall Calculator'],
+    formula:
+      'The calculator multiplies wall length by height, subtracts openings, adds waste, divides by nominal block face area, and rounds up.',
+    limit:
+      'Block walls need professional review for footings, drainage, reinforcement, grout, lintels, mortar, corners, structural loads, and local code.',
+    useCases: [
+      'Estimate block count for a simple wall.',
+      'See approximate course count and blocks per course.',
+      'Subtract large openings before adding waste.',
+      'Compare common nominal block sizes.',
+    ],
+    examples: [
+      { label: '40 ft wall', expression: '40 x 8 ft, 16 x 8 in block, 20 ft2 openings, 5% waste', result: '355 blocks' },
+      { label: 'Short garden wall', expression: '24 x 3 ft, 16 x 8 in block', result: 'Block count estimate' },
+      { label: 'Opening check', expression: 'Subtract door or window area', result: 'Net wall count' },
+    ],
+    relatedSlugs: ['brick-calculator', 'concrete-calculator', 'rebar-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'rebar-calculator',
+    name: 'Rebar Calculator',
+    category: 'home-projects',
+    summary: 'Estimate rebar grid counts, linear feet, and stock bars from slab size and spacing.',
+    description:
+      'Use this free rebar calculator to estimate a simple two-direction rebar grid from slab dimensions, bar spacing, stock bar length, and waste.',
+    icon: 'calculator-rebar',
+    aliases: ['Rebar Grid Calculator', 'Reinforcement Bar Calculator'],
+    formula:
+      'The calculator counts bars in both slab directions from spacing, totals linear feet, adds waste, divides by stock bar length, and rounds up.',
+    limit:
+      'This is a material takeoff, not structural design. Bar size, spacing, laps, cover, supports, edge distance, and code requirements need professional review.',
+    useCases: [
+      'Estimate stock rebar bars for a simple rectangular slab grid.',
+      'Compare 12-inch, 18-inch, and 24-inch spacing.',
+      'Add waste for cuts and lap planning.',
+      'Plan a rough material list before professional review.',
+    ],
+    examples: [
+      { label: '20 x 12 slab', expression: '20 x 12 ft, 18 in spacing, 20 ft stock bars, 10% waste', result: '20 bars' },
+      { label: 'Garage pad', expression: '24 x 20 ft, 24 in spacing', result: 'Rebar grid estimate' },
+      { label: 'Spacing comparison', expression: 'Change spacing and bar length', result: 'Linear feet and bar count' },
+    ],
+    relatedSlugs: ['concrete-calculator', 'concrete-block-calculator', 'cubic-yard-calculator'],
   }),
   makeUtilityTool({
     slug: 'board-foot-calculator',

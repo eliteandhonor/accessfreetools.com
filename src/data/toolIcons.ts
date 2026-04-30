@@ -166,9 +166,15 @@ export type CalculatorIconMark =
   | 'paint'
   | 'drywall'
   | 'carpet'
+  | 'flooring'
+  | 'wallpaper'
   | 'fence'
   | 'deck'
   | 'paver'
+  | 'siding'
+  | 'brick'
+  | 'block'
+  | 'rebar'
   | 'board-foot'
   | 'cubic-yard'
   | 'pool'
@@ -373,9 +379,15 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-paint': 'paint',
   'calculator-drywall': 'drywall',
   'calculator-carpet': 'carpet',
+  'calculator-flooring': 'flooring',
+  'calculator-wallpaper': 'wallpaper',
   'calculator-fence': 'fence',
   'calculator-deck': 'deck',
   'calculator-paver': 'paver',
+  'calculator-siding': 'siding',
+  'calculator-brick': 'brick',
+  'calculator-concrete-block': 'block',
+  'calculator-rebar': 'rebar',
   'calculator-board-foot': 'board-foot',
   'calculator-cubic-yard': 'cubic-yard',
   'calculator-pool': 'pool',
@@ -549,9 +561,15 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   paint: 'pnt',
   drywall: 'dry',
   carpet: 'carp',
+  flooring: 'floor',
+  wallpaper: 'roll',
   fence: 'fnc',
   deck: 'deck',
   paver: 'pave',
+  siding: 'side',
+  brick: 'brk',
+  block: 'blk',
+  rebar: 'bar',
   'board-foot': 'bf',
   'cubic-yard': 'yd3',
   pool: 'gal',

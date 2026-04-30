@@ -67,6 +67,12 @@ References checked:
 - Added matching guide pages for the batch with references from Google Analytics campaign URL guidance, MDN URLSearchParams, MDN character references, MDN CSS clamp(), RFC 3986, and the GitHub Flavored Markdown table spec.
 - Browser-preview audit found the running dev server had stale route state after new static paths were added, so the preview server was restarted on `127.0.0.1:4324` and the new tool pages were rechecked successfully.
 - Verified 111 tests pass, the stricter site content audit passes, and the full Astro build now generates 479 static pages.
+- Reviewed the new competitor expansion sources from Inch Calculator, CalculatorInn, CalculatorSoup, and OmniCalc. The biggest practical gap was additional Home & Projects takeoff tools rather than thin duplicate math calculators.
+- Added the next researched Home & Projects batch: Flooring, Wallpaper, Siding, Brick, Concrete Block, and Rebar calculators.
+- Added matching guide pages, FAQ content, examples, related-tool links, route wiring, category discovery, icon marks, and source-backed notes for the batch.
+- Added source references for wallpaper estimating, siding squares, brick sizing, CMU dimensions, QUIKRETE masonry context, and NIST unit guidance.
+- Browser-preview audit again found stale local route state after adding new static paths; the dev server was restarted on `127.0.0.1:4324`, then all six new tool pages, the Rebar guide, and the Home & Projects category were rechecked successfully with no console errors on the checked pages.
+- Verified 111 tests pass, the stricter site content audit passes, and the full Astro build now generates 491 static pages.
 
 ## Audit Findings
 

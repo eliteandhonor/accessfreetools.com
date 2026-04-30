@@ -145,6 +145,22 @@ const sourceLinks = {
     href: 'https://www.dot.minnesota.gov/materials/manuals/bituminous/Minnesota_Department_of_Transportation_Bituminous_Manual.pdf',
     label: 'MnDOT: Bituminous manual quantity estimating',
   },
+  lowesWallpaper: {
+    href: 'https://www.lowes.com/n/calculators/wallpaper-calculator',
+    label: 'Lowe\'s: Wallpaper calculator estimating notes',
+  },
+  lowesSiding: {
+    href: 'https://www.lowes.com/n/calculators/siding-calculator',
+    label: 'Lowe\'s: Siding calculator and siding squares',
+  },
+  glenGeryBrickSizes: {
+    href: 'https://www.glengery.com/brick-sizes',
+    label: 'Glen-Gery: Brick sizes and pieces per square foot',
+  },
+  archtoolboxCmu: {
+    href: 'https://www.archtoolbox.com/cmu-sizes-shapes-finishes/',
+    label: 'Archtoolbox: CMU sizes, nominal dimensions, and mortar joints',
+  },
   usgaScoreDifferential: {
     href: 'https://www.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---what-is-a-score-differential.html',
     label: 'USGA: What is a Score Differential?',
@@ -1167,6 +1183,48 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
     sources: [sourceLinks.nistUnits],
   },
+  'flooring-calculator': {
+    summary: 'Learn how measured floor area becomes whole flooring boxes and an optional material cost.',
+    purpose:
+      'The Flooring Calculator estimates how many boxes of flooring to buy from your measured square footage. It is helpful for laminate, vinyl plank, engineered wood, and other products sold by box coverage.',
+    enter: [
+      'Enter the measured floor area in square feet.',
+      'Enter waste percent and the square feet covered by one product box.',
+      'Add price per box only when you want a rough material cost.',
+    ],
+    read: [
+      'Boxes needed is the main whole-number answer.',
+      'Area with waste shows the square footage after your overage allowance.',
+      'Coverage ordered shows how much square footage the rounded-up boxes cover.',
+    ],
+    mistakes: [
+      'Do not use room dimensions without adding closets, hallways, or connected areas that need the same material.',
+      'Do not ignore cuts, pattern direction, stairs, transitions, and damaged pieces.',
+      'Check the box label and keep extra material when future repairs may need the same dye lot.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'wallpaper-calculator': {
+    summary: 'Learn how room walls, openings, roll coverage, and waste estimate wallpaper rolls.',
+    purpose:
+      'The Wallpaper Calculator estimates whole rolls for simple room walls. It starts from the room perimeter and wall height, subtracts common doors and windows, then applies roll coverage and waste.',
+    enter: [
+      'Enter room length, width, and wall height.',
+      'Enter doors, windows, roll coverage, and waste percent.',
+      'Use the coverage number from the wallpaper product page or roll label.',
+    ],
+    read: [
+      'Rolls needed is rounded up because wallpaper is bought in whole rolls.',
+      'Wallpaper area is the wall estimate after subtracting openings.',
+      'Area with waste shows the roll-coverage demand before rounding.',
+    ],
+    mistakes: [
+      'Do not ignore pattern repeat or usable yield; a roll may not cover its full printed square footage in a patterned room.',
+      'Do not mix rolls from different dye lots when appearance matters.',
+      'Measure accent walls separately when you are not covering the whole room.',
+    ],
+    sources: [sourceLinks.lowesWallpaper, sourceLinks.nistUnits],
+  },
   'fence-calculator': {
     summary: 'Learn how perimeter, panel width, post spacing, and gates estimate fence materials.',
     purpose:
@@ -1227,6 +1285,90 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not forget base gravel, bedding sand, joint sand, edging, and compaction.',
       'Do not ignore pattern direction or cut-heavy borders.',
       'Check whether the supplier sells by piece, pallet, bundle, or square foot.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'siding-calculator': {
+    summary: 'Learn how exterior wall area becomes siding squares and optional material cost.',
+    purpose:
+      'The Siding Calculator estimates siding in squares, where one square is 100 square feet of coverage. It is useful after you have measured exterior wall sections and opening areas.',
+    enter: [
+      'Enter total exterior wall area in square feet.',
+      'Enter door and window area to subtract, then choose a waste percent.',
+      'Add price per siding square only when you want an early material-cost estimate.',
+    ],
+    read: [
+      'Siding squares is the main order-planning number.',
+      'Net wall area shows what remains after subtracting openings.',
+      'Area with waste shows the adjusted square footage before dividing by 100.',
+    ],
+    mistakes: [
+      'Do not forget gables, dormers, trim-heavy sections, starter strips, corners, and channels.',
+      'Do not treat price per square as installed price unless labor and accessories are included.',
+      'Check product exposure and box coverage because not every siding profile covers the same area.',
+    ],
+    sources: [sourceLinks.lowesSiding, sourceLinks.nistUnits],
+  },
+  'brick-calculator': {
+    summary: 'Learn how wall face area, brick size, mortar joint, and waste estimate brick count.',
+    purpose:
+      'The Brick Calculator estimates whole bricks for a simple wall face. It uses the face dimensions of one brick plus the mortar joint to estimate square-foot coverage.',
+    enter: [
+      'Enter the wall face area in square feet.',
+      'Enter brick length, brick height, mortar joint thickness, and waste percent.',
+      'Use actual brick dimensions when you have them from the supplier.',
+    ],
+    read: [
+      'Bricks needed is rounded up to whole units.',
+      'Brick face area shows how much wall one brick covers with the joint included.',
+      'Area with waste shows the adjusted wall face before division.',
+    ],
+    mistakes: [
+      'Do not ignore bond pattern, corners, openings, piers, cuts, and broken pieces.',
+      'Do not use this simple face estimate for structural wall design.',
+      'Estimate mortar, ties, lintels, flashing, and cleanup separately.',
+    ],
+    sources: [sourceLinks.glenGeryBrickSizes, sourceLinks.nistUnits],
+  },
+  'concrete-block-calculator': {
+    summary: 'Learn how wall dimensions and nominal block face size estimate CMU count.',
+    purpose:
+      'The Concrete Block Calculator estimates CMU or concrete blocks for a simple wall. It uses the nominal block face size, which usually includes the mortar-joint layout module.',
+    enter: [
+      'Enter wall length and height in feet.',
+      'Enter nominal block length and height in inches.',
+      'Subtract large openings and add waste for cuts or damage.',
+    ],
+    read: [
+      'Blocks needed is the rounded-up material count.',
+      'Courses estimates how many horizontal rows fit the wall height.',
+      'Blocks per course estimates how many blocks fit along the wall length.',
+    ],
+    mistakes: [
+      'Do not forget corners, half blocks, bond pattern, lintels, grout, mortar, rebar, and footings.',
+      'Do not use this as a structural design or retaining-wall safety check.',
+      'Check local code, drainage, reinforcement, and professional guidance before building.',
+    ],
+    sources: [sourceLinks.archtoolboxCmu, sourceLinks.quickrete, sourceLinks.nistUnits],
+  },
+  'rebar-calculator': {
+    summary: 'Learn how slab size, bar spacing, stock length, and waste estimate a rebar grid.',
+    purpose:
+      'The Rebar Calculator estimates a simple two-direction grid for rectangular slabs. It counts bars in both directions, totals linear feet, then converts that length into stock bars to buy.',
+    enter: [
+      'Enter slab length and width in feet.',
+      'Enter bar spacing in inches and stock bar length in feet.',
+      'Add waste for cuts, laps, and layout changes.',
+    ],
+    read: [
+      'Bars to buy is rounded up from adjusted linear feet divided by stock bar length.',
+      'Lengthwise and widthwise bar counts show the grid layout assumption.',
+      'Adjusted linear feet includes your waste percentage.',
+    ],
+    mistakes: [
+      'Do not treat this as structural engineering.',
+      'Do not forget lap length, bar size, cover, chairs, edge distance, supports, and code requirements.',
+      'Use the concrete plan or a qualified professional for real reinforcement design.',
     ],
     sources: [sourceLinks.nistUnits],
   },

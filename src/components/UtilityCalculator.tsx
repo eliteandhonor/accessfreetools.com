@@ -5,9 +5,11 @@ import {
   calculateBandwidthTime,
   calculateBoardFoot,
   calculateBraSize,
+  calculateBrickEstimate,
   calculateBtuEstimate,
   calculateCarpetEstimate,
   calculateConcrete,
+  calculateConcreteBlockEstimate,
   calculateCubicYardEstimate,
   calculateDayOfWeek,
   calculateDeckCostEstimate,
@@ -19,6 +21,7 @@ import {
   calculateDateDifference,
   calculateDateShift,
   calculateFenceEstimate,
+  calculateFlooringEstimate,
   calculateFuelCost,
   calculateGasMileage,
   calculateGdpEstimate,
@@ -45,9 +48,11 @@ import {
   calculatePaintEstimate,
   calculatePaverEstimate,
   calculatePoolVolume,
+  calculateRebarGridEstimate,
   calculateResistorColorCode,
   calculateRoofingEstimate,
   calculateSandEstimate,
+  calculateSidingEstimate,
   calculateSleepSchedule,
   calculateSoilEstimate,
   calculateSpeed,
@@ -63,6 +68,7 @@ import {
   calculateTip,
   calculateVoltageDrop,
   calculateWeightForce,
+  calculateWallpaperEstimate,
   calculateWindChill,
   calculateEngineHorsepower,
   analyzeText,
@@ -145,9 +151,15 @@ export type UtilityToolVariant =
   | 'paint'
   | 'drywall'
   | 'carpet'
+  | 'flooring'
+  | 'wallpaper'
   | 'fence'
   | 'deck-cost'
   | 'paver'
+  | 'siding'
+  | 'brick'
+  | 'concrete-block'
+  | 'rebar'
   | 'board-foot'
   | 'cubic-yard'
   | 'pool-volume'
@@ -1593,6 +1605,57 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
       },
     ],
   },
+  flooring: {
+    title: 'Flooring Calculator',
+    buttonLabel: 'Estimate flooring',
+    emptyHistory: 'Recent flooring estimates will appear here.',
+    privacyNote: 'Flooring estimates stay local and use your area, waste, box coverage, and optional box price.',
+    modes: [
+      {
+        id: 'box-count',
+        label: 'Boxes',
+        symbol: 'FLOOR',
+        fields: [
+          numberField('areaSquareFeet', 'Floor area ft2', '240'),
+          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('boxCoverageSquareFeet', 'Box coverage ft2', '24'),
+          numberField('pricePerBox', 'Price per box (optional)', '48'),
+        ],
+        defaultInputs: { areaSquareFeet: '240', wastePercent: '10', boxCoverageSquareFeet: '24', pricePerBox: '48' },
+        examples: [
+          { label: 'Living room floor', inputs: { areaSquareFeet: '240', wastePercent: '10', boxCoverageSquareFeet: '24', pricePerBox: '48' } },
+          { label: 'Small room', inputs: { areaSquareFeet: '120', wastePercent: '8', boxCoverageSquareFeet: '22.5', pricePerBox: '' } },
+        ],
+      },
+    ],
+  },
+  wallpaper: {
+    title: 'Wallpaper Calculator',
+    buttonLabel: 'Estimate wallpaper',
+    emptyHistory: 'Recent wallpaper estimates will appear here.',
+    privacyNote: 'Wallpaper estimates stay local and use simple room walls, openings, roll coverage, and waste.',
+    modes: [
+      {
+        id: 'room-rolls',
+        label: 'Room rolls',
+        symbol: 'WALL',
+        fields: [
+          numberField('roomLengthFeet', 'Room length feet', '12'),
+          numberField('roomWidthFeet', 'Room width feet', '10'),
+          numberField('wallHeightFeet', 'Wall height feet', '8'),
+          integerField('doors', 'Doors', '1'),
+          integerField('windows', 'Windows', '2'),
+          numberField('rollCoverageSquareFeet', 'Roll coverage ft2', '56'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { roomLengthFeet: '12', roomWidthFeet: '10', wallHeightFeet: '8', doors: '1', windows: '2', rollCoverageSquareFeet: '56', wastePercent: '10' },
+        examples: [
+          { label: 'Bedroom walls', inputs: { roomLengthFeet: '12', roomWidthFeet: '10', wallHeightFeet: '8', doors: '1', windows: '2', rollCoverageSquareFeet: '56', wastePercent: '10' } },
+          { label: 'Small office', inputs: { roomLengthFeet: '10', roomWidthFeet: '9', wallHeightFeet: '8', doors: '1', windows: '1', rollCoverageSquareFeet: '48', wastePercent: '12' } },
+        ],
+      },
+    ],
+  },
   fence: {
     title: 'Fence Calculator',
     buttonLabel: 'Estimate fence',
@@ -1665,6 +1728,106 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         examples: [
           { label: 'Patio pavers', inputs: { areaSquareFeet: '180', paverLengthInches: '8', paverWidthInches: '4', wastePercent: '10' } },
           { label: 'Large pavers', inputs: { areaSquareFeet: '240', paverLengthInches: '12', paverWidthInches: '12', wastePercent: '8' } },
+        ],
+      },
+    ],
+  },
+  siding: {
+    title: 'Siding Calculator',
+    buttonLabel: 'Estimate siding',
+    emptyHistory: 'Recent siding estimates will appear here.',
+    privacyNote: 'Siding estimates stay local and use wall area, openings, waste, and optional price per 100-square-foot square.',
+    modes: [
+      {
+        id: 'siding-squares',
+        label: 'Squares',
+        symbol: 'SIDE',
+        fields: [
+          numberField('wallAreaSquareFeet', 'Wall area ft2', '1200'),
+          numberField('openingsSquareFeet', 'Doors/windows ft2', '120'),
+          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('pricePerSquare', 'Price per square (optional)', '180'),
+        ],
+        defaultInputs: { wallAreaSquareFeet: '1200', openingsSquareFeet: '120', wastePercent: '10', pricePerSquare: '180' },
+        examples: [
+          { label: 'Small house exterior', inputs: { wallAreaSquareFeet: '1200', openingsSquareFeet: '120', wastePercent: '10', pricePerSquare: '180' } },
+          { label: 'One wall', inputs: { wallAreaSquareFeet: '240', openingsSquareFeet: '35', wastePercent: '12', pricePerSquare: '' } },
+        ],
+      },
+    ],
+  },
+  brick: {
+    title: 'Brick Calculator',
+    buttonLabel: 'Estimate bricks',
+    emptyHistory: 'Recent brick estimates will appear here.',
+    privacyNote: 'Brick estimates stay local and use face coverage, mortar joint, wall area, and waste.',
+    modes: [
+      {
+        id: 'wall-face',
+        label: 'Wall face',
+        symbol: 'BRICK',
+        fields: [
+          numberField('wallAreaSquareFeet', 'Wall area ft2', '120'),
+          numberField('brickLengthInches', 'Brick length inches', '7.625'),
+          numberField('brickHeightInches', 'Brick height inches', '2.25'),
+          numberField('mortarJointInches', 'Mortar joint inches', '0.375'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { wallAreaSquareFeet: '120', brickLengthInches: '7.625', brickHeightInches: '2.25', mortarJointInches: '0.375', wastePercent: '10' },
+        examples: [
+          { label: 'Modular brick wall', inputs: { wallAreaSquareFeet: '120', brickLengthInches: '7.625', brickHeightInches: '2.25', mortarJointInches: '0.375', wastePercent: '10' } },
+          { label: 'Garden wall face', inputs: { wallAreaSquareFeet: '64', brickLengthInches: '7.625', brickHeightInches: '2.25', mortarJointInches: '0.375', wastePercent: '12' } },
+        ],
+      },
+    ],
+  },
+  'concrete-block': {
+    title: 'Concrete Block Calculator',
+    buttonLabel: 'Estimate blocks',
+    emptyHistory: 'Recent concrete block estimates will appear here.',
+    privacyNote: 'Concrete block estimates stay local and use simple wall face coverage, openings, and waste.',
+    modes: [
+      {
+        id: 'block-wall',
+        label: 'Block wall',
+        symbol: 'CMU',
+        fields: [
+          numberField('wallLengthFeet', 'Wall length feet', '40'),
+          numberField('wallHeightFeet', 'Wall height feet', '8'),
+          numberField('blockLengthInches', 'Nominal block length inches', '16'),
+          numberField('blockHeightInches', 'Nominal block height inches', '8'),
+          numberField('openingsSquareFeet', 'Openings ft2', '20'),
+          numberField('wastePercent', 'Waste percent', '5'),
+        ],
+        defaultInputs: { wallLengthFeet: '40', wallHeightFeet: '8', blockLengthInches: '16', blockHeightInches: '8', openingsSquareFeet: '20', wastePercent: '5' },
+        examples: [
+          { label: '40 ft block wall', inputs: { wallLengthFeet: '40', wallHeightFeet: '8', blockLengthInches: '16', blockHeightInches: '8', openingsSquareFeet: '20', wastePercent: '5' } },
+          { label: 'Short garden wall', inputs: { wallLengthFeet: '24', wallHeightFeet: '3', blockLengthInches: '16', blockHeightInches: '8', openingsSquareFeet: '0', wastePercent: '8' } },
+        ],
+      },
+    ],
+  },
+  rebar: {
+    title: 'Rebar Calculator',
+    buttonLabel: 'Estimate rebar',
+    emptyHistory: 'Recent rebar grid estimates will appear here.',
+    privacyNote: 'Rebar estimates stay local and are simple grid takeoffs, not structural design.',
+    modes: [
+      {
+        id: 'grid',
+        label: 'Grid',
+        symbol: 'BAR',
+        fields: [
+          numberField('slabLengthFeet', 'Slab length feet', '20'),
+          numberField('slabWidthFeet', 'Slab width feet', '12'),
+          numberField('spacingInches', 'Bar spacing inches', '18'),
+          numberField('barLengthFeet', 'Stock bar length feet', '20'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { slabLengthFeet: '20', slabWidthFeet: '12', spacingInches: '18', barLengthFeet: '20', wastePercent: '10' },
+        examples: [
+          { label: '20 x 12 slab grid', inputs: { slabLengthFeet: '20', slabWidthFeet: '12', spacingInches: '18', barLengthFeet: '20', wastePercent: '10' } },
+          { label: 'Garage pad', inputs: { slabLengthFeet: '24', slabWidthFeet: '20', spacingInches: '24', barLengthFeet: '20', wastePercent: '10' } },
         ],
       },
     ],
@@ -3534,6 +3697,57 @@ function calculateUtility(
         note: 'Carpet orders depend heavily on seam placement, pattern direction, stairs, closets, and installer layout.',
       };
     }
+    case 'flooring': {
+      const result = calculateFlooringEstimate({
+        areaSquareFeet: parseNumber(inputs.areaSquareFeet, 'Area'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        boxCoverageSquareFeet: parseNumber(inputs.boxCoverageSquareFeet, 'Box coverage'),
+        pricePerBox: parseOptionalNumber(inputs.pricePerBox ?? '', 'Price per box'),
+      });
+      return {
+        label: 'Flooring boxes',
+        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2, ${formatCalculatorNumber(result.boxCoverageSquareFeet)} ft2 per box`,
+        answer: `${formatCalculatorNumber(result.boxesNeeded)} boxes`,
+        metrics: [
+          { label: 'Area with waste', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Coverage ordered', value: `${formatCalculatorNumber(result.totalCoverageSquareFeet)} ft2` },
+          { label: 'Estimated cost', value: result.estimatedCost === null ? 'Add box price' : money(result.estimatedCost) },
+        ],
+        steps: [
+          'Add waste to the measured flooring area.',
+          'Divide adjusted area by square feet per box.',
+          'Round up to whole boxes and multiply by box price when provided.',
+        ],
+        note: 'Pattern direction, cuts, stairs, closets, damaged pieces, and dye lots can change the real order.',
+      };
+    }
+    case 'wallpaper': {
+      const result = calculateWallpaperEstimate({
+        roomLengthFeet: parseNumber(inputs.roomLengthFeet, 'Room length'),
+        roomWidthFeet: parseNumber(inputs.roomWidthFeet, 'Room width'),
+        wallHeightFeet: parseNumber(inputs.wallHeightFeet, 'Wall height'),
+        doors: parseNumber(inputs.doors, 'Doors'),
+        windows: parseNumber(inputs.windows, 'Windows'),
+        rollCoverageSquareFeet: parseNumber(inputs.rollCoverageSquareFeet, 'Roll coverage'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Wallpaper rolls',
+        expression: `${formatCalculatorNumber(result.roomLengthFeet)} ft x ${formatCalculatorNumber(result.roomWidthFeet)} ft room, ${formatCalculatorNumber(result.wallHeightFeet)} ft walls`,
+        answer: `${formatCalculatorNumber(result.rollsNeeded)} rolls`,
+        metrics: [
+          { label: 'Wallpaper area', value: `${formatCalculatorNumber(result.wallpaperSquareFeet)} ft2` },
+          { label: 'Area with waste', value: `${formatCalculatorNumber(result.adjustedSquareFeet)} ft2` },
+          { label: 'Roll coverage', value: `${formatCalculatorNumber(result.rollCoverageSquareFeet)} ft2` },
+        ],
+        steps: [
+          'Find wall area from room perimeter times wall height.',
+          'Subtract estimated doors and windows.',
+          'Add waste, divide by roll coverage, and round up to whole rolls.',
+        ],
+        note: 'Pattern repeat, usable roll yield, odd walls, and dye lots can change the real number of rolls.',
+      };
+    }
     case 'fence': {
       const result = calculateFenceEstimate({
         perimeterFeet: parseNumber(inputs.perimeterFeet, 'Perimeter'),
@@ -3603,6 +3817,106 @@ function calculateUtility(
           'Divide adjusted area by paver area and round up.',
         ],
         note: 'Patterns, cuts, edging, base depth, joint sand, broken pavers, and box quantities can change what you buy.',
+      };
+    }
+    case 'siding': {
+      const result = calculateSidingEstimate({
+        wallAreaSquareFeet: parseNumber(inputs.wallAreaSquareFeet, 'Wall area'),
+        openingsSquareFeet: parseNumber(inputs.openingsSquareFeet, 'Openings'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        pricePerSquare: parseOptionalNumber(inputs.pricePerSquare ?? '', 'Price per square'),
+      });
+      return {
+        label: 'Siding squares',
+        expression: `${formatCalculatorNumber(result.wallAreaSquareFeet)} ft2 exterior wall area`,
+        answer: `${formatCalculatorNumber(result.squaresNeeded)} squares`,
+        metrics: [
+          { label: 'Net wall area', value: `${formatCalculatorNumber(result.netAreaSquareFeet)} ft2` },
+          { label: 'Area with waste', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Estimated cost', value: result.estimatedCost === null ? 'Add price per square' : money(result.estimatedCost) },
+        ],
+        steps: [
+          'Subtract doors and windows from the measured exterior wall area.',
+          'Add a waste factor for cuts, corners, and trim-heavy sections.',
+          'Divide by 100 square feet per siding square and round up.',
+        ],
+        note: 'Gables, trim, starter strips, J-channel, corners, product exposure, and installer layout need separate planning.',
+      };
+    }
+    case 'brick': {
+      const result = calculateBrickEstimate({
+        wallAreaSquareFeet: parseNumber(inputs.wallAreaSquareFeet, 'Wall area'),
+        brickLengthInches: parseNumber(inputs.brickLengthInches, 'Brick length'),
+        brickHeightInches: parseNumber(inputs.brickHeightInches, 'Brick height'),
+        mortarJointInches: parseNumber(inputs.mortarJointInches, 'Mortar joint'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Bricks needed',
+        expression: `${formatCalculatorNumber(result.wallAreaSquareFeet)} ft2 wall face`,
+        answer: `${formatCalculatorNumber(result.bricksNeeded)} bricks`,
+        metrics: [
+          { label: 'Brick face area', value: `${formatCalculatorNumber(result.brickFaceSquareFeet)} ft2` },
+          { label: 'Area with waste', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Mortar joint used', value: `${formatCalculatorNumber(result.mortarJointInches)} in` },
+        ],
+        steps: [
+          'Add the mortar joint to the brick face dimensions.',
+          'Convert the brick face area from square inches to square feet.',
+          'Add waste to wall area, divide by brick face area, and round up.',
+        ],
+        note: 'Openings, bond pattern, corners, piers, cut bricks, wall thickness, and mortar quantities need separate takeoff.',
+      };
+    }
+    case 'concrete-block': {
+      const result = calculateConcreteBlockEstimate({
+        wallLengthFeet: parseNumber(inputs.wallLengthFeet, 'Wall length'),
+        wallHeightFeet: parseNumber(inputs.wallHeightFeet, 'Wall height'),
+        blockLengthInches: parseNumber(inputs.blockLengthInches, 'Block length'),
+        blockHeightInches: parseNumber(inputs.blockHeightInches, 'Block height'),
+        openingsSquareFeet: parseNumber(inputs.openingsSquareFeet, 'Openings'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Concrete blocks',
+        expression: `${formatCalculatorNumber(result.wallLengthFeet)} ft x ${formatCalculatorNumber(result.wallHeightFeet)} ft wall`,
+        answer: `${formatCalculatorNumber(result.blocksNeeded)} blocks`,
+        metrics: [
+          { label: 'Net wall area', value: `${formatCalculatorNumber(result.netWallAreaSquareFeet)} ft2` },
+          { label: 'Courses', value: formatCalculatorNumber(result.courses) },
+          { label: 'Blocks per course', value: formatCalculatorNumber(result.blocksPerCourse) },
+        ],
+        steps: [
+          'Multiply wall length by height and subtract openings.',
+          'Use nominal block length and height as the face coverage with mortar joint included.',
+          'Add waste, divide by block face area, and round up.',
+        ],
+        note: 'Corners, bond pattern, lintels, half blocks, grout, rebar, mortar, footings, and structural design are outside this count.',
+      };
+    }
+    case 'rebar': {
+      const result = calculateRebarGridEstimate({
+        slabLengthFeet: parseNumber(inputs.slabLengthFeet, 'Slab length'),
+        slabWidthFeet: parseNumber(inputs.slabWidthFeet, 'Slab width'),
+        spacingInches: parseNumber(inputs.spacingInches, 'Spacing'),
+        barLengthFeet: parseNumber(inputs.barLengthFeet, 'Bar length'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Rebar to buy',
+        expression: `${formatCalculatorNumber(result.slabLengthFeet)} ft x ${formatCalculatorNumber(result.slabWidthFeet)} ft grid at ${formatCalculatorNumber(result.spacingInches)} in spacing`,
+        answer: `${formatCalculatorNumber(result.barsToBuy)} bars`,
+        metrics: [
+          { label: 'Lengthwise bars', value: formatCalculatorNumber(result.lengthwiseBars) },
+          { label: 'Widthwise bars', value: formatCalculatorNumber(result.widthwiseBars) },
+          { label: 'Adjusted linear feet', value: `${formatCalculatorNumber(result.adjustedLinearFeet)} ft` },
+        ],
+        steps: [
+          'Count bars running each direction from the slab dimension and spacing.',
+          'Multiply bar counts by the length each direction runs.',
+          'Add waste, divide by stock bar length, and round up.',
+        ],
+        note: 'This is a simple material takeoff. Structural spacing, bar size, laps, chairs, cover, edge distance, and local code need professional design.',
       };
     }
     case 'board-foot': {

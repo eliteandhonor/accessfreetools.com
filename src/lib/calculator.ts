@@ -6891,6 +6891,32 @@ export interface CarpetEstimateResult {
   linearFeet: number;
 }
 
+export interface FlooringEstimateResult {
+  areaSquareFeet: number;
+  wastePercent: number;
+  boxCoverageSquareFeet: number;
+  pricePerBox: number | null;
+  adjustedAreaSquareFeet: number;
+  boxesNeeded: number;
+  totalCoverageSquareFeet: number;
+  estimatedCost: number | null;
+}
+
+export interface WallpaperEstimateResult {
+  roomLengthFeet: number;
+  roomWidthFeet: number;
+  wallHeightFeet: number;
+  doors: number;
+  windows: number;
+  rollCoverageSquareFeet: number;
+  wastePercent: number;
+  wallSquareFeet: number;
+  openingSquareFeet: number;
+  wallpaperSquareFeet: number;
+  adjustedSquareFeet: number;
+  rollsNeeded: number;
+}
+
 export interface FenceEstimateResult {
   perimeterFeet: number;
   panelWidthFeet: number;
@@ -6927,6 +6953,56 @@ export interface PaverEstimateResult {
   paverAreaSquareFeet: number;
   adjustedAreaSquareFeet: number;
   paversNeeded: number;
+}
+
+export interface SidingEstimateResult {
+  wallAreaSquareFeet: number;
+  openingsSquareFeet: number;
+  wastePercent: number;
+  pricePerSquare: number | null;
+  netAreaSquareFeet: number;
+  adjustedAreaSquareFeet: number;
+  squaresNeeded: number;
+  estimatedCost: number | null;
+}
+
+export interface BrickEstimateResult {
+  wallAreaSquareFeet: number;
+  brickLengthInches: number;
+  brickHeightInches: number;
+  mortarJointInches: number;
+  wastePercent: number;
+  brickFaceSquareFeet: number;
+  adjustedAreaSquareFeet: number;
+  bricksNeeded: number;
+}
+
+export interface ConcreteBlockEstimateResult {
+  wallLengthFeet: number;
+  wallHeightFeet: number;
+  blockLengthInches: number;
+  blockHeightInches: number;
+  openingsSquareFeet: number;
+  wastePercent: number;
+  blockFaceSquareFeet: number;
+  netWallAreaSquareFeet: number;
+  adjustedAreaSquareFeet: number;
+  blocksNeeded: number;
+  courses: number;
+  blocksPerCourse: number;
+}
+
+export interface RebarGridEstimateResult {
+  slabLengthFeet: number;
+  slabWidthFeet: number;
+  spacingInches: number;
+  barLengthFeet: number;
+  wastePercent: number;
+  lengthwiseBars: number;
+  widthwiseBars: number;
+  rawLinearFeet: number;
+  adjustedLinearFeet: number;
+  barsToBuy: number;
 }
 
 export interface BoardFootResult {
@@ -8762,6 +8838,68 @@ export function calculateCarpetEstimate(
   };
 }
 
+export function calculateFlooringEstimate(input: {
+  areaSquareFeet: number;
+  wastePercent: number;
+  boxCoverageSquareFeet: number;
+  pricePerBox?: number | null;
+}): FlooringEstimateResult {
+  assertPositiveNumber(input.areaSquareFeet, 'Area');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+  assertPositiveNumber(input.boxCoverageSquareFeet, 'Box coverage');
+
+  const pricePerBox = input.pricePerBox ?? null;
+  if (pricePerBox !== null) {
+    assertNonNegativeNumber(pricePerBox, 'Price per box');
+  }
+
+  const adjustedAreaSquareFeet = input.areaSquareFeet * (1 + input.wastePercent / 100);
+  const boxesNeeded = Math.ceil(adjustedAreaSquareFeet / input.boxCoverageSquareFeet - 1e-10);
+
+  return {
+    ...input,
+    pricePerBox,
+    adjustedAreaSquareFeet,
+    boxesNeeded,
+    totalCoverageSquareFeet: boxesNeeded * input.boxCoverageSquareFeet,
+    estimatedCost: pricePerBox === null ? null : boxesNeeded * pricePerBox,
+  };
+}
+
+export function calculateWallpaperEstimate(input: {
+  roomLengthFeet: number;
+  roomWidthFeet: number;
+  wallHeightFeet: number;
+  doors: number;
+  windows: number;
+  rollCoverageSquareFeet: number;
+  wastePercent: number;
+}): WallpaperEstimateResult {
+  assertPositiveNumber(input.roomLengthFeet, 'Room length');
+  assertPositiveNumber(input.roomWidthFeet, 'Room width');
+  assertPositiveNumber(input.wallHeightFeet, 'Wall height');
+  assertNonNegativeNumber(input.doors, 'Doors');
+  assertNonNegativeNumber(input.windows, 'Windows');
+  assertInteger(input.doors, 'Doors');
+  assertInteger(input.windows, 'Windows');
+  assertPositiveNumber(input.rollCoverageSquareFeet, 'Roll coverage');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const wallSquareFeet = 2 * (input.roomLengthFeet + input.roomWidthFeet) * input.wallHeightFeet;
+  const openingSquareFeet = input.doors * 20 + input.windows * 15;
+  const wallpaperSquareFeet = Math.max(0, wallSquareFeet - openingSquareFeet);
+  const adjustedSquareFeet = wallpaperSquareFeet * (1 + input.wastePercent / 100);
+
+  return {
+    ...input,
+    wallSquareFeet,
+    openingSquareFeet,
+    wallpaperSquareFeet,
+    adjustedSquareFeet,
+    rollsNeeded: Math.ceil(adjustedSquareFeet / input.rollCoverageSquareFeet - 1e-10),
+  };
+}
+
 export function calculateFenceEstimate(input: {
   perimeterFeet: number;
   panelWidthFeet: number;
@@ -8844,6 +8982,118 @@ export function calculatePaverEstimate(
     paverAreaSquareFeet,
     adjustedAreaSquareFeet,
     paversNeeded: Math.ceil(adjustedAreaSquareFeet / paverAreaSquareFeet - 1e-10),
+  };
+}
+
+export function calculateSidingEstimate(input: {
+  wallAreaSquareFeet: number;
+  openingsSquareFeet: number;
+  wastePercent: number;
+  pricePerSquare?: number | null;
+}): SidingEstimateResult {
+  assertPositiveNumber(input.wallAreaSquareFeet, 'Wall area');
+  assertNonNegativeNumber(input.openingsSquareFeet, 'Openings');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const pricePerSquare = input.pricePerSquare ?? null;
+  if (pricePerSquare !== null) {
+    assertNonNegativeNumber(pricePerSquare, 'Price per square');
+  }
+
+  const netAreaSquareFeet = Math.max(0, input.wallAreaSquareFeet - input.openingsSquareFeet);
+  const adjustedAreaSquareFeet = netAreaSquareFeet * (1 + input.wastePercent / 100);
+  const squaresNeeded = Math.ceil(adjustedAreaSquareFeet / 100 - 1e-10);
+
+  return {
+    ...input,
+    pricePerSquare,
+    netAreaSquareFeet,
+    adjustedAreaSquareFeet,
+    squaresNeeded,
+    estimatedCost: pricePerSquare === null ? null : squaresNeeded * pricePerSquare,
+  };
+}
+
+export function calculateBrickEstimate(input: {
+  wallAreaSquareFeet: number;
+  brickLengthInches: number;
+  brickHeightInches: number;
+  mortarJointInches: number;
+  wastePercent: number;
+}): BrickEstimateResult {
+  assertPositiveNumber(input.wallAreaSquareFeet, 'Wall area');
+  assertPositiveNumber(input.brickLengthInches, 'Brick length');
+  assertPositiveNumber(input.brickHeightInches, 'Brick height');
+  assertNonNegativeNumber(input.mortarJointInches, 'Mortar joint');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const brickFaceSquareFeet = ((input.brickLengthInches + input.mortarJointInches) * (input.brickHeightInches + input.mortarJointInches)) / 144;
+  const adjustedAreaSquareFeet = input.wallAreaSquareFeet * (1 + input.wastePercent / 100);
+
+  return {
+    ...input,
+    brickFaceSquareFeet,
+    adjustedAreaSquareFeet,
+    bricksNeeded: Math.ceil(adjustedAreaSquareFeet / brickFaceSquareFeet - 1e-10),
+  };
+}
+
+export function calculateConcreteBlockEstimate(input: {
+  wallLengthFeet: number;
+  wallHeightFeet: number;
+  blockLengthInches: number;
+  blockHeightInches: number;
+  openingsSquareFeet: number;
+  wastePercent: number;
+}): ConcreteBlockEstimateResult {
+  assertPositiveNumber(input.wallLengthFeet, 'Wall length');
+  assertPositiveNumber(input.wallHeightFeet, 'Wall height');
+  assertPositiveNumber(input.blockLengthInches, 'Block length');
+  assertPositiveNumber(input.blockHeightInches, 'Block height');
+  assertNonNegativeNumber(input.openingsSquareFeet, 'Openings');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const wallAreaSquareFeet = input.wallLengthFeet * input.wallHeightFeet;
+  const netWallAreaSquareFeet = Math.max(0, wallAreaSquareFeet - input.openingsSquareFeet);
+  const adjustedAreaSquareFeet = netWallAreaSquareFeet * (1 + input.wastePercent / 100);
+  const blockFaceSquareFeet = (input.blockLengthInches * input.blockHeightInches) / 144;
+
+  return {
+    ...input,
+    blockFaceSquareFeet,
+    netWallAreaSquareFeet,
+    adjustedAreaSquareFeet,
+    blocksNeeded: Math.ceil(adjustedAreaSquareFeet / blockFaceSquareFeet - 1e-10),
+    courses: Math.ceil((input.wallHeightFeet * 12) / input.blockHeightInches - 1e-10),
+    blocksPerCourse: Math.ceil((input.wallLengthFeet * 12) / input.blockLengthInches - 1e-10),
+  };
+}
+
+export function calculateRebarGridEstimate(input: {
+  slabLengthFeet: number;
+  slabWidthFeet: number;
+  spacingInches: number;
+  barLengthFeet: number;
+  wastePercent: number;
+}): RebarGridEstimateResult {
+  assertPositiveNumber(input.slabLengthFeet, 'Slab length');
+  assertPositiveNumber(input.slabWidthFeet, 'Slab width');
+  assertPositiveNumber(input.spacingInches, 'Spacing');
+  assertPositiveNumber(input.barLengthFeet, 'Bar length');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const lengthwiseBars = Math.floor((input.slabWidthFeet * 12) / input.spacingInches) + 1;
+  const widthwiseBars = Math.floor((input.slabLengthFeet * 12) / input.spacingInches) + 1;
+  const rawLinearFeet = lengthwiseBars * input.slabLengthFeet + widthwiseBars * input.slabWidthFeet;
+  const adjustedLinearFeet = rawLinearFeet * (1 + input.wastePercent / 100);
+
+  return {
+    ...input,
+    lengthwiseBars,
+    widthwiseBars,
+    rawLinearFeet,
+    adjustedLinearFeet,
+    barsToBuy: Math.ceil(adjustedLinearFeet / input.barLengthFeet - 1e-10),
   };
 }
 

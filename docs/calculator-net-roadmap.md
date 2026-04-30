@@ -184,8 +184,21 @@ Status: active.
 
 Access Free Tools is now expanding beyond the original competitor inventory with practical browser utilities that fit the same quality standard: research, local-first interaction, examples, FAQs, related tools, guide pages, and audit checks.
 
+Competitor expansion sources to work through after the completed Calculator.net list:
+
+- https://www.inchcalculator.com/sitemap/
+- https://calculatorinn.com/sitemap/
+- https://www.omnicalc.xyz/sitemap
+- https://www.calculatorsoup.com/sitemap.php
+
 Completed post-roadmap batches:
 
 - Home & Projects material estimators: Paint, Drywall, Carpet, Fence, Deck Cost, Paver, Board Foot, Cubic Yard, Pool Volume, Sand, Soil, and Asphalt calculators.
 - Browser utility and creator tools: Word Counter, Character Counter, Text Case Converter, Slug Generator, JSON Formatter, UUID Generator, Hash Generator, Unix Timestamp Converter, Color Contrast Checker, and Aspect Ratio Calculator.
 - Developer/content productivity utilities: UTM Builder, Query String Parser, HTML Entity Encoder/Decoder, CSS Clamp Calculator, and Markdown Table Generator.
+- Competitor-inspired Home & Projects material takeoffs: Flooring, Wallpaper, Siding, Brick, Concrete Block, and Rebar calculators.
+
+Current local coverage after this batch:
+
+- Canonical tool pages: 234
+- Matching guide pages: 234
