@@ -30,6 +30,8 @@ import UtilityCalculator, { type UtilityToolVariant } from '../../components/Uti
 import { toolAliases, type ToolAlias } from '../../data/toolAliases';
 import { getCategoryName, getRelatedTools, tools, type ToolDefinition } from '../../data/tools';
 
+export const prerender = true;
+
 export function getStaticPaths() {
   const toolPaths = tools.map((tool) => ({
     params: { slug: tool.slug },

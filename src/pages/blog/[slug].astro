@@ -4,6 +4,8 @@ import { financeBlogGuides, type FinanceGuideDefinition } from '../../data/finan
 import { healthBlogGuides, type HealthGuideDefinition } from '../../data/healthBlogGuides';
 import { utilityBlogGuides, type UtilityGuideDefinition } from '../../data/utilityBlogGuides';
 
+export const prerender = true;
+
 export function getStaticPaths() {
   const dynamicBlogGuides = [...financeBlogGuides, ...healthBlogGuides, ...utilityBlogGuides];
 

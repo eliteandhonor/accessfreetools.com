@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "build": "astro build",
     "postbuild": "node scripts/mirror-static-output.mjs",
-    "start": "node ./dist/server/entry.mjs",
+    "start": "node ./app.js",
     "preview": "astro preview",
     "test": "vitest run",
     "audit:site": "vitest run src/data/siteContentAudit.test.ts",

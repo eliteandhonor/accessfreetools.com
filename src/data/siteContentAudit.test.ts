@@ -717,9 +717,9 @@ describe('site content audit guardrails', () => {
     expect(CONTACT_API_SOURCE).toContain('smtp.hostinger.com');
     expect(CONTACT_API_SOURCE).toContain('SMTP_PASS');
     expect(CONTACT_API_SOURCE).toContain('nodemailer.createTransport');
-    expect(ASTRO_CONFIG_SOURCE).toContain("output: 'static'");
+    expect(ASTRO_CONFIG_SOURCE).toContain("output: 'server'");
     expect(ASTRO_CONFIG_SOURCE).toContain("mode: 'standalone'");
-    expect(PACKAGE_JSON_SOURCE).toContain('"start": "node ./dist/server/entry.mjs"');
+    expect(PACKAGE_JSON_SOURCE).toContain('"start": "node ./app.js"');
 
     expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Google AdSense Checklist');
     expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Affiliate Checklist');

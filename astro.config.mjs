@@ -4,7 +4,7 @@ import react from '@astrojs/react';
 
 export default defineConfig({
   site: 'https://accessfreetools.com',
-  output: 'static',
+  output: 'server',
   adapter: node({
     mode: 'standalone',
     bodySizeLimit: 131072,
