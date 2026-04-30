@@ -45,6 +45,7 @@ const SITEMAP_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/sitemap.xml.ts', import.meta.url)),
   'utf8',
 );
+const FEED_SOURCE = readFileSync(fileURLToPath(new URL('../pages/feed.xml.ts', import.meta.url)), 'utf8');
 const CALCULATOR_GUIDE_ARTICLE_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/CalculatorGuideArticle.astro', import.meta.url)),
   'utf8',
@@ -541,6 +542,8 @@ describe('site content audit guardrails', () => {
   it('keeps sitemap freshness and release commands guarded', () => {
     expect(SITEMAP_SOURCE).toContain('new Date().toISOString().slice(0, 10)');
     expect(SITEMAP_SOURCE).not.toContain("const lastmod = '2026");
+    expect(FEED_SOURCE).toContain('const updatedDate = new Date()');
+    expect(FEED_SOURCE).not.toContain("new Date('2026");
     expect(SITEMAP_SOURCE).toContain("'/advertising-disclosure/'");
     expect(PACKAGE_JSON.scripts.typecheck).toBe('tsc --noEmit');
     expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run src/data/siteContentAudit.test.ts');

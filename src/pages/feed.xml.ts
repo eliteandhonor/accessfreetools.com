@@ -2,7 +2,6 @@ import type { APIRoute } from 'astro';
 import { blogPosts } from '../data/blogPosts';
 
 const site = 'https://accessfreetools.com';
-const updatedDate = new Date('2026-04-29T00:00:00+10:00');
 
 function escapeXml(value: string) {
   return value
@@ -14,6 +13,7 @@ function escapeXml(value: string) {
 }
 
 export const GET: APIRoute = () => {
+  const updatedDate = new Date();
   const items = blogPosts
     .map((post) => {
       const url = `${site}/blog/${post.slug}/`;
