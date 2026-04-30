@@ -41,6 +41,7 @@ After Hostinger deploys the latest GitHub commit:
 - Check page source for one canonical tag, one main heading, and expected structured data.
 - Confirm no fake ad boxes or affiliate links appear before accounts and disclosures are ready.
 - Confirm `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, and `/contact/` are live.
+- If production shows `403 Forbidden`, check the Hostinger deployment root. The build mirrors the public site into `dist`, while the Node server entry remains `dist/server/entry.mjs`.
 - Confirm Hostinger has the contact form environment variables set and send one test message from `/contact/`.
 
 ## Search Console

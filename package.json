@@ -8,6 +8,7 @@
     "dev": "astro dev",
     "typecheck": "tsc --noEmit",
     "build": "astro build",
+    "postbuild": "node scripts/mirror-static-output.mjs",
     "start": "node ./dist/server/entry.mjs",
     "preview": "astro preview",
     "test": "vitest run",
