@@ -5163,6 +5163,14 @@ main {
   margin: 22px 0;
 }
 
+.contact-honeypot {
+  height: 1px;
+  left: -9999px;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+}
+
 .contact-grid {
   display: grid;
   gap: 14px;
@@ -5206,9 +5214,29 @@ main {
 }
 
 .contact-actions {
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.contact-actions button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.contact-status {
+  color: var(--muted);
+  font-weight: 800;
+  margin: 0;
+}
+
+.contact-status[data-state='success'] {
+  color: var(--primary-strong);
+}
+
+.contact-status[data-state='error'] {
+  color: var(--danger);
 }
 
 .instruction-list,

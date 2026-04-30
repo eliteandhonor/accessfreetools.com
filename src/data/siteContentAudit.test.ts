@@ -37,6 +37,8 @@ const TOOLS_INDEX_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/tools/index.astro', import.meta.url)),
   'utf8',
 );
+const ASTRO_CONFIG_SOURCE = readFileSync(fileURLToPath(new URL('../../astro.config.mjs', import.meta.url)), 'utf8');
+const PACKAGE_JSON_SOURCE = readFileSync(fileURLToPath(new URL('../../package.json', import.meta.url)), 'utf8');
 const TOOLS_LAUNCHPAD_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/ToolsLaunchpad.tsx', import.meta.url)),
   'utf8',
@@ -64,6 +66,7 @@ const ADVERTISING_DISCLOSURE_SOURCE = readFileSync(
   'utf8',
 );
 const CONTACT_SOURCE = readFileSync(fileURLToPath(new URL('../pages/contact.astro', import.meta.url)), 'utf8');
+const CONTACT_API_SOURCE = readFileSync(fileURLToPath(new URL('../pages/api/contact.ts', import.meta.url)), 'utf8');
 const RETIRED_PRIVACY_INBOX = ['privacy', 'accessfreetools.com'].join('@');
 const README_SOURCE = readFileSync(fileURLToPath(new URL('../../README.md', import.meta.url)), 'utf8');
 const ROADMAP_SOURCE = readFileSync(
@@ -692,6 +695,7 @@ describe('site content audit guardrails', () => {
     expect(PRIVACY_POLICY_SOURCE).toContain('Google Ads Settings');
     expect(PRIVACY_POLICY_SOURCE).toContain('aboutads.info');
     expect(PRIVACY_POLICY_SOURCE).toContain('affiliate links');
+    expect(PRIVACY_POLICY_SOURCE).toContain('If you use the contact form');
     expect(PRIVACY_POLICY_SOURCE).toContain('contact@accessfreetools.com');
     expect(PRIVACY_POLICY_SOURCE).not.toContain(RETIRED_PRIVACY_INBOX);
 
@@ -706,8 +710,16 @@ describe('site content audit guardrails', () => {
     expect(ADVERTISING_DISCLOSURE_SOURCE).toContain('Ads, affiliate links, and product previews do not change calculator formulas');
 
     expect(CONTACT_SOURCE).toContain('contact@accessfreetools.com');
+    expect(CONTACT_SOURCE).toContain('action="/api/contact"');
+    expect(CONTACT_SOURCE).toContain('data-contact-form');
     expect(CONTACT_SOURCE).toContain('mailto:contact@accessfreetools.com');
     expect(CONTACT_SOURCE).not.toContain(RETIRED_PRIVACY_INBOX);
+    expect(CONTACT_API_SOURCE).toContain('smtp.hostinger.com');
+    expect(CONTACT_API_SOURCE).toContain('SMTP_PASS');
+    expect(CONTACT_API_SOURCE).toContain('nodemailer.createTransport');
+    expect(ASTRO_CONFIG_SOURCE).toContain("output: 'static'");
+    expect(ASTRO_CONFIG_SOURCE).toContain("mode: 'standalone'");
+    expect(PACKAGE_JSON_SOURCE).toContain('"start": "node ./dist/server/entry.mjs"');
 
     expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Google AdSense Checklist');
     expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Affiliate Checklist');

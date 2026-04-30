@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, normalize } from 'node:path';
 
 const distDir = join(process.cwd(), 'dist');
+const publicDistDir = existsSync(join(distDir, 'client')) ? join(distDir, 'client') : distDir;
 const htmlFiles = [];
 
 function walk(directory) {
@@ -22,22 +23,22 @@ function targetPathForUrl(url) {
   }
 
   if (cleanUrl === '/') {
-    return join(distDir, 'index.html');
+    return join(publicDistDir, 'index.html');
   }
 
   const withoutLeadingSlash = cleanUrl.slice(1);
   if (withoutLeadingSlash.endsWith('/')) {
-    return join(distDir, withoutLeadingSlash, 'index.html');
+    return join(publicDistDir, withoutLeadingSlash, 'index.html');
   }
 
-  return join(distDir, withoutLeadingSlash);
+  return join(publicDistDir, withoutLeadingSlash);
 }
 
 if (!existsSync(distDir)) {
   throw new Error('dist folder is missing. Run npm run build before npm run check:links.');
 }
 
-walk(distDir);
+walk(publicDistDir);
 
 const issues = [];
 const attributePattern = /\b(?:href|src)=["']([^"']+)["']/g;

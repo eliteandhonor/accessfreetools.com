@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, normalize } from 'node:path';
 
 const distDir = join(process.cwd(), 'dist');
+const publicDistDir = existsSync(join(distDir, 'client')) ? join(distDir, 'client') : distDir;
 const htmlFiles = [];
 
 function walk(directory) {
@@ -19,7 +20,7 @@ if (!existsSync(distDir)) {
   throw new Error('dist folder is missing. Run npm run build before npm run check:structured-data.');
 }
 
-walk(distDir);
+walk(publicDistDir);
 
 const issues = [];
 let jsonLdCount = 0;

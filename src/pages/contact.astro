@@ -25,10 +25,15 @@ import BaseLayout from '../components/BaseLayout.astro';
 
     <form
       class="contact-form"
-      action="mailto:contact@accessfreetools.com"
+      action="/api/contact"
+      data-contact-form
       method="post"
-      enctype="text/plain"
     >
+      <label class="contact-honeypot" aria-hidden="true">
+        <span>Company</span>
+        <input autocomplete="off" name="company" tabindex="-1" type="text" />
+      </label>
+
       <div class="contact-grid">
         <label class="contact-field">
           <span>Your name</span>
@@ -64,7 +69,8 @@ import BaseLayout from '../components/BaseLayout.astro';
       </label>
 
       <div class="contact-actions">
-        <button class="button-primary" type="submit">Open email message</button>
+        <button class="button-primary" type="submit">Send message</button>
+        <p class="contact-status" data-contact-status role="status"></p>
       </div>
     </form>
 
@@ -76,4 +82,52 @@ import BaseLayout from '../components/BaseLayout.astro';
       information through this form or by email.
     </p>
   </section>
+
+  <script>
+    const contactForm = document.querySelector('[data-contact-form]');
+    const contactStatus = document.querySelector('[data-contact-status]');
+
+    if (contactForm instanceof HTMLFormElement && contactStatus instanceof HTMLElement) {
+      contactForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        const previousLabel = submitButton?.textContent ?? 'Send message';
+        contactStatus.dataset.state = 'pending';
+        contactStatus.textContent = 'Sending...';
+
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.disabled = true;
+          submitButton.textContent = 'Sending';
+        }
+
+        try {
+          const formData = new FormData(contactForm);
+          const payload = Object.fromEntries(formData.entries());
+          const response = await fetch(contactForm.action, {
+            body: JSON.stringify(payload),
+            headers: {
+              accept: 'application/json',
+              'content-type': 'application/json',
+            },
+            method: 'POST',
+          });
+          const result = await response.json();
+          contactStatus.dataset.state = response.ok ? 'success' : 'error';
+          contactStatus.textContent = result.message || 'The form returned an unexpected response.';
+
+          if (response.ok) {
+            contactForm.reset();
+          }
+        } catch {
+          contactStatus.dataset.state = 'error';
+          contactStatus.textContent = 'The message could not be sent right now.';
+        } finally {
+          if (submitButton instanceof HTMLButtonElement) {
+            submitButton.disabled = false;
+            submitButton.textContent = previousLabel;
+          }
+        }
+      });
+    }
+  </script>
 </BaseLayout>

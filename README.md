@@ -19,8 +19,13 @@ npm run dev
 npm run build
 ```
 
-The production build outputs to `dist`, which is the folder to deploy from
-Hostinger's Node.js Web App / GitHub import flow.
+The production build outputs the Node server to `dist/server/entry.mjs` and
+static assets to `dist/client`. Hostinger's Node.js Web App should use
+`npm run build` as the build command and `npm run start` as the start command.
+
+The contact form sends through Hostinger SMTP from server-side code. Configure
+the environment variables listed in `docs/contact-form-environment.md` inside
+Hostinger, not in GitHub.
 
 ## Full Check
 

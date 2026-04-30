@@ -7,7 +7,7 @@ This is an implementation checklist for AdSense, affiliate links, and product ca
 - `/privacy-policy/` explains browser-first tools, local storage, cookies, Google AdSense, personalized advertising opt-out choices, EEA/UK/Swiss consent expectations, affiliate links, third-party services, children's privacy, and contact options.
 - `/terms/` explains informational use, no professional advice, accuracy limits, random tool limits, ads, affiliate links, third-party products, intellectual property, feedback, privacy, changes, and contact.
 - `/advertising-disclosure/` explains ads, affiliate commissions, disclosure placement, tool independence, and third-party store responsibility.
-- `/contact/` now uses one contact address for general feedback, corrections, privacy questions, and disclosure questions.
+- `/contact/` now uses one contact address and a server-side form for general feedback, corrections, privacy questions, and disclosure questions.
 
 ## Google AdSense Checklist
 
@@ -32,6 +32,7 @@ This is an implementation checklist for AdSense, affiliate links, and product ca
 ## Owner Actions Before Launching Ads or Affiliate Links
 
 - Create or route `contact@accessfreetools.com` for all site, privacy, advertising, affiliate, and correction messages.
+- Store the Hostinger SMTP password only in Hostinger environment variables, never in GitHub.
 - Add AdSense publisher details only after the account is approved.
 - Configure the Google-certified CMP for regions where consent is required.
 - Confirm live `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, and `/contact/` pages after each Hostinger deployment.

@@ -41,6 +41,7 @@ After Hostinger deploys the latest GitHub commit:
 - Check page source for one canonical tag, one main heading, and expected structured data.
 - Confirm no fake ad boxes or affiliate links appear before accounts and disclosures are ready.
 - Confirm `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, and `/contact/` are live.
+- Confirm Hostinger has the contact form environment variables set and send one test message from `/contact/`.
 
 ## Search Console
 
@@ -61,6 +62,7 @@ Do not add ad or affiliate placements until these are ready:
 - Product popups tested for mobile usability and not blocking the tool.
 - Privacy page updated for ads, cookies, and affiliate tracking.
 - Working `contact@accessfreetools.com` routing for all site, privacy, advertising, affiliate, and correction messages.
+- Hostinger Node.js Web App environment variables set for `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, and `CONTACT_TO`.
 - Google-certified CMP configured before serving ads to EEA, UK, or Switzerland users where required.
 
 ## Rollback

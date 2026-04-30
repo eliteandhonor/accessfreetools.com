@@ -8,6 +8,7 @@
     "dev": "astro dev",
     "typecheck": "tsc --noEmit",
     "build": "astro build",
+    "start": "node ./dist/server/entry.mjs",
     "preview": "astro preview",
     "test": "vitest run",
     "audit:site": "vitest run src/data/siteContentAudit.test.ts",
@@ -20,13 +21,16 @@
     "node": ">=22"
   },
   "dependencies": {
+    "@astrojs/node": "^10.0.6",
     "@astrojs/react": "^5.0.4",
     "astro": "^6.1.9",
     "lucide-react": "^1.11.0",
+    "nodemailer": "^8.0.7",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"
   },
   "devDependencies": {
+    "@types/nodemailer": "^8.0.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "typescript": "^5.9.3",
