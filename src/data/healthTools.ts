@@ -22,12 +22,27 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       answer: `Use it for simple educational checks, trend tracking, or planning tasks like these: ${exampleUses} It can help you understand a number, but it cannot explain your whole health situation.`,
     },
     {
+      question: `What do the main ${spec.name} inputs mean?`,
+      answer:
+        'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.',
+    },
+    {
       question: `What is the ${spec.name} doing with my inputs?`,
       answer: `In plain language: ${spec.formula} Read the result together with the notes on the page, because health and fitness numbers often need personal context.`,
     },
     {
+      question: `How should I read the ${spec.name} result?`,
+      answer:
+        'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.',
+    },
+    {
       question: 'Can I use this as medical advice?',
       answer: `${spec.caution} Use the calculator as a learning tool, then ask a qualified professional about decisions that affect care, pregnancy, medication, nutrition, or safety.`,
+    },
+    {
+      question: 'What should I double-check before trusting the result?',
+      answer:
+        'Check the units, date, and personal details before reading the answer. For example, pounds and kilograms, inches and centimeters, or a wrong activity level can change the result quickly. If the number feels surprising, rerun it slowly and compare it with the examples.',
     },
     {
       question: 'Does the site save my health inputs?',

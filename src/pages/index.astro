@@ -3,11 +3,13 @@ import BaseLayout from '../components/BaseLayout.astro';
 import CategoryCard from '../components/CategoryCard.astro';
 import ToolCard from '../components/ToolCard.astro';
 import { categories } from '../data/categories';
+import { toolAliases } from '../data/toolAliases';
 import { tools } from '../data/tools';
 
 const categoriesWithTools = categories.filter((category) =>
   tools.some((tool) => tool.category === category.slug),
 );
+const publicToolPageCount = tools.length + toolAliases.length;
 const featuredToolSlugs = [
   'mortgage-calculator',
   'loan-calculator',
@@ -90,7 +92,7 @@ const recentlyAddedTools = recentlyAddedToolSlugs
       {featuredTools.map((tool) => <ToolCard tool={tool} />)}
     </div>
     <div class="section-actions">
-      <a class="button-secondary" href="/tools/">Browse all {tools.length} tools</a>
+      <a class="button-secondary" href="/tools/">Browse all {publicToolPageCount} tools</a>
     </div>
   </section>
 

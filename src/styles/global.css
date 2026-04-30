@@ -3621,6 +3621,13 @@ main {
   font-weight: 900;
 }
 
+.half-life-field small {
+  color: color-mix(in srgb, var(--muted) 88%, var(--text) 12%);
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
 .half-life-field input {
   background: var(--surface-solid);
   border: 1px solid var(--border);
@@ -4440,6 +4447,14 @@ main {
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 900;
+  margin: 0;
+}
+
+.advanced-field small {
+  color: color-mix(in srgb, var(--muted) 88%, var(--text) 12%);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.45;
   margin: 0;
 }
 

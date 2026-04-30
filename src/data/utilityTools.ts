@@ -11,6 +11,11 @@ interface UtilityToolSpec {
   aliases?: string[];
   formula: string;
   limit: string;
+  inputExplanations?: Array<{
+    term: string;
+    meaning: string;
+  }>;
+  extraFaq?: ToolFaq[];
   useCases: string[];
   examples: ToolExample[];
   relatedSlugs: string[];
@@ -18,6 +23,12 @@ interface UtilityToolSpec {
 
 function makeFaq(spec: UtilityToolSpec): ToolFaq[] {
   const exampleUses = spec.useCases.slice(0, 2).join(' ');
+  const inputExplanationFaq = {
+    question: `What do the main ${spec.name} inputs mean?`,
+    answer: spec.inputExplanations?.length
+      ? spec.inputExplanations.map((item) => `${item.term}: ${item.meaning}`).join(' ')
+      : 'The main inputs are the values, text, dates, units, or settings the tool needs before it can work. Read each field label carefully, keep units consistent, and compare your entry with the examples if the answer looks strange.',
+  };
 
   return [
     {
@@ -28,10 +39,12 @@ function makeFaq(spec: UtilityToolSpec): ToolFaq[] {
       question: `What is the ${spec.name} doing with my inputs?`,
       answer: `In plain language: ${spec.formula} The examples on the page are there so you can compare your inputs with a filled-out calculation before copying the answer.`,
     },
+    inputExplanationFaq,
     {
       question: 'What should I double-check before trusting the answer?',
       answer: `${spec.limit} Also check that you used the right unit, date, scale, or mode because small input changes can change the result.`,
     },
+    ...(spec.extraFaq ?? []),
     {
       question: 'Does the site save what I enter?',
       answer:
@@ -84,9 +97,9 @@ export const utilityTools: ToolDefinition[] = [
       'Compare leap-day birthdays with normal calendar dates.',
     ],
     examples: [
-      { label: 'Born Jan 1, 2000', expression: '2000-01-01 to 2026-04-29', result: '26 years, 3 months, 28 days' },
-      { label: 'Leap day birthday', expression: '2004-02-29 to 2026-04-29', result: 'Leap-aware calendar age' },
-      { label: 'Birthday today', expression: '2010-04-29 to 2026-04-29', result: '16 years, 0 months, 0 days' },
+      { label: 'Born Jan 1, 2000', expression: '2000-01-01 to 2026-04-30', result: '26 years, 3 months, 29 days' },
+      { label: 'Leap day birthday', expression: '2004-02-29 to 2026-04-30', result: 'Leap-aware calendar age' },
+      { label: 'Birthday today', expression: '2010-04-30 to 2026-04-30', result: '16 years, 0 months, 0 days' },
     ],
     relatedSlugs: ['date-calculator', 'time-calculator', 'hours-calculator'],
   }),
@@ -109,8 +122,8 @@ export const utilityTools: ToolDefinition[] = [
       'Avoid daylight-saving surprises by using date-only UTC math.',
     ],
     examples: [
-      { label: 'Rest of 2026', expression: '2026-04-29 to 2026-12-31', result: '246 days' },
-      { label: 'Add 1 month, 2 weeks, 3 days', expression: '2026-04-29 + 0y 1m 2w 3d', result: '2026-06-15' },
+      { label: 'Rest of 2026', expression: '2026-04-30 to 2026-12-31', result: '245 days' },
+      { label: 'Add 1 month, 2 weeks, 3 days', expression: '2026-04-30 + 0y 1m 2w 3d', result: '2026-06-16' },
       { label: 'Subtract 90 days', expression: '2026-12-31 - 90 days', result: '2026-10-02' },
     ],
     relatedSlugs: ['age-calculator', 'time-calculator', 'hours-calculator'],
@@ -228,6 +241,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts depth from inches to feet, multiplies length by width by depth, adds waste percentage, and converts cubic feet to cubic yards.',
     limit:
       'This is a planning estimate. Forms, uneven ground, compaction, reinforcement, waste, truck minimums, and exact bag yield can change what you need.',
+    inputExplanations: [
+      { term: 'Length and width', meaning: 'the inside form dimensions of the slab, pad, or walkway in feet.' },
+      { term: 'Depth', meaning: 'the average concrete thickness in inches, such as 4 for a common small slab.' },
+      { term: 'Extra waste', meaning: 'a cushion for uneven base, spillage, low spots, and ordering a little more than the exact volume.' },
+    ],
     useCases: [
       'Estimate concrete for a simple slab, pad, walkway, or small project.',
       'Convert cubic feet to cubic yards before ordering ready-mix.',
@@ -436,9 +454,9 @@ export const utilityTools: ToolDefinition[] = [
       'Plan simple cross-time-zone examples without sending data to a server.',
     ],
     examples: [
-      { label: 'New York', expression: '2026-04-29 12:00 UTC', result: 'Local time in America/New_York' },
-      { label: 'London', expression: '2026-04-29 12:00 UTC', result: 'Local time in Europe/London' },
-      { label: 'Tokyo', expression: '2026-04-29 12:00 UTC', result: 'Local time in Asia/Tokyo' },
+      { label: 'New York', expression: '2026-04-30 12:00 UTC', result: 'Local time in America/New_York' },
+      { label: 'London', expression: '2026-04-30 12:00 UTC', result: 'Local time in Europe/London' },
+      { label: 'Tokyo', expression: '2026-04-30 12:00 UTC', result: 'Local time in Asia/Tokyo' },
     ],
     relatedSlugs: ['time-calculator', 'date-calculator', 'day-of-the-week-calculator'],
   }),
@@ -711,7 +729,7 @@ export const utilityTools: ToolDefinition[] = [
       'Use date-only math without time-of-day confusion.',
     ],
     examples: [
-      { label: 'Today', expression: '2026-04-29', result: 'Wednesday' },
+      { label: 'Today', expression: '2026-04-30', result: 'Thursday' },
       { label: 'New Year 2027', expression: '2027-01-01', result: 'Friday' },
       { label: 'Leap day', expression: '2024-02-29', result: 'Thursday' },
     ],
@@ -1054,6 +1072,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator multiplies footprint area by a pitch factor, adds waste, divides by 100 square feet per roofing square, and estimates 3 bundles per square.',
     limit:
       'Complex roofs, valleys, hips, dormers, openings, product coverage, and local installation practices can change material needs.',
+    inputExplanations: [
+      { term: 'Footprint length and width', meaning: 'the flat building footprint, not the sloped roof surface.' },
+      { term: 'Pitch rise per 12', meaning: 'how many inches the roof rises for every 12 inches of horizontal run.' },
+      { term: 'Waste percent', meaning: 'extra roofing for cuts, starter strips, ridge, hips, valleys, and mistakes.' },
+    ],
     useCases: [
       'Estimate roof squares for a simple footprint.',
       'Adjust for roof pitch and waste.',
@@ -1079,6 +1102,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts tile length and width from square inches to square feet, adds waste to project area, then rounds up the tile count.',
     limit:
       'Real projects need layout planning, cuts, breakage, pattern matching, grout spacing, boxes, and product coverage checks.',
+    inputExplanations: [
+      { term: 'Area square feet', meaning: 'the floor or wall area you plan to cover before extra tile is added.' },
+      { term: 'Tile length and width', meaning: 'the visible dimensions of one tile in inches.' },
+      { term: 'Waste percent', meaning: 'extra tile for cuts, breakage, layout pattern, and future replacement pieces.' },
+    ],
     useCases: [
       'Estimate floor or wall tile count.',
       'Add a waste percentage before buying.',
@@ -1104,6 +1132,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts depth from inches to feet, multiplies by area for cubic feet, adds waste, then divides by 27 for cubic yards.',
     limit:
       'Mulch settles and bag fill can vary. Bed shape, old mulch, slope, and desired finished depth affect real material needs.',
+    inputExplanations: [
+      { term: 'Area square feet', meaning: 'the garden or landscape bed area you want to cover.' },
+      { term: 'Depth inches', meaning: 'the finished mulch depth after spreading.' },
+      { term: 'Waste percent', meaning: 'extra mulch for settling, uneven beds, slopes, and spreading loss.' },
+    ],
     useCases: [
       'Estimate mulch for a garden bed.',
       'Convert square feet and inches deep into cubic yards.',
@@ -1129,6 +1162,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts depth from inches to feet, multiplies length by width by depth, divides by 27 for cubic yards, then multiplies by tons per cubic yard.',
     limit:
       'Stone type, compaction, moisture, supplier density, and delivery minimums can change the actual order amount.',
+    inputExplanations: [
+      { term: 'Length, width, and depth', meaning: 'the rectangular gravel area and average finished depth.' },
+      { term: 'Tons per cubic yard', meaning: 'the supplier density used to convert volume into weight.' },
+      { term: 'Tons result', meaning: 'a weight estimate; delivery minimums and compaction can still change the order.' },
+    ],
     useCases: [
       'Estimate gravel for a path, pad, or driveway section.',
       'Convert cubic feet into cubic yards.',
@@ -1155,6 +1193,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator finds wall area from room perimeter and height, subtracts estimated doors and windows, multiplies by coats and extra percent, then divides by square-foot coverage per gallon.',
     limit:
       'Paint coverage depends on product, primer, surface texture, color change, application method, and how much paint remains in the can or tray.',
+    inputExplanations: [
+      { term: 'Coverage per gallon', meaning: 'the square feet one gallon covers for one coat according to the paint label.' },
+      { term: 'Doors and windows', meaning: 'standard openings subtracted from the wall area before coats and extra paint are added.' },
+      { term: 'Extra percent', meaning: 'extra paint for texture, roller and tray loss, touchups, and small measurement errors.' },
+    ],
     useCases: [
       'Estimate gallons for a bedroom, office, or living room.',
       'Adjust for one or two coats before buying paint.',
@@ -1181,6 +1224,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator multiplies sheet length by width for sheet area, adds waste to the project area, then rounds up project area divided by sheet area.',
     limit:
       'Drywall layout depends on openings, sheet orientation, seams, thickness, fire rating, moisture rating, ceiling lift, and local building requirements.',
+    inputExplanations: [
+      { term: 'Wall or ceiling area', meaning: 'the measured surface area before extra sheets are added.' },
+      { term: 'Sheet size', meaning: 'the drywall panel dimensions, such as 4 by 8 or 4 by 12 feet.' },
+      { term: 'Waste percent', meaning: 'extra sheets for cuts, broken corners, offcuts, and layout mistakes.' },
+    ],
     useCases: [
       'Estimate drywall sheets for a room or basement wall area.',
       'Compare 4x8, 4x10, and 4x12 sheet sizes.',
@@ -1206,6 +1254,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator multiplies room length by width, adds waste, divides by 9 for square yards, and divides by roll width for approximate linear feet.',
     limit:
       'Carpet orders depend on seam placement, stairs, closets, pile direction, pattern matching, roll width, and installer layout.',
+    inputExplanations: [
+      { term: 'Room length and width', meaning: 'the simple rectangular floor area before closets, seams, or stairs are handled separately.' },
+      { term: 'Roll width', meaning: 'the carpet roll width from the product, commonly 12 feet for many carpets.' },
+      { term: 'Waste percent', meaning: 'extra carpet for trimming, seams, closets, pattern direction, and installer layout.' },
+    ],
     useCases: [
       'Estimate carpet for a simple rectangular room.',
       'Convert square feet into square yards.',
@@ -1232,6 +1285,12 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator adds waste to the measured floor area, divides by square feet per box, rounds up to whole boxes, and multiplies by box price when entered.',
     limit:
       'Flooring orders depend on room shape, product layout, pattern direction, stairs, closets, damaged pieces, overage for repairs, and matching dye lots.',
+    inputExplanations: [
+      { term: 'Floor area', meaning: 'the measured square footage before extra material is added.' },
+      { term: 'Waste percent', meaning: 'extra flooring for cuts, damaged planks, layout direction, and future repairs.' },
+      { term: 'Box coverage', meaning: 'how many square feet one box covers according to the product label.' },
+      { term: 'Price per box', meaning: 'an optional material price used only when you want an estimated product cost.' },
+    ],
     useCases: [
       'Estimate laminate, vinyl plank, engineered wood, or boxed flooring.',
       'Add waste before buying boxes.',
@@ -1258,6 +1317,44 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator finds wall area from room perimeter and height, subtracts estimated doors and windows, adds waste, divides by roll coverage, and rounds up.',
     limit:
       'Wallpaper needs can change with pattern repeat, usable roll yield, accent walls, odd wall shapes, trimming, damaged strips, and dye lots.',
+    inputExplanations: [
+      { term: 'Room length and width', meaning: 'the two pairs of walls used to estimate total wall area from room perimeter.' },
+      { term: 'Doors and windows', meaning: 'standard openings subtracted from wall area before waste is added.' },
+      { term: 'Roll coverage', meaning: 'usable square feet one roll covers; use the product label because pattern repeat can reduce it.' },
+      { term: 'Waste percent', meaning: 'extra wallpaper for trimming, matching patterns, damaged strips, and mistakes.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What is waste percent in the Wallpaper Calculator?',
+        answer:
+          'Waste percent is extra wallpaper added before the roll count is rounded up. It covers the pieces you cut off at the ceiling and baseboard, strips that need to shift so the pattern lines up, damaged pieces, and small measuring mistakes. If the wall math says you need 300 square feet and you enter 10% waste, the calculator plans for 330 square feet before dividing by roll coverage.',
+      },
+      {
+        question: 'How much waste percent should I use for wallpaper?',
+        answer:
+          'Use 10% as a simple starting point for plain, random-match, or easy peel-and-stick wallpaper. Use about 15% when there is a normal pattern repeat or several corners and openings. Use 20% or more for large pattern repeats, drop matches, older uneven walls, or if you want spare paper for repairs. The product label and installer advice should win when they give a specific number.',
+      },
+      {
+        question: 'What does roll coverage mean?',
+        answer:
+          'Roll coverage is the usable square feet from one roll or bolt. Do not guess this from the roll size if the product page already gives coverage, because pattern repeat can lower the amount that actually lands on the wall. Some products are priced as single rolls but shipped as double rolls, so check whether the coverage number belongs to the roll you are buying.',
+      },
+      {
+        question: 'Why can pattern repeat change the roll count?',
+        answer:
+          'A repeating pattern has to line up from strip to strip. That means a strip may need to be cut longer than the wall height so the design starts in the right place. The extra cut-off part is not a mistake; it is the cost of making the pattern match instead of looking shifted.',
+      },
+      {
+        question: 'Should I subtract doors and windows?',
+        answer:
+          'For a rough estimate, subtracting standard doors and windows keeps the roll count from getting too high. For peel-and-stick or patterned wallpaper, some stores advise not subtracting openings because you still cut around them and may need full-height strips. If you are close to the next roll, it is usually safer to round up.',
+      },
+      {
+        question: 'Why should wallpaper rolls come from the same lot or batch?',
+        answer:
+          'Wallpaper can have tiny color differences between print runs. The lot, run, or batch number helps you buy rolls printed together. If you buy more later from a different lot, the pattern may be correct but the color can still look slightly off on the wall.',
+      },
+    ],
     useCases: [
       'Estimate rolls for a bedroom, office, or powder room.',
       'Subtract common doors and windows from wall area.',
@@ -1283,6 +1380,12 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator subtracts gate width from total perimeter, divides the remaining run by panel width, estimates line posts from spacing, and adds two gate posts per gate.',
     limit:
       'Real fences need corner posts, end posts, bracing, slope handling, permits, setbacks, gate hardware, terrain checks, and local code review.',
+    inputExplanations: [
+      { term: 'Perimeter', meaning: 'the total fence path length before gate openings are removed.' },
+      { term: 'Panel width', meaning: 'the width of one fence panel or bay.' },
+      { term: 'Post spacing', meaning: 'the maximum distance between line posts.' },
+      { term: 'Gate count and width', meaning: 'openings that reduce fence run and add gate posts.' },
+    ],
     useCases: [
       'Estimate panels for a backyard fence.',
       'Plan post counts from a chosen spacing.',
@@ -1309,6 +1412,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator multiplies deck area by a waste factor and cost per square foot, then adds railing cost and stair allowance.',
     limit:
       'Deck costs vary widely with framing, footings, fasteners, railing code, permits, demolition, labor, height, stairs, material grade, and location.',
+    inputExplanations: [
+      { term: 'Decking waste percent', meaning: 'extra surface material for board cuts, layout choices, and mistakes.' },
+      { term: 'Decking cost per square foot', meaning: 'the surface material cost only, unless you intentionally include more in that number.' },
+      { term: 'Railing and stairs', meaning: 'separate rough allowances added after the deck surface estimate.' },
+    ],
     useCases: [
       'Create a rough deck material budget.',
       'Compare different decking cost assumptions.',
@@ -1335,6 +1443,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts paver dimensions from square inches to square feet, adds waste to project area, then rounds up adjusted area divided by paver area.',
     limit:
       'Paver projects also need base material, bedding sand, joint sand, edging, cuts, pattern planning, compaction, and drainage checks.',
+    inputExplanations: [
+      { term: 'Project area', meaning: 'the patio, path, or driveway surface area before extra pavers are added.' },
+      { term: 'Paver length and width', meaning: 'the visible dimensions of one paver in inches.' },
+      { term: 'Waste percent', meaning: 'extra pavers for cuts, breakage, border pieces, and future replacement.' },
+    ],
     useCases: [
       'Estimate paver count for a patio or walkway.',
       'Compare different paver sizes.',
@@ -1361,6 +1474,12 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator subtracts openings from wall area, adds waste, divides by 100 square feet per siding square, and rounds up.',
     limit:
       'Siding projects also need gables, corners, starter strips, trim, channels, product exposure, color lots, installer layout, and local building review.',
+    inputExplanations: [
+      { term: 'Wall area', meaning: 'total exterior wall square footage before doors and windows are subtracted.' },
+      { term: 'Doors/windows', meaning: 'the combined opening area removed before the siding waste allowance is added.' },
+      { term: 'Siding square', meaning: 'a siding unit equal to 100 square feet of coverage.' },
+      { term: 'Waste percent', meaning: 'extra siding for cuts, gables, corners, trim-heavy sections, and damaged pieces.' },
+    ],
     useCases: [
       'Estimate vinyl, fiber cement, wood, or engineered siding squares.',
       'Convert wall square footage into 100-square-foot siding squares.',
@@ -1387,6 +1506,12 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator adds the mortar joint to brick length and height, converts the face area to square feet, adds waste to wall area, and rounds up.',
     limit:
       'Brick counts can change with bond pattern, corners, openings, piers, cuts, wall thickness, damaged units, mortar, and professional masonry layout.',
+    inputExplanations: [
+      { term: 'Wall area', meaning: 'the visible wall face area, not the thickness or volume of the wall.' },
+      { term: 'Brick dimensions', meaning: 'the visible face length and height of one brick in inches.' },
+      { term: 'Mortar joint', meaning: 'the planned gap between bricks, included in the face coverage estimate.' },
+      { term: 'Waste percent', meaning: 'extra bricks for cuts, breakage, corners, bond pattern, and color matching.' },
+    ],
     useCases: [
       'Estimate brick count for a simple wall face.',
       'Use actual brick face dimensions and mortar joint thickness.',
@@ -1413,6 +1538,12 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator multiplies wall length by height, subtracts openings, adds waste, divides by nominal block face area, and rounds up.',
     limit:
       'Block walls need professional review for footings, drainage, reinforcement, grout, lintels, mortar, corners, structural loads, and local code.',
+    inputExplanations: [
+      { term: 'Wall length and height', meaning: 'the finished wall face dimensions in feet.' },
+      { term: 'Nominal block size', meaning: 'the common module size used for layout, such as 16 by 8 inches.' },
+      { term: 'Openings', meaning: 'door, window, or other areas subtracted before waste is added.' },
+      { term: 'Waste percent', meaning: 'extra blocks for cuts, broken units, corners, and layout changes.' },
+    ],
     useCases: [
       'Estimate block count for a simple wall.',
       'See approximate course count and blocks per course.',
@@ -1439,6 +1570,12 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator counts bars in both slab directions from spacing, totals linear feet, adds waste, divides by stock bar length, and rounds up.',
     limit:
       'This is a material takeoff, not structural design. Bar size, spacing, laps, cover, supports, edge distance, and code requirements need professional review.',
+    inputExplanations: [
+      { term: 'Slab length and width', meaning: 'the rectangular slab dimensions for the grid estimate.' },
+      { term: 'Bar spacing', meaning: 'the distance between parallel bars; smaller spacing means more bars.' },
+      { term: 'Stock bar length', meaning: 'the length of one purchased bar from the supplier.' },
+      { term: 'Waste percent', meaning: 'extra length for cuts, lap planning, and small layout changes.' },
+    ],
     useCases: [
       'Estimate stock rebar bars for a simple rectangular slab grid.',
       'Compare 12-inch, 18-inch, and 24-inch spacing.',
@@ -1464,6 +1601,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator multiplies thickness in inches by width in inches by length in feet, divides by 12, then multiplies by quantity.',
     limit:
       'Board feet measure volume only. Nominal sizes, surfaced dimensions, seller rules, moisture, defects, species, grade, and waste can change real buying needs.',
+    inputExplanations: [
+      { term: 'Thickness and width', meaning: 'board dimensions in inches, preferably actual dimensions when you know them.' },
+      { term: 'Length', meaning: 'board length in feet.' },
+      { term: 'Quantity', meaning: 'how many boards of that same size to include.' },
+    ],
     useCases: [
       'Estimate lumber volume before visiting a lumber yard.',
       'Compare rough boards with different dimensions.',
@@ -1489,6 +1631,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts depth from inches to feet, multiplies length by width by depth, adds waste, then divides cubic feet by 27 for cubic yards.',
     limit:
       'This is a simple rectangular-volume estimate. Uneven ground, compaction, slopes, forms, settling, and supplier rounding can change orders.',
+    inputExplanations: [
+      { term: 'Length and width', meaning: 'the rectangular area to fill or cover.' },
+      { term: 'Depth', meaning: 'the average material depth in inches.' },
+      { term: 'Waste percent', meaning: 'extra material for uneven grade, compaction, settling, and ordering cushion.' },
+    ],
     useCases: [
       'Estimate cubic yards for fill, soil, mulch, sand, or gravel.',
       'Convert a shallow depth in inches into cubic yards.',
@@ -1514,6 +1661,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator estimates pool cubic feet from the selected shape and average depth, then multiplies cubic feet by 7.48052 gallons per cubic foot.',
     limit:
       'Sloped bottoms, steps, benches, freeform shapes, rounded corners, waterline height, and measurement error can change real pool volume.',
+    inputExplanations: [
+      { term: 'Pool shape', meaning: 'the simple shape used for the volume formula: rectangle, round, or oval.' },
+      { term: 'Length or diameter', meaning: 'the long measurement for rectangles and ovals, or the diameter for round pools.' },
+      { term: 'Average depth', meaning: 'the average water depth, useful when the shallow and deep ends differ.' },
+    ],
     useCases: [
       'Estimate gallons before adding pool chemicals.',
       'Compare rectangular, round, and oval pool volume.',
@@ -1539,6 +1691,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts depth from inches to feet, multiplies length by width by depth, adds waste, divides by 27 for cubic yards, and multiplies by tons per cubic yard.',
     limit:
       'Sand density changes with moisture, material type, compaction, and supplier measurement. Ask your supplier for the best tons-per-yard value.',
+    inputExplanations: [
+      { term: 'Depth', meaning: 'the average sand depth in inches.' },
+      { term: 'Tons per cubic yard', meaning: 'the supplier density used to turn volume into weight.' },
+      { term: 'Waste percent', meaning: 'extra sand for leveling, spreading loss, compaction, and uneven areas.' },
+    ],
     useCases: [
       'Estimate sand for paver bedding or leveling.',
       'Estimate sand volume for a sandbox or small base layer.',
@@ -1565,6 +1722,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts depth from inches to feet, multiplies by area, adds extra percent, divides by 27 for cubic yards, and estimates common bag counts.',
     limit:
       'Soil settles and bag fill varies. Existing bed depth, compost mix, moisture, raised bed shape, and plant needs can change the amount to buy.',
+    inputExplanations: [
+      { term: 'Bed area', meaning: 'the square footage of the garden bed, raised bed, or lawn patch.' },
+      { term: 'Soil depth', meaning: 'how many inches of soil you want to add.' },
+      { term: 'Extra percent', meaning: 'extra soil for settling, uneven beds, and spreading loss.' },
+    ],
     useCases: [
       'Estimate soil for raised beds or garden top-offs.',
       'Convert square feet and inches deep into cubic yards.',
@@ -1590,6 +1752,11 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts compacted depth from inches to feet, multiplies length by width by depth, adds waste, converts to cubic yards, then multiplies by tons per cubic yard.',
     limit:
       'Asphalt quantity depends on mix type, compaction, lift thickness, base condition, paving specs, plant minimums, and professional site measurement.',
+    inputExplanations: [
+      { term: 'Compacted depth', meaning: 'the finished asphalt thickness after compaction, not loose material depth.' },
+      { term: 'Tons per cubic yard', meaning: 'the density assumption used to convert volume into asphalt tonnage.' },
+      { term: 'Waste percent', meaning: 'extra material for edges, compaction differences, and small measurement errors.' },
+    ],
     useCases: [
       'Estimate asphalt tons for a simple driveway section.',
       'Convert compacted depth into cubic yards.',
@@ -2030,7 +2197,7 @@ export const utilityTools: ToolDefinition[] = [
       'Compare date-time values without local time-zone ambiguity.',
     ],
     examples: [
-      { label: 'Date to seconds', expression: '2026-04-29 12:00 UTC', result: 'Unix seconds' },
+      { label: 'Date to seconds', expression: '2026-04-30 12:00 UTC', result: 'Unix seconds' },
       { label: 'Milliseconds', expression: '1777464000000 ms', result: 'UTC ISO date-time' },
       { label: 'Unix epoch', expression: '0 seconds', result: '1970-01-01T00:00:00Z' },
     ],

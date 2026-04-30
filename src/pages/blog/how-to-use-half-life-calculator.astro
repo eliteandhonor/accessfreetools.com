@@ -4,6 +4,25 @@ import { getTool } from '../../data/tools';
 
 const halfLifeCalculator = getTool('half-life-calculator');
 const examples = halfLifeCalculator?.examples ?? [];
+const faqItems = halfLifeCalculator?.faq ?? [];
+const sourceLinks = [
+  {
+    href: 'https://ww2.nrc.gov/reading-rm/basic-ref/glossary/half-life',
+    label: 'U.S. NRC: Half-life glossary definition',
+  },
+  {
+    href: 'https://www.nrc.gov/reading-rm/basic-ref/glossary/full-text.html',
+    label: 'U.S. NRC: Physical, biological, and effective half-life glossary',
+  },
+  {
+    href: 'https://openstax.org/books/university-physics-volume-3/pages/10-3-radioactive-decay',
+    label: 'OpenStax University Physics: radioactive decay and half-life formulas',
+  },
+  {
+    href: 'https://openstax.org/books/chemistry-atoms-first-2e/pages/20-3-radioactive-decay',
+    label: 'OpenStax Chemistry: radioactive half-lives and first-order decay',
+  },
+];
 const articleStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -32,9 +51,9 @@ const articleStructuredData = {
       <span>Half-life calculator guide</span>
       <h1>How to use the Half-Life Calculator</h1>
       <p>
-        The Half-Life Calculator helps you solve exponential decay questions. Use it to find how
-        much remains after time passes, how much time a decay process took, or what the half-life is
-        when you know the starting amount, ending amount, and elapsed time.
+        The Half-Life Calculator helps with one idea: a decaying amount gets cut in half again and
+        again at a steady time interval. Use it to find what remains, how long decay took, or what
+        the half-life must be when you know the starting and ending amounts.
       </p>
       <a class="button-primary" href="/tools/half-life-calculator/">Open the half-life calculator</a>
     </header>
@@ -56,11 +75,26 @@ const articleStructuredData = {
           <h2>The half-life formula</h2>
           <p>
             The remaining amount formula is remaining amount = initial amount x (1/2)^(elapsed
-            time / half-life). The exponent tells how many half-lives have passed.
+            time / half-life). The exponent is the important part: elapsed time divided by half-life
+            tells how many half-lives passed.
           </p>
           <p>
             For example, if 18 hours pass and the half-life is 6 hours, then 18 / 6 = 3 half-lives.
             After 3 half-lives, 100 mg becomes 12.5 mg.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>What half-life means</h2>
+          <p>
+            Half-life does not mean the whole thing disappears after two half-lives. It means the
+            current amount gets cut in half every time that interval passes. Starting with 100, one
+            half-life leaves 50, two half-lives leave 25, three leave 12.5, and it keeps shrinking.
+          </p>
+          <p>
+            That is why half-life is exponential decay, not straight-line subtraction. The first drop
+            from 100 to 50 removes 50 units, but the next drop from 50 to 25 removes 25 units. Same
+            time interval, smaller absolute drop.
           </p>
         </section>
 
@@ -94,6 +128,33 @@ const articleStructuredData = {
           </p>
         </section>
 
+        <section class="content-section">
+          <h2>How to read the answer</h2>
+          <p>
+            Start with the big answer, then read the supporting lines. Half-lives passed tells how
+            many halving intervals fit into the time. Percent remaining tells what share of the
+            starting amount is still there. Percent decayed is the rest.
+          </p>
+          <p>
+            If the calculator says 3 half-lives passed and 12.5% remains, that is just the halving
+            chain in percent form: 100% to 50% to 25% to 12.5%.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Physical, biological, and effective half-life</h2>
+          <p>
+            The math tool uses one half-life value at a time. In real science, people may use more
+            specific words. Physical or radiological half-life is radioactive decay. Biological
+            half-life is how fast a body removes a substance. Effective half-life combines both.
+          </p>
+          <p>
+            That matters because a homework-style decay problem and a medical or radiation safety
+            decision are not the same thing. This page explains the calculator math; it does not set
+            a dose, safety rule, storage rule, or treatment plan.
+          </p>
+        </section>
+
         {examples.length > 0 && (
           <section class="content-section">
             <h2>Examples from the half-life calculator</h2>
@@ -119,6 +180,40 @@ const articleStructuredData = {
             For elapsed-time and half-life modes, the final amount must be greater than zero. To
             solve the half-life itself, the final amount must also be less than the initial amount.
           </p>
+          <p>
+            Also check whether your final amount is the amount remaining or the amount decayed. If a
+            question says 75% has decayed, then 25% remains. The calculator wants the remaining
+            amount when you are solving for elapsed time or half-life.
+          </p>
+        </section>
+
+        {faqItems.length > 0 && (
+          <section class="content-section">
+            <h2>FAQ in plain language</h2>
+            <div class="guide-question-list">
+              {faqItems.slice(0, 8).map((item) => (
+                <article>
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Research and references</h2>
+          <p>
+            These references shaped the definition notes, decay formula notes, and safety limits in
+            this guide.
+          </p>
+          <ul class="source-link-list">
+            {sourceLinks.map((link) => (
+              <li>
+                <a href={link.href} rel="noreferrer" target="_blank">{link.label}</a>
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section class="content-section">

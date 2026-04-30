@@ -30,6 +30,7 @@ interface UtilityGuideDetail {
   enter: string[];
   read: string[];
   mistakes: string[];
+  extraSections?: GuideSection[];
   sources: Array<{
     href: string;
     label: string;
@@ -148,6 +149,26 @@ const sourceLinks = {
   lowesWallpaper: {
     href: 'https://www.lowes.com/n/calculators/wallpaper-calculator',
     label: 'Lowe\'s: Wallpaper calculator estimating notes',
+  },
+  lowesWallpaperInstall: {
+    href: 'https://www.lowes.com/pdf/Step-by-Step-Guide-Wallpaper-Installation.pdf',
+    label: 'Lowe\'s: Peel-and-stick wallpaper installation guide',
+  },
+  homeDepotWallpaper: {
+    href: 'https://www.homedepot.com/c/ah/how-to-wallpaper/9ba683603be9fa5395fab90209b9af9',
+    label: 'The Home Depot: How to wallpaper',
+  },
+  homeDepotPastedWallpaper: {
+    href: 'https://www.homedepot.com/c/ap/how-to-install-pasted-wallpaper/9ba683603be9fa5395fab901dcc00ca7',
+    label: 'The Home Depot: Pasted wallpaper planning and install notes',
+  },
+  grahamBrownWallpaper: {
+    href: 'https://support.grahambrown.com/hc/en-us/articles/207134025-How-do-I-know-how-much-wallpaper-I-need',
+    label: 'Graham & Brown: How much wallpaper do I need?',
+  },
+  ethanAllenWallpaperGuide: {
+    href: 'https://www.ethanallen.ca/on/demandware.static/-/Library-Sites-ethanallen-shared/default/dw121d97c4/pdf/buying-guides/wallpaper_buying_guide.pdf',
+    label: 'Ethan Allen: Wallpaper repeat and match glossary',
   },
   lowesSiding: {
     href: 'https://www.lowes.com/n/calculators/siding-calculator',
@@ -1205,13 +1226,13 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'wallpaper-calculator': {
-    summary: 'Learn how room walls, openings, roll coverage, and waste estimate wallpaper rolls.',
+    summary: 'Learn how wall area, openings, roll coverage, pattern repeat, and waste percent turn into wallpaper rolls.',
     purpose:
-      'The Wallpaper Calculator estimates whole rolls for simple room walls. It starts from the room perimeter and wall height, subtracts common doors and windows, then applies roll coverage and waste.',
+      'The Wallpaper Calculator estimates whole rolls for simple room walls. It starts with room perimeter and wall height, subtracts standard doors and windows, adds a waste percent, then divides by roll coverage. Think of it like planning snacks for a group: the wall area is the people who definitely need food, and waste percent is the extra bag you buy because somebody drops chips, shows up late, or wants seconds.',
     enter: [
-      'Enter room length, width, and wall height.',
-      'Enter doors, windows, roll coverage, and waste percent.',
-      'Use the coverage number from the wallpaper product page or roll label.',
+      'Enter room length and width in feet. The calculator uses those to estimate the room perimeter.',
+      'Enter wall height, plus the number of standard doors and windows.',
+      'Enter roll coverage from the wallpaper product page or label, then choose a waste percent that fits the pattern and room difficulty.',
     ],
     read: [
       'Rolls needed is rounded up because wallpaper is bought in whole rolls.',
@@ -1219,11 +1240,62 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Area with waste shows the roll-coverage demand before rounding.',
     ],
     mistakes: [
-      'Do not ignore pattern repeat or usable yield; a roll may not cover its full printed square footage in a patterned room.',
-      'Do not mix rolls from different dye lots when appearance matters.',
+      'Do not treat waste percent like a fee. It is extra material for cuts, pattern matching, trimming, and mistakes.',
+      'Do not ignore pattern repeat or usable yield. A roll may print 56 square feet, but the usable wall coverage can be lower when the pattern has to line up.',
+      'Do not mix rolls from different dye lots when appearance matters, because the same pattern can still have a slightly different color.',
       'Measure accent walls separately when you are not covering the whole room.',
     ],
-    sources: [sourceLinks.lowesWallpaper, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'What waste percent means',
+        paragraphs: [
+          'Waste percent is the extra wallpaper the calculator adds before it figures out how many rolls to buy. If the wall area after openings is 300 square feet and you enter 10% waste, the calculator treats the job like 330 square feet. Then it divides by roll coverage and rounds up to whole rolls.',
+          'This extra amount is normal. Wallpaper is not used like paint where every square foot in the can can spread somewhere. You cut strips, trim the top and bottom, work around corners, and sometimes throw away a piece because the pattern needs to start in a different place.',
+        ],
+        bullets: [
+          'Use around 10% for plain, random-match, or simple peel-and-stick wallpaper.',
+          'Use around 15% for ordinary patterned wallpaper or rooms with several cuts.',
+          'Use 20% or more for large repeats, drop matches, uneven walls, or when you want spare paper for later repairs.',
+        ],
+      },
+      {
+        title: 'What roll coverage means',
+        paragraphs: [
+          'Roll coverage means the square feet one roll can cover in real use. It is tempting to multiply roll width by roll length yourself, but the product page or label is usually safer because it may already account for how that product is sold.',
+          'Some wallpaper is priced as a single roll but shipped as a double roll or bolt. That is why the coverage number matters more than the name. If the product says one roll covers 56 square feet, put 56 in the calculator. If the label says a different usable coverage, use that number instead.',
+        ],
+      },
+      {
+        title: 'Why pattern repeat matters',
+        paragraphs: [
+          'Pattern repeat is the distance before the design starts over. A random texture can be cut almost anywhere. A big floral, mural-style, or geometric pattern has to line up from strip to strip, so you may cut away more paper to make the next strip start in the correct place.',
+          'Straight matches line up across neighboring strips. Drop matches shift the pattern, usually by half a repeat, so they can need even more careful cutting. That is why two wallpapers with the same roll coverage can need different waste percentages.',
+        ],
+      },
+      {
+        title: 'A quick example',
+        paragraphs: [
+          'Say a room has about 352 square feet of wall area. One standard door and two windows subtract about 50 square feet, so the wallpaper area is about 302 square feet. With 10% waste, the calculator plans for about 332 square feet.',
+          'If each roll covers 56 square feet, 332 divided by 56 is about 5.93. Since you cannot buy 0.93 of a roll for a normal order, the calculator rounds up to 6 rolls. That last part matters: rounding is why a tiny input change can sometimes push the answer up by a whole roll.',
+        ],
+      },
+      {
+        title: 'When to be extra careful',
+        paragraphs: [
+          'If your wallpaper is expensive, has a large repeat, uses a drop match, or is going in a room with many corners and openings, treat the calculator as a first estimate. Check the product label, batch number, and return policy before ordering.',
+          'If you are close to the next roll, it is usually better to round up than to run short. Reordering later can be annoying because the same pattern may come from a different lot or batch.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.lowesWallpaper,
+      sourceLinks.lowesWallpaperInstall,
+      sourceLinks.homeDepotWallpaper,
+      sourceLinks.homeDepotPastedWallpaper,
+      sourceLinks.grahamBrownWallpaper,
+      sourceLinks.ethanAllenWallpaperGuide,
+      sourceLinks.nistUnits,
+    ],
   },
   'fence-calculator': {
     summary: 'Learn how perimeter, panel width, post spacing, and gates estimate fence materials.',
@@ -2055,6 +2127,7 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
         ],
         bullets: detail.mistakes,
       },
+      ...(detail.extraSections ?? []),
       {
         title: 'Research and references',
         paragraphs: [

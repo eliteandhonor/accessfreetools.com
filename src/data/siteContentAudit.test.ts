@@ -8,6 +8,7 @@ import { categories } from './categories';
 import { financeBlogGuides } from './financeBlogGuides';
 import { healthBlogGuides } from './healthBlogGuides';
 import { toolAliases } from './toolAliases';
+import { DEEP_AUDIT_REQUIRED_SCOPE, toolDeepAuditRecords } from './toolDeepAudit';
 import { getCalculatorIconMark } from './toolIcons';
 import { tools } from './tools';
 import { utilityBlogGuides } from './utilityBlogGuides';
@@ -25,6 +26,10 @@ const GENERIC_OR_PLACEHOLDER_PATTERNS = [
 ];
 const TOOLS_ROUTE_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/tools/[slug].astro', import.meta.url)),
+  'utf8',
+);
+const HALF_LIFE_GUIDE_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/blog/how-to-use-half-life-calculator.astro', import.meta.url)),
   'utf8',
 );
 
@@ -99,6 +104,83 @@ describe('site content audit guardrails', () => {
         if (!toolSlugs.has(relatedSlug)) {
           issues.push(`${tool.slug} points to missing related tool ${relatedSlug}`);
         }
+      }
+    }
+
+    expect(issues).toEqual([]);
+  });
+
+  it('keeps per-tool deep audit records traceable and source backed', () => {
+    const toolSlugs = new Set(tools.map((tool) => tool.slug));
+    const aliasSlugs = new Set(toolAliases.map((alias) => alias.slug));
+    const publicToolSlugs = new Set([...toolSlugs, ...aliasSlugs]);
+    const duplicateAuditSlugs = findDuplicates(toolDeepAuditRecords.map((record) => record.slug));
+    const issues = duplicateAuditSlugs.map((slug) => `${slug} has duplicate deep-audit records`);
+    const auditSlugs = new Set(toolDeepAuditRecords.map((record) => record.slug));
+
+    if (toolDeepAuditRecords.length !== publicToolSlugs.size) {
+      issues.push(
+        `deep-audit coverage mismatch: ${toolDeepAuditRecords.length} records for ${publicToolSlugs.size} public tool URLs`,
+      );
+    }
+
+    for (const slug of publicToolSlugs) {
+      if (!auditSlugs.has(slug)) {
+        issues.push(`${slug} is missing a deep-audit record`);
+      }
+    }
+
+    for (const record of toolDeepAuditRecords) {
+      if (!publicToolSlugs.has(record.slug)) {
+        issues.push(`${record.slug} deep-audit record does not map to a tool or alias page`);
+      }
+
+      for (const scope of DEEP_AUDIT_REQUIRED_SCOPE) {
+        if (!record.scope.includes(scope)) {
+          issues.push(`${record.slug} deep-audit record is missing ${scope} scope`);
+        }
+      }
+
+      if (record.sources.length < 2) {
+        issues.push(`${record.slug} needs at least 2 source links in its deep-audit record`);
+      }
+
+      if (record.findings.length < 3) {
+        issues.push(`${record.slug} needs at least 3 review findings`);
+      }
+
+      if (record.improvements.length < 1) {
+        issues.push(`${record.slug} needs at least 1 recorded improvement`);
+      }
+
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(record.reviewedOn)) {
+        issues.push(`${record.slug} reviewedOn must be an ISO date`);
+      }
+    }
+
+    expect(issues).toEqual([]);
+  });
+
+  it('keeps every tool FAQ detailed enough to explain inputs, answers, and common mistakes', () => {
+    const issues: string[] = [];
+
+    for (const tool of tools) {
+      const faqQuestions = tool.faq.map((faq) => faq.question).join(' ');
+
+      if (tool.faq.length < 6) {
+        issues.push(`${tool.slug} needs at least 6 FAQs for a full tool page`);
+      }
+
+      if (!/main .*inputs/i.test(faqQuestions)) {
+        issues.push(`${tool.slug} needs a main-input explanation FAQ`);
+      }
+
+      if (!/how should i read|read the .*answer|read the .*result/i.test(faqQuestions)) {
+        issues.push(`${tool.slug} needs an answer-reading FAQ`);
+      }
+
+      if (!/double-check|before trusting|before copying|common mistake/i.test(faqQuestions)) {
+        issues.push(`${tool.slug} needs a double-check or mistake-prevention FAQ`);
       }
     }
 
@@ -207,6 +289,90 @@ describe('site content audit guardrails', () => {
     }
 
     expect(issues).toEqual([]);
+  });
+
+  it('explains key project-estimate inputs in FAQs', () => {
+    const projectToolsNeedingInputFaq = [
+      'concrete-calculator',
+      'roofing-calculator',
+      'tile-calculator',
+      'mulch-calculator',
+      'gravel-calculator',
+      'paint-calculator',
+      'drywall-calculator',
+      'carpet-calculator',
+      'flooring-calculator',
+      'wallpaper-calculator',
+      'fence-calculator',
+      'deck-cost-calculator',
+      'paver-calculator',
+      'siding-calculator',
+      'brick-calculator',
+      'concrete-block-calculator',
+      'rebar-calculator',
+      'board-foot-calculator',
+      'cubic-yard-calculator',
+      'pool-volume-calculator',
+      'sand-calculator',
+      'soil-calculator',
+      'asphalt-calculator',
+    ];
+    const issues: string[] = [];
+
+    for (const slug of projectToolsNeedingInputFaq) {
+      const tool = tools.find((candidate) => candidate.slug === slug);
+      const inputFaq = tool?.faq.find((faq) => faq.question.includes('main') && faq.question.includes('inputs'));
+
+      if (!inputFaq) {
+        issues.push(`${slug} needs a main-input explanation FAQ`);
+      }
+    }
+
+    const wallpaper = tools.find((tool) => tool.slug === 'wallpaper-calculator');
+    const wallpaperFaqText = wallpaper?.faq.flatMap((faq) => [faq.question, faq.answer]).join(' ') ?? '';
+
+    if (!/Waste percent/i.test(wallpaperFaqText) || !/Roll coverage/i.test(wallpaperFaqText)) {
+      issues.push('wallpaper-calculator FAQ must explain waste percent and roll coverage');
+    }
+
+    if (!wallpaper?.faq.some((faq) => faq.question === 'What is waste percent in the Wallpaper Calculator?')) {
+      issues.push('wallpaper-calculator needs a dedicated waste percent FAQ');
+    }
+
+    if (!/pattern repeat/i.test(wallpaperFaqText) || !/lot|batch/i.test(wallpaperFaqText)) {
+      issues.push('wallpaper-calculator FAQ must explain pattern repeat and lot/batch risk');
+    }
+
+    expect(issues).toEqual([]);
+  });
+
+  it('keeps the Wallpaper Calculator guide detailed enough for confusing buying terms', () => {
+    const guide = utilityBlogGuides.find((candidate) => candidate.toolSlug === 'wallpaper-calculator');
+    const guideText =
+      guide?.sections
+        .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+        .join(' ') ?? '';
+
+    expect(guide).toBeDefined();
+    expect(guideText).toContain('What waste percent means');
+    expect(guideText).toContain('What roll coverage means');
+    expect(guideText).toContain('Why pattern repeat matters');
+    expect(guideText).toContain('A quick example');
+    expect(guideText).toMatch(/300 square feet|302 square feet/);
+  });
+
+  it('keeps the Half-Life Calculator detailed enough for confusing decay terms', () => {
+    const halfLife = tools.find((tool) => tool.slug === 'half-life-calculator');
+    const faqText = halfLife?.faq.flatMap((faq) => [faq.question, faq.answer]).join(' ') ?? '';
+
+    expect(halfLife).toBeDefined();
+    expect(faqText).toContain('What do the main Half-Life Calculator inputs mean?');
+    expect(faqText).toContain('What does half-lives passed mean?');
+    expect(faqText).toContain('physical, biological, and effective half-life');
+    expect(HALF_LIFE_GUIDE_SOURCE).toContain('What half-life means');
+    expect(HALF_LIFE_GUIDE_SOURCE).toContain('How to read the answer');
+    expect(HALF_LIFE_GUIDE_SOURCE).toContain('Physical, biological, and effective half-life');
+    expect(HALF_LIFE_GUIDE_SOURCE).toContain('Research and references');
   });
 
   it('keeps generated blog cards aligned with canonical tools and aliases', () => {

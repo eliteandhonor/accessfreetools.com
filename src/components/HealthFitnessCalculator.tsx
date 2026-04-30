@@ -894,6 +894,9 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
   },
 };
 
+function parseNumber(input: string, label: string): number;
+function parseNumber(input: string, label: string, optional: false): number;
+function parseNumber(input: string, label: string, optional: true): number | undefined;
 function parseNumber(input: string, label: string, optional = false) {
   const trimmed = input.trim();
   if (!trimmed && optional) return undefined;
@@ -1090,7 +1093,7 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       const weightKg = parseNumber(inputs.weightKg, 'Weight', true);
       const neckCm = parseNumber(inputs.neckCm, 'Neck');
       const waistCm = parseNumber(inputs.waistCm, 'Waist');
-      const hipCm = parseNumber(inputs.hipCm, 'Hip', sex === 'male');
+      const hipCm = sex === 'male' ? undefined : parseNumber(inputs.hipCm, 'Hip');
       const result = calculateNavyBodyFat({ sex, heightCm, weightKg, neckCm, waistCm, hipCm });
       return {
         label: variant === 'army-body-fat' ? 'Tape estimate' : 'Body fat estimate',
@@ -1259,7 +1262,9 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
     }
     case 'target-heart-rate': {
       const age = parseNumber(inputs.age, 'Age');
-      const [lower, upper] = (inputs.zone || '50-85').split('-').map(Number);
+      const zoneParts = (inputs.zone || '50-85').split('-').map(Number);
+      const lower = Number.isFinite(zoneParts[0]) ? zoneParts[0] : 50;
+      const upper = Number.isFinite(zoneParts[1]) ? zoneParts[1] : 85;
       const resting = parseNumber(inputs.restingHeartRate, 'Resting heart rate', true);
       const result = calculateTargetHeartRate(age, lower, upper, resting);
       return {

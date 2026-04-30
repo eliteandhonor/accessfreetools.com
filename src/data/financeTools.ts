@@ -27,12 +27,27 @@ function makeFaq(spec: FinanceToolSpec): ToolFaq[] {
       answer: `Use it for early planning and side-by-side comparisons, especially for tasks like these: ${exampleUses} Treat the answer as a planning estimate, not a final quote.`,
     },
     {
+      question: `What do the main ${spec.name} inputs mean?`,
+      answer:
+        'Money tools are picky about labels. Dollar fields should be entered as dollar amounts, rate fields should be entered as percentages like 6.5 instead of 0.065, and term fields should match the page label such as months or years. If a field says monthly, do not enter a yearly total unless the tool specifically asks for it.',
+    },
+    {
       question: `What is the ${spec.name} doing with my numbers?`,
       answer: `In plain language: ${spec.formula} If the result seems too high or too low, first check whether each field expects a monthly amount, annual amount, dollar value, or percent.`,
     },
     {
+      question: `How should I read the ${spec.name} answer?`,
+      answer:
+        'Read the main answer first, then use the supporting lines to see why the answer moved. For finance calculators, the extra lines often explain interest, tax, fees, principal, payment timing, or totals paid over time. Those pieces matter because two results can look close at first but cost very different amounts later.',
+    },
+    {
       question: 'What does this estimate leave out?',
       answer: `${spec.limit} Real finance decisions can also depend on fees, timing, local rules, credit details, and provider-specific terms.`,
+    },
+    {
+      question: 'What should I double-check before copying the result?',
+      answer:
+        'Check the rate, time period, compounding or payment frequency, and whether the value is before tax or after tax. A common mistake is mixing monthly and yearly numbers, which can make a finance answer look believable even when it is off by a lot.',
     },
     {
       question: 'Does the site save my finance inputs?',

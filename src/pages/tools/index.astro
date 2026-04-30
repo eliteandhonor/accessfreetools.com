@@ -7,7 +7,7 @@ import { categories } from '../../data/categories';
 import { toolAliases } from '../../data/toolAliases';
 import { tools } from '../../data/tools';
 
-const searchTools = tools.map((tool) => ({
+const canonicalSearchTools = tools.map((tool) => ({
   slug: tool.slug,
   name: tool.name,
   category: tool.category,
@@ -26,6 +26,33 @@ const searchTools = tools.map((tool) => ({
     ...tool.examples.map((example) => example.label),
   ].join(' '),
 }));
+
+const aliasSearchTools = toolAliases
+  .map((alias) => {
+    const targetTool = tools.find((tool) => tool.slug === alias.targetSlug);
+
+    return targetTool
+      ? {
+          slug: alias.slug,
+          name: alias.name,
+          category: targetTool.category,
+          summary: alias.description,
+          icon: targetTool.icon,
+          searchText: [
+            alias.name,
+            alias.description,
+            alias.targetSlug,
+            targetTool.name,
+            targetTool.summary,
+            targetTool.category,
+            ...alias.searchTerms,
+          ].join(' '),
+        }
+      : undefined;
+  })
+  .filter((tool): tool is (typeof canonicalSearchTools)[number] => Boolean(tool));
+
+const searchTools = [...canonicalSearchTools, ...aliasSearchTools];
 ---
 
 <BaseLayout
@@ -43,7 +70,7 @@ const searchTools = tools.map((tool) => ({
     name="All Free Tools"
     description="Browse free calculators and browser utilities from Access Free Tools."
     path="/tools/"
-    items={tools.map((tool) => ({
+    items={searchTools.map((tool) => ({
       name: tool.name,
       path: `/tools/${tool.slug}/`,
       description: tool.summary,

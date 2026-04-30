@@ -274,6 +274,174 @@ const selectField = (key: string, label: string, options: SelectOption[]): Utili
   options,
 });
 
+const commonFieldHelp: Partial<Record<string, string>> = {
+  wastePercent:
+    'Extra material added before rounding up. Use more when cuts, damaged pieces, pattern matching, or irregular shapes are likely.',
+  depthInches: 'Finished average depth in inches. Convert fractions to decimals, such as 3.5.',
+  areaSquareFeet: 'Measured surface area in square feet before waste or extra allowance is added.',
+  openingsSquareFeet: 'Total square feet of doors, windows, or other openings to subtract before waste is added.',
+  tonsPerCubicYard:
+    'Material weight from your supplier. Stone, sand, soil, asphalt, moisture, and compaction can change this value.',
+};
+
+const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<string, string>>>> = {
+  concrete: {
+    lengthFeet: 'Form length in feet.',
+    widthFeet: 'Form width in feet.',
+    depthInches: 'Slab thickness or average pour depth in inches.',
+    wastePercent: 'Extra concrete for uneven grade, spillage, low spots, and ordering cushion.',
+  },
+  roofing: {
+    lengthFeet: 'Horizontal footprint length, not the sloped roof surface.',
+    widthFeet: 'Horizontal footprint width, not the sloped roof surface.',
+    pitchRisePer12: 'Roof rise for every 12 inches of horizontal run. A 6/12 roof uses 6 here.',
+    wastePercent: 'Extra shingles for cuts, starter strips, valleys, hips, ridge, and mistakes.',
+  },
+  tile: {
+    areaSquareFeet: 'Floor or wall surface area before waste. Measure the area, not the tile box coverage.',
+    tileLengthInches: 'Visible length of one tile in inches.',
+    tileWidthInches: 'Visible width of one tile in inches.',
+    wastePercent: 'Extra tile for cuts, breakage, layout pattern, and future replacement pieces.',
+  },
+  mulch: {
+    areaSquareFeet: 'Bed area in square feet.',
+    depthInches: 'Finished mulch depth. Refresh layers usually need less depth than new beds.',
+    wastePercent: 'Extra mulch for settling, uneven beds, slopes, and spreading loss.',
+  },
+  gravel: {
+    lengthFeet: 'Project length in feet.',
+    widthFeet: 'Project width in feet.',
+    depthInches: 'Finished average gravel depth before compaction.',
+  },
+  paint: {
+    lengthFeet: 'Room length used to calculate wall perimeter.',
+    widthFeet: 'Room width used to calculate wall perimeter.',
+    wallHeightFeet: 'Average wall height from floor to ceiling or trim line.',
+    doors: 'Number of standard doors. The estimate subtracts about 20 square feet per door.',
+    windows: 'Number of standard windows. The estimate subtracts about 15 square feet per window.',
+    coats: 'How many coats of paint you plan to apply.',
+    coverageSquareFeetPerGallon: 'Coverage from the paint label for one gallon and one coat.',
+    wastePercent: 'Extra paint for texture, roller/tray loss, touchups, and small measurement errors.',
+  },
+  drywall: {
+    areaSquareFeet: 'Wall or ceiling surface area before waste. Subtract large openings separately if needed.',
+    sheetLengthFeet: 'Drywall sheet length, such as 8, 10, or 12 feet.',
+    sheetWidthFeet: 'Drywall sheet width, usually 4 feet.',
+    wastePercent: 'Extra sheets for cuts, broken corners, offcuts, and layout mistakes.',
+  },
+  carpet: {
+    lengthFeet: 'Room length in feet.',
+    widthFeet: 'Room width in feet.',
+    rollWidthFeet: 'Carpet roll width from the product, commonly 12 feet.',
+    wastePercent: 'Extra carpet for trimming, seams, closets, pattern direction, and installer layout.',
+  },
+  flooring: {
+    areaSquareFeet: 'Measured floor area before waste. Add rooms, closets, and hallway sections first.',
+    wastePercent: 'Extra flooring for cuts, damaged planks, pattern layout, and future repairs.',
+    boxCoverageSquareFeet: 'Square feet covered by one box according to the product label.',
+    pricePerBox: 'Optional material price for one box. Leave blank if you only need the box count.',
+  },
+  wallpaper: {
+    roomLengthFeet: 'Length of one pair of opposite walls.',
+    roomWidthFeet: 'Width of the other pair of opposite walls.',
+    wallHeightFeet: 'Average wall height from baseboard or floor to ceiling or trim.',
+    doors: 'Number of standard doors. The estimate subtracts about 20 square feet per door.',
+    windows: 'Number of standard windows. The estimate subtracts about 15 square feet per window.',
+    rollCoverageSquareFeet:
+      'Usable square feet one roll covers. Use the product label because pattern repeat can reduce usable coverage.',
+    wastePercent: 'Extra wallpaper for trimming, pattern matching, damaged strips, and mistakes.',
+  },
+  fence: {
+    perimeterFeet: 'Total fence path length before subtracting gates.',
+    panelWidthFeet: 'Width of one fence panel or bay.',
+    postSpacingFeet: 'Maximum spacing between line posts.',
+    gateCount: 'Number of gates in the fence line.',
+    gateWidthFeet: 'Width of each gate opening.',
+  },
+  'deck-cost': {
+    lengthFeet: 'Deck surface length in feet.',
+    widthFeet: 'Deck surface width in feet.',
+    wastePercent: 'Extra decking surface material for cuts, board layout, and mistakes.',
+    deckCostPerSquareFoot: 'Material cost for decking surface per square foot.',
+    railingLinearFeet: 'Total railing length to price.',
+    railingCostPerFoot: 'Estimated railing cost per linear foot.',
+    stairsCost: 'Rough allowance for stairs. Use 0 if stairs are not part of the estimate.',
+  },
+  paver: {
+    areaSquareFeet: 'Patio, path, or driveway surface area before waste.',
+    paverLengthInches: 'Visible length of one paver in inches.',
+    paverWidthInches: 'Visible width of one paver in inches.',
+    wastePercent: 'Extra pavers for cuts, breakage, border pieces, and future replacement.',
+  },
+  siding: {
+    wallAreaSquareFeet: 'Total exterior wall area before subtracting doors and windows.',
+    openingsSquareFeet: 'Combined area of doors, windows, garage doors, and other openings.',
+    wastePercent: 'Extra siding for cuts, gables, corners, trim-heavy sections, and damaged pieces.',
+    pricePerSquare: 'Optional price for one siding square. One siding square is 100 square feet.',
+  },
+  brick: {
+    wallAreaSquareFeet: 'Visible wall face area, not wall volume.',
+    brickLengthInches: 'Visible brick face length in inches.',
+    brickHeightInches: 'Visible brick face height in inches.',
+    mortarJointInches: 'Planned mortar joint thickness. Common joints are often around 3/8 inch.',
+    wastePercent: 'Extra bricks for cuts, breakage, corners, bond pattern, and color matching.',
+  },
+  'concrete-block': {
+    wallLengthFeet: 'Total wall length in feet.',
+    wallHeightFeet: 'Finished wall height in feet.',
+    blockLengthInches: 'Nominal block length, commonly 16 inches for many CMU blocks.',
+    blockHeightInches: 'Nominal block height, commonly 8 inches for many CMU blocks.',
+    openingsSquareFeet: 'Door, window, or other opening area to subtract before waste.',
+    wastePercent: 'Extra blocks for cuts, broken units, corners, and layout changes.',
+  },
+  rebar: {
+    slabLengthFeet: 'Slab length in feet.',
+    slabWidthFeet: 'Slab width in feet.',
+    spacingInches: 'Distance between parallel bars. Smaller spacing means more bars.',
+    barLengthFeet: 'Stock length of one bar from your supplier.',
+    wastePercent: 'Extra rebar length for cuts, lap planning, and small layout changes.',
+  },
+  'board-foot': {
+    thicknessInches: 'Board thickness in inches. Use actual size when you know it.',
+    widthInches: 'Board width in inches. Use actual size when you know it.',
+    lengthFeet: 'Board length in feet.',
+    quantity: 'Number of boards with the same dimensions.',
+  },
+  'cubic-yard': {
+    lengthFeet: 'Project length in feet.',
+    widthFeet: 'Project width in feet.',
+    depthInches: 'Average material depth in inches.',
+    wastePercent: 'Extra material for uneven grade, compaction, settling, and ordering cushion.',
+  },
+  'pool-volume': {
+    shape: 'Simple pool shape used for the volume formula.',
+    lengthFeet: 'Pool length, or diameter for a round pool.',
+    widthFeet: 'Pool width, or the same diameter again for a round pool.',
+    averageDepthFeet: 'Average water depth. Use the average of shallow and deep ends when needed.',
+  },
+  sand: {
+    lengthFeet: 'Project length in feet.',
+    widthFeet: 'Project width in feet.',
+    depthInches: 'Average sand depth in inches.',
+    wastePercent: 'Extra sand for leveling, spreading loss, compaction, and uneven areas.',
+  },
+  soil: {
+    areaSquareFeet: 'Bed or lawn area in square feet.',
+    depthInches: 'Added soil depth in inches.',
+    wastePercent: 'Extra soil for settling, uneven beds, and spreading loss.',
+  },
+  asphalt: {
+    lengthFeet: 'Paved area length in feet.',
+    widthFeet: 'Paved area width in feet.',
+    depthInches: 'Compacted asphalt depth, not loose material depth.',
+    wastePercent: 'Extra asphalt for compaction differences, edges, and small measurement errors.',
+  },
+};
+
+function getFieldHelp(variant: UtilityToolVariant, field: UtilityField) {
+  return fieldHelpByVariant[variant]?.[field.key] ?? commonFieldHelp[field.key];
+}
+
 const directionOptions: SelectOption[] = [
   { label: 'Add', value: 'add' },
   { label: 'Subtract', value: 'subtract' },
@@ -474,11 +642,11 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         label: 'Age',
         symbol: 'AGE',
         fields: [dateField('birthDate', 'Birth date'), dateField('asOfDate', 'Age on date')],
-        defaultInputs: { birthDate: '2000-01-01', asOfDate: '2026-04-29' },
+        defaultInputs: { birthDate: '2000-01-01', asOfDate: '2026-04-30' },
         examples: [
-          { label: 'Born Jan 1, 2000', inputs: { birthDate: '2000-01-01', asOfDate: '2026-04-29' } },
-          { label: 'Leap day birthday', inputs: { birthDate: '2004-02-29', asOfDate: '2026-04-29' } },
-          { label: 'Birthday today', inputs: { birthDate: '2010-04-29', asOfDate: '2026-04-29' } },
+          { label: 'Born Jan 1, 2000', inputs: { birthDate: '2000-01-01', asOfDate: '2026-04-30' } },
+          { label: 'Leap day birthday', inputs: { birthDate: '2004-02-29', asOfDate: '2026-04-30' } },
+          { label: 'Birthday today', inputs: { birthDate: '2010-04-30', asOfDate: '2026-04-30' } },
         ],
       },
     ],
@@ -494,9 +662,9 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         label: 'Difference',
         symbol: 'DAYS',
         fields: [dateField('startDate', 'Start date'), dateField('endDate', 'End date')],
-        defaultInputs: { startDate: '2026-04-29', endDate: '2026-12-31' },
+        defaultInputs: { startDate: '2026-04-30', endDate: '2026-12-31' },
         examples: [
-          { label: 'Rest of 2026', inputs: { startDate: '2026-04-29', endDate: '2026-12-31' } },
+          { label: 'Rest of 2026', inputs: { startDate: '2026-04-30', endDate: '2026-12-31' } },
           { label: 'Project window', inputs: { startDate: '2026-05-01', endDate: '2026-08-15' } },
           { label: 'Backward check', inputs: { startDate: '2026-10-01', endDate: '2026-09-01' } },
         ],
@@ -513,11 +681,11 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
           integerField('weeks', 'Weeks'),
           integerField('days', 'Days'),
         ],
-        defaultInputs: { startDate: '2026-04-29', direction: 'add', years: '0', months: '1', weeks: '2', days: '3' },
+        defaultInputs: { startDate: '2026-04-30', direction: 'add', years: '0', months: '1', weeks: '2', days: '3' },
         examples: [
-          { label: '45-ish days out', inputs: { startDate: '2026-04-29', direction: 'add', years: '0', months: '1', weeks: '2', days: '3' } },
+          { label: '45-ish days out', inputs: { startDate: '2026-04-30', direction: 'add', years: '0', months: '1', weeks: '2', days: '3' } },
           { label: 'Subtract 90 days', inputs: { startDate: '2026-12-31', direction: 'subtract', years: '0', months: '0', weeks: '12', days: '6' } },
-          { label: 'One year ahead', inputs: { startDate: '2026-04-29', direction: 'add', years: '1', months: '0', weeks: '0', days: '0' } },
+          { label: 'One year ahead', inputs: { startDate: '2026-04-30', direction: 'add', years: '1', months: '0', weeks: '0', days: '0' } },
         ],
       },
     ],
@@ -917,11 +1085,11 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         label: 'UTC to zone',
         symbol: 'TZ',
         fields: [dateField('utcDate', 'UTC date'), timeField('utcTime', 'UTC time'), selectField('timeZone', 'Target time zone', timeZoneOptions)],
-        defaultInputs: { utcDate: '2026-04-29', utcTime: '12:00', timeZone: 'America/New_York' },
+        defaultInputs: { utcDate: '2026-04-30', utcTime: '12:00', timeZone: 'America/New_York' },
         examples: [
-          { label: 'New York', inputs: { utcDate: '2026-04-29', utcTime: '12:00', timeZone: 'America/New_York' } },
-          { label: 'London', inputs: { utcDate: '2026-04-29', utcTime: '12:00', timeZone: 'Europe/London' } },
-          { label: 'Tokyo', inputs: { utcDate: '2026-04-29', utcTime: '12:00', timeZone: 'Asia/Tokyo' } },
+          { label: 'New York', inputs: { utcDate: '2026-04-30', utcTime: '12:00', timeZone: 'America/New_York' } },
+          { label: 'London', inputs: { utcDate: '2026-04-30', utcTime: '12:00', timeZone: 'Europe/London' } },
+          { label: 'Tokyo', inputs: { utcDate: '2026-04-30', utcTime: '12:00', timeZone: 'Asia/Tokyo' } },
         ],
       },
     ],
@@ -1137,9 +1305,9 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         label: 'Date',
         symbol: 'DAY',
         fields: [dateField('date', 'Date')],
-        defaultInputs: { date: '2026-04-29' },
+        defaultInputs: { date: '2026-04-30' },
         examples: [
-          { label: 'Today', inputs: { date: '2026-04-29' } },
+          { label: 'Today', inputs: { date: '2026-04-30' } },
           { label: 'New Year 2027', inputs: { date: '2027-01-01' } },
           { label: 'Leap day', inputs: { date: '2024-02-29' } },
         ],
@@ -2339,9 +2507,9 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         label: 'Date to timestamp',
         symbol: 'UTC',
         fields: [dateField('date', 'UTC date'), timeField('time', 'UTC time')],
-        defaultInputs: { date: '2026-04-29', time: '12:00' },
+        defaultInputs: { date: '2026-04-30', time: '12:00' },
         examples: [
-          { label: 'Noon UTC', inputs: { date: '2026-04-29', time: '12:00' } },
+          { label: 'Noon UTC', inputs: { date: '2026-04-30', time: '12:00' } },
           { label: 'Start of 2026', inputs: { date: '2026-01-01', time: '00:00' } },
           { label: 'End of day', inputs: { date: '2026-12-31', time: '23:59' } },
         ],
@@ -4686,48 +4854,53 @@ export default function UtilityCalculator({ variant }: Props) {
         )}
 
         <div className="advanced-fields utility-fields">
-          {activeMode.fields.map((field) => (
-            <label className={field.type === 'checkbox' ? 'advanced-field advanced-checkbox-field' : 'advanced-field'} key={field.key}>
-              {field.type === 'checkbox' ? (
-                <>
-                  <input
-                    checked={booleanInput(inputs[field.key] ?? '')}
-                    onChange={(event) => updateInput(field.key, updateCheckedValue(event.target.checked))}
-                    type="checkbox"
-                  />
-                  <span>{field.label}</span>
-                </>
-              ) : (
-                <>
-                  <span>{field.label}</span>
-                  {field.type === 'select' ? (
-                    <select value={inputs[field.key] ?? ''} onChange={(event) => updateInput(field.key, event.target.value)}>
-                      {(field.options ?? []).map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  ) : field.type === 'textarea' ? (
-                    <textarea
-                      onChange={(event) => updateInput(field.key, event.target.value)}
-                      placeholder={field.placeholder}
-                      value={inputs[field.key] ?? ''}
-                    />
-                  ) : (
+          {activeMode.fields.map((field) => {
+            const fieldHelp = getFieldHelp(variant, field);
+
+            return (
+              <label className={field.type === 'checkbox' ? 'advanced-field advanced-checkbox-field' : 'advanced-field'} key={field.key}>
+                {field.type === 'checkbox' ? (
+                  <>
                     <input
-                      inputMode={field.inputMode}
-                      onChange={(event) => updateInput(field.key, event.target.value)}
-                      onKeyDown={runOnEnter}
-                      placeholder={field.placeholder}
-                      type={field.type === 'date' || field.type === 'time' ? field.type : 'text'}
-                      value={inputs[field.key] ?? ''}
+                      checked={booleanInput(inputs[field.key] ?? '')}
+                      onChange={(event) => updateInput(field.key, updateCheckedValue(event.target.checked))}
+                      type="checkbox"
                     />
-                  )}
-                </>
-              )}
-            </label>
-          ))}
+                    <span>{field.label}</span>
+                  </>
+                ) : (
+                  <>
+                    <span>{field.label}</span>
+                    {field.type === 'select' ? (
+                      <select value={inputs[field.key] ?? ''} onChange={(event) => updateInput(field.key, event.target.value)}>
+                        {(field.options ?? []).map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    ) : field.type === 'textarea' ? (
+                      <textarea
+                        onChange={(event) => updateInput(field.key, event.target.value)}
+                        placeholder={field.placeholder}
+                        value={inputs[field.key] ?? ''}
+                      />
+                    ) : (
+                      <input
+                        inputMode={field.inputMode}
+                        onChange={(event) => updateInput(field.key, event.target.value)}
+                        onKeyDown={runOnEnter}
+                        placeholder={field.placeholder}
+                        type={field.type === 'date' || field.type === 'time' ? field.type : 'text'}
+                        value={inputs[field.key] ?? ''}
+                      />
+                    )}
+                    {fieldHelp && <small>{fieldHelp}</small>}
+                  </>
+                )}
+              </label>
+            );
+          })}
         </div>
 
         <div className="advanced-actions">

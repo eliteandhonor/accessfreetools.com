@@ -31,7 +31,7 @@ export interface ToolDefinition {
   relatedSlugs: string[];
 }
 
-export const tools: ToolDefinition[] = [
+const baseTools: ToolDefinition[] = [
   {
     slug: 'basic-calculator',
     name: 'Basic Calculator',
@@ -342,12 +342,22 @@ export const tools: ToolDefinition[] = [
       {
         question: 'What formula does the Half-Life Calculator use?',
         answer:
-          'For remaining amount, it uses remaining amount = initial amount x (1/2)^(elapsed time / half-life). It also rearranges that formula to solve for elapsed time or half-life.',
+          'For remaining amount, it uses remaining amount = initial amount x (1/2)^(elapsed time / half-life). The elapsed time divided by the half-life tells how many times the amount gets cut in half. The calculator also rearranges that same formula to solve for elapsed time or the half-life itself.',
       },
       {
         question: 'What is a half-life?',
         answer:
-          'A half-life is the time it takes for a quantity to decrease to half of its starting amount under exponential decay.',
+          'A half-life is the time it takes for a quantity to drop to half of whatever amount is currently there. If 100 mg has a 6-hour half-life, about 50 mg remains after 6 hours, 25 mg after 12 hours, and 12.5 mg after 18 hours. It halves again and again instead of subtracting the same amount every time.',
+      },
+      {
+        question: 'What do the main Half-Life Calculator inputs mean?',
+        answer:
+          'Initial amount is what you start with before decay. Final amount is what is left after decay when you are solving for elapsed time or half-life. Half-life is the time needed for the current amount to halve. Elapsed time is how long the decay has been happening. Amount unit and time unit are labels, so the calculator does not convert mg to g or hours to days for you.',
+      },
+      {
+        question: 'What does half-lives passed mean?',
+        answer:
+          'Half-lives passed is elapsed time divided by half-life. If the elapsed time is 18 hours and the half-life is 6 hours, then 3 half-lives passed. That means the amount was halved three times: 100 to 50, 50 to 25, then 25 to 12.5.',
       },
       {
         question: 'Can I solve for elapsed time?',
@@ -360,9 +370,19 @@ export const tools: ToolDefinition[] = [
           'Yes. Choose Half-life, enter the initial amount, final amount, and elapsed time. The final amount must be less than the initial amount so the decay rate can be calculated.',
       },
       {
+        question: 'Why does the final amount have to be greater than zero?',
+        answer:
+          'The log formula needs a positive final-to-initial ratio. Zero would mean the amount is completely gone, but an ideal exponential decay curve keeps getting smaller and closer to zero instead of hitting exact zero in a normal finite time calculation.',
+      },
+      {
         question: 'Do the units matter?',
         answer:
           'Yes. Keep elapsed time and half-life in the same time unit, such as hours with hours or years with years. The amount unit is only a label and should match between initial and final amounts.',
+      },
+      {
+        question: 'What is the difference between physical, biological, and effective half-life?',
+        answer:
+          'Physical or radiological half-life is about radioactive decay itself. Biological half-life is about how fast the body removes a substance. Effective half-life combines both ideas. This calculator only handles the basic exponential decay math you enter; it does not decide medical, biological, or radiation safety rules.',
       },
       {
         question: 'Can I use this for medicine dosing or radiation safety decisions?',
@@ -2557,6 +2577,99 @@ export const tools: ToolDefinition[] = [
   ...healthTools,
   ...utilityTools,
 ];
+
+function hasFaqQuestionMatching(tool: ToolDefinition, pattern: RegExp) {
+  return tool.faq.some((faq) => pattern.test(faq.question));
+}
+
+function getCategoryInputAnswer(tool: ToolDefinition) {
+  switch (tool.category) {
+    case 'finance':
+      return 'Money tools are picky about labels. Enter dollar fields as dollars, rate fields as percentages like 6.5 instead of 0.065, and time fields in the years or months shown on the page. If a field says monthly, do not enter a yearly total unless the tool says to.';
+    case 'health-fitness':
+      return 'Use the body, activity, date, or health values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change the answer a lot, so treat each label like a rule and read the result as an educational estimate.';
+    case 'date-time':
+      return 'The main inputs are dates, times, time zones, or hour values. Check the calendar day, the year, and whether the page expects a start and end value. One wrong day can change the answer even when the math looks right.';
+    case 'converters':
+      return 'The main inputs are the value you want to convert and the from/to units or formats. Keep the original value in the first field, choose the target unit carefully, and watch for small details like decimal places, bytes versus bits, or uppercase versus lowercase text.';
+    case 'developer-tools':
+      return 'The main inputs are usually text, code, a URL, a number base, or a mode setting. Paste only the part you want the tool to work on, choose encode/decode or format/clean modes carefully, and compare the output with the examples before using it somewhere important.';
+    case 'text-tools':
+      return 'The main input is the text you want to count, clean, format, or rewrite. Paste the exact text you want changed, then check whether spaces, punctuation, line breaks, or capitalization should be kept before copying the result.';
+    case 'image-tools':
+      return 'The main inputs are the image file and the size, format, quality, or crop settings. Check width and height labels before applying changes so you do not accidentally stretch, shrink, or export the wrong version.';
+    case 'home-projects':
+      return 'The main inputs are the project measurements, material coverage, spacing, waste percent, and unit choices. Measure in the same unit the whole way through, add realistic waste for cuts or mistakes, and treat the result as a shopping estimate.';
+    case 'school-study':
+      return 'The main inputs are the scores, values, times, or study settings the page asks for. Enter each number in the same scale shown by the label, then use the examples to check whether your answer makes sense.';
+    case 'everyday-tools':
+      return 'The main inputs are the everyday values, options, or settings the tool needs before it can help. Read each label literally, keep units consistent, and rerun the example if the answer looks surprising.';
+    case 'calculators':
+    default:
+      return 'The main inputs are the numbers, operation, mode, or known values the calculator needs. Keep units consistent, enter percentages the way the page label shows, and use the examples as a quick check before trusting the answer.';
+  }
+}
+
+function getCategoryReadingAnswer(tool: ToolDefinition) {
+  switch (tool.category) {
+    case 'finance':
+      return 'Read the main answer first, then look at the supporting lines for interest, principal, taxes, fees, payments, or totals over time. Those extra lines explain why two answers that look close can cost very different amounts later.';
+    case 'health-fitness':
+      return 'Read the result as a learning number, not a final decision about your body or health. The supporting lines may show categories, ranges, calories, dates, or targets, but they still need personal context and professional advice for important choices.';
+    case 'home-projects':
+      return 'Read the headline estimate first, then check the material, waste, coverage, and unit lines. For project tools, the supporting lines are often the difference between a rough idea and a list you can actually shop from.';
+    case 'developer-tools':
+    case 'text-tools':
+    case 'converters':
+      return 'Read the output next to your original input. If the tool changes format, units, encoding, spacing, or capitalization, compare a small sample before copying the whole result into another app.';
+    default:
+      return 'Read the main answer first, then check the supporting lines and examples to understand how the calculator got there. If one input changes, rerun the tool and compare the new answer instead of guessing.';
+  }
+}
+
+function getCategoryDoubleCheckAnswer(tool: ToolDefinition) {
+  switch (tool.category) {
+    case 'finance':
+      return 'Check rates, time periods, payment frequency, fees, and whether values are before tax or after tax. Mixing monthly and yearly numbers is the classic mistake because the final answer can still look believable.';
+    case 'health-fitness':
+      return 'Check units, dates, and personal details before reading the result. Pounds versus kilograms, inches versus centimeters, or a wrong activity level can change the answer fast.';
+    case 'home-projects':
+      return 'Check every measurement, unit, coverage number, and waste percent before buying materials. A small measuring mistake can turn into extra cost, extra trips, or not enough material for the job.';
+    case 'developer-tools':
+      return 'Check that you picked the right mode, especially encode versus decode or format versus minify. Also make sure you are not pasting private keys, passwords, or sensitive data into any page you do not need to use.';
+    default:
+      return 'Check the units, signs, decimal places, and mode before copying the answer. If the number feels weird, rerun one of the examples first, then put your own values back in slowly.';
+  }
+}
+
+function enhanceToolFaq(tool: ToolDefinition): ToolDefinition {
+  const faq = [...tool.faq];
+
+  if (!hasFaqQuestionMatching(tool, /main .*inputs/i)) {
+    faq.splice(Math.min(2, faq.length), 0, {
+      question: `What do the main ${tool.name} inputs mean?`,
+      answer: getCategoryInputAnswer(tool),
+    });
+  }
+
+  if (!hasFaqQuestionMatching({ ...tool, faq }, /how should i read|read the .*answer|read the .*result/i)) {
+    faq.splice(Math.min(3, faq.length), 0, {
+      question: `How should I read the ${tool.name} answer?`,
+      answer: getCategoryReadingAnswer(tool),
+    });
+  }
+
+  if (!hasFaqQuestionMatching({ ...tool, faq }, /double-check|before trusting|before copying|common mistake/i)) {
+    faq.splice(Math.min(4, faq.length), 0, {
+      question: `What should I double-check before trusting the ${tool.name}?`,
+      answer: getCategoryDoubleCheckAnswer(tool),
+    });
+  }
+
+  return { ...tool, faq };
+}
+
+export const tools: ToolDefinition[] = baseTools.map(enhanceToolFaq);
 
 export function getTool(slug: string) {
   return tools.find((tool) => tool.slug === slug);

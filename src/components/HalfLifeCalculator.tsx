@@ -107,6 +107,15 @@ const modeLabels: Record<HalfLifeMode, { title: string; description: string }> =
   },
 };
 
+const fieldHelp: Record<keyof HalfLifeInputs, string> = {
+  initialAmount: 'The starting amount before decay begins. Use the same amount unit as the final amount.',
+  finalAmount: 'The amount left after decay. For solving time or half-life, it must be greater than 0.',
+  halfLife: 'How long it takes for the current amount to be cut in half. Match this time unit with elapsed time.',
+  elapsedTime: 'How much time has passed. Use the same kind of time as the half-life, such as hours with hours.',
+  amountUnit: 'Optional label only, such as mg, g, atoms, %, or grams. It does not change the math.',
+  timeUnit: 'Optional label only, such as hours, days, or years. The calculator will not convert units for you.',
+};
+
 function parseNumber(value: string, label: string) {
   const parsed = Number(value.trim());
 
@@ -213,10 +222,12 @@ function buildCalculation(mode: HalfLifeMode, inputs: HalfLifeInputs): HalfLifeC
 
 function NumberField({
   label,
+  help,
   value,
   onChange,
 }: {
   label: string;
+  help: string;
   value: string;
   onChange: (value: string) => void;
 }) {
@@ -224,6 +235,7 @@ function NumberField({
     <label className="half-life-field">
       <span>{label}</span>
       <input inputMode="decimal" onChange={(event) => onChange(event.target.value)} value={value} />
+      <small>{help}</small>
     </label>
   );
 }
@@ -299,6 +311,7 @@ export default function HalfLifeCalculator() {
         <div className="half-life-fields">
           {visibleFields.initialAmount && (
             <NumberField
+              help={fieldHelp.initialAmount}
               label="Initial amount"
               value={inputs.initialAmount}
               onChange={(value) => updateInput('initialAmount', value)}
@@ -306,6 +319,7 @@ export default function HalfLifeCalculator() {
           )}
           {visibleFields.finalAmount && (
             <NumberField
+              help={fieldHelp.finalAmount}
               label="Final amount"
               value={inputs.finalAmount}
               onChange={(value) => updateInput('finalAmount', value)}
@@ -313,6 +327,7 @@ export default function HalfLifeCalculator() {
           )}
           {visibleFields.halfLife && (
             <NumberField
+              help={fieldHelp.halfLife}
               label="Half-life"
               value={inputs.halfLife}
               onChange={(value) => updateInput('halfLife', value)}
@@ -320,6 +335,7 @@ export default function HalfLifeCalculator() {
           )}
           {visibleFields.elapsedTime && (
             <NumberField
+              help={fieldHelp.elapsedTime}
               label="Elapsed time"
               value={inputs.elapsedTime}
               onChange={(value) => updateInput('elapsedTime', value)}
@@ -332,6 +348,7 @@ export default function HalfLifeCalculator() {
               placeholder="Optional"
               value={inputs.amountUnit}
             />
+            <small>{fieldHelp.amountUnit}</small>
           </label>
           <label className="half-life-field">
             <span>Time unit</span>
@@ -340,6 +357,7 @@ export default function HalfLifeCalculator() {
               placeholder="Optional"
               value={inputs.timeUnit}
             />
+            <small>{fieldHelp.timeUnit}</small>
           </label>
         </div>
 

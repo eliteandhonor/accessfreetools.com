@@ -4,6 +4,17 @@ import { getTool } from '../../data/tools';
 
 const exponentCalculator = getTool('exponent-calculator');
 const examples = exponentCalculator?.examples ?? [];
+const faqItems = exponentCalculator?.faq ?? [];
+const sourceLinks = [
+  {
+    href: 'https://openstax.org/books/algebra-and-trigonometry/pages/1-3-radicals-and-rational-exponents',
+    label: 'OpenStax Algebra and Trigonometry: radicals and rational exponents',
+  },
+  {
+    href: 'https://openstax.org/books/college-algebra-corequisite-support-2e/pages/6-3-logarithmic-functions',
+    label: 'OpenStax College Algebra: logarithmic and exponential relationship',
+  },
+];
 const articleStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -62,6 +73,12 @@ const articleStructuredData = {
             The calculator writes the expression as base^exponent, then gives the result in normal
             notation and scientific notation.
           </p>
+          <p>
+            In plain language, the base is the number you start with and the exponent is the
+            instruction for how to use it. A whole-number exponent repeats multiplication. A
+            fraction exponent can point to a root. A negative exponent moves the power into the
+            denominator.
+          </p>
         </section>
 
         <section class="content-section">
@@ -72,6 +89,11 @@ const articleStructuredData = {
           <p>
             A negative exponent means reciprocal. For example, 5^-3 means 1 / 5^3, which equals
             0.008.
+          </p>
+          <p>
+            A common mistake is reading 5^-3 as a negative number. The negative sign belongs to the
+            exponent, not the final answer. It means divide by the power instead of multiplying by
+            it.
           </p>
         </section>
 
@@ -85,6 +107,12 @@ const articleStructuredData = {
             Negative bases with non-whole-number exponents can require complex numbers. This
             calculator focuses on real-number results, so negative bases need whole-number
             exponents.
+          </p>
+          <p>
+            If the answer says a real-number result is not available, check whether the base is
+            negative and the exponent is a decimal or fraction. That is usually the reason. For
+            schoolwork, write down the rule instead of forcing a decimal answer that does not
+            belong in the real-number system.
           </p>
         </section>
 
@@ -132,6 +160,50 @@ const articleStructuredData = {
             compact version of the same value, which is useful for science, engineering, and study
             problems.
           </p>
+          <p>
+            The calculator shows scientific notation so a long answer is easier to check. For
+            example, 10^6 is the same as 1 x 10^6, and 5^-3 is 8 x 10^-3. The notation changes how
+            the number is written, not what the number means.
+          </p>
+        </section>
+
+        {faqItems.length > 0 && (
+          <section class="content-section">
+            <h2>FAQ in plain language</h2>
+            <div class="guide-question-list">
+              {faqItems.slice(0, 8).map((item) => (
+                <article>
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Common mistakes to avoid</h2>
+          <ul class="guide-bullet-list">
+            <li>Do not treat a negative exponent as a negative answer. It means reciprocal.</li>
+            <li>Do not use 0 as the base with a negative exponent, because that would divide by zero.</li>
+            <li>Keep negative bases to whole-number exponents if you want real-number answers.</li>
+            <li>Use parentheses when you mean the whole negative number, such as (-3)^2 instead of -3^2.</li>
+          </ul>
+        </section>
+
+        <section class="content-section">
+          <h2>Research and references</h2>
+          <p>
+            These references shaped the exponent rules, rational exponent notes, and real-number
+            guardrails used in this guide.
+          </p>
+          <ul class="source-link-list">
+            {sourceLinks.map((link) => (
+              <li>
+                <a href={link.href} rel="noreferrer" target="_blank">{link.label}</a>
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section class="content-section">

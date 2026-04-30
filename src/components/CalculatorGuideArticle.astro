@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import BreadcrumbStructuredData from './BreadcrumbStructuredData.astro';
+import { getDeepAuditRecord } from '../data/toolDeepAudit';
 import { getTool } from '../data/tools';
 
 interface GuideSection {
@@ -40,10 +41,12 @@ const tool = getTool(toolSlug);
 const examples = tool?.examples ?? [];
 const useCases = tool?.useCases ?? [];
 const faqItems = tool?.faq ?? [];
+const auditRecord = getDeepAuditRecord(toolSlug);
+const hasSourceSection = sections.some((section) => /research|reference|source/i.test(section.title));
 const relatedTools = (tool?.relatedSlugs ?? [])
   .map((relatedSlug) => getTool(relatedSlug))
   .filter((relatedTool): relatedTool is NonNullable<typeof relatedTool> => Boolean(relatedTool));
-const updatedDate = '2026-04-29';
+const updatedDate = '2026-04-30';
 const imageUrl = 'https://accessfreetools.com/social-card.svg';
 const articleStructuredData = {
   '@context': 'https://schema.org',
@@ -87,7 +90,7 @@ const articleStructuredData = {
     <header class="blog-article-header">
       <span>{label}</span>
       <h1>{title}</h1>
-      <p class="article-meta-line">Access Free Tools editorial guide. Updated April 29, 2026.</p>
+      <p class="article-meta-line">Access Free Tools editorial guide. Updated April 30, 2026.</p>
       <p>{intro}</p>
       {tool && <a class="button-primary" href={`/tools/${tool.slug}/`}>Open the {tool.name}</a>}
     </header>
@@ -154,13 +157,30 @@ const articleStructuredData = {
           <section class="content-section">
             <h2>FAQ in plain language</h2>
             <div class="guide-question-list">
-              {faqItems.slice(0, 3).map((item) => (
+              {faqItems.slice(0, 6).map((item) => (
                 <article>
                   <h3>{item.question}</h3>
                   <p>{item.answer}</p>
                 </article>
               ))}
             </div>
+          </section>
+        )}
+
+        {auditRecord && auditRecord.sources.length > 0 && !hasSourceSection && (
+          <section class="content-section">
+            <h2>Review sources</h2>
+            <p>
+              This guide is reviewed against formula, input, FAQ, blog, UI, SEO, and privacy
+              checks. These references shaped the latest review.
+            </p>
+            <ul class="source-link-list">
+              {auditRecord.sources.map((source) => (
+                <li>
+                  <a href={source.href} rel="noreferrer" target="_blank">{source.label}</a>
+                </li>
+              ))}
+            </ul>
           </section>
         )}
 
