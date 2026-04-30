@@ -61,6 +61,7 @@ import BaseLayout from '../components/BaseLayout.astro';
       <label class="contact-field">
         <span>Message</span>
         <textarea
+          minlength="10"
           name="message"
           placeholder="Tell us what you noticed or what tool you would like to see next."
           required
@@ -84,12 +85,46 @@ import BaseLayout from '../components/BaseLayout.astro';
   </section>
 
   <script>
+    const contactEmail = 'contact@accessfreetools.com';
     const contactForm = document.querySelector('[data-contact-form]');
     const contactStatus = document.querySelector('[data-contact-status]');
+
+    function textValue(value) {
+      return typeof value === 'string' ? value.trim() : '';
+    }
+
+    function buildMailtoHref(payload) {
+      const topic = textValue(payload.topic) || 'Contact message';
+      const name = textValue(payload.name) || 'Not provided';
+      const email = textValue(payload.email);
+      const message = textValue(payload.message);
+      const subject = `Access Free Tools: ${topic}`;
+      const body = [
+        `Topic: ${topic}`,
+        `Name: ${name}`,
+        `Email: ${email}`,
+        '',
+        'Message:',
+        message,
+      ].join('\n');
+
+      return `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    function openEmailFallback(payload) {
+      contactStatus.dataset.state = 'pending';
+      contactStatus.textContent = 'The secure form is not active on this hosting setup yet, so your email app is opening instead.';
+      window.location.href = buildMailtoHref(payload);
+    }
 
     if (contactForm instanceof HTMLFormElement && contactStatus instanceof HTMLElement) {
       contactForm.addEventListener('submit', async (event) => {
         event.preventDefault();
+
+        if (!contactForm.reportValidity()) {
+          return;
+        }
+
         const submitButton = contactForm.querySelector('button[type="submit"]');
         const previousLabel = submitButton?.textContent ?? 'Send message';
         contactStatus.dataset.state = 'pending';
@@ -111,7 +146,20 @@ import BaseLayout from '../components/BaseLayout.astro';
             },
             method: 'POST',
           });
+
+          const contentType = response.headers.get('content-type') ?? '';
+          if (!contentType.includes('application/json')) {
+            openEmailFallback(payload);
+            return;
+          }
+
           const result = await response.json();
+
+          if (!response.ok && response.status >= 500) {
+            openEmailFallback(payload);
+            return;
+          }
+
           contactStatus.dataset.state = response.ok ? 'success' : 'error';
           contactStatus.textContent = result.message || 'The form returned an unexpected response.';
 
@@ -119,8 +167,9 @@ import BaseLayout from '../components/BaseLayout.astro';
             contactForm.reset();
           }
         } catch {
-          contactStatus.dataset.state = 'error';
-          contactStatus.textContent = 'The message could not be sent right now.';
+          const formData = new FormData(contactForm);
+          const payload = Object.fromEntries(formData.entries());
+          openEmailFallback(payload);
         } finally {
           if (submitButton instanceof HTMLButtonElement) {
             submitButton.disabled = false;
