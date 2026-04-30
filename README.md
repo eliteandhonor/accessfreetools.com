@@ -30,9 +30,11 @@ Hostinger's Node.js Web App should use `npm run build` as the build command and
 `npm run start` as the start command. If Hostinger asks for an entry file, use
 `app.js`. If it asks for an output directory, use `dist`.
 
-The contact form sends through Hostinger SMTP from server-side code. Configure
-the environment variables listed in `docs/contact-form-environment.md` inside
-Hostinger, not in GitHub.
+The contact form posts to `public/api/contact.php` so it works on Hostinger's
+current `public_html` deployment. The Astro Node `/api/contact` route remains in
+the source for a future server-side Node deployment. Configure the environment
+variables listed in `docs/contact-form-environment.md` inside Hostinger, not in
+GitHub, if the Node route is enabled later.
 
 ## Full Check
 

@@ -26,7 +26,7 @@ import BaseLayout from '../components/BaseLayout.astro';
 
     <form
       class="contact-form"
-      action="/api/contact"
+      action="/api/contact.php"
       data-contact-form
       method="post"
     >
@@ -114,7 +114,7 @@ import BaseLayout from '../components/BaseLayout.astro';
 
     function openEmailFallback(payload) {
       contactStatus.dataset.state = 'pending';
-      contactStatus.textContent = 'The secure form is not active on this hosting setup yet, so your email app is opening instead.';
+      contactStatus.textContent = 'The form could not send from the server right now, so your email app is opening instead.';
       window.location.href = buildMailtoHref(payload);
     }
 

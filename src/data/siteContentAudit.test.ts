@@ -67,6 +67,7 @@ const ADVERTISING_DISCLOSURE_SOURCE = readFileSync(
 );
 const CONTACT_SOURCE = readFileSync(fileURLToPath(new URL('../pages/contact.astro', import.meta.url)), 'utf8');
 const CONTACT_API_SOURCE = readFileSync(fileURLToPath(new URL('../pages/api/contact.ts', import.meta.url)), 'utf8');
+const CONTACT_PHP_SOURCE = readFileSync(fileURLToPath(new URL('../../public/api/contact.php', import.meta.url)), 'utf8');
 const MIRROR_STATIC_OUTPUT_SOURCE = readFileSync(
   fileURLToPath(new URL('../../scripts/mirror-static-output.mjs', import.meta.url)),
   'utf8',
@@ -714,13 +715,16 @@ describe('site content audit guardrails', () => {
     expect(ADVERTISING_DISCLOSURE_SOURCE).toContain('Ads, affiliate links, and product previews do not change calculator formulas');
 
     expect(CONTACT_SOURCE).toContain('contact@accessfreetools.com');
-    expect(CONTACT_SOURCE).toContain('action="/api/contact"');
+    expect(CONTACT_SOURCE).toContain('action="/api/contact.php"');
     expect(CONTACT_SOURCE).toContain('data-contact-form');
     expect(CONTACT_SOURCE).toContain('mailto:contact@accessfreetools.com');
     expect(CONTACT_SOURCE).not.toContain(RETIRED_PRIVACY_INBOX);
     expect(CONTACT_API_SOURCE).toContain('smtp.hostinger.com');
     expect(CONTACT_API_SOURCE).toContain('SMTP_PASS');
     expect(CONTACT_API_SOURCE).toContain('nodemailer.createTransport');
+    expect(CONTACT_PHP_SOURCE).toContain("CONTACT_TO = 'contact@accessfreetools.com'");
+    expect(CONTACT_PHP_SOURCE).toContain('FILTER_VALIDATE_EMAIL');
+    expect(CONTACT_PHP_SOURCE).toContain('check_rate_limit');
     expect(ASTRO_CONFIG_SOURCE).toContain("output: 'server'");
     expect(ASTRO_CONFIG_SOURCE).toContain("mode: 'standalone'");
     expect(PACKAGE_JSON_SOURCE).toContain('"start": "node ./app.js"');

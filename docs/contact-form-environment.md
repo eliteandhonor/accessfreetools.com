@@ -1,10 +1,18 @@
-# Contact Form Environment
+# Contact Form
 
-The contact form sends through Hostinger SMTP from the Node.js Web App. Keep the mailbox password in Hostinger environment variables only. Never commit real secrets to GitHub.
+The live Hostinger deployment currently serves the site from `public_html`, so
+the contact form posts to `public/api/contact.php`. That PHP endpoint uses the
+server mail function and does not require committing secrets to GitHub.
+
+The Astro Node `/api/contact` route remains available in the source for a future
+server-side Node deployment. If that route is enabled later, keep the mailbox
+password in Hostinger environment variables only. Never commit real secrets to
+GitHub.
 
 ## Required Hostinger Variables
 
-Use these values in the Hostinger Node.js Web App environment variable settings:
+Use these values in the Hostinger Node.js Web App environment variable settings
+only if the server-side Node route is enabled:
 
 ```txt
 SMTP_HOST=smtp.hostinger.com
