@@ -10,10 +10,12 @@ interface Props {
   description: string;
   path: string;
   items: CollectionItem[];
+  maxItems?: number;
 }
 
-const { name, description, path, items } = Astro.props;
+const { name, description, path, items, maxItems } = Astro.props;
 const site = Astro.site ?? 'https://accessfreetools.com';
+const listedItems = maxItems ? items.slice(0, maxItems) : items;
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
@@ -22,7 +24,8 @@ const structuredData = {
   url: new URL(path, site).toString(),
   mainEntity: {
     '@type': 'ItemList',
-    itemListElement: items.map((item, index) => ({
+    numberOfItems: items.length,
+    itemListElement: listedItems.map((item, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,

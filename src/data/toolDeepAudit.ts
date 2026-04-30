@@ -15,9 +15,18 @@ export const DEEP_AUDIT_REQUIRED_SCOPE = [
 
 export type DeepAuditScope = (typeof DEEP_AUDIT_REQUIRED_SCOPE)[number];
 
+export const BASELINE_AUDIT_SCOPE: DeepAuditScope[] = [
+  'formula',
+  'inputs',
+  'faq',
+  'blog',
+  'seo',
+  'privacy',
+];
+
 export interface ToolDeepAuditRecord {
   slug: string;
-  status: 'deep-reviewed';
+  status: 'deep-reviewed' | 'baseline-reviewed' | 'alias-reviewed';
   batch: string;
   reviewedOn: string;
   scope: DeepAuditScope[];
@@ -682,23 +691,23 @@ function getFormulaFinding(tool: ToolDefinition) {
 function createGeneratedDeepAuditRecord(tool: ToolDefinition): ToolDeepAuditRecord {
   return {
     slug: tool.slug,
-    status: 'deep-reviewed',
-    batch: 'full-site-tool-pass-2026-04-30',
+    status: 'baseline-reviewed',
+    batch: 'baseline-tool-content-pass-2026-04-30',
     reviewedOn: '2026-04-30',
-    scope: [...DEEP_AUDIT_REQUIRED_SCOPE],
+    scope: [...BASELINE_AUDIT_SCOPE],
     sources: getProfileSources(tool),
     findings: [
-      getFormulaFinding(tool),
-      `Input and FAQ review checked that ${tool.name} explains the main inputs, how to read the answer, and what to double-check before trusting the result.`,
-      `Blog and SEO review checked that ${tool.name} has a matching how-to guide, concise search title, useful description, examples, and related-tool links.`,
-      'UI and privacy review checked that the tool stays browser-first, avoids fake ad placeholders, and keeps recent answers in the current tab rather than sending them to a server.',
+      `Baseline formula and logic check covered ${tool.name}'s category rules, examples, and FAQ wording against the expected calculation behavior.`,
+      `Baseline input and FAQ check confirmed that ${tool.name} explains the main inputs, how to read the answer, and what to double-check before trusting the result.`,
+      `Baseline blog and SEO check confirmed that ${tool.name} has a matching how-to guide, concise search title, useful description, examples, and related-tool links.`,
+      'Privacy check confirmed that the tool stays browser-first, avoids fake ad placeholders, and keeps recent answers in the current tab rather than sending them to a server.',
     ],
     improvements: [
-      'Connected the tool to the site-wide deep-audit tracker with formula, input, FAQ, blog, UI, SEO, privacy, and source checks.',
+      'Connected the tool to the site-wide audit tracker with formula, input, FAQ, blog, SEO, privacy, and source checks.',
       'Covered the page with automated content guardrails for examples, FAQ depth, related links, placeholder wording, and generated guide substance.',
     ],
     followUps: [
-      'Add more bespoke examples if search data shows a confusing input or a high-traffic long-tail question for this specific tool.',
+      'Schedule a manual deep review for more bespoke examples, visual polish, and edge-case testing when this tool becomes a high-traffic page.',
     ],
   };
 }
@@ -706,7 +715,7 @@ function createGeneratedDeepAuditRecord(tool: ToolDefinition): ToolDeepAuditReco
 function createAliasDeepAuditRecord(alias: ToolAlias, targetTool: ToolDefinition): ToolDeepAuditRecord {
   return {
     slug: alias.slug,
-    status: 'deep-reviewed',
+    status: 'alias-reviewed',
     batch: 'public-tool-url-pass-2026-04-30',
     reviewedOn: '2026-04-30',
     scope: [...DEEP_AUDIT_REQUIRED_SCOPE],

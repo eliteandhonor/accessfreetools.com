@@ -4,7 +4,7 @@ import { categories } from '../data/categories';
 import { tools } from '../data/tools';
 
 const site = 'https://accessfreetools.com';
-const lastmod = '2026-04-29';
+const lastmod = new Date().toISOString().slice(0, 10);
 
 const staticPaths = [
   '/',

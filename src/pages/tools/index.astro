@@ -70,6 +70,7 @@ const searchTools = [...canonicalSearchTools, ...aliasSearchTools];
     name="All Free Tools"
     description="Browse free calculators and browser utilities from Access Free Tools."
     path="/tools/"
+    maxItems={100}
     items={searchTools.map((tool) => ({
       name: tool.name,
       path: `/tools/${tool.slug}/`,

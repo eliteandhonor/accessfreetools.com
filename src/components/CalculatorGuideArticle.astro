@@ -42,6 +42,7 @@ const examples = tool?.examples ?? [];
 const useCases = tool?.useCases ?? [];
 const faqItems = tool?.faq ?? [];
 const auditRecord = getDeepAuditRecord(toolSlug);
+const hasManualDeepReview = auditRecord?.status === 'deep-reviewed';
 const hasSourceSection = sections.some((section) => /research|reference|source/i.test(section.title));
 const relatedTools = (tool?.relatedSlugs ?? [])
   .map((relatedSlug) => getTool(relatedSlug))
@@ -169,11 +170,19 @@ const articleStructuredData = {
 
         {auditRecord && auditRecord.sources.length > 0 && !hasSourceSection && (
           <section class="content-section">
-            <h2>Review sources</h2>
-            <p>
-              This guide is reviewed against formula, input, FAQ, blog, UI, SEO, and privacy
-              checks. These references shaped the latest review.
-            </p>
+            <h2>{hasManualDeepReview ? 'Review sources' : 'Reference sources'}</h2>
+            {hasManualDeepReview ? (
+              <p>
+                This guide is reviewed against formula, input, FAQ, blog, UI, SEO, and privacy
+                checks. These references shaped the latest review.
+              </p>
+            ) : (
+              <p>
+                These references support the formula, input, FAQ, blog, SEO, and privacy checks
+                for this guide. Manual deep reviews are tracked separately for tool-specific visual
+                polish and edge-case testing.
+              </p>
+            )}
             <ul class="source-link-list">
               {auditRecord.sources.map((source) => (
                 <li>

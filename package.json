@@ -6,9 +6,12 @@
   "description": "Access Free Tools - fast, free web utilities starting with a basic calculator.",
   "scripts": {
     "dev": "astro dev",
+    "typecheck": "tsc --noEmit",
     "build": "astro build",
     "preview": "astro preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "audit:site": "vitest run src/data/siteContentAudit.test.ts",
+    "check": "npm run typecheck && npm test && npm run build"
   },
   "engines": {
     "node": ">=22"

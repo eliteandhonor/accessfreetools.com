@@ -5832,6 +5832,26 @@ main {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.launchpad-show-more {
+  align-items: center;
+  background: var(--surface-solid);
+  border: 1px solid color-mix(in srgb, var(--primary) 34%, var(--border));
+  border-radius: 8px;
+  color: var(--primary-strong);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: 900;
+  justify-content: center;
+  margin-top: 18px;
+  min-height: 44px;
+  padding: 10px 18px;
+}
+
+.launchpad-show-more:hover {
+  background: color-mix(in srgb, var(--primary) 9%, var(--surface-solid));
+}
+
 .launchpad-tool-card {
   background: var(--surface);
   border: 1px solid var(--border);

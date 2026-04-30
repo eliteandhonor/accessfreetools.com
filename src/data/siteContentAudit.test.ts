@@ -8,7 +8,7 @@ import { categories } from './categories';
 import { financeBlogGuides } from './financeBlogGuides';
 import { healthBlogGuides } from './healthBlogGuides';
 import { toolAliases } from './toolAliases';
-import { DEEP_AUDIT_REQUIRED_SCOPE, toolDeepAuditRecords } from './toolDeepAudit';
+import { BASELINE_AUDIT_SCOPE, DEEP_AUDIT_REQUIRED_SCOPE, toolDeepAuditRecords } from './toolDeepAudit';
 import { getCalculatorIconMark } from './toolIcons';
 import { tools } from './tools';
 import { utilityBlogGuides } from './utilityBlogGuides';
@@ -28,10 +28,42 @@ const TOOLS_ROUTE_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/tools/[slug].astro', import.meta.url)),
   'utf8',
 );
+const TOOLS_INDEX_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/tools/index.astro', import.meta.url)),
+  'utf8',
+);
+const TOOLS_LAUNCHPAD_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/ToolsLaunchpad.tsx', import.meta.url)),
+  'utf8',
+);
+const SITEMAP_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/sitemap.xml.ts', import.meta.url)),
+  'utf8',
+);
+const CALCULATOR_GUIDE_ARTICLE_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/CalculatorGuideArticle.astro', import.meta.url)),
+  'utf8',
+);
 const HALF_LIFE_GUIDE_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/blog/how-to-use-half-life-calculator.astro', import.meta.url)),
   'utf8',
 );
+const README_SOURCE = readFileSync(fileURLToPath(new URL('../../README.md', import.meta.url)), 'utf8');
+const ROADMAP_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../docs/calculator-net-roadmap.md', import.meta.url)),
+  'utf8',
+);
+const DEPLOYMENT_CHECKLIST_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../docs/deployment-checklist.md', import.meta.url)),
+  'utf8',
+);
+const MANUAL_DEEP_REVIEW_PLAN_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../docs/manual-deep-review-plan.md', import.meta.url)),
+  'utf8',
+);
+const PACKAGE_JSON = JSON.parse(
+  readFileSync(fileURLToPath(new URL('../../package.json', import.meta.url)), 'utf8'),
+) as { scripts: Record<string, string> };
 
 function findDuplicates(values: string[]) {
   const counts = new Map<string, number>();
@@ -135,10 +167,20 @@ describe('site content audit guardrails', () => {
         issues.push(`${record.slug} deep-audit record does not map to a tool or alias page`);
       }
 
-      for (const scope of DEEP_AUDIT_REQUIRED_SCOPE) {
+      const requiredScope =
+        record.status === 'baseline-reviewed' ? BASELINE_AUDIT_SCOPE : DEEP_AUDIT_REQUIRED_SCOPE;
+
+      for (const scope of requiredScope) {
         if (!record.scope.includes(scope)) {
           issues.push(`${record.slug} deep-audit record is missing ${scope} scope`);
         }
+      }
+
+      if (
+        record.status === 'baseline-reviewed' &&
+        record.scope.some((scope) => !BASELINE_AUDIT_SCOPE.includes(scope))
+      ) {
+        issues.push(`${record.slug} baseline review should not claim manual-only scopes`);
       }
 
       if (record.sources.length < 2) {
@@ -451,6 +493,84 @@ describe('site content audit guardrails', () => {
         if (section.paragraphs.length === 0 && !section.bullets?.length && !section.links?.length) {
           issues.push(`${guide.slug} section ${index + 1} has no readable content`);
         }
+      }
+    }
+
+    expect(issues).toEqual([]);
+  });
+
+  it('keeps launchpad and structured data scalable as the library grows', () => {
+    expect(TOOLS_LAUNCHPAD_SOURCE).toContain('const INITIAL_VISIBLE_TOOL_LIMIT = 96');
+    expect(TOOLS_LAUNCHPAD_SOURCE).toContain('Show all');
+    expect(TOOLS_INDEX_SOURCE).toContain('maxItems={100}');
+    expect(TOOLS_INDEX_SOURCE).toContain('client:load');
+    expect(TOOLS_INDEX_SOURCE).not.toContain('client:idle');
+  });
+
+  it('keeps sitemap freshness and release commands guarded', () => {
+    expect(SITEMAP_SOURCE).toContain('new Date().toISOString().slice(0, 10)');
+    expect(SITEMAP_SOURCE).not.toContain("const lastmod = '2026");
+    expect(PACKAGE_JSON.scripts.typecheck).toBe('tsc --noEmit');
+    expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run src/data/siteContentAudit.test.ts');
+    expect(PACKAGE_JSON.scripts.check).toBe('npm run typecheck && npm test && npm run build');
+    expect(README_SOURCE).toContain('npm run check');
+    expect(DEPLOYMENT_CHECKLIST_SOURCE).toContain('/tools/');
+  });
+
+  it('keeps roadmap counts aligned with the current public library', () => {
+    const publicToolUrlCount = tools.length + toolAliases.length;
+
+    expect(ROADMAP_SOURCE).toContain(`Canonical tool pages: ${tools.length}`);
+    expect(ROADMAP_SOURCE).toContain(`Matching guide pages: ${tools.length}`);
+    expect(ROADMAP_SOURCE).toContain(`Public tool URLs: ${publicToolUrlCount}`);
+    expect(ROADMAP_SOURCE).toContain(`Aliases already covered: ${toolAliases.length}`);
+  });
+
+  it('keeps review wording honest between manual, baseline, and alias audits', () => {
+    const statusCounts = toolDeepAuditRecords.reduce<Record<string, number>>((counts, record) => {
+      counts[record.status] = (counts[record.status] ?? 0) + 1;
+      return counts;
+    }, {});
+
+    expect(statusCounts['deep-reviewed']).toBe(10);
+    expect(statusCounts['baseline-reviewed']).toBeGreaterThan(0);
+    expect(statusCounts['alias-reviewed']).toBe(toolAliases.length);
+    expect(CALCULATOR_GUIDE_ARTICLE_SOURCE).toContain("auditRecord?.status === 'deep-reviewed'");
+    expect(CALCULATOR_GUIDE_ARTICLE_SOURCE).toContain('Reference sources');
+  });
+
+  it('tracks the top 25 manual deep-review queue without overclaiming unfinished reviews', () => {
+    const toolSlugs = new Set(tools.map((tool) => tool.slug));
+    const auditStatusBySlug = new Map(toolDeepAuditRecords.map((record) => [record.slug, record.status]));
+    const rows = MANUAL_DEEP_REVIEW_PLAN_SOURCE.split('\n').filter((line) => /^\|\s*\d+\s*\|/.test(line));
+    const plannedSlugs = rows.map((line) => line.match(/`([^`]+)`/)?.[1]).filter((slug): slug is string => Boolean(slug));
+    const duplicatePlanSlugs = findDuplicates(plannedSlugs);
+    const issues: string[] = [];
+
+    if (plannedSlugs.length !== 25) {
+      issues.push(`manual deep-review plan should track 25 tools, found ${plannedSlugs.length}`);
+    }
+
+    if (duplicatePlanSlugs.length > 0) {
+      issues.push(`manual deep-review plan has duplicate slugs: ${duplicatePlanSlugs.join(', ')}`);
+    }
+
+    for (const slug of plannedSlugs) {
+      if (!toolSlugs.has(slug)) {
+        issues.push(`${slug} is in the manual deep-review plan but not the tool registry`);
+      }
+    }
+
+    for (const row of rows) {
+      const slug = row.match(/`([^`]+)`/)?.[1];
+      const status = row.split('|').map((cell) => cell.trim())[4];
+
+      if (slug && status === 'deep-reviewed' && auditStatusBySlug.get(slug) !== 'deep-reviewed') {
+        issues.push(`${slug} is marked deep-reviewed in the plan but not in the audit records`);
+      }
+
+      if (slug && status === 'queued' && auditStatusBySlug.get(slug) === 'deep-reviewed') {
+        issues.push(`${slug} is queued in the plan but already marked deep-reviewed in audit records`);
       }
     }
 

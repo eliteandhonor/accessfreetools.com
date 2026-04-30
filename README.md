@@ -22,6 +22,21 @@ npm run build
 The production build outputs to `dist`, which is the folder to deploy from
 Hostinger's Node.js Web App / GitHub import flow.
 
+## Full Check
+
+Run this before a GitHub push or Hostinger deployment:
+
+```bash
+npm run check
+```
+
+This runs TypeScript, the site audit tests, and the Astro production build.
+For the focused site-content audit only, run:
+
+```bash
+npm run audit:site
+```
+
 ## New Tool Workflow
 
 When creating a new tool, follow this checklist:
@@ -34,3 +49,9 @@ When creating a new tool, follow this checklist:
 6. Use GPT Image for design work when a tool needs a distinctive visual concept, mascot, product-style asset, hero image, or affiliate/product artwork.
 7. Add the tool and blog page to navigation/index surfaces and the sitemap.
 8. Verify with tests, build, browser interaction, and desktop/mobile screenshots.
+
+## Release Notes
+
+- Use `docs/deployment-checklist.md` before publishing.
+- Use `docs/manual-deep-review-plan.md` to track the top manual reviews without overstating generated baseline checks.
+- Use `docs/site-audit-2026-04-30.md` as the latest audit snapshot.

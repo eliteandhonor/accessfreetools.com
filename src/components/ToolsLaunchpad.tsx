@@ -23,6 +23,8 @@ import { getCalculatorIconMark, getCalculatorIconTextLabel, type CalculatorIconM
 
 type CategoryFilter = 'all' | ToolCategory['slug'];
 
+const INITIAL_VISIBLE_TOOL_LIMIT = 96;
+
 export interface ToolSearchItem {
   slug: string;
   name: string;
@@ -332,6 +334,7 @@ function ToolsTitleGraphic() {
 export default function ToolsLaunchpad({ categories, tools }: Props) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<CategoryFilter>('all');
+  const [showAllTools, setShowAllTools] = useState(false);
 
   useEffect(() => {
     const queryFromUrl = new URLSearchParams(window.location.search).get('q')?.trim() ?? '';
@@ -343,6 +346,7 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
 
   const updateQuery = (nextQuery: string) => {
     setQuery(nextQuery);
+    setShowAllTools(false);
 
     const url = new URL(window.location.href);
     const trimmedQuery = nextQuery.trim();
@@ -374,6 +378,15 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
   }, [category, query, tools]);
 
   const selectedCategory = availableCategories.find((item) => item.slug === category);
+  const shouldLimitInitialResults =
+    !showAllTools &&
+    query.trim().length === 0 &&
+    category === 'all' &&
+    filteredTools.length > INITIAL_VISIBLE_TOOL_LIMIT;
+  const visibleTools = shouldLimitInitialResults
+    ? filteredTools.slice(0, INITIAL_VISIBLE_TOOL_LIMIT)
+    : filteredTools;
+  const hiddenToolCount = filteredTools.length - visibleTools.length;
 
   return (
     <section className="tools-launchpad">
@@ -407,7 +420,10 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
       <div className="launchpad-filter-row" aria-label="Tool filters">
         <button
           aria-pressed={category === 'all'}
-          onClick={() => setCategory('all')}
+          onClick={() => {
+            setCategory('all');
+            setShowAllTools(false);
+          }}
           type="button"
         >
           <Grid3X3 size={16} strokeWidth={2.4} /> All
@@ -419,7 +435,10 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
             <button
               aria-pressed={category === item.slug}
               key={item.slug}
-              onClick={() => setCategory(item.slug)}
+              onClick={() => {
+                setCategory(item.slug);
+                setShowAllTools(false);
+              }}
               type="button"
             >
               <Icon size={16} strokeWidth={2.4} /> {item.name}
@@ -432,7 +451,10 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
         <aside className="category-rail" aria-label="Tool categories">
           <button
             aria-pressed={category === 'all'}
-            onClick={() => setCategory('all')}
+            onClick={() => {
+              setCategory('all');
+              setShowAllTools(false);
+            }}
             type="button"
           >
             <Grid3X3 size={18} strokeWidth={2.4} />
@@ -447,7 +469,10 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
               <button
                 aria-pressed={category === item.slug}
                 key={item.slug}
-                onClick={() => setCategory(item.slug)}
+                onClick={() => {
+                  setCategory(item.slug);
+                  setShowAllTools(false);
+                }}
                 type="button"
               >
                 <Icon size={18} strokeWidth={2.4} />
@@ -463,13 +488,15 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
             <div>
               <h2>{selectedCategory?.name ?? 'Available Tools'}</h2>
               <p>
-                Showing {filteredTools.length} {filteredTools.length === 1 ? 'tool' : 'tools'}.
+                {visibleTools.length === filteredTools.length
+                  ? `Showing ${filteredTools.length} ${filteredTools.length === 1 ? 'tool' : 'tools'}.`
+                  : `Showing ${visibleTools.length} of ${filteredTools.length} tools.`}
               </p>
             </div>
           </div>
 
           <div className="launchpad-tool-grid">
-            {filteredTools.map((tool) => {
+            {visibleTools.map((tool) => {
               const href = `/tools/${tool.slug}/`;
 
               return (
@@ -487,6 +514,12 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
               );
             })}
           </div>
+
+          {hiddenToolCount > 0 && (
+            <button className="launchpad-show-more" onClick={() => setShowAllTools(true)} type="button">
+              Show all {filteredTools.length} tools
+            </button>
+          )}
 
           {filteredTools.length === 0 && (
             <div className="empty-results">
