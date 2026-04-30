@@ -4573,6 +4573,17 @@ main {
   opacity: 0.58;
 }
 
+.calculator-error {
+  background: color-mix(in srgb, var(--danger) 10%, var(--surface-solid));
+  border: 1px solid color-mix(in srgb, var(--danger) 34%, var(--border));
+  border-radius: 8px;
+  color: var(--danger);
+  font-weight: 850;
+  line-height: 1.5;
+  margin: 0;
+  padding: 12px 14px;
+}
+
 .advanced-result-card {
   background:
     radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.12), transparent 24%),

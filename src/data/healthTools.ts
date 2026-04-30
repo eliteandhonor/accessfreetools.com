@@ -292,7 +292,7 @@ export const healthTools: ToolDefinition[] = [
     name: 'Lean Body Mass Calculator',
     summary: 'Estimate lean body mass from height, weight, and formula sex.',
     description:
-      'Use this free lean body mass calculator to estimate fat-free mass using the Boer formula.',
+      'Use this free lean body mass calculator to estimate fat-free mass from height, weight, and formula sex using the Boer equation.',
     icon: 'calculator-lean-mass',
     formula: 'The calculator uses Boer lean body mass equations based on height, weight, and formula sex.',
     caution: estimateCaution,

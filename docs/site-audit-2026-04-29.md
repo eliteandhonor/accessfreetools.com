@@ -23,6 +23,10 @@ References checked:
 
 ## Current Expansion Update
 
+- April 30 tool-level audit pass: added repeatable guardrail tests that audit every tool for unique SEO titles, concise descriptions, category validity, icon mapping, guide coverage, useful examples, FAQ depth, related-tool integrity, placeholder/competitor wording, blog-card alignment, interactive route wiring, and generated guide structure.
+- Fixed thin wording found by the audit in the Lean Body Mass Calculator description, Mass Calculator summary, density/mass/weight guide summaries, and three formula FAQ answers for Z-score, Area, and Right Triangle tools.
+- Verified 110 tests pass and the full Astro build still generates 469 static pages.
+- April 30 tool UX audit pass: improved shared finance, health, utility, geometry, and number-theory tool behavior so stale validation errors clear when inputs change, finance/health tools now show copy feedback, shared calculator errors are styled and announced, and Enter submits single-line shared tool inputs.
 - Added the next finance roadmap batch: VAT, Cash Back or Low Interest, Auto Lease, Depreciation, Average Return, Margin, Discount, Business Loan, Debt-to-Income Ratio, Personal Loan, Boat Loan, Lease, Refinance, and Budget calculators.
 - Added a matching guide page for each new calculator through the shared finance guide system.
 - Added official-source links where useful for context, including European Commission VAT, CFPB APR and debt-to-income references, FTC car financing/leasing guidance, and IRS depreciation guidance.
@@ -59,6 +63,10 @@ References checked:
 - Added multiline text-output rendering to the shared utility interface so JSON, hashes, UUID lists, text stats, and generated slugs are easier to copy and read.
 - Added source-backed guide references for Google helpful-content guidance, Google SEO basics, RFC 9562 UUIDs, MDN SubtleCrypto hashing, NIST FIPS 180-4 hash standards, WCAG 2.2 contrast guidance, ISO date formats, and MDN Date handling.
 - Updated footer/category discovery for Text and Image hubs and verified the site now builds 469 static pages.
+- Added the next researched post-calculator.net browser utility batch: UTM Builder, Query String Parser, HTML Entity Encoder/Decoder, CSS Clamp Calculator, and Markdown Table Generator.
+- Added matching guide pages for the batch with references from Google Analytics campaign URL guidance, MDN URLSearchParams, MDN character references, MDN CSS clamp(), RFC 3986, and the GitHub Flavored Markdown table spec.
+- Browser-preview audit found the running dev server had stale route state after new static paths were added, so the preview server was restarted on `127.0.0.1:4324` and the new tool pages were rechecked successfully.
+- Verified 111 tests pass, the stricter site content audit passes, and the full Astro build now generates 479 static pages.
 
 ## Audit Findings
 

@@ -177,6 +177,26 @@ const sourceLinks = {
     href: 'https://www.w3.org/TR/WCAG22/',
     label: 'W3C: Web Content Accessibility Guidelines 2.2',
   },
+  googleCampaignUrls: {
+    href: 'https://support.google.com/analytics/answer/10917952?hl=en',
+    label: 'Google Analytics Help: Collect campaign data with custom URLs',
+  },
+  mdnUrlSearchParams: {
+    href: 'https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams',
+    label: 'MDN: URLSearchParams',
+  },
+  mdnCharacterReference: {
+    href: 'https://developer.mozilla.org/en-US/docs/Glossary/Character_reference',
+    label: 'MDN: Character reference',
+  },
+  mdnCssClamp: {
+    href: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/clamp',
+    label: 'MDN: CSS clamp()',
+  },
+  githubGfmTables: {
+    href: 'https://github.github.io/gfm/',
+    label: 'GitHub Flavored Markdown Spec: Tables',
+  },
 };
 
 const guideDetails: Record<string, UtilityGuideDetail> = {
@@ -560,7 +580,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.irsMileage],
   },
   'density-calculator': {
-    summary: 'Learn how mass divided by volume gives density.',
+    summary: 'Learn how mass divided by volume gives density and why matching units matter.',
     purpose:
       'The Density Calculator is a direct formula helper for science, materials, and classroom examples where mass and volume are known.',
     enter: [
@@ -581,7 +601,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'mass-calculator': {
-    summary: 'Learn how density multiplied by volume gives mass.',
+    summary: 'Learn how density multiplied by volume gives mass and when the estimate needs real measurements.',
     purpose:
       'The Mass Calculator rearranges the density formula. If density and volume are known, multiplying them gives mass.',
     enter: [
@@ -602,7 +622,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'weight-calculator': {
-    summary: 'Learn the difference between mass and weight force.',
+    summary: 'Learn the difference between mass and weight force, including newtons and pounds-force.',
     purpose:
       'The Weight Calculator estimates weight force from mass and gravity. In physics, weight is a force, while mass is the amount of matter.',
     enter: [
@@ -1545,7 +1565,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not optimize only for word count; helpful content still needs clear answers and useful examples.',
       'Check the target editor when a school, client, or social platform has a strict limit.',
     ],
-    sources: [sourceLinks.googleHelpfulContent],
+    sources: [sourceLinks.mdnCharacterReference],
   },
   'character-counter': {
     summary: 'Learn how to count characters with spaces, without spaces, by line, and by UTF-8 byte length.',
@@ -1735,6 +1755,111 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Check the final export dimensions after compression or image editing.',
     ],
     sources: [],
+  },
+  'utm-builder': {
+    summary: 'Learn how to build UTM campaign links without hand-editing URL parameters.',
+    purpose:
+      'The UTM Builder helps you create a campaign URL that analytics tools can read. Instead of manually typing question marks, ampersands, and encoded values, you enter the destination page plus source, medium, campaign, and optional detail fields. The tool then returns one copy-ready URL.',
+    enter: [
+      'Enter the page URL people should visit.',
+      'Fill in UTM source, medium, and campaign because those are the core campaign labels.',
+      'Use content or term only when you need to tell two links apart.',
+    ],
+    read: [
+      'Campaign URL is the full link you can copy.',
+      'UTM parameters tells you how many tracking fields were added.',
+      'Existing parameters shows whether the original URL already had query values.',
+    ],
+    mistakes: [
+      'Do not use different spellings for the same source or campaign across links.',
+      'Do not add private customer data to campaign URLs.',
+      'Do not expect UTM values to appear in analytics unless the destination site is configured for campaign reporting.',
+    ],
+    sources: [sourceLinks.googleCampaignUrls, sourceLinks.mdnUrlSearchParams],
+  },
+  'query-string-parser': {
+    summary: 'Learn how to decode URL parameters or build an encoded query string from key-value lines.',
+    purpose:
+      'The Query String Parser is for reading and building the part of a URL that comes after the question mark. It helps you see filters, campaign values, repeated keys, and app-state values without mentally decoding percent signs and plus signs.',
+    enter: [
+      'Use Parse query when you have a full URL or a raw query string.',
+      'Use Build query when you have one key=value pair per line.',
+      'Keep private tokens and personal data out of the input when the URL might be shared.',
+    ],
+    read: [
+      'Parsed output is shown as readable JSON.',
+      'Built output starts with a question mark and is encoded for use in a URL.',
+      'Duplicate keys tells you when the same parameter appears more than once.',
+    ],
+    mistakes: [
+      'Do not assume a query string is secret just because it appears after a question mark.',
+      'Do not hand-convert spaces and special characters when the builder can encode them.',
+      'Check repeated keys because some apps use them intentionally and others ignore later values.',
+    ],
+    sources: [sourceLinks.mdnUrlSearchParams, sourceLinks.rfc3986],
+  },
+  'html-entity-encoder-decoder': {
+    summary: 'Learn how HTML entities turn code-sensitive characters into visible text and back again.',
+    purpose:
+      'The HTML Entity Encoder / Decoder helps with small snippets that need to be shown as text. If you want readers to see a tag instead of the browser treating it like markup, encode the sensitive characters. If you copied entity text and need to read it, decode it.',
+    enter: [
+      'Choose Encode when your text contains characters such as <, >, &, quotes, or apostrophes.',
+      'Choose Decode when your text contains entities such as &lt;, &amp;, or numeric entity codes.',
+      'Paste the snippet and run the tool.',
+    ],
+    read: [
+      'The output is the copy-ready encoded or decoded text.',
+      'Entity count shows how many entity replacements were found.',
+      'Changed positions gives a quick signal for how much the output differs from the input.',
+    ],
+    mistakes: [
+      'Do not treat entity encoding as a full security sanitizer.',
+      'Do not decode unknown HTML and paste it into a live page without reviewing it.',
+      'Remember that this tool supports common entities and numeric entity codes, not every named entity ever defined.',
+    ],
+    sources: [sourceLinks.googleHelpfulContent],
+  },
+  'css-clamp-calculator': {
+    summary: 'Learn how to make fluid CSS sizes with a clamp formula you can copy into a stylesheet.',
+    purpose:
+      'The CSS Clamp Calculator turns a minimum size, maximum size, and viewport range into a clamp() formula. This is useful for headings, spacing, and other responsive values that should grow smoothly between mobile and desktop widths.',
+    enter: [
+      'Enter the smallest size and largest size in pixels.',
+      'Enter the viewport width where scaling should start and stop.',
+      'Use your site root font size so the rem output matches your CSS setup.',
+    ],
+    read: [
+      'The main answer is the clamp() formula.',
+      'Slope explains the vw part of the formula.',
+      'Middle size shows the approximate value halfway through the viewport range.',
+    ],
+    mistakes: [
+      'Do not assume fluid type fixes every responsive design issue.',
+      'Check text wrapping, line length, and tap targets on real viewport sizes.',
+      'Keep minimum and maximum sizes readable instead of scaling purely for visual drama.',
+    ],
+    sources: [sourceLinks.mdnCssClamp],
+  },
+  'markdown-table-generator': {
+    summary: 'Learn how to build a GitHub-flavored Markdown table from simple headers and rows.',
+    purpose:
+      'The Markdown Table Generator creates the header row, delimiter row, and body rows needed for a GitHub-flavored Markdown table. It is helpful when you need a quick comparison table for docs, blog drafts, project notes, or README files.',
+    enter: [
+      'Enter headers separated by commas or pipe characters.',
+      'Enter one row per line using the same column order.',
+      'Choose left, center, or right alignment before generating the table.',
+    ],
+    read: [
+      'The output is copy-ready Markdown table text.',
+      'Columns and rows confirm the table shape.',
+      'Alignment tells you which delimiter style was used.',
+    ],
+    mistakes: [
+      'Do not assume every Markdown editor supports tables the same way.',
+      'Preview the result where you will publish it.',
+      'Keep tables short enough to read on mobile screens.',
+    ],
+    sources: [sourceLinks.githubGfmTables],
   },
 };
 

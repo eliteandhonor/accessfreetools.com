@@ -194,6 +194,11 @@ export type CalculatorIconMark =
   | 'timestamp'
   | 'contrast'
   | 'aspect'
+  | 'utm'
+  | 'query'
+  | 'html'
+  | 'clamp'
+  | 'table'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -396,6 +401,11 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'tool-timestamp': 'timestamp',
   'tool-contrast': 'contrast',
   'tool-aspect-ratio': 'aspect',
+  'tool-utm': 'utm',
+  'tool-query': 'query',
+  'tool-html-entity': 'html',
+  'tool-css-clamp': 'clamp',
+  'tool-markdown-table': 'table',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',
@@ -567,6 +577,11 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   timestamp: 'ts',
   contrast: 'AA',
   aspect: '16:9',
+  utm: 'utm',
+  query: '?=',
+  html: '&;',
+  clamp: 'css',
+  table: 'tbl',
   prime: 'pf',
   'long-division': 'div',
   average: 'avg',

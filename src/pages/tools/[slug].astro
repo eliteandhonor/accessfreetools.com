@@ -307,6 +307,11 @@ const utilityToolVariants = {
   'unix-timestamp-converter': 'unix-timestamp-converter',
   'color-contrast-checker': 'color-contrast-checker',
   'aspect-ratio-calculator': 'aspect-ratio-calculator',
+  'utm-builder': 'utm-builder',
+  'query-string-parser': 'query-string-parser',
+  'html-entity-encoder-decoder': 'html-entity-encoder-decoder',
+  'css-clamp-calculator': 'css-clamp-calculator',
+  'markdown-table-generator': 'markdown-table-generator',
 } as const satisfies Partial<Record<string, UtilityToolVariant>>;
 const utilityToolVariant = utilityToolVariants[tool.slug];
 const isUtilityTool = Boolean(utilityToolVariant);
@@ -546,6 +551,36 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Enter the original width and height.',
     'Add the new width or height when scaling.',
     'Check final export dimensions when a platform or print job requires exact pixels.',
+  ],
+  'utm-builder': [
+    'Enter the page URL you want people to visit.',
+    'Add source, medium, and campaign names using your analytics naming rules.',
+    'Add optional content or term values only when they help separate links.',
+    'Press Build UTM URL and copy the finished campaign link.',
+  ],
+  'query-string-parser': [
+    'Choose Parse query when you have a URL or raw query string.',
+    'Choose Build query when you have one key=value pair per line.',
+    'Press Run query tool to decode parameters or create an encoded query string.',
+    'Check duplicate keys and avoid sharing private tokens in public URLs.',
+  ],
+  'html-entity-encoder-decoder': [
+    'Choose Encode when you need HTML characters shown as text.',
+    'Choose Decode when you need readable text from entity codes.',
+    'Paste the snippet and press Run HTML entity tool.',
+    'Treat entity encoding as display help, not a full security sanitizer.',
+  ],
+  'css-clamp-calculator': [
+    'Enter the minimum and maximum size in pixels.',
+    'Enter the viewport range where the size should scale.',
+    'Press Generate clamp to create a copy-ready CSS formula.',
+    'Test real wrapping and spacing in your page before publishing.',
+  ],
+  'markdown-table-generator': [
+    'Enter headers separated by commas or pipe characters.',
+    'Enter one row per line using the same column order.',
+    'Choose left, center, or right alignment and press Generate table.',
+    'Preview the table in the markdown editor where you plan to use it.',
   ],
   'gas-mileage-calculator': [
     'Enter miles driven and gallons used from the same tank or trip.',

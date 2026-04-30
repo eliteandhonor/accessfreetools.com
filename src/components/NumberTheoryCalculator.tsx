@@ -276,7 +276,11 @@ export default function NumberTheoryCalculator({ variant }: Props) {
           <span>{config.inputLabel}</span>
           <input
             inputMode={variant === 'long-division' ? 'text' : 'numeric'}
-            onChange={(event) => setInput(event.target.value)}
+            onChange={(event) => {
+              setInput(event.target.value);
+              setError('');
+              setCopied(false);
+            }}
             value={input}
           />
         </label>

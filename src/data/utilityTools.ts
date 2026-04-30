@@ -546,7 +546,7 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'mass-calculator',
     name: 'Mass Calculator',
     category: 'calculators',
-    summary: 'Calculate mass from density and volume.',
+    summary: 'Calculate mass from density and volume with clear formula steps.',
     description:
       'Use this free mass calculator to multiply density by volume and estimate mass with formula steps and a custom unit label.',
     icon: 'calculator-mass',
@@ -1931,5 +1931,135 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Scale width', expression: '1920 x 1080 to 1280 wide', result: '1280 x 720' },
     ],
     relatedSlugs: ['color-contrast-checker', 'square-footage-calculator', 'conversion-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'utm-builder',
+    name: 'UTM Builder',
+    category: 'developer-tools',
+    summary: 'Build campaign URLs with source, medium, campaign, content, and term parameters.',
+    description:
+      'Use this free UTM builder to add campaign tracking parameters to a URL, preserve existing query values, and copy a clean analytics-ready link.',
+    icon: 'tool-utm',
+    aliases: ['Campaign URL Builder', 'UTM Link Builder', 'Google Analytics URL Builder'],
+    formula:
+      'The builder validates the base URL, keeps existing query parameters, then sets utm_source, utm_medium, utm_campaign, and optional UTM fields.',
+    limit:
+      'UTM links only help analytics when the destination site is configured to collect campaign data and your team uses consistent naming rules.',
+    useCases: [
+      'Create campaign links for newsletters, social posts, partner links, and launch announcements.',
+      'Keep source, medium, and campaign names consistent before sharing a URL.',
+      'Add content or term values when two links point to the same page.',
+      'Copy one finished URL instead of hand-editing query parameters.',
+    ],
+    examples: [
+      { label: 'Newsletter link', expression: 'source newsletter, medium email, campaign spring-tools', result: 'URL with UTM parameters' },
+      { label: 'Social profile link', expression: 'source instagram, medium social, campaign calculator-tips', result: 'Tracked social URL' },
+      { label: 'Search campaign', expression: 'source google, medium cpc, campaign utility-tools', result: 'Campaign URL with term field' },
+    ],
+    relatedSlugs: ['query-string-parser', 'url-encode-decode', 'slug-generator'],
+  }),
+  makeUtilityTool({
+    slug: 'query-string-parser',
+    name: 'Query String Parser',
+    category: 'developer-tools',
+    summary: 'Parse URL query strings into JSON or build encoded query strings from key-value lines.',
+    description:
+      'Use this free query string parser to decode URL parameters, group repeated keys, or build an encoded query string from one key-value pair per line.',
+    icon: 'tool-query',
+    aliases: ['URL Query Parser', 'Query Parameter Parser', 'Query String Builder'],
+    formula:
+      'Parse mode extracts the query part and reads it with URLSearchParams. Build mode appends each key-value line with URLSearchParams encoding.',
+    limit:
+      'Query strings can be logged, shared, or indexed. Do not place passwords, private tokens, or sensitive identifiers in public URLs.',
+    useCases: [
+      'Decode URL parameters while debugging filters, search pages, or app links.',
+      'Group repeated keys so duplicate values are easy to spot.',
+      'Build a correctly encoded query string from plain key-value lines.',
+      'Compare UTM links, search URLs, and app-state URLs before sharing.',
+    ],
+    examples: [
+      { label: 'Full URL', expression: 'https://example.com/?utm_source=newsletter&tag=a&tag=b', result: 'Decoded JSON with repeated tag values' },
+      { label: 'Raw query', expression: 'name=Access+Free+Tools&tool=json', result: 'Readable key-value output' },
+      { label: 'Build query', expression: 'utm_source=newsletter, utm_medium=email', result: '?utm_source=newsletter&utm_medium=email' },
+    ],
+    relatedSlugs: ['utm-builder', 'url-encode-decode', 'json-formatter'],
+  }),
+  makeUtilityTool({
+    slug: 'html-entity-encoder-decoder',
+    name: 'HTML Entity Encoder / Decoder',
+    category: 'developer-tools',
+    summary: 'Encode HTML-sensitive characters or decode common named and numeric HTML entities.',
+    description:
+      'Use this free HTML entity encoder and decoder to turn HTML characters into display-safe entity text or convert entity codes back to readable text.',
+    icon: 'tool-html-entity',
+    aliases: ['HTML Entity Encoder', 'HTML Entity Decoder', 'HTML Escape Tool'],
+    formula:
+      'Encode mode replaces &, <, >, quotes, and apostrophes with HTML entities. Decode mode converts supported named and numeric entities back to characters.',
+    limit:
+      'Entity encoding is useful for displaying code examples as text, but it is not a complete sanitizer for untrusted HTML or script content.',
+    useCases: [
+      'Show HTML code examples inside a blog post, guide, or documentation page.',
+      'Decode copied entity text so it is easier to read.',
+      'Escape short snippets before placing them in visible HTML text.',
+      'Check whether a string changed after encoding or decoding.',
+    ],
+    examples: [
+      { label: 'Encode tag text', expression: '<strong>Free & fast</strong>', result: '&lt;strong&gt;Free &amp; fast&lt;/strong&gt;' },
+      { label: 'Decode entities', expression: '&lt;strong&gt;Tools&lt;/strong&gt;', result: '<strong>Tools</strong>' },
+      { label: 'Quote cleanup', expression: 'title="Calculator" data-label="A&B"', result: 'Encoded quote and ampersand text' },
+    ],
+    relatedSlugs: ['json-formatter', 'url-encode-decode', 'text-case-converter'],
+  }),
+  makeUtilityTool({
+    slug: 'css-clamp-calculator',
+    name: 'CSS Clamp Calculator',
+    category: 'developer-tools',
+    summary: 'Generate CSS clamp formulas for fluid font sizes, spacing, and responsive layout values.',
+    description:
+      'Use this free CSS clamp calculator to create a responsive clamp() formula from minimum size, maximum size, and viewport range.',
+    icon: 'tool-css-clamp',
+    aliases: ['Fluid Typography Calculator', 'CSS Fluid Type Calculator', 'Clamp Generator'],
+    formula:
+      'The calculator finds a viewport-based slope, calculates the rem intercept, then formats clamp(minimum, calc(intercept + vw), maximum).',
+    limit:
+      'Clamp formulas control numeric scaling only. Real layouts still need checks for text wrapping, readability, tap targets, and container width.',
+    useCases: [
+      'Create fluid heading sizes that grow between mobile and desktop widths.',
+      'Generate responsive spacing values without writing several media queries.',
+      'Convert a design-system min and max size into copy-ready CSS.',
+      'Compare the middle size before placing the formula in a stylesheet.',
+    ],
+    examples: [
+      { label: 'Responsive heading', expression: '32px to 64px from 360px to 1280px', result: 'CSS clamp() formula' },
+      { label: 'Body text', expression: '16px to 20px from 375px to 1200px', result: 'Small fluid type rule' },
+      { label: 'Section padding', expression: '24px to 72px from 360px to 1440px', result: 'Fluid spacing formula' },
+    ],
+    relatedSlugs: ['color-contrast-checker', 'aspect-ratio-calculator', 'markdown-table-generator'],
+  }),
+  makeUtilityTool({
+    slug: 'markdown-table-generator',
+    name: 'Markdown Table Generator',
+    category: 'text-tools',
+    summary: 'Create GitHub-flavored Markdown tables from headers, rows, and alignment choices.',
+    description:
+      'Use this free markdown table generator to turn comma-separated or pipe-separated headers and rows into a copy-ready GitHub-flavored Markdown table.',
+    icon: 'tool-markdown-table',
+    aliases: ['Markdown Table Maker', 'GFM Table Generator', 'Markdown Table Builder'],
+    formula:
+      'The generator splits headers and rows into cells, creates a GitHub-flavored Markdown delimiter row, pads short rows, and outputs table text.',
+    limit:
+      'Markdown table rendering depends on the publishing platform. Preview the result in the editor or site where the table will be used.',
+    useCases: [
+      'Create quick comparison tables for blog posts, docs, and project notes.',
+      'Turn a small list of rows into GitHub-flavored Markdown syntax.',
+      'Choose left, center, or right alignment without memorizing delimiter marks.',
+      'Build simple tool, feature, or checklist tables for content planning.',
+    ],
+    examples: [
+      { label: 'Tool table', expression: 'Tool, Use, Status plus two rows', result: 'GitHub-flavored Markdown table' },
+      { label: 'Feature matrix', expression: 'Feature | Free | Notes', result: 'Pipe-style markdown table' },
+      { label: 'Simple report', expression: 'Metric, Value with two rows', result: 'Right-aligned markdown table' },
+    ],
+    relatedSlugs: ['word-counter', 'character-counter', 'css-clamp-calculator'],
   }),
 ];

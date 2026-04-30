@@ -1,4 +1,4 @@
-import { useMemo, useState, type HTMLAttributes } from 'react';
+import { useMemo, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
 import {
   calculateAge,
   calculateAsphaltEstimate,
@@ -32,6 +32,7 @@ import {
   calculateHorsepowerConversion,
   calculateAspectRatio,
   calculateColorContrast,
+  calculateCssClamp,
   calculateDateFromUnixTimestamp,
   calculateLoveCompatibility,
   calculateMassFromDensity,
@@ -65,26 +66,34 @@ import {
   calculateWindChill,
   calculateEngineHorsepower,
   analyzeText,
+  buildQueryStringFromLines,
+  buildUtmUrl,
   convertMeasurement,
   convertShoeSize,
   convertTextCase,
   digestText,
+  decodeHtmlEntities,
   decodeBase64,
   decodeUrlComponentValue,
+  encodeHtmlEntities,
   encodeBase64,
   encodeUrlComponentValue,
   formatCalculatorNumber,
   formatJsonText,
+  generateMarkdownTable,
   generateSlug,
   generatePassword,
   generateUuidBatch,
+  parseQueryStringInput,
   getCopperResistanceOhmsPer1000Feet,
   numberToRomanNumeral,
   romanNumeralToNumber,
   type ConversionCategory,
   type GpaCourseInput,
   type HashAlgorithm,
+  type HtmlEntityMode,
   type HorsepowerUnit,
+  type MarkdownTableAlignment,
   type TextCaseMode,
   type TimeCardDayInput,
 } from '../lib/calculator';
@@ -163,7 +172,12 @@ export type UtilityToolVariant =
   | 'hash-generator'
   | 'unix-timestamp-converter'
   | 'color-contrast-checker'
-  | 'aspect-ratio-calculator';
+  | 'aspect-ratio-calculator'
+  | 'utm-builder'
+  | 'query-string-parser'
+  | 'html-entity-encoder-decoder'
+  | 'css-clamp-calculator'
+  | 'markdown-table-generator';
 
 type InputMode = HTMLAttributes<HTMLInputElement>['inputMode'];
 type UtilityInputs = Record<string, string>;
@@ -283,6 +297,17 @@ const hashAlgorithmOptions: SelectOption[] = [
 const timestampUnitOptions: SelectOption[] = [
   { label: 'Seconds', value: 'seconds' },
   { label: 'Milliseconds', value: 'milliseconds' },
+];
+
+const htmlEntityModeOptions: SelectOption[] = [
+  { label: 'Encode characters', value: 'encode' },
+  { label: 'Decode entities', value: 'decode' },
+];
+
+const markdownAlignmentOptions: SelectOption[] = [
+  { label: 'Left aligned', value: 'left' },
+  { label: 'Center aligned', value: 'center' },
+  { label: 'Right aligned', value: 'right' },
 ];
 
 const romanModeOptions: SelectOption[] = [
@@ -2236,6 +2261,146 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
       },
     ],
   },
+  'utm-builder': {
+    title: 'UTM Builder',
+    buttonLabel: 'Build UTM URL',
+    emptyHistory: 'Recent UTM URLs will appear here.',
+    privacyNote: 'UTM links are built in your browser. Check your analytics naming rules before sharing campaign URLs.',
+    modes: [
+      {
+        id: 'utm',
+        label: 'Campaign URL',
+        symbol: 'UTM',
+        fields: [
+          textField('baseUrl', 'Base URL', 'https://accessfreetools.com/tools/'),
+          textField('source', 'UTM source', 'newsletter'),
+          textField('medium', 'UTM medium', 'email'),
+          textField('campaign', 'UTM campaign', 'spring-tools'),
+          textField('content', 'UTM content (optional)', 'hero-button'),
+          textField('term', 'UTM term (optional)', 'calculator-tools'),
+        ],
+        defaultInputs: {
+          baseUrl: 'https://accessfreetools.com/tools/',
+          source: 'newsletter',
+          medium: 'email',
+          campaign: 'spring-tools',
+          content: 'hero-button',
+          term: '',
+        },
+        examples: [
+          { label: 'Newsletter link', inputs: { baseUrl: 'https://accessfreetools.com/tools/', source: 'newsletter', medium: 'email', campaign: 'spring-tools', content: 'hero-button', term: '' } },
+          { label: 'Social post', inputs: { baseUrl: 'https://accessfreetools.com/tools/percentage-calculator/', source: 'instagram', medium: 'social', campaign: 'calculator-tips', content: 'bio-link', term: '' } },
+          { label: 'Search ad', inputs: { baseUrl: 'https://accessfreetools.com/tools/', source: 'google', medium: 'cpc', campaign: 'utility-tools', content: 'ad-a', term: 'free calculators' } },
+        ],
+      },
+    ],
+  },
+  'query-string-parser': {
+    title: 'Query String Parser',
+    buttonLabel: 'Run query tool',
+    emptyHistory: 'Recent query-string results will appear here.',
+    privacyNote: 'Query parsing and building stays local. Avoid pasting private tokens or customer identifiers into any tool.',
+    modes: [
+      {
+        id: 'parse',
+        label: 'Parse query',
+        symbol: '?=',
+        fields: [textareaField('input', 'URL or query string', 'https://example.com/?utm_source=newsletter&tag=a&tag=b')],
+        defaultInputs: { input: 'https://example.com/?utm_source=newsletter&tag=a&tag=b' },
+        examples: [
+          { label: 'Full URL', inputs: { input: 'https://example.com/?utm_source=newsletter&tag=a&tag=b' } },
+          { label: 'Raw query', inputs: { input: 'name=Access+Free+Tools&tool=json' } },
+          { label: 'Duplicate keys', inputs: { input: '?filter=free&filter=calculator&page=2' } },
+        ],
+      },
+      {
+        id: 'build',
+        label: 'Build query',
+        symbol: 'KEY',
+        fields: [textareaField('input', 'One key=value pair per line', 'utm_source=newsletter\nutm_medium=email\nutm_campaign=spring-tools')],
+        defaultInputs: { input: 'utm_source=newsletter\nutm_medium=email\nutm_campaign=spring-tools' },
+        examples: [
+          { label: 'UTM basics', inputs: { input: 'utm_source=newsletter\nutm_medium=email\nutm_campaign=spring-tools' } },
+          { label: 'Search filters', inputs: { input: 'q=calculator tools\ncategory=developer tools\npage=1' } },
+          { label: 'Repeated key', inputs: { input: 'tag=free\ntag=calculator\ntag=browser' } },
+        ],
+      },
+    ],
+  },
+  'html-entity-encoder-decoder': {
+    title: 'HTML Entity Encoder / Decoder',
+    buttonLabel: 'Run HTML entity tool',
+    emptyHistory: 'Recent HTML entity conversions will appear here.',
+    privacyNote: 'HTML entity conversion runs in your browser and is meant for small snippets, examples, and documentation text.',
+    modes: [
+      {
+        id: 'html-entity',
+        label: 'Entities',
+        symbol: '&;',
+        fields: [selectField('mode', 'Mode', htmlEntityModeOptions), textareaField('text', 'HTML or entity text', '<strong>Free & fast</strong>')],
+        defaultInputs: { mode: 'encode', text: '<strong>Free & fast</strong>' },
+        examples: [
+          { label: 'Encode tag text', inputs: { mode: 'encode', text: '<strong>Free & fast</strong>' } },
+          { label: 'Decode entities', inputs: { mode: 'decode', text: '&lt;strong&gt;Free &amp; fast&lt;/strong&gt;' } },
+          { label: 'Quote cleanup', inputs: { mode: 'encode', text: 'title=\"Calculator\" data-label=\"A&B\"' } },
+        ],
+      },
+    ],
+  },
+  'css-clamp-calculator': {
+    title: 'CSS Clamp Calculator',
+    buttonLabel: 'Generate clamp',
+    emptyHistory: 'Recent clamp formulas will appear here.',
+    privacyNote: 'The clamp formula is generated locally. Test the final CSS in your own layout before publishing.',
+    modes: [
+      {
+        id: 'clamp',
+        label: 'Fluid size',
+        symbol: 'CSS',
+        fields: [
+          numberField('minSize', 'Minimum size (px)'),
+          numberField('maxSize', 'Maximum size (px)'),
+          numberField('minViewport', 'Minimum viewport (px)'),
+          numberField('maxViewport', 'Maximum viewport (px)'),
+          numberField('rootFontSize', 'Root font size (px)'),
+        ],
+        defaultInputs: { minSize: '18', maxSize: '32', minViewport: '360', maxViewport: '1280', rootFontSize: '16' },
+        examples: [
+          { label: 'Responsive h1', inputs: { minSize: '32', maxSize: '64', minViewport: '360', maxViewport: '1280', rootFontSize: '16' } },
+          { label: 'Body text', inputs: { minSize: '16', maxSize: '20', minViewport: '375', maxViewport: '1200', rootFontSize: '16' } },
+          { label: 'Section padding', inputs: { minSize: '24', maxSize: '72', minViewport: '360', maxViewport: '1440', rootFontSize: '16' } },
+        ],
+      },
+    ],
+  },
+  'markdown-table-generator': {
+    title: 'Markdown Table Generator',
+    buttonLabel: 'Generate table',
+    emptyHistory: 'Recent markdown tables will appear here.',
+    privacyNote: 'Table text stays local. Preview the markdown in the editor or platform where you plan to publish it.',
+    modes: [
+      {
+        id: 'markdown-table',
+        label: 'Table',
+        symbol: 'MD',
+        fields: [
+          textField('headers', 'Headers', 'Tool, Use, Status'),
+          textareaField('rows', 'Rows, one per line', 'UTM Builder, Campaign links, Live\nJSON Formatter, Read data, Live'),
+          selectField('alignment', 'Column alignment', markdownAlignmentOptions),
+        ],
+        defaultInputs: {
+          headers: 'Tool, Use, Status',
+          rows: 'UTM Builder, Campaign links, Live\nJSON Formatter, Read data, Live',
+          alignment: 'left',
+        },
+        examples: [
+          { label: 'Tool table', inputs: { headers: 'Tool, Use, Status', rows: 'UTM Builder, Campaign links, Live\nJSON Formatter, Read data, Live', alignment: 'left' } },
+          { label: 'Feature matrix', inputs: { headers: 'Feature | Free | Notes', rows: 'Private browser use | Yes | Runs locally\nCopy output | Yes | Check before sharing', alignment: 'center' } },
+          { label: 'Simple report', inputs: { headers: 'Metric, Value', rows: 'Tools, 5\nGuides, 5', alignment: 'right' } },
+        ],
+      },
+    ],
+  },
 };
 
 function parseNumber(value: string, label: string) {
@@ -3995,6 +4160,124 @@ function calculateUtility(
         ],
       };
     }
+    case 'utm-builder': {
+      const result = buildUtmUrl({
+        baseUrl: inputs.baseUrl ?? '',
+        source: inputs.source ?? '',
+        medium: inputs.medium ?? '',
+        campaign: inputs.campaign ?? '',
+        content: inputs.content ?? '',
+        term: inputs.term ?? '',
+      });
+      return {
+        label: 'Campaign URL',
+        expression: result.campaignLabel,
+        answer: result.outputUrl,
+        metrics: [
+          { label: 'UTM parameters', value: formatCalculatorNumber(result.parameterCount) },
+          { label: 'Existing parameters', value: formatCalculatorNumber(result.existingParameterCount) },
+          { label: 'Base URL', value: result.baseUrl },
+        ],
+        steps: [
+          'Read the base URL and keep any existing query parameters.',
+          'Add source, medium, and campaign as the core UTM fields.',
+          'Add optional content or term fields when they help distinguish links.',
+        ],
+        note: 'Use a consistent naming convention. Analytics reports are easier to read when source, medium, and campaign names stay predictable.',
+        textOutput: true,
+      };
+    }
+    case 'query-string-parser': {
+      const result = modeId === 'build' ? buildQueryStringFromLines(inputs.input ?? '') : parseQueryStringInput(inputs.input ?? '');
+      return {
+        label: modeId === 'build' ? 'Built query string' : 'Parsed query parameters',
+        expression: `${formatCalculatorNumber(result.parameterCount)} parameter${result.parameterCount === 1 ? '' : 's'}`,
+        answer: result.output,
+        metrics: [
+          { label: 'Parameters', value: formatCalculatorNumber(result.parameterCount) },
+          { label: 'Duplicate keys', value: formatCalculatorNumber(result.duplicateKeyCount) },
+          { label: 'Output type', value: modeId === 'build' ? 'Encoded query' : 'JSON object' },
+        ],
+        steps: [
+          modeId === 'build' ? 'Read each key=value line.' : 'Extract the query part from a URL or raw query string.',
+          modeId === 'build' ? 'Append each pair with URLSearchParams.' : 'Decode each parameter with URLSearchParams.',
+          modeId === 'build' ? 'Return a copy-ready encoded query string.' : 'Group repeated keys so duplicate values stay visible.',
+        ],
+        note: 'URL query strings are useful for filters, tracking, and app state, but private tokens should not be shared in public URLs.',
+        textOutput: true,
+      };
+    }
+    case 'html-entity-encoder-decoder': {
+      const mode = (inputs.mode || 'encode') as HtmlEntityMode;
+      const result = mode === 'decode' ? decodeHtmlEntities(inputs.text ?? '') : encodeHtmlEntities(inputs.text ?? '');
+      return {
+        label: mode === 'decode' ? 'Decoded text' : 'Encoded entities',
+        expression: `${formatCalculatorNumber(result.entityCount)} ${result.entityCount === 1 ? 'entity' : 'entities'} changed`,
+        answer: result.output,
+        metrics: [
+          { label: 'Mode', value: unitLabel(result.mode) },
+          { label: 'Input characters', value: formatCalculatorNumber(analyzeText(result.input).characters) },
+          { label: 'Changed positions', value: formatCalculatorNumber(result.changedCharacters) },
+        ],
+        steps: [
+          mode === 'decode' ? 'Find named and numeric HTML entities.' : 'Find characters that need escaping in HTML text.',
+          mode === 'decode' ? 'Convert supported entities back to readable characters.' : 'Replace &, <, >, quotes, and apostrophes with entity text.',
+          'Return copy-ready text without sending the snippet to a server.',
+        ],
+        note: 'Entity encoding helps display code examples as text. It is not a complete sanitizer for untrusted HTML.',
+        textOutput: true,
+      };
+    }
+    case 'css-clamp-calculator': {
+      const result = calculateCssClamp(
+        parseNumber(inputs.minSize, 'Minimum size'),
+        parseNumber(inputs.maxSize, 'Maximum size'),
+        parseNumber(inputs.minViewport, 'Minimum viewport'),
+        parseNumber(inputs.maxViewport, 'Maximum viewport'),
+        parseNumber(inputs.rootFontSize, 'Root font size'),
+      );
+      return {
+        label: 'CSS clamp formula',
+        expression: `${formatCalculatorNumber(result.minSizePx)}px to ${formatCalculatorNumber(result.maxSizePx)}px from ${formatCalculatorNumber(result.minViewportPx)}px-${formatCalculatorNumber(result.maxViewportPx)}px viewport`,
+        answer: result.css,
+        metrics: [
+          { label: 'Slope', value: `${formatCalculatorNumber(result.slopeVw)}vw` },
+          { label: 'Intercept', value: `${formatCalculatorNumber(result.interceptPx)}px` },
+          { label: 'Middle size', value: `${formatCalculatorNumber(result.middleSizePx)}px` },
+        ],
+        steps: [
+          'Find how much the size should grow across the viewport range.',
+          'Convert that growth into a vw slope and rem intercept.',
+          'Wrap the result in CSS clamp(min, preferred, max).',
+        ],
+        note: 'Clamp is useful for fluid type and spacing, but still test real text wrapping and tap targets on small screens.',
+        textOutput: true,
+      };
+    }
+    case 'markdown-table-generator': {
+      const result = generateMarkdownTable(
+        inputs.headers ?? '',
+        inputs.rows ?? '',
+        (inputs.alignment || 'left') as MarkdownTableAlignment,
+      );
+      return {
+        label: 'Markdown table',
+        expression: `${formatCalculatorNumber(result.columnCount)} columns, ${formatCalculatorNumber(result.rowCount)} rows`,
+        answer: result.output,
+        metrics: [
+          { label: 'Columns', value: formatCalculatorNumber(result.columnCount) },
+          { label: 'Rows', value: formatCalculatorNumber(result.rowCount) },
+          { label: 'Alignment', value: unitLabel(result.alignment) },
+        ],
+        steps: [
+          'Split headers and rows by commas or pipe characters.',
+          'Build the GitHub-flavored Markdown header and delimiter rows.',
+          'Pad short rows so every table row has the same column count.',
+        ],
+        note: 'Markdown table support depends on the editor. GitHub-flavored Markdown supports this table style.',
+        textOutput: true,
+      };
+    }
     default: {
       const exhaustiveCheck: never = variant;
       return exhaustiveCheck;
@@ -4028,6 +4311,7 @@ export default function UtilityCalculator({ variant }: Props) {
 
   function updateInput(key: string, value: string) {
     setInputs((current) => ({ ...current, [key]: value }));
+    setError('');
     setCopied(false);
   }
 
@@ -4051,8 +4335,21 @@ export default function UtilityCalculator({ variant }: Props) {
 
   async function copyResult() {
     if (!result || !navigator.clipboard) return;
-    await navigator.clipboard.writeText(result.textOutput || variant === 'password-generator' ? result.answer : `${result.expression} = ${result.answer}`);
-    setCopied(true);
+
+    try {
+      await navigator.clipboard.writeText(result.textOutput || variant === 'password-generator' ? result.answer : `${result.expression} = ${result.answer}`);
+      setCopied(true);
+    } catch {
+      setCopied(false);
+      setError('Copy was not available in this browser. You can still select the answer manually.');
+    }
+  }
+
+  function runOnEnter(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      void runCalculation();
+    }
   }
 
   return (
@@ -4107,6 +4404,7 @@ export default function UtilityCalculator({ variant }: Props) {
                     <input
                       inputMode={field.inputMode}
                       onChange={(event) => updateInput(field.key, event.target.value)}
+                      onKeyDown={runOnEnter}
                       placeholder={field.placeholder}
                       type={field.type === 'date' || field.type === 'time' ? field.type : 'text'}
                       value={inputs[field.key] ?? ''}
@@ -4127,7 +4425,7 @@ export default function UtilityCalculator({ variant }: Props) {
           </button>
         </div>
 
-        {error && <p className="calculator-error">{error}</p>}
+        {error && <p className="calculator-error" role="alert">{error}</p>}
 
         {result && (
           <article className="advanced-result-card utility-result-card" aria-live="polite">

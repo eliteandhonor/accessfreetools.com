@@ -5,8 +5,8 @@ Source reviewed: Calculator.net sitemap on 2026-04-29. This is a competitor inve
 ## Current Coverage Snapshot
 
 - Sitemap utility-style entries reviewed: 203.
-- Local tool pages after the safe editorial Batch 6 expansion: 201.
-- Local guide pages after the safe editorial Batch 6 expansion: 201.
+- Local canonical tool pages after the latest post-calculator.net expansion: 228.
+- Local guide pages after the latest post-calculator.net expansion: 228.
 - Remaining competitor-inspired roadmap items from the current comparison: 0 direct action items. The final sensitive/proprietary topics were covered with safer Access Free Tools alternatives instead of one-to-one copies.
 - Aliases already covered: IP Subnet -> Subnet, Common Factor -> Greatest Common Factor, Mortgage Amortization -> Amortization, Time Duration -> Time.
 
@@ -177,3 +177,15 @@ Some sitemap entries are duplicate search names for calculators Access Free Tool
 - Common Factor Calculator -> Greatest Common Factor Calculator
 - IP Subnet Calculator -> Subnet Calculator
 - Time Duration Calculator -> Hours Calculator
+
+## Post-Calculator.net Expansion
+
+Status: active.
+
+Access Free Tools is now expanding beyond the original competitor inventory with practical browser utilities that fit the same quality standard: research, local-first interaction, examples, FAQs, related tools, guide pages, and audit checks.
+
+Completed post-roadmap batches:
+
+- Home & Projects material estimators: Paint, Drywall, Carpet, Fence, Deck Cost, Paver, Board Foot, Cubic Yard, Pool Volume, Sand, Soil, and Asphalt calculators.
+- Browser utility and creator tools: Word Counter, Character Counter, Text Case Converter, Slug Generator, JSON Formatter, UUID Generator, Hash Generator, Unix Timestamp Converter, Color Contrast Checker, and Aspect Ratio Calculator.
+- Developer/content productivity utilities: UTM Builder, Query String Parser, HTML Entity Encoder/Decoder, CSS Clamp Calculator, and Markdown Table Generator.

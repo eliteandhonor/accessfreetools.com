@@ -65,6 +65,7 @@ import {
   calculateBtuEstimate,
   calculateCarpetEstimate,
   calculateColorContrast,
+  calculateCssClamp,
   calculateDayOfWeek,
   calculateDateFromUnixTimestamp,
   calculateDeckCostEstimate,
@@ -202,9 +203,13 @@ import {
   convertMeasurement,
   convertShoeSize,
   convertTextCase,
+  buildQueryStringFromLines,
+  buildUtmUrl,
   digestText,
+  decodeHtmlEntities,
   decodeBase64,
   decodeUrlComponentValue,
+  encodeHtmlEntities,
   encodeBase64,
   encodeUrlComponentValue,
   calculateTargetHeartRate,
@@ -213,10 +218,12 @@ import {
   daysBetweenIsoDates,
   estimateBac,
   formatJsonText,
+  generateMarkdownTable,
   generatePassword,
   generateSlug,
   generateUuidBatch,
   generateUuidV4,
+  parseQueryStringInput,
   numberToRomanNumeral,
   mixedToFraction,
   parseBigInteger,
@@ -1643,5 +1650,33 @@ describe('utility helpers', () => {
     expect(contrast.passesAaNormal).toBe(true);
     expect(aspect.ratioLabel).toBe('16:9');
     expect(aspect.scaledHeight).toBe(720);
+  });
+
+  it('calculates the expanded browser utility helpers', () => {
+    const utm = buildUtmUrl({
+      baseUrl: 'accessfreetools.com/tools/',
+      source: 'newsletter',
+      medium: 'email',
+      campaign: 'spring-tools',
+      content: 'hero-button',
+    });
+    const parsedQuery = parseQueryStringInput('https://example.com/?utm_source=newsletter&tag=a&tag=b');
+    const builtQuery = buildQueryStringFromLines('utm_source=newsletter\nutm_medium=email');
+    const encodedEntities = encodeHtmlEntities('<a title="Tools">Free & fast</a>');
+    const decodedEntities = decodeHtmlEntities('&lt;strong&gt;Tools&lt;/strong&gt;');
+    const clamp = calculateCssClamp(18, 32, 360, 1280, 16);
+    const table = generateMarkdownTable('Tool, Use, Status', 'UTM Builder, Campaign links, Live\nJSON Formatter, Read data, Live', 'left');
+
+    expect(utm.outputUrl).toContain('utm_source=newsletter');
+    expect(utm.outputUrl).toContain('utm_content=hero-button');
+    expect(parsedQuery.output).toContain('"tag": [');
+    expect(parsedQuery.duplicateKeyCount).toBe(1);
+    expect(builtQuery.output).toBe('?utm_source=newsletter&utm_medium=email');
+    expect(encodedEntities.output).toBe('&lt;a title=&quot;Tools&quot;&gt;Free &amp; fast&lt;/a&gt;');
+    expect(decodedEntities.output).toBe('<strong>Tools</strong>');
+    expect(clamp.css).toBe('clamp(1.125rem, calc(0.782609rem + 1.521739vw), 2rem)');
+    expect(formatCalculatorNumber(clamp.middleSizePx)).toBe('25');
+    expect(table.output).toContain('| Tool | Use | Status |');
+    expect(table.rowCount).toBe(2);
   });
 });

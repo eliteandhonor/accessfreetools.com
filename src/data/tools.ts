@@ -1899,7 +1899,7 @@ export const tools: ToolDefinition[] = [
       {
         question: 'What formula does the calculator use?',
         answer:
-          'It uses z = (x - mean) / standard deviation.',
+          'It uses z = (x - mean) / standard deviation, then reports whether the value is above or below the mean.',
       },
       {
         question: 'What does a negative z-score mean?',
@@ -2184,7 +2184,7 @@ export const tools: ToolDefinition[] = [
       {
         question: 'What formula does circle area use?',
         answer:
-          'Circle area uses A = pi r^2, where r is the radius.',
+          'Circle area uses A = pi r^2, where r is the radius. Enter the radius in the same length unit you want squared.',
       },
       {
         question: 'What units should I enter?',
@@ -2469,7 +2469,7 @@ export const tools: ToolDefinition[] = [
       {
         question: 'What formula is used for area?',
         answer:
-          'Right triangle area uses A = leg a x leg b / 2.',
+          'Right triangle area uses A = leg a x leg b / 2 because the two legs are perpendicular base and height.',
       },
       {
         question: 'How is this different from the Pythagorean Theorem Calculator?',

@@ -749,6 +749,7 @@ export default function GeometryCalculator({ variant }: Props) {
 
   const updateInput = (key: string, value: string) => {
     setInputs((current) => ({ ...current, [key]: value }));
+    setError('');
     setCopied(false);
   };
 

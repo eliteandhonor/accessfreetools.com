@@ -1,4 +1,4 @@
-import { useMemo, useState, type HTMLAttributes } from 'react';
+import { useMemo, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
 import {
   activityLevelFactors,
   addDaysToIsoDate,
@@ -1560,16 +1560,20 @@ export default function HealthFitnessCalculator({ variant }: Props) {
   );
   const [error, setError] = useState('');
   const [history, setHistory] = useState<HealthCalculation[]>([]);
+  const [copied, setCopied] = useState(false);
 
   function changeMode(nextMode: HealthMode) {
     setModeId(nextMode.id);
     setInputs(nextMode.defaultInputs);
     setResult(calculateHealth(variant, nextMode.id, nextMode.defaultInputs));
     setError('');
+    setCopied(false);
   }
 
   function updateInput(key: string, value: string) {
     setInputs((current) => ({ ...current, [key]: value }));
+    setError('');
+    setCopied(false);
   }
 
   function runCalculation(nextInputs = inputs) {
@@ -1578,8 +1582,10 @@ export default function HealthFitnessCalculator({ variant }: Props) {
       setResult(nextResult);
       setHistory((current) => [nextResult, ...current].slice(0, 4));
       setError('');
+      setCopied(false);
     } catch (calculationError) {
       setError(calculationError instanceof Error ? calculationError.message : 'Check the inputs and try again.');
+      setCopied(false);
     }
   }
 
@@ -1589,8 +1595,22 @@ export default function HealthFitnessCalculator({ variant }: Props) {
   }
 
   async function copyResult() {
-    if (!result) return;
-    await navigator.clipboard?.writeText(`${result.expression} = ${result.answer}`);
+    if (!result || error) return;
+
+    try {
+      await navigator.clipboard?.writeText(`${result.expression} = ${result.answer}`);
+      setCopied(true);
+    } catch {
+      setCopied(false);
+      setError('Copy was not available in this browser. You can still select the answer manually.');
+    }
+  }
+
+  function runOnEnter(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      runCalculation();
+    }
   }
 
   return (
@@ -1628,6 +1648,7 @@ export default function HealthFitnessCalculator({ variant }: Props) {
                 <input
                   inputMode={field.inputMode}
                   onChange={(event) => updateInput(field.key, event.target.value)}
+                  onKeyDown={runOnEnter}
                   placeholder={field.placeholder}
                   type={field.type === 'date' ? 'date' : 'text'}
                   value={inputs[field.key] ?? ''}
@@ -1641,12 +1662,12 @@ export default function HealthFitnessCalculator({ variant }: Props) {
           <button className="button-primary" onClick={() => runCalculation()} type="button">
             {config.buttonLabel}
           </button>
-          <button className="button-secondary" disabled={!result} onClick={copyResult} type="button">
-            Copy answer
+          <button className="button-secondary" disabled={!result || Boolean(error)} onClick={copyResult} type="button">
+            {copied ? 'Copied' : 'Copy answer'}
           </button>
         </div>
 
-        {error && <p className="calculator-error">{error}</p>}
+        {error && <p className="calculator-error" role="alert">{error}</p>}
 
         {result && (
           <article className="advanced-result-card health-result-card" aria-live="polite">

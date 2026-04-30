@@ -7141,6 +7141,63 @@ export interface AspectRatioResult {
   scaledHeight?: number;
 }
 
+export interface UtmUrlInput {
+  baseUrl: string;
+  source: string;
+  medium: string;
+  campaign: string;
+  term?: string;
+  content?: string;
+  campaignId?: string;
+}
+
+export interface UtmUrlResult {
+  baseUrl: string;
+  outputUrl: string;
+  parameterCount: number;
+  existingParameterCount: number;
+  campaignLabel: string;
+}
+
+export interface QueryStringResult {
+  input: string;
+  output: string;
+  parameterCount: number;
+  duplicateKeyCount: number;
+  queryString: string;
+}
+
+export type HtmlEntityMode = 'encode' | 'decode';
+
+export interface HtmlEntityResult {
+  input: string;
+  output: string;
+  mode: HtmlEntityMode;
+  changedCharacters: number;
+  entityCount: number;
+}
+
+export interface CssClampResult {
+  minSizePx: number;
+  maxSizePx: number;
+  minViewportPx: number;
+  maxViewportPx: number;
+  rootFontSizePx: number;
+  slopeVw: number;
+  interceptPx: number;
+  css: string;
+  middleSizePx: number;
+}
+
+export type MarkdownTableAlignment = 'left' | 'center' | 'right';
+
+export interface MarkdownTableResult {
+  output: string;
+  columnCount: number;
+  rowCount: number;
+  alignment: MarkdownTableAlignment;
+}
+
 const millisecondsPerDay = 86400000;
 const secondsPerHour = 3600;
 const secondsPerMinute = 60;
@@ -9630,6 +9687,340 @@ export function calculateAspectRatio(
   }
 
   return result;
+}
+
+function normalizeHttpUrl(input: string, label: string) {
+  const trimmed = input.trim();
+
+  if (!trimmed) {
+    throw new Error(`${label} is required`);
+  }
+
+  const candidate = /^[a-z][a-z\d+.-]*:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+
+  try {
+    const url = new URL(candidate);
+
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+      throw new Error(`${label} must use http or https`);
+    }
+
+    return url;
+  } catch {
+    throw new Error(`${label} must be a valid URL`);
+  }
+}
+
+function cleanTextInput(input: string | undefined, label: string, required = false) {
+  const trimmed = input?.trim() ?? '';
+
+  if (required && !trimmed) {
+    throw new Error(`${label} is required`);
+  }
+
+  if (trimmed.length > 200) {
+    throw new Error(`${label} should be 200 characters or fewer`);
+  }
+
+  return trimmed;
+}
+
+export function buildUtmUrl(input: UtmUrlInput): UtmUrlResult {
+  const url = normalizeHttpUrl(input.baseUrl, 'Base URL');
+  const existingParameterCount = [...url.searchParams.entries()].length;
+  const values: Array<[string, string]> = [
+    ['utm_source', cleanTextInput(input.source, 'UTM source', true)],
+    ['utm_medium', cleanTextInput(input.medium, 'UTM medium', true)],
+    ['utm_campaign', cleanTextInput(input.campaign, 'UTM campaign', true)],
+    ['utm_term', cleanTextInput(input.term, 'UTM term')],
+    ['utm_content', cleanTextInput(input.content, 'UTM content')],
+    ['utm_id', cleanTextInput(input.campaignId, 'UTM campaign ID')],
+  ];
+
+  values.forEach(([key, value]) => {
+    if (value) {
+      url.searchParams.set(key, value);
+    }
+  });
+
+  return {
+    baseUrl: url.origin + url.pathname,
+    outputUrl: url.toString(),
+    parameterCount: values.filter(([, value]) => value).length,
+    existingParameterCount,
+    campaignLabel: `${values[0][1]} / ${values[1][1]} / ${values[2][1]}`,
+  };
+}
+
+function extractQueryString(input: string) {
+  const trimmed = input.trim();
+
+  if (!trimmed) {
+    throw new Error('Enter a URL or query string');
+  }
+
+  if (/^[a-z][a-z\d+.-]*:\/\//i.test(trimmed)) {
+    const url = new URL(trimmed);
+    return url.search.startsWith('?') ? url.search.slice(1) : url.search;
+  }
+
+  const withoutHash = trimmed.split('#')[0];
+  const questionMarkIndex = withoutHash.indexOf('?');
+  const query = questionMarkIndex >= 0 ? withoutHash.slice(questionMarkIndex + 1) : withoutHash;
+
+  return query.replace(/^\?/, '');
+}
+
+export function parseQueryStringInput(input: string): QueryStringResult {
+  const queryString = extractQueryString(input);
+  const params = new URLSearchParams(queryString);
+  const entries = [...params.entries()];
+
+  if (entries.length === 0) {
+    throw new Error('The query string does not include any parameters');
+  }
+
+  const grouped: Record<string, string | string[]> = {};
+  const seen = new Map<string, number>();
+
+  entries.forEach(([key, value]) => {
+    seen.set(key, (seen.get(key) ?? 0) + 1);
+
+    if (Object.prototype.hasOwnProperty.call(grouped, key)) {
+      const current = grouped[key];
+      grouped[key] = Array.isArray(current) ? [...current, value] : [current, value];
+    } else {
+      grouped[key] = value;
+    }
+  });
+
+  return {
+    input,
+    output: JSON.stringify(grouped, null, 2),
+    parameterCount: entries.length,
+    duplicateKeyCount: [...seen.values()].filter((count) => count > 1).length,
+    queryString,
+  };
+}
+
+export function buildQueryStringFromLines(input: string): QueryStringResult {
+  const params = new URLSearchParams();
+  const lines = input.split(/\r\n|\r|\n/).map((line) => line.trim()).filter(Boolean);
+
+  lines.forEach((line, index) => {
+    const separatorIndex = line.indexOf('=');
+    const key = (separatorIndex >= 0 ? line.slice(0, separatorIndex) : line).trim();
+    const value = separatorIndex >= 0 ? line.slice(separatorIndex + 1).trim() : '';
+
+    if (!key) {
+      throw new Error(`Parameter ${index + 1} needs a key`);
+    }
+
+    params.append(key, value);
+  });
+
+  const queryString = params.toString();
+  const keyCounts = lines.reduce<Map<string, number>>((counts, line) => {
+    const key = line.split('=')[0].trim();
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+    return counts;
+  }, new Map());
+
+  if (!queryString) {
+    throw new Error('Enter at least one key=value line');
+  }
+
+  return {
+    input,
+    output: `?${queryString}`,
+    parameterCount: lines.length,
+    duplicateKeyCount: [...keyCounts.values()].filter((count) => count > 1).length,
+    queryString,
+  };
+}
+
+const namedHtmlEntities: Record<string, string> = {
+  amp: '&',
+  apos: "'",
+  copy: '\u00a9',
+  gt: '>',
+  lt: '<',
+  nbsp: '\u00a0',
+  quot: '"',
+  reg: '\u00ae',
+};
+
+function countCharacterDifferences(left: string, right: string) {
+  const leftCharacters = [...left];
+  const rightCharacters = [...right];
+  return Math.max(leftCharacters.length, rightCharacters.length)
+    - leftCharacters.filter((character, index) => character === rightCharacters[index]).length;
+}
+
+export function encodeHtmlEntities(input: string): HtmlEntityResult {
+  let entityCount = 0;
+  const output = input.replace(/[&<>"']/g, (character) => {
+    entityCount += 1;
+    switch (character) {
+      case '&':
+        return '&amp;';
+      case '<':
+        return '&lt;';
+      case '>':
+        return '&gt;';
+      case '"':
+        return '&quot;';
+      case "'":
+        return '&apos;';
+      default:
+        return character;
+    }
+  });
+
+  return {
+    input,
+    output,
+    mode: 'encode',
+    changedCharacters: countCharacterDifferences(input, output),
+    entityCount,
+  };
+}
+
+export function decodeHtmlEntities(input: string): HtmlEntityResult {
+  let entityCount = 0;
+  const output = input.replace(/&(#x?[0-9a-f]+|[a-z][a-z0-9]+);/gi, (match, entity: string) => {
+    const lower = entity.toLowerCase();
+
+    if (lower.startsWith('#x')) {
+      const codePoint = Number.parseInt(lower.slice(2), 16);
+      if (Number.isFinite(codePoint) && codePoint >= 0 && codePoint <= 0x10ffff) {
+        entityCount += 1;
+        return String.fromCodePoint(codePoint);
+      }
+      return match;
+    }
+
+    if (lower.startsWith('#')) {
+      const codePoint = Number.parseInt(lower.slice(1), 10);
+      if (Number.isFinite(codePoint) && codePoint >= 0 && codePoint <= 0x10ffff) {
+        entityCount += 1;
+        return String.fromCodePoint(codePoint);
+      }
+      return match;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(namedHtmlEntities, lower)) {
+      entityCount += 1;
+      return namedHtmlEntities[lower];
+    }
+
+    return match;
+  });
+
+  return {
+    input,
+    output,
+    mode: 'decode',
+    changedCharacters: countCharacterDifferences(input, output),
+    entityCount,
+  };
+}
+
+function formatCssNumber(value: number) {
+  return Number.parseFloat(value.toFixed(6)).toString();
+}
+
+export function calculateCssClamp(
+  minSizePx: number,
+  maxSizePx: number,
+  minViewportPx: number,
+  maxViewportPx: number,
+  rootFontSizePx = 16,
+): CssClampResult {
+  assertPositiveNumber(minSizePx, 'Minimum size');
+  assertPositiveNumber(maxSizePx, 'Maximum size');
+  assertPositiveNumber(minViewportPx, 'Minimum viewport');
+  assertPositiveNumber(maxViewportPx, 'Maximum viewport');
+  assertPositiveNumber(rootFontSizePx, 'Root font size');
+
+  if (maxSizePx <= minSizePx) {
+    throw new Error('Maximum size must be greater than minimum size');
+  }
+
+  if (maxViewportPx <= minViewportPx) {
+    throw new Error('Maximum viewport must be greater than minimum viewport');
+  }
+
+  const slopeVw = ((maxSizePx - minSizePx) / (maxViewportPx - minViewportPx)) * 100;
+  const interceptPx = minSizePx - (slopeVw * minViewportPx) / 100;
+  const minRem = minSizePx / rootFontSizePx;
+  const maxRem = maxSizePx / rootFontSizePx;
+  const interceptRem = interceptPx / rootFontSizePx;
+  const middleViewport = (minViewportPx + maxViewportPx) / 2;
+  const middleSizePx = interceptPx + (slopeVw * middleViewport) / 100;
+
+  return {
+    minSizePx,
+    maxSizePx,
+    minViewportPx,
+    maxViewportPx,
+    rootFontSizePx,
+    slopeVw,
+    interceptPx,
+    css: `clamp(${formatCssNumber(minRem)}rem, calc(${formatCssNumber(interceptRem)}rem + ${formatCssNumber(slopeVw)}vw), ${formatCssNumber(maxRem)}rem)`,
+    middleSizePx,
+  };
+}
+
+function splitMarkdownCells(line: string) {
+  return line.includes('|') ? line.split('|').map((cell) => cell.trim()) : line.split(',').map((cell) => cell.trim());
+}
+
+function cleanMarkdownCell(input: string) {
+  return input.replace(/\r?\n/g, ' ').replace(/\|/g, '\\|').trim();
+}
+
+export function generateMarkdownTable(
+  headersInput: string,
+  rowsInput: string,
+  alignment: MarkdownTableAlignment,
+): MarkdownTableResult {
+  const headers = splitMarkdownCells(headersInput).map(cleanMarkdownCell).filter(Boolean);
+
+  if (headers.length < 2) {
+    throw new Error('Enter at least two table headers');
+  }
+
+  const rows = rowsInput
+    .split(/\r\n|\r|\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => splitMarkdownCells(line).map(cleanMarkdownCell));
+
+  if (rows.length === 0) {
+    throw new Error('Enter at least one table row');
+  }
+
+  const delimiter = {
+    center: ':---:',
+    left: '---',
+    right: '---:',
+  }[alignment];
+  const normalizedRows = rows.map((row) =>
+    headers.map((_, index) => row[index] ?? ''),
+  );
+  const output = [
+    `| ${headers.join(' | ')} |`,
+    `| ${headers.map(() => delimiter).join(' | ')} |`,
+    ...normalizedRows.map((row) => `| ${row.join(' | ')} |`),
+  ].join('\n');
+
+  return {
+    output,
+    columnCount: headers.length,
+    rowCount: rows.length,
+    alignment,
+  };
 }
 
 export function numberToRomanNumeral(value: number): string {
