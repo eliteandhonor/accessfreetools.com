@@ -64,6 +64,7 @@ const ADVERTISING_DISCLOSURE_SOURCE = readFileSync(
   'utf8',
 );
 const CONTACT_SOURCE = readFileSync(fileURLToPath(new URL('../pages/contact.astro', import.meta.url)), 'utf8');
+const RETIRED_PRIVACY_INBOX = ['privacy', 'accessfreetools.com'].join('@');
 const README_SOURCE = readFileSync(fileURLToPath(new URL('../../README.md', import.meta.url)), 'utf8');
 const ROADMAP_SOURCE = readFileSync(
   fileURLToPath(new URL('../../docs/calculator-net-roadmap.md', import.meta.url)),
@@ -691,7 +692,8 @@ describe('site content audit guardrails', () => {
     expect(PRIVACY_POLICY_SOURCE).toContain('Google Ads Settings');
     expect(PRIVACY_POLICY_SOURCE).toContain('aboutads.info');
     expect(PRIVACY_POLICY_SOURCE).toContain('affiliate links');
-    expect(PRIVACY_POLICY_SOURCE).toContain('privacy@accessfreetools.com');
+    expect(PRIVACY_POLICY_SOURCE).toContain('contact@accessfreetools.com');
+    expect(PRIVACY_POLICY_SOURCE).not.toContain(RETIRED_PRIVACY_INBOX);
 
     expect(TERMS_SOURCE).toContain('Advertising and affiliate links');
     expect(TERMS_SOURCE).toContain('not professional financial, medical, legal, tax, engineering');
@@ -704,7 +706,8 @@ describe('site content audit guardrails', () => {
     expect(ADVERTISING_DISCLOSURE_SOURCE).toContain('Ads, affiliate links, and product previews do not change calculator formulas');
 
     expect(CONTACT_SOURCE).toContain('contact@accessfreetools.com');
-    expect(CONTACT_SOURCE).toContain('privacy@accessfreetools.com');
+    expect(CONTACT_SOURCE).toContain('mailto:contact@accessfreetools.com');
+    expect(CONTACT_SOURCE).not.toContain(RETIRED_PRIVACY_INBOX);
 
     expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Google AdSense Checklist');
     expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Affiliate Checklist');

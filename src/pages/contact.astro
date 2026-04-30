@@ -17,21 +17,63 @@ import BaseLayout from '../components/BaseLayout.astro';
   </section>
 
   <section class="content-section content-section-narrow">
-    <h2>Feedback</h2>
+    <h2>Send a message</h2>
     <p>
-      Send suggestions for calculators, converters, text tools, and usability improvements.
+      Send suggestions for calculators, converters, text tools, corrections, privacy questions,
+      disclosure questions, and usability improvements.
     </p>
 
-    <h2>Email</h2>
+    <form
+      class="contact-form"
+      action="mailto:contact@accessfreetools.com"
+      method="post"
+      enctype="text/plain"
+    >
+      <div class="contact-grid">
+        <label class="contact-field">
+          <span>Your name</span>
+          <input autocomplete="name" name="name" placeholder="Your name" type="text" />
+        </label>
+
+        <label class="contact-field">
+          <span>Your email</span>
+          <input autocomplete="email" name="email" placeholder="you@example.com" required type="email" />
+        </label>
+      </div>
+
+      <label class="contact-field">
+        <span>Topic</span>
+        <select name="topic" required>
+          <option value="">Choose a topic</option>
+          <option value="Tool idea">Tool idea</option>
+          <option value="Correction">Correction</option>
+          <option value="Privacy question">Privacy question</option>
+          <option value="Advertising or affiliate question">Advertising or affiliate question</option>
+          <option value="General feedback">General feedback</option>
+        </select>
+      </label>
+
+      <label class="contact-field">
+        <span>Message</span>
+        <textarea
+          name="message"
+          placeholder="Tell us what you noticed or what tool you would like to see next."
+          required
+          rows="7"
+        ></textarea>
+      </label>
+
+      <div class="contact-actions">
+        <button class="button-primary" type="submit">Open email message</button>
+      </div>
+    </form>
+
     <p>
-      General feedback: <a href="mailto:contact@accessfreetools.com">contact@accessfreetools.com</a>
-    </p>
-    <p>
-      Privacy questions: <a href="mailto:privacy@accessfreetools.com">privacy@accessfreetools.com</a>
+      Email: <a href="mailto:contact@accessfreetools.com">contact@accessfreetools.com</a>
     </p>
     <p>
       Please do not send passwords, bank details, medical records, or other sensitive personal
-      information by email.
+      information through this form or by email.
     </p>
   </section>
 </BaseLayout>

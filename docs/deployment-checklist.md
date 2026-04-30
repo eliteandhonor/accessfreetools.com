@@ -60,7 +60,7 @@ Do not add ad or affiliate placements until these are ready:
 - Visible affiliate disclosure on pages that contain affiliate links.
 - Product popups tested for mobile usability and not blocking the tool.
 - Privacy page updated for ads, cookies, and affiliate tracking.
-- Working `contact@accessfreetools.com` and `privacy@accessfreetools.com` routing.
+- Working `contact@accessfreetools.com` routing for all site, privacy, advertising, affiliate, and correction messages.
 - Google-certified CMP configured before serving ads to EEA, UK, or Switzerland users where required.
 
 ## Rollback
