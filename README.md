@@ -23,11 +23,12 @@ The production build outputs the Node server to `dist/server/entry.mjs` and
 static assets to `dist/client`. The root `app.js` file imports that built server
 entry so Hostinger can detect and start a back-end Node process. A post-build
 step also mirrors `dist/client` into `dist` so Hostinger deployments that serve
-the build root still have static assets available.
+the build root still have static assets available. It also writes `dist/app.js`
+for Hostinger setups that start from the output directory.
 
 Hostinger's Node.js Web App should use `npm run build` as the build command and
 `npm run start` as the start command. If Hostinger asks for an entry file, use
-`app.js`.
+`app.js`. If it asks for an output directory, use `dist`.
 
 The contact form sends through Hostinger SMTP from server-side code. Configure
 the environment variables listed in `docs/contact-form-environment.md` inside

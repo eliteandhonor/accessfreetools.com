@@ -41,9 +41,9 @@ After Hostinger deploys the latest GitHub commit:
 - Check page source for one canonical tag, one main heading, and expected structured data.
 - Confirm no fake ad boxes or affiliate links appear before accounts and disclosures are ready.
 - Confirm `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, and `/contact/` are live.
-- If production shows `403 Forbidden`, check the Hostinger deployment root. The build mirrors the public site into `dist`, while the Node server entry remains `dist/server/entry.mjs`.
+- If production shows `403 Forbidden`, check the Hostinger deployment root. The build mirrors the public site into `dist`, keeps the Node server at `dist/server/entry.mjs`, and writes `dist/app.js` for output-directory starts.
 - For the real SMTP contact form, `https://accessfreetools.com/api/contact` must be served by the Node app and return JSON. If it returns a Hostinger HTML 404 page, production is still static-only and the contact page will fall back to opening an email message.
-- Hostinger build settings should use server-side Astro: build command `npm run build`, start command `npm run start`, and entry file `app.js` if an entry field is shown.
+- Hostinger build settings should use server-side Astro: build command `npm run build`, start command `npm run start`, entry file `app.js`, and output directory `dist` if an output field is shown.
 - Confirm Hostinger has the contact form environment variables set and send one test message from `/contact/`.
 
 ## Search Console

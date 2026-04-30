@@ -67,6 +67,10 @@ const ADVERTISING_DISCLOSURE_SOURCE = readFileSync(
 );
 const CONTACT_SOURCE = readFileSync(fileURLToPath(new URL('../pages/contact.astro', import.meta.url)), 'utf8');
 const CONTACT_API_SOURCE = readFileSync(fileURLToPath(new URL('../pages/api/contact.ts', import.meta.url)), 'utf8');
+const MIRROR_STATIC_OUTPUT_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/mirror-static-output.mjs', import.meta.url)),
+  'utf8',
+);
 const RETIRED_PRIVACY_INBOX = ['privacy', 'accessfreetools.com'].join('@');
 const README_SOURCE = readFileSync(fileURLToPath(new URL('../../README.md', import.meta.url)), 'utf8');
 const ROADMAP_SOURCE = readFileSync(
@@ -720,6 +724,8 @@ describe('site content audit guardrails', () => {
     expect(ASTRO_CONFIG_SOURCE).toContain("output: 'server'");
     expect(ASTRO_CONFIG_SOURCE).toContain("mode: 'standalone'");
     expect(PACKAGE_JSON_SOURCE).toContain('"start": "node ./app.js"');
+    expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("join(distDir, 'app.js')");
+    expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("import './server/entry.mjs'");
 
     expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Google AdSense Checklist');
     expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Affiliate Checklist');

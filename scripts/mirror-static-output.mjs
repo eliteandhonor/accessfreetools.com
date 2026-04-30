@@ -1,4 +1,4 @@
-import { cpSync, existsSync, readdirSync } from 'node:fs';
+import { cpSync, existsSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const distDir = join(process.cwd(), 'dist');
@@ -19,4 +19,6 @@ for (const entry of readdirSync(clientDir, { withFileTypes: true })) {
   });
 }
 
-console.log('Mirrored dist/client into dist for hosts that serve the build root.');
+writeFileSync(join(distDir, 'app.js'), "import './server/entry.mjs';\n");
+
+console.log('Mirrored dist/client into dist and wrote dist/app.js for output-directory starts.');

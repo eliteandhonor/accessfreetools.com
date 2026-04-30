@@ -19,6 +19,10 @@ CONTACT_TO=contact@accessfreetools.com
 
 - Build command: `npm run build`
 - Start command: `npm run start`
-- Node entrypoint after build: `dist/server/entry.mjs`
+- Entry file if Hostinger asks for one: `app.js`
+- Output directory if Hostinger asks for one: `dist`
+
+The build also writes `dist/app.js`, so Hostinger can start `app.js` from either
+the repository root or the `dist` output directory.
 
 After changing variables, redeploy or restart the Hostinger Node.js Web App and send a test message from `/contact/`.
