@@ -1,6 +1,6 @@
 # Manual Deep Review Plan
 
-This plan keeps manual review honest. A tool should only be marked `deep-reviewed` after a person has checked the formula, examples, FAQ explanations, guide article, UI behavior, SEO fields, privacy behavior, accessibility basics, and source notes for that exact tool.
+This plan keeps manual review honest. Every canonical tool and every alias must eventually receive manual review. The full-library tracker lives in `docs/all-tools-review-register.md`; this file keeps the manual review rubric and first priority queue. A tool should only be marked `deep-reviewed` after a person has checked the formula, examples, FAQ explanations, guide article, UI behavior, SEO fields, privacy behavior, accessibility basics, and source notes for that exact tool.
 
 Generated baseline checks are useful, but they are not the same thing as manual review.
 
@@ -21,7 +21,7 @@ Each manual review should confirm:
 
 ## Top 25 Manual Queue
 
-Priority is based on likely search demand, money/health sensitivity, evergreen value, and usefulness to the full site.
+The top 25 list is the first priority batch, not the whole job. Priority is based on likely search demand, money/health sensitivity, evergreen value, and usefulness to the full site.
 
 | Priority | Tool | Slug | Status | Next manual focus |
 | --- | --- | --- | --- | --- |
@@ -60,3 +60,16 @@ When a queued tool is manually reviewed:
 - Change only that tool's audit status to `deep-reviewed`.
 - Add a short note here with the date and the main improvement.
 - Run `npm run check`.
+
+## Full-Library Rule
+
+The manual review program does not stop at the top 25. The top 25 are the first pass because they are the most important and sensitive. After that, review the remaining tools in batches:
+
+1. Finance, tax, credit, loan, and investment calculators.
+2. Health, pregnancy, nutrition, BAC, and body measurement calculators.
+3. Home, project, construction, electrical, weather, and science calculators.
+4. School, statistics, math, date/time, and converter tools.
+5. Developer, image, text, random, and everyday utilities.
+6. Alias pages, to confirm canonical tags, search terms, and redirect-like user guidance.
+
+Every batch should update tool content, FAQ detail, guide clarity, source notes, privacy notes, and visual checks before records are promoted from `baseline-reviewed` or `alias-reviewed` to `deep-reviewed`.

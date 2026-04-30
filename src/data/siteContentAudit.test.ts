@@ -48,6 +48,16 @@ const HALF_LIFE_GUIDE_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/blog/how-to-use-half-life-calculator.astro', import.meta.url)),
   'utf8',
 );
+const PRIVACY_POLICY_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/privacy-policy.astro', import.meta.url)),
+  'utf8',
+);
+const TERMS_SOURCE = readFileSync(fileURLToPath(new URL('../pages/terms.astro', import.meta.url)), 'utf8');
+const ADVERTISING_DISCLOSURE_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/advertising-disclosure.astro', import.meta.url)),
+  'utf8',
+);
+const CONTACT_SOURCE = readFileSync(fileURLToPath(new URL('../pages/contact.astro', import.meta.url)), 'utf8');
 const README_SOURCE = readFileSync(fileURLToPath(new URL('../../README.md', import.meta.url)), 'utf8');
 const ROADMAP_SOURCE = readFileSync(
   fileURLToPath(new URL('../../docs/calculator-net-roadmap.md', import.meta.url)),
@@ -59,6 +69,22 @@ const DEPLOYMENT_CHECKLIST_SOURCE = readFileSync(
 );
 const MANUAL_DEEP_REVIEW_PLAN_SOURCE = readFileSync(
   fileURLToPath(new URL('../../docs/manual-deep-review-plan.md', import.meta.url)),
+  'utf8',
+);
+const LEGAL_MONETIZATION_READINESS_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../docs/legal-monetization-readiness.md', import.meta.url)),
+  'utf8',
+);
+const FULL_SITE_IMPROVEMENT_PLAN_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../docs/full-site-improvement-plan.md', import.meta.url)),
+  'utf8',
+);
+const ALL_TOOLS_REVIEW_REGISTER_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../docs/all-tools-review-register.md', import.meta.url)),
+  'utf8',
+);
+const QA_AUTOMATION_PLAN_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../docs/qa-automation-plan.md', import.meta.url)),
   'utf8',
 );
 const PACKAGE_JSON = JSON.parse(
@@ -510,9 +536,15 @@ describe('site content audit guardrails', () => {
   it('keeps sitemap freshness and release commands guarded', () => {
     expect(SITEMAP_SOURCE).toContain('new Date().toISOString().slice(0, 10)');
     expect(SITEMAP_SOURCE).not.toContain("const lastmod = '2026");
+    expect(SITEMAP_SOURCE).toContain("'/advertising-disclosure/'");
     expect(PACKAGE_JSON.scripts.typecheck).toBe('tsc --noEmit');
     expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run src/data/siteContentAudit.test.ts');
-    expect(PACKAGE_JSON.scripts.check).toBe('npm run typecheck && npm test && npm run build');
+    expect(PACKAGE_JSON.scripts['check:links']).toBe('node scripts/check-internal-links.mjs');
+    expect(PACKAGE_JSON.scripts['check:structured-data']).toBe('node scripts/check-structured-data.mjs');
+    expect(PACKAGE_JSON.scripts['security:audit']).toBe('npm audit --audit-level=moderate');
+    expect(PACKAGE_JSON.scripts.check).toBe(
+      'npm run typecheck && npm test && npm run build && npm run check:links && npm run check:structured-data && npm run security:audit',
+    );
     expect(README_SOURCE).toContain('npm run check');
     expect(DEPLOYMENT_CHECKLIST_SOURCE).toContain('/tools/');
   });
@@ -575,5 +607,74 @@ describe('site content audit guardrails', () => {
     }
 
     expect(issues).toEqual([]);
+  });
+
+  it('states that manual deep review applies to the full tool library, not only the top 25', () => {
+    expect(MANUAL_DEEP_REVIEW_PLAN_SOURCE).toContain('Every canonical tool and every alias must eventually receive manual review');
+    expect(MANUAL_DEEP_REVIEW_PLAN_SOURCE).toContain('The top 25 list is the first priority batch, not the whole job');
+    expect(MANUAL_DEEP_REVIEW_PLAN_SOURCE).toContain('The manual review program does not stop at the top 25');
+    expect(MANUAL_DEEP_REVIEW_PLAN_SOURCE).toContain('Finance, tax, credit, loan, and investment calculators');
+    expect(MANUAL_DEEP_REVIEW_PLAN_SOURCE).toContain('Health, pregnancy, nutrition, BAC, and body measurement calculators');
+    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Canonical tools: 234');
+    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Public tool URLs: 238');
+    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Do not change a generated or baseline record to `deep-reviewed` in bulk');
+  });
+
+  it('keeps the complete improvement plan aligned to every requested quality area', () => {
+    const requiredPlanSections = [
+      'Manual Deep Review',
+      'SEO',
+      'Content Quality',
+      'Structured Data',
+      'Performance',
+      'Accessibility',
+      'Trust and Legal',
+      'Security',
+      'UX',
+      'QA System',
+    ];
+
+    for (const section of requiredPlanSections) {
+      expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain(section);
+    }
+
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('every Access Free Tools page, not just the top 25 tools');
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('234 canonical tools and 4 alias URLs');
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('LCP: 2.5 seconds');
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('INP: 200 ms');
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('CLS: 0.1');
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('WCAG 2.2 AA');
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('Google-certified CMP');
+    expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Playwright Visual Smoke Lane');
+    expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Internal link validation');
+    expect(QA_AUTOMATION_PLAN_SOURCE).toContain('JSON-LD parse validation');
+    expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Dependency vulnerability audit');
+  });
+
+  it('keeps Privacy, Terms, Contact, and Disclosure ready for ads and affiliate links', () => {
+    expect(PRIVACY_POLICY_SOURCE).toContain('Third-party vendors, including Google');
+    expect(PRIVACY_POLICY_SOURCE).toContain("Google's use of advertising cookies");
+    expect(PRIVACY_POLICY_SOURCE).toContain('Google-certified Consent Management Platform');
+    expect(PRIVACY_POLICY_SOURCE).toContain('Google Ads Settings');
+    expect(PRIVACY_POLICY_SOURCE).toContain('aboutads.info');
+    expect(PRIVACY_POLICY_SOURCE).toContain('affiliate links');
+    expect(PRIVACY_POLICY_SOURCE).toContain('privacy@accessfreetools.com');
+
+    expect(TERMS_SOURCE).toContain('Advertising and affiliate links');
+    expect(TERMS_SOURCE).toContain('not professional financial, medical, legal, tax, engineering');
+    expect(TERMS_SOURCE).toContain('Third-party products and links');
+    expect(TERMS_SOURCE).toContain('contact@accessfreetools.com');
+
+    expect(ADVERTISING_DISCLOSURE_SOURCE).toContain('I may');
+    expect(ADVERTISING_DISCLOSURE_SOURCE).toContain('earn a commission');
+    expect(ADVERTISING_DISCLOSURE_SOURCE).toContain('Affiliate disclosures should appear close to affiliate links');
+    expect(ADVERTISING_DISCLOSURE_SOURCE).toContain('Ads, affiliate links, and product previews do not change calculator formulas');
+
+    expect(CONTACT_SOURCE).toContain('contact@accessfreetools.com');
+    expect(CONTACT_SOURCE).toContain('privacy@accessfreetools.com');
+
+    expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Google AdSense Checklist');
+    expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Affiliate Checklist');
+    expect(DEPLOYMENT_CHECKLIST_SOURCE).toContain('/advertising-disclosure/');
   });
 });

@@ -13,6 +13,7 @@ const staticPaths = [
   '/blog/',
   '/about/',
   '/contact/',
+  '/advertising-disclosure/',
   '/privacy-policy/',
   '/terms/',
 ];

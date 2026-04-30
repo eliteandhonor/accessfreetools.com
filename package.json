@@ -11,7 +11,10 @@
     "preview": "astro preview",
     "test": "vitest run",
     "audit:site": "vitest run src/data/siteContentAudit.test.ts",
-    "check": "npm run typecheck && npm test && npm run build"
+    "check:links": "node scripts/check-internal-links.mjs",
+    "check:structured-data": "node scripts/check-structured-data.mjs",
+    "security:audit": "npm audit --audit-level=moderate",
+    "check": "npm run typecheck && npm test && npm run build && npm run check:links && npm run check:structured-data && npm run security:audit"
   },
   "engines": {
     "node": ">=22"

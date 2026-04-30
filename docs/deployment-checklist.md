@@ -15,6 +15,9 @@ This must pass before release:
 - TypeScript check.
 - Vitest suite, including the site-content audit guardrails.
 - Astro production build.
+- Internal link validation across built HTML.
+- JSON-LD validation across built HTML.
+- Dependency vulnerability audit.
 
 ## Browser Proof
 
@@ -37,6 +40,7 @@ After Hostinger deploys the latest GitHub commit:
 - Check browser console for errors.
 - Check page source for one canonical tag, one main heading, and expected structured data.
 - Confirm no fake ad boxes or affiliate links appear before accounts and disclosures are ready.
+- Confirm `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, and `/contact/` are live.
 
 ## Search Console
 
@@ -56,6 +60,8 @@ Do not add ad or affiliate placements until these are ready:
 - Visible affiliate disclosure on pages that contain affiliate links.
 - Product popups tested for mobile usability and not blocking the tool.
 - Privacy page updated for ads, cookies, and affiliate tracking.
+- Working `contact@accessfreetools.com` and `privacy@accessfreetools.com` routing.
+- Google-certified CMP configured before serving ads to EEA, UK, or Switzerland users where required.
 
 ## Rollback
 

@@ -24,14 +24,17 @@ This audit records the current local proof after the calculator.net roadmap comp
 - Made sitemap `lastmod` dynamic so fresh builds do not ship with a stale date.
 - Added one-command validation with `npm run check`.
 - Added release and manual-review documentation so future batches have a clearer quality gate.
+- Expanded Privacy, Terms, Contact, and Advertising Disclosure pages for AdSense and affiliate readiness.
+- Added a full-site improvement plan, all-tools review register, QA automation plan, internal link checker, JSON-LD checker, and dependency audit script.
 
 ## Current Gaps
 
-- Only 10 tools have manual deep-review records. The rest have useful baseline checks, but they still need the slower per-tool manual pass.
+- Only 10 tools have manual deep-review records. The rest have useful baseline checks, but every canonical tool and alias still needs the slower per-tool manual pass.
 - High-risk finance and health tools need source checks from official or primary references before being marked deep-reviewed.
 - The tools page is lighter now, but a 1000+ tool library will eventually need indexed pagination or server-side search data splitting.
 - Production deployment still needs owner-side proof in Hostinger and Google Search Console after each push.
-- Affiliate and AdSense placements should wait until account approval, disclosure wording, and privacy updates are ready.
+- Affiliate and AdSense placements should wait until account approval, working contact inboxes, CMP setup where required, and disclosure placement are ready.
+- Playwright visual smoke tests are planned but not yet added as a project dependency.
 
 ## Proof Commands
 
@@ -47,6 +50,9 @@ Optional focused checks:
 npm run audit:site
 npm run typecheck
 npm run build
+npm run check:links
+npm run check:structured-data
+npm run security:audit
 ```
 
 ## Priority Recommendations

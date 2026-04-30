@@ -31,6 +31,8 @@ npm run check
 ```
 
 This runs TypeScript, the site audit tests, and the Astro production build.
+It also checks built internal links, validates built JSON-LD, and runs a dependency
+audit.
 For the focused site-content audit only, run:
 
 ```bash
@@ -54,4 +56,6 @@ When creating a new tool, follow this checklist:
 
 - Use `docs/deployment-checklist.md` before publishing.
 - Use `docs/manual-deep-review-plan.md` to track the top manual reviews without overstating generated baseline checks.
+- Use `docs/full-site-improvement-plan.md` and `docs/all-tools-review-register.md` to keep the quality plan scoped to every tool.
+- Use `docs/qa-automation-plan.md` to track automated checks and the Playwright smoke-test lane.
 - Use `docs/site-audit-2026-04-30.md` as the latest audit snapshot.
