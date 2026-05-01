@@ -56,6 +56,8 @@ import {
   groupHexDigits,
   generateRandomNumbers,
   calculateAge,
+  calculateAiTokenCost,
+  calculateApiPricing,
   analyzeText,
   calculateAsphaltEstimate,
   calculateAspectRatio,
@@ -72,8 +74,10 @@ import {
   calculateDateFromUnixTimestamp,
   calculateDeckCostEstimate,
   calculateDensity,
+  calculateDeviceBatteryLife,
   calculateDiceRoll,
   calculateDewPoint,
+  calculateDownloadTime,
   calculateDrywallEstimate,
   calculateElectricityCost,
   calculateCubicYardEstimate,
@@ -173,10 +177,12 @@ import {
   calculateGpa,
   calculateHoursWorked,
   calculateHorsepowerConversion,
+  calculateInternetSpeedNeeds,
   calculateMassFromDensity,
   calculateMileageCost,
   calculateMolarity,
   calculateMolecularWeight,
+  calculateMonitorPpi,
   calculateNeededFinalGrade,
   calculateOhmsLaw,
   calculateMulchEstimate,
@@ -192,6 +198,7 @@ import {
   calculateSoilEstimate,
   calculateSpeed,
   calculateSquareFootage,
+  calculateStreamingBitrate,
   calculateSubnet,
   calculateStairLayout,
   calculateTileEstimate,
@@ -218,6 +225,7 @@ import {
   encodeHtmlEntities,
   encodeBase64,
   encodeUrlComponentValue,
+  estimatePromptTokens,
   calculateTargetHeartRate,
   calculateTdeeFromBmr,
   classifyBodyType,
@@ -1700,5 +1708,29 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(clamp.middleSizePx)).toBe('25');
     expect(table.output).toContain('| Tool | Use | Status |');
     expect(table.rowCount).toBe(2);
+  });
+
+  it('calculates competitor tech and AI utility helpers', () => {
+    const tokenCost = calculateAiTokenCost(1200, 500, 10000, 0.5, 1.5);
+    const promptEstimate = estimatePromptTokens('abcd efgh', 4);
+    const apiPricing = calculateApiPricing(1000, 2, 0.01, 5, 10);
+    const download = calculateDownloadTime(50, 'GB', 100, 85);
+    const speedNeeds = calculateInternetSpeedNeeds(2, 15, 1, 5, 1, 4, 6, 0.5, 25);
+    const bitrate = calculateStreamingBitrate(6, 'Mbps', 2, 0, 1);
+    const battery = calculateDeviceBatteryLife(10000, 3.7, 8, 85);
+    const ppi = calculateMonitorPpi(1920, 1080, 24);
+
+    expect(tokenCost.totalCost).toBe(13.5);
+    expect(formatCalculatorNumber(tokenCost.costPerRequest)).toBe('0.00135');
+    expect(promptEstimate.estimatedTokens).toBe(3);
+    expect(promptEstimate.words).toBe(2);
+    expect(apiPricing.billableUnits).toBe(2200);
+    expect(apiPricing.totalCost).toBe(27);
+    expect(formatCalculatorNumber(download.seconds)).toBe('4705.88235294');
+    expect(speedNeeds.recommendedMbps).toBe(52.5);
+    expect(bitrate.gigabytes).toBe(5.4);
+    expect(formatCalculatorNumber(battery.runtimeHours)).toBe('3.93125');
+    expect(formatCalculatorNumber(ppi.ppi)).toBe('91.7877987534');
+    expect(ppi.aspectLabel).toBe('16:9');
   });
 });

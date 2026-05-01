@@ -246,6 +246,14 @@ const sourceLinks = {
     href: 'https://developers.google.com/search/docs/fundamentals/seo-starter-guide',
     label: 'Google Search Central: SEO Starter Guide',
   },
+  openAiTokens: {
+    href: 'https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-do-i-count-them',
+    label: 'OpenAI Help: What are tokens and how do I count them?',
+  },
+  openAiTokenizer: {
+    href: 'https://platform.openai.com/tokenizer',
+    label: 'OpenAI Platform: Tokenizer',
+  },
   rfc9562: {
     href: 'https://www.rfc-editor.org/rfc/rfc9562',
     label: 'RFC 9562: Universally Unique IDentifiers',
@@ -2117,6 +2125,174 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Keep minimum and maximum sizes readable instead of scaling purely for visual drama.',
     ],
     sources: [sourceLinks.mdnCssClamp],
+  },
+  'ai-token-cost-calculator': {
+    summary: 'Learn how input tokens, output tokens, request count, and current model prices turn into an AI usage estimate.',
+    purpose:
+      'The AI Token Cost Calculator helps you do model-budget math without pretending any one price is permanent. You enter your own current input and output prices, then the calculator shows total cost and cost per request.',
+    enter: [
+      'Enter how many input tokens one request usually sends, including instructions, context, and the user message.',
+      'Enter how many output tokens one response usually generates.',
+      'Enter request count and the current input/output price per 1 million tokens from your provider.',
+    ],
+    read: [
+      'Total cost is the estimated bill for the requests you entered.',
+      'Input token cost and output token cost are split so you can see which side drives the budget.',
+      'Cost per request is useful when comparing models or deciding whether a feature can scale.',
+    ],
+    mistakes: [
+      'Do not use old model prices from memory.',
+      'Do not forget that long system prompts, retrieved context, and tool messages can be input tokens too.',
+      'Do not assume cached tokens, batch discounts, free credits, taxes, or minimum charges are included.',
+    ],
+    sources: [sourceLinks.openAiTokens, sourceLinks.openAiTokenizer, sourceLinks.googleHelpfulContent],
+  },
+  'prompt-token-estimator': {
+    summary: 'Learn how to use a rough character-based token estimate before checking an exact model tokenizer.',
+    purpose:
+      'The Prompt Token Estimator is a fast planning tool. It counts characters and uses a simple average characters-per-token assumption so you can quickly compare prompt drafts before using an exact tokenizer.',
+    enter: [
+      'Paste the prompt, instruction, or system message you want to estimate.',
+      'Leave average characters per token at 4 for a normal rough estimate, or adjust it if you know your text behaves differently.',
+      'Use the examples to see how short instructions and longer system notes compare.',
+    ],
+    read: [
+      'Estimated tokens is the main rough answer.',
+      'Low and high estimates show why this is not exact.',
+      'Characters and words help you compare prompt drafts in normal writing terms.',
+    ],
+    mistakes: [
+      'Do not use this as an exact billing tokenizer.',
+      'Do not assume code, URLs, punctuation-heavy text, emojis, or non-English text splits like normal English.',
+      'Do not forget that chat history and hidden system/tool messages may also count in a real request.',
+    ],
+    sources: [sourceLinks.openAiTokens, sourceLinks.openAiTokenizer],
+  },
+  'api-pricing-calculator': {
+    summary: 'Learn how requests, billable units, unit price, fixed fees, and overhead combine into an API cost estimate.',
+    purpose:
+      'The API Pricing Calculator is for provider-neutral cost planning. It works for APIs that bill by request, credit, image, second, message, GB, token, or any other simple unit.',
+    enter: [
+      'Enter the number of requests or jobs you expect.',
+      'Enter how many billable units one request uses and the price for one unit.',
+      'Add a fixed fee or retry percentage when your plan needs a cushion.',
+    ],
+    read: [
+      'Total cost includes usage cost plus any fixed fee.',
+      'Billable units shows the request count after units-per-request and overhead are applied.',
+      'Average cost per request helps compare pricing options at the same volume.',
+    ],
+    mistakes: [
+      'Do not mix price per 1,000 units, per 1 million units, and per single unit.',
+      'Do not ignore free tiers, taxes, credits, minimum charges, or plan-specific rounding.',
+      'Do not enter secret keys or customer data; only pricing numbers are needed.',
+    ],
+    sources: [sourceLinks.googleHelpfulContent, sourceLinks.openAiTokens],
+  },
+  'download-time-calculator': {
+    summary: 'Learn how file size, Mbps speed, and realistic efficiency estimate download time.',
+    purpose:
+      'The Download Time Calculator turns a file size into bits, adjusts your connection speed by an efficiency percentage, and estimates how long a game, app, video, or backup may take.',
+    enter: [
+      'Enter the file size and choose KB, MB, GB, or TB.',
+      'Enter the real download speed in Mbps.',
+      'Set efficiency lower when Wi-Fi, server limits, VPNs, or congestion are likely.',
+    ],
+    read: [
+      'The main answer is the estimated duration.',
+      'Effective speed shows the Mbps after efficiency is applied.',
+      'Minutes and hours help you understand large downloads without mental conversion.',
+    ],
+    mistakes: [
+      'Do not confuse Mbps with MB/s.',
+      'Do not assume advertised internet speed is the same as real download speed.',
+      'Do not expect the estimate to include server throttling, device storage speed, or background traffic.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'internet-speed-needs-calculator': {
+    summary: 'Learn how simultaneous streaming, gaming, calls, smart devices, and buffer produce a rough Mbps plan.',
+    purpose:
+      'The Internet Speed Needs Calculator estimates a household or workspace download-speed target by adding the activities that may happen at the same time, then adding a buffer.',
+    enter: [
+      'Enter how many video streams, gaming devices, video calls, and smart devices may run at once.',
+      'Adjust Mbps per activity if your use is lighter or heavier than the example.',
+      'Keep a buffer so the connection is not planned at its absolute limit.',
+    ],
+    read: [
+      'Recommended speed is the base activity estimate plus buffer.',
+      'Base activity need shows the raw total before buffer.',
+      'Video and call/gaming metrics show which activities are driving the estimate.',
+    ],
+    mistakes: [
+      'Do not treat Mbps as the only quality measure.',
+      'Do not ignore upload speed for video calls, uploads, cloud backup, and live streaming.',
+      'Do not blame the internet plan before checking Wi-Fi signal, router age, latency, jitter, and packet loss.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'streaming-bitrate-calculator': {
+    summary: 'Learn how bitrate and duration turn into estimated stream or recording data use.',
+    purpose:
+      'The Streaming Bitrate Calculator helps creators, students, streamers, and site owners understand how much data a fixed bitrate can use over time.',
+    enter: [
+      'Enter the bitrate from your encoder, export settings, or stream dashboard.',
+      'Choose Kbps or Mbps, then enter the stream or recording duration.',
+      'Increase stream count when more than one camera, stream, or file uses the same settings.',
+    ],
+    read: [
+      'Gigabytes is the main storage or data estimate.',
+      'Megabytes and megabits show the same estimate at smaller scales.',
+      'Streams counted confirms whether the result includes one stream or several.',
+    ],
+    mistakes: [
+      'Do not confuse bitrate with resolution.',
+      'Do not expect variable bitrate files to match exactly.',
+      'Do not forget audio tracks, adaptive streaming, chat, thumbnails, and platform overhead.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'device-battery-life-calculator': {
+    summary: 'Learn how mAh, voltage, watts, and efficiency estimate battery runtime.',
+    purpose:
+      'The Device Battery Life Calculator converts battery capacity into watt-hours, applies a realistic efficiency loss, and divides by device power draw to estimate runtime.',
+    enter: [
+      'Enter battery capacity in mAh and the nominal voltage from the product label.',
+      'Enter the device average power draw in watts.',
+      'Use efficiency to account for conversion loss, heat, cables, and imperfect battery use.',
+    ],
+    read: [
+      'Estimated runtime is the main answer.',
+      'Nominal energy is the battery watt-hours before efficiency loss.',
+      'Usable energy is the watt-hours after the efficiency percentage.',
+    ],
+    mistakes: [
+      'Do not compare batteries by mAh alone when voltage is different.',
+      'Do not assume a device draws the same watts all the time.',
+      'Do not expect old, cold, hot, damaged, or heavily loaded batteries to match the estimate.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'monitor-ppi-calculator': {
+    summary: 'Learn how screen resolution and diagonal size combine into pixels per inch.',
+    purpose:
+      'The Monitor PPI Calculator helps compare display sharpness by using pixel resolution and physical diagonal size together. Resolution alone is not enough because screen size changes pixel density.',
+    enter: [
+      'Enter width and height pixels from the display resolution.',
+      'Enter the diagonal screen size in inches.',
+      'Use examples for common 1080p, 1440p, and 4K monitor sizes.',
+    ],
+    read: [
+      'PPI is pixels per inch across the physical screen.',
+      'Pixel diagonal is the diagonal length in pixels found with the Pythagorean theorem.',
+      'Aspect ratio shows the simplified width-to-height shape.',
+    ],
+    mistakes: [
+      'Do not use PPI alone to judge a screen.',
+      'Do not confuse screen PPI with printer DPI or mouse DPI.',
+      'Remember that scaling, viewing distance, panel quality, and eyesight affect perceived sharpness.',
+    ],
+    sources: [sourceLinks.nistUnits],
   },
   'markdown-table-generator': {
     summary: 'Learn how to build a GitHub-flavored Markdown table from simple headers and rows.',

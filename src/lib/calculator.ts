@@ -7074,6 +7074,101 @@ export interface BandwidthTimeResult {
   hours: number;
 }
 
+export interface AiTokenCostResult {
+  inputTokensPerRequest: number;
+  outputTokensPerRequest: number;
+  requests: number;
+  inputPricePerMillion: number;
+  outputPricePerMillion: number;
+  totalInputTokens: number;
+  totalOutputTokens: number;
+  inputCost: number;
+  outputCost: number;
+  totalCost: number;
+  costPerRequest: number;
+}
+
+export interface PromptTokenEstimateResult {
+  text: string;
+  characters: number;
+  words: number;
+  estimatedTokens: number;
+  lowEstimate: number;
+  highEstimate: number;
+  averageCharactersPerToken: number;
+}
+
+export interface ApiPricingResult {
+  requests: number;
+  unitsPerRequest: number;
+  pricePerUnit: number;
+  platformFee: number;
+  retryPercent: number;
+  billableUnits: number;
+  usageCost: number;
+  totalCost: number;
+  averageCostPerRequest: number;
+}
+
+export interface DownloadTimeResult {
+  fileSize: number;
+  fileUnit: string;
+  speedMbps: number;
+  efficiencyPercent: number;
+  seconds: number;
+  minutes: number;
+  hours: number;
+  effectiveMbps: number;
+}
+
+export interface InternetSpeedNeedsResult {
+  videoStreams: number;
+  videoMbpsEach: number;
+  gamingDevices: number;
+  gamingMbpsEach: number;
+  videoCalls: number;
+  callMbpsEach: number;
+  smartDevices: number;
+  smartDeviceMbpsEach: number;
+  bufferPercent: number;
+  baseMbps: number;
+  recommendedMbps: number;
+}
+
+export interface StreamingBitrateResult {
+  bitrate: number;
+  bitrateUnit: string;
+  hours: number;
+  minutes: number;
+  streams: number;
+  totalSeconds: number;
+  megabits: number;
+  gigabytes: number;
+  megabytes: number;
+}
+
+export interface DeviceBatteryLifeResult {
+  capacityMah: number;
+  voltage: number;
+  powerWatts: number;
+  efficiencyPercent: number;
+  wattHours: number;
+  usableWattHours: number;
+  runtimeHours: number;
+  runtimeMinutes: number;
+}
+
+export interface MonitorPpiResult {
+  widthPixels: number;
+  heightPixels: number;
+  diagonalInches: number;
+  diagonalPixels: number;
+  ppi: number;
+  aspectWidth: number;
+  aspectHeight: number;
+  aspectLabel: string;
+}
+
 export interface GdpEstimateResult {
   consumption: number;
   investment: number;
@@ -9368,6 +9463,276 @@ export function calculateBandwidthTime(
     seconds,
     minutes: seconds / 60,
     hours: seconds / 3600,
+  };
+}
+
+export function calculateAiTokenCost(
+  inputTokensPerRequest: number,
+  outputTokensPerRequest: number,
+  requests: number,
+  inputPricePerMillion: number,
+  outputPricePerMillion: number,
+): AiTokenCostResult {
+  assertNonNegativeNumber(inputTokensPerRequest, 'Input tokens per request');
+  assertNonNegativeNumber(outputTokensPerRequest, 'Output tokens per request');
+  assertPositiveNumber(requests, 'Requests');
+  assertNonNegativeNumber(inputPricePerMillion, 'Input price per million tokens');
+  assertNonNegativeNumber(outputPricePerMillion, 'Output price per million tokens');
+
+  const totalInputTokens = inputTokensPerRequest * requests;
+  const totalOutputTokens = outputTokensPerRequest * requests;
+  const inputCost = (totalInputTokens / 1_000_000) * inputPricePerMillion;
+  const outputCost = (totalOutputTokens / 1_000_000) * outputPricePerMillion;
+  const totalCost = inputCost + outputCost;
+
+  return {
+    inputTokensPerRequest,
+    outputTokensPerRequest,
+    requests,
+    inputPricePerMillion,
+    outputPricePerMillion,
+    totalInputTokens,
+    totalOutputTokens,
+    inputCost,
+    outputCost,
+    totalCost,
+    costPerRequest: totalCost / requests,
+  };
+}
+
+export function estimatePromptTokens(text: string, averageCharactersPerToken = 4): PromptTokenEstimateResult {
+  assertPositiveNumber(averageCharactersPerToken, 'Average characters per token');
+
+  if (averageCharactersPerToken < 2 || averageCharactersPerToken > 8) {
+    throw new Error('Average characters per token should be between 2 and 8');
+  }
+
+  const characters = Array.from(text).length;
+  const words = tokenizeWords(text).length;
+  const estimatedTokens = Math.ceil(characters / averageCharactersPerToken);
+
+  return {
+    text,
+    characters,
+    words,
+    estimatedTokens,
+    lowEstimate: Math.ceil(characters / 5),
+    highEstimate: Math.ceil(characters / 3),
+    averageCharactersPerToken,
+  };
+}
+
+export function calculateApiPricing(
+  requests: number,
+  unitsPerRequest: number,
+  pricePerUnit: number,
+  platformFee = 0,
+  retryPercent = 0,
+): ApiPricingResult {
+  assertPositiveNumber(requests, 'Requests');
+  assertPositiveNumber(unitsPerRequest, 'Units per request');
+  assertNonNegativeNumber(pricePerUnit, 'Price per unit');
+  assertNonNegativeNumber(platformFee, 'Platform fee');
+  assertPercentRange(retryPercent, 'Retry or overhead percent', 500);
+
+  const billableUnits = requests * unitsPerRequest * (1 + retryPercent / 100);
+  const usageCost = billableUnits * pricePerUnit;
+  const totalCost = usageCost + platformFee;
+
+  return {
+    requests,
+    unitsPerRequest,
+    pricePerUnit,
+    platformFee,
+    retryPercent,
+    billableUnits,
+    usageCost,
+    totalCost,
+    averageCostPerRequest: totalCost / requests,
+  };
+}
+
+export function calculateDownloadTime(
+  fileSize: number,
+  fileUnit: string,
+  speedMbps: number,
+  efficiencyPercent = 90,
+): DownloadTimeResult {
+  assertPositiveNumber(fileSize, 'File size');
+  assertPositiveNumber(speedMbps, 'Download speed');
+  assertPercentRange(efficiencyPercent, 'Efficiency percent', 100);
+
+  if (efficiencyPercent <= 0) {
+    throw new Error('Efficiency percent must be greater than zero');
+  }
+
+  const fileUnitBytes: Record<string, number> = {
+    KB: 1_000,
+    MB: 1_000_000,
+    GB: 1_000_000_000,
+    TB: 1_000_000_000_000,
+  };
+  const bytes = fileSize * (fileUnitBytes[fileUnit] ?? 0);
+
+  if (!bytes) {
+    throw new Error('Choose a supported file size unit');
+  }
+
+  const effectiveMbps = speedMbps * (efficiencyPercent / 100);
+  const seconds = (bytes * 8) / (effectiveMbps * 1_000_000);
+
+  return {
+    fileSize,
+    fileUnit,
+    speedMbps,
+    efficiencyPercent,
+    seconds,
+    minutes: seconds / 60,
+    hours: seconds / 3600,
+    effectiveMbps,
+  };
+}
+
+export function calculateInternetSpeedNeeds(
+  videoStreams: number,
+  videoMbpsEach: number,
+  gamingDevices: number,
+  gamingMbpsEach: number,
+  videoCalls: number,
+  callMbpsEach: number,
+  smartDevices: number,
+  smartDeviceMbpsEach: number,
+  bufferPercent = 25,
+): InternetSpeedNeedsResult {
+  assertNonNegativeNumber(videoStreams, 'Video streams');
+  assertNonNegativeNumber(gamingDevices, 'Gaming devices');
+  assertNonNegativeNumber(videoCalls, 'Video calls');
+  assertNonNegativeNumber(smartDevices, 'Smart devices');
+  assertNonNegativeNumber(videoMbpsEach, 'Video Mbps each');
+  assertNonNegativeNumber(gamingMbpsEach, 'Gaming Mbps each');
+  assertNonNegativeNumber(callMbpsEach, 'Video call Mbps each');
+  assertNonNegativeNumber(smartDeviceMbpsEach, 'Smart device Mbps each');
+  assertPercentRange(bufferPercent, 'Buffer percent', 300);
+
+  const baseMbps =
+    videoStreams * videoMbpsEach +
+    gamingDevices * gamingMbpsEach +
+    videoCalls * callMbpsEach +
+    smartDevices * smartDeviceMbpsEach;
+  const recommendedMbps = baseMbps * (1 + bufferPercent / 100);
+
+  if (recommendedMbps <= 0) {
+    throw new Error('Enter at least one active device or activity');
+  }
+
+  return {
+    videoStreams,
+    videoMbpsEach,
+    gamingDevices,
+    gamingMbpsEach,
+    videoCalls,
+    callMbpsEach,
+    smartDevices,
+    smartDeviceMbpsEach,
+    bufferPercent,
+    baseMbps,
+    recommendedMbps,
+  };
+}
+
+export function calculateStreamingBitrate(
+  bitrate: number,
+  bitrateUnit: string,
+  hours: number,
+  minutes: number,
+  streams = 1,
+): StreamingBitrateResult {
+  assertPositiveNumber(bitrate, 'Bitrate');
+  assertNonNegativeNumber(hours, 'Hours');
+  assertNonNegativeNumber(minutes, 'Minutes');
+  assertPositiveNumber(streams, 'Streams');
+
+  const unitMegabitsPerSecond: Record<string, number> = {
+    Kbps: 0.001,
+    Mbps: 1,
+  };
+  const mbps = bitrate * (unitMegabitsPerSecond[bitrateUnit] ?? 0);
+  const totalSeconds = (hours * 3600 + minutes * 60) * streams;
+
+  if (!mbps) {
+    throw new Error('Choose a supported bitrate unit');
+  }
+
+  if (totalSeconds <= 0) {
+    throw new Error('Streaming time must be greater than zero');
+  }
+
+  const megabits = mbps * totalSeconds;
+  const megabytes = megabits / 8;
+
+  return {
+    bitrate,
+    bitrateUnit,
+    hours,
+    minutes,
+    streams,
+    totalSeconds,
+    megabits,
+    megabytes,
+    gigabytes: megabytes / 1000,
+  };
+}
+
+export function calculateDeviceBatteryLife(
+  capacityMah: number,
+  voltage: number,
+  powerWatts: number,
+  efficiencyPercent = 90,
+): DeviceBatteryLifeResult {
+  assertPositiveNumber(capacityMah, 'Battery capacity');
+  assertPositiveNumber(voltage, 'Voltage');
+  assertPositiveNumber(powerWatts, 'Power draw');
+  assertPercentRange(efficiencyPercent, 'Efficiency percent', 100);
+
+  if (efficiencyPercent <= 0) {
+    throw new Error('Efficiency percent must be greater than zero');
+  }
+
+  const wattHours = (capacityMah * voltage) / 1000;
+  const usableWattHours = wattHours * (efficiencyPercent / 100);
+  const runtimeHours = usableWattHours / powerWatts;
+
+  return {
+    capacityMah,
+    voltage,
+    powerWatts,
+    efficiencyPercent,
+    wattHours,
+    usableWattHours,
+    runtimeHours,
+    runtimeMinutes: runtimeHours * 60,
+  };
+}
+
+export function calculateMonitorPpi(widthPixels: number, heightPixels: number, diagonalInches: number): MonitorPpiResult {
+  assertPositiveNumber(widthPixels, 'Width pixels');
+  assertPositiveNumber(heightPixels, 'Height pixels');
+  assertPositiveNumber(diagonalInches, 'Diagonal inches');
+
+  const diagonalPixels = Math.hypot(widthPixels, heightPixels);
+  const divisor = greatestCommonDivisor(Math.round(widthPixels), Math.round(heightPixels));
+  const aspectWidth = Math.round(widthPixels) / divisor;
+  const aspectHeight = Math.round(heightPixels) / divisor;
+
+  return {
+    widthPixels,
+    heightPixels,
+    diagonalInches,
+    diagonalPixels,
+    ppi: diagonalPixels / diagonalInches,
+    aspectWidth,
+    aspectHeight,
+    aspectLabel: `${aspectWidth}:${aspectHeight}`,
   };
 }
 

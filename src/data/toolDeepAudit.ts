@@ -291,6 +291,21 @@ const googleSeoStarter = {
   label: 'Google Search Central: SEO Starter Guide',
 };
 
+const calculatorInnSitemap = {
+  href: 'https://calculatorinn.com/sitemap/',
+  label: 'CalculatorInn sitemap: Tech & AI competitor gap reference',
+};
+
+const openAiTokens = {
+  href: 'https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-do-i-count-them',
+  label: 'OpenAI Help: What are tokens and how do I count them?',
+};
+
+const openAiTokenizer = {
+  href: 'https://platform.openai.com/tokenizer',
+  label: 'OpenAI Platform: Tokenizer',
+};
+
 const cfpbMortgage = {
   href: 'https://www.consumerfinance.gov/language/cfpb-in-english/mortgages-key-terms/',
   label: 'Consumer Financial Protection Bureau: Mortgage key terms',
@@ -5431,6 +5446,158 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     followUps: [
       'Add a plain-language rewrite checklist later if users need help lowering the grade level after seeing the score.',
+    ],
+  },
+  {
+    slug: 'ai-token-cost-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-tech-ai-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorInnSitemap, openAiTokens, openAiTokenizer, googleHelpfulContent],
+    findings: [
+      'CalculatorInn surfaced AI token cost as a Tech & AI gap, and the Access Free Tools version avoids stale hardcoded model prices by asking users to enter current input/output rates.',
+      'Formula review checked input tokens, output tokens, request count, price per 1 million tokens, total cost, and cost per request.',
+      'FAQ and guide explain what tokens mean, why prices must come from the provider rate card, and which billing rules are not included.',
+    ],
+    improvements: [
+      'Added a real calculator, examples, related links, AI Tools placement, source-backed guide detail, token-specific FAQ, privacy note, tests, and honest manual audit record.',
+    ],
+    followUps: [
+      'Add provider presets only if they are dated, source-linked, and maintained so pricing does not become misleading.',
+    ],
+  },
+  {
+    slug: 'prompt-token-estimator',
+    status: 'deep-reviewed',
+    batch: 'competitor-tech-ai-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [openAiTokens, openAiTokenizer, googleHelpfulContent],
+    findings: [
+      'The estimator is framed as a rough planning helper, not a replacement for the exact tokenizer of a chosen model.',
+      'Formula review checked character counting, average characters per token, and low/high estimate ranges for token uncertainty.',
+      'FAQ and guide warn about code, symbols, non-English text, emojis, hidden system messages, and provider-specific tokenization.',
+    ],
+    improvements: [
+      'Added prompt text UI, rough range output, examples, source-backed guide, exact-tokenizer caveats, related AI cost pathway, and browser-only privacy wording.',
+    ],
+    followUps: [
+      'Add exact tokenizer support only when the chosen tokenizer package and model vocabulary size are tested for bundle impact.',
+    ],
+  },
+  {
+    slug: 'api-pricing-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-tech-ai-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorInnSitemap, openAiTokens, googleHelpfulContent],
+    findings: [
+      'The generic API pricing helper supports request count, units per request, price per unit, fixed fees, and retry or overhead cushion.',
+      'Formula review checked billable units, usage cost, total cost, and average cost per request without assuming one provider billing model.',
+      'FAQ and guide explain billable units, per-million token conversions, free-tier gaps, taxes, credits, and plan-specific rules.',
+    ],
+    improvements: [
+      'Added provider-neutral API pricing UI, examples for image/message/credit pricing, guide details, FAQ depth, related developer tools, and tests.',
+    ],
+    followUps: [
+      'Add saved pricing templates only if there is a clear update workflow and no private API keys are stored.',
+    ],
+  },
+  {
+    slug: 'download-time-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-tech-ai-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorInnSitemap, nistSi, googleHelpfulContent],
+    findings: [
+      'CalculatorInn surfaced download time as a competitor gap, and the Access Free Tools version adds an efficiency input to keep the result realistic.',
+      'Formula review checked file size conversion to bits, Mbps speed, efficiency percentage, seconds, minutes, and hours.',
+      'FAQ and guide explain Mbps versus MB/s and why Wi-Fi, server throttling, VPNs, and overhead can change real downloads.',
+    ],
+    improvements: [
+      'Added download-time tool metadata, calculator UI, examples, source-backed guide, unit-specific FAQ, related bandwidth links, and formula tests.',
+    ],
+    followUps: [
+      'Consider adding upload-time wording later, but keep it separate enough that users do not confuse download and upload speeds.',
+    ],
+  },
+  {
+    slug: 'internet-speed-needs-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-tech-ai-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorInnSitemap, nistSi, googleHelpfulContent],
+    findings: [
+      'The internet speed needs tool estimates simultaneous activity load and adds buffer instead of pretending Mbps alone guarantees good internet.',
+      'Formula review checked activity counts, per-activity Mbps values, base Mbps, and buffered recommended speed.',
+      'FAQ and guide explain latency, jitter, upload speed, router quality, provider congestion, and why gaming can lag even when Mbps is enough.',
+    ],
+    improvements: [
+      'Added speed-needs UI, household/work examples, activity metrics, realistic caveats, source-backed guide detail, and tests.',
+    ],
+    followUps: [
+      'Add upload-speed planning only when the UI can clearly separate download need from upload-heavy video calls, backups, and livestreaming.',
+    ],
+  },
+  {
+    slug: 'streaming-bitrate-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-tech-ai-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorInnSitemap, nistSi, googleHelpfulContent],
+    findings: [
+      'The streaming bitrate tool converts bitrate and duration into estimated MB and GB for streams, recordings, or multiple camera feeds.',
+      'Formula review checked Kbps/Mbps conversion, duration seconds, stream count, megabits, megabytes, and gigabytes.',
+      'FAQ and guide distinguish bitrate from resolution and warn about variable bitrate, audio tracks, metadata, adaptive streaming, and overhead.',
+    ],
+    improvements: [
+      'Added bitrate calculator UI, examples for video/audio/multiple streams, data-use outputs, source-backed guide, FAQ depth, and tests.',
+    ],
+    followUps: [
+      'Add preset bitrate examples later only if they are clearly labeled as rough examples, not platform requirements.',
+    ],
+  },
+  {
+    slug: 'device-battery-life-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-tech-ai-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorInnSitemap, nistSi, googleHelpfulContent],
+    findings: [
+      'The battery life tool converts mAh and voltage into watt-hours before estimating runtime, so it does not compare batteries by mAh alone.',
+      'Formula review checked nominal energy, usable energy after efficiency, runtime hours, and runtime minutes.',
+      'FAQ and guide explain why voltage matters, how to choose an efficiency percentage, and why battery age, temperature, and power spikes change real runtime.',
+    ],
+    improvements: [
+      'Added battery runtime calculator UI, examples, watt-hour explanation, source-backed guide detail, FAQ depth, related tools, and tests.',
+    ],
+    followUps: [
+      'Add USB-C power delivery presets only with clear voltage/current labels and safety cautions.',
+    ],
+  },
+  {
+    slug: 'monitor-ppi-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-tech-ai-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorInnSitemap, nistSi, googleHelpfulContent],
+    findings: [
+      'The monitor PPI tool uses resolution and diagonal size together, which avoids the common mistake of judging sharpness from resolution alone.',
+      'Formula review checked pixel diagonal via the Pythagorean theorem, PPI, and simplified aspect ratio output.',
+      'FAQ and guide explain PPI versus DPI and why scaling, viewing distance, panel quality, subpixel layout, and eyesight also matter.',
+    ],
+    improvements: [
+      'Added monitor PPI calculator UI, common monitor examples, pixel-density outputs, source-backed guide, FAQ depth, related image tools, and tests.',
+    ],
+    followUps: [
+      'Add common display presets later only if they remain small and do not crowd the calculator UI.',
     ],
   },
 ];

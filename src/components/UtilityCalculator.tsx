@@ -1,6 +1,8 @@
 import { useMemo, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
 import {
   calculateAge,
+  calculateAiTokenCost,
+  calculateApiPricing,
   calculateAsphaltEstimate,
   calculateBandwidthTime,
   calculateBoardFoot,
@@ -20,6 +22,8 @@ import {
   calculateElectricityCost,
   calculateDateDifference,
   calculateDateShift,
+  calculateDeviceBatteryLife,
+  calculateDownloadTime,
   calculateFenceEstimate,
   calculateFlooringEstimate,
   calculateFuelCost,
@@ -42,6 +46,8 @@ import {
   calculateMileageCost,
   calculateMolarity,
   calculateMolecularWeight,
+  calculateInternetSpeedNeeds,
+  calculateMonitorPpi,
   calculateNeededFinalGrade,
   calculateOhmsLaw,
   calculateMulchEstimate,
@@ -84,11 +90,13 @@ import {
   encodeHtmlEntities,
   encodeBase64,
   encodeUrlComponentValue,
+  estimatePromptTokens,
   formatCalculatorNumber,
   formatJsonText,
   generateMarkdownTable,
   generateSlug,
   generatePassword,
+  calculateStreamingBitrate,
   generateUuidBatch,
   parseQueryStringInput,
   getCopperResistanceOhmsPer1000Feet,
@@ -189,6 +197,14 @@ export type UtilityToolVariant =
   | 'query-string-parser'
   | 'html-entity-encoder-decoder'
   | 'css-clamp-calculator'
+  | 'ai-token-cost-calculator'
+  | 'prompt-token-estimator'
+  | 'api-pricing-calculator'
+  | 'download-time-calculator'
+  | 'internet-speed-needs-calculator'
+  | 'streaming-bitrate-calculator'
+  | 'device-battery-life-calculator'
+  | 'monitor-ppi-calculator'
   | 'markdown-table-generator';
 
 type InputMode = HTMLAttributes<HTMLInputElement>['inputMode'];
@@ -436,6 +452,53 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     depthInches: 'Compacted asphalt depth, not loose material depth.',
     wastePercent: 'Extra asphalt for compaction differences, edges, and small measurement errors.',
   },
+  'ai-token-cost-calculator': {
+    inputTokensPerRequest: 'Prompt, system, tool, and context tokens you expect to send per request.',
+    outputTokensPerRequest: 'Generated response tokens you expect back per request.',
+    requests: 'How many requests, chats, jobs, or users you want to estimate.',
+    inputPricePerMillion: 'Current input price from your model provider, entered as dollars per 1 million tokens.',
+    outputPricePerMillion: 'Current output price from your model provider, entered as dollars per 1 million tokens.',
+  },
+  'prompt-token-estimator': {
+    text: 'Paste only the prompt text you want to estimate. The browser uses character length, not a provider tokenizer.',
+    averageCharactersPerToken: 'A rough average. Four characters per token is a common planning estimate, but real tokenizers vary.',
+  },
+  'api-pricing-calculator': {
+    requests: 'Number of API calls, jobs, messages, or events you expect to bill.',
+    unitsPerRequest: 'Billable units in each request, such as tokens, images, seconds, messages, or credits.',
+    pricePerUnit: 'Price for one billable unit. For token tools, divide the per-million price by 1,000,000 first.',
+    platformFee: 'Optional fixed cost, minimum charge, or monthly platform fee to include.',
+    retryPercent: 'Extra percentage for retries, failed calls, overhead, or safety cushion.',
+  },
+  'download-time-calculator': {
+    fileSize: 'File size shown by the download, game store, cloud drive, or update page.',
+    speedMbps: 'Real download speed in megabits per second, not megabytes per second.',
+    efficiencyPercent: 'How much of the listed speed you expect to actually get after Wi-Fi, congestion, and overhead.',
+  },
+  'internet-speed-needs-calculator': {
+    videoStreams: 'How many video streams may run at the same time.',
+    gamingDevices: 'Devices gaming online at the same time. Latency still matters separately.',
+    videoCalls: 'Video meetings or calls happening at once.',
+    smartDevices: 'Background devices such as cameras, speakers, hubs, or small connected devices.',
+    bufferPercent: 'Extra speed added so normal bursts and overhead do not use the whole plan.',
+  },
+  'streaming-bitrate-calculator': {
+    bitrate: 'Video or audio bitrate from your encoder, streaming app, or export settings.',
+    hours: 'Whole hours of streaming or recording time.',
+    minutes: 'Extra minutes of streaming or recording time.',
+    streams: 'Number of simultaneous streams or files with the same bitrate and length.',
+  },
+  'device-battery-life-calculator': {
+    capacityMah: 'Battery capacity in milliamp-hours from the product label.',
+    voltage: 'Nominal battery voltage. Many USB power banks use cell voltage around 3.7 V internally.',
+    powerWatts: 'Average device power draw in watts.',
+    efficiencyPercent: 'Usable energy after conversion losses, heat, cable loss, and battery overhead.',
+  },
+  'monitor-ppi-calculator': {
+    widthPixels: 'Horizontal pixel count, such as 1920, 2560, or 3840.',
+    heightPixels: 'Vertical pixel count, such as 1080, 1440, or 2160.',
+    diagonalInches: 'Screen diagonal size in inches, usually from the monitor or laptop spec sheet.',
+  },
 };
 
 function getFieldHelp(variant: UtilityToolVariant, field: UtilityField) {
@@ -616,6 +679,10 @@ const resistorToleranceOptions: SelectOption[] = ['brown', 'red', 'green', 'blue
 const bandwidthDataUnitOptions: SelectOption[] = ['KB', 'MB', 'GB', 'TB'].map((value) => ({ label: value, value }));
 
 const bandwidthSpeedUnitOptions: SelectOption[] = ['Kbps', 'Mbps', 'Gbps'].map((value) => ({ label: value, value }));
+
+const fileSizeUnitOptions: SelectOption[] = ['KB', 'MB', 'GB', 'TB'].map((value) => ({ label: value, value }));
+
+const bitrateUnitOptions: SelectOption[] = ['Kbps', 'Mbps'].map((value) => ({ label: value, value }));
 
 const horsepowerUnitOptions: SelectOption[] = [
   { label: 'Mechanical hp', value: 'horsepower' },
@@ -2704,6 +2771,220 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
       },
     ],
   },
+  'ai-token-cost-calculator': {
+    title: 'AI Token Cost Calculator',
+    buttonLabel: 'Calculate token cost',
+    emptyHistory: 'Recent token cost estimates will appear here.',
+    privacyNote: 'Token cost math stays local. Enter current prices from your provider because model pricing can change.',
+    modes: [
+      {
+        id: 'token-cost',
+        label: 'Token cost',
+        symbol: 'AI $',
+        fields: [
+          integerField('inputTokensPerRequest', 'Input tokens per request'),
+          integerField('outputTokensPerRequest', 'Output tokens per request'),
+          integerField('requests', 'Requests'),
+          numberField('inputPricePerMillion', 'Input $ / 1M tokens'),
+          numberField('outputPricePerMillion', 'Output $ / 1M tokens'),
+        ],
+        defaultInputs: {
+          inputTokensPerRequest: '1200',
+          outputTokensPerRequest: '500',
+          requests: '10000',
+          inputPricePerMillion: '0.50',
+          outputPricePerMillion: '1.50',
+        },
+        examples: [
+          { label: 'Support bot month', inputs: { inputTokensPerRequest: '1200', outputTokensPerRequest: '500', requests: '10000', inputPricePerMillion: '0.50', outputPricePerMillion: '1.50' } },
+          { label: 'Tiny prototype', inputs: { inputTokensPerRequest: '400', outputTokensPerRequest: '150', requests: '1000', inputPricePerMillion: '0.15', outputPricePerMillion: '0.60' } },
+          { label: 'Long summaries', inputs: { inputTokensPerRequest: '6000', outputTokensPerRequest: '900', requests: '500', inputPricePerMillion: '2', outputPricePerMillion: '8' } },
+        ],
+      },
+    ],
+  },
+  'prompt-token-estimator': {
+    title: 'Prompt Token Estimator',
+    buttonLabel: 'Estimate tokens',
+    emptyHistory: 'Recent prompt estimates will appear here.',
+    privacyNote: 'Prompt text stays in your browser. This is a rough estimate, not the exact tokenizer used by every model.',
+    modes: [
+      {
+        id: 'prompt-estimate',
+        label: 'Prompt estimate',
+        symbol: 'TOK',
+        fields: [
+          textareaField('text', 'Prompt text', 'Paste a prompt, system message, or draft here...'),
+          numberField('averageCharactersPerToken', 'Average characters per token'),
+        ],
+        defaultInputs: {
+          text: 'Write a friendly explanation of how a percentage calculator works, with one discount example and one percent change example.',
+          averageCharactersPerToken: '4',
+        },
+        examples: [
+          { label: 'Short prompt', inputs: { text: 'Explain compound interest in plain language.', averageCharactersPerToken: '4' } },
+          { label: 'Tool instruction', inputs: { text: 'Summarize this blog draft and list three places where the explanation is unclear.', averageCharactersPerToken: '4' } },
+          { label: 'Longer system note', inputs: { text: 'You are a helpful assistant for a utility website. Answer clearly, define inputs, mention limitations, and avoid making legal, financial, or medical promises.', averageCharactersPerToken: '4' } },
+        ],
+      },
+    ],
+  },
+  'api-pricing-calculator': {
+    title: 'API Pricing Calculator',
+    buttonLabel: 'Calculate API cost',
+    emptyHistory: 'Recent API pricing estimates will appear here.',
+    privacyNote: 'Pricing math stays local. Use your provider plan and current rate card for real billing decisions.',
+    modes: [
+      {
+        id: 'api-pricing',
+        label: 'API pricing',
+        symbol: 'API',
+        fields: [
+          integerField('requests', 'Requests'),
+          numberField('unitsPerRequest', 'Units per request'),
+          numberField('pricePerUnit', 'Price per unit'),
+          numberField('platformFee', 'Fixed fee (optional)', 'Optional'),
+          numberField('retryPercent', 'Retry / overhead %'),
+        ],
+        defaultInputs: { requests: '50000', unitsPerRequest: '1', pricePerUnit: '0.002', platformFee: '0', retryPercent: '5' },
+        examples: [
+          { label: 'Image API example', inputs: { requests: '1000', unitsPerRequest: '1', pricePerUnit: '0.04', platformFee: '0', retryPercent: '5' } },
+          { label: 'Message API example', inputs: { requests: '50000', unitsPerRequest: '1', pricePerUnit: '0.002', platformFee: '10', retryPercent: '3' } },
+          { label: 'Credit bundle', inputs: { requests: '20000', unitsPerRequest: '3', pricePerUnit: '0.0005', platformFee: '0', retryPercent: '10' } },
+        ],
+      },
+    ],
+  },
+  'download-time-calculator': {
+    title: 'Download Time Calculator',
+    buttonLabel: 'Calculate download time',
+    emptyHistory: 'Recent download time estimates will appear here.',
+    privacyNote: 'Download estimates stay local and use decimal network units.',
+    modes: [
+      {
+        id: 'download-time',
+        label: 'Download time',
+        symbol: 'DL',
+        fields: [
+          numberField('fileSize', 'File size'),
+          selectField('fileUnit', 'File unit', fileSizeUnitOptions),
+          numberField('speedMbps', 'Speed Mbps'),
+          numberField('efficiencyPercent', 'Efficiency %'),
+        ],
+        defaultInputs: { fileSize: '50', fileUnit: 'GB', speedMbps: '100', efficiencyPercent: '85' },
+        examples: [
+          { label: '50 GB game', inputs: { fileSize: '50', fileUnit: 'GB', speedMbps: '100', efficiencyPercent: '85' } },
+          { label: '700 MB update', inputs: { fileSize: '700', fileUnit: 'MB', speedMbps: '25', efficiencyPercent: '80' } },
+          { label: '2 TB backup', inputs: { fileSize: '2', fileUnit: 'TB', speedMbps: '500', efficiencyPercent: '90' } },
+        ],
+      },
+    ],
+  },
+  'internet-speed-needs-calculator': {
+    title: 'Internet Speed Needs Calculator',
+    buttonLabel: 'Estimate speed need',
+    emptyHistory: 'Recent internet speed estimates will appear here.',
+    privacyNote: 'Household speed estimates stay local and are only planning guidance.',
+    modes: [
+      {
+        id: 'speed-needs',
+        label: 'Speed need',
+        symbol: 'ISP',
+        fields: [
+          integerField('videoStreams', 'Video streams'),
+          numberField('videoMbpsEach', 'Mbps per video stream'),
+          integerField('gamingDevices', 'Gaming devices'),
+          numberField('gamingMbpsEach', 'Mbps per gaming device'),
+          integerField('videoCalls', 'Video calls'),
+          numberField('callMbpsEach', 'Mbps per video call'),
+          integerField('smartDevices', 'Smart devices'),
+          numberField('smartDeviceMbpsEach', 'Mbps per smart device'),
+          numberField('bufferPercent', 'Buffer %'),
+        ],
+        defaultInputs: { videoStreams: '2', videoMbpsEach: '15', gamingDevices: '1', gamingMbpsEach: '5', videoCalls: '1', callMbpsEach: '4', smartDevices: '6', smartDeviceMbpsEach: '0.5', bufferPercent: '25' },
+        examples: [
+          { label: 'Small household', inputs: { videoStreams: '1', videoMbpsEach: '8', gamingDevices: '1', gamingMbpsEach: '5', videoCalls: '1', callMbpsEach: '4', smartDevices: '4', smartDeviceMbpsEach: '0.5', bufferPercent: '25' } },
+          { label: '4K evening', inputs: { videoStreams: '3', videoMbpsEach: '25', gamingDevices: '1', gamingMbpsEach: '5', videoCalls: '0', callMbpsEach: '4', smartDevices: '8', smartDeviceMbpsEach: '0.5', bufferPercent: '30' } },
+          { label: 'Work from home', inputs: { videoStreams: '1', videoMbpsEach: '8', gamingDevices: '0', gamingMbpsEach: '5', videoCalls: '3', callMbpsEach: '4', smartDevices: '6', smartDeviceMbpsEach: '0.5', bufferPercent: '35' } },
+        ],
+      },
+    ],
+  },
+  'streaming-bitrate-calculator': {
+    title: 'Streaming Bitrate Calculator',
+    buttonLabel: 'Calculate data use',
+    emptyHistory: 'Recent bitrate estimates will appear here.',
+    privacyNote: 'Bitrate calculations stay local and use decimal MB and GB estimates.',
+    modes: [
+      {
+        id: 'streaming-data',
+        label: 'Streaming data',
+        symbol: 'BR',
+        fields: [
+          numberField('bitrate', 'Bitrate'),
+          selectField('bitrateUnit', 'Bitrate unit', bitrateUnitOptions),
+          integerField('hours', 'Hours'),
+          integerField('minutes', 'Minutes'),
+          integerField('streams', 'Streams'),
+        ],
+        defaultInputs: { bitrate: '6', bitrateUnit: 'Mbps', hours: '2', minutes: '0', streams: '1' },
+        examples: [
+          { label: '2 hour 1080p stream', inputs: { bitrate: '6', bitrateUnit: 'Mbps', hours: '2', minutes: '0', streams: '1' } },
+          { label: 'Music stream', inputs: { bitrate: '320', bitrateUnit: 'Kbps', hours: '3', minutes: '30', streams: '1' } },
+          { label: 'Two cameras', inputs: { bitrate: '4.5', bitrateUnit: 'Mbps', hours: '1', minutes: '45', streams: '2' } },
+        ],
+      },
+    ],
+  },
+  'device-battery-life-calculator': {
+    title: 'Device Battery Life Calculator',
+    buttonLabel: 'Calculate runtime',
+    emptyHistory: 'Recent battery life estimates will appear here.',
+    privacyNote: 'Battery estimates stay local. Real runtime depends on age, temperature, settings, and power spikes.',
+    modes: [
+      {
+        id: 'battery-runtime',
+        label: 'Battery runtime',
+        symbol: 'Wh',
+        fields: [
+          numberField('capacityMah', 'Battery capacity mAh'),
+          numberField('voltage', 'Voltage'),
+          numberField('powerWatts', 'Device watts'),
+          numberField('efficiencyPercent', 'Efficiency %'),
+        ],
+        defaultInputs: { capacityMah: '10000', voltage: '3.7', powerWatts: '8', efficiencyPercent: '85' },
+        examples: [
+          { label: 'Power bank and tablet', inputs: { capacityMah: '10000', voltage: '3.7', powerWatts: '8', efficiencyPercent: '85' } },
+          { label: 'Small light', inputs: { capacityMah: '5000', voltage: '3.7', powerWatts: '3', efficiencyPercent: '90' } },
+          { label: 'Laptop pack', inputs: { capacityMah: '5000', voltage: '11.1', powerWatts: '30', efficiencyPercent: '88' } },
+        ],
+      },
+    ],
+  },
+  'monitor-ppi-calculator': {
+    title: 'Monitor PPI Calculator',
+    buttonLabel: 'Calculate PPI',
+    emptyHistory: 'Recent monitor PPI estimates will appear here.',
+    privacyNote: 'Screen math stays local and uses the diagonal size and pixel resolution you enter.',
+    modes: [
+      {
+        id: 'ppi',
+        label: 'Monitor PPI',
+        symbol: 'PPI',
+        fields: [
+          integerField('widthPixels', 'Width pixels'),
+          integerField('heightPixels', 'Height pixels'),
+          numberField('diagonalInches', 'Diagonal inches'),
+        ],
+        defaultInputs: { widthPixels: '1920', heightPixels: '1080', diagonalInches: '24' },
+        examples: [
+          { label: '24 inch 1080p', inputs: { widthPixels: '1920', heightPixels: '1080', diagonalInches: '24' } },
+          { label: '27 inch 1440p', inputs: { widthPixels: '2560', heightPixels: '1440', diagonalInches: '27' } },
+          { label: '32 inch 4K', inputs: { widthPixels: '3840', heightPixels: '2160', diagonalInches: '32' } },
+        ],
+      },
+    ],
+  },
   'markdown-table-generator': {
     title: 'Markdown Table Generator',
     buttonLabel: 'Generate table',
@@ -2759,6 +3040,14 @@ function money(value: number) {
   return value.toLocaleString('en-US', {
     currency: 'USD',
     maximumFractionDigits: 2,
+    style: 'currency',
+  });
+}
+
+function moneyPrecise(value: number) {
+  return value.toLocaleString('en-US', {
+    currency: 'USD',
+    maximumFractionDigits: value < 1 ? 6 : 2,
     style: 'currency',
   });
 }
@@ -4734,6 +5023,200 @@ function calculateUtility(
         ],
         note: 'Clamp is useful for fluid type and spacing, but still test real text wrapping and tap targets on small screens.',
         textOutput: true,
+      };
+    }
+    case 'ai-token-cost-calculator': {
+      const result = calculateAiTokenCost(
+        parseNumber(inputs.inputTokensPerRequest, 'Input tokens per request'),
+        parseNumber(inputs.outputTokensPerRequest, 'Output tokens per request'),
+        parseNumber(inputs.requests, 'Requests'),
+        parseNumber(inputs.inputPricePerMillion, 'Input price per million tokens'),
+        parseNumber(inputs.outputPricePerMillion, 'Output price per million tokens'),
+      );
+      return {
+        label: 'Estimated AI token cost',
+        expression: `${formatCalculatorNumber(result.requests)} requests`,
+        answer: moneyPrecise(result.totalCost),
+        metrics: [
+          { label: 'Input token cost', value: moneyPrecise(result.inputCost) },
+          { label: 'Output token cost', value: moneyPrecise(result.outputCost) },
+          { label: 'Cost per request', value: moneyPrecise(result.costPerRequest) },
+        ],
+        steps: [
+          'Multiply input and output tokens by request count.',
+          'Divide each token total by 1,000,000.',
+          'Multiply each side by the matching price per 1 million tokens, then add them.',
+        ],
+        note: 'Model pricing changes. Use the current rate card from your provider before budgeting real usage.',
+      };
+    }
+    case 'prompt-token-estimator': {
+      const result = estimatePromptTokens(inputs.text ?? '', parseNumber(inputs.averageCharactersPerToken, 'Average characters per token'));
+      return {
+        label: 'Estimated prompt tokens',
+        expression: `${formatCalculatorNumber(result.characters)} characters at about ${formatCalculatorNumber(result.averageCharactersPerToken)} chars/token`,
+        answer: formatCalculatorNumber(result.estimatedTokens),
+        metrics: [
+          { label: 'Low estimate', value: formatCalculatorNumber(result.lowEstimate) },
+          { label: 'High estimate', value: formatCalculatorNumber(result.highEstimate) },
+          { label: 'Words', value: formatCalculatorNumber(result.words) },
+        ],
+        steps: [
+          'Count characters in the pasted prompt.',
+          'Divide by the chosen average characters per token.',
+          'Show a rough low/high range because real model tokenizers split text differently.',
+        ],
+        note: 'Use your provider tokenizer for exact billing, especially with code, symbols, non-English text, or long prompts.',
+      };
+    }
+    case 'api-pricing-calculator': {
+      const result = calculateApiPricing(
+        parseNumber(inputs.requests, 'Requests'),
+        parseNumber(inputs.unitsPerRequest, 'Units per request'),
+        parseNumber(inputs.pricePerUnit, 'Price per unit'),
+        parseOptionalNumber(inputs.platformFee, 'Platform fee') ?? 0,
+        parseNumber(inputs.retryPercent, 'Retry or overhead percent'),
+      );
+      return {
+        label: 'Estimated API cost',
+        expression: `${formatCalculatorNumber(result.requests)} requests x ${formatCalculatorNumber(result.unitsPerRequest)} units`,
+        answer: moneyPrecise(result.totalCost),
+        metrics: [
+          { label: 'Billable units', value: formatCalculatorNumber(result.billableUnits) },
+          { label: 'Usage cost', value: moneyPrecise(result.usageCost) },
+          { label: 'Average per request', value: moneyPrecise(result.averageCostPerRequest) },
+        ],
+        steps: [
+          'Multiply requests by billable units per request.',
+          'Add the retry or overhead percentage to estimate extra billable work.',
+          'Multiply by price per unit and add any fixed fee.',
+        ],
+        note: 'This is provider-neutral math. It does not know free tiers, taxes, credits, rate limits, or plan-specific billing rules.',
+      };
+    }
+    case 'download-time-calculator': {
+      const result = calculateDownloadTime(
+        parseNumber(inputs.fileSize, 'File size'),
+        inputs.fileUnit,
+        parseNumber(inputs.speedMbps, 'Speed Mbps'),
+        parseNumber(inputs.efficiencyPercent, 'Efficiency percent'),
+      );
+      return {
+        label: 'Estimated download time',
+        expression: `${formatCalculatorNumber(result.fileSize)} ${result.fileUnit} at ${formatCalculatorNumber(result.speedMbps)} Mbps`,
+        answer: durationText(result.seconds),
+        metrics: [
+          { label: 'Effective speed', value: `${formatCalculatorNumber(result.effectiveMbps)} Mbps` },
+          { label: 'Minutes', value: formatCalculatorNumber(result.minutes) },
+          { label: 'Hours', value: formatCalculatorNumber(result.hours) },
+        ],
+        steps: [
+          'Convert file size to bytes, then to bits.',
+          'Apply the efficiency percentage to the listed connection speed.',
+          'Divide bits by effective bits per second.',
+        ],
+        note: 'Real downloads can be slower because of Wi-Fi quality, server limits, congestion, VPNs, and background traffic.',
+      };
+    }
+    case 'internet-speed-needs-calculator': {
+      const result = calculateInternetSpeedNeeds(
+        parseNumber(inputs.videoStreams, 'Video streams'),
+        parseNumber(inputs.videoMbpsEach, 'Mbps per video stream'),
+        parseNumber(inputs.gamingDevices, 'Gaming devices'),
+        parseNumber(inputs.gamingMbpsEach, 'Mbps per gaming device'),
+        parseNumber(inputs.videoCalls, 'Video calls'),
+        parseNumber(inputs.callMbpsEach, 'Mbps per video call'),
+        parseNumber(inputs.smartDevices, 'Smart devices'),
+        parseNumber(inputs.smartDeviceMbpsEach, 'Mbps per smart device'),
+        parseNumber(inputs.bufferPercent, 'Buffer percent'),
+      );
+      return {
+        label: 'Recommended download speed',
+        expression: `${formatCalculatorNumber(result.baseMbps)} Mbps base + ${percent(result.bufferPercent)} buffer`,
+        answer: `${formatCalculatorNumber(result.recommendedMbps)} Mbps`,
+        metrics: [
+          { label: 'Base activity need', value: `${formatCalculatorNumber(result.baseMbps)} Mbps` },
+          { label: 'Video stream load', value: `${formatCalculatorNumber(result.videoStreams * result.videoMbpsEach)} Mbps` },
+          { label: 'Calls and gaming load', value: `${formatCalculatorNumber(result.videoCalls * result.callMbpsEach + result.gamingDevices * result.gamingMbpsEach)} Mbps` },
+        ],
+        steps: [
+          'Multiply each activity count by its Mbps estimate.',
+          'Add video, gaming, calls, and smart-device background use.',
+          'Add a buffer so the plan is not running at 100% all the time.',
+        ],
+        note: 'Internet plan speed is not the same as Wi-Fi quality or latency. Gaming and video calls can feel bad even when Mbps looks high enough.',
+      };
+    }
+    case 'streaming-bitrate-calculator': {
+      const result = calculateStreamingBitrate(
+        parseNumber(inputs.bitrate, 'Bitrate'),
+        inputs.bitrateUnit,
+        parseNumber(inputs.hours, 'Hours'),
+        parseNumber(inputs.minutes, 'Minutes'),
+        parseNumber(inputs.streams, 'Streams'),
+      );
+      return {
+        label: 'Estimated streaming data',
+        expression: `${formatCalculatorNumber(result.bitrate)} ${result.bitrateUnit} for ${durationText(result.totalSeconds / result.streams)}`,
+        answer: `${formatCalculatorNumber(result.gigabytes)} GB`,
+        metrics: [
+          { label: 'Megabytes', value: `${formatCalculatorNumber(result.megabytes)} MB` },
+          { label: 'Megabits', value: `${formatCalculatorNumber(result.megabits)} Mb` },
+          { label: 'Streams counted', value: formatCalculatorNumber(result.streams) },
+        ],
+        steps: [
+          'Convert bitrate to megabits per second.',
+          'Multiply by total seconds and number of streams.',
+          'Divide megabits by 8 to estimate megabytes, then by 1,000 for gigabytes.',
+        ],
+        note: 'Actual platform data can differ because of variable bitrate, audio tracks, thumbnails, chat, retransmits, and adaptive streaming.',
+      };
+    }
+    case 'device-battery-life-calculator': {
+      const result = calculateDeviceBatteryLife(
+        parseNumber(inputs.capacityMah, 'Battery capacity'),
+        parseNumber(inputs.voltage, 'Voltage'),
+        parseNumber(inputs.powerWatts, 'Device watts'),
+        parseNumber(inputs.efficiencyPercent, 'Efficiency percent'),
+      );
+      return {
+        label: 'Estimated runtime',
+        expression: `${formatCalculatorNumber(result.capacityMah)} mAh x ${formatCalculatorNumber(result.voltage)} V`,
+        answer: durationText(result.runtimeHours * 3600),
+        metrics: [
+          { label: 'Nominal energy', value: `${formatCalculatorNumber(result.wattHours)} Wh` },
+          { label: 'Usable energy', value: `${formatCalculatorNumber(result.usableWattHours)} Wh` },
+          { label: 'Runtime minutes', value: formatCalculatorNumber(result.runtimeMinutes) },
+        ],
+        steps: [
+          'Convert milliamp-hours and volts into watt-hours.',
+          'Apply the efficiency percentage for conversion and battery losses.',
+          'Divide usable watt-hours by average device watts.',
+        ],
+        note: 'Battery age, temperature, charging limits, screen brightness, radio use, and power spikes can change real runtime.',
+      };
+    }
+    case 'monitor-ppi-calculator': {
+      const result = calculateMonitorPpi(
+        parseNumber(inputs.widthPixels, 'Width pixels'),
+        parseNumber(inputs.heightPixels, 'Height pixels'),
+        parseNumber(inputs.diagonalInches, 'Diagonal inches'),
+      );
+      return {
+        label: 'Pixels per inch',
+        expression: `${formatCalculatorNumber(result.widthPixels)} x ${formatCalculatorNumber(result.heightPixels)} over ${formatCalculatorNumber(result.diagonalInches)} in`,
+        answer: `${formatCalculatorNumber(result.ppi)} PPI`,
+        metrics: [
+          { label: 'Pixel diagonal', value: formatCalculatorNumber(result.diagonalPixels) },
+          { label: 'Aspect ratio', value: result.aspectLabel },
+          { label: 'Diagonal size', value: `${formatCalculatorNumber(result.diagonalInches)} in` },
+        ],
+        steps: [
+          'Use the Pythagorean theorem to find the pixel diagonal.',
+          'Divide the pixel diagonal by the screen diagonal in inches.',
+          'Simplify width and height pixels into the aspect ratio.',
+        ],
+        note: 'Perceived sharpness also depends on viewing distance, scaling, panel quality, anti-aliasing, and your eyesight.',
       };
     }
     case 'markdown-table-generator': {

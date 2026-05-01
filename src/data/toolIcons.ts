@@ -213,6 +213,14 @@ export type CalculatorIconMark =
   | 'ai-image'
   | 'ai-tone'
   | 'ai-reading'
+  | 'ai-token'
+  | 'prompt-token'
+  | 'api-price'
+  | 'download-time'
+  | 'speed-needs'
+  | 'streaming-bitrate'
+  | 'battery-life'
+  | 'monitor-ppi'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -434,6 +442,14 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'tool-ai-image': 'ai-image',
   'tool-ai-tone': 'ai-tone',
   'tool-ai-reading': 'ai-reading',
+  'tool-ai-token-cost': 'ai-token',
+  'tool-prompt-token': 'prompt-token',
+  'tool-api-pricing': 'api-price',
+  'tool-download-time': 'download-time',
+  'tool-speed-needs': 'speed-needs',
+  'tool-streaming-bitrate': 'streaming-bitrate',
+  'tool-battery-life': 'battery-life',
+  'tool-monitor-ppi': 'monitor-ppi',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',
@@ -624,6 +640,14 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   'ai-image': 'img',
   'ai-tone': 'tone',
   'ai-reading': 'read',
+  'ai-token': 'tok$',
+  'prompt-token': 'tok',
+  'api-price': 'api',
+  'download-time': 'dl',
+  'speed-needs': 'net',
+  'streaming-bitrate': 'mbps',
+  'battery-life': 'wh',
+  'monitor-ppi': 'ppi',
   prime: 'pf',
   'long-division': 'div',
   average: 'avg',
