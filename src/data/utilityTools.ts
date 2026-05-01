@@ -1739,6 +1739,358 @@ export const utilityTools: ToolDefinition[] = [
     relatedSlugs: ['concrete-calculator', 'concrete-block-calculator', 'cubic-yard-calculator'],
   }),
   makeUtilityTool({
+    slug: 'concrete-mix-calculator',
+    name: 'Concrete Mix Calculator',
+    category: 'home-projects',
+    summary: 'Estimate cement, sand, and gravel from concrete volume and a mix ratio.',
+    description:
+      'Use this free concrete mix calculator to estimate cement bags, sand, and gravel from cubic yards, mix ratio, bag yield, and waste percent.',
+    icon: 'calculator-concrete-mix',
+    aliases: ['Concrete Ratio Calculator', 'Cement Sand Gravel Calculator'],
+    formula:
+      'The calculator converts cubic yards to cubic feet, adds waste, splits the adjusted volume by the cement:sand:gravel ratio, and rounds cement bags up.',
+    limit:
+      'Concrete strength depends on water, aggregate, cement type, moisture, additives, curing, and code requirements. This is a rough material planning tool, not a mix design.',
+    inputExplanations: [
+      { term: 'Concrete volume', meaning: 'the final amount of concrete you want to make before waste is added.' },
+      { term: 'Mix ratio', meaning: 'cement, sand, and gravel parts, such as 1:2:3.' },
+      { term: 'Cement bag cubic feet', meaning: 'the approximate volume one cement bag contributes; use the bag or supplier label when available.' },
+      { term: 'Waste percent', meaning: 'extra material for spillage, uneven measuring, and small batch losses.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does a 1:2:3 concrete mix mean?',
+        answer:
+          'It means 1 part cement, 2 parts sand, and 3 parts gravel by volume. The calculator uses those parts to split the total adjusted volume.',
+      },
+      {
+        question: 'Can this guarantee concrete strength?',
+        answer:
+          'No. Strength depends on the actual mix design, water ratio, aggregate, curing, and product instructions. Use a specified mix for structural work.',
+      },
+    ],
+    useCases: [
+      'Plan cement, sand, and gravel for small concrete batches.',
+      'Compare 1:2:3 and 1:2:4 style ratios.',
+      'Add waste before buying bagged materials.',
+      'Turn cubic yards into practical material quantities.',
+    ],
+    examples: [
+      { label: '1:2:3 mix', expression: '1 yd3, 1:2:3 ratio, 10% waste', result: '5 cement-bag cubic feet plus sand and gravel' },
+      { label: 'Small batch', expression: '0.25 yd3, 1:2:4 ratio', result: 'Split material estimate' },
+      { label: 'Waste check', expression: 'Change waste from 5% to 10%', result: 'Updated material quantities' },
+    ],
+    relatedSlugs: ['concrete-calculator', 'concrete-footing-calculator', 'cubic-yard-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'concrete-driveway-calculator',
+    name: 'Concrete Driveway Calculator',
+    category: 'home-projects',
+    summary: 'Estimate concrete volume, bags, and rough material cost for a driveway slab.',
+    description:
+      'Use this free concrete driveway calculator to estimate cubic yards, cubic feet, bag counts, and optional cost from driveway length, width, thickness, and waste.',
+    icon: 'calculator-concrete-driveway',
+    aliases: ['Driveway Concrete Calculator', 'Concrete Slab Driveway Calculator'],
+    formula:
+      'The calculator multiplies driveway length by width by thickness in feet, adds waste, converts cubic feet to cubic yards, and estimates bags and optional cost.',
+    limit:
+      'Driveways need the right subbase, thickness, reinforcement, joints, drainage, slope, soil preparation, and local code checks. This only estimates concrete quantity.',
+    inputExplanations: [
+      { term: 'Length and width', meaning: 'the driveway slab footprint in feet.' },
+      { term: 'Thickness', meaning: 'average slab depth in inches.' },
+      { term: 'Price per cubic yard', meaning: 'optional ready-mix price used for a rough material cost.' },
+      { term: 'Waste percent', meaning: 'extra concrete for low spots, forms, spillage, and ordering cushion.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does driveway thickness matter so much?',
+        answer:
+          'Volume changes directly with thickness. A 5-inch slab uses 25% more concrete than a 4-inch slab over the same driveway area.',
+      },
+      {
+        question: 'Does the driveway estimate include gravel base or rebar?',
+        answer:
+          'No. It only estimates concrete volume and bags. Use separate tools for reinforcing mesh, rebar, gravel, or subbase planning.',
+      },
+    ],
+    useCases: [
+      'Estimate ready-mix concrete for driveway slabs.',
+      'Compare 4-inch and 5-inch slab thickness.',
+      'Add a waste cushion before pricing material.',
+      'Get a rough cost from price per cubic yard.',
+    ],
+    examples: [
+      { label: 'Single-car driveway', expression: '40 x 12 ft, 4 in thick, 10% waste', result: 'About 6.52 yd3' },
+      { label: 'Two-car pad', expression: '30 x 20 ft, 5 in thick', result: 'Driveway volume estimate' },
+      { label: 'Cost planning', expression: 'Enter price per cubic yard', result: 'Rough material cost' },
+    ],
+    relatedSlugs: ['concrete-calculator', 'concrete-reinforcing-mesh-calculator', 'concrete-weight-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'concrete-steps-calculator',
+    name: 'Concrete Steps Calculator',
+    category: 'home-projects',
+    summary: 'Estimate concrete volume and bag counts for solid stair steps.',
+    description:
+      'Use this free concrete steps calculator to estimate cubic yards and bag counts from step count, width, riser height, tread depth, optional landing, and waste.',
+    icon: 'calculator-concrete-steps',
+    aliases: ['Concrete Stair Calculator', 'Cement Steps Calculator'],
+    formula:
+      'The calculator models solid steps as stacked rectangular volumes, adds optional landing volume, applies waste, converts to cubic yards, and rounds bag counts up.',
+    limit:
+      'This assumes solid concrete steps. Footings, reinforcement, forms, nosing, hollow shapes, frost, slope, handrails, and building code can change real material needs.',
+    inputExplanations: [
+      { term: 'Step count', meaning: 'the number of risers in the solid stair shape.' },
+      { term: 'Riser height', meaning: 'the vertical height of each step.' },
+      { term: 'Tread depth', meaning: 'the front-to-back run of each tread.' },
+      { term: 'Landing depth', meaning: 'optional top landing depth; enter 0 if there is no landing.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the calculator use stacked steps?',
+        answer:
+          'Solid concrete stairs can be estimated as stacked rectangular blocks. Each higher step includes the volume below it.',
+      },
+      {
+        question: 'Can I use this for hollow formed steps?',
+        answer:
+          'Not directly. Hollow or filled forms need a different takeoff because only part of the stair shape is solid concrete.',
+      },
+    ],
+    useCases: [
+      'Estimate concrete for porch or garden steps.',
+      'Include a simple top landing in the volume.',
+      'Convert step dimensions to cubic yards.',
+      'Compare different riser and tread layouts.',
+    ],
+    examples: [
+      { label: 'Porch steps', expression: '4 steps, 4 ft wide, 7 in riser, 11 in tread, 3 ft landing', result: 'About 2.01 yd3' },
+      { label: 'Garden steps', expression: '3 steps, 5 ft wide, no landing', result: 'Solid step volume estimate' },
+      { label: 'Bag planning', expression: 'Add 10% waste', result: 'Rounded 60 lb and 80 lb bags' },
+    ],
+    relatedSlugs: ['stair-calculator', 'concrete-calculator', 'concrete-footing-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'concrete-weight-calculator',
+    name: 'Concrete Weight Calculator',
+    category: 'home-projects',
+    summary: 'Estimate concrete weight from cubic yards and density.',
+    description:
+      'Use this free concrete weight calculator to estimate pounds and US tons from concrete volume, density, and optional waste percent.',
+    icon: 'calculator-concrete-weight',
+    aliases: ['Concrete Density Calculator', 'Concrete Tons Calculator'],
+    formula:
+      'The calculator converts cubic yards to cubic feet, applies the waste allowance, multiplies by density in pounds per cubic foot, and converts pounds to US tons.',
+    limit:
+      'Concrete density varies by mix, aggregate, reinforcement, moisture, and air content. Use supplier data for hauling, disposal, or engineering decisions.',
+    inputExplanations: [
+      { term: 'Cubic yards', meaning: 'the concrete volume to weigh.' },
+      { term: 'Density', meaning: 'pounds per cubic foot. Normal-weight concrete is often estimated near 145 to 150 lb/ft3.' },
+      { term: 'Waste percent', meaning: 'optional extra volume if you want the weight after adding a cushion.' },
+      { term: 'US tons', meaning: 'pounds divided by 2,000.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What density should I use for concrete weight?',
+        answer:
+          'For rough planning, many people use about 145 to 150 lb/ft3 for normal-weight concrete. Use supplier data when weight matters.',
+      },
+      {
+        question: 'Does this include rebar weight?',
+        answer:
+          'No. It estimates concrete material only. Use the Rebar Weight Calculator if you also need reinforcing steel weight.',
+      },
+    ],
+    useCases: [
+      'Estimate concrete weight for hauling or disposal planning.',
+      'Convert cubic yards into pounds and tons.',
+      'Compare density assumptions.',
+      'Add waste volume before estimating weight.',
+    ],
+    examples: [
+      { label: 'Normal concrete', expression: '2 yd3 at 145 lb/ft3', result: '7,830 lb' },
+      { label: 'Heavy estimate', expression: '3.5 yd3 at 150 lb/ft3', result: 'Weight with cushion' },
+      { label: 'Tonnage check', expression: 'Pounds divided by 2,000', result: 'US tons' },
+    ],
+    relatedSlugs: ['cubic-yard-calculator', 'concrete-calculator', 'asphalt-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'concrete-reinforcing-mesh-calculator',
+    name: 'Concrete Mesh Calculator',
+    category: 'home-projects',
+    summary: 'Estimate reinforcing mesh sheets for a rectangular concrete slab.',
+    description:
+      'Use this free concrete reinforcing mesh calculator to estimate mesh sheet count from slab size, sheet size, overlap, and waste percent.',
+    icon: 'calculator-concrete-mesh',
+    aliases: ['Concrete Reinforcing Mesh Calculator', 'Wire Mesh Calculator', 'Reinforcement Mesh Calculator'],
+    formula:
+      'The calculator finds slab area, reduces sheet coverage by overlap, adds waste, divides adjusted area by effective sheet area, and rounds up.',
+    limit:
+      'This is an area takeoff only. Wire size, chair height, cover, lap length, placement, slab design, loads, and code requirements need project-specific review.',
+    inputExplanations: [
+      { term: 'Slab length and width', meaning: 'the rectangular slab area to cover.' },
+      { term: 'Sheet size', meaning: 'the length and width of one mesh sheet or roll section.' },
+      { term: 'Overlap', meaning: 'the amount sheets overlap, reducing usable coverage.' },
+      { term: 'Waste percent', meaning: 'extra mesh for trimming, edge cuts, overlaps, and mistakes.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does overlap reduce sheet coverage?',
+        answer:
+          'When two mesh sheets overlap, the overlapped strip does not cover new slab area. The calculator subtracts overlap from effective sheet dimensions.',
+      },
+      {
+        question: 'Does this choose the right mesh size?',
+        answer:
+          'No. It only estimates sheet count. The right reinforcement depends on slab purpose, thickness, soil, load, and local code.',
+      },
+    ],
+    useCases: [
+      'Estimate mesh sheets for a slab or patio.',
+      'Compare sheet sizes and overlap allowances.',
+      'Add waste before buying mesh.',
+      'Plan mesh alongside concrete volume.',
+    ],
+    examples: [
+      { label: '30 x 20 slab', expression: '10 x 5 ft sheets, 6 in overlap, 10% waste', result: '16 sheets' },
+      { label: 'Small patio', expression: '18 x 12 ft slab, 4 in overlap', result: 'Mesh sheet estimate' },
+      { label: 'Overlap check', expression: 'Increase overlap', result: 'More sheets may be needed' },
+    ],
+    relatedSlugs: ['concrete-calculator', 'rebar-calculator', 'concrete-driveway-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'concrete-block-fill-calculator',
+    name: 'Concrete Block Fill Calculator',
+    category: 'home-projects',
+    summary: 'Estimate grout or concrete fill volume for concrete block cores.',
+    description:
+      'Use this free concrete block fill calculator to estimate cubic yards and bag counts from block count, fill volume per block, and waste percent.',
+    icon: 'calculator-concrete-block-fill',
+    aliases: ['CMU Fill Calculator', 'Block Core Fill Calculator', 'Grout Fill Calculator'],
+    formula:
+      'The calculator multiplies block count by fill cubic feet per block, adds waste, converts to cubic yards, and rounds 60 lb and 80 lb bag counts up.',
+    limit:
+      'Actual fill depends on block core size, bond beams, rebar cells, grout mix, cleanouts, consolidation, spillage, and structural requirements.',
+    inputExplanations: [
+      { term: 'Block count', meaning: 'how many block cores you plan to fill.' },
+      { term: 'Fill per block', meaning: 'the cubic feet of grout or concrete needed per block.' },
+      { term: 'Waste percent', meaning: 'extra fill for spillage, overfilled cores, and measurement differences.' },
+      { term: 'Bag counts', meaning: 'rounded estimates using common dry-mix bag yields.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What is fill cubic feet per block?',
+        answer:
+          'It is the approximate grout or concrete volume needed to fill one block. Different block sizes and core shapes can need different amounts.',
+      },
+      {
+        question: 'Does this include mortar between blocks?',
+        answer:
+          'No. It only estimates core fill. Mortar joints, bond beams, reinforcing steel, and footing concrete need separate estimates.',
+      },
+    ],
+    useCases: [
+      'Estimate fill for reinforced block cells.',
+      'Convert block fill volume to cubic yards.',
+      'Plan bag counts for small masonry jobs.',
+      'Add waste before ordering grout or concrete.',
+    ],
+    examples: [
+      { label: '120 filled blocks', expression: '0.25 ft3 per block, 10% waste', result: 'About 1.22 yd3' },
+      { label: 'Small wall fill', expression: '64 blocks, 0.22 ft3 each', result: 'Fill volume estimate' },
+      { label: 'Bag planning', expression: 'Fill volume divided by bag yield', result: 'Rounded bag counts' },
+    ],
+    relatedSlugs: ['concrete-block-calculator', 'concrete-calculator', 'retaining-wall-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'retaining-wall-calculator',
+    name: 'Retaining Wall Calculator',
+    category: 'home-projects',
+    summary: 'Estimate retaining wall blocks, cap blocks, courses, and base gravel.',
+    description:
+      'Use this free retaining wall calculator to estimate wall blocks, cap blocks, courses, and base gravel volume from wall and block dimensions.',
+    icon: 'calculator-retaining-wall',
+    aliases: ['Landscape Wall Calculator', 'Block Retaining Wall Calculator'],
+    formula:
+      'The calculator divides wall height by block height for courses, divides wall length by block length for blocks per course, adds waste, estimates cap blocks, and finds base trench volume.',
+    limit:
+      'Retaining walls can fail if drainage, soil, surcharge, setbacks, geogrid, base prep, frost, height limits, and permits are ignored. This is only a material estimate.',
+    inputExplanations: [
+      { term: 'Wall length and height', meaning: 'the finished face size of the retaining wall.' },
+      { term: 'Block size', meaning: 'the face length and height of one wall block.' },
+      { term: 'Cap length', meaning: 'the length of one cap block along the top of the wall.' },
+      { term: 'Base depth and width', meaning: 'the gravel trench dimensions used for the base estimate.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does a retaining wall need a base gravel estimate?',
+        answer:
+          'Segmental retaining walls usually sit on a compacted base. The calculator estimates the base trench volume so you can plan material separately from wall blocks.',
+      },
+      {
+        question: 'Can this design a safe retaining wall?',
+        answer:
+          'No. It only counts materials. Drainage, soil pressure, wall height, geogrid, surcharge loads, and local rules need proper design.',
+      },
+    ],
+    useCases: [
+      'Estimate block count for landscape retaining walls.',
+      'Plan cap blocks for the top course.',
+      'Estimate gravel base volume.',
+      'Compare block sizes before buying material.',
+    ],
+    examples: [
+      { label: 'Garden wall', expression: '40 ft long, 3 ft high, 16 x 6 in blocks, 5% waste', result: '189 wall blocks' },
+      { label: 'Short wall', expression: '24 ft long, 2 ft high', result: 'Blocks, caps, and base' },
+      { label: 'Base trench', expression: '18 in wide, 6 in deep', result: 'Cubic yards of base gravel' },
+    ],
+    relatedSlugs: ['concrete-block-calculator', 'paver-calculator', 'gravel-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'rebar-weight-calculator',
+    name: 'Rebar Weight Calculator',
+    category: 'home-projects',
+    summary: 'Estimate rebar weight from bar size, length, quantity, and waste.',
+    description:
+      'Use this free rebar weight calculator to estimate pounds, tons, adjusted length, and weight per foot for common US rebar sizes.',
+    icon: 'calculator-rebar-weight',
+    aliases: ['Rebar Weight Per Foot Calculator', 'Reinforcing Bar Weight Calculator'],
+    formula:
+      'The calculator multiplies length by quantity, adds waste, selects the nominal weight per foot for the rebar size, and converts total pounds to US tons.',
+    limit:
+      'Nominal weights are planning values. Mill tolerances, coatings, cut lists, laps, supports, bundles, and structural design can change the real order.',
+    inputExplanations: [
+      { term: 'Rebar size', meaning: 'the US bar size, such as #4, used to choose nominal weight per foot.' },
+      { term: 'Length per bar', meaning: 'the length of one bar or cut piece.' },
+      { term: 'Quantity', meaning: 'how many bars or pieces at that length.' },
+      { term: 'Waste percent', meaning: 'extra length for cuts, laps, layout changes, and damaged pieces.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does #4 rebar mean?',
+        answer:
+          '#4 is a common US rebar size with a nominal diameter of about 1/2 inch and a planning weight of about 0.668 lb per foot.',
+      },
+      {
+        question: 'Is rebar weight the same as rebar design?',
+        answer:
+          'No. Weight helps with ordering and hauling. Bar size, spacing, lap length, cover, and placement still need project-specific design.',
+      },
+    ],
+    useCases: [
+      'Estimate rebar weight for pickup or delivery planning.',
+      'Compare #3, #4, #5, and larger bars.',
+      'Add waste for cut lists and lap planning.',
+      'Convert total pounds to US tons.',
+    ],
+    examples: [
+      { label: '#4 slab bars', expression: '12 bars, 20 ft each, 10% waste', result: '176.352 lb' },
+      { label: '#5 footing bars', expression: '8 bars, 30 ft each', result: 'Rebar weight estimate' },
+      { label: 'Waste check', expression: 'Increase waste percent', result: 'Adjusted length and weight' },
+    ],
+    relatedSlugs: ['rebar-calculator', 'concrete-reinforcing-mesh-calculator', 'concrete-calculator'],
+  }),
+  makeUtilityTool({
     slug: 'concrete-footing-calculator',
     name: 'Concrete Footing Calculator',
     category: 'home-projects',

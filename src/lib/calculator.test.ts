@@ -69,8 +69,14 @@ import {
   calculateCarpetEstimate,
   calculateColorContrast,
   calculateConcreteBlockEstimate,
+  calculateConcreteBlockFillEstimate,
   calculateConcreteColumnEstimate,
+  calculateConcreteDrivewayEstimate,
   calculateConcreteFootingEstimate,
+  calculateConcreteMixEstimate,
+  calculateConcreteReinforcingMeshEstimate,
+  calculateConcreteStepsEstimate,
+  calculateConcreteWeightEstimate,
   calculateCountertopEstimate,
   calculateCssClamp,
   calculateDayOfWeek,
@@ -207,6 +213,8 @@ import {
   calculatePoolVolume,
   calculatePostHoleConcreteEstimate,
   calculateRebarGridEstimate,
+  calculateRebarWeightEstimate,
+  calculateRetainingWallEstimate,
   calculateResistorColorCode,
   calculateRoofingEstimate,
   calculateSandEstimate,
@@ -1674,6 +1682,23 @@ describe('utility helpers', () => {
     const brick = calculateBrickEstimate({ wallAreaSquareFeet: 120, brickLengthInches: 7.625, brickHeightInches: 2.25, mortarJointInches: 0.375, wastePercent: 10 });
     const block = calculateConcreteBlockEstimate({ wallLengthFeet: 40, wallHeightFeet: 8, blockLengthInches: 16, blockHeightInches: 8, openingsSquareFeet: 20, wastePercent: 5 });
     const rebar = calculateRebarGridEstimate({ slabLengthFeet: 20, slabWidthFeet: 12, spacingInches: 18, barLengthFeet: 20, wastePercent: 10 });
+    const mix = calculateConcreteMixEstimate({ cubicYards: 1, cementParts: 1, sandParts: 2, gravelParts: 3, cementBagCubicFeet: 1, wastePercent: 10 });
+    const driveway = calculateConcreteDrivewayEstimate({ lengthFeet: 40, widthFeet: 12, depthInches: 4, wastePercent: 10, pricePerCubicYard: 160 });
+    const steps = calculateConcreteStepsEstimate({ stepCount: 4, widthFeet: 4, riserHeightInches: 7, treadDepthInches: 11, landingDepthFeet: 3, wastePercent: 10 });
+    const concreteWeight = calculateConcreteWeightEstimate({ cubicYards: 2, densityPoundsPerCubicFoot: 145, wastePercent: 0 });
+    const mesh = calculateConcreteReinforcingMeshEstimate({ slabLengthFeet: 30, slabWidthFeet: 20, sheetLengthFeet: 10, sheetWidthFeet: 5, overlapInches: 6, wastePercent: 10 });
+    const blockFill = calculateConcreteBlockFillEstimate({ blockCount: 120, fillCubicFeetPerBlock: 0.25, wastePercent: 10 });
+    const retainingWall = calculateRetainingWallEstimate({
+      wallLengthFeet: 40,
+      wallHeightFeet: 3,
+      blockLengthInches: 16,
+      blockHeightInches: 6,
+      capLengthInches: 12,
+      baseDepthInches: 6,
+      baseWidthInches: 18,
+      wastePercent: 5,
+    });
+    const rebarWeight = calculateRebarWeightEstimate({ rebarSize: '#4', lengthFeet: 20, quantity: 12, wastePercent: 10 });
     const footing = calculateConcreteFootingEstimate({ lengthFeet: 30, widthInches: 16, depthInches: 8, wastePercent: 10 });
     const column = calculateConcreteColumnEstimate({ diameterInches: 18, heightFeet: 8, quantity: 3, wastePercent: 10 });
     const postHole = calculatePostHoleConcreteEstimate({ holeDiameterInches: 12, holeDepthInches: 30, postDiameterInches: 4, quantity: 6, wastePercent: 10 });
@@ -1723,6 +1748,28 @@ describe('utility helpers', () => {
     expect(brick.bricksNeeded).toBe(906);
     expect(block.blocksNeeded).toBe(355);
     expect(rebar.barsToBuy).toBe(20);
+    expect(formatCalculatorNumber(mix.adjustedCubicFeet)).toBe('29.7');
+    expect(formatCalculatorNumber(mix.cementCubicFeet)).toBe('4.95');
+    expect(formatCalculatorNumber(mix.sandCubicFeet)).toBe('9.9');
+    expect(formatCalculatorNumber(mix.gravelCubicFeet)).toBe('14.85');
+    expect(mix.cementBags).toBe(5);
+    expect(formatCalculatorNumber(driveway.cubicYards)).toBe('6.5185185185');
+    expect(driveway.eightyPoundBags).toBe(294);
+    expect(formatCalculatorNumber(driveway.estimatedCost ?? 0)).toBe('1042.96296296');
+    expect(formatCalculatorNumber(steps.cubicYards)).toBe('2.0121399177');
+    expect(steps.eightyPoundBags).toBe(91);
+    expect(concreteWeight.totalPounds).toBe(7830);
+    expect(formatCalculatorNumber(concreteWeight.totalTons)).toBe('3.915');
+    expect(mesh.sheetsNeeded).toBe(16);
+    expect(formatCalculatorNumber(mesh.effectiveSheetAreaSquareFeet)).toBe('42.75');
+    expect(formatCalculatorNumber(blockFill.cubicYards)).toBe('1.2222222222');
+    expect(blockFill.eightyPoundBags).toBe(55);
+    expect(retainingWall.wallBlocks).toBe(189);
+    expect(retainingWall.capBlocks).toBe(42);
+    expect(retainingWall.courses).toBe(6);
+    expect(formatCalculatorNumber(retainingWall.baseCubicYards)).toBe('1.1666666667');
+    expect(formatCalculatorNumber(rebarWeight.totalPounds)).toBe('176.352');
+    expect(formatCalculatorNumber(rebarWeight.totalTons)).toBe('0.088176');
     expect(formatCalculatorNumber(footing.cubicYards)).toBe('1.0864197531');
     expect(footing.eightyPoundBags).toBe(49);
     expect(formatCalculatorNumber(column.cubicYards)).toBe('1.7278759595');

@@ -183,6 +183,14 @@ export type CalculatorIconMark =
   | 'brick'
   | 'block'
   | 'rebar'
+  | 'concrete-mix'
+  | 'concrete-driveway'
+  | 'concrete-steps'
+  | 'concrete-weight'
+  | 'concrete-mesh'
+  | 'concrete-block-fill'
+  | 'retaining-wall'
+  | 'rebar-weight'
   | 'concrete-footing'
   | 'concrete-column'
   | 'post-hole'
@@ -436,6 +444,14 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-brick': 'brick',
   'calculator-concrete-block': 'block',
   'calculator-rebar': 'rebar',
+  'calculator-concrete-mix': 'concrete-mix',
+  'calculator-concrete-driveway': 'concrete-driveway',
+  'calculator-concrete-steps': 'concrete-steps',
+  'calculator-concrete-weight': 'concrete-weight',
+  'calculator-concrete-mesh': 'concrete-mesh',
+  'calculator-concrete-block-fill': 'concrete-block-fill',
+  'calculator-retaining-wall': 'retaining-wall',
+  'calculator-rebar-weight': 'rebar-weight',
   'calculator-concrete-footing': 'concrete-footing',
   'calculator-concrete-column': 'concrete-column',
   'calculator-post-hole-concrete': 'post-hole',
@@ -658,6 +674,14 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   brick: 'brk',
   block: 'blk',
   rebar: 'bar',
+  'concrete-mix': 'mix',
+  'concrete-driveway': 'drv',
+  'concrete-steps': 'step',
+  'concrete-weight': 'wt',
+  'concrete-mesh': 'mesh',
+  'concrete-block-fill': 'fill',
+  'retaining-wall': 'wall',
+  'rebar-weight': 'rbw',
   'concrete-footing': 'ftg',
   'concrete-column': 'col',
   'post-hole': 'post',

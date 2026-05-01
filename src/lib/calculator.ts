@@ -7375,6 +7375,112 @@ export interface RebarGridEstimateResult {
   barsToBuy: number;
 }
 
+export interface ConcreteMixEstimateResult {
+  cubicYards: number;
+  cementParts: number;
+  sandParts: number;
+  gravelParts: number;
+  cementBagCubicFeet: number;
+  wastePercent: number;
+  rawCubicFeet: number;
+  adjustedCubicFeet: number;
+  adjustedCubicYards: number;
+  cementCubicFeet: number;
+  sandCubicFeet: number;
+  gravelCubicFeet: number;
+  cementBags: number;
+}
+
+export interface ConcreteDrivewayEstimateResult {
+  lengthFeet: number;
+  widthFeet: number;
+  depthInches: number;
+  wastePercent: number;
+  pricePerCubicYard: number | null;
+  cubicFeet: number;
+  cubicYards: number;
+  sixtyPoundBags: number;
+  eightyPoundBags: number;
+  estimatedCost: number | null;
+}
+
+export interface ConcreteStepsEstimateResult {
+  stepCount: number;
+  widthFeet: number;
+  riserHeightInches: number;
+  treadDepthInches: number;
+  landingDepthFeet: number;
+  wastePercent: number;
+  stairCubicFeet: number;
+  landingCubicFeet: number;
+  cubicFeet: number;
+  cubicYards: number;
+  sixtyPoundBags: number;
+  eightyPoundBags: number;
+}
+
+export interface ConcreteWeightEstimateResult {
+  cubicYards: number;
+  densityPoundsPerCubicFoot: number;
+  wastePercent: number;
+  cubicFeet: number;
+  totalPounds: number;
+  totalTons: number;
+}
+
+export interface ConcreteReinforcingMeshEstimateResult {
+  slabLengthFeet: number;
+  slabWidthFeet: number;
+  sheetLengthFeet: number;
+  sheetWidthFeet: number;
+  overlapInches: number;
+  wastePercent: number;
+  slabAreaSquareFeet: number;
+  adjustedAreaSquareFeet: number;
+  effectiveSheetAreaSquareFeet: number;
+  sheetsNeeded: number;
+}
+
+export interface ConcreteBlockFillEstimateResult {
+  blockCount: number;
+  fillCubicFeetPerBlock: number;
+  wastePercent: number;
+  cubicFeet: number;
+  cubicYards: number;
+  sixtyPoundBags: number;
+  eightyPoundBags: number;
+}
+
+export interface RetainingWallEstimateResult {
+  wallLengthFeet: number;
+  wallHeightFeet: number;
+  blockLengthInches: number;
+  blockHeightInches: number;
+  capLengthInches: number;
+  baseDepthInches: number;
+  baseWidthInches: number;
+  wastePercent: number;
+  courses: number;
+  blocksPerCourse: number;
+  wallBlocks: number;
+  capBlocks: number;
+  baseCubicFeet: number;
+  baseCubicYards: number;
+}
+
+export type RebarSize = '#3' | '#4' | '#5' | '#6' | '#7' | '#8';
+
+export interface RebarWeightEstimateResult {
+  rebarSize: RebarSize;
+  lengthFeet: number;
+  quantity: number;
+  wastePercent: number;
+  weightPerFootPounds: number;
+  adjustedLengthFeet: number;
+  totalPounds: number;
+  totalTons: number;
+}
+
 export interface ConcreteFootingEstimateResult {
   lengthFeet: number;
   widthInches: number;
@@ -9765,6 +9871,249 @@ function concreteBagCounts(cubicFeet: number) {
   return {
     sixtyPoundBags: Math.ceil(cubicFeet / CONCRETE_SIXTY_POUND_BAG_CUBIC_FEET - 1e-10),
     eightyPoundBags: Math.ceil(cubicFeet / CONCRETE_EIGHTY_POUND_BAG_CUBIC_FEET - 1e-10),
+  };
+}
+
+export function calculateConcreteMixEstimate(input: {
+  cubicYards: number;
+  cementParts: number;
+  sandParts: number;
+  gravelParts: number;
+  cementBagCubicFeet: number;
+  wastePercent: number;
+}): ConcreteMixEstimateResult {
+  assertPositiveNumber(input.cubicYards, 'Concrete volume');
+  assertPositiveNumber(input.cementParts, 'Cement parts');
+  assertPositiveNumber(input.sandParts, 'Sand parts');
+  assertPositiveNumber(input.gravelParts, 'Gravel parts');
+  assertPositiveNumber(input.cementBagCubicFeet, 'Cement bag yield');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const rawCubicFeet = input.cubicYards * 27;
+  const adjustedCubicFeet = rawCubicFeet * (1 + input.wastePercent / 100);
+  const totalParts = input.cementParts + input.sandParts + input.gravelParts;
+  const cementCubicFeet = adjustedCubicFeet * (input.cementParts / totalParts);
+  const sandCubicFeet = adjustedCubicFeet * (input.sandParts / totalParts);
+  const gravelCubicFeet = adjustedCubicFeet * (input.gravelParts / totalParts);
+
+  return {
+    ...input,
+    rawCubicFeet,
+    adjustedCubicFeet,
+    adjustedCubicYards: adjustedCubicFeet / 27,
+    cementCubicFeet,
+    sandCubicFeet,
+    gravelCubicFeet,
+    cementBags: Math.ceil(cementCubicFeet / input.cementBagCubicFeet - 1e-10),
+  };
+}
+
+export function calculateConcreteDrivewayEstimate(input: {
+  lengthFeet: number;
+  widthFeet: number;
+  depthInches: number;
+  wastePercent: number;
+  pricePerCubicYard?: number | null;
+}): ConcreteDrivewayEstimateResult {
+  assertPositiveNumber(input.lengthFeet, 'Driveway length');
+  assertPositiveNumber(input.widthFeet, 'Driveway width');
+  assertPositiveNumber(input.depthInches, 'Slab depth');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const pricePerCubicYard = input.pricePerCubicYard ?? null;
+  if (pricePerCubicYard !== null) {
+    assertNonNegativeNumber(pricePerCubicYard, 'Price per cubic yard');
+  }
+
+  const cubicFeet = input.lengthFeet * input.widthFeet * (input.depthInches / 12) * (1 + input.wastePercent / 100);
+  const cubicYards = cubicFeet / 27;
+
+  return {
+    ...input,
+    pricePerCubicYard,
+    cubicFeet,
+    cubicYards,
+    ...concreteBagCounts(cubicFeet),
+    estimatedCost: pricePerCubicYard === null ? null : cubicYards * pricePerCubicYard,
+  };
+}
+
+export function calculateConcreteStepsEstimate(input: {
+  stepCount: number;
+  widthFeet: number;
+  riserHeightInches: number;
+  treadDepthInches: number;
+  landingDepthFeet: number;
+  wastePercent: number;
+}): ConcreteStepsEstimateResult {
+  assertPositiveNumber(input.stepCount, 'Step count');
+  assertInteger(input.stepCount, 'Step count');
+  assertPositiveNumber(input.widthFeet, 'Step width');
+  assertPositiveNumber(input.riserHeightInches, 'Riser height');
+  assertPositiveNumber(input.treadDepthInches, 'Tread depth');
+  assertNonNegativeNumber(input.landingDepthFeet, 'Landing depth');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const riserFeet = input.riserHeightInches / 12;
+  const treadFeet = input.treadDepthInches / 12;
+  const triangularStepCount = (input.stepCount * (input.stepCount + 1)) / 2;
+  const stairCubicFeet = input.widthFeet * treadFeet * riserFeet * triangularStepCount;
+  const landingCubicFeet = input.landingDepthFeet * input.widthFeet * riserFeet * input.stepCount;
+  const cubicFeet = (stairCubicFeet + landingCubicFeet) * (1 + input.wastePercent / 100);
+
+  return {
+    ...input,
+    stairCubicFeet,
+    landingCubicFeet,
+    cubicFeet,
+    cubicYards: cubicFeet / 27,
+    ...concreteBagCounts(cubicFeet),
+  };
+}
+
+export function calculateConcreteWeightEstimate(input: {
+  cubicYards: number;
+  densityPoundsPerCubicFoot: number;
+  wastePercent: number;
+}): ConcreteWeightEstimateResult {
+  assertPositiveNumber(input.cubicYards, 'Concrete volume');
+  assertPositiveNumber(input.densityPoundsPerCubicFoot, 'Concrete density');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const cubicFeet = input.cubicYards * 27 * (1 + input.wastePercent / 100);
+  const totalPounds = cubicFeet * input.densityPoundsPerCubicFoot;
+
+  return {
+    ...input,
+    cubicFeet,
+    totalPounds,
+    totalTons: totalPounds / 2000,
+  };
+}
+
+export function calculateConcreteReinforcingMeshEstimate(input: {
+  slabLengthFeet: number;
+  slabWidthFeet: number;
+  sheetLengthFeet: number;
+  sheetWidthFeet: number;
+  overlapInches: number;
+  wastePercent: number;
+}): ConcreteReinforcingMeshEstimateResult {
+  assertPositiveNumber(input.slabLengthFeet, 'Slab length');
+  assertPositiveNumber(input.slabWidthFeet, 'Slab width');
+  assertPositiveNumber(input.sheetLengthFeet, 'Mesh sheet length');
+  assertPositiveNumber(input.sheetWidthFeet, 'Mesh sheet width');
+  assertNonNegativeNumber(input.overlapInches, 'Overlap');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const overlapFeet = input.overlapInches / 12;
+  const effectiveLength = input.sheetLengthFeet - overlapFeet;
+  const effectiveWidth = input.sheetWidthFeet - overlapFeet;
+  if (effectiveLength <= 0 || effectiveWidth <= 0) {
+    throw new Error('Overlap must be smaller than the mesh sheet dimensions');
+  }
+
+  const slabAreaSquareFeet = input.slabLengthFeet * input.slabWidthFeet;
+  const adjustedAreaSquareFeet = slabAreaSquareFeet * (1 + input.wastePercent / 100);
+  const effectiveSheetAreaSquareFeet = effectiveLength * effectiveWidth;
+
+  return {
+    ...input,
+    slabAreaSquareFeet,
+    adjustedAreaSquareFeet,
+    effectiveSheetAreaSquareFeet,
+    sheetsNeeded: Math.ceil(adjustedAreaSquareFeet / effectiveSheetAreaSquareFeet - 1e-10),
+  };
+}
+
+export function calculateConcreteBlockFillEstimate(input: {
+  blockCount: number;
+  fillCubicFeetPerBlock: number;
+  wastePercent: number;
+}): ConcreteBlockFillEstimateResult {
+  assertPositiveNumber(input.blockCount, 'Block count');
+  assertInteger(input.blockCount, 'Block count');
+  assertPositiveNumber(input.fillCubicFeetPerBlock, 'Fill per block');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const cubicFeet = input.blockCount * input.fillCubicFeetPerBlock * (1 + input.wastePercent / 100);
+
+  return {
+    ...input,
+    cubicFeet,
+    cubicYards: cubicFeet / 27,
+    ...concreteBagCounts(cubicFeet),
+  };
+}
+
+export function calculateRetainingWallEstimate(input: {
+  wallLengthFeet: number;
+  wallHeightFeet: number;
+  blockLengthInches: number;
+  blockHeightInches: number;
+  capLengthInches: number;
+  baseDepthInches: number;
+  baseWidthInches: number;
+  wastePercent: number;
+}): RetainingWallEstimateResult {
+  assertPositiveNumber(input.wallLengthFeet, 'Wall length');
+  assertPositiveNumber(input.wallHeightFeet, 'Wall height');
+  assertPositiveNumber(input.blockLengthInches, 'Block length');
+  assertPositiveNumber(input.blockHeightInches, 'Block height');
+  assertPositiveNumber(input.capLengthInches, 'Cap length');
+  assertPositiveNumber(input.baseDepthInches, 'Base depth');
+  assertPositiveNumber(input.baseWidthInches, 'Base width');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const courses = Math.ceil((input.wallHeightFeet * 12) / input.blockHeightInches - 1e-10);
+  const blocksPerCourse = Math.ceil((input.wallLengthFeet * 12) / input.blockLengthInches - 1e-10);
+  const wasteFactor = 1 + input.wastePercent / 100;
+  const baseCubicFeet = input.wallLengthFeet * (input.baseWidthInches / 12) * (input.baseDepthInches / 12) * wasteFactor;
+
+  return {
+    ...input,
+    courses,
+    blocksPerCourse,
+    wallBlocks: Math.ceil(courses * blocksPerCourse * wasteFactor - 1e-10),
+    capBlocks: Math.ceil(((input.wallLengthFeet * 12) / input.capLengthInches) * wasteFactor - 1e-10),
+    baseCubicFeet,
+    baseCubicYards: baseCubicFeet / 27,
+  };
+}
+
+const REBAR_WEIGHT_PER_FOOT_POUNDS: Record<RebarSize, number> = {
+  '#3': 0.376,
+  '#4': 0.668,
+  '#5': 1.043,
+  '#6': 1.502,
+  '#7': 2.044,
+  '#8': 2.67,
+};
+
+export function calculateRebarWeightEstimate(input: {
+  rebarSize: RebarSize;
+  lengthFeet: number;
+  quantity: number;
+  wastePercent: number;
+}): RebarWeightEstimateResult {
+  if (!(input.rebarSize in REBAR_WEIGHT_PER_FOOT_POUNDS)) {
+    throw new Error('Choose a supported rebar size from #3 to #8');
+  }
+  assertPositiveNumber(input.lengthFeet, 'Rebar length');
+  assertPositiveNumber(input.quantity, 'Quantity');
+  assertInteger(input.quantity, 'Quantity');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const weightPerFootPounds = REBAR_WEIGHT_PER_FOOT_POUNDS[input.rebarSize];
+  const adjustedLengthFeet = input.lengthFeet * input.quantity * (1 + input.wastePercent / 100);
+  const totalPounds = adjustedLengthFeet * weightPerFootPounds;
+
+  return {
+    ...input,
+    weightPerFootPounds,
+    adjustedLengthFeet,
+    totalPounds,
+    totalTons: totalPounds / 2000,
   };
 }
 

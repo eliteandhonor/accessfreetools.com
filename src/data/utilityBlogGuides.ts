@@ -98,6 +98,38 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/framing-calculator/',
     label: 'Inch Calculator: Framing calculator reference',
   },
+  inchConcreteMix: {
+    href: 'https://www.inchcalculator.com/concrete-mix-calculator/',
+    label: 'Inch Calculator: Concrete mix calculator reference',
+  },
+  inchConcreteDriveway: {
+    href: 'https://www.inchcalculator.com/concrete-driveway-calculator/',
+    label: 'Inch Calculator: Concrete driveway calculator reference',
+  },
+  inchConcreteSteps: {
+    href: 'https://www.inchcalculator.com/concrete-steps-calculator/',
+    label: 'Inch Calculator: Concrete steps calculator reference',
+  },
+  inchConcreteWeight: {
+    href: 'https://www.inchcalculator.com/concrete-weight-calculator/',
+    label: 'Inch Calculator: Concrete weight calculator reference',
+  },
+  inchConcreteMesh: {
+    href: 'https://www.inchcalculator.com/concrete-reinforcing-mesh-calculator/',
+    label: 'Inch Calculator: Concrete reinforcing mesh calculator reference',
+  },
+  inchConcreteBlockFill: {
+    href: 'https://www.inchcalculator.com/concrete-block-fill-calculator/',
+    label: 'Inch Calculator: Concrete block fill calculator reference',
+  },
+  inchRetainingWall: {
+    href: 'https://www.inchcalculator.com/retaining-wall-calculator/',
+    label: 'Inch Calculator: Retaining wall calculator reference',
+  },
+  inchRebarWeight: {
+    href: 'https://www.inchcalculator.com/rebar-weight-calculator/',
+    label: 'Inch Calculator: Rebar weight calculator reference',
+  },
   lowesCountertopGuide: {
     href: 'https://www.lowes.com/pdf/kitchen_countertop_measure_guide.pdf',
     label: 'Lowe\'s: Kitchen countertop measurement guide',
@@ -1555,6 +1587,183 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Use the concrete plan or a qualified professional for real reinforcement design.',
     ],
     sources: [sourceLinks.nistUnits],
+  },
+  'concrete-mix-calculator': {
+    summary: 'Learn how concrete volume and a cement:sand:gravel ratio become mix material estimates.',
+    purpose:
+      'The Concrete Mix Calculator helps plan small batches by splitting an adjusted concrete volume into cement, sand, and gravel parts. It is useful when you know the volume and want a rough material list.',
+    enter: [
+      'Enter the concrete volume in cubic yards.',
+      'Enter the cement, sand, and gravel ratio parts, such as 1, 2, and 3 for a 1:2:3 mix.',
+      'Enter the cement bag cubic-foot yield and add waste for spillage or measuring loss.',
+    ],
+    read: [
+      'Cement bags is rounded up from the cement cubic feet and bag yield you entered.',
+      'Sand and gravel are shown in cubic feet so you can compare material amounts.',
+      'Adjusted concrete volume includes the waste percent before the ratio split.',
+    ],
+    mistakes: [
+      'Do not use a rough ratio as a guaranteed strength mix.',
+      'Do not forget water, aggregate moisture, curing, additives, and product instructions.',
+      'Do not use this for structural concrete unless the mix is specified by a qualified source.',
+    ],
+    extraSections: [
+      {
+        title: 'What the ratio parts mean',
+        paragraphs: [
+          'A ratio like 1:2:3 does not mean one bag, two bags, and three bags automatically. It means one volume part cement, two volume parts sand, and three volume parts gravel.',
+          'The calculator adds all parts together, then gives each material its share of the adjusted concrete volume.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.inchConcreteMix, sourceLinks.quickrete, sourceLinks.nistUnits],
+  },
+  'concrete-driveway-calculator': {
+    summary: 'Learn how driveway length, width, thickness, and waste become concrete yards and rough cost.',
+    purpose:
+      'The Concrete Driveway Calculator estimates concrete volume for a rectangular driveway slab. It is a quantity and cost helper, not a full driveway design.',
+    enter: [
+      'Enter driveway length and width in feet.',
+      'Enter slab thickness in inches and a waste percent.',
+      'Enter price per cubic yard only if you want a rough material cost.',
+    ],
+    read: [
+      'Cubic yards is the ready-mix ordering style number.',
+      'Cubic feet is the same volume before converting to yards.',
+      'Estimated cost appears only when you enter a price per cubic yard.',
+    ],
+    mistakes: [
+      'Do not guess thickness if the driveway will carry heavy vehicles.',
+      'Do not forget base gravel, compaction, joints, drainage, forms, and reinforcement.',
+      'Do not treat bag counts as the best choice for large driveway pours.',
+    ],
+    sources: [sourceLinks.inchConcreteDriveway, sourceLinks.quickrete, sourceLinks.nistUnits],
+  },
+  'concrete-steps-calculator': {
+    summary: 'Learn how step count, riser height, tread depth, width, landing, and waste estimate solid concrete steps.',
+    purpose:
+      'The Concrete Steps Calculator estimates a solid stair shape by stacking step volumes and adding an optional top landing. It helps with material planning before detailed formwork.',
+    enter: [
+      'Enter the number of steps, step width, riser height, and tread depth.',
+      'Enter landing depth if there is a top landing, or 0 if there is not.',
+      'Add waste for form variation, spillage, and ordering cushion.',
+    ],
+    read: [
+      'Cubic yards is the total adjusted concrete volume.',
+      'Stair volume and landing volume show the two major pieces of the estimate.',
+      'Bag counts are rounded up from common dry-mix bag yields.',
+    ],
+    mistakes: [
+      'Do not use this for hollow, precast, or partly filled step forms without adjusting the volume.',
+      'Do not forget footings, frost depth, reinforcement, slope, nosing, handrails, and code.',
+      'Do not enter total stair height as riser height; riser height is for one step.',
+    ],
+    sources: [sourceLinks.inchConcreteSteps, sourceLinks.quickrete, sourceLinks.nistUnits],
+  },
+  'concrete-weight-calculator': {
+    summary: 'Learn how concrete volume and density estimate pounds and US tons.',
+    purpose:
+      'The Concrete Weight Calculator converts cubic yards into cubic feet, multiplies by density, and converts pounds into US tons. It is helpful for rough hauling, disposal, and planning checks.',
+    enter: [
+      'Enter concrete volume in cubic yards.',
+      'Enter density in pounds per cubic foot.',
+      'Use waste percent only if you want weight after adding extra volume.',
+    ],
+    read: [
+      'Total pounds is the main weight estimate.',
+      'US tons is total pounds divided by 2,000.',
+      'Cubic feet shows the converted volume used in the weight formula.',
+    ],
+    mistakes: [
+      'Do not assume every concrete mix weighs the same.',
+      'Do not use a rough density when hauling limits or structural loads need exact numbers.',
+      'Do not include rebar weight unless you calculate it separately.',
+    ],
+    sources: [sourceLinks.inchConcreteWeight, sourceLinks.nistUnits],
+  },
+  'concrete-reinforcing-mesh-calculator': {
+    summary: 'Learn how slab area, sheet size, overlap, and waste estimate reinforcing mesh sheets.',
+    purpose:
+      'The Concrete Mesh Calculator estimates how many mesh sheets or roll sections are needed to cover a rectangular slab, after overlap and waste are considered.',
+    enter: [
+      'Enter slab length and width in feet.',
+      'Enter one mesh sheet length and width.',
+      'Enter overlap in inches and waste percent.',
+    ],
+    read: [
+      'Sheets needed is rounded up from adjusted slab area divided by effective sheet area.',
+      'Effective sheet area is smaller than sheet size when overlap is entered.',
+      'Adjusted area includes the waste percent.',
+    ],
+    mistakes: [
+      'Do not treat sheet count as reinforcement design.',
+      'Do not ignore wire size, lap rules, cover, chairs, edge distance, and placement.',
+      'Do not enter overlap larger than the sheet dimensions.',
+    ],
+    sources: [sourceLinks.inchConcreteMesh, sourceLinks.nistUnits],
+  },
+  'concrete-block-fill-calculator': {
+    summary: 'Learn how block count and fill volume per block estimate concrete or grout fill.',
+    purpose:
+      'The Concrete Block Fill Calculator estimates the grout or concrete volume needed to fill selected concrete block cores. It starts from the per-block fill volume you enter.',
+    enter: [
+      'Enter the number of blocks or block cells being filled.',
+      'Enter cubic feet of fill per block from product data or a takeoff.',
+      'Add waste for spillage, overfilled cells, and measuring differences.',
+    ],
+    read: [
+      'Cubic yards is the total adjusted fill volume.',
+      'Cubic feet is shown for smaller jobs and bag planning.',
+      '60 lb and 80 lb bag counts are rounded up from common bag yields.',
+    ],
+    mistakes: [
+      'Do not assume every block has the same core volume.',
+      'Do not include mortar joints, bond beams, or footing concrete unless you calculate them separately.',
+      'Do not ignore rebar cells, cleanouts, grout mix, consolidation, or structural requirements.',
+    ],
+    sources: [sourceLinks.inchConcreteBlockFill, sourceLinks.quickrete, sourceLinks.nistUnits],
+  },
+  'retaining-wall-calculator': {
+    summary: 'Learn how retaining wall dimensions and block size estimate wall blocks, caps, and base gravel.',
+    purpose:
+      'The Retaining Wall Calculator estimates materials for a simple segmental retaining wall: wall blocks, cap blocks, courses, and base gravel volume.',
+    enter: [
+      'Enter wall length and height in feet.',
+      'Enter block length, block height, and cap length in inches.',
+      'Enter base trench depth, base width, and waste percent.',
+    ],
+    read: [
+      'Wall blocks is the rounded-up main block estimate.',
+      'Courses and blocks per course show the layout assumption.',
+      'Base gravel is shown in cubic yards for the trench volume.',
+    ],
+    mistakes: [
+      'Do not use this as a safety design for a retaining wall.',
+      'Do not forget drainage stone, geogrid, backfill, compaction, setbacks, and soil pressure.',
+      'Check permits and engineering rules, especially for taller walls or walls near loads.',
+    ],
+    sources: [sourceLinks.inchRetainingWall, sourceLinks.nistUnits],
+  },
+  'rebar-weight-calculator': {
+    summary: 'Learn how rebar size, length, quantity, and waste estimate total steel weight.',
+    purpose:
+      'The Rebar Weight Calculator estimates pounds and US tons from common US rebar sizes. It helps with ordering, hauling, and checking a cut list.',
+    enter: [
+      'Choose the rebar size, such as #4 or #5.',
+      'Enter length per bar and quantity.',
+      'Add waste for cuts, laps, layout changes, and damaged pieces.',
+    ],
+    read: [
+      'Total pounds is adjusted length times nominal weight per foot.',
+      'Adjusted length includes quantity and waste percent.',
+      'US tons is total pounds divided by 2,000.',
+    ],
+    mistakes: [
+      'Do not use weight as a substitute for reinforcement design.',
+      'Do not ignore lap length, bar spacing, concrete cover, chairs, and placement drawings.',
+      'Check supplier bundle weights and mill tolerances when exact delivery weight matters.',
+    ],
+    sources: [sourceLinks.inchRebarWeight, sourceLinks.nistUnits],
   },
   'concrete-footing-calculator': {
     summary: 'Learn how footing length, width, depth, and waste become concrete yards and bag counts.',

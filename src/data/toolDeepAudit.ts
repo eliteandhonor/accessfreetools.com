@@ -326,6 +326,46 @@ const inchFraming = {
   label: 'Inch Calculator: Framing calculator reference',
 };
 
+const inchConcreteMix = {
+  href: 'https://www.inchcalculator.com/concrete-mix-calculator/',
+  label: 'Inch Calculator: Concrete mix calculator reference',
+};
+
+const inchConcreteDriveway = {
+  href: 'https://www.inchcalculator.com/concrete-driveway-calculator/',
+  label: 'Inch Calculator: Concrete driveway calculator reference',
+};
+
+const inchConcreteSteps = {
+  href: 'https://www.inchcalculator.com/concrete-steps-calculator/',
+  label: 'Inch Calculator: Concrete steps calculator reference',
+};
+
+const inchConcreteWeight = {
+  href: 'https://www.inchcalculator.com/concrete-weight-calculator/',
+  label: 'Inch Calculator: Concrete weight calculator reference',
+};
+
+const inchConcreteMesh = {
+  href: 'https://www.inchcalculator.com/concrete-reinforcing-mesh-calculator/',
+  label: 'Inch Calculator: Concrete reinforcing mesh calculator reference',
+};
+
+const inchConcreteBlockFill = {
+  href: 'https://www.inchcalculator.com/concrete-block-fill-calculator/',
+  label: 'Inch Calculator: Concrete block fill calculator reference',
+};
+
+const inchRetainingWall = {
+  href: 'https://www.inchcalculator.com/retaining-wall-calculator/',
+  label: 'Inch Calculator: Retaining wall calculator reference',
+};
+
+const inchRebarWeight = {
+  href: 'https://www.inchcalculator.com/rebar-weight-calculator/',
+  label: 'Inch Calculator: Rebar weight calculator reference',
+};
+
 const lowesCountertopGuide = {
   href: 'https://www.lowes.com/pdf/kitchen_countertop_measure_guide.pdf',
   label: 'Lowe\'s: Kitchen countertop measurement guide',
@@ -3524,6 +3564,158 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     followUps: [
       'Add lap-length fields only if structural-scope warnings stay prominent.',
+    ],
+  },
+  {
+    slug: 'concrete-mix-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-concrete-masonry-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchConcreteMix, quikreteConcrete, nistSi],
+    findings: [
+      'The calculator converts cubic yards to cubic feet, adds waste, splits adjusted volume by the cement:sand:gravel ratio, and rounds cement bags up.',
+      'The FAQ explains what a 1:2:3 ratio means and warns that ratio math is not a guaranteed strength design.',
+      'The guide keeps water, aggregate moisture, curing, additives, and product instructions outside the simple material split.',
+    ],
+    improvements: [
+      'Added concrete mix formula tests, UI fields, examples, detailed FAQ, plain-language blog guide, source links, related tools, SEO copy, and privacy wording.',
+    ],
+    followUps: [
+      'Add metric mix units only if the unit switch is tested and the ratio language remains clear.',
+    ],
+  },
+  {
+    slug: 'concrete-driveway-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-concrete-masonry-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchConcreteDriveway, quikreteConcrete, nistSi],
+    findings: [
+      'The calculator uses rectangular slab volume, adds waste, converts to cubic yards, estimates bag counts, and optionally estimates cost.',
+      'The FAQ explains why thickness changes volume directly and separates concrete quantity from subbase, joints, drainage, and reinforcement.',
+      'The guide tells users to verify slab depth before ordering and avoids claiming driveway design coverage.',
+    ],
+    improvements: [
+      'Added driveway concrete calculator UI, cost output, result steps, examples, guide article, detailed FAQs, source notes, tests, and manual audit record.',
+    ],
+    followUps: [
+      'Add driveway subbase and joint-spacing companions only as separate scoped tools.',
+    ],
+  },
+  {
+    slug: 'concrete-steps-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-concrete-masonry-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchConcreteSteps, quikreteConcrete, nistSi],
+    findings: [
+      'The calculator models solid steps as stacked rectangular volumes, adds optional landing volume, applies waste, converts to cubic yards, and rounds bag counts.',
+      'The FAQ explains riser, tread, landing depth, and why hollow or precast steps need a different takeoff.',
+      'The guide warns about forms, footings, frost, reinforcement, slope, handrails, and building code.',
+    ],
+    improvements: [
+      'Added concrete steps UI, formula tests, examples, supporting result metrics, plain-language guide, detailed FAQs, source coverage, and related pathways.',
+    ],
+    followUps: [
+      'Consider a hollow-step mode later only with clear diagrams and test cases.',
+    ],
+  },
+  {
+    slug: 'concrete-weight-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-concrete-masonry-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchConcreteWeight, nistSi],
+    findings: [
+      'The calculator converts cubic yards to cubic feet, applies optional waste, multiplies by density, and converts pounds to US tons.',
+      'The FAQ explains typical normal-weight density while telling users to use supplier data when weight matters.',
+      'The guide separates concrete weight from rebar weight and hauling or structural decisions that need exact data.',
+    ],
+    improvements: [
+      'Added concrete weight calculator, default density guidance, examples, result steps, source-backed blog, FAQs, related links, tests, and manual audit record.',
+    ],
+    followUps: [
+      'Add metric tonnes only if global traffic justifies a unit toggle.',
+    ],
+  },
+  {
+    slug: 'concrete-reinforcing-mesh-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-concrete-masonry-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchConcreteMesh, nistSi],
+    findings: [
+      'The calculator finds slab area, reduces sheet coverage by overlap, adds waste, divides by effective sheet area, and rounds up sheet count.',
+      'The FAQ explains why overlap reduces coverage and states that wire size and reinforcement design are outside the tool.',
+      'The guide warns about lap rules, chairs, concrete cover, placement, loads, and code requirements.',
+    ],
+    improvements: [
+      'Added reinforcing mesh UI, overlap handling, validation for excessive overlap, formula tests, examples, guide article, FAQs, source links, and audit record.',
+    ],
+    followUps: [
+      'Add roll-length mode if user searches show demand for mesh rolls rather than sheets.',
+    ],
+  },
+  {
+    slug: 'concrete-block-fill-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-concrete-masonry-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchConcreteBlockFill, quikreteConcrete, nistSi],
+    findings: [
+      'The calculator multiplies block count by fill cubic feet per block, adds waste, converts to cubic yards, and rounds common bag counts.',
+      'The FAQ defines fill cubic feet per block and separates core fill from mortar, bond beams, rebar, and footing concrete.',
+      'The guide warns that core shape, grout mix, rebar cells, cleanouts, and consolidation change real volume.',
+    ],
+    improvements: [
+      'Added block fill tool page, tested fill-volume math, examples, detailed FAQ, guide article, source notes, related pathways, SEO copy, and privacy wording.',
+    ],
+    followUps: [
+      'Add a block-size lookup only if reliable fill-volume data can be kept clear and sourced.',
+    ],
+  },
+  {
+    slug: 'retaining-wall-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-concrete-masonry-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchRetainingWall, nistSi],
+    findings: [
+      'The calculator estimates courses, blocks per course, wall blocks with waste, cap blocks, and base trench cubic yards.',
+      'The FAQ explains base gravel and states clearly that the tool does not design a safe retaining wall.',
+      'The guide calls out drainage, soil pressure, geogrid, setbacks, surcharge loads, permits, and engineering.',
+    ],
+    improvements: [
+      'Added retaining wall calculator UI, tested block/base math, result steps, examples, guide, detailed FAQs, source-backed audit record, and related tools.',
+    ],
+    followUps: [
+      'Add drainage gravel and backfill modes later only with strong safety caveats.',
+    ],
+  },
+  {
+    slug: 'rebar-weight-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-concrete-masonry-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchRebarWeight, nistSi],
+    findings: [
+      'The calculator selects nominal US rebar weight per foot, multiplies length by quantity, adds waste, and converts pounds to US tons.',
+      'The FAQ defines #4 rebar in plain language and separates ordering weight from reinforcement design.',
+      'The guide warns about lap length, spacing, cover, chairs, placement drawings, bundle weights, and mill tolerances.',
+    ],
+    improvements: [
+      'Added rebar weight select input, formula tests, examples, guide article, detailed FAQs, source notes, related tools, SEO copy, privacy wording, and manual audit record.',
+    ],
+    followUps: [
+      'Add metric bar sizes only if the conversion table is sourced and tested.',
     ],
   },
   {

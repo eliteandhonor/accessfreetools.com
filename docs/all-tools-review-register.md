@@ -4,11 +4,11 @@ This register is the work tracker for the whole library. It exists so the top 25
 
 ## Scope
 
-- Canonical tools: 274.
+- Canonical tools: 282.
 - Alias URLs: 4.
-- Public tool URLs: 278.
-- Blog guides: 274.
-- Current manual deep-review records: 274.
+- Public tool URLs: 286.
+- Blog guides: 282.
+- Current manual deep-review records: 282.
 - Current baseline-review records: 0.
 - Current alias-review records: 4.
 
@@ -18,8 +18,8 @@ The source of truth for review status is `src/data/toolDeepAudit.ts`. The site a
 
 Manual review completion status: complete for the current canonical library.
 
-- Deep-reviewed canonical tools: 274 of 274.
-- Baseline-reviewed canonical tools still needing individual manual review: 0 of 274.
+- Deep-reviewed canonical tools: 282 of 282.
+- Baseline-reviewed canonical tools still needing individual manual review: 0 of 282.
 - Alias-reviewed public URLs: 4 of 4.
 
 Do not mark a future full-library manual review complete while any canonical tool remains `baseline-reviewed`. A tool can only move from `baseline-reviewed` to `deep-reviewed` after that exact tool has been opened, tested, read, improved where needed, and checked against its guide, FAQ, examples, sources, SEO, privacy behavior, and layout.
@@ -45,7 +45,8 @@ Do not mark a future full-library manual review complete while any canonical too
 | 9 | Competitor kitchen, recipe, and shopping utilities | Recipe scaling, cooking units, grocery math, serving costs, oven/butter conversion, and pan-size scaling add practical everyday gaps. |
 | 10 | Competitor business and financial-ratio utilities | Break-even, markup, target-profit, liquidity, debt, operations, profitability, and stock-ratio pages expand the small-business/accounting cluster. |
 | 11 | Competitor construction material utilities | Concrete footings, columns, post holes, plywood, insulation, countertops, sod, and wall studs expand the home-project material cluster. |
-| 12 | Alias pages | Confirm canonical links, search intent, non-duplication, and user routing. |
+| 12 | Competitor concrete and masonry utilities | Concrete mix, driveway, steps, weight, mesh, block fill, retaining wall, and rebar weight expand the masonry material cluster. |
+| 13 | Alias pages | Confirm canonical links, search intent, non-duplication, and user routing. |
 
 ## Batch 2 Finance Progress
 
@@ -101,6 +102,10 @@ The review checked CalculatorSoup sitemap gap coverage, SBA and OpenStax break-e
 
 Batch 11 is complete as of 2026-05-01. The competitor construction material tools individually checked and promoted are: Concrete Footing Calculator, Concrete Column Calculator, Post Hole Concrete Calculator, Plywood Calculator, Insulation Calculator, Countertop Calculator, Sod Calculator, and Wall Stud Calculator.
 
+## Batch 12 Concrete And Masonry Progress
+
+Batch 12 is complete as of 2026-05-01. The competitor concrete and masonry tools individually checked and promoted are: Concrete Mix Calculator, Concrete Driveway Calculator, Concrete Steps Calculator, Concrete Weight Calculator, Concrete Mesh Calculator, Concrete Block Fill Calculator, Retaining Wall Calculator, and Rebar Weight Calculator.
+
 The review checked Inch Calculator sitemap gap coverage, QUIKRETE concrete reference coverage, DOE insulation wording, NIST unit references, formula math, input explanations, bag-count and material-count caveats, structural/code boundaries, examples, FAQ detail, guide specificity, related links, privacy behavior, and tests.
 
 No current canonical tool remains in the manual queue. Future tools must reopen this register and start as reviewed only after their exact page, FAQ, guide, examples, sources, privacy behavior, and layout have been checked.
@@ -125,18 +130,18 @@ Each tool must eventually pass this manual checklist:
 
 ## Progress Rule
 
-Do not change a generated or baseline record to `deep-reviewed` in bulk. Promotion must happen one tool at a time or in a clearly reviewed batch where each tool was actually opened, tested, and read. For the current 274-tool canonical library, the manual queue is complete; this rule applies to every future new tool or reopened tool.
+Do not change a generated or baseline record to `deep-reviewed` in bulk. Promotion must happen one tool at a time or in a clearly reviewed batch where each tool was actually opened, tested, and read. For the current 282-tool canonical library, the manual queue is complete; this rule applies to every future new tool or reopened tool.
 
 ## Completion Rule
 
 Full-library review is complete only when:
 
-- All 274 canonical tools are manually checked and truthfully marked `deep-reviewed`.
+- All 282 canonical tools are manually checked and truthfully marked `deep-reviewed`.
 - All 4 alias URLs are checked for canonical routing, search intent, and duplicate-content risk.
-- All 274 blog guides are read against the actual tool page.
+- All 282 blog guides are read against the actual tool page.
 - High-trust topics have clear limitations and professional-advice disclaimers.
 - Every changed tool passes the per-tool checklist above.
 - `npm run check` passes after the final batch.
 - Browser preview and production spot checks pass for representative pages.
 
-For the current canonical library, the correct public status is that Access Free Tools has complete manual deep-review coverage for 274 canonical tools, alias review coverage for 4 alias URLs, and a repeatable review program for future tools.
+For the current canonical library, the correct public status is that Access Free Tools has complete manual deep-review coverage for 282 canonical tools, alias review coverage for 4 alias URLs, and a repeatable review program for future tools.

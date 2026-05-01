@@ -12,8 +12,14 @@ import {
   calculateCarpetEstimate,
   calculateConcrete,
   calculateConcreteBlockEstimate,
+  calculateConcreteBlockFillEstimate,
   calculateConcreteColumnEstimate,
+  calculateConcreteDrivewayEstimate,
   calculateConcreteFootingEstimate,
+  calculateConcreteMixEstimate,
+  calculateConcreteReinforcingMeshEstimate,
+  calculateConcreteStepsEstimate,
+  calculateConcreteWeightEstimate,
   calculateCountertopEstimate,
   calculateCubicYardEstimate,
   calculateDayOfWeek,
@@ -65,7 +71,9 @@ import {
   calculatePoolVolume,
   calculatePostHoleConcreteEstimate,
   calculateRebarGridEstimate,
+  calculateRebarWeightEstimate,
   calculateResistorColorCode,
+  calculateRetainingWallEstimate,
   calculateRoofingEstimate,
   calculateSandEstimate,
   calculateSidingEstimate,
@@ -124,6 +132,7 @@ import {
   type HtmlEntityMode,
   type HorsepowerUnit,
   type MarkdownTableAlignment,
+  type RebarSize,
   type TextCaseMode,
   type TimeCardDayInput,
 } from '../lib/calculator';
@@ -184,6 +193,14 @@ export type UtilityToolVariant =
   | 'brick'
   | 'concrete-block'
   | 'rebar'
+  | 'concrete-mix'
+  | 'concrete-driveway'
+  | 'concrete-steps'
+  | 'concrete-weight'
+  | 'concrete-reinforcing-mesh'
+  | 'concrete-block-fill'
+  | 'retaining-wall'
+  | 'rebar-weight'
   | 'concrete-footing'
   | 'concrete-column'
   | 'post-hole-concrete'
@@ -322,6 +339,15 @@ const selectField = (key: string, label: string, options: SelectOption[]): Utili
   options,
 });
 
+const rebarSizeOptions: SelectOption[] = [
+  { label: '#3 - 0.376 lb/ft', value: '#3' },
+  { label: '#4 - 0.668 lb/ft', value: '#4' },
+  { label: '#5 - 1.043 lb/ft', value: '#5' },
+  { label: '#6 - 1.502 lb/ft', value: '#6' },
+  { label: '#7 - 2.044 lb/ft', value: '#7' },
+  { label: '#8 - 2.670 lb/ft', value: '#8' },
+];
+
 const commonFieldHelp: Partial<Record<string, string>> = {
   wastePercent:
     'Extra material added before rounding up. Use more when cuts, damaged pieces, pattern matching, or irregular shapes are likely.',
@@ -448,6 +474,63 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     spacingInches: 'Distance between parallel bars. Smaller spacing means more bars.',
     barLengthFeet: 'Stock length of one bar from your supplier.',
     wastePercent: 'Extra rebar length for cuts, lap planning, and small layout changes.',
+  },
+  'concrete-mix': {
+    cubicYards: 'Final concrete volume you want to mix, before the waste allowance is added.',
+    cementParts: 'Cement share in the mix ratio. A common general-purpose ratio is 1 part cement.',
+    sandParts: 'Sand share in the mix ratio. A 1:2:3 mix uses 2 parts sand.',
+    gravelParts: 'Stone or gravel share in the mix ratio. A 1:2:3 mix uses 3 parts gravel.',
+    cementBagCubicFeet: 'Approximate dry volume one cement bag contributes. Use your bag label when you have it.',
+    wastePercent: 'Extra material for spillage, uneven measuring, and small batch losses.',
+  },
+  'concrete-driveway': {
+    lengthFeet: 'Driveway slab length in feet.',
+    widthFeet: 'Driveway slab width in feet.',
+    depthInches: 'Average driveway thickness in inches. Many driveways use thicker edges or thicker sections for heavier loads.',
+    wastePercent: 'Extra concrete for low spots, forms, spillage, and ordering cushion.',
+    pricePerCubicYard: 'Optional ready-mix price per cubic yard for a rough material cost.',
+  },
+  'concrete-steps': {
+    stepCount: 'Number of risers in the solid concrete stair shape.',
+    widthFeet: 'Step width from side to side.',
+    riserHeightInches: 'Vertical height of each riser.',
+    treadDepthInches: 'Horizontal run of each tread.',
+    landingDepthFeet: 'Optional top landing depth in feet. Use 0 when there is no landing.',
+    wastePercent: 'Extra concrete for form variation, spillage, and ordering cushion.',
+  },
+  'concrete-weight': {
+    cubicYards: 'Concrete volume in cubic yards.',
+    densityPoundsPerCubicFoot: 'Concrete density. Normal-weight concrete is often estimated near 145 to 150 lb/ft3.',
+    wastePercent: 'Optional extra volume if you want weight after a waste allowance.',
+  },
+  'concrete-reinforcing-mesh': {
+    slabLengthFeet: 'Slab length in feet.',
+    slabWidthFeet: 'Slab width in feet.',
+    sheetLengthFeet: 'Length of one mesh sheet or roll section.',
+    sheetWidthFeet: 'Width of one mesh sheet or roll section.',
+    overlapInches: 'Planned overlap between sheets. Overlap reduces the effective coverage per sheet.',
+    wastePercent: 'Extra mesh for overlaps, edge trimming, cuts, and layout mistakes.',
+  },
+  'concrete-block-fill': {
+    blockCount: 'Number of block cores you plan to fill.',
+    fillCubicFeetPerBlock: 'Concrete or grout volume needed for one block. Use product or block data when available.',
+    wastePercent: 'Extra fill for spillage, overfilled cores, and small measurement differences.',
+  },
+  'retaining-wall': {
+    wallLengthFeet: 'Finished retaining wall length in feet.',
+    wallHeightFeet: 'Finished wall height in feet.',
+    blockLengthInches: 'Face length of one wall block.',
+    blockHeightInches: 'Face height of one wall block.',
+    capLengthInches: 'Length of one cap block along the wall.',
+    baseDepthInches: 'Depth of gravel base below the wall.',
+    baseWidthInches: 'Width of the compacted base trench.',
+    wastePercent: 'Extra wall blocks, caps, and base material for cuts, corners, and layout changes.',
+  },
+  'rebar-weight': {
+    rebarSize: 'US rebar size used for weight per foot. Example: #4 is about 0.668 lb per foot.',
+    lengthFeet: 'Length of one bar or cut piece in feet.',
+    quantity: 'How many bars or pieces at that length.',
+    wastePercent: 'Extra length for cuts, laps, layout changes, and damaged pieces.',
   },
   'concrete-footing': {
     lengthFeet: 'Total straight footing length in feet.',
@@ -2231,6 +2314,207 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         examples: [
           { label: '20 x 12 slab grid', inputs: { slabLengthFeet: '20', slabWidthFeet: '12', spacingInches: '18', barLengthFeet: '20', wastePercent: '10' } },
           { label: 'Garage pad', inputs: { slabLengthFeet: '24', slabWidthFeet: '20', spacingInches: '24', barLengthFeet: '20', wastePercent: '10' } },
+        ],
+      },
+    ],
+  },
+  'concrete-mix': {
+    title: 'Concrete Mix Calculator',
+    buttonLabel: 'Estimate mix',
+    emptyHistory: 'Recent concrete mix estimates will appear here.',
+    privacyNote: 'Concrete mix estimates stay local and use simple ratio math for planning small batches.',
+    modes: [
+      {
+        id: 'mix-ratio',
+        label: 'Mix ratio',
+        symbol: 'MIX',
+        fields: [
+          numberField('cubicYards', 'Concrete volume yd3', '1'),
+          numberField('cementParts', 'Cement parts', '1'),
+          numberField('sandParts', 'Sand parts', '2'),
+          numberField('gravelParts', 'Gravel parts', '3'),
+          numberField('cementBagCubicFeet', 'Cement bag ft3', '1'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { cubicYards: '1', cementParts: '1', sandParts: '2', gravelParts: '3', cementBagCubicFeet: '1', wastePercent: '10' },
+        examples: [
+          { label: '1 yd3, 1:2:3 mix', inputs: { cubicYards: '1', cementParts: '1', sandParts: '2', gravelParts: '3', cementBagCubicFeet: '1', wastePercent: '10' } },
+          { label: 'Small 1:2:4 batch', inputs: { cubicYards: '0.25', cementParts: '1', sandParts: '2', gravelParts: '4', cementBagCubicFeet: '1', wastePercent: '8' } },
+        ],
+      },
+    ],
+  },
+  'concrete-driveway': {
+    title: 'Concrete Driveway Calculator',
+    buttonLabel: 'Estimate driveway',
+    emptyHistory: 'Recent driveway concrete estimates will appear here.',
+    privacyNote: 'Driveway estimates stay local and use rectangular slab volume math.',
+    modes: [
+      {
+        id: 'driveway-slab',
+        label: 'Driveway slab',
+        symbol: 'DRV',
+        fields: [
+          numberField('lengthFeet', 'Driveway length feet', '40'),
+          numberField('widthFeet', 'Driveway width feet', '12'),
+          numberField('depthInches', 'Thickness inches', '4'),
+          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('pricePerCubicYard', 'Price per yd3', '160'),
+        ],
+        defaultInputs: { lengthFeet: '40', widthFeet: '12', depthInches: '4', wastePercent: '10', pricePerCubicYard: '160' },
+        examples: [
+          { label: 'Single-car driveway', inputs: { lengthFeet: '40', widthFeet: '12', depthInches: '4', wastePercent: '10', pricePerCubicYard: '160' } },
+          { label: 'Two-car pad', inputs: { lengthFeet: '30', widthFeet: '20', depthInches: '5', wastePercent: '10', pricePerCubicYard: '155' } },
+        ],
+      },
+    ],
+  },
+  'concrete-steps': {
+    title: 'Concrete Steps Calculator',
+    buttonLabel: 'Estimate steps',
+    emptyHistory: 'Recent concrete step estimates will appear here.',
+    privacyNote: 'Concrete steps estimates stay local and use a solid stair volume approximation.',
+    modes: [
+      {
+        id: 'solid-steps',
+        label: 'Solid steps',
+        symbol: 'STEP',
+        fields: [
+          integerField('stepCount', 'Step count', '4'),
+          numberField('widthFeet', 'Step width feet', '4'),
+          numberField('riserHeightInches', 'Riser height inches', '7'),
+          numberField('treadDepthInches', 'Tread depth inches', '11'),
+          numberField('landingDepthFeet', 'Landing depth feet', '3'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { stepCount: '4', widthFeet: '4', riserHeightInches: '7', treadDepthInches: '11', landingDepthFeet: '3', wastePercent: '10' },
+        examples: [
+          { label: 'Four porch steps', inputs: { stepCount: '4', widthFeet: '4', riserHeightInches: '7', treadDepthInches: '11', landingDepthFeet: '3', wastePercent: '10' } },
+          { label: 'Three garden steps', inputs: { stepCount: '3', widthFeet: '5', riserHeightInches: '6', treadDepthInches: '12', landingDepthFeet: '0', wastePercent: '8' } },
+        ],
+      },
+    ],
+  },
+  'concrete-weight': {
+    title: 'Concrete Weight Calculator',
+    buttonLabel: 'Estimate weight',
+    emptyHistory: 'Recent concrete weight estimates will appear here.',
+    privacyNote: 'Concrete weight estimates stay local and use the density you enter.',
+    modes: [
+      {
+        id: 'volume-weight',
+        label: 'Volume weight',
+        symbol: 'WT',
+        fields: [
+          numberField('cubicYards', 'Concrete volume yd3', '2'),
+          numberField('densityPoundsPerCubicFoot', 'Density lb/ft3', '145'),
+          numberField('wastePercent', 'Waste percent', '0'),
+        ],
+        defaultInputs: { cubicYards: '2', densityPoundsPerCubicFoot: '145', wastePercent: '0' },
+        examples: [
+          { label: '2 yd3 normal concrete', inputs: { cubicYards: '2', densityPoundsPerCubicFoot: '145', wastePercent: '0' } },
+          { label: 'Heavy estimate with cushion', inputs: { cubicYards: '3.5', densityPoundsPerCubicFoot: '150', wastePercent: '5' } },
+        ],
+      },
+    ],
+  },
+  'concrete-reinforcing-mesh': {
+    title: 'Concrete Mesh Calculator',
+    buttonLabel: 'Estimate mesh',
+    emptyHistory: 'Recent reinforcing mesh estimates will appear here.',
+    privacyNote: 'Mesh estimates stay local and are simple area takeoffs, not structural reinforcement design.',
+    modes: [
+      {
+        id: 'mesh-sheets',
+        label: 'Mesh sheets',
+        symbol: 'MESH',
+        fields: [
+          numberField('slabLengthFeet', 'Slab length feet', '30'),
+          numberField('slabWidthFeet', 'Slab width feet', '20'),
+          numberField('sheetLengthFeet', 'Sheet length feet', '10'),
+          numberField('sheetWidthFeet', 'Sheet width feet', '5'),
+          numberField('overlapInches', 'Overlap inches', '6'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { slabLengthFeet: '30', slabWidthFeet: '20', sheetLengthFeet: '10', sheetWidthFeet: '5', overlapInches: '6', wastePercent: '10' },
+        examples: [
+          { label: '30 x 20 slab', inputs: { slabLengthFeet: '30', slabWidthFeet: '20', sheetLengthFeet: '10', sheetWidthFeet: '5', overlapInches: '6', wastePercent: '10' } },
+          { label: 'Small patio mesh', inputs: { slabLengthFeet: '18', slabWidthFeet: '12', sheetLengthFeet: '10', sheetWidthFeet: '5', overlapInches: '4', wastePercent: '8' } },
+        ],
+      },
+    ],
+  },
+  'concrete-block-fill': {
+    title: 'Concrete Block Fill Calculator',
+    buttonLabel: 'Estimate fill',
+    emptyHistory: 'Recent block fill estimates will appear here.',
+    privacyNote: 'Block fill estimates stay local and use the per-block fill volume you enter.',
+    modes: [
+      {
+        id: 'block-core-fill',
+        label: 'Core fill',
+        symbol: 'FILL',
+        fields: [
+          integerField('blockCount', 'Block count', '120'),
+          numberField('fillCubicFeetPerBlock', 'Fill per block ft3', '0.25'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { blockCount: '120', fillCubicFeetPerBlock: '0.25', wastePercent: '10' },
+        examples: [
+          { label: '120 filled blocks', inputs: { blockCount: '120', fillCubicFeetPerBlock: '0.25', wastePercent: '10' } },
+          { label: 'Small reinforced wall', inputs: { blockCount: '64', fillCubicFeetPerBlock: '0.22', wastePercent: '8' } },
+        ],
+      },
+    ],
+  },
+  'retaining-wall': {
+    title: 'Retaining Wall Calculator',
+    buttonLabel: 'Estimate wall',
+    emptyHistory: 'Recent retaining wall estimates will appear here.',
+    privacyNote: 'Retaining wall estimates stay local and are material planning only, not engineering advice.',
+    modes: [
+      {
+        id: 'segmental-wall',
+        label: 'Segmental wall',
+        symbol: 'WALL',
+        fields: [
+          numberField('wallLengthFeet', 'Wall length feet', '40'),
+          numberField('wallHeightFeet', 'Wall height feet', '3'),
+          numberField('blockLengthInches', 'Block length inches', '16'),
+          numberField('blockHeightInches', 'Block height inches', '6'),
+          numberField('capLengthInches', 'Cap length inches', '12'),
+          numberField('baseDepthInches', 'Base depth inches', '6'),
+          numberField('baseWidthInches', 'Base width inches', '18'),
+          numberField('wastePercent', 'Waste percent', '5'),
+        ],
+        defaultInputs: { wallLengthFeet: '40', wallHeightFeet: '3', blockLengthInches: '16', blockHeightInches: '6', capLengthInches: '12', baseDepthInches: '6', baseWidthInches: '18', wastePercent: '5' },
+        examples: [
+          { label: 'Garden retaining wall', inputs: { wallLengthFeet: '40', wallHeightFeet: '3', blockLengthInches: '16', blockHeightInches: '6', capLengthInches: '12', baseDepthInches: '6', baseWidthInches: '18', wastePercent: '5' } },
+          { label: 'Short landscape wall', inputs: { wallLengthFeet: '24', wallHeightFeet: '2', blockLengthInches: '12', blockHeightInches: '4', capLengthInches: '12', baseDepthInches: '4', baseWidthInches: '16', wastePercent: '8' } },
+        ],
+      },
+    ],
+  },
+  'rebar-weight': {
+    title: 'Rebar Weight Calculator',
+    buttonLabel: 'Estimate weight',
+    emptyHistory: 'Recent rebar weight estimates will appear here.',
+    privacyNote: 'Rebar weight estimates stay local and use standard nominal US rebar weights.',
+    modes: [
+      {
+        id: 'bar-weight',
+        label: 'Bar weight',
+        symbol: 'RBW',
+        fields: [
+          selectField('rebarSize', 'Rebar size', rebarSizeOptions),
+          numberField('lengthFeet', 'Length per bar feet', '20'),
+          integerField('quantity', 'Quantity', '12'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { rebarSize: '#4', lengthFeet: '20', quantity: '12', wastePercent: '10' },
+        examples: [
+          { label: '#4 slab bars', inputs: { rebarSize: '#4', lengthFeet: '20', quantity: '12', wastePercent: '10' } },
+          { label: '#5 footing bars', inputs: { rebarSize: '#5', lengthFeet: '30', quantity: '8', wastePercent: '8' } },
         ],
       },
     ],
@@ -4948,6 +5232,208 @@ function calculateUtility(
           'Add waste, divide by stock bar length, and round up.',
         ],
         note: 'This is a simple material takeoff. Structural spacing, bar size, laps, chairs, cover, edge distance, and local code need professional design.',
+      };
+    }
+    case 'concrete-mix': {
+      const result = calculateConcreteMixEstimate({
+        cubicYards: parseNumber(inputs.cubicYards, 'Concrete volume'),
+        cementParts: parseNumber(inputs.cementParts, 'Cement parts'),
+        sandParts: parseNumber(inputs.sandParts, 'Sand parts'),
+        gravelParts: parseNumber(inputs.gravelParts, 'Gravel parts'),
+        cementBagCubicFeet: parseNumber(inputs.cementBagCubicFeet, 'Cement bag yield'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Mix materials',
+        expression: `${formatCalculatorNumber(result.cubicYards)} yd3 at ${formatCalculatorNumber(result.cementParts)}:${formatCalculatorNumber(result.sandParts)}:${formatCalculatorNumber(result.gravelParts)}`,
+        answer: `${formatCalculatorNumber(result.cementBags)} cement bags`,
+        metrics: [
+          { label: 'Adjusted concrete', value: `${formatCalculatorNumber(result.adjustedCubicYards)} yd3` },
+          { label: 'Cement', value: `${formatCalculatorNumber(result.cementCubicFeet)} ft3` },
+          { label: 'Sand', value: `${formatCalculatorNumber(result.sandCubicFeet)} ft3` },
+          { label: 'Gravel', value: `${formatCalculatorNumber(result.gravelCubicFeet)} ft3` },
+        ],
+        steps: [
+          'Convert cubic yards to cubic feet and add waste.',
+          'Add the cement, sand, and gravel ratio parts.',
+          'Split the adjusted volume by the ratio and round cement bags up.',
+        ],
+        note: 'Concrete mix design depends on strength, moisture, aggregate size, additives, and code requirements. This is a planning estimate for simple batches.',
+      };
+    }
+    case 'concrete-driveway': {
+      const result = calculateConcreteDrivewayEstimate({
+        lengthFeet: parseNumber(inputs.lengthFeet, 'Driveway length'),
+        widthFeet: parseNumber(inputs.widthFeet, 'Driveway width'),
+        depthInches: parseNumber(inputs.depthInches, 'Slab thickness'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        pricePerCubicYard: parseOptionalNumber(inputs.pricePerCubicYard ?? '', 'Price per cubic yard'),
+      });
+      return {
+        label: 'Concrete needed',
+        expression: `${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.widthFeet)} ft x ${formatCalculatorNumber(result.depthInches)} in driveway`,
+        answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
+        metrics: [
+          { label: 'Cubic feet', value: `${formatCalculatorNumber(result.cubicFeet)} ft3` },
+          { label: '80 lb bags', value: formatCalculatorNumber(result.eightyPoundBags) },
+          { label: 'Estimated cost', value: result.estimatedCost === null ? 'Not entered' : money(result.estimatedCost) },
+        ],
+        steps: [
+          'Convert slab thickness from inches to feet.',
+          'Multiply length by width by thickness for cubic feet.',
+          'Add waste, convert to cubic yards, and estimate cost if a price was entered.',
+        ],
+        note: 'Driveway thickness, subbase, reinforcement, control joints, drainage, soil, and local code can change the real pour plan.',
+      };
+    }
+    case 'concrete-steps': {
+      const result = calculateConcreteStepsEstimate({
+        stepCount: parseNumber(inputs.stepCount, 'Step count'),
+        widthFeet: parseNumber(inputs.widthFeet, 'Step width'),
+        riserHeightInches: parseNumber(inputs.riserHeightInches, 'Riser height'),
+        treadDepthInches: parseNumber(inputs.treadDepthInches, 'Tread depth'),
+        landingDepthFeet: parseNumber(inputs.landingDepthFeet, 'Landing depth'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Concrete needed',
+        expression: `${formatCalculatorNumber(result.stepCount)} steps, ${formatCalculatorNumber(result.widthFeet)} ft wide`,
+        answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
+        metrics: [
+          { label: 'Stair volume', value: `${formatCalculatorNumber(result.stairCubicFeet)} ft3` },
+          { label: 'Landing volume', value: `${formatCalculatorNumber(result.landingCubicFeet)} ft3` },
+          { label: '80 lb bags', value: formatCalculatorNumber(result.eightyPoundBags) },
+        ],
+        steps: [
+          'Convert riser and tread dimensions to feet.',
+          'Estimate the solid stair shape as stacked rectangular steps.',
+          'Add the landing volume, waste, and common bag counts.',
+        ],
+        note: 'This assumes solid concrete steps. Hollow forms, nosing, footings, reinforcement, frost, slope, handrails, and building code need separate planning.',
+      };
+    }
+    case 'concrete-weight': {
+      const result = calculateConcreteWeightEstimate({
+        cubicYards: parseNumber(inputs.cubicYards, 'Concrete volume'),
+        densityPoundsPerCubicFoot: parseNumber(inputs.densityPoundsPerCubicFoot, 'Density'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Concrete weight',
+        expression: `${formatCalculatorNumber(result.cubicYards)} yd3 at ${formatCalculatorNumber(result.densityPoundsPerCubicFoot)} lb/ft3`,
+        answer: `${formatCalculatorNumber(result.totalPounds)} lb`,
+        metrics: [
+          { label: 'Cubic feet', value: `${formatCalculatorNumber(result.cubicFeet)} ft3` },
+          { label: 'US tons', value: `${formatCalculatorNumber(result.totalTons)} tons` },
+          { label: 'Density used', value: `${formatCalculatorNumber(result.densityPoundsPerCubicFoot)} lb/ft3` },
+        ],
+        steps: [
+          'Convert cubic yards to cubic feet.',
+          'Apply the optional waste allowance.',
+          'Multiply cubic feet by the entered density and convert pounds to tons.',
+        ],
+        note: 'Concrete density changes with mix, aggregate, air, moisture, and reinforcement. Use supplier data for hauling or structural decisions.',
+      };
+    }
+    case 'concrete-reinforcing-mesh': {
+      const result = calculateConcreteReinforcingMeshEstimate({
+        slabLengthFeet: parseNumber(inputs.slabLengthFeet, 'Slab length'),
+        slabWidthFeet: parseNumber(inputs.slabWidthFeet, 'Slab width'),
+        sheetLengthFeet: parseNumber(inputs.sheetLengthFeet, 'Sheet length'),
+        sheetWidthFeet: parseNumber(inputs.sheetWidthFeet, 'Sheet width'),
+        overlapInches: parseNumber(inputs.overlapInches, 'Overlap'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Mesh sheets',
+        expression: `${formatCalculatorNumber(result.slabLengthFeet)} ft x ${formatCalculatorNumber(result.slabWidthFeet)} ft slab`,
+        answer: `${formatCalculatorNumber(result.sheetsNeeded)} sheets`,
+        metrics: [
+          { label: 'Slab area', value: `${formatCalculatorNumber(result.slabAreaSquareFeet)} ft2` },
+          { label: 'Area with waste', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Effective sheet area', value: `${formatCalculatorNumber(result.effectiveSheetAreaSquareFeet)} ft2` },
+        ],
+        steps: [
+          'Find slab area from length times width.',
+          'Reduce sheet coverage for overlap in both directions.',
+          'Add waste, divide by effective sheet area, and round up.',
+        ],
+        note: 'Mesh placement, wire size, chair spacing, concrete cover, laps, and structural reinforcement requirements need project-specific design.',
+      };
+    }
+    case 'concrete-block-fill': {
+      const result = calculateConcreteBlockFillEstimate({
+        blockCount: parseNumber(inputs.blockCount, 'Block count'),
+        fillCubicFeetPerBlock: parseNumber(inputs.fillCubicFeetPerBlock, 'Fill per block'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Fill concrete',
+        expression: `${formatCalculatorNumber(result.blockCount)} blocks x ${formatCalculatorNumber(result.fillCubicFeetPerBlock)} ft3 per block`,
+        answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
+        metrics: [
+          { label: 'Cubic feet', value: `${formatCalculatorNumber(result.cubicFeet)} ft3` },
+          { label: '80 lb bags', value: formatCalculatorNumber(result.eightyPoundBags) },
+          { label: '60 lb bags', value: formatCalculatorNumber(result.sixtyPoundBags) },
+        ],
+        steps: [
+          'Multiply block count by fill volume per block.',
+          'Add waste for spillage and overfilled cores.',
+          'Convert to cubic yards and estimate common bag counts.',
+        ],
+        note: 'Block core size, bond beams, rebar cells, grout type, cleanouts, and structural requirements can change fill volume.',
+      };
+    }
+    case 'retaining-wall': {
+      const result = calculateRetainingWallEstimate({
+        wallLengthFeet: parseNumber(inputs.wallLengthFeet, 'Wall length'),
+        wallHeightFeet: parseNumber(inputs.wallHeightFeet, 'Wall height'),
+        blockLengthInches: parseNumber(inputs.blockLengthInches, 'Block length'),
+        blockHeightInches: parseNumber(inputs.blockHeightInches, 'Block height'),
+        capLengthInches: parseNumber(inputs.capLengthInches, 'Cap length'),
+        baseDepthInches: parseNumber(inputs.baseDepthInches, 'Base depth'),
+        baseWidthInches: parseNumber(inputs.baseWidthInches, 'Base width'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Wall blocks',
+        expression: `${formatCalculatorNumber(result.wallLengthFeet)} ft x ${formatCalculatorNumber(result.wallHeightFeet)} ft retaining wall`,
+        answer: `${formatCalculatorNumber(result.wallBlocks)} blocks`,
+        metrics: [
+          { label: 'Courses', value: formatCalculatorNumber(result.courses) },
+          { label: 'Cap blocks', value: formatCalculatorNumber(result.capBlocks) },
+          { label: 'Base gravel', value: `${formatCalculatorNumber(result.baseCubicYards)} yd3` },
+        ],
+        steps: [
+          'Divide wall height by block height to estimate courses.',
+          'Divide wall length by block length to estimate blocks per course.',
+          'Add waste, estimate cap blocks, and calculate base trench volume.',
+        ],
+        note: 'Retaining walls need drainage, backfill, geogrid, setbacks, soil checks, and sometimes permits or engineering, especially as height increases.',
+      };
+    }
+    case 'rebar-weight': {
+      const result = calculateRebarWeightEstimate({
+        rebarSize: (inputs.rebarSize || '#4') as RebarSize,
+        lengthFeet: parseNumber(inputs.lengthFeet, 'Rebar length'),
+        quantity: parseNumber(inputs.quantity, 'Quantity'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Rebar weight',
+        expression: `${formatCalculatorNumber(result.quantity)} pieces of ${result.rebarSize} x ${formatCalculatorNumber(result.lengthFeet)} ft`,
+        answer: `${formatCalculatorNumber(result.totalPounds)} lb`,
+        metrics: [
+          { label: 'Adjusted length', value: `${formatCalculatorNumber(result.adjustedLengthFeet)} ft` },
+          { label: 'Weight per foot', value: `${formatCalculatorNumber(result.weightPerFootPounds)} lb/ft` },
+          { label: 'US tons', value: `${formatCalculatorNumber(result.totalTons)} tons` },
+        ],
+        steps: [
+          'Multiply length per bar by quantity.',
+          'Add waste for cuts and laps.',
+          'Multiply adjusted length by the nominal weight per foot for the selected bar size.',
+        ],
+        note: 'Nominal weights are planning values. Mill tolerances, coatings, bundles, laps, chairs, and structural design can change the final order.',
       };
     }
     case 'concrete-footing': {
