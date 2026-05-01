@@ -243,6 +243,22 @@ const sourceLinks = {
     href: 'https://www.gov.uk/algorithmic-transparency-records/money-and-pensions-service-mortgage-repayment-calculator',
     label: 'GOV.UK: Mortgage repayment calculator transparency record',
   },
+  sbaBreakEven: {
+    href: 'https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point',
+    label: 'U.S. Small Business Administration: Break-even point',
+  },
+  openStaxBreakEven: {
+    href: 'https://openstax.org/books/principles-managerial-accounting/pages/3-2-calculate-a-break-even-point-in-units-and-dollars',
+    label: 'OpenStax Managerial Accounting: Break-even point in units and dollars',
+  },
+  openStaxFinancialStatementAnalysis: {
+    href: 'https://openstax.org/books/principles-financial-accounting/pages/a-financial-statement-analysis',
+    label: 'OpenStax Financial Accounting: Financial statement analysis',
+  },
+  secFinancialStatements: {
+    href: 'https://www.sec.gov/about/reports-publications/beginners-guide-financial-statements',
+    label: "SEC: Beginners' Guide to Financial Statements",
+  },
 };
 
 function getFormulaAnswer(toolSlug: string) {
@@ -387,6 +403,26 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.openStaxDiscounts, sourceLinks.openStaxPercent];
   }
 
+  if (['break-even-calculator', 'profit-goal-calculator'].includes(toolSlug)) {
+    return [sourceLinks.sbaBreakEven, sourceLinks.openStaxBreakEven];
+  }
+
+  if (toolSlug === 'markup-calculator') {
+    return [sourceLinks.openStaxDiscounts, sourceLinks.openStaxPercent];
+  }
+
+  if (
+    [
+      'liquidity-ratios-calculator',
+      'debt-ratios-calculator',
+      'operations-ratios-calculator',
+      'profitability-ratios-calculator',
+      'stock-ratios-calculator',
+    ].includes(toolSlug)
+  ) {
+    return [sourceLinks.openStaxFinancialStatementAnalysis, sourceLinks.secFinancialStatements];
+  }
+
   if (toolSlug === 'debt-to-income-ratio-calculator') {
     return [sourceLinks.cfpbDebtToIncome];
   }
@@ -475,6 +511,206 @@ function getSourceLinks(toolSlug: string) {
 }
 
 const guideDetails: Record<string, GuideDetail> = {
+  'break-even-calculator': {
+    summary: 'Learn how to find the point where sales cover costs, using fixed costs, price per unit, and variable cost per unit.',
+    purpose:
+      'The Break Even Calculator is for simple business planning. It answers: how many units do I need to sell before I stop losing money on this product, event, or service?',
+    enter: [
+      'Enter fixed costs for the period you are planning, such as booth fees, rent, software, equipment, setup, or design costs.',
+      'Enter price per unit as the amount one customer pays for one item, ticket, order, or service package.',
+      'Enter variable cost per unit as the cost that happens each time one unit sells, such as materials, packaging, payment fees, or direct labor.',
+    ],
+    example: [
+      'If fixed costs are $5,000, price is $40, and variable cost is $18, each sale leaves $22 after variable cost.',
+      'The calculator divides $5,000 by $22, so the break-even point is about 227.27 units, or about $9,090.91 in sales.',
+    ],
+    read: [
+      'Break-even units is the main answer. In real life, you usually round up because you cannot sell part of a physical item.',
+      'Break-even sales is the revenue needed at the price you entered.',
+      'Contribution margin per unit is the amount each sale contributes toward fixed costs and then profit.',
+    ],
+    mistakes: [
+      'Do not put total costs into variable cost per unit. Variable cost should be for one unit.',
+      'Do not forget fees, refunds, discounts, or wasted materials if they happen often.',
+      'Do not use this as proof that the business idea is good. It only checks one part of the money math.',
+    ],
+    next: ['Use Profit Goal Calculator when you want profit above break-even.', 'Use Markup Calculator to test a different selling price.'],
+  },
+  'markup-calculator': {
+    summary: 'Learn how markup turns cost into selling price and why markup percent is not the same as margin percent.',
+    purpose:
+      'The Markup Calculator is for cost-plus pricing. It starts with what one item costs, adds a markup percent, then shows the selling price and profit.',
+    enter: [
+      'Enter unit cost as what one item costs before markup.',
+      'Enter markup percent as the percent added on top of cost, such as 50 for 50%.',
+      'Enter units if you want the page to total revenue, total cost, and total profit for a batch.',
+    ],
+    example: [
+      'If an item costs $30 and you add a 50% markup, the markup amount is $15.',
+      'The selling price is $45. The margin is 33.33%, because $15 profit is one-third of the final $45 price.',
+    ],
+    read: [
+      'Selling price per unit is the price produced by the markup.',
+      'Profit per unit is selling price minus cost.',
+      'Margin from that price helps you compare this result with margin-based pricing.',
+    ],
+    mistakes: [
+      'Do not read markup percent as margin percent. They use different denominators.',
+      'Do not ignore platform fees, shipping, returns, or discounts if they reduce profit.',
+      'Do not assume a higher markup automatically means the market will pay that price.',
+    ],
+    next: ['Use Margin Calculator when you already know selling price.', 'Use Break Even Calculator to see how many units need to sell.'],
+  },
+  'profit-goal-calculator': {
+    summary: 'Learn how to estimate the sales needed to cover costs and reach a target profit.',
+    purpose:
+      'The Profit Goal Calculator is like break-even math with an extra goal added. Instead of stopping at zero profit, it asks how many units are needed to earn the profit you want.',
+    enter: [
+      'Enter fixed costs for the project, month, event, or product batch.',
+      'Enter target profit as the money you want left after costs.',
+      'Enter price per unit and variable cost per unit so the calculator can find contribution margin.',
+    ],
+    example: [
+      'If fixed costs are $5,000 and target profit is $2,000, the total amount to cover is $7,000.',
+      'With a $40 price and $18 variable cost, each unit contributes $22, so the goal needs about 318.18 units.',
+    ],
+    read: [
+      'Units needed for goal is the main sales target.',
+      'Required sales converts those units into revenue at the price you entered.',
+      'Contribution per unit shows why lowering cost or raising price changes the target quickly.',
+    ],
+    mistakes: [
+      'Do not forget that demand, capacity, and time can limit sales even if the math target looks possible.',
+      'Do not enter the target profit as a percentage. It should be a dollar amount.',
+      'Do not use one average unit if your products have very different prices and costs without checking the mix.',
+    ],
+    next: ['Use Break Even Calculator for the zero-profit threshold.', 'Use Margin Calculator to review the profit percent from a known price.'],
+  },
+  'liquidity-ratios-calculator': {
+    summary: 'Learn how current ratio, quick ratio, cash ratio, and working capital describe short-term payment strength.',
+    purpose:
+      'The Liquidity Ratios Calculator helps read part of a balance sheet. It checks whether short-term assets look large enough compared with short-term bills.',
+    enter: [
+      'Enter current assets and current liabilities from the same balance sheet date.',
+      'Enter inventory and prepaid expenses so the quick ratio can remove less-liquid current assets.',
+      'Enter cash, marketable securities, and receivables so the cash ratio and supporting lines are easier to understand.',
+    ],
+    example: [
+      'If current assets are $120,000 and current liabilities are $80,000, current ratio is 1.5x.',
+      'If inventory and prepaid expenses total $30,000, quick assets are $90,000, so quick ratio is 1.125x.',
+    ],
+    read: [
+      'Current ratio compares all current assets with current liabilities.',
+      'Quick ratio is stricter because it removes inventory and prepaid expenses.',
+      'Cash ratio is the strictest of these because it looks only at cash and marketable securities.',
+    ],
+    mistakes: [
+      'Do not mix numbers from different dates without realizing the ratio can change.',
+      'Do not assume receivables are as good as cash if customers pay late.',
+      'Do not judge the business from one ratio. Trend and industry context matter.',
+    ],
+    next: ['Use Debt Ratios Calculator to review leverage.', 'Use Profitability Ratios Calculator to see whether the business is earning enough profit.'],
+  },
+  'debt-ratios-calculator': {
+    summary: 'Learn how debt ratio, debt-to-equity, and times interest earned describe leverage and interest coverage.',
+    purpose:
+      'The Debt Ratios Calculator looks at how much debt a business uses and whether operating earnings cover interest expense in a simple way.',
+    enter: [
+      'Enter total debt, total assets, and total equity from the balance sheet.',
+      'Enter EBIT from the income statement as earnings before interest and tax.',
+      'Enter interest expense for the same period as EBIT.',
+    ],
+    example: [
+      'With $220,000 debt and $500,000 assets, debt ratio is 44%.',
+      'With $90,000 EBIT and $15,000 interest expense, times interest earned is 6x.',
+    ],
+    read: [
+      'Debt ratio shows what percent of assets are funded by debt.',
+      'Debt-to-equity compares debt with owner equity.',
+      'Times interest earned shows how many times EBIT covers interest expense.',
+    ],
+    mistakes: [
+      'Do not compare debt ratios without considering industry and business stability.',
+      'Do not forget leases, short-term debt, and maturity dates if you are doing a real analysis.',
+      'Do not treat a good interest coverage ratio as a guarantee that cash flow is healthy.',
+    ],
+    next: ['Use Liquidity Ratios Calculator for short-term payment strength.', 'Use Profitability Ratios Calculator to compare leverage with earnings.'],
+  },
+  'operations-ratios-calculator': {
+    summary: 'Learn how turnover ratios show inventory, assets, and receivables moving through a business.',
+    purpose:
+      'The Operations Ratios Calculator checks how efficiently a business uses inventory, assets, and credit sales. It is useful when profit is not the only question.',
+    enter: [
+      'Enter cost of goods sold plus beginning and ending inventory for inventory turnover.',
+      'Enter net sales and average total assets for asset turnover.',
+      'Enter net credit sales and average receivables for receivables turnover and collection period.',
+    ],
+    example: [
+      'If COGS is $600,000 and average inventory is $100,000, inventory turnover is 6x.',
+      'If credit sales are $700,000 and average receivables are $80,000, receivables turnover is 8.75x, or about 41.71 days.',
+    ],
+    read: [
+      'Inventory turnover estimates how many times inventory is sold and replaced.',
+      'Asset turnover compares sales with the asset base.',
+      'Average collection period estimates how long receivables take to collect.',
+    ],
+    mistakes: [
+      'Do not ignore seasonal timing. A year-end inventory snapshot can look very different before or after a busy season.',
+      'Do not compare a retailer, software company, and manufacturer as if their operations should look the same.',
+      'Do not use net sales and credit sales interchangeably unless that is truly how the business reports them.',
+    ],
+    next: ['Use Profitability Ratios Calculator to connect operations with profit.', 'Use Liquidity Ratios Calculator to check short-term balance sheet strength.'],
+  },
+  'profitability-ratios-calculator': {
+    summary: 'Learn how margin, ROA, ROE, EPS, and P/E connect income statement profit with assets, equity, shares, and price.',
+    purpose:
+      'The Profitability Ratios Calculator groups common profit ratios in one place. It helps you see whether profit is strong at the sales level, asset level, equity level, and per-share level.',
+    enter: [
+      'Enter net sales, cost of goods sold, operating income, and net income from the income statement.',
+      'Enter average assets and average equity from the balance sheet period you are analyzing.',
+      'Enter shares outstanding and price per share if you want EPS and P/E context.',
+    ],
+    example: [
+      'With $950,000 sales and $120,000 net income, net margin is 12.63%.',
+      'With $120,000 net income and $260,000 average equity, ROE is 46.15%.',
+    ],
+    read: [
+      'Gross margin focuses on sales after product or service cost.',
+      'Operating margin includes operating expenses but stops before some other income statement layers.',
+      'ROA and ROE compare profit with assets and equity, while EPS and P/E connect profit to shares and price.',
+    ],
+    mistakes: [
+      'Do not compare margins across industries without context.',
+      'Do not treat high ROE as automatically good if the company uses heavy debt.',
+      'Do not ignore one-time income, unusual costs, or accounting changes.',
+    ],
+    next: ['Use Stock Ratios Calculator for per-share valuation ratios.', 'Use Debt Ratios Calculator to see whether debt is affecting returns.'],
+  },
+  'stock-ratios-calculator': {
+    summary: 'Learn how P/E, price-to-sales, price-to-book, dividend yield, and payout ratio are calculated from per-share values.',
+    purpose:
+      'The Stock Ratios Calculator is for learning valuation math. It turns stock price, earnings, sales, book value, and dividend into common ratios people use when researching stocks.',
+    enter: [
+      'Enter stock price as the share price you want to analyze.',
+      'Enter earnings per share, sales per share, and book value per share as positive per-share values.',
+      'Enter annual dividend per share if the stock pays one, or 0 if it does not.',
+    ],
+    example: [
+      'If price is $18 and EPS is $1.20, P/E is 15x.',
+      'If dividend is $0.45, dividend yield is 2.5% and payout ratio is 37.5% of EPS.',
+    ],
+    read: [
+      'P/E compares price with earnings per share.',
+      'Price-to-sales and price-to-book compare price with sales per share and book value per share.',
+      'Dividend yield compares dividend with price, while payout ratio compares dividend with earnings.',
+    ],
+    mistakes: [
+      'Do not treat a low P/E as automatically cheap or a high P/E as automatically bad.',
+      'Do not use old per-share data if the company has changed a lot.',
+      'Do not use this as investment advice. Ratios are starting clues, not a full decision.',
+    ],
+    next: ['Use Profitability Ratios Calculator to understand the business behind the per-share numbers.', 'Use ROI Calculator for a simple return estimate.'],
+  },
   'mortgage-calculator': {
     summary: 'Learn how to estimate a mortgage payment with principal, interest, taxes, insurance, PMI, and HOA costs.',
     purpose:

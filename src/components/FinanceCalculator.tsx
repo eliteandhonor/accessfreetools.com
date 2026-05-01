@@ -9,6 +9,7 @@ import {
   calculateAprEstimate,
   calculateBondEstimate,
   calculateAverageReturn,
+  calculateBreakEven,
   calculateBudget,
   calculateBusinessLoan,
   calculateCashBackLowInterest,
@@ -20,6 +21,7 @@ import {
   calculateCompoundInterest,
   calculateCurrencyConversion,
   calculateDebtConsolidation,
+  calculateDebtRatios,
   calculateDebtToIncome,
   calculateDepreciationEstimate,
   calculateDiscountEstimate,
@@ -39,14 +41,19 @@ import {
   calculateIraProjection,
   calculateInvestmentGrowth,
   calculateLoanSummary,
+  calculateLiquidityRatios,
   calculateMarginEstimate,
   calculateMarriageTaxComparison,
+  calculateMarkupPrice,
   calculateMutualFundEstimate,
+  calculateOperationsRatios,
   calculateMortgagePayoffSummary,
   calculateMortgagePayment,
   calculatePaybackPeriod,
   calculatePensionEstimate,
   calculatePresentValue,
+  calculateProfitabilityRatios,
+  calculateProfitGoal,
   calculateRefinance,
   calculateRealEstateReturn,
   calculateRetirementSavings,
@@ -63,6 +70,7 @@ import {
   calculateRentAffordability,
   calculateSalesTax,
   calculateSimpleInterest,
+  calculateStockRatios,
   calculateVat,
   formatCalculatorNumber,
   type AnnuityTiming,
@@ -110,6 +118,14 @@ export type FinanceToolVariant =
   | 'depreciation'
   | 'average-return'
   | 'margin'
+  | 'break-even'
+  | 'markup'
+  | 'profit-goal'
+  | 'liquidity-ratios'
+  | 'debt-ratios'
+  | 'operations-ratios'
+  | 'profitability-ratios'
+  | 'stock-ratios'
   | 'discount'
   | 'business-loan'
   | 'debt-to-income'
@@ -1210,6 +1226,236 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
           { label: 'Retail item', inputs: { revenue: '100', cost: '60' } },
           { label: 'Service job', inputs: { revenue: '2500', cost: '1400' } },
           { label: 'Low margin', inputs: { revenue: '1200', cost: '1050' } },
+        ],
+      },
+    ],
+  },
+  'break-even': {
+    title: 'Break Even Calculator',
+    buttonLabel: 'Calculate break-even',
+    emptyHistory: 'Recent break-even estimates will appear here.',
+    privacyNote: 'Break-even estimates use the simple cost and price values you enter and do not include taxes, refunds, financing, inventory shrinkage, or accounting advice.',
+    modes: [
+      {
+        id: 'break-even',
+        label: 'Break-even',
+        symbol: 'BE',
+        fields: [
+          numberField('fixedCosts', 'Fixed costs ($)'),
+          numberField('pricePerUnit', 'Price per unit ($)'),
+          numberField('variableCostPerUnit', 'Variable cost per unit ($)'),
+        ],
+        defaultInputs: { fixedCosts: '5000', pricePerUnit: '40', variableCostPerUnit: '18' },
+        examples: [
+          { label: 'Product launch', inputs: { fixedCosts: '5000', pricePerUnit: '40', variableCostPerUnit: '18' } },
+          { label: 'Online course', inputs: { fixedCosts: '2500', pricePerUnit: '99', variableCostPerUnit: '8' } },
+          { label: 'Food stall', inputs: { fixedCosts: '1200', pricePerUnit: '12', variableCostPerUnit: '4.25' } },
+        ],
+      },
+    ],
+  },
+  markup: {
+    title: 'Markup Calculator',
+    buttonLabel: 'Calculate markup price',
+    emptyHistory: 'Recent markup price estimates will appear here.',
+    privacyNote: 'Markup estimates are simple pricing math and do not include discounts, taxes, payment fees, inventory loss, or accounting rules.',
+    modes: [
+      {
+        id: 'markup',
+        label: 'Markup',
+        symbol: 'MKUP',
+        fields: [
+          numberField('unitCost', 'Unit cost ($)'),
+          numberField('markupPercent', 'Markup (%)'),
+          numberField('units', 'Units'),
+        ],
+        defaultInputs: { unitCost: '30', markupPercent: '50', units: '100' },
+        examples: [
+          { label: 'Retail item', inputs: { unitCost: '30', markupPercent: '50', units: '100' } },
+          { label: 'Handmade product', inputs: { unitCost: '12.50', markupPercent: '80', units: '25' } },
+          { label: 'Wholesale batch', inputs: { unitCost: '7.25', markupPercent: '35', units: '500' } },
+        ],
+      },
+    ],
+  },
+  'profit-goal': {
+    title: 'Profit Goal Calculator',
+    buttonLabel: 'Calculate sales goal',
+    emptyHistory: 'Recent profit goal estimates will appear here.',
+    privacyNote: 'Profit-goal estimates use simple contribution margin math and do not include taxes, capacity limits, refunds, financing costs, or accounting advice.',
+    modes: [
+      {
+        id: 'profit-goal',
+        label: 'Goal',
+        symbol: 'GOAL',
+        fields: [
+          numberField('fixedCosts', 'Fixed costs ($)'),
+          numberField('targetProfit', 'Target profit ($)'),
+          numberField('pricePerUnit', 'Price per unit ($)'),
+          numberField('variableCostPerUnit', 'Variable cost per unit ($)'),
+        ],
+        defaultInputs: { fixedCosts: '5000', targetProfit: '2000', pricePerUnit: '40', variableCostPerUnit: '18' },
+        examples: [
+          { label: '$2k profit target', inputs: { fixedCosts: '5000', targetProfit: '2000', pricePerUnit: '40', variableCostPerUnit: '18' } },
+          { label: 'Event table', inputs: { fixedCosts: '900', targetProfit: '750', pricePerUnit: '15', variableCostPerUnit: '5.5' } },
+          { label: 'Service package', inputs: { fixedCosts: '3200', targetProfit: '4500', pricePerUnit: '250', variableCostPerUnit: '60' } },
+        ],
+      },
+    ],
+  },
+  'liquidity-ratios': {
+    title: 'Liquidity Ratios Calculator',
+    buttonLabel: 'Calculate liquidity',
+    emptyHistory: 'Recent liquidity ratio checks will appear here.',
+    privacyNote: 'Liquidity ratios are educational accounting math. They do not judge creditworthiness, audit a business, or replace financial statement analysis.',
+    modes: [
+      {
+        id: 'liquidity-ratios',
+        label: 'Liquidity',
+        symbol: 'LIQ',
+        fields: [
+          numberField('currentAssets', 'Current assets ($)'),
+          numberField('currentLiabilities', 'Current liabilities ($)'),
+          numberField('inventory', 'Inventory ($)'),
+          numberField('prepaidExpenses', 'Prepaid expenses ($)'),
+          numberField('cashAndEquivalents', 'Cash and equivalents ($)'),
+          numberField('marketableSecurities', 'Marketable securities ($)'),
+          numberField('accountsReceivable', 'Accounts receivable ($)'),
+        ],
+        defaultInputs: {
+          currentAssets: '120000',
+          currentLiabilities: '80000',
+          inventory: '25000',
+          prepaidExpenses: '5000',
+          cashAndEquivalents: '30000',
+          marketableSecurities: '10000',
+          accountsReceivable: '35000',
+        },
+        examples: [
+          { label: 'Small business balance sheet', inputs: { currentAssets: '120000', currentLiabilities: '80000', inventory: '25000', prepaidExpenses: '5000', cashAndEquivalents: '30000', marketableSecurities: '10000', accountsReceivable: '35000' } },
+          { label: 'Inventory-heavy shop', inputs: { currentAssets: '200000', currentLiabilities: '125000', inventory: '90000', prepaidExpenses: '8000', cashAndEquivalents: '22000', marketableSecurities: '0', accountsReceivable: '45000' } },
+          { label: 'Cash-rich service firm', inputs: { currentAssets: '95000', currentLiabilities: '40000', inventory: '0', prepaidExpenses: '3000', cashAndEquivalents: '55000', marketableSecurities: '15000', accountsReceivable: '18000' } },
+        ],
+      },
+    ],
+  },
+  'debt-ratios': {
+    title: 'Debt Ratios Calculator',
+    buttonLabel: 'Calculate debt ratios',
+    emptyHistory: 'Recent debt ratio checks will appear here.',
+    privacyNote: 'Debt ratios are simplified statement math and do not decide loan approval, solvency, credit risk, tax treatment, or investing quality.',
+    modes: [
+      {
+        id: 'debt-ratios',
+        label: 'Debt ratios',
+        symbol: 'DEBT',
+        fields: [
+          numberField('totalDebt', 'Total debt ($)'),
+          numberField('totalAssets', 'Total assets ($)'),
+          numberField('totalEquity', 'Total equity ($)'),
+          numberField('ebit', 'EBIT ($)'),
+          numberField('interestExpense', 'Interest expense ($)'),
+        ],
+        defaultInputs: { totalDebt: '220000', totalAssets: '500000', totalEquity: '280000', ebit: '90000', interestExpense: '15000' },
+        examples: [
+          { label: 'Balanced company', inputs: { totalDebt: '220000', totalAssets: '500000', totalEquity: '280000', ebit: '90000', interestExpense: '15000' } },
+          { label: 'High debt load', inputs: { totalDebt: '480000', totalAssets: '750000', totalEquity: '270000', ebit: '105000', interestExpense: '42000' } },
+          { label: 'Low leverage', inputs: { totalDebt: '60000', totalAssets: '350000', totalEquity: '290000', ebit: '65000', interestExpense: '5000' } },
+        ],
+      },
+    ],
+  },
+  'operations-ratios': {
+    title: 'Operations Ratios Calculator',
+    buttonLabel: 'Calculate operations ratios',
+    emptyHistory: 'Recent operations ratio checks will appear here.',
+    privacyNote: 'Operations ratios use simplified accounting inputs and do not evaluate accounting quality, inventory method, credit policy, seasonality, or business risk.',
+    modes: [
+      {
+        id: 'operations-ratios',
+        label: 'Operations',
+        symbol: 'OPS',
+        fields: [
+          numberField('costOfGoodsSold', 'Cost of goods sold ($)'),
+          numberField('beginningInventory', 'Beginning inventory ($)'),
+          numberField('endingInventory', 'Ending inventory ($)'),
+          numberField('netSales', 'Net sales ($)'),
+          numberField('averageTotalAssets', 'Average total assets ($)'),
+          numberField('netCreditSales', 'Net credit sales ($)'),
+          numberField('averageAccountsReceivable', 'Average accounts receivable ($)'),
+          numberField('totalAssets', 'Total assets ($)'),
+          numberField('totalEquity', 'Total equity ($)'),
+        ],
+        defaultInputs: {
+          costOfGoodsSold: '600000',
+          beginningInventory: '90000',
+          endingInventory: '110000',
+          netSales: '950000',
+          averageTotalAssets: '500000',
+          netCreditSales: '700000',
+          averageAccountsReceivable: '80000',
+          totalAssets: '520000',
+          totalEquity: '260000',
+        },
+        examples: [
+          { label: 'Retail operations', inputs: { costOfGoodsSold: '600000', beginningInventory: '90000', endingInventory: '110000', netSales: '950000', averageTotalAssets: '500000', netCreditSales: '700000', averageAccountsReceivable: '80000', totalAssets: '520000', totalEquity: '260000' } },
+          { label: 'Faster receivables', inputs: { costOfGoodsSold: '420000', beginningInventory: '65000', endingInventory: '70000', netSales: '720000', averageTotalAssets: '390000', netCreditSales: '500000', averageAccountsReceivable: '45000', totalAssets: '410000', totalEquity: '240000' } },
+          { label: 'Inventory-heavy year', inputs: { costOfGoodsSold: '800000', beginningInventory: '180000', endingInventory: '230000', netSales: '1100000', averageTotalAssets: '700000', netCreditSales: '640000', averageAccountsReceivable: '95000', totalAssets: '730000', totalEquity: '310000' } },
+        ],
+      },
+    ],
+  },
+  'profitability-ratios': {
+    title: 'Profitability Ratios Calculator',
+    buttonLabel: 'Calculate profitability',
+    emptyHistory: 'Recent profitability ratio checks will appear here.',
+    privacyNote: 'Profitability ratios are educational statement math and do not decide business value, tax treatment, loan approval, or investment quality.',
+    modes: [
+      {
+        id: 'profitability-ratios',
+        label: 'Profitability',
+        symbol: 'PROF',
+        fields: [
+          numberField('netSales', 'Net sales ($)'),
+          numberField('costOfGoodsSold', 'Cost of goods sold ($)'),
+          numberField('operatingIncome', 'Operating income ($)'),
+          numberField('netIncome', 'Net income ($)'),
+          numberField('averageAssets', 'Average assets ($)'),
+          numberField('averageEquity', 'Average equity ($)'),
+          numberField('sharesOutstanding', 'Shares outstanding'),
+          numberField('pricePerShare', 'Price per share ($)'),
+        ],
+        defaultInputs: { netSales: '950000', costOfGoodsSold: '600000', operatingIncome: '180000', netIncome: '120000', averageAssets: '500000', averageEquity: '260000', sharesOutstanding: '100000', pricePerShare: '18' },
+        examples: [
+          { label: 'Profitable company', inputs: { netSales: '950000', costOfGoodsSold: '600000', operatingIncome: '180000', netIncome: '120000', averageAssets: '500000', averageEquity: '260000', sharesOutstanding: '100000', pricePerShare: '18' } },
+          { label: 'Thin margins', inputs: { netSales: '700000', costOfGoodsSold: '520000', operatingIncome: '65000', netIncome: '38000', averageAssets: '450000', averageEquity: '180000', sharesOutstanding: '80000', pricePerShare: '9.5' } },
+          { label: 'Service firm', inputs: { netSales: '480000', costOfGoodsSold: '120000', operatingIncome: '140000', netIncome: '95000', averageAssets: '220000', averageEquity: '160000', sharesOutstanding: '50000', pricePerShare: '24' } },
+        ],
+      },
+    ],
+  },
+  'stock-ratios': {
+    title: 'Stock Ratios Calculator',
+    buttonLabel: 'Calculate stock ratios',
+    emptyHistory: 'Recent stock ratio checks will appear here.',
+    privacyNote: 'Stock ratios are educational valuation math and do not include risk, growth quality, market timing, taxes, fees, or investment advice.',
+    modes: [
+      {
+        id: 'stock-ratios',
+        label: 'Stock ratios',
+        symbol: 'STK',
+        fields: [
+          numberField('stockPrice', 'Stock price ($)'),
+          numberField('earningsPerShare', 'Earnings per share ($)'),
+          numberField('salesPerShare', 'Sales per share ($)'),
+          numberField('bookValuePerShare', 'Book value per share ($)'),
+          numberField('dividendPerShare', 'Dividend per share ($)'),
+        ],
+        defaultInputs: { stockPrice: '18', earningsPerShare: '1.2', salesPerShare: '9.5', bookValuePerShare: '2.6', dividendPerShare: '0.45' },
+        examples: [
+          { label: 'Dividend stock', inputs: { stockPrice: '18', earningsPerShare: '1.2', salesPerShare: '9.5', bookValuePerShare: '2.6', dividendPerShare: '0.45' } },
+          { label: 'Growth stock', inputs: { stockPrice: '75', earningsPerShare: '2.5', salesPerShare: '18', bookValuePerShare: '8', dividendPerShare: '0' } },
+          { label: 'Value check', inputs: { stockPrice: '32', earningsPerShare: '4', salesPerShare: '45', bookValuePerShare: '21', dividendPerShare: '1.2' } },
         ],
       },
     ],
@@ -3151,6 +3397,236 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide profit by cost to calculate markup.',
         ],
         note: 'This is business profit-margin math, not brokerage margin or leveraged investing advice.',
+      };
+    }
+    case 'break-even': {
+      const result = calculateBreakEven({
+        fixedCosts: parseNumber(inputs.fixedCosts, 'Fixed costs'),
+        pricePerUnit: parseNumber(inputs.pricePerUnit, 'Price per unit'),
+        variableCostPerUnit: parseNumber(inputs.variableCostPerUnit, 'Variable cost per unit'),
+      });
+
+      return {
+        label: 'Break-even units',
+        expression: `${compactMoney(result.fixedCosts)} fixed costs / ${money(result.contributionMarginPerUnit)} contribution`,
+        answer: formatCalculatorNumber(result.breakEvenUnits),
+        metrics: [
+          { label: 'Break-even sales', value: money(result.breakEvenSales) },
+          { label: 'Contribution per unit', value: money(result.contributionMarginPerUnit) },
+          { label: 'Contribution margin ratio', value: percent(result.contributionMarginRatioPercent) },
+          { label: 'Price per unit', value: money(result.pricePerUnit) },
+        ],
+        steps: [
+          'Subtract variable cost per unit from price per unit to find contribution margin per unit.',
+          'Divide fixed costs by contribution margin per unit.',
+          'Multiply break-even units by price per unit to estimate break-even sales.',
+        ],
+        note: 'This is a planning estimate. Real break-even can move when refunds, discounts, taxes, capacity, or mixed product sales change.',
+      };
+    }
+    case 'markup': {
+      const result = calculateMarkupPrice({
+        unitCost: parseNumber(inputs.unitCost, 'Unit cost'),
+        markupPercent: parseNumber(inputs.markupPercent, 'Markup percent'),
+        units: parseNumber(inputs.units, 'Units'),
+      });
+
+      return {
+        label: 'Selling price per unit',
+        expression: `${compactMoney(result.unitCost)} cost with ${percent(result.markupPercent)} markup`,
+        answer: money(result.sellingPricePerUnit),
+        metrics: [
+          { label: 'Profit per unit', value: money(result.profitPerUnit) },
+          { label: 'Margin from that price', value: percent(result.marginPercent) },
+          { label: 'Total revenue', value: money(result.totalRevenue) },
+          { label: 'Total profit', value: money(result.totalProfit) },
+        ],
+        steps: [
+          'Convert markup percent to a multiplier.',
+          'Multiply unit cost by one plus markup percent.',
+          'Subtract cost from selling price for profit per unit.',
+          'Multiply by units to show total revenue and profit.',
+        ],
+        note: 'Markup is based on cost. Margin is based on selling price, so the two percentages are not the same number.',
+      };
+    }
+    case 'profit-goal': {
+      const result = calculateProfitGoal({
+        fixedCosts: parseNumber(inputs.fixedCosts, 'Fixed costs'),
+        targetProfit: parseNumber(inputs.targetProfit, 'Target profit'),
+        pricePerUnit: parseNumber(inputs.pricePerUnit, 'Price per unit'),
+        variableCostPerUnit: parseNumber(inputs.variableCostPerUnit, 'Variable cost per unit'),
+      });
+
+      return {
+        label: 'Units needed for goal',
+        expression: `${compactMoney(result.fixedCosts + result.targetProfit)} needed / ${money(result.contributionMarginPerUnit)} contribution`,
+        answer: formatCalculatorNumber(result.requiredUnits),
+        metrics: [
+          { label: 'Required sales', value: money(result.requiredSales) },
+          { label: 'Contribution per unit', value: money(result.contributionMarginPerUnit) },
+          { label: 'Fixed costs', value: money(result.fixedCosts) },
+          { label: 'Target profit', value: money(result.targetProfit) },
+        ],
+        steps: [
+          'Add target profit to fixed costs.',
+          'Subtract variable cost per unit from price per unit.',
+          'Divide the total money goal by contribution margin per unit.',
+          'Multiply required units by price per unit for required sales.',
+        ],
+        note: 'This does not check whether that many units can actually be produced, sold, shipped, or supported.',
+      };
+    }
+    case 'liquidity-ratios': {
+      const result = calculateLiquidityRatios({
+        currentAssets: parseNumber(inputs.currentAssets, 'Current assets'),
+        currentLiabilities: parseNumber(inputs.currentLiabilities, 'Current liabilities'),
+        inventory: parseNumber(inputs.inventory, 'Inventory'),
+        prepaidExpenses: parseNumber(inputs.prepaidExpenses, 'Prepaid expenses'),
+        cashAndEquivalents: parseNumber(inputs.cashAndEquivalents, 'Cash and equivalents'),
+        marketableSecurities: parseNumber(inputs.marketableSecurities, 'Marketable securities'),
+        accountsReceivable: parseNumber(inputs.accountsReceivable, 'Accounts receivable'),
+      });
+
+      return {
+        label: 'Current ratio',
+        expression: `${compactMoney(result.currentAssets)} current assets / ${compactMoney(result.currentLiabilities)} current liabilities`,
+        answer: `${formatCalculatorNumber(result.currentRatio)}x`,
+        metrics: [
+          { label: 'Working capital', value: money(result.workingCapital) },
+          { label: 'Quick ratio', value: `${formatCalculatorNumber(result.quickRatio)}x` },
+          { label: 'Cash ratio', value: `${formatCalculatorNumber(result.cashRatio)}x` },
+          { label: 'Accounts receivable entered', value: money(result.accountsReceivable) },
+        ],
+        steps: [
+          'Divide current assets by current liabilities for current ratio.',
+          'Subtract inventory and prepaid expenses from current assets for quick assets.',
+          'Divide cash plus marketable securities by current liabilities for cash ratio.',
+          'Subtract current liabilities from current assets for working capital.',
+        ],
+        note: 'Liquidity ratios are only as good as the balance sheet numbers entered and do not prove that cash will arrive on time.',
+      };
+    }
+    case 'debt-ratios': {
+      const result = calculateDebtRatios({
+        totalDebt: parseNumber(inputs.totalDebt, 'Total debt'),
+        totalAssets: parseNumber(inputs.totalAssets, 'Total assets'),
+        totalEquity: parseNumber(inputs.totalEquity, 'Total equity'),
+        ebit: parseNumber(inputs.ebit, 'EBIT'),
+        interestExpense: parseNumber(inputs.interestExpense, 'Interest expense'),
+      });
+
+      return {
+        label: 'Debt ratio',
+        expression: `${compactMoney(result.totalDebt)} debt / ${compactMoney(result.totalAssets)} assets`,
+        answer: percent(result.debtRatioPercent),
+        metrics: [
+          { label: 'Debt-to-equity', value: `${formatCalculatorNumber(result.debtToEquityRatio)}x` },
+          { label: 'Times interest earned', value: `${formatCalculatorNumber(result.timesInterestEarned)}x` },
+          { label: 'Total equity', value: money(result.totalEquity) },
+          { label: 'Interest expense', value: money(result.interestExpense) },
+        ],
+        steps: [
+          'Divide total debt by total assets for debt ratio.',
+          'Divide total debt by total equity for debt-to-equity ratio.',
+          'Divide EBIT by interest expense for times interest earned.',
+        ],
+        note: 'Debt ratios need context such as industry, maturity dates, cash flow quality, lease obligations, and interest-rate changes.',
+      };
+    }
+    case 'operations-ratios': {
+      const result = calculateOperationsRatios({
+        costOfGoodsSold: parseNumber(inputs.costOfGoodsSold, 'Cost of goods sold'),
+        beginningInventory: parseNumber(inputs.beginningInventory, 'Beginning inventory'),
+        endingInventory: parseNumber(inputs.endingInventory, 'Ending inventory'),
+        netSales: parseNumber(inputs.netSales, 'Net sales'),
+        averageTotalAssets: parseNumber(inputs.averageTotalAssets, 'Average total assets'),
+        netCreditSales: parseNumber(inputs.netCreditSales, 'Net credit sales'),
+        averageAccountsReceivable: parseNumber(inputs.averageAccountsReceivable, 'Average accounts receivable'),
+        totalAssets: parseNumber(inputs.totalAssets, 'Total assets'),
+        totalEquity: parseNumber(inputs.totalEquity, 'Total equity'),
+      });
+
+      return {
+        label: 'Inventory turnover',
+        expression: `${compactMoney(result.costOfGoodsSold)} COGS / ${compactMoney(result.averageInventory)} average inventory`,
+        answer: `${formatCalculatorNumber(result.inventoryTurnover)}x`,
+        metrics: [
+          { label: 'Asset turnover', value: `${formatCalculatorNumber(result.assetTurnover)}x` },
+          { label: 'Receivables turnover', value: `${formatCalculatorNumber(result.receivablesTurnover)}x` },
+          { label: 'Average collection period', value: `${formatCalculatorNumber(result.averageCollectionPeriodDays)} days` },
+          { label: 'Equity multiplier', value: `${formatCalculatorNumber(result.equityMultiplier)}x` },
+        ],
+        steps: [
+          'Average beginning and ending inventory.',
+          'Divide cost of goods sold by average inventory.',
+          'Divide net sales by average total assets for asset turnover.',
+          'Divide net credit sales by average accounts receivable for receivables turnover.',
+          'Divide total assets by total equity for equity multiplier.',
+        ],
+        note: 'Operations ratios can swing with seasonality, inventory method, collection policy, and one-time balance sheet changes.',
+      };
+    }
+    case 'profitability-ratios': {
+      const result = calculateProfitabilityRatios({
+        netSales: parseNumber(inputs.netSales, 'Net sales'),
+        costOfGoodsSold: parseNumber(inputs.costOfGoodsSold, 'Cost of goods sold'),
+        operatingIncome: parseNumber(inputs.operatingIncome, 'Operating income'),
+        netIncome: parseNumber(inputs.netIncome, 'Net income'),
+        averageAssets: parseNumber(inputs.averageAssets, 'Average assets'),
+        averageEquity: parseNumber(inputs.averageEquity, 'Average equity'),
+        sharesOutstanding: parseNumber(inputs.sharesOutstanding, 'Shares outstanding'),
+        pricePerShare: parseNumber(inputs.pricePerShare, 'Price per share'),
+      });
+
+      return {
+        label: 'Net profit margin',
+        expression: `${compactMoney(result.netIncome)} net income / ${compactMoney(result.netSales)} net sales`,
+        answer: percent(result.netProfitMarginPercent),
+        metrics: [
+          { label: 'Gross margin', value: percent(result.grossMarginPercent) },
+          { label: 'Operating margin', value: percent(result.operatingMarginPercent) },
+          { label: 'Return on assets', value: percent(result.returnOnAssetsPercent) },
+          { label: 'Return on equity', value: percent(result.returnOnEquityPercent) },
+          { label: 'Earnings per share', value: money(result.earningsPerShare) },
+          { label: 'Price-to-earnings', value: `${formatCalculatorNumber(result.priceEarningsRatio)}x` },
+        ],
+        steps: [
+          'Subtract cost of goods sold from net sales for gross profit.',
+          'Divide gross profit, operating income, and net income by net sales for margins.',
+          'Divide net income by average assets and average equity for return ratios.',
+          'Divide net income by shares outstanding for EPS, then compare price to EPS.',
+        ],
+        note: 'Profitability ratios need context. Different industries can have very different normal margins, asset bases, and capital structures.',
+      };
+    }
+    case 'stock-ratios': {
+      const result = calculateStockRatios({
+        stockPrice: parseNumber(inputs.stockPrice, 'Stock price'),
+        earningsPerShare: parseNumber(inputs.earningsPerShare, 'Earnings per share'),
+        salesPerShare: parseNumber(inputs.salesPerShare, 'Sales per share'),
+        bookValuePerShare: parseNumber(inputs.bookValuePerShare, 'Book value per share'),
+        dividendPerShare: parseNumber(inputs.dividendPerShare, 'Dividend per share'),
+      });
+
+      return {
+        label: 'Price-to-earnings ratio',
+        expression: `${money(result.stockPrice)} price / ${money(result.earningsPerShare)} EPS`,
+        answer: `${formatCalculatorNumber(result.priceEarningsRatio)}x`,
+        metrics: [
+          { label: 'Price-to-sales', value: `${formatCalculatorNumber(result.priceSalesRatio)}x` },
+          { label: 'Price-to-book', value: `${formatCalculatorNumber(result.priceBookRatio)}x` },
+          { label: 'Dividend yield', value: percent(result.dividendYieldPercent) },
+          { label: 'Payout ratio', value: percent(result.payoutRatioPercent) },
+        ],
+        steps: [
+          'Divide stock price by earnings per share for P/E.',
+          'Divide stock price by sales per share for price-to-sales.',
+          'Divide stock price by book value per share for price-to-book.',
+          'Divide dividend per share by stock price for dividend yield.',
+          'Divide dividend per share by EPS for payout ratio.',
+        ],
+        note: 'Stock ratios do not say whether a stock is good or bad. Growth, debt, risk, accounting quality, and future expectations matter too.',
       };
     }
     case 'discount': {

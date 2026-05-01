@@ -97,6 +97,7 @@ import {
   calculateCdEstimate,
   calculateCollegeCost,
   calculateCommission,
+  calculateBreakEven,
   calculateCreditCardPayoff,
   calculateConcrete,
   calculateCurrencyConversion,
@@ -124,6 +125,7 @@ import {
   calculateCaloriesBurned,
   calculateCompoundInterest,
   calculateDebtConsolidation,
+  calculateDebtRatios,
   calculateDebtToIncome,
   calculateDepreciationEstimate,
   calculateDevineIdealWeight,
@@ -144,9 +146,11 @@ import {
   calculateInterestRateFromPayment,
   calculateIrr,
   calculateIraProjection,
+  calculateLiquidityRatios,
   calculateLoanSummary,
   calculateMarginEstimate,
   calculateMarriageTaxComparison,
+  calculateMarkupPrice,
   calculateMacroSplit,
   calculateMifflinStJeor,
   calculateMutualFundEstimate,
@@ -154,11 +158,14 @@ import {
   calculateMortgagePayoffSummary,
   calculateNavyBodyFat,
   calculateOneRepMax,
+  calculateOperationsRatios,
   calculatePace,
   calculatePaybackPeriod,
   calculatePensionEstimate,
   calculatePregnancyWeightGain,
   calculatePresentValue,
+  calculateProfitabilityRatios,
+  calculateProfitGoal,
   calculateRentAffordability,
   calculateRealEstateReturn,
   calculateRefinance,
@@ -170,6 +177,7 @@ import {
   calculateSavingsProjection,
   calculateSalesTax,
   calculateSocialSecurityClaiming,
+  calculateStockRatios,
   calculateTakeHomePaycheck,
   calculateUkMortgage,
   calculateVat,
@@ -1279,6 +1287,90 @@ describe('finance helpers', () => {
     expect(lease.monthlyPayment).toBeGreaterThan(0);
     expect(refinance.newLoan.monthlyPayment).toBeLessThan(refinance.currentLoan.monthlyPayment);
     expect(budget.leftover).toBe(550);
+  });
+
+  it('calculates business pricing and financial ratio batch estimates', () => {
+    const breakEven = calculateBreakEven({ fixedCosts: 5000, pricePerUnit: 40, variableCostPerUnit: 18 });
+    const markup = calculateMarkupPrice({ unitCost: 30, markupPercent: 50, units: 100 });
+    const profitGoal = calculateProfitGoal({
+      fixedCosts: 5000,
+      targetProfit: 2000,
+      pricePerUnit: 40,
+      variableCostPerUnit: 18,
+    });
+    const liquidity = calculateLiquidityRatios({
+      currentAssets: 120000,
+      currentLiabilities: 80000,
+      inventory: 25000,
+      prepaidExpenses: 5000,
+      cashAndEquivalents: 30000,
+      marketableSecurities: 10000,
+      accountsReceivable: 35000,
+    });
+    const debtRatios = calculateDebtRatios({
+      totalDebt: 220000,
+      totalAssets: 500000,
+      totalEquity: 280000,
+      ebit: 90000,
+      interestExpense: 15000,
+    });
+    const operations = calculateOperationsRatios({
+      costOfGoodsSold: 600000,
+      beginningInventory: 90000,
+      endingInventory: 110000,
+      netSales: 950000,
+      averageTotalAssets: 500000,
+      netCreditSales: 700000,
+      averageAccountsReceivable: 80000,
+      totalAssets: 520000,
+      totalEquity: 260000,
+    });
+    const profitability = calculateProfitabilityRatios({
+      netSales: 950000,
+      costOfGoodsSold: 600000,
+      operatingIncome: 180000,
+      netIncome: 120000,
+      averageAssets: 500000,
+      averageEquity: 260000,
+      sharesOutstanding: 100000,
+      pricePerShare: 18,
+    });
+    const stockRatios = calculateStockRatios({
+      stockPrice: 18,
+      earningsPerShare: 1.2,
+      salesPerShare: 9.5,
+      bookValuePerShare: 2.6,
+      dividendPerShare: 0.45,
+    });
+
+    expect(formatCalculatorNumber(breakEven.breakEvenUnits)).toBe('227.272727273');
+    expect(formatCalculatorNumber(breakEven.breakEvenSales)).toBe('9090.90909091');
+    expect(markup.sellingPricePerUnit).toBe(45);
+    expect(formatCalculatorNumber(markup.marginPercent)).toBe('33.3333333333');
+    expect(formatCalculatorNumber(profitGoal.requiredUnits)).toBe('318.181818182');
+    expect(liquidity.workingCapital).toBe(40000);
+    expect(liquidity.currentRatio).toBe(1.5);
+    expect(liquidity.quickRatio).toBe(1.125);
+    expect(liquidity.cashRatio).toBe(0.5);
+    expect(debtRatios.debtRatioPercent).toBe(44);
+    expect(formatCalculatorNumber(debtRatios.debtToEquityRatio)).toBe('0.7857142857');
+    expect(debtRatios.timesInterestEarned).toBe(6);
+    expect(operations.inventoryTurnover).toBe(6);
+    expect(operations.assetTurnover).toBe(1.9);
+    expect(operations.receivablesTurnover).toBe(8.75);
+    expect(formatCalculatorNumber(operations.averageCollectionPeriodDays)).toBe('41.7142857143');
+    expect(operations.equityMultiplier).toBe(2);
+    expect(formatCalculatorNumber(profitability.grossMarginPercent)).toBe('36.8421052632');
+    expect(formatCalculatorNumber(profitability.netProfitMarginPercent)).toBe('12.6315789474');
+    expect(profitability.returnOnAssetsPercent).toBe(24);
+    expect(formatCalculatorNumber(profitability.returnOnEquityPercent)).toBe('46.1538461538');
+    expect(profitability.earningsPerShare).toBe(1.2);
+    expect(profitability.priceEarningsRatio).toBe(15);
+    expect(stockRatios.priceEarningsRatio).toBe(15);
+    expect(formatCalculatorNumber(stockRatios.priceSalesRatio)).toBe('1.8947368421');
+    expect(formatCalculatorNumber(stockRatios.priceBookRatio)).toBe('6.9230769231');
+    expect(stockRatios.dividendYieldPercent).toBe(2.5);
+    expect(stockRatios.payoutRatioPercent).toBe(37.5);
   });
 
   it('calculates the remaining finance roadmap estimates', () => {

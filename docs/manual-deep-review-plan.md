@@ -72,6 +72,6 @@ The manual review program does not stop at the top 25. The top 25 are the first 
 5. Developer, image, text, random, everyday utilities, and final GDP/height/sleep cleanup.
 6. Alias pages, to confirm canonical tags, search terms, and redirect-like user guidance.
 
-Batch 1, Batch 2, Batch 3, Batch 4, Batch 5, and Batch 6 are complete as of 2026-04-30. Batch 7 for browser-only AI tools, Batch 8 for competitor Tech & AI utilities, and Batch 9 for competitor kitchen, recipe, and shopping utilities are complete as of 2026-05-01. The current 258-tool canonical library has no remaining baseline-reviewed tools.
+Batch 1, Batch 2, Batch 3, Batch 4, Batch 5, and Batch 6 are complete as of 2026-04-30. Batch 7 for browser-only AI tools, Batch 8 for competitor Tech & AI utilities, Batch 9 for competitor kitchen, recipe, and shopping utilities, and Batch 10 for competitor business and financial-ratio utilities are complete as of 2026-05-01. The current 266-tool canonical library has no remaining baseline-reviewed tools.
 
 Every future batch should update tool content, FAQ detail, guide clarity, source notes, privacy notes, and visual checks before records are promoted from `baseline-reviewed` or `alias-reviewed` to `deep-reviewed`. New tools reopen the manual queue until their exact page, guide, examples, and tool behavior are checked.

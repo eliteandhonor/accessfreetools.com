@@ -82,6 +82,14 @@ export type CalculatorIconMark =
   | 'depreciation'
   | 'avg-return'
   | 'margin'
+  | 'break-even'
+  | 'markup'
+  | 'profit-goal'
+  | 'liquidity-ratios'
+  | 'debt-ratios'
+  | 'operations-ratios'
+  | 'profitability-ratios'
+  | 'stock-ratios'
   | 'discount'
   | 'business-loan'
   | 'dti'
@@ -319,6 +327,14 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-depreciation': 'depreciation',
   'calculator-average-return': 'avg-return',
   'calculator-margin': 'margin',
+  'calculator-break-even': 'break-even',
+  'calculator-markup': 'markup',
+  'calculator-profit-goal': 'profit-goal',
+  'calculator-liquidity-ratios': 'liquidity-ratios',
+  'calculator-debt-ratios': 'debt-ratios',
+  'calculator-operations-ratios': 'operations-ratios',
+  'calculator-profitability-ratios': 'profitability-ratios',
+  'calculator-stock-ratios': 'stock-ratios',
   'calculator-discount': 'discount',
   'calculator-business-loan': 'business-loan',
   'calculator-dti': 'dti',
@@ -525,6 +541,14 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   depreciation: 'depr',
   'avg-return': 'avg',
   margin: 'marg',
+  'break-even': 'be',
+  markup: 'mkup',
+  'profit-goal': 'goal',
+  'liquidity-ratios': 'liq',
+  'debt-ratios': 'debt',
+  'operations-ratios': 'ops',
+  'profitability-ratios': 'prof',
+  'stock-ratios': 'stk',
   discount: 'off',
   'business-loan': 'biz',
   dti: 'dti',

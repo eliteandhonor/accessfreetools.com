@@ -311,6 +311,31 @@ const foodSafetyTemperatures = {
   label: 'FoodSafety.gov: safe minimum internal temperatures',
 };
 
+const calculatorSoupSitemap = {
+  href: 'https://www.calculatorsoup.com/sitemap.php',
+  label: 'CalculatorSoup sitemap: business and financial-ratio competitor gap reference',
+};
+
+const sbaBreakEven = {
+  href: 'https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point',
+  label: 'U.S. Small Business Administration: Break-even point',
+};
+
+const openStaxBreakEven = {
+  href: 'https://openstax.org/books/principles-managerial-accounting/pages/3-2-calculate-a-break-even-point-in-units-and-dollars',
+  label: 'OpenStax Managerial Accounting: Break-even point in units and dollars',
+};
+
+const openStaxFinancialStatementAnalysis = {
+  href: 'https://openstax.org/books/principles-financial-accounting/pages/a-financial-statement-analysis',
+  label: 'OpenStax Financial Accounting: Financial statement analysis',
+};
+
+const secFinancialStatements = {
+  href: 'https://www.sec.gov/about/reports-publications/beginners-guide-financial-statements',
+  label: "SEC: Beginners' Guide to Financial Statements",
+};
+
 const openAiTokens = {
   href: 'https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-do-i-count-them',
   label: 'OpenAI Help: What are tokens and how do I count them?',
@@ -5765,6 +5790,158 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     followUps: [
       'Add round-pan support later with a separate mode so rectangular and circular area formulas remain clear.',
+    ],
+  },
+  {
+    slug: 'break-even-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-business-ratios-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorSoupSitemap, sbaBreakEven, openStaxBreakEven, googleHelpfulContent],
+    findings: [
+      'CalculatorSoup competitor research surfaced break-even analysis as a standalone business-planning gap.',
+      'Formula review checked fixed costs, price per unit, variable cost per unit, contribution margin, break-even units, and break-even sales.',
+      'FAQ and guide explain contribution margin, why price must exceed variable cost, and why real capacity, discounts, and refunds can change the plan.',
+    ],
+    improvements: [
+      'Added break-even UI, examples, source-backed guide detail, contribution margin outputs, detailed FAQ, business-related links, and formula tests.',
+    ],
+    followUps: [
+      'Add mixed-product break-even only if the UI can clearly explain weighted-average contribution margin.',
+    ],
+  },
+  {
+    slug: 'markup-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-business-ratios-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorSoupSitemap, openStaxDiscounts, openStaxPercent, googleHelpfulContent],
+    findings: [
+      'Markup pricing was added as its own search intent instead of overloading the existing Margin Calculator.',
+      'Formula review checked cost-plus price, profit per unit, batch revenue, total cost, total profit, and margin-from-markup output.',
+      'FAQ and guide clearly explain the common markup-versus-margin confusion.',
+    ],
+    improvements: [
+      'Added markup UI, examples, pricing outputs, source-backed guide, detailed FAQ, related margin and break-even pathways, and tests.',
+    ],
+    followUps: [
+      'Add target-margin pricing later if it is kept separate from cost-plus markup math.',
+    ],
+  },
+  {
+    slug: 'profit-goal-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-business-ratios-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorSoupSitemap, sbaBreakEven, openStaxBreakEven, googleHelpfulContent],
+    findings: [
+      'Profit goal planning extends break-even into target-profit sales math without creating a duplicate break-even page.',
+      'Formula review checked fixed costs plus target profit, contribution margin per unit, required units, and required sales.',
+      'FAQ and guide explain how target profit differs from break-even and when an average unit can mislead.',
+    ],
+    improvements: [
+      'Added profit-goal UI, examples, guide detail, FAQ depth, related break-even and markup links, and tests.',
+    ],
+    followUps: [
+      'Add multi-product sales-mix support only after a clear weighted-average input design is ready.',
+    ],
+  },
+  {
+    slug: 'liquidity-ratios-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-business-ratios-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorSoupSitemap, openStaxFinancialStatementAnalysis, secFinancialStatements, googleHelpfulContent],
+    findings: [
+      'Financial-ratio competitor research showed current, quick, and cash ratio searches missing from the local library.',
+      'Formula review checked current ratio, quick ratio, cash ratio, working capital, inventory removal, and prepaid-expense removal.',
+      'FAQ and guide explain what liquidity ratios mean, what quick ratio removes, and why receivables and timing matter.',
+    ],
+    improvements: [
+      'Added liquidity-ratio UI, examples, balance-sheet input explanations, source-backed guide, FAQ depth, related finance links, and tests.',
+    ],
+    followUps: [
+      'Add trend comparison later if the site builds multi-period statement tools.',
+    ],
+  },
+  {
+    slug: 'debt-ratios-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-business-ratios-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorSoupSitemap, openStaxFinancialStatementAnalysis, secFinancialStatements, googleHelpfulContent],
+    findings: [
+      'Debt ratio, debt-to-equity, and times-interest-earned were added as a standalone accounting-ratio utility.',
+      'Formula review checked debt divided by assets, debt divided by equity, and EBIT divided by interest expense.',
+      'FAQ and guide explain leverage context, interest coverage, industry differences, and why cash flow still matters.',
+    ],
+    improvements: [
+      'Added debt-ratio UI, examples, guide detail, input explanations, FAQ depth, related liquidity and DTI links, and tests.',
+    ],
+    followUps: [
+      'Add debt maturity and lease-adjusted analysis only if a richer financial-statement workflow is created.',
+    ],
+  },
+  {
+    slug: 'operations-ratios-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-business-ratios-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorSoupSitemap, openStaxFinancialStatementAnalysis, secFinancialStatements, googleHelpfulContent],
+    findings: [
+      'Operations ratios fill competitor gaps for inventory turnover, asset turnover, receivables turnover, and collection period.',
+      'Formula review checked average inventory, inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier.',
+      'FAQ and guide explain seasonal timing, credit sales, inventory method, and why operations ratios need business context.',
+    ],
+    improvements: [
+      'Added operations-ratio UI, examples, source-backed guide detail, detailed FAQ, related profitability and liquidity links, and tests.',
+    ],
+    followUps: [
+      'Add period-over-period comparison only when the UI can make multi-period data easy to scan.',
+    ],
+  },
+  {
+    slug: 'profitability-ratios-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-business-ratios-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorSoupSitemap, openStaxFinancialStatementAnalysis, secFinancialStatements, googleHelpfulContent],
+    findings: [
+      'Profitability ratios were added to cover margin, ROA, ROE, EPS, and P/E searches in one useful accounting utility.',
+      'Formula review checked gross profit, gross margin, operating margin, net margin, return on assets, return on equity, EPS, and P/E.',
+      'FAQ and guide explain why different margin layers matter and why high ROE can be affected by leverage.',
+    ],
+    improvements: [
+      'Added profitability-ratio UI, examples, source-backed guide detail, FAQ depth, related stock and operations links, and tests.',
+    ],
+    followUps: [
+      'Add loss-making company behavior later if the page needs negative-income education rather than positive-ratio basics.',
+    ],
+  },
+  {
+    slug: 'stock-ratios-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-business-ratios-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [calculatorSoupSitemap, openStaxFinancialStatementAnalysis, secFinancialStatements, googleHelpfulContent],
+    findings: [
+      'Stock valuation ratios were added as a separate per-share utility instead of mixing market ratios into the profitability page only.',
+      'Formula review checked P/E, price-to-sales, price-to-book, dividend yield, and payout ratio from per-share inputs.',
+      'FAQ and guide explain that ratios are research starting points, not investment recommendations, and that positive EPS is required for simple P/E.',
+    ],
+    improvements: [
+      'Added stock-ratio UI, examples, guide detail, FAQ depth, related profitability and ROI pathways, and formula tests.',
+    ],
+    followUps: [
+      'Add negative-EPS education only if the page can display non-meaningful P/E states cleanly.',
     ],
   },
 ];

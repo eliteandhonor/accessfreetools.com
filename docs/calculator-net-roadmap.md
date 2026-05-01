@@ -5,9 +5,9 @@ Source reviewed: Calculator.net sitemap on 2026-04-29. This is a competitor inve
 ## Current Coverage Snapshot
 
 - Sitemap utility-style entries reviewed: 203.
-- Local canonical tool pages after the latest post-calculator.net expansion: 258.
-- Local guide pages after the latest post-calculator.net expansion: 258.
-- Public tool URLs in search and launchpad surfaces: 262, made from 258 canonical tools plus 4 intentional alias URLs.
+- Local canonical tool pages after the latest post-calculator.net expansion: 266.
+- Local guide pages after the latest post-calculator.net expansion: 266.
+- Public tool URLs in search and launchpad surfaces: 270, made from 266 canonical tools plus 4 intentional alias URLs.
 - Remaining competitor-inspired roadmap items from the current comparison: 0 direct action items. The final sensitive/proprietary topics were covered with safer Access Free Tools alternatives instead of one-to-one copies.
 - Aliases already covered: IP Subnet -> Subnet, Common Factor -> Greatest Common Factor, Mortgage Amortization -> Amortization, Time Duration -> Time.
 
@@ -199,16 +199,24 @@ Completed post-roadmap batches:
 - Developer/content productivity utilities: UTM Builder, Query String Parser, HTML Entity Encoder/Decoder, CSS Clamp Calculator, and Markdown Table Generator.
 - Competitor-inspired Home & Projects material takeoffs: Flooring, Wallpaper, Siding, Brick, Concrete Block, and Rebar calculators.
 - Competitor Tech & AI utilities from CalculatorInn gap review: AI Token Cost Calculator, Prompt Token Estimator, API Pricing Calculator, Download Time Calculator, Internet Speed Needs Calculator, Streaming Bitrate Calculator, Device Battery Life Calculator, and Monitor PPI Calculator.
+- Competitor kitchen, recipe, and shopping utilities: Recipe Scaler, Cooking Measurement Converter, Ingredient Cost Calculator, Unit Price Calculator, Cost Per Serving Calculator, Oven Temperature Converter, Butter Converter, and Baking Pan Conversion Calculator.
+- Competitor business and financial-ratio utilities: Break Even Calculator, Markup Calculator, Profit Goal Calculator, Liquidity Ratios Calculator, Debt Ratios Calculator, Operations Ratios Calculator, Profitability Ratios Calculator, and Stock Ratios Calculator.
 
 Current local coverage after this batch:
 
-- Canonical tool pages: 258
-- Matching guide pages: 258
-- Public tool URLs: 262
+- Canonical tool pages: 266
+- Matching guide pages: 266
+- Public tool URLs: 270
 - Aliases already covered: 4
 
 ## Post-roadmap Competitor Batch: Kitchen, Recipe, And Shopping Utilities
 
 - Completed 2026-05-01 after checking competitor gaps from Inch Calculator and related unit references.
 - Added Recipe Scaler, Cooking Measurement Converter, Ingredient Cost Calculator, Unit Price Calculator, Cost Per Serving Calculator, Oven Temperature Converter, Butter Converter, and Baking Pan Conversion Calculator.
+- Each page has a working browser calculator, examples, six or more FAQs, a matching blog guide, related-tool pathways, source-backed manual audit notes, and formula tests.
+
+## Post-roadmap Competitor Batch: Business And Financial Ratio Utilities
+
+- Completed 2026-05-01 after checking competitor gaps from CalculatorSoup financial-ratio and business-planning listings.
+- Added Break Even Calculator, Markup Calculator, Profit Goal Calculator, Liquidity Ratios Calculator, Debt Ratios Calculator, Operations Ratios Calculator, Profitability Ratios Calculator, and Stock Ratios Calculator.
 - Each page has a working browser calculator, examples, six or more FAQs, a matching blog guide, related-tool pathways, source-backed manual audit notes, and formula tests.

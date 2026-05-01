@@ -3770,6 +3770,111 @@ export interface MarginEstimateResult {
   markupPercent: number;
 }
 
+export interface BreakEvenResult {
+  fixedCosts: number;
+  pricePerUnit: number;
+  variableCostPerUnit: number;
+  contributionMarginPerUnit: number;
+  contributionMarginRatioPercent: number;
+  breakEvenUnits: number;
+  breakEvenSales: number;
+}
+
+export interface MarkupPriceResult {
+  unitCost: number;
+  markupPercent: number;
+  units: number;
+  sellingPricePerUnit: number;
+  profitPerUnit: number;
+  marginPercent: number;
+  totalRevenue: number;
+  totalCost: number;
+  totalProfit: number;
+}
+
+export interface ProfitGoalResult {
+  fixedCosts: number;
+  targetProfit: number;
+  pricePerUnit: number;
+  variableCostPerUnit: number;
+  contributionMarginPerUnit: number;
+  requiredUnits: number;
+  requiredSales: number;
+}
+
+export interface LiquidityRatiosResult {
+  currentAssets: number;
+  currentLiabilities: number;
+  inventory: number;
+  prepaidExpenses: number;
+  cashAndEquivalents: number;
+  marketableSecurities: number;
+  accountsReceivable: number;
+  workingCapital: number;
+  currentRatio: number;
+  quickRatio: number;
+  cashRatio: number;
+}
+
+export interface DebtRatiosResult {
+  totalDebt: number;
+  totalAssets: number;
+  totalEquity: number;
+  ebit: number;
+  interestExpense: number;
+  debtRatioPercent: number;
+  debtToEquityRatio: number;
+  timesInterestEarned: number;
+}
+
+export interface OperationsRatiosResult {
+  costOfGoodsSold: number;
+  averageInventory: number;
+  netSales: number;
+  averageTotalAssets: number;
+  netCreditSales: number;
+  averageAccountsReceivable: number;
+  totalAssets: number;
+  totalEquity: number;
+  inventoryTurnover: number;
+  assetTurnover: number;
+  receivablesTurnover: number;
+  averageCollectionPeriodDays: number;
+  equityMultiplier: number;
+}
+
+export interface ProfitabilityRatiosResult {
+  netSales: number;
+  costOfGoodsSold: number;
+  operatingIncome: number;
+  netIncome: number;
+  averageAssets: number;
+  averageEquity: number;
+  sharesOutstanding: number;
+  pricePerShare: number;
+  grossProfit: number;
+  grossMarginPercent: number;
+  operatingMarginPercent: number;
+  netProfitMarginPercent: number;
+  returnOnAssetsPercent: number;
+  returnOnEquityPercent: number;
+  earningsPerShare: number;
+  priceEarningsRatio: number;
+}
+
+export interface StockRatiosResult {
+  stockPrice: number;
+  earningsPerShare: number;
+  salesPerShare: number;
+  bookValuePerShare: number;
+  dividendPerShare: number;
+  priceEarningsRatio: number;
+  priceSalesRatio: number;
+  priceBookRatio: number;
+  dividendYieldPercent: number;
+  payoutRatioPercent: number;
+}
+
 export interface DiscountEstimateResult {
   originalPrice: number;
   discountPercent: number;
@@ -5360,6 +5465,271 @@ export function calculateMarginEstimate(revenue: number, cost: number): MarginEs
     profit,
     marginPercent: (profit / revenue) * 100,
     markupPercent: cost === 0 ? 0 : (profit / cost) * 100,
+  };
+}
+
+export function calculateBreakEven(input: {
+  fixedCosts: number;
+  pricePerUnit: number;
+  variableCostPerUnit: number;
+}): BreakEvenResult {
+  assertNonNegativeNumber(input.fixedCosts, 'Fixed costs');
+  assertPositiveNumber(input.pricePerUnit, 'Price per unit');
+  assertNonNegativeNumber(input.variableCostPerUnit, 'Variable cost per unit');
+
+  const contributionMarginPerUnit = input.pricePerUnit - input.variableCostPerUnit;
+
+  if (contributionMarginPerUnit <= 0) {
+    throw new Error('Price per unit must be greater than variable cost per unit');
+  }
+
+  const breakEvenUnits = input.fixedCosts / contributionMarginPerUnit;
+
+  return {
+    fixedCosts: input.fixedCosts,
+    pricePerUnit: input.pricePerUnit,
+    variableCostPerUnit: input.variableCostPerUnit,
+    contributionMarginPerUnit,
+    contributionMarginRatioPercent: (contributionMarginPerUnit / input.pricePerUnit) * 100,
+    breakEvenUnits,
+    breakEvenSales: breakEvenUnits * input.pricePerUnit,
+  };
+}
+
+export function calculateMarkupPrice(input: {
+  unitCost: number;
+  markupPercent: number;
+  units?: number;
+}): MarkupPriceResult {
+  assertNonNegativeNumber(input.unitCost, 'Unit cost');
+  assertNonNegativeNumber(input.markupPercent, 'Markup percent');
+  assertPositiveNumber(input.units ?? 1, 'Units');
+
+  const units = input.units ?? 1;
+  const sellingPricePerUnit = input.unitCost * (1 + input.markupPercent / 100);
+  const profitPerUnit = sellingPricePerUnit - input.unitCost;
+
+  return {
+    unitCost: input.unitCost,
+    markupPercent: input.markupPercent,
+    units,
+    sellingPricePerUnit,
+    profitPerUnit,
+    marginPercent: sellingPricePerUnit === 0 ? 0 : (profitPerUnit / sellingPricePerUnit) * 100,
+    totalRevenue: sellingPricePerUnit * units,
+    totalCost: input.unitCost * units,
+    totalProfit: profitPerUnit * units,
+  };
+}
+
+export function calculateProfitGoal(input: {
+  fixedCosts: number;
+  targetProfit: number;
+  pricePerUnit: number;
+  variableCostPerUnit: number;
+}): ProfitGoalResult {
+  assertNonNegativeNumber(input.fixedCosts, 'Fixed costs');
+  assertNonNegativeNumber(input.targetProfit, 'Target profit');
+  assertPositiveNumber(input.pricePerUnit, 'Price per unit');
+  assertNonNegativeNumber(input.variableCostPerUnit, 'Variable cost per unit');
+
+  const contributionMarginPerUnit = input.pricePerUnit - input.variableCostPerUnit;
+
+  if (contributionMarginPerUnit <= 0) {
+    throw new Error('Price per unit must be greater than variable cost per unit');
+  }
+
+  const requiredUnits = (input.fixedCosts + input.targetProfit) / contributionMarginPerUnit;
+
+  return {
+    fixedCosts: input.fixedCosts,
+    targetProfit: input.targetProfit,
+    pricePerUnit: input.pricePerUnit,
+    variableCostPerUnit: input.variableCostPerUnit,
+    contributionMarginPerUnit,
+    requiredUnits,
+    requiredSales: requiredUnits * input.pricePerUnit,
+  };
+}
+
+export function calculateLiquidityRatios(input: {
+  currentAssets: number;
+  currentLiabilities: number;
+  inventory?: number;
+  prepaidExpenses?: number;
+  cashAndEquivalents?: number;
+  marketableSecurities?: number;
+  accountsReceivable?: number;
+}): LiquidityRatiosResult {
+  assertNonNegativeNumber(input.currentAssets, 'Current assets');
+  assertPositiveNumber(input.currentLiabilities, 'Current liabilities');
+  assertNonNegativeNumber(input.inventory ?? 0, 'Inventory');
+  assertNonNegativeNumber(input.prepaidExpenses ?? 0, 'Prepaid expenses');
+  assertNonNegativeNumber(input.cashAndEquivalents ?? 0, 'Cash and equivalents');
+  assertNonNegativeNumber(input.marketableSecurities ?? 0, 'Marketable securities');
+  assertNonNegativeNumber(input.accountsReceivable ?? 0, 'Accounts receivable');
+
+  const inventory = input.inventory ?? 0;
+  const prepaidExpenses = input.prepaidExpenses ?? 0;
+  const cashAndEquivalents = input.cashAndEquivalents ?? 0;
+  const marketableSecurities = input.marketableSecurities ?? 0;
+  const accountsReceivable = input.accountsReceivable ?? 0;
+  const quickAssets = input.currentAssets - inventory - prepaidExpenses;
+
+  return {
+    currentAssets: input.currentAssets,
+    currentLiabilities: input.currentLiabilities,
+    inventory,
+    prepaidExpenses,
+    cashAndEquivalents,
+    marketableSecurities,
+    accountsReceivable,
+    workingCapital: input.currentAssets - input.currentLiabilities,
+    currentRatio: input.currentAssets / input.currentLiabilities,
+    quickRatio: quickAssets / input.currentLiabilities,
+    cashRatio: (cashAndEquivalents + marketableSecurities) / input.currentLiabilities,
+  };
+}
+
+export function calculateDebtRatios(input: {
+  totalDebt: number;
+  totalAssets: number;
+  totalEquity: number;
+  ebit: number;
+  interestExpense: number;
+}): DebtRatiosResult {
+  assertNonNegativeNumber(input.totalDebt, 'Total debt');
+  assertPositiveNumber(input.totalAssets, 'Total assets');
+  assertPositiveNumber(input.totalEquity, 'Total equity');
+  assertNonNegativeNumber(input.ebit, 'EBIT');
+  assertPositiveNumber(input.interestExpense, 'Interest expense');
+
+  return {
+    totalDebt: input.totalDebt,
+    totalAssets: input.totalAssets,
+    totalEquity: input.totalEquity,
+    ebit: input.ebit,
+    interestExpense: input.interestExpense,
+    debtRatioPercent: (input.totalDebt / input.totalAssets) * 100,
+    debtToEquityRatio: input.totalDebt / input.totalEquity,
+    timesInterestEarned: input.ebit / input.interestExpense,
+  };
+}
+
+export function calculateOperationsRatios(input: {
+  costOfGoodsSold: number;
+  beginningInventory: number;
+  endingInventory: number;
+  netSales: number;
+  averageTotalAssets: number;
+  netCreditSales: number;
+  averageAccountsReceivable: number;
+  totalAssets: number;
+  totalEquity: number;
+}): OperationsRatiosResult {
+  assertNonNegativeNumber(input.costOfGoodsSold, 'Cost of goods sold');
+  assertNonNegativeNumber(input.beginningInventory, 'Beginning inventory');
+  assertNonNegativeNumber(input.endingInventory, 'Ending inventory');
+  assertNonNegativeNumber(input.netSales, 'Net sales');
+  assertPositiveNumber(input.averageTotalAssets, 'Average total assets');
+  assertNonNegativeNumber(input.netCreditSales, 'Net credit sales');
+  assertPositiveNumber(input.averageAccountsReceivable, 'Average accounts receivable');
+  assertPositiveNumber(input.totalAssets, 'Total assets');
+  assertPositiveNumber(input.totalEquity, 'Total equity');
+
+  const averageInventory = (input.beginningInventory + input.endingInventory) / 2;
+
+  if (averageInventory <= 0) {
+    throw new Error('Average inventory must be greater than zero');
+  }
+
+  const receivablesTurnover = input.netCreditSales / input.averageAccountsReceivable;
+
+  return {
+    costOfGoodsSold: input.costOfGoodsSold,
+    averageInventory,
+    netSales: input.netSales,
+    averageTotalAssets: input.averageTotalAssets,
+    netCreditSales: input.netCreditSales,
+    averageAccountsReceivable: input.averageAccountsReceivable,
+    totalAssets: input.totalAssets,
+    totalEquity: input.totalEquity,
+    inventoryTurnover: input.costOfGoodsSold / averageInventory,
+    assetTurnover: input.netSales / input.averageTotalAssets,
+    receivablesTurnover,
+    averageCollectionPeriodDays: receivablesTurnover === 0 ? 0 : 365 / receivablesTurnover,
+    equityMultiplier: input.totalAssets / input.totalEquity,
+  };
+}
+
+export function calculateProfitabilityRatios(input: {
+  netSales: number;
+  costOfGoodsSold: number;
+  operatingIncome: number;
+  netIncome: number;
+  averageAssets: number;
+  averageEquity: number;
+  sharesOutstanding: number;
+  pricePerShare: number;
+}): ProfitabilityRatiosResult {
+  assertPositiveNumber(input.netSales, 'Net sales');
+  assertNonNegativeNumber(input.costOfGoodsSold, 'Cost of goods sold');
+  assertNonNegativeNumber(input.operatingIncome, 'Operating income');
+  assertNonNegativeNumber(input.netIncome, 'Net income');
+  assertPositiveNumber(input.averageAssets, 'Average assets');
+  assertPositiveNumber(input.averageEquity, 'Average equity');
+  assertPositiveNumber(input.sharesOutstanding, 'Shares outstanding');
+  assertNonNegativeNumber(input.pricePerShare, 'Price per share');
+
+  const grossProfit = input.netSales - input.costOfGoodsSold;
+  const earningsPerShare = input.netIncome / input.sharesOutstanding;
+
+  return {
+    netSales: input.netSales,
+    costOfGoodsSold: input.costOfGoodsSold,
+    operatingIncome: input.operatingIncome,
+    netIncome: input.netIncome,
+    averageAssets: input.averageAssets,
+    averageEquity: input.averageEquity,
+    sharesOutstanding: input.sharesOutstanding,
+    pricePerShare: input.pricePerShare,
+    grossProfit,
+    grossMarginPercent: (grossProfit / input.netSales) * 100,
+    operatingMarginPercent: (input.operatingIncome / input.netSales) * 100,
+    netProfitMarginPercent: (input.netIncome / input.netSales) * 100,
+    returnOnAssetsPercent: (input.netIncome / input.averageAssets) * 100,
+    returnOnEquityPercent: (input.netIncome / input.averageEquity) * 100,
+    earningsPerShare,
+    priceEarningsRatio: earningsPerShare === 0 ? 0 : input.pricePerShare / earningsPerShare,
+  };
+}
+
+export function calculateStockRatios(input: {
+  stockPrice: number;
+  earningsPerShare: number;
+  salesPerShare: number;
+  bookValuePerShare: number;
+  dividendPerShare?: number;
+}): StockRatiosResult {
+  assertPositiveNumber(input.stockPrice, 'Stock price');
+  assertPositiveNumber(input.earningsPerShare, 'Earnings per share');
+  assertPositiveNumber(input.salesPerShare, 'Sales per share');
+  assertPositiveNumber(input.bookValuePerShare, 'Book value per share');
+  assertNonNegativeNumber(input.dividendPerShare ?? 0, 'Dividend per share');
+
+  const dividendPerShare = input.dividendPerShare ?? 0;
+
+  return {
+    stockPrice: input.stockPrice,
+    earningsPerShare: input.earningsPerShare,
+    salesPerShare: input.salesPerShare,
+    bookValuePerShare: input.bookValuePerShare,
+    dividendPerShare,
+    priceEarningsRatio: input.stockPrice / input.earningsPerShare,
+    priceSalesRatio: input.stockPrice / input.salesPerShare,
+    priceBookRatio: input.stockPrice / input.bookValuePerShare,
+    dividendYieldPercent: (dividendPerShare / input.stockPrice) * 100,
+    payoutRatioPercent: (dividendPerShare / input.earningsPerShare) * 100,
   };
 }
 
