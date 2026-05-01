@@ -5,6 +5,7 @@ import {
   calculateApiPricing,
   calculateAsphaltEstimate,
   calculateBandwidthTime,
+  calculateBalusterEstimate,
   calculateBoardFoot,
   calculateBraSize,
   calculateBrickEstimate,
@@ -23,7 +24,9 @@ import {
   calculateCountertopEstimate,
   calculateCubicYardEstimate,
   calculateDayOfWeek,
+  calculateDeckBoardEstimate,
   calculateDeckCostEstimate,
+  calculateDeckStainEstimate,
   calculateDensity,
   calculateDiceRoll,
   calculateDewPoint,
@@ -38,6 +41,7 @@ import {
   calculateFuelCost,
   calculateGasMileage,
   calculateGdpEstimate,
+  calculateGrassSeedEstimate,
   calculateGolfCourseHandicap,
   calculateGolfScoreDifferential,
   calculateGpa,
@@ -58,6 +62,7 @@ import {
   calculateMolecularWeight,
   calculateInternetSpeedNeeds,
   calculateBakingPanConversion,
+  calculateLawnMowingTime,
   calculateCostPerServing,
   calculateIngredientCost,
   calculateMonitorPpi,
@@ -66,9 +71,12 @@ import {
   calculateOhmsLaw,
   calculateMulchEstimate,
   calculatePaintEstimate,
+  calculatePaverBaseEstimate,
   calculatePaverEstimate,
+  calculatePlantSpacingEstimate,
   calculatePlywoodEstimate,
   calculatePoolVolume,
+  calculatePolymericSandEstimate,
   calculatePostHoleConcreteEstimate,
   calculateRebarGridEstimate,
   calculateRebarWeightEstimate,
@@ -132,6 +140,7 @@ import {
   type HtmlEntityMode,
   type HorsepowerUnit,
   type MarkdownTableAlignment,
+  type PlantSpacingPattern,
   type RebarSize,
   type TextCaseMode,
   type TimeCardDayInput,
@@ -188,7 +197,15 @@ export type UtilityToolVariant =
   | 'wallpaper'
   | 'fence'
   | 'deck-cost'
+  | 'deck-board'
+  | 'deck-stain'
+  | 'baluster'
   | 'paver'
+  | 'paver-base'
+  | 'polymeric-sand'
+  | 'grass-seed'
+  | 'lawn-mowing'
+  | 'plant-spacing'
   | 'siding'
   | 'brick'
   | 'concrete-block'
@@ -441,11 +458,76 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     railingCostPerFoot: 'Estimated railing cost per linear foot.',
     stairsCost: 'Rough allowance for stairs. Use 0 if stairs are not part of the estimate.',
   },
+  'deck-board': {
+    deckLengthFeet: 'Deck length in feet along the joist spacing direction.',
+    deckWidthFeet: 'Deck width in feet across the surface you want to cover.',
+    boardLengthFeet: 'Purchased deck board length in feet.',
+    boardWidthInches: 'Actual board face width in inches, not the nominal board name.',
+    joistSpacingInches: 'On-center joist spacing used to estimate fastener rows.',
+    wastePercent: 'Extra boards for cuts, starter pieces, picture framing, and damaged boards.',
+    pricePerBoard: 'Optional price for one deck board.',
+  },
+  'deck-stain': {
+    deckLengthFeet: 'Deck surface length in feet.',
+    deckWidthFeet: 'Deck surface width in feet.',
+    railingLengthFeet: 'Total railing run to coat. Use 0 if there is no railing.',
+    railingHeightFeet: 'Average railing height. The calculator counts both sides.',
+    stepCount: 'Number of stair treads and risers to include.',
+    stepWidthFeet: 'Average width of each step.',
+    stepDepthInches: 'Tread depth from front to back.',
+    riserHeightInches: 'Vertical riser height for each step.',
+    coats: 'Number of coats recommended by the stain product.',
+    coverageSquareFeetPerGallon: 'Coverage per gallon from the stain label.',
+    wastePercent: 'Extra stain for rough wood, rails, edges, overlap, and touch-ups.',
+    pricePerGallon: 'Optional price for one gallon of stain.',
+  },
+  baluster: {
+    railLengthFeet: 'Total straight railing opening length in feet.',
+    postWidthInches: 'Width of each post that takes space away from the opening.',
+    postCount: 'Number of posts inside the measured rail run.',
+    balusterWidthInches: 'Width of one baluster or spindle.',
+    maxSpacingInches: 'Largest open space allowed between balusters.',
+  },
   paver: {
     areaSquareFeet: 'Patio, path, or driveway surface area before waste.',
     paverLengthInches: 'Visible length of one paver in inches.',
     paverWidthInches: 'Visible width of one paver in inches.',
     wastePercent: 'Extra pavers for cuts, breakage, border pieces, and future replacement.',
+  },
+  'paver-base': {
+    areaSquareFeet: 'Patio, walkway, or driveway area in square feet.',
+    baseDepthInches: 'Compacted gravel base depth in inches.',
+    beddingDepthInches: 'Sand bedding layer depth in inches.',
+    wastePercent: 'Extra material for compaction, edge loss, uneven grade, and small measurement errors.',
+    baseTonsPerCubicYard: 'Approximate tons per cubic yard for base material.',
+  },
+  'polymeric-sand': {
+    areaSquareFeet: 'Finished paver area in square feet.',
+    paverLengthInches: 'Visible paver length in inches.',
+    paverWidthInches: 'Visible paver width in inches.',
+    jointWidthInches: 'Average joint width between pavers.',
+    jointDepthInches: 'Depth you expect the joint sand to fill.',
+    wastePercent: 'Extra sand for sweeping loss, irregular joints, and touch-ups.',
+    bagCoverageCubicFeet: 'How many cubic feet one bag covers. Use the product label when available.',
+  },
+  'grass-seed': {
+    lawnAreaSquareFeet: 'Lawn area you want to seed.',
+    seedRatePoundsPer1000SquareFeet: 'Seed label rate in pounds per 1,000 square feet.',
+    wastePercent: 'Extra seed for overlap, missed strips, bare spots, and uneven spreading.',
+    bagWeightPounds: 'Weight of one bag of seed.',
+    pricePerBag: 'Optional price for one bag of seed.',
+  },
+  'lawn-mowing': {
+    lawnAreaSquareFeet: 'Mowable lawn area in square feet.',
+    mowerWidthInches: 'Actual cutting width of the mower deck.',
+    speedMph: 'Average mowing speed in miles per hour.',
+    efficiencyPercent: 'Real-world efficiency after turns, overlap, obstacles, and slowing down.',
+  },
+  'plant-spacing': {
+    bedLengthFeet: 'Planting bed length in feet.',
+    bedWidthFeet: 'Planting bed width in feet.',
+    spacingInches: 'Recommended center-to-center spacing from the plant tag.',
+    pattern: 'Square grid is simple rows. Triangular spacing staggers rows and usually fits more plants.',
   },
   siding: {
     wallAreaSquareFeet: 'Total exterior wall area before subtracting doors and windows.',
@@ -946,6 +1028,11 @@ const poolShapeOptions: SelectOption[] = [
   { label: 'Rectangle', value: 'rectangle' },
   { label: 'Round', value: 'round' },
   { label: 'Oval', value: 'oval' },
+];
+
+const plantSpacingPatternOptions: SelectOption[] = [
+  { label: 'Square grid', value: 'square' },
+  { label: 'Triangular / staggered', value: 'triangular' },
 ];
 
 const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
@@ -2194,6 +2281,90 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
       },
     ],
   },
+  'deck-board': {
+    title: 'Deck Board Calculator',
+    buttonLabel: 'Estimate deck boards',
+    emptyHistory: 'Recent deck board estimates will appear here.',
+    privacyNote: 'Deck board estimates stay local and are rough planning numbers, not a code or contractor quote.',
+    modes: [
+      {
+        id: 'deck-board',
+        label: 'Boards',
+        symbol: 'DECK',
+        fields: [
+          numberField('deckLengthFeet', 'Deck length ft', '16'),
+          numberField('deckWidthFeet', 'Deck width ft', '12'),
+          numberField('boardLengthFeet', 'Board length ft', '16'),
+          numberField('boardWidthInches', 'Board width inches', '5.5'),
+          numberField('joistSpacingInches', 'Joist spacing inches', '16'),
+          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('pricePerBoard', 'Price per board (optional)', '18'),
+        ],
+        defaultInputs: { deckLengthFeet: '16', deckWidthFeet: '12', boardLengthFeet: '16', boardWidthInches: '5.5', joistSpacingInches: '16', wastePercent: '10', pricePerBoard: '18' },
+        examples: [
+          { label: '16 x 12 deck', inputs: { deckLengthFeet: '16', deckWidthFeet: '12', boardLengthFeet: '16', boardWidthInches: '5.5', joistSpacingInches: '16', wastePercent: '10', pricePerBoard: '18' } },
+          { label: 'Small landing', inputs: { deckLengthFeet: '10', deckWidthFeet: '8', boardLengthFeet: '12', boardWidthInches: '5.5', joistSpacingInches: '16', wastePercent: '12', pricePerBoard: '' } },
+        ],
+      },
+    ],
+  },
+  'deck-stain': {
+    title: 'Deck Stain Calculator',
+    buttonLabel: 'Estimate stain',
+    emptyHistory: 'Recent deck stain estimates will appear here.',
+    privacyNote: 'Deck stain estimates stay local. Compare the result with your stain label and wood condition.',
+    modes: [
+      {
+        id: 'deck-stain',
+        label: 'Stain',
+        symbol: 'COAT',
+        fields: [
+          numberField('deckLengthFeet', 'Deck length ft', '16'),
+          numberField('deckWidthFeet', 'Deck width ft', '12'),
+          numberField('railingLengthFeet', 'Railing length ft', '40'),
+          numberField('railingHeightFeet', 'Railing height ft', '3'),
+          integerField('stepCount', 'Step count', '4'),
+          numberField('stepWidthFeet', 'Step width ft', '4'),
+          numberField('stepDepthInches', 'Step depth inches', '11'),
+          numberField('riserHeightInches', 'Riser height inches', '7'),
+          integerField('coats', 'Coats', '2'),
+          numberField('coverageSquareFeetPerGallon', 'Coverage ft2/gallon', '200'),
+          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('pricePerGallon', 'Price per gallon (optional)', '45'),
+        ],
+        defaultInputs: { deckLengthFeet: '16', deckWidthFeet: '12', railingLengthFeet: '40', railingHeightFeet: '3', stepCount: '4', stepWidthFeet: '4', stepDepthInches: '11', riserHeightInches: '7', coats: '2', coverageSquareFeetPerGallon: '200', wastePercent: '10', pricePerGallon: '45' },
+        examples: [
+          { label: 'Deck with rails', inputs: { deckLengthFeet: '16', deckWidthFeet: '12', railingLengthFeet: '40', railingHeightFeet: '3', stepCount: '4', stepWidthFeet: '4', stepDepthInches: '11', riserHeightInches: '7', coats: '2', coverageSquareFeetPerGallon: '200', wastePercent: '10', pricePerGallon: '45' } },
+          { label: 'Platform deck', inputs: { deckLengthFeet: '12', deckWidthFeet: '10', railingLengthFeet: '0', railingHeightFeet: '0', stepCount: '0', stepWidthFeet: '0', stepDepthInches: '0', riserHeightInches: '0', coats: '1', coverageSquareFeetPerGallon: '250', wastePercent: '8', pricePerGallon: '' } },
+        ],
+      },
+    ],
+  },
+  baluster: {
+    title: 'Baluster Calculator',
+    buttonLabel: 'Estimate balusters',
+    emptyHistory: 'Recent baluster estimates will appear here.',
+    privacyNote: 'Baluster spacing math stays local. Check local building code before building railing.',
+    modes: [
+      {
+        id: 'baluster',
+        label: 'Spacing',
+        symbol: 'RAIL',
+        fields: [
+          numberField('railLengthFeet', 'Rail length ft', '10'),
+          numberField('postWidthInches', 'Post width inches', '3.5'),
+          integerField('postCount', 'Post count', '2'),
+          numberField('balusterWidthInches', 'Baluster width inches', '1.5'),
+          numberField('maxSpacingInches', 'Max open spacing inches', '4'),
+        ],
+        defaultInputs: { railLengthFeet: '10', postWidthInches: '3.5', postCount: '2', balusterWidthInches: '1.5', maxSpacingInches: '4' },
+        examples: [
+          { label: 'Deck rail bay', inputs: { railLengthFeet: '10', postWidthInches: '3.5', postCount: '2', balusterWidthInches: '1.5', maxSpacingInches: '4' } },
+          { label: 'Metal balusters', inputs: { railLengthFeet: '8', postWidthInches: '4', postCount: '2', balusterWidthInches: '0.75', maxSpacingInches: '4' } },
+        ],
+      },
+    ],
+  },
   paver: {
     title: 'Paver Calculator',
     buttonLabel: 'Estimate pavers',
@@ -2214,6 +2385,131 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         examples: [
           { label: 'Patio pavers', inputs: { areaSquareFeet: '180', paverLengthInches: '8', paverWidthInches: '4', wastePercent: '10' } },
           { label: 'Large pavers', inputs: { areaSquareFeet: '240', paverLengthInches: '12', paverWidthInches: '12', wastePercent: '8' } },
+        ],
+      },
+    ],
+  },
+  'paver-base': {
+    title: 'Paver Base Calculator',
+    buttonLabel: 'Estimate base',
+    emptyHistory: 'Recent paver base estimates will appear here.',
+    privacyNote: 'Paver base estimates stay local and are planning math, not drainage or soil engineering advice.',
+    modes: [
+      {
+        id: 'paver-base',
+        label: 'Base',
+        symbol: 'BASE',
+        fields: [
+          numberField('areaSquareFeet', 'Paver area ft2', '200'),
+          numberField('baseDepthInches', 'Base depth inches', '4'),
+          numberField('beddingDepthInches', 'Bedding sand depth inches', '1'),
+          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('baseTonsPerCubicYard', 'Base tons per cubic yard', '1.5'),
+        ],
+        defaultInputs: { areaSquareFeet: '200', baseDepthInches: '4', beddingDepthInches: '1', wastePercent: '10', baseTonsPerCubicYard: '1.5' },
+        examples: [
+          { label: 'Patio base', inputs: { areaSquareFeet: '200', baseDepthInches: '4', beddingDepthInches: '1', wastePercent: '10', baseTonsPerCubicYard: '1.5' } },
+          { label: 'Driveway base', inputs: { areaSquareFeet: '420', baseDepthInches: '6', beddingDepthInches: '1', wastePercent: '12', baseTonsPerCubicYard: '1.6' } },
+        ],
+      },
+    ],
+  },
+  'polymeric-sand': {
+    title: 'Polymeric Sand Calculator',
+    buttonLabel: 'Estimate sand',
+    emptyHistory: 'Recent polymeric sand estimates will appear here.',
+    privacyNote: 'Polymeric sand estimates stay local. Product coverage can vary by joint depth and paver shape.',
+    modes: [
+      {
+        id: 'polymeric-sand',
+        label: 'Joints',
+        symbol: 'SAND',
+        fields: [
+          numberField('areaSquareFeet', 'Paver area ft2', '200'),
+          numberField('paverLengthInches', 'Paver length inches', '8'),
+          numberField('paverWidthInches', 'Paver width inches', '4'),
+          numberField('jointWidthInches', 'Joint width inches', '0.25'),
+          numberField('jointDepthInches', 'Joint depth inches', '1'),
+          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('bagCoverageCubicFeet', 'Bag coverage ft3', '0.5'),
+        ],
+        defaultInputs: { areaSquareFeet: '200', paverLengthInches: '8', paverWidthInches: '4', jointWidthInches: '0.25', jointDepthInches: '1', wastePercent: '10', bagCoverageCubicFeet: '0.5' },
+        examples: [
+          { label: 'Standard paver patio', inputs: { areaSquareFeet: '200', paverLengthInches: '8', paverWidthInches: '4', jointWidthInches: '0.25', jointDepthInches: '1', wastePercent: '10', bagCoverageCubicFeet: '0.5' } },
+          { label: 'Wide joints', inputs: { areaSquareFeet: '120', paverLengthInches: '6', paverWidthInches: '9', jointWidthInches: '0.375', jointDepthInches: '1.25', wastePercent: '12', bagCoverageCubicFeet: '0.45' } },
+        ],
+      },
+    ],
+  },
+  'grass-seed': {
+    title: 'Grass Seed Calculator',
+    buttonLabel: 'Estimate seed',
+    emptyHistory: 'Recent grass seed estimates will appear here.',
+    privacyNote: 'Grass seed estimates stay local. Use the seed label for the right rate for your grass type.',
+    modes: [
+      {
+        id: 'grass-seed',
+        label: 'Seed',
+        symbol: 'SEED',
+        fields: [
+          numberField('lawnAreaSquareFeet', 'Lawn area ft2', '5000'),
+          numberField('seedRatePoundsPer1000SquareFeet', 'Seed rate lb per 1,000 ft2', '6'),
+          numberField('wastePercent', 'Waste percent', '5'),
+          numberField('bagWeightPounds', 'Bag weight lb', '20'),
+          numberField('pricePerBag', 'Price per bag (optional)', '65'),
+        ],
+        defaultInputs: { lawnAreaSquareFeet: '5000', seedRatePoundsPer1000SquareFeet: '6', wastePercent: '5', bagWeightPounds: '20', pricePerBag: '65' },
+        examples: [
+          { label: 'New lawn seed', inputs: { lawnAreaSquareFeet: '5000', seedRatePoundsPer1000SquareFeet: '6', wastePercent: '5', bagWeightPounds: '20', pricePerBag: '65' } },
+          { label: 'Overseeding', inputs: { lawnAreaSquareFeet: '3000', seedRatePoundsPer1000SquareFeet: '3', wastePercent: '5', bagWeightPounds: '10', pricePerBag: '' } },
+        ],
+      },
+    ],
+  },
+  'lawn-mowing': {
+    title: 'Lawn Mowing Calculator',
+    buttonLabel: 'Estimate mowing time',
+    emptyHistory: 'Recent mowing time estimates will appear here.',
+    privacyNote: 'Mowing time estimates stay local and depend on real yard layout, turns, and obstacles.',
+    modes: [
+      {
+        id: 'lawn-mowing',
+        label: 'Time',
+        symbol: 'MOW',
+        fields: [
+          numberField('lawnAreaSquareFeet', 'Lawn area ft2', '10000'),
+          numberField('mowerWidthInches', 'Mower width inches', '21'),
+          numberField('speedMph', 'Speed mph', '3'),
+          numberField('efficiencyPercent', 'Efficiency percent', '80'),
+        ],
+        defaultInputs: { lawnAreaSquareFeet: '10000', mowerWidthInches: '21', speedMph: '3', efficiencyPercent: '80' },
+        examples: [
+          { label: 'Push mower lawn', inputs: { lawnAreaSquareFeet: '10000', mowerWidthInches: '21', speedMph: '3', efficiencyPercent: '80' } },
+          { label: 'Riding mower acre', inputs: { lawnAreaSquareFeet: '43560', mowerWidthInches: '42', speedMph: '4.5', efficiencyPercent: '75' } },
+        ],
+      },
+    ],
+  },
+  'plant-spacing': {
+    title: 'Plant Spacing Calculator',
+    buttonLabel: 'Estimate plants',
+    emptyHistory: 'Recent plant spacing estimates will appear here.',
+    privacyNote: 'Plant spacing estimates stay local. Plant tags and local growing conditions should guide final spacing.',
+    modes: [
+      {
+        id: 'plant-spacing',
+        label: 'Plants',
+        symbol: 'BED',
+        fields: [
+          numberField('bedLengthFeet', 'Bed length ft', '10'),
+          numberField('bedWidthFeet', 'Bed width ft', '4'),
+          numberField('spacingInches', 'Plant spacing inches', '12'),
+          selectField('pattern', 'Pattern', plantSpacingPatternOptions),
+        ],
+        defaultInputs: { bedLengthFeet: '10', bedWidthFeet: '4', spacingInches: '12', pattern: 'square' },
+        examples: [
+          { label: 'Square rows', inputs: { bedLengthFeet: '10', bedWidthFeet: '4', spacingInches: '12', pattern: 'square' } },
+          { label: 'Staggered rows', inputs: { bedLengthFeet: '10', bedWidthFeet: '4', spacingInches: '12', pattern: 'triangular' } },
         ],
       },
     ],
@@ -5115,6 +5411,92 @@ function calculateUtility(
         note: 'Permits, framing, footings, fasteners, railing code, stairs, demolition, labor, and local prices can dominate real deck cost.',
       };
     }
+    case 'deck-board': {
+      const result = calculateDeckBoardEstimate({
+        deckLengthFeet: parseNumber(inputs.deckLengthFeet, 'Deck length'),
+        deckWidthFeet: parseNumber(inputs.deckWidthFeet, 'Deck width'),
+        boardLengthFeet: parseNumber(inputs.boardLengthFeet, 'Board length'),
+        boardWidthInches: parseNumber(inputs.boardWidthInches, 'Board width'),
+        joistSpacingInches: parseNumber(inputs.joistSpacingInches, 'Joist spacing'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        pricePerBoard: parseOptionalNumber(inputs.pricePerBoard ?? '', 'Price per board'),
+      });
+      return {
+        label: 'Deck boards needed',
+        expression: `${formatCalculatorNumber(result.deckLengthFeet)} x ${formatCalculatorNumber(result.deckWidthFeet)} ft deck`,
+        answer: `${formatCalculatorNumber(result.boardsNeeded)} boards`,
+        metrics: [
+          { label: 'Adjusted deck area', value: `${formatCalculatorNumber(result.adjustedDeckAreaSquareFeet)} ft2` },
+          { label: 'Fastener rows', value: formatCalculatorNumber(result.joistCount) },
+          { label: 'Deck screws estimate', value: formatCalculatorNumber(result.deckScrews) },
+          { label: 'Estimated board cost', value: result.estimatedCost === null ? 'Add price per board' : money(result.estimatedCost) },
+        ],
+        steps: [
+          'Multiply deck length by width for deck surface area.',
+          'Add waste and divide by each board coverage.',
+          'Use joist spacing to estimate fastener rows and screw count.',
+        ],
+        note: 'Board layout, gaps, picture frames, breaker boards, stair boards, hidden fastener systems, and local code can change the final order.',
+      };
+    }
+    case 'deck-stain': {
+      const result = calculateDeckStainEstimate({
+        deckLengthFeet: parseNumber(inputs.deckLengthFeet, 'Deck length'),
+        deckWidthFeet: parseNumber(inputs.deckWidthFeet, 'Deck width'),
+        railingLengthFeet: parseNumber(inputs.railingLengthFeet, 'Railing length'),
+        railingHeightFeet: parseNumber(inputs.railingHeightFeet, 'Railing height'),
+        stepCount: parseNumber(inputs.stepCount, 'Step count'),
+        stepWidthFeet: parseNumber(inputs.stepWidthFeet, 'Step width'),
+        stepDepthInches: parseNumber(inputs.stepDepthInches, 'Step depth'),
+        riserHeightInches: parseNumber(inputs.riserHeightInches, 'Riser height'),
+        coats: parseNumber(inputs.coats, 'Coats'),
+        coverageSquareFeetPerGallon: parseNumber(inputs.coverageSquareFeetPerGallon, 'Coverage per gallon'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        pricePerGallon: parseOptionalNumber(inputs.pricePerGallon ?? '', 'Price per gallon'),
+      });
+      return {
+        label: 'Deck stain needed',
+        expression: `${formatCalculatorNumber(result.totalSurfaceSquareFeet)} ft2 surface, ${formatCalculatorNumber(result.coats)} coat(s)`,
+        answer: `${formatCalculatorNumber(result.gallonsToBuy)} gal`,
+        metrics: [
+          { label: 'Surface with waste', value: `${formatCalculatorNumber(result.adjustedSurfaceSquareFeet)} ft2` },
+          { label: 'Coat-adjusted area', value: `${formatCalculatorNumber(result.coatAdjustedSquareFeet)} ft2` },
+          { label: 'Exact gallons', value: formatCalculatorNumber(result.gallonsNeeded) },
+          { label: 'Estimated stain cost', value: result.estimatedCost === null ? 'Add price per gallon' : money(result.estimatedCost) },
+        ],
+        steps: [
+          'Add deck surface, railing faces, and stair tread/riser area.',
+          'Add waste, then multiply by coat count.',
+          'Divide by label coverage and round up to whole gallons.',
+        ],
+        note: 'Older wood, rough boards, sprayers, rail details, product solids, weather, and prep work can change real coverage.',
+      };
+    }
+    case 'baluster': {
+      const result = calculateBalusterEstimate({
+        railLengthFeet: parseNumber(inputs.railLengthFeet, 'Rail length'),
+        postWidthInches: parseNumber(inputs.postWidthInches, 'Post width'),
+        postCount: parseNumber(inputs.postCount, 'Post count'),
+        balusterWidthInches: parseNumber(inputs.balusterWidthInches, 'Baluster width'),
+        maxSpacingInches: parseNumber(inputs.maxSpacingInches, 'Max spacing'),
+      });
+      return {
+        label: 'Balusters needed',
+        expression: `${formatCalculatorNumber(result.openingLengthInches)} in clear opening`,
+        answer: `${formatCalculatorNumber(result.balustersNeeded)} balusters`,
+        metrics: [
+          { label: 'Actual open spacing', value: `${formatCalculatorNumber(result.actualSpacingInches)} in` },
+          { label: 'Baluster width used', value: `${formatCalculatorNumber(result.totalBalusterWidthInches)} in` },
+          { label: 'Max spacing entered', value: `${formatCalculatorNumber(result.maxSpacingInches)} in` },
+        ],
+        steps: [
+          'Subtract post widths from the measured rail run.',
+          'Fit balusters so each opening is at or below the max spacing.',
+          'Recalculate the actual equal spacing between balusters.',
+        ],
+        note: 'Building codes often have strict guard and stair rules. Treat this as layout math, then check your local code.',
+      };
+    }
     case 'paver': {
       const result = calculatePaverEstimate(parseNumber(inputs.areaSquareFeet, 'Area'), parseNumber(inputs.paverLengthInches, 'Paver length'), parseNumber(inputs.paverWidthInches, 'Paver width'), parseNumber(inputs.wastePercent, 'Waste percent'));
       return {
@@ -5132,6 +5514,131 @@ function calculateUtility(
           'Divide adjusted area by paver area and round up.',
         ],
         note: 'Patterns, cuts, edging, base depth, joint sand, broken pavers, and box quantities can change what you buy.',
+      };
+    }
+    case 'paver-base': {
+      const result = calculatePaverBaseEstimate({
+        areaSquareFeet: parseNumber(inputs.areaSquareFeet, 'Area'),
+        baseDepthInches: parseNumber(inputs.baseDepthInches, 'Base depth'),
+        beddingDepthInches: parseNumber(inputs.beddingDepthInches, 'Bedding depth'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        baseTonsPerCubicYard: parseNumber(inputs.baseTonsPerCubicYard, 'Base tons per cubic yard'),
+      });
+      return {
+        label: 'Paver base needed',
+        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2 area`,
+        answer: `${formatCalculatorNumber(result.baseCubicYards)} yd3 base`,
+        metrics: [
+          { label: 'Base tons', value: `${formatCalculatorNumber(result.baseTons)} tons` },
+          { label: 'Base cubic feet', value: `${formatCalculatorNumber(result.baseCubicFeet)} ft3` },
+          { label: 'Bedding sand', value: `${formatCalculatorNumber(result.beddingCubicYards)} yd3` },
+        ],
+        steps: [
+          'Multiply area by base depth to get base volume.',
+          'Add waste and convert cubic feet to cubic yards.',
+          'Multiply cubic yards by tons per cubic yard for base weight.',
+        ],
+        note: 'Base depth, compaction, soil, drainage, traffic load, edge restraints, and local practice can change the right base design.',
+      };
+    }
+    case 'polymeric-sand': {
+      const result = calculatePolymericSandEstimate({
+        areaSquareFeet: parseNumber(inputs.areaSquareFeet, 'Area'),
+        paverLengthInches: parseNumber(inputs.paverLengthInches, 'Paver length'),
+        paverWidthInches: parseNumber(inputs.paverWidthInches, 'Paver width'),
+        jointWidthInches: parseNumber(inputs.jointWidthInches, 'Joint width'),
+        jointDepthInches: parseNumber(inputs.jointDepthInches, 'Joint depth'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        bagCoverageCubicFeet: parseNumber(inputs.bagCoverageCubicFeet, 'Bag coverage'),
+      });
+      return {
+        label: 'Polymeric sand needed',
+        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2, ${formatCalculatorNumber(result.jointWidthInches)} in joints`,
+        answer: `${formatCalculatorNumber(result.bagsNeeded)} bags`,
+        metrics: [
+          { label: 'Estimated pavers', value: formatCalculatorNumber(result.estimatedPavers) },
+          { label: 'Sand volume with waste', value: `${formatCalculatorNumber(result.cubicFeet)} ft3` },
+          { label: 'Raw joint volume', value: `${formatCalculatorNumber(result.rawCubicFeet)} ft3` },
+        ],
+        steps: [
+          'Estimate paver count from area and paver size.',
+          'Estimate joint volume from paver edges, joint width, and joint depth.',
+          'Add waste and divide by bag coverage.',
+        ],
+        note: 'Irregular pavers, wide joints, deep joints, product coverage, old joint cleanup, and installation method can change the bag count.',
+      };
+    }
+    case 'grass-seed': {
+      const result = calculateGrassSeedEstimate({
+        lawnAreaSquareFeet: parseNumber(inputs.lawnAreaSquareFeet, 'Lawn area'),
+        seedRatePoundsPer1000SquareFeet: parseNumber(inputs.seedRatePoundsPer1000SquareFeet, 'Seed rate'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        bagWeightPounds: parseNumber(inputs.bagWeightPounds, 'Bag weight'),
+        pricePerBag: parseOptionalNumber(inputs.pricePerBag ?? '', 'Price per bag'),
+      });
+      return {
+        label: 'Grass seed needed',
+        expression: `${formatCalculatorNumber(result.lawnAreaSquareFeet)} ft2 at ${formatCalculatorNumber(result.seedRatePoundsPer1000SquareFeet)} lb / 1,000 ft2`,
+        answer: `${formatCalculatorNumber(result.seedPounds)} lb`,
+        metrics: [
+          { label: 'Bags to buy', value: formatCalculatorNumber(result.bagsNeeded) },
+          { label: 'Adjusted lawn area', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Estimated cost', value: result.estimatedCost === null ? 'Add price per bag' : money(result.estimatedCost) },
+        ],
+        steps: [
+          'Add waste to the measured lawn area.',
+          'Multiply adjusted area by the seed rate per 1,000 square feet.',
+          'Divide by bag weight and round up to whole bags.',
+        ],
+        note: 'New lawns, overseeding, grass species, soil temperature, slopes, shade, and seed label rates all affect the right seed amount.',
+      };
+    }
+    case 'lawn-mowing': {
+      const result = calculateLawnMowingTime({
+        lawnAreaSquareFeet: parseNumber(inputs.lawnAreaSquareFeet, 'Lawn area'),
+        mowerWidthInches: parseNumber(inputs.mowerWidthInches, 'Mower width'),
+        speedMph: parseNumber(inputs.speedMph, 'Speed'),
+        efficiencyPercent: parseNumber(inputs.efficiencyPercent, 'Efficiency percent'),
+      });
+      return {
+        label: 'Estimated mowing time',
+        expression: `${formatCalculatorNumber(result.acres)} acres, ${formatCalculatorNumber(result.mowerWidthInches)} in mower`,
+        answer: `${formatCalculatorNumber(result.minutes)} min`,
+        metrics: [
+          { label: 'Hours', value: formatCalculatorNumber(result.hours) },
+          { label: 'Effective width', value: `${formatCalculatorNumber(result.effectiveWidthFeet)} ft` },
+          { label: 'Mowing rate', value: `${formatCalculatorNumber(result.squareFeetPerHour)} ft2/hr` },
+        ],
+        steps: [
+          'Convert mower deck width to feet.',
+          'Multiply width by speed to estimate square feet per hour.',
+          'Apply efficiency for turns, overlap, obstacles, and slow sections.',
+        ],
+        note: 'Wet grass, hills, bagging, trimming, obstacles, mower power, and walking speed can make real mowing time longer.',
+      };
+    }
+    case 'plant-spacing': {
+      const result = calculatePlantSpacingEstimate({
+        bedLengthFeet: parseNumber(inputs.bedLengthFeet, 'Bed length'),
+        bedWidthFeet: parseNumber(inputs.bedWidthFeet, 'Bed width'),
+        spacingInches: parseNumber(inputs.spacingInches, 'Plant spacing'),
+        pattern: (inputs.pattern ?? 'square') as PlantSpacingPattern,
+      });
+      return {
+        label: 'Plants needed',
+        expression: `${formatCalculatorNumber(result.bedLengthFeet)} x ${formatCalculatorNumber(result.bedWidthFeet)} ft bed`,
+        answer: `${formatCalculatorNumber(result.plantsNeeded)} plants`,
+        metrics: [
+          { label: 'Rows', value: formatCalculatorNumber(result.rows) },
+          { label: 'Plants per row', value: formatCalculatorNumber(result.columns) },
+          { label: 'Row spacing', value: `${formatCalculatorNumber(result.rowSpacingInches)} in` },
+        ],
+        steps: [
+          'Convert bed length and width to inches.',
+          'Fit rows and columns from the chosen spacing.',
+          'Use tighter row spacing for the triangular pattern.',
+        ],
+        note: 'Mature plant width, border setbacks, irregular beds, sunlight, airflow, and plant type can change the final planting plan.',
       };
     }
     case 'siding': {

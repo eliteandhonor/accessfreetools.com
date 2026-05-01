@@ -62,6 +62,7 @@ import {
   calculateAsphaltEstimate,
   calculateAspectRatio,
   calculateBandwidthTime,
+  calculateBalusterEstimate,
   calculateBoardFoot,
   calculateBraSize,
   calculateBrickEstimate,
@@ -81,7 +82,9 @@ import {
   calculateCssClamp,
   calculateDayOfWeek,
   calculateDateFromUnixTimestamp,
+  calculateDeckBoardEstimate,
   calculateDeckCostEstimate,
+  calculateDeckStainEstimate,
   calculateDensity,
   calculateDeviceBatteryLife,
   calculateDiceRoll,
@@ -120,7 +123,9 @@ import {
   calculateGdpEstimate,
   calculateGolfCourseHandicap,
   calculateGolfScoreDifferential,
+  calculateLawnMowingTime,
   calculateLoveCompatibility,
+  calculateGrassSeedEstimate,
   calculateGravelEstimate,
   calculateHeatIndex,
   calculateHeightEstimate,
@@ -208,9 +213,12 @@ import {
   calculateOhmsLaw,
   calculateMulchEstimate,
   calculatePaintEstimate,
+  calculatePaverBaseEstimate,
   calculatePaverEstimate,
+  calculatePlantSpacingEstimate,
   calculatePlywoodEstimate,
   calculatePoolVolume,
+  calculatePolymericSandEstimate,
   calculatePostHoleConcreteEstimate,
   calculateRebarGridEstimate,
   calculateRebarWeightEstimate,
@@ -1677,7 +1685,29 @@ describe('utility helpers', () => {
     const wallpaper = calculateWallpaperEstimate({ roomLengthFeet: 12, roomWidthFeet: 10, wallHeightFeet: 8, doors: 1, windows: 2, rollCoverageSquareFeet: 56, wastePercent: 10 });
     const fence = calculateFenceEstimate({ perimeterFeet: 120, panelWidthFeet: 8, postSpacingFeet: 8, gateCount: 1, gateWidthFeet: 4 });
     const deck = calculateDeckCostEstimate({ lengthFeet: 16, widthFeet: 12, wastePercent: 10, deckCostPerSquareFoot: 12, railingLinearFeet: 40, railingCostPerFoot: 35, stairsCost: 750 });
+    const deckBoards = calculateDeckBoardEstimate({ deckLengthFeet: 16, deckWidthFeet: 12, boardLengthFeet: 16, boardWidthInches: 5.5, joistSpacingInches: 16, wastePercent: 10, pricePerBoard: 18 });
+    const deckStain = calculateDeckStainEstimate({
+      deckLengthFeet: 16,
+      deckWidthFeet: 12,
+      railingLengthFeet: 40,
+      railingHeightFeet: 3,
+      stepCount: 4,
+      stepWidthFeet: 4,
+      stepDepthInches: 11,
+      riserHeightInches: 7,
+      coats: 2,
+      coverageSquareFeetPerGallon: 200,
+      wastePercent: 10,
+      pricePerGallon: 45,
+    });
+    const balusters = calculateBalusterEstimate({ railLengthFeet: 10, postWidthInches: 3.5, postCount: 2, balusterWidthInches: 1.5, maxSpacingInches: 4 });
     const pavers = calculatePaverEstimate(180, 8, 4, 10);
+    const paverBase = calculatePaverBaseEstimate({ areaSquareFeet: 200, baseDepthInches: 4, beddingDepthInches: 1, wastePercent: 10, baseTonsPerCubicYard: 1.5 });
+    const polymericSand = calculatePolymericSandEstimate({ areaSquareFeet: 200, paverLengthInches: 8, paverWidthInches: 4, jointWidthInches: 0.25, jointDepthInches: 1, wastePercent: 10, bagCoverageCubicFeet: 0.5 });
+    const grassSeed = calculateGrassSeedEstimate({ lawnAreaSquareFeet: 5000, seedRatePoundsPer1000SquareFeet: 6, wastePercent: 5, bagWeightPounds: 20, pricePerBag: 65 });
+    const mowing = calculateLawnMowingTime({ lawnAreaSquareFeet: 10000, mowerWidthInches: 21, speedMph: 3, efficiencyPercent: 80 });
+    const plantSpacing = calculatePlantSpacingEstimate({ bedLengthFeet: 10, bedWidthFeet: 4, spacingInches: 12, pattern: 'square' });
+    const trianglePlants = calculatePlantSpacingEstimate({ bedLengthFeet: 10, bedWidthFeet: 4, spacingInches: 12, pattern: 'triangular' });
     const siding = calculateSidingEstimate({ wallAreaSquareFeet: 1200, openingsSquareFeet: 120, wastePercent: 10, pricePerSquare: 180 });
     const brick = calculateBrickEstimate({ wallAreaSquareFeet: 120, brickLengthInches: 7.625, brickHeightInches: 2.25, mortarJointInches: 0.375, wastePercent: 10 });
     const block = calculateConcreteBlockEstimate({ wallLengthFeet: 40, wallHeightFeet: 8, blockLengthInches: 16, blockHeightInches: 8, openingsSquareFeet: 20, wastePercent: 5 });
@@ -1743,7 +1773,26 @@ describe('utility helpers', () => {
     expect(wallpaper.rollsNeeded).toBe(6);
     expect(fence.totalPosts).toBe(18);
     expect(deck.totalCost).toBe(4684.4);
+    expect(deckBoards.boardsNeeded).toBe(29);
+    expect(deckBoards.joistCount).toBe(13);
+    expect(deckBoards.deckScrews).toBe(754);
+    expect(deckBoards.estimatedCost).toBe(522);
+    expect(deckStain.gallonsToBuy).toBe(6);
+    expect(deckStain.estimatedCost).toBe(270);
+    expect(formatCalculatorNumber(deckStain.adjustedSurfaceSquareFeet)).toBe('501.6');
+    expect(balusters.balustersNeeded).toBe(20);
+    expect(formatCalculatorNumber(balusters.actualSpacingInches)).toBe('3.9523809524');
     expect(pavers.paversNeeded).toBe(891);
+    expect(formatCalculatorNumber(paverBase.baseCubicYards)).toBe('2.7160493827');
+    expect(formatCalculatorNumber(paverBase.baseTons)).toBe('4.0740740741');
+    expect(formatCalculatorNumber(polymericSand.cubicFeet)).toBe('1.71875');
+    expect(polymericSand.bagsNeeded).toBe(4);
+    expect(formatCalculatorNumber(grassSeed.seedPounds)).toBe('31.5');
+    expect(grassSeed.bagsNeeded).toBe(2);
+    expect(grassSeed.estimatedCost).toBe(130);
+    expect(formatCalculatorNumber(mowing.minutes)).toBe('27.0562770563');
+    expect(plantSpacing.plantsNeeded).toBe(40);
+    expect(trianglePlants.plantsNeeded).toBe(44);
     expect(siding.squaresNeeded).toBe(12);
     expect(brick.bricksNeeded).toBe(906);
     expect(block.blocksNeeded).toBe(355);

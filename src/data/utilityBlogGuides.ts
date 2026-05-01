@@ -78,6 +78,38 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/sitemap/',
     label: 'Inch Calculator sitemap: construction and home-project competitor reference',
   },
+  inchDeckFlooring: {
+    href: 'https://www.inchcalculator.com/deck-flooring-calculator/',
+    label: 'Inch Calculator: Deck flooring calculator reference',
+  },
+  inchDeckStain: {
+    href: 'https://www.inchcalculator.com/deck-stain-calculator/',
+    label: 'Inch Calculator: Deck stain calculator reference',
+  },
+  inchBaluster: {
+    href: 'https://www.inchcalculator.com/baluster-calculator/',
+    label: 'Inch Calculator: Baluster calculator reference',
+  },
+  inchPaverBase: {
+    href: 'https://www.inchcalculator.com/paver-base-calculator/',
+    label: 'Inch Calculator: Paver base calculator reference',
+  },
+  inchPolymericSand: {
+    href: 'https://www.inchcalculator.com/polymeric-sand-calculator/',
+    label: 'Inch Calculator: Polymeric sand calculator reference',
+  },
+  inchGrassSeed: {
+    href: 'https://www.inchcalculator.com/grass-seed-calculator/',
+    label: 'Inch Calculator: Grass seed calculator reference',
+  },
+  inchLawnMowing: {
+    href: 'https://www.inchcalculator.com/lawn-mowing-calculator/',
+    label: 'Inch Calculator: Lawn mowing calculator reference',
+  },
+  inchPlantCalculator: {
+    href: 'https://www.inchcalculator.com/plant-and-flower-calculator/',
+    label: 'Inch Calculator: Plant and flower calculator reference',
+  },
   inchConcreteFooting: {
     href: 'https://www.inchcalculator.com/concrete-footing-calculator/',
     label: 'Inch Calculator: Concrete footing calculator reference',
@@ -1483,6 +1515,69 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
     sources: [sourceLinks.nistUnits],
   },
+  'deck-board-calculator': {
+    summary: 'Learn how deck size, board coverage, waste, and joist spacing estimate board and fastener needs.',
+    purpose:
+      'The Deck Board Calculator helps you plan the visible decking surface. It turns your deck dimensions and board dimensions into whole boards, then uses joist spacing for a rough fastener count.',
+    enter: [
+      'Enter the deck length and width in feet.',
+      'Enter the purchased board length and the actual board face width in inches.',
+      'Enter joist spacing, waste percent, and optional price per board.',
+    ],
+    read: [
+      'Boards needed is the rounded-up count after waste is added.',
+      'Fastener rows comes from the deck length and joist spacing.',
+      'Deck screws estimate uses two screws for each board-and-joist crossing.',
+    ],
+    mistakes: [
+      'Do not use nominal board width if the actual face width is different.',
+      'Do not forget board gaps, picture framing, breaker boards, stairs, and border boards.',
+      'Hidden fastener systems can need clips instead of the screw estimate shown here.',
+    ],
+    sources: [sourceLinks.inchDeckFlooring, sourceLinks.nistUnits],
+  },
+  'deck-stain-calculator': {
+    summary: 'Learn how deck surface, rails, stairs, coats, coverage, and waste become gallons of stain.',
+    purpose:
+      'The Deck Stain Calculator estimates how many gallons to buy by adding the surface areas that need coating, then applying coat count and coverage per gallon.',
+    enter: [
+      'Enter deck length and width for the main surface.',
+      'Enter railing length and height if you plan to stain rails.',
+      'Enter stair details, coat count, label coverage, waste percent, and optional gallon price.',
+    ],
+    read: [
+      'Gallons to buy rounds the exact gallon need up to a whole gallon.',
+      'Surface with waste shows the deck, rail, and stair area before coat count.',
+      'Coat-adjusted area shows how much coverage all coats require together.',
+    ],
+    mistakes: [
+      'Do not guess coverage when the product label gives a number.',
+      'Do not forget old, dry, rough, or weathered wood can soak up more stain.',
+      'Do not stain without checking weather, cleaning, drying, and prep instructions.',
+    ],
+    sources: [sourceLinks.inchDeckStain, sourceLinks.nistUnits],
+  },
+  'baluster-calculator': {
+    summary: 'Learn how railing opening length, baluster width, and max gap estimate baluster count.',
+    purpose:
+      'The Baluster Calculator is a spacing helper for straight rail sections. It subtracts posts, fits enough balusters to stay under the max gap, and reports the actual equal spacing.',
+    enter: [
+      'Enter rail length in feet.',
+      'Enter post width, post count, and baluster width in inches.',
+      'Enter the largest open spacing you want between balusters.',
+    ],
+    read: [
+      'Balusters needed is rounded up so gaps do not exceed the max spacing.',
+      'Actual open spacing is the equal gap between balusters after rounding.',
+      'Opening length shows the rail space left after subtracting posts.',
+    ],
+    mistakes: [
+      'Do not treat this as a complete railing code check.',
+      'Do not forget stair railings and guards can have extra rules.',
+      'Measure actual post and baluster widths because small changes affect spacing.',
+    ],
+    sources: [sourceLinks.inchBaluster, sourceLinks.nistUnits],
+  },
   'paver-calculator': {
     summary: 'Learn how project area, paver size, and waste estimate paver count.',
     purpose:
@@ -1503,6 +1598,111 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Check whether the supplier sells by piece, pallet, bundle, or square foot.',
     ],
     sources: [sourceLinks.nistUnits],
+  },
+  'paver-base-calculator': {
+    summary: 'Learn how paver area and layer depths estimate base gravel and bedding sand.',
+    purpose:
+      'The Paver Base Calculator estimates the material layers below a paver surface. It separates compacted gravel base from bedding sand so you can plan each material.',
+    enter: [
+      'Enter the paver area in square feet.',
+      'Enter base depth and bedding sand depth in inches.',
+      'Enter waste percent and a rough tons-per-cubic-yard value for the base material.',
+    ],
+    read: [
+      'Base cubic yards is the main volume to discuss with suppliers.',
+      'Base tons converts the volume into approximate weight.',
+      'Bedding sand shows the leveling layer volume separately.',
+    ],
+    mistakes: [
+      'Do not use loose depth if your design calls for compacted depth.',
+      'Do not ignore drainage, soil, slope, freeze-thaw, and traffic load.',
+      'Do not assume every gravel product has the same tons per cubic yard.',
+    ],
+    sources: [sourceLinks.inchPaverBase, sourceLinks.nistUnits],
+  },
+  'polymeric-sand-calculator': {
+    summary: 'Learn how paver area, paver size, joint width, and joint depth estimate polymeric sand bags.',
+    purpose:
+      'The Polymeric Sand Calculator estimates how much joint sand fits between pavers. It is helpful when product coverage is hard to compare across bag sizes.',
+    enter: [
+      'Enter finished paver area and paver dimensions.',
+      'Enter average joint width and joint depth.',
+      'Enter waste percent and the bag coverage in cubic feet.',
+    ],
+    read: [
+      'Bags needed rounds the sand volume up by bag coverage.',
+      'Sand volume with waste shows the estimated joint fill volume.',
+      'Estimated pavers explains the rough piece count used for joint math.',
+    ],
+    mistakes: [
+      'Do not expect perfect accuracy for irregular pavers or uneven joints.',
+      'Do not forget old joints may already contain some sand.',
+      'Do not skip product instructions for joint width, joint depth, watering, and cleanup.',
+    ],
+    sources: [sourceLinks.inchPolymericSand, sourceLinks.nistUnits],
+  },
+  'grass-seed-calculator': {
+    summary: 'Learn how lawn area and seed label rates estimate seed pounds and bags.',
+    purpose:
+      'The Grass Seed Calculator turns a seed label rate into pounds and whole bags. It works for new lawns, overseeding, and small repair areas when you enter the right rate.',
+    enter: [
+      'Enter the lawn area you plan to seed.',
+      'Enter the seed rate in pounds per 1,000 square feet from the product label.',
+      'Enter waste percent, bag weight, and optional price per bag.',
+    ],
+    read: [
+      'Seed pounds is the amount needed after waste is added.',
+      'Bags to buy rounds seed pounds up by bag weight.',
+      'Estimated cost appears when you enter a price per bag.',
+    ],
+    mistakes: [
+      'Do not use a new-lawn rate for overseeding unless the label says to.',
+      'Do not ignore shade, soil prep, slopes, watering, and season.',
+      'Do not confuse square feet with acres when measuring a yard.',
+    ],
+    sources: [sourceLinks.inchGrassSeed, sourceLinks.nistUnits],
+  },
+  'lawn-mowing-calculator': {
+    summary: 'Learn how lawn area, mower width, speed, and efficiency estimate mowing time.',
+    purpose:
+      'The Lawn Mowing Calculator gives a rough time estimate for cutting grass. It starts with an ideal mowing rate, then reduces it by real-world efficiency.',
+    enter: [
+      'Enter mowable lawn area in square feet.',
+      'Enter mower cutting width in inches and average speed in miles per hour.',
+      'Enter efficiency percent for turns, overlap, gates, obstacles, and slowing down.',
+    ],
+    read: [
+      'Estimated mowing time is shown in minutes and hours.',
+      'Mowing rate shows the square feet per hour after efficiency.',
+      'Acres helps compare the area with common lawn-size language.',
+    ],
+    mistakes: [
+      'Do not enter the mower top speed if you mow slower in real life.',
+      'Do not count house, driveway, pool, or garden areas as mowable lawn.',
+      'Do not forget trimming, bagging, hills, wet grass, and cleanup time.',
+    ],
+    sources: [sourceLinks.inchLawnMowing, sourceLinks.nistUnits],
+  },
+  'plant-spacing-calculator': {
+    summary: 'Learn how bed dimensions, plant spacing, and planting pattern estimate plant count.',
+    purpose:
+      'The Plant Spacing Calculator turns a bed size and plant-tag spacing into a rough number of plants. It compares square rows with a triangular staggered layout.',
+    enter: [
+      'Enter bed length and width in feet.',
+      'Enter center-to-center plant spacing in inches.',
+      'Choose square grid or triangular staggered pattern.',
+    ],
+    read: [
+      'Plants needed is rows times plants per row.',
+      'Rows and plants per row show how the total was built.',
+      'Row spacing changes when you choose triangular pattern.',
+    ],
+    mistakes: [
+      'Do not forget mature plant size and air flow.',
+      'Do not plant right to the edge if the bed needs a border setback.',
+      'Irregular beds, paths, shade, soil, and growth habit can change the real plan.',
+    ],
+    sources: [sourceLinks.inchPlantCalculator, sourceLinks.nistUnits],
   },
   'siding-calculator': {
     summary: 'Learn how exterior wall area becomes siding squares and optional material cost.',

@@ -301,6 +301,46 @@ const inchCalculatorSitemap = {
   label: 'Inch Calculator sitemap: competitor gap reference',
 };
 
+const inchDeckFlooring = {
+  href: 'https://www.inchcalculator.com/deck-flooring-calculator/',
+  label: 'Inch Calculator: Deck flooring calculator reference',
+};
+
+const inchDeckStain = {
+  href: 'https://www.inchcalculator.com/deck-stain-calculator/',
+  label: 'Inch Calculator: Deck stain calculator reference',
+};
+
+const inchBaluster = {
+  href: 'https://www.inchcalculator.com/baluster-calculator/',
+  label: 'Inch Calculator: Baluster calculator reference',
+};
+
+const inchPaverBase = {
+  href: 'https://www.inchcalculator.com/paver-base-calculator/',
+  label: 'Inch Calculator: Paver base calculator reference',
+};
+
+const inchPolymericSand = {
+  href: 'https://www.inchcalculator.com/polymeric-sand-calculator/',
+  label: 'Inch Calculator: Polymeric sand calculator reference',
+};
+
+const inchGrassSeed = {
+  href: 'https://www.inchcalculator.com/grass-seed-calculator/',
+  label: 'Inch Calculator: Grass seed calculator reference',
+};
+
+const inchLawnMowing = {
+  href: 'https://www.inchcalculator.com/lawn-mowing-calculator/',
+  label: 'Inch Calculator: Lawn mowing calculator reference',
+};
+
+const inchPlantCalculator = {
+  href: 'https://www.inchcalculator.com/plant-and-flower-calculator/',
+  label: 'Inch Calculator: Plant and flower calculator reference',
+};
+
 const inchConcreteFooting = {
   href: 'https://www.inchcalculator.com/concrete-footing-calculator/',
   label: 'Inch Calculator: Concrete footing calculator reference',
@@ -3472,6 +3512,63 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
   },
   {
+    slug: 'deck-board-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-deck-patio-landscaping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchDeckFlooring, nistSi],
+    findings: [
+      'The calculator estimates board count from deck area, actual board coverage, waste percent, and whole-board rounding.',
+      'The result adds joist-based fastener rows, hidden fastener count, screw estimate, and optional board cost without pretending to be a full deck plan.',
+      'The FAQ and guide explain actual board width, waste percent, screw-count limits, picture frames, breaker boards, gaps, and hidden fastener systems.',
+    ],
+    improvements: [
+      'Manually checked the formula, 16 x 12 example, input labels, result metrics, guide copy, FAQ details, related tools, source notes, SEO title, and browser-only privacy wording.',
+    ],
+    followUps: [
+      'Add diagonal-layout and picture-frame modes if users need more detailed deck takeoffs later.',
+    ],
+  },
+  {
+    slug: 'deck-stain-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-deck-patio-landscaping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchDeckStain, nistSi],
+    findings: [
+      'The calculator combines deck surface, railing faces, and stair tread/riser area before applying waste, coat count, and label coverage.',
+      'The result separates exact gallons, whole gallons to buy, coat-adjusted area, and optional cost.',
+      'The FAQ and guide warn that old wood, rough texture, previous finish, sprayer loss, product instructions, weather, cleaning, and drying can change real coverage.',
+    ],
+    improvements: [
+      'Manually checked surface math, stair area, whole-gallon rounding, examples, guide clarity, FAQ specificity, source notes, related links, SEO copy, and privacy note.',
+    ],
+    followUps: [
+      'Add separate deck-sealer and deck-paint presets if future users ask for product-specific defaults.',
+    ],
+  },
+  {
+    slug: 'baluster-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-deck-patio-landscaping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchBaluster, nistSi],
+    findings: [
+      'The calculator subtracts post width from the rail run, rounds baluster count up to stay below the maximum open spacing, and reports actual equal spacing.',
+      'The page clearly frames the result as layout math rather than a railing-code decision.',
+      'The FAQ and guide explain why actual spacing is usually smaller than max spacing and why stair/guard rules need separate local review.',
+    ],
+    improvements: [
+      'Manually checked spacing formula, example values, max-gap language, result labels, guide cautions, FAQ depth, related tools, source notes, SEO copy, and privacy wording.',
+    ],
+    followUps: [
+      'Add stair angle support only if we can present the extra geometry clearly.',
+    ],
+  },
+  {
     slug: 'paver-calculator',
     status: 'deep-reviewed',
     batch: 'home-project-manual-pass-1-2026-04-30',
@@ -3488,6 +3585,101 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     followUps: [
       'Link paver estimates more strongly to sand and gravel calculators if a patio hub page is added.',
+    ],
+  },
+  {
+    slug: 'paver-base-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-deck-patio-landscaping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchPaverBase, nistSi],
+    findings: [
+      'The calculator estimates compacted base volume and bedding sand volume separately from paver count.',
+      'The result converts base cubic feet to cubic yards and approximate tons using the user-entered density value.',
+      'The guide and FAQ explain compacted depth versus loose material and warn about soil, drainage, freeze-thaw, traffic load, compaction, and edge restraints.',
+    ],
+    improvements: [
+      'Manually checked base and bedding formulas, density conversion, examples, labels, guide wording, FAQ detail, source notes, related tools, SEO copy, and privacy note.',
+    ],
+    followUps: [
+      'Add a base-depth recommendation table only if it can be sourced by project type and climate.',
+    ],
+  },
+  {
+    slug: 'polymeric-sand-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-deck-patio-landscaping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchPolymericSand, nistSi],
+    findings: [
+      'The calculator estimates paver count from area and paver size, then uses joint width and depth to approximate joint volume.',
+      'The result reports raw joint volume, waste-adjusted volume, estimated pavers, and whole bags.',
+      'The FAQ and guide explain why irregular pavers, old joint cleanup, wide joints, product bag coverage, sweeping loss, and watering instructions matter.',
+    ],
+    improvements: [
+      'Manually checked joint-volume math, bag rounding, examples, product-coverage caveats, FAQ specificity, guide clarity, source notes, SEO copy, and privacy wording.',
+    ],
+    followUps: [
+      'Add support for manufacturer square-foot coverage labels if users want a simpler product-driven mode.',
+    ],
+  },
+  {
+    slug: 'grass-seed-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-deck-patio-landscaping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchGrassSeed, nistSi],
+    findings: [
+      'The calculator converts seed label rate per 1,000 square feet into total pounds, then rounds up to whole bags.',
+      'The result separates seed pounds, adjusted lawn area, bag count, and optional cost.',
+      'The FAQ and guide explain new-lawn versus overseeding rates, bag rounding, grass type, shade, soil prep, slope, season, and measuring square feet correctly.',
+    ],
+    improvements: [
+      'Manually checked seed-rate math, bag rounding, optional cost, examples, FAQ details, guide wording, source notes, related tools, SEO copy, and privacy note.',
+    ],
+    followUps: [
+      'Add grass-type presets only if we can keep regional and product-label differences clear.',
+    ],
+  },
+  {
+    slug: 'lawn-mowing-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-deck-patio-landscaping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchLawnMowing, nistSi],
+    findings: [
+      'The calculator converts mower width and speed into square feet per hour, then applies efficiency before estimating minutes and hours.',
+      'The result includes acres, effective width, mowing rate, hours, and minutes.',
+      'The FAQ and guide define efficiency percent and warn about turns, overlap, gates, hills, wet grass, bagging, trimming, obstacles, and mower power.',
+    ],
+    improvements: [
+      'Manually checked mowing-rate math, acre conversion, example output, field help, FAQ clarity, guide details, source notes, related tools, SEO copy, and privacy wording.',
+    ],
+    followUps: [
+      'Add route-time or trimming-time fields later if landscapers need a more complete job estimate.',
+    ],
+  },
+  {
+    slug: 'plant-spacing-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-deck-patio-landscaping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchPlantCalculator, nistSi],
+    findings: [
+      'The calculator estimates rows and columns from bed size and center-to-center spacing, with a triangular mode that uses staggered row spacing.',
+      'The result shows plants needed, rows, plants per row, row spacing, and bed area.',
+      'The FAQ and guide explain square versus triangular layouts, border setbacks, mature size, airflow, sunlight, soil, and irregular beds.',
+    ],
+    improvements: [
+      'Manually checked square and triangular formulas, examples, select control, result metrics, FAQ detail, guide copy, source notes, related tools, SEO copy, and privacy wording.',
+    ],
+    followUps: [
+      'Add circular-bed and border-only planting modes if future landscaping pages need them.',
     ],
   },
   {

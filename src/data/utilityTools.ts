@@ -1580,6 +1580,138 @@ export const utilityTools: ToolDefinition[] = [
     relatedSlugs: ['area-calculator', 'fence-calculator', 'board-foot-calculator'],
   }),
   makeUtilityTool({
+    slug: 'deck-board-calculator',
+    name: 'Deck Board Calculator',
+    category: 'home-projects',
+    summary: 'Estimate deck boards, fastener rows, deck screws, and optional board cost from deck and board dimensions.',
+    description:
+      'Use this free deck board calculator to estimate deck board count, joist fastener rows, screw count, and optional board cost from your deck size and board dimensions.',
+    icon: 'calculator-deck-board',
+    aliases: ['Decking Calculator', 'Deck Flooring Calculator', 'Decking Board Calculator'],
+    formula:
+      'The calculator finds deck area, adds waste, divides by one board coverage, rounds up to whole boards, then estimates fasteners from joist spacing.',
+    limit:
+      'Deck board counts can change with board gaps, breaker boards, picture frames, stair boards, diagonal layouts, hidden fastener systems, local code, and supplier stock lengths.',
+    inputExplanations: [
+      { term: 'Deck length and width', meaning: 'the rectangular deck surface area before waste is added.' },
+      { term: 'Board length and width', meaning: 'the actual coverage of one board. Use actual face width, not only the nominal board name.' },
+      { term: 'Joist spacing', meaning: 'the on-center distance between joists, used to estimate fastener rows.' },
+      { term: 'Waste percent', meaning: 'extra boards for cuts, starter pieces, layout changes, and damaged boards.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the Deck Board Calculator ask for actual board width?',
+        answer:
+          'Deck boards are often sold with a nominal size that is not the exact face width. The calculator needs the width that actually covers the deck surface because a small width difference can change the board count on a large deck.',
+      },
+      {
+        question: 'What does the screw count mean?',
+        answer:
+          'The screw count is a planning estimate using two screws at each board-and-joist crossing. Hidden fasteners, clips, perimeter boards, stairs, blocking, and manufacturer instructions can change the real fastener list.',
+      },
+    ],
+    useCases: [
+      'Estimate deck boards for a simple rectangular deck.',
+      'Compare 12-foot, 16-foot, and 20-foot board layouts.',
+      'Plan a rough deck screw or hidden fastener count.',
+      'Add a waste allowance before pricing boards.',
+    ],
+    examples: [
+      { label: '16 x 12 deck', expression: '16 x 12 ft deck, 16 ft boards, 5.5 in width, 10% waste', result: '29 boards' },
+      { label: 'Small landing', expression: '10 x 8 ft deck, 12 ft boards, 12% waste', result: 'Board estimate' },
+      { label: 'Wide boards', expression: '20 x 14 ft deck, 7.25 in boards, 8% waste', result: 'Board and fastener rows' },
+    ],
+    relatedSlugs: ['deck-cost-calculator', 'board-foot-calculator', 'deck-stain-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'deck-stain-calculator',
+    name: 'Deck Stain Calculator',
+    category: 'home-projects',
+    summary: 'Estimate deck stain gallons from deck size, railings, steps, coat count, coverage, and waste.',
+    description:
+      'Use this free deck stain calculator to estimate stain gallons and optional cost from deck surface area, railing area, stairs, coats, label coverage, and waste.',
+    icon: 'calculator-deck-stain',
+    aliases: ['Deck Sealer Calculator', 'Deck Paint Calculator', 'Deck Stain Coverage Calculator'],
+    formula:
+      'The calculator adds deck surface, railing faces, and step area, adds waste, multiplies by coat count, divides by coverage per gallon, and rounds up to whole gallons.',
+    limit:
+      'Real stain coverage changes with wood age, roughness, previous finish, sprayer loss, rail details, board condition, weather, and the product label.',
+    inputExplanations: [
+      { term: 'Coverage per gallon', meaning: 'the square feet one gallon covers according to the stain product label.' },
+      { term: 'Coats', meaning: 'how many full applications you plan to apply.' },
+      { term: 'Railing area', meaning: 'railing length times height, counted on both sides for a rough coating estimate.' },
+      { term: 'Waste percent', meaning: 'extra stain for edges, overlap, rough boards, drips, and touch-ups.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Should I enter one coat or two coats?',
+        answer:
+          'Use the coat count from the stain label. Some products need one coat, some recommend two thin coats, and some warn against over-application. The calculator multiplies the surface area by your coat count.',
+      },
+      {
+        question: 'Why can old wood need more stain?',
+        answer:
+          'Older or rough wood can absorb more finish than smooth new boards. If your deck is weathered, has railings, or has lots of edges, use a lower coverage number or a higher waste percent.',
+      },
+    ],
+    useCases: [
+      'Estimate gallons before staining a deck.',
+      'Include railings and stairs in the surface area.',
+      'Compare one-coat and two-coat products.',
+      'Add price per gallon for a rough material cost.',
+    ],
+    examples: [
+      { label: 'Deck with rails', expression: '16 x 12 ft deck, 40 ft railing, 4 steps, 2 coats', result: '6 gallons' },
+      { label: 'Platform deck', expression: '12 x 10 ft deck, no railing, 1 coat', result: 'Stain gallons' },
+      { label: 'Large rough deck', expression: '24 x 14 ft deck, 15% waste, 175 ft2/gallon', result: 'Whole gallons to buy' },
+    ],
+    relatedSlugs: ['deck-board-calculator', 'paint-calculator', 'deck-cost-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'baluster-calculator',
+    name: 'Baluster Calculator',
+    category: 'home-projects',
+    summary: 'Estimate railing baluster count and equal spacing from rail length, post width, baluster width, and max gap.',
+    description:
+      'Use this free baluster calculator to estimate how many balusters a rail opening needs and the actual equal spacing between them.',
+    icon: 'calculator-baluster',
+    aliases: ['Spindle Calculator', 'Railing Spacing Calculator', 'Baluster Spacing Calculator'],
+    formula:
+      'The calculator subtracts post widths from the rail run, fits balusters so each opening stays below the max spacing, and recalculates the equal open space.',
+    limit:
+      'Railing rules can be strict. Stair rails, guards, child-safety gaps, local code, post layout, and actual product dimensions need a real code check.',
+    inputExplanations: [
+      { term: 'Rail length', meaning: 'the full straight run you measured before subtracting posts.' },
+      { term: 'Post width and count', meaning: 'post space that is removed from the clear opening.' },
+      { term: 'Baluster width', meaning: 'the width of one spindle or picket.' },
+      { term: 'Max spacing', meaning: 'the largest open gap you want between balusters.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does actual spacing end up smaller than max spacing?',
+        answer:
+          'The calculator rounds the baluster count up so the gaps do not go over your max spacing. After rounding up, it spreads the remaining open space evenly, so the real spacing is usually a little smaller.',
+      },
+      {
+        question: 'Can this replace local railing code?',
+        answer:
+          'No. This is layout math only. Local code can control guard height, stair openings, handrails, post strength, and the size of any object that can pass through the railing.',
+      },
+    ],
+    useCases: [
+      'Plan balusters for one straight deck rail bay.',
+      'Check equal spacing after post widths are removed.',
+      'Compare wood, metal, or narrow baluster widths.',
+      'Avoid gaps larger than the spacing you enter.',
+    ],
+    examples: [
+      { label: 'Deck rail bay', expression: '10 ft rail, 2 posts, 1.5 in balusters, 4 in max gap', result: '20 balusters' },
+      { label: 'Metal balusters', expression: '8 ft rail, 0.75 in balusters', result: 'Baluster count and spacing' },
+      { label: 'Short stair rail', expression: '6 ft rail, 1.25 in balusters', result: 'Equal spacing estimate' },
+    ],
+    relatedSlugs: ['fence-calculator', 'deck-board-calculator', 'deck-cost-calculator'],
+  }),
+  makeUtilityTool({
     slug: 'paver-calculator',
     name: 'Paver Calculator',
     category: 'home-projects',
@@ -1609,6 +1741,226 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Walkway', expression: '75 ft2, 6 x 9 in pavers, 12% waste', result: 'Path estimate' },
     ],
     relatedSlugs: ['sand-calculator', 'gravel-calculator', 'area-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'paver-base-calculator',
+    name: 'Paver Base Calculator',
+    category: 'home-projects',
+    summary: 'Estimate gravel base and bedding sand volume for patios, walkways, and paver projects.',
+    description:
+      'Use this free paver base calculator to estimate compacted gravel base volume, approximate base tons, and bedding sand volume from paver area and layer depths.',
+    icon: 'calculator-paver-base',
+    aliases: ['Patio Base Calculator', 'Paver Gravel Calculator', 'Paver Sand Base Calculator'],
+    formula:
+      'The calculator multiplies paver area by base depth and bedding depth, adds waste, converts cubic feet to cubic yards, and estimates base tons from tons per cubic yard.',
+    limit:
+      'Real paver base design depends on soil, drainage, compaction, freeze-thaw, traffic load, slope, edging, and local installation practice.',
+    inputExplanations: [
+      { term: 'Base depth', meaning: 'the compacted gravel layer below the pavers.' },
+      { term: 'Bedding depth', meaning: 'the leveling sand layer directly under the pavers.' },
+      { term: 'Tons per cubic yard', meaning: 'a rough density for converting gravel volume to weight.' },
+      { term: 'Waste percent', meaning: 'extra material for compaction, uneven grade, edge loss, and small measurement differences.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Is paver base depth the loose depth or compacted depth?',
+        answer:
+          'Use the compacted depth you want to end with. Loose gravel can settle after compaction, so a real project may need more loose material than the compacted volume suggests.',
+      },
+      {
+        question: 'Why does the calculator separate base and bedding sand?',
+        answer:
+          'The gravel base supports the pavers, while the bedding sand helps level them. They are different layers, so it is easier to estimate them separately before ordering.',
+      },
+    ],
+    useCases: [
+      'Estimate base gravel for a patio or walkway.',
+      'Convert base volume into approximate tons.',
+      'Estimate bedding sand volume separately.',
+      'Add waste for compaction and uneven ground.',
+    ],
+    examples: [
+      { label: 'Patio base', expression: '200 ft2, 4 in base, 1 in bedding, 10% waste', result: '2.716 yd3 base' },
+      { label: 'Walkway', expression: '80 ft2, 4 in base, 1 in bedding', result: 'Base and sand estimate' },
+      { label: 'Driveway base', expression: '420 ft2, 6 in base, 12% waste', result: 'Base tons' },
+    ],
+    relatedSlugs: ['paver-calculator', 'gravel-calculator', 'sand-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'polymeric-sand-calculator',
+    name: 'Polymeric Sand Calculator',
+    category: 'home-projects',
+    summary: 'Estimate polymeric sand volume and bag count from paver area, paver size, joint width, and joint depth.',
+    description:
+      'Use this free polymeric sand calculator to estimate joint sand volume and whole bags from paver area, paver size, joint width, joint depth, waste, and bag coverage.',
+    icon: 'calculator-polymeric-sand',
+    aliases: ['Joint Sand Calculator', 'Paver Sand Calculator', 'Polymeric Joint Sand Calculator'],
+    formula:
+      'The calculator estimates paver count from area and paver size, estimates joint volume from paver edges, adds waste, then divides by bag coverage.',
+    limit:
+      'Irregular pavers, old joint cleanup, wide joints, deep joints, product coverage, sweeping loss, and installation method can change the actual bag count.',
+    inputExplanations: [
+      { term: 'Joint width', meaning: 'the average gap between pavers.' },
+      { term: 'Joint depth', meaning: 'how deep the sand needs to fill the gaps.' },
+      { term: 'Bag coverage', meaning: 'the cubic feet or equivalent coverage one bag provides.' },
+      { term: 'Waste percent', meaning: 'extra sand for sweeping loss, uneven joints, and touch-ups.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why is polymeric sand hard to estimate exactly?',
+        answer:
+          'The gaps between pavers are not always perfect rectangles. Paver shape, joint width, joint depth, old sand left in the joints, and sweeping technique all change how much sand actually fits.',
+      },
+      {
+        question: 'Should I use the bag coverage or the calculator volume?',
+        answer:
+          'Use the bag coverage from the product label when you have it. The calculator volume helps you understand the math, but the manufacturer coverage is usually the better buying number.',
+      },
+    ],
+    useCases: [
+      'Estimate polymeric sand for a paver patio.',
+      'Compare narrow and wide joint projects.',
+      'Plan bag count from product coverage.',
+      'Add waste for sweeping loss and touch-ups.',
+    ],
+    examples: [
+      { label: 'Standard paver patio', expression: '200 ft2, 8 x 4 in pavers, 1/4 in joints', result: '4 bags' },
+      { label: 'Wide joints', expression: '120 ft2, 6 x 9 in pavers, 3/8 in joints', result: 'Joint sand bags' },
+      { label: 'Large pavers', expression: '180 ft2, 12 x 12 in pavers', result: 'Lower joint volume' },
+    ],
+    relatedSlugs: ['paver-calculator', 'paver-base-calculator', 'sand-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'grass-seed-calculator',
+    name: 'Grass Seed Calculator',
+    category: 'home-projects',
+    summary: 'Estimate grass seed pounds, bags, and optional cost from lawn area, seed rate, waste, and bag size.',
+    description:
+      'Use this free grass seed calculator to estimate seed pounds, bags to buy, and optional cost from lawn area, seed label rate, waste percent, and bag weight.',
+    icon: 'calculator-grass-seed',
+    aliases: ['Lawn Seed Calculator', 'Grass Seed Bag Calculator', 'Overseeding Calculator'],
+    formula:
+      'The calculator adds waste to lawn area, multiplies by the seed rate per 1,000 square feet, then divides by bag weight and rounds up to whole bags.',
+    limit:
+      'Seed needs depend on grass type, new lawn versus overseeding, soil prep, shade, slope, spreader setting, climate, and seed label instructions.',
+    inputExplanations: [
+      { term: 'Seed rate', meaning: 'the pounds of seed recommended per 1,000 square feet on the seed label.' },
+      { term: 'Lawn area', meaning: 'the measured area you want to seed or overseed.' },
+      { term: 'Bag weight', meaning: 'how many pounds one seed bag contains.' },
+      { term: 'Waste percent', meaning: 'extra seed for overlap, missed strips, bare spots, and uneven spreading.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why are new lawn and overseeding rates different?',
+        answer:
+          'A new lawn needs seed over bare soil, so the rate is usually higher. Overseeding fills in an existing lawn, so the label rate is often lower. Use the rate that matches your job.',
+      },
+      {
+        question: 'Should I round up grass seed bags?',
+        answer:
+          'Yes. Seed is sold by bag size, and small bare spots often need a little extra. The calculator rounds bags up so you do not plan to buy part of a bag.',
+      },
+    ],
+    useCases: [
+      'Estimate seed for a new lawn.',
+      'Estimate seed for overseeding.',
+      'Convert seed label rates into pounds and bags.',
+      'Add optional bag price for material cost.',
+    ],
+    examples: [
+      { label: 'New lawn seed', expression: '5,000 ft2, 6 lb / 1,000 ft2, 5% waste', result: '31.5 lb' },
+      { label: 'Overseeding', expression: '3,000 ft2, 3 lb / 1,000 ft2', result: 'Seed pounds and bags' },
+      { label: 'Patch repair', expression: '400 ft2, 5 lb / 1,000 ft2, 3 lb bag', result: '1 bag' },
+    ],
+    relatedSlugs: ['sod-calculator', 'lawn-mowing-calculator', 'area-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'lawn-mowing-calculator',
+    name: 'Lawn Mowing Calculator',
+    category: 'home-projects',
+    summary: 'Estimate lawn mowing time from lawn area, mower width, mowing speed, and efficiency.',
+    description:
+      'Use this free lawn mowing calculator to estimate mowing minutes and hours from lawn area, mower cutting width, average speed, and real-world efficiency.',
+    icon: 'calculator-lawn-mowing',
+    aliases: ['Mowing Time Calculator', 'Lawn Cutting Time Calculator', 'Mower Time Calculator'],
+    formula:
+      'The calculator converts mower width to feet, multiplies by speed in feet per hour, applies efficiency, then divides lawn area by the mowing rate.',
+    limit:
+      'Mowing time changes with hills, turns, wet grass, trimming, bagging, obstacles, overlap, mower power, walking speed, and how carefully you mow.',
+    inputExplanations: [
+      { term: 'Mower width', meaning: 'the actual cutting width of the mower deck or blade.' },
+      { term: 'Speed', meaning: 'your average mowing speed, not the mower top speed.' },
+      { term: 'Efficiency percent', meaning: 'how much time is productive cutting after turns, overlap, slowing down, and obstacles.' },
+      { term: 'Lawn area', meaning: 'the mowable grass area, not the full property size unless the whole property is grass.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What is efficiency percent for mowing?',
+        answer:
+          'Efficiency percent lowers the perfect straight-line mowing rate to something closer to a real yard. A simple yard might use 80%, while a yard with trees, slopes, toys, gates, or tight turns may need 60% to 70%.',
+      },
+      {
+        question: 'Why does mower width matter so much?',
+        answer:
+          'A wider mower cuts a wider strip each pass. If speed and efficiency stay the same, doubling the cutting width roughly doubles the area cut per hour.',
+      },
+    ],
+    useCases: [
+      'Estimate how long mowing a lawn will take.',
+      'Compare push mower and riding mower time.',
+      'Plan weekly mowing time for a route.',
+      'Understand how mower width changes productivity.',
+    ],
+    examples: [
+      { label: 'Push mower lawn', expression: '10,000 ft2, 21 in mower, 3 mph, 80% efficiency', result: '27.06 minutes' },
+      { label: 'Small yard', expression: '3,500 ft2, 21 in mower, 75% efficiency', result: 'Mowing time' },
+      { label: 'Riding mower acre', expression: '1 acre, 42 in mower, 4.5 mph', result: 'Hours and minutes' },
+    ],
+    relatedSlugs: ['grass-seed-calculator', 'sod-calculator', 'area-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'plant-spacing-calculator',
+    name: 'Plant Spacing Calculator',
+    category: 'home-projects',
+    summary: 'Estimate plants needed for a bed from bed size, plant spacing, and square or triangular layout.',
+    description:
+      'Use this free plant spacing calculator to estimate plant count, rows, and plants per row from bed dimensions, center-to-center spacing, and planting pattern.',
+    icon: 'calculator-plant-spacing',
+    aliases: ['Plant Calculator', 'Planting Spacing Calculator', 'Flower Spacing Calculator'],
+    formula:
+      'The calculator converts bed dimensions to inches, fits rows and columns from plant spacing, and uses tighter row spacing for a triangular staggered pattern.',
+    limit:
+      'Real plant spacing depends on mature plant size, border setbacks, airflow, sunlight, soil, irregular bed edges, growth habit, and the plant tag.',
+    inputExplanations: [
+      { term: 'Plant spacing', meaning: 'the center-to-center distance recommended on the plant tag or seed packet.' },
+      { term: 'Square grid', meaning: 'plants line up in straight rows and columns.' },
+      { term: 'Triangular pattern', meaning: 'rows are staggered, so the bed can usually fit more plants.' },
+      { term: 'Bed size', meaning: 'the rectangular planting area before edges or paths are removed.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does triangular spacing fit more plants?',
+        answer:
+          'Triangular spacing staggers each row between the plants in the row before it. The rows sit closer together than a square grid, so the same bed can usually fit more plants.',
+      },
+      {
+        question: 'Should I plant right to the edge of the bed?',
+        answer:
+          'Usually no. Many beds need a border setback so mature plants do not spill too far onto paths, walls, or edging. Subtract that border before entering bed length and width if it matters.',
+      },
+    ],
+    useCases: [
+      'Estimate annual flowers for a rectangular bed.',
+      'Compare square and staggered planting patterns.',
+      'Plan ground cover spacing.',
+      'Turn plant tag spacing into a rough plant count.',
+    ],
+    examples: [
+      { label: 'Square rows', expression: '10 x 4 ft bed, 12 in spacing, square', result: '40 plants' },
+      { label: 'Staggered rows', expression: '10 x 4 ft bed, 12 in spacing, triangular', result: '44 plants' },
+      { label: 'Ground cover', expression: '18 x 6 ft bed, 18 in spacing', result: 'Plant count estimate' },
+    ],
+    relatedSlugs: ['mulch-calculator', 'grass-seed-calculator', 'area-calculator'],
   }),
   makeUtilityTool({
     slug: 'siding-calculator',

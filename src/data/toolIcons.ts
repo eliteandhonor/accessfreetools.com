@@ -178,7 +178,15 @@ export type CalculatorIconMark =
   | 'wallpaper'
   | 'fence'
   | 'deck'
+  | 'deck-board'
+  | 'deck-stain'
+  | 'baluster'
   | 'paver'
+  | 'paver-base'
+  | 'polymeric-sand'
+  | 'grass-seed'
+  | 'lawn-mowing'
+  | 'plant-spacing'
   | 'siding'
   | 'brick'
   | 'block'
@@ -439,7 +447,15 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-wallpaper': 'wallpaper',
   'calculator-fence': 'fence',
   'calculator-deck': 'deck',
+  'calculator-deck-board': 'deck-board',
+  'calculator-deck-stain': 'deck-stain',
+  'calculator-baluster': 'baluster',
   'calculator-paver': 'paver',
+  'calculator-paver-base': 'paver-base',
+  'calculator-polymeric-sand': 'polymeric-sand',
+  'calculator-grass-seed': 'grass-seed',
+  'calculator-lawn-mowing': 'lawn-mowing',
+  'calculator-plant-spacing': 'plant-spacing',
   'calculator-siding': 'siding',
   'calculator-brick': 'brick',
   'calculator-concrete-block': 'block',
@@ -669,7 +685,15 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   wallpaper: 'roll',
   fence: 'fnc',
   deck: 'deck',
+  'deck-board': 'brd',
+  'deck-stain': 'coat',
+  baluster: 'bal',
   paver: 'pave',
+  'paver-base': 'base',
+  'polymeric-sand': 'poly',
+  'grass-seed': 'seed',
+  'lawn-mowing': 'mow',
+  'plant-spacing': 'plant',
   siding: 'side',
   brick: 'brk',
   block: 'blk',
