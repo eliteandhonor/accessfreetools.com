@@ -69,6 +69,9 @@ import {
   calculateCarpetEstimate,
   calculateColorContrast,
   calculateConcreteBlockEstimate,
+  calculateConcreteColumnEstimate,
+  calculateConcreteFootingEstimate,
+  calculateCountertopEstimate,
   calculateCssClamp,
   calculateDayOfWeek,
   calculateDateFromUnixTimestamp,
@@ -81,6 +84,7 @@ import {
   calculateDrywallEstimate,
   calculateElectricityCost,
   calculateCubicYardEstimate,
+  calculateInsulationEstimate,
   applyPercentageAdjustment,
   addDaysToIsoDate,
   calculateAnnuity,
@@ -199,7 +203,9 @@ import {
   calculateMulchEstimate,
   calculatePaintEstimate,
   calculatePaverEstimate,
+  calculatePlywoodEstimate,
   calculatePoolVolume,
+  calculatePostHoleConcreteEstimate,
   calculateRebarGridEstimate,
   calculateResistorColorCode,
   calculateRoofingEstimate,
@@ -207,6 +213,7 @@ import {
   calculateSidingEstimate,
   calculateSleepSchedule,
   calculateSoilEstimate,
+  calculateSodEstimate,
   calculateSpeed,
   calculateSquareFootage,
   calculateStreamingBitrate,
@@ -222,6 +229,7 @@ import {
   calculateVoltageDrop,
   calculateWeightForce,
   calculateWallpaperEstimate,
+  calculateWallStudEstimate,
   calculateWindChill,
   calculateEngineHorsepower,
   calculateUnixTimestampFromDate,
@@ -1666,6 +1674,14 @@ describe('utility helpers', () => {
     const brick = calculateBrickEstimate({ wallAreaSquareFeet: 120, brickLengthInches: 7.625, brickHeightInches: 2.25, mortarJointInches: 0.375, wastePercent: 10 });
     const block = calculateConcreteBlockEstimate({ wallLengthFeet: 40, wallHeightFeet: 8, blockLengthInches: 16, blockHeightInches: 8, openingsSquareFeet: 20, wastePercent: 5 });
     const rebar = calculateRebarGridEstimate({ slabLengthFeet: 20, slabWidthFeet: 12, spacingInches: 18, barLengthFeet: 20, wastePercent: 10 });
+    const footing = calculateConcreteFootingEstimate({ lengthFeet: 30, widthInches: 16, depthInches: 8, wastePercent: 10 });
+    const column = calculateConcreteColumnEstimate({ diameterInches: 18, heightFeet: 8, quantity: 3, wastePercent: 10 });
+    const postHole = calculatePostHoleConcreteEstimate({ holeDiameterInches: 12, holeDepthInches: 30, postDiameterInches: 4, quantity: 6, wastePercent: 10 });
+    const plywood = calculatePlywoodEstimate({ areaSquareFeet: 420, sheetWidthFeet: 4, sheetLengthFeet: 8, wastePercent: 10, pricePerSheet: 29.5 });
+    const insulation = calculateInsulationEstimate({ areaSquareFeet: 960, openingsSquareFeet: 80, coveragePerPackSquareFeet: 40, wastePercent: 10, pricePerPack: 55 });
+    const countertop = calculateCountertopEstimate({ lengthFeet: 18, depthInches: 25.5, backsplashLengthFeet: 18, backsplashHeightInches: 4, cutoutSquareFeet: 4, wastePercent: 10, pricePerSquareFoot: 75 });
+    const sod = calculateSodEstimate({ lawnAreaSquareFeet: 1800, rollCoverageSquareFeet: 10, rollsPerPallet: 50, wastePercent: 5, pricePerRoll: 4.5 });
+    const studs = calculateWallStudEstimate({ wallLengthFeet: 24, wallHeightFeet: 8, spacingInches: 16, openingsCount: 2, extraCornerStuds: 4, plates: 2, boardLengthFeet: 8, wastePercent: 10 });
     const boardFoot = calculateBoardFoot(1, 6, 8, 4);
     const cubicYard = calculateCubicYardEstimate(20, 10, 3, 5);
     const pool = calculatePoolVolume('rectangle', 24, 12, 4.5);
@@ -1707,6 +1723,20 @@ describe('utility helpers', () => {
     expect(brick.bricksNeeded).toBe(906);
     expect(block.blocksNeeded).toBe(355);
     expect(rebar.barsToBuy).toBe(20);
+    expect(formatCalculatorNumber(footing.cubicYards)).toBe('1.0864197531');
+    expect(footing.eightyPoundBags).toBe(49);
+    expect(formatCalculatorNumber(column.cubicYards)).toBe('1.7278759595');
+    expect(column.eightyPoundBags).toBe(78);
+    expect(postHole.eightyPoundBags).toBe(20);
+    expect(plywood.sheetsNeeded).toBe(15);
+    expect(plywood.estimatedCost).toBe(442.5);
+    expect(insulation.packsNeeded).toBe(25);
+    expect(insulation.estimatedCost).toBe(1375);
+    expect(formatCalculatorNumber(countertop.adjustedAreaSquareFeet)).toBe('44.275');
+    expect(sod.rollsNeeded).toBe(189);
+    expect(sod.palletsNeeded).toBe(4);
+    expect(studs.totalPieces).toBe(36);
+    expect(formatCalculatorNumber(studs.estimatedLinearFeetWithWaste)).toBe('290.4');
     expect(boardFoot.totalBoardFeet).toBe(16);
     expect(formatCalculatorNumber(cubicYard.cubicYards)).toBe('1.9444444444');
     expect(formatCalculatorNumber(pool.gallons)).toBe('9694.75392');

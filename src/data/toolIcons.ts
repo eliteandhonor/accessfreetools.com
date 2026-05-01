@@ -183,6 +183,14 @@ export type CalculatorIconMark =
   | 'brick'
   | 'block'
   | 'rebar'
+  | 'concrete-footing'
+  | 'concrete-column'
+  | 'post-hole'
+  | 'plywood'
+  | 'insulation'
+  | 'countertop'
+  | 'sod'
+  | 'wall-stud'
   | 'board-foot'
   | 'cubic-yard'
   | 'pool'
@@ -428,6 +436,14 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-brick': 'brick',
   'calculator-concrete-block': 'block',
   'calculator-rebar': 'rebar',
+  'calculator-concrete-footing': 'concrete-footing',
+  'calculator-concrete-column': 'concrete-column',
+  'calculator-post-hole-concrete': 'post-hole',
+  'calculator-plywood': 'plywood',
+  'calculator-insulation': 'insulation',
+  'calculator-countertop': 'countertop',
+  'calculator-sod': 'sod',
+  'calculator-wall-stud': 'wall-stud',
   'calculator-board-foot': 'board-foot',
   'calculator-cubic-yard': 'cubic-yard',
   'calculator-pool': 'pool',
@@ -642,6 +658,14 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   brick: 'brk',
   block: 'blk',
   rebar: 'bar',
+  'concrete-footing': 'ftg',
+  'concrete-column': 'col',
+  'post-hole': 'post',
+  plywood: 'ply',
+  insulation: 'r',
+  countertop: 'top',
+  sod: 'sod',
+  'wall-stud': 'stud',
   'board-foot': 'bf',
   'cubic-yard': 'yd3',
   pool: 'gal',

@@ -12,6 +12,9 @@ import {
   calculateCarpetEstimate,
   calculateConcrete,
   calculateConcreteBlockEstimate,
+  calculateConcreteColumnEstimate,
+  calculateConcreteFootingEstimate,
+  calculateCountertopEstimate,
   calculateCubicYardEstimate,
   calculateDayOfWeek,
   calculateDeckCostEstimate,
@@ -38,6 +41,7 @@ import {
   calculateHoursWorked,
   calculateHorsepowerConversion,
   calculateAspectRatio,
+  calculateInsulationEstimate,
   calculateColorContrast,
   calculateCssClamp,
   calculateDateFromUnixTimestamp,
@@ -57,7 +61,9 @@ import {
   calculateMulchEstimate,
   calculatePaintEstimate,
   calculatePaverEstimate,
+  calculatePlywoodEstimate,
   calculatePoolVolume,
+  calculatePostHoleConcreteEstimate,
   calculateRebarGridEstimate,
   calculateResistorColorCode,
   calculateRoofingEstimate,
@@ -69,6 +75,7 @@ import {
   calculateSquareFootage,
   calculateSubnet,
   calculateStairLayout,
+  calculateSodEstimate,
   calculateTileEstimate,
   calculateTireSize,
   calculateTimeCard,
@@ -79,6 +86,7 @@ import {
   calculateVoltageDrop,
   calculateWeightForce,
   calculateWallpaperEstimate,
+  calculateWallStudEstimate,
   calculateWindChill,
   calculateEngineHorsepower,
   analyzeText,
@@ -176,6 +184,14 @@ export type UtilityToolVariant =
   | 'brick'
   | 'concrete-block'
   | 'rebar'
+  | 'concrete-footing'
+  | 'concrete-column'
+  | 'post-hole-concrete'
+  | 'plywood'
+  | 'insulation'
+  | 'countertop'
+  | 'sod'
+  | 'wall-stud'
   | 'board-foot'
   | 'cubic-yard'
   | 'pool-volume'
@@ -432,6 +448,65 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     spacingInches: 'Distance between parallel bars. Smaller spacing means more bars.',
     barLengthFeet: 'Stock length of one bar from your supplier.',
     wastePercent: 'Extra rebar length for cuts, lap planning, and small layout changes.',
+  },
+  'concrete-footing': {
+    lengthFeet: 'Total straight footing length in feet.',
+    widthInches: 'Footing width in inches from side to side.',
+    depthInches: 'Footing depth or thickness in inches.',
+    wastePercent: 'Extra concrete for uneven trenches, spillage, and ordering cushion.',
+  },
+  'concrete-column': {
+    diameterInches: 'Round form or pier diameter in inches.',
+    heightFeet: 'Concrete column or pier height in feet.',
+    quantity: 'How many matching round columns or piers to pour.',
+    wastePercent: 'Extra concrete for form variation, spillage, and ordering cushion.',
+  },
+  'post-hole-concrete': {
+    holeDiameterInches: 'Diameter of the round post hole in inches.',
+    holeDepthInches: 'Depth of the hole filled with concrete in inches.',
+    postDiameterInches: 'Diameter of the post sitting in the hole. This space is subtracted from the concrete.',
+    quantity: 'How many matching post holes to estimate.',
+    wastePercent: 'Extra concrete for uneven holes, overdigging, and spillage.',
+  },
+  plywood: {
+    areaSquareFeet: 'Total area you want to cover before waste.',
+    sheetWidthFeet: 'Width of one plywood sheet in feet, often 4.',
+    sheetLengthFeet: 'Length of one plywood sheet in feet, often 8.',
+    wastePercent: 'Extra sheets for cuts, layout, damaged edges, and mistakes.',
+    pricePerSheet: 'Optional price for one sheet so the tool can estimate cost.',
+  },
+  insulation: {
+    areaSquareFeet: 'Wall, ceiling, floor, or attic area before subtracting openings.',
+    openingsSquareFeet: 'Combined area to subtract, such as windows, doors, or access panels.',
+    coveragePerPackSquareFeet: 'Square feet covered by one package at the product R-value.',
+    wastePercent: 'Extra insulation for cuts, cavities, fitting, and mistakes.',
+    pricePerPack: 'Optional price per package so the tool can estimate cost.',
+  },
+  countertop: {
+    lengthFeet: 'Total countertop run length in feet.',
+    depthInches: 'Countertop depth from front edge to wall in inches.',
+    backsplashLengthFeet: 'Backsplash run length in feet. Use 0 if there is no backsplash.',
+    backsplashHeightInches: 'Backsplash height in inches. Use 0 if there is no backsplash.',
+    cutoutSquareFeet: 'Sink, cooktop, or other cutout area to subtract when needed.',
+    wastePercent: 'Extra area for seams, edge pieces, layout, and mistakes.',
+    pricePerSquareFoot: 'Optional material price per square foot.',
+  },
+  sod: {
+    lawnAreaSquareFeet: 'Measured lawn area before waste.',
+    rollCoverageSquareFeet: 'Square feet covered by one roll, slab, or piece of sod.',
+    rollsPerPallet: 'How many rolls or slabs the supplier puts on one pallet.',
+    wastePercent: 'Extra sod for curved edges, trimming, dead pieces, and repair patches.',
+    pricePerRoll: 'Optional price per roll or slab.',
+  },
+  'wall-stud': {
+    wallLengthFeet: 'Wall length in feet.',
+    wallHeightFeet: 'Wall height in feet.',
+    spacingInches: 'On-center spacing between studs, commonly 16 or 24 inches.',
+    openingsCount: 'Number of rough openings; the tool adds two extra studs per opening.',
+    extraCornerStuds: 'Extra vertical studs for corners, intersections, and blocking choices.',
+    plates: 'Number of horizontal plate rows along the wall, often 2 or 3.',
+    boardLengthFeet: 'Length of one purchased board, commonly 8, 10, or 12 feet.',
+    wastePercent: 'Extra boards for cuts, layout changes, and damaged pieces.',
   },
   'board-foot': {
     thicknessInches: 'Board thickness in inches. Use actual size when you know it.',
@@ -2156,6 +2231,209 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         examples: [
           { label: '20 x 12 slab grid', inputs: { slabLengthFeet: '20', slabWidthFeet: '12', spacingInches: '18', barLengthFeet: '20', wastePercent: '10' } },
           { label: 'Garage pad', inputs: { slabLengthFeet: '24', slabWidthFeet: '20', spacingInches: '24', barLengthFeet: '20', wastePercent: '10' } },
+        ],
+      },
+    ],
+  },
+  'concrete-footing': {
+    title: 'Concrete Footing Calculator',
+    buttonLabel: 'Estimate footing',
+    emptyHistory: 'Recent footing concrete estimates will appear here.',
+    privacyNote: 'Concrete footing estimates stay local and use simple rectangular volume math.',
+    modes: [
+      {
+        id: 'footing-volume',
+        label: 'Footing',
+        symbol: 'FTG',
+        fields: [
+          numberField('lengthFeet', 'Footing length feet', '30'),
+          numberField('widthInches', 'Footing width inches', '16'),
+          numberField('depthInches', 'Footing depth inches', '8'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { lengthFeet: '30', widthInches: '16', depthInches: '8', wastePercent: '10' },
+        examples: [
+          { label: 'Garage footing run', inputs: { lengthFeet: '30', widthInches: '16', depthInches: '8', wastePercent: '10' } },
+          { label: 'Garden wall footing', inputs: { lengthFeet: '18', widthInches: '12', depthInches: '8', wastePercent: '8' } },
+        ],
+      },
+    ],
+  },
+  'concrete-column': {
+    title: 'Concrete Column Calculator',
+    buttonLabel: 'Estimate columns',
+    emptyHistory: 'Recent concrete column estimates will appear here.',
+    privacyNote: 'Concrete column estimates stay local and use cylinder volume math.',
+    modes: [
+      {
+        id: 'round-column',
+        label: 'Round column',
+        symbol: 'COL',
+        fields: [
+          numberField('diameterInches', 'Diameter inches', '18'),
+          numberField('heightFeet', 'Height feet', '8'),
+          integerField('quantity', 'Quantity', '3'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { diameterInches: '18', heightFeet: '8', quantity: '3', wastePercent: '10' },
+        examples: [
+          { label: 'Three round piers', inputs: { diameterInches: '18', heightFeet: '8', quantity: '3', wastePercent: '10' } },
+          { label: 'Porch column bases', inputs: { diameterInches: '12', heightFeet: '3', quantity: '4', wastePercent: '8' } },
+        ],
+      },
+    ],
+  },
+  'post-hole-concrete': {
+    title: 'Post Hole Concrete Calculator',
+    buttonLabel: 'Estimate post holes',
+    emptyHistory: 'Recent post hole estimates will appear here.',
+    privacyNote: 'Post hole concrete estimates stay local and subtract the post volume from each hole.',
+    modes: [
+      {
+        id: 'post-holes',
+        label: 'Post holes',
+        symbol: 'POST',
+        fields: [
+          numberField('holeDiameterInches', 'Hole diameter inches', '12'),
+          numberField('holeDepthInches', 'Hole depth inches', '30'),
+          numberField('postDiameterInches', 'Post diameter inches', '4'),
+          integerField('quantity', 'Hole quantity', '6'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { holeDiameterInches: '12', holeDepthInches: '30', postDiameterInches: '4', quantity: '6', wastePercent: '10' },
+        examples: [
+          { label: 'Fence posts', inputs: { holeDiameterInches: '12', holeDepthInches: '30', postDiameterInches: '4', quantity: '6', wastePercent: '10' } },
+          { label: 'Deck posts', inputs: { holeDiameterInches: '14', holeDepthInches: '36', postDiameterInches: '6', quantity: '4', wastePercent: '10' } },
+        ],
+      },
+    ],
+  },
+  plywood: {
+    title: 'Plywood Calculator',
+    buttonLabel: 'Estimate plywood',
+    emptyHistory: 'Recent plywood estimates will appear here.',
+    privacyNote: 'Plywood estimates stay local and use sheet coverage math.',
+    modes: [
+      {
+        id: 'sheet-count',
+        label: 'Sheet count',
+        symbol: 'PLY',
+        fields: [
+          numberField('areaSquareFeet', 'Area ft2', '420'),
+          numberField('sheetWidthFeet', 'Sheet width feet', '4'),
+          numberField('sheetLengthFeet', 'Sheet length feet', '8'),
+          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('pricePerSheet', 'Price per sheet', '29.50'),
+        ],
+        defaultInputs: { areaSquareFeet: '420', sheetWidthFeet: '4', sheetLengthFeet: '8', wastePercent: '10', pricePerSheet: '29.50' },
+        examples: [
+          { label: 'Subfloor sheets', inputs: { areaSquareFeet: '420', sheetWidthFeet: '4', sheetLengthFeet: '8', wastePercent: '10', pricePerSheet: '29.50' } },
+          { label: 'Small wall sheathing', inputs: { areaSquareFeet: '180', sheetWidthFeet: '4', sheetLengthFeet: '8', wastePercent: '12', pricePerSheet: '32' } },
+        ],
+      },
+    ],
+  },
+  insulation: {
+    title: 'Insulation Calculator',
+    buttonLabel: 'Estimate insulation',
+    emptyHistory: 'Recent insulation estimates will appear here.',
+    privacyNote: 'Insulation estimates stay local and use area, openings, package coverage, and waste.',
+    modes: [
+      {
+        id: 'pack-count',
+        label: 'Pack count',
+        symbol: 'R',
+        fields: [
+          numberField('areaSquareFeet', 'Area ft2', '960'),
+          numberField('openingsSquareFeet', 'Openings ft2', '80'),
+          numberField('coveragePerPackSquareFeet', 'Coverage per pack ft2', '40'),
+          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('pricePerPack', 'Price per pack', '55'),
+        ],
+        defaultInputs: { areaSquareFeet: '960', openingsSquareFeet: '80', coveragePerPackSquareFeet: '40', wastePercent: '10', pricePerPack: '55' },
+        examples: [
+          { label: 'Wall insulation', inputs: { areaSquareFeet: '960', openingsSquareFeet: '80', coveragePerPackSquareFeet: '40', wastePercent: '10', pricePerPack: '55' } },
+          { label: 'Attic roll coverage', inputs: { areaSquareFeet: '700', openingsSquareFeet: '20', coveragePerPackSquareFeet: '65', wastePercent: '8', pricePerPack: '62' } },
+        ],
+      },
+    ],
+  },
+  countertop: {
+    title: 'Countertop Calculator',
+    buttonLabel: 'Estimate countertop',
+    emptyHistory: 'Recent countertop estimates will appear here.',
+    privacyNote: 'Countertop estimates stay local and use square-foot area math.',
+    modes: [
+      {
+        id: 'countertop-area',
+        label: 'Countertop area',
+        symbol: 'TOP',
+        fields: [
+          numberField('lengthFeet', 'Countertop length feet', '18'),
+          numberField('depthInches', 'Depth inches', '25.5'),
+          numberField('backsplashLengthFeet', 'Backsplash length feet', '18'),
+          numberField('backsplashHeightInches', 'Backsplash height inches', '4'),
+          numberField('cutoutSquareFeet', 'Cutouts ft2', '4'),
+          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('pricePerSquareFoot', 'Price per ft2', '75'),
+        ],
+        defaultInputs: { lengthFeet: '18', depthInches: '25.5', backsplashLengthFeet: '18', backsplashHeightInches: '4', cutoutSquareFeet: '4', wastePercent: '10', pricePerSquareFoot: '75' },
+        examples: [
+          { label: 'Kitchen run', inputs: { lengthFeet: '18', depthInches: '25.5', backsplashLengthFeet: '18', backsplashHeightInches: '4', cutoutSquareFeet: '4', wastePercent: '10', pricePerSquareFoot: '75' } },
+          { label: 'Bathroom vanity', inputs: { lengthFeet: '6', depthInches: '22', backsplashLengthFeet: '6', backsplashHeightInches: '4', cutoutSquareFeet: '2', wastePercent: '8', pricePerSquareFoot: '60' } },
+        ],
+      },
+    ],
+  },
+  sod: {
+    title: 'Sod Calculator',
+    buttonLabel: 'Estimate sod',
+    emptyHistory: 'Recent sod estimates will appear here.',
+    privacyNote: 'Sod estimates stay local and use lawn area, roll coverage, pallet size, and waste.',
+    modes: [
+      {
+        id: 'roll-count',
+        label: 'Roll count',
+        symbol: 'SOD',
+        fields: [
+          numberField('lawnAreaSquareFeet', 'Lawn area ft2', '1800'),
+          numberField('rollCoverageSquareFeet', 'Coverage per roll ft2', '10'),
+          integerField('rollsPerPallet', 'Rolls per pallet', '50'),
+          numberField('wastePercent', 'Waste percent', '5'),
+          numberField('pricePerRoll', 'Price per roll', '4.50'),
+        ],
+        defaultInputs: { lawnAreaSquareFeet: '1800', rollCoverageSquareFeet: '10', rollsPerPallet: '50', wastePercent: '5', pricePerRoll: '4.50' },
+        examples: [
+          { label: 'Front lawn', inputs: { lawnAreaSquareFeet: '1800', rollCoverageSquareFeet: '10', rollsPerPallet: '50', wastePercent: '5', pricePerRoll: '4.50' } },
+          { label: 'Small repair patch', inputs: { lawnAreaSquareFeet: '220', rollCoverageSquareFeet: '10', rollsPerPallet: '50', wastePercent: '8', pricePerRoll: '5' } },
+        ],
+      },
+    ],
+  },
+  'wall-stud': {
+    title: 'Wall Stud Calculator',
+    buttonLabel: 'Estimate studs',
+    emptyHistory: 'Recent wall stud estimates will appear here.',
+    privacyNote: 'Wall stud estimates stay local and are simple layout counts, not structural framing plans.',
+    modes: [
+      {
+        id: 'stud-count',
+        label: 'Stud count',
+        symbol: 'STUD',
+        fields: [
+          numberField('wallLengthFeet', 'Wall length feet', '24'),
+          numberField('wallHeightFeet', 'Wall height feet', '8'),
+          numberField('spacingInches', 'Stud spacing inches', '16'),
+          integerField('openingsCount', 'Openings', '2'),
+          integerField('extraCornerStuds', 'Extra corner studs', '4'),
+          integerField('plates', 'Plate rows', '2'),
+          numberField('boardLengthFeet', 'Board length feet', '8'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: { wallLengthFeet: '24', wallHeightFeet: '8', spacingInches: '16', openingsCount: '2', extraCornerStuds: '4', plates: '2', boardLengthFeet: '8', wastePercent: '10' },
+        examples: [
+          { label: 'Interior wall', inputs: { wallLengthFeet: '24', wallHeightFeet: '8', spacingInches: '16', openingsCount: '2', extraCornerStuds: '4', plates: '2', boardLengthFeet: '8', wastePercent: '10' } },
+          { label: 'Garage wall', inputs: { wallLengthFeet: '32', wallHeightFeet: '9', spacingInches: '16', openingsCount: '1', extraCornerStuds: '6', plates: '3', boardLengthFeet: '10', wastePercent: '10' } },
         ],
       },
     ],
@@ -4670,6 +4948,209 @@ function calculateUtility(
           'Add waste, divide by stock bar length, and round up.',
         ],
         note: 'This is a simple material takeoff. Structural spacing, bar size, laps, chairs, cover, edge distance, and local code need professional design.',
+      };
+    }
+    case 'concrete-footing': {
+      const result = calculateConcreteFootingEstimate({
+        lengthFeet: parseNumber(inputs.lengthFeet, 'Footing length'),
+        widthInches: parseNumber(inputs.widthInches, 'Footing width'),
+        depthInches: parseNumber(inputs.depthInches, 'Footing depth'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Concrete needed',
+        expression: `${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.widthInches)} in x ${formatCalculatorNumber(result.depthInches)} in footing`,
+        answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
+        metrics: [
+          { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
+          { label: '80 lb bags', value: formatCalculatorNumber(result.eightyPoundBags) },
+          { label: '60 lb bags', value: formatCalculatorNumber(result.sixtyPoundBags) },
+        ],
+        steps: [
+          'Convert footing width and depth from inches to feet.',
+          'Multiply length by width by depth for cubic feet.',
+          'Add waste, convert to cubic yards, and estimate common bag counts.',
+        ],
+        note: 'Footing size, reinforcement, soil bearing, frost depth, drainage, inspection rules, and local code need professional review.',
+      };
+    }
+    case 'concrete-column': {
+      const result = calculateConcreteColumnEstimate({
+        diameterInches: parseNumber(inputs.diameterInches, 'Column diameter'),
+        heightFeet: parseNumber(inputs.heightFeet, 'Column height'),
+        quantity: parseNumber(inputs.quantity, 'Quantity'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Concrete needed',
+        expression: `${formatCalculatorNumber(result.quantity)} round columns, ${formatCalculatorNumber(result.diameterInches)} in diameter x ${formatCalculatorNumber(result.heightFeet)} ft high`,
+        answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
+        metrics: [
+          { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
+          { label: '80 lb bags', value: formatCalculatorNumber(result.eightyPoundBags) },
+          { label: '60 lb bags', value: formatCalculatorNumber(result.sixtyPoundBags) },
+        ],
+        steps: [
+          'Convert diameter to a radius in feet.',
+          'Use pi times radius squared times height for each column.',
+          'Multiply by quantity, add waste, and estimate bags.',
+        ],
+        note: 'Round forms, bell bottoms, reinforcement, anchor bolts, structural loads, and code requirements are outside this material estimate.',
+      };
+    }
+    case 'post-hole-concrete': {
+      const result = calculatePostHoleConcreteEstimate({
+        holeDiameterInches: parseNumber(inputs.holeDiameterInches, 'Hole diameter'),
+        holeDepthInches: parseNumber(inputs.holeDepthInches, 'Hole depth'),
+        postDiameterInches: parseNumber(inputs.postDiameterInches, 'Post diameter'),
+        quantity: parseNumber(inputs.quantity, 'Quantity'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Concrete needed',
+        expression: `${formatCalculatorNumber(result.quantity)} holes, ${formatCalculatorNumber(result.holeDiameterInches)} in diameter x ${formatCalculatorNumber(result.holeDepthInches)} in deep`,
+        answer: `${formatCalculatorNumber(result.eightyPoundBags)} eighty-pound bags`,
+        metrics: [
+          { label: 'Cubic yards', value: formatCalculatorNumber(result.cubicYards) },
+          { label: 'Concrete per hole', value: `${formatCalculatorNumber(result.netConcretePerHoleCubicFeet)} ft3` },
+          { label: '60 lb bags', value: formatCalculatorNumber(result.sixtyPoundBags) },
+        ],
+        steps: [
+          'Find round hole volume from diameter and depth.',
+          'Subtract the round post volume occupying the hole.',
+          'Multiply by hole count, add waste, and round bag counts up.',
+        ],
+        note: 'Hole depth should follow frost, soil, fence, deck, or code requirements. This only estimates concrete volume around the post.',
+      };
+    }
+    case 'plywood': {
+      const result = calculatePlywoodEstimate({
+        areaSquareFeet: parseNumber(inputs.areaSquareFeet, 'Area'),
+        sheetWidthFeet: parseNumber(inputs.sheetWidthFeet, 'Sheet width'),
+        sheetLengthFeet: parseNumber(inputs.sheetLengthFeet, 'Sheet length'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        pricePerSheet: parseOptionalNumber(inputs.pricePerSheet ?? '', 'Price per sheet'),
+      });
+      return {
+        label: 'Plywood sheets',
+        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2 with ${formatCalculatorNumber(result.sheetWidthFeet)} x ${formatCalculatorNumber(result.sheetLengthFeet)} ft sheets`,
+        answer: `${formatCalculatorNumber(result.sheetsNeeded)} sheets`,
+        metrics: [
+          { label: 'Adjusted area', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Sheet coverage', value: `${formatCalculatorNumber(result.sheetAreaSquareFeet)} ft2` },
+          { label: 'Estimated cost', value: result.estimatedCost === null ? 'Not entered' : money(result.estimatedCost) },
+        ],
+        steps: [
+          'Multiply sheet width by sheet length for sheet coverage.',
+          'Add waste to the project area.',
+          'Divide adjusted area by sheet coverage and round up.',
+        ],
+        note: 'Panel direction, seams, joist layout, grain direction, thickness, fasteners, and code requirements can change the final sheet plan.',
+      };
+    }
+    case 'insulation': {
+      const result = calculateInsulationEstimate({
+        areaSquareFeet: parseNumber(inputs.areaSquareFeet, 'Area'),
+        openingsSquareFeet: parseNumber(inputs.openingsSquareFeet, 'Openings'),
+        coveragePerPackSquareFeet: parseNumber(inputs.coveragePerPackSquareFeet, 'Coverage per pack'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        pricePerPack: parseOptionalNumber(inputs.pricePerPack ?? '', 'Price per pack'),
+      });
+      return {
+        label: 'Insulation packs',
+        expression: `${formatCalculatorNumber(result.netAreaSquareFeet)} net ft2 at ${formatCalculatorNumber(result.coveragePerPackSquareFeet)} ft2 per pack`,
+        answer: `${formatCalculatorNumber(result.packsNeeded)} packs`,
+        metrics: [
+          { label: 'Adjusted area', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Total coverage bought', value: `${formatCalculatorNumber(result.totalCoverageSquareFeet)} ft2` },
+          { label: 'Estimated cost', value: result.estimatedCost === null ? 'Not entered' : money(result.estimatedCost) },
+        ],
+        steps: [
+          'Subtract openings from the measured area.',
+          'Add waste for cutting and fitting.',
+          'Divide by package coverage and round up to whole packs.',
+        ],
+        note: 'R-value, vapor control, air sealing, ventilation, moisture, fire rules, and local code matter. Match the product to the project, not just the square footage.',
+      };
+    }
+    case 'countertop': {
+      const result = calculateCountertopEstimate({
+        lengthFeet: parseNumber(inputs.lengthFeet, 'Countertop length'),
+        depthInches: parseNumber(inputs.depthInches, 'Countertop depth'),
+        backsplashLengthFeet: parseNumber(inputs.backsplashLengthFeet, 'Backsplash length'),
+        backsplashHeightInches: parseNumber(inputs.backsplashHeightInches, 'Backsplash height'),
+        cutoutSquareFeet: parseNumber(inputs.cutoutSquareFeet, 'Cutouts'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        pricePerSquareFoot: parseOptionalNumber(inputs.pricePerSquareFoot ?? '', 'Price per square foot'),
+      });
+      return {
+        label: 'Countertop area',
+        expression: `${formatCalculatorNumber(result.lengthFeet)} ft run at ${formatCalculatorNumber(result.depthInches)} in depth`,
+        answer: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2`,
+        metrics: [
+          { label: 'Top area', value: `${formatCalculatorNumber(result.topAreaSquareFeet)} ft2` },
+          { label: 'Backsplash area', value: `${formatCalculatorNumber(result.backsplashAreaSquareFeet)} ft2` },
+          { label: 'Estimated cost', value: result.estimatedCost === null ? 'Not entered' : money(result.estimatedCost) },
+        ],
+        steps: [
+          'Convert countertop depth from inches to feet and multiply by length.',
+          'Add backsplash area and subtract cutouts if needed.',
+          'Add waste and multiply by price per square foot when entered.',
+        ],
+        note: 'Slab layout, seams, edge profile, overhangs, sink type, backsplashes, templates, fabrication, and installation rules can change the final quote.',
+      };
+    }
+    case 'sod': {
+      const result = calculateSodEstimate({
+        lawnAreaSquareFeet: parseNumber(inputs.lawnAreaSquareFeet, 'Lawn area'),
+        rollCoverageSquareFeet: parseNumber(inputs.rollCoverageSquareFeet, 'Roll coverage'),
+        rollsPerPallet: parseNumber(inputs.rollsPerPallet, 'Rolls per pallet'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        pricePerRoll: parseOptionalNumber(inputs.pricePerRoll ?? '', 'Price per roll'),
+      });
+      return {
+        label: 'Sod to buy',
+        expression: `${formatCalculatorNumber(result.lawnAreaSquareFeet)} ft2 lawn at ${formatCalculatorNumber(result.rollCoverageSquareFeet)} ft2 per roll`,
+        answer: `${formatCalculatorNumber(result.rollsNeeded)} rolls`,
+        metrics: [
+          { label: 'Adjusted area', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Pallets', value: formatCalculatorNumber(result.palletsNeeded) },
+          { label: 'Estimated cost', value: result.estimatedCost === null ? 'Not entered' : money(result.estimatedCost) },
+        ],
+        steps: [
+          'Add waste to the measured lawn area.',
+          'Divide by the square feet one roll or slab covers.',
+          'Round up to whole rolls and whole pallets.',
+        ],
+        note: 'Curves, slopes, damaged sod, soil prep, irrigation, delivery minimums, and supplier roll sizes can change the final order.',
+      };
+    }
+    case 'wall-stud': {
+      const result = calculateWallStudEstimate({
+        wallLengthFeet: parseNumber(inputs.wallLengthFeet, 'Wall length'),
+        wallHeightFeet: parseNumber(inputs.wallHeightFeet, 'Wall height'),
+        spacingInches: parseNumber(inputs.spacingInches, 'Stud spacing'),
+        openingsCount: parseNumber(inputs.openingsCount, 'Openings'),
+        extraCornerStuds: parseNumber(inputs.extraCornerStuds, 'Extra corner studs'),
+        plates: parseNumber(inputs.plates, 'Plate rows'),
+        boardLengthFeet: parseNumber(inputs.boardLengthFeet, 'Board length'),
+        wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+      });
+      return {
+        label: 'Boards to buy',
+        expression: `${formatCalculatorNumber(result.wallLengthFeet)} ft wall at ${formatCalculatorNumber(result.spacingInches)} in on-center`,
+        answer: `${formatCalculatorNumber(result.totalPieces)} boards`,
+        metrics: [
+          { label: 'Vertical studs with waste', value: formatCalculatorNumber(result.verticalStudsWithWaste) },
+          { label: 'Plate pieces', value: formatCalculatorNumber(result.platePieces) },
+          { label: 'Linear feet with waste', value: `${formatCalculatorNumber(result.estimatedLinearFeetWithWaste)} ft` },
+        ],
+        steps: [
+          'Count layout studs from wall length and on-center spacing.',
+          'Add extra studs for openings and corners, then add waste.',
+          'Add top/bottom plate pieces based on wall length and board length.',
+        ],
+        note: 'Headers, king/jack stud details, fire blocking, bracing, structural loads, pressure-treated plates, and code rules need a real framing plan.',
       };
     }
     case 'board-foot': {

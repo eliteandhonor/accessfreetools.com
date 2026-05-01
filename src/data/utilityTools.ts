@@ -1739,6 +1739,358 @@ export const utilityTools: ToolDefinition[] = [
     relatedSlugs: ['concrete-calculator', 'concrete-block-calculator', 'cubic-yard-calculator'],
   }),
   makeUtilityTool({
+    slug: 'concrete-footing-calculator',
+    name: 'Concrete Footing Calculator',
+    category: 'home-projects',
+    summary: 'Estimate concrete volume and bag counts for straight rectangular footings.',
+    description:
+      'Use this free concrete footing calculator to estimate cubic feet, cubic yards, and common concrete bag counts from footing length, width, depth, and waste.',
+    icon: 'calculator-concrete-footing',
+    aliases: ['Footing Concrete Calculator', 'Foundation Footing Calculator'],
+    formula:
+      'The calculator converts footing width and depth from inches to feet, multiplies length by width by depth, adds waste, converts cubic feet to cubic yards, and rounds bag counts up.',
+    limit:
+      'Footing dimensions are structural decisions. Soil bearing, frost depth, reinforcement, drainage, inspections, and local code can change the real footing design.',
+    inputExplanations: [
+      { term: 'Footing length', meaning: 'the total straight run of the footing in feet.' },
+      { term: 'Width and depth', meaning: 'the footing cross-section in inches.' },
+      { term: 'Waste percent', meaning: 'extra concrete for uneven trenches, spillage, and a small ordering cushion.' },
+      { term: 'Bag counts', meaning: 'rounded estimates based on common dry-mix bag yields, useful for small jobs.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the Concrete Footing Calculator show both cubic yards and bags?',
+        answer:
+          'Cubic yards are useful for ready-mix orders, while 60 lb and 80 lb bag counts are useful for smaller hand-mixed projects. Large footings are usually better handled with a concrete supplier or contractor.',
+      },
+      {
+        question: 'Can this tell me the correct footing size?',
+        answer:
+          'No. It only estimates material from the size you enter. The right footing size depends on loads, soil, frost depth, reinforcement, and building rules.',
+      },
+    ],
+    useCases: [
+      'Estimate concrete for a simple straight footing run.',
+      'Convert width and depth in inches into cubic yards.',
+      'Compare ready-mix volume with common bag counts.',
+      'Add a realistic waste cushion before pricing material.',
+    ],
+    examples: [
+      { label: 'Garage footing run', expression: '30 ft long, 16 in wide, 8 in deep, 10% waste', result: 'About 1.09 cubic yards' },
+      { label: 'Garden wall footing', expression: '18 ft long, 12 in wide, 8 in deep, 8% waste', result: 'Concrete and bag estimate' },
+      { label: 'Small repair footing', expression: '8 ft long, 10 in wide, 6 in deep', result: 'Small-volume estimate' },
+    ],
+    relatedSlugs: ['concrete-calculator', 'rebar-calculator', 'cubic-yard-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'concrete-column-calculator',
+    name: 'Concrete Column Calculator',
+    category: 'home-projects',
+    summary: 'Estimate concrete for round columns, piers, and tube forms.',
+    description:
+      'Use this free concrete column calculator to estimate cubic feet, cubic yards, and bag counts for round concrete columns or piers.',
+    icon: 'calculator-concrete-column',
+    aliases: ['Concrete Pier Calculator', 'Sonotube Concrete Calculator', 'Round Column Concrete Calculator'],
+    formula:
+      'The calculator converts diameter to a radius in feet, uses pi times radius squared times height, multiplies by quantity, adds waste, and rounds bag counts up.',
+    limit:
+      'This is volume math only. Footing bells, reinforcement, anchors, structural loads, form size, and code rules can change real material needs.',
+    inputExplanations: [
+      { term: 'Diameter', meaning: 'the inside diameter of the round form or pier in inches.' },
+      { term: 'Height', meaning: 'the filled concrete height in feet.' },
+      { term: 'Quantity', meaning: 'how many matching round columns or piers are included.' },
+      { term: 'Waste percent', meaning: 'extra concrete for form variation, spillage, and ordering cushion.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does diameter mean for a concrete column?',
+        answer:
+          'Diameter is the full width across the round form. The calculator divides it by two to get radius, then uses the cylinder formula. Do not enter radius in the diameter box.',
+      },
+      {
+        question: 'Does this include a wider footing or bell at the bottom?',
+        answer:
+          'No. It estimates the straight round column only. If your pier has a widened base, calculate that extra concrete separately or ask the designer for the takeoff.',
+      },
+    ],
+    useCases: [
+      'Estimate concrete for round tube forms.',
+      'Compare 12-inch, 16-inch, and 18-inch pier sizes.',
+      'Plan bag counts for small column pours.',
+      'Add waste before pricing ready-mix or bagged concrete.',
+    ],
+    examples: [
+      { label: 'Three round piers', expression: '18 in diameter, 8 ft high, 3 columns, 10% waste', result: 'About 1.73 cubic yards' },
+      { label: 'Porch column bases', expression: '12 in diameter, 3 ft high, 4 columns', result: 'Bag count estimate' },
+      { label: 'Deck support tubes', expression: '10 in diameter, 4 ft high, 6 tubes', result: 'Round concrete volume' },
+    ],
+    relatedSlugs: ['concrete-footing-calculator', 'concrete-calculator', 'cubic-yard-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'post-hole-concrete-calculator',
+    name: 'Post Hole Concrete Calculator',
+    category: 'home-projects',
+    summary: 'Estimate concrete bag counts for fence, deck, and mailbox post holes.',
+    description:
+      'Use this free post hole concrete calculator to estimate concrete volume and bag counts from hole diameter, hole depth, post diameter, quantity, and waste.',
+    icon: 'calculator-post-hole-concrete',
+    aliases: ['Fence Post Concrete Calculator', 'Post Hole Calculator'],
+    formula:
+      'The calculator finds the round hole volume, subtracts the round post volume inside the hole, multiplies by the number of holes, adds waste, and rounds bag counts up.',
+    limit:
+      'Post depth, hole width, gravel base, frost depth, uplift, gate loads, deck loads, and local code can change what you actually need.',
+    inputExplanations: [
+      { term: 'Hole diameter', meaning: 'the width across the round hole in inches.' },
+      { term: 'Hole depth', meaning: 'the filled depth in inches.' },
+      { term: 'Post diameter', meaning: 'the width of the post that takes up space inside the hole.' },
+      { term: 'Quantity', meaning: 'how many matching holes to estimate.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the calculator subtract the post volume?',
+        answer:
+          'The post occupies part of the hole, so concrete only fills the space around it. Subtracting the post keeps the estimate closer than treating the whole hole as concrete.',
+      },
+      {
+        question: 'What if my post is square?',
+        answer:
+          'Use the closest equivalent diameter for a rough estimate or calculate the square post area separately. For big jobs, a contractor takeoff is safer.',
+      },
+    ],
+    useCases: [
+      'Estimate concrete bags for fence posts.',
+      'Plan concrete for deck support holes.',
+      'Subtract post volume from round hole volume.',
+      'Compare hole sizes before buying concrete.',
+    ],
+    examples: [
+      { label: 'Fence posts', expression: '12 in hole, 30 in deep, 4 in post, 6 holes, 10% waste', result: 'About 20 eighty-pound bags' },
+      { label: 'Deck posts', expression: '14 in hole, 36 in deep, 6 in post, 4 holes', result: 'Post concrete estimate' },
+      { label: 'Mailbox post', expression: '10 in hole, 24 in deep, 4 in post', result: 'Small bag estimate' },
+    ],
+    relatedSlugs: ['fence-calculator', 'concrete-footing-calculator', 'concrete-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'plywood-calculator',
+    name: 'Plywood Calculator',
+    category: 'home-projects',
+    summary: 'Estimate plywood sheet count, coverage, waste, and optional cost.',
+    description:
+      'Use this free plywood calculator to estimate how many sheets to buy from project area, sheet size, waste percent, and optional price per sheet.',
+    icon: 'calculator-plywood',
+    aliases: ['Sheet Goods Calculator', 'Plywood Sheet Calculator'],
+    formula:
+      'The calculator multiplies sheet width by sheet length for sheet coverage, adds waste to the project area, divides adjusted area by sheet coverage, and rounds up.',
+    limit:
+      'Panel direction, seams, joist spacing, fastener rules, thickness, grade, subfloor code, and cut layout can change the final sheet count.',
+    inputExplanations: [
+      { term: 'Area', meaning: 'the total square feet you want to cover before waste.' },
+      { term: 'Sheet width and length', meaning: 'the actual sheet size in feet, commonly 4 by 8.' },
+      { term: 'Waste percent', meaning: 'extra sheet area for cuts, layout, mistakes, and damaged edges.' },
+      { term: 'Price per sheet', meaning: 'optional cost input used only for a rough material price.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Does plywood sheet count include the best cut layout?',
+        answer:
+          'No. It estimates sheets by area. Real layouts need seams on framing, grain direction, panel orientation, and leftover pieces checked before buying.',
+      },
+      {
+        question: 'Should I enter nominal or actual sheet size?',
+        answer:
+          'Use the size printed for the sheet you will buy. Most full sheets are 4 by 8 feet, but project panels and specialty goods can be different.',
+      },
+    ],
+    useCases: [
+      'Estimate plywood sheets for subfloor or sheathing.',
+      'Compare 4x8 sheets with smaller project panels.',
+      'Add waste for cuts and layout.',
+      'Estimate rough sheet cost before shopping.',
+    ],
+    examples: [
+      { label: 'Subfloor sheets', expression: '420 ft2, 4 x 8 ft sheets, 10% waste', result: '15 sheets' },
+      { label: 'Small wall sheathing', expression: '180 ft2, 12% waste', result: 'Sheet estimate' },
+      { label: 'Project panels', expression: '96 ft2, 2 x 4 ft panels', result: 'Panel count' },
+    ],
+    relatedSlugs: ['square-footage-calculator', 'flooring-calculator', 'wall-stud-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'insulation-calculator',
+    name: 'Insulation Calculator',
+    category: 'home-projects',
+    summary: 'Estimate insulation pack count from area, openings, package coverage, and waste.',
+    description:
+      'Use this free insulation calculator to estimate pack count, total coverage, and optional cost from area, openings, coverage per pack, and waste.',
+    icon: 'calculator-insulation',
+    aliases: ['Insulation Roll Calculator', 'Insulation Batt Calculator'],
+    formula:
+      'The calculator subtracts openings from measured area, adds waste, divides by square feet covered per pack, and rounds up to whole packs.',
+    limit:
+      'Insulation is not just area. R-value, climate zone, air sealing, vapor control, moisture, ventilation, fire rules, and local code all matter.',
+    inputExplanations: [
+      { term: 'Area', meaning: 'the wall, ceiling, floor, or attic square footage before subtracting openings.' },
+      { term: 'Openings', meaning: 'windows, doors, attic hatches, or other spaces that should not receive insulation.' },
+      { term: 'Coverage per pack', meaning: 'the square feet one package covers at the product thickness or R-value.' },
+      { term: 'Waste percent', meaning: 'extra insulation for cuts, odd cavities, fitting, and mistakes.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does R-value mean in insulation planning?',
+        answer:
+          'R-value is resistance to heat flow. Higher R-value usually slows heat movement more, but the right target depends on the location, climate, product type, and code.',
+      },
+      {
+        question: 'Can this choose the correct insulation for my house?',
+        answer:
+          'No. It estimates packs after you choose a product. Use local code, ENERGY STAR or DOE guidance, and product labels to choose the right R-value and installation method.',
+      },
+    ],
+    useCases: [
+      'Estimate insulation packs for walls, attics, or floor areas.',
+      'Subtract doors, windows, and hatches before waste.',
+      'Use product-label coverage per package.',
+      'Estimate rough cost from price per pack.',
+    ],
+    examples: [
+      { label: 'Wall insulation', expression: '960 ft2 area, 80 ft2 openings, 40 ft2 per pack, 10% waste', result: '25 packs' },
+      { label: 'Attic roll coverage', expression: '700 ft2 area, 65 ft2 per pack, 8% waste', result: 'Pack count estimate' },
+      { label: 'Small garage wall', expression: '320 ft2 area, 35 ft2 per pack', result: 'Insulation packs' },
+    ],
+    relatedSlugs: ['btu-calculator', 'square-footage-calculator', 'drywall-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'countertop-calculator',
+    name: 'Countertop Calculator',
+    category: 'home-projects',
+    summary: 'Estimate countertop square footage, backsplash area, waste, and optional material cost.',
+    description:
+      'Use this free countertop calculator to estimate countertop area from run length, depth, backsplash, cutouts, waste, and optional price per square foot.',
+    icon: 'calculator-countertop',
+    aliases: ['Countertop Square Foot Calculator', 'Kitchen Countertop Calculator'],
+    formula:
+      'The calculator converts depth and backsplash height to feet, finds top area plus backsplash area, subtracts cutouts, adds waste, and multiplies by price when entered.',
+    limit:
+      'Real quotes can change for slab layout, seams, sink type, cutouts, edge profile, overhangs, templating, fabrication, install labor, and delivery.',
+    inputExplanations: [
+      { term: 'Length', meaning: 'the total countertop run length in feet.' },
+      { term: 'Depth', meaning: 'front-to-back countertop depth in inches.' },
+      { term: 'Backsplash', meaning: 'optional backsplash length and height added to the square footage.' },
+      { term: 'Cutouts', meaning: 'sink or cooktop areas subtracted before waste when you know them.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Should I subtract sink and cooktop cutouts?',
+        answer:
+          'Only subtract them for a rough material area check. Many fabricators still charge for cutout work, templates, and the slab waste around the opening.',
+      },
+      {
+        question: 'Why can a countertop quote be higher than the square-foot estimate?',
+        answer:
+          'Countertops often include edge profiles, seams, corner layouts, backsplash pieces, sink cutouts, delivery, labor, and minimum slab purchase rules.',
+      },
+    ],
+    useCases: [
+      'Estimate countertop square footage for a kitchen or vanity.',
+      'Add backsplash area when the backsplash uses the same material.',
+      'Subtract known cutout area for rough material planning.',
+      'Compare rough cost at different material prices.',
+    ],
+    examples: [
+      { label: 'Kitchen run', expression: '18 ft run, 25.5 in depth, 4 in backsplash, 10% waste', result: 'About 44.28 ft2' },
+      { label: 'Bathroom vanity', expression: '6 ft run, 22 in depth, small sink cutout', result: 'Vanity area estimate' },
+      { label: 'No backsplash', expression: '12 ft run, 25 in depth, 0 backsplash', result: 'Top-only square feet' },
+    ],
+    relatedSlugs: ['square-footage-calculator', 'tile-calculator', 'unit-price-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'sod-calculator',
+    name: 'Sod Calculator',
+    category: 'home-projects',
+    summary: 'Estimate sod rolls, pallets, adjusted area, and optional cost.',
+    description:
+      'Use this free sod calculator to estimate rolls or slabs of sod from lawn area, coverage per roll, rolls per pallet, waste, and optional price.',
+    icon: 'calculator-sod',
+    aliases: ['Grass Sod Calculator', 'Lawn Sod Calculator'],
+    formula:
+      'The calculator adds waste to lawn area, divides by coverage per roll or slab, rounds up to whole rolls, and then rounds pallets up from rolls per pallet.',
+    limit:
+      'Curves, slopes, damaged sod, soil prep, irrigation, seams, supplier roll sizes, pallet minimums, and delivery rules can change the final order.',
+    inputExplanations: [
+      { term: 'Lawn area', meaning: 'the measured square feet you want to cover.' },
+      { term: 'Coverage per roll', meaning: 'the square feet one roll, slab, or piece covers.' },
+      { term: 'Rolls per pallet', meaning: 'supplier packaging used to estimate pallet count.' },
+      { term: 'Waste percent', meaning: 'extra sod for curved edges, trimming, damaged pieces, and small repairs.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the Sod Calculator add waste?',
+        answer:
+          'Sod gets trimmed around curves, sidewalks, beds, and sprinklers. Extra pieces also help replace damaged rolls or fill small missed spots.',
+      },
+      {
+        question: 'Should I measure lawn area before or after removing old grass?',
+        answer:
+          'Measure the final area that will receive new sod. Soil prep, grading, and edging can slightly change the real area, so recheck before ordering.',
+      },
+    ],
+    useCases: [
+      'Estimate sod rolls for a new lawn.',
+      'Convert lawn square footage into pallets.',
+      'Add waste for curved and trimmed areas.',
+      'Estimate rough sod material cost.',
+    ],
+    examples: [
+      { label: 'Front lawn', expression: '1,800 ft2, 10 ft2 per roll, 50 rolls per pallet, 5% waste', result: '189 rolls, 4 pallets' },
+      { label: 'Repair patch', expression: '220 ft2, 10 ft2 per roll, 8% waste', result: 'Small roll count' },
+      { label: 'Backyard section', expression: '3,200 ft2, pallet packaging', result: 'Pallet estimate' },
+    ],
+    relatedSlugs: ['square-footage-calculator', 'soil-calculator', 'cubic-yard-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'wall-stud-calculator',
+    name: 'Wall Stud Calculator',
+    category: 'home-projects',
+    summary: 'Estimate wall studs, plate pieces, and framing board count from wall layout.',
+    description:
+      'Use this free wall stud calculator to estimate layout studs, extra opening studs, plate pieces, waste, and total boards for a simple wall.',
+    icon: 'calculator-wall-stud',
+    aliases: ['Stud Calculator', 'Framing Stud Calculator'],
+    formula:
+      'The calculator counts studs from wall length and on-center spacing, adds two studs per opening plus extra corner studs, adds waste, then adds plate pieces from wall length and board length.',
+    limit:
+      'This is a rough material count. Headers, jack studs, king studs, fire blocking, sheathing, bracing, loads, treated plates, and code rules need a real framing plan.',
+    inputExplanations: [
+      { term: 'Wall length and height', meaning: 'the planned wall size in feet.' },
+      { term: 'Stud spacing', meaning: 'on-center spacing, commonly 16 or 24 inches.' },
+      { term: 'Openings', meaning: 'door or window openings; the tool adds two extra studs per opening as a simple allowance.' },
+      { term: 'Plate rows', meaning: 'horizontal top and bottom runs along the wall, often 2 or 3 rows.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does on-center spacing mean?',
+        answer:
+          'On-center spacing is the distance from the center of one stud to the center of the next stud. A 16-inch layout means each stud center is about 16 inches apart.',
+      },
+      {
+        question: 'Does this include headers for doors and windows?',
+        answer:
+          'No. It only adds a simple extra-stud allowance around openings. Header sizes, jack studs, king studs, and structural details depend on the wall design and code.',
+      },
+    ],
+    useCases: [
+      'Estimate studs for a simple interior wall.',
+      'Compare 16-inch and 24-inch on-center spacing.',
+      'Add plate pieces to vertical stud count.',
+      'Add waste before buying framing boards.',
+    ],
+    examples: [
+      { label: 'Interior wall', expression: '24 ft wall, 8 ft high, 16 in spacing, 2 openings, 10% waste', result: '36 boards' },
+      { label: 'Garage wall', expression: '32 ft wall, 9 ft high, 16 in spacing, 3 plate rows', result: 'Stud and plate estimate' },
+      { label: 'Short partition', expression: '10 ft wall, 8 ft high, no openings', result: 'Small wall count' },
+    ],
+    relatedSlugs: ['drywall-calculator', 'board-foot-calculator', 'square-footage-calculator'],
+  }),
+  makeUtilityTool({
     slug: 'board-foot-calculator',
     name: 'Board Foot Calculator',
     category: 'home-projects',

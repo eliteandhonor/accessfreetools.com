@@ -298,7 +298,37 @@ const calculatorInnSitemap = {
 
 const inchCalculatorSitemap = {
   href: 'https://www.inchcalculator.com/sitemap/',
-  label: 'Inch Calculator sitemap: recipe, cooking, and shopping competitor gap reference',
+  label: 'Inch Calculator sitemap: competitor gap reference',
+};
+
+const inchConcreteFooting = {
+  href: 'https://www.inchcalculator.com/concrete-footing-calculator/',
+  label: 'Inch Calculator: Concrete footing calculator reference',
+};
+
+const inchPostHoleConcrete = {
+  href: 'https://www.inchcalculator.com/post-hole-concrete-calculator/',
+  label: 'Inch Calculator: Post hole concrete calculator reference',
+};
+
+const inchPlywood = {
+  href: 'https://www.inchcalculator.com/plywood-calculator/',
+  label: 'Inch Calculator: Plywood calculator reference',
+};
+
+const inchSod = {
+  href: 'https://www.inchcalculator.com/sod-calculator/',
+  label: 'Inch Calculator: Sod calculator reference',
+};
+
+const inchFraming = {
+  href: 'https://www.inchcalculator.com/framing-calculator/',
+  label: 'Inch Calculator: Framing calculator reference',
+};
+
+const lowesCountertopGuide = {
+  href: 'https://www.lowes.com/pdf/kitchen_countertop_measure_guide.pdf',
+  label: 'Lowe\'s: Kitchen countertop measurement guide',
 };
 
 const usdaFoodDataCentral = {
@@ -729,6 +759,11 @@ const nistAlcoholCalculations = {
 const quikreteConcrete = {
   href: 'https://www.quikrete.com/calculator/main.asp',
   label: 'QUIKRETE: Concrete calculator reference',
+};
+
+const doeInsulation = {
+  href: 'https://www.energy.gov/energysaver/insulation',
+  label: 'U.S. Department of Energy: Insulation guidance',
 };
 
 const lowesWallpaper = {
@@ -3489,6 +3524,158 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     followUps: [
       'Add lap-length fields only if structural-scope warnings stay prominent.',
+    ],
+  },
+  {
+    slug: 'concrete-footing-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-construction-materials-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchConcreteFooting, quikreteConcrete, nistSi],
+    findings: [
+      'The calculator converts footing width and depth from inches to feet, multiplies rectangular volume, adds waste, converts to cubic yards, and rounds concrete bag counts up.',
+      'The FAQ explains cubic yards versus bag counts and clearly states the tool does not choose a structurally correct footing size.',
+      'The guide warns about frost depth, soil bearing, reinforcement, drainage, inspections, and local code.',
+    ],
+    improvements: [
+      'Added a real footing calculator UI, examples, source-backed guide, detailed FAQ, related pathways, result steps, tests, and manual deep-review record.',
+    ],
+    followUps: [
+      'Add metric footing inputs only if the unit switch can stay clear and tested.',
+    ],
+  },
+  {
+    slug: 'concrete-column-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-construction-materials-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchConcreteFooting, quikreteConcrete, nistSi],
+    findings: [
+      'The calculator uses cylinder volume for round columns, multiplies by quantity, adds waste, converts to cubic yards, and rounds bag counts up.',
+      'The FAQ explains diameter versus radius and excludes bell bottoms, wider footing bases, reinforcement, anchor bolts, and structural design.',
+      'The guide ties the result to concrete volume and bag planning without overstating code or engineering coverage.',
+    ],
+    improvements: [
+      'Added round-column calculator config, formula tests, guide article, detailed FAQs, source notes, SEO metadata, and privacy wording.',
+    ],
+    followUps: [
+      'Consider a separate square-column mode later if competitor search demand appears.',
+    ],
+  },
+  {
+    slug: 'post-hole-concrete-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-construction-materials-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchPostHoleConcrete, quikreteConcrete, nistSi],
+    findings: [
+      'The calculator estimates round hole volume, subtracts the post cylinder volume, multiplies by hole quantity, adds waste, and rounds common bag counts.',
+      'The UI rejects posts that are not smaller than the hole, avoiding a negative concrete-volume result.',
+      'The FAQ explains why post volume is subtracted and where square posts or code-driven depth require extra care.',
+    ],
+    improvements: [
+      'Added post-hole concrete inputs, examples, bag outputs, guide article, detailed FAQ, related fence/concrete links, tests, and manual review record.',
+    ],
+    followUps: [
+      'Add gravel-base allowance only if the field wording stays beginner-friendly.',
+    ],
+  },
+  {
+    slug: 'plywood-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-construction-materials-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchPlywood, nistSi, googleHelpfulContent],
+    findings: [
+      'The calculator divides adjusted project area by sheet coverage, rounds up whole sheets, and optionally estimates cost from price per sheet.',
+      'The FAQ explains that sheet count is area math, not a cut-layout plan, and calls out seams, framing layout, grain direction, thickness, and grade.',
+      'The guide uses actual sheet size and waste percent language that matches the tool fields.',
+    ],
+    improvements: [
+      'Added plywood sheet-count UI, examples, result labels, guide article, FAQs, source notes, related tools, tests, and audit record.',
+    ],
+    followUps: [
+      'Add a multi-room sheet planner later only if layout complexity can be represented honestly.',
+    ],
+  },
+  {
+    slug: 'insulation-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-construction-materials-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchCalculatorSitemap, doeInsulation, nistSi, googleHelpfulContent],
+    findings: [
+      'The calculator subtracts openings, adds waste, divides by package coverage, rounds up packs, and optionally estimates cost.',
+      'The FAQ explains R-value in plain language and states the calculator estimates quantity after the user chooses a product.',
+      'The guide warns about climate, air sealing, vapor control, moisture, ventilation, fire rules, and local code.',
+    ],
+    improvements: [
+      'Added insulation pack-count UI, R-value explanation, detailed FAQ, source-backed guide, related tools, formula tests, and manual review record.',
+    ],
+    followUps: [
+      'Do not add R-value recommendations until climate-zone and code context can be handled accurately.',
+    ],
+  },
+  {
+    slug: 'countertop-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-construction-materials-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [lowesCountertopGuide, nistSi, googleHelpfulContent],
+    findings: [
+      'The calculator converts countertop depth and backsplash height to feet, adds top and backsplash area, subtracts cutouts, adds waste, and optionally prices square footage.',
+      'The FAQ explains why cutout area does not remove fabrication charges and why quotes can exceed simple square-foot math.',
+      'The guide mentions seams, edges, overhangs, slab minimums, templates, delivery, fabrication, and installation limits.',
+    ],
+    improvements: [
+      'Added countertop area UI, backsplash/cutout fields, examples, result steps, detailed FAQ, guide coverage, tests, and audit record.',
+    ],
+    followUps: [
+      'Add L-shaped segment mode later if it does not make the beginner flow bulky.',
+    ],
+  },
+  {
+    slug: 'sod-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-construction-materials-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchSod, nistSi, googleHelpfulContent],
+    findings: [
+      'The calculator adds waste to lawn area, divides by roll or slab coverage, rounds rolls up, and rounds pallets up from rolls per pallet.',
+      'The FAQ explains why waste matters for curves, sidewalks, sprinkler heads, damaged pieces, and repair patches.',
+      'The guide warns about supplier roll sizes, pallet minimums, delivery rules, grading, soil prep, slopes, and watering.',
+    ],
+    improvements: [
+      'Added sod roll and pallet estimator, examples, cost option, guide article, detailed FAQ, related tools, tests, and manual audit record.',
+    ],
+    followUps: [
+      'Add shape-based lawn area helpers only if they reuse the existing area calculator logic.',
+    ],
+  },
+  {
+    slug: 'wall-stud-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-construction-materials-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchFraming, nistSi, googleHelpfulContent],
+    findings: [
+      'The calculator counts layout studs from wall length and on-center spacing, adds opening and corner allowances, applies waste, and adds plate pieces.',
+      'The FAQ explains on-center spacing and excludes headers, jack studs, king studs, blocking, bracing, treated plates, structural loads, and code details.',
+      'The result shows vertical studs, plate pieces, total boards, and linear feet so users can audit the count.',
+    ],
+    improvements: [
+      'Added wall-stud calculator UI, examples, guide article, detailed FAQ, related construction tools, formula tests, and manual review record.',
+    ],
+    followUps: [
+      'Add header/jack stud templates only with clear non-structural boundaries and tests.',
     ],
   },
   {

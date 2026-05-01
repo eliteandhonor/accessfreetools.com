@@ -74,6 +74,38 @@ const sourceLinks = {
     href: 'https://www.quikrete.com/calculator/main.asp',
     label: 'QUIKRETE: Concrete calculator reference',
   },
+  inchCalculatorSitemap: {
+    href: 'https://www.inchcalculator.com/sitemap/',
+    label: 'Inch Calculator sitemap: construction and home-project competitor reference',
+  },
+  inchConcreteFooting: {
+    href: 'https://www.inchcalculator.com/concrete-footing-calculator/',
+    label: 'Inch Calculator: Concrete footing calculator reference',
+  },
+  inchPostHoleConcrete: {
+    href: 'https://www.inchcalculator.com/post-hole-concrete-calculator/',
+    label: 'Inch Calculator: Post hole concrete calculator reference',
+  },
+  inchPlywood: {
+    href: 'https://www.inchcalculator.com/plywood-calculator/',
+    label: 'Inch Calculator: Plywood calculator reference',
+  },
+  inchSod: {
+    href: 'https://www.inchcalculator.com/sod-calculator/',
+    label: 'Inch Calculator: Sod calculator reference',
+  },
+  inchFraming: {
+    href: 'https://www.inchcalculator.com/framing-calculator/',
+    label: 'Inch Calculator: Framing calculator reference',
+  },
+  lowesCountertopGuide: {
+    href: 'https://www.lowes.com/pdf/kitchen_countertop_measure_guide.pdf',
+    label: 'Lowe\'s: Kitchen countertop measurement guide',
+  },
+  doeInsulation: {
+    href: 'https://www.energy.gov/energysaver/insulation',
+    label: 'U.S. Department of Energy: Insulation guidance',
+  },
   rfc4648: {
     href: 'https://datatracker.ietf.org/doc/html/rfc4648/',
     label: 'IETF RFC 4648: Base-N Encodings',
@@ -1523,6 +1555,183 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Use the concrete plan or a qualified professional for real reinforcement design.',
     ],
     sources: [sourceLinks.nistUnits],
+  },
+  'concrete-footing-calculator': {
+    summary: 'Learn how footing length, width, depth, and waste become concrete yards and bag counts.',
+    purpose:
+      'The Concrete Footing Calculator estimates the amount of concrete for a straight rectangular footing. It is a material helper after you already know the footing size.',
+    enter: [
+      'Enter the total footing length in feet.',
+      'Enter width and depth in inches because footing cross-sections are often measured that way.',
+      'Add waste for uneven trench bottoms, spillage, and a small ordering cushion.',
+    ],
+    read: [
+      'Cubic yards is the ready-mix style volume.',
+      'Cubic feet shows the smaller volume unit before converting to yards.',
+      '60 lb and 80 lb bag counts are rounded up for small bagged-concrete jobs.',
+    ],
+    mistakes: [
+      'Do not use the calculator to choose the footing size.',
+      'Do not ignore frost depth, soil bearing, reinforcement, drainage, inspections, or local code.',
+      'Do not forget that trench overdigging can increase concrete volume.',
+    ],
+    sources: [sourceLinks.inchConcreteFooting, sourceLinks.quickrete, sourceLinks.nistUnits],
+  },
+  'concrete-column-calculator': {
+    summary: 'Learn how round column diameter, height, quantity, and waste estimate concrete volume.',
+    purpose:
+      'The Concrete Column Calculator estimates concrete for round columns, piers, and tube forms using cylinder volume.',
+    enter: [
+      'Enter the round form diameter in inches, not the radius.',
+      'Enter filled height in feet and quantity of matching columns.',
+      'Add waste for form variation, spillage, and ordering cushion.',
+    ],
+    read: [
+      'Cubic yards is the total adjusted concrete volume.',
+      'Cubic feet shows the same result before yard conversion.',
+      'Bag counts are rounded up from common bag yields.',
+    ],
+    mistakes: [
+      'Do not forget wider footing bases, bell bottoms, anchor bolts, or reinforcement.',
+      'Do not use this as a structural design for piers or columns.',
+      'Check form size, actual filled height, and project drawings before buying concrete.',
+    ],
+    sources: [sourceLinks.inchConcreteFooting, sourceLinks.quickrete, sourceLinks.nistUnits],
+  },
+  'post-hole-concrete-calculator': {
+    summary: 'Learn how hole size, post size, quantity, and waste estimate concrete bags.',
+    purpose:
+      'The Post Hole Concrete Calculator estimates concrete around posts by using round hole volume and subtracting the post volume inside each hole.',
+    enter: [
+      'Enter hole diameter and depth in inches.',
+      'Enter the post diameter so the tool can subtract the space occupied by the post.',
+      'Enter the number of matching holes and waste percent.',
+    ],
+    read: [
+      '80 lb bags is the main quick shopping number for many small projects.',
+      'Cubic yards and cubic feet show the total adjusted concrete volume.',
+      'Concrete per hole helps you spot an unusually large or small entry.',
+    ],
+    mistakes: [
+      'Do not make the post diameter larger than the hole diameter.',
+      'Do not ignore frost depth, gate loads, deck loads, or fence manufacturer rules.',
+      'Do not forget gravel bases or special footing shapes if your plan requires them.',
+    ],
+    sources: [sourceLinks.inchPostHoleConcrete, sourceLinks.quickrete, sourceLinks.nistUnits],
+  },
+  'plywood-calculator': {
+    summary: 'Learn how project area, sheet size, waste, and price become plywood sheet count.',
+    purpose:
+      'The Plywood Calculator estimates how many plywood or sheet-good panels to buy for a simple area-based job.',
+    enter: [
+      'Enter the total square feet to cover.',
+      'Enter sheet width and length in feet, such as 4 and 8 for a common full sheet.',
+      'Add waste and optional price per sheet if you want a rough cost.',
+    ],
+    read: [
+      'Sheets needed is rounded up because you cannot buy part of a sheet.',
+      'Adjusted area includes the waste percent.',
+      'Total coverage bought shows how much area the rounded sheet count can cover before layout limits.',
+    ],
+    mistakes: [
+      'Do not treat area math as a cut-layout plan.',
+      'Do not ignore panel direction, seams, framing layout, grain, thickness, and fastener rules.',
+      'Check whether your project needs actual dimensions, rated sheathing, subfloor panels, or specialty plywood.',
+    ],
+    sources: [sourceLinks.inchPlywood, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
+  },
+  'insulation-calculator': {
+    summary: 'Learn how area, openings, pack coverage, waste, and R-value planning work together.',
+    purpose:
+      'The Insulation Calculator estimates package count after you choose an insulation product. It helps with quantity, not product selection.',
+    enter: [
+      'Enter the area before openings, then subtract windows, doors, hatches, or other spaces.',
+      'Enter coverage per pack from the product label for the chosen thickness or R-value.',
+      'Add waste for cutting, odd cavities, and fitting mistakes.',
+    ],
+    read: [
+      'Packs needed is rounded up to whole packages.',
+      'Adjusted area shows net area after openings and waste.',
+      'Total coverage bought helps compare the rounded package count with the area needed.',
+    ],
+    mistakes: [
+      'Do not confuse square-foot coverage with R-value.',
+      'Do not skip air sealing, vapor control, ventilation, moisture checks, fire rules, or local code.',
+      'Use the product label and climate guidance before choosing the actual insulation.',
+    ],
+    extraSections: [
+      {
+        title: 'What R-value means',
+        paragraphs: [
+          'R-value describes resistance to heat flow. A higher R-value usually slows heat movement more, but the right target depends on the room, climate, assembly, product type, and code.',
+          'This tool does not pick the R-value. It estimates how many packs you need after you pick a product and know the product coverage.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.doeInsulation, sourceLinks.inchCalculatorSitemap, sourceLinks.nistUnits],
+  },
+  'countertop-calculator': {
+    summary: 'Learn how countertop run length, depth, backsplash, cutouts, waste, and price estimate square footage.',
+    purpose:
+      'The Countertop Calculator estimates a rough material area for kitchen counters, vanity tops, and backsplash pieces.',
+    enter: [
+      'Enter total countertop run length in feet.',
+      'Enter depth and backsplash height in inches.',
+      'Enter cutout square feet only when you want a rough material-area subtraction.',
+    ],
+    read: [
+      'Adjusted area is the square footage after adding backsplash, subtracting cutouts, and adding waste.',
+      'Top area and backsplash area show the pieces separately.',
+      'Estimated cost multiplies adjusted area by your price per square foot when entered.',
+    ],
+    mistakes: [
+      'Do not treat this as a fabricator quote.',
+      'Do not forget seams, overhangs, edge profiles, sink cutouts, slab minimums, delivery, templates, or install labor.',
+      'Ask the countertop supplier how they price cutouts and leftover slab material.',
+    ],
+    sources: [sourceLinks.lowesCountertopGuide, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
+  },
+  'sod-calculator': {
+    summary: 'Learn how lawn area, roll coverage, pallet size, and waste estimate sod rolls.',
+    purpose:
+      'The Sod Calculator estimates rolls, slabs, or pieces of sod and converts that into pallet count using your supplier packaging.',
+    enter: [
+      'Enter the final lawn area in square feet.',
+      'Enter coverage per roll or slab from your supplier.',
+      'Enter rolls per pallet and waste for trimming, curves, and damaged pieces.',
+    ],
+    read: [
+      'Rolls needed is rounded up to whole rolls or slabs.',
+      'Pallets is rounded up from rolls per pallet.',
+      'Adjusted area includes the waste percent.',
+    ],
+    mistakes: [
+      'Do not forget curved edges, sidewalks, sprinkler heads, slopes, and repair patches.',
+      'Do not measure before final grading if the lawn edge will change.',
+      'Check supplier roll size, pallet minimums, delivery rules, soil prep, and watering instructions.',
+    ],
+    sources: [sourceLinks.inchSod, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
+  },
+  'wall-stud-calculator': {
+    summary: 'Learn how wall length, stud spacing, openings, plate rows, and waste estimate framing boards.',
+    purpose:
+      'The Wall Stud Calculator estimates a simple stud-and-plate material count for a straight wall. It is a starting point before a real framing plan.',
+    enter: [
+      'Enter wall length and height in feet.',
+      'Enter on-center stud spacing in inches, commonly 16 or 24.',
+      'Add openings, extra corner studs, plate rows, board length, and waste.',
+    ],
+    read: [
+      'Total pieces combines vertical studs with plate pieces.',
+      'Vertical studs with waste includes layout studs, opening allowance, corner allowance, and waste.',
+      'Linear feet with waste helps compare the board count with the total lumber length.',
+    ],
+    mistakes: [
+      'Do not treat this as a structural framing plan.',
+      'Do not forget headers, jack studs, king studs, blocking, bracing, sheathing, treated plates, or code rules.',
+      'Check project drawings before buying lumber for load-bearing walls.',
+    ],
+    sources: [sourceLinks.inchFraming, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'board-foot-calculator': {
     summary: 'Learn how thickness, width, length, and quantity become lumber board feet.',

@@ -7375,6 +7375,112 @@ export interface RebarGridEstimateResult {
   barsToBuy: number;
 }
 
+export interface ConcreteFootingEstimateResult {
+  lengthFeet: number;
+  widthInches: number;
+  depthInches: number;
+  wastePercent: number;
+  cubicFeet: number;
+  cubicYards: number;
+  sixtyPoundBags: number;
+  eightyPoundBags: number;
+}
+
+export interface ConcreteColumnEstimateResult {
+  diameterInches: number;
+  heightFeet: number;
+  quantity: number;
+  wastePercent: number;
+  cubicFeet: number;
+  cubicYards: number;
+  sixtyPoundBags: number;
+  eightyPoundBags: number;
+}
+
+export interface PostHoleConcreteEstimateResult {
+  holeDiameterInches: number;
+  holeDepthInches: number;
+  postDiameterInches: number;
+  quantity: number;
+  wastePercent: number;
+  netConcretePerHoleCubicFeet: number;
+  cubicFeet: number;
+  cubicYards: number;
+  sixtyPoundBags: number;
+  eightyPoundBags: number;
+}
+
+export interface PlywoodEstimateResult {
+  areaSquareFeet: number;
+  sheetWidthFeet: number;
+  sheetLengthFeet: number;
+  wastePercent: number;
+  pricePerSheet: number | null;
+  sheetAreaSquareFeet: number;
+  adjustedAreaSquareFeet: number;
+  sheetsNeeded: number;
+  totalCoverageSquareFeet: number;
+  estimatedCost: number | null;
+}
+
+export interface InsulationEstimateResult {
+  areaSquareFeet: number;
+  openingsSquareFeet: number;
+  coveragePerPackSquareFeet: number;
+  wastePercent: number;
+  pricePerPack: number | null;
+  netAreaSquareFeet: number;
+  adjustedAreaSquareFeet: number;
+  packsNeeded: number;
+  totalCoverageSquareFeet: number;
+  estimatedCost: number | null;
+}
+
+export interface CountertopEstimateResult {
+  lengthFeet: number;
+  depthInches: number;
+  backsplashLengthFeet: number;
+  backsplashHeightInches: number;
+  cutoutSquareFeet: number;
+  wastePercent: number;
+  pricePerSquareFoot: number | null;
+  topAreaSquareFeet: number;
+  backsplashAreaSquareFeet: number;
+  netAreaSquareFeet: number;
+  adjustedAreaSquareFeet: number;
+  estimatedCost: number | null;
+}
+
+export interface SodEstimateResult {
+  lawnAreaSquareFeet: number;
+  rollCoverageSquareFeet: number;
+  rollsPerPallet: number;
+  wastePercent: number;
+  pricePerRoll: number | null;
+  adjustedAreaSquareFeet: number;
+  rollsNeeded: number;
+  palletsNeeded: number;
+  estimatedCost: number | null;
+}
+
+export interface WallStudEstimateResult {
+  wallLengthFeet: number;
+  wallHeightFeet: number;
+  spacingInches: number;
+  openingsCount: number;
+  extraCornerStuds: number;
+  plates: number;
+  boardLengthFeet: number;
+  wastePercent: number;
+  layoutStuds: number;
+  verticalStuds: number;
+  verticalStudsWithWaste: number;
+  platePieces: number;
+  totalPieces: number;
+  estimatedLinearFeet: number;
+  estimatedLinearFeetWithWaste: number;
+}
+
 export interface BoardFootResult {
   thicknessInches: number;
   widthInches: number;
@@ -9649,6 +9755,267 @@ export function calculateRebarGridEstimate(input: {
     rawLinearFeet,
     adjustedLinearFeet,
     barsToBuy: Math.ceil(adjustedLinearFeet / input.barLengthFeet - 1e-10),
+  };
+}
+
+const CONCRETE_SIXTY_POUND_BAG_CUBIC_FEET = 0.45;
+const CONCRETE_EIGHTY_POUND_BAG_CUBIC_FEET = 0.6;
+
+function concreteBagCounts(cubicFeet: number) {
+  return {
+    sixtyPoundBags: Math.ceil(cubicFeet / CONCRETE_SIXTY_POUND_BAG_CUBIC_FEET - 1e-10),
+    eightyPoundBags: Math.ceil(cubicFeet / CONCRETE_EIGHTY_POUND_BAG_CUBIC_FEET - 1e-10),
+  };
+}
+
+export function calculateConcreteFootingEstimate(input: {
+  lengthFeet: number;
+  widthInches: number;
+  depthInches: number;
+  wastePercent: number;
+}): ConcreteFootingEstimateResult {
+  assertPositiveNumber(input.lengthFeet, 'Footing length');
+  assertPositiveNumber(input.widthInches, 'Footing width');
+  assertPositiveNumber(input.depthInches, 'Footing depth');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const cubicFeet = input.lengthFeet * (input.widthInches / 12) * (input.depthInches / 12) * (1 + input.wastePercent / 100);
+
+  return {
+    ...input,
+    cubicFeet,
+    cubicYards: cubicFeet / 27,
+    ...concreteBagCounts(cubicFeet),
+  };
+}
+
+export function calculateConcreteColumnEstimate(input: {
+  diameterInches: number;
+  heightFeet: number;
+  quantity: number;
+  wastePercent: number;
+}): ConcreteColumnEstimateResult {
+  assertPositiveNumber(input.diameterInches, 'Column diameter');
+  assertPositiveNumber(input.heightFeet, 'Column height');
+  assertPositiveNumber(input.quantity, 'Quantity');
+  assertInteger(input.quantity, 'Quantity');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const radiusFeet = input.diameterInches / 24;
+  const cubicFeet = Math.PI * radiusFeet ** 2 * input.heightFeet * input.quantity * (1 + input.wastePercent / 100);
+
+  return {
+    ...input,
+    cubicFeet,
+    cubicYards: cubicFeet / 27,
+    ...concreteBagCounts(cubicFeet),
+  };
+}
+
+export function calculatePostHoleConcreteEstimate(input: {
+  holeDiameterInches: number;
+  holeDepthInches: number;
+  postDiameterInches: number;
+  quantity: number;
+  wastePercent: number;
+}): PostHoleConcreteEstimateResult {
+  assertPositiveNumber(input.holeDiameterInches, 'Hole diameter');
+  assertPositiveNumber(input.holeDepthInches, 'Hole depth');
+  assertPositiveNumber(input.postDiameterInches, 'Post diameter');
+  assertPositiveNumber(input.quantity, 'Quantity');
+  assertInteger(input.quantity, 'Quantity');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  if (input.postDiameterInches >= input.holeDiameterInches) {
+    throw new Error('Post diameter must be smaller than hole diameter');
+  }
+
+  const holeRadiusFeet = input.holeDiameterInches / 24;
+  const postRadiusFeet = input.postDiameterInches / 24;
+  const depthFeet = input.holeDepthInches / 12;
+  const holeCubicFeet = Math.PI * holeRadiusFeet ** 2 * depthFeet;
+  const postCubicFeet = Math.PI * postRadiusFeet ** 2 * depthFeet;
+  const netConcretePerHoleCubicFeet = holeCubicFeet - postCubicFeet;
+  const cubicFeet = netConcretePerHoleCubicFeet * input.quantity * (1 + input.wastePercent / 100);
+
+  return {
+    ...input,
+    netConcretePerHoleCubicFeet,
+    cubicFeet,
+    cubicYards: cubicFeet / 27,
+    ...concreteBagCounts(cubicFeet),
+  };
+}
+
+export function calculatePlywoodEstimate(input: {
+  areaSquareFeet: number;
+  sheetWidthFeet: number;
+  sheetLengthFeet: number;
+  wastePercent: number;
+  pricePerSheet?: number | null;
+}): PlywoodEstimateResult {
+  assertPositiveNumber(input.areaSquareFeet, 'Area');
+  assertPositiveNumber(input.sheetWidthFeet, 'Sheet width');
+  assertPositiveNumber(input.sheetLengthFeet, 'Sheet length');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const pricePerSheet = input.pricePerSheet ?? null;
+  if (pricePerSheet !== null) {
+    assertNonNegativeNumber(pricePerSheet, 'Price per sheet');
+  }
+
+  const sheetAreaSquareFeet = input.sheetWidthFeet * input.sheetLengthFeet;
+  const adjustedAreaSquareFeet = input.areaSquareFeet * (1 + input.wastePercent / 100);
+  const sheetsNeeded = Math.ceil(adjustedAreaSquareFeet / sheetAreaSquareFeet - 1e-10);
+
+  return {
+    ...input,
+    pricePerSheet,
+    sheetAreaSquareFeet,
+    adjustedAreaSquareFeet,
+    sheetsNeeded,
+    totalCoverageSquareFeet: sheetsNeeded * sheetAreaSquareFeet,
+    estimatedCost: pricePerSheet === null ? null : sheetsNeeded * pricePerSheet,
+  };
+}
+
+export function calculateInsulationEstimate(input: {
+  areaSquareFeet: number;
+  openingsSquareFeet: number;
+  coveragePerPackSquareFeet: number;
+  wastePercent: number;
+  pricePerPack?: number | null;
+}): InsulationEstimateResult {
+  assertPositiveNumber(input.areaSquareFeet, 'Area');
+  assertNonNegativeNumber(input.openingsSquareFeet, 'Openings');
+  assertPositiveNumber(input.coveragePerPackSquareFeet, 'Coverage per pack');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const pricePerPack = input.pricePerPack ?? null;
+  if (pricePerPack !== null) {
+    assertNonNegativeNumber(pricePerPack, 'Price per pack');
+  }
+
+  const netAreaSquareFeet = Math.max(0, input.areaSquareFeet - input.openingsSquareFeet);
+  const adjustedAreaSquareFeet = netAreaSquareFeet * (1 + input.wastePercent / 100);
+  const packsNeeded = Math.ceil(adjustedAreaSquareFeet / input.coveragePerPackSquareFeet - 1e-10);
+
+  return {
+    ...input,
+    pricePerPack,
+    netAreaSquareFeet,
+    adjustedAreaSquareFeet,
+    packsNeeded,
+    totalCoverageSquareFeet: packsNeeded * input.coveragePerPackSquareFeet,
+    estimatedCost: pricePerPack === null ? null : packsNeeded * pricePerPack,
+  };
+}
+
+export function calculateCountertopEstimate(input: {
+  lengthFeet: number;
+  depthInches: number;
+  backsplashLengthFeet: number;
+  backsplashHeightInches: number;
+  cutoutSquareFeet: number;
+  wastePercent: number;
+  pricePerSquareFoot?: number | null;
+}): CountertopEstimateResult {
+  assertPositiveNumber(input.lengthFeet, 'Countertop length');
+  assertPositiveNumber(input.depthInches, 'Countertop depth');
+  assertNonNegativeNumber(input.backsplashLengthFeet, 'Backsplash length');
+  assertNonNegativeNumber(input.backsplashHeightInches, 'Backsplash height');
+  assertNonNegativeNumber(input.cutoutSquareFeet, 'Cutout area');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const pricePerSquareFoot = input.pricePerSquareFoot ?? null;
+  if (pricePerSquareFoot !== null) {
+    assertNonNegativeNumber(pricePerSquareFoot, 'Price per square foot');
+  }
+
+  const topAreaSquareFeet = input.lengthFeet * (input.depthInches / 12);
+  const backsplashAreaSquareFeet = input.backsplashLengthFeet * (input.backsplashHeightInches / 12);
+  const netAreaSquareFeet = Math.max(0, topAreaSquareFeet + backsplashAreaSquareFeet - input.cutoutSquareFeet);
+  const adjustedAreaSquareFeet = netAreaSquareFeet * (1 + input.wastePercent / 100);
+
+  return {
+    ...input,
+    pricePerSquareFoot,
+    topAreaSquareFeet,
+    backsplashAreaSquareFeet,
+    netAreaSquareFeet,
+    adjustedAreaSquareFeet,
+    estimatedCost: pricePerSquareFoot === null ? null : adjustedAreaSquareFeet * pricePerSquareFoot,
+  };
+}
+
+export function calculateSodEstimate(input: {
+  lawnAreaSquareFeet: number;
+  rollCoverageSquareFeet: number;
+  rollsPerPallet: number;
+  wastePercent: number;
+  pricePerRoll?: number | null;
+}): SodEstimateResult {
+  assertPositiveNumber(input.lawnAreaSquareFeet, 'Lawn area');
+  assertPositiveNumber(input.rollCoverageSquareFeet, 'Roll coverage');
+  assertPositiveNumber(input.rollsPerPallet, 'Rolls per pallet');
+  assertInteger(input.rollsPerPallet, 'Rolls per pallet');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const pricePerRoll = input.pricePerRoll ?? null;
+  if (pricePerRoll !== null) {
+    assertNonNegativeNumber(pricePerRoll, 'Price per roll');
+  }
+
+  const adjustedAreaSquareFeet = input.lawnAreaSquareFeet * (1 + input.wastePercent / 100);
+  const rollsNeeded = Math.ceil(adjustedAreaSquareFeet / input.rollCoverageSquareFeet - 1e-10);
+
+  return {
+    ...input,
+    pricePerRoll,
+    adjustedAreaSquareFeet,
+    rollsNeeded,
+    palletsNeeded: Math.ceil(rollsNeeded / input.rollsPerPallet - 1e-10),
+    estimatedCost: pricePerRoll === null ? null : rollsNeeded * pricePerRoll,
+  };
+}
+
+export function calculateWallStudEstimate(input: {
+  wallLengthFeet: number;
+  wallHeightFeet: number;
+  spacingInches: number;
+  openingsCount: number;
+  extraCornerStuds: number;
+  plates: number;
+  boardLengthFeet: number;
+  wastePercent: number;
+}): WallStudEstimateResult {
+  assertPositiveNumber(input.wallLengthFeet, 'Wall length');
+  assertPositiveNumber(input.wallHeightFeet, 'Wall height');
+  assertPositiveNumber(input.spacingInches, 'Stud spacing');
+  assertNonNegativeNumber(input.openingsCount, 'Openings');
+  assertInteger(input.openingsCount, 'Openings');
+  assertNonNegativeNumber(input.extraCornerStuds, 'Extra corner studs');
+  assertInteger(input.extraCornerStuds, 'Extra corner studs');
+  assertPositiveNumber(input.plates, 'Plate rows');
+  assertInteger(input.plates, 'Plate rows');
+  assertPositiveNumber(input.boardLengthFeet, 'Board length');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const layoutStuds = Math.floor((input.wallLengthFeet * 12) / input.spacingInches) + 1;
+  const verticalStuds = layoutStuds + input.openingsCount * 2 + input.extraCornerStuds;
+  const verticalStudsWithWaste = Math.ceil(verticalStuds * (1 + input.wastePercent / 100) - 1e-10);
+  const platePieces = Math.ceil((input.wallLengthFeet * input.plates) / input.boardLengthFeet - 1e-10);
+  const estimatedLinearFeet = verticalStuds * input.wallHeightFeet + input.wallLengthFeet * input.plates;
+
+  return {
+    ...input,
+    layoutStuds,
+    verticalStuds,
+    verticalStudsWithWaste,
+    platePieces,
+    totalPieces: verticalStudsWithWaste + platePieces,
+    estimatedLinearFeet,
+    estimatedLinearFeetWithWaste: estimatedLinearFeet * (1 + input.wastePercent / 100),
   };
 }
 
