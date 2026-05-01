@@ -4,11 +4,11 @@ This register is the work tracker for the whole library. It exists so the top 25
 
 ## Scope
 
-- Canonical tools: 290.
+- Canonical tools: 298.
 - Alias URLs: 4.
-- Public tool URLs: 294.
-- Blog guides: 290.
-- Current manual deep-review records: 290.
+- Public tool URLs: 302.
+- Blog guides: 298.
+- Current manual deep-review records: 298.
 - Current baseline-review records: 0.
 - Current alias-review records: 4.
 
@@ -18,8 +18,8 @@ The source of truth for review status is `src/data/toolDeepAudit.ts`. The site a
 
 Manual review completion status: complete for the current canonical library.
 
-- Deep-reviewed canonical tools: 290 of 290.
-- Baseline-reviewed canonical tools still needing individual manual review: 0 of 290.
+- Deep-reviewed canonical tools: 298 of 298.
+- Baseline-reviewed canonical tools still needing individual manual review: 0 of 298.
 - Alias-reviewed public URLs: 4 of 4.
 
 Do not mark a future full-library manual review complete while any canonical tool remains `baseline-reviewed`. A tool can only move from `baseline-reviewed` to `deep-reviewed` after that exact tool has been opened, tested, read, improved where needed, and checked against its guide, FAQ, examples, sources, SEO, privacy behavior, and layout.
@@ -47,7 +47,8 @@ Do not mark a future full-library manual review complete while any canonical too
 | 11 | Competitor construction material utilities | Concrete footings, columns, post holes, plywood, insulation, countertops, sod, and wall studs expand the home-project material cluster. |
 | 12 | Competitor concrete and masonry utilities | Concrete mix, driveway, steps, weight, mesh, block fill, retaining wall, and rebar weight expand the masonry material cluster. |
 | 13 | Competitor deck, patio, and landscaping utilities | Deck boards, deck stain, balusters, paver base, polymeric sand, grass seed, lawn mowing, and plant spacing expand the outdoor home-project cluster. |
-| 14 | Alias pages | Confirm canonical links, search intent, non-duplication, and user routing. |
+| 14 | Competitor electrical and power utilities | Watts, amps, kW, kVA, battery energy, wire resistance, and wire-size planning expand the electrical learning cluster. |
+| 15 | Alias pages | Confirm canonical links, search intent, non-duplication, and user routing. |
 
 ## Batch 2 Finance Progress
 
@@ -115,6 +116,12 @@ Batch 13 is complete as of 2026-05-01. The competitor deck, patio, and landscapi
 
 The review checked Inch Calculator gap coverage, NIST unit references, formula math, input explanations, board/stain/joint/seed/spacing caveats, building-code and product-label boundaries, examples, FAQ detail, guide specificity, related links, privacy behavior, and tests.
 
+## Batch 14 Electrical And Power Progress
+
+Batch 14 is complete as of 2026-05-01. The competitor electrical and power tools individually checked and promoted are: Watts to Amps Calculator, Amps to Watts Calculator, Kilowatts to Amps Calculator, kVA to Amps Calculator, Amp Hours to Watt Hours Calculator, Watt Hours to Amp Hours Calculator, Wire Resistance Calculator, and Wire Size Calculator.
+
+The review checked Inch Calculator gap coverage, OpenStax Ohm's law context, NIST unit references, USACE voltage-drop context, formula math, phase and power-factor wording, battery-energy caveats, code/professional-review boundaries, examples, FAQ detail, guide specificity, related links, privacy behavior, and tests.
+
 No current canonical tool remains in the manual queue. Future tools must reopen this register and start as reviewed only after their exact page, FAQ, guide, examples, sources, privacy behavior, and layout have been checked.
 
 ## Per-Tool Checklist
@@ -137,18 +144,18 @@ Each tool must eventually pass this manual checklist:
 
 ## Progress Rule
 
-Do not change a generated or baseline record to `deep-reviewed` in bulk. Promotion must happen one tool at a time or in a clearly reviewed batch where each tool was actually opened, tested, and read. For the current 290-tool canonical library, the manual queue is complete; this rule applies to every future new tool or reopened tool.
+Do not change a generated or baseline record to `deep-reviewed` in bulk. Promotion must happen one tool at a time or in a clearly reviewed batch where each tool was actually opened, tested, and read. For the current 298-tool canonical library, the manual queue is complete; this rule applies to every future new tool or reopened tool.
 
 ## Completion Rule
 
 Full-library review is complete only when:
 
-- All 290 canonical tools are manually checked and truthfully marked `deep-reviewed`.
+- All 298 canonical tools are manually checked and truthfully marked `deep-reviewed`.
 - All 4 alias URLs are checked for canonical routing, search intent, and duplicate-content risk.
-- All 290 blog guides are read against the actual tool page.
+- All 298 blog guides are read against the actual tool page.
 - High-trust topics have clear limitations and professional-advice disclaimers.
 - Every changed tool passes the per-tool checklist above.
 - `npm run check` passes after the final batch.
 - Browser preview and production spot checks pass for representative pages.
 
-For the current canonical library, the correct public status is that Access Free Tools has complete manual deep-review coverage for 290 canonical tools, alias review coverage for 4 alias URLs, and a repeatable review program for future tools.
+For the current canonical library, the correct public status is that Access Free Tools has complete manual deep-review coverage for 298 canonical tools, alias review coverage for 4 alias URLs, and a repeatable review program for future tools.

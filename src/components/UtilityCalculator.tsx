@@ -3,6 +3,8 @@ import {
   calculateAge,
   calculateAiTokenCost,
   calculateApiPricing,
+  calculateAmpHoursToWattHours,
+  calculateAmpsToWatts,
   calculateAsphaltEstimate,
   calculateBandwidthTime,
   calculateBalusterEstimate,
@@ -63,6 +65,8 @@ import {
   calculateInternetSpeedNeeds,
   calculateBakingPanConversion,
   calculateLawnMowingTime,
+  calculateKilovoltAmpsToAmps,
+  calculateKilowattsToAmps,
   calculateCostPerServing,
   calculateIngredientCost,
   calculateMonitorPpi,
@@ -100,10 +104,14 @@ import {
   calculateUnixTimestampFromDate,
   calculateTip,
   calculateVoltageDrop,
+  calculateWattHoursToAmpHours,
+  calculateWattsToAmps,
   calculateWeightForce,
   calculateWallpaperEstimate,
   calculateWallStudEstimate,
   calculateWindChill,
+  calculateWireResistanceEstimate,
+  calculateWireSizeEstimate,
   calculateEngineHorsepower,
   analyzeText,
   buildQueryStringFromLines,
@@ -135,6 +143,7 @@ import {
   numberToRomanNumeral,
   romanNumeralToNumber,
   type ConversionCategory,
+  type ElectricalPowerPhase,
   type GpaCourseInput,
   type HashAlgorithm,
   type HtmlEntityMode,
@@ -176,6 +185,14 @@ export type UtilityToolVariant =
   | 'height'
   | 'bra-size'
   | 'voltage-drop'
+  | 'watts-to-amps'
+  | 'amps-to-watts'
+  | 'kilowatts-to-amps'
+  | 'kva-to-amps'
+  | 'amp-hours-to-watt-hours'
+  | 'watt-hours-to-amp-hours'
+  | 'wire-resistance'
+  | 'wire-size'
   | 'btu'
   | 'stair'
   | 'resistor'
@@ -708,6 +725,51 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     depthInches: 'Compacted asphalt depth, not loose material depth.',
     wastePercent: 'Extra asphalt for compaction differences, edges, and small measurement errors.',
   },
+  'watts-to-amps': {
+    watts: 'Real power in watts. Use the device label or measured watts when you have it.',
+    volts: 'Supply voltage. Common examples are 12 V DC, 120 V AC, 240 V AC, or 208 V three-phase.',
+    phase: 'Choose DC, single-phase AC, or three-phase AC so the calculator uses the right current formula.',
+    powerFactor:
+      'Power factor is how efficiently AC current becomes real power. Use 1 for DC or simple resistive loads when you do not know it.',
+  },
+  'amps-to-watts': {
+    amps: 'Current draw in amps.',
+    volts: 'Supply voltage for the circuit or device.',
+    phase: 'Choose DC, single-phase AC, or three-phase AC.',
+    powerFactor: 'Use 1 for DC/resistive loads. Motors and many AC devices may be lower, such as 0.8 or 0.9.',
+  },
+  'kilowatts-to-amps': {
+    kilowatts: 'Real power in kilowatts. One kilowatt is 1,000 watts.',
+    volts: 'Supply voltage for the load.',
+    phase: 'Choose DC, single-phase AC, or three-phase AC.',
+    powerFactor: 'AC power factor. Use 1 only when the load is resistive or you are given that value.',
+    efficiencyPercent: 'Motor or equipment efficiency. Use 100 when efficiency is already included in the kW value.',
+  },
+  'kva-to-amps': {
+    kilovoltAmps: 'Apparent power in kVA. One kVA is 1,000 volt-amps.',
+    volts: 'Line voltage for the equipment.',
+    phase: 'Choose single-phase or three-phase. kVA already describes apparent power, so no power factor input is needed.',
+  },
+  'amp-hours-to-watt-hours': {
+    ampHours: 'Battery capacity in amp-hours.',
+    volts: 'Nominal battery voltage. Battery packs often list this on the label or specification sheet.',
+  },
+  'watt-hours-to-amp-hours': {
+    wattHours: 'Energy capacity in watt-hours.',
+    volts: 'Nominal battery voltage used to convert energy back into amp-hours.',
+  },
+  'wire-resistance': {
+    wireGauge: 'Copper AWG size used for the resistance lookup.',
+    oneWayLengthFeet: 'One-way conductor length in feet.',
+    conductorCount: 'How many conductor lengths to include. Use 2 for a simple out-and-back path.',
+  },
+  'wire-size': {
+    sourceVoltage: 'Supply voltage before the wire run.',
+    currentAmps: 'Load current in amps.',
+    oneWayLengthFeet: 'One-way distance from the source to the load.',
+    maxVoltageDropPercent: 'The largest voltage-drop percentage you want the estimate to allow.',
+    phase: 'Choose single/DC or three-phase so the voltage-drop factor matches the circuit type.',
+  },
   'ai-token-cost-calculator': {
     inputTokensPerRequest: 'Prompt, system, tool, and context tokens you expect to send per request.',
     outputTokensPerRequest: 'Generated response tokens you expect back per request.',
@@ -933,6 +995,17 @@ const sexOptions: SelectOption[] = [
 const phaseOptions: SelectOption[] = [
   { label: 'Single-phase / DC', value: 'single' },
   { label: 'Three-phase', value: 'three' },
+];
+
+const powerPhaseOptions: SelectOption[] = [
+  { label: 'DC', value: 'dc' },
+  { label: 'Single-phase AC', value: 'single-phase' },
+  { label: 'Three-phase AC', value: 'three-phase' },
+];
+
+const acPhaseOptions: SelectOption[] = [
+  { label: 'Single-phase AC', value: 'single-phase' },
+  { label: 'Three-phase AC', value: 'three-phase' },
 ];
 
 const copperAwgOptions: SelectOption[] = [
@@ -1784,6 +1857,196 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         examples: [
           { label: '120 V branch', inputs: { sourceVoltage: '120', currentAmps: '15', oneWayLengthFeet: '75', wireGauge: '12', phase: 'single' } },
           { label: '240 V run', inputs: { sourceVoltage: '240', currentAmps: '30', oneWayLengthFeet: '100', wireGauge: '8', phase: 'single' } },
+        ],
+      },
+    ],
+  },
+  'watts-to-amps': {
+    title: 'Watts to Amps Calculator',
+    buttonLabel: 'Calculate amps',
+    emptyHistory: 'Recent watt-to-amp conversions will appear here.',
+    privacyNote: 'Power conversion math runs locally in your browser. Use a qualified professional for real electrical work.',
+    modes: [
+      {
+        id: 'power-current',
+        label: 'Power to current',
+        symbol: 'W>A',
+        fields: [
+          numberField('watts', 'Watts', '1500'),
+          numberField('volts', 'Volts', '120'),
+          selectField('phase', 'Phase / current type', powerPhaseOptions),
+          numberField('powerFactor', 'Power factor', '1'),
+        ],
+        defaultInputs: { watts: '1500', volts: '120', phase: 'dc', powerFactor: '1' },
+        examples: [
+          { label: 'Space heater', inputs: { watts: '1500', volts: '120', phase: 'dc', powerFactor: '1' } },
+          { label: 'Single-phase motor', inputs: { watts: '2200', volts: '240', phase: 'single-phase', powerFactor: '0.9' } },
+          { label: 'Three-phase load', inputs: { watts: '5000', volts: '208', phase: 'three-phase', powerFactor: '0.85' } },
+        ],
+      },
+    ],
+  },
+  'amps-to-watts': {
+    title: 'Amps to Watts Calculator',
+    buttonLabel: 'Calculate watts',
+    emptyHistory: 'Recent amp-to-watt conversions will appear here.',
+    privacyNote: 'Power conversion math runs locally in your browser. Use a qualified professional for real electrical work.',
+    modes: [
+      {
+        id: 'current-power',
+        label: 'Current to power',
+        symbol: 'A>W',
+        fields: [
+          numberField('amps', 'Amps', '12.5'),
+          numberField('volts', 'Volts', '120'),
+          selectField('phase', 'Phase / current type', powerPhaseOptions),
+          numberField('powerFactor', 'Power factor', '1'),
+        ],
+        defaultInputs: { amps: '12.5', volts: '120', phase: 'dc', powerFactor: '1' },
+        examples: [
+          { label: '120 V circuit', inputs: { amps: '12.5', volts: '120', phase: 'dc', powerFactor: '1' } },
+          { label: 'Single-phase AC', inputs: { amps: '10', volts: '240', phase: 'single-phase', powerFactor: '0.9' } },
+          { label: 'Three-phase AC', inputs: { amps: '20', volts: '208', phase: 'three-phase', powerFactor: '0.85' } },
+        ],
+      },
+    ],
+  },
+  'kilowatts-to-amps': {
+    title: 'Kilowatts to Amps Calculator',
+    buttonLabel: 'Calculate amps',
+    emptyHistory: 'Recent kW-to-amp conversions will appear here.',
+    privacyNote: 'Kilowatt conversion math stays local. Electrical equipment and wiring decisions need qualified review.',
+    modes: [
+      {
+        id: 'kw-current',
+        label: 'kW to amps',
+        symbol: 'kW>A',
+        fields: [
+          numberField('kilowatts', 'Kilowatts', '5'),
+          numberField('volts', 'Volts', '240'),
+          selectField('phase', 'Phase / current type', powerPhaseOptions),
+          numberField('powerFactor', 'Power factor', '0.9'),
+          numberField('efficiencyPercent', 'Efficiency percent', '90'),
+        ],
+        defaultInputs: { kilowatts: '5', volts: '240', phase: 'single-phase', powerFactor: '0.9', efficiencyPercent: '90' },
+        examples: [
+          { label: 'Motor estimate', inputs: { kilowatts: '5', volts: '240', phase: 'single-phase', powerFactor: '0.9', efficiencyPercent: '90' } },
+          { label: 'Three-phase load', inputs: { kilowatts: '15', volts: '480', phase: 'three-phase', powerFactor: '0.88', efficiencyPercent: '92' } },
+          { label: 'DC equipment', inputs: { kilowatts: '1.2', volts: '48', phase: 'dc', powerFactor: '1', efficiencyPercent: '100' } },
+        ],
+      },
+    ],
+  },
+  'kva-to-amps': {
+    title: 'kVA to Amps Calculator',
+    buttonLabel: 'Calculate amps',
+    emptyHistory: 'Recent kVA-to-amp conversions will appear here.',
+    privacyNote: 'kVA conversion math stays local. Transformer and electrical sizing should be checked by a qualified professional.',
+    modes: [
+      {
+        id: 'kva-current',
+        label: 'kVA to amps',
+        symbol: 'kVA',
+        fields: [
+          numberField('kilovoltAmps', 'kVA', '25'),
+          numberField('volts', 'Volts', '220'),
+          selectField('phase', 'Phase', acPhaseOptions),
+        ],
+        defaultInputs: { kilovoltAmps: '25', volts: '220', phase: 'single-phase' },
+        examples: [
+          { label: 'Single-phase equipment', inputs: { kilovoltAmps: '25', volts: '220', phase: 'single-phase' } },
+          { label: 'Three-phase transformer', inputs: { kilovoltAmps: '75', volts: '480', phase: 'three-phase' } },
+          { label: 'Small UPS', inputs: { kilovoltAmps: '3', volts: '120', phase: 'single-phase' } },
+        ],
+      },
+    ],
+  },
+  'amp-hours-to-watt-hours': {
+    title: 'Amp Hours to Watt Hours Calculator',
+    buttonLabel: 'Calculate watt-hours',
+    emptyHistory: 'Recent Ah-to-Wh conversions will appear here.',
+    privacyNote: 'Battery energy conversion runs locally in your browser tab.',
+    modes: [
+      {
+        id: 'ah-wh',
+        label: 'Battery energy',
+        symbol: 'Ah',
+        fields: [numberField('ampHours', 'Amp-hours', '300'), numberField('volts', 'Volts', '12')],
+        defaultInputs: { ampHours: '300', volts: '12' },
+        examples: [
+          { label: '12 V battery', inputs: { ampHours: '300', volts: '12' } },
+          { label: '48 V pack', inputs: { ampHours: '100', volts: '48' } },
+          { label: 'Small pack', inputs: { ampHours: '20', volts: '24' } },
+        ],
+      },
+    ],
+  },
+  'watt-hours-to-amp-hours': {
+    title: 'Watt Hours to Amp Hours Calculator',
+    buttonLabel: 'Calculate amp-hours',
+    emptyHistory: 'Recent Wh-to-Ah conversions will appear here.',
+    privacyNote: 'Battery energy conversion runs locally in your browser tab.',
+    modes: [
+      {
+        id: 'wh-ah',
+        label: 'Battery capacity',
+        symbol: 'Wh',
+        fields: [numberField('wattHours', 'Watt-hours', '5000'), numberField('volts', 'Volts', '120')],
+        defaultInputs: { wattHours: '5000', volts: '120' },
+        examples: [
+          { label: 'Portable power station', inputs: { wattHours: '5000', volts: '120' } },
+          { label: '48 V battery', inputs: { wattHours: '4800', volts: '48' } },
+          { label: '12 V battery', inputs: { wattHours: '1200', volts: '12' } },
+        ],
+      },
+    ],
+  },
+  'wire-resistance': {
+    title: 'Wire Resistance Calculator',
+    buttonLabel: 'Estimate resistance',
+    emptyHistory: 'Recent wire resistance estimates will appear here.',
+    privacyNote: 'Wire resistance math runs locally and is only a simplified copper conductor estimate.',
+    modes: [
+      {
+        id: 'copper-wire',
+        label: 'Copper AWG',
+        symbol: 'ohm',
+        fields: [
+          selectField('wireGauge', 'Copper wire size', copperAwgOptions),
+          numberField('oneWayLengthFeet', 'One-way length feet', '100'),
+          numberField('conductorCount', 'Conductor count', '2'),
+        ],
+        defaultInputs: { wireGauge: '12', oneWayLengthFeet: '100', conductorCount: '2' },
+        examples: [
+          { label: '12 AWG loop', inputs: { wireGauge: '12', oneWayLengthFeet: '100', conductorCount: '2' } },
+          { label: 'Long 8 AWG run', inputs: { wireGauge: '8', oneWayLengthFeet: '150', conductorCount: '2' } },
+          { label: 'One conductor', inputs: { wireGauge: '10', oneWayLengthFeet: '50', conductorCount: '1' } },
+        ],
+      },
+    ],
+  },
+  'wire-size': {
+    title: 'Wire Size Calculator',
+    buttonLabel: 'Estimate wire size',
+    emptyHistory: 'Recent wire size estimates will appear here.',
+    privacyNote: 'Wire-size estimates are browser-only planning math. Code-compliant electrical design needs qualified review.',
+    modes: [
+      {
+        id: 'voltage-drop-size',
+        label: 'Voltage drop',
+        symbol: 'AWG',
+        fields: [
+          numberField('sourceVoltage', 'Source voltage', '120'),
+          numberField('currentAmps', 'Current amps', '15'),
+          numberField('oneWayLengthFeet', 'One-way length feet', '75'),
+          numberField('maxVoltageDropPercent', 'Max voltage drop percent', '3'),
+          selectField('phase', 'Circuit type', phaseOptions),
+        ],
+        defaultInputs: { sourceVoltage: '120', currentAmps: '15', oneWayLengthFeet: '75', maxVoltageDropPercent: '3', phase: 'single' },
+        examples: [
+          { label: '120 V branch', inputs: { sourceVoltage: '120', currentAmps: '15', oneWayLengthFeet: '75', maxVoltageDropPercent: '3', phase: 'single' } },
+          { label: '240 V run', inputs: { sourceVoltage: '240', currentAmps: '30', oneWayLengthFeet: '100', maxVoltageDropPercent: '3', phase: 'single' } },
+          { label: 'Three-phase run', inputs: { sourceVoltage: '208', currentAmps: '20', oneWayLengthFeet: '150', maxVoltageDropPercent: '3', phase: 'three' } },
         ],
       },
     ],
@@ -4949,6 +5212,195 @@ function calculateUtility(
           'Divide the voltage drop by source voltage to show the percent drop.',
         ],
         note: 'This is a simplified estimate. Use local electrical code, conductor temperature, material, raceway, and a licensed electrician for real installations.',
+      };
+    }
+    case 'watts-to-amps': {
+      const result = calculateWattsToAmps({
+        watts: parseNumber(inputs.watts, 'Watts'),
+        volts: parseNumber(inputs.volts, 'Volts'),
+        phase: (inputs.phase || 'dc') as ElectricalPowerPhase,
+        powerFactor: parseNumber(inputs.powerFactor, 'Power factor'),
+      });
+      return {
+        label: 'Estimated current',
+        expression: `${formatCalculatorNumber(result.watts)} W at ${formatCalculatorNumber(result.volts)} V`,
+        answer: `${formatCalculatorNumber(result.amps)} A`,
+        metrics: [
+          { label: 'Phase factor', value: formatCalculatorNumber(result.phaseFactor) },
+          { label: 'Power factor', value: formatCalculatorNumber(result.powerFactor) },
+          { label: 'Power', value: `${formatCalculatorNumber(result.watts)} W` },
+        ],
+        steps: [
+          'Choose the formula based on DC, single-phase AC, or three-phase AC.',
+          'Multiply voltage by the phase factor and power factor.',
+          'Divide watts by that adjusted voltage value to estimate amps.',
+        ],
+        note: 'This is formula math only. Real electrical loads need correct voltage, power factor, breaker, wire, code, and professional review.',
+      };
+    }
+    case 'amps-to-watts': {
+      const result = calculateAmpsToWatts({
+        amps: parseNumber(inputs.amps, 'Amps'),
+        volts: parseNumber(inputs.volts, 'Volts'),
+        phase: (inputs.phase || 'dc') as ElectricalPowerPhase,
+        powerFactor: parseNumber(inputs.powerFactor, 'Power factor'),
+      });
+      return {
+        label: 'Estimated power',
+        expression: `${formatCalculatorNumber(result.amps)} A at ${formatCalculatorNumber(result.volts)} V`,
+        answer: `${formatCalculatorNumber(result.watts)} W`,
+        metrics: [
+          { label: 'Kilowatts', value: `${formatCalculatorNumber(result.kilowatts)} kW` },
+          { label: 'Phase factor', value: formatCalculatorNumber(result.phaseFactor) },
+          { label: 'Power factor', value: formatCalculatorNumber(result.powerFactor) },
+        ],
+        steps: [
+          'Choose the formula based on DC, single-phase AC, or three-phase AC.',
+          'Multiply amps by volts, phase factor, and power factor.',
+          'Divide watts by 1,000 to show kilowatts too.',
+        ],
+        note: 'This is a simplified electrical estimate. Use rated equipment data and qualified advice before sizing circuits or parts.',
+      };
+    }
+    case 'kilowatts-to-amps': {
+      const result = calculateKilowattsToAmps({
+        kilowatts: parseNumber(inputs.kilowatts, 'Kilowatts'),
+        volts: parseNumber(inputs.volts, 'Volts'),
+        phase: (inputs.phase || 'single-phase') as ElectricalPowerPhase,
+        powerFactor: parseNumber(inputs.powerFactor, 'Power factor'),
+        efficiencyPercent: parseNumber(inputs.efficiencyPercent, 'Efficiency'),
+      });
+      return {
+        label: 'Estimated current',
+        expression: `${formatCalculatorNumber(result.kilowatts)} kW at ${formatCalculatorNumber(result.volts)} V`,
+        answer: `${formatCalculatorNumber(result.amps)} A`,
+        metrics: [
+          { label: 'Input watts after efficiency', value: `${formatCalculatorNumber(result.inputWatts)} W` },
+          { label: 'Power factor', value: formatCalculatorNumber(result.powerFactor) },
+          { label: 'Efficiency', value: percent(result.efficiencyPercent) },
+        ],
+        steps: [
+          'Convert kilowatts to watts.',
+          'Account for efficiency when the output kW needs more input power.',
+          'Divide by voltage, phase factor, and power factor to estimate current.',
+        ],
+        note: 'Motors and AC equipment can behave differently while starting. Use equipment nameplates and professional electrical sizing for real installs.',
+      };
+    }
+    case 'kva-to-amps': {
+      const result = calculateKilovoltAmpsToAmps({
+        kilovoltAmps: parseNumber(inputs.kilovoltAmps, 'kVA'),
+        volts: parseNumber(inputs.volts, 'Volts'),
+        phase: (inputs.phase || 'single-phase') as 'single-phase' | 'three-phase',
+      });
+      return {
+        label: 'Estimated current',
+        expression: `${formatCalculatorNumber(result.kilovoltAmps)} kVA at ${formatCalculatorNumber(result.volts)} V`,
+        answer: `${formatCalculatorNumber(result.amps)} A`,
+        metrics: [
+          { label: 'Volt-amps', value: `${formatCalculatorNumber(result.kilovoltAmps * 1000)} VA` },
+          { label: 'Phase', value: result.phase === 'three-phase' ? 'Three-phase' : 'Single-phase' },
+          { label: 'Phase factor', value: formatCalculatorNumber(result.phaseFactor) },
+        ],
+        steps: [
+          'Convert kVA to volt-amps.',
+          'Use volts for single-phase, or volts times square root of 3 for three-phase.',
+          'Divide volt-amps by that voltage factor to estimate amps.',
+        ],
+        note: 'kVA is apparent power. Transformer, UPS, breaker, and conductor sizing still need the equipment instructions and qualified review.',
+      };
+    }
+    case 'amp-hours-to-watt-hours': {
+      const result = calculateAmpHoursToWattHours({
+        ampHours: parseNumber(inputs.ampHours, 'Amp-hours'),
+        volts: parseNumber(inputs.volts, 'Volts'),
+      });
+      return {
+        label: 'Estimated energy',
+        expression: `${formatCalculatorNumber(result.ampHours)} Ah at ${formatCalculatorNumber(result.volts)} V`,
+        answer: `${formatCalculatorNumber(result.wattHours)} Wh`,
+        metrics: [
+          { label: 'Kilowatt-hours', value: `${formatCalculatorNumber(result.kilowattHours)} kWh` },
+          { label: 'Amp-hours', value: `${formatCalculatorNumber(result.ampHours)} Ah` },
+          { label: 'Voltage', value: `${formatCalculatorNumber(result.volts)} V` },
+        ],
+        steps: [
+          'Use nominal battery voltage.',
+          'Multiply amp-hours by volts to estimate watt-hours.',
+          'Divide watt-hours by 1,000 to show kilowatt-hours.',
+        ],
+        note: 'Battery labels are nominal. Real usable energy changes with chemistry, discharge rate, temperature, age, and conversion losses.',
+      };
+    }
+    case 'watt-hours-to-amp-hours': {
+      const result = calculateWattHoursToAmpHours({
+        wattHours: parseNumber(inputs.wattHours, 'Watt-hours'),
+        volts: parseNumber(inputs.volts, 'Volts'),
+      });
+      return {
+        label: 'Estimated capacity',
+        expression: `${formatCalculatorNumber(result.wattHours)} Wh at ${formatCalculatorNumber(result.volts)} V`,
+        answer: `${formatCalculatorNumber(result.ampHours)} Ah`,
+        metrics: [
+          { label: 'Watt-hours', value: `${formatCalculatorNumber(result.wattHours)} Wh` },
+          { label: 'Voltage', value: `${formatCalculatorNumber(result.volts)} V` },
+          { label: 'Formula', value: 'Wh / V' },
+        ],
+        steps: [
+          'Start with battery energy in watt-hours.',
+          'Use nominal battery voltage.',
+          'Divide watt-hours by volts to estimate amp-hours.',
+        ],
+        note: 'Amp-hour ratings depend on voltage. Two batteries can have the same Ah label but very different stored energy.',
+      };
+    }
+    case 'wire-resistance': {
+      const result = calculateWireResistanceEstimate({
+        wireGauge: inputs.wireGauge || '12',
+        oneWayLengthFeet: parseNumber(inputs.oneWayLengthFeet, 'One-way length'),
+        conductorCount: parseNumber(inputs.conductorCount, 'Conductor count'),
+      });
+      return {
+        label: 'Estimated wire resistance',
+        expression: `${result.wireGauge} AWG copper, ${formatCalculatorNumber(result.oneWayLengthFeet)} ft`,
+        answer: `${formatCalculatorNumber(result.totalResistanceOhms)} ohms`,
+        metrics: [
+          { label: 'One-way resistance', value: `${formatCalculatorNumber(result.oneWayResistanceOhms)} ohms` },
+          { label: 'Resistance table value', value: `${formatCalculatorNumber(result.resistanceOhmsPer1000Feet)} ohms / 1000 ft` },
+          { label: 'Conductor count', value: formatCalculatorNumber(result.conductorCount) },
+        ],
+        steps: [
+          'Look up the approximate copper resistance for the chosen AWG size.',
+          'Scale the ohms-per-1,000-feet value by the one-way length.',
+          'Multiply by the conductor count to estimate the total resistance included.',
+        ],
+        note: 'This is a simplified copper resistance estimate. Temperature, strand type, material, connections, and code rules can change real behavior.',
+      };
+    }
+    case 'wire-size': {
+      const result = calculateWireSizeEstimate({
+        sourceVoltage: parseNumber(inputs.sourceVoltage, 'Source voltage'),
+        currentAmps: parseNumber(inputs.currentAmps, 'Current'),
+        oneWayLengthFeet: parseNumber(inputs.oneWayLengthFeet, 'One-way length'),
+        maxVoltageDropPercent: parseNumber(inputs.maxVoltageDropPercent, 'Max voltage drop'),
+        phase: (inputs.phase || 'single') as 'single' | 'three',
+      });
+      return {
+        label: 'Estimated copper wire size',
+        expression: `${formatCalculatorNumber(result.currentAmps)} A over ${formatCalculatorNumber(result.oneWayLengthFeet)} ft`,
+        answer: `${result.recommendedWireGauge} AWG copper`,
+        metrics: [
+          { label: 'Estimated drop', value: `${formatCalculatorNumber(result.voltageDrop)} V` },
+          { label: 'Percent drop', value: percent(result.percentDrop) },
+          { label: 'Estimated load voltage', value: `${formatCalculatorNumber(result.loadVoltage)} V` },
+          { label: 'Resistance table value', value: `${formatCalculatorNumber(result.resistanceOhmsPer1000Feet)} ohms / 1000 ft` },
+        ],
+        steps: [
+          'Try common copper AWG sizes from smaller to larger.',
+          'Estimate voltage drop for each size with the chosen circuit type.',
+          'Return the first size that stays within the maximum voltage-drop percentage.',
+        ],
+        note: 'This is not a code-complete wire sizing tool. Ampacity, insulation rating, terminals, raceway, temperature, material, and local code must be checked separately.',
       };
     }
     case 'btu': {

@@ -254,6 +254,34 @@ const sourceLinks = {
     href: 'https://www.tad.usace.army.mil/Portals/53/docs/TAA/AEDDesignRequirements/AED%20Design%20Requirements%20-%20Voltage%20Drop%20Calculations_Mar_09.pdf',
     label: 'U.S. Army Corps of Engineers: Voltage drop calculations',
   },
+  inchWattsToAmps: {
+    href: 'https://www.inchcalculator.com/watts-to-amps-calculator/',
+    label: 'Inch Calculator: Watts to amps calculator reference',
+  },
+  inchAmpsToWatts: {
+    href: 'https://www.inchcalculator.com/amps-to-watts-calculator/',
+    label: 'Inch Calculator: Amps to watts calculator reference',
+  },
+  inchKilowattsToAmps: {
+    href: 'https://www.inchcalculator.com/kilowatts-to-amps-calculator/',
+    label: 'Inch Calculator: Kilowatts to amps calculator reference',
+  },
+  inchKvaToAmps: {
+    href: 'https://www.inchcalculator.com/kva-to-amps-calculator/',
+    label: 'Inch Calculator: kVA to amps calculator reference',
+  },
+  inchAmpHoursToWattHours: {
+    href: 'https://www.inchcalculator.com/ah-to-wh-calculator/',
+    label: 'Inch Calculator: Amp-hours to watt-hours calculator reference',
+  },
+  inchWattHoursToAmpHours: {
+    href: 'https://www.inchcalculator.com/wh-to-ah-calculator/',
+    label: 'Inch Calculator: Watt-hours to amp-hours calculator reference',
+  },
+  inchWireSize: {
+    href: 'https://www.inchcalculator.com/wire-size-calculator/',
+    label: 'Inch Calculator: Wire size calculator reference',
+  },
   iecResistorCode: {
     href: 'https://webstore.iec.ch/en/publication/12579',
     label: 'IEC 60062: Resistor and capacitor marking codes',
@@ -1006,6 +1034,174 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Ask a qualified electrician for real installations.',
     ],
     sources: [sourceLinks.usaceVoltageDrop, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
+  },
+  'watts-to-amps-calculator': {
+    summary: 'Learn how watts, volts, phase type, and power factor turn into estimated current.',
+    purpose:
+      'The Watts to Amps Calculator helps you understand current draw from a power rating. It is useful for learning the relationship between watts and amps, but not for final circuit design.',
+    enter: [
+      'Enter the device watts.',
+      'Enter the supply voltage.',
+      'Choose DC, single-phase AC, or three-phase AC, then enter power factor.',
+    ],
+    read: [
+      'The main answer is estimated current in amps.',
+      'Phase factor shows whether the calculator used a direct, single-phase, or three-phase formula.',
+      'Power factor explains why some AC loads draw more current for the same watts.',
+    ],
+    mistakes: [
+      'Do not guess power factor for real equipment sizing.',
+      'Do not use DC math on three-phase AC loads.',
+      'Do not choose breakers or wire from this estimate alone.',
+    ],
+    sources: [sourceLinks.inchWattsToAmps, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
+  },
+  'amps-to-watts-calculator': {
+    summary: 'Learn how amps and volts become watts for DC, single-phase AC, and three-phase AC.',
+    purpose:
+      'The Amps to Watts Calculator turns current into a real-power estimate. It is handy when you know current draw and voltage and want a rough watt or kilowatt number.',
+    enter: [
+      'Enter the current in amps.',
+      'Enter the supply voltage.',
+      'Choose the phase/current type and enter power factor for AC loads.',
+    ],
+    read: [
+      'The main answer is estimated watts.',
+      'The kilowatts metric is the same result divided by 1,000.',
+      'Power factor and phase type explain why equal amps can create different watt values.',
+    ],
+    mistakes: [
+      'Do not assume all AC loads have power factor 1.',
+      'Do not compare amperage without checking voltage.',
+      'Do not use this as a final safety or code calculation.',
+    ],
+    sources: [sourceLinks.inchAmpsToWatts, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
+  },
+  'kilowatts-to-amps-calculator': {
+    summary: 'Learn how kilowatts convert to amps when voltage, phase, power factor, and efficiency are known.',
+    purpose:
+      'The Kilowatts to Amps Calculator is for larger power ratings. It converts kW to watts, accounts for efficiency when needed, then estimates current.',
+    enter: [
+      'Enter the kilowatt rating.',
+      'Enter voltage and choose DC, single-phase AC, or three-phase AC.',
+      'Enter power factor and efficiency percentage.',
+    ],
+    read: [
+      'The main answer is estimated amps.',
+      'Input watts after efficiency shows the power the calculator used before solving current.',
+      'Efficiency and power factor should come from equipment data when accuracy matters.',
+    ],
+    mistakes: [
+      'Do not confuse kW with kVA.',
+      'Do not ignore motor starting current.',
+      'Do not use a made-up efficiency value for real installation planning.',
+    ],
+    sources: [sourceLinks.inchKilowattsToAmps, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
+  },
+  'kva-to-amps-calculator': {
+    summary: 'Learn how apparent power in kVA turns into current for single-phase and three-phase systems.',
+    purpose:
+      'The kVA to Amps Calculator converts an apparent-power rating into estimated current. It is useful for transformer, UPS, and equipment labels that use kVA.',
+    enter: [
+      'Enter the kVA rating.',
+      'Enter the voltage.',
+      'Choose single-phase or three-phase.',
+    ],
+    read: [
+      'The main answer is estimated current in amps.',
+      'Volt-amps shows kVA converted to VA.',
+      'There is no power factor input because kVA already means apparent power.',
+    ],
+    mistakes: [
+      'Do not treat kVA and kW as always identical.',
+      'Do not use this alone to size a transformer, breaker, or conductor.',
+      'Do not mix line-to-line and line-to-neutral voltage without checking the equipment context.',
+    ],
+    sources: [sourceLinks.inchKvaToAmps, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
+  },
+  'amp-hours-to-watt-hours-calculator': {
+    summary: 'Learn why multiplying amp-hours by volts gives a better battery energy comparison.',
+    purpose:
+      'The Amp Hours to Watt Hours Calculator converts a battery capacity label into stored energy. This helps you compare batteries even when their voltages differ.',
+    enter: [
+      'Enter the battery capacity in amp-hours.',
+      'Enter the nominal voltage.',
+      'Calculate to see watt-hours and kilowatt-hours.',
+    ],
+    read: [
+      'Watt-hours is the main stored-energy estimate.',
+      'Kilowatt-hours is the same energy in a larger unit.',
+      'Higher voltage means the same amp-hours represent more energy.',
+    ],
+    mistakes: [
+      'Do not compare batteries by Ah alone when voltage differs.',
+      'Do not expect all watt-hours to be usable after inverter or converter losses.',
+      'Do not ignore battery chemistry, age, temperature, and discharge rate.',
+    ],
+    sources: [sourceLinks.inchAmpHoursToWattHours, sourceLinks.doeApplianceEnergy, sourceLinks.nistUnits],
+  },
+  'watt-hours-to-amp-hours-calculator': {
+    summary: 'Learn how watt-hours divide by voltage to estimate battery amp-hours.',
+    purpose:
+      'The Watt Hours to Amp Hours Calculator is useful when a battery or power station lists energy in Wh and you need an Ah estimate at a chosen voltage.',
+    enter: [
+      'Enter watt-hours.',
+      'Enter nominal voltage.',
+      'Calculate to estimate amp-hours.',
+    ],
+    read: [
+      'The main answer is amp-hours at the voltage you entered.',
+      'Watt-hours stays the same energy number.',
+      'Changing voltage changes Ah because Ah is not a voltage-independent energy unit.',
+    ],
+    mistakes: [
+      'Do not compare Ah ratings across different voltages without converting to Wh.',
+      'Do not use the wrong battery voltage.',
+      'Do not treat the result as guaranteed runtime without knowing load watts and efficiency.',
+    ],
+    sources: [sourceLinks.inchWattHoursToAmpHours, sourceLinks.doeApplianceEnergy, sourceLinks.nistUnits],
+  },
+  'wire-resistance-calculator': {
+    summary: 'Learn how copper AWG size and wire length affect estimated resistance.',
+    purpose:
+      'The Wire Resistance Calculator estimates total ohms from copper AWG size, one-way length, and conductor count. It helps explain why long, thin conductors create more voltage drop.',
+    enter: [
+      'Choose the copper AWG size.',
+      'Enter the one-way wire length in feet.',
+      'Enter conductor count, often 2 for a simple out-and-back path.',
+    ],
+    read: [
+      'Total resistance is the estimated ohms for all conductor lengths included.',
+      'One-way resistance shows the estimate before multiplying by conductor count.',
+      'The table value shows ohms per 1,000 feet for the chosen copper size.',
+    ],
+    mistakes: [
+      'Do not use this as a full code or safety calculation.',
+      'Do not forget that temperature, conductor material, and terminals can change real resistance.',
+      'Do not use conductor count 1 when you meant a full loop path.',
+    ],
+    sources: [sourceLinks.inchWireSize, sourceLinks.usaceVoltageDrop, sourceLinks.nistUnits],
+  },
+  'wire-size-calculator': {
+    summary: 'Learn how current, length, voltage, and a voltage-drop target can suggest a copper AWG size.',
+    purpose:
+      'The Wire Size Calculator tests common copper AWG sizes and returns the first size that stays within the voltage-drop percentage you choose. It is a planning helper, not an electrical-code sizing tool.',
+    enter: [
+      'Enter source voltage, current amps, and one-way length.',
+      'Enter the maximum voltage-drop percentage.',
+      'Choose single/DC or three-phase circuit type.',
+    ],
+    read: [
+      'The main answer is the first common copper AWG size that meets the voltage-drop target.',
+      'Estimated drop and percent drop show why the size was selected.',
+      'Load voltage shows source voltage after the estimated drop.',
+    ],
+    mistakes: [
+      'Do not treat voltage drop as the only wire-sizing rule.',
+      'Do not ignore ampacity, insulation, raceway, temperature, material, and local code.',
+      'Do not use this as a substitute for a licensed electrician.',
+    ],
+    sources: [sourceLinks.inchWireSize, sourceLinks.usaceVoltageDrop, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
   },
   'btu-calculator': {
     summary: 'Learn how to estimate room cooling BTU from room size and simple adjustments.',

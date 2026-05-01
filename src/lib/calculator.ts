@@ -7099,6 +7099,81 @@ export interface VoltageDropResult {
   loadVoltage: number;
 }
 
+export type ElectricalPowerPhase = 'dc' | 'single-phase' | 'three-phase';
+
+export interface WattsToAmpsResult {
+  watts: number;
+  volts: number;
+  phase: ElectricalPowerPhase;
+  powerFactor: number;
+  phaseFactor: number;
+  amps: number;
+}
+
+export interface AmpsToWattsResult {
+  amps: number;
+  volts: number;
+  phase: ElectricalPowerPhase;
+  powerFactor: number;
+  phaseFactor: number;
+  watts: number;
+  kilowatts: number;
+}
+
+export interface KilowattsToAmpsResult {
+  kilowatts: number;
+  volts: number;
+  phase: ElectricalPowerPhase;
+  powerFactor: number;
+  efficiencyPercent: number;
+  inputWatts: number;
+  phaseFactor: number;
+  amps: number;
+}
+
+export interface KilovoltAmpsToAmpsResult {
+  kilovoltAmps: number;
+  volts: number;
+  phase: Extract<ElectricalPowerPhase, 'single-phase' | 'three-phase'>;
+  phaseFactor: number;
+  amps: number;
+}
+
+export interface AmpHoursToWattHoursResult {
+  ampHours: number;
+  volts: number;
+  wattHours: number;
+  kilowattHours: number;
+}
+
+export interface WattHoursToAmpHoursResult {
+  wattHours: number;
+  volts: number;
+  ampHours: number;
+}
+
+export interface WireResistanceEstimateResult {
+  wireGauge: string;
+  oneWayLengthFeet: number;
+  conductorCount: number;
+  resistanceOhmsPer1000Feet: number;
+  oneWayResistanceOhms: number;
+  totalResistanceOhms: number;
+}
+
+export interface WireSizeEstimateResult {
+  sourceVoltage: number;
+  currentAmps: number;
+  oneWayLengthFeet: number;
+  maxVoltageDropPercent: number;
+  phase: 'single' | 'three';
+  recommendedWireGauge: string;
+  resistanceOhmsPer1000Feet: number;
+  voltageDrop: number;
+  percentDrop: number;
+  loadVoltage: number;
+}
+
 export interface BtuEstimateResult {
   squareFeet: number;
   ceilingHeightFeet: number;
@@ -8251,6 +8326,7 @@ const copperResistanceOhmsPer1000Feet: Record<string, number> = {
   '2/0': 0.0779,
   '4/0': 0.049,
 };
+const copperAwgSmallToLarge = ['14', '12', '10', '8', '6', '4', '2', '1/0', '2/0', '4/0'];
 const resistorDigitBands: Record<string, number> = {
   black: 0,
   brown: 1,
@@ -9177,6 +9253,190 @@ export function calculateVoltageDrop(input: {
     percentDrop: (voltageDrop / input.sourceVoltage) * 100,
     loadVoltage: input.sourceVoltage - voltageDrop,
   };
+}
+
+function getElectricalPhaseFactor(phase: ElectricalPowerPhase) {
+  if (phase === 'dc' || phase === 'single-phase') return 1;
+  if (phase === 'three-phase') return Math.sqrt(3);
+  throw new Error('Choose DC, single-phase AC, or three-phase AC');
+}
+
+function assertPowerFactor(value: number) {
+  assertPositiveNumber(value, 'Power factor');
+  if (value > 1) {
+    throw new Error('Power factor cannot be greater than 1');
+  }
+}
+
+export function calculateWattsToAmps(input: {
+  watts: number;
+  volts: number;
+  phase: ElectricalPowerPhase;
+  powerFactor: number;
+}): WattsToAmpsResult {
+  assertPositiveNumber(input.watts, 'Watts');
+  assertPositiveNumber(input.volts, 'Volts');
+  assertPowerFactor(input.powerFactor);
+
+  const phaseFactor = getElectricalPhaseFactor(input.phase);
+
+  return {
+    ...input,
+    phaseFactor,
+    amps: input.watts / (input.volts * phaseFactor * input.powerFactor),
+  };
+}
+
+export function calculateAmpsToWatts(input: {
+  amps: number;
+  volts: number;
+  phase: ElectricalPowerPhase;
+  powerFactor: number;
+}): AmpsToWattsResult {
+  assertPositiveNumber(input.amps, 'Amps');
+  assertPositiveNumber(input.volts, 'Volts');
+  assertPowerFactor(input.powerFactor);
+
+  const phaseFactor = getElectricalPhaseFactor(input.phase);
+  const watts = input.amps * input.volts * phaseFactor * input.powerFactor;
+
+  return {
+    ...input,
+    phaseFactor,
+    watts,
+    kilowatts: watts / 1000,
+  };
+}
+
+export function calculateKilowattsToAmps(input: {
+  kilowatts: number;
+  volts: number;
+  phase: ElectricalPowerPhase;
+  powerFactor: number;
+  efficiencyPercent: number;
+}): KilowattsToAmpsResult {
+  assertPositiveNumber(input.kilowatts, 'Kilowatts');
+  assertPositiveNumber(input.volts, 'Volts');
+  assertPowerFactor(input.powerFactor);
+  assertPositiveNumber(input.efficiencyPercent, 'Efficiency percent');
+  if (input.efficiencyPercent > 100) {
+    throw new Error('Efficiency percent cannot be greater than 100%');
+  }
+
+  const phaseFactor = getElectricalPhaseFactor(input.phase);
+  const inputWatts = (input.kilowatts * 1000) / (input.efficiencyPercent / 100);
+
+  return {
+    ...input,
+    inputWatts,
+    phaseFactor,
+    amps: inputWatts / (input.volts * phaseFactor * input.powerFactor),
+  };
+}
+
+export function calculateKilovoltAmpsToAmps(input: {
+  kilovoltAmps: number;
+  volts: number;
+  phase: Extract<ElectricalPowerPhase, 'single-phase' | 'three-phase'>;
+}): KilovoltAmpsToAmpsResult {
+  assertPositiveNumber(input.kilovoltAmps, 'Kilovolt-amps');
+  assertPositiveNumber(input.volts, 'Volts');
+
+  const phaseFactor = getElectricalPhaseFactor(input.phase);
+
+  return {
+    ...input,
+    phaseFactor,
+    amps: (input.kilovoltAmps * 1000) / (input.volts * phaseFactor),
+  };
+}
+
+export function calculateAmpHoursToWattHours(input: {
+  ampHours: number;
+  volts: number;
+}): AmpHoursToWattHoursResult {
+  assertPositiveNumber(input.ampHours, 'Amp-hours');
+  assertPositiveNumber(input.volts, 'Volts');
+
+  const wattHours = input.ampHours * input.volts;
+
+  return {
+    ...input,
+    wattHours,
+    kilowattHours: wattHours / 1000,
+  };
+}
+
+export function calculateWattHoursToAmpHours(input: {
+  wattHours: number;
+  volts: number;
+}): WattHoursToAmpHoursResult {
+  assertPositiveNumber(input.wattHours, 'Watt-hours');
+  assertPositiveNumber(input.volts, 'Volts');
+
+  return {
+    ...input,
+    ampHours: input.wattHours / input.volts,
+  };
+}
+
+export function calculateWireResistanceEstimate(input: {
+  wireGauge: string;
+  oneWayLengthFeet: number;
+  conductorCount: number;
+}): WireResistanceEstimateResult {
+  assertPositiveNumber(input.oneWayLengthFeet, 'One-way length');
+  assertInteger(input.conductorCount, 'Conductor count');
+  assertPositiveNumber(input.conductorCount, 'Conductor count');
+
+  const resistanceOhmsPer1000Feet = getCopperResistanceOhmsPer1000Feet(input.wireGauge);
+  const oneWayResistanceOhms = resistanceOhmsPer1000Feet * (input.oneWayLengthFeet / 1000);
+
+  return {
+    ...input,
+    resistanceOhmsPer1000Feet,
+    oneWayResistanceOhms,
+    totalResistanceOhms: oneWayResistanceOhms * input.conductorCount,
+  };
+}
+
+export function calculateWireSizeEstimate(input: {
+  sourceVoltage: number;
+  currentAmps: number;
+  oneWayLengthFeet: number;
+  maxVoltageDropPercent: number;
+  phase: 'single' | 'three';
+}): WireSizeEstimateResult {
+  assertPositiveNumber(input.sourceVoltage, 'Source voltage');
+  assertPositiveNumber(input.currentAmps, 'Current');
+  assertPositiveNumber(input.oneWayLengthFeet, 'One-way length');
+  assertPositiveNumber(input.maxVoltageDropPercent, 'Max voltage drop percent');
+  if (input.maxVoltageDropPercent > 20) {
+    throw new Error('Max voltage drop percent cannot be greater than 20%');
+  }
+
+  for (const wireGauge of copperAwgSmallToLarge) {
+    const result = calculateVoltageDrop({
+      sourceVoltage: input.sourceVoltage,
+      currentAmps: input.currentAmps,
+      oneWayLengthFeet: input.oneWayLengthFeet,
+      resistanceOhmsPer1000Feet: getCopperResistanceOhmsPer1000Feet(wireGauge),
+      phase: input.phase,
+    });
+
+    if (result.percentDrop <= input.maxVoltageDropPercent) {
+      return {
+        ...input,
+        recommendedWireGauge: wireGauge,
+        resistanceOhmsPer1000Feet: result.resistanceOhmsPer1000Feet,
+        voltageDrop: result.voltageDrop,
+        percentDrop: result.percentDrop,
+        loadVoltage: result.loadVoltage,
+      };
+    }
+  }
+
+  throw new Error('No supported copper wire size meets that voltage drop limit');
 }
 
 export function calculateBtuEstimate(input: {

@@ -157,6 +157,14 @@ export type CalculatorIconMark =
   | 'height'
   | 'bra-size'
   | 'voltage-drop'
+  | 'watts-amps'
+  | 'amps-watts'
+  | 'kw-amps'
+  | 'kva-amps'
+  | 'ah-wh'
+  | 'wh-ah'
+  | 'wire-res'
+  | 'wire-size'
   | 'btu'
   | 'stair'
   | 'resistor'
@@ -426,6 +434,14 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-height': 'height',
   'calculator-bra-size': 'bra-size',
   'calculator-voltage-drop': 'voltage-drop',
+  'calculator-watts-to-amps': 'watts-amps',
+  'calculator-amps-to-watts': 'amps-watts',
+  'calculator-kw-to-amps': 'kw-amps',
+  'calculator-kva-to-amps': 'kva-amps',
+  'calculator-ah-to-wh': 'ah-wh',
+  'calculator-wh-to-ah': 'wh-ah',
+  'calculator-wire-resistance': 'wire-res',
+  'calculator-wire-size': 'wire-size',
   'calculator-btu': 'btu',
   'calculator-stair': 'stair',
   'calculator-resistor': 'resistor',
@@ -664,6 +680,14 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   height: 'ht',
   'bra-size': 'bra',
   'voltage-drop': 'vd',
+  'watts-amps': 'W>A',
+  'amps-watts': 'A>W',
+  'kw-amps': 'kW>A',
+  'kva-amps': 'kVA',
+  'ah-wh': 'Ah',
+  'wh-ah': 'Wh',
+  'wire-res': 'ohm',
+  'wire-size': 'awg',
   btu: 'btu',
   stair: 'str',
   resistor: 'ohm',

@@ -61,6 +61,8 @@ import {
   analyzeText,
   calculateAsphaltEstimate,
   calculateAspectRatio,
+  calculateAmpHoursToWattHours,
+  calculateAmpsToWatts,
   calculateBandwidthTime,
   calculateBalusterEstimate,
   calculateBoardFoot,
@@ -248,7 +250,13 @@ import {
   calculateWallStudEstimate,
   calculateWindChill,
   calculateEngineHorsepower,
+  calculateKilovoltAmpsToAmps,
+  calculateKilowattsToAmps,
   calculateUnixTimestampFromDate,
+  calculateWattHoursToAmpHours,
+  calculateWattsToAmps,
+  calculateWireResistanceEstimate,
+  calculateWireSizeEstimate,
   convertMeasurement,
   compareUnitPrices,
   convertButter,
@@ -1664,6 +1672,14 @@ describe('utility helpers', () => {
       resistanceOhmsPer1000Feet: 1.588,
       phase: 'single',
     });
+    const wattsToAmps = calculateWattsToAmps({ watts: 1500, volts: 120, phase: 'dc', powerFactor: 1 });
+    const ampsToWatts = calculateAmpsToWatts({ amps: 12.5, volts: 120, phase: 'dc', powerFactor: 1 });
+    const kwToAmps = calculateKilowattsToAmps({ kilowatts: 5, volts: 240, phase: 'single-phase', powerFactor: 0.9, efficiencyPercent: 90 });
+    const kvaToAmps = calculateKilovoltAmpsToAmps({ kilovoltAmps: 25, volts: 220, phase: 'single-phase' });
+    const ampHoursToWh = calculateAmpHoursToWattHours({ ampHours: 300, volts: 12 });
+    const whToAmpHours = calculateWattHoursToAmpHours({ wattHours: 5000, volts: 120 });
+    const wireResistance = calculateWireResistanceEstimate({ wireGauge: '12', oneWayLengthFeet: 100, conductorCount: 2 });
+    const wireSize = calculateWireSizeEstimate({ sourceVoltage: 120, currentAmps: 15, oneWayLengthFeet: 75, maxVoltageDropPercent: 3, phase: 'single' });
     const btu = calculateBtuEstimate({ squareFeet: 300, ceilingHeightFeet: 8, sunlight: 'normal', people: 2, kitchen: false });
     const stairs = calculateStairLayout(108, 7.5, 10);
     const resistor = calculateResistorColorCode('brown', 'black', 'red', 'gold');
@@ -1751,6 +1767,16 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(height.estimatedAdultHeightInches)).toBe('69.5');
     expect(bra.sizeLabel).toBe('32D');
     expect(formatCalculatorNumber(voltageDrop.percentDrop)).toBe('2.9775');
+    expect(formatCalculatorNumber(wattsToAmps.amps)).toBe('12.5');
+    expect(formatCalculatorNumber(ampsToWatts.watts)).toBe('1500');
+    expect(formatCalculatorNumber(kwToAmps.amps)).toBe('25.7201646091');
+    expect(formatCalculatorNumber(kvaToAmps.amps)).toBe('113.636363636');
+    expect(ampHoursToWh.wattHours).toBe(3600);
+    expect(formatCalculatorNumber(ampHoursToWh.kilowattHours)).toBe('3.6');
+    expect(formatCalculatorNumber(whToAmpHours.ampHours)).toBe('41.6666666667');
+    expect(formatCalculatorNumber(wireResistance.totalResistanceOhms)).toBe('0.3176');
+    expect(wireSize.recommendedWireGauge).toBe('12');
+    expect(formatCalculatorNumber(wireSize.percentDrop)).toBe('2.9775');
     expect(btu.recommendedBtu).toBe(7000);
     expect(stairs.riserCount).toBe(14);
     expect(resistor.resistanceOhms).toBe(1000);

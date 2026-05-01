@@ -996,6 +996,41 @@ const usaceVoltageDrop = {
   label: 'U.S. Army Corps of Engineers: Voltage drop calculations',
 };
 
+const inchWattsToAmps = {
+  href: 'https://www.inchcalculator.com/watts-to-amps-calculator/',
+  label: 'Inch Calculator: Watts to amps calculator reference',
+};
+
+const inchAmpsToWatts = {
+  href: 'https://www.inchcalculator.com/amps-to-watts-calculator/',
+  label: 'Inch Calculator: Amps to watts calculator reference',
+};
+
+const inchKilowattsToAmps = {
+  href: 'https://www.inchcalculator.com/kilowatts-to-amps-calculator/',
+  label: 'Inch Calculator: Kilowatts to amps calculator reference',
+};
+
+const inchKvaToAmps = {
+  href: 'https://www.inchcalculator.com/kva-to-amps-calculator/',
+  label: 'Inch Calculator: kVA to amps calculator reference',
+};
+
+const inchAmpHoursToWattHours = {
+  href: 'https://www.inchcalculator.com/ah-to-wh-calculator/',
+  label: 'Inch Calculator: Amp-hours to watt-hours calculator reference',
+};
+
+const inchWattHoursToAmpHours = {
+  href: 'https://www.inchcalculator.com/wh-to-ah-calculator/',
+  label: 'Inch Calculator: Watt-hours to amp-hours calculator reference',
+};
+
+const inchWireSize = {
+  href: 'https://www.inchcalculator.com/wire-size-calculator/',
+  label: 'Inch Calculator: Wire size calculator reference',
+};
+
 const commonMathScope = [...DEEP_AUDIT_REQUIRED_SCOPE];
 
 const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
@@ -4269,6 +4304,158 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     followUps: [
       'Add aluminum conductor and temperature adjustment modes only after the safety notes can be kept prominent.',
+    ],
+  },
+  {
+    slug: 'watts-to-amps-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-electrical-power-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchWattsToAmps, openStaxOhmsLaw, nistSi],
+    findings: [
+      'The calculator solves amps from watts, volts, phase factor, and power factor for DC, single-phase AC, and three-phase AC examples.',
+      'The FAQ explains power factor and warns against using the estimate as a breaker or wire sizing decision.',
+      'The guide tells users to avoid guessing power factor for real equipment and to avoid mixing DC and three-phase formulas.',
+    ],
+    improvements: [
+      'Manually checked watts-to-amps formulas, phase labels, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+    ],
+    followUps: [
+      'Add common household voltage presets later if they do not make users treat the answer as code advice.',
+    ],
+  },
+  {
+    slug: 'amps-to-watts-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-electrical-power-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchAmpsToWatts, openStaxOhmsLaw, nistSi],
+    findings: [
+      'The calculator multiplies amps, volts, phase factor, and power factor to estimate watts and kilowatts.',
+      'The FAQ explains why equal amperage can mean different watts when voltage, phase, or power factor changes.',
+      'The guide keeps this positioned as learning and planning math, not real equipment safety sizing.',
+    ],
+    improvements: [
+      'Manually checked amps-to-watts formulas, kW metric, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+    ],
+    followUps: [
+      'Consider a nameplate-reading example if search data shows users are comparing appliances.',
+    ],
+  },
+  {
+    slug: 'kilowatts-to-amps-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-electrical-power-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchKilowattsToAmps, openStaxOhmsLaw, nistSi],
+    findings: [
+      'The calculator converts kW to watts, adjusts for efficiency, then divides by voltage, phase factor, and power factor.',
+      'The FAQ separates kW from kVA so users do not use the wrong conversion intent.',
+      'The guide calls out motor starting current and equipment nameplates as limits of the simple estimate.',
+    ],
+    improvements: [
+      'Manually checked kW-to-amps math, efficiency handling, phase factors, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+    ],
+    followUps: [
+      'Add motor horsepower cross-links only after the wording stays clear about starting current.',
+    ],
+  },
+  {
+    slug: 'kva-to-amps-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-electrical-power-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchKvaToAmps, openStaxOhmsLaw, nistSi],
+    findings: [
+      'The calculator converts kVA to volt-amps and divides by voltage for single-phase or voltage times sqrt(3) for three-phase.',
+      'The FAQ explains why kVA conversion does not ask for power factor and why kVA is not always kW.',
+      'The guide warns users not to mix line-to-line and line-to-neutral voltage context.',
+    ],
+    improvements: [
+      'Manually checked kVA-to-amps formulas, phase labels, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+    ],
+    followUps: [
+      'Add transformer examples later if they can stay non-prescriptive and code-neutral.',
+    ],
+  },
+  {
+    slug: 'amp-hours-to-watt-hours-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-electrical-power-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchAmpHoursToWattHours, doeApplianceEnergy, nistSi],
+    findings: [
+      'The calculator multiplies amp-hours by nominal volts to estimate watt-hours and kilowatt-hours.',
+      'The FAQ explains why watt-hours are better than amp-hours for comparing batteries at different voltages.',
+      'The guide calls out battery chemistry, discharge rate, temperature, age, and conversion losses as limits.',
+    ],
+    improvements: [
+      'Manually checked Ah-to-Wh math, kWh conversion, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+    ],
+    followUps: [
+      'Add runtime presets only if they point users to the dedicated battery-life calculator.',
+    ],
+  },
+  {
+    slug: 'watt-hours-to-amp-hours-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-electrical-power-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchWattHoursToAmpHours, doeApplianceEnergy, nistSi],
+    findings: [
+      'The calculator divides watt-hours by nominal volts to estimate amp-hours at that voltage.',
+      'The FAQ explains why Ah changes with voltage and why Wh is the better cross-voltage comparison.',
+      'The guide warns users not to treat Ah as guaranteed runtime without load watts and efficiency.',
+    ],
+    improvements: [
+      'Manually checked Wh-to-Ah math, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+    ],
+    followUps: [
+      'Add battery-voltage presets later if they include a clear nominal-voltage reminder.',
+    ],
+  },
+  {
+    slug: 'wire-resistance-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-electrical-power-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchWireSize, usaceVoltageDrop, nistSi],
+    findings: [
+      'The calculator scales common copper ohms-per-1,000-feet values by length and conductor count.',
+      'The FAQ explains why conductor count 2 is common for a loop path and why resistance changes with real conditions.',
+      'The guide keeps temperature, material, terminations, and code rules outside the simplified estimate.',
+    ],
+    improvements: [
+      'Manually checked wire resistance math, AWG order, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+    ],
+    followUps: [
+      'Add aluminum or temperature-adjusted modes only after a stronger safety disclaimer pattern is in place.',
+    ],
+  },
+  {
+    slug: 'wire-size-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-electrical-power-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchWireSize, usaceVoltageDrop, openStaxOhmsLaw, nistSi],
+    findings: [
+      'The calculator tests common copper AWG sizes from smaller to larger and returns the first size that meets the voltage-drop target.',
+      'The FAQ clearly says this is not an electrical code wire-size chart and lists ampacity, insulation, raceway, terminals, temperature, and material limits.',
+      'The guide explains why long runs may require larger wire because resistance and voltage drop rise with length.',
+    ],
+    improvements: [
+      'Manually checked wire-size selection logic, AWG order, voltage-drop metrics, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+    ],
+    followUps: [
+      'Add ampacity-table education only if the page can avoid giving jurisdiction-specific code advice.',
     ],
   },
   {

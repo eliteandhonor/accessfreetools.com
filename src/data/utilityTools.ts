@@ -872,6 +872,344 @@ export const utilityTools: ToolDefinition[] = [
     relatedSlugs: ['ohms-law-calculator', 'electricity-calculator', 'resistor-calculator'],
   }),
   makeUtilityTool({
+    slug: 'watts-to-amps-calculator',
+    name: 'Watts to Amps Calculator',
+    category: 'calculators',
+    summary: 'Convert watts to amps for DC, single-phase AC, and three-phase AC loads.',
+    description:
+      'Use this free watts to amps calculator to estimate current from power, voltage, phase type, and power factor.',
+    icon: 'calculator-watts-to-amps',
+    formula:
+      'The calculator divides watts by volts for DC/single-phase loads, or by volts x sqrt(3) for three-phase loads, then includes power factor.',
+    limit:
+      'This is formula math only. Real electrical work needs correct voltage, power factor, breaker, wire, code, and qualified review.',
+    inputExplanations: [
+      { term: 'Watts', meaning: 'real power used by the device or load.' },
+      { term: 'Volts', meaning: 'the supply voltage feeding the load.' },
+      { term: 'Phase', meaning: 'DC, single-phase AC, or three-phase AC changes the current formula.' },
+      { term: 'Power factor', meaning: 'how efficiently AC current becomes real power. Use 1 for DC or resistive loads.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does power factor matter?',
+        answer:
+          'Power factor matters for AC loads because not every amp becomes useful real power. A motor with 0.8 power factor needs more current than a resistive load using the same watts and volts.',
+      },
+      {
+        question: 'Can I use this to choose a breaker size?',
+        answer:
+          'No. This helps you understand the math, but breaker and wire choices need code rules, equipment instructions, continuous-load rules, temperature, and qualified electrical review.',
+      },
+    ],
+    useCases: [
+      'Estimate current from a device watt rating.',
+      'Compare DC, single-phase, and three-phase examples.',
+      'Understand why AC power factor changes amps.',
+      'Check rough load math before using more detailed electrical tools.',
+    ],
+    examples: [
+      { label: '120 V heater', expression: '1,500 W, 120 V, power factor 1', result: '12.5 A' },
+      { label: 'Single-phase motor', expression: '2,200 W, 240 V, PF 0.9', result: 'About 10.19 A' },
+      { label: 'Three-phase load', expression: '5,000 W, 208 V, PF 0.85', result: 'About 16.34 A' },
+    ],
+    relatedSlugs: ['amps-to-watts-calculator', 'ohms-law-calculator', 'electricity-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'amps-to-watts-calculator',
+    name: 'Amps to Watts Calculator',
+    category: 'calculators',
+    summary: 'Convert amps to watts for DC, single-phase AC, and three-phase AC loads.',
+    description:
+      'Use this free amps to watts calculator to estimate power from current, voltage, phase type, and power factor.',
+    icon: 'calculator-amps-to-watts',
+    formula:
+      'The calculator multiplies amps by volts for DC/single-phase loads, or by volts x sqrt(3) for three-phase loads, then includes power factor.',
+    limit:
+      'This is a simplified electrical estimate. Use rated equipment data and qualified advice before sizing circuits or parts.',
+    inputExplanations: [
+      { term: 'Amps', meaning: 'current drawn by the device or circuit.' },
+      { term: 'Volts', meaning: 'supply voltage.' },
+      { term: 'Phase', meaning: 'DC, single-phase AC, or three-phase AC formula selection.' },
+      { term: 'Power factor', meaning: 'AC correction factor used to estimate real watts.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Is amps to watts always amps times volts?',
+        answer:
+          'For DC and simple single-phase estimates, watts are amps times volts, then power factor for AC. Three-phase estimates also multiply by the square root of 3.',
+      },
+      {
+        question: 'Why does the same amperage give different watts?',
+        answer:
+          'Voltage, phase, and power factor all change the answer. Ten amps at 12 volts is very different from ten amps at 240 volts or 480 volt three-phase service.',
+      },
+    ],
+    useCases: [
+      'Estimate watts from a current draw.',
+      'Convert a circuit amp value into rough power.',
+      'Compare single-phase and three-phase examples.',
+      'Understand when power factor changes AC watts.',
+    ],
+    examples: [
+      { label: '120 V load', expression: '12.5 A, 120 V, PF 1', result: '1,500 W' },
+      { label: 'Single-phase AC', expression: '10 A, 240 V, PF 0.9', result: '2,160 W' },
+      { label: 'Three-phase AC', expression: '20 A, 208 V, PF 0.85', result: 'About 6,124 W' },
+    ],
+    relatedSlugs: ['watts-to-amps-calculator', 'ohms-law-calculator', 'electricity-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'kilowatts-to-amps-calculator',
+    name: 'Kilowatts to Amps Calculator',
+    category: 'calculators',
+    summary: 'Convert kilowatts to amps with voltage, phase, power factor, and efficiency.',
+    description:
+      'Use this free kilowatts to amps calculator to estimate current for DC, single-phase AC, and three-phase AC loads.',
+    icon: 'calculator-kw-to-amps',
+    formula:
+      'The calculator converts kW to watts, adjusts for efficiency, then divides by voltage, phase factor, and power factor.',
+    limit:
+      'Motors and AC equipment can behave differently while starting. Use equipment nameplates and professional electrical sizing for real installs.',
+    inputExplanations: [
+      { term: 'Kilowatts', meaning: 'real power in thousands of watts.' },
+      { term: 'Voltage', meaning: 'the supply voltage for the load.' },
+      { term: 'Power factor', meaning: 'AC correction factor for real power versus apparent power.' },
+      { term: 'Efficiency', meaning: 'how much input power becomes useful output power.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the calculator ask for efficiency?',
+        answer:
+          'If kW describes output power, the equipment may need more input power because of losses. Lower efficiency increases the estimated input watts and therefore the amps.',
+      },
+      {
+        question: 'Should I use kW or kVA?',
+        answer:
+          'Use kW when you know real power. Use the kVA to Amps Calculator when the rating is apparent power, such as many transformer or UPS ratings.',
+      },
+    ],
+    useCases: [
+      'Estimate current for a kW-rated load.',
+      'Include simple motor efficiency and power factor assumptions.',
+      'Compare DC, single-phase, and three-phase examples.',
+      'Convert larger power ratings into current for planning conversation.',
+    ],
+    examples: [
+      { label: 'Motor estimate', expression: '5 kW, 240 V, PF 0.9, 90% efficiency', result: 'About 25.72 A' },
+      { label: 'Three-phase load', expression: '15 kW, 480 V, PF 0.88, 92% efficiency', result: 'About 22.27 A' },
+      { label: '48 V DC equipment', expression: '1.2 kW, 48 V', result: '25 A' },
+    ],
+    relatedSlugs: ['watts-to-amps-calculator', 'kva-to-amps-calculator', 'electricity-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'kva-to-amps-calculator',
+    name: 'kVA to Amps Calculator',
+    category: 'calculators',
+    summary: 'Convert apparent power in kVA to amps for single-phase or three-phase systems.',
+    description:
+      'Use this free kVA to amps calculator to estimate current from kilovolt-amps, voltage, and phase type.',
+    icon: 'calculator-kva-to-amps',
+    formula:
+      'The calculator converts kVA to volt-amps, then divides by volts for single-phase or by volts x sqrt(3) for three-phase.',
+    limit:
+      'kVA is apparent power. Transformer, UPS, breaker, and conductor sizing still need equipment instructions and qualified review.',
+    inputExplanations: [
+      { term: 'kVA', meaning: 'apparent power in kilovolt-amps.' },
+      { term: 'Volts', meaning: 'the equipment voltage used in the current calculation.' },
+      { term: 'Phase', meaning: 'single-phase or three-phase formula selection.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why is there no power factor field?',
+        answer:
+          'kVA is already apparent power. Power factor is used when converting between real power in kW and apparent power in kVA, not when turning kVA directly into amps.',
+      },
+      {
+        question: 'Is kVA the same as kW?',
+        answer:
+          'Not always. kW is real power and kVA is apparent power. They match only when power factor is 1, which is not true for many AC loads.',
+      },
+    ],
+    useCases: [
+      'Estimate transformer or UPS current from a kVA rating.',
+      'Compare single-phase and three-phase current.',
+      'Understand apparent power separately from real power.',
+      'Check a rough current number before professional equipment sizing.',
+    ],
+    examples: [
+      { label: 'Single-phase equipment', expression: '25 kVA, 220 V', result: 'About 113.64 A' },
+      { label: 'Three-phase transformer', expression: '75 kVA, 480 V', result: 'About 90.21 A' },
+      { label: 'Small UPS', expression: '3 kVA, 120 V', result: '25 A' },
+    ],
+    relatedSlugs: ['kilowatts-to-amps-calculator', 'watts-to-amps-calculator', 'voltage-drop-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'amp-hours-to-watt-hours-calculator',
+    name: 'Amp Hours to Watt Hours Calculator',
+    category: 'calculators',
+    summary: 'Convert battery amp-hours and voltage into watt-hours and kilowatt-hours.',
+    description:
+      'Use this free amp hours to watt hours calculator to estimate battery energy from Ah and nominal voltage.',
+    icon: 'calculator-ah-to-wh',
+    formula: 'The calculator multiplies amp-hours by volts to estimate watt-hours, then divides by 1,000 for kilowatt-hours.',
+    limit:
+      'Battery labels are nominal. Real usable energy changes with chemistry, discharge rate, temperature, age, and conversion losses.',
+    inputExplanations: [
+      { term: 'Amp-hours', meaning: 'battery capacity rating at the listed voltage.' },
+      { term: 'Volts', meaning: 'nominal battery voltage.' },
+      { term: 'Watt-hours', meaning: 'energy estimate that is easier to compare across different voltages.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why are watt-hours better for comparing batteries?',
+        answer:
+          'Amp-hours depend on voltage. A 100 Ah 12 V battery stores about 1,200 Wh, while a 100 Ah 48 V battery stores about 4,800 Wh.',
+      },
+      {
+        question: 'Does this tell me runtime?',
+        answer:
+          'It gives stored energy before real losses. Use a battery-life or electricity tool when you also know the device watts and expected efficiency.',
+      },
+    ],
+    useCases: [
+      'Convert battery Ah labels into watt-hours.',
+      'Compare batteries with different voltages.',
+      'Estimate kWh for larger battery packs.',
+      'Prepare inputs for battery runtime planning.',
+    ],
+    examples: [
+      { label: '12 V battery', expression: '300 Ah at 12 V', result: '3,600 Wh' },
+      { label: '48 V pack', expression: '100 Ah at 48 V', result: '4,800 Wh' },
+      { label: 'Small 24 V pack', expression: '20 Ah at 24 V', result: '480 Wh' },
+    ],
+    relatedSlugs: ['watt-hours-to-amp-hours-calculator', 'device-battery-life-calculator', 'electricity-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'watt-hours-to-amp-hours-calculator',
+    name: 'Watt Hours to Amp Hours Calculator',
+    category: 'calculators',
+    summary: 'Convert battery watt-hours into amp-hours at a selected voltage.',
+    description:
+      'Use this free watt hours to amp hours calculator to convert stored energy into Ah at the battery voltage you choose.',
+    icon: 'calculator-wh-to-ah',
+    formula: 'The calculator divides watt-hours by volts to estimate amp-hours.',
+    limit:
+      'Amp-hour ratings depend on voltage. Real usable capacity also changes with discharge rate, temperature, age, and conversion losses.',
+    inputExplanations: [
+      { term: 'Watt-hours', meaning: 'energy capacity of the battery or power station.' },
+      { term: 'Volts', meaning: 'nominal voltage used to convert energy into amp-hours.' },
+      { term: 'Amp-hours', meaning: 'capacity estimate at the selected voltage.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does voltage change amp-hours?',
+        answer:
+          'Amp-hours measure charge capacity at a voltage. The same watt-hours divided by a higher voltage gives fewer amp-hours, even though the energy can be the same.',
+      },
+      {
+        question: 'Can I compare two batteries by amp-hours only?',
+        answer:
+          'Only when the voltage is the same. For different battery voltages, compare watt-hours because it describes stored energy more directly.',
+      },
+    ],
+    useCases: [
+      'Convert a Wh-rated power station into Ah.',
+      'Compare energy capacity at 12 V, 24 V, or 48 V.',
+      'Understand why Ah labels change with voltage.',
+      'Prepare battery numbers for runtime estimates.',
+    ],
+    examples: [
+      { label: 'Power station', expression: '5,000 Wh at 120 V', result: 'About 41.67 Ah' },
+      { label: '48 V battery', expression: '4,800 Wh at 48 V', result: '100 Ah' },
+      { label: '12 V battery', expression: '1,200 Wh at 12 V', result: '100 Ah' },
+    ],
+    relatedSlugs: ['amp-hours-to-watt-hours-calculator', 'device-battery-life-calculator', 'electricity-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'wire-resistance-calculator',
+    name: 'Wire Resistance Calculator',
+    category: 'calculators',
+    summary: 'Estimate copper wire resistance from AWG size, length, and conductor count.',
+    description:
+      'Use this free wire resistance calculator to estimate total ohms for common copper AWG wire sizes and lengths.',
+    icon: 'calculator-wire-resistance',
+    formula:
+      'The calculator scales the copper ohms-per-1,000-feet value by wire length and multiplies by the number of conductor lengths included.',
+    limit:
+      'This is a simplified copper resistance estimate. Temperature, strand type, material, connections, and code rules can change real behavior.',
+    inputExplanations: [
+      { term: 'Copper wire size', meaning: 'AWG size used to look up approximate resistance.' },
+      { term: 'One-way length', meaning: 'the conductor length in feet before multiplying by conductor count.' },
+      { term: 'Conductor count', meaning: 'how many conductor lengths are included in the total resistance.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why is conductor count usually 2?',
+        answer:
+          'A simple circuit usually has an out path and a return path. If each path is the same length, using conductor count 2 estimates the loop resistance.',
+      },
+      {
+        question: 'Does wire resistance change with temperature?',
+        answer:
+          'Yes. Copper resistance changes with temperature, and real installations also involve terminations, material, raceway, and code rules. This tool keeps the estimate simple.',
+      },
+    ],
+    useCases: [
+      'Estimate loop resistance for common copper AWG sizes.',
+      'Compare how thicker wire lowers resistance.',
+      'Prepare a resistance value for voltage-drop thinking.',
+      'Learn why length matters in electrical runs.',
+    ],
+    examples: [
+      { label: '12 AWG loop', expression: '12 AWG, 100 ft, conductor count 2', result: 'About 0.3176 ohms' },
+      { label: '8 AWG long run', expression: '8 AWG, 150 ft, conductor count 2', result: 'Resistance estimate' },
+      { label: 'One conductor', expression: '10 AWG, 50 ft, conductor count 1', result: 'One-way resistance estimate' },
+    ],
+    relatedSlugs: ['wire-size-calculator', 'voltage-drop-calculator', 'ohms-law-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'wire-size-calculator',
+    name: 'Wire Size Calculator',
+    category: 'calculators',
+    summary: 'Estimate a copper AWG size from current, length, voltage, phase, and voltage-drop target.',
+    description:
+      'Use this free wire size calculator to estimate a common copper AWG size that stays within a chosen voltage-drop percentage.',
+    icon: 'calculator-wire-size',
+    formula:
+      'The calculator tests common copper AWG sizes and returns the first size whose estimated voltage drop is within the selected percentage.',
+    limit:
+      'This is not a code-complete wire sizing tool. Ampacity, insulation rating, terminals, raceway, temperature, material, and local code must be checked separately.',
+    inputExplanations: [
+      { term: 'Source voltage', meaning: 'voltage before the wire run loses voltage.' },
+      { term: 'Current amps', meaning: 'load current for the voltage-drop estimate.' },
+      { term: 'One-way length', meaning: 'distance from source to load.' },
+      { term: 'Max voltage drop', meaning: 'the target percentage the estimate tries to stay under.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Is this the same as an electrical code wire-size chart?',
+        answer:
+          'No. This estimates voltage drop only. Real wire sizing also needs ampacity, conductor insulation, raceway fill, terminals, temperature, material, and local code rules.',
+      },
+      {
+        question: 'Why can a long run need a larger wire?',
+        answer:
+          'Longer wire has more resistance. More resistance causes more voltage drop, so increasing wire size can reduce the estimated voltage lost along the run.',
+      },
+    ],
+    useCases: [
+      'Estimate copper AWG size for a voltage-drop target.',
+      'Compare branch-circuit and longer-run examples.',
+      'See estimated voltage drop and load voltage together.',
+      'Learn why current and length affect conductor choice.',
+    ],
+    examples: [
+      { label: '120 V branch', expression: '120 V, 15 A, 75 ft, max 3%', result: '12 AWG copper estimate' },
+      { label: '240 V run', expression: '240 V, 30 A, 100 ft, max 3%', result: 'Estimated AWG size' },
+      { label: 'Three-phase run', expression: '208 V, 20 A, 150 ft, max 3%', result: 'Estimated AWG size' },
+    ],
+    relatedSlugs: ['wire-resistance-calculator', 'voltage-drop-calculator', 'electricity-calculator'],
+  }),
+  makeUtilityTool({
     slug: 'btu-calculator',
     name: 'BTU Calculator',
     category: 'everyday-tools',
