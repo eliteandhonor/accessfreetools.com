@@ -7169,6 +7169,96 @@ export interface MonitorPpiResult {
   aspectLabel: string;
 }
 
+export interface RecipeScaleResult {
+  ingredientName: string;
+  amount: number;
+  unit: string;
+  originalServings: number;
+  desiredServings: number;
+  scaleFactor: number;
+  scaledAmount: number;
+}
+
+export interface CookingMeasurementConversionResult {
+  amount: number;
+  fromUnit: string;
+  toUnit: string;
+  densityGramsPerCup: number;
+  convertedAmount: number;
+  inputKind: 'volume' | 'mass';
+  outputKind: 'volume' | 'mass';
+  note: string;
+}
+
+export interface IngredientCostResult {
+  amountNeeded: number;
+  neededUnit: string;
+  packageAmount: number;
+  packageUnit: string;
+  packagePrice: number;
+  densityGramsPerCup: number;
+  packageAmountInNeededUnit: number;
+  unitCost: number;
+  recipeCost: number;
+}
+
+export interface UnitPriceComparisonResult {
+  itemAName: string;
+  itemBName: string;
+  itemAPrice: number;
+  itemBPrice: number;
+  itemAQuantity: number;
+  itemBQuantity: number;
+  unit: string;
+  itemAUnitPrice: number;
+  itemBUnitPrice: number;
+  cheaperName: string;
+  savingsPerUnit: number;
+  savingsPercent: number;
+}
+
+export interface CostPerServingResult {
+  foodName: string;
+  totalCost: number;
+  extraCost: number;
+  servings: number;
+  totalBatchCost: number;
+  costPerServing: number;
+}
+
+export interface OvenTemperatureResult {
+  inputTemperature: number;
+  inputUnit: string;
+  fahrenheit: number;
+  celsius: number;
+  nearestGasMark: string;
+  nearestGasMarkFahrenheit: number;
+}
+
+export interface ButterConversionResult {
+  amount: number;
+  unit: string;
+  teaspoons: number;
+  tablespoons: number;
+  cups: number;
+  sticks: number;
+  ounces: number;
+  grams: number;
+  pounds: number;
+}
+
+export interface BakingPanConversionResult {
+  oldLengthInches: number;
+  oldWidthInches: number;
+  newLengthInches: number;
+  newWidthInches: number;
+  originalServings: number | null;
+  oldAreaSquareInches: number;
+  newAreaSquareInches: number;
+  scaleFactor: number;
+  scaledServings: number | null;
+}
+
 export interface GdpEstimateResult {
   consumption: number;
   investment: number;
@@ -9733,6 +9823,312 @@ export function calculateMonitorPpi(widthPixels: number, heightPixels: number, d
     aspectWidth,
     aspectHeight,
     aspectLabel: `${aspectWidth}:${aspectHeight}`,
+  };
+}
+
+const cookingVolumeUnitsToCups: Record<string, number> = {
+  teaspoon: 1 / 48,
+  tablespoon: 1 / 16,
+  'fluid-ounce': 1 / 8,
+  cup: 1,
+  pint: 2,
+  quart: 4,
+  gallon: 16,
+  milliliter: 1 / 236.5882365,
+  liter: 4.22675284,
+};
+
+const cookingMassUnitsToGrams: Record<string, number> = {
+  gram: 1,
+  kilogram: 1000,
+  ounce: 28.349523125,
+  pound: 453.59237,
+};
+
+function cookingUnitKind(unit: string): 'volume' | 'mass' | null {
+  if (unit in cookingVolumeUnitsToCups) {
+    return 'volume';
+  }
+
+  if (unit in cookingMassUnitsToGrams) {
+    return 'mass';
+  }
+
+  return null;
+}
+
+function convertCookingAmount(amount: number, fromUnit: string, toUnit: string, densityGramsPerCup: number) {
+  assertPositiveNumber(amount, 'Amount');
+  assertPositiveNumber(densityGramsPerCup, 'Ingredient density');
+
+  const fromKind = cookingUnitKind(fromUnit);
+  const toKind = cookingUnitKind(toUnit);
+
+  if (!fromKind || !toKind) {
+    throw new Error('Choose supported cooking units');
+  }
+
+  const cups =
+    fromKind === 'volume'
+      ? amount * cookingVolumeUnitsToCups[fromUnit]
+      : (amount * cookingMassUnitsToGrams[fromUnit]) / densityGramsPerCup;
+  const convertedAmount =
+    toKind === 'volume' ? cups / cookingVolumeUnitsToCups[toUnit] : cups * densityGramsPerCup / cookingMassUnitsToGrams[toUnit];
+
+  return { convertedAmount, fromKind, toKind };
+}
+
+export function calculateRecipeScale(
+  ingredientName: string,
+  amount: number,
+  unit: string,
+  originalServings: number,
+  desiredServings: number,
+): RecipeScaleResult {
+  assertPositiveNumber(amount, 'Ingredient amount');
+  assertPositiveNumber(originalServings, 'Original servings');
+  assertPositiveNumber(desiredServings, 'Desired servings');
+
+  const scaleFactor = desiredServings / originalServings;
+
+  return {
+    ingredientName: ingredientName.trim() || 'Ingredient',
+    amount,
+    unit: unit.trim() || 'units',
+    originalServings,
+    desiredServings,
+    scaleFactor,
+    scaledAmount: amount * scaleFactor,
+  };
+}
+
+export function convertCookingMeasurement(
+  amount: number,
+  fromUnit: string,
+  toUnit: string,
+  densityGramsPerCup = 120,
+): CookingMeasurementConversionResult {
+  const { convertedAmount, fromKind, toKind } = convertCookingAmount(amount, fromUnit, toUnit, densityGramsPerCup);
+  const note =
+    fromKind === toKind
+      ? 'This conversion uses fixed unit factors because both units measure the same kind of quantity.'
+      : 'This conversion uses the density you entered because volume-to-weight conversions depend on the ingredient.';
+
+  return {
+    amount,
+    fromUnit,
+    toUnit,
+    densityGramsPerCup,
+    convertedAmount,
+    inputKind: fromKind,
+    outputKind: toKind,
+    note,
+  };
+}
+
+export function calculateIngredientCost(
+  amountNeeded: number,
+  neededUnit: string,
+  packageAmount: number,
+  packageUnit: string,
+  packagePrice: number,
+  densityGramsPerCup = 120,
+): IngredientCostResult {
+  assertPositiveNumber(amountNeeded, 'Amount needed');
+  assertPositiveNumber(packageAmount, 'Package amount');
+  assertNonNegativeNumber(packagePrice, 'Package price');
+
+  const packageAmountInNeededUnit = convertCookingAmount(packageAmount, packageUnit, neededUnit, densityGramsPerCup).convertedAmount;
+
+  if (packageAmountInNeededUnit <= 0) {
+    throw new Error('Package amount must convert to a positive amount');
+  }
+
+  const unitCost = packagePrice / packageAmountInNeededUnit;
+  const recipeCost = amountNeeded * unitCost;
+
+  return {
+    amountNeeded,
+    neededUnit,
+    packageAmount,
+    packageUnit,
+    packagePrice,
+    densityGramsPerCup,
+    packageAmountInNeededUnit,
+    unitCost,
+    recipeCost,
+  };
+}
+
+export function compareUnitPrices(
+  itemAName: string,
+  itemAPrice: number,
+  itemAQuantity: number,
+  itemBName: string,
+  itemBPrice: number,
+  itemBQuantity: number,
+  unit: string,
+): UnitPriceComparisonResult {
+  assertNonNegativeNumber(itemAPrice, 'Item A price');
+  assertPositiveNumber(itemAQuantity, 'Item A quantity');
+  assertNonNegativeNumber(itemBPrice, 'Item B price');
+  assertPositiveNumber(itemBQuantity, 'Item B quantity');
+
+  const itemAUnitPrice = itemAPrice / itemAQuantity;
+  const itemBUnitPrice = itemBPrice / itemBQuantity;
+  const cheaperName = itemAUnitPrice <= itemBUnitPrice ? itemAName.trim() || 'Item A' : itemBName.trim() || 'Item B';
+  const higherUnitPrice = Math.max(itemAUnitPrice, itemBUnitPrice);
+  const lowerUnitPrice = Math.min(itemAUnitPrice, itemBUnitPrice);
+
+  return {
+    itemAName: itemAName.trim() || 'Item A',
+    itemBName: itemBName.trim() || 'Item B',
+    itemAPrice,
+    itemBPrice,
+    itemAQuantity,
+    itemBQuantity,
+    unit: unit.trim() || 'unit',
+    itemAUnitPrice,
+    itemBUnitPrice,
+    cheaperName,
+    savingsPerUnit: higherUnitPrice - lowerUnitPrice,
+    savingsPercent: higherUnitPrice === 0 ? 0 : ((higherUnitPrice - lowerUnitPrice) / higherUnitPrice) * 100,
+  };
+}
+
+export function calculateCostPerServing(
+  foodName: string,
+  totalCost: number,
+  servings: number,
+  extraCost = 0,
+): CostPerServingResult {
+  assertNonNegativeNumber(totalCost, 'Total cost');
+  assertNonNegativeNumber(extraCost, 'Extra cost');
+  assertPositiveNumber(servings, 'Servings');
+
+  const totalBatchCost = totalCost + extraCost;
+
+  return {
+    foodName: foodName.trim() || 'Recipe',
+    totalCost,
+    extraCost,
+    servings,
+    totalBatchCost,
+    costPerServing: totalBatchCost / servings,
+  };
+}
+
+const gasMarkTemperatures = [
+  { mark: '1/4', fahrenheit: 225 },
+  { mark: '1/2', fahrenheit: 250 },
+  { mark: '1', fahrenheit: 275 },
+  { mark: '2', fahrenheit: 300 },
+  { mark: '3', fahrenheit: 325 },
+  { mark: '4', fahrenheit: 350 },
+  { mark: '5', fahrenheit: 375 },
+  { mark: '6', fahrenheit: 400 },
+  { mark: '7', fahrenheit: 425 },
+  { mark: '8', fahrenheit: 450 },
+  { mark: '9', fahrenheit: 475 },
+];
+
+function gasMarkToNumber(mark: string) {
+  return mark === '1/4' ? 0.25 : mark === '1/2' ? 0.5 : Number(mark);
+}
+
+export function convertOvenTemperature(inputTemperature: number, inputUnit: string): OvenTemperatureResult {
+  assertPositiveNumber(inputTemperature, 'Temperature');
+
+  let fahrenheit: number;
+
+  if (inputUnit === 'fahrenheit') {
+    fahrenheit = inputTemperature;
+  } else if (inputUnit === 'celsius') {
+    fahrenheit = (inputTemperature * 9) / 5 + 32;
+  } else if (inputUnit === 'gas-mark') {
+    const exactGasMark = gasMarkTemperatures.find((entry) => gasMarkToNumber(entry.mark) === inputTemperature);
+    fahrenheit = exactGasMark?.fahrenheit ?? 250 + inputTemperature * 50;
+  } else {
+    throw new Error('Choose a supported oven temperature unit');
+  }
+
+  const nearest = gasMarkTemperatures.reduce((best, candidate) =>
+    Math.abs(candidate.fahrenheit - fahrenheit) < Math.abs(best.fahrenheit - fahrenheit) ? candidate : best,
+  );
+
+  return {
+    inputTemperature,
+    inputUnit,
+    fahrenheit,
+    celsius: ((fahrenheit - 32) * 5) / 9,
+    nearestGasMark: nearest.mark,
+    nearestGasMarkFahrenheit: nearest.fahrenheit,
+  };
+}
+
+export function convertButter(amount: number, unit: string): ButterConversionResult {
+  assertPositiveNumber(amount, 'Butter amount');
+
+  const tablespoonsByUnit: Record<string, number> = {
+    teaspoon: 1 / 3,
+    tablespoon: 1,
+    cup: 16,
+    stick: 8,
+    ounce: 2,
+    gram: 1 / 14.1747615625,
+    pound: 32,
+  };
+  const tablespoons = amount * (tablespoonsByUnit[unit] ?? 0);
+
+  if (!tablespoons) {
+    throw new Error('Choose a supported butter unit');
+  }
+
+  return {
+    amount,
+    unit,
+    teaspoons: tablespoons * 3,
+    tablespoons,
+    cups: tablespoons / 16,
+    sticks: tablespoons / 8,
+    ounces: tablespoons / 2,
+    grams: tablespoons * 14.1747615625,
+    pounds: tablespoons / 32,
+  };
+}
+
+export function calculateBakingPanConversion(
+  oldLengthInches: number,
+  oldWidthInches: number,
+  newLengthInches: number,
+  newWidthInches: number,
+  originalServings?: number,
+): BakingPanConversionResult {
+  assertPositiveNumber(oldLengthInches, 'Original pan length');
+  assertPositiveNumber(oldWidthInches, 'Original pan width');
+  assertPositiveNumber(newLengthInches, 'New pan length');
+  assertPositiveNumber(newWidthInches, 'New pan width');
+
+  const servings = originalServings === undefined || originalServings === 0 ? null : originalServings;
+
+  if (servings !== null) {
+    assertPositiveNumber(servings, 'Original servings');
+  }
+
+  const oldAreaSquareInches = oldLengthInches * oldWidthInches;
+  const newAreaSquareInches = newLengthInches * newWidthInches;
+  const scaleFactor = newAreaSquareInches / oldAreaSquareInches;
+
+  return {
+    oldLengthInches,
+    oldWidthInches,
+    newLengthInches,
+    newWidthInches,
+    originalServings: servings,
+    oldAreaSquareInches,
+    newAreaSquareInches,
+    scaleFactor,
+    scaledServings: servings === null ? null : servings * scaleFactor,
   };
 }
 

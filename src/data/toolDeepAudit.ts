@@ -296,6 +296,21 @@ const calculatorInnSitemap = {
   label: 'CalculatorInn sitemap: Tech & AI competitor gap reference',
 };
 
+const inchCalculatorSitemap = {
+  href: 'https://www.inchcalculator.com/sitemap/',
+  label: 'Inch Calculator sitemap: recipe, cooking, and shopping competitor gap reference',
+};
+
+const usdaFoodDataCentral = {
+  href: 'https://fdc.nal.usda.gov/',
+  label: 'USDA FoodData Central: ingredient and food data reference',
+};
+
+const foodSafetyTemperatures = {
+  href: 'https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures',
+  label: 'FoodSafety.gov: safe minimum internal temperatures',
+};
+
 const openAiTokens = {
   href: 'https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-do-i-count-them',
   label: 'OpenAI Help: What are tokens and how do I count them?',
@@ -5598,6 +5613,158 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     followUps: [
       'Add common display presets later only if they remain small and do not crowd the calculator UI.',
+    ],
+  },
+  {
+    slug: 'recipe-scaler',
+    status: 'deep-reviewed',
+    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchCalculatorSitemap, googleHelpfulContent],
+    findings: [
+      'Inch Calculator competitor research surfaced recipe scaling and serving conversion as a gap in the local library.',
+      'Formula review checked scale factor, original servings, desired servings, original amount, and scaled amount.',
+      'FAQ and guide explain one-line scaling, seasoning limits, rounding issues, and why pan size or cook time can still change.',
+    ],
+    improvements: [
+      'Added recipe scaling UI, examples, guide details, FAQ depth, related kitchen tools, browser-only privacy wording, and formula tests.',
+    ],
+    followUps: [
+      'Consider a multi-ingredient table later only if the UI can keep each line easy to review and copy.',
+    ],
+  },
+  {
+    slug: 'cooking-measurement-converter',
+    status: 'deep-reviewed',
+    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchCalculatorSitemap, nistSi, usdaFoodDataCentral, googleHelpfulContent],
+    findings: [
+      'Competitor research showed kitchen measurement conversion as a useful converter gap, especially cups-to-grams style searches.',
+      'Formula review checked fixed volume factors, fixed mass factors, and density-based volume-to-mass conversion.',
+      'FAQ and guide explain density grams per cup, ingredient variability, and why baking accuracy may need a scale.',
+    ],
+    improvements: [
+      'Added cooking unit converter UI, density field help, examples, source-backed guide, FAQ depth, converter category placement, and tests.',
+    ],
+    followUps: [
+      'Add ingredient density presets only after they are source-linked and clearly labeled as approximate.',
+    ],
+  },
+  {
+    slug: 'ingredient-cost-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchCalculatorSitemap, nistSi, usdaFoodDataCentral, googleHelpfulContent],
+    findings: [
+      'The ingredient cost tool fills a competitor and user-value gap between recipe conversion and shopping math.',
+      'Formula review checked package conversion into recipe units, unit cost, and recipe amount cost.',
+      'FAQ and guide cover density, tax, waste, coupons, leftovers, and package-unit mismatch.',
+    ],
+    improvements: [
+      'Added ingredient cost UI, cooking unit conversion support, examples, guide, detailed FAQ, related serving and unit-price pathways, and tests.',
+    ],
+    followUps: [
+      'Add a full recipe cost worksheet later if it can stay lightweight and mobile-friendly.',
+    ],
+  },
+  {
+    slug: 'unit-price-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchCalculatorSitemap, nistSi, googleHelpfulContent],
+    findings: [
+      'Unit price comparison is a practical shopping calculator gap that also supports grocery and household searches.',
+      'Formula review checked price divided by quantity for two products, cheaper option, savings per unit, and savings percent.',
+      'FAQ and guide explain shared units, ounces-versus-pounds mistakes, quality differences, coupons, and expiration limits.',
+    ],
+    improvements: [
+      'Added two-item comparison UI, examples, unit price outputs, guide detail, FAQ depth, related shopping links, and tests.',
+    ],
+    followUps: [
+      'Consider a three-item comparison mode later if it does not make the first-use form feel crowded.',
+    ],
+  },
+  {
+    slug: 'cost-per-serving-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchCalculatorSitemap, googleHelpfulContent],
+    findings: [
+      'Cost per serving adds a simple but high-use food budgeting tool that connects recipe costs to meal-prep decisions.',
+      'Formula review checked main cost, extra cost, servings, total batch cost, and cost per serving.',
+      'FAQ and guide explain realistic serving counts, optional extras, package costs, and why portion size changes the answer.',
+    ],
+    improvements: [
+      'Added serving-cost UI, examples, guide details, detailed FAQ, related kitchen shopping links, and formula tests.',
+    ],
+    followUps: [
+      'Add target selling-price support later if the site builds a small-business or bake-sale cluster.',
+    ],
+  },
+  {
+    slug: 'oven-temperature-converter',
+    status: 'deep-reviewed',
+    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchCalculatorSitemap, nistSi, foodSafetyTemperatures, googleHelpfulContent],
+    findings: [
+      'Oven temperature conversion is a focused cooking converter gap that should not be hidden inside a generic temperature tool.',
+      'Formula review checked Fahrenheit, Celsius, gas mark input, nearest gas mark, and oven-setting caveats.',
+      'FAQ and guide distinguish oven temperature conversion from food internal safety temperature.',
+    ],
+    improvements: [
+      'Added oven temperature UI, gas mark approximation, examples, safety-aware notes, guide details, FAQ depth, and tests.',
+    ],
+    followUps: [
+      'Consider adding common oven terms like low, moderate, and hot only if the wording remains clearly approximate.',
+    ],
+  },
+  {
+    slug: 'butter-converter',
+    status: 'deep-reviewed',
+    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchCalculatorSitemap, nistSi, googleHelpfulContent],
+    findings: [
+      'Butter conversion is a common recipe lookup that benefits from a focused page rather than generic mass or volume conversion alone.',
+      'Formula review checked teaspoons, tablespoons, cups, sticks, ounces, grams, and pounds using common US butter equivalents.',
+      'FAQ and guide warn that stick sizes and packaging can differ outside common US butter labeling.',
+    ],
+    improvements: [
+      'Added butter converter UI, common recipe outputs, examples, guide detail, FAQ depth, related kitchen tools, and tests.',
+    ],
+    followUps: [
+      'Add regional butter pack presets only when the labels are clear and do not confuse the default US stick math.',
+    ],
+  },
+  {
+    slug: 'baking-pan-conversion-calculator',
+    status: 'deep-reviewed',
+    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [inchCalculatorSitemap, nistSi, googleHelpfulContent],
+    findings: [
+      'Baking pan conversion fills a recipe utility gap by turning pan dimensions into an area-based scaling factor.',
+      'Formula review checked old area, new area, scale factor, and optional scaled servings.',
+      'FAQ and guide explain why rectangular pan area is only a starting point and bake time can change.',
+    ],
+    improvements: [
+      'Added pan conversion UI, examples, guide detail, detailed FAQ, related recipe links, and formula tests.',
+    ],
+    followUps: [
+      'Add round-pan support later with a separate mode so rectangular and circular area formulas remain clear.',
     ],
   },
 ];

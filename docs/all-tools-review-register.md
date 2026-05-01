@@ -4,11 +4,11 @@ This register is the work tracker for the whole library. It exists so the top 25
 
 ## Scope
 
-- Canonical tools: 250.
+- Canonical tools: 258.
 - Alias URLs: 4.
-- Public tool URLs: 254.
-- Blog guides: 250.
-- Current manual deep-review records: 250.
+- Public tool URLs: 262.
+- Blog guides: 258.
+- Current manual deep-review records: 258.
 - Current baseline-review records: 0.
 - Current alias-review records: 4.
 
@@ -18,8 +18,8 @@ The source of truth for review status is `src/data/toolDeepAudit.ts`. The site a
 
 Manual review completion status: complete for the current canonical library.
 
-- Deep-reviewed canonical tools: 250 of 250.
-- Baseline-reviewed canonical tools still needing individual manual review: 0 of 250.
+- Deep-reviewed canonical tools: 258 of 258.
+- Baseline-reviewed canonical tools still needing individual manual review: 0 of 258.
 - Alias-reviewed public URLs: 4 of 4.
 
 Do not mark a future full-library manual review complete while any canonical tool remains `baseline-reviewed`. A tool can only move from `baseline-reviewed` to `deep-reviewed` after that exact tool has been opened, tested, read, improved where needed, and checked against its guide, FAQ, examples, sources, SEO, privacy behavior, and layout.
@@ -42,7 +42,8 @@ Do not mark a future full-library manual review complete while any canonical too
 | 6 | Developer, image, text, random, everyday utilities, and final GDP/height/sleep cleanup | Privacy, clipboard behavior, browser-only handling, UX speed, and leftover category coverage matter most. |
 | 7 | AI tools | Browser-only model loading, no-upload privacy wording, source-backed model limits, and readable AI guide content matter most. |
 | 8 | Competitor Tech & AI utilities | Current competitor gap batch covering token cost, API cost, speed, streaming, battery, and display-density tools. |
-| 9 | Alias pages | Confirm canonical links, search intent, non-duplication, and user routing. |
+| 9 | Competitor kitchen, recipe, and shopping utilities | Recipe scaling, cooking units, grocery math, serving costs, oven/butter conversion, and pan-size scaling add practical everyday gaps. |
+| 10 | Alias pages | Confirm canonical links, search intent, non-duplication, and user routing. |
 
 ## Batch 2 Finance Progress
 
@@ -82,6 +83,12 @@ Batch 8 is complete as of 2026-05-01. The competitor Tech & AI tools individuall
 
 The review checked CalculatorInn sitemap gap coverage, formula math, no-stale-price AI cost design, bits-versus-bytes wording, battery watt-hour wording, PPI formula wording, examples, FAQ detail, guide specificity, related links, privacy behavior, and tests.
 
+## Batch 9 Competitor Kitchen, Recipe, And Shopping Progress
+
+Batch 9 is complete as of 2026-05-01. The competitor kitchen, recipe, and shopping tools individually checked and promoted are: Recipe Scaler, Cooking Measurement Converter, Ingredient Cost Calculator, Unit Price Calculator, Cost Per Serving Calculator, Oven Temperature Converter, Butter Converter, and Baking Pan Conversion Calculator.
+
+The review checked Inch Calculator sitemap gap coverage, NIST unit references, USDA ingredient-data context, food-safety wording where oven temperature could be misunderstood, formula math, density grams-per-cup explanations, examples, FAQ detail, guide specificity, related links, privacy behavior, and tests.
+
 No current canonical tool remains in the manual queue. Future tools must reopen this register and start as reviewed only after their exact page, FAQ, guide, examples, sources, privacy behavior, and layout have been checked.
 
 ## Per-Tool Checklist
@@ -104,18 +111,18 @@ Each tool must eventually pass this manual checklist:
 
 ## Progress Rule
 
-Do not change a generated or baseline record to `deep-reviewed` in bulk. Promotion must happen one tool at a time or in a clearly reviewed batch where each tool was actually opened, tested, and read. For the current 250-tool canonical library, the manual queue is complete; this rule applies to every future new tool or reopened tool.
+Do not change a generated or baseline record to `deep-reviewed` in bulk. Promotion must happen one tool at a time or in a clearly reviewed batch where each tool was actually opened, tested, and read. For the current 258-tool canonical library, the manual queue is complete; this rule applies to every future new tool or reopened tool.
 
 ## Completion Rule
 
 Full-library review is complete only when:
 
-- All 250 canonical tools are manually checked and truthfully marked `deep-reviewed`.
+- All 258 canonical tools are manually checked and truthfully marked `deep-reviewed`.
 - All 4 alias URLs are checked for canonical routing, search intent, and duplicate-content risk.
-- All 250 blog guides are read against the actual tool page.
+- All 258 blog guides are read against the actual tool page.
 - High-trust topics have clear limitations and professional-advice disclaimers.
 - Every changed tool passes the per-tool checklist above.
 - `npm run check` passes after the final batch.
 - Browser preview and production spot checks pass for representative pages.
 
-For the current canonical library, the correct public status is that Access Free Tools has complete manual deep-review coverage for 250 canonical tools, alias review coverage for 4 alias URLs, and a repeatable review program for future tools.
+For the current canonical library, the correct public status is that Access Free Tools has complete manual deep-review coverage for 258 canonical tools, alias review coverage for 4 alias URLs, and a repeatable review program for future tools.

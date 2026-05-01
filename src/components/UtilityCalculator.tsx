@@ -47,8 +47,12 @@ import {
   calculateMolarity,
   calculateMolecularWeight,
   calculateInternetSpeedNeeds,
+  calculateBakingPanConversion,
+  calculateCostPerServing,
+  calculateIngredientCost,
   calculateMonitorPpi,
   calculateNeededFinalGrade,
+  calculateRecipeScale,
   calculateOhmsLaw,
   calculateMulchEstimate,
   calculatePaintEstimate,
@@ -97,6 +101,10 @@ import {
   generateSlug,
   generatePassword,
   calculateStreamingBitrate,
+  compareUnitPrices,
+  convertButter,
+  convertCookingMeasurement,
+  convertOvenTemperature,
   generateUuidBatch,
   parseQueryStringInput,
   getCopperResistanceOhmsPer1000Feet,
@@ -205,6 +213,14 @@ export type UtilityToolVariant =
   | 'streaming-bitrate-calculator'
   | 'device-battery-life-calculator'
   | 'monitor-ppi-calculator'
+  | 'recipe-scaler'
+  | 'cooking-measurement-converter'
+  | 'ingredient-cost-calculator'
+  | 'unit-price-calculator'
+  | 'cost-per-serving-calculator'
+  | 'oven-temperature-converter'
+  | 'butter-converter'
+  | 'baking-pan-conversion-calculator'
   | 'markdown-table-generator';
 
 type InputMode = HTMLAttributes<HTMLInputElement>['inputMode'];
@@ -499,6 +515,51 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     heightPixels: 'Vertical pixel count, such as 1080, 1440, or 2160.',
     diagonalInches: 'Screen diagonal size in inches, usually from the monitor or laptop spec sheet.',
   },
+  'recipe-scaler': {
+    ingredientName: 'Optional label for the ingredient you are scaling.',
+    amount: 'The original amount for one ingredient line.',
+    unit: 'The unit from the original recipe, such as cups, grams, tablespoons, or pieces.',
+    originalServings: 'How many servings the original recipe makes.',
+    desiredServings: 'How many servings you want to make now.',
+  },
+  'cooking-measurement-converter': {
+    amount: 'The ingredient amount to convert.',
+    densityGramsPerCup:
+      'Ingredient weight for 1 US cup. This matters when converting between volume and weight because ingredients pack differently.',
+  },
+  'ingredient-cost-calculator': {
+    amountNeeded: 'How much of the ingredient your recipe needs.',
+    packageAmount: 'How much ingredient is in the package or container.',
+    packagePrice: 'The package price before tax or discounts unless you want those included.',
+    densityGramsPerCup: 'Use the ingredient weight per cup when the package and recipe use different volume or weight units.',
+  },
+  'unit-price-calculator': {
+    itemAPrice: 'Shelf price for the first product.',
+    itemAQuantity: 'Package size for the first product in the same unit as item B.',
+    itemBPrice: 'Shelf price for the second product.',
+    itemBQuantity: 'Package size for the second product in the same unit as item A.',
+    unit: 'The shared comparison unit, such as oz, lb, count, sheet, or fl oz.',
+  },
+  'cost-per-serving-calculator': {
+    totalCost: 'Food, ingredient, or meal cost you want to spread across servings.',
+    extraCost: 'Optional packaging, topping, delivery, or fee amount to include.',
+    servings: 'How many servings the batch makes.',
+  },
+  'oven-temperature-converter': {
+    temperature: 'Recipe oven temperature, not food internal temperature.',
+    unit: 'Choose the unit used by the recipe: Fahrenheit, Celsius, or gas mark.',
+  },
+  'butter-converter': {
+    amount: 'Butter quantity from the recipe or package.',
+    unit: 'Butter unit you are starting from.',
+  },
+  'baking-pan-conversion-calculator': {
+    oldLengthInches: 'Length of the recipe pan in inches.',
+    oldWidthInches: 'Width of the recipe pan in inches.',
+    newLengthInches: 'Length of the pan you want to use.',
+    newWidthInches: 'Width of the pan you want to use.',
+    originalServings: 'Optional servings from the original pan size.',
+  },
 };
 
 function getFieldHelp(variant: UtilityToolVariant, field: UtilityField) {
@@ -683,6 +744,38 @@ const bandwidthSpeedUnitOptions: SelectOption[] = ['Kbps', 'Mbps', 'Gbps'].map((
 const fileSizeUnitOptions: SelectOption[] = ['KB', 'MB', 'GB', 'TB'].map((value) => ({ label: value, value }));
 
 const bitrateUnitOptions: SelectOption[] = ['Kbps', 'Mbps'].map((value) => ({ label: value, value }));
+
+const cookingMeasurementUnitOptions: SelectOption[] = [
+  { label: 'Teaspoons', value: 'teaspoon' },
+  { label: 'Tablespoons', value: 'tablespoon' },
+  { label: 'Fluid ounces', value: 'fluid-ounce' },
+  { label: 'Cups', value: 'cup' },
+  { label: 'Pints', value: 'pint' },
+  { label: 'Quarts', value: 'quart' },
+  { label: 'Gallons', value: 'gallon' },
+  { label: 'Milliliters', value: 'milliliter' },
+  { label: 'Liters', value: 'liter' },
+  { label: 'Grams', value: 'gram' },
+  { label: 'Kilograms', value: 'kilogram' },
+  { label: 'Ounces', value: 'ounce' },
+  { label: 'Pounds', value: 'pound' },
+];
+
+const ovenTemperatureUnitOptions: SelectOption[] = [
+  { label: 'Fahrenheit', value: 'fahrenheit' },
+  { label: 'Celsius', value: 'celsius' },
+  { label: 'Gas mark', value: 'gas-mark' },
+];
+
+const butterUnitOptions: SelectOption[] = [
+  { label: 'Teaspoons', value: 'teaspoon' },
+  { label: 'Tablespoons', value: 'tablespoon' },
+  { label: 'Cups', value: 'cup' },
+  { label: 'Sticks', value: 'stick' },
+  { label: 'Ounces', value: 'ounce' },
+  { label: 'Grams', value: 'gram' },
+  { label: 'Pounds', value: 'pound' },
+];
 
 const horsepowerUnitOptions: SelectOption[] = [
   { label: 'Mechanical hp', value: 'horsepower' },
@@ -2985,6 +3078,209 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
       },
     ],
   },
+  'recipe-scaler': {
+    title: 'Recipe Scaler',
+    buttonLabel: 'Scale recipe',
+    emptyHistory: 'Recent recipe scaling results will appear here.',
+    privacyNote: 'Recipe scaling runs in your browser. It scales math only and cannot judge taste, texture, oven size, or food safety.',
+    modes: [
+      {
+        id: 'scale',
+        label: 'Scale',
+        symbol: 'x',
+        fields: [
+          textField('ingredientName', 'Ingredient name', 'Flour'),
+          numberField('amount', 'Original amount'),
+          textField('unit', 'Unit', 'cups'),
+          numberField('originalServings', 'Original servings'),
+          numberField('desiredServings', 'Desired servings'),
+        ],
+        defaultInputs: { ingredientName: 'Flour', amount: '2', unit: 'cups', originalServings: '4', desiredServings: '10' },
+        examples: [
+          { label: 'Dinner for 10', inputs: { ingredientName: 'Flour', amount: '2', unit: 'cups', originalServings: '4', desiredServings: '10' } },
+          { label: 'Half batch', inputs: { ingredientName: 'Sugar', amount: '300', unit: 'grams', originalServings: '12', desiredServings: '6' } },
+          { label: 'Party tray', inputs: { ingredientName: 'Eggs', amount: '3', unit: 'eggs', originalServings: '8', desiredServings: '20' } },
+        ],
+      },
+    ],
+  },
+  'cooking-measurement-converter': {
+    title: 'Cooking Measurement Converter',
+    buttonLabel: 'Convert cooking amount',
+    emptyHistory: 'Recent cooking conversions will appear here.',
+    privacyNote: 'Cooking conversions stay local. Volume-to-weight conversions use the density you enter and are approximate.',
+    modes: [
+      {
+        id: 'convert',
+        label: 'Convert',
+        symbol: 'CUP',
+        fields: [
+          numberField('amount', 'Amount'),
+          selectField('fromUnit', 'From unit', cookingMeasurementUnitOptions),
+          selectField('toUnit', 'To unit', cookingMeasurementUnitOptions),
+          numberField('densityGramsPerCup', 'Density grams per cup'),
+        ],
+        defaultInputs: { amount: '2', fromUnit: 'cup', toUnit: 'gram', densityGramsPerCup: '120' },
+        examples: [
+          { label: 'Flour cups to grams', inputs: { amount: '2', fromUnit: 'cup', toUnit: 'gram', densityGramsPerCup: '120' } },
+          { label: 'Milk mL to cups', inputs: { amount: '500', fromUnit: 'milliliter', toUnit: 'cup', densityGramsPerCup: '245' } },
+          { label: 'Butter ounces to grams', inputs: { amount: '4', fromUnit: 'ounce', toUnit: 'gram', densityGramsPerCup: '227' } },
+        ],
+      },
+    ],
+  },
+  'ingredient-cost-calculator': {
+    title: 'Ingredient Cost Calculator',
+    buttonLabel: 'Calculate ingredient cost',
+    emptyHistory: 'Recent ingredient cost estimates will appear here.',
+    privacyNote: 'Ingredient cost math stays in this browser. Prices, taxes, coupons, and package sizes can change.',
+    modes: [
+      {
+        id: 'ingredient-cost',
+        label: 'Ingredient cost',
+        symbol: '$/ING',
+        fields: [
+          numberField('amountNeeded', 'Amount needed'),
+          selectField('neededUnit', 'Needed unit', cookingMeasurementUnitOptions),
+          numberField('packageAmount', 'Package amount'),
+          selectField('packageUnit', 'Package unit', cookingMeasurementUnitOptions),
+          numberField('packagePrice', 'Package price'),
+          numberField('densityGramsPerCup', 'Density grams per cup'),
+        ],
+        defaultInputs: { amountNeeded: '2', neededUnit: 'cup', packageAmount: '5', packageUnit: 'pound', packagePrice: '4.49', densityGramsPerCup: '120' },
+        examples: [
+          { label: 'Flour for recipe', inputs: { amountNeeded: '2', neededUnit: 'cup', packageAmount: '5', packageUnit: 'pound', packagePrice: '4.49', densityGramsPerCup: '120' } },
+          { label: 'Chocolate chips', inputs: { amountNeeded: '170', neededUnit: 'gram', packageAmount: '12', packageUnit: 'ounce', packagePrice: '3.99', densityGramsPerCup: '170' } },
+          { label: 'Milk in batter', inputs: { amountNeeded: '250', neededUnit: 'milliliter', packageAmount: '1', packageUnit: 'gallon', packagePrice: '4.20', densityGramsPerCup: '245' } },
+        ],
+      },
+    ],
+  },
+  'unit-price-calculator': {
+    title: 'Unit Price Calculator',
+    buttonLabel: 'Compare unit prices',
+    emptyHistory: 'Recent unit price comparisons will appear here.',
+    privacyNote: 'Unit price comparisons stay local. Check sale tags, taxes, membership prices, and package size labels before buying.',
+    modes: [
+      {
+        id: 'compare',
+        label: 'Compare',
+        symbol: '$/U',
+        fields: [
+          textField('itemAName', 'Item A name', 'Small box'),
+          numberField('itemAPrice', 'Item A price'),
+          numberField('itemAQuantity', 'Item A quantity'),
+          textField('itemBName', 'Item B name', 'Large box'),
+          numberField('itemBPrice', 'Item B price'),
+          numberField('itemBQuantity', 'Item B quantity'),
+          textField('unit', 'Shared unit', 'oz'),
+        ],
+        defaultInputs: { itemAName: 'Small cereal', itemAPrice: '4.49', itemAQuantity: '12', itemBName: 'Family cereal', itemBPrice: '6.99', itemBQuantity: '21', unit: 'oz' },
+        examples: [
+          { label: 'Cereal boxes', inputs: { itemAName: 'Small cereal', itemAPrice: '4.49', itemAQuantity: '12', itemBName: 'Family cereal', itemBPrice: '6.99', itemBQuantity: '21', unit: 'oz' } },
+          { label: 'Paper towels', inputs: { itemAName: 'Pack A', itemAPrice: '8.99', itemAQuantity: '6', itemBName: 'Pack B', itemBPrice: '12.49', itemBQuantity: '10', unit: 'roll' } },
+          { label: 'Pet food', inputs: { itemAName: 'Bag A', itemAPrice: '18.99', itemAQuantity: '8', itemBName: 'Bag B', itemBPrice: '35.99', itemBQuantity: '18', unit: 'lb' } },
+        ],
+      },
+    ],
+  },
+  'cost-per-serving-calculator': {
+    title: 'Cost Per Serving Calculator',
+    buttonLabel: 'Calculate cost per serving',
+    emptyHistory: 'Recent serving cost estimates will appear here.',
+    privacyNote: 'Serving cost estimates stay local and are only as accurate as the costs and serving count you enter.',
+    modes: [
+      {
+        id: 'serving-cost',
+        label: 'Serving cost',
+        symbol: '$/S',
+        fields: [
+          textField('foodName', 'Recipe or item name', 'Soup'),
+          numberField('totalCost', 'Main cost'),
+          numberField('extraCost', 'Extra cost'),
+          numberField('servings', 'Servings'),
+        ],
+        defaultInputs: { foodName: 'Soup', totalCost: '18.50', extraCost: '2.00', servings: '8' },
+        examples: [
+          { label: 'Soup batch', inputs: { foodName: 'Soup', totalCost: '18.50', extraCost: '2.00', servings: '8' } },
+          { label: 'Meal prep', inputs: { foodName: 'Chicken bowls', totalCost: '42', extraCost: '0', servings: '10' } },
+          { label: 'Bake sale', inputs: { foodName: 'Cupcakes', totalCost: '15.75', extraCost: '3.25', servings: '24' } },
+        ],
+      },
+    ],
+  },
+  'oven-temperature-converter': {
+    title: 'Oven Temperature Converter',
+    buttonLabel: 'Convert oven temperature',
+    emptyHistory: 'Recent oven temperature conversions will appear here.',
+    privacyNote: 'Oven temperature conversion stays local. This does not replace food safety temperature guidance.',
+    modes: [
+      {
+        id: 'oven-temp',
+        label: 'Oven temp',
+        symbol: 'F/C',
+        fields: [
+          numberField('temperature', 'Temperature'),
+          selectField('unit', 'Unit', ovenTemperatureUnitOptions),
+        ],
+        defaultInputs: { temperature: '350', unit: 'fahrenheit' },
+        examples: [
+          { label: 'Common bake temp', inputs: { temperature: '350', unit: 'fahrenheit' } },
+          { label: 'Celsius recipe', inputs: { temperature: '180', unit: 'celsius' } },
+          { label: 'Gas mark recipe', inputs: { temperature: '4', unit: 'gas-mark' } },
+        ],
+      },
+    ],
+  },
+  'butter-converter': {
+    title: 'Butter Converter',
+    buttonLabel: 'Convert butter',
+    emptyHistory: 'Recent butter conversions will appear here.',
+    privacyNote: 'Butter conversions stay local. Stick size and package labeling can vary outside common US packaging.',
+    modes: [
+      {
+        id: 'butter',
+        label: 'Butter',
+        symbol: 'TBSP',
+        fields: [
+          numberField('amount', 'Amount'),
+          selectField('unit', 'Unit', butterUnitOptions),
+        ],
+        defaultInputs: { amount: '1', unit: 'stick' },
+        examples: [
+          { label: 'One stick', inputs: { amount: '1', unit: 'stick' } },
+          { label: 'Half cup', inputs: { amount: '0.5', unit: 'cup' } },
+          { label: 'Metric recipe', inputs: { amount: '115', unit: 'gram' } },
+        ],
+      },
+    ],
+  },
+  'baking-pan-conversion-calculator': {
+    title: 'Baking Pan Conversion Calculator',
+    buttonLabel: 'Scale pan size',
+    emptyHistory: 'Recent pan conversions will appear here.',
+    privacyNote: 'Pan scaling stays local. Bake time, batter depth, and texture still need real kitchen judgment.',
+    modes: [
+      {
+        id: 'pan-scale',
+        label: 'Pan scale',
+        symbol: 'PAN',
+        fields: [
+          numberField('oldLengthInches', 'Old pan length (in)'),
+          numberField('oldWidthInches', 'Old pan width (in)'),
+          numberField('newLengthInches', 'New pan length (in)'),
+          numberField('newWidthInches', 'New pan width (in)'),
+          numberField('originalServings', 'Original servings (optional)', 'Optional'),
+        ],
+        defaultInputs: { oldLengthInches: '9', oldWidthInches: '13', newLengthInches: '8', newWidthInches: '8', originalServings: '12' },
+        examples: [
+          { label: '9x13 to 8x8', inputs: { oldLengthInches: '9', oldWidthInches: '13', newLengthInches: '8', newWidthInches: '8', originalServings: '12' } },
+          { label: '8x8 to 9x13', inputs: { oldLengthInches: '8', oldWidthInches: '8', newLengthInches: '9', newWidthInches: '13', originalServings: '9' } },
+          { label: 'Sheet pan change', inputs: { oldLengthInches: '13', oldWidthInches: '18', newLengthInches: '11', newWidthInches: '15', originalServings: '' } },
+        ],
+      },
+    ],
+  },
   'markdown-table-generator': {
     title: 'Markdown Table Generator',
     buttonLabel: 'Generate table',
@@ -5217,6 +5513,198 @@ function calculateUtility(
           'Simplify width and height pixels into the aspect ratio.',
         ],
         note: 'Perceived sharpness also depends on viewing distance, scaling, panel quality, anti-aliasing, and your eyesight.',
+      };
+    }
+    case 'recipe-scaler': {
+      const result = calculateRecipeScale(
+        inputs.ingredientName ?? '',
+        parseNumber(inputs.amount, 'Original amount'),
+        inputs.unit ?? '',
+        parseNumber(inputs.originalServings, 'Original servings'),
+        parseNumber(inputs.desiredServings, 'Desired servings'),
+      );
+      return {
+        label: 'Scaled ingredient amount',
+        expression: `${formatCalculatorNumber(result.amount)} ${result.unit} for ${formatCalculatorNumber(result.originalServings)} servings`,
+        answer: `${formatCalculatorNumber(result.scaledAmount)} ${result.unit}`,
+        metrics: [
+          { label: 'Ingredient', value: result.ingredientName },
+          { label: 'Scale factor', value: `${formatCalculatorNumber(result.scaleFactor)}x` },
+          { label: 'Desired servings', value: formatCalculatorNumber(result.desiredServings) },
+        ],
+        steps: [
+          'Divide desired servings by original servings to get the scale factor.',
+          'Multiply the ingredient amount by that scale factor.',
+          'Repeat the same idea for each ingredient line in the recipe.',
+        ],
+        note: 'Spices, yeast, thickener, salt, pan size, and cooking time may not scale perfectly. Taste and texture still need judgment.',
+      };
+    }
+    case 'cooking-measurement-converter': {
+      const result = convertCookingMeasurement(
+        parseNumber(inputs.amount, 'Amount'),
+        inputs.fromUnit,
+        inputs.toUnit,
+        parseNumber(inputs.densityGramsPerCup, 'Density grams per cup'),
+      );
+      return {
+        label: 'Converted cooking amount',
+        expression: `${formatCalculatorNumber(result.amount)} ${unitLabel(result.fromUnit)} to ${unitLabel(result.toUnit)}`,
+        answer: `${formatCalculatorNumber(result.convertedAmount)} ${unitLabel(result.toUnit)}`,
+        metrics: [
+          { label: 'Input type', value: unitLabel(result.inputKind) },
+          { label: 'Output type', value: unitLabel(result.outputKind) },
+          { label: 'Density used', value: `${formatCalculatorNumber(result.densityGramsPerCup)} g/cup` },
+        ],
+        steps: [
+          'Convert the starting unit into a common cup or gram base.',
+          result.inputKind === result.outputKind ? 'Apply the fixed unit factor.' : 'Use grams per cup to cross between volume and weight.',
+          'Convert the base amount into the requested output unit.',
+        ],
+        note: result.note,
+      };
+    }
+    case 'ingredient-cost-calculator': {
+      const result = calculateIngredientCost(
+        parseNumber(inputs.amountNeeded, 'Amount needed'),
+        inputs.neededUnit,
+        parseNumber(inputs.packageAmount, 'Package amount'),
+        inputs.packageUnit,
+        parseNumber(inputs.packagePrice, 'Package price'),
+        parseNumber(inputs.densityGramsPerCup, 'Density grams per cup'),
+      );
+      return {
+        label: 'Estimated ingredient cost',
+        expression: `${formatCalculatorNumber(result.amountNeeded)} ${unitLabel(result.neededUnit)} from a ${formatCalculatorNumber(result.packageAmount)} ${unitLabel(result.packageUnit)} package`,
+        answer: moneyPrecise(result.recipeCost),
+        metrics: [
+          { label: 'Unit cost', value: `${moneyPrecise(result.unitCost)} per ${unitLabel(result.neededUnit)}` },
+          { label: 'Package amount converted', value: `${formatCalculatorNumber(result.packageAmountInNeededUnit)} ${unitLabel(result.neededUnit)}` },
+          { label: 'Density used', value: `${formatCalculatorNumber(result.densityGramsPerCup)} g/cup` },
+        ],
+        steps: [
+          'Convert the package amount into the recipe unit.',
+          'Divide package price by the converted package amount to get cost per unit.',
+          'Multiply cost per unit by the amount the recipe needs.',
+        ],
+        note: 'This estimate does not include tax, waste, leftovers, coupons, or price changes unless you include them in the package price.',
+      };
+    }
+    case 'unit-price-calculator': {
+      const result = compareUnitPrices(
+        inputs.itemAName ?? '',
+        parseNumber(inputs.itemAPrice, 'Item A price'),
+        parseNumber(inputs.itemAQuantity, 'Item A quantity'),
+        inputs.itemBName ?? '',
+        parseNumber(inputs.itemBPrice, 'Item B price'),
+        parseNumber(inputs.itemBQuantity, 'Item B quantity'),
+        inputs.unit ?? '',
+      );
+      return {
+        label: 'Better unit price',
+        expression: `${result.itemAName} vs ${result.itemBName}`,
+        answer: result.cheaperName,
+        metrics: [
+          { label: `${result.itemAName} unit price`, value: `${moneyPrecise(result.itemAUnitPrice)} / ${result.unit}` },
+          { label: `${result.itemBName} unit price`, value: `${moneyPrecise(result.itemBUnitPrice)} / ${result.unit}` },
+          { label: 'Savings per unit', value: `${moneyPrecise(result.savingsPerUnit)} (${percent(result.savingsPercent)})` },
+        ],
+        steps: [
+          'Divide each item price by its package quantity.',
+          'Compare both unit prices using the same unit.',
+          'The lower unit price is the cheaper option before taxes, coupons, or quality differences.',
+        ],
+        note: 'Unit price is only fair when both quantities use the same unit and the products are actually comparable.',
+      };
+    }
+    case 'cost-per-serving-calculator': {
+      const result = calculateCostPerServing(
+        inputs.foodName ?? '',
+        parseNumber(inputs.totalCost, 'Main cost'),
+        parseNumber(inputs.servings, 'Servings'),
+        parseOptionalNumber(inputs.extraCost, 'Extra cost') ?? 0,
+      );
+      return {
+        label: 'Cost per serving',
+        expression: `${result.foodName}: ${money(result.totalBatchCost)} over ${formatCalculatorNumber(result.servings)} servings`,
+        answer: moneyPrecise(result.costPerServing),
+        metrics: [
+          { label: 'Total batch cost', value: moneyPrecise(result.totalBatchCost) },
+          { label: 'Extra cost included', value: moneyPrecise(result.extraCost) },
+          { label: 'Servings', value: formatCalculatorNumber(result.servings) },
+        ],
+        steps: [
+          'Add the main cost and extra cost.',
+          'Divide the total batch cost by the number of servings.',
+          'Use the result to compare recipes, meal prep, or sale pricing.',
+        ],
+        note: 'If servings are guessed, the cost per serving is a planning estimate too.',
+      };
+    }
+    case 'oven-temperature-converter': {
+      const result = convertOvenTemperature(parseNumber(inputs.temperature, 'Temperature'), inputs.unit);
+      return {
+        label: 'Oven temperature',
+        expression: `${formatCalculatorNumber(result.inputTemperature)} ${unitLabel(result.inputUnit)}`,
+        answer: `${formatCalculatorNumber(result.fahrenheit)} F / ${formatCalculatorNumber(result.celsius)} C`,
+        metrics: [
+          { label: 'Fahrenheit', value: `${formatCalculatorNumber(result.fahrenheit)} F` },
+          { label: 'Celsius', value: `${formatCalculatorNumber(result.celsius)} C` },
+          { label: 'Nearest gas mark', value: `${result.nearestGasMark} (${formatCalculatorNumber(result.nearestGasMarkFahrenheit)} F)` },
+        ],
+        steps: [
+          'Convert the entered oven temperature into Fahrenheit.',
+          'Convert Fahrenheit into Celsius.',
+          'Find the nearest common gas mark temperature.',
+        ],
+        note: 'This is oven setting conversion. Always follow safe internal food temperature guidance when checking whether food is cooked.',
+      };
+    }
+    case 'butter-converter': {
+      const result = convertButter(parseNumber(inputs.amount, 'Amount'), inputs.unit);
+      return {
+        label: 'Butter conversion',
+        expression: `${formatCalculatorNumber(result.amount)} ${unitLabel(result.unit)}`,
+        answer: `${formatCalculatorNumber(result.tablespoons)} tablespoons`,
+        metrics: [
+          { label: 'Cups', value: formatCalculatorNumber(result.cups) },
+          { label: 'Sticks', value: formatCalculatorNumber(result.sticks) },
+          { label: 'Grams', value: `${formatCalculatorNumber(result.grams)} g` },
+        ],
+        steps: [
+          'Convert the starting unit into tablespoons.',
+          'Use common US butter equivalents for cups, sticks, ounces, grams, and pounds.',
+          'Show the most common recipe units side by side.',
+        ],
+        note: 'This uses common US butter stick math. Check package labels when your local butter sticks or blocks use different sizes.',
+      };
+    }
+    case 'baking-pan-conversion-calculator': {
+      const result = calculateBakingPanConversion(
+        parseNumber(inputs.oldLengthInches, 'Old pan length'),
+        parseNumber(inputs.oldWidthInches, 'Old pan width'),
+        parseNumber(inputs.newLengthInches, 'New pan length'),
+        parseNumber(inputs.newWidthInches, 'New pan width'),
+        parseOptionalNumber(inputs.originalServings, 'Original servings'),
+      );
+      return {
+        label: 'Pan scale factor',
+        expression: `${formatCalculatorNumber(result.oldLengthInches)}x${formatCalculatorNumber(result.oldWidthInches)} in to ${formatCalculatorNumber(result.newLengthInches)}x${formatCalculatorNumber(result.newWidthInches)} in`,
+        answer: `${formatCalculatorNumber(result.scaleFactor)}x`,
+        metrics: [
+          { label: 'Original pan area', value: `${formatCalculatorNumber(result.oldAreaSquareInches)} sq in` },
+          { label: 'New pan area', value: `${formatCalculatorNumber(result.newAreaSquareInches)} sq in` },
+          {
+            label: 'Scaled servings',
+            value: result.scaledServings === null ? 'Not entered' : formatCalculatorNumber(result.scaledServings),
+          },
+        ],
+        steps: [
+          'Multiply length by width for each rectangular pan area.',
+          'Divide new pan area by old pan area.',
+          'Use the factor to scale batter amount or servings, then watch bake time and depth.',
+        ],
+        note: 'This area method is best for similar-depth rectangular pans. Round pans, deep pans, and delicate recipes may need extra testing.',
       };
     }
     case 'markdown-table-generator': {

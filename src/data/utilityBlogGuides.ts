@@ -54,6 +54,14 @@ const sourceLinks = {
     href: 'https://www.nist.gov/pml/special-publication-811',
     label: 'NIST: Guide for the Use of the International System of Units',
   },
+  usdaFoodDataCentral: {
+    href: 'https://fdc.nal.usda.gov/',
+    label: 'USDA: FoodData Central',
+  },
+  foodSafetyTemperatures: {
+    href: 'https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures',
+    label: 'FoodSafety.gov: Safe minimum internal temperatures',
+  },
   rfc4632: {
     href: 'https://www.rfc-editor.org/rfc/rfc4632.html',
     label: 'RFC 4632: Classless Inter-domain Routing',
@@ -2291,6 +2299,174 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not use PPI alone to judge a screen.',
       'Do not confuse screen PPI with printer DPI or mouse DPI.',
       'Remember that scaling, viewing distance, panel quality, and eyesight affect perceived sharpness.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'recipe-scaler': {
+    summary: 'Learn how to scale recipe ingredients from one serving count to another without hiding the math.',
+    purpose:
+      'The Recipe Scaler helps when a recipe makes the wrong number of servings for your plan. It works one ingredient line at a time so you can see the scale factor and catch mistakes before cooking.',
+    enter: [
+      'Enter the ingredient name, original amount, and unit from the recipe.',
+      'Enter how many servings the original recipe makes.',
+      'Enter how many servings you want to make now.',
+    ],
+    read: [
+      'The main answer is the scaled ingredient amount.',
+      'Scale factor tells you how much bigger or smaller the batch is.',
+      'Desired servings confirms the target serving count used in the math.',
+    ],
+    mistakes: [
+      'Do not assume seasonings, yeast, salt, gelatin, or thickener always scale perfectly.',
+      'Do not round eggs, packets, or small measurements without thinking about the recipe.',
+      'Do not forget that pan size and cook time may need adjustment when the batch size changes.',
+    ],
+    sources: [sourceLinks.googleHelpfulContent],
+  },
+  'cooking-measurement-converter': {
+    summary: 'Learn why cooking unit conversion is simple for similar units and trickier for cups-to-grams.',
+    purpose:
+      'The Cooking Measurement Converter handles common recipe units. It uses fixed factors when both units measure volume or both measure weight, and it uses ingredient density when crossing between volume and weight.',
+    enter: [
+      'Enter the amount and choose the starting unit.',
+      'Choose the unit you want to convert to.',
+      'Enter grams per cup when converting between volume and weight.',
+    ],
+    read: [
+      'The main answer is the converted amount in the new unit.',
+      'Input type and output type show whether the conversion used volume, weight, or both.',
+      'Density used matters only when cups, tablespoons, or mL are converted to grams, ounces, pounds, or the reverse.',
+    ],
+    mistakes: [
+      'Do not use one cups-to-grams number for every ingredient.',
+      'Do not treat scooped, packed, sifted, chopped, and liquid ingredients as identical.',
+      'Use a kitchen scale when exact baking measurements matter.',
+    ],
+    sources: [sourceLinks.nistUnits, sourceLinks.usdaFoodDataCentral],
+  },
+  'ingredient-cost-calculator': {
+    summary: 'Learn how package price and recipe amount become a realistic ingredient cost estimate.',
+    purpose:
+      'The Ingredient Cost Calculator is useful when you want to know how much one ingredient contributes to a recipe cost. It can convert package units into recipe units first, then price only the amount you use.',
+    enter: [
+      'Enter the recipe amount needed and its unit.',
+      'Enter the package amount, package unit, and package price.',
+      'Use density grams per cup when the recipe and package cross between volume and weight.',
+    ],
+    read: [
+      'The main answer is the estimated cost of the amount used in the recipe.',
+      'Unit cost shows the price per recipe unit after package conversion.',
+      'Package amount converted shows how large the package is in the unit your recipe uses.',
+    ],
+    mistakes: [
+      'Do not forget tax, coupons, spoiled food, or waste if you want real spending cost.',
+      'Do not mix volume and weight without checking ingredient density.',
+      'Do not assume leftovers have no value if you will use them later.',
+    ],
+    sources: [sourceLinks.nistUnits, sourceLinks.usdaFoodDataCentral],
+  },
+  'unit-price-calculator': {
+    summary: 'Learn how to compare two products fairly by price per shared unit.',
+    purpose:
+      'The Unit Price Calculator divides each product price by its package quantity. It helps you see whether the small package, family size, bulk pack, or sale item is actually cheaper per unit.',
+    enter: [
+      'Enter a name, price, and quantity for item A.',
+      'Enter the same details for item B.',
+      'Use the same shared unit for both quantities, such as oz, lb, count, roll, or sheet.',
+    ],
+    read: [
+      'The main answer names the lower unit-price option.',
+      'Each unit price shows how much that item costs per shared unit.',
+      'Savings per unit shows the difference between the higher and lower unit price.',
+    ],
+    mistakes: [
+      'Do not compare ounces to pounds until you convert them to one unit.',
+      'Do not ignore product quality, expiration dates, storage space, or coupons.',
+      'Check that both products are truly comparable before choosing only by price.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'cost-per-serving-calculator': {
+    summary: 'Learn how to split a recipe or batch cost into a cost per serving.',
+    purpose:
+      'The Cost Per Serving Calculator takes a total batch cost and divides it by the number of servings. It is helpful for meal prep, bake sales, food budgeting, and comparing homemade meals with store-bought choices.',
+    enter: [
+      'Enter the recipe or food name so the result is easy to recognize.',
+      'Enter the main cost and any extra cost you want included.',
+      'Enter the number of servings the batch actually makes.',
+    ],
+    read: [
+      'The main answer is cost per serving.',
+      'Total batch cost shows main cost plus extras.',
+      'Servings confirms the divisor used in the estimate.',
+    ],
+    mistakes: [
+      'Do not use a fantasy serving count just to make the cost look low.',
+      'Do not forget packaging, toppings, sauces, or delivery fees when they matter.',
+      'Remember that large and small portions change the real cost per person.',
+    ],
+    sources: [sourceLinks.googleHelpfulContent],
+  },
+  'oven-temperature-converter': {
+    summary: 'Learn how to convert recipe oven settings between Fahrenheit, Celsius, and gas mark.',
+    purpose:
+      'The Oven Temperature Converter helps when a recipe uses a different oven temperature unit than your oven. It translates the setting and shows the nearest common gas mark.',
+    enter: [
+      'Enter the oven temperature from the recipe.',
+      'Choose whether the recipe uses Fahrenheit, Celsius, or gas mark.',
+      'Run the converter before preheating.',
+    ],
+    read: [
+      'The main answer shows Fahrenheit and Celsius together.',
+      'Nearest gas mark gives the closest common gas setting.',
+      'Use the note to remember that oven setting is not the same as food internal temperature.',
+    ],
+    mistakes: [
+      'Do not treat gas mark as a lab-exact temperature.',
+      'Do not assume your oven runs perfectly at the dial setting.',
+      'Do not use oven temperature conversion as a food safety check.',
+    ],
+    sources: [sourceLinks.nistUnits, sourceLinks.foodSafetyTemperatures],
+  },
+  'butter-converter': {
+    summary: 'Learn common butter equivalents for sticks, tablespoons, cups, ounces, grams, and pounds.',
+    purpose:
+      'The Butter Converter is a focused recipe helper for one ingredient that people often see written in different units. It makes US stick, cup, tablespoon, ounce, gram, and pound conversions easy to compare.',
+    enter: [
+      'Enter the butter amount from the recipe or package.',
+      'Choose the unit you are starting from.',
+      'Run the converter and read the common recipe equivalents.',
+    ],
+    read: [
+      'The main answer is tablespoons because many recipes use tablespoon marks.',
+      'Cups, sticks, and grams are shown together for easy recipe translation.',
+      'Use package labels when your local butter is not sold as common US sticks.',
+    ],
+    mistakes: [
+      'Do not assume every country uses the same stick size.',
+      'Do not confuse fluid ounces with ounces by weight for butter.',
+      'When baking needs precision, grams from a scale are usually safer than eyeballing marks.',
+    ],
+    sources: [sourceLinks.nistUnits],
+  },
+  'baking-pan-conversion-calculator': {
+    summary: 'Learn how rectangular pan area can estimate recipe scaling when switching baking pans.',
+    purpose:
+      'The Baking Pan Conversion Calculator compares the surface area of two rectangular pans. The area ratio gives a starting scale factor for batter amount or servings.',
+    enter: [
+      'Enter the old pan length and width from the recipe.',
+      'Enter the new pan length and width you want to use.',
+      'Optionally enter original servings if you want a new serving estimate too.',
+    ],
+    read: [
+      'Scale factor is the new pan area divided by the old pan area.',
+      'Original and new pan areas show the square-inch comparison.',
+      'Scaled servings appears when you entered the original serving count.',
+    ],
+    mistakes: [
+      'Do not assume bake time stays the same when batter depth changes.',
+      'Do not use rectangular area math for unusual shapes without extra care.',
+      'Check doneness early when moving to a larger, shallower, smaller, or deeper pan.',
     ],
     sources: [sourceLinks.nistUnits],
   },

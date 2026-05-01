@@ -221,6 +221,14 @@ export type CalculatorIconMark =
   | 'streaming-bitrate'
   | 'battery-life'
   | 'monitor-ppi'
+  | 'recipe-scale'
+  | 'cooking-measure'
+  | 'ingredient-cost'
+  | 'unit-price'
+  | 'serving-cost'
+  | 'oven-temp'
+  | 'butter'
+  | 'baking-pan'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -450,6 +458,14 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'tool-streaming-bitrate': 'streaming-bitrate',
   'tool-battery-life': 'battery-life',
   'tool-monitor-ppi': 'monitor-ppi',
+  'tool-recipe-scale': 'recipe-scale',
+  'tool-cooking-measure': 'cooking-measure',
+  'tool-ingredient-cost': 'ingredient-cost',
+  'tool-unit-price': 'unit-price',
+  'tool-serving-cost': 'serving-cost',
+  'tool-oven-temp': 'oven-temp',
+  'tool-butter': 'butter',
+  'tool-baking-pan': 'baking-pan',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',
@@ -648,6 +664,14 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   'streaming-bitrate': 'mbps',
   'battery-life': 'wh',
   'monitor-ppi': 'ppi',
+  'recipe-scale': 'x',
+  'cooking-measure': 'cup',
+  'ingredient-cost': '$/ing',
+  'unit-price': '$/u',
+  'serving-cost': '$/s',
+  'oven-temp': '350',
+  butter: 'butr',
+  'baking-pan': 'pan',
   prime: 'pf',
   'long-division': 'div',
   average: 'avg',

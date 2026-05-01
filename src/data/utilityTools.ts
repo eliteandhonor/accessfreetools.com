@@ -2887,6 +2887,347 @@ export const utilityTools: ToolDefinition[] = [
     relatedSlugs: ['aspect-ratio-calculator', 'streaming-bitrate-calculator', 'color-contrast-checker'],
   }),
   makeUtilityTool({
+    slug: 'recipe-scaler',
+    name: 'Recipe Scaler',
+    category: 'everyday-tools',
+    summary: 'Scale one recipe ingredient from original servings to the servings you want to make.',
+    description:
+      'Use this free recipe scaler to resize ingredient amounts from the original serving count to a smaller or larger batch.',
+    icon: 'tool-recipe-scale',
+    aliases: ['Recipe Scaling Calculator', 'Recipe Converter', 'Serving Size Calculator'],
+    formula:
+      'The scaler divides desired servings by original servings to get a scale factor, then multiplies the ingredient amount by that factor.',
+    limit:
+      'Ingredient math scales cleanly, but flavor, salt, spices, yeast, thickener, pan size, and cook time may need real kitchen judgment.',
+    inputExplanations: [
+      { term: 'Original servings', meaning: 'How many servings the recipe normally makes.' },
+      { term: 'Desired servings', meaning: 'How many servings you want to make now.' },
+      { term: 'Original amount', meaning: 'The amount from one ingredient line in the recipe.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the tool scale one ingredient at a time?',
+        answer:
+          'It keeps the math easy to check. Enter each important ingredient line from the recipe, copy the scaled amount, then repeat for the next line. This avoids hiding mistakes in a giant pasted recipe table.',
+      },
+      {
+        question: 'Do seasonings scale perfectly?',
+        answer:
+          'Not always. Salt, hot spices, yeast, gelatin, thickeners, and extracts can taste too strong or behave differently when scaled. Use the answer as a starting point and adjust carefully.',
+      },
+    ],
+    useCases: [
+      'Resize a recipe from 4 servings to 10 servings. ',
+      'Make a half batch when you do not need the full recipe.',
+      'Scale party trays, meal prep, or bake sale batches one ingredient line at a time.',
+      'Show the scale factor so the recipe math is easy to audit.',
+    ],
+    examples: [
+      { label: 'Dinner for 10', expression: '2 cups flour, 4 servings to 10 servings', result: '5 cups flour' },
+      { label: 'Half batch', expression: '300 g sugar, 12 servings to 6 servings', result: '150 g sugar' },
+      { label: 'Party tray', expression: '3 eggs, 8 servings to 20 servings', result: '7.5 eggs before rounding' },
+    ],
+    relatedSlugs: ['cooking-measurement-converter', 'ingredient-cost-calculator', 'cost-per-serving-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'cooking-measurement-converter',
+    name: 'Cooking Measurement Converter',
+    category: 'converters',
+    summary: 'Convert recipe units, including approximate volume-to-weight conversions with ingredient density.',
+    description:
+      'Use this free cooking measurement converter for teaspoons, tablespoons, cups, milliliters, grams, ounces, pounds, and ingredient-density conversions.',
+    icon: 'tool-cooking-measure',
+    aliases: ['Kitchen Measurement Converter', 'Recipe Measurement Converter', 'Cups to Grams Converter'],
+    formula:
+      'The converter uses fixed unit factors for volume-to-volume or weight-to-weight conversions. For volume-to-weight conversions, it uses grams per cup as the ingredient density.',
+    limit:
+      'Volume-to-weight conversions are approximate because chopped, sifted, packed, and liquid ingredients can have different weights per cup.',
+    inputExplanations: [
+      { term: 'From and to units', meaning: 'The recipe unit you have and the unit you want.' },
+      { term: 'Density grams per cup', meaning: 'How many grams one US cup of that ingredient weighs.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does density grams per cup mean?',
+        answer:
+          'It means the weight of one level US cup of a specific ingredient. A cup of flour may be around 120 g, while a cup of water is about 237 g, so the same volume can weigh very different amounts.',
+      },
+      {
+        question: 'Can I use this for exact baking science?',
+        answer:
+          'Use it as a helpful estimate, then prefer a kitchen scale for baking when accuracy matters. How an ingredient is scooped, sifted, chopped, or packed can change the true weight.',
+      },
+    ],
+    useCases: [
+      'Convert cups of flour into grams with a density value.',
+      'Convert milliliters to cups for a recipe from another country.',
+      'Change ounces to grams without using a separate generic converter.',
+      'Explain why cups-to-grams depends on the ingredient.',
+    ],
+    examples: [
+      { label: 'Flour cups to grams', expression: '2 cups, 120 g per cup', result: '240 g' },
+      { label: 'Milk mL to cups', expression: '500 mL to cups', result: 'About 2.11 cups' },
+      { label: 'Butter ounces to grams', expression: '4 oz to grams', result: 'About 113.4 g' },
+    ],
+    relatedSlugs: ['recipe-scaler', 'butter-converter', 'conversion-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'ingredient-cost-calculator',
+    name: 'Ingredient Cost Calculator',
+    category: 'everyday-tools',
+    summary: 'Estimate how much one recipe ingredient costs from package price and amount used.',
+    description:
+      'Use this free ingredient cost calculator to convert package size into recipe units and estimate the cost of the ingredient amount you need.',
+    icon: 'tool-ingredient-cost',
+    aliases: ['Recipe Ingredient Cost Calculator', 'Food Cost Calculator', 'Ingredient Price Calculator'],
+    formula:
+      'The calculator converts package amount into the needed unit, divides package price by converted package amount, then multiplies by the recipe amount.',
+    limit:
+      'It does not include tax, spoilage, coupons, waste, or leftover value unless you include those costs yourself.',
+    inputExplanations: [
+      { term: 'Amount needed', meaning: 'How much of the ingredient your recipe uses.' },
+      { term: 'Package amount', meaning: 'How much ingredient is in the package you bought.' },
+      { term: 'Density grams per cup', meaning: 'Used only when converting between volume and weight units.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does ingredient density matter for cost?',
+        answer:
+          'If a recipe says 2 cups but the package says pounds or grams, the calculator needs to know how heavy one cup is. That weight is different for flour, sugar, oats, honey, and many other ingredients.',
+      },
+      {
+        question: 'Should I include tax or wasted food?',
+        answer:
+          'Include them in the package price if you want the estimate to reflect real spending. If you only want shelf-price math, enter the shelf price and leave waste out.',
+      },
+    ],
+    useCases: [
+      'Estimate how much flour, sugar, butter, or chocolate costs in a recipe.',
+      'Compare homemade cost with store-bought food.',
+      'Build a simple bake sale or meal prep cost sheet.',
+      'Convert package units before calculating cost.',
+    ],
+    examples: [
+      { label: 'Flour for recipe', expression: '2 cups from a 5 lb bag at $4.49', result: 'Estimated ingredient cost' },
+      { label: 'Chocolate chips', expression: '170 g from a 12 oz bag at $3.99', result: 'Recipe cost for chips' },
+      { label: 'Milk in batter', expression: '250 mL from a gallon at $4.20', result: 'Small recipe cost' },
+    ],
+    relatedSlugs: ['recipe-scaler', 'cost-per-serving-calculator', 'unit-price-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'unit-price-calculator',
+    name: 'Unit Price Calculator',
+    category: 'everyday-tools',
+    summary: 'Compare two products by price per shared unit so the cheaper package is clearer.',
+    description:
+      'Use this free unit price calculator to compare two package sizes by price per ounce, pound, count, sheet, roll, or any shared unit.',
+    icon: 'tool-unit-price',
+    aliases: ['Price Per Unit Calculator', 'Unit Cost Calculator', 'Price Comparison Calculator'],
+    formula:
+      'The calculator divides each item price by its package quantity, compares both unit prices, and shows the cheaper option.',
+    limit:
+      'A lower unit price is not always the best choice if quality, expiration date, storage space, coupons, or product differences matter.',
+    inputExplanations: [
+      { term: 'Price', meaning: 'The shelf or sale price for each product.' },
+      { term: 'Quantity', meaning: 'Package size for each product in the same unit.' },
+      { term: 'Shared unit', meaning: 'The unit both products use, such as oz, lb, count, roll, or sheet.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What if one package uses ounces and the other uses pounds?',
+        answer:
+          'Convert them to the same unit first. For example, change pounds to ounces or ounces to pounds, then enter both quantities using that one shared unit.',
+      },
+      {
+        question: 'Why can the bigger package be worse?',
+        answer:
+          'A bigger package can cost more per unit, expire before you use it, or be different quality. Unit price tells you the math, but it does not judge whether the product is actually better for you.',
+      },
+    ],
+    useCases: [
+      'Compare small and family-size grocery packages.',
+      'Check whether bulk paper towels, pet food, or detergent are actually cheaper.',
+      'Convert sale prices into a fair per-unit comparison.',
+      'Teach price-per-unit shopping math in plain language.',
+    ],
+    examples: [
+      { label: 'Cereal boxes', expression: '$4.49 / 12 oz vs $6.99 / 21 oz', result: 'Cheaper price per oz' },
+      { label: 'Paper towels', expression: '$8.99 / 6 rolls vs $12.49 / 10 rolls', result: 'Cheaper per roll' },
+      { label: 'Pet food', expression: '$18.99 / 8 lb vs $35.99 / 18 lb', result: 'Cheaper per lb' },
+    ],
+    relatedSlugs: ['ingredient-cost-calculator', 'discount-calculator', 'cost-per-serving-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'cost-per-serving-calculator',
+    name: 'Cost Per Serving Calculator',
+    category: 'everyday-tools',
+    summary: 'Split a recipe, meal prep, or food batch cost across the number of servings.',
+    description:
+      'Use this free cost per serving calculator to divide a total recipe or food batch cost by servings and include optional extra costs.',
+    icon: 'tool-serving-cost',
+    aliases: ['Serving Cost Calculator', 'Meal Cost Calculator', 'Cost Per Portion Calculator'],
+    formula:
+      'The calculator adds main cost and extra cost, then divides total batch cost by servings.',
+    limit:
+      'The answer is only as accurate as the total cost and serving count. Big portions, waste, leftovers, and different appetites can change real cost per person.',
+    inputExplanations: [
+      { term: 'Main cost', meaning: 'The recipe, meal, or batch cost before optional extras.' },
+      { term: 'Extra cost', meaning: 'Optional packaging, topping, delivery fee, or side cost to include.' },
+      { term: 'Servings', meaning: 'How many portions the batch actually makes.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What counts as a serving?',
+        answer:
+          'A serving is the portion size you choose to count. For meal prep, it might be one container. For a cake, it might be one slice. Keep the serving size realistic or the answer will be misleading.',
+      },
+      {
+        question: 'Is this the same as ingredient cost?',
+        answer:
+          'No. Ingredient cost estimates one ingredient or a list you total yourself. Cost per serving takes the final batch total and spreads it across servings.',
+      },
+    ],
+    useCases: [
+      'Price meal prep containers by serving.',
+      'Estimate bake sale cost before choosing a selling price.',
+      'Compare homemade meals with takeout or store-bought food.',
+      'Add packaging or topping costs before dividing by servings.',
+    ],
+    examples: [
+      { label: 'Soup batch', expression: '$18.50 ingredients + $2 extras, 8 servings', result: '$2.56 per serving' },
+      { label: 'Meal prep', expression: '$42 total, 10 servings', result: '$4.20 per serving' },
+      { label: 'Bake sale', expression: '$19 total, 24 cupcakes', result: 'Cost per cupcake' },
+    ],
+    relatedSlugs: ['ingredient-cost-calculator', 'recipe-scaler', 'unit-price-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'oven-temperature-converter',
+    name: 'Oven Temperature Converter',
+    category: 'converters',
+    summary: 'Convert oven temperatures between Fahrenheit, Celsius, and common gas mark settings.',
+    description:
+      'Use this free oven temperature converter to translate recipe oven settings between Fahrenheit, Celsius, and gas mark approximations.',
+    icon: 'tool-oven-temp',
+    aliases: ['Oven Temp Converter', 'Fahrenheit Celsius Gas Mark Converter', 'Baking Temperature Converter'],
+    formula:
+      'The converter uses F = C x 9 / 5 + 32 and C = (F - 32) x 5 / 9, then finds the nearest common gas mark temperature.',
+    limit:
+      'Oven settings are approximate. Real ovens can run hot or cold, and this does not replace safe internal food temperature checks.',
+    inputExplanations: [
+      { term: 'Temperature', meaning: 'The oven setting from the recipe.' },
+      { term: 'Unit', meaning: 'Whether the recipe uses Fahrenheit, Celsius, or gas mark.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Is gas mark exact?',
+        answer:
+          'No. Gas mark is usually treated as a practical oven setting with common approximate Fahrenheit and Celsius equivalents. Use the nearest mark and watch the food.',
+      },
+      {
+        question: 'Does this tell me when food is safe to eat?',
+        answer:
+          'No. It converts oven settings. Food safety depends on the food reaching a safe internal temperature, which is checked with a food thermometer and trusted guidance.',
+      },
+    ],
+    useCases: [
+      'Use a Celsius recipe in a Fahrenheit oven.',
+      'Convert a gas mark recipe to Fahrenheit or Celsius.',
+      'Check a baking temperature before preheating.',
+      'Explain why oven setting and food internal temperature are different.',
+    ],
+    examples: [
+      { label: 'Common bake temp', expression: '350 F', result: 'About 177 C, gas mark 4' },
+      { label: 'Celsius recipe', expression: '180 C', result: 'About 356 F' },
+      { label: 'Gas mark recipe', expression: 'Gas mark 4', result: 'About 350 F' },
+    ],
+    relatedSlugs: ['cooking-measurement-converter', 'recipe-scaler', 'conversion-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'butter-converter',
+    name: 'Butter Converter',
+    category: 'converters',
+    summary: 'Convert butter between sticks, tablespoons, cups, ounces, grams, teaspoons, and pounds.',
+    description:
+      'Use this free butter converter to translate common recipe butter measurements, including US sticks, tablespoons, cups, ounces, grams, and pounds.',
+    icon: 'tool-butter',
+    aliases: ['Butter Measurement Converter', 'Butter Sticks to Cups', 'Butter Grams Converter'],
+    formula:
+      'The converter uses common US butter equivalents: 1 stick = 8 tablespoons = 1/2 cup = 4 ounces = about 113.4 grams.',
+    limit:
+      'Butter packaging can vary by country. Check your package label when stick size or block markings are different from common US butter sizes.',
+    inputExplanations: [
+      { term: 'Amount', meaning: 'The butter quantity from the recipe or package.' },
+      { term: 'Unit', meaning: 'The butter unit you are starting from.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does one stick equal 1/2 cup?',
+        answer:
+          'In common US packaging, one butter stick is 8 tablespoons, and 16 tablespoons make 1 cup. That makes one stick equal to 1/2 cup.',
+      },
+      {
+        question: 'Can I use this outside the United States?',
+        answer:
+          'Yes for grams, ounces, tablespoons, and cups, but be careful with sticks. Some countries do not package butter in US-size sticks, so grams from the label may be safer.',
+      },
+    ],
+    useCases: [
+      'Convert one stick of butter into tablespoons, cups, or grams.',
+      'Use a gram-based recipe with US butter packaging.',
+      'Scale butter in baking recipes alongside a recipe scaler.',
+      'Avoid guessing how many tablespoons are in a stick.',
+    ],
+    examples: [
+      { label: 'One stick', expression: '1 stick', result: '8 tbsp, 1/2 cup, about 113.4 g' },
+      { label: 'Half cup', expression: '0.5 cup', result: '1 stick' },
+      { label: 'Metric recipe', expression: '115 g', result: 'About 8.1 tbsp' },
+    ],
+    relatedSlugs: ['cooking-measurement-converter', 'recipe-scaler', 'ingredient-cost-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'baking-pan-conversion-calculator',
+    name: 'Baking Pan Conversion Calculator',
+    category: 'everyday-tools',
+    summary: 'Compare rectangular baking pan areas and estimate how much to scale a recipe.',
+    description:
+      'Use this free baking pan conversion calculator to compare old and new rectangular pan sizes and estimate a recipe scaling factor.',
+    icon: 'tool-baking-pan',
+    aliases: ['Cake Pan Conversion Calculator', 'Baking Pan Size Calculator', 'Pan Area Calculator'],
+    formula:
+      'The calculator multiplies length by width for each pan, then divides new pan area by old pan area to get a scale factor.',
+    limit:
+      'Area scaling does not perfectly predict bake time, batter depth, rise, texture, or results for round, loaf, deep, or shaped pans.',
+    inputExplanations: [
+      { term: 'Old pan', meaning: 'The pan size in the original recipe.' },
+      { term: 'New pan', meaning: 'The pan size you want to use instead.' },
+      { term: 'Original servings', meaning: 'Optional serving count used to estimate new servings.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does pan area matter?',
+        answer:
+          'For similar rectangular pans, batter depth changes when area changes. A larger pan spreads batter thinner, while a smaller pan makes it deeper. The area ratio gives a useful scaling starting point.',
+      },
+      {
+        question: 'Will bake time stay the same?',
+        answer:
+          'Usually not exactly. Thinner batter may bake faster, deeper batter may bake slower, and delicate recipes can behave differently. Start checking early and use the recipe signs of doneness.',
+      },
+    ],
+    useCases: [
+      'Scale a 9x13 inch recipe down to an 8x8 inch pan.',
+      'Estimate how much batter to make when switching rectangular pans.',
+      'Convert servings when a pan gets larger or smaller.',
+      'Understand why pan size can change bake time.',
+    ],
+    examples: [
+      { label: '9x13 to 8x8', expression: '117 sq in to 64 sq in', result: 'About 0.55x batch' },
+      { label: '8x8 to 9x13', expression: '64 sq in to 117 sq in', result: 'About 1.83x batch' },
+      { label: 'Sheet pan change', expression: '13x18 to 11x15', result: 'Smaller pan area factor' },
+    ],
+    relatedSlugs: ['recipe-scaler', 'cooking-measurement-converter', 'cost-per-serving-calculator'],
+  }),
+  makeUtilityTool({
     slug: 'markdown-table-generator',
     name: 'Markdown Table Generator',
     category: 'text-tools',

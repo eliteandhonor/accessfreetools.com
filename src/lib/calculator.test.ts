@@ -178,6 +178,9 @@ import {
   calculateHoursWorked,
   calculateHorsepowerConversion,
   calculateInternetSpeedNeeds,
+  calculateBakingPanConversion,
+  calculateCostPerServing,
+  calculateIngredientCost,
   calculateMassFromDensity,
   calculateMileageCost,
   calculateMolarity,
@@ -199,6 +202,7 @@ import {
   calculateSpeed,
   calculateSquareFootage,
   calculateStreamingBitrate,
+  calculateRecipeScale,
   calculateSubnet,
   calculateStairLayout,
   calculateTileEstimate,
@@ -214,6 +218,10 @@ import {
   calculateEngineHorsepower,
   calculateUnixTimestampFromDate,
   convertMeasurement,
+  compareUnitPrices,
+  convertButter,
+  convertCookingMeasurement,
+  convertOvenTemperature,
   convertShoeSize,
   convertTextCase,
   buildQueryStringFromLines,
@@ -1732,5 +1740,29 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(battery.runtimeHours)).toBe('3.93125');
     expect(formatCalculatorNumber(ppi.ppi)).toBe('91.7877987534');
     expect(ppi.aspectLabel).toBe('16:9');
+  });
+
+  it('calculates kitchen and shopping utility helpers', () => {
+    const recipe = calculateRecipeScale('Flour', 2, 'cups', 4, 10);
+    const cooking = convertCookingMeasurement(2, 'cup', 'gram', 120);
+    const ingredientCost = calculateIngredientCost(2, 'cup', 5, 'pound', 4.49, 120);
+    const unitPrice = compareUnitPrices('Small cereal', 4.49, 12, 'Family cereal', 6.99, 21, 'oz');
+    const serving = calculateCostPerServing('Soup', 18.5, 8, 2);
+    const oven = convertOvenTemperature(180, 'celsius');
+    const butter = convertButter(1, 'stick');
+    const pan = calculateBakingPanConversion(9, 13, 8, 8, 12);
+
+    expect(recipe.scaledAmount).toBe(5);
+    expect(cooking.convertedAmount).toBe(240);
+    expect(formatCalculatorNumber(ingredientCost.recipeCost)).toBe('0.4751402675');
+    expect(unitPrice.cheaperName).toBe('Family cereal');
+    expect(formatCalculatorNumber(unitPrice.itemBUnitPrice)).toBe('0.3328571429');
+    expect(serving.costPerServing).toBe(2.5625);
+    expect(formatCalculatorNumber(oven.fahrenheit)).toBe('356');
+    expect(oven.nearestGasMark).toBe('4');
+    expect(butter.tablespoons).toBe(8);
+    expect(formatCalculatorNumber(butter.grams)).toBe('113.3980925');
+    expect(formatCalculatorNumber(pan.scaleFactor)).toBe('0.547008547');
+    expect(formatCalculatorNumber(pan.scaledServings ?? 0)).toBe('6.5641025641');
   });
 });
