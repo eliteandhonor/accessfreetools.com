@@ -1499,8 +1499,10 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         <aside class="trust-note trust-note-ai" aria-label={`${tool.name} privacy and model limits`}>
           <strong>Browser-side AI helper</strong>
           <p>
-            Your text or image runs in this browser tab and is not uploaded to Access Free Tools. Some model, OCR, or
-            language files may download from a third-party model host on first use unless we self-host them later.
+            Your text or image runs in this browser tab and is not uploaded to Access Free Tools. OCR and the starter
+            text model use self-hosted files from Access Free Tools after you click the tool button; heavier
+            experimental model tools may still download model files from a third-party model host until we self-host
+            more models.
           </p>
         </aside>
       )

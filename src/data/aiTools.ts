@@ -41,7 +41,7 @@ function makeAiFaq(spec: AiToolSpec): ToolFaq[] {
     {
       question: 'Does this AI tool upload my input to Access Free Tools?',
       answer:
-        'No. The tool runs in your browser tab. Your text or image is not uploaded to Access Free Tools. Some model or language files may download from a third-party model host before the browser can run the tool.',
+        'No. The tool runs in your browser tab. Your text or image is not uploaded to Access Free Tools. OCR plus the first text model are served from Access Free Tools after you click the button; some experimental model tools may still download model files from a third-party model host until we self-host more models.',
     },
     {
       question: 'Why can the first run take longer than normal?',
@@ -82,7 +82,7 @@ export const aiTools: ToolDefinition[] = [
     description:
       'Use this free browser OCR tool to read text from screenshots, labels, notes, and simple document images without uploading the image to Access Free Tools.',
     icon: 'tool-ai-ocr',
-    modelNote: 'Uses Tesseract.js OCR in the browser after you choose an image and press the read button.',
+    modelNote: 'Uses self-hosted Tesseract.js OCR files in the browser after you choose an image and press the read button.',
     inputMeaning:
       'Choose an image file that contains readable printed or typed text. The language setting tells OCR which character patterns to expect, and clearer images usually give better text.',
     resultMeaning:
@@ -109,7 +109,7 @@ export const aiTools: ToolDefinition[] = [
     description:
       'Use this free browser sentiment analyzer to classify short text as positive or negative with a local browser model and plain-language confidence notes.',
     icon: 'tool-ai-sentiment',
-    modelNote: 'Uses a Transformers.js sentiment model only after you press Analyze sentiment.',
+    modelNote: 'Uses a self-hosted Transformers.js text model only after you press Analyze sentiment.',
     inputMeaning:
       'Paste the sentence, review, comment, or short paragraph you want to check. Longer text can mix different emotions, so use one focused passage for clearer results.',
     resultMeaning:
@@ -244,7 +244,7 @@ export const aiTools: ToolDefinition[] = [
     description:
       'Use this free browser tone checker to review the style of a message, email, caption, or support reply with local AI-assisted feedback.',
     icon: 'tool-ai-tone',
-    modelNote: 'Uses a browser text classifier after you press Check tone, with a simple local fallback if the model is not available.',
+    modelNote: 'Uses a self-hosted browser text classifier after you press Check tone, with a simple local fallback if the model is not available.',
     inputMeaning:
       'Paste the message or draft you want to check. The tool reads word choice, punctuation, and phrasing to estimate tone labels such as friendly, formal, urgent, or unclear.',
     resultMeaning:

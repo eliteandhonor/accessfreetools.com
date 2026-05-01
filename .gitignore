@@ -10,4 +10,6 @@ output
 dev-server.log
 dev-server-*.log
 dev-server-*.log.err
+preview-*.log
+preview-*.err.log
 .codex-dev-*.log

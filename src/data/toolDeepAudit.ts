@@ -5291,13 +5291,13 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     findings: [
       'The OCR tool is correctly framed as browser-side OCR for clear printed or typed image text, not a certified transcript or handwriting solution.',
       'The FAQ explains image quality, language choice, first-run OCR data loading, privacy, common character mistakes, and when users should check the original image.',
-      'The React island loads Tesseract.js only from the user action path, keeping the normal tool page lighter and avoiding image upload to Access Free Tools.',
+      'The React island loads Tesseract.js only from the user action path and now points OCR worker, core, and language files to self-hosted Access Free Tools assets.',
     ],
     improvements: [
-      'Added a dedicated browser OCR UI, language selector, copyable text output, OCR confidence notes, source-backed FAQ, AI blog guide, related tools, and explicit no-upload privacy wording.',
+      'Added a dedicated browser OCR UI, language selector, copyable text output, OCR confidence notes, source-backed FAQ, AI blog guide, related tools, explicit no-upload privacy wording, and self-hosted OCR asset paths.',
     ],
     followUps: [
-      'Consider self-hosting OCR language data later if traffic data shows first-run third-party downloads are confusing or slow.',
+      'Watch Hostinger transfer and cache behavior before adding more OCR languages beyond the six shown in the interface.',
     ],
   },
   {
@@ -5310,10 +5310,10 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     findings: [
       'The sentiment page explains positive or negative labels as model predictions and warns that confidence is not proof of intent or context.',
       'The FAQ covers focused text input, confidence reading, sarcasm, slang, mixed feelings, privacy, first-run model loading, and why short text can be uncertain.',
-      'The component lazy-loads the Transformers.js sentiment model only after Analyze sentiment and includes a local fallback for graceful failure.',
+      'The component lazy-loads a self-hosted MobileBERT zero-shot text model only after Analyze sentiment and includes a local fallback for graceful failure.',
     ],
     improvements: [
-      'Added an interactive sentiment analyzer, sample text buttons, copyable result, history kept only in-tab, source-backed guide, and plain-language model-limit notes.',
+      'Added an interactive sentiment analyzer, sample text buttons, copyable result, history kept only in-tab, source-backed guide, plain-language model-limit notes, and local-only model loading for the starter text classifier.',
     ],
     followUps: [
       'Review real search-console queries later to decide whether neutral/mixed scoring deserves a separate calibrated model or clearer UI state.',
@@ -5405,10 +5405,10 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     findings: [
       'The tone checker is framed as educational writing feedback and avoids moderation, mental-health, personality, or intent judgment claims.',
       'The FAQ covers message input, how to read tone labels, audience context, sarcasm, privacy, first-run model loading, and when not to rely on the output.',
-      'The component attempts a browser zero-shot classifier after the button press and uses a transparent local heuristic fallback when the model is unavailable.',
+      'The component attempts the self-hosted browser zero-shot classifier after the button press and uses a transparent local heuristic fallback when the model is unavailable.',
     ],
     improvements: [
-      'Added tone labels, examples, copyable output, browser-only privacy note, source-backed guide, and wording that keeps the result focused on editing a draft.',
+      'Added tone labels, examples, copyable output, browser-only privacy note, source-backed guide, local-only model loading, and wording that keeps the result focused on editing a draft.',
     ],
     followUps: [
       'Consider adding rewrite suggestions only after careful review so the tool stays helpful without pretending to know the sender intent.',

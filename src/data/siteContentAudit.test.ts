@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 import { describe, expect, it } from 'vitest';
@@ -49,6 +49,7 @@ const AI_BROWSER_TOOL_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/AiBrowserTool.tsx', import.meta.url)),
   'utf8',
 );
+const PUBLIC_AI_MODELS_DIR = fileURLToPath(new URL('../../public/ai-models/', import.meta.url));
 const SITEMAP_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/sitemap.xml.ts', import.meta.url)),
   'utf8',
@@ -122,6 +123,18 @@ function findDuplicates(values: string[]) {
   return [...counts.entries()]
     .filter(([, count]) => count > 1)
     .map(([value]) => value);
+}
+
+function getPublicAiModelFile(relativePath: string) {
+  return fileURLToPath(new URL(`../../public/ai-models/${relativePath}`, import.meta.url));
+}
+
+function getFilesRecursive(directory: string): string[] {
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const path = `${directory}/${entry.name}`;
+
+    return entry.isDirectory() ? getFilesRecursive(path) : [path];
+  });
 }
 
 describe('site content audit guardrails', () => {
@@ -565,6 +578,14 @@ describe('site content audit guardrails', () => {
     expect(AI_BROWSER_TOOL_SOURCE).toContain("await import('@huggingface/transformers')");
     expect(AI_BROWSER_TOOL_SOURCE).toContain("await import('tesseract.js')");
     expect(AI_BROWSER_TOOL_SOURCE).toContain("await import('franc-min')");
+    expect(AI_BROWSER_TOOL_SOURCE).toContain("const LOCAL_TRANSFORMERS_MODEL_PATH = `${AI_ASSET_BASE}/transformers/`");
+    expect(AI_BROWSER_TOOL_SOURCE).toContain("SELF_HOSTED_TEXT_MODEL = 'Xenova/mobilebert-uncased-mnli'");
+    expect(AI_BROWSER_TOOL_SOURCE).toContain('transformers.env.localModelPath = LOCAL_TRANSFORMERS_MODEL_PATH');
+    expect(AI_BROWSER_TOOL_SOURCE).toContain('local_files_only: true');
+    expect(AI_BROWSER_TOOL_SOURCE).toContain('TESSERACT_LOCAL_OPTIONS');
+    expect(AI_BROWSER_TOOL_SOURCE).toContain("workerPath: `${AI_ASSET_BASE}/tesseract/worker.min.js`");
+    expect(AI_BROWSER_TOOL_SOURCE).toContain("corePath: `${AI_ASSET_BASE}/tesseract/core/`");
+    expect(AI_BROWSER_TOOL_SOURCE).toContain("langPath: `${AI_ASSET_BASE}/tesseract/lang/`");
     expect(AI_BROWSER_TOOL_SOURCE).not.toMatch(/^import .*@huggingface\/transformers/m);
     expect(AI_BROWSER_TOOL_SOURCE).not.toMatch(/^import .*tesseract\.js/m);
     expect(AI_BROWSER_TOOL_SOURCE).not.toMatch(/^import .*franc-min/m);
@@ -594,6 +615,68 @@ describe('site content audit guardrails', () => {
           issues.push(`${tool.slug} FAQ should mention ${requiredPhrase}`);
         }
       }
+    }
+
+    expect(issues).toEqual([]);
+  });
+
+  it('keeps self-hosted AI model assets present and within GitHub-friendly file sizes', () => {
+    const requiredFiles = [
+      'README.md',
+      'tesseract/worker.min.js',
+      'tesseract/core/tesseract-core.wasm.js',
+      'tesseract/core/tesseract-core-simd.wasm.js',
+      'tesseract/core/tesseract-core-lstm.wasm.js',
+      'tesseract/core/tesseract-core-simd-lstm.wasm.js',
+      'tesseract/lang/eng.traineddata.gz',
+      'tesseract/lang/spa.traineddata.gz',
+      'tesseract/lang/fra.traineddata.gz',
+      'tesseract/lang/deu.traineddata.gz',
+      'tesseract/lang/ita.traineddata.gz',
+      'tesseract/lang/por.traineddata.gz',
+      'transformers/Xenova/mobilebert-uncased-mnli/config.json',
+      'transformers/Xenova/mobilebert-uncased-mnli/special_tokens_map.json',
+      'transformers/Xenova/mobilebert-uncased-mnli/tokenizer.json',
+      'transformers/Xenova/mobilebert-uncased-mnli/tokenizer_config.json',
+      'transformers/Xenova/mobilebert-uncased-mnli/vocab.txt',
+      'transformers/Xenova/mobilebert-uncased-mnli/onnx/model_quantized.onnx',
+    ];
+    const issues: string[] = [];
+
+    expect(existsSync(PUBLIC_AI_MODELS_DIR)).toBe(true);
+
+    for (const relativePath of requiredFiles) {
+      const fullPath = getPublicAiModelFile(relativePath);
+
+      if (!existsSync(fullPath)) {
+        issues.push(`${relativePath} is missing`);
+        continue;
+      }
+
+      const size = statSync(fullPath).size;
+
+      if (size === 0) {
+        issues.push(`${relativePath} is empty`);
+      }
+
+      if (size > 95 * 1024 * 1024) {
+        issues.push(`${relativePath} is too close to GitHub's normal Git file limit`);
+      }
+    }
+
+    const allAssetFiles = getFilesRecursive(PUBLIC_AI_MODELS_DIR);
+    const totalBytes = allAssetFiles.reduce((sum, file) => {
+      const size = statSync(file).size;
+
+      if (size > 95 * 1024 * 1024) {
+        issues.push(`${file} is too close to GitHub's normal Git file limit`);
+      }
+
+      return sum + size;
+    }, 0);
+
+    if (totalBytes > 140 * 1024 * 1024) {
+      issues.push(`self-hosted AI assets are too large for the phase 1 budget: ${totalBytes} bytes`);
     }
 
     expect(issues).toEqual([]);

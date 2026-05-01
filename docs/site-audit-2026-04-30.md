@@ -28,6 +28,7 @@ This audit records the current local proof after the calculator.net roadmap comp
 - Added a full-site improvement plan, all-tools review register, QA automation plan, internal link checker, JSON-LD checker, and dependency audit script.
 - Expanded the full-site improvement plan into a complete execution standard with priority order, completion truth, deployment rules, analytics rules, new-tool rules, and a clear definition of done for all 246 public tool URLs.
 - Manual deep-review total now includes all 242 canonical tools: the original math-foundation tools, priority/risk tools, finance, health, home-project, construction, electrical, weather, science, school, math, statistics, date/time, converter, developer, image, text, random, everyday, final cleanup tools, and browser-only AI tools. Batch 7 is now complete.
+- The AI tools now self-host OCR worker/core/language assets and the starter MobileBERT text classifier files under `public/ai-models/`, while heavier experimental model tools remain disclosed as possible third-party model downloads until later self-host passes.
 
 ## Current Gaps
 

@@ -44,6 +44,14 @@ interface AiConfig {
 type TextPipelineTask = 'sentiment-analysis' | 'summarization' | 'zero-shot-classification';
 
 const pipelineCache = new Map<string, unknown>();
+const AI_ASSET_BASE = '/ai-models';
+const LOCAL_TRANSFORMERS_MODEL_PATH = `${AI_ASSET_BASE}/transformers/`;
+const SELF_HOSTED_TEXT_MODEL = 'Xenova/mobilebert-uncased-mnli';
+const TESSERACT_LOCAL_OPTIONS = {
+  workerPath: `${AI_ASSET_BASE}/tesseract/worker.min.js`,
+  corePath: `${AI_ASSET_BASE}/tesseract/core/`,
+  langPath: `${AI_ASSET_BASE}/tesseract/lang/`,
+};
 
 const aiConfigs: Record<AiToolVariant, AiConfig> = {
   ocr: {
@@ -54,7 +62,7 @@ const aiConfigs: Record<AiToolVariant, AiConfig> = {
     acceptsImage: true,
     sampleTexts: [],
     privacyNote: 'The selected image is read in this browser tab and is not uploaded to Access Free Tools.',
-    modelNote: 'OCR language data loads only after you press Read text.',
+    modelNote: 'Self-hosted OCR worker, core, and language files load from Access Free Tools only after you press Read text.',
   },
   sentiment: {
     title: 'Sentiment Analyzer',
@@ -68,7 +76,7 @@ const aiConfigs: Record<AiToolVariant, AiConfig> = {
       { label: 'Mixed message', text: 'The idea is good, but the instructions need work.' },
     ],
     privacyNote: 'Text stays in this browser tab. The sentiment model runs after you press the button.',
-    modelNote: 'A small Transformers.js model may download from a model host on first use.',
+    modelNote: 'A self-hosted browser text model loads from Access Free Tools after you press Analyze sentiment.',
   },
   language: {
     title: 'Language Detector',
@@ -148,7 +156,7 @@ const aiConfigs: Record<AiToolVariant, AiConfig> = {
       { label: 'Formal', text: 'We appreciate your patience and will review the request.' },
     ],
     privacyNote: 'Text stays in this browser tab. The tone model or local fallback runs only after you press the button.',
-    modelNote: 'Tone is writing feedback, not a judgment of the person who wrote the message.',
+    modelNote: 'Tone is writing feedback powered by a self-hosted browser model, not a judgment of the person who wrote the message.',
   },
   'reading-level': {
     title: 'Reading Level Checker',
@@ -239,8 +247,13 @@ function formatPercent(value: number) {
   return `${Math.round(value * 1000) / 10}%`;
 }
 
-async function getPipeline(task: TextPipelineTask | 'image-classification', model: string) {
-  const cacheKey = `${task}:${model}`;
+interface PipelineLoadOptions {
+  local_files_only?: boolean;
+  dtype?: 'fp32' | 'fp16' | 'q8' | 'q4' | 'q4f16';
+}
+
+async function getPipeline(task: TextPipelineTask | 'image-classification', model: string, options: PipelineLoadOptions = {}) {
+  const cacheKey = `${task}:${model}:${JSON.stringify(options)}`;
   const cached = pipelineCache.get(cacheKey);
 
   if (cached) return cached;
@@ -248,15 +261,19 @@ async function getPipeline(task: TextPipelineTask | 'image-classification', mode
   const transformers = (await import('@huggingface/transformers')) as {
     env?: {
       allowLocalModels?: boolean;
+      allowRemoteModels?: boolean;
+      localModelPath?: string;
     };
-    pipeline: (taskName: string, modelName: string) => Promise<unknown>;
+    pipeline: (taskName: string, modelName: string, options?: PipelineLoadOptions) => Promise<unknown>;
   };
 
   if (transformers.env) {
-    transformers.env.allowLocalModels = false;
+    transformers.env.allowLocalModels = true;
+    transformers.env.allowRemoteModels = true;
+    transformers.env.localModelPath = LOCAL_TRANSFORMERS_MODEL_PATH;
   }
 
-  const loaded = await transformers.pipeline(task, model);
+  const loaded = await transformers.pipeline(task, model, options);
   pipelineCache.set(cacheKey, loaded);
   return loaded;
 }
@@ -316,23 +333,28 @@ async function runSentiment(text: string): Promise<AiResult> {
   const input = requireText(text);
 
   try {
-    const classifier = (await getPipeline(
-      'sentiment-analysis',
-      'Xenova/distilbert-base-uncased-finetuned-sst-2-english',
-    )) as (value: string) => Promise<unknown>;
-    const output = normalizeClassifierOutput(await classifier(input));
+    const classifier = (await getPipeline('zero-shot-classification', SELF_HOSTED_TEXT_MODEL, {
+      local_files_only: true,
+      dtype: 'q8',
+    })) as (value: string, labels: string[]) => Promise<unknown>;
+    const output = normalizeClassifierOutput(await classifier(input, ['positive', 'neutral', 'negative']));
     const best = output[0];
 
     if (!best) throw new Error('No sentiment label returned.');
 
     return {
       label: 'Sentiment model result',
-      answer: best.label === 'POSITIVE' ? 'Likely positive' : best.label === 'NEGATIVE' ? 'Likely negative' : best.label,
-      metrics: [{ label: 'Confidence', value: formatPercent(best.score) }],
+      answer:
+        best.label === 'positive'
+          ? 'Likely positive'
+          : best.label === 'negative'
+            ? 'Likely negative'
+            : 'Neutral or mixed',
+      metrics: output.slice(0, 3).map((item) => ({ label: item.label, value: formatPercent(item.score) })),
       steps: [
-        'The browser loaded a text-classification model after you pressed the button.',
-        'The model compared the wording with patterns from its training data.',
-        'The highest-scoring label is shown with a confidence score.',
+        'The browser loaded self-hosted model files from Access Free Tools after you pressed the button.',
+        'The model compared the wording with positive, neutral, and negative labels.',
+        'The highest-scoring label is shown with the model confidence scores.',
       ],
       note: 'Check sarcasm, mixed feelings, slang, and sensitive messages manually.',
     };
@@ -564,7 +586,10 @@ async function runTone(text: string): Promise<AiResult> {
   const input = requireText(text);
 
   try {
-    const classifier = (await getPipeline('zero-shot-classification', 'Xenova/mobilebert-uncased-mnli')) as (
+    const classifier = (await getPipeline('zero-shot-classification', SELF_HOSTED_TEXT_MODEL, {
+      local_files_only: true,
+      dtype: 'q8',
+    })) as (
       value: string,
       labels: string[],
     ) => Promise<unknown>;
@@ -580,7 +605,7 @@ async function runTone(text: string): Promise<AiResult> {
       answer: best.label,
       metrics: output.slice(0, 4).map((item) => ({ label: item.label, value: formatPercent(item.score) })),
       steps: [
-        'The browser loaded a zero-shot text classifier after you pressed the button.',
+        'The browser loaded self-hosted zero-shot model files from Access Free Tools after you pressed the button.',
         'The classifier compared your draft with tone labels.',
         'The top label is shown with the strongest score.',
       ],
@@ -600,13 +625,19 @@ async function runOcr(file: File | null, language: string, onProgress: (message:
     createWorker: (
       langs?: string,
       oem?: unknown,
-      options?: { logger?: (message: { status?: string; progress?: number }) => void },
+      options?: {
+        logger?: (message: { status?: string; progress?: number }) => void;
+        workerPath?: string;
+        corePath?: string;
+        langPath?: string;
+      },
     ) => Promise<{
       recognize: (image: File) => Promise<{ data: { text: string; confidence?: number } }>;
       terminate: () => Promise<unknown>;
     }>;
   };
   const worker = await tesseract.createWorker(language, undefined, {
+    ...TESSERACT_LOCAL_OPTIONS,
     logger: (message) => {
       if (message.status) {
         onProgress(`${message.status}${message.progress ? ` ${Math.round(message.progress * 100)}%` : ''}`);
@@ -628,7 +659,7 @@ async function runOcr(file: File | null, language: string, onProgress: (message:
         { label: 'Characters', value: String(text.length) },
       ],
       steps: [
-        'The browser loaded OCR language data after you pressed the button.',
+        'The browser loaded OCR worker, core, and language files from Access Free Tools after you pressed the button.',
         'OCR scanned the selected image for text shapes.',
         'The extracted text is shown for manual checking and copying.',
       ],
@@ -647,7 +678,7 @@ async function runImageClassifier(file: File | null): Promise<AiResult> {
   const imageUrl = URL.createObjectURL(file);
 
   try {
-    const classifier = (await getPipeline('image-classification', 'Xenova/vit-base-patch16-224')) as (
+    const classifier = (await getPipeline('image-classification', 'Xenova/vit-base-patch16-224', { dtype: 'q4' })) as (
       image: string,
     ) => Promise<unknown>;
     const output = normalizeClassifierOutput(await classifier(imageUrl)).slice(0, 5);

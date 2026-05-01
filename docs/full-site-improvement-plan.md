@@ -244,7 +244,7 @@ Requirements:
 - Avoid unsafe HTML injection.
 - Treat developer tools as helpers, not security validators.
 - Add dependency audit checks.
-- Add CSP planning before third-party scripts.
+- Add CSP planning before third-party scripts and before self-hosting additional heavy AI model assets.
 - Add security headers through the host where possible.
 - Keep external links reviewed.
 - Add `rel` handling for affiliate, sponsored, and untrusted links where applicable.

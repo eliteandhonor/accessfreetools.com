@@ -73,7 +73,7 @@ Batch 6 is complete as of this register update. The developer, image, text, rand
 
 Batch 7 is complete as of 2026-05-01. The AI tools individually checked and promoted are: Image to Text OCR Tool, Sentiment Analyzer, Language Detector, Text Summarizer, Keyword Extractor, Image Classifier, Tone Checker, and Reading Level Checker.
 
-The AI review checked browser-only input handling, lazy model loading, no-upload wording, third-party model file disclosure, examples, FAQ depth, blog guides, related tools, source notes, and model-limit cautions.
+The AI review checked browser-only input handling, lazy model loading, no-upload wording, self-hosted OCR/starter text model assets, third-party model file disclosure for remaining heavier experimental tools, examples, FAQ depth, blog guides, related tools, source notes, and model-limit cautions.
 
 No current canonical tool remains in the manual queue. Future tools must reopen this register and start as reviewed only after their exact page, FAQ, guide, examples, sources, privacy behavior, and layout have been checked.
 

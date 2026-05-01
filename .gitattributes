@@ -1,0 +1,6 @@
+public/ai-models/**/*.js text eol=lf
+public/ai-models/**/*.json text eol=lf
+public/ai-models/**/*.txt text eol=lf
+*.wasm binary
+*.onnx binary
+*.gz binary

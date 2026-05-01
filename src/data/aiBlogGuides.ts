@@ -273,6 +273,7 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
         paragraphs: [
           detail.purpose,
           'The important privacy idea is simple: your input runs in the browser tab. Access Free Tools does not need to receive the image or text for the tool to work.',
+          'For this first self-hosted pass, OCR files and the starter text classifier files are served from Access Free Tools after you click the tool button. Heavier experimental model tools may still download model files from a third-party model host until we self-host more models.',
         ],
       },
       {
