@@ -61,6 +61,7 @@ const categoryIcons = {
   'home-projects': Hammer,
   'developer-tools': Code2,
   'image-tools': Image,
+  'ai-tools': Sparkles,
   'school-study': BookOpen,
   'everyday-tools': Wrench,
 } as const;

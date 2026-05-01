@@ -4750,6 +4750,14 @@ main {
   grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
 }
 
+.advanced-calculator-ai {
+  grid-template-columns: minmax(0, 1fr) 340px;
+}
+
+.advanced-calculator-ai .advanced-result-card dl {
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+}
+
 .advanced-calculator-health .advanced-result-card > strong {
   font-size: clamp(1.2rem, 3.1vw, 2.15rem);
 }
@@ -4760,6 +4768,10 @@ main {
 
 .advanced-calculator-utility .advanced-result-card > strong {
   font-size: clamp(1.2rem, 3.1vw, 2.15rem);
+}
+
+.advanced-calculator-ai .advanced-result-card > strong {
+  font-size: clamp(1.2rem, 3.1vw, 2.05rem);
 }
 
 .utility-text-output {
@@ -4800,6 +4812,13 @@ main {
   margin: 0;
 }
 
+.advanced-calculator-ai .advanced-result-card p {
+  color: color-mix(in srgb, #e8fffa 82%, white);
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0;
+}
+
 .health-fields {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
@@ -4810,6 +4829,72 @@ main {
 
 .utility-fields {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.ai-panel {
+  background:
+    radial-gradient(circle at 8% 0%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 32%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), color-mix(in srgb, #e8fffa 25%, rgba(255, 255, 255, 0.86)));
+}
+
+.ai-tool-heading {
+  display: grid;
+  gap: 6px;
+}
+
+.ai-tool-heading span {
+  color: var(--primary-strong);
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.ai-tool-heading h2 {
+  font-size: clamp(1.55rem, 3vw, 2.15rem);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.ai-tool-heading p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.ai-fields {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.ai-textarea-field textarea {
+  min-height: 180px;
+}
+
+.ai-status {
+  background: color-mix(in srgb, var(--primary) 10%, var(--surface-solid));
+  border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--border));
+  border-radius: 8px;
+  color: var(--primary-strong);
+  font-weight: 850;
+  line-height: 1.45;
+  margin: 0;
+  padding: 10px 12px;
+}
+
+.ai-side-panel {
+  align-content: start;
+}
+
+.ai-privacy-note {
+  border-left: 4px solid color-mix(in srgb, var(--accent-2) 72%, var(--primary));
+}
+
+.ai-tool-points span {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #f2edff 52%, white), color-mix(in srgb, #d8fff7 36%, white));
+}
+
+.trust-note-ai {
+  border-left-color: color-mix(in srgb, var(--accent-2) 72%, var(--primary));
 }
 
 .health-example-grid {

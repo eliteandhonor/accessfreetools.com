@@ -3,6 +3,8 @@ import { fileURLToPath } from 'node:url';
 
 import { describe, expect, it } from 'vitest';
 
+import { aiBlogGuides } from './aiBlogGuides';
+import { aiTools } from './aiTools';
 import { blogPosts } from './blogPosts';
 import { categories } from './categories';
 import { financeBlogGuides } from './financeBlogGuides';
@@ -41,6 +43,10 @@ const ASTRO_CONFIG_SOURCE = readFileSync(fileURLToPath(new URL('../../astro.conf
 const PACKAGE_JSON_SOURCE = readFileSync(fileURLToPath(new URL('../../package.json', import.meta.url)), 'utf8');
 const TOOLS_LAUNCHPAD_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/ToolsLaunchpad.tsx', import.meta.url)),
+  'utf8',
+);
+const AI_BROWSER_TOOL_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/AiBrowserTool.tsx', import.meta.url)),
   'utf8',
 );
 const SITEMAP_SOURCE = readFileSync(
@@ -493,7 +499,7 @@ describe('site content audit guardrails', () => {
 
   it('keeps generated guide articles substantial enough to support the tools', () => {
     const toolSlugs = new Set(tools.map((tool) => tool.slug));
-    const generatedGuides = [...financeBlogGuides, ...healthBlogGuides, ...utilityBlogGuides];
+    const generatedGuides = [...financeBlogGuides, ...healthBlogGuides, ...utilityBlogGuides, ...aiBlogGuides];
     const issues: string[] = [];
 
     for (const guide of generatedGuides) {
@@ -546,6 +552,51 @@ describe('site content audit guardrails', () => {
     expect(TOOLS_INDEX_SOURCE).toContain('maxItems={100}');
     expect(TOOLS_INDEX_SOURCE).toContain('client:load');
     expect(TOOLS_INDEX_SOURCE).not.toContain('client:idle');
+  });
+
+  it('keeps browser AI tools private, lazy loaded, and fully documented', () => {
+    const toolSlugs = new Set(tools.map((tool) => tool.slug));
+    const blogSlugs = new Set(blogPosts.map((post) => post.slug));
+    const aiCategories = new Set(aiTools.map((tool) => tool.category));
+    const issues: string[] = [];
+
+    expect(aiTools.length).toBe(8);
+    expect(aiCategories).toEqual(new Set(['ai-tools']));
+    expect(AI_BROWSER_TOOL_SOURCE).toContain("await import('@huggingface/transformers')");
+    expect(AI_BROWSER_TOOL_SOURCE).toContain("await import('tesseract.js')");
+    expect(AI_BROWSER_TOOL_SOURCE).toContain("await import('franc-min')");
+    expect(AI_BROWSER_TOOL_SOURCE).not.toMatch(/^import .*@huggingface\/transformers/m);
+    expect(AI_BROWSER_TOOL_SOURCE).not.toMatch(/^import .*tesseract\.js/m);
+    expect(AI_BROWSER_TOOL_SOURCE).not.toMatch(/^import .*franc-min/m);
+    expect(AI_BROWSER_TOOL_SOURCE).toContain('not uploaded to Access Free Tools');
+
+    for (const tool of aiTools) {
+      if (!toolSlugs.has(tool.slug)) {
+        issues.push(`${tool.slug} is missing from the canonical tools registry`);
+      }
+
+      if (!blogSlugs.has(`how-to-use-${tool.slug}`)) {
+        issues.push(`${tool.slug} is missing its AI blog guide`);
+      }
+
+      if (tool.examples.length < 3) {
+        issues.push(`${tool.slug} needs at least 3 examples`);
+      }
+
+      if (tool.faq.length < 6) {
+        issues.push(`${tool.slug} needs at least 6 FAQs`);
+      }
+
+      const faqText = tool.faq.flatMap((faq) => [faq.question, faq.answer]).join(' ');
+
+      for (const requiredPhrase of ['browser tab', 'model', 'uploaded', 'double-check']) {
+        if (!faqText.toLowerCase().includes(requiredPhrase)) {
+          issues.push(`${tool.slug} FAQ should mention ${requiredPhrase}`);
+        }
+      }
+    }
+
+    expect(issues).toEqual([]);
   });
 
   it('keeps sitemap freshness and release commands guarded', () => {
@@ -632,8 +683,8 @@ describe('site content audit guardrails', () => {
     expect(MANUAL_DEEP_REVIEW_PLAN_SOURCE).toContain('The manual review program does not stop at the top 25');
     expect(MANUAL_DEEP_REVIEW_PLAN_SOURCE).toContain('Finance, tax, credit, loan, and investment calculators');
     expect(MANUAL_DEEP_REVIEW_PLAN_SOURCE).toContain('Health, pregnancy, nutrition, BAC, and body measurement calculators');
-    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Canonical tools: 234');
-    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Public tool URLs: 238');
+    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain(`Canonical tools: ${tools.length}`);
+    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain(`Public tool URLs: ${tools.length + toolAliases.length}`);
     expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Do not change a generated or baseline record to `deep-reviewed` in bulk');
   });
 
@@ -647,7 +698,9 @@ describe('site content audit guardrails', () => {
     expect(manualDeepReviewProgress.isComplete).toBe(true);
     expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Manual review completion status: complete for the current canonical library');
     expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Do not mark a future full-library manual review complete while any canonical tool remains `baseline-reviewed`');
-    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('The current 234-tool canonical library has completed manual deep-review coverage');
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain(
+      `The current ${tools.length}-tool canonical library has completed manual deep-review coverage`,
+    );
   });
 
   it('keeps the complete improvement plan aligned to every requested quality area', () => {
@@ -675,7 +728,9 @@ describe('site content audit guardrails', () => {
     }
 
     expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('every Access Free Tools page, not just the top 25 tools');
-    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('234 canonical tools and 4 alias URLs');
+    expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain(
+      `${tools.length} canonical tools and ${toolAliases.length} alias URLs`,
+    );
     expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('LCP: 2.5 seconds');
     expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('INP: 200 ms');
     expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('CLS: 0.1');
@@ -685,8 +740,10 @@ describe('site content audit guardrails', () => {
     expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('the current canonical library has full manual review coverage');
     expect(FULL_SITE_IMPROVEMENT_PLAN_SOURCE).toContain('Every new tool must follow the Access Free Tools build order');
     expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('Full-library review is complete only when');
-    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('All 234 canonical tools are manually checked');
-    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain('complete manual deep-review coverage for 234 canonical tools');
+    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain(`All ${tools.length} canonical tools are manually checked`);
+    expect(ALL_TOOLS_REVIEW_REGISTER_SOURCE).toContain(
+      `complete manual deep-review coverage for ${tools.length} canonical tools`,
+    );
     expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Playwright Visual Smoke Lane');
     expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Internal link validation');
     expect(QA_AUTOMATION_PLAN_SOURCE).toContain('JSON-LD parse validation');

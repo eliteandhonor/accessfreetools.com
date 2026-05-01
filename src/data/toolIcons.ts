@@ -205,6 +205,14 @@ export type CalculatorIconMark =
   | 'html'
   | 'clamp'
   | 'table'
+  | 'ai-ocr'
+  | 'ai-sentiment'
+  | 'ai-language'
+  | 'ai-summary'
+  | 'ai-keywords'
+  | 'ai-image'
+  | 'ai-tone'
+  | 'ai-reading'
   | 'heart'
   | 'fx'
   | 'fraction'
@@ -418,6 +426,14 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'tool-html-entity': 'html',
   'tool-css-clamp': 'clamp',
   'tool-markdown-table': 'table',
+  'tool-ai-ocr': 'ai-ocr',
+  'tool-ai-sentiment': 'ai-sentiment',
+  'tool-ai-language': 'ai-language',
+  'tool-ai-summary': 'ai-summary',
+  'tool-ai-keywords': 'ai-keywords',
+  'tool-ai-image': 'ai-image',
+  'tool-ai-tone': 'ai-tone',
+  'tool-ai-reading': 'ai-reading',
   'calculator-heart': 'heart',
   'calculator-fx': 'fx',
   'calculator-fraction': 'fraction',
@@ -600,6 +616,14 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   html: '&;',
   clamp: 'css',
   table: 'tbl',
+  'ai-ocr': 'ocr',
+  'ai-sentiment': 'sent',
+  'ai-language': 'lang',
+  'ai-summary': 'sum',
+  'ai-keywords': 'key',
+  'ai-image': 'img',
+  'ai-tone': 'tone',
+  'ai-reading': 'read',
   prime: 'pf',
   'long-division': 'div',
   average: 'avg',

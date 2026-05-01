@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
+import AiBrowserTool, { type AiToolVariant } from '../../components/AiBrowserTool';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import BasicCalculator from '../../components/BasicCalculator';
 import BinaryCalculator from '../../components/BinaryCalculator';
@@ -323,6 +324,18 @@ const utilityToolVariants = {
 } as const satisfies Partial<Record<string, UtilityToolVariant>>;
 const utilityToolVariant = utilityToolVariants[tool.slug];
 const isUtilityTool = Boolean(utilityToolVariant);
+const aiToolVariants = {
+  'image-to-text-ocr-tool': 'ocr',
+  'sentiment-analyzer': 'sentiment',
+  'language-detector': 'language',
+  'text-summarizer': 'summary',
+  'keyword-extractor': 'keywords',
+  'image-classifier': 'image-classifier',
+  'tone-checker': 'tone',
+  'reading-level-checker': 'reading-level',
+} as const satisfies Partial<Record<string, AiToolVariant>>;
+const aiToolVariant = aiToolVariants[tool.slug];
+const isAiTool = Boolean(aiToolVariant);
 const statsToolInstructions: Record<string, string[]> = {
   'standard-deviation-calculator': [
     'Enter a list of numbers separated by commas, spaces, or line breaks.',
@@ -901,7 +914,15 @@ const utilityToolInstructions = utilityToolVariant
       ]),
     ]
   : undefined;
-const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? (isPercentageTool
+const aiToolInstructions = aiToolVariant
+  ? [
+      'Enter text or choose an image for the AI task.',
+      'Press the main action button so the browser can load any needed model or language files.',
+      'Read the label, score, notes, and limits before copying anything important.',
+      'Check the original text or image yourself because browser AI output can still be wrong.',
+    ]
+  : undefined;
+const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
   ? [
       'Choose the percentage question you want to answer.',
       'Enter the values for percent-of, what-percent, percentage change, adjustment, or reverse percentage.',
@@ -1425,6 +1446,17 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     }
 
     {
+      isAiTool && (
+        <div class="advanced-tool-points ai-tool-points" aria-label={`${tool.name} highlights`}>
+          <span>Browser-only input</span>
+          <span>No upload to Access Free Tools</span>
+          <span>Lazy model loading</span>
+          <span>Copy after checking</span>
+        </div>
+      )
+    }
+
+    {
       isHealthTool && (
         <aside class="trust-note trust-note-health" aria-label={`${tool.name} estimate limits`}>
           <strong>Educational health estimate</strong>
@@ -1462,6 +1494,18 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       )
     }
 
+    {
+      isAiTool && (
+        <aside class="trust-note trust-note-ai" aria-label={`${tool.name} privacy and model limits`}>
+          <strong>Browser-side AI helper</strong>
+          <p>
+            Your text or image runs in this browser tab and is not uploaded to Access Free Tools. Some model, OCR, or
+            language files may download from a third-party model host on first use unless we self-host them later.
+          </p>
+        </aside>
+      )
+    }
+
     {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
     {isPercentageTool && <PercentageCalculator client:load />}
     {isPercentErrorTool && <PercentErrorCalculator client:load />}
@@ -1490,6 +1534,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {healthToolVariant && <HealthFitnessCalculator variant={healthToolVariant} client:load />}
     {financeToolVariant && <FinanceCalculator variant={financeToolVariant} client:load />}
     {utilityToolVariant && <UtilityCalculator variant={utilityToolVariant} client:load />}
+    {aiToolVariant && <AiBrowserTool variant={aiToolVariant} client:load />}
 
     <section class="content-section">
       <h2>How to use the {tool.name.toLowerCase()}</h2>
@@ -1520,7 +1565,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       </div>
     </section>
 
-    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section', isHealthTool && 'advanced-faq-section', isFinanceTool && 'advanced-faq-section', isUtilityTool && 'advanced-faq-section']}>
+    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section', isHealthTool && 'advanced-faq-section', isFinanceTool && 'advanced-faq-section', isUtilityTool && 'advanced-faq-section', isAiTool && 'advanced-faq-section']}>
       <div class="section-title-block">
         <h2>Frequently asked questions</h2>
         {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
@@ -1551,6 +1596,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         {isHealthTool && <p>Plain-language answers about when to use the estimate, what the formula means, what it cannot decide for you, and how privacy works.</p>}
         {isFinanceTool && <p>Plain-language answers about when to use the estimate, what your numbers mean, what is left out, and how privacy works.</p>}
         {isUtilityTool && <p>Plain-language answers about when to use the tool, what it does with your inputs, what to double-check, and how privacy works.</p>}
+        {isAiTool && <p>Plain-language answers about browser-only models, privacy, confidence limits, common mistakes, and when to double-check AI output.</p>}
       </div>
       <div class="faq-list">
         {

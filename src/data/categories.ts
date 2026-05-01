@@ -8,6 +8,7 @@ export type CategorySlug =
   | 'home-projects'
   | 'developer-tools'
   | 'image-tools'
+  | 'ai-tools'
   | 'school-study'
   | 'everyday-tools';
 
@@ -62,6 +63,11 @@ export const categories: ToolCategory[] = [
     slug: 'image-tools',
     name: 'Image Tools',
     summary: 'Simple browser-based image helpers for daily creative tasks.',
+  },
+  {
+    slug: 'ai-tools',
+    name: 'AI Tools',
+    summary: 'Browser-only AI helpers for text, images, OCR, summaries, and writing checks.',
   },
   {
     slug: 'school-study',

@@ -1,3 +1,4 @@
+import { aiBlogPosts } from './aiBlogGuides';
 import { financeBlogPosts } from './financeBlogGuides';
 import { healthBlogPosts } from './healthBlogGuides';
 import { utilityBlogPosts } from './utilityBlogGuides';
@@ -321,4 +322,5 @@ export const blogPosts: BlogPostDefinition[] = [
   ...financeBlogPosts,
   ...healthBlogPosts,
   ...utilityBlogPosts,
+  ...aiBlogPosts,
 ];

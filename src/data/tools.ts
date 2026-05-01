@@ -1,4 +1,5 @@
 import { categories, type CategorySlug } from './categories';
+import { aiTools } from './aiTools';
 import { financeTools } from './financeTools';
 import { healthTools } from './healthTools';
 import { mathExpansionTools } from './mathExpansionTools';
@@ -2576,6 +2577,7 @@ const baseTools: ToolDefinition[] = [
   ...financeTools,
   ...healthTools,
   ...utilityTools,
+  ...aiTools,
 ];
 
 function hasFaqQuestionMatching(tool: ToolDefinition, pattern: RegExp) {
@@ -2598,6 +2600,8 @@ function getCategoryInputAnswer(tool: ToolDefinition) {
       return 'The main input is the text you want to count, clean, format, or rewrite. Paste the exact text you want changed, then check whether spaces, punctuation, line breaks, or capitalization should be kept before copying the result.';
     case 'image-tools':
       return 'The main inputs are the image file and the size, format, quality, or crop settings. Check width and height labels before applying changes so you do not accidentally stretch, shrink, or export the wrong version.';
+    case 'ai-tools':
+      return 'The main inputs are the text or image you want the browser AI helper to check. Keep sensitive information out unless it is truly needed, and remember that model or language files may download only after you press the action button.';
     case 'home-projects':
       return 'The main inputs are the project measurements, material coverage, spacing, waste percent, and unit choices. Measure in the same unit the whole way through, add realistic waste for cuts or mistakes, and treat the result as a shopping estimate.';
     case 'school-study':
@@ -2622,6 +2626,8 @@ function getCategoryReadingAnswer(tool: ToolDefinition) {
     case 'text-tools':
     case 'converters':
       return 'Read the output next to your original input. If the tool changes format, units, encoding, spacing, or capitalization, compare a small sample before copying the whole result into another app.';
+    case 'ai-tools':
+      return 'Read the AI result as a best-effort clue or draft. Look at labels, scores, notes, and warnings together, then compare the result with the original text or image before using it anywhere important.';
     default:
       return 'Read the main answer first, then check the supporting lines and examples to understand how the calculator got there. If one input changes, rerun the tool and compare the new answer instead of guessing.';
   }
@@ -2637,6 +2643,8 @@ function getCategoryDoubleCheckAnswer(tool: ToolDefinition) {
       return 'Check every measurement, unit, coverage number, and waste percent before buying materials. A small measuring mistake can turn into extra cost, extra trips, or not enough material for the job.';
     case 'developer-tools':
       return 'Check that you picked the right mode, especially encode versus decode or format versus minify. Also make sure you are not pasting private keys, passwords, or sensitive data into any page you do not need to use.';
+    case 'ai-tools':
+      return 'Check short inputs, blurry images, sarcasm, mixed-language text, low confidence scores, and important names or numbers yourself. Browser AI can be useful and still be wrong.';
     default:
       return 'Check the units, signs, decimal places, and mode before copying the answer. If the number feels weird, rerun one of the examples first, then put your own values back in slowly.';
   }

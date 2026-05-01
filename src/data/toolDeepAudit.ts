@@ -141,6 +141,31 @@ const googleHelpfulContent = {
   label: 'Google Search Central: Creating helpful, reliable, people-first content',
 };
 
+const transformersJs = {
+  href: 'https://huggingface.co/docs/transformers.js/',
+  label: 'Hugging Face: Transformers.js browser inference',
+};
+
+const tesseractJs = {
+  href: 'https://github.com/naptha/tesseract.js',
+  label: 'Tesseract.js: browser OCR library',
+};
+
+const tesseractOcrDocs = {
+  href: 'https://tesseract-ocr.github.io/tessdoc/',
+  label: 'Tesseract OCR documentation',
+};
+
+const francLanguageDetection = {
+  href: 'https://www.npmjs.com/package/franc',
+  label: 'franc: language detection package',
+};
+
+const fleschKincaidFormula = {
+  href: 'https://readabilityformulas.com/flesch-grade-level-results.php',
+  label: 'Flesch-Kincaid grade level formula reference',
+};
+
 const isoDate = {
   href: 'https://www.iso.org/iso-8601-date-and-time-format.html',
   label: 'ISO: ISO 8601 date and time format',
@@ -5256,6 +5281,158 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'Add CSV paste cleanup later only if quote handling is implemented with tests.',
     ],
   },
+  {
+    slug: 'image-to-text-ocr-tool',
+    status: 'deep-reviewed',
+    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [tesseractJs, tesseractOcrDocs, googleHelpfulContent],
+    findings: [
+      'The OCR tool is correctly framed as browser-side OCR for clear printed or typed image text, not a certified transcript or handwriting solution.',
+      'The FAQ explains image quality, language choice, first-run OCR data loading, privacy, common character mistakes, and when users should check the original image.',
+      'The React island loads Tesseract.js only from the user action path, keeping the normal tool page lighter and avoiding image upload to Access Free Tools.',
+    ],
+    improvements: [
+      'Added a dedicated browser OCR UI, language selector, copyable text output, OCR confidence notes, source-backed FAQ, AI blog guide, related tools, and explicit no-upload privacy wording.',
+    ],
+    followUps: [
+      'Consider self-hosting OCR language data later if traffic data shows first-run third-party downloads are confusing or slow.',
+    ],
+  },
+  {
+    slug: 'sentiment-analyzer',
+    status: 'deep-reviewed',
+    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [transformersJs, googleHelpfulContent],
+    findings: [
+      'The sentiment page explains positive or negative labels as model predictions and warns that confidence is not proof of intent or context.',
+      'The FAQ covers focused text input, confidence reading, sarcasm, slang, mixed feelings, privacy, first-run model loading, and why short text can be uncertain.',
+      'The component lazy-loads the Transformers.js sentiment model only after Analyze sentiment and includes a local fallback for graceful failure.',
+    ],
+    improvements: [
+      'Added an interactive sentiment analyzer, sample text buttons, copyable result, history kept only in-tab, source-backed guide, and plain-language model-limit notes.',
+    ],
+    followUps: [
+      'Review real search-console queries later to decide whether neutral/mixed scoring deserves a separate calibrated model or clearer UI state.',
+    ],
+  },
+  {
+    slug: 'language-detector',
+    status: 'deep-reviewed',
+    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [francLanguageDetection, googleHelpfulContent],
+    findings: [
+      'The language detector is correctly scoped to natural text samples and does not claim to identify nationality, identity, or author background.',
+      'The FAQ explains minimum text length, mixed-language text, alternative guesses, unknown results, privacy, and why one-word samples are weak evidence.',
+      'The component imports franc-min from the run path and shows language code plus alternative matches so users can understand uncertainty.',
+    ],
+    improvements: [
+      'Added the Language Detector tool page, examples, guide, related tools, browser-only copy, and result explanation around top guesses and detection limits.',
+    ],
+    followUps: [
+      'Add a larger language-name map later if users frequently paste languages outside the current common-code list.',
+    ],
+  },
+  {
+    slug: 'text-summarizer',
+    status: 'deep-reviewed',
+    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [transformersJs, googleHelpfulContent],
+    findings: [
+      'The summarizer is clearly marked as an experimental browser draft helper with strict text-length limits rather than a replacement for the original source.',
+      'The FAQ and guide warn that summaries can miss numbers, exceptions, quotes, health, legal, finance, and tax details that need manual checking.',
+      'The component lazy-loads the summarization model after the button press and falls back to simple extractive sentences if the browser model cannot run.',
+    ],
+    improvements: [
+      'Added browser summarization UI, examples, copyable summary output, source-backed guide, privacy note, and wording that keeps AI output as a draft to verify.',
+    ],
+    followUps: [
+      'Measure built bundle and real-device first-run performance before adding larger summarization models or document-sized inputs.',
+    ],
+  },
+  {
+    slug: 'keyword-extractor',
+    status: 'deep-reviewed',
+    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [googleHelpfulContent, transformersJs],
+    findings: [
+      'The keyword extractor uses lightweight browser text analysis and correctly avoids claiming search volume, ranking difficulty, or guaranteed SEO performance.',
+      'The FAQ explains pasted-text input, repeated words, phrase counts, privacy, common keyword-stuffing mistakes, and how to use results as topic clues.',
+      'The component runs without a model download, making it a fast AI-category utility that still fits the browser-only privacy standard.',
+    ],
+    improvements: [
+      'Added count-based keyword and phrase extraction, examples, source-backed guide, related writing tools, copyable output, and plain-language SEO caveats.',
+    ],
+    followUps: [
+      'Add optional stop-word editing later only if it does not make the interface too bulky for beginners.',
+    ],
+  },
+  {
+    slug: 'image-classifier',
+    status: 'deep-reviewed',
+    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [transformersJs, googleHelpfulContent],
+    findings: [
+      'The image classifier explains labels as model guesses and warns against identity, safety, medical, legal, authenticity, or moderation decisions.',
+      'The FAQ covers clear single-subject images, confidence scores, model label limits, privacy, first-run model loading, and why crowded images can be unreliable.',
+      'The component creates a local object URL for the selected image and revokes it after classification, with the model loaded only after the user action.',
+    ],
+    improvements: [
+      'Added browser image-classification UI, top-label output, source-backed guide, no-upload privacy language, related image tools, and common mistake guidance.',
+    ],
+    followUps: [
+      'Check mobile memory behavior again after deployment before adding image previews or larger vision models.',
+    ],
+  },
+  {
+    slug: 'tone-checker',
+    status: 'deep-reviewed',
+    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [transformersJs, googleHelpfulContent],
+    findings: [
+      'The tone checker is framed as educational writing feedback and avoids moderation, mental-health, personality, or intent judgment claims.',
+      'The FAQ covers message input, how to read tone labels, audience context, sarcasm, privacy, first-run model loading, and when not to rely on the output.',
+      'The component attempts a browser zero-shot classifier after the button press and uses a transparent local heuristic fallback when the model is unavailable.',
+    ],
+    improvements: [
+      'Added tone labels, examples, copyable output, browser-only privacy note, source-backed guide, and wording that keeps the result focused on editing a draft.',
+    ],
+    followUps: [
+      'Consider adding rewrite suggestions only after careful review so the tool stays helpful without pretending to know the sender intent.',
+    ],
+  },
+  {
+    slug: 'reading-level-checker',
+    status: 'deep-reviewed',
+    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
+    reviewedOn: '2026-05-01',
+    scope: commonMathScope,
+    sources: [fleschKincaidFormula, googleHelpfulContent],
+    findings: [
+      'The reading-level checker uses explainable browser formulas and correctly says grade level is an estimate, not an official school score.',
+      'The FAQ explains pasted-text input, grade estimate, reading ease, sentence length, word difficulty, privacy, and why layout or subject matter still matters.',
+      'The component performs local word, sentence, syllable, and long-word analysis without a server model, keeping the result fast and private.',
+    ],
+    improvements: [
+      'Added readability metrics, examples, source-backed guide, copyable result, AI category placement, and plain-language notes about formula limits.',
+    ],
+    followUps: [
+      'Add a plain-language rewrite checklist later if users need help lowering the grade level after seeing the score.',
+    ],
+  },
 ];
 
 function uniqueSources(sources: SourceLink[]) {
@@ -5598,6 +5775,22 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     return sourceBackstop([wcagContrast, googleHelpfulContent]);
   }
 
+  if (tool.category === 'ai-tools') {
+    if (includesAny(key, ['ocr', 'image-to-text'])) {
+      return sourceBackstop([tesseractJs, tesseractOcrDocs]);
+    }
+
+    if (includesAny(key, ['language'])) {
+      return sourceBackstop([francLanguageDetection, googleHelpfulContent]);
+    }
+
+    if (includesAny(key, ['reading'])) {
+      return sourceBackstop([fleschKincaidFormula, googleHelpfulContent]);
+    }
+
+    return sourceBackstop([transformersJs, googleHelpfulContent]);
+  }
+
   if (includesAny(key, ['standard-deviation', 'statistics', 'mean', 'median', 'mode', 'range', 'average'])) {
     return sourceBackstop([openStaxStatisticsSpread, openStaxStandardNormal]);
   }
@@ -5660,6 +5853,10 @@ function getFormulaFinding(tool: ToolDefinition) {
 
   if (tool.category === 'developer-tools') {
     return 'Logic review checked browser-side parsing or encoding behavior, copy output, and warnings about secrets or sensitive text.';
+  }
+
+  if (tool.category === 'ai-tools') {
+    return 'AI review checked browser-only input handling, lazy model loading, output limits, source notes, and no-upload privacy wording.';
   }
 
   if (tool.category === 'date-time') {
