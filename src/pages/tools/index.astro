@@ -5,55 +5,17 @@ import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.
 import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
 import ToolsLaunchpad from '../../components/ToolsLaunchpad';
 import { categories } from '../../data/categories';
-import { toolAliases } from '../../data/toolAliases';
+import { getToolSearchIndex } from '../../data/toolSearchIndex';
 import { tools } from '../../data/tools';
 
-const canonicalSearchTools = tools.map((tool) => ({
-  slug: tool.slug,
-  name: tool.name,
-  category: tool.category,
-  summary: tool.summary,
-  icon: tool.icon,
-  searchText: [
-    tool.name,
-    tool.summary,
-    tool.description,
-    tool.category,
-    ...(tool.aliases ?? []),
-    ...toolAliases
-      .filter((alias) => alias.targetSlug === tool.slug)
-      .flatMap((alias) => [alias.name, alias.description, ...alias.searchTerms]),
-    ...tool.useCases,
-    ...tool.examples.map((example) => example.label),
-  ].join(' '),
-}));
-
-const aliasSearchTools = toolAliases
-  .map((alias) => {
-    const targetTool = tools.find((tool) => tool.slug === alias.targetSlug);
-
-    return targetTool
-      ? {
-          slug: alias.slug,
-          name: alias.name,
-          category: targetTool.category,
-          summary: alias.description,
-          icon: targetTool.icon,
-          searchText: [
-            alias.name,
-            alias.description,
-            alias.targetSlug,
-            targetTool.name,
-            targetTool.summary,
-            targetTool.category,
-            ...alias.searchTerms,
-          ].join(' '),
-        }
-      : undefined;
-  })
-  .filter((tool): tool is (typeof canonicalSearchTools)[number] => Boolean(tool));
-
-const searchTools = [...canonicalSearchTools, ...aliasSearchTools];
+const searchTools = getToolSearchIndex();
+const initialSearchTools = searchTools.slice(0, 96);
+const categoryCounts = Object.fromEntries(
+  categories.map((category) => [
+    category.slug,
+    searchTools.filter((tool) => tool.category === category.slug).length,
+  ]),
+);
 ---
 
 <BaseLayout
@@ -78,5 +40,12 @@ const searchTools = [...canonicalSearchTools, ...aliasSearchTools];
       description: tool.summary,
     }))}
   />
-  <ToolsLaunchpad categories={categories} tools={searchTools} client:load />
+  <ToolsLaunchpad
+    categories={categories}
+    categoryCounts={categoryCounts}
+    searchIndexUrl="/tool-search-index.json"
+    tools={initialSearchTools}
+    totalToolCount={searchTools.length}
+    client:load
+  />
 </BaseLayout>

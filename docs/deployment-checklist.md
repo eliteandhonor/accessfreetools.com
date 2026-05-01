@@ -10,14 +10,23 @@ Run the full local check:
 npm run check
 ```
 
+Run the browser smoke lane for larger UI, navigation, or accessibility-sensitive changes:
+
+```bash
+npm run test:smoke
+```
+
 This must pass before release:
 
 - TypeScript check.
 - Vitest suite, including the site-content audit guardrails.
 - Astro production build.
 - Internal link validation across built HTML.
-- JSON-LD validation across built HTML.
+- Built-site metadata, canonical, sitemap, social tag, image alt, and affiliate `rel` validation.
+- Semantic JSON-LD validation across built HTML.
+- Performance budget and AI lazy-asset validation.
 - Dependency vulnerability audit.
+- Optional Playwright desktop/mobile smoke and accessibility checks for representative pages.
 
 ## Browser Proof
 
@@ -25,6 +34,7 @@ Open the local preview and check these pages:
 
 - `/` loads without console errors.
 - `/tools/` shows the correct total, search works, and the "Show all" button appears only for the full unfiltered tool list.
+- `/tools/` loads the first tool batch quickly, then loads `/tool-search-index.json` only when users search, filter, or show all tools.
 - `/blog/` search works and real guides are visible.
 - A high-value finance tool, health tool, project estimator, developer tool, and calculator render their inputs, examples, FAQs, related tools, and guide links.
 - `/sitemap.xml`, `/robots.txt`, and `/feed.xml` load.
@@ -39,6 +49,7 @@ After Hostinger deploys the latest GitHub commit:
 - Open at least one recent blog guide from `/blog/`.
 - Check browser console for errors.
 - Check page source for one canonical tag, one main heading, and expected structured data.
+- Confirm `/tool-search-index.json` returns the searchable tool list and is not blocking the initial `/tools/` page.
 - Confirm no fake ad boxes or affiliate links appear before accounts and disclosures are ready.
 - Confirm `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, and `/contact/` are live.
 - If production shows `403 Forbidden`, check the Hostinger deployment root. The build mirrors the public site into `dist`, keeps the Node server at `dist/server/entry.mjs`, and writes `dist/app.js` for output-directory starts.

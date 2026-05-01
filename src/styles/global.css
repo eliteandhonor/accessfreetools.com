@@ -5994,6 +5994,13 @@ main {
   margin: 8px 0 0;
 }
 
+.launchpad-status-note {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin: -4px 0 14px;
+}
+
 .launchpad-tool-grid {
   display: grid;
   gap: 14px;

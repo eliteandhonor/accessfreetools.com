@@ -1,0 +1,252 @@
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { basename, join, normalize, relative } from 'node:path';
+
+const SITE_ORIGIN = 'https://accessfreetools.com';
+const TITLE_SOFT_MAX = 70;
+const TITLE_HARD_MAX = 85;
+const DESCRIPTION_SOFT_MAX = 170;
+const DESCRIPTION_HARD_MAX = 190;
+const distDir = join(process.cwd(), 'dist');
+const publicDistDir = existsSync(join(distDir, 'client')) ? join(distDir, 'client') : distDir;
+
+if (!existsSync(distDir)) {
+  throw new Error('dist folder is missing. Run npm run build before npm run check:site.');
+}
+
+function walk(directory, predicate, files = []) {
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    const fullPath = join(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      walk(fullPath, predicate, files);
+    } else if (entry.isFile() && predicate(fullPath)) {
+      files.push(fullPath);
+    }
+  }
+
+  return files;
+}
+
+function decodeHtmlEntities(value = '') {
+  return value
+    .replace(/&quot;/g, '"')
+    .replace(/&#34;/g, '"')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, ' ')
+    .replace(/&#x27;/g, "'")
+    .replace(/&#39;/g, "'");
+}
+
+function stripTags(value = '') {
+  return decodeHtmlEntities(value.replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<[^>]+>/g, ' '))
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function getAttribute(tag, attributeName) {
+  const match = tag.match(new RegExp(`\\b${attributeName}\\s*=\\s*(["'])([\\s\\S]*?)\\1`, 'i'));
+  return match ? decodeHtmlEntities(match[2].trim()) : undefined;
+}
+
+function getMetaContent(html, key, value) {
+  const metaTags = html.match(/<meta\b[^>]*>/gi) ?? [];
+
+  for (const tag of metaTags) {
+    if ((getAttribute(tag, key) ?? '').toLowerCase() === value.toLowerCase()) {
+      return getAttribute(tag, 'content') ?? '';
+    }
+  }
+
+  return '';
+}
+
+function getCanonical(html) {
+  const linkTags = html.match(/<link\b[^>]*>/gi) ?? [];
+
+  for (const tag of linkTags) {
+    if ((getAttribute(tag, 'rel') ?? '').toLowerCase() === 'canonical') {
+      return getAttribute(tag, 'href') ?? '';
+    }
+  }
+
+  return '';
+}
+
+function pagePathForHtmlFile(htmlFile) {
+  const rel = relative(publicDistDir, htmlFile).replace(/\\/g, '/');
+
+  if (rel === 'index.html') {
+    return '/';
+  }
+
+  if (rel.endsWith('/index.html')) {
+    return `/${rel.slice(0, -'index.html'.length)}`;
+  }
+
+  return `/${rel.replace(/\.html$/i, '/')}`;
+}
+
+function readSitemapUrls() {
+  const sitemapPath = join(publicDistDir, 'sitemap.xml');
+
+  if (!existsSync(sitemapPath)) {
+    return new Set();
+  }
+
+  const sitemap = readFileSync(sitemapPath, 'utf8');
+  return new Set([...sitemap.matchAll(/<loc>([\s\S]*?)<\/loc>/g)].map((match) => match[1].trim()));
+}
+
+function addToMap(map, key, value) {
+  if (!key) {
+    return;
+  }
+
+  const values = map.get(key) ?? [];
+  values.push(value);
+  map.set(key, values);
+}
+
+const htmlFiles = walk(publicDistDir, (file) => file.endsWith('.html'));
+const sitemapUrls = readSitemapUrls();
+const issues = [];
+const warnings = [];
+const titlePages = new Map();
+const descriptionPages = new Map();
+let imageCount = 0;
+let missingAltCount = 0;
+
+for (const htmlFile of htmlFiles) {
+  if (/^google[a-f0-9]+\.html$/i.test(basename(htmlFile))) {
+    continue;
+  }
+
+  const html = readFileSync(htmlFile, 'utf8');
+  const pagePath = pagePathForHtmlFile(htmlFile);
+  const expectedUrl = `${SITE_ORIGIN}${pagePath}`;
+  const title = stripTags(html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] ?? '');
+  const description = getMetaContent(html, 'name', 'description');
+  const canonical = getCanonical(html);
+  const robots = getMetaContent(html, 'name', 'robots').toLowerCase();
+  const h1Text = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)]
+    .map((match) => stripTags(match[1]))
+    .filter(Boolean);
+  const isIndexable = !robots.includes('noindex');
+  const isSelfCanonical = canonical === expectedUrl;
+
+  if (!title) {
+    issues.push(`${normalize(htmlFile)} is missing a <title>.`);
+  } else {
+    if (title.length > TITLE_HARD_MAX) {
+      issues.push(`${normalize(htmlFile)} title is ${title.length} characters, above ${TITLE_HARD_MAX}.`);
+    } else if (title.length > TITLE_SOFT_MAX) {
+      warnings.push(`${normalize(htmlFile)} title is ${title.length} characters; aim for ${TITLE_SOFT_MAX} or less.`);
+    }
+
+    if (isIndexable && isSelfCanonical) {
+      addToMap(titlePages, title.toLowerCase(), pagePath);
+    }
+  }
+
+  if (!description) {
+    issues.push(`${normalize(htmlFile)} is missing a meta description.`);
+  } else {
+    if (description.length > DESCRIPTION_HARD_MAX) {
+      issues.push(`${normalize(htmlFile)} meta description is ${description.length} characters, above ${DESCRIPTION_HARD_MAX}.`);
+    } else if (description.length > DESCRIPTION_SOFT_MAX) {
+      warnings.push(
+        `${normalize(htmlFile)} meta description is ${description.length} characters; aim for ${DESCRIPTION_SOFT_MAX} or less.`,
+      );
+    }
+
+    if (description.length < 45) {
+      warnings.push(`${normalize(htmlFile)} meta description is short at ${description.length} characters.`);
+    }
+
+    if (isIndexable && isSelfCanonical) {
+      addToMap(descriptionPages, description.toLowerCase(), pagePath);
+    }
+  }
+
+  if (!canonical) {
+    issues.push(`${normalize(htmlFile)} is missing a canonical link.`);
+  } else if (!canonical.startsWith(`${SITE_ORIGIN}/`)) {
+    issues.push(`${normalize(htmlFile)} canonical is not on ${SITE_ORIGIN}: ${canonical}`);
+  }
+
+  if (isIndexable && isSelfCanonical && !sitemapUrls.has(expectedUrl)) {
+    issues.push(`${normalize(htmlFile)} is indexable and self-canonical but missing from sitemap.xml.`);
+  }
+
+  if (h1Text.length !== 1) {
+    issues.push(`${normalize(htmlFile)} should have exactly one readable h1, found ${h1Text.length}.`);
+  }
+
+  for (const [key, label] of [
+    ['og:title', 'Open Graph title'],
+    ['og:description', 'Open Graph description'],
+    ['og:url', 'Open Graph URL'],
+    ['og:type', 'Open Graph type'],
+    ['og:image', 'Open Graph image'],
+    ['twitter:card', 'Twitter card'],
+    ['twitter:title', 'Twitter title'],
+    ['twitter:description', 'Twitter description'],
+    ['twitter:image', 'Twitter image'],
+  ]) {
+    const content = key.startsWith('og:') ? getMetaContent(html, 'property', key) : getMetaContent(html, 'name', key);
+
+    if (!content) {
+      issues.push(`${normalize(htmlFile)} is missing ${label}.`);
+    }
+  }
+
+  const imgTags = html.match(/<img\b[^>]*>/gi) ?? [];
+  for (const tag of imgTags) {
+    if ((getAttribute(tag, 'aria-hidden') ?? '').toLowerCase() === 'true') {
+      continue;
+    }
+
+    imageCount += 1;
+
+    if (!/\balt\s*=/.test(tag)) {
+      missingAltCount += 1;
+      issues.push(`${normalize(htmlFile)} has an img without an alt attribute: ${tag.slice(0, 120)}`);
+    }
+  }
+
+  const anchorTags = html.match(/<a\b[^>]*>/gi) ?? [];
+  for (const tag of anchorTags) {
+    const href = getAttribute(tag, 'href') ?? '';
+    const rel = (getAttribute(tag, 'rel') ?? '').toLowerCase();
+
+    if (/redbubble\.com|teepublic\.com/i.test(href) && (!rel.includes('sponsored') || !rel.includes('nofollow'))) {
+      issues.push(`${normalize(htmlFile)} has an affiliate-style link without rel="sponsored nofollow": ${href}`);
+    }
+  }
+}
+
+for (const [title, pages] of titlePages.entries()) {
+  if (pages.length > 1) {
+    issues.push(`Duplicate title across indexable pages: "${title}" on ${pages.join(', ')}`);
+  }
+}
+
+for (const [description, pages] of descriptionPages.entries()) {
+  if (pages.length > 1) {
+    issues.push(`Duplicate meta description across indexable pages: "${description}" on ${pages.join(', ')}`);
+  }
+}
+
+if (warnings.length > 0) {
+  console.warn(warnings.join('\n'));
+}
+
+if (issues.length > 0) {
+  console.error(issues.join('\n'));
+  process.exit(1);
+}
+
+console.log(
+  `Audited ${htmlFiles.length} HTML files for metadata, H1s, canonicals, sitemap coverage, social tags, and ${imageCount} images (${missingAltCount} missing alt).`,
+);

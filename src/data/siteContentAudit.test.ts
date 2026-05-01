@@ -691,10 +691,15 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts.typecheck).toBe('tsc --noEmit');
     expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run src/data/siteContentAudit.test.ts');
     expect(PACKAGE_JSON.scripts['check:links']).toBe('node scripts/check-internal-links.mjs');
+    expect(PACKAGE_JSON.scripts['check:site']).toBe('node scripts/check-built-site.mjs');
     expect(PACKAGE_JSON.scripts['check:structured-data']).toBe('node scripts/check-structured-data.mjs');
+    expect(PACKAGE_JSON.scripts['check:performance']).toBe('node scripts/check-performance-budget.mjs');
+    expect(PACKAGE_JSON.scripts['check:ai-assets']).toBe('node scripts/check-ai-lazy-assets.mjs');
+    expect(PACKAGE_JSON.scripts['check:external-links']).toBe('node scripts/check-external-links.mjs');
+    expect(PACKAGE_JSON.scripts['test:smoke']).toBe('npm run build && playwright test');
     expect(PACKAGE_JSON.scripts['security:audit']).toBe('npm audit --audit-level=moderate');
     expect(PACKAGE_JSON.scripts.check).toBe(
-      'npm run typecheck && npm test && npm run build && npm run check:links && npm run check:structured-data && npm run security:audit',
+      'npm run typecheck && npm test && npm run build && npm run check:links && npm run check:site && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run security:audit',
     );
     expect(README_SOURCE).toContain('npm run check');
     expect(DEPLOYMENT_CHECKLIST_SOURCE).toContain('/tools/');
@@ -829,7 +834,9 @@ describe('site content audit guardrails', () => {
     );
     expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Playwright Visual Smoke Lane');
     expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Internal link validation');
-    expect(QA_AUTOMATION_PLAN_SOURCE).toContain('JSON-LD parse validation');
+    expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Semantic JSON-LD validation');
+    expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Performance budget');
+    expect(QA_AUTOMATION_PLAN_SOURCE).toContain('AI lazy-asset validation');
     expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Dependency vulnerability audit');
   });
 

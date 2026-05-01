@@ -20,23 +20,18 @@ import {
 } from 'lucide-react';
 import type { ToolCategory } from '../data/categories';
 import { getCalculatorIconMark, getCalculatorIconTextLabel, type CalculatorIconMark } from '../data/toolIcons';
+import type { ToolSearchItem } from '../data/toolSearchIndex';
 
 type CategoryFilter = 'all' | ToolCategory['slug'];
 
 const INITIAL_VISIBLE_TOOL_LIMIT = 96;
 
-export interface ToolSearchItem {
-  slug: string;
-  name: string;
-  category: ToolCategory['slug'];
-  summary: string;
-  icon: string;
-  searchText: string;
-}
-
 interface Props {
+  categoryCounts: Partial<Record<ToolCategory['slug'], number>>;
   categories: ToolCategory[];
+  searchIndexUrl: string;
   tools: ToolSearchItem[];
+  totalToolCount: number;
 }
 
 const toolIcons = {
@@ -332,16 +327,57 @@ function ToolsTitleGraphic() {
   );
 }
 
-export default function ToolsLaunchpad({ categories, tools }: Props) {
+export default function ToolsLaunchpad({
+  categories,
+  categoryCounts,
+  searchIndexUrl,
+  tools,
+  totalToolCount,
+}: Props) {
+  const [searchTools, setSearchTools] = useState<ToolSearchItem[]>(tools);
+  const [isSearchIndexLoading, setIsSearchIndexLoading] = useState(false);
+  const [searchIndexError, setSearchIndexError] = useState('');
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<CategoryFilter>('all');
   const [showAllTools, setShowAllTools] = useState(false);
+
+  const isFullSearchIndexLoaded = searchTools.length >= totalToolCount;
+
+  const loadFullSearchIndex = async () => {
+    if (isFullSearchIndexLoaded || isSearchIndexLoading) {
+      return;
+    }
+
+    setIsSearchIndexLoading(true);
+    setSearchIndexError('');
+
+    try {
+      const response = await fetch(searchIndexUrl);
+
+      if (!response.ok) {
+        throw new Error(`Search index request failed with ${response.status}`);
+      }
+
+      const payload = (await response.json()) as { tools?: ToolSearchItem[] };
+
+      if (!Array.isArray(payload.tools)) {
+        throw new Error('Search index response did not include tools.');
+      }
+
+      setSearchTools(payload.tools);
+    } catch {
+      setSearchIndexError('Full search is loading slowly. The first tools are still available.');
+    } finally {
+      setIsSearchIndexLoading(false);
+    }
+  };
 
   useEffect(() => {
     const queryFromUrl = new URLSearchParams(window.location.search).get('q')?.trim() ?? '';
 
     if (queryFromUrl) {
       setQuery(queryFromUrl);
+      void loadFullSearchIndex();
     }
   }, []);
 
@@ -359,16 +395,18 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
     }
 
     window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+
+    if (trimmedQuery) {
+      void loadFullSearchIndex();
+    }
   };
 
-  const availableCategories = categories.filter((item) =>
-    tools.some((tool) => tool.category === item.slug),
-  );
+  const availableCategories = categories.filter((item) => (categoryCounts[item.slug] ?? 0) > 0);
 
   const filteredTools = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
-    return tools.filter((tool) => {
+    return searchTools.filter((tool) => {
       const matchesQuery =
         normalizedQuery.length === 0 ||
         tool.searchText.toLowerCase().includes(normalizedQuery);
@@ -376,18 +414,25 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
 
       return matchesQuery && matchesCategory;
     });
-  }, [category, query, tools]);
+  }, [category, query, searchTools]);
 
   const selectedCategory = availableCategories.find((item) => item.slug === category);
   const shouldLimitInitialResults =
     !showAllTools &&
     query.trim().length === 0 &&
     category === 'all' &&
-    filteredTools.length > INITIAL_VISIBLE_TOOL_LIMIT;
+    totalToolCount > INITIAL_VISIBLE_TOOL_LIMIT;
   const visibleTools = shouldLimitInitialResults
     ? filteredTools.slice(0, INITIAL_VISIBLE_TOOL_LIMIT)
     : filteredTools;
-  const hiddenToolCount = filteredTools.length - visibleTools.length;
+  const filteredToolCount = isFullSearchIndexLoaded
+    ? filteredTools.length
+    : category === 'all' && query.trim().length === 0
+      ? totalToolCount
+      : category !== 'all' && query.trim().length === 0
+        ? categoryCounts[category] ?? filteredTools.length
+        : filteredTools.length;
+  const hiddenToolCount = filteredToolCount - visibleTools.length;
 
   return (
     <section className="tools-launchpad">
@@ -439,6 +484,7 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
               onClick={() => {
                 setCategory(item.slug);
                 setShowAllTools(false);
+                void loadFullSearchIndex();
               }}
               type="button"
             >
@@ -460,11 +506,11 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
           >
             <Grid3X3 size={18} strokeWidth={2.4} />
             <span>All tools</span>
-            <small>{tools.length}</small>
+            <small>{totalToolCount}</small>
           </button>
           {availableCategories.map((item) => {
             const Icon = getCategoryIcon(item.slug);
-            const count = tools.filter((tool) => tool.category === item.slug).length;
+            const count = categoryCounts[item.slug] ?? 0;
 
             return (
               <button
@@ -473,6 +519,7 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
                 onClick={() => {
                   setCategory(item.slug);
                   setShowAllTools(false);
+                  void loadFullSearchIndex();
                 }}
                 type="button"
               >
@@ -489,12 +536,15 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
             <div>
               <h2>{selectedCategory?.name ?? 'Available Tools'}</h2>
               <p>
-                {visibleTools.length === filteredTools.length
-                  ? `Showing ${filteredTools.length} ${filteredTools.length === 1 ? 'tool' : 'tools'}.`
-                  : `Showing first ${visibleTools.length} of ${filteredTools.length} tools. Search, filter, or show all to browse the full library.`}
+                {isSearchIndexLoading
+                  ? 'Loading the full searchable library...'
+                  : visibleTools.length === filteredToolCount
+                    ? `Showing ${filteredToolCount} ${filteredToolCount === 1 ? 'tool' : 'tools'}.`
+                    : `Showing first ${visibleTools.length} of ${filteredToolCount} tools. Search, filter, or show all to browse the full library.`}
               </p>
             </div>
           </div>
+          {searchIndexError && <p className="launchpad-status-note">{searchIndexError}</p>}
 
           <div className="launchpad-tool-grid">
             {visibleTools.map((tool) => {
@@ -517,8 +567,15 @@ export default function ToolsLaunchpad({ categories, tools }: Props) {
           </div>
 
           {hiddenToolCount > 0 && (
-            <button className="launchpad-show-more" onClick={() => setShowAllTools(true)} type="button">
-              Show all {filteredTools.length} tools
+            <button
+              className="launchpad-show-more"
+              onClick={() => {
+                setShowAllTools(true);
+                void loadFullSearchIndex();
+              }}
+              type="button"
+            >
+              Show all {filteredToolCount} tools
             </button>
           )}
 

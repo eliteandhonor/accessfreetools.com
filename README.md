@@ -45,12 +45,24 @@ npm run check
 ```
 
 This runs TypeScript, the site audit tests, and the Astro production build.
-It also checks built internal links, validates built JSON-LD, and runs a dependency
-audit.
+It also checks built internal links, audits built page metadata and canonicals,
+validates built JSON-LD semantically, reports performance budgets, verifies AI
+model assets stay lazy-loaded away from non-AI pages, and runs a dependency audit.
 For the focused site-content audit only, run:
 
 ```bash
 npm run audit:site
+```
+
+Useful focused checks:
+
+```bash
+npm run check:site
+npm run check:structured-data
+npm run check:performance
+npm run check:ai-assets
+npm run check:external-links
+npm run test:smoke
 ```
 
 ## New Tool Workflow

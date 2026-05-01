@@ -86,6 +86,8 @@ Proof:
 
 - `npm run audit:site`
 - `npm run check:links`
+- `npm run check:site`
+- `npm run check:external-links`
 - Production Search Console sitemap submission.
 - Manual review of title links and snippets for high-value pages.
 
@@ -173,12 +175,15 @@ Requirements:
 - Keep generated images optimized, compressed, and dimensioned.
 - Avoid layout shifts from images, footer links, ads, theme picker, or dynamic result panels.
 - Add bundle-size checks before the 500-tool mark.
+- Keep the full `/tools/` search index in a separate JSON payload so the first launchpad HTML and hydration payload stay smaller.
 - Avoid loading ad, affiliate, analytics, or product scripts until approved and disclosed.
 - Measure production pages with PageSpeed Insights and Search Console Core Web Vitals after traffic exists.
 
 Proof:
 
 - `npm run build`
+- `npm run check:performance`
+- `npm run check:ai-assets`
 - Production Lighthouse/PageSpeed spot checks.
 - Core Web Vitals monitoring when Search Console has field data.
 
@@ -294,7 +299,11 @@ Implemented checks:
 - Site audit guardrails.
 - Astro production build.
 - Internal link check across built HTML.
-- JSON-LD parse check across built HTML.
+- Built-site SEO metadata and sitemap coverage check.
+- Semantic JSON-LD check across built HTML.
+- Performance budget report.
+- AI lazy-asset guard.
+- Non-blocking external link report.
 - Dependency vulnerability audit.
 
 Required command before push:
@@ -310,17 +319,20 @@ npm run audit:site
 npm run typecheck
 npm run build
 npm run check:links
+npm run check:site
 npm run check:structured-data
+npm run check:performance
+npm run check:ai-assets
+npm run check:external-links
+npm run test:smoke
 npm run security:audit
 ```
 
 Next QA upgrades:
 
-- Playwright visual smoke tests.
-- Console error checks for key pages.
-- Mobile and desktop screenshot checks.
-- Accessibility scan lane.
-- External link checker.
+- Expand Playwright coverage as the highest-value tools change.
+- Add screenshot comparison for visually risky redesigns.
+- Strict external link mode for release windows.
 - Formula-specific tests for high-risk tools.
 - Bundle-size budget.
 - Production deploy proof checklist.
