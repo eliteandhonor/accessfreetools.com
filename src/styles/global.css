@@ -625,6 +625,51 @@ main {
   margin-bottom: 0;
 }
 
+.hero-quick-links {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.hero-quick-links a,
+.visual-seo-links a {
+  background: color-mix(in srgb, var(--surface-solid) 86%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 13px;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.hero-quick-links a:hover,
+.hero-quick-links a:focus-visible,
+.visual-seo-links a:hover,
+.visual-seo-links a:focus-visible {
+  border-color: color-mix(in srgb, var(--primary) 48%, var(--border));
+  box-shadow: 0 16px 38px rgba(17, 24, 39, 0.1);
+  transform: translateY(-1px);
+}
+
+.hero-quick-links strong,
+.visual-seo-links strong {
+  color: var(--text);
+  font-size: 0.94rem;
+  line-height: 1.2;
+}
+
+.hero-quick-links span,
+.visual-seo-links span {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
 .section-band,
 .page-intro,
 .tool-page {
@@ -714,6 +759,39 @@ main {
   display: grid;
   gap: 22px;
   margin-bottom: 18px;
+}
+
+.visual-seo-strip {
+  align-items: center;
+  background:
+    linear-gradient(120deg, color-mix(in srgb, var(--accent) 23%, transparent), transparent 46%),
+    color-mix(in srgb, var(--surface) 76%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--soft-shadow);
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  margin-bottom: 24px;
+  padding: 18px;
+}
+
+.visual-seo-strip h2 {
+  font-size: clamp(1.55rem, 2.2vw, 2.25rem);
+  line-height: 1.04;
+  margin: 0 0 10px;
+}
+
+.visual-seo-strip p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.visual-seo-links {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .category-stat-grid {
@@ -6385,6 +6463,7 @@ main {
   .kawaii-tool-hero,
   .blog-article-layout,
   .category-context-grid,
+  .visual-seo-strip,
   .kawaii-guide-visual,
   .tool-title-row,
   .section-heading {
@@ -6547,6 +6626,8 @@ main {
   .blog-list-grid,
   .category-stat-grid,
   .category-context-grid,
+  .hero-quick-links,
+  .visual-seo-links,
   .contact-grid,
   .shortcut-table div {
     grid-template-columns: 1fr;

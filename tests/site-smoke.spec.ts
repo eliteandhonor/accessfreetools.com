@@ -92,6 +92,17 @@ test.describe('site smoke coverage', () => {
     await expect(page.getByRole('heading', { name: 'AI Tools', exact: true })).toBeVisible();
   });
 
+  test('visual SEO paths expose important internal links', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.getByRole('link', { name: /Free online calculators/i })).toBeVisible();
+    await expect(page.locator('a[href="/free-calculator-resources/"]').first()).toBeVisible();
+
+    await page.goto('/categories/calculators/');
+    await expect(page.getByRole('heading', { name: 'Find the right calculator faster' })).toBeVisible();
+    await expect(page.locator('a[href="/tools/basic-calculator/"]').first()).toBeVisible();
+    await expect(page.locator('a[href="/tools/mortgage-calculator/"]').first()).toBeVisible();
+  });
+
   test('AI tool page does not request model files before the user runs the tool', async ({ page }) => {
     const modelRequests: string[] = [];
     page.on('request', (request) => {

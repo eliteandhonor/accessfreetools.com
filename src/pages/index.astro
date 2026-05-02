@@ -78,6 +78,28 @@ const priorityHubs = [
     text: 'A curated resource page for students, teachers, writers, and community links.',
   },
 ];
+const heroQuickLinks = [
+  {
+    href: '/categories/calculators/',
+    label: 'Free online calculators',
+    detail: 'Math, finance, health, school, and project estimates.',
+  },
+  {
+    href: '/tools/basic-calculator/',
+    label: 'Basic calculator',
+    detail: 'Open the simple browser calculator for everyday math.',
+  },
+  {
+    href: '/tools/percentage-calculator/',
+    label: 'Percentage calculator',
+    detail: 'Discounts, percent change, markups, and reverse percentages.',
+  },
+  {
+    href: '/free-calculator-resources/',
+    label: 'Calculator resources',
+    detail: 'A useful link hub for classrooms, articles, and quick starts.',
+  },
+];
 ---
 
 <BaseLayout
@@ -107,6 +129,14 @@ const priorityHubs = [
       <label for="tool-search">Search free tools</label>
       <input id="tool-search" name="q" type="search" placeholder="Mortgage, BMI, percentage, tax..." />
       <p>Color-customizable, mobile-first, and built around clear result explanations.</p>
+      <div class="hero-quick-links" aria-label="Popular tool starting points">
+        {heroQuickLinks.map((link) => (
+          <a href={link.href}>
+            <strong>{link.label}</strong>
+            <span>{link.detail}</span>
+          </a>
+        ))}
+      </div>
     </form>
   </section>
 

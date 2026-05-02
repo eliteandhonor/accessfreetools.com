@@ -76,6 +76,28 @@ const calculatorHubLinks = [
     text: 'Common unit conversions when a calculator answer needs a different measurement unit.',
   },
 ];
+const calculatorIntentLinks = [
+  {
+    href: '/tools/basic-calculator/',
+    title: 'I just need a calculator',
+    text: 'Use the basic calculator for quick arithmetic, decimals, and everyday keypad work.',
+  },
+  {
+    href: '/tools/percentage-calculator/',
+    title: 'I need a percent answer',
+    text: 'Use the percentage calculator for discounts, tips, percent change, and markups.',
+  },
+  {
+    href: '/tools/fraction-calculator/',
+    title: 'I need fraction help',
+    text: 'Add, subtract, multiply, divide, simplify, or convert fractions and mixed numbers.',
+  },
+  {
+    href: '/tools/mortgage-calculator/',
+    title: 'I am planning money',
+    text: 'Start with mortgage estimates, then browse finance calculators for more planning tools.',
+  },
+];
 const categoryTasks: Record<string, string[]> = {
   calculators: [
     'Free online calculator pages for quick math checks, school work, percentage problems, fractions, powers, roots, and number theory.',
@@ -174,6 +196,28 @@ const taskNotes = categoryTasks[category.slug] ?? [
     <h1>{categorySeo.heading}</h1>
     <p>{categorySeo.intro}</p>
   </section>
+
+  {
+    category.slug === 'calculators' && (
+      <section class="visual-seo-strip" aria-labelledby="calculator-intent-heading">
+        <div>
+          <h2 id="calculator-intent-heading">Find the right calculator faster</h2>
+          <p>
+            Pick the path that matches the question you are trying to answer. This keeps the calculator hub useful
+            for visitors who arrive from search and helps the most helpful pages sit close to the top.
+          </p>
+        </div>
+        <div class="visual-seo-links">
+          {calculatorIntentLinks.map((link) => (
+            <a href={link.href}>
+              <strong>{link.title}</strong>
+              <span>{link.text}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  }
 
   <section class="category-overview section-band section-band-soft">
     <div class="category-stat-grid" aria-label={`${category.name} category summary`}>
