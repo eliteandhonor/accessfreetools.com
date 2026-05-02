@@ -27,6 +27,7 @@ This must pass before release:
 - Performance budget and AI lazy-asset validation.
 - Dependency vulnerability audit.
 - Optional Playwright desktop/mobile smoke and accessibility checks for representative pages.
+- Regenerate PNG social preview cards with `npm run assets:social` after changing major category, blog, or homepage positioning.
 
 ## Browser Proof
 
@@ -54,6 +55,7 @@ After Hostinger deploys the latest GitHub commit:
 - Confirm `/tool-search-index.json` returns the searchable tool list and is not blocking the initial `/tools/` page.
 - Confirm no fake ad boxes or affiliate links appear before accounts and disclosures are ready.
 - Confirm `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, and `/contact/` are live.
+- Confirm representative pages include a 1200x630 PNG `og:image` from `/social/` and that the image URL returns 200.
 - If production shows `403 Forbidden`, check the Hostinger deployment root. The build mirrors the public site into `dist`, keeps the Node server at `dist/server/entry.mjs`, and writes `dist/app.js` for output-directory starts.
 - For the live contact form, `https://accessfreetools.com/api/contact.php` must return JSON. If the Node route `https://accessfreetools.com/api/contact` returns a Hostinger HTML 404 page, production is still static-only, so keep the PHP endpoint active.
 - Hostinger build settings should use server-side Astro: build command `npm run build`, start command `npm run start`, entry file `app.js`, and output directory `dist` if an output field is shown.

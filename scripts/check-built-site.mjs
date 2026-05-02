@@ -256,6 +256,52 @@ for (const htmlFile of htmlFiles) {
     }
   }
 
+  const ogImage = getMetaContent(html, 'property', 'og:image');
+  const twitterImage = getMetaContent(html, 'name', 'twitter:image');
+  const ogImageWidth = getMetaContent(html, 'property', 'og:image:width');
+  const ogImageHeight = getMetaContent(html, 'property', 'og:image:height');
+  const ogImageType = getMetaContent(html, 'property', 'og:image:type');
+  const ogImageAlt = getMetaContent(html, 'property', 'og:image:alt');
+  const twitterImageAlt = getMetaContent(html, 'name', 'twitter:image:alt');
+
+  if (ogImage) {
+    let parsedOgImage;
+
+    try {
+      parsedOgImage = new URL(ogImage);
+    } catch {
+      issues.push(`${normalize(htmlFile)} has an invalid Open Graph image URL: ${ogImage}`);
+    }
+
+    if (parsedOgImage) {
+      if (parsedOgImage.origin !== SITE_ORIGIN) {
+        issues.push(`${normalize(htmlFile)} Open Graph image is not on ${SITE_ORIGIN}: ${ogImage}`);
+      }
+
+      if (!parsedOgImage.pathname.startsWith('/social/') || !parsedOgImage.pathname.endsWith('.png')) {
+        issues.push(`${normalize(htmlFile)} should use a PNG social preview under /social/: ${ogImage}`);
+      }
+
+      const socialImageFile = join(publicDistDir, parsedOgImage.pathname.replace(/^\/+/, ''));
+
+      if (!existsSync(socialImageFile)) {
+        issues.push(`${normalize(htmlFile)} references a missing social preview image: ${ogImage}`);
+      }
+    }
+  }
+
+  if (twitterImage && twitterImage !== ogImage) {
+    issues.push(`${normalize(htmlFile)} Twitter image does not match Open Graph image.`);
+  }
+
+  if (ogImageWidth !== '1200' || ogImageHeight !== '630' || ogImageType !== 'image/png') {
+    issues.push(`${normalize(htmlFile)} social image metadata should declare 1200x630 image/png.`);
+  }
+
+  if (!ogImageAlt || !twitterImageAlt) {
+    issues.push(`${normalize(htmlFile)} is missing social image alt text.`);
+  }
+
   const imgTags = html.match(/<img\b[^>]*>/gi) ?? [];
   for (const tag of imgTags) {
     if ((getAttribute(tag, 'aria-hidden') ?? '').toLowerCase() === 'true') {

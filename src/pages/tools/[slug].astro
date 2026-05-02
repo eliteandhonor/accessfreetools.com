@@ -68,6 +68,15 @@ const displayName = alias?.name ?? tool.name;
 const displayDescription = alias?.description ?? tool.description;
 const currentPath = `/tools/${alias?.slug ?? tool.slug}/`;
 const relatedTools = getRelatedTools(tool);
+const toolSocialImagePath =
+  {
+    calculators: '/social/free-calculators.png',
+    finance: '/social/finance-calculators.png',
+    'health-fitness': '/social/health-calculators.png',
+    'home-projects': '/social/home-project-calculators.png',
+    'ai-tools': '/social/browser-ai-tools.png',
+    'developer-tools': '/social/developer-tools.png',
+  }[tool.category] ?? '/social/tools-library.png';
 const isCalculatorTool = tool.slug === 'basic-calculator' || tool.slug === 'kawaii-calculator';
 const isKawaiiTool = tool.slug === 'kawaii-calculator';
 const isScientificTool = tool.slug === 'scientific-calculator';
@@ -1336,6 +1345,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
   title={isAliasPage ? `${displayName} | Access Free Tools` : tool.seoTitle}
   description={isAliasPage ? displayDescription : tool.seoDescription}
   path={`/tools/${tool.slug}/`}
+  socialImagePath={toolSocialImagePath}
 >
   {!isAliasPage && <ToolStructuredData tool={tool} />}
   <BreadcrumbStructuredData

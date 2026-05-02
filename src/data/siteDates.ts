@@ -2,7 +2,7 @@ export const SITE_ORIGIN = 'https://accessfreetools.com';
 
 export const SITE_LAUNCH_DATE = '2026-04-28';
 export const SEARCH_CONSOLE_SETUP_DATE = '2026-04-30';
-export const LAST_MAJOR_CONTENT_UPDATE = '2026-05-01';
+export const LAST_MAJOR_CONTENT_UPDATE = '2026-05-02';
 export const RSS_ITEM_LIMIT = 60;
 
 const DEFAULT_BLOG_PUBLISHED_DATE = '2026-04-30';

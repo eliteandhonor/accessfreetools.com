@@ -761,6 +761,10 @@ main {
   margin-bottom: 18px;
 }
 
+.category-overview .trust-note {
+  margin: 0;
+}
+
 .visual-seo-strip {
   align-items: center;
   background:

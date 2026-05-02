@@ -49,7 +49,7 @@ const relatedTools = (tool?.relatedSlugs ?? [])
   .map((relatedSlug) => getTool(relatedSlug))
   .filter((relatedTool): relatedTool is NonNullable<typeof relatedTool> => Boolean(relatedTool));
 const articleDates = getBlogDates(path.match(/^\/blog\/([^/]+)\/?$/)?.[1] ?? '');
-const imageUrl = 'https://accessfreetools.com/social-card.svg';
+const imageUrl = 'https://accessfreetools.com/social/free-guides.png';
 const articleStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -76,7 +76,7 @@ const articleStructuredData = {
 };
 ---
 
-<BaseLayout title={`${title} | Access Free Tools`} description={description} path={path}>
+<BaseLayout title={`${title} | Access Free Tools`} description={description} path={path} socialImagePath="/social/free-guides.png">
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
   <BreadcrumbStructuredData
     items={[

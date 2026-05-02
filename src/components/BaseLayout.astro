@@ -10,12 +10,26 @@ interface Props {
   path?: string;
   ogType?: 'website' | 'article';
   noindex?: boolean;
+  socialImagePath?: string;
 }
 
-const { title, description, path = '/', ogType, noindex = false } = Astro.props;
+const { title, description, path = '/', ogType, noindex = false, socialImagePath } = Astro.props;
 const site = Astro.site ?? 'https://accessfreetools.com';
 const canonical = new URL(path, site).toString();
-const socialImage = new URL('/social-card.svg', site).toString();
+const defaultSocialImagePath = (() => {
+  if (path === '/') return '/social/access-free-tools.png';
+  if (path === '/tools/') return '/social/tools-library.png';
+  if (path === '/blog/' || path.startsWith('/blog/')) return '/social/free-guides.png';
+  if (path === '/free-calculator-resources/' || path === '/resources/') return '/social/free-calculator-resources.png';
+  if (path.startsWith('/categories/calculators/')) return '/social/free-calculators.png';
+  if (path.startsWith('/categories/finance/')) return '/social/finance-calculators.png';
+  if (path.startsWith('/categories/health-fitness/')) return '/social/health-calculators.png';
+  if (path.startsWith('/categories/home-projects/')) return '/social/home-project-calculators.png';
+  if (path.startsWith('/categories/ai-tools/')) return '/social/browser-ai-tools.png';
+  if (path.startsWith('/categories/developer-tools/')) return '/social/developer-tools.png';
+  return '/social/tools-library.png';
+})();
+const socialImage = new URL(socialImagePath ?? defaultSocialImagePath, site).toString();
 const feedUrl = new URL('/feed.xml', site).toString();
 const resolvedOgType = ogType ?? (path.startsWith('/blog/') && path !== '/blog/' ? 'article' : 'website');
 const articleDates = getArticleDatesFromPath(path);
@@ -68,6 +82,9 @@ const siteStructuredData = {
     <meta property="og:type" content={resolvedOgType} />
     <meta property="og:site_name" content="Access Free Tools" />
     <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:alt" content="Access Free Tools calculator and utility workspace" />
     {resolvedOgType === 'article' && <meta property="article:published_time" content={toIsoDateTime(articleDates.published)} />}
     {resolvedOgType === 'article' && <meta property="article:modified_time" content={toIsoDateTime(articleDates.modified)} />}
@@ -75,6 +92,7 @@ const siteStructuredData = {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content="Access Free Tools calculator and utility workspace" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script type="application/ld+json" set:html={JSON.stringify(siteStructuredData)} />
     <script is:inline>

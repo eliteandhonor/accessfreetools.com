@@ -25,22 +25,64 @@ interface Props {
 const { category } = Astro.props;
 const categoryTools = getToolsByCategory(category.slug);
 const categoryName = getCategory(category.slug)?.name ?? category.name;
-const categorySeo =
-  category.slug === 'calculators'
-    ? {
-        title: 'Free Online Calculators | Access Free Tools',
-        heading: 'Free Online Calculators',
-        description:
-          'Browse free online calculators for basic math, percentages, finance, health, conversions, and everyday estimates. Start with quick browser-first tools.',
-        intro:
-          'Use free online calculators for quick math, percentages, fractions, powers, roots, statistics, geometry, and everyday estimates. Start with the basic calculator when you need a large, simple keypad, then jump to a focused calculator when the job needs a formula.',
-      }
-    : {
-        title: `${categoryName} | Access Free Tools`,
-        heading: category.name,
-        description: `${category.summary} Browse ${category.name.toLowerCase()} from Access Free Tools.`,
-        intro: category.summary,
-      };
+const categorySeoOverrides: Partial<
+  Record<ToolCategory['slug'], { title: string; heading: string; description: string; intro: string }>
+> = {
+  calculators: {
+    title: 'Free Online Calculators | Access Free Tools',
+    heading: 'Free Online Calculators',
+    description:
+      'Browse free online calculators for basic math, percentages, finance, health, conversions, and everyday estimates. Start with quick browser-first tools.',
+    intro:
+      'Use free online calculators for quick math, percentages, fractions, powers, roots, statistics, geometry, and everyday estimates. Start with the basic calculator when you need a large, simple keypad, then jump to a focused calculator when the job needs a formula.',
+  },
+  finance: {
+    title: 'Free Finance Calculators For Planning | Access Free Tools',
+    heading: 'Free Finance Calculators',
+    description:
+      'Use free finance calculators for mortgages, loans, interest, salary, tax, savings, retirement, and investment planning estimates.',
+    intro:
+      'Use finance calculators to compare common money questions before you make a bigger decision. These tools help you test payments, rates, income, inflation, retirement targets, and savings assumptions in the browser, then read the matching guide when you need the formula explained.',
+  },
+  'health-fitness': {
+    title: 'Free Health & Fitness Calculators | Access Free Tools',
+    heading: 'Free Health & Fitness Calculators',
+    description:
+      'Use free health and fitness calculators for BMI, calories, BMR, body fat, pregnancy dates, macros, pace, and educational wellness estimates.',
+    intro:
+      'Use health and fitness calculators for quick educational estimates about body measurements, nutrition, pace, pregnancy dates, and wellness planning. The results are helpful for learning and planning, but they are not a diagnosis or a replacement for a qualified professional.',
+  },
+  'home-projects': {
+    title: 'Free Home Project Calculators | Access Free Tools',
+    heading: 'Free Home Project Calculators',
+    description:
+      'Estimate paint, flooring, drywall, concrete, roofing, fencing, mulch, wallpaper, and other home project materials with free browser tools.',
+    intro:
+      'Use home project calculators to rough out material quantities before you shop, quote, or measure again. These tools make the math easier for paint, flooring, drywall, concrete, roofing, fencing, yard materials, and room planning while keeping the assumptions visible.',
+  },
+  'ai-tools': {
+    title: 'Free Browser AI Tools | Access Free Tools',
+    heading: 'AI Tools',
+    description:
+      'Try browser-only AI tools for OCR, summaries, sentiment, language detection, keywords, image labels, tone, and reading level checks.',
+    intro:
+      'Use browser AI tools for quick text and image helpers that run locally when the model is available in the browser. They are built for private first drafts, checks, and learning, with clear notes about model downloads, confidence limits, and when to double-check the result.',
+  },
+  'developer-tools': {
+    title: 'Free Developer Tools | Access Free Tools',
+    heading: 'Free Developer Tools',
+    description:
+      'Use free browser developer tools for subnetting, passwords, JSON, Base64, URL encoding, UTM links, color checks, and technical utilities.',
+    intro:
+      'Use developer tools for fast technical checks without opening a heavyweight app. The goal is simple: make encoding, formatting, subnetting, passwords, URLs, and debugging helpers easy to run in the browser with clear privacy notes.',
+  },
+};
+const categorySeo = categorySeoOverrides[category.slug] ?? {
+  title: `${categoryName} | Access Free Tools`,
+  heading: category.name,
+  description: `${category.summary} Browse ${category.name.toLowerCase()} from Access Free Tools.`,
+  intro: category.summary,
+};
 const toolSlugs = new Set(categoryTools.map((tool) => `how-to-use-${tool.slug}`));
 const categoryGuides = blogPosts.filter((post) => toolSlugs.has(post.slug));
 const topTools = categoryTools.slice(0, 6);
@@ -98,6 +140,188 @@ const calculatorIntentLinks = [
     text: 'Start with mortgage estimates, then browse finance calculators for more planning tools.',
   },
 ];
+const categoryIntentConfig: Partial<
+  Record<
+    ToolCategory['slug'],
+    {
+      heading: string;
+      text: string;
+      links: { href: string; title: string; text: string }[];
+    }
+  >
+> = {
+  finance: {
+    heading: 'Start with the money question',
+    text:
+      'Finance searches usually start with a specific decision: payment size, interest cost, income, tax, or long-term savings. These paths put the most useful calculators one click away.',
+    links: [
+      {
+        href: '/tools/mortgage-calculator/',
+        title: 'I am comparing home payments',
+        text: 'Estimate mortgage payment, interest, taxes, insurance, and loan balance assumptions.',
+      },
+      {
+        href: '/tools/loan-calculator/',
+        title: 'I need a loan payment',
+        text: 'Check payment, total interest, term, and rate scenarios before comparing real offers.',
+      },
+      {
+        href: '/tools/salary-calculator/',
+        title: 'I am checking pay',
+        text: 'Convert hourly, weekly, monthly, and annual pay using work schedule assumptions.',
+      },
+      {
+        href: '/tools/compound-interest-calculator/',
+        title: 'I want growth over time',
+        text: 'Model principal, contributions, rate, compounding, and future value.',
+      },
+    ],
+  },
+  'health-fitness': {
+    heading: 'Use health estimates carefully',
+    text:
+      'These calculators are best for learning ranges, comparing inputs, and planning questions to ask a professional. Results depend heavily on age, body, activity, history, and local guidance.',
+    links: [
+      {
+        href: '/tools/bmi-calculator/',
+        title: 'I want a basic body-size estimate',
+        text: 'Calculate BMI and read what the category can and cannot tell you.',
+      },
+      {
+        href: '/tools/calorie-calculator/',
+        title: 'I am estimating calories',
+        text: 'Compare daily calorie needs from age, size, activity, and goal assumptions.',
+      },
+      {
+        href: '/tools/due-date-calculator/',
+        title: 'I am checking pregnancy dates',
+        text: 'Estimate due dates from last period, conception, IVF, or ultrasound date.',
+      },
+      {
+        href: '/tools/gfr-calculator/',
+        title: 'I need a kidney estimate explained',
+        text: 'Use eGFR education carefully and confirm medical meaning with a clinician.',
+      },
+    ],
+  },
+  'home-projects': {
+    heading: 'Plan material before you buy',
+    text:
+      'Home project calculators are strongest when you measure carefully, choose the right unit, and add a realistic waste allowance for cuts, overlap, breakage, and mistakes.',
+    links: [
+      {
+        href: '/tools/concrete-calculator/',
+        title: 'I need concrete quantity',
+        text: 'Estimate cubic yards, bags, slab volume, and common project assumptions.',
+      },
+      {
+        href: '/tools/paint-calculator/',
+        title: 'I need paint coverage',
+        text: 'Estimate gallons from wall area, coats, doors, windows, and coverage rate.',
+      },
+      {
+        href: '/tools/wallpaper-calculator/',
+        title: 'I need wallpaper rolls',
+        text: 'Include pattern repeat, wall size, roll coverage, and waste percentage.',
+      },
+      {
+        href: '/tools/flooring-calculator/',
+        title: 'I need flooring material',
+        text: 'Estimate area and waste so cuts and layout do not surprise you later.',
+      },
+    ],
+  },
+  'ai-tools': {
+    heading: 'Browser AI, with clear limits',
+    text:
+      'AI helpers can speed up first passes, but they still need human checking. Use them for drafts, labels, OCR, and quick reading signals, then verify anything important.',
+    links: [
+      {
+        href: '/tools/image-to-text-ocr-tool/',
+        title: 'I need text from an image',
+        text: 'Use OCR for screenshots, photos, receipts, notes, and scanned text with quality tips.',
+      },
+      {
+        href: '/tools/text-summarizer/',
+        title: 'I need a shorter version',
+        text: 'Summarize pasted text with length limits and experimental browser-model notes.',
+      },
+      {
+        href: '/tools/language-detector/',
+        title: 'I need to identify language',
+        text: 'Check likely language from enough text and watch for mixed-language uncertainty.',
+      },
+      {
+        href: '/tools/reading-level-checker/',
+        title: 'I need readability feedback',
+        text: 'Estimate reading level from sentence length and word difficulty.',
+      },
+    ],
+  },
+  'developer-tools': {
+    heading: 'Fast technical checks in the browser',
+    text:
+      'Developer tools should be copy-friendly, private by default, and clear about security assumptions. They are useful for routine checks, not a substitute for production review.',
+    links: [
+      {
+        href: '/tools/subnet-calculator/',
+        title: 'I need network ranges',
+        text: 'Calculate CIDR ranges, usable hosts, masks, broadcast addresses, and network blocks.',
+      },
+      {
+        href: '/tools/password-generator/',
+        title: 'I need a password',
+        text: 'Generate strong random passwords and review length, symbols, and storage advice.',
+      },
+      {
+        href: '/tools/url-encode-decode/',
+        title: 'I need URL encoding',
+        text: 'Percent-encode or decode URL component text without sending it away.',
+      },
+      {
+        href: '/tools/utm-builder/',
+        title: 'I need campaign URLs',
+        text: 'Build UTM links with clear source, medium, campaign, term, and content fields.',
+      },
+    ],
+  },
+};
+const categoryIntent = categoryIntentConfig[category.slug];
+const categoryTrustNotes: Partial<
+  Record<ToolCategory['slug'], { className: string; title: string; text: string }>
+> = {
+  finance: {
+    className: 'trust-note-finance',
+    title: 'Planning estimate only',
+    text:
+      'Finance tools can help you compare assumptions, but real rates, fees, taxes, insurance, lender rules, and personal circumstances can change the answer. Use results as planning math, not financial, tax, or legal advice.',
+  },
+  'health-fitness': {
+    className: 'trust-note-health',
+    title: 'Educational health estimate',
+    text:
+      'Health, pregnancy, BAC, and fitness calculators are for learning and planning. They do not diagnose, treat, or replace advice from a doctor, dietitian, trainer, pharmacist, or emergency service.',
+  },
+  'home-projects': {
+    className: 'trust-note-utility',
+    title: 'Measure twice before buying materials',
+    text:
+      'Home project results depend on real measurements, local codes, product coverage, site conditions, waste, and supplier rules. Confirm important quantities with a contractor, store specialist, or local authority before ordering.',
+  },
+  'ai-tools': {
+    className: 'trust-note-ai',
+    title: 'Private-first AI with model limits',
+    text:
+      'AI tools are designed to run in the browser and not upload your input to Access Free Tools. Some models may download from a third-party host unless we self-host them later, and AI results can be wrong or uncertain.',
+  },
+  'developer-tools': {
+    className: 'trust-note-utility',
+    title: 'Keep secrets out of quick tools',
+    text:
+      'Developer tools are built for local browser checks, but you should still avoid pasting production secrets, private keys, customer data, or regulated information into any utility unless you have confirmed the workflow is appropriate.',
+  },
+};
+const categoryTrustNote = categoryTrustNotes[category.slug];
 const categoryTasks: Record<string, string[]> = {
   calculators: [
     'Free online calculator pages for quick math checks, school work, percentage problems, fractions, powers, roots, and number theory.',
@@ -219,6 +443,25 @@ const taskNotes = categoryTasks[category.slug] ?? [
     )
   }
 
+  {
+    categoryIntent && (
+      <section class="visual-seo-strip" aria-labelledby={`${category.slug}-intent-heading`}>
+        <div>
+          <h2 id={`${category.slug}-intent-heading`}>{categoryIntent.heading}</h2>
+          <p>{categoryIntent.text}</p>
+        </div>
+        <div class="visual-seo-links">
+          {categoryIntent.links.map((link) => (
+            <a href={link.href}>
+              <strong>{link.title}</strong>
+              <span>{link.text}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
   <section class="category-overview section-band section-band-soft">
     <div class="category-stat-grid" aria-label={`${category.name} category summary`}>
       <article>
@@ -234,6 +477,15 @@ const taskNotes = categoryTasks[category.slug] ?? [
         <p>No signup needed</p>
       </article>
     </div>
+
+    {
+      categoryTrustNote && (
+        <aside class={`trust-note ${categoryTrustNote.className}`} aria-label={`${category.name} trust note`}>
+          <strong>{categoryTrustNote.title}</strong>
+          <p>{categoryTrustNote.text}</p>
+        </aside>
+      )
+    }
 
     {
       category.slug === 'calculators' && (

@@ -19,6 +19,7 @@
     "check:performance": "node scripts/check-performance-budget.mjs",
     "check:ai-assets": "node scripts/check-ai-lazy-assets.mjs",
     "check:external-links": "node scripts/check-external-links.mjs",
+    "assets:social": "node scripts/generate-social-cards.mjs",
     "dataforseo:account": "node scripts/dataforseo-account.mjs",
     "dataforseo:status": "node scripts/dataforseo-status.mjs",
     "dataforseo:status:sandbox": "node scripts/dataforseo-status.mjs --sandbox",
