@@ -447,8 +447,8 @@ const secFinancialStatements = {
 };
 
 const openAiTokens = {
-  href: 'https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-do-i-count-them',
-  label: 'OpenAI Help: What are tokens and how do I count them?',
+  href: 'https://developers.openai.com/cookbook/examples/how_to_count_tokens_with_tiktoken',
+  label: 'OpenAI Cookbook: How to count tokens with tiktoken',
 };
 
 const openAiTokenizer = {

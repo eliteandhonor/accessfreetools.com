@@ -82,6 +82,16 @@ test.describe('site smoke coverage', () => {
     await expect(page.getByRole('heading', { name: 'Free Calculator Resources' })).toBeVisible();
   });
 
+  test('legacy ranking shortcuts resolve to canonical hubs', async ({ page }) => {
+    await page.goto('/calculators/');
+    await expect(page).toHaveURL(/\/categories\/calculators\/$/);
+    await expect(page.getByRole('heading', { name: 'Free online calculators' })).toBeVisible();
+
+    await page.goto('/deep-research/');
+    await expect(page).toHaveURL(/\/categories\/ai-tools\/$/);
+    await expect(page.getByRole('heading', { name: 'AI Tools', exact: true })).toBeVisible();
+  });
+
   test('AI tool page does not request model files before the user runs the tool', async ({ page }) => {
     const modelRequests: string[] = [];
     page.on('request', (request) => {
