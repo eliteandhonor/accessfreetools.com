@@ -32,6 +32,8 @@ npm run check:structured-data
 npm run check:performance
 npm run check:ai-assets
 npm run check:external-links
+npm run dataforseo:account -- -- --min-balance=2
+npm run seo:self-evaluate
 npm run test:smoke
 npm run security:audit
 ```
@@ -67,6 +69,20 @@ Each smoke test should check:
 ## Broken Link Lane
 
 `npm run check:links` checks built internal `href` and `src` paths. `npm run check:external-links` checks unique external source, disclosure, model, and affiliate links as a non-blocking report because third-party sites can fail independently of the build.
+
+## SEO Agent Lane
+
+`npm run dataforseo:account -- -- --min-balance=2` checks the local DataForSEO account without storing credentials in Git. `npm run dataforseo:status` checks the free DataForSEO service-status endpoints before paid research. `npm run seo:self-evaluate` reads the latest Search Console exports, URL inspection report, DataForSEO keyword/domain data, SERP competitors, and related keyword ideas, then writes `output/seo-agent-self-evaluation.md` and `output/seo-agent-self-evaluation.json`.
+
+DataForSEO automation should warn at `$10`, stop broad paid research at `$5`, and only use Sandbox mode for new endpoint-shape tests before paid production calls. Backlinks API is not automated until the account has confirmed access.
+
+Refresh the inputs first:
+
+```bash
+npm run search-console -- -- --site=https://accessfreetools.com/
+npm run search-console -- -- --inspect-key-urls
+npm run seo:self-evaluate
+```
 
 ## Structured Data Lane
 

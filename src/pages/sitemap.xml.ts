@@ -1,39 +1,21 @@
 export const prerender = true;
 import type { APIRoute } from 'astro';
-import { blogPosts } from '../data/blogPosts';
-import { categories } from '../data/categories';
-import { tools } from '../data/tools';
-
-const site = 'https://accessfreetools.com';
-const lastmod = new Date().toISOString().slice(0, 10);
-
-const staticPaths = [
-  '/',
-  '/tools/',
-  '/categories/',
-  '/blog/',
-  '/about/',
-  '/contact/',
-  '/advertising-disclosure/',
-  '/privacy-policy/',
-  '/terms/',
-];
+import {
+  blogSitemapEntries,
+  categorySitemapEntries,
+  maxLastmod,
+  renderSitemapIndex,
+  staticSitemapEntries,
+  toolSitemapEntries,
+} from '../data/discovery';
 
 export const GET: APIRoute = () => {
-  const liveCategories = categories.filter((category) =>
-    tools.some((tool) => tool.category === category.slug),
-  );
-  const urls = [
-    ...staticPaths,
-    ...blogPosts.map((post) => `/blog/${post.slug}/`),
-    ...tools.map((tool) => `/tools/${tool.slug}/`),
-    ...liveCategories.map((category) => `/categories/${category.slug}/`),
-  ];
-
-  const body = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((path) => `  <url><loc>${site}${path}</loc><lastmod>${lastmod}</lastmod></url>`).join('\n')}
-</urlset>`;
+  const body = renderSitemapIndex([
+    { path: '/sitemap-pages.xml', lastmod: maxLastmod(staticSitemapEntries) },
+    { path: '/sitemap-tools.xml', lastmod: maxLastmod(toolSitemapEntries) },
+    { path: '/sitemap-blog.xml', lastmod: maxLastmod(blogSitemapEntries) },
+    { path: '/sitemap-categories.xml', lastmod: maxLastmod(categorySitemapEntries) },
+  ]);
 
   return new Response(body, {
     headers: {

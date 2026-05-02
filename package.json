@@ -19,6 +19,11 @@
     "check:performance": "node scripts/check-performance-budget.mjs",
     "check:ai-assets": "node scripts/check-ai-lazy-assets.mjs",
     "check:external-links": "node scripts/check-external-links.mjs",
+    "dataforseo:account": "node scripts/dataforseo-account.mjs",
+    "dataforseo:status": "node scripts/dataforseo-status.mjs",
+    "dataforseo:status:sandbox": "node scripts/dataforseo-status.mjs --sandbox",
+    "search-console": "node scripts/search-console.mjs",
+    "seo:self-evaluate": "node scripts/seo-agent-self-evaluation.mjs",
     "test:smoke": "npm run build && playwright test",
     "security:audit": "npm audit --audit-level=moderate",
     "check": "npm run typecheck && npm test && npm run build && npm run check:links && npm run check:site && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run security:audit"

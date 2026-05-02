@@ -1,10 +1,11 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const distDir = join(process.cwd(), 'dist');
 const publicDistDir = existsSync(join(distDir, 'client')) ? join(distDir, 'client') : distDir;
+const outputDir = join(process.cwd(), 'output');
 const STRICT = process.argv.includes('--strict');
-const TIMEOUT_MS = 6500;
+const TIMEOUT_MS = 12000;
 const CONCURRENCY = 8;
 
 if (!existsSync(distDir)) {
@@ -109,6 +110,17 @@ for (const batch of chunk(urls, CONCURRENCY)) {
 }
 
 const broken = results.filter((result) => !result.ok);
+const report = {
+  checkedAt: new Date().toISOString(),
+  strict: STRICT,
+  totalLinks: urls.length,
+  reviewCount: broken.length,
+  timeoutMs: TIMEOUT_MS,
+  reviewLinks: broken,
+};
+
+mkdirSync(outputDir, { recursive: true });
+writeFileSync(join(outputDir, 'external-link-audit.json'), `${JSON.stringify(report, null, 2)}\n`);
 
 if (broken.length > 0) {
   console.warn(
@@ -121,7 +133,6 @@ if (broken.length > 0) {
 console.log(
   `Checked ${urls.length} unique external links. ${broken.length} need review.${STRICT ? ' Strict mode enabled.' : ' Non-blocking report.'}`,
 );
+console.log(`Saved report to ${join(outputDir, 'external-link-audit.json')}`);
 
-if (STRICT && broken.length > 0) {
-  process.exit(1);
-}
+process.exit(STRICT && broken.length > 0 ? 1 : 0);

@@ -1,24 +1,65 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
-import type { BlogPostDefinition } from '../data/blogPosts';
+import type { BlogSearchItem } from '../data/blogSearchIndex';
+
+const INITIAL_VISIBLE_GUIDE_LIMIT = 96;
 
 interface Props {
-  posts: BlogPostDefinition[];
+  posts: BlogSearchItem[];
+  searchIndexUrl: string;
+  totalPostCount: number;
 }
 
-export default function BlogSearch({ posts }: Props) {
+export default function BlogSearch({ posts, searchIndexUrl, totalPostCount }: Props) {
+  const [searchPosts, setSearchPosts] = useState<BlogSearchItem[]>(posts);
+  const [isSearchIndexLoading, setIsSearchIndexLoading] = useState(false);
+  const [searchIndexError, setSearchIndexError] = useState('');
   const [query, setQuery] = useState('');
+  const [showAllGuides, setShowAllGuides] = useState(false);
+
+  const isFullSearchIndexLoaded = searchPosts.length >= totalPostCount;
+
+  const loadFullSearchIndex = async () => {
+    if (isFullSearchIndexLoaded || isSearchIndexLoading) {
+      return;
+    }
+
+    setIsSearchIndexLoading(true);
+    setSearchIndexError('');
+
+    try {
+      const response = await fetch(searchIndexUrl);
+
+      if (!response.ok) {
+        throw new Error(`Blog search index request failed with ${response.status}`);
+      }
+
+      const payload = (await response.json()) as { posts?: BlogSearchItem[] };
+
+      if (!Array.isArray(payload.posts)) {
+        throw new Error('Blog search index response did not include posts.');
+      }
+
+      setSearchPosts(payload.posts);
+    } catch {
+      setSearchIndexError('Full guide search is loading slowly. The first guides are still available.');
+    } finally {
+      setIsSearchIndexLoading(false);
+    }
+  };
 
   useEffect(() => {
     const queryFromUrl = new URLSearchParams(window.location.search).get('q')?.trim() ?? '';
 
     if (queryFromUrl) {
       setQuery(queryFromUrl);
+      void loadFullSearchIndex();
     }
   }, []);
 
   const updateQuery = (nextQuery: string) => {
     setQuery(nextQuery);
+    setShowAllGuides(false);
 
     const url = new URL(window.location.href);
     const trimmedQuery = nextQuery.trim();
@@ -30,19 +71,31 @@ export default function BlogSearch({ posts }: Props) {
     }
 
     window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+
+    if (trimmedQuery) {
+      void loadFullSearchIndex();
+    }
   };
 
   const filteredPosts = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
     if (!normalizedQuery) {
-      return posts;
+      return searchPosts;
     }
 
-    return posts.filter((post) =>
-      [post.title, post.label, post.summary].join(' ').toLowerCase().includes(normalizedQuery),
-    );
-  }, [posts, query]);
+    return searchPosts.filter((post) => post.searchText.toLowerCase().includes(normalizedQuery));
+  }, [query, searchPosts]);
+
+  const shouldLimitInitialResults =
+    !showAllGuides &&
+    query.trim().length === 0 &&
+    totalPostCount > INITIAL_VISIBLE_GUIDE_LIMIT;
+  const visiblePosts = shouldLimitInitialResults
+    ? filteredPosts.slice(0, INITIAL_VISIBLE_GUIDE_LIMIT)
+    : filteredPosts;
+  const filteredPostCount = isFullSearchIndexLoaded || query.trim().length > 0 ? filteredPosts.length : totalPostCount;
+  const hiddenGuideCount = filteredPostCount - visiblePosts.length;
 
   return (
     <section className="blog-search-panel" aria-label="Search blog guides">
@@ -59,11 +112,16 @@ export default function BlogSearch({ posts }: Props) {
       </div>
 
       <p className="blog-search-count">
-        Showing {filteredPosts.length} {filteredPosts.length === 1 ? 'guide' : 'guides'}.
+        {isSearchIndexLoading
+          ? 'Loading the full guide library...'
+          : visiblePosts.length === filteredPostCount
+            ? `Showing ${filteredPostCount} ${filteredPostCount === 1 ? 'guide' : 'guides'}.`
+            : `Showing first ${visiblePosts.length} of ${filteredPostCount} guides. Search or show all to browse every guide.`}
       </p>
+      {searchIndexError && <p className="launchpad-status-note">{searchIndexError}</p>}
 
       <div className="blog-list-grid">
-        {filteredPosts.map((post) => (
+        {visiblePosts.map((post) => (
           <article className="blog-post-card" key={post.slug}>
             <span>{post.label}</span>
             <h2>
@@ -76,6 +134,19 @@ export default function BlogSearch({ posts }: Props) {
           </article>
         ))}
       </div>
+
+      {hiddenGuideCount > 0 && (
+        <button
+          className="launchpad-show-more"
+          onClick={() => {
+            setShowAllGuides(true);
+            void loadFullSearchIndex();
+          }}
+          type="button"
+        >
+          Show all {filteredPostCount} guides
+        </button>
+      )}
 
       {filteredPosts.length === 0 && (
         <div className="empty-results">

@@ -23,6 +23,8 @@ const requiredWatchPaths = [
   'blog/index.html',
   'feed.xml',
   'sitemap.xml',
+  'sitemap-tools.xml',
+  'sitemap-blog.xml',
   'tool-search-index.json',
 ];
 

@@ -37,7 +37,7 @@ Open the local preview and check these pages:
 - `/tools/` loads the first tool batch quickly, then loads `/tool-search-index.json` only when users search, filter, or show all tools.
 - `/blog/` search works and real guides are visible.
 - A high-value finance tool, health tool, project estimator, developer tool, and calculator render their inputs, examples, FAQs, related tools, and guide links.
-- `/sitemap.xml`, `/robots.txt`, and `/feed.xml` load.
+- `/sitemap.xml`, `/sitemap-pages.xml`, `/sitemap-tools.xml`, `/sitemap-blog.xml`, `/sitemap-categories.xml`, `/robots.txt`, and `/feed.xml` load.
 - Footer text and links wrap normally on desktop and mobile widths.
 
 ## Production Proof
@@ -63,8 +63,17 @@ These steps need the site owner account:
 
 - Verify the domain property for `accessfreetools.com`.
 - Submit `https://accessfreetools.com/sitemap.xml`.
-- Inspect a new tool URL after deployment.
+- Submit `https://accessfreetools.com/feed.xml` as a secondary discovery feed.
+- Inspect `https://accessfreetools.com/`, one new tool URL, one new blog guide URL, and `https://accessfreetools.com/sitemap.xml` after deployment.
+- Confirm URL Inspection says "Page fetch: Successful", "Indexing allowed", and the user-declared canonical matches the production URL.
+- Do not use Google's old sitemap ping endpoint. Google deprecated it; use Search Console, robots.txt sitemap discovery, and accurate `lastmod` dates instead.
+- If Google says "Discovered - currently not indexed" or "Crawled - currently not indexed", review the exact reason before resubmitting. A new domain can take days or weeks to be indexed even when the technical setup is correct.
 - Watch indexing, query, and Core Web Vitals reports after Google recrawls the site.
+- Local API helpers:
+  - `npm run search-console -- -- --submit-discovery`
+  - `npm run search-console -- -- --inspect-key-urls`
+  - `npm run search-console -- -- --site=https://accessfreetools.com/`
+- Keep the Google OAuth client JSON out of Git. Use `.local/google-search-console-client-secret.json`, `GSC_CLIENT_SECRET_PATH`, or `--client-secret=...`.
 
 ## Monetization Readiness
 

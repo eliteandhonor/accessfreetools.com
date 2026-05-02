@@ -79,6 +79,18 @@ const MIRROR_STATIC_OUTPUT_SOURCE = readFileSync(
   fileURLToPath(new URL('../../scripts/mirror-static-output.mjs', import.meta.url)),
   'utf8',
 );
+const DATAFORSEO_LIB_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/lib/dataforseo.mjs', import.meta.url)),
+  'utf8',
+);
+const DATAFORSEO_STATUS_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/dataforseo-status.mjs', import.meta.url)),
+  'utf8',
+);
+const SEO_SELF_EVALUATION_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/seo-agent-self-evaluation.mjs', import.meta.url)),
+  'utf8',
+);
 const RETIRED_PRIVACY_INBOX = ['privacy', 'accessfreetools.com'].join('@');
 const README_SOURCE = readFileSync(fileURLToPath(new URL('../../README.md', import.meta.url)), 'utf8');
 const ROADMAP_SOURCE = readFileSync(
@@ -683,11 +695,12 @@ describe('site content audit guardrails', () => {
   });
 
   it('keeps sitemap freshness and release commands guarded', () => {
-    expect(SITEMAP_SOURCE).toContain('new Date().toISOString().slice(0, 10)');
-    expect(SITEMAP_SOURCE).not.toContain("const lastmod = '2026");
-    expect(FEED_SOURCE).toContain('const updatedDate = new Date()');
-    expect(FEED_SOURCE).not.toContain("new Date('2026");
-    expect(SITEMAP_SOURCE).toContain("'/advertising-disclosure/'");
+    expect(SITEMAP_SOURCE).toContain('renderSitemapIndex');
+    expect(SITEMAP_SOURCE).toContain('/sitemap-tools.xml');
+    expect(SITEMAP_SOURCE).not.toContain('new Date().toISOString().slice(0, 10)');
+    expect(FEED_SOURCE).toContain('getBlogDates');
+    expect(FEED_SOURCE).toContain('RSS_ITEM_LIMIT');
+    expect(FEED_SOURCE).not.toContain('const updatedDate = new Date()');
     expect(PACKAGE_JSON.scripts.typecheck).toBe('tsc --noEmit');
     expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run src/data/siteContentAudit.test.ts');
     expect(PACKAGE_JSON.scripts['check:links']).toBe('node scripts/check-internal-links.mjs');
@@ -696,6 +709,8 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts['check:performance']).toBe('node scripts/check-performance-budget.mjs');
     expect(PACKAGE_JSON.scripts['check:ai-assets']).toBe('node scripts/check-ai-lazy-assets.mjs');
     expect(PACKAGE_JSON.scripts['check:external-links']).toBe('node scripts/check-external-links.mjs');
+    expect(PACKAGE_JSON.scripts['dataforseo:status']).toBe('node scripts/dataforseo-status.mjs');
+    expect(PACKAGE_JSON.scripts['dataforseo:status:sandbox']).toBe('node scripts/dataforseo-status.mjs --sandbox');
     expect(PACKAGE_JSON.scripts['test:smoke']).toBe('npm run build && playwright test');
     expect(PACKAGE_JSON.scripts['security:audit']).toBe('npm audit --audit-level=moderate');
     expect(PACKAGE_JSON.scripts.check).toBe(
@@ -703,6 +718,26 @@ describe('site content audit guardrails', () => {
     );
     expect(README_SOURCE).toContain('npm run check');
     expect(DEPLOYMENT_CHECKLIST_SOURCE).toContain('/tools/');
+  });
+
+  it('keeps DataForSEO automation guarded by status, sandbox, and budget checks', () => {
+    expect(DATAFORSEO_LIB_SOURCE).toContain("const SANDBOX_BASE_URL = 'https://sandbox.dataforseo.com/v3'");
+    expect(DATAFORSEO_LIB_SOURCE).toContain('KNOWN_STATUS_HINTS');
+    expect(DATAFORSEO_LIB_SOURCE).toContain('40204');
+    expect(DATAFORSEO_LIB_SOURCE).toContain('x-ratelimit-remaining');
+    expect(DATAFORSEO_LIB_SOURCE).toContain('tasks_error');
+    expect(DATAFORSEO_STATUS_SOURCE).toContain("getDataForSeoServiceStatus");
+    expect(DATAFORSEO_STATUS_SOURCE).toContain("getDataForSeoLabsStatus");
+    expect(DATAFORSEO_STATUS_SOURCE).toContain("'dataforseo_labs'");
+    expect(SEO_SELF_EVALUATION_SOURCE).toContain('warnBalance');
+    expect(SEO_SELF_EVALUATION_SOURCE).toContain('broadResearchStop');
+    expect(SEO_SELF_EVALUATION_SOURCE).toContain('LEGACY_REDIRECTS');
+    expect(SEO_SELF_EVALUATION_SOURCE).toContain('/categories/calculators/');
+    expect(SEO_SELF_EVALUATION_SOURCE).toContain('/dataforseo_labs/google/serp_competitors/live');
+    expect(SEO_SELF_EVALUATION_SOURCE).toContain('/dataforseo_labs/google/related_keywords/live');
+    expect(SEO_SELF_EVALUATION_SOURCE).toContain('Paid keyword research skipped');
+    expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Backlinks API is not automated until the account has confirmed access');
+    expect(README_SOURCE).toContain('stop broad paid research at `$5`');
   });
 
   it('keeps roadmap counts aligned with the current public library', () => {

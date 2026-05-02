@@ -36,12 +36,12 @@ interface GuideDetail {
 
 const sourceLinks = {
   investorCompound: {
-    href: 'https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator',
-    label: 'Investor.gov: Compound Interest Calculator',
+    href: 'https://openstax.org/books/principles-finance/pages/7-2-time-value-of-money-tvm-basics',
+    label: 'OpenStax Principles of Finance: Time value of money basics',
   },
   investorAnnuities: {
-    href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/annuities',
-    label: 'Investor.gov: Annuities',
+    href: 'https://openstax.org/books/principles-finance/pages/8-2-annuities',
+    label: 'OpenStax Principles of Finance: Annuities and present value',
   },
   consumerBudgetWorksheet: {
     href: 'https://consumer.gov/your-money/budget-worksheet',
@@ -84,8 +84,8 @@ const sourceLinks = {
     label: 'Consumer Financial Protection Bureau: Debt collection resources',
   },
   fsaRepaymentPlans: {
-    href: 'https://studentaid.gov/manage-loans/repayment/plans',
-    label: 'Federal Student Aid: Loan repayment plans',
+    href: 'https://www.consumerfinance.gov/paying-for-college/repay-student-debt/',
+    label: 'Consumer Financial Protection Bureau: Repay student debt',
   },
   educationNetPrice: {
     href: 'https://collegecost.ed.gov/net-price',
@@ -96,12 +96,12 @@ const sourceLinks = {
     label: 'FDIC: Shopping for a Certificate of Deposit',
   },
   investorBonds: {
-    href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/bonds-or-fixed-income-products',
-    label: 'Investor.gov: Bonds and fixed income products',
+    href: 'https://www.finra.org/investors/investing/investment-products/bonds',
+    label: 'FINRA: Bonds',
   },
   investorMutualFunds: {
-    href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs/mutual-funds',
-    label: 'Investor.gov: Mutual Funds',
+    href: 'https://www.finra.org/investors/investing/investment-products/mutual-funds',
+    label: 'FINRA: Mutual funds',
   },
   irsIraLimits: {
     href: 'https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-ira-contribution-limits',
@@ -132,8 +132,8 @@ const sourceLinks = {
     label: 'U.S. Small Business Administration: Loans',
   },
   investorAnnualReturn: {
-    href: 'https://www.investor.gov/introduction-investing/investing-basics/glossary/annual-return',
-    label: 'Investor.gov: Annual Return',
+    href: 'https://openstax.org/books/contemporary-mathematics/pages/6-7-investments',
+    label: 'OpenStax: Investments and return on investment',
   },
   openStaxDiscounts: {
     href: 'https://openstax.org/books/contemporary-mathematics/pages/6-2-discounts-markups-and-sales-tax',
@@ -168,8 +168,8 @@ const sourceLinks = {
     label: 'U.S. Department of Labor: Commissions',
   },
   moneyHelperMortgage: {
-    href: 'https://www.moneyhelper.org.uk/en/homes/buying-a-home/mortgage-calculator',
-    label: 'MoneyHelper: Mortgage calculators',
+    href: 'https://www.consumerfinance.gov/consumer-tools/mortgages/',
+    label: 'Consumer Financial Protection Bureau: Mortgage resources',
   },
   canadaInterestAct: {
     href: 'https://laws-lois.justice.gc.ca/eng/acts/I-15/FullText.html',
@@ -200,8 +200,8 @@ const sourceLinks = {
     label: 'IRS Publication 590-B: RMD Uniform Lifetime Table',
   },
   ssaClaimingAge: {
-    href: 'https://www.ssa.gov/OACT/quickcalc/early_late.html',
-    label: 'SSA: Early or late retirement effects',
+    href: 'https://www.benefits.gov/benefit/4402',
+    label: 'Benefits.gov: Social Security retirement insurance',
   },
   irsFica: {
     href: 'https://www.irs.gov/taxtopics/tc751',

@@ -157,7 +157,7 @@ const tesseractOcrDocs = {
 };
 
 const francLanguageDetection = {
-  href: 'https://www.npmjs.com/package/franc',
+  href: 'https://github.com/wooorm/franc',
   label: 'franc: language detection package',
 };
 
@@ -417,8 +417,8 @@ const usdaFoodDataCentral = {
 };
 
 const foodSafetyTemperatures = {
-  href: 'https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures',
-  label: 'FoodSafety.gov: safe minimum internal temperatures',
+  href: 'https://www.fda.gov/food/buy-store-serve-safe-food/safe-food-handling',
+  label: 'FDA: Safe food handling',
 };
 
 const calculatorSoupSitemap = {
@@ -467,8 +467,8 @@ const cfpbAutoLoans = {
 };
 
 const investorCompound = {
-  href: 'https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator',
-  label: 'Investor.gov: Compound Interest Calculator',
+  href: 'https://openstax.org/books/principles-finance/pages/7-2-time-value-of-money-tvm-basics',
+  label: 'OpenStax Principles of Finance: Time value of money basics',
 };
 
 const blsInflation = {
@@ -512,8 +512,8 @@ const consumerBudgetWorksheet = {
 };
 
 const investorAnnuities = {
-  href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/annuities',
-  label: 'Investor.gov: Annuities',
+  href: 'https://openstax.org/books/principles-finance/pages/8-2-annuities',
+  label: 'OpenStax Principles of Finance: Annuities and present value',
 };
 
 const pbgcPensionCoverage = {
@@ -522,8 +522,8 @@ const pbgcPensionCoverage = {
 };
 
 const fsaRepaymentPlans = {
-  href: 'https://studentaid.gov/manage-loans/repayment/plans',
-  label: 'Federal Student Aid: Loan repayment plans',
+  href: 'https://www.consumerfinance.gov/paying-for-college/repay-student-debt/',
+  label: 'Consumer Financial Protection Bureau: Repay student debt',
 };
 
 const educationNetPrice = {
@@ -537,13 +537,13 @@ const fdicCdShopping = {
 };
 
 const investorBonds = {
-  href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/bonds-or-fixed-income-products',
-  label: 'Investor.gov: Bonds and fixed income products',
+  href: 'https://www.finra.org/investors/investing/investment-products/bonds',
+  label: 'FINRA: Bonds',
 };
 
 const investorMutualFunds = {
-  href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs/mutual-funds',
-  label: 'Investor.gov: Mutual Funds',
+  href: 'https://www.finra.org/investors/investing/investment-products/mutual-funds',
+  label: 'FINRA: Mutual funds',
 };
 
 const euVat = {
@@ -602,8 +602,8 @@ const govUkMortgage = {
 };
 
 const moneyHelperMortgage = {
-  href: 'https://www.moneyhelper.org.uk/en/homes/buying-a-home/mortgage-calculator',
-  label: 'MoneyHelper: Mortgage calculators',
+  href: 'https://www.consumerfinance.gov/consumer-tools/mortgages/',
+  label: 'Consumer Financial Protection Bureau: Mortgage resources',
 };
 
 const canadaMortgageTerms = {
@@ -637,8 +637,8 @@ const openStaxDepreciation = {
 };
 
 const investorAnnualReturn = {
-  href: 'https://www.investor.gov/introduction-investing/investing-basics/glossary/annual-return',
-  label: 'Investor.gov: Annual Return',
+  href: 'https://openstax.org/books/contemporary-mathematics/pages/6-7-investments',
+  label: 'OpenStax: Investments and return on investment',
 };
 
 const sbaLoans = {
@@ -707,8 +707,8 @@ const irsRmd = {
 };
 
 const ssaClaimingAge = {
-  href: 'https://www.ssa.gov/OACT/quickcalc/early_late.html',
-  label: 'SSA: Early or late retirement effects',
+  href: 'https://www.benefits.gov/benefit/4402',
+  label: 'Benefits.gov: Social Security retirement insurance',
 };
 
 const irsFica = {
@@ -762,8 +762,8 @@ const nimhEatingDisorders = {
 };
 
 const mifflinStJeorEquation = {
-  href: 'https://academic.oup.com/ajcn/article-abstract/51/2/241/4695104',
-  label: 'American Journal of Clinical Nutrition: Mifflin-St Jeor resting energy equation',
+  href: 'https://pubmed.ncbi.nlm.nih.gov/2305711/',
+  label: 'PubMed: Mifflin-St Jeor resting energy equation',
 };
 
 const armyBodyCompositionProgram = {
@@ -792,13 +792,13 @@ const ahaTargetHeartRates = {
 };
 
 const johnsHopkinsDueDate = {
-  href: 'https://www.hopkinsmedicine.org/health/wellness-and-prevention/calculating-a-due-date',
-  label: 'Johns Hopkins Medicine: Calculating a due date',
+  href: 'https://www.mayoclinic.org/healthy-lifestyle/getting-pregnant/in-depth/due-date-calculator/itt-20084986',
+  label: 'Mayo Clinic: Due date calculator',
 };
 
 const johnsHopkinsFertileWindow = {
-  href: 'https://www.hopkinsmedicine.org/health/wellness-and-prevention/calculating-your-monthly-fertility-window',
-  label: 'Johns Hopkins Medicine: Calculating your monthly fertility window',
+  href: 'https://www.acog.org/womens-health/faqs/fertility-awareness-based-methods-of-family-planning',
+  label: 'ACOG: Fertility awareness-based methods',
 };
 
 const cdcPregnancyWeight = {
@@ -847,13 +847,13 @@ const doeInsulation = {
 };
 
 const lowesWallpaper = {
-  href: 'https://www.lowes.com/n/calculators/wallpaper-calculator',
-  label: 'Lowe\'s: Wallpaper calculator estimating notes',
+  href: 'https://www.inchcalculator.com/wallpaper-calculator/',
+  label: 'Inch Calculator: Wallpaper calculator reference',
 };
 
 const lowesTile = {
-  href: 'https://www.lowes.com/n/calculators/tile-floor-calculator',
-  label: 'Lowe\'s: Tile flooring calculator estimating notes',
+  href: 'https://www.inchcalculator.com/tile-calculator/',
+  label: 'Inch Calculator: Tile calculator reference',
 };
 
 const sherwinPaintCoverage = {
@@ -867,8 +867,8 @@ const nistConversionFactors = {
 };
 
 const lowesSiding = {
-  href: 'https://www.lowes.com/n/calculators/siding-calculator',
-  label: 'Lowe\'s: Siding calculator and siding squares',
+  href: 'https://www.certainteed.com/products/documents-downloads',
+  label: 'CertainTeed: Siding documents and installation resources',
 };
 
 const glenGeryBrickSizes = {
@@ -887,8 +887,8 @@ const ukBoardFoot = {
 };
 
 const mndotAsphalt = {
-  href: 'https://www.dot.minnesota.gov/materials/manuals/bituminous/Minnesota_Department_of_Transportation_Bituminous_Manual.pdf',
-  label: 'MnDOT: Bituminous manual quantity estimating',
+  href: 'https://www.inchcalculator.com/asphalt-calculator/',
+  label: 'Inch Calculator: Asphalt calculator reference',
 };
 
 const epaFuelEconomy = {
@@ -912,13 +912,13 @@ const beaGdpExpenditures = {
 };
 
 const usgaScoreDifferential = {
-  href: 'https://www.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---what-is-a-score-differential.html',
-  label: 'USGA: What is a Score Differential?',
+  href: 'https://www.randa.org/roh/the-rules-of-handicapping',
+  label: 'R&A: Rules of Handicapping',
 };
 
 const usgaCourseHandicap = {
-  href: 'https://www.usga.org/HandicapFAQ/handicap.asp',
-  label: 'USGA: World Handicap System FAQ',
+  href: 'https://www.randa.org/roh/the-rules-of-handicapping',
+  label: 'R&A: World Handicap System rules',
 };
 
 const nwsWindChill = {
@@ -992,8 +992,8 @@ const teResistorCode = {
 };
 
 const usaceVoltageDrop = {
-  href: 'https://www.tad.usace.army.mil/Portals/53/docs/TAA/AEDDesignRequirements/AED%20Design%20Requirements%20-%20Voltage%20Drop%20Calculations_Mar_09.pdf',
-  label: 'U.S. Army Corps of Engineers: Voltage drop calculations',
+  href: 'https://www.inchcalculator.com/voltage-drop-calculator/',
+  label: 'Inch Calculator: Voltage drop calculator reference',
 };
 
 const inchWattsToAmps = {

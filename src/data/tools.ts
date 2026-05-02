@@ -37,17 +37,24 @@ const baseTools: ToolDefinition[] = [
     slug: 'basic-calculator',
     name: 'Basic Calculator',
     category: 'calculators',
-    summary: 'A clean online calculator for quick everyday math.',
+    summary: 'A large free online calculator for quick everyday math.',
     description:
-      'Use this free basic calculator for addition, subtraction, multiplication, division, percentages, decimals, and quick result copying.',
+      'Use this free basic calculator online for addition, subtraction, multiplication, division, percentages, decimals, keyboard input, and quick result copying with a large easy-to-read keypad.',
     icon: 'calculator-plus',
+    aliases: [
+      'Free Online Calculator',
+      'Basic Calculator Online Free',
+      'Large Online Calculator',
+      'Full Screen Calculator',
+    ],
     seoTitle: 'Basic Calculator | Free Online Calculator',
     seoDescription:
-      'Use the free Access Free Tools basic calculator for everyday math, percentages, decimals, keyboard input, and quick result copying.',
+      'Use the free basic calculator online for everyday math, percentages, decimals, keyboard input, a large keypad, and quick result copying.',
     useCases: [
       'Check a total while shopping or planning a budget.',
       'Work through simple homework or study calculations.',
       'Calculate percentages, discounts, and quick comparisons.',
+      'Use a large browser calculator without installing an app.',
       'Keep a short calculation history while comparing numbers.',
     ],
     examples: [
@@ -82,6 +89,11 @@ const baseTools: ToolDefinition[] = [
         question: 'Can I use keyboard shortcuts?',
         answer:
           'Yes. Use the number keys, +, -, *, /, x, Enter or =, decimal point, percent, Backspace, Escape, and Delete.',
+      },
+      {
+        question: 'Can I use this as a large online calculator?',
+        answer:
+          'Yes. The calculator is designed to be easy to read in the browser, with a large display, clear buttons, keyboard input, and no app install. Use your browser zoom or full-screen mode if you want the calculator to fill more of the screen.',
       },
       {
         question: 'Is my calculation history private?',

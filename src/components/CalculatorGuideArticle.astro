@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import BreadcrumbStructuredData from './BreadcrumbStructuredData.astro';
+import { formatDisplayDate, getBlogDates } from '../data/siteDates';
 import { getDeepAuditRecord } from '../data/toolDeepAudit';
 import { getTool } from '../data/tools';
 
@@ -47,7 +48,7 @@ const hasSourceSection = sections.some((section) => /research|reference|source/i
 const relatedTools = (tool?.relatedSlugs ?? [])
   .map((relatedSlug) => getTool(relatedSlug))
   .filter((relatedTool): relatedTool is NonNullable<typeof relatedTool> => Boolean(relatedTool));
-const updatedDate = '2026-04-30';
+const articleDates = getBlogDates(path.match(/^\/blog\/([^/]+)\/?$/)?.[1] ?? '');
 const imageUrl = 'https://accessfreetools.com/social-card.svg';
 const articleStructuredData = {
   '@context': 'https://schema.org',
@@ -56,8 +57,8 @@ const articleStructuredData = {
   description,
   mainEntityOfPage: `https://accessfreetools.com${path}`,
   image: imageUrl,
-  datePublished: updatedDate,
-  dateModified: updatedDate,
+  datePublished: articleDates.published,
+  dateModified: articleDates.modified,
   author: {
     '@type': 'Organization',
     name: 'Access Free Tools',
@@ -91,7 +92,7 @@ const articleStructuredData = {
     <header class="blog-article-header">
       <span>{label}</span>
       <h1>{title}</h1>
-      <p class="article-meta-line">Access Free Tools editorial guide. Updated April 30, 2026.</p>
+      <p class="article-meta-line">Access Free Tools editorial guide. Updated {formatDisplayDate(articleDates.modified)}.</p>
       <p>{intro}</p>
       {tool && <a class="button-primary" href={`/tools/${tool.slug}/`}>Open the {tool.name}</a>}
     </header>

@@ -67,8 +67,8 @@ function getSourceLinks(toolSlug: string) {
   ];
   const energySources = [
     {
-      href: 'https://academic.oup.com/ajcn/article-abstract/51/2/241/4695104',
-      label: 'American Journal of Clinical Nutrition: Mifflin-St Jeor resting energy equation',
+      href: 'https://pubmed.ncbi.nlm.nih.gov/2305711/',
+      label: 'PubMed: Mifflin-St Jeor resting energy equation',
     },
     {
       href: 'https://www.cdc.gov/physical-activity-basics/measuring/index.html',
@@ -77,12 +77,12 @@ function getSourceLinks(toolSlug: string) {
   ];
   const pregnancySources = [
     {
-      href: 'https://www.hopkinsmedicine.org/health/wellness-and-prevention/calculating-a-due-date',
-      label: 'Johns Hopkins Medicine: Calculating a due date',
+      href: 'https://www.mayoclinic.org/healthy-lifestyle/getting-pregnant/in-depth/due-date-calculator/itt-20084986',
+      label: 'Mayo Clinic: Due date calculator',
     },
     {
-      href: 'https://www.hopkinsmedicine.org/health/wellness-and-prevention/calculating-your-monthly-fertility-window',
-      label: 'Johns Hopkins Medicine: Fertile window basics',
+      href: 'https://www.acog.org/womens-health/faqs/fertility-awareness-based-methods-of-family-planning',
+      label: 'ACOG: Fertility awareness-based methods',
     },
   ];
   const macroSources = [

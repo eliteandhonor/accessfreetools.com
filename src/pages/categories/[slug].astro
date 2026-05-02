@@ -25,14 +25,63 @@ interface Props {
 const { category } = Astro.props;
 const categoryTools = getToolsByCategory(category.slug);
 const categoryName = getCategory(category.slug)?.name ?? category.name;
+const categorySeo =
+  category.slug === 'calculators'
+    ? {
+        title: 'Free Online Calculators | Access Free Tools',
+        heading: 'Free Online Calculators',
+        description:
+          'Browse free online calculators for basic math, percentages, finance, health, conversions, and everyday estimates. Start with quick browser-first tools.',
+        intro:
+          'Use free online calculators for quick math, percentages, fractions, powers, roots, statistics, geometry, and everyday estimates. Start with the basic calculator when you need a large, simple keypad, then jump to a focused calculator when the job needs a formula.',
+      }
+    : {
+        title: `${categoryName} | Access Free Tools`,
+        heading: category.name,
+        description: `${category.summary} Browse ${category.name.toLowerCase()} from Access Free Tools.`,
+        intro: category.summary,
+      };
 const toolSlugs = new Set(categoryTools.map((tool) => `how-to-use-${tool.slug}`));
 const categoryGuides = blogPosts.filter((post) => toolSlugs.has(post.slug));
 const topTools = categoryTools.slice(0, 6);
+const calculatorHubLinks = [
+  {
+    href: '/tools/basic-calculator/',
+    title: 'Basic Calculator',
+    text: 'Large simple calculator for everyday addition, subtraction, multiplication, division, decimals, and percent checks.',
+  },
+  {
+    href: '/tools/percentage-calculator/',
+    title: 'Percentage Calculator',
+    text: 'Percent of a number, percent change, discounts, markups, and reverse percentage questions.',
+  },
+  {
+    href: '/tools/scientific-calculator/',
+    title: 'Scientific Calculator',
+    text: 'Trig, logarithms, powers, roots, constants, and degree/radian mode for heavier math.',
+  },
+  {
+    href: '/categories/finance/',
+    title: 'Finance Calculators',
+    text: 'Mortgage, loan, salary, interest, retirement, tax, and investment planning estimates.',
+  },
+  {
+    href: '/categories/health-fitness/',
+    title: 'Health & Fitness Calculators',
+    text: 'BMI, calories, pregnancy, nutrition, pace, body measurement, and educational health estimates.',
+  },
+  {
+    href: '/tools/conversion-calculator/',
+    title: 'Conversion Calculator',
+    text: 'Common unit conversions when a calculator answer needs a different measurement unit.',
+  },
+];
 const categoryTasks: Record<string, string[]> = {
   calculators: [
-    'Quick math checks, school work, percentage problems, fractions, powers, roots, and number theory.',
+    'Free online calculator pages for quick math checks, school work, percentage problems, fractions, powers, roots, and number theory.',
+    'A simple basic calculator path for visitors who want a large browser keypad with no signup and no app install.',
     'Formula-based calculators that show enough context to understand the answer, not just copy it.',
-    'Related blog guides that explain common mistakes and practical examples.',
+    'Related blog guides that explain common mistakes, practical examples, and when to use a more specific calculator.',
   ],
   finance: [
     'Loan, mortgage, interest, tax, salary, retirement, and investment estimates from clear assumptions.',
@@ -98,8 +147,8 @@ const taskNotes = categoryTasks[category.slug] ?? [
 ---
 
 <BaseLayout
-  title={`${categoryName} | Access Free Tools`}
-  description={`${category.summary} Browse ${category.name.toLowerCase()} from Access Free Tools.`}
+  title={categorySeo.title}
+  description={categorySeo.description}
   path={`/categories/${category.slug}/`}
 >
   <BreadcrumbStructuredData
@@ -110,8 +159,8 @@ const taskNotes = categoryTasks[category.slug] ?? [
     ]}
   />
   <CollectionStructuredData
-    name={`${category.name} tools`}
-    description={category.summary}
+    name={category.slug === 'calculators' ? 'Free online calculators' : `${category.name} tools`}
+    description={categorySeo.description}
     path={`/categories/${category.slug}/`}
     items={categoryTools.map((tool) => ({
       name: tool.name,
@@ -122,8 +171,8 @@ const taskNotes = categoryTasks[category.slug] ?? [
 
   <section class="page-intro">
     <p class="breadcrumb"><a href="/">Home</a> / <a href="/categories/">Categories</a></p>
-    <h1>{category.name}</h1>
-    <p>{category.summary}</p>
+    <h1>{categorySeo.heading}</h1>
+    <p>{categorySeo.intro}</p>
   </section>
 
   <section class="category-overview section-band section-band-soft">
@@ -141,6 +190,31 @@ const taskNotes = categoryTasks[category.slug] ?? [
         <p>No signup needed</p>
       </article>
     </div>
+
+    {
+      category.slug === 'calculators' && (
+        <div class="category-context-grid">
+          <div>
+            <h2>Popular calculator paths</h2>
+            <p>
+              These links match the main ways people search for free calculators: simple everyday math, percentage
+              problems, scientific functions, money estimates, health estimates, and unit conversion.
+            </p>
+          </div>
+          <div>
+            <h2>Start by task</h2>
+            <div class="category-link-list">
+              {calculatorHubLinks.map((link) => (
+                <a href={link.href}>
+                  <strong>{link.title}</strong>
+                  <span>{link.text}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )
+    }
 
     <div class="category-context-grid">
       <div>

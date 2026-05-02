@@ -89,13 +89,66 @@ function pagePathForHtmlFile(htmlFile) {
 
 function readSitemapUrls() {
   const sitemapPath = join(publicDistDir, 'sitemap.xml');
+  const urls = new Set();
+  const visitedSitemaps = new Set();
+  const warnings = [];
 
   if (!existsSync(sitemapPath)) {
-    return new Set();
+    return { urls, warnings: ['sitemap.xml is missing from dist; sitemap coverage cannot be verified.'] };
   }
 
-  const sitemap = readFileSync(sitemapPath, 'utf8');
-  return new Set([...sitemap.matchAll(/<loc>([\s\S]*?)<\/loc>/g)].map((match) => match[1].trim()));
+  function sitemapLocToFile(loc) {
+    try {
+      const url = new URL(decodeHtmlEntities(loc), SITE_ORIGIN);
+
+      if (url.origin !== SITE_ORIGIN) {
+        warnings.push(`Sitemap points outside ${SITE_ORIGIN}: ${loc}`);
+        return undefined;
+      }
+
+      return join(publicDistDir, url.pathname.replace(/^\/+/, ''));
+    } catch {
+      warnings.push(`Sitemap has an invalid loc value: ${loc}`);
+      return undefined;
+    }
+  }
+
+  function readSitemapFile(file) {
+    const normalizedFile = normalize(file);
+
+    if (visitedSitemaps.has(normalizedFile)) {
+      return;
+    }
+
+    visitedSitemaps.add(normalizedFile);
+
+    if (!existsSync(file)) {
+      warnings.push(`${normalizedFile} is referenced by the sitemap index but is missing.`);
+      return;
+    }
+
+    const sitemap = readFileSync(file, 'utf8');
+    const locs = [...sitemap.matchAll(/<loc>([\s\S]*?)<\/loc>/g)].map((match) => decodeHtmlEntities(match[1].trim()));
+
+    if (/<sitemapindex\b/i.test(sitemap)) {
+      for (const loc of locs) {
+        const childFile = sitemapLocToFile(loc);
+
+        if (childFile) {
+          readSitemapFile(childFile);
+        }
+      }
+
+      return;
+    }
+
+    for (const loc of locs) {
+      urls.add(loc);
+    }
+  }
+
+  readSitemapFile(sitemapPath);
+  return { urls, warnings };
 }
 
 function addToMap(map, key, value) {
@@ -109,9 +162,11 @@ function addToMap(map, key, value) {
 }
 
 const htmlFiles = walk(publicDistDir, (file) => file.endsWith('.html'));
-const sitemapUrls = readSitemapUrls();
 const issues = [];
 const warnings = [];
+const sitemapResult = readSitemapUrls();
+const sitemapUrls = sitemapResult.urls;
+warnings.push(...sitemapResult.warnings);
 const titlePages = new Map();
 const descriptionPages = new Map();
 let imageCount = 0;

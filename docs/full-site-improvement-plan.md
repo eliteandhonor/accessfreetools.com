@@ -81,6 +81,9 @@ Requirements:
 - Submit `https://accessfreetools.com/sitemap.xml` in Google Search Console after production deploys.
 - Use URL Inspection for important pages after major changes.
 - Avoid keyword stuffing, copied competitor wording, and content made only for search engines.
+- Use DataForSEO as a paid research layer after checking service status and account balance, not as an uncontrolled daily crawler.
+- Redirect old ranking URLs to their strongest live canonical page when DataForSEO finds rankings for URLs missing from the current sitemap.
+- Keep `/categories/calculators/` strong enough to answer broad "free calculators" and "online calculator" searches while sending users to focused calculator pages.
 
 Proof:
 
@@ -90,6 +93,8 @@ Proof:
 - `npm run check:external-links`
 - Production Search Console sitemap submission.
 - Manual review of title links and snippets for high-value pages.
+- `npm run dataforseo:status`
+- `npm run seo:self-evaluate`
 
 ## 3. Content Quality
 
@@ -178,6 +183,7 @@ Requirements:
 - Keep the full `/tools/` search index in a separate JSON payload so the first launchpad HTML and hydration payload stay smaller.
 - Avoid loading ad, affiliate, analytics, or product scripts until approved and disclosed.
 - Measure production pages with PageSpeed Insights and Search Console Core Web Vitals after traffic exists.
+- Use DataForSEO OnPage API only as an optional monthly production crawl for duplicate tags, duplicate content, redirect chains, non-indexable URLs, resources, and Core Web Vitals-style signals.
 
 Proof:
 

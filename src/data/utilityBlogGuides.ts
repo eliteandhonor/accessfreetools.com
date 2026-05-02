@@ -59,8 +59,8 @@ const sourceLinks = {
     label: 'USDA: FoodData Central',
   },
   foodSafetyTemperatures: {
-    href: 'https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures',
-    label: 'FoodSafety.gov: Safe minimum internal temperatures',
+    href: 'https://www.fda.gov/food/buy-store-serve-safe-food/safe-food-handling',
+    label: 'FDA: Safe food handling',
   },
   rfc4632: {
     href: 'https://www.rfc-editor.org/rfc/rfc4632.html',
@@ -251,8 +251,8 @@ const sourceLinks = {
     label: 'OpenStax Chemistry 2e: Molarity',
   },
   usaceVoltageDrop: {
-    href: 'https://www.tad.usace.army.mil/Portals/53/docs/TAA/AEDDesignRequirements/AED%20Design%20Requirements%20-%20Voltage%20Drop%20Calculations_Mar_09.pdf',
-    label: 'U.S. Army Corps of Engineers: Voltage drop calculations',
+    href: 'https://www.inchcalculator.com/voltage-drop-calculator/',
+    label: 'Inch Calculator: Voltage drop calculator reference',
   },
   inchWattsToAmps: {
     href: 'https://www.inchcalculator.com/watts-to-amps-calculator/',
@@ -315,32 +315,32 @@ const sourceLinks = {
     label: 'Sherwin-Williams: Paint calculator coverage notes',
   },
   lowesTile: {
-    href: 'https://www.lowes.com/n/calculators/tile-floor-calculator',
-    label: 'Lowe\'s: Tile flooring calculator estimating notes',
+    href: 'https://www.inchcalculator.com/tile-calculator/',
+    label: 'Inch Calculator: Tile calculator reference',
   },
   ukBoardFoot: {
     href: 'https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/for9.htm',
     label: 'University of Kentucky Extension: Measuring farm timber',
   },
   mndotAsphalt: {
-    href: 'https://www.dot.minnesota.gov/materials/manuals/bituminous/Minnesota_Department_of_Transportation_Bituminous_Manual.pdf',
-    label: 'MnDOT: Bituminous manual quantity estimating',
+    href: 'https://www.inchcalculator.com/asphalt-calculator/',
+    label: 'Inch Calculator: Asphalt calculator reference',
   },
   lowesWallpaper: {
-    href: 'https://www.lowes.com/n/calculators/wallpaper-calculator',
-    label: 'Lowe\'s: Wallpaper calculator estimating notes',
+    href: 'https://www.inchcalculator.com/wallpaper-calculator/',
+    label: 'Inch Calculator: Wallpaper calculator reference',
   },
   lowesWallpaperInstall: {
     href: 'https://www.lowes.com/pdf/Step-by-Step-Guide-Wallpaper-Installation.pdf',
     label: 'Lowe\'s: Peel-and-stick wallpaper installation guide',
   },
   homeDepotWallpaper: {
-    href: 'https://www.homedepot.com/c/ah/how-to-wallpaper/9ba683603be9fa5395fab90209b9af9',
-    label: 'The Home Depot: How to wallpaper',
+    href: 'https://www.inchcalculator.com/wallpaper-calculator/',
+    label: 'Inch Calculator: Wallpaper measuring reference',
   },
   homeDepotPastedWallpaper: {
-    href: 'https://www.homedepot.com/c/ap/how-to-install-pasted-wallpaper/9ba683603be9fa5395fab901dcc00ca7',
-    label: 'The Home Depot: Pasted wallpaper planning and install notes',
+    href: 'https://www.ethanallen.ca/on/demandware.static/-/Library-Sites-ethanallen-shared/default/dw121d97c4/pdf/buying-guides/wallpaper_buying_guide.pdf',
+    label: 'Ethan Allen: Wallpaper repeat and match glossary',
   },
   grahamBrownWallpaper: {
     href: 'https://support.grahambrown.com/hc/en-us/articles/207134025-How-do-I-know-how-much-wallpaper-I-need',
@@ -351,8 +351,8 @@ const sourceLinks = {
     label: 'Ethan Allen: Wallpaper repeat and match glossary',
   },
   lowesSiding: {
-    href: 'https://www.lowes.com/n/calculators/siding-calculator',
-    label: 'Lowe\'s: Siding calculator and siding squares',
+    href: 'https://www.certainteed.com/products/documents-downloads',
+    label: 'CertainTeed: Siding documents and installation resources',
   },
   glenGeryBrickSizes: {
     href: 'https://www.glengery.com/brick-sizes',
@@ -363,12 +363,12 @@ const sourceLinks = {
     label: 'Archtoolbox: CMU sizes, nominal dimensions, and mortar joints',
   },
   usgaScoreDifferential: {
-    href: 'https://www.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---what-is-a-score-differential.html',
-    label: 'USGA: What is a Score Differential?',
+    href: 'https://www.randa.org/roh/the-rules-of-handicapping',
+    label: 'R&A: Rules of Handicapping',
   },
   usgaCourseHandicap: {
-    href: 'https://www.usga.org/HandicapFAQ/handicap.asp',
-    label: 'USGA: World Handicap System FAQ',
+    href: 'https://www.randa.org/roh/the-rules-of-handicapping',
+    label: 'R&A: World Handicap System rules',
   },
   googleHelpfulContent: {
     href: 'https://developers.google.com/search/docs/fundamentals/creating-helpful-content',

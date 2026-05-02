@@ -50,7 +50,7 @@ const sourceLinks = {
     label: 'Tesseract OCR documentation',
   },
   franc: {
-    href: 'https://www.npmjs.com/package/franc',
+    href: 'https://github.com/wooorm/franc',
     label: 'franc: language detection package',
   },
   fleschKincaid: {

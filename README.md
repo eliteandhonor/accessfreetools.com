@@ -62,8 +62,22 @@ npm run check:structured-data
 npm run check:performance
 npm run check:ai-assets
 npm run check:external-links
+npm run dataforseo:account -- -- --min-balance=2
+npm run dataforseo:status
+npm run dataforseo:status:sandbox
+npm run seo:self-evaluate
 npm run test:smoke
 ```
+
+DataForSEO credentials belong in local environment variables or local Codex
+configuration, never in Git. Use the status check before paid research, warn at
+`$10`, stop broad paid research at `$5`, and top up before the balance reaches
+the `$2` emergency threshold.
+
+Google Search Console OAuth files stay local too. Put the downloaded OAuth
+client JSON at `.local/google-search-console-client-secret.json`, set
+`GSC_CLIENT_SECRET_PATH`, or pass `--client-secret=...` when running
+`npm run search-console`.
 
 ## New Tool Workflow
 

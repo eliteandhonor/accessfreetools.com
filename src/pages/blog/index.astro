@@ -5,6 +5,10 @@ import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.
 import BlogSearch from '../../components/BlogSearch';
 import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
 import { blogPosts } from '../../data/blogPosts';
+import { getBlogSearchIndex } from '../../data/blogSearchIndex';
+
+const blogSearchIndex = getBlogSearchIndex();
+const initialBlogPosts = blogSearchIndex.slice(0, 96);
 ---
 
 <BaseLayout
@@ -22,6 +26,7 @@ import { blogPosts } from '../../data/blogPosts';
     name="Utility Guides"
     description="Practical guides for Access Free Tools calculators and browser utilities."
     path="/blog/"
+    maxItems={100}
     items={blogPosts.map((post) => ({
       name: post.title,
       path: `/blog/${post.slug}/`,
@@ -39,6 +44,11 @@ import { blogPosts } from '../../data/blogPosts';
       </p>
     </div>
 
-    <BlogSearch posts={blogPosts} client:load />
+    <BlogSearch
+      posts={initialBlogPosts}
+      searchIndexUrl="/blog-search-index.json"
+      totalPostCount={blogSearchIndex.length}
+      client:load
+    />
   </section>
 </BaseLayout>
