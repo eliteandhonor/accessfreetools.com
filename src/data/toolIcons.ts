@@ -82,6 +82,7 @@ export type CalculatorIconMark =
   | 'depreciation'
   | 'avg-return'
   | 'margin'
+  | 'ad-revenue'
   | 'break-even'
   | 'markup'
   | 'profit-goal'
@@ -359,6 +360,7 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-depreciation': 'depreciation',
   'calculator-average-return': 'avg-return',
   'calculator-margin': 'margin',
+  'calculator-ad-revenue': 'ad-revenue',
   'calculator-break-even': 'break-even',
   'calculator-markup': 'markup',
   'calculator-profit-goal': 'profit-goal',
@@ -605,6 +607,7 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   depreciation: 'depr',
   'avg-return': 'avg',
   margin: 'marg',
+  'ad-revenue': 'ad',
   'break-even': 'be',
   markup: 'mkup',
   'profit-goal': 'goal',

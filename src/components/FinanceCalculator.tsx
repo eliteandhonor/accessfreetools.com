@@ -1,6 +1,7 @@
 import { useMemo, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
 import {
   calculateAmortizationSummary,
+  calculateAdRevenueEstimate,
   calculateAutoLoanSummary,
   calculateAnnuity,
   calculateAnnuityPayout,
@@ -118,6 +119,7 @@ export type FinanceToolVariant =
   | 'depreciation'
   | 'average-return'
   | 'margin'
+  | 'ad-revenue'
   | 'break-even'
   | 'markup'
   | 'profit-goal'
@@ -1226,6 +1228,30 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
           { label: 'Retail item', inputs: { revenue: '100', cost: '60' } },
           { label: 'Service job', inputs: { revenue: '2500', cost: '1400' } },
           { label: 'Low margin', inputs: { revenue: '1200', cost: '1050' } },
+        ],
+      },
+    ],
+  },
+  'ad-revenue': {
+    title: 'Ad Revenue Calculator',
+    buttonLabel: 'Estimate ad revenue',
+    emptyHistory: 'Recent ad revenue estimates will appear here.',
+    privacyNote: 'Ad revenue estimates are educational planning math. They are not affiliated with Google AdSense and do not predict approved earnings, invalid traffic adjustments, fill rate, ad placement rules, seasonality, or advertiser demand.',
+    modes: [
+      {
+        id: 'ad-revenue',
+        label: 'CTR and CPC',
+        symbol: 'AD',
+        fields: [
+          numberField('dailyPageViews', 'Daily page views'),
+          numberField('pageCtrPercent', 'Page CTR (%)'),
+          numberField('averageCpc', 'Average CPC ($)'),
+        ],
+        defaultInputs: { dailyPageViews: '1000', pageCtrPercent: '1.5', averageCpc: '0.35' },
+        examples: [
+          { label: 'Starter blog', inputs: { dailyPageViews: '1000', pageCtrPercent: '1.5', averageCpc: '0.35' } },
+          { label: 'Growing utility page', inputs: { dailyPageViews: '5000', pageCtrPercent: '1.2', averageCpc: '0.42' } },
+          { label: 'Low click scenario', inputs: { dailyPageViews: '2500', pageCtrPercent: '0.6', averageCpc: '0.25' } },
         ],
       },
     ],
@@ -3397,6 +3423,32 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide profit by cost to calculate markup.',
         ],
         note: 'This is business profit-margin math, not brokerage margin or leveraged investing advice.',
+      };
+    }
+    case 'ad-revenue': {
+      const result = calculateAdRevenueEstimate({
+        dailyPageViews: parseNumber(inputs.dailyPageViews, 'Daily page views'),
+        pageCtrPercent: parseNumber(inputs.pageCtrPercent, 'Page CTR'),
+        averageCpc: parseNumber(inputs.averageCpc, 'Average CPC'),
+      });
+
+      return {
+        label: 'Estimated monthly ad revenue',
+        expression: `${formatCalculatorNumber(result.dailyPageViews)} views/day x ${percent(result.pageCtrPercent)} CTR x ${money(result.averageCpc)} CPC`,
+        answer: money(result.monthlyRevenue),
+        metrics: [
+          { label: 'Daily revenue', value: money(result.dailyRevenue) },
+          { label: 'Annual revenue', value: money(result.annualRevenue) },
+          { label: 'Estimated clicks per day', value: formatCalculatorNumber(result.estimatedClicks) },
+          { label: 'Page RPM estimate', value: money(result.pageRpm) },
+        ],
+        steps: [
+          'Multiply daily page views by page CTR to estimate daily ad clicks.',
+          'Multiply estimated clicks by average CPC to estimate daily revenue.',
+          'Multiply daily revenue by the average days in a month for monthly revenue.',
+          'Divide daily revenue by page views, then multiply by 1,000 for page RPM.',
+        ],
+        note: 'This is a traffic and ad-rate estimate only. Real ad revenue can change with ad placement, policy status, invalid traffic, country mix, seasonality, and advertiser demand.',
       };
     }
     case 'break-even': {

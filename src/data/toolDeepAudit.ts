@@ -651,6 +651,16 @@ const openStaxDiscounts = {
   label: 'OpenStax: Discounts, markups, and sales tax',
 };
 
+const googleAdSensePageCtr = {
+  href: 'https://support.google.com/adsense/answer/112026?hl=en',
+  label: 'Google AdSense Help: Page CTR',
+};
+
+const googleAdSensePageRpm = {
+  href: 'https://support.google.com/adsense/answer/112030?hl=en',
+  label: 'Google AdSense Help: Page RPM',
+};
+
 const openStaxIrr = {
   href: 'https://openstax.org/books/principles-finance/pages/16-3-internal-rate-of-return-irr-method',
   label: 'OpenStax Principles of Finance: Internal Rate of Return method',
@@ -6548,6 +6558,25 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     followUps: [
       'Add round-pan support later with a separate mode so rectangular and circular area formulas remain clear.',
+    ],
+  },
+  {
+    slug: 'ad-revenue-calculator',
+    status: 'deep-reviewed',
+    batch: 'search-console-ranking-gap-2026-05-02',
+    reviewedOn: '2026-05-02',
+    scope: commonMathScope,
+    sources: [googleAdSensePageCtr, googleAdSensePageRpm, openStaxPercent, googleHelpfulContent],
+    findings: [
+      'Search Console showed an old AdSense earnings URL receiving impressions while returning 404, so a focused replacement page is better than sending that signal to a generic hub.',
+      'Formula review checked daily page views multiplied by page CTR for estimated clicks, clicks multiplied by average CPC for daily revenue, and revenue per 1,000 page views for page RPM.',
+      'FAQ and guide explain page CTR, average CPC, page RPM, and why the result is not an official Google AdSense prediction.',
+    ],
+    improvements: [
+      'Added a browser-first Ad Revenue Calculator with examples, detailed FAQ, guide article, source links, related tools, and a 301 redirect from the old ranking URL.',
+    ],
+    followUps: [
+      'Add an RPM-only mode later if Search Console shows users asking for page RPM calculations from known revenue and page views.',
     ],
   },
   {

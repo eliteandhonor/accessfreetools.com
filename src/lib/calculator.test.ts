@@ -98,6 +98,7 @@ import {
   calculateInsulationEstimate,
   applyPercentageAdjustment,
   addDaysToIsoDate,
+  calculateAdRevenueEstimate,
   calculateAnnuity,
   calculateAnnuityPayout,
   calculateAprEstimate,
@@ -1323,6 +1324,7 @@ describe('finance helpers', () => {
 
   it('calculates business pricing and financial ratio batch estimates', () => {
     const breakEven = calculateBreakEven({ fixedCosts: 5000, pricePerUnit: 40, variableCostPerUnit: 18 });
+    const adRevenue = calculateAdRevenueEstimate({ dailyPageViews: 1000, pageCtrPercent: 1.5, averageCpc: 0.35 });
     const markup = calculateMarkupPrice({ unitCost: 30, markupPercent: 50, units: 100 });
     const profitGoal = calculateProfitGoal({
       fixedCosts: 5000,
@@ -1377,6 +1379,10 @@ describe('finance helpers', () => {
 
     expect(formatCalculatorNumber(breakEven.breakEvenUnits)).toBe('227.272727273');
     expect(formatCalculatorNumber(breakEven.breakEvenSales)).toBe('9090.90909091');
+    expect(adRevenue.estimatedClicks).toBe(15);
+    expect(adRevenue.dailyRevenue).toBeCloseTo(5.25);
+    expect(formatCalculatorNumber(adRevenue.monthlyRevenue)).toBe('159.796875');
+    expect(adRevenue.pageRpm).toBe(5.25);
     expect(markup.sellingPricePerUnit).toBe(45);
     expect(formatCalculatorNumber(markup.marginPercent)).toBe('33.3333333333');
     expect(formatCalculatorNumber(profitGoal.requiredUnits)).toBe('318.181818182');

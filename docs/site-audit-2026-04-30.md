@@ -5,12 +5,12 @@ This audit records the current local proof after the calculator.net roadmap comp
 ## Current Snapshot
 
 - Built routes: 622 HTML files.
-- Canonical tools: 298.
+- Canonical tools: 299.
 - Intentional alias tool URLs: 4.
-- Public tool URLs in the launchpad search data: 302.
-- Matching how-to guide pages: 298.
-- Tool audit records: 302 total.
-- Manual deep-review records: 298.
+- Public tool URLs in the launchpad search data: 303.
+- Matching how-to guide pages: 299.
+- Tool audit records: 303 total.
+- Manual deep-review records: 299.
 - Baseline-review records: 0.
 - Alias-review records: 4.
 - `/tools/index.html` after launchpad limiting: about 357 KB in the production build.
@@ -26,19 +26,19 @@ This audit records the current local proof after the calculator.net roadmap comp
 - Added release and manual-review documentation so future batches have a clearer quality gate.
 - Expanded Privacy, Terms, Contact, and Advertising Disclosure pages for AdSense and affiliate readiness.
 - Added a full-site improvement plan, all-tools review register, QA automation plan, internal link checker, JSON-LD checker, and dependency audit script.
-- Expanded the full-site improvement plan into a complete execution standard with priority order, completion truth, deployment rules, analytics rules, new-tool rules, and a clear definition of done for all 302 public tool URLs.
-- Manual deep-review total now includes all 298 canonical tools: the original math-foundation tools, priority/risk tools, finance, health, home-project, construction, electrical, weather, science, school, math, statistics, date/time, converter, developer, image, text, random, everyday, final cleanup tools, browser-only AI tools, the competitor Tech & AI batch, the competitor kitchen, recipe and shopping batch, the competitor business and financial-ratio batch, the competitor construction material batch, the competitor concrete and masonry batch, the competitor deck/patio/landscaping batch, and the competitor electrical/power batch. Batch 14 is now complete.
+- Expanded the full-site improvement plan into a complete execution standard with priority order, completion truth, deployment rules, analytics rules, new-tool rules, and a clear definition of done for all 303 public tool URLs.
+- Manual deep-review total now includes all 299 canonical tools: the original math-foundation tools, priority/risk tools, finance, health, home-project, construction, electrical, weather, science, school, math, statistics, date/time, converter, developer, image, text, random, everyday, final cleanup tools, browser-only AI tools, the competitor Tech & AI batch, the competitor kitchen, recipe and shopping batch, the competitor business and financial-ratio batch, the competitor construction material batch, the competitor concrete and masonry batch, the competitor deck/patio/landscaping batch, the competitor electrical/power batch, and the Search Console ad-revenue replacement page. Batch 14 is now complete.
 - The AI tools now self-host OCR worker/core/language assets and the starter MobileBERT text classifier files under `public/ai-models/`, while heavier experimental model tools remain disclosed as possible third-party model downloads until later self-host passes.
 
 ## Current Gaps
 
-- No current canonical tool remains `baseline-reviewed`; all 298 canonical tools now have manual deep-review records.
+- No current canonical tool remains `baseline-reviewed`; all 299 canonical tools now have manual deep-review records.
 - Future new tools still need the same one-tool-at-a-time review process before they can be called `deep-reviewed`.
 - The tools page is lighter now, but a 1000+ tool library will eventually need indexed pagination or server-side search data splitting.
 - Production deployment still needs owner-side proof in Hostinger and Google Search Console after each push.
 - Affiliate and AdSense placements should wait until account approval, working contact inboxes, CMP setup where required, and disclosure placement are ready.
 - Playwright visual smoke tests are planned but not yet added as a project dependency.
-- The execution plan is complete for the current 298 canonical tools and 4 alias URLs, but future tools must reopen the manual review queue before release.
+- The execution plan is complete for the current 299 canonical tools and 4 alias URLs, but future tools must reopen the manual review queue before release.
 
 ## Proof Commands
 

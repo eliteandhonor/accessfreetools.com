@@ -3770,6 +3770,17 @@ export interface MarginEstimateResult {
   markupPercent: number;
 }
 
+export interface AdRevenueEstimateResult {
+  dailyPageViews: number;
+  pageCtrPercent: number;
+  averageCpc: number;
+  estimatedClicks: number;
+  dailyRevenue: number;
+  monthlyRevenue: number;
+  annualRevenue: number;
+  pageRpm: number;
+}
+
 export interface BreakEvenResult {
   fixedCosts: number;
   pricePerUnit: number;
@@ -5465,6 +5476,30 @@ export function calculateMarginEstimate(revenue: number, cost: number): MarginEs
     profit,
     marginPercent: (profit / revenue) * 100,
     markupPercent: cost === 0 ? 0 : (profit / cost) * 100,
+  };
+}
+
+export function calculateAdRevenueEstimate(input: {
+  dailyPageViews: number;
+  pageCtrPercent: number;
+  averageCpc: number;
+}): AdRevenueEstimateResult {
+  assertPositiveNumber(input.dailyPageViews, 'Daily page views');
+  assertPercentRange(input.pageCtrPercent, 'Page CTR');
+  assertNonNegativeNumber(input.averageCpc, 'Average CPC');
+
+  const estimatedClicks = input.dailyPageViews * (input.pageCtrPercent / 100);
+  const dailyRevenue = estimatedClicks * input.averageCpc;
+
+  return {
+    dailyPageViews: input.dailyPageViews,
+    pageCtrPercent: input.pageCtrPercent,
+    averageCpc: input.averageCpc,
+    estimatedClicks,
+    dailyRevenue,
+    monthlyRevenue: dailyRevenue * 30.4375,
+    annualRevenue: dailyRevenue * 365,
+    pageRpm: (dailyRevenue / input.dailyPageViews) * 1000,
   };
 }
 

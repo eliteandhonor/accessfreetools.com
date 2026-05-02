@@ -18,6 +18,16 @@ const LEGACY_REDIRECTS = new Map([
   [`${SITE_ORIGIN}/calculators/`, `${SITE_ORIGIN}/categories/calculators/`],
   [`${SITE_ORIGIN}/deep-research`, `${SITE_ORIGIN}/categories/ai-tools/`],
   [`${SITE_ORIGIN}/deep-research/`, `${SITE_ORIGIN}/categories/ai-tools/`],
+  [`${SITE_ORIGIN}/advanced-age-calculator`, `${SITE_ORIGIN}/tools/age-calculator/`],
+  [`${SITE_ORIGIN}/advanced-age-calculator/`, `${SITE_ORIGIN}/tools/age-calculator/`],
+  [
+    `${SITE_ORIGIN}/maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025`,
+    `${SITE_ORIGIN}/tools/ad-revenue-calculator/`,
+  ],
+  [
+    `${SITE_ORIGIN}/maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025/`,
+    `${SITE_ORIGIN}/tools/ad-revenue-calculator/`,
+  ],
 ]);
 const args = process.argv.slice(2);
 const outputPath = resolve(

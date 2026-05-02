@@ -83,6 +83,55 @@ function makeFinanceTool(spec: FinanceToolSpec): ToolDefinition {
 
 const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
+    slug: 'ad-revenue-calculator',
+    name: 'Ad Revenue Calculator',
+    summary: 'Estimate ad revenue from page views, page CTR, and average CPC.',
+    description:
+      'Use this free ad revenue calculator to estimate daily, monthly, and yearly ad revenue from page views, page click-through rate, and average cost per click.',
+    seoDescription:
+      'Estimate ad revenue from daily page views, page CTR, and average CPC. See monthly revenue, daily revenue, annual revenue, estimated clicks, and page RPM.',
+    icon: 'calculator-ad-revenue',
+    aliases: ['AdSense earnings calculator', 'website ad revenue calculator', 'page RPM calculator'],
+    formula:
+      'The calculator multiplies daily page views by page CTR to estimate ad clicks, multiplies clicks by average CPC for daily revenue, then scales that estimate to monthly and yearly revenue. It also converts daily revenue into page RPM by dividing revenue by page views and multiplying by 1,000.',
+    limit:
+      'This is not connected to Google AdSense and does not predict approved earnings, invalid traffic deductions, ad fill rate, advertiser demand, RPM changes, placement rules, policy status, or tax treatment.',
+    useCases: [
+      'Estimate what a page might earn at a simple traffic and CPC level.',
+      'Compare how page CTR changes a rough revenue forecast.',
+      'Turn a daily traffic estimate into monthly and yearly planning numbers.',
+      'Understand how page RPM relates to clicks, CPC, and page views.',
+    ],
+    examples: [
+      { label: 'Starter blog', expression: '1,000 daily page views, 1.5% page CTR, $0.35 CPC', result: 'Monthly ad revenue estimate' },
+      { label: 'Growing utility page', expression: '5,000 daily page views, 1.2% page CTR, $0.42 CPC', result: 'Daily, monthly, and RPM estimate' },
+      { label: 'Low-click scenario', expression: '2,500 daily page views, 0.6% page CTR, $0.25 CPC', result: 'Lower revenue comparison' },
+    ],
+    relatedSlugs: ['margin-calculator', 'break-even-calculator', 'utm-builder'],
+    inputExplanations: [
+      { term: 'Daily page views', meaning: 'how many page loads you want to estimate for one day.' },
+      { term: 'Page CTR', meaning: 'the estimated percent of page views that turn into ad clicks, entered as 1.5 for 1.5%.' },
+      { term: 'Average CPC', meaning: 'the average money earned per ad click in the scenario, entered as a dollar amount.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Is this a Google AdSense earnings calculator?',
+        answer:
+          'It estimates the same kind of basic traffic math people often ask about for AdSense-style ads, but it is not connected to Google AdSense, not approved by Google, and not a promise of real earnings. Real reports can change because of invalid traffic, ad demand, country mix, policies, fill rate, and seasonality.',
+      },
+      {
+        question: 'What is page RPM?',
+        answer:
+          'Page RPM means estimated revenue per 1,000 page views. If a page earns $5 from 1,000 views, the page RPM is $5. The calculator derives RPM from the CTR and CPC numbers you enter.',
+      },
+      {
+        question: 'Why can the real result be different from this estimate?',
+        answer:
+          'CTR and CPC are averages, not fixed laws. Ad placement, traffic source, device type, country, topic, invalid traffic checks, ad blocking, season, and advertiser budgets can all move the real number.',
+      },
+    ],
+  },
+  {
     slug: 'break-even-calculator',
     name: 'Break Even Calculator',
     summary: 'Find the unit sales and revenue needed to cover fixed and variable costs.',

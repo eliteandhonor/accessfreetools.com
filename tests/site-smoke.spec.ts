@@ -14,6 +14,7 @@ const smokePages = [
   '/advertising-disclosure/',
   '/tools/mortgage-calculator/',
   '/tools/bmi-calculator/',
+  '/tools/ad-revenue-calculator/',
   '/tools/image-to-text-ocr-tool/',
   '/tools/watts-to-amps-calculator/',
 ];
@@ -90,6 +91,14 @@ test.describe('site smoke coverage', () => {
     await page.goto('/deep-research/');
     await expect(page).toHaveURL(/\/categories\/ai-tools\/$/);
     await expect(page.getByRole('heading', { name: 'AI Tools', exact: true })).toBeVisible();
+
+    await page.goto('/advanced-age-calculator/');
+    await expect(page).toHaveURL(/\/tools\/age-calculator\/$/);
+    await expect(page.getByRole('heading', { name: 'Age Calculator', exact: true })).toBeVisible();
+
+    await page.goto('/maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025/');
+    await expect(page).toHaveURL(/\/tools\/ad-revenue-calculator\/$/);
+    await expect(page.getByRole('heading', { name: 'Ad Revenue Calculator', exact: true })).toBeVisible();
   });
 
   test('visual SEO paths expose important internal links', async ({ page }) => {

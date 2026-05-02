@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { createServer } from 'node:http';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
 
@@ -108,6 +108,24 @@ function writeJson(path, value) {
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+function findLocalClientSecret() {
+  const localDirectory = resolve('.local');
+
+  if (existsSync(DEFAULT_SECRET_PATH)) {
+    return DEFAULT_SECRET_PATH;
+  }
+
+  if (!existsSync(localDirectory)) {
+    return DEFAULT_SECRET_PATH;
+  }
+
+  const candidates = readdirSync(localDirectory)
+    .filter((name) => /^client_secret_.*\.json$/i.test(name))
+    .sort();
+
+  return candidates.length === 1 ? resolve(localDirectory, candidates[0]) : DEFAULT_SECRET_PATH;
+}
+
 function getClientConfig(secretPath) {
   let secret;
 
@@ -116,7 +134,7 @@ function getClientConfig(secretPath) {
   } catch (error) {
     throw new Error(
       `Could not read Google Search Console OAuth client file at ${secretPath}. ` +
-        'Set GSC_CLIENT_SECRET_PATH, pass --client-secret=..., or place the file at .local/google-search-console-client-secret.json.',
+        'Set GSC_CLIENT_SECRET_PATH, pass --client-secret=..., place the file at .local/google-search-console-client-secret.json, or keep one client_secret_*.json file in .local.',
       { cause: error },
     );
   }
@@ -477,7 +495,7 @@ function printSitemapSummary(sitemaps) {
 async function main() {
   const args = parseArgs();
   const secretPath = resolve(
-    args.clientSecretPath ?? process.env.GSC_CLIENT_SECRET_PATH ?? process.env.GSC_CLIENT_SECRET ?? DEFAULT_SECRET_PATH,
+    args.clientSecretPath ?? process.env.GSC_CLIENT_SECRET_PATH ?? process.env.GSC_CLIENT_SECRET ?? findLocalClientSecret(),
   );
   const config = getClientConfig(secretPath);
   const requiredScopes = requiredScopesForArgs(args);

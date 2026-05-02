@@ -143,6 +143,14 @@ const sourceLinks = {
     href: 'https://openstax.org/books/contemporary-mathematics/pages/6-1-understanding-percent',
     label: 'OpenStax: Understanding Percent',
   },
+  googleAdSensePageCtr: {
+    href: 'https://support.google.com/adsense/answer/112026?hl=en',
+    label: 'Google AdSense Help: Page CTR',
+  },
+  googleAdSensePageRpm: {
+    href: 'https://support.google.com/adsense/answer/112030?hl=en',
+    label: 'Google AdSense Help: Page RPM',
+  },
   openStaxInvestments: {
     href: 'https://openstax.org/books/contemporary-mathematics/pages/6-7-investments',
     label: 'OpenStax: Investments and return on investment',
@@ -401,6 +409,10 @@ function getSourceLinks(toolSlug: string) {
 
   if (['margin-calculator', 'discount-calculator', 'percent-off-calculator'].includes(toolSlug)) {
     return [sourceLinks.openStaxDiscounts, sourceLinks.openStaxPercent];
+  }
+
+  if (toolSlug === 'ad-revenue-calculator') {
+    return [sourceLinks.googleAdSensePageCtr, sourceLinks.googleAdSensePageRpm, sourceLinks.openStaxPercent];
   }
 
   if (['break-even-calculator', 'profit-goal-calculator'].includes(toolSlug)) {
@@ -1760,6 +1772,31 @@ const guideDetails: Record<string, GuideDetail> = {
       'Do not compare two investments unless the measurement periods and cash flows are similar.',
     ],
     next: ['Use IRR Calculator for uneven cash flows.', 'Use ROI Calculator for a simpler gain-versus-cost check.'],
+  },
+  'ad-revenue-calculator': {
+    summary: 'Learn how page views, page CTR, and average CPC turn into a rough ad revenue estimate.',
+    purpose:
+      'The Ad Revenue Calculator is for simple website planning. It helps you see how traffic, click rate, and average click value can combine into daily, monthly, yearly, and page RPM estimates.',
+    enter: [
+      'Enter daily page views as the number of page loads you want to estimate for one day.',
+      'Enter page CTR as a normal percent, such as 1.5 for 1.5%, not 0.015.',
+      'Enter average CPC as a dollar amount per click, such as 0.35 for thirty-five cents.',
+    ],
+    example: [
+      '1,000 daily page views with 1.5% page CTR creates about 15 estimated clicks per day.',
+      'At $0.35 average CPC, those clicks estimate $5.25 per day, about $159.80 per average month, and a $5.25 page RPM.',
+    ],
+    read: [
+      'Monthly revenue is the headline estimate because many site owners plan traffic and costs monthly.',
+      'Daily revenue shows the raw one-day estimate before scaling up.',
+      'Page RPM converts the estimate into revenue per 1,000 page views, which is easier to compare across pages with different traffic.',
+    ],
+    mistakes: [
+      'Do not treat this as guaranteed AdSense income or an official Google report.',
+      'Do not forget invalid traffic, ad blocking, country mix, niche, seasonality, ad placement, policy status, and advertiser demand.',
+      'Do not enter 1.5% CTR as 0.015 unless a field specifically asks for decimal form. This field wants 1.5.',
+    ],
+    next: ['Use Margin Calculator if you want to compare ad revenue with site costs.', 'Use UTM Builder when you are planning traffic campaigns.'],
   },
   'margin-calculator': {
     summary: 'Learn how revenue and cost turn into profit, profit margin, and markup.',
