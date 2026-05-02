@@ -9,7 +9,7 @@ Context: Google Search Console was set up on April 30, 2026. As of May 2, 2026, 
 - Google ignores `priority` and `changefreq`; the useful sitemap freshness signal is an accurate `lastmod` that matches a significant page update.
 - Google's unauthenticated sitemap ping endpoint is deprecated, so do not build around `google.com/ping?sitemap=...`.
 - Google's Indexing API is only for job posting pages and livestream video pages, not normal calculator or blog pages.
-- IndexNow can be useful later for Bing and other participating engines, but it is not the main Google indexing path for this site.
+- IndexNow is useful for Bing and other participating engines, but it is not the main Google indexing path for this site.
 
 ## Changes Made
 
@@ -26,6 +26,7 @@ Context: Google Search Console was set up on April 30, 2026. As of May 2, 2026, 
 - Search Console API access is configured through `npm run search-console`, with OAuth tokens stored locally in `.local/`.
 - DataForSEO v3 automation is configured with a free service-status check, Sandbox support for new endpoint tests, and budget guardrails before paid research runs.
 - DataForSEO showed the old `/calculators` URL ranking while not appearing in the current sitemap, so that route should permanently redirect to `/categories/calculators/`.
+- Bing IndexNow is configured with a public root key file and a local submitter that verifies the production key before notifying IndexNow.
 
 ## Search Console API Baseline
 
@@ -69,7 +70,17 @@ Run this after the next production deployment finishes:
 6. Inspect one recent tool and one recent blog guide.
 7. Wait and monitor the Page indexing report. Re-requesting the same URL repeatedly will not force indexing.
 
-The optional domain property `sc-domain:accessfreetools.com` still needs DNS TXT verification if we want one Search Console property to cover every protocol and subdomain. The canonical HTTPS URL-prefix property is enough for the current live site, but DNS verification is cleaner long-term.
+The domain property `sc-domain:accessfreetools.com` is the preferred Google Search Console property because it covers protocol and subdomain variations.
+
+## Bing Webmaster Tools And IndexNow Checklist
+
+Run this after the next production deployment finishes:
+
+1. Open `https://accessfreetools.com/79e3e302ad4545d592d9b53f6ae2350f.txt` and confirm it shows only the IndexNow key.
+2. Run `npm run indexnow:submit` to submit the current built sitemap URLs to IndexNow.
+3. In Bing Webmaster Tools, confirm `https://accessfreetools.com/sitemap.xml` is listed.
+4. Review IndexNow submission status and crawl/index reports after Bing processes the URLs.
+5. Use IndexNow after important content updates, not as a daily unchanged-URL blast.
 
 ## Ongoing Recommendations
 
