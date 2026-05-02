@@ -528,6 +528,31 @@ main {
   margin-top: 28px;
 }
 
+.hero-proof-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 22px;
+  max-width: 720px;
+}
+
+.hero-proof-grid span {
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  font-weight: 850;
+  line-height: 1.35;
+  padding: 12px;
+}
+
+.hero-proof-grid strong {
+  color: var(--text);
+  display: block;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
 .button-primary,
 .button-secondary,
 .calculator-actions button {
@@ -640,6 +665,49 @@ main {
   display: flex;
   justify-content: center;
   margin-top: 18px;
+}
+
+.standout-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.standout-grid article {
+  background: color-mix(in srgb, var(--surface-solid) 84%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  min-width: 0;
+  padding: 18px;
+}
+
+.standout-grid span {
+  color: var(--primary-strong);
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.standout-grid h3 {
+  font-size: 1.08rem;
+  line-height: 1.2;
+  margin: 0 0 10px;
+}
+
+.standout-grid p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.standout-grid-compact span {
+  font-size: 1.65rem;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: none;
 }
 
 .category-overview {
@@ -6341,6 +6409,7 @@ main {
   .tool-grid,
   .category-grid,
   .example-grid,
+  .standout-grid,
   .category-snapshot-tools,
   .feature-list,
   .launchpad-tool-grid,
@@ -6422,6 +6491,8 @@ main {
   .category-grid,
   .category-snapshot-tools,
   .example-grid,
+  .standout-grid,
+  .hero-proof-grid,
   .feature-list,
   .calculator-actions,
   .percentage-actions,

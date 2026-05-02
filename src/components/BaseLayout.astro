@@ -38,6 +38,14 @@ const siteStructuredData = {
       publisher: {
         '@id': `${new URL('/', site).toString()}#organization`,
       },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: new URL('/tools/?q={search_term_string}', site).toString(),
+        },
+        'query-input': 'required name=search_term_string',
+      },
     },
   ],
 };

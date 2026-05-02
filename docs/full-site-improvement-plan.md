@@ -33,6 +33,12 @@ Use this order when deciding what to improve next:
 7. AI tools, browser-only model privacy, lazy loading, model-limit wording, and source-backed AI guides.
 8. Alias pages, canonical relationships, category hubs, search surfaces, RSS, robots, sitemap, and footer/header surfaces.
 
+## Competitive Positioning
+
+The ongoing competitor audit tracks Calculator.net, Omni Calculator, Inch Calculator, CalculatorSoup, CalculatorInn, and Omnicalc. Their shared strengths are breadth, fast access, long-tail coverage, and search-friendly hubs. Access Free Tools should stand out by combining breadth with clearer plain-language result explanations, browser-first privacy where practical, guide-backed tool pages, honest high-trust disclaimers, and no fake ad or affiliate surfaces before monetization is actually live.
+
+Public positioning lives at `/why-access-free-tools/`. Keep it accurate whenever the tool count, audit standard, AI model behavior, sitemap strategy, or monetization approach changes.
+
 ## 1. Manual Deep Review
 
 Goal: move every tool from baseline or alias review to true manual `deep-reviewed` status only after the work is actually done.

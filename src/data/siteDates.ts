@@ -12,7 +12,8 @@ const staticPageLastmod: Record<string, string> = {
   '/tools/': LAST_MAJOR_CONTENT_UPDATE,
   '/categories/': LAST_MAJOR_CONTENT_UPDATE,
   '/blog/': LAST_MAJOR_CONTENT_UPDATE,
-  '/about/': '2026-04-30',
+  '/about/': '2026-05-02',
+  '/why-access-free-tools/': '2026-05-02',
   '/contact/': '2026-04-30',
   '/advertising-disclosure/': '2026-04-30',
   '/privacy-policy/': '2026-04-30',
@@ -85,4 +86,3 @@ export function formatDisplayDate(date: string) {
     timeZone: 'UTC',
   }).format(new Date(`${date}T12:00:00.000Z`));
 }
-

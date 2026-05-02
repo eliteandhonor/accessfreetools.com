@@ -25,6 +25,7 @@ export const staticSitemapEntries: SitemapEntry[] = [
   '/categories/',
   '/blog/',
   '/about/',
+  '/why-access-free-tools/',
   '/contact/',
   '/advertising-disclosure/',
   '/privacy-policy/',
@@ -95,4 +96,3 @@ ${entries
   .join('\n')}
 </sitemapindex>`;
 }
-

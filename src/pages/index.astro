@@ -11,6 +11,7 @@ const categoriesWithTools = categories.filter((category) =>
   tools.some((tool) => tool.category === category.slug),
 );
 const publicToolPageCount = tools.length + toolAliases.length;
+const blogGuideCount = tools.length;
 const featuredToolSlugs = [
   'mortgage-calculator',
   'loan-calculator',
@@ -56,19 +57,58 @@ const recentlyAddedTools = recentlyAddedToolSlugs
       <h1>Access Free Tools</h1>
       <p>
         Fast, free calculators and everyday browser utilities with clear controls, helpful
-        guides, and no signup.
+        guides, privacy-first choices, and no signup.
       </p>
+      <div class="hero-proof-grid" aria-label="Access Free Tools proof points">
+        <span><strong>{publicToolPageCount}</strong> public tool URLs</span>
+        <span><strong>{blogGuideCount}</strong> matching guides</span>
+        <span><strong>{categoriesWithTools.length}</strong> useful categories</span>
+      </div>
       <div class="hero-actions">
         <a class="button-primary" href="/tools/">Browse tools</a>
         <a class="button-secondary" href="/blog/">Read guides</a>
+        <a class="button-secondary" href="/why-access-free-tools/">Why this site</a>
       </div>
     </div>
 
     <form class="tool-search" action="/tools/" role="search">
       <label for="tool-search">Search free tools</label>
       <input id="tool-search" name="q" type="search" placeholder="Mortgage, BMI, percentage, tax..." />
-      <p>Color-customizable, mobile-first, and quick to search.</p>
+      <p>Color-customizable, mobile-first, and built around clear result explanations.</p>
     </form>
+  </section>
+
+  <section class="section-band section-band-soft">
+    <div class="section-heading">
+      <h2>Built to be more than a giant calculator list</h2>
+      <p>
+        The strongest utility sites have huge libraries. Access Free Tools is growing with a
+        different promise: every useful tool should be easy to understand, quick to search, and
+        honest about limits.
+      </p>
+    </div>
+    <div class="standout-grid">
+      <article>
+        <span>01</span>
+        <h3>Explain the result</h3>
+        <p>Tools include plain-language formulas, examples, FAQs, and a guide connected to the actual page.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h3>Respect privacy</h3>
+        <p>Calculators and browser AI tools are designed to run in the browser wherever practical, with no account required.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h3>Keep discovery simple</h3>
+        <p>Search, categories, RSS, sitemap coverage, and related tools help people move from a question to the right utility.</p>
+      </article>
+      <article>
+        <span>04</span>
+        <h3>Grow with proof</h3>
+        <p>Automated audits check metadata, links, structured data, performance budgets, AI asset loading, and security.</p>
+      </article>
+    </div>
   </section>
 
   <section class="section-band section-band-soft">

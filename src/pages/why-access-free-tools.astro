@@ -1,0 +1,99 @@
+---
+export const prerender = true;
+import BaseLayout from '../components/BaseLayout.astro';
+import { categories } from '../data/categories';
+import { toolAliases } from '../data/toolAliases';
+import { tools } from '../data/tools';
+
+const publicToolPageCount = tools.length + toolAliases.length;
+const categoryCount = categories.filter((category) => tools.some((tool) => tool.category === category.slug)).length;
+---
+
+<BaseLayout
+  title="Why Access Free Tools | Clear, Private Online Utilities"
+  description="See how Access Free Tools stands out with privacy-aware browser tools, clear result explanations, real guides, and audited SEO quality."
+  path="/why-access-free-tools/"
+>
+  <section class="page-intro">
+    <p class="breadcrumb"><a href="/">Home</a> / Why Access Free Tools</p>
+    <h1>Why Access Free Tools</h1>
+    <p>
+      Access Free Tools is built for people who want a quick answer, but also want to understand
+      what the answer means. The goal is a large utility library with clearer explanations,
+      better privacy notes, and fewer dead-end pages.
+    </p>
+  </section>
+
+  <section class="content-section">
+    <h2>What the competitor audit showed</h2>
+    <p>
+      The strongest calculator and utility sites tend to win in four ways: a huge tool library,
+      fast access to common calculators, long help articles, and category pages that search
+      engines can understand. That is the baseline users already expect.
+    </p>
+    <p>
+      Access Free Tools is using that lesson without copying anyone else's wording or layout. The
+      site is growing around a different edge: every new tool should be searchable, explain the
+      inputs, explain the result, link to a guide, and be honest about privacy and limits.
+    </p>
+  </section>
+
+  <section class="section-band section-band-soft">
+    <div class="section-heading">
+      <h2>Current proof points</h2>
+      <p>These are live site signals, not a future roadmap.</p>
+    </div>
+    <div class="standout-grid standout-grid-compact">
+      <article>
+        <span>{publicToolPageCount}</span>
+        <h3>public tool URLs</h3>
+        <p>Calculators, converters, text utilities, browser AI tools, and everyday helpers.</p>
+      </article>
+      <article>
+        <span>{tools.length}</span>
+        <h3>matching guides</h3>
+        <p>Each canonical tool has a connected how-to-use article instead of disconnected filler.</p>
+      </article>
+      <article>
+        <span>{categoryCount}</span>
+        <h3>category hubs</h3>
+        <p>Tools are grouped by task so visitors can move from one problem to the next useful page.</p>
+      </article>
+      <article>
+        <span>0</span>
+        <h3>fake ad boxes</h3>
+        <p>Advertising and affiliate areas are disclosed before monetization, not simulated early.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <h2>Standout standards</h2>
+    <div class="feature-list">
+      <p><strong>Answer first:</strong> the tool should be usable immediately, before a long article.</p>
+      <p><strong>Explain inputs:</strong> confusing fields should be defined in the page or FAQ.</p>
+      <p><strong>Show limits:</strong> estimates should say what they ignore and when to double-check.</p>
+      <p><strong>Respect privacy:</strong> browser-first tools should avoid sending private input to Access Free Tools where practical.</p>
+      <p><strong>Use real sources:</strong> health, finance, tax, construction, electrical, AI, and school tools need reliable references.</p>
+      <p><strong>Keep pages crawlable:</strong> sitemap, RSS, canonical URLs, structured data, and internal links are checked during audits.</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <h2>What comes next</h2>
+    <p>
+      The next competitive gap is depth, not just count. The library already has many tools, so the
+      best future improvements are richer examples, stronger high-trust disclaimers, better result
+      interpretation, category hub copy, and more proof from Search Console and DataForSEO as the
+      site earns impressions.
+    </p>
+    <p>
+      Start with the main library, browse by category, or read the latest guides.
+    </p>
+    <div class="hero-actions">
+      <a class="button-primary" href="/tools/">Browse tools</a>
+      <a class="button-secondary" href="/categories/">Browse categories</a>
+      <a class="button-secondary" href="/blog/">Read guides</a>
+    </div>
+  </section>
+</BaseLayout>
