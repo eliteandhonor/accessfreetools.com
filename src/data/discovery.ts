@@ -24,6 +24,7 @@ export const staticSitemapEntries: SitemapEntry[] = [
   '/tools/',
   '/categories/',
   '/blog/',
+  '/free-calculator-resources/',
   '/about/',
   '/why-access-free-tools/',
   '/contact/',

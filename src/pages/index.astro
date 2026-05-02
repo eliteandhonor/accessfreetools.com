@@ -46,6 +46,38 @@ const recentlyAddedToolSlugs = [
 const recentlyAddedTools = recentlyAddedToolSlugs
   .map((slug) => tools.find((tool) => tool.slug === slug))
   .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
+const priorityHubs = [
+  {
+    href: '/categories/calculators/',
+    title: 'Calculator hub',
+    text: 'Math, school, statistics, geometry, number, and everyday calculation tools.',
+  },
+  {
+    href: '/categories/finance/',
+    title: 'Finance calculators',
+    text: 'Mortgage, loan, salary, tax, investment, and interest estimate tools.',
+  },
+  {
+    href: '/categories/health-fitness/',
+    title: 'Health and fitness estimates',
+    text: 'BMI, calorie, body fat, pregnancy, heart-rate, and fitness calculators.',
+  },
+  {
+    href: '/categories/home-projects/',
+    title: 'Home project calculators',
+    text: 'Concrete, paint, flooring, roofing, rebar, wallpaper, and material planning tools.',
+  },
+  {
+    href: '/categories/ai-tools/',
+    title: 'Browser AI tools',
+    text: 'Private browser-side AI helpers for OCR, text, tone, keywords, and reading level.',
+  },
+  {
+    href: '/free-calculator-resources/',
+    title: 'Free calculator resources',
+    text: 'A curated resource page for students, teachers, writers, and community links.',
+  },
+];
 ---
 
 <BaseLayout
@@ -108,6 +140,24 @@ const recentlyAddedTools = recentlyAddedToolSlugs
         <h3>Grow with proof</h3>
         <p>Automated audits check metadata, links, structured data, performance budgets, AI asset loading, and security.</p>
       </article>
+    </div>
+  </section>
+
+  <section class="section-band">
+    <div class="section-heading">
+      <h2>Start with the right hub</h2>
+      <p>
+        These paths help people and search engines understand the main jobs Access Free Tools is
+        built for, without forcing every visitor through one huge list.
+      </p>
+    </div>
+    <div class="category-link-list">
+      {priorityHubs.map((hub) => (
+        <a href={hub.href}>
+          <strong>{hub.title}</strong>
+          <span>{hub.text}</span>
+        </a>
+      ))}
     </div>
   </section>
 

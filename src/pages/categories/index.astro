@@ -25,6 +25,19 @@ const categoryStats = liveCategories.map((category) => {
     featuredTools: categoryTools.slice(0, 3),
   };
 });
+
+const priorityCategorySlugs = [
+  'calculators',
+  'finance',
+  'health-fitness',
+  'home-projects',
+  'ai-tools',
+  'school-study',
+  'developer-tools',
+];
+const priorityCategories = priorityCategorySlugs
+  .map((slug) => categoryStats.find((category) => category.slug === slug))
+  .filter((category): category is NonNullable<typeof category> => Boolean(category));
 ---
 
 <BaseLayout
@@ -56,6 +69,28 @@ const categoryStats = liveCategories.map((category) => {
       Browse the growing Access Free Tools library by task, then open the tool or guide that
       matches what you are trying to finish.
     </p>
+  </section>
+
+  <section class="section-band">
+    <div class="section-heading">
+      <h2>Start with the strongest hubs</h2>
+      <p>
+        These are the best entry points for common search intent: quick calculators, money
+        estimates, health estimates, home projects, AI helpers, school work, and developer tasks.
+      </p>
+    </div>
+    <div class="category-link-list">
+      {priorityCategories.map((category) => (
+        <a href={`/categories/${category.slug}/`}>
+          <strong>{category.name}</strong>
+          <span>{category.toolCount} tools and {category.guideCount} guides. {category.summary}</span>
+        </a>
+      ))}
+      <a href="/free-calculator-resources/">
+        <strong>Free Calculator Resources</strong>
+        <span>A curated starting page for students, teachers, writers, and community links.</span>
+      </a>
+    </div>
   </section>
 
   <section class="section-band section-band-soft">

@@ -1,0 +1,189 @@
+---
+export const prerender = true;
+import BaseLayout from '../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../components/BreadcrumbStructuredData.astro';
+import CollectionStructuredData from '../components/CollectionStructuredData.astro';
+import { tools } from '../data/tools';
+
+const findTool = (slug: string) => tools.find((tool) => tool.slug === slug);
+
+const resourceSections = [
+  {
+    title: 'For classrooms, homework, and study',
+    text: 'Start here when you need quick math help, class examples, grade checks, or simple random values for practice problems.',
+    slugs: [
+      'basic-calculator',
+      'percentage-calculator',
+      'fraction-calculator',
+      'scientific-calculator',
+      'gpa-calculator',
+      'grade-calculator',
+      'statistics-calculator',
+      'random-number-generator',
+    ],
+  },
+  {
+    title: 'For money planning',
+    text: 'Use these calculators to estimate payments, interest, savings, salary, tax, and retirement scenarios before making real-world decisions.',
+    slugs: [
+      'mortgage-calculator',
+      'loan-calculator',
+      'compound-interest-calculator',
+      'salary-calculator',
+      'sales-tax-calculator',
+      'budget-calculator',
+      'retirement-calculator',
+    ],
+  },
+  {
+    title: 'For health and fitness estimates',
+    text: 'These tools explain the numbers behind common fitness, nutrition, pregnancy, and heart-rate estimates. They are educational, not medical advice.',
+    slugs: [
+      'bmi-calculator',
+      'calorie-calculator',
+      'bmr-calculator',
+      'ideal-weight-calculator',
+      'pace-calculator',
+      'target-heart-rate-calculator',
+      'due-date-calculator',
+    ],
+  },
+  {
+    title: 'For home projects and materials',
+    text: 'Plan rough material amounts before a project, then double-check local building rules, supplier guidance, and waste factors before ordering.',
+    slugs: [
+      'concrete-calculator',
+      'square-footage-calculator',
+      'paint-calculator',
+      'flooring-calculator',
+      'wallpaper-calculator',
+      'roofing-calculator',
+      'rebar-calculator',
+    ],
+  },
+  {
+    title: 'For writing, web work, and quick utilities',
+    text: 'These browser tools help clean text, check counts, format data, encode links, and create safer passwords without needing an account.',
+    slugs: [
+      'word-counter',
+      'character-counter',
+      'json-formatter',
+      'url-encode-decode',
+      'base64-encode-decode',
+      'password-generator',
+    ],
+  },
+].map((section) => ({
+  ...section,
+  tools: section.slugs.map(findTool).filter((tool): tool is NonNullable<typeof tool> => Boolean(tool)),
+}));
+
+const listedTools = resourceSections.flatMap((section) => section.tools);
+---
+
+<BaseLayout
+  title="Free Calculator Resources | Access Free Tools"
+  description="A practical resource hub for free online calculators, guides, classroom links, finance estimates, health estimates, and everyday browser tools."
+  path="/free-calculator-resources/"
+>
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Free Calculator Resources', path: '/free-calculator-resources/' },
+    ]}
+  />
+  <CollectionStructuredData
+    name="Free Calculator Resources"
+    description="A curated hub of free calculators and browser tools grouped by practical use."
+    path="/free-calculator-resources/"
+    items={listedTools.map((tool) => ({
+      name: tool.name,
+      path: `/tools/${tool.slug}/`,
+      description: tool.summary,
+    }))}
+  />
+
+  <section class="page-intro">
+    <p class="breadcrumb"><a href="/">Home</a> / Resources</p>
+    <h1>Free Calculator Resources</h1>
+    <p>
+      A practical hub for students, teachers, writers, builders, and everyday users who need
+      free calculators with clear examples, plain-language guides, and no signup.
+    </p>
+    <div class="hero-actions">
+      <a class="button-primary" href="/tools/">Search all tools</a>
+      <a class="button-secondary" href="/categories/">Browse categories</a>
+      <a class="button-secondary" href="/blog/">Read guides</a>
+    </div>
+  </section>
+
+  <section class="section-band section-band-soft">
+    <div class="section-heading">
+      <h2>Why this page exists</h2>
+      <p>
+        Big tool libraries can become hard to scan. This page groups the most useful Access Free
+        Tools pages by real tasks so people can link to one helpful starting point.
+      </p>
+    </div>
+    <div class="standout-grid">
+      <article>
+        <span>01</span>
+        <h3>Free to open</h3>
+        <p>No account is required to use the calculators, converters, text tools, or browser utilities.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h3>Guides included</h3>
+        <p>Each tool has a matching guide that explains the inputs, result, formula, and common mistakes.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h3>Privacy-first</h3>
+        <p>Tools are built to run in the browser where practical, and sensitive information should not be shared through the site.</p>
+      </article>
+      <article>
+        <span>04</span>
+        <h3>Honest limits</h3>
+        <p>Finance, health, tax, construction, and AI tools include reminders that results are estimates, not professional advice.</p>
+      </article>
+    </div>
+  </section>
+
+  {resourceSections.map((section) => (
+    <section class="section-band">
+      <div class="category-context-grid">
+        <div>
+          <h2>{section.title}</h2>
+          <p>{section.text}</p>
+        </div>
+        <div class="category-link-list">
+          {section.tools.map((tool) => (
+            <a href={`/tools/${tool.slug}/`}>
+              <strong>{tool.name}</strong>
+              <span>{tool.summary}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section-band section-band-soft">
+    <div class="category-context-grid">
+      <div>
+        <h2>Linking and citation notes</h2>
+        <p>
+          If Access Free Tools helps your class, article, community page, or personal notes, you
+          can link to the exact tool page or this resource hub. Please describe the page honestly
+          and avoid claiming that results replace a professional, school, medical, tax, or legal
+          decision.
+        </p>
+      </div>
+      <div class="feature-list">
+        <p><strong>Suggested description:</strong> Access Free Tools is a free online calculator and browser utility library with matching how-to guides.</p>
+        <p><strong>Best link target:</strong> Link to the exact calculator when your page discusses one topic, or this resource hub for broad calculator lists.</p>
+        <p><strong>Safety note:</strong> Use high-trust pages for estimates, then confirm important decisions with qualified professionals or official sources.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

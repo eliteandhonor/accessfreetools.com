@@ -8,10 +8,11 @@ export const RSS_ITEM_LIMIT = 60;
 const DEFAULT_BLOG_PUBLISHED_DATE = '2026-04-30';
 
 const staticPageLastmod: Record<string, string> = {
-  '/': LAST_MAJOR_CONTENT_UPDATE,
+  '/': '2026-05-02',
   '/tools/': LAST_MAJOR_CONTENT_UPDATE,
-  '/categories/': LAST_MAJOR_CONTENT_UPDATE,
+  '/categories/': '2026-05-02',
   '/blog/': LAST_MAJOR_CONTENT_UPDATE,
+  '/free-calculator-resources/': '2026-05-02',
   '/about/': '2026-05-02',
   '/why-access-free-tools/': '2026-05-02',
   '/contact/': '2026-04-30',
