@@ -1,0 +1,25 @@
+---
+export const prerender = true;
+import BaseLayout from '../components/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="AI Tools | Access Free Tools"
+  description="A shortcut to the Access Free Tools browser AI tools category."
+  path="/categories/ai-tools/"
+  noindex
+>
+  <script is:inline>
+    window.location.replace('/categories/ai-tools/');
+  </script>
+
+  <section class="page-intro">
+    <p class="breadcrumb"><a href="/">Home</a> / AI Tools</p>
+    <h1>Browser AI tools</h1>
+    <p>
+      This shortcut points to the browser AI tools category. If you are not moved automatically,
+      open the AI tools hub below.
+    </p>
+    <p><a class="card-link" href="/categories/ai-tools/">Open AI tools</a></p>
+  </section>
+</BaseLayout>

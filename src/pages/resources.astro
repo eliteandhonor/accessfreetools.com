@@ -1,0 +1,25 @@
+---
+export const prerender = true;
+import BaseLayout from '../components/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Resources | Access Free Tools"
+  description="A quick shortcut to the Access Free Tools calculator resources hub."
+  path="/free-calculator-resources/"
+  noindex
+>
+  <script is:inline>
+    window.location.replace('/free-calculator-resources/');
+  </script>
+
+  <section class="page-intro">
+    <p class="breadcrumb"><a href="/">Home</a> / Resources</p>
+    <h1>Free Calculator Resources</h1>
+    <p>
+      This shortcut points to the main Access Free Tools resource hub. If you are not moved
+      automatically, open the resources hub below.
+    </p>
+    <p><a class="card-link" href="/free-calculator-resources/">Open calculator resources</a></p>
+  </section>
+</BaseLayout>
