@@ -12,6 +12,7 @@ const PRIORITY_PATHS = [
   '/',
   '/tools/',
   '/categories/',
+  '/free-calculator-resources/',
   '/blog/',
   '/about/',
   '/why-access-free-tools/',

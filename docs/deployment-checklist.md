@@ -36,6 +36,7 @@ Open the local preview and check these pages:
 - `/tools/` shows the correct total, search works, and the "Show all" button appears only for the full unfiltered tool list.
 - `/tools/` loads the first tool batch quickly, then loads `/tool-search-index.json` only when users search, filter, or show all tools.
 - `/blog/` search works and real guides are visible.
+- `/free-calculator-resources/` loads, links to the main hubs, and has no mobile overflow.
 - A high-value finance tool, health tool, project estimator, developer tool, and calculator render their inputs, examples, FAQs, related tools, and guide links.
 - `/sitemap.xml`, `/sitemap-pages.xml`, `/sitemap-tools.xml`, `/sitemap-blog.xml`, `/sitemap-categories.xml`, `/robots.txt`, and `/feed.xml` load.
 - Footer text and links wrap normally on desktop and mobile widths.
@@ -47,6 +48,7 @@ After Hostinger deploys the latest GitHub commit:
 - Visit `https://accessfreetools.com/tools/` and confirm the tool count matches the local build.
 - Search for a recent tool by name and by a keyword synonym.
 - Open at least one recent blog guide from `/blog/`.
+- Open `https://accessfreetools.com/free-calculator-resources/` and confirm it links to the main calculator, finance, health, home, AI, school, and developer hubs.
 - Check browser console for errors.
 - Check page source for one canonical tag, one main heading, and expected structured data.
 - Confirm `/tool-search-index.json` returns the searchable tool list and is not blocking the initial `/tools/` page.
@@ -64,7 +66,7 @@ These steps need the site owner account:
 - Verify the domain property for `accessfreetools.com`.
 - Submit `https://accessfreetools.com/sitemap.xml`.
 - Submit `https://accessfreetools.com/feed.xml` as a secondary discovery feed.
-- Inspect `https://accessfreetools.com/`, one new tool URL, one new blog guide URL, and `https://accessfreetools.com/sitemap.xml` after deployment.
+- Inspect `https://accessfreetools.com/`, `https://accessfreetools.com/free-calculator-resources/`, one new tool URL, one new blog guide URL, and `https://accessfreetools.com/sitemap.xml` after deployment.
 - Confirm URL Inspection says "Page fetch: Successful", "Indexing allowed", and the user-declared canonical matches the production URL.
 - Do not use Google's old sitemap ping endpoint. Google deprecated it; use Search Console, robots.txt sitemap discovery, and accurate `lastmod` dates instead.
 - If Google says "Discovered - currently not indexed" or "Crawled - currently not indexed", review the exact reason before resubmitting. A new domain can take days or weeks to be indexed even when the technical setup is correct.

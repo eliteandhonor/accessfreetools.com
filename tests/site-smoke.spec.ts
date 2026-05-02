@@ -76,6 +76,12 @@ test.describe('site smoke coverage', () => {
     expect(searchIndexRequests.length).toBeGreaterThan(0);
   });
 
+  test('resources shortcut redirects to the canonical resources hub', async ({ page }) => {
+    await page.goto('/resources/');
+    await expect(page).toHaveURL(/\/free-calculator-resources\/$/);
+    await expect(page.getByRole('heading', { name: 'Free Calculator Resources' })).toBeVisible();
+  });
+
   test('AI tool page does not request model files before the user runs the tool', async ({ page }) => {
     const modelRequests: string[] = [];
     page.on('request', (request) => {

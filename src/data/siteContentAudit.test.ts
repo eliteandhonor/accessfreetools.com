@@ -39,6 +39,10 @@ const TOOLS_INDEX_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/tools/index.astro', import.meta.url)),
   'utf8',
 );
+const SITE_HEADER_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/SiteHeader.astro', import.meta.url)),
+  'utf8',
+);
 const ASTRO_CONFIG_SOURCE = readFileSync(fileURLToPath(new URL('../../astro.config.mjs', import.meta.url)), 'utf8');
 const PACKAGE_JSON_SOURCE = readFileSync(fileURLToPath(new URL('../../package.json', import.meta.url)), 'utf8');
 const TOOLS_LAUNCHPAD_SOURCE = readFileSync(
@@ -55,6 +59,7 @@ const SITEMAP_SOURCE = readFileSync(
   'utf8',
 );
 const FEED_SOURCE = readFileSync(fileURLToPath(new URL('../pages/feed.xml.ts', import.meta.url)), 'utf8');
+const LLMS_SOURCE = readFileSync(fileURLToPath(new URL('../pages/llms.txt.ts', import.meta.url)), 'utf8');
 const CALCULATOR_GUIDE_ARTICLE_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/CalculatorGuideArticle.astro', import.meta.url)),
   'utf8',
@@ -119,6 +124,10 @@ const ALL_TOOLS_REVIEW_REGISTER_SOURCE = readFileSync(
 );
 const QA_AUTOMATION_PLAN_SOURCE = readFileSync(
   fileURLToPath(new URL('../../docs/qa-automation-plan.md', import.meta.url)),
+  'utf8',
+);
+const INDEXNOW_SUBMIT_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/indexnow-submit.mjs', import.meta.url)),
   'utf8',
 );
 const PACKAGE_JSON = JSON.parse(
@@ -718,6 +727,10 @@ describe('site content audit guardrails', () => {
     );
     expect(README_SOURCE).toContain('npm run check');
     expect(DEPLOYMENT_CHECKLIST_SOURCE).toContain('/tools/');
+    expect(DEPLOYMENT_CHECKLIST_SOURCE).toContain('/free-calculator-resources/');
+    expect(SITE_HEADER_SOURCE).toContain('/free-calculator-resources/');
+    expect(LLMS_SOURCE).toContain('Resources hub: https://accessfreetools.com/free-calculator-resources/');
+    expect(INDEXNOW_SUBMIT_SOURCE).toContain('/free-calculator-resources/');
   });
 
   it('keeps DataForSEO automation guarded by status, sandbox, and budget checks', () => {

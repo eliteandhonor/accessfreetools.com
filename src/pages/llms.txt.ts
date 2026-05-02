@@ -27,6 +27,7 @@ Access Free Tools is a free browser utility site with calculators, practical gui
 
 Canonical site: https://accessfreetools.com/
 Tools index: https://accessfreetools.com/tools/
+Resources hub: https://accessfreetools.com/free-calculator-resources/
 Blog index: https://accessfreetools.com/blog/
 XML sitemap: https://accessfreetools.com/sitemap.xml
 RSS feed: https://accessfreetools.com/feed.xml
