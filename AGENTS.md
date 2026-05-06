@@ -7,6 +7,8 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 - Use Google Search Console for real indexing, click, impression, CTR, and average-position data.
 - Use DataForSEO for competitor research, live SERP checks, keyword discovery, and domain/keyword baselines when the task involves SEO research.
 - DataForSEO credentials must stay out of Git. They live in the local Codex MCP config or environment variables.
+- Check `docs/dataforseo-knowledgebase-notes.md` before changing SEO automation logic.
+- For rank tracking, use priority tiers, `stop_crawl_on_match`, and targeted `depth`/range settings before any broad top-100 SERP crawl.
 - Check DataForSEO balance with `npm run dataforseo:account -- -- --min-balance=2`.
 - Tell the user to top up when the DataForSEO balance is at or below 2 USD, or when DataForSEO returns billing/account errors.
 - Indexing context: an earlier Access Free Tools site existed before this custom Astro site replaced it. Search Console and Bing may temporarily show stale URLs, old quality signals, old crawl paths, and slower re-indexing while search engines reconcile the replacement.

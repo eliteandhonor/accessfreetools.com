@@ -76,6 +76,8 @@ Each smoke test should check:
 
 DataForSEO automation should warn at `$10`, stop broad paid research at `$5`, and only use Sandbox mode for new endpoint-shape tests before paid production calls. Backlinks API is not automated until the account has confirmed access.
 
+Rank tracking should follow `docs/dataforseo-knowledgebase-notes.md`: classify keywords by priority, avoid top-100 checks for everything, use `stop_crawl_on_match` when checking for Access Free Tools, and use `depth`, `max_crawl_pages`, `offset`, and `limit` to inspect only the ranking range that matters.
+
 Refresh the inputs first:
 
 ```bash

@@ -26,7 +26,22 @@ npm run check
 - Use `DATAFORSEO_SANDBOX=true` or `npm run dataforseo:status:sandbox` to test new endpoint shapes before paid production calls.
 - Warn when balance is at or below `$10`, stop broad paid research at `$5`, and top up when `npm run dataforseo:account -- -- --min-balance=2` reports `TOP UP NEEDED`.
 - Avoid large keyword batches unless the user asks for deeper paid research.
+- Do not run top-100 SERP checks for every keyword. Use priority tiers, targeted ranges, and `stop_crawl_on_match` before paying for deep rank tracking.
 - Do not automate Backlinks API until the account has confirmed access; the first direct backlinks check returned subscription/access denial.
+
+## DataForSEO Knowledge Base Rules
+
+The source-backed implementation notes live in `docs/dataforseo-knowledgebase-notes.md`.
+
+- Tier keywords before SERP API calls:
+  - Tier A: key revenue/trust pages, recent launches, Search Console impression pages, and page-one opportunities. Check deeper only when the decision needs it.
+  - Tier B: useful supporting tools and guides. Check about top 30 to 50.
+  - Tier C: long-tail ideas. Check page one only, or wait until Search Console shows impressions.
+- Use `stop_crawl_on_match` when checking whether Access Free Tools ranks for a keyword.
+- Use `depth`, `max_crawl_pages`, `offset`, and `limit` to inspect the ranking range we care about instead of crawling everything.
+- Refresh Tier A weekly, Tier B every two to four weeks, and Tier C monthly or on demand.
+- Save every paid run under `output/` so we do not lose Live-result context.
+- Keep AI/GEO visibility checks as a later experiment. Normal indexing, helpful calculator pages, and Search Console progress come first.
 
 ## Agent Roles
 
@@ -76,6 +91,8 @@ Every recommendation should include:
 
 - Use DataForSEO Labs for weekly ranked keywords, SERP competitors, domain visibility, and related keyword ideas.
 - Use SERP API only for targeted title/meta checks before changing high-value pages; prefer Standard SERP for non-urgent checks and Live only when instant results are needed.
-- Use OnPage API only as an optional monthly production audit, not as a daily crawler.
+- Use OnPage API only as an optional monthly production audit, not as a daily crawler. Start with a small crawl or priority URL queue before a larger scan.
+- Use OnPage API for production-only proof when needed: duplicate tags, duplicate content, resources, redirect chains, non-indexable pages, waterfall/page-speed signals, and browser-rendered Core Web Vitals-style checks.
+- If OnPage API fails, check robots.txt, noindex/nofollow tags, first-crawl URL, redirects, DNS, and crawler blocking before rerunning paid scans.
 - Treat Search Console as the indexing source of truth. DataForSEO is the market and SERP intelligence layer.
 - Keep old ranking URL gaps visible. Current high-priority example: `/calculators` ranks in DataForSEO but should redirect to `/categories/calculators/`.
