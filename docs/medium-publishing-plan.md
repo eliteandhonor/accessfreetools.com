@@ -28,6 +28,9 @@ Before publishing or updating Medium, run:
 npm run promotion:medium:quality
 ```
 
+This command now produces an article-review score for SEO, originality, human
+reading interest, and overall quality. Do not publish if any score fails.
+
 For the first calculator article only, run:
 
 ```bash
@@ -39,9 +42,9 @@ npm run promotion:medium:quality:first
 1. How To Pick The Right Free Online Calculator
 2. How Percentage Calculators Help With Discounts, Tips, And Markups
 3. What Waste Percent Means In A Wallpaper Calculator
-4. Browser-Only AI Tools: What They Are Good For
-5. Estimate A Mortgage Payment Before You Fall In Love With A House
-6. What A BMI Calculator Can And Cannot Tell You
+4. What No One Tells You About Browser-Only AI Tools And Privacy
+5. Things You Should Know Before Trusting A Mortgage Payment Estimate
+6. The Biggest Mistake People Make With BMI Calculator Results
 7. Watts To Amps Is Simple Math, But Electrical Context Matters
 8. How To Think About Ad Revenue Before Your Site Has Big Traffic
 

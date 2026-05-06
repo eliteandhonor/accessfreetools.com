@@ -128,7 +128,7 @@ const posts = [
   },
   {
     slug: 'browser-only-ai-tools-privacy',
-    title: 'Browser-Only AI Tools: What They Are Good For',
+    title: 'What No One Tells You About Browser-Only AI Tools And Privacy',
     subtitle: 'Browser-side AI can be useful for quick private tasks, but it still has limits.',
     sourceUrl: `${SITE_ORIGIN}/categories/ai-tools/`,
     canonicalUrl: `${SITE_ORIGIN}/categories/ai-tools/`,
@@ -162,7 +162,7 @@ const posts = [
   },
   {
     slug: 'mortgage-payment-before-shopping',
-    title: 'Estimate A Mortgage Payment Before You Fall In Love With A House',
+    title: 'Things You Should Know Before Trusting A Mortgage Payment Estimate',
     subtitle: 'A mortgage calculator is a planning tool, not a loan offer, but it can keep the first conversation grounded.',
     sourceUrl: `${SITE_ORIGIN}/tools/mortgage-calculator/`,
     canonicalUrl: `${SITE_ORIGIN}/blog/how-to-use-mortgage-calculator/`,
@@ -196,7 +196,7 @@ const posts = [
   },
   {
     slug: 'bmi-result-limits',
-    title: 'What A BMI Calculator Can And Cannot Tell You',
+    title: 'The Biggest Mistake People Make With BMI Calculator Results',
     subtitle: 'BMI is a quick screening estimate, not a full health judgment.',
     sourceUrl: `${SITE_ORIGIN}/tools/bmi-calculator/`,
     canonicalUrl: `${SITE_ORIGIN}/blog/how-to-use-bmi-calculator/`,
@@ -408,7 +408,7 @@ const publishEnhancements = {
       'That does not make every result correct. A 5-line note can be summarized badly, a blurry screenshot can confuse OCR, and short text can be hard to classify. Treat the result like a helpful first pass, then check it yourself.',
     ],
     whyItMatters: [
-      'This matters because privacy wording around AI is easy to overdo. A useful AI tool should say what runs in the browser, what may download from a model host, and what the result cannot prove. Clear limits make the tool more trustworthy, not less useful.',
+      'This matters because privacy wording around AI is easy to overdo. A useful AI tool should say what runs in the browser, what may download from a model host, and what mistakes the result can make. Clear limits make the tool more trustworthy, not less useful.',
     ],
     bestUse: [
       'This is a good Medium post to introduce the new AI Tools category without promising too much.',

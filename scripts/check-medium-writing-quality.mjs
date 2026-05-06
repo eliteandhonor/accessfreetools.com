@@ -1,7 +1,15 @@
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
-import { basename, extname, join, resolve } from 'node:path';
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { basename, dirname, extname, join, resolve } from 'node:path';
 
 const DEFAULT_TARGET = resolve('output', 'promotion', 'medium');
+const DEFAULT_REPORT_PATH = resolve('output', 'promotion', 'medium-quality-report.json');
+
+const minScores = {
+  seo: 80,
+  originality: 75,
+  humanInterest: 75,
+  overall: 80,
+};
 
 const bannedPhrases = [
   "in today's digital world",
@@ -16,6 +24,59 @@ const bannedPhrases = [
   'supercharge',
   'cutting-edge',
   'transform the way',
+];
+
+const powerWordGroups = {
+  curiosity: [
+    'secret',
+    'surprising',
+    'hidden',
+    'unknown',
+    'unexpected',
+    'strange',
+    'shocking',
+    'mystery',
+    'revealed',
+    'overlooked',
+    'little-known',
+  ],
+  useful: [
+    'how',
+    'guide',
+    'tips',
+    'steps',
+    'ways',
+    'methods',
+    'strategies',
+    'checklist',
+    'formula',
+    'solution',
+    'explained',
+  ],
+  urgency: ['now', 'today', 'before', 'urgent', 'important', "don't miss", 'warning', 'must-know', 'last chance'],
+  emotional: [
+    'powerful',
+    'inspiring',
+    'heartbreaking',
+    'exciting',
+    'frustrating',
+    'fearless',
+    'honest',
+    'life-changing',
+    'unforgettable',
+  ],
+  problem: ['mistakes', 'problems', 'risks', 'struggles', 'failure', 'danger', 'confusion', 'myths', 'traps'],
+};
+
+const headlineStarters = [
+  'why ',
+  'how to ',
+  'the truth about ',
+  'what no one tells you about ',
+  'things you should know before ',
+  'the biggest mistake ',
+  'simple ways to ',
+  'the real reason ',
 ];
 
 const qualityRules = {
@@ -63,8 +124,13 @@ const qualityRules = {
 };
 
 function parseArgs() {
-  const target = process.argv[2] ? resolve(process.argv[2]) : DEFAULT_TARGET;
-  return { target };
+  const positional = process.argv.slice(2).find((arg) => !arg.startsWith('--'));
+  const reportArg = process.argv.find((arg) => arg.startsWith('--report='));
+
+  return {
+    target: positional ? resolve(positional) : DEFAULT_TARGET,
+    reportPath: resolve(reportArg?.slice('--report='.length) ?? DEFAULT_REPORT_PATH),
+  };
 }
 
 function listMarkdownFiles(target) {
@@ -173,6 +239,149 @@ function containsAllIdeas(text, ideas) {
   return ideas.filter((idea) => !lower.includes(idea.toLowerCase()));
 }
 
+function countPhrase(text, phrase) {
+  const pattern = new RegExp(`\\b${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+  return (text.match(pattern) ?? []).length;
+}
+
+function clampScore(score) {
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+function scoreRange(value, idealMin, idealMax, hardMin, hardMax) {
+  if (value >= idealMin && value <= idealMax) return 100;
+  if (value < hardMin || value > hardMax) return 0;
+
+  if (value < idealMin) {
+    return ((value - hardMin) / (idealMin - hardMin)) * 100;
+  }
+
+  return ((hardMax - value) / (hardMax - idealMax)) * 100;
+}
+
+function uniqueRatio(words) {
+  const normalized = words
+    .map((word) => word.toLowerCase())
+    .filter((word) => word.length > 3)
+    .filter((word) => !/^\d+$/.test(word));
+
+  if (normalized.length === 0) return 0;
+
+  return new Set(normalized).size / normalized.length;
+}
+
+function repeatedSentenceCount(text) {
+  const sentences = text
+    .split(/[.!?]+/)
+    .map((sentence) => sentence.trim().toLowerCase())
+    .filter((sentence) => sentence.length > 30);
+  const seen = new Set();
+  let duplicates = 0;
+
+  for (const sentence of sentences) {
+    if (seen.has(sentence)) {
+      duplicates += 1;
+    }
+    seen.add(sentence);
+  }
+
+  return duplicates;
+}
+
+function collectPowerWords(text) {
+  const lower = text.toLowerCase();
+
+  return Object.fromEntries(
+    Object.entries(powerWordGroups).map(([group, words]) => [
+      group,
+      words.filter((word) => countPhrase(lower, word) > 0),
+    ]),
+  );
+}
+
+function headlineStarter(title) {
+  const lower = title.toLowerCase();
+  return headlineStarters.find((starter) => lower.startsWith(starter)) ?? null;
+}
+
+function totalPowerWords(groups) {
+  return Object.values(groups).reduce((total, words) => total + words.length, 0);
+}
+
+function scoreSeo({ title, headings, text, words, rules, article, numberCount }) {
+  const lower = text.toLowerCase();
+  const primary = rules.primaryPhrase.toLowerCase();
+  const primaryCount = countPhrase(lower, primary);
+  const density = words.length > 0 ? (primaryCount * primary.split(/\s+/).length) / words.length : 0;
+  let score = 0;
+
+  if (primaryCount > 0) score += 18;
+  if (title.toLowerCase().includes(primary)) score += 16;
+  if (headings.some((heading) => heading.toLowerCase().includes(primary))) score += 8;
+  if (headings.length >= 6) score += 10;
+  if (words.length >= 520 && words.length <= 1200) score += 12;
+  if (numberCount >= rules.minNumbers) score += 8;
+  if (/Tool or guide:\s+https:\/\/accessfreetools\.com\//.test(article)) score += 10;
+  if (/Disclosure: This companion post is from Access Free Tools\./.test(article)) score += 6;
+  if (headings.includes('What to check before trusting the result')) score += 6;
+  if (density > 0 && density < 0.035) score += 6;
+
+  return {
+    score: clampScore(score),
+    primaryCount,
+    density: Number((density * 100).toFixed(2)),
+  };
+}
+
+function scoreOriginality({ words, text, article, title, numberCount }) {
+  const ratio = uniqueRatio(words);
+  const duplicates = repeatedSentenceCount(text);
+  const genericHits = bannedPhrases.filter((phrase) => text.toLowerCase().includes(phrase));
+  const titleIsSpecific = /\b(before|without|what|why|how|mistake|calculator|privacy|payment|waste|amps|bmi|revenue)\b/i.test(title);
+  const exampleSpecific = numberCount >= 3 && /\b(example|say|suppose|if)\b/i.test(article);
+  let score = 35;
+
+  score += scoreRange(ratio, 0.55, 0.78, 0.35, 0.9) * 0.22;
+  score += exampleSpecific ? 18 : 0;
+  score += titleIsSpecific ? 12 : 0;
+  score += duplicates === 0 ? 10 : Math.max(0, 10 - duplicates * 5);
+  score += genericHits.length === 0 ? 18 : Math.max(0, 18 - genericHits.length * 8);
+
+  return {
+    score: clampScore(score),
+    uniqueRatio: Number(ratio.toFixed(2)),
+    repeatedSentences: duplicates,
+    genericHits,
+  };
+}
+
+function scoreHumanInterest({ title, text, article, headings, grade, secondPersonCount, numberCount }) {
+  const powerWords = collectPowerWords(`${title} ${headings.join(' ')} ${text}`);
+  const headlineStart = headlineStarter(title);
+  const powerCount = totalPowerWords(powerWords);
+  const hasProblemFrame = /\b(mistake|problem|risk|confusion|wrong|waste|danger|trust|before)\b/i.test(article);
+  const hasConcreteExample = numberCount >= 3 && /\b(example|say|suppose|if)\b/i.test(article);
+  const directVoice = secondPersonCount >= 4;
+  let score = 0;
+
+  if (headlineStart) score += 12;
+  score += Math.min(22, powerCount * 4);
+  if (powerWords.problem.length > 0) score += 12;
+  if (powerWords.useful.length > 0) score += 10;
+  if (hasProblemFrame) score += 14;
+  if (hasConcreteExample) score += 14;
+  if (directVoice) score += 10;
+  if (grade >= 6 && grade <= 9.5) score += 12;
+  else if (grade <= 10.5) score += 6;
+
+  return {
+    score: clampScore(score),
+    headlineStarter: headlineStart?.trim() ?? null,
+    powerWords,
+    powerWordCount: powerCount,
+  };
+}
+
 function lintArticle(file) {
   const slug = basename(file, '.md');
   const rules = qualityRules[slug] ?? {
@@ -189,6 +398,20 @@ function lintArticle(file) {
   const words = wordsFrom(text);
   const grade = fleschKincaidGrade(text);
   const paragraphCounts = paragraphWordCounts(article);
+  const numberCount = countNumbers(article);
+  const secondPersonCount = countSecondPerson(text);
+  const seo = scoreSeo({ title, headings, text, words, rules, article, numberCount });
+  const originality = scoreOriginality({ words, text, article, title, numberCount });
+  const humanInterest = scoreHumanInterest({
+    title,
+    text,
+    article,
+    headings,
+    grade,
+    secondPersonCount,
+    numberCount,
+  });
+  const overallScore = clampScore(seo.score * 0.4 + originality.score * 0.25 + humanInterest.score * 0.35);
   const errors = [];
   const warnings = [];
 
@@ -233,12 +456,10 @@ function lintArticle(file) {
     errors.push(`Missing required topic idea(s): ${missingIdeas.join(', ')}.`);
   }
 
-  const numberCount = countNumbers(article);
   if (numberCount < rules.minNumbers) {
     errors.push(`Needs more concrete numbers/examples; found ${numberCount}, expected ${rules.minNumbers}.`);
   }
 
-  const secondPersonCount = countSecondPerson(text);
   if (secondPersonCount < 4) {
     errors.push(`Needs a more direct reader voice; found ${secondPersonCount} second-person words.`);
   }
@@ -264,6 +485,22 @@ function lintArticle(file) {
     warnings.push(`Reading grade is close to the limit: ${grade.toFixed(1)}.`);
   }
 
+  if (seo.score < minScores.seo) {
+    errors.push(`SEO reviewer score too low: ${seo.score}/100, expected ${minScores.seo}+.`);
+  }
+
+  if (originality.score < minScores.originality) {
+    errors.push(`Originality reviewer score too low: ${originality.score}/100, expected ${minScores.originality}+.`);
+  }
+
+  if (humanInterest.score < minScores.humanInterest) {
+    errors.push(`Human-interest reviewer score too low: ${humanInterest.score}/100, expected ${minScores.humanInterest}+.`);
+  }
+
+  if (overallScore < minScores.overall) {
+    errors.push(`Overall reviewer score too low: ${overallScore}/100, expected ${minScores.overall}+.`);
+  }
+
   return {
     file,
     slug,
@@ -273,13 +510,30 @@ function lintArticle(file) {
     numberCount,
     secondPersonCount,
     readingGrade: Number(grade.toFixed(1)),
+    scores: {
+      seo: seo.score,
+      originality: originality.score,
+      humanInterest: humanInterest.score,
+      overall: overallScore,
+    },
+    reviewerSignals: {
+      primaryPhrase: rules.primaryPhrase,
+      primaryPhraseCount: seo.primaryCount,
+      primaryPhraseDensityPercent: seo.density,
+      uniqueRatio: originality.uniqueRatio,
+      repeatedSentences: originality.repeatedSentences,
+      genericHits: originality.genericHits,
+      headlineStarter: humanInterest.headlineStarter,
+      powerWords: humanInterest.powerWords,
+      powerWordCount: humanInterest.powerWordCount,
+    },
     errors,
     warnings,
   };
 }
 
 function main() {
-  const { target } = parseArgs();
+  const { target, reportPath } = parseArgs();
   const files = listMarkdownFiles(target);
   const results = files.map(lintArticle);
   let errorCount = 0;
@@ -289,8 +543,21 @@ function main() {
     errorCount += result.errors.length;
     warningCount += result.warnings.length;
     console.log(
-      `${result.slug}: ${result.wordCount} words, ${result.headingCount} H2s, grade ${result.readingGrade}, ${result.numberCount} numbers`,
+      `${result.slug}: ${result.wordCount} words, ${result.headingCount} H2s, grade ${result.readingGrade}, ${result.numberCount} numbers, scores SEO ${result.scores.seo}/100, originality ${result.scores.originality}/100, interest ${result.scores.humanInterest}/100, overall ${result.scores.overall}/100`,
     );
+
+    const foundPowerWords = Object.entries(result.reviewerSignals.powerWords)
+      .filter(([, words]) => words.length > 0)
+      .map(([group, words]) => `${group}: ${words.join(', ')}`)
+      .join('; ');
+
+    if (foundPowerWords) {
+      console.log(`  hooks: ${foundPowerWords}`);
+    }
+
+    if (result.reviewerSignals.headlineStarter) {
+      console.log(`  headline starter: ${result.reviewerSignals.headlineStarter}`);
+    }
 
     for (const warning of result.warnings) {
       console.log(`  warn: ${warning}`);
@@ -301,12 +568,34 @@ function main() {
     }
   }
 
+  mkdirSync(dirname(reportPath), { recursive: true });
+  writeFileSync(
+    reportPath,
+    `${JSON.stringify(
+      {
+        generatedAt: new Date().toISOString(),
+        target,
+        minScores,
+        totals: {
+          drafts: results.length,
+          errors: errorCount,
+          warnings: warningCount,
+        },
+        results,
+      },
+      null,
+      2,
+    )}\n`,
+  );
+
   if (errorCount > 0) {
     console.error(`Medium writing quality failed: ${errorCount} error(s), ${warningCount} warning(s).`);
+    console.error(`Saved reviewer report to ${reportPath}`);
     process.exit(1);
   }
 
   console.log(`Medium writing quality passed: ${results.length} draft(s), ${warningCount} warning(s).`);
+  console.log(`Saved reviewer report to ${reportPath}`);
 }
 
 main();

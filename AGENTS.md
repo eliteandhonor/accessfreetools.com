@@ -31,6 +31,7 @@ Every new public tool should include:
 - Do not copy the personality, voice, or exact style of Neil Patel or any other living writer. Use public SEO lessons only: clear value, useful structure, evidence, examples, and a practical next step.
 - Run a small SEO review before public Medium articles: DataForSEO account/status, one main keyword intent, source URL match, and no off-topic terms.
 - Run `npm run promotion:medium:quality` before public Medium posts or live Medium edits.
+- Medium quality must pass the article reviewer scores: SEO 80+, originality 75+, human interest 75+, and overall 80+.
 
 ## Competitor Research List
 

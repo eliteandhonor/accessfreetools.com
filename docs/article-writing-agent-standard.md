@@ -120,3 +120,49 @@ generic one: one clear topic, the main search phrase, realistic numbers, a real
 example, readable paragraphs, a direct reader voice, disclosure, source link,
 limits, no generic hype phrases, no off-topic AI drift, and a reading level that
 fits the Access Free Tools voice.
+
+The checker also acts as an article reviewer and writes a score report to
+`output/promotion/medium-quality-report.json`. Minimum scores:
+
+- SEO: 80/100
+- Originality: 75/100
+- Human interest: 75/100
+- Overall: 80/100
+
+Reviewer scoring is a practical heuristic, not a plagiarism checker or a Google
+ranking promise. It checks whether the article has useful search alignment,
+specific examples, non-generic language, direct reader voice, and a headline
+that gives people a real reason to keep reading.
+
+## Hook And Power Word Rules
+
+Power words are allowed when they make the title clearer and more useful. Do
+not use fake drama. Pair curiosity with a real answer.
+
+Use these groups carefully:
+
+- Curiosity: `secret`, `surprising`, `hidden`, `unknown`, `unexpected`,
+  `strange`, `shocking`, `mystery`, `revealed`, `overlooked`, `little-known`.
+- Useful: `how`, `guide`, `tips`, `steps`, `ways`, `methods`, `strategies`,
+  `checklist`, `formula`, `solution`, `explained`.
+- Urgency: `now`, `today`, `before`, `urgent`, `important`, `don't miss`,
+  `warning`, `must-know`, `last chance`.
+- Emotional: `powerful`, `inspiring`, `heartbreaking`, `exciting`,
+  `frustrating`, `fearless`, `honest`, `life-changing`, `unforgettable`.
+- Problem: `mistakes`, `problems`, `risks`, `struggles`, `failure`, `danger`,
+  `confusion`, `myths`, `traps`.
+
+Strong headline starters:
+
+- `How to...`
+- `Why...`
+- `The truth about...`
+- `What no one tells you about...`
+- `Things you should know before...`
+- `The biggest mistake...`
+- `Simple ways to...`
+- `The real reason...`
+
+Good pattern: curiosity plus usefulness, such as `The biggest mistake people
+make with BMI calculator results` or `Things you should know before trusting a
+mortgage payment estimate`.

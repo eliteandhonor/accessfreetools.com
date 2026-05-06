@@ -37,6 +37,10 @@ Regenerate the starter drafts and run the writing-quality gate:
 npm run promotion:medium:quality
 ```
 
+This also runs the Medium article reviewer. It scores each draft for SEO,
+originality, human reading interest, and overall quality. The JSON report is
+saved to `output/promotion/medium-quality-report.json`.
+
 Regenerate and check the first calculator post only:
 
 ```bash
@@ -70,7 +74,8 @@ The generator also writes:
   keep the article tightly matched to that one topic.
 - Run `npm run promotion:medium:quality` before public posting. The checker
   fails drafts with thin word counts, missing disclosure/source links, missing
-  examples, generic hype phrases, too-high reading level, or topic drift.
+  examples, generic hype phrases, too-high reading level, topic drift, weak SEO
+  score, weak originality score, or weak human-interest score.
 - Use short companion posts, not full copies of Access Free Tools blog guides.
 - Keep the disclosure line that says the post is from Access Free Tools.
 - Link to the original tool or guide.
