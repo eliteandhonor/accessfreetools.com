@@ -33,11 +33,15 @@ Use `accessfreetools` whenever available.
 
 Status: Created by the user on 2026-05-06.
 Domain claim status: Pinterest HTML verification file is live at
-`https://accessfreetools.com/pinterest-95119.html`. The next owner action is to
-click Continue in Pinterest's claim flow and confirm the claim completes.
-Agent review status: external read-only review is set up, but the controlled
-external browser profile still needs the owner to log in manually once. The
-agent must not enter the account password.
+`https://accessfreetools.com/pinterest-95119.html`. External read-only review
+on 2026-05-06 reached the Pinterest Business Hub and showed
+`accessfreetools.com` as the business profile, so the claim appears connected.
+Agent review status: external read-only review is working through the isolated
+local Edge profile. The agent must not enter the account password.
+Public profile status: updated and verified on 2026-05-06 at
+`https://au.pinterest.com/accessfreetools/` with display name
+`Access Free Tools`, username `accessfreetools`, verified website
+`accessfreetools.com`, and the approved short bio.
 
 Security note: the account password must stay out of Git, docs, automation
 prompts, and reports. If a password was shared in chat or screenshots, change it
@@ -57,11 +61,11 @@ Setup fields:
 
 Recommended profile checks:
 
-- Confirm the public username is `accessfreetools` if available.
-- Confirm the public profile URL is added here after the user shares it.
-- Confirm the website field points to `https://accessfreetools.com/`.
-- Confirm the profile name is `Access Free Tools`, not only the email address.
-- Add the short bio above.
+- Confirm the public username is `accessfreetools`. Done 2026-05-06.
+- Confirm the public profile URL is added here after the profile username is saved. Done 2026-05-06.
+- Confirm the website field points to `https://accessfreetools.com/`. Done 2026-05-06.
+- Confirm the profile name is `Access Free Tools`, not only the email address. Done 2026-05-06.
+- Add the short bio above. Done 2026-05-06.
 - Add a simple branded logo or mark.
 - Enable two-factor authentication if Pinterest offers it for the account.
 

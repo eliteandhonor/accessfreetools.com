@@ -17,8 +17,11 @@ still require approval.
 
 Pinterest Business account status: created by the user on 2026-05-06. Use
 Pinterest as the first active promotion channel. Reddit and Medium are planned
-but not created yet. Pinterest domain verification file is live; the claim flow
-still needs the owner to click Continue in Pinterest.
+but not created yet. Pinterest domain verification file is live and external
+read-only review reached the Pinterest Business Hub for `accessfreetools.com`.
+Public profile cleanup is done at `https://au.pinterest.com/accessfreetools/`.
+Before posting pins, create a simple branded logo/mark and approve the first pin
+drafts.
 
 | Priority | Page | Main Angle | Channel | Status | Next Action |
 | --- | --- | --- | --- | --- | --- |
