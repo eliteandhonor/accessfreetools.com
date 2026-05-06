@@ -16,6 +16,11 @@ affiliate links.
   are live. Medium did not show a dedicated free website field in the visible
   profile settings, so approved posts should link back to the relevant Access
   Free Tools page and use canonical/source URLs when available.
+- A Codex app cron automation named `Medium Promotion Agent` is active for
+  Wednesdays at 10:00am. It runs the Medium draft generator, DataForSEO checks,
+  and `npm run promotion:medium:quality`, then reports the best update/publish
+  candidate. It must not publish or update live Medium posts without owner
+  approval.
 
 ## Commands
 
@@ -47,14 +52,17 @@ Regenerate and check the first calculator post only:
 npm run promotion:medium:quality:first
 ```
 
-Generated drafts are written to `output/promotion/medium/`. The output folder is
-ignored by Git because these are working drafts, not source files.
+Generated drafts are written to `output/promotion/medium/`. Clean paste-ready
+copies without frontmatter, publisher notes, or the internal checklist are
+written to `output/promotion/medium/public/`. The output folder is ignored by
+Git because these are working drafts, not source files.
 
 The generator also writes:
 
 - `output/promotion/medium/_publishing-queue.md` with the recommended order.
 - `output/promotion/medium-promotion-report.json` with draft paths, source
-  URLs, canonical URLs, tags, word counts, and approval status.
+  URLs, canonical URLs, tags, word counts, public paste paths, and approval
+  status.
 
 ## Starter Drafts
 
@@ -86,6 +94,10 @@ The generator also writes:
 - Do not use paid promotion unless the user explicitly asks for a paid campaign.
 - Publish one article at a time at first, then record the live Medium URL in
   `docs/promotion-queue.md`.
+- For live article rewrites, use the latest generated draft as the replacement
+  source. Prefer the clean file in `output/promotion/medium/public/`, but do
+  not mark the live article updated until the Medium editor has actually been
+  changed in the external browser.
 - Remove the internal publisher checklist before pasting if the public article
   should be shorter.
 - Follow `docs/article-writing-agent-standard.md` before drafting or editing.

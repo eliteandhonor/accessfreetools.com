@@ -557,6 +557,7 @@ const publishEnhancements = {
 
 function parseArgs() {
   const args = process.argv.slice(2);
+  const publicDirArg = args.find((arg) => arg.startsWith('--public-dir='));
   const slugs = args
     .filter((arg) => arg.startsWith('--slug='))
     .flatMap((arg) => arg.slice('--slug='.length).split(','))
@@ -568,6 +569,7 @@ function parseArgs() {
     slugs,
     limit: Number(args.find((arg) => arg.startsWith('--limit='))?.slice('--limit='.length) ?? Number.POSITIVE_INFINITY),
     outputDir: resolve(args.find((arg) => arg.startsWith('--output-dir='))?.slice('--output-dir='.length) ?? DEFAULT_OUTPUT_DIR),
+    publicDir: publicDirArg ? resolve(publicDirArg.slice('--public-dir='.length)) : resolve(DEFAULT_OUTPUT_DIR, 'public'),
     reportPath: resolve(args.find((arg) => arg.startsWith('--report='))?.slice('--report='.length) ?? DEFAULT_REPORT_PATH),
   };
 }
@@ -775,12 +777,16 @@ function main() {
   for (const post of selected) {
     const path = resolve(args.outputDir, `${safeFileName(post.slug)}.md`);
     const content = markdown(post);
+    const publicPath = resolve(args.publicDir, `${safeFileName(post.slug)}.md`);
+    const publicContent = publicArticleContent(content);
     writeText(path, content);
+    writeText(publicPath, publicContent);
     const wordCount = estimateWordCount(publicArticleContent(content));
     report.drafts.push({
       slug: post.slug,
       title: post.title,
       path,
+      publicPath,
       sourceUrl: post.sourceUrl,
       canonicalUrl: post.canonicalUrl,
       tags: post.tags,

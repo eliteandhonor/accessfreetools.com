@@ -19,8 +19,9 @@ owner approval for each exact post.
 npm run promotion:medium:starter
 ```
 
-This creates publish-ready drafts in `output/promotion/medium/` plus a queue
-file at `output/promotion/medium/_publishing-queue.md`.
+This creates publish-ready drafts in `output/promotion/medium/`, clean
+paste-ready copies in `output/promotion/medium/public/`, and a queue file at
+`output/promotion/medium/_publishing-queue.md`.
 
 Before publishing or updating Medium, run:
 
@@ -64,6 +65,8 @@ npm run promotion:medium:quality:first
 - Run the Medium writing-quality gate and fix every error before publishing.
 - Check `docs/article-writing-agent-standard.md`.
 - Read the exact generated draft before posting.
+- Use the clean public copy from `output/promotion/medium/public/` when pasting
+  into Medium so internal notes and checklists are not published.
 - Keep the disclosure that the article is from Access Free Tools.
 - Set the canonical/source URL to the matching Access Free Tools page when
   Medium offers that setting.
