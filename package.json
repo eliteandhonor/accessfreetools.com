@@ -20,6 +20,7 @@
     "check:ai-assets": "node scripts/check-ai-lazy-assets.mjs",
     "check:external-links": "node scripts/check-external-links.mjs",
     "assets:social": "node scripts/generate-social-cards.mjs",
+    "promotion:pinterest-assets": "node scripts/generate-pinterest-assets.mjs",
     "dataforseo:account": "node scripts/dataforseo-account.mjs",
     "dataforseo:status": "node scripts/dataforseo-status.mjs",
     "dataforseo:status:sandbox": "node scripts/dataforseo-status.mjs --sandbox",

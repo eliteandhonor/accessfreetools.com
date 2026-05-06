@@ -26,6 +26,10 @@ Free calculators, converters, AI text tools, and practical guides for everyday m
 Use these first because Pinterest Business is now the first created promotion
 account.
 
+Posting note: use the organic Pinterest pin creation tool, select a board before
+publishing, and avoid the ad-focused pin builder. The first `/tools/` pin was
+published to the `Free Online Calculators` board on 2026-05-06.
+
 ### Percentage Calculator
 
 Title: Free Percentage Calculator For Discounts And Percent Change
@@ -65,6 +69,8 @@ Title: Free Online Tools For Calculators, Converters, And AI Tasks
 Description: Access calculators, converters, text tools, browser AI tools, project estimators, and plain-language guides without signup.
 
 URL: https://accessfreetools.com/tools/
+
+Status: posted to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06.
 
 ## First Pinterest Boards
 

@@ -42,6 +42,11 @@ Public profile status: updated and verified on 2026-05-06 at
 `https://au.pinterest.com/accessfreetools/` with display name
 `Access Free Tools`, username `accessfreetools`, verified website
 `accessfreetools.com`, and the approved short bio.
+Avatar status: branded Access Free Tools avatar uploaded on 2026-05-06.
+First organic board status: `Free Online Calculators` created on 2026-05-06.
+First organic pin status: `/tools/` pin published to the `Free Online
+Calculators` board on 2026-05-06. Failed duplicate drafts from the first
+automation attempt were deleted.
 
 Security note: the account password must stay out of Git, docs, automation
 prompts, and reports. If a password was shared in chat or screenshots, change it
@@ -66,12 +71,12 @@ Recommended profile checks:
 - Confirm the website field points to `https://accessfreetools.com/`. Done 2026-05-06.
 - Confirm the profile name is `Access Free Tools`, not only the email address. Done 2026-05-06.
 - Add the short bio above. Done 2026-05-06.
-- Add a simple branded logo or mark.
+- Add a simple branded logo or mark. Done 2026-05-06.
 - Enable two-factor authentication if Pinterest offers it for the account.
 
 Starter boards:
 
-- Free Online Calculators
+- Free Online Calculators. Created 2026-05-06.
 - Finance Calculators
 - Home Project Calculators
 - Health And Fitness Calculators
@@ -102,6 +107,15 @@ Example pin titles:
 - Mortgage Calculator With Monthly Payment And Amortization Guide
 - Wallpaper Calculator To Estimate Rolls And Waste Percent
 - Free Image To Text OCR Tool That Runs In Your Browser
+
+Organic posting workflow:
+
+- Use Pinterest's organic `https://au.pinterest.com/pin-creation-tool/` flow.
+- Do not use `pin-builder` because it is ad-focused and can lead into campaign
+  setup.
+- Pick or create the board before pressing Publish.
+- After a publish attempt, confirm the board page shows the pin and then remove
+  any leftover unpublished duplicate drafts.
 
 ## Reddit
 

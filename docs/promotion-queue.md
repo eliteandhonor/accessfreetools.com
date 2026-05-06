@@ -20,12 +20,13 @@ Pinterest as the first active promotion channel. Reddit and Medium are planned
 but not created yet. Pinterest domain verification file is live and external
 read-only review reached the Pinterest Business Hub for `accessfreetools.com`.
 Public profile cleanup is done at `https://au.pinterest.com/accessfreetools/`.
-Before posting pins, create a simple branded logo/mark and approve the first pin
-drafts.
+The branded avatar is live, the first board is created, the first organic pin is
+published, and the duplicate draft cleanup is complete. Use Pinterest's organic
+`/pin-creation-tool/` flow for pins; do not use the ad-focused pin builder.
 
 | Priority | Page | Main Angle | Channel | Status | Next Action |
 | --- | --- | --- | --- | --- | --- |
-| High | `/tools/` | Free online tools library with calculators, converters, AI tools, and guides | Pinterest | needs approval | Review draft in `docs/promotion-share-kit.md` before posting |
+| High | `/tools/` | Free online tools library with calculators, converters, AI tools, and guides | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
 | High | `/free-calculator-resources/` | Free calculator resources hub for common calculations | Pinterest | needs approval | Review draft in `docs/promotion-share-kit.md` before posting |
 | High | `/tools/basic-calculator/` | Simple everyday calculator with guide and keyboard support | Pinterest | needs draft | Draft a beginner-friendly calculator pin |
 | High | `/tools/percentage-calculator/` | Discounts, percent change, markups, and reverse percentages | Pinterest | needs approval | Review draft in `docs/promotion-share-kit.md` before posting |
@@ -55,8 +56,8 @@ Follow-up date:
 ## Weekly Promotion Rhythm
 
 1. Pick 3 priority pages.
-2. Create Pinterest drafts first while Pinterest is the only created promotion account.
+2. Create organic Pinterest pins first while Pinterest is the only created promotion account.
 3. Check whether each target page is indexed or pending.
 4. Add or recommend internal links from related tools and guides.
-5. Ask the user before anything is posted publicly.
+5. Ask the user before anything is posted publicly unless the user has explicitly approved autopilot posting for that channel.
 6. Record posted URLs after the user confirms publishing.
