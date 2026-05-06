@@ -18,8 +18,8 @@ still require approval.
 Pinterest Business account status: created by the user on 2026-05-06. Use
 Pinterest as the first active promotion channel. Reddit is planned but not
 created yet. Medium login was started by the user on 2026-05-06 with
-`contact@accessfreetools.com`; Medium profile details and public URL still need
-manual confirmation. Pinterest domain verification file is live and external
+`contact@accessfreetools.com`; Medium profile setup is complete at
+`https://medium.com/@accessfreetools`. Pinterest domain verification file is live and external
 read-only review reached the Pinterest Business Hub for `accessfreetools.com`.
 Public profile cleanup is done at `https://au.pinterest.com/accessfreetools/`.
 The branded avatar is live, starter boards are created, 8 organic starter pins

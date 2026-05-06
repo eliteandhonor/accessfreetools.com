@@ -10,8 +10,12 @@ affiliate links.
   `contact@accessfreetools.com`.
 - Medium uses an email sign-in flow for this account, so the agent should not
   request or store a password.
-- Profile URL, username, profile image, bio, and website still need manual
-  confirmation inside Medium.
+- Public profile setup was completed in the external browser on 2026-05-06:
+  `https://medium.com/@accessfreetools`.
+- Display name, username, short bio, and the branded Access Free Tools avatar
+  are live. Medium did not show a dedicated free website field in the visible
+  profile settings, so approved posts should link back to the relevant Access
+  Free Tools page and use canonical/source URLs when available.
 
 ## Commands
 
@@ -54,11 +58,14 @@ ignored by Git because these are working drafts, not source files.
 
 ## Manual Profile Checklist
 
-- Display name: `Access Free Tools`
-- Username: `accessfreetools` if available.
-- Bio: `Access Free Tools shares clear guides for free calculators, converters, browser AI tools, finance estimators, home project calculators, and school-friendly utilities.`
-- Website: `https://accessfreetools.com/`
-- Profile image: use the Access Free Tools branded avatar from Pinterest.
+- Display name: `Access Free Tools`. Done 2026-05-06.
+- Username: `accessfreetools`. Done 2026-05-06.
+- Public profile URL: `https://medium.com/@accessfreetools`. Done 2026-05-06.
+- Bio: `Clear guides for free calculators, converters, browser AI tools, finance estimators, home project calculators, and school-friendly utilities.` Done 2026-05-06.
+- Website: Medium did not show a dedicated free website field during setup; use
+  approved post links and canonical/source URLs.
+- Profile image: Access Free Tools branded avatar from Pinterest. Done
+  2026-05-06.
 - Optional publication: `Access Free Tools Guides`
 - Optional publication tagline: `Simple guides for calculators, converters, AI browser tools, and everyday online utilities.`
 

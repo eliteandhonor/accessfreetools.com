@@ -174,7 +174,11 @@ Starter communities to research, not auto-post:
 
 Status: User logged in on Medium with `contact@accessfreetools.com` on
 2026-05-06 using Medium's email sign-in flow. The agent must not store a
-password, recovery link, email code, or session cookie.
+password, recovery link, email code, or session cookie. Public profile setup
+was completed in the external browser on 2026-05-06 at
+`https://medium.com/@accessfreetools` with display name `Access Free Tools`,
+username `accessfreetools`, the approved short bio, and the branded Access Free
+Tools avatar.
 
 Purpose: Medium can work as a discovery and trust channel, but we should avoid
 copying full Access Free Tools guides word-for-word. Use short explainers,
@@ -182,10 +186,14 @@ summaries, and canonical links back to the original guide.
 
 Setup fields:
 
-- Profile name: Access Free Tools
-- Username: accessfreetools
-- Bio: Clear guides for free calculators, converters, browser AI tools, and everyday problem-solving.
-- Website: https://accessfreetools.com/
+- Profile name: Access Free Tools. Done 2026-05-06.
+- Username: accessfreetools. Done 2026-05-06.
+- Profile URL: https://medium.com/@accessfreetools. Done 2026-05-06.
+- Bio: Clear guides for free calculators, converters, browser AI tools, finance estimators, home project calculators, and school-friendly utilities. Done 2026-05-06.
+- Website: Medium did not show a dedicated free website field during setup, so
+  use links inside approved companion posts and canonical/source URLs when
+  Medium offers them.
+- Avatar: branded Access Free Tools avatar. Done 2026-05-06.
 
 Publication idea:
 
@@ -227,11 +235,15 @@ Starter Medium post ideas:
 
 Recommended profile checks:
 
-- Confirm display name is `Access Free Tools`.
-- Confirm username is `accessfreetools` if available.
-- Add website `https://accessfreetools.com/`.
-- Add the Medium Bio from `docs/promotion-share-kit.md`.
-- Add the same branded Access Free Tools avatar used on Pinterest.
+- Confirm display name is `Access Free Tools`. Done 2026-05-06.
+- Confirm username is `accessfreetools`. Done 2026-05-06.
+- Confirm public profile URL is `https://medium.com/@accessfreetools`. Done
+  2026-05-06.
+- Add website `https://accessfreetools.com/` when Medium exposes a profile link
+  field, or use canonical/source links in approved posts.
+- Add the Medium Bio from `docs/promotion-share-kit.md`. Done 2026-05-06.
+- Add the same branded Access Free Tools avatar used on Pinterest. Done
+  2026-05-06.
 - If Medium offers profile social links, add Pinterest after the profile is
   stable: `https://au.pinterest.com/accessfreetools/`.
 
@@ -246,11 +258,12 @@ Recommended profile checks:
 
 ## What The User Needs To Do
 
-1. Finish Pinterest profile details and share the public profile URL.
+1. Keep Pinterest and Medium login/recovery details private and enable 2FA where available.
 2. Create the Reddit account later.
-3. Finish Medium profile details and tell Codex the public Medium profile URL.
+3. Review and approve the first Medium companion draft before any public post.
 4. Verify email and any phone/CAPTCHA steps.
-5. Add the website URL to each profile.
+5. Add the website URL to each profile when the platform exposes a safe public
+   website field.
 6. Tell Codex which usernames were accepted.
 
 After that, the Promotion Agent can maintain drafts, queue posts for approval,

@@ -100,9 +100,11 @@ Created boards on 2026-05-06:
 ## First Medium Draft Outlines
 
 Medium account note: the user started Medium login with
-`contact@accessfreetools.com` on 2026-05-06. The agent should generate drafts
-only. It must not store Medium credentials, publish posts, send email, run ads,
-or add affiliate links without approval.
+`contact@accessfreetools.com` on 2026-05-06. The public profile is live at
+`https://medium.com/@accessfreetools` with the Access Free Tools display name,
+username, bio, and branded avatar. The agent should generate drafts only. It
+must not store Medium credentials, publish posts, send email, run ads, or add
+affiliate links without approval.
 
 Draft command:
 
