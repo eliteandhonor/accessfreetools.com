@@ -28,7 +28,7 @@ npm run promotion:medium:starter
 Generate one draft:
 
 ```bash
-npm run promotion:medium -- --slug=wallpaper-waste-percent
+node scripts/medium-promotion-agent.mjs --slug=wallpaper-waste-percent
 ```
 
 Generated drafts are written to `output/promotion/medium/`. The output folder is
@@ -68,9 +68,13 @@ The generator also writes:
   `docs/promotion-queue.md`.
 - Remove the internal publisher checklist before pasting if the public article
   should be shorter.
+- Follow `docs/article-writing-agent-standard.md` before drafting or editing.
 - Use the requested voice for first-wave posts: clear, practical, and smart
-  enough for a 15-year-old reader without sounding childish or stuffed with
+  enough for a 14-year-old reader without sounding childish or stuffed with
   keywords.
+- Do not copy Neil Patel's personality or any living writer's exact style. Use
+  the useful public SEO lessons only: clear value, skimmable structure,
+  examples, proof, and a practical next step.
 
 ## Recommended First Publishing Order
 

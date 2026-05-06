@@ -24,6 +24,13 @@ Every new public tool should include:
 - Related tools, category placement, icon mapping, search terms, sitemap coverage, and structured data.
 - A truthful audit record. Only mark a tool `deep-reviewed` after the exact tool page, FAQ, examples, blog, formula/logic, privacy/trust wording, and related links have been individually checked.
 
+## Article Writing Standard
+
+- Use `docs/article-writing-agent-standard.md` before drafting or editing blog guides, Medium posts, or longer promotion content.
+- Use the Access Free Tools voice: smart 14-year-old clarity, practical examples, plain language, and honest limits.
+- Do not copy the personality, voice, or exact style of Neil Patel or any other living writer. Use public SEO lessons only: clear value, useful structure, evidence, examples, and a practical next step.
+- Run a small SEO review before public Medium articles: DataForSEO account/status, one main keyword intent, source URL match, and no off-topic terms.
+
 ## Competitor Research List
 
 - https://www.calculator.net/sitemap.html

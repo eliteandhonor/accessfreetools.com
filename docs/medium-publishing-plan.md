@@ -46,6 +46,7 @@ file at `output/promotion/medium/_publishing-queue.md`.
 
 - Run a quick SEO review before publishing: DataForSEO account/status, keyword
   intent, matching source URL, and no off-topic terms.
+- Check `docs/article-writing-agent-standard.md`.
 - Read the exact generated draft before posting.
 - Keep the disclosure that the article is from Access Free Tools.
 - Set the canonical/source URL to the matching Access Free Tools page when
@@ -62,8 +63,11 @@ file at `output/promotion/medium/_publishing-queue.md`.
 - Medium posts should be companion articles, not full duplicates of site blog
   guides.
 - Use plain language, realistic examples, and clear limits.
-- Use a clear "smart 15-year-old" voice: direct, practical, and understandable
+- Use a clear "smart 14-year-old" voice: direct, practical, and understandable
   without baby talk.
+- Do not copy Neil Patel's personality or any living writer's exact style. Use
+  the public SEO principles only: useful structure, examples, proof, and clear
+  next steps.
 - Be extra careful with finance, health, electrical, tax, pregnancy, and AI
   topics.
 - Do not promise income, medical outcomes, loan approval, electrical safety, or

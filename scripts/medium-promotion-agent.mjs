@@ -615,6 +615,7 @@ Publisher notes:
 - Set Medium canonical/source URL to: ${post.canonicalUrl}
 - Suggested tags: ${tags}
 - SEO review: ${extra.seoReview ?? 'Run DataForSEO or Search Console intent review before public publishing.'}
+- Article standard: follow docs/article-writing-agent-standard.md. Use the original Access Free Tools voice, not a copied living-writer style.
 - Keep this starter post free, not paywalled.
 - Do not add affiliate links unless a disclosure is placed next to the link.
 -->
@@ -659,6 +660,7 @@ ${rows}
 ## Approval Rules
 
 - Publish one article at a time at first so we can watch indexing, clicks, and audience response.
+- Follow docs/article-writing-agent-standard.md before publishing. Keep the voice clear enough for a smart 14-year-old without copying a living writer.
 - Keep the canonical/source URL set to the matching Access Free Tools page.
 - Keep posts free and useful. Do not run paid promotion.
 - Do not add affiliate links until there is a nearby disclosure and a clear reason for the link.
