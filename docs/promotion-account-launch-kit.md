@@ -43,10 +43,12 @@ Public profile status: updated and verified on 2026-05-06 at
 `Access Free Tools`, username `accessfreetools`, verified website
 `accessfreetools.com`, and the approved short bio.
 Avatar status: branded Access Free Tools avatar uploaded on 2026-05-06.
-First organic board status: `Free Online Calculators` created on 2026-05-06.
-First organic pin status: `/tools/` pin published to the `Free Online
-Calculators` board on 2026-05-06. Failed duplicate drafts from the first
-automation attempt were deleted.
+Starter organic board status: `Free Online Calculators`, `Finance Calculators`,
+`Health And Fitness Calculators`, `Home Project Calculators`, and `AI Browser
+Tools` were created on 2026-05-06.
+Starter organic pin status: the first 8 starter pins were published and
+verified on 2026-05-06. Failed duplicate drafts from the first automation
+attempt were deleted.
 
 Security note: the account password must stay out of Git, docs, automation
 prompts, and reports. If a password was shared in chat or screenshots, change it
@@ -77,23 +79,25 @@ Recommended profile checks:
 Starter boards:
 
 - Free Online Calculators. Created 2026-05-06.
-- Finance Calculators
-- Home Project Calculators
-- Health And Fitness Calculators
+- Finance Calculators. Created 2026-05-06.
+- Home Project Calculators. Created 2026-05-06.
+- Health And Fitness Calculators. Created 2026-05-06.
 - School And Study Tools
-- AI Browser Tools
+- AI Browser Tools. Created 2026-05-06.
 - Conversion Tools
 
 First pin targets:
 
-- https://accessfreetools.com/tools/basic-calculator/
-- https://accessfreetools.com/tools/percentage-calculator/
-- https://accessfreetools.com/tools/mortgage-calculator/
-- https://accessfreetools.com/tools/bmi-calculator/
-- https://accessfreetools.com/tools/wallpaper-calculator/
+- https://accessfreetools.com/tools/. Published 2026-05-06.
+- https://accessfreetools.com/free-calculator-resources/. Published 2026-05-06.
+- https://accessfreetools.com/tools/basic-calculator/. Published 2026-05-06.
+- https://accessfreetools.com/tools/percentage-calculator/. Published 2026-05-06.
+- https://accessfreetools.com/tools/mortgage-calculator/. Published 2026-05-06.
+- https://accessfreetools.com/tools/bmi-calculator/. Published 2026-05-06.
+- https://accessfreetools.com/tools/wallpaper-calculator/. Published 2026-05-06.
+- https://accessfreetools.com/categories/ai-tools/. Published 2026-05-06.
+- https://accessfreetools.com/tools/image-to-text-ocr-tool/. Published 2026-05-06.
 - https://accessfreetools.com/tools/watts-to-amps-calculator/
-- https://accessfreetools.com/tools/image-to-text-ocr-tool/
-- https://accessfreetools.com/free-calculator-resources/
 
 Pin title style:
 
@@ -116,6 +120,13 @@ Organic posting workflow:
 - Pick or create the board before pressing Publish.
 - After a publish attempt, confirm the board page shows the pin and then remove
   any leftover unpublished duplicate drafts.
+- Repeatable local command: run `npm run promotion:pinterest-assets`, then run
+  `node scripts/pinterest-organic-publisher.mjs --slug=percentage-calculator --publish`.
+  To replay the full starter set safely, run `npm run promotion:pinterest:starter`;
+  already-published pins are skipped after board-page verification.
+  The command uses the local external Edge profile at
+  `.local/pinterest-browser-profile`, refuses ad/campaign/billing flows, skips
+  pins already visible on their board, and cleans failed drafts.
 
 ## Reddit
 

@@ -27,8 +27,8 @@ Use these first because Pinterest Business is now the first created promotion
 account.
 
 Posting note: use the organic Pinterest pin creation tool, select a board before
-publishing, and avoid the ad-focused pin builder. The first `/tools/` pin was
-published to the `Free Online Calculators` board on 2026-05-06.
+publishing, and avoid the ad-focused pin builder. The starter Pinterest batch
+was published and verified on 2026-05-06.
 
 ### Percentage Calculator
 
@@ -38,6 +38,8 @@ Description: Quickly calculate discounts, percent increase, percent decrease, ma
 
 URL: https://accessfreetools.com/tools/percentage-calculator/
 
+Status: posted to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06.
+
 ### Wallpaper Calculator
 
 Title: Wallpaper Calculator That Explains Waste Percent
@@ -45,6 +47,8 @@ Title: Wallpaper Calculator That Explains Waste Percent
 Description: Estimate wallpaper rolls using wall size, roll coverage, pattern repeat, and a waste percent so you do not undercount cuts and matching.
 
 URL: https://accessfreetools.com/tools/wallpaper-calculator/
+
+Status: posted to `https://au.pinterest.com/accessfreetools/home-project-calculators/` on 2026-05-06.
 
 ### Image To Text OCR
 
@@ -54,6 +58,8 @@ Description: Extract text from screenshots, notes, receipts, and images. The too
 
 URL: https://accessfreetools.com/tools/image-to-text-ocr-tool/
 
+Status: posted to `https://au.pinterest.com/accessfreetools/ai-browser-tools/` on 2026-05-06.
+
 ### Free Calculator Resources
 
 Title: Free Calculator Resources For Everyday Math
@@ -61,6 +67,8 @@ Title: Free Calculator Resources For Everyday Math
 Description: Browse free calculators for percentages, mortgage payments, BMI, home projects, finance estimates, school math, and practical browser tasks.
 
 URL: https://accessfreetools.com/free-calculator-resources/
+
+Status: posted to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06.
 
 ### Free Online Tools Library
 
@@ -80,6 +88,14 @@ Status: posted to `https://au.pinterest.com/accessfreetools/free-online-calculat
 - School And Study Tools
 - AI Browser Tools
 - Conversion Tools
+
+Created boards on 2026-05-06:
+
+- Free Online Calculators
+- Home Project Calculators
+- Finance Calculators
+- Health And Fitness Calculators
+- AI Browser Tools
 
 ## First Medium Draft Outlines
 

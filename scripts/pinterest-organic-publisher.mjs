@@ -1,0 +1,450 @@
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { chromium } from '@playwright/test';
+
+const PROFILE_URL = 'https://au.pinterest.com/accessfreetools/';
+const PIN_CREATION_URL = 'https://au.pinterest.com/pin-creation-tool/';
+const DEFAULT_PROFILE_DIR = resolve('.local', 'pinterest-browser-profile');
+const DEFAULT_OUTPUT_PATH = resolve('output', 'promotion', 'pinterest-publish-report.json');
+
+const pins = [
+  {
+    slug: 'tools',
+    asset: 'free-online-tools-library.png',
+    title: 'Free Online Tools For Calculators, Converters, And AI Tasks',
+    description:
+      'Browse free calculators, converters, text tools, browser AI tools, and clear guides without signup. Built for quick everyday answers.',
+    url: 'https://accessfreetools.com/tools/',
+    board: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+  },
+  {
+    slug: 'free-calculator-resources',
+    asset: 'free-calculator-resources.png',
+    title: 'Free Calculator Resources For Everyday Math',
+    description:
+      'Browse free calculators for percentages, mortgage payments, BMI, home projects, finance estimates, school math, and practical browser tasks.',
+    url: 'https://accessfreetools.com/free-calculator-resources/',
+    board: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+  },
+  {
+    slug: 'percentage-calculator',
+    asset: 'percentage-calculator.png',
+    title: 'Free Percentage Calculator For Discounts And Percent Change',
+    description:
+      'Quickly calculate discounts, percent increase, percent decrease, markups, tips, and reverse percentages with a free browser calculator.',
+    url: 'https://accessfreetools.com/tools/percentage-calculator/',
+    board: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+  },
+  {
+    slug: 'basic-calculator',
+    asset: 'basic-calculator.png',
+    title: 'Basic Calculator For Quick Everyday Math',
+    description:
+      'Use a free basic calculator for everyday arithmetic, percentages, keyboard input, and a clear guide to common calculator mistakes.',
+    url: 'https://accessfreetools.com/tools/basic-calculator/',
+    board: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+  },
+  {
+    slug: 'mortgage-calculator',
+    asset: 'mortgage-calculator.png',
+    title: 'Mortgage Calculator With Monthly Payment Guide',
+    description:
+      'Estimate mortgage payments, interest, taxes, and amortization with plain-language notes before comparing loan options.',
+    url: 'https://accessfreetools.com/tools/mortgage-calculator/',
+    board: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+  },
+  {
+    slug: 'bmi-calculator',
+    asset: 'bmi-calculator.png',
+    title: 'BMI Calculator With Clear Result Notes',
+    description:
+      'Estimate BMI and read what the range can and cannot tell you. Educational only, with health limits explained clearly.',
+    url: 'https://accessfreetools.com/tools/bmi-calculator/',
+    board: 'Health And Fitness Calculators',
+    boardSlug: 'health-and-fitness-calculators',
+  },
+  {
+    slug: 'wallpaper-calculator',
+    asset: 'wallpaper-calculator.png',
+    title: 'Wallpaper Calculator That Explains Waste Percent',
+    description:
+      'Estimate wallpaper rolls using wall size, roll coverage, pattern repeat, and a waste percent so you do not undercount cuts and matching.',
+    url: 'https://accessfreetools.com/tools/wallpaper-calculator/',
+    board: 'Home Project Calculators',
+    boardSlug: 'home-project-calculators',
+  },
+  {
+    slug: 'ai-tools',
+    asset: 'browser-ai-tools.png',
+    title: 'Browser AI Tools With Privacy Notes',
+    description:
+      'Try browser-side OCR, language detection, tone checking, reading level, keyword extraction, and summaries with clear model limits.',
+    url: 'https://accessfreetools.com/categories/ai-tools/',
+    board: 'AI Browser Tools',
+    boardSlug: 'ai-browser-tools',
+  },
+  {
+    slug: 'image-to-text-ocr-tool',
+    asset: 'image-to-text-ocr.png',
+    title: 'Free Image To Text OCR Tool In Your Browser',
+    description:
+      'Extract text from screenshots, notes, receipts, and images. The tool runs in the browser and explains OCR limits clearly.',
+    url: 'https://accessfreetools.com/tools/image-to-text-ocr-tool/',
+    board: 'AI Browser Tools',
+    boardSlug: 'ai-browser-tools',
+  },
+];
+
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const slugs = args
+    .filter((arg) => arg.startsWith('--slug='))
+    .flatMap((arg) => arg.slice('--slug='.length).split(','))
+    .map((slug) => slug.trim())
+    .filter(Boolean);
+
+  return {
+    publish: args.includes('--publish'),
+    all: args.includes('--all'),
+    cleanupOnly: args.includes('--cleanup-drafts'),
+    slugs,
+    limit: Number(args.find((arg) => arg.startsWith('--limit='))?.slice('--limit='.length) ?? Number.POSITIVE_INFINITY),
+    profileDir: resolve(args.find((arg) => arg.startsWith('--profile-dir='))?.slice('--profile-dir='.length) ?? DEFAULT_PROFILE_DIR),
+    reportPath: resolve(args.find((arg) => arg.startsWith('--report='))?.slice('--report='.length) ?? DEFAULT_OUTPUT_PATH),
+  };
+}
+
+function writeJson(path, value) {
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function assetPath(pin) {
+  return resolve('output', 'promotion', 'pinterest', pin.asset);
+}
+
+function wait(ms) {
+  return new Promise((resolvePromise) => setTimeout(resolvePromise, ms));
+}
+
+async function pageText(page, limit = 5000) {
+  return (await page.locator('body').innerText({ timeout: 8000 }).catch(() => '')).replace(/\s+/g, ' ').trim().slice(0, limit);
+}
+
+async function clickVisible(locator, after = 900) {
+  const count = await locator.count().catch(() => 0);
+
+  for (let index = 0; index < count; index += 1) {
+    const item = locator.nth(index);
+
+    if (!(await item.isVisible({ timeout: 900 }).catch(() => false))) {
+      continue;
+    }
+
+    await item.scrollIntoViewIfNeeded().catch(() => {});
+    await item.click({ timeout: 4000 }).catch(async () => item.click({ force: true, timeout: 4000 }));
+    await wait(after);
+    return true;
+  }
+
+  return false;
+}
+
+async function assertNoUnsafePinterestFlow(page) {
+  const text = await pageText(page);
+
+  if (/billing|campaign|budget|ads manager|ad group|payment method|payment details/i.test(text)) {
+    throw new Error('Pinterest opened an ad, billing, or campaign flow. Stopped before publishing.');
+  }
+}
+
+async function openOrganicCreatePage(page) {
+  await page.goto(PIN_CREATION_URL, { waitUntil: 'domcontentloaded', timeout: 45_000 });
+  await wait(4000);
+  await assertNoUnsafePinterestFlow(page);
+}
+
+async function boardUrl(pin) {
+  return `${PROFILE_URL}${pin.boardSlug}/`;
+}
+
+async function alreadyPublished(page, pin) {
+  await page.goto(await boardUrl(pin), { waitUntil: 'domcontentloaded', timeout: 45_000 });
+  await wait(6500);
+  const text = await pageText(page);
+  return text.includes(pin.title) || text.includes(pin.title.slice(0, 28));
+}
+
+async function selectOrCreateBoard(page, pin, report) {
+  const boardButton = page.locator('[role="button"]').filter({ hasText: /Choose a board|Free Online|Finance|Home Project|Health And Fitness|AI Browser/i }).last();
+  const box = await boardButton.boundingBox().catch(() => null);
+
+  if (box) {
+    await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  } else {
+    await page.mouse.click(920, 594);
+  }
+
+  await wait(3500);
+
+  let text = await pageText(page);
+
+  if (text.includes(pin.board)) {
+    const selected = await clickVisible(page.getByText(pin.board, { exact: true }), 2500);
+    if (!selected) {
+      await page.keyboard.type(pin.board, { delay: 5 });
+      await wait(1500);
+      await clickVisible(page.getByText(pin.board, { exact: true }), 2500);
+    }
+    report.steps.push(`selected-board:${pin.board}`);
+    return;
+  }
+
+  const searchInput = page.locator('input[placeholder="Search"]').last();
+  if (await searchInput.isVisible({ timeout: 1200 }).catch(() => false)) {
+    await searchInput.fill(pin.board);
+    await wait(2500);
+    text = await pageText(page);
+
+    if (text.includes(pin.board)) {
+      const selected = await clickVisible(page.getByText(pin.board, { exact: true }), 2500);
+
+      if (selected) {
+        report.steps.push(`searched-and-selected-board:${pin.board}`);
+        return;
+      }
+    }
+  }
+
+  const createClicked =
+    (await clickVisible(page.getByText('Create board', { exact: true }), 1600)) ||
+    (await clickVisible(page.locator('[role="button"]').filter({ hasText: 'Create board' }), 1600));
+
+  if (!createClicked) {
+    throw new Error(`Could not open Create board for "${pin.board}".`);
+  }
+
+  const input = page.locator('input[placeholder*="Places to Go"], input[placeholder*="Recipes to Make"]').last();
+  await input.fill(pin.board);
+  await wait(700);
+
+  const created = await clickVisible(page.getByRole('button', { name: /^Create$/ }), 3500);
+
+  if (!created) {
+    throw new Error(`Could not create board "${pin.board}".`);
+  }
+
+  report.steps.push(`created-board:${pin.board}`);
+  text = await pageText(page);
+
+  if (!text.includes(pin.board)) {
+    report.steps.push(`board-created-not-visible-yet:${pin.board}`);
+  }
+}
+
+async function fillDescription(page, description) {
+  const clicked =
+    (await clickVisible(page.getByText('Add a detailed description', { exact: true }), 400)) ||
+    (await clickVisible(page.locator('textarea'), 400));
+
+  if (!clicked) {
+    await page.mouse.click(912, 338);
+    await wait(400);
+  }
+
+  await page.keyboard.type(description, { delay: 2 });
+  await wait(500);
+}
+
+async function cleanupDrafts(page, report) {
+  report.steps ??= [];
+  await openOrganicCreatePage(page);
+
+  let deleted = 0;
+
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    const actions = page.locator('[aria-label="Pin draft actions"]');
+    const count = await actions.count().catch(() => 0);
+
+    if (count <= 0) {
+      break;
+    }
+
+    await actions.first().click({ force: true });
+    await wait(700);
+
+    const menuDelete = await clickVisible(page.getByText('Delete', { exact: true }), 900);
+
+    if (!menuDelete) {
+      break;
+    }
+
+    const confirmDelete = await clickVisible(page.getByRole('button', { name: /^Delete$|^Discard$/ }), 1600);
+
+    if (!confirmDelete) {
+      break;
+    }
+
+    deleted += 1;
+    await wait(1600);
+  }
+
+  report.draftsDeleted = deleted;
+  report.steps.push(`cleanup-drafts:${deleted}`);
+}
+
+async function publishPin(page, pin) {
+  const report = {
+    slug: pin.slug,
+    title: pin.title,
+    board: pin.board,
+    url: pin.url,
+    asset: assetPath(pin),
+    status: 'pending',
+    steps: [],
+  };
+
+  if (!existsSync(report.asset)) {
+    report.status = 'missing-asset';
+    report.reason = `Missing ${report.asset}. Run npm run promotion:pinterest-assets first.`;
+    return report;
+  }
+
+  if (await alreadyPublished(page, pin)) {
+    report.status = 'already-published';
+    report.boardUrl = await boardUrl(pin);
+    return report;
+  }
+
+  await openOrganicCreatePage(page);
+  report.steps.push('opened-organic-create-page');
+
+  await page.locator('input[type="file"]').first().setInputFiles(report.asset);
+  await wait(4500);
+  report.steps.push('uploaded-image');
+
+  await page.locator('input[placeholder="Add a title"]').fill(pin.title);
+  await fillDescription(page, pin.description);
+  await page.locator('input[placeholder="Add a link"]').fill(pin.url);
+  report.steps.push('filled-copy-and-link');
+
+  await selectOrCreateBoard(page, pin, report);
+  await wait(2500);
+
+  await assertNoUnsafePinterestFlow(page);
+
+  const published = await clickVisible(page.getByRole('button', { name: /^Publish$/ }), 12_000);
+
+  if (!published) {
+    throw new Error(`Publish button was not clickable for ${pin.slug}.`);
+  }
+
+  report.steps.push('clicked-publish');
+  await wait(12_000);
+
+  report.boardUrl = await boardUrl(pin);
+  report.verifiedAfterPublish = await alreadyPublished(page, pin);
+  report.status = report.verifiedAfterPublish ? 'published' : 'publish-clicked-unverified';
+
+  await cleanupDrafts(page, report);
+
+  return report;
+}
+
+async function main() {
+  const args = parseArgs();
+  const selectedPins = pins
+    .filter((pin) => args.all || args.slugs.includes(pin.slug))
+    .slice(0, Number.isFinite(args.limit) ? args.limit : pins.length);
+
+  const report = {
+    generatedAt: new Date().toISOString(),
+    profileUrl: PROFILE_URL,
+    profileDir: args.profileDir,
+    publish: args.publish,
+    cleanupOnly: args.cleanupOnly,
+    safety: ['organic pin creation only', 'no ads', 'no billing', 'no campaign setup', 'no password entry'],
+    selectedCount: selectedPins.length,
+    availableSlugs: pins.map((pin) => pin.slug),
+    results: [],
+  };
+
+  if (args.cleanupOnly) {
+    const context = await chromium.launchPersistentContext(args.profileDir, {
+      channel: 'msedge',
+      headless: false,
+      viewport: { width: 1365, height: 900 },
+    });
+    const page = context.pages()[0] || (await context.newPage());
+    await cleanupDrafts(page, report);
+    await context.close();
+    writeJson(args.reportPath, report);
+    return;
+  }
+
+  if (!selectedPins.length) {
+    report.status = 'no-selected-pins';
+    console.log('No pins selected. Use --slug=percentage-calculator or --all.');
+    writeJson(args.reportPath, report);
+    return;
+  }
+
+  if (!args.publish) {
+    report.status = 'dry-run';
+    report.results = selectedPins.map((pin) => ({
+      slug: pin.slug,
+      title: pin.title,
+      board: pin.board,
+      url: pin.url,
+      asset: assetPath(pin),
+      assetExists: existsSync(assetPath(pin)),
+    }));
+    console.log(`Pinterest dry run: ${selectedPins.length} selected pin(s). Add --publish to post organically.`);
+    writeJson(args.reportPath, report);
+    return;
+  }
+
+  const context = await chromium.launchPersistentContext(args.profileDir, {
+    channel: 'msedge',
+    headless: false,
+    viewport: { width: 1365, height: 900 },
+  });
+  const page = context.pages()[0] || (await context.newPage());
+  page.setDefaultTimeout(16_000);
+
+  try {
+    for (const pin of selectedPins) {
+      try {
+        const result = await publishPin(page, pin);
+        report.results.push(result);
+      } catch (error) {
+        const failed = {
+          slug: pin.slug,
+          title: pin.title,
+          status: 'failed',
+          error: String(error?.message ?? error),
+        };
+        report.results.push(failed);
+        await cleanupDrafts(page, failed).catch(() => {});
+      }
+    }
+  } finally {
+    await context.close().catch(() => {});
+  }
+
+  report.status = report.results.every((result) => ['published', 'already-published'].includes(result.status))
+    ? 'complete'
+    : 'needs-review';
+  writeJson(args.reportPath, report);
+  console.log(`Saved Pinterest publish report to ${args.reportPath}`);
+}
+
+main().catch((error) => {
+  console.error(error.message);
+  process.exit(1);
+});

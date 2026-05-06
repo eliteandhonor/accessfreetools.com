@@ -5,6 +5,24 @@ import react from '@astrojs/react';
 export default defineConfig({
   site: 'https://accessfreetools.com',
   output: 'server',
+  redirects: {
+    '/calculators': {
+      status: 301,
+      destination: '/categories/calculators/',
+    },
+    '/deep-research': {
+      status: 301,
+      destination: '/categories/ai-tools/',
+    },
+    '/advanced-age-calculator': {
+      status: 301,
+      destination: '/tools/age-calculator/',
+    },
+    '/maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025': {
+      status: 301,
+      destination: '/tools/ad-revenue-calculator/',
+    },
+  },
   adapter: node({
     mode: 'standalone',
     bodySizeLimit: 131072,
