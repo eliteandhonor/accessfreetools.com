@@ -507,8 +507,8 @@ const cfpbDebtCollection = {
 };
 
 const consumerBudgetWorksheet = {
-  href: 'https://consumer.gov/your-money/budget-worksheet',
-  label: 'consumer.gov: Budget Worksheet',
+  href: 'https://www.mymoney.gov/tools',
+  label: 'MyMoney.gov: Financial tools and budget resources',
 };
 
 const investorAnnuities = {

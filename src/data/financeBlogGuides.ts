@@ -44,8 +44,8 @@ const sourceLinks = {
     label: 'OpenStax Principles of Finance: Annuities and present value',
   },
   consumerBudgetWorksheet: {
-    href: 'https://consumer.gov/your-money/budget-worksheet',
-    label: 'consumer.gov: Budget Worksheet',
+    href: 'https://www.mymoney.gov/tools',
+    label: 'MyMoney.gov: Financial tools and budget resources',
   },
   pbgcPensionCoverage: {
     href: 'https://www.pbgc.gov/workers-retirees/learn/understanding-your-pension-pbgc-coverage',
