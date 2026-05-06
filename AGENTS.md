@@ -9,6 +9,7 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 - DataForSEO credentials must stay out of Git. They live in the local Codex MCP config or environment variables.
 - Check DataForSEO balance with `npm run dataforseo:account -- -- --min-balance=2`.
 - Tell the user to top up when the DataForSEO balance is at or below 2 USD, or when DataForSEO returns billing/account errors.
+- Indexing context: an earlier Access Free Tools site existed before this custom Astro site replaced it. Search Console and Bing may temporarily show stale URLs, old quality signals, old crawl paths, and slower re-indexing while search engines reconcile the replacement.
 
 ## New Tool Standard
 
@@ -35,3 +36,15 @@ Every new public tool should include:
 - Use `npm run search-console -- -- --submit-discovery` after major deploys.
 - Use `npm run search-console -- -- --inspect-key-urls` to track indexing for important URLs.
 - Use `npm run seo:self-evaluate` for the weekly SEO agent report after Search Console data is refreshed.
+
+## Promotion Agent Standard
+
+- Promotion accounts must be created or approved by the user because they involve passwords, identity checks, email/phone verification, CAPTCHA, and platform terms.
+- Pinterest Business was created by the user on 2026-05-06 and is the first active promotion channel. Reddit and Medium are still planned for later.
+- Never store promotion account passwords in Git, docs, automation prompts, reports, or generated output.
+- Use `docs/promotion-account-launch-kit.md` for Pinterest Business, Reddit, and Medium setup details.
+- Use `docs/promotion-queue.md` as the working list of pages to promote and their status.
+- Use `docs/promotion-share-kit.md` for safe profile bios, draft posts, and approval checks.
+- The agent may draft posts, recommend pages, prepare helpful replies, run SEO checks, submit discovery signals, and report opportunities.
+- The agent must not post publicly, send emails, run paid ads, create affiliate placements, or impersonate unrelated users without explicit approval.
+- Promotion should be useful first: answer the question, explain the calculation, disclose ownership when linking, and avoid spam tactics.

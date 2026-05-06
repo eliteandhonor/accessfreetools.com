@@ -1,0 +1,190 @@
+# Promotion Account Launch Kit
+
+This kit sets up the first three promotion channels for Access Free Tools:
+Pinterest Business, Reddit, and Medium. These accounts need the owner to create
+or approve them because they require identity, password, email, CAPTCHA, and
+terms acceptance. The Promotion Agent can prepare drafts and track work, but it
+must not create accounts, post publicly, send outreach, or use paid promotion
+without approval.
+
+## Shared Brand Details
+
+- Brand name: Access Free Tools
+- Website: https://accessfreetools.com/
+- Contact email: contact@accessfreetools.com
+- Short description: Fast, practical browser tools built one useful utility at a time.
+- Longer description: Access Free Tools offers free calculators, converters, AI text tools, home project helpers, finance estimators, and plain-language guides that run quickly in the browser.
+- Primary audience: students, homeowners, creators, small business owners, finance shoppers, DIY users, and anyone who needs a quick calculation without signup.
+- Safe promise: Free online tools with clear examples, privacy-friendly browser-first behavior where possible, and no fake ad boxes.
+
+## Username Ideas
+
+Try these in order:
+
+1. accessfreetools
+2. accessfree_tools
+3. accessfreetoolscom
+4. access.tools
+5. accessfreecalculators
+
+Use `accessfreetools` whenever available.
+
+## Pinterest Business
+
+Status: Created by the user on 2026-05-06.
+
+Security note: the account password must stay out of Git, docs, automation
+prompts, and reports. If a password was shared in chat or screenshots, change it
+inside Pinterest after setup is stable.
+
+Purpose: Pinterest can help evergreen utility content because people search for
+project, finance, recipe, classroom, and home-planning ideas.
+
+Setup fields:
+
+- Account type: Business
+- Display name: Access Free Tools
+- Username: accessfreetools
+- Website: https://accessfreetools.com/
+- Bio: Free calculators, converters, AI text tools, and practical guides for everyday math, home projects, finance, school, and browser tasks.
+- Email: contact@accessfreetools.com
+
+Recommended profile checks:
+
+- Confirm the public username is `accessfreetools` if available.
+- Confirm the public profile URL is added here after the user shares it.
+- Confirm the website field points to `https://accessfreetools.com/`.
+- Confirm the profile name is `Access Free Tools`, not only the email address.
+- Add the short bio above.
+- Add a simple branded logo or mark.
+- Enable two-factor authentication if Pinterest offers it for the account.
+
+Starter boards:
+
+- Free Online Calculators
+- Finance Calculators
+- Home Project Calculators
+- Health And Fitness Calculators
+- School And Study Tools
+- AI Browser Tools
+- Conversion Tools
+
+First pin targets:
+
+- https://accessfreetools.com/tools/basic-calculator/
+- https://accessfreetools.com/tools/percentage-calculator/
+- https://accessfreetools.com/tools/mortgage-calculator/
+- https://accessfreetools.com/tools/bmi-calculator/
+- https://accessfreetools.com/tools/wallpaper-calculator/
+- https://accessfreetools.com/tools/watts-to-amps-calculator/
+- https://accessfreetools.com/tools/image-to-text-ocr-tool/
+- https://accessfreetools.com/free-calculator-resources/
+
+Pin title style:
+
+- Keep titles literal and search-friendly.
+- Use the tool name first.
+- Avoid exaggerated promises.
+
+Example pin titles:
+
+- Free Percentage Calculator For Discounts And Percent Change
+- Mortgage Calculator With Monthly Payment And Amortization Guide
+- Wallpaper Calculator To Estimate Rolls And Waste Percent
+- Free Image To Text OCR Tool That Runs In Your Browser
+
+## Reddit
+
+Purpose: Reddit can build trust only when replies are genuinely helpful. This
+channel should be used carefully. Do not drop links into communities without
+reading their rules.
+
+Setup fields:
+
+- Username: accessfreetools or accessfreetoolscom
+- Profile display name: Access Free Tools
+- Profile bio: Free browser calculators, converters, and practical guides. I share helpful explanations and only link when it genuinely fits the question.
+- Website link: https://accessfreetools.com/
+
+Rules for the Promotion Agent:
+
+- Never mass-post links.
+- Never pretend to be an unrelated user.
+- Always disclose when linking to Access Free Tools.
+- Only suggest a link when the answer still helps without the link.
+- Do not post in finance, tax, health, or pregnancy communities unless the wording is cautious and non-professional.
+- Read each community's rules before drafting.
+
+Helpful reply template:
+
+```text
+You can estimate this by breaking it into the inputs first:
+
+1. [Explain the key input in simple terms.]
+2. [Explain the formula or decision point.]
+3. [Explain how to read the result.]
+
+I built a free browser tool for this here if you want to check the math: [URL]
+No signup needed, and the page explains the inputs too.
+```
+
+Starter communities to research, not auto-post:
+
+- Math homework/help communities where calculators are allowed
+- DIY/home improvement communities for material calculators
+- Personal finance communities only when rules allow tools and disclosures
+- Web developer communities for text, JSON, URL, and AI utility tools
+
+## Medium
+
+Purpose: Medium can work as a discovery and trust channel, but we should avoid
+copying full Access Free Tools guides word-for-word. Use short explainers,
+summaries, and canonical links back to the original guide.
+
+Setup fields:
+
+- Profile name: Access Free Tools
+- Username: accessfreetools
+- Bio: Clear guides for free calculators, converters, browser AI tools, and everyday problem-solving.
+- Website: https://accessfreetools.com/
+
+Publication idea:
+
+- Name: Access Free Tools Guides
+- Tagline: Simple guides for calculators, converters, AI browser tools, and everyday online utilities.
+
+Medium post rules:
+
+- Use short companion posts, not duplicate full blog pages.
+- Link to the original Access Free Tools guide as the main source.
+- Add a disclosure when discussing future affiliate products.
+- Keep the tone useful and plain.
+
+Starter Medium post ideas:
+
+- How To Pick The Right Free Calculator Online
+- How Percentage Calculators Help With Discounts, Tips, And Markups
+- What Waste Percent Means In A Wallpaper Calculator
+- Why Browser-Only AI Tools Are Useful For Privacy
+- How To Estimate Monthly Mortgage Payments Without Getting Lost
+
+## Account Security Checklist
+
+- Use a unique password for each account.
+- Turn on two-factor authentication where available.
+- Store recovery codes somewhere private.
+- Do not commit passwords, API tokens, or backup codes to Git.
+- Use `contact@accessfreetools.com` as the public business email.
+- Keep personal recovery email/phone private.
+
+## What The User Needs To Do
+
+1. Finish Pinterest profile details and share the public profile URL.
+2. Create the Reddit account later.
+3. Create the Medium account later.
+4. Verify email and any phone/CAPTCHA steps.
+5. Add the website URL to each profile.
+6. Tell Codex which usernames were accepted.
+
+After that, the Promotion Agent can maintain drafts, queue posts for approval,
+and recommend safe next actions.
