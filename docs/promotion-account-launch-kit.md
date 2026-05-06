@@ -189,7 +189,7 @@ Setup fields:
 - Profile name: Access Free Tools. Done 2026-05-06.
 - Username: accessfreetools. Done 2026-05-06.
 - Profile URL: https://medium.com/@accessfreetools. Done 2026-05-06.
-- Bio: Clear guides for free calculators, converters, browser AI tools, finance estimators, home project calculators, and school-friendly utilities. Done 2026-05-06.
+- Bio: Clear guides for free calculators, converters, finance estimators, home project calculators, and school-friendly utilities. Updated 2026-05-06.
 - Website: Medium did not show a dedicated free website field during setup, so
   use links inside approved companion posts and canonical/source URLs when
   Medium offers them.
@@ -198,7 +198,7 @@ Setup fields:
 Publication idea:
 
 - Name: Access Free Tools Guides
-- Tagline: Simple guides for calculators, converters, AI browser tools, and everyday online utilities.
+- Tagline: Simple guides for calculators, converters, project estimators, and everyday online utilities.
 
 Agent workflow:
 

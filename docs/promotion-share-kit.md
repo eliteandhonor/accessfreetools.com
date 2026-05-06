@@ -11,7 +11,7 @@ Free calculators, converters, AI browser tools, and practical guides for everyda
 
 ### Medium Bio
 
-Access Free Tools shares clear guides for free calculators, converters, browser AI tools, finance estimators, home project calculators, and school-friendly utilities.
+Access Free Tools shares clear guides for free calculators, converters, finance estimators, home project calculators, and school-friendly utilities.
 
 ### Reddit Bio
 

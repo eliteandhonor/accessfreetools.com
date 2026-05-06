@@ -34,6 +34,12 @@ npm run promotion:medium -- --slug=wallpaper-waste-percent
 Generated drafts are written to `output/promotion/medium/`. The output folder is
 ignored by Git because these are working drafts, not source files.
 
+The generator also writes:
+
+- `output/promotion/medium/_publishing-queue.md` with the recommended order.
+- `output/promotion/medium-promotion-report.json` with draft paths, source
+  URLs, canonical URLs, tags, word counts, and approval status.
+
 ## Starter Drafts
 
 - `right-free-online-calculator`
@@ -47,6 +53,9 @@ ignored by Git because these are working drafts, not source files.
 
 ## Publishing Rules
 
+- Run an SEO review before every public Medium post. At minimum, check
+  DataForSEO account/status, confirm the main keyword and search intent, and
+  keep the article tightly matched to that one topic.
 - Use short companion posts, not full copies of Access Free Tools blog guides.
 - Keep the disclosure line that says the post is from Access Free Tools.
 - Link to the original tool or guide.
@@ -55,19 +64,37 @@ ignored by Git because these are working drafts, not source files.
 - Do not add affiliate links until an affiliate disclosure is visible next to
   the link.
 - Do not use paid promotion unless the user explicitly asks for a paid campaign.
+- Publish one article at a time at first, then record the live Medium URL in
+  `docs/promotion-queue.md`.
+- Remove the internal publisher checklist before pasting if the public article
+  should be shorter.
+- Use the requested voice for first-wave posts: clear, practical, and smart
+  enough for a 15-year-old reader without sounding childish or stuffed with
+  keywords.
+
+## Recommended First Publishing Order
+
+1. `right-free-online-calculator`
+2. `percentage-calculator-discounts`
+3. `wallpaper-waste-percent`
+4. `browser-only-ai-tools-privacy`
+5. `mortgage-payment-before-shopping`
+6. `bmi-result-limits`
+7. `watts-to-amps-safety`
+8. `ad-revenue-calculator-creator`
 
 ## Manual Profile Checklist
 
 - Display name: `Access Free Tools`. Done 2026-05-06.
 - Username: `accessfreetools`. Done 2026-05-06.
 - Public profile URL: `https://medium.com/@accessfreetools`. Done 2026-05-06.
-- Bio: `Clear guides for free calculators, converters, browser AI tools, finance estimators, home project calculators, and school-friendly utilities.` Done 2026-05-06.
+- Bio: `Clear guides for free calculators, converters, finance estimators, home project calculators, and school-friendly utilities.` Updated 2026-05-06.
 - Website: Medium did not show a dedicated free website field during setup; use
   approved post links and canonical/source URLs.
 - Profile image: Access Free Tools branded avatar from Pinterest. Done
   2026-05-06.
 - Optional publication: `Access Free Tools Guides`
-- Optional publication tagline: `Simple guides for calculators, converters, AI browser tools, and everyday online utilities.`
+- Optional publication tagline: `Simple guides for calculators, converters, project estimators, and everyday online utilities.`
 
 ## Research Notes
 
