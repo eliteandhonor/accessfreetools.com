@@ -24,6 +24,8 @@
     "promotion:pinterest": "node scripts/pinterest-organic-publisher.mjs",
     "promotion:pinterest:starter": "node scripts/pinterest-organic-publisher.mjs --slug=tools,free-calculator-resources,percentage-calculator,basic-calculator,mortgage-calculator,bmi-calculator,wallpaper-calculator,ai-tools,image-to-text-ocr-tool --publish",
     "promotion:pinterest:cleanup": "node scripts/pinterest-organic-publisher.mjs --cleanup-drafts",
+    "promotion:medium": "node scripts/medium-promotion-agent.mjs",
+    "promotion:medium:starter": "node scripts/medium-promotion-agent.mjs --all",
     "dataforseo:account": "node scripts/dataforseo-account.mjs",
     "dataforseo:status": "node scripts/dataforseo-status.mjs",
     "dataforseo:status:sandbox": "node scripts/dataforseo-status.mjs --sandbox",

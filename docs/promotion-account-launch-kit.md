@@ -172,6 +172,10 @@ Starter communities to research, not auto-post:
 
 ## Medium
 
+Status: User logged in on Medium with `contact@accessfreetools.com` on
+2026-05-06 using Medium's email sign-in flow. The agent must not store a
+password, recovery link, email code, or session cookie.
+
 Purpose: Medium can work as a discovery and trust channel, but we should avoid
 copying full Access Free Tools guides word-for-word. Use short explainers,
 summaries, and canonical links back to the original guide.
@@ -188,12 +192,27 @@ Publication idea:
 - Name: Access Free Tools Guides
 - Tagline: Simple guides for calculators, converters, AI browser tools, and everyday online utilities.
 
+Agent workflow:
+
+- Generate companion drafts with `npm run promotion:medium:starter`.
+- Drafts are saved locally under `output/promotion/medium/` and ignored by Git.
+- The command is draft-only: it does not sign in, publish, send email, run ads,
+  or store credentials.
+- Copy one approved draft into Medium manually, add the canonical/source link
+  shown in the draft, and publish only after the user approves the post.
+- Medium's help docs say imported stories automatically add a canonical link to
+  the original source, but our default workflow still uses shorter companion
+  posts so we do not duplicate the full Access Free Tools guide.
+
 Medium post rules:
 
 - Use short companion posts, not duplicate full blog pages.
 - Link to the original Access Free Tools guide as the main source.
 - Add a disclosure when discussing future affiliate products.
 - Keep the tone useful and plain.
+- Do not put first-wave Medium posts behind a paywall.
+- Do not add affiliate links until the affiliate disclosure is visible near the
+  link and the site disclosure page is referenced where needed.
 
 Starter Medium post ideas:
 
@@ -202,6 +221,19 @@ Starter Medium post ideas:
 - What Waste Percent Means In A Wallpaper Calculator
 - Why Browser-Only AI Tools Are Useful For Privacy
 - How To Estimate Monthly Mortgage Payments Without Getting Lost
+- What A BMI Calculator Can And Cannot Tell You
+- How To Think About Ad Revenue Before Your Site Has Big Traffic
+- Watts To Amps Is Simple Math, But Electrical Context Matters
+
+Recommended profile checks:
+
+- Confirm display name is `Access Free Tools`.
+- Confirm username is `accessfreetools` if available.
+- Add website `https://accessfreetools.com/`.
+- Add the Medium Bio from `docs/promotion-share-kit.md`.
+- Add the same branded Access Free Tools avatar used on Pinterest.
+- If Medium offers profile social links, add Pinterest after the profile is
+  stable: `https://au.pinterest.com/accessfreetools/`.
 
 ## Account Security Checklist
 
@@ -216,7 +248,7 @@ Starter Medium post ideas:
 
 1. Finish Pinterest profile details and share the public profile URL.
 2. Create the Reddit account later.
-3. Create the Medium account later.
+3. Finish Medium profile details and tell Codex the public Medium profile URL.
 4. Verify email and any phone/CAPTCHA steps.
 5. Add the website URL to each profile.
 6. Tell Codex which usernames were accepted.
