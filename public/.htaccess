@@ -1,0 +1,4 @@
+RewriteEngine On
+
+RewriteCond %{HTTP_HOST} ^www\.accessfreetools\.com$ [NC]
+RewriteRule ^(.*)$ https://accessfreetools.com/$1 [R=301,L]
