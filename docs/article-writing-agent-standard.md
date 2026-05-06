@@ -105,3 +105,18 @@ Before approving an article, answer yes to all of these:
 - Is the link useful and disclosed when needed?
 - Is there no copied living-writer style?
 - Is there no keyword stuffing, filler, or off-topic promotion?
+
+## Medium Quality Gate
+
+Medium drafts must pass the automated writing-quality check before public
+posting or live edits:
+
+```bash
+npm run promotion:medium:quality
+```
+
+The gate checks for the basics that usually separate a useful article from a
+generic one: one clear topic, the main search phrase, realistic numbers, a real
+example, readable paragraphs, a direct reader voice, disclosure, source link,
+limits, no generic hype phrases, no off-topic AI drift, and a reading level that
+fits the Access Free Tools voice.

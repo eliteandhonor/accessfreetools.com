@@ -26,6 +26,8 @@
     "promotion:pinterest:cleanup": "node scripts/pinterest-organic-publisher.mjs --cleanup-drafts",
     "promotion:medium": "node scripts/medium-promotion-agent.mjs",
     "promotion:medium:starter": "node scripts/medium-promotion-agent.mjs --all",
+    "promotion:medium:quality": "node scripts/medium-promotion-agent.mjs --all && node scripts/check-medium-writing-quality.mjs output/promotion/medium",
+    "promotion:medium:quality:first": "node scripts/medium-promotion-agent.mjs --slug=right-free-online-calculator && node scripts/check-medium-writing-quality.mjs output/promotion/medium/right-free-online-calculator.md",
     "dataforseo:account": "node scripts/dataforseo-account.mjs",
     "dataforseo:status": "node scripts/dataforseo-status.mjs",
     "dataforseo:status:sandbox": "node scripts/dataforseo-status.mjs --sandbox",

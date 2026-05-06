@@ -31,6 +31,18 @@ Generate one draft:
 node scripts/medium-promotion-agent.mjs --slug=wallpaper-waste-percent
 ```
 
+Regenerate the starter drafts and run the writing-quality gate:
+
+```bash
+npm run promotion:medium:quality
+```
+
+Regenerate and check the first calculator post only:
+
+```bash
+npm run promotion:medium:quality:first
+```
+
 Generated drafts are written to `output/promotion/medium/`. The output folder is
 ignored by Git because these are working drafts, not source files.
 
@@ -56,6 +68,9 @@ The generator also writes:
 - Run an SEO review before every public Medium post. At minimum, check
   DataForSEO account/status, confirm the main keyword and search intent, and
   keep the article tightly matched to that one topic.
+- Run `npm run promotion:medium:quality` before public posting. The checker
+  fails drafts with thin word counts, missing disclosure/source links, missing
+  examples, generic hype phrases, too-high reading level, or topic drift.
 - Use short companion posts, not full copies of Access Free Tools blog guides.
 - Keep the disclosure line that says the post is from Access Free Tools.
 - Link to the original tool or guide.

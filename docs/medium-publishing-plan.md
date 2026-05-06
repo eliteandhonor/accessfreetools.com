@@ -22,6 +22,18 @@ npm run promotion:medium:starter
 This creates publish-ready drafts in `output/promotion/medium/` plus a queue
 file at `output/promotion/medium/_publishing-queue.md`.
 
+Before publishing or updating Medium, run:
+
+```bash
+npm run promotion:medium:quality
+```
+
+For the first calculator article only, run:
+
+```bash
+npm run promotion:medium:quality:first
+```
+
 ## First Wave
 
 1. How To Pick The Right Free Online Calculator
@@ -46,6 +58,7 @@ file at `output/promotion/medium/_publishing-queue.md`.
 
 - Run a quick SEO review before publishing: DataForSEO account/status, keyword
   intent, matching source URL, and no off-topic terms.
+- Run the Medium writing-quality gate and fix every error before publishing.
 - Check `docs/article-writing-agent-standard.md`.
 - Read the exact generated draft before posting.
 - Keep the disclosure that the article is from Access Free Tools.

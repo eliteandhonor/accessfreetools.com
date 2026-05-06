@@ -30,6 +30,7 @@ Every new public tool should include:
 - Use the Access Free Tools voice: smart 14-year-old clarity, practical examples, plain language, and honest limits.
 - Do not copy the personality, voice, or exact style of Neil Patel or any other living writer. Use public SEO lessons only: clear value, useful structure, evidence, examples, and a practical next step.
 - Run a small SEO review before public Medium articles: DataForSEO account/status, one main keyword intent, source URL match, and no off-topic terms.
+- Run `npm run promotion:medium:quality` before public Medium posts or live Medium edits.
 
 ## Competitor Research List
 
