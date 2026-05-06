@@ -42,6 +42,7 @@ Every new public tool should include:
 - Promotion accounts must be created or approved by the user because they involve passwords, identity checks, email/phone verification, CAPTCHA, and platform terms.
 - Pinterest Business was created by the user on 2026-05-06 and is the first active promotion channel. Reddit and Medium are still planned for later.
 - Never store promotion account passwords in Git, docs, automation prompts, reports, or generated output.
+- For promotion account browser work, do not use the in-app Browser Use surface. Use an external browser workflow only, and be explicit when access is blocked.
 - Use `docs/promotion-account-launch-kit.md` for Pinterest Business, Reddit, and Medium setup details.
 - Use `docs/promotion-queue.md` as the working list of pages to promote and their status.
 - Use `docs/promotion-share-kit.md` for safe profile bios, draft posts, and approval checks.

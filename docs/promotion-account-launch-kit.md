@@ -32,6 +32,12 @@ Use `accessfreetools` whenever available.
 ## Pinterest Business
 
 Status: Created by the user on 2026-05-06.
+Domain claim status: Pinterest HTML verification file is live at
+`https://accessfreetools.com/pinterest-95119.html`. The next owner action is to
+click Continue in Pinterest's claim flow and confirm the claim completes.
+Agent review status: external read-only review is set up, but the controlled
+external browser profile still needs the owner to log in manually once. The
+agent must not enter the account password.
 
 Security note: the account password must stay out of Git, docs, automation
 prompts, and reports. If a password was shared in chat or screenshots, change it

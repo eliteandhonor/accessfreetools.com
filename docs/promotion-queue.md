@@ -17,21 +17,22 @@ still require approval.
 
 Pinterest Business account status: created by the user on 2026-05-06. Use
 Pinterest as the first active promotion channel. Reddit and Medium are planned
-but not created yet.
+but not created yet. Pinterest domain verification file is live; the claim flow
+still needs the owner to click Continue in Pinterest.
 
 | Priority | Page | Main Angle | Channel | Status | Next Action |
 | --- | --- | --- | --- | --- | --- |
-| High | `/tools/` | Free online tools library with calculators, converters, AI tools, and guides | Pinterest | needs draft | Create broad "free online tools" pin draft |
-| High | `/free-calculator-resources/` | Free calculator resources hub for common calculations | Pinterest | needs draft | Create a hub-focused pin set |
+| High | `/tools/` | Free online tools library with calculators, converters, AI tools, and guides | Pinterest | needs approval | Review draft in `docs/promotion-share-kit.md` before posting |
+| High | `/free-calculator-resources/` | Free calculator resources hub for common calculations | Pinterest | needs approval | Review draft in `docs/promotion-share-kit.md` before posting |
 | High | `/tools/basic-calculator/` | Simple everyday calculator with guide and keyboard support | Pinterest | needs draft | Draft a beginner-friendly calculator pin |
-| High | `/tools/percentage-calculator/` | Discounts, percent change, markups, and reverse percentages | Pinterest | needs draft | Create shopping/math examples |
+| High | `/tools/percentage-calculator/` | Discounts, percent change, markups, and reverse percentages | Pinterest | needs approval | Review draft in `docs/promotion-share-kit.md` before posting |
 | High | `/tools/mortgage-calculator/` | Estimate monthly payments and understand amortization | Pinterest | needs draft | Draft cautious finance wording with disclaimer |
 | High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Medium, Reddit | needs draft | Create creator-focused explanation |
 | Medium | `/tools/bmi-calculator/` | BMI estimate with health disclaimer and plain-language result notes | Pinterest | needs draft | Create cautious visual post idea |
-| Medium | `/tools/wallpaper-calculator/` | Rolls, wall area, pattern repeat, and waste percent explained | Pinterest | needs draft | Create DIY example and "waste percent" explanation |
+| Medium | `/tools/wallpaper-calculator/` | Rolls, wall area, pattern repeat, and waste percent explained | Pinterest | needs approval | Review draft in `docs/promotion-share-kit.md` before posting |
 | Medium | `/tools/watts-to-amps-calculator/` | Electrical conversion with voltage and phase reminders | Reddit, Medium | needs draft | Create safe education-only explanation |
 | Medium | `/categories/ai-tools/` | Browser-side AI tools with privacy notes | Pinterest | needs draft | Create browser-only AI overview pin |
-| Medium | `/tools/image-to-text-ocr-tool/` | OCR text extraction in the browser with privacy limits | Pinterest | needs draft | Create OCR use-case pin |
+| Medium | `/tools/image-to-text-ocr-tool/` | OCR text extraction in the browser with privacy limits | Pinterest | needs approval | Review draft in `docs/promotion-share-kit.md` before posting |
 | Low | `/blog/` | Guide library for tool examples and explanations | Medium | waiting | Monitor index status before heavier promotion |
 
 ## Draft Template
