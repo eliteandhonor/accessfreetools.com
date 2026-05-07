@@ -15,6 +15,18 @@ const keepOpen = args.includes('--keep-open');
 const headless = args.includes('--headless');
 const manualWaitMs = Number(args.find((arg) => arg.startsWith('--manual-wait-ms='))?.slice('--manual-wait-ms='.length) ?? 0);
 
+function manualGateMessage(currentUrl, titleText = '', bodyText = '') {
+  if (/js_challenge|captcha|prove-your-humanity/i.test(`${currentUrl} ${titleText} ${bodyText}`)) {
+    return 'Reddit is requiring a human check before the profile post can be published. Complete the Reddit challenge in the external browser, then rerun this command.';
+  }
+
+  if (/login|log in|sign in|verify|challenge/i.test(`${currentUrl} ${titleText} ${bodyText}`)) {
+    return 'Manual Reddit login, email verification, CAPTCHA, or account verification is required in the external browser.';
+  }
+
+  return '';
+}
+
 function writeJson(path, value) {
   mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
@@ -94,9 +106,9 @@ async function run() {
     const currentUrl = page.url();
     const titleText = await page.title();
     const bodyText = (await page.locator('body').innerText({ timeout: 10000 }).catch(() => '')).slice(0, 2000);
-    const hardManualGate = /js_challenge|captcha|prove-your-humanity/i.test(currentUrl);
+    const manualGate = manualGateMessage(currentUrl, titleText, bodyText);
     const needsManual =
-      hardManualGate ||
+      Boolean(manualGate) ||
       (/login|log in|sign in|prove your humanity|captcha|verify|challenge/i.test(`${currentUrl} ${titleText} ${bodyText}`) &&
         !/Create post|Post to profile|Title/i.test(bodyText));
 
@@ -105,7 +117,7 @@ async function run() {
         currentUrl,
         title: titleText,
         needsManual: true,
-        action: 'Manual Reddit login, email verification, CAPTCHA, or human check is required in the external Edge profile.',
+        action: manualGate || 'Manual Reddit login, email verification, CAPTCHA, or human check is required in the external Edge profile.',
       });
       writeJson(REPORT_PATH, report);
       console.log(report.action);
@@ -127,13 +139,17 @@ async function run() {
     ]);
 
     if (!titleFilled || !bodyFilled) {
+      const blockedUrl = page.url();
+      const blockedTitle = await page.title();
+      const blockedText = (await page.locator('body').innerText({ timeout: 5000 }).catch(() => '')).slice(0, 2000);
+      const blockedGate = manualGateMessage(blockedUrl, blockedTitle, blockedText);
       Object.assign(report, {
-        currentUrl: page.url(),
-        title: await page.title(),
+        currentUrl: blockedUrl,
+        title: blockedTitle,
         needsManual: true,
         titleFilled,
         bodyFilled,
-        action: 'Could not find Reddit title/body fields. Finish the profile post manually in the opened external browser.',
+        action: blockedGate || 'Could not find Reddit title/body fields. Finish the profile post manually in the opened external browser.',
       });
       writeJson(REPORT_PATH, report);
       console.log(report.action);
