@@ -121,6 +121,16 @@ const qualityRules = {
     minNumbers: 4,
     requiredIdeas: ['rpm', 'impressions', 'estimate'],
   },
+  'voltage-drop-wire-length': {
+    primaryPhrase: 'voltage drop',
+    minNumbers: 4,
+    requiredIdeas: ['wire length', 'current', 'safety'],
+  },
+  'markdown-table-cleanup': {
+    primaryPhrase: 'markdown table',
+    minNumbers: 3,
+    requiredIdeas: ['header', 'row', 'copy'],
+  },
 };
 
 function parseArgs() {

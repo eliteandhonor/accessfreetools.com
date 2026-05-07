@@ -14,6 +14,8 @@ const publicationOrder = [
   'bmi-result-limits',
   'watts-to-amps-safety',
   'ad-revenue-calculator-creator',
+  'voltage-drop-wire-length',
+  'markdown-table-cleanup',
 ];
 
 const posts = [
@@ -296,6 +298,74 @@ const posts = [
     callout:
       'The Access Free Tools Watts To Amps Calculator explains voltage, phase, power factor, and safety limits in the tool notes.',
   },
+  {
+    slug: 'voltage-drop-wire-length',
+    title: 'Why Voltage Drop Matters Before You Choose Wire Length',
+    subtitle: 'Long wire runs can lose voltage. A calculator helps you test the numbers before you treat the plan as finished.',
+    sourceUrl: `${SITE_ORIGIN}/tools/voltage-drop-calculator/`,
+    canonicalUrl: `${SITE_ORIGIN}/blog/how-to-use-voltage-drop-calculator/`,
+    tags: ['Electrical', 'DIY', 'Calculators', 'Safety', 'Home'],
+    audience: 'DIY planners and learners checking simple voltage drop estimates.',
+    sections: [
+      {
+        heading: 'The basic formula idea',
+        paragraphs: [
+          'Voltage drop is the voltage lost as current moves through wire. A longer wire run, higher current, or smaller wire can increase the drop.',
+          'That is why the same device can behave differently when it is close to the panel compared with a long run across a garage, shed, or yard.',
+        ],
+      },
+      {
+        heading: 'The inputs that change the answer',
+        paragraphs: [
+          'A useful voltage drop calculator should make wire length, current, voltage, material, and wire size easy to see. If one of those inputs is wrong, the result can look precise but still be off.',
+          'The result is normally shown as volts lost and percent voltage drop. The percent matters because it helps compare a small circuit and a larger circuit in a fairer way.',
+        ],
+      },
+      {
+        heading: 'The safety line',
+        paragraphs: [
+          'Voltage drop math is not the same as permission to wire something. Real electrical work also depends on breaker size, insulation rating, temperature, conduit, code rules, and whether the load is continuous.',
+          'Use the number as a planning clue. For actual wiring decisions, check official electrical code or a qualified electrician.',
+        ],
+      },
+    ],
+    callout:
+      'The Access Free Tools Voltage Drop Calculator explains wire length, current, voltage, wire size, and result limits in plain language.',
+  },
+  {
+    slug: 'markdown-table-cleanup',
+    title: 'How To Make A Markdown Table Without Fighting The Spacing',
+    subtitle: 'Markdown tables are simple when the rows are lined up, but annoying when you build them by hand.',
+    sourceUrl: `${SITE_ORIGIN}/tools/markdown-table-generator/`,
+    canonicalUrl: `${SITE_ORIGIN}/blog/how-to-use-markdown-table-generator/`,
+    tags: ['Markdown', 'Writing', 'Developer Tools', 'Productivity', 'Guides'],
+    audience: 'Students, writers, developers, and documentation editors making quick Markdown tables.',
+    sections: [
+      {
+        heading: 'Why Markdown tables get messy',
+        paragraphs: [
+          'A Markdown table is just text, so tiny spacing mistakes can make it hard to read while editing. The final page may still render, but the source can become painful fast.',
+          'A table generator helps by letting you think about the rows and columns first, then copying clean Markdown when the structure is ready.',
+        ],
+      },
+      {
+        heading: 'The parts that matter',
+        paragraphs: [
+          'A basic Markdown table needs a header row, a separator row, and the body rows. The separator row is the line with dashes that tells Markdown where the headers end.',
+          'If you want alignment, colons can tell Markdown whether a column should be left, center, or right aligned. That is useful for numbers, prices, scores, and short labels.',
+        ],
+      },
+      {
+        heading: 'A better workflow',
+        paragraphs: [
+          'Start with the column names, add the rows, preview the result, and copy the final Markdown. If a row needs more detail, keep the cell short or link to another section instead of stuffing a paragraph into the table.',
+          'That keeps the table useful for readers and easier to maintain later.',
+        ],
+      },
+    ],
+    callout:
+      'The Access Free Tools Markdown Table Generator helps create clean Markdown tables with rows, columns, alignment, preview, and copy-ready output.',
+  },
 ];
 
 const publishEnhancements = {
@@ -551,6 +621,72 @@ const publishEnhancements = {
       'Do not use a calculator alone to size wiring, breakers, extension cords, or circuits.',
       'Check whether the load is DC, single-phase AC, or three-phase AC.',
       'Ask a qualified electrician or official code source before doing real electrical work.',
+    ],
+  },
+  'voltage-drop-wire-length': {
+    preview:
+      'Voltage drop is easy to ignore until a long wire run changes the result. This post explains the inputs, the percent result, and the safety limits.',
+    seoReview:
+      'DataForSEO reviewed on 2026-05-07: "voltage drop calculator" is informational intent. Keep the post educational, safety-aware, and tightly matched to wire length, current, voltage, and percent drop.',
+    hook: [
+      'Voltage drop sounds like a tiny detail until the wire run gets long. Then the same load can become a different planning problem.',
+      'The useful question is not just "will the device turn on?" It is "how much voltage could be lost before the power reaches the load?"',
+    ],
+    quickAnswer: [
+      'Voltage drop is the voltage lost in the wire between the power source and the load. A voltage drop calculator estimates that loss from wire length, current, voltage, wire size, and wire material.',
+      'For example, a 60 foot run with a higher current will usually lose more voltage than a 10 foot run at the same wire size. The result is usually easier to read as both volts lost and percent drop.',
+    ],
+    whyItMatters: [
+      'This matters because a low-looking number can still be important on a sensitive or long run. Voltage drop can affect performance, heat, efficiency, and whether the setup is a good idea.',
+    ],
+    bestUse: [
+      'Use this as an early planning check before comparing wire sizes or asking a professional for help.',
+      'It is especially useful for sheds, garages, outdoor runs, low-voltage lighting, and battery setups where distance changes the math.',
+    ],
+    example: {
+      heading: 'A quick wire run example',
+      paragraphs: [
+        'Suppose you compare a 20 foot run and an 80 foot run with the same current and wire size. The longer run usually has more resistance, so the voltage drop estimate goes up.',
+        'If the percent drop looks high, the next step is not guessing. It is checking wire size, current, distance, and code guidance before treating the plan as ready.',
+      ],
+    },
+    limits: [
+      'A voltage drop calculator is not a wiring permit or a code check.',
+      'Breaker size, wire ampacity, insulation, conduit, temperature, and local rules still matter.',
+      'If the result affects real electrical work, use qualified advice and official code guidance.',
+    ],
+  },
+  'markdown-table-cleanup': {
+    preview:
+      'A practical guide to making Markdown tables without hand-spacing every row. Useful for docs, school notes, GitHub READMEs, and quick comparisons.',
+    seoReview:
+      'DataForSEO reviewed on 2026-05-07: "markdown table generator" is informational intent. Keep this post practical and tool-focused for writers, students, and developers.',
+    hook: [
+      'Markdown tables look easy until one row has a longer word than the others. Then the neat little table starts looking like homework from a printer that gave up.',
+      'A table generator fixes the boring part so you can focus on what the table is supposed to explain.',
+    ],
+    quickAnswer: [
+      'A Markdown table generator lets you enter headers, rows, and alignment choices, then copy clean Markdown. You do not have to count spaces or rebuild the separator row by hand.',
+      'For example, a 3-column table for Tool, Use, and Link can be built once, previewed, and copied into a README, blog draft, issue, or school note.',
+    ],
+    whyItMatters: [
+      'This matters because tables are supposed to make information easier to scan. If the source table is messy, it becomes harder to update, and small mistakes are easier to miss.',
+    ],
+    bestUse: [
+      'Use it when you need a quick comparison table, checklist table, pricing table, tool list, or documentation table.',
+      'It is best for short cells. If a cell needs a whole paragraph, the table is probably trying to do too much.',
+    ],
+    example: {
+      heading: 'A quick table example',
+      paragraphs: [
+        'Say you want 3 columns: Calculator, Best for, and Link. Add those as headers, then add 3 rows: Percentage Calculator, Mortgage Calculator, and BMI Calculator.',
+        'The generator can turn that into a clean Markdown table with 1 header row, 1 separator row, and 3 body rows that you can paste without fixing every pipe symbol yourself.',
+      ],
+    },
+    limits: [
+      'Markdown table support can vary a little between editors.',
+      'Very wide tables may still be hard to read on mobile screens.',
+      'Keep cell text short, preview before posting, and link out when a row needs more detail.',
     ],
   },
 };

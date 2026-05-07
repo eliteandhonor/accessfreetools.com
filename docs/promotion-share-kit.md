@@ -80,6 +80,93 @@ URL: https://accessfreetools.com/tools/
 
 Status: posted to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06.
 
+## Second Pinterest Drafts
+
+Generated on 2026-05-07 by `npm run promotion:pinterest-assets`. DataForSEO
+intent checks for these target topics came back informational, so captions
+should stay helpful and explanation-first. Do not post until the exact pin is
+approved.
+
+### Voltage Drop Calculator
+
+Title: Voltage Drop Calculator For Wire Length Checks
+
+Description: Estimate voltage drop from wire length, current, voltage, wire size, and material. Use it as a planning clue, not electrical approval.
+
+URL: https://accessfreetools.com/tools/voltage-drop-calculator/
+
+Status: needs approval.
+
+### Sand Calculator
+
+Title: Sand Calculator For Pavers, Bases, And Landscaping
+
+Description: Estimate sand volume and weight from area and depth before planning a small home project or garden job.
+
+URL: https://accessfreetools.com/tools/sand-calculator/
+
+Status: needs approval.
+
+### Markdown Table Generator
+
+Title: Markdown Table Generator For Clean Rows And Columns
+
+Description: Build clean Markdown tables with headers, rows, alignment, preview, and copy-ready output for docs, notes, and READMEs.
+
+URL: https://accessfreetools.com/tools/markdown-table-generator/
+
+Status: needs approval.
+
+### Body Surface Area Calculator
+
+Title: Body Surface Area Calculator With Plain Result Notes
+
+Description: Estimate body surface area from height and weight with simple explanations and health-result limits.
+
+URL: https://accessfreetools.com/tools/body-surface-area-calculator/
+
+Status: needs approval.
+
+### Speed Calculator
+
+Title: Speed Calculator For Distance, Time, And Pace Questions
+
+Description: Calculate speed, distance, or time for travel, school math, pacing, and simple motion examples.
+
+URL: https://accessfreetools.com/tools/speed-calculator/
+
+Status: needs approval.
+
+### Payment Calculator
+
+Title: Payment Calculator For Quick Loan Estimates
+
+Description: Estimate a loan payment from principal, interest rate, and term, then read the finance limits before using the number.
+
+URL: https://accessfreetools.com/tools/payment-calculator/
+
+Status: needs approval.
+
+### Hex Calculator
+
+Title: Hex Calculator For Binary, Decimal, And Code Checks
+
+Description: Convert and calculate hexadecimal values for learning number bases, checking code examples, and comparing binary or decimal values.
+
+URL: https://accessfreetools.com/tools/hex-calculator/
+
+Status: needs approval.
+
+### Amp Hours To Watt Hours
+
+Title: Amp Hours To Watt Hours Calculator For Batteries
+
+Description: Convert battery amp-hours to watt-hours with voltage so capacity is easier to compare.
+
+URL: https://accessfreetools.com/tools/amp-hours-to-watt-hours-calculator/
+
+Status: needs approval.
+
 ## First Pinterest Boards
 
 - Free Online Calculators
@@ -147,6 +234,8 @@ The command writes ready-to-paste companion drafts under
 - What A BMI Calculator Can And Cannot Tell You
 - How To Think About Ad Revenue Before Your Site Has Big Traffic
 - Watts To Amps Is Simple Math, But Electrical Context Matters
+- Why Voltage Drop Matters Before You Choose Wire Length
+- How To Make A Markdown Table Without Fighting The Spacing
 
 Rules for all Medium drafts:
 

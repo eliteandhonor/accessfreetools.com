@@ -74,6 +74,8 @@ The generator also writes:
 - `bmi-result-limits`
 - `ad-revenue-calculator-creator`
 - `watts-to-amps-safety`
+- `voltage-drop-wire-length`
+- `markdown-table-cleanup`
 
 ## Publishing Rules
 
@@ -118,6 +120,8 @@ The generator also writes:
 6. `bmi-result-limits`
 7. `watts-to-amps-safety`
 8. `ad-revenue-calculator-creator`
+9. `voltage-drop-wire-length`
+10. `markdown-table-cleanup`
 
 ## Manual Profile Checklist
 
