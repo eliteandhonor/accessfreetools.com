@@ -62,6 +62,7 @@ npm run check:structured-data
 npm run check:performance
 npm run check:ai-assets
 npm run check:external-links
+npm run check:production-sitemap
 node scripts/dataforseo-account.mjs --min-balance=2
 npm run dataforseo:status
 npm run dataforseo:status:sandbox

@@ -51,7 +51,9 @@
     "indexnow:submit": "node scripts/indexnow-submit.mjs --all --verify-production",
     "test:smoke": "npm run build && playwright test",
     "security:audit": "npm audit --audit-level=moderate",
-    "check": "npm run typecheck && npm test && npm run build && npm run check:links && npm run check:site && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run security:audit"
+    "check": "npm run typecheck && npm test && npm run build && npm run check:links && npm run check:site && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run security:audit",
+    "check:production-sitemap": "node scripts/check-production-sitemap.mjs",
+    "promotion:reddit:publish-profile": "node scripts/reddit-publish-profile-post.mjs --confirm-public-post"
   },
   "engines": {
     "node": ">=22"

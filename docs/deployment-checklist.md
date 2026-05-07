@@ -78,6 +78,7 @@ These steps need the site owner account:
   - `npm run search-console -- -- --submit-discovery`
   - `npm run search-console -- -- --inspect-key-urls`
   - `npm run search-console -- -- --site=https://accessfreetools.com/`
+  - `npm run check:production-sitemap`
 - Keep the Google OAuth client JSON out of Git. Use `.local/google-search-console-client-secret.json`, `GSC_CLIENT_SECRET_PATH`, or `--client-secret=...`.
 
 ## Monetization Readiness

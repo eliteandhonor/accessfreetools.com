@@ -30,6 +30,7 @@ Git, docs, output reports, or automation prompts.
 npm run promotion:reddit
 npm run promotion:reddit:quality
 npm run promotion:reddit:setup-browser
+npm run promotion:reddit:publish-profile
 ```
 
 `promotion:reddit:quality` is the normal command. It writes drafts to
@@ -40,6 +41,11 @@ misses important limitation wording.
 `promotion:reddit:setup-browser` opens an external Edge profile at Reddit's
 profile settings page. It does not store or enter the password. If Reddit asks
 for login, CAPTCHA, email verification, or phone/2FA, the user must complete it.
+
+`promotion:reddit:publish-profile` uses an approved profile-post draft and
+submits it to `u/accessfreetools` only. The package script includes the hard
+`--confirm-public-post` flag, and the script stops if Reddit asks for login,
+CAPTCHA, email verification, phone, or 2FA.
 
 ## Best First Setup
 

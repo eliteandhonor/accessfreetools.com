@@ -43,6 +43,7 @@ const SITE_HEADER_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/SiteHeader.astro', import.meta.url)),
   'utf8',
 );
+const MIDDLEWARE_SOURCE = readFileSync(fileURLToPath(new URL('../middleware.ts', import.meta.url)), 'utf8');
 const ASTRO_CONFIG_SOURCE = readFileSync(fileURLToPath(new URL('../../astro.config.mjs', import.meta.url)), 'utf8');
 const PACKAGE_JSON_SOURCE = readFileSync(fileURLToPath(new URL('../../package.json', import.meta.url)), 'utf8');
 const TOOLS_LAUNCHPAD_SOURCE = readFileSync(
@@ -87,6 +88,10 @@ const REDDIT_EXTERNAL_SETUP_SOURCE = readFileSync(
   fileURLToPath(new URL('../../scripts/reddit-external-setup.mjs', import.meta.url)),
   'utf8',
 );
+const REDDIT_PROFILE_PUBLISH_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/reddit-publish-profile-post.mjs', import.meta.url)),
+  'utf8',
+);
 const LLMS_SOURCE = readFileSync(fileURLToPath(new URL('../pages/llms.txt.ts', import.meta.url)), 'utf8');
 const CALCULATOR_GUIDE_ARTICLE_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/CalculatorGuideArticle.astro', import.meta.url)),
@@ -120,8 +125,16 @@ const DATAFORSEO_STATUS_SOURCE = readFileSync(
   fileURLToPath(new URL('../../scripts/dataforseo-status.mjs', import.meta.url)),
   'utf8',
 );
+const PRODUCTION_SITEMAP_CHECK_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/check-production-sitemap.mjs', import.meta.url)),
+  'utf8',
+);
 const SEO_SELF_EVALUATION_SOURCE = readFileSync(
   fileURLToPath(new URL('../../scripts/seo-agent-self-evaluation.mjs', import.meta.url)),
+  'utf8',
+);
+const GOOGLE_SEARCH_CENTRAL_NOTES_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../docs/google-search-central-notes.md', import.meta.url)),
   'utf8',
 );
 const RETIRED_PRIVACY_INBOX = ['privacy', 'accessfreetools.com'].join('@');
@@ -770,6 +783,7 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts['promotion:reddit']).toBe('node scripts/reddit-promotion-agent.mjs --all');
     expect(PACKAGE_JSON.scripts['promotion:reddit:quality']).toContain('check-reddit-promotion-quality.mjs');
     expect(PACKAGE_JSON.scripts['promotion:reddit:setup-browser']).toContain('reddit-external-setup.mjs');
+    expect(PACKAGE_JSON.scripts['promotion:reddit:publish-profile']).toContain('--confirm-public-post');
     expect(PACKAGE_JSON.scripts['promotion:weekly-review']).toContain('promotion:pinterest:rss-report');
     expect(PACKAGE_JSON.scripts['promotion:weekly-review']).toContain('promotion:reddit:quality');
     expect(REDDIT_PROMOTION_AGENT_SOURCE).toContain("username: 'accessfreetools'");
@@ -781,6 +795,10 @@ describe('site content audit guardrails', () => {
     expect(REDDIT_QUALITY_SOURCE).toContain('community-rules reminder');
     expect(REDDIT_EXTERNAL_SETUP_SOURCE).toContain("channel: 'msedge'");
     expect(REDDIT_EXTERNAL_SETUP_SOURCE).toContain('passwordStored: false');
+    expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('Refusing to publish without --confirm-public-post');
+    expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('PROFILE_SUBMIT_URL');
+    expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('passwordStored: false');
+    expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('Disclosure: this is my own project');
     expect(REDDIT_PROMOTION_DOC_SOURCE).toContain('Status: active draft-first channel');
     expect(REDDIT_PROMOTION_DOC_SOURCE).toContain('store the Reddit password');
     expect(REDDIT_PROMOTION_DOC_SOURCE).toContain('https://support.reddithelp.com');
@@ -794,6 +812,10 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts['check:performance']).toBe('node scripts/check-performance-budget.mjs');
     expect(PACKAGE_JSON.scripts['check:ai-assets']).toBe('node scripts/check-ai-lazy-assets.mjs');
     expect(PACKAGE_JSON.scripts['check:external-links']).toBe('node scripts/check-external-links.mjs');
+    expect(PACKAGE_JSON.scripts['check:production-sitemap']).toBe('node scripts/check-production-sitemap.mjs');
+    expect(PRODUCTION_SITEMAP_CHECK_SOURCE).toContain('output/search-console-performance.json');
+    expect(PRODUCTION_SITEMAP_CHECK_SOURCE).toContain('LEGACY_URLS');
+    expect(PRODUCTION_SITEMAP_CHECK_SOURCE).toContain('Hard failures');
     expect(PACKAGE_JSON.scripts['dataforseo:status']).toBe('node scripts/dataforseo-status.mjs');
     expect(PACKAGE_JSON.scripts['dataforseo:status:sandbox']).toBe('node scripts/dataforseo-status.mjs --sandbox');
     expect(PACKAGE_JSON.scripts['test:smoke']).toBe('npm run build && playwright test');
@@ -822,6 +844,14 @@ describe('site content audit guardrails', () => {
     expect(SEO_SELF_EVALUATION_SOURCE).toContain('broadResearchStop');
     expect(SEO_SELF_EVALUATION_SOURCE).toContain('LEGACY_REDIRECTS');
     expect(SEO_SELF_EVALUATION_SOURCE).toContain('/categories/calculators/');
+    expect(GOOGLE_SEARCH_CENTRAL_NOTES_SOURCE).toContain('https://developers.google.com/search/docs?hl=en');
+    expect(GOOGLE_SEARCH_CENTRAL_NOTES_SOURCE).toContain('Server error (5xx)');
+    expect(GOOGLE_SEARCH_CENTRAL_NOTES_SOURCE).toContain('/advanced-age-calculator');
+    expect(MIDDLEWARE_SOURCE).toContain('LEGACY_REDIRECTS');
+    expect(MIDDLEWARE_SOURCE).toContain('/advanced-age-calculator');
+    expect(MIDDLEWARE_SOURCE).toContain('/tools/age-calculator/');
+    expect(MIDDLEWARE_SOURCE).toContain('/maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025');
+    expect(MIDDLEWARE_SOURCE).toContain('/tools/ad-revenue-calculator/');
     expect(SEO_SELF_EVALUATION_SOURCE).toContain('/dataforseo_labs/google/serp_competitors/live');
     expect(SEO_SELF_EVALUATION_SOURCE).toContain('/dataforseo_labs/google/related_keywords/live');
     expect(SEO_SELF_EVALUATION_SOURCE).toContain('Paid keyword research skipped');

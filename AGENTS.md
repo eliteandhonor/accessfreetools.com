@@ -6,6 +6,7 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 
 - Use Google Search Console for real indexing, click, impression, CTR, and average-position data.
 - Use DataForSEO for competitor research, live SERP checks, keyword discovery, and domain/keyword baselines when the task involves SEO research.
+- Check `docs/google-search-central-notes.md` before changing indexing, redirect, sitemap, or content-quality SEO logic.
 - DataForSEO credentials must stay out of Git. They live in the local Codex MCP config or environment variables.
 - Check `docs/dataforseo-knowledgebase-notes.md` before changing SEO automation logic.
 - For rank tracking, use priority tiers, `stop_crawl_on_match`, and targeted `depth`/range settings before any broad top-100 SERP crawl.
