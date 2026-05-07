@@ -23,6 +23,7 @@
     "promotion:pinterest-assets": "node scripts/generate-pinterest-assets.mjs",
     "promotion:pinterest": "node scripts/pinterest-organic-publisher.mjs",
     "promotion:pinterest:starter": "node scripts/pinterest-organic-publisher.mjs --slug=tools,free-calculator-resources,percentage-calculator,basic-calculator,mortgage-calculator,bmi-calculator,wallpaper-calculator,ai-tools,image-to-text-ocr-tool --publish",
+    "promotion:pinterest:second-wave": "node scripts/pinterest-organic-publisher.mjs --slug=voltage-drop-calculator,sand-calculator,markdown-table-generator,body-surface-area-calculator,speed-calculator,payment-calculator,hex-calculator,amp-hours-to-watt-hours-calculator --publish",
     "promotion:pinterest:cleanup": "node scripts/pinterest-organic-publisher.mjs --cleanup-drafts",
     "promotion:medium": "node scripts/medium-promotion-agent.mjs",
     "promotion:medium:starter": "node scripts/medium-promotion-agent.mjs --all",

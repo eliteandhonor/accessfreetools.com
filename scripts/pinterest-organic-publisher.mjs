@@ -98,6 +98,86 @@ const pins = [
     board: 'AI Browser Tools',
     boardSlug: 'ai-browser-tools',
   },
+  {
+    slug: 'voltage-drop-calculator',
+    asset: 'voltage-drop-calculator.png',
+    title: 'Voltage Drop Calculator For Wire Length Checks',
+    description:
+      'Estimate voltage drop from wire length, current, voltage, wire size, and material. Use it as a planning clue, not electrical approval.',
+    url: 'https://accessfreetools.com/tools/voltage-drop-calculator/',
+    board: 'Home Project Calculators',
+    boardSlug: 'home-project-calculators',
+  },
+  {
+    slug: 'sand-calculator',
+    asset: 'sand-calculator.png',
+    title: 'Sand Calculator For Pavers, Bases, And Landscaping',
+    description:
+      'Estimate sand volume and weight from area and depth before planning a small home project or garden job.',
+    url: 'https://accessfreetools.com/tools/sand-calculator/',
+    board: 'Home Project Calculators',
+    boardSlug: 'home-project-calculators',
+  },
+  {
+    slug: 'markdown-table-generator',
+    asset: 'markdown-table-generator.png',
+    title: 'Markdown Table Generator For Clean Rows And Columns',
+    description:
+      'Build clean Markdown tables with headers, rows, alignment, preview, and copy-ready output for docs, notes, and READMEs.',
+    url: 'https://accessfreetools.com/tools/markdown-table-generator/',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
+  {
+    slug: 'body-surface-area-calculator',
+    asset: 'body-surface-area-calculator.png',
+    title: 'Body Surface Area Calculator With Plain Result Notes',
+    description:
+      'Estimate body surface area from height and weight with simple explanations and health-result limits. Educational only.',
+    url: 'https://accessfreetools.com/tools/body-surface-area-calculator/',
+    board: 'Health And Fitness Calculators',
+    boardSlug: 'health-and-fitness-calculators',
+  },
+  {
+    slug: 'speed-calculator',
+    asset: 'speed-calculator.png',
+    title: 'Speed Calculator For Distance, Time, And Pace Questions',
+    description:
+      'Calculate speed, distance, or time for travel, school math, pacing, and simple motion examples.',
+    url: 'https://accessfreetools.com/tools/speed-calculator/',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
+  {
+    slug: 'payment-calculator',
+    asset: 'payment-calculator.png',
+    title: 'Payment Calculator For Quick Loan Estimates',
+    description:
+      'Estimate a loan payment from principal, interest rate, and term, then read the finance limits before using the number.',
+    url: 'https://accessfreetools.com/tools/payment-calculator/',
+    board: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+  },
+  {
+    slug: 'hex-calculator',
+    asset: 'hex-calculator.png',
+    title: 'Hex Calculator For Binary, Decimal, And Code Checks',
+    description:
+      'Convert and calculate hexadecimal values for learning number bases, checking code examples, and comparing binary or decimal values.',
+    url: 'https://accessfreetools.com/tools/hex-calculator/',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
+  {
+    slug: 'amp-hours-to-watt-hours-calculator',
+    asset: 'amp-hours-to-watt-hours.png',
+    title: 'Amp Hours To Watt Hours Calculator For Batteries',
+    description:
+      'Convert battery amp-hours to watt-hours with voltage so capacity is easier to compare. Use estimates carefully for real electrical setups.',
+    url: 'https://accessfreetools.com/tools/amp-hours-to-watt-hours-calculator/',
+    board: 'Home Project Calculators',
+    boardSlug: 'home-project-calculators',
+  },
 ];
 
 function parseArgs() {

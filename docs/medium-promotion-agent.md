@@ -21,6 +21,9 @@ affiliate links.
   and `npm run promotion:medium:quality`, then reports the best update/publish
   candidate. It must not publish or update live Medium posts without owner
   approval.
+- The current 10-draft queue was approved by the user on 2026-05-07. Keep the
+  quality gate and one-at-a-time posting rule so live Medium posts stay useful
+  and do not look like duplicate bulk content.
 
 ## Commands
 
