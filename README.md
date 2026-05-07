@@ -62,15 +62,18 @@ npm run check:structured-data
 npm run check:performance
 npm run check:ai-assets
 npm run check:external-links
-npm run dataforseo:account -- -- --min-balance=2
+node scripts/dataforseo-account.mjs --min-balance=2
 npm run dataforseo:status
 npm run dataforseo:status:sandbox
+npm run seo:daily
 npm run seo:onpage-audit
 npm run audit:local
 npm run audit:deep
+npm run audit:deep:no-paid
 npm run seo:self-evaluate
 npm run indexnow:verify-key
 npm run indexnow:dry-run
+npm run promotion:weekly-review
 npm run test:smoke
 ```
 
@@ -112,5 +115,6 @@ When creating a new tool, follow this checklist:
 - Use `docs/manual-deep-review-plan.md` to track the top manual reviews without overstating generated baseline checks.
 - Use `docs/full-site-improvement-plan.md` and `docs/all-tools-review-register.md` to keep the quality plan scoped to every tool.
 - Use `docs/qa-automation-plan.md` to track automated checks and the Playwright smoke-test lane.
+- Use `docs/automation-operating-plan.md` for the active 10am Codex automation jobs and their safety limits.
 - Use `docs/promotion-account-launch-kit.md`, `docs/promotion-queue.md`, and `docs/promotion-share-kit.md` for safe promotion setup and agent-ready drafts.
 - Use `docs/site-audit-2026-04-30.md` as the latest audit snapshot.
