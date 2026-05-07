@@ -163,6 +163,11 @@ function stripFrontmatter(content) {
   return content.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, '');
 }
 
+function extractFrontmatterValue(content, key) {
+  const match = content.match(new RegExp(`^${key}:\\s*"?([^"\\r\\n]+)"?\\s*$`, 'm'));
+  return match?.[1]?.trim() ?? '';
+}
+
 function getPublicArticle(content) {
   const withoutFrontmatter = stripFrontmatter(content);
   const start = withoutFrontmatter.indexOf('# ');
@@ -219,6 +224,16 @@ function fleschKincaidGrade(text) {
 
 function extractTitle(article) {
   return article.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? '';
+}
+
+function extractHeroImage(article) {
+  const match = article.match(/!\[([^\]]+)\]\((https:\/\/accessfreetools\.com\/medium\/[a-z0-9-]+\.jpg)\)/);
+  return match
+    ? {
+        alt: match[1].trim(),
+        url: match[2].trim(),
+      }
+    : null;
 }
 
 function extractHeadings(article) {
@@ -404,6 +419,15 @@ function lintArticle(file) {
   const text = plainText(article);
   const lower = text.toLowerCase();
   const title = extractTitle(article);
+  const heroImage = extractHeroImage(article);
+  const canonicalUrl = extractFrontmatterValue(content, 'canonical_url_to_set');
+  const heroImageUrl = extractFrontmatterValue(content, 'hero_image_url');
+  const heroImagePath = extractFrontmatterValue(content, 'hero_image_path');
+  const heroAlt = extractFrontmatterValue(content, 'hero_alt');
+  const tags = extractFrontmatterValue(content, 'tags')
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
   const headings = extractHeadings(article);
   const words = wordsFrom(text);
   const grade = fleschKincaidGrade(text);
@@ -431,6 +455,37 @@ function lintArticle(file) {
 
   if (!lower.includes(rules.primaryPhrase.toLowerCase())) {
     errors.push(`Primary phrase missing from public article: "${rules.primaryPhrase}".`);
+  }
+
+  if (!canonicalUrl.startsWith('https://accessfreetools.com/')) {
+    errors.push('Missing canonical_url_to_set frontmatter for the matching Access Free Tools source.');
+  }
+
+  if (tags.length < 3 || tags.length > 5) {
+    errors.push(`Medium tags should include 3-5 focused tags; found ${tags.length}.`);
+  }
+
+  if (!heroImage) {
+    errors.push('Missing public hero image Markdown at the top of the Medium article.');
+  } else if (heroImage.url !== `https://accessfreetools.com/medium/${slug}.jpg`) {
+    errors.push(`Hero image URL should be https://accessfreetools.com/medium/${slug}.jpg.`);
+  }
+
+  if (heroImageUrl !== `https://accessfreetools.com/medium/${slug}.jpg`) {
+    errors.push(`hero_image_url frontmatter should be https://accessfreetools.com/medium/${slug}.jpg.`);
+  }
+
+  if (heroImagePath !== `public/medium/${slug}.jpg`) {
+    errors.push(`hero_image_path frontmatter should be public/medium/${slug}.jpg.`);
+  }
+
+  const effectiveAlt = heroAlt || heroImage?.alt || '';
+  if (effectiveAlt.length < 45 || effectiveAlt.length > 180) {
+    errors.push(`Hero image alt text should be 45-180 characters; found ${effectiveAlt.length}.`);
+  }
+
+  if (heroImage && heroAlt && heroImage.alt !== heroAlt) {
+    errors.push('Hero image alt text in Markdown must match hero_alt frontmatter.');
   }
 
   if (words.length < 520 || words.length > 1200) {
@@ -528,6 +583,11 @@ function lintArticle(file) {
     },
     reviewerSignals: {
       primaryPhrase: rules.primaryPhrase,
+      canonicalUrl,
+      heroImageUrl,
+      heroImagePath,
+      heroAlt: effectiveAlt,
+      tags,
       primaryPhraseCount: seo.primaryCount,
       primaryPhraseDensityPercent: seo.density,
       uniqueRatio: originality.uniqueRatio,

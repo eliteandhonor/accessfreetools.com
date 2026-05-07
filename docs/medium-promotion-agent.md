@@ -45,9 +45,20 @@ Regenerate the starter drafts and run the writing-quality gate:
 npm run promotion:medium:quality
 ```
 
-This also runs the Medium article reviewer. It scores each draft for SEO,
-originality, human reading interest, and overall quality. The JSON report is
-saved to `output/promotion/medium-quality-report.json`.
+This also generates branded Medium hero images, then runs the Medium article
+reviewer. It scores each draft for SEO, originality, human reading interest,
+and overall quality. The JSON report is saved to
+`output/promotion/medium-quality-report.json`.
+
+Generate only the Medium hero images:
+
+```bash
+npm run promotion:medium:images
+```
+
+Hero images are written to `public/medium/` so they can be uploaded to Medium
+or imported by URL. The draft metadata includes the matching image URL, local
+path, and alt text.
 
 Regenerate and check the first calculator post only:
 
@@ -93,6 +104,8 @@ The generator also writes:
 - Keep the disclosure line that says the post is from Access Free Tools.
 - Link to the original tool or guide.
 - Set the canonical/source URL shown in the draft when Medium offers the option.
+- Upload or import the matching hero image from `public/medium/` and set the
+  draft's `hero_alt` text before publishing.
 - Keep first-wave posts free, not paywalled.
 - Do not add affiliate links until an affiliate disclosure is visible next to
   the link.

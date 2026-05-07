@@ -368,6 +368,29 @@ const posts = [
   },
 ];
 
+const heroAltText = {
+  'right-free-online-calculator':
+    'Branded calculator graphic for choosing the right free online calculator by checking the question, inputs, and result.',
+  'percentage-calculator-discounts':
+    'Branded percentage calculator graphic showing discounts, tips, markups, and percent-change checks.',
+  'wallpaper-waste-percent':
+    'Branded wallpaper calculator graphic explaining waste percent for trimming, pattern matching, corners, and mistakes.',
+  'browser-only-ai-tools-privacy':
+    'Branded browser-side AI tools graphic showing private OCR, language, tone, and reading checks.',
+  'mortgage-payment-before-shopping':
+    'Branded mortgage calculator graphic for estimating monthly payments before home shopping.',
+  'bmi-result-limits':
+    'Branded BMI calculator graphic explaining that BMI is a quick height-and-weight screening estimate.',
+  'watts-to-amps-safety':
+    'Branded watts-to-amps calculator graphic reminding readers to check voltage, phase, and electrical safety limits.',
+  'ad-revenue-calculator-creator':
+    'Branded ad revenue calculator graphic showing RPM, impressions, and traffic scenarios without income promises.',
+  'voltage-drop-wire-length':
+    'Branded voltage drop calculator graphic showing wire length, current, voltage, and percent drop.',
+  'markdown-table-cleanup':
+    'Branded Markdown table generator graphic showing clean headers, rows, preview, and copy-ready output.',
+};
+
 const publishEnhancements = {
   'right-free-online-calculator': {
     preview:
@@ -760,15 +783,20 @@ function renderBullets(items) {
 function markdown(post) {
   const extra = publishEnhancements[post.slug];
   const tags = post.tags.join(', ');
+  const heroImageUrl = `${SITE_ORIGIN}/medium/${post.slug}.jpg`;
+  const heroImagePath = `public/medium/${post.slug}.jpg`;
+  const heroAlt = heroAltText[post.slug] ?? `Branded Access Free Tools hero image for ${post.title}.`;
   const sections = post.sections
     .map(
       (section) => `## ${section.heading}\n\n${section.paragraphs.join('\n\n')}`,
     )
     .join('\n\n');
 
-  const articleBody = `# ${post.title}
+const articleBody = `# ${post.title}
 
 ${post.subtitle}
+
+![${heroAlt}](${heroImageUrl})
 
 ${renderParagraphs(extra.hook)}
 
@@ -814,6 +842,9 @@ approval_required: true
 channel: "Medium"
 source_url: "${post.sourceUrl}"
 canonical_url_to_set: "${post.canonicalUrl}"
+hero_image_url: "${heroImageUrl}"
+hero_image_path: "${heroImagePath}"
+hero_alt: "${escapeYaml(heroAlt)}"
 recommended_preview: "${escapeYaml(extra.preview)}"
 tags: "${tags}"
 word_count_estimate: ${wordCount}
@@ -824,6 +855,9 @@ reading_time_minutes_estimate: ${readingTime}
 Publisher notes:
 - Approval required before posting publicly.
 - Recommended Medium preview: ${extra.preview}
+- Hero image to upload or import: ${heroImagePath}
+- Hero image URL: ${heroImageUrl}
+- Hero alt text: ${heroAlt}
 - Audience: ${post.audience}
 - Set Medium canonical/source URL to: ${post.canonicalUrl}
 - Suggested tags: ${tags}
@@ -838,6 +872,7 @@ ${articleBody}
 ## Publisher checklist
 
 - Owner approved this exact article.
+- Hero image uploaded or imported, with alt text checked.
 - Canonical/source URL set to ${post.canonicalUrl}.
 - Link tested: ${post.sourceUrl}.
 - Tags set: ${tags}.
@@ -875,6 +910,8 @@ ${rows}
 - Publish one article at a time at first so we can watch indexing, clicks, and audience response.
 - Follow docs/article-writing-agent-standard.md before publishing. Keep the voice clear enough for a smart 14-year-old without copying a living writer.
 - Keep the canonical/source URL set to the matching Access Free Tools page.
+- Upload or import the matching hero image from public/medium and set the alt
+  text before publishing.
 - Keep posts free and useful. Do not run paid promotion.
 - Do not add affiliate links until there is a nearby disclosure and a clear reason for the link.
 - After publishing, add the public Medium URL to docs/promotion-queue.md and mark the item posted.
@@ -925,6 +962,9 @@ function main() {
       publicPath,
       sourceUrl: post.sourceUrl,
       canonicalUrl: post.canonicalUrl,
+      heroImageUrl: `${SITE_ORIGIN}/medium/${post.slug}.jpg`,
+      heroImagePath: `public/medium/${post.slug}.jpg`,
+      heroAlt: heroAltText[post.slug],
       tags: post.tags,
       status: 'needs approval',
       wordCount,

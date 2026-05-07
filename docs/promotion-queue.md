@@ -53,9 +53,13 @@ passed `npm run promotion:medium:quality` with every draft above the SEO,
 originality, human-interest, and overall score thresholds. These drafts are
 ready for external Medium publishing, but they are not marked `posted` unless a
 live Medium URL is visible and checked.
-The second live Medium companion post was published and checked on
-2026-05-07:
+The second live Medium companion post was published, updated with a branded
+hero image, and checked on 2026-05-07:
 `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`.
+Follow-up from the 2026-05-07 review: Medium posts now require a branded hero
+image, alt text, canonical/source URL metadata, and focused tags in the local
+quality gate before future public posting. The live percentage article now uses
+the generated `public/medium/percentage-calculator-discounts.jpg` hero image.
 Pinterest RSS remains ready on the site side: use
 `https://accessfreetools.com/pinterest-feed.xml` for the future-pins feed or
 the board-specific feeds under `/pinterest/*.xml`. The latest RSS report found
@@ -70,7 +74,7 @@ the board-specific feeds under `/pinterest/*.xml`. The latest RSS report found
 | High | `/tools/percentage-calculator/` | Discounts, percent change, markups, and reverse percentages | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
 | High | `/tools/mortgage-calculator/` | Estimate monthly payments and understand amortization | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/finance-calculators/` on 2026-05-06 |
 | High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Medium, Reddit | approved | Medium draft approved on 2026-05-07; ready to publish after the current live Medium result is reviewed |
-| High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4` |
+| High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image added and re-published in external Medium editor |
 | High | `/tools/mortgage-calculator/` | Early home-shopping payment estimate with finance limits | Medium | approved | Medium draft approved on 2026-05-07; finance limits included |
 | Medium | `/tools/bmi-calculator/` | BMI estimate with health disclaimer and plain-language result notes | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/health-and-fitness-calculators/` on 2026-05-06 |
 | Medium | `/tools/bmi-calculator/` | BMI estimate limits explained carefully | Medium | approved | Medium draft approved on 2026-05-07; health limits included |

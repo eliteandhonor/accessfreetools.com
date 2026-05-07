@@ -118,8 +118,14 @@ npm run promotion:medium:quality
 The gate checks for the basics that usually separate a useful article from a
 generic one: one clear topic, the main search phrase, realistic numbers, a real
 example, readable paragraphs, a direct reader voice, disclosure, source link,
-limits, no generic hype phrases, no off-topic AI drift, and a reading level that
-fits the Access Free Tools voice.
+canonical/source URL metadata, 3-5 focused tags, a branded hero image with alt
+text, limits, no generic hype phrases, no off-topic AI drift, and a reading
+level that fits the Access Free Tools voice.
+
+Medium articles should not go live as text-only posts. Use
+`npm run promotion:medium:images` or the full quality command to generate the
+matching `public/medium/{slug}.jpg` image, then upload or import that image
+before the first paragraph and set the alt text from the draft metadata.
 
 The checker also acts as an article reviewer and writes a score report to
 `output/promotion/medium-quality-report.json`. Minimum scores:
