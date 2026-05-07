@@ -93,6 +93,10 @@ const REDDIT_PROFILE_PUBLISH_SOURCE = readFileSync(
   fileURLToPath(new URL('../../scripts/reddit-publish-profile-post.mjs', import.meta.url)),
   'utf8',
 );
+const REDDIT_PROFILE_VERIFY_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/reddit-verify-profile-post.mjs', import.meta.url)),
+  'utf8',
+);
 const LLMS_SOURCE = readFileSync(fileURLToPath(new URL('../pages/llms.txt.ts', import.meta.url)), 'utf8');
 const CALCULATOR_GUIDE_ARTICLE_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/CalculatorGuideArticle.astro', import.meta.url)),
@@ -785,6 +789,7 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts['promotion:reddit:quality']).toContain('check-reddit-promotion-quality.mjs');
     expect(PACKAGE_JSON.scripts['promotion:reddit:setup-browser']).toContain('reddit-external-setup.mjs');
     expect(PACKAGE_JSON.scripts['promotion:reddit:publish-profile']).toContain('--confirm-public-post');
+    expect(PACKAGE_JSON.scripts['promotion:reddit:verify-profile']).toContain('reddit-verify-profile-post.mjs');
     expect(PACKAGE_JSON.scripts['promotion:weekly-review']).toContain('promotion:pinterest:rss-report');
     expect(PACKAGE_JSON.scripts['promotion:weekly-review']).toContain('promotion:reddit:quality');
     expect(REDDIT_PROMOTION_AGENT_SOURCE).toContain("username: 'accessfreetools'");
@@ -800,17 +805,19 @@ describe('site content audit guardrails', () => {
     expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('PROFILE_SUBMIT_URL');
     expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('passwordStored: false');
     expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('Disclosure: this is my own project');
-    expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('submitted/.json?limit=10');
+    expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('verifyMatchingProfilePostInBrowser');
     expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('duplicateSkipped');
     expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('shreddit-composer');
-    expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('curl.exe');
-    expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('PUBLISHED_PROFILE_POSTS');
+    expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('verifiedInBrowser');
+    expect(REDDIT_PROFILE_PUBLISH_SOURCE).toContain('needsVerification');
+    expect(REDDIT_PROFILE_VERIFY_SOURCE).toContain('Matching Reddit profile post is not visible');
+    expect(REDDIT_PROFILE_VERIFY_SOURCE).toContain('passwordStored: false');
     expect(REDDIT_PROMOTION_DOC_SOURCE).toContain('Status: active draft-first channel');
-    expect(REDDIT_PROMOTION_DOC_SOURCE).toContain('how_to_calculate_a_discount_without_guessing');
+    expect(REDDIT_PROMOTION_DOC_SOURCE).toContain('First profile post attempt');
     expect(REDDIT_PROMOTION_DOC_SOURCE).toContain('store the Reddit password');
     expect(REDDIT_PROMOTION_DOC_SOURCE).toContain('https://support.reddithelp.com');
     expect(PROMOTION_QUEUE_SOURCE).toContain('created by the user on 2026-05-07 as `u/accessfreetools`');
-    expect(PROMOTION_QUEUE_SOURCE).toContain('how_to_calculate_a_discount_without_guessing');
+    expect(PROMOTION_QUEUE_SOURCE).toContain('Do not treat a Reddit post as posted');
     expect(PROMOTION_QUEUE_SOURCE).toContain('npm run promotion:reddit:quality');
     expect(PACKAGE_JSON.scripts.typecheck).toBe('tsc --noEmit');
     expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run src/data/siteContentAudit.test.ts');

@@ -1,5 +1,4 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
 import { dirname, resolve } from 'node:path';
 import { chromium } from '@playwright/test';
 
@@ -8,13 +7,7 @@ const DEFAULT_DRAFT = resolve('output', 'promotion', 'reddit', 'drafts', 'percen
 const REPORT_PATH = resolve('output', 'promotion', 'reddit', 'reddit-profile-publish-report.json');
 const PROFILE_SUBMIT_URL = 'https://www.reddit.com/user/accessfreetools/submit?type=TEXT';
 const PUBLIC_PROFILE_URL = 'https://www.reddit.com/user/accessfreetools/';
-const PUBLISHED_PROFILE_POSTS = [
-  {
-    title: 'How to calculate a discount without guessing',
-    sourcePath: '/tools/percentage-calculator/',
-    postUrl: 'https://www.reddit.com/r/u_accessfreetools/comments/1t61gx6/how_to_calculate_a_discount_without_guessing/',
-  },
-];
+const PUBLIC_PROFILE_POSTS_URL = `${PUBLIC_PROFILE_URL}submitted/`;
 
 const args = process.argv.slice(2);
 const draftPath = resolve(args.find((arg) => arg.startsWith('--draft='))?.slice('--draft='.length) ?? DEFAULT_DRAFT);
@@ -55,20 +48,47 @@ function extractDraft(markdown) {
   return { title, body };
 }
 
-async function findMatchingProfilePost(draft) {
-  const listingUrl = `${PUBLIC_PROFILE_URL}submitted/.json?limit=10`;
-  const sourceUrl = draft.body.match(/https:\/\/accessfreetools\.com\/\S+/)?.[0]?.replace(/[).,]+$/, '');
-  const knownPost = PUBLISHED_PROFILE_POSTS.find(
-    (post) => post.title === draft.title && (!sourceUrl || sourceUrl.includes(post.sourcePath)),
-  );
+function sourceUrlFromDraft(draft) {
+  return draft.body.match(/https:\/\/accessfreetools\.com\/\S+/)?.[0]?.replace(/[).,]+$/, '') ?? '';
+}
 
-  if (knownPost) {
+async function verifyMatchingProfilePostInBrowser(page, draft) {
+  const sourceUrl = sourceUrlFromDraft(draft);
+  const profileUrls = [PUBLIC_PROFILE_POSTS_URL, PUBLIC_PROFILE_URL];
+
+  for (const profileUrl of profileUrls) {
+    await page.goto(profileUrl, { waitUntil: 'domcontentloaded', timeout: 60000 }).catch(() => undefined);
+    await page.waitForTimeout(5000);
+
+    const bodyText = await page.locator('body').innerText({ timeout: 15000 }).catch(() => '');
+    const bodyTextLower = bodyText.toLowerCase();
+    const titleMatches = bodyTextLower.includes(draft.title.toLowerCase());
+    const sourceMatches = !sourceUrl || bodyText.includes(sourceUrl);
+
+    if (!titleMatches || !sourceMatches) {
+      continue;
+    }
+
+    const postUrl =
+      (await page
+        .locator(`a:has-text("${draft.title.replaceAll('"', '\\"')}")`)
+        .first()
+        .getAttribute('href')
+        .catch(() => '')) || page.url();
+
     return {
-      title: knownPost.title,
-      postUrl: knownPost.postUrl,
-      createdUtc: null,
+      title: draft.title,
+      postUrl: postUrl ? new URL(postUrl, 'https://www.reddit.com').toString() : page.url(),
+      verifiedOn: page.url(),
     };
   }
+
+  return null;
+}
+
+async function findMatchingProfilePostCandidate(draft) {
+  const listingUrl = `${PUBLIC_PROFILE_POSTS_URL}.json?limit=10`;
+  const sourceUrl = draft.body.match(/https:\/\/accessfreetools\.com\/\S+/)?.[0]?.replace(/[).,]+$/, '');
 
   function parseListing(text) {
     const data = JSON.parse(text);
@@ -101,19 +121,7 @@ async function findMatchingProfilePost(draft) {
 
     return parseListing(await response.text());
   } catch {
-    // Reddit can return different bot-protection behavior to Node fetch than
-    // to a normal browser-like request. Use curl as a duplicate-check fallback.
-    try {
-      const curl = process.platform === 'win32' ? 'curl.exe' : 'curl';
-      const text = execFileSync(curl, ['-L', '-s', '-A', 'Mozilla/5.0 accessfreetools audit', listingUrl], {
-        encoding: 'utf8',
-        timeout: 15000,
-        maxBuffer: 1024 * 1024,
-      });
-      return parseListing(text);
-    } catch {
-      return null;
-    }
+    return null;
   }
 }
 
@@ -138,6 +146,26 @@ async function fillField(page, value, factories) {
   }
 
   try {
+    const tagName = await field.evaluate((element) => element.tagName.toLowerCase()).catch(() => '');
+    if (tagName === 'faceplate-textarea-input') {
+      const filled = await field.evaluate((element, nextValue) => {
+        const textarea = element.shadowRoot?.querySelector('textarea');
+        if (!textarea) {
+          return false;
+        }
+
+        textarea.focus();
+        textarea.value = nextValue;
+        textarea.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true, data: nextValue }));
+        textarea.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
+        return textarea.value === nextValue;
+      }, value);
+
+      if (filled) {
+        return true;
+      }
+    }
+
     await field.click();
     await field.fill(value);
     return true;
@@ -161,23 +189,7 @@ async function run() {
   }
 
   const draft = extractDraft(readFileSync(draftPath, 'utf8'));
-  const existingPost = await findMatchingProfilePost(draft);
-  if (existingPost) {
-    writeJson(REPORT_PATH, {
-      generatedAt: new Date().toISOString(),
-      draftPath,
-      target: PROFILE_SUBMIT_URL,
-      publicProfile: PUBLIC_PROFILE_URL,
-      confirmed,
-      passwordStored: false,
-      posted: true,
-      duplicateSkipped: true,
-      postUrl: existingPost.postUrl,
-      action: 'Matching Reddit profile post already exists, so duplicate publishing was skipped.',
-    });
-    console.log('Matching Reddit profile post already exists, so duplicate publishing was skipped.');
-    return;
-  }
+  const apiCandidate = await findMatchingProfilePostCandidate(draft);
 
   const browser = await chromium.launchPersistentContext(DEFAULT_PROFILE_DIR, {
     channel: 'msedge',
@@ -196,6 +208,22 @@ async function run() {
   };
 
   try {
+    const existingPost = await verifyMatchingProfilePostInBrowser(page, draft);
+    if (existingPost) {
+      writeJson(REPORT_PATH, {
+        ...report,
+        posted: true,
+        duplicateSkipped: true,
+        verifiedInBrowser: true,
+        apiCandidate,
+        postUrl: existingPost.postUrl,
+        verifiedOn: existingPost.verifiedOn,
+        action: 'Matching Reddit profile post is visible in the external Edge profile, so duplicate publishing was skipped.',
+      });
+      console.log('Matching Reddit profile post is visible in the external Edge profile, so duplicate publishing was skipped.');
+      return;
+    }
+
     await page.goto(PROFILE_SUBMIT_URL, { waitUntil: 'domcontentloaded', timeout: 60000 });
     if (manualWaitMs > 0) {
       await page.waitForTimeout(manualWaitMs);
@@ -222,13 +250,27 @@ async function run() {
       return;
     }
 
+    await page
+      .waitForSelector('faceplate-textarea-input[name="title"], textarea[name="title"], input[name="title"]', {
+        timeout: 15000,
+      })
+      .catch(() => undefined);
+    await page
+      .waitForSelector('[contenteditable="true"][aria-label="Post body text field"], shreddit-composer[name="body"]', {
+        timeout: 15000,
+      })
+      .catch(() => undefined);
+
     const titleFilled = await fillField(page, draft.title, [
+      () => page.locator('faceplate-textarea-input[name="title"] textarea'),
+      () => page.locator('faceplate-textarea-input[name="title"]'),
       () => page.locator('textarea[name="title"]'),
       () => page.locator('input[name="title"]'),
       () => page.getByPlaceholder(/title/i),
       () => page.getByLabel(/title/i),
     ]);
     const bodyFilled = await fillField(page, draft.body, [
+      () => page.locator('[contenteditable="true"][aria-label="Post body text field"]'),
       () => page.locator('textarea[name="text"]'),
       () => page.locator('textarea[name="body"]'),
       () => page.locator('shreddit-composer[name="body"]'),
@@ -260,6 +302,7 @@ async function run() {
     }
 
     const postButton = await firstVisible([
+      () => page.locator('r-post-form-submit-button#submit-post-button button#inner-post-submit-button'),
       () => page.getByRole('button', { name: /^post$/i }),
       () => page.getByRole('button', { name: /post|publish/i }),
       () => page.locator('button[type="submit"]'),
@@ -282,16 +325,33 @@ async function run() {
 
     await postButton.click();
     await page.waitForLoadState('domcontentloaded', { timeout: 30000 }).catch(() => undefined);
-    await page.waitForTimeout(3000);
-    const publishedPost = await findMatchingProfilePost(draft);
+    await page.waitForTimeout(10000);
+    const publishedPost = await verifyMatchingProfilePostInBrowser(page, draft);
 
-    Object.assign(report, {
-      currentUrl: page.url(),
-      title: await page.title(),
-      posted: true,
-      postUrl: publishedPost?.postUrl,
-      action: 'Reddit profile post was submitted from the external Edge profile.',
-    });
+    if (publishedPost) {
+      Object.assign(report, {
+        currentUrl: page.url(),
+        title: await page.title(),
+        posted: true,
+        verifiedInBrowser: true,
+        apiCandidate,
+        postUrl: publishedPost.postUrl,
+        verifiedOn: publishedPost.verifiedOn,
+        action: 'Reddit profile post was submitted and verified visible in the external Edge profile.',
+      });
+    } else {
+      Object.assign(report, {
+        currentUrl: page.url(),
+        title: await page.title(),
+        posted: false,
+        needsVerification: true,
+        apiCandidate,
+        pageSnippet: (await page.locator('body').innerText({ timeout: 5000 }).catch(() => '')).slice(0, 2000),
+        action:
+          'The Reddit Post button was clicked, but the post was not visible on the profile afterward. Treat this as not posted until the external profile visibly shows it.',
+      });
+    }
+
     writeJson(REPORT_PATH, report);
     console.log(report.action);
   } finally {

@@ -6,8 +6,11 @@ The user created `u/accessfreetools` with `contact@accessfreetools.com`. Do not
 store the Reddit password, recovery links, codes, cookies, or session data in
 Git, docs, output reports, or automation prompts.
 
-First profile post published on 2026-05-07:
-`https://www.reddit.com/r/u_accessfreetools/comments/1t61gx6/how_to_calculate_a_discount_without_guessing/`.
+First profile post attempt on 2026-05-07: unverified. Reddit appeared to submit
+the post, but a later external-browser verification showed no posts on
+`u/accessfreetools`, and the saved permalink returned "Page not found." Do not
+record a Reddit post as published unless the external profile visibly shows it
+after submission.
 
 ## What This Agent Does
 
@@ -34,6 +37,7 @@ npm run promotion:reddit
 npm run promotion:reddit:quality
 npm run promotion:reddit:setup-browser
 npm run promotion:reddit:publish-profile
+npm run promotion:reddit:verify-profile
 ```
 
 `promotion:reddit:quality` is the normal command. It writes drafts to
@@ -48,8 +52,12 @@ for login, CAPTCHA, email verification, or phone/2FA, the user must complete it.
 `promotion:reddit:publish-profile` uses an approved profile-post draft and
 submits it to `u/accessfreetools` only. The package script includes the hard
 `--confirm-public-post` flag, and the script stops if Reddit asks for login,
-CAPTCHA, email verification, phone, or 2FA. It checks the public profile feed
-first and skips publishing if the matching profile post already exists.
+CAPTCHA, email verification, phone, or 2FA. It verifies the external profile in
+the browser before and after submission. If the post is not visibly present on
+the profile afterward, the report must stay `posted: false`.
+
+`promotion:reddit:verify-profile` checks the external Edge profile without
+posting anything. Use it after manual Reddit work or when a link needs proof.
 
 ## Best First Setup
 
