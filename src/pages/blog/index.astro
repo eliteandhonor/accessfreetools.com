@@ -9,11 +9,43 @@ import { getBlogSearchIndex } from '../../data/blogSearchIndex';
 
 const blogSearchIndex = getBlogSearchIndex();
 const initialBlogPosts = blogSearchIndex.slice(0, 96);
+const guideCollections = [
+  {
+    href: '/blog/how-to-use-basic-calculator/',
+    title: 'Basic calculator guide',
+    text: 'Learn quick arithmetic, keyboard input, percent keys, and history checks.',
+  },
+  {
+    href: '/blog/how-to-use-percentage-calculator/',
+    title: 'Percentage examples',
+    text: 'See discounts, markups, percent change, reverse percentages, and common mistakes.',
+  },
+  {
+    href: '/blog/how-to-use-ad-revenue-calculator/',
+    title: 'Ad revenue estimates',
+    text: 'Understand pageviews, RPM, CTR, CPC, and why earnings estimates are not promises.',
+  },
+  {
+    href: '/blog/how-to-use-amp-hours-to-watt-hours-calculator/',
+    title: 'Battery capacity conversion',
+    text: 'Convert amp-hours to watt-hours with voltage and compare battery capacity more clearly.',
+  },
+  {
+    href: '/blog/how-to-use-image-to-text-ocr-tool/',
+    title: 'Image to text OCR',
+    text: 'Use browser OCR, improve image quality, and understand privacy and accuracy limits.',
+  },
+  {
+    href: '/blog/how-to-use-wallpaper-calculator/',
+    title: 'Wallpaper waste percent',
+    text: 'Estimate rolls and learn why waste percent matters for cuts and pattern matching.',
+  },
+];
 ---
 
 <BaseLayout
-  title="Utility Guides | Access Free Tools"
-  description="Search practical guides for Access Free Tools calculators, finance tools, health estimates, statistics, geometry, and everyday utilities."
+  title="Calculator and Utility Guides | Access Free Tools"
+  description="Search practical calculator and utility guides with examples, formulas, input explanations, result limits, and links to the matching Access Free Tools pages."
   path="/blog/"
 >
   <BreadcrumbStructuredData
@@ -23,8 +55,8 @@ const initialBlogPosts = blogSearchIndex.slice(0, 96);
     ]}
   />
   <CollectionStructuredData
-    name="Utility Guides"
-    description="Practical guides for Access Free Tools calculators and browser utilities."
+    name="Calculator and Utility Guides"
+    description="Practical calculator and utility guides with examples, formulas, input explanations, result limits, and matching tool links."
     path="/blog/"
     maxItems={100}
     items={blogPosts.map((post) => ({
@@ -43,6 +75,26 @@ const initialBlogPosts = blogSearchIndex.slice(0, 96);
         formula notes, estimate limits, and links back to the matching calculator.
       </p>
     </div>
+
+    <section class="guide-feature-panel" aria-labelledby="guide-feature-heading">
+      <div>
+        <p class="section-kicker">Reader-first guides</p>
+        <h2 id="guide-feature-heading">Start with a guide that explains the result</h2>
+        <p>
+          A good calculator page should not stop at the answer. These guides explain what the
+          inputs mean, how the result is calculated, what mistakes to avoid, and when the answer
+          should be treated as an estimate.
+        </p>
+      </div>
+      <div class="discovery-link-grid">
+        {guideCollections.map((guide) => (
+          <a href={guide.href}>
+            <strong>{guide.title}</strong>
+            <span>{guide.text}</span>
+          </a>
+        ))}
+      </div>
+    </section>
 
     <BlogSearch
       posts={initialBlogPosts}

@@ -16,11 +16,55 @@ const categoryCounts = Object.fromEntries(
     searchTools.filter((tool) => tool.category === category.slug).length,
   ]),
 );
+const discoveryHubs = [
+  {
+    href: '/categories/calculators/',
+    title: 'Free online calculators',
+    text: 'Start with basic math, percentages, fractions, statistics, geometry, and number calculators.',
+  },
+  {
+    href: '/categories/finance/',
+    title: 'Finance calculators',
+    text: 'Estimate payments, mortgage costs, interest, taxes, salary, inflation, and investment numbers.',
+  },
+  {
+    href: '/categories/home-projects/',
+    title: 'Home project calculators',
+    text: 'Plan concrete, wallpaper, paint, rebar, roofing, sand, electrical, and material estimates.',
+  },
+  {
+    href: '/categories/ai-tools/',
+    title: 'Browser AI tools',
+    text: 'Try OCR, language detection, reading level, tone, keywords, and other browser-side helpers.',
+  },
+];
+const warmToolLinks = [
+  {
+    href: '/tools/basic-calculator/',
+    title: 'Basic calculator online free',
+    text: 'A simple calculator for everyday arithmetic, keyboard input, and quick result checks.',
+  },
+  {
+    href: '/tools/percentage-calculator/',
+    title: 'Percentage calculator',
+    text: 'Work out discounts, tips, markups, percent change, and reverse percentages.',
+  },
+  {
+    href: '/tools/tip-calculator/',
+    title: 'Tip calculator',
+    text: 'Split tips, check totals, and compare common tip percentages without guessing.',
+  },
+  {
+    href: '/tools/image-to-text-ocr-tool/',
+    title: 'Image to text OCR',
+    text: 'Extract text from screenshots or images in the browser and learn what OCR can miss.',
+  },
+];
 ---
 
 <BaseLayout
-  title="All Free Tools | Access Free Tools"
-  description="Browse free calculators, converters, text tools, and everyday browser utilities from Access Free Tools."
+  title="Free Online Calculators and Tools | Access Free Tools"
+  description="Browse free online calculators, converters, AI browser tools, text tools, guides, and everyday utilities from Access Free Tools."
   path="/tools/"
 >
   <BreadcrumbStructuredData
@@ -30,8 +74,8 @@ const categoryCounts = Object.fromEntries(
     ]}
   />
   <CollectionStructuredData
-    name="All Free Tools"
-    description="Browse free calculators and browser utilities from Access Free Tools."
+    name="Free Online Calculators and Tools"
+    description="Browse free online calculators, converters, AI browser tools, text tools, and everyday browser utilities from Access Free Tools."
     path="/tools/"
     maxItems={100}
     items={searchTools.map((tool) => ({
@@ -48,4 +92,46 @@ const categoryCounts = Object.fromEntries(
     totalToolCount={searchTools.length}
     client:load
   />
+
+  <section class="discovery-panel tools-index-context" aria-labelledby="tools-discovery-heading">
+    <div class="section-heading">
+      <div>
+        <p class="section-kicker">Start here</p>
+        <h2 id="tools-discovery-heading">Find the right free online tool faster</h2>
+      </div>
+      <p>
+        Access Free Tools is built as a searchable library, but the best path is usually a hub.
+        Pick the job first, then open the calculator or guide that matches the question.
+      </p>
+    </div>
+    <div class="discovery-link-grid">
+      {discoveryHubs.map((hub) => (
+        <a href={hub.href}>
+          <strong>{hub.title}</strong>
+          <span>{hub.text}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="discovery-panel discovery-panel-quiet" aria-labelledby="warm-tools-heading">
+    <div class="section-heading">
+      <div>
+        <p class="section-kicker">Popular checks</p>
+        <h2 id="warm-tools-heading">Useful tools people search for first</h2>
+      </div>
+      <p>
+        These are simple entry points for common searches while the larger library keeps growing.
+        Each page links to its matching plain-language guide.
+      </p>
+    </div>
+    <div class="discovery-link-grid">
+      {warmToolLinks.map((link) => (
+        <a href={link.href}>
+          <strong>{link.title}</strong>
+          <span>{link.text}</span>
+        </a>
+      ))}
+    </div>
+  </section>
 </BaseLayout>

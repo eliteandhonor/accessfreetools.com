@@ -860,6 +860,63 @@ main {
   line-height: 1.45;
 }
 
+.discovery-panel {
+  margin: 0 auto 28px;
+  max-width: var(--container);
+  padding: 20px 22px;
+}
+
+.tools-index-context {
+  padding-top: 2px;
+}
+
+.discovery-panel-quiet,
+.guide-feature-panel {
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--soft-shadow);
+}
+
+.discovery-link-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.discovery-link-grid a {
+  background: color-mix(in srgb, var(--surface-solid) 88%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 15px;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.discovery-link-grid a:hover,
+.discovery-link-grid a:focus-visible {
+  border-color: color-mix(in srgb, var(--primary) 48%, var(--border));
+  box-shadow: 0 16px 38px rgba(17, 24, 39, 0.1);
+  transform: translateY(-1px);
+}
+
+.discovery-link-grid strong {
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.discovery-link-grid span {
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
 .tool-grid,
 .category-grid,
 .category-snapshot-grid,
@@ -6261,6 +6318,26 @@ main {
   line-height: 1.7;
 }
 
+.guide-feature-panel {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 22px;
+  padding: 20px;
+}
+
+.guide-feature-panel h2 {
+  font-size: clamp(1.5rem, 2.4vw, 2.35rem);
+  line-height: 1.06;
+  margin: 0;
+}
+
+.guide-feature-panel p:not(.section-kicker) {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 10px 0 0;
+  max-width: 780px;
+}
+
 .blog-search-panel {
   display: grid;
   gap: 14px;
@@ -6499,6 +6576,7 @@ main {
   .category-stat-grid,
   .half-life-mode-grid,
   .half-life-fields,
+  .discovery-link-grid,
   .log-quick-grid,
   .log-fields,
   .ratio-quick-grid,
@@ -6631,6 +6709,7 @@ main {
   .category-stat-grid,
   .category-context-grid,
   .hero-quick-links,
+  .discovery-link-grid,
   .visual-seo-links,
   .contact-grid,
   .shortcut-table div {

@@ -48,6 +48,15 @@ Second-wave Pinterest assets and Medium drafts were regenerated on 2026-05-07
 after DataForSEO intent checks confirmed the target topics are informational.
 The user approved the batch, and the 8 second-wave organic Pinterest pins were
 published and verified on 2026-05-07 with the no-ads publisher.
+Latest promotion QA on 2026-05-07 regenerated 10 Medium companion drafts and
+passed `npm run promotion:medium:quality` with every draft above the SEO,
+originality, human-interest, and overall score thresholds. These drafts are
+ready for external Medium publishing, but they are not marked `posted` unless a
+live Medium URL is visible and checked.
+Pinterest RSS remains ready on the site side: use
+`https://accessfreetools.com/pinterest-feed.xml` for the future-pins feed or
+the board-specific feeds under `/pinterest/*.xml`. The latest RSS report found
+8 RSS-ready future items and no feed issues.
 
 | Priority | Page | Main Angle | Channel | Status | Next Action |
 | --- | --- | --- | --- | --- | --- |
