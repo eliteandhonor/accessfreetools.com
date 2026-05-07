@@ -2660,7 +2660,7 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
   const standardTitle = `How to use the ${tool.name}`;
   const pageTitle = `${standardTitle} | Access Free Tools`;
 
-  return pageTitle.length > 70 ? `How to use ${tool.name}` : standardTitle;
+  return pageTitle.length > 65 ? `Use ${tool.name}` : standardTitle;
 }
 
 export const financeBlogPosts: BlogPostDefinition[] = financeTools.map((tool) => {

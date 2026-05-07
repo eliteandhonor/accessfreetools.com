@@ -7,6 +7,7 @@ dist
 npm-debug.log*
 coverage
 output
+test-results
 .playwright-cli
 dev-server.log
 dev-server-*.log

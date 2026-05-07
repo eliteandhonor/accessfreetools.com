@@ -60,27 +60,37 @@ async function fetchWithTimeout(url, method) {
 }
 
 async function checkUrl(url) {
-  try {
-    let response = await fetchWithTimeout(url, 'HEAD');
+  let lastError;
 
-    if (response.status >= 400) {
-      response = await fetchWithTimeout(url, 'GET');
+  for (const method of ['HEAD', 'GET', 'GET']) {
+    try {
+      const response = await fetchWithTimeout(url, method);
+
+      if (response.status < 400) {
+        return {
+          url,
+          ok: true,
+          status: response.status,
+          statusText: response.statusText,
+        };
+      }
+
+      lastError = `${response.status} ${response.statusText}`;
+    } catch (error) {
+      lastError = error instanceof Error ? error.message : 'request failed';
     }
 
-    return {
-      url,
-      ok: response.status < 400,
-      status: response.status,
-      statusText: response.statusText,
-    };
-  } catch (error) {
-    return {
-      url,
-      ok: false,
-      status: 0,
-      statusText: error instanceof Error ? error.message : 'request failed',
-    };
+    if (method === 'HEAD') {
+      continue;
+    }
   }
+
+  return {
+    url,
+    ok: false,
+    status: 0,
+    statusText: lastError ?? 'request failed',
+  };
 }
 
 const externalLinks = new Set();

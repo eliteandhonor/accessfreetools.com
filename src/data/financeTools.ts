@@ -5,6 +5,7 @@ interface FinanceToolSpec {
   name: string;
   summary: string;
   description: string;
+  seoTitle?: string;
   seoDescription?: string;
   icon: string;
   aliases?: string[];
@@ -72,7 +73,7 @@ function makeFinanceTool(spec: FinanceToolSpec): ToolDefinition {
     description: spec.description,
     icon: spec.icon,
     aliases: spec.aliases,
-    seoTitle: `${spec.name} | Free Online Finance Calculator`,
+    seoTitle: spec.seoTitle ?? `${spec.name} | Free Online Finance Calculator`,
     seoDescription: spec.seoDescription ?? spec.description,
     useCases: spec.useCases,
     examples: spec.examples,
@@ -1976,6 +1977,7 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'cash-back-or-low-interest-calculator',
     name: 'Cash Back or Low Interest Calculator',
+    seoTitle: 'Cash Back or Low Interest Calculator | Access Free Tools',
     summary: 'Compare a cash-back offer with a low-interest financing offer.',
     description:
       'Use this free cash back or low interest calculator to compare estimated total cost between a rebate-style offer and a lower APR offer over the same payoff term.',

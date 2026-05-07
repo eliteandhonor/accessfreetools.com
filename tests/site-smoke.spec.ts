@@ -1,22 +1,38 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
+import { mkdirSync } from 'node:fs';
+import { join } from 'node:path';
 
 const smokePages = [
   '/',
   '/tools/',
   '/blog/',
   '/categories/calculators/',
+  '/categories/finance/',
+  '/categories/health-fitness/',
+  '/categories/home-projects/',
+  '/categories/developer-tools/',
+  '/categories/converters/',
   '/categories/ai-tools/',
   '/free-calculator-resources/',
+  '/why-access-free-tools/',
+  '/about/',
   '/contact/',
   '/privacy-policy/',
   '/terms/',
   '/advertising-disclosure/',
   '/tools/mortgage-calculator/',
+  '/tools/income-tax-calculator/',
   '/tools/bmi-calculator/',
+  '/tools/due-date-calculator/',
+  '/tools/concrete-calculator/',
   '/tools/ad-revenue-calculator/',
+  '/tools/password-generator/',
+  '/tools/subnet-calculator/',
   '/tools/image-to-text-ocr-tool/',
   '/tools/watts-to-amps-calculator/',
+  '/blog/how-to-use-mortgage-calculator/',
+  '/blog/how-to-use-image-to-text-ocr-tool/',
 ];
 
 const accessibilityPages = [
@@ -25,9 +41,23 @@ const accessibilityPages = [
   '/blog/',
   '/free-calculator-resources/',
   '/contact/',
+  '/privacy-policy/',
+  '/terms/',
   '/tools/watts-to-amps-calculator/',
   '/tools/image-to-text-ocr-tool/',
 ];
+
+function screenshotPath(projectName: string, path: string) {
+  const directory = process.env.DEEP_AUDIT_SCREENSHOT_DIR;
+
+  if (!directory) {
+    return '';
+  }
+
+  const safePath = path === '/' ? 'home' : path.replace(/^\/|\/$/g, '').replace(/[^a-z0-9]+/gi, '-');
+  mkdirSync(directory, { recursive: true });
+  return join(directory, `${projectName}-${safePath || 'page'}.png`);
+}
 
 test.describe('site smoke coverage', () => {
   for (const path of smokePages) {
@@ -57,6 +87,11 @@ test.describe('site smoke coverage', () => {
       const activeElementTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase() ?? '');
       expect(activeElementTag.length).toBeGreaterThan(0);
       expect(consoleErrors).toEqual([]);
+
+      const outputScreenshot = screenshotPath(test.info().project.name, path);
+      if (outputScreenshot) {
+        await page.screenshot({ path: outputScreenshot, fullPage: true });
+      }
     });
   }
 

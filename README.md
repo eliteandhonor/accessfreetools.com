@@ -65,6 +65,9 @@ npm run check:external-links
 npm run dataforseo:account -- -- --min-balance=2
 npm run dataforseo:status
 npm run dataforseo:status:sandbox
+npm run seo:onpage-audit
+npm run audit:local
+npm run audit:deep
 npm run seo:self-evaluate
 npm run indexnow:verify-key
 npm run indexnow:dry-run
@@ -80,6 +83,11 @@ Google Search Console OAuth files stay local too. Put the downloaded OAuth
 client JSON at `.local/google-search-console-client-secret.json`, set
 `GSC_CLIENT_SECRET_PATH`, or pass `--client-secret=...` when running
 `npm run search-console`.
+
+For a full evidence run, use `npm run audit:deep`. It writes a dated report under
+`output/deep-audit/`, runs the normal local checks, gathers DataForSEO OnPage
+evidence, copies Search Console and IndexNow proof when available, captures
+desktop/mobile smoke-test screenshots, and keeps raw JSON out of Git.
 
 Bing IndexNow is configured with a public root key file. After a deployment
 that changes important URLs, run `npm run indexnow:submit` to submit the built
