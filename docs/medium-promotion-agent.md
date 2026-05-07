@@ -24,6 +24,10 @@ affiliate links.
 - The current 10-draft queue was approved by the user on 2026-05-07. Keep the
   quality gate and one-at-a-time posting rule so live Medium posts stay useful
   and do not look like duplicate bulk content.
+- Live Medium lesson from 2026-05-07: the first published story was missing its
+  hero image and the second story had headings that pasted as normal
+  paragraphs. Future agents must verify the public article after every live
+  edit, not just the editor or Story Settings.
 
 ## Commands
 
@@ -106,12 +110,18 @@ The generator also writes:
 - Set the canonical/source URL shown in the draft when Medium offers the option.
 - Upload or import the matching hero image from `public/medium/` and set the
   draft's `hero_alt` text before publishing.
+- Paste rich HTML or use Medium's formatting controls for live rewrites. Plain
+  Markdown can preserve the words while losing H2 heading formatting.
 - Keep first-wave posts free, not paywalled.
 - Do not add affiliate links until an affiliate disclosure is visible next to
   the link.
 - Do not use paid promotion unless the user explicitly asks for a paid campaign.
 - Publish one article at a time at first, then record the live Medium URL in
   `docs/promotion-queue.md`.
+- After publishing or updating, open the public Medium URL in the external
+  browser and verify the hero image, saved alt text, large title, bold H2
+  headings, SEO title/description, canonical/source URL, and reader interests.
+  Save screenshots under `output/promotion/medium/` when doing browser work.
 - For live article rewrites, use the latest generated draft as the replacement
   source. Prefer the clean file in `output/promotion/medium/public/`, but do
   not mark the live article updated until the Medium editor has actually been

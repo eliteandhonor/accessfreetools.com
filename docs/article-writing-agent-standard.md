@@ -1,6 +1,6 @@
 # Article Writing Agent Standard
 
-Reviewed: 2026-05-06
+Reviewed: 2026-05-07
 
 This standard applies to Access Free Tools blog guides, Medium companion posts, Pinterest descriptions that need longer context, and any future promotion article.
 
@@ -33,7 +33,7 @@ Our article voice is original to Access Free Tools:
    - `npm run dataforseo:account -- -- --min-balance=2`
    - `npm run dataforseo:status`
    - Use DataForSEO or Search Console only for the main topic, not broad paid research.
-4. Identify the search intent in one sentence, such as: “The reader wants to calculate a discount quickly and understand what the result means.”
+4. Identify the search intent in one sentence, such as: "The reader wants to calculate a discount quickly and understand what the result means."
 5. Choose one primary phrase and two or three natural supporting phrases. Do not stuff them.
 6. Check whether the topic is sensitive. If it touches money, health, taxes, electrical work, pregnancy, BAC, or AI, include clear limits and avoid promises.
 
@@ -59,8 +59,8 @@ Use this shape unless the article needs something special:
 - Use bullets for steps, mistakes, and checks.
 - Define jargon once, then use the simple term.
 - Put numbers in examples when possible.
-- Prefer “here is what that means” over vague statements like “this is useful.”
-- Do not use giant intros, filler history, fake urgency, or “ultimate guide” language.
+- Prefer "here is what that means" over vague statements like "this is useful."
+- Do not use giant intros, filler history, fake urgency, or "ultimate guide" language.
 - Do not promise income, ranking, approval, medical outcomes, electrical safety, or AI accuracy.
 
 ## Smart 14-Year-Old Voice Examples
@@ -98,7 +98,7 @@ Before approving an article, answer yes to all of these:
 - Does it explain one clear topic?
 - Would a smart 14-year-old understand it?
 - Does it use the actual Access Free Tools page as the example?
-- Does it explain inputs and results, not just say “use this tool”?
+- Does it explain inputs and results, not just say "use this tool"?
 - Does it include one realistic example?
 - Does it name common mistakes?
 - Does it explain when not to rely on the result?
@@ -126,6 +126,23 @@ Medium articles should not go live as text-only posts. Use
 `npm run promotion:medium:images` or the full quality command to generate the
 matching `public/medium/{slug}.jpg` image, then upload or import that image
 before the first paragraph and set the alt text from the draft metadata.
+
+Live Medium formatting must be checked in the public article, not only in the
+draft file. After publishing or editing, open the live Medium URL in the
+external browser and verify:
+
+- The hero image appears near the top of the article.
+- The image alt text was saved.
+- The article title renders as the large story heading.
+- Each `##` section heading renders as a bold Medium heading, not a plain
+  paragraph.
+- Story Settings contain the SEO title, SEO description, reader interests, and
+  canonical/source URL when Medium exposes that field.
+- The live URL and checked items are recorded in `docs/promotion-queue.md`.
+
+If Medium turns Markdown headings into normal text, do not mark the post fixed.
+Re-apply the article with rich HTML or Medium's heading controls, republish,
+and screenshot-check the public page again.
 
 The checker also acts as an article reviewer and writes a score report to
 `output/promotion/medium-quality-report.json`. Minimum scores:

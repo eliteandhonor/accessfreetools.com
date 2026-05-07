@@ -34,6 +34,8 @@ Every new public tool should include:
 - Run `npm run promotion:medium:quality` before public Medium posts or live Medium edits.
 - Medium quality must pass the article reviewer scores: SEO 80+, originality 75+, human interest 75+, and overall 80+.
 - Medium posts need a useful branded hero image, alt text, 3-5 focused tags, and canonical/source URL metadata before public posting. Use `npm run promotion:medium:images` or the full quality command to generate/check the image assets.
+- Medium live-post lesson from 2026-05-07: do not trust the editor, draft file, or story settings alone. After publishing or editing, open the public Medium URL in the external browser and verify the hero image is visible, image alt text was saved, the title renders as the story H1, section headings render as bold Medium headings, SEO title/description are set in Story Settings, the canonical/source URL is set when available, and the live URL is recorded in `docs/promotion-queue.md`.
+- Medium paste lesson from 2026-05-07: plain Markdown can paste into Medium as normal paragraphs, so H2 headings may look unformatted even when the draft file is correct. For live rewrites, paste rich HTML or use Medium's heading controls, then republish and screenshot-check the public article before saying it is fixed.
 
 ## Competitor Research List
 
@@ -64,3 +66,4 @@ Every new public tool should include:
 - The agent may draft posts, recommend pages, prepare helpful replies, run SEO checks, submit discovery signals, and report opportunities.
 - The agent must not post publicly, send emails, run paid ads, create affiliate placements, or impersonate unrelated users without explicit approval.
 - Promotion should be useful first: answer the question, explain the calculation, disclose ownership when linking, and avoid spam tactics.
+- Never mark promotion work as `posted`, `updated`, or `done` from a submit button alone. A public URL or profile/feed view must visibly prove the change is live.

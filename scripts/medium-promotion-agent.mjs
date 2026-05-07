@@ -863,6 +863,7 @@ Publisher notes:
 - Suggested tags: ${tags}
 - SEO review: ${extra.seoReview ?? 'Run DataForSEO or Search Console intent review before public publishing.'}
 - Article standard: follow docs/article-writing-agent-standard.md. Use the original Access Free Tools voice, not a copied living-writer style.
+- Live formatting: use rich HTML paste or Medium heading controls, then verify the public article shows the hero image, large title, and bold H2 section headings.
 - Keep this starter post free, not paywalled.
 - Do not add affiliate links unless a disclosure is placed next to the link.
 -->
@@ -876,6 +877,7 @@ ${articleBody}
 - Canonical/source URL set to ${post.canonicalUrl}.
 - Link tested: ${post.sourceUrl}.
 - Tags set: ${tags}.
+- Public Medium URL opened after publish or edit; hero image, alt text, large title, bold H2 headings, SEO settings, and canonical/source URL visibly checked.
 - Post is not paywalled.
 - No affiliate links or paid promotion added.
 
@@ -912,9 +914,12 @@ ${rows}
 - Keep the canonical/source URL set to the matching Access Free Tools page.
 - Upload or import the matching hero image from public/medium and set the alt
   text before publishing.
+- Use rich HTML paste or Medium heading controls when rewriting live posts, then
+  open the public URL and verify the hero image plus bold H2 headings.
 - Keep posts free and useful. Do not run paid promotion.
 - Do not add affiliate links until there is a nearby disclosure and a clear reason for the link.
-- After publishing, add the public Medium URL to docs/promotion-queue.md and mark the item posted.
+- After publishing, add the public Medium URL and verification notes to
+  docs/promotion-queue.md before marking the item posted.
 `;
 }
 
