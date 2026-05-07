@@ -19,6 +19,8 @@ Use these commands when running the same checks manually:
 
 ```bash
 npm run seo:daily
+npm run search-console:submit-discovery
+npm run search-console:inspect-key-urls
 npm run audit:deep:no-paid
 npm run promotion:weekly-review
 npm run seo:onpage-audit

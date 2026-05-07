@@ -67,6 +67,8 @@ npm run dataforseo:status
 npm run dataforseo:status:sandbox
 npm run seo:daily
 npm run seo:onpage-audit
+npm run search-console:submit-discovery
+npm run search-console:inspect-key-urls
 npm run audit:local
 npm run audit:deep
 npm run audit:deep:no-paid

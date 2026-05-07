@@ -34,6 +34,8 @@
     "dataforseo:status:sandbox": "node scripts/dataforseo-status.mjs --sandbox",
     "seo:onpage-audit": "node scripts/seo-onpage-audit.mjs",
     "search-console": "node scripts/search-console.mjs",
+    "search-console:submit-discovery": "node scripts/search-console.mjs --submit-discovery",
+    "search-console:inspect-key-urls": "node scripts/search-console.mjs --inspect-key-urls",
     "seo:self-evaluate": "node scripts/seo-agent-self-evaluation.mjs",
     "seo:daily": "node scripts/dataforseo-account.mjs --min-balance=2 --warn-balance=10 && node scripts/dataforseo-status.mjs && node scripts/search-console.mjs --inspect-key-urls && node scripts/seo-agent-self-evaluation.mjs && node scripts/indexnow-submit.mjs --verify-key",
     "audit:local": "node scripts/deep-audit-local.mjs",
