@@ -51,7 +51,9 @@ Every new public tool should include:
 ## Promotion Agent Standard
 
 - Promotion accounts must be created or approved by the user because they involve passwords, identity checks, email/phone verification, CAPTCHA, and platform terms.
-- Pinterest Business was created by the user on 2026-05-06 and is the first active promotion channel. Reddit and Medium are still planned for later.
+- Pinterest Business was created by the user on 2026-05-06 and is the first active promotion channel.
+- Medium profile setup is complete at `https://medium.com/@accessfreetools`.
+- Reddit was created by the user on 2026-05-07 as `u/accessfreetools`; use `docs/reddit-promotion-agent.md` and run `npm run promotion:reddit:quality` before any Reddit draft is used publicly.
 - Never store promotion account passwords in Git, docs, automation prompts, reports, or generated output.
 - For promotion account browser work, do not use the in-app Browser Use surface. Use an external browser workflow only, and be explicit when access is blocked.
 - Use `docs/promotion-account-launch-kit.md` for Pinterest Business, Reddit, and Medium setup details.

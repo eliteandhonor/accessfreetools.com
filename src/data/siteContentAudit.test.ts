@@ -75,6 +75,18 @@ const PINTEREST_FEED_DATA_SOURCE = readFileSync(
   fileURLToPath(new URL('../data/pinterestFeed.ts', import.meta.url)),
   'utf8',
 );
+const REDDIT_PROMOTION_AGENT_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/reddit-promotion-agent.mjs', import.meta.url)),
+  'utf8',
+);
+const REDDIT_QUALITY_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/check-reddit-promotion-quality.mjs', import.meta.url)),
+  'utf8',
+);
+const REDDIT_EXTERNAL_SETUP_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/reddit-external-setup.mjs', import.meta.url)),
+  'utf8',
+);
 const LLMS_SOURCE = readFileSync(fileURLToPath(new URL('../pages/llms.txt.ts', import.meta.url)), 'utf8');
 const CALCULATOR_GUIDE_ARTICLE_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/CalculatorGuideArticle.astro', import.meta.url)),
@@ -140,6 +152,14 @@ const ALL_TOOLS_REVIEW_REGISTER_SOURCE = readFileSync(
 );
 const QA_AUTOMATION_PLAN_SOURCE = readFileSync(
   fileURLToPath(new URL('../../docs/qa-automation-plan.md', import.meta.url)),
+  'utf8',
+);
+const REDDIT_PROMOTION_DOC_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../docs/reddit-promotion-agent.md', import.meta.url)),
+  'utf8',
+);
+const PROMOTION_QUEUE_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../docs/promotion-queue.md', import.meta.url)),
   'utf8',
 );
 const INDEXNOW_SUBMIT_SOURCE = readFileSync(
@@ -747,7 +767,25 @@ describe('site content audit guardrails', () => {
     expect(PINTEREST_FEED_DATA_SOURCE).toContain('/tools/percentage-calculator/');
     expect(PINTEREST_FEED_DATA_SOURCE).not.toContain('/blog/');
     expect(PACKAGE_JSON.scripts['promotion:pinterest:rss-report']).toBe('node scripts/pinterest-rss-report.mjs');
+    expect(PACKAGE_JSON.scripts['promotion:reddit']).toBe('node scripts/reddit-promotion-agent.mjs --all');
+    expect(PACKAGE_JSON.scripts['promotion:reddit:quality']).toContain('check-reddit-promotion-quality.mjs');
+    expect(PACKAGE_JSON.scripts['promotion:reddit:setup-browser']).toContain('reddit-external-setup.mjs');
     expect(PACKAGE_JSON.scripts['promotion:weekly-review']).toContain('promotion:pinterest:rss-report');
+    expect(PACKAGE_JSON.scripts['promotion:weekly-review']).toContain('promotion:reddit:quality');
+    expect(REDDIT_PROMOTION_AGENT_SOURCE).toContain("username: 'accessfreetools'");
+    expect(REDDIT_PROMOTION_AGENT_SOURCE).toContain('readCommunityRulesFirst');
+    expect(REDDIT_PROMOTION_AGENT_SOURCE).toContain('noCredentialStorage');
+    expect(REDDIT_PROMOTION_AGENT_SOURCE).toContain('Disclosure: this is my own project');
+    expect(REDDIT_QUALITY_SOURCE).toContain('missing ownership disclosure');
+    expect(REDDIT_QUALITY_SOURCE).toContain('too many Access Free Tools links');
+    expect(REDDIT_QUALITY_SOURCE).toContain('community-rules reminder');
+    expect(REDDIT_EXTERNAL_SETUP_SOURCE).toContain("channel: 'msedge'");
+    expect(REDDIT_EXTERNAL_SETUP_SOURCE).toContain('passwordStored: false');
+    expect(REDDIT_PROMOTION_DOC_SOURCE).toContain('Status: active draft-first channel');
+    expect(REDDIT_PROMOTION_DOC_SOURCE).toContain('store the Reddit password');
+    expect(REDDIT_PROMOTION_DOC_SOURCE).toContain('https://support.reddithelp.com');
+    expect(PROMOTION_QUEUE_SOURCE).toContain('created by the user on 2026-05-07 as `u/accessfreetools`');
+    expect(PROMOTION_QUEUE_SOURCE).toContain('npm run promotion:reddit:quality');
     expect(PACKAGE_JSON.scripts.typecheck).toBe('tsc --noEmit');
     expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run src/data/siteContentAudit.test.ts');
     expect(PACKAGE_JSON.scripts['check:links']).toBe('node scripts/check-internal-links.mjs');

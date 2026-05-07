@@ -11,7 +11,8 @@ This file records the Codex automation jobs that keep Access Free Tools checked 
 | AFT Daily SEO Pulse | Daily | Checks DataForSEO balance/status, key Search Console URLs, SEO self-evaluation, IndexNow key, sitemap, feed, and robots health. | No broad paid SERP or backlink calls. |
 | AFT Weekly QA Audit | Weekly on Monday | Runs local QA gates, smoke tests, external-link checks, and a deep audit without paid crawl. | Reports fixes; does not push automatically from the scheduled run. |
 | AFT Monthly OnPage Crawl | Monthly on day 1 | Runs a paid DataForSEO OnPage crawl when balance is safely above the warning threshold. | Skips paid crawl at or below 10 USD; never uses Backlinks API. |
-| AFT Weekly Promotion Draft Review | Weekly on Wednesday at 10:00 | Refreshes Pinterest assets, Pinterest RSS reports, Medium drafts, and writing-quality scores. | No paid ads, outreach emails, or password storage; RSS feeds exclude already-posted pins. |
+| AFT Weekly Promotion Draft Review | Weekly on Wednesday at 10:00 | Refreshes Pinterest assets, Pinterest RSS reports, Medium drafts, Reddit drafts, and writing-quality scores. | No paid ads, outreach emails, or password storage; RSS feeds exclude already-posted pins; Reddit drafts must stay disclosed and community-rule aware. |
+| AFT Reddit Promotion Agent | Weekly on Friday at 10:00 | Runs the Reddit draft agent and quality gate, then recommends safe profile posts or replies. | External-browser account work only; no password storage, subreddit posting, direct messages, or paid ads. |
 
 ## Local Commands
 
@@ -30,9 +31,11 @@ Use the paid OnPage crawl only after `npm run dataforseo:account -- -- --min-bal
 
 ## Promotion Rules
 
-Promotion automation is allowed to draft, score, queue, prepare images, and recommend the next post. Public posting still needs exact post-level approval because it can affect the brand, account trust, and platform policy standing.
+Promotion automation is allowed to draft, score, queue, prepare images, and recommend the next post. Public posting still needs exact post-level approval unless the user has already approved the exact post and channel, because it can affect the brand, account trust, and platform policy standing.
 
 Pinterest RSS automation is the exception for pre-approved feed items: an item can be placed in RSS only when it is marked `rss-ready`, has a board, has an optimized Pin image, and is not already marked `posted`.
+
+Reddit automation is draft-first. Run `npm run promotion:reddit:quality` before using a reply, read the target community rules, disclose ownership, and keep the answer useful even without the Access Free Tools link.
 
 After a public post is approved and published, update `docs/promotion-queue.md` with the live URL, date, channel, and source page.
 

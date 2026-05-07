@@ -152,16 +152,35 @@ RSS auto-publish workflow:
 
 ## Reddit
 
+Status: Created by the user on 2026-05-07 with username `accessfreetools`
+and public email `contact@accessfreetools.com`. The password must not be stored
+in Git, docs, local reports, shell history, or automation prompts. After setup
+is stable, change the password because it was shared in chat.
+
 Purpose: Reddit can build trust only when replies are genuinely helpful. This
 channel should be used carefully. Do not drop links into communities without
 reading their rules.
 
 Setup fields:
 
-- Username: accessfreetools or accessfreetoolscom
+- Username: accessfreetools. Done 2026-05-07.
 - Profile display name: Access Free Tools
 - Profile bio: Free browser calculators, converters, and practical guides. I share helpful explanations and only link when it genuinely fits the question.
 - Website link: https://accessfreetools.com/
+- Public profile: https://www.reddit.com/user/accessfreetools/
+- Optional official business tooling: enable Reddit Pro if Reddit offers it for
+  this account. Use organic profile and analytics features only; do not run ads.
+
+Recommended profile checks:
+
+- Confirm the username is `accessfreetools`.
+- Set profile display name to `Access Free Tools`.
+- Add the Reddit Bio from `docs/promotion-share-kit.md`.
+- Add `https://accessfreetools.com/` as the website/profile link when Reddit
+  exposes the field.
+- Add the same Access Free Tools avatar used on Pinterest and Medium.
+- Verify email and enable two-factor authentication if available.
+- Do not connect billing, ads, or paid campaigns.
 
 Rules for the Promotion Agent:
 
@@ -171,6 +190,9 @@ Rules for the Promotion Agent:
 - Only suggest a link when the answer still helps without the link.
 - Do not post in finance, tax, health, or pregnancy communities unless the wording is cautious and non-professional.
 - Read each community's rules before drafting.
+- Use `npm run promotion:reddit:quality` before any public Reddit post or reply.
+- Keep generated drafts under `output/promotion/reddit/`; that folder is local
+  evidence and ignored by Git.
 
 Helpful reply template:
 
@@ -191,6 +213,14 @@ Starter communities to research, not auto-post:
 - DIY/home improvement communities for material calculators
 - Personal finance communities only when rules allow tools and disclosures
 - Web developer communities for text, JSON, URL, and AI utility tools
+
+First safe Reddit workflow:
+
+- Run `npm run promotion:reddit:quality` to create and score drafts.
+- Start with one profile post on `u/accessfreetools`, not a subreddit.
+- Spend the first week answering only directly relevant questions.
+- When linking, disclose ownership and keep the answer useful without the link.
+- Record any live Reddit URL in `docs/promotion-queue.md`.
 
 ## Medium
 
@@ -281,7 +311,7 @@ Recommended profile checks:
 ## What The User Needs To Do
 
 1. Keep Pinterest and Medium login/recovery details private and enable 2FA where available.
-2. Create the Reddit account later.
+2. Finish Reddit profile setup and email verification.
 3. Review and approve the first Medium companion draft before any public post.
 4. Verify email and any phone/CAPTCHA steps.
 5. Add the website URL to each profile when the platform exposes a safe public

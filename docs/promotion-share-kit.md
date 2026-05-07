@@ -292,6 +292,44 @@ Rules for all Medium drafts:
 - Set the canonical/source URL shown in each draft when Medium allows it.
 - Keep first-wave posts free, not paywalled.
 
+## Reddit Promotion Drafts
+
+Reddit account status: the user created `u/accessfreetools` on 2026-05-07 with
+the public site email. Use Reddit carefully: answer the question first, disclose
+ownership, and only link when the link is genuinely useful. The agent must not
+mass-post, run ads, or pretend to be a neutral user.
+
+Draft command:
+
+```bash
+npm run promotion:reddit:quality
+```
+
+The command writes setup notes, a queue, and helpful reply/profile-post drafts
+under `output/promotion/reddit/`, then scores each draft. A draft must pass the
+Reddit quality gate before it is used publicly.
+
+Best first Reddit actions:
+
+- Set the profile name to `Access Free Tools`.
+- Add the Reddit Bio above.
+- Add `https://accessfreetools.com/` as the profile link if Reddit exposes it.
+- Add the same Access Free Tools avatar used on Pinterest and Medium.
+- Post one introduction on the Access Free Tools profile before using subreddit
+  replies.
+- Read every subreddit rule page before linking.
+
+Current Reddit draft targets:
+
+- Percentage Calculator
+- Wallpaper Calculator
+- Watts To Amps Calculator
+- Markdown Table Generator
+- Concrete Calculator
+- Ad Revenue Calculator
+- Image To Text OCR Tool
+- Mortgage Calculator
+
 ## Helpful Forum Drafts
 
 ### Percentage Question
