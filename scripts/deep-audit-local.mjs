@@ -277,7 +277,14 @@ function checkSecurityHeaders() {
 }
 
 function checkDiscoveryFiles() {
-  const expected = ['robots.txt', 'sitemap.xml', 'sitemap-tools.xml', 'sitemap-blog.xml', 'feed.xml'];
+  const expected = [
+    'robots.txt',
+    'sitemap.xml',
+    'sitemap-tools.xml',
+    'sitemap-blog.xml',
+    'feed.xml',
+    'pinterest-feed.xml',
+  ];
   const files = expected.map((name) => {
     const fullPath = join(publicDistDir, name);
     return {

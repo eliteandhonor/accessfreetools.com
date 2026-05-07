@@ -49,6 +49,10 @@ Tools` were created on 2026-05-06.
 Starter organic pin status: the first 8 starter pins were published and
 verified on 2026-05-06. Failed duplicate drafts from the first automation
 attempt were deleted.
+Pinterest RSS status: a dedicated image-backed RSS feed is available at
+`https://accessfreetools.com/pinterest-feed.xml` for Pinterest auto-publish.
+Use that feed instead of `/feed.xml`, because the normal feed is for blog
+readers and does not carry the dedicated Pin images.
 
 Security note: the account password must stay out of Git, docs, automation
 prompts, and reports. If a password was shared in chat or screenshots, change it
@@ -127,6 +131,15 @@ Organic posting workflow:
   The command uses the local external Edge profile at
   `.local/pinterest-browser-profile`, refuses ad/campaign/billing flows, skips
   pins already visible on their board, and cleans failed drafts.
+
+RSS auto-publish workflow:
+
+- Use `https://accessfreetools.com/pinterest-feed.xml`.
+- Connect it to a broad board such as Free Online Calculators unless a future
+  board-specific feed is created.
+- Keep feed items curated in `src/data/pinterestFeed.ts`.
+- Do not connect `/feed.xml` to Pinterest because it is the general guide RSS
+  feed and does not include the dedicated Pinterest images.
 
 ## Reddit
 

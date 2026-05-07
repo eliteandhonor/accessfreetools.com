@@ -186,6 +186,29 @@ Created boards on 2026-05-06:
 - AI Browser Tools
 - School And Study Tools
 
+## Pinterest RSS Auto-Publish
+
+Pinterest can auto-publish Pins from a claimed-domain RSS feed. Use the
+dedicated feed below instead of the normal blog RSS feed, because it has
+Pinterest-sized images and only includes approved promotion pages:
+
+```text
+https://accessfreetools.com/pinterest-feed.xml
+```
+
+Setup notes:
+
+- Connect this feed to a broad board such as Free Online Calculators unless a
+  future board-specific feed is created.
+- Do not connect `https://accessfreetools.com/feed.xml`; that feed is for
+  blog-guide discovery and does not carry the dedicated Pin images.
+- Keep each RSS item linked to `https://accessfreetools.com/` because Pinterest
+  requires feed links to match the claimed domain.
+- Update `src/data/pinterestFeed.ts` only after a page has an approved Pin title,
+  description, image, and useful destination page.
+- If Pinterest asks for a feed image, the item images live under
+  `https://accessfreetools.com/pinterest/`.
+
 ## First Medium Draft Outlines
 
 Medium account note: the user started Medium login with

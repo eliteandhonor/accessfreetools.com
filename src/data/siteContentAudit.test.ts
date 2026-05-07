@@ -59,6 +59,14 @@ const SITEMAP_SOURCE = readFileSync(
   'utf8',
 );
 const FEED_SOURCE = readFileSync(fileURLToPath(new URL('../pages/feed.xml.ts', import.meta.url)), 'utf8');
+const PINTEREST_FEED_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/pinterest-feed.xml.ts', import.meta.url)),
+  'utf8',
+);
+const PINTEREST_FEED_DATA_SOURCE = readFileSync(
+  fileURLToPath(new URL('../data/pinterestFeed.ts', import.meta.url)),
+  'utf8',
+);
 const LLMS_SOURCE = readFileSync(fileURLToPath(new URL('../pages/llms.txt.ts', import.meta.url)), 'utf8');
 const CALCULATOR_GUIDE_ARTICLE_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/CalculatorGuideArticle.astro', import.meta.url)),
@@ -710,6 +718,13 @@ describe('site content audit guardrails', () => {
     expect(FEED_SOURCE).toContain('getBlogDates');
     expect(FEED_SOURCE).toContain('RSS_ITEM_LIMIT');
     expect(FEED_SOURCE).not.toContain('const updatedDate = new Date()');
+    expect(PINTEREST_FEED_SOURCE).toContain('rss version="2.0"');
+    expect(PINTEREST_FEED_SOURCE).toContain('xmlns:media="http://search.yahoo.com/mrss/"');
+    expect(PINTEREST_FEED_SOURCE).toContain('media:content');
+    expect(PINTEREST_FEED_SOURCE).toContain('/pinterest-feed.xml');
+    expect(PINTEREST_FEED_DATA_SOURCE).toContain('/pinterest/');
+    expect(PINTEREST_FEED_DATA_SOURCE).toContain('/tools/percentage-calculator/');
+    expect(PINTEREST_FEED_DATA_SOURCE).not.toContain('/blog/');
     expect(PACKAGE_JSON.scripts.typecheck).toBe('tsc --noEmit');
     expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run src/data/siteContentAudit.test.ts');
     expect(PACKAGE_JSON.scripts['check:links']).toBe('node scripts/check-internal-links.mjs');

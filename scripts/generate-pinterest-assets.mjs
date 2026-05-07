@@ -1,8 +1,9 @@
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium } from 'playwright';
 
 const outputDir = resolve('output', 'promotion', 'pinterest');
+const publicDir = resolve('public', 'pinterest');
 const width = 1000;
 const height = 1500;
 
@@ -469,28 +470,33 @@ function avatarHtml() {
 }
 
 mkdirSync(outputDir, { recursive: true });
+mkdirSync(publicDir, { recursive: true });
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
 
 for (const pin of pins) {
   await page.setContent(pinHtml(pin), { waitUntil: 'networkidle' });
-  await page.screenshot({
-    path: resolve(outputDir, pin.file),
+  const image = await page.screenshot({
     type: 'png',
     fullPage: false,
   });
+  writeFileSync(resolve(outputDir, pin.file), image);
+  writeFileSync(resolve(publicDir, pin.file), image);
   console.log(`Generated output/promotion/pinterest/${pin.file}`);
+  console.log(`Generated public/pinterest/${pin.file}`);
 }
 
 await page.setViewportSize({ width: 1000, height: 1000 });
 await page.setContent(avatarHtml(), { waitUntil: 'networkidle' });
-await page.screenshot({
-  path: resolve(outputDir, 'access-free-tools-avatar.png'),
+const avatarImage = await page.screenshot({
   type: 'png',
   fullPage: false,
   omitBackground: true,
 });
+writeFileSync(resolve(outputDir, 'access-free-tools-avatar.png'), avatarImage);
+writeFileSync(resolve(publicDir, 'access-free-tools-avatar.png'), avatarImage);
 console.log('Generated output/promotion/pinterest/access-free-tools-avatar.png');
+console.log('Generated public/pinterest/access-free-tools-avatar.png');
 
 await browser.close();

@@ -31,6 +31,7 @@ Resources hub: https://accessfreetools.com/free-calculator-resources/
 Blog index: https://accessfreetools.com/blog/
 XML sitemap: https://accessfreetools.com/sitemap.xml
 RSS feed: https://accessfreetools.com/feed.xml
+Pinterest promotion RSS feed: https://accessfreetools.com/pinterest-feed.xml
 
 ## Tool Standards
 

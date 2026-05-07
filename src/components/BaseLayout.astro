@@ -31,6 +31,7 @@ const defaultSocialImagePath = (() => {
 })();
 const socialImage = new URL(socialImagePath ?? defaultSocialImagePath, site).toString();
 const feedUrl = new URL('/feed.xml', site).toString();
+const pinterestFeedUrl = new URL('/pinterest-feed.xml', site).toString();
 const resolvedOgType = ogType ?? (path.startsWith('/blog/') && path !== '/blog/' ? 'article' : 'website');
 const articleDates = getArticleDatesFromPath(path);
 const siteStructuredData = {
@@ -75,6 +76,7 @@ const siteStructuredData = {
     <meta name="theme-color" content="#0d7c73" />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" type="application/rss+xml" title="Access Free Tools Guides" href={feedUrl} />
+    <link rel="alternate" type="application/rss+xml" title="Access Free Tools Pinterest Pins" href={pinterestFeedUrl} />
     <title>{title}</title>
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

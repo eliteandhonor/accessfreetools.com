@@ -39,7 +39,7 @@ Open the local preview and check these pages:
 - `/blog/` search works and real guides are visible.
 - `/free-calculator-resources/` loads, links to the main hubs, and has no mobile overflow.
 - A high-value finance tool, health tool, project estimator, developer tool, and calculator render their inputs, examples, FAQs, related tools, and guide links.
-- `/sitemap.xml`, `/sitemap-pages.xml`, `/sitemap-tools.xml`, `/sitemap-blog.xml`, `/sitemap-categories.xml`, `/robots.txt`, and `/feed.xml` load.
+- `/sitemap.xml`, `/sitemap-pages.xml`, `/sitemap-tools.xml`, `/sitemap-blog.xml`, `/sitemap-categories.xml`, `/robots.txt`, `/feed.xml`, and `/pinterest-feed.xml` load.
 - Footer text and links wrap normally on desktop and mobile widths.
 
 ## Production Proof
@@ -68,6 +68,7 @@ These steps need the site owner account:
 - Verify the domain property for `accessfreetools.com`.
 - Submit `https://accessfreetools.com/sitemap.xml`.
 - Submit `https://accessfreetools.com/feed.xml` as a secondary discovery feed.
+- Do not submit `https://accessfreetools.com/pinterest-feed.xml` as the main Google discovery feed. It is a curated Pinterest auto-publish feed with Pin images, not the normal guide RSS feed.
 - Inspect `https://accessfreetools.com/`, `https://accessfreetools.com/free-calculator-resources/`, one new tool URL, one new blog guide URL, and `https://accessfreetools.com/sitemap.xml` after deployment.
 - Confirm URL Inspection says "Page fetch: Successful", "Indexing allowed", and the user-declared canonical matches the production URL.
 - Do not use Google's old sitemap ping endpoint. Google deprecated it; use Search Console, robots.txt sitemap discovery, and accurate `lastmod` dates instead.

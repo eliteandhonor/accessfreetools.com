@@ -25,6 +25,9 @@ Public profile cleanup is done at `https://au.pinterest.com/accessfreetools/`.
 The branded avatar is live, starter boards are created, 8 organic starter pins
 are published, and duplicate draft cleanup is complete. Use Pinterest's organic
 `/pin-creation-tool/` flow for pins; do not use the ad-focused pin builder.
+Pinterest RSS auto-publish should use `https://accessfreetools.com/pinterest-feed.xml`,
+not the normal blog RSS feed, so only approved image-backed promotion pages are
+sent to Pinterest.
 Use `npm run promotion:medium:starter` to generate publish-ready Medium
 companion drafts; it is draft-only and does not publish. Generated drafts include
 canonical/source URL notes, tags, preview text, and an approval checklist.
