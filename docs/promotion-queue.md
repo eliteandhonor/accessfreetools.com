@@ -53,6 +53,11 @@ passed `npm run promotion:medium:quality` with every draft above the SEO,
 originality, human-interest, and overall score thresholds. These drafts are
 ready for external Medium publishing, but they are not marked `posted` unless a
 live Medium URL is visible and checked.
+The first live Medium companion post was repaired on 2026-05-07 after review:
+the missing branded hero image, image alt text, Medium SEO title/description,
+canonical link, and reader-interest topics were added in the external Medium
+editor, then the live article was checked:
+`https://medium.com/@accessfreetools/how-to-pick-the-right-free-online-calculator-c13c791f08d5`.
 The second live Medium companion post was published, updated with a branded
 hero image, Medium SEO title/description, canonical link, reader-interest topics,
 and checked on 2026-05-07:
@@ -62,7 +67,10 @@ image, alt text, canonical/source URL metadata, and focused tags in the local
 quality gate before future public posting. The live percentage article now uses
 the generated `public/medium/percentage-calculator-discounts.jpg` hero image,
 a shorter Medium SEO title, a 149-character SEO description, and a canonical
-link to `/blog/how-to-use-percentage-calculator/`.
+link to `/blog/how-to-use-percentage-calculator/`. A later same-day external
+browser review found its section headings had pasted as normal paragraphs, so
+the article body was re-applied as rich content and the live H1/H2 format was
+verified.
 Pinterest RSS remains ready on the site side: use
 `https://accessfreetools.com/pinterest-feed.xml` for the future-pins feed or
 the board-specific feeds under `/pinterest/*.xml`. The latest RSS report found
@@ -72,12 +80,12 @@ the board-specific feeds under `/pinterest/*.xml`. The latest RSS report found
 | --- | --- | --- | --- | --- | --- |
 | High | `/tools/` | Free online tools library with calculators, converters, AI tools, and guides | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
 | High | `/free-calculator-resources/` | Free calculator resources hub for common calculations | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
-| High | `/free-calculator-resources/` | How to pick the right free online calculator | Medium | posted | Live article updated in the external Medium editor on 2026-05-06: `https://medium.com/@accessfreetools/how-to-pick-the-right-free-online-calculator-c13c791f08d5` |
+| High | `/free-calculator-resources/` | How to pick the right free online calculator | Medium | posted | Live article updated in the external Medium editor on 2026-05-07 with hero image, alt text, SEO title/description, canonical link, topics, and live image/H2 check: `https://medium.com/@accessfreetools/how-to-pick-the-right-free-online-calculator-c13c791f08d5` |
 | High | `/tools/basic-calculator/` | Simple everyday calculator with guide and keyboard support | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
 | High | `/tools/percentage-calculator/` | Discounts, percent change, markups, and reverse percentages | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
 | High | `/tools/mortgage-calculator/` | Estimate monthly payments and understand amortization | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/finance-calculators/` on 2026-05-06 |
 | High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Medium, Reddit | approved | Medium draft approved on 2026-05-07; ready to publish after the current live Medium result is reviewed |
-| High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image, alt text, Medium SEO title/description, canonical link, and reader-interest topics updated in external Medium settings |
+| High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image, alt text, Medium SEO title/description, canonical link, reader-interest topics, and live H1/H2 formatting verified in the external browser |
 | High | `/tools/mortgage-calculator/` | Early home-shopping payment estimate with finance limits | Medium | approved | Medium draft approved on 2026-05-07; finance limits included |
 | Medium | `/tools/bmi-calculator/` | BMI estimate with health disclaimer and plain-language result notes | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/health-and-fitness-calculators/` on 2026-05-06 |
 | Medium | `/tools/bmi-calculator/` | BMI estimate limits explained carefully | Medium | approved | Medium draft approved on 2026-05-07; health limits included |
