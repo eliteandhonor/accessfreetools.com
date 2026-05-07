@@ -6,7 +6,21 @@ import { spawn } from 'node:child_process';
 const args = process.argv.slice(2);
 const option = (name, fallback = undefined) =>
   args.find((arg) => arg.startsWith(`${name}=`))?.slice(name.length + 1) ?? fallback;
-const today = new Date().toISOString().slice(0, 10);
+
+function localDateStamp(date = new Date()) {
+  const timeZone = process.env.AFT_AUDIT_TIME_ZONE ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const parts = new Intl.DateTimeFormat('en-AU', {
+    timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date);
+  const value = (type) => parts.find((part) => part.type === type)?.value ?? '';
+
+  return `${value('year')}-${value('month')}-${value('day')}`;
+}
+
+const today = localDateStamp();
 const outputDir = resolve(option('--output-dir', join('output', 'deep-audit', today)));
 const screenshotDir = join(outputDir, 'screenshots');
 const skipPaid = args.includes('--skip-paid');
