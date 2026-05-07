@@ -1,4 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { dirname, resolve } from 'node:path';
 import { chromium } from '@playwright/test';
 
@@ -7,6 +8,13 @@ const DEFAULT_DRAFT = resolve('output', 'promotion', 'reddit', 'drafts', 'percen
 const REPORT_PATH = resolve('output', 'promotion', 'reddit', 'reddit-profile-publish-report.json');
 const PROFILE_SUBMIT_URL = 'https://www.reddit.com/user/accessfreetools/submit?type=TEXT';
 const PUBLIC_PROFILE_URL = 'https://www.reddit.com/user/accessfreetools/';
+const PUBLISHED_PROFILE_POSTS = [
+  {
+    title: 'How to calculate a discount without guessing',
+    sourcePath: '/tools/percentage-calculator/',
+    postUrl: 'https://www.reddit.com/r/u_accessfreetools/comments/1t61gx6/how_to_calculate_a_discount_without_guessing/',
+  },
+];
 
 const args = process.argv.slice(2);
 const draftPath = resolve(args.find((arg) => arg.startsWith('--draft='))?.slice('--draft='.length) ?? DEFAULT_DRAFT);
@@ -47,6 +55,68 @@ function extractDraft(markdown) {
   return { title, body };
 }
 
+async function findMatchingProfilePost(draft) {
+  const listingUrl = `${PUBLIC_PROFILE_URL}submitted/.json?limit=10`;
+  const sourceUrl = draft.body.match(/https:\/\/accessfreetools\.com\/\S+/)?.[0]?.replace(/[).,]+$/, '');
+  const knownPost = PUBLISHED_PROFILE_POSTS.find(
+    (post) => post.title === draft.title && (!sourceUrl || sourceUrl.includes(post.sourcePath)),
+  );
+
+  if (knownPost) {
+    return {
+      title: knownPost.title,
+      postUrl: knownPost.postUrl,
+      createdUtc: null,
+    };
+  }
+
+  function parseListing(text) {
+    const data = JSON.parse(text);
+    const children = Array.isArray(data?.data?.children) ? data.data.children : [];
+    const match = children
+      .map((child) => child?.data)
+      .find((post) => post?.title === draft.title && (!sourceUrl || post?.selftext?.includes(sourceUrl)));
+
+    if (!match) {
+      return null;
+    }
+
+    return {
+      title: match.title,
+      postUrl: match.url ?? (match.permalink ? new URL(match.permalink, 'https://www.reddit.com').toString() : ''),
+      createdUtc: match.created_utc,
+    };
+  }
+
+  try {
+    const response = await fetch(listingUrl, {
+      headers: {
+        'user-agent': 'Access Free Tools promotion audit/1.0',
+      },
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return parseListing(await response.text());
+  } catch {
+    // Reddit can return different bot-protection behavior to Node fetch than
+    // to a normal browser-like request. Use curl as a duplicate-check fallback.
+    try {
+      const curl = process.platform === 'win32' ? 'curl.exe' : 'curl';
+      const text = execFileSync(curl, ['-L', '-s', '-A', 'Mozilla/5.0 accessfreetools audit', listingUrl], {
+        encoding: 'utf8',
+        timeout: 15000,
+        maxBuffer: 1024 * 1024,
+      });
+      return parseListing(text);
+    } catch {
+      return null;
+    }
+  }
+}
+
 async function firstVisible(locatorFactories) {
   for (const createLocator of locatorFactories) {
     const locator = createLocator();
@@ -67,9 +137,19 @@ async function fillField(page, value, factories) {
     return false;
   }
 
-  await field.click();
-  await field.fill(value);
-  return true;
+  try {
+    await field.click();
+    await field.fill(value);
+    return true;
+  } catch {
+    // Reddit's current body editor is a custom <shreddit-composer> element.
+    // Clicking it focuses the internal rich-text editor even though fill() is unsupported.
+    await field.click();
+    await page.keyboard.press('ControlOrMeta+A').catch(() => undefined);
+    await page.keyboard.insertText(value);
+    const pageText = await page.locator('body').innerText({ timeout: 5000 }).catch(() => '');
+    return pageText.includes(value.slice(0, 80));
+  }
 }
 
 async function run() {
@@ -81,6 +161,24 @@ async function run() {
   }
 
   const draft = extractDraft(readFileSync(draftPath, 'utf8'));
+  const existingPost = await findMatchingProfilePost(draft);
+  if (existingPost) {
+    writeJson(REPORT_PATH, {
+      generatedAt: new Date().toISOString(),
+      draftPath,
+      target: PROFILE_SUBMIT_URL,
+      publicProfile: PUBLIC_PROFILE_URL,
+      confirmed,
+      passwordStored: false,
+      posted: true,
+      duplicateSkipped: true,
+      postUrl: existingPost.postUrl,
+      action: 'Matching Reddit profile post already exists, so duplicate publishing was skipped.',
+    });
+    console.log('Matching Reddit profile post already exists, so duplicate publishing was skipped.');
+    return;
+  }
+
   const browser = await chromium.launchPersistentContext(DEFAULT_PROFILE_DIR, {
     channel: 'msedge',
     headless,
@@ -133,6 +231,8 @@ async function run() {
     const bodyFilled = await fillField(page, draft.body, [
       () => page.locator('textarea[name="text"]'),
       () => page.locator('textarea[name="body"]'),
+      () => page.locator('shreddit-composer[name="body"]'),
+      () => page.locator('shreddit-composer#post-composer_bodytext'),
       () => page.getByPlaceholder(/body text|text/i),
       () => page.getByLabel(/body text|text/i),
       () => page.locator('[contenteditable="true"]').last(),
@@ -183,11 +283,13 @@ async function run() {
     await postButton.click();
     await page.waitForLoadState('domcontentloaded', { timeout: 30000 }).catch(() => undefined);
     await page.waitForTimeout(3000);
+    const publishedPost = await findMatchingProfilePost(draft);
 
     Object.assign(report, {
       currentUrl: page.url(),
       title: await page.title(),
       posted: true,
+      postUrl: publishedPost?.postUrl,
       action: 'Reddit profile post was submitted from the external Edge profile.',
     });
     writeJson(REPORT_PATH, report);

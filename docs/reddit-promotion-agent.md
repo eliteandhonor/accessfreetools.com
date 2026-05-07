@@ -6,6 +6,9 @@ The user created `u/accessfreetools` with `contact@accessfreetools.com`. Do not
 store the Reddit password, recovery links, codes, cookies, or session data in
 Git, docs, output reports, or automation prompts.
 
+First profile post published on 2026-05-07:
+`https://www.reddit.com/r/u_accessfreetools/comments/1t61gx6/how_to_calculate_a_discount_without_guessing/`.
+
 ## What This Agent Does
 
 - Creates helpful Reddit reply drafts and profile-post drafts.
@@ -45,7 +48,8 @@ for login, CAPTCHA, email verification, or phone/2FA, the user must complete it.
 `promotion:reddit:publish-profile` uses an approved profile-post draft and
 submits it to `u/accessfreetools` only. The package script includes the hard
 `--confirm-public-post` flag, and the script stops if Reddit asks for login,
-CAPTCHA, email verification, phone, or 2FA.
+CAPTCHA, email verification, phone, or 2FA. It checks the public profile feed
+first and skips publishing if the matching profile post already exists.
 
 ## Best First Setup
 
