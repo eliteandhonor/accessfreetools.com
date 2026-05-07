@@ -45,6 +45,7 @@ const SITE_HEADER_SOURCE = readFileSync(
 );
 const MIDDLEWARE_SOURCE = readFileSync(fileURLToPath(new URL('../middleware.ts', import.meta.url)), 'utf8');
 const ASTRO_CONFIG_SOURCE = readFileSync(fileURLToPath(new URL('../../astro.config.mjs', import.meta.url)), 'utf8');
+const HTACCESS_SOURCE = readFileSync(fileURLToPath(new URL('../../public/.htaccess', import.meta.url)), 'utf8');
 const PACKAGE_JSON_SOURCE = readFileSync(fileURLToPath(new URL('../../package.json', import.meta.url)), 'utf8');
 const TOOLS_LAUNCHPAD_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/ToolsLaunchpad.tsx', import.meta.url)),
@@ -852,6 +853,12 @@ describe('site content audit guardrails', () => {
     expect(MIDDLEWARE_SOURCE).toContain('/tools/age-calculator/');
     expect(MIDDLEWARE_SOURCE).toContain('/maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025');
     expect(MIDDLEWARE_SOURCE).toContain('/tools/ad-revenue-calculator/');
+    expect(HTACCESS_SOURCE).toContain('RewriteRule ^advanced-age-calculator/?$ /tools/age-calculator/');
+    expect(HTACCESS_SOURCE).toContain(
+      'RewriteRule ^maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025/?$ /tools/ad-revenue-calculator/',
+    );
+    expect(HTACCESS_SOURCE).toContain('RewriteRule ^calculators/?$ /categories/calculators/');
+    expect(HTACCESS_SOURCE).toContain('RewriteRule ^deep-research/?$ /categories/ai-tools/');
     expect(SEO_SELF_EVALUATION_SOURCE).toContain('/dataforseo_labs/google/serp_competitors/live');
     expect(SEO_SELF_EVALUATION_SOURCE).toContain('/dataforseo_labs/google/related_keywords/live');
     expect(SEO_SELF_EVALUATION_SOURCE).toContain('Paid keyword research skipped');

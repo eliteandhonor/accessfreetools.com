@@ -60,6 +60,7 @@ After Hostinger deploys the latest GitHub commit:
 - For the live contact form, `https://accessfreetools.com/api/contact.php` must return JSON. If the Node route `https://accessfreetools.com/api/contact` returns a Hostinger HTML 404 page, production is still static-only, so keep the PHP endpoint active.
 - Hostinger build settings should use server-side Astro: build command `npm run build`, start command `npm run start`, entry file `app.js`, and output directory `dist` if an output field is shown.
 - Confirm Hostinger has the contact form environment variables set and send one test message from `/contact/`.
+- Confirm old indexed URLs such as `/calculators`, `/deep-research`, and `/advanced-age-calculator` return 301 redirects. Hostinger may serve static output first, so keep the matching fallback rules in `public/.htaccess`.
 
 ## Search Console
 
