@@ -49,10 +49,11 @@ Tools` were created on 2026-05-06.
 Starter organic pin status: the first 8 starter pins were published and
 verified on 2026-05-06. Failed duplicate drafts from the first automation
 attempt were deleted.
-Pinterest RSS status: a dedicated image-backed RSS feed is available at
-`https://accessfreetools.com/pinterest-feed.xml` for Pinterest auto-publish.
-Use that feed instead of `/feed.xml`, because the normal feed is for blog
-readers and does not carry the dedicated Pin images.
+Pinterest RSS status: dedicated image-backed RSS feeds are available for
+Pinterest auto-publish. Use those feeds instead of `/feed.xml`, because the
+normal feed is for blog readers and does not carry the dedicated Pin images.
+The current RSS feeds only include future `rss-ready` pins, not already-posted
+manual pins, so Pinterest does not duplicate the starter batches.
 
 Security note: the account password must stay out of Git, docs, automation
 prompts, and reports. If a password was shared in chat or screenshots, change it
@@ -134,9 +135,17 @@ Organic posting workflow:
 
 RSS auto-publish workflow:
 
-- Use `https://accessfreetools.com/pinterest-feed.xml`.
-- Connect it to a broad board such as Free Online Calculators unless a future
-  board-specific feed is created.
+- Run `npm run promotion:pinterest:rss-report` before connecting or changing a
+  feed. Use only feeds with at least one RSS-ready item.
+- Use the broad future-pins feed only if Pinterest asks for one general feed:
+  `https://accessfreetools.com/pinterest-feed.xml`.
+- Prefer board-specific feeds when Pinterest lets you map a feed to a board:
+  `https://accessfreetools.com/pinterest/free-online-calculators.xml`,
+  `https://accessfreetools.com/pinterest/home-project-calculators.xml`,
+  `https://accessfreetools.com/pinterest/finance-calculators.xml`,
+  `https://accessfreetools.com/pinterest/health-and-fitness-calculators.xml`,
+  `https://accessfreetools.com/pinterest/ai-browser-tools.xml`, and
+  `https://accessfreetools.com/pinterest/school-and-study-tools.xml`.
 - Keep feed items curated in `src/data/pinterestFeed.ts`.
 - Do not connect `/feed.xml` to Pinterest because it is the general guide RSS
   feed and does not include the dedicated Pinterest images.

@@ -15,6 +15,7 @@ const budgets = {
   '.wasm': { warn: 10 * 1024 * 1024, fail: 30 * 1024 * 1024 },
   '.json': { warn: 300 * 1024, fail: 900 * 1024 },
   '.xml': { warn: 160 * 1024, fail: 600 * 1024 },
+  '.jpg': { warn: 260 * 1024, fail: 600 * 1024 },
   aiAsset: { warn: 8 * 1024 * 1024, fail: 95 * 1024 * 1024 },
 };
 
@@ -25,6 +26,11 @@ const requiredWatchPaths = [
   'sitemap.xml',
   'sitemap-tools.xml',
   'sitemap-blog.xml',
+  'pinterest-feed.xml',
+  'pinterest/free-online-calculators.xml',
+  'pinterest/home-project-calculators.xml',
+  'pinterest/finance-calculators.xml',
+  'pinterest/school-and-study-tools.xml',
   'tool-search-index.json',
 ];
 

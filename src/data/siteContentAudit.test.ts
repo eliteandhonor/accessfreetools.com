@@ -63,6 +63,14 @@ const PINTEREST_FEED_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/pinterest-feed.xml.ts', import.meta.url)),
   'utf8',
 );
+const PINTEREST_BOARD_FEED_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/pinterest/[board].xml.ts', import.meta.url)),
+  'utf8',
+);
+const PINTEREST_FEED_XML_SOURCE = readFileSync(
+  fileURLToPath(new URL('../data/pinterestFeedXml.ts', import.meta.url)),
+  'utf8',
+);
 const PINTEREST_FEED_DATA_SOURCE = readFileSync(
   fileURLToPath(new URL('../data/pinterestFeed.ts', import.meta.url)),
   'utf8',
@@ -718,13 +726,28 @@ describe('site content audit guardrails', () => {
     expect(FEED_SOURCE).toContain('getBlogDates');
     expect(FEED_SOURCE).toContain('RSS_ITEM_LIMIT');
     expect(FEED_SOURCE).not.toContain('const updatedDate = new Date()');
-    expect(PINTEREST_FEED_SOURCE).toContain('rss version="2.0"');
-    expect(PINTEREST_FEED_SOURCE).toContain('xmlns:media="http://search.yahoo.com/mrss/"');
-    expect(PINTEREST_FEED_SOURCE).toContain('media:content');
+    expect(PINTEREST_FEED_XML_SOURCE).toContain('rss version="2.0"');
+    expect(PINTEREST_FEED_XML_SOURCE).toContain('xmlns:media="http://search.yahoo.com/mrss/"');
+    expect(PINTEREST_FEED_XML_SOURCE).toContain('media:content');
+    expect(PINTEREST_FEED_XML_SOURCE).toContain('image/jpeg');
+    expect(PINTEREST_FEED_SOURCE).toContain('getPinterestFeedItems()');
+    expect(PINTEREST_FEED_SOURCE).toContain('Already-posted manual pins stay out of this feed');
     expect(PINTEREST_FEED_SOURCE).toContain('/pinterest-feed.xml');
+    expect(PINTEREST_BOARD_FEED_SOURCE).toContain('getStaticPaths');
+    expect(PINTEREST_BOARD_FEED_SOURCE).toContain('pinterestBoards.map');
+    expect(PINTEREST_BOARD_FEED_SOURCE).toContain('getPinterestFeedItems(board.slug)');
     expect(PINTEREST_FEED_DATA_SOURCE).toContain('/pinterest/');
+    expect(PINTEREST_FEED_DATA_SOURCE).toContain("rssEligible: true");
+    expect(PINTEREST_FEED_DATA_SOURCE).toContain("rssEligible: false");
+    expect(PINTEREST_FEED_DATA_SOURCE).toContain("status: 'posted'");
+    expect(PINTEREST_FEED_DATA_SOURCE).toContain("status: 'rss-ready'");
+    expect(PINTEREST_FEED_DATA_SOURCE).toContain("boardSlug: 'free-online-calculators'");
+    expect(PINTEREST_FEED_DATA_SOURCE).toContain('/pinterest/free-online-calculators.xml');
+    expect(PINTEREST_FEED_DATA_SOURCE).toContain('/tools/watts-to-amps-calculator/');
     expect(PINTEREST_FEED_DATA_SOURCE).toContain('/tools/percentage-calculator/');
     expect(PINTEREST_FEED_DATA_SOURCE).not.toContain('/blog/');
+    expect(PACKAGE_JSON.scripts['promotion:pinterest:rss-report']).toBe('node scripts/pinterest-rss-report.mjs');
+    expect(PACKAGE_JSON.scripts['promotion:weekly-review']).toContain('promotion:pinterest:rss-report');
     expect(PACKAGE_JSON.scripts.typecheck).toBe('tsc --noEmit');
     expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run src/data/siteContentAudit.test.ts');
     expect(PACKAGE_JSON.scripts['check:links']).toBe('node scripts/check-internal-links.mjs');

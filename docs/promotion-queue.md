@@ -9,6 +9,7 @@ still require approval.
 - `needs draft`: promotion copy has not been written yet.
 - `needs approval`: ready for the user to approve or edit.
 - `approved`: user approved the idea, but it has not been posted.
+- `rss-ready`: approved for Pinterest RSS auto-publish and excluded from manual reposting until Pinterest processes it.
 - `posted`: user posted it or confirmed it was published.
 - `waiting`: submitted to discovery/indexing and waiting for search engines.
 - `done`: no current action needed.
@@ -25,9 +26,11 @@ Public profile cleanup is done at `https://au.pinterest.com/accessfreetools/`.
 The branded avatar is live, starter boards are created, 8 organic starter pins
 are published, and duplicate draft cleanup is complete. Use Pinterest's organic
 `/pin-creation-tool/` flow for pins; do not use the ad-focused pin builder.
-Pinterest RSS auto-publish should use `https://accessfreetools.com/pinterest-feed.xml`,
-not the normal blog RSS feed, so only approved image-backed promotion pages are
-sent to Pinterest.
+Pinterest RSS auto-publish should use the future-pins feed
+`https://accessfreetools.com/pinterest-feed.xml` or a matching board feed under
+`/pinterest/*.xml`, not the normal blog RSS feed, so only approved image-backed
+promotion pages are sent to Pinterest. Already-posted manual pins are excluded
+from RSS to avoid duplicates.
 Use `npm run promotion:medium:starter` to generate publish-ready Medium
 companion drafts; it is draft-only and does not publish. Generated drafts include
 canonical/source URL notes, tags, preview text, and an approval checklist.
@@ -62,6 +65,14 @@ published and verified on 2026-05-07 with the no-ads publisher.
 | Medium | `/tools/payment-calculator/` | Estimate loan payment from principal, rate, and term | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/finance-calculators/` on 2026-05-07 |
 | Medium | `/tools/hex-calculator/` | Hex, decimal, and binary number-base learning helper | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/school-and-study-tools/` on 2026-05-07 |
 | Medium | `/tools/amp-hours-to-watt-hours-calculator/` | Convert battery capacity using amp-hours and voltage | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/home-project-calculators/` on 2026-05-07 |
+| Medium | `/tools/watts-to-amps-calculator/` | Electrical conversion with voltage and phase reminders | Pinterest RSS | rss-ready | Ready in `https://accessfreetools.com/pinterest/home-project-calculators.xml` after the next deploy |
+| High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Pinterest RSS | rss-ready | Ready in `https://accessfreetools.com/pinterest/finance-calculators.xml` after the next deploy |
+| Medium | `/tools/percent-off-calculator/` | Sale price, discount amount, and savings check | Pinterest RSS | rss-ready | Ready in `https://accessfreetools.com/pinterest/free-online-calculators.xml` after the next deploy |
+| High | `/tools/mortgage-amortization-calculator/` | Payment breakdown across principal and interest | Pinterest RSS | rss-ready | Ready in `https://accessfreetools.com/pinterest/finance-calculators.xml` after the next deploy |
+| Medium | `/tools/concrete-calculator/` | Slabs, footings, posts, and concrete volume | Pinterest RSS | rss-ready | Ready in `https://accessfreetools.com/pinterest/home-project-calculators.xml` after the next deploy |
+| Medium | `/tools/recipe-scaler/` | Resize ingredient amounts without guessing | Pinterest RSS | rss-ready | Ready in `https://accessfreetools.com/pinterest/free-online-calculators.xml` after the next deploy |
+| Medium | `/tools/unit-price-calculator/` | Compare price per unit while shopping | Pinterest RSS | rss-ready | Ready in `https://accessfreetools.com/pinterest/free-online-calculators.xml` after the next deploy |
+| Medium | `/tools/word-counter/` | Count words, characters, sentences, and reading time | Pinterest RSS | rss-ready | Ready in `https://accessfreetools.com/pinterest/school-and-study-tools.xml` after the next deploy |
 | Low | `/blog/` | Guide library for tool examples and explanations | Medium | waiting | Monitor index status before heavier promotion |
 
 ## Draft Template
@@ -84,5 +95,5 @@ Follow-up date:
 2. Create organic Pinterest pins first while Pinterest is the only created promotion account.
 3. Check whether each target page is indexed or pending.
 4. Add or recommend internal links from related tools and guides.
-5. Ask the user before anything is posted publicly unless the user has explicitly approved autopilot posting for that channel.
+5. Use RSS-ready status only for pages that already have approved pin copy, a real image, a board, and a useful page.
 6. Record posted URLs after the user confirms publishing.

@@ -189,25 +189,47 @@ Created boards on 2026-05-06:
 ## Pinterest RSS Auto-Publish
 
 Pinterest can auto-publish Pins from a claimed-domain RSS feed. Use the
-dedicated feed below instead of the normal blog RSS feed, because it has
-Pinterest-sized images and only includes approved promotion pages:
+dedicated feeds below instead of the normal blog RSS feed, because they have
+Pinterest-sized images and only include approved future promotion pages.
+Already-posted manual pins are intentionally excluded so Pinterest does not
+repeat the same pins.
 
 ```text
 https://accessfreetools.com/pinterest-feed.xml
+https://accessfreetools.com/pinterest/free-online-calculators.xml
+https://accessfreetools.com/pinterest/home-project-calculators.xml
+https://accessfreetools.com/pinterest/finance-calculators.xml
+https://accessfreetools.com/pinterest/health-and-fitness-calculators.xml
+https://accessfreetools.com/pinterest/ai-browser-tools.xml
+https://accessfreetools.com/pinterest/school-and-study-tools.xml
 ```
 
 Setup notes:
 
-- Connect this feed to a broad board such as Free Online Calculators unless a
-  future board-specific feed is created.
+- Prefer board-specific feeds when Pinterest asks which board should receive
+  RSS pins. Use the general `/pinterest-feed.xml` only if Pinterest allows one
+  broad feed and board choice.
+- Do not connect an empty board feed. Run `npm run promotion:pinterest:rss-report`
+  first and use only feeds with at least one RSS-ready item.
 - Do not connect `https://accessfreetools.com/feed.xml`; that feed is for
   blog-guide discovery and does not carry the dedicated Pin images.
 - Keep each RSS item linked to `https://accessfreetools.com/` because Pinterest
   requires feed links to match the claimed domain.
 - Update `src/data/pinterestFeed.ts` only after a page has an approved Pin title,
-  description, image, and useful destination page.
+  description, image, useful destination page, board, and `rss-ready` status.
 - If Pinterest asks for a feed image, the item images live under
   `https://accessfreetools.com/pinterest/`.
+
+Current RSS-ready future pins:
+
+- Watts To Amps Calculator
+- Ad Revenue Calculator
+- Percent Off Calculator
+- Mortgage Amortization Calculator
+- Concrete Calculator
+- Recipe Scaler
+- Unit Price Calculator
+- Word Counter
 
 ## First Medium Draft Outlines
 

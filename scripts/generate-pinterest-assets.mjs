@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium } from 'playwright';
 
@@ -177,6 +177,86 @@ const pins = [
     accent: '#0f766e',
     accent2: '#2563eb',
     accent3: '#84cc16',
+  },
+  {
+    file: 'watts-to-amps-calculator.png',
+    title: 'Watts To Amps Calculator',
+    subtitle: 'Convert watts to amps using voltage and phase, then read the safety notes before real wiring decisions.',
+    chips: ['Watts', 'Amps', 'Voltage'],
+    url: 'accessfreetools.com/tools/watts-to-amps-calculator/',
+    accent: '#dc2626',
+    accent2: '#2563eb',
+    accent3: '#f59e0b',
+  },
+  {
+    file: 'ad-revenue-calculator.png',
+    title: 'Ad Revenue Calculator',
+    subtitle: 'Estimate RPM, CPC, CTR, pageviews, and revenue so a new site plan is easier to compare.',
+    chips: ['RPM', 'CTR', 'Revenue'],
+    url: 'accessfreetools.com/tools/ad-revenue-calculator/',
+    accent: '#1d4ed8',
+    accent2: '#0f766e',
+    accent3: '#f59e0b',
+  },
+  {
+    file: 'percent-off-calculator.png',
+    title: 'Percent Off Calculator',
+    subtitle: 'Check the discount, final sale price, and savings amount before trusting a sale sign.',
+    chips: ['Discount', 'Savings', 'Price'],
+    url: 'accessfreetools.com/tools/percent-off-calculator/',
+    accent: '#be185d',
+    accent2: '#7c3aed',
+    accent3: '#38bdf8',
+  },
+  {
+    file: 'mortgage-amortization-calculator.png',
+    title: 'Mortgage Amortization',
+    subtitle: 'See how a payment can split between interest and principal across the loan timeline.',
+    chips: ['Payment', 'Interest', 'Principal'],
+    url: 'accessfreetools.com/tools/mortgage-amortization-calculator/',
+    accent: '#1d4ed8',
+    accent2: '#0f766e',
+    accent3: '#f97316',
+  },
+  {
+    file: 'concrete-calculator.png',
+    title: 'Concrete Calculator',
+    subtitle: 'Estimate concrete for slabs, footings, holes, and posts with extra material reminders.',
+    chips: ['Slabs', 'Footings', 'Volume'],
+    url: 'accessfreetools.com/tools/concrete-calculator/',
+    accent: '#475569',
+    accent2: '#0f766e',
+    accent3: '#f59e0b',
+  },
+  {
+    file: 'recipe-scaler.png',
+    title: 'Recipe Scaler',
+    subtitle: 'Double, halve, or resize ingredient amounts without guessing at the counter.',
+    chips: ['Ingredients', 'Scale', 'Cook'],
+    url: 'accessfreetools.com/tools/recipe-scaler/',
+    accent: '#ea580c',
+    accent2: '#16a34a',
+    accent3: '#facc15',
+  },
+  {
+    file: 'unit-price-calculator.png',
+    title: 'Unit Price Calculator',
+    subtitle: 'Compare price per ounce, pound, item, or pack so deals are easier to judge.',
+    chips: ['Compare', 'Price', 'Deals'],
+    url: 'accessfreetools.com/tools/unit-price-calculator/',
+    accent: '#0f766e',
+    accent2: '#1d4ed8',
+    accent3: '#f59e0b',
+  },
+  {
+    file: 'word-counter.png',
+    title: 'Word Counter',
+    subtitle: 'Count words, characters, sentences, and reading time for essays, notes, and drafts.',
+    chips: ['Words', 'Characters', 'Reading'],
+    url: 'accessfreetools.com/tools/word-counter/',
+    accent: '#7c3aed',
+    accent2: '#2563eb',
+    accent3: '#22c55e',
   },
 ];
 
@@ -472,6 +552,12 @@ function avatarHtml() {
 mkdirSync(outputDir, { recursive: true });
 mkdirSync(publicDir, { recursive: true });
 
+for (const entry of readdirSync(publicDir, { withFileTypes: true })) {
+  if (entry.isFile() && entry.name.endsWith('.png') && entry.name !== 'access-free-tools-avatar.png') {
+    rmSync(resolve(publicDir, entry.name));
+  }
+}
+
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
 
@@ -481,10 +567,17 @@ for (const pin of pins) {
     type: 'png',
     fullPage: false,
   });
+  const publicImage = await page.screenshot({
+    type: 'jpeg',
+    quality: 84,
+    fullPage: false,
+  });
+  const publicFile = pin.file.replace(/\.png$/, '.jpg');
+
   writeFileSync(resolve(outputDir, pin.file), image);
-  writeFileSync(resolve(publicDir, pin.file), image);
+  writeFileSync(resolve(publicDir, publicFile), publicImage);
   console.log(`Generated output/promotion/pinterest/${pin.file}`);
-  console.log(`Generated public/pinterest/${pin.file}`);
+  console.log(`Generated public/pinterest/${publicFile}`);
 }
 
 await page.setViewportSize({ width: 1000, height: 1000 });

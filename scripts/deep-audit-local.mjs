@@ -284,6 +284,10 @@ function checkDiscoveryFiles() {
     'sitemap-blog.xml',
     'feed.xml',
     'pinterest-feed.xml',
+    'pinterest/free-online-calculators.xml',
+    'pinterest/home-project-calculators.xml',
+    'pinterest/finance-calculators.xml',
+    'pinterest/school-and-study-tools.xml',
   ];
   const files = expected.map((name) => {
     const fullPath = join(publicDistDir, name);
