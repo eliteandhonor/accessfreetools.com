@@ -66,8 +66,9 @@ limitation wording.
   Calculators. Done and externally verified on 2026-05-08.
 - Website: Quora did not expose a separate website field during setup; the
   first verified profile post includes the Access Free Tools page link.
-- Avatar: still pending. Use the same Access Free Tools logo used on Pinterest,
-  Medium, and Bluesky if Quora exposes a clear upload path.
+- Profile avatar: still pending. Use the same Access Free Tools logo used on
+  Pinterest, Medium, and Bluesky if Quora exposes a clear profile-image upload
+  path.
 - Do not connect ads or billing.
 
 ## Space Setup
@@ -76,20 +77,30 @@ Space name: Access Free Tools Guides.
 
 Public Space URL: https://accessfreetoolssspace.quora.com/
 
-Status: created, configured, and externally verified on 2026-05-08. The Space
+Status: safe setup completed and externally verified on 2026-05-08. The Space
 shows the clean public name, the plain-English calculator guide description,
-and the website link to AccessFreeTools.com. Quora kept the generated slug
-`accessfreetoolssspace` even after the title was cleaned up, so use the verified
-URL above unless Quora later confirms a working slug change.
+custom Space visuals, and the website link to AccessFreeTools.com. Quora kept
+the generated slug `accessfreetoolssspace` even after the title was cleaned up,
+so use the verified URL above unless Quora later confirms a working slug
+change.
 
 Space details:
 
 - Description: Plain-English calculator guides, browser tools, examples, and
   common mistakes to avoid. Built by AccessFreeTools.com.
 - Website: https://accessfreetools.com/
+- Visuals: Space icon and cover were updated with the local branded image
+  `public/quora/access-free-tools-guides-cover.png` and verified in the
+  external browser on 2026-05-08.
 - Contributors: only the owner for now.
 - Monetization/Quora+ setup: not connected.
-- Invite flow: skipped. Do not bulk-invite followers or import contacts.
+- Invite flow: intentionally left skipped. Do not bulk-invite followers, import
+  contacts, or mark that checklist item complete unless real followers or
+  explicitly approved contacts exist.
+- Share-to-feed setup prompt: completed in the external browser on 2026-05-08
+  with a short ownership-disclosed Space share. Quora did not expose a separate
+  permalink for this setup share during verification, so do not record it as a
+  standalone Space post.
 
 First Space promotion:
 

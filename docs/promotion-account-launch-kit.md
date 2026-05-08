@@ -246,12 +246,18 @@ Setup fields:
 - Bio: Free calculators, converters, browser AI tools, and plain-English guides
   for everyday math, shopping, school, finance estimates, home projects, and
   developer tasks. Built by Brendan Chambers at accessfreetools.com.
-- Avatar: pending until Quora exposes a clear profile-image upload path. Use the
-  same Access Free Tools logo used on Pinterest, Medium, and Bluesky.
+- Profile avatar: pending until Quora exposes a clear profile-image upload
+  path. Use the same Access Free Tools logo used on Pinterest, Medium, and
+  Bluesky.
 - Space: Access Free Tools Guides. Created and externally verified on
   2026-05-08 at `https://accessfreetoolssspace.quora.com/`. Quora kept the
   generated slug even after the public title was cleaned up, so use this
   verified URL unless the platform later confirms a working slug change.
+- Space checklist correction from 2026-05-08: description, custom visuals, and
+  the share-to-feed prompt were completed and screenshot-verified in external
+  Chrome. The invite prompt remains intentionally skipped because there are no
+  real followers/approved contacts to invite, and bulk importing contacts would
+  be a spam risk.
 
 Rules for the Promotion Agent:
 

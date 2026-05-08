@@ -61,6 +61,7 @@ Every new public tool should include:
 - Medium profile setup is complete at `https://medium.com/@accessfreetools`.
 - Reddit was created by the user on 2026-05-07 as `u/accessfreetools`; use `docs/reddit-promotion-agent.md` and run `npm run promotion:reddit:quality` before any Reddit draft is used publicly.
 - Quora was created by the user on 2026-05-08 with `contact@accessfreetools.com`; use `docs/quora-promotion-agent.md` and run `npm run promotion:quora:quality` before any Quora answer draft is used publicly.
+- Quora Space setup lesson from 2026-05-08: do not mark the Space checklist complete until the visible checklist is screenshot/publicly verified. The Space description, custom visuals, and share-to-feed prompt were completed; the invite prompt is intentionally skipped unless there are real followers or explicitly approved contacts. Never bulk-invite or import contacts.
 - Bluesky is the recommended next organic platform as of 2026-05-08; use `docs/bluesky-promotion-agent.md` and run `npm run promotion:bluesky:quality` before any Bluesky draft is approved. Keep `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD` local only, and never mark a Bluesky post live without a visible public post URL.
 - Never store promotion account passwords in Git, docs, automation prompts, reports, or generated output.
 - For promotion account browser work, do not use the in-app Browser Use surface. Use an external browser workflow only, and be explicit when access is blocked.
