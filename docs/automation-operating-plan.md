@@ -30,6 +30,8 @@ npm run seo:onpage-audit
 
 Use the paid OnPage crawl only after `npm run dataforseo:account -- -- --min-balance=2` and `npm run dataforseo:status` are healthy. The emergency top-up threshold is 2 USD, and broad paid work should stop at 5 USD.
 
+On 2026-05-08, a paid DataForSEO OnPage crawl checked 491 production URLs and found no broken pages, broken links, missing titles, missing descriptions, non-indexable pages, redirect chains, duplicate tags, low-score pages, or large resources. The only direct SEO fix was one overlong blog title, and the OnPage progress logger was updated to read DataForSEO's nested crawl status correctly.
+
 ## Promotion Rules
 
 Promotion automation is allowed to draft, score, queue, prepare images, and recommend the next post. Public posting still needs exact post-level approval unless the user has already approved the exact post and channel, because it can affect the brand, account trust, and platform policy standing.

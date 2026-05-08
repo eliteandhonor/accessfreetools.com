@@ -25,6 +25,7 @@ export interface UtilityGuideDefinition {
 }
 
 interface UtilityGuideDetail {
+  title?: string;
   summary: string;
   purpose: string;
   enter: string[];
@@ -1120,6 +1121,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchKvaToAmps, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
   },
   'amp-hours-to-watt-hours-calculator': {
+    title: 'Amp Hours to Watt Hours Guide',
     summary: 'Learn why multiplying amp-hours by volts gives a better battery energy comparison.',
     purpose:
       'The Amp Hours to Watt Hours Calculator converts a battery capacity label into stored energy. This helps you compare batteries even when their voltages differ.',
@@ -3323,7 +3325,7 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
     slug: `how-to-use-${tool.slug}`,
     toolSlug: tool.slug,
     label: `${tool.name} guide`,
-    title: `How to use the ${tool.name}`,
+    title: detail.title ?? `How to use the ${tool.name}`,
     description: detail.summary,
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: `${detail.purpose} Use this guide as a short walkthrough: enter the values the calculator asks for, read the main answer first, then check the notes so you know what the number does and does not mean.`,

@@ -79,9 +79,10 @@ function firstTaskId(response) {
 
 function statusSummaryLine(summary) {
   const result = taskResult(summary);
-  return `crawl ${result.crawl_progress ?? 'unknown'} | pages ${result.pages_in_queue ?? 0} queued, ${
-    result.pages_crawled ?? 0
-  } crawled | checks ${result.checks?.status ?? 'unknown'}`;
+  const pagesQueued = result.crawl_status?.pages_in_queue ?? result.pages_in_queue ?? 0;
+  const pagesCrawled = result.crawl_status?.pages_crawled ?? result.pages_crawled ?? 0;
+  const checksStatus = result.checks?.status ?? result.crawl_status?.status ?? 'unknown';
+  return `crawl ${result.crawl_progress ?? 'unknown'} | pages ${pagesQueued} queued, ${pagesCrawled} crawled | checks ${checksStatus}`;
 }
 
 function pageUrl(item) {
