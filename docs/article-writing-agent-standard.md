@@ -150,6 +150,11 @@ If Medium turns Markdown headings into normal text, do not mark the post fixed.
 Re-apply the article with rich HTML or Medium's heading controls, republish,
 and screenshot-check the public page again.
 
+If Medium blocks publishing because the account has reached a 24-hour story
+limit, do not mark the post live. Keep the prepared draft, record the block in
+`docs/promotion-queue.md`, and retry only after the waiting window. A post is
+`posted` only after the public URL is visible and checked.
+
 The checker also acts as an article reviewer and writes a score report to
 `output/promotion/medium-quality-report.json`. Minimum scores:
 

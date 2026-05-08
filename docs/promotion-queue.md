@@ -67,6 +67,12 @@ The live wallpaper Medium post was manually fixed by the user on 2026-05-08
 after a hero-image collision was found. The external-browser public page now
 shows a clean hero image and readable H1 at
 `https://medium.com/@accessfreetools/what-waste-percent-means-in-a-wallpaper-calculator-8189dc219150`.
+On 2026-05-08, the ad-revenue Medium companion article was prepared in the
+external Chrome Medium editor with rich H2 formatting, branded hero image,
+saved alt text, reader interests, SEO title/description, and canonical/source
+URL. Medium blocked the live publish because the account had reached its
+"maximum of two stories in the past 24 hours" limit. Do not mark it posted until
+the account can publish again and the public URL is visibly checked.
 Follow-up from the 2026-05-07 review: Medium posts now require a branded hero
 image, alt text, canonical/source URL metadata, and focused tags in the local
 quality gate before future public posting. The live percentage article now uses
@@ -95,7 +101,7 @@ them and the public board shows the Pins.
 | High | `/tools/basic-calculator/` | Simple everyday calculator with guide and keyboard support | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
 | High | `/tools/percentage-calculator/` | Discounts, percent change, markups, and reverse percentages | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
 | High | `/tools/mortgage-calculator/` | Estimate monthly payments and understand amortization | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/finance-calculators/` on 2026-05-06 |
-| High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Medium, Reddit | approved | Medium draft approved on 2026-05-07; ready to publish after the current live Medium result is reviewed |
+| High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Medium, Reddit | waiting | Medium draft prepared in the external Chrome editor on 2026-05-08 with hero image, alt text, topics, SEO title/description, and canonical URL; Medium blocked publishing because the account reached the two-stories-per-24-hours limit, so retry after the 24-hour window and verify the public URL before marking posted |
 | High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image, alt text, Medium SEO title/description, canonical link, reader-interest topics, and live H1/H2 formatting verified in the external browser |
 | High | `/tools/mortgage-calculator/` | Early home-shopping payment estimate with finance limits | Medium | approved | Medium draft approved on 2026-05-07; finance limits included |
 | Medium | `/tools/bmi-calculator/` | BMI estimate with health disclaimer and plain-language result notes | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/health-and-fitness-calculators/` on 2026-05-06 |
