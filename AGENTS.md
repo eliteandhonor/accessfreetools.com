@@ -62,6 +62,7 @@ Every new public tool should include:
 - Never store promotion account passwords in Git, docs, automation prompts, reports, or generated output.
 - For promotion account browser work, do not use the in-app Browser Use surface. Use an external browser workflow only, and be explicit when access is blocked.
 - Check Codex Chrome control with `npm run automation:chrome-check` before relying on native Chrome-control automation. If no callable Chrome tool is exposed in the active thread, use Playwright or OS-level external-browser proof and say that the native control path is unavailable.
+- Chrome status note from 2026-05-08: Chrome has the Codex extension installed and its native host registered, but the active Codex thread still did not expose a callable Chrome-control tool after tool discovery. Treat Chrome control as ready-to-use only after the actual tool namespace appears and works on a live tab.
 - Use `docs/promotion-account-launch-kit.md` for Pinterest Business, Reddit, and Medium setup details.
 - Use `docs/promotion-queue.md` as the working list of pages to promote and their status.
 - Use `docs/promotion-share-kit.md` for safe profile bios, draft posts, and approval checks.

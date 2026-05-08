@@ -54,11 +54,13 @@ text, large H1, bold H2 headings, SEO settings, and canonical/source URL.
 
 Codex Chrome control status should be checked with
 `npm run automation:chrome-check` before relying on browser-control automation.
-On 2026-05-08, the Codex extension was found in Edge, but not in Google Chrome,
-and no callable Chrome-control tool was exposed in the active Codex thread.
-Until that changes, use Playwright or OS-level external-browser proof for
-Medium/Pinterest/Reddit verification and say clearly when the native Chrome
-control path is unavailable.
+On 2026-05-08, Chrome showed the Codex extension installed and the native host
+registered. Edge also showed the extension installed, but still lacked a native
+host registration. The active Codex thread did not expose a callable Chrome
+control tool after tool discovery, so native Chrome control remains unproven in
+this session. Until a callable Chrome tool is visible, use Playwright or OS-level
+external-browser proof for Medium/Pinterest/Reddit verification and say clearly
+when the native Chrome control path is unavailable.
 
 ## Evidence Locations
 
