@@ -1,7 +1,8 @@
 # Promotion Account Launch Kit
 
-This kit sets up the first three promotion channels for Access Free Tools:
-Pinterest Business, Reddit, and Medium. These accounts need the owner to create
+This kit sets up the first promotion channels for Access Free Tools:
+Pinterest Business, Reddit, Medium, and the recommended next channel, Bluesky.
+These accounts need the owner to create
 or approve them because they require identity, password, email, CAPTCHA, and
 terms acceptance. The Promotion Agent can prepare drafts and track work, but it
 must not create accounts, post publicly, send outreach, or use paid promotion
@@ -298,6 +299,36 @@ Recommended profile checks:
   2026-05-06.
 - If Medium offers profile social links, add Pinterest after the profile is
   stable: `https://au.pinterest.com/accessfreetools/`.
+
+## Bluesky
+
+Status: Recommended next organic platform on 2026-05-08 after the local
+promotion review and organic-traffic platform research. Account not created
+yet. Use `docs/bluesky-promotion-agent.md` before setup or publishing.
+
+Purpose: Bluesky is useful for short, helpful calculator tips that point to a
+specific tool page. It is the next best automation fit because it has a posting
+API and does not require fragile browser publishing once the account and app
+password are created.
+
+Setup fields:
+
+- Preferred handle: `accessfreetools.com` if domain verification is available.
+- Fallback handle: `accessfreetools.bsky.social`.
+- Display name: Access Free Tools.
+- Website: https://accessfreetools.com/
+- Bio: Free calculators, converters, AI text tools, and practical guides for everyday math, home projects, finance, school, and browser tasks.
+
+Agent workflow:
+
+- Generate and score local drafts with `npm run promotion:bluesky:quality`.
+- Keep credentials in local environment variables only:
+  `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD`.
+- Do not use the normal account password in scripts.
+- Publish only after the user approves the exact batch with
+  `npm run promotion:bluesky:publish`.
+- Verify the public Bluesky profile and post URLs before marking anything
+  `posted`.
 
 ## Account Security Checklist
 
