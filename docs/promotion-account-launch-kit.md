@@ -226,8 +226,9 @@ First safe Reddit workflow:
 ## Quora
 
 Status: Created by the user on 2026-05-08 with
-`contact@accessfreetools.com`. The password must not be stored in Git, docs,
-local reports, shell history, or automation prompts.
+`contact@accessfreetools.com`. Public profile setup was externally verified on
+2026-05-08. The password must not be stored in Git, docs, local reports, shell
+history, or automation prompts.
 
 Purpose: Quora is useful for direct question-style searches, especially
 calculator questions like "how do I calculate percent off" or "what does
@@ -237,14 +238,16 @@ not a backlink drop.
 Setup fields:
 
 - Profile name: Access Free Tools
-- Credential/topic line: Free calculators, converters, and practical browser
-  tools
-- Website link: https://accessfreetools.com/
-- Bio: Access Free Tools shares free browser calculators, converters, AI text
-  tools, and practical guides for everyday math, home projects, finance,
-  school, and browser tasks.
-- Avatar: the same Access Free Tools logo used on Pinterest, Medium, and
-  Bluesky.
+- Credential/topic line: Built Access Free Tools calculators and guides
+- Topics: Computer Technology, Home Improvement, Shopping, Mathematics, and
+  Calculators
+- Website link: Quora did not expose a dedicated website field during setup; use
+  disclosed, useful post/answer links only when the link genuinely helps.
+- Bio: Free calculators, converters, browser AI tools, and plain-English guides
+  for everyday math, shopping, school, finance estimates, home projects, and
+  developer tasks. Built by Brendan Chambers at accessfreetools.com.
+- Avatar: pending until Quora exposes a clear profile-image upload path. Use the
+  same Access Free Tools logo used on Pinterest, Medium, and Bluesky.
 
 Rules for the Promotion Agent:
 

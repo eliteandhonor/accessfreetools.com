@@ -118,6 +118,13 @@ Quora was created by the user on 2026-05-08 with
 questions, answer fully on Quora, disclose ownership, use at most one Access
 Free Tools link, and do not mark anything `posted` without a public Quora answer
 URL.
+Quora profile setup was externally verified on 2026-05-08: display name
+`Access Free Tools`, credential `Built Access Free Tools calculators and
+guides`, a disclosure-friendly bio, and the topics `Computer Technology`,
+`Home Improvement`, `Shopping`, `Mathematics`, and `Calculators` were visible
+on the public profile. The visible profile controls did not expose a clear
+avatar-upload path, so do not claim the Quora avatar is complete until the
+public profile image changes.
 First Quora promotion was published on 2026-05-08 as a profile post because
 matching percentage question pages were visible but did not expose an answer
 editor for the new account. The external Chrome profile check showed `1 Post`,

@@ -1,6 +1,7 @@
 # Quora Promotion Agent
 
-Status: draft-first channel started on 2026-05-08.
+Status: draft-first channel started on 2026-05-08. Public profile setup was
+verified in the external browser on 2026-05-08.
 
 The user created a Quora account with `contact@accessfreetools.com`. Do not
 store the Quora password, recovery links, email codes, cookies, or session data
@@ -49,15 +50,19 @@ limitation wording.
 
 ## Best Profile Setup
 
-- Display name: Access Free Tools
-- Credential/topic line: Free calculators, converters, and practical browser
-  tools
-- Bio: Access Free Tools shares free browser calculators, converters, AI text
-  tools, and practical guides for everyday math, home projects, finance,
-  school, and browser tasks.
-- Website: https://accessfreetools.com/
-- Avatar: the same Access Free Tools logo used on Pinterest, Medium, and
-  Bluesky.
+- Display name: Access Free Tools. Done and externally verified on 2026-05-08.
+- Credential/topic line: Built Access Free Tools calculators and guides. Done
+  and externally verified on 2026-05-08.
+- Bio: Free calculators, converters, browser AI tools, and plain-English
+  guides for everyday math, shopping, school, finance estimates, home projects,
+  and developer tasks. Built by Brendan Chambers at accessfreetools.com. Done
+  and externally verified on 2026-05-08.
+- Topics: Computer Technology, Home Improvement, Shopping, Mathematics, and
+  Calculators. Done and externally verified on 2026-05-08.
+- Website: Quora did not expose a separate website field during setup; the
+  first verified profile post includes the Access Free Tools page link.
+- Avatar: still pending. Use the same Access Free Tools logo used on Pinterest,
+  Medium, and Bluesky if Quora exposes a clear upload path.
 - Do not connect ads or billing.
 
 ## First Promotion Strategy
