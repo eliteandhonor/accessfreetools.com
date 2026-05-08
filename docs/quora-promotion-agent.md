@@ -1,7 +1,8 @@
 # Quora Promotion Agent
 
-Status: draft-first channel started on 2026-05-08. Public profile setup was
-verified in the external browser on 2026-05-08.
+Status: draft-first channel started on 2026-05-08. Public profile setup,
+including the branded avatar, was verified in the external browser on
+2026-05-08.
 
 The user created a Quora account with `contact@accessfreetools.com`. Do not
 store the Quora password, recovery links, email codes, cookies, or session data
@@ -66,9 +67,9 @@ limitation wording.
   Calculators. Done and externally verified on 2026-05-08.
 - Website: Quora did not expose a separate website field during setup; the
   first verified profile post includes the Access Free Tools page link.
-- Profile avatar: still pending. Use the same Access Free Tools logo used on
-  Pinterest, Medium, and Bluesky if Quora exposes a clear profile-image upload
-  path.
+- Profile avatar: branded Access Free Tools avatar from
+  `public/pinterest/access-free-tools-avatar.png`. Done and externally verified
+  on the public Quora profile on 2026-05-08.
 - Do not connect ads or billing.
 
 ## Space Setup

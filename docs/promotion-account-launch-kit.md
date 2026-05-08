@@ -246,9 +246,9 @@ Setup fields:
 - Bio: Free calculators, converters, browser AI tools, and plain-English guides
   for everyday math, shopping, school, finance estimates, home projects, and
   developer tasks. Built by Brendan Chambers at accessfreetools.com.
-- Profile avatar: pending until Quora exposes a clear profile-image upload
-  path. Use the same Access Free Tools logo used on Pinterest, Medium, and
-  Bluesky.
+- Profile avatar: branded Access Free Tools avatar from
+  `public/pinterest/access-free-tools-avatar.png`. Uploaded and externally
+  verified on the public Quora profile on 2026-05-08.
 - Space: Access Free Tools Guides. Created and externally verified on
   2026-05-08 at `https://accessfreetoolssspace.quora.com/`. Quora kept the
   generated slug even after the public title was cleaned up, so use this

@@ -122,9 +122,9 @@ Quora profile setup was externally verified on 2026-05-08: display name
 `Access Free Tools`, credential `Built Access Free Tools calculators and
 guides`, a disclosure-friendly bio, and the topics `Computer Technology`,
 `Home Improvement`, `Shopping`, `Mathematics`, and `Calculators` were visible
-on the public profile. The visible profile controls did not expose a clear
-avatar-upload path, so do not claim the Quora avatar is complete until the
-public profile image changes.
+on the public profile. The branded avatar from
+`public/pinterest/access-free-tools-avatar.png` was uploaded and externally
+verified on the public profile on 2026-05-08.
 First Quora promotion was published on 2026-05-08 as a profile post because
 matching percentage question pages were visible but did not expose an answer
 editor for the new account. The external Chrome profile check showed `1 Post`,
