@@ -19,7 +19,9 @@ click automation.
 - Local agent: `scripts/bluesky-promotion-agent.mjs`.
 - Quality gate: `scripts/check-bluesky-promotion-quality.mjs`.
 - Profile audit: `scripts/bluesky-profile-audit.mjs`.
-- Profile update helper: `scripts/bluesky-profile-update.mjs`.
+- Profile update helper: `scripts/bluesky-profile-update.mjs`, which updates
+  display name, bio, and the branded avatar from
+  `public/pinterest/access-free-tools-avatar.png`.
 
 ## Setup
 
@@ -41,16 +43,17 @@ $env:BLUESKY_APP_PASSWORD="xxxx-xxxx-xxxx-xxxx"
 npm run promotion:bluesky:quality
 ```
 
-6. Update the profile after the app password is available:
+6. Update the profile after the app password is available. This sets the
+   display name, bio, and branded avatar:
 
 ```powershell
 npm run promotion:bluesky:profile-update
 npm run promotion:bluesky:profile-audit
 ```
 
-After the branded avatar is uploaded and visually checked on the public
-profile, rerun the audit with `BLUESKY_AVATAR_VERIFIED=true`. Do not use that
-flag until the avatar has actually been checked in the browser.
+After the branded avatar is uploaded and visually checked on the public profile,
+rerun the audit with `BLUESKY_AVATAR_VERIFIED=true`. Do not use that flag until
+the avatar has actually been checked in the browser.
 
 7. Publish only after the user approves the exact batch:
 

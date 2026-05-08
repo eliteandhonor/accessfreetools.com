@@ -1,14 +1,21 @@
+import { existsSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
 const BSKY_SERVICE = 'https://bsky.social';
+const DEFAULT_AVATAR_PATH = resolve('public', 'pinterest', 'access-free-tools-avatar.png');
 const DEFAULT_DESCRIPTION =
   'Free calculators, converters, AI text tools, and practical guides for everyday math, home projects, finance, school, and browser tasks.';
 
 function parseArgs() {
   const displayNameArg = process.argv.find((arg) => arg.startsWith('--display-name='));
   const descriptionArg = process.argv.find((arg) => arg.startsWith('--description='));
+  const avatarArg = process.argv.find((arg) => arg.startsWith('--avatar='));
+  const skipAvatar = process.argv.includes('--skip-avatar');
 
   return {
     displayName: displayNameArg?.slice('--display-name='.length) || 'Access Free Tools',
     description: descriptionArg?.slice('--description='.length) || DEFAULT_DESCRIPTION,
+    avatarPath: skipAvatar ? '' : resolve(avatarArg?.slice('--avatar='.length) ?? DEFAULT_AVATAR_PATH),
   };
 }
 
@@ -40,6 +47,27 @@ async function createSession() {
   });
 }
 
+async function uploadAvatar(session, avatarPath) {
+  if (!avatarPath) return null;
+  if (!existsSync(avatarPath)) {
+    throw new Error(`Avatar file not found: ${avatarPath}`);
+  }
+
+  const response = await fetch(`${BSKY_SERVICE}/xrpc/com.atproto.repo.uploadBlob`, {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${session.accessJwt}`,
+      'content-type': 'image/png',
+    },
+    body: readFileSync(avatarPath),
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(`${response.status} ${response.statusText}: ${JSON.stringify(body)}`);
+  }
+  return body.blob;
+}
+
 async function getProfileRecord(session) {
   try {
     const url = new URL(`${BSKY_SERVICE}/xrpc/com.atproto.repo.getRecord`);
@@ -57,13 +85,17 @@ async function getProfileRecord(session) {
   }
 }
 
-async function putProfileRecord(session, existingRecord, options) {
+async function putProfileRecord(session, existingRecord, options, avatarBlob) {
   const record = {
     ...(existingRecord.value ?? {}),
     $type: 'app.bsky.actor.profile',
     displayName: options.displayName,
     description: options.description,
   };
+
+  if (avatarBlob) {
+    record.avatar = avatarBlob;
+  }
 
   return requestJson(`${BSKY_SERVICE}/xrpc/com.atproto.repo.putRecord`, {
     method: 'POST',
@@ -83,11 +115,13 @@ async function main() {
   const options = parseArgs();
   const session = await createSession();
   const existingRecord = await getProfileRecord(session);
-  const result = await putProfileRecord(session, existingRecord, options);
+  const avatarBlob = await uploadAvatar(session, options.avatarPath);
+  const result = await putProfileRecord(session, existingRecord, options, avatarBlob);
 
   console.log(`Updated Bluesky profile for ${session.handle}.`);
   console.log(`Display name: ${options.displayName}`);
   console.log(`Description: ${options.description}`);
+  console.log(`Avatar: ${avatarBlob ? 'uploaded branded image' : 'unchanged'}`);
   console.log(`Record URI: ${result.uri}`);
 }
 

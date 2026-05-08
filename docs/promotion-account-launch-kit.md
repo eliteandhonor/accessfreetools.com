@@ -330,7 +330,8 @@ Agent workflow:
 
 - Generate and score local drafts with `npm run promotion:bluesky:quality`.
 - Audit the public profile with `npm run promotion:bluesky:profile-audit`.
-- After an app password exists, update the display name and bio with
+- After an app password exists, update the display name, bio, and branded
+  avatar with
   `npm run promotion:bluesky:profile-update`.
 - Keep credentials in local environment variables only:
   `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD`.
