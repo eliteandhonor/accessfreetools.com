@@ -248,6 +248,10 @@ Setup fields:
   developer tasks. Built by Brendan Chambers at accessfreetools.com.
 - Avatar: pending until Quora exposes a clear profile-image upload path. Use the
   same Access Free Tools logo used on Pinterest, Medium, and Bluesky.
+- Space: Access Free Tools Guides. Created and externally verified on
+  2026-05-08 at `https://accessfreetoolssspace.quora.com/`. Quora kept the
+  generated slug even after the public title was cleaned up, so use this
+  verified URL unless the platform later confirms a working slug change.
 
 Rules for the Promotion Agent:
 
@@ -258,6 +262,8 @@ Rules for the Promotion Agent:
 - Do not use affiliate links on Quora.
 - Do not answer professional finance, health, electrical, construction, or
   medical-adjacent questions as advice.
+- Do not bulk-invite followers, import contacts, or treat Space posts as a
+  replacement for helpful direct answers.
 - Run `npm run promotion:quora:quality` before any public Quora answer is used.
 - Keep generated drafts under `output/promotion/quora/`; that folder is local
   evidence and ignored by Git.
@@ -270,6 +276,10 @@ First safe Quora workflow:
 - Include a short answer, formula or logic, example, common mistake, limitation,
   disclosure, and one optional link.
 - Record any live Quora answer URL in `docs/promotion-queue.md`.
+- If no matching answer editor is available, use the Space for one useful
+  summary post and record the public Space permalink after checking the live
+  feed. The first Space post was published and verified on 2026-05-08 for the
+  Percentage Calculator.
 
 ## Medium
 

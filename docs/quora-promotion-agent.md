@@ -21,6 +21,8 @@ include one disclosed Access Free Tools link when it genuinely helps.
 - Scores drafts for usefulness, disclosure, link restraint, examples, and risk
   wording.
 - Keeps Quora targets aligned with `docs/promotion-queue.md`.
+- Uses the Access Free Tools Guides Space for occasional useful summary posts
+  when a direct answer opportunity is not available.
 - Reports the best next questions to answer.
 - Leaves browser login, CAPTCHA, email verification, and identity checks to the
   user.
@@ -34,6 +36,9 @@ include one disclosed Access Free Tools link when it genuinely helps.
 - Do not answer finance, health, electrical, construction, or AI/privacy topics
   as professional advice.
 - Do not mark a Quora answer as live unless a public Quora URL is visible.
+- Do not mark a Quora Space post live unless the public Space feed or permalink
+  visibly shows the post, disclosure, and destination link.
+- Do not invite followers in bulk or import contacts.
 - Do not use the in-app browser for account work.
 
 ## Commands
@@ -64,6 +69,39 @@ limitation wording.
 - Avatar: still pending. Use the same Access Free Tools logo used on Pinterest,
   Medium, and Bluesky if Quora exposes a clear upload path.
 - Do not connect ads or billing.
+
+## Space Setup
+
+Space name: Access Free Tools Guides.
+
+Public Space URL: https://accessfreetoolssspace.quora.com/
+
+Status: created, configured, and externally verified on 2026-05-08. The Space
+shows the clean public name, the plain-English calculator guide description,
+and the website link to AccessFreeTools.com. Quora kept the generated slug
+`accessfreetoolssspace` even after the title was cleaned up, so use the verified
+URL above unless Quora later confirms a working slug change.
+
+Space details:
+
+- Description: Plain-English calculator guides, browser tools, examples, and
+  common mistakes to avoid. Built by AccessFreeTools.com.
+- Website: https://accessfreetools.com/
+- Contributors: only the owner for now.
+- Monetization/Quora+ setup: not connected.
+- Invite flow: skipped. Do not bulk-invite followers or import contacts.
+
+First Space promotion:
+
+- Page promoted: https://accessfreetools.com/tools/percentage-calculator/
+- Live Quora Space post:
+  https://accessfreetoolssspace.quora.com/Start-here-how-to-use-a-calculator-without-guessing-Most-calculator-mistakes-are-not-math-mistakes-They-are-setup-mis
+- External-browser proof on 2026-05-08 showed the public Space title, the post
+  text, the ownership disclosure, and the live percentage-calculator link.
+
+Use the Space lightly. A good default cadence is one helpful Space post per
+week at most, mixed with direct Quora answers when exact matching questions are
+available.
 
 ## First Promotion Strategy
 
