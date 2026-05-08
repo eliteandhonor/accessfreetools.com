@@ -305,11 +305,10 @@ Recommended profile checks:
 Status: Recommended next organic platform on 2026-05-08 after the local
 promotion review and organic-traffic platform research. The user created the
 account on 2026-05-08 at `https://bsky.app/profile/accessfreetools.bsky.social`.
-Public profile audit found the account exists, but the branded avatar is not
-verified, display name and bio still need setup, and posts count is 0. The user
-clarified the visible avatar is still the default Bluesky avatar, so the audit
-must not treat an API avatar URL as proof of a custom avatar. Use
-`docs/bluesky-promotion-agent.md` before setup or publishing.
+Public profile audit passed on 2026-05-08 after the display name, approved bio,
+and branded avatar were updated through the Bluesky API. The first three starter
+posts were verified on the public author feed. Use
+`docs/bluesky-promotion-agent.md` before future setup or publishing.
 
 Purpose: Bluesky is useful for short, helpful calculator tips that point to a
 specific tool page. It is the next best automation fit because it has a posting
@@ -321,15 +320,18 @@ Setup fields:
 - Preferred handle: `accessfreetools.com` if domain verification is available.
 - Current handle: `accessfreetools.bsky.social`.
 - Future preferred handle: `accessfreetools.com` if domain verification is available.
-- Display name: Access Free Tools. Pending on 2026-05-08 public profile audit.
-- Avatar: branded Access Free Tools avatar. Pending visual proof on 2026-05-08.
+- Display name: Access Free Tools. Done 2026-05-08.
+- Avatar: branded Bluesky-specific Access Free Tools avatar from
+  `public/bluesky/access-free-tools-avatar.png`. Done and visually checked on
+  2026-05-08.
 - Website: https://accessfreetools.com/
-- Bio: Free calculators, converters, AI text tools, and practical guides for everyday math, home projects, finance, school, and browser tasks. Pending on 2026-05-08 public profile audit.
+- Bio: Access Free Tools shares free calculators, converters, AI text tools, and practical guides for everyday math, home projects, finance, school, and browser tasks. Done 2026-05-08.
 
 Agent workflow:
 
 - Generate and score local drafts with `npm run promotion:bluesky:quality`.
 - Audit the public profile with `npm run promotion:bluesky:profile-audit`.
+- Generate the channel avatar with `npm run promotion:bluesky:avatar`.
 - After an app password exists, update the display name, bio, and branded
   avatar with
   `npm run promotion:bluesky:profile-update`.

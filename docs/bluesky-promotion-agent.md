@@ -10,18 +10,16 @@ click automation.
 - Recommended next platform: yes.
 - Account status: created by the user on 2026-05-08 at
   `https://bsky.app/profile/accessfreetools.bsky.social`.
-- Public profile audit on 2026-05-08 found the account exists, but the
-  branded avatar is not verified, display name and bio still need setup, and
-  posts count is 0. The user clarified the visible avatar is still the default
-  Bluesky avatar, so do not treat an API avatar URL as proof of a custom avatar.
-- Publishing status: disabled until the user creates an app password and
-  approves the first public post batch.
+- Public profile audit on 2026-05-08 passed after the profile was updated with
+  the Access Free Tools display name, approved bio, and branded avatar.
+- Publishing status: first starter batch posted and verified on the public
+  Bluesky author feed on 2026-05-08.
 - Local agent: `scripts/bluesky-promotion-agent.mjs`.
 - Quality gate: `scripts/check-bluesky-promotion-quality.mjs`.
 - Profile audit: `scripts/bluesky-profile-audit.mjs`.
 - Profile update helper: `scripts/bluesky-profile-update.mjs`, which updates
   display name, bio, and the branded avatar from
-  `public/pinterest/access-free-tools-avatar.png`.
+  `public/bluesky/access-free-tools-avatar.png`.
 
 ## Setup
 
@@ -29,7 +27,7 @@ click automation.
 2. Preferred future handle: `accessfreetools.com` if domain verification is available.
    Fallback handle: `accessfreetools.bsky.social`.
 3. Create a Bluesky app password for Codex/local automation. Do not use or
-   store the normal account password.
+   store the normal account password. Done 2026-05-08.
 4. Add these values only in local environment variables, never Git:
 
 ```powershell
@@ -43,7 +41,13 @@ $env:BLUESKY_APP_PASSWORD="xxxx-xxxx-xxxx-xxxx"
 npm run promotion:bluesky:quality
 ```
 
-6. Update the profile after the app password is available. This sets the
+6. Generate the Bluesky-specific avatar:
+
+```powershell
+npm run promotion:bluesky:avatar
+```
+
+7. Update the profile after the app password is available. This sets the
    display name, bio, and branded avatar:
 
 ```powershell
@@ -55,7 +59,7 @@ After the branded avatar is uploaded and visually checked on the public profile,
 rerun the audit with `BLUESKY_AVATAR_VERIFIED=true`. Do not use that flag until
 the avatar has actually been checked in the browser.
 
-7. Publish only after the user approves the exact batch:
+8. Publish only after the user approves the exact batch:
 
 ```powershell
 npm run promotion:bluesky:publish

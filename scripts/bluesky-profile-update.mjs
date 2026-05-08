@@ -2,9 +2,9 @@ import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const BSKY_SERVICE = 'https://bsky.social';
-const DEFAULT_AVATAR_PATH = resolve('public', 'pinterest', 'access-free-tools-avatar.png');
+const DEFAULT_AVATAR_PATH = resolve('public', 'bluesky', 'access-free-tools-avatar.png');
 const DEFAULT_DESCRIPTION =
-  'Free calculators, converters, AI text tools, and practical guides for everyday math, home projects, finance, school, and browser tasks.';
+  'Access Free Tools shares free calculators, converters, AI text tools, and practical guides for everyday math, home projects, finance, school, and browser tasks.';
 
 function parseArgs() {
   const displayNameArg = process.argv.find((arg) => arg.startsWith('--display-name='));
