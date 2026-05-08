@@ -55,10 +55,13 @@ text, large H1, bold H2 headings, SEO settings, and canonical/source URL.
 Codex Chrome control status should be checked with
 `npm run automation:chrome-check` before relying on browser-control automation.
 On 2026-05-08, Chrome showed the Codex extension installed and the native host
-registered. Edge also showed the extension installed, but still lacked a native
-host registration. The active Codex thread did not expose a callable Chrome
-control tool after tool discovery, so native Chrome control remains unproven in
-this session. Until a callable Chrome tool is visible, use Playwright or OS-level
+registered. Edge also showed the extension installed, and the missing Edge
+native host registry entry was added to point at the same OpenAI manifest. After
+that fix, `npm run automation:chrome-check` reported Chrome and Edge as
+installed and native-host ready. The active Codex thread still did not expose a
+callable Chrome-control tool after tool discovery, so native Chrome control is
+ready on the machine but unavailable to this session until the tool namespace
+appears. Until a callable Chrome tool is visible, use Playwright or OS-level
 external-browser proof for Medium/Pinterest/Reddit verification and say clearly
 when the native Chrome control path is unavailable.
 
