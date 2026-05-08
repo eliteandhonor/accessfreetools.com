@@ -36,6 +36,8 @@
     "promotion:reddit:setup-browser": "node scripts/reddit-external-setup.mjs --keep-open",
     "promotion:reddit:verify-profile": "node scripts/reddit-verify-profile-post.mjs",
     "promotion:bluesky": "node scripts/bluesky-promotion-agent.mjs --all",
+    "promotion:bluesky:profile-audit": "node scripts/bluesky-profile-audit.mjs",
+    "promotion:bluesky:profile-update": "node scripts/bluesky-profile-update.mjs",
     "promotion:bluesky:quality": "node scripts/bluesky-promotion-agent.mjs --all && node scripts/check-bluesky-promotion-quality.mjs output/promotion/bluesky/drafts",
     "promotion:bluesky:publish": "node scripts/bluesky-promotion-agent.mjs --all --publish --confirm-public-post",
     "promotion:weekly-review": "npm run promotion:pinterest-assets && npm run promotion:pinterest:rss-report && npm run promotion:medium:quality && npm run promotion:reddit:quality && npm run promotion:bluesky:quality",

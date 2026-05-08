@@ -92,12 +92,15 @@ browser Pinterest settings page accepted these non-empty board feeds:
 `/pinterest/school-and-study-tools.xml`. Pinterest showed "RSS feed added" for
 each one. Do not mark the individual feed items `posted` until Pinterest imports
 them and the public board shows the Pins.
-Bluesky is the recommended next organic platform as of 2026-05-08. It should
-use API-based local automation, not browser clicking, after the user creates the
-brand account and app password. Use `docs/bluesky-promotion-agent.md` and run
-`npm run promotion:bluesky:quality` before approving any Bluesky batch. Do not
-mark Bluesky posts `posted` unless the public Bluesky profile shows a live post
-URL.
+Bluesky is the recommended next organic platform as of 2026-05-08. The user
+created `https://bsky.app/profile/accessfreetools.bsky.social`; public profile
+audit found the account exists, avatar is present, display name and bio still
+need setup, and posts count is 0. It should use API-based local automation, not
+browser clicking, after the user creates an app password. Use
+`docs/bluesky-promotion-agent.md`, run `npm run promotion:bluesky:profile-audit`,
+and run `npm run promotion:bluesky:quality` before approving any Bluesky batch.
+Do not mark Bluesky posts `posted` unless the public Bluesky profile shows a
+live post URL.
 
 | Priority | Page | Main Angle | Channel | Status | Next Action |
 | --- | --- | --- | --- | --- | --- |

@@ -8,16 +8,21 @@ click automation.
 ## Status
 
 - Recommended next platform: yes.
-- Account status: not created yet.
-- Publishing status: disabled until the user creates the account, creates an
-  app password, and approves the first public post batch.
+- Account status: created by the user on 2026-05-08 at
+  `https://bsky.app/profile/accessfreetools.bsky.social`.
+- Public profile audit on 2026-05-08 found the account exists, avatar is
+  present, display name and bio still need setup, and posts count is 0.
+- Publishing status: disabled until the user creates an app password and
+  approves the first public post batch.
 - Local agent: `scripts/bluesky-promotion-agent.mjs`.
 - Quality gate: `scripts/check-bluesky-promotion-quality.mjs`.
+- Profile audit: `scripts/bluesky-profile-audit.mjs`.
+- Profile update helper: `scripts/bluesky-profile-update.mjs`.
 
 ## Setup
 
-1. Create a Bluesky account for Access Free Tools.
-2. Preferred handle: `accessfreetools.com` if domain verification is available.
+1. Account created: `accessfreetools.bsky.social`.
+2. Preferred future handle: `accessfreetools.com` if domain verification is available.
    Fallback handle: `accessfreetools.bsky.social`.
 3. Create a Bluesky app password for Codex/local automation. Do not use or
    store the normal account password.
@@ -34,7 +39,14 @@ $env:BLUESKY_APP_PASSWORD="xxxx-xxxx-xxxx-xxxx"
 npm run promotion:bluesky:quality
 ```
 
-6. Publish only after the user approves the exact batch:
+6. Update the profile after the app password is available:
+
+```powershell
+npm run promotion:bluesky:profile-update
+npm run promotion:bluesky:profile-audit
+```
+
+7. Publish only after the user approves the exact batch:
 
 ```powershell
 npm run promotion:bluesky:publish
@@ -42,6 +54,10 @@ npm run promotion:bluesky:publish
 
 After publishing, open the public Bluesky profile and verify every post is live
 before marking anything `posted` in `docs/promotion-queue.md`.
+
+Security note: if the normal account password was shared in chat, change it
+inside Bluesky after the app password workflow is working. Keep the app password
+only in local environment variables.
 
 ## Content Rules
 

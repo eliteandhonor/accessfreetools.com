@@ -303,8 +303,11 @@ Recommended profile checks:
 ## Bluesky
 
 Status: Recommended next organic platform on 2026-05-08 after the local
-promotion review and organic-traffic platform research. Account not created
-yet. Use `docs/bluesky-promotion-agent.md` before setup or publishing.
+promotion review and organic-traffic platform research. The user created the
+account on 2026-05-08 at `https://bsky.app/profile/accessfreetools.bsky.social`.
+Public profile audit found the account exists, avatar is present, display name
+and bio still need setup, and posts count is 0. Use
+`docs/bluesky-promotion-agent.md` before setup or publishing.
 
 Purpose: Bluesky is useful for short, helpful calculator tips that point to a
 specific tool page. It is the next best automation fit because it has a posting
@@ -314,14 +317,18 @@ password are created.
 Setup fields:
 
 - Preferred handle: `accessfreetools.com` if domain verification is available.
-- Fallback handle: `accessfreetools.bsky.social`.
-- Display name: Access Free Tools.
+- Current handle: `accessfreetools.bsky.social`.
+- Future preferred handle: `accessfreetools.com` if domain verification is available.
+- Display name: Access Free Tools. Pending on 2026-05-08 public profile audit.
 - Website: https://accessfreetools.com/
-- Bio: Free calculators, converters, AI text tools, and practical guides for everyday math, home projects, finance, school, and browser tasks.
+- Bio: Free calculators, converters, AI text tools, and practical guides for everyday math, home projects, finance, school, and browser tasks. Pending on 2026-05-08 public profile audit.
 
 Agent workflow:
 
 - Generate and score local drafts with `npm run promotion:bluesky:quality`.
+- Audit the public profile with `npm run promotion:bluesky:profile-audit`.
+- After an app password exists, update the display name and bio with
+  `npm run promotion:bluesky:profile-update`.
 - Keep credentials in local environment variables only:
   `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD`.
 - Do not use the normal account password in scripts.
