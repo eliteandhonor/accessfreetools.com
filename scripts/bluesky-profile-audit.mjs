@@ -15,6 +15,8 @@ function parseArgs() {
     handle: handleArg?.slice('--handle='.length) || process.env.BLUESKY_HANDLE || DEFAULT_HANDLE,
     jsonReport: resolve(jsonArg?.slice('--json='.length) ?? DEFAULT_JSON_REPORT),
     mdReport: resolve(mdArg?.slice('--md='.length) ?? DEFAULT_MD_REPORT),
+    avatarVerified:
+      process.argv.includes('--avatar-verified') || process.env.BLUESKY_AVATAR_VERIFIED === 'true',
   };
 }
 
@@ -33,7 +35,7 @@ function hasText(value, expected) {
   return typeof value === 'string' && value.toLowerCase().includes(expected.toLowerCase());
 }
 
-function audit(profile) {
+function audit(profile, options) {
   const checks = [
     {
       name: 'profile exists',
@@ -54,9 +56,13 @@ function audit(profile) {
       detail: profile.description || 'missing bio',
     },
     {
-      name: 'avatar is present',
-      passed: Boolean(profile.avatar),
-      detail: profile.avatar ? 'avatar present' : 'missing avatar',
+      name: 'branded avatar is verified',
+      passed: options.avatarVerified,
+      detail: options.avatarVerified
+        ? 'manual visual check recorded'
+        : profile.avatar
+          ? 'avatar URL exists, but branded/custom avatar is not visually verified'
+          : 'missing avatar',
     },
     {
       name: 'first post exists',
@@ -82,6 +88,9 @@ function audit(profile) {
         if (check.name === 'display name is branded') return 'Set display name to Access Free Tools.';
         if (check.name === 'bio explains the site') {
           return 'Add the approved Access Free Tools bio from docs/promotion-account-launch-kit.md.';
+        }
+        if (check.name === 'branded avatar is verified') {
+          return 'Upload or visually confirm the branded Access Free Tools avatar, then rerun with BLUESKY_AVATAR_VERIFIED=true only after checking the public profile.';
         }
         if (check.name === 'first post exists') {
           return 'Create an app password, run npm run promotion:bluesky:quality, then publish the approved starter post.';
@@ -128,7 +137,7 @@ ${nextActions}
 async function main() {
   const options = parseArgs();
   const profile = await getProfile(options.handle);
-  const report = audit(profile);
+  const report = audit(profile, options);
 
   mkdirSync(dirname(options.jsonReport), { recursive: true });
   writeFileSync(options.jsonReport, `${JSON.stringify(report, null, 2)}\n`);

@@ -305,8 +305,10 @@ Recommended profile checks:
 Status: Recommended next organic platform on 2026-05-08 after the local
 promotion review and organic-traffic platform research. The user created the
 account on 2026-05-08 at `https://bsky.app/profile/accessfreetools.bsky.social`.
-Public profile audit found the account exists, avatar is present, display name
-and bio still need setup, and posts count is 0. Use
+Public profile audit found the account exists, but the branded avatar is not
+verified, display name and bio still need setup, and posts count is 0. The user
+clarified the visible avatar is still the default Bluesky avatar, so the audit
+must not treat an API avatar URL as proof of a custom avatar. Use
 `docs/bluesky-promotion-agent.md` before setup or publishing.
 
 Purpose: Bluesky is useful for short, helpful calculator tips that point to a
@@ -320,6 +322,7 @@ Setup fields:
 - Current handle: `accessfreetools.bsky.social`.
 - Future preferred handle: `accessfreetools.com` if domain verification is available.
 - Display name: Access Free Tools. Pending on 2026-05-08 public profile audit.
+- Avatar: branded Access Free Tools avatar. Pending visual proof on 2026-05-08.
 - Website: https://accessfreetools.com/
 - Bio: Free calculators, converters, AI text tools, and practical guides for everyday math, home projects, finance, school, and browser tasks. Pending on 2026-05-08 public profile audit.
 

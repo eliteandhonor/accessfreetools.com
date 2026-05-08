@@ -94,9 +94,11 @@ each one. Do not mark the individual feed items `posted` until Pinterest imports
 them and the public board shows the Pins.
 Bluesky is the recommended next organic platform as of 2026-05-08. The user
 created `https://bsky.app/profile/accessfreetools.bsky.social`; public profile
-audit found the account exists, avatar is present, display name and bio still
-need setup, and posts count is 0. It should use API-based local automation, not
-browser clicking, after the user creates an app password. Use
+audit found the account exists, but the branded avatar is not verified, display
+name and bio still need setup, and posts count is 0. The user clarified the
+visible avatar is still the default Bluesky avatar, so do not treat an API
+avatar URL as proof of a custom avatar. It should use API-based local
+automation, not browser clicking, after the user creates an app password. Use
 `docs/bluesky-promotion-agent.md`, run `npm run promotion:bluesky:profile-audit`,
 and run `npm run promotion:bluesky:quality` before approving any Bluesky batch.
 Do not mark Bluesky posts `posted` unless the public Bluesky profile shows a

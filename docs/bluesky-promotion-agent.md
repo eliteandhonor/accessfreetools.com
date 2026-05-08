@@ -10,8 +10,10 @@ click automation.
 - Recommended next platform: yes.
 - Account status: created by the user on 2026-05-08 at
   `https://bsky.app/profile/accessfreetools.bsky.social`.
-- Public profile audit on 2026-05-08 found the account exists, avatar is
-  present, display name and bio still need setup, and posts count is 0.
+- Public profile audit on 2026-05-08 found the account exists, but the
+  branded avatar is not verified, display name and bio still need setup, and
+  posts count is 0. The user clarified the visible avatar is still the default
+  Bluesky avatar, so do not treat an API avatar URL as proof of a custom avatar.
 - Publishing status: disabled until the user creates an app password and
   approves the first public post batch.
 - Local agent: `scripts/bluesky-promotion-agent.mjs`.
@@ -45,6 +47,10 @@ npm run promotion:bluesky:quality
 npm run promotion:bluesky:profile-update
 npm run promotion:bluesky:profile-audit
 ```
+
+After the branded avatar is uploaded and visually checked on the public
+profile, rerun the audit with `BLUESKY_AVATAR_VERIFIED=true`. Do not use that
+flag until the avatar has actually been checked in the browser.
 
 7. Publish only after the user approves the exact batch:
 
