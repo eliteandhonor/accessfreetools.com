@@ -1,7 +1,7 @@
 # Promotion Account Launch Kit
 
 This kit sets up the first promotion channels for Access Free Tools:
-Pinterest Business, Reddit, Medium, and the recommended next channel, Bluesky.
+Pinterest Business, Reddit, Medium, Bluesky, and Quora.
 These accounts need the owner to create
 or approve them because they require identity, password, email, CAPTCHA, and
 terms acceptance. The Promotion Agent can prepare drafts and track work, but it
@@ -222,6 +222,51 @@ First safe Reddit workflow:
 - Spend the first week answering only directly relevant questions.
 - When linking, disclose ownership and keep the answer useful without the link.
 - Record any live Reddit URL in `docs/promotion-queue.md`.
+
+## Quora
+
+Status: Created by the user on 2026-05-08 with
+`contact@accessfreetools.com`. The password must not be stored in Git, docs,
+local reports, shell history, or automation prompts.
+
+Purpose: Quora is useful for direct question-style searches, especially
+calculator questions like "how do I calculate percent off" or "what does
+wallpaper waste percent mean". It should be used as an answer-first channel,
+not a backlink drop.
+
+Setup fields:
+
+- Profile name: Access Free Tools
+- Credential/topic line: Free calculators, converters, and practical browser
+  tools
+- Website link: https://accessfreetools.com/
+- Bio: Access Free Tools shares free browser calculators, converters, AI text
+  tools, and practical guides for everyday math, home projects, finance,
+  school, and browser tasks.
+- Avatar: the same Access Free Tools logo used on Pinterest, Medium, and
+  Bluesky.
+
+Rules for the Promotion Agent:
+
+- Never mass-answer similar questions.
+- Never paste the same answer repeatedly.
+- Always disclose when linking to Access Free Tools.
+- Use at most one Access Free Tools link per answer.
+- Do not use affiliate links on Quora.
+- Do not answer professional finance, health, electrical, construction, or
+  medical-adjacent questions as advice.
+- Run `npm run promotion:quora:quality` before any public Quora answer is used.
+- Keep generated drafts under `output/promotion/quora/`; that folder is local
+  evidence and ignored by Git.
+
+First safe Quora workflow:
+
+- Run `npm run promotion:quora:quality` to create and score drafts.
+- Search Quora for one exact question at a time.
+- Only answer if the answer is useful without the link.
+- Include a short answer, formula or logic, example, common mistake, limitation,
+  disclosure, and one optional link.
+- Record any live Quora answer URL in `docs/promotion-queue.md`.
 
 ## Medium
 

@@ -9,7 +9,7 @@ This file records the Codex automation jobs that keep Access Free Tools checked 
 | Automation | Cadence | Purpose | Safe limits |
 | --- | --- | --- | --- |
 | AFT Daily SEO Pulse | Daily | Checks DataForSEO balance/status, key Search Console URLs, SEO self-evaluation, IndexNow key, sitemap, feed, and robots health. | No broad paid SERP or backlink calls. |
-| Access Free Tools Daily SEO Promotion Review | Daily at 10:00 | Runs the SEO pulse plus Pinterest RSS, Medium, Reddit, and Bluesky quality checks. | No passwords, no ads, no public-post completion claims without public URL/profile proof. |
+| Access Free Tools Daily SEO Promotion Review | Daily at 10:00 | Runs the SEO pulse plus Pinterest RSS, Medium, Reddit, Bluesky, and Quora quality checks. | No passwords, no ads, no public-post completion claims without public URL/profile proof. |
 | AFT Weekly QA Audit | Weekly on Monday | Runs local QA gates, smoke tests, external-link checks, and a deep audit without paid crawl. | Reports fixes; does not push automatically from the scheduled run. |
 | AFT Monthly OnPage Crawl | Monthly on day 1 | Runs a paid DataForSEO OnPage crawl when balance is safely above the warning threshold. | Skips paid crawl at or below 10 USD; never uses Backlinks API. |
 | AFT Weekly Promotion Draft Review | Weekly on Wednesday at 10:00 | Refreshes Pinterest assets, Pinterest RSS reports, Medium drafts, Reddit drafts, and writing-quality scores. | No paid ads, outreach emails, or password storage; RSS feeds exclude already-posted pins; Reddit drafts must stay disclosed and community-rule aware. |
@@ -51,6 +51,11 @@ RSS-only queue items marked `rss-connected` until imported pins are visible on a
 public board or profile page.
 
 Reddit automation is draft-first. Run `npm run promotion:reddit:quality` before using a reply, read the target community rules, disclose ownership, and keep the answer useful even without the Access Free Tools link.
+
+Quora automation is draft-first. Run `npm run promotion:quora:quality` before
+using an answer draft, search for an exact matching question, disclose
+ownership when linking, use at most one Access Free Tools link, and never mark
+an answer live without a public Quora answer URL.
 
 After a public post is approved and published, update `docs/promotion-queue.md` with the live URL, date, channel, and source page.
 
