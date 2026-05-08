@@ -55,7 +55,8 @@
     "security:audit": "npm audit --audit-level=moderate",
     "check": "npm run typecheck && npm test && npm run build && npm run check:links && npm run check:site && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run security:audit",
     "check:production-sitemap": "node scripts/check-production-sitemap.mjs",
-    "promotion:reddit:publish-profile": "node scripts/reddit-publish-profile-post.mjs --confirm-public-post"
+    "promotion:reddit:publish-profile": "node scripts/reddit-publish-profile-post.mjs --confirm-public-post",
+    "automation:chrome-check": "node scripts/check-chrome-control-plugin.mjs"
   },
   "engines": {
     "node": ">=22"

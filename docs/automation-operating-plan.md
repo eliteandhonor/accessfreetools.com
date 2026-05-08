@@ -19,6 +19,7 @@ This file records the Codex automation jobs that keep Access Free Tools checked 
 Use these commands when running the same checks manually:
 
 ```bash
+npm run automation:chrome-check
 npm run seo:daily
 npm run search-console:submit-discovery
 npm run search-console:inspect-key-urls
@@ -35,6 +36,12 @@ Promotion automation is allowed to draft, score, queue, prepare images, and reco
 
 Pinterest RSS automation is the exception for pre-approved feed items: an item can be placed in RSS only when it is marked `rss-ready`, has a board, has an optimized Pin image, and is not already marked `posted`.
 
+On 2026-05-08, Pinterest accepted the non-empty board RSS feeds for Finance
+Calculators, Home Project Calculators, Free Online Calculators, and School And
+Study Tools in the external browser. Automation should now monitor public boards
+for imported Pins and keep those items as `rss-connected` until visible board
+proof exists. Do not connect empty board feeds.
+
 Reddit automation is draft-first. Run `npm run promotion:reddit:quality` before using a reply, read the target community rules, disclose ownership, and keep the answer useful even without the Access Free Tools link.
 
 After a public post is approved and published, update `docs/promotion-queue.md` with the live URL, date, channel, and source page.
@@ -44,6 +51,14 @@ afterthought. `npm run promotion:medium:quality` regenerates hero images and
 fails if the title or detail text crosses the safe artwork area. A live Medium
 post is not complete until the public URL shows a clean hero image, saved alt
 text, large H1, bold H2 headings, SEO settings, and canonical/source URL.
+
+Codex Chrome control status should be checked with
+`npm run automation:chrome-check` before relying on browser-control automation.
+On 2026-05-08, the Codex extension was found in Edge, but not in Google Chrome,
+and no callable Chrome-control tool was exposed in the active Codex thread.
+Until that changes, use Playwright or OS-level external-browser proof for
+Medium/Pinterest/Reddit verification and say clearly when the native Chrome
+control path is unavailable.
 
 ## Evidence Locations
 

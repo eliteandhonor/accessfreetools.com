@@ -36,6 +36,7 @@ Every new public tool should include:
 - Medium posts need a useful branded hero image, alt text, 3-5 focused tags, and canonical/source URL metadata before public posting. Use `npm run promotion:medium:images` or the full quality command to generate/check the image assets.
 - Medium live-post lesson from 2026-05-07: do not trust the editor, draft file, or story settings alone. After publishing or editing, open the public Medium URL in the external browser and verify the hero image is visible, image alt text was saved, the title renders as the story H1, section headings render as bold Medium headings, SEO title/description are set in Story Settings, the canonical/source URL is set when available, and the live URL is recorded in `docs/promotion-queue.md`.
 - Medium paste lesson from 2026-05-07: plain Markdown can paste into Medium as normal paragraphs, so H2 headings may look unformatted even when the draft file is correct. For live rewrites, paste rich HTML or use Medium's heading controls, then republish and screenshot-check the public article before saying it is fixed.
+- Medium visual lesson from 2026-05-08: the wallpaper article hero image had text crossing the calculator artwork. `npm run promotion:medium:quality` now requires Medium hero layout QA, but live Medium posts still require a public-page screenshot check before being marked fixed.
 
 ## Competitor Research List
 
@@ -60,6 +61,7 @@ Every new public tool should include:
 - Reddit was created by the user on 2026-05-07 as `u/accessfreetools`; use `docs/reddit-promotion-agent.md` and run `npm run promotion:reddit:quality` before any Reddit draft is used publicly.
 - Never store promotion account passwords in Git, docs, automation prompts, reports, or generated output.
 - For promotion account browser work, do not use the in-app Browser Use surface. Use an external browser workflow only, and be explicit when access is blocked.
+- Check Codex Chrome control with `npm run automation:chrome-check` before relying on native Chrome-control automation. If no callable Chrome tool is exposed in the active thread, use Playwright or OS-level external-browser proof and say that the native control path is unavailable.
 - Use `docs/promotion-account-launch-kit.md` for Pinterest Business, Reddit, and Medium setup details.
 - Use `docs/promotion-queue.md` as the working list of pages to promote and their status.
 - Use `docs/promotion-share-kit.md` for safe profile bios, draft posts, and approval checks.

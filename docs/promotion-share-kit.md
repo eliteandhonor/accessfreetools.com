@@ -219,6 +219,13 @@ Setup notes:
   description, image, useful destination page, board, and `rss-ready` status.
 - If Pinterest asks for a feed image, the item images live under
   `https://accessfreetools.com/pinterest/`.
+- External-browser setup on 2026-05-08 connected the four non-empty board feeds:
+  Finance Calculators, Home Project Calculators, Free Online Calculators, and
+  School And Study Tools. Pinterest showed "RSS feed added" for each feed.
+- Do not mark RSS items as posted until the public Pinterest board shows the
+  imported Pins. The Pinterest settings page may wrap the "Saved Pins to" label
+  vertically, so use the visible feed URL and public-board proof as the source
+  of truth.
 
 Current RSS-ready future pins:
 
@@ -271,7 +278,8 @@ canonical/source URL notes in the draft.
 - Link to the wallpaper calculator and guide.
 - Status: live Medium article was published on 2026-05-08 and then queued for
   hero-image repair after a visual review found the detail text crossing the
-  calculator artwork.
+  calculator artwork. The user manually fixed the live image and alt text on
+  2026-05-08; external-browser public review showed the corrected hero image.
 
 ### Browser-Only AI Tools: What They Are Good For
 

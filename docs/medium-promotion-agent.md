@@ -28,6 +28,11 @@ affiliate links.
   hero image and the second story had headings that pasted as normal
   paragraphs. Future agents must verify the public article after every live
   edit, not just the editor or Story Settings.
+- Live Medium lesson from 2026-05-08: the wallpaper article hero image had
+  detail text crossing the calculator artwork. The generator now has layout
+  checks, and future live edits must include a public-page visual screenshot.
+  Do not mark a Medium post complete from the editor alone, even when alt text
+  and SEO settings are saved.
 
 ## Commands
 
@@ -122,6 +127,9 @@ The generator also writes:
   browser and verify the hero image, saved alt text, large title, bold H2
   headings, SEO title/description, canonical/source URL, and reader interests.
   Save screenshots under `output/promotion/medium/` when doing browser work.
+- If the user manually fixes a Medium article, still run the live visual check
+  and record the public URL plus what was actually verified. Do not overwrite
+  the user's live edit unless a later approved repair requires it.
 - For live article rewrites, use the latest generated draft as the replacement
   source. Prefer the clean file in `output/promotion/medium/public/`, but do
   not mark the live article updated until the Medium editor has actually been
