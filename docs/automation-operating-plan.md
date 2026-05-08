@@ -61,12 +61,13 @@ registered. Edge also showed the extension installed, and the missing Edge
 native host registry entry was added to point at the same OpenAI manifest. After
 that fix, `npm run automation:chrome-check` reported Chrome and Edge as
 installed and native-host ready. After restarting Codex on 2026-05-08, the
-callable Chrome control path worked: it listed the live Chrome tabs, found the
-logged-in Pinterest and Medium tabs, claimed the Medium tab read-only, verified
-the live Stories page, and released the tab without closing it. Use native
-Chrome control for logged-in promotion verification when the callable tool is
-available; otherwise use Playwright or OS-level external-browser proof and say
-clearly when the native Chrome control path is unavailable.
+Chrome skill path worked through the extension browser runtime: it listed the
+live Chrome tabs, found the logged-in Pinterest and Medium tabs, claimed the
+Medium tab read-only, verified the live Stories page, and released the tab
+without closing it. Do not wait for a separate `chrome.*` tool namespace; the
+supported route is the `@chrome` skill with the generic browser runtime and
+`agent.browsers.get('extension')`. If that route fails after one retry, follow
+the Chrome skill's extension and native-host checks before falling back.
 
 ## Evidence Locations
 

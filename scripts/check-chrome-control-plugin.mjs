@@ -137,7 +137,7 @@ function main() {
   };
 
   if (summary.chromeExtensionInstalled && summary.chromeNativeHostRegistered) {
-    summary.status = 'ready for Chrome control after Codex exposes the Chrome tool';
+    summary.status = 'ready for the @chrome skill and extension browser runtime';
   } else if (summary.edgeExtensionInstalled && !summary.chromeExtensionInstalled) {
     summary.status = 'Edge extension found, but official Chrome control is not fully installed in Chrome';
   }
@@ -155,11 +155,11 @@ function main() {
   }
   if (summary.edgeExtensionInstalled && !summary.edgeNativeHostRegistered) {
     recommendations.push(
-      'Edge has the Codex extension installed, but no Edge native host entry was found. Treat Edge control as unproven until Codex exposes a working browser-control tool.',
+      'Edge has the Codex extension installed, but no Edge native host entry was found. Treat Edge control as unproven until the @chrome skill can list live tabs.',
     );
   }
   recommendations.push(
-    'Keep Playwright/OS automation as the fallback for public-page proof until a callable Chrome control tool is visible in the active Codex tool list.',
+    'Use the @chrome skill for logged-in browser work. Its callable path runs through the generic browser runtime, so a separate chrome.* tool namespace is not required.',
   );
 
   const report = {
