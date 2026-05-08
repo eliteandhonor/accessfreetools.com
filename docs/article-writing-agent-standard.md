@@ -1,6 +1,6 @@
 # Article Writing Agent Standard
 
-Reviewed: 2026-05-07
+Reviewed: 2026-05-08
 
 This standard applies to Access Free Tools blog guides, Medium companion posts, Pinterest descriptions that need longer context, and any future promotion article.
 
@@ -120,18 +120,24 @@ generic one: one clear topic, the main search phrase, realistic numbers, a real
 example, readable paragraphs, a direct reader voice, disclosure, source link,
 canonical/source URL metadata, 3-5 focused tags, a branded hero image with alt
 text, limits, no generic hype phrases, no off-topic AI drift, and a reading
-level that fits the Access Free Tools voice.
+level that fits the Access Free Tools voice. It also requires the Medium hero
+asset layout QA report to pass, so title/detail text must stay inside the safe
+text column and cannot overlap the calculator artwork.
 
 Medium articles should not go live as text-only posts. Use
 `npm run promotion:medium:images` or the full quality command to generate the
 matching `public/medium/{slug}.jpg` image, then upload or import that image
 before the first paragraph and set the alt text from the draft metadata.
+If the image layout check fails or the visual preview shows text crossing the
+artwork, do not publish. Fix the source hero layout, regenerate the assets, and
+rerun `npm run promotion:medium:quality`.
 
 Live Medium formatting must be checked in the public article, not only in the
 draft file. After publishing or editing, open the live Medium URL in the
 external browser and verify:
 
 - The hero image appears near the top of the article.
+- The hero image has no text crossing the calculator artwork or cropped text.
 - The image alt text was saved.
 - The article title renders as the large story heading.
 - Each `##` section heading renders as a bold Medium heading, not a plain

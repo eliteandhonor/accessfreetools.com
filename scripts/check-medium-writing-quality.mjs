@@ -3,6 +3,7 @@ import { basename, dirname, extname, join, resolve } from 'node:path';
 
 const DEFAULT_TARGET = resolve('output', 'promotion', 'medium');
 const DEFAULT_REPORT_PATH = resolve('output', 'promotion', 'medium-quality-report.json');
+const HERO_ASSET_REPORT_PATH = resolve('output', 'promotion', 'medium-hero-assets.json');
 
 const minScores = {
   seo: 80,
@@ -236,6 +237,18 @@ function extractHeroImage(article) {
     : null;
 }
 
+function loadHeroAssetReport() {
+  if (!existsSync(HERO_ASSET_REPORT_PATH)) {
+    return {
+      generatedAt: null,
+      layoutChecks: [],
+      missing: true,
+    };
+  }
+
+  return JSON.parse(readFileSync(HERO_ASSET_REPORT_PATH, 'utf8'));
+}
+
 function extractHeadings(article) {
   return [...article.matchAll(/^##\s+(.+)$/gm)].map((match) => match[1].trim());
 }
@@ -407,7 +420,7 @@ function scoreHumanInterest({ title, text, article, headings, grade, secondPerso
   };
 }
 
-function lintArticle(file) {
+function lintArticle(file, heroAssetReport) {
   const slug = basename(file, '.md');
   const rules = qualityRules[slug] ?? {
     primaryPhrase: slug.split('-').slice(0, 3).join(' '),
@@ -448,6 +461,7 @@ function lintArticle(file) {
   const overallScore = clampScore(seo.score * 0.4 + originality.score * 0.25 + humanInterest.score * 0.35);
   const errors = [];
   const warnings = [];
+  const heroLayoutCheck = heroAssetReport.layoutChecks?.find((check) => check.slug === slug);
 
   if (title.length < 35 || title.length > 85) {
     errors.push(`Title should be 35-85 characters; found ${title.length}.`);
@@ -469,6 +483,19 @@ function lintArticle(file) {
     errors.push('Missing public hero image Markdown at the top of the Medium article.');
   } else if (heroImage.url !== `https://accessfreetools.com/medium/${slug}.jpg`) {
     errors.push(`Hero image URL should be https://accessfreetools.com/medium/${slug}.jpg.`);
+  }
+
+  if (heroAssetReport.missing) {
+    errors.push('Missing Medium hero asset QA report. Run npm run promotion:medium:images before publishing.');
+  } else if (!heroLayoutCheck) {
+    errors.push(`Missing hero image layout QA for ${slug}.`);
+  } else if (heroLayoutCheck.status !== 'passed') {
+    errors.push(`Hero image layout QA failed for ${slug}: ${(heroLayoutCheck.errors ?? []).join(' ')}`);
+  }
+
+  const resolvedHeroImagePath = heroImagePath ? resolve(heroImagePath) : '';
+  if (!resolvedHeroImagePath || !existsSync(resolvedHeroImagePath)) {
+    errors.push(`Hero image file is missing locally: ${heroImagePath || '(empty)'}.`);
   }
 
   if (heroImageUrl !== `https://accessfreetools.com/medium/${slug}.jpg`) {
@@ -587,6 +614,7 @@ function lintArticle(file) {
       heroImageUrl,
       heroImagePath,
       heroAlt: effectiveAlt,
+      heroLayoutStatus: heroLayoutCheck?.status ?? 'missing',
       tags,
       primaryPhraseCount: seo.primaryCount,
       primaryPhraseDensityPercent: seo.density,
@@ -605,7 +633,8 @@ function lintArticle(file) {
 function main() {
   const { target, reportPath } = parseArgs();
   const files = listMarkdownFiles(target);
-  const results = files.map(lintArticle);
+  const heroAssetReport = loadHeroAssetReport();
+  const results = files.map((file) => lintArticle(file, heroAssetReport));
   let errorCount = 0;
   let warningCount = 0;
 

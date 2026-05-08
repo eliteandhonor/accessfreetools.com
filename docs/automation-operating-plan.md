@@ -1,6 +1,6 @@
 # Access Free Tools Automation Operating Plan
 
-Last updated: 2026-05-07
+Last updated: 2026-05-08
 
 This file records the Codex automation jobs that keep Access Free Tools checked without relying on chat memory.
 
@@ -38,6 +38,12 @@ Pinterest RSS automation is the exception for pre-approved feed items: an item c
 Reddit automation is draft-first. Run `npm run promotion:reddit:quality` before using a reply, read the target community rules, disclose ownership, and keep the answer useful even without the Access Free Tools link.
 
 After a public post is approved and published, update `docs/promotion-queue.md` with the live URL, date, channel, and source page.
+
+Medium automation must treat hero images as part of the quality gate, not an
+afterthought. `npm run promotion:medium:quality` regenerates hero images and
+fails if the title or detail text crosses the safe artwork area. A live Medium
+post is not complete until the public URL shows a clean hero image, saved alt
+text, large H1, bold H2 headings, SEO settings, and canonical/source URL.
 
 ## Evidence Locations
 

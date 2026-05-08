@@ -250,6 +250,11 @@ The command writes ready-to-paste companion drafts under
 `output/promotion/medium/` and a JSON report at
 `output/promotion/medium-promotion-report.json`.
 
+Before posting, run `npm run promotion:medium:quality` and visually open the
+hero image in `public/medium/`. The image must have clean title/detail text,
+no text crossing the calculator artwork, useful alt text, and the matching
+canonical/source URL notes in the draft.
+
 ### How To Pick The Right Free Online Calculator
 
 - Start with the task: money, school, home project, health estimate, or conversion.
@@ -264,7 +269,9 @@ The command writes ready-to-paste companion drafts under
 - Give a simple room example.
 - Explain why 0 percent waste is usually unrealistic.
 - Link to the wallpaper calculator and guide.
-- Status: approved by the user on 2026-05-07; not posted yet.
+- Status: live Medium article was published on 2026-05-08 and then queued for
+  hero-image repair after a visual review found the detail text crossing the
+  calculator artwork.
 
 ### Browser-Only AI Tools: What They Are Good For
 
