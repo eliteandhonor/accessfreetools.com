@@ -71,13 +71,14 @@ On 2026-05-08, the ad-revenue Medium companion article was prepared in the
 external Chrome Medium editor with rich H2 formatting, branded hero image,
 saved alt text, reader interests, SEO title/description, and canonical/source
 URL. Medium blocked the live publish because the account had reached its
-"maximum of two stories in the past 24 hours" limit. Do not mark it posted until
-the account can publish again and the public URL is visibly checked.
-On 2026-05-08, `npm run promotion:medium:quality` regenerated the 10 Medium
+"maximum of two stories in the past 24 hours" limit.
+On 2026-05-09, `npm run promotion:medium:quality` regenerated the 10 Medium
 drafts and hero images; all drafts passed the SEO, originality, human-interest,
-and overall quality thresholds. The ad-revenue article remains the next best
-Medium publish candidate, but it still needs a live external-browser publish
-and public URL proof before the queue changes to `posted`.
+and overall quality thresholds. The ad-revenue article was then published in
+external Chrome and verified on its public URL with the corrected H1, readable
+branded hero image, saved alt text, Medium SEO title/description, three focused
+topics, and visible H2 section headings:
+`https://medium.com/@accessfreetools/how-to-think-about-ad-revenue-before-your-site-has-big-traffic-beef3ad9529c`.
 Follow-up from the 2026-05-07 review: Medium posts now require a branded hero
 image, alt text, canonical/source URL metadata, and focused tags in the local
 quality gate before future public posting. The live percentage article now uses
@@ -98,8 +99,10 @@ browser Pinterest settings page accepted these non-empty board feeds:
 each one. Do not mark the individual feed items `posted` until Pinterest imports
 them and the public board shows the Pins.
 Later on 2026-05-08, the board feed URLs were checked on production and returned
-HTTP 200. A public-board HTML check did not find the RSS-only item slugs yet, so
-the RSS-only items stay `rss-connected` until Pinterest visibly imports them.
+HTTP 200. On 2026-05-09, public-board HTML checks showed the RSS imports were
+visible for percent-off, recipe-scaler, watts-to-amps, concrete,
+mortgage-amortization, and word-counter. Ad-revenue and unit-price were still
+not visible in public board HTML and remain `rss-connected`.
 Bluesky is the recommended next organic platform as of 2026-05-08. The user
 created `https://bsky.app/profile/accessfreetools.bsky.social`; the profile was
 updated through the Bluesky API with the approved display name, bio, and branded
@@ -166,7 +169,7 @@ SEO proof from 2026-05-08:
 | High | `/tools/basic-calculator/` | Simple everyday calculator with guide and keyboard support | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
 | High | `/tools/percentage-calculator/` | Discounts, percent change, markups, and reverse percentages | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
 | High | `/tools/mortgage-calculator/` | Estimate monthly payments and understand amortization | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/finance-calculators/` on 2026-05-06 |
-| High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Medium, Reddit | waiting | Medium draft prepared in the external Chrome editor on 2026-05-08 and local quality rechecked; retry publish after Medium's daily limit clears, then verify the public URL before marking posted |
+| High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Medium | posted | Published and public-page checked on 2026-05-09 with H1, hero image, alt text, SEO title/description, topics, and H2 headings verified: `https://medium.com/@accessfreetools/how-to-think-about-ad-revenue-before-your-site-has-big-traffic-beef3ad9529c` |
 | High | `/tools/ad-revenue-calculator/` | Explain RPM, CTR, CPC, impressions, and earnings-estimate limits | Bluesky | approved | Draft passed `npm run promotion:bluesky:quality`; hold for one-per-day cadence after the first 3 Bluesky starter posts |
 | High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image, alt text, Medium SEO title/description, canonical link, reader-interest topics, and live H1/H2 formatting verified in the external browser |
 | High | `/tools/percentage-calculator/` | Discount, tip, markup, and percent-change micro tip | Bluesky | posted | Public post verified on 2026-05-08: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mld43shj2u2h` |
@@ -175,7 +178,7 @@ SEO proof from 2026-05-08:
 | Medium | `/tools/bmi-calculator/` | BMI estimate with health disclaimer and plain-language result notes | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/health-and-fitness-calculators/` on 2026-05-06 |
 | Medium | `/tools/bmi-calculator/` | BMI estimate limits explained carefully | Medium | approved | Medium draft approved on 2026-05-07; health limits included |
 | Medium | `/tools/wallpaper-calculator/` | Rolls, wall area, pattern repeat, and waste percent explained | Pinterest, Medium | posted | Pinterest published; Medium live article manually fixed by the user and externally checked on 2026-05-08: `https://medium.com/@accessfreetools/what-waste-percent-means-in-a-wallpaper-calculator-8189dc219150` |
-| Medium | `/tools/wallpaper-calculator/` | Waste percent and roll-estimate micro tip | Bluesky | approved | Draft passed `npm run promotion:bluesky:quality`; prioritize because Search Console still reports the tool URL as unknown |
+| Medium | `/tools/wallpaper-calculator/` | Waste percent and roll-estimate micro tip | Bluesky | posted | Public post verified on 2026-05-09: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlfy2wnkek2y` |
 | Medium | `/tools/watts-to-amps-calculator/` | Electrical conversion with voltage and phase reminders | Reddit, Medium | approved | Medium draft approved on 2026-05-07; electrical limits included |
 | Medium | `/tools/watts-to-amps-calculator/` | Watts, amps, voltage, and electrical-caution micro tip | Bluesky | approved | Draft passed `npm run promotion:bluesky:quality`; prioritize because Search Console still reports the tool URL as unknown |
 | Medium | `/tools/watts-to-amps-calculator/` | Explain watts, volts, amps, and electrical caution | Reddit | approved | Draft generated by `npm run promotion:reddit:quality`; use only where community rules allow disclosed self-links |
@@ -193,11 +196,11 @@ SEO proof from 2026-05-08:
 | Medium | `/tools/payment-calculator/` | Estimate loan payment from principal, rate, and term | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/finance-calculators/` on 2026-05-07 |
 | Medium | `/tools/hex-calculator/` | Hex, decimal, and binary number-base learning helper | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/school-and-study-tools/` on 2026-05-07 |
 | Medium | `/tools/amp-hours-to-watt-hours-calculator/` | Convert battery capacity using amp-hours and voltage | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/home-project-calculators/` on 2026-05-07 |
-| Medium | `/tools/watts-to-amps-calculator/` | Electrical conversion with voltage and phase reminders | Pinterest RSS | rss-connected | Home Project Calculators RSS feed connected on 2026-05-08; wait for Pinterest import proof |
+| Medium | `/tools/watts-to-amps-calculator/` | Electrical conversion with voltage and phase reminders | Pinterest RSS | posted | Public Home Project Calculators board HTML showed the RSS import on 2026-05-09 |
 | High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Pinterest RSS | rss-connected | Finance Calculators RSS feed connected on 2026-05-08; wait for Pinterest import proof |
-| Medium | `/tools/percent-off-calculator/` | Sale price, discount amount, and savings check | Pinterest RSS | rss-connected | Free Online Calculators RSS feed connected on 2026-05-08; wait for Pinterest import proof |
-| High | `/tools/mortgage-amortization-calculator/` | Payment breakdown across principal and interest | Pinterest RSS | rss-connected | Finance Calculators RSS feed connected on 2026-05-08; wait for Pinterest import proof |
-| Medium | `/tools/concrete-calculator/` | Slabs, footings, posts, and concrete volume | Pinterest RSS | rss-connected | Home Project Calculators RSS feed connected on 2026-05-08; wait for Pinterest import proof |
+| Medium | `/tools/percent-off-calculator/` | Sale price, discount amount, and savings check | Pinterest RSS | posted | Public Free Online Calculators board HTML showed the RSS import on 2026-05-09 |
+| High | `/tools/mortgage-amortization-calculator/` | Payment breakdown across principal and interest | Pinterest RSS | posted | Public Finance Calculators board HTML showed the RSS import on 2026-05-09 |
+| Medium | `/tools/concrete-calculator/` | Slabs, footings, posts, and concrete volume | Pinterest RSS | posted | Public Home Project Calculators board HTML showed the RSS import on 2026-05-09 |
 | Medium | `/tools/concrete-calculator/` | Concrete volume planning with construction limits | Bluesky | approved | Draft passed `npm run promotion:bluesky:quality`; keep construction-limit wording |
 | High | `/tools/percentage-calculator/` | Calculate percent off, discount amount, and sale price | Quora | posted | First Quora profile post published and externally verified on 2026-05-08 at `https://www.quora.com/profile/Brendan-1929`; timestamp slug shown as `https://www.quora.com/profile/Brendan-1929/How-to-calculate-a-discount-without-guessing-Short-answer-percent-off-means-you-multiply-the-original-price-by-the-dis` |
 | Medium | `/tools/wallpaper-calculator/` | Explain waste percent, pattern repeat, and roll estimates | Quora | approved | Draft generated by `npm run promotion:quora:quality`; prioritize because Search Console still reports the tool URL as unknown |
@@ -207,9 +210,9 @@ SEO proof from 2026-05-08:
 | Medium | `/tools/concrete-calculator/` | Estimate concrete volume while avoiding unit mistakes | Quora | approved | Draft generated by `npm run promotion:quora:quality`; keep construction-limit wording |
 | High | `/tools/ad-revenue-calculator/` | Explain RPM, pageviews, and ad revenue estimate limits | Quora | approved | Draft generated by `npm run promotion:quora:quality`; avoid income promises and keep estimate limits |
 | High | `/tools/mortgage-calculator/` | Explain mortgage calculator estimates before lender approval | Quora | approved | Draft generated by `npm run promotion:quora:quality`; only answer broad educational questions, not personal loan advice |
-| Medium | `/tools/recipe-scaler/` | Resize ingredient amounts without guessing | Pinterest RSS | rss-connected | Free Online Calculators RSS feed connected on 2026-05-08; wait for Pinterest import proof |
+| Medium | `/tools/recipe-scaler/` | Resize ingredient amounts without guessing | Pinterest RSS | posted | Public Free Online Calculators board HTML showed the RSS import on 2026-05-09 |
 | Medium | `/tools/unit-price-calculator/` | Compare price per unit while shopping | Pinterest RSS | rss-connected | Free Online Calculators RSS feed connected on 2026-05-08; wait for Pinterest import proof |
-| Medium | `/tools/word-counter/` | Count words, characters, sentences, and reading time | Pinterest RSS | rss-connected | School And Study Tools RSS feed connected on 2026-05-08; wait for Pinterest import proof |
+| Medium | `/tools/word-counter/` | Count words, characters, sentences, and reading time | Pinterest RSS | posted | Public School And Study Tools board HTML showed the RSS import on 2026-05-09 |
 | High | `/tools/ad-revenue-calculator/` | Explain RPM, pageviews, and earnings-estimate limits | Reddit | approved | Draft generated by `npm run promotion:reddit:quality`; avoid income-promise threads |
 | High | `/tools/mortgage-calculator/` | Mortgage payment ballpark with lender-limit warning | Reddit | approved | Draft generated by `npm run promotion:reddit:quality`; only use when finance community rules allow |
 | High | `/tools/percentage-calculator/` | Discount, tip, markup, and percent-change help | Reddit | unverified | Re-publish only after the external Edge profile can verify the post appears under `u/accessfreetools` posts |
