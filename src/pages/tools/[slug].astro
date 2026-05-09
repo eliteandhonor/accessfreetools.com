@@ -68,6 +68,9 @@ const displayName = alias?.name ?? tool.name;
 const displayDescription = alias?.description ?? tool.description;
 const currentPath = `/tools/${alias?.slug ?? tool.slug}/`;
 const relatedTools = getRelatedTools(tool);
+const categoryName = getCategoryName(tool.category);
+const categoryPath = `/categories/${tool.category}/`;
+const guidePath = `/blog/how-to-use-${tool.slug}/`;
 const toolSocialImagePath =
   {
     calculators: '/social/free-calculators.png',
@@ -1353,7 +1356,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     items={[
       { name: 'Home', path: '/' },
       { name: 'Tools', path: '/tools/' },
-      { name: getCategoryName(tool.category), path: `/categories/${tool.category}/` },
+      { name: categoryName, path: categoryPath },
       { name: displayName, path: currentPath },
     ]}
   />
@@ -1361,7 +1364,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
   <section class="tool-page">
     <p class="breadcrumb">
       <a href="/">Home</a> / <a href="/tools/">Tools</a> /
-      <a href={`/categories/${tool.category}/`}>{getCategoryName(tool.category)}</a>
+      <a href={categoryPath}>{categoryName}</a>
     </p>
 
     <div class="tool-title-row">
@@ -1824,6 +1827,32 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
           ))
         }
       </div>
+    </section>
+
+    <section class="content-section">
+      <h2>Need the guide or a nearby tool?</h2>
+      <p>
+        This calculator is one stop in a larger topic path. Use these links when you want the
+        plain-language guide, the full category, or the complete searchable library.
+      </p>
+      <ul class="guide-link-list">
+        <li>
+          <a href={guidePath}>How to use the {tool.name}</a>
+          <span>Read examples, input meanings, formula notes, result limits, and common mistakes.</span>
+        </li>
+        <li>
+          <a href={categoryPath}>{categoryName}</a>
+          <span>Browse related calculators and utilities in the same category.</span>
+        </li>
+        <li>
+          <a href="/blog/">Calculator and utility guides</a>
+          <span>Find more guides written around real Access Free Tools pages.</span>
+        </li>
+        <li>
+          <a href="/tools/">All free tools</a>
+          <span>Search every live calculator, converter, AI helper, and browser utility.</span>
+        </li>
+      </ul>
     </section>
 
     <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section', isHealthTool && 'advanced-faq-section', isFinanceTool && 'advanced-faq-section', isUtilityTool && 'advanced-faq-section', isAiTool && 'advanced-faq-section']}>

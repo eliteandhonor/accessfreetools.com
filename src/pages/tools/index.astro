@@ -60,6 +60,38 @@ const warmToolLinks = [
     text: 'Extract text from screenshots or images in the browser and learn what OCR can miss.',
   },
 ];
+const guideEntryLinks = [
+  {
+    href: '/blog/',
+    title: 'All calculator and utility guides',
+    text: 'Search every guide when you need examples, formulas, input explanations, and result limits.',
+  },
+  {
+    href: '/blog/how-to-use-ad-revenue-calculator/',
+    title: 'Ad revenue calculator guide',
+    text: 'Learn pageviews, RPM, CTR, CPC, and why ad earnings are only estimates.',
+  },
+  {
+    href: '/blog/how-to-use-watts-to-amps-calculator/',
+    title: 'Watts to amps guide',
+    text: 'Use watts, volts, and phase type to understand electrical current estimates.',
+  },
+  {
+    href: '/blog/how-to-use-amp-hours-to-watt-hours-calculator/',
+    title: 'Amp-hours to watt-hours guide',
+    text: 'Compare battery capacity with voltage so amp-hour labels make more sense.',
+  },
+  {
+    href: '/blog/how-to-use-sand-calculator/',
+    title: 'Sand calculator guide',
+    text: 'Estimate sand volume, bag count, tons, and waste before a small project.',
+  },
+  {
+    href: '/blog/how-to-use-payment-calculator/',
+    title: 'Payment calculator guide',
+    text: 'Break down loan payment inputs, interest, term length, and planning limits.',
+  },
+];
 ---
 
 <BaseLayout
@@ -127,6 +159,27 @@ const warmToolLinks = [
     </div>
     <div class="discovery-link-grid">
       {warmToolLinks.map((link) => (
+        <a href={link.href}>
+          <strong>{link.title}</strong>
+          <span>{link.text}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="discovery-panel" aria-labelledby="tools-guide-path-heading">
+    <div class="section-heading">
+      <div>
+        <p class="section-kicker">Guides and examples</p>
+        <h2 id="tools-guide-path-heading">Use a guide when the answer needs context</h2>
+      </div>
+      <p>
+        Some searches need more than a number. These guide paths explain what the inputs mean,
+        how to read the result, and which mistakes to avoid before using the answer.
+      </p>
+    </div>
+    <div class="discovery-link-grid">
+      {guideEntryLinks.map((link) => (
         <a href={link.href}>
           <strong>{link.title}</strong>
           <span>{link.text}</span>

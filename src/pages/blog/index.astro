@@ -41,6 +41,70 @@ const guideCollections = [
     text: 'Estimate rolls and learn why waste percent matters for cuts and pattern matching.',
   },
 ];
+const guideTopicHubs = [
+  {
+    href: '/categories/calculators/',
+    title: 'Math and everyday calculators',
+    text: 'Start with calculator guides for percentages, fractions, exponents, roots, statistics, and quick arithmetic.',
+  },
+  {
+    href: '/categories/finance/',
+    title: 'Finance calculator guides',
+    text: 'Use these when the result depends on rates, terms, taxes, income, payments, or assumptions.',
+  },
+  {
+    href: '/categories/home-projects/',
+    title: 'Home project calculator guides',
+    text: 'Compare material estimates for concrete, wallpaper, sand, gravel, paint, roofing, and electrical work.',
+  },
+  {
+    href: '/categories/health-fitness/',
+    title: 'Health and fitness guides',
+    text: 'Read formula limits, privacy notes, and when an estimate should not replace professional advice.',
+  },
+  {
+    href: '/categories/ai-tools/',
+    title: 'Browser AI tool guides',
+    text: 'Learn how browser-side OCR, language checks, keyword extraction, and reading tools handle privacy and limits.',
+  },
+  {
+    href: '/tools/',
+    title: 'All free tools',
+    text: 'Jump back to the full searchable tool library when you already know the calculator you need.',
+  },
+];
+const searchDemandGuides = [
+  {
+    href: '/blog/how-to-use-ad-revenue-calculator/',
+    title: 'Ad revenue calculator',
+    text: 'Helpful for early searches around ad revenue, RPM, CPC, CTR, and pageview estimates.',
+  },
+  {
+    href: '/blog/how-to-use-amp-hours-to-watt-hours-calculator/',
+    title: 'Amp-hours to watt-hours',
+    text: 'Useful for battery capacity searches where voltage changes the real energy comparison.',
+  },
+  {
+    href: '/blog/how-to-use-watts-to-amps-calculator/',
+    title: 'Watts to amps',
+    text: 'Good for electrical searches that need watts, volts, current, and phase type explained clearly.',
+  },
+  {
+    href: '/blog/how-to-use-circle-calculator/',
+    title: 'Circle calculator',
+    text: 'Covers radius, diameter, circumference, area, and how those measurements connect.',
+  },
+  {
+    href: '/blog/how-to-use-carbohydrate-calculator/',
+    title: 'Carbohydrate calculator',
+    text: 'Explains calorie targets, carb percentages, grams, and the health limits of the estimate.',
+  },
+  {
+    href: '/blog/how-to-use-payment-calculator/',
+    title: 'Payment calculator',
+    text: 'Shows how payment estimates change with principal, rate, term, and fees that may be missing.',
+  },
+];
 ---
 
 <BaseLayout
@@ -88,6 +152,44 @@ const guideCollections = [
       </div>
       <div class="discovery-link-grid">
         {guideCollections.map((guide) => (
+          <a href={guide.href}>
+            <strong>{guide.title}</strong>
+            <span>{guide.text}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="guide-feature-panel guide-feature-panel-soft" aria-labelledby="guide-topic-heading">
+      <div>
+        <p class="section-kicker">Browse by job</p>
+        <h2 id="guide-topic-heading">Pick the topic before the tool name</h2>
+        <p>
+          Internal guide hubs help readers and crawlers understand how the library is organized.
+          Start with the category, then move to the exact tool or guide that matches the question.
+        </p>
+      </div>
+      <div class="discovery-link-grid">
+        {guideTopicHubs.map((hub) => (
+          <a href={hub.href}>
+            <strong>{hub.title}</strong>
+            <span>{hub.text}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="guide-feature-panel" aria-labelledby="guide-demand-heading">
+      <div>
+        <p class="section-kicker">Early search demand</p>
+        <h2 id="guide-demand-heading">Guides worth making easy to find</h2>
+        <p>
+          These pages match topics already showing search interest, so they get extra crawlable
+          links from the guide hub while the site builds trust and indexing history.
+        </p>
+      </div>
+      <div class="discovery-link-grid">
+        {searchDemandGuides.map((guide) => (
           <a href={guide.href}>
             <strong>{guide.title}</strong>
             <span>{guide.text}</span>

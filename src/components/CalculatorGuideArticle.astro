@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import BreadcrumbStructuredData from './BreadcrumbStructuredData.astro';
+import { getCategory } from '../data/categories';
 import { formatDisplayDate, getBlogDates } from '../data/siteDates';
 import { getDeepAuditRecord } from '../data/toolDeepAudit';
 import { getTool } from '../data/tools';
@@ -39,6 +40,7 @@ const {
   sidecarText,
 } = Astro.props;
 const tool = getTool(toolSlug);
+const category = tool ? getCategory(tool.category) : undefined;
 const examples = tool?.examples ?? [];
 const useCases = tool?.useCases ?? [];
 const faqItems = tool?.faq ?? [];
@@ -207,6 +209,34 @@ const articleStructuredData = {
             </ul>
           </section>
         )}
+
+        <section class="content-section">
+          <h2>Keep exploring</h2>
+          <p>
+            If this guide helped but your question is slightly different, these paths keep you in
+            the same useful part of the site instead of forcing you back to search.
+          </p>
+          <ul class="guide-link-list">
+            {tool && (
+              <li>
+                <a href={`/categories/${tool.category}/`}>{category?.name ?? 'Related category'}</a>
+                <span>Browse the full category for nearby calculators and comparison tools.</span>
+              </li>
+            )}
+            <li>
+              <a href="/tools/">All free tools</a>
+              <span>Search the complete Access Free Tools library by task, category, or tool name.</span>
+            </li>
+            <li>
+              <a href="/blog/">All calculator and utility guides</a>
+              <span>Find more plain-language examples, formulas, mistakes, and result explanations.</span>
+            </li>
+            <li>
+              <a href="/free-calculator-resources/">Free calculator resources</a>
+              <span>Use the resource hub when you want a broader starting point for calculator pages.</span>
+            </li>
+          </ul>
+        </section>
 
         <section class="content-section">
           <h2>Privacy and copying results</h2>
