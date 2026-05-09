@@ -181,6 +181,27 @@ SEO proof from 2026-05-09:
   `/advanced-age-calculator`, and the old AdSense earnings URL, with zero hard
   failures in the production sitemap sample.
 
+SEO proof from 2026-05-10:
+
+- The blocked daily SEO run was retried and passed: DataForSEO account/status,
+  Search Console key URL inspection, SEO self-evaluation, and IndexNow key
+  verification all completed.
+- Search Console confirms `/categories/calculators/`, `/categories/ai-tools/`,
+  `/tools/ad-revenue-calculator/`, and `/blog/how-to-use-ad-revenue-calculator/`
+  are submitted and indexed, so the old `/calculators`, `/deep-research`, and
+  AdSense-earnings redirect targets have stronger proof.
+- `/tools/`, `/blog/`, `/tools/age-calculator/`, `/tools/watts-to-amps-calculator/`,
+  and `/tools/wallpaper-calculator/` still need crawl or indexing time.
+- `/blog/how-to-use-wallpaper-calculator/` improved to crawled but not indexed
+  with a successful mobile fetch, which is progress but not a completed index
+  win.
+- Pinterest RSS health is still clean: 8 RSS-ready future items, 6 board feeds,
+  and 0 report issues.
+- Promotion draft quality was refreshed for Medium, Reddit, Bluesky, and Quora:
+  Medium passed 10/10 drafts, Reddit passed 16/16 drafts, Bluesky passed 8/8
+  drafts, and Quora passed 8/8 drafts. No new public post was marked live
+  without a public URL.
+
 | Priority | Page | Main Angle | Channel | Status | Next Action |
 | --- | --- | --- | --- | --- | --- |
 | High | `/tools/` | Free online tools library with calculators, converters, AI tools, and guides | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |

@@ -1,6 +1,6 @@
 # Google Search Central Notes
 
-Last reviewed: 2026-05-09
+Last reviewed: 2026-05-10
 
 These notes are the current SEO baseline for Access Free Tools. Use them before
 changing indexing, redirect, sitemap, content-quality, or promotion logic.
@@ -72,3 +72,19 @@ the same topics.
 The homepage now links directly to Watts to Amps, Wallpaper, OCR, the matching
 guides, `/tools/`, and `/blog/`. The daily Search Console inspection set also
 tracks those priority pages so agents do not miss the remaining discovery gap.
+
+## 2026-05-10 Fresh Inspection Notes
+
+The daily SEO run completed successfully after the previous automation report
+showed a transient API fetch failure. DataForSEO, Search Console inspection,
+SEO self-evaluation, and IndexNow key verification all ran without OAuth
+blocking.
+
+Search Console now confirms the old ranking redirect targets are indexable:
+`/categories/calculators/`, `/categories/ai-tools/`, `/tools/ad-revenue-calculator/`,
+and `/blog/how-to-use-ad-revenue-calculator/` are submitted and indexed. Keep
+watching `/tools/`, `/blog/`, `/tools/age-calculator/`, `/tools/watts-to-amps-calculator/`,
+`/tools/wallpaper-calculator/`, and `/blog/how-to-use-wallpaper-calculator/`.
+The wallpaper guide has at least moved to "Crawled - currently not indexed,"
+which means Google fetched it successfully but has not selected it for the index
+yet.

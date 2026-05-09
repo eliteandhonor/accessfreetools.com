@@ -13,7 +13,7 @@ const staticPageLastmod: Record<string, string> = {
   '/categories/': '2026-05-02',
   '/blog/': LAST_MAJOR_CONTENT_UPDATE,
   '/free-calculator-resources/': '2026-05-02',
-  '/about/': '2026-05-02',
+  '/about/': '2026-05-10',
   '/why-access-free-tools/': '2026-05-09',
   '/contact/': '2026-04-30',
   '/advertising-disclosure/': '2026-04-30',
