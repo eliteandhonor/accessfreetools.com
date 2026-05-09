@@ -13,6 +13,7 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 - Check DataForSEO balance with `npm run dataforseo:account -- -- --min-balance=2`.
 - Tell the user to top up when the DataForSEO balance is at or below 2 USD, or when DataForSEO returns billing/account errors.
 - Indexing context: an earlier Access Free Tools site existed before this custom Astro site replaced it. Search Console and Bing may temporarily show stale URLs, old quality signals, old crawl paths, and slower re-indexing while search engines reconcile the replacement.
+- Automation dedupe note from 2026-05-09: the standalone `DataForSEO Balance Watch` automation was removed because the daily SEO/promotion review, weekly SEO self-evaluation, monthly OnPage crawl, and deep audit already check balance. Do not recreate a top-up-only automation unless those owner jobs are disabled.
 
 ## New Tool Standard
 
@@ -75,3 +76,4 @@ Every new public tool should include:
 - The agent must not post publicly, send emails, run paid ads, create affiliate placements, or impersonate unrelated users without explicit approval.
 - Promotion should be useful first: answer the question, explain the calculation, disclose ownership when linking, and avoid spam tactics.
 - Never mark promotion work as `posted`, `updated`, or `done` from a submit button alone. A public URL or profile/feed view must visibly prove the change is live.
+- Automation prompts should avoid overlap: one daily overview owns routine indexing/promotion status, platform agents own platform-specific draft quality, weekly QA owns code/site checks, and monthly OnPage owns paid production crawling.

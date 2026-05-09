@@ -1,6 +1,6 @@
 # Access Free Tools Automation Operating Plan
 
-Last updated: 2026-05-08
+Last updated: 2026-05-09
 
 This file records the Codex automation jobs that keep Access Free Tools checked without relying on chat memory.
 
@@ -8,12 +8,63 @@ This file records the Codex automation jobs that keep Access Free Tools checked 
 
 | Automation | Cadence | Purpose | Safe limits |
 | --- | --- | --- | --- |
-| AFT Daily SEO Pulse | Daily | Checks DataForSEO balance/status, key Search Console URLs, SEO self-evaluation, IndexNow key, sitemap, feed, and robots health. | No broad paid SERP or backlink calls. |
-| Access Free Tools Daily SEO Promotion Review | Daily at 10:00 | Runs the SEO pulse plus Pinterest RSS, Medium, Reddit, Bluesky, and Quora quality checks. | No passwords, no ads, no public-post completion claims without public URL/profile proof. |
+| Access Free Tools Daily SEO Promotion Review | Daily at 10:00 | Owns the daily SEO/promotion overview: DataForSEO status only when needed, Search Console key URLs, sitemap/feed/robots health, IndexNow, Pinterest RSS, Medium, Reddit, Bluesky, and Quora queue status. | No passwords, no ads, no public-post completion claims without public URL/profile proof. Report DataForSEO balance only when it is below warning/stop/top-up thresholds or when an API error affects the task. |
 | AFT Weekly QA Audit | Weekly on Monday | Runs local QA gates, smoke tests, external-link checks, and a deep audit without paid crawl. | Reports fixes; does not push automatically from the scheduled run. |
 | AFT Monthly OnPage Crawl | Monthly on day 1 | Runs a paid DataForSEO OnPage crawl when balance is safely above the warning threshold. | Skips paid crawl at or below 10 USD; never uses Backlinks API. |
-| AFT Weekly Promotion Draft Review | Weekly on Wednesday at 10:00 | Refreshes Pinterest assets, Pinterest RSS reports, Medium drafts, Reddit drafts, and writing-quality scores. | No paid ads, outreach emails, or password storage; RSS feeds exclude already-posted pins; Reddit drafts must stay disclosed and community-rule aware. |
+| AFT Weekly Promotion Draft Review | Weekly on Wednesday at 10:00 | Refreshes Pinterest assets, Pinterest RSS reports, Medium drafts, Reddit drafts, Bluesky drafts, Quora drafts, writing-quality scores, and promotion/internal-link opportunities. | No paid ads, outreach emails, password storage, or duplicate platform reports; RSS feeds exclude already-posted pins; Reddit and Quora drafts must stay disclosed and answer-first. |
+| Medium Promotion Agent | Weekly on Wednesday at 10:00 | Specialist quality pass for Medium draft/image/article readiness. | Do not repeat the full daily SEO report. Mention DataForSEO only if a keyword check changes the recommendation or a warning/error blocks publishing. |
+| Pinterest Promotion Agent | Tuesday, Thursday, Saturday at 10:00 | Specialist Pinterest board, RSS, image, and Pin-angle recommendations. | Do not repeat Search Console or DataForSEO summaries unless a specific URL or keyword changes the Pin plan. |
 | AFT Reddit Promotion Agent | Weekly on Friday at 10:00 | Runs the Reddit draft agent and quality gate, then recommends safe profile posts or replies. | External-browser account work only; no password storage, subreddit posting, direct messages, or paid ads. |
+
+## Paused Or Removed Automations
+
+These jobs were retired on 2026-05-09 to reduce repeated reports:
+
+| Automation | Status | Reason |
+| --- | --- | --- |
+| DataForSEO Balance Watch | Removed | Balance/top-up checks already live inside the daily SEO/promotion review, weekly SEO self-evaluation, monthly OnPage crawl, and deep audit. A separate top-up-only report was duplicate noise. |
+| AFT Daily SEO Pulse | Paused | Its duties are now owned by Access Free Tools Daily SEO Promotion Review. |
+| Daily Promotion Agent | Paused | Its daily promotion overview overlapped with Access Free Tools Daily SEO Promotion Review. |
+| Weekly Content Promotion Agent | Paused | Its weekly plan overlapped with AFT Weekly Promotion Draft Review. |
+
+## Automation Prompt Rules
+
+Use these rules when creating or editing agents:
+
+- Give each automation one clear owner lane: daily overview, weekly QA, monthly paid crawl, weekly promotion queue, or platform specialist.
+- Do not repeat DataForSEO balance in every report. The daily overview owns routine balance monitoring. Other agents only mention balance when it is below warning, stop, or top-up thresholds, or when an API failure changes the recommendation.
+- Start from repo context: read `AGENTS.md`, this file, the relevant platform guide, and the latest output report before recommending work.
+- Produce evidence-backed recommendations: URL or slug, evidence source, why it matters, priority, and the exact next action.
+- Separate facts from ideas. Do not mark something `posted`, `indexed`, `fixed`, or `complete` without proof from a public URL, generated report, command output, or screenshot.
+- Keep output short enough to act on. Prefer 3 wins, 3 problems, and 1 highest-priority action when a report could become long.
+- Avoid broad paid research by default. Use Search Console first, DataForSEO for targeted market/SERP evidence, and monthly OnPage only when the account balance is safely above the warning threshold.
+- Promotion agents should be useful-first: answer real questions, disclose ownership when linking, and avoid duplicate posts, mass replies, direct messages, or paid ads.
+
+## SEO Prompt Research Notes
+
+The 2026-05-09 review of the Medium article "10 Claude Prompts That Actually Rank You on Google" (`https://medium.com/@hii_mohit/10-claude-prompts-that-actually-rank-you-on-google-cbcf055a783d`) found useful prompt patterns, but most examples are for local SEO and Google Business Profile work. Access Free Tools should adapt the pattern, not the local-business tasks.
+
+Source checks used for these rules:
+
+- Google Search Central: creating helpful, reliable, people-first content.
+- Google Search Central: SEO Starter Guide title and content guidance.
+- Google Search Central: link best practices for crawlable links and helpful anchor text.
+- OpenAI prompt engineering guidance: put instructions first, separate context clearly, specify outcome/format/tone, and use examples where they reduce ambiguity.
+
+Useful patterns to keep:
+
+- Load site context once before each agent run: website, mission, priority categories, target pages, competitors, active channels, and current biggest SEO problem.
+- Use Search Console page-2 opportunities: find queries around positions 8-20 or 11-20, then check title, H1, first visible copy, FAQ depth, and internal links before recommending exact copy.
+- Compare competitor SERPs for patterns, but do not copy wording, layouts, or thin keyword pages.
+- Mine user language from Search Console queries, Medium/Quora/Reddit questions, and platform comments so headings and examples match how people actually ask.
+- Ask agents for exact edits, drafts, links, and page targets, not vague strategy.
+- Keep a monthly executive report readable in five minutes: wins, problems, one priority action, and what changed.
+
+Patterns to avoid for this project:
+
+- Google Business Profile category, review, service, and citation prompts unless Access Free Tools later becomes a local service business.
+- City/service page factories. They are not relevant to a global utility app site and can easily create thin pages.
+- Backlink outreach prompts that require expensive tools, cold email, or risky automation. Use organic promotion and earned links first.
 
 ## Local Commands
 

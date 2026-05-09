@@ -28,6 +28,7 @@ npm run check
 - Avoid large keyword batches unless the user asks for deeper paid research.
 - Do not run top-100 SERP checks for every keyword. Use priority tiers, targeted ranges, and `stop_crawl_on_match` before paying for deep rank tracking.
 - Do not automate Backlinks API until the account has confirmed access; the first direct backlinks check returned subscription/access denial.
+- The standalone DataForSEO balance-watch automation was removed on 2026-05-09 because balance checks already run inside the daily SEO/promotion review, weekly SEO self-evaluation, monthly OnPage crawl, and deep audit. Do not recreate a top-up-only automation unless all of those owners are disabled.
 
 ## DataForSEO Knowledge Base Rules
 
@@ -42,6 +43,41 @@ The source-backed implementation notes live in `docs/dataforseo-knowledgebase-no
 - Refresh Tier A weekly, Tier B every two to four weeks, and Tier C monthly or on demand.
 - Save every paid run under `output/` so we do not lose Live-result context.
 - Keep AI/GEO visibility checks as a later experiment. Normal indexing, helpful calculator pages, and Search Console progress come first.
+
+## Prompt Pattern Rules
+
+These rules come from Google Search Central quality guidance, DataForSEO operating notes, and the 2026-05-09 review of SEO prompt examples for ranking work. Adapt the patterns to Access Free Tools; do not copy local-business prompts that are meant for Google Business Profile or city-service pages.
+
+### Context Loader
+
+Before recommending changes, each SEO agent should quickly load:
+
+- Site mission: free utility app website aiming to become a very large practical tool library.
+- Current page type: tool, blog guide, category hub, legal/trust page, promotion page, or social companion post.
+- Evidence source: Search Console, DataForSEO, local QA, production page, promotion queue, or competitor SERP.
+- Active constraints: no fake ad boxes, no password storage, no broad paid SERP crawls, no public promotion claim without live proof.
+
+### Opportunity Finder
+
+For SEO work, prefer this order:
+
+1. Search Console queries and pages with impressions, weak CTR, or positions 8-20.
+2. Internal-link gaps from category hubs, related tools, guides, and promotion pages.
+3. DataForSEO SERP checks only for high-value pages where title, meta, FAQ, or content structure decisions need competitor context.
+4. New content ideas only when they add a real tool, real explanation, or real guide. Do not create thin keyword pages just because a phrase exists.
+
+### Output Shape
+
+Every SEO-agent recommendation should include:
+
+- URL or slug.
+- Evidence and date.
+- Problem in plain language.
+- Exact fix, not only strategy.
+- Priority.
+- Proof check after the fix.
+
+For long reports, use the short executive format: 3 wins, 3 issues, 1 best next action, then evidence links or output paths.
 
 ## Agent Roles
 
