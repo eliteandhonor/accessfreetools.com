@@ -34,6 +34,10 @@ const KEY_INSPECTION_URLS = [
   `${CANONICAL_SITE_URL}blog/`,
   `${CANONICAL_SITE_URL}tools/basic-calculator/`,
   `${CANONICAL_SITE_URL}tools/image-to-text-ocr-tool/`,
+  `${CANONICAL_SITE_URL}tools/watts-to-amps-calculator/`,
+  `${CANONICAL_SITE_URL}tools/wallpaper-calculator/`,
+  `${CANONICAL_SITE_URL}blog/how-to-use-watts-to-amps-calculator/`,
+  `${CANONICAL_SITE_URL}blog/how-to-use-wallpaper-calculator/`,
 ];
 
 function parseArgs() {

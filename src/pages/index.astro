@@ -110,6 +110,48 @@ const heroQuickLinks = [
     detail: 'Extract text from an image in the browser, with clear privacy notes.',
   },
 ];
+const priorityDiscoveryLinks = [
+  {
+    href: '/tools/watts-to-amps-calculator/',
+    title: 'Convert watts to amps',
+    text: 'Use watts, voltage, and phase to estimate current, then read the guide before using the number near real electrical work.',
+  },
+  {
+    href: '/blog/how-to-use-watts-to-amps-calculator/',
+    title: 'Watts to amps guide',
+    text: 'See why the same watts can mean different amps when voltage or phase changes.',
+  },
+  {
+    href: '/tools/wallpaper-calculator/',
+    title: 'Plan wallpaper rolls',
+    text: 'Estimate roll counts, pattern repeat, and waste percent so a room project does not come up short.',
+  },
+  {
+    href: '/blog/how-to-use-wallpaper-calculator/',
+    title: 'Wallpaper calculator guide',
+    text: 'Learn what waste percent means and why pattern repeat can change the final roll estimate.',
+  },
+  {
+    href: '/tools/image-to-text-ocr-tool/',
+    title: 'Turn an image into text',
+    text: 'Run OCR in the browser, check image quality, and understand where text recognition can make mistakes.',
+  },
+  {
+    href: '/blog/how-to-use-image-to-text-ocr-tool/',
+    title: 'OCR tool guide',
+    text: 'Use better photos, cleaner contrast, and realistic expectations for browser text recognition.',
+  },
+  {
+    href: '/tools/',
+    title: 'Search the full library',
+    text: 'Find calculators, converters, AI tools, and plain-English guides from one searchable starting point.',
+  },
+  {
+    href: '/blog/',
+    title: 'Read the guide library',
+    text: 'Open tool walkthroughs that explain inputs, examples, mistakes, and result limits.',
+  },
+];
 ---
 
 <BaseLayout
@@ -196,6 +238,24 @@ const heroQuickLinks = [
         <a href={hub.href}>
           <strong>{hub.title}</strong>
           <span>{hub.text}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-band section-band-soft">
+    <div class="section-heading">
+      <h2>Common jobs people are searching for</h2>
+      <p>
+        These shortcuts point to useful tools and guides people often need after
+        opening the site for the first time.
+      </p>
+    </div>
+    <div class="category-link-list">
+      {priorityDiscoveryLinks.map((item) => (
+        <a href={item.href}>
+          <strong>{item.title}</strong>
+          <span>{item.text}</span>
         </a>
       ))}
     </div>

@@ -1,6 +1,6 @@
 # Google Search Central Notes
 
-Last reviewed: 2026-05-07
+Last reviewed: 2026-05-09
 
 These notes are the current SEO baseline for Access Free Tools. Use them before
 changing indexing, redirect, sitemap, content-quality, or promotion logic.
@@ -59,3 +59,16 @@ npm run indexnow:submit
 
 Then wait for Search Console to reprocess the old URLs. Redirect warnings for
 old moved URLs can be normal, but 5xx errors are not.
+
+## 2026-05-09 Discovery Follow-Up
+
+Search Console now reports the homepage, Basic Calculator, and Image to Text
+OCR Tool as submitted and indexed. The larger `/tools/` and `/blog/` hubs, plus
+the Wallpaper Calculator and Watts to Amps Calculator tool pages, still need
+more crawl time. The current best action is to strengthen clean internal links,
+keep the sitemap and feed submitted, and avoid creating duplicate thin pages for
+the same topics.
+
+The homepage now links directly to Watts to Amps, Wallpaper, OCR, the matching
+guides, `/tools/`, and `/blog/`. The daily Search Console inspection set also
+tracks those priority pages so agents do not miss the remaining discovery gap.

@@ -271,6 +271,30 @@ function legacyRankingUrls(items, sitemapUrls) {
   return gaps;
 }
 
+function contentRefreshAction(url) {
+  const redirectTarget = LEGACY_REDIRECTS.get(url) ?? LEGACY_REDIRECTS.get(`${url}/`);
+
+  if (redirectTarget) {
+    return `legacy ranking URL; verify the 301 target stays live, useful, and internally linked: ${redirectTarget}`;
+  }
+
+  const path = new URL(url).pathname;
+
+  if (path.startsWith('/tools/')) {
+    return 'verify the tool page explains inputs, formulas or logic, result meaning, examples, mistakes, FAQs, related links, and trust limits.';
+  }
+
+  if (path.startsWith('/blog/how-to-use-')) {
+    return 'verify the guide uses the actual current tool UI and explains inputs, examples, result interpretation, and mistakes.';
+  }
+
+  if (path === '/about' || path === '/about/') {
+    return 'verify the page explains what Access Free Tools is, why it exists, and how users can trust it.';
+  }
+
+  return 'verify the page has clear purpose, useful internal links, unique metadata, and no generic filler.';
+}
+
 function domainMetric(snapshot) {
   return snapshot?.domainOverview?.tasks?.[0]?.result?.[0]?.items?.[0]?.metrics?.organic ?? null;
 }
@@ -418,7 +442,7 @@ if (pageOneOpportunities.length) {
 lines.push('', '## Content Refresh Agent');
 
 for (const row of topRows(gsc, 'byPage', 5)) {
-  lines.push(`- ${key(row)} | ${metricLine(row)} | refresh check: verify the guide uses the actual current tool UI and explains inputs, formulas, examples, and mistakes.`);
+  lines.push(`- ${key(row)} | ${metricLine(row)} | refresh check: ${contentRefreshAction(key(row))}`);
 }
 
 if (!topRows(gsc, 'byPage', 5).length) {
@@ -461,9 +485,9 @@ if (relatedKeywordIdeas.length) {
 }
 
 lines.push('', '## Recommended Next Actions');
-lines.push('- Redirect old ranking URLs such as `/calculators` to the strongest live canonical hub before chasing new keywords.');
+lines.push('- Keep legacy redirects verified for old ranking URLs such as `/calculators`, `/deep-research`, `/advanced-age-calculator`, and the old AdSense earnings article.');
 lines.push('- Keep sitemap and RSS submitted through Search Console after major batches.');
-lines.push('- Fix pages that Search Console reports as discovered/crawled but not indexed by improving internal links and page usefulness first.');
+lines.push('- For priority pages that are discovered, crawled, or unknown but not indexed yet, improve useful internal links and page clarity before creating new duplicate pages.');
 lines.push('- Use DataForSEO for live SERP checks before changing important titles or creating new tool clusters.');
 lines.push('- Run `npm run dataforseo:status` before paid research; use Sandbox for new endpoint shapes.');
 lines.push('- Do not auto-publish affiliate or YMYL changes without manual review.');
