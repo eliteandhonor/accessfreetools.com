@@ -14,7 +14,7 @@ const staticPageLastmod: Record<string, string> = {
   '/blog/': LAST_MAJOR_CONTENT_UPDATE,
   '/free-calculator-resources/': '2026-05-02',
   '/about/': '2026-05-02',
-  '/why-access-free-tools/': '2026-05-02',
+  '/why-access-free-tools/': '2026-05-09',
   '/contact/': '2026-04-30',
   '/advertising-disclosure/': '2026-04-30',
   '/privacy-policy/': '2026-04-30',
