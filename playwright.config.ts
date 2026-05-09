@@ -14,12 +14,7 @@ export default defineConfig({
     baseURL,
     trace: 'retain-on-failure',
   },
-  webServer: {
-    command: `npm run preview -- --host 127.0.0.1 --port ${PORT}`,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
-    url: baseURL,
-  },
+  webServer: undefined,
   projects: [
     {
       name: 'desktop',

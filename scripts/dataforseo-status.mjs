@@ -102,7 +102,12 @@ try {
   } else {
     console.log(`DataForSEO Labs database freshness: ${JSON.stringify(labsStatus.searchEngines)}`);
   }
-  if (serviceStatus.rateLimit?.limit !== null || serviceStatus.rateLimit?.remaining !== null) {
+  if (
+    serviceStatus.rateLimit &&
+    (serviceStatus.rateLimit.limit !== null && serviceStatus.rateLimit.limit !== undefined
+      ? true
+      : serviceStatus.rateLimit.remaining !== null && serviceStatus.rateLimit.remaining !== undefined)
+  ) {
     console.log(
       `Rate limit: ${serviceStatus.rateLimit.remaining ?? 'unknown'} remaining of ${serviceStatus.rateLimit.limit ?? 'unknown'}`,
     );

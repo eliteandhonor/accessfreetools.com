@@ -820,7 +820,7 @@ describe('site content audit guardrails', () => {
     expect(PROMOTION_QUEUE_SOURCE).toContain('Do not treat a Reddit post as posted');
     expect(PROMOTION_QUEUE_SOURCE).toContain('npm run promotion:reddit:quality');
     expect(PACKAGE_JSON.scripts.typecheck).toBe('tsc --noEmit');
-    expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run src/data/siteContentAudit.test.ts');
+    expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run --configLoader runner src/data/siteContentAudit.test.ts');
     expect(PACKAGE_JSON.scripts['check:links']).toBe('node scripts/check-internal-links.mjs');
     expect(PACKAGE_JSON.scripts['check:site']).toBe('node scripts/check-built-site.mjs');
     expect(PACKAGE_JSON.scripts['check:structured-data']).toBe('node scripts/check-structured-data.mjs');
@@ -833,7 +833,7 @@ describe('site content audit guardrails', () => {
     expect(PRODUCTION_SITEMAP_CHECK_SOURCE).toContain('Hard failures');
     expect(PACKAGE_JSON.scripts['dataforseo:status']).toBe('node scripts/dataforseo-status.mjs');
     expect(PACKAGE_JSON.scripts['dataforseo:status:sandbox']).toBe('node scripts/dataforseo-status.mjs --sandbox');
-    expect(PACKAGE_JSON.scripts['test:smoke']).toBe('npm run build && playwright test');
+    expect(PACKAGE_JSON.scripts['test:smoke']).toBe('npm run build && node scripts/run-playwright-smoke.mjs');
     expect(PACKAGE_JSON.scripts['security:audit']).toBe('npm audit --audit-level=moderate');
     expect(PACKAGE_JSON.scripts.check).toBe(
       'npm run typecheck && npm test && npm run build && npm run check:links && npm run check:site && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run security:audit',

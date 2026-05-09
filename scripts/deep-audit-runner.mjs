@@ -27,6 +27,7 @@ const skipPaid = args.includes('--skip-paid');
 const skipSmoke = args.includes('--skip-smoke');
 const skipCheck = args.includes('--skip-check');
 const skipSearchConsole = args.includes('--skip-search-console');
+const forceOffline = args.includes('--offline') || process.env.AFT_AUDIT_OFFLINE === '1';
 const maxCrawlPages = Number(option('--max-crawl-pages', '1000'));
 const npmCommand = 'npm';
 const cmdCommand = process.env.ComSpec ?? 'cmd.exe';
@@ -52,9 +53,11 @@ function run(command, commandArgs, options = {}) {
 
   return new Promise((resolveRun) => {
     mkdirSync(dirname(logPath), { recursive: true });
+    const captureOutput = options.captureOutput !== false;
     const child = spawn(command, commandArgs, {
       cwd: process.cwd(),
-      shell: false,
+      shell: Boolean(options.shell),
+      stdio: captureOutput ? 'pipe' : 'inherit',
       env: {
         ...process.env,
         ...(options.env ?? {}),
@@ -63,14 +66,16 @@ function run(command, commandArgs, options = {}) {
     let output = '';
     let settled = false;
 
-    const append = (chunk) => {
-      const text = chunk.toString();
-      output += text;
-      process.stdout.write(text);
-    };
+    if (captureOutput) {
+      const append = (chunk) => {
+        const text = chunk.toString();
+        output += text;
+        process.stdout.write(text);
+      };
 
-    child.stdout.on('data', append);
-    child.stderr.on('data', append);
+      child.stdout.on('data', append);
+      child.stderr.on('data', append);
+    }
     child.on('error', (error) => {
       if (settled) {
         return;
@@ -122,34 +127,72 @@ async function copyIfExists(from, to) {
   return true;
 }
 
+async function hasInternetAccess() {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2500);
+    const response = await fetch('https://registry.npmjs.org/-/ping', { signal: controller.signal });
+    clearTimeout(timeout);
+    return Boolean(response?.ok);
+  } catch {
+    return false;
+  }
+}
+
 async function main() {
   mkdirSync(outputDir, { recursive: true });
   mkdirSync(screenshotDir, { recursive: true });
   console.log(`Deep audit evidence directory: ${outputDir}`);
+
+  const offline = forceOffline || !(await hasInternetAccess());
+  const effectiveSkipSearchConsole = skipSearchConsole || offline;
+  const effectiveSkipCheck = skipCheck || offline;
+
+  if (offline) {
+    console.log('Offline mode detected; treating network-backed audit steps as non-blocking.');
+  }
 
   const steps = [];
   const runNpm = (label, scriptArgs, options = {}) => {
     const commandParts = [npmCommand, 'run', ...scriptArgs];
 
     return process.platform === 'win32'
-      ? run(cmdCommand, ['/d', '/s', '/c', commandParts.join(' ')], { label, hard: options.hard, env: options.env })
-      : run(npmCommand, ['run', ...scriptArgs], { label, hard: options.hard, env: options.env });
+      ? run(cmdCommand, ['/d', '/s', '/c', commandParts.join(' ')], {
+          label,
+          hard: options.hard,
+          env: options.env,
+          shell: false,
+          captureOutput: options.captureOutput,
+        })
+      : run(npmCommand, ['run', ...scriptArgs], {
+          label,
+          hard: options.hard,
+          env: options.env,
+          shell: options.shell,
+          captureOutput: options.captureOutput,
+        });
   };
   const runNodeScript = (label, script, scriptArgs = [], options = {}) =>
-    run(nodeCommand, [script, ...scriptArgs], { label, hard: options.hard, env: options.env });
+    run(nodeCommand, [script, ...scriptArgs], {
+      label,
+      hard: options.hard,
+      env: options.env,
+      shell: options.shell,
+      captureOutput: options.captureOutput,
+    });
 
   steps.push(
     await runNodeScript('dataforseo-account', 'scripts/dataforseo-account.mjs', [
       '--min-balance=2',
       '--warn-balance=10',
       `--report=${join(outputDir, 'dataforseo-account.json')}`,
-    ], { hard: true }),
+    ], { hard: !offline }),
   );
   steps.push(
     await runNodeScript('dataforseo-status', 'scripts/dataforseo-status.mjs', [
       '--fail-on-unhealthy',
       `--report=${join(outputDir, 'dataforseo-status.json')}`,
-    ], { hard: true }),
+    ], { hard: !offline }),
   );
   steps.push(
     await runNodeScript('dataforseo-status-sandbox', 'scripts/dataforseo-status.mjs', [
@@ -158,11 +201,11 @@ async function main() {
     ], { hard: false }),
   );
 
-  if (!skipCheck) {
-    steps.push(await runNpm('check', ['check'], { hard: true }));
+  if (!effectiveSkipCheck) {
+    steps.push(await runNpm('check', ['check'], { hard: !offline }));
   }
 
-  steps.push(await runNpm('external-links', ['check:external-links'], { hard: true }));
+  steps.push(await runNpm('external-links', ['check:external-links'], { hard: !offline }));
   await copyIfExists('output/external-link-audit.json', join(outputDir, 'external-link-audit.json'));
 
   if (!skipPaid) {
@@ -174,7 +217,7 @@ async function main() {
     );
   }
 
-  if (!skipSearchConsole) {
+  if (!effectiveSkipSearchConsole) {
     steps.push(await runNodeScript('search-console-inspect-key-urls', 'scripts/search-console.mjs', ['--inspect-key-urls'], { hard: false }));
     await copyIfExists('output/search-console-url-inspection.json', join(outputDir, 'search-console-url-inspection.json'));
     steps.push(await runNodeScript('search-console-performance', 'scripts/search-console.mjs', [], { hard: false }));
@@ -191,9 +234,10 @@ async function main() {
 
   if (!skipSmoke) {
     steps.push(
-      await runNpm('playwright-smoke', ['test:smoke'], {
+      await runNodeScript('playwright-smoke', 'scripts/run-playwright-smoke.mjs', [], {
         hard: true,
         env: { DEEP_AUDIT_SCREENSHOT_DIR: screenshotDir },
+        captureOutput: false,
       }),
     );
   }
@@ -216,6 +260,7 @@ async function main() {
     generatedAt: new Date().toISOString(),
     outputDir,
     maxCrawlPages,
+    offline,
     steps,
     failedHard,
     failedSoft,
