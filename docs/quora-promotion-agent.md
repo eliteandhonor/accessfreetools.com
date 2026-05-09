@@ -111,6 +111,14 @@ First Space promotion:
 - External-browser proof on 2026-05-08 showed the public Space title, the post
   text, the ownership disclosure, and the live percentage-calculator link.
 
+Second Space promotion:
+
+- Page promoted: https://accessfreetools.com/tools/wallpaper-calculator/
+- Live Quora Space post:
+  https://accessfreetoolssspace.quora.com/Wallpaper-waste-percent-is-not-a-mystery-fee-It-is-extra-wallpaper-for-trimming-corners-pattern-matching-damaged-str
+- External Chrome proof on 2026-05-09 showed the public Space title, post text,
+  ownership disclosure, and the live wallpaper-calculator link.
+
 Use the Space lightly. A good default cadence is one helpful Space post per
 week at most, mixed with direct Quora answers when exact matching questions are
 available.
