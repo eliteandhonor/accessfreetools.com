@@ -21,9 +21,15 @@ The dashboard URL is:
 
 It is marked `noindex` and requires a private token before stats are shown.
 
-## Required Hostinger Environment Variables
+## Simple Hostinger Setup
 
-Set these in the deployed Node app environment:
+The easiest live setup is one hidden server file:
+
+```text
+public_html/.analytics/config.env
+```
+
+Put these values in that file:
 
 ```env
 AFT_ANALYTICS_TOKEN=replace-with-a-private-dashboard-token
@@ -37,7 +43,15 @@ AFT_ANALYTICS_EXCLUDE_IPS=your.home.ip.address,your.mobile.ip.address
 AFT_ANALYTICS_TIME_ZONE=Australia/Brisbane
 ```
 
-Never commit real token, salt, IP list, or hosting credentials to GitHub.
+The PHP analytics endpoint also accepts the same values from Hostinger environment variables, so either setup works. Never commit real token, salt, IP list, or hosting credentials to GitHub.
+
+For owner setup, keep the private local copy at:
+
+```text
+.local/analytics-dashboard.env
+```
+
+That file is ignored by Git. If Hostinger SSH is available, upload those same lines to `public_html/.analytics/config.env`. If using Hostinger File Manager, create the `.analytics` folder inside `public_html`, then create `config.env` inside it.
 
 ## How To Open It
 
@@ -47,7 +61,7 @@ After deployment and environment setup, open:
 https://accessfreetools.com/admin/analytics/?token=YOUR_PRIVATE_TOKEN
 ```
 
-The page stores the token in an HttpOnly cookie scoped to `/admin/analytics/`, so later visits can use:
+The page stores the token in this browser only, so later visits can use:
 
 ```text
 https://accessfreetools.com/admin/analytics/
@@ -73,4 +87,3 @@ npm run aft -- site-sitemap
 ```
 
 `usage-summary` reads `.local/analytics/events.ndjson`, which is ignored by Git.
-

@@ -1,4 +1,5 @@
 import { createHash, randomUUID } from 'node:crypto';
+import { existsSync, readFileSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 
@@ -112,6 +113,57 @@ function cleanPath(value: unknown) {
   return rawValue.startsWith('/') ? rawValue : '';
 }
 
+let cachedAnalyticsConfig: Record<string, string> | undefined;
+
+function parseAnalyticsConfig(text: string) {
+  const values: Record<string, string> = {};
+
+  for (const rawLine of text.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith('#') || !line.includes('=')) continue;
+
+    const [rawKey, ...rawValueParts] = line.split('=');
+    const key = rawKey.trim();
+    if (!/^[A-Z][A-Z0-9_]*$/.test(key)) continue;
+
+    let value = rawValueParts.join('=').trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+
+    values[key] = value;
+  }
+
+  return values;
+}
+
+function getAnalyticsConfig() {
+  if (cachedAnalyticsConfig) return cachedAnalyticsConfig;
+
+  cachedAnalyticsConfig = {};
+  const configPaths = [
+    process.env.AFT_ANALYTICS_CONFIG,
+    resolve('.analytics/config.env'),
+    resolve('.local/analytics-dashboard.env'),
+  ].filter(Boolean) as string[];
+
+  for (const path of configPaths) {
+    if (!existsSync(path)) continue;
+    Object.assign(cachedAnalyticsConfig, parseAnalyticsConfig(readFileSync(path, 'utf8')));
+  }
+
+  return cachedAnalyticsConfig;
+}
+
+function analyticsEnv(name: string, fallback = '') {
+  const envValue = process.env[name];
+  if (envValue) return envValue;
+  return getAnalyticsConfig()[name] || fallback;
+}
+
 function dayKey(date: Date, timeZone = DEFAULT_TIME_ZONE) {
   return new Intl.DateTimeFormat('en-CA', {
     day: '2-digit',
@@ -122,7 +174,10 @@ function dayKey(date: Date, timeZone = DEFAULT_TIME_ZONE) {
 }
 
 function hashValue(value: string) {
-  const salt = process.env.AFT_ANALYTICS_SALT ?? process.env.AFT_ANALYTICS_TOKEN ?? 'access-free-tools-local-analytics';
+  const salt = analyticsEnv(
+    'AFT_ANALYTICS_SALT',
+    analyticsEnv('AFT_ANALYTICS_TOKEN', 'access-free-tools-local-analytics'),
+  );
   return createHash('sha256').update(`${salt}:${value}`).digest('hex').slice(0, 32);
 }
 
@@ -135,7 +190,7 @@ function getClientIp(request: Request, clientAddress?: string) {
 
 function getExcludedIps() {
   return new Set(
-    (process.env.AFT_ANALYTICS_EXCLUDE_IPS ?? '')
+    analyticsEnv('AFT_ANALYTICS_EXCLUDE_IPS')
       .split(',')
       .map((value) => value.trim())
       .filter(Boolean),
@@ -188,16 +243,16 @@ function isAllowedEventType(value: unknown): value is AnalyticsEventType {
 }
 
 export function isAnalyticsAdminConfigured() {
-  return Boolean(process.env.AFT_ANALYTICS_TOKEN ?? process.env.ADMIN_ANALYTICS_TOKEN);
+  return Boolean(analyticsEnv('AFT_ANALYTICS_TOKEN', analyticsEnv('ADMIN_ANALYTICS_TOKEN')));
 }
 
 export function isAnalyticsAdminToken(value: string) {
-  const configuredToken = process.env.AFT_ANALYTICS_TOKEN ?? process.env.ADMIN_ANALYTICS_TOKEN ?? '';
+  const configuredToken = analyticsEnv('AFT_ANALYTICS_TOKEN', analyticsEnv('ADMIN_ANALYTICS_TOKEN'));
   return Boolean(configuredToken && value && configuredToken === value);
 }
 
 export async function recordAnalyticsEvent(payload: AnalyticsPayload, request: Request, clientAddress?: string) {
-  if ((process.env.AFT_ANALYTICS_ENABLED ?? 'true').toLowerCase() === 'false') {
+  if (analyticsEnv('AFT_ANALYTICS_ENABLED', 'true').toLowerCase() === 'false') {
     return { ignored: true, reason: 'disabled' };
   }
 
@@ -292,7 +347,7 @@ function topRows(map: Map<string, SummaryRow>, limit: number) {
 
 export async function summarizeAnalytics(options: { days?: number; now?: Date } = {}): Promise<AnalyticsSummary> {
   const days = Math.max(1, Math.min(365, options.days ?? 30));
-  const timeZone = process.env.AFT_ANALYTICS_TIME_ZONE ?? DEFAULT_TIME_ZONE;
+  const timeZone = analyticsEnv('AFT_ANALYTICS_TIME_ZONE', DEFAULT_TIME_ZONE);
   const now = options.now ?? new Date();
   const rangeStartTime = now.getTime() - days * 24 * 60 * 60 * 1000;
   const activeStartTime = now.getTime() - 10 * 60 * 1000;

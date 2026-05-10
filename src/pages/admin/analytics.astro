@@ -25,8 +25,8 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
   <section class="content-section content-section-narrow analytics-panel" data-analytics-login-panel>
     <h2>Enter admin token</h2>
     <p>
-      This page is private and noindexed. Enter the analytics token from your Hostinger environment
-      to load anonymous usage stats.
+      This page is private and noindexed. Enter your private analytics password to load anonymous
+      usage stats.
     </p>
     <form class="analytics-login-form" data-analytics-token-form>
       <label>
@@ -36,7 +36,7 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
       <button class="button-primary" type="submit">Open analytics</button>
     </form>
     <p class="analytics-opt-out-status" data-analytics-message>
-      Set <code>AFT_ANALYTICS_TOKEN</code> before using this dashboard.
+      Analytics opens after the private token is set on Hostinger.
     </p>
   </section>
 

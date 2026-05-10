@@ -7,13 +7,70 @@ header('Cache-Control: no-store');
 const MAX_EVENTS_TO_READ = 50000;
 const ACTIVE_WINDOW_SECONDS = 600;
 
+function analytics_config_values(): array
+{
+    static $values = null;
+
+    if (is_array($values)) {
+        return $values;
+    }
+
+    $values = [];
+    $root = dirname(__DIR__, 2);
+    $paths = [
+        $root . DIRECTORY_SEPARATOR . '.analytics' . DIRECTORY_SEPARATOR . 'config.env',
+        $root . DIRECTORY_SEPARATOR . '.analytics' . DIRECTORY_SEPARATOR . 'analytics.env',
+    ];
+
+    foreach ($paths as $path) {
+        if (!is_readable($path)) {
+            continue;
+        }
+
+        $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($lines === false) {
+            continue;
+        }
+
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if ($line === '' || str_starts_with($line, '#') || !str_contains($line, '=')) {
+                continue;
+            }
+
+            [$key, $value] = explode('=', $line, 2);
+            $key = trim($key);
+            if (!preg_match('/^[A-Z][A-Z0-9_]*$/', $key)) {
+                continue;
+            }
+
+            $value = trim($value);
+            $first = $value[0] ?? '';
+            $last = $value !== '' ? $value[strlen($value) - 1] : '';
+            if (($first === '"' && $last === '"') || ($first === "'" && $last === "'")) {
+                $value = substr($value, 1, -1);
+            }
+
+            $values[$key] = $value;
+        }
+    }
+
+    return $values;
+}
+
 function analytics_env(string $name, string $fallback = ''): string
 {
     $value = getenv($name);
-    if ($value === false || $value === '') {
-        return $fallback;
+    if ($value !== false && $value !== '') {
+        return $value;
     }
-    return $value;
+
+    $config = analytics_config_values();
+    if (array_key_exists($name, $config) && $config[$name] !== '') {
+        return $config[$name];
+    }
+
+    return $fallback;
 }
 
 function analytics_json(array $body, int $status = 200): void
