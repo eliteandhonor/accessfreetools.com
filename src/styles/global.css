@@ -5787,6 +5787,176 @@ main {
   color: var(--danger);
 }
 
+.analytics-admin-hero {
+  max-width: 1180px;
+}
+
+.analytics-panel {
+  max-width: 1180px;
+}
+
+.analytics-login-form {
+  display: grid;
+  gap: 14px;
+}
+
+.analytics-login-form label {
+  color: var(--text);
+  display: grid;
+  font-weight: 800;
+  gap: 8px;
+}
+
+.analytics-login-form input {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  min-height: 48px;
+  padding: 10px 12px;
+}
+
+.analytics-metric-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.analytics-metric-grid article {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+}
+
+.analytics-metric-grid span,
+.sitemap-link-grid span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.analytics-metric-grid strong {
+  color: var(--text);
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.analytics-metric-grid p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.analytics-table-wrap {
+  overflow-x: auto;
+}
+
+.analytics-table {
+  border-collapse: collapse;
+  min-width: 680px;
+  width: 100%;
+}
+
+.analytics-table th,
+.analytics-table td {
+  border-bottom: 1px solid var(--border);
+  padding: 12px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.analytics-table th {
+  color: var(--muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.analytics-table a,
+.analytics-ranked-list a,
+.sitemap-link-grid a {
+  color: var(--accent-strong);
+}
+
+.analytics-two-column {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.analytics-ranked-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.analytics-ranked-list li {
+  align-items: start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr auto;
+  padding: 12px 14px;
+}
+
+.analytics-ranked-list li span:last-child {
+  color: var(--text);
+  font-weight: 900;
+}
+
+.analytics-opt-out-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.analytics-opt-out-status {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.tool-interaction-surface {
+  display: contents;
+}
+
+.sitemap-overview-band,
+.sitemap-section {
+  max-width: 1180px;
+}
+
+.sitemap-link-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.sitemap-link-grid a {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 8px;
+  min-height: 108px;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sitemap-link-grid strong {
+  color: var(--text);
+}
+
+.sitemap-tool-grid,
+.sitemap-guide-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .instruction-list,
 .guide-bullet-list {
   padding-left: 22px;
@@ -6980,6 +7150,11 @@ main {
   .about-stat-grid,
   .about-rules-grid,
   .about-roadmap-grid,
+  .analytics-metric-grid,
+  .analytics-two-column,
+  .sitemap-link-grid,
+  .sitemap-tool-grid,
+  .sitemap-guide-grid,
   .shortcut-table div {
     grid-template-columns: 1fr;
   }

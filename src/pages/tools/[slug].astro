@@ -405,6 +405,32 @@ const aiToolVariants = {
 } as const satisfies Partial<Record<string, AiToolVariant>>;
 const aiToolVariant = aiToolVariants[tool.slug];
 const isAiTool = Boolean(aiToolVariant);
+const hasInteractiveTool =
+  isCalculatorTool ||
+  isPercentageTool ||
+  isPercentErrorTool ||
+  isHalfLifeTool ||
+  isExponentTool ||
+  isLogTool ||
+  isRatioTool ||
+  isRootTool ||
+  isQuadraticTool ||
+  isBinaryTool ||
+  isHexTool ||
+  isScientificTool ||
+  isFractionTool ||
+  isRandomTool ||
+  isNumberTheoryTool ||
+  isRoundingTool ||
+  isMatrixTool ||
+  isScientificNotationTool ||
+  isBigNumberTool ||
+  Boolean(statsToolVariant) ||
+  Boolean(geometryToolVariant) ||
+  Boolean(healthToolVariant) ||
+  Boolean(financeToolVariant) ||
+  Boolean(utilityToolVariant) ||
+  Boolean(aiToolVariant);
 const statsToolInstructions: Record<string, string[]> = {
   'standard-deviation-calculator': [
     'Enter a list of numbers separated by commas, spaces, or line breaks.',
@@ -1770,35 +1796,45 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       )
     }
 
-    {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
-    {isPercentageTool && <PercentageCalculator client:load />}
-    {isPercentErrorTool && <PercentErrorCalculator client:load />}
-    {isHalfLifeTool && <HalfLifeCalculator client:load />}
-    {isExponentTool && <ExponentCalculator client:load />}
-    {isLogTool && <LogCalculator client:load />}
-    {isRatioTool && <RatioCalculator client:load />}
-    {isRootTool && <RootCalculator client:load />}
-    {isQuadraticTool && <QuadraticFormulaCalculator client:load />}
-    {isBinaryTool && <BinaryCalculator client:load />}
-    {isHexTool && <HexCalculator client:load />}
-    {isScientificTool && <ScientificCalculator client:load />}
-    {isFractionTool && <FractionCalculator client:load />}
-    {isRandomTool && <RandomNumberGenerator client:load />}
-    {isLeastCommonMultipleTool && <NumberTheoryCalculator variant="lcm" client:load />}
-    {isGreatestCommonFactorTool && <NumberTheoryCalculator variant="gcf" client:load />}
-    {isFactorTool && <NumberTheoryCalculator variant="factor" client:load />}
-    {isPrimeFactorizationTool && <NumberTheoryCalculator variant="prime-factorization" client:load />}
-    {isLongDivisionTool && <NumberTheoryCalculator variant="long-division" client:load />}
-    {isRoundingTool && <RoundingCalculator client:load />}
-    {isMatrixTool && <MatrixCalculator client:load />}
-    {isScientificNotationTool && <ScientificNotationCalculator client:load />}
-    {isBigNumberTool && <BigNumberCalculator client:load />}
-    {statsToolVariant && <StatsCalculator variant={statsToolVariant} client:load />}
-    {geometryToolVariant && <GeometryCalculator variant={geometryToolVariant} client:load />}
-    {healthToolVariant && <HealthFitnessCalculator variant={healthToolVariant} client:load />}
-    {financeToolVariant && <FinanceCalculator variant={financeToolVariant} client:load />}
-    {utilityToolVariant && <UtilityCalculator variant={utilityToolVariant} client:load />}
-    {aiToolVariant && <AiBrowserTool variant={aiToolVariant} client:load />}
+    {hasInteractiveTool && (
+      <div
+        class="tool-interaction-surface"
+        data-aft-tool-usage-surface
+        data-tool-category={tool.category}
+        data-tool-name={tool.name}
+        data-tool-slug={tool.slug}
+      >
+        {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
+        {isPercentageTool && <PercentageCalculator client:load />}
+        {isPercentErrorTool && <PercentErrorCalculator client:load />}
+        {isHalfLifeTool && <HalfLifeCalculator client:load />}
+        {isExponentTool && <ExponentCalculator client:load />}
+        {isLogTool && <LogCalculator client:load />}
+        {isRatioTool && <RatioCalculator client:load />}
+        {isRootTool && <RootCalculator client:load />}
+        {isQuadraticTool && <QuadraticFormulaCalculator client:load />}
+        {isBinaryTool && <BinaryCalculator client:load />}
+        {isHexTool && <HexCalculator client:load />}
+        {isScientificTool && <ScientificCalculator client:load />}
+        {isFractionTool && <FractionCalculator client:load />}
+        {isRandomTool && <RandomNumberGenerator client:load />}
+        {isLeastCommonMultipleTool && <NumberTheoryCalculator variant="lcm" client:load />}
+        {isGreatestCommonFactorTool && <NumberTheoryCalculator variant="gcf" client:load />}
+        {isFactorTool && <NumberTheoryCalculator variant="factor" client:load />}
+        {isPrimeFactorizationTool && <NumberTheoryCalculator variant="prime-factorization" client:load />}
+        {isLongDivisionTool && <NumberTheoryCalculator variant="long-division" client:load />}
+        {isRoundingTool && <RoundingCalculator client:load />}
+        {isMatrixTool && <MatrixCalculator client:load />}
+        {isScientificNotationTool && <ScientificNotationCalculator client:load />}
+        {isBigNumberTool && <BigNumberCalculator client:load />}
+        {statsToolVariant && <StatsCalculator variant={statsToolVariant} client:load />}
+        {geometryToolVariant && <GeometryCalculator variant={geometryToolVariant} client:load />}
+        {healthToolVariant && <HealthFitnessCalculator variant={healthToolVariant} client:load />}
+        {financeToolVariant && <FinanceCalculator variant={financeToolVariant} client:load />}
+        {utilityToolVariant && <UtilityCalculator variant={utilityToolVariant} client:load />}
+        {aiToolVariant && <AiBrowserTool variant={aiToolVariant} client:load />}
+      </div>
+    )}
 
     <section class="content-section">
       <h2>How to use the {tool.name.toLowerCase()}</h2>

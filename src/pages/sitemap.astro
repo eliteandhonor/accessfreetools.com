@@ -1,0 +1,140 @@
+---
+export const prerender = true;
+import BaseLayout from '../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../components/BreadcrumbStructuredData.astro';
+import CollectionStructuredData from '../components/CollectionStructuredData.astro';
+import { blogPosts } from '../data/blogPosts';
+import { categories } from '../data/categories';
+import { staticSitemapEntries } from '../data/discovery';
+import { tools } from '../data/tools';
+
+const publicPages = staticSitemapEntries.filter((entry) => !entry.path.startsWith('/admin/'));
+const categoryGroups = categories
+  .map((category) => ({
+    ...category,
+    tools: tools.filter((tool) => tool.category === category.slug),
+  }))
+  .filter((category) => category.tools.length > 0);
+const sitemapItems = [
+  ...publicPages.map((entry) => ({ name: entry.path === '/' ? 'Home' : entry.path, path: entry.path })),
+  ...categoryGroups.map((category) => ({ name: category.name, path: `/categories/${category.slug}/` })),
+  ...tools.map((tool) => ({ name: tool.name, path: `/tools/${tool.slug}/` })),
+  ...blogPosts.map((post) => ({ name: post.title, path: `/blog/${post.slug}/` })),
+];
+---
+
+<BaseLayout
+  title="HTML Sitemap | Access Free Tools"
+  description="Browse the Access Free Tools HTML sitemap with public pages, tool categories, calculators, utilities, AI tools, and how-to guides."
+  path="/sitemap/"
+>
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'HTML Sitemap', path: '/sitemap/' },
+    ]}
+  />
+  <CollectionStructuredData
+    name="Access Free Tools HTML Sitemap"
+    description="Public sitemap for Access Free Tools pages, tools, categories, and guides."
+    path="/sitemap/"
+    items={sitemapItems}
+    maxItems={300}
+  />
+
+  <section class="page-intro">
+    <p class="breadcrumb"><a href="/">Home</a> / HTML Sitemap</p>
+    <h1>Access Free Tools HTML Sitemap</h1>
+    <p>
+      A readable map of Access Free Tools: public pages, category hubs, tools, calculators,
+      browser utilities, AI helpers, and matching guides.
+    </p>
+  </section>
+
+  <section class="section-band sitemap-overview-band">
+    <div class="analytics-metric-grid sitemap-metric-grid">
+      <article>
+        <span>Tools</span>
+        <strong>{tools.length}</strong>
+        <p>Canonical calculator and utility pages.</p>
+      </article>
+      <article>
+        <span>Guides</span>
+        <strong>{blogPosts.length}</strong>
+        <p>How-to articles matched to live tools.</p>
+      </article>
+      <article>
+        <span>Categories</span>
+        <strong>{categoryGroups.length}</strong>
+        <p>Task hubs for browsing the library.</p>
+      </article>
+      <article>
+        <span>Public pages</span>
+        <strong>{publicPages.length}</strong>
+        <p>Core site, legal, contact, and resource pages.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-band section-band-soft sitemap-section">
+    <div class="section-heading">
+      <h2>Public pages</h2>
+      <p>Core pages people and search engines may need.</p>
+    </div>
+    <div class="sitemap-link-grid">
+      {publicPages.map((entry) => (
+        <a href={entry.path}>
+          <strong>{entry.path === '/' ? 'Home' : entry.path.replaceAll('/', ' ').trim()}</strong>
+          <span>Updated {entry.lastmod}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-band sitemap-section">
+    <div class="section-heading">
+      <h2>Category hubs</h2>
+      <p>Start here when you want a smaller, themed list instead of every tool at once.</p>
+    </div>
+    <div class="sitemap-link-grid">
+      {categoryGroups.map((category) => (
+        <a href={`/categories/${category.slug}/`}>
+          <strong>{category.name}</strong>
+          <span>{category.tools.length} tools. {category.summary}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {categoryGroups.map((category) => (
+    <section class="section-band section-band-soft sitemap-section">
+      <div class="section-heading">
+        <h2>{category.name}</h2>
+        <p>{category.summary}</p>
+      </div>
+      <div class="sitemap-link-grid sitemap-tool-grid">
+        {category.tools.map((tool) => (
+          <a href={`/tools/${tool.slug}/`}>
+            <strong>{tool.name}</strong>
+            <span>{tool.summary}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  ))}
+
+  <section class="section-band sitemap-section">
+    <div class="section-heading">
+      <h2>Guides</h2>
+      <p>Plain-language articles that explain examples, formulas, inputs, and result limits.</p>
+    </div>
+    <div class="sitemap-link-grid sitemap-guide-grid">
+      {blogPosts.map((post) => (
+        <a href={`/blog/${post.slug}/`}>
+          <strong>{post.title}</strong>
+          <span>{post.summary}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

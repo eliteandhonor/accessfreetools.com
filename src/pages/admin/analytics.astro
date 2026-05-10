@@ -1,0 +1,254 @@
+---
+export const prerender = false;
+import BaseLayout from '../../components/BaseLayout.astro';
+import {
+  ANALYTICS_OPT_OUT_KEY,
+  isAnalyticsAdminConfigured,
+  isAnalyticsAdminToken,
+  summarizeAnalytics,
+  type AnalyticsSummary,
+} from '../../lib/siteAnalytics';
+
+const submittedToken = Astro.url.searchParams.get('token') ?? '';
+const cookieToken = Astro.cookies.get('aft_analytics_token')?.value ?? '';
+const hasConfiguredToken = isAnalyticsAdminConfigured();
+const isAuthorized = isAnalyticsAdminToken(submittedToken || cookieToken);
+
+if (isAuthorized && submittedToken) {
+  Astro.cookies.set('aft_analytics_token', submittedToken, {
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 30,
+    path: '/admin/analytics/',
+    sameSite: 'strict',
+    secure: Astro.url.protocol === 'https:',
+  });
+}
+
+const summary: AnalyticsSummary | null = isAuthorized ? await summarizeAnalytics({ days: 30 }) : null;
+const numberFormat = new Intl.NumberFormat('en');
+const formatNumber = (value: number) => numberFormat.format(value);
+const formatDateTime = (value: string) =>
+  new Intl.DateTimeFormat('en-AU', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: summary?.timeZone ?? 'Australia/Brisbane',
+  }).format(new Date(value));
+---
+
+<BaseLayout
+  title="Private Analytics | Access Free Tools"
+  description="Private Access Free Tools analytics dashboard for anonymous page and tool usage."
+  path="/admin/analytics/"
+  noindex
+>
+  <section class="page-intro analytics-admin-hero">
+    <p class="breadcrumb"><a href="/">Home</a> / Admin / Analytics</p>
+    <h1>Private Analytics</h1>
+    <p>
+      Simple first-party stats for real page views and tool actions. Hostinger hPanel still helps
+      with server logs, bot crawls, and error checks.
+    </p>
+  </section>
+
+  {!hasConfiguredToken && (
+    <section class="content-section content-section-narrow analytics-panel">
+      <h2>Set an analytics token first</h2>
+      <p>
+        Add <code>AFT_ANALYTICS_TOKEN</code> to the deployed environment before this private page can
+        show stats. You can also set <code>AFT_ANALYTICS_SALT</code> and
+        <code>AFT_ANALYTICS_EXCLUDE_IPS</code> for cleaner owner filtering.
+      </p>
+    </section>
+  )}
+
+  {hasConfiguredToken && !isAuthorized && (
+    <section class="content-section content-section-narrow analytics-panel">
+      <h2>Enter admin token</h2>
+      <p>This page is private and noindexed. Enter the analytics token from your environment.</p>
+      <form class="analytics-login-form" method="get">
+        <label>
+          Analytics token
+          <input type="password" name="token" autocomplete="current-password" required />
+        </label>
+        <button class="button-primary" type="submit">Open analytics</button>
+      </form>
+    </section>
+  )}
+
+  {summary && (
+    <>
+      <section class="section-band analytics-panel">
+        <div class="section-heading">
+          <h2>Today</h2>
+          <p>
+            Counts use anonymous browser events and skip obvious bots, admin pages, API routes, and
+            browsers that opted out.
+          </p>
+        </div>
+        <div class="analytics-metric-grid">
+          <article>
+            <span>Active now</span>
+            <strong>{formatNumber(summary.activeVisitors)}</strong>
+            <p>Visitors seen in the last 10 minutes.</p>
+          </article>
+          <article>
+            <span>Visitors today</span>
+            <strong>{formatNumber(summary.today.visitors)}</strong>
+            <p>{formatNumber(summary.today.newVisitors)} new, {formatNumber(summary.today.returningVisitors)} returning.</p>
+          </article>
+          <article>
+            <span>Tool uses today</span>
+            <strong>{formatNumber(summary.today.toolActions)}</strong>
+            <p>Calculate, generate, copy, convert, and similar actions.</p>
+          </article>
+          <article>
+            <span>Page views today</span>
+            <strong>{formatNumber(summary.today.pageViews)}</strong>
+            <p>Human browser page-view events.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-band section-band-soft analytics-panel">
+        <div class="section-heading">
+          <h2>Most used tools</h2>
+          <p>Top tool actions from the last {summary.days} days.</p>
+        </div>
+        {
+          summary.topTools.length > 0 ? (
+            <div class="analytics-table-wrap">
+              <table class="analytics-table">
+                <thead>
+                  <tr>
+                    <th>Tool</th>
+                    <th>Uses</th>
+                    <th>Open</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {summary.topTools.map((item) => (
+                    <tr>
+                      <td>{item.label}</td>
+                      <td>{formatNumber(item.count)}</td>
+                      <td><a href={item.path}>View tool</a></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p>No tool actions have been recorded yet.</p>
+          )
+        }
+      </section>
+
+      <section class="section-band analytics-panel analytics-two-column">
+        <div>
+          <div class="section-heading">
+            <h2>Top pages</h2>
+            <p>Page views from the last {summary.days} days.</p>
+          </div>
+          <ol class="analytics-ranked-list">
+            {summary.topPages.slice(0, 10).map((item) => (
+              <li>
+                <a href={item.path}>{item.label}</a>
+                <span>{formatNumber(item.count)}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div>
+          <div class="section-heading">
+            <h2>Referrers</h2>
+            <p>External sites sending visitors.</p>
+          </div>
+          <ol class="analytics-ranked-list">
+            {
+              summary.topReferrers.length > 0 ? (
+                summary.topReferrers.slice(0, 10).map((item) => (
+                  <li>
+                    <span>{item.label}</span>
+                    <span>{formatNumber(item.count)}</span>
+                  </li>
+                ))
+              ) : (
+                <li><span>No external referrers yet</span><span>0</span></li>
+              )
+            }
+          </ol>
+        </div>
+      </section>
+
+      <section class="section-band section-band-soft analytics-panel">
+        <div class="section-heading">
+          <h2>Recent activity</h2>
+          <p>Latest anonymous page and tool events. Generated {formatDateTime(summary.generatedAt)}.</p>
+        </div>
+        <div class="analytics-table-wrap">
+          <table class="analytics-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Event</th>
+                <th>Page or tool</th>
+                <th>Device</th>
+              </tr>
+            </thead>
+            <tbody>
+              {summary.recentEvents.slice(0, 15).map((event) => (
+                <tr>
+                  <td>{formatDateTime(event.ts)}</td>
+                  <td>{event.type === 'tool_action' ? event.action || 'Tool action' : 'Page view'}</td>
+                  <td>
+                    <a href={event.pagePath}>{event.toolName || event.pageTitle || event.pagePath}</a>
+                  </td>
+                  <td>{event.device} / {event.browser}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="content-section content-section-narrow analytics-panel">
+        <h2>Do not count my browser</h2>
+        <p>
+          Use this on your own devices. It saves a local browser flag, so it does not affect other
+          real visitors.
+        </p>
+        <div class="analytics-opt-out-actions">
+          <button class="button-primary" type="button" data-analytics-opt-out="true">Exclude this browser</button>
+          <button class="button-secondary" type="button" data-analytics-opt-out="false">Count this browser again</button>
+        </div>
+        <p class="analytics-opt-out-status" data-analytics-opt-out-status>Checking this browser...</p>
+      </section>
+
+      <script is:inline define:vars={{ optOutKey: ANALYTICS_OPT_OUT_KEY }}>
+        (() => {
+          const status = document.querySelector('[data-analytics-opt-out-status]');
+          const updateStatus = () => {
+            const isOptedOut = window.localStorage.getItem(optOutKey) === 'true';
+            if (status) {
+              status.textContent = isOptedOut
+                ? 'This browser is excluded from Access Free Tools analytics.'
+                : 'This browser is currently counted unless your IP is excluded on the server.';
+            }
+          };
+
+          document.querySelectorAll('[data-analytics-opt-out]').forEach((button) => {
+            button.addEventListener('click', () => {
+              if (button.getAttribute('data-analytics-opt-out') === 'true') {
+                window.localStorage.setItem(optOutKey, 'true');
+              } else {
+                window.localStorage.removeItem(optOutKey);
+              }
+              updateStatus();
+            });
+          });
+
+          updateStatus();
+        })();
+      </script>
+    </>
+  )}
+</BaseLayout>

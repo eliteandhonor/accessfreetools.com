@@ -44,6 +44,8 @@
     "promotion:quora": "node scripts/quora-promotion-agent.mjs",
     "promotion:quora:quality": "node scripts/quora-promotion-agent.mjs && node scripts/check-quora-promotion-quality.mjs output/promotion/quora/drafts",
     "promotion:weekly-review": "npm run promotion:pinterest-assets && npm run promotion:pinterest:rss-report && npm run promotion:medium:quality && npm run promotion:reddit:quality && npm run promotion:bluesky:quality && npm run promotion:quora:quality",
+    "aft": "node scripts/aft-cli.mjs",
+    "marketing:orchestrate": "node scripts/marketing-orchestrator-report.mjs",
     "dataforseo:account": "node scripts/dataforseo-account.mjs",
     "dataforseo:status": "node scripts/dataforseo-status.mjs",
     "dataforseo:status:sandbox": "node scripts/dataforseo-status.mjs --sandbox",
@@ -87,6 +89,7 @@
     "@types/nodemailer": "^8.0.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "commander": "^14.0.3",
     "typescript": "^5.9.3",
     "vitest": "^4.1.5"
   }

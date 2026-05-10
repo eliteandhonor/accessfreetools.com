@@ -22,6 +22,7 @@ export interface SitemapIndexEntry {
 export const staticSitemapEntries: SitemapEntry[] = [
   '/',
   '/tools/',
+  '/sitemap/',
   '/categories/',
   '/blog/',
   '/free-calculator-resources/',

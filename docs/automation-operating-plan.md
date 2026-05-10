@@ -8,7 +8,7 @@ This file records the Codex automation jobs that keep Access Free Tools checked 
 
 | Automation | Cadence | Purpose | Safe limits |
 | --- | --- | --- | --- |
-| Access Free Tools Daily SEO Promotion Review | Daily at 10:00 | Owns the daily SEO/promotion overview: DataForSEO status only when needed, Search Console key URLs, sitemap/feed/robots health, IndexNow, Pinterest RSS, Medium, Reddit, Bluesky, and Quora queue status. | No passwords, no ads, no public-post completion claims without public URL/profile proof. Report DataForSEO balance only when it is below warning/stop/top-up thresholds or when an API error affects the task. |
+| Access Free Tools Marketing Orchestrator | Daily at 10:00 | Owns the daily SEO/promotion overview and deduped next-action plan: DataForSEO status only when needed, Search Console key URLs, sitemap/feed/robots health, IndexNow, Pinterest RSS, Medium, Reddit, Bluesky, and Quora queue status. | Report-only by default. No passwords, no ads, no public-post completion claims without public URL/profile proof. Report DataForSEO balance only when it is below warning/stop/top-up thresholds or when an API error affects the task. |
 | AFT Weekly QA Audit | Weekly on Monday | Runs local QA gates, smoke tests, external-link checks, and a deep audit without paid crawl. | Reports fixes; does not push automatically from the scheduled run. |
 | AFT Monthly OnPage Crawl | Monthly on day 1 | Runs a paid DataForSEO OnPage crawl when balance is safely above the warning threshold. | Skips paid crawl at or below 10 USD; never uses Backlinks API. |
 | AFT Weekly Promotion Draft Review | Weekly on Wednesday at 10:00 | Refreshes Pinterest assets, Pinterest RSS reports, Medium drafts, Reddit drafts, Bluesky drafts, Quora drafts, writing-quality scores, and promotion/internal-link opportunities. | No paid ads, outreach emails, password storage, or duplicate platform reports; RSS feeds exclude already-posted pins; Reddit and Quora drafts must stay disclosed and answer-first. |
@@ -31,6 +31,8 @@ These jobs were retired on 2026-05-09 to reduce repeated reports:
 
 Use these rules when creating or editing agents:
 
+- Load `docs/brand-code.md` before drafting public copy, social posts, blog guides, or promotional articles.
+- Use `docs/marketing-orchestrator.md` and `npm run marketing:orchestrate` for the daily priority decision. The orchestrator decides what should happen next; platform agents decide how to draft for their platform.
 - Give each automation one clear owner lane: daily overview, weekly QA, monthly paid crawl, weekly promotion queue, or platform specialist.
 - Do not repeat DataForSEO balance in every report. The daily overview owns routine balance monitoring. Other agents only mention balance when it is below warning, stop, or top-up thresholds, or when an API failure changes the recommendation.
 - Start from repo context: read `AGENTS.md`, this file, the relevant platform guide, and the latest output report before recommending work.

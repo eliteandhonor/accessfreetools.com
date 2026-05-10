@@ -2,6 +2,16 @@
 
 This repo is a long-running utility-site project. Future Codex agents should keep these standing rules.
 
+## Brand And Orchestration
+
+- Read `docs/brand-code.md` before writing or editing public page copy, tool explanations, blog guides, Medium posts, Quora answers, Reddit replies, Bluesky posts, Pinterest text, or promotion reports.
+- Use `docs/marketing-orchestrator.md` when coordinating SEO, internal-link, content, and promotion agents. The orchestrator owns priority and dedupe; platform agents own platform-specific drafts and proof.
+- Run `npm run marketing:orchestrate` when the user asks what marketing, SEO, internal-link, or promotion work should happen next. It is read-only and must not publish, edit live posts, send emails, run ads, or mark work complete.
+- Prefer `npm run aft -- status` and `npm run aft -- marketing` for quick daily orientation before digging through large reports. Use `docs/agent-cli.md` for the full internal CLI command list.
+- Use `npm run aft -- usage-summary` when deciding which tools need better internal links, guide improvements, or promotion based on actual anonymous tool-use data. Use `npm run aft -- site-sitemap` after sitemap or discovery changes.
+- Use `docs/analytics-dashboard.md` before changing first-party analytics, dashboard access, owner opt-out behavior, or Hostinger analytics setup notes.
+- Never let automation output become reader-facing copy. Public content should follow the brand code and should not include internal instructions such as "this Medium post should" or "agent should".
+
 ## SEO Data Sources
 
 - Use Google Search Console for real indexing, click, impression, CTR, and average-position data.

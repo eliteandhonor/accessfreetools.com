@@ -119,6 +119,125 @@ const siteStructuredData = {
         }
       })();
     </script>
+    <script is:inline>
+      (() => {
+        const optOutKey = 'access-free-tools-analytics-opt-out';
+        const visitorKey = 'access-free-tools-visitor-id';
+        const sessionKey = 'access-free-tools-session-id';
+        const actionPattern =
+          /(^=$)|\b(calculate|estimate|convert|generate|run|format|count|check|build|decode|encode|parse|roll|copy|equals|find|compare|analyze|summarize|classify|detect|extract|score|create)\b/i;
+        const recentActions = new Map();
+
+        const getId = (storage, key) => {
+          let value = storage.getItem(key);
+
+          if (!value) {
+            value = typeof globalThis.crypto?.randomUUID === 'function'
+              ? globalThis.crypto.randomUUID()
+              : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+            storage.setItem(key, value);
+          }
+
+          return value;
+        };
+
+        const shouldTrack = () => {
+          try {
+            if (window.localStorage.getItem(optOutKey) === 'true') return false;
+          } catch {
+            return false;
+          }
+
+          if (navigator.doNotTrack === '1' || window.doNotTrack === '1') return false;
+          if (location.pathname.startsWith('/admin/') || location.pathname.startsWith('/api/')) return false;
+          return true;
+        };
+
+        const sendEvent = (eventPayload) => {
+          if (!shouldTrack()) return;
+
+          try {
+            const payload = {
+              language: navigator.language,
+              pagePath: `${location.pathname}${location.search}`,
+              pageTitle: document.title,
+              referrer: document.referrer,
+              screenHeight: window.innerHeight,
+              screenWidth: window.innerWidth,
+              sessionId: getId(window.sessionStorage, sessionKey),
+              timezoneOffset: new Date().getTimezoneOffset(),
+              visitorId: getId(window.localStorage, visitorKey),
+              ...eventPayload,
+            };
+            const body = JSON.stringify(payload);
+
+            if (navigator.sendBeacon) {
+              navigator.sendBeacon('/api/analytics/events', new Blob([body], { type: 'application/json' }));
+              return;
+            }
+
+            fetch('/api/analytics/events', {
+              body,
+              headers: { 'content-type': 'application/json' },
+              keepalive: true,
+              method: 'POST',
+            }).catch(() => {});
+          } catch {
+            // Analytics should never get in the way of using the site.
+          }
+        };
+
+        sendEvent({ type: 'page_view' });
+
+        document.addEventListener(
+          'click',
+          (event) => {
+            const target = event.target instanceof Element ? event.target : null;
+            const surface = target?.closest('[data-aft-tool-usage-surface]');
+            const actionTarget = target?.closest('button, a, input[type="button"], input[type="submit"]');
+            if (!surface || !actionTarget || !surface.contains(actionTarget)) return;
+
+            const actionLabel = (
+              actionTarget.getAttribute('aria-label') ||
+              actionTarget.getAttribute('title') ||
+              actionTarget.value ||
+              actionTarget.textContent ||
+              ''
+            ).trim();
+
+            if (!actionPattern.test(actionLabel)) return;
+
+            const key = `${surface.dataset.toolSlug || 'tool'}:${actionLabel.toLowerCase()}`;
+            const now = Date.now();
+            if (now - (recentActions.get(key) || 0) < 1500) return;
+            recentActions.set(key, now);
+
+            sendEvent({
+              action: actionLabel.slice(0, 80),
+              category: surface.dataset.toolCategory || '',
+              toolName: surface.dataset.toolName || '',
+              toolSlug: surface.dataset.toolSlug || '',
+              type: 'tool_action',
+            });
+          },
+          { passive: true },
+        );
+
+        document.addEventListener('submit', (event) => {
+          const form = event.target instanceof Element ? event.target : null;
+          const surface = form?.closest('[data-aft-tool-usage-surface]');
+          if (!surface) return;
+
+          sendEvent({
+            action: 'Submit tool form',
+            category: surface.dataset.toolCategory || '',
+            toolName: surface.dataset.toolName || '',
+            toolSlug: surface.dataset.toolSlug || '',
+            type: 'tool_action',
+          });
+        });
+      })();
+    </script>
   </head>
   <body>
     <SiteHeader />
