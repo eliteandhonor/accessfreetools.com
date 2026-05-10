@@ -7,6 +7,17 @@ header('Cache-Control: no-store');
 const MAX_EVENTS_TO_READ = 50000;
 const ACTIVE_WINDOW_SECONDS = 600;
 
+function analytics_site_root(): string
+{
+    return dirname(__DIR__, 2);
+}
+
+function analytics_home_root(string $siteRoot): string
+{
+    $candidate = dirname($siteRoot, 3);
+    return is_dir($candidate) ? $candidate : dirname($siteRoot);
+}
+
 function analytics_config_values(): array
 {
     static $values = null;
@@ -16,13 +27,21 @@ function analytics_config_values(): array
     }
 
     $values = [];
-    $root = dirname(__DIR__, 2);
+    $root = analytics_site_root();
+    $home = analytics_home_root($root);
+    $configuredPath = getenv('AFT_ANALYTICS_CONFIG_PATH');
     $paths = [
+        $configuredPath !== false ? (string) $configuredPath : '',
+        $home . DIRECTORY_SEPARATOR . '.local' . DIRECTORY_SEPARATOR . 'accessfreetools-analytics.env',
+        $home . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'accessfreetools' . DIRECTORY_SEPARATOR . 'analytics.env',
         $root . DIRECTORY_SEPARATOR . '.analytics' . DIRECTORY_SEPARATOR . 'config.env',
         $root . DIRECTORY_SEPARATOR . '.analytics' . DIRECTORY_SEPARATOR . 'analytics.env',
     ];
 
     foreach ($paths as $path) {
+        if ($path === '') {
+            continue;
+        }
         if (!is_readable($path)) {
             continue;
         }
@@ -82,8 +101,19 @@ function analytics_json(array $body, int $status = 200): void
 
 function analytics_storage_path(): string
 {
-    $root = dirname(__DIR__, 2);
-    $dir = $root . DIRECTORY_SEPARATOR . '.analytics';
+    $configuredPath = analytics_env('AFT_ANALYTICS_STORAGE_PATH');
+    if ($configuredPath !== '') {
+        $dir = dirname($configuredPath);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0750, true);
+        }
+
+        return $configuredPath;
+    }
+
+    $root = analytics_site_root();
+    $home = analytics_home_root($root);
+    $dir = $home . DIRECTORY_SEPARATOR . '.local' . DIRECTORY_SEPARATOR . 'accessfreetools-analytics';
 
     if (!is_dir($dir)) {
         mkdir($dir, 0750, true);

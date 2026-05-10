@@ -21,12 +21,12 @@ The dashboard URL is:
 
 It is marked `noindex` and requires a private token before stats are shown.
 
-## Simple Hostinger Setup
+## Durable Hostinger Setup
 
-The easiest live setup is one hidden server file:
+The safest live setup is one private file outside the deploy folder:
 
 ```text
-public_html/.analytics/config.env
+/home/u726893900/.local/accessfreetools-analytics.env
 ```
 
 Put these values in that file:
@@ -43,7 +43,7 @@ AFT_ANALYTICS_EXCLUDE_IPS=your.home.ip.address,your.mobile.ip.address
 AFT_ANALYTICS_TIME_ZONE=Australia/Brisbane
 ```
 
-The PHP analytics endpoint also accepts the same values from Hostinger environment variables, so either setup works. Never commit real token, salt, IP list, or hosting credentials to GitHub.
+The PHP analytics endpoint also accepts the same values from Hostinger environment variables. It still supports the older `public_html/.analytics/config.env` path, but the home-level `.local` file is better because normal site deploys should not delete it. Never commit real token, salt, IP list, or hosting credentials to GitHub.
 
 For owner setup, keep the private local copy at:
 
@@ -51,7 +51,7 @@ For owner setup, keep the private local copy at:
 .local/analytics-dashboard.env
 ```
 
-That file is ignored by Git. If Hostinger SSH is available, upload those same lines to `public_html/.analytics/config.env`. If using Hostinger File Manager, create the `.analytics` folder inside `public_html`, then create `config.env` inside it.
+That file is ignored by Git. If Hostinger SSH is available, upload those same lines to `/home/u726893900/.local/accessfreetools-analytics.env`. If using Hostinger File Manager and home-level files are hard to reach, use the older fallback path `domains/accessfreetools.com/public_html/.analytics/config.env`.
 
 ## How To Open It
 

@@ -55,7 +55,7 @@ After Hostinger deploys the latest GitHub commit:
 - Confirm `/tool-search-index.json` returns the searchable tool list and is not blocking the initial `/tools/` page.
 - Confirm no fake ad boxes or affiliate links appear before accounts and disclosures are ready.
 - Confirm `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, and `/contact/` are live.
-- Confirm private analytics has a server-only token at `public_html/.analytics/config.env` or Hostinger environment variables, then open `/private-analytics/?token=...` from your private token file.
+- Confirm private analytics has a server-only token at `/home/u726893900/.local/accessfreetools-analytics.env`, Hostinger environment variables, or the fallback `public_html/.analytics/config.env`, then open `/private-analytics/?token=...` from your private token file.
 - Confirm representative pages include a 1200x630 PNG `og:image` from `/social/` and that the image URL returns 200.
 - If production shows `403 Forbidden`, check the Hostinger deployment root. The build mirrors the public site into `dist`, keeps the Node server at `dist/server/entry.mjs`, and writes `dist/app.js` for output-directory starts.
 - For the live contact form, `https://accessfreetools.com/api/contact.php` must return JSON. If the Node route `https://accessfreetools.com/api/contact` returns a Hostinger HTML 404 page, production is still static-only, so keep the PHP endpoint active.
