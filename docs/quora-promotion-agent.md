@@ -119,6 +119,15 @@ Second Space promotion:
 - External Chrome proof on 2026-05-09 showed the public Space title, post text,
   ownership disclosure, and the live wallpaper-calculator link.
 
+Third Space promotion:
+
+- Page promoted: https://accessfreetools.com/tools/image-to-text-ocr-tool/
+- Live Quora Space post:
+  https://accessfreetoolssspace.quora.com/Copying-text-from-a-screenshot-is-usually-an-OCR-problem-not-a-copy-paste-problem-OCR-means-optical-character-recogni
+- External Chrome proof on 2026-05-10 showed the public Space title, the OCR
+  explanation, ownership disclosure, sensitive-document warning, and the live
+  Image to Text OCR Tool destination link.
+
 Use the Space lightly. A good default cadence is one helpful Space post per
 week at most, mixed with direct Quora answers when exact matching questions are
 available.
