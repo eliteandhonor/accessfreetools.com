@@ -1,56 +1,170 @@
 ---
 export const prerender = true;
 import BaseLayout from '../components/BaseLayout.astro';
+import { blogPosts } from '../data/blogPosts';
+import { categories } from '../data/categories';
+import { toolAliases } from '../data/toolAliases';
+import { tools } from '../data/tools';
+
+const liveCategoryCount = categories.filter((category) =>
+  tools.some((tool) => tool.category === category.slug),
+).length;
+const publicToolUrlCount = tools.length + toolAliases.length;
+const guideCount = blogPosts.length;
+
+const buildRules = [
+  {
+    title: 'Tool first',
+    text: 'The calculator, converter, checker, or generator should be useful before anyone reads a guide or sees a promotion.',
+  },
+  {
+    title: 'Explain the inputs',
+    text: 'A visitor should know what each box means, what unit belongs there, and which assumptions affect the answer.',
+  },
+  {
+    title: 'Show a real example',
+    text: 'Useful pages need a quick example because examples catch mistakes faster than a wall of formula text.',
+  },
+  {
+    title: 'Say the limits',
+    text: 'Finance, health, pregnancy, tax, construction, electrical, and AI tools are estimates unless a qualified expert says otherwise.',
+  },
+];
+
+const roadmapItems = [
+  {
+    title: 'A bigger tool library',
+    text: 'The goal is not a tiny calculator clone. The goal is a huge free utility app website with calculators, converters, AI helpers, text tools, image tools, and study tools.',
+  },
+  {
+    title: 'Better discovery',
+    text: 'As the library grows, search, categories, related tools, and blog guides need to help people find the right tool without scrolling through hundreds of cards.',
+  },
+  {
+    title: 'Trust before revenue',
+    text: 'Ads and affiliate ideas may come later, but they should never push the actual tool out of the way or make the page feel like a trap.',
+  },
+];
 ---
 
 <BaseLayout
-  title="About Access Free Tools | Free Utility Site"
-  description="Learn how Access Free Tools is building a free utility library with calculators, converters, browser AI tools, guides, privacy notes, and honest result limits."
+  title="About Access Free Tools | Free Utility App Website"
+  description="Meet Access Free Tools, a growing free utility website with calculators, converters, browser AI helpers, plain guides, and tool-first pages."
   path="/about/"
 >
-  <section class="page-intro">
-    <p class="breadcrumb"><a href="/">Home</a> / About</p>
-    <h1>About Access Free Tools</h1>
-    <p>
-      Access Free Tools is a free utility website built around calculators, converters, text
-      tools, browser AI helpers, and everyday problem-solving pages. The long-term goal is simple
-      but huge: grow into one of the most useful free tool libraries on the web while keeping each
-      page clear enough for a normal person to trust, check, and actually use.
-    </p>
-  </section>
+  <section class="about-hero">
+    <div class="about-hero-copy">
+      <p class="breadcrumb"><a href="/">Home</a> / About</p>
+      <p class="about-kicker">Free tools, built one useful page at a time</p>
+      <h1>Building a giant free utility app website for everyday problems.</h1>
+      <p>
+        Access Free Tools exists for the small moments where people need an answer, not a sales
+        funnel. Calculate a discount. Check a mortgage estimate. Convert a unit. Read text from an
+        image. The site is being built to become one of the most helpful free tool libraries on the
+        web, with each page clear enough for a normal person to use without guessing.
+      </p>
+      <div class="about-hero-actions" aria-label="About page actions">
+        <a class="primary-action" href="/tools/">Browse tools</a>
+        <a class="secondary-action" href="/blog/">Read guides</a>
+      </div>
+    </div>
 
-  <section class="content-section content-section-narrow">
-    <h2>How tools are made</h2>
-    <p>
-      Each utility starts with the job a visitor is trying to finish, not with a giant pile of
-      buttons. A calculator should explain what the inputs mean, show a realistic example, and
-      make the result easy to double-check before anyone uses it for a real decision.
-    </p>
-    <div class="feature-list">
-      <p><strong>Plain language:</strong> formulas, inputs, and results should be understandable without hunting through a long article first.</p>
-      <p><strong>Useful guides:</strong> blog posts are tied to the actual Access Free Tools calculator or utility.</p>
-      <p><strong>Privacy-aware tools:</strong> calculators are browser-first where practical, and AI pages explain model loading and upload limits.</p>
-      <p><strong>Honest limits:</strong> finance, health, construction, electrical, AI, and other higher-trust pages explain when results are estimates.</p>
+    <div class="about-visual" aria-label="Access Free Tools library snapshot">
+      <div class="about-visual-topline">
+        <span>Access Free Tools</span>
+        <strong>Library build</strong>
+      </div>
+      <div class="about-command-line">
+        <span class="about-command-dot"></span>
+        <span>find the right tool</span>
+        <strong>free</strong>
+      </div>
+      <div class="about-stat-grid">
+        <div>
+          <strong>{tools.length}</strong>
+          <span>canonical tools</span>
+        </div>
+        <div>
+          <strong>{publicToolUrlCount}</strong>
+          <span>public tool URLs</span>
+        </div>
+        <div>
+          <strong>{liveCategoryCount}</strong>
+          <span>active categories</span>
+        </div>
+        <div>
+          <strong>{guideCount}</strong>
+          <span>tool guides</span>
+        </div>
+      </div>
+      <div class="about-tool-stack" aria-label="Tool library focus areas">
+        <span>Calculators</span>
+        <span>Converters</span>
+        <span>AI helpers</span>
+        <span>Text tools</span>
+        <span>Image tools</span>
+      </div>
     </div>
   </section>
 
-  <section class="content-section content-section-narrow">
-    <h2>How the site stands out</h2>
-    <p>
-      Many calculator directories are useful because they are large. Access Free Tools is growing
-      toward that same breadth while keeping a sharper promise: build lots of free utilities
-      without turning the pages into mystery boxes. If a result depends on a formula, unit,
-      assumption, privacy limit, or safety warning, the page should say that plainly.
-    </p>
-    <p>
-      The site is audited for metadata, sitemap coverage, broken links, structured data,
-      performance budgets, lazy AI assets, security checks, and Search Console indexing signals
-      before major GitHub updates. That work supports the bigger mission: become a serious free
-      utility app website, one useful page at a time.
-    </p>
-    <p>
-      Read the public approach page for the practical standards used while new tools are added.
-    </p>
-    <p><a class="card-link" href="/why-access-free-tools/">Why Access Free Tools</a></p>
+  <section class="about-story-grid">
+    <article class="about-story-panel">
+      <p class="about-kicker">What this is trying to become</p>
+      <h2>Not just a list of calculators.</h2>
+      <p>
+        A lot of utility sites are useful because they are large. That matters, but size by itself
+        is not enough. Access Free Tools is trying to be large and understandable. If someone opens
+        a page for wallpaper waste, subnet ranges, body mass index, percent error, ad revenue, or
+        an OCR result, the page should explain what the answer means in plain English.
+      </p>
+      <p>
+        That is the real product: quick tools with enough explanation that people can double-check
+        the number before they use it for homework, a project, a budget, a post, or a decision.
+      </p>
+    </article>
+
+    <aside class="about-note-panel">
+      <h2>The promise</h2>
+      <p>
+        Keep the tool easy to reach. Keep the explanation close to the result. Keep privacy and
+        limits visible. Grow the library without turning every page into clutter.
+      </p>
+      <a class="card-link" href="/why-access-free-tools/">Read the build standard</a>
+    </aside>
+  </section>
+
+  <section class="about-section">
+    <div class="about-section-header">
+      <p class="about-kicker">How new pages should feel</p>
+      <h2>Rules we keep coming back to.</h2>
+    </div>
+    <div class="about-rules-grid">
+      {buildRules.map((rule) => (
+        <article class="about-rule-card">
+          <h3>{rule.title}</h3>
+          <p>{rule.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="about-section about-roadmap">
+    <div class="about-section-header">
+      <p class="about-kicker">Where it is going</p>
+      <h2>The target is much bigger than today.</h2>
+      <p>
+        The current library is the foundation. The long-term plan is a 1000+ page utility platform
+        where tools, guides, search, and category hubs work together instead of feeling like random
+        pages glued onto a site.
+      </p>
+    </div>
+    <div class="about-roadmap-grid">
+      {roadmapItems.map((item) => (
+        <article class="about-roadmap-card">
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </article>
+      ))}
+    </div>
   </section>
 </BaseLayout>

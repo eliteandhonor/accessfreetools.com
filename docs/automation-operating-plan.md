@@ -1,6 +1,6 @@
 # Access Free Tools Automation Operating Plan
 
-Last updated: 2026-05-09
+Last updated: 2026-05-10
 
 This file records the Codex automation jobs that keep Access Free Tools checked without relying on chat memory.
 
@@ -130,6 +130,15 @@ without closing it. Do not wait for a separate `chrome.*` tool namespace; the
 supported route is the `@chrome` skill with the generic browser runtime and
 `agent.browsers.get('extension')`. If that route fails after one retry, follow
 the Chrome skill's extension and native-host checks before falling back.
+
+On 2026-05-10, the daily promotion run found multiple Chrome extension
+backends. The working backend was the one whose `user.openTabs()` listed the
+logged-in social tabs. Claim a tab with `await chromeBrowser.user.claimTab(id)`;
+direct `tabs.get()` is unreliable before a user tab is claimed. Bluesky posting
+worked by claiming the live tab, using the visible `Compose new post` control,
+confirming the rich-text editor content, clicking the enabled `Publish` button,
+then reopening the public profile and extracting the permalink from the visible
+post. Keep this proof flow before marking a Bluesky item `posted`.
 
 ## Evidence Locations
 
