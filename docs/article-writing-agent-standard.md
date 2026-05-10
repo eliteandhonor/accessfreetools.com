@@ -1,6 +1,6 @@
 # Article Writing Agent Standard
 
-Reviewed: 2026-05-08
+Reviewed: 2026-05-10
 
 This standard applies to Access Free Tools blog guides, Medium companion posts, Pinterest descriptions that need longer context, and any future promotion article.
 
@@ -96,15 +96,41 @@ Avoid:
 Before approving an article, answer yes to all of these:
 
 - Does it explain one clear topic?
+- Would a normal reader keep going after the first 10 seconds?
+- Does the opening show a real problem, risk, mistake, or reader scene?
 - Would a smart 14-year-old understand it?
 - Does it use the actual Access Free Tools page as the example?
 - Does it explain inputs and results, not just say "use this tool"?
 - Does it include one realistic example?
+- Does the example include numbers and an actual result or payoff?
 - Does it name common mistakes?
 - Does it explain when not to rely on the result?
 - Is the link useful and disclosed when needed?
 - Is there no copied living-writer style?
 - Is there no keyword stuffing, filler, or off-topic promotion?
+
+## Reader-Desire Gate
+
+An article can be technically correct and still be boring. Before Medium,
+Quora Space, or any long promotion post goes public, ask:
+
+> Would a human who is not already invested in Access Free Tools want to keep
+> reading this?
+
+If the answer is no, rewrite it. Passing SEO structure is not enough. The draft
+needs:
+
+- A specific reader problem in the opening, not a generic intro.
+- A concrete scene such as shopping, budgeting, fixing a room, checking a wire,
+  writing a README, or comparing a real result.
+- One example with numbers and a result the reader can understand.
+- A clear "so what" line that explains why the result changes a decision.
+- Direct language to the reader, without fake hype.
+- No public self-talk like "this Medium post should..." or "this article
+  should..." inside the article body.
+
+If the draft feels like it could be pasted onto any calculator topic, it fails.
+Rewrite around the exact tool, exact reader, exact mistake, and exact payoff.
 
 ## Medium Quality Gate
 
@@ -161,12 +187,15 @@ The checker also acts as an article reviewer and writes a score report to
 - SEO: 80/100
 - Originality: 75/100
 - Human interest: 75/100
-- Overall: 80/100
+- Reader desire: 82/100
+- Overall: 82/100
 
 Reviewer scoring is a practical heuristic, not a plagiarism checker or a Google
 ranking promise. It checks whether the article has useful search alignment,
-specific examples, non-generic language, direct reader voice, and a headline
-that gives people a real reason to keep reading.
+specific examples, non-generic language, direct reader voice, a real opening
+problem, a concrete reader scene, and a headline that gives people a real
+reason to keep reading. If a draft passes the numbers but still feels generic,
+do not publish it; improve the gate and rewrite the draft.
 
 ## Hook And Power Word Rules
 

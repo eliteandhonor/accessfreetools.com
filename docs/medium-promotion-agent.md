@@ -56,7 +56,7 @@ npm run promotion:medium:quality
 
 This also generates branded Medium hero images, then runs the Medium article
 reviewer. It scores each draft for SEO, originality, human reading interest,
-and overall quality. The JSON report is saved to
+reader desire, and overall quality. The JSON report is saved to
 `output/promotion/medium-quality-report.json`.
 
 Generate only the Medium hero images:
@@ -108,7 +108,11 @@ The generator also writes:
 - Run `npm run promotion:medium:quality` before public posting. The checker
   fails drafts with thin word counts, missing disclosure/source links, missing
   examples, generic hype phrases, too-high reading level, topic drift, weak SEO
-  score, weak originality score, or weak human-interest score.
+  score, weak originality score, weak human-interest score, or weak
+  reader-desire score.
+- Use the `reader-first-article-review` skill before publishing or live-editing
+  a Medium article. If the draft feels generic, rewrite it even if older SEO
+  structure checks pass.
 - Use short companion posts, not full copies of Access Free Tools blog guides.
 - Keep the disclosure line that says the post is from Access Free Tools.
 - Link to the original tool or guide.

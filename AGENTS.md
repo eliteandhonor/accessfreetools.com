@@ -33,12 +33,13 @@ Every new public tool should include:
 - Do not copy the personality, voice, or exact style of Neil Patel or any other living writer. Use public SEO lessons only: clear value, useful structure, evidence, examples, and a practical next step.
 - Run a small SEO review before public Medium articles: DataForSEO account/status, one main keyword intent, source URL match, and no off-topic terms.
 - Run `npm run promotion:medium:quality` before public Medium posts or live Medium edits.
-- Medium quality must pass the article reviewer scores: SEO 80+, originality 75+, human interest 75+, and overall 80+.
+- Medium quality must pass the article reviewer scores: SEO 80+, originality 75+, human interest 75+, reader desire 82+, and overall 82+.
 - Medium posts need a useful branded hero image, alt text, 3-5 focused tags, and canonical/source URL metadata before public posting. Use `npm run promotion:medium:images` or the full quality command to generate/check the image assets.
 - Medium live-post lesson from 2026-05-07: do not trust the editor, draft file, or story settings alone. After publishing or editing, open the public Medium URL in the external browser and verify the hero image is visible, image alt text was saved, the title renders as the story H1, section headings render as bold Medium headings, SEO title/description are set in Story Settings, the canonical/source URL is set when available, and the live URL is recorded in `docs/promotion-queue.md`.
 - Medium paste lesson from 2026-05-07: plain Markdown can paste into Medium as normal paragraphs, so H2 headings may look unformatted even when the draft file is correct. For live rewrites, paste rich HTML or use Medium's heading controls, then republish and screenshot-check the public article before saying it is fixed.
 - Medium visual lesson from 2026-05-08: the wallpaper article hero image had text crossing the calculator artwork. `npm run promotion:medium:quality` now requires Medium hero layout QA, but live Medium posts still require a public-page screenshot check before being marked fixed.
 - Medium publishing limit lesson from 2026-05-08: Medium blocked a prepared ad-revenue article with "maximum of two stories in the past 24 hours." If that appears, do not mark the story posted. Leave the prepared draft in Medium, record the block in `docs/promotion-queue.md`, and retry after the 24-hour publish window.
+- Medium reader-quality lesson from 2026-05-10: a mortgage draft was stopped because it sounded generic even though earlier gates passed. Use the `reader-first-article-review` skill and `npm run promotion:medium:quality`; the gate now includes a reader-desire score, concrete opening scene, problem tension, numbered example, payoff, and self-referential filler checks.
 
 ## Competitor Research List
 

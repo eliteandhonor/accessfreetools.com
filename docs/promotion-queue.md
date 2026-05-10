@@ -79,6 +79,12 @@ external Chrome and verified on its public URL with the corrected H1, readable
 branded hero image, saved alt text, Medium SEO title/description, three focused
 topics, and visible H2 section headings:
 `https://medium.com/@accessfreetools/how-to-think-about-ad-revenue-before-your-site-has-big-traffic-beef3ad9529c`.
+On 2026-05-10, the mortgage Medium draft was stopped before publishing because
+the writing felt too generic. The Medium quality gate now includes a
+reader-desire score, opening-scene checks, real problem/tension checks,
+numbered-example checks, and self-referential filler blocking. The improved
+mortgage draft passed the stricter local gate but is not marked posted until a
+fresh public Medium URL is visibly checked.
 Follow-up from the 2026-05-07 review: Medium posts now require a branded hero
 image, alt text, canonical/source URL metadata, and focused tags in the local
 quality gate before future public posting. The live percentage article now uses

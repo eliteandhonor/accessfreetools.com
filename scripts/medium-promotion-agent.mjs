@@ -431,8 +431,8 @@ const publishEnhancements = {
     preview:
       'Percent math gets easier when you separate percent-of, percent change, discounts, markups, and reverse percentages.',
     hook: [
+      'A sale sign can look simple until you try to work out the final price in your head. Is the calculator finding the discount amount, the final price, the markup, or the percent change?',
       'Most percentage mistakes happen because different percent questions look almost the same. "What is 20 percent of 80?" is not the same as "80 is 20 percent of what?"',
-      'A good percentage calculator should make the question type obvious before it shows the answer.',
     ],
     quickAnswer: [
       'Use a percentage calculator when you need to know the percent of a number, the discount amount, the final price, the percent change between two values, or the original number before a percent was added or removed.',
@@ -493,8 +493,8 @@ const publishEnhancements = {
     preview:
       'Browser-only AI tools can help with quick OCR, language, tone, and reading tasks without uploading user input to Access Free Tools.',
     hook: [
-      'Not every AI tool needs a server, account, or file upload. Some small AI and text-analysis tasks can run inside the browser after the page loads the model or analysis code.',
-      'That is useful for privacy-minded quick tasks, but it is still important to explain model downloads, uncertainty, and limits.',
+      'Uploading a screenshot or private note to an AI tool can feel like a bigger step than the job deserves. Not every quick AI task needs a server, account, or file upload.',
+      'Some small AI and text-analysis tasks can run inside the browser after the page loads the model or analysis code. That helps privacy, but it still needs clear limits because the result can be wrong.',
     ],
     quickAnswer: [
       'Browser-only AI means the task runs in your browser tab after the page loads the code or model it needs. Your text or image does not need to be uploaded to Access Free Tools for the result to appear.',
@@ -524,25 +524,26 @@ const publishEnhancements = {
     preview:
       'A mortgage calculator can ground the early home-search conversation, but it is not a lender quote or approval.',
     hook: [
-      'House shopping can get emotional quickly. A mortgage estimate helps slow the moment down and turn a dream price into a rough monthly number.',
-      'The calculator is not there to approve you. It is there to help you ask better questions before the serious lender conversation.',
+      'House shopping can get emotional quickly. One minute you are looking at photos, and the next minute a pretty listing starts feeling like a plan. A mortgage estimate helps slow that down and turn a dream price into a rough monthly number.',
+      'The scary part is not the calculator math. It is trusting a payment before you know what the payment leaves out.',
     ],
     quickAnswer: [
       'Use a mortgage calculator before shopping seriously so you can test a price range. Enter the home price, down payment, loan term, and interest rate, then see whether the monthly estimate feels realistic.',
-      'For example, a $350,000 home with 10 percent down is a different planning problem than the same home with 20 percent down. If a small rate change makes the payment uncomfortable, you learned something useful before signing anything.',
+      'For example, a $350,000 home with 10 percent down means a $315,000 loan before fees. At 6.5 percent for 30 years, principal and interest is about $1,991 a month. At 7.5 percent, it is about $2,203. That $212 jump can matter before tax, insurance, repairs, and moving costs even show up.',
     ],
     whyItMatters: [
       'This matters because the monthly payment is only one part of home cost, but it is the part most people feel first. A clear estimate helps you notice when a price range is already tight before taxes, insurance, repairs, moving costs, and lender fees join the party.',
     ],
     bestUse: [
-      'This Medium post should stay careful because finance pages need extra trust and plain-language limits.',
-      'It is best for early planning, not loan advice.',
+      'Use the estimate when you are deciding whether a listing belongs in your search at all. If the calculator already feels uncomfortable, that is a useful warning before you book inspections, compare suburbs, or ask a lender for real numbers.',
+      'It is best for early planning, not loan approval. The win is leaving the page with better questions, not pretending a quick estimate is a bank decision.',
     ],
     example: {
       heading: 'A quick planning example',
       paragraphs: [
-        'Try the same home price with a 10 percent down payment, then a 20 percent down payment. Then keep the down payment the same and change the interest rate.',
-        'This shows which input changes the monthly estimate the most, without pretending the estimate is a final offer.',
+        'Say you are comparing the same $350,000 home with 10 percent down and 20 percent down. With 10 percent down, the loan amount is about $315,000. With 20 percent down, the loan amount is about $280,000.',
+        'That smaller loan can lower the monthly principal and interest estimate, but it may also mean saving longer before buying. The point is not that one option is always better. The point is that the calculator shows the tradeoff before you fall in love with a number.',
+        'Now change only the interest rate. If the payment jumps enough to stress your budget, the next step is to ask a lender about rate ranges, fees, and approval limits before treating the listing as realistic.',
       ],
     },
     limits: [
@@ -555,8 +556,8 @@ const publishEnhancements = {
     preview:
       'BMI is a fast height-and-weight screening estimate, not a full health score or diagnosis.',
     hook: [
-      'BMI is popular because it is quick. It only needs height and weight, so it is easy to calculate and easy to compare.',
-      'That speed is also why it has limits. A simple number cannot understand muscle, age, pregnancy, medical history, or the reason behind someone\'s weight.',
+      'BMI can feel personal even though it only sees height and weight. That is the trap: the calculator gives a clean number, but the number does not know your body.',
+      'It cannot understand muscle, age, pregnancy, medical history, training, or why someone\'s weight is where it is. That is why the result needs context before you treat it like a judgment.',
     ],
     quickAnswer: [
       'Use a BMI calculator when you want a fast height-and-weight screening estimate. It can show the category connected to your height and weight, but it cannot explain your whole health situation.',
@@ -566,8 +567,8 @@ const publishEnhancements = {
       'This matters because BMI gets used like it is more personal than it really is. The number can help you understand a standard chart, but it should not become a label for your body or a reason to ignore better medical context.',
     ],
     bestUse: [
-      'This post should be careful and supportive because health topics can affect real decisions.',
-      'The goal is to explain what BMI is useful for and where it stops being enough.',
+      'Use the result when you want a quick screening number or a starting point for a health conversation. Do not use it as a label for your body.',
+      'The goal is to understand what BMI is useful for and where it stops being enough.',
     ],
     example: {
       heading: 'A quick reading example',
@@ -619,8 +620,8 @@ const publishEnhancements = {
     preview:
       'Watts to amps is easy math only when voltage, phase, and power factor are understood.',
     hook: [
-      'The formula can be short, but electrical context matters. Watts, volts, amps, phase, power factor, continuous load, and local code are not the same thing.',
-      'A calculator can help with education and rough planning. It should not be treated like wiring permission.',
+      'Electrical math can look harmless on a screen and still matter in the real world. A heater, charger, tool, or appliance is not just "some watts" once it connects to a circuit.',
+      'The formula can be short, but watts, volts, amps, phase, power factor, continuous load, and local code are not the same thing. A calculator helps with education and rough planning, not wiring permission.',
     ],
     quickAnswer: [
       'Use a watts-to-amps calculator when you know the power in watts and the voltage, and you want a quick current estimate. For simple DC math, amps are watts divided by volts.',
@@ -630,8 +631,8 @@ const publishEnhancements = {
       'This matters because electrical numbers can look simple while the real-world rules are not. A calculator can teach the relationship between watts, volts, and amps, but it cannot see your wiring, breaker panel, device rating, load duration, or local code.',
     ],
     bestUse: [
-      'This post should be published with a strong safety note because electrical content can affect real-world risk.',
-      'It is useful because it explains why the same watts can mean different amps at different voltages.',
+      'Use it when you are trying to understand why the same watts can mean different amps at different voltages.',
+      'If the answer affects a real wire, breaker, extension cord, or installation, stop at the estimate and check proper electrical guidance.',
     ],
     example: {
       heading: 'A quick voltage example',

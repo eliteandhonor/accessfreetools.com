@@ -9,7 +9,8 @@ const minScores = {
   seo: 80,
   originality: 75,
   humanInterest: 75,
-  overall: 80,
+  readerDesire: 82,
+  overall: 82,
 };
 
 const bannedPhrases = [
@@ -25,6 +26,80 @@ const bannedPhrases = [
   'supercharge',
   'cutting-edge',
   'transform the way',
+];
+
+const weakReaderPhrases = [
+  'this medium post should',
+  'this post should',
+  'this article should',
+  'this companion piece should',
+  'this topic is important',
+  'this can be useful',
+  'it can be useful',
+  'it is useful because',
+  'realistic example',
+  'plain-language notes',
+  'better questions',
+];
+
+const hardSelfReferencePhrases = [
+  'this medium post should',
+  'this post should',
+  'this article should',
+  'this companion piece should',
+];
+
+const readerProblemWords = [
+  'mistake',
+  'wrong',
+  'confusion',
+  'risk',
+  'guess',
+  'waste',
+  'tight',
+  'short',
+  'overpay',
+  'danger',
+  'surprise',
+  'annoying',
+  'scary',
+  'approval',
+  'before',
+  'privacy',
+  'upload',
+  'pay',
+  'cost',
+  'expensive',
+];
+
+const readerSceneWords = [
+  'store',
+  'checkout',
+  'shopping',
+  'home',
+  'house',
+  'room',
+  'wall',
+  'wire',
+  'circuit',
+  'lender',
+  'budget',
+  'class',
+  'teacher',
+  'readme',
+  'screenshot',
+  'browser tab',
+  'calculator page',
+  'sale',
+  'discount',
+  'price',
+  'listing',
+  'doctor',
+  'health',
+  'file upload',
+  'server',
+  'pageviews',
+  'traffic',
 ];
 
 const powerWordGroups = {
@@ -337,6 +412,27 @@ function collectPowerWords(text) {
   );
 }
 
+function publicParagraphs(article) {
+  return article
+    .split(/\r?\n\r?\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean)
+    .filter((paragraph) => !paragraph.startsWith('#'))
+    .filter((paragraph) => !paragraph.startsWith('!['))
+    .filter((paragraph) => !paragraph.startsWith('- '))
+    .filter((paragraph) => !paragraph.startsWith('Tool or guide:'))
+    .filter((paragraph) => !paragraph.startsWith('Disclosure:'));
+}
+
+function firstWords(text, count) {
+  return wordsFrom(text).slice(0, count).join(' ');
+}
+
+function hasAnyPhrase(text, phrases) {
+  const lower = text.toLowerCase();
+  return phrases.some((phrase) => lower.includes(phrase));
+}
+
 function headlineStarter(title) {
   const lower = title.toLowerCase();
   return headlineStarters.find((starter) => lower.startsWith(starter)) ?? null;
@@ -420,6 +516,60 @@ function scoreHumanInterest({ title, text, article, headings, grade, secondPerso
   };
 }
 
+function scoreReaderDesire({ title, text, article, headings, secondPersonCount, numberCount, rules }) {
+  const paragraphs = publicParagraphs(article);
+  const opening = firstWords(plainText(paragraphs.slice(0, 4).join(' ')), 180).toLowerCase();
+  const lower = text.toLowerCase();
+  const weakHits = weakReaderPhrases.filter((phrase) => lower.includes(phrase));
+  const hardSelfReferences = hardSelfReferencePhrases.filter((phrase) => lower.includes(phrase));
+  const hasProblemOpening = hasAnyPhrase(opening, readerProblemWords);
+  const hasSceneOpening = hasAnyPhrase(opening, readerSceneWords);
+  const hasSpecificExample =
+    numberCount >= rules.minNumbers &&
+    /\b(for example|say|suppose|if|try)\b/i.test(article) &&
+    /(?:\$|%|\bpercent\b|=|\babout\b|\broughly\b|\bresult\b|\bmonthly\b|\bfinal\b)/i.test(article);
+  const hasPayoff =
+    /\b(so you can|that means|this matters because|the next step|before you|helps you|shows whether|keeps you|catch that)\b/i.test(
+      article,
+    );
+  const hasDecisionLanguage = /\b(check|choose|compare|ask|try|use|avoid|do not|watch|trust|rely)\b/i.test(article);
+  const hasContrast = /\b(not .* but|instead|rather than|only|does not|cannot|before|after)\b/i.test(article);
+  const titleHasReason =
+    headlineStarter(title) ||
+    /\b(before|without|mistake|why|how|truth|what|risk|limits|matters)\b/i.test(title);
+  const genericHeadingCount = headings.filter((heading) =>
+    /^(quick answer|why this matters|best quick use case|start with the big pieces)$/i.test(heading),
+  ).length;
+
+  let score = 8;
+  if (titleHasReason) score += 10;
+  if (hasProblemOpening) score += 16;
+  if (hasSceneOpening) score += 14;
+  if (hasSpecificExample) score += 20;
+  if (hasPayoff) score += 12;
+  if (secondPersonCount >= 8) score += 10;
+  else if (secondPersonCount >= 5) score += 6;
+  if (hasDecisionLanguage) score += 10;
+  if (hasContrast) score += 8;
+  if (paragraphs.length >= 10) score += 6;
+
+  score -= weakHits.length * 7;
+  score -= hardSelfReferences.length * 28;
+  if (genericHeadingCount >= 4) score -= 6;
+
+  return {
+    score: clampScore(score),
+    openingHasProblem: hasProblemOpening,
+    openingHasScene: hasSceneOpening,
+    hasSpecificExample,
+    hasPayoff,
+    hasDecisionLanguage,
+    hasContrast,
+    weakHits,
+    hardSelfReferences,
+  };
+}
+
 function lintArticle(file, heroAssetReport) {
   const slug = basename(file, '.md');
   const rules = qualityRules[slug] ?? {
@@ -458,7 +608,18 @@ function lintArticle(file, heroAssetReport) {
     secondPersonCount,
     numberCount,
   });
-  const overallScore = clampScore(seo.score * 0.4 + originality.score * 0.25 + humanInterest.score * 0.35);
+  const readerDesire = scoreReaderDesire({
+    title,
+    text,
+    article,
+    headings,
+    secondPersonCount,
+    numberCount,
+    rules,
+  });
+  const overallScore = clampScore(
+    seo.score * 0.32 + originality.score * 0.2 + humanInterest.score * 0.23 + readerDesire.score * 0.25,
+  );
   const errors = [];
   const warnings = [];
   const heroLayoutCheck = heroAssetReport.layoutChecks?.find((check) => check.slug === slug);
@@ -567,6 +728,26 @@ function lintArticle(file, heroAssetReport) {
     }
   }
 
+  for (const phrase of readerDesire.hardSelfReferences) {
+    errors.push(`Reader-desire fail: draft talks about itself instead of the reader: "${phrase}".`);
+  }
+
+  if (!readerDesire.openingHasProblem) {
+    errors.push('Reader-desire fail: opening needs a real problem, risk, mistake, or tension.');
+  }
+
+  if (!readerDesire.openingHasScene) {
+    errors.push('Reader-desire fail: opening needs a concrete reader scene or use case.');
+  }
+
+  if (!readerDesire.hasSpecificExample) {
+    errors.push('Reader-desire fail: article needs a concrete example with numbers and a result/payoff.');
+  }
+
+  if (!readerDesire.hasPayoff) {
+    errors.push('Reader-desire fail: article needs a clear "so what" payoff for the reader.');
+  }
+
   if (!rules.allowAiMentions && /\bAI\b|browser-only ai/i.test(article)) {
     errors.push('Non-AI Medium posts should not drift into AI language.');
   }
@@ -589,6 +770,10 @@ function lintArticle(file, heroAssetReport) {
     errors.push(`Human-interest reviewer score too low: ${humanInterest.score}/100, expected ${minScores.humanInterest}+.`);
   }
 
+  if (readerDesire.score < minScores.readerDesire) {
+    errors.push(`Reader-desire reviewer score too low: ${readerDesire.score}/100, expected ${minScores.readerDesire}+.`);
+  }
+
   if (overallScore < minScores.overall) {
     errors.push(`Overall reviewer score too low: ${overallScore}/100, expected ${minScores.overall}+.`);
   }
@@ -606,6 +791,7 @@ function lintArticle(file, heroAssetReport) {
       seo: seo.score,
       originality: originality.score,
       humanInterest: humanInterest.score,
+      readerDesire: readerDesire.score,
       overall: overallScore,
     },
     reviewerSignals: {
@@ -624,6 +810,15 @@ function lintArticle(file, heroAssetReport) {
       headlineStarter: humanInterest.headlineStarter,
       powerWords: humanInterest.powerWords,
       powerWordCount: humanInterest.powerWordCount,
+      readerDesire: {
+        openingHasProblem: readerDesire.openingHasProblem,
+        openingHasScene: readerDesire.openingHasScene,
+        hasSpecificExample: readerDesire.hasSpecificExample,
+        hasPayoff: readerDesire.hasPayoff,
+        hasDecisionLanguage: readerDesire.hasDecisionLanguage,
+        hasContrast: readerDesire.hasContrast,
+        weakHits: readerDesire.weakHits,
+      },
     },
     errors,
     warnings,
@@ -642,7 +837,7 @@ function main() {
     errorCount += result.errors.length;
     warningCount += result.warnings.length;
     console.log(
-      `${result.slug}: ${result.wordCount} words, ${result.headingCount} H2s, grade ${result.readingGrade}, ${result.numberCount} numbers, scores SEO ${result.scores.seo}/100, originality ${result.scores.originality}/100, interest ${result.scores.humanInterest}/100, overall ${result.scores.overall}/100`,
+      `${result.slug}: ${result.wordCount} words, ${result.headingCount} H2s, grade ${result.readingGrade}, ${result.numberCount} numbers, scores SEO ${result.scores.seo}/100, originality ${result.scores.originality}/100, interest ${result.scores.humanInterest}/100, reader ${result.scores.readerDesire}/100, overall ${result.scores.overall}/100`,
     );
 
     const foundPowerWords = Object.entries(result.reviewerSignals.powerWords)
