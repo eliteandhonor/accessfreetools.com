@@ -23,10 +23,10 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
   </section>
 
   <section class="content-section content-section-narrow analytics-panel" data-analytics-login-panel>
-    <h2>Enter admin token</h2>
+    <h2>Private analytics login</h2>
     <p>
-      This page is private and noindexed. Enter your private analytics password to load anonymous
-      usage stats.
+      Hostinger is set up. This page still asks for your private analytics password so only you can
+      see the usage stats.
     </p>
     <form class="analytics-login-form" data-analytics-token-form>
       <label>
@@ -36,7 +36,7 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
       <button class="button-primary" type="submit">Open analytics</button>
     </form>
     <p class="analytics-opt-out-status" data-analytics-message>
-      Analytics opens after the private token is set on Hostinger.
+      Open your private shortcut once, or enter the token from your private local config file.
     </p>
   </section>
 
@@ -136,7 +136,7 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
     </div>
   </section>
 
-  <section class="content-section content-section-narrow analytics-panel">
+  <section class="content-section content-section-narrow analytics-panel" hidden data-analytics-dashboard>
     <h2>Do not count my browser</h2>
     <p>
       Use this on your own devices. It saves a local browser flag, so it does not affect other
@@ -271,11 +271,14 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
           const body = await response.json().catch(() => ({}));
 
           if (!response.ok || !body.summary) {
-            showMessage(body.message || 'Analytics token was not accepted.');
+            showMessage(body.message || 'Analytics token was not accepted. Use the private shortcut or enter the saved token.');
             return;
           }
 
           window.localStorage.setItem(tokenStorageKey, token);
+          if (urlToken && window.history?.replaceState) {
+            window.history.replaceState({}, '', location.pathname);
+          }
           renderSummary(body.summary);
         } catch {
           showMessage('Analytics endpoint is not available yet. Check Hostinger PHP/Node deployment settings.');
