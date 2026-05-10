@@ -83,8 +83,11 @@ On 2026-05-10, the mortgage Medium draft was stopped before publishing because
 the writing felt too generic. The Medium quality gate now includes a
 reader-desire score, opening-scene checks, real problem/tension checks,
 numbered-example checks, and self-referential filler blocking. The improved
-mortgage draft passed the stricter local gate but is not marked posted until a
-fresh public Medium URL is visibly checked.
+mortgage article was then fixed live in external Chrome: the bad agent-facing
+copy was removed, the contextual tool link plus final tool/guide links were
+verified, the branded hero image was restored with alt text, and the public
+article was checked at
+`https://medium.com/@accessfreetools/things-you-should-know-before-trusting-a-mortgage-payment-estimate-679a79eaa1cc`.
 Follow-up from the 2026-05-07 review: Medium posts now require a branded hero
 image, alt text, canonical/source URL metadata, and focused tags in the local
 quality gate before future public posting. The live percentage article now uses
@@ -225,7 +228,7 @@ SEO proof from 2026-05-10:
 | High | `/tools/ad-revenue-calculator/` | Explain RPM, CTR, CPC, impressions, and earnings-estimate limits | Bluesky | posted | Public post verified on 2026-05-10: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlhkxzok5k2a` |
 | High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image, alt text, Medium SEO title/description, canonical link, reader-interest topics, and live H1/H2 formatting verified in the external browser |
 | High | `/tools/percentage-calculator/` | Discount, tip, markup, and percent-change micro tip | Bluesky | posted | Public post verified on 2026-05-08: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mld43shj2u2h` |
-| High | `/tools/mortgage-calculator/` | Early home-shopping payment estimate with finance limits | Medium | approved | Medium draft approved on 2026-05-07; finance limits included |
+| High | `/tools/mortgage-calculator/` | Early home-shopping payment estimate with finance limits | Medium | posted | Live article fixed and public-page checked on 2026-05-10 with H1, one branded hero image, alt text, H2 headings, contextual tool link, final tool/guide links, and no agent-facing filler: `https://medium.com/@accessfreetools/things-you-should-know-before-trusting-a-mortgage-payment-estimate-679a79eaa1cc` |
 | High | `/tools/mortgage-calculator/` | Mortgage planning estimate with finance limits | Bluesky | approved | Draft passed `npm run promotion:bluesky:quality`; keep finance limits and publish only as part of the one-per-day cadence |
 | Medium | `/tools/bmi-calculator/` | BMI estimate with health disclaimer and plain-language result notes | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/health-and-fitness-calculators/` on 2026-05-06 |
 | Medium | `/tools/bmi-calculator/` | BMI estimate limits explained carefully | Medium | approved | Medium draft approved on 2026-05-07; health limits included |
