@@ -3,6 +3,9 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} ^www\.accessfreetools\.com$ [NC]
 RewriteRule ^(.*)$ https://accessfreetools.com/$1 [R=301,L]
 
+RewriteRule ^\.analytics(?:/.*)?$ - [F,L]
+RewriteRule ^api/analytics/events/?$ /api/analytics/events.php [L]
+
 RewriteRule ^calculators/?$ /categories/calculators/ [R=301,L]
 RewriteRule ^deep-research/?$ /categories/ai-tools/ [R=301,L]
 RewriteRule ^advanced-age-calculator/?$ /tools/age-calculator/ [R=301,L]
