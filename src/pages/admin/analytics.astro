@@ -4,12 +4,13 @@ import BaseLayout from '../../components/BaseLayout.astro';
 export const prerender = true;
 
 const optOutKey = 'access-free-tools-analytics-opt-out';
+const pagePath = Astro.props.path ?? '/admin/analytics/';
 ---
 
 <BaseLayout
   title="Private Analytics | Access Free Tools"
   description="Private Access Free Tools analytics dashboard for anonymous page and tool usage."
-  path="/admin/analytics/"
+  path={pagePath}
   noindex
 >
   <section class="page-intro analytics-admin-hero">
