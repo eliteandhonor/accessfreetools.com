@@ -16,7 +16,7 @@ Hostinger hPanel analytics should still be used for server logs, bandwidth, erro
 The dashboard URL is:
 
 ```text
-/admin/analytics/
+/private-analytics/
 ```
 
 It is marked `noindex` and requires a private token before stats are shown.
@@ -58,13 +58,13 @@ That file is ignored by Git. If Hostinger SSH is available, upload those same li
 After deployment and environment setup, open:
 
 ```text
-https://accessfreetools.com/admin/analytics/?token=YOUR_PRIVATE_TOKEN
+https://accessfreetools.com/private-analytics/?token=YOUR_PRIVATE_TOKEN
 ```
 
 The page stores the token in this browser only, so later visits can use:
 
 ```text
-https://accessfreetools.com/admin/analytics/
+https://accessfreetools.com/private-analytics/
 ```
 
 ## Privacy Rules
