@@ -5,7 +5,6 @@ RewriteRule ^(.*)$ https://accessfreetools.com/$1 [R=301,L]
 
 RewriteRule ^\.analytics(?:/.*)?$ - [F,L]
 RewriteRule ^api/analytics/events/?$ /api/analytics/events.php [L]
-RewriteRule ^admin/analytics/?$ /private-analytics/ [R=302,L]
 
 RewriteRule ^calculators/?$ /categories/calculators/ [R=301,L]
 RewriteRule ^deep-research/?$ /categories/ai-tools/ [R=301,L]
