@@ -43,6 +43,12 @@ const weakReaderPhrases = [
 ];
 
 const hardSelfReferencePhrases = [
+  'this medium post',
+  'medium post',
+  'this post',
+  'this article',
+  'this companion piece',
+  'medium article',
   'this medium post should',
   'this post should',
   'this article should',
@@ -335,6 +341,8 @@ function paragraphWordCounts(article) {
     .filter(Boolean)
     .filter((paragraph) => !paragraph.startsWith('#'))
     .filter((paragraph) => !paragraph.startsWith('- '))
+    .filter((paragraph) => !paragraph.startsWith('Tool:'))
+    .filter((paragraph) => !paragraph.startsWith('Full guide:'))
     .filter((paragraph) => !paragraph.startsWith('Tool or guide:'))
     .map((paragraph) => wordsFrom(plainText(paragraph)).length);
 }
@@ -420,8 +428,26 @@ function publicParagraphs(article) {
     .filter((paragraph) => !paragraph.startsWith('#'))
     .filter((paragraph) => !paragraph.startsWith('!['))
     .filter((paragraph) => !paragraph.startsWith('- '))
+    .filter((paragraph) => !paragraph.startsWith('Tool:'))
+    .filter((paragraph) => !paragraph.startsWith('Full guide:'))
     .filter((paragraph) => !paragraph.startsWith('Tool or guide:'))
     .filter((paragraph) => !paragraph.startsWith('Disclosure:'));
+}
+
+function extractAccessFreeToolsLinks(article) {
+  return [
+    ...article.matchAll(/https:\/\/accessfreetools\.com\/[^\s)]+/g),
+  ]
+    .map((match) => match[0].replace(/[.,;:]+$/, ''))
+    .filter((url) => !url.includes('/medium/'));
+}
+
+function uniqueItems(items) {
+  return [...new Set(items)];
+}
+
+function hasAccessFreeToolsCta(article) {
+  return /(?:Tool|Full guide|Tool or guide):\s+https:\/\/accessfreetools\.com\//.test(article);
 }
 
 function firstWords(text, count) {
@@ -455,7 +481,7 @@ function scoreSeo({ title, headings, text, words, rules, article, numberCount })
   if (headings.length >= 6) score += 10;
   if (words.length >= 520 && words.length <= 1200) score += 12;
   if (numberCount >= rules.minNumbers) score += 8;
-  if (/Tool or guide:\s+https:\/\/accessfreetools\.com\//.test(article)) score += 10;
+  if (hasAccessFreeToolsCta(article)) score += 10;
   if (/Disclosure: This companion post is from Access Free Tools\./.test(article)) score += 6;
   if (headings.includes('What to check before trusting the result')) score += 6;
   if (density > 0 && density < 0.035) score += 6;
@@ -519,9 +545,9 @@ function scoreHumanInterest({ title, text, article, headings, grade, secondPerso
 function scoreReaderDesire({ title, text, article, headings, secondPersonCount, numberCount, rules }) {
   const paragraphs = publicParagraphs(article);
   const opening = firstWords(plainText(paragraphs.slice(0, 4).join(' ')), 180).toLowerCase();
-  const lower = text.toLowerCase();
-  const weakHits = weakReaderPhrases.filter((phrase) => lower.includes(phrase));
-  const hardSelfReferences = hardSelfReferencePhrases.filter((phrase) => lower.includes(phrase));
+  const readerFacingText = paragraphs.join(' ').toLowerCase();
+  const weakHits = weakReaderPhrases.filter((phrase) => readerFacingText.includes(phrase));
+  const hardSelfReferences = hardSelfReferencePhrases.filter((phrase) => readerFacingText.includes(phrase));
   const hasProblemOpening = hasAnyPhrase(opening, readerProblemWords);
   const hasSceneOpening = hasAnyPhrase(opening, readerSceneWords);
   const hasSpecificExample =
@@ -584,6 +610,7 @@ function lintArticle(file, heroAssetReport) {
   const title = extractTitle(article);
   const heroImage = extractHeroImage(article);
   const canonicalUrl = extractFrontmatterValue(content, 'canonical_url_to_set');
+  const sourceUrl = extractFrontmatterValue(content, 'source_url');
   const heroImageUrl = extractFrontmatterValue(content, 'hero_image_url');
   const heroImagePath = extractFrontmatterValue(content, 'hero_image_path');
   const heroAlt = extractFrontmatterValue(content, 'hero_alt');
@@ -623,6 +650,10 @@ function lintArticle(file, heroAssetReport) {
   const errors = [];
   const warnings = [];
   const heroLayoutCheck = heroAssetReport.layoutChecks?.find((check) => check.slug === slug);
+  const accessLinks = extractAccessFreeToolsLinks(article);
+  const uniqueAccessLinks = uniqueItems(accessLinks);
+  const beforeCtaArticle = article.split('\n## Try the original tool')[0] ?? article;
+  const contextualLinks = uniqueItems(extractAccessFreeToolsLinks(beforeCtaArticle));
 
   if (title.length < 35 || title.length > 85) {
     errors.push(`Title should be 35-85 characters; found ${title.length}.`);
@@ -634,6 +665,10 @@ function lintArticle(file, heroAssetReport) {
 
   if (!canonicalUrl.startsWith('https://accessfreetools.com/')) {
     errors.push('Missing canonical_url_to_set frontmatter for the matching Access Free Tools source.');
+  }
+
+  if (!sourceUrl.startsWith('https://accessfreetools.com/')) {
+    errors.push('Missing source_url frontmatter for the matching Access Free Tools source.');
   }
 
   if (tags.length < 3 || tags.length > 5) {
@@ -692,8 +727,27 @@ function lintArticle(file, heroAssetReport) {
     errors.push('Missing Access Free Tools disclosure line.');
   }
 
-  if (!/Tool or guide:\s+https:\/\/accessfreetools\.com\//.test(article)) {
+  if (!hasAccessFreeToolsCta(article)) {
     errors.push('Missing source tool or guide URL.');
+  }
+
+  if (sourceUrl && !article.includes(sourceUrl)) {
+    errors.push(`Missing reader-facing source tool link: ${sourceUrl}.`);
+  }
+
+  if (canonicalUrl && canonicalUrl !== sourceUrl && !article.includes(canonicalUrl)) {
+    errors.push(`Missing reader-facing guide/canonical link: ${canonicalUrl}.`);
+  }
+
+  const requiredUniqueLinks = canonicalUrl && canonicalUrl !== sourceUrl ? 2 : 1;
+  if (uniqueAccessLinks.length < requiredUniqueLinks) {
+    errors.push(
+      `Needs ${requiredUniqueLinks}+ unique Access Free Tools reader-facing link(s); found ${uniqueAccessLinks.length}.`,
+    );
+  }
+
+  if (contextualLinks.length < 1) {
+    errors.push('Needs at least one contextual Access Free Tools link before the final CTA section.');
   }
 
   if (!headings.includes('What to check before trusting the result')) {
@@ -797,6 +851,7 @@ function lintArticle(file, heroAssetReport) {
     reviewerSignals: {
       primaryPhrase: rules.primaryPhrase,
       canonicalUrl,
+      sourceUrl,
       heroImageUrl,
       heroImagePath,
       heroAlt: effectiveAlt,
@@ -810,6 +865,8 @@ function lintArticle(file, heroAssetReport) {
       headlineStarter: humanInterest.headlineStarter,
       powerWords: humanInterest.powerWords,
       powerWordCount: humanInterest.powerWordCount,
+      internalLinks: uniqueAccessLinks,
+      contextualLinks,
       readerDesire: {
         openingHasProblem: readerDesire.openingHasProblem,
         openingHasScene: readerDesire.openingHasScene,

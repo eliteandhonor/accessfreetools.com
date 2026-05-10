@@ -442,8 +442,8 @@ const publishEnhancements = {
       'This matters because percent math shows up in places where small errors feel bigger than they look: shopping, tips, fees, markups, grades, traffic growth, and budgets. When the calculator labels the question type, you are less likely to mix up savings, final price, and percent change.',
     ],
     bestUse: [
-      'This is a strong Medium post for shoppers, students, creators, and small business owners because percentages show up everywhere.',
-      'It connects naturally to discounts, tips, sales tax estimates, growth, fees, and markup checks.',
+      'Use it when you are checking a sale, tip, fee, markup, grade, traffic change, or budget number and need to know which value is the starting point.',
+      'It is especially helpful when two percent questions look similar but use different base numbers.',
     ],
     example: {
       heading: 'A quick discount example',
@@ -473,8 +473,8 @@ const publishEnhancements = {
       'This matters because running short on wallpaper can be more annoying than buying one extra roll. Dye lots can change, patterns can sell out, and a half-finished wall is not much fun. Waste percent is not random padding. It is a planning buffer for the messy parts of a real room.',
     ],
     bestUse: [
-      'This post is useful for DIY readers because it answers a real question people ask before buying rolls.',
-      'It also shows that Access Free Tools can explain small inputs that other calculators often leave unexplained.',
+      'Use it before buying rolls, especially if the room has corners, openings, slopes, or a pattern repeat that could change the estimate.',
+      'It is also a good check when a quote or store estimate includes an extra-roll recommendation and you want to understand why.',
     ],
     example: {
       heading: 'A quick room example',
@@ -504,8 +504,8 @@ const publishEnhancements = {
       'This matters because privacy wording around AI is easy to overdo. A useful AI tool should say what runs in the browser, what may download from a model host, and what mistakes the result can make. Clear limits make the tool more trustworthy, not less useful.',
     ],
     bestUse: [
-      'This is a good Medium post to introduce the new AI Tools category without promising too much.',
-      'It should be framed as practical browser utilities, not magic AI or professional judgment.',
+      'Use it when you want quick help with OCR, tone, language, or reading level without treating the browser result as a final answer.',
+      'It is best for low-risk checking and cleanup, not for legal, medical, financial, safety, or identity decisions.',
     ],
     example: {
       heading: 'A quick OCR example',
@@ -599,8 +599,8 @@ const publishEnhancements = {
       'This matters because revenue math can make a new site owner chase ads too early. If the traffic is tiny, better content and indexing usually matter more than tweaking ad assumptions. The calculator is there to keep the plan realistic.',
     ],
     bestUse: [
-      'This post is useful for creators and small site owners, but it must avoid income promises.',
-      'It also supports the Access Free Tools story because the site is building tools first and monetization later.',
+      'Use it when you are testing whether the traffic goal, RPM, or pageview target is the real bottleneck.',
+      'It is best for planning a realistic range before you make decisions about content, ads, or monetization timing.',
     ],
     example: {
       heading: 'A quick RPM example',
@@ -781,6 +781,18 @@ function renderBullets(items) {
   return items.map((item) => `- ${item}`).join('\n');
 }
 
+function renderContextualLink(post) {
+  return `If you want to test the numbers while reading, open the matching Access Free Tools page here: ${post.sourceUrl}`;
+}
+
+function renderFinalLinks(post) {
+  const links = [`Tool: ${post.sourceUrl}`];
+  if (post.canonicalUrl !== post.sourceUrl) {
+    links.push(`Full guide: ${post.canonicalUrl}`);
+  }
+  return links.join('\n');
+}
+
 function markdown(post) {
   const extra = publishEnhancements[post.slug];
   const tags = post.tags.join(', ');
@@ -807,6 +819,8 @@ Disclosure: This companion post is from Access Free Tools. The original tool and
 
 ${renderParagraphs(extra.quickAnswer)}
 
+${renderContextualLink(post)}
+
 ## Why this matters
 
 ${renderParagraphs(extra.whyItMatters)}
@@ -829,7 +843,7 @@ ${renderBullets(extra.limits)}
 
 ${post.callout}
 
-Tool or guide: ${post.sourceUrl}
+${renderFinalLinks(post)}
 `;
 
   const wordCount = estimateWordCount(articleBody);

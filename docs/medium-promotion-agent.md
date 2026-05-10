@@ -109,7 +109,9 @@ The generator also writes:
   fails drafts with thin word counts, missing disclosure/source links, missing
   examples, generic hype phrases, too-high reading level, topic drift, weak SEO
   score, weak originality score, weak human-interest score, or weak
-  reader-desire score.
+  reader-desire score. It also requires a contextual Access Free Tools link
+  before the final CTA and, when separate pages exist, links to both the tool
+  and the matching guide.
 - Use the `reader-first-article-review` skill before publishing or live-editing
   a Medium article. If the draft feels generic, rewrite it even if older SEO
   structure checks pass.

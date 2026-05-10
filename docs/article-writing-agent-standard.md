@@ -103,6 +103,9 @@ Before approving an article, answer yes to all of these:
 - Does it explain inputs and results, not just say "use this tool"?
 - Does it include one realistic example?
 - Does the example include numbers and an actual result or payoff?
+- Does it include a useful contextual internal link before the final CTA?
+- Does it link both the matching tool and the matching guide when they are
+  different pages?
 - Does it name common mistakes?
 - Does it explain when not to rely on the result?
 - Is the link useful and disclosed when needed?
@@ -125,6 +128,8 @@ needs:
   writing a README, or comparing a real result.
 - One example with numbers and a result the reader can understand.
 - A clear "so what" line that explains why the result changes a decision.
+- A contextual Access Free Tools link where it helps the reader test the idea,
+  not only a link dumped at the bottom.
 - Direct language to the reader, without fake hype.
 - No public self-talk like "this Medium post should..." or "this article
   should..." inside the article body.
@@ -145,8 +150,9 @@ The gate checks for the basics that usually separate a useful article from a
 generic one: one clear topic, the main search phrase, realistic numbers, a real
 example, readable paragraphs, a direct reader voice, disclosure, source link,
 canonical/source URL metadata, 3-5 focused tags, a branded hero image with alt
-text, limits, no generic hype phrases, no off-topic AI drift, and a reading
-level that fits the Access Free Tools voice. It also requires the Medium hero
+text, contextual internal links, limits, no generic hype phrases, no off-topic
+AI drift, and a reading level that fits the Access Free Tools voice. It also
+requires the Medium hero
 asset layout QA report to pass, so title/detail text must stay inside the safe
 text column and cannot overlap the calculator artwork.
 

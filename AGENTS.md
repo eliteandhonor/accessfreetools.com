@@ -40,6 +40,7 @@ Every new public tool should include:
 - Medium visual lesson from 2026-05-08: the wallpaper article hero image had text crossing the calculator artwork. `npm run promotion:medium:quality` now requires Medium hero layout QA, but live Medium posts still require a public-page screenshot check before being marked fixed.
 - Medium publishing limit lesson from 2026-05-08: Medium blocked a prepared ad-revenue article with "maximum of two stories in the past 24 hours." If that appears, do not mark the story posted. Leave the prepared draft in Medium, record the block in `docs/promotion-queue.md`, and retry after the 24-hour publish window.
 - Medium reader-quality lesson from 2026-05-10: a mortgage draft was stopped because it sounded generic even though earlier gates passed. Use the `reader-first-article-review` skill and `npm run promotion:medium:quality`; the gate now includes a reader-desire score, concrete opening scene, problem tension, numbered example, payoff, and self-referential filler checks.
+- Medium internal-link lesson from 2026-05-10: reader-facing Medium drafts must include a contextual Access Free Tools link before the final CTA and link both the matching tool and guide when those are different URLs. Agent-only text such as "this Medium post should..." must fail the gate.
 
 ## Competitor Research List
 
