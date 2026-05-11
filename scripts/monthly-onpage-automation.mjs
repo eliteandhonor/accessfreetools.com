@@ -15,6 +15,19 @@ function hasFlag(args, name) {
   return args.includes(name);
 }
 
+function npmConfig(name) {
+  return process.env[`npm_config_${name.replace(/^--/, '').replace(/-/g, '_')}`];
+}
+
+function optionFromArgsOrNpm(args, name, fallback = undefined) {
+  return option(args, name, npmConfig(name) ?? fallback);
+}
+
+function flagFromArgsOrNpm(args, name) {
+  const value = npmConfig(name);
+  return hasFlag(args, name) || value === 'true' || value === '';
+}
+
 function todaySlug() {
   return new Date().toISOString().slice(0, 10);
 }
@@ -107,13 +120,13 @@ function markdown(report) {
 }
 
 const args = process.argv.slice(2).filter((arg) => arg !== '--');
-const outputDir = resolve(option(args, '--output-dir', join(DEFAULT_OUTPUT_DIR, todaySlug())));
-const minBalance = Number(option(args, '--min-balance', DEFAULT_MIN_BALANCE));
-const warnBalance = Number(option(args, '--warn-balance', DEFAULT_WARN_BALANCE));
-const maxCrawlPages = Number(option(args, '--max-crawl-pages', DEFAULT_MAX_CRAWL_PAGES));
-const dryRun = hasFlag(args, '--dry-run');
-const noWait = hasFlag(args, '--no-wait');
-const skipWaterfall = hasFlag(args, '--skip-waterfall');
+const outputDir = resolve(optionFromArgsOrNpm(args, '--output-dir', join(DEFAULT_OUTPUT_DIR, todaySlug())));
+const minBalance = Number(optionFromArgsOrNpm(args, '--min-balance', DEFAULT_MIN_BALANCE));
+const warnBalance = Number(optionFromArgsOrNpm(args, '--warn-balance', DEFAULT_WARN_BALANCE));
+const maxCrawlPages = Number(optionFromArgsOrNpm(args, '--max-crawl-pages', DEFAULT_MAX_CRAWL_PAGES));
+const dryRun = flagFromArgsOrNpm(args, '--dry-run');
+const noWait = flagFromArgsOrNpm(args, '--no-wait');
+const skipWaterfall = flagFromArgsOrNpm(args, '--skip-waterfall');
 
 mkdirSync(outputDir, { recursive: true });
 

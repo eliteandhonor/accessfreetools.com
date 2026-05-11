@@ -33,7 +33,8 @@ Use these rules when creating or editing agents:
 
 - Load `docs/brand-code.md` before drafting public copy, social posts, blog guides, or promotional articles.
 - Use `docs/marketing-orchestrator.md` and `npm run marketing:orchestrate` for the daily priority decision. The orchestrator decides what should happen next; platform agents decide how to draft for their platform.
-- Start active automations with `npm run automation:env-check` and read `output/automation-environment.md` before reporting service failures. If that report says DataForSEO is healthy, do not repeat stale `fetch failed` claims from older memory files. If Search Console needs OAuth, use the latest saved Search Console exports and ask Brendan for a manual OAuth refresh only when fresh Search Console data is truly required.
+- Start active automations with `npm run automation:env-check` and `npm run aft -- status`, then read `output/automation-environment.md` before reporting service failures. If that report says DataForSEO is healthy, do not repeat stale `fetch failed` claims from older memory files. If Search Console needs OAuth, use the latest saved Search Console exports and ask Brendan for a manual OAuth refresh only when fresh Search Console data is truly required.
+- Use the internal CLI for focused proof before manual digging: `npm run aft -- marketing`, `npm run aft -- indexing-gaps`, and `npm run aft -- proof-check` give the daily priority, Search Console gap list, and promotion proof state in agent-safe form.
 - Give each automation one clear owner lane: daily overview, weekly QA, monthly paid crawl, weekly promotion queue, or platform specialist.
 - Do not repeat DataForSEO balance in every report. The daily overview owns routine balance monitoring. Other agents only mention balance when it is below warning, stop, or top-up thresholds, or when an API failure changes the recommendation.
 - Start from repo context: read `AGENTS.md`, this file, the relevant platform guide, and the latest output report before recommending work.
@@ -92,6 +93,14 @@ npm run automation:monthly-onpage
 ```
 
 That command checks DataForSEO account balance, service health, and the 10 USD broad-crawl warning threshold before starting any paid crawl. It writes a concise report under `output/monthly-onpage/YYYY-MM-DD/` and should be the only command the `AFT Monthly OnPage Crawl` automation needs to run.
+
+For a non-paid readiness check, use:
+
+```powershell
+npm run automation:monthly-onpage:dry-run
+```
+
+This checks the same account and service gates but exits before any paid OnPage task is posted. The wrapper also reads npm-consumed flags such as `--dry-run`, but the named dry-run script is the preferred test path for agents.
 
 On 2026-05-08, a paid DataForSEO OnPage crawl checked 491 production URLs and found no broken pages, broken links, missing titles, missing descriptions, non-indexable pages, redirect chains, duplicate tags, low-score pages, or large resources. The only direct SEO fix was one overlong blog title, and the OnPage progress logger was updated to read DataForSEO's nested crawl status correctly.
 

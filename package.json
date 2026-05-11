@@ -52,6 +52,7 @@
     "seo:onpage-audit": "node scripts/seo-onpage-audit.mjs",
     "automation:env-check": "node scripts/automation-environment-check.mjs",
     "automation:monthly-onpage": "node scripts/monthly-onpage-automation.mjs",
+    "automation:monthly-onpage:dry-run": "node scripts/monthly-onpage-automation.mjs --dry-run",
     "search-console": "node scripts/search-console.mjs",
     "search-console:submit-discovery": "node scripts/search-console.mjs --submit-discovery",
     "search-console:inspect-key-urls": "node scripts/search-console.mjs --inspect-key-urls",

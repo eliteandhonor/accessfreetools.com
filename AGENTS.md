@@ -8,6 +8,7 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 - Use `docs/marketing-orchestrator.md` when coordinating SEO, internal-link, content, and promotion agents. The orchestrator owns priority and dedupe; platform agents own platform-specific drafts and proof.
 - Run `npm run marketing:orchestrate` when the user asks what marketing, SEO, internal-link, or promotion work should happen next. It is read-only and must not publish, edit live posts, send emails, run ads, or mark work complete.
 - Prefer `npm run aft -- status` and `npm run aft -- marketing` for quick daily orientation before digging through large reports. Use `docs/agent-cli.md` for the full internal CLI command list.
+- Automation agents should also use `npm run aft -- indexing-gaps` and `npm run aft -- proof-check` before making indexing or promotion-proof claims.
 - Use `npm run aft -- usage-summary` when deciding which tools need better internal links, guide improvements, or promotion based on actual anonymous tool-use data. Use `npm run aft -- site-sitemap` after sitemap or discovery changes.
 - Use `docs/analytics-dashboard.md` before changing first-party analytics, dashboard access, owner opt-out behavior, or Hostinger analytics setup notes.
 - Run `npm run automation:env-check` before reporting automation environment failures. Use `output/automation-environment.md` to distinguish a real account/site issue from stale memory or a temporary automation network/OAuth problem.
@@ -23,6 +24,7 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 - For rank tracking, use priority tiers, `stop_crawl_on_match`, and targeted `depth`/range settings before any broad top-100 SERP crawl.
 - Check DataForSEO balance with `npm run dataforseo:account -- -- --min-balance=2`.
 - For the scheduled monthly paid OnPage crawl, use `npm run automation:monthly-onpage` instead of manually composing account/status/crawl commands.
+- For a non-paid monthly OnPage readiness check, use `npm run automation:monthly-onpage:dry-run` or `node scripts/monthly-onpage-automation.mjs --dry-run`. Do not use ad hoc npm argument forwarding for dry-run checks.
 - Tell the user to top up when the DataForSEO balance is at or below 2 USD, or when DataForSEO returns billing/account errors.
 - Indexing context: an earlier Access Free Tools site existed before this custom Astro site replaced it. Search Console and Bing may temporarily show stale URLs, old quality signals, old crawl paths, and slower re-indexing while search engines reconcile the replacement.
 - Automation dedupe note from 2026-05-09: the standalone `DataForSEO Balance Watch` automation was removed because the daily SEO/promotion review, weekly SEO self-evaluation, monthly OnPage crawl, and deep audit already check balance. Do not recreate a top-up-only automation unless those owner jobs are disabled.
