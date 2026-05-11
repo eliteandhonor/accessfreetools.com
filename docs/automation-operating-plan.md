@@ -33,6 +33,7 @@ Use these rules when creating or editing agents:
 
 - Load `docs/brand-code.md` before drafting public copy, social posts, blog guides, or promotional articles.
 - Use `docs/marketing-orchestrator.md` and `npm run marketing:orchestrate` for the daily priority decision. The orchestrator decides what should happen next; platform agents decide how to draft for their platform.
+- Start active automations with `npm run automation:env-check` and read `output/automation-environment.md` before reporting service failures. If that report says DataForSEO is healthy, do not repeat stale `fetch failed` claims from older memory files. If Search Console needs OAuth, use the latest saved Search Console exports and ask Brendan for a manual OAuth refresh only when fresh Search Console data is truly required.
 - Give each automation one clear owner lane: daily overview, weekly QA, monthly paid crawl, weekly promotion queue, or platform specialist.
 - Do not repeat DataForSEO balance in every report. The daily overview owns routine balance monitoring. Other agents only mention balance when it is below warning, stop, or top-up thresholds, or when an API failure changes the recommendation.
 - Start from repo context: read `AGENTS.md`, this file, the relevant platform guide, and the latest output report before recommending work.
