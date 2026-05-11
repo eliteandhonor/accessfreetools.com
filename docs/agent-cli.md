@@ -9,7 +9,8 @@ The CLI is for agent support only. It must not publish posts, edit live social c
 ## Commands
 
 - `npm run aft -- status`
-  - Summarizes brand-code presence, marketing report age, DataForSEO balance, promotion queue counts, indexing gaps, and platform quality reports.
+  - Summarizes brand-code presence, marketing report age, DataForSEO live-or-cached balance, promotion queue counts, indexing gaps, and platform quality reports.
+  - Treat `DataForSEO: live ...` as fresh proof. Treat `DataForSEO: cached ...; live check note: ...` as a temporary API/network warning, not a low-balance proof.
 
 - `npm run aft -- marketing`
   - Runs the existing read-only marketing orchestrator and summarizes its 1 to 3 recommended actions.

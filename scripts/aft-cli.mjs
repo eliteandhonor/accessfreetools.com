@@ -167,15 +167,22 @@ function platformQualityReports() {
 function getDataForSeoBalance() {
   const accountReport = readJson(evidencePaths.dataForSeoAccount);
   const seoReport = readJson(evidencePaths.seoEvaluation);
-  const account =
-    accountReport?.account ??
-    accountReport?.dataForSeo?.account ??
-    seoReport?.dataForSeo?.account ??
-    null;
+  const liveAccount = accountReport?.account ?? accountReport?.dataForSeo?.account ?? null;
+  const cachedAccount = seoReport?.dataForSeo?.account ?? null;
+  const account = liveAccount ?? cachedAccount;
 
   if (!account || typeof account.balance !== 'number') return null;
 
   return {
+    status: liveAccount ? 'live' : 'cached',
+    source: liveAccount ? evidencePaths.dataForSeoAccount : evidencePaths.seoEvaluation,
+    generatedAt: liveAccount ? accountReport?.generatedAt ?? '' : seoReport?.generatedAt ?? '',
+    liveError:
+      accountReport?.status === 'error'
+        ? accountReport.message ?? 'DataForSEO live account check failed.'
+        : accountReport?.parseError
+          ? `Could not read live DataForSEO account report: ${accountReport.parseError}`
+          : '',
     balance: account.balance,
     currency: account.currency ?? 'USD',
     topUp: account.balance <= 2,
@@ -561,7 +568,11 @@ function statusCommand(command) {
     `- Brand code: ${payload.brandCodePresent ? 'present' : 'missing'}`,
     `- Agent CLI docs: ${payload.agentCliDocPresent ? 'present' : 'missing'}`,
     `- Marketing report: ${payload.marketingPlanGeneratedAt || 'not found'}`,
-    balance ? `- DataForSEO: ${balance.balance.toFixed(2)} ${balance.currency}${balance.warning ? ' (watch)' : ''}` : '- DataForSEO: not found',
+    balance
+      ? `- DataForSEO: ${balance.status} ${balance.balance.toFixed(2)} ${balance.currency}${
+          balance.warning ? ' (watch)' : ''
+        }${balance.generatedAt ? ` from ${balance.generatedAt}` : ''}${balance.liveError ? `; live check note: ${balance.liveError}` : ''}`
+      : '- DataForSEO: not found',
     `- Promotion queue: ${payload.promotionQueue.rows} rows, ${payload.promotionQueue.approved} approved, ${payload.promotionQueue.rssConnected} RSS-connected, ${payload.promotionQueue.unverified} unverified`,
     `- Indexing gaps: ${payload.indexingGaps}`,
     `- Quality: ${qualityReports.map(formatQuality).join('; ')}`,

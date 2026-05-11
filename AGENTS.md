@@ -8,6 +8,7 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 - Use `docs/marketing-orchestrator.md` when coordinating SEO, internal-link, content, and promotion agents. The orchestrator owns priority and dedupe; platform agents own platform-specific drafts and proof.
 - Run `npm run marketing:orchestrate` when the user asks what marketing, SEO, internal-link, or promotion work should happen next. It is read-only and must not publish, edit live posts, send emails, run ads, or mark work complete.
 - Prefer `npm run aft -- status` and `npm run aft -- marketing` for quick daily orientation before digging through large reports. Use `docs/agent-cli.md` for the full internal CLI command list.
+- In `npm run aft -- status`, treat `DataForSEO: live ...` as fresh proof and `DataForSEO: cached ...` as fallback-only evidence from saved reports.
 - Automation agents should also use `npm run aft -- indexing-gaps` and `npm run aft -- proof-check` before making indexing or promotion-proof claims.
 - Use `npm run aft -- usage-summary` when deciding which tools need better internal links, guide improvements, or promotion based on actual anonymous tool-use data. Use `npm run aft -- site-sitemap` after sitemap or discovery changes.
 - Use `docs/analytics-dashboard.md` before changing first-party analytics, dashboard access, owner opt-out behavior, or Hostinger analytics setup notes.
@@ -22,7 +23,7 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 - DataForSEO credentials must stay out of Git. They live in the local Codex MCP config or environment variables.
 - Check `docs/dataforseo-knowledgebase-notes.md` before changing SEO automation logic.
 - For rank tracking, use priority tiers, `stop_crawl_on_match`, and targeted `depth`/range settings before any broad top-100 SERP crawl.
-- Check DataForSEO balance with `npm run dataforseo:account -- -- --min-balance=2`.
+- Check DataForSEO balance with `npm run dataforseo:account`; its defaults use a 2 USD top-up threshold and 10 USD warning threshold.
 - For the scheduled monthly paid OnPage crawl, use `npm run automation:monthly-onpage` instead of manually composing account/status/crawl commands.
 - For a non-paid monthly OnPage readiness check, use `npm run automation:monthly-onpage:dry-run` or `node scripts/monthly-onpage-automation.mjs --dry-run`. Do not use ad hoc npm argument forwarding for dry-run checks.
 - Tell the user to top up when the DataForSEO balance is at or below 2 USD, or when DataForSEO returns billing/account errors.

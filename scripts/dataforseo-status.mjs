@@ -9,11 +9,23 @@ import {
 } from './lib/dataforseo.mjs';
 
 const args = process.argv.slice(2);
+
+function option(name, fallback) {
+  const key = `npm_config_${name.replace(/^--/, '').replace(/-/g, '_')}`;
+  return args.find((arg) => arg.startsWith(`${name}=`))?.slice(name.length + 1) ?? process.env[key] ?? fallback;
+}
+
+function flag(name) {
+  const key = `npm_config_${name.replace(/^--/, '').replace(/-/g, '_')}`;
+  const value = process.env[key];
+  return args.includes(name) || value === 'true' || value === '';
+}
+
 const reportPath = resolve(
-  args.find((arg) => arg.startsWith('--report='))?.slice('--report='.length) ?? 'output/dataforseo-status.json',
+  option('--report', 'output/dataforseo-status.json'),
 );
-const sandbox = args.includes('--sandbox');
-const failOnUnhealthy = args.includes('--fail-on-unhealthy');
+const sandbox = flag('--sandbox');
+const failOnUnhealthy = flag('--fail-on-unhealthy');
 
 function writeJson(path, value) {
   mkdirSync(dirname(path), { recursive: true });

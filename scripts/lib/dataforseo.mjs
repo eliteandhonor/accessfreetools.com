@@ -73,6 +73,12 @@ function statusHint(code) {
   return KNOWN_STATUS_HINTS.get(code) ?? 'DataForSEO returned a non-success status code.';
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 function collectStatusIssues(json) {
   const issues = [];
 
@@ -124,40 +130,72 @@ export class DataForSeoApiError extends Error {
 export async function dataForSeoRequest(endpoint, tasks = undefined, options = {}) {
   const url = `${dataForSeoBaseUrl(options)}${endpoint}`;
   const method = tasks === undefined ? 'GET' : 'POST';
-  const response = await fetch(url, {
-    method,
-    headers: {
-      Authorization: dataForSeoAuthHeader(options.credentials),
-      ...(tasks === undefined ? {} : { 'Content-Type': 'application/json' }),
-    },
-    body: tasks === undefined ? undefined : JSON.stringify(Array.isArray(tasks) ? tasks : [tasks]),
+  const maxRetries = Number(options.retries ?? (method === 'GET' ? process.env.DATAFORSEO_GET_RETRIES ?? 2 : 0));
+  let lastError = null;
+
+  for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          Authorization: dataForSeoAuthHeader(options.credentials),
+          ...(tasks === undefined ? {} : { 'Content-Type': 'application/json' }),
+        },
+        body: tasks === undefined ? undefined : JSON.stringify(Array.isArray(tasks) ? tasks : [tasks]),
+      });
+      const text = await response.text();
+      const json = text ? JSON.parse(text) : {};
+      const rateLimit = parseRateLimit(response.headers);
+      json.rateLimit = rateLimit;
+
+      if (!response.ok) {
+        const message = json.status_message ? `${json.status_code}: ${json.status_message}` : response.statusText;
+        const error = new DataForSeoApiError(endpoint, `returned HTTP ${response.status}: ${message}`, {
+          response: json,
+          status: response.status,
+          rateLimit,
+        });
+
+        if (method === 'GET' && response.status >= 500 && attempt < maxRetries) {
+          lastError = error;
+          await sleep(500 * (attempt + 1));
+          continue;
+        }
+
+        throw error;
+      }
+
+      const statusIssues = collectStatusIssues(json);
+
+      if (statusIssues.length > 0) {
+        throw new DataForSeoApiError(endpoint, statusIssues.map((issue) => issue.hint).join(' '), {
+          response: json,
+          status: response.status,
+          rateLimit,
+          statusIssues,
+        });
+      }
+
+      return json;
+    } catch (error) {
+      lastError = error;
+
+      if (method !== 'GET' || attempt >= maxRetries) {
+        throw error;
+      }
+
+      await sleep(500 * (attempt + 1));
+    }
+  }
+
+  if (lastError) {
+    throw lastError;
+  }
+
+  throw new DataForSeoApiError(endpoint, 'request failed before a response was returned', {
+    status: null,
+    rateLimit: null,
   });
-  const text = await response.text();
-  const json = text ? JSON.parse(text) : {};
-  const rateLimit = parseRateLimit(response.headers);
-  json.rateLimit = rateLimit;
-
-  if (!response.ok) {
-    const message = json.status_message ? `${json.status_code}: ${json.status_message}` : response.statusText;
-    throw new DataForSeoApiError(endpoint, `returned HTTP ${response.status}: ${message}`, {
-      response: json,
-      status: response.status,
-      rateLimit,
-    });
-  }
-
-  const statusIssues = collectStatusIssues(json);
-
-  if (statusIssues.length > 0) {
-    throw new DataForSeoApiError(endpoint, statusIssues.map((issue) => issue.hint).join(' '), {
-      response: json,
-      status: response.status,
-      rateLimit,
-      statusIssues,
-    });
-  }
-
-  return json;
 }
 
 export async function getDataForSeoUserData() {

@@ -3,12 +3,18 @@ import { dirname, resolve } from 'node:path';
 import { getDataForSeoUserData, summarizeDataForSeoUserData } from './lib/dataforseo.mjs';
 
 const args = process.argv.slice(2);
+
+function option(name, fallback) {
+  const key = `npm_config_${name.replace(/^--/, '').replace(/-/g, '_')}`;
+  return args.find((arg) => arg.startsWith(`${name}=`))?.slice(name.length + 1) ?? process.env[key] ?? fallback;
+}
+
 const reportPath = resolve(
-  args.find((arg) => arg.startsWith('--report='))?.slice('--report='.length) ?? 'output/dataforseo-account.json',
+  option('--report', 'output/dataforseo-account.json'),
 );
-const minBalance = Number(args.find((arg) => arg.startsWith('--min-balance='))?.slice('--min-balance='.length) ?? 2);
-const warnBalance = Number(args.find((arg) => arg.startsWith('--warn-balance='))?.slice('--warn-balance='.length) ?? 10);
-const failOnLow = args.includes('--fail-on-low');
+const minBalance = Number(option('--min-balance', 2));
+const warnBalance = Number(option('--warn-balance', 10));
+const failOnLow = args.includes('--fail-on-low') || process.env.npm_config_fail_on_low === 'true';
 
 function writeJson(path, value) {
   mkdirSync(dirname(path), { recursive: true });

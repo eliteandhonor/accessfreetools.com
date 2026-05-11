@@ -35,6 +35,7 @@ Use these rules when creating or editing agents:
 - Use `docs/marketing-orchestrator.md` and `npm run marketing:orchestrate` for the daily priority decision. The orchestrator decides what should happen next; platform agents decide how to draft for their platform.
 - Start active automations with `npm run automation:env-check` and `npm run aft -- status`, then read `output/automation-environment.md` before reporting service failures. If that report says DataForSEO is healthy, do not repeat stale `fetch failed` claims from older memory files. If Search Console needs OAuth, use the latest saved Search Console exports and ask Brendan for a manual OAuth refresh only when fresh Search Console data is truly required.
 - Use the internal CLI for focused proof before manual digging: `npm run aft -- marketing`, `npm run aft -- indexing-gaps`, and `npm run aft -- proof-check` give the daily priority, Search Console gap list, and promotion proof state in agent-safe form.
+- In `npm run aft -- status`, a `DataForSEO: live ...` balance is fresh proof. A `DataForSEO: cached ...; live check note: ...` balance is only a fallback from saved reports and should be described as a temporary API/network issue, not a top-up or billing problem.
 - Give each automation one clear owner lane: daily overview, weekly QA, monthly paid crawl, weekly promotion queue, or platform specialist.
 - Do not repeat DataForSEO balance in every report. The daily overview owns routine balance monitoring. Other agents only mention balance when it is below warning, stop, or top-up thresholds, or when an API failure changes the recommendation.
 - Start from repo context: read `AGENTS.md`, this file, the relevant platform guide, and the latest output report before recommending work.
@@ -84,7 +85,7 @@ npm run promotion:weekly-review
 npm run seo:onpage-audit
 ```
 
-Use the paid OnPage crawl only after `npm run dataforseo:account -- -- --min-balance=2` and `npm run dataforseo:status` are healthy. The emergency top-up threshold is 2 USD, and broad paid work should stop at 5 USD.
+Use the paid OnPage crawl only after `npm run dataforseo:account` and `npm run dataforseo:status` are healthy. The emergency top-up threshold is 2 USD, and broad paid work should stop at 5 USD.
 
 For the monthly automation, use the single guarded wrapper instead of hand-writing the gate steps:
 
