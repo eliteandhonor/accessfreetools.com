@@ -107,6 +107,14 @@ The weekly agent should:
 
 1. Run `npm run dataforseo:account -- -- --min-balance=2`.
 2. Run `npm run dataforseo:status`.
+
+For the scheduled monthly production crawl, prefer:
+
+```powershell
+npm run automation:monthly-onpage
+```
+
+The wrapper performs the account/status gates first and only then calls the capped DataForSEO OnPage audit.
 3. Run `npm run search-console -- -- --site=https://accessfreetools.com/`.
 4. Run `npm run search-console -- -- --inspect-key-urls`.
 5. Run `npm run seo:self-evaluate`.

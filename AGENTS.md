@@ -21,6 +21,7 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 - Check `docs/dataforseo-knowledgebase-notes.md` before changing SEO automation logic.
 - For rank tracking, use priority tiers, `stop_crawl_on_match`, and targeted `depth`/range settings before any broad top-100 SERP crawl.
 - Check DataForSEO balance with `npm run dataforseo:account -- -- --min-balance=2`.
+- For the scheduled monthly paid OnPage crawl, use `npm run automation:monthly-onpage` instead of manually composing account/status/crawl commands.
 - Tell the user to top up when the DataForSEO balance is at or below 2 USD, or when DataForSEO returns billing/account errors.
 - Indexing context: an earlier Access Free Tools site existed before this custom Astro site replaced it. Search Console and Bing may temporarily show stale URLs, old quality signals, old crawl paths, and slower re-indexing while search engines reconcile the replacement.
 - Automation dedupe note from 2026-05-09: the standalone `DataForSEO Balance Watch` automation was removed because the daily SEO/promotion review, weekly SEO self-evaluation, monthly OnPage crawl, and deep audit already check balance. Do not recreate a top-up-only automation unless those owner jobs are disabled.

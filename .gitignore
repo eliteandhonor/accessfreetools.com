@@ -13,6 +13,7 @@ test-results
 .playwright-cli
 .npm-cache
 dev-server.log
+debug.log
 dev-server-*.log
 dev-server-*.log.err
 preview-*.log

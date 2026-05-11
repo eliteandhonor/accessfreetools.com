@@ -84,6 +84,14 @@ npm run seo:onpage-audit
 
 Use the paid OnPage crawl only after `npm run dataforseo:account -- -- --min-balance=2` and `npm run dataforseo:status` are healthy. The emergency top-up threshold is 2 USD, and broad paid work should stop at 5 USD.
 
+For the monthly automation, use the single guarded wrapper instead of hand-writing the gate steps:
+
+```powershell
+npm run automation:monthly-onpage
+```
+
+That command checks DataForSEO account balance, service health, and the 10 USD broad-crawl warning threshold before starting any paid crawl. It writes a concise report under `output/monthly-onpage/YYYY-MM-DD/` and should be the only command the `AFT Monthly OnPage Crawl` automation needs to run.
+
 On 2026-05-08, a paid DataForSEO OnPage crawl checked 491 production URLs and found no broken pages, broken links, missing titles, missing descriptions, non-indexable pages, redirect chains, duplicate tags, low-score pages, or large resources. The only direct SEO fix was one overlong blog title, and the OnPage progress logger was updated to read DataForSEO's nested crawl status correctly.
 
 ## Promotion Rules

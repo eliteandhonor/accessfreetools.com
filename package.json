@@ -50,6 +50,7 @@
     "dataforseo:status": "node scripts/dataforseo-status.mjs",
     "dataforseo:status:sandbox": "node scripts/dataforseo-status.mjs --sandbox",
     "seo:onpage-audit": "node scripts/seo-onpage-audit.mjs",
+    "automation:monthly-onpage": "node scripts/monthly-onpage-automation.mjs",
     "search-console": "node scripts/search-console.mjs",
     "search-console:submit-discovery": "node scripts/search-console.mjs --submit-discovery",
     "search-console:inspect-key-urls": "node scripts/search-console.mjs --inspect-key-urls",

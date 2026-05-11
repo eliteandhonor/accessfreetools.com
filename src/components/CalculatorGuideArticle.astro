@@ -52,6 +52,12 @@ const relatedTools = (tool?.relatedSlugs ?? [])
   .filter((relatedTool): relatedTool is NonNullable<typeof relatedTool> => Boolean(relatedTool));
 const articleDates = getBlogDates(path.match(/^\/blog\/([^/]+)\/?$/)?.[1] ?? '');
 const imageUrl = 'https://accessfreetools.com/social/free-guides.png';
+const defaultPageTitle = `${title} | Access Free Tools`;
+const compactPageTitle = tool ? `${tool.name} Guide | Access Free Tools` : defaultPageTitle;
+const seoPageTitle =
+  defaultPageTitle.length > 65 && compactPageTitle.length < defaultPageTitle.length
+    ? compactPageTitle
+    : defaultPageTitle;
 const articleStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -78,7 +84,7 @@ const articleStructuredData = {
 };
 ---
 
-<BaseLayout title={`${title} | Access Free Tools`} description={description} path={path} socialImagePath="/social/free-guides.png">
+<BaseLayout title={seoPageTitle} description={description} path={path} socialImagePath="/social/free-guides.png">
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
   <BreadcrumbStructuredData
     items={[
