@@ -284,9 +284,9 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     imagePath: '/pinterest/ad-revenue-calculator.jpg',
     category: 'Finance Calculators',
     boardSlug: 'finance-calculators',
-    status: 'rss-ready',
-    rssEligible: true,
-    published: '2026-05-07',
+    status: 'posted',
+    rssEligible: false,
+    published: '2026-05-13',
   },
   {
     title: 'Percent Off Calculator For Sale Price Checks',

@@ -230,7 +230,6 @@ Setup notes:
 Current RSS-ready future pins:
 
 - Watts To Amps Calculator
-- Ad Revenue Calculator
 - Percent Off Calculator
 - Mortgage Amortization Calculator
 - Concrete Calculator

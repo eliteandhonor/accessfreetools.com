@@ -13,6 +13,7 @@ still require approval.
 - `rss-connected`: the Pinterest board feed is connected, but public Pins have not been visibly imported yet.
 - `posted`: user posted it or confirmed it was published and the live page was checked.
 - `unverified`: a submit flow appeared to run, but the live page was not visible afterward.
+- `blocked`: the channel or account cannot safely publish right now.
 - `waiting`: submitted to discovery/indexing and waiting for search engines.
 - `done`: no current action needed.
 
@@ -21,7 +22,10 @@ still require approval.
 Pinterest Business account status: created by the user on 2026-05-06. Use
 Pinterest as the first active promotion channel. Reddit account status:
 created by the user on 2026-05-07 as `u/accessfreetools`; setup and posting
-must stay useful-first, disclosed, and community-rule aware. Medium login was
+must stay useful-first, disclosed, and community-rule aware. On 2026-05-13, an
+external Chrome check of `https://www.reddit.com/user/accessfreetools/submitted/`
+showed "This account has been banned," so Reddit promotion is blocked until the
+account is restored or the user approves a new account path. Medium login was
 started by the user on 2026-05-06 with
 `contact@accessfreetools.com`; Medium profile setup is complete at
 `https://medium.com/@accessfreetools`. Pinterest domain verification file is live and external
@@ -43,8 +47,7 @@ and helpful-reply drafts; it is draft-only and does not publish.
 The attempted first Reddit profile post on 2026-05-07 is unverified. A Reddit
 submit result was recorded, but a later external-browser check showed no posts
 on `u/accessfreetools`, and the saved permalink returned "Page not found."
-Do not treat a Reddit post as posted unless the external profile visibly shows
-the post after submission.
+On 2026-05-13, a public Chrome check showed the account is banned. Do not treat a Reddit post as posted or try more Reddit promotion until that account status is resolved.
 Second-wave Pinterest assets and Medium drafts were regenerated on 2026-05-07
 after DataForSEO intent checks confirmed the target topics are informational.
 The user approved the batch, and the 8 second-wave organic Pinterest pins were
@@ -118,10 +121,12 @@ Pin was made while the browser/profile context was wrong, so that Pin did not
 count as Access Free Tools proof. The Unit Price item was then redone through
 the user's external Chrome session with the visible `/accessfreetools/` account
 context and verified on the public Free Online Calculators board plus direct
-Pin URL: `https://au.pinterest.com/pin/1148277236265110127/`. Ad Revenue
-remains `rss-connected`. The old Reddit percentage post also remained
-unverified from public profile HTML, so do not mark it posted or repost it
-without a fresh visible public URL.
+Pin URL: `https://au.pinterest.com/pin/1148277236265110127/`. The Ad Revenue
+RSS import was then verified on the public Finance Calculators board and direct
+Pin URL: `https://au.pinterest.com/pin/1148277236264769497/`. The old Reddit
+percentage post still remained unverified, and the public Reddit profile now
+shows the account is banned, so Reddit remains blocked until the account is
+restored or replaced.
 Bluesky is the recommended next organic platform as of 2026-05-08. The user
 created `https://bsky.app/profile/accessfreetools.bsky.social`; the profile was
 updated through the Bluesky API with the approved display name, bio, and branded
@@ -249,14 +254,14 @@ SEO proof from 2026-05-10:
 | Medium | `/tools/bmi-calculator/` | BMI estimate limits explained carefully | Medium | approved | Medium draft approved on 2026-05-07; health limits included |
 | Medium | `/tools/wallpaper-calculator/` | Rolls, wall area, pattern repeat, and waste percent explained | Pinterest, Medium | posted | Pinterest published; Medium live article manually fixed by the user and externally checked on 2026-05-08: `https://medium.com/@accessfreetools/what-waste-percent-means-in-a-wallpaper-calculator-8189dc219150` |
 | Medium | `/tools/wallpaper-calculator/` | Waste percent and roll-estimate micro tip | Bluesky | posted | Public post verified on 2026-05-09: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlfy2wnkek2y` |
-| Medium | `/tools/watts-to-amps-calculator/` | Electrical conversion with voltage and phase reminders | Reddit, Medium | approved | Medium draft approved on 2026-05-07; electrical limits included |
+| Medium | `/tools/watts-to-amps-calculator/` | Electrical conversion with voltage and phase reminders | Medium | approved | Medium draft approved on 2026-05-07; electrical limits included; Reddit is blocked while `u/accessfreetools` is banned. |
 | Medium | `/tools/watts-to-amps-calculator/` | Watts, amps, voltage, and electrical-caution micro tip | Bluesky | posted | Public post verified through the Bluesky public API on 2026-05-09: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlgchubhy42h` |
-| Medium | `/tools/watts-to-amps-calculator/` | Explain watts, volts, amps, and electrical caution | Reddit | approved | Draft generated by `npm run promotion:reddit:quality`; use only where community rules allow disclosed self-links |
+| Medium | `/tools/watts-to-amps-calculator/` | Explain watts, volts, amps, and electrical caution | Reddit | blocked | Draft passed quality, but Reddit promotion is blocked because the public `u/accessfreetools` profile showed "This account has been banned" on 2026-05-13. |
 | Medium | `/categories/ai-tools/` | Browser-side AI tools with privacy notes | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/ai-browser-tools/` on 2026-05-06 |
 | Medium | `/categories/ai-tools/` | Browser-side AI tools with privacy notes | Medium | approved | Medium draft approved on 2026-05-07; privacy wording included |
 | Medium | `/tools/image-to-text-ocr-tool/` | OCR text extraction in the browser with privacy limits | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/ai-browser-tools/` on 2026-05-06 |
 | Medium | `/tools/image-to-text-ocr-tool/` | Browser OCR image-quality and privacy micro tip | Bluesky | posted | Public post verified on 2026-05-08: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mld43thfov2a` |
-| Medium | `/tools/image-to-text-ocr-tool/` | Explain OCR image quality and browser privacy limits | Reddit | approved | Draft generated by `npm run promotion:reddit:quality`; avoid sensitive document threads |
+| Medium | `/tools/image-to-text-ocr-tool/` | Explain OCR image quality and browser privacy limits | Reddit | blocked | Draft passed quality, but Reddit promotion is blocked because the public `u/accessfreetools` profile showed "This account has been banned" on 2026-05-13. |
 | Medium | `/tools/voltage-drop-calculator/` | Wire length, current, voltage, and percent drop explained safely | Pinterest, Medium | posted | Published to `https://au.pinterest.com/accessfreetools/home-project-calculators/` on 2026-05-07; Medium draft is approved but not posted |
 | Medium | `/tools/sand-calculator/` | Estimate sand volume and weight for practical home projects | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/home-project-calculators/` on 2026-05-07 |
 | Medium | `/tools/markdown-table-generator/` | Make clean Markdown tables without hand-spacing rows | Pinterest, Medium | posted | Published to `https://au.pinterest.com/accessfreetools/school-and-study-tools/` on 2026-05-07; Medium draft is approved but not posted |
@@ -267,7 +272,7 @@ SEO proof from 2026-05-10:
 | Medium | `/tools/hex-calculator/` | Hex, decimal, and binary number-base learning helper | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/school-and-study-tools/` on 2026-05-07 |
 | Medium | `/tools/amp-hours-to-watt-hours-calculator/` | Convert battery capacity using amp-hours and voltage | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/home-project-calculators/` on 2026-05-07 |
 | Medium | `/tools/watts-to-amps-calculator/` | Electrical conversion with voltage and phase reminders | Pinterest RSS | posted | Public Home Project Calculators board HTML showed the RSS import on 2026-05-09 |
-| High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Pinterest RSS | rss-connected | Finance Calculators RSS feed connected on 2026-05-08; wait for Pinterest import proof |
+| High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Pinterest RSS | posted | Public Finance Calculators board and direct Pin checked on 2026-05-13: `https://au.pinterest.com/pin/1148277236264769497/` links to `https://accessfreetools.com/tools/ad-revenue-calculator/?utm_source=Pinterest&utm_medium=organic`. |
 | Medium | `/tools/percent-off-calculator/` | Sale price, discount amount, and savings check | Pinterest RSS | posted | Public Free Online Calculators board HTML showed the RSS import on 2026-05-09 |
 | High | `/tools/mortgage-amortization-calculator/` | Payment breakdown across principal and interest | Pinterest RSS | posted | Public Finance Calculators board HTML showed the RSS import on 2026-05-09 |
 | Medium | `/tools/concrete-calculator/` | Slabs, footings, posts, and concrete volume | Pinterest RSS | posted | Public Home Project Calculators board HTML showed the RSS import on 2026-05-09 |
@@ -283,12 +288,12 @@ SEO proof from 2026-05-10:
 | Medium | `/tools/recipe-scaler/` | Resize ingredient amounts without guessing | Pinterest RSS | posted | Public Free Online Calculators board HTML showed the RSS import on 2026-05-09 |
 | Medium | `/tools/unit-price-calculator/` | Compare price per unit while shopping | Pinterest | posted | Organic Pin redone through the user's external Chrome session on 2026-05-13 after verifying the active account was `/accessfreetools/`; public proof: `https://au.pinterest.com/pin/1148277236265110127/` links to `https://accessfreetools.com/tools/unit-price-calculator/?utm_source=Pinterest&utm_medium=organic`. |
 | Medium | `/tools/word-counter/` | Count words, characters, sentences, and reading time | Pinterest RSS | posted | Public School And Study Tools board HTML showed the RSS import on 2026-05-09 |
-| High | `/tools/ad-revenue-calculator/` | Explain RPM, pageviews, and earnings-estimate limits | Reddit | approved | Draft generated by `npm run promotion:reddit:quality`; avoid income-promise threads |
-| High | `/tools/mortgage-calculator/` | Mortgage payment ballpark with lender-limit warning | Reddit | approved | Draft generated by `npm run promotion:reddit:quality`; only use when finance community rules allow |
-| High | `/tools/percentage-calculator/` | Discount, tip, markup, and percent-change help | Reddit | unverified | Re-publish only after the external Edge profile can verify the post appears under `u/accessfreetools` posts |
-| Medium | `/tools/wallpaper-calculator/` | Explain waste percent for wallpaper roll planning | Reddit | approved | Draft generated by `npm run promotion:reddit:quality`; useful for DIY threads when rules allow |
-| Medium | `/tools/concrete-calculator/` | Concrete volume estimate with construction limits | Reddit | approved | Draft generated by `npm run promotion:reddit:quality`; avoid structural-design advice |
-| Medium | `/tools/markdown-table-generator/` | Markdown table cleanup for docs and READMEs | Reddit | approved | Draft generated by `npm run promotion:reddit:quality`; safe for documentation help threads |
+| High | `/tools/ad-revenue-calculator/` | Explain RPM, pageviews, and earnings-estimate limits | Reddit | blocked | Draft passed quality, but Reddit promotion is blocked because the public `u/accessfreetools` profile showed "This account has been banned" on 2026-05-13. |
+| High | `/tools/mortgage-calculator/` | Mortgage payment ballpark with lender-limit warning | Reddit | blocked | Draft passed quality, but Reddit promotion is blocked because the public `u/accessfreetools` profile showed "This account has been banned" on 2026-05-13. |
+| High | `/tools/percentage-calculator/` | Discount, tip, markup, and percent-change help | Reddit | blocked | The old submit flow remains unverified, and Reddit promotion is now blocked because the public `u/accessfreetools` profile showed "This account has been banned" on 2026-05-13. |
+| Medium | `/tools/wallpaper-calculator/` | Explain waste percent for wallpaper roll planning | Reddit | blocked | Draft passed quality, but Reddit promotion is blocked because the public `u/accessfreetools` profile showed "This account has been banned" on 2026-05-13. |
+| Medium | `/tools/concrete-calculator/` | Concrete volume estimate with construction limits | Reddit | blocked | Draft passed quality, but Reddit promotion is blocked because the public `u/accessfreetools` profile showed "This account has been banned" on 2026-05-13. |
+| Medium | `/tools/markdown-table-generator/` | Markdown table cleanup for docs and READMEs | Reddit | blocked | Draft passed quality, but Reddit promotion is blocked because the public `u/accessfreetools` profile showed "This account has been banned" on 2026-05-13. |
 | High | `/tools/percentage-calculator/` | Start-here calculator setup mistakes and percent-off example | Quora Space | posted | Space created and first post externally verified on 2026-05-08: `https://accessfreetoolssspace.quora.com/Start-here-how-to-use-a-calculator-without-guessing-Most-calculator-mistakes-are-not-math-mistakes-They-are-setup-mis`; Space URL: `https://accessfreetoolssspace.quora.com/`; later checklist correction verified description, visuals, and share-to-feed while intentionally leaving bulk invites skipped |
 | Low | `/blog/` | Guide library for tool examples and explanations | Medium | waiting | Monitor index status before heavier promotion |
 
