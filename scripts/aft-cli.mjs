@@ -72,6 +72,34 @@ function readJson(relativePath) {
   }
 }
 
+function readJsonFile(path) {
+  if (!existsSync(path)) return null;
+
+  try {
+    return JSON.parse(readFileSync(path, 'utf8'));
+  } catch (error) {
+    return { parseError: error instanceof Error ? error.message : String(error) };
+  }
+}
+
+function newestReportByName(fileName) {
+  const files = walk(resolve(root, 'output'), (file) => basename(file) === fileName);
+  const reports = files
+    .map((file) => {
+      const report = readJsonFile(file);
+      const generatedTime = report?.generatedAt ? Date.parse(report.generatedAt) : NaN;
+      return {
+        file,
+        report,
+        timestamp: Number.isFinite(generatedTime) ? generatedTime : statSync(file).mtimeMs,
+      };
+    })
+    .filter((entry) => entry.report && !entry.report.parseError)
+    .sort((a, b) => b.timestamp - a.timestamp);
+
+  return reports[0] ?? null;
+}
+
 function readNdjson(path) {
   if (!existsSync(path)) return [];
 
@@ -166,7 +194,8 @@ function platformQualityReports() {
 }
 
 function getDataForSeoBalance() {
-  const accountReport = readJson(evidencePaths.dataForSeoAccount);
+  const latestAccountReport = newestReportByName('dataforseo-account.json');
+  const accountReport = latestAccountReport?.report ?? readJson(evidencePaths.dataForSeoAccount);
   const seoReport = readJson(evidencePaths.seoEvaluation);
   const liveAccount = accountReport?.account ?? accountReport?.dataForSeo?.account ?? null;
   const cachedAccount = seoReport?.dataForSeo?.account ?? null;
@@ -176,7 +205,11 @@ function getDataForSeoBalance() {
 
   return {
     status: liveAccount ? 'live' : 'cached',
-    source: liveAccount ? evidencePaths.dataForSeoAccount : evidencePaths.seoEvaluation,
+    source: liveAccount
+      ? latestAccountReport
+        ? relative(root, latestAccountReport.file)
+        : evidencePaths.dataForSeoAccount
+      : evidencePaths.seoEvaluation,
     generatedAt: liveAccount ? accountReport?.generatedAt ?? '' : seoReport?.generatedAt ?? '',
     liveError:
       accountReport?.status === 'error'
