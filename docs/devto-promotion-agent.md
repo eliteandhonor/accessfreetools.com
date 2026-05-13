@@ -40,6 +40,12 @@ link was already accepted. The article editor at `/new` then returned
 access. Do not publish, comment, or keep retrying DEV until DEV support restores
 the account or the user approves a clean replacement account path.
 
+Later on 2026-05-13, the user clarified that the intended promotion was DEV,
+not Bluesky. External Chrome was checked again and `/new` still returned the
+same suspended/limited-access warning. The Codex/build-in-public DEV draft
+`codex-build-utility-website` was added and passed local quality checks, but it
+must stay `blocked` until DEV posting works and a public DEV URL is visible.
+
 ## Agent Commands
 
 Draft and score:
@@ -76,11 +82,15 @@ Every DEV article must:
 - Link to the matching Access Free Tools tool and guide.
 - Include a clear ownership disclosure.
 - Set `canonical_url` to the Access Free Tools guide.
+- For build-in-public/project stories, the approved canonical/source URL is
+  `https://accessfreetools.com/why-access-free-tools/`.
 - Use 3-4 focused tags from the approved technical set.
 - Avoid generic filler, fake hype, and agent-facing notes.
 
 ## Good DEV Topics
 
+- `codex-build-utility-website`: build-in-public story about using Codex to
+  grow the Access Free Tools utility website.
 - `markdown-table-generator`: broken README tables, docs tables, issue replies.
 - `json-formatter`: broken JSON, missing commas, config debugging.
 - `image-to-text-ocr-tool`: browser OCR, screenshot text, privacy limits.

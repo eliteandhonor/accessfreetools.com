@@ -154,8 +154,12 @@ function analyze(file) {
     score -= 8;
   }
 
-  if (!canonicalUrl.startsWith('https://accessfreetools.com/blog/')) {
-    issues.push('canonical_url should point to the matching Access Free Tools guide');
+  const hasAllowedCanonical =
+    canonicalUrl.startsWith('https://accessfreetools.com/blog/') ||
+    canonicalUrl === 'https://accessfreetools.com/why-access-free-tools/';
+
+  if (!hasAllowedCanonical) {
+    issues.push('canonical_url should point to the matching Access Free Tools guide or approved mission page');
     score -= 16;
   }
 
@@ -199,8 +203,8 @@ function analyze(file) {
     score -= agentHits.length * 20;
   }
 
-  if (!/\b(canonical|original guide|full guide)\b/i.test(article)) {
-    warnings.push('does not explain the original guide/canonical relationship');
+  if (!/\b(canonical|original guide|full guide|source page|project page)\b/i.test(article)) {
+    warnings.push('does not explain the original guide, source page, or canonical relationship');
     score -= 4;
   }
 

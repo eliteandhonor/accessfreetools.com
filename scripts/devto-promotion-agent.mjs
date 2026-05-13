@@ -9,6 +9,30 @@ const LOCAL_ENV_PATH = resolve('.local', 'devto.env');
 
 const targets = [
   {
+    slug: 'codex-build-utility-website',
+    title: 'How I Am Using Codex To Build A Free Utility Website',
+    description:
+      'A build-in-public look at using Codex to grow Access Free Tools with calculators, browser AI tools, guides, audits, and promotion checks.',
+    tags: ['ai', 'webdev', 'productivity', 'tools'],
+    sourceUrl: `${SITE}/why-access-free-tools/`,
+    canonicalUrl: `${SITE}/why-access-free-tools/`,
+    coverImage: `${SITE}/social/tools-library.png`,
+    risk: 'build-in-public',
+    body: [
+      'A mistake I see with AI coding is treating it like one giant magic button. That is fun for a demo, but it starts to fail when the project has hundreds of pages, search indexing, promotion notes, and real users who just want a tool that works.',
+      'Access Free Tools is my build-in-public example. The site is growing into a free utility website with calculators, converters, browser AI tools, developer helpers, and plain guides. The big goal is simple: make the site useful enough that a normal person can open it, solve the problem, understand the answer, and leave without signing up.',
+      'Codex helps because the work is not only writing code. A single calculator page needs the tool, examples, FAQs, related links, a guide, metadata, sitemap coverage, and checks so the page does not turn into thin content. If we add 10 tools and skip those steps, the library gets bigger but not better.',
+      'The project page explains the bigger mission here: https://accessfreetools.com/why-access-free-tools/',
+      'Here is a real example. If we add a percentage calculator, the job is not just one input and one answer. People need percent-off, percent increase, tips, markups, and reverse percent help. A useful page explains what each input means, shows a 20 percent discount example, links to related tools, and warns when the answer is only a quick estimate.',
+      'That is where Codex is useful. It can scan the repo, add the tool, update the guide, run checks, and catch boring mistakes like a missing sitemap entry or a broken related-tool link. The boring checks matter because boring mistakes are what make a big utility site feel messy.',
+      'The other useful habit is making the website browser-first when possible. A calculator should usually run on the page, not require an account. A text helper should be clear about privacy. An AI helper should say when it downloads a model and when the result is only a guess. That honesty matters more than pretending every tool is perfect.',
+      'The risk with AI building is also real. If you let it write every article without review, the site starts sounding generic. If you let it mark every task complete without proof, the project lies to itself. So the workflow has to include checks: does the page help a real reader, do the links work, does the public post actually exist, and does the tool explain its limits?',
+      'The public tool library is here: https://accessfreetools.com/tools/',
+      'My favorite part is that the plan scales one small win at a time. One tool becomes 10. Ten tools become a category. Categories become a library. The hard part is keeping each page understandable while the site grows.',
+      'Disclosure: I work on Access Free Tools. This post is about the build process and the site we are creating, not a promise that Codex or any AI tool can replace careful review.',
+    ],
+  },
+  {
     slug: 'markdown-table-generator',
     title: 'The Tiny Markdown Table Mistake That Breaks README Files',
     description:
@@ -53,7 +77,7 @@ const targets = [
       'The third thing to check is bracket balance. Every `{` needs a matching `}`, and every `[` needs a matching `]`. When JSON is formatted across lines, the nesting level shows you which section is still open.',
       'A formatter does not know whether the data is correct for your app. It only knows whether the JSON is valid and readable. For example, it cannot tell you whether `price: 0` is a real price or a bug. It can tell you whether the structure can be parsed.',
       'That is why I treat formatting as step 1, not the finish line. First make the JSON valid, then check whether the values make sense for the job you are doing.',
-      'The full Access Free Tools guide explains the same workflow in plain language: https://accessfreetools.com/blog/how-to-use-json-formatter/',
+      'The full guide on Access Free Tools explains the same workflow in plain language: https://accessfreetools.com/blog/how-to-use-json-formatter/',
       'Disclosure: I work on Access Free Tools. Use the formatter for public or non-sensitive snippets. Do not paste secrets, tokens, private customer data, or anything you would not want handled by a browser tool.',
     ],
   },
