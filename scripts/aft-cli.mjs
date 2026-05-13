@@ -293,8 +293,8 @@ function getIndexingGaps() {
   });
 }
 
-function runNodeScript(scriptPath) {
-  const result = spawnSync(process.execPath, [scriptPath], {
+function runNodeScript(scriptPath, scriptArgs = []) {
+  const result = spawnSync(process.execPath, [scriptPath, ...scriptArgs], {
     cwd: root,
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -806,6 +806,116 @@ function aiCrawlerCommand(command) {
   if (run.status !== 0) process.exitCode = run.status;
 }
 
+function hubStrengthCommand(command) {
+  const run = runNodeScript('scripts/hub-strength-audit.mjs');
+  const latest = newestReportUnder('output/hub-strength');
+  const report = latest?.report ?? null;
+  const payload = {
+    run,
+    report,
+    reportPath: latest ? relative(root, latest.file).replace(/\\/g, '/') : '',
+  };
+
+  emit(command, payload, [
+    'Hub strength audit',
+    `- Refresh: ${run.status === 0 ? 'ok' : `failed (${run.status})`}`,
+    `- Report: ${payload.reportPath || 'not found'}`,
+    `- Hubs checked: ${report?.totals?.hubs ?? 'unknown'}`,
+    `- Passed: ${report?.totals?.passed ?? 'unknown'}`,
+    `- Watch: ${report?.totals?.watch ?? 'unknown'}`,
+    `- Failed: ${report?.totals?.failed ?? 'unknown'}`,
+    ...(Array.isArray(report?.hubs)
+      ? report.hubs
+          .filter((hub) => hub.status !== 'passed')
+          .slice(0, 5)
+          .map((hub) => `  - ${hub.label}: ${hub.issues?.join(' | ') || hub.status}`)
+      : []),
+  ]);
+
+  if (run.status !== 0) process.exitCode = run.status;
+}
+
+function semanticDepthCommand(command) {
+  const run = runNodeScript('scripts/semantic-depth-audit.mjs');
+  const latest = newestReportUnder('output/semantic-depth');
+  const report = latest?.report ?? null;
+  const payload = {
+    run,
+    report,
+    reportPath: latest ? relative(root, latest.file).replace(/\\/g, '/') : '',
+  };
+
+  emit(command, payload, [
+    'Priority semantic depth audit',
+    `- Refresh: ${run.status === 0 ? 'ok' : `failed (${run.status})`}`,
+    `- Report: ${payload.reportPath || 'not found'}`,
+    `- Priority tools checked: ${report?.totals?.tools ?? 'unknown'}`,
+    `- Passed: ${report?.totals?.passed ?? 'unknown'}`,
+    `- Watch: ${report?.totals?.watch ?? 'unknown'}`,
+    `- Failed: ${report?.totals?.failed ?? 'unknown'}`,
+    ...(Array.isArray(report?.tools)
+      ? report.tools
+          .filter((tool) => tool.status !== 'passed')
+          .slice(0, 5)
+          .map((tool) => `  - ${tool.label}: ${tool.issues?.join(' | ') || tool.warnings?.join(' | ') || tool.status}`)
+      : []),
+  ]);
+
+  if (run.status !== 0) process.exitCode = run.status;
+}
+
+function recognitionCommand(command) {
+  const run = runNodeScript('scripts/recognition-tracker.mjs');
+  const latest = newestReportUnder('output/recognition-tracker');
+  const report = latest?.report ?? null;
+  const payload = {
+    run,
+    report,
+    reportPath: latest ? relative(root, latest.file).replace(/\\/g, '/') : '',
+  };
+
+  emit(command, payload, [
+    'Recognition tracker',
+    `- Refresh: ${run.status === 0 ? 'ok' : `failed (${run.status})`}`,
+    `- Report: ${payload.reportPath || 'not found'}`,
+    `- Public proof URLs: ${report?.totals?.publicProofUrls ?? 'unknown'}`,
+    `- Blocked platforms: ${report?.totals?.blockedPlatforms ?? 'unknown'}`,
+    `- Claimed rows missing proof: ${report?.totals?.claimedWithoutProof ?? 'unknown'}`,
+    ...(Array.isArray(report?.platforms)
+      ? report.platforms.map((platform) => `  - ${platform.label}: ${platform.status} (${platform.publicProofUrls?.length ?? 0} proof URL(s))`)
+      : []),
+  ]);
+
+  if (run.status !== 0) process.exitCode = run.status;
+}
+
+function usageNotesCommand(command) {
+  const days = Number(command.days ?? command.opts?.().days ?? 30);
+  const run = runNodeScript('scripts/usage-data-asset-report.mjs', [`--days=${days}`]);
+  const latest = newestReportUnder('output/original-data-assets');
+  const report = latest?.report ?? null;
+  const payload = {
+    run,
+    report,
+    reportPath: latest ? relative(root, latest.file).replace(/\\/g, '/') : '',
+  };
+
+  emit(command, payload, [
+    `Original data asset readiness: last ${days} days`,
+    `- Refresh: ${run.status === 0 ? 'ok' : `failed (${run.status})`}`,
+    `- Report: ${payload.reportPath || 'not found'}`,
+    `- Status: ${report?.status ?? 'unknown'}`,
+    `- Visitors: ${report?.totals?.visitors ?? 'unknown'}`,
+    `- Page views: ${report?.totals?.pageViews ?? 'unknown'}`,
+    `- Tool actions: ${report?.totals?.toolActions ?? 'unknown'}`,
+    ...(Array.isArray(report?.readinessIssues) && report.readinessIssues.length
+      ? report.readinessIssues.map((issue) => `  - ${issue}`)
+      : ['  - No readiness blockers in current report.']),
+  ]);
+
+  if (run.status !== 0) process.exitCode = run.status;
+}
+
 function usageSummaryCommand(command) {
   const days = Number(command.days ?? command.opts?.().days ?? 30);
   const summary = analyticsSummary(days);
@@ -1058,11 +1168,36 @@ program
   .action(aiCrawlerCommand);
 
 program
+  .command('hub-strength')
+  .description('Run the hub strength audit for /tools/ and major category hubs.')
+  .option('--json', 'Output JSON.')
+  .action(hubStrengthCommand);
+
+program
+  .command('semantic-depth')
+  .description('Run the first-batch priority tool semantic-depth audit.')
+  .option('--json', 'Output JSON.')
+  .action(semanticDepthCommand);
+
+program
+  .command('recognition')
+  .description('Run the brand recognition tracker across owned promotion and search proof sources.')
+  .option('--json', 'Output JSON.')
+  .action(recognitionCommand);
+
+program
   .command('usage-summary')
   .description('Summarize first-party anonymous page and tool-use analytics from local storage.')
   .option('--days <days>', 'Number of days to summarize.', '30')
   .option('--json', 'Output JSON.')
   .action(usageSummaryCommand);
+
+program
+  .command('usage-notes')
+  .description('Create a privacy-safe original data asset readiness report from anonymous usage events.')
+  .option('--days <days>', 'Number of days to summarize.', '30')
+  .option('--json', 'Output JSON.')
+  .action(usageNotesCommand);
 
 program
   .command('site-sitemap')

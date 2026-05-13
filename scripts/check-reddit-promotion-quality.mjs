@@ -18,6 +18,28 @@ const bannedPhrases = [
   'spam',
 ];
 
+const agentFacingPhrases = [
+  'agent should',
+  'this draft should',
+  'this reply should',
+  'quality gate',
+  'reader-facing',
+  'promotion agent',
+  'seo agent',
+];
+
+const problemWords = [
+  'mistake',
+  'problem',
+  'confusing',
+  'guess',
+  'wrong',
+  'risk',
+  'before',
+  'hard',
+  'miss',
+];
+
 const riskLimits = {
   finance: ['educational', 'estimate', 'not financial advice', 'lender'],
   money: ['estimate', 'does not promise earnings', 'not financial advice'],
@@ -89,12 +111,18 @@ function analyze(file) {
   const hasDisclosure = /i work on access free tools|my own project|disclosure:/i.test(article);
   const saysRules = /community rules|read the community rules|rules allow/i.test(article);
   const saysUsefulWithoutLink = /without the link|answer.*before linking|explanation above should still help/i.test(article);
+  const hasExample = /example|for example|say you|suppose/i.test(article);
+  const hasProblem = problemWords.some((word) => lower.includes(word));
   const words = wordCount(article);
   const repeatedRatio = uniqueParagraphRatio(article);
   const bannedHits = bannedPhrases.filter((phrase) => lower.includes(phrase));
+  const agentHits = agentFacingPhrases.filter((phrase) => lower.includes(phrase));
 
-  if (accessUrls.length > 1) {
-    issues.push(`too many Access Free Tools links (${accessUrls.length})`);
+  if (accessUrls.length === 0) {
+    issues.push('missing Access Free Tools link');
+    score -= 18;
+  } else if (accessUrls.length > 1) {
+    issues.push(`too many Access Free Tools links (${accessUrls.length}); expected exactly one`);
     score -= 18;
   }
 
@@ -118,6 +146,16 @@ function analyze(file) {
     score -= 16;
   }
 
+  if (!hasExample) {
+    issues.push('missing a concrete example');
+    score -= 12;
+  }
+
+  if (!hasProblem) {
+    issues.push('missing a real reader problem, risk, or decision point');
+    score -= 10;
+  }
+
   if (words < 110) {
     issues.push(`too short to be useful (${words} words)`);
     score -= 12;
@@ -136,6 +174,11 @@ function analyze(file) {
   if (bannedHits.length > 0) {
     issues.push(`banned promotional phrase(s): ${bannedHits.join(', ')}`);
     score -= 18;
+  }
+
+  if (agentHits.length > 0) {
+    issues.push(`agent-facing phrase(s): ${agentHits.join(', ')}`);
+    score -= 24;
   }
 
   for (const [riskKey, requiredTerms] of Object.entries(riskLimits)) {

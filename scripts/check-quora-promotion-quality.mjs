@@ -17,6 +17,28 @@ const bannedPhrases = [
   'you must click',
 ];
 
+const agentFacingPhrases = [
+  'agent should',
+  'this draft should',
+  'this answer should',
+  'quality gate',
+  'reader-facing',
+  'promotion agent',
+  'seo agent',
+];
+
+const problemWords = [
+  'mistake',
+  'problem',
+  'confusing',
+  'guess',
+  'wrong',
+  'risk',
+  'before',
+  'hard',
+  'miss',
+];
+
 const riskLimits = {
   finance: ['educational', 'not financial advice', 'loan approval', 'lender'],
   money: ['estimate', 'does not promise earnings', 'stable rpm', 'approval'],
@@ -90,12 +112,14 @@ function analyze(file) {
   const hasExample = /example/i.test(article);
   const hasMistake = /mistake/i.test(article);
   const hasNoAffiliate = /do not add affiliate links|no affiliate/i.test(article);
+  const hasProblem = problemWords.some((word) => lower.includes(word));
   const words = wordCount(article);
   const repeatedRatio = uniqueParagraphRatio(article);
   const bannedHits = bannedPhrases.filter((phrase) => lower.includes(phrase));
+  const agentHits = agentFacingPhrases.filter((phrase) => lower.includes(phrase));
 
-  if (accessUrls.length > 1) {
-    issues.push(`too many Access Free Tools links (${accessUrls.length})`);
+  if (accessUrls.length !== 1) {
+    issues.push(`expected exactly one Access Free Tools link, found ${accessUrls.length}`);
     score -= 20;
   }
 
@@ -129,6 +153,11 @@ function analyze(file) {
     score -= 10;
   }
 
+  if (!hasProblem) {
+    issues.push('missing a real reader problem, risk, or decision point');
+    score -= 10;
+  }
+
   if (!hasNoAffiliate) {
     issues.push('missing no-affiliate reminder');
     score -= 8;
@@ -152,6 +181,11 @@ function analyze(file) {
   if (bannedHits.length > 0) {
     issues.push(`banned promotional phrase(s): ${bannedHits.join(', ')}`);
     score -= 18;
+  }
+
+  if (agentHits.length > 0) {
+    issues.push(`agent-facing phrase(s): ${agentHits.join(', ')}`);
+    score -= 24;
   }
 
   for (const [riskKey, requiredTerms] of Object.entries(riskLimits)) {

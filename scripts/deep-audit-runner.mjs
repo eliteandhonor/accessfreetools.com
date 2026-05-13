@@ -257,6 +257,26 @@ async function main() {
       `--output-dir=${join(outputDir, 'ai-crawler-visibility')}`,
     ], { hard: true }),
   );
+  steps.push(
+    await runNodeScript('hub-strength-audit', 'scripts/hub-strength-audit.mjs', [
+      `--output-dir=${join(outputDir, 'hub-strength')}`,
+    ], { hard: true }),
+  );
+  steps.push(
+    await runNodeScript('semantic-depth-audit', 'scripts/semantic-depth-audit.mjs', [
+      `--output-dir=${join(outputDir, 'semantic-depth')}`,
+    ], { hard: true }),
+  );
+  steps.push(
+    await runNodeScript('recognition-tracker', 'scripts/recognition-tracker.mjs', [
+      `--output-dir=${join(outputDir, 'recognition-tracker')}`,
+    ], { hard: true }),
+  );
+  steps.push(
+    await runNodeScript('usage-data-asset-report', 'scripts/usage-data-asset-report.mjs', [
+      `--output-dir=${join(outputDir, 'original-data-assets')}`,
+    ], { hard: false }),
+  );
 
   const reports = {
     account: readJsonIfExists(join(outputDir, 'dataforseo-account.json')),
@@ -264,6 +284,10 @@ async function main() {
     local: readJsonIfExists(join(outputDir, 'local', 'local-audit.json')),
     indexingProtection: readJsonIfExists(join(outputDir, 'indexing-protection', 'summary.json')),
     aiCrawlerVisibility: readJsonIfExists(join(outputDir, 'ai-crawler-visibility', 'summary.json')),
+    hubStrength: readJsonIfExists(join(outputDir, 'hub-strength', 'summary.json')),
+    semanticDepth: readJsonIfExists(join(outputDir, 'semantic-depth', 'summary.json')),
+    recognitionTracker: readJsonIfExists(join(outputDir, 'recognition-tracker', 'summary.json')),
+    originalDataAssets: readJsonIfExists(join(outputDir, 'original-data-assets', 'summary.json')),
     searchConsole: readJsonIfExists(join(outputDir, 'search-console-url-inspection.json')),
   };
   const failedHard = steps.filter((step) => step.hard && step.code !== 0);
@@ -375,6 +399,42 @@ function renderMarkdown(summary) {
     lines.push(`- Watch pages: ${summary.reports.aiCrawlerVisibility.totals?.watch ?? 'unknown'}`);
   } else {
     lines.push('- AI crawler visibility report was not available.');
+  }
+
+  lines.push('', '## Hub Strength And Semantic Depth', '');
+
+  if (summary.reports.hubStrength) {
+    lines.push(`- Hubs checked: ${summary.reports.hubStrength.totals?.hubs ?? 'unknown'}`);
+    lines.push(`- Hub failures: ${summary.reports.hubStrength.totals?.failed ?? 'unknown'}`);
+    lines.push(`- Hub watch items: ${summary.reports.hubStrength.totals?.watch ?? 'unknown'}`);
+  } else {
+    lines.push('- Hub strength report was not available.');
+  }
+
+  if (summary.reports.semanticDepth) {
+    lines.push(`- Priority semantic tools checked: ${summary.reports.semanticDepth.totals?.tools ?? 'unknown'}`);
+    lines.push(`- Semantic-depth failures: ${summary.reports.semanticDepth.totals?.failed ?? 'unknown'}`);
+    lines.push(`- Semantic-depth watch items: ${summary.reports.semanticDepth.totals?.watch ?? 'unknown'}`);
+  } else {
+    lines.push('- Semantic depth report was not available.');
+  }
+
+  lines.push('', '## Recognition And Original Data', '');
+
+  if (summary.reports.recognitionTracker) {
+    lines.push(`- Public proof URLs: ${summary.reports.recognitionTracker.totals?.publicProofUrls ?? 'unknown'}`);
+    lines.push(`- Blocked platforms: ${summary.reports.recognitionTracker.totals?.blockedPlatforms ?? 'unknown'}`);
+    lines.push(`- Claimed rows missing proof: ${summary.reports.recognitionTracker.totals?.claimedWithoutProof ?? 'unknown'}`);
+  } else {
+    lines.push('- Recognition tracker report was not available.');
+  }
+
+  if (summary.reports.originalDataAssets) {
+    lines.push(`- Original data asset status: ${summary.reports.originalDataAssets.status ?? 'unknown'}`);
+    lines.push(`- Usage page views in window: ${summary.reports.originalDataAssets.totals?.pageViews ?? 'unknown'}`);
+    lines.push(`- Usage tool actions in window: ${summary.reports.originalDataAssets.totals?.toolActions ?? 'unknown'}`);
+  } else {
+    lines.push('- Original data asset readiness report was not available.');
   }
 
   lines.push('', '## Search Console', '');

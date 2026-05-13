@@ -26,7 +26,7 @@ const targets = [
     page: '/tools/ad-revenue-calculator/',
     title: 'Ad Revenue Calculator',
     text:
-      'Ad revenue estimates get clearer when you separate pageviews, RPM, CTR, and CPC. This free calculator helps test scenarios without treating them like promised income.',
+      'Before guessing ad revenue, separate pageviews, RPM, CTR, and CPC. This calculator helps estimate scenarios without treating them like promised income.',
     tags: ['#Websites', '#AdSense'],
     url: `${SITE}/tools/ad-revenue-calculator/`,
   },
@@ -37,7 +37,7 @@ const targets = [
     page: '/tools/percentage-calculator/',
     title: 'Percentage Calculator',
     text:
-      'Discounts, tips, markups, and percent change are easier when the original number is labeled clearly. This calculator keeps the math in plain language.',
+      'Use this to check discounts, tips, markups, and percent change before the math gets confusing. It keeps the original number labeled clearly.',
     tags: ['#Math', '#Calculators'],
     url: `${SITE}/tools/percentage-calculator/`,
   },
@@ -92,7 +92,7 @@ const targets = [
     page: '/tools/markdown-table-generator/',
     title: 'Markdown Table Generator',
     text:
-      'Markdown tables break when rows have uneven cells. This free generator helps make clean tables for READMEs, docs, notes, and tickets.',
+      'Markdown tables break when rows have uneven cells. Use this to check a table before it lands in a README, doc, note, or ticket.',
     tags: ['#Markdown', '#DevTools'],
     url: `${SITE}/tools/markdown-table-generator/`,
   },

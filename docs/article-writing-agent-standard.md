@@ -137,6 +137,24 @@ needs:
 If the draft feels like it could be pasted onto any calculator topic, it fails.
 Rewrite around the exact tool, exact reader, exact mistake, and exact payoff.
 
+## External Promotion Minimums
+
+Medium, DEV, Quora, Quora Space, Reddit, Bluesky, and Pinterest have different
+formats, but the same quality idea:
+
+- Start with a real problem, mistake, or decision.
+- Use a specific example with a number, input, screenshot idea, or situation.
+- Link naturally to the exact Access Free Tools page only where it helps.
+- Disclose ownership when the post links to Access Free Tools.
+- Keep the answer useful even if the reader never clicks.
+- Do not include agent notes, approval notes, or "this post should..." language.
+- Do not mark the item posted until the public URL, public profile/feed view,
+  screenshot, or generated proof report exists.
+
+Long-form promotion should fail if it has no contextual Access Free Tools link
+before the final CTA. Short social posts should fail if the only value is
+"click this link."
+
 ## Medium Quality Gate
 
 Medium drafts must pass the automated writing-quality check before public

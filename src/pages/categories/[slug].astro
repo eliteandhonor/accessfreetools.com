@@ -176,6 +176,11 @@ const categoryIntentConfig: Partial<
         text: 'Convert hourly, weekly, monthly, and annual pay using work schedule assumptions.',
       },
       {
+        href: '/tools/income-tax-calculator/',
+        title: 'I am estimating tax',
+        text: 'Test taxable income, filing status, deductions, credits, and federal bracket assumptions.',
+      },
+      {
         href: '/tools/compound-interest-calculator/',
         title: 'I want growth over time',
         text: 'Model principal, contributions, rate, compounding, and future value.',
@@ -261,6 +266,11 @@ const categoryIntentConfig: Partial<
         title: 'I need readability feedback',
         text: 'Estimate reading level from sentence length and word difficulty.',
       },
+      {
+        href: '/tools/prompt-token-estimator/',
+        title: 'I need prompt size math',
+        text: 'Estimate rough token usage before sending a prompt to a model with a context limit.',
+      },
     ],
   },
   'developer-tools': {
@@ -284,14 +294,186 @@ const categoryIntentConfig: Partial<
         text: 'Percent-encode or decode URL component text without sending it away.',
       },
       {
+        href: '/tools/json-formatter/',
+        title: 'I need readable JSON',
+        text: 'Format, validate, and copy JSON while keeping the source text in the browser.',
+      },
+      {
         href: '/tools/utm-builder/',
         title: 'I need campaign URLs',
         text: 'Build UTM links with clear source, medium, campaign, term, and content fields.',
       },
     ],
   },
+  converters: {
+    heading: 'Convert the unit before the answer gets messy',
+    text:
+      'Converter pages are useful when the number is right but the unit is wrong. Start with the broad converter, then use the focused kitchen, temperature, size, or power converter when the input has special rules.',
+    links: [
+      {
+        href: '/tools/conversion-calculator/',
+        title: 'I need common unit conversions',
+        text: 'Convert length, mass, volume, and temperature with the formula steps visible.',
+      },
+      {
+        href: '/tools/cooking-measurement-converter/',
+        title: 'I need recipe units',
+        text: 'Convert cups, tablespoons, grams, ounces, and ingredient-specific kitchen amounts.',
+      },
+      {
+        href: '/tools/oven-temperature-converter/',
+        title: 'I need oven temperature',
+        text: 'Convert Fahrenheit, Celsius, and gas marks for recipes and appliance settings.',
+      },
+      {
+        href: '/tools/butter-converter/',
+        title: 'I need butter amounts',
+        text: 'Convert sticks, cups, tablespoons, ounces, grams, teaspoons, and pounds of butter.',
+      },
+    ],
+  },
+  'text-tools': {
+    heading: 'Clean text before you paste it somewhere important',
+    text:
+      'Text tools are for quick writing cleanup, counting, table building, slug planning, and formatting checks before the text goes into a post, README, form, or spreadsheet.',
+    links: [
+      {
+        href: '/tools/word-counter/',
+        title: 'I need word and reading counts',
+        text: 'Count words, characters, paragraphs, lines, and estimated reading time.',
+      },
+      {
+        href: '/tools/text-case-converter/',
+        title: 'I need case changes',
+        text: 'Convert text between uppercase, lowercase, title case, sentence case, and code-friendly cases.',
+      },
+      {
+        href: '/tools/slug-generator/',
+        title: 'I need a clean URL slug',
+        text: 'Turn a title into a lowercase URL slug with optional length control.',
+      },
+      {
+        href: '/tools/markdown-table-generator/',
+        title: 'I need a Markdown table',
+        text: 'Create GitHub-flavored Markdown tables with headers, rows, and alignment choices.',
+      },
+    ],
+  },
 };
 const categoryIntent = categoryIntentConfig[category.slug];
+const categoryGuideConfig: Partial<
+  Record<ToolCategory['slug'], { heading: string; text: string; links: { href: string; title: string; text: string }[] }>
+> = {
+  finance: {
+    heading: 'Guides worth reading before a money decision',
+    text:
+      'Finance tools can look exact, but small input changes can move the result a lot. These guides explain the assumptions before the number gets trusted too much.',
+    links: [
+      {
+        href: '/blog/how-to-use-mortgage-calculator/',
+        title: 'Mortgage guide',
+        text: 'Payment, interest, taxes, insurance, PMI, HOA, and what the calculator leaves out.',
+      },
+      {
+        href: '/blog/how-to-use-loan-calculator/',
+        title: 'Loan guide',
+        text: 'Principal, rate, term, total interest, and why lender offers can still differ.',
+      },
+      {
+        href: '/blog/how-to-use-income-tax-calculator/',
+        title: 'Income tax guide',
+        text: 'Filing status, taxable income, deductions, credits, and estimate limits.',
+      },
+      {
+        href: '/blog/how-to-use-salary-calculator/',
+        title: 'Salary guide',
+        text: 'Hourly, weekly, monthly, and annual pay conversions with gross-pay cautions.',
+      },
+    ],
+  },
+  'health-fitness': {
+    heading: 'Guides that explain the limits',
+    text:
+      'Health estimates need plain limits because a result can be useful and still not be medical advice. These guides explain what the number can and cannot tell you.',
+    links: [
+      {
+        href: '/blog/how-to-use-bmi-calculator/',
+        title: 'BMI guide',
+        text: 'Height, weight, category meaning, adult screening limits, and when BMI is not enough.',
+      },
+      {
+        href: '/blog/how-to-use-calorie-calculator/',
+        title: 'Calorie guide',
+        text: 'Age, height, weight, activity, goal settings, and why calorie estimates vary.',
+      },
+      {
+        href: '/blog/how-to-use-due-date-calculator/',
+        title: 'Due date guide',
+        text: 'LMP, conception, IVF, ultrasound dates, and why clinicians may adjust the date.',
+      },
+      {
+        href: '/blog/how-to-use-gfr-calculator/',
+        title: 'GFR guide',
+        text: 'Kidney estimate inputs, lab context, and why medical follow-up matters.',
+      },
+    ],
+  },
+  'home-projects': {
+    heading: 'Guides that prevent material mistakes',
+    text:
+      'Project calculators are strongest when you understand waste, coverage, product labels, and site conditions before buying materials.',
+    links: [
+      {
+        href: '/blog/how-to-use-concrete-calculator/',
+        title: 'Concrete guide',
+        text: 'Slab volume, bag estimates, cubic yards, waste, and supplier checks.',
+      },
+      {
+        href: '/blog/how-to-use-paint-calculator/',
+        title: 'Paint guide',
+        text: 'Wall area, openings, coats, coverage rate, and why product labels matter.',
+      },
+      {
+        href: '/blog/how-to-use-wallpaper-calculator/',
+        title: 'Wallpaper guide',
+        text: 'Waste percent, roll coverage, pattern repeat, openings, and dye lot checks.',
+      },
+      {
+        href: '/blog/how-to-use-flooring-calculator/',
+        title: 'Flooring guide',
+        text: 'Area, waste, cuts, layout, and why room shape can change the order quantity.',
+      },
+    ],
+  },
+  'ai-tools': {
+    heading: 'Guides for browser AI limits',
+    text:
+      'AI helpers are useful when the limits are visible. These guides explain privacy, model downloads, uncertainty, and when to double-check.',
+    links: [
+      {
+        href: '/blog/how-to-use-image-to-text-ocr-tool/',
+        title: 'OCR guide',
+        text: 'Image quality, language choice, privacy behavior, and OCR mistakes to check.',
+      },
+      {
+        href: '/blog/how-to-use-text-summarizer/',
+        title: 'Text summarizer guide',
+        text: 'Length limits, summary quality, model variability, and what to verify.',
+      },
+      {
+        href: '/blog/how-to-use-reading-level-checker/',
+        title: 'Reading level guide',
+        text: 'Sentence length, word difficulty, grade-level estimates, and writing improvements.',
+      },
+      {
+        href: '/blog/how-to-use-prompt-token-estimator/',
+        title: 'Prompt token guide',
+        text: 'Rough token counts, model differences, context windows, and cost-limit planning.',
+      },
+    ],
+  },
+};
+const categoryGuideLinks = categoryGuideConfig[category.slug];
 const categoryTrustNotes: Partial<
   Record<ToolCategory['slug'], { className: string; title: string; text: string }>
 > = {
@@ -517,6 +699,28 @@ const taskNotes = categoryTasks[category.slug] ?? [
       )
     }
 
+    {
+      categoryGuideLinks && (
+        <div class="category-context-grid">
+          <div>
+            <h2>{categoryGuideLinks.heading}</h2>
+            <p>{categoryGuideLinks.text}</p>
+          </div>
+          <div>
+            <h2>Priority guides</h2>
+            <div class="category-link-list">
+              {categoryGuideLinks.links.map((link) => (
+                <a href={link.href}>
+                  <strong>{link.title}</strong>
+                  <span>{link.text}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     <div class="category-context-grid">
       <div>
         <h2>What this category helps with</h2>
@@ -564,7 +768,7 @@ const taskNotes = categoryTasks[category.slug] ?? [
               </h2>
               <p>{post.summary}</p>
               <a class="card-link" href={`/blog/${post.slug}/`}>
-                Read guide
+                Read {post.label}
               </a>
             </article>
           ))}

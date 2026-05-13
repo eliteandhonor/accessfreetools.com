@@ -18,6 +18,29 @@ const bannedPhrases = [
   'no risk',
 ];
 
+const agentFacingPhrases = [
+  'agent should',
+  'this draft should',
+  'quality gate',
+  'reader-facing',
+  'promotion agent',
+  'seo agent',
+];
+
+const usefulWords = [
+  'check',
+  'estimate',
+  'before',
+  'mistake',
+  'privacy',
+  'planning',
+  'formula',
+  'example',
+  'guide',
+  'explains',
+  'use',
+];
+
 const riskLimits = {
   finance: ['estimate', 'planning', 'not a promise', 'not financial advice'],
   money: ['estimate', 'does not promise', 'not guaranteed', 'not a promise'],
@@ -74,6 +97,8 @@ function analyze(file) {
   const accessUrls = urls.filter((url) => url.includes('accessfreetools.com'));
   const tags = text.match(/#[A-Za-z][A-Za-z0-9]+/g) ?? [];
   const bannedHits = bannedPhrases.filter((phrase) => lower.includes(phrase));
+  const agentHits = agentFacingPhrases.filter((phrase) => lower.includes(phrase));
+  const usefulHits = usefulWords.filter((word) => lower.includes(word));
   const chars = [...text].length;
 
   if (!text) {
@@ -101,9 +126,19 @@ function analyze(file) {
     score -= 8;
   }
 
+  if (usefulHits.length < 2) {
+    issues.push('post needs a useful reason to read beyond the link');
+    score -= 12;
+  }
+
   if (bannedHits.length > 0) {
     issues.push(`banned promotional phrase(s): ${bannedHits.join(', ')}`);
     score -= 18;
+  }
+
+  if (agentHits.length > 0) {
+    issues.push(`agent-facing phrase(s): ${agentHits.join(', ')}`);
+    score -= 24;
   }
 
   for (const [riskKey, requiredTerms] of Object.entries(riskLimits)) {

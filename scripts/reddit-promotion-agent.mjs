@@ -252,6 +252,8 @@ ${target.title}
 
 I am building Access Free Tools one useful page at a time. The goal is simple: calculators and browser tools that explain what the inputs mean, what the result means, and when not to rely on it.
 
+The practical problem: ${target.question}
+
 ${target.answer}
 
 ${target.example}

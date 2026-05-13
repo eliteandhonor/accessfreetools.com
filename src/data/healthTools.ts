@@ -81,7 +81,8 @@ export const healthTools: ToolDefinition[] = [
       'Use this free BMI calculator to estimate adult body mass index, weight category, and a healthy BMI reference range from height and weight.',
     icon: 'calculator-bmi',
     formula: 'BMI is calculated as weight in kilograms divided by height in meters squared, then compared with adult BMI screening categories.',
-    caution: estimateCaution,
+    caution:
+      'No. BMI is an educational adult screening estimate, not medical advice and not a diagnosis. Talk with a qualified health professional before making medical, pregnancy, nutrition, medication, or safety decisions.',
     useCases: [
       'Estimate adult BMI from metric height and weight.',
       'Compare BMI with common adult screening categories.',

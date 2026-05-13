@@ -58,6 +58,20 @@ High-trust tools need stronger limits:
 - Electrical and construction: planning estimates only, not code approval or safety sign-off.
 - AI tools: browser-side behavior, model limits, privacy notes, and mistakes.
 
+## FAQ Rules
+
+FAQs are not a shortcut for search snippets. They are visible help for real users and clear context for crawlers.
+
+Good FAQs answer exact tool questions:
+
+- What does this input mean?
+- How should I read this result?
+- What mistake changes the answer?
+- What does the formula or model leave out?
+- When should I ask a professional or check another source?
+
+Do not add hidden FAQ text, fake questions, or schema that does not match the visible page. If an FAQ sounds like it could belong on any calculator site, rewrite it around the exact Access Free Tools page.
+
 ## Article Rules
 
 Blog guides and Medium posts should not repeat a generic template. They should start with the real problem a reader has and show how the actual Access Free Tools page helps.
@@ -91,6 +105,8 @@ Rules:
 - Never run paid ads unless the user explicitly approves the campaign.
 - Never mark a post live from a submit button alone. Verify a public URL, profile view, feed view, or screenshot.
 - Never store account passwords, app passwords, cookies, or tokens in Git, docs, generated reports, or automation prompts.
+
+Recognition matters, but it has to be real. A platform mention only counts when there is public proof: a URL, a visible profile/feed view, a screenshot, or a generated report. Drafts, submit buttons, and memory are not proof.
 
 ## Internal Linking Rules
 

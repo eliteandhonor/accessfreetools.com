@@ -30,8 +30,20 @@ The CLI is for agent support only. It must not publish posts, edit live social c
 - `npm run aft -- ai-crawler`
   - Runs the local built-HTML AI crawler visibility audit for priority pages and confirms important content, links, trust wording, and AI privacy/model-limit notes are visible without client JavaScript.
 
+- `npm run aft -- hub-strength`
+  - Runs the hub audit for `/tools/`, `/categories/calculators/`, `/categories/ai-tools/`, finance, health, home-project, developer, converter, and text hubs. Use it after internal-link or hub-copy changes.
+
+- `npm run aft -- semantic-depth`
+  - Runs the first-batch priority tool depth audit for Mortgage, Loan, BMI, Calorie, Income Tax, Salary, Watts to Amps, Wallpaper, OCR, and Prompt Token Estimator. It checks built tool/guide pages, semantic term coverage, related links, and deep-review records.
+
+- `npm run aft -- recognition`
+  - Runs the recognition tracker across Medium, Pinterest, Quora, Bluesky, DEV, Reddit, Search Console, Bing, and CrawlScout evidence. It separates public proof URLs from drafts, blocked channels, and unverified attempts.
+
 - `npm run aft -- usage-summary`
   - Reads the local first-party analytics event log and summarizes visitors, page views, tool-use actions, top tools, and top pages. Use `--days <number>` for a different range.
+
+- `npm run aft -- usage-notes`
+  - Creates a privacy-safe original data asset readiness report and draft outline from anonymous usage events. It should stay `not-ready` until there are enough real visitors, enough tool actions, and owner traffic is filtered.
 
 - `npm run aft -- site-sitemap`
   - Checks built XML sitemap coverage and confirms the public HTML sitemap source exists.
@@ -67,11 +79,15 @@ The CLI can summarize proof, but it cannot create proof by itself. Public promot
 3. Run `npm run aft -- hostinger` before Hostinger, DNS, deployment, or hosting-environment claims.
 4. Run `npm run aft -- indexing-protection` after Search Engine Land-style indexing, soft-404, or discovery work.
 5. Run `npm run aft -- ai-crawler` after hub, tool-page, or AI-search visibility work.
-6. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
-7. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
-8. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
-9. Use `npm run aft -- content-score <file>` before Medium, DEV Community, Quora, Reddit, or longer promotion copy goes public.
-10. Use `npm run aft -- proof-check` before changing promotion queue statuses.
+6. Run `npm run aft -- hub-strength` after changing hub copy, category discovery, or internal-link pathways.
+7. Run `npm run aft -- semantic-depth` after changing priority tool pages, guides, FAQs, or audit wording.
+8. Run `npm run aft -- recognition` before claiming brand/promotion proof across public platforms.
+9. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
+10. Use `npm run aft -- usage-notes` before planning any public "what people are using" content.
+11. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
+12. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
+13. Use `npm run aft -- content-score <file>` before Medium, DEV Community, Quora, Reddit, or longer promotion copy goes public.
+14. Use `npm run aft -- proof-check` before changing promotion queue statuses.
 
 For a quick no-paid proof refresh after local SEO/audit work, use `npm run audit:deep:no-paid:fast`. It skips Search Console OAuth, the full `npm run check`, and Playwright smoke while still refreshing the local audit, IndexNow, external-link report, indexing protection report, and AI crawler visibility report.
 

@@ -28,6 +28,7 @@ The orchestrator is report-only in v1. It can read reports, rank next actions, a
    - Source of truth: platform-specific agent docs.
    - Jobs: route work to Pinterest, Medium, DEV Community, Bluesky, Quora, Quora Space, and Reddit.
    - Rule: promotion must answer a real question first and disclose ownership when linking.
+   - Recognition rule: a platform counts only when the public proof exists. Drafts and submit-button success do not count.
 
 5. Reporting
    - Source of truth: `docs/promotion-queue.md` and `output/marketing-orchestrator/`.
@@ -48,6 +49,7 @@ The orchestrator is report-only in v1. It can read reports, rank next actions, a
 | Quora draft safety | Quora Promotion Agent | `output/promotion/quora-quality-report.json` |
 | DEV Community draft safety | DEV Community Promotion Agent | `output/promotion/devto/devto-quality-report.json` |
 | Public live status | Platform proof only | public URL, public profile/feed view, or screenshot |
+| Brand recognition tracker | Recognition Tracker | `output/recognition-tracker/` |
 
 Do not recreate a standalone DataForSEO top-up agent while the owner jobs above are active.
 
@@ -62,6 +64,7 @@ Priority order:
 3. Verify a platform item that is already connected but lacks public proof.
 4. Publish or prepare one approved, quality-passed promotion item if the platform cadence allows it.
 5. Add or improve internal links when a page has promotion interest but weak discovery.
+6. Improve recognition proof when a platform has drafts, profiles, or pending RSS but no public URL.
 
 The orchestrator should ask the user only when blocked by:
 
@@ -85,6 +88,7 @@ Draft quality gates must block:
 - Generic filler.
 - Missing ownership disclosure where a self-link is used.
 - Missing contextual internal links in Medium.
+- Missing real problem, realistic example, or useful next step in long-form promotion.
 - Hero image layout failures.
 - Platform score below the configured threshold.
 

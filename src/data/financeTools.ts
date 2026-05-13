@@ -1331,7 +1331,7 @@ export const financeTools: ToolDefinition[] = [
     name: 'Salary Calculator',
     summary: 'Convert annual salary to monthly, biweekly, weekly, daily, and hourly pay.',
     description:
-      'Use this free salary calculator to convert annual salary into monthly, biweekly, weekly, daily, and hourly pay with an optional simple tax-rate estimate.',
+      'Use this free salary calculator to convert annual salary into monthly, biweekly, weekly, daily, hourly, and pay period amounts with an optional simple tax-rate estimate.',
     icon: 'calculator-salary',
     formula:
       'The calculator divides annual salary by 12, 26, weeks per year, workdays, and annual hours. Optional tax is a simple percentage of annual salary.',
@@ -1339,7 +1339,7 @@ export const financeTools: ToolDefinition[] = [
       'This is a paycheck-style estimate, not payroll advice. It does not include actual withholding tables, benefits, pre-tax deductions, overtime, bonuses, state tax, or local tax.',
     useCases: [
       'Convert annual salary into hourly pay.',
-      'Compare monthly, biweekly, weekly, and daily gross pay.',
+      'Compare monthly, biweekly, weekly, daily, and pay period gross pay.',
       'Use a simple tax-rate estimate to approximate take-home pay.',
       'Compare job offers with different hours or weeks worked.',
     ],

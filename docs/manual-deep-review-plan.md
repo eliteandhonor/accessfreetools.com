@@ -13,6 +13,7 @@ Each manual review should confirm:
 - Output labels are easy to understand without reading the code.
 - Examples match the actual tool behavior.
 - FAQs answer real confusion in clear language, with the tone of a smart 14-year-old explaining it to a friend.
+- FAQs are visible user help, not rich-result bait. They should not be hidden, fake, or repeated from a generic template.
 - The blog guide includes a quick start, a real worked example, mistakes to avoid, and source notes.
 - Related tools help users continue the task.
 - SEO title, description, canonical URL, structured data, and sitemap behavior are correct.

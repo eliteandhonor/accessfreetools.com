@@ -19,6 +19,8 @@ const evidencePaths = {
   blueskyQuality: 'output/promotion/bluesky/bluesky-quality-report.json',
   quoraQuality: 'output/promotion/quora-quality-report.json',
   devtoQuality: 'output/promotion/devto/devto-quality-report.json',
+  recognitionTracker: 'output/recognition-tracker/latest.json',
+  originalDataAssets: 'output/original-data-assets/latest.json',
 };
 
 function readText(relativePath) {
@@ -193,7 +195,7 @@ function recommendation(priority, title, reason, action, evidence, gate, proofNe
   };
 }
 
-function chooseRecommendations({ indexingGaps, queueRows, qualityReports, pinterestRss, duplicateBalanceOwnerActive }) {
+function chooseRecommendations({ indexingGaps, queueRows, qualityReports, pinterestRss, duplicateBalanceOwnerActive, recognitionTracker }) {
   const recommendations = [];
   const failedQuality = qualityReports.find((report) => report.status === 'failed' || report.status === 'parse-error');
   const missingQuality = qualityReports.find((report) => report.status === 'missing');
@@ -225,6 +227,20 @@ function chooseRecommendations({ indexingGaps, queueRows, qualityReports, pinter
         [evidencePaths[`${failedQuality.label.toLowerCase()}Quality`] ?? 'output/promotion/'],
         'Public posting blocked until the channel quality report passes.',
         'A passing quality report plus public URL/screenshot after posting.',
+      ),
+    );
+  }
+
+  if (!failedQuality && recognitionTracker?.totals?.claimedWithoutProof > 0) {
+    recommendations.push(
+      recommendation(
+        'High',
+        'Fix recognition proof gaps before new promotion',
+        `${recognitionTracker.totals.claimedWithoutProof} claimed promotion row(s) still lack public proof in the recognition tracker.`,
+        'Run `npm run aft -- recognition`, then update only rows with a visible public URL, public profile/feed proof, screenshot, or generated report.',
+        ['output/recognition-tracker/latest.json', 'docs/promotion-queue.md'],
+        'Do not treat drafts, submit buttons, or memory as proof.',
+        'Public URL/profile proof, screenshot, or generated report evidence.',
       ),
     );
   }
@@ -372,6 +388,8 @@ const redditQuality = readJson(evidencePaths.redditQuality);
 const blueskyQuality = readJson(evidencePaths.blueskyQuality);
 const quoraQuality = readJson(evidencePaths.quoraQuality);
 const devtoQuality = readJson(evidencePaths.devtoQuality);
+const recognitionTracker = readJson(evidencePaths.recognitionTracker);
+const originalDataAssets = readJson(evidencePaths.originalDataAssets);
 
 const activeAutomations = parseActiveAutomationRows(automationPlan);
 const queueRows = parseQueueRows(promotionQueue);
@@ -395,6 +413,7 @@ const recommendations = chooseRecommendations({
   qualityReports,
   pinterestRss,
   duplicateBalanceOwnerActive,
+  recognitionTracker,
 });
 
 const evidence = [
@@ -411,6 +430,8 @@ const evidence = [
   asEvidence('blueskyQuality', evidencePaths.blueskyQuality, blueskyQuality),
   asEvidence('quoraQuality', evidencePaths.quoraQuality, quoraQuality),
   asEvidence('devtoQuality', evidencePaths.devtoQuality, devtoQuality),
+  asEvidence('recognitionTracker', evidencePaths.recognitionTracker, recognitionTracker),
+  asEvidence('originalDataAssets', evidencePaths.originalDataAssets, originalDataAssets),
 ];
 
 const wins = [];
@@ -418,6 +439,7 @@ if (brandCode) wins.push('Brand code is present and can be loaded before public 
 if (!duplicateBalanceOwnerActive) wins.push('No active standalone DataForSEO balance-only automation was found.');
 if (qualityReports.every((item) => item.status === 'passed')) wins.push('All available platform quality reports pass.');
 if (pinterestRss && !pinterestRss.parseError && !pinterestRss.issues?.length) wins.push('Pinterest RSS report has no issues.');
+if (recognitionTracker && !recognitionTracker.parseError) wins.push('Recognition tracker is available for public proof and blocked-channel checks.');
 
 const blockers = [];
 if (!brandCode) blockers.push('Missing docs/brand-code.md.');
@@ -425,6 +447,7 @@ if (duplicateBalanceOwnerActive) blockers.push('Duplicate active DataForSEO Bala
 if (qualityFailures.length) blockers.push(`${qualityFailures.map((item) => item.label).join(', ')} quality reports are failing.`);
 if (balance?.topUp) blockers.push(`DataForSEO balance is at or below top-up threshold: ${balance.balance.toFixed(2)} ${balance.currency}.`);
 if (dataForSeoStatus?.parseError) blockers.push(`DataForSEO status report could not be parsed: ${dataForSeoStatus.parseError}.`);
+if (recognitionTracker?.totals?.claimedWithoutProof > 0) blockers.push(`${recognitionTracker.totals.claimedWithoutProof} promotion claim(s) still need recognition proof.`);
 
 const report = {
   generatedAt: new Date().toISOString(),
@@ -440,6 +463,8 @@ const report = {
     rssConnected: queueRows.filter((row) => row.status === 'rss-connected').length,
     unverified: queueRows.filter((row) => row.status === 'unverified').length,
   },
+  recognitionSummary: recognitionTracker?.totals ?? null,
+  originalDataAssetStatus: originalDataAssets?.status ?? 'not checked',
   indexingGaps: indexingGaps.slice(0, 10),
   qualityReports,
   wins,

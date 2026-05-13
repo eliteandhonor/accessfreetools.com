@@ -84,7 +84,7 @@ export const aiTools: ToolDefinition[] = [
     icon: 'tool-ai-ocr',
     modelNote: 'Uses self-hosted Tesseract.js OCR files in the browser after you choose an image and press the read button.',
     inputMeaning:
-      'Choose an image file that contains readable printed or typed text. The language setting tells OCR which character patterns to expect, and clearer images usually give better text.',
+      'Choose an image file that contains readable printed or typed text. The language setting tells OCR which character patterns to expect, and image quality matters: sharper, brighter, higher-contrast images usually give better text.',
     resultMeaning:
       'Read the extracted text as a best effort copy. Line breaks, punctuation, columns, handwriting, and small letters may need cleanup before you paste the result somewhere important.',
     doubleCheck:

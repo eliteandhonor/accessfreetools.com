@@ -102,6 +102,8 @@ Useful commands:
 
 ### P0. Top Hub Upgrade Pass
 
+Status: v1 implemented on 2026-05-13. `/tools/` now points people toward major discovery hubs, priority calculators, AI tools, and guide entry points. Category hubs now include priority guide blocks for finance, health, home projects, and AI, plus stronger intent links for calculators, finance, AI, developer, converter, and text-tool discovery. Proof: `npm run audit:hubs` and `npm run aft -- hub-strength` both report 9/9 hubs passed.
+
 Goal: make the major hubs stronger because category hubs help users, Google, AI crawlers, and internal linking.
 
 Tasks:
@@ -121,11 +123,15 @@ Proof required:
 
 Useful commands:
 
+- `npm run audit:hubs`
+- `npm run aft -- hub-strength`
 - `npm run aft -- page-seo tools`
 - `npm run aft -- site-sitemap`
 - `npm run check`
 
 ### P1. Semantic Depth Upgrade For Priority Tools
+
+Status: first priority batch implemented on 2026-05-13. Mortgage, Loan, BMI, Calorie, Income Tax, Salary, Watts to Amps, Wallpaper, Image to Text OCR, and Prompt Token Estimator all passed the built-page semantic depth audit. Fixes from the audit clarified BMI medical limits, Salary pay period wording, and OCR image quality wording. Proof: `npm run audit:semantic-depth` and `npm run aft -- semantic-depth` both report 10/10 priority tools passed.
 
 Goal: upgrade priority tool pages so they answer the real user problem, not only the formula.
 
@@ -164,10 +170,14 @@ Proof required:
 
 Useful commands:
 
+- `npm run audit:semantic-depth`
+- `npm run aft -- semantic-depth`
 - `npm run aft -- page-seo mortgage-calculator`
 - `npm run check`
 
 ### P1. Recognition Tracker
+
+Status: v1 implemented on 2026-05-13 with `npm run recognition:track` and `npm run aft -- recognition`. Current report shows 23 public proof URLs, 0 claimed rows missing proof, and clearly separates blocked platforms from active-with-proof platforms.
 
 Goal: track where Access Free Tools is recognized across the web because AI search and modern SEO rely on brand mentions, not only classic rankings.
 
@@ -190,11 +200,15 @@ Proof required:
 
 Useful commands:
 
+- `npm run recognition:track`
+- `npm run aft -- recognition`
 - `npm run aft -- proof-check`
 - `npm run promotion:weekly-review`
 - `npm run marketing:orchestrate`
 
 ### P1. Original Data Asset Plan
+
+Status: v1 implemented on 2026-05-13 with `docs/original-data-asset-plan.md`, `npm run content:usage-notes`, and `npm run aft -- usage-notes`. Current status is intentionally `not-ready`: anonymous analytics has enough visitors and page views for internal learning, but only 1 tool action in the current window, below the 25-action public-report minimum.
 
 Goal: create linkable, useful content that competitors cannot easily copy.
 
@@ -218,8 +232,12 @@ Proof required:
 Useful commands:
 
 - `npm run aft -- usage-summary`
+- `npm run content:usage-notes`
+- `npm run aft -- usage-notes`
 
 ### P2. FAQ Strategy Reset
+
+Status: v1 implemented on 2026-05-13 with `docs/faq-strategy.md` and updates to the brand, agent, manual-review, and article-writing guidance. FAQ guidance now says FAQs are for visible user help, AI understanding, and clarity, not rich-result chasing.
 
 Goal: keep FAQs useful while no longer treating FAQ rich results as the main SEO prize.
 
@@ -238,8 +256,11 @@ Proof required:
 Useful commands:
 
 - `npm run check:structured-data`
+- `npm run audit:site`
 
 ### P2. Promotion Content Quality Upgrade
+
+Status: v1 implemented on 2026-05-13. Medium, Quora, Reddit, Bluesky, DEV, and Pinterest checks now emphasize real reader problems, practical examples, ownership disclosure, useful internal links, no agent-facing text, and public proof before queue updates. Proof: Medium, Quora, Reddit, Bluesky, DEV, and Pinterest quality/report commands passed after stricter gate fixes.
 
 Goal: make every external post feel useful enough that a human would read it, not like a link drop.
 
@@ -265,8 +286,10 @@ Useful commands:
 
 - `npm run promotion:medium:quality`
 - `npm run promotion:quora:quality`
+- `npm run promotion:reddit:quality`
 - `npm run promotion:bluesky:quality`
 - `npm run promotion:devto:quality`
+- `npm run promotion:pinterest:rss-report`
 - `npm run aft -- proof-check`
 
 ## Recommended Execution Order
