@@ -6,6 +6,7 @@ const PROFILE_URL = 'https://au.pinterest.com/accessfreetools/';
 const PIN_CREATION_URL = 'https://au.pinterest.com/pin-creation-tool/';
 const DEFAULT_PROFILE_DIR = resolve('.local', 'pinterest-browser-profile');
 const DEFAULT_OUTPUT_PATH = resolve('output', 'promotion', 'pinterest-publish-report.json');
+const DEFAULT_BROWSER_CHANNEL = 'chrome';
 
 const pins = [
   {
@@ -205,6 +206,7 @@ function parseArgs() {
     force: args.includes('--force'),
     slugs,
     limit: Number(args.find((arg) => arg.startsWith('--limit='))?.slice('--limit='.length) ?? Number.POSITIVE_INFINITY),
+    channel: args.find((arg) => arg.startsWith('--channel='))?.slice('--channel='.length) ?? DEFAULT_BROWSER_CHANNEL,
     profileDir: resolve(args.find((arg) => arg.startsWith('--profile-dir='))?.slice('--profile-dir='.length) ?? DEFAULT_PROFILE_DIR),
     reportPath: resolve(args.find((arg) => arg.startsWith('--report='))?.slice('--report='.length) ?? DEFAULT_OUTPUT_PATH),
   };
@@ -254,10 +256,25 @@ async function assertNoUnsafePinterestFlow(page) {
   }
 }
 
+async function assertExpectedPinterestAccount(page) {
+  const profileHref = await page
+    .locator('a[aria-label="Your profile"]')
+    .first()
+    .getAttribute('href', { timeout: 2500 })
+    .catch(() => '');
+
+  if (!profileHref || !/\/accessfreetools\/?$/i.test(profileHref)) {
+    throw new Error(
+      `Pinterest account proof failed (${profileHref || 'no active profile link found'}). Stop and switch to /accessfreetools/ before publishing.`,
+    );
+  }
+}
+
 async function openOrganicCreatePage(page) {
   await page.goto(PIN_CREATION_URL, { waitUntil: 'domcontentloaded', timeout: 45_000 });
   await wait(4000);
   await assertNoUnsafePinterestFlow(page);
+  await assertExpectedPinterestAccount(page);
 }
 
 async function boardUrl(pin) {
@@ -460,6 +477,7 @@ async function main() {
     generatedAt: new Date().toISOString(),
     profileUrl: PROFILE_URL,
     profileDir: args.profileDir,
+    channel: args.channel,
     publish: args.publish,
     cleanupOnly: args.cleanupOnly,
     force: args.force,
@@ -471,7 +489,7 @@ async function main() {
 
   if (args.cleanupOnly) {
     const context = await chromium.launchPersistentContext(args.profileDir, {
-      channel: 'msedge',
+      channel: args.channel,
       headless: false,
       viewport: { width: 1365, height: 900 },
     });
@@ -505,7 +523,7 @@ async function main() {
   }
 
   const context = await chromium.launchPersistentContext(args.profileDir, {
-    channel: 'msedge',
+    channel: args.channel,
     headless: false,
     viewport: { width: 1365, height: 900 },
   });
