@@ -235,7 +235,6 @@ Current RSS-ready future pins:
 - Mortgage Amortization Calculator
 - Concrete Calculator
 - Recipe Scaler
-- Unit Price Calculator
 - Word Counter
 
 ## First Medium Draft Outlines

@@ -344,9 +344,9 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     imagePath: '/pinterest/unit-price-calculator.jpg',
     category: 'Free Online Calculators',
     boardSlug: 'free-online-calculators',
-    status: 'rss-ready',
-    rssEligible: true,
-    published: '2026-05-07',
+    status: 'posted',
+    rssEligible: false,
+    published: '2026-05-13',
   },
   {
     title: 'Word Counter For Essays, Notes, And Drafts',

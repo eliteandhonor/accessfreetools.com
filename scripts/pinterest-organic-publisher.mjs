@@ -178,6 +178,16 @@ const pins = [
     board: 'Home Project Calculators',
     boardSlug: 'home-project-calculators',
   },
+  {
+    slug: 'unit-price-calculator',
+    asset: 'unit-price-calculator.png',
+    title: 'Unit Price Calculator For Comparing Deals',
+    description:
+      'Compare price per ounce, pound, item, or package so sale tags and bulk sizes are easier to judge before you shop.',
+    url: 'https://accessfreetools.com/tools/unit-price-calculator/',
+    board: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+  },
 ];
 
 function parseArgs() {
@@ -192,6 +202,7 @@ function parseArgs() {
     publish: args.includes('--publish'),
     all: args.includes('--all'),
     cleanupOnly: args.includes('--cleanup-drafts'),
+    force: args.includes('--force'),
     slugs,
     limit: Number(args.find((arg) => arg.startsWith('--limit='))?.slice('--limit='.length) ?? Number.POSITIVE_INFINITY),
     profileDir: resolve(args.find((arg) => arg.startsWith('--profile-dir='))?.slice('--profile-dir='.length) ?? DEFAULT_PROFILE_DIR),
@@ -378,7 +389,7 @@ async function cleanupDrafts(page, report) {
   report.steps.push(`cleanup-drafts:${deleted}`);
 }
 
-async function publishPin(page, pin) {
+async function publishPin(page, pin, options = {}) {
   const report = {
     slug: pin.slug,
     title: pin.title,
@@ -395,7 +406,7 @@ async function publishPin(page, pin) {
     return report;
   }
 
-  if (await alreadyPublished(page, pin)) {
+  if (!options.force && (await alreadyPublished(page, pin))) {
     report.status = 'already-published';
     report.boardUrl = await boardUrl(pin);
     return report;
@@ -408,7 +419,10 @@ async function publishPin(page, pin) {
   await wait(4500);
   report.steps.push('uploaded-image');
 
-  await page.locator('input[placeholder="Add a title"]').fill(pin.title);
+  const titleInput = page
+    .locator('input[placeholder="Add a title"], input[placeholder="Tell everyone what your Pin is about"]')
+    .first();
+  await titleInput.fill(pin.title);
   await fillDescription(page, pin.description);
   await page.locator('input[placeholder="Add a link"]').fill(pin.url);
   report.steps.push('filled-copy-and-link');
@@ -448,6 +462,7 @@ async function main() {
     profileDir: args.profileDir,
     publish: args.publish,
     cleanupOnly: args.cleanupOnly,
+    force: args.force,
     safety: ['organic pin creation only', 'no ads', 'no billing', 'no campaign setup', 'no password entry'],
     selectedCount: selectedPins.length,
     availableSlugs: pins.map((pin) => pin.slug),
@@ -500,7 +515,7 @@ async function main() {
   try {
     for (const pin of selectedPins) {
       try {
-        const result = await publishPin(page, pin);
+        const result = await publishPin(page, pin, { force: args.force });
         report.results.push(result);
       } catch (error) {
         const failed = {
