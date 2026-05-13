@@ -81,8 +81,8 @@ Rank tracking should follow `docs/dataforseo-knowledgebase-notes.md`: classify k
 Refresh the inputs first:
 
 ```bash
-npm run search-console -- -- --site=https://accessfreetools.com/
-npm run search-console -- -- --inspect-key-urls
+npm run search-console
+npm run search-console:inspect-key-urls
 npm run seo:self-evaluate
 ```
 

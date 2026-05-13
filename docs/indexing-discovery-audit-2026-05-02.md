@@ -49,9 +49,9 @@ Local reports are saved outside Git:
 Repeat useful checks with:
 
 ```bash
-npm run search-console -- -- --submit-discovery
-npm run search-console -- -- --inspect-key-urls
-npm run search-console -- -- --site=https://accessfreetools.com/
+npm run search-console:submit-discovery
+npm run search-console:inspect-key-urls
+npm run search-console
 ```
 
 ## Search Console Checklist

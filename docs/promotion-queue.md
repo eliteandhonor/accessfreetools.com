@@ -112,6 +112,12 @@ HTTP 200. On 2026-05-09, public-board HTML checks showed the RSS imports were
 visible for percent-off, recipe-scaler, watts-to-amps, concrete,
 mortgage-amortization, and word-counter. Ad-revenue and unit-price were still
 not visible in public board HTML and remain `rss-connected`.
+On 2026-05-13, the board RSS feeds still returned the pending Ad Revenue and
+Unit Price items, but public Pinterest board HTML checks still did not expose
+those Pins. Keep both rows `rss-connected` until a public board/profile page
+visibly proves the Pin import. The old Reddit percentage post also remained
+unverified from public profile HTML, so do not mark it posted or repost it
+without a fresh visible public URL.
 Bluesky is the recommended next organic platform as of 2026-05-08. The user
 created `https://bsky.app/profile/accessfreetools.bsky.social`; the profile was
 updated through the Bluesky API with the approved display name, bio, and branded
@@ -178,7 +184,7 @@ SEO proof from 2026-05-08:
   Watts to Amps Calculator, and Image to Text OCR Tool as discovered, unknown,
   or not indexed yet. These need internal-link help and continued promotion,
   not more duplicate pages.
-- `npm run search-console -- -- --submit-discovery` resubmitted
+- `npm run search-console:submit-discovery` resubmitted
   `sitemap.xml` and `feed.xml`; Google reported zero sitemap errors and zero
   warnings while processing remains pending.
 - `npm run indexnow:submit` submitted 621 URLs and returned HTTP 200.

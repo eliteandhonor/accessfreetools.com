@@ -105,3 +105,12 @@ Their matching guides are indexed. Keep the tool pages in sitemap coverage,
 link them from indexed hubs and related guides, and avoid creating duplicate
 thin pages. The tools hub and free calculator resources page now include
 stronger contextual links to those pages.
+
+Follow-up verification after the Hostinger/API deployment confirmed the live
+homepage, `/tools/`, `/free-calculator-resources/`, and `sitemap-tools.xml`
+all expose direct links to both remaining tool URLs. `npm run
+search-console:inspect-key-urls` still reports only those two tool pages as
+unknown to Google, while both matching blog guides are submitted and indexed.
+Use `npm run search-console:submit-discovery` and `npm run indexnow:submit`
+after the next deploy; do not use npm argument forwarding for Search Console
+flags because npm 11 can treat those flags as npm config.

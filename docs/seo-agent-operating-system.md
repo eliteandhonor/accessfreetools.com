@@ -12,8 +12,8 @@ or pass `--client-secret=...`. Do not commit OAuth client files or saved tokens.
 npm run dataforseo:account -- -- --min-balance=2
 npm run dataforseo:status
 npm run dataforseo:status:sandbox
-npm run search-console -- -- --site=https://accessfreetools.com/
-npm run search-console -- -- --inspect-key-urls
+npm run search-console
+npm run search-console:inspect-key-urls
 npm run seo:self-evaluate
 npm run check
 ```
@@ -115,8 +115,8 @@ npm run automation:monthly-onpage
 ```
 
 The wrapper performs the account/status gates first and only then calls the capped DataForSEO OnPage audit.
-3. Run `npm run search-console -- -- --site=https://accessfreetools.com/`.
-4. Run `npm run search-console -- -- --inspect-key-urls`.
+3. Run `npm run search-console`.
+4. Run `npm run search-console:inspect-key-urls`.
 5. Run `npm run seo:self-evaluate`.
 6. Run focused QA if code/content changed, and run `npm run check` before any GitHub update.
 7. Report recommendations to the user. Do not auto-push code unless the user explicitly asks.

@@ -351,7 +351,7 @@ const lines = [
 
 if (!gsc) {
   lines.push(
-    '- Search Console report is missing. Run `npm run search-console -- --site=https://accessfreetools.com/` first.',
+    '- Search Console report is missing. Run `npm run search-console` first.',
   );
 } else {
   lines.push(
@@ -401,7 +401,7 @@ if (indexedSummary.length) {
     lines.push(`- ${item.url}: ${item.verdict} / ${item.coverageState}${item.lastCrawlTime ? `, last crawl ${item.lastCrawlTime}` : ''}.`);
   }
 } else {
-  lines.push('- No URL inspection report found. Run `npm run search-console -- --inspect-key-urls` for indexing proof.');
+  lines.push('- No URL inspection report found. Run `npm run search-console:inspect-key-urls` for indexing proof.');
 }
 
 if (legacyRankings.length) {

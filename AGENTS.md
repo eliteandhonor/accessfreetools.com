@@ -69,8 +69,8 @@ Every new public tool should include:
 ## QA And Release
 
 - Use `npm run check` before GitHub updates.
-- Use `npm run search-console -- -- --submit-discovery` after major deploys.
-- Use `npm run search-console -- -- --inspect-key-urls` to track indexing for important URLs.
+- Use `npm run search-console:submit-discovery` after major deploys.
+- Use `npm run search-console:inspect-key-urls` to track indexing for important URLs.
 - Use `npm run seo:self-evaluate` for the weekly SEO agent report after Search Console data is refreshed.
 
 ## Promotion Agent Standard

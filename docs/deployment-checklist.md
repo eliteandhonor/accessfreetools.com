@@ -77,9 +77,9 @@ These steps need the site owner account:
 - If Google says "Discovered - currently not indexed" or "Crawled - currently not indexed", review the exact reason before resubmitting. A new domain can take days or weeks to be indexed even when the technical setup is correct.
 - Watch indexing, query, and Core Web Vitals reports after Google recrawls the site.
 - Local API helpers:
-  - `npm run search-console -- -- --submit-discovery`
-  - `npm run search-console -- -- --inspect-key-urls`
-  - `npm run search-console -- -- --site=https://accessfreetools.com/`
+  - `npm run search-console:submit-discovery`
+  - `npm run search-console:inspect-key-urls`
+  - `npm run search-console`
   - `npm run check:production-sitemap`
 - Keep the Google OAuth client JSON out of Git. Use `.local/google-search-console-client-secret.json`, `GSC_CLIENT_SECRET_PATH`, or `--client-secret=...`.
 
