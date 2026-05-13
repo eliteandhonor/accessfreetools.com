@@ -1,12 +1,24 @@
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
 const SITE = 'https://accessfreetools.com';
 const DEFAULT_OUTPUT_DIR = resolve('output', 'promotion', 'bluesky', 'drafts');
 const DEFAULT_REPORT_PATH = resolve('output', 'promotion', 'bluesky', 'bluesky-promotion-report.json');
 const BSKY_SERVICE = 'https://bsky.social';
+const LOCAL_ENV_PATH = resolve('.local', 'bluesky.env');
 
 const targets = [
+  {
+    slug: 'codex-build-in-public',
+    priority: 'High',
+    risk: 'low',
+    page: '/why-access-free-tools/',
+    title: 'Building Access Free Tools With Codex',
+    text:
+      'Build-in-public note: I am using Codex to help build Access Free Tools one useful utility at a time: calculators, converters, browser AI tools, guides, audits, and internal-link checks. The mission page explains the bigger idea.',
+    tags: ['#BuildInPublic', '#AI'],
+    url: `${SITE}/why-access-free-tools/`,
+  },
   {
     slug: 'ad-revenue-calculator',
     priority: 'High',
@@ -125,6 +137,19 @@ function ensureDir(path) {
   }
 }
 
+function loadLocalEnv(path) {
+  if (!existsSync(path)) return;
+  const lines = readFileSync(path, 'utf8').split(/\r?\n/);
+  for (const line of lines) {
+    const match = line.match(/^([A-Z0-9_]+)=(.*)$/);
+    if (!match) continue;
+    const [, key, rawValue] = match;
+    if (!process.env[key]) {
+      process.env[key] = rawValue.replace(/^["']|["']$/g, '');
+    }
+  }
+}
+
 function postText(target) {
   return `${target.text}\n\n${target.url}\n\n${target.tags.join(' ')}`;
 }
@@ -201,6 +226,7 @@ async function requestJson(url, options = {}) {
 }
 
 async function createSession() {
+  loadLocalEnv(LOCAL_ENV_PATH);
   const identifier = process.env.BLUESKY_HANDLE;
   const password = process.env.BLUESKY_APP_PASSWORD;
   if (!identifier || !password) {

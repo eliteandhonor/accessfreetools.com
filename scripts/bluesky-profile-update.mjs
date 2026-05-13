@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 
 const BSKY_SERVICE = 'https://bsky.social';
 const DEFAULT_AVATAR_PATH = resolve('public', 'bluesky', 'access-free-tools-avatar.png');
+const LOCAL_ENV_PATH = resolve('.local', 'bluesky.env');
 const DEFAULT_DESCRIPTION =
   'Access Free Tools shares free calculators, converters, AI text tools, and practical guides for everyday math, home projects, finance, school, and browser tasks.';
 
@@ -34,7 +35,21 @@ async function requestJson(url, options = {}) {
   return body;
 }
 
+function loadLocalEnv(path) {
+  if (!existsSync(path)) return;
+  const lines = readFileSync(path, 'utf8').split(/\r?\n/);
+  for (const line of lines) {
+    const match = line.match(/^([A-Z0-9_]+)=(.*)$/);
+    if (!match) continue;
+    const [, key, rawValue] = match;
+    if (!process.env[key]) {
+      process.env[key] = rawValue.replace(/^["']|["']$/g, '');
+    }
+  }
+}
+
 async function createSession() {
+  loadLocalEnv(LOCAL_ENV_PATH);
   const identifier = process.env.BLUESKY_HANDLE;
   const password = process.env.BLUESKY_APP_PASSWORD;
   if (!identifier || !password) {

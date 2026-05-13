@@ -20,6 +20,10 @@ click automation.
 - Profile update helper: `scripts/bluesky-profile-update.mjs`, which updates
   display name, bio, and the branded avatar from
   `public/bluesky/access-free-tools-avatar.png`.
+- 2026-05-13 content direction: build-in-public posts about how Access Free
+  Tools is being built with Codex are approved when they stay honest, link to
+  `/why-access-free-tools/`, and do not imply Codex is posting or operating
+  accounts without verification proof.
 
 ## Setup
 
@@ -33,6 +37,13 @@ click automation.
 ```powershell
 $env:BLUESKY_HANDLE="accessfreetools.bsky.social"
 $env:BLUESKY_APP_PASSWORD="xxxx-xxxx-xxxx-xxxx"
+```
+
+The local publisher also reads `.local/bluesky.env`, which is ignored by Git:
+
+```text
+BLUESKY_HANDLE=accessfreetools.bsky.social
+BLUESKY_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx
 ```
 
 5. Run the draft and quality review:
@@ -67,6 +78,12 @@ npm run promotion:bluesky:publish
 
 After publishing, open the public Bluesky profile and verify every post is live
 before marking anything `posted` in `docs/promotion-queue.md`.
+
+If API publishing says `Set BLUESKY_HANDLE and BLUESKY_APP_PASSWORD`, do not
+paste secrets into docs or reports. Either set the values in the current local
+shell for that run or use the logged-in Chrome account. If Chrome control times
+out before a public URL is visible, leave the queue item `approved`, not
+`posted`.
 
 Security note: if the normal account password was shared in chat, change it
 inside Bluesky after the app password workflow is working. Keep the app password
