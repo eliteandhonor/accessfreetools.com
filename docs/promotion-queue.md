@@ -235,6 +235,12 @@ SEO proof from 2026-05-10:
   Ad Revenue Calculator Bluesky post. Public profile proof showed the post text,
   destination card, and permalink:
   `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlhkxzok5k2a`.
+- Daily promotion follow-up on 2026-05-13 used the external Chrome promotion
+  workflow and current quality gates before marking anything live. Bluesky
+  Mortgage and Quora Space Ad Revenue posts were public-page verified with
+  destination links. The Medium AI Tools article was caught with a blank-body
+  publish issue, repaired live, and only marked posted after the public body,
+  disclosure, and Access Free Tools link were visible.
 
 | Priority | Page | Main Angle | Channel | Status | Next Action |
 | --- | --- | --- | --- | --- | --- |
@@ -249,7 +255,7 @@ SEO proof from 2026-05-10:
 | High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image, alt text, Medium SEO title/description, canonical link, reader-interest topics, and live H1/H2 formatting verified in the external browser |
 | High | `/tools/percentage-calculator/` | Discount, tip, markup, and percent-change micro tip | Bluesky | posted | Public post verified on 2026-05-08: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mld43shj2u2h` |
 | High | `/tools/mortgage-calculator/` | Early home-shopping payment estimate with finance limits | Medium | posted | Live article fixed and public-page checked on 2026-05-10 with H1, one branded hero image, alt text, H2 headings, contextual tool link, final tool/guide links, and no agent-facing filler: `https://medium.com/@accessfreetools/things-you-should-know-before-trusting-a-mortgage-payment-estimate-679a79eaa1cc` |
-| High | `/tools/mortgage-calculator/` | Mortgage planning estimate with finance limits | Bluesky | approved | Draft passed `npm run promotion:bluesky:quality`; keep finance limits and publish only as part of the one-per-day cadence |
+| High | `/tools/mortgage-calculator/` | Mortgage planning estimate with finance limits | Bluesky | posted | Public post verified on 2026-05-13 with finance-estimate wording and tool link: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlplqpvm2r2g` |
 | Medium | `/tools/bmi-calculator/` | BMI estimate with health disclaimer and plain-language result notes | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/health-and-fitness-calculators/` on 2026-05-06 |
 | Medium | `/tools/bmi-calculator/` | BMI estimate limits explained carefully | Medium | approved | Medium draft approved on 2026-05-07; health limits included |
 | Medium | `/tools/wallpaper-calculator/` | Rolls, wall area, pattern repeat, and waste percent explained | Pinterest, Medium | posted | Pinterest published; Medium live article manually fixed by the user and externally checked on 2026-05-08: `https://medium.com/@accessfreetools/what-waste-percent-means-in-a-wallpaper-calculator-8189dc219150` |
@@ -258,7 +264,7 @@ SEO proof from 2026-05-10:
 | Medium | `/tools/watts-to-amps-calculator/` | Watts, amps, voltage, and electrical-caution micro tip | Bluesky | posted | Public post verified through the Bluesky public API on 2026-05-09: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlgchubhy42h` |
 | Medium | `/tools/watts-to-amps-calculator/` | Explain watts, volts, amps, and electrical caution | Reddit | blocked | Draft passed quality, but Reddit promotion is blocked because the public `u/accessfreetools` profile showed "This account has been banned" on 2026-05-13. |
 | Medium | `/categories/ai-tools/` | Browser-side AI tools with privacy notes | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/ai-browser-tools/` on 2026-05-06 |
-| Medium | `/categories/ai-tools/` | Browser-side AI tools with privacy notes | Medium | approved | Medium draft approved on 2026-05-07; privacy wording included |
+| Medium | `/categories/ai-tools/` | Browser-side AI tools with privacy notes | Medium | posted | Live article repaired and public-page checked on 2026-05-13 with title, body, disclosure, and Access Free Tools category link visible: `https://medium.com/@accessfreetools/what-no-one-tells-you-about-browser-only-ai-tools-and-privacy-c65dfc30a34b`. Follow-up polish: recheck hero image/advanced Medium SEO settings because the editor fought the rich paste. |
 | Medium | `/tools/image-to-text-ocr-tool/` | OCR text extraction in the browser with privacy limits | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/ai-browser-tools/` on 2026-05-06 |
 | Medium | `/tools/image-to-text-ocr-tool/` | Browser OCR image-quality and privacy micro tip | Bluesky | posted | Public post verified on 2026-05-08: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mld43thfov2a` |
 | Medium | `/tools/image-to-text-ocr-tool/` | Explain OCR image quality and browser privacy limits | Reddit | blocked | Draft passed quality, but Reddit promotion is blocked because the public `u/accessfreetools` profile showed "This account has been banned" on 2026-05-13. |
@@ -283,7 +289,7 @@ SEO proof from 2026-05-10:
 | Medium | `/tools/markdown-table-generator/` | Fix broken Markdown table rows and separators | Quora | posted | Direct answer published and public-page checked on 2026-05-09: `https://www.quora.com/How-do-I-make-a-Markdown-table-of-two-columns-out-of-a-list-whose-items-alternate-to-each-column/answer/Access-Free-Tools` |
 | Medium | `/tools/image-to-text-ocr-tool/` | Explain OCR image quality and browser privacy limits | Quora Space | posted | Space post published and public-page checked on 2026-05-10 with OCR explanation, ownership disclosure, sensitive-document warning, and the live tool link: `https://accessfreetoolssspace.quora.com/Copying-text-from-a-screenshot-is-usually-an-OCR-problem-not-a-copy-paste-problem-OCR-means-optical-character-recogni` |
 | Medium | `/tools/concrete-calculator/` | Estimate concrete volume while avoiding unit mistakes | Quora | approved | Draft generated by `npm run promotion:quora:quality`; keep construction-limit wording |
-| High | `/tools/ad-revenue-calculator/` | Explain RPM, pageviews, and ad revenue estimate limits | Quora | approved | Draft generated by `npm run promotion:quora:quality`; avoid income promises and keep estimate limits |
+| High | `/tools/ad-revenue-calculator/` | Explain RPM, pageviews, and ad revenue estimate limits | Quora Space | posted | Space post published and verified on 2026-05-13 with RPM example, estimate limits, ownership disclosure, and tool link: `https://accessfreetoolssspace.quora.com/How-to-estimate-ad-revenue-without-pretending-RPM-is-a-promise-Ad-revenue-math-usually-starts-with-RPM-which-means-rev` |
 | High | `/tools/mortgage-calculator/` | Explain mortgage calculator estimates before lender approval | Quora | approved | Draft generated by `npm run promotion:quora:quality`; only answer broad educational questions, not personal loan advice |
 | Medium | `/tools/recipe-scaler/` | Resize ingredient amounts without guessing | Pinterest RSS | posted | Public Free Online Calculators board HTML showed the RSS import on 2026-05-09 |
 | Medium | `/tools/unit-price-calculator/` | Compare price per unit while shopping | Pinterest | posted | Organic Pin redone through the user's external Chrome session on 2026-05-13 after verifying the active account was `/accessfreetools/`; public proof: `https://au.pinterest.com/pin/1148277236265110127/` links to `https://accessfreetools.com/tools/unit-price-calculator/?utm_source=Pinterest&utm_medium=organic`. |
