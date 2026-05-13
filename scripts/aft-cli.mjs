@@ -101,6 +101,25 @@ function newestReportByName(fileName) {
   return reports[0] ?? null;
 }
 
+function newestReportUnder(relativeDir, fileName = 'summary.json') {
+  const baseDir = resolve(root, relativeDir);
+  const files = walk(baseDir, (file) => basename(file) === fileName);
+  const reports = files
+    .map((file) => {
+      const report = readJsonFile(file);
+      const generatedTime = report?.generatedAt ? Date.parse(report.generatedAt) : NaN;
+      return {
+        file,
+        report,
+        timestamp: Number.isFinite(generatedTime) ? generatedTime : statSync(file).mtimeMs,
+      };
+    })
+    .filter((entry) => entry.report && !entry.report.parseError)
+    .sort((a, b) => b.timestamp - a.timestamp);
+
+  return reports[0] ?? null;
+}
+
 function readNdjson(path) {
   if (!existsSync(path)) return [];
 
@@ -736,6 +755,57 @@ function indexingGapsCommand(command) {
   ]);
 }
 
+function indexingProtectionCommand(command) {
+  const run = runNodeScript('scripts/indexing-protection-audit.mjs');
+  const latest = newestReportUnder('output/indexing-protection');
+  const report = latest?.report ?? null;
+  const payload = {
+    run,
+    report,
+    reportPath: latest ? relative(root, latest.file).replace(/\\/g, '/') : '',
+  };
+  const gaps = report?.searchConsole?.gaps ?? [];
+
+  emit(command, payload, [
+    'Indexing protection audit',
+    `- Refresh: ${run.status === 0 ? 'ok' : `failed (${run.status})`}`,
+    `- Report: ${payload.reportPath || 'not found'}`,
+    `- HTML pages: ${report?.totals?.auditedPages ?? 'unknown'}`,
+    `- High local issues: ${report?.totals?.highIssues ?? 'unknown'}`,
+    `- Search Console gaps: ${report?.totals?.searchConsoleGaps ?? 'unknown'}`,
+    `- CrawlScout non-indexed/submitted sample: ${report?.totals?.crawlScoutNonIndexedSample ?? 'unknown'}`,
+    gaps.length ? '- Gap sample:' : '- Gap sample: none',
+    ...gaps.slice(0, 5).map((gap) => `  - ${gap.url}: ${gap.state}`),
+  ]);
+
+  if (run.status !== 0) process.exitCode = run.status;
+}
+
+function aiCrawlerCommand(command) {
+  const run = runNodeScript('scripts/ai-crawler-visibility-audit.mjs');
+  const latest = newestReportUnder('output/ai-crawler-visibility');
+  const report = latest?.report ?? null;
+  const payload = {
+    run,
+    report,
+    reportPath: latest ? relative(root, latest.file).replace(/\\/g, '/') : '',
+  };
+
+  emit(command, payload, [
+    'AI crawler visibility audit',
+    `- Refresh: ${run.status === 0 ? 'ok' : `failed (${run.status})`}`,
+    `- Report: ${payload.reportPath || 'not found'}`,
+    `- Priority pages: ${report?.totals?.pages ?? 'unknown'}`,
+    `- Passed: ${report?.totals?.passed ?? 'unknown'}`,
+    `- Watch: ${report?.totals?.watch ?? 'unknown'}`,
+    `- Review: ${report?.totals?.review ?? 'unknown'}`,
+    `- Mode: ${report?.auditMode ?? 'local built HTML inspection'}`,
+    '- Modeled crawler profiles: Googlebot, Bingbot, GPTBot, ClaudeBot, PerplexityBot, non-JS text fetcher',
+  ]);
+
+  if (run.status !== 0) process.exitCode = run.status;
+}
+
 function usageSummaryCommand(command) {
   const days = Number(command.days ?? command.opts?.().days ?? 30);
   const summary = analyticsSummary(days);
@@ -974,6 +1044,18 @@ program.command('marketing').description('Refresh and summarize the marketing or
 program.command('promote-next').description('Show the next safe promotion candidates and proof follow-ups.').option('--json', 'Output JSON.').action(promoteNextCommand);
 
 program.command('indexing-gaps').description('Show current Search Console indexing gaps from local snapshots.').option('--json', 'Output JSON.').action(indexingGapsCommand);
+
+program
+  .command('indexing-protection')
+  .description('Run the local indexing protection audit and summarize soft-404, sitemap, redirect, and discovery signals.')
+  .option('--json', 'Output JSON.')
+  .action(indexingProtectionCommand);
+
+program
+  .command('ai-crawler')
+  .description('Run the AI crawler visibility audit for priority pages and non-JS crawler clarity.')
+  .option('--json', 'Output JSON.')
+  .action(aiCrawlerCommand);
 
 program
   .command('usage-summary')

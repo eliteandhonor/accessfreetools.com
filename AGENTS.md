@@ -6,6 +6,7 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 
 - Read `docs/brand-code.md` before writing or editing public page copy, tool explanations, blog guides, Medium posts, Quora answers, Reddit replies, Bluesky posts, Pinterest text, or promotion reports.
 - Use `docs/marketing-orchestrator.md` when coordinating SEO, internal-link, content, and promotion agents. The orchestrator owns priority and dedupe; platform agents own platform-specific drafts and proof.
+- Use `docs/search-engine-land-seo-task-board.md` for the current Search Engine Land research-backed SEO task board: indexing protection, AI crawler visibility, hub upgrades, semantic-depth work, recognition tracking, original data assets, FAQ strategy, and promotion quality.
 - Run `npm run marketing:orchestrate` when the user asks what marketing, SEO, internal-link, or promotion work should happen next. It is read-only and must not publish, edit live posts, send emails, run ads, or mark work complete.
 - Prefer `npm run aft -- status` and `npm run aft -- marketing` for quick daily orientation before digging through large reports. Use `docs/agent-cli.md` for the full internal CLI command list.
 - In `npm run aft -- status`, treat `DataForSEO: live ...` as fresh proof and `DataForSEO: cached ...` as fallback-only evidence from saved reports.

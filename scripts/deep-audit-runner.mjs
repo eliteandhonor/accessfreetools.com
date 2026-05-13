@@ -247,11 +247,23 @@ async function main() {
       hard: true,
     }),
   );
+  steps.push(
+    await runNodeScript('indexing-protection-audit', 'scripts/indexing-protection-audit.mjs', [
+      `--output-dir=${join(outputDir, 'indexing-protection')}`,
+    ], { hard: true }),
+  );
+  steps.push(
+    await runNodeScript('ai-crawler-visibility-audit', 'scripts/ai-crawler-visibility-audit.mjs', [
+      `--output-dir=${join(outputDir, 'ai-crawler-visibility')}`,
+    ], { hard: true }),
+  );
 
   const reports = {
     account: readJsonIfExists(join(outputDir, 'dataforseo-account.json')),
     onPage: readJsonIfExists(join(outputDir, 'dataforseo-onpage', 'summary.json')),
     local: readJsonIfExists(join(outputDir, 'local', 'local-audit.json')),
+    indexingProtection: readJsonIfExists(join(outputDir, 'indexing-protection', 'summary.json')),
+    aiCrawlerVisibility: readJsonIfExists(join(outputDir, 'ai-crawler-visibility', 'summary.json')),
     searchConsole: readJsonIfExists(join(outputDir, 'search-console-url-inspection.json')),
   };
   const failedHard = steps.filter((step) => step.hard && step.code !== 0);
@@ -343,6 +355,26 @@ function renderMarkdown(summary) {
     }
   } else {
     lines.push('- Local audit report was not available.');
+  }
+
+  lines.push('', '## Indexing Protection', '');
+
+  if (summary.reports.indexingProtection) {
+    lines.push(`- High-severity local issues: ${summary.reports.indexingProtection.totals?.highIssues ?? 'unknown'}`);
+    lines.push(`- Search Console gaps: ${summary.reports.indexingProtection.totals?.searchConsoleGaps ?? 'unknown'}`);
+    lines.push(`- CrawlScout non-indexed/submitted sample: ${summary.reports.indexingProtection.totals?.crawlScoutNonIndexedSample ?? 'unknown'}`);
+  } else {
+    lines.push('- Indexing protection report was not available.');
+  }
+
+  lines.push('', '## AI Crawler Visibility', '');
+
+  if (summary.reports.aiCrawlerVisibility) {
+    lines.push(`- Priority pages checked: ${summary.reports.aiCrawlerVisibility.totals?.pages ?? 'unknown'}`);
+    lines.push(`- Review pages: ${summary.reports.aiCrawlerVisibility.totals?.review ?? 'unknown'}`);
+    lines.push(`- Watch pages: ${summary.reports.aiCrawlerVisibility.totals?.watch ?? 'unknown'}`);
+  } else {
+    lines.push('- AI crawler visibility report was not available.');
   }
 
   lines.push('', '## Search Console', '');

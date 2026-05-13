@@ -344,8 +344,8 @@ const sourceLinks = {
     label: 'Ethan Allen: Wallpaper repeat and match glossary',
   },
   grahamBrownWallpaper: {
-    href: 'https://support.grahambrown.com/hc/en-us/articles/207134025-How-do-I-know-how-much-wallpaper-I-need',
-    label: 'Graham & Brown: How much wallpaper do I need?',
+    href: 'https://www.ethanallen.com/on/demandware.static/-/Sites-main/default/dw86adbffa/pdfs/wallcovering_how_to%20measure_guide.pdf',
+    label: 'Ethan Allen: Wallpaper measuring and pattern repeat guide',
   },
   ethanAllenWallpaperGuide: {
     href: 'https://www.ethanallen.ca/on/demandware.static/-/Library-Sites-ethanallen-shared/default/dw121d97c4/pdf/buying-guides/wallpaper_buying_guide.pdf',

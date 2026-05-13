@@ -1,6 +1,6 @@
 # Access Free Tools Agent CLI
 
-Last updated: 2026-05-10
+Last updated: 2026-05-13
 
 `npm run aft -- ...` is the internal command surface for Codex agents working on Access Free Tools. It keeps daily orientation short, repeatable, and proof-based without replacing the existing scripts.
 
@@ -23,6 +23,12 @@ The CLI is for agent support only. It must not publish posts, edit live social c
 
 - `npm run aft -- indexing-gaps`
   - Reads Search Console and SEO snapshots in `output/` and lists URLs that are unknown, discovered, crawled but not indexed, or otherwise not passing.
+
+- `npm run aft -- indexing-protection`
+  - Runs the local indexing protection audit and summarizes soft-404 risk, sitemap coverage, canonical/indexability issues, legacy redirect proof, Search Console gaps, and CrawlScout signals.
+
+- `npm run aft -- ai-crawler`
+  - Runs the local built-HTML AI crawler visibility audit for priority pages and confirms important content, links, trust wording, and AI privacy/model-limit notes are visible without client JavaScript.
 
 - `npm run aft -- usage-summary`
   - Reads the local first-party analytics event log and summarizes visitors, page views, tool-use actions, top tools, and top pages. Use `--days <number>` for a different range.
@@ -59,11 +65,15 @@ The CLI can summarize proof, but it cannot create proof by itself. Public promot
 1. Start with `npm run aft -- status`.
 2. Run `npm run aft -- marketing` when choosing SEO, internal-link, content, or promotion work.
 3. Run `npm run aft -- hostinger` before Hostinger, DNS, deployment, or hosting-environment claims.
-4. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
-5. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
-6. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
-7. Use `npm run aft -- content-score <file>` before Medium, DEV Community, Quora, Reddit, or longer promotion copy goes public.
-8. Use `npm run aft -- proof-check` before changing promotion queue statuses.
+4. Run `npm run aft -- indexing-protection` after Search Engine Land-style indexing, soft-404, or discovery work.
+5. Run `npm run aft -- ai-crawler` after hub, tool-page, or AI-search visibility work.
+6. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
+7. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
+8. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
+9. Use `npm run aft -- content-score <file>` before Medium, DEV Community, Quora, Reddit, or longer promotion copy goes public.
+10. Use `npm run aft -- proof-check` before changing promotion queue statuses.
+
+For a quick no-paid proof refresh after local SEO/audit work, use `npm run audit:deep:no-paid:fast`. It skips Search Console OAuth, the full `npm run check`, and Playwright smoke while still refreshing the local audit, IndexNow, external-link report, indexing protection report, and AI crawler visibility report.
 
 ## V1 Choice
 
