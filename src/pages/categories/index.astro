@@ -38,6 +38,28 @@ const priorityCategorySlugs = [
 const priorityCategories = priorityCategorySlugs
   .map((slug) => categoryStats.find((category) => category.slug === slug))
   .filter((category): category is NonNullable<typeof category> => Boolean(category));
+const contextHeavyPaths = [
+  {
+    href: '/tools/watts-to-amps-calculator/',
+    title: 'Watts to Amps Calculator',
+    text: 'Use watts, volts, phase type, and power factor to estimate current, with clear electrical safety limits.',
+  },
+  {
+    href: '/blog/how-to-use-watts-to-amps-calculator/',
+    title: 'Watts to amps guide',
+    text: 'Read why voltage and phase can change the amps result before using the number around real equipment.',
+  },
+  {
+    href: '/tools/wallpaper-calculator/',
+    title: 'Wallpaper Calculator',
+    text: 'Estimate wallpaper rolls from wall size, openings, roll coverage, pattern repeat, and waste percent.',
+  },
+  {
+    href: '/blog/how-to-use-wallpaper-calculator/',
+    title: 'Wallpaper calculator guide',
+    text: 'Learn what waste percent, roll coverage, pattern repeat, and dye lots mean before buying rolls.',
+  },
+];
 ---
 
 <BaseLayout
@@ -103,6 +125,24 @@ const priorityCategories = priorityCategorySlugs
     </div>
     <div class="category-grid">
       {liveCategories.map((category) => <CategoryCard category={category} />)}
+    </div>
+  </section>
+
+  <section class="section-band">
+    <div class="section-heading">
+      <h2>Guides where context matters</h2>
+      <p>
+        Some tools need extra explanation because the wrong input can change the result a lot.
+        Start with the tool, then read the guide before using the number for a project or safety-related decision.
+      </p>
+    </div>
+    <div class="category-link-list">
+      {contextHeavyPaths.map((item) => (
+        <a href={item.href}>
+          <strong>{item.title}</strong>
+          <span>{item.text}</span>
+        </a>
+      ))}
     </div>
   </section>
 

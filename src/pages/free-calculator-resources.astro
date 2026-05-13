@@ -60,6 +60,13 @@ const resourceSections = [
       'roofing-calculator',
       'rebar-calculator',
     ],
+    guides: [
+      {
+        href: '/blog/how-to-use-wallpaper-calculator/',
+        title: 'Wallpaper guide',
+        text: 'Waste percent, pattern repeat, roll coverage, openings, and dye lot checks before buying rolls.',
+      },
+    ],
   },
   {
     title: 'For power, wiring, and electrical estimates',
@@ -71,6 +78,13 @@ const resourceSections = [
       'ohms-law-calculator',
       'voltage-drop-calculator',
       'electricity-calculator',
+    ],
+    guides: [
+      {
+        href: '/blog/how-to-use-watts-to-amps-calculator/',
+        title: 'Watts to amps guide',
+        text: 'Voltage, phase type, current, and why the estimate is not electrical approval.',
+      },
     ],
   },
   {
@@ -87,6 +101,7 @@ const resourceSections = [
   },
 ].map((section) => ({
   ...section,
+  guides: section.guides ?? [],
   tools: section.slugs.map(findTool).filter((tool): tool is NonNullable<typeof tool> => Boolean(tool)),
 }));
 
@@ -173,6 +188,12 @@ const listedTools = resourceSections.flatMap((section) => section.tools);
             <a href={`/tools/${tool.slug}/`}>
               <strong>{tool.name}</strong>
               <span>{tool.summary}</span>
+            </a>
+          ))}
+          {section.guides.map((guide) => (
+            <a href={guide.href}>
+              <strong>{guide.title}</strong>
+              <span>{guide.text}</span>
             </a>
           ))}
         </div>
