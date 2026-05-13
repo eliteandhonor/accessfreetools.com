@@ -34,10 +34,12 @@ const bannedPhrases = [
 const agentFacingPhrases = [
   'agent should',
   'this draft should',
+  'what to check before posting',
   'quality gate',
   'reader-facing',
   'promotion agent',
   'seo agent',
+  'verify the public dev url',
 ];
 
 function parseArgs() {

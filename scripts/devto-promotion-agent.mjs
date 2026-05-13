@@ -26,6 +26,7 @@ const targets = [
       'The first thing to check is the header. A table with headers `Tool` and `Use` needs the separator row `| --- | --- |`. That row tells Markdown where the header ends and the body begins. Without it, many renderers will not treat the text as a table at all.',
       'The second check is row width. If one row has an extra pipe at the end, some renderers ignore it, while others make the table look uneven. A generator helps because it builds the rows from the same structure instead of guessing from spaces.',
       'The third check is copy safety. If you are moving a table from a spreadsheet, notes app, or chat output, invisible spacing can sneak in. Paste the data into the generator, preview it, then copy the Markdown once it is stable.',
+      'I also like checking the table in the place where it will actually live. GitHub, a documentation site, and a note app can render small Markdown details a little differently. After copying the table, preview the README or issue before you send it. That extra 10 seconds catches the row that looked fine in your editor but wrapped strangely on the real page.',
       'This is not about making docs fancy. It is about removing small friction. A clean table helps someone compare options without reading a wall of text. That matters in READMEs, classroom notes, project specs, and support replies.',
       'The full guide walks through the same tool with a clearer example and common mistakes: https://accessfreetools.com/blog/how-to-use-markdown-table-generator/',
       'Disclosure: I work on Access Free Tools. The link is to our free browser tool, and the point here is the method, not pretending one formatter can fix bad source data automatically.',
@@ -99,6 +100,7 @@ const targets = [
       'The first thing to check is duplicate context. If the same instructions appear three times, remove the repeats. Models do not need the same rule shouted over and over. Clear instructions usually beat long instructions.',
       'The second thing to check is source material. Paste only the parts that matter. If you want a meta description, the model probably needs the title, the page topic, and the important facts, not the entire website export.',
       'The third thing to check is output length. A short answer costs less than a long answer. If you only need 5 bullet points, say that. If you need a full article, expect a larger output token count.',
+      'The useful habit is to estimate before sending the prompt. If the prompt is already huge, split the job. Ask for a summary of one section first, then use that smaller summary in the next step. That can make the answer easier to control because the model is not trying to juggle every detail at once.',
       'A token estimator is still an estimate. Different models tokenize text differently, and final billing depends on the actual provider, model, input, output, cached tokens, and pricing rules. The estimate is best for planning, not accounting.',
       'The full guide walks through the tool and explains how to read the result: https://accessfreetools.com/blog/how-to-use-prompt-token-estimator/',
       'Disclosure: I work on Access Free Tools. Do not paste private keys, client secrets, private customer data, or sensitive internal documents into token tools unless you know exactly where the text goes.',
@@ -166,14 +168,11 @@ function makeDraft(target, published = false) {
 # ${target.title}
 
 ${target.body.join('\n\n')}
-
-## What to check before posting this on DEV
-
-- Keep the Access Free Tools ownership disclosure.
-- Use the canonical URL so the original guide stays the main source.
-- Keep this to developer, AI, documentation, or browser productivity topics.
-- Verify the public DEV URL before marking it posted.
 `;
+}
+
+function publicBodyMarkdown(target) {
+  return target.body.join('\n\n');
 }
 
 function apiPayload(target, published) {
@@ -181,7 +180,7 @@ function apiPayload(target, published) {
     article: {
       title: target.title,
       published,
-      body_markdown: makeDraft(target, published),
+      body_markdown: publicBodyMarkdown(target),
       tags: target.tags,
       canonical_url: target.canonicalUrl,
       main_image: target.coverImage,

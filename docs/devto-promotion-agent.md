@@ -31,6 +31,15 @@ DEVTO_API_KEY=your-dev-api-key
 
 Never commit the API key. `.local/` is ignored by Git.
 
+## Current Account Status
+
+On 2026-05-13, external Chrome completed onboarding for the user-created
+`@accessfreetools` account, saved the profile basics, and confirmed the email
+link was already accepted. The article editor at `/new` then returned
+`Forbidden` with the message that the account is suspended and has limited
+access. Do not publish, comment, or keep retrying DEV until DEV support restores
+the account or the user approves a clean replacement account path.
+
 ## Agent Commands
 
 Draft and score:
