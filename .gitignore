@@ -4,6 +4,7 @@ dist
 .env
 .env.*
 .local
+Host API/
 .analytics
 public/.analytics
 npm-debug.log*

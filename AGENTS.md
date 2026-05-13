@@ -12,6 +12,7 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 - Automation agents should also use `npm run aft -- indexing-gaps` and `npm run aft -- proof-check` before making indexing or promotion-proof claims.
 - Use `npm run aft -- usage-summary` when deciding which tools need better internal links, guide improvements, or promotion based on actual anonymous tool-use data. Use `npm run aft -- site-sitemap` after sitemap or discovery changes.
 - Use `docs/analytics-dashboard.md` before changing first-party analytics, dashboard access, owner opt-out behavior, or Hostinger analytics setup notes.
+- Use `docs/hostinger-api-agent-guide.md` before changing Hostinger API, MCP, deployment, DNS, or hosting automation. Start with `npm run hostinger:status` or `npm run aft -- hostinger`; DNS, billing, domain, VPS, Docker, and deployment writes require explicit approval.
 - Run `npm run automation:env-check` before reporting automation environment failures. Use `output/automation-environment.md` to distinguish a real account/site issue from stale memory or a temporary automation network/OAuth problem.
 - Never let automation output become reader-facing copy. Public content should follow the brand code and should not include internal instructions such as "this Medium post should" or "agent should".
 

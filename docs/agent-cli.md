@@ -15,6 +15,9 @@ The CLI is for agent support only. It must not publish posts, edit live social c
 - `npm run aft -- marketing`
   - Runs the existing read-only marketing orchestrator and summarizes its 1 to 3 recommended actions.
 
+- `npm run aft -- hostinger`
+  - Runs the read-only Hostinger status command and summarizes websites, orders, domains, and any API blockers. Use this before claiming Hostinger or deployment access is broken.
+
 - `npm run aft -- promote-next`
   - Reads `docs/promotion-queue.md` and shows safe promotion candidates plus rows that still need public proof.
 
@@ -55,11 +58,12 @@ The CLI can summarize proof, but it cannot create proof by itself. Public promot
 
 1. Start with `npm run aft -- status`.
 2. Run `npm run aft -- marketing` when choosing SEO, internal-link, content, or promotion work.
-3. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
-4. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
-5. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
-6. Use `npm run aft -- content-score <file>` before Medium, Quora, Reddit, or longer promotion copy goes public.
-7. Use `npm run aft -- proof-check` before changing promotion queue statuses.
+3. Run `npm run aft -- hostinger` before Hostinger, DNS, deployment, or hosting-environment claims.
+4. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
+5. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
+6. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
+7. Use `npm run aft -- content-score <file>` before Medium, Quora, Reddit, or longer promotion copy goes public.
+8. Use `npm run aft -- proof-check` before changing promotion queue statuses.
 
 ## V1 Choice
 

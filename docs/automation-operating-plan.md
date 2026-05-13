@@ -34,6 +34,7 @@ Use these rules when creating or editing agents:
 - Load `docs/brand-code.md` before drafting public copy, social posts, blog guides, or promotional articles.
 - Use `docs/marketing-orchestrator.md` and `npm run marketing:orchestrate` for the daily priority decision. The orchestrator decides what should happen next; platform agents decide how to draft for their platform.
 - Start active automations with `npm run automation:env-check` and `npm run aft -- status`, then read `output/automation-environment.md` before reporting service failures. If that report says DataForSEO is healthy, do not repeat stale `fetch failed` claims from older memory files. If Search Console needs OAuth, use the latest saved Search Console exports and ask Brendan for a manual OAuth refresh only when fresh Search Console data is truly required.
+- For Hostinger hosting/API checks, read `docs/hostinger-api-agent-guide.md` and run `npm run aft -- hostinger` or `npm run hostinger:status`. Treat Hostinger API writes as approval-only, especially DNS, billing, domain, VPS, Docker, and deployment actions.
 - Use the internal CLI for focused proof before manual digging: `npm run aft -- marketing`, `npm run aft -- indexing-gaps`, and `npm run aft -- proof-check` give the daily priority, Search Console gap list, and promotion proof state in agent-safe form.
 - In `npm run aft -- status`, a `DataForSEO: live ...` balance is fresh proof. A `DataForSEO: cached ...; live check note: ...` balance is only a fallback from saved reports and should be described as a temporary API/network issue, not a top-up or billing problem.
 - Give each automation one clear owner lane: daily overview, weekly QA, monthly paid crawl, weekly promotion queue, or platform specialist.
@@ -77,6 +78,7 @@ Use these commands when running the same checks manually:
 
 ```bash
 npm run automation:chrome-check
+npm run hostinger:status
 npm run seo:daily
 npm run search-console:submit-discovery
 npm run search-console:inspect-key-urls

@@ -108,7 +108,7 @@ test.describe('site smoke coverage', () => {
     expect(searchIndexRequests).toHaveLength(0);
 
     await page.getByLabel('Search tools').fill('watts to amps');
-    await expect(page.locator('a[href="/tools/watts-to-amps-calculator/"]')).toBeVisible();
+    await expect(page.locator('a.launchpad-tool-card[href="/tools/watts-to-amps-calculator/"]')).toBeVisible();
     expect(searchIndexRequests.length).toBeGreaterThan(0);
   });
 

@@ -1,6 +1,6 @@
 # Google Search Central Notes
 
-Last reviewed: 2026-05-10
+Last reviewed: 2026-05-13
 
 These notes are the current SEO baseline for Access Free Tools. Use them before
 changing indexing, redirect, sitemap, content-quality, or promotion logic.
@@ -88,3 +88,20 @@ watching `/tools/`, `/blog/`, `/tools/age-calculator/`, `/tools/watts-to-amps-ca
 The wallpaper guide has at least moved to "Crawled - currently not indexed,"
 which means Google fetched it successfully but has not selected it for the index
 yet.
+
+## 2026-05-13 Fresh Inspection Notes
+
+The daily SEO run completed with DataForSEO, Search Console, and IndexNow key
+verification working from the browser-enabled environment. Search Console now
+shows `/tools/`, `/blog/`, and `/tools/age-calculator/` as submitted and
+indexed, which confirms the earlier discovery problem is improving.
+
+Two priority tool pages remain unknown to Google:
+
+- `/tools/watts-to-amps-calculator/`
+- `/tools/wallpaper-calculator/`
+
+Their matching guides are indexed. Keep the tool pages in sitemap coverage,
+link them from indexed hubs and related guides, and avoid creating duplicate
+thin pages. The tools hub and free calculator resources page now include
+stronger contextual links to those pages.

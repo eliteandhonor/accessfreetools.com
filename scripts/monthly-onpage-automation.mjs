@@ -127,12 +127,15 @@ const maxCrawlPages = Number(optionFromArgsOrNpm(args, '--max-crawl-pages', DEFA
 const dryRun = flagFromArgsOrNpm(args, '--dry-run');
 const noWait = flagFromArgsOrNpm(args, '--no-wait');
 const skipWaterfall = flagFromArgsOrNpm(args, '--skip-waterfall');
+const force = flagFromArgsOrNpm(args, '--force');
 
 mkdirSync(outputDir, { recursive: true });
 
 const accountPath = join(outputDir, 'dataforseo-account.json');
 const statusPath = join(outputDir, 'dataforseo-status.json');
 const onPageDir = join(outputDir, 'onpage');
+const onPageTaskPostPath = join(onPageDir, 'task-post.json');
+const onPageSummaryPath = join(onPageDir, 'summary.json');
 const summaryPath = join(outputDir, 'automation-summary.json');
 const summaryMarkdownPath = join(outputDir, 'automation-summary.md');
 
@@ -214,17 +217,39 @@ if (dryRun) {
   );
 }
 
+const existingOnPageSummary = readJson(onPageSummaryPath);
+if (existingOnPageSummary && !force) {
+  report = {
+    ...report,
+    onPage: {
+      summaryPath: onPageSummaryPath,
+      markdownPath: join(onPageDir, 'summary.md'),
+      summary: existingOnPageSummary,
+    },
+    evidence: [...evidence, onPageSummaryPath, join(onPageDir, 'summary.md')],
+  };
+  finish(
+    'completed-existing',
+    `Existing monthly OnPage summary found with ${existingOnPageSummary.pagesCrawled ?? 'unknown'} pages crawled. No new paid crawl was started.`,
+    'Review the existing monthly OnPage summary and use --force only when a fresh paid crawl is intentionally required.',
+    0,
+  );
+}
+
+const existingTaskPost = readJson(onPageTaskPostPath);
 const onPageArgs = [
   `--output-dir=${onPageDir}`,
   `--max-crawl-pages=${maxCrawlPages}`,
   `--min-balance=${minBalance}`,
   `--warn-balance=${warnBalance}`,
 ];
+if (existingTaskPost?.taskId && !force) {
+  onPageArgs.push(`--resume-task-id=${existingTaskPost.taskId}`);
+}
 if (noWait) onPageArgs.push('--no-wait');
 if (skipWaterfall) onPageArgs.push('--skip-waterfall');
 
 runs.push(runNode('DataForSEO OnPage audit', 'scripts/seo-onpage-audit.mjs', onPageArgs));
-const onPageSummaryPath = join(onPageDir, 'summary.json');
 const onPageSummary = readJson(onPageSummaryPath);
 report = {
   ...report,

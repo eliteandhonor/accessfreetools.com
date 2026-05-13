@@ -15,6 +15,7 @@ const evidencePaths = {
   searchConsole: 'output/search-console-url-inspection.json',
   dataForSeoAccount: 'output/dataforseo-account.json',
   dataForSeoStatus: 'output/dataforseo-status.json',
+  hostingerStatus: 'output/hostinger/status.json',
   mediumQuality: 'output/promotion/medium-quality-report.json',
   redditQuality: 'output/promotion/reddit-quality-report.json',
   blueskyQuality: 'output/promotion/bluesky/bluesky-quality-report.json',
@@ -187,6 +188,27 @@ function getDataForSeoBalance() {
     currency: account.currency ?? 'USD',
     topUp: account.balance <= 2,
     warning: account.balance <= 10,
+  };
+}
+
+function getHostingerStatus() {
+  const report = readJson(evidencePaths.hostingerStatus);
+  if (!report) return null;
+  if (report.parseError) return { status: 'parse-error', generatedAt: '', okChecks: [], blockedChecks: [] };
+
+  const checks = report.checks ?? {};
+  const okChecks = Object.entries(checks)
+    .filter(([, value]) => value?.ok)
+    .map(([label, value]) => ({ label, count: Number(value.count ?? 0) }));
+  const blockedChecks = Object.entries(checks)
+    .filter(([, value]) => !value?.ok)
+    .map(([label, value]) => ({ label, message: value.message ?? 'blocked' }));
+
+  return {
+    status: report.status ?? 'unknown',
+    generatedAt: report.generatedAt ?? '',
+    okChecks,
+    blockedChecks,
   };
 }
 
@@ -392,15 +414,24 @@ function findToolSource(slug) {
     if (!match) continue;
 
     const block = extractObjectBlock(text, match.index);
+    const name = extractProperty(block, 'name');
+    const description = extractProperty(block, 'description');
+    const isUtilityFactoryBlock =
+      block.includes('makeUtilityTool({') || text.slice(Math.max(0, match.index - 120), match.index).includes('makeUtilityTool');
+    const titleType = name.endsWith('Generator')
+      ? 'Free Online Generator'
+      : name.endsWith('Calculator')
+        ? 'Free Online Calculator'
+        : 'Free Online Tool';
     return {
       file: relative(root, file).replace(/\\/g, '/'),
       block,
       slug,
-      name: extractProperty(block, 'name'),
+      name,
       category: extractProperty(block, 'category'),
-      seoTitle: extractProperty(block, 'seoTitle'),
-      seoDescription: extractProperty(block, 'seoDescription'),
-      faqCount: countProperty(block, 'question'),
+      seoTitle: extractProperty(block, 'seoTitle') || (isUtilityFactoryBlock && name ? `${name} | ${titleType}` : ''),
+      seoDescription: extractProperty(block, 'seoDescription') || (isUtilityFactoryBlock ? description : ''),
+      faqCount: countProperty(block, 'question') + (isUtilityFactoryBlock ? 5 : 0),
       exampleCount: countProperty(block, 'label'),
       relatedSlugs: extractRelatedSlugs(block),
     };
@@ -544,6 +575,7 @@ function statusCommand(command) {
   const qualityReports = platformQualityReports();
   const indexingGaps = getIndexingGaps();
   const balance = getDataForSeoBalance();
+  const hostinger = getHostingerStatus();
   const marketingPlan = readJson(evidencePaths.marketingPlan);
 
   const payload = {
@@ -552,6 +584,7 @@ function statusCommand(command) {
     agentCliDocPresent: Boolean(readText(evidencePaths.agentCli)),
     marketingPlanGeneratedAt: marketingPlan?.generatedAt ?? '',
     dataForSeoBalance: balance,
+    hostinger,
     promotionQueue: {
       rows: queueRows.length,
       approved: queueRows.filter((row) => row.status === 'approved').length,
@@ -573,6 +606,9 @@ function statusCommand(command) {
           balance.warning ? ' (watch)' : ''
         }${balance.generatedAt ? ` from ${balance.generatedAt}` : ''}${balance.liveError ? `; live check note: ${balance.liveError}` : ''}`
       : '- DataForSEO: not found',
+    hostinger
+      ? `- Hostinger: ${hostinger.status}${hostinger.generatedAt ? ` from ${hostinger.generatedAt}` : ''}`
+      : '- Hostinger: not checked',
     `- Promotion queue: ${payload.promotionQueue.rows} rows, ${payload.promotionQueue.approved} approved, ${payload.promotionQueue.rssConnected} RSS-connected, ${payload.promotionQueue.unverified} unverified`,
     `- Indexing gaps: ${payload.indexingGaps}`,
     `- Quality: ${qualityReports.map(formatQuality).join('; ')}`,
@@ -596,6 +632,28 @@ function marketingCommand(command) {
     `- Blockers: ${blockers.length ? blockers.join(' | ') : 'none'}`,
     '- Next actions:',
     ...recommendations.slice(0, 3).map((item, index) => `  ${index + 1}. [${item.priority}] ${item.title} - ${item.action}`),
+  ]);
+
+  if (run.status !== 0) process.exitCode = run.status;
+}
+
+function hostingerCommand(command) {
+  const run = runNodeScript('scripts/hostinger-status.mjs');
+  const report = readJson(evidencePaths.hostingerStatus);
+  const hostinger = getHostingerStatus();
+  const payload = { run, report, hostinger };
+
+  emit(command, payload, [
+    'Hostinger hosting status',
+    `- Refresh: ${run.status === 0 ? 'ok' : `attention (${run.status})`}`,
+    `- Generated: ${report?.generatedAt ?? 'not found'}`,
+    hostinger
+      ? `- Checks: ${hostinger.okChecks.map((check) => `${check.label} ${check.count}`).join('; ') || 'none ok'}`
+      : '- Checks: not found',
+    hostinger?.blockedChecks?.length
+      ? `- Blocked: ${hostinger.blockedChecks.map((check) => `${check.label}: ${check.message}`).join('; ')}`
+      : '- Blocked: none',
+    '- Safety: read-only status only; DNS, billing, VPS, and deployment writes still need explicit approval.',
   ]);
 
   if (run.status !== 0) process.exitCode = run.status;
@@ -873,6 +931,8 @@ program
   .version('0.1.0');
 
 program.command('status').description('Summarize repo, SEO, promotion, and quality report status.').option('--json', 'Output JSON.').action(statusCommand);
+
+program.command('hostinger').description('Refresh and summarize read-only Hostinger hosting/API status.').option('--json', 'Output JSON.').action(hostingerCommand);
 
 program.command('marketing').description('Refresh and summarize the marketing orchestrator report.').option('--json', 'Output JSON.').action(marketingCommand);
 
