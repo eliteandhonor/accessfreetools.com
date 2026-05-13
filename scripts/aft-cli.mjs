@@ -20,6 +20,7 @@ const evidencePaths = {
   redditQuality: 'output/promotion/reddit-quality-report.json',
   blueskyQuality: 'output/promotion/bluesky/bluesky-quality-report.json',
   quoraQuality: 'output/promotion/quora-quality-report.json',
+  devtoQuality: 'output/promotion/devto/devto-quality-report.json',
   pinterestRss: 'output/promotion/pinterest-rss-report.json',
 };
 
@@ -190,6 +191,7 @@ function platformQualityReports() {
     qualitySummary(readJson(evidencePaths.redditQuality), 'Reddit'),
     qualitySummary(readJson(evidencePaths.blueskyQuality), 'Bluesky'),
     qualitySummary(readJson(evidencePaths.quoraQuality), 'Quora'),
+    qualitySummary(readJson(evidencePaths.devtoQuality), 'DEV Community'),
   ];
 }
 

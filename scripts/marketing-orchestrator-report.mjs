@@ -18,6 +18,7 @@ const evidencePaths = {
   redditQuality: 'output/promotion/reddit-quality-report.json',
   blueskyQuality: 'output/promotion/bluesky/bluesky-quality-report.json',
   quoraQuality: 'output/promotion/quora-quality-report.json',
+  devtoQuality: 'output/promotion/devto/devto-quality-report.json',
 };
 
 function readText(relativePath) {
@@ -370,6 +371,7 @@ const mediumQuality = readJson(evidencePaths.mediumQuality);
 const redditQuality = readJson(evidencePaths.redditQuality);
 const blueskyQuality = readJson(evidencePaths.blueskyQuality);
 const quoraQuality = readJson(evidencePaths.quoraQuality);
+const devtoQuality = readJson(evidencePaths.devtoQuality);
 
 const activeAutomations = parseActiveAutomationRows(automationPlan);
 const queueRows = parseQueueRows(promotionQueue);
@@ -378,6 +380,7 @@ const qualityReports = [
   qualitySummary(redditQuality, 'Reddit'),
   qualitySummary(blueskyQuality, 'Bluesky'),
   qualitySummary(quoraQuality, 'Quora'),
+  qualitySummary(devtoQuality, 'DEV Community'),
 ];
 const indexingGaps = neutralIndexingItems(seoEvaluation, searchConsoleInspection);
 const balance = dataForSeoBalance(dataForSeoAccount, seoEvaluation);
@@ -407,6 +410,7 @@ const evidence = [
   asEvidence('redditQuality', evidencePaths.redditQuality, redditQuality),
   asEvidence('blueskyQuality', evidencePaths.blueskyQuality, blueskyQuality),
   asEvidence('quoraQuality', evidencePaths.quoraQuality, quoraQuality),
+  asEvidence('devtoQuality', evidencePaths.devtoQuality, devtoQuality),
 ];
 
 const wins = [];

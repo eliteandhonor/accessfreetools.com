@@ -9,7 +9,7 @@ The CLI is for agent support only. It must not publish posts, edit live social c
 ## Commands
 
 - `npm run aft -- status`
-  - Summarizes brand-code presence, marketing report age, DataForSEO live-or-cached balance, promotion queue counts, indexing gaps, and platform quality reports.
+  - Summarizes brand-code presence, marketing report age, DataForSEO live-or-cached balance, promotion queue counts, indexing gaps, and platform quality reports, including DEV Community when its report exists.
   - Treat `DataForSEO: live ...` as fresh proof. Treat `DataForSEO: cached ...; live check note: ...` as a temporary API/network warning, not a low-balance proof.
 
 - `npm run aft -- marketing`
@@ -62,7 +62,7 @@ The CLI can summarize proof, but it cannot create proof by itself. Public promot
 4. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
 5. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
 6. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
-7. Use `npm run aft -- content-score <file>` before Medium, Quora, Reddit, or longer promotion copy goes public.
+7. Use `npm run aft -- content-score <file>` before Medium, DEV Community, Quora, Reddit, or longer promotion copy goes public.
 8. Use `npm run aft -- proof-check` before changing promotion queue statuses.
 
 ## V1 Choice

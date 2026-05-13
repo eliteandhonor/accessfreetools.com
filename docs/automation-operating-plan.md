@@ -8,10 +8,10 @@ This file records the Codex automation jobs that keep Access Free Tools checked 
 
 | Automation | Cadence | Purpose | Safe limits |
 | --- | --- | --- | --- |
-| Access Free Tools Marketing Orchestrator | Daily at 10:00 | Owns the daily SEO/promotion overview and deduped next-action plan: DataForSEO status only when needed, Search Console key URLs, sitemap/feed/robots health, IndexNow, Pinterest RSS, Medium, Reddit, Bluesky, and Quora queue status. | Report-only by default. No passwords, no ads, no public-post completion claims without public URL/profile proof. Report DataForSEO balance only when it is below warning/stop/top-up thresholds or when an API error affects the task. |
+| Access Free Tools Marketing Orchestrator | Daily at 10:00 | Owns the daily SEO/promotion overview and deduped next-action plan: DataForSEO status only when needed, Search Console key URLs, sitemap/feed/robots health, IndexNow, Pinterest RSS, Medium, DEV Community, Reddit, Bluesky, and Quora queue status. | Report-only by default. No passwords, no ads, no public-post completion claims without public URL/profile proof. Report DataForSEO balance only when it is below warning/stop/top-up thresholds or when an API error affects the task. |
 | AFT Weekly QA Audit | Weekly on Monday | Runs local QA gates, smoke tests, external-link checks, and a deep audit without paid crawl. | Reports fixes; does not push automatically from the scheduled run. |
 | AFT Monthly OnPage Crawl | Monthly on day 1 | Runs a paid DataForSEO OnPage crawl when balance is safely above the warning threshold. | Skips paid crawl at or below 10 USD; never uses Backlinks API. |
-| AFT Weekly Promotion Draft Review | Weekly on Wednesday at 10:00 | Refreshes Pinterest assets, Pinterest RSS reports, Medium drafts, Reddit drafts, Bluesky drafts, Quora drafts, writing-quality scores, and promotion/internal-link opportunities. | No paid ads, outreach emails, password storage, or duplicate platform reports; RSS feeds exclude already-posted pins; Reddit and Quora drafts must stay disclosed and answer-first. |
+| AFT Weekly Promotion Draft Review | Weekly on Wednesday at 10:00 | Refreshes Pinterest assets, Pinterest RSS reports, Medium drafts, DEV Community drafts, Reddit drafts, Bluesky drafts, Quora drafts, writing-quality scores, and promotion/internal-link opportunities. | No paid ads, outreach emails, password storage, or duplicate platform reports; RSS feeds exclude already-posted pins; DEV, Reddit, and Quora drafts must stay disclosed and answer-first. |
 | Medium Promotion Agent | Weekly on Wednesday at 10:00 | Specialist quality pass for Medium draft/image/article readiness. | Do not repeat the full daily SEO report. Mention DataForSEO only if a keyword check changes the recommendation or a warning/error blocks publishing. |
 | Pinterest Promotion Agent | Tuesday, Thursday, Saturday at 10:00 | Specialist Pinterest board, RSS, image, and Pin-angle recommendations. | Do not repeat Search Console or DataForSEO summaries unless a specific URL or keyword changes the Pin plan. |
 | AFT Reddit Promotion Agent | Weekly on Friday at 10:00 | Runs the Reddit draft agent and quality gate, then recommends safe profile posts or replies. | External-browser account work only; no password storage, subreddit posting, direct messages, or paid ads. |
@@ -130,6 +130,13 @@ Quora automation is draft-first. Run `npm run promotion:quora:quality` before
 using an answer draft, search for an exact matching question, disclose
 ownership when linking, use at most one Access Free Tools link, and never mark
 an answer live without a public Quora answer URL.
+
+DEV Community automation is draft-first until the user creates the account and
+stores `DEVTO_API_KEY` in `.local/devto.env`. Run `npm run
+promotion:devto:quality` before any DEV article is used. DEV is for technical
+topics only: developer tools, browser AI tools, Markdown, JSON, URL, encoding,
+token, API, and workflow helpers. Use canonical URLs pointing back to Access
+Free Tools guides, and never mark a DEV article live without a public DEV URL.
 
 After a public post is approved and published, update `docs/promotion-queue.md` with the live URL, date, channel, and source page.
 

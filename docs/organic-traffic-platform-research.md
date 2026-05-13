@@ -99,3 +99,53 @@ profile before marking posts as posted.
   https://docs.bsky.app/docs/tutorials/creating-a-post
 - Bluesky resolving identities:
   https://docs.bsky.app/docs/advanced-guides/resolving-identities
+
+## 2026-05-13 Update: Next Platform After Bluesky And Quora
+
+The next recommended platform is **DEV Community** for developer, AI, browser,
+Markdown, JSON, encoding, and productivity tools.
+
+Why this moved up:
+
+- DEV's Forem API supports Markdown article creation, tags, descriptions, cover
+  images, authenticated article lists, and canonical URLs.
+- The audience fit is stronger for our developer and browser AI tools than for
+  broad finance, health, or home-project calculator posts.
+- Agent work can stay draft-first, quality-scored, and proof-based. Once the
+  user creates the account and API key, the local agent can publish with a
+  guarded command and then verify the public URL.
+
+Use this platform for:
+
+- Markdown Table Generator.
+- JSON Formatter.
+- Image to Text OCR Tool.
+- Prompt Token Estimator.
+- URL Encode Decode.
+- Base64 Encode Decode.
+
+Do not use it for:
+
+- Mortgage, salary, pregnancy, BMI, tax, BAC, or other YMYL pages.
+- Wallpaper, concrete, flooring, and home-project content unless the article is
+  actually about a developer workflow.
+- Duplicate copies of Medium posts without a canonical URL.
+
+Hashnode remains a later backup because it supports original/canonical links in
+the editor, but DEV is the cleaner v1 agent target because the article API is
+straightforward and already documented for Markdown publishing.
+
+New local commands:
+
+- `npm run promotion:devto`
+- `npm run promotion:devto:quality`
+- `npm run promotion:devto:publish`
+
+Additional sources:
+
+- DEV/Forem API:
+  https://developers.forem.com/api/v0
+- Hashnode canonical link docs:
+  https://docs.hashnode.com/help-center/hashnode-editor/how-to-set-a-canonical-link
+- Google link best practices:
+  https://developers.google.com/search/docs/crawling-indexing/links-crawlable

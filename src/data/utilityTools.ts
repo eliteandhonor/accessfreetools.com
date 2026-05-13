@@ -869,7 +869,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Longer 240 V run', expression: '240 V, 30 A, 100 ft, 8 AWG copper', result: 'Percent drop estimate' },
       { label: 'Three-phase run', expression: '208 V, 20 A, 150 ft, 6 AWG copper', result: 'Load voltage estimate' },
     ],
-    relatedSlugs: ['ohms-law-calculator', 'electricity-calculator', 'resistor-calculator'],
+    relatedSlugs: ['watts-to-amps-calculator', 'ohms-law-calculator', 'electricity-calculator', 'resistor-calculator'],
   }),
   makeUtilityTool({
     slug: 'watts-to-amps-calculator',
@@ -912,7 +912,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Single-phase motor', expression: '2,200 W, 240 V, PF 0.9', result: 'About 10.19 A' },
       { label: 'Three-phase load', expression: '5,000 W, 208 V, PF 0.85', result: 'About 16.34 A' },
     ],
-    relatedSlugs: ['amps-to-watts-calculator', 'ohms-law-calculator', 'electricity-calculator'],
+    relatedSlugs: ['amps-to-watts-calculator', 'voltage-drop-calculator', 'ohms-law-calculator', 'electricity-calculator'],
   }),
   makeUtilityTool({
     slug: 'amps-to-watts-calculator',
@@ -1357,7 +1357,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Current and resistance', expression: '2 A and 6 ohms', result: '12 V and 24 W' },
       { label: 'Voltage and resistance', expression: '9 V and 3 ohms', result: '3 A and 27 W' },
     ],
-    relatedSlugs: ['resistor-calculator', 'voltage-drop-calculator', 'electricity-calculator'],
+    relatedSlugs: ['watts-to-amps-calculator', 'resistor-calculator', 'voltage-drop-calculator', 'electricity-calculator'],
   }),
   makeUtilityTool({
     slug: 'electricity-calculator',
@@ -1395,7 +1395,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'LED bulb', expression: '10 W, 5 h/day, 365 days, $0.16/kWh', result: 'Low yearly estimate' },
       { label: 'Gaming PC', expression: '450 W, 3 h/day, 30 days, $0.18/kWh', result: 'Monthly energy cost' },
     ],
-    relatedSlugs: ['btu-calculator', 'voltage-drop-calculator', 'ohms-law-calculator'],
+    relatedSlugs: ['watts-to-amps-calculator', 'btu-calculator', 'voltage-drop-calculator', 'ohms-law-calculator'],
   }),
   makeUtilityTool({
     slug: 'shoe-size-conversion',
@@ -1696,7 +1696,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Living room', expression: '18 x 14 x 9 ft, 2 doors, 3 windows, 2 coats', result: 'Paintable area and gallons' },
       { label: 'Accent wall planning', expression: '10 x 8 ft wall, 1 coat, 350 ft2/gal', result: 'Low paint estimate' },
     ],
-    relatedSlugs: ['square-footage-calculator', 'drywall-calculator', 'tile-calculator'],
+    relatedSlugs: ['wallpaper-calculator', 'square-footage-calculator', 'drywall-calculator', 'tile-calculator'],
   }),
   makeUtilityTool({
     slug: 'drywall-calculator',
@@ -1727,7 +1727,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Long sheets', expression: '720 ft2, 4 x 12 sheet, 12% waste', result: 'Fewer sheets, larger panels' },
       { label: 'Small repair area', expression: '96 ft2, 4 x 8 sheet, 5% waste', result: 'Repair sheet count' },
     ],
-    relatedSlugs: ['paint-calculator', 'square-footage-calculator', 'cubic-yard-calculator'],
+    relatedSlugs: ['wallpaper-calculator', 'paint-calculator', 'square-footage-calculator', 'cubic-yard-calculator'],
   }),
   makeUtilityTool({
     slug: 'carpet-calculator',
@@ -1789,7 +1789,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Small bedroom', expression: '120 ft2, 8% waste, 22.5 ft2/box', result: 'Box count estimate' },
       { label: 'Whole level', expression: '850 ft2, 12% waste, 20 ft2/box', result: 'Large flooring order' },
     ],
-    relatedSlugs: ['square-footage-calculator', 'carpet-calculator', 'tile-calculator'],
+    relatedSlugs: ['wallpaper-calculator', 'square-footage-calculator', 'carpet-calculator', 'tile-calculator'],
   }),
   makeUtilityTool({
     slug: 'wallpaper-calculator',
@@ -1853,7 +1853,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Small office', expression: '10 x 9 x 8 ft, 48 ft2/roll, 12% waste', result: 'Wallpaper roll estimate' },
       { label: 'Accent room', expression: 'Measured wall area and roll coverage', result: 'Whole rolls to buy' },
     ],
-    relatedSlugs: ['paint-calculator', 'drywall-calculator', 'square-footage-calculator'],
+    relatedSlugs: ['paint-calculator', 'drywall-calculator', 'flooring-calculator', 'square-footage-calculator'],
   }),
   makeUtilityTool({
     slug: 'fence-calculator',

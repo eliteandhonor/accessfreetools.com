@@ -17,7 +17,7 @@ The orchestrator is report-only in v1. It can read reports, rank next actions, a
 
 2. Content
    - Source of truth: `docs/brand-code.md` and `docs/article-writing-agent-standard.md`.
-   - Jobs: improve tool pages, blog guides, Medium articles, Quora answers, Reddit replies, Bluesky posts, and Pinterest copy.
+   - Jobs: improve tool pages, blog guides, Medium articles, DEV Community articles, Quora answers, Reddit replies, Bluesky posts, and Pinterest copy.
    - Standard: practical examples, clear limits, natural internal links, no generic filler.
 
 3. Review And Testing
@@ -26,7 +26,7 @@ The orchestrator is report-only in v1. It can read reports, rank next actions, a
 
 4. Distribution
    - Source of truth: platform-specific agent docs.
-   - Jobs: route work to Pinterest, Medium, Bluesky, Quora, Quora Space, and Reddit.
+   - Jobs: route work to Pinterest, Medium, DEV Community, Bluesky, Quora, Quora Space, and Reddit.
    - Rule: promotion must answer a real question first and disclose ownership when linking.
 
 5. Reporting
@@ -46,6 +46,7 @@ The orchestrator is report-only in v1. It can read reports, rank next actions, a
 | Reddit draft safety | Reddit Promotion Agent | `output/promotion/reddit-quality-report.json` |
 | Bluesky draft safety and API posting proof | Bluesky Promotion Agent | `output/promotion/bluesky/bluesky-quality-report.json` |
 | Quora draft safety | Quora Promotion Agent | `output/promotion/quora-quality-report.json` |
+| DEV Community draft safety | DEV Community Promotion Agent | `output/promotion/devto/devto-quality-report.json` |
 | Public live status | Platform proof only | public URL, public profile/feed view, or screenshot |
 
 Do not recreate a standalone DataForSEO top-up agent while the owner jobs above are active.
