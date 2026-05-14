@@ -151,6 +151,11 @@ author feed were checked. Use `docs/bluesky-promotion-agent.md`, run
 `npm run promotion:bluesky:profile-audit`, and run
 `npm run promotion:bluesky:quality` before future Bluesky batches. Do not mark
 Bluesky posts `posted` unless the public Bluesky profile shows a live post URL.
+On 2026-05-14, the build-in-public Bluesky post for
+`/why-access-free-tools/` was published through the logged-in external Chrome
+session after the API publisher was blocked by missing local Bluesky env vars.
+The public profile showed the post text, mission-page link card, and permalink:
+`https://bsky.app/profile/accessfreetools.bsky.social/post/3mlrrl7pmzk2i`.
 DEV Community is the recommended next technical blogging channel as of
 2026-05-13. Use it only for developer, browser AI, Markdown, JSON, encoding,
 token, API, and productivity topics. Drafts and quality checks are local with
@@ -287,7 +292,7 @@ SEO proof from 2026-05-10:
 | High | `/tools/percentage-calculator/` | Discount, tip, markup, and percent-change micro tip | Bluesky | posted | Public post verified on 2026-05-08: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mld43shj2u2h` |
 | High | `/tools/mortgage-calculator/` | Early home-shopping payment estimate with finance limits | Medium | posted | Live article fixed and public-page checked on 2026-05-10 with H1, one branded hero image, alt text, H2 headings, contextual tool link, final tool/guide links, and no agent-facing filler: `https://medium.com/@accessfreetools/things-you-should-know-before-trusting-a-mortgage-payment-estimate-679a79eaa1cc` |
 | High | `/tools/mortgage-calculator/` | Mortgage planning estimate with finance limits | Bluesky | posted | Public post verified on 2026-05-13 with finance-estimate wording and tool link: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlplqpvm2r2g` |
-| High | `/why-access-free-tools/` | Build-in-public story about using Codex to grow the free utility website | Bluesky | approved | Draft passed `npm run promotion:bluesky:quality` on 2026-05-13. Browser publish attempt was blocked by Chrome-control timeout, and API publish was blocked by missing local `BLUESKY_HANDLE`/`BLUESKY_APP_PASSWORD`; do not mark posted without public Bluesky URL proof. |
+| High | `/why-access-free-tools/` | Build-in-public story about using Codex to grow the free utility website | Bluesky | posted | Public post verified on 2026-05-14 with the mission-page link card visible: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlrrl7pmzk2i`. |
 | High | `/why-access-free-tools/` | Build-in-public story about using Codex to grow the free utility website | DEV Community | blocked | Draft `codex-build-utility-website` passed `npm run promotion:devto:quality` on 2026-05-13 with score 100 and no warnings. External Chrome checked DEV `/new`, but the user-created account still returned "Forbidden" with a suspended/limited-access warning. Do not mark posted without a public DEV URL. |
 | Medium | `/tools/bmi-calculator/` | BMI estimate with health disclaimer and plain-language result notes | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/health-and-fitness-calculators/` on 2026-05-06 |
 | Medium | `/tools/bmi-calculator/` | BMI estimate limits explained carefully | Medium | approved | Medium draft approved on 2026-05-07; health limits included |
