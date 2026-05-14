@@ -180,6 +180,16 @@ const pins = [
     boardSlug: 'home-project-calculators',
   },
   {
+    slug: 'watts-to-amps-before-you-convert',
+    asset: 'watts-to-amps-before-you-convert.png',
+    title: 'Before You Convert Watts To Amps',
+    description:
+      'Watts alone is not enough. Use watts, volts, phase, and power factor for a quick current estimate, then treat it as education, not wiring approval.',
+    url: 'https://accessfreetools.com/tools/watts-to-amps-calculator/',
+    board: 'Home Project Calculators',
+    boardSlug: 'home-project-calculators',
+  },
+  {
     slug: 'unit-price-calculator',
     asset: 'unit-price-calculator.png',
     title: 'Unit Price Calculator For Comparing Deals',

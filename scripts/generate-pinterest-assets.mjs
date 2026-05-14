@@ -189,6 +189,16 @@ const pins = [
     accent3: '#f59e0b',
   },
   {
+    file: 'watts-to-amps-before-you-convert.png',
+    title: 'Before You Convert Watts To Amps',
+    subtitle: 'Watts alone is not enough. Voltage, phase, and power factor can change the current estimate a lot.',
+    chips: ['Voltage', 'Phase', 'Limits'],
+    url: 'accessfreetools.com/tools/watts-to-amps-calculator/',
+    accent: '#b91c1c',
+    accent2: '#0f766e',
+    accent3: '#f59e0b',
+  },
+  {
     file: 'ad-revenue-calculator.png',
     title: 'Ad Revenue Calculator',
     subtitle: 'Estimate RPM, CPC, CTR, pageviews, and revenue so a new site plan is easier to compare.',
