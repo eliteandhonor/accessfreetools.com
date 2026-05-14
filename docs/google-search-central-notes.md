@@ -1,6 +1,6 @@
 # Google Search Central Notes
 
-Last reviewed: 2026-05-13
+Last reviewed: 2026-05-14
 
 These notes are the current SEO baseline for Access Free Tools. Use them before
 changing indexing, redirect, sitemap, content-quality, or promotion logic.
@@ -114,3 +114,16 @@ unknown to Google, while both matching blog guides are submitted and indexed.
 Use `npm run search-console:submit-discovery` and `npm run indexnow:submit`
 after the next deploy; do not use npm argument forwarding for Search Console
 flags because npm 11 can treat those flags as npm config.
+
+## 2026-05-14 Discovery Follow-Up
+
+The remaining saved Search Console gaps are still the exact tool URLs for
+`/tools/watts-to-amps-calculator/` and `/tools/wallpaper-calculator/`. Their
+matching guides are indexed, so the next useful move is to make the tool URLs
+easier to discover from indexed hubs and discovery pings.
+
+The blog hub now links directly to both tool pages in the early-demand section,
+not only to the guide pages. The default IndexNow priority URL list also now
+includes the two tool URLs, their matching guides, and the calculators and
+home-projects category hubs. After deployment, run `npm run indexnow:submit`
+and `npm run search-console:submit-discovery`, then inspect key URLs again.
