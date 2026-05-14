@@ -102,8 +102,7 @@ the article body was re-applied as rich content and the live H1/H2 format was
 verified.
 Pinterest RSS remains ready on the site side: use
 `https://accessfreetools.com/pinterest-feed.xml` for the future-pins feed or
-the board-specific feeds under `/pinterest/*.xml`. The latest RSS report found
-8 RSS-ready future items and no feed issues. On 2026-05-08, the external
+the board-specific feeds under `/pinterest/*.xml`. On 2026-05-08, the external
 browser Pinterest settings page accepted these non-empty board feeds:
 `/pinterest/finance-calculators.xml`, `/pinterest/home-project-calculators.xml`,
 `/pinterest/free-online-calculators.xml`, and
@@ -127,6 +126,12 @@ Pin URL: `https://au.pinterest.com/pin/1148277236264769497/`. The old Reddit
 percentage post still remained unverified, and the public Reddit profile now
 shows the account is banned, so Reddit remains blocked until the account is
 restored or replaced.
+On 2026-05-14, the six remaining RSS-ready items were reconciled against public
+board proof already recorded in this queue: watts-to-amps, percent-off,
+mortgage-amortization, concrete, recipe-scaler, and word-counter are now marked
+posted in the Pinterest feed source and excluded from future RSS imports. A
+zero-item future RSS queue is clean when there are no newly approved image-backed
+Pins waiting to be imported.
 Bluesky is the recommended next organic platform as of 2026-05-08. The user
 created `https://bsky.app/profile/accessfreetools.bsky.social`; the profile was
 updated through the Bluesky API with the approved display name, bio, and branded

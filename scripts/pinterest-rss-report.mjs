@@ -42,6 +42,7 @@ const items = itemBlocks.map((block) => ({
 const rssReadyItems = items.filter((item) => item.status === 'rss-ready' && item.rssEligible);
 const postedArchiveItems = items.filter((item) => item.status === 'posted' && !item.rssEligible);
 const issues = [];
+const notices = [];
 
 for (const item of items) {
   if (!boardSlugs.has(item.boardSlug)) {
@@ -66,7 +67,7 @@ for (const item of items) {
 }
 
 if (rssReadyItems.length === 0) {
-  issues.push('No RSS-ready Pinterest items are available.');
+  notices.push('No RSS-ready Pinterest items are currently queued. This is OK when all connected RSS imports have public proof.');
 }
 
 const byBoard = boards.map((board) => ({
@@ -91,6 +92,7 @@ const report = {
     boards: boards.length,
   },
   issues,
+  notices,
 };
 
 const markdown = [
@@ -113,6 +115,10 @@ const markdown = [
   '## Issues',
   '',
   ...(issues.length ? issues.map((issue) => `- ${issue}`) : ['- None.']),
+  '',
+  '## Notices',
+  '',
+  ...(notices.length ? notices.map((notice) => `- ${notice}`) : ['- None.']),
   '',
 ].join('\n');
 

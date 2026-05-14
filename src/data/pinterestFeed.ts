@@ -19,7 +19,7 @@ export interface PinterestFeedItem {
   published: string;
 }
 
-export const PINTEREST_FEED_UPDATED = '2026-05-07';
+export const PINTEREST_FEED_UPDATED = '2026-05-14';
 
 export const pinterestBoards: PinterestBoard[] = [
   {
@@ -272,8 +272,8 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     imagePath: '/pinterest/watts-to-amps-calculator.jpg',
     category: 'Home Project Calculators',
     boardSlug: 'home-project-calculators',
-    status: 'rss-ready',
-    rssEligible: true,
+    status: 'posted',
+    rssEligible: false,
     published: '2026-05-07',
   },
   {
@@ -296,8 +296,8 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     imagePath: '/pinterest/percent-off-calculator.jpg',
     category: 'Free Online Calculators',
     boardSlug: 'free-online-calculators',
-    status: 'rss-ready',
-    rssEligible: true,
+    status: 'posted',
+    rssEligible: false,
     published: '2026-05-07',
   },
   {
@@ -308,8 +308,8 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     imagePath: '/pinterest/mortgage-amortization-calculator.jpg',
     category: 'Finance Calculators',
     boardSlug: 'finance-calculators',
-    status: 'rss-ready',
-    rssEligible: true,
+    status: 'posted',
+    rssEligible: false,
     published: '2026-05-07',
   },
   {
@@ -320,8 +320,8 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     imagePath: '/pinterest/concrete-calculator.jpg',
     category: 'Home Project Calculators',
     boardSlug: 'home-project-calculators',
-    status: 'rss-ready',
-    rssEligible: true,
+    status: 'posted',
+    rssEligible: false,
     published: '2026-05-07',
   },
   {
@@ -332,8 +332,8 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     imagePath: '/pinterest/recipe-scaler.jpg',
     category: 'Free Online Calculators',
     boardSlug: 'free-online-calculators',
-    status: 'rss-ready',
-    rssEligible: true,
+    status: 'posted',
+    rssEligible: false,
     published: '2026-05-07',
   },
   {
@@ -356,8 +356,8 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     imagePath: '/pinterest/word-counter.jpg',
     category: 'School And Study Tools',
     boardSlug: 'school-and-study-tools',
-    status: 'rss-ready',
-    rssEligible: true,
+    status: 'posted',
+    rssEligible: false,
     published: '2026-05-07',
   },
 ];

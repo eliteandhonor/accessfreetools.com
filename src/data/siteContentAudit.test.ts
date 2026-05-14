@@ -775,10 +775,10 @@ describe('site content audit guardrails', () => {
     expect(PINTEREST_BOARD_FEED_SOURCE).toContain('pinterestBoards.map');
     expect(PINTEREST_BOARD_FEED_SOURCE).toContain('getPinterestFeedItems(board.slug)');
     expect(PINTEREST_FEED_DATA_SOURCE).toContain('/pinterest/');
-    expect(PINTEREST_FEED_DATA_SOURCE).toContain("rssEligible: true");
+    expect(PINTEREST_FEED_DATA_SOURCE).toContain("export type PinterestFeedStatus = 'posted' | 'rss-ready'");
+    expect(PINTEREST_FEED_DATA_SOURCE).toContain('rssEligible: boolean');
     expect(PINTEREST_FEED_DATA_SOURCE).toContain("rssEligible: false");
     expect(PINTEREST_FEED_DATA_SOURCE).toContain("status: 'posted'");
-    expect(PINTEREST_FEED_DATA_SOURCE).toContain("status: 'rss-ready'");
     expect(PINTEREST_FEED_DATA_SOURCE).toContain("boardSlug: 'free-online-calculators'");
     expect(PINTEREST_FEED_DATA_SOURCE).toContain('/pinterest/free-online-calculators.xml');
     expect(PINTEREST_FEED_DATA_SOURCE).toContain('/tools/watts-to-amps-calculator/');
