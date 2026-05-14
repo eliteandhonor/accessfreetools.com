@@ -137,6 +137,12 @@ user's logged-in external Chrome session for the Watts to Amps Calculator. The
 public Pin was checked on the Home Project Calculators board and direct Pin URL:
 `https://au.pinterest.com/pin/1148277236265166271/`. Its Visit Site link points
 to `https://accessfreetools.com/tools/watts-to-amps-calculator/?utm_source=Pinterest&utm_medium=organic&utm_campaign=watts_to_amps_before_convert`.
+The matching Watts to Amps Medium companion article was also published through
+the user's logged-in external Chrome session on 2026-05-14 after
+`npm run promotion:medium:quality` passed. The public page was checked for H1,
+H2 headings, branded hero image alt text, visible tool and guide links, and all
+five topics:
+`https://medium.com/@accessfreetools/watts-to-amps-is-simple-math-but-electrical-context-matters-6fc9625389b7`.
 Bluesky is the recommended next organic platform as of 2026-05-08. The user
 created `https://bsky.app/profile/accessfreetools.bsky.social`; the profile was
 updated through the Bluesky API with the approved display name, bio, and branded
@@ -281,7 +287,7 @@ SEO proof from 2026-05-10:
 | Medium | `/tools/bmi-calculator/` | BMI estimate limits explained carefully | Medium | approved | Medium draft approved on 2026-05-07; health limits included |
 | Medium | `/tools/wallpaper-calculator/` | Rolls, wall area, pattern repeat, and waste percent explained | Pinterest, Medium | posted | Pinterest published; Medium live article manually fixed by the user and externally checked on 2026-05-08: `https://medium.com/@accessfreetools/what-waste-percent-means-in-a-wallpaper-calculator-8189dc219150` |
 | Medium | `/tools/wallpaper-calculator/` | Waste percent and roll-estimate micro tip | Bluesky | posted | Public post verified on 2026-05-09: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlfy2wnkek2y` |
-| Medium | `/tools/watts-to-amps-calculator/` | Electrical conversion with voltage and phase reminders | Medium | approved | Medium draft approved and quality-passed; electrical limits included. On 2026-05-13 the logged-in Chrome tab was verified, but Medium text/import entry was blocked by the browser automation clipboard backend, so no live Medium URL was claimed. |
+| Medium | `/tools/watts-to-amps-calculator/` | Electrical conversion with voltage and phase reminders | Medium | posted | Live article published and public-page checked on 2026-05-14 with H1, H2 headings, branded hero image alt text, tool link, guide link, and topics verified: `https://medium.com/@accessfreetools/watts-to-amps-is-simple-math-but-electrical-context-matters-6fc9625389b7`. |
 | Medium | `/tools/watts-to-amps-calculator/` | Watts, amps, voltage, and electrical-caution micro tip | Bluesky | posted | Public post verified through the Bluesky public API on 2026-05-09: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlgchubhy42h` |
 | Medium | `/tools/watts-to-amps-calculator/` | Explain watts, volts, amps, and electrical caution | Reddit | blocked | Draft passed quality, but Reddit promotion is blocked because the public `u/accessfreetools` profile showed "This account has been banned" on 2026-05-13. |
 | Medium | `/tools/watts-to-amps-calculator/` | Watts alone is not enough: voltage, phase, and power factor change the amps estimate | Pinterest | posted | Organic Pin published through the user's logged-in external Chrome session and public-page checked on 2026-05-14: `https://au.pinterest.com/pin/1148277236265166271/` links to `https://accessfreetools.com/tools/watts-to-amps-calculator/?utm_source=Pinterest&utm_medium=organic&utm_campaign=watts_to_amps_before_convert`. |
