@@ -714,12 +714,96 @@ main {
   line-height: 1.65;
 }
 
+.ask-run-badge {
+  background: color-mix(in srgb, var(--primary) 10%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--primary) 28%, var(--border));
+  border-radius: 999px;
+  color: var(--primary-strong);
+  display: inline-flex;
+  font-size: 0.88rem;
+  font-weight: 850;
+  margin: 12px 0 16px;
+  padding: 7px 11px;
+}
+
+.ask-tool-answer {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 90%, #083238), #12324b);
+  border-radius: 8px;
+  color: #fff;
+  display: grid;
+  gap: 6px;
+  margin-bottom: 16px;
+  padding: 18px;
+}
+
+.ask-tool-answer span {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.ask-tool-answer strong {
+  font-size: clamp(1.25rem, 2vw, 1.85rem);
+  line-height: 1.2;
+}
+
+.ask-proof-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 16px;
+}
+
+.ask-proof-card,
+.ask-assumptions {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.ask-proof-card dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.ask-proof-card dl div {
+  align-items: baseline;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  padding-bottom: 7px;
+}
+
+.ask-proof-card dl div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.ask-proof-card dt {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.ask-proof-card dd {
+  color: var(--text);
+  font-weight: 900;
+  margin: 0;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
 .ask-result h2 {
   font-size: 1.1rem;
   margin-bottom: 8px;
 }
 
-.ask-result ol {
+.ask-result ol,
+.ask-assumptions ul {
   color: var(--muted);
   line-height: 1.55;
   padding-left: 22px;
@@ -744,6 +828,12 @@ main {
 
 .ask-warning strong {
   color: var(--danger);
+}
+
+.ask-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .ask-result-error {
@@ -795,6 +885,7 @@ main {
 
 @media (max-width: 820px) {
   .ask-layout,
+  .ask-proof-grid,
   .developer-grid {
     grid-template-columns: 1fr;
   }

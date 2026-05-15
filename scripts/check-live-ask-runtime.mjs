@@ -42,6 +42,9 @@ async function checkAsk() {
   if (!answerText.includes('43.2') || answerText.includes('18% of 0')) {
     throw new Error('/api/v1/ask did not return the correct deterministic result for 18% of 240.');
   }
+  if (body.run?.inputs?.percent !== 18 || body.run?.inputs?.value !== 240) {
+    throw new Error('/api/v1/ask did not expose the parsed inputs used by the real tool runner.');
+  }
   return { answer: body.run?.answer ?? null, model: body.model ?? null, source, tool: body.route?.tool_slug ?? null };
 }
 

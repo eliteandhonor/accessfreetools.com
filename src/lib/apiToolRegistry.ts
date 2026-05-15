@@ -30,6 +30,7 @@ export interface ApiToolRunResult {
   answer: string;
   assumptions: string[];
   guide_url: string;
+  inputs?: unknown;
   result: unknown;
   steps: string[];
   tool_url: string;
@@ -590,7 +591,10 @@ export function runApiTool(slug: string, input: unknown): ApiToolRunResult {
     );
   }
 
-  return tool.run(parsed.data);
+  return {
+    ...tool.run(parsed.data),
+    inputs: parsed.data,
+  };
 }
 
 export function searchApiTools(query = ''): PublicApiToolDefinition[] {

@@ -13,6 +13,7 @@ describe('api tool registry', () => {
   it('runs percentage percent-of mode', () => {
     const result = runApiTool('percentage-calculator', { mode: 'percent-of', percent: 18, value: 240 });
     expect(result.answer).toContain('43.2');
+    expect(result.inputs).toMatchObject({ mode: 'percent-of', percent: 18, value: 240 });
     expect(result.steps.length).toBeGreaterThan(1);
   });
 
@@ -63,6 +64,7 @@ describe('ask tool router fallback', () => {
     const answer = await answerUtilityQuestion('How long will a 5GB file take to download at 80 Mbps?');
     expect(answer.route.tool_slug).toBe('download-time-calculator');
     expect(answer.answer).toMatch(/minutes/i);
+    expect(answer.run.inputs).toMatchObject({ efficiencyPercent: 90, fileSize: 5, fileUnit: 'GB', speedMbps: 80 });
   });
 
   it('answers a watts to amps question with the deterministic tool', async () => {

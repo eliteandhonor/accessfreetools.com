@@ -245,10 +245,8 @@ async function routeWithOllama(message: string): Promise<ToolCallRoute | null> {
   };
 }
 
-function localAnswer(question: string, toolName: string, run: ApiToolRunResult) {
-  const warningText = run.warnings.length ? `\n\nWarning: ${run.warnings.join(' ')}` : '';
-  const steps = run.steps.length ? `\n\nSteps:\n${run.steps.map((step) => `- ${step}`).join('\n')}` : '';
-  return `I used the ${toolName}. ${run.answer}${steps}${warningText}\n\nOpen the tool: ${run.tool_url}`;
+function localAnswer(run: ApiToolRunResult) {
+  return run.answer;
 }
 
 export async function answerUtilityQuestion(message: string): Promise<AskToolAnswer> {
@@ -316,7 +314,7 @@ export async function answerUtilityQuestion(message: string): Promise<AskToolAns
     run = runApiTool(activeRoute.tool_slug, activeRoute.inputs);
   }
 
-  const answer = localAnswer(trimmed, activeTool.name, run);
+  const answer = localAnswer(run);
 
   return {
     answer,
