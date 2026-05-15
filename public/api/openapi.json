@@ -1,0 +1,130 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Access Free Tools API",
+    "version": "0.1.0",
+    "description": "Private alpha API for deterministic Access Free Tools calculators and utilities."
+  },
+  "servers": [
+    {
+      "url": "https://accessfreetools.com"
+    }
+  ],
+  "paths": {
+    "/api/v1/tools": {
+      "get": {
+        "summary": "List API-ready tools",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tool list"
+          }
+        }
+      }
+    },
+    "/api/v1/tools/{slug}": {
+      "get": {
+        "summary": "Get one tool schema",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tool schema"
+          },
+          "404": {
+            "description": "Tool not found"
+          }
+        }
+      }
+    },
+    "/api/v1/run/{slug}": {
+      "post": {
+        "summary": "Run one deterministic tool",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool result"
+          },
+          "400": {
+            "description": "Invalid tool input"
+          }
+        }
+      }
+    },
+    "/api/v1/ask": {
+      "post": {
+        "summary": "Ask a plain-language tool question",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                },
+                "required": ["message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Matched tool answer"
+          },
+          "422": {
+            "description": "No matching tool yet"
+          }
+        }
+      }
+    },
+    "/mcp": {
+      "post": {
+        "summary": "Stateless MCP JSON-RPC endpoint",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    }
+  }
+}

@@ -47,6 +47,12 @@ used that key name. Prefer `OLLAMA_API_KEY` for future clarity.
 After environment changes in Hostinger, redeploy or restart the Node app so the
 server process sees the new values.
 
+Production note: the current Hostinger deployment is serving the public Apache/PHP
+layer, so `public/api/v1/*.php`, `public/mcp.php`, and `public/.htaccess` mirror
+the same core API routes for live traffic. Keep the TypeScript Astro routes as
+the source for the Node deployment path, and keep the PHP fallback working until
+Hostinger is definitely running the Node server for dynamic routes.
+
 ## Public Interfaces
 
 - Visitor chatbot: `/ask/`
