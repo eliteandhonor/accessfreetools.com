@@ -516,7 +516,7 @@ export function refreshSeoConsoleReport() {
   const actions = [
     {
       priority: 'medium',
-      task: 'Run Search Console URL inspection/discovery for Wallpaper Calculator after deploy; internal link helper now verifies the home-project handoff links.',
+      task: 'Search Console discovery has been refreshed for the sitemap/feed. If Wallpaper Calculator still shows unknown in URL Inspection, use the manual request indexing button and recheck after Google crawls.',
       target: '/tools/wallpaper-calculator/',
     },
     {

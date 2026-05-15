@@ -945,6 +945,7 @@ export function buildSeoConsoleReport() {
   const generatedAt = new Date().toISOString();
   const marketing = readJson('output/marketing-orchestrator/daily-plan.json');
   const searchConsole = searchConsoleGaps();
+  const searchConsoleDiscovery = readJson('output/search-console-discovery.json');
   const crawlScout = crawlScoutSignals();
   const sitemap = readSitemapUrls();
   const productionSitemap = readJson('output/production-sitemap-check.json');
@@ -983,12 +984,23 @@ export function buildSeoConsoleReport() {
       const inboundLinks = linkEvidence.byTarget[normalizeHrefToPath(targetPath)] ?? [];
       const sourceCount = new Set(inboundLinks.map((item) => item.source)).size;
       const hasEnoughInternalLinks = sourceCount >= 3;
+      const discoveryRefreshedAt = searchConsoleDiscovery?.generatedAt
+        ? new Date(searchConsoleDiscovery.generatedAt).toLocaleString('en-AU', {
+            dateStyle: 'medium',
+            timeStyle: 'short',
+            timeZone: 'Australia/Brisbane',
+          })
+        : '';
+      const discoveryTask = discoveryRefreshedAt
+        ? `Search Console sitemap/feed discovery was refreshed ${discoveryRefreshedAt}; if URL Inspection still shows unknown, request indexing manually in Search Console and recheck after Google crawls`
+        : 'Run URL inspection/discovery';
 
       return {
-        evidence: 'output/search-console-url-inspection.json + output/agent-tools/link-helper/latest.md',
+        evidence:
+          'output/search-console-url-inspection.json + output/search-console-discovery.json + output/agent-tools/link-helper/latest.md',
         priority: hasEnoughInternalLinks ? 'medium' : 'high',
         task: hasEnoughInternalLinks
-          ? `Run URL inspection/discovery for ${gap.url}; built link proof already shows ${sourceCount} source pages linking to it (${gap.coverageState}).`
+          ? `${discoveryTask} for ${gap.url}; built link proof already shows ${sourceCount} source pages linking to it (${gap.coverageState}).`
           : `Improve contextual links and clarity for ${gap.url}; built link proof shows only ${sourceCount} source pages linking to it (${gap.coverageState}).`,
       };
     }),
@@ -1019,6 +1031,7 @@ export function buildSeoConsoleReport() {
       indexNow: indexNow ? 'present' : 'not enough data',
       marketing: marketing ? 'present' : 'not enough data',
       productionSitemap: productionSitemap ? 'present' : 'not enough data',
+      searchConsoleDiscovery: searchConsoleDiscovery ? 'present' : 'not enough data',
       searchConsole: searchConsole.note ? 'not enough data' : 'present',
       sitemap: sitemap.note ? 'not enough data' : 'present',
     },
