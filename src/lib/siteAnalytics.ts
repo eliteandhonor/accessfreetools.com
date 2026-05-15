@@ -148,6 +148,8 @@ function getAnalyticsConfig() {
     process.env.AFT_ANALYTICS_CONFIG,
     resolve('.analytics/config.env'),
     resolve('.local/analytics-dashboard.env'),
+    resolve('.local/accessfreetools-analytics.env'),
+    process.env.HOME ? resolve(process.env.HOME, '.local/accessfreetools-analytics.env') : '',
   ].filter(Boolean) as string[];
 
   for (const path of configPaths) {
