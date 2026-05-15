@@ -1,6 +1,6 @@
 const parsedPort = Number(process.env.PORT);
 if (!process.env.PORT || process.env.PORT === 'undefined' || !Number.isFinite(parsedPort) || parsedPort <= 0) {
-  process.env.PORT = '8080';
+  process.env.PORT = '3000';
 }
 
 if (!process.env.HOST || process.env.HOST === 'undefined') {

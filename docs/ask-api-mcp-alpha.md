@@ -4,8 +4,10 @@ Last updated: 2026-05-15
 
 Access Free Tools now has an alpha tool execution layer for a chatbot, REST API,
 and MCP clients. The important rule is that exact answers come from deterministic
-Access Free Tools code. Ollama is used for tool routing in the alpha; final answer
-wording is kept deterministic so the model cannot rewrite exact numbers.
+Access Free Tools code. For supported starter questions, the local parser picks
+the tool and the server runs the real tool runner. Ollama is reserved for
+ambiguous routing, and final answer wording is kept deterministic so the model
+cannot rewrite exact numbers.
 
 ## Local Secrets
 
@@ -50,17 +52,18 @@ server process sees the new values.
 
 Production note: Ask/API/MCP must run through the Astro Node server. Hostinger
 needs the JavaScript deployment entry file set to `app.js`, output directory
-`dist`, build script `build`, and Node 22. Use:
+`dist`, build script `build`, Node 22, and a server process listening on port
+`3000` when Hostinger does not provide a valid `PORT` environment value. Use:
 
 ```powershell
 npm run hostinger:deploy-node
 npm run check:live-ask
 ```
 
-`check:live-ask` must show `/api/v1/ask` using `route.source: "ollama"`. Do
-not add PHP fallback routes or duplicated PHP tool data; if the Node runtime is
-not active, fix the Hostinger Node deployment instead of serving stale fallback
-answers.
+`check:live-ask` must show `/api/v1/ask` using `route.source: "parser"` or
+`route.source: "ollama"` and must never show `php-router`. Do not add PHP
+fallback routes or duplicated PHP tool data; if the Node runtime is not active,
+fix the Hostinger Node deployment instead of serving stale fallback answers.
 
 For local tests only, `AFT_ASK_FORCE_FALLBACK=true` can force the deterministic
 pattern router. Production should not set that flag; if Ollama cannot route a
