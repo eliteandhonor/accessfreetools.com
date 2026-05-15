@@ -729,6 +729,25 @@ function crawlScoutSignals() {
   };
 }
 
+function googleCoverageExportSignals() {
+  const report = readJson('output/search-console-coverage-export.json');
+  if (!report) {
+    return {
+      actions: [],
+      latest: null,
+      note: 'not enough data: Google Search Console Coverage export is missing. Run npm run search-console:import-coverage after exporting Coverage CSVs.',
+      totals: null,
+    };
+  }
+
+  return {
+    actions: report.actions ?? [],
+    latest: report.latest ?? null,
+    note: '',
+    totals: report.totals ?? null,
+  };
+}
+
 function analyticsSignals() {
   const eventsPath = resolve(process.cwd(), process.env.AFT_ANALYTICS_DIR ?? '.local/analytics', 'events.ndjson');
   if (!existsSync(eventsPath)) {
@@ -835,6 +854,7 @@ export function buildLinkHelperReport() {
   const generatedAt = new Date().toISOString();
   const sitemap = readSitemapUrls();
   const searchConsole = searchConsoleGaps();
+  const searchConsoleDiscovery = readJson('output/search-console-discovery.json');
   const crawlScout = crawlScoutSignals();
   const analytics = analyticsSignals();
   const warnings = [sitemap.note, searchConsole.note, crawlScout.note, analytics.note].filter(Boolean);
@@ -858,11 +878,18 @@ export function buildLinkHelperReport() {
       const inboundLinks = linkEvidence.byTarget[target] ?? [];
       const sourceCount = new Set(inboundLinks.map((item) => item.source)).size;
       const hasEnoughInternalLinks = sourceCount >= 3;
+      const discoveryRefreshedAt = searchConsoleDiscovery?.generatedAt
+        ? new Date(searchConsoleDiscovery.generatedAt).toLocaleString('en-AU', {
+            dateStyle: 'medium',
+            timeStyle: 'short',
+            timeZone: 'Australia/Brisbane',
+          })
+        : '';
       suggestions.push({
         anchorIdea: url.pathname.replace(/^\/tools\/|^\/blog\/how-to-use-|\/$/g, '').replace(/-/g, ' '),
         priority: hasEnoughInternalLinks ? 'medium' : 'high',
         reason: hasEnoughInternalLinks
-          ? `Search Console state: ${gap.coverageState}; ${sourceCount} built pages already link here, so next proof step is URL inspection/discovery after deploy.`
+          ? `Search Console state: ${gap.coverageState}; ${sourceCount} built pages already link here, so next proof step is ${discoveryRefreshedAt ? `manual request indexing or recheck after Google crawls because discovery was refreshed ${discoveryRefreshedAt}` : 'URL inspection/discovery after deploy'}.`
           : `Search Console state: ${gap.coverageState}; only ${sourceCount} built pages link here, so add contextual support first.`,
         target: url.pathname,
       });
@@ -889,6 +916,7 @@ export function buildLinkHelperReport() {
     });
   }
 
+  const hasHighPriorityAction = suggestions.some((suggestion) => /^high$/i.test(String(suggestion.priority)));
   const report = {
     generatedAt,
     kind: 'link-helper',
@@ -897,9 +925,10 @@ export function buildLinkHelperReport() {
       analytics: { note: analytics.note, topPages: analytics.topPages, topTools: analytics.topTools },
       crawlScout: { note: crawlScout.note, opportunities: crawlScout.opportunities },
       searchConsole,
+      searchConsoleDiscovery: searchConsoleDiscovery ? { generatedAt: searchConsoleDiscovery.generatedAt } : null,
     },
     linkEvidence,
-    status: warnings.length ? 'attention' : 'pass',
+    status: warnings.length || hasHighPriorityAction ? 'attention' : 'pass',
     suggestions,
     warnings,
   };
@@ -946,6 +975,7 @@ export function buildSeoConsoleReport() {
   const marketing = readJson('output/marketing-orchestrator/daily-plan.json');
   const searchConsole = searchConsoleGaps();
   const searchConsoleDiscovery = readJson('output/search-console-discovery.json');
+  const coverageExport = googleCoverageExportSignals();
   const crawlScout = crawlScoutSignals();
   const sitemap = readSitemapUrls();
   const productionSitemap = readJson('output/production-sitemap-check.json');
@@ -955,6 +985,7 @@ export function buildSeoConsoleReport() {
 
   if (!marketing) warnings.push('not enough data: marketing orchestrator report is missing.');
   if (searchConsole.note) warnings.push(searchConsole.note);
+  if (coverageExport.note) warnings.push(coverageExport.note);
   if (crawlScout.note) warnings.push(crawlScout.note);
   if (sitemap.note) warnings.push(sitemap.note);
   if (!productionSitemap) warnings.push('not enough data: production sitemap check report is missing.');
@@ -1004,6 +1035,11 @@ export function buildSeoConsoleReport() {
           : `Improve contextual links and clarity for ${gap.url}; built link proof shows only ${sourceCount} source pages linking to it (${gap.coverageState}).`,
       };
     }),
+    ...coverageExport.actions.slice(0, 4).map((item) => ({
+      evidence: 'output/search-console-coverage-export.json',
+      priority: item.priority ?? 'medium',
+      task: item.task,
+    })),
     ...(marketing?.actions ?? marketing?.recommendations ?? []).slice(0, 3).map((item) => ({
       evidence: 'output/marketing-orchestrator/daily-plan.json',
       priority: item.priority ?? 'medium',
@@ -1021,6 +1057,7 @@ export function buildSeoConsoleReport() {
     });
   }
 
+  const hasHighPriorityAction = actions.some((action) => /^high$/i.test(String(action.priority)));
   const report = {
     actions,
     generatedAt,
@@ -1028,6 +1065,7 @@ export function buildSeoConsoleReport() {
     sources: {
       crawlScout: crawlScout.note ? 'not enough data' : 'present',
       dataForSeo: dataForSeo ? 'present' : 'not enough data',
+      googleCoverageExport: coverageExport.note ? 'not enough data' : 'present',
       indexNow: indexNow ? 'present' : 'not enough data',
       marketing: marketing ? 'present' : 'not enough data',
       productionSitemap: productionSitemap ? 'present' : 'not enough data',
@@ -1036,7 +1074,8 @@ export function buildSeoConsoleReport() {
       sitemap: sitemap.note ? 'not enough data' : 'present',
     },
     linkEvidence,
-    status: warnings.length ? 'attention' : 'pass',
+    coverageExport: { latest: coverageExport.latest, totals: coverageExport.totals },
+    status: warnings.length || hasHighPriorityAction ? 'attention' : 'pass',
     warnings,
   };
   const paths = writeReport(

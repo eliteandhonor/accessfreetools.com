@@ -23,6 +23,7 @@ The CLI is for agent support only. It must not publish posts, edit live social c
 
 - `npm run aft -- indexing-gaps`
   - Reads Search Console and SEO snapshots in `output/` and lists URLs that are unknown, discovered, crawled but not indexed, or otherwise not passing.
+  - Also summarizes the latest imported Google Coverage CSV export when `npm run search-console:import-coverage` has been run.
 
 - `npm run aft -- indexing-protection`
   - Runs the local indexing protection audit and summarizes soft-404 risk, sitemap coverage, canonical/indexability issues, legacy redirect proof, Search Console gaps, and CrawlScout signals.
@@ -99,22 +100,23 @@ The CLI can summarize proof, but it cannot create proof by itself. Public promot
 1. Start with `npm run aft -- status`.
 2. Run `npm run aft -- marketing` when choosing SEO, internal-link, content, or promotion work.
 3. Run `npm run aft -- hostinger` before Hostinger, DNS, deployment, or hosting-environment claims.
-4. Run `npm run aft -- indexing-protection` after Search Engine Land-style indexing, soft-404, or discovery work.
-5. Run `npm run aft -- ai-crawler` after hub, tool-page, or AI-search visibility work.
-6. Run `npm run aft -- hub-strength` after changing hub copy, category discovery, or internal-link pathways.
-7. Run `npm run aft -- semantic-depth` after changing priority tool pages, guides, FAQs, or audit wording.
-8. Run `npm run aft -- recognition` before claiming brand/promotion proof across public platforms.
-9. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
-10. Use `npm run aft -- usage-notes` before planning any public "what people are using" content.
-11. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
-12. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
-13. Use `npm run aft -- content-score <file>` before Medium, DEV Community, Quora, Reddit, or longer promotion copy goes public.
-14. Use `npm run aft -- ask-audit` after Ask/API/MCP changes and before claiming live answer quality.
-15. Use `npm run aft -- api-ready` before expanding the public API registry.
-16. Use `npm run aft -- mcp-smoke` after MCP route changes.
-17. Use `npm run aft -- link-helper` before internal-link improvement batches.
-18. Use `npm run aft -- seo-console` before choosing indexing or discovery fixes.
-19. Use `npm run aft -- proof-check` before changing promotion queue statuses.
+4. If the user provides Google Coverage CSVs, run `npm run search-console:import-coverage` before indexing claims. It finds the newest Access Free Tools Coverage export in Downloads; use `node scripts/import-google-coverage-export.mjs --dir="C:\path\to\export"` only when the folder is somewhere else.
+5. Run `npm run aft -- indexing-protection` after Search Engine Land-style indexing, soft-404, or discovery work.
+6. Run `npm run aft -- ai-crawler` after hub, tool-page, or AI-search visibility work.
+7. Run `npm run aft -- hub-strength` after changing hub copy, category discovery, or internal-link pathways.
+8. Run `npm run aft -- semantic-depth` after changing priority tool pages, guides, FAQs, or audit wording.
+9. Run `npm run aft -- recognition` before claiming brand/promotion proof across public platforms.
+10. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
+11. Use `npm run aft -- usage-notes` before planning any public "what people are using" content.
+12. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
+13. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
+14. Use `npm run aft -- content-score <file>` before Medium, DEV Community, Quora, Reddit, or longer promotion copy goes public.
+15. Use `npm run aft -- ask-audit` after Ask/API/MCP changes and before claiming live answer quality.
+16. Use `npm run aft -- api-ready` before expanding the public API registry.
+17. Use `npm run aft -- mcp-smoke` after MCP route changes.
+18. Use `npm run aft -- link-helper` before internal-link improvement batches.
+19. Use `npm run aft -- seo-console` before choosing indexing or discovery fixes.
+20. Use `npm run aft -- proof-check` before changing promotion queue statuses.
 
 The private report viewer is `/admin/agent-tools/`. It uses the analytics/admin token, is noindexed, and can refresh safe report-only checks from the browser. It does not publish, edit pages, submit indexing requests, or run paid API calls. CLI Playwright parity is still the stronger proof when browser-rendered tool output matters.
 

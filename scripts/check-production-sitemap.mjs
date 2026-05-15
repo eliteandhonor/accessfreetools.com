@@ -27,6 +27,32 @@ function sitemapUrls(xml) {
   return [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1].trim());
 }
 
+function isSitemapIndex(xml) {
+  return /<sitemapindex[\s>]/i.test(xml);
+}
+
+async function fetchSitemapUrls(url, seen = new Set()) {
+  if (seen.has(url)) return { sitemapsChecked: [], urls: [] };
+  seen.add(url);
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Could not fetch ${url}: HTTP ${response.status}`);
+  }
+
+  const xml = await response.text();
+  const locs = sitemapUrls(xml);
+  if (!isSitemapIndex(xml)) {
+    return { sitemapsChecked: [url], urls: locs };
+  }
+
+  const nested = await Promise.all(locs.map((loc) => fetchSitemapUrls(loc, seen)));
+  return {
+    sitemapsChecked: [url, ...nested.flatMap((item) => item.sitemapsChecked)],
+    urls: nested.flatMap((item) => item.urls),
+  };
+}
+
 function searchConsolePageUrls() {
   if (!existsSync(SEARCH_CONSOLE_REPORT)) {
     return [];
@@ -78,12 +104,8 @@ async function runPool(items, worker) {
   return results;
 }
 
-const sitemapResponse = await fetch(SITEMAP_URL);
-if (!sitemapResponse.ok) {
-  throw new Error(`Could not fetch ${SITEMAP_URL}: HTTP ${sitemapResponse.status}`);
-}
-
-const sitemap = sitemapUrls(await sitemapResponse.text());
+const sitemapResult = await fetchSitemapUrls(SITEMAP_URL);
+const sitemap = sitemapResult.urls;
 const urls = [...new Set([...sitemap, ...searchConsolePageUrls(), ...LEGACY_URLS])].slice(0, maxUrls);
 const results = await runPool(urls, checkUrl);
 const hardFailures = results.filter((result) => result.status >= 400 || result.status === 0);
@@ -91,6 +113,7 @@ const redirects = results.filter((result) => result.status >= 300 && result.stat
 const report = {
   generatedAt: new Date().toISOString(),
   sitemapUrl: SITEMAP_URL,
+  sitemapsChecked: sitemapResult.sitemapsChecked,
   checked: results.length,
   ok: results.length - hardFailures.length,
   redirects: redirects.length,

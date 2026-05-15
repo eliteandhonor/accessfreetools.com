@@ -26,6 +26,7 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 ## SEO Data Sources
 
 - Use Google Search Console for real indexing, click, impression, CTR, and average-position data.
+- When the user provides a Google Coverage CSV export, run `npm run search-console:import-coverage` and use `output/search-console-coverage-export.json` as aggregate evidence. It finds the newest Access Free Tools Coverage export in Downloads; use `node scripts/import-google-coverage-export.mjs --dir="C:\path\to\export"` only when the folder is elsewhere. The export gives issue bucket counts, not exact URL samples, so do not invent affected URLs.
 - Use DataForSEO for competitor research, live SERP checks, keyword discovery, and domain/keyword baselines when the task involves SEO research.
 - Check `docs/google-search-central-notes.md` before changing indexing, redirect, sitemap, or content-quality SEO logic.
 - DataForSEO credentials must stay out of Git. They live in the local Codex MCP config or environment variables.

@@ -21,6 +21,7 @@ const evidencePaths = {
   promotionQueue: 'docs/promotion-queue.md',
   seoEvaluation: 'output/seo-agent-self-evaluation.json',
   searchConsole: 'output/search-console-url-inspection.json',
+  searchConsoleCoverageExport: 'output/search-console-coverage-export.json',
   dataForSeoAccount: 'output/dataforseo-account.json',
   dataForSeoStatus: 'output/dataforseo-status.json',
   hostingerStatus: 'output/hostinger/status.json',
@@ -299,6 +300,19 @@ function getIndexingGaps() {
     const joined = `${item.verdict} ${item.state}`;
     return !/^PASS$/i.test(String(item.verdict)) && /unknown|not indexed|discovered|crawled/i.test(joined);
   });
+}
+
+function getCoverageExportSummary() {
+  const report = readJson(evidencePaths.searchConsoleCoverageExport);
+  if (!report || report.parseError) return null;
+
+  return {
+    generatedAt: report.generatedAt ?? '',
+    latest: report.latest ?? null,
+    totals: report.totals ?? null,
+    criticalIssues: report.criticalIssues ?? [],
+    actions: report.actions ?? [],
+  };
 }
 
 function runNodeScript(scriptPath, scriptArgs = []) {
@@ -752,14 +766,23 @@ function promoteNextCommand(command) {
 
 function indexingGapsCommand(command) {
   const gaps = getIndexingGaps();
-  const payload = { count: gaps.length, gaps: gaps.slice(0, 20) };
+  const coverageExport = getCoverageExportSummary();
+  const payload = { count: gaps.length, coverageExport, gaps: gaps.slice(0, 20) };
 
   emit(command, payload, [
     `Indexing gaps: ${gaps.length}`,
     ...gaps.slice(0, 10).map((gap, index) => `${index + 1}. ${gap.url} - ${gap.state}${gap.lastCrawlTime ? ` (last crawl ${gap.lastCrawlTime})` : ''}`),
-    gaps.length
-      ? 'Recommended action: improve contextual internal links, submit discovery, and use one quality-passed promotion item when useful.'
-      : 'No indexing gaps found in the current local snapshot.',
+    coverageExport
+      ? `Coverage export: latest ${coverageExport.latest?.date ?? 'unknown'} has ${coverageExport.totals?.latestIndexed ?? 'unknown'} indexed and ${coverageExport.totals?.latestNotIndexed ?? 'unknown'} not indexed; critical buckets total ${coverageExport.totals?.criticalPages ?? 'unknown'} pages.`
+      : 'Coverage export: not imported yet. Run npm run search-console:import-coverage after downloading Google Coverage CSVs.',
+    ...(coverageExport?.criticalIssues?.length
+      ? coverageExport.criticalIssues.map((issue) => `- ${issue.reason}: ${issue.pages} page(s), validation ${issue.validation}`)
+      : []),
+    coverageExport?.actions?.length
+      ? `Coverage action: ${coverageExport.actions[0].priority}: ${coverageExport.actions[0].task}`
+      : gaps.length
+        ? 'Recommended action: improve contextual internal links, submit discovery, and use one quality-passed promotion item when useful.'
+        : 'No indexing gaps found in the current local snapshot.',
   ]);
 }
 
