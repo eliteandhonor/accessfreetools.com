@@ -1,4 +1,4 @@
-import { cpSync, existsSync, readdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const distDir = join(process.cwd(), 'dist');
@@ -37,4 +37,31 @@ writeFileSync(
   ].join('\n'),
 );
 
-console.log('Mirrored dist/client into dist and wrote dist/app.js for output-directory starts.');
+const serverChunksDir = join(distDir, 'server', 'chunks');
+let patchedServerChunks = 0;
+
+if (existsSync(serverChunksDir)) {
+  for (const entry of readdirSync(serverChunksDir, { withFileTypes: true })) {
+    if (!entry.isFile() || !/^server_.*\.mjs$/.test(entry.name)) continue;
+
+    const path = join(serverChunksDir, entry.name);
+    const source = readFileSync(path, 'utf8');
+    const patched = source.replace(
+      'const port = process.env.PORT ? Number(process.env.PORT) : options.port ?? 8080;',
+      [
+        "const rawPort = process.env.PORT;",
+        "const parsedPort = rawPort && rawPort !== 'undefined' ? Number(rawPort) : NaN;",
+        'const port = Number.isFinite(parsedPort) && parsedPort > 0 ? parsedPort : options.port ?? 8080;',
+      ].join('\n  '),
+    );
+
+    if (patched !== source) {
+      writeFileSync(path, patched);
+      patchedServerChunks += 1;
+    }
+  }
+}
+
+console.log(
+  `Mirrored dist/client into dist, wrote dist/app.js, and patched ${patchedServerChunks} server chunk(s) for Hostinger starts.`,
+);
