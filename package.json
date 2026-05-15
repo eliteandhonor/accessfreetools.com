@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "astro dev",
     "typecheck": "tsc --noEmit",
-    "build": "astro build",
-    "postbuild": "node scripts/mirror-static-output.mjs",
+    "build": "astro build && node scripts/mirror-static-output.mjs",
     "start": "node ./app.js",
     "preview": "astro preview",
     "test": "vitest run --configLoader runner",
