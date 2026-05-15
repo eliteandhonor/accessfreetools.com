@@ -47,11 +47,19 @@ if (existsSync(serverChunksDir)) {
     const path = join(serverChunksDir, entry.name);
     const source = readFileSync(path, 'utf8');
     const patched = source.replace(
-      'const port = process.env.PORT ? Number(process.env.PORT) : options.port ?? 8080;',
+      [
+        'const port = process.env.PORT ? Number(process.env.PORT) : options.port ?? 8080;',
+        '  const host = process.env.HOST ?? hostOptions(options.host);',
+      ].join('\n'),
       [
         "const rawPort = process.env.PORT;",
         "const parsedPort = rawPort && rawPort !== 'undefined' ? Number(rawPort) : NaN;",
-        'const port = Number.isFinite(parsedPort) && parsedPort > 0 ? parsedPort : options.port ?? 8080;',
+        "const rawOptionPort = options.port;",
+        "const parsedOptionPort = rawOptionPort && rawOptionPort !== 'undefined' ? Number(rawOptionPort) : NaN;",
+        'const port = Number.isFinite(parsedPort) && parsedPort > 0 ? parsedPort : Number.isFinite(parsedOptionPort) && parsedOptionPort > 0 ? parsedOptionPort : 8080;',
+        "const rawHost = process.env.HOST;",
+        'const optionHost = hostOptions(options.host);',
+        "const host = rawHost && rawHost !== 'undefined' ? rawHost : optionHost && optionHost !== 'undefined' ? optionHost : '0.0.0.0';",
       ].join('\n  '),
     );
 
