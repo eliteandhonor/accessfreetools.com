@@ -5,8 +5,9 @@ import { ApiToolValidationError, listApiTools, runApiTool, searchApiTools } from
 describe('api tool registry', () => {
   it('lists starter tools with schemas and links', () => {
     const tools = listApiTools();
-    expect(tools.length).toBeGreaterThanOrEqual(15);
+    expect(tools.length).toBeGreaterThanOrEqual(20);
     expect(tools.find((tool) => tool.slug === 'percentage-calculator')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'binary-calculator')?.input_schema).toBeTruthy();
     expect(tools.every((tool) => tool.tool_url.startsWith('https://accessfreetools.com/tools/'))).toBe(true);
   });
 
@@ -26,6 +27,16 @@ describe('api tool registry', () => {
     });
     expect(JSON.stringify(result.result)).toContain('cubicYards');
     expect(result.warnings.join(' ')).toMatch(/structural/i);
+  });
+
+  it('runs newly API-ready low-risk calculators', () => {
+    expect(runApiTool('basic-calculator', { left: 18, operator: '+', right: 24 }).answer).toContain('42');
+    expect(runApiTool('average-calculator', { values: [10, 12, 14] }).answer).toContain('12');
+    expect(runApiTool('area-calculator', { length: 12, shape: 'rectangle', width: 10 }).answer).toContain('120');
+    expect(runApiTool('binary-calculator', { left: '1011', operator: '+', right: '110' }).answer).toContain('10001');
+    expect(runApiTool('big-number-calculator', { left: '999999999999999999', operator: '+', right: '1' }).answer).toContain(
+      '1,000,000,000,000,000,000',
+    );
   });
 
   it('returns useful validation issues', () => {
@@ -72,6 +83,21 @@ describe('ask tool router parser', () => {
     const answer = await answerUtilityQuestion('Convert 600 watts to amps at 120 volts.');
     expect(answer.route.tool_slug).toBe('watts-to-amps-calculator');
     expect(answer.run.warnings.join(' ')).toMatch(/electrical code/i);
+  });
+
+  it('routes newly API-ready calculator questions through deterministic tools', async () => {
+    await expect(answerUtilityQuestion('What is 18 + 24?')).resolves.toMatchObject({
+      route: { tool_slug: 'basic-calculator' },
+    });
+    await expect(answerUtilityQuestion('What is the average of 10, 12, and 14?')).resolves.toMatchObject({
+      route: { tool_slug: 'average-calculator' },
+    });
+    await expect(answerUtilityQuestion('What is the area of a 12 by 10 rectangle?')).resolves.toMatchObject({
+      route: { tool_slug: 'area-calculator' },
+    });
+    await expect(answerUtilityQuestion('Calculate binary 1011 + 110')).resolves.toMatchObject({
+      route: { tool_slug: 'binary-calculator' },
+    });
   });
 });
 

@@ -59,8 +59,27 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
   <section class="section-band agent-tools-panel" hidden data-agent-dashboard>
     <div class="section-heading">
       <h2>Latest reports</h2>
-      <p>Each card reads the latest saved JSON/Markdown report from <code>output/agent-tools/</code>.</p>
+      <p>
+        Each card reads saved report evidence. Refresh runs safe report-only checks and does not publish,
+        submit indexing, spend paid SEO credits, or edit public pages.
+      </p>
     </div>
+    <form class="agent-refresh-form" data-agent-refresh-form>
+      <label>
+        Refresh
+        <select name="kind">
+          <option value="all">All safe reports</option>
+          <option value="ask-audit">Ask Quality Auditor</option>
+          <option value="api-ready">API Registry Builder</option>
+          <option value="mcp-smoke">MCP Playground Smoke</option>
+          <option value="link-helper">Internal Link Helper</option>
+          <option value="seo-console">Agent SEO Fix Console</option>
+          <option value="content-quality">Content Quality Checker</option>
+        </select>
+      </label>
+      <button class="button-primary" type="submit">Refresh reports</button>
+      <p data-agent-refresh-message>Safe refresh is ready after login.</p>
+    </form>
     <div class="agent-tools-grid" data-agent-report-grid>
       <article class="agent-report-card">
         <strong>No reports loaded yet</strong>
@@ -110,12 +129,14 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
     }
 
     .agent-tools-token-form,
+    .agent-refresh-form,
     .agent-playground form {
       display: grid;
       gap: 1rem;
     }
 
     .agent-tools-token-form label,
+    .agent-refresh-form label,
     .agent-playground label {
       display: grid;
       gap: 0.45rem;
@@ -123,6 +144,7 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
     }
 
     .agent-tools-token-form input,
+    .agent-refresh-form select,
     .agent-playground textarea {
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -143,6 +165,20 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       display: grid;
       gap: 1rem;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    }
+
+    .agent-refresh-form {
+      align-items: end;
+      background: var(--surface-solid);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+      margin: 0 0 1rem;
+      padding: 1rem;
+    }
+
+    .agent-refresh-form p {
+      margin: 0;
     }
 
     .agent-report-card {
@@ -211,6 +247,10 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       .agent-playground {
         grid-template-columns: 1fr;
       }
+
+      .agent-refresh-form {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 
@@ -222,6 +262,8 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       const message = document.querySelector('[data-agent-message]');
       const dashboards = document.querySelectorAll('[data-agent-dashboard]');
       const reportGrid = document.querySelector('[data-agent-report-grid]');
+      const refreshForm = document.querySelector('[data-agent-refresh-form]');
+      const refreshMessage = document.querySelector('[data-agent-refresh-message]');
       const mcpForm = document.querySelector('[data-mcp-form]');
       const mcpOutput = document.querySelector('[data-mcp-output]');
 
@@ -245,6 +287,10 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
 
       const setMessage = (value) => {
         if (message) message.textContent = value;
+      };
+
+      const setRefreshMessage = (value) => {
+        if (refreshMessage) refreshMessage.textContent = value;
       };
 
       const showDashboard = () => {
@@ -314,8 +360,37 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
           }
           showDashboard();
           renderReports(body.reports || []);
+          setRefreshMessage('Safe refresh is ready.');
         } catch {
           setMessage('Agent report endpoint is not available yet. Check the Node deployment.');
+        }
+      };
+
+      const refreshReports = async (token, kind) => {
+        if (!token) return;
+        setRefreshMessage('Refreshing safe reports...');
+
+        try {
+          const response = await fetch('/api/admin/agent-tools', {
+            body: JSON.stringify({ kind }),
+            headers: {
+              accept: 'application/json',
+              'content-type': 'application/json',
+              'x-aft-analytics-token': token,
+            },
+            method: 'POST',
+          });
+          const body = await response.json().catch(() => ({}));
+
+          if (!response.ok || !body.ok) {
+            setRefreshMessage(body.message || 'Refresh was not accepted.');
+            return;
+          }
+
+          renderReports(body.reports || []);
+          setRefreshMessage(`Refreshed ${Array.isArray(body.refreshed) ? body.refreshed.length : 0} report(s).`);
+        } catch {
+          setRefreshMessage('Refresh endpoint is not available yet. Check the Node deployment.');
         }
       };
 
@@ -326,6 +401,15 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
           event.preventDefault();
           const data = new FormData(tokenForm);
           loadReports(String(data.get('token') || ''));
+        });
+      }
+
+      if (refreshForm) {
+        refreshForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const token = window.localStorage.getItem(tokenStorageKey) || '';
+          const data = new FormData(refreshForm);
+          refreshReports(token, String(data.get('kind') || 'all'));
         });
       }
 

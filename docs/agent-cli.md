@@ -116,7 +116,7 @@ The CLI can summarize proof, but it cannot create proof by itself. Public promot
 18. Use `npm run aft -- seo-console` before choosing indexing or discovery fixes.
 19. Use `npm run aft -- proof-check` before changing promotion queue statuses.
 
-The private report viewer is `/admin/agent-tools/`. It uses the analytics/admin token, is noindexed, and only reads saved report evidence. It does not publish, edit pages, submit indexing requests, or run paid API calls.
+The private report viewer is `/admin/agent-tools/`. It uses the analytics/admin token, is noindexed, and can refresh safe report-only checks from the browser. It does not publish, edit pages, submit indexing requests, or run paid API calls. CLI Playwright parity is still the stronger proof when browser-rendered tool output matters.
 
 For a quick no-paid proof refresh after local SEO/audit work, use `npm run audit:deep:no-paid:fast`. It skips Search Console OAuth, the full `npm run check`, and Playwright smoke while still refreshing the local audit, IndexNow, external-link report, indexing protection report, and AI crawler visibility report.
 

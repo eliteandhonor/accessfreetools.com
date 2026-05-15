@@ -63,12 +63,36 @@ function normalizeRouteInputs(slug: string, inputs: Record<string, unknown>) {
     if (phase === 'three' || phase === 'three-phase') normalized.phase = 'three-phase';
   }
 
+  if (
+    ['basic-calculator', 'big-number-calculator', 'binary-calculator'].includes(slug) &&
+    typeof normalized.operator === 'string'
+  ) {
+    normalized.operator = normalizeOperator(normalized.operator);
+  }
+
+  if (slug === 'area-calculator' && typeof normalized.shape === 'string') {
+    normalized.shape = normalized.shape.toLowerCase().replace(/\s+/g, '-');
+  }
+
   return normalized;
 }
 
 function parseFirstNumberPair(message: string) {
   const numbers = [...message.matchAll(/-?\d+(?:\.\d+)?/g)].map((match) => Number(match[0]));
   return numbers.length >= 2 ? [numbers[0], numbers[1]] : null;
+}
+
+function parseNumberList(message: string) {
+  return [...message.matchAll(/-?\d+(?:\.\d+)?/g)].map((match) => Number(match[0]));
+}
+
+function normalizeOperator(value: string) {
+  const normalized = value.toLowerCase().trim();
+  if (normalized === 'x' || normalized === 'times') return '*';
+  if (normalized === 'plus') return '+';
+  if (normalized === 'minus') return '-';
+  if (normalized === 'divided by') return '/';
+  return normalized;
 }
 
 function parseSupportedToolQuestion(message: string): ToolCallRoute | null {
@@ -118,6 +142,46 @@ function parseSupportedToolQuestion(message: string): ToolCallRoute | null {
     }
   }
 
+  if (lower.includes('area')) {
+    const circleMatch = lower.match(/(?:radius|r)\s*(?:is|=|of)?\s*(\d+(?:\.\d+)?)/);
+    if (lower.includes('circle') && circleMatch) {
+      return {
+        confidence: 'high',
+        inputs: { radius: Number(circleMatch[1]), shape: 'circle' },
+        source: 'parser',
+        tool_slug: 'area-calculator',
+      };
+    }
+
+    const dimensionsMatch = lower.match(/(\d+(?:\.\d+)?)\s*(?:x|by)\s*(\d+(?:\.\d+)?)/);
+    if (dimensionsMatch) {
+      const first = Number(dimensionsMatch[1]);
+      const second = Number(dimensionsMatch[2]);
+      if (lower.includes('triangle')) {
+        return {
+          confidence: 'high',
+          inputs: { base: first, height: second, shape: 'triangle' },
+          source: 'parser',
+          tool_slug: 'area-calculator',
+        };
+      }
+      if (lower.includes('parallelogram')) {
+        return {
+          confidence: 'high',
+          inputs: { base: first, height: second, shape: 'parallelogram' },
+          source: 'parser',
+          tool_slug: 'area-calculator',
+        };
+      }
+      return {
+        confidence: 'high',
+        inputs: { length: first, shape: 'rectangle', width: second },
+        source: 'parser',
+        tool_slug: 'area-calculator',
+      };
+    }
+  }
+
   if (lower.includes('concrete')) {
     const match = lower.match(/(\d+(?:\.\d+)?)\s*(?:x|by)\s*(\d+(?:\.\d+)?)(?:.*?(\d+(?:\.\d+)?)\s*(?:in|inch|inches))?/);
     if (match) {
@@ -135,6 +199,34 @@ function parseSupportedToolQuestion(message: string): ToolCallRoute | null {
     }
   }
 
+  if (lower.includes('binary')) {
+    const binaryMatch = lower.match(/(-?[01][01\s_]*)\s*(\+|-|\*|\/|x|times|minus|plus|divided by)\s*(-?[01][01\s_]*)/);
+    if (binaryMatch) {
+      return {
+        confidence: 'high',
+        inputs: {
+          left: binaryMatch[1],
+          operator: normalizeOperator(binaryMatch[2]),
+          right: binaryMatch[3],
+        },
+        source: 'parser',
+        tool_slug: 'binary-calculator',
+      };
+    }
+  }
+
+  if (lower.includes('average') || lower.includes('mean')) {
+    const values = parseNumberList(lower);
+    if (values.length) {
+      return {
+        confidence: 'high',
+        inputs: { values },
+        source: 'parser',
+        tool_slug: 'average-calculator',
+      };
+    }
+  }
+
   if (lower.includes('bmi')) {
     const metricMatch = lower.match(/(\d+(?:\.\d+)?)\s*kg.*?(\d+(?:\.\d+)?)\s*cm/);
     if (metricMatch) {
@@ -145,6 +237,34 @@ function parseSupportedToolQuestion(message: string): ToolCallRoute | null {
         tool_slug: 'bmi-calculator',
       };
     }
+  }
+
+  const bigNumberMatch = lower.match(/(-?\d{13,})\s*(\+|-|\*|\/|x|times|minus|plus|divided by)\s*(-?\d+)/);
+  if (lower.includes('big number') && bigNumberMatch) {
+    return {
+      confidence: 'high',
+      inputs: {
+        left: bigNumberMatch[1],
+        operator: normalizeOperator(bigNumberMatch[2]),
+        right: bigNumberMatch[3],
+      },
+      source: 'parser',
+      tool_slug: 'big-number-calculator',
+    };
+  }
+
+  const arithmeticMatch = lower.match(/(-?\d+(?:\.\d+)?)\s*(\+|-|\*|\/|x|times|minus|plus|divided by)\s*(-?\d+(?:\.\d+)?)/);
+  if (arithmeticMatch) {
+    return {
+      confidence: 'medium',
+      inputs: {
+        left: Number(arithmeticMatch[1]),
+        operator: normalizeOperator(arithmeticMatch[2]),
+        right: Number(arithmeticMatch[3]),
+      },
+      source: 'parser',
+      tool_slug: 'basic-calculator',
+    };
   }
 
   if (lower.includes('tip')) {

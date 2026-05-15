@@ -26,7 +26,7 @@ describe('Access Free Tools API routes', () => {
     const response = await toolsGet({ request: request() } as never);
     const body = await response.json();
     expect(body.ok).toBe(true);
-    expect(body.tools.length).toBeGreaterThanOrEqual(15);
+    expect(body.tools.length).toBeGreaterThanOrEqual(20);
   });
 
   it('returns one tool schema', async () => {
@@ -45,6 +45,17 @@ describe('Access Free Tools API routes', () => {
     const body = await response.json();
     expect(body.ok).toBe(true);
     expect(body.run.answer).toContain('43.2');
+  });
+
+  it('runs a newly API-ready tool', async () => {
+    const response = await runPost({
+      clientAddress: '127.0.0.1',
+      params: { slug: 'binary-calculator' },
+      request: request({ inputs: { left: '1011', operator: '+', right: '110' } }),
+    } as never);
+    const body = await response.json();
+    expect(body.ok).toBe(true);
+    expect(body.run.answer).toContain('10001');
   });
 
   it('rejects invalid tool input', async () => {

@@ -1,6 +1,9 @@
 import { z } from 'zod';
 import {
   analyzeText,
+  calculateBigIntegerOperation,
+  calculateBinary,
+  calculateBinaryIntegerOperation,
   calculateBmi,
   calculateConcrete,
   calculateDateDifference,
@@ -9,6 +12,7 @@ import {
   calculatePaintEstimate,
   calculatePercentOf,
   calculatePercentageOf,
+  calculateShapeArea,
   calculateSubnet,
   calculateTip,
   calculateWattsToAmps,
@@ -16,9 +20,15 @@ import {
   decodeUrlComponentValue,
   encodeBase64,
   encodeUrlComponentValue,
+  formatBigInteger,
+  formatBinaryInteger,
   formatCalculatorNumber,
   formatJsonText,
   generatePassword,
+  parseBigInteger,
+  parseBinaryInteger,
+  type AreaShape,
+  type CalculatorOperator,
   type ElectricalPowerPhase,
 } from './calculator';
 
@@ -120,12 +130,72 @@ function withUrls(slug: string, result: Omit<ApiToolRunResult, 'tool_url' | 'gui
   };
 }
 
+function operatorWord(operator: CalculatorOperator) {
+  return (
+    {
+      '*': 'times',
+      '+': 'plus',
+      '-': 'minus',
+      '/': 'divided by',
+    } satisfies Record<CalculatorOperator, string>
+  )[operator];
+}
+
+function serializeIntegerOperation(
+  operation: ReturnType<typeof calculateBinaryIntegerOperation>,
+  formatter: (value: bigint) => string,
+) {
+  return {
+    left: formatter(operation.left),
+    operator: operation.operator,
+    quotient: operation.quotient === undefined ? undefined : formatter(operation.quotient),
+    remainder: operation.remainder === undefined ? undefined : formatter(operation.remainder),
+    result: formatter(operation.result),
+    right: formatter(operation.right),
+  };
+}
+
 const percentageInput = z.object({
   mode: z.enum(['percent-of', 'what-percent']).default('percent-of'),
   part: z.number().optional(),
   percent: z.number().optional(),
   value: z.number().optional(),
   whole: z.number().optional(),
+});
+
+const calculatorOperatorInput = z.enum(['+', '-', '*', '/']);
+
+const basicCalculatorInput = z.object({
+  left: z.number(),
+  operator: calculatorOperatorInput.default('+'),
+  right: z.number(),
+});
+
+const averageInput = z.object({
+  values: z.array(z.number()).min(1).max(1000),
+});
+
+const areaInput = z.object({
+  base: z.number().positive().optional(),
+  baseA: z.number().positive().optional(),
+  baseB: z.number().positive().optional(),
+  height: z.number().positive().optional(),
+  length: z.number().positive().optional(),
+  radius: z.number().positive().optional(),
+  shape: z.enum(['rectangle', 'triangle', 'circle', 'trapezoid', 'parallelogram']).default('rectangle'),
+  width: z.number().positive().optional(),
+});
+
+const binaryInput = z.object({
+  left: z.string().min(1).max(256),
+  operator: calculatorOperatorInput.default('+'),
+  right: z.string().min(1).max(256),
+});
+
+const bigNumberInput = z.object({
+  left: z.string().min(1).max(512),
+  operator: calculatorOperatorInput.default('+'),
+  right: z.string().min(1).max(512),
 });
 
 const tipInput = z.object({
@@ -222,6 +292,16 @@ const dateDifferenceInput = z.object({
   startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
 });
 
+function areaMeasurements(input: z.infer<typeof areaInput>): Record<string, number> {
+  if (input.shape === 'rectangle') return { length: input.length ?? 0, width: input.width ?? 0 };
+  if (input.shape === 'triangle') return { base: input.base ?? 0, height: input.height ?? 0 };
+  if (input.shape === 'circle') return { radius: input.radius ?? 0 };
+  if (input.shape === 'trapezoid') {
+    return { baseA: input.baseA ?? 0, baseB: input.baseB ?? 0, height: input.height ?? 0 };
+  }
+  return { base: input.base ?? 0, height: input.height ?? 0 };
+}
+
 export const apiTools = [
   {
     category: 'calculators',
@@ -260,6 +340,131 @@ export const apiTools = [
         assumptions: ['Percent means parts per 100.'],
         result: { amount },
         steps: [`${formatNumber(input.percent)} / 100 = ${formatNumber(input.percent / 100)}`, `${formatNumber(input.percent / 100)} x ${formatNumber(input.value)} = ${formatNumber(amount)}`],
+        warnings: [],
+      });
+    },
+  },
+  {
+    category: 'calculators',
+    description: 'Run a basic arithmetic operation with two numbers.',
+    examples: [
+      { label: '18 + 24', inputs: { left: 18, operator: '+', right: 24 } },
+      { label: '144 / 12', inputs: { left: 144, operator: '/', right: 12 } },
+    ],
+    inputSchema: basicCalculatorInput,
+    keywords: ['basic calculator', 'arithmetic', 'add', 'subtract', 'multiply', 'divide'],
+    name: 'Basic Calculator',
+    risk: 'low',
+    slug: 'basic-calculator',
+    summary: 'Calculate a two-number arithmetic expression.',
+    run(input) {
+      const operator = input.operator as CalculatorOperator;
+      const result = calculateBinary(input.left, operator, input.right);
+      return withUrls('basic-calculator', {
+        answer: `${formatCalculatorNumber(input.left)} ${operator} ${formatCalculatorNumber(input.right)} = ${formatCalculatorNumber(result)}.`,
+        assumptions: ['Standard arithmetic order is not needed because this runner uses one operator and two numbers.'],
+        result: { value: result },
+        steps: [`Use ${operatorWord(operator)} on the two numbers`, `${formatCalculatorNumber(input.left)} ${operator} ${formatCalculatorNumber(input.right)} = ${formatCalculatorNumber(result)}`],
+        warnings: [],
+      });
+    },
+  },
+  {
+    category: 'statistics',
+    description: 'Find the average, count, sum, minimum, and maximum of a list of numbers.',
+    examples: [{ label: 'Average of 10, 12, and 14', inputs: { values: [10, 12, 14] } }],
+    inputSchema: averageInput,
+    keywords: ['average', 'mean', 'statistics'],
+    name: 'Average Calculator',
+    risk: 'low',
+    slug: 'average-calculator',
+    summary: 'Calculate the arithmetic mean of a number list.',
+    run(input) {
+      const values = input.values as number[];
+      const sum = values.reduce((total, value) => total + value, 0);
+      const average = sum / values.length;
+      const min = Math.min(...values);
+      const max = Math.max(...values);
+      return withUrls('average-calculator', {
+        answer: `The average is ${formatNumber(average)}.`,
+        assumptions: ['This uses the arithmetic mean: add the values, then divide by how many values there are.'],
+        result: { average, count: values.length, max, min, sum },
+        steps: [`Add the values: ${values.map((value) => formatNumber(value)).join(' + ')} = ${formatNumber(sum)}`, `Divide by ${values.length}: ${formatNumber(sum)} / ${values.length} = ${formatNumber(average)}`],
+        warnings: [],
+      });
+    },
+  },
+  {
+    category: 'geometry',
+    description: 'Calculate area for rectangles, triangles, circles, trapezoids, and parallelograms.',
+    examples: [
+      { label: '12 by 10 rectangle', inputs: { length: 12, shape: 'rectangle', width: 10 } },
+      { label: 'Circle radius 5', inputs: { radius: 5, shape: 'circle' } },
+    ],
+    inputSchema: areaInput,
+    keywords: ['area', 'geometry', 'rectangle', 'circle', 'triangle'],
+    name: 'Area Calculator',
+    risk: 'low',
+    slug: 'area-calculator',
+    summary: 'Calculate common 2D shape area.',
+    run(input) {
+      const result = calculateShapeArea(input.shape as AreaShape, areaMeasurements(input));
+      return withUrls('area-calculator', {
+        answer: `The ${input.shape} area is ${formatNumber(result.value)} square units.`,
+        assumptions: ['All measurements use the same unit.', 'The answer is in square units of whatever unit you entered.'],
+        result,
+        steps: [`Formula: ${result.formula}`, `Measurements: ${result.metrics.map((metric) => `${metric.label} ${formatNumber(metric.value)}`).join(', ')}`, `Area = ${formatNumber(result.value)} square units`],
+        warnings: [],
+      });
+    },
+  },
+  {
+    category: 'developer-tools',
+    description: 'Add, subtract, multiply, or divide two binary whole numbers.',
+    examples: [{ label: '1011 + 110', inputs: { left: '1011', operator: '+', right: '110' } }],
+    inputSchema: binaryInput,
+    keywords: ['binary', 'base 2', 'developer', 'integer'],
+    name: 'Binary Calculator',
+    risk: 'low',
+    slug: 'binary-calculator',
+    summary: 'Calculate binary integer operations.',
+    run(input) {
+      const operator = input.operator as CalculatorOperator;
+      const left = parseBinaryInteger(input.left, 'Left binary value');
+      const right = parseBinaryInteger(input.right, 'Right binary value');
+      const operation = calculateBinaryIntegerOperation(left, operator, right);
+      const binary = serializeIntegerOperation(operation, formatBinaryInteger);
+      const decimal = serializeIntegerOperation(operation, (value) => value.toString());
+      return withUrls('binary-calculator', {
+        answer: `${formatBinaryInteger(left)} ${operator} ${formatBinaryInteger(right)} = ${formatBinaryInteger(operation.result)} in binary.`,
+        assumptions: ['Inputs are whole binary integers using only 0 and 1.', 'Division returns an integer quotient and may include a remainder.'],
+        result: { binary, decimal },
+        steps: [`Convert binary inputs to decimal: ${formatBinaryInteger(left)} = ${left.toString()}, ${formatBinaryInteger(right)} = ${right.toString()}`, `Run the ${operatorWord(operator)} operation`, `Convert the result back to binary: ${operation.result.toString()} = ${formatBinaryInteger(operation.result)}`],
+        warnings: [],
+      });
+    },
+  },
+  {
+    category: 'calculators',
+    description: 'Add, subtract, multiply, or divide very large whole numbers.',
+    examples: [{ label: '999999999999999999 + 1', inputs: { left: '999999999999999999', operator: '+', right: '1' } }],
+    inputSchema: bigNumberInput,
+    keywords: ['big number', 'large integer', 'whole number', 'arithmetic'],
+    name: 'Big Number Calculator',
+    risk: 'low',
+    slug: 'big-number-calculator',
+    summary: 'Calculate arithmetic with large whole numbers.',
+    run(input) {
+      const operator = input.operator as CalculatorOperator;
+      const left = parseBigInteger(input.left, 'Left value');
+      const right = parseBigInteger(input.right, 'Right value');
+      const operation = calculateBigIntegerOperation(left, operator, right);
+      const result = serializeIntegerOperation(operation, formatBigInteger);
+      return withUrls('big-number-calculator', {
+        answer: `${formatBigInteger(left)} ${operator} ${formatBigInteger(right)} = ${formatBigInteger(operation.result)}.`,
+        assumptions: ['Inputs are whole integers. Use the decimal calculator for regular decimal numbers.'],
+        result,
+        steps: [`Read both values as whole integers`, `Run the ${operatorWord(operator)} operation`, `Result: ${formatBigInteger(operation.result)}`],
         warnings: [],
       });
     },
@@ -387,7 +592,7 @@ export const apiTools = [
     run(input) {
       const result = calculateDownloadTime(input.fileSize, input.fileUnit, input.speedMbps, input.efficiencyPercent);
       return withUrls('download-time-calculator', {
-        answer: `Estimated download time is about ${durationText(result.seconds)} (${formatNumber(result.minutes)} minutes).`,
+        answer: `Estimated download time is about ${durationText(result.seconds)}.`,
         assumptions: ['File units use decimal bytes.', 'Efficiency accounts for real-world overhead and speed changes.'],
         result: { duration: durationText(result.seconds), ...result },
         steps: [`Effective speed: ${formatNumber(input.speedMbps)} Mbps x ${formatNumber(input.efficiencyPercent, '%')} = ${formatNumber(result.effectiveMbps)} Mbps`, `Convert file size to bits, then divide by effective Mbps`, `Seconds: ${formatNumber(result.seconds)} (${durationText(result.seconds)})`],
