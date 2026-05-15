@@ -95,13 +95,15 @@
     "@astrojs/node": "^10.0.6",
     "@astrojs/react": "^5.0.4",
     "@huggingface/transformers": "^4.2.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "astro": "^6.1.9",
     "franc-min": "^6.2.0",
     "lucide-react": "^1.11.0",
     "nodemailer": "^8.0.7",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "tesseract.js": "^7.0.0"
+    "tesseract.js": "^7.0.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",

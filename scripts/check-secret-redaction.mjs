@@ -5,10 +5,24 @@ import { readHostingerLocalEnv } from './lib/hostinger-api.mjs';
 
 const root = process.cwd();
 const hostingerToken = readHostingerLocalEnv().HOSTINGER_API_TOKEN || process.env.HOSTINGER_API_TOKEN || '';
+const ollamaToken = readLocalEnv(resolve(root, '.local', 'ollama.env')).OLLAMA_API_KEY || process.env.OLLAMA_API_KEY || process.env.OLLAMA || '';
 const trackedFiles = execFileSync('git', ['ls-files'], { encoding: 'utf8' })
   .split(/\r?\n/)
   .filter(Boolean);
 const issues = [];
+
+function readLocalEnv(path) {
+  if (!existsSync(path)) return {};
+
+  return readFileSync(path, 'utf8')
+    .split(/\r?\n/)
+    .reduce((values, line) => {
+      const match = line.trim().match(/^([A-Z0-9_]+)=(.*)$/);
+      if (!match) return values;
+      values[match[1]] = match[2].replace(/^["']|["']$/g, '');
+      return values;
+    }, {});
+}
 
 function isBinary(path) {
   const buffer = readFileSync(path);
@@ -26,12 +40,27 @@ if (hostingerToken) {
   }
 }
 
+if (ollamaToken) {
+  for (const file of trackedFiles) {
+    const path = resolve(root, file);
+    if (!existsSync(path) || isBinary(path)) continue;
+    const text = readFileSync(path, 'utf8');
+    if (text.includes(ollamaToken)) {
+      issues.push(`${file} contains the local Ollama API key.`);
+    }
+  }
+}
+
 for (const file of trackedFiles) {
   const path = resolve(root, file);
   if (!existsSync(path) || isBinary(path)) continue;
   const text = readFileSync(path, 'utf8');
   if (/HOSTINGER_API_TOKEN\s*=\s*[A-Za-z0-9._~+/=-]{20,}/.test(text)) {
     issues.push(`${file} appears to contain an inline Hostinger API token assignment.`);
+  }
+
+  if (/OLLAMA(?:_API_KEY)?\s*=\s*[A-Za-z0-9._~+/=-]{30,}/.test(text)) {
+    issues.push(`${file} appears to contain an inline Ollama API key assignment.`);
   }
 }
 

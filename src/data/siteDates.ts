@@ -10,9 +10,11 @@ const DEFAULT_BLOG_PUBLISHED_DATE = '2026-04-30';
 const staticPageLastmod: Record<string, string> = {
   '/': '2026-05-02',
   '/tools/': LAST_MAJOR_CONTENT_UPDATE,
+  '/ask/': '2026-05-15',
   '/categories/': '2026-05-02',
   '/blog/': LAST_MAJOR_CONTENT_UPDATE,
   '/free-calculator-resources/': '2026-05-02',
+  '/developers/mcp/': '2026-05-15',
   '/about/': '2026-05-10',
   '/why-access-free-tools/': '2026-05-09',
   '/contact/': '2026-04-30',

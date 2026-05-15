@@ -1,0 +1,66 @@
+---
+export const prerender = true;
+
+import BaseLayout from '../../components/BaseLayout.astro';
+import { listApiTools } from '../../lib/apiToolRegistry';
+
+const toolCount = listApiTools().length;
+---
+
+<BaseLayout
+  title="Access Free Tools API And MCP | Developer Alpha"
+  description="Connect apps and AI agents to Access Free Tools through REST API endpoints and a stateless Streamable HTTP MCP endpoint."
+  path="/developers/mcp/"
+>
+  <section class="page-intro developer-hero">
+    <p class="breadcrumb"><a href="/">Home</a> / Developers / MCP</p>
+    <p class="eyebrow">Developer alpha</p>
+    <h1>Access Free Tools API and MCP</h1>
+    <p>
+      Access Free Tools now has an alpha tool execution layer for apps, agents,
+      and LLM clients. It starts with {toolCount} deterministic tools and returns
+      answers with steps, assumptions, warnings, and links to the real website tools.
+    </p>
+  </section>
+
+  <section class="section-band developer-grid" aria-label="Developer endpoints">
+    <article class="developer-card">
+      <h2>REST API</h2>
+      <p>Use JSON endpoints when building apps, automations, browser extensions, or normal server integrations.</p>
+      <pre><code>{`GET /api/v1/tools
+GET /api/v1/tools/percentage-calculator
+POST /api/v1/run/percentage-calculator
+POST /api/v1/ask
+GET /api/openapi.json`}</code></pre>
+    </article>
+
+    <article class="developer-card">
+      <h2>MCP endpoint</h2>
+      <p>Use the MCP endpoint when an LLM client supports remote Streamable HTTP MCP servers.</p>
+      <pre><code>{`https://accessfreetools.com/mcp`}</code></pre>
+      <p>The MCP server exposes <code>search_tools</code>, <code>get_tool_schema</code>, <code>run_tool</code>, and <code>fetch_tool_guide</code>.</p>
+    </article>
+
+    <article class="developer-card">
+      <h2>Run a tool</h2>
+      <p>Every result cites the tool and guide URL so people can double-check the answer on the site.</p>
+      <pre><code>{`POST /api/v1/run/percentage-calculator
+{
+  "inputs": {
+    "mode": "percent-of",
+    "percent": 18,
+    "value": 240
+  }
+}`}</code></pre>
+    </article>
+
+    <article class="developer-card">
+      <h2>Trust rules</h2>
+      <p>
+        Finance, health, construction, electrical, privacy, and sensitive tools return
+        warnings. Access Free Tools should be used for estimates and learning, not as
+        professional approval.
+      </p>
+    </article>
+  </section>
+</BaseLayout>
