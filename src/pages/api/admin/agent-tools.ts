@@ -29,6 +29,18 @@ function parseKind(value: unknown): AgentToolKind | 'all' {
   return 'all';
 }
 
+function requestOrigin(request: Request) {
+  const urlOrigin = new URL(request.url).origin;
+  const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || '';
+  const proto = request.headers.get('x-forwarded-proto') || (host.includes('localhost') ? 'http' : 'https');
+
+  if (host && !host.includes('localhost') && !host.startsWith('127.0.0.1')) {
+    return `${proto}://${host}`;
+  }
+
+  return urlOrigin;
+}
+
 export const GET: APIRoute = ({ request }) => {
   if (!isAnalyticsAdminToken(getToken(request))) {
     return jsonResponse({ ok: false, message: 'Admin analytics token required.' }, 401);
@@ -52,7 +64,7 @@ export const POST: APIRoute = async ({ request }) => {
     body = {};
   }
 
-  const origin = new URL(request.url).origin;
+  const origin = requestOrigin(request);
   const refreshed = await refreshAgentToolReports({ kind: parseKind(body.kind), origin });
 
   return jsonResponse({
