@@ -83,6 +83,30 @@ function reportStatus(issues: string[], warnings: string[] = []) {
   return 'pass';
 }
 
+function builtHtmlPath(pagePath: string) {
+  const cleanPath = pagePath.replace(/^\/+|\/+$/g, '');
+  return rootPath('dist', cleanPath, 'index.html');
+}
+
+async function sourceContainsLink(origin: string | undefined, source: string, target: string) {
+  let text = readTextFile(builtHtmlPath(source));
+
+  if (!text && origin) {
+    try {
+      const response = await fetch(`${origin.replace(/\/$/, '')}${source}`, {
+        headers: { accept: 'text/html' },
+      });
+      if (response.ok) text = await response.text();
+    } catch {
+      // Missing network proof is handled by returning null below.
+    }
+  }
+
+  if (!text) return null;
+
+  return text.includes(`href="${target}"`) || text.includes(`href='${target}'`);
+}
+
 function writeReport(kind: AgentToolKind, report: Record<string, unknown>, markdown: string) {
   const dir = rootPath(AGENT_TOOLS_OUTPUT_DIR, kind);
   mkdirSync(dir, { recursive: true });
@@ -350,7 +374,7 @@ ${markdownList(issues)}
   return { ...report, paths };
 }
 
-export function refreshLinkHelperReport() {
+export async function refreshLinkHelperReport(origin?: string) {
   const generatedAt = new Date().toISOString();
   const inspection = readJsonFile(rootPath('output', 'search-console-url-inspection.json'));
   const analytics = readJsonFile(rootPath('output', 'analytics', 'summary.json'));
@@ -358,7 +382,7 @@ export function refreshLinkHelperReport() {
   if (!inspection) warnings.push('not enough data: Search Console inspection snapshot is missing from output/.');
   if (!analytics) warnings.push('not enough data: analytics usage summary is missing from output/analytics/summary.json.');
 
-  const suggestions = [
+  const linkChecks = [
     {
       priority: 'high',
       source: '/blog/how-to-use-concrete-calculator/',
@@ -384,13 +408,24 @@ export function refreshLinkHelperReport() {
       why: 'API/MCP visitors should see that Ask uses the same deterministic tool runtime.',
     },
   ];
+  const checkedLinks = [];
+  const suggestions = [];
+
+  for (const item of linkChecks) {
+    const present = await sourceContainsLink(origin, item.source, item.target);
+    checkedLinks.push({ ...item, present });
+    if (present === false) suggestions.push(item);
+    if (present === null) warnings.push(`not enough data: could not verify ${item.source} links to ${item.target}.`);
+  }
+
   const status = reportStatus([], warnings);
   const report = {
+    checkedLinks,
     generatedAt,
     kind: 'link-helper',
     status,
     suggestions,
-    summary: { suggestions: suggestions.length, warnings: warnings.length },
+    summary: { checkedLinks: checkedLinks.length, suggestions: suggestions.length, warnings: warnings.length },
     warnings,
   };
   const paths = writeReport(
@@ -405,6 +440,15 @@ Status: ${status}
 ## Suggestions
 
 ${markdownList(suggestions.map((item) => `${item.priority}: ${item.source} -> ${item.target} - ${item.why}`))}
+
+## Checked Links
+
+${markdownList(
+  checkedLinks.map((item) => {
+    const state = item.present === true ? 'present' : item.present === false ? 'missing' : 'not enough data';
+    return `${state}: ${item.source} -> ${item.target}`;
+  }),
+)}
 
 ## Warnings
 
@@ -541,7 +585,7 @@ export async function refreshAgentToolReports(options: { kind?: AgentToolKind | 
       if (kind === 'ask-audit') refreshed.push(await refreshAskAuditReport());
       if (kind === 'api-ready') refreshed.push(refreshApiReadyReport());
       if (kind === 'mcp-smoke') refreshed.push(await refreshMcpSmokeReport(options.origin || SITE_ORIGIN));
-      if (kind === 'link-helper') refreshed.push(refreshLinkHelperReport());
+      if (kind === 'link-helper') refreshed.push(await refreshLinkHelperReport(options.origin || SITE_ORIGIN));
       if (kind === 'seo-console') refreshed.push(refreshSeoConsoleReport());
       if (kind === 'content-quality') refreshed.push(refreshContentQualityReport());
     } catch (error) {

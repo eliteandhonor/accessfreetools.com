@@ -20,6 +20,8 @@ const toolCount = listApiTools().length;
       Access Free Tools now has an alpha tool execution layer for apps, agents,
       and LLM clients. It starts with {toolCount} deterministic tools and returns
       answers with steps, assumptions, warnings, and links to the real website tools.
+      If you want the human-facing version first, try <a href="/ask/">Ask Access Free Tools</a>;
+      it uses the same deterministic runners behind the API and MCP endpoint.
     </p>
   </section>
 
@@ -43,7 +45,12 @@ GET /api/openapi.json`}</code></pre>
 
     <article class="developer-card">
       <h2>Run a tool</h2>
-      <p>Every result cites the tool and guide URL so people can double-check the answer on the site.</p>
+      <p>
+        Every result cites the tool and guide URL so people can double-check the answer on the site.
+        For example, electrical questions can call the
+        <a href="/tools/watts-to-amps-calculator/">Watts to Amps Calculator</a>
+        instead of asking a model to guess the math.
+      </p>
       <pre><code>{`POST /api/v1/run/percentage-calculator
 {
   "inputs": {

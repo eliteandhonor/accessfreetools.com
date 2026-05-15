@@ -257,7 +257,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Walkway', expression: '24 ft x 3 ft x 4 in, 10% extra', result: 'About 0.98 cubic yards' },
       { label: 'Small pad', expression: '6 ft x 6 ft x 3.5 in, 5% extra', result: 'About 0.41 cubic yards' },
     ],
-    relatedSlugs: ['volume-calculator', 'area-calculator', 'conversion-calculator'],
+    relatedSlugs: ['volume-calculator', 'area-calculator', 'wallpaper-calculator', 'conversion-calculator'],
   }),
   makeUtilityTool({
     slug: 'subnet-calculator',
