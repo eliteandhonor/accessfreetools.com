@@ -53,6 +53,28 @@ The CLI is for agent support only. It must not publish posts, edit live social c
 
 - `npm run aft -- content-score <file>`
   - Checks one content file for generic phrases, agent-facing text, concrete examples, and Access Free Tools links. Medium drafts are matched against the Medium quality report when possible.
+  - Also writes the latest internal report to `output/agent-tools/content-quality/latest.json` and `.md`.
+
+- `npm run aft -- ask-audit`
+  - Checks the production or selected site origin for Ask/API/MCP parity on the first deterministic utility questions: percentage, concrete, download time, and watts to amps.
+  - Saves `output/agent-tools/ask-audit/latest.json` and `.md`.
+  - Any missing Search/API/tool-page evidence must be reported as `not enough data`; do not guess.
+
+- `npm run aft -- api-ready`
+  - Ranks existing tools for future `apiToolRegistry` expansion without generating code.
+  - Saves `output/agent-tools/api-ready/latest.json` and `.md`.
+
+- `npm run aft -- mcp-smoke`
+  - Runs MCP `tools/list`, `search_tools`, and `run_tool` checks against the selected site origin.
+  - Saves `output/agent-tools/mcp-smoke/latest.json` and `.md`.
+
+- `npm run aft -- link-helper`
+  - Recommends internal links from available sitemap, Search Console, CrawlScout, and anonymous analytics evidence.
+  - Saves `output/agent-tools/link-helper/latest.json` and `.md`.
+
+- `npm run aft -- seo-console`
+  - Summarizes indexing, sitemap, CrawlScout, IndexNow, DataForSEO, and marketing-orchestrator evidence into a report-only fix queue.
+  - Saves `output/agent-tools/seo-console/latest.json` and `.md`.
 
 - `npm run aft -- proof-check`
   - Finds promotion queue rows that claim a live or done status without visible public proof, and rows intentionally waiting for proof.
@@ -87,7 +109,14 @@ The CLI can summarize proof, but it cannot create proof by itself. Public promot
 11. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
 12. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
 13. Use `npm run aft -- content-score <file>` before Medium, DEV Community, Quora, Reddit, or longer promotion copy goes public.
-14. Use `npm run aft -- proof-check` before changing promotion queue statuses.
+14. Use `npm run aft -- ask-audit` after Ask/API/MCP changes and before claiming live answer quality.
+15. Use `npm run aft -- api-ready` before expanding the public API registry.
+16. Use `npm run aft -- mcp-smoke` after MCP route changes.
+17. Use `npm run aft -- link-helper` before internal-link improvement batches.
+18. Use `npm run aft -- seo-console` before choosing indexing or discovery fixes.
+19. Use `npm run aft -- proof-check` before changing promotion queue statuses.
+
+The private report viewer is `/admin/agent-tools/`. It uses the analytics/admin token, is noindexed, and only reads saved report evidence. It does not publish, edit pages, submit indexing requests, or run paid API calls.
 
 For a quick no-paid proof refresh after local SEO/audit work, use `npm run audit:deep:no-paid:fast`. It skips Search Console OAuth, the full `npm run check`, and Playwright smoke while still refreshing the local audit, IndexNow, external-link report, indexing protection report, and AI crawler visibility report.
 

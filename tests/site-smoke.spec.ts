@@ -21,6 +21,7 @@ const smokePages = [
   '/privacy-policy/',
   '/terms/',
   '/advertising-disclosure/',
+  '/admin/agent-tools/',
   '/tools/mortgage-calculator/',
   '/tools/income-tax-calculator/',
   '/tools/bmi-calculator/',
@@ -43,6 +44,7 @@ const accessibilityPages = [
   '/contact/',
   '/privacy-policy/',
   '/terms/',
+  '/admin/agent-tools/',
   '/tools/watts-to-amps-calculator/',
   '/tools/image-to-text-ocr-tool/',
 ];
@@ -158,6 +160,16 @@ test.describe('site smoke coverage', () => {
     await page.goto('/tools/image-to-text-ocr-tool/');
     await page.waitForLoadState('networkidle');
     expect(modelRequests).toEqual([]);
+  });
+
+  test('private agent tools page stays noindexed and token gated', async ({ page }) => {
+    await page.goto('/admin/agent-tools/');
+    await expect(page.getByRole('heading', { name: 'Agent Tools' })).toBeVisible();
+    await expect(page.getByLabel('Admin token')).toBeVisible();
+
+    const robots = await page.locator('meta[name="robots"]').getAttribute('content');
+    expect(robots).toContain('noindex');
+    await expect(page.locator('[data-agent-dashboard]')).toHaveCount(3);
   });
 });
 

@@ -2,6 +2,14 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { basename, join, relative, resolve } from 'node:path';
 import { Command } from 'commander';
+import {
+  buildApiReadyReport,
+  buildLinkHelperReport,
+  buildSeoConsoleReport,
+  runAskAudit,
+  runContentQualityReport,
+  runMcpSmoke,
+} from './lib/agent-tools-report.mjs';
 
 const SITE_ORIGIN = 'https://accessfreetools.com';
 const root = process.cwd();
@@ -1098,13 +1106,97 @@ function contentScoreCommand(filePath, command) {
     issues,
     warnings,
   };
+  let strictReport = null;
+  try {
+    strictReport = runContentQualityReport(filePath);
+    payload.agentToolsReport = {
+      issues: strictReport.issues,
+      paths: strictReport.paths,
+      status: strictReport.status,
+      warnings: strictReport.warnings,
+    };
+    for (const issue of strictReport.issues ?? []) {
+      if (!payload.issues.includes(issue)) payload.issues.push(issue);
+    }
+    for (const warning of strictReport.warnings ?? []) {
+      if (!payload.warnings.includes(warning)) payload.warnings.push(warning);
+    }
+  } catch (error) {
+    payload.agentToolsReport = {
+      error: error instanceof Error ? error.message : String(error),
+      status: 'fail',
+    };
+    payload.issues.push(`Agent tools content report failed: ${payload.agentToolsReport.error}`);
+  }
 
   emit(command, payload, [
     `Content score: ${payload.file}`,
     `- Words: ${wordCount}; headings: ${headingCount}; numbers: ${numberCount}; Access Free Tools links: ${accessLinks.length}`,
     mediumResult ? `- Medium scores: SEO ${mediumResult.scores?.seo}, originality ${mediumResult.scores?.originality}, human interest ${mediumResult.scores?.humanInterest}, reader desire ${mediumResult.scores?.readerDesire}, overall ${mediumResult.scores?.overall}` : '- Medium report match: none',
-    issues.length ? `- Issues: ${issues.join(' | ')}` : '- Issues: none',
-    warnings.length ? `- Warnings: ${warnings.join(' | ')}` : '- Warnings: none',
+    strictReport?.paths?.markdownPath ? `- Saved report: ${strictReport.paths.markdownPath}` : '',
+    payload.issues.length ? `- Issues: ${payload.issues.join(' | ')}` : '- Issues: none',
+    payload.warnings.length ? `- Warnings: ${payload.warnings.join(' | ')}` : '- Warnings: none',
+  ]);
+}
+
+async function askAuditCommand(command) {
+  const report = await runAskAudit({ browser: !command.skipBrowser, site: command.site ?? command.opts?.().site });
+  emit(command, report, [
+    `Ask quality audit: ${report.status}`,
+    `- Site: ${report.site}`,
+    `- Cases: ${report.summary.cases}; issues: ${report.summary.issues}; warnings: ${report.summary.warnings}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    report.issues.length ? `- Issues: ${report.issues.join(' | ')}` : '- Issues: none',
+    report.warnings.length ? `- Warnings: ${report.warnings.slice(0, 3).join(' | ')}` : '- Warnings: none',
+  ]);
+  if (report.status === 'fail') process.exitCode = 1;
+}
+
+function apiReadyCommand(command) {
+  const report = buildApiReadyReport();
+  emit(command, report, [
+    `API registry builder: ${report.status}`,
+    `- API-ready tools: ${report.summary.apiReadyTools}`,
+    `- Candidates checked: ${report.summary.candidatesChecked}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    '- Recommended next:',
+    ...report.recommendedNext.slice(0, 5).map((tool, index) => `  ${index + 1}. ${tool.name} (${tool.slug}) - score ${tool.score}, risk ${tool.risk}`),
+  ]);
+}
+
+async function mcpSmokeCommand(command) {
+  const report = await runMcpSmoke({ site: command.site ?? command.opts?.().site });
+  emit(command, report, [
+    `MCP smoke: ${report.status}`,
+    `- Site: ${report.site}`,
+    `- Checks: ${report.summary.checks}; issues: ${report.summary.issues}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    report.issues.length ? `- Issues: ${report.issues.join(' | ')}` : '- Issues: none',
+  ]);
+  if (report.status === 'fail') process.exitCode = 1;
+}
+
+function linkHelperCommand(command) {
+  const report = buildLinkHelperReport();
+  emit(command, report, [
+    `Internal link helper: ${report.status}`,
+    `- Sitemap URLs: ${report.sitemap.urlCount || 'not enough data'}`,
+    `- Suggestions: ${report.suggestions.length}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    '- Top suggestions:',
+    ...report.suggestions.slice(0, 5).map((item, index) => `  ${index + 1}. ${item.priority}: ${item.target} (${item.reason})`),
+    report.warnings.length ? `- Source warnings: ${report.warnings.join(' | ')}` : '- Source warnings: none',
+  ]);
+}
+
+function seoConsoleCommand(command) {
+  const report = buildSeoConsoleReport();
+  emit(command, report, [
+    `Agent SEO fix console: ${report.status}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    '- Next actions:',
+    ...report.actions.slice(0, 5).map((item, index) => `  ${index + 1}. ${item.priority}: ${item.task}`),
+    report.warnings.length ? `- Source warnings: ${report.warnings.join(' | ')}` : '- Source warnings: none',
   ]);
 }
 
@@ -1218,6 +1310,39 @@ program
   .argument('<file>', 'Path to the content file.')
   .option('--json', 'Output JSON.')
   .action(contentScoreCommand);
+
+program
+  .command('ask-audit')
+  .description('Compare Ask, REST run, MCP run_tool, and tool-page availability for API-ready starter examples.')
+  .option('--site <url>', 'Site origin to audit.', SITE_ORIGIN)
+  .option('--skip-browser', 'Skip rendered tool-page browser parity checks.')
+  .option('--json', 'Output JSON.')
+  .action(askAuditCommand);
+
+program
+  .command('api-ready')
+  .description('Rank existing tools for safe future API registry expansion without generating code.')
+  .option('--json', 'Output JSON.')
+  .action(apiReadyCommand);
+
+program
+  .command('mcp-smoke')
+  .description('Run a small MCP tools/list, search_tools, and run_tool smoke test.')
+  .option('--site <url>', 'Site origin to audit.', SITE_ORIGIN)
+  .option('--json', 'Output JSON.')
+  .action(mcpSmokeCommand);
+
+program
+  .command('link-helper')
+  .description('Recommend contextual internal links from Search Console, CrawlScout, sitemap, and analytics evidence.')
+  .option('--json', 'Output JSON.')
+  .action(linkHelperCommand);
+
+program
+  .command('seo-console')
+  .description('Summarize current SEO/indexing evidence and report-only next fixes.')
+  .option('--json', 'Output JSON.')
+  .action(seoConsoleCommand);
 
 program.command('proof-check').description('Find promotion queue rows that still need public proof.').option('--json', 'Output JSON.').action(proofCheckCommand);
 

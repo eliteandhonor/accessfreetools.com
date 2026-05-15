@@ -1,0 +1,361 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+
+export const prerender = true;
+
+const pagePath = '/admin/agent-tools/';
+const mcpExample = JSON.stringify(
+  {
+    jsonrpc: '2.0',
+    id: 1,
+    method: 'tools/call',
+    params: {
+      name: 'run_tool',
+      arguments: {
+        slug: 'percentage-calculator',
+        inputs: {
+          mode: 'percent-of',
+          percent: 18,
+          value: 240,
+        },
+      },
+    },
+  },
+  null,
+  2,
+);
+const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
+---
+
+<BaseLayout
+  title="Agent Tools | Access Free Tools"
+  description="Private Access Free Tools agent report hub for Ask, API, MCP, SEO, internal links, and content quality."
+  path={pagePath}
+  noindex
+>
+  <section class="page-intro agent-tools-hero">
+    <p class="breadcrumb"><a href="/">Home</a> / Admin / Agent Tools</p>
+    <h1>Agent Tools</h1>
+    <p>
+      Private report hub for checking Ask answers, API-ready tools, MCP calls, internal links,
+      SEO evidence, and content quality before agents make claims.
+    </p>
+  </section>
+
+  <section class="content-section content-section-narrow agent-tools-login" data-agent-login-panel>
+    <h2>Private agent login</h2>
+    <p>Use the same private analytics token. Reports stay read-only and no public action runs from this page.</p>
+    <form class="agent-tools-token-form" data-agent-token-form>
+      <label>
+        Admin token
+        <input type="password" name="token" autocomplete="current-password" required />
+      </label>
+      <button class="button-primary" type="submit">Open agent tools</button>
+    </form>
+    <p data-agent-message>Enter the private token to load the latest report evidence.</p>
+  </section>
+
+  <section class="section-band agent-tools-panel" hidden data-agent-dashboard>
+    <div class="section-heading">
+      <h2>Latest reports</h2>
+      <p>Each card reads the latest saved JSON/Markdown report from <code>output/agent-tools/</code>.</p>
+    </div>
+    <div class="agent-tools-grid" data-agent-report-grid>
+      <article class="agent-report-card">
+        <strong>No reports loaded yet</strong>
+        <p>Run <code>npm run aft -- ask-audit</code> or another agent command first.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-band section-band-soft agent-tools-panel" hidden data-agent-dashboard>
+    <div class="section-heading">
+      <h2>MCP playground</h2>
+      <p>Private quick check for the public MCP endpoint. It sends one JSON-RPC request and shows the raw response.</p>
+    </div>
+    <div class="agent-playground">
+      <form data-mcp-form>
+        <label>
+          MCP request
+          <textarea name="payload" rows="10" spellcheck="false">{mcpExample}</textarea>
+        </label>
+        <button class="button-primary" type="submit">Run MCP check</button>
+      </form>
+      <pre data-mcp-output>{waitingExample}</pre>
+    </div>
+  </section>
+
+  <section class="content-section content-section-narrow agent-tools-panel" hidden data-agent-dashboard>
+    <h2>CLI commands</h2>
+    <ul class="agent-command-list">
+      <li><code>npm run aft -- ask-audit</code> checks Ask, REST, MCP, and tool-page availability.</li>
+      <li><code>npm run aft -- api-ready</code> ranks future API registry candidates.</li>
+      <li><code>npm run aft -- mcp-smoke</code> tests MCP list, search, and run calls.</li>
+      <li><code>npm run aft -- link-helper</code> suggests internal links from real evidence.</li>
+      <li><code>npm run aft -- seo-console</code> summarizes indexing and SEO next fixes.</li>
+      <li><code>npm run aft -- content-score &lt;file&gt;</code> checks drafts for reader quality problems.</li>
+    </ul>
+  </section>
+
+  <style>
+    .agent-tools-hero {
+      max-width: 980px;
+    }
+
+    .agent-tools-login,
+    .agent-tools-panel {
+      border: 1px solid var(--border);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .agent-tools-token-form,
+    .agent-playground form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .agent-tools-token-form label,
+    .agent-playground label {
+      display: grid;
+      gap: 0.45rem;
+      font-weight: 700;
+    }
+
+    .agent-tools-token-form input,
+    .agent-playground textarea {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font: inherit;
+      padding: 0.85rem 1rem;
+    }
+
+    .agent-playground textarea,
+    .agent-playground pre {
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      overflow: auto;
+    }
+
+    .agent-tools-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    }
+
+    .agent-report-card {
+      background: var(--surface-solid);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: grid;
+      gap: 0.65rem;
+      padding: 1rem;
+    }
+
+    .agent-report-card strong {
+      color: var(--text);
+      font-size: 1.05rem;
+    }
+
+    .agent-status {
+      border-radius: 999px;
+      display: inline-flex;
+      font-size: 0.8rem;
+      font-weight: 800;
+      justify-self: start;
+      padding: 0.25rem 0.65rem;
+      text-transform: uppercase;
+    }
+
+    .agent-status-pass {
+      background: #dbf7e8;
+      color: #12683d;
+    }
+
+    .agent-status-attention,
+    .agent-status-not-run {
+      background: #fff3cd;
+      color: #7a4d00;
+    }
+
+    .agent-status-fail {
+      background: #fde2e2;
+      color: #a52525;
+    }
+
+    .agent-playground {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .agent-playground pre {
+      background: #102a2d;
+      border-radius: 8px;
+      color: #e9fff7;
+      margin: 0;
+      min-height: 18rem;
+      padding: 1rem;
+      white-space: pre-wrap;
+    }
+
+    .agent-command-list {
+      display: grid;
+      gap: 0.65rem;
+      padding-left: 1.2rem;
+    }
+
+    @media (max-width: 760px) {
+      .agent-playground {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <script is:inline>
+    (() => {
+      const tokenStorageKey = 'access-free-tools-analytics-token';
+      const loginPanel = document.querySelector('[data-agent-login-panel]');
+      const tokenForm = document.querySelector('[data-agent-token-form]');
+      const message = document.querySelector('[data-agent-message]');
+      const dashboards = document.querySelectorAll('[data-agent-dashboard]');
+      const reportGrid = document.querySelector('[data-agent-report-grid]');
+      const mcpForm = document.querySelector('[data-mcp-form]');
+      const mcpOutput = document.querySelector('[data-mcp-output]');
+
+      const reportLabels = {
+        'api-ready': 'API Registry Builder',
+        'ask-audit': 'Ask Quality Auditor',
+        'content-quality': 'Content Quality Checker',
+        'link-helper': 'Internal Link Helper',
+        'mcp-smoke': 'MCP Playground Smoke',
+        'seo-console': 'Agent SEO Fix Console',
+      };
+
+      const escapeHtml = (value) =>
+        String(value ?? '').replace(/[&<>"']/g, (char) => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;',
+        })[char]);
+
+      const setMessage = (value) => {
+        if (message) message.textContent = value;
+      };
+
+      const showDashboard = () => {
+        dashboards.forEach((section) => {
+          section.hidden = false;
+        });
+        if (loginPanel) loginPanel.hidden = true;
+      };
+
+      const summaryText = (entry) => {
+        const report = entry.report || {};
+        if (!report) return 'No report has been generated yet.';
+        if (report.summary) {
+          return Object.entries(report.summary)
+            .slice(0, 4)
+            .map(([key, value]) => `${key}: ${value}`)
+            .join(' | ');
+        }
+        if (Array.isArray(report.actions)) return `${report.actions.length} recommended actions`;
+        if (Array.isArray(report.suggestions)) return `${report.suggestions.length} internal link suggestions`;
+        return 'Report loaded.';
+      };
+
+      const renderReports = (reports) => {
+        if (!reportGrid) return;
+        reportGrid.innerHTML = reports
+          .map((entry) => {
+            const status = String(entry.status || 'not-run');
+            return `
+              <article class="agent-report-card">
+                <span class="agent-status agent-status-${escapeHtml(status)}">${escapeHtml(status)}</span>
+                <strong>${escapeHtml(reportLabels[entry.kind] || entry.kind)}</strong>
+                <p>${escapeHtml(summaryText(entry))}</p>
+                <p>${entry.updatedAt ? `Updated ${escapeHtml(new Date(entry.updatedAt).toLocaleString())}` : 'Not generated yet'}</p>
+                ${
+                  entry.markdownPath
+                    ? `<p><code>${escapeHtml(entry.markdownPath)}</code></p>`
+                    : '<p><code>not enough data: run the matching aft command</code></p>'
+                }
+              </article>
+            `;
+          })
+          .join('');
+      };
+
+      const loadReports = async (token) => {
+        if (!token) return;
+        setMessage('Loading agent reports...');
+
+        try {
+          const response = await fetch('/api/admin/agent-tools', {
+            headers: {
+              accept: 'application/json',
+              'x-aft-analytics-token': token,
+            },
+          });
+          const body = await response.json().catch(() => ({}));
+
+          if (!response.ok || !body.ok) {
+            setMessage(body.message || 'Admin token was not accepted.');
+            return;
+          }
+
+          window.localStorage.setItem(tokenStorageKey, token);
+          if (new URLSearchParams(location.search).has('token') && window.history?.replaceState) {
+            window.history.replaceState({}, '', location.pathname);
+          }
+          showDashboard();
+          renderReports(body.reports || []);
+        } catch {
+          setMessage('Agent report endpoint is not available yet. Check the Node deployment.');
+        }
+      };
+
+      loadReports(new URLSearchParams(location.search).get('token') || window.localStorage.getItem(tokenStorageKey) || '');
+
+      if (tokenForm) {
+        tokenForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const data = new FormData(tokenForm);
+          loadReports(String(data.get('token') || ''));
+        });
+      }
+
+      if (mcpForm) {
+        mcpForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          if (!mcpOutput) return;
+
+          try {
+            const data = new FormData(mcpForm);
+            const payload = JSON.parse(String(data.get('payload') || '{}'));
+            mcpOutput.textContent = 'Running...';
+            const response = await fetch('/mcp', {
+              body: JSON.stringify(payload),
+              headers: {
+                accept: 'application/json, text/event-stream',
+                'content-type': 'application/json',
+              },
+              method: 'POST',
+            });
+            const body = await response.json().catch(async () => ({ raw: await response.text() }));
+            mcpOutput.textContent = JSON.stringify(body, null, 2);
+          } catch (error) {
+            mcpOutput.textContent = JSON.stringify(
+              { error: error instanceof Error ? error.message : 'MCP request failed' },
+              null,
+              2,
+            );
+          }
+        });
+      }
+    })();
+  </script>
+</BaseLayout>
