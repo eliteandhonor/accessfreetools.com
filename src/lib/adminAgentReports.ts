@@ -575,6 +575,7 @@ export async function refreshContentQualityReport(origin = SITE_ORIGIN) {
   const file = candidates.find((candidate) => existsSync(candidate)) ?? '';
   let text = file ? readTextFile(file) : '';
   let source = file ? unixPath(relative(process.cwd(), file)) : '';
+  let hasContextualToolLink = /(accessfreetools\.com\/tools\/|\/tools\/)/i.test(text);
   const notes: string[] = [];
   if (!text) {
     try {
@@ -583,7 +584,12 @@ export async function refreshContentQualityReport(origin = SITE_ORIGIN) {
       });
       if (response.ok) {
         source = '/why-access-free-tools/';
-        text = stripHtml(await response.text());
+        const html = await response.text();
+        hasContextualToolLink =
+          /(href=["']\/tools\/|href=["']https:\/\/accessfreetools\.com\/tools\/|accessfreetools\.com\/tools\/)/i.test(
+            html,
+          );
+        text = stripHtml(html);
         notes.push('No local draft file was bundled with production, so this private browser report checked the live mission page instead.');
       }
     } catch {
@@ -596,7 +602,7 @@ export async function refreshContentQualityReport(origin = SITE_ORIGIN) {
   if (!text) {
     warnings.push('not enough data: no local draft file or live fallback page was available for content scoring.');
   } else {
-    if (!/(accessfreetools\.com\/tools\/|\/tools\/)/i.test(text)) issues.push('Missing contextual Access Free Tools tool link.');
+    if (!hasContextualToolLink) issues.push('Missing contextual Access Free Tools tool link.');
     if (/this (medium post|post|article) should|agent should|quality gate/i.test(text)) {
       issues.push('Agent-facing instructions appear in reader-facing content.');
     }
