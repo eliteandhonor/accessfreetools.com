@@ -3,6 +3,7 @@ import { join, relative, resolve } from 'node:path';
 import { tools } from '../data/tools';
 import { answerUtilityQuestion } from './askToolRouter';
 import { listApiTools, runApiTool } from './apiToolRegistry';
+import { summarizeAnalytics } from './siteAnalytics';
 
 export const AGENT_TOOLS_OUTPUT_DIR = 'output/agent-tools';
 export const AGENT_TOOL_KINDS = [
@@ -75,6 +76,19 @@ function readTextFile(path: string) {
 
 function markdownList(items: string[], empty = '- none') {
   return items.length ? items.map((item) => `- ${item}`).join('\n') : empty;
+}
+
+function stripHtml(text: string) {
+  return text
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function reportStatus(issues: string[], warnings: string[] = []) {
@@ -196,12 +210,12 @@ export async function refreshAskAuditReport() {
     });
   }
 
-  warnings.push('not enough data: rendered browser-page parity is only checked by the CLI Playwright audit.');
   const status = reportStatus(issues, warnings);
   const report = {
     generatedAt,
     issues,
     kind: 'ask-audit',
+    notes: ['Rendered browser-page parity is checked by the CLI Playwright audit; this private browser report checks deterministic Ask/API parity.'],
     results,
     status,
     summary: { cases: ASK_AUDIT_CASES.length, issues: issues.length, warnings: warnings.length },
@@ -227,6 +241,10 @@ ${markdownList(issues)}
 ## Warnings
 
 ${markdownList(warnings)}
+
+## Notes
+
+${markdownList(report.notes)}
 `,
   );
 
@@ -377,10 +395,16 @@ ${markdownList(issues)}
 export async function refreshLinkHelperReport(origin?: string) {
   const generatedAt = new Date().toISOString();
   const inspection = readJsonFile(rootPath('output', 'search-console-url-inspection.json'));
-  const analytics = readJsonFile(rootPath('output', 'analytics', 'summary.json'));
+  const savedAnalytics = readJsonFile(rootPath('output', 'analytics', 'summary.json'));
+  const liveAnalytics = !savedAnalytics ? await summarizeAnalytics({ days: 30 }) : null;
   const warnings: string[] = [];
-  if (!inspection) warnings.push('not enough data: Search Console inspection snapshot is missing from output/.');
-  if (!analytics) warnings.push('not enough data: analytics usage summary is missing from output/analytics/summary.json.');
+  const notes: string[] = [];
+  if (!inspection) {
+    notes.push('not enough data: Search Console inspection snapshots live on the local Codex machine, so this private browser report uses link proof and saved SEO actions instead.');
+  }
+  if (!savedAnalytics) {
+    notes.push('Used the live first-party analytics event log because output/analytics/summary.json is a local CLI artifact.');
+  }
 
   const linkChecks = [
     {
@@ -423,6 +447,19 @@ export async function refreshLinkHelperReport(origin?: string) {
     checkedLinks,
     generatedAt,
     kind: 'link-helper',
+    notes,
+    sources: {
+      analytics:
+        savedAnalytics ??
+        (liveAnalytics
+          ? {
+              generatedAt: liveAnalytics.generatedAt,
+              topPages: liveAnalytics.topPages.slice(0, 10),
+              topTools: liveAnalytics.topTools.slice(0, 10),
+            }
+          : null),
+      searchConsole: inspection ? 'present' : 'not bundled into production admin',
+    },
     status,
     suggestions,
     summary: { checkedLinks: checkedLinks.length, suggestions: suggestions.length, warnings: warnings.length },
@@ -453,6 +490,10 @@ ${markdownList(
 ## Warnings
 
 ${markdownList(warnings)}
+
+## Notes
+
+${markdownList(notes)}
 `,
   );
 
@@ -462,10 +503,15 @@ ${markdownList(warnings)}
 export function refreshSeoConsoleReport() {
   const generatedAt = new Date().toISOString();
   const warnings: string[] = [];
+  const notes: string[] = [];
   const inspection = readJsonFile(rootPath('output', 'search-console-url-inspection.json'));
   const crawlScout = readJsonFile(rootPath('output', 'crawlscout', 'latest.json'));
-  if (!inspection) warnings.push('not enough data: fresh Search Console URL inspection output is missing.');
-  if (!crawlScout) warnings.push('not enough data: CrawlScout export is missing from output/crawlscout/latest.json.');
+  if (!inspection) {
+    notes.push('not enough data: fresh Search Console URL inspection output is a local OAuth report, not a production browser-admin file.');
+  }
+  if (!crawlScout) {
+    notes.push('not enough data: CrawlScout export is a local Codex evidence file, not a production browser-admin file.');
+  }
 
   const actions = [
     {
@@ -489,6 +535,7 @@ export function refreshSeoConsoleReport() {
     actions,
     generatedAt,
     kind: 'seo-console',
+    notes,
     status,
     summary: { actions: actions.length, warnings: warnings.length },
     warnings,
@@ -509,27 +556,47 @@ ${markdownList(actions.map((item) => `${item.priority}: ${item.target} - ${item.
 ## Warnings
 
 ${markdownList(warnings)}
+
+## Notes
+
+${markdownList(notes)}
 `,
   );
 
   return { ...report, paths };
 }
 
-export function refreshContentQualityReport() {
+export async function refreshContentQualityReport(origin = SITE_ORIGIN) {
   const generatedAt = new Date().toISOString();
   const candidates = [
     rootPath('output', 'promotion', 'medium', 'right-free-online-calculator.md'),
     rootPath('docs', 'brand-code.md'),
   ];
   const file = candidates.find((candidate) => existsSync(candidate)) ?? '';
-  const text = file ? readTextFile(file) : '';
+  let text = file ? readTextFile(file) : '';
+  let source = file ? unixPath(relative(process.cwd(), file)) : '';
+  const notes: string[] = [];
+  if (!text) {
+    try {
+      const response = await fetch(`${origin.replace(/\/$/, '')}/why-access-free-tools/`, {
+        headers: { accept: 'text/html' },
+      });
+      if (response.ok) {
+        source = '/why-access-free-tools/';
+        text = stripHtml(await response.text());
+        notes.push('No local draft file was bundled with production, so this private browser report checked the live mission page instead.');
+      }
+    } catch {
+      // The warning below handles missing fallback content.
+    }
+  }
   const issues: string[] = [];
   const warnings: string[] = [];
 
-  if (!file) {
-    warnings.push('not enough data: no local draft file was available for content scoring.');
+  if (!text) {
+    warnings.push('not enough data: no local draft file or live fallback page was available for content scoring.');
   } else {
-    if (!/accessfreetools\.com\/tools\//i.test(text)) issues.push('Missing contextual Access Free Tools tool link.');
+    if (!/(accessfreetools\.com\/tools\/|\/tools\/)/i.test(text)) issues.push('Missing contextual Access Free Tools tool link.');
     if (/this (medium post|post|article) should|agent should|quality gate/i.test(text)) {
       issues.push('Agent-facing instructions appear in reader-facing content.');
     }
@@ -542,10 +609,11 @@ export function refreshContentQualityReport() {
   const wordCount = text ? text.trim().split(/\s+/).filter(Boolean).length : 0;
   const status = reportStatus(issues, warnings);
   const report = {
-    file: file ? unixPath(relative(process.cwd(), file)) : '',
+    file: source,
     generatedAt,
     issues,
     kind: 'content-quality',
+    notes,
     status,
     summary: { issues: issues.length, warnings: warnings.length, wordCount },
     warnings,
@@ -570,6 +638,10 @@ ${markdownList(issues)}
 ## Warnings
 
 ${markdownList(warnings)}
+
+## Notes
+
+${markdownList(notes)}
 `,
   );
 
@@ -587,7 +659,7 @@ export async function refreshAgentToolReports(options: { kind?: AgentToolKind | 
       if (kind === 'mcp-smoke') refreshed.push(await refreshMcpSmokeReport(options.origin || SITE_ORIGIN));
       if (kind === 'link-helper') refreshed.push(await refreshLinkHelperReport(options.origin || SITE_ORIGIN));
       if (kind === 'seo-console') refreshed.push(refreshSeoConsoleReport());
-      if (kind === 'content-quality') refreshed.push(refreshContentQualityReport());
+      if (kind === 'content-quality') refreshed.push(await refreshContentQualityReport(options.origin || SITE_ORIGIN));
     } catch (error) {
       const generatedAt = new Date().toISOString();
       const message = error instanceof Error ? error.message : String(error);
