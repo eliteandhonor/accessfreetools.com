@@ -4493,7 +4493,9 @@ function durationText(totalSeconds: number) {
   remaining -= hours * 3600;
   const minutes = Math.floor(remaining / 60);
   const seconds = remaining - minutes * 60;
-  return `${sign}${hours}h ${minutes}m ${seconds}s`;
+  if (hours > 0) return `${sign}${hours}h ${minutes}m ${seconds}s`;
+  if (minutes > 0) return `${sign}${minutes}m ${seconds}s`;
+  return `${sign}${seconds}s`;
 }
 
 function clockDurationText(totalMinutes: number) {
