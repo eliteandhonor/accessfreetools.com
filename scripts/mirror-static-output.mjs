@@ -56,7 +56,7 @@ if (existsSync(serverChunksDir)) {
         "const parsedPort = rawPort && rawPort !== 'undefined' ? Number(rawPort) : NaN;",
         "const rawOptionPort = options.port;",
         "const parsedOptionPort = rawOptionPort && rawOptionPort !== 'undefined' ? Number(rawOptionPort) : NaN;",
-        'const port = Number.isFinite(parsedPort) && parsedPort > 0 ? parsedPort : Number.isFinite(parsedOptionPort) && parsedOptionPort > 0 ? parsedOptionPort : 8080;',
+        'const port = Number.isFinite(parsedPort) && parsedPort > 0 ? parsedPort : Number.isFinite(parsedOptionPort) && parsedOptionPort > 0 ? parsedOptionPort : 3000;',
         "const rawHost = process.env.HOST;",
         'const optionHost = hostOptions(options.host);',
         "const host = rawHost && rawHost !== 'undefined' ? rawHost : optionHost && optionHost !== 'undefined' ? optionHost : '0.0.0.0';",
