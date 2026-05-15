@@ -9,7 +9,7 @@ export interface AskToolAnswer {
   model: string;
   route: {
     confidence: 'high' | 'medium' | 'low';
-    source: 'ollama' | 'fallback';
+    source: 'ollama' | 'parser';
     tool_slug: string;
   };
   run: ApiToolRunResult;
@@ -19,7 +19,7 @@ export interface AskToolAnswer {
 interface ToolCallRoute {
   confidence: 'high' | 'medium' | 'low';
   inputs: Record<string, unknown>;
-  source: 'ollama' | 'fallback';
+  source: 'ollama' | 'parser';
   tool_slug: string;
 }
 
@@ -71,7 +71,7 @@ function parseFirstNumberPair(message: string) {
   return numbers.length >= 2 ? [numbers[0], numbers[1]] : null;
 }
 
-function fallbackRoute(message: string): ToolCallRoute | null {
+function parseSupportedToolQuestion(message: string): ToolCallRoute | null {
   const lower = message.toLowerCase();
 
   const percentOfMatch = lower.match(/(-?\d+(?:\.\d+)?)\s*%\s*(?:of|x|times)\s*(-?\d+(?:\.\d+)?)/);
@@ -79,7 +79,7 @@ function fallbackRoute(message: string): ToolCallRoute | null {
     return {
       confidence: 'high',
       inputs: { mode: 'percent-of', percent: Number(percentOfMatch[1]), value: Number(percentOfMatch[2]) },
-      source: 'fallback',
+      source: 'parser',
       tool_slug: 'percentage-calculator',
     };
   }
@@ -89,7 +89,7 @@ function fallbackRoute(message: string): ToolCallRoute | null {
     return {
       confidence: 'high',
       inputs: { mode: 'what-percent', part: Number(whatPercentMatch[1]), whole: Number(whatPercentMatch[2]) },
-      source: 'fallback',
+      source: 'parser',
       tool_slug: 'percentage-calculator',
     };
   }
@@ -100,7 +100,7 @@ function fallbackRoute(message: string): ToolCallRoute | null {
       return {
         confidence: 'high',
         inputs: { fileSize: Number(match[1]), fileUnit: match[2].toUpperCase(), speedMbps: Number(match[3]) },
-        source: 'fallback',
+        source: 'parser',
         tool_slug: 'download-time-calculator',
       };
     }
@@ -112,7 +112,7 @@ function fallbackRoute(message: string): ToolCallRoute | null {
       return {
         confidence: 'high',
         inputs: { phase: 'single-phase', powerFactor: 1, volts: Number(match[2]), watts: Number(match[1]) },
-        source: 'fallback',
+        source: 'parser',
         tool_slug: 'watts-to-amps-calculator',
       };
     }
@@ -129,7 +129,7 @@ function fallbackRoute(message: string): ToolCallRoute | null {
           wastePercent: 10,
           widthFeet: Number(match[2]),
         },
-        source: 'fallback',
+        source: 'parser',
         tool_slug: 'concrete-calculator',
       };
     }
@@ -141,7 +141,7 @@ function fallbackRoute(message: string): ToolCallRoute | null {
       return {
         confidence: 'high',
         inputs: { heightCm: Number(metricMatch[2]), weightKg: Number(metricMatch[1]) },
-        source: 'fallback',
+        source: 'parser',
         tool_slug: 'bmi-calculator',
       };
     }
@@ -153,7 +153,7 @@ function fallbackRoute(message: string): ToolCallRoute | null {
       return {
         confidence: 'medium',
         inputs: { people: 1, subtotal: pair[0], taxPercent: 0, tipPercent: pair[1] },
-        source: 'fallback',
+        source: 'parser',
         tool_slug: 'tip-calculator',
       };
     }
@@ -165,7 +165,7 @@ function fallbackRoute(message: string): ToolCallRoute | null {
 function correctOllamaRouteInputs(message: string, route: ToolCallRoute): ToolCallRoute {
   if (route.source !== 'ollama') return route;
 
-  const parsedRoute = fallbackRoute(message);
+  const parsedRoute = parseSupportedToolQuestion(message);
   if (!parsedRoute || parsedRoute.confidence !== 'high' || parsedRoute.tool_slug !== route.tool_slug) {
     return route;
   }
@@ -265,10 +265,10 @@ export async function answerUtilityQuestion(message: string): Promise<AskToolAns
     throw new Error('Question must be 1200 characters or less.');
   }
 
-  let route: ToolCallRoute | null = null;
-  let model = 'fallback';
+  let route: ToolCallRoute | null = parseSupportedToolQuestion(trimmed);
+  let model = route ? 'access-free-tools-parser' : 'unrouted';
 
-  if (process.env.AFT_ASK_FORCE_FALLBACK !== 'true') {
+  if (!route && process.env.AFT_ASK_FORCE_FALLBACK !== 'true') {
     try {
       route = await routeWithOllama(trimmed);
       if (route) route = correctOllamaRouteInputs(trimmed, route);
@@ -282,7 +282,8 @@ export async function answerUtilityQuestion(message: string): Promise<AskToolAns
     process.env.AFT_ASK_FORCE_FALLBACK === 'true' || process.env.AFT_ASK_ALLOW_LOCAL_ROUTER === 'true';
 
   if (!route && allowLocalRouter) {
-    route = fallbackRoute(trimmed);
+    route = parseSupportedToolQuestion(trimmed);
+    if (route) model = 'access-free-tools-parser';
   }
 
   if (!route) {
@@ -301,15 +302,15 @@ export async function answerUtilityQuestion(message: string): Promise<AskToolAns
   try {
     run = runApiTool(activeRoute.tool_slug, activeRoute.inputs);
   } catch (error) {
-    const fallback = activeRoute.source === 'ollama' && allowLocalRouter ? fallbackRoute(trimmed) : null;
-    const fallbackTool = fallback ? getApiTool(fallback.tool_slug) : null;
+    const parsedRoute = activeRoute.source === 'ollama' ? parseSupportedToolQuestion(trimmed) : null;
+    const fallbackTool = parsedRoute && parsedRoute.tool_slug === activeRoute.tool_slug ? getApiTool(parsedRoute.tool_slug) : null;
 
-    if (!fallback || !fallbackTool) {
+    if (!parsedRoute || !fallbackTool) {
       throw error;
     }
 
-    model = 'fallback';
-    activeRoute = fallback;
+    model = 'access-free-tools-parser';
+    activeRoute = parsedRoute;
     activeTool = fallbackTool;
     run = runApiTool(activeRoute.tool_slug, activeRoute.inputs);
   }
@@ -321,7 +322,7 @@ export async function answerUtilityQuestion(message: string): Promise<AskToolAns
     model,
     route: {
       confidence: activeRoute.confidence,
-      source: model === 'fallback' ? 'fallback' : activeRoute.source,
+      source: activeRoute.source,
       tool_slug: activeRoute.tool_slug,
     },
     run,

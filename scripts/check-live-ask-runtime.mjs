@@ -32,8 +32,8 @@ async function checkAsk() {
   if (source === 'php-router') {
     throw new Error('/api/v1/ask is still using the removed PHP fallback route.');
   }
-  if (source !== 'ollama') {
-    throw new Error(`/api/v1/ask returned ${source}; expected live Ollama routing.`);
+  if (!['ollama', 'parser'].includes(source)) {
+    throw new Error(`/api/v1/ask returned ${source}; expected live Ask routing through the parser or Ollama.`);
   }
   if (body.route?.tool_slug !== 'percentage-calculator') {
     throw new Error(`/api/v1/ask picked ${body.route?.tool_slug ?? 'unknown'}; expected percentage-calculator.`);

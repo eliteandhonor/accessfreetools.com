@@ -39,7 +39,7 @@ describe('api tool registry', () => {
   });
 });
 
-describe('ask tool router fallback', () => {
+describe('ask tool router parser', () => {
   beforeEach(() => {
     process.env.AFT_ASK_FORCE_FALLBACK = 'true';
   });
@@ -51,6 +51,7 @@ describe('ask tool router fallback', () => {
   it('answers a percentage question with the deterministic tool', async () => {
     const answer = await answerUtilityQuestion('What is 18% of 240?');
     expect(answer.route.tool_slug).toBe('percentage-calculator');
+    expect(answer.route.source).toBe('parser');
     expect(answer.answer).toContain('43.2');
   });
 
@@ -63,7 +64,7 @@ describe('ask tool router fallback', () => {
   it('answers a download time question with the deterministic tool', async () => {
     const answer = await answerUtilityQuestion('How long will a 5GB file take to download at 80 Mbps?');
     expect(answer.route.tool_slug).toBe('download-time-calculator');
-    expect(answer.answer).toMatch(/minutes/i);
+    expect(answer.answer).toMatch(/9m 16s/i);
     expect(answer.run.inputs).toMatchObject({ efficiencyPercent: 90, fileSize: 5, fileUnit: 'GB', speedMbps: 80 });
   });
 
@@ -84,7 +85,7 @@ describe('ask tool router live input guard', () => {
     delete process.env.OLLAMA_API_KEY;
   });
 
-  it('keeps Ollama routing but corrects obvious same-tool input mistakes before running math', async () => {
+  it('uses the parser before Ollama for exact supported questions', async () => {
     process.env.OLLAMA_API_KEY = 'test-ollama-key';
     delete process.env.AFT_ASK_FORCE_FALLBACK;
     delete process.env.AFT_ASK_ALLOW_LOCAL_ROUTER;
@@ -109,8 +110,9 @@ describe('ask tool router live input guard', () => {
 
     const answer = await answerUtilityQuestion('What is 18% of 240?');
 
-    expect(answer.model).not.toBe('fallback');
-    expect(answer.route.source).toBe('ollama');
+    expect(globalThis.fetch).not.toHaveBeenCalled();
+    expect(answer.model).toBe('access-free-tools-parser');
+    expect(answer.route.source).toBe('parser');
     expect(answer.route.tool_slug).toBe('percentage-calculator');
     expect(answer.answer).toContain('43.2');
     expect(answer.run.answer).not.toContain('18% of 0');

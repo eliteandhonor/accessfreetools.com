@@ -81,8 +81,27 @@ function guideUrl(slug: string) {
   return `${SITE_ORIGIN}/blog/how-to-use-${slug}/`;
 }
 
-function formatNumber(value: number, suffix = '') {
-  return `${formatCalculatorNumber(value)}${suffix}`;
+function formatNumber(value: number, suffix = '', maximumFractionDigits = 4) {
+  if (!Number.isFinite(value)) return `Error${suffix}`;
+
+  if (Math.abs(value) >= 1e12 || (Math.abs(value) > 0 && Math.abs(value) < 1e-8)) {
+    return `${value.toExponential(4).replace(/\.?0+e/, 'e')}${suffix}`;
+  }
+
+  return `${value.toLocaleString('en-US', { maximumFractionDigits, useGrouping: false })}${suffix}`;
+}
+
+function durationText(totalSeconds: number) {
+  const sign = totalSeconds < 0 ? '-' : '';
+  let remaining = Math.abs(Math.round(totalSeconds));
+  const hours = Math.floor(remaining / 3600);
+  remaining -= hours * 3600;
+  const minutes = Math.floor(remaining / 60);
+  const seconds = remaining - minutes * 60;
+
+  if (hours > 0) return `${sign}${hours}h ${minutes}m ${seconds}s`;
+  if (minutes > 0) return `${sign}${minutes}m ${seconds}s`;
+  return `${sign}${seconds}s`;
 }
 
 function money(value: number) {
@@ -326,7 +345,7 @@ export const apiTools = [
     run(input) {
       const result = calculateConcrete(input);
       return withUrls('concrete-calculator', {
-        answer: `Estimated concrete needed is ${formatNumber(result.cubicYards)} cubic yards, including ${formatNumber(result.wastePercent, '%')} waste.`,
+        answer: `Estimated concrete needed is ${formatNumber(result.cubicYards)} cubic yards, including ${formatNumber(result.wastePercent, '%')} waste. That is about ${formatNumber(result.bags80lb)} 80 lb bags or ${formatNumber(result.bags60lb)} 60 lb bags.`,
         assumptions: ['Depth is converted from inches to feet.', 'Waste percent adds extra material for spills, uneven ground, and ordering cushion.'],
         result,
         steps: [`Base volume: ${formatNumber(input.lengthFeet)} x ${formatNumber(input.widthFeet)} x (${formatNumber(input.depthInches)} / 12)`, `Add waste: base volume x ${formatNumber(1 + input.wastePercent / 100)} = ${formatNumber(result.cubicFeet)} cubic feet`, `Cubic yards: ${formatNumber(result.cubicFeet)} / 27 = ${formatNumber(result.cubicYards)}`],
@@ -368,10 +387,10 @@ export const apiTools = [
     run(input) {
       const result = calculateDownloadTime(input.fileSize, input.fileUnit, input.speedMbps, input.efficiencyPercent);
       return withUrls('download-time-calculator', {
-        answer: `Estimated download time is about ${formatNumber(result.minutes)} minutes.`,
+        answer: `Estimated download time is about ${durationText(result.seconds)} (${formatNumber(result.minutes)} minutes).`,
         assumptions: ['File units use decimal bytes.', 'Efficiency accounts for real-world overhead and speed changes.'],
-        result,
-        steps: [`Effective speed: ${formatNumber(input.speedMbps)} Mbps x ${formatNumber(input.efficiencyPercent, '%')} = ${formatNumber(result.effectiveMbps)} Mbps`, `Convert file size to bits, then divide by effective Mbps`, `Seconds: ${formatNumber(result.seconds)} (${formatNumber(result.minutes)} minutes)`],
+        result: { duration: durationText(result.seconds), ...result },
+        steps: [`Effective speed: ${formatNumber(input.speedMbps)} Mbps x ${formatNumber(input.efficiencyPercent, '%')} = ${formatNumber(result.effectiveMbps)} Mbps`, `Convert file size to bits, then divide by effective Mbps`, `Seconds: ${formatNumber(result.seconds)} (${durationText(result.seconds)})`],
         warnings: ['Actual downloads can change because of Wi-Fi, server limits, congestion, and background traffic.'],
       });
     },
