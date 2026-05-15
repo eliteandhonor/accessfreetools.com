@@ -1,6 +1,6 @@
 # Access Free Tools Analytics Dashboard
 
-Last updated: 2026-05-10
+Last updated: 2026-05-15
 
 Access Free Tools uses a small first-party analytics system for owner-only usage checks. It is meant to answer simple questions:
 
@@ -13,7 +13,20 @@ Hostinger hPanel analytics should still be used for server logs, bandwidth, erro
 
 ## Private Dashboard
 
-The dashboard URL is:
+The easiest private entry URL is:
+
+```text
+/admin/
+```
+
+Enter the private token once there. It stores the token in this browser only, then opens:
+
+```text
+/admin/analytics/
+/admin/agent-tools/
+```
+
+The older analytics shortcut still works:
 
 ```text
 /private-analytics/
@@ -55,7 +68,16 @@ That file is ignored by Git. If Hostinger SSH is available, upload those same li
 
 ## How To Open It
 
-After deployment and environment setup, open:
+After deployment and environment setup, open the simple login hub:
+
+```text
+https://accessfreetools.com/admin/
+```
+
+Enter the private token once, then use the buttons for Analytics or Agent Tools. The page stores
+the token in this browser only.
+
+The direct private analytics link also works:
 
 ```text
 https://accessfreetools.com/private-analytics/?token=YOUR_PRIVATE_TOKEN

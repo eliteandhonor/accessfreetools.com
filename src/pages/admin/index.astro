@@ -1,0 +1,232 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+
+export const prerender = true;
+
+const pagePath = '/admin/';
+---
+
+<BaseLayout
+  title="Private Admin Login | Access Free Tools"
+  description="Private Access Free Tools admin entry page for analytics and agent tools."
+  path={pagePath}
+  noindex
+>
+  <section class="page-intro admin-login-hero">
+    <p class="breadcrumb"><a href="/">Home</a> / Admin</p>
+    <h1>Private Admin Login</h1>
+    <p>
+      Enter the private admin token once on this browser. After it is saved, Analytics and Agent
+      Tools open without retyping the token.
+    </p>
+  </section>
+
+  <section class="content-section content-section-narrow admin-login-card">
+    <h2>Save admin access on this browser</h2>
+    <p>
+      The token is stored only in this browser's local storage. It is not added to Git, reports, or
+      public pages.
+    </p>
+    <form class="admin-token-form" data-admin-token-form>
+      <label>
+        Admin token
+        <input type="password" name="token" autocomplete="current-password" required />
+      </label>
+      <button class="button-primary" type="submit">Save and unlock</button>
+    </form>
+    <p class="admin-token-message" data-admin-message>Checking this browser for a saved token...</p>
+  </section>
+
+  <section class="section-band admin-destination-panel" data-admin-destinations>
+    <div class="section-heading">
+      <h2>Open private tools</h2>
+      <p>Use these after the token status says access is ready.</p>
+    </div>
+    <div class="admin-destination-grid">
+      <article>
+        <span>Usage</span>
+        <h3>Analytics</h3>
+        <p>See anonymous page views, tool uses, referrers, active visitors, and recent activity.</p>
+        <a class="button-primary" href="/admin/analytics/" data-admin-link>Open Analytics</a>
+      </article>
+      <article>
+        <span>Agent QA</span>
+        <h3>Agent Tools</h3>
+        <p>Review Ask/API/MCP parity, API-ready tools, SEO evidence, link ideas, and content checks.</p>
+        <a class="button-primary" href="/admin/agent-tools/" data-admin-link>Open Agent Tools</a>
+      </article>
+      <article>
+        <span>Privacy</span>
+        <h3>Owner Browser</h3>
+        <p>Exclude this browser from analytics or clear the saved admin token when needed.</p>
+        <div class="admin-action-stack">
+          <button class="button-secondary" type="button" data-admin-opt-out>Exclude this browser</button>
+          <button class="button-secondary" type="button" data-admin-clear-token>Clear saved token</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <style>
+    .admin-login-hero {
+      max-width: 960px;
+    }
+
+    .admin-login-card,
+    .admin-destination-panel {
+      border: 1px solid var(--border);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .admin-token-form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .admin-token-form label {
+      display: grid;
+      gap: 0.45rem;
+      font-weight: 800;
+    }
+
+    .admin-token-form input {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font: inherit;
+      padding: 0.85rem 1rem;
+    }
+
+    .admin-token-message {
+      font-weight: 800;
+      margin-bottom: 0;
+    }
+
+    .admin-destination-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .admin-destination-grid article {
+      background: var(--surface-solid);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: grid;
+      gap: 0.7rem;
+      padding: 1rem;
+    }
+
+    .admin-destination-grid span {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .admin-destination-grid h3 {
+      margin: 0;
+    }
+
+    .admin-action-stack {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    [data-admin-link][aria-disabled="true"] {
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    @media (max-width: 860px) {
+      .admin-destination-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <script is:inline>
+    (() => {
+      const tokenStorageKey = 'access-free-tools-analytics-token';
+      const optOutKey = 'access-free-tools-analytics-opt-out';
+      const form = document.querySelector('[data-admin-token-form]');
+      const message = document.querySelector('[data-admin-message]');
+      const links = document.querySelectorAll('[data-admin-link]');
+      const clearButton = document.querySelector('[data-admin-clear-token]');
+      const optOutButton = document.querySelector('[data-admin-opt-out]');
+
+      const setMessage = (value) => {
+        if (message) message.textContent = value;
+      };
+
+      const setUnlocked = (unlocked) => {
+        links.forEach((link) => {
+          link.setAttribute('aria-disabled', unlocked ? 'false' : 'true');
+        });
+      };
+
+      const validateToken = async (token, { save = false } = {}) => {
+        if (!token) {
+          setUnlocked(false);
+          setMessage('Enter the private admin token to unlock Analytics and Agent Tools.');
+          return;
+        }
+
+        setMessage('Checking token...');
+        try {
+          const response = await fetch('/api/analytics/events', {
+            headers: {
+              accept: 'application/json',
+              'x-aft-analytics-token': token,
+            },
+          });
+          const body = await response.json().catch(() => ({}));
+
+          if (!response.ok || !body.summary) {
+            setUnlocked(false);
+            setMessage(body.message || 'Token was not accepted. Check the private admin token and try again.');
+            return;
+          }
+
+          if (save) window.localStorage.setItem(tokenStorageKey, token);
+          setUnlocked(true);
+          setMessage('Access is ready on this browser. Open Analytics or Agent Tools below.');
+          if (new URLSearchParams(location.search).has('token') && window.history?.replaceState) {
+            window.history.replaceState({}, '', location.pathname);
+          }
+        } catch {
+          setUnlocked(false);
+          setMessage('Admin API is not available yet. Check the Node deployment and try again.');
+        }
+      };
+
+      setUnlocked(false);
+      const urlToken = new URLSearchParams(location.search).get('token') || '';
+      const storedToken = window.localStorage.getItem(tokenStorageKey) || '';
+      validateToken(urlToken || storedToken, { save: Boolean(urlToken) });
+
+      if (form) {
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const data = new FormData(form);
+          validateToken(String(data.get('token') || ''), { save: true });
+        });
+      }
+
+      if (clearButton) {
+        clearButton.addEventListener('click', () => {
+          window.localStorage.removeItem(tokenStorageKey);
+          setUnlocked(false);
+          setMessage('Saved token cleared on this browser.');
+        });
+      }
+
+      if (optOutButton) {
+        optOutButton.addEventListener('click', () => {
+          window.localStorage.setItem(optOutKey, 'true');
+          setMessage('This browser is now excluded from Access Free Tools analytics.');
+        });
+      }
+    })();
+  </script>
+</BaseLayout>

@@ -14,7 +14,7 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
   noindex
 >
   <section class="page-intro analytics-admin-hero">
-    <p class="breadcrumb"><a href="/">Home</a> / Admin / Analytics</p>
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/admin/">Admin</a> / Analytics</p>
     <h1>Private Analytics</h1>
     <p>
       Simple first-party stats for real page views and tool actions. Hostinger hPanel still helps
@@ -38,6 +38,7 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
     <p class="analytics-opt-out-status" data-analytics-message>
       Open your private shortcut once, or enter the token from your private local config file.
     </p>
+    <p><a href="/admin/">Use the easier private admin login page</a>.</p>
   </section>
 
   <section class="section-band analytics-panel" hidden data-analytics-dashboard>

@@ -21,6 +21,7 @@ const smokePages = [
   '/privacy-policy/',
   '/terms/',
   '/advertising-disclosure/',
+  '/admin/',
   '/admin/agent-tools/',
   '/tools/mortgage-calculator/',
   '/tools/income-tax-calculator/',
@@ -44,6 +45,7 @@ const accessibilityPages = [
   '/contact/',
   '/privacy-policy/',
   '/terms/',
+  '/admin/',
   '/admin/agent-tools/',
   '/tools/watts-to-amps-calculator/',
   '/tools/image-to-text-ocr-tool/',
@@ -170,6 +172,17 @@ test.describe('site smoke coverage', () => {
     const robots = await page.locator('meta[name="robots"]').getAttribute('content');
     expect(robots).toContain('noindex');
     await expect(page.locator('[data-agent-dashboard]')).toHaveCount(3);
+  });
+
+  test('private admin hub stores one token for analytics and agent tools', async ({ page }) => {
+    await page.goto('/admin/');
+    await expect(page.getByRole('heading', { name: 'Private Admin Login' })).toBeVisible();
+    await expect(page.getByLabel('Admin token')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Open Analytics' })).toHaveAttribute('aria-disabled', 'true');
+    await expect(page.getByRole('link', { name: 'Open Agent Tools' })).toHaveAttribute('aria-disabled', 'true');
+
+    const robots = await page.locator('meta[name="robots"]').getAttribute('content');
+    expect(robots).toContain('noindex');
   });
 });
 
