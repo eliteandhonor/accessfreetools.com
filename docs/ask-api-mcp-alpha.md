@@ -53,7 +53,9 @@ server process sees the new values.
 Production note: Ask/API/MCP must run through the Astro Node server. Hostinger
 needs the JavaScript deployment entry file set to `app.js`, output directory
 `dist`, build script `build`, Node 22, and a server process listening on port
-`3000` when Hostinger does not provide a valid `PORT` environment value. Use:
+`3000` when Hostinger does not provide a valid `PORT` environment value. The
+generated `dist/app.js` wrapper must not use top-level `await`, because
+Hostinger's runtime loads the entry through a CommonJS `require()` wrapper. Use:
 
 ```powershell
 npm run hostinger:deploy-node

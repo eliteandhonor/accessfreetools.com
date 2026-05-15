@@ -7,4 +7,7 @@ if (!process.env.HOST || process.env.HOST === 'undefined') {
   process.env.HOST = '0.0.0.0';
 }
 
-await import('./dist/server/entry.mjs');
+import('./dist/server/entry.mjs').catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

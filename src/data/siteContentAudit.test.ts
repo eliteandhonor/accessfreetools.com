@@ -1047,10 +1047,10 @@ describe('site content audit guardrails', () => {
     expect(ASTRO_CONFIG_SOURCE).toContain("output: 'server'");
     expect(ASTRO_CONFIG_SOURCE).toContain("mode: 'standalone'");
     expect(PACKAGE_JSON_SOURCE).toContain('"start": "node ./app.js"');
-    expect(APP_JS_SOURCE).toContain("await import('./dist/server/entry.mjs')");
+    expect(APP_JS_SOURCE).toContain("import('./dist/server/entry.mjs').catch");
     expect(APP_JS_SOURCE).toContain("process.env.PORT = '3000'");
     expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("join(distDir, 'app.js')");
-    expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("await import('./server/entry.mjs')");
+    expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("import('./server/entry.mjs').catch");
     expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("process.env.PORT = '3000'");
 
     expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Google AdSense Checklist');
