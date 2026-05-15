@@ -195,6 +195,41 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       font-size: 1.05rem;
     }
 
+    .agent-report-card p,
+    .agent-report-card ul,
+    .agent-report-card ol {
+      margin: 0;
+    }
+
+    .agent-report-details {
+      border-top: 1px solid var(--border);
+      display: grid;
+      gap: 0.8rem;
+      padding-top: 0.85rem;
+    }
+
+    .agent-report-details h3 {
+      font-size: 0.85rem;
+      margin: 0 0 0.35rem;
+      text-transform: uppercase;
+    }
+
+    .agent-report-details ul,
+    .agent-report-details ol {
+      display: grid;
+      gap: 0.4rem;
+      padding-left: 1.15rem;
+    }
+
+    .agent-report-details li {
+      line-height: 1.45;
+    }
+
+    .agent-report-empty {
+      color: var(--muted);
+      font-style: italic;
+    }
+
     .agent-status {
       border-radius: 999px;
       display: inline-flex;
@@ -314,6 +349,120 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
         return 'Report loaded.';
       };
 
+      const asArray = (value) => (Array.isArray(value) ? value : []);
+
+      const humanizeKey = (value) =>
+        String(value || '')
+          .replace(/([a-z])([A-Z])/g, '$1 $2')
+          .replace(/[-_]/g, ' ')
+          .replace(/\b\w/g, (char) => char.toUpperCase());
+
+      const valueText = (value) => {
+        if (value === null || value === undefined || value === '') return '';
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') return String(value);
+        if (typeof value === 'object') {
+          const parts = Object.entries(value)
+            .filter(([, item]) => item !== null && item !== undefined && item !== '')
+            .slice(0, 5)
+            .map(([key, item]) => `${humanizeKey(key)}: ${valueText(item)}`);
+          return parts.join(' | ');
+        }
+        return String(value);
+      };
+
+      const renderList = (title, items, formatter = valueText, ordered = false) => {
+        const safeItems = asArray(items).filter((item) => valueText(item));
+        if (!safeItems.length) return '';
+        const tag = ordered ? 'ol' : 'ul';
+        return `
+          <div>
+            <h3>${escapeHtml(title)}</h3>
+            <${tag}>
+              ${safeItems.map((item) => `<li>${escapeHtml(formatter(item))}</li>`).join('')}
+            </${tag}>
+          </div>
+        `;
+      };
+
+      const renderNotes = (report) =>
+        renderList('Notes', report.notes, (item) => String(item).replace(/^not enough data:\s*/i, 'Context note: '));
+
+      const renderIssues = (report) =>
+        renderList('Issues', report.issues, (item) => item, false) ||
+        '<div><h3>Issues</h3><p class="agent-report-empty">No issues found.</p></div>';
+
+      const renderWarnings = (report) =>
+        renderList('Warnings', report.warnings, (item) => item, false) ||
+        '<div><h3>Warnings</h3><p class="agent-report-empty">No warnings.</p></div>';
+
+      const renderActions = (report) =>
+        renderList(
+          'Recommended actions',
+          report.actions,
+          (item) => `${item.priority ? `${item.priority}: ` : ''}${item.task || item.title || valueText(item)}${item.target ? ` (${item.target})` : ''}`,
+          true,
+        );
+
+      const renderSuggestions = (report) =>
+        renderList(
+          'Internal link suggestions',
+          report.suggestions,
+          (item) => `${item.priority ? `${item.priority}: ` : ''}${item.source && item.target ? `${item.source} -> ${item.target}` : item.target || item.anchorIdea || valueText(item)}${item.why ? ` - ${item.why}` : item.reason ? ` - ${item.reason}` : ''}`,
+          true,
+        );
+
+      const renderCheckedLinks = (report) =>
+        renderList(
+          'Checked links',
+          report.checkedLinks,
+          (item) => {
+            const state = item.present === true ? 'present' : item.present === false ? 'missing' : 'not checked';
+            return `${state}: ${item.source} -> ${item.target}`;
+          },
+        );
+
+      const renderAskResults = (report) =>
+        renderList(
+          'Ask/API parity cases',
+          report.results,
+          (item) => `${item.slug}: Ask "${item.askAnswer}" | Runner "${item.runAnswer}"`,
+          true,
+        );
+
+      const renderApiCandidates = (report) =>
+        renderList(
+          'Recommended next API tools',
+          asArray(report.recommendedNext).slice(0, 6),
+          (item) => `${item.name || item.slug} - score ${item.score ?? 'n/a'}, risk ${item.risk ?? 'unknown'}`,
+          true,
+        );
+
+      const renderMcpChecks = (report) =>
+        renderList(
+          'MCP checks',
+          report.checks,
+          (item) => `${item.ok ? 'pass' : 'fail'}: ${item.label} (status ${item.status})`,
+        );
+
+      const detailHtml = (entry) => {
+        const report = entry.report || {};
+        const blocks = [
+          renderIssues(report),
+          renderWarnings(report),
+          renderNotes(report),
+          renderActions(report),
+          renderSuggestions(report),
+          renderCheckedLinks(report),
+          renderAskResults(report),
+          renderApiCandidates(report),
+          renderMcpChecks(report),
+        ].filter(Boolean);
+
+        return blocks.length
+          ? `<div class="agent-report-details">${blocks.join('')}</div>`
+          : '<div class="agent-report-details"><p class="agent-report-empty">No readable report details yet.</p></div>';
+      };
+
       const renderReports = (reports) => {
         if (!reportGrid) return;
         reportGrid.innerHTML = reports
@@ -325,11 +474,8 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
                 <strong>${escapeHtml(reportLabels[entry.kind] || entry.kind)}</strong>
                 <p>${escapeHtml(summaryText(entry))}</p>
                 <p>${entry.updatedAt ? `Updated ${escapeHtml(new Date(entry.updatedAt).toLocaleString())}` : 'Not generated yet'}</p>
-                ${
-                  entry.markdownPath
-                    ? `<p><code>${escapeHtml(entry.markdownPath)}</code></p>`
-                    : '<p><code>not enough data: run the matching aft command</code></p>'
-                }
+                ${detailHtml(entry)}
+                ${entry.markdownPath ? `<p><code>${escapeHtml(entry.markdownPath)}</code></p>` : ''}
               </article>
             `;
           })
