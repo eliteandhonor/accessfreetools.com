@@ -959,13 +959,39 @@ export function buildSeoConsoleReport() {
   if (!productionSitemap) warnings.push('not enough data: production sitemap check report is missing.');
   if (!indexNow) warnings.push('not enough data: IndexNow report is missing.');
   if (!dataForSeo) warnings.push('not enough data: DataForSEO account report is missing.');
+  const gapTargets = searchConsole.gaps
+    .map((gap) => {
+      try {
+        return new URL(gap.url).pathname;
+      } catch {
+        return '';
+      }
+    })
+    .filter(Boolean);
+  const linkEvidence = builtInternalLinkEvidence(gapTargets);
+  if (linkEvidence.note) warnings.push(linkEvidence.note);
 
   const actions = [
-    ...searchConsole.gaps.slice(0, 5).map((gap) => ({
-      evidence: 'output/search-console-url-inspection.json',
-      priority: 'high',
-      task: `Improve contextual links and clarity for ${gap.url} (${gap.coverageState}).`,
-    })),
+    ...searchConsole.gaps.slice(0, 5).map((gap) => {
+      const targetPath = (() => {
+        try {
+          return new URL(gap.url).pathname;
+        } catch {
+          return '';
+        }
+      })();
+      const inboundLinks = linkEvidence.byTarget[normalizeHrefToPath(targetPath)] ?? [];
+      const sourceCount = new Set(inboundLinks.map((item) => item.source)).size;
+      const hasEnoughInternalLinks = sourceCount >= 3;
+
+      return {
+        evidence: 'output/search-console-url-inspection.json + output/agent-tools/link-helper/latest.md',
+        priority: hasEnoughInternalLinks ? 'medium' : 'high',
+        task: hasEnoughInternalLinks
+          ? `Run URL inspection/discovery for ${gap.url}; built link proof already shows ${sourceCount} source pages linking to it (${gap.coverageState}).`
+          : `Improve contextual links and clarity for ${gap.url}; built link proof shows only ${sourceCount} source pages linking to it (${gap.coverageState}).`,
+      };
+    }),
     ...(marketing?.actions ?? marketing?.recommendations ?? []).slice(0, 3).map((item) => ({
       evidence: 'output/marketing-orchestrator/daily-plan.json',
       priority: item.priority ?? 'medium',
@@ -996,6 +1022,7 @@ export function buildSeoConsoleReport() {
       searchConsole: searchConsole.note ? 'not enough data' : 'present',
       sitemap: sitemap.note ? 'not enough data' : 'present',
     },
+    linkEvidence,
     status: warnings.length ? 'attention' : 'pass',
     warnings,
   };

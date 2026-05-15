@@ -515,14 +515,14 @@ export function refreshSeoConsoleReport() {
 
   const actions = [
     {
-      priority: 'high',
-      task: 'Strengthen contextual links to Wallpaper Calculator from home-project guides and category hubs.',
+      priority: 'medium',
+      task: 'Run Search Console URL inspection/discovery for Wallpaper Calculator after deploy; internal link helper now verifies the home-project handoff links.',
       target: '/tools/wallpaper-calculator/',
     },
     {
-      priority: 'high',
-      task: 'Keep Watts to Amps linked from electrical, unit-conversion, and Ask/API pages until it indexes.',
-      target: '/tools/watts-to-amps-calculator/',
+      priority: 'medium',
+      task: 'Use the Internal Link Helper card first before adding more links, so agents do not repeat link work already proven by the built site.',
+      target: '/admin/agent-tools/',
     },
     {
       priority: 'medium',
