@@ -35,7 +35,14 @@ async function checkAsk() {
   if (source !== 'ollama') {
     throw new Error(`/api/v1/ask returned ${source}; expected live Ollama routing.`);
   }
-  return { model: body.model ?? null, source, tool: body.route?.tool_slug ?? null };
+  if (body.route?.tool_slug !== 'percentage-calculator') {
+    throw new Error(`/api/v1/ask picked ${body.route?.tool_slug ?? 'unknown'}; expected percentage-calculator.`);
+  }
+  const answerText = `${body.answer ?? ''} ${body.run?.answer ?? ''}`;
+  if (!answerText.includes('43.2') || answerText.includes('18% of 0')) {
+    throw new Error('/api/v1/ask did not return the correct deterministic result for 18% of 240.');
+  }
+  return { answer: body.run?.answer ?? null, model: body.model ?? null, source, tool: body.route?.tool_slug ?? null };
 }
 
 async function checkMcp() {
@@ -55,7 +62,9 @@ async function checkMcp() {
 }
 
 try {
-  const [tools, ask, mcp] = await Promise.all([checkTools(), checkAsk(), checkMcp()]);
+  const tools = await checkTools();
+  const ask = await checkAsk();
+  const mcp = await checkMcp();
   console.log(
     JSON.stringify(
       {
@@ -71,5 +80,5 @@ try {
   );
 } catch (error) {
   console.error(error instanceof Error ? error.message : String(error));
-  process.exit(1);
+  process.exitCode = 1;
 }

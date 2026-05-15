@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { answerUtilityQuestion } from './askToolRouter';
 import { ApiToolValidationError, listApiTools, runApiTool, searchApiTools } from './apiToolRegistry';
 
@@ -69,5 +69,48 @@ describe('ask tool router fallback', () => {
     const answer = await answerUtilityQuestion('Convert 600 watts to amps at 120 volts.');
     expect(answer.route.tool_slug).toBe('watts-to-amps-calculator');
     expect(answer.run.warnings.join(' ')).toMatch(/electrical code/i);
+  });
+});
+
+describe('ask tool router live input guard', () => {
+  const originalFetch = globalThis.fetch;
+
+  afterEach(() => {
+    globalThis.fetch = originalFetch;
+    delete process.env.AFT_ASK_FORCE_FALLBACK;
+    delete process.env.AFT_ASK_ALLOW_LOCAL_ROUTER;
+    delete process.env.OLLAMA_API_KEY;
+  });
+
+  it('keeps Ollama routing but corrects obvious same-tool input mistakes before running math', async () => {
+    process.env.OLLAMA_API_KEY = 'test-ollama-key';
+    delete process.env.AFT_ASK_FORCE_FALLBACK;
+    delete process.env.AFT_ASK_ALLOW_LOCAL_ROUTER;
+
+    globalThis.fetch = vi.fn(async () => {
+      return new Response(
+        JSON.stringify({
+          message: {
+            tool_calls: [
+              {
+                function: {
+                  arguments: { mode: 'percent-of', percent: 18, value: 0 },
+                  name: 'aft_percentage_calculator',
+                },
+              },
+            ],
+          },
+        }),
+        { headers: { 'content-type': 'application/json' }, status: 200 },
+      );
+    }) as typeof fetch;
+
+    const answer = await answerUtilityQuestion('What is 18% of 240?');
+
+    expect(answer.model).not.toBe('fallback');
+    expect(answer.route.source).toBe('ollama');
+    expect(answer.route.tool_slug).toBe('percentage-calculator');
+    expect(answer.answer).toContain('43.2');
+    expect(answer.run.answer).not.toContain('18% of 0');
   });
 });

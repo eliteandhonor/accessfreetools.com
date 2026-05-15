@@ -162,6 +162,21 @@ function fallbackRoute(message: string): ToolCallRoute | null {
   return null;
 }
 
+function correctOllamaRouteInputs(message: string, route: ToolCallRoute): ToolCallRoute {
+  if (route.source !== 'ollama') return route;
+
+  const parsedRoute = fallbackRoute(message);
+  if (!parsedRoute || parsedRoute.confidence !== 'high' || parsedRoute.tool_slug !== route.tool_slug) {
+    return route;
+  }
+
+  return {
+    ...route,
+    confidence: route.confidence === 'low' ? 'medium' : route.confidence,
+    inputs: normalizeRouteInputs(route.tool_slug, parsedRoute.inputs),
+  };
+}
+
 async function callOllamaChat(body: Record<string, unknown>) {
   const apiKey = getOllamaApiKey();
   if (!apiKey) return null;
@@ -258,6 +273,7 @@ export async function answerUtilityQuestion(message: string): Promise<AskToolAns
   if (process.env.AFT_ASK_FORCE_FALLBACK !== 'true') {
     try {
       route = await routeWithOllama(trimmed);
+      if (route) route = correctOllamaRouteInputs(trimmed, route);
       if (route) model = process.env.OLLAMA_MODEL || DEFAULT_OLLAMA_MODEL;
     } catch {
       route = null;
