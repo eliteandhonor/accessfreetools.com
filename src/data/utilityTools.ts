@@ -397,6 +397,13 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator multiplies length in feet by width in feet for one rectangle, then multiplies by quantity for repeated sections.',
     limit:
       'For real material orders, add waste and account for openings, cuts, pattern matching, irregular shapes, and product coverage rules.',
+    extraFaq: [
+      {
+        question: 'Can I use square footage for wallpaper estimates?',
+        answer:
+          'Yes, square footage is a useful starting point for wallpaper, paint, flooring, and tile, but it is not the final buying number. Wallpaper still needs roll coverage, pattern repeat, openings, and waste percent, so use the Wallpaper Calculator after you know the wall area.',
+      },
+    ],
     useCases: [
       'Find the area of a room, wall, garden bed, panel, or floor section.',
       'Multiply one section by quantity for repeated panels or rooms.',
@@ -408,7 +415,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Three panels', expression: '8 ft x 4 ft x 3', result: '96 ft2' },
       { label: 'Flooring area', expression: '22.5 ft x 14 ft', result: '315 ft2' },
     ],
-    relatedSlugs: ['area-calculator', 'concrete-calculator', 'conversion-calculator'],
+    relatedSlugs: ['area-calculator', 'wallpaper-calculator', 'concrete-calculator', 'conversion-calculator'],
   }),
   makeUtilityTool({
     slug: 'time-card-calculator',
@@ -1685,6 +1692,13 @@ export const utilityTools: ToolDefinition[] = [
       { term: 'Doors and windows', meaning: 'standard openings subtracted from the wall area before coats and extra paint are added.' },
       { term: 'Extra percent', meaning: 'extra paint for texture, roller and tray loss, touchups, and small measurement errors.' },
     ],
+    extraFaq: [
+      {
+        question: 'Can I use this paint estimate for wallpaper too?',
+        answer:
+          'Use the wall area idea, but do not use paint gallons as a wallpaper answer. Wallpaper is bought by roll coverage and can need extra waste for pattern matching, trimming, and dye lots, so switch to the Wallpaper Calculator when the wall covering is paper or peel-and-stick.',
+      },
+    ],
     useCases: [
       'Estimate gallons for a bedroom, office, or living room.',
       'Adjust for one or two coats before buying paint.',
@@ -1777,6 +1791,13 @@ export const utilityTools: ToolDefinition[] = [
       { term: 'Waste percent', meaning: 'extra flooring for cuts, damaged planks, layout direction, and future repairs.' },
       { term: 'Box coverage', meaning: 'how many square feet one box covers according to the product label.' },
       { term: 'Price per box', meaning: 'an optional material price used only when you want an estimated product cost.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why do flooring and wallpaper both ask for waste percent?',
+        answer:
+          'Both materials are sold in whole packages and both create offcuts. Flooring waste covers cuts, damaged boards, pattern direction, and future repairs. Wallpaper waste covers trimming, pattern matching, damaged strips, and dye lot safety. The idea is similar, but the best percentage can be different.',
+      },
     ],
     useCases: [
       'Estimate laminate, vinyl plank, engineered wood, or boxed flooring.',

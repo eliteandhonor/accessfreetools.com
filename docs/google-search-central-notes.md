@@ -1,6 +1,6 @@
 # Google Search Central Notes
 
-Last reviewed: 2026-05-14
+Last reviewed: 2026-05-15
 
 These notes are the current SEO baseline for Access Free Tools. Use them before
 changing indexing, redirect, sitemap, content-quality, or promotion logic.
@@ -127,3 +127,16 @@ not only to the guide pages. The default IndexNow priority URL list also now
 includes the two tool URLs, their matching guides, and the calculators and
 home-projects category hubs. After deployment, run `npm run indexnow:submit`
 and `npm run search-console:submit-discovery`, then inspect key URLs again.
+
+## 2026-05-15 Fresh Inspection Notes
+
+The Search Console refresh now reports `/tools/watts-to-amps-calculator/` as
+submitted and indexed. The only remaining key URL gap is
+`/tools/wallpaper-calculator/`, while its matching guide is submitted and
+indexed.
+
+The next Wallpaper action is discovery and contextual support, not a duplicate
+page. The Square Footage Calculator now links directly to the Wallpaper
+Calculator because wall area is a natural step before wallpaper roll planning.
+Paint and Flooring FAQs also now explain when to switch to Wallpaper-specific
+roll, waste, and pattern-repeat math.
