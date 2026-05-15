@@ -759,6 +759,78 @@ function analyticsSignals() {
   };
 }
 
+function routeFromBuiltHtml(filePath) {
+  const distRoot = rootPath('dist');
+  const relativePath = unixPath(relative(distRoot, filePath));
+  if (relativePath === 'index.html') return '/';
+  if (relativePath.endsWith('/index.html')) return `/${relativePath.replace(/\/index\.html$/, '/')}`;
+  return `/${relativePath.replace(/\.html$/, '/')}`;
+}
+
+function normalizeHrefToPath(href) {
+  if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return '';
+
+  try {
+    const url = href.startsWith('http')
+      ? new URL(href)
+      : new URL(href, SITE_ORIGIN);
+    if (url.origin !== SITE_ORIGIN) return '';
+    const pathname = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
+    return pathname;
+  } catch {
+    return '';
+  }
+}
+
+function stripHtml(value) {
+  return value
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function builtInternalLinkEvidence(targetPaths) {
+  const distRoot = rootPath('dist');
+  const targets = [...new Set(targetPaths.map(normalizeHrefToPath).filter(Boolean))];
+  const byTarget = Object.fromEntries(targets.map((target) => [target, []]));
+
+  if (!existsSync(distRoot) || targets.length === 0) {
+    return {
+      note: existsSync(distRoot)
+        ? ''
+        : 'not enough data: dist is missing, so built internal links cannot be counted until after npm run build.',
+      byTarget,
+    };
+  }
+
+  const htmlFiles = walk(distRoot, (file) => file.endsWith('.html'));
+  const seen = new Set();
+  const anchorPattern = /<a\b[^>]*href=(["'])(.*?)\1[^>]*>([\s\S]*?)<\/a>/gi;
+
+  for (const filePath of htmlFiles) {
+    const html = readFileSync(filePath, 'utf8');
+    const source = routeFromBuiltHtml(filePath);
+    let match;
+    while ((match = anchorPattern.exec(html))) {
+      const target = normalizeHrefToPath(match[2]);
+      if (!targets.includes(target)) continue;
+      const anchorText = stripHtml(match[3]);
+      const key = `${source} -> ${target} -> ${anchorText}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      byTarget[target].push({ source, anchorText });
+    }
+  }
+
+  return { note: '', byTarget };
+}
+
 export function buildLinkHelperReport() {
   const generatedAt = new Date().toISOString();
   const sitemap = readSitemapUrls();
@@ -767,14 +839,31 @@ export function buildLinkHelperReport() {
   const analytics = analyticsSignals();
   const warnings = [sitemap.note, searchConsole.note, crawlScout.note, analytics.note].filter(Boolean);
   const suggestions = [];
+  const gapTargets = searchConsole.gaps
+    .map((gap) => {
+      try {
+        return new URL(gap.url).pathname;
+      } catch {
+        return '';
+      }
+    })
+    .filter(Boolean);
+  const linkEvidence = builtInternalLinkEvidence(gapTargets);
+  if (linkEvidence.note) warnings.push(linkEvidence.note);
 
   for (const gap of searchConsole.gaps.slice(0, 10)) {
     try {
       const url = new URL(gap.url);
+      const target = normalizeHrefToPath(url.pathname);
+      const inboundLinks = linkEvidence.byTarget[target] ?? [];
+      const sourceCount = new Set(inboundLinks.map((item) => item.source)).size;
+      const hasEnoughInternalLinks = sourceCount >= 3;
       suggestions.push({
         anchorIdea: url.pathname.replace(/^\/tools\/|^\/blog\/how-to-use-|\/$/g, '').replace(/-/g, ' '),
-        priority: 'high',
-        reason: `Search Console state: ${gap.coverageState}`,
+        priority: hasEnoughInternalLinks ? 'medium' : 'high',
+        reason: hasEnoughInternalLinks
+          ? `Search Console state: ${gap.coverageState}; ${sourceCount} built pages already link here, so next proof step is URL inspection/discovery after deploy.`
+          : `Search Console state: ${gap.coverageState}; only ${sourceCount} built pages link here, so add contextual support first.`,
         target: url.pathname,
       });
     } catch {
@@ -809,6 +898,7 @@ export function buildLinkHelperReport() {
       crawlScout: { note: crawlScout.note, opportunities: crawlScout.opportunities },
       searchConsole,
     },
+    linkEvidence,
     status: warnings.length ? 'attention' : 'pass',
     suggestions,
     warnings,
@@ -828,6 +918,19 @@ Status: ${report.status}
 ## Suggestions
 
 ${markdownList(suggestions.slice(0, 20).map((item) => `${item.priority}: link to ${item.target} using "${item.anchorIdea}" because ${item.reason}`))}
+
+## Built Internal Link Evidence
+
+${markdownList(
+  Object.entries(linkEvidence.byTarget).map(([target, links]) => {
+    const sourceCount = new Set(links.map((item) => item.source)).size;
+    const sample = links
+      .slice(0, 5)
+      .map((item) => `${item.source} ("${item.anchorText || 'image/link'}")`)
+      .join('; ');
+    return `${target}: ${sourceCount} source pages, ${links.length} total links${sample ? ` - ${sample}` : ''}`;
+  }),
+)}
 
 ## Source Warnings
 

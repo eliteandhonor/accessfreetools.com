@@ -409,9 +409,15 @@ export async function refreshLinkHelperReport(origin?: string) {
   const linkChecks = [
     {
       priority: 'high',
-      source: '/blog/how-to-use-concrete-calculator/',
+      source: '/blog/how-to-use-paint-calculator/',
       target: '/tools/wallpaper-calculator/',
-      why: 'Wallpaper remains a known discovery gap and can be linked from home-project planning content.',
+      why: 'Paint and wallpaper both start with wall area, so this is a natural contextual handoff.',
+    },
+    {
+      priority: 'high',
+      source: '/blog/how-to-use-flooring-calculator/',
+      target: '/tools/wallpaper-calculator/',
+      why: 'Flooring and wallpaper both use waste percent, but they need material-specific calculators.',
     },
     {
       priority: 'high',
@@ -422,14 +428,8 @@ export async function refreshLinkHelperReport(origin?: string) {
     {
       priority: 'medium',
       source: '/tools/',
-      target: '/tools/watts-to-amps-calculator/',
-      why: 'Watts to amps is crawled but not indexed in the latest saved snapshot, so it needs contextual support.',
-    },
-    {
-      priority: 'medium',
-      source: '/developers/mcp/',
-      target: '/ask/',
-      why: 'API/MCP visitors should see that Ask uses the same deterministic tool runtime.',
+      target: '/tools/wallpaper-calculator/',
+      why: 'The full tools hub should expose priority home-project tools directly.',
     },
   ];
   const checkedLinks = [];

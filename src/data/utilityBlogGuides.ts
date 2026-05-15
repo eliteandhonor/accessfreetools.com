@@ -1534,6 +1534,16 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not forget that two coats roughly doubles the paintable area.',
       'Check the actual product label because coverage varies by paint, surface, color, and primer.',
     ],
+    extraSections: [
+      {
+        title: 'When paint math is not wallpaper math',
+        paragraphs: [
+          'Paint and wallpaper both start with wall area, but they stop being the same calculation after that. Paint uses gallons, coats, and coverage per gallon. Wallpaper uses roll coverage, pattern matching, trimming, and a waste percent before the roll count is rounded up.',
+          'If you are covering the wall with paper, vinyl wallcovering, or peel-and-stick wallpaper, switch to the Wallpaper Calculator so the estimate can handle roll coverage and waste instead of pretending gallons and rolls work the same way.',
+        ],
+        links: [{ href: '/tools/wallpaper-calculator/', label: 'Estimate wallpaper rolls with waste percent' }],
+      },
+    ],
     sources: [sourceLinks.sherwinPaintCoverage, sourceLinks.nistUnits],
   },
   'drywall-calculator': {
@@ -1597,16 +1607,26 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not ignore cuts, pattern direction, stairs, transitions, and damaged pieces.',
       'Check the box label and keep extra material when future repairs may need the same dye lot.',
     ],
+    extraSections: [
+      {
+        title: 'Why flooring waste and wallpaper waste feel similar',
+        paragraphs: [
+          'Flooring and wallpaper both ask for waste because real rooms do not use every piece perfectly. Flooring waste covers cuts, damaged boards, layout direction, and future repairs. Wallpaper waste covers trimming, pattern matching, corners, damaged strips, and dye lot safety.',
+          'The idea is similar, but the percentage is not automatically the same. A plain floor layout and a bold wallpaper pattern can need very different buffers, so use the material-specific calculator before buying.',
+        ],
+        links: [{ href: '/tools/wallpaper-calculator/', label: 'Plan wallpaper waste percent separately' }],
+      },
+    ],
     sources: [sourceLinks.nistUnits],
   },
   'wallpaper-calculator': {
     summary: 'Learn how wall area, openings, roll coverage, pattern repeat, and waste percent turn into wallpaper rolls.',
     purpose:
-      'The Wallpaper Calculator estimates whole rolls for simple room walls. It starts with room perimeter and wall height, subtracts standard doors and windows, adds a waste percent, then divides by roll coverage. Think of it like planning snacks for a group: the wall area is the people who definitely need food, and waste percent is the extra bag you buy because somebody drops chips, shows up late, or wants seconds.',
+      'The Wallpaper Calculator estimates whole rolls for room walls before you buy. It starts with room perimeter and wall height, subtracts standard doors and windows, adds a waste percent, then divides by roll coverage. The important part is that wallpaper is bought in strips and rolls, not perfect square-foot blocks, so the calculator keeps waste and rounding visible.',
     enter: [
       'Enter room length and width in feet. The calculator uses those to estimate the room perimeter.',
       'Enter wall height, plus the number of standard doors and windows.',
-      'Enter roll coverage from the wallpaper product page or label, then choose a waste percent that fits the pattern and room difficulty.',
+      'Enter roll coverage from the wallpaper product page or label, then choose a waste percent that fits the pattern, repeat, and room difficulty.',
     ],
     read: [
       'Rolls needed is rounded up because wallpaper is bought in whole rolls.',
@@ -1637,6 +1657,13 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         paragraphs: [
           'Roll coverage means the square feet one roll can cover in real use. It is tempting to multiply roll width by roll length yourself, but the product page or label is usually safer because it may already account for how that product is sold.',
           'Some wallpaper is priced as a single roll but shipped as a double roll or bolt. That is why the coverage number matters more than the name. If the product says one roll covers 56 square feet, put 56 in the calculator. If the label says a different usable coverage, use that number instead.',
+        ],
+      },
+      {
+        title: 'If you only have roll width and roll length',
+        paragraphs: [
+          'Sometimes a product page gives width and length but does not clearly state coverage. In that case, multiply the width by the length to get a rough square-foot number, then be more careful with waste percent because pattern repeat, damaged strips, and trimming can reduce usable coverage.',
+          'If the seller gives a usable coverage number anywhere on the label, use that number first. It is usually closer to how the roll is actually sold and installed than raw roll dimensions.',
         ],
       },
       {

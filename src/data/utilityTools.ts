@@ -1696,7 +1696,7 @@ export const utilityTools: ToolDefinition[] = [
       {
         question: 'Can I use this paint estimate for wallpaper too?',
         answer:
-          'Use the wall area idea, but do not use paint gallons as a wallpaper answer. Wallpaper is bought by roll coverage and can need extra waste for pattern matching, trimming, and dye lots, so switch to the Wallpaper Calculator when the wall covering is paper or peel-and-stick.',
+          'Use the wall area idea, but do not use paint gallons as a wallpaper answer. Wallpaper is bought by roll coverage and can need extra waste for pattern matching, trimming, and dye lots, so switch to the Wallpaper Calculator when the wall covering is paper, vinyl, or peel-and-stick.',
       },
     ],
     useCases: [
@@ -1816,20 +1816,21 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'wallpaper-calculator',
     name: 'Wallpaper Calculator',
     category: 'home-projects',
-    summary: 'Estimate wallpaper rolls from room dimensions, openings, roll coverage, and waste.',
+    summary: 'Estimate wallpaper rolls from room size, openings, roll coverage, pattern difficulty, and waste.',
     description:
-      'Use this free wallpaper calculator to estimate whole wallpaper rolls for simple room walls from dimensions, doors, windows, roll coverage, and waste.',
+      'Estimate whole wallpaper rolls from room size, doors, windows, roll coverage, pattern repeat planning, and waste percent.',
     icon: 'calculator-wallpaper',
     aliases: ['Wallpaper Roll Calculator', 'Wall Covering Calculator'],
     formula:
       'The calculator finds wall area from room perimeter and height, subtracts estimated doors and windows, adds waste, divides by roll coverage, and rounds up.',
     limit:
-      'Wallpaper needs can change with pattern repeat, usable roll yield, accent walls, odd wall shapes, trimming, damaged strips, and dye lots.',
+      'Wallpaper needs can change with pattern repeat, usable roll yield, accent walls, odd wall shapes, trimming, damaged strips, product returns, and dye lots.',
     inputExplanations: [
       { term: 'Room length and width', meaning: 'the two pairs of walls used to estimate total wall area from room perimeter.' },
+      { term: 'Wall height', meaning: 'the average height from the floor or baseboard to the ceiling, trim, or stopping point.' },
       { term: 'Doors and windows', meaning: 'standard openings subtracted from wall area before waste is added.' },
-      { term: 'Roll coverage', meaning: 'usable square feet one roll covers; use the product label because pattern repeat can reduce it.' },
-      { term: 'Waste percent', meaning: 'extra wallpaper for trimming, matching patterns, damaged strips, and mistakes.' },
+      { term: 'Roll coverage', meaning: 'usable square feet one roll covers; use the product label before trying to calculate it from roll width and roll length.' },
+      { term: 'Waste percent', meaning: 'extra wallpaper for trimming, matching patterns, damaged strips, corners, and mistakes.' },
     ],
     extraFaq: [
       {
@@ -1851,6 +1852,16 @@ export const utilityTools: ToolDefinition[] = [
         question: 'Why can pattern repeat change the roll count?',
         answer:
           'A repeating pattern has to line up from strip to strip. That means a strip may need to be cut longer than the wall height so the design starts in the right place. The extra cut-off part is not a mistake; it is the cost of making the pattern match instead of looking shifted.',
+      },
+      {
+        question: 'What if I only know the roll width and roll length?',
+        answer:
+          'Multiply roll width by roll length only as a fallback. The better input is the usable coverage printed on the wallpaper label or product page, because sellers may list single rolls, double rolls, bolts, or coverage after pattern repeat. If the label says one roll covers 56 square feet, use 56 even if the raw width times length looks different.',
+      },
+      {
+        question: 'How should I handle an accent wall?',
+        answer:
+          'For one accent wall, do not enter the whole room unless all walls are being covered. Estimate that wall area separately, subtract major openings if needed, then use the roll coverage and waste percent from the wallpaper you plan to buy. If the accent wall has a large pattern, keep the waste percent higher than a plain texture.',
       },
       {
         question: 'Should I subtract doors and windows?',

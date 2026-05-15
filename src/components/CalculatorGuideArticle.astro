@@ -138,11 +138,19 @@ const articleStructuredData = {
             )}
             {section.links && section.links.length > 0 && (
               <ul class="source-link-list">
-                {section.links.map((link) => (
-                  <li>
-                    <a href={link.href} rel="noreferrer" target="_blank">{link.label}</a>
-                  </li>
-                ))}
+                {section.links.map((link) => {
+                  const isExternal = /^https?:\/\//i.test(link.href);
+
+                  return (
+                    <li>
+                      {isExternal ? (
+                        <a href={link.href} rel="noreferrer" target="_blank">{link.label}</a>
+                      ) : (
+                        <a href={link.href}>{link.label}</a>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </section>
