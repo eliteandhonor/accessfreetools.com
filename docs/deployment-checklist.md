@@ -58,10 +58,11 @@ After Hostinger deploys the latest GitHub commit:
 - Confirm private analytics has a server-only token at `/home/u726893900/.local/accessfreetools-analytics.env`, Hostinger environment variables, or the fallback `public_html/.analytics/config.env`, then open `/private-analytics/?token=...` from your private token file.
 - Confirm representative pages include a 1200x630 PNG `og:image` from `/social/` and that the image URL returns 200.
 - If production shows `403 Forbidden`, check the Hostinger deployment root. The build mirrors the public site into `dist`, keeps the Node server at `dist/server/entry.mjs`, and writes `dist/app.js` for output-directory starts.
-- For the live contact form, `https://accessfreetools.com/api/contact.php` must return JSON. If the Node route `https://accessfreetools.com/api/contact` returns a Hostinger HTML 404 page, production is still static-only, so keep the PHP endpoint active.
+- For the live contact form, `https://accessfreetools.com/api/contact` must return JSON from the Astro Node route.
 - Hostinger build settings should use server-side Astro: build command `npm run build`, start command `npm run start`, entry file `app.js`, and output directory `dist` if an output field is shown.
+- For Ask/API/MCP, production must be real Node data only. Run `npm run hostinger:deploy-node` after major API changes, then run `npm run check:live-ask`. The live check must show `/api/v1/ask` using `route.source: "ollama"` and must not show `php-router`.
 - Confirm Hostinger has the contact form environment variables set and send one test message from `/contact/`.
-- Confirm old indexed URLs such as `/calculators`, `/deep-research`, and `/advanced-age-calculator` return 301 redirects. Hostinger may serve static output first, so keep the matching fallback rules in `public/.htaccess`.
+- Confirm old indexed URLs such as `/calculators`, `/deep-research`, and `/advanced-age-calculator` return 301 redirects. Keep those redirect rules in `public/.htaccess`, but do not add PHP API or MCP rewrites.
 
 ## Search Console
 

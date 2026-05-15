@@ -54,6 +54,8 @@
     "hostinger:dns-audit": "node scripts/hostinger-dns-audit.mjs",
     "hostinger:deployments": "node scripts/hostinger-deployments.mjs",
     "hostinger:logs": "node scripts/hostinger-logs.mjs",
+    "hostinger:deploy-node": "node scripts/hostinger-node-deploy.mjs",
+    "check:live-ask": "node scripts/check-live-ask-runtime.mjs",
     "hostinger:mcp:help": "node scripts/hostinger-mcp-wrapper.mjs -- --help",
     "dataforseo:account": "node scripts/dataforseo-account.mjs",
     "dataforseo:status": "node scripts/dataforseo-status.mjs",

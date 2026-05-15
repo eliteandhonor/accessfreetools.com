@@ -41,17 +41,31 @@ OLLAMA_API_KEY=your-private-ollama-key
 AFT_ASK_ENABLED=true
 ```
 
-The app also supports `OLLAMA` as a fallback because the first Hostinger setup
-used that key name. Prefer `OLLAMA_API_KEY` for future clarity.
+The app also supports `OLLAMA` as a legacy environment-variable name because
+the first Hostinger setup used that key name. Prefer `OLLAMA_API_KEY` for future
+clarity.
 
 After environment changes in Hostinger, redeploy or restart the Node app so the
 server process sees the new values.
 
-Production note: the current Hostinger deployment is serving the public Apache/PHP
-layer, so `public/api/v1/*.php`, `public/mcp.php`, and `public/.htaccess` mirror
-the same core API routes for live traffic. Keep the TypeScript Astro routes as
-the source for the Node deployment path, and keep the PHP fallback working until
-Hostinger is definitely running the Node server for dynamic routes.
+Production note: Ask/API/MCP must run through the Astro Node server. Hostinger
+needs the JavaScript deployment entry file set to `app.js`, output directory
+`dist`, build script `build`, and Node 22. Use:
+
+```powershell
+npm run hostinger:deploy-node
+npm run check:live-ask
+```
+
+`check:live-ask` must show `/api/v1/ask` using `route.source: "ollama"`. Do
+not add PHP fallback routes or duplicated PHP tool data; if the Node runtime is
+not active, fix the Hostinger Node deployment instead of serving stale fallback
+answers.
+
+For local tests only, `AFT_ASK_FORCE_FALLBACK=true` can force the deterministic
+pattern router. Production should not set that flag; if Ollama cannot route a
+question, Ask should return a clear unavailable message instead of pretending it
+used the model.
 
 ## Public Interfaces
 

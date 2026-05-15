@@ -1,18 +1,12 @@
 # Contact Form
 
-The live Hostinger deployment currently serves the site from `public_html`, so
-the contact form posts to `public/api/contact.php`. That PHP endpoint uses the
-server mail function and does not require committing secrets to GitHub.
-
-The Astro Node `/api/contact` route remains available in the source for a future
-server-side Node deployment. If that route is enabled later, keep the mailbox
-password in Hostinger environment variables only. Never commit real secrets to
-GitHub.
+The live Hostinger deployment should use the Astro Node `/api/contact` route.
+Keep the mailbox password in Hostinger environment variables only. Never commit
+real secrets to GitHub.
 
 ## Required Hostinger Variables
 
-Use these values in the Hostinger Node.js Web App environment variable settings
-only if the server-side Node route is enabled:
+Use these values in the Hostinger Node.js Web App environment variable settings:
 
 ```txt
 SMTP_HOST=smtp.hostinger.com
@@ -33,4 +27,6 @@ CONTACT_TO=contact@accessfreetools.com
 The build also writes `dist/app.js`, so Hostinger can start `app.js` from either
 the repository root or the `dist` output directory.
 
-After changing variables, redeploy or restart the Hostinger Node.js Web App and send a test message from `/contact/`.
+After changing variables, redeploy or restart the Hostinger Node.js Web App and
+send a test message from `/contact/`. Do not restore the retired PHP contact
+endpoint unless the project intentionally returns to static-only hosting.

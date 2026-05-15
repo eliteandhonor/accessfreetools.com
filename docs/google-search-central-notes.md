@@ -46,8 +46,9 @@ their closest live replacement with real 301 redirects:
 - `/deep-research` -> `/categories/ai-tools/`
 
 Access Free Tools keeps these mappings in Astro redirects, Astro middleware,
-and `public/.htaccess`. The `.htaccess` fallback matters because Hostinger can
-serve the static output before the Node middleware sees the request.
+and `public/.htaccess`. Keep `.htaccess` limited to redirects and security
+headers; API, MCP, contact, analytics, and Ask traffic should reach the Astro
+Node routes.
 
 After deployment, run:
 

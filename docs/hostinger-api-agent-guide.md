@@ -45,6 +45,18 @@ npm run hostinger:dns-audit
 npm run aft -- hostinger
 ```
 
+Deployment command, only after explicit approval:
+
+```powershell
+npm run hostinger:deploy-node
+npm run check:live-ask
+```
+
+This starts a Hostinger JavaScript deployment with Node 22, build script `build`,
+output directory `dist`, and entry file `app.js`. The live check verifies that
+Ask/API/MCP traffic reaches the Astro Node runtime instead of any retired PHP
+route.
+
 Optional VPS Docker checks need local IDs:
 
 ```powershell

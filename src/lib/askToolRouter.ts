@@ -264,10 +264,15 @@ export async function answerUtilityQuestion(message: string): Promise<AskToolAns
     }
   }
 
-  route ??= fallbackRoute(trimmed);
+  const allowLocalRouter =
+    process.env.AFT_ASK_FORCE_FALLBACK === 'true' || process.env.AFT_ASK_ALLOW_LOCAL_ROUTER === 'true';
+
+  if (!route && allowLocalRouter) {
+    route = fallbackRoute(trimmed);
+  }
 
   if (!route) {
-    throw new Error('I could not match that question to an API-ready Access Free Tools utility yet.');
+    throw new Error('I could not match that question with the live model to an API-ready Access Free Tools utility yet.');
   }
 
   const tool = getApiTool(route.tool_slug);
@@ -282,7 +287,7 @@ export async function answerUtilityQuestion(message: string): Promise<AskToolAns
   try {
     run = runApiTool(activeRoute.tool_slug, activeRoute.inputs);
   } catch (error) {
-    const fallback = activeRoute.source === 'ollama' ? fallbackRoute(trimmed) : null;
+    const fallback = activeRoute.source === 'ollama' && allowLocalRouter ? fallbackRoute(trimmed) : null;
     const fallbackTool = fallback ? getApiTool(fallback.tool_slug) : null;
 
     if (!fallback || !fallbackTool) {
