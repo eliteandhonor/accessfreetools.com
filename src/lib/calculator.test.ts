@@ -1704,7 +1704,16 @@ describe('utility helpers', () => {
     const drywall = calculateDrywallEstimate(480, 8, 4, 10);
     const carpet = calculateCarpetEstimate(15, 12, 12, 10);
     const flooring = calculateFlooringEstimate({ areaSquareFeet: 240, wastePercent: 10, boxCoverageSquareFeet: 24, pricePerBox: 48 });
-    const wallpaper = calculateWallpaperEstimate({ roomLengthFeet: 12, roomWidthFeet: 10, wallHeightFeet: 8, doors: 1, windows: 2, rollCoverageSquareFeet: 56, wastePercent: 10 });
+    const wallpaper = calculateWallpaperEstimate({
+      roomLengthFeet: 12,
+      roomWidthFeet: 10,
+      wallHeightFeet: 8,
+      doors: 1,
+      windows: 2,
+      rollCoverageSquareFeet: 56,
+      wastePercent: 10,
+      pricePerRoll: 42,
+    });
     const fence = calculateFenceEstimate({ perimeterFeet: 120, panelWidthFeet: 8, postSpacingFeet: 8, gateCount: 1, gateWidthFeet: 4 });
     const deck = calculateDeckCostEstimate({ lengthFeet: 16, widthFeet: 12, wastePercent: 10, deckCostPerSquareFoot: 12, railingLinearFeet: 40, railingCostPerFoot: 35, stairsCost: 750 });
     const deckBoards = calculateDeckBoardEstimate({ deckLengthFeet: 16, deckWidthFeet: 12, boardLengthFeet: 16, boardWidthInches: 5.5, joistSpacingInches: 16, wastePercent: 10, pricePerBoard: 18 });
@@ -1803,6 +1812,7 @@ describe('utility helpers', () => {
     expect(flooring.boxesNeeded).toBe(11);
     expect(flooring.estimatedCost).toBe(528);
     expect(wallpaper.rollsNeeded).toBe(6);
+    expect(wallpaper.estimatedCost).toBe(252);
     expect(fence.totalPosts).toBe(18);
     expect(deck.totalCost).toBe(4684.4);
     expect(deckBoards.boardsNeeded).toBe(29);
