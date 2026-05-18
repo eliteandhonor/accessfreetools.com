@@ -51,6 +51,16 @@ When the user says `SEO SPRINT <slug> <tool|blog>`, run the same workflow withou
 9. Present the exact URL, report paths, browser proof, and diff to the user.
 10. Do not move to the next page until that page is approved and recorded in `docs/seo-tool-review-queue.md`.
 
+## Deployment Closeout
+
+After any approved page is committed, pushed, deployed, and live-verified:
+
+- Update the Progress Summary in `docs/seo-tool-review-queue.md`.
+- Record the live URL, deployment/build id, commit id, and proof path in the Review Log.
+- Tell the user how many page review units are left.
+- Start the next page by marking it `researching`, generating the local research and page score, and loading the exact local URL in the internal browser.
+- Do not run paid DataForSEO for the next page until the user says the exact paid trigger phrase for that page.
+
 ## Approval Format
 
 Record approvals in `docs/seo-tool-review-queue.md`:
