@@ -27,6 +27,14 @@ Some npm versions on Windows consume `--page` and `--url` as npm config. The CLI
 
 ## Trigger Phrase
 
+When the user says `SEO steps`, `begin our SEO steps`, or `do the SEO steps` while a page is open or already in progress, treat that as approval for the complete one-page SEO process:
+
+- Check whether the page tone matches the Access Free Tools "smart 14-year-old" voice.
+- Research the same tool/page on competitor websites, score competitor pages, and list SEO gaps or tool/page improvements we can fill with original wording.
+- Use paid DataForSEO for that exact page: keyword, difficulty, competitor, and SERP evidence, after checking account balance and service status.
+- Apply useful page/tool improvements, run verification, save in-app browser proof, update the tracker, then commit and push the branch to GitHub.
+- Stop at the human approval gate before deploying live or moving to another page.
+
 When the user says `PAID SEO SPRINT <slug> <tool|blog>`, treat that as approval to run the full one-page workflow for that exact page:
 
 - local research, page score, and browser proof;
@@ -34,9 +42,10 @@ When the user says `PAID SEO SPRINT <slug> <tool|blog>`, treat that as approval 
 - paid DataForSEO keyword, difficulty, competitor, and SERP evidence for that page only;
 - tool-specific copy, FAQ, metadata, internal-link, or calculator improvements;
 - verification checks and a fresh in-app browser proof;
-- stop at the human approval gate before committing, deploying, or moving to another page.
+- commit and push the branch to GitHub;
+- stop at the human approval gate before deploying live or moving to another page.
 
-When the user says `SEO SPRINT <slug> <tool|blog>`, run the same workflow without paid DataForSEO calls unless paid use is approved later in the thread.
+When the user says `SEO SPRINT <slug> <tool|blog>`, run the same complete workflow, including paid DataForSEO, unless they explicitly say "no paid" for that run.
 
 ## Review Rules
 
@@ -45,7 +54,7 @@ When the user says `SEO SPRINT <slug> <tool|blog>`, run the same workflow withou
 3. Run `npm run aft -- seo-tool-research <slug> --page tool|blog`.
 4. Open the exact page in the internal browser. Use Playwright only if the internal browser is unavailable.
 5. Compare only approved competitor URLs. Default competitor sources are calculator.net, Inch Calculator, CalculatorSoup, CalculatorInn, and OmniCalc.
-6. Do not use paid DataForSEO SERP, keyword, or OnPage calls unless the user explicitly approves that paid run.
+6. Do not use paid DataForSEO SERP, keyword, or OnPage calls unless the user explicitly approves that paid run. The phrases `SEO steps`, `begin our SEO steps`, `do the SEO steps`, `PAID SEO SPRINT <slug> <tool|blog>`, and `SEO SPRINT <slug> <tool|blog>` count as paid approval unless the user also says "no paid".
 7. Edit only the current page source, FAQ, metadata, related links, matching guide text, or proof docs.
 8. Run `npm run aft -- seo-page-score <slug> --page tool|blog` plus the page-specific checks listed in the research report.
 9. Present the exact URL, report paths, browser proof, and diff to the user.
@@ -59,7 +68,7 @@ After any approved page is committed, pushed, deployed, and live-verified:
 - Record the live URL, deployment/build id, commit id, and proof path in the Review Log.
 - Tell the user how many page review units are left.
 - Start the next page by marking it `researching`, generating the local research and page score, and loading the exact local URL in the internal browser.
-- Do not run paid DataForSEO for the next page until the user says the exact paid trigger phrase for that page.
+- Do not run paid DataForSEO for the next page until the user says `SEO steps` for the open page, or uses another paid SEO trigger phrase for that page.
 
 ## Approval Format
 
