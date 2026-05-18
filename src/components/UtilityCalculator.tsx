@@ -450,14 +450,15 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     pricePerBox: 'Optional material price for one box. Leave blank if you only need the box count.',
   },
   wallpaper: {
-    roomLengthFeet: 'Length of one pair of opposite walls.',
-    roomWidthFeet: 'Width of the other pair of opposite walls.',
+    roomLengthFeet: 'Length of one pair of opposite walls. If you measured inches, divide by 12 first.',
+    roomWidthFeet: 'Width of the other pair of opposite walls. If you measured inches, divide by 12 first.',
     wallHeightFeet: 'Average wall height from baseboard or floor to ceiling or trim.',
     doors: 'Number of standard doors. The estimate subtracts about 20 square feet per door.',
     windows: 'Number of standard windows. The estimate subtracts about 15 square feet per window.',
     rollCoverageSquareFeet:
       'Usable square feet one roll covers. Use the product label because pattern repeat can reduce usable coverage.',
     wastePercent: 'Extra wallpaper for trimming, pattern matching, damaged strips, and mistakes.',
+    pricePerRoll: 'Optional price for one roll so the tool can estimate rough material cost.',
   },
   fence: {
     perimeterFeet: 'Total fence path length before subtracting gates.',
@@ -2483,11 +2484,45 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
           integerField('windows', 'Windows', '2'),
           numberField('rollCoverageSquareFeet', 'Roll coverage ft2', '56'),
           numberField('wastePercent', 'Waste percent', '10'),
+          numberField('pricePerRoll', 'Price per roll (optional)', '42'),
         ],
-        defaultInputs: { roomLengthFeet: '12', roomWidthFeet: '10', wallHeightFeet: '8', doors: '1', windows: '2', rollCoverageSquareFeet: '56', wastePercent: '10' },
+        defaultInputs: {
+          roomLengthFeet: '12',
+          roomWidthFeet: '10',
+          wallHeightFeet: '8',
+          doors: '1',
+          windows: '2',
+          rollCoverageSquareFeet: '56',
+          wastePercent: '10',
+          pricePerRoll: '42',
+        },
         examples: [
-          { label: 'Bedroom walls', inputs: { roomLengthFeet: '12', roomWidthFeet: '10', wallHeightFeet: '8', doors: '1', windows: '2', rollCoverageSquareFeet: '56', wastePercent: '10' } },
-          { label: 'Small office', inputs: { roomLengthFeet: '10', roomWidthFeet: '9', wallHeightFeet: '8', doors: '1', windows: '1', rollCoverageSquareFeet: '48', wastePercent: '12' } },
+          {
+            label: 'Bedroom walls',
+            inputs: {
+              roomLengthFeet: '12',
+              roomWidthFeet: '10',
+              wallHeightFeet: '8',
+              doors: '1',
+              windows: '2',
+              rollCoverageSquareFeet: '56',
+              wastePercent: '10',
+              pricePerRoll: '42',
+            },
+          },
+          {
+            label: 'Small office',
+            inputs: {
+              roomLengthFeet: '10',
+              roomWidthFeet: '9',
+              wallHeightFeet: '8',
+              doors: '1',
+              windows: '1',
+              rollCoverageSquareFeet: '48',
+              wastePercent: '12',
+              pricePerRoll: '',
+            },
+          },
         ],
       },
     ],
@@ -5795,6 +5830,7 @@ function calculateUtility(
         windows: parseNumber(inputs.windows, 'Windows'),
         rollCoverageSquareFeet: parseNumber(inputs.rollCoverageSquareFeet, 'Roll coverage'),
         wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        pricePerRoll: parseOptionalNumber(inputs.pricePerRoll ?? '', 'Price per roll'),
       });
       return {
         label: 'Wallpaper rolls',
@@ -5804,11 +5840,13 @@ function calculateUtility(
           { label: 'Wallpaper area', value: `${formatCalculatorNumber(result.wallpaperSquareFeet)} ft2` },
           { label: 'Area with waste', value: `${formatCalculatorNumber(result.adjustedSquareFeet)} ft2` },
           { label: 'Roll coverage', value: `${formatCalculatorNumber(result.rollCoverageSquareFeet)} ft2` },
+          { label: 'Estimated cost', value: result.estimatedCost === null ? 'Not entered' : money(result.estimatedCost) },
         ],
         steps: [
           'Find wall area from room perimeter times wall height.',
           'Subtract estimated doors and windows.',
           'Add waste, divide by roll coverage, and round up to whole rolls.',
+          'Multiply rolls by price per roll when a price is entered.',
         ],
         note: 'Pattern repeat, usable roll yield, odd walls, and dye lots can change the real number of rolls.',
       };

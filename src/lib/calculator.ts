@@ -7390,11 +7390,13 @@ export interface WallpaperEstimateResult {
   windows: number;
   rollCoverageSquareFeet: number;
   wastePercent: number;
+  pricePerRoll: number | null;
   wallSquareFeet: number;
   openingSquareFeet: number;
   wallpaperSquareFeet: number;
   adjustedSquareFeet: number;
   rollsNeeded: number;
+  estimatedCost: number | null;
 }
 
 export interface FenceEstimateResult {
@@ -10056,6 +10058,7 @@ export function calculateWallpaperEstimate(input: {
   windows: number;
   rollCoverageSquareFeet: number;
   wastePercent: number;
+  pricePerRoll?: number | null;
 }): WallpaperEstimateResult {
   assertPositiveNumber(input.roomLengthFeet, 'Room length');
   assertPositiveNumber(input.roomWidthFeet, 'Room width');
@@ -10067,18 +10070,26 @@ export function calculateWallpaperEstimate(input: {
   assertPositiveNumber(input.rollCoverageSquareFeet, 'Roll coverage');
   assertPercentRange(input.wastePercent, 'Waste percent', 100);
 
+  const pricePerRoll = input.pricePerRoll ?? null;
+  if (pricePerRoll !== null) {
+    assertNonNegativeNumber(pricePerRoll, 'Price per roll');
+  }
+
   const wallSquareFeet = 2 * (input.roomLengthFeet + input.roomWidthFeet) * input.wallHeightFeet;
   const openingSquareFeet = input.doors * 20 + input.windows * 15;
   const wallpaperSquareFeet = Math.max(0, wallSquareFeet - openingSquareFeet);
   const adjustedSquareFeet = wallpaperSquareFeet * (1 + input.wastePercent / 100);
+  const rollsNeeded = Math.ceil(adjustedSquareFeet / input.rollCoverageSquareFeet - 1e-10);
 
   return {
     ...input,
+    pricePerRoll,
     wallSquareFeet,
     openingSquareFeet,
     wallpaperSquareFeet,
     adjustedSquareFeet,
-    rollsNeeded: Math.ceil(adjustedSquareFeet / input.rollCoverageSquareFeet - 1e-10),
+    rollsNeeded,
+    estimatedCost: pricePerRoll === null ? null : rollsNeeded * pricePerRoll,
   };
 }
 

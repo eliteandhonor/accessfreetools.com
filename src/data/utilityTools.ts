@@ -7,6 +7,8 @@ interface UtilityToolSpec {
   category: CategorySlug;
   summary: string;
   description: string;
+  seoTitle?: string;
+  seoDescription?: string;
   icon: string;
   aliases?: string[];
   formula: string;
@@ -68,8 +70,8 @@ function makeUtilityTool(spec: UtilityToolSpec): ToolDefinition {
     description: spec.description,
     icon: spec.icon,
     aliases: spec.aliases,
-    seoTitle: `${spec.name} | ${titleType}`,
-    seoDescription: spec.description,
+    seoTitle: spec.seoTitle ?? `${spec.name} | ${titleType}`,
+    seoDescription: spec.seoDescription ?? spec.description,
     useCases: spec.useCases,
     examples: spec.examples,
     faq: makeFaq(spec),
@@ -1816,13 +1818,16 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'wallpaper-calculator',
     name: 'Wallpaper Calculator',
     category: 'home-projects',
-    summary: 'Estimate wallpaper rolls from room size, openings, roll coverage, pattern difficulty, and waste.',
+    summary: 'Figure out how many wallpaper rolls to buy, plus rough material cost when you add a roll price.',
     description:
-      'Estimate whole wallpaper rolls from room size, doors, windows, roll coverage, pattern repeat planning, and waste percent.',
+      'Estimate how many wallpaper rolls to buy from room size, doors, windows, roll coverage, pattern repeat, waste percent, and optional roll price.',
+    seoTitle: 'Wallpaper Calculator: Rolls, Pattern Repeat, and Cost',
+    seoDescription:
+      'Estimate wallpaper rolls from room size, roll coverage, pattern repeat, waste percent, one-wall projects, and optional roll price.',
     icon: 'calculator-wallpaper',
     aliases: ['Wallpaper Roll Calculator', 'Wall Covering Calculator'],
     formula:
-      'The calculator finds wall area from room perimeter and height, subtracts estimated doors and windows, adds waste, divides by roll coverage, and rounds up.',
+      'The calculator finds wall area from room perimeter and height, subtracts estimated doors and windows, adds waste, divides by roll coverage, rounds up, and multiplies by roll price when entered.',
     limit:
       'Wallpaper needs can change with pattern repeat, usable roll yield, accent walls, odd wall shapes, trimming, damaged strips, product returns, and dye lots.',
     inputExplanations: [
@@ -1831,6 +1836,7 @@ export const utilityTools: ToolDefinition[] = [
       { term: 'Doors and windows', meaning: 'standard openings subtracted from wall area before waste is added.' },
       { term: 'Roll coverage', meaning: 'usable square feet one roll covers; use the product label before trying to calculate it from roll width and roll length.' },
       { term: 'Waste percent', meaning: 'extra wallpaper for trimming, matching patterns, damaged strips, corners, and mistakes.' },
+      { term: 'Price per roll', meaning: 'optional roll price used only for a rough material cost before tax, shipping, paste, tools, or labor.' },
     ],
     extraFaq: [
       {
@@ -1859,6 +1865,16 @@ export const utilityTools: ToolDefinition[] = [
           'Multiply roll width by roll length only as a fallback. The better input is the usable coverage printed on the wallpaper label or product page, because sellers may list single rolls, double rolls, bolts, or coverage after pattern repeat. If the label says one roll covers 56 square feet, use 56 even if the raw width times length looks different.',
       },
       {
+        question: 'Can I use inches in the Wallpaper Calculator?',
+        answer:
+          'The room fields use feet, so convert inches to feet before entering them. Divide inches by 12. For example, 108 inches is 9 feet. If you only have roll width and roll length in inches, convert both to feet before multiplying them, or use the usable roll coverage from the product label when it is listed.',
+      },
+      {
+        question: 'How much wallpaper do I need for a 12 x 12 room?',
+        answer:
+          'A 12 x 12 room with 8-foot walls has about 384 square feet of wall area before openings. One standard door and two standard windows bring that to about 334 square feet. With 10% waste, the calculator plans for about 367 square feet. If each roll covers 56 square feet, that rounds up to 7 rolls.',
+      },
+      {
         question: 'How should I handle an accent wall?',
         answer:
           'For one accent wall, do not enter the whole room unless all walls are being covered. Estimate that wall area separately, subtract major openings if needed, then use the roll coverage and waste percent from the wallpaper you plan to buy. If the accent wall has a large pattern, keep the waste percent higher than a plain texture.',
@@ -1873,17 +1889,23 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Wallpaper can have tiny color differences between print runs. The lot, run, or batch number helps you buy rolls printed together. If you buy more later from a different lot, the pattern may be correct but the color can still look slightly off on the wall.',
       },
+      {
+        question: 'Can the Wallpaper Calculator estimate cost?',
+        answer:
+          'Yes. Add a price per roll if you want a rough material cost. The calculator multiplies that price by the whole rolls needed, but it does not include tax, shipping, paste, primer, tools, returns, or labor. Use it as a quick shopping check, not a contractor quote.',
+      },
     ],
     useCases: [
       'Estimate rolls for a bedroom, office, or powder room.',
       'Subtract common doors and windows from wall area.',
       'Compare roll coverage from different wallpaper products.',
+      'Check rough material cost when you know the roll price.',
       'Add waste for pattern matching before buying.',
     ],
     examples: [
-      { label: 'Bedroom', expression: '12 x 10 x 8 ft, 1 door, 2 windows, 56 ft2/roll', result: '6 rolls' },
+      { label: 'Bedroom', expression: '12 x 10 x 8 ft, 1 door, 2 windows, 56 ft2/roll, $42/roll', result: '6 rolls, about $252' },
       { label: 'Small office', expression: '10 x 9 x 8 ft, 48 ft2/roll, 12% waste', result: 'Wallpaper roll estimate' },
-      { label: 'Accent room', expression: 'Measured wall area and roll coverage', result: 'Whole rolls to buy' },
+      { label: 'Accent wall plan', expression: '96 ft2 wall, 56 ft2/roll, 15% waste', result: '2 rolls' },
     ],
     relatedSlugs: ['paint-calculator', 'drywall-calculator', 'flooring-calculator', 'square-footage-calculator'],
   }),
