@@ -248,6 +248,8 @@ describe('site content audit guardrails', () => {
     expect(duplicateBlogSlugs).toEqual([]);
     expect(duplicateBlogTitles).toEqual([]);
     expect(longBlogPageTitles).toEqual([]);
+    expect(blogPosts).toHaveLength(tools.length);
+    expect(Object.keys(blogGuideRedirects)).toEqual([]);
     expect(blogPosts.filter((post) => isRedirectedBlogGuideSlug(post.slug))).toEqual([]);
     expect(Object.values(blogGuideRedirects).filter((slug) => !blogPosts.some((post) => post.slug === slug))).toEqual([]);
 
@@ -894,9 +896,6 @@ describe('site content audit guardrails', () => {
     expect(HTACCESS_SOURCE).toContain('RewriteRule ^advanced-age-calculator/?$ /tools/age-calculator/');
     expect(HTACCESS_SOURCE).toContain(
       'RewriteRule ^maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025/?$ /tools/ad-revenue-calculator/',
-    );
-    expect(HTACCESS_SOURCE).toContain(
-      'RewriteRule ^blog/how-to-use-pregnancy-conception-calculator/?$ /blog/how-to-use-conception-calculator/',
     );
     expect(HTACCESS_SOURCE).toContain('RewriteRule ^calculators/?$ /categories/calculators/');
     expect(HTACCESS_SOURCE).toContain('RewriteRule ^deep-research/?$ /categories/ai-tools/');

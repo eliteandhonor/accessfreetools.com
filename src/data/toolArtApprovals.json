@@ -944,6 +944,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "concrete-column-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/concrete-column-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-column-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-column-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/concrete-column-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-column-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "confidence-interval-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/confidence-interval-calculator-guide.webp",
@@ -1196,6 +1212,22 @@
     "kind": "tool",
     "imagePath": "/tool-art/permutation-and-combination-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/permutation-and-combination-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pregnancy-conception-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/pregnancy-conception-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/pregnancy-conception-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pregnancy-conception-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/pregnancy-conception-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/pregnancy-conception-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },

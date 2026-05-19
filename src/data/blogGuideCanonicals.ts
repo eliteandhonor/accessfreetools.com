@@ -1,9 +1,7 @@
-export const blogGuideRedirects = {
-  'how-to-use-pregnancy-conception-calculator': 'how-to-use-conception-calculator',
-} as const satisfies Record<string, string>;
+export const blogGuideRedirects: Record<string, string> = {};
 
 export function getCanonicalBlogGuideSlug(slug: string) {
-  return blogGuideRedirects[slug as keyof typeof blogGuideRedirects] ?? slug;
+  return blogGuideRedirects[slug] ?? slug;
 }
 
 export function isRedirectedBlogGuideSlug(slug: string) {

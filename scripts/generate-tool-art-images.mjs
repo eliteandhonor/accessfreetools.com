@@ -6,6 +6,8 @@ const limitArg = process.argv.find((arg) => arg.startsWith('--limit='));
 const limit = limitArg ? Number(limitArg.split('=')[1]) : 24;
 const categoryArg = process.argv.find((arg) => arg.startsWith('--category='));
 const category = categoryArg ? categoryArg.split('=')[1] : null;
+const slugArg = process.argv.find((arg) => arg.startsWith('--slug='));
+const slug = slugArg ? slugArg.split('=')[1] : null;
 
 function ensureDir(path) {
   mkdirSync(dirname(path), { recursive: true });
@@ -29,6 +31,8 @@ function promptBlock(entry) {
 
 const entries = createToolArtEntries(readCanonicalTools())
   .filter((entry) => !category || entry.category === category)
+  .filter((entry) => !slug || entry.slug === slug)
+  .filter((entry) => entry.status !== 'approved' || entry.qaStatus !== 'approved')
   .slice(0, Number.isFinite(limit) ? limit : 24);
 
 const queue = {
@@ -52,6 +56,7 @@ writeFileSync(
     '',
     `Entries included: ${entries.length}`,
     category ? `Category filter: ${category}` : 'Category filter: none',
+    slug ? `Slug filter: ${slug}` : 'Slug filter: none',
     '',
     '## Prompts',
     '',

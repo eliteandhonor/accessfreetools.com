@@ -9,7 +9,6 @@ RewriteRule ^calculators/?$ /categories/calculators/ [R=301,L]
 RewriteRule ^deep-research/?$ /categories/ai-tools/ [R=301,L]
 RewriteRule ^advanced-age-calculator/?$ /tools/age-calculator/ [R=301,L]
 RewriteRule ^maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025/?$ /tools/ad-revenue-calculator/ [R=301,L]
-RewriteRule ^blog/how-to-use-pregnancy-conception-calculator/?$ /blog/how-to-use-conception-calculator/ [R=301,L]
 
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
