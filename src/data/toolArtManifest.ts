@@ -1922,8 +1922,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Concrete Column Calculator in the Home & Projects category.",
     "caption": "A smoke-kawaii visual for the Concrete Column Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is actively presenting the Concrete Column Calculator as a usable browser utility. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Home & Projects: house outlines, rulers, buckets, and project material shapes. Specific page concept: Estimate concrete for round columns, piers, and tube forms.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "concrete-column-calculator",
@@ -1938,8 +1938,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Concrete Column Calculator with concrete column shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Concrete Column Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is explaining the Concrete Column Calculator concept like a simple visual guide. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Home & Projects: house outlines, rulers, buckets, and project material shapes. Specific page concept: Estimate concrete for round columns, piers, and tube forms.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "concrete-driveway-calculator",
@@ -6562,8 +6562,24 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Pregnancy Conception Calculator in the Health & Fitness category.",
     "caption": "A smoke-kawaii visual for the Pregnancy Conception Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is actively presenting the Pregnancy Conception Calculator as a usable browser utility. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Health & Fitness: heart shapes, movement arcs, and wellness note cards. Specific page concept: Estimate conception date from an expected due date.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pregnancy-conception-calculator",
+    "kind": "guide",
+    "toolName": "Pregnancy Conception Calculator",
+    "category": "health-fitness",
+    "categoryName": "Health & Fitness",
+    "imagePath": "/tool-art/pregnancy-conception-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/pregnancy-conception-calculator-guide.webp",
+    "pagePath": "/blog/how-to-use-pregnancy-conception-calculator/",
+    "galleryPath": "/gallery/health-fitness/#pregnancy-conception-calculator-guide",
+    "alt": "Smoke-style kawaii mascot explaining Pregnancy Conception Calculator with pregnancy conception shapes and guide notes.",
+    "caption": "A companion smoke-kawaii visual for the Pregnancy Conception Calculator guide.",
+    "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is explaining the Pregnancy Conception Calculator concept like a simple visual guide. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Health & Fitness: heart shapes, movement arcs, and wellness note cards. Specific page concept: Estimate conception date from an expected due date.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "pregnancy-weight-gain-calculator",
