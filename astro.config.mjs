@@ -22,6 +22,10 @@ export default defineConfig({
       status: 301,
       destination: '/tools/ad-revenue-calculator/',
     },
+    '/blog/how-to-use-pregnancy-conception-calculator': {
+      status: 301,
+      destination: '/blog/how-to-use-conception-calculator/',
+    },
   },
   adapter: node({
     mode: 'standalone',

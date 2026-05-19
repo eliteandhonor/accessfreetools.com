@@ -1,4 +1,5 @@
 import { aiBlogPosts } from './aiBlogGuides';
+import { isRedirectedBlogGuideSlug } from './blogGuideCanonicals';
 import { financeBlogPosts } from './financeBlogGuides';
 import { healthBlogPosts } from './healthBlogGuides';
 import { utilityBlogPosts } from './utilityBlogGuides';
@@ -10,7 +11,7 @@ export interface BlogPostDefinition {
   summary: string;
 }
 
-export const blogPosts: BlogPostDefinition[] = [
+const blogPostCandidates: BlogPostDefinition[] = [
   {
     slug: 'how-to-use-basic-calculator',
     title: 'How to use the Basic Calculator',
@@ -324,3 +325,7 @@ export const blogPosts: BlogPostDefinition[] = [
   ...utilityBlogPosts,
   ...aiBlogPosts,
 ];
+
+export const blogPosts: BlogPostDefinition[] = blogPostCandidates.filter(
+  (post) => !isRedirectedBlogGuideSlug(post.slug),
+);

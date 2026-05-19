@@ -5,6 +5,7 @@ import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.
 import CategoryCard from '../../components/CategoryCard.astro';
 import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
 import ToolCard from '../../components/ToolCard.astro';
+import { getBlogGuideSlugForTool } from '../../data/blogGuideCanonicals';
 import { blogPosts } from '../../data/blogPosts';
 import { categories } from '../../data/categories';
 import { tools } from '../../data/tools';
@@ -15,7 +16,7 @@ const liveCategories = categories.filter((category) =>
 
 const categoryStats = liveCategories.map((category) => {
   const categoryTools = tools.filter((tool) => tool.category === category.slug);
-  const guideSlugs = new Set(categoryTools.map((tool) => `how-to-use-${tool.slug}`));
+  const guideSlugs = new Set(categoryTools.map((tool) => getBlogGuideSlugForTool(tool.slug)));
   const guideCount = blogPosts.filter((post) => guideSlugs.has(post.slug)).length;
 
   return {

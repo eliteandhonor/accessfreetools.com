@@ -29,6 +29,7 @@ import ToolCard from '../../components/ToolCard.astro';
 import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import ToolStructuredData from '../../components/ToolStructuredData.astro';
 import UtilityCalculator, { type UtilityToolVariant } from '../../components/UtilityCalculator';
+import { getBlogGuidePathForTool, getBlogGuideToolSlugForTool } from '../../data/blogGuideCanonicals';
 import { toolAliases, type ToolAlias } from '../../data/toolAliases';
 import { getToolArt } from '../../data/toolArt';
 import { getCategoryName, getRelatedTools, tools, type ToolDefinition } from '../../data/tools';
@@ -72,7 +73,10 @@ const currentPath = `/tools/${alias?.slug ?? tool.slug}/`;
 const relatedTools = getRelatedTools(tool);
 const categoryName = getCategoryName(tool.category);
 const categoryPath = `/categories/${tool.category}/`;
-const guidePath = `/blog/how-to-use-${tool.slug}/`;
+const guidePath = getBlogGuidePathForTool(tool.slug);
+const guideToolSlug = getBlogGuideToolSlugForTool(tool.slug);
+const guideTool = tools.find((candidate) => candidate.slug === guideToolSlug);
+const guideTitle = `How to use the ${guideTool?.name ?? tool.name}`;
 const toolArt = !isAliasPage ? getToolArt(tool.slug, 'tool') : undefined;
 const toolSocialImagePath =
   {
@@ -1880,7 +1884,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       </p>
       <ul class="guide-link-list">
         <li>
-          <a href={guidePath}>How to use the {tool.name}</a>
+          <a href={guidePath}>{guideTitle}</a>
           <span>Read examples, input meanings, formula notes, result limits, and common mistakes.</span>
         </li>
         <li>

@@ -3,6 +3,7 @@ import BaseLayout from '../../components/BaseLayout.astro';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
 import ToolCard from '../../components/ToolCard.astro';
+import { getBlogGuideSlugForTool } from '../../data/blogGuideCanonicals';
 import { blogPosts } from '../../data/blogPosts';
 import { categories, getCategory, type ToolCategory } from '../../data/categories';
 import { getToolsByCategory, tools } from '../../data/tools';
@@ -83,7 +84,7 @@ const categorySeo = categorySeoOverrides[category.slug] ?? {
   description: `${category.summary} Browse ${category.name.toLowerCase()} from Access Free Tools.`,
   intro: category.summary,
 };
-const toolSlugs = new Set(categoryTools.map((tool) => `how-to-use-${tool.slug}`));
+const toolSlugs = new Set(categoryTools.map((tool) => getBlogGuideSlugForTool(tool.slug)));
 const categoryGuides = blogPosts.filter((post) => toolSlugs.has(post.slug));
 const topTools = categoryTools.slice(0, 6);
 const calculatorHubLinks = [

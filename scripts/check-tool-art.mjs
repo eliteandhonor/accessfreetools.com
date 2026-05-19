@@ -4,6 +4,7 @@ import {
   createToolArtEntries,
   manifestTsSource,
   readCanonicalTools,
+  readRedirectedBlogGuideSlugs,
   readTrackedManifestSource,
   rootDir,
   writeJsonReport,
@@ -87,6 +88,7 @@ function htmlIncludesText(html, text) {
 
 const entries = createToolArtEntries(readCanonicalTools());
 const approvedEntries = entries.filter((entry) => entry.status === 'approved');
+const redirectedBlogGuideSlugs = readRedirectedBlogGuideSlugs();
 const expectedManifest = manifestTsSource(entries).replace(/Last regenerated: \d{4}-\d{2}-\d{2}/, 'Last regenerated: DATE');
 const actualManifest = readTrackedManifestSource().replace(/Last regenerated: \d{4}-\d{2}-\d{2}/, 'Last regenerated: DATE');
 const issues = [];
@@ -153,7 +155,9 @@ for (const entry of entries) {
   bySlug.set(entry.slug, (bySlug.get(entry.slug) ?? 0) + 1);
 }
 for (const [slug, count] of bySlug.entries()) {
-  if (count !== 2) issues.push(`${slug} has ${count} image entries instead of tool + guide.`);
+  const expectedCount = redirectedBlogGuideSlugs.has(`how-to-use-${slug}`) ? 1 : 2;
+  const expectedLabel = expectedCount === 1 ? 'tool only because its guide redirects' : 'tool + guide';
+  if (count !== expectedCount) issues.push(`${slug} has ${count} image entries instead of ${expectedLabel}.`);
 }
 
 const sourceChecks = [
