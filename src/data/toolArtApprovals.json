@@ -1152,6 +1152,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "credit-cards-payoff-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/credit-cards-payoff-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/credit-cards-payoff-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "credit-cards-payoff-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/credit-cards-payoff-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/credit-cards-payoff-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "css-clamp-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/css-clamp-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/css-clamp-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "css-clamp-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/css-clamp-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/css-clamp-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "distance-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/distance-calculator-guide.webp",
