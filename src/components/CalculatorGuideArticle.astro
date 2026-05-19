@@ -1,9 +1,11 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import BreadcrumbStructuredData from './BreadcrumbStructuredData.astro';
+import ToolArtFigure from './ToolArtFigure.astro';
 import { getCategory } from '../data/categories';
 import { formatDisplayDate, getBlogDates } from '../data/siteDates';
 import { getDeepAuditRecord } from '../data/toolDeepAudit';
+import { getToolArt } from '../data/toolArt';
 import { getTool } from '../data/tools';
 
 interface GuideSection {
@@ -51,7 +53,10 @@ const relatedTools = (tool?.relatedSlugs ?? [])
   .map((relatedSlug) => getTool(relatedSlug))
   .filter((relatedTool): relatedTool is NonNullable<typeof relatedTool> => Boolean(relatedTool));
 const articleDates = getBlogDates(path.match(/^\/blog\/([^/]+)\/?$/)?.[1] ?? '');
-const imageUrl = 'https://accessfreetools.com/social/free-guides.png';
+const guideArt = tool ? getToolArt(tool.slug, 'guide') : undefined;
+const imageUrl = guideArt
+  ? `https://accessfreetools.com${guideArt.imagePath}`
+  : 'https://accessfreetools.com/social/free-guides.png';
 const defaultPageTitle = `${title} | Access Free Tools`;
 const compactPageTitle = tool ? `${tool.name} Guide | Access Free Tools` : defaultPageTitle;
 const seoPageTitle =
@@ -84,7 +89,13 @@ const articleStructuredData = {
 };
 ---
 
-<BaseLayout title={seoPageTitle} description={description} path={path} socialImagePath="/social/free-guides.png">
+<BaseLayout
+  title={seoPageTitle}
+  description={description}
+  path={path}
+  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
+  socialImageAlt={guideArt?.alt}
+>
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
   <BreadcrumbStructuredData
     items={[
@@ -104,6 +115,8 @@ const articleStructuredData = {
       <p>{intro}</p>
       {tool && <a class="button-primary" href={`/tools/${tool.slug}/`}>Open the {tool.name}</a>}
     </header>
+
+    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
 
     <div class="blog-article-layout">
       <div class="blog-article-body">

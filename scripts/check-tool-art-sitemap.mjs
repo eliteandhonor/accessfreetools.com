@@ -1,0 +1,56 @@
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { createToolArtEntries, readCanonicalTools, rootDir, writeJsonReport } from './lib/tool-art-manifest.mjs';
+
+const candidates = [
+  resolve(rootDir, 'dist/client/sitemap-images.xml'),
+  resolve(rootDir, 'dist/sitemap-images.xml'),
+];
+const sitemapPath = candidates.find((path) => existsSync(path));
+const entries = createToolArtEntries(readCanonicalTools()).filter((entry) => entry.status === 'approved');
+const issues = [];
+
+if (!sitemapPath) {
+  issues.push('Built sitemap-images.xml is missing. Run npm run build first.');
+} else {
+  const xml = readFileSync(sitemapPath, 'utf8');
+  if (!xml.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"')) {
+    issues.push('Image sitemap is missing the image namespace.');
+  }
+
+  for (const entry of entries) {
+    const pageUrl = `https://accessfreetools.com${entry.pagePath}`;
+    const imageUrl = `https://accessfreetools.com${entry.imagePath}`;
+    if (!xml.includes(pageUrl)) issues.push(`Image sitemap missing page URL ${pageUrl}.`);
+    if (!xml.includes(imageUrl)) issues.push(`Image sitemap missing image URL ${imageUrl}.`);
+  }
+}
+
+const report = {
+  generatedAt: new Date().toISOString(),
+  status: issues.length > 0 ? 'fail' : 'pass',
+  sitemapPath: sitemapPath ? sitemapPath.replace(`${rootDir}${join('', '')}`, '') : null,
+  entries: entries.length,
+  issues,
+};
+
+writeJsonReport(resolve(rootDir, 'output/tool-art-sitemap-check.json'), report);
+writeFileSync(
+  resolve(rootDir, 'output/tool-art-sitemap-check.md'),
+  [
+    '# Tool Art Sitemap Check',
+    '',
+    `Status: ${report.status}`,
+    `Entries expected: ${entries.length}`,
+    `Sitemap: ${sitemapPath ?? 'missing'}`,
+    '',
+    ...(issues.length ? ['## Issues', '', ...issues.map((issue) => `- ${issue}`), ''] : []),
+  ].join('\n'),
+);
+
+if (issues.length > 0) {
+  console.error(`Image sitemap check failed with ${issues.length} issue(s). See output/tool-art-sitemap-check.md.`);
+  process.exit(1);
+}
+
+console.log(`Image sitemap check passed for ${entries.length} entries.`);

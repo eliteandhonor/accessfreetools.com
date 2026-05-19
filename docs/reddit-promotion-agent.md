@@ -12,6 +12,15 @@ the post, but a later external-browser verification showed no posts on
 record a Reddit post as published unless the external profile visibly shows it
 after submission.
 
+## Specialist Upgrade Lenses
+
+Use `docs/recommended-agency-agents.md` before Reddit work:
+
+- Legal Compliance Checker for disclosure, platform safety, and sensitive-topic
+  limits.
+- Technical Writer for useful, answer-first drafts.
+- Evidence Collector for public profile/feed proof after any approved post.
+
 ## What This Agent Does
 
 - Creates helpful Reddit reply drafts and profile-post drafts.

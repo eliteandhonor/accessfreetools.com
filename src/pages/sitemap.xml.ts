@@ -3,6 +3,7 @@ import type { APIRoute } from 'astro';
 import {
   blogSitemapEntries,
   categorySitemapEntries,
+  gallerySitemapEntries,
   maxLastmod,
   renderSitemapIndex,
   staticSitemapEntries,
@@ -15,6 +16,12 @@ export const GET: APIRoute = () => {
     { path: '/sitemap-tools.xml', lastmod: maxLastmod(toolSitemapEntries) },
     { path: '/sitemap-blog.xml', lastmod: maxLastmod(blogSitemapEntries) },
     { path: '/sitemap-categories.xml', lastmod: maxLastmod(categorySitemapEntries) },
+    ...(gallerySitemapEntries.length > 0
+      ? [
+          { path: '/sitemap-gallery.xml', lastmod: maxLastmod(gallerySitemapEntries) },
+          { path: '/sitemap-images.xml', lastmod: maxLastmod(gallerySitemapEntries) },
+        ]
+      : []),
   ]);
 
   return new Response(body, {

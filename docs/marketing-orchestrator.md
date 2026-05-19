@@ -1,6 +1,6 @@
 # Access Free Tools Marketing Orchestrator
 
-Last updated: 2026-05-10
+Last updated: 2026-05-18
 
 The Marketing Orchestrator is the coordinator above the SEO, content, internal-link, and promotion agents. It does not replace platform agents. It decides what should happen next, checks evidence, prevents duplicate reporting, and blocks unsafe "done" claims.
 
@@ -34,6 +34,22 @@ The orchestrator is report-only in v1. It can read reports, rank next actions, a
    - Source of truth: `docs/promotion-queue.md` and `output/marketing-orchestrator/`.
    - Jobs: produce a short daily plan with wins, blockers, and 1 to 3 best next actions.
    - Rule: facts and ideas must be separate.
+
+## Specialist Routing Upgrade
+
+Before ranking work, load `docs/recommended-agency-agents.md` and choose the
+smallest specialist lens that fits the action:
+
+| Workstream | Specialist lens | Proof lens |
+| --- | --- | --- |
+| Intelligence | SEO Specialist or AI Citation Strategist | Reality Checker |
+| Content | Technical Writer | Evidence Collector |
+| Review And Testing | Accessibility Auditor, API And MCP Tester, or Performance Benchmarker | Reality Checker |
+| Distribution | Legal Compliance Checker + platform agent | Evidence Collector |
+| Reporting | Analytics Reporter | Reality Checker |
+
+The orchestrator should name the lens in the report when it changes the next
+action. It must still keep recommendations to 1 to 3 items.
 
 ## Ownership Map
 
@@ -103,6 +119,7 @@ Each report should include:
 
 - Generated time.
 - Owner lane.
+- Specialist routing evidence from `docs/recommended-agency-agents.md`.
 - Evidence files read.
 - Current wins.
 - Current blockers.

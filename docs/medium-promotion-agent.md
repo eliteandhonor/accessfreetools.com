@@ -4,6 +4,14 @@ The Medium Promotion Agent prepares safe companion posts for Access Free Tools.
 It does not publish publicly, store credentials, run ads, send emails, or add
 affiliate links.
 
+## Specialist Upgrade Lenses
+
+Use `docs/recommended-agency-agents.md` before Medium work:
+
+- Technical Writer for article clarity, examples, headings, and source links.
+- Evidence Collector for hero-image, alt-text, formatting, and public URL proof.
+- Reality Checker before marking a live edit fixed or complete.
+
 ## Current Status
 
 - Medium login was started by the user on 2026-05-06 with

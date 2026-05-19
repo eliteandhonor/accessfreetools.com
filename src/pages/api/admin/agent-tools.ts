@@ -57,15 +57,32 @@ export const POST: APIRoute = async ({ request }) => {
     return jsonResponse({ ok: false, message: 'Admin analytics token required.' }, 401);
   }
 
-  let body: { kind?: unknown } = {};
+  let body: { claim?: unknown; kind?: unknown; lane?: unknown; slug?: unknown; task?: unknown; verifyUrls?: unknown } = {};
   try {
-    body = (await request.json()) as { kind?: unknown };
+    body = (await request.json()) as {
+      claim?: unknown;
+      kind?: unknown;
+      lane?: unknown;
+      slug?: unknown;
+      task?: unknown;
+      verifyUrls?: unknown;
+    };
   } catch {
     body = {};
   }
 
   const origin = requestOrigin(request);
-  const refreshed = await refreshAgentToolReports({ kind: parseKind(body.kind), origin });
+  const refreshed = await refreshAgentToolReports({
+    inputs: {
+      claim: body.claim,
+      lane: body.lane,
+      slug: body.slug,
+      task: body.task,
+      verifyUrls: body.verifyUrls,
+    },
+    kind: parseKind(body.kind),
+    origin,
+  });
 
   return jsonResponse({
     ok: true,

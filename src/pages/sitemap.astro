@@ -5,7 +5,7 @@ import BreadcrumbStructuredData from '../components/BreadcrumbStructuredData.ast
 import CollectionStructuredData from '../components/CollectionStructuredData.astro';
 import { blogPosts } from '../data/blogPosts';
 import { categories } from '../data/categories';
-import { staticSitemapEntries } from '../data/discovery';
+import { gallerySitemapEntries, staticSitemapEntries } from '../data/discovery';
 import { tools } from '../data/tools';
 
 const publicPages = staticSitemapEntries.filter((entry) => !entry.path.startsWith('/admin/'));
@@ -17,6 +17,10 @@ const categoryGroups = categories
   .filter((category) => category.tools.length > 0);
 const sitemapItems = [
   ...publicPages.map((entry) => ({ name: entry.path === '/' ? 'Home' : entry.path, path: entry.path })),
+  ...gallerySitemapEntries.map((entry) => ({
+    name: entry.path === '/gallery/' ? 'Smoke-Kawaii Gallery' : entry.path.replace('/gallery/', 'Gallery: ').replaceAll('/', ''),
+    path: entry.path,
+  })),
   ...categoryGroups.map((category) => ({ name: category.name, path: `/categories/${category.slug}/` })),
   ...tools.map((tool) => ({ name: tool.name, path: `/tools/${tool.slug}/` })),
   ...blogPosts.map((post) => ({ name: post.title, path: `/blog/${post.slug}/` })),
@@ -73,6 +77,11 @@ const sitemapItems = [
         <strong>{publicPages.length}</strong>
         <p>Core site, legal, contact, and resource pages.</p>
       </article>
+      <article>
+        <span>Gallery pages</span>
+        <strong>{gallerySitemapEntries.length}</strong>
+        <p>Smoke-kawaii image hubs linked to tools and guides.</p>
+      </article>
     </div>
   </section>
 
@@ -90,6 +99,23 @@ const sitemapItems = [
       ))}
     </div>
   </section>
+
+  {gallerySitemapEntries.length > 0 && (
+    <section class="section-band sitemap-section">
+      <div class="section-heading">
+        <h2>Smoke-kawaii gallery</h2>
+        <p>Image gallery pages that link each artwork back to its matching tool or guide.</p>
+      </div>
+      <div class="sitemap-link-grid">
+        {gallerySitemapEntries.map((entry) => (
+          <a href={entry.path}>
+            <strong>{entry.path === '/gallery/' ? 'Gallery home' : entry.path.replace('/gallery/', '').replace('/', '')}</strong>
+            <span>Updated {entry.lastmod}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="section-band sitemap-section">
     <div class="section-heading">

@@ -1,6 +1,6 @@
 # Access Free Tools Agent CLI
 
-Last updated: 2026-05-13
+Last updated: 2026-05-18
 
 `npm run aft -- ...` is the internal command surface for Codex agents working on Access Free Tools. It keeps daily orientation short, repeatable, and proof-based without replacing the existing scripts.
 
@@ -9,8 +9,30 @@ The CLI is for agent support only. It must not publish posts, edit live social c
 ## Commands
 
 - `npm run aft -- status`
-  - Summarizes brand-code presence, marketing report age, DataForSEO live-or-cached balance, promotion queue counts, indexing gaps, and platform quality reports, including DEV Community when its report exists.
+  - Summarizes brand-code presence, agent CLI docs, recommended agency-agent routing docs, marketing report age, DataForSEO live-or-cached balance, promotion queue counts, indexing gaps, and platform quality reports, including DEV Community when its report exists.
   - Treat `DataForSEO: live ...` as fresh proof. Treat `DataForSEO: cached ...; live check note: ...` as a temporary API/network warning, not a low-balance proof.
+
+- `npm run aft -- route "<task>"`
+  - Routes a plain-language task to the right local docs, specialist lens, proof lens, proof commands, and approval gates.
+  - Routing rules live in `docs/agent-routing-rules.json` so future agents can update lanes without editing CLI code.
+  - Saves `output/agent-tools/route/latest.json` and `.md`.
+
+- `npm run aft -- evidence-pack <lane>`
+  - Bundles the docs, proof commands, and latest evidence source status for one lane: `seo-review`, `seo`, `api`, `promotion`, `deploy`, `analytics`, `automation`, `ui`, or `code`.
+  - Saves `output/agent-tools/evidence-pack/latest.json` and `.md`.
+
+- `npm run aft -- claim-check "<claim>"`
+  - Checks whether a `posted`, `fixed`, `updated`, `done`, `live`, or production-ready claim includes public URL, screenshot, or generated-report proof.
+  - Cited `output/`, `public/`, or `dist/` proof paths must exist. Add `--verify-urls` when the public URL itself should be fetched before making the claim.
+  - Saves `output/agent-tools/claim-check/latest.json` and `.md`.
+
+- `npm run aft -- tool-brief <slug>`
+  - Summarizes one tool's source record, guide, API readiness, renderer signal, sitemap coverage, image/art status, built internal-link evidence, anonymous usage signal, Search Console gap state, deep-review status, related tools, and next proof commands.
+  - Saves `output/agent-tools/tool-brief/latest.json` and `.md`.
+
+- `npm run aft -- agent-doctor`
+  - Audits current agent docs and the `aft` command surface for missing routing/proof support.
+  - Saves `output/agent-tools/agent-doctor/latest.json` and `.md`.
 
 - `npm run aft -- marketing`
   - Runs the existing read-only marketing orchestrator and summarizes its 1 to 3 recommended actions.
@@ -77,6 +99,47 @@ The CLI is for agent support only. It must not publish posts, edit live social c
   - Summarizes indexing, sitemap, CrawlScout, IndexNow, DataForSEO, and marketing-orchestrator evidence into a report-only fix queue.
   - Saves `output/agent-tools/seo-console/latest.json` and `.md`.
 
+- `npm run aft -- seo-tool-queue`
+  - Builds the page-level review queue for every canonical tool and matching blog guide.
+  - Saves `output/seo-tool-review/queue/latest.json` and `.md`.
+
+- `npm run aft -- seo-tool-research <slug> --page tool|blog`
+  - Creates the one-page research pack with source data, built-page proof, tone hits, specialist agents, competitor seeds, and approval gates.
+  - Saves `output/seo-tool-review/<slug>/<page>/research.json` and `.md`.
+
+- `npm run aft -- seo-competitor-gap <slug> --page tool|blog --url <competitor-url>`
+  - Fetches and scores selected competitor pages for metadata, headings, FAQs, schema hints, examples, readability, and topic gaps.
+  - Paid DataForSEO research is blocked by default; competitor content is only for original topic-gap research.
+  - Saves `output/seo-tool-review/<slug>/<page>/competitor-gap.json` and `.md`.
+
+- `npm run aft -- seo-page-score <slug> --page tool|blog`
+  - Scores our page for SEO fit, tool specificity, FAQ quality, internal links, tone, trust/limits, and built-page proof.
+  - Saves `output/seo-tool-review/<slug>/<page>/page-score.json` and `.md`.
+
+- `npm run aft -- seo-approval-status <slug>`
+  - Reads `docs/seo-tool-review-queue.md` and shows whether the tool page and blog guide are both approved before the next slug can begin.
+  - Saves `output/seo-tool-review/<slug>/approval-status.json` and `.md`.
+
+- `node scripts/seo-agent-workbench.mjs plan <slug> <tool|blog>`
+  - Creates the separate SEO agent council plan with one specialist job, one evaluator job, required evidence, and human gate.
+  - Saves `output/seo-agents/<slug>/<page>/plan.json` and `.md`.
+
+- `node scripts/seo-agent-workbench.mjs sources <slug> <tool|blog>`
+  - Records the web research sources and local-doc checkpoints every SEO specialist agent must start from.
+  - Saves `output/seo-agents/<slug>/<page>/source-evidence.json` and `.md`.
+
+- `node scripts/seo-agent-workbench.mjs micro-plan <slug> <tool|blog>`
+  - Builds the one-question SEO micro-agent catalog for the page and parks conditional groups that do not apply.
+  - Saves `output/seo-agents/<slug>/<page>/micro-agent-plan.json` and `.md`.
+
+- `node scripts/seo-agent-workbench.mjs links <slug> <tool|blog>`
+  - Audits built HTML internal links for matching-page links, descriptive anchors, generic anchors, and keyword stuffing.
+  - Saves `output/seo-agents/<slug>/<page>/link-audit.json` and `.md`.
+
+- `node scripts/seo-agent-workbench.mjs judge <slug> <tool|blog>`
+  - Checks specialist/evaluator evidence and lists remaining gaps before the human approval gate.
+  - Saves `output/seo-agents/<slug>/<page>/final-judge.json` and `.md`.
+
 - `npm run aft -- proof-check`
   - Finds promotion queue rows that claim a live or done status without visible public proof, and rows intentionally waiting for proof.
 
@@ -86,39 +149,67 @@ Every command supports `--json` for structured agent use. For strict machine par
 npm run --silent aft -- status --json
 ```
 
+On some Windows/npm versions, command options like `--page tool` and `--url https://...` are consumed as npm config and produce a warning. The SEO review commands also accept warning-free positional fallbacks such as `npm run aft -- seo-tool-research wallpaper-calculator tool` and `npm run aft -- seo-competitor-gap wallpaper-calculator tool https://www.inchcalculator.com/wallpaper-calculator/`.
+
 ## Proof Rules
 
 The CLI can summarize proof, but it cannot create proof by itself. Public promotion can only be marked `posted`, `updated`, `done`, or `fixed` when one of these is visible:
 
 - A public URL showing the post or change.
 - A public profile or feed view showing the item.
-- A screenshot saved in `output/`.
-- A generated report proving a non-public action, such as RSS health or sitemap verification.
+- A screenshot saved in `output/`, with the exact path present locally.
+- A generated report proving a non-public action, such as RSS health or sitemap verification, with the exact path present locally.
 
 ## Recommended Agent Flow
 
 1. Start with `npm run aft -- status`.
-2. Run `npm run aft -- marketing` when choosing SEO, internal-link, content, or promotion work.
-3. Run `npm run aft -- hostinger` before Hostinger, DNS, deployment, or hosting-environment claims.
-4. If the user provides Google Coverage CSVs, run `npm run search-console:import-coverage` before indexing claims. It finds the newest Access Free Tools Coverage export in Downloads; use `node scripts/import-google-coverage-export.mjs --dir="C:\path\to\export"` only when the folder is somewhere else.
-5. Run `npm run aft -- indexing-protection` after Search Engine Land-style indexing, soft-404, or discovery work.
-6. Run `npm run aft -- ai-crawler` after hub, tool-page, or AI-search visibility work.
-7. Run `npm run aft -- hub-strength` after changing hub copy, category discovery, or internal-link pathways.
-8. Run `npm run aft -- semantic-depth` after changing priority tool pages, guides, FAQs, or audit wording.
-9. Run `npm run aft -- recognition` before claiming brand/promotion proof across public platforms.
-10. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
-11. Use `npm run aft -- usage-notes` before planning any public "what people are using" content.
-12. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
-13. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
-14. Use `npm run aft -- content-score <file>` before Medium, DEV Community, Quora, Reddit, or longer promotion copy goes public.
-15. Use `npm run aft -- ask-audit` after Ask/API/MCP changes and before claiming live answer quality.
-16. Use `npm run aft -- api-ready` before expanding the public API registry.
-17. Use `npm run aft -- mcp-smoke` after MCP route changes.
-18. Use `npm run aft -- link-helper` before internal-link improvement batches.
-19. Use `npm run aft -- seo-console` before choosing indexing or discovery fixes.
-20. Use `npm run aft -- proof-check` before changing promotion queue statuses.
+2. Run `npm run aft -- route "<task>"` to choose the first docs, specialist lens, proof lens, and approval gates.
+3. Run `npm run aft -- evidence-pack <lane>` when you need the latest proof bundle for the routed lane.
+4. Read `docs/recommended-agency-agents.md` when choosing a specialist lens for the current workstream.
+5. Run `npm run aft -- marketing` when choosing SEO, internal-link, content, or promotion work.
+6. Run `npm run aft -- hostinger` before Hostinger, DNS, deployment, or hosting-environment claims.
+7. If the user provides Google Coverage CSVs, run `npm run search-console:import-coverage` before indexing claims. It finds the newest Access Free Tools Coverage export in Downloads; use `node scripts/import-google-coverage-export.mjs --dir="C:\path\to\export"` only when the folder is somewhere else.
+8. Run `npm run aft -- indexing-protection` after Search Engine Land-style indexing, soft-404, or discovery work.
+9. Run `npm run aft -- ai-crawler` after hub, tool-page, or AI-search visibility work.
+10. Run `npm run aft -- hub-strength` after changing hub copy, category discovery, or internal-link pathways.
+11. Run `npm run aft -- semantic-depth` after changing priority tool pages, guides, FAQs, or audit wording.
+12. Run `npm run aft -- recognition` before claiming brand/promotion proof across public platforms.
+13. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
+14. Use `npm run aft -- usage-notes` before planning any public "what people are using" content.
+15. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
+16. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
+17. Use `npm run aft -- tool-brief <slug>` before planning broader work on a specific tool.
+18. Use `npm run aft -- content-score <file>` before Medium, DEV Community, Quora, Reddit, or longer promotion copy goes public.
+19. Use `npm run aft -- ask-audit` after Ask/API/MCP changes and before claiming live answer quality.
+20. Use `npm run aft -- api-ready` before expanding the public API registry.
+21. Use `npm run aft -- mcp-smoke` after MCP route changes.
+22. Use `npm run aft -- link-helper` before internal-link improvement batches.
+23. Use `npm run aft -- seo-console` before choosing indexing or discovery fixes.
+24. Use `npm run aft -- seo-tool-queue` before starting the controlled tool/blog review lane.
+25. Use `npm run aft -- seo-tool-research <slug> --page tool|blog`, then `npm run aft -- seo-page-score <slug> --page tool|blog`, for the current page only.
+26. Use `npm run aft -- seo-approval-status <slug>` before moving to the next slug.
+27. Use `npm run aft -- claim-check "<claim>"` before making any live/done/fixed claim in chat or docs. Add `--verify-urls` when the claim depends on a public URL that should be fetched now.
+28. Use `npm run aft -- proof-check` before changing promotion queue statuses.
+29. Use `npm run aft -- agent-doctor` after editing agent docs or helper command routing.
 
-The private report viewer is `/admin/agent-tools/`. It uses the analytics/admin token, is noindexed, and can refresh safe report-only checks from the browser. It does not publish, edit pages, submit indexing requests, or run paid API calls. CLI Playwright parity is still the stronger proof when browser-rendered tool output matters.
+## Specialist Lens Router
+
+`docs/recommended-agency-agents.md` upgrades the local agents with specialist
+lenses from the reviewed `msitarzewski/agency-agents` prompt library. Use it to
+choose one primary lens and one proof lens, then keep the local proof command as
+the source of truth.
+
+Common pairings:
+
+- SEO and indexing: SEO Specialist, then Evidence Collector.
+- AI search and recognition: AI Citation Strategist, then Reality Checker.
+- Ask/API/MCP: API And MCP Tester plus Agentic Search Optimizer, then Reality Checker.
+- Promotion drafts: Technical Writer plus Legal Compliance Checker, then Evidence Collector.
+- Analytics/data assets: Analytics Reporter, then Reality Checker.
+- Automations and Hostinger: Automation Governance Architect, then Reality Checker.
+- Narrow code fixes: Minimal Change Engineer, then task-specific tests.
+
+The private report viewer is `/admin/agent-tools/`. It uses the analytics/admin token, is noindexed, and can refresh safe report-only checks from the browser. It also exposes read-only helper forms for route, evidence pack, claim check, tool brief, and agent doctor reports. It does not publish, edit pages, submit indexing requests, or run paid API calls. CLI Playwright parity is still the stronger proof when browser-rendered tool output matters.
 
 For a quick no-paid proof refresh after local SEO/audit work, use `npm run audit:deep:no-paid:fast`. It skips Search Console OAuth, the full `npm run check`, and Playwright smoke while still refreshing the local audit, IndexNow, external-link report, indexing protection report, and AI crawler visibility report.
 

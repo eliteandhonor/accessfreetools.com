@@ -278,8 +278,14 @@ for (const htmlFile of htmlFiles) {
         issues.push(`${normalize(htmlFile)} Open Graph image is not on ${SITE_ORIGIN}: ${ogImage}`);
       }
 
-      if (!parsedOgImage.pathname.startsWith('/social/') || !parsedOgImage.pathname.endsWith('.png')) {
-        issues.push(`${normalize(htmlFile)} should use a PNG social preview under /social/: ${ogImage}`);
+      const isSocialPng = parsedOgImage.pathname.startsWith('/social/') && parsedOgImage.pathname.endsWith('.png');
+      const isToolArtWebp =
+        parsedOgImage.pathname.startsWith('/tool-art/') &&
+        !parsedOgImage.pathname.includes('/thumbs/') &&
+        parsedOgImage.pathname.endsWith('.webp');
+
+      if (!isSocialPng && !isToolArtWebp) {
+        issues.push(`${normalize(htmlFile)} should use a /social/*.png preview or a full /tool-art/*.webp page image: ${ogImage}`);
       }
 
       const socialImageFile = join(publicDistDir, parsedOgImage.pathname.replace(/^\/+/, ''));
@@ -294,8 +300,9 @@ for (const htmlFile of htmlFiles) {
     issues.push(`${normalize(htmlFile)} Twitter image does not match Open Graph image.`);
   }
 
-  if (ogImageWidth !== '1200' || ogImageHeight !== '630' || ogImageType !== 'image/png') {
-    issues.push(`${normalize(htmlFile)} social image metadata should declare 1200x630 image/png.`);
+  const expectedOgImageType = ogImage?.includes('/tool-art/') ? 'image/webp' : 'image/png';
+  if (ogImageWidth !== '1200' || ogImageHeight !== '630' || ogImageType !== expectedOgImageType) {
+    issues.push(`${normalize(htmlFile)} social image metadata should declare 1200x630 ${expectedOgImageType}.`);
   }
 
   if (!ogImageAlt || !twitterImageAlt) {

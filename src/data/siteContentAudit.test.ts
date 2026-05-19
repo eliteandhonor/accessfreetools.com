@@ -826,6 +826,11 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts['check:structured-data']).toBe('node scripts/check-structured-data.mjs');
     expect(PACKAGE_JSON.scripts['check:performance']).toBe('node scripts/check-performance-budget.mjs');
     expect(PACKAGE_JSON.scripts['check:ai-assets']).toBe('node scripts/check-ai-lazy-assets.mjs');
+    expect(PACKAGE_JSON.scripts['images:manifest']).toBe('node scripts/generate-tool-art-manifest.mjs');
+    expect(PACKAGE_JSON.scripts['images:generate']).toBe('node scripts/generate-tool-art-images.mjs');
+    expect(PACKAGE_JSON.scripts['images:qa']).toBe('node scripts/check-tool-art.mjs');
+    expect(PACKAGE_JSON.scripts['images:sitemap-check']).toBe('node scripts/check-tool-art-sitemap.mjs');
+    expect(PACKAGE_JSON.scripts['gallery:qa']).toBe('node scripts/check-gallery-pages.mjs');
     expect(PACKAGE_JSON.scripts['check:external-links']).toBe('node scripts/check-external-links.mjs');
     expect(PACKAGE_JSON.scripts['check:production-sitemap']).toBe('node scripts/check-production-sitemap.mjs');
     expect(PRODUCTION_SITEMAP_CHECK_SOURCE).toContain('output/search-console-performance.json');
@@ -836,7 +841,7 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts['test:smoke']).toBe('npm run build && node scripts/run-playwright-smoke.mjs');
     expect(PACKAGE_JSON.scripts['security:audit']).toBe('npm audit --audit-level=moderate');
     expect(PACKAGE_JSON.scripts.check).toBe(
-      'npm run typecheck && npm test && npm run build && npm run check:links && npm run check:site && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run check:secrets && npm run security:audit',
+      'npm run typecheck && npm test && npm run build && npm run check:links && npm run check:site && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run images:qa && npm run images:sitemap-check && npm run gallery:qa && npm run check:secrets && npm run security:audit',
     );
     expect(README_SOURCE).toContain('npm run check');
     expect(DEPLOYMENT_CHECKLIST_SOURCE).toContain('/tools/');

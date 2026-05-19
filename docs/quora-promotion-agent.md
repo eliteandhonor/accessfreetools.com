@@ -8,6 +8,16 @@ The user created a Quora account with `contact@accessfreetools.com`. Do not
 store the Quora password, recovery links, email codes, cookies, or session data
 in Git, docs, output reports, or automation prompts.
 
+## Specialist Upgrade Lenses
+
+Use `docs/recommended-agency-agents.md` before Quora work:
+
+- Legal Compliance Checker for disclosure, Space safety, and sensitive-topic
+  limits.
+- Technical Writer for concise answers with formulas, examples, and mistakes to
+  avoid.
+- Evidence Collector for public answer, Space, or profile proof.
+
 ## Why Quora
 
 Quora is a good fit for Access Free Tools because people ask exact questions:

@@ -1669,6 +1669,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
           'Price per roll is optional. If you leave it blank, the calculator focuses on rolls. If you enter a price, it multiplies the whole rolls needed by that price. Six rolls at $42 per roll becomes about $252 before anything else is added.',
           'That cost is useful for quick shopping checks, but it is not the same as a project quote. It does not include sales tax, shipping, paste, primer, smoothing tools, returns, installer labor, or extra rolls you may choose to keep for repairs.',
         ],
+        links: [{ href: '/tools/wallpaper-calculator/', label: 'Open the Wallpaper Calculator with price per roll' }],
       },
       {
         title: 'If you only have roll width and roll length',
@@ -1689,6 +1690,10 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         paragraphs: [
           'Measure the room before you start guessing rolls. For a simple rectangle, the calculator uses room length, room width, and wall height to estimate the wall area. If the room is odd-shaped, measure each wall section and keep the numbers handy so you can split the job into smaller estimates.',
           'Count large openings too. A standard door and a couple of windows can remove about 50 square feet from the estimate. If you are only covering one accent wall, measure that wall as its own job instead of entering the whole room.',
+        ],
+        links: [
+          { href: '/tools/wallpaper-calculator/', label: 'Use the Wallpaper Calculator after measuring' },
+          { href: '/tools/square-footage-calculator/', label: 'Check a single wall with the Square Footage Calculator' },
         ],
       },
       {
@@ -1711,6 +1716,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
           'For a 12 x 12 room with 8-foot walls, the starting wall area is about 384 square feet. One standard door and two standard windows bring that down to about 334 square feet before waste.',
           'With 10% waste, the calculator plans for about 367 square feet. If each roll covers 56 square feet, 367 divided by 56 is about 6.55, so the answer rounds up to 7 rolls. At $42 per roll, the rough roll cost would be 7 x $42, or $294 before supplies, tax, delivery, or labor.',
         ],
+        links: [{ href: '/tools/wallpaper-calculator/', label: 'Try the 12x12 room in the Wallpaper Calculator' }],
       },
       {
         title: 'When to be extra careful',

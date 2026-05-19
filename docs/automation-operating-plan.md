@@ -1,6 +1,6 @@
 # Access Free Tools Automation Operating Plan
 
-Last updated: 2026-05-10
+Last updated: 2026-05-18
 
 This file records the Codex automation jobs that keep Access Free Tools checked without relying on chat memory.
 
@@ -9,7 +9,7 @@ This file records the Codex automation jobs that keep Access Free Tools checked 
 | Automation | Cadence | Purpose | Safe limits |
 | --- | --- | --- | --- |
 | Access Free Tools Marketing Orchestrator | Daily at 10:00 | Owns the daily SEO/promotion overview and deduped next-action plan: DataForSEO status only when needed, Search Console key URLs, sitemap/feed/robots health, IndexNow, Pinterest RSS, Medium, DEV Community, Reddit, Bluesky, and Quora queue status. | Report-only by default. No passwords, no ads, no public-post completion claims without public URL/profile proof. Report DataForSEO balance only when it is below warning/stop/top-up thresholds or when an API error affects the task. |
-| AFT Weekly QA Audit | Weekly on Monday | Runs local QA gates, smoke tests, external-link checks, and a deep audit without paid crawl. | Reports fixes; does not push automatically from the scheduled run. |
+| AFT Weekly QA Audit | Weekly on Monday | Runs local QA gates, `npm run aft -- agent-doctor`, smoke tests, external-link checks, and a deep audit without paid crawl. | Reports fixes; does not push automatically from the scheduled run. |
 | AFT Monthly OnPage Crawl | Monthly on day 1 | Runs a paid DataForSEO OnPage crawl when balance is safely above the warning threshold. | Skips paid crawl at or below 10 USD; never uses Backlinks API. |
 | AFT Weekly Promotion Draft Review | Weekly on Wednesday at 10:00 | Refreshes Pinterest assets, Pinterest RSS reports, Medium drafts, DEV Community drafts, Reddit drafts, Bluesky drafts, Quora drafts, writing-quality scores, and promotion/internal-link opportunities. | No paid ads, outreach emails, password storage, or duplicate platform reports; RSS feeds exclude already-posted pins; DEV, Reddit, and Quora drafts must stay disclosed and answer-first. |
 | Medium Promotion Agent | Weekly on Wednesday at 10:00 | Specialist quality pass for Medium draft/image/article readiness. | Do not repeat the full daily SEO report. Mention DataForSEO only if a keyword check changes the recommendation or a warning/error blocks publishing. |
@@ -31,11 +31,14 @@ These jobs were retired on 2026-05-09 to reduce repeated reports:
 
 Use these rules when creating or editing agents:
 
+- Load `docs/recommended-agency-agents.md` and use the Automation Governance
+  Architect lens before adding, editing, or re-enabling any automation. Use
+  Reality Checker before saying an automation is healthy, complete, or safe.
 - Load `docs/brand-code.md` before drafting public copy, social posts, blog guides, or promotional articles.
 - Use `docs/marketing-orchestrator.md` and `npm run marketing:orchestrate` for the daily priority decision. The orchestrator decides what should happen next; platform agents decide how to draft for their platform.
 - Start active automations with `npm run automation:env-check` and `npm run aft -- status`, then read `output/automation-environment.md` before reporting service failures. If that report says DataForSEO is healthy, do not repeat stale `fetch failed` claims from older memory files. If Search Console needs OAuth, use the latest saved Search Console exports and ask Brendan for a manual OAuth refresh only when fresh Search Console data is truly required.
 - For Hostinger hosting/API checks, read `docs/hostinger-api-agent-guide.md` and run `npm run aft -- hostinger` or `npm run hostinger:status`. Treat Hostinger API writes as approval-only, especially DNS, billing, domain, VPS, Docker, and deployment actions.
-- Use the internal CLI for focused proof before manual digging: `npm run aft -- marketing`, `npm run aft -- indexing-gaps`, and `npm run aft -- proof-check` give the daily priority, Search Console gap list, and promotion proof state in agent-safe form.
+- Use the internal CLI for focused proof before manual digging: `npm run aft -- route "<task>"`, `npm run aft -- marketing`, `npm run aft -- indexing-gaps`, `npm run aft -- proof-check`, and `npm run aft -- agent-doctor` give the lane, daily priority, Search Console gap list, promotion proof state, and agent-system health in agent-safe form.
 - In `npm run aft -- status`, a `DataForSEO: live ...` balance is fresh proof. A `DataForSEO: cached ...; live check note: ...` balance is only a fallback from saved reports and should be described as a temporary API/network issue, not a top-up or billing problem.
 - Give each automation one clear owner lane: daily overview, weekly QA, monthly paid crawl, weekly promotion queue, or platform specialist.
 - Do not repeat DataForSEO balance in every report. The daily overview owns routine balance monitoring. Other agents only mention balance when it is below warning, stop, or top-up thresholds, or when an API failure changes the recommendation.

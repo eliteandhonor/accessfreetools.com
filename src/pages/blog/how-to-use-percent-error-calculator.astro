@@ -1,9 +1,13 @@
 ---
 export const prerender = true;
 import BaseLayout from '../../components/BaseLayout.astro';
+import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import { getTool } from '../../data/tools';
+import { getToolArt } from '../../data/toolArt';
 
 const percentErrorCalculator = getTool('percent-error-calculator');
+const guideArt = getToolArt('percent-error-calculator', 'guide');
+const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
 const examples = percentErrorCalculator?.examples ?? [];
 const articleStructuredData = {
   '@context': 'https://schema.org',
@@ -12,6 +16,7 @@ const articleStructuredData = {
   description:
     'Learn percent error with the Access Free Tools percent error calculator, including measured values, accepted values, absolute percent error, signed percent error, units, steps, history, and privacy.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-percent-error-calculator/',
+  image: guideImageUrl,
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',
   author: {
@@ -30,6 +35,8 @@ const articleStructuredData = {
   title="How to use the Percent Error Calculator | Access Free Tools"
   description="Learn measured vs accepted values, absolute percent error, signed percent error, units, steps, history, and privacy."
   path="/blog/how-to-use-percent-error-calculator/"
+  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
+  socialImageAlt={guideArt?.alt}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
 
@@ -46,6 +53,8 @@ const articleStructuredData = {
       </p>
       <a class="button-primary" href="/tools/percent-error-calculator/">Open the percent error calculator</a>
     </header>
+
+    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
 
     <div class="blog-article-layout">
       <div class="blog-article-body">

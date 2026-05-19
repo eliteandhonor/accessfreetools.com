@@ -1,0 +1,1394 @@
+[
+  {
+    "slug": "401k-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/401k-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/401k-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "401k-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/401k-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/401k-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ad-revenue-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/ad-revenue-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/ad-revenue-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ad-revenue-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/ad-revenue-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/ad-revenue-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "age-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/age-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/age-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "age-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/age-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/age-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ai-token-cost-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/ai-token-cost-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/ai-token-cost-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ai-token-cost-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/ai-token-cost-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/ai-token-cost-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "amortization-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/amortization-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/amortization-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "amortization-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/amortization-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/amortization-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "amp-hours-to-watt-hours-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/amp-hours-to-watt-hours-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/amp-hours-to-watt-hours-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "amp-hours-to-watt-hours-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/amp-hours-to-watt-hours-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/amp-hours-to-watt-hours-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "amps-to-watts-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/amps-to-watts-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/amps-to-watts-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "amps-to-watts-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/amps-to-watts-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/amps-to-watts-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "annuity-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/annuity-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/annuity-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "annuity-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/annuity-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/annuity-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "annuity-payout-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/annuity-payout-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/annuity-payout-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "annuity-payout-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/annuity-payout-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/annuity-payout-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "api-pricing-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/api-pricing-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/api-pricing-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "api-pricing-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/api-pricing-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/api-pricing-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "apr-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/apr-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/apr-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "apr-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/apr-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/apr-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "area-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/area-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/area-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "area-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/area-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/area-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "army-body-fat-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/army-body-fat-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/army-body-fat-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "army-body-fat-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/army-body-fat-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/army-body-fat-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "aspect-ratio-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/aspect-ratio-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/aspect-ratio-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "aspect-ratio-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/aspect-ratio-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/aspect-ratio-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "asphalt-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/asphalt-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/asphalt-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "asphalt-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/asphalt-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/asphalt-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "auto-lease-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/auto-lease-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/auto-lease-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "auto-lease-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/auto-lease-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/auto-lease-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "auto-loan-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/auto-loan-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/auto-loan-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "auto-loan-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/auto-loan-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/auto-loan-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "average-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/average-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/average-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "average-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/average-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/average-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "average-return-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/average-return-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/average-return-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "average-return-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/average-return-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/average-return-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "bac-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/bac-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/bac-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "bac-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/bac-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/bac-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "baking-pan-conversion-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/baking-pan-conversion-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/baking-pan-conversion-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "baking-pan-conversion-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/baking-pan-conversion-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/baking-pan-conversion-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "baluster-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/baluster-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/baluster-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "baluster-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/baluster-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/baluster-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "bandwidth-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/bandwidth-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/bandwidth-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "bandwidth-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/bandwidth-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/bandwidth-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "base64-encode-decode",
+    "kind": "guide",
+    "imagePath": "/tool-art/base64-encode-decode-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/base64-encode-decode-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "base64-encode-decode",
+    "kind": "tool",
+    "imagePath": "/tool-art/base64-encode-decode-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/base64-encode-decode-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "basic-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/basic-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/basic-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "basic-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/basic-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/basic-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "big-number-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/big-number-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/big-number-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "big-number-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/big-number-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/big-number-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "binary-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/binary-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/binary-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "binary-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/binary-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/binary-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "bmi-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/bmi-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/bmi-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "bmi-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/bmi-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/bmi-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "bmr-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/bmr-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/bmr-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "bmr-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/bmr-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/bmr-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "board-foot-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/board-foot-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/board-foot-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "board-foot-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/board-foot-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/board-foot-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "boat-loan-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/boat-loan-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/boat-loan-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "boat-loan-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/boat-loan-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/boat-loan-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "body-fat-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/body-fat-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/body-fat-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "body-fat-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/body-fat-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/body-fat-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "body-surface-area-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/body-surface-area-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/body-surface-area-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "body-surface-area-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/body-surface-area-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/body-surface-area-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "body-type-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/body-type-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/body-type-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "body-type-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/body-type-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/body-type-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "bond-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/bond-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/bond-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "bond-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/bond-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/bond-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "bra-size-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/bra-size-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/bra-size-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "bra-size-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/bra-size-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/bra-size-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "break-even-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/break-even-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/break-even-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "break-even-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/break-even-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/break-even-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "brick-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/brick-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/brick-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "brick-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/brick-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/brick-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "btu-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/btu-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/btu-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "btu-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/btu-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/btu-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "budget-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/budget-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/budget-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "budget-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/budget-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/budget-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "business-loan-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/business-loan-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/business-loan-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "business-loan-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/business-loan-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/business-loan-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "butter-converter",
+    "kind": "guide",
+    "imagePath": "/tool-art/butter-converter-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/butter-converter-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "butter-converter",
+    "kind": "tool",
+    "imagePath": "/tool-art/butter-converter-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/butter-converter-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "calorie-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/calorie-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/calorie-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "calorie-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/calorie-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/calorie-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "calories-burned-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/calories-burned-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/calories-burned-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "calories-burned-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/calories-burned-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/calories-burned-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "canadian-mortgage-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/canadian-mortgage-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/canadian-mortgage-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "canadian-mortgage-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/canadian-mortgage-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/canadian-mortgage-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "carbohydrate-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/carbohydrate-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/carbohydrate-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "carbohydrate-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/carbohydrate-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/carbohydrate-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "carpet-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/carpet-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/carpet-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "carpet-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/carpet-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/carpet-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "cash-back-or-low-interest-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/cash-back-or-low-interest-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/cash-back-or-low-interest-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "cash-back-or-low-interest-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/cash-back-or-low-interest-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/cash-back-or-low-interest-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "cd-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/cd-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/cd-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "cd-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/cd-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/cd-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "character-counter",
+    "kind": "guide",
+    "imagePath": "/tool-art/character-counter-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/character-counter-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "character-counter",
+    "kind": "tool",
+    "imagePath": "/tool-art/character-counter-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/character-counter-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "circle-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/circle-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/circle-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "circle-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/circle-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/circle-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "college-cost-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/college-cost-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/college-cost-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "college-cost-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/college-cost-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/college-cost-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "color-contrast-checker",
+    "kind": "guide",
+    "imagePath": "/tool-art/color-contrast-checker-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/color-contrast-checker-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "color-contrast-checker",
+    "kind": "tool",
+    "imagePath": "/tool-art/color-contrast-checker-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/color-contrast-checker-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "commission-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/commission-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/commission-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "commission-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/commission-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/commission-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "confidence-interval-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/confidence-interval-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/confidence-interval-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "confidence-interval-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/confidence-interval-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/confidence-interval-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "distance-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/distance-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/distance-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "distance-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/distance-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/distance-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "exponent-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/exponent-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/exponent-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "exponent-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/exponent-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/exponent-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "factor-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/factor-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/factor-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "factor-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/factor-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/factor-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "fraction-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/fraction-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/fraction-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "fraction-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/fraction-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/fraction-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "greatest-common-factor-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/greatest-common-factor-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/greatest-common-factor-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "greatest-common-factor-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/greatest-common-factor-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/greatest-common-factor-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "half-life-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/half-life-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/half-life-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "half-life-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/half-life-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/half-life-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "hex-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/hex-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/hex-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "hex-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/hex-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/hex-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "least-common-multiple-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/least-common-multiple-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/least-common-multiple-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "least-common-multiple-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/least-common-multiple-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/least-common-multiple-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "log-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/log-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/log-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "log-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/log-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/log-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "matrix-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/matrix-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/matrix-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "matrix-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/matrix-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/matrix-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mean-median-mode-range-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/mean-median-mode-range-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/mean-median-mode-range-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mean-median-mode-range-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/mean-median-mode-range-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/mean-median-mode-range-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "number-sequence-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/number-sequence-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/number-sequence-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "number-sequence-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/number-sequence-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/number-sequence-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "percent-error-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/percent-error-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/percent-error-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "percent-error-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/percent-error-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/percent-error-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "percentage-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/percentage-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/percentage-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "percentage-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/percentage-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/percentage-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "permutation-and-combination-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/permutation-and-combination-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/permutation-and-combination-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "permutation-and-combination-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/permutation-and-combination-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/permutation-and-combination-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "probability-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/probability-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/probability-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "probability-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/probability-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/probability-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pythagorean-theorem-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/pythagorean-theorem-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/pythagorean-theorem-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pythagorean-theorem-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/pythagorean-theorem-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/pythagorean-theorem-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "quadratic-formula-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/quadratic-formula-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/quadratic-formula-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "quadratic-formula-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/quadratic-formula-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/quadratic-formula-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ratio-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/ratio-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/ratio-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ratio-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/ratio-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/ratio-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "right-triangle-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/right-triangle-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/right-triangle-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "right-triangle-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/right-triangle-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/right-triangle-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "root-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/root-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/root-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "root-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/root-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/root-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rounding-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/rounding-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/rounding-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rounding-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/rounding-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/rounding-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "sample-size-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/sample-size-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/sample-size-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "sample-size-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/sample-size-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/sample-size-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "scientific-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/scientific-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/scientific-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "scientific-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/scientific-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/scientific-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "scientific-notation-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/scientific-notation-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/scientific-notation-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "scientific-notation-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/scientific-notation-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/scientific-notation-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "slope-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/slope-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/slope-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "slope-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/slope-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/slope-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "standard-deviation-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/standard-deviation-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/standard-deviation-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "standard-deviation-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/standard-deviation-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/standard-deviation-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "statistics-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/statistics-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/statistics-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "statistics-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/statistics-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/statistics-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "surface-area-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/surface-area-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/surface-area-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "surface-area-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/surface-area-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/surface-area-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "triangle-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/triangle-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/triangle-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "triangle-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/triangle-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/triangle-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "volume-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/volume-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/volume-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "volume-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/volume-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/volume-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "z-score-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/z-score-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/z-score-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "z-score-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/z-score-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/z-score-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  }
+]

@@ -1,9 +1,13 @@
 ---
 export const prerender = true;
 import BaseLayout from '../../components/BaseLayout.astro';
+import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import { getTool } from '../../data/tools';
+import { getToolArt } from '../../data/toolArt';
 
 const ratioCalculator = getTool('ratio-calculator');
+const guideArt = getToolArt('ratio-calculator', 'guide');
+const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
 const examples = ratioCalculator?.examples ?? [];
 const articleStructuredData = {
   '@context': 'https://schema.org',
@@ -12,6 +16,7 @@ const articleStructuredData = {
   description:
     'Use the Access Free Tools ratio calculator for simplified ratios, equivalent ratios, splitting totals, decimals, history, and privacy.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-ratio-calculator/',
+  image: guideImageUrl,
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',
   author: {
@@ -30,6 +35,8 @@ const articleStructuredData = {
   title="How to use the Ratio Calculator | Access Free Tools"
   description="Learn how to use the free Access Free Tools ratio calculator for simplified ratios, equivalent ratios, splitting totals, decimal ratios, steps, history, and privacy."
   path="/blog/how-to-use-ratio-calculator/"
+  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
+  socialImageAlt={guideArt?.alt}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
 
@@ -45,6 +52,8 @@ const articleStructuredData = {
       </p>
       <a class="button-primary" href="/tools/ratio-calculator/">Open the ratio calculator</a>
     </header>
+
+    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
 
     <div class="blog-article-layout">
       <div class="blog-article-body">

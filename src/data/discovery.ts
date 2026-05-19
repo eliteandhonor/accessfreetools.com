@@ -1,5 +1,6 @@
 import { blogPosts } from './blogPosts';
 import { categories } from './categories';
+import { toolArtCategorySummaries, toolArtEntries } from './toolArt';
 import { tools } from './tools';
 import {
   getBlogDates,
@@ -55,6 +56,22 @@ export const categorySitemapEntries: SitemapEntry[] = categories
     path: `/categories/${category.slug}/`,
     lastmod: getCategoryLastmod(category.slug),
   }));
+
+export const gallerySitemapEntries: SitemapEntry[] =
+  toolArtEntries.length > 0
+    ? [
+        {
+          path: '/gallery/',
+          lastmod: getStaticPageLastmod('/gallery/'),
+        },
+        ...toolArtCategorySummaries
+          .filter((category) => category.entries.length > 0)
+          .map((category) => ({
+            path: `/gallery/${category.slug}/`,
+            lastmod: getCategoryLastmod(category.slug),
+          })),
+      ]
+    : [];
 
 export function escapeXml(value: string) {
   return value
