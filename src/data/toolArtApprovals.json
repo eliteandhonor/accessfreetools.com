@@ -1248,6 +1248,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "debt-consolidation-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/debt-consolidation-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/debt-consolidation-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "debt-consolidation-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/debt-consolidation-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/debt-consolidation-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "debt-payoff-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/debt-payoff-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/debt-payoff-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "debt-payoff-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/debt-payoff-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/debt-payoff-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "distance-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/distance-calculator-guide.webp",
