@@ -1216,6 +1216,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "date-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/date-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/date-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "date-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/date-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/date-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "day-of-the-week-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/day-of-the-week-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/day-of-the-week-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "day-of-the-week-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/day-of-the-week-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/day-of-the-week-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "distance-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/distance-calculator-guide.webp",
