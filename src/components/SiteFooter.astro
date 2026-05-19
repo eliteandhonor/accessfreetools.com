@@ -1,5 +1,8 @@
 ---
+import { toolArtEntries } from '../data/toolArt';
+
 const year = new Date().getFullYear();
+const hasApprovedGallery = toolArtEntries.length > 0;
 ---
 
 <footer class="site-footer">
@@ -22,6 +25,7 @@ const year = new Date().getFullYear();
     <a href="/categories/health-fitness/">Health</a>
     <a href="/categories/home-projects/">Home</a>
     <a href="/blog/">Blog</a>
+    {hasApprovedGallery && <a href="/gallery/">Gallery</a>}
     <a href="/free-calculator-resources/">Resources</a>
     <a href="/feed.xml">RSS</a>
     <a href="/about/">About</a>

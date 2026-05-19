@@ -9,6 +9,15 @@ encoding, token, API, and workflow articles. Do not use DEV for general finance,
 health, pregnancy, tax, or home-project calculators unless the angle is truly a
 developer workflow.
 
+## Specialist Upgrade Lenses
+
+Use `docs/recommended-agency-agents.md` before DEV work:
+
+- Technical Writer for developer-problem framing, examples, tags, and canonical
+  source handling.
+- API And MCP Tester for API, MCP, OpenAPI, or tool-runner articles.
+- Evidence Collector for public article proof after any approved publish.
+
 ## Why DEV Fits
 
 - The Forem/DEV API supports creating articles with Markdown.

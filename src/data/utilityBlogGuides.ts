@@ -1620,22 +1620,26 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'wallpaper-calculator': {
-    summary: 'Learn how wall area, openings, roll coverage, pattern repeat, and waste percent turn into wallpaper rolls.',
+    summary: 'Learn how wall area, openings, roll coverage, pattern repeat, waste percent, and optional roll price turn into rolls and rough cost.',
     purpose:
-      'The Wallpaper Calculator estimates whole rolls for room walls before you buy. It starts with room perimeter and wall height, subtracts standard doors and windows, adds a waste percent, then divides by roll coverage. The important part is that wallpaper is bought in strips and rolls, not perfect square-foot blocks, so the calculator keeps waste and rounding visible.',
+      'The Wallpaper Calculator estimates whole rolls for room walls before you buy. It starts with room perimeter and wall height, subtracts standard doors and windows, adds a waste percent, then divides by roll coverage. If you enter a price per roll, it also shows a rough material cost. The important part is that wallpaper is bought in strips and rolls, not perfect square-foot blocks, so the calculator keeps waste, rounding, and cost assumptions visible.',
     enter: [
-      'Enter room length and width in feet. The calculator uses those to estimate the room perimeter.',
+      'Enter room length and width in feet. If your tape measure is in inches, divide by 12 before typing the number.',
       'Enter wall height, plus the number of standard doors and windows.',
       'Enter roll coverage from the wallpaper product page or label, then choose a waste percent that fits the pattern, repeat, and room difficulty.',
+      'Add price per roll only if you want the calculator to show a rough material cost before tax, shipping, paste, tools, or labor.',
     ],
     read: [
       'Rolls needed is rounded up because wallpaper is bought in whole rolls.',
       'Wallpaper area is the wall estimate after subtracting openings.',
       'Area with waste shows the roll-coverage demand before rounding.',
+      'Estimated cost multiplies rolls needed by price per roll when you enter a price.',
     ],
     mistakes: [
+      'Do not type inches into the feet fields. Convert first, or the roll count will be far too high.',
       'Do not treat waste percent like a fee. It is extra material for cuts, pattern matching, trimming, and mistakes.',
       'Do not ignore pattern repeat or usable yield. A roll may print 56 square feet, but the usable wall coverage can be lower when the pattern has to line up.',
+      'Do not treat the cost result as a full project quote. It is roll price only, not supplies, delivery, returns, or labor.',
       'Do not mix rolls from different dye lots when appearance matters, because the same pattern can still have a slightly different color.',
       'Measure accent walls separately when you are not covering the whole room.',
     ],
@@ -1660,10 +1664,36 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         ],
       },
       {
+        title: 'How the rough cost works',
+        paragraphs: [
+          'Price per roll is optional. If you leave it blank, the calculator focuses on rolls. If you enter a price, it multiplies the whole rolls needed by that price. Six rolls at $42 per roll becomes about $252 before anything else is added.',
+          'That cost is useful for quick shopping checks, but it is not the same as a project quote. It does not include sales tax, shipping, paste, primer, smoothing tools, returns, installer labor, or extra rolls you may choose to keep for repairs.',
+        ],
+        links: [{ href: '/tools/wallpaper-calculator/', label: 'Open the Wallpaper Calculator with price per roll' }],
+      },
+      {
         title: 'If you only have roll width and roll length',
         paragraphs: [
           'Sometimes a product page gives width and length but does not clearly state coverage. In that case, multiply the width by the length to get a rough square-foot number, then be more careful with waste percent because pattern repeat, damaged strips, and trimming can reduce usable coverage.',
           'If the seller gives a usable coverage number anywhere on the label, use that number first. It is usually closer to how the roll is actually sold and installed than raw roll dimensions.',
+        ],
+      },
+      {
+        title: 'If your measurements are in inches',
+        paragraphs: [
+          'The room fields use feet because that keeps room-size math readable. Convert inches by dividing by 12. A wall that is 144 inches long is 12 feet. A wall that is 108 inches long is 9 feet.',
+          'Roll width and roll length sometimes appear in inches too. Convert both to feet before multiplying them for rough coverage, or skip that step and use the coverage number from the wallpaper label when it is listed.',
+        ],
+      },
+      {
+        title: 'How to measure for wallpaper first',
+        paragraphs: [
+          'Measure the room before you start guessing rolls. For a simple rectangle, the calculator uses room length, room width, and wall height to estimate the wall area. If the room is odd-shaped, measure each wall section and keep the numbers handy so you can split the job into smaller estimates.',
+          'Count large openings too. A standard door and a couple of windows can remove about 50 square feet from the estimate. If you are only covering one accent wall, measure that wall as its own job instead of entering the whole room.',
+        ],
+        links: [
+          { href: '/tools/wallpaper-calculator/', label: 'Use the Wallpaper Calculator after measuring' },
+          { href: '/tools/square-footage-calculator/', label: 'Check a single wall with the Square Footage Calculator' },
         ],
       },
       {
@@ -1677,8 +1707,16 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         title: 'A quick example',
         paragraphs: [
           'Say a room has about 352 square feet of wall area. One standard door and two windows subtract about 50 square feet, so the wallpaper area is about 302 square feet. With 10% waste, the calculator plans for about 332 square feet.',
-          'If each roll covers 56 square feet, 332 divided by 56 is about 5.93. Since you cannot buy 0.93 of a roll for a normal order, the calculator rounds up to 6 rolls. That last part matters: rounding is why a tiny input change can sometimes push the answer up by a whole roll.',
+          'If each roll covers 56 square feet, 332 divided by 56 is about 5.93. Since you cannot buy 0.93 of a roll for a normal order, the calculator rounds up to 6 rolls. If the roll price is $42, the rough material cost is 6 x $42, or $252. That last part matters: rounding is why a tiny input change can sometimes push the answer up by a whole roll.',
         ],
+      },
+      {
+        title: 'Example: how much wallpaper for a 12x12 room',
+        paragraphs: [
+          'For a 12 x 12 room with 8-foot walls, the starting wall area is about 384 square feet. One standard door and two standard windows bring that down to about 334 square feet before waste.',
+          'With 10% waste, the calculator plans for about 367 square feet. If each roll covers 56 square feet, 367 divided by 56 is about 6.55, so the answer rounds up to 7 rolls. At $42 per roll, the rough roll cost would be 7 x $42, or $294 before supplies, tax, delivery, or labor.',
+        ],
+        links: [{ href: '/tools/wallpaper-calculator/', label: 'Try the 12x12 room in the Wallpaper Calculator' }],
       },
       {
         title: 'When to be extra careful',

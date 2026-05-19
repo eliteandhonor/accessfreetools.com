@@ -1,9 +1,13 @@
 ---
 export const prerender = true;
 import BaseLayout from '../../components/BaseLayout.astro';
+import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import { getTool } from '../../data/tools';
+import { getToolArt } from '../../data/toolArt';
 
 const percentageCalculator = getTool('percentage-calculator');
+const guideArt = getToolArt('percentage-calculator', 'guide');
+const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
 const examples = percentageCalculator?.examples ?? [];
 const articleStructuredData = {
   '@context': 'https://schema.org',
@@ -12,6 +16,7 @@ const articleStructuredData = {
   description:
     'Learn percentage problems with the Access Free Tools percentage calculator, including percent-of questions, what-percent questions, percentage change, discounts, markups, reverse percentages, history, privacy, and copying answers.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-percentage-calculator/',
+  image: guideImageUrl,
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',
   author: {
@@ -30,6 +35,8 @@ const articleStructuredData = {
   title="How to use the Percentage Calculator | Access Free Tools"
   description="Learn percent of a number, what-percent questions, percentage change, discounts, markups, reverse percentages, and privacy."
   path="/blog/how-to-use-percentage-calculator/"
+  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
+  socialImageAlt={guideArt?.alt}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
 
@@ -46,6 +53,8 @@ const articleStructuredData = {
       </p>
       <a class="button-primary" href="/tools/percentage-calculator/">Open the percentage calculator</a>
     </header>
+
+    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
 
     <div class="blog-article-layout">
       <div class="blog-article-body">

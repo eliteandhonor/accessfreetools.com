@@ -1,9 +1,13 @@
 ---
 export const prerender = true;
 import BaseLayout from '../../components/BaseLayout.astro';
+import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import { getTool } from '../../data/tools';
+import { getToolArt } from '../../data/toolArt';
 
 const scientificCalculator = getTool('scientific-calculator');
+const guideArt = getToolArt('scientific-calculator', 'guide');
+const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
 const examples = scientificCalculator?.examples ?? [];
 const articleStructuredData = {
   '@context': 'https://schema.org',
@@ -12,6 +16,7 @@ const articleStructuredData = {
   description:
     'A practical scientific calculator guide for DEG/RAD mode, expressions, trig, logs, roots, powers, constants, history, and privacy.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-scientific-calculator/',
+  image: guideImageUrl,
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',
   author: {
@@ -30,6 +35,8 @@ const articleStructuredData = {
   title="How to use the Scientific Calculator | Access Free Tools"
   description="Use trig functions, logs, roots, powers, constants, DEG/RAD mode, history, privacy, and copy actions."
   path="/blog/how-to-use-scientific-calculator/"
+  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
+  socialImageAlt={guideArt?.alt}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
 
@@ -46,6 +53,8 @@ const articleStructuredData = {
       </p>
       <a class="button-primary" href="/tools/scientific-calculator/">Open the scientific calculator</a>
     </header>
+
+    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
 
     <div class="blog-article-layout">
       <div class="blog-article-body">

@@ -7,6 +7,7 @@ const mdPath = resolve(outputDir, 'daily-plan.md');
 
 const evidencePaths = {
   brandCode: 'docs/brand-code.md',
+  recommendedAgents: 'docs/recommended-agency-agents.md',
   automationPlan: 'docs/automation-operating-plan.md',
   promotionQueue: 'docs/promotion-queue.md',
   seoEvaluation: 'output/seo-agent-self-evaluation.json',
@@ -341,6 +342,9 @@ function markdownReport(report) {
     `   Proof needed: ${item.proofNeeded}`,
     `   Evidence: ${item.evidence.join(', ')}`,
   ]);
+  const specialistLines = report.specialistRouting.map(
+    (item) => `- ${item.workstream}: ${item.specialistLens}; proof lens: ${item.proofLens}; command: ${item.firstCommand}`,
+  );
 
   return [
     '# Marketing Orchestrator Daily Plan',
@@ -360,6 +364,10 @@ function markdownReport(report) {
     '',
     ...recommendationLines,
     '',
+    '## Specialist Routing',
+    '',
+    ...specialistLines,
+    '',
     '## Quality Gates',
     '',
     ...qualityLines,
@@ -376,6 +384,7 @@ function markdownReport(report) {
 }
 
 const brandCode = readText(evidencePaths.brandCode);
+const recommendedAgents = readText(evidencePaths.recommendedAgents);
 const automationPlan = readText(evidencePaths.automationPlan);
 const promotionQueue = readText(evidencePaths.promotionQueue);
 const seoEvaluation = readJson(evidencePaths.seoEvaluation);
@@ -418,6 +427,7 @@ const recommendations = chooseRecommendations({
 
 const evidence = [
   asEvidence('brandCode', evidencePaths.brandCode, brandCode),
+  asEvidence('recommendedAgents', evidencePaths.recommendedAgents, recommendedAgents),
   asEvidence('automationPlan', evidencePaths.automationPlan, automationPlan),
   asEvidence('promotionQueue', evidencePaths.promotionQueue, promotionQueue),
   asEvidence('seoEvaluation', evidencePaths.seoEvaluation, seoEvaluation),
@@ -436,6 +446,7 @@ const evidence = [
 
 const wins = [];
 if (brandCode) wins.push('Brand code is present and can be loaded before public copy or promotion work.');
+if (recommendedAgents) wins.push('Recommended agency-agent routing is present for specialist lens selection.');
 if (!duplicateBalanceOwnerActive) wins.push('No active standalone DataForSEO balance-only automation was found.');
 if (qualityReports.every((item) => item.status === 'passed')) wins.push('All available platform quality reports pass.');
 if (pinterestRss && !pinterestRss.parseError && !pinterestRss.issues?.length) wins.push('Pinterest RSS report has no issues.');
@@ -443,6 +454,7 @@ if (recognitionTracker && !recognitionTracker.parseError) wins.push('Recognition
 
 const blockers = [];
 if (!brandCode) blockers.push('Missing docs/brand-code.md.');
+if (!recommendedAgents) blockers.push('Missing docs/recommended-agency-agents.md.');
 if (duplicateBalanceOwnerActive) blockers.push('Duplicate active DataForSEO Balance Watch found.');
 if (qualityFailures.length) blockers.push(`${qualityFailures.map((item) => item.label).join(', ')} quality reports are failing.`);
 if (balance?.topUp) blockers.push(`DataForSEO balance is at or below top-up threshold: ${balance.balance.toFixed(2)} ${balance.currency}.`);
@@ -465,6 +477,32 @@ const report = {
   },
   recognitionSummary: recognitionTracker?.totals ?? null,
   originalDataAssetStatus: originalDataAssets?.status ?? 'not checked',
+  specialistRouting: [
+    {
+      workstream: 'Intelligence',
+      specialistLens: 'SEO Specialist or AI Citation Strategist',
+      proofLens: 'Reality Checker',
+      firstCommand: 'npm run aft -- seo-console or npm run aft -- recognition',
+    },
+    {
+      workstream: 'Content and promotion',
+      specialistLens: 'Technical Writer plus Legal Compliance Checker',
+      proofLens: 'Evidence Collector',
+      firstCommand: 'platform quality command',
+    },
+    {
+      workstream: 'Ask/API/MCP',
+      specialistLens: 'API And MCP Tester plus Agentic Search Optimizer',
+      proofLens: 'Reality Checker',
+      firstCommand: 'npm run aft -- ask-audit',
+    },
+    {
+      workstream: 'Automation and hosting',
+      specialistLens: 'Automation Governance Architect',
+      proofLens: 'Reality Checker',
+      firstCommand: 'npm run automation:env-check or npm run aft -- hostinger',
+    },
+  ],
   indexingGaps: indexingGaps.slice(0, 10),
   qualityReports,
   wins,
@@ -481,6 +519,6 @@ writeText(mdPath, markdownReport(report));
 console.log(`Saved marketing orchestrator JSON to ${jsonPath}`);
 console.log(`Saved marketing orchestrator plan to ${mdPath}`);
 
-if (!brandCode || duplicateBalanceOwnerActive || qualityFailures.length) {
+if (!brandCode || !recommendedAgents || duplicateBalanceOwnerActive || qualityFailures.length) {
   process.exitCode = 1;
 }

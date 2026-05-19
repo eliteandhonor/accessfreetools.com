@@ -2,6 +2,12 @@
 
 This file adapts the five-agent SEO tutorial prompt pack into Access Free Tools' actual workflow.
 
+For specialist upgrades from `msitarzewski/agency-agents`, also read
+`docs/recommended-agency-agents.md`. Use the SEO Specialist as the default SEO
+lens, AI Citation Strategist for AI visibility and recognition work, and
+Agentic Search Optimizer only when the task involves Ask/API/MCP, deterministic
+tool execution, or agent task completion.
+
 ## Local Commands
 
 Before using Search Console commands, keep the OAuth client file local at
@@ -100,6 +106,18 @@ Finds queries around positions 8-20 where better on-page content, examples, FAQs
 ### Content Idea Agent
 
 Uses working Search Console queries and DataForSEO SERP patterns to suggest supporting guides or tool improvements. It should not create thin duplicate pages just because a keyword has volume.
+
+### AI Citation Strategist
+
+Uses recognition reports, AI crawler visibility, semantic-depth evidence, and
+public proof URLs to improve citation likelihood across AI answer engines. It
+must report AI visibility as point-in-time evidence, not a guaranteed outcome.
+
+### Agentic Search Optimizer
+
+Works with Ask/API/MCP, deterministic tool schemas, rendered tool-page parity,
+and agent-facing discovery. It must use `docs/ask-api-mcp-alpha.md` and the
+Ask/API/MCP proof commands before recommending changes.
 
 ## Autonomous Weekly Run
 

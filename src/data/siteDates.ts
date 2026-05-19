@@ -2,7 +2,7 @@ export const SITE_ORIGIN = 'https://accessfreetools.com';
 
 export const SITE_LAUNCH_DATE = '2026-04-28';
 export const SEARCH_CONSOLE_SETUP_DATE = '2026-04-30';
-export const LAST_MAJOR_CONTENT_UPDATE = '2026-05-02';
+export const LAST_MAJOR_CONTENT_UPDATE = '2026-05-16';
 export const RSS_ITEM_LIMIT = 60;
 
 const DEFAULT_BLOG_PUBLISHED_DATE = '2026-04-30';
@@ -11,6 +11,7 @@ const staticPageLastmod: Record<string, string> = {
   '/': '2026-05-02',
   '/tools/': LAST_MAJOR_CONTENT_UPDATE,
   '/ask/': '2026-05-15',
+  '/gallery/': '2026-05-16',
   '/categories/': '2026-05-02',
   '/blog/': LAST_MAJOR_CONTENT_UPDATE,
   '/free-calculator-resources/': '2026-05-02',

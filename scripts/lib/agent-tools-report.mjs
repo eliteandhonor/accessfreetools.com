@@ -3,6 +3,7 @@ import { basename, dirname, join, relative, resolve } from 'node:path';
 
 export const SITE_ORIGIN = 'https://accessfreetools.com';
 export const AGENT_TOOLS_OUTPUT_DIR = 'output/agent-tools';
+export const AGENT_ROUTING_RULES_PATH = 'docs/agent-routing-rules.json';
 
 export const askAuditCases = [
   {
@@ -204,6 +205,34 @@ function extractArrayLength(chunk, field) {
   return body.split(',').map((item) => item.trim()).filter(Boolean).length;
 }
 
+function extractStringArray(chunk, field) {
+  const start = chunk.search(new RegExp(`${field}\\s*:\\s*\\[`));
+  if (start < 0) return [];
+
+  let depth = 0;
+  const text = chunk.slice(start);
+  let end = -1;
+
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+    if (char === '[') depth += 1;
+    if (char === ']') {
+      depth -= 1;
+      if (depth === 0) {
+        end = index;
+        break;
+      }
+    }
+  }
+
+  if (end < 0) return [];
+  return [...text.slice(0, end).matchAll(/['"]([^'"]+)['"]/g)].map((match) => match[1]);
+}
+
+function countFieldOccurrences(chunk, field) {
+  return (chunk.match(new RegExp(`\\b${field}\\s*:`, 'g')) ?? []).length;
+}
+
 export function extractToolRecords() {
   const dataFiles = walk(rootPath('src', 'data'), (file) => /(?:tools|Tools)\.ts$/.test(file)).filter(
     (file) => !/toolIcons|toolAliases|toolDeepAudit|toolSearchIndex/i.test(file),
@@ -219,16 +248,29 @@ export function extractToolRecords() {
       const next = slugMatches[index + 1];
       const chunk = text.slice(match.index ?? 0, next?.index ?? text.length);
       const slug = match[1];
+      const name = extractStringField(chunk, 'name') || slug;
+      const description = extractStringField(chunk, 'description');
+      const isUtilityFactoryBlock =
+        chunk.includes('makeUtilityTool({') || text.slice(Math.max(0, (match.index ?? 0) - 120), match.index ?? 0).includes('makeUtilityTool');
+      const titleType = name.endsWith('Generator')
+        ? 'Free Online Generator'
+        : name.endsWith('Calculator')
+          ? 'Free Online Calculator'
+          : 'Free Online Tool';
+      const explicitFaqCount = extractArrayLength(chunk, 'faq');
+      const generatedUtilityFaqCount = isUtilityFactoryBlock ? countFieldOccurrences(chunk, 'question') + 5 : 0;
 
       records.push({
         category: extractStringField(chunk, 'category'),
-        description: extractStringField(chunk, 'description'),
+        description,
         exampleCount: extractArrayLength(chunk, 'examples'),
-        faqCount: extractArrayLength(chunk, 'faq'),
+        faqCount: explicitFaqCount || generatedUtilityFaqCount,
         file: unixPath(relative(process.cwd(), file)),
-        name: extractStringField(chunk, 'name') || slug,
+        name,
         relatedCount: extractArrayLength(chunk, 'relatedSlugs'),
-        seoDescription: extractStringField(chunk, 'seoDescription'),
+        relatedSlugs: extractStringArray(chunk, 'relatedSlugs'),
+        seoDescription: extractStringField(chunk, 'seoDescription') || (isUtilityFactoryBlock ? description : ''),
+        seoTitle: extractStringField(chunk, 'seoTitle') || (isUtilityFactoryBlock ? `${name} | ${titleType}` : ''),
         slug,
         summary: extractStringField(chunk, 'summary'),
       });
@@ -248,7 +290,14 @@ function extractApiRegistrySlugs() {
 }
 
 function hasGuide(slug) {
-  return existsSync(rootPath('src', 'pages', 'blog', `how-to-use-${slug}.astro`));
+  if (existsSync(rootPath('src', 'pages', 'blog', `how-to-use-${slug}.astro`))) return true;
+  const utilityGuides = readText('src/data/utilityBlogGuides.ts');
+  return (
+    utilityGuides.includes(`'${slug}':`) ||
+    utilityGuides.includes(`"${slug}":`) ||
+    utilityGuides.includes(`toolSlug: '${slug}'`) ||
+    utilityGuides.includes(`toolSlug: "${slug}"`)
+  );
 }
 
 function hasToolRenderer(slug) {
@@ -1097,6 +1146,707 @@ ${markdownList(warnings)}
 `,
   );
 
+  return { ...report, paths };
+}
+
+const commonApprovalGate = 'No public posting, paid research, deployment, or account changes without exact approval.';
+
+const fallbackAgentLaneDefinitions = [
+  {
+    lane: 'seo',
+    labels: ['seo', 'indexing', 'internal-link', 'search'],
+    patterns: [/seo|index|ranking|search console|internal link|sitemap|crawl|semantic|keyword|serp/i],
+    primaryLens: 'SEO Specialist',
+    proofLens: 'Evidence Collector',
+    docs: [
+      'docs/recommended-agency-agents.md',
+      'docs/search-engine-land-seo-task-board.md',
+      'docs/seo-agent-operating-system.md',
+      'docs/google-search-central-notes.md',
+      'docs/agent-cli.md',
+    ],
+    commands: ['npm run aft -- seo-console', 'npm run aft -- link-helper', 'npm run aft -- indexing-gaps'],
+    evidencePaths: [
+      'output/agent-tools/seo-console/latest.json',
+      'output/agent-tools/link-helper/latest.json',
+      'output/search-console-url-inspection.json',
+      'output/seo-agent-self-evaluation.json',
+    ],
+  },
+  {
+    lane: 'api',
+    labels: ['api', 'ask', 'mcp'],
+    patterns: [/ask|api|mcp|openapi|tool runner|deterministic|schema|ollama/i],
+    primaryLens: 'API And MCP Tester + Agentic Search Optimizer',
+    proofLens: 'Reality Checker',
+    docs: ['docs/recommended-agency-agents.md', 'docs/ask-api-mcp-alpha.md', 'docs/agent-cli.md'],
+    commands: ['npm run aft -- ask-audit', 'npm run aft -- api-ready', 'npm run aft -- mcp-smoke'],
+    evidencePaths: [
+      'output/agent-tools/ask-audit/latest.json',
+      'output/agent-tools/api-ready/latest.json',
+      'output/agent-tools/mcp-smoke/latest.json',
+    ],
+  },
+  {
+    lane: 'promotion',
+    labels: ['promotion', 'medium', 'reddit', 'quora', 'bluesky', 'devto'],
+    patterns: [/promotion|post|medium|reddit|quora|bluesky|dev|pinterest|social|publish|space|article/i],
+    primaryLens: 'Technical Writer + Legal Compliance Checker',
+    proofLens: 'Evidence Collector',
+    docs: [
+      'docs/recommended-agency-agents.md',
+      'docs/brand-code.md',
+      'docs/article-writing-agent-standard.md',
+      'docs/promotion-queue.md',
+    ],
+    commands: ['npm run aft -- proof-check', 'npm run promotion:weekly-review'],
+    evidencePaths: [
+      'output/promotion/medium-quality-report.json',
+      'output/promotion/reddit-quality-report.json',
+      'output/promotion/quora-quality-report.json',
+      'output/promotion/bluesky/bluesky-quality-report.json',
+      'output/promotion/devto/devto-quality-report.json',
+    ],
+  },
+  {
+    lane: 'deploy',
+    labels: ['deploy', 'hostinger', 'dns', 'hosting'],
+    patterns: [/hostinger|deploy|deployment|dns|hosting|production|node runtime|vps|docker/i],
+    primaryLens: 'Automation Governance Architect',
+    proofLens: 'Reality Checker',
+    docs: ['docs/recommended-agency-agents.md', 'docs/hostinger-api-agent-guide.md', 'docs/deployment-checklist.md'],
+    commands: ['npm run automation:env-check', 'npm run aft -- hostinger', 'npm run check:live-ask'],
+    evidencePaths: ['output/automation-environment.md', 'output/hostinger/status.json', 'output/live-ask-check.json'],
+  },
+  {
+    lane: 'analytics',
+    labels: ['analytics', 'usage', 'data'],
+    patterns: [/analytics|usage|data asset|dashboard|visitor|tool-use|events/i],
+    primaryLens: 'Analytics Reporter',
+    proofLens: 'Reality Checker',
+    docs: ['docs/recommended-agency-agents.md', 'docs/analytics-dashboard.md', 'docs/original-data-asset-plan.md'],
+    commands: ['npm run aft -- usage-summary', 'npm run aft -- usage-notes'],
+    evidencePaths: ['output/agent-tools/usage-summary/latest.json', 'output/original-data-assets/latest.json'],
+  },
+  {
+    lane: 'automation',
+    labels: ['automation', 'cron', 'scheduled'],
+    patterns: [/automation|cron|schedule|recurring|daily|weekly|monthly|heartbeat/i],
+    primaryLens: 'Automation Governance Architect',
+    proofLens: 'Reality Checker',
+    docs: ['docs/recommended-agency-agents.md', 'docs/automation-operating-plan.md', 'docs/marketing-orchestrator.md'],
+    commands: ['npm run automation:env-check', 'npm run aft -- status', 'npm run aft -- proof-check'],
+    evidencePaths: ['output/automation-environment.md', 'output/marketing-orchestrator/daily-plan.json'],
+  },
+  {
+    lane: 'ui',
+    labels: ['ui', 'accessibility', 'images', 'gallery'],
+    patterns: [/ui|layout|accessibility|image|gallery|art|css|component|mobile|form|calculator/i],
+    primaryLens: 'Accessibility Auditor + Performance Benchmarker',
+    proofLens: 'Evidence Collector',
+    docs: ['docs/recommended-agency-agents.md', 'docs/smoke-kawaii-image-system.md', 'docs/full-site-improvement-plan.md'],
+    commands: ['npm run build', 'npm run check:site', 'npm run images:qa', 'npm run gallery:qa'],
+    evidencePaths: [
+      'output/tool-art/qa/latest.json',
+      'output/agent-tools/site-sitemap/latest.json',
+      'output/check-built-site.json',
+    ],
+  },
+  {
+    lane: 'code',
+    labels: ['code', 'review', 'fix'],
+    patterns: [/review|bug|fix|refactor|test|typescript|script|code/i],
+    primaryLens: 'Minimal Change Engineer + Code Reviewer',
+    proofLens: 'Evidence Collector',
+    docs: ['docs/recommended-agency-agents.md', 'AGENTS.md'],
+    commands: ['npm run check'],
+    evidencePaths: [],
+  },
+];
+
+function normalizeLaneDefinition(definition) {
+  return {
+    commands: Array.isArray(definition.commands) ? definition.commands : [],
+    docs: Array.isArray(definition.docs) ? definition.docs : [],
+    evidencePaths: Array.isArray(definition.evidencePaths) ? definition.evidencePaths : [],
+    keywords: Array.isArray(definition.keywords) ? definition.keywords : [],
+    labels: Array.isArray(definition.labels) ? definition.labels : [],
+    lane: String(definition.lane || ''),
+    patterns: Array.isArray(definition.patterns) ? definition.patterns : [],
+    primaryLens: String(definition.primaryLens || 'Minimal Change Engineer + Code Reviewer'),
+    proofLens: String(definition.proofLens || 'Evidence Collector'),
+  };
+}
+
+function routingRules() {
+  const configured = readJson(AGENT_ROUTING_RULES_PATH);
+  const lanes = Array.isArray(configured?.lanes)
+    ? configured.lanes.map(normalizeLaneDefinition).filter((definition) => definition.lane)
+    : [];
+
+  return {
+    approvalGates: Array.isArray(configured?.approvalGates) ? configured.approvalGates.map(String) : [],
+    lanes: lanes.length ? lanes : fallbackAgentLaneDefinitions.map(normalizeLaneDefinition),
+    source: lanes.length ? AGENT_ROUTING_RULES_PATH : 'fallback',
+  };
+}
+
+function matchesLaneDefinition(definition, value) {
+  const lower = String(value).toLowerCase();
+  return (
+    definition.patterns.some((pattern) => pattern.test(value)) ||
+    definition.keywords.some((keyword) => lower.includes(String(keyword).toLowerCase()))
+  );
+}
+
+function normalizeLane(value = '') {
+  const definitions = routingRules().lanes;
+  const lower = String(value).toLowerCase();
+  return (
+    definitions.find((definition) => definition.lane === lower || definition.labels.includes(lower)) ??
+    definitions.find((definition) => matchesLaneDefinition(definition, value)) ??
+    definitions.find((definition) => definition.lane === 'code')
+  );
+}
+
+function sourceStatus(path) {
+  const fullPath = rootPath(path);
+  const present = existsSync(fullPath);
+  const json = present && /\.json$/i.test(path) ? readJson(path) : null;
+  return {
+    generatedAt: json?.generatedAt ?? json?.timestamp ?? '',
+    path,
+    present,
+    status: present ? 'present' : 'not enough data',
+  };
+}
+
+function publicUrlsInText(text) {
+  return [
+    ...new Set(
+      [...String(text).matchAll(/https?:\/\/[^\s)"'<>]+/g)].map((match) => match[0].replace(/[).,;:!?]+$/g, '')),
+    ),
+  ];
+}
+
+function outputPathsInText(text) {
+  return [
+    ...new Set(
+      [...String(text).matchAll(/\b(?:output|public|dist)\/[^\s)"'<>]+/g)].map((match) =>
+        unixPath(match[0].replace(/[).,;:!?]+$/g, '')),
+      ),
+    ),
+  ];
+}
+
+export function buildAgentRouteReport(task = '') {
+  const generatedAt = new Date().toISOString();
+  const cleanTask = String(task).trim();
+  const rules = routingRules();
+  const definition = normalizeLane(cleanTask);
+  const issues = cleanTask ? [] : ['Task text is empty, so routing fell back to the code lane.'];
+  const approvalGates = rules.approvalGates.length
+    ? rules.approvalGates
+    : [commonApprovalGate, 'If evidence is missing, report "not enough data" instead of guessing.'];
+  const report = {
+    approvalGates,
+    commands: definition.commands,
+    docs: definition.docs,
+    generatedAt,
+    kind: 'agent-route',
+    lane: definition.lane,
+    primaryLens: definition.primaryLens,
+    proofLens: definition.proofLens,
+    sourceStatuses: [...definition.docs, ...definition.evidencePaths].map(sourceStatus),
+    routingRulesPath: AGENT_ROUTING_RULES_PATH,
+    routingRulesSource: rules.source,
+    status: issues.length ? 'attention' : 'pass',
+    task: cleanTask,
+    issues,
+  };
+  const paths = writeReport(
+    'route',
+    report,
+    `# Agent Route
+
+Generated: ${generatedAt}
+
+Task: ${cleanTask || 'not provided'}
+
+Lane: ${definition.lane}
+Primary lens: ${definition.primaryLens}
+Proof lens: ${definition.proofLens}
+
+## Read First
+
+${markdownList(definition.docs.map((doc) => doc))}
+
+## Run
+
+${markdownList(definition.commands.map((command) => `\`${command}\``))}
+
+## Approval Gates
+
+${markdownList(report.approvalGates)}
+`,
+  );
+  return { ...report, paths };
+}
+
+export function buildEvidencePackReport(lane = 'code') {
+  const generatedAt = new Date().toISOString();
+  const definition = normalizeLane(lane);
+  const sources = [...definition.docs, ...definition.evidencePaths].map(sourceStatus);
+  const missing = sources.filter((source) => !source.present && source.path.startsWith('output/'));
+  const report = {
+    commands: definition.commands,
+    docs: definition.docs,
+    generatedAt,
+    kind: 'evidence-pack',
+    lane: definition.lane,
+    primaryLens: definition.primaryLens,
+    proofLens: definition.proofLens,
+    sources,
+    status: missing.length ? 'attention' : 'pass',
+    warnings: missing.map((source) => `not enough data: ${source.path} is missing.`),
+  };
+  const paths = writeReport(
+    'evidence-pack',
+    report,
+    `# Agent Evidence Pack
+
+Generated: ${generatedAt}
+
+Lane: ${definition.lane}
+Primary lens: ${definition.primaryLens}
+Proof lens: ${definition.proofLens}
+
+## Docs
+
+${markdownList(definition.docs)}
+
+## Commands
+
+${markdownList(definition.commands.map((command) => `\`${command}\``))}
+
+## Sources
+
+${markdownList(sources.map((source) => `${source.status}: ${source.path}${source.generatedAt ? ` (${source.generatedAt})` : ''}`))}
+
+## Warnings
+
+${markdownList(report.warnings)}
+`,
+  );
+  return { ...report, paths };
+}
+
+function outputPathChecks(outputPaths) {
+  return outputPaths.map((path) => ({ exists: existsSync(rootPath(path)), path }));
+}
+
+function claimCheckMarkdown(report) {
+  const urlChecks = report.evidence.publicUrlChecks ?? [];
+  return `# Agent Claim Check
+
+Generated: ${report.generatedAt}
+
+Claim: ${report.claim || 'not provided'}
+Status: ${report.status}
+Claim type: ${report.claimType}
+
+## Evidence Found
+
+${markdownList([...report.evidence.publicUrls, ...report.evidence.outputPaths])}
+
+## Local Proof Paths
+
+${markdownList(
+  report.evidence.outputPathChecks.map((item) => `${item.exists ? 'present' : 'missing'}: ${item.path}`),
+)}
+
+## Public URL Checks
+
+${markdownList(urlChecks.map((item) => `${item.ok ? 'verified' : 'failed'}: ${item.url} (status ${item.status ?? 'n/a'})`))}
+
+## Issues
+
+${markdownList(report.issues)}
+
+## Warnings
+
+${markdownList(report.warnings)}
+`;
+}
+
+function writeClaimCheckReport(report) {
+  const paths = writeReport('claim-check', report, claimCheckMarkdown(report));
+  return { ...report, paths };
+}
+
+export function buildClaimCheckReport(claim = '') {
+  const generatedAt = new Date().toISOString();
+  const cleanClaim = String(claim).trim();
+  const publicUrls = publicUrlsInText(cleanClaim);
+  const outputPaths = outputPathsInText(cleanClaim);
+  const localProofChecks = outputPathChecks(outputPaths);
+  const hasPublicProof = publicUrls.length > 0;
+  const hasGeneratedProof = localProofChecks.some((item) => item.exists);
+  const claimType = /(posted|published|fixed|updated|done|complete|live|production ready|healthy)/i.test(cleanClaim)
+    ? 'live-or-done'
+    : 'general';
+  const issues = [];
+  const warnings = [];
+  if (!cleanClaim) issues.push('Claim text is empty.');
+  for (const item of localProofChecks.filter((proof) => !proof.exists)) {
+    if (claimType === 'live-or-done') {
+      issues.push(`Proof path not found: ${item.path}`);
+    } else {
+      warnings.push(`Proof path not found: ${item.path}`);
+    }
+  }
+  if (claimType === 'live-or-done' && !hasPublicProof && !hasGeneratedProof) {
+    issues.push('No proof evidence found for a live/done claim.');
+  }
+  if (claimType === 'general' && !hasPublicProof && !hasGeneratedProof) {
+    warnings.push('No proof evidence found. This is only safe as an idea or unverified note.');
+  }
+  const report = {
+    claim: cleanClaim,
+    claimType,
+    evidence: { publicUrls, publicUrlChecks: [], outputPathChecks: localProofChecks, outputPaths },
+    generatedAt,
+    issues,
+    kind: 'claim-check',
+    requiredProof: ['public URL', 'public profile/feed proof', 'screenshot path', 'generated report path'],
+    status: reportStatusFromIssues(issues, warnings),
+    warnings,
+  };
+  return writeClaimCheckReport(report);
+}
+
+async function defaultPublicUrlCheck(url, { timeoutMs = 6000 } = {}) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+  async function fetchFor(method) {
+    return fetch(url, {
+      headers: { accept: 'text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8' },
+      method,
+      redirect: 'follow',
+      signal: controller.signal,
+    });
+  }
+
+  try {
+    let response = await fetchFor('HEAD');
+    if (response.status === 405 || response.status === 403) {
+      response = await fetchFor('GET');
+    }
+    return { ok: response.status >= 200 && response.status < 400, status: response.status, url };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : String(error),
+      ok: false,
+      status: 0,
+      url,
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+export async function runClaimCheckReport(claim = '', options = {}) {
+  let report = buildClaimCheckReport(claim);
+  if (!options.verifyUrls) return report;
+
+  const checkUrl = options.checkUrl ?? ((url) => defaultPublicUrlCheck(url, options));
+  const publicUrlChecks = [];
+  const issues = [...report.issues];
+
+  for (const url of report.evidence.publicUrls) {
+    const result = await checkUrl(url);
+    const normalized = {
+      ok: Boolean(result?.ok),
+      status: Number(result?.status ?? 0),
+      url,
+      ...(result?.error ? { error: String(result.error) } : {}),
+    };
+    publicUrlChecks.push(normalized);
+    if (!normalized.ok) {
+      issues.push(`Public URL did not verify: ${url} (status ${normalized.status || 'n/a'})`);
+    }
+  }
+
+  report = {
+    ...report,
+    evidence: { ...report.evidence, publicUrlChecks },
+    issues,
+    status: reportStatusFromIssues(issues, report.warnings),
+    urlVerification: {
+      checked: true,
+      count: publicUrlChecks.length,
+    },
+  };
+  return writeClaimCheckReport(report);
+}
+
+function toolArtStatus(slug) {
+  const approvals = readJson('src/data/toolArtApprovals.json');
+  if (!Array.isArray(approvals)) return { status: 'not enough data', approved: false };
+  const matches = approvals.filter((entry) => entry?.slug === slug);
+  return {
+    approved: matches.some((entry) => entry.status === 'approved'),
+    entries: matches.map((entry) => ({ kind: entry.kind, status: entry.status, path: entry.publicPath })),
+    status: matches.length ? 'present' : 'not enough data',
+  };
+}
+
+function deepReviewStatus(slug) {
+  const path = 'src/data/toolDeepAudit.ts';
+  const text = readText(path);
+  if (!text) return { deepReviewed: false, path, status: 'not enough data' };
+
+  const needles = [`slug: '${slug}'`, `slug: "${slug}"`];
+  const slugIndex = needles.map((needle) => text.indexOf(needle)).find((index) => index >= 0) ?? -1;
+  if (slugIndex < 0) return { deepReviewed: false, path, status: 'not enough data' };
+
+  const nextRecord = text.indexOf('\n  {', slugIndex + 1);
+  const block = text.slice(slugIndex, nextRecord > slugIndex ? nextRecord : slugIndex + 1400);
+  const status = block.match(/status:\s*['"]([^'"]+)['"]/)?.[1] ?? 'not enough data';
+  const reviewedAt =
+    block.match(/reviewedAt:\s*['"]([^'"]+)['"]/)?.[1] ?? block.match(/reviewedOn:\s*['"]([^'"]+)['"]/)?.[1] ?? '';
+  return {
+    deepReviewed: status === 'deep-reviewed',
+    path,
+    reviewedAt,
+    status,
+  };
+}
+
+function toolAnalyticsStatus(slug) {
+  const signals = analyticsSignals();
+  const toolRow = signals.topTools.find((row) => row[0] === slug);
+  const pagePath = `/tools/${slug}/`;
+  const pageRow = signals.topPages.find((row) => row[0] === pagePath);
+
+  return {
+    note: signals.note,
+    pagePath,
+    pageViews: pageRow?.[1] ?? 0,
+    status: signals.note ? 'not enough data' : 'present',
+    toolActions: toolRow?.[1] ?? 0,
+  };
+}
+
+function toolSearchConsoleStatus(slug) {
+  const url = `${SITE_ORIGIN}/tools/${slug}/`;
+  const report = searchConsoleGaps();
+  const gap = report.gaps.find((item) => item.url === url || item.url === url.replace(/\/$/, ''));
+
+  return {
+    coverageState: gap?.coverageState ?? '',
+    gap: gap ?? null,
+    note: report.note,
+    status: report.note ? 'not enough data' : gap ? 'attention' : 'pass',
+    url,
+  };
+}
+
+export function buildToolBriefReport(slug = '') {
+  const generatedAt = new Date().toISOString();
+  const cleanSlug = String(slug).trim();
+  const tool = extractToolRecords().find((record) => record.slug === cleanSlug) ?? null;
+  const apiSlugs = extractApiRegistrySlugs();
+  const sitemap = readSitemapUrls();
+  const targetPath = `/tools/${cleanSlug}/`;
+  const sitemapUrl = `${SITE_ORIGIN}${targetPath}`;
+  const linkEvidence = builtInternalLinkEvidence([targetPath]);
+  const searchConsole = toolSearchConsoleStatus(cleanSlug);
+  const deepReview = deepReviewStatus(cleanSlug);
+  const issues = [];
+  const warnings = [];
+  if (!cleanSlug) issues.push('Tool slug is required.');
+  if (!tool) issues.push(`No tool record found for ${cleanSlug || '(empty slug)'}.`);
+  if (sitemap.note) warnings.push(sitemap.note);
+  if (linkEvidence.note) warnings.push(linkEvidence.note);
+  if (searchConsole.note) warnings.push(searchConsole.note);
+
+  const report = {
+    api: {
+      ready: apiSlugs.has(cleanSlug),
+      registryPath: 'src/lib/apiToolRegistry.ts',
+    },
+    art: toolArtStatus(cleanSlug),
+    analytics: toolAnalyticsStatus(cleanSlug),
+    deepReview,
+    generatedAt,
+    guide: {
+      exists: hasGuide(cleanSlug),
+      path: `src/pages/blog/how-to-use-${cleanSlug}.astro`,
+      url: `${SITE_ORIGIN}/blog/how-to-use-${cleanSlug}/`,
+    },
+    issues,
+    kind: 'tool-brief',
+    linkEvidence,
+    nextProofCommands: [
+      `npm run aft -- page-seo ${cleanSlug}`,
+      'npm run aft -- link-helper',
+      'npm run aft -- usage-summary',
+      'npm run aft -- site-sitemap',
+    ],
+    related: {
+      count: tool?.relatedSlugs?.length ?? tool?.relatedCount ?? 0,
+      slugs: tool?.relatedSlugs ?? [],
+    },
+    renderer: {
+      exists: hasToolRenderer(cleanSlug),
+    },
+    searchConsole,
+    sitemap: {
+      present: sitemap.urls.includes(sitemapUrl),
+      url: sitemapUrl,
+      urlCount: sitemap.urls.length,
+      note: sitemap.note,
+    },
+    slug: cleanSlug,
+    status: reportStatusFromIssues(issues, warnings),
+    tool,
+    warnings,
+  };
+  const paths = writeReport(
+    'tool-brief',
+    report,
+    `# Tool Brief: ${cleanSlug || 'unknown'}
+
+Generated: ${generatedAt}
+
+Status: ${report.status}
+
+## Tool
+
+${tool ? `- ${tool.name} (${tool.slug})\n- Category: ${tool.category}\n- Examples: ${tool.exampleCount}\n- FAQs: ${tool.faqCount}` : '- not enough data: tool record missing'}
+
+## Evidence
+
+- Deep review: ${deepReview.status}
+- Search Console: ${searchConsole.status}
+- Usage: ${report.analytics.status}
+- Related tools: ${report.related.count}
+
+## Proof Commands
+
+${markdownList(report.nextProofCommands.map((command) => `\`${command}\``))}
+
+## Gaps
+
+${markdownList([...issues, ...warnings])}
+`,
+  );
+  return { ...report, paths };
+}
+
+export function buildAgentDoctorReport() {
+  const generatedAt = new Date().toISOString();
+  const aftCli = readText('scripts/aft-cli.mjs');
+  const docs = [
+    'AGENTS.md',
+    'docs/recommended-agency-agents.md',
+    AGENT_ROUTING_RULES_PATH,
+    'docs/agent-cli.md',
+    'docs/seo-tool-review-workflow.md',
+    'docs/seo-tool-review-queue.md',
+    'docs/marketing-orchestrator.md',
+    'docs/seo-agent-operating-system.md',
+    'docs/ask-api-mcp-alpha.md',
+    'docs/automation-operating-plan.md',
+    'docs/analytics-dashboard.md',
+    'docs/hostinger-api-agent-guide.md',
+    'docs/medium-promotion-agent.md',
+    'docs/reddit-promotion-agent.md',
+    'docs/quora-promotion-agent.md',
+    'docs/bluesky-promotion-agent.md',
+    'docs/devto-promotion-agent.md',
+  ].map((path) => ({ path, present: existsSync(rootPath(path)) }));
+  const commandIds = [
+    'route',
+    'evidence-pack',
+    'claim-check',
+    'tool-brief',
+    'seo-tool-queue',
+    'seo-tool-research',
+    'seo-page-score',
+    'seo-approval-status',
+    'agent-doctor',
+  ];
+  const rules = routingRules();
+  const checks = [
+    ...commandIds.map((id) => ({
+      id: `aft-${id}-command`,
+      ok: aftCli.includes(`command('${id}')`) || aftCli.includes(`command("${id}")`),
+    })),
+    {
+      id: 'routing-rules-config',
+      ok:
+        rules.source === AGENT_ROUTING_RULES_PATH &&
+        rules.lanes.some((definition) => definition.lane === 'seo') &&
+        rules.lanes.some((definition) => definition.lane === 'seo-review'),
+    },
+    {
+      id: 'recommended-routing-doc',
+      ok: docs.some((doc) => doc.path === 'docs/recommended-agency-agents.md' && doc.present),
+    },
+    {
+      id: 'proof-policy-present',
+      ok: /not enough data|proof/i.test(readText('docs/recommended-agency-agents.md')),
+    },
+  ];
+  const issues = [
+    ...docs.filter((doc) => !doc.present).map((doc) => `Missing agent doc: ${doc.path}`),
+    ...checks.filter((check) => !check.ok).map((check) => `Failed check: ${check.id}`),
+  ];
+  const report = {
+    checks,
+    commands: [
+      'npm run aft -- status',
+      'npm run aft -- route "<task>"',
+      'npm run aft -- evidence-pack api',
+      'npm run aft -- claim-check "<claim>"',
+      'npm run aft -- tool-brief percentage-calculator',
+      'npm run aft -- seo-tool-queue',
+      'npm run aft -- seo-tool-research wallpaper-calculator --page tool',
+      'npm run aft -- seo-page-score wallpaper-calculator --page tool',
+      'npm run aft -- seo-approval-status wallpaper-calculator',
+      'npm run aft -- agent-doctor',
+    ],
+    docs,
+    generatedAt,
+    issues,
+    kind: 'agent-doctor',
+    status: reportStatusFromIssues(issues),
+  };
+  const paths = writeReport(
+    'agent-doctor',
+    report,
+    `# Agent Doctor
+
+Generated: ${generatedAt}
+
+Status: ${report.status}
+
+## Docs
+
+${markdownList(docs.map((doc) => `${doc.present ? 'OK' : 'Missing'} ${doc.path}`))}
+
+## Checks
+
+${markdownList(checks.map((check) => `${check.ok ? 'OK' : 'Fail'} ${check.id}`))}
+
+## Issues
+
+${markdownList(issues)}
+`,
+  );
   return { ...report, paths };
 }
 

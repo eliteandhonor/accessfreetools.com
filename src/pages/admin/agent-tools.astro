@@ -75,10 +75,45 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
           <option value="link-helper">Internal Link Helper</option>
           <option value="seo-console">Agent SEO Fix Console</option>
           <option value="content-quality">Content Quality Checker</option>
+          <option value="agent-doctor">Agent Doctor</option>
         </select>
       </label>
       <button class="button-primary" type="submit">Refresh reports</button>
       <p data-agent-refresh-message>Safe refresh is ready after login.</p>
+    </form>
+    <form class="agent-helper-form" data-agent-helper-form>
+      <label>
+        Helper
+        <select name="kind">
+          <option value="route">Route task</option>
+          <option value="evidence-pack">Evidence pack</option>
+          <option value="claim-check">Claim check</option>
+          <option value="tool-brief">Tool brief</option>
+          <option value="agent-doctor">Agent doctor</option>
+        </select>
+      </label>
+      <label>
+        Task
+        <input name="task" type="text" value="Improve Wallpaper Calculator indexing and internal links" />
+      </label>
+      <label>
+        Lane
+        <input name="lane" type="text" value="seo" />
+      </label>
+      <label>
+        Claim
+        <input name="claim" type="text" placeholder="The post is live at https://... and proof is in output/..." />
+      </label>
+      <label>
+        Tool slug
+        <input name="slug" type="text" value="percentage-calculator" />
+      </label>
+      <label class="agent-checkbox">
+        <input name="verifyUrls" type="checkbox" />
+        Verify public URLs
+      </label>
+      <button class="button-primary" type="submit">Run helper</button>
+      <p data-agent-helper-message>Route, evidence, claim-check, brief, and doctor helpers are read-only.</p>
     </form>
     <div class="agent-tools-grid" data-agent-report-grid>
       <article class="agent-report-card">
@@ -114,6 +149,10 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       <li><code>npm run aft -- link-helper</code> suggests internal links from real evidence.</li>
       <li><code>npm run aft -- seo-console</code> summarizes indexing and SEO next fixes.</li>
       <li><code>npm run aft -- content-score &lt;file&gt;</code> checks drafts for reader quality problems.</li>
+      <li><code>npm run aft -- route "&lt;task&gt;"</code> chooses the specialist lane, docs, proof commands, and approval gates.</li>
+      <li><code>npm run aft -- claim-check "&lt;claim&gt;" --verify-urls</code> checks proof paths and optionally verifies public URLs.</li>
+      <li><code>npm run aft -- tool-brief &lt;slug&gt;</code> summarizes one tool's guide, API, sitemap, art, usage, review, and SEO proof.</li>
+      <li><code>npm run aft -- agent-doctor</code> checks the local agent docs and helper command surface.</li>
     </ul>
   </section>
 
@@ -130,6 +169,7 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
 
     .agent-tools-token-form,
     .agent-refresh-form,
+    .agent-helper-form,
     .agent-playground form {
       display: grid;
       gap: 1rem;
@@ -137,6 +177,7 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
 
     .agent-tools-token-form label,
     .agent-refresh-form label,
+    .agent-helper-form label,
     .agent-playground label {
       display: grid;
       gap: 0.45rem;
@@ -145,6 +186,8 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
 
     .agent-tools-token-form input,
     .agent-refresh-form select,
+    .agent-helper-form input,
+    .agent-helper-form select,
     .agent-playground textarea {
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -177,7 +220,32 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       padding: 1rem;
     }
 
+    .agent-helper-form {
+      align-items: end;
+      background: var(--surface-solid);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 0 0 1rem;
+      padding: 1rem;
+    }
+
+    .agent-helper-form .agent-checkbox {
+      align-items: center;
+      display: flex;
+      gap: 0.55rem;
+    }
+
+    .agent-helper-form .agent-checkbox input {
+      height: 1rem;
+      width: 1rem;
+    }
+
     .agent-refresh-form p {
+      margin: 0;
+    }
+
+    .agent-helper-form p {
       margin: 0;
     }
 
@@ -286,6 +354,10 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       .agent-refresh-form {
         grid-template-columns: 1fr;
       }
+
+      .agent-helper-form {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 
@@ -299,16 +371,23 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       const reportGrid = document.querySelector('[data-agent-report-grid]');
       const refreshForm = document.querySelector('[data-agent-refresh-form]');
       const refreshMessage = document.querySelector('[data-agent-refresh-message]');
+      const helperForm = document.querySelector('[data-agent-helper-form]');
+      const helperMessage = document.querySelector('[data-agent-helper-message]');
       const mcpForm = document.querySelector('[data-mcp-form]');
       const mcpOutput = document.querySelector('[data-mcp-output]');
 
       const reportLabels = {
+        'agent-doctor': 'Agent Doctor',
         'api-ready': 'API Registry Builder',
         'ask-audit': 'Ask Quality Auditor',
+        'claim-check': 'Claim Check',
         'content-quality': 'Content Quality Checker',
+        'evidence-pack': 'Evidence Pack',
         'link-helper': 'Internal Link Helper',
         'mcp-smoke': 'MCP Playground Smoke',
+        route: 'Agent Route',
         'seo-console': 'Agent SEO Fix Console',
+        'tool-brief': 'Tool Brief',
       };
 
       const escapeHtml = (value) =>
@@ -326,6 +405,10 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
 
       const setRefreshMessage = (value) => {
         if (refreshMessage) refreshMessage.textContent = value;
+      };
+
+      const setHelperMessage = (value) => {
+        if (helperMessage) helperMessage.textContent = value;
       };
 
       const showDashboard = () => {
@@ -444,6 +527,43 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
           (item) => `${item.ok ? 'pass' : 'fail'}: ${item.label} (status ${item.status})`,
         );
 
+      const renderCommands = (report) => renderList('Commands', report.commands, (item) => item);
+
+      const renderDocs = (report) => renderList('Docs', report.docs, (item) => item.path || item);
+
+      const renderSources = (report) =>
+        renderList(
+          'Sources',
+          report.sources || report.sourceStatuses,
+          (item) => `${item.present === true ? 'present' : item.status || 'not enough data'}: ${item.path}`,
+        );
+
+      const renderProofEvidence = (report) =>
+        renderList(
+          'Proof evidence',
+          [
+            ...asArray(report.evidence?.publicUrls).map((url) => ({ label: `URL: ${url}` })),
+            ...asArray(report.evidence?.outputPathChecks).map((item) => ({
+              label: `${item.exists ? 'present' : 'missing'}: ${item.path}`,
+            })),
+          ],
+          (item) => item.label,
+        );
+
+      const renderToolBrief = (report) =>
+        renderList(
+          'Tool brief',
+          [
+            report.tool?.name ? `Tool: ${report.tool.name}` : '',
+            report.guide ? `Guide: ${report.guide.exists ? 'present' : 'missing'}` : '',
+            report.api ? `API-ready: ${report.api.ready ? 'yes' : 'no'}` : '',
+            report.deepReview ? `Deep review: ${report.deepReview.status}` : '',
+            report.searchConsole ? `Search Console: ${report.searchConsole.status}` : '',
+            report.analytics ? `Usage: ${report.analytics.status}` : '',
+          ],
+          (item) => item,
+        );
+
       const detailHtml = (entry) => {
         const report = entry.report || {};
         const blocks = [
@@ -456,6 +576,11 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
           renderAskResults(report),
           renderApiCandidates(report),
           renderMcpChecks(report),
+          renderCommands(report),
+          renderDocs(report),
+          renderSources(report),
+          renderProofEvidence(report),
+          renderToolBrief(report),
         ].filter(Boolean);
 
         return blocks.length
@@ -540,6 +665,34 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
         }
       };
 
+      const runHelper = async (token, payload) => {
+        if (!token) return;
+        setHelperMessage('Running helper...');
+
+        try {
+          const response = await fetch('/api/admin/agent-tools', {
+            body: JSON.stringify(payload),
+            headers: {
+              accept: 'application/json',
+              'content-type': 'application/json',
+              'x-aft-analytics-token': token,
+            },
+            method: 'POST',
+          });
+          const body = await response.json().catch(() => ({}));
+
+          if (!response.ok || !body.ok) {
+            setHelperMessage(body.message || 'Helper run was not accepted.');
+            return;
+          }
+
+          renderReports(body.reports || []);
+          setHelperMessage(`Updated ${Array.isArray(body.refreshed) ? body.refreshed.length : 0} helper report(s).`);
+        } catch {
+          setHelperMessage('Helper endpoint is not available yet. Check the Node deployment.');
+        }
+      };
+
       loadReports(new URLSearchParams(location.search).get('token') || window.localStorage.getItem(tokenStorageKey) || '');
 
       if (tokenForm) {
@@ -556,6 +709,22 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
           const token = window.localStorage.getItem(tokenStorageKey) || '';
           const data = new FormData(refreshForm);
           refreshReports(token, String(data.get('kind') || 'all'));
+        });
+      }
+
+      if (helperForm) {
+        helperForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const token = window.localStorage.getItem(tokenStorageKey) || '';
+          const data = new FormData(helperForm);
+          runHelper(token, {
+            claim: String(data.get('claim') || ''),
+            kind: String(data.get('kind') || 'route'),
+            lane: String(data.get('lane') || ''),
+            slug: String(data.get('slug') || ''),
+            task: String(data.get('task') || ''),
+            verifyUrls: data.get('verifyUrls') === 'on',
+          });
         });
       }
 

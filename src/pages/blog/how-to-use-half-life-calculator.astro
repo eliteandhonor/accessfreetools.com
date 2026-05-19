@@ -1,9 +1,13 @@
 ---
 export const prerender = true;
 import BaseLayout from '../../components/BaseLayout.astro';
+import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import { getTool } from '../../data/tools';
+import { getToolArt } from '../../data/toolArt';
 
 const halfLifeCalculator = getTool('half-life-calculator');
+const guideArt = getToolArt('half-life-calculator', 'guide');
+const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
 const examples = halfLifeCalculator?.examples ?? [];
 const faqItems = halfLifeCalculator?.faq ?? [];
 const sourceLinks = [
@@ -31,6 +35,7 @@ const articleStructuredData = {
   description:
     'A practical guide to remaining amount, elapsed time, half-life, units, decay formulas, examples, and privacy.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-half-life-calculator/',
+  image: guideImageUrl,
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',
   author: {
@@ -49,6 +54,8 @@ const articleStructuredData = {
   title="How to use the Half-Life Calculator | Access Free Tools"
   description="Find remaining amount, elapsed time, or half-life with decay formulas, units, examples, and steps."
   path="/blog/how-to-use-half-life-calculator/"
+  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
+  socialImageAlt={guideArt?.alt}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
 
@@ -65,6 +72,8 @@ const articleStructuredData = {
       </p>
       <a class="button-primary" href="/tools/half-life-calculator/">Open the half-life calculator</a>
     </header>
+
+    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
 
     <div class="blog-article-layout">
       <div class="blog-article-body">

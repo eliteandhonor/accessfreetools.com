@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "updated": "2026-05-18",
+  "approvalGates": [
+    "No public posting, paid research, deployment, or account changes without exact approval.",
+    "If evidence is missing, report \"not enough data\" instead of guessing."
+  ],
+  "lanes": [
+    {
+      "lane": "seo-review",
+      "labels": ["seo-review", "tool-review", "blog-review", "competitor-gap", "tone-review"],
+      "keywords": [
+        "seo review",
+        "tool page",
+        "blog page",
+        "faq",
+        "competitor",
+        "gap",
+        "tone",
+        "generic language",
+        "smart 14",
+        "readability",
+        "page score"
+      ],
+      "primaryLens": "SEO Tool Research Agent + Smart 14 Voice Editor",
+      "proofLens": "Human Approval Gatekeeper",
+      "docs": [
+        "docs/seo-tool-review-workflow.md",
+        "docs/seo-tool-review-queue.md",
+        "docs/recommended-agency-agents.md",
+        "docs/brand-code.md",
+        "docs/article-writing-agent-standard.md",
+        "docs/search-engine-land-seo-task-board.md"
+      ],
+      "commands": [
+        "npm run aft -- seo-tool-queue",
+        "npm run aft -- seo-tool-research <slug> --page tool|blog",
+        "npm run aft -- seo-page-score <slug> --page tool|blog",
+        "npm run aft -- seo-approval-status <slug>"
+      ],
+      "evidencePaths": [
+        "output/seo-tool-review/queue/latest.json",
+        "docs/seo-tool-review-queue.md"
+      ]
+    },
+    {
+      "lane": "seo",
+      "labels": ["seo", "indexing", "internal-link", "search"],
+      "keywords": ["seo", "index", "ranking", "search console", "internal link", "sitemap", "crawl", "semantic", "keyword", "serp"],
+      "primaryLens": "SEO Specialist",
+      "proofLens": "Evidence Collector",
+      "docs": [
+        "docs/recommended-agency-agents.md",
+        "docs/search-engine-land-seo-task-board.md",
+        "docs/seo-agent-operating-system.md",
+        "docs/google-search-central-notes.md",
+        "docs/agent-cli.md"
+      ],
+      "commands": ["npm run aft -- seo-console", "npm run aft -- link-helper", "npm run aft -- indexing-gaps"],
+      "evidencePaths": [
+        "output/agent-tools/seo-console/latest.json",
+        "output/agent-tools/link-helper/latest.json",
+        "output/search-console-url-inspection.json",
+        "output/seo-agent-self-evaluation.json"
+      ]
+    },
+    {
+      "lane": "api",
+      "labels": ["api", "ask", "mcp"],
+      "keywords": ["ask", "api", "mcp", "openapi", "tool runner", "deterministic", "schema", "ollama"],
+      "primaryLens": "API And MCP Tester + Agentic Search Optimizer",
+      "proofLens": "Reality Checker",
+      "docs": ["docs/recommended-agency-agents.md", "docs/ask-api-mcp-alpha.md", "docs/agent-cli.md"],
+      "commands": ["npm run aft -- ask-audit", "npm run aft -- api-ready", "npm run aft -- mcp-smoke"],
+      "evidencePaths": [
+        "output/agent-tools/ask-audit/latest.json",
+        "output/agent-tools/api-ready/latest.json",
+        "output/agent-tools/mcp-smoke/latest.json"
+      ]
+    },
+    {
+      "lane": "promotion",
+      "labels": ["promotion", "medium", "reddit", "quora", "bluesky", "devto"],
+      "keywords": ["promotion", "post", "medium", "reddit", "quora", "bluesky", "dev", "pinterest", "social", "publish", "space", "article"],
+      "primaryLens": "Technical Writer + Legal Compliance Checker",
+      "proofLens": "Evidence Collector",
+      "docs": [
+        "docs/recommended-agency-agents.md",
+        "docs/brand-code.md",
+        "docs/article-writing-agent-standard.md",
+        "docs/promotion-queue.md"
+      ],
+      "commands": ["npm run aft -- proof-check", "npm run promotion:weekly-review"],
+      "evidencePaths": [
+        "output/promotion/medium-quality-report.json",
+        "output/promotion/reddit-quality-report.json",
+        "output/promotion/quora-quality-report.json",
+        "output/promotion/bluesky/bluesky-quality-report.json",
+        "output/promotion/devto/devto-quality-report.json"
+      ]
+    },
+    {
+      "lane": "deploy",
+      "labels": ["deploy", "hostinger", "dns", "hosting"],
+      "keywords": ["hostinger", "deploy", "deployment", "dns", "hosting", "production", "node runtime", "vps", "docker"],
+      "primaryLens": "Automation Governance Architect",
+      "proofLens": "Reality Checker",
+      "docs": ["docs/recommended-agency-agents.md", "docs/hostinger-api-agent-guide.md", "docs/deployment-checklist.md"],
+      "commands": ["npm run automation:env-check", "npm run aft -- hostinger", "npm run check:live-ask"],
+      "evidencePaths": ["output/automation-environment.md", "output/hostinger/status.json", "output/live-ask-check.json"]
+    },
+    {
+      "lane": "analytics",
+      "labels": ["analytics", "usage", "data"],
+      "keywords": ["analytics", "usage", "data asset", "dashboard", "visitor", "tool-use", "events"],
+      "primaryLens": "Analytics Reporter",
+      "proofLens": "Reality Checker",
+      "docs": ["docs/recommended-agency-agents.md", "docs/analytics-dashboard.md", "docs/original-data-asset-plan.md"],
+      "commands": ["npm run aft -- usage-summary", "npm run aft -- usage-notes"],
+      "evidencePaths": ["output/agent-tools/usage-summary/latest.json", "output/original-data-assets/latest.json"]
+    },
+    {
+      "lane": "automation",
+      "labels": ["automation", "cron", "scheduled"],
+      "keywords": ["automation", "cron", "schedule", "recurring", "daily", "weekly", "monthly", "heartbeat"],
+      "primaryLens": "Automation Governance Architect",
+      "proofLens": "Reality Checker",
+      "docs": ["docs/recommended-agency-agents.md", "docs/automation-operating-plan.md", "docs/marketing-orchestrator.md"],
+      "commands": ["npm run automation:env-check", "npm run aft -- status", "npm run aft -- proof-check"],
+      "evidencePaths": ["output/automation-environment.md", "output/marketing-orchestrator/daily-plan.json"]
+    },
+    {
+      "lane": "ui",
+      "labels": ["ui", "accessibility", "images", "gallery"],
+      "keywords": ["ui", "layout", "accessibility", "image", "gallery", "art", "css", "component", "mobile", "form", "calculator"],
+      "primaryLens": "Accessibility Auditor + Performance Benchmarker",
+      "proofLens": "Evidence Collector",
+      "docs": ["docs/recommended-agency-agents.md", "docs/smoke-kawaii-image-system.md", "docs/full-site-improvement-plan.md"],
+      "commands": ["npm run build", "npm run check:site", "npm run images:qa", "npm run gallery:qa"],
+      "evidencePaths": [
+        "output/tool-art/qa/latest.json",
+        "output/agent-tools/site-sitemap/latest.json",
+        "output/check-built-site.json"
+      ]
+    },
+    {
+      "lane": "code",
+      "labels": ["code", "review", "fix"],
+      "keywords": ["review", "bug", "fix", "refactor", "test", "typescript", "script", "code"],
+      "primaryLens": "Minimal Change Engineer + Code Reviewer",
+      "proofLens": "Evidence Collector",
+      "docs": ["docs/recommended-agency-agents.md", "AGENTS.md"],
+      "commands": ["npm run check"],
+      "evidencePaths": []
+    }
+  ]
+}

@@ -6,6 +6,9 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 
 - Read `docs/brand-code.md` before writing or editing public page copy, tool explanations, blog guides, Medium posts, Quora answers, Reddit replies, Bluesky posts, Pinterest text, or promotion reports.
 - Use `docs/marketing-orchestrator.md` when coordinating SEO, internal-link, content, and promotion agents. The orchestrator owns priority and dedupe; platform agents own platform-specific drafts and proof.
+- Use `docs/recommended-agency-agents.md` when choosing specialist agent roles from the `msitarzewski/agency-agents` prompt library. Adapt only the agents that fit this repo; local proof gates and standing rules always win.
+- Use `docs/seo-tool-review-workflow.md` and `docs/seo-tool-review-queue.md` for the controlled one-page-at-a-time SEO review lane. Tool pages and matching blog pages need separate human approval before the next page starts.
+- Always use the SEO agent workbench for SEO tasks. When the task mentions SEO, run or reference the relevant `node scripts/seo-agent-workbench.mjs ...` command so each SEO job has a specialist agent, evaluator, micro-agent scope, and final judge before approval claims.
 - Use `docs/search-engine-land-seo-task-board.md` for the current Search Engine Land research-backed SEO task board: indexing protection, AI crawler visibility, hub upgrades, semantic-depth work, recognition tracking, original data assets, FAQ strategy, and promotion quality.
 - Run `npm run marketing:orchestrate` when the user asks what marketing, SEO, internal-link, or promotion work should happen next. It is read-only and must not publish, edit live posts, send emails, run ads, or mark work complete.
 - Prefer `npm run aft -- status` and `npm run aft -- marketing` for quick daily orientation before digging through large reports. Use `docs/agent-cli.md` for the full internal CLI command list.
@@ -13,7 +16,8 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 - Automation agents should also use `npm run aft -- indexing-gaps` and `npm run aft -- proof-check` before making indexing or promotion-proof claims.
 - Use `npm run aft -- usage-summary` when deciding which tools need better internal links, guide improvements, or promotion based on actual anonymous tool-use data. Use `npm run aft -- site-sitemap` after sitemap or discovery changes.
 - Use `/admin/agent-tools/` and the `output/agent-tools/` reports for private agent evidence checks. The page is token-protected, noindexed, and can refresh safe report-only checks; it must never publish, submit, spend paid API credits, or edit public content. CLI Ask audit remains the stronger proof when rendered tool-page parity matters.
-- Use `npm run aft -- ask-audit`, `npm run aft -- api-ready`, `npm run aft -- mcp-smoke`, `npm run aft -- link-helper`, and `npm run aft -- seo-console` for Ask/API/MCP, API expansion, internal-link, and SEO fix-console work. These commands must report missing evidence as `not enough data`, never as a guessed recommendation.
+- Use `docs/smoke-kawaii-image-system.md` before changing tool/guide artwork, gallery pages, image sitemap logic, or image QA. Only GPT Image assets that pass visual QA may be marked `approved`; repeated placeholder art, cropped hair, cropped hands, or cut-off character bodies must stay hidden or rejected.
+- Use `npm run aft -- ask-audit`, `npm run aft -- api-ready`, `npm run aft -- mcp-smoke`, `npm run aft -- link-helper`, `npm run aft -- seo-console`, `npm run aft -- seo-tool-queue`, `npm run aft -- seo-tool-research`, `npm run aft -- seo-page-score`, and `npm run aft -- seo-approval-status` for Ask/API/MCP, API expansion, internal-link, SEO fix-console, and controlled tool/page SEO review work. These commands must report missing evidence as `not enough data`, never as a guessed recommendation.
 - Use `docs/analytics-dashboard.md` before changing first-party analytics, dashboard access, owner opt-out behavior, or Hostinger analytics setup notes.
 - Use `/admin/` as the private owner entry point for one-time browser token storage before opening `/admin/analytics/` or `/admin/agent-tools/`.
 - Use `docs/ask-api-mcp-alpha.md` before changing Ask Access Free Tools, the REST API, MCP endpoint, Ollama settings, API beta tokens, or tool-runner schemas. Exact calculator answers must come from deterministic Access Free Tools code, not model-only math. Production must use the Astro Node routes for Ask/API/MCP; do not recreate PHP fallback routes or duplicated tool data.
@@ -48,6 +52,7 @@ Every new public tool should include:
 - Six or more useful FAQs.
 - A matching blog guide at `/blog/how-to-use-{slug}/` that uses the actual tool.
 - Related tools, category placement, icon mapping, search terms, sitemap coverage, and structured data.
+- Approved smoke-kawaii tool and guide images from `docs/smoke-kawaii-image-system.md`, including gallery backlinks and image sitemap coverage. Do not treat queued or draft art as public-ready.
 - A truthful audit record. Only mark a tool `deep-reviewed` after the exact tool page, FAQ, examples, blog, formula/logic, privacy/trust wording, and related links have been individually checked.
 - FAQs are for real user help, AI/crawler understanding, and conversion clarity, not for chasing FAQ rich results. Never add hidden FAQ text or schema that is not visible on the page.
 

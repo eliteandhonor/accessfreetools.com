@@ -1,0 +1,100 @@
+---
+export const prerender = true;
+import BaseLayout from '../../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
+import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
+import { toolArtCategorySummaries, type ToolArtManifestEntry } from '../../data/toolArt';
+
+export function getStaticPaths() {
+  return toolArtCategorySummaries
+    .filter((category) => category.entries.length > 0)
+    .map((category) => ({
+      params: { category: category.slug },
+      props: { category },
+    }));
+}
+
+interface Props {
+  category: (typeof toolArtCategorySummaries)[number];
+}
+
+const { category } = Astro.props;
+const toolEntries = category.entries.filter((entry: ToolArtManifestEntry) => entry.kind === 'tool');
+const guideEntries = category.entries.filter((entry: ToolArtManifestEntry) => entry.kind === 'guide');
+const title = `${category.name} Smoke-Kawaii Art Gallery | Access Free Tools`;
+const description = `Browse unique smoke-kawaii images for ${category.name.toLowerCase()} tool pages and matching guide pages on Access Free Tools.`;
+---
+
+<BaseLayout title={title} description={description} path={`/gallery/${category.slug}/`}>
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Gallery', path: '/gallery/' },
+      { name: category.name, path: `/gallery/${category.slug}/` },
+    ]}
+  />
+  <CollectionStructuredData
+    name={`${category.name} Smoke-Kawaii Gallery`}
+    description={description}
+    path={`/gallery/${category.slug}/`}
+    items={category.entries.map((entry: ToolArtManifestEntry) => ({ name: `${entry.toolName} ${entry.kind} image`, path: entry.pagePath }))}
+    maxItems={120}
+  />
+
+  <section class="page-intro gallery-hero">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/gallery/">Gallery</a> / {category.name}</p>
+    <h1>{category.name} Smoke-Kawaii Gallery</h1>
+    <p>
+      {category.summary} This gallery connects each visual back to the page where it helps: tool
+      images open the live utility, and guide images open the matching plain-language walkthrough.
+    </p>
+  </section>
+
+  <section class="section-band gallery-preview-band">
+    <div class="section-heading">
+      <h2>Tool page artwork</h2>
+      <p>These images link to live tools with calculators, examples, FAQs, and result notes.</p>
+    </div>
+    <div class="gallery-grid">
+      {toolEntries.map((entry: ToolArtManifestEntry) => (
+        <a class="gallery-card" id={`${entry.slug}-${entry.kind}`} href={entry.pagePath}>
+          <img
+            src={entry.thumbnailPath}
+            alt={entry.alt}
+            width="480"
+            height="252"
+            loading="lazy"
+            decoding="async"
+          />
+          <span>Tool image</span>
+          <strong>{entry.toolName}</strong>
+          <small>{entry.caption}</small>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-band section-band-soft gallery-preview-band">
+    <div class="section-heading">
+      <h2>Guide page artwork</h2>
+      <p>These images link to guides that explain inputs, examples, formulas, limits, and mistakes to avoid.</p>
+    </div>
+    <div class="gallery-grid">
+      {guideEntries.map((entry: ToolArtManifestEntry) => (
+        <a class="gallery-card" id={`${entry.slug}-${entry.kind}`} href={entry.pagePath}>
+          <img
+            src={entry.thumbnailPath}
+            alt={entry.alt}
+            width="480"
+            height="252"
+            loading="lazy"
+            decoding="async"
+          />
+          <span>Guide image</span>
+          <strong>{entry.toolName}</strong>
+          <small>{entry.caption}</small>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

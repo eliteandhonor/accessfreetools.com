@@ -5,6 +5,15 @@ straightforward posting API, short-form link posts fit utility pages well, and
 the workflow can run from local environment variables instead of fragile browser
 click automation.
 
+## Specialist Upgrade Lenses
+
+Use `docs/recommended-agency-agents.md` before Bluesky work:
+
+- Technical Writer for short useful posts, link context, and topic fit.
+- Legal Compliance Checker for limitation wording on finance, health,
+  electrical, construction, AI/privacy, or money topics.
+- Evidence Collector for public feed proof after any approved publish.
+
 ## Status
 
 - Recommended next platform: yes.

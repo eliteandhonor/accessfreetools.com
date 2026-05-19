@@ -4,6 +4,16 @@ Last updated: 2026-05-13
 
 This guide explains how Access Free Tools agents should use the Hostinger API and MCP tooling. The purpose is hosting visibility first: check websites, DNS, logs, and deployment state without making risky infrastructure changes.
 
+## Specialist Upgrade Lenses
+
+Use `docs/recommended-agency-agents.md` before Hostinger or deployment work:
+
+- Automation Governance Architect for deployment, DNS, hosting, VPS, Docker, and
+  MCP automation decisions.
+- API And MCP Tester for live Ask/API/MCP proof after deployment changes.
+- Reality Checker before claiming production is fixed, healthy, or using the
+  Node runtime.
+
 ## Sources
 
 - Official docs: `https://developers.hostinger.com/`

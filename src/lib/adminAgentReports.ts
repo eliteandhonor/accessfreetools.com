@@ -1,3 +1,4 @@
+import { spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { tools } from '../data/tools';
@@ -13,11 +14,25 @@ export const AGENT_TOOL_KINDS = [
   'link-helper',
   'seo-console',
   'content-quality',
+  'route',
+  'evidence-pack',
+  'claim-check',
+  'tool-brief',
+  'agent-doctor',
 ] as const;
 
 export type AgentToolKind = (typeof AGENT_TOOL_KINDS)[number];
 
 const SITE_ORIGIN = 'https://accessfreetools.com';
+const SAFE_REFRESH_KINDS: AgentToolKind[] = [
+  'ask-audit',
+  'api-ready',
+  'mcp-smoke',
+  'link-helper',
+  'seo-console',
+  'content-quality',
+  'agent-doctor',
+];
 const ASK_AUDIT_CASES = [
   {
     expected: ['43.2'],
@@ -654,8 +669,127 @@ ${markdownList(notes)}
   return { ...report, paths };
 }
 
-export async function refreshAgentToolReports(options: { kind?: AgentToolKind | 'all'; origin?: string } = {}) {
-  const kinds = options.kind && options.kind !== 'all' ? [options.kind] : [...AGENT_TOOL_KINDS];
+type AgentHelperInputs = {
+  claim?: unknown;
+  lane?: unknown;
+  slug?: unknown;
+  task?: unknown;
+  verifyUrls?: unknown;
+};
+
+function stringInput(value: unknown, fallback: string) {
+  const text = typeof value === 'string' ? value.trim() : '';
+  return text || fallback;
+}
+
+function cliReportArgs(kind: AgentToolKind, inputs: AgentHelperInputs = {}) {
+  if (kind === 'route') {
+    return [
+      'route',
+      '--json',
+      stringInput(inputs.task, 'Review current Access Free Tools agent priorities and choose the safest next proof command.'),
+    ];
+  }
+  if (kind === 'evidence-pack') {
+    return ['evidence-pack', '--json', stringInput(inputs.lane, 'seo')];
+  }
+  if (kind === 'claim-check') {
+    return [
+      'claim-check',
+      '--json',
+      ...(inputs.verifyUrls === true ? ['--verify-urls'] : []),
+      stringInput(inputs.claim, 'Agent helper claim check is waiting for a concrete claim.'),
+    ];
+  }
+  if (kind === 'tool-brief') {
+    return ['tool-brief', '--json', stringInput(inputs.slug, 'percentage-calculator')];
+  }
+  if (kind === 'agent-doctor') {
+    return ['agent-doctor', '--json'];
+  }
+  return [];
+}
+
+function refreshCliHelperReport(kind: AgentToolKind, inputs: AgentHelperInputs = {}) {
+  const args = cliReportArgs(kind, inputs);
+  if (!args.length) return null;
+
+  const scriptPath = rootPath('scripts', 'aft-cli.mjs');
+  if (!existsSync(scriptPath)) {
+    const generatedAt = new Date().toISOString();
+    const report = {
+      generatedAt,
+      issues: ['scripts/aft-cli.mjs was not found on this deployment.'],
+      kind,
+      status: 'fail',
+      summary: { issues: 1 },
+    };
+    const paths = writeReport(kind, report, `# ${kind}
+
+Generated: ${generatedAt}
+
+Status: fail
+
+## Issues
+
+- scripts/aft-cli.mjs was not found on this deployment.
+`);
+    return { ...report, paths };
+  }
+
+  const run = spawnSync(process.execPath, [scriptPath, ...args], {
+    cwd: process.cwd(),
+    encoding: 'utf8',
+    timeout: inputs.verifyUrls === true ? 20000 : 12000,
+  });
+  const jsonPath = rootPath(AGENT_TOOLS_OUTPUT_DIR, kind, 'latest.json');
+  const generated = readJsonFile(jsonPath);
+
+  if (generated) {
+    return {
+      ...generated,
+      cli: {
+        args,
+        status: run.status,
+        stderr: run.stderr?.trim() ?? '',
+      },
+      paths: {
+        jsonPath: unixPath(relative(process.cwd(), jsonPath)),
+        markdownPath: unixPath(relative(process.cwd(), rootPath(AGENT_TOOLS_OUTPUT_DIR, kind, 'latest.md'))),
+      },
+    };
+  }
+
+  const generatedAt = new Date().toISOString();
+  const message = run.error instanceof Error ? run.error.message : run.stderr?.trim() || `CLI helper exited with status ${run.status ?? 'unknown'}.`;
+  const report = {
+    generatedAt,
+    issues: [message],
+    kind,
+    status: 'fail',
+    summary: { issues: 1 },
+  };
+  const paths = writeReport(
+    kind,
+    report,
+    `# ${kind}
+
+Generated: ${generatedAt}
+
+Status: fail
+
+## Issues
+
+- ${message}
+`,
+  );
+  return { ...report, paths };
+}
+
+export async function refreshAgentToolReports(
+  options: { inputs?: AgentHelperInputs; kind?: AgentToolKind | 'all'; origin?: string } = {},
+) {
+  const kinds = options.kind && options.kind !== 'all' ? [options.kind] : [...SAFE_REFRESH_KINDS];
   const refreshed = [];
 
   for (const kind of kinds) {
@@ -666,6 +800,10 @@ export async function refreshAgentToolReports(options: { kind?: AgentToolKind | 
       if (kind === 'link-helper') refreshed.push(await refreshLinkHelperReport(options.origin || SITE_ORIGIN));
       if (kind === 'seo-console') refreshed.push(refreshSeoConsoleReport());
       if (kind === 'content-quality') refreshed.push(await refreshContentQualityReport(options.origin || SITE_ORIGIN));
+      if (['route', 'evidence-pack', 'claim-check', 'tool-brief', 'agent-doctor'].includes(kind)) {
+        const report = refreshCliHelperReport(kind, options.inputs);
+        if (report) refreshed.push(report);
+      }
     } catch (error) {
       const generatedAt = new Date().toISOString();
       const message = error instanceof Error ? error.message : String(error);

@@ -1,0 +1,26 @@
+---
+import type { ToolArtManifestEntry } from '../data/toolArt';
+
+interface Props {
+  entry: ToolArtManifestEntry;
+  eager?: boolean;
+  showGalleryLink?: boolean;
+}
+
+const { entry, eager = false, showGalleryLink = true } = Astro.props;
+---
+
+<figure class="tool-art-figure">
+  <img
+    src={entry.imagePath}
+    alt={entry.alt}
+    width="1200"
+    height="630"
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+  />
+  <figcaption>
+    <span>{entry.caption}</span>
+    {showGalleryLink && <a href={entry.galleryPath}>View in the smoke-kawaii gallery</a>}
+  </figcaption>
+</figure>

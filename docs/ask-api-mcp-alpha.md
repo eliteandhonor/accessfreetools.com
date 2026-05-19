@@ -9,6 +9,31 @@ the tool and the server runs the real tool runner. Ollama is reserved for
 ambiguous routing, and final answer wording is kept deterministic so the model
 cannot rewrite exact numbers.
 
+## Agent Upgrade Gates
+
+For current-agent upgrades, use `docs/recommended-agency-agents.md` with these
+specialist lenses:
+
+- API And MCP Tester for REST routes, MCP calls, OpenAPI output, tool schemas,
+  and deterministic runner parity.
+- Agentic Search Optimizer for AI-agent discovery and task-completion flow.
+- Reality Checker before claiming Ask/API/MCP is live, fixed, or production
+  ready.
+
+Minimum proof before a done claim:
+
+```powershell
+npm run aft -- ask-audit
+npm run aft -- api-ready
+npm run aft -- mcp-smoke
+```
+
+After deployment-related API/Ask/MCP changes, also run:
+
+```powershell
+npm run check:live-ask
+```
+
 ## Local Secrets
 
 Local development reads:

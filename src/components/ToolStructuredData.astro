@@ -3,10 +3,12 @@ import { getCategoryName, type ToolDefinition } from '../data/tools';
 
 interface Props {
   tool: ToolDefinition;
+  imagePath?: string;
 }
 
-const { tool } = Astro.props;
+const { tool, imagePath } = Astro.props;
 const url = new URL(`/tools/${tool.slug}/`, Astro.site ?? 'https://accessfreetools.com').toString();
+const image = imagePath ? new URL(imagePath, Astro.site ?? 'https://accessfreetools.com').toString() : undefined;
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
@@ -15,6 +17,7 @@ const structuredData = {
   applicationSubCategory: getCategoryName(tool.category),
   operatingSystem: 'Any',
   url,
+  ...(image ? { image, primaryImageOfPage: image } : {}),
   description: tool.seoDescription,
   isAccessibleForFree: true,
   keywords: [tool.name, ...(tool.aliases ?? []), getCategoryName(tool.category), 'free online tool', 'Access Free Tools'],

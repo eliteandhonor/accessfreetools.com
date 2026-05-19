@@ -1,9 +1,13 @@
 ---
 export const prerender = true;
 import BaseLayout from '../../components/BaseLayout.astro';
+import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import { getTool } from '../../data/tools';
+import { getToolArt } from '../../data/toolArt';
 
 const exponentCalculator = getTool('exponent-calculator');
+const guideArt = getToolArt('exponent-calculator', 'guide');
+const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
 const examples = exponentCalculator?.examples ?? [];
 const faqItems = exponentCalculator?.faq ?? [];
 const sourceLinks = [
@@ -23,6 +27,7 @@ const articleStructuredData = {
   description:
     'Learn how the Access Free Tools exponent calculator handles bases, powers, zero exponents, negative exponents, fraction exponents, scientific notation, history, and privacy.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-exponent-calculator/',
+  image: guideImageUrl,
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',
   author: {
@@ -41,6 +46,8 @@ const articleStructuredData = {
   title="How to use the Exponent Calculator | Access Free Tools"
   description="Learn powers, negative and zero exponents, fraction exponents, scientific notation, history, and privacy."
   path="/blog/how-to-use-exponent-calculator/"
+  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
+  socialImageAlt={guideArt?.alt}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
 
@@ -57,6 +64,8 @@ const articleStructuredData = {
       </p>
       <a class="button-primary" href="/tools/exponent-calculator/">Open the exponent calculator</a>
     </header>
+
+    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
 
     <div class="blog-article-layout">
       <div class="blog-article-body">

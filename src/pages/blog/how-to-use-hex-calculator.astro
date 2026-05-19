@@ -1,9 +1,13 @@
 ---
 export const prerender = true;
 import BaseLayout from '../../components/BaseLayout.astro';
+import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import { getTool } from '../../data/tools';
+import { getToolArt } from '../../data/toolArt';
 
 const hexCalculator = getTool('hex-calculator');
+const guideArt = getToolArt('hex-calculator', 'guide');
+const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
 const examples = hexCalculator?.examples ?? [];
 const articleStructuredData = {
   '@context': 'https://schema.org',
@@ -12,6 +16,7 @@ const articleStructuredData = {
   description:
     'Use the Access Free Tools hex calculator to understand base-16 digits, hex arithmetic, division remainders, hex-to-decimal conversion, decimal-to-hex conversion, binary output, copying, history, and privacy.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-hex-calculator/',
+  image: guideImageUrl,
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',
   author: {
@@ -30,6 +35,8 @@ const articleStructuredData = {
   title="How to use the Hex Calculator | Access Free Tools"
   description="Learn hex addition, subtraction, multiplication, division remainders, decimal conversion, binary output, and privacy."
   path="/blog/how-to-use-hex-calculator/"
+  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
+  socialImageAlt={guideArt?.alt}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
 
@@ -46,6 +53,8 @@ const articleStructuredData = {
       </p>
       <a class="button-primary" href="/tools/hex-calculator/">Open the hex calculator</a>
     </header>
+
+    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
 
     <div class="blog-article-layout">
       <div class="blog-article-body">

@@ -1,9 +1,13 @@
 ---
 export const prerender = true;
 import BaseLayout from '../../components/BaseLayout.astro';
+import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import { getTool } from '../../data/tools';
+import { getToolArt } from '../../data/toolArt';
 
 const binaryCalculator = getTool('binary-calculator');
+const guideArt = getToolArt('binary-calculator', 'guide');
+const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
 const examples = binaryCalculator?.examples ?? [];
 const articleStructuredData = {
   '@context': 'https://schema.org',
@@ -12,6 +16,7 @@ const articleStructuredData = {
   description:
     'Learn binary math with the Access Free Tools binary calculator, including base-2 place values, binary arithmetic, division remainders, conversions, copying, history, and privacy.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-binary-calculator/',
+  image: guideImageUrl,
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',
   author: {
@@ -30,6 +35,8 @@ const articleStructuredData = {
   title="How to use the Binary Calculator | Access Free Tools"
   description="Learn binary addition, subtraction, multiplication, division remainders, decimal conversion, binary output, and privacy."
   path="/blog/how-to-use-binary-calculator/"
+  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
+  socialImageAlt={guideArt?.alt}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
 
@@ -46,6 +53,8 @@ const articleStructuredData = {
       </p>
       <a class="button-primary" href="/tools/binary-calculator/">Open the binary calculator</a>
     </header>
+
+    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
 
     <div class="blog-article-layout">
       <div class="blog-article-body">

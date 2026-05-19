@@ -26,9 +26,11 @@ import ScientificCalculator from '../../components/ScientificCalculator';
 import ScientificNotationCalculator from '../../components/ScientificNotationCalculator';
 import StatsCalculator, { type StatsToolVariant } from '../../components/StatsCalculator';
 import ToolCard from '../../components/ToolCard.astro';
+import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import ToolStructuredData from '../../components/ToolStructuredData.astro';
 import UtilityCalculator, { type UtilityToolVariant } from '../../components/UtilityCalculator';
 import { toolAliases, type ToolAlias } from '../../data/toolAliases';
+import { getToolArt } from '../../data/toolArt';
 import { getCategoryName, getRelatedTools, tools, type ToolDefinition } from '../../data/tools';
 
 export const prerender = true;
@@ -71,6 +73,7 @@ const relatedTools = getRelatedTools(tool);
 const categoryName = getCategoryName(tool.category);
 const categoryPath = `/categories/${tool.category}/`;
 const guidePath = `/blog/how-to-use-${tool.slug}/`;
+const toolArt = !isAliasPage ? getToolArt(tool.slug, 'tool') : undefined;
 const toolSocialImagePath =
   {
     calculators: '/social/free-calculators.png',
@@ -1376,9 +1379,10 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
   title={isAliasPage ? `${displayName} | Access Free Tools` : tool.seoTitle}
   description={isAliasPage ? displayDescription : tool.seoDescription}
   path={`/tools/${tool.slug}/`}
-  socialImagePath={toolSocialImagePath}
+  socialImagePath={toolArt?.imagePath ?? toolSocialImagePath}
+  socialImageAlt={toolArt?.alt}
 >
-  {!isAliasPage && <ToolStructuredData tool={tool} />}
+  {!isAliasPage && <ToolStructuredData tool={tool} imagePath={toolArt?.imagePath} />}
   <BreadcrumbStructuredData
     items={[
       { name: 'Home', path: '/' },
@@ -1414,6 +1418,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         </div>
       )
     }
+
+    {toolArt && <ToolArtFigure entry={toolArt} eager={true} />}
 
     {
       isKawaiiTool && (

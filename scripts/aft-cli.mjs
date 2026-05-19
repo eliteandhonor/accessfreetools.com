@@ -4,12 +4,25 @@ import { basename, join, relative, resolve } from 'node:path';
 import { Command } from 'commander';
 import {
   buildApiReadyReport,
+  buildAgentDoctorReport,
+  buildAgentRouteReport,
+  buildClaimCheckReport,
   buildLinkHelperReport,
+  buildEvidencePackReport,
   buildSeoConsoleReport,
+  buildToolBriefReport,
+  runClaimCheckReport,
   runAskAudit,
   runContentQualityReport,
   runMcpSmoke,
 } from './lib/agent-tools-report.mjs';
+import {
+  buildSeoApprovalStatusReport,
+  buildSeoPageScoreReport,
+  buildSeoToolQueueReport,
+  buildSeoToolResearchReport,
+  runSeoCompetitorGapReport,
+} from './lib/seo-tool-review.mjs';
 
 const SITE_ORIGIN = 'https://accessfreetools.com';
 const root = process.cwd();
@@ -17,6 +30,7 @@ const root = process.cwd();
 const evidencePaths = {
   brandCode: 'docs/brand-code.md',
   agentCli: 'docs/agent-cli.md',
+  recommendedAgents: 'docs/recommended-agency-agents.md',
   marketingPlan: 'output/marketing-orchestrator/daily-plan.json',
   promotionQueue: 'docs/promotion-queue.md',
   seoEvaluation: 'output/seo-agent-self-evaluation.json',
@@ -351,6 +365,16 @@ function emit(commandOrOptions, payload, lines) {
   console.log(lines.filter(Boolean).join('\n'));
 }
 
+function optionValue(command, key, fallback = undefined) {
+  const opts = typeof command?.opts === 'function' ? command.opts() : {};
+  const envKey = `npm_config_${key.replace(/[A-Z]/g, (match) => `_${match.toLowerCase()}`).replace(/-/g, '_')}`;
+  return opts[key] ?? command?.[key] ?? process.env[envKey] ?? fallback;
+}
+
+function collectOption(value, previous = []) {
+  return [...previous, value];
+}
+
 function formatQuality(report) {
   return `${report.label}: ${report.status} (${report.passed}/${report.total})`;
 }
@@ -658,6 +682,7 @@ function statusCommand(command) {
     scripts: Object.keys(packageJson?.scripts ?? {}).length,
     brandCodePresent: Boolean(readText(evidencePaths.brandCode)),
     agentCliDocPresent: Boolean(readText(evidencePaths.agentCli)),
+    recommendedAgentsDocPresent: Boolean(readText(evidencePaths.recommendedAgents)),
     marketingPlanGeneratedAt: marketingPlan?.generatedAt ?? '',
     dataForSeoBalance: balance,
     hostinger,
@@ -676,6 +701,7 @@ function statusCommand(command) {
     `- Scripts: ${payload.scripts}`,
     `- Brand code: ${payload.brandCodePresent ? 'present' : 'missing'}`,
     `- Agent CLI docs: ${payload.agentCliDocPresent ? 'present' : 'missing'}`,
+    `- Recommended agent routing: ${payload.recommendedAgentsDocPresent ? 'present' : 'missing'}`,
     `- Marketing report: ${payload.marketingPlanGeneratedAt || 'not found'}`,
     balance
       ? `- DataForSEO: ${balance.status} ${balance.balance.toFixed(2)} ${balance.currency}${
@@ -1223,6 +1249,187 @@ function seoConsoleCommand(command) {
   ]);
 }
 
+function seoToolQueueCommand(command) {
+  const report = buildSeoToolQueueReport();
+  emit(command, report, [
+    `SEO tool/page queue: ${report.status}`,
+    `- Tools: ${report.summary.tools}`,
+    `- Page review units: ${report.summary.pages}`,
+    `- Approval unit: ${report.summary.approvalUnit}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    '- Next pages:',
+    ...report.entries.slice(0, 5).map((entry, index) => `  ${index + 1}. ${entry.slug} ${entry.page} - score ${entry.priorityScore}; ${entry.priorityReasons.join('; ')}`),
+  ]);
+}
+
+function pageOption(command, pageArg = '') {
+  const cleanArg = String(pageArg || '').toLowerCase();
+  if (cleanArg === 'tool' || cleanArg === 'blog') return cleanArg;
+  return optionValue(command, 'page', 'tool');
+}
+
+function seoToolResearchCommand(slug, pageArg, command) {
+  const page = pageOption(command, pageArg);
+  const report = buildSeoToolResearchReport(slug, { page });
+  emit(command, report, [
+    `SEO page research: ${report.status}`,
+    `- Tool: ${report.tool.name}`,
+    `- Page: ${report.page}`,
+    `- URL: ${report.url}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    `- Built proof: ${report.builtProof.exists ? report.builtProof.path : report.builtProof.note}`,
+    `- Tone score: ${report.tone.score}; generic hits: ${report.tone.genericHits.length ? report.tone.genericHits.join(', ') : 'none'}`,
+    `- Paid competitor research: ${report.paidResearch.allowed ? 'allowed' : 'blocked until explicit approval'}`,
+    '- Proof commands:',
+    ...report.proofCommands.map((cmd) => `  - ${cmd}`),
+  ]);
+}
+
+async function seoCompetitorGapCommand(slug, args, command) {
+  const extraArgs = Array.isArray(args) ? args : [];
+  const positionalPage = extraArgs.find((value) => /^(tool|blog)$/i.test(value));
+  const page = pageOption(command, positionalPage);
+  const opts = typeof command?.opts === 'function' ? command.opts() : {};
+  const rawEnvUrl = String(process.env.npm_config_url ?? '');
+  const envUrls = /^(true|false)$/i.test(rawEnvUrl)
+    ? []
+    : rawEnvUrl
+        .split(',')
+        .map((url) => url.trim())
+        .filter(Boolean);
+  const positionalUrls = extraArgs.filter((value) => /^https?:\/\//i.test(value));
+  const urls = [...(Array.isArray(opts.url) ? opts.url : []), ...envUrls, ...positionalUrls];
+  const report = await runSeoCompetitorGapReport(slug, { page, urls });
+  emit(command, report, [
+    `SEO competitor gap: ${report.status}`,
+    `- Page: ${report.page}`,
+    `- Competitors scored: ${report.competitors.filter((item) => item.status === 'scored').length}/${report.competitors.length}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    `- Paid research: ${report.paidResearch.allowed ? 'allowed' : 'blocked until explicit approval'}`,
+    report.fetchResults?.length
+      ? `- Fetch results: ${report.fetchResults.map((item) => `${item.url} ${item.status}${item.httpStatus ? ` ${item.httpStatus}` : ''}`).join(' | ')}`
+      : '- Fetch results: none',
+    report.warnings.length ? `- Warnings: ${report.warnings.join(' | ')}` : '- Warnings: none',
+    '- Gaps we can fill:',
+    ...report.opportunities.slice(0, 6).map((item) => `  - ${item}`),
+  ]);
+}
+
+function seoPageScoreCommand(slug, pageArg, command) {
+  const page = pageOption(command, pageArg);
+  const report = buildSeoPageScoreReport(slug, { page });
+  emit(command, report, [
+    `SEO page score: ${report.status}`,
+    `- Page: ${report.page}`,
+    `- URL: ${report.url}`,
+    `- Overall score: ${report.score.overall}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    `- Built proof: ${report.builtProof.exists ? report.builtProof.path : report.builtProof.note}`,
+    report.issues.length ? `- Issues: ${report.issues.join(' | ')}` : '- Issues: none',
+    report.warnings.length ? `- Warnings: ${report.warnings.join(' | ')}` : '- Warnings: none',
+  ]);
+}
+
+function seoApprovalStatusCommand(slug, command) {
+  const report = buildSeoApprovalStatusReport(slug);
+  emit(command, report, [
+    `SEO approval status: ${report.status}`,
+    `- Slug: ${report.slug}`,
+    `- Tool page: ${report.pages.tool.status}${report.pages.tool.approved ? ` by ${report.pages.tool.approvedBy || 'human'}` : ''}`,
+    `- Blog page: ${report.pages.blog.status}${report.pages.blog.approved ? ` by ${report.pages.blog.approvedBy || 'human'}` : ''}`,
+    `- Can proceed to next slug: ${report.canProceedToNext ? 'yes' : 'no'}`,
+    report.blockedReason ? `- Blocked: ${report.blockedReason}` : '',
+    `- Saved report: ${report.paths.markdownPath}`,
+  ]);
+}
+
+function routeCommand(taskParts, command) {
+  const task = Array.isArray(taskParts) ? taskParts.join(' ') : String(taskParts ?? '');
+  const report = buildAgentRouteReport(task);
+  emit(command, report, [
+    `Agent route: ${report.status}`,
+    `- Lane: ${report.lane}`,
+    `- Primary lens: ${report.primaryLens}`,
+    `- Proof lens: ${report.proofLens}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    '- Read first:',
+    ...report.docs.slice(0, 5).map((doc) => `  - ${doc}`),
+    '- Run:',
+    ...report.commands.map((cmd) => `  - ${cmd}`),
+    report.issues.length ? `- Issues: ${report.issues.join(' | ')}` : '- Issues: none',
+  ]);
+}
+
+function evidencePackCommand(lane, command) {
+  const report = buildEvidencePackReport(lane);
+  emit(command, report, [
+    `Evidence pack: ${report.status}`,
+    `- Lane: ${report.lane}`,
+    `- Primary lens: ${report.primaryLens}`,
+    `- Proof lens: ${report.proofLens}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    report.warnings.length ? `- Warnings: ${report.warnings.join(' | ')}` : '- Warnings: none',
+    '- Commands:',
+    ...report.commands.map((cmd) => `  - ${cmd}`),
+  ]);
+}
+
+async function claimCheckCommand(claimParts, command) {
+  const claim = Array.isArray(claimParts) ? claimParts.join(' ') : String(claimParts ?? '');
+  const verifyUrls =
+    command.verifyUrls ||
+    process.env.npm_config_verify_urls === 'true' ||
+    process.env.npm_config_verify_urls === '';
+  const report = verifyUrls
+    ? await runClaimCheckReport(claim, { verifyUrls: true })
+    : buildClaimCheckReport(claim);
+  emit(command, report, [
+    `Claim check: ${report.status}`,
+    `- Claim type: ${report.claimType}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    report.evidence.publicUrls.length ? `- Public URLs: ${report.evidence.publicUrls.join(', ')}` : '- Public URLs: none',
+    report.evidence.outputPaths.length ? `- Output paths: ${report.evidence.outputPaths.join(', ')}` : '- Output paths: none',
+    report.evidence.publicUrlChecks?.length
+      ? `- URL checks: ${report.evidence.publicUrlChecks.map((item) => `${item.url} ${item.status}`).join(', ')}`
+      : '',
+    report.issues.length ? `- Issues: ${report.issues.join(' | ')}` : '- Issues: none',
+    report.warnings.length ? `- Warnings: ${report.warnings.join(' | ')}` : '',
+  ]);
+  if (report.status === 'fail') process.exitCode = 1;
+}
+
+function toolBriefCommand(slug, command) {
+  const report = buildToolBriefReport(slug);
+  emit(command, report, [
+    `Tool brief: ${report.status}`,
+    `- Tool: ${report.tool?.name ?? slug}`,
+    `- Slug: ${report.slug}`,
+    `- Guide: ${report.guide.exists ? 'present' : 'missing'}`,
+    `- API-ready: ${report.api.ready ? 'yes' : 'no'}`,
+    `- Sitemap: ${report.sitemap.present ? 'present' : report.sitemap.note || 'not enough data'}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    '- Next proof commands:',
+    ...report.nextProofCommands.map((cmd) => `  - ${cmd}`),
+    report.issues.length ? `- Issues: ${report.issues.join(' | ')}` : '- Issues: none',
+    report.warnings.length ? `- Warnings: ${report.warnings.join(' | ')}` : '',
+  ]);
+  if (report.status === 'fail') process.exitCode = 1;
+}
+
+function agentDoctorCommand(command) {
+  const report = buildAgentDoctorReport();
+  emit(command, report, [
+    `Agent doctor: ${report.status}`,
+    `- Docs checked: ${report.docs.length}`,
+    `- Checks: ${report.checks.filter((check) => check.ok).length}/${report.checks.length}`,
+    `- Saved report: ${report.paths.markdownPath}`,
+    report.issues.length ? `- Issues: ${report.issues.join(' | ')}` : '- Issues: none',
+    '- Commands:',
+    ...report.commands.map((cmd) => `  - ${cmd}`),
+  ]);
+  if (report.status === 'fail') process.exitCode = 1;
+}
+
 function hasProof(row) {
   const text = `${row.page} ${row.nextAction}`.toLowerCase();
   return (
@@ -1367,6 +1574,82 @@ program
   .option('--json', 'Output JSON.')
   .action(seoConsoleCommand);
 
+program
+  .command('seo-tool-queue')
+  .description('Build the one-page-at-a-time SEO review queue for every tool and matching guide.')
+  .option('--json', 'Output JSON.')
+  .action(seoToolQueueCommand);
+
+program
+  .command('seo-tool-research')
+  .description('Create the research pack for one tool page or matching blog guide.')
+  .argument('<slug>', 'Tool slug, for example wallpaper-calculator.')
+  .argument('[pageArg]', 'Optional page value when npm consumes --page.')
+  .option('--page <page>', 'Page to review: tool or blog.', 'tool')
+  .option('--json', 'Output JSON.')
+  .action(seoToolResearchCommand);
+
+program
+  .command('seo-competitor-gap')
+  .description('Fetch and score selected competitor pages for original SEO gap opportunities.')
+  .argument('<slug>', 'Tool slug, for example wallpaper-calculator.')
+  .argument('[args...]', 'Optional page/URL values when npm consumes --page or --url.')
+  .option('--page <page>', 'Page to review: tool or blog.', 'tool')
+  .option('--url <url>', 'Competitor URL to fetch and score. Repeat for multiple URLs.', collectOption, [])
+  .option('--json', 'Output JSON.')
+  .action(seoCompetitorGapCommand);
+
+program
+  .command('seo-page-score')
+  .description('Score one Access Free Tools tool page or guide for SEO, tone, FAQ, links, and proof readiness.')
+  .argument('<slug>', 'Tool slug, for example wallpaper-calculator.')
+  .argument('[pageArg]', 'Optional page value when npm consumes --page.')
+  .option('--page <page>', 'Page to score: tool or blog.', 'tool')
+  .option('--json', 'Output JSON.')
+  .action(seoPageScoreCommand);
+
+program
+  .command('seo-approval-status')
+  .description('Show whether a tool page and blog guide have human approval before moving on.')
+  .argument('<slug>', 'Tool slug, for example wallpaper-calculator.')
+  .option('--json', 'Output JSON.')
+  .action(seoApprovalStatusCommand);
+
+program
+  .command('route')
+  .description('Route an agent task to the right local docs, specialist lenses, proof commands, and gates.')
+  .argument('<task...>', 'Task text to route.')
+  .option('--json', 'Output JSON.')
+  .action(routeCommand);
+
+program
+  .command('evidence-pack')
+  .description('Bundle the docs, proof commands, and latest evidence sources for an agent lane.')
+  .argument('<lane>', 'Agent lane such as seo, api, promotion, deploy, analytics, automation, ui, or code.')
+  .option('--json', 'Output JSON.')
+  .action(evidencePackCommand);
+
+program
+  .command('claim-check')
+  .description('Check whether a posted/fixed/live/done claim includes enough proof evidence.')
+  .argument('<claim...>', 'Claim text to check.')
+  .option('-u, --verify-urls', 'Fetch cited public URLs and fail the claim if any public proof URL is unreachable.')
+  .option('--json', 'Output JSON.')
+  .action(claimCheckCommand);
+
+program
+  .command('tool-brief')
+  .description('Summarize one tool slug with tool, guide, API, sitemap, art, and proof-gap evidence.')
+  .argument('<slug>', 'Tool slug, for example percentage-calculator.')
+  .option('--json', 'Output JSON.')
+  .action(toolBriefCommand);
+
+program
+  .command('agent-doctor')
+  .description('Audit the local agent docs and helper command surface for missing routing or proof support.')
+  .option('--json', 'Output JSON.')
+  .action(agentDoctorCommand);
+
 program.command('proof-check').description('Find promotion queue rows that still need public proof.').option('--json', 'Output JSON.').action(proofCheckCommand);
 
-program.parse();
+await program.parseAsync();

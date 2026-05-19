@@ -1,0 +1,114 @@
+---
+export const prerender = true;
+import BaseLayout from '../../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
+import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
+import { toolArtCategorySummaries, toolArtEntries } from '../../data/toolArt';
+
+const activeCategories = toolArtCategorySummaries.filter((category) => category.entries.length > 0);
+const featuredEntries = toolArtEntries
+  .filter((entry) => entry.kind === 'tool')
+  .slice(0, 24);
+const hasApprovedArt = toolArtEntries.length > 0;
+---
+
+<BaseLayout
+  title="Smoke-Kawaii Tool Art Gallery | Access Free Tools"
+  description="Browse the Access Free Tools smoke-kawaii gallery, with unique visual artwork for tool pages and guide pages across every utility category."
+  path="/gallery/"
+  noindex={!hasApprovedArt}
+>
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Gallery', path: '/gallery/' },
+    ]}
+  />
+  <CollectionStructuredData
+    name="Smoke-Kawaii Tool Art Gallery"
+    description="Category hub for unique smoke-kawaii artwork connected to Access Free Tools utilities and guides."
+    path="/gallery/"
+    items={activeCategories.map((category) => ({ name: category.name, path: `/gallery/${category.slug}/` }))}
+    maxItems={activeCategories.length}
+  />
+
+  <section class="page-intro gallery-hero">
+    <p class="breadcrumb"><a href="/">Home</a> / Gallery</p>
+    <h1>Smoke-Kawaii Tool Art Gallery</h1>
+    <p>
+      This gallery is reserved for approved GPT Image artwork only. Each future tool and guide image
+      must be a unique smoke-style kawaii mascot scene, not a repeated abstract background.
+    </p>
+  </section>
+
+  {hasApprovedArt ? (
+    <>
+      <section class="section-band gallery-category-band">
+        <div class="section-heading">
+          <h2>Browse by category</h2>
+          <p>Each category page keeps the gallery useful instead of turning it into one giant image dump.</p>
+        </div>
+        <div class="gallery-category-grid">
+          {activeCategories.map((category) => {
+            const cover = category.entries[0];
+
+            return (
+              <a href={`/gallery/${category.slug}/`}>
+                {cover && (
+                  <img
+                    src={cover.thumbnailPath}
+                    alt={cover.alt}
+                    width="480"
+                    height="252"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                <strong>{category.name}</strong>
+                <span>{category.toolCount} tool images and {category.guideCount} guide images. {category.summary}</span>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+
+      <section class="section-band section-band-soft gallery-preview-band">
+        <div class="section-heading">
+          <h2>Featured tool visuals</h2>
+          <p>A quick sample from the approved art set. Open a category to see the matching guide images too.</p>
+        </div>
+        <div class="gallery-grid">
+          {featuredEntries.map((entry) => (
+            <a class="gallery-card" id={`${entry.slug}-${entry.kind}`} href={entry.pagePath}>
+              <img
+                src={entry.thumbnailPath}
+                alt={entry.alt}
+                width="480"
+                height="252"
+                loading="lazy"
+                decoding="async"
+              />
+              <span>{entry.categoryName}</span>
+              <strong>{entry.toolName}</strong>
+              <small>{entry.caption}</small>
+            </a>
+          ))}
+        </div>
+      </section>
+    </>
+  ) : (
+    <section class="section-band section-band-soft gallery-preview-band">
+      <div class="section-heading">
+        <h2>Gallery approval queue</h2>
+        <p>
+          The image system is ready, but public gallery entries stay hidden until their exact GPT Image
+          asset passes visual QA and is marked approved.
+        </p>
+      </div>
+      <div class="trust-callout">
+        <strong>Quality rule:</strong> weak repeated placeholder art is not published. Approved images
+        must look like unique smoke-kawaii mascot illustrations tied to the actual tool or guide.
+      </div>
+    </section>
+  )}
+</BaseLayout>
