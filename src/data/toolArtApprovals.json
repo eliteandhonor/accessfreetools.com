@@ -1040,6 +1040,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "concrete-weight-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/concrete-weight-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-weight-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-weight-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/concrete-weight-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-weight-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "confidence-interval-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/confidence-interval-calculator-guide.webp",
@@ -1052,6 +1068,22 @@
     "kind": "tool",
     "imagePath": "/tool-art/confidence-interval-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/confidence-interval-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "conversion-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/conversion-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/conversion-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "conversion-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/conversion-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/conversion-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
