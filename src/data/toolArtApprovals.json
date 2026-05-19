@@ -992,6 +992,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "concrete-mix-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/concrete-mix-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-mix-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-mix-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/concrete-mix-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-mix-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "concrete-reinforcing-mesh-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/concrete-reinforcing-mesh-calculator-guide.webp",
@@ -1004,6 +1020,22 @@
     "kind": "tool",
     "imagePath": "/tool-art/concrete-reinforcing-mesh-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/concrete-reinforcing-mesh-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-steps-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/concrete-steps-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-steps-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-steps-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/concrete-steps-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-steps-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
