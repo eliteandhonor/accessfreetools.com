@@ -1120,6 +1120,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "countertop-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/countertop-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/countertop-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "countertop-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/countertop-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/countertop-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "credit-card-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/credit-card-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/credit-card-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "credit-card-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/credit-card-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/credit-card-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "distance-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/distance-calculator-guide.webp",
