@@ -1762,8 +1762,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Compound Interest Calculator in the Finance category.",
     "caption": "A smoke-kawaii visual for the Compound Interest Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is actively presenting the Compound Interest Calculator as a usable browser utility. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Finance: coins, charts, receipt shapes, and careful budgeting blocks. Specific page concept: Estimate compound growth with deposits, rate, time, and compounding frequency.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "compound-interest-calculator",
@@ -1778,8 +1778,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Compound Interest Calculator with compound interest shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Compound Interest Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is explaining the Compound Interest Calculator concept like a simple visual guide. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Finance: coins, charts, receipt shapes, and careful budgeting blocks. Specific page concept: Estimate compound growth with deposits, rate, time, and compounding frequency.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "conception-calculator",
@@ -1794,8 +1794,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Conception Calculator in the Health & Fitness category.",
     "caption": "A smoke-kawaii visual for the Conception Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is actively presenting the Conception Calculator as a usable browser utility. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Health & Fitness: heart shapes, movement arcs, and wellness note cards. Specific page concept: Estimate conception timing from cycle and ovulation assumptions.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "conception-calculator",
@@ -1810,8 +1810,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Conception Calculator with conception shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Conception Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is explaining the Conception Calculator concept like a simple visual guide. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Health & Fitness: heart shapes, movement arcs, and wellness note cards. Specific page concept: Estimate conception timing from cycle and ovulation assumptions.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "concrete-block-calculator",
@@ -1826,8 +1826,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Concrete Block Calculator in the Home & Projects category.",
     "caption": "A smoke-kawaii visual for the Concrete Block Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is actively presenting the Concrete Block Calculator as a usable browser utility. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Home & Projects: house outlines, rulers, buckets, and project material shapes. Specific page concept: Estimate concrete block count, courses, and blocks per course from wall dimensions.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "concrete-block-calculator",
@@ -1842,8 +1842,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Concrete Block Calculator with concrete block shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Concrete Block Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is explaining the Concrete Block Calculator concept like a simple visual guide. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Home & Projects: house outlines, rulers, buckets, and project material shapes. Specific page concept: Estimate concrete block count, courses, and blocks per course from wall dimensions.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "concrete-block-fill-calculator",
@@ -1858,8 +1858,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Concrete Block Fill Calculator in the Home & Projects category.",
     "caption": "A smoke-kawaii visual for the Concrete Block Fill Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is actively presenting the Concrete Block Fill Calculator as a usable browser utility. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Home & Projects: house outlines, rulers, buckets, and project material shapes. Specific page concept: Estimate grout or concrete fill volume for concrete block cores.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "concrete-block-fill-calculator",
@@ -1874,8 +1874,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Concrete Block Fill Calculator with concrete block fill shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Concrete Block Fill Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is explaining the Concrete Block Fill Calculator concept like a simple visual guide. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Home & Projects: house outlines, rulers, buckets, and project material shapes. Specific page concept: Estimate grout or concrete fill volume for concrete block cores.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "concrete-calculator",
@@ -1890,8 +1890,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Concrete Calculator in the Home & Projects category.",
     "caption": "A smoke-kawaii visual for the Concrete Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is actively presenting the Concrete Calculator as a usable browser utility. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Home & Projects: house outlines, rulers, buckets, and project material shapes. Specific page concept: Estimate concrete volume for a slab in cubic feet, cubic yards, and bags.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "concrete-calculator",
@@ -1906,8 +1906,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Concrete Calculator with concrete shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Concrete Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character. The mascot is explaining the Concrete Calculator concept like a simple visual guide. The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Use visual hints for Home & Projects: house outlines, rulers, buckets, and project material shapes. Specific page concept: Estimate concrete volume for a slab in cubic feet, cubic yards, and bags.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "concrete-column-calculator",

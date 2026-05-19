@@ -864,6 +864,86 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "compound-interest-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/compound-interest-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/compound-interest-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "compound-interest-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/compound-interest-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/compound-interest-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "conception-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/conception-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/conception-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "conception-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/conception-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/conception-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-block-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/concrete-block-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-block-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-block-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/concrete-block-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-block-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-block-fill-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/concrete-block-fill-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-block-fill-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-block-fill-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/concrete-block-fill-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-block-fill-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/concrete-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/concrete-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "confidence-interval-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/confidence-interval-calculator-guide.webp",
