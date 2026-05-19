@@ -976,6 +976,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "concrete-footing-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/concrete-footing-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-footing-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-footing-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/concrete-footing-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-footing-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-reinforcing-mesh-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/concrete-reinforcing-mesh-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-reinforcing-mesh-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-reinforcing-mesh-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/concrete-reinforcing-mesh-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-reinforcing-mesh-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "confidence-interval-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/confidence-interval-calculator-guide.webp",
