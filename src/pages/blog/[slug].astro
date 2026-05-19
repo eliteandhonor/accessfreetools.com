@@ -1,6 +1,7 @@
 ---
 import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
 import { aiBlogGuides, type AiGuideDefinition } from '../../data/aiBlogGuides';
+import { isRedirectedBlogGuideSlug } from '../../data/blogGuideCanonicals';
 import { financeBlogGuides, type FinanceGuideDefinition } from '../../data/financeBlogGuides';
 import { healthBlogGuides, type HealthGuideDefinition } from '../../data/healthBlogGuides';
 import { utilityBlogGuides, type UtilityGuideDefinition } from '../../data/utilityBlogGuides';
@@ -8,7 +9,9 @@ import { utilityBlogGuides, type UtilityGuideDefinition } from '../../data/utili
 export const prerender = true;
 
 export function getStaticPaths() {
-  const dynamicBlogGuides = [...financeBlogGuides, ...healthBlogGuides, ...utilityBlogGuides, ...aiBlogGuides];
+  const dynamicBlogGuides = [...financeBlogGuides, ...healthBlogGuides, ...utilityBlogGuides, ...aiBlogGuides].filter(
+    (guide) => !isRedirectedBlogGuideSlug(guide.slug),
+  );
 
   return dynamicBlogGuides.map((guide) => ({
     params: { slug: guide.slug },

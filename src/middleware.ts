@@ -1,4 +1,5 @@
 import { defineMiddleware } from 'astro:middleware';
+import { getRedirectedBlogGuidePath } from './data/blogGuideCanonicals';
 
 const CANONICAL_HOST = 'accessfreetools.com';
 const WWW_HOST = `www.${CANONICAL_HOST}`;
@@ -19,6 +20,7 @@ function normalizeLegacyPath(pathname: string) {
 export const onRequest = defineMiddleware((context, next) => {
   const url = new URL(context.request.url);
   const legacyTarget = LEGACY_REDIRECTS.get(normalizeLegacyPath(url.pathname));
+  const duplicateBlogTarget = getRedirectedBlogGuidePath(url.pathname);
 
   if (url.hostname.toLowerCase() === WWW_HOST) {
     url.hostname = CANONICAL_HOST;
@@ -28,6 +30,12 @@ export const onRequest = defineMiddleware((context, next) => {
 
   if (legacyTarget && url.hostname.toLowerCase() === CANONICAL_HOST) {
     url.pathname = legacyTarget;
+    url.protocol = 'https:';
+    return context.redirect(url.toString(), 301);
+  }
+
+  if (duplicateBlogTarget && url.hostname.toLowerCase() === CANONICAL_HOST) {
+    url.pathname = duplicateBlogTarget;
     url.protocol = 'https:';
     return context.redirect(url.toString(), 301);
   }

@@ -5,6 +5,11 @@ import { describe, expect, it } from 'vitest';
 
 import { aiBlogGuides } from './aiBlogGuides';
 import { aiTools } from './aiTools';
+import {
+  blogGuideRedirects,
+  getBlogGuideSlugForTool,
+  isRedirectedBlogGuideSlug,
+} from './blogGuideCanonicals';
 import { blogPosts } from './blogPosts';
 import { categories } from './categories';
 import { financeBlogGuides } from './financeBlogGuides';
@@ -243,6 +248,18 @@ describe('site content audit guardrails', () => {
     expect(duplicateBlogSlugs).toEqual([]);
     expect(duplicateBlogTitles).toEqual([]);
     expect(longBlogPageTitles).toEqual([]);
+    expect(blogPosts.filter((post) => isRedirectedBlogGuideSlug(post.slug))).toEqual([]);
+    expect(Object.values(blogGuideRedirects).filter((slug) => !blogPosts.some((post) => post.slug === slug))).toEqual([]);
+
+    for (const [redirectSlug, canonicalSlug] of Object.entries(blogGuideRedirects)) {
+      expect(ASTRO_CONFIG_SOURCE).toContain(`'/${redirectSlug.startsWith('blog/') ? redirectSlug : `blog/${redirectSlug}`}'`);
+      expect(ASTRO_CONFIG_SOURCE).toContain(
+        `destination: '/${canonicalSlug.startsWith('blog/') ? canonicalSlug : `blog/${canonicalSlug}`}/'`,
+      );
+      expect(HTACCESS_SOURCE).toContain(
+        `RewriteRule ^blog/${redirectSlug}/?$ /blog/${canonicalSlug}/`,
+      );
+    }
   });
 
   it('keeps every canonical tool connected to a useful guide and valid related tools', () => {
@@ -251,8 +268,9 @@ describe('site content audit guardrails', () => {
     const issues: string[] = [];
 
     for (const tool of tools) {
-      if (!blogSlugs.has(`how-to-use-${tool.slug}`)) {
-        issues.push(`${tool.slug} is missing its how-to-use blog guide`);
+      const guideSlug = getBlogGuideSlugForTool(tool.slug);
+      if (!blogSlugs.has(guideSlug)) {
+        issues.push(`${tool.slug} is missing its how-to-use blog guide at ${guideSlug}`);
       }
 
       if (tool.useCases.length < 3) {
@@ -671,8 +689,9 @@ describe('site content audit guardrails', () => {
         issues.push(`${tool.slug} is missing from the canonical tools registry`);
       }
 
-      if (!blogSlugs.has(`how-to-use-${tool.slug}`)) {
-        issues.push(`${tool.slug} is missing its AI blog guide`);
+      const guideSlug = getBlogGuideSlugForTool(tool.slug);
+      if (!blogSlugs.has(guideSlug)) {
+        issues.push(`${tool.slug} is missing its AI blog guide at ${guideSlug}`);
       }
 
       if (tool.examples.length < 3) {
@@ -876,8 +895,12 @@ describe('site content audit guardrails', () => {
     expect(HTACCESS_SOURCE).toContain(
       'RewriteRule ^maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025/?$ /tools/ad-revenue-calculator/',
     );
+    expect(HTACCESS_SOURCE).toContain(
+      'RewriteRule ^blog/how-to-use-pregnancy-conception-calculator/?$ /blog/how-to-use-conception-calculator/',
+    );
     expect(HTACCESS_SOURCE).toContain('RewriteRule ^calculators/?$ /categories/calculators/');
     expect(HTACCESS_SOURCE).toContain('RewriteRule ^deep-research/?$ /categories/ai-tools/');
+    expect(MIDDLEWARE_SOURCE).toContain('getRedirectedBlogGuidePath');
     expect(SEO_SELF_EVALUATION_SOURCE).toContain('/dataforseo_labs/google/serp_competitors/live');
     expect(SEO_SELF_EVALUATION_SOURCE).toContain('/dataforseo_labs/google/related_keywords/live');
     expect(SEO_SELF_EVALUATION_SOURCE).toContain('Paid keyword research skipped');

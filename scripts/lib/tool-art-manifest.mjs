@@ -154,6 +154,26 @@ export function readCanonicalTools() {
   return [...bySlug.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
 
+export function readBlogGuideRedirects() {
+  const sourcePath = resolve(rootDir, 'src/data/blogGuideCanonicals.ts');
+  if (!existsSync(sourcePath)) return new Map();
+
+  const source = readFileSync(sourcePath, 'utf8');
+  const redirectsBlock = source.match(/blogGuideRedirects\s*=\s*\{([\s\S]*?)\}\s*as const/);
+  if (!redirectsBlock) return new Map();
+
+  return new Map(
+    [...redirectsBlock[1].matchAll(/['"]([^'"]+)['"]\s*:\s*['"]([^'"]+)['"]/g)].map((match) => [
+      match[1],
+      match[2],
+    ]),
+  );
+}
+
+export function readRedirectedBlogGuideSlugs() {
+  return new Set(readBlogGuideRedirects().keys());
+}
+
 function normalizeWhitespace(value) {
   return value.replace(/\s+/g, ' ').trim();
 }
@@ -213,8 +233,13 @@ function buildPrompt(tool, kind) {
 }
 
 export function createQueuedToolArtEntries(tools = readCanonicalTools()) {
-  return tools.flatMap((tool) =>
-    ['tool', 'guide'].map((kind) => ({
+  const redirectedBlogGuideSlugs = readRedirectedBlogGuideSlugs();
+
+  return tools.flatMap((tool) => {
+    const guideSlug = `how-to-use-${tool.slug}`;
+    const kinds = redirectedBlogGuideSlugs.has(guideSlug) ? ['tool'] : ['tool', 'guide'];
+
+    return kinds.map((kind) => ({
       slug: tool.slug,
       kind,
       toolName: tool.name,
@@ -229,8 +254,8 @@ export function createQueuedToolArtEntries(tools = readCanonicalTools()) {
       prompt: buildPrompt(tool, kind),
       status: 'queued',
       qaStatus: 'not-started',
-    })),
-  );
+    }));
+  });
 }
 
 export function readToolArtApprovals() {
@@ -286,12 +311,13 @@ export function writeManifestOutputs(entries) {
   const manifestPath = resolve(rootDir, 'src/data/toolArtManifest.ts');
   const outputPath = resolve(rootDir, 'output/tool-art-manifest.json');
   const summaryPath = resolve(rootDir, 'output/tool-art-manifest.md');
+  const toolCount = new Set(entries.map((entry) => entry.slug)).size;
 
   mkdirSync(dirname(manifestPath), { recursive: true });
   writeFileSync(manifestPath, manifestTsSource(entries));
   writeJsonReport(outputPath, {
     generatedAt: new Date().toISOString(),
-    tools: entries.length / 2,
+    tools: toolCount,
     entries: entries.length,
     categories: [...new Set(entries.map((entry) => entry.category))].sort(),
     manifestPath: 'src/data/toolArtManifest.ts',
@@ -303,10 +329,10 @@ export function writeManifestOutputs(entries) {
       '# Tool Art Manifest',
       '',
       `Generated entries: ${entries.length}`,
-      `Canonical tools covered: ${entries.length / 2}`,
+      `Canonical tools covered: ${toolCount}`,
       `Categories covered: ${[...new Set(entries.map((entry) => entry.category))].sort().join(', ')}`,
       '',
-      'Each canonical tool has one tool-page image and one guide-page image.',
+      'Each canonical tool has one tool-page image. Tools with a canonical blog-guide redirect skip separate guide art.',
       '',
     ].join('\n'),
   );
