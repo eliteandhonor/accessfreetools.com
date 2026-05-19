@@ -960,6 +960,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "concrete-driveway-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/concrete-driveway-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-driveway-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "concrete-driveway-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/concrete-driveway-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/concrete-driveway-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "confidence-interval-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/confidence-interval-calculator-guide.webp",
