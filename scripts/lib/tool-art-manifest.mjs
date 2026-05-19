@@ -219,9 +219,9 @@ function buildPrompt(tool, kind) {
 
   return normalizeWhitespace(
     [
-      'Create one unique G-rated chibi/kawaii mascot made from soft translucent smoke, like a cute smoke spirit character.',
+      'Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail.',
       action,
-      'The character should have a clear face, expressive eyes, wispy hair, smoky arms, and a floating smoke-body silhouette inspired by a cute mascot illustration.',
+      'The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign.',
       'Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off.',
       'Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition.',
       `Use visual hints for ${categoryName}: ${visualCues}.`,
