@@ -1280,6 +1280,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "debt-ratios-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/debt-ratios-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/debt-ratios-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "debt-ratios-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/debt-ratios-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/debt-ratios-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "debt-to-income-ratio-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/debt-to-income-ratio-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/debt-to-income-ratio-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "debt-to-income-ratio-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/debt-to-income-ratio-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/debt-to-income-ratio-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "distance-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/distance-calculator-guide.webp",
