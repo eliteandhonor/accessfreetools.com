@@ -224,6 +224,8 @@ function buildPrompt(tool, kind) {
       'The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign.',
       'Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off.',
       'Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition.',
+      'Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols.',
+      'The image must clearly represent this specific tool to someone comparing it with nearby related tools.',
       `Use visual hints for ${categoryName}: ${visualCues}.`,
       `Specific page concept: ${safeSummary(tool.summary)}.`,
       `Composition must be distinct for ${kind === 'tool' ? 'the tool page' : 'the guide/blog page'} and usable as a 1200 by 630 web image.`,

@@ -117,6 +117,12 @@ for (const entry of entries) {
   if (!entry.alt || entry.alt.length < 45) issues.push(`${entry.slug} ${entry.kind} has weak or missing alt text.`);
   if (!entry.caption || entry.caption.length < 30) issues.push(`${entry.slug} ${entry.kind} has weak or missing caption.`);
   if (!entry.prompt || entry.prompt.length < 180) issues.push(`${entry.slug} ${entry.kind} has weak or missing prompt.`);
+  if (!/Research the exact tool before generating/i.test(entry.prompt)) {
+    issues.push(`${entry.slug} ${entry.kind} prompt does not require exact-tool research before image generation.`);
+  }
+  if (!/inputs, outputs, formula\/logic, examples, and guide notes/i.test(entry.prompt)) {
+    issues.push(`${entry.slug} ${entry.kind} prompt does not require tool-specific inputs, outputs, formula/logic, examples, and guide notes.`);
+  }
   if (/readable text|no readable text/i.test(entry.alt)) warnings.push(`${entry.slug} ${entry.kind} alt text describes constraints instead of the image.`);
   if (promptSet.has(entry.prompt)) issues.push(`${entry.slug} ${entry.kind} reuses a duplicate prompt.`);
   promptSet.add(entry.prompt);
