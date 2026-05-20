@@ -1488,6 +1488,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "download-time-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/download-time-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/download-time-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "download-time-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/download-time-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/download-time-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "drywall-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/drywall-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/drywall-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "drywall-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/drywall-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/drywall-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "exponent-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/exponent-calculator-guide.webp",
