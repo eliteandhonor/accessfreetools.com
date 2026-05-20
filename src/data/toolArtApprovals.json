@@ -1408,6 +1408,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "dew-point-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/dew-point-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/dew-point-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "dew-point-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/dew-point-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/dew-point-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "dice-roller",
+    "kind": "guide",
+    "imagePath": "/tool-art/dice-roller-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/dice-roller-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "dice-roller",
+    "kind": "tool",
+    "imagePath": "/tool-art/dice-roller-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/dice-roller-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "distance-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/distance-calculator-guide.webp",
