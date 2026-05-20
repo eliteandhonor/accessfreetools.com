@@ -1760,6 +1760,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "gdp-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/gdp-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/gdp-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "gdp-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/gdp-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/gdp-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "gfr-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/gfr-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/gfr-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "gfr-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/gfr-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/gfr-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "greatest-common-factor-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/greatest-common-factor-calculator-guide.webp",
