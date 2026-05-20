@@ -1616,6 +1616,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "fat-intake-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/fat-intake-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/fat-intake-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "fat-intake-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/fat-intake-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/fat-intake-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "fence-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/fence-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/fence-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "fence-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/fence-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/fence-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "fraction-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/fraction-calculator-guide.webp",
