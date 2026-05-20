@@ -1376,6 +1376,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "depreciation-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/depreciation-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/depreciation-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "depreciation-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/depreciation-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/depreciation-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "device-battery-life-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/device-battery-life-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/device-battery-life-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "device-battery-life-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/device-battery-life-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/device-battery-life-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "distance-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/distance-calculator-guide.webp",
