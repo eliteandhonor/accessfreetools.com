@@ -1728,6 +1728,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "future-value-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/future-value-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/future-value-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "future-value-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/future-value-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/future-value-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "gas-mileage-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/gas-mileage-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/gas-mileage-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "gas-mileage-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/gas-mileage-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/gas-mileage-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "greatest-common-factor-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/greatest-common-factor-calculator-guide.webp",
