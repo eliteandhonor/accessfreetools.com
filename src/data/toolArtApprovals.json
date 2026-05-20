@@ -1680,6 +1680,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "flooring-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/flooring-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/flooring-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "flooring-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/flooring-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/flooring-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "fraction-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/fraction-calculator-guide.webp",
@@ -1692,6 +1708,22 @@
     "kind": "tool",
     "imagePath": "/tool-art/fraction-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/fraction-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "fuel-cost-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/fuel-cost-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/fuel-cost-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "fuel-cost-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/fuel-cost-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/fuel-cost-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
