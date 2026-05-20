@@ -1792,6 +1792,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "golf-handicap-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/golf-handicap-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/golf-handicap-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "golf-handicap-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/golf-handicap-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/golf-handicap-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "gpa-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/gpa-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/gpa-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "gpa-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/gpa-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/gpa-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "greatest-common-factor-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/greatest-common-factor-calculator-guide.webp",
