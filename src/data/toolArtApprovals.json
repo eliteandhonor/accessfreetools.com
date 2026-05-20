@@ -1824,6 +1824,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "grade-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/grade-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/grade-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "grade-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/grade-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/grade-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "grass-seed-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/grass-seed-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/grass-seed-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "grass-seed-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/grass-seed-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/grass-seed-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "greatest-common-factor-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/greatest-common-factor-calculator-guide.webp",
