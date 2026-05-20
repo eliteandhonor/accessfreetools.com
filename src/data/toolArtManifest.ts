@@ -2914,8 +2914,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Discount Calculator in the Finance category.",
     "caption": "A smoke-kawaii visual for the Discount Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Discount Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Finance: coins, charts, receipt shapes, and careful budgeting blocks. Specific page concept: Find final price after one or two discounts and optional tax.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "discount-calculator",
@@ -2930,8 +2930,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Discount Calculator with discount shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Discount Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Discount Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Finance: coins, charts, receipt shapes, and careful budgeting blocks. Specific page concept: Find final price after one or two discounts and optional tax.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "distance-calculator",
@@ -2978,8 +2978,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Down Payment Calculator in the Finance category.",
     "caption": "A smoke-kawaii visual for the Down Payment Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Down Payment Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Finance: coins, charts, receipt shapes, and careful budgeting blocks. Specific page concept: Estimate down payment, loan amount, loan-to-value, closing costs, and cash needed.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "down-payment-calculator",
@@ -2994,8 +2994,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Down Payment Calculator with down payment shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Down Payment Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Down Payment Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Finance: coins, charts, receipt shapes, and careful budgeting blocks. Specific page concept: Estimate down payment, loan amount, loan-to-value, closing costs, and cash needed.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "download-time-calculator",
