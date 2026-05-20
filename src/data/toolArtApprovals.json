@@ -1520,6 +1520,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "due-date-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/due-date-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/due-date-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "due-date-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/due-date-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/due-date-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "electricity-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/electricity-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/electricity-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "electricity-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/electricity-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/electricity-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "exponent-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/exponent-calculator-guide.webp",
