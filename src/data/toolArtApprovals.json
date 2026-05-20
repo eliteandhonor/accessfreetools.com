@@ -1552,6 +1552,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "engine-horsepower-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/engine-horsepower-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/engine-horsepower-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "engine-horsepower-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/engine-horsepower-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/engine-horsepower-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "estate-tax-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/estate-tax-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/estate-tax-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "estate-tax-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/estate-tax-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/estate-tax-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "exponent-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/exponent-calculator-guide.webp",
