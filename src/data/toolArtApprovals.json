@@ -1920,6 +1920,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "healthy-weight-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/healthy-weight-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/healthy-weight-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "healthy-weight-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/healthy-weight-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/healthy-weight-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "heat-index-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/heat-index-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/heat-index-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "heat-index-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/heat-index-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/heat-index-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "hex-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/hex-calculator-guide.webp",
