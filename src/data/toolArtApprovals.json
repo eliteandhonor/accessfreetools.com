@@ -2384,6 +2384,54 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "lawn-mowing-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/lawn-mowing-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/lawn-mowing-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "lawn-mowing-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/lawn-mowing-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/lawn-mowing-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "lean-body-mass-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/lean-body-mass-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/lean-body-mass-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "lean-body-mass-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/lean-body-mass-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/lean-body-mass-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "lease-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/lease-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/lease-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "lease-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/lease-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/lease-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "least-common-multiple-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/least-common-multiple-calculator-guide.webp",
@@ -2396,6 +2444,22 @@
     "kind": "tool",
     "imagePath": "/tool-art/least-common-multiple-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/least-common-multiple-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "liquidity-ratios-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/liquidity-ratios-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/liquidity-ratios-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "liquidity-ratios-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/liquidity-ratios-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/liquidity-ratios-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
