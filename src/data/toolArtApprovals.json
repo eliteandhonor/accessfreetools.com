@@ -2032,6 +2032,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "hours-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/hours-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/hours-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "hours-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/hours-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/hours-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "house-affordability-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/house-affordability-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/house-affordability-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "house-affordability-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/house-affordability-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/house-affordability-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "least-common-multiple-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/least-common-multiple-calculator-guide.webp",
