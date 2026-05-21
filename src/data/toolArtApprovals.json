@@ -2064,6 +2064,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "html-entity-encoder-decoder",
+    "kind": "guide",
+    "imagePath": "/tool-art/html-entity-encoder-decoder-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/html-entity-encoder-decoder-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "html-entity-encoder-decoder",
+    "kind": "tool",
+    "imagePath": "/tool-art/html-entity-encoder-decoder-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/html-entity-encoder-decoder-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ideal-weight-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/ideal-weight-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/ideal-weight-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ideal-weight-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/ideal-weight-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/ideal-weight-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "least-common-multiple-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/least-common-multiple-calculator-guide.webp",
