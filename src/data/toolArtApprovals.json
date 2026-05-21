@@ -1952,6 +1952,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "height-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/height-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/height-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "height-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/height-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/height-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "heloc-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/heloc-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/heloc-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "heloc-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/heloc-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/heloc-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "hex-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/hex-calculator-guide.webp",
