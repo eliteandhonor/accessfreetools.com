@@ -2096,6 +2096,102 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "image-classifier",
+    "kind": "guide",
+    "imagePath": "/tool-art/image-classifier-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/image-classifier-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "image-classifier",
+    "kind": "tool",
+    "imagePath": "/tool-art/image-classifier-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/image-classifier-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "image-to-text-ocr-tool",
+    "kind": "guide",
+    "imagePath": "/tool-art/image-to-text-ocr-tool-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/image-to-text-ocr-tool-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "image-to-text-ocr-tool",
+    "kind": "tool",
+    "imagePath": "/tool-art/image-to-text-ocr-tool-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/image-to-text-ocr-tool-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "income-tax-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/income-tax-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/income-tax-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "income-tax-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/income-tax-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/income-tax-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "inflation-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/inflation-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/inflation-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "inflation-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/inflation-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/inflation-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ingredient-cost-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/ingredient-cost-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/ingredient-cost-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ingredient-cost-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/ingredient-cost-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/ingredient-cost-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "insulation-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/insulation-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/insulation-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "insulation-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/insulation-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/insulation-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "least-common-multiple-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/least-common-multiple-calculator-guide.webp",
