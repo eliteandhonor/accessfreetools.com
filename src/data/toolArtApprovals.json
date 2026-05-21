@@ -2256,6 +2256,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "ira-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/ira-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/ira-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ira-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/ira-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/ira-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "irr-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/irr-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/irr-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "irr-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/irr-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/irr-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "json-formatter",
+    "kind": "guide",
+    "imagePath": "/tool-art/json-formatter-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/json-formatter-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "json-formatter",
+    "kind": "tool",
+    "imagePath": "/tool-art/json-formatter-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/json-formatter-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "kawaii-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/kawaii-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/kawaii-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "kawaii-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/kawaii-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/kawaii-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "least-common-multiple-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/least-common-multiple-calculator-guide.webp",
