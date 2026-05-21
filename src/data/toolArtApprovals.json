@@ -2320,6 +2320,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "keyword-extractor",
+    "kind": "guide",
+    "imagePath": "/tool-art/keyword-extractor-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/keyword-extractor-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "keyword-extractor",
+    "kind": "tool",
+    "imagePath": "/tool-art/keyword-extractor-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/keyword-extractor-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "kilowatts-to-amps-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/kilowatts-to-amps-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/kilowatts-to-amps-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "kilowatts-to-amps-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/kilowatts-to-amps-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/kilowatts-to-amps-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "kva-to-amps-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/kva-to-amps-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/kva-to-amps-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "kva-to-amps-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/kva-to-amps-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/kva-to-amps-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "language-detector",
+    "kind": "guide",
+    "imagePath": "/tool-art/language-detector-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/language-detector-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "language-detector",
+    "kind": "tool",
+    "imagePath": "/tool-art/language-detector-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/language-detector-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "least-common-multiple-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/least-common-multiple-calculator-guide.webp",
