@@ -2000,6 +2000,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "home-equity-loan-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/home-equity-loan-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/home-equity-loan-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "home-equity-loan-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/home-equity-loan-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/home-equity-loan-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "horsepower-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/horsepower-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/horsepower-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "horsepower-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/horsepower-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/horsepower-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "least-common-multiple-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/least-common-multiple-calculator-guide.webp",
