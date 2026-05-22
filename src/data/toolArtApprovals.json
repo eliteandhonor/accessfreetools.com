@@ -2912,6 +2912,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "ovulation-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/ovulation-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/ovulation-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ovulation-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/ovulation-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/ovulation-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "p-value-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/p-value-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/p-value-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "p-value-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/p-value-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/p-value-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pace-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/pace-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/pace-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pace-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/pace-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/pace-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "paint-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/paint-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/paint-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "paint-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/paint-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/paint-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "percent-error-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/percent-error-calculator-guide.webp",
