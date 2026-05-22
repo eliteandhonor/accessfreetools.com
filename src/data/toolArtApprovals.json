@@ -3216,6 +3216,54 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "pool-volume-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/pool-volume-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/pool-volume-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pool-volume-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/pool-volume-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/pool-volume-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "post-hole-concrete-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/post-hole-concrete-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/post-hole-concrete-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "post-hole-concrete-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/post-hole-concrete-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/post-hole-concrete-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pregnancy-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/pregnancy-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/pregnancy-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pregnancy-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/pregnancy-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/pregnancy-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "pregnancy-conception-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/pregnancy-conception-calculator-guide.webp",
@@ -3228,6 +3276,22 @@
     "kind": "tool",
     "imagePath": "/tool-art/pregnancy-conception-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/pregnancy-conception-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pregnancy-weight-gain-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/pregnancy-weight-gain-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/pregnancy-weight-gain-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pregnancy-weight-gain-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/pregnancy-weight-gain-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/pregnancy-weight-gain-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
