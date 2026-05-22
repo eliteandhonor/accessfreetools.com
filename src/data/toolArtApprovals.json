@@ -2608,6 +2608,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "mass-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/mass-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/mass-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mass-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/mass-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/mass-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "matrix-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/matrix-calculator-guide.webp",
@@ -2636,6 +2652,54 @@
     "kind": "tool",
     "imagePath": "/tool-art/mean-median-mode-range-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/mean-median-mode-range-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mileage-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/mileage-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/mileage-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mileage-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/mileage-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/mileage-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "molarity-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/molarity-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/molarity-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "molarity-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/molarity-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/molarity-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "molecular-weight-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/molecular-weight-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/molecular-weight-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "molecular-weight-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/molecular-weight-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/molecular-weight-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
