@@ -2768,6 +2768,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "mulch-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/mulch-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/mulch-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mulch-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/mulch-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/mulch-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mutual-fund-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/mutual-fund-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/mutual-fund-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mutual-fund-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/mutual-fund-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/mutual-fund-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "number-sequence-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/number-sequence-calculator-guide.webp",
@@ -2780,6 +2812,38 @@
     "kind": "tool",
     "imagePath": "/tool-art/number-sequence-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/number-sequence-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "nutrition-points-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/nutrition-points-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/nutrition-points-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "nutrition-points-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/nutrition-points-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/nutrition-points-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ohms-law-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/ohms-law-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/ohms-law-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "ohms-law-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/ohms-law-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/ohms-law-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
