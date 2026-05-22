@@ -2544,6 +2544,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "margin-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/margin-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/margin-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "margin-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/margin-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/margin-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "markdown-table-generator",
+    "kind": "guide",
+    "imagePath": "/tool-art/markdown-table-generator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/markdown-table-generator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "markdown-table-generator",
+    "kind": "tool",
+    "imagePath": "/tool-art/markdown-table-generator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/markdown-table-generator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "markup-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/markup-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/markup-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "markup-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/markup-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/markup-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "marriage-tax-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/marriage-tax-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/marriage-tax-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "marriage-tax-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/marriage-tax-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/marriage-tax-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "matrix-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/matrix-calculator-guide.webp",
