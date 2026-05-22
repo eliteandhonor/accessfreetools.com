@@ -2704,6 +2704,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "monitor-ppi-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/monitor-ppi-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/monitor-ppi-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "monitor-ppi-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/monitor-ppi-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/monitor-ppi-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mortgage-calculator-uk",
+    "kind": "guide",
+    "imagePath": "/tool-art/mortgage-calculator-uk-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/mortgage-calculator-uk-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mortgage-calculator-uk",
+    "kind": "tool",
+    "imagePath": "/tool-art/mortgage-calculator-uk-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/mortgage-calculator-uk-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mortgage-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/mortgage-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/mortgage-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mortgage-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/mortgage-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/mortgage-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mortgage-payoff-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/mortgage-payoff-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/mortgage-payoff-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "mortgage-payoff-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/mortgage-payoff-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/mortgage-payoff-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "number-sequence-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/number-sequence-calculator-guide.webp",
