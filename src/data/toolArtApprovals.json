@@ -2848,6 +2848,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "one-rep-max-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/one-rep-max-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/one-rep-max-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "one-rep-max-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/one-rep-max-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/one-rep-max-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "operations-ratios-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/operations-ratios-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/operations-ratios-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "operations-ratios-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/operations-ratios-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/operations-ratios-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "oven-temperature-converter",
+    "kind": "guide",
+    "imagePath": "/tool-art/oven-temperature-converter-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/oven-temperature-converter-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "oven-temperature-converter",
+    "kind": "tool",
+    "imagePath": "/tool-art/oven-temperature-converter-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/oven-temperature-converter-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "overweight-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/overweight-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/overweight-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "overweight-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/overweight-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/overweight-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "percent-error-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/percent-error-calculator-guide.webp",
