@@ -3152,6 +3152,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "personal-loan-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/personal-loan-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/personal-loan-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "personal-loan-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/personal-loan-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/personal-loan-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "plant-spacing-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/plant-spacing-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/plant-spacing-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "plant-spacing-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/plant-spacing-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/plant-spacing-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "plywood-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/plywood-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/plywood-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "plywood-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/plywood-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/plywood-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "polymeric-sand-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/polymeric-sand-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/polymeric-sand-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "polymeric-sand-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/polymeric-sand-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/polymeric-sand-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "pregnancy-conception-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/pregnancy-conception-calculator-guide.webp",
