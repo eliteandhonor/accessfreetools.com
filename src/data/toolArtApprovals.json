@@ -3040,6 +3040,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "payment-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/payment-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/payment-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "payment-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/payment-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/payment-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pension-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/pension-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/pension-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "pension-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/pension-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/pension-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "percent-error-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/percent-error-calculator-guide.webp",
@@ -3056,6 +3088,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "percent-off-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/percent-off-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/percent-off-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "percent-off-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/percent-off-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/percent-off-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "percentage-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/percentage-calculator-guide.webp",
@@ -3068,6 +3116,22 @@
     "kind": "tool",
     "imagePath": "/tool-art/percentage-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/percentage-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "period-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/period-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/period-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "period-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/period-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/period-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
