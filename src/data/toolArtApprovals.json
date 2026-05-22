@@ -2976,6 +2976,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "password-generator",
+    "kind": "guide",
+    "imagePath": "/tool-art/password-generator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/password-generator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "password-generator",
+    "kind": "tool",
+    "imagePath": "/tool-art/password-generator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/password-generator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "paver-base-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/paver-base-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/paver-base-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "paver-base-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/paver-base-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/paver-base-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "paver-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/paver-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/paver-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "paver-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/paver-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/paver-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "payback-period-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/payback-period-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/payback-period-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "payback-period-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/payback-period-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/payback-period-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "percent-error-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/percent-error-calculator-guide.webp",
