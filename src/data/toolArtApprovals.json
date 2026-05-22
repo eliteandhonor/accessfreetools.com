@@ -2464,6 +2464,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "loan-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/loan-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/loan-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "loan-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/loan-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/loan-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "log-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/log-calculator-guide.webp",
@@ -2476,6 +2492,54 @@
     "kind": "tool",
     "imagePath": "/tool-art/log-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/log-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "long-division-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/long-division-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/long-division-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "long-division-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/long-division-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/long-division-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "love-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/love-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/love-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "love-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/love-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/love-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "macro-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/macro-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/macro-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "macro-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/macro-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/macro-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
