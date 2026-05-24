@@ -4208,6 +4208,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "student-loan-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/student-loan-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/student-loan-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "student-loan-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/student-loan-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/student-loan-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "subnet-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/subnet-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/subnet-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "subnet-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/subnet-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/subnet-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "surface-area-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/surface-area-calculator-guide.webp",
@@ -4220,6 +4252,38 @@
     "kind": "tool",
     "imagePath": "/tool-art/surface-area-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/surface-area-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "take-home-paycheck-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/take-home-paycheck-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/take-home-paycheck-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "take-home-paycheck-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/take-home-paycheck-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/take-home-paycheck-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "target-heart-rate-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/target-heart-rate-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/target-heart-rate-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "target-heart-rate-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/target-heart-rate-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/target-heart-rate-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
