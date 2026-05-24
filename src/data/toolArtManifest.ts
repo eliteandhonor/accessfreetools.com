@@ -9314,8 +9314,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Wallpaper Calculator in the Home & Projects category.",
     "caption": "A smoke-kawaii visual for the Wallpaper Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Wallpaper Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Home & Projects: house outlines, rulers, buckets, and project material shapes. Specific page concept: Figure out how many wallpaper rolls to buy, plus rough material cost when you add a roll price.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "wallpaper-calculator",
@@ -9330,8 +9330,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Wallpaper Calculator with wallpaper shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Wallpaper Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Wallpaper Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Home & Projects: house outlines, rulers, buckets, and project material shapes. Specific page concept: Figure out how many wallpaper rolls to buy, plus rough material cost when you add a roll price.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "watt-hours-to-amp-hours-calculator",
@@ -9346,8 +9346,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Watt Hours to Amp Hours Calculator in the Calculators category.",
     "caption": "A smoke-kawaii visual for the Watt Hours to Amp Hours Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Watt Hours to Amp Hours Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Calculators: calculator buttons, number blocks, and tidy math shapes. Specific page concept: Convert battery watt-hours into amp-hours at a selected voltage.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "watt-hours-to-amp-hours-calculator",
@@ -9362,8 +9362,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Watt Hours to Amp Hours Calculator with watt hours to amp hours shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Watt Hours to Amp Hours Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Watt Hours to Amp Hours Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Calculators: calculator buttons, number blocks, and tidy math shapes. Specific page concept: Convert battery watt-hours into amp-hours at a selected voltage.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "watts-to-amps-calculator",
@@ -9378,8 +9378,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Watts to Amps Calculator in the Calculators category.",
     "caption": "A smoke-kawaii visual for the Watts to Amps Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Watts to Amps Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Calculators: calculator buttons, number blocks, and tidy math shapes. Specific page concept: Convert watts to amps for DC, single-phase AC, and three-phase AC loads.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "watts-to-amps-calculator",
@@ -9394,8 +9394,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Watts to Amps Calculator with watts to amps shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Watts to Amps Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Watts to Amps Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Calculators: calculator buttons, number blocks, and tidy math shapes. Specific page concept: Convert watts to amps for DC, single-phase AC, and three-phase AC loads.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "weight-calculator",
@@ -9410,8 +9410,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Weight Calculator in the Calculators category.",
     "caption": "A smoke-kawaii visual for the Weight Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Weight Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Calculators: calculator buttons, number blocks, and tidy math shapes. Specific page concept: Calculate weight force from mass and gravity in newtons and pounds-force.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "weight-calculator",
@@ -9426,8 +9426,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Weight Calculator with weight shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Weight Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Weight Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Calculators: calculator buttons, number blocks, and tidy math shapes. Specific page concept: Calculate weight force from mass and gravity in newtons and pounds-force.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "wind-chill-calculator",

@@ -4640,6 +4640,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "wallpaper-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/wallpaper-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/wallpaper-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "wallpaper-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/wallpaper-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/wallpaper-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "watt-hours-to-amp-hours-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/watt-hours-to-amp-hours-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/watt-hours-to-amp-hours-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "watt-hours-to-amp-hours-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/watt-hours-to-amp-hours-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/watt-hours-to-amp-hours-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "watts-to-amps-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/watts-to-amps-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/watts-to-amps-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "watts-to-amps-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/watts-to-amps-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/watts-to-amps-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "weight-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/weight-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/weight-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "weight-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/weight-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/weight-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "z-score-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/z-score-calculator-guide.webp",
