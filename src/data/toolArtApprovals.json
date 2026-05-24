@@ -3872,6 +3872,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "sand-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/sand-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/sand-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "sand-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/sand-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/sand-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "savings-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/savings-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/savings-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "savings-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/savings-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/savings-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "scientific-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/scientific-calculator-guide.webp",
@@ -3900,6 +3932,38 @@
     "kind": "tool",
     "imagePath": "/tool-art/scientific-notation-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/scientific-notation-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "sentiment-analyzer",
+    "kind": "guide",
+    "imagePath": "/tool-art/sentiment-analyzer-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/sentiment-analyzer-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "sentiment-analyzer",
+    "kind": "tool",
+    "imagePath": "/tool-art/sentiment-analyzer-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/sentiment-analyzer-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "shoe-size-conversion",
+    "kind": "guide",
+    "imagePath": "/tool-art/shoe-size-conversion-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/shoe-size-conversion-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "shoe-size-conversion",
+    "kind": "tool",
+    "imagePath": "/tool-art/shoe-size-conversion-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/shoe-size-conversion-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
