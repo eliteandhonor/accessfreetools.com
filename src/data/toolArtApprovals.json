@@ -3968,6 +3968,54 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "siding-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/siding-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/siding-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "siding-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/siding-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/siding-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "simple-interest-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/simple-interest-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/simple-interest-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "simple-interest-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/simple-interest-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/simple-interest-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "sleep-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/sleep-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/sleep-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "sleep-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/sleep-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/sleep-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "slope-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/slope-calculator-guide.webp",
@@ -3980,6 +4028,22 @@
     "kind": "tool",
     "imagePath": "/tool-art/slope-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/slope-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "slug-generator",
+    "kind": "guide",
+    "imagePath": "/tool-art/slug-generator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/slug-generator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "slug-generator",
+    "kind": "tool",
+    "imagePath": "/tool-art/slug-generator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/slug-generator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
