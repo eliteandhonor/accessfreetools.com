@@ -4560,6 +4560,54 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "va-mortgage-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/va-mortgage-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/va-mortgage-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "va-mortgage-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/va-mortgage-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/va-mortgage-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "vat-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/vat-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/vat-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "vat-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/vat-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/vat-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "voltage-drop-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/voltage-drop-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/voltage-drop-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "voltage-drop-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/voltage-drop-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/voltage-drop-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "volume-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/volume-calculator-guide.webp",
@@ -4572,6 +4620,22 @@
     "kind": "tool",
     "imagePath": "/tool-art/volume-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/volume-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "wall-stud-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/wall-stud-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/wall-stud-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "wall-stud-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/wall-stud-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/wall-stud-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
