@@ -4048,6 +4048,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "social-security-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/social-security-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/social-security-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "social-security-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/social-security-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/social-security-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "sod-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/sod-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/sod-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "sod-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/sod-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/sod-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "soil-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/soil-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/soil-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "soil-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/soil-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/soil-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "speed-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/speed-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/speed-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "speed-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/speed-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/speed-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "standard-deviation-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/standard-deviation-calculator-guide.webp",
