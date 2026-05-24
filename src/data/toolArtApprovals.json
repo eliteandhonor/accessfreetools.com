@@ -3376,6 +3376,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "prompt-token-estimator",
+    "kind": "guide",
+    "imagePath": "/tool-art/prompt-token-estimator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/prompt-token-estimator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "prompt-token-estimator",
+    "kind": "tool",
+    "imagePath": "/tool-art/prompt-token-estimator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/prompt-token-estimator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "protein-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/protein-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/protein-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "protein-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/protein-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/protein-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "pythagorean-theorem-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/pythagorean-theorem-calculator-guide.webp",
@@ -3404,6 +3436,38 @@
     "kind": "tool",
     "imagePath": "/tool-art/quadratic-formula-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/quadratic-formula-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "query-string-parser",
+    "kind": "guide",
+    "imagePath": "/tool-art/query-string-parser-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/query-string-parser-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "query-string-parser",
+    "kind": "tool",
+    "imagePath": "/tool-art/query-string-parser-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/query-string-parser-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "random-number-generator",
+    "kind": "guide",
+    "imagePath": "/tool-art/random-number-generator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/random-number-generator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "random-number-generator",
+    "kind": "tool",
+    "imagePath": "/tool-art/random-number-generator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/random-number-generator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
