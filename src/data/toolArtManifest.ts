@@ -7266,8 +7266,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Rental Property Calculator in the Finance category.",
     "caption": "A smoke-kawaii visual for the Rental Property Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Rental Property Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Finance: coins, charts, receipt shapes, and careful budgeting blocks. Specific page concept: Estimate rental property cash flow, NOI, cap rate, and cash-on-cash return.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "rental-property-calculator",
@@ -7282,8 +7282,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Rental Property Calculator with rental property shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Rental Property Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Rental Property Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Finance: coins, charts, receipt shapes, and careful budgeting blocks. Specific page concept: Estimate rental property cash flow, NOI, cap rate, and cash-on-cash return.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "repayment-calculator",
@@ -7298,8 +7298,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Repayment Calculator in the Finance category.",
     "caption": "A smoke-kawaii visual for the Repayment Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Repayment Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Finance: coins, charts, receipt shapes, and careful budgeting blocks. Specific page concept: Estimate repayment time and interest for a balance and monthly payment.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "repayment-calculator",
@@ -7314,8 +7314,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Repayment Calculator with repayment shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Repayment Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Repayment Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Finance: coins, charts, receipt shapes, and careful budgeting blocks. Specific page concept: Estimate repayment time and interest for a balance and monthly payment.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "resistor-calculator",
@@ -7330,8 +7330,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Resistor Calculator in the Calculators category.",
     "caption": "A smoke-kawaii visual for the Resistor Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Resistor Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Calculators: calculator buttons, number blocks, and tidy math shapes. Specific page concept: Decode 4-band resistor color codes into ohms and tolerance range.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "resistor-calculator",
@@ -7346,8 +7346,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Resistor Calculator with resistor shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Resistor Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Resistor Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Calculators: calculator buttons, number blocks, and tidy math shapes. Specific page concept: Decode 4-band resistor color codes into ohms and tolerance range.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "retaining-wall-calculator",
@@ -7362,8 +7362,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Retaining Wall Calculator in the Home & Projects category.",
     "caption": "A smoke-kawaii visual for the Retaining Wall Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Retaining Wall Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Home & Projects: house outlines, rulers, buckets, and project material shapes. Specific page concept: Estimate retaining wall blocks, cap blocks, courses, and base gravel.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "retaining-wall-calculator",
@@ -7378,8 +7378,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Retaining Wall Calculator with retaining wall shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Retaining Wall Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Retaining Wall Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Home & Projects: house outlines, rulers, buckets, and project material shapes. Specific page concept: Estimate retaining wall blocks, cap blocks, courses, and base gravel.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "retirement-calculator",

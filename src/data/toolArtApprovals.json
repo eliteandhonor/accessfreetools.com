@@ -3616,6 +3616,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "rental-property-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/rental-property-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/rental-property-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rental-property-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/rental-property-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/rental-property-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "repayment-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/repayment-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/repayment-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "repayment-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/repayment-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/repayment-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "resistor-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/resistor-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/resistor-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "resistor-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/resistor-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/resistor-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "retaining-wall-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/retaining-wall-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/retaining-wall-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "retaining-wall-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/retaining-wall-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/retaining-wall-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "right-triangle-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/right-triangle-calculator-guide.webp",
