@@ -4112,6 +4112,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "square-footage-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/square-footage-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/square-footage-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "square-footage-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/square-footage-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/square-footage-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "stair-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/stair-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/stair-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "stair-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/stair-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/stair-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "standard-deviation-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/standard-deviation-calculator-guide.webp",
@@ -4140,6 +4172,38 @@
     "kind": "tool",
     "imagePath": "/tool-art/statistics-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/statistics-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "stock-ratios-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/stock-ratios-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/stock-ratios-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "stock-ratios-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/stock-ratios-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/stock-ratios-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "streaming-bitrate-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/streaming-bitrate-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/streaming-bitrate-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "streaming-bitrate-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/streaming-bitrate-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/streaming-bitrate-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
