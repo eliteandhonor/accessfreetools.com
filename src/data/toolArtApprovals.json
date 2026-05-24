@@ -3760,6 +3760,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "roofing-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/roofing-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/roofing-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "roofing-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/roofing-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/roofing-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "root-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/root-calculator-guide.webp",
@@ -3776,6 +3792,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "roth-ira-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/roth-ira-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/roth-ira-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "roth-ira-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/roth-ira-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/roth-ira-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "rounding-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/rounding-calculator-guide.webp",
@@ -3788,6 +3820,38 @@
     "kind": "tool",
     "imagePath": "/tool-art/rounding-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/rounding-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "salary-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/salary-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/salary-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "salary-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/salary-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/salary-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "sales-tax-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/sales-tax-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/sales-tax-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "sales-tax-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/sales-tax-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/sales-tax-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
