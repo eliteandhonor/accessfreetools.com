@@ -3680,6 +3680,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "retirement-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/retirement-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/retirement-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "retirement-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/retirement-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/retirement-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "right-triangle-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/right-triangle-calculator-guide.webp",
@@ -3692,6 +3708,54 @@
     "kind": "tool",
     "imagePath": "/tool-art/right-triangle-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/right-triangle-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rmd-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/rmd-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/rmd-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rmd-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/rmd-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/rmd-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "roi-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/roi-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/roi-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "roi-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/roi-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/roi-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "roman-numeral-converter",
+    "kind": "guide",
+    "imagePath": "/tool-art/roman-numeral-converter-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/roman-numeral-converter-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "roman-numeral-converter",
+    "kind": "tool",
+    "imagePath": "/tool-art/roman-numeral-converter-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/roman-numeral-converter-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
