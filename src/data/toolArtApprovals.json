@@ -3552,6 +3552,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "recipe-scaler",
+    "kind": "guide",
+    "imagePath": "/tool-art/recipe-scaler-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/recipe-scaler-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "recipe-scaler",
+    "kind": "tool",
+    "imagePath": "/tool-art/recipe-scaler-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/recipe-scaler-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "refinance-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/refinance-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/refinance-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "refinance-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/refinance-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/refinance-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rent-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/rent-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/rent-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rent-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/rent-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/rent-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rent-vs-buy-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/rent-vs-buy-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/rent-vs-buy-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rent-vs-buy-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/rent-vs-buy-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/rent-vs-buy-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "right-triangle-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/right-triangle-calculator-guide.webp",
