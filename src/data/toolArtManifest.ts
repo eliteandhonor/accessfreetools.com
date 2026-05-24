@@ -8866,8 +8866,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Tire Size Calculator in the Everyday Tools category.",
     "caption": "A smoke-kawaii visual for the Tire Size Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Tire Size Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Everyday Tools: checklists, small household objects, and simple task icons. Specific page concept: Calculate sidewall, diameter, circumference, and revs per mile from a metric tire size.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "tire-size-calculator",
@@ -8882,8 +8882,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Tire Size Calculator with tire size shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Tire Size Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Tire Size Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Everyday Tools: checklists, small household objects, and simple task icons. Specific page concept: Calculate sidewall, diameter, circumference, and revs per mile from a metric tire size.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "tone-checker",
@@ -8898,8 +8898,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Tone Checker in the AI Tools category.",
     "caption": "A smoke-kawaii visual for the Tone Checker tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Tone Checker as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for AI Tools: soft neural dots, lens shapes, and model-chip blocks. Specific page concept: Check whether pasted text sounds friendly, formal, urgent, or unclear.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "tone-checker",
@@ -8914,8 +8914,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Tone Checker with tone shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Tone Checker guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Tone Checker concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for AI Tools: soft neural dots, lens shapes, and model-chip blocks. Specific page concept: Check whether pasted text sounds friendly, formal, urgent, or unclear.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "triangle-calculator",
@@ -8962,8 +8962,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Underweight BMI Calculator in the Health & Fitness category.",
     "caption": "A smoke-kawaii visual for the Underweight BMI Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Underweight BMI Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Health & Fitness: heart shapes, movement arcs, and wellness note cards. Specific page concept: Check adult BMI against the underweight screening threshold with careful safety notes.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "underweight-bmi-calculator",
@@ -8978,8 +8978,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Underweight BMI Calculator with underweight bmi shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Underweight BMI Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Underweight BMI Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Health & Fitness: heart shapes, movement arcs, and wellness note cards. Specific page concept: Check adult BMI against the underweight screening threshold with careful safety notes.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "unit-price-calculator",
@@ -8994,8 +8994,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Unit Price Calculator in the Everyday Tools category.",
     "caption": "A smoke-kawaii visual for the Unit Price Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Unit Price Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Everyday Tools: checklists, small household objects, and simple task icons. Specific page concept: Compare two products by price per shared unit so the cheaper package is clearer.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "unit-price-calculator",
@@ -9010,8 +9010,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Unit Price Calculator with unit price shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Unit Price Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Unit Price Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Everyday Tools: checklists, small household objects, and simple task icons. Specific page concept: Compare two products by price per shared unit so the cheaper package is clearer.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "unix-timestamp-converter",

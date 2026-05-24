@@ -4416,6 +4416,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "tire-size-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/tire-size-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/tire-size-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "tire-size-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/tire-size-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/tire-size-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "tone-checker",
+    "kind": "guide",
+    "imagePath": "/tool-art/tone-checker-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/tone-checker-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "tone-checker",
+    "kind": "tool",
+    "imagePath": "/tool-art/tone-checker-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/tone-checker-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "triangle-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/triangle-calculator-guide.webp",
@@ -4428,6 +4460,38 @@
     "kind": "tool",
     "imagePath": "/tool-art/triangle-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/triangle-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "underweight-bmi-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/underweight-bmi-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/underweight-bmi-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "underweight-bmi-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/underweight-bmi-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/underweight-bmi-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "unit-price-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/unit-price-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/unit-price-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "unit-price-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/unit-price-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/unit-price-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
