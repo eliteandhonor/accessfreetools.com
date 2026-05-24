@@ -9442,8 +9442,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Wind Chill Calculator in the Everyday Tools category.",
     "caption": "A smoke-kawaii visual for the Wind Chill Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Wind Chill Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Everyday Tools: checklists, small household objects, and simple task icons. Specific page concept: Calculate wind chill from Fahrenheit temperature and wind speed using the NWS formula.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "wind-chill-calculator",
@@ -9458,8 +9458,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Wind Chill Calculator with wind chill shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Wind Chill Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Wind Chill Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Everyday Tools: checklists, small household objects, and simple task icons. Specific page concept: Calculate wind chill from Fahrenheit temperature and wind speed using the NWS formula.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "wire-resistance-calculator",
@@ -9474,8 +9474,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Wire Resistance Calculator in the Calculators category.",
     "caption": "A smoke-kawaii visual for the Wire Resistance Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Wire Resistance Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Calculators: calculator buttons, number blocks, and tidy math shapes. Specific page concept: Estimate copper wire resistance from AWG size, length, and conductor count.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "wire-resistance-calculator",
@@ -9490,8 +9490,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Wire Resistance Calculator with wire resistance shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Wire Resistance Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Wire Resistance Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Calculators: calculator buttons, number blocks, and tidy math shapes. Specific page concept: Estimate copper wire resistance from AWG size, length, and conductor count.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "wire-size-calculator",
@@ -9506,8 +9506,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Wire Size Calculator in the Calculators category.",
     "caption": "A smoke-kawaii visual for the Wire Size Calculator tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Wire Size Calculator as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Calculators: calculator buttons, number blocks, and tidy math shapes. Specific page concept: Estimate a copper AWG size from current, length, voltage, phase, and voltage-drop target.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "wire-size-calculator",
@@ -9522,8 +9522,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Wire Size Calculator with wire size shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Wire Size Calculator guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Wire Size Calculator concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Calculators: calculator buttons, number blocks, and tidy math shapes. Specific page concept: Estimate a copper AWG size from current, length, voltage, phase, and voltage-drop target.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "word-counter",
@@ -9538,8 +9538,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot using visual cues for Word Counter in the Text Tools category.",
     "caption": "A smoke-kawaii visual for the Word Counter tool page.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is actively presenting the Word Counter as a usable browser utility. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Text Tools: paper sheets, pencil marks, and tidy writing lines. Specific page concept: Count words, characters, sentences, paragraphs, lines, and estimated reading time.. Composition must be distinct for the tool page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "word-counter",
@@ -9554,8 +9554,8 @@ export const toolArtManifest = [
     "alt": "Smoke-style kawaii mascot explaining Word Counter with word counter shapes and guide notes.",
     "caption": "A companion smoke-kawaii visual for the Word Counter guide.",
     "prompt": "Create one unique G-rated chibi/kawaii image using the established Access Free Tools smoke mascot: a translucent pale grey-white smoky chibi girl with soft wispy hair, expressive manga eyes, tiny hands, a dress-like smoke body, a small heart-shaped chest glow, and a lower floating smoke tail. The mascot is explaining the Word Counter concept like a simple visual guide. The mascot should match the existing approved house style: soft charcoal/dark-slate background, hand-painted luminous smoke lines, gentle blush, white-pink-grey glow, and no purple ghost/spirit redesign. Show the full body character inside the frame, including all hair, smoky wisps, hands, props, and the lower floating smoke tail, with generous padding so nothing is cropped off. Use no readable text, no logos, no brand names, no watermark, no sexualized styling, and no generic abstract fog-only composition. Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols. The image must clearly represent this specific tool to someone comparing it with nearby related tools. Use visual hints for Text Tools: paper sheets, pencil marks, and tidy writing lines. Specific page concept: Count words, characters, sentences, paragraphs, lines, and estimated reading time.. Composition must be distinct for the guide/blog page and usable as a 1200 by 630 web image. The result must look like an intentional character illustration, not a blurry background texture.",
-    "status": "queued",
-    "qaStatus": "not-started"
+    "status": "approved",
+    "qaStatus": "approved"
   },
   {
     "slug": "z-score-calculator",

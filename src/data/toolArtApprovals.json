@@ -4704,6 +4704,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "wind-chill-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/wind-chill-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/wind-chill-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "wind-chill-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/wind-chill-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/wind-chill-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "wire-resistance-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/wire-resistance-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/wire-resistance-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "wire-resistance-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/wire-resistance-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/wire-resistance-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "wire-size-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/wire-size-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/wire-size-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "wire-size-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/wire-size-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/wire-size-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "word-counter",
+    "kind": "guide",
+    "imagePath": "/tool-art/word-counter-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/word-counter-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "word-counter",
+    "kind": "tool",
+    "imagePath": "/tool-art/word-counter-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/word-counter-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "z-score-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/z-score-calculator-guide.webp",
