@@ -3488,6 +3488,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "reading-level-checker",
+    "kind": "guide",
+    "imagePath": "/tool-art/reading-level-checker-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/reading-level-checker-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "reading-level-checker",
+    "kind": "tool",
+    "imagePath": "/tool-art/reading-level-checker-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/reading-level-checker-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "real-estate-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/real-estate-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/real-estate-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "real-estate-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/real-estate-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/real-estate-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rebar-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/rebar-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/rebar-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rebar-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/rebar-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/rebar-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rebar-weight-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/rebar-weight-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/rebar-weight-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "rebar-weight-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/rebar-weight-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/rebar-weight-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "right-triangle-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/right-triangle-calculator-guide.webp",
