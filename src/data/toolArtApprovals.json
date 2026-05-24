@@ -3296,6 +3296,38 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "present-value-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/present-value-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/present-value-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "present-value-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/present-value-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/present-value-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "prime-factorization-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/prime-factorization-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/prime-factorization-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "prime-factorization-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/prime-factorization-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/prime-factorization-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "probability-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/probability-calculator-guide.webp",
@@ -3308,6 +3340,38 @@
     "kind": "tool",
     "imagePath": "/tool-art/probability-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/probability-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "profit-goal-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/profit-goal-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/profit-goal-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "profit-goal-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/profit-goal-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/profit-goal-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "profitability-ratios-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/profitability-ratios-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/profitability-ratios-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "profitability-ratios-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/profitability-ratios-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/profitability-ratios-calculator-tool.webp",
     "status": "approved",
     "qaStatus": "approved"
   },
