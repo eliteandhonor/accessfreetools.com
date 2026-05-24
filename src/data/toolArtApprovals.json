@@ -4288,6 +4288,70 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "tdee-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/tdee-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/tdee-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "tdee-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/tdee-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/tdee-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "text-case-converter",
+    "kind": "guide",
+    "imagePath": "/tool-art/text-case-converter-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/text-case-converter-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "text-case-converter",
+    "kind": "tool",
+    "imagePath": "/tool-art/text-case-converter-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/text-case-converter-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "text-summarizer",
+    "kind": "guide",
+    "imagePath": "/tool-art/text-summarizer-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/text-summarizer-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "text-summarizer",
+    "kind": "tool",
+    "imagePath": "/tool-art/text-summarizer-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/text-summarizer-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "tile-calculator",
+    "kind": "guide",
+    "imagePath": "/tool-art/tile-calculator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/tile-calculator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "tile-calculator",
+    "kind": "tool",
+    "imagePath": "/tool-art/tile-calculator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/tile-calculator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "triangle-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/triangle-calculator-guide.webp",
