@@ -40,6 +40,19 @@ Generated source: `agents/serpforge-ai/evidence/SEO_Audit_Report_accessfreetools
 | confirmed | DataForSEO Market Agent | dataforseo-market-layer | Use Labs, live SERP, and OnPage only; tier depth and stop_crawl_on_match; never use Backlinks API. | dataforseo-plan, all-pages-dataforseo, all-pages-serp-audit, dataforseo-sitewide-audit. |
 | confirmed | Audit Sprint Judge | no-fake-done-claims | Block done until build, local SEO, DataForSEO, GSC/Search Console, and human-tone gates pass. | deep-audit-sprint and all-pages-human-tone-report. |
 
+## Live Proof Follow-Up Lane - 2026-05-25
+
+Source board: `agents/serpforge-ai/tasks/live-recommendation-agent-tasks-2026-05-25.md`
+
+| status | owner | id | task | proof |
+| --- | --- | --- | --- | --- |
+| confirmed | Crawl And Indexation Agent | wallpaper-tool-indexing-watch | Keep `/tools/wallpaper-calculator/` in the Search Console indexing watch lane until URL Inspection returns `PASS`. | `npm run search-console:inspect-key-urls`. |
+| confirmed | Internal Link And Anchor Agent | wallpaper-contextual-link-cleanup | Fix the wallpaper tool workbench blocker by improving only useful contextual links and anchors. | `node scripts/seo-agent-workbench.mjs all wallpaper-calculator tool`. |
+| confirmed | Technical Headers Agent | hostinger-html-cache-edge-proof | Investigate Hostinger/hcdn HTML cache behavior because live HTML still returns `Cache-Control: public, max-age=0`. | Fresh live HEAD response plus Hostinger-side proof before any done claim. |
+| confirmed | Content Depth Agent | dataforseo-low-content-rate-review | Review the 41 DataForSEO low-content-rate rows manually and avoid padding pages with no real reader gap. | Fresh DataForSEO report plus page workbench for edited URLs. |
+| confirmed | Metadata And Heading Agent | dataforseo-duplicate-content-groups | Review the 10 duplicate-content groups and differentiate only pages with real overlap. | DataForSEO duplicate-content rows plus page-specific workbench. |
+| needs-proof | GSC Sitemap Submission Agent | sitemap-pending-watch | Recheck `/sitemap.xml` and `/feed.xml` after Search Console processes the latest submission. | `npm run search-console:submit-discovery`. |
+
 ## P1 Lane
 
 | status | owner | id | task | proof |

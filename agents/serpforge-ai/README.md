@@ -7,7 +7,7 @@ SERPForge AI is the repo-local SEO persona workspace for Access Free Tools. Use 
 - `AGENTS.md`: standing rules for this persona.
 - `intake.md`: queue of requested SEO jobs before they become workbench runs.
 - `worklog.md`: dated notes, decisions, and proof paths.
-- `tasks/`: stable task boards used by the main agent and sub-agents.
+- `tasks/`: stable task boards used by the main agent and sub-agents, including live follow-up tasks from Search Console and DataForSEO proof.
 - `briefs/`: content briefs, keyword maps, topic cluster notes, and CTR rewrite drafts.
 - `evidence/`: local evidence summaries, command outputs worth preserving, and source notes.
 - `reports/`: final strategy reports, audits, roadmaps, and sprint recommendations.
@@ -34,6 +34,15 @@ npm run serpforge -- orientation
 npm run serpforge -- opportunity
 npm run aft -- status
 npm run aft -- marketing
+```
+
+For the latest live recommendations that still need agent work:
+
+```powershell
+Get-Content agents/serpforge-ai/tasks/live-recommendation-agent-tasks-2026-05-25.md
+node scripts/seo-agent-workbench.mjs all wallpaper-calculator tool
+npm run search-console:inspect-key-urls
+npm run serpforge -- deep-audit-sprint
 ```
 
 For page-specific SEO work:

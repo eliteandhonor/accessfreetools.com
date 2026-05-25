@@ -27,3 +27,10 @@
 - Added the shared audit task board under `tasks/`.
 - Added main/sub-agent role files for audit lanes, DataForSEO, gallery SEO, image alt SEO, HTML sitemap, image sitemap, and GSC sitemap submission.
 - Added audit, sitemap, DataForSEO, gallery, and alt SEO CLI lanes to `npm run serpforge`.
+
+## 2026-05-25 - Live Recommendations Converted To Agent Tasks
+
+- Added `agents/serpforge-ai/tasks/live-recommendation-agent-tasks-2026-05-25.md`.
+- Open follow-up tasks now cover wallpaper Search Console indexing, wallpaper internal-link workbench blocker, Hostinger HTML cache header proof, DataForSEO low-content-rate review, DataForSEO duplicate-content groups, sitemap pending watch, and soft performance budget review.
+- Proven items are separated from open recommendations: HSTS live, canonical redirects live, DataForSEO postdeploy crawl complete, sitemap set submitted, and all-pages human-tone report passed.
+- Main coordinator and deep audit board now point to the live follow-up task board.
