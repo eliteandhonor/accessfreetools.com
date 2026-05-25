@@ -250,6 +250,12 @@ const guideDetails: Record<string, AiGuideDetail> = {
   },
 };
 
+function buildAiMetaDescription(tool: (typeof aiTools)[number], summary: string) {
+  const base = summary.replace(/\.$/, '');
+  const description = `${base}. Includes input tips, output checks, privacy notes, and model limits for the ${tool.name}.`;
+  return description.length > 170 ? `${description.slice(0, 166).trim()}...` : description;
+}
+
 function makeGuide(toolSlug: string): AiGuideDefinition {
   const tool = aiTools.find((candidate) => candidate.slug === toolSlug);
   const detail = guideDetails[toolSlug];
@@ -263,7 +269,7 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
     toolSlug: tool.slug,
     label: `${tool.name} guide`,
     title: `How to use the ${tool.name}`,
-    description: detail.summary,
+    description: buildAiMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: `${detail.purpose} Use this guide to understand what to enter, how to read the output, and what to double-check before relying on the result.`,
     quickStart: detail.enter,

@@ -1,5 +1,7 @@
 ---
 import { getCategoryName, type ToolDefinition } from '../data/tools';
+import { getBlogGuidePathForTool } from '../data/blogGuideCanonicals';
+import { getDeepAuditRecord } from '../data/toolDeepAudit';
 
 interface Props {
   tool: ToolDefinition;
@@ -9,9 +11,17 @@ interface Props {
 const { tool, imagePath } = Astro.props;
 const url = new URL(`/tools/${tool.slug}/`, Astro.site ?? 'https://accessfreetools.com').toString();
 const image = imagePath ? new URL(imagePath, Astro.site ?? 'https://accessfreetools.com').toString() : undefined;
-const structuredData = {
-  '@context': 'https://schema.org',
+const siteUrl = Astro.site ?? 'https://accessfreetools.com';
+const auditRecord = getDeepAuditRecord(tool.slug);
+const guideUrl = new URL(getBlogGuidePathForTool(tool.slug), siteUrl).toString();
+const publisher = {
+  '@type': 'Organization',
+  name: 'Access Free Tools',
+  url: new URL('/', siteUrl).toString(),
+};
+const webApplication = {
   '@type': 'WebApplication',
+  '@id': `${url}#tool`,
   name: tool.name,
   applicationCategory: 'UtilitiesApplication',
   applicationSubCategory: getCategoryName(tool.category),
@@ -21,16 +31,38 @@ const structuredData = {
   description: tool.seoDescription,
   isAccessibleForFree: true,
   keywords: [tool.name, ...(tool.aliases ?? []), getCategoryName(tool.category), 'free online tool', 'Access Free Tools'],
-  publisher: {
-    '@type': 'Organization',
-    name: 'Access Free Tools',
-    url: new URL('/', Astro.site ?? 'https://accessfreetools.com').toString(),
-  },
+  featureList: tool.useCases,
+  mainEntityOfPage: url,
+  softwareHelp: guideUrl,
+  dateModified: auditRecord?.reviewedOn,
+  reviewedBy: auditRecord ? publisher : undefined,
+  citation: auditRecord?.sources.slice(0, 3).map((source) => source.href),
+  publisher,
   offers: {
     '@type': 'Offer',
     price: '0',
     priceCurrency: 'USD',
   },
+};
+const faqPage =
+  tool.faq.length > 0
+    ? {
+        '@type': 'FAQPage',
+        '@id': `${url}#faq`,
+        url,
+        mainEntity: tool.faq.slice(0, 6).map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.answer,
+          },
+        })),
+      }
+    : undefined;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [webApplication, faqPage].filter(Boolean),
 };
 ---
 

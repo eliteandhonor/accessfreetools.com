@@ -45,6 +45,25 @@ const roadmapItems = [
     text: 'Ads and affiliate ideas may come later, but they should never push the actual tool out of the way or make the page feel like a trap.',
   },
 ];
+
+const aboutStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'About Access Free Tools',
+  url: 'https://accessfreetools.com/about/',
+  description:
+    'About page for Access Free Tools, a growing free utility website with calculators, converters, browser AI helpers, plain guides, and tool-first pages.',
+  mainEntity: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+    url: 'https://accessfreetools.com/',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'site feedback',
+      email: 'contact@accessfreetools.com',
+    },
+  },
+};
 ---
 
 <BaseLayout
@@ -52,6 +71,8 @@ const roadmapItems = [
   description="Meet Access Free Tools, a growing free utility website with calculators, converters, browser AI helpers, plain guides, and tool-first pages."
   path="/about/"
 >
+  <script type="application/ld+json" set:html={JSON.stringify(aboutStructuredData)} />
+
   <section class="about-hero">
     <div class="about-hero-copy">
       <p class="breadcrumb"><a href="/">Home</a> / About</p>

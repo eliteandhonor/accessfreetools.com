@@ -32,6 +32,8 @@ These notes turn useful DataForSEO knowledge-base guidance into operating rules 
 8. MCP and workflow automation are allowed for SEO agents, but DataForSEO credentials must remain in local environment variables or MCP config only. Never write credentials into docs, scripts, reports, or Git.
 9. Backlinks API remains off by default because the first access check returned subscription/access denial and the user said backlinks are expensive. Treat backlink research as manual unless the user asks and confirms budget.
 10. AI/GEO/LLM visibility research is future work. For now, Google Search Console indexing, Bing/Webmaster signals, helpful content, and normal calculator SEO are the priority.
+11. If DataForSEO returns task code `40207`, read the task `status_message` before explaining the blocker. On 2026-05-25 the local API and MCP connector both returned `Access denied. Your IP is not whitelisted`; this is an API Access whitelist issue, not a daily-limit issue.
+12. DataForSEO v3 SERP `stop_crawl_on_match` can be paired with `target_search_mode: "any"` and `find_targets_in: ["organic"]` for Google Organic live advanced checks. Do not use undocumented values such as `one_target`.
 
 ## Practical Weekly Flow
 

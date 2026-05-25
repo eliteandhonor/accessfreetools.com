@@ -13,8 +13,8 @@ const hasApprovedArt = toolArtEntries.length > 0;
 ---
 
 <BaseLayout
-  title="Smoke-Kawaii Tool Art Gallery | Access Free Tools"
-  description="Browse the Access Free Tools smoke-kawaii gallery, with unique visual artwork for tool pages and guide pages across every utility category."
+  title="Smoke-Kawaii Tool Images Gallery | Access Free Tools"
+  description="Browse the Access Free Tools smoke-kawaii images gallery, with unique visual artwork for tool pages and guide pages across every utility category."
   path="/gallery/"
   noindex={!hasApprovedArt}
 >
@@ -25,7 +25,7 @@ const hasApprovedArt = toolArtEntries.length > 0;
     ]}
   />
   <CollectionStructuredData
-    name="Smoke-Kawaii Tool Art Gallery"
+    name="Smoke-Kawaii Tool Images Gallery"
     description="Category hub for unique smoke-kawaii artwork connected to Access Free Tools utilities and guides."
     path="/gallery/"
     items={activeCategories.map((category) => ({ name: category.name, path: `/gallery/${category.slug}/` }))}
@@ -34,7 +34,7 @@ const hasApprovedArt = toolArtEntries.length > 0;
 
   <section class="page-intro gallery-hero">
     <p class="breadcrumb"><a href="/">Home</a> / Gallery</p>
-    <h1>Smoke-Kawaii Tool Art Gallery</h1>
+    <h1>Smoke-Kawaii Tool Images Gallery</h1>
     <p>
       This gallery is reserved for approved GPT Image artwork only. Each future tool and guide image
       must be a unique smoke-style kawaii mascot scene, not a repeated abstract background.
@@ -58,6 +58,7 @@ const hasApprovedArt = toolArtEntries.length > 0;
                   <img
                     src={cover.thumbnailPath}
                     alt={cover.alt}
+                    title={cover.caption}
                     width="480"
                     height="252"
                     loading="lazy"
@@ -83,6 +84,7 @@ const hasApprovedArt = toolArtEntries.length > 0;
               <img
                 src={entry.thumbnailPath}
                 alt={entry.alt}
+                title={entry.caption}
                 width="480"
                 height="252"
                 loading="lazy"

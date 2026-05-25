@@ -2293,7 +2293,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     findings: [
       'The calculator correctly separates profit, margin, and markup: profit equals revenue minus cost, margin divides profit by revenue, and markup divides profit by cost.',
       'The guide now spells out the common mistake that margin and markup are different percentages even when profit dollars are the same.',
-      'The page keeps the scope to business pricing math and does not confuse it with brokerage margin, leverage, or investment borrowing.',
+      'The page keeps the scope to business pricing math and does not confuse it with brokerage margin, debt-funded investing, or investment borrowing.',
     ],
     improvements: [
       'Added margin-specific guide detail and manually checked formulas, examples, FAQ wording, OpenStax source coverage, related tools, SEO copy, and privacy note.',
@@ -6665,7 +6665,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     findings: [
       'Debt ratio, debt-to-equity, and times-interest-earned were added as a standalone accounting-ratio utility.',
       'Formula review checked debt divided by assets, debt divided by equity, and EBIT divided by interest expense.',
-      'FAQ and guide explain leverage context, interest coverage, industry differences, and why cash flow still matters.',
+      'FAQ and guide explain debt exposure context, interest coverage, industry differences, and why cash flow still matters.',
     ],
     improvements: [
       'Added debt-ratio UI, examples, guide detail, input explanations, FAQ depth, related liquidity and DTI links, and tests.',
@@ -6703,7 +6703,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     findings: [
       'Profitability ratios were added to cover margin, ROA, ROE, EPS, and P/E searches in one useful accounting utility.',
       'Formula review checked gross profit, gross margin, operating margin, net margin, return on assets, return on equity, EPS, and P/E.',
-      'FAQ and guide explain why different margin layers matter and why high ROE can be affected by leverage.',
+      'FAQ and guide explain why different margin layers matter and why high ROE can be affected by debt-funded growth.',
     ],
     improvements: [
       'Added profitability-ratio UI, examples, source-backed guide detail, FAQ depth, related stock and operations links, and tests.',

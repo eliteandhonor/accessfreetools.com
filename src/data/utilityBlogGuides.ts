@@ -3378,6 +3378,12 @@ function getFormulaAnswer(toolSlug: string) {
   return utilityTools.find((tool) => tool.slug === toolSlug)?.faq[1]?.answer ?? 'The calculator uses the formula shown on the tool page.';
 }
 
+function buildUtilityMetaDescription(tool: (typeof utilityTools)[number], summary: string) {
+  const base = summary.replace(/\.$/, '');
+  const description = `${base}. Includes input tips, examples, result checks, and unit or mode notes for the ${tool.name}.`;
+  return description.length > 170 ? `${description.slice(0, 166).trim()}...` : description;
+}
+
 function makeGuide(toolSlug: string): UtilityGuideDefinition {
   const tool = utilityTools.find((candidate) => candidate.slug === toolSlug);
   const detail = guideDetails[toolSlug];
@@ -3391,9 +3397,9 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
     toolSlug: tool.slug,
     label: `${tool.name} guide`,
     title: detail.title ?? `How to use the ${tool.name}`,
-    description: detail.summary,
+    description: buildUtilityMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: `${detail.purpose} Use this guide as a short walkthrough: enter the values the calculator asks for, read the main answer first, then check the notes so you know what the number does and does not mean.`,
+    intro: `${detail.purpose} Use this guide as a short walkthrough: enter the values the tool asks for, start with the displayed result, then check the notes so you know what the number does and does not mean.`,
     quickStart: detail.enter,
     sections: [
       {

@@ -21,6 +21,16 @@ function writeJson(path, value) {
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+async function currentPublicIp() {
+  try {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const json = await response.json();
+    return typeof json.ip === 'string' ? json.ip : '';
+  } catch {
+    return '';
+  }
+}
+
 try {
   const response = await getDataForSeoUserData();
   const account = summarizeDataForSeoUserData(response);
@@ -48,10 +58,12 @@ try {
     process.exitCode = 2;
   }
 } catch (error) {
+  const publicIp = await currentPublicIp();
   const report = {
     generatedAt: new Date().toISOString(),
     status: 'error',
     message: error instanceof Error ? error.message : String(error),
+    publicIp,
   };
   writeJson(reportPath, report);
   console.error(report.message);

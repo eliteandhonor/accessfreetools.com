@@ -4044,6 +4044,7 @@ export const utilityTools: ToolDefinition[] = [
       'Use this free prompt token estimator to turn pasted prompt text into a rough token estimate, low-high range, character count, and word count.',
     icon: 'tool-prompt-token',
     aliases: ['Token Estimator', 'Prompt Length Estimator', 'AI Prompt Token Counter'],
+    seoTitle: 'Prompt Token Estimator Calculator | Free Token Counter',
     formula:
       'The estimator counts characters and divides by the average characters-per-token value you choose, then shows a rough low-high range.',
     limit:
@@ -4692,7 +4693,7 @@ export const utilityTools: ToolDefinition[] = [
       'Create quick comparison tables for blog posts, docs, and project notes.',
       'Turn a small list of rows into GitHub-flavored Markdown syntax.',
       'Choose left, center, or right alignment without memorizing delimiter marks.',
-      'Build simple tool, feature, or checklist tables for content planning.',
+      'Build compact feature, comparison, or checklist tables for content planning.',
     ],
     examples: [
       { label: 'Tool table', expression: 'Tool, Use, Status plus two rows', result: 'GitHub-flavored Markdown table' },

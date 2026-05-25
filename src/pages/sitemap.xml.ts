@@ -4,6 +4,7 @@ import {
   blogSitemapEntries,
   categorySitemapEntries,
   gallerySitemapEntries,
+  hubSitemapEntries,
   maxLastmod,
   renderSitemapIndex,
   staticSitemapEntries,
@@ -12,7 +13,7 @@ import {
 
 export const GET: APIRoute = () => {
   const body = renderSitemapIndex([
-    { path: '/sitemap-pages.xml', lastmod: maxLastmod(staticSitemapEntries) },
+    { path: '/sitemap-pages.xml', lastmod: maxLastmod([...staticSitemapEntries, ...hubSitemapEntries]) },
     { path: '/sitemap-tools.xml', lastmod: maxLastmod(toolSitemapEntries) },
     { path: '/sitemap-blog.xml', lastmod: maxLastmod(blogSitemapEntries) },
     { path: '/sitemap-categories.xml', lastmod: maxLastmod(categorySitemapEntries) },

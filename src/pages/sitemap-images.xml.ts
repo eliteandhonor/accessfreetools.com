@@ -19,8 +19,6 @@ ${toolArtEntries
     <lastmod>${lastmodForEntry(entry)}</lastmod>
     <image:image>
       <image:loc>${escapeXml(absoluteUrl(entry.imagePath))}</image:loc>
-      <image:title>${escapeXml(entry.toolName)}</image:title>
-      <image:caption>${escapeXml(entry.caption)}</image:caption>
     </image:image>
   </url>`,
   )

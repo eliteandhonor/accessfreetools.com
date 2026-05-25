@@ -12,6 +12,7 @@ const staticPageLastmod: Record<string, string> = {
   '/tools/': LAST_MAJOR_CONTENT_UPDATE,
   '/ask/': '2026-05-15',
   '/gallery/': '2026-05-16',
+  '/hubs/': LAST_MAJOR_CONTENT_UPDATE,
   '/categories/': '2026-05-02',
   '/blog/': LAST_MAJOR_CONTENT_UPDATE,
   '/free-calculator-resources/': '2026-05-02',

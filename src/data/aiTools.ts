@@ -123,7 +123,7 @@ export const aiTools: ToolDefinition[] = [
       'Practice understanding sentiment labels for school or data projects.',
     ],
     examples: [
-      { label: 'Positive review', expression: 'This tool saved me time and was easy to use.', result: 'Likely positive' },
+      { label: 'Positive review', expression: 'This saved me time and felt clear.', result: 'Likely positive' },
       { label: 'Negative review', expression: 'The answer was confusing and I had to redo everything.', result: 'Likely negative' },
       { label: 'Mixed message', expression: 'The idea is good, but the instructions need work.', result: 'Check manually' },
     ],

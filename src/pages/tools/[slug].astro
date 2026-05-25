@@ -30,6 +30,7 @@ import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import ToolStructuredData from '../../components/ToolStructuredData.astro';
 import UtilityCalculator, { type UtilityToolVariant } from '../../components/UtilityCalculator';
 import { getBlogGuidePathForTool, getBlogGuideToolSlugForTool } from '../../data/blogGuideCanonicals';
+import { getDeepAuditRecord } from '../../data/toolDeepAudit';
 import { toolAliases, type ToolAlias } from '../../data/toolAliases';
 import { getToolArt } from '../../data/toolArt';
 import { getCategoryName, getRelatedTools, tools, type ToolDefinition } from '../../data/tools';
@@ -77,6 +78,16 @@ const guidePath = getBlogGuidePathForTool(tool.slug);
 const guideToolSlug = getBlogGuideToolSlugForTool(tool.slug);
 const guideTool = tools.find((candidate) => candidate.slug === guideToolSlug);
 const guideTitle = `How to use the ${guideTool?.name ?? tool.name}`;
+const auditRecord = !isAliasPage ? getDeepAuditRecord(tool.slug) : undefined;
+const auditScopeText = auditRecord?.scope.join(', ');
+const auditStatusLabel =
+  auditRecord?.status === 'deep-reviewed'
+    ? 'Deep-reviewed tool page'
+    : auditRecord?.status === 'baseline-reviewed'
+      ? 'Baseline SEO and trust review'
+      : auditRecord?.status === 'alias-reviewed'
+        ? 'Alias review'
+        : undefined;
 const toolArt = !isAliasPage ? getToolArt(tool.slug, 'tool') : undefined;
 const toolSocialImagePath =
   {
@@ -1439,6 +1450,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
           <img
             src="/images/kawaii-calculator-mascot.webp"
             alt="A pastel kawaii calculator mascot with cute stationery."
+            title="Pastel kawaii calculator mascot for the working calculator interface."
             height="720"
             loading="eager"
             width="900"
@@ -1803,6 +1815,29 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
             experimental model tools may still download model files from a third-party model host until we self-host
             more models.
           </p>
+        </aside>
+      )
+    }
+
+    {
+      auditRecord && auditStatusLabel && (
+        <aside class="trust-note trust-note-review" aria-label={`${tool.name} review and source notes`}>
+          <strong>{auditStatusLabel}</strong>
+          <p>
+            Last review recorded {auditRecord.reviewedOn}. Checked scope: {auditScopeText}. This note is evidence
+            for source coverage and page-review status; it is not a claim that every edge case is final.
+          </p>
+          {auditRecord.sources.length > 0 && (
+            <p>
+              Source starting points:{' '}
+              {auditRecord.sources.slice(0, 2).map((source, index) => (
+                <>
+                  {index > 0 && ' '}
+                  <a href={source.href} rel="noreferrer" target="_blank">{source.label}</a>{index === 0 && auditRecord.sources.length > 1 ? ';' : ''}
+                </>
+              ))}
+            </p>
+          )}
         </aside>
       )
     }

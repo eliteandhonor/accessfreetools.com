@@ -44,6 +44,7 @@ const {
 const tool = getTool(toolSlug);
 const category = tool ? getCategory(tool.category) : undefined;
 const examples = tool?.examples ?? [];
+const examplesHeading = tool ? `Worked examples for ${tool.name}` : 'Worked examples';
 const useCases = tool?.useCases ?? [];
 const faqItems = tool?.faq ?? [];
 const auditRecord = getDeepAuditRecord(toolSlug);
@@ -171,7 +172,7 @@ const articleStructuredData = {
 
         {examples.length > 0 && (
           <section class="content-section">
-            <h2>Examples from the calculator</h2>
+            <h2>{examplesHeading}</h2>
             <div class="example-grid">
               {examples.map((example) => (
                 <article>

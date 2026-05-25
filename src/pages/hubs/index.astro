@@ -1,0 +1,51 @@
+---
+export const prerender = true;
+import BaseLayout from '../../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
+import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
+import { topicalHubs } from '../../data/hubs';
+---
+
+<BaseLayout
+  title="Topical Tool Hubs | Access Free Tools"
+  description="Browse focused Access Free Tools hubs for mortgage planning, percentages, home materials, browser AI, and developer utilities."
+  path="/hubs/"
+>
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Hubs', path: '/hubs/' },
+    ]}
+  />
+  <CollectionStructuredData
+    name="Topical Tool Hubs"
+    description="Focused topic hubs that connect related tools, guides, and trust notes."
+    path="/hubs/"
+    items={topicalHubs.map((hub) => ({ name: hub.title, path: `/hubs/${hub.slug}/` }))}
+    maxItems={topicalHubs.length}
+  />
+
+  <section class="page-intro">
+    <p class="breadcrumb"><a href="/">Home</a> / Hubs</p>
+    <h1>Topical Tool Hubs</h1>
+    <p>
+      Focused clusters for the jobs that usually need more than one tool: home loans,
+      percentages, project materials, browser AI, and developer utilities.
+    </p>
+  </section>
+
+  <section class="section-band sitemap-section">
+    <div class="section-heading">
+      <h2>Choose a hub</h2>
+      <p>Each hub links the primary tools, matching guides, and the checks that keep the result useful.</p>
+    </div>
+    <div class="sitemap-link-grid">
+      {topicalHubs.map((hub) => (
+        <a href={`/hubs/${hub.slug}/`}>
+          <strong>{hub.title}</strong>
+          <span>{hub.description}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

@@ -1019,7 +1019,7 @@ function buildDefaultGuideDetail(tool: (typeof healthTools)[number]): GuideDetai
       `Compare the result with the formula line so you can see how the ${tool.name} reached the answer.`,
     ],
     read: [
-      'Read the main answer first, then use the supporting lines to understand the formula and assumptions.',
+      'Start with the displayed result, then use the supporting lines to understand the formula and assumptions.',
       extraSafetyNotes[tool.slug] ??
         'Use the result as an educational estimate and get qualified professional guidance for decisions with real consequences.',
     ],
@@ -1046,6 +1046,12 @@ function formatExample(example: (typeof healthTools)[number]['examples'][number]
   return `${example.label}: ${example.expression}`;
 }
 
+function buildHealthMetaDescription(tool: (typeof healthTools)[number], summary: string) {
+  const base = summary.replace(/\.$/, '');
+  const description = `${base}. Includes input tips, examples, result checks, and safety notes for the ${tool.name}.`;
+  return description.length > 170 ? `${description.slice(0, 166).trim()}...` : description;
+}
+
 export const healthBlogPosts: BlogPostDefinition[] = healthTools.map((tool) => {
   const detail = getGuideDetail(tool);
 
@@ -1067,7 +1073,7 @@ export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) 
     toolSlug: tool.slug,
     label: `${tool.name.replace(' Calculator', '')} guide`,
     title: `How to use the ${tool.name}`,
-    description: detail.summary,
+    description: buildHealthMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: `${detail.summary} Use this guide as a plain-English walkthrough: enter the measurements carefully, read what the estimate means, then check the safety notes before using or copying the result.`,
     quickStart: [
