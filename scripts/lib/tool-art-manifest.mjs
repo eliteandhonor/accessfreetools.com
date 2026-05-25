@@ -197,6 +197,10 @@ function lowerFirst(value) {
   return value ? `${value.slice(0, 1).toLowerCase()}${value.slice(1)}` : value;
 }
 
+function imageAltConcept(value) {
+  return value.replace(/\breadable text\b/gi, 'words and numbers');
+}
+
 function slugWords(slug) {
   return slug
     .replace(/-/g, ' ')
@@ -206,7 +210,7 @@ function slugWords(slug) {
 }
 
 function buildAlt(tool, kind) {
-  const concept = shortSummary(tool.summary, kind === 'tool' ? 116 : 72);
+  const concept = imageAltConcept(shortSummary(tool.summary, kind === 'tool' ? 116 : 72));
 
   if (kind === 'tool') {
     return normalizeWhitespace(
