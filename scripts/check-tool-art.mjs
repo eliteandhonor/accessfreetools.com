@@ -86,6 +86,10 @@ function htmlIncludesText(html, text) {
   );
 }
 
+function htmlIncludesImageSrc(html, imagePath) {
+  return html.includes(`src="${imagePath}"`) || html.includes(`src="${imagePath}?`);
+}
+
 const entries = createToolArtEntries(readCanonicalTools());
 const approvedEntries = entries.filter((entry) => entry.status === 'approved');
 const redirectedBlogGuideSlugs = readRedirectedBlogGuideSlugs();
@@ -143,7 +147,7 @@ for (const entry of entries) {
       issues.push(`Built page is missing for ${entry.pagePath}.`);
     } else {
       const html = readFileSync(htmlPath, 'utf8');
-      if (!html.includes(`<img`) || !html.includes(`src="${entry.imagePath}"`)) {
+      if (!html.includes(`<img`) || !htmlIncludesImageSrc(html, entry.imagePath)) {
         issues.push(`${entry.pagePath} does not embed ${entry.imagePath} with a standard img element.`);
       }
       if (!htmlIncludesText(html, entry.alt)) {

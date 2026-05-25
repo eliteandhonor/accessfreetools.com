@@ -3,7 +3,7 @@ export const prerender = true;
 import BaseLayout from '../../components/BaseLayout.astro';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
-import { toolArtCategorySummaries, type ToolArtManifestEntry } from '../../data/toolArt';
+import { toolArtCategorySummaries, versionToolArtPath, type ToolArtManifestEntry } from '../../data/toolArt';
 
 export function getStaticPaths() {
   return toolArtCategorySummaries
@@ -91,7 +91,7 @@ const imageStructuredData = {
       {toolEntries.map((entry: ToolArtManifestEntry) => (
         <a class="gallery-card" id={`${entry.slug}-${entry.kind}`} href={entry.pagePath}>
           <img
-            src={entry.thumbnailPath}
+            src={versionToolArtPath(entry.thumbnailPath)}
             alt={entry.alt}
             title={entry.caption}
             width="480"
@@ -116,7 +116,7 @@ const imageStructuredData = {
       {guideEntries.map((entry: ToolArtManifestEntry) => (
         <a class="gallery-card" id={`${entry.slug}-${entry.kind}`} href={entry.pagePath}>
           <img
-            src={entry.thumbnailPath}
+            src={versionToolArtPath(entry.thumbnailPath)}
             alt={entry.alt}
             title={entry.caption}
             width="480"

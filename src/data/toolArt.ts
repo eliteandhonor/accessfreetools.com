@@ -4,6 +4,12 @@ import { toolArtManifest, type ToolArtKind, type ToolArtManifestEntry } from './
 
 export type { ToolArtKind, ToolArtManifestEntry };
 
+export const TOOL_ART_ASSET_VERSION = 'd9b368c';
+
+export function versionToolArtPath(path: string) {
+  return `${path}?v=${TOOL_ART_ASSET_VERSION}`;
+}
+
 const approvals = toolArtApprovals as Partial<ToolArtManifestEntry>[];
 const approvalMap = new Map(
   approvals.map((approval) => [`${approval.slug}:${approval.kind}`, approval] as const),

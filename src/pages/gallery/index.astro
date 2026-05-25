@@ -3,7 +3,7 @@ export const prerender = true;
 import BaseLayout from '../../components/BaseLayout.astro';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
-import { toolArtCategorySummaries, toolArtEntries } from '../../data/toolArt';
+import { toolArtCategorySummaries, toolArtEntries, versionToolArtPath } from '../../data/toolArt';
 
 const activeCategories = toolArtCategorySummaries.filter((category) => category.entries.length > 0);
 const featuredEntries = toolArtEntries
@@ -87,7 +87,7 @@ const imageStructuredData = {
               <a href={`/gallery/${category.slug}/`}>
                 {cover && (
                   <img
-                    src={cover.thumbnailPath}
+                    src={versionToolArtPath(cover.thumbnailPath)}
                     alt={cover.alt}
                     title={cover.caption}
                     width="480"
@@ -113,7 +113,7 @@ const imageStructuredData = {
           {featuredEntries.map((entry) => (
             <a class="gallery-card" id={`${entry.slug}-${entry.kind}`} href={entry.pagePath}>
               <img
-                src={entry.thumbnailPath}
+                src={versionToolArtPath(entry.thumbnailPath)}
                 alt={entry.alt}
                 title={entry.caption}
                 width="480"

@@ -1,5 +1,5 @@
 ---
-import type { ToolArtManifestEntry } from '../data/toolArt';
+import { versionToolArtPath, type ToolArtManifestEntry } from '../data/toolArt';
 
 interface Props {
   entry: ToolArtManifestEntry;
@@ -8,11 +8,12 @@ interface Props {
 }
 
 const { entry, eager = false, showGalleryLink = true } = Astro.props;
+const imagePath = versionToolArtPath(entry.imagePath);
 ---
 
 <figure class="tool-art-figure">
   <img
-    src={entry.imagePath}
+    src={imagePath}
     alt={entry.alt}
     title={entry.caption}
     width="1200"
