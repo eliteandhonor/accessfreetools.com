@@ -15,6 +15,13 @@ interface HealthToolSpec {
 
 function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const exampleUses = spec.useCases.slice(0, 2).join(' ');
+  const isBmiCalculator = spec.slug === 'bmi-calculator';
+  const inputAnswer = isBmiCalculator
+    ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
+    : 'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.';
+  const readingAnswer = isBmiCalculator
+    ? 'Read BMI as a quick adult screening number. It can miss important context such as pregnancy, high muscle mass, waist size, body composition, age, medical history, and ethnicity. Use it as a clue, not a final health answer.'
+    : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
 
   return [
     {
@@ -23,8 +30,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     },
     {
       question: `What do the main ${spec.name} inputs mean?`,
-      answer:
-        'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.',
+      answer: inputAnswer,
     },
     {
       question: `What is the ${spec.name} doing with my inputs?`,
@@ -32,9 +38,17 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     },
     {
       question: `How should I read the ${spec.name} result?`,
-      answer:
-        'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.',
+      answer: readingAnswer,
     },
+    ...(isBmiCalculator
+      ? [
+          {
+            question: 'Can children, teens, pregnant people, or athletes use adult BMI the same way?',
+            answer:
+              'No. Children and teens need BMI percentiles, pregnancy changes body weight for a different reason, and athletes can have more muscle mass than BMI expects. In those cases, use BMI only as a rough note and ask a qualified professional for real guidance.',
+          },
+        ]
+      : []),
     {
       question: 'Can I use this as medical advice?',
       answer: `${spec.caution} Use the calculator as a learning tool, then ask a qualified professional about decisions that affect care, pregnancy, medication, nutrition, or safety.`,

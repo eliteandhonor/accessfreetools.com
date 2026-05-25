@@ -10,6 +10,18 @@ import { tools } from '../../data/tools';
 
 const searchTools = getToolSearchIndex();
 const initialSearchTools = searchTools.slice(0, 96);
+const toolsByInitial = Array.from(
+  [...searchTools]
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .reduce((groups, tool) => {
+      const letter = /^[a-z]/i.test(tool.name) ? tool.name[0].toUpperCase() : '#';
+      const currentGroup = groups.get(letter) ?? [];
+      currentGroup.push(tool);
+      groups.set(letter, currentGroup);
+      return groups;
+    }, new Map<string, typeof searchTools>()),
+  ([letter, groupedTools]) => ({ letter, tools: groupedTools }),
+);
 const categoryCounts = Object.fromEntries(
   categories.map((category) => [
     category.slug,
@@ -253,6 +265,33 @@ const guideEntryLinks = [
           <strong>{link.title}</strong>
           <span>{link.text}</span>
         </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="discovery-panel discovery-panel-quiet" aria-labelledby="tools-az-heading">
+    <div class="section-heading">
+      <div>
+        <p class="section-kicker">A-Z index</p>
+        <h2 id="tools-az-heading">Every public tool link</h2>
+      </div>
+      <p>
+        This plain list links to the full library, including alternate-name pages that point to the
+        matching tool.
+      </p>
+    </div>
+    <div class="tools-az-grid">
+      {toolsByInitial.map((group) => (
+        <section class="tools-az-group" aria-labelledby={`tools-az-${group.letter}`}>
+          <h3 id={`tools-az-${group.letter}`}>{group.letter}</h3>
+          <ul>
+            {group.tools.map((tool) => (
+              <li>
+                <a href={`/tools/${tool.slug}/`}>{tool.name}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
       ))}
     </div>
   </section>

@@ -149,6 +149,11 @@ const baseTools: ToolDefinition[] = [
           'Use it for common percentage questions: percent of a number, what percent one value is of another, percentage increase or decrease, adding or subtracting a percent, and reverse percentage problems.',
       },
       {
+        question: 'What do the main Percentage Calculator inputs mean?',
+        answer:
+          'Pick the mode first: percent of, what percent, percent change, add/subtract percent, or reverse percent. Then enter the part, whole, original value, new value, or percent rate that matches that mode. A discount, tip, tax, markup, and reverse-percent question all use different boxes, so do not swap the part and the whole.',
+      },
+      {
         question: 'How do I find a percentage of a number?',
         answer:
           'Choose Percent of a number, enter the percentage and the value, then calculate. For example, 20% of 80 is 16 because 80 x 0.20 = 16.',

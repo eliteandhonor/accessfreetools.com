@@ -132,6 +132,21 @@ const categorySeo = categorySeoOverrides[category.slug] ?? {
   description: `${category.summary} Browse ${category.name.toLowerCase()} from Access Free Tools.`,
   intro: category.summary,
 };
+const allToolsHeading =
+  {
+    calculators: 'All calculators',
+    converters: 'All converters',
+    'text-tools': 'All text tools',
+    'date-time': 'All date and time tools',
+    finance: 'All finance calculators',
+    'health-fitness': 'All health and fitness calculators',
+    'home-projects': 'All home project calculators',
+    'developer-tools': 'All developer utilities',
+    'image-tools': 'All image tools',
+    'ai-tools': 'All AI tools',
+    'school-study': 'All school and study tools',
+    'everyday-tools': 'All everyday tools',
+  }[category.slug] ?? `All ${category.name.toLowerCase()}`;
 const toolSlugs = new Set(categoryTools.map((tool) => getBlogGuideSlugForTool(tool.slug)));
 const categoryGuides = blogPosts.filter((post) => toolSlugs.has(post.slug));
 const topTools = categoryTools.slice(0, 6);
@@ -641,7 +656,7 @@ const taskNotes = categoryTasks[category.slug] ?? [
     ]}
   />
   <CollectionStructuredData
-    name={category.slug === 'calculators' ? 'Free online calculators' : `${category.name} tools`}
+    name={categorySeo.heading}
     description={categorySeo.description}
     path={`/categories/${category.slug}/`}
     items={categoryTools.map((tool) => ({
@@ -793,7 +808,7 @@ const taskNotes = categoryTasks[category.slug] ?? [
 
   <section class="section-band">
     <div class="section-heading">
-      <h2>All {category.name.toLowerCase()} tools</h2>
+      <h2>{allToolsHeading}</h2>
       <p>Open a tool, try the examples, then use the matching guide when you need more explanation.</p>
     </div>
     <div class="tool-grid">

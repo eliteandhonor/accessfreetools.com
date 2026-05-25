@@ -316,7 +316,7 @@ main {
   color: var(--text);
   display: inline-grid;
   gap: 8px;
-  grid-template-columns: 26px auto 15px;
+  grid-template-columns: 26px 15px;
   min-height: 38px;
   padding: 6px 9px;
   text-align: left;
@@ -1265,6 +1265,39 @@ main {
   color: var(--muted);
   font-size: 0.94rem;
   line-height: 1.55;
+}
+
+.tools-az-grid {
+  column-gap: 22px;
+  columns: 4 220px;
+}
+
+.tools-az-group {
+  break-inside: avoid;
+  margin: 0 0 18px;
+}
+
+.tools-az-group h3 {
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+  padding-bottom: 6px;
+}
+
+.tools-az-group ul {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tools-az-group a {
+  color: var(--primary-strong);
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.35;
 }
 
 .tool-grid,
@@ -7239,9 +7272,20 @@ main {
   border: 1px solid var(--border);
   border-radius: 8px;
   box-shadow: 0 20px 55px rgba(17, 24, 39, 0.12);
-  margin: 22px 0;
-  max-width: 860px;
+  margin: 18px 0;
+  max-width: min(100%, var(--tool-art-max-width, 560px));
   overflow: clip;
+}
+
+.blog-article > .tool-art-figure {
+  --tool-art-max-width: 680px;
+}
+
+.tool-page > .tool-art-figure {
+  --tool-art-max-width: 860px;
+  align-items: stretch;
+  display: grid;
+  grid-template-columns: minmax(260px, 420px) minmax(0, 1fr);
 }
 
 .tool-art-figure img {
@@ -7555,6 +7599,11 @@ main {
   .gallery-grid,
   .shortcut-table div {
     grid-template-columns: 1fr;
+  }
+
+  .tool-page > .tool-art-figure {
+    --tool-art-max-width: 560px;
+    display: block;
   }
 
   .tool-art-figure figcaption {

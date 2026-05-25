@@ -76,8 +76,9 @@ export default function ThemePicker() {
   };
 
   return (
-    <div className="theme-picker" aria-label="Choose website look" ref={pickerRef}>
+    <div className="theme-picker" ref={pickerRef}>
       <button
+        aria-label={`Choose website look. Current look: ${activeThemeLabel}`}
         aria-expanded={isOpen}
         aria-haspopup="true"
         className="theme-picker-trigger"
@@ -86,10 +87,6 @@ export default function ThemePicker() {
       >
         <span className="theme-picker-icon" aria-hidden="true">
           <Palette size={16} strokeWidth={2.4} />
-        </span>
-        <span className="theme-picker-trigger-text">
-          <span className="theme-picker-eyebrow">Choose look</span>
-          <strong>{activeThemeLabel}</strong>
         </span>
         <ChevronDown className="theme-picker-chevron" aria-hidden="true" size={15} strokeWidth={2.4} />
       </button>

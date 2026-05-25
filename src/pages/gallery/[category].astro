@@ -23,9 +23,31 @@ const toolEntries = category.entries.filter((entry: ToolArtManifestEntry) => ent
 const guideEntries = category.entries.filter((entry: ToolArtManifestEntry) => entry.kind === 'guide');
 const title = `${category.name} Smoke-Kawaii Art Gallery | Access Free Tools`;
 const description = `Browse approved images for ${category.name.toLowerCase()} tool pages and matching guide pages on Access Free Tools.`;
+const pageUrl = `https://accessfreetools.com/gallery/${category.slug}/`;
+const imageStructuredData = {
+  '@context': 'https://schema.org',
+  '@graph': category.entries.slice(0, 120).map((entry: ToolArtManifestEntry) => ({
+    '@type': 'ImageObject',
+    name: `${entry.toolName} ${entry.kind} image`,
+    description: entry.alt,
+    caption: entry.caption,
+    contentUrl: `https://accessfreetools.com${entry.imagePath}`,
+    thumbnailUrl: `https://accessfreetools.com${entry.thumbnailPath}`,
+    width: 1200,
+    height: 630,
+    inLanguage: 'en',
+    isPartOf: pageUrl,
+    about: {
+      '@type': 'WebPage',
+      name: entry.toolName,
+      url: `https://accessfreetools.com${entry.pagePath}`,
+    },
+  })),
+};
 ---
 
 <BaseLayout title={title} description={description} path={`/gallery/${category.slug}/`}>
+  <script type="application/ld+json" set:html={JSON.stringify(imageStructuredData)} />
   <BreadcrumbStructuredData
     items={[
       { name: 'Home', path: '/' },
@@ -47,6 +69,10 @@ const description = `Browse approved images for ${category.name.toLowerCase()} t
     <p>
       {category.summary} This gallery connects each visual back to the page where it helps: tool
       images open the live utility, and guide images open the matching walkthrough.
+    </p>
+    <p>
+      These are approved Access Free Tools page images, not stock art. Each card keeps the original
+      caption, image size, and link to the exact tool or guide that gives the picture context.
     </p>
   </section>
 

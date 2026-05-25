@@ -10,6 +10,26 @@ const featuredEntries = toolArtEntries
   .filter((entry) => entry.kind === 'tool')
   .slice(0, 24);
 const hasApprovedArt = toolArtEntries.length > 0;
+const imageStructuredData = {
+  '@context': 'https://schema.org',
+  '@graph': featuredEntries.map((entry) => ({
+    '@type': 'ImageObject',
+    name: `${entry.toolName} tool image`,
+    description: entry.alt,
+    caption: entry.caption,
+    contentUrl: `https://accessfreetools.com${entry.imagePath}`,
+    thumbnailUrl: `https://accessfreetools.com${entry.thumbnailPath}`,
+    width: 1200,
+    height: 630,
+    inLanguage: 'en',
+    isPartOf: 'https://accessfreetools.com/gallery/',
+    about: {
+      '@type': 'WebPage',
+      name: entry.toolName,
+      url: `https://accessfreetools.com${entry.pagePath}`,
+    },
+  })),
+};
 ---
 
 <BaseLayout
@@ -18,6 +38,7 @@ const hasApprovedArt = toolArtEntries.length > 0;
   path="/gallery/"
   noindex={!hasApprovedArt}
 >
+  {hasApprovedArt && <script type="application/ld+json" set:html={JSON.stringify(imageStructuredData)} />}
   <BreadcrumbStructuredData
     items={[
       { name: 'Home', path: '/' },
@@ -38,6 +59,10 @@ const hasApprovedArt = toolArtEntries.length > 0;
     <p>
       This gallery only shows approved artwork that belongs with a real tool or guide page. Draft,
       placeholder, and failed-review images stay hidden.
+    </p>
+    <p>
+      The point is simple: every public image should help explain a specific utility, then send the
+      visitor back to that tool or its guide.
     </p>
   </section>
 

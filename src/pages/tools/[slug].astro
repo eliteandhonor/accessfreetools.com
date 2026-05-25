@@ -33,6 +33,7 @@ import { getBlogGuidePathForTool, getBlogGuideToolSlugForTool } from '../../data
 import { getDeepAuditRecord } from '../../data/toolDeepAudit';
 import { toolAliases, type ToolAlias } from '../../data/toolAliases';
 import { getToolArt } from '../../data/toolArt';
+import { topicalHubs } from '../../data/hubs';
 import { getCategoryName, getRelatedTools, tools, type ToolDefinition } from '../../data/tools';
 
 export const prerender = true;
@@ -74,6 +75,7 @@ const currentPath = `/tools/${alias?.slug ?? tool.slug}/`;
 const relatedTools = getRelatedTools(tool);
 const categoryName = getCategoryName(tool.category);
 const categoryPath = `/categories/${tool.category}/`;
+const matchingHub = topicalHubs.find((hub) => [...hub.primaryToolSlugs, ...hub.supportToolSlugs].includes(tool.slug));
 const guidePath = getBlogGuidePathForTool(tool.slug);
 const guideToolSlug = getBlogGuideToolSlugForTool(tool.slug);
 const guideTool = tools.find((candidate) => candidate.slug === guideToolSlug);
@@ -708,6 +710,18 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Enter the viewport range where the size should scale.',
     'Press Generate clamp to create a copy-ready CSS formula.',
     'Test real wrapping and spacing in your page before publishing.',
+  ],
+  'ai-token-cost-calculator': [
+    'Enter input tokens, output tokens, request count, and the current prices from your provider rate card.',
+    'Keep input-token and output-token prices separate because many models charge different rates for each side.',
+    'Press Calculate token cost to see input cost, output cost, total cost, and cost per request.',
+    'Adjust the prices yourself for cached tokens, batch discounts, plan credits, or provider price changes.',
+  ],
+  'prompt-token-estimator': [
+    'Paste the prompt text you want to estimate.',
+    'Choose the average characters-per-token assumption if you want to compare a rough low or high range.',
+    'Press Estimate tokens to see characters, words, and a rough token count.',
+    'Use the model provider tokenizer before treating the number as exact for billing or context limits.',
   ],
   'markdown-table-generator': [
     'Enter headers separated by commas or pipe characters.',
@@ -1925,6 +1939,12 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
           <a href={categoryPath}>{categoryName}</a>
           <span>Browse related calculators and utilities in the same category.</span>
         </li>
+        {matchingHub && (
+          <li>
+            <a href={`/hubs/${matchingHub.slug}/`}>{matchingHub.title}</a>
+            <span>Compare this with the nearby tools and checks in the same job path.</span>
+          </li>
+        )}
         <li>
           <a href="/blog/">Calculator and utility guides</a>
           <span>Find more guides that use real tool inputs and example numbers.</span>
