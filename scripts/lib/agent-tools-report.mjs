@@ -252,6 +252,8 @@ export function extractToolRecords() {
       const description = extractStringField(chunk, 'description');
       const isUtilityFactoryBlock =
         chunk.includes('makeUtilityTool({') || text.slice(Math.max(0, (match.index ?? 0) - 120), match.index ?? 0).includes('makeUtilityTool');
+      const isFinanceFactoryBlock =
+        chunk.includes('makeFinanceTool({') || text.slice(Math.max(0, (match.index ?? 0) - 120), match.index ?? 0).includes('makeFinanceTool');
       const titleType = name.endsWith('Generator')
         ? 'Free Online Generator'
         : name.endsWith('Calculator')
@@ -259,12 +261,13 @@ export function extractToolRecords() {
           : 'Free Online Tool';
       const explicitFaqCount = extractArrayLength(chunk, 'faq');
       const generatedUtilityFaqCount = isUtilityFactoryBlock ? countFieldOccurrences(chunk, 'question') + 5 : 0;
+      const generatedFinanceFaqCount = isFinanceFactoryBlock ? countFieldOccurrences(chunk, 'question') + 7 : 0;
 
       records.push({
         category: extractStringField(chunk, 'category'),
         description,
         exampleCount: extractArrayLength(chunk, 'examples'),
-        faqCount: explicitFaqCount || generatedUtilityFaqCount,
+        faqCount: explicitFaqCount || generatedUtilityFaqCount || generatedFinanceFaqCount,
         file: unixPath(relative(process.cwd(), file)),
         name,
         relatedCount: extractArrayLength(chunk, 'relatedSlugs'),

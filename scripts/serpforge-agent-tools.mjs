@@ -4351,8 +4351,33 @@ async function paidAuditSprintCommand(slug, page) {
     '',
     ...(pageResults.length ? pageResults.map(commandBlock) : ['Page workflow skipped because DataForSEO gates did not pass.']),
   ].join('\n\n'));
+  const reviewEvidenceDir = join(root, 'output', 'seo-tool-review', slug, cleanPageValue);
+  mkdirSync(reviewEvidenceDir, { recursive: true });
+  writeFileSync(join(reviewEvidenceDir, 'dataforseo-paid.json'), `${JSON.stringify(payload, null, 2)}\n`);
+  writeFileSync(
+    join(reviewEvidenceDir, 'dataforseo-paid.md'),
+    [
+      `# DataForSEO Paid Evidence: ${slug} ${cleanPageValue}`,
+      '',
+      `Generated: ${payload.generatedAt}`,
+      `Status: ${status}`,
+      `Keyword: ${keyword}`,
+      paidError ? `Paid evidence error: ${paidError}` : 'Paid evidence error: none',
+      '',
+      '## Gates',
+      '',
+      ...gates.map((gate) => `- ${gate.label}: ${gate.status === 0 ? 'pass' : 'blocked'}`),
+      '',
+      '## Evidence',
+      '',
+      paidEvidence
+        ? '- DataForSEO Labs related keyword response is saved in `dataforseo-paid.json` for this exact page sprint.'
+        : '- No paid DataForSEO evidence was saved.',
+    ].join('\n'),
+  );
   console.log(`SERPForge paid audit sprint: ${status}`);
   console.log(`- Saved report: ${paths.markdownPath}`);
+  console.log(`- Saved page evidence: ${rel(join(reviewEvidenceDir, 'dataforseo-paid.md'))}`);
   if (status !== 'pass') process.exitCode = 1;
 }
 

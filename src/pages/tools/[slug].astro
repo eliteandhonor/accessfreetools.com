@@ -30,7 +30,6 @@ import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import ToolStructuredData from '../../components/ToolStructuredData.astro';
 import UtilityCalculator, { type UtilityToolVariant } from '../../components/UtilityCalculator';
 import { getBlogGuidePathForTool, getBlogGuideToolSlugForTool } from '../../data/blogGuideCanonicals';
-import { getDeepAuditRecord } from '../../data/toolDeepAudit';
 import { toolAliases, type ToolAlias } from '../../data/toolAliases';
 import { getToolArt } from '../../data/toolArt';
 import { topicalHubs } from '../../data/hubs';
@@ -80,15 +79,6 @@ const guidePath = getBlogGuidePathForTool(tool.slug);
 const guideToolSlug = getBlogGuideToolSlugForTool(tool.slug);
 const guideTool = tools.find((candidate) => candidate.slug === guideToolSlug);
 const guideTitle = `How to use the ${guideTool?.name ?? tool.name}`;
-const auditRecord = !isAliasPage ? getDeepAuditRecord(tool.slug) : undefined;
-const auditStatusLabel =
-  auditRecord?.status === 'deep-reviewed'
-    ? 'Reviewed tool page'
-    : auditRecord?.status === 'baseline-reviewed'
-      ? 'Basic page review'
-      : auditRecord?.status === 'alias-reviewed'
-        ? 'Alternate name review'
-        : undefined;
 const toolArt = !isAliasPage ? getToolArt(tool.slug, 'tool') : undefined;
 const toolSocialImagePath =
   {
@@ -275,6 +265,7 @@ const financeToolVariants = {
 } as const satisfies Partial<Record<string, FinanceToolVariant>>;
 const financeToolVariant = financeToolVariants[tool.slug];
 const isFinanceTool = Boolean(financeToolVariant);
+const isInterestRateTool = tool.slug === 'interest-rate-calculator';
 const utilityToolVariants = {
   'age-calculator': 'age',
   'date-calculator': 'date',
@@ -1832,29 +1823,6 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       )
     }
 
-    {
-      auditRecord && auditStatusLabel && (
-        <aside class="trust-note trust-note-review" aria-label={`${tool.name} review and source notes`}>
-          <strong>{auditStatusLabel}</strong>
-          <p>
-            Last checked {auditRecord.reviewedOn}. The review looked at the formula notes, input labels, examples,
-            FAQs, related links, sources, and privacy wording for this exact tool.
-          </p>
-          {auditRecord.sources.length > 0 && (
-            <p>
-              Useful references:{' '}
-              {auditRecord.sources.slice(0, 2).map((source, index) => (
-                <>
-                  {index > 0 && ' '}
-                  <a href={source.href} rel="noreferrer" target="_blank">{source.label}</a>{index === 0 && auditRecord.sources.length > 1 ? ';' : ''}
-                </>
-              ))}
-            </p>
-          )}
-        </aside>
-      )
-    }
-
     {hasInteractiveTool && (
       <div
         class="tool-interaction-surface"
@@ -1923,6 +1891,26 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         }
       </div>
     </section>
+
+    {
+      isInterestRateTool && (
+        <section class="content-section">
+          <h2>How to read the rate</h2>
+          <p>
+            If a $10,000 loan over 5 years needs about $193 each month, the hidden rate is close
+            to 6% before extra fees. If the same loan needs a bigger monthly payment, the rate is
+            probably higher unless the quote also includes insurance, taxes, or add-ons.
+          </p>
+          <p>
+            Use the <a href="/tools/payment-calculator/">payment calculator when you already know the rate</a>,
+            the <a href="/tools/loan-calculator/">loan calculator for full payment comparisons</a>, or
+            the <a href="/tools/apr-calculator/">APR calculator when fees are part of the quote</a>.
+            The <a href={guidePath}>interest-rate guide walks through example numbers</a> if you want
+            to check the inputs slowly.
+          </p>
+        </section>
+      )
+    }
 
     <section class="content-section">
       <h2>Need the guide or a nearby tool?</h2>

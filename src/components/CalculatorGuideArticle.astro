@@ -201,18 +201,11 @@ const articleStructuredData = {
 
         {auditRecord && auditRecord.sources.length > 0 && !hasSourceSection && (
           <section class="content-section">
-            <h2>{hasManualDeepReview ? 'Review sources' : 'Reference sources'}</h2>
-            {hasManualDeepReview ? (
-              <p>
-                These references helped check the formula, inputs, examples, and limits in this
-                guide.
-              </p>
-            ) : (
-              <p>
-                These references help explain the formula, input choices, and limits used by the
-                matching tool.
-              </p>
-            )}
+            <h2>Sources</h2>
+            <p>
+              Use these if you want to compare the formula, inputs, or limits with a trusted
+              outside explanation.
+            </p>
             <ul class="source-link-list">
               {auditRecord.sources.map((source) => (
                 <li>

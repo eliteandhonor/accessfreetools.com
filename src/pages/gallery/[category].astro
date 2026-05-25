@@ -27,8 +27,8 @@ const pageUrl = `https://accessfreetools.com/gallery/${category.slug}/`;
 const categoryGalleryNotes = [
   `${category.name} artwork is only useful when it matches the page job. A tool image should make the input, result, or setting easier to understand.`,
   `Guide images are for walkthrough context. They should support examples, formulas, mistakes, or limits instead of acting like random decoration.`,
-  `Every card sends visitors back to the matching ${category.name.toLowerCase()} tool or guide, so the image page strengthens the real page instead of becoming a dead end.`,
-  'If a new image is too generic, cropped badly, repeated, or mismatched to the tool purpose, it should stay hidden until fixed.',
+  'Every card sends visitors back to the matching tool or guide page, so the image is connected to the thing it explains.',
+  'The gallery shows approved images that match real tools and guides. Draft or placeholder images stay out of the public gallery.',
 ];
 const imageStructuredData = {
   '@context': 'https://schema.org',
@@ -78,7 +78,7 @@ const imageStructuredData = {
     </p>
     <p>
       These are approved Access Free Tools page images, not stock art. Each card keeps the original
-      caption, image size, and link to the exact tool or guide that gives the picture context.
+      caption, image size, and link to the matching tool or guide page.
     </p>
   </section>
 

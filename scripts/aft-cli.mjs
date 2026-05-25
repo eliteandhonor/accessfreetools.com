@@ -518,6 +518,8 @@ function findToolSource(slug) {
     const description = extractProperty(block, 'description');
     const isUtilityFactoryBlock =
       block.includes('makeUtilityTool({') || text.slice(Math.max(0, match.index - 120), match.index).includes('makeUtilityTool');
+    const isFinanceFactoryBlock =
+      block.includes('makeFinanceTool({') || text.slice(Math.max(0, match.index - 120), match.index).includes('makeFinanceTool');
     const titleType = name.endsWith('Generator')
       ? 'Free Online Generator'
       : name.endsWith('Calculator')
@@ -530,8 +532,8 @@ function findToolSource(slug) {
       name,
       category: extractProperty(block, 'category'),
       seoTitle: extractProperty(block, 'seoTitle') || (isUtilityFactoryBlock && name ? `${name} | ${titleType}` : ''),
-      seoDescription: extractProperty(block, 'seoDescription') || (isUtilityFactoryBlock ? description : ''),
-      faqCount: countProperty(block, 'question') + (isUtilityFactoryBlock ? 5 : 0),
+      seoDescription: extractProperty(block, 'seoDescription') || (isUtilityFactoryBlock || isFinanceFactoryBlock ? description : ''),
+      faqCount: countProperty(block, 'question') + (isUtilityFactoryBlock ? 5 : 0) + (isFinanceFactoryBlock ? 7 : 0),
       exampleCount: countProperty(block, 'label'),
       relatedSlugs: extractRelatedSlugs(block),
     };

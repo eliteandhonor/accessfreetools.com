@@ -41,3 +41,11 @@
 - Added `agents/serpforge-ai/reports/gsc-performance-export-summary-2026-05-26.md`.
 - Added `agents/serpforge-ai/tasks/gsc-performance-agent-tasks-2026-05-26.md`.
 - Made `/tools/interest-rate-calculator/` the first GSC-driven page sprint because it has 915 impressions, 0 clicks, missing source `seoDescription`, 0 FAQs, page score 81, and a blocked SEO workbench.
+
+## 2026-05-26 - Interest Rate Page Sprint Cleared
+
+- Removed public internal-review wording from all tool pages and guide source sections, including the "Reviewed tool page", "Last checked", and "Useful references" copy shown in the live screenshot.
+- Added Interest Rate Calculator source SEO description, specific input explanations, concrete example interpretation, APR/payment/loan contextual links, and visible FAQs.
+- Ran DataForSEO gates and paid page evidence for `/tools/interest-rate-calculator/`; proof now lives at `output/seo-tool-review/interest-rate-calculator/tool/dataforseo-paid.md`.
+- Saved browser/visual proof for the exact local page and confirmed the bad public-review phrases are absent.
+- Final page agent judge now reports `ready-for-human-approval` with 0 gaps for `/tools/interest-rate-calculator/`.

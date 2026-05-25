@@ -299,6 +299,7 @@ function stripHtml(html = '') {
   return String(html)
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<([a-z0-9-]+)\b[^>]*aria-hidden=["']true["'][^>]*>[\s\S]*?<\/\1>/gi, ' ')
     .replace(/<[^>]+>/g, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&#39;/g, "'")
@@ -308,8 +309,13 @@ function stripHtml(html = '') {
     .trim();
 }
 
+function extractMainHtml(html = '') {
+  return String(html).match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1] || String(html);
+}
+
 function extractInternalLinks(html = '') {
-  return [...String(html).matchAll(/<a\s+[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)]
+  const linkScope = extractMainHtml(html);
+  return [...String(linkScope).matchAll(/<a\s+[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)]
     .map((match) => ({
       href: match[1],
       text: stripHtml(match[2]),

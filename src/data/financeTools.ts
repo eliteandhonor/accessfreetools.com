@@ -1356,6 +1356,8 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate annual interest rate from principal, payment, and term.',
     description:
       'Use this free interest rate calculator to estimate an annual rate from loan amount, fixed monthly payment, and repayment term.',
+    seoDescription:
+      'Estimate the annual interest rate hidden inside a loan payment quote using the loan amount, monthly payment, and repayment term.',
     icon: 'calculator-rate',
     formula:
       'The calculator searches for the monthly rate that makes the fixed-payment loan formula match your monthly payment, then converts that to an annual rate.',
@@ -1368,11 +1370,48 @@ export const financeTools: ToolDefinition[] = [
       'Use the answer alongside loan and payment calculators.',
     ],
     examples: [
-      { label: 'Payment quote', expression: '$25,000 principal, $483.32/month, 5 years', result: 'Estimated annual rate' },
-      { label: 'Higher payment', expression: '$15,000, $350/month, 4 years', result: 'Implied rate estimate' },
+      { label: 'Payment quote', expression: '$25,000 principal, $483.32/month, 5 years', result: 'About 6% annual interest before extra fees' },
+      { label: 'Higher payment', expression: '$15,000, $350/month, 4 years', result: 'The payment points to a much higher implied rate' },
       { label: 'Impossible payment', expression: 'Payment below zero-interest payoff', result: 'Calculator shows an input warning' },
     ],
-    relatedSlugs: ['loan-calculator', 'payment-calculator', 'auto-loan-calculator'],
+    relatedSlugs: ['loan-calculator', 'payment-calculator', 'apr-calculator'],
+    inputExplanations: [
+      { term: 'Principal', meaning: 'the loan amount you are trying to repay, before interest.' },
+      { term: 'Monthly payment', meaning: 'the fixed payment quote you were given, without taxes, insurance, or fees if you only want the loan rate.' },
+      { term: 'Term', meaning: 'how many years the loan lasts. The calculator converts this into monthly payments.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Is this the same as APR?',
+        answer:
+          'No. This estimates the nominal annual interest rate that fits the payment, amount, and term. APR can include lender fees and other costs, so it may be higher than this estimate.',
+      },
+      {
+        question: 'What payment should I enter?',
+        answer:
+          'Enter the loan payment only. If a quote bundles taxes, insurance, warranties, or fees into the monthly number, the calculator may show a rate that looks too high.',
+      },
+      {
+        question: 'Why does a tiny payment change move the rate so much?',
+        answer:
+          'The calculator is solving backward. A few dollars each month can add up across 36, 60, or 84 payments, so the implied rate can move more than expected.',
+      },
+      {
+        question: 'What if the calculator says the payment is too low?',
+        answer:
+          'That means the payment would not repay the principal over the term even at 0% interest. Check the loan amount, payment, and term before trusting the quote.',
+      },
+      {
+        question: 'When should I use the Loan Calculator instead?',
+        answer:
+          'Use the Loan Calculator when you already know the rate and want the payment. Use this Interest Rate Calculator when you know the payment but the rate is missing.',
+      },
+      {
+        question: 'Can I use this for credit cards or variable-rate loans?',
+        answer:
+          'Not as a final answer. Credit cards, variable-rate loans, balloon loans, and promotional plans can use rules this simple fixed-payment estimate does not include.',
+      },
+    ],
   }),
   makeFinanceTool({
     slug: 'sales-tax-calculator',

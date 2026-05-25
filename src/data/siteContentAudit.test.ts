@@ -926,7 +926,7 @@ describe('site content audit guardrails', () => {
     expect(statusCounts['baseline-reviewed'] ?? 0).toBe(0);
     expect(statusCounts['alias-reviewed']).toBe(toolAliases.length);
     expect(CALCULATOR_GUIDE_ARTICLE_SOURCE).toContain("auditRecord?.status === 'deep-reviewed'");
-    expect(CALCULATOR_GUIDE_ARTICLE_SOURCE).toContain('Reference sources');
+    expect(CALCULATOR_GUIDE_ARTICLE_SOURCE).toContain('<h2>Sources</h2>');
   });
 
   it('tracks the top 25 manual deep-review queue without overclaiming unfinished reviews', () => {
