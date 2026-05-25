@@ -194,9 +194,9 @@ export const aiTools: ToolDefinition[] = [
     inputMeaning:
       'Paste the page, paragraph, caption, notes, or draft you want to inspect. The tool removes common filler words and looks for repeated topic words and short phrases.',
     resultMeaning:
-      'Read the keyword list as topic clues. Higher counts usually mean a word or phrase appears more often, not that it is automatically the best SEO keyword.',
+      'Read the keyword list as topic clues. Higher counts usually mean a word or phrase appears more often, not that it is automatically the best word to use.',
     doubleCheck:
-      'Check search intent, natural wording, duplicates, brand names, and context before using a keyword list in a title, blog, or product page.',
+      'Check the real question, natural wording, duplicates, brand names, and context before using a keyword list in a title, blog, or product page.',
     useCases: [
       'Find topic words in a blog draft or study passage.',
       'Clean up repeated terms before writing a title or summary.',

@@ -206,16 +206,16 @@ function slugWords(slug) {
 }
 
 function buildAlt(tool, kind) {
-  const topic = slugWords(tool.slug) || tool.name;
+  const concept = shortSummary(tool.summary, kind === 'tool' ? 116 : 72);
 
   if (kind === 'tool') {
     return normalizeWhitespace(
-      `Smoke-kawaii mascot presenting ${tool.name} with ${topic} inputs, page props, and a visible result card.`,
+      `Illustration for ${tool.name} showing ${lowerFirst(concept)}.`,
     );
   }
 
   return normalizeWhitespace(
-    `Smoke-kawaii mascot walking through ${tool.name}, with example inputs, result notes, and ${topic} props.`,
+    `Guide image for ${tool.name} showing ${lowerFirst(concept)} with example inputs and result notes.`,
   );
 }
 
@@ -225,12 +225,12 @@ function buildCaption(tool, kind) {
 
   if (kind === 'tool') {
     return normalizeWhitespace(
-      `${tool.name} artwork connects the illustration to ${concept}, the inputs users enter, and the result they came to check.`,
+      `${tool.name} artwork matches the live tool workflow: ${concept}. Use it with the calculator, examples, and result notes.`,
     );
   }
 
   return normalizeWhitespace(
-    `${tool.name} guide artwork matches the walkthrough examples, formula notes, limits, and mistakes readers should check.`,
+    `${tool.name} guide artwork sits with the walkthrough for ${concept}, including inputs, examples, limits, and mistakes to check.`,
   );
 }
 

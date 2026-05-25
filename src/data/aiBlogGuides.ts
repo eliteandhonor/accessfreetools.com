@@ -158,7 +158,7 @@ const guideDetails: Record<string, AiGuideDetail> = {
   },
   'keyword-extractor': {
     summary:
-      'Learn how to use the browser keyword extractor, read phrase counts, and avoid treating repeated words as guaranteed SEO wins.',
+      'Learn how to use the browser keyword extractor, read phrase counts, and avoid treating repeated words as a writing plan.',
     purpose:
       'The Keyword Extractor finds repeated words and short phrases in pasted text. It is useful for drafts, notes, and content planning when you want to see what the text talks about most.',
     enter: [
@@ -170,11 +170,11 @@ const guideDetails: Record<string, AiGuideDetail> = {
     read: [
       'Higher counts mean a term appears more often in the pasted text.',
       'Phrases can show repeated topics better than single words.',
-      'The result is not a ranking tool or search-volume tool.',
+      'The result is not a search-volume or popularity tool.',
     ],
     mistakes: [
       'Do not stuff every keyword into a page title.',
-      'Do not ignore search intent, reader clarity, or the actual question being answered.',
+      'Do not ignore the reader, the wording, or the actual question being answered.',
       'Do not treat brand names and repeated filler words as automatically useful keywords.',
     ],
     sources: [sourceLinks.googleHelpfulContent, sourceLinks.transformersJs],

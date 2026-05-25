@@ -112,7 +112,7 @@ const articleStructuredData = {
     <header class="blog-article-header">
       <span>{label}</span>
       <h1>{title}</h1>
-      <p class="article-meta-line">Access Free Tools editorial guide. Updated {formatDisplayDate(articleDates.modified)}.</p>
+      <p class="article-meta-line">Updated {formatDisplayDate(articleDates.modified)}.</p>
       <p>{intro}</p>
       {tool && <a class="button-primary" href={`/tools/${tool.slug}/`}>Open the {tool.name}</a>}
     </header>
@@ -132,8 +132,8 @@ const articleStructuredData = {
           <section class="content-section">
             <h2>Best uses</h2>
             <p>
-              These are the situations this tool is meant for. If your task is close to one of
-              these, the examples and notes below can help you choose the right inputs.
+              Start here if one of these sounds like your job. The examples below show which
+              inputs matter most.
             </p>
             <ul class="guide-bullet-list">
               {useCases.slice(0, 4).map((useCase) => <li>{useCase}</li>)}
@@ -204,14 +204,13 @@ const articleStructuredData = {
             <h2>{hasManualDeepReview ? 'Review sources' : 'Reference sources'}</h2>
             {hasManualDeepReview ? (
               <p>
-                This guide is reviewed against formula, input, FAQ, blog, UI, SEO, and privacy
-                checks. These references shaped the latest review.
+                These references helped check the formula, inputs, examples, and limits in this
+                guide.
               </p>
             ) : (
               <p>
-                These references support the formula, input, FAQ, blog, SEO, and privacy checks
-                for this guide. Manual deep reviews are tracked separately for tool-specific visual
-                polish and edge-case testing.
+                These references help explain the formula, input choices, and limits used by the
+                matching tool.
               </p>
             )}
             <ul class="source-link-list">
@@ -241,8 +240,8 @@ const articleStructuredData = {
         <section class="content-section">
           <h2>Keep exploring</h2>
           <p>
-            If this guide helped but your question is slightly different, these paths keep you in
-            the same useful part of the site instead of forcing you back to search.
+            If this guide is close but not exact, these links keep you near the same kind of
+            problem.
           </p>
           <ul class="guide-link-list">
             {tool && (
@@ -261,7 +260,7 @@ const articleStructuredData = {
             </li>
             <li>
               <a href="/free-calculator-resources/">Free calculator resources</a>
-              <span>Use the resource hub when you want a broader starting point for calculator pages.</span>
+              <span>Start here when you are not sure which calculator page fits.</span>
             </li>
           </ul>
         </section>

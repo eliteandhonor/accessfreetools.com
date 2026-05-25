@@ -58,15 +58,15 @@ const hubPath = `/hubs/${hub.slug}/`;
       <p>{hub.audience}</p>
     </div>
     <div class="trust-callout">
-      <strong>Use the hub as a decision path.</strong> Start with the closest primary tool, then open a supporting
-      tool when the question changes from one answer into a comparison, source check, or follow-up estimate.
+      <strong>Use the hub to stay on track.</strong> Start with the closest main tool, then open a supporting
+      tool when the question turns into a comparison, a double-check, or a follow-up estimate.
     </div>
   </section>
 
   <section class="section-band">
     <div class="section-heading">
       <h2>Primary tools</h2>
-      <p>Start with these when the page intent matches your main question.</p>
+      <p>Start with these when one of them matches your main question.</p>
     </div>
     <div class="tool-grid">
       {primaryTools.map((tool) => <ToolCard tool={tool} />)}
@@ -88,7 +88,7 @@ const hubPath = `/hubs/${hub.slug}/`;
   <section class="section-band">
     <div class="section-heading">
       <h2>Before relying on results</h2>
-      <p>These checks keep the hub useful without pretending browser estimates are official decisions.</p>
+      <p>These checks help you use quick browser results without treating them like official decisions.</p>
     </div>
     <div class="feature-list">
       {hub.checkpoints.map((checkpoint) => <p>{checkpoint}</p>)}
@@ -98,7 +98,7 @@ const hubPath = `/hubs/${hub.slug}/`;
   <section class="section-band section-band-soft">
     <div class="section-heading">
       <h2>Matching guides</h2>
-      <p>Open the guide when you need examples, formulas, limits, or mistakes to avoid.</p>
+      <p>Open a guide when you want examples, formulas, limits, or mistakes to avoid.</p>
     </div>
     <div class="sitemap-link-grid">
       {allTools.slice(0, 12).map((tool) => (

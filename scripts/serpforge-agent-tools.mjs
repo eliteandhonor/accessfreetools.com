@@ -167,24 +167,41 @@ function readJsonFile(filePath) {
   }
 }
 
-function latestCompletedOnPageEvidence() {
+function completedOnPageEvidenceDirs({ sitewideOnly = false, supplementalOnly = false } = {}) {
   if (!existsSync(reportsDir)) return null;
 
   return readdirSync(reportsDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && entry.name.startsWith('dataforseo-sitewide-onpage-'))
+    .filter((entry) => {
+      if (!entry.isDirectory()) return false;
+      const isSitewide = entry.name.startsWith('dataforseo-sitewide-onpage-');
+      const isOnPage = entry.name.startsWith('dataforseo-') && entry.name.includes('-onpage-');
+      if (sitewideOnly) return isSitewide;
+      if (supplementalOnly) return isOnPage && !isSitewide;
+      return isOnPage;
+    })
     .map((entry) => {
       const outputDir = join(reportsDir, entry.name);
       const summaryPath = join(outputDir, 'summary.json');
+      const pagesPath = join(outputDir, 'pages.raw.json');
       const summary = readJsonFile(summaryPath);
       return {
         outputDir,
         summaryPath,
+        pagesPath,
         summary,
         mtimeMs: existsSync(summaryPath) ? statSync(summaryPath).mtimeMs : 0,
       };
     })
-    .filter((entry) => entry.summary?.crawlProgress === 'finished')
-    .sort((a, b) => b.mtimeMs - a.mtimeMs)[0] ?? null;
+    .filter((entry) => entry.summary?.crawlProgress === 'finished' && existsSync(entry.pagesPath))
+    .sort((a, b) => b.mtimeMs - a.mtimeMs);
+}
+
+function latestCompletedOnPageEvidence() {
+  return completedOnPageEvidenceDirs({ sitewideOnly: true })?.[0] ?? null;
+}
+
+function supplementalCompletedOnPageEvidence() {
+  return completedOnPageEvidenceDirs({ supplementalOnly: true }) ?? [];
 }
 
 function latestReportFile(prefix, extension = '.json') {
@@ -258,13 +275,42 @@ function latestReviewQueueRows() {
   };
 }
 
-function latestOnPageItems(evidence = latestCompletedOnPageEvidence()) {
-  const pagesPath = evidence ? join(evidence.outputDir, 'pages.raw.json') : null;
-  const raw = pagesPath ? readJsonFile(pagesPath) : null;
+function extractOnPageItems(raw) {
   const items = raw?.response?.tasks?.[0]?.result?.[0]?.items ?? [];
+  return Array.isArray(items) ? items : [];
+}
+
+function onPageItemUrl(item) {
+  return item?.url ?? item?.page_url ?? item?.resource_url ?? item?.meta?.canonical ?? '';
+}
+
+function latestOnPageItems(evidence = latestCompletedOnPageEvidence()) {
+  const sourceEntries = [evidence, ...supplementalCompletedOnPageEvidence()].filter(Boolean);
+  const byUrl = new Map();
+  const paths = [];
+  const supplementalPaths = [];
+
+  for (const source of sourceEntries) {
+    const pagesPath = source.pagesPath ?? join(source.outputDir, 'pages.raw.json');
+    const raw = readJsonFile(pagesPath);
+    const items = extractOnPageItems(raw);
+    if (!items.length) continue;
+    paths.push(pagesPath);
+    if (source.outputDir !== evidence?.outputDir) supplementalPaths.push(pagesPath);
+
+    for (const item of items) {
+      const itemUrl = onPageItemUrl(item);
+      if (!itemUrl) continue;
+      byUrl.set(normalizeEvidenceUrl(itemUrl), item);
+    }
+  }
+
+  const pagesPath = evidence?.pagesPath ?? (evidence ? join(evidence.outputDir, 'pages.raw.json') : null);
   return {
     path: pagesPath,
-    items: Array.isArray(items) ? items : [],
+    paths,
+    supplementalPaths,
+    items: [...byUrl.values()],
   };
 }
 
@@ -360,20 +406,20 @@ function titleFromSlug(slug = '') {
 }
 
 function improvedAlt(entry) {
-  const topic = titleFromSlug(entry.slug);
+  const topic = titleFromSlug(entry.slug) || entry.toolName;
   if (entry.kind === 'guide') {
-    return `Smoke-kawaii mascot walking through ${entry.toolName}, with example inputs, result notes, and ${topic.toLowerCase()} props.`;
+    return `Guide image for ${entry.toolName} showing the ${topic.toLowerCase()} workflow with example inputs and result notes.`;
   }
 
-  return `Smoke-kawaii mascot presenting ${entry.toolName} with ${topic.toLowerCase()} inputs, page props, and a visible result card.`;
+  return `Illustration for ${entry.toolName} showing the ${topic.toLowerCase()} inputs and the result the tool helps calculate.`;
 }
 
 function improvedCaption(entry) {
   if (entry.kind === 'guide') {
-    return `${entry.toolName} guide artwork that points readers toward the plain-language examples, formula notes, limits, and mistakes to check.`;
+    return `${entry.toolName} guide artwork sits with the walkthrough, including inputs, examples, limits, and mistakes to check.`;
   }
 
-  return `${entry.toolName} artwork connects the illustration to the exact tool workflow, the inputs users enter, and the result they came to check.`;
+  return `${entry.toolName} artwork matches the live tool workflow, the inputs users enter, and the result they came to check.`;
 }
 
 function toolArtAltIssues(entry) {
@@ -381,14 +427,17 @@ function toolArtAltIssues(entry) {
   const alt = String(entry.alt ?? '');
   const caption = String(entry.caption ?? '');
   const genericAltPatterns = [
+    /^smoke-kawaii mascot (presenting|walking through)/i,
     /smoke-style kawaii mascot using visual cues/i,
     /smoke-style kawaii mascot explaining/i,
+    /page props/i,
     /visual cues for/i,
     /guide notes/i,
   ];
   const genericCaptionPatterns = [
     /^A smoke-kawaii visual for the .+ tool page\.$/i,
     /^A companion smoke-kawaii visual for the .+ guide\.$/i,
+    /plain-language examples, formula notes, limits, and mistakes readers should check/i,
   ];
 
   if (alt.length < 55) issues.push('alt-too-short');
@@ -2623,6 +2672,7 @@ async function allPagesDataForSeoCommand() {
       sitewideSeoReport: sitewide.path ? rel(sitewide.path) : null,
       onPageEvidenceDir: latestOnPage?.outputDir ? rel(latestOnPage.outputDir) : null,
       onPagePagesRaw: onPageEvidence.path ? rel(onPageEvidence.path) : null,
+      onPageSupplementalPagesRaw: onPageEvidence.supplementalPaths.map((itemPath) => rel(itemPath)),
       dataForSeoSearchIntentEndpoint: '/dataforseo_labs/google/search_intent/live',
     },
     counts,
@@ -2630,6 +2680,7 @@ async function allPagesDataForSeoCommand() {
       'Every target receives DataForSEO Labs Search Intent evidence in one bulk paid request.',
       'Every target receives a page-specific generic-content guard based on Google people-first, title/snippet, and image-alt guidance.',
       'Latest completed DataForSEO OnPage crawl is attached when the live crawler saw that exact URL.',
+      'Supplemental one-page DataForSEO OnPage crawls are merged when the broad crawl misses a public URL.',
       'Backlinks API is not used.',
       'Rows without live OnPage coverage are not called live-fixed; they require deployment and a fresh crawl if they are local-only pages.',
     ],
@@ -2687,6 +2738,7 @@ async function allPagesDataForSeoCommand() {
     '',
     `- Sitewide SEO: ${payload.sources.sitewideSeoReport ?? 'missing'}`,
     `- DataForSEO OnPage: ${payload.sources.onPageEvidenceDir ?? 'missing'}`,
+    `- DataForSEO supplemental OnPage pages: ${payload.sources.onPageSupplementalPagesRaw.join(', ') || 'none'}`,
     `- DataForSEO Search Intent endpoint: ${payload.sources.dataForSeoSearchIntentEndpoint}`,
     `- DataForSEO Search Intent API calls: ${payload.intentApiCalls}`,
     `- DataForSEO Search Intent cost: ${payload.intentTaskCost ?? payload.intentCost ?? 'n/a'}`,

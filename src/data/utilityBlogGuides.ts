@@ -2787,7 +2787,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   'slug-generator': {
     summary: 'Learn how to turn titles and phrases into clean lowercase URL slugs.',
     purpose:
-      'The Slug Generator turns a readable title into a URL-friendly draft path. It is useful for planning blog guides and tool pages while keeping one clear canonical page for each search intent.',
+      'The Slug Generator turns a readable title into a URL-friendly draft path. It is useful for planning blog guides and tool pages while keeping one clear main page for each real topic.',
     enter: [
       'Paste a title, heading, or tool name.',
       'Add a maximum length only when you need a shorter slug.',

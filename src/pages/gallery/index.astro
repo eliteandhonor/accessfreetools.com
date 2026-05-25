@@ -14,7 +14,7 @@ const hasApprovedArt = toolArtEntries.length > 0;
 
 <BaseLayout
   title="Smoke-Kawaii Tool Images Gallery | Access Free Tools"
-  description="Browse the Access Free Tools smoke-kawaii images gallery, with unique visual artwork for tool pages and guide pages across every utility category."
+  description="Browse approved Access Free Tools image pages, with visual artwork connected to tool pages and matching guide pages."
   path="/gallery/"
   noindex={!hasApprovedArt}
 >
@@ -26,7 +26,7 @@ const hasApprovedArt = toolArtEntries.length > 0;
   />
   <CollectionStructuredData
     name="Smoke-Kawaii Tool Images Gallery"
-    description="Category hub for unique smoke-kawaii artwork connected to Access Free Tools utilities and guides."
+    description="Gallery hub for approved artwork connected to Access Free Tools utilities and guides."
     path="/gallery/"
     items={activeCategories.map((category) => ({ name: category.name, path: `/gallery/${category.slug}/` }))}
     maxItems={activeCategories.length}
@@ -36,8 +36,8 @@ const hasApprovedArt = toolArtEntries.length > 0;
     <p class="breadcrumb"><a href="/">Home</a> / Gallery</p>
     <h1>Smoke-Kawaii Tool Images Gallery</h1>
     <p>
-      This gallery is reserved for approved GPT Image artwork only. Each future tool and guide image
-      must be a unique smoke-style kawaii mascot scene, not a repeated abstract background.
+      This gallery only shows approved artwork that belongs with a real tool or guide page. Draft,
+      placeholder, and failed-review images stay hidden.
     </p>
   </section>
 
@@ -46,7 +46,7 @@ const hasApprovedArt = toolArtEntries.length > 0;
       <section class="section-band gallery-category-band">
         <div class="section-heading">
           <h2>Browse by category</h2>
-          <p>Each category page keeps the gallery useful instead of turning it into one giant image dump.</p>
+          <p>Each category page groups artwork by the kind of tool it helps explain.</p>
         </div>
         <div class="gallery-category-grid">
           {activeCategories.map((category) => {
@@ -76,7 +76,7 @@ const hasApprovedArt = toolArtEntries.length > 0;
       <section class="section-band section-band-soft gallery-preview-band">
         <div class="section-heading">
           <h2>Featured tool visuals</h2>
-          <p>A quick sample from the approved art set. Open a category to see the matching guide images too.</p>
+          <p>A quick sample from the approved artwork. Open a category to see the matching guide images too.</p>
         </div>
         <div class="gallery-grid">
           {featuredEntries.map((entry) => (
@@ -103,13 +103,13 @@ const hasApprovedArt = toolArtEntries.length > 0;
       <div class="section-heading">
         <h2>Gallery approval queue</h2>
         <p>
-          The image system is ready, but public gallery entries stay hidden until their exact GPT Image
-          asset passes visual QA and is marked approved.
+          Public gallery entries stay hidden until the exact image for that tool or guide passes
+          a visual check.
         </p>
       </div>
       <div class="trust-callout">
-        <strong>Quality rule:</strong> weak repeated placeholder art is not published. Approved images
-        must look like unique smoke-kawaii mascot illustrations tied to the actual tool or guide.
+        <strong>Quality rule:</strong> weak repeated art is not published. Approved images must
+        look unique and clearly match the actual tool or guide.
       </div>
     </section>
   )}

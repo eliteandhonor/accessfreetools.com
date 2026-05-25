@@ -22,7 +22,7 @@ const { category } = Astro.props;
 const toolEntries = category.entries.filter((entry: ToolArtManifestEntry) => entry.kind === 'tool');
 const guideEntries = category.entries.filter((entry: ToolArtManifestEntry) => entry.kind === 'guide');
 const title = `${category.name} Smoke-Kawaii Art Gallery | Access Free Tools`;
-const description = `Browse unique smoke-kawaii images for ${category.name.toLowerCase()} tool pages and matching guide pages on Access Free Tools.`;
+const description = `Browse approved images for ${category.name.toLowerCase()} tool pages and matching guide pages on Access Free Tools.`;
 ---
 
 <BaseLayout title={title} description={description} path={`/gallery/${category.slug}/`}>
@@ -46,7 +46,7 @@ const description = `Browse unique smoke-kawaii images for ${category.name.toLow
     <h1>{category.name} Smoke-Kawaii Gallery</h1>
     <p>
       {category.summary} This gallery connects each visual back to the page where it helps: tool
-      images open the live utility, and guide images open the matching plain-language walkthrough.
+      images open the live utility, and guide images open the matching walkthrough.
     </p>
   </section>
 
@@ -78,7 +78,7 @@ const description = `Browse unique smoke-kawaii images for ${category.name.toLow
   <section class="section-band section-band-soft gallery-preview-band">
     <div class="section-heading">
       <h2>Guide page artwork</h2>
-      <p>These images link to guides that explain inputs, examples, formulas, limits, and mistakes to avoid.</p>
+      <p>These images link to guides with inputs, examples, formulas, limits, and mistakes to avoid.</p>
     </div>
     <div class="gallery-grid">
       {guideEntries.map((entry: ToolArtManifestEntry) => (

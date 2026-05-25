@@ -663,8 +663,8 @@ const taskNotes = categoryTasks[category.slug] ?? [
         <div>
           <h2 id="calculator-intent-heading">Find the right calculator faster</h2>
           <p>
-            Pick the path that matches the question you are trying to answer. This keeps the calculator hub useful
-            for visitors who arrive from search and helps the most helpful pages sit close to the top.
+            Pick the path that matches the question you are trying to answer. It is faster than
+            opening a giant list and guessing which page fits.
           </p>
         </div>
         <div class="visual-seo-links">
@@ -794,7 +794,7 @@ const taskNotes = categoryTasks[category.slug] ?? [
   <section class="section-band">
     <div class="section-heading">
       <h2>All {category.name.toLowerCase()} tools</h2>
-      <p>Open a tool, check the examples, then jump to the matching guide when you need more context.</p>
+      <p>Open a tool, try the examples, then use the matching guide when you need more explanation.</p>
     </div>
     <div class="tool-grid">
       {categoryTools.map((tool) => <ToolCard tool={tool} />)}
@@ -806,7 +806,7 @@ const taskNotes = categoryTasks[category.slug] ?? [
       <section class="section-band category-guide-band">
         <div class="section-heading">
           <h2>Guides for this category</h2>
-          <p>Each guide uses the matching Access Free Tools calculator as the example.</p>
+          <p>Each guide uses its matching tool, with example numbers and plain limits.</p>
         </div>
         <div class="blog-list-grid">
           {categoryGuides.slice(0, 9).map((post) => (
