@@ -1100,10 +1100,11 @@ main {
 .gallery-category-grid img,
 .gallery-card img {
   aspect-ratio: 480 / 252;
+  background: #0c1119;
   border-radius: 6px;
   display: block;
   height: auto;
-  object-fit: cover;
+  object-fit: contain;
   width: 100%;
 }
 
@@ -7284,9 +7285,10 @@ main {
 
 .tool-art-figure img {
   aspect-ratio: 1200 / 630;
+  background: #0c1119;
   display: block;
   height: auto;
-  object-fit: cover;
+  object-fit: contain;
   width: 100%;
 }
 
