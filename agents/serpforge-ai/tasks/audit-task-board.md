@@ -12,6 +12,11 @@ SERPForge is the main agent. Sub-agents work inside this project folder and writ
 | Paid sitewide SEO | DataForSEO Market Intelligence Agent | Run DataForSEO OnPage across every public page only after account/status gates pass; keep Labs/SERP checks targeted by tier. | `npm run serpforge -- dataforseo-sitewide-audit` |
 | Per-page paid intent ledger | DataForSEO Market Intelligence Agent | Attach DataForSEO Search Intent evidence to every built sitemap page and fail generic above-fold copy before claiming page-by-page SEO completion. | `npm run serpforge -- all-pages-dataforseo` |
 | Per-page live SERP audit | DataForSEO Market Intelligence Agent | Use live Google organic SERP evidence for every built sitemap page with tiered depth, stop_crawl_on_match, and no Backlinks API. | `npm run serpforge -- all-pages-serp-audit` |
+| All-page review queue | Main Audit Coordinator | Build one row for every public sitemap HTML page, assign sub-agents, and list the exact proof commands required before the page can be done. | `npm run serpforge -- all-pages-review-queue` |
+| Human tone cleanup | Smart 14 Voice Editor Agent | Remove AI/SEO/internal filler and keep reader copy in the Access Free Tools smart 14-year-old voice. | `npm run serpforge -- all-pages-tone-audit` |
+| Mandatory tool proof | DataForSEO Market Intelligence Agent | Refuse done status for every tool page until DataForSEO intent, live SERP, and OnPage evidence exist for that exact URL. | `npm run serpforge -- all-tools-dataforseo-sprint` |
+| Mandatory blog proof | DataForSEO Market Intelligence Agent | Refuse done status for every blog guide until DataForSEO intent, live SERP, and OnPage evidence exist for that exact URL. | `npm run serpforge -- all-blogs-dataforseo-sprint` |
+| Final page judge | Audit Sprint Judge | Merge local SEO, human tone, DataForSEO, and OnPage proof into one page-by-page done-rule report. | `npm run serpforge -- all-pages-human-tone-report` |
 | Template risk | Template QA Agent | Find copy mismatches such as `tools tools`, non-calculator pages saying calculator, visible theme text, repeated guide phrases, and weak boilerplate. | `npm run serpforge -- template-qa` |
 | Alt SEO | Image Alt SEO Agent | Audit approved tool-art alt text and captions for generic mascot/category wording and mismatch with the tool purpose. | `npm run serpforge -- image-alt-audit` |
 | Crawl stability | Crawl Stability Agent | Plan checks for 429 risk, static HTML discovery, sitemap index coverage, robots, canonical, and important status codes. | `npm run serpforge -- crawl-plan` |
@@ -43,3 +48,5 @@ SERPForge is the main agent. Sub-agents work inside this project folder and writ
 - Stop paid sprint at or below 2 USD balance and warn at or below 10 USD.
 - Keep galleries indexable only when approved GPT Image art exists.
 - Sub-agents can say `ready-for-human-approval`; only the user can approve.
+- Tool/blog page rows fail if DataForSEO page evidence is missing, even when a sitewide audit passed.
+- Public copy must use smart 14-year-old clarity and avoid agent, AI, SEO, and internal-process filler.
