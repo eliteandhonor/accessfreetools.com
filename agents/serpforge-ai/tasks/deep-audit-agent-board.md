@@ -28,18 +28,6 @@ Generated source: `agents/serpforge-ai/evidence/SEO_Audit_Report_accessfreetools
 | DataForSEO Market Agent | dataforseo-gsc | `agents/serpforge-ai/agents/dataforseo-market-intelligence-agent.md` | `dataforseo-plan`, `dataforseo-sitewide-audit`, `all-pages-dataforseo` |
 | Audit Sprint Judge | final-judge | `agents/serpforge-ai/agents/audit-sprint-judge.md` | `deep-audit-sprint`, `audit-sprint`, `all-pages-human-tone-report` |
 
-## P0 Lane
-
-| status | owner | id | task | proof |
-| --- | --- | --- | --- | --- |
-| confirmed | Technical Headers Agent | hsts-missing | Add or configure production HSTS after checking Hostinger/CDN ownership, then verify the live header. | technical-header-plan plus live HEAD response. |
-| confirmed | Technical Headers Agent | cache-max-age-zero | Plan CDN/static cache rules for built assets and HTML without breaking tool freshness. | technical-header-plan and production header sample. |
-| confirmed | Technical Headers Agent | trailing-slash-no-redirect | Add or configure trailing-slash 301 behavior only after checking Astro, Hostinger, and sitemap canonicals. | technical-header-plan and redirect probe for /tools. |
-| already-fixed | Crawl And Indexation Agent | sitemap-index-submitted | Keep submitting and verifying the canonical sitemap set through the existing GSC flow. | gsc-submit-sitemaps and check:production-sitemap. |
-| needs-proof | Crawl And Indexation Agent | gsc-url-examples | Use Search Console exports and URL Inspection before assigning exact URL fixes. | npm run search-console:inspect-key-urls and npm run aft -- seo-console. |
-| confirmed | DataForSEO Market Agent | dataforseo-market-layer | Use Labs, live SERP, and OnPage only; tier depth and stop_crawl_on_match; never use Backlinks API. | dataforseo-plan, all-pages-dataforseo, all-pages-serp-audit, dataforseo-sitewide-audit. |
-| confirmed | Audit Sprint Judge | no-fake-done-claims | Block done until build, local SEO, DataForSEO, GSC/Search Console, and human-tone gates pass. | deep-audit-sprint and all-pages-human-tone-report. |
-
 ## Live Proof Follow-Up Lane - 2026-05-25
 
 Source board: `agents/serpforge-ai/tasks/live-recommendation-agent-tasks-2026-05-25.md`
@@ -52,6 +40,31 @@ Source board: `agents/serpforge-ai/tasks/live-recommendation-agent-tasks-2026-05
 | confirmed | Content Depth Agent | dataforseo-low-content-rate-review | Review the 41 DataForSEO low-content-rate rows manually and avoid padding pages with no real reader gap. | Fresh DataForSEO report plus page workbench for edited URLs. |
 | confirmed | Metadata And Heading Agent | dataforseo-duplicate-content-groups | Review the 10 duplicate-content groups and differentiate only pages with real overlap. | DataForSEO duplicate-content rows plus page-specific workbench. |
 | needs-proof | GSC Sitemap Submission Agent | sitemap-pending-watch | Recheck `/sitemap.xml` and `/feed.xml` after Search Console processes the latest submission. | `npm run search-console:submit-discovery`. |
+
+## GSC Performance Lane - 2026-05-26
+
+Source board: `agents/serpforge-ai/tasks/gsc-performance-agent-tasks-2026-05-26.md`
+
+| status | owner | id | task | proof |
+| --- | --- | --- | --- | --- |
+| confirmed | DataForSEO Market Agent + Search Intent And Keyword Agent | interest-rate-dataforseo-page-sprint | Make `/tools/interest-rate-calculator/` the first GSC-driven sprint because it has 915 impressions, 0 clicks, and a blocked workbench. | `npm run serpforge -- paid-audit-sprint interest-rate-calculator tool`; `node scripts/seo-agent-workbench.mjs all interest-rate-calculator tool`. |
+| confirmed | FAQ And Schema Specialist | interest-rate-six-faqs | Add useful visible FAQs for Interest Rate Calculator; current source has 0 FAQs and page score is 81. | `npm run aft -- seo-page-score interest-rate-calculator tool`. |
+| confirmed | Metadata And Heading Agent | interest-rate-source-seo-description | Add a source `seoDescription` for Interest Rate Calculator. | `npm run aft -- seo-page-score interest-rate-calculator tool`. |
+| needs-proof | Metadata And Heading Agent + Content Depth Agent | near-page-one-ctr-sprint | Review near-page-one GSC pages before lower-rank bulk rewrites. | Page-specific workbench and DataForSEO proof for selected tool/blog pages. |
+| needs-proof | Crawl And Indexation Agent | gsc-coverage-url-sample-export | Import Search Console Coverage/Page Indexing URL examples before assigning exact 5xx or 404 fixes. | `npm run search-console:import-coverage` after Coverage CSV export. |
+| watch | Crawl And Indexation Agent | legacy-url-search-console-watch | Keep old URL rows as redirect-watch items, not duplicate rebuilds. | Live 301 proof and Search Console inspection for replacement targets. |
+
+## P0 Lane
+
+| status | owner | id | task | proof |
+| --- | --- | --- | --- | --- |
+| confirmed | Technical Headers Agent | hsts-missing | Add or configure production HSTS after checking Hostinger/CDN ownership, then verify the live header. | technical-header-plan plus live HEAD response. |
+| confirmed | Technical Headers Agent | cache-max-age-zero | Plan CDN/static cache rules for built assets and HTML without breaking tool freshness. | technical-header-plan and production header sample. |
+| confirmed | Technical Headers Agent | trailing-slash-no-redirect | Add or configure trailing-slash 301 behavior only after checking Astro, Hostinger, and sitemap canonicals. | technical-header-plan and redirect probe for /tools. |
+| already-fixed | Crawl And Indexation Agent | sitemap-index-submitted | Keep submitting and verifying the canonical sitemap set through the existing GSC flow. | gsc-submit-sitemaps and check:production-sitemap. |
+| needs-proof | Crawl And Indexation Agent | gsc-url-examples | Use Search Console exports and URL Inspection before assigning exact URL fixes. | npm run search-console:inspect-key-urls and npm run aft -- seo-console. |
+| confirmed | DataForSEO Market Agent | dataforseo-market-layer | Use Labs, live SERP, and OnPage only; tier depth and stop_crawl_on_match; never use Backlinks API. | dataforseo-plan, all-pages-dataforseo, all-pages-serp-audit, dataforseo-sitewide-audit. |
+| confirmed | Audit Sprint Judge | no-fake-done-claims | Block done until build, local SEO, DataForSEO, GSC/Search Console, and human-tone gates pass. | deep-audit-sprint and all-pages-human-tone-report. |
 
 ## P1 Lane
 

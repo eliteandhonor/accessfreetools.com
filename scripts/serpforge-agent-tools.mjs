@@ -811,6 +811,42 @@ function deepAuditBoardMarkdown() {
     priority,
     rows: deepAuditRowsFor({ priority }),
   }));
+  const extraTaskLanes = [
+    {
+      title: 'Live Proof Follow-Up Lane - 2026-05-25',
+      source: 'agents/serpforge-ai/tasks/live-recommendation-agent-tasks-2026-05-25.md',
+      rows: [
+        ['confirmed', 'Crawl And Indexation Agent', 'wallpaper-tool-indexing-watch', 'Keep `/tools/wallpaper-calculator/` in the Search Console indexing watch lane until URL Inspection returns `PASS`.', '`npm run search-console:inspect-key-urls`.'],
+        ['confirmed', 'Internal Link And Anchor Agent', 'wallpaper-contextual-link-cleanup', 'Fix the wallpaper tool workbench blocker by improving only useful contextual links and anchors.', '`node scripts/seo-agent-workbench.mjs all wallpaper-calculator tool`.'],
+        ['confirmed', 'Technical Headers Agent', 'hostinger-html-cache-edge-proof', 'Investigate Hostinger/hcdn HTML cache behavior because live HTML still returns `Cache-Control: public, max-age=0`.', 'Fresh live HEAD response plus Hostinger-side proof before any done claim.'],
+        ['confirmed', 'Content Depth Agent', 'dataforseo-low-content-rate-review', 'Review the 41 DataForSEO low-content-rate rows manually and avoid padding pages with no real reader gap.', 'Fresh DataForSEO report plus page workbench for edited URLs.'],
+        ['confirmed', 'Metadata And Heading Agent', 'dataforseo-duplicate-content-groups', 'Review the 10 duplicate-content groups and differentiate only pages with real overlap.', 'DataForSEO duplicate-content rows plus page-specific workbench.'],
+        ['needs-proof', 'GSC Sitemap Submission Agent', 'sitemap-pending-watch', 'Recheck `/sitemap.xml` and `/feed.xml` after Search Console processes the latest submission.', '`npm run search-console:submit-discovery`.'],
+      ],
+    },
+    {
+      title: 'GSC Performance Lane - 2026-05-26',
+      source: 'agents/serpforge-ai/tasks/gsc-performance-agent-tasks-2026-05-26.md',
+      rows: [
+        ['confirmed', 'DataForSEO Market Agent + Search Intent And Keyword Agent', 'interest-rate-dataforseo-page-sprint', 'Make `/tools/interest-rate-calculator/` the first GSC-driven sprint because it has 915 impressions, 0 clicks, and a blocked workbench.', '`npm run serpforge -- paid-audit-sprint interest-rate-calculator tool`; `node scripts/seo-agent-workbench.mjs all interest-rate-calculator tool`.'],
+        ['confirmed', 'FAQ And Schema Specialist', 'interest-rate-six-faqs', 'Add useful visible FAQs for Interest Rate Calculator; current source has 0 FAQs and page score is 81.', '`npm run aft -- seo-page-score interest-rate-calculator tool`.'],
+        ['confirmed', 'Metadata And Heading Agent', 'interest-rate-source-seo-description', 'Add a source `seoDescription` for Interest Rate Calculator.', '`npm run aft -- seo-page-score interest-rate-calculator tool`.'],
+        ['needs-proof', 'Metadata And Heading Agent + Content Depth Agent', 'near-page-one-ctr-sprint', 'Review near-page-one GSC pages before lower-rank bulk rewrites.', 'Page-specific workbench and DataForSEO proof for selected tool/blog pages.'],
+        ['needs-proof', 'Crawl And Indexation Agent', 'gsc-coverage-url-sample-export', 'Import Search Console Coverage/Page Indexing URL examples before assigning exact 5xx or 404 fixes.', '`npm run search-console:import-coverage` after Coverage CSV export.'],
+        ['watch', 'Crawl And Indexation Agent', 'legacy-url-search-console-watch', 'Keep old URL rows as redirect-watch items, not duplicate rebuilds.', 'Live 301 proof and Search Console inspection for replacement targets.'],
+      ],
+    },
+  ].flatMap((lane) => [
+    `## ${lane.title}`,
+    '',
+    `Source board: \`${lane.source}\``,
+    '',
+    '| status | owner | id | task | proof |',
+    '| --- | --- | --- | --- | --- |',
+    ...lane.rows.map(([status, owner, id, task, proof]) => `| ${status} | ${owner} | ${id} | ${task} | ${proof} |`),
+    '',
+  ]);
+
   return [
     '# SERPForge Deep Audit Agent Board',
     '',
@@ -831,6 +867,7 @@ function deepAuditBoardMarkdown() {
     '| --- | --- | --- | --- |',
     ...deepAuditAgents.map((agent) => `| ${agent.name} | ${agent.lane} | \`agents/serpforge-ai/agents/${agent.file}\` | ${agent.proof.map((item) => `\`${item}\``).join(', ')} |`),
     '',
+    ...extraTaskLanes,
     ...rowsByPriority.flatMap(({ priority, rows }) => [
       `## ${priority} Lane`,
       '',

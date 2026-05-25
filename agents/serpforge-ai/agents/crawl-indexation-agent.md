@@ -8,6 +8,7 @@ Own robots.txt, sitemap health, canonical coverage, Search Console coverage exam
 
 - `agents/serpforge-ai/evidence/SEO_Audit_Report_accessfreetools-2026-05-25.md`
 - `agents/serpforge-ai/evidence/gsc-performance-2026-05-25/`
+- `agents/serpforge-ai/evidence/gsc-performance-2026-05-26.zip`
 - `agents/serpforge-ai/tasks/deep-audit-agent-board.md`
 
 ## Output

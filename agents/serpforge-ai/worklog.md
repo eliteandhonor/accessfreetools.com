@@ -34,3 +34,10 @@
 - Open follow-up tasks now cover wallpaper Search Console indexing, wallpaper internal-link workbench blocker, Hostinger HTML cache header proof, DataForSEO low-content-rate review, DataForSEO duplicate-content groups, sitemap pending watch, and soft performance budget review.
 - Proven items are separated from open recommendations: HSTS live, canonical redirects live, DataForSEO postdeploy crawl complete, sitemap set submitted, and all-pages human-tone report passed.
 - Main coordinator and deep audit board now point to the live follow-up task board.
+
+## 2026-05-26 - Search Console Performance Export Imported
+
+- Saved the latest Search Console performance export as `agents/serpforge-ai/evidence/gsc-performance-2026-05-26.zip`.
+- Added `agents/serpforge-ai/reports/gsc-performance-export-summary-2026-05-26.md`.
+- Added `agents/serpforge-ai/tasks/gsc-performance-agent-tasks-2026-05-26.md`.
+- Made `/tools/interest-rate-calculator/` the first GSC-driven page sprint because it has 915 impressions, 0 clicks, missing source `seoDescription`, 0 FAQs, page score 81, and a blocked SEO workbench.

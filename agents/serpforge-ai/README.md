@@ -40,7 +40,9 @@ For the latest live recommendations that still need agent work:
 
 ```powershell
 Get-Content agents/serpforge-ai/tasks/live-recommendation-agent-tasks-2026-05-25.md
+Get-Content agents/serpforge-ai/tasks/gsc-performance-agent-tasks-2026-05-26.md
 node scripts/seo-agent-workbench.mjs all wallpaper-calculator tool
+node scripts/seo-agent-workbench.mjs all interest-rate-calculator tool
 npm run search-console:inspect-key-urls
 npm run serpforge -- deep-audit-sprint
 ```

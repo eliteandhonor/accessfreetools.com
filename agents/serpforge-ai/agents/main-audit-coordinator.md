@@ -11,6 +11,7 @@ SERPForge's main audit agent assigns work to sub-agents, keeps every lane inside
 - `agents/serpforge-ai/tasks/audit-task-board.md`
 - `agents/serpforge-ai/tasks/deep-audit-agent-board.md`
 - `agents/serpforge-ai/tasks/live-recommendation-agent-tasks-2026-05-25.md`
+- `agents/serpforge-ai/tasks/gsc-performance-agent-tasks-2026-05-26.md`
 - Reports from `agents/serpforge-ai/reports/`
 
 ## Output
@@ -20,6 +21,7 @@ SERPForge's main audit agent assigns work to sub-agents, keeps every lane inside
 - A full public page queue from `npm run serpforge -- all-pages-review-queue`.
 - A final page-by-page done-rule report from `npm run serpforge -- all-pages-human-tone-report`.
 - A live recommendation task board that separates proven fixes from items still waiting for GSC, DataForSEO, header, or page-workbench proof.
+- A Search Console performance task board that turns current GSC impressions, CTR, and position rows into page sprint order.
 - Clear blockers when proof is missing.
 - No approval, posted, fixed, live, or done claims without evidence.
 
