@@ -123,7 +123,7 @@ export const aiTools: ToolDefinition[] = [
       'Practice understanding sentiment labels for school or data projects.',
     ],
     examples: [
-      { label: 'Positive review', expression: 'This tool saved me time and was easy to use.', result: 'Likely positive' },
+      { label: 'Positive review', expression: 'This saved me time and felt clear.', result: 'Likely positive' },
       { label: 'Negative review', expression: 'The answer was confusing and I had to redo everything.', result: 'Likely negative' },
       { label: 'Mixed message', expression: 'The idea is good, but the instructions need work.', result: 'Check manually' },
     ],
@@ -194,9 +194,9 @@ export const aiTools: ToolDefinition[] = [
     inputMeaning:
       'Paste the page, paragraph, caption, notes, or draft you want to inspect. The tool removes common filler words and looks for repeated topic words and short phrases.',
     resultMeaning:
-      'Read the keyword list as topic clues. Higher counts usually mean a word or phrase appears more often, not that it is automatically the best SEO keyword.',
+      'Read the keyword list as topic clues. Higher counts usually mean a word or phrase appears more often, not that it is automatically the best word to use.',
     doubleCheck:
-      'Check search intent, natural wording, duplicates, brand names, and context before using a keyword list in a title, blog, or product page.',
+      'Check the real question, natural wording, duplicates, brand names, and context before using a keyword list in a title, blog, or product page.',
     useCases: [
       'Find topic words in a blog draft or study passage.',
       'Clean up repeated terms before writing a title or summary.',

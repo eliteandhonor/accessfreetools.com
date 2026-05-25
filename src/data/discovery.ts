@@ -1,6 +1,7 @@
 import { blogPosts } from './blogPosts';
 import { categories } from './categories';
 import { toolArtCategorySummaries, toolArtEntries } from './toolArt';
+import { topicalHubs } from './hubs';
 import { tools } from './tools';
 import {
   getBlogDates,
@@ -25,6 +26,7 @@ export const staticSitemapEntries: SitemapEntry[] = [
   '/tools/',
   '/ask/',
   '/sitemap/',
+  '/hubs/',
   '/categories/',
   '/blog/',
   '/free-calculator-resources/',
@@ -56,6 +58,11 @@ export const categorySitemapEntries: SitemapEntry[] = categories
     path: `/categories/${category.slug}/`,
     lastmod: getCategoryLastmod(category.slug),
   }));
+
+export const hubSitemapEntries: SitemapEntry[] = topicalHubs.map((hub) => ({
+  path: `/hubs/${hub.slug}/`,
+  lastmod: getStaticPageLastmod(`/hubs/${hub.slug}/`),
+}));
 
 export const gallerySitemapEntries: SitemapEntry[] =
   toolArtEntries.length > 0

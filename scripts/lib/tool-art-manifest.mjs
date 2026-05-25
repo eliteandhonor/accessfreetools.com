@@ -183,6 +183,20 @@ function safeSummary(summary) {
   return text.length > 140 ? `${text.slice(0, 137).trim()}...` : text;
 }
 
+function shortSummary(summary, maxLength = 92) {
+  const text = normalizeWhitespace(summary).replace(/\.$/, '');
+  if (text.length <= maxLength) return text;
+
+  const clipped = text.slice(0, maxLength + 1);
+  const lastSpace = clipped.lastIndexOf(' ');
+  const safeClip = lastSpace > 55 ? clipped.slice(0, lastSpace) : clipped.slice(0, maxLength);
+  return safeClip.replace(/[,.:-]\s*$/, '');
+}
+
+function lowerFirst(value) {
+  return value ? `${value.slice(0, 1).toLowerCase()}${value.slice(1)}` : value;
+}
+
 function slugWords(slug) {
   return slug
     .replace(/-/g, ' ')
@@ -192,21 +206,32 @@ function slugWords(slug) {
 }
 
 function buildAlt(tool, kind) {
-  const topic = slugWords(tool.slug) || tool.name;
-  const categoryName = categoryNames[tool.category] ?? tool.category;
+  const concept = shortSummary(tool.summary, kind === 'tool' ? 116 : 72);
+
   if (kind === 'tool') {
-    return `Smoke-style kawaii mascot using visual cues for ${tool.name} in the ${categoryName} category.`;
+    return normalizeWhitespace(
+      `Illustration for ${tool.name} showing ${lowerFirst(concept)}.`,
+    );
   }
 
-  return `Smoke-style kawaii mascot explaining ${tool.name} with ${topic} shapes and guide notes.`;
+  return normalizeWhitespace(
+    `Guide image for ${tool.name} showing ${lowerFirst(concept)} with example inputs and result notes.`,
+  );
 }
 
 function buildCaption(tool, kind) {
+  const summary = shortSummary(tool.summary, 110);
+  const concept = summary ? lowerFirst(summary) : `the ${slugWords(tool.slug) || tool.name} workflow`;
+
   if (kind === 'tool') {
-    return `A smoke-kawaii visual for the ${tool.name} tool page.`;
+    return normalizeWhitespace(
+      `${tool.name} artwork matches the live tool workflow: ${concept}. Use it with the calculator, examples, and result notes.`,
+    );
   }
 
-  return `A companion smoke-kawaii visual for the ${tool.name} guide.`;
+  return normalizeWhitespace(
+    `${tool.name} guide artwork sits with the walkthrough for ${concept}, including inputs, examples, limits, and mistakes to check.`,
+  );
 }
 
 function buildPrompt(tool, kind) {

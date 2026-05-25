@@ -621,10 +621,10 @@ const guideDetails: Record<string, GuideDetail> = {
       'Do not assume receivables are as good as cash if customers pay late.',
       'Do not judge the business from one ratio. Trend and industry context matter.',
     ],
-    next: ['Use Debt Ratios Calculator to review leverage.', 'Use Profitability Ratios Calculator to see whether the business is earning enough profit.'],
+    next: ['Use Debt Ratios Calculator to review debt exposure.', 'Use Profitability Ratios Calculator to see whether the business is earning enough profit.'],
   },
   'debt-ratios-calculator': {
-    summary: 'Learn how debt ratio, debt-to-equity, and times interest earned describe leverage and interest coverage.',
+    summary: 'Learn how debt ratio, debt-to-equity, and times interest earned describe debt load and interest coverage.',
     purpose:
       'The Debt Ratios Calculator looks at how much debt a business uses and whether operating earnings cover interest expense in a simple way.',
     enter: [
@@ -646,7 +646,7 @@ const guideDetails: Record<string, GuideDetail> = {
       'Do not forget leases, short-term debt, and maturity dates if you are doing a real analysis.',
       'Do not treat a good interest coverage ratio as a guarantee that cash flow is healthy.',
     ],
-    next: ['Use Liquidity Ratios Calculator for short-term payment strength.', 'Use Profitability Ratios Calculator to compare leverage with earnings.'],
+    next: ['Use Liquidity Ratios Calculator for short-term payment strength.', 'Use Profitability Ratios Calculator to compare debt exposure with earnings.'],
   },
   'operations-ratios-calculator': {
     summary: 'Learn how turnover ratios show inventory, assets, and receivables moving through a business.',
@@ -2663,6 +2663,12 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
   return pageTitle.length > 65 ? `Use ${tool.name}` : standardTitle;
 }
 
+function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summary: string) {
+  const base = summary.replace(/\.$/, '');
+  const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
+  return description.length > 170 ? `${description.slice(0, 166).trim()}...` : description;
+}
+
 export const financeBlogPosts: BlogPostDefinition[] = financeTools.map((tool) => {
   const detail = getGuideDetail(tool);
 
@@ -2685,7 +2691,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     toolSlug: tool.slug,
     label: `${tool.name.replace(' Calculator', '')} guide`,
     title: getGuideTitle(tool),
-    description: detail.summary,
+    description: buildFinanceMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
     quickStart: [

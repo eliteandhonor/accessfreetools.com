@@ -1213,7 +1213,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Margin Calculator',
     buttonLabel: 'Calculate margin',
     emptyHistory: 'Recent margin estimates will appear here.',
-    privacyNote: 'Margin estimates are business profit math only and do not evaluate brokerage margin accounts, leverage risk, taxes, or accounting rules.',
+    privacyNote: 'Margin estimates are business profit math only and do not evaluate brokerage margin accounts, borrowed-money risk, taxes, or accounting rules.',
     modes: [
       {
         id: 'margin',
@@ -1386,7 +1386,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         examples: [
           { label: 'Balanced company', inputs: { totalDebt: '220000', totalAssets: '500000', totalEquity: '280000', ebit: '90000', interestExpense: '15000' } },
           { label: 'High debt load', inputs: { totalDebt: '480000', totalAssets: '750000', totalEquity: '270000', ebit: '105000', interestExpense: '42000' } },
-          { label: 'Low leverage', inputs: { totalDebt: '60000', totalAssets: '350000', totalEquity: '290000', ebit: '65000', interestExpense: '5000' } },
+          { label: 'Low debt exposure', inputs: { totalDebt: '60000', totalAssets: '350000', totalEquity: '290000', ebit: '65000', interestExpense: '5000' } },
         ],
       },
     ],
@@ -3422,7 +3422,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide profit by revenue to calculate profit margin.',
           'Divide profit by cost to calculate markup.',
         ],
-        note: 'This is business profit-margin math, not brokerage margin or leveraged investing advice.',
+        note: 'This is business profit-margin math, not brokerage margin or borrowed-money investing advice.',
       };
     }
     case 'ad-revenue': {

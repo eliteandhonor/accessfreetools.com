@@ -44,7 +44,7 @@ function makeFaq(spec: FinanceToolSpec): ToolFaq[] {
     {
       question: `How should I read the ${spec.name} answer?`,
       answer:
-        'Read the main answer first, then use the supporting lines to see why the answer moved. For finance calculators, the extra lines often explain interest, tax, fees, principal, payment timing, or totals paid over time. Those pieces matter because two results can look close at first but cost very different amounts later.',
+        'Start with the headline number, then use the supporting lines to see why the answer moved. For finance calculators, the extra lines often explain interest, tax, fees, principal, payment timing, or totals paid over time. Those pieces matter because two results can look close at first but cost very different amounts later.',
     },
     {
       question: 'What does this estimate leave out?',
@@ -331,8 +331,8 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     ],
     examples: [
       { label: 'Balanced company', expression: '$220,000 debt, $500,000 assets, $280,000 equity', result: 'Debt ratio and coverage' },
-      { label: 'High debt load', expression: '$480,000 debt and $42,000 interest expense', result: 'Leverage and interest coverage' },
-      { label: 'Low leverage', expression: '$60,000 debt on $350,000 assets', result: 'Lower debt ratio' },
+      { label: 'High debt load', expression: '$480,000 debt and $42,000 interest expense', result: 'Debt exposure and interest coverage' },
+      { label: 'Low debt exposure', expression: '$60,000 debt on $350,000 assets', result: 'Lower debt ratio' },
     ],
     relatedSlugs: ['liquidity-ratios-calculator', 'debt-to-income-ratio-calculator', 'business-loan-calculator'],
     inputExplanations: [
@@ -2083,7 +2083,7 @@ export const financeTools: ToolDefinition[] = [
     formula:
       'The calculator subtracts cost from revenue to find profit, divides profit by revenue for margin, and divides profit by cost for markup.',
     limit:
-      'This is business profit-margin math. It does not model brokerage margin accounts, borrowing to invest, leverage risk, taxes, overhead allocation, or accounting rules.',
+      'This is business profit-margin math. It does not model brokerage margin accounts, borrowing to invest, borrowed-money risk, taxes, overhead allocation, or accounting rules.',
     useCases: [
       'Calculate product or service profit margin.',
       'Compare margin and markup side by side.',

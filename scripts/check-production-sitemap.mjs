@@ -15,8 +15,23 @@ const LEGACY_URLS = [
 const args = process.argv.slice(2);
 const npmWarnOnly = process.env.npm_config_warn_only === 'true';
 const npmMaxUrls = process.env.npm_config_max_urls;
+const npmConcurrency = process.env.npm_config_concurrency;
+const npmTimeoutMs = process.env.npm_config_timeout_ms;
+const npmRetries = process.env.npm_config_retries;
 const failOnErrors = !args.includes('--warn-only') && !npmWarnOnly;
 const maxUrls = Number(args.find((arg) => arg.startsWith('--max-urls='))?.slice('--max-urls='.length) ?? npmMaxUrls ?? Infinity);
+const concurrency = Math.max(
+  1,
+  Number(args.find((arg) => arg.startsWith('--concurrency='))?.slice('--concurrency='.length) ?? npmConcurrency ?? 4),
+);
+const timeoutMs = Math.max(
+  5_000,
+  Number(args.find((arg) => arg.startsWith('--timeout-ms='))?.slice('--timeout-ms='.length) ?? npmTimeoutMs ?? 20_000),
+);
+const retries = Math.max(
+  0,
+  Number(args.find((arg) => arg.startsWith('--retries='))?.slice('--retries='.length) ?? npmRetries ?? 2),
+);
 
 function writeJson(path, value) {
   mkdirSync(dirname(path), { recursive: true });
@@ -64,37 +79,79 @@ function searchConsolePageUrls() {
     .filter((url) => typeof url === 'string' && url.startsWith(SITE_ORIGIN));
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+async function fetchUrl(url, method) {
+  return fetch(url, {
+    method,
+    redirect: 'manual',
+    signal: AbortSignal.timeout(timeoutMs),
+    headers: {
+      'user-agent': 'AccessFreeToolsProductionSitemapCheck/1.0',
+    },
+  });
+}
+
 async function checkUrl(url) {
   const startedAt = Date.now();
-  try {
-    let response = await fetch(url, { method: 'HEAD', redirect: 'manual' });
-    if (response.status === 405 || response.status === 403) {
-      response = await fetch(url, { method: 'GET', redirect: 'manual' });
-    }
+  let lastError = '';
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    try {
+      let response = await fetchUrl(url, 'HEAD');
+      if (response.status === 405 || response.status === 403) {
+        response = await fetchUrl(url, 'GET');
+      }
 
-    return {
-      url,
-      status: response.status,
-      ok: response.status >= 200 && response.status < 400,
-      location: response.headers.get('location') ?? '',
-      durationMs: Date.now() - startedAt,
-    };
-  } catch (error) {
-    return {
-      url,
-      status: 0,
-      ok: false,
-      location: '',
-      error: error instanceof Error ? error.message : String(error),
-      durationMs: Date.now() - startedAt,
-    };
+      return {
+        url,
+        status: response.status,
+        ok: response.status >= 200 && response.status < 400,
+        location: response.headers.get('location') ?? '',
+        durationMs: Date.now() - startedAt,
+        attempts: attempt + 1,
+      };
+    } catch (error) {
+      lastError = error instanceof Error ? error.message : String(error);
+      try {
+        const response = await fetchUrl(url, 'GET');
+        return {
+          url,
+          status: response.status,
+          ok: response.status >= 200 && response.status < 400,
+          location: response.headers.get('location') ?? '',
+          durationMs: Date.now() - startedAt,
+          attempts: attempt + 1,
+          recoveredFrom: lastError,
+        };
+      } catch (getError) {
+        lastError = getError instanceof Error ? getError.message : String(getError);
+      }
+
+      if (attempt < retries) {
+        await sleep(500 * (attempt + 1));
+      }
+    }
   }
+
+  return {
+    url,
+    status: 0,
+    ok: false,
+    location: '',
+    error: lastError,
+    durationMs: Date.now() - startedAt,
+    attempts: retries + 1,
+  };
 }
 
 async function runPool(items, worker) {
   const results = [];
   const queue = [...items];
-  const workers = Array.from({ length: 8 }, async () => {
+  const workers = Array.from({ length: concurrency }, async () => {
     while (queue.length) {
       const next = queue.shift();
       results.push(await worker(next));
@@ -115,6 +172,9 @@ const report = {
   sitemapUrl: SITEMAP_URL,
   sitemapsChecked: sitemapResult.sitemapsChecked,
   checked: results.length,
+  concurrency,
+  timeoutMs,
+  retries,
   ok: results.length - hardFailures.length,
   redirects: redirects.length,
   hardFailures: hardFailures.length,

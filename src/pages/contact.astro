@@ -1,6 +1,25 @@
 ---
 export const prerender = true;
 import BaseLayout from '../components/BaseLayout.astro';
+
+const contactStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact Access Free Tools',
+  url: 'https://accessfreetools.com/contact/',
+  description:
+    'Contact page for Access Free Tools corrections, tool ideas, privacy questions, disclosure questions, and site feedback.',
+  mainEntity: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+    url: 'https://accessfreetools.com/',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'site feedback',
+      email: 'contact@accessfreetools.com',
+    },
+  },
+};
 ---
 
 <BaseLayout
@@ -8,6 +27,8 @@ import BaseLayout from '../components/BaseLayout.astro';
   description="Contact Access Free Tools for suggestions, corrections, privacy questions, disclosure questions, and site feedback."
   path="/contact/"
 >
+  <script type="application/ld+json" set:html={JSON.stringify(contactStructuredData)} />
+
   <section class="page-intro">
     <p class="breadcrumb"><a href="/">Home</a> / Contact</p>
     <h1>Contact</h1>

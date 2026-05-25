@@ -6400,6 +6400,8 @@ main {
   background: color-mix(in srgb, var(--bg) 74%, white);
   border: 1px solid color-mix(in srgb, var(--border) 62%, transparent);
   border-radius: 8px;
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 16px;
 }
 
@@ -6414,6 +6416,7 @@ main {
   display: block;
   font-size: 1.2rem;
   margin-top: 10px;
+  overflow-wrap: anywhere;
 }
 
 .example-grid p {
@@ -6421,6 +6424,7 @@ main {
   font-size: 1.5rem;
   font-weight: 950;
   margin: 10px 0 0;
+  overflow-wrap: anywhere;
 }
 
 .section-title-block {
@@ -7236,6 +7240,7 @@ main {
   border-radius: 8px;
   box-shadow: 0 20px 55px rgba(17, 24, 39, 0.12);
   margin: 22px 0;
+  max-width: 860px;
   overflow: clip;
 }
 

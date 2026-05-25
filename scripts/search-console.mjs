@@ -28,6 +28,16 @@ const TARGET_DOMAIN = 'accessfreetools.com';
 const CANONICAL_SITE_URL = `https://${TARGET_DOMAIN}/`;
 const CANONICAL_SITEMAP_URL = `https://${TARGET_DOMAIN}/sitemap.xml`;
 const CANONICAL_FEED_URL = `https://${TARGET_DOMAIN}/feed.xml`;
+const CANONICAL_DISCOVERY_URLS = [
+  CANONICAL_SITEMAP_URL,
+  `https://${TARGET_DOMAIN}/sitemap-pages.xml`,
+  `https://${TARGET_DOMAIN}/sitemap-tools.xml`,
+  `https://${TARGET_DOMAIN}/sitemap-blog.xml`,
+  `https://${TARGET_DOMAIN}/sitemap-categories.xml`,
+  `https://${TARGET_DOMAIN}/sitemap-gallery.xml`,
+  `https://${TARGET_DOMAIN}/sitemap-images.xml`,
+  CANONICAL_FEED_URL,
+];
 const KEY_INSPECTION_URLS = [
   CANONICAL_SITE_URL,
   `${CANONICAL_SITE_URL}tools/`,
@@ -72,6 +82,8 @@ function parseArgs() {
       parsed.getDomainVerification = true;
     } else if (arg === '--submit-discovery') {
       parsed.submitDiscovery = true;
+    } else if (arg === '--submit-all-sitemaps') {
+      parsed.submitAllSitemaps = true;
     } else if (arg === '--inspect-key-urls') {
       parsed.inspectKeyUrls = true;
     } else if (arg === '--list-sites') {
@@ -91,7 +103,7 @@ function requiredScopesForArgs(args) {
     return MANAGE_SCOPES;
   }
 
-  if (args.submitDiscovery) {
+  if (args.submitDiscovery || args.submitAllSitemaps) {
     return SEARCH_CONSOLE_MANAGE_SCOPES;
   }
 
@@ -552,14 +564,14 @@ async function main() {
     return;
   }
 
-  if (args.submitDiscovery) {
+  if (args.submitDiscovery || args.submitAllSitemaps) {
     const site = chooseSite(sites, args.siteUrl);
 
     if (!site) {
       throw new Error('No verified accessfreetools.com Search Console property is available for sitemap submission.');
     }
 
-    const discoveryUrls = [CANONICAL_SITEMAP_URL, CANONICAL_FEED_URL];
+    const discoveryUrls = args.submitAllSitemaps ? CANONICAL_DISCOVERY_URLS : [CANONICAL_SITEMAP_URL, CANONICAL_FEED_URL];
     const submissions = [];
 
     for (const discoveryUrl of discoveryUrls) {

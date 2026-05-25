@@ -71,7 +71,7 @@ const aiConfigs: Record<AiToolVariant, AiConfig> = {
     placeholder: 'Paste a review, comment, caption, or short paragraph...',
     buttonLabel: 'Analyze sentiment',
     sampleTexts: [
-      { label: 'Positive review', text: 'This tool saved me time and was easy to use.' },
+      { label: 'Positive review', text: 'This saved me time and felt clear.' },
       { label: 'Negative review', text: 'The answer was confusing and I had to redo everything.' },
       { label: 'Mixed message', text: 'The idea is good, but the instructions need work.' },
     ],

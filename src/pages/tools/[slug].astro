@@ -30,6 +30,7 @@ import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import ToolStructuredData from '../../components/ToolStructuredData.astro';
 import UtilityCalculator, { type UtilityToolVariant } from '../../components/UtilityCalculator';
 import { getBlogGuidePathForTool, getBlogGuideToolSlugForTool } from '../../data/blogGuideCanonicals';
+import { getDeepAuditRecord } from '../../data/toolDeepAudit';
 import { toolAliases, type ToolAlias } from '../../data/toolAliases';
 import { getToolArt } from '../../data/toolArt';
 import { getCategoryName, getRelatedTools, tools, type ToolDefinition } from '../../data/tools';
@@ -77,6 +78,15 @@ const guidePath = getBlogGuidePathForTool(tool.slug);
 const guideToolSlug = getBlogGuideToolSlugForTool(tool.slug);
 const guideTool = tools.find((candidate) => candidate.slug === guideToolSlug);
 const guideTitle = `How to use the ${guideTool?.name ?? tool.name}`;
+const auditRecord = !isAliasPage ? getDeepAuditRecord(tool.slug) : undefined;
+const auditStatusLabel =
+  auditRecord?.status === 'deep-reviewed'
+    ? 'Reviewed tool page'
+    : auditRecord?.status === 'baseline-reviewed'
+      ? 'Basic page review'
+      : auditRecord?.status === 'alias-reviewed'
+        ? 'Alternate name review'
+        : undefined;
 const toolArt = !isAliasPage ? getToolArt(tool.slug, 'tool') : undefined;
 const toolSocialImagePath =
   {
@@ -1415,8 +1425,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         <div class="alias-notice">
           <strong>{displayName} is available as the {tool.name}.</strong>
           <p>
-            We keep one canonical tool page for this calculation so results, examples, FAQs, and blog links stay
-            consistent. Use the calculator below, or open the canonical page directly.
+            This is the same working tool under a different name. Keeping one main version means the formula,
+            examples, FAQs, and guide link do not split into two slightly different pages.
           </p>
           <a class="button-primary" href={`/tools/${tool.slug}/`}>Open {tool.name}</a>
         </div>
@@ -1439,6 +1449,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
           <img
             src="/images/kawaii-calculator-mascot.webp"
             alt="A pastel kawaii calculator mascot with cute stationery."
+            title="Pastel kawaii calculator mascot for the working calculator interface."
             height="720"
             loading="eager"
             width="900"
@@ -1692,10 +1703,10 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isStatsSuiteTool && (
         <div class="advanced-tool-points" aria-label={`${tool.name} highlights`}>
-          <span>Formula steps</span>
-          <span>Examples included</span>
-          <span>Copy results</span>
-          <span>Private history</span>
+          <span>Inputs to check</span>
+          <span>Example numbers</span>
+          <span>Copyable answer</span>
+          <span>Tab-only history</span>
         </div>
       )
     }
@@ -1703,10 +1714,10 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isGeometryTool && (
         <div class="advanced-tool-points" aria-label={`${tool.name} highlights`}>
-          <span>Formula steps</span>
-          <span>Examples included</span>
-          <span>Copy results</span>
-          <span>Private history</span>
+          <span>Unit-aware inputs</span>
+          <span>Formula note</span>
+          <span>Example numbers</span>
+          <span>Tab-only history</span>
         </div>
       )
     }
@@ -1714,10 +1725,10 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isHealthTool && (
         <div class="advanced-tool-points health-tool-points" aria-label={`${tool.name} highlights`}>
-          <span>Research-based formula</span>
-          <span>Estimate limits shown</span>
-          <span>Examples included</span>
-          <span>Private history</span>
+          <span>Estimate, not diagnosis</span>
+          <span>Formula notes</span>
+          <span>Example inputs</span>
+          <span>Tab-only history</span>
         </div>
       )
     }
@@ -1725,10 +1736,10 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isFinanceTool && (
         <div class="advanced-tool-points finance-tool-points" aria-label={`${tool.name} highlights`}>
-          <span>Formula steps</span>
-          <span>Estimate limits shown</span>
-          <span>Examples included</span>
-          <span>Private history</span>
+          <span>Estimate, not advice</span>
+          <span>Payment or total shown</span>
+          <span>Example inputs</span>
+          <span>Tab-only history</span>
         </div>
       )
     }
@@ -1736,10 +1747,10 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isUtilityTool && (
         <div class="advanced-tool-points utility-tool-points" aria-label={`${tool.name} highlights`}>
-          <span>Research-backed assumptions</span>
-          <span>Formula steps</span>
-          <span>Examples included</span>
-          <span>Private in-browser use</span>
+          <span>Inputs explained</span>
+          <span>Result checks</span>
+          <span>Example values</span>
+          <span>Runs in your browser</span>
         </div>
       )
     }
@@ -1760,9 +1771,9 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         <aside class="trust-note trust-note-health" aria-label={`${tool.name} estimate limits`}>
           <strong>Educational health estimate</strong>
           <p>
-            This tool is for learning, planning, and quick comparison. It does not diagnose health, pregnancy,
-            nutrition, kidney, alcohol, medication, or safety decisions. Use a qualified professional for decisions
-            with real consequences.
+            Use this for learning and planning, not for medical decisions. It cannot diagnose health, pregnancy,
+            nutrition, kidney, alcohol, medication, or safety questions. Ask a qualified professional when the
+            answer could affect someone in real life.
           </p>
         </aside>
       )
@@ -1773,8 +1784,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         <aside class="trust-note trust-note-finance" aria-label={`${tool.name} estimate limits`}>
           <strong>Planning estimate, not financial advice</strong>
           <p>
-            This calculator helps compare scenarios from the inputs you provide. It does not include every fee, tax,
-            lender rule, payroll rule, penalty, or personal financial detail.
+            Use this to compare the numbers you enter. Real fees, taxes, lender rules, payroll rules, penalties,
+            insurance, and personal details can still change the final answer.
           </p>
         </aside>
       )
@@ -1785,9 +1796,9 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         <aside class="trust-note trust-note-utility" aria-label={`${tool.name} assumptions`}>
           <strong>Check the assumptions before relying on the result</strong>
           <p>
-            This tool is built for fast browser-based estimates, formatting, checks, and learning. Official school
-            policies, payroll rules, construction conditions, accessibility reviews, network configuration, account
-            security, API schemas, and regulated unit conversions can require a specific authority or professional check.
+            This is a fast browser tool for estimates, formatting, checks, and learning. If a school, workplace,
+            building job, network, account, API, or regulated measurement has an official rule, use that rule before
+            trusting a quick result.
           </p>
         </aside>
       )
@@ -1803,6 +1814,29 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
             experimental model tools may still download model files from a third-party model host until we self-host
             more models.
           </p>
+        </aside>
+      )
+    }
+
+    {
+      auditRecord && auditStatusLabel && (
+        <aside class="trust-note trust-note-review" aria-label={`${tool.name} review and source notes`}>
+          <strong>{auditStatusLabel}</strong>
+          <p>
+            Last checked {auditRecord.reviewedOn}. The review looked at the formula notes, input labels, examples,
+            FAQs, related links, sources, and privacy wording for this exact tool.
+          </p>
+          {auditRecord.sources.length > 0 && (
+            <p>
+              Useful references:{' '}
+              {auditRecord.sources.slice(0, 2).map((source, index) => (
+                <>
+                  {index > 0 && ' '}
+                  <a href={source.href} rel="noreferrer" target="_blank">{source.label}</a>{index === 0 && auditRecord.sources.length > 1 ? ';' : ''}
+                </>
+              ))}
+            </p>
+          )}
         </aside>
       )
     }
@@ -1855,14 +1889,14 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     </section>
 
     <section class="content-section">
-      <h2>Common uses</h2>
+      <h2>What people use it for</h2>
       <div class="feature-list">
         {tool.useCases.map((useCase) => <p>{useCase}</p>)}
       </div>
     </section>
 
     <section class="content-section">
-      <h2>Examples</h2>
+      <h2>Quick examples</h2>
       <div class="example-grid">
         {
           tool.examples.map((example) => (
@@ -1879,13 +1913,13 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     <section class="content-section">
       <h2>Need the guide or a nearby tool?</h2>
       <p>
-        This calculator is one stop in a larger topic path. Use these links when you want the
-        plain-language guide, the full category, or the complete searchable library.
+        Need a slower walkthrough, a nearby calculator, or the full library? These links keep you
+        close to the task you started.
       </p>
       <ul class="guide-link-list">
         <li>
           <a href={guidePath}>{guideTitle}</a>
-          <span>Read examples, input meanings, formula notes, result limits, and common mistakes.</span>
+          <span>See slower examples, input meanings, formula notes, result limits, and mistakes to avoid.</span>
         </li>
         <li>
           <a href={categoryPath}>{categoryName}</a>
@@ -1893,7 +1927,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         </li>
         <li>
           <a href="/blog/">Calculator and utility guides</a>
-          <span>Find more guides written around real Access Free Tools pages.</span>
+          <span>Find more guides that use real tool inputs and example numbers.</span>
         </li>
         <li>
           <a href="/tools/">All free tools</a>

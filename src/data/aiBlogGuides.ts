@@ -158,7 +158,7 @@ const guideDetails: Record<string, AiGuideDetail> = {
   },
   'keyword-extractor': {
     summary:
-      'Learn how to use the browser keyword extractor, read phrase counts, and avoid treating repeated words as guaranteed SEO wins.',
+      'Learn how to use the browser keyword extractor, read phrase counts, and avoid treating repeated words as a writing plan.',
     purpose:
       'The Keyword Extractor finds repeated words and short phrases in pasted text. It is useful for drafts, notes, and content planning when you want to see what the text talks about most.',
     enter: [
@@ -170,11 +170,11 @@ const guideDetails: Record<string, AiGuideDetail> = {
     read: [
       'Higher counts mean a term appears more often in the pasted text.',
       'Phrases can show repeated topics better than single words.',
-      'The result is not a ranking tool or search-volume tool.',
+      'The result is not a search-volume or popularity tool.',
     ],
     mistakes: [
       'Do not stuff every keyword into a page title.',
-      'Do not ignore search intent, reader clarity, or the actual question being answered.',
+      'Do not ignore the reader, the wording, or the actual question being answered.',
       'Do not treat brand names and repeated filler words as automatically useful keywords.',
     ],
     sources: [sourceLinks.googleHelpfulContent, sourceLinks.transformersJs],
@@ -250,6 +250,12 @@ const guideDetails: Record<string, AiGuideDetail> = {
   },
 };
 
+function buildAiMetaDescription(tool: (typeof aiTools)[number], summary: string) {
+  const base = summary.replace(/\.$/, '');
+  const description = `${base}. Includes input tips, output checks, privacy notes, and model limits for the ${tool.name}.`;
+  return description.length > 170 ? `${description.slice(0, 166).trim()}...` : description;
+}
+
 function makeGuide(toolSlug: string): AiGuideDefinition {
   const tool = aiTools.find((candidate) => candidate.slug === toolSlug);
   const detail = guideDetails[toolSlug];
@@ -263,7 +269,7 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
     toolSlug: tool.slug,
     label: `${tool.name} guide`,
     title: `How to use the ${tool.name}`,
-    description: detail.summary,
+    description: buildAiMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: `${detail.purpose} Use this guide to understand what to enter, how to read the output, and what to double-check before relying on the result.`,
     quickStart: detail.enter,

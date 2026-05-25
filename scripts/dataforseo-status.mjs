@@ -32,6 +32,16 @@ function writeJson(path, value) {
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+async function currentPublicIp() {
+  try {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const json = await response.json();
+    return typeof json.ip === 'string' ? json.ip : '';
+  } catch {
+    return '';
+  }
+}
+
 function serviceLine(service) {
   return `${service?.api ?? 'unknown'}: ${service?.status ?? 'unknown'}`;
 }
@@ -131,11 +141,13 @@ try {
     process.exitCode = 2;
   }
 } catch (error) {
+  const publicIp = await currentPublicIp();
   const report = {
     generatedAt: new Date().toISOString(),
     mode: sandbox ? 'sandbox' : 'production',
     status: 'error',
     message: error instanceof Error ? error.message : String(error),
+    publicIp,
     details: error?.details ?? null,
   };
   writeJson(reportPath, report);

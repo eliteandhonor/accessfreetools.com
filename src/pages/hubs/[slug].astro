@@ -1,0 +1,112 @@
+---
+export const prerender = true;
+import BaseLayout from '../../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
+import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { getBlogGuidePathForTool } from '../../data/blogGuideCanonicals';
+import { topicalHubs, type TopicalHub } from '../../data/hubs';
+import { getTool, type ToolDefinition } from '../../data/tools';
+
+export function getStaticPaths() {
+  return topicalHubs.map((hub) => ({
+    params: { slug: hub.slug },
+    props: { hub },
+  }));
+}
+
+interface Props {
+  hub: TopicalHub;
+}
+
+const { hub } = Astro.props;
+const primaryTools = hub.primaryToolSlugs
+  .map((slug) => getTool(slug))
+  .filter((tool): tool is ToolDefinition => Boolean(tool));
+const supportTools = hub.supportToolSlugs
+  .map((slug) => getTool(slug))
+  .filter((tool): tool is ToolDefinition => Boolean(tool));
+const allTools = [...primaryTools, ...supportTools];
+const hubPath = `/hubs/${hub.slug}/`;
+---
+
+<BaseLayout title={`${hub.title} | Access Free Tools`} description={hub.description} path={hubPath}>
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Hubs', path: '/hubs/' },
+      { name: hub.title, path: hubPath },
+    ]}
+  />
+  <CollectionStructuredData
+    name={hub.title}
+    description={hub.description}
+    path={hubPath}
+    items={allTools.map((tool) => ({ name: tool.name, path: `/tools/${tool.slug}/` }))}
+    maxItems={allTools.length}
+  />
+
+  <section class="page-intro">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/hubs/">Hubs</a> / {hub.eyebrow}</p>
+    <h1>{hub.title}</h1>
+    <p>{hub.intro}</p>
+  </section>
+
+  <section class="section-band section-band-soft">
+    <div class="section-heading">
+      <h2>Who this helps</h2>
+      <p>{hub.audience}</p>
+    </div>
+    <div class="trust-callout">
+      <strong>Use the hub to stay on track.</strong> Start with the closest main tool, then open a supporting
+      tool when the question turns into a comparison, a double-check, or a follow-up estimate.
+    </div>
+  </section>
+
+  <section class="section-band">
+    <div class="section-heading">
+      <h2>Primary tools</h2>
+      <p>Start with these when one of them matches your main question.</p>
+    </div>
+    <div class="tool-grid">
+      {primaryTools.map((tool) => <ToolCard tool={tool} />)}
+    </div>
+  </section>
+
+  {supportTools.length > 0 && (
+    <section class="section-band section-band-soft">
+      <div class="section-heading">
+        <h2>Supporting checks</h2>
+        <p>Use these when you need a second angle, related estimate, or format check.</p>
+      </div>
+      <div class="tool-grid">
+        {supportTools.map((tool) => <ToolCard tool={tool} />)}
+      </div>
+    </section>
+  )}
+
+  <section class="section-band">
+    <div class="section-heading">
+      <h2>Before relying on results</h2>
+      <p>These checks help you use quick browser results without treating them like official decisions.</p>
+    </div>
+    <div class="feature-list">
+      {hub.checkpoints.map((checkpoint) => <p>{checkpoint}</p>)}
+    </div>
+  </section>
+
+  <section class="section-band section-band-soft">
+    <div class="section-heading">
+      <h2>Matching guides</h2>
+      <p>Open a guide when you want examples, formulas, limits, or mistakes to avoid.</p>
+    </div>
+    <div class="sitemap-link-grid">
+      {allTools.slice(0, 12).map((tool) => (
+        <a href={getBlogGuidePathForTool(tool.slug)}>
+          <strong>How to use the {tool.name}</strong>
+          <span>{tool.summary}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

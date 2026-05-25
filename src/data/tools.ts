@@ -898,6 +898,11 @@ const baseTools: ToolDefinition[] = [
         answer:
           'Yes. Press Copy result after a calculation to copy the current display value to your clipboard.',
       },
+      {
+        question: 'Does the cute design change the math?',
+        answer:
+          'No. The kawaii version uses the same everyday calculator behavior for arithmetic, percentages, decimals, keyboard input, copying, and session history. Only the visual style changes.',
+      },
     ],
     relatedSlugs: ['basic-calculator', 'percentage-calculator', 'fraction-calculator'],
   },
@@ -960,6 +965,11 @@ const baseTools: ToolDefinition[] = [
         question: 'What is this Scientific Calculator best for?',
         answer:
           'Use it when you need trig functions, logs, roots, powers, constants, parentheses, or DEG/RAD angle mode. For plain totals and quick percentages, the Basic Calculator is simpler.',
+      },
+      {
+        question: 'What should I check before trusting a scientific result?',
+        answer:
+          'Check parentheses, angle mode, negative signs, and whether your class or formula expects degrees or radians. A correct expression in the wrong mode can still give the wrong answer.',
       },
     ],
     relatedSlugs: ['log-calculator', 'root-calculator', 'quadratic-formula-calculator'],
@@ -2629,7 +2639,7 @@ function getCategoryInputAnswer(tool: ToolDefinition) {
 function getCategoryReadingAnswer(tool: ToolDefinition) {
   switch (tool.category) {
     case 'finance':
-      return 'Read the main answer first, then look at the supporting lines for interest, principal, taxes, fees, payments, or totals over time. Those extra lines explain why two answers that look close can cost very different amounts later.';
+      return 'Start with the headline number, then look at the supporting lines for interest, principal, taxes, fees, payments, or totals over time. Those extra lines explain why two answers that look close can cost very different amounts later.';
     case 'health-fitness':
       return 'Read the result as a learning number, not a final decision about your body or health. The supporting lines may show categories, ranges, calories, dates, or targets, but they still need personal context and professional advice for important choices.';
     case 'home-projects':
@@ -2641,7 +2651,7 @@ function getCategoryReadingAnswer(tool: ToolDefinition) {
     case 'ai-tools':
       return 'Read the AI result as a best-effort clue or draft. Look at labels, scores, notes, and warnings together, then compare the result with the original text or image before using it anywhere important.';
     default:
-      return 'Read the main answer first, then check the supporting lines and examples to understand how the calculator got there. If one input changes, rerun the tool and compare the new answer instead of guessing.';
+      return 'Start with the result card, then check the supporting lines and examples to understand how the calculator got there. If one input changes, rerun the tool and compare the new answer instead of guessing.';
   }
 }
 
@@ -2658,7 +2668,7 @@ function getCategoryDoubleCheckAnswer(tool: ToolDefinition) {
     case 'ai-tools':
       return 'Check short inputs, blurry images, sarcasm, mixed-language text, low confidence scores, and important names or numbers yourself. Browser AI can be useful and still be wrong.';
     default:
-      return 'Check the units, signs, decimal places, and mode before copying the answer. If the number feels weird, rerun one of the examples first, then put your own values back in slowly.';
+      return 'Check units, signs, rounding, and the selected mode before copying the answer. If the number feels weird, rerun one of the examples first, then put your own values back in slowly.';
   }
 }
 

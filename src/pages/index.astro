@@ -180,7 +180,7 @@ const priorityDiscoveryLinks = [
     <form class="tool-search" action="/tools/" role="search">
       <label for="tool-search">Search free tools</label>
       <input id="tool-search" name="q" type="search" placeholder="Mortgage, BMI, percentage, tax..." />
-      <p>Color-customizable, mobile-first, and built around clear result explanations.</p>
+      <p>Change colors, use it on a phone, and read what the answer actually means.</p>
       <div class="hero-quick-links" aria-label="Popular tool starting points">
         {heroQuickLinks.map((link) => (
           <a href={link.href}>
@@ -194,33 +194,32 @@ const priorityDiscoveryLinks = [
 
   <section class="section-band section-band-soft">
     <div class="section-heading">
-      <h2>Built to be more than a giant calculator list</h2>
+      <h2>Every tool should explain itself</h2>
       <p>
-        The strongest utility sites have huge libraries. Access Free Tools is growing with a
-        different promise: every useful tool should be easy to understand, quick to search, and
-        honest about limits.
+        A calculator is only useful if you can trust the number. Each page keeps the inputs,
+        formula, example, and limits close to the result.
       </p>
     </div>
     <div class="standout-grid">
       <article>
         <span>01</span>
-        <h3>Explain the result</h3>
-        <p>Tools include plain-language formulas, examples, FAQs, and a guide connected to the actual page.</p>
+        <h3>Show the math</h3>
+        <p>If a result uses a formula, the page explains it in normal words and shows a real example.</p>
       </article>
       <article>
         <span>02</span>
-        <h3>Respect privacy</h3>
-        <p>Calculators and browser AI tools are designed to run in the browser wherever practical, with no account required.</p>
+        <h3>Keep private work private</h3>
+        <p>Many tools run in your browser. You do not need an account just to calculate something.</p>
       </article>
       <article>
         <span>03</span>
-        <h3>Keep discovery simple</h3>
-        <p>Search, categories, RSS, sitemap coverage, and related tools help people move from a question to the right utility.</p>
+        <h3>Make the next click obvious</h3>
+        <p>Search, categories, guides, and related tools help you move from one question to the next.</p>
       </article>
       <article>
         <span>04</span>
-        <h3>Grow with proof</h3>
-        <p>Automated audits check metadata, links, structured data, performance budgets, AI asset loading, and security.</p>
+        <h3>Check the basics</h3>
+        <p>The site gets checked for broken links, missing image text, unclear page titles, slow assets, and security mistakes.</p>
       </article>
     </div>
   </section>
@@ -229,8 +228,8 @@ const priorityDiscoveryLinks = [
     <div class="section-heading">
       <h2>Start with the right hub</h2>
       <p>
-        These paths help people and search engines understand the main jobs Access Free Tools is
-        built for, without forcing every visitor through one huge list.
+        Pick the closest shelf. If you need money math, home material estimates, health numbers,
+        school formulas, or browser tools, start there.
       </p>
     </div>
     <div class="category-link-list">
@@ -245,10 +244,10 @@ const priorityDiscoveryLinks = [
 
   <section class="section-band section-band-soft">
     <div class="section-heading">
-      <h2>Common jobs people are searching for</h2>
+      <h2>Things people usually need fast</h2>
       <p>
-        These shortcuts point to useful tools and guides people often need after
-        opening the site for the first time.
+        Shortcuts for the stuff that comes up a lot: discounts, loans, wallpaper rolls, OCR,
+        power conversions, and quick guides.
       </p>
     </div>
     <div class="category-link-list">
@@ -264,7 +263,7 @@ const priorityDiscoveryLinks = [
   <section class="section-band section-band-soft">
     <div class="section-heading">
       <h2>Recently added tools</h2>
-      <p>Fresh researched utilities from the sitemap roadmap, including economics, power conversion, golf, and finance tools.</p>
+      <p>New tools for BMI checks, power conversions, golf handicaps, economics, and everyday finance math.</p>
     </div>
     <div class="tool-grid">
       {recentlyAddedTools.map((tool) => <ToolCard tool={tool} />)}
@@ -276,8 +275,8 @@ const priorityDiscoveryLinks = [
 
   <section class="section-band">
     <div class="section-heading">
-      <h2>Popular starting points</h2>
-      <p>Open a common calculator now, or use the full tool search when you need the whole library.</p>
+      <h2>Quick calculators people open a lot</h2>
+      <p>Start with a common calculator, or use search when you need something more specific.</p>
     </div>
     <div class="tool-grid">
       {featuredTools.map((tool) => <ToolCard tool={tool} />)}

@@ -5,7 +5,8 @@ import BreadcrumbStructuredData from '../components/BreadcrumbStructuredData.ast
 import CollectionStructuredData from '../components/CollectionStructuredData.astro';
 import { blogPosts } from '../data/blogPosts';
 import { categories } from '../data/categories';
-import { gallerySitemapEntries, staticSitemapEntries } from '../data/discovery';
+import { gallerySitemapEntries, hubSitemapEntries, staticSitemapEntries } from '../data/discovery';
+import { topicalHubs } from '../data/hubs';
 import { tools } from '../data/tools';
 
 const publicPages = staticSitemapEntries.filter((entry) => !entry.path.startsWith('/admin/'));
@@ -21,6 +22,7 @@ const sitemapItems = [
     name: entry.path === '/gallery/' ? 'Smoke-Kawaii Gallery' : entry.path.replace('/gallery/', 'Gallery: ').replaceAll('/', ''),
     path: entry.path,
   })),
+  ...topicalHubs.map((hub) => ({ name: hub.title, path: `/hubs/${hub.slug}/` })),
   ...categoryGroups.map((category) => ({ name: category.name, path: `/categories/${category.slug}/` })),
   ...tools.map((tool) => ({ name: tool.name, path: `/tools/${tool.slug}/` })),
   ...blogPosts.map((post) => ({ name: post.title, path: `/blog/${post.slug}/` })),
@@ -78,6 +80,11 @@ const sitemapItems = [
         <p>Core site, legal, contact, and resource pages.</p>
       </article>
       <article>
+        <span>Hubs</span>
+        <strong>{topicalHubs.length}</strong>
+        <p>Focused topic clusters for high-value workflows.</p>
+      </article>
+      <article>
         <span>Gallery pages</span>
         <strong>{gallerySitemapEntries.length}</strong>
         <p>Smoke-kawaii image hubs linked to tools and guides.</p>
@@ -88,7 +95,7 @@ const sitemapItems = [
   <section class="section-band section-band-soft sitemap-section">
     <div class="section-heading">
       <h2>Public pages</h2>
-      <p>Core pages people and search engines may need.</p>
+      <p>Core pages for learning about the site, contacting us, and finding useful starting points.</p>
     </div>
     <div class="sitemap-link-grid">
       {publicPages.map((entry) => (
@@ -116,6 +123,25 @@ const sitemapItems = [
       </div>
     </section>
   )}
+
+  <section class="section-band section-band-soft sitemap-section">
+    <div class="section-heading">
+      <h2>Topical hubs</h2>
+      <p>Grouped pages for jobs that usually need more than one tool.</p>
+    </div>
+    <div class="sitemap-link-grid">
+      {hubSitemapEntries.map((entry) => {
+        const hub = topicalHubs.find((candidate) => `/hubs/${candidate.slug}/` === entry.path);
+
+        return (
+          <a href={entry.path}>
+            <strong>{hub?.title ?? entry.path.replace('/hubs/', '').replace('/', '')}</strong>
+            <span>{hub?.description ?? `Updated ${entry.lastmod}`}</span>
+          </a>
+        );
+      })}
+    </div>
+  </section>
 
   <section class="section-band sitemap-section">
     <div class="section-heading">

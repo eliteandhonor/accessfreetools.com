@@ -8,7 +8,7 @@ const SUCCESS_STATUS_CODES = new Set([20000, 20100]);
 const KNOWN_STATUS_HINTS = new Map([
   [40203, 'DataForSEO says the account has insufficient funds for this request.'],
   [40204, 'DataForSEO says this endpoint needs an active subscription or extra API access.'],
-  [40207, 'DataForSEO rejected the request because the daily API limit was reached.'],
+  [40207, 'DataForSEO denied access for this request. Check the task status_message for the exact reason, such as IP whitelist restrictions or a configured API limit.'],
   [40209, 'DataForSEO rejected the request because the account balance is too low.'],
   [40210, 'DataForSEO rejected the request because the account is blocked or access is restricted.'],
 ]);
@@ -73,6 +73,18 @@ function statusHint(code) {
   return KNOWN_STATUS_HINTS.get(code) ?? 'DataForSEO returned a non-success status code.';
 }
 
+function statusIssueHint(code, message = '') {
+  if (/ip is not whitelisted/i.test(message)) {
+    return 'DataForSEO denied access because the current public IP is not whitelisted in the DataForSEO API Access settings.';
+  }
+
+  if (/daily api limit/i.test(message)) {
+    return 'DataForSEO rejected the request because the configured daily API limit was reached.';
+  }
+
+  return statusHint(code);
+}
+
 function sleep(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
@@ -107,7 +119,7 @@ function collectStatusIssues(json) {
         id: task.id ?? null,
         code: task.status_code,
         message: task.status_message ?? '',
-        hint: statusHint(task.status_code),
+        hint: statusIssueHint(task.status_code, task.status_message ?? ''),
       });
     }
   }
