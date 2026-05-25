@@ -67,7 +67,7 @@ SERPForge AI coordinates these specialist layers:
 - Growth Execution Engine: `agents/growth-execution-engine.md`
 - Output System: `agents/output-system.md`
 - Main Audit Coordinator: `agents/main-audit-coordinator.md`
-- Audit sub-agents: template differentiation, template QA, crawl stability, category metadata, schema systems, EEAT trust, topical hub, anchor text, DataForSEO market intelligence, gallery SEO, image alt SEO, image sitemap, HTML sitemap, GSC sitemap submission, and audit sprint judge.
+- Audit sub-agents: template differentiation, template QA, technical headers, crawl stability, crawl/indexation, category metadata, metadata/headings, schema systems, EEAT trust, content depth, topical hub, anchor text, internal link/anchor, DataForSEO market intelligence, image/listing UX, gallery SEO, image alt SEO, image sitemap, HTML sitemap, GSC sitemap submission, authority/outreach, social discovery, and audit sprint judge.
 
 ## Evidence Rules
 
@@ -106,6 +106,15 @@ The final state from SERPForge can be `ready-for-human-approval`, not approved.
 
 - `npm run serpforge -- toolbox`: refresh the SERPForge tool-access inventory under `evidence/`.
 - `npm run serpforge -- audit-import`: import the downloaded audit report into `evidence/`.
+- `npm run serpforge -- deep-audit-import`: import `SEO_Audit_Report_accessfreetools.pdf`, extract text, and save deep-audit evidence.
+- `npm run serpforge -- deep-audit-agents`: report the deep-audit agent roster and write `tasks/deep-audit-agent-board.md`.
+- `npm run serpforge -- technical-header-plan`: verify and plan HSTS, cache headers, preloads, trailing-slash redirects, and production proof.
+- `npm run serpforge -- heading-metadata-plan`: plan title, meta description, and heading fixes from the deep audit.
+- `npm run serpforge -- content-depth-plan`: plan content depth fixes for hubs, About, Password Generator, and weak-click pages.
+- `npm run serpforge -- eeat-author-plan`: plan author, reviewer, citation, disclaimer, and trust-block fixes.
+- `npm run serpforge -- authority-plan`: draft authority and outreach targets without submitting or claiming backlinks.
+- `npm run serpforge -- social-discovery-plan`: plan social discovery drafts through existing promotion quality gates.
+- `npm run serpforge -- deep-audit-sprint`: combine PDF deep-audit agents, proof inputs, and open blockers into one report.
 - `npm run serpforge -- audit-tasks`: report the shared audit task board.
 - `npm run serpforge -- sitewide-seo-audit`: audit every built sitemap URL and merge tool/blog SEO scores where possible.
 - `npm run serpforge -- all-pages-seo`: alias for `sitewide-seo-audit`.

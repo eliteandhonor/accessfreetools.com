@@ -827,9 +827,9 @@ const taskNotes = categoryTasks[category.slug] ?? [
           {categoryGuides.slice(0, 9).map((post) => (
             <article class="blog-post-card">
               <span>{post.label}</span>
-              <h2>
+              <h3>
                 <a href={`/blog/${post.slug}/`}>{post.title}</a>
-              </h2>
+              </h3>
               <p>{post.summary}</p>
               <a class="card-link" href={`/blog/${post.slug}/`}>
                 Read {post.label}

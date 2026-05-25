@@ -4,6 +4,31 @@ import BaseLayout from '../../components/BaseLayout.astro';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
 import { topicalHubs } from '../../data/hubs';
+
+const hubUseNotes = [
+  'Use a hub when one calculator is not enough. A mortgage question may need payment, affordability, refinance, and down-payment checks before the answer feels useful.',
+  'Start with the tool that matches the main job, then open a support tool when the result turns into a comparison, a second estimate, or a warning sign.',
+  'Read the matching guide when a result depends on assumptions. Finance, health, home project, electrical, and AI tools all need clear limits before people trust the output.',
+  'Hubs also help internal links stay natural. They connect tools by task instead of pushing every visitor through one giant list.',
+];
+const hubStartingPoints = [
+  {
+    title: 'Planning money',
+    body: 'Open the mortgage hub when a house number needs a second check. Payment, affordability, refinance, and down-payment tools answer different parts of the same decision.',
+  },
+  {
+    title: 'Checking a number',
+    body: 'Open the percentage hub when the question is really about change, discount, increase, decrease, ratios, or comparing two values without guessing.',
+  },
+  {
+    title: 'Sizing a project',
+    body: 'Open the materials hub before buying sand, paint, flooring, concrete, or other project supplies. The result is a planning estimate, not a contractor sign-off.',
+  },
+  {
+    title: 'Using browser tools',
+    body: 'Open the AI or developer hub when you need a tool that explains inputs, privacy limits, file behavior, or output checks before you trust the result.',
+  },
+];
 ---
 
 <BaseLayout
@@ -45,6 +70,33 @@ import { topicalHubs } from '../../data/hubs';
           <strong>{hub.title}</strong>
           <span>{hub.description}</span>
         </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-band section-band-soft">
+    <div class="section-heading">
+      <h2>How to use a hub</h2>
+      <p>
+        Hubs are built for real paths through the library, not a pile of repeated links.
+      </p>
+    </div>
+    <div class="feature-list">
+      {hubUseNotes.map((note) => <p>{note}</p>)}
+    </div>
+  </section>
+
+  <section class="section-band">
+    <div class="section-heading">
+      <h2>Pick the path that matches the job</h2>
+      <p>
+        If you already know the exact calculator, use it. If the task has more than one step,
+        start with a hub and follow the links that match the next question.
+      </p>
+    </div>
+    <div class="feature-list">
+      {hubStartingPoints.map((point) => (
+        <p><strong>{point.title}:</strong> {point.body}</p>
       ))}
     </div>
   </section>

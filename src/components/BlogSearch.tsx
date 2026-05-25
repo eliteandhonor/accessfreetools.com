@@ -124,9 +124,9 @@ export default function BlogSearch({ posts, searchIndexUrl, totalPostCount }: Pr
         {visiblePosts.map((post) => (
           <article className="blog-post-card" key={post.slug}>
             <span>{post.label}</span>
-            <h2>
+            <h3>
               <a href={`/blog/${post.slug}/`}>{post.title}</a>
-            </h2>
+            </h3>
             <p>{post.summary}</p>
             <a className="card-link" href={`/blog/${post.slug}/`}>
               Read guide

@@ -3381,7 +3381,7 @@ function getFormulaAnswer(toolSlug: string) {
 function buildUtilityMetaDescription(tool: (typeof utilityTools)[number], summary: string) {
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and unit or mode notes for the ${tool.name}.`;
-  return description.length > 170 ? `${description.slice(0, 166).trim()}...` : description;
+  return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
 }
 
 function makeGuide(toolSlug: string): UtilityGuideDefinition {

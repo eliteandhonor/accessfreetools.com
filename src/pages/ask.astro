@@ -6,6 +6,12 @@ import BaseLayout from '../components/BaseLayout.astro';
 import { listApiTools } from '../lib/apiToolRegistry';
 
 const tools = listApiTools().slice(0, 8);
+const askChecks = [
+  'The answer should come from a real tool runner, not from a model guessing the math.',
+  'The response should show steps, assumptions, warnings, and a link to the matching tool page.',
+  'If the question is about finance, health, pregnancy, alcohol, construction, or electrical work, treat the result as an estimate or learning aid.',
+  'If the chatbot cannot route the question cleanly, use the tool library and pick the exact calculator yourself.',
+];
 ---
 
 <BaseLayout
@@ -38,5 +44,18 @@ const tools = listApiTools().slice(0, 8);
       </ul>
       <a class="card-link" href="/developers/mcp/">Developer and MCP setup</a>
     </aside>
+  </section>
+
+  <section class="section-band section-band-soft">
+    <div class="section-heading">
+      <h2>What to check before trusting an answer</h2>
+      <p>
+        Ask is useful because it routes plain questions to deterministic tools. It still needs
+        the same common-sense checks as the normal calculator pages.
+      </p>
+    </div>
+    <div class="feature-list">
+      {askChecks.map((check) => <p>{check}</p>)}
+    </div>
   </section>
 </BaseLayout>

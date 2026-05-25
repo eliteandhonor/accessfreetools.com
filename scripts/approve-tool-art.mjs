@@ -51,12 +51,12 @@ mkdirSync(dirname(imagePath), { recursive: true });
 mkdirSync(dirname(thumbnailPath), { recursive: true });
 
 await sharp(sourcePath)
-  .resize(1200, 630, { fit: 'cover', position: 'centre' })
+  .resize(1200, 630, { fit: 'contain', background: '#0c1119' })
   .webp({ quality: 86 })
   .toFile(imagePath);
 
 await sharp(sourcePath)
-  .resize(480, 252, { fit: 'cover', position: 'centre' })
+  .resize(480, 252, { fit: 'contain', background: '#0c1119' })
   .webp({ quality: 78 })
   .toFile(thumbnailPath);
 

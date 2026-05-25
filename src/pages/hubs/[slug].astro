@@ -28,6 +28,12 @@ const supportTools = hub.supportToolSlugs
   .filter((tool): tool is ToolDefinition => Boolean(tool));
 const allTools = [...primaryTools, ...supportTools];
 const hubPath = `/hubs/${hub.slug}/`;
+const hubWorkflowSteps = [
+  `Start with the closest main tool in this ${hub.eyebrow.toLowerCase()} cluster and enter the simplest real numbers you have.`,
+  'Check the result notes before changing inputs. Many tools explain what the estimate includes and what it leaves out.',
+  'Open a supporting tool when the first answer raises a second question, such as cost, rate, material waste, privacy, or a format check.',
+  'Use the guide links when you need examples, formulas, mistakes to avoid, or a plain warning about when the calculator is not enough.',
+];
 ---
 
 <BaseLayout title={`${hub.title} | Access Free Tools`} description={hub.description} path={hubPath}>
@@ -92,6 +98,19 @@ const hubPath = `/hubs/${hub.slug}/`;
     </div>
     <div class="feature-list">
       {hub.checkpoints.map((checkpoint) => <p>{checkpoint}</p>)}
+    </div>
+  </section>
+
+  <section class="section-band section-band-soft">
+    <div class="section-heading">
+      <h2>A good path through this hub</h2>
+      <p>
+        The safest route is to answer the main question first, then use support tools only when
+        they make the decision clearer.
+      </p>
+    </div>
+    <div class="feature-list">
+      {hubWorkflowSteps.map((step) => <p>{step}</p>)}
     </div>
   </section>
 

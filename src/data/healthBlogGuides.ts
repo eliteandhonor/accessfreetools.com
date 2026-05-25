@@ -1049,7 +1049,7 @@ function formatExample(example: (typeof healthTools)[number]['examples'][number]
 function buildHealthMetaDescription(tool: (typeof healthTools)[number], summary: string) {
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and safety notes for the ${tool.name}.`;
-  return description.length > 170 ? `${description.slice(0, 166).trim()}...` : description;
+  return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
 }
 
 export const healthBlogPosts: BlogPostDefinition[] = healthTools.map((tool) => {

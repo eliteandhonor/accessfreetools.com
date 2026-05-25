@@ -10,6 +10,12 @@ const featuredEntries = toolArtEntries
   .filter((entry) => entry.kind === 'tool')
   .slice(0, 24);
 const hasApprovedArt = toolArtEntries.length > 0;
+const galleryChecks = [
+  'Only approved tool and guide images are public. Draft, queued, rejected, placeholder, or failed-QA art stays out of the gallery and image sitemap.',
+  'Each image links back to the exact tool or guide it was made for. A calculator picture should not point to a loose image page with no useful next step.',
+  'Alt text and captions describe the actual tool image, not a vague mascot or category label. That helps readers, image search, and accessibility tools understand why the picture is here.',
+  'Small thumbnails load on gallery pages, while the full artwork stays tied to the tool, guide, and image sitemap entry.',
+];
 const imageStructuredData = {
   '@context': 'https://schema.org',
   '@graph': featuredEntries.map((entry) => ({
@@ -120,6 +126,19 @@ const imageStructuredData = {
               <small>{entry.caption}</small>
             </a>
           ))}
+        </div>
+      </section>
+
+      <section class="section-band gallery-preview-band">
+        <div class="section-heading">
+          <h2>How this gallery is kept useful</h2>
+          <p>
+            The gallery is meant to support the tools, not distract from them. These checks keep
+            image SEO tied to real pages and real tasks.
+          </p>
+        </div>
+        <div class="feature-list">
+          {galleryChecks.map((check) => <p>{check}</p>)}
         </div>
       </section>
     </>

@@ -24,9 +24,12 @@ For broad orientation:
 
 ```powershell
 npm run serpforge -- audit-import
+npm run serpforge -- deep-audit-import
+npm run serpforge -- deep-audit-agents
 npm run serpforge -- audit-tasks
 npm run serpforge -- sitewide-seo-audit
 npm run serpforge -- audit-sprint
+npm run serpforge -- deep-audit-sprint
 npm run serpforge -- orientation
 npm run serpforge -- opportunity
 npm run aft -- status
@@ -51,6 +54,12 @@ For technical and external lab evidence:
 
 ```powershell
 npm run serpforge -- technical
+npm run serpforge -- technical-header-plan
+npm run serpforge -- heading-metadata-plan
+npm run serpforge -- content-depth-plan
+npm run serpforge -- eeat-author-plan
+npm run serpforge -- authority-plan
+npm run serpforge -- social-discovery-plan
 npm run serpforge -- template-qa
 npm run serpforge -- metadata-plan
 npm run serpforge -- schema-plan

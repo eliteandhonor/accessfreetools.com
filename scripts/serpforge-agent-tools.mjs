@@ -15,6 +15,11 @@ const reportsDir = join(workspaceDir, 'reports');
 const tasksDir = join(workspaceDir, 'tasks');
 const auditDownloadPath = join(process.env.USERPROFILE ?? 'C:\\Users\\chamb', 'Downloads', 'accessfreetools-seo-audit-report.md');
 const auditEvidencePath = join(evidenceDir, 'accessfreetools-seo-audit-report-2026-05-24.md');
+const deepAuditDownloadPdfPath = join(process.env.USERPROFILE ?? 'C:\\Users\\chamb', 'Downloads', 'SEO_Audit_Report_accessfreetools.pdf');
+const deepAuditPdfEvidencePath = join(evidenceDir, 'SEO_Audit_Report_accessfreetools-2026-05-25.pdf');
+const deepAuditTextEvidencePath = join(evidenceDir, 'SEO_Audit_Report_accessfreetools-2026-05-25.txt');
+const deepAuditMarkdownEvidencePath = join(evidenceDir, 'SEO_Audit_Report_accessfreetools-2026-05-25.md');
+const deepAuditTaskBoardPath = join(tasksDir, 'deep-audit-agent-board.md');
 const sitemapUrls = [
   'https://accessfreetools.com/sitemap.xml',
   'https://accessfreetools.com/sitemap-pages.xml',
@@ -24,6 +29,298 @@ const sitemapUrls = [
   'https://accessfreetools.com/sitemap-gallery.xml',
   'https://accessfreetools.com/sitemap-images.xml',
   'https://accessfreetools.com/feed.xml',
+];
+
+const deepAuditStatusLabels = new Set(['confirmed', 'already-fixed', 'needs-proof', 'rejected-stale']);
+
+const deepAuditAgents = [
+  {
+    name: 'Main Deep Audit Coordinator',
+    file: 'main-audit-coordinator.md',
+    lane: 'orchestration',
+    mission: 'Import the PDF, dedupe findings against local SERPForge evidence, assign sub-agent work, and produce the sprint board.',
+    proof: ['deep-audit-import', 'deep-audit-agents', 'deep-audit-sprint'],
+  },
+  {
+    name: 'Technical Headers Agent',
+    file: 'technical-headers-agent.md',
+    lane: 'technical',
+    mission: 'Verify and plan HSTS, cache headers, CDN caching, preloads, trailing-slash redirects, 404 UX, and production header proof.',
+    proof: ['technical-header-plan', 'npm run check', 'npm run check:production-sitemap'],
+  },
+  {
+    name: 'Crawl And Indexation Agent',
+    file: 'crawl-indexation-agent.md',
+    lane: 'crawl-indexation',
+    mission: 'Use robots, sitemaps, Search Console, URL Inspection, canonical checks, and DataForSEO OnPage evidence to separate real blockers from stale crawler noise.',
+    proof: ['crawl-plan', 'npm run aft -- seo-console', 'npm run search-console:inspect-key-urls'],
+  },
+  {
+    name: 'Metadata And Heading Agent',
+    file: 'metadata-heading-agent.md',
+    lane: 'on-page',
+    mission: 'Plan title, description, H1/H2/H3, blog listing heading, and CTR rewrites in smart 14-year-old voice.',
+    proof: ['heading-metadata-plan', 'sitewide-seo-audit', 'all-pages-human-tone-report'],
+  },
+  {
+    name: 'Content Depth Agent',
+    file: 'content-depth-agent.md',
+    lane: 'content-depth',
+    mission: 'Expand weak hubs, About, Password Generator, and GSC/DataForSEO pages with useful examples, limits, and practical next steps.',
+    proof: ['content-depth-plan', 'npm run aft -- semantic-depth', 'npm run aft -- hub-strength'],
+  },
+  {
+    name: 'E-E-A-T Trust Agent',
+    file: 'eeat-trust-agent.md',
+    lane: 'trust',
+    mission: 'Plan bylines, review notes, disclaimers, source citations, Person/Organization schema, and risk-specific trust blocks.',
+    proof: ['eeat-author-plan', 'eeat-plan', 'npm run check:structured-data'],
+  },
+  {
+    name: 'Image And Listing UX Agent',
+    file: 'image-listing-ux-agent.md',
+    lane: 'images-ux',
+    mission: 'Check homepage, tool, blog, category, gallery, and listing visual coverage; keep images specific, lightweight, and correctly loaded.',
+    proof: ['image-alt-audit', 'image-alt-plan', 'image-sitemap-plan', 'gallery-seo-plan'],
+  },
+  {
+    name: 'Internal Link And Anchor Agent',
+    file: 'internal-link-anchor-agent.md',
+    lane: 'internal-links',
+    mission: 'Add contextual in-body links, vary repeated anchors, connect tool-guide-hub paths, and avoid link stuffing.',
+    proof: ['npm run aft -- link-helper', 'npm run aft -- hub-strength'],
+  },
+  {
+    name: 'Authority And Outreach Agent',
+    file: 'authority-outreach-agent.md',
+    lane: 'authority',
+    mission: 'Prepare directory, Product Hunt, AlternativeTo, education/resource, roundup, and broken-link outreach targets as drafts only.',
+    proof: ['authority-plan', 'npm run marketing:orchestrate', 'npm run aft -- recognition'],
+  },
+  {
+    name: 'Social Discovery Agent',
+    file: 'social-discovery-agent.md',
+    lane: 'promotion',
+    mission: 'Plan Pinterest, Reddit, Bluesky/X, Quora, Medium, and DEV discovery work through existing promotion quality gates.',
+    proof: ['social-discovery-plan', 'npm run marketing:orchestrate', 'npm run aft -- proof-check'],
+  },
+  {
+    name: 'DataForSEO Market Agent',
+    file: 'dataforseo-market-intelligence-agent.md',
+    lane: 'dataforseo-gsc',
+    mission: 'Run account/status gates, targeted Labs, live SERP, and OnPage checks; do not use the Backlinks API.',
+    proof: ['dataforseo-plan', 'dataforseo-sitewide-audit', 'all-pages-dataforseo'],
+  },
+  {
+    name: 'Audit Sprint Judge',
+    file: 'audit-sprint-judge.md',
+    lane: 'final-judge',
+    mission: 'Block done claims unless local checks, DataForSEO proof, GSC proof, build checks, and human-tone checks all pass.',
+    proof: ['deep-audit-sprint', 'audit-sprint', 'all-pages-human-tone-report'],
+  },
+];
+
+const deepAuditFindings = [
+  {
+    id: 'hsts-missing',
+    priority: 'P0',
+    lane: 'technical',
+    owner: 'Technical Headers Agent',
+    status: 'confirmed',
+    finding: 'The audit reports missing HSTS. Live header probes should keep this confirmed until Strict-Transport-Security is present on production HTTPS responses.',
+    task: 'Add or configure production HSTS after checking Hostinger/CDN ownership, then verify the live header.',
+    proof: 'technical-header-plan plus live HEAD response.',
+  },
+  {
+    id: 'cache-max-age-zero',
+    priority: 'P0',
+    lane: 'technical',
+    owner: 'Technical Headers Agent',
+    status: 'confirmed',
+    finding: 'The audit reports public cache headers with max-age=0/dynamic behavior on HTML routes.',
+    task: 'Plan CDN/static cache rules for built assets and HTML without breaking tool freshness.',
+    proof: 'technical-header-plan and production header sample.',
+  },
+  {
+    id: 'trailing-slash-no-redirect',
+    priority: 'P0',
+    lane: 'technical',
+    owner: 'Technical Headers Agent',
+    status: 'confirmed',
+    finding: 'The audit reports non-canonical no-slash URLs returning 200 instead of 301 to trailing-slash canonicals.',
+    task: 'Add or configure trailing-slash 301 behavior only after checking Astro, Hostinger, and sitemap canonicals.',
+    proof: 'technical-header-plan and redirect probe for /tools.',
+  },
+  {
+    id: 'sitemap-index-submitted',
+    priority: 'P0',
+    lane: 'crawl-indexation',
+    owner: 'Crawl And Indexation Agent',
+    status: 'already-fixed',
+    finding: 'The PDF says eight sitemap/feed endpoints are successful.',
+    task: 'Keep submitting and verifying the canonical sitemap set through the existing GSC flow.',
+    proof: 'gsc-submit-sitemaps and check:production-sitemap.',
+  },
+  {
+    id: 'gsc-url-examples',
+    priority: 'P0',
+    lane: 'crawl-indexation',
+    owner: 'Crawl And Indexation Agent',
+    status: 'needs-proof',
+    finding: 'The audit names Google-side blockers and stale discovered/crawled-not-indexed examples, including wallpaper-calculator context.',
+    task: 'Use Search Console exports and URL Inspection before assigning exact URL fixes.',
+    proof: 'npm run search-console:inspect-key-urls and npm run aft -- seo-console.',
+  },
+  {
+    id: 'short-titles',
+    priority: 'P1',
+    lane: 'on-page',
+    owner: 'Metadata And Heading Agent',
+    status: 'needs-proof',
+    finding: 'The audit flags short titles for BMI, Password Generator, hubs, and other pages.',
+    task: 'Use sitewide page rows to list exact short titles, then rewrite only page-specific snippets in smart 14-year-old voice.',
+    proof: 'heading-metadata-plan and sitewide-seo-audit.',
+  },
+  {
+    id: 'meta-description-length',
+    priority: 'P1',
+    lane: 'on-page',
+    owner: 'Metadata And Heading Agent',
+    status: 'needs-proof',
+    finding: 'The audit reports mixed too-short and too-long meta descriptions.',
+    task: 'Generate a URL-by-URL metadata repair queue from built HTML, not generic category advice.',
+    proof: 'heading-metadata-plan and all-pages-human-tone-report.',
+  },
+  {
+    id: 'blog-listing-h2-overload',
+    priority: 'P1',
+    lane: 'on-page',
+    owner: 'Metadata And Heading Agent',
+    status: 'needs-proof',
+    finding: 'The audit flags blog listing H2 overload.',
+    task: 'Verify heading counts in built HTML and plan a listing card heading hierarchy that is better for scanning.',
+    proof: 'heading-metadata-plan.',
+  },
+  {
+    id: 'tool-h3-depth',
+    priority: 'P1',
+    lane: 'on-page',
+    owner: 'Metadata And Heading Agent',
+    status: 'needs-proof',
+    finding: 'The audit says tool pages use shallow H1/H2 depth and need H3 section detail where it helps readers.',
+    task: 'Add H3s only when they help examples, mistakes, formulas, or result interpretation.',
+    proof: 'page SEO workbench for each edited tool/blog page.',
+  },
+  {
+    id: 'content-depth-hubs-about-password',
+    priority: 'P1',
+    lane: 'content-depth',
+    owner: 'Content Depth Agent',
+    status: 'needs-proof',
+    finding: 'The audit calls out hubs, About, and Password Generator as weak or thin content priorities.',
+    task: 'Use GSC/DataForSEO evidence to prioritize expansion, then write practical examples and honest limits.',
+    proof: 'content-depth-plan, semantic-depth, hub-strength.',
+  },
+  {
+    id: 'ymyl-trust-blocks',
+    priority: 'P1',
+    lane: 'trust',
+    owner: 'E-E-A-T Trust Agent',
+    status: 'needs-proof',
+    finding: 'The audit calls for author/reviewer bylines, citations, and disclaimers on sensitive finance, health, tax, construction, electrical, pregnancy, BAC, AI, and password pages.',
+    task: 'Plan reusable trust blocks and schema without overclaiming medical, legal, tax, or safety advice.',
+    proof: 'eeat-author-plan and structured-data check.',
+  },
+  {
+    id: 'listing-images',
+    priority: 'P1',
+    lane: 'images-ux',
+    owner: 'Image And Listing UX Agent',
+    status: 'needs-proof',
+    finding: 'The audit says listing surfaces have weak or missing images.',
+    task: 'Plan specific images for homepage, tools, blog, category, and gallery listings without exposing queued or failed-QA art.',
+    proof: 'image-alt-audit, gallery:qa, images:sitemap-check.',
+  },
+  {
+    id: 'image-dimensions',
+    priority: 'P1',
+    lane: 'images-ux',
+    owner: 'Image And Listing UX Agent',
+    status: 'already-fixed',
+    finding: 'The audit says all images lack dimensions, but current tool/gallery image markup and QA include width/height handling for approved art.',
+    task: 'Keep this under QA and only reopen if a built-page check finds missing dimensions.',
+    proof: 'images:qa and images:sitemap-check.',
+  },
+  {
+    id: 'alt-text-specificity',
+    priority: 'P1',
+    lane: 'images-ux',
+    owner: 'Image And Listing UX Agent',
+    status: 'needs-proof',
+    finding: 'The audit and user feedback flag generic image alt text that does not match the actual tool image.',
+    task: 'Audit approved tool art and rewrite alt/caption metadata around tool purpose, inputs, outputs, formulas, examples, and guide context.',
+    proof: 'image-alt-audit and image-alt-plan.',
+  },
+  {
+    id: 'anchor-repetition',
+    priority: 'P2',
+    lane: 'internal-links',
+    owner: 'Internal Link And Anchor Agent',
+    status: 'needs-proof',
+    finding: 'The audit says internal links are strong but anchors repeat too much and need better contextual in-body placement.',
+    task: 'Use the link helper before editing anchors so useful reader paths stay above raw SEO anchor variation.',
+    proof: 'npm run aft -- link-helper.',
+  },
+  {
+    id: 'homepage-external-links',
+    priority: 'P2',
+    lane: 'authority',
+    owner: 'Authority And Outreach Agent',
+    status: 'rejected-stale',
+    finding: 'The audit suggests outbound homepage links as a low priority authority signal, but this is not automatically useful for a utility homepage.',
+    task: 'Reject as a generic/stale recommendation unless a specific reader-useful citation or partner proof exists.',
+    proof: 'authority-plan.',
+  },
+  {
+    id: 'zero-social-presence',
+    priority: 'P1',
+    lane: 'promotion',
+    owner: 'Social Discovery Agent',
+    status: 'needs-proof',
+    finding: 'The audit broadly says social/entity presence is absent, but local project notes show several accounts exist.',
+    task: 'Verify current public profile URLs and queue only quality-gated drafts; do not post without approval.',
+    proof: 'social-discovery-plan and npm run aft -- proof-check.',
+  },
+  {
+    id: 'directory-outreach',
+    priority: 'P1',
+    lane: 'authority',
+    owner: 'Authority And Outreach Agent',
+    status: 'needs-proof',
+    finding: 'The audit recommends directories, Product Hunt, AlternativeTo, resource pages, roundups, and broken-link outreach.',
+    task: 'Prepare targets and drafts only; no submissions, messages, ads, or backlink claims without approval and public proof.',
+    proof: 'authority-plan.',
+  },
+  {
+    id: 'dataforseo-market-layer',
+    priority: 'P0',
+    lane: 'dataforseo-gsc',
+    owner: 'DataForSEO Market Agent',
+    status: 'confirmed',
+    finding: 'User approved mandatory DataForSEO use for tools/blog pages and the audit plan requires account/status gates first.',
+    task: 'Use Labs, live SERP, and OnPage only; tier depth and stop_crawl_on_match; never use Backlinks API.',
+    proof: 'dataforseo-plan, all-pages-dataforseo, all-pages-serp-audit, dataforseo-sitewide-audit.',
+  },
+  {
+    id: 'no-fake-done-claims',
+    priority: 'P0',
+    lane: 'final-judge',
+    owner: 'Audit Sprint Judge',
+    status: 'confirmed',
+    finding: 'The sprint must not claim fixed, posted, submitted, indexed, ranked, or done without proof.',
+    task: 'Block done until build, local SEO, DataForSEO, GSC/Search Console, and human-tone gates pass.',
+    proof: 'deep-audit-sprint and all-pages-human-tone-report.',
+  },
 ];
 
 function ensureDirs() {
@@ -375,6 +672,205 @@ function writeMarkdownFile(filePath, markdown) {
   mkdirSync(dirname(filePath), { recursive: true });
   writeFileSync(filePath, `${markdown.trim()}\n`);
   return rel(filePath);
+}
+
+function assertDeepAuditStatuses(rows = deepAuditFindings) {
+  for (const row of rows) {
+    if (!deepAuditStatusLabels.has(row.status)) {
+      throw new Error(`Invalid deep audit status "${row.status}" for ${row.id}.`);
+    }
+  }
+}
+
+function deepAuditRowsFor(filter = {}) {
+  assertDeepAuditStatuses();
+  return deepAuditFindings.filter((row) => {
+    if (filter.owner && row.owner !== filter.owner) return false;
+    if (filter.lane && row.lane !== filter.lane) return false;
+    if (filter.priority && row.priority !== filter.priority) return false;
+    return true;
+  });
+}
+
+function deepAuditCounts(rows = deepAuditFindings) {
+  return rows.reduce(
+    (summary, row) => {
+      summary.total += 1;
+      summary.byStatus[row.status] = (summary.byStatus[row.status] ?? 0) + 1;
+      summary.byPriority[row.priority] = (summary.byPriority[row.priority] ?? 0) + 1;
+      summary.byLane[row.lane] = (summary.byLane[row.lane] ?? 0) + 1;
+      return summary;
+    },
+    { total: 0, byStatus: {}, byPriority: {}, byLane: {} },
+  );
+}
+
+function deepAuditFindingTable(rows = deepAuditFindings) {
+  return rows
+    .map((row) => `| ${row.priority} | ${row.status} | ${row.owner} | ${row.id} | ${row.task} | ${row.proof} |`)
+    .join('\n');
+}
+
+function deepAuditFallbackText() {
+  const lines = [
+    'COMPREHENSIVE SEO AUDIT accessfreetools.com',
+    'Date: May 25, 2026',
+    'Source: SEO_Audit_Report_accessfreetools.pdf',
+    '',
+    'Extracted workstreams:',
+    '- Technical headers: HSTS, cache headers, CDN edge caching, preloads, trailing slash redirects, 404 UX.',
+    '- Crawl/indexation: robots.txt, sitemap health, GSC coverage examples, URL Inspection, crawled/discovered not indexed.',
+    '- Metadata/headings: short titles, meta description length, blog listing H2 overload, tool page H3 depth.',
+    '- Content depth: hubs, About, Password Generator, and pages with impressions but weak clicks.',
+    '- E-E-A-T: author/reviewer bylines, disclaimers, citations, Person/Organization schema, YMYL review proof.',
+    '- Images/listing UX: homepage, tools, blog, category, gallery images, alt text, width/height, lazy/eager loading.',
+    '- Internal links: contextual links, varied anchors, tool-guide-hub paths.',
+    '- Authority/outreach: directories, Product Hunt, AlternativeTo, roundups, education/resource pages, broken-link outreach.',
+    '- Social discovery: Pinterest, Reddit, Bluesky/X, Quora, Medium, DEV through existing quality gates.',
+    '- DataForSEO/GSC: account/status gates, targeted Labs, live SERP, OnPage; no Backlinks API.',
+    '',
+    'Finding ledger:',
+    ...deepAuditFindings.map((row) => `- [${row.status}] ${row.id}: ${row.finding} Task: ${row.task}`),
+  ];
+  return `${lines.join('\n')}\n`;
+}
+
+function deepAuditPythonCandidates() {
+  const candidates = [];
+  if (process.env.SERPFORGE_PYTHON) candidates.push(process.env.SERPFORGE_PYTHON);
+  if (process.env.PYTHON) candidates.push(process.env.PYTHON);
+  candidates.push(join(process.env.USERPROFILE ?? 'C:\\Users\\chamb', '.cache', 'codex-runtimes', 'codex-primary-runtime', 'dependencies', 'python', 'python.exe'));
+  candidates.push('python');
+  return [...new Set(candidates)].filter((candidate) => {
+    if (/[/\\]/.test(candidate)) return existsSync(candidate);
+    return true;
+  });
+}
+
+function extractDeepAuditPdfText(pdfPath) {
+  const script = [
+    'import sys',
+    'from pathlib import Path',
+    'pdf_path = Path(sys.argv[1])',
+    'try:',
+    '    import pdfplumber',
+    'except Exception as exc:',
+    '    print(f"pdfplumber unavailable: {exc}", file=sys.stderr)',
+    '    sys.exit(2)',
+    'with pdfplumber.open(str(pdf_path)) as pdf:',
+    '    for page_number, page in enumerate(pdf.pages, 1):',
+    '        text = page.extract_text() or ""',
+    '        print(f"--- PAGE {page_number} ---")',
+    '        print(text)',
+  ].join('\n');
+
+  const attempts = [];
+  for (const candidate of deepAuditPythonCandidates()) {
+    const result = run(candidate, ['-c', script, pdfPath], 'PDF text extraction', { timeoutMs: 120_000 });
+    attempts.push(result);
+    if (result.status === 0 && result.stdout.length > 500) {
+      return { text: `${result.stdout.trim()}\n`, attempts, usedFallback: false };
+    }
+  }
+
+  return { text: deepAuditFallbackText(), attempts, usedFallback: true };
+}
+
+function deepAuditEvidenceMarkdown(extractedText = '') {
+  const counts = deepAuditCounts();
+  return [
+    '# SERPForge Deep Audit Evidence',
+    '',
+    `Source PDF: \`${rel(deepAuditPdfEvidencePath)}\``,
+    `Extracted text: \`${rel(deepAuditTextEvidencePath)}\``,
+    '',
+    '## Status Ledger',
+    '',
+    `- Findings: ${counts.total}`,
+    `- Confirmed: ${counts.byStatus.confirmed ?? 0}`,
+    `- Already fixed: ${counts.byStatus['already-fixed'] ?? 0}`,
+    `- Needs proof: ${counts.byStatus['needs-proof'] ?? 0}`,
+    `- Rejected stale: ${counts.byStatus['rejected-stale'] ?? 0}`,
+    '',
+    '## Findings',
+    '',
+    '| priority | status | owner | id | task | proof |',
+    '| --- | --- | --- | --- | --- | --- |',
+    deepAuditFindingTable(),
+    '',
+    '## Extracted Text Preview',
+    '',
+    '```text',
+    extractedText.slice(0, 12000).trim(),
+    '```',
+  ].join('\n');
+}
+
+function deepAuditBoardMarkdown() {
+  const rowsByPriority = ['P0', 'P1', 'P2'].map((priority) => ({
+    priority,
+    rows: deepAuditRowsFor({ priority }),
+  }));
+  return [
+    '# SERPForge Deep Audit Agent Board',
+    '',
+    `Generated source: \`${rel(deepAuditMarkdownEvidencePath)}\``,
+    '',
+    '## Rules',
+    '',
+    '- SERPForge is the main coordinator for this audit sprint.',
+    '- Sub-agents write reports to `agents/serpforge-ai/reports/` and stable tasks to `agents/serpforge-ai/tasks/`.',
+    '- Allowed finding statuses are `confirmed`, `already-fixed`, `needs-proof`, and `rejected-stale`.',
+    '- No agent can mark work approved, live, fixed, posted, submitted, indexed, ranked, or done without proof.',
+    '- DataForSEO uses account/status gates first, then targeted Labs, live SERP, and OnPage only. Backlinks API is not used.',
+    '- Public copy must use the Access Free Tools smart 14-year-old voice: clear, practical, specific, no AI/SEO/internal filler.',
+    '',
+    '## Agent Roster',
+    '',
+    '| agent | lane | file | proof commands |',
+    '| --- | --- | --- | --- |',
+    ...deepAuditAgents.map((agent) => `| ${agent.name} | ${agent.lane} | \`agents/serpforge-ai/agents/${agent.file}\` | ${agent.proof.map((item) => `\`${item}\``).join(', ')} |`),
+    '',
+    ...rowsByPriority.flatMap(({ priority, rows }) => [
+      `## ${priority} Lane`,
+      '',
+      '| status | owner | id | task | proof |',
+      '| --- | --- | --- | --- | --- |',
+      rows.length
+        ? rows.map((row) => `| ${row.status} | ${row.owner} | ${row.id} | ${row.task} | ${row.proof} |`).join('\n')
+        : '| needs-proof | Audit Sprint Judge | none | No rows queued. | deep-audit-sprint |',
+      '',
+    ]),
+  ].join('\n');
+}
+
+function writeDeepAuditBoard() {
+  return writeMarkdownFile(deepAuditTaskBoardPath, deepAuditBoardMarkdown());
+}
+
+function deepAuditPlanMarkdown(title, rows, extraSections = []) {
+  const counts = deepAuditCounts(rows);
+  return [
+    `# ${title}`,
+    '',
+    `Generated: ${new Date().toISOString()}`,
+    '',
+    '## Status Counts',
+    '',
+    `- Total: ${counts.total}`,
+    `- Confirmed: ${counts.byStatus.confirmed ?? 0}`,
+    `- Already fixed: ${counts.byStatus['already-fixed'] ?? 0}`,
+    `- Needs proof: ${counts.byStatus['needs-proof'] ?? 0}`,
+    `- Rejected stale: ${counts.byStatus['rejected-stale'] ?? 0}`,
+    '',
+    '## Findings',
+    '',
+    '| priority | status | owner | id | task | proof |',
+    '| --- | --- | --- | --- | --- | --- |',
+    deepAuditFindingTable(rows) || '| P0 | needs-proof | Audit Sprint Judge | none | No rows matched this plan. | deep-audit-sprint |',
+    '',
+    ...extraSections,
+  ].join('\n');
 }
 
 function reportStatus(results) {
@@ -1454,6 +1950,12 @@ function toolboxCommand() {
       writes: 'agents/serpforge-ai/evidence/, agents/serpforge-ai/tasks/, agents/serpforge-ai/reports/',
     },
     {
+      name: 'Deep Audit Agent Sprint',
+      command: 'npm run serpforge -- deep-audit-import && npm run serpforge -- deep-audit-agents && npm run serpforge -- deep-audit-sprint',
+      purpose: 'Import the PDF audit, assign deep-audit sub-agents, and produce proof-labeled technical, content, trust, authority, social, DataForSEO, and GSC sprint evidence.',
+      writes: 'agents/serpforge-ai/evidence/, agents/serpforge-ai/tasks/deep-audit-agent-board.md, agents/serpforge-ai/reports/',
+    },
+    {
       name: 'Image And Gallery SEO',
       command: 'npm run serpforge -- image-alt-audit && npm run serpforge -- gallery-seo-plan',
       purpose: 'Find weak tool-art alt/caption text and keep approved galleries indexable as image SEO assets.',
@@ -1971,6 +2473,320 @@ function lighthouseCommand(url, args, command) {
   if (payload.status !== 'pass') process.exitCode = 1;
 }
 
+function deepAuditImportCommand() {
+  ensureDirs();
+  const source = existsSync(deepAuditDownloadPdfPath) ? deepAuditDownloadPdfPath : deepAuditPdfEvidencePath;
+  if (!existsSync(source)) {
+    throw new Error(`Deep audit PDF not found at ${deepAuditDownloadPdfPath} or ${deepAuditPdfEvidencePath}.`);
+  }
+
+  if (source !== deepAuditPdfEvidencePath) {
+    copyFileSync(source, deepAuditPdfEvidencePath);
+  }
+
+  const extraction = extractDeepAuditPdfText(deepAuditPdfEvidencePath);
+  writeFileSync(deepAuditTextEvidencePath, extraction.text);
+  writeMarkdownFile(deepAuditMarkdownEvidencePath, deepAuditEvidenceMarkdown(extraction.text));
+
+  const stat = statSync(deepAuditPdfEvidencePath);
+  const payload = {
+    generatedAt: new Date().toISOString(),
+    kind: 'deep-audit-import',
+    status: stat.size > 0 && extraction.text.length > 500 && !extraction.usedFallback ? 'pass' : 'needs-attention',
+    source: rel(source),
+    pdfEvidencePath: rel(deepAuditPdfEvidencePath),
+    textEvidencePath: rel(deepAuditTextEvidencePath),
+    markdownEvidencePath: rel(deepAuditMarkdownEvidencePath),
+    bytes: stat.size,
+    extractedCharacters: extraction.text.length,
+    usedFallbackExtraction: extraction.usedFallback,
+    extractionAttempts: extraction.attempts.map((attempt) => ({
+      command: attempt.command,
+      status: attempt.status,
+      stderr: attempt.stderr.slice(0, 500),
+    })),
+    findingCounts: deepAuditCounts(),
+  };
+  const paths = writePair(reportsDir, `serpforge-deep-audit-import-${stamp()}`, payload, [
+    '# SERPForge Deep Audit Import',
+    '',
+    `Status: ${payload.status}`,
+    `Source: ${payload.source}`,
+    `PDF evidence: ${payload.pdfEvidencePath}`,
+    `Text evidence: ${payload.textEvidencePath}`,
+    `Markdown evidence: ${payload.markdownEvidencePath}`,
+    `PDF bytes: ${payload.bytes}`,
+    `Extracted characters: ${payload.extractedCharacters}`,
+    `Fallback extraction used: ${payload.usedFallbackExtraction}`,
+    '',
+    '## Finding Counts',
+    '',
+    `- Total: ${payload.findingCounts.total}`,
+    `- Confirmed: ${payload.findingCounts.byStatus.confirmed ?? 0}`,
+    `- Already fixed: ${payload.findingCounts.byStatus['already-fixed'] ?? 0}`,
+    `- Needs proof: ${payload.findingCounts.byStatus['needs-proof'] ?? 0}`,
+    `- Rejected stale: ${payload.findingCounts.byStatus['rejected-stale'] ?? 0}`,
+  ].join('\n'));
+  console.log(`SERPForge deep audit import: ${payload.status}`);
+  console.log(`- PDF evidence: ${payload.pdfEvidencePath}`);
+  console.log(`- Text evidence: ${payload.textEvidencePath}`);
+  console.log(`- Saved report: ${paths.markdownPath}`);
+}
+
+function deepAuditAgentsCommand() {
+  ensureDirs();
+  const taskBoardPath = writeDeepAuditBoard();
+  const agents = deepAuditAgents.map((agent) => {
+    const filePath = join(workspaceDir, 'agents', agent.file);
+    return {
+      ...agent,
+      path: rel(filePath),
+      exists: existsSync(filePath),
+    };
+  });
+  const missingAgents = agents.filter((agent) => !agent.exists);
+  const rows = deepAuditFindings.map((row) => ({
+    ...row,
+    agentFile: agents.find((agent) => agent.name === row.owner)?.path ?? '',
+  }));
+  const payload = {
+    generatedAt: new Date().toISOString(),
+    kind: 'deep-audit-agents',
+    status: missingAgents.length ? 'needs-attention' : 'pass',
+    taskBoardPath,
+    agents,
+    missingAgents: missingAgents.map((agent) => agent.name),
+    counts: deepAuditCounts(rows),
+    rows,
+  };
+  const agentRows = agents
+    .map((agent) => `| ${agent.exists ? 'present' : 'missing'} | ${agent.name} | ${agent.lane} | \`${agent.path}\` | ${agent.proof.join(', ')} |`)
+    .join('\n');
+  const paths = writePair(reportsDir, `serpforge-deep-audit-agents-${stamp()}`, payload, [
+    '# SERPForge Deep Audit Agents',
+    '',
+    `Status: ${payload.status}`,
+    `Task board: ${taskBoardPath}`,
+    '',
+    '## Agent Files',
+    '',
+    '| status | agent | lane | file | proof |',
+    '| --- | --- | --- | --- | --- |',
+    agentRows,
+    '',
+    '## Audit Finding Ledger',
+    '',
+    '| priority | status | owner | id | task | proof |',
+    '| --- | --- | --- | --- | --- | --- |',
+    deepAuditFindingTable(rows),
+  ].join('\n'));
+  console.log(`SERPForge deep audit agents: ${payload.status}`);
+  console.log(`- Task board: ${taskBoardPath}`);
+  console.log(`- Agents present: ${agents.length - missingAgents.length}/${agents.length}`);
+  console.log(`- Saved report: ${paths.markdownPath}`);
+  if (payload.status !== 'pass') process.exitCode = 1;
+}
+
+function liveHeaderProbe() {
+  const probeScript = [
+    'const urls = ["https://accessfreetools.com/","https://accessfreetools.com/tools","https://accessfreetools.com/tools/","https://accessfreetools.com/robots.txt","https://accessfreetools.com/sitemap.xml"];',
+    '(async () => {',
+    '  const rows = [];',
+    '  for (const url of urls) {',
+    '    try {',
+    '      const response = await fetch(url, { method: "HEAD", redirect: "manual" });',
+    '      rows.push({',
+    '        url,',
+    '        status: response.status,',
+    '        location: response.headers.get("location") || "",',
+    '        cacheControl: response.headers.get("cache-control") || "",',
+    '        hsts: response.headers.get("strict-transport-security") || "",',
+    '        contentType: response.headers.get("content-type") || "",',
+    '        server: response.headers.get("server") || ""',
+    '      });',
+    '    } catch (error) {',
+    '      rows.push({ url, error: String(error) });',
+    '    }',
+    '  }',
+    '  console.log(JSON.stringify({ rows }, null, 2));',
+    '})();',
+  ].join('\n');
+  return run(process.execPath, ['-e', probeScript], 'Live header and redirect probe', { timeoutMs: 90_000 });
+}
+
+function technicalHeaderPlanCommand() {
+  ensureDirs();
+  const probe = liveHeaderProbe();
+  const parsed = parseJsonResult(probe) ?? {};
+  const rowsByUrl = new Map((parsed.rows ?? []).map((row) => [row.url, row]));
+  const home = rowsByUrl.get('https://accessfreetools.com/');
+  const noSlash = rowsByUrl.get('https://accessfreetools.com/tools');
+  const technicalRows = deepAuditRowsFor({ owner: 'Technical Headers Agent' }).map((row) => {
+    let status = row.status;
+    let liveProof = 'not probed';
+    if (row.id === 'hsts-missing') {
+      liveProof = home ? `home HSTS="${home.hsts || ''}"` : 'home header unavailable';
+      status = home?.hsts ? 'already-fixed' : home ? 'confirmed' : 'needs-proof';
+    }
+    if (row.id === 'cache-max-age-zero') {
+      liveProof = home ? `home cache-control="${home.cacheControl || ''}"` : 'home header unavailable';
+      status = /max-age=0/i.test(home?.cacheControl ?? '') ? 'confirmed' : home ? 'needs-proof' : 'needs-proof';
+    }
+    if (row.id === 'trailing-slash-no-redirect') {
+      liveProof = noSlash ? `/tools status=${noSlash.status} location="${noSlash.location || ''}"` : '/tools probe unavailable';
+      status = noSlash?.status >= 300 && noSlash?.status < 400 ? 'already-fixed' : noSlash ? 'confirmed' : 'needs-proof';
+    }
+    return { ...row, status, liveProof };
+  });
+  const payload = {
+    generatedAt: new Date().toISOString(),
+    kind: 'technical-header-plan',
+    status: technicalRows.some((row) => row.status === 'confirmed' || row.status === 'needs-proof') ? 'ready' : 'pass',
+    rows: technicalRows,
+    liveProbe: probe,
+    liveProbeRows: parsed.rows ?? [],
+    requiredProof: ['npm run check', 'npm run check:production-sitemap', 'live HEAD probes after deploy'],
+  };
+  const paths = writePair(reportsDir, `serpforge-technical-header-plan-${stamp()}`, payload, [
+    '# SERPForge Technical Header Plan',
+    '',
+    `Status: ${payload.status}`,
+    '',
+    '## Findings',
+    '',
+    '| priority | status | id | task | live proof | final proof |',
+    '| --- | --- | --- | --- | --- | --- |',
+    ...technicalRows.map((row) => `| ${row.priority} | ${row.status} | ${row.id} | ${row.task} | ${row.liveProof} | ${row.proof} |`),
+    '',
+    '## Required Proof',
+    '',
+    ...payload.requiredProof.map((item) => `- \`${item}\``),
+    '',
+    commandBlock(probe),
+  ].join('\n'));
+  console.log(`SERPForge technical header plan: ${payload.status}`);
+  console.log(`- Saved report: ${paths.markdownPath}`);
+}
+
+function headingMetadataPlanCommand() {
+  const rows = deepAuditRowsFor({ owner: 'Metadata And Heading Agent' });
+  const paths = writePair(reportsDir, `serpforge-heading-metadata-plan-${stamp()}`, {
+    generatedAt: new Date().toISOString(),
+    kind: 'heading-metadata-plan',
+    status: 'ready',
+    owner: 'Metadata And Heading Agent',
+    rows,
+    proofInputs: ['sitewide-seo-audit', 'all-pages-human-tone-report', 'page SEO workbench per edited slug'],
+  }, deepAuditPlanMarkdown('SERPForge Heading And Metadata Plan', rows, [
+    '## Smart 14 Voice Rules',
+    '',
+    '- Titles must say what the page does, not what an SEO agent wants to rank for.',
+    '- Meta descriptions should sound like a helpful teen explaining the page fast: task, result, limit.',
+    '- Fix blog listing heading depth only after verifying built HTML heading counts.',
+  ]));
+  console.log('SERPForge heading metadata plan: ready');
+  console.log(`- Saved report: ${paths.markdownPath}`);
+}
+
+function contentDepthPlanCommand() {
+  const rows = deepAuditRowsFor({ owner: 'Content Depth Agent' });
+  const paths = writePair(reportsDir, `serpforge-content-depth-plan-${stamp()}`, {
+    generatedAt: new Date().toISOString(),
+    kind: 'content-depth-plan',
+    status: 'ready',
+    owner: 'Content Depth Agent',
+    rows,
+    priorityTargets: ['hubs', 'about', 'password-generator', 'GSC pages with impressions and weak clicks'],
+  }, deepAuditPlanMarkdown('SERPForge Content Depth Plan', rows, [
+    '## Depth Standard',
+    '',
+    '- Add examples, mistakes, formulas, source notes, and result interpretation only where they help a real reader.',
+    '- Use DataForSEO and GSC proof to decide which pages are worth expanding first.',
+    '- Keep public copy plain: no agent, SEO, ranking, or internal task-board wording.',
+  ]));
+  console.log('SERPForge content depth plan: ready');
+  console.log(`- Saved report: ${paths.markdownPath}`);
+}
+
+function eeatAuthorPlanCommand() {
+  const rows = deepAuditRowsFor({ owner: 'E-E-A-T Trust Agent' });
+  const paths = writePair(reportsDir, `serpforge-eeat-author-plan-${stamp()}`, {
+    generatedAt: new Date().toISOString(),
+    kind: 'eeat-author-plan',
+    status: 'ready',
+    owner: 'E-E-A-T Trust Agent',
+    rows,
+    sensitiveGroups: ['finance', 'health', 'tax', 'electrical', 'construction', 'AI', 'pregnancy', 'BAC', 'password/security'],
+  }, deepAuditPlanMarkdown('SERPForge E-E-A-T Author And Trust Plan', rows, [
+    '## Trust Block Requirements',
+    '',
+    '- Reviewer or editorial note for sensitive tools.',
+    '- Last reviewed date and what changed.',
+    '- Formula/source citation when a page depends on an official method.',
+    '- Honest warning when the tool is not medical, legal, tax, financial, or safety advice.',
+    '- Person/Organization schema only when visible page facts support it.',
+  ]));
+  console.log('SERPForge E-E-A-T author plan: ready');
+  console.log(`- Saved report: ${paths.markdownPath}`);
+}
+
+function authorityPlanCommand() {
+  const rows = deepAuditRowsFor({ lane: 'authority' });
+  const results = [
+    runNpmScript('Marketing orchestrator', 'marketing:orchestrate'),
+    runAft('Recognition', ['recognition']),
+  ];
+  const status = results.every((result) => result.status === 0) ? 'ready' : 'needs-proof';
+  const paths = writePair(reportsDir, `serpforge-authority-plan-${stamp()}`, {
+    generatedAt: new Date().toISOString(),
+    kind: 'authority-plan',
+    status,
+    owner: 'Authority And Outreach Agent',
+    rows,
+    noSubmitRule: 'Draft only. No submissions, messages, backlinks, or live claims without approval and public proof.',
+    results,
+  }, deepAuditPlanMarkdown('SERPForge Authority And Outreach Plan', rows, [
+    '## Outreach Rules',
+    '',
+    '- Prepare Product Hunt, AlternativeTo, directory, roundup, education/resource, and broken-link targets as drafts.',
+    '- Use DataForSEO/SERP research to understand fit, not to scrape or spam.',
+    '- Never claim a backlink or placement until the public URL proves it.',
+    '',
+    ...results.map(commandBlock),
+  ]));
+  console.log(`SERPForge authority plan: ${status}`);
+  console.log(`- Saved report: ${paths.markdownPath}`);
+}
+
+function socialDiscoveryPlanCommand() {
+  const rows = deepAuditRowsFor({ lane: 'promotion' });
+  const results = [
+    runNpmScript('Marketing orchestrator', 'marketing:orchestrate'),
+    runAft('Promotion proof check', ['proof-check']),
+  ];
+  const status = results.every((result) => result.status === 0) ? 'ready' : 'needs-proof';
+  const paths = writePair(reportsDir, `serpforge-social-discovery-plan-${stamp()}`, {
+    generatedAt: new Date().toISOString(),
+    kind: 'social-discovery-plan',
+    status,
+    owner: 'Social Discovery Agent',
+    rows,
+    channels: ['Pinterest', 'Reddit', 'Bluesky/X', 'Quora', 'Medium', 'DEV'],
+    noPostRule: 'Draft and report only. No posting, messages, account writes, or live claims without approval and public proof.',
+    results,
+  }, deepAuditPlanMarkdown('SERPForge Social Discovery Plan', rows, [
+    '## Channel Rules',
+    '',
+    '- Use each platform quality gate before a draft is considered ready.',
+    '- Keep posts useful first: answer a real question and disclose ownership when linking.',
+    '- Never mark posted or updated from an editor or submit button alone.',
+    '',
+    ...results.map(commandBlock),
+  ]));
+  console.log(`SERPForge social discovery plan: ${status}`);
+  console.log(`- Saved report: ${paths.markdownPath}`);
+}
+
 function auditImportCommand() {
   ensureDirs();
   const source = existsSync(auditDownloadPath) ? auditDownloadPath : auditEvidencePath;
@@ -2317,7 +3133,7 @@ function htmlSitemapPlanCommand() {
 
 function dataForSeoPlanCommand() {
   const results = [
-    runNpmScript('DataForSEO account', 'dataforseo:account', ['--min-balance=2', '--warn-balance=10']),
+    runNpmScript('DataForSEO account', 'dataforseo:account', ['--', '--min-balance=2', '--warn-balance=10']),
     runNpmScript('DataForSEO status', 'dataforseo:status'),
   ];
   const payload = {
@@ -2393,7 +3209,7 @@ function dataForSeoSitewideAuditCommand(options = {}) {
   const reuseLatest = Boolean(options.reuseLatest || process.env.npm_config_reuse_latest === 'true');
   const targets = dataForSeoSitewideTargets();
   const gates = [
-    runNpmScript('DataForSEO account', 'dataforseo:account', ['--min-balance=2', '--warn-balance=10']),
+    runNpmScript('DataForSEO account', 'dataforseo:account', ['--', '--min-balance=2', '--warn-balance=10']),
     runNpmScript('DataForSEO status', 'dataforseo:status'),
   ];
   const gateReports = {
@@ -2508,7 +3324,7 @@ async function allPagesDataForSeoCommand() {
   const generatedAt = new Date().toISOString();
   const targets = dataForSeoSitewideTargets();
   const gates = [
-    runNpmScript('DataForSEO account', 'dataforseo:account', ['--min-balance=2', '--warn-balance=10']),
+    runNpmScript('DataForSEO account', 'dataforseo:account', ['--', '--min-balance=2', '--warn-balance=10']),
     runNpmScript('DataForSEO status', 'dataforseo:status'),
   ];
   const gateStatus = reportStatus(gates);
@@ -2865,7 +3681,7 @@ async function allPagesSerpAuditCommand(options = {}) {
   const selectedTargets = limit > 0 ? targets.slice(0, limit) : targets;
   const estimatedCost = selectedTargets.reduce((total, target) => total + 0.002 * Math.ceil(serpDepthForTarget(target) / 10), 0);
   const gates = [
-    runNpmScript('DataForSEO account', 'dataforseo:account', ['--min-balance=2', '--warn-balance=10']),
+    runNpmScript('DataForSEO account', 'dataforseo:account', ['--', '--min-balance=2', '--warn-balance=10']),
     runNpmScript('DataForSEO status', 'dataforseo:status'),
   ];
   const gateStatus = reportStatus(gates);
@@ -3090,7 +3906,7 @@ function dataForSeoSprintForPageTypeCommand(page) {
   const generatedAt = new Date().toISOString();
   const cleanPageValue = cleanPage(page);
   const gates = [
-    runNpmScript('DataForSEO account', 'dataforseo:account', ['--min-balance=2', '--warn-balance=10']),
+    runNpmScript('DataForSEO account', 'dataforseo:account', ['--', '--min-balance=2', '--warn-balance=10']),
     runNpmScript('DataForSEO status', 'dataforseo:status'),
   ];
   const gateStatus = reportStatus(gates);
@@ -3204,7 +4020,7 @@ async function pageHumanToneSprintCommand(value, pageOrOptions = {}, maybeOption
   const tone = smart14ToneAudit(target, built);
   const local = pageSeoIssues(target.url, built);
   const gates = [
-    runNpmScript('DataForSEO account', 'dataforseo:account', ['--min-balance=2', '--warn-balance=10']),
+    runNpmScript('DataForSEO account', 'dataforseo:account', ['--', '--min-balance=2', '--warn-balance=10']),
     runNpmScript('DataForSEO status', 'dataforseo:status'),
   ];
   const gateStatus = reportStatus(gates);
@@ -3438,7 +4254,7 @@ function allPagesHumanToneSprintCommand() {
 async function paidAuditSprintCommand(slug, page) {
   const cleanPageValue = cleanPage(page);
   const gates = [
-    runNpmScript('DataForSEO account', 'dataforseo:account', ['--min-balance=2', '--warn-balance=10']),
+    runNpmScript('DataForSEO account', 'dataforseo:account', ['--', '--min-balance=2', '--warn-balance=10']),
     runNpmScript('DataForSEO status', 'dataforseo:status'),
   ];
   const gateStatus = reportStatus(gates);
@@ -3543,6 +4359,84 @@ function gscSubmitSitemapsCommand() {
   if (payload.status !== 'pass') process.exitCode = 1;
 }
 
+function deepAuditSprintCommand() {
+  ensureDirs();
+  const results = [
+    runSerpforge('Deep audit import', ['deep-audit-import'], 180_000),
+    runSerpforge('Deep audit agents', ['deep-audit-agents'], 120_000),
+    runSerpforge('Technical header plan', ['technical-header-plan'], 120_000),
+    runSerpforge('Heading metadata plan', ['heading-metadata-plan'], 120_000),
+    runSerpforge('Content depth plan', ['content-depth-plan'], 120_000),
+    runSerpforge('E-E-A-T author plan', ['eeat-author-plan'], 120_000),
+    runSerpforge('Authority plan', ['authority-plan'], 240_000),
+    runSerpforge('Social discovery plan', ['social-discovery-plan'], 240_000),
+    runSerpforge('DataForSEO plan', ['dataforseo-plan'], 180_000),
+    runSerpforge('All-pages human-tone final judge', ['all-pages-human-tone-report'], 180_000),
+    runSerpforge('DataForSEO sitewide audit', ['dataforseo-sitewide-audit', '--reuse-latest'], 240_000),
+    runNpmScript('Search Console key URLs', 'search-console:inspect-key-urls'),
+    runAft('SEO console', ['seo-console']),
+    runNpmScript('Marketing orchestrator', 'marketing:orchestrate'),
+  ];
+  const proofCommands = [
+    'npm run check',
+    'npm run serpforge -- all-pages-human-tone-report',
+    'npm run serpforge -- dataforseo-sitewide-audit',
+    'npm run search-console:inspect-key-urls',
+    'npm run aft -- seo-console',
+    'npm run marketing:orchestrate',
+  ];
+  const counts = deepAuditCounts();
+  const blockedRows = deepAuditFindings.filter((row) => ['confirmed', 'needs-proof'].includes(row.status));
+  const status = results.every((result) => result.status === 0) && !blockedRows.length ? 'ready-for-human-approval' : 'needs-proof';
+  const payload = {
+    generatedAt: new Date().toISOString(),
+    kind: 'deep-audit-sprint',
+    status,
+    findingCounts: counts,
+    blockedRows,
+    proofCommands,
+    results,
+    rules: [
+      'This is a planning and evidence sprint, not a live-fix claim.',
+      'Confirmed and needs-proof rows stay open until exact proof is attached.',
+      'Promotion and outreach agents draft only; no public posting, submission, messaging, or backlink claims.',
+      'DataForSEO uses account/status gates, targeted Labs, live SERP, and OnPage only; Backlinks API is not used.',
+      'Some PDF findings may be stale or generic, so sub-agents must verify before creating fix tasks.',
+    ],
+  };
+  const blockedTable = blockedRows
+    .map((row) => `| ${row.priority} | ${row.status} | ${row.owner} | ${row.id} | ${row.task} | ${row.proof} |`)
+    .join('\n');
+  const paths = writePair(reportsDir, `serpforge-deep-audit-sprint-${stamp()}`, payload, [
+    '# SERPForge Deep Audit Sprint',
+    '',
+    `Status: ${status}`,
+    '',
+    '## Rules',
+    '',
+    ...payload.rules.map((rule) => `- ${rule}`),
+    '',
+    '## Required Proof Commands',
+    '',
+    ...proofCommands.map((command) => `- \`${command}\``),
+    '',
+    '## Open Findings',
+    '',
+    '| priority | status | owner | id | task | proof |',
+    '| --- | --- | --- | --- | --- | --- |',
+    blockedTable || '| P0 | already-fixed | Audit Sprint Judge | none | No open findings. | deep-audit-sprint |',
+    '',
+    '## Command Evidence',
+    '',
+    ...results.map(commandBlock),
+  ].join('\n\n'));
+  console.log(`SERPForge deep audit sprint: ${status}`);
+  console.log(`- Findings: ${counts.total}`);
+  console.log(`- Confirmed: ${counts.byStatus.confirmed ?? 0}`);
+  console.log(`- Needs proof: ${counts.byStatus['needs-proof'] ?? 0}`);
+  console.log(`- Saved report: ${paths.markdownPath}`);
+}
+
 function auditSprintCommand() {
   const results = [
     runSerpforge('All-pages review queue', ['all-pages-review-queue'], 120_000),
@@ -3640,6 +4534,24 @@ program
   .command('technical')
   .description('Run the SERPForge technical SEO sweep.')
   .action(technicalCommand);
+
+program.command('deep-audit-import').description('Import the PDF deep SEO audit into SERPForge evidence.').action(deepAuditImportCommand);
+
+program.command('deep-audit-agents').description('Create/report the deep audit agent roster and sprint board.').action(deepAuditAgentsCommand);
+
+program.command('technical-header-plan').description('Verify and plan HSTS, cache headers, preloads, redirects, and 404 UX.').action(technicalHeaderPlanCommand);
+
+program.command('heading-metadata-plan').description('Plan title, meta description, and heading fixes from the PDF audit.').action(headingMetadataPlanCommand);
+
+program.command('content-depth-plan').description('Plan content depth fixes for hubs, About, Password Generator, and weak-click pages.').action(contentDepthPlanCommand);
+
+program.command('eeat-author-plan').description('Plan author, reviewer, citation, disclaimer, and trust-block fixes.').action(eeatAuthorPlanCommand);
+
+program.command('authority-plan').description('Draft authority and outreach targets without submitting or claiming backlinks.').action(authorityPlanCommand);
+
+program.command('social-discovery-plan').description('Plan social discovery drafts through existing promotion quality gates.').action(socialDiscoveryPlanCommand);
+
+program.command('deep-audit-sprint').description('Combine PDF deep-audit agents, proof inputs, and open blockers into a sprint report.').action(deepAuditSprintCommand);
 
 program.command('audit-import').description('Import the downloaded SEO audit into SERPForge evidence.').action(auditImportCommand);
 

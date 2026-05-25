@@ -253,7 +253,7 @@ const guideDetails: Record<string, AiGuideDetail> = {
 function buildAiMetaDescription(tool: (typeof aiTools)[number], summary: string) {
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, output checks, privacy notes, and model limits for the ${tool.name}.`;
-  return description.length > 170 ? `${description.slice(0, 166).trim()}...` : description;
+  return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
 }
 
 function makeGuide(toolSlug: string): AiGuideDefinition {

@@ -1,0 +1,62 @@
+---
+export const prerender = true;
+import BaseLayout from '../components/BaseLayout.astro';
+
+const quickLinks = [
+  {
+    href: '/tools/',
+    title: 'Search all tools',
+    text: 'Find calculators, converters, text tools, AI helpers, and everyday utilities.',
+  },
+  {
+    href: '/categories/calculators/',
+    title: 'Calculator hub',
+    text: 'Start here for math, finance, health, school, and project calculators.',
+  },
+  {
+    href: '/blog/',
+    title: 'Read the guides',
+    text: 'Use examples and plain notes when you want to understand a result.',
+  },
+  {
+    href: '/sitemap/',
+    title: 'Open the sitemap',
+    text: 'Browse the main pages, categories, tools, guides, and gallery paths.',
+  },
+];
+---
+
+<BaseLayout
+  title="Page Not Found | Access Free Tools"
+  description="This Access Free Tools page was not found. Search the tools, browse calculators, read guides, or open the sitemap."
+  path="/404/"
+  noindex
+>
+  <section class="section-band">
+    <div class="section-heading">
+      <div>
+        <p class="section-kicker">404</p>
+        <h1>That page is not here</h1>
+      </div>
+      <p>
+        The link may be old, mistyped, or moved. The tools are still here, so the fastest fix
+        is to search the library or open the closest hub.
+      </p>
+    </div>
+
+    <form class="tool-search" action="/tools/" role="search">
+      <label for="missing-page-search">Search free tools</label>
+      <input id="missing-page-search" name="q" type="search" placeholder="Try mortgage, BMI, percentage, JSON..." />
+      <button class="button-primary" type="submit">Search</button>
+    </form>
+
+    <div class="discovery-link-grid">
+      {quickLinks.map((link) => (
+        <a href={link.href}>
+          <strong>{link.title}</strong>
+          <span>{link.text}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

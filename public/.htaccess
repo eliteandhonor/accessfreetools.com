@@ -10,9 +10,22 @@ RewriteRule ^deep-research/?$ /categories/ai-tools/ [R=301,L]
 RewriteRule ^advanced-age-calculator/?$ /tools/age-calculator/ [R=301,L]
 RewriteRule ^maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025/?$ /tools/ad-revenue-calculator/ [R=301,L]
 
+RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{REQUEST_URI} !^/(api|mcp)(/|$) [NC]
+RewriteCond %{REQUEST_URI} !^/(robots\.txt|llms\.txt|feed\.xml|sitemap(-[a-z]+)?\.xml)$ [NC]
+RewriteCond %{REQUEST_URI} !\.[a-z0-9]{2,8}$ [NC]
+RewriteRule ^(.+)$ /$1/ [R=301,L]
+
 <IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
   Header always set X-Content-Type-Options "nosniff"
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  <FilesMatch "\.(?:css|js|mjs|png|jpe?g|webp|gif|svg|ico|woff2?|wasm|onnx|gz)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(?:html|xml|txt|json)$">
+    Header set Cache-Control "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400"
+  </FilesMatch>
 </IfModule>

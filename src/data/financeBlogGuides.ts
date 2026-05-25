@@ -2666,7 +2666,7 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
 function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summary: string) {
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
-  return description.length > 170 ? `${description.slice(0, 166).trim()}...` : description;
+  return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
 }
 
 export const financeBlogPosts: BlogPostDefinition[] = financeTools.map((tool) => {

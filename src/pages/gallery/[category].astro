@@ -24,6 +24,12 @@ const guideEntries = category.entries.filter((entry: ToolArtManifestEntry) => en
 const title = `${category.name} Smoke-Kawaii Art Gallery | Access Free Tools`;
 const description = `Browse approved images for ${category.name.toLowerCase()} tool pages and matching guide pages on Access Free Tools.`;
 const pageUrl = `https://accessfreetools.com/gallery/${category.slug}/`;
+const categoryGalleryNotes = [
+  `${category.name} artwork is only useful when it matches the page job. A tool image should make the input, result, or setting easier to understand.`,
+  `Guide images are for walkthrough context. They should support examples, formulas, mistakes, or limits instead of acting like random decoration.`,
+  `Every card sends visitors back to the matching ${category.name.toLowerCase()} tool or guide, so the image page strengthens the real page instead of becoming a dead end.`,
+  'If a new image is too generic, cropped badly, repeated, or mismatched to the tool purpose, it should stay hidden until fixed.',
+];
 const imageStructuredData = {
   '@context': 'https://schema.org',
   '@graph': category.entries.slice(0, 120).map((entry: ToolArtManifestEntry) => ({
@@ -123,6 +129,19 @@ const imageStructuredData = {
           <small>{entry.caption}</small>
         </a>
       ))}
+    </div>
+  </section>
+
+  <section class="section-band gallery-preview-band">
+    <div class="section-heading">
+      <h2>What makes this image set worth indexing</h2>
+      <p>
+        Approved gallery pages stay indexable because the images have page context, captions, and
+        links back to useful tools.
+      </p>
+    </div>
+    <div class="feature-list">
+      {categoryGalleryNotes.map((note) => <p>{note}</p>)}
     </div>
   </section>
 </BaseLayout>

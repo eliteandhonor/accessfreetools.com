@@ -50,6 +50,7 @@ Use the repo as the source of truth first: the tool data file, matching blog gui
 
 - `npm run images:manifest` regenerates the tracked manifest and report.
 - `npm run images:generate` writes a GPT Image prompt queue to `output/tool-art-gpt-image-queue.md` and `.json`.
+- `npm run images:crop-audit` writes `output/tool-art-crop-review/` reports and contact sheets for approved-looking files that may violate the full-body/no-crop rule. Treat this as visual-review evidence, not automatic approval or rejection.
 - `npm run images:qa` checks manifest freshness and approved image files only. Queued images are not embedded publicly.
 - `npm run images:sitemap-check` checks the built image sitemap for approved image entries.
 - `npm run gallery:qa` checks built gallery pages and backlinks for approved image entries.
