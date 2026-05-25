@@ -1,4 +1,4 @@
-import { mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
 import sharp from 'sharp';
 
@@ -152,6 +152,9 @@ async function writeContactSheets(candidates) {
 }
 
 mkdirSync(outputDir, { recursive: true });
+for (const oldSheet of readdirSync(outputDir).filter((name) => /^severe-\d+\.png$/.test(name))) {
+  rmSync(resolve(outputDir, oldSheet));
+}
 
 const results = [];
 for (const file of readdirSync(sourceDir).filter((name) => name.endsWith('.webp'))) {
