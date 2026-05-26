@@ -841,6 +841,16 @@ const cdcGrowthCharts = {
   label: 'CDC: Growth Charts',
 };
 
+const mayoChildGrowth = {
+  href: 'https://www.mayoclinic.org/healthy-lifestyle/childrens-health/expert-answers/child-growth/faq-20057990',
+  label: 'Mayo Clinic: Predicting adult height',
+};
+
+const aapMidParentalHeight = {
+  href: 'https://eqipp.aap.org/courses/growth2/mn/clinical-guide/popups/mid-parental-height',
+  label: 'American Academy of Pediatrics: Mid-parental height',
+};
+
 const cdcSleep = {
   href: 'https://www.cdc.gov/sleep/about/index.html',
   label: 'CDC: About Sleep',
@@ -5790,17 +5800,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'height-calculator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [cdcGrowthCharts, nistSi],
+    sources: [mayoChildGrowth, aapMidParentalHeight, cdcGrowthCharts, nistSi, googleHelpfulContent],
     findings: [
-      'The height helper uses a mid-parental height style estimate, then shows a rough plus-or-minus range instead of one exact promise.',
-      'Tests cover the male estimate from 64-inch and 70-inch parent heights.',
-      'The guide keeps growth, puberty timing, nutrition, health, and genetics in the caveats so the result is not framed as a medical prediction.',
+      'The height helper uses a mid-parental height estimate: add 5 inches to the parent-height total before dividing by 2 for a male estimate, or subtract 5 inches before dividing by 2 for a female estimate.',
+      'The page now explains that the plus-or-minus 4 inch range is the honest target range, not decoration or a guarantee.',
+      'The guide distinguishes a rough parent-height estimate from CDC growth-chart tracking, bone-age work, and clinician review.',
     ],
     improvements: [
-      'Manually checked height-estimate formula, inch and centimeter output, range wording, health caveats, examples, generated FAQ detail, related links, SEO copy, and privacy behavior.',
+      'Fixed formula wording, corrected examples, removed the unsupported centimeter-input promise, added height-specific FAQ detail, updated guide sources, repaired image alt/caption text, and refreshed DataForSEO/page proof.',
     ],
     followUps: [
       'Add child growth percentile tooling only with CDC chart support and stronger medical-context warnings.',

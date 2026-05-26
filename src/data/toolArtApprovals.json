@@ -1996,6 +1996,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/height-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/height-calculator-guide.webp",
+    "alt": "Smoke mascot pointing across parent height rulers, baby-to-adult icons, and a rough adult-height range.",
+    "caption": "Height Calculator guide artwork shows parent heights flowing into a child adult-height estimate, with rulers and a range marker to match the guide.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2004,6 +2006,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/height-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/height-calculator-tool.webp",
+    "alt": "Smoke mascot beside parent height rulers, child icons, footprint inputs, and a glowing adult-height range bar.",
+    "caption": "Height Calculator artwork matches the tool: parent heights, child estimate type, centimeter output, and the rough adult-height range are shown as ruler-style visuals.",
     "status": "approved",
     "qaStatus": "approved"
   },

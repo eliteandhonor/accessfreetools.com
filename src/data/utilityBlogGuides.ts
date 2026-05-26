@@ -255,6 +255,18 @@ const sourceLinks = {
     href: 'https://www.cdc.gov/sleep/about/index.html',
     label: 'CDC: Sleep recommendations by age',
   },
+  cdcGrowthCharts: {
+    href: 'https://www.cdc.gov/growthcharts/',
+    label: 'CDC: Growth Charts',
+  },
+  mayoChildGrowth: {
+    href: 'https://www.mayoclinic.org/healthy-lifestyle/childrens-health/expert-answers/child-growth/faq-20057990',
+    label: 'Mayo Clinic: Predicting adult height',
+  },
+  aapMidParentalHeight: {
+    href: 'https://eqipp.aap.org/courses/growth2/mn/clinical-guide/popups/mid-parental-height',
+    label: 'American Academy of Pediatrics: Mid-parental height',
+  },
   energyStarAc: {
     href: 'https://www.energystar.gov/productfinder/product/certified-room-air-conditioners/',
     label: 'ENERGY STAR: Room air conditioner sizing guidance',
@@ -1174,9 +1186,21 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.isoDate],
   },
   'height-calculator': {
+    title: 'Height Calculator Guide',
     summary: 'Learn how parent heights can give a rough adult-height estimate.',
+    metaDescription:
+      'Use the Height Calculator guide to enter parent heights, read the mid-parental estimate, check the rough range, and know when growth charts matter.',
     purpose:
       'The Height Calculator uses a simple mid-parental estimate. It is useful for understanding the math behind a rough family-height prediction, but it should not be treated as a medical growth forecast.',
+    intro:
+      'Use it when you want a quick family-height estimate from two parent heights. If a child is already growing far outside their usual pattern, a growth chart and a clinician matter more than this shortcut.',
+    inputMatch: 'the child estimate type and each parent height in feet plus extra inches',
+    logicNote:
+      'For a male estimate, the calculator adds 5 inches to the two parent heights before dividing by 2. For a female estimate, it subtracts 5 inches before dividing by 2.',
+    readIntro:
+      'Read the rounded feet-and-inches estimate first, then check the centimeter line and the rough plus-or-minus range. The range is not decoration; it is the honest part of the answer.',
+    mistakeIntro:
+      'Most wrong height estimates come from entering inches in the feet box, using a decimal like 5.8 for 5 ft 8 in, or treating the midpoint as a promise.',
     enter: [
       'Choose the estimate type for the child.',
       'Enter each parent height using feet and extra inches.',
@@ -1192,7 +1216,28 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not ignore growth patterns, puberty timing, nutrition, or health history.',
       'Check that feet and inches were entered separately and not as one decimal height.',
     ],
-    sources: [sourceLinks.cdcSleep],
+    extraSections: [
+      {
+        title: 'Quick example',
+        paragraphs: [
+          'If the mother is 5 ft 4 in and the father is 5 ft 10 in, the male estimate uses 64 + 70 + 5, then divides by 2. That gives 69.5 inches, which the tool rounds to about 5 ft 10 in.',
+        ],
+      },
+      {
+        title: 'What the range means',
+        paragraphs: [
+          'The rough range is there because real growth does not land on one perfect number. Genes matter a lot, but puberty timing, nutrition, health, and normal variation can move the final adult height.',
+          'This page does not use a child height percentile, weight, bone age, or growth-chart history. Those checks need more information than two parent heights.',
+        ],
+      },
+      {
+        title: 'When to check a growth chart',
+        paragraphs: [
+          'Use CDC growth charts or a clinician when the question is about whether a child is growing normally. A mid-parental estimate can be useful background, but it cannot spot growth problems by itself.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.mayoChildGrowth, sourceLinks.aapMidParentalHeight, sourceLinks.cdcGrowthCharts, sourceLinks.nistUnits],
   },
   'bra-size-calculator': {
     summary: 'Learn how bust and underbust measurements create a starting bra size estimate.',

@@ -5200,7 +5200,9 @@ function calculateUtility(
         ],
         steps: [
           'Convert each parent height to total inches.',
-          result.childSex === 'male' ? 'Add 5 inches for a male estimate, then average.' : 'Subtract 5 inches for a female estimate, then average.',
+          result.childSex === 'male'
+            ? 'Add 5 inches to the parent-height total for a male estimate, then divide by 2.'
+            : 'Subtract 5 inches from the parent-height total for a female estimate, then divide by 2.',
           'Show a rough plus-or-minus 4 inch range because real growth varies.',
         ],
         note: 'Children grow differently. Pediatric growth concerns should be checked with a healthcare professional.',

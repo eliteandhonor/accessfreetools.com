@@ -1026,10 +1026,60 @@ export const utilityTools: ToolDefinition[] = [
     description:
       'Use this free height calculator to estimate adult height from mother and father heights using a mid-parental height method and a clear rough range.',
     icon: 'calculator-height',
+    aliases: ['Child Height Calculator', 'Adult Height Predictor', 'Mid-Parental Height Calculator'],
+    seoTitle: 'Height Calculator | Child Adult Height Estimate',
+    seoDescription:
+      'Estimate child adult height from parent heights. See the mid-parental formula, feet/inches result, centimeter value, and rough 4-inch range.',
     formula:
-      'The calculator converts parent heights to inches, averages them, then adds 5 inches for a male estimate or subtracts 5 inches for a female estimate.',
+      'The calculator converts both parent heights to inches. For a male estimate it adds 5 inches to the parent-height total before dividing by 2. For a female estimate it subtracts 5 inches before dividing by 2.',
     limit:
       'This is only a family-height estimate. Nutrition, health, puberty timing, genetics, and medical conditions can change growth.',
+    faqLanguage: {
+      expectedInputs: 'the child estimate type and both parent heights in feet plus extra inches',
+      inputFallback:
+        'Choose the child estimate type, then enter the mother and father heights as feet plus extra inches. Do not enter 5.8 when you mean 5 ft 8 in.',
+      examplePhrase: 'parent-height example',
+      doubleCheck:
+        'Also check child estimate type, mother height, father height, feet, extra inches, and whether you need a growth chart instead of a rough family estimate.',
+    },
+    inputExplanations: [
+      { term: 'Child estimate', meaning: 'the formula path for a male or female adult-height estimate.' },
+      { term: 'Mother feet and extra inches', meaning: 'the mother height split into whole feet and leftover inches.' },
+      { term: 'Father feet and extra inches', meaning: 'the father height split into whole feet and leftover inches.' },
+      { term: 'Approximate range', meaning: 'the estimate plus or minus 4 inches, because real adult height can land above or below the midpoint.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How should I read the Height Calculator answer?',
+        answer:
+          'Read the rounded feet-and-inches estimate first, then the centimeter value, then the rough plus-or-minus range. The range matters because real adult height can finish above or below the midpoint.',
+      },
+      {
+        question: 'Is this the same as a growth chart?',
+        answer:
+          'No. This calculator only uses parent heights. A growth chart uses a child age, sex, height, weight, and past measurements to see how growth is tracking over time.',
+      },
+      {
+        question: 'Why is there a plus-or-minus 4 inch range?',
+        answer:
+          'Mid-parental height is a rough target, not a promise. Pediatric references often use about 4 inches on each side as a target range because children can finish taller or shorter than the midpoint.',
+      },
+      {
+        question: 'Can this predict height exactly?',
+        answer:
+          'No. It is a quick estimate from family heights only. Puberty timing, nutrition, health, genetics, and measurement error can all change the final adult height.',
+      },
+      {
+        question: 'Why does the calculator ask for feet and extra inches?',
+        answer:
+          'It keeps mixed units clear. Enter 5 feet and 8 extra inches as 5 and 8, not 5.8, because 5.8 feet is a different number.',
+      },
+      {
+        question: 'When should I ask a healthcare professional?',
+        answer:
+          'Ask a clinician if a child is crossing growth-chart lines, is much shorter or taller than expected, has puberty concerns, or if you are worried about nutrition, illness, or growth timing.',
+      },
+    ],
     useCases: [
       'Estimate a child adult height from parent heights.',
       'Compare the result in feet, inches, and centimeters.',
@@ -1037,9 +1087,9 @@ export const utilityTools: ToolDefinition[] = [
       'Understand why growth estimates are not medical predictions.',
     ],
     examples: [
-      { label: 'Boy estimate', expression: 'Mother 5 ft 4 in, father 5 ft 10 in', result: 'About 5 ft 9 in' },
+      { label: 'Boy estimate', expression: 'Mother 5 ft 4 in, father 5 ft 10 in', result: 'About 5 ft 10 in' },
       { label: 'Girl estimate', expression: 'Mother 5 ft 3 in, father 6 ft 0 in', result: 'About 5 ft 5 in' },
-      { label: 'Centimeter check', expression: 'Mother 162 cm, father 178 cm', result: 'Adult height estimate in cm' },
+      { label: 'Centimeter output', expression: 'Mother 5 ft 4 in, father 5 ft 10 in', result: 'About 176.5 cm' },
     ],
     relatedSlugs: ['healthy-weight-calculator', 'ideal-weight-calculator', 'bmi-calculator'],
   }),
