@@ -971,6 +971,16 @@ const noaaHeatIndex = {
   label: 'NOAA/NWS: Heat index equation',
 };
 
+const nwsHeatSafety = {
+  href: 'https://www.weather.gov/safety/heat-index',
+  label: 'National Weather Service: Heat index and safety',
+};
+
+const cdcHeatIllness = {
+  href: 'https://www.cdc.gov/heat-health/about/index.html',
+  label: 'CDC: About heat and health',
+};
+
 const noaaDewPoint = {
   href: 'https://www.wpc.ncep.noaa.gov/html/dewrh.shtml',
   label: 'NOAA/NWS: Dew point and relative humidity calculator',
@@ -4655,21 +4665,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'heat-index-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [noaaHeatIndex, nistSi],
+    sources: [noaaHeatIndex, nwsHeatSafety, cdcHeatIllness, nistSi, googleHelpfulContent],
     findings: [
       'The calculator now follows the NOAA/NWS method by checking the simple branch before using the Rothfusz regression.',
-      'The FAQ now explains that direct sun, exertion, wind, clothing, hydration, and health can make heat risk worse than the number alone.',
-      'The guide now describes the simple branch plus regression handoff instead of implying every input uses the full regression.',
+      'The FAQ explains that direct sun, exertion, wind, clothing, hydration, local alerts, and health can make heat risk worse than the number alone.',
+      'The guide describes the simple branch plus regression handoff and adds concrete 90 F / 70% RH, 95 F / 35% RH, and 100 F / 55% RH checks.',
     ],
     improvements: [
-      'Manually checked heat index formula branching, humidity adjustments, examples, FAQ detail, guide wording, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
-      'Fixed the low-range heat index behavior so the full Rothfusz regression is not used when the preliminary NWS value stays below about 80 F.',
+      'Added source SEO title and description, DataForSEO proof, heat-index-chart intent coverage, safety-limit FAQs, NWS/CDC source coverage, concrete result examples, browser proof, and specific image alt text.',
     ],
     followUps: [
-      'Add a heat-safety resource card later if it stays visibly separate from the calculator result.',
+      'Add local-alert links only if the site later supports location-aware weather content with clear privacy controls.',
     ],
   },
   {

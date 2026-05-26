@@ -219,6 +219,14 @@ const sourceLinks = {
     href: 'https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml',
     label: 'NOAA/NWS: Heat index equation',
   },
+  nwsHeatSafety: {
+    href: 'https://www.weather.gov/safety/heat-index',
+    label: 'National Weather Service: Heat index and safety',
+  },
+  cdcHeatIllness: {
+    href: 'https://www.cdc.gov/heat-health/about/index.html',
+    label: 'CDC: About heat and health',
+  },
   noaaDewPoint: {
     href: 'https://www.wpc.ncep.noaa.gov/html/dewrh.shtml',
     label: 'NOAA/NWS: Dew point and relative humidity calculator',
@@ -2565,9 +2573,9 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nwsWindChill, sourceLinks.nistUnits],
   },
   'heat-index-calculator': {
-    summary: 'Learn how temperature and humidity estimate apparent heat.',
+    summary: 'Learn how temperature and humidity estimate apparent heat, with safety limits in plain language.',
     purpose:
-      'The Heat Index Calculator uses the NWS heat index method to estimate apparent temperature in warm, humid conditions. It starts with the simple branch, then uses the Rothfusz regression when the preliminary value reaches about 80 F.',
+      'The Heat Index Calculator uses the NWS heat index method to estimate how hot warm, humid air can feel to a person. It starts with the simple branch, then uses the Rothfusz regression when the preliminary value reaches about 80 F.',
     enter: [
       'Enter air temperature in Fahrenheit.',
       'Enter relative humidity percent.',
@@ -2577,13 +2585,39 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'The main answer is heat index.',
       'Celsius gives metric context.',
       'Humidity confirms how much moisture was used in the estimate.',
+      'A 90 F day at 70% relative humidity is about 105.9 F heat index in this model.',
     ],
     mistakes: [
       'Do not use heat index as the only heat-safety signal.',
       'Do not ignore direct sun, exertion, wind, clothing, or health conditions.',
+      'Do not treat a heat-index chart or calculator as a replacement for local alerts.',
       'Follow local heat advisories and emergency guidance.',
     ],
-    sources: [sourceLinks.noaaHeatIndex, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Example numbers to sanity-check',
+        paragraphs: [
+          'Use these as quick checks before trusting your own result. They also make the heat-index chart idea easier to understand.',
+        ],
+        bullets: [
+          '90 F with 70% relative humidity is about 105.9 F heat index.',
+          '95 F with 35% relative humidity is about 96.5 F heat index.',
+          '100 F with 55% relative humidity is about 123.6 F heat index.',
+        ],
+      },
+      {
+        title: 'What the number cannot know',
+        paragraphs: [
+          'The calculator only sees temperature and humidity. It does not know if you are in full sun, working hard, wearing heavy clothing, taking medication, dehydrated, or under a local heat warning.',
+        ],
+        bullets: [
+          'Use local NWS heat alerts before outdoor plans.',
+          'Use extra caution for children, older adults, outdoor workers, athletes, and anyone with health risks.',
+          'If someone is confused, fainting, very hot, or showing heat-stroke warning signs, do not wait for a calculator result.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.noaaHeatIndex, sourceLinks.nwsHeatSafety, sourceLinks.cdcHeatIllness, sourceLinks.nistUnits],
   },
   'dew-point-calculator': {
     summary: 'Learn how temperature and relative humidity estimate dew point.',

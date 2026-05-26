@@ -92,3 +92,12 @@
 - Repaired Payback Period tool and guide image alt/caption source data so the artwork describes initial cost, annual cash flow, payback years, net after horizon, and the timeline/payback point.
 - Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Payback Period pages; `npm run check` passed before deployment.
 - Deployed main commit `3dc1ca5` through Hostinger Node build `019e620d-898b-733e-adc4-0dc7515d03f8`; live Ask, production sitemap, full GSC sitemap submission, live DOM proof, live browser screenshots, and post-deploy DataForSEO page evidence all passed.
+
+## 2026-05-26 - Heat Index Tool And Guide Sprint Cleared For Deploy
+
+- Reviewed `/tools/heat-index-calculator/` and `/blog/how-to-use-heat-index-calculator/` as a paired sprint using current NWS/NOAA, CDC, Google Search Central, Calculator.net, and DataForSEO evidence.
+- Updated the Heat Index tool with source `seoTitle` and `seoDescription`, exact 90 F/70%, 95 F/35%, and 100 F/55% examples, heat-risk limits, direct-sun wording, Celsius/wind-speed FAQs, and practical heat-illness caution language.
+- Expanded the matching guide with example sanity checks, direct-sun and local-advisory limits, CDC heat-health context, and clearer routing back to the tool and related pages.
+- Repaired Heat Index tool and guide image alt/caption source data so the artwork describes temperature, relative humidity, heat index, Celsius result, and the guide's chart-style walkthrough.
+- Fresh built-browser proof confirms the public internal-review wording is absent and the new examples, FAQ/schema, modified date, and smart-14 wording render.
+- Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Heat Index pages; page scores are 100/100 and post-edit DataForSEO paid evidence passed. Pending commit, deploy, live proof, GSC sitemap submission, and post-deploy DataForSEO closeout.

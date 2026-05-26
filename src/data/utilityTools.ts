@@ -3479,12 +3479,16 @@ export const utilityTools: ToolDefinition[] = [
     category: 'everyday-tools',
     summary: 'Calculate heat index from Fahrenheit temperature and relative humidity.',
     description:
-      'Use this free heat index calculator to estimate apparent temperature from air temperature and humidity using the NWS regression.',
+      'Enter air temperature and relative humidity to estimate heat index, then check the Fahrenheit and Celsius apparent-temperature result.',
+    seoTitle: 'Heat Index Calculator | Temperature And Humidity',
+    seoDescription:
+      'Calculate heat index from Fahrenheit temperature and relative humidity with the NWS method. See apparent temperature, chart-style examples, and safety limits.',
     icon: 'calculator-heat-index',
+    aliases: ['heat index chart', 'apparent temperature calculator', 'humidity heat calculator', 'NWS heat index calculator'],
     formula:
       'The calculator uses the National Weather Service heat index method: a simple branch first, then the Rothfusz regression and standard humidity adjustments when the preliminary value reaches about 80 F.',
     limit:
-      'Heat risk depends on sun, exertion, wind, hydration, clothing, health, and local warnings. Do not rely on a calculator alone.',
+      'Heat risk depends on sun, exertion, wind, hydration, clothing, health, and local warnings. Treat this as a weather-math estimate, not a safety clearance.',
     inputExplanations: [
       { term: 'Temperature F', meaning: 'the air temperature in degrees Fahrenheit.' },
       { term: 'Relative humidity %', meaning: 'how much water vapor is in the air compared with the most it could hold at that temperature.' },
@@ -3496,6 +3500,31 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Heat index is usually based on air temperature and humidity in shade-like conditions. Direct sun, hard activity, heavy clothing, and low wind can raise real heat stress.',
       },
+      {
+        question: 'Is heat index the same as the real air temperature?',
+        answer:
+          'No. Air temperature is the thermometer reading. Heat index is a feels-like estimate for people in hot, humid weather.',
+      },
+      {
+        question: 'Why does humidity raise the heat index?',
+        answer:
+          'High humidity makes sweat evaporate more slowly. That can make the same air temperature feel hotter to your body.',
+      },
+      {
+        question: 'Can I use Celsius with this calculator?',
+        answer:
+          'Enter Fahrenheit on this page. The result also shows Celsius, so you can read the apparent temperature in both units after calculating.',
+      },
+      {
+        question: 'Does wind speed belong in heat index?',
+        answer:
+          'Not in this calculator. Heat index uses temperature and humidity. Wind, sun, work level, clothing, and local alerts can still change real heat risk.',
+      },
+      {
+        question: 'When should I ignore the calculator and use official help?',
+        answer:
+          'Use local heat advisories first. If someone is confused, fainting, very hot, or showing heat-stroke warning signs, treat it as urgent and follow emergency guidance.',
+      },
     ],
     useCases: [
       'Estimate how hot humid weather feels.',
@@ -3504,9 +3533,9 @@ export const utilityTools: ToolDefinition[] = [
       'Understand why humidity changes heat stress.',
     ],
     examples: [
-      { label: 'Humid heat', expression: '90 F and 70% RH', result: 'Higher apparent temperature' },
-      { label: 'Dryer heat', expression: '95 F and 35% RH', result: 'Adjusted heat index' },
-      { label: 'Danger check', expression: '100 F and 55% RH', result: 'High heat index estimate' },
+      { label: 'Humid heat', expression: '90 F and 70% RH', result: 'About 105.9 F heat index' },
+      { label: 'Dryer heat', expression: '95 F and 35% RH', result: 'About 96.5 F heat index' },
+      { label: 'Danger check', expression: '100 F and 55% RH', result: 'About 123.6 F heat index' },
     ],
     relatedSlugs: ['wind-chill-calculator', 'dew-point-calculator', 'btu-calculator'],
   }),

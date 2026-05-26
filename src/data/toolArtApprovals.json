@@ -1948,6 +1948,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/heat-index-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/heat-index-calculator-guide.webp",
+    "alt": "Smoke mascot reading a hot-weather chart with 90 F, humidity drops, and a bright heat-index result card.",
+    "caption": "The Heat Index Calculator guide artwork matches the walkthrough: temperature plus humidity becomes a feels-like heat number with safety limits.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -1956,6 +1958,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/heat-index-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/heat-index-calculator-tool.webp",
+    "alt": "Smoke mascot beside weather cards for air temperature, relative humidity, heat index, and Celsius result.",
+    "caption": "The Heat Index Calculator artwork matches the live tool: enter Fahrenheit temperature and humidity to estimate apparent heat.",
     "status": "approved",
     "qaStatus": "approved"
   },
