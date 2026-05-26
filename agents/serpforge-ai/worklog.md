@@ -74,3 +74,11 @@
 - Repaired Character Counter tool and guide image alt/caption source data so the artwork describes the visible text box, count blocks, line count, and UTF-8 byte blocks.
 - Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Character Counter pages; `npm run check` passed before deployment.
 - Deployed main commit `24e24ed` through Hostinger Node build `019e61e1-2fb1-7312-82b1-cdada33f40d7`; live Ask, production sitemap, full GSC sitemap submission, live HTML proof, live browser screenshots, and post-deploy DataForSEO page evidence all passed.
+
+## 2026-05-26 - Markup Tool And Guide Sprint Cleared
+
+- Reviewed `/tools/markup-calculator/` and `/blog/how-to-use-markup-calculator/` as a paired sprint using OpenStax and Google source checks, CalculatorSoup and Omni competitor gap evidence, DataForSEO paid evidence, browser proof, and SERPForge final judges.
+- Updated the Markup tool with exact result examples, clearer cost-plus formula wording, a source `seoTitle`, six source FAQs, and fee, packaging, target-margin, and demand caveats in smart-14 wording.
+- Tightened the matching guide around the $30 cost and 50% markup example, including $45 selling price, $1,500 batch profit, and 33.33% margin without treating markup and margin as the same thing.
+- Repaired Markup tool and guide image alt/caption source data so the artwork describes unit cost, markup percent, selling price, profit, and margin cards.
+- Fixed the SEO agent evidence extractor so generated finance FAQs count correctly for finance factory-list pages; final page agent judges now report `ready-for-human-approval` with 0 gaps for both Markup pages.

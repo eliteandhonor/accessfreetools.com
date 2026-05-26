@@ -12,11 +12,13 @@ const toolLastmodOverrides: Record<string, string> = {
   'gas-mileage-calculator': '2026-05-26',
   'half-life-calculator': '2026-05-26',
   'character-counter': '2026-05-26',
+  'markup-calculator': '2026-05-26',
 };
 
 const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-half-life-calculator': '2026-05-26',
   'how-to-use-character-counter': '2026-05-26',
+  'how-to-use-markup-calculator': '2026-05-26',
 };
 
 const staticPageLastmod: Record<string, string> = {

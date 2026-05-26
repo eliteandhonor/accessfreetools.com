@@ -253,7 +253,9 @@ export function extractToolRecords() {
       const isUtilityFactoryBlock =
         chunk.includes('makeUtilityTool({') || text.slice(Math.max(0, (match.index ?? 0) - 120), match.index ?? 0).includes('makeUtilityTool');
       const isFinanceFactoryBlock =
-        chunk.includes('makeFinanceTool({') || text.slice(Math.max(0, (match.index ?? 0) - 120), match.index ?? 0).includes('makeFinanceTool');
+        /financeTools\.ts$/.test(unixPath(relative(process.cwd(), file))) ||
+        chunk.includes('makeFinanceTool({') ||
+        text.slice(Math.max(0, (match.index ?? 0) - 120), match.index ?? 0).includes('makeFinanceTool');
       const titleType = name.endsWith('Generator')
         ? 'Free Online Generator'
         : name.endsWith('Calculator')

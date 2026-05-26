@@ -6631,17 +6631,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'markup-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-business-ratios-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [calculatorSoupSitemap, openStaxDiscounts, openStaxPercent, googleHelpfulContent],
+    sources: [calculatorSoupSitemap, openStaxDiscounts, openStaxPercent, googleHelpfulContent, googleSnippets],
     findings: [
-      'Markup pricing was added as its own search intent instead of overloading the existing Margin Calculator.',
-      'Formula review checked cost-plus price, profit per unit, batch revenue, total cost, total profit, and margin-from-markup output.',
-      'FAQ and guide clearly explain the common markup-versus-margin confusion.',
+      'DataForSEO and GSC sprint review confirmed that markup intent needs a direct cost-plus pricing page and a guide that explains why markup is not margin.',
+      'Formula review checked selling price = unit cost x (1 + markup percent / 100), profit per unit, batch revenue, total cost, total profit, and margin-from-markup output.',
+      'FAQ and guide now explain fees, packaging, discounts, target-margin differences, and the common 50% markup versus 50% margin mistake.',
     ],
     improvements: [
-      'Added markup UI, examples, pricing outputs, source-backed guide, detailed FAQ, related margin and break-even pathways, and tests.',
+      'Added stronger example outputs, source-backed guide wording, detailed FAQ depth, specific image alt/caption text, page-specific DataForSEO evidence, and related margin and break-even pathways.',
     ],
     followUps: [
       'Add target-margin pricing later if it is kept separate from cost-plus markup math.',

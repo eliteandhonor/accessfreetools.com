@@ -2588,6 +2588,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/markup-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/markup-calculator-guide.webp",
+    "alt": "Smoke mascot comparing a $30 cost tag, 50% markup note, $45 price card, and smaller margin percent block.",
+    "caption": "The Markup Calculator guide artwork shows the walkthrough problem: cost plus markup becomes selling price, profit, and margin.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2596,6 +2598,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/markup-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/markup-calculator-tool.webp",
+    "alt": "Smoke mascot beside pricing cards for unit cost, markup percent, selling price, profit, and margin.",
+    "caption": "The Markup Calculator artwork matches the live tool: enter cost and markup percent, then check selling price, profit, and margin.",
     "status": "approved",
     "qaStatus": "approved"
   },

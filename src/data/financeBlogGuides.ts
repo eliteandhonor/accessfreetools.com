@@ -559,17 +559,19 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
     example: [
       'If an item costs $30 and you add a 50% markup, the markup amount is $15.',
-      'The selling price is $45. The margin is 33.33%, because $15 profit is one-third of the final $45 price.',
+      'The selling price is $45. If you sell 100 units, the total profit before fees or discounts is $1,500. The margin is 33.33%, because $15 profit is one-third of the final $45 price.',
     ],
     read: [
       'Selling price per unit is the price produced by the markup.',
       'Profit per unit is selling price minus cost.',
       'Margin from that price helps you compare this result with margin-based pricing.',
+      'Total profit only makes sense if the unit count is close to what you can actually sell.',
     ],
     mistakes: [
       'Do not read markup percent as margin percent. They use different denominators.',
-      'Do not ignore platform fees, shipping, returns, or discounts if they reduce profit.',
+      'Do not ignore platform fees, shipping, packaging, returns, or discounts if they reduce profit.',
       'Do not assume a higher markup automatically means the market will pay that price.',
+      'Do not use this page for target-margin pricing. Use the Margin Calculator when the percent of the sale price is the goal.',
     ],
     next: ['Use Margin Calculator when you already know selling price.', 'Use Break Even Calculator to see how many units need to sell.'],
   },
@@ -2698,7 +2700,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       `Open the ${tool.name}.`,
       detail.enter[0],
       `Use the first example, "${primaryExampleText}", if you want to see a filled-out estimate before entering your own values.`,
-      'Calculate, read the formula line, then copy the result only after the amounts, rates, and term look right.',
+      'Calculate, read the formula line, then copy the result only after the amounts, percentages, time periods, or assumptions look right.',
     ],
     sections: [
       {
@@ -2734,7 +2736,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       {
         title: 'How to read the answer',
         paragraphs: [
-          'Start with the headline result. Then read the supporting lines to see what made the number larger or smaller, such as rate, term, principal, tax, fees, or contributions.',
+          'Start with the headline result. Then read the supporting lines to see what made the number larger or smaller, such as rates, time periods, costs, taxes, fees, discounts, or contributions.',
         ],
         bullets: detail.read,
       },

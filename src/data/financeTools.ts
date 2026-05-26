@@ -182,12 +182,13 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     summary: 'Calculate selling price, profit, and margin from cost plus markup percent.',
     description:
       'Use this free markup calculator to turn unit cost and markup percent into selling price, profit per unit, margin percent, total revenue, and total profit.',
+    seoTitle: 'Markup Calculator | Selling Price, Profit And Margin',
     seoDescription:
       'Calculate markup price from cost, markup percent, and units. See selling price, profit per unit, margin percent, revenue, and total profit.',
     icon: 'calculator-markup',
     aliases: ['price markup calculator', 'markup price calculator', 'cost plus markup calculator'],
     formula:
-      'The calculator multiplies unit cost by one plus markup percent, then subtracts cost from selling price to show profit and margin.',
+      'The calculator uses selling price = unit cost x (1 + markup percent / 100). It then subtracts cost from selling price to show profit per unit, and divides profit by selling price to show margin.',
     limit:
       'This does not include discounts, coupons, sales tax, shipping, marketplace fees, returns, inventory loss, or accounting rules.',
     useCases: [
@@ -197,9 +198,9 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Compare prices before using the margin calculator for a finished sale price.',
     ],
     examples: [
-      { label: 'Retail item', expression: '$30 cost with 50% markup for 100 units', result: 'Selling price and profit' },
-      { label: 'Handmade product', expression: '$12.50 cost with 80% markup', result: 'Price and margin' },
-      { label: 'Wholesale batch', expression: '$7.25 cost with 35% markup for 500 units', result: 'Batch revenue and profit' },
+      { label: 'Retail item', expression: '$30 cost with 50% markup for 100 units', result: '$45 price, $15 profit each, 33.33% margin, and $1,500 total profit' },
+      { label: 'Handmade product', expression: '$12.50 cost with 80% markup', result: '$22.50 price and $10 profit before fees or discounts' },
+      { label: 'Wholesale batch', expression: '$7.25 cost with 35% markup for 500 units', result: '$9.79 price, about $2.54 profit each, and about $1,268.75 total profit' },
     ],
     relatedSlugs: ['margin-calculator', 'break-even-calculator', 'unit-price-calculator'],
     inputExplanations: [
@@ -217,6 +218,26 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
         question: 'Should I use this or the Margin Calculator?',
         answer:
           'Use the Markup Calculator when you know cost and want to choose a selling price. Use the Margin Calculator when you already know revenue or selling price and want to measure the profit margin.',
+      },
+      {
+        question: 'Does a 50% markup mean I keep 50% of the sale?',
+        answer:
+          'No. A 50% markup means you add half of the cost on top of the cost. If the item costs $30, the price becomes $45 and the profit is $15. That $15 is 33.33% of the $45 selling price before fees, tax, shipping, discounts, or returns.',
+      },
+      {
+        question: 'Should I include shipping, marketplace fees, or packaging in cost?',
+        answer:
+          'Include them if they happen for each item and you want the price to cover them. For example, if the product costs $12 and packaging costs $1.50, use $13.50 as the unit cost before adding markup.',
+      },
+      {
+        question: 'Can I use this for target-margin pricing?',
+        answer:
+          'Not directly. This page adds markup to cost. Target margin works backward from the percent of the final sale price you want to keep, so use the Margin Calculator when margin is the goal.',
+      },
+      {
+        question: 'Should every product use the same markup percent?',
+        answer:
+          'Usually no. A small, fast-selling item, a handmade item, and a bulky item with returns can need different markups. Use the calculator to test the math, then compare the price with demand, fees, stock risk, and what similar items sell for.',
       },
     ],
   },
