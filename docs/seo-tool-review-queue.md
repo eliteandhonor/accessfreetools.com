@@ -6,13 +6,14 @@ Do not mark a page `approved` from a score alone. Approval means the user has re
 
 ## Progress Summary
 
-- Last updated: 2026-05-18T23:10:35+10:00
+- Last updated: 2026-05-26T10:52:00+10:00
 - Total tools: 299
 - Total page review units: 598 (tool page + blog page for each tool)
-- Approved and deployed review units: 1
-- Current page in progress: `wallpaper-calculator` blog
+- Approved and deployed review units recorded here: 3
+- Current page in progress: `character-counter` tool
 - Page review units left after the wallpaper tool deployment: 597
 - Page review units left after this blog page is approved and deployed: 596
+- Page review units left after the Half-Life tool and blog deployment: 595
 
 | slug | page | status | approved by | approved at | proof | notes |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -44,3 +45,5 @@ Do not mark a page `approved` from a score alone. Approval means the user has re
 | 2026-05-18 | wallpaper-calculator | blog | Standing rule added: SEO agents must be used for every SEO task, and `SEO seps` is treated as the same trigger as `SEO steps`. Started a fresh agent test pass on the current wallpaper guide. | `AGENTS.md`; `docs/seo-tool-review-workflow.md`; `docs/seo-agent-workbench.md` | Run the SEO workbench and unit tests, then keep this guide waiting for human approval. |
 | 2026-05-26 | half-life-calculator | tool | Tool page approval recorded under the user's live-update instruction. Fixed smart-14 copy, examples, related links, image alt/caption source data, sitemap dates, and structured-data citations/date. | `output/seo-tool-review/half-life-calculator/tool/dataforseo-paid.md`; `output/seo-tool-review/half-life-calculator/tool/browser-proof-half-life-tool-dom.txt`; `output/seo-agents/half-life-calculator/tool/final-judge.md` | Commit, deploy, and live-verify before moving to the next GSC-priority page. |
 | 2026-05-26 | half-life-calculator | blog | Matching guide approval recorded under the user's live-update instruction. Fixed source links, quick example, safety limits, full FAQ rendering, smart-14 tone, and guide image alt/caption source data. | `output/seo-tool-review/half-life-calculator/blog/dataforseo-paid.md`; `output/seo-tool-review/half-life-calculator/blog/browser-proof-half-life-blog-dom.txt`; `output/seo-agents/half-life-calculator/blog/final-judge.md` | Commit, deploy, and live-verify before moving to the next GSC-priority page. |
+| 2026-05-26 | half-life-calculator | tool | Live update completed on main commit `66d05b5` with Hostinger Node build `019e61bd-c53b-73b4-b685-c2edaea2366c`. Live HTML proof confirmed the new example label, image alt text, `dateModified` 2026-05-26, EPA/NRC citations, and no public internal-review wording. | `output/seo-tool-review/half-life-calculator/live/half-life-tool-live.png`; `output/seo-tool-review/half-life-calculator/tool/dataforseo-paid.md`; `output/production-sitemap-check.json` | Tool page live. Continue to the next GSC-priority page. |
+| 2026-05-26 | half-life-calculator | blog | Live update completed on main commit `66d05b5` with Hostinger Node build `019e61bd-c53b-73b4-b685-c2edaea2366c`. Live HTML proof confirmed the quick example, double-check FAQ, safety limits, EPA/NRC references, guide image alt text, and no public internal-review wording. | `output/seo-tool-review/half-life-calculator/live/half-life-blog-live.png`; `output/seo-tool-review/half-life-calculator/blog/dataforseo-paid.md`; `agents/serpforge-ai/reports/serpforge-gsc-submit-sitemaps-2026-05-26T00-51-39-756Z.md` | Blog page live. Continue to the next GSC-priority page. |
