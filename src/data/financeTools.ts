@@ -898,12 +898,16 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     name: 'Payback Period Calculator',
     summary: 'Estimate how many years it takes for annual cash flow to recover an initial cost.',
     description:
-      'Use this free payback period calculator to estimate simple payback years and net profit after a chosen horizon.',
+      'Estimate how many years annual savings or cash flow needs to recover an upfront cost, then see the simple net amount after your chosen horizon.',
+    seoTitle: 'Payback Period Calculator | Years To Recover Cost',
+    seoDescription:
+      'Estimate simple payback years from upfront cost and annual cash flow. See net after horizon and know when ROI, IRR, or present value gives a fuller answer.',
     icon: 'calculator-repayment',
+    aliases: ['simple payback calculator', 'investment payback calculator', 'payback period example'],
     formula:
-      'The calculator divides initial cost by annual cash flow, then compares total horizon cash flow with the initial cost.',
+      'Simple payback = initial cost / annual cash flow. Net after horizon = annual cash flow x horizon years - initial cost.',
     limit:
-      'Simple payback ignores discount rates, financing, taxes, inflation, risk, maintenance, and cash-flow timing inside the year.',
+      'Simple payback is a quick screen. It ignores discount rates, uneven cash flows, financing, taxes, resale value, maintenance timing, risk, and cash earned after the payback date.',
     useCases: [
       'Estimate how quickly a project recovers its cost.',
       'Compare a payback period with a target horizon.',
@@ -911,11 +915,48 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Use alongside ROI and IRR for more context.',
     ],
     examples: [
-      { label: 'Efficiency project', expression: '$15,000 cost and $3,600 annual savings', result: 'Simple payback time' },
-      { label: 'Equipment', expression: '$42,000 cost and $9,500 annual cash flow', result: 'Payback estimate' },
-      { label: 'Small upgrade', expression: '$2,500 cost and $600 annual savings', result: 'Payback estimate' },
+      { label: 'Efficiency project', expression: '$15,000 cost and $3,600 annual savings', result: 'About 4.17 years, with $13,800 net after 8 years' },
+      { label: 'Equipment', expression: '$42,000 cost and $9,500 annual cash flow', result: 'About 4.42 years, with $24,500 net after 7 years' },
+      { label: 'Small upgrade', expression: '$2,500 cost and $600 annual savings', result: 'About 4.17 years, with $500 net after 5 years' },
     ],
     relatedSlugs: ['roi-calculator', 'irr-calculator', 'present-value-calculator'],
+    inputExplanations: [
+      { term: 'Initial cost', meaning: 'the upfront money paid before the project starts saving or earning cash.' },
+      { term: 'Annual cash flow', meaning: 'the steady yearly savings or extra cash the project is expected to create.' },
+      { term: 'Horizon years', meaning: 'the number of years you want to check after the start, used for the simple net-after-horizon line.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why is payback period useful?',
+        answer:
+          'It gives a quick recovery-time check. If one upgrade pays back in 2 years and another takes 9 years, you can see which one gets the starting cash back sooner before doing deeper finance math.',
+      },
+      {
+        question: 'Does the shortest payback period always win?',
+        answer:
+          'No. A short payback can still be a weaker project if it has low profit after the payback point. Use ROI, IRR, or present value when the cash flows keep going for a long time.',
+      },
+      {
+        question: 'Can this calculator handle uneven cash flows?',
+        answer:
+          'No. This page assumes one steady annual cash-flow number. If each year is different, use an IRR-style cash-flow table or a spreadsheet-style payback setup.',
+      },
+      {
+        question: 'What is discounted payback period?',
+        answer:
+          'Discounted payback is similar, but each future cash flow is first reduced by a discount rate. This calculator is the simple version, so use Present Value or IRR if the time value of money matters.',
+      },
+      {
+        question: 'How is payback period different from ROI?',
+        answer:
+          'Payback period tells you how long recovery takes. ROI tells you gain compared with cost. A project can pay back quickly but have a smaller long-term ROI than another project.',
+      },
+      {
+        question: 'What if the annual cash flow is zero or negative?',
+        answer:
+          'Then there is no simple payback. The project is not creating steady yearly cash to recover the initial cost in this model.',
+      },
+    ],
   },
   {
     slug: 'present-value-calculator',

@@ -2426,29 +2426,35 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Rent Calculator for rent affordability.', 'Use Real Estate Calculator for a sale-profit estimate.'],
   },
   'payback-period-calculator': {
-    summary: 'Learn how initial cost and yearly cash flow create a simple payback time.',
+    summary: 'Learn how upfront cost, yearly cash flow, and horizon years create a simple payback time.',
     purpose:
-      'The Payback Period Calculator answers a basic recovery question: how many years until the project pays back its starting cost from steady annual cash flow?',
+      'The Payback Period Calculator answers a plain recovery question: how many years until steady yearly cash flow earns back the starting cost?',
     enter: [
-      'Enter the initial cost as the amount paid upfront.',
-      'Enter annual cash flow as the yearly savings or extra cash the project creates.',
-      'Enter horizon years if you want a simple net check after a specific time.',
+      'Enter the initial cost as the upfront money paid before savings or extra cash begins.',
+      'Enter annual cash flow as the steady yearly savings or extra cash the project is expected to create.',
+      'Enter horizon years to check whether the project is ahead or still behind after a set number of years.',
     ],
     example: [
       '$15,000 upfront cost and $3,600 yearly savings gives about 4.17 years to pay back.',
-      'If the horizon is 6 years, the calculator also shows yearly cash flow over 6 years minus the initial cost.',
+      'With an 8-year horizon, the simple net check is $3,600 x 8 - $15,000, or $13,800 ahead before taxes, repairs, financing, or discounting.',
     ],
     read: [
       'Payback years is initial cost divided by annual cash flow.',
-      'Net after horizon is a simple total cash-flow check after the chosen number of years.',
-      'A shorter payback is usually easier to understand, but it does not mean the project is automatically best.',
+      'Net after horizon is annual cash flow times horizon years, minus the initial cost.',
+      'A shorter payback is easier to understand, but it does not mean the project is automatically best.',
+      'If the cash flow changes each year, an Excel-style cash-flow table or IRR tool is a better fit than this steady-cash-flow calculator.',
     ],
     mistakes: [
-      'Do not forget that simple payback ignores time value of money.',
+      'Do not treat simple payback as profit. It is a recovery-time number first.',
+      'Do not forget that simple payback ignores the time value of money and discounted payback.',
       'Do not ignore cash flows that happen after the payback point.',
-      'Do not use this alone for risky, long, or uneven projects.',
+      'Do not use one steady annual cash-flow number for a project that has uneven returns, major repairs, or a resale value at the end.',
     ],
-    next: ['Use IRR Calculator for uneven cash flows.', 'Use Present Value Calculator to include discounting.'],
+    next: [
+      'Use ROI Calculator when you want gain compared with cost.',
+      'Use IRR Calculator for uneven cash flows.',
+      'Use Present Value Calculator to include discounting.',
+    ],
   },
   'present-value-calculator': {
     summary: 'Learn how a discount rate turns future money and regular payments into a value in today’s dollars.',

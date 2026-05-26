@@ -2791,20 +2791,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'payback-period-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-6-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [openStaxPayback, openStaxNpv],
+    sources: [openStaxPayback, openStaxNpv, googleHelpfulContent],
     findings: [
-      'The calculator divides initial cost by annual cash flow for simple payback years and reports net profit after the chosen horizon.',
-      'The guide now explains the main weakness of simple payback: it ignores time value of money and cash flows after the recovery point.',
-      'The related-tool path now pushes users toward IRR or present value when a project has uneven or long-term cash flows.',
+      'The calculator divides initial cost by annual cash flow for simple payback years and reports simple net after the chosen horizon.',
+      'The guide explains the main weakness of simple payback: it ignores time value of money, uneven cash flows, and cash earned after the recovery point.',
+      'The related-tool path pushes users toward ROI, IRR, and present value when they need gain, uneven-cash-flow, or discount-rate context.',
     ],
     improvements: [
-      'Added payback-period-specific guide detail and manually checked formula behavior, horizon output, examples, FAQ cautions, OpenStax source coverage, related tools, SEO copy, and privacy note.',
+      'Added a source SEO title and description, exact example outcomes, input explanations, extra FAQs, stronger uneven-cash-flow and discounted-payback cautions, current OpenStax/Google source coverage, page-specific DataForSEO proof, browser proof, and specific image alt text.',
     ],
     followUps: [
       'Add discounted payback only as a separate mode with a required discount-rate input.',
+      'Add a small uneven-cash-flow table only if the UI can show each year without making the simple calculator confusing.',
     ],
   },
   {
