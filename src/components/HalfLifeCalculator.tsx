@@ -43,7 +43,7 @@ const defaultInputs: HalfLifeInputs = {
 
 const examples: HalfLifeExample[] = [
   {
-    label: 'Medicine-style decay',
+    label: 'Study mg decay',
     mode: 'remaining',
     inputs: {
       initialAmount: '100',

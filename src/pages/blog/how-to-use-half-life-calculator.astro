@@ -12,8 +12,12 @@ const examples = halfLifeCalculator?.examples ?? [];
 const faqItems = halfLifeCalculator?.faq ?? [];
 const sourceLinks = [
   {
-    href: 'https://www.energy.gov/science/doe-explainsradioactivity',
-    label: 'U.S. Department of Energy: Radioactivity and half-life context',
+    href: 'https://www.epa.gov/radiation/radioactive-decay',
+    label: 'EPA: radioactive decay and half-life',
+  },
+  {
+    href: 'https://www.nrc.gov/reading-rm/basic-ref/glossary/half-life',
+    label: 'Nuclear Regulatory Commission: half-life definition',
   },
   {
     href: 'https://openstax.org/books/chemistry-2e/pages/21-3-radioactive-decay',
@@ -37,7 +41,7 @@ const articleStructuredData = {
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-half-life-calculator/',
   image: guideImageUrl,
   datePublished: '2026-04-30',
-  dateModified: '2026-04-30',
+  dateModified: '2026-05-26',
   author: {
     '@type': 'Organization',
     name: 'Access Free Tools',
@@ -69,6 +73,8 @@ const articleStructuredData = {
         The Half-Life Calculator helps with one idea: a decaying amount gets cut in half again and
         again at a steady time interval. Use it to find what remains, how long decay took, or what
         the half-life must be when you know the starting and ending amounts.
+        Quick example: if 18 hours pass with a 6-hour half-life, 3 half-lives pass, so 100 mg
+        becomes 12.5 mg.
       </p>
       <a class="button-primary" href="/tools/half-life-calculator/">Open the half-life calculator</a>
     </header>
@@ -112,6 +118,24 @@ const articleStructuredData = {
             That is why half-life is exponential decay, not straight-line subtraction. The first drop
             from 100 to 50 removes 50 units, but the next drop from 50 to 25 removes 25 units. Same
             time interval, smaller absolute drop.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Know what kind of half-life you mean</h2>
+          <p>
+            The calculator only does the math you enter. A radioactive half-life, a medicine
+            half-life, and a body-clearing half-life are not the same safety question. Use the page
+            for homework-style decay, labels, and rough planning notes.
+          </p>
+          <p>
+            If the answer affects dosing, exposure, storage, lab safety, or medical care, use a
+            proper source for that exact substance and ask a qualified person. The calculator cannot
+            know the material, route, dose, or safety rule behind your numbers.
+          </p>
+          <p>
+            Caffeine and medicine examples are math practice here. Real sleep, dosing, or safety
+            choices need a reliable source for the exact substance, not a generic calculator.
           </p>
         </section>
 
@@ -208,7 +232,7 @@ const articleStructuredData = {
           <section class="content-section">
             <h2>FAQ in plain language</h2>
             <div class="guide-question-list">
-              {faqItems.slice(0, 8).map((item) => (
+              {faqItems.map((item) => (
                 <article>
                   <h3>{item.question}</h3>
                   <p>{item.answer}</p>
@@ -221,8 +245,8 @@ const articleStructuredData = {
         <section class="content-section">
           <h2>Research and references</h2>
           <p>
-            These references shaped the definition notes, decay formula notes, and safety limits in
-            this guide.
+            These sources are here for checking the definition and formula ideas, not for replacing
+            a lab, medical, or radiation-safety rule.
           </p>
           <ul class="source-link-list">
             {sourceLinks.map((link) => (

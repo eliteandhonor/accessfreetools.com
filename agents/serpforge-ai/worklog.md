@@ -56,3 +56,11 @@
 - Ran DataForSEO paid page evidence and competitor gap proof for `/tools/gas-mileage-calculator/`.
 - Saved internal-browser DOM proof and visual proof at `output/seo-tool-review/gas-mileage-calculator/tool/`.
 - Final page agent judge now reports `ready-for-human-approval` with 0 gaps for `/tools/gas-mileage-calculator/`.
+
+## 2026-05-26 - Half-Life Tool And Guide Sprint Cleared
+
+- Reviewed `/tools/half-life-calculator/` and `/blog/how-to-use-half-life-calculator/` as a paired sprint using web source checks, competitor gap evidence, DataForSEO paid evidence, browser proof, and the SERPForge final judges.
+- Updated the Half-Life tool description, example labels, worked-example results, related tools, double-check FAQ, and art alt/caption text.
+- Expanded the Half-Life guide with a quick answer, stronger safety limits for caffeine/medicine/radiation examples, full FAQ coverage, current EPA/NRC/OpenStax references, and a 2026-05-26 modified date.
+- Removed hidden paid POST retries from the DataForSEO helper path after sub-agent review flagged cost risk; reran the paid sprint successfully with the safer no-retry command path.
+- Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Half-Life pages.

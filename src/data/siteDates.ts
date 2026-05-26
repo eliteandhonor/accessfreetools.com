@@ -7,6 +7,16 @@ export const RSS_ITEM_LIMIT = 60;
 
 const DEFAULT_BLOG_PUBLISHED_DATE = '2026-04-30';
 
+const toolLastmodOverrides: Record<string, string> = {
+  'interest-rate-calculator': '2026-05-26',
+  'gas-mileage-calculator': '2026-05-26',
+  'half-life-calculator': '2026-05-26',
+};
+
+const blogModifiedOverrides: Record<string, string> = {
+  'how-to-use-half-life-calculator': '2026-05-26',
+};
+
 const staticPageLastmod: Record<string, string> = {
   '/': '2026-05-02',
   '/tools/': LAST_MAJOR_CONTENT_UPDATE,
@@ -29,8 +39,8 @@ export function getStaticPageLastmod(path: string) {
   return staticPageLastmod[path] ?? LAST_MAJOR_CONTENT_UPDATE;
 }
 
-export function getToolLastmod(_slug: string) {
-  return LAST_MAJOR_CONTENT_UPDATE;
+export function getToolLastmod(slug: string) {
+  return toolLastmodOverrides[slug] ?? LAST_MAJOR_CONTENT_UPDATE;
 }
 
 export function getCategoryLastmod(_slug: string) {
@@ -58,7 +68,7 @@ export function getBlogDates(slug: string) {
 
   return {
     published: isEarlyHandwrittenGuide ? DEFAULT_BLOG_PUBLISHED_DATE : LAST_MAJOR_CONTENT_UPDATE,
-    modified: LAST_MAJOR_CONTENT_UPDATE,
+    modified: blogModifiedOverrides[slug] ?? LAST_MAJOR_CONTENT_UPDATE,
   };
 }
 

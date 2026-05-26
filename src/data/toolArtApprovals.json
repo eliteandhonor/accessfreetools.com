@@ -1892,6 +1892,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/half-life-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/half-life-calculator-guide.webp",
+    "alt": "Smoke mascot explaining a half-life decay curve with calculator shapes and shrinking amount markers.",
+    "caption": "The guide artwork matches the walkthrough: follow the decay curve, check the inputs, and read what the remaining amount means.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -1900,6 +1902,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/half-life-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/half-life-calculator-tool.webp",
+    "alt": "Smoke mascot beside a glowing half-life decay curve and calculator buttons for the Half-Life Calculator.",
+    "caption": "The Half-Life Calculator artwork shows an amount shrinking by half while the tool works through decay steps.",
     "status": "approved",
     "qaStatus": "approved"
   },

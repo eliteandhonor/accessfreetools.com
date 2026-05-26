@@ -328,7 +328,7 @@ const baseTools: ToolDefinition[] = [
     category: 'calculators',
     summary: 'Calculate remaining amount, elapsed time, or half-life with decay steps.',
     description:
-      'Use this free half-life calculator to find remaining amount, elapsed time, or half-life from initial and final amounts with formulas, percentages, steps, copy, and history.',
+      'Enter a starting amount, half-life, and elapsed time to see what remains, or switch modes to solve elapsed time or half-life. Results show half-lives passed, percent remaining, and formula steps.',
     icon: 'calculator-half-life',
     seoTitle: 'Half-Life Calculator | Free Online Decay Calculator',
     seoDescription:
@@ -343,17 +343,17 @@ const baseTools: ToolDefinition[] = [
       {
         label: 'Remaining amount',
         expression: '100 mg, half-life 6 hours, time 18 hours',
-        result: '12.5 mg remaining',
+        result: '12.5 mg remaining after 3 half-lives',
       },
       {
         label: 'Find elapsed time',
         expression: '80 g to 10 g, half-life 12 hours',
-        result: '36 hours',
+        result: '36 hours because 80 to 10 is 3 halving steps',
       },
       {
         label: 'Find half-life',
         expression: '100 g to 25 g in 10 days',
-        result: '5 days',
+        result: '5 days because two half-lives passed',
       },
     ],
     faq: [
@@ -398,6 +398,11 @@ const baseTools: ToolDefinition[] = [
           'Yes. Keep elapsed time and half-life in the same time unit, such as hours with hours or years with years. The amount unit is only a label and should match between initial and final amounts.',
       },
       {
+        question: 'What should I double-check before trusting the answer?',
+        answer:
+          'Check that you picked the right mode, used the same time unit for elapsed time and half-life, entered the final amount as the amount remaining, and kept the final amount positive. If a question says 75% decayed, enter 25% remaining.',
+      },
+      {
         question: 'What is the difference between physical, biological, and effective half-life?',
         answer:
           'Physical or radiological half-life is about radioactive decay itself. Biological half-life is about how fast the body removes a substance. Effective half-life combines both ideas. This calculator only handles the basic exponential decay math you enter; it does not decide medical, biological, or radiation safety rules.',
@@ -413,7 +418,7 @@ const baseTools: ToolDefinition[] = [
           'Yes. Recent half-life answers stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['quadratic-formula-calculator', 'scientific-calculator', 'exponent-calculator'],
+    relatedSlugs: ['log-calculator', 'exponent-calculator', 'scientific-calculator'],
   },
   {
     slug: 'exponent-calculator',

@@ -91,6 +91,26 @@ const openStaxScientificNotation = {
   label: 'OpenStax College Algebra: Exponents and scientific notation',
 };
 
+const epaRadioactiveDecay = {
+  href: 'https://www.epa.gov/radiation/radioactive-decay',
+  label: 'EPA: Radioactive Decay',
+};
+
+const nrcHalfLife = {
+  href: 'https://www.nrc.gov/reading-rm/basic-ref/glossary/half-life',
+  label: 'Nuclear Regulatory Commission: Half-life',
+};
+
+const openStaxRadioactiveDecay = {
+  href: 'https://openstax.org/books/chemistry-2e/pages/21-3-radioactive-decay',
+  label: 'OpenStax Chemistry 2e: Radioactive Decay',
+};
+
+const openStaxPhysicsRadioactiveDecay = {
+  href: 'https://openstax.org/books/university-physics-volume-3/pages/10-3-radioactive-decay',
+  label: 'OpenStax University Physics Volume 3: Radioactive Decay',
+};
+
 const openStaxStatisticsSpread = {
   href: 'https://openstax.org/books/statistics/pages/2-7-measures-of-the-spread-of-the-data',
   label: 'OpenStax Statistics: Measures of the spread of the data',
@@ -4720,17 +4740,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'half-life-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [openStaxScientificNotation, openStaxLogarithms],
+    sources: [epaRadioactiveDecay, nrcHalfLife, openStaxRadioactiveDecay, openStaxPhysicsRadioactiveDecay],
     findings: [
-      'The page explains remaining amount equals initial amount times one-half raised to elapsed time divided by half-life.',
-      'The FAQ separately covers half-lives passed, solving for elapsed time, solving for half-life, unit consistency, and why the final amount must stay positive.',
-      'Safety wording correctly keeps medicine dosing and radiation decisions outside the calculator scope.',
+      'The tool and guide explain remaining amount as initial amount times one-half raised to elapsed time divided by half-life, then show the half-lives passed and percent remaining.',
+      'The FAQ covers half-lives passed, solving for elapsed time, solving for half-life, unit consistency, positive remaining amounts, and checking percent-decayed wording.',
+      'The guide separates homework-style decay math from medical dosing, lab safety, radiation exposure, storage, and substance-specific rules.',
     ],
     improvements: [
-      'Manually checked decay formula rearrangements, positive-value guardrails, examples, FAQ detail, guide cautions, source coverage, related links, SEO copy, and privacy behavior.',
+      'Rechecked decay formula rearrangements with current EPA, NRC, and OpenStax references; improved examples, FAQ detail, guide cautions, image alt text, related links, SEO copy, sitemap dates, and privacy behavior.',
     ],
     followUps: [
       'Add a simple graph of exponential decay later if it does not slow down the page.',

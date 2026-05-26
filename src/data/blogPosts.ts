@@ -45,7 +45,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Half-Life Calculator',
     label: 'Half-life calculator guide',
     summary:
-      'Learn how to calculate remaining amount, elapsed time, and half-life with decay formulas, matching units, examples, and privacy notes.',
+      'Learn how to calculate remaining amount, elapsed time, and half-life with matching units, examples, privacy notes, and safety limits.',
   },
   {
     slug: 'how-to-use-exponent-calculator',
