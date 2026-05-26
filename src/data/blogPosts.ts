@@ -108,7 +108,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Fraction Calculator',
     label: 'Fraction calculator guide',
     summary:
-      'Learn how to add, subtract, multiply, divide, simplify, and convert fractions and mixed numbers with the Fraction Calculator.',
+      'Learn how to enter mixed numbers, check common-denominator steps, and read simplified fraction, mixed-number, and decimal answers.',
   },
   {
     slug: 'how-to-use-least-common-multiple-calculator',

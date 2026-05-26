@@ -176,3 +176,13 @@
 - Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Area pages; page scores are 98/100 and 98/100, post-edit DataForSEO paid evidence passed, and `npm run check` passed.
 - The first live proof after Hostinger build `019e62d2-4337-7145-9b0b-fc9aca761e90` caught that the visible tool body used hyphenated `square-unit` wording while the proof expected plain `square units`; this was fixed, rebuilt, committed, and redeployed.
 - Deployed main commit `44e397c` through Hostinger Node build `019e62db-71f1-70c6-82ed-b4f8e9f3b0ae`; live Ask, production sitemap, full GSC sitemap submission from the OAuth-enabled worktree, live DOM proof, live browser screenshots, and post-deploy DataForSEO page evidence all passed.
+
+## 2026-05-26 - Fraction Tool And Guide Sprint Cleared For Deploy
+
+- Reviewed `/tools/fraction-calculator/` and `/blog/how-to-use-fraction-calculator/` as the next high-impression GSC page pair using current Google Search Central, OpenStax, Khan Academy, Calculator.net/CalculatorSoup competitor checks, GSC, and DataForSEO evidence.
+- Updated the Fraction tool with add/subtract/multiply/divide metadata, common-denominator wording, reciprocal division wording, decimal-check guidance, a 5/6 / 2/3 = 1 1/4 example, and nine visible FAQs.
+- Rewrote the matching guide as `Fraction Calculator Guide` with mixed-number input tips, common-denominator checks, reciprocal division, decimal limits, useful related-tool routing, OpenStax/Khan Academy source links, and visible FAQ/schema.
+- Repaired Fraction tool and guide image alt/caption source data so the artwork describes the fraction pieces, divided circle, fraction bar, open book, and calculator use instead of generic mascot/category text.
+- Fresh Playwright browser proof confirms the public internal-review wording is absent and the new fraction-specific examples, source links, related links, FAQ/schema, modified date, and smart-14 wording render.
+- Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Fraction pages; page scores are 98/100 and 99/100, post-edit DataForSEO paid evidence passed, and `npm run check` passed.
+- Deploy, live proof, GSC sitemap resubmission, and post-deploy DataForSEO still need to run before the page pair is marked live and the queue moves to Sales Tax.

@@ -988,18 +988,18 @@ const baseTools: ToolDefinition[] = [
     slug: 'fraction-calculator',
     name: 'Fraction Calculator',
     category: 'calculators',
-    summary: 'Add, subtract, multiply, divide, simplify, and convert fractions.',
+    summary: 'Add, subtract, multiply, divide, and simplify fractions with steps.',
     description:
-      'Use this free fraction calculator for adding, subtracting, multiplying, dividing, simplifying, and converting fractions, improper fractions, mixed numbers, and decimals.',
+      'Enter simple fractions, mixed numbers, or improper fractions, choose an operation, and see the simplified answer with steps, decimal value, and a copy-ready result.',
     icon: 'calculator-fraction',
-    seoTitle: 'Fraction Calculator | Free Online Fraction Calculator',
+    seoTitle: 'Fraction Calculator | Add, Subtract, Multiply, Divide',
     seoDescription:
-      'Add, subtract, multiply, divide, simplify, and convert fractions, mixed numbers, improper fractions, and decimals.',
+      'Add, subtract, multiply, divide, and simplify fractions or mixed numbers with steps, improper-fraction form, and decimal checks.',
     useCases: [
-      'Add or subtract fractions with different denominators.',
-      'Multiply and divide fractions while seeing the simplified answer.',
-      'Convert improper fractions into mixed numbers for homework or recipes.',
-      'Check a decimal value when comparing measurements or portions.',
+      'Add or subtract fractions with unlike denominators and see the common-denominator step.',
+      'Multiply fractions directly or divide by using the reciprocal of the second fraction.',
+      'Turn an improper fraction into a mixed number for homework, recipes, or measurements.',
+      'Compare the mixed-number, improper-fraction, and decimal forms before trusting the answer.',
     ],
     examples: [
       {
@@ -1017,22 +1017,32 @@ const baseTools: ToolDefinition[] = [
         expression: '3/4 x 2/5',
         result: '3/10',
       },
+      {
+        label: 'Divide fractions',
+        expression: '5/6 / 2/3',
+        result: '1 1/4',
+      },
     ],
     faq: [
       {
         question: 'What can I use the Fraction Calculator for?',
         answer:
-          'Use it to add, subtract, multiply, divide, simplify, and convert fractions. It works with simple fractions, improper fractions, and mixed numbers.',
+          'Use it to add, subtract, multiply, divide, simplify, and compare fractions. It works with simple fractions, improper fractions, mixed numbers, and negative values.',
+      },
+      {
+        question: 'How do I enter a mixed number?',
+        answer:
+          'Put the whole number in the Whole box and the fraction part in the numerator and denominator boxes. For 2 1/4, enter Whole 2, Numerator 1, Denominator 4.',
+      },
+      {
+        question: 'Why do addition and subtraction need a common denominator?',
+        answer:
+          'Fractions can only be added or subtracted directly when the parts are the same size. The calculator finds matching denominator pieces first, then combines the numerators.',
       },
       {
         question: 'Does the calculator simplify fractions automatically?',
         answer:
-          'Yes. Results are reduced to lowest terms, and the page also shows an improper fraction, a mixed-number form, and a decimal value.',
-      },
-      {
-        question: 'Can I enter mixed numbers?',
-        answer:
-          'Yes. Put the whole number in the Whole box and the fraction part in the numerator and denominator boxes. For example, enter 2, 1, and 4 for 2 1/4.',
+          'Yes. The result is reduced to lowest terms, and the page also shows an improper fraction, a mixed-number form, and a decimal value.',
       },
       {
         question: 'How does dividing fractions work?',
@@ -1040,9 +1050,19 @@ const baseTools: ToolDefinition[] = [
           'Dividing by a fraction uses the reciprocal of the second fraction. The calculator flips the second fraction, multiplies, and then simplifies the answer.',
       },
       {
+        question: 'What does the decimal answer mean?',
+        answer:
+          'The decimal is the same value written another way. It is useful when a recipe, measurement, or spreadsheet needs a decimal instead of a fraction.',
+      },
+      {
         question: 'Can a denominator be zero?',
         answer:
           'No. A denominator cannot be zero, and the calculator will show an error if you try to calculate with one.',
+      },
+      {
+        question: 'When should I use the LCM or GCF calculators?',
+        answer:
+          'Use the LCM Calculator when you only need a common denominator. Use the GCF Calculator when you only need the largest shared factor for simplifying.',
       },
       {
         question: 'Is my fraction history private?',

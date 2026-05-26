@@ -22,6 +22,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'date-calculator': '2026-05-26',
   'target-heart-rate-calculator': '2026-05-26',
   'area-calculator': '2026-05-26',
+  'fraction-calculator': '2026-05-26',
 };
 
 const blogModifiedOverrides: Record<string, string> = {
@@ -37,6 +38,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-date-calculator': '2026-05-26',
   'how-to-use-target-heart-rate-calculator': '2026-05-26',
   'how-to-use-area-calculator': '2026-05-26',
+  'how-to-use-fraction-calculator': '2026-05-26',
 };
 
 const staticPageLastmod: Record<string, string> = {

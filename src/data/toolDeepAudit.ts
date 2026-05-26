@@ -56,6 +56,11 @@ const openStaxFractions = {
   label: 'OpenStax Prealgebra: Add and subtract fractions with different denominators',
 };
 
+const khanFractions = {
+  href: 'https://www.khanacademy.org/math/arithmetic-home/addition-subtraction/fractions-intro',
+  label: 'Khan Academy: Fractions arithmetic practice',
+};
+
 const openStaxRadicals = {
   href: 'https://openstax.org/books/algebra-and-trigonometry/pages/1-3-radicals-and-rational-exponents',
   label: 'OpenStax Algebra and Trigonometry: Radicals and rational exponents',
@@ -1241,20 +1246,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'fraction-calculator',
     status: 'deep-reviewed',
-    batch: 'math-foundations-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [openStaxFractions, openStaxPercent],
+    sources: [openStaxFractions, khanFractions, googleHelpfulContent],
     findings: [
-      'The calculator covers unlike denominators, mixed numbers, simplifying, multiplication, division, and decimal comparison.',
-      'The FAQ correctly blocks denominator zero and explains reciprocal division.',
-      'The examples cover addition, mixed-number subtraction, and multiplication.',
+      'GSC and DataForSEO selected the fraction page pair for a page-specific sprint after the Area closeout.',
+      'The calculator covers unlike denominators, mixed numbers, improper fractions, simplifying, reciprocal division, and decimal comparison.',
+      'The visible examples now cover addition, mixed-number subtraction, multiplication, and division with the expected 1 1/4 result.',
     ],
     improvements: [
-      'Reviewed fraction operations, examples, FAQ, related tools, and plain-language denominator guidance.',
+      'Rewrote metadata, description, use cases, FAQs, blog hook, examples, source links, related-tool routing, image alt/caption text, and modified dates in smart-14 wording.',
     ],
     followUps: [
-      'Add a visual common-denominator stepper when interactive step rendering is expanded.',
+      'Add a visual common-denominator stepper later if users need a clearer interactive breakdown for unlike denominators.',
     ],
   },
   {
