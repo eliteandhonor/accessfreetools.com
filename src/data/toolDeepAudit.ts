@@ -701,6 +701,21 @@ const canadaMortgageTerms = {
   label: 'Canada.ca: Mortgage terms and amortization',
 };
 
+const canadaMortgageDownPayment = {
+  href: 'https://www.canada.ca/en/financial-consumer-agency/services/mortgages/down-payment.html',
+  label: 'Canada.ca: Down payments and mortgage loan insurance',
+};
+
+const osfiMinimumQualifyingRate = {
+  href: 'https://www.osfi-bsif.gc.ca/en/supervision/financial-institutions/banks/minimum-qualifying-rate-uninsured-mortgages',
+  label: 'OSFI: Minimum qualifying rate for uninsured mortgages',
+};
+
+const bankCanadaPolicyRate = {
+  href: 'https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/',
+  label: 'Bank of Canada: Policy interest rate',
+};
+
 const canadaInterestAct = {
   href: 'https://laws-lois.justice.gc.ca/eng/acts/I-15/FullText.html',
   label: 'Justice Laws Canada: Interest Act',
@@ -3033,17 +3048,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'canadian-mortgage-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-7-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [canadaMortgageTerms, canadaInterestAct],
+    sources: [canadaMortgageTerms, canadaMortgageDownPayment, osfiMinimumQualifyingRate, bankCanadaPolicyRate, canadaInterestAct],
     findings: [
       'The calculator subtracts down payment from property price, converts the nominal annual rate through semi-annual compounding, then estimates payment for the selected frequency.',
       'The output makes payment frequency and loan-to-value visible, which is important because Canadian-style mortgage math should not be read as a basic U.S. monthly-rate shortcut.',
-      'The guide now explains semi-annual compounding, amortization length, payment frequency, renewal risk, default insurance, and non-accelerated versus accelerated payment caution.',
+      'The 2026-05-26 sprint used page-specific DataForSEO evidence and current Canada.ca, OSFI, and Bank of Canada source checks for down payment, default-insurance, amortization, stress-test, and rate-context coverage.',
+      'The guide explains semi-annual compounding, amortization length, payment frequency, renewal risk, default insurance, and non-accelerated versus accelerated payment caution.',
     ],
     improvements: [
-      'Added Canadian-mortgage-specific guide detail and manually checked rate conversion, payment-frequency labels, examples, FAQ cautions, Canada.ca/Interest Act source coverage, SEO copy, related tools, and privacy behavior.',
+      'Added Canadian-mortgage-specific SEO metadata, exact payment and interest examples, priority FAQs, guide sections, source links, sitemap dates, result frequency labeling, and tool/guide art alt and caption text.',
     ],
     followUps: [
       'Add CMHC/default-insurance and accelerated-payment modes only with clear official source maintenance.',
@@ -7095,7 +7111,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['canadian-mortgage', 'canadian mortgage'])) {
-      return sourceBackstop([canadaMortgageTerms, canadaInterestAct]);
+      return sourceBackstop([canadaMortgageTerms, canadaMortgageDownPayment, osfiMinimumQualifyingRate, bankCanadaPolicyRate, canadaInterestAct]);
     }
 
     if (includesAny(key, ['interest-rate', 'interest rate'])) {

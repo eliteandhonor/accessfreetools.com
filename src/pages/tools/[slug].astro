@@ -629,6 +629,13 @@ const financeToolInstructions = financeToolVariant
         'Compare total cost with fee and cash received, not just the monthly payment.',
         'Check the written lender offer for APR, collateral, guarantees, variable rates, draw schedules, and prepayment rules.',
       ]
+    : tool.slug === 'canadian-mortgage-calculator'
+    ? [
+        'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
+        'Press the calculate button to see the selected-frequency payment, loan amount, loan-to-value, total interest, and payment count.',
+        'Compare the payment with total interest before choosing a longer amortization just because the payment is lower.',
+        'Check default insurance, closing costs, stress-test rules, renewal risk, and the written lender quote before relying on the estimate.',
+      ]
     : tool.slug === 'ad-revenue-calculator'
     ? [
         'Enter daily page views as a one-day traffic estimate.',
@@ -1835,6 +1842,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Payment, interest, and total cost'
               : tool.slug === 'business-loan-calculator'
               ? 'Payment, fees, and cash received'
+              : tool.slug === 'canadian-mortgage-calculator'
+              ? 'Payment, LTV, and interest'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -1906,6 +1915,15 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 Use this to compare loan amount, rate, term, origination fee, cash received, and total cost.
                 A real offer can still change with APR details, underwriting, collateral, guarantees,
                 variable rates, draw schedules, SBA eligibility, tax effects, late fees, and prepayment rules.
+              </p>
+            </>
+          ) : tool.slug === 'canadian-mortgage-calculator' ? (
+            <>
+              <strong>Canadian mortgage estimate, not lender approval</strong>
+              <p>
+                Use this to compare property price, down payment, rate, amortization, and payment frequency.
+                A real mortgage can still change with default insurance, provincial premium tax, closing costs,
+                stress-test qualification, renewal rates, prepayment rules, property tax, and lender approval.
               </p>
             </>
           ) : (

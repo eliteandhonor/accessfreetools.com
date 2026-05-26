@@ -275,6 +275,18 @@ const sourceLinks = {
     href: 'https://www.canada.ca/en/financial-consumer-agency/services/mortgages/mortgage-terms-amortization.html',
     label: 'Canada.ca: Mortgage terms and amortization',
   },
+  canadaDownPayment: {
+    href: 'https://www.canada.ca/en/financial-consumer-agency/services/mortgages/down-payment.html',
+    label: 'Canada.ca: Down payments and mortgage loan insurance',
+  },
+  osfiMinimumQualifyingRate: {
+    href: 'https://www.osfi-bsif.gc.ca/en/supervision/financial-institutions/banks/minimum-qualifying-rate-uninsured-mortgages',
+    label: 'OSFI: Minimum qualifying rate for uninsured mortgages',
+  },
+  bankCanadaPolicyRate: {
+    href: 'https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/',
+    label: 'Bank of Canada: Policy interest rate',
+  },
   govUkMortgage: {
     href: 'https://www.gov.uk/algorithmic-transparency-records/money-and-pensions-service-mortgage-repayment-calculator',
     label: 'GOV.UK: Mortgage repayment calculator transparency record',
@@ -527,7 +539,13 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'canadian-mortgage-calculator') {
-    return [sourceLinks.canadaMortgage, sourceLinks.canadaInterestAct];
+    return [
+      sourceLinks.canadaMortgage,
+      sourceLinks.canadaDownPayment,
+      sourceLinks.osfiMinimumQualifyingRate,
+      sourceLinks.bankCanadaPolicyRate,
+      sourceLinks.canadaInterestAct,
+    ];
   }
 
   if (toolSlug === 'refinance-calculator') {
@@ -2605,29 +2623,30 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Mortgage Calculator for the U.S.-style version.', 'Use Canadian Mortgage Calculator if the loan follows Canadian payment conventions.'],
   },
   'canadian-mortgage-calculator': {
-    summary: 'Learn how a Canadian mortgage estimate converts semi-annual compounding into the selected payment frequency.',
+    summary: 'Learn how Canadian mortgage payment math uses down payment, amortization, payment frequency, and semi-annual compounding.',
     purpose:
-      'The Canadian Mortgage Calculator estimates payments using a Canadian-style semi-annual compounding conversion. That makes it different from a basic annual-rate-divided-by-12 mortgage estimate.',
+      'The Canadian Mortgage Calculator estimates the base mortgage payment before default insurance, property tax, closing costs, and lender approval. It uses Canadian-style semi-annual compounding, so it is not the same as a quick U.S.-style monthly-rate shortcut.',
     enter: [
-      'Enter property price and down payment in the same currency.',
-      'Enter the nominal annual rate, amortization years, and payment frequency.',
-      'Use the payment frequency that matches the comparison you want: monthly, biweekly, weekly, or another page option.',
+      'Enter the property price and down payment in Canadian dollars.',
+      'Enter the nominal annual mortgage rate as a percent, such as 5.1 for 5.1%.',
+      'Enter the amortization in years, then choose the payment frequency you want to compare.',
     ],
     example: [
-      'For a 600,000 property with 120,000 down, the loan amount is 480,000.',
-      'The calculator converts the nominal annual rate through semi-annual compounding, then converts that effective rate to the chosen payment period.',
+      'For a $600,000 property with $120,000 down, the estimated loan amount is $480,000 and the loan-to-value is 80%.',
+      'At 5.1% over 25 years, the calculator estimates about $2,819.09 per month and about $365,727.47 in total interest.',
     ],
     read: [
-      'Payment is for the selected frequency, not always a monthly amount.',
-      'Loan-to-value shows the loan amount as a percent of property price.',
-      'Total interest depends on amortization length and does not include future renewal-rate changes.',
+      'The payment is for the selected frequency. A biweekly answer is every two weeks, not a monthly payment.',
+      'Loan-to-value shows the loan amount as a percent of property price. Under 80% LTV usually means a down payment of 20% or more.',
+      'Total interest depends on amortization length and does not include future renewal-rate changes when the term ends.',
     ],
     mistakes: [
       'Do not use a U.S. monthly-compounding mortgage calculator for this exact comparison.',
-      'Do not forget mortgage default insurance, closing costs, property tax, renewal risk, prepayment privileges, or lender qualification rules.',
-      'Do not compare payment frequencies without checking whether they are accelerated or just regular-frequency payments.',
+      'Do not forget mortgage default insurance if your down payment is under 20%.',
+      'Do not treat this as lender qualification. Canadian lenders can use a stress-test rate that is higher than the contract rate.',
+      'Do not compare payment frequencies without checking whether the lender means regular or accelerated payments.',
     ],
-    next: ['Use Mortgage Calculator UK for a UK repayment estimate.', 'Use Down Payment Calculator to compare deposit size and loan-to-value.'],
+    next: ['Use Down Payment Calculator to compare deposit size and loan-to-value.', 'Use Mortgage Calculator for a plain U.S.-style mortgage estimate.'],
   },
   'percent-off-calculator': {
     summary: 'Learn how one or two discounts, tax, and effective discount percent turn a tag price into a final sale price.',
@@ -2717,6 +2736,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Business Loan Calculator Guide';
   }
 
+  if (tool.slug === 'canadian-mortgage-calculator') {
+    return 'Canadian Mortgage Calculator Guide';
+  }
+
   if (tool.slug === 'auto-loan-calculator') {
     return 'Auto Loan Calculator Guide';
   }
@@ -2738,6 +2761,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
 function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summary: string) {
   if (tool.slug === 'business-loan-calculator') {
     return 'Estimate a business loan payment from amount, rate, term, and origination fee, with cash received, total interest, and total cost checks.';
+  }
+
+  if (tool.slug === 'canadian-mortgage-calculator') {
+    return 'Estimate a Canadian mortgage payment from price, down payment, rate, amortization, and payment frequency, with LTV and interest checks.';
   }
 
   if (tool.slug === 'auto-loan-calculator') {
@@ -2773,6 +2800,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isAdRevenueGuide = tool.slug === 'ad-revenue-calculator';
   const isAutoLoanGuide = tool.slug === 'auto-loan-calculator';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
+  const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
 
   return {
     slug: `how-to-use-${tool.slug}`,
@@ -2785,6 +2813,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A car payment can look fine while the full loan is expensive. This guide shows how price, down payment, trade-in, tax, fees, rate, and term turn into the monthly payment and total interest.'
       : isBusinessLoanGuide
       ? 'A business loan can look affordable until the fee and total interest show up. This guide shows how loan amount, rate, term, and origination fee turn into payment, cash received, and total cost.'
+      : isCanadianMortgageGuide
+      ? 'A Canadian mortgage payment is not just price divided by months. This guide shows how down payment, amortization, payment frequency, and semi-annual compounding turn into the payment, LTV, and interest estimate.'
       : isSalesTaxGuide
       ? 'Sales tax math is simple once the rate is in the right format. Enter the before-tax price, use a current local rate, then check the tax amount and final total before you trust the receipt.'
       : isAdRevenueGuide
@@ -2805,6 +2835,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Calculate, then check monthly payment, total interest, origination fee, cash received after fee, and total cost with fee.',
           'Compare a shorter term or lower fee before trusting the easiest-looking payment.',
           'Check the written lender offer before treating the estimate as real approval.',
+        ]
+      : isCanadianMortgageGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
+          'Calculate, then check payment, loan amount, loan-to-value, total interest, and payment count.',
+          'If the down payment is under 20%, check official mortgage loan insurance rules before trusting the cash plan.',
+          'Treat the answer as payment math, not a stress-test or lender approval result.',
         ]
       : isSalesTaxGuide
       ? [
@@ -2837,6 +2875,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before shopping for financing, comparing dealer offers, testing a trade-in, or seeing how much a longer loan term really costs.'
             : isBusinessLoanGuide
             ? 'Use it before talking to a lender, testing an equipment purchase, comparing working-capital offers, or checking whether the fee leaves enough cash for the job.'
+            : isCanadianMortgageGuide
+            ? 'Use it before comparing mortgage quotes, testing a down payment, checking a biweekly payment, or seeing how much a shorter amortization changes the payment.'
             : isAdRevenueGuide
             ? 'Use it when you are testing a blog post, tool page, niche site, or traffic idea and want a rough number before opening a spreadsheet.'
             : `Good fit examples: ${tool.useCases.slice(0, 2).join(' ')}`,
@@ -2849,6 +2889,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Auto-loan estimates are easy to bend by leaving out fees or focusing only on the monthly payment. Enter the car price, tax, fees, down payment, trade-in, rate, and term as one complete deal.'
             : isBusinessLoanGuide
             ? 'Business-loan offers are easy to misread if you look only at the payment. Enter the loan amount, rate, term, and origination fee so you can see both repayment cost and cash received.'
+            : isCanadianMortgageGuide
+            ? 'Canadian mortgage estimates need the price, down payment, nominal annual rate, amortization, and payment frequency to stay together. A small rate or amortization change can move both the payment and total interest.'
             : isSalesTaxGuide
             ? 'Sales-tax mistakes usually come from using the wrong rate format or a rate that does not match the place, product, or checkout rule.'
             : isAdRevenueGuide
@@ -2865,6 +2907,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
               : isBusinessLoanGuide
               ? 'Try the starter example: $50,000 at 9.5% for 5 years with a 2% origination fee. The estimate is about $1,050.09 per month, $13,005.58 in interest, $1,000 in fees, $49,000 cash received, and $64,005.58 total cost with fee.'
+              : isCanadianMortgageGuide
+              ? 'Try the starter example: a $600,000 property, $120,000 down payment, 5.1% rate, and 25-year amortization. The estimate is about $2,819.09 per month, with a $480,000 loan, 80% LTV, and about $365,727.47 in interest.'
               : isAdRevenueGuide
               ? 'Try the starter example: 1,000 daily page views, 1.5% page CTR, and $0.35 average CPC. That gives about 15 clicks per day, $5.25 per day, about $159.80 per average month, and a $5.25 page RPM.'
               : `Try the calculator example: ${primaryExampleText}. The example result is ${primaryExample.result}.`
@@ -2880,6 +2924,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The formula is not the hard part. The hard part is using the same full deal each time: tax, fees, down payment, trade-in, rate, and term. That is why the calculator shows amount financed and total interest beside the monthly payment.'
             : isBusinessLoanGuide
             ? 'The formula is only one part of the decision. The fee matters because you may repay the full loan amount even when the cash you receive is lower.'
+            : isCanadianMortgageGuide
+            ? 'The calculator first turns the nominal annual rate into an effective annual rate using semi-annual compounding. Then it converts that rate to the selected payment period and runs the fixed-payment formula.'
             : isSalesTaxGuide
             ? 'If the estimate looks different from a receipt, check whether the store rounded by item, rounded the whole basket, used a different taxable subtotal, or applied a different local rule.'
             : isAdRevenueGuide
@@ -2894,6 +2940,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with the monthly payment, then immediately check amount financed, total interest, and total paid. That stops a long loan from looking better just because the monthly number is smaller.'
             : isBusinessLoanGuide
             ? 'Start with the monthly payment, then check total interest, origination fee, cash received, and total cost with fee. That is the part that shows whether the loan still fits the business plan.'
+            : isCanadianMortgageGuide
+            ? 'Start with the payment, then check whether it is monthly, biweekly, semimonthly, or weekly. Then read loan amount, LTV, payment count, and total interest so the payment has context.'
             : isSalesTaxGuide
             ? 'Start with the tax amount, then check the final total. The final total should equal before-tax price plus sales tax.'
             : isAdRevenueGuide
@@ -2909,6 +2957,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad car-payment estimates come from leaving out fees, using a rate from a different offer, forgetting negative equity, or choosing the longest term before checking total interest.'
             : isBusinessLoanGuide
             ? 'Most bad business-loan estimates come from ignoring the fee, comparing interest rates without APR context, or treating a fixed-payment loan like a merchant cash advance.'
+            : isCanadianMortgageGuide
+            ? 'Most bad Canadian mortgage estimates come from forgetting default insurance, mixing monthly and biweekly payments, using the wrong compounding assumption, or treating payment math as lender qualification.'
             : isSalesTaxGuide
             ? 'Most bad sales-tax estimates come from typing the percent as a decimal, using an old local rate, or taxing the wrong subtotal.'
             : isAdRevenueGuide
@@ -2924,6 +2974,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help when the car deal has one moving piece you want to isolate, such as sales tax, a plain loan comparison, or a dealer incentive.'
             : isBusinessLoanGuide
             ? 'A related tool can help when the loan payment is only one part of the decision, such as the rate, a plain fixed loan, or the profit target for the project.'
+            : isCanadianMortgageGuide
+            ? 'A related tool can help when the mortgage payment is only one part of the home-buying question, such as down payment, another country-specific mortgage style, or a plain loan comparison.'
             : isSalesTaxGuide
             ? 'A related tool helps when the sales tax is only one part of the price question.'
             : isAdRevenueGuide
@@ -2943,6 +2995,12 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/interest-rate-calculator/', label: 'Estimate a rate from payment and term' },
               { href: '/tools/profit-goal-calculator/', label: 'Check the project profit target' },
             ]
+          : isCanadianMortgageGuide
+          ? [
+              { href: '/tools/canadian-mortgage-calculator/', label: 'Open the Canadian Mortgage Calculator' },
+              { href: '/tools/down-payment-calculator/', label: 'Compare down payment and LTV' },
+              { href: '/tools/mortgage-calculator/', label: 'Compare with the plain Mortgage Calculator' },
+            ]
           : isAdRevenueGuide
           ? [
               { href: '/tools/ad-revenue-calculator/', label: 'Open the Ad Revenue Calculator' },
@@ -2958,6 +3016,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'CFPB and FTC sources both push the same practical warning: compare the total cost, not just the monthly payment. They also explain APR, loan terms, add-ons, trade-ins, and shopping for financing before the dealer visit.'
             : isBusinessLoanGuide
             ? 'SBA and FTC sources are useful here because business financing is not just payment math. SBA explains lender risk and loan context, while FTC warns that some small-business financing offers can have high costs or confusing terms.'
+            : isCanadianMortgageGuide
+            ? 'Canada.ca explains mortgage terms, amortization, down payment, and mortgage loan insurance. OSFI explains the minimum qualifying rate stress-test idea, while the Bank of Canada policy-rate page helps separate central-bank rate news from the exact lender rate in your quote.'
             : isSalesTaxGuide
             ? 'The IRS source explains state and local sales-tax deduction context. The Tax Foundation source gives current state and local rate context for 2026.'
             : isAdRevenueGuide
@@ -2969,6 +3029,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not approve credit, price insurance, know your exact registration fees, decide whether an add-on is worth it, or replace a written lender quote.'
             : isBusinessLoanGuide
             ? 'This calculator still stays simple. It does not approve a loan, check SBA eligibility, read a merchant cash advance contract, judge collateral, or replace written lender terms.'
+            : isCanadianMortgageGuide
+            ? 'This calculator still stays simple. It does not add default insurance premiums, check income or debts, approve a mortgage, predict renewal rates, or replace a written lender quote.'
             : isSalesTaxGuide
             ? 'Those sources help with context, but this calculator still does not replace a state rate lookup, an official filing system, or tax advice.'
             : isAdRevenueGuide
@@ -2984,6 +3046,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Auto Loan Calculator open beside this guide. Try the $32,000 car example first, then change only the term so you can see why a lower payment can still cost more.'
       : isBusinessLoanGuide
       ? 'Keep the Business Loan Calculator open beside this guide. Try the $50,000 example first, then change only the fee so you can see why cash received matters.'
+      : isCanadianMortgageGuide
+      ? 'Keep the Canadian Mortgage Calculator open beside this guide. Try the $600,000 example first, then change only the down payment or amortization so you can see what actually moved.'
       : isAdRevenueGuide
       ? 'Keep the Ad Revenue Calculator open beside this guide. Try 1,000 views, 1.5% CTR, and $0.35 CPC first, then test a lower CTR so the plan does not feel magically better than it is.'
       : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,

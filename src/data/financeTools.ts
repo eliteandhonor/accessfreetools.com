@@ -1082,26 +1082,71 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'canadian-mortgage-calculator',
     name: 'Canadian Mortgage Calculator',
-    summary: 'Estimate a Canadian mortgage payment with semi-annual compounding conversion.',
+    summary: 'Estimate a Canadian mortgage payment, loan amount, LTV, and total interest with semi-annual compounding.',
     description:
-      'Use this free Canadian mortgage calculator to estimate payment, loan amount, loan-to-value, and interest with semi-annual compounding conversion.',
+      'Estimate a Canadian mortgage payment from property price, down payment, nominal rate, amortization, and payment frequency, with loan amount, LTV, and total interest.',
+    seoTitle: 'Canadian Mortgage Calculator | Payment, LTV & Interest',
+    seoDescription:
+      'Estimate a Canadian mortgage payment from price, down payment, rate, amortization, and payment frequency. See loan amount, LTV, and total interest.',
     icon: 'calculator-mortgage',
+    aliases: ['canada mortgage calculator', 'canadian mortgage payment calculator', 'mortgage payment calculator canada', 'semi annual mortgage calculator'],
     formula:
-      'The calculator subtracts down payment from property price, converts the nominal annual rate through semi-annual compounding, then calculates payment for the selected frequency.',
+      'The calculator subtracts down payment from property price, converts the nominal annual rate through Canadian semi-annual compounding, then calculates the payment for the selected frequency.',
     limit:
-      'This does not include mortgage default insurance, property tax, closing costs, prepayment privileges, renewal risk, or lender qualification rules.',
+      'This does not include mortgage default insurance premiums, property tax, closing costs, provincial tax on premiums, prepayment privileges, renewal-rate changes, stress-test qualification, or lender approval.',
     useCases: [
-      'Estimate a Canadian mortgage payment.',
+      'Estimate a Canadian mortgage payment from price, down payment, rate, amortization, and frequency.',
       'Compare monthly, biweekly, weekly, and semimonthly payment frequencies.',
       'See loan-to-value from property price and down payment.',
-      'Use semi-annual compounding conversion for Canadian-style payment math.',
+      'Check how amortization length changes payment and total interest before a lender quote.',
     ],
     examples: [
-      { label: 'Monthly payments', expression: '600,000 property, 120,000 down, 5.1%', result: 'Payment estimate' },
-      { label: 'Biweekly', expression: 'Biweekly payment frequency', result: 'Payment estimate' },
-      { label: 'Short amortization', expression: '20-year amortization', result: 'Higher payment estimate' },
+      { label: 'Monthly payments', expression: '$600,000 property, $120,000 down, 5.1%, 25 years', result: 'About $2,819.09/month, $480,000 loan, 80% LTV, and $365,727.47 interest' },
+      { label: 'Biweekly payments', expression: '$520,000 property, $104,000 down, 4.9%, 25 years, biweekly', result: 'About $1,104.58 every two weeks, $416,000 loan, and $301,974.31 interest' },
+      { label: 'Shorter amortization', expression: '$450,000 property, $90,000 down, 5.25%, 20 years', result: 'About $2,414.49/month and $219,476.86 interest' },
     ],
     relatedSlugs: ['mortgage-calculator', 'mortgage-calculator-uk', 'down-payment-calculator'],
+    inputExplanations: [
+      { term: 'Property price', meaning: 'the home price before down payment, closing costs, default insurance premiums, or tax adjustments.' },
+      { term: 'Down payment', meaning: 'cash put toward the home price; the calculator subtracts it from price to get the loan amount.' },
+      { term: 'Interest rate', meaning: 'the nominal annual mortgage rate entered as a percent, such as 5.1 for 5.1%.' },
+      { term: 'Amortization', meaning: 'the years used to spread out the payment estimate, not the shorter mortgage term that may renew earlier.' },
+      { term: 'Payment frequency', meaning: 'how often the calculator estimates a payment, such as monthly, biweekly, or weekly.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Why is a Canadian mortgage calculator different?',
+        answer:
+          'Canadian mortgage payment math commonly starts from a nominal annual rate with semi-annual compounding. This calculator converts that rate before estimating the payment frequency you choose.',
+      },
+      {
+        question: 'Does this include mortgage default insurance?',
+        answer:
+          'No. If the down payment is under 20%, Canadian buyers usually need mortgage loan insurance. This calculator shows the base loan payment before adding that premium, premium tax, or lender-specific rules.',
+      },
+      {
+        question: 'Is amortization the same as the mortgage term?',
+        answer:
+          'No. Amortization is the full payoff timeline used for the payment estimate. The mortgage term is the shorter contract period before renewal, often five years or less.',
+      },
+      {
+        question: 'Does the calculator test if I qualify?',
+        answer:
+          'No. Canadian lenders use income, debts, credit, property details, and a stress-test rate. The stress test can be higher than the rate used for this payment estimate.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does payment frequency matter?',
+        answer:
+          'The payment shown is for the selected frequency. A biweekly result is not a monthly result. Compare total interest and payment count before deciding which frequency is actually better.',
+      },
+      {
+        question: 'What should I check before trusting the result?',
+        answer:
+          'Check down payment rules, default insurance, closing costs, property tax, renewal risk, prepayment privileges, and whether your lender is quoting regular or accelerated payments.',
+      },
+    ],
   },
   {
     slug: 'percent-off-calculator',

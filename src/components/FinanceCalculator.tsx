@@ -2513,6 +2513,21 @@ function monthCount(value: number) {
   return `${Math.round(value)} ${Math.round(value) === 1 ? 'month' : 'months'}`;
 }
 
+function paymentFrequencyLabel(value: number) {
+  switch (Math.round(value)) {
+    case 12:
+      return 'Monthly';
+    case 24:
+      return 'Semimonthly';
+    case 26:
+      return 'Biweekly';
+    case 52:
+      return 'Weekly';
+    default:
+      return `${formatCalculatorNumber(value)} payments/year`;
+  }
+}
+
 function filingStatusLabel(value: FederalFilingStatus) {
   return filingStatusOptions.find((option) => option.value === value)?.label ?? value;
 }
@@ -4454,30 +4469,33 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
       };
     }
     case 'canadian-mortgage': {
+      const paymentsPerYear = parseNumber(inputs.paymentsPerYear, 'Payments per year');
       const result = calculateCanadianMortgage({
         propertyPrice: parseNumber(inputs.propertyPrice, 'Property price'),
         downPayment: parseNumber(inputs.downPayment, 'Down payment'),
         annualRatePercent: parseNumber(inputs.annualRatePercent, 'Interest rate'),
         years: parseNumber(inputs.years, 'Amortization'),
-        paymentsPerYear: parseNumber(inputs.paymentsPerYear, 'Payments per year'),
+        paymentsPerYear,
       });
+      const frequencyLabel = paymentFrequencyLabel(paymentsPerYear);
 
       return {
-        label: 'Estimated mortgage payment',
-        expression: `${compactMoney(result.loanAmount, 'CAD')} at ${percent(result.annualRatePercent)} with semi-annual conversion`,
+        label: `Estimated ${frequencyLabel.toLowerCase()} payment`,
+        expression: `${compactMoney(result.loanAmount, 'CAD')} at ${percent(result.annualRatePercent)} over ${years(result.years)}, ${frequencyLabel.toLowerCase()}`,
         answer: money(result.totalMonthlyPayment, 'CAD'),
         metrics: [
+          { label: 'Payment frequency', value: frequencyLabel },
           { label: 'Loan amount', value: money(result.loanAmount, 'CAD') },
           { label: 'Loan-to-value', value: percent(result.loanToValuePercent) },
           { label: 'Total interest', value: money(result.totalInterest, 'CAD') },
-          { label: 'Payments', value: monthCount(result.paymentCount) },
+          { label: 'Payments', value: `${Math.round(result.paymentCount)} payments` },
         ],
         steps: [
           'Subtract down payment from property price.',
           'Convert the nominal rate through semi-annual compounding.',
-          'Calculate the payment for the selected payment frequency.',
+          `Calculate the ${frequencyLabel.toLowerCase()} payment for the selected amortization.`,
         ],
-        note: 'This does not include mortgage default insurance, property tax, closing costs, or lender qualification rules.',
+        note: 'This does not include mortgage default insurance, property tax, closing costs, renewal-rate changes, or lender qualification rules.',
       };
     }
     case 'percent-off': {

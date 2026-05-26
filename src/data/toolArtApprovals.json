@@ -728,6 +728,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/canadian-mortgage-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/canadian-mortgage-calculator-guide.webp",
+    "alt": "Smoke mascot reviewing a Canadian mortgage worksheet with a house, down payment, payment frequency cards, LTV, and interest chart.",
+    "caption": "Canadian Mortgage Calculator guide artwork shows the down payment, semi-annual rate conversion, payment frequency, LTV, and interest checks from the walkthrough.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -736,6 +738,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/canadian-mortgage-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/canadian-mortgage-calculator-tool.webp",
+    "alt": "Smoke mascot beside a Canadian mortgage calculator screen with house price, down payment, biweekly payment, LTV, and interest notes.",
+    "caption": "Canadian Mortgage Calculator artwork shows a payment estimate built from home price, down payment, amortization, payment frequency, LTV, and interest.",
     "status": "approved",
     "qaStatus": "approved"
   },
