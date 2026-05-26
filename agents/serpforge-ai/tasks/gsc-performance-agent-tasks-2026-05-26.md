@@ -55,10 +55,10 @@ Summary report: `agents/serpforge-ai/reports/gsc-performance-export-summary-2026
 
 ## First Sprint Order
 
-1. `/tools/interest-rate-calculator/`
-2. `/tools/gas-mileage-calculator/`
-3. `/blog/how-to-use-half-life-calculator/` and `/tools/half-life-calculator/`
-4. `/tools/character-counter/`
-5. `/blog/how-to-use-markup-calculator/` plus matching markup tool
+1. Done: `/tools/interest-rate-calculator/`
+2. Done: `/tools/gas-mileage-calculator/`
+3. Done: `/blog/how-to-use-half-life-calculator/` and `/tools/half-life-calculator/`
+4. Done: `/tools/character-counter/` and `/blog/how-to-use-character-counter/`
+5. Next: `/blog/how-to-use-markup-calculator/` plus matching markup tool
 
 The order favors a mix of high impressions, near-page-one chances, and obvious page-score blockers.
