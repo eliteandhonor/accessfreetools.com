@@ -1515,7 +1515,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Business Loan Calculator',
     buttonLabel: 'Estimate business loan',
     emptyHistory: 'Recent business loan estimates will appear here.',
-    privacyNote: 'Business loan estimates do not include underwriting, collateral, variable rates, late fees, SBA rules, tax effects, or lender approval.',
+    privacyNote: 'Business loan estimates stay in your browser and do not include underwriting, collateral, guarantees, variable rates, draw schedules, late fees, SBA eligibility, tax effects, or lender approval.',
     modes: [
       {
         id: 'business-loan',
@@ -3732,7 +3732,10 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Subtract the fee from principal to estimate cash received when the fee is taken upfront.',
           'Add interest and fee context when comparing offers.',
         ],
-        note: 'APR, fees, underwriting, collateral, and repayment terms can change the real loan cost.',
+        note:
+          variant === 'business-loan'
+            ? 'APR, fees, underwriting, collateral, guarantees, draw schedules, tax effects, and repayment terms can change the real business loan cost.'
+            : 'APR, fees, underwriting, collateral, and repayment terms can change the real loan cost.',
       };
     }
     case 'debt-to-income': {

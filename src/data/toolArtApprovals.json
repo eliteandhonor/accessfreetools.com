@@ -661,7 +661,9 @@
     "imagePath": "/tool-art/business-loan-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/business-loan-calculator-guide.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Smoke mascot reviewing a business loan worksheet with payment, origination fee, cash received, and total cost notes.",
+    "caption": "Business Loan Calculator guide artwork shows the monthly payment, fee, cash received, and total cost pieces being checked before comparing offers."
   },
   {
     "slug": "business-loan-calculator",
@@ -669,7 +671,9 @@
     "imagePath": "/tool-art/business-loan-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/business-loan-calculator-tool.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Smoke mascot beside a calculator, loan document, fee tag, cash stack, and business payment chart.",
+    "caption": "Business Loan Calculator artwork shows a fixed-payment business loan estimate with origination fee and cash received context."
   },
   {
     "slug": "butter-converter",

@@ -622,6 +622,13 @@ const financeToolInstructions = financeToolVariant
         'Press the calculate button to see amount financed, monthly payment, sales tax, total interest, and total paid.',
         'Compare total interest and total paid, not only the monthly payment, before trusting a long loan term.',
       ]
+    : tool.slug === 'business-loan-calculator'
+    ? [
+        'Enter the loan amount, annual interest rate, loan term, and origination fee percent.',
+        'Press the calculate button to see monthly payment, total paid, total interest, origination fee, and cash received after fee.',
+        'Compare total cost with fee and cash received, not just the monthly payment.',
+        'Check the written lender offer for APR, collateral, guarantees, variable rates, draw schedules, and prepayment rules.',
+      ]
     : tool.slug === 'ad-revenue-calculator'
     ? [
         'Enter daily page views as a one-day traffic estimate.',
@@ -1826,6 +1833,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Monthly, yearly, and RPM shown'
               : tool.slug === 'auto-loan-calculator'
               ? 'Payment, interest, and total cost'
+              : tool.slug === 'business-loan-calculator'
+              ? 'Payment, fees, and cash received'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -1888,6 +1897,15 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 Use this to test page views, CTR, CPC, and RPM. It is not connected to Google AdSense,
                 does not approve earnings, and cannot predict invalid traffic filtering, fill rate, country
                 mix, revenue share, policy status, seasonality, or ad placement results.
+              </p>
+            </>
+          ) : tool.slug === 'business-loan-calculator' ? (
+            <>
+              <strong>Business loan estimate, not approval</strong>
+              <p>
+                Use this to compare loan amount, rate, term, origination fee, cash received, and total cost.
+                A real offer can still change with APR details, underwriting, collateral, guarantees,
+                variable rates, draw schedules, SBA eligibility, tax effects, late fees, and prepayment rules.
               </p>
             </>
           ) : (

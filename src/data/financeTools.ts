@@ -2330,26 +2330,70 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'business-loan-calculator',
     name: 'Business Loan Calculator',
-    summary: 'Estimate business loan payment, interest, fees, and cash received.',
+    summary: 'Estimate a business loan payment, total interest, origination fee, cash received, and total cost.',
     description:
-      'Use this free business loan calculator to estimate monthly payment, total paid, total interest, origination fee, and cash received after a fee.',
+      'Estimate a business loan payment from loan amount, interest rate, term, and origination fee, with total paid, total interest, cash received, and total cost.',
+    seoTitle: 'Business Loan Calculator | Payment, Interest & Fees',
+    seoDescription:
+      'Estimate a business loan payment from loan amount, rate, term, and origination fee. See monthly payment, total interest, cash received, and total cost with fees.',
     icon: 'calculator-business-loan',
+    aliases: ['small business loan calculator', 'business loan payment calculator', 'commercial loan calculator', 'business financing calculator'],
     formula:
-      'The calculator uses the fixed-payment loan formula, estimates an origination fee from the loan amount, then shows total interest and cash received after the fee.',
+      'The calculator uses the fixed-payment loan formula, estimates the origination fee from the loan amount, subtracts that fee from cash received, then adds fee context to the total cost.',
     limit:
-      'This does not include underwriting, collateral, variable rates, draw schedules, tax effects, SBA rules, late fees, prepayment penalties, or lender approval.',
+      'This is a planning estimate only. It does not approve financing or include underwriting, collateral, variable rates, draw schedules, tax effects, SBA eligibility, merchant cash advance terms, late fees, prepayment penalties, or lender approval.',
     useCases: [
-      'Estimate a monthly business loan payment.',
-      'Account for a simple origination fee.',
-      'Compare different rates and repayment terms.',
-      'Check whether fee-adjusted cash received fits the plan.',
+      'Estimate a monthly payment before asking for business financing.',
+      'See how an origination fee changes cash received and total cost.',
+      'Compare rate, term, and fee changes without judging only by payment.',
+      'Check whether the cash left after fees still fits the project, equipment, or working-capital plan.',
     ],
     examples: [
-      { label: 'Small business loan', expression: '$50,000 at 9.5% for 5 years with 2% fee', result: 'Payment and fee estimate' },
-      { label: 'Short term', expression: '$25,000 at 11% for 2 years', result: 'Faster payoff payment' },
-      { label: 'No fee', expression: '$100,000 at 8.25% for 7 years', result: 'Loan payment estimate' },
+      { label: 'Small business loan', expression: '$50,000 at 9.5% for 5 years with 2% fee', result: 'About $1,050.09/month, $13,005.58 interest, $49,000 cash received, and $64,005.58 total cost with fee' },
+      { label: 'Short term', expression: '$25,000 at 11% for 2 years with 3% fee', result: 'About $1,165.20/month, $2,964.70 interest, and $24,250 cash received' },
+      { label: 'No fee', expression: '$100,000 at 8.25% for 7 years with no origination fee', result: 'About $1,571.11/month and $31,972.90 interest' },
     ],
-    relatedSlugs: ['loan-calculator', 'interest-rate-calculator', 'debt-consolidation-calculator'],
+    relatedSlugs: ['loan-calculator', 'interest-rate-calculator', 'profit-goal-calculator'],
+    inputExplanations: [
+      { term: 'Loan amount', meaning: 'the full amount used for payment math, even if a fee means you receive less cash.' },
+      { term: 'Interest rate', meaning: 'the annual rate used for the fixed monthly payment estimate.' },
+      { term: 'Loan term', meaning: 'how many years the payment is spread over.' },
+      { term: 'Origination fee', meaning: 'a lender fee as a percent of the loan amount; the calculator shows it separately so the cash received is clearer.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'How does the Business Loan Calculator handle an origination fee?',
+        answer:
+          'It calculates the monthly payment from the full loan amount, then estimates the origination fee separately. If the fee is taken from the proceeds, cash received after fee can be lower than the amount you have to repay.',
+      },
+      {
+        question: 'Why can the payment look fine while the loan is still expensive?',
+        answer:
+          'A longer term can lower the monthly payment while raising total interest. A fee can also reduce the cash you actually receive. Compare payment, total interest, cash received, and total cost with fee together.',
+      },
+      {
+        question: 'Is this the same as an SBA loan approval check?',
+        answer:
+          'No. SBA-backed loans and regular business loans can have lender rules, eligibility checks, collateral questions, credit reviews, and documents that this calculator cannot judge.',
+      },
+      {
+        question: 'Should I compare business loans by APR or interest rate?',
+        answer:
+          'APR can help compare offers because it can include credit costs, while the interest rate is used for basic payment math. Ask the lender what fees are included before comparing one offer against another.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Does this work for a merchant cash advance?',
+        answer:
+          'Not really. Merchant cash advances can be repaid from sales with different fees and timing. Use this calculator for fixed-payment loan estimates, then read any cash-advance agreement separately.',
+      },
+      {
+        question: 'What should I check before relying on the result?',
+        answer:
+          'Check whether the loan has variable rates, prepayment rules, collateral, personal guarantees, draw schedules, late fees, tax effects, or lender fees that are not in the calculator.',
+      },
+    ],
   }),
   makeFinanceTool({
     slug: 'debt-to-income-ratio-calculator',

@@ -741,6 +741,11 @@ const sbaLoans = {
   label: 'U.S. Small Business Administration: Loans',
 };
 
+const ftcSmallBusinessFinancing = {
+  href: 'https://www.ftc.gov/business-guidance/blog/2020/02/small-business-financing-staff-perspective-outlines-issues',
+  label: 'FTC: Small business financing issues',
+};
+
 const openStaxDiscounts = {
   href: 'https://openstax.org/books/contemporary-mathematics/pages/6-2-discounts-markups-and-sales-tax',
   label: 'OpenStax: Discounts, markups, and sales tax',
@@ -2494,17 +2499,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'business-loan-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-4-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [sbaLoans, cfpbAprVsInterest],
+    sources: [sbaLoans, cfpbAprVsInterest, ftcSmallBusinessFinancing],
     findings: [
       'The calculator uses the fixed-payment loan helper, calculates origination fee from principal, and reports cash received after fee plus total cost with fee.',
-      'The guide now explains that payment is based on principal even when the fee reduces cash received, which is the key borrower-side confusion for fee-heavy offers.',
-      'The page clearly excludes underwriting, collateral, SBA eligibility, draw schedules, variable rates, late fees, tax treatment, and prepayment rules.',
+      'The 2026-05-26 sprint used page-specific DataForSEO evidence and current SBA, CFPB, and FTC source checks for business-loan payment, APR, fee, and small-business financing context.',
+      'The guide explains that payment is based on principal even when the fee reduces cash received, which is the key borrower-side confusion for fee-heavy offers.',
+      'The page clearly excludes underwriting, collateral, personal guarantees, SBA eligibility, draw schedules, variable rates, late fees, tax treatment, merchant cash advances, and prepayment rules.',
     ],
     improvements: [
-      'Added business-loan-specific guide detail and manually checked payment logic, origination fee math, examples, FAQ cautions, SBA/CFPB source coverage, related tools, SEO copy, and privacy note.',
+      'Added business-loan-specific SEO metadata, exact monthly payment and fee examples, priority FAQs, guide sections, source links, sitemap dates, and tool/guide art alt and caption text.',
     ],
     followUps: [
       'Add SBA-specific loan pages only if eligibility, fees, and program limits are maintained from official SBA sources.',
@@ -6969,7 +6975,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['business-loan', 'business loan'])) {
-      return sourceBackstop([sbaLoans, cfpbAprVsInterest]);
+      return sourceBackstop([sbaLoans, cfpbAprVsInterest, ftcSmallBusinessFinancing]);
     }
 
     if (includesAny(key, ['personal-loan', 'personal loan'])) {

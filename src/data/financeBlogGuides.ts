@@ -143,6 +143,10 @@ const sourceLinks = {
     href: 'https://www.sba.gov/funding-programs/loans',
     label: 'U.S. Small Business Administration: Loans',
   },
+  ftcSmallBusinessFinancing: {
+    href: 'https://www.ftc.gov/business-guidance/blog/2020/02/small-business-financing-staff-perspective-outlines-issues',
+    label: 'FTC: Small business financing issues',
+  },
   investorAnnualReturn: {
     href: 'https://openstax.org/books/contemporary-mathematics/pages/6-7-investments',
     label: 'OpenStax: Investments and return on investment',
@@ -408,7 +412,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'business-loan-calculator') {
-    return [sourceLinks.sbaLoans, sourceLinks.cfpbAprVsInterest];
+    return [sourceLinks.sbaLoans, sourceLinks.cfpbAprVsInterest, sourceLinks.ftcSmallBusinessFinancing];
   }
 
   if (toolSlug === 'personal-loan-calculator') {
@@ -1893,29 +1897,31 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Sales Tax Calculator for tax-only checks.', 'Use VAT Calculator for tax-included price math.'],
   },
   'business-loan-calculator': {
-    summary: 'Learn how loan amount, rate, term, and origination fee affect a business loan payment and cash received.',
+    summary: 'Learn how loan amount, rate, term, and origination fee affect a business loan payment, cash received, and total cost.',
     purpose:
-      'The Business Loan Calculator estimates a fixed monthly payment and adds simple origination-fee context. It is a planning tool for comparing offers, not an approval or SBA eligibility check.',
+      'The Business Loan Calculator helps you test a fixed-payment business loan before you ask for money or compare offers. It estimates monthly payment, total interest, origination fee, cash received after fee, and total cost with fee.',
     enter: [
       'Enter the loan amount, annual rate, and repayment term.',
-      'Enter origination fee percent if the lender takes a fee from the proceeds or charges it upfront.',
-      'Use the quoted APR and fee details carefully because business loans can structure costs differently.',
+      'Enter origination fee percent if the lender takes a fee from the proceeds, adds it upfront, or quotes it separately.',
+      'Use the same loan amount, rate, term, and fee assumptions for every offer you compare.',
     ],
     example: [
-      '$50,000 at 9.5% for 5 years estimates a fixed monthly payment first.',
-      'A 2% origination fee equals $1,000, so cash received after fee is shown separately from the repayment amount.',
+      '$50,000 at 9.5% for 5 years estimates about $1,050.09 per month.',
+      'A 2% origination fee equals $1,000, so cash received after fee is about $49,000 while the loan is still repaid from $50,000.',
+      'The same example shows about $13,005.58 interest and about $64,005.58 total cost with the fee included.',
     ],
     read: [
-      'Monthly payment is based on the full principal.',
-      'Cash received after fee shows how much money may be left if the fee is taken upfront.',
-      'Total cost with fee adds the origination fee to the payment total for a fuller comparison.',
+      'Monthly payment is based on the full loan amount.',
+      'Cash received after fee shows how much money may be left if the fee is taken out of the proceeds.',
+      'Total interest and total cost with fee show why a lower monthly payment may not be the cheapest offer.',
     ],
     mistakes: [
       'Do not treat this as a lender offer or approval.',
-      'Do not ignore collateral, underwriting, SBA rules, draw schedules, variable rates, late fees, and prepayment terms.',
-      'Do not compare offers by interest rate alone when fees are different.',
+      'Do not ignore collateral, underwriting, SBA eligibility, personal guarantees, draw schedules, variable rates, late fees, and prepayment terms.',
+      'Do not compare offers by interest rate alone when fees, cash received, or repayment timing are different.',
+      'Do not use this fixed-loan estimate for a merchant cash advance without reading the separate repayment terms.',
     ],
-    next: ['Use Loan Calculator for a plain fixed-payment estimate.', 'Use Debt-to-Income Ratio Calculator to check payment pressure.'],
+    next: ['Use Loan Calculator for a plain fixed-payment estimate.', 'Use Interest Rate Calculator if you know payment and term but need to estimate a rate.', 'Use Profit Goal Calculator to check whether the project needs to earn enough to cover the payment.'],
   },
   'debt-to-income-ratio-calculator': {
     summary: 'Learn how gross monthly income, existing debts, and a proposed housing payment create a DTI estimate.',
@@ -2707,6 +2713,10 @@ function formatExample(example: (typeof financeTools)[number]['examples'][number
 }
 
 function getGuideTitle(tool: (typeof financeTools)[number]) {
+  if (tool.slug === 'business-loan-calculator') {
+    return 'Business Loan Calculator Guide';
+  }
+
   if (tool.slug === 'auto-loan-calculator') {
     return 'Auto Loan Calculator Guide';
   }
@@ -2726,6 +2736,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
 }
 
 function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summary: string) {
+  if (tool.slug === 'business-loan-calculator') {
+    return 'Estimate a business loan payment from amount, rate, term, and origination fee, with cash received, total interest, and total cost checks.';
+  }
+
   if (tool.slug === 'auto-loan-calculator') {
     return 'Estimate a car payment from price, tax, fees, down payment, trade-in, rate, and term, with total interest and total paid checks.';
   }
@@ -2758,6 +2772,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isSalesTaxGuide = tool.slug === 'sales-tax-calculator';
   const isAdRevenueGuide = tool.slug === 'ad-revenue-calculator';
   const isAutoLoanGuide = tool.slug === 'auto-loan-calculator';
+  const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
 
   return {
     slug: `how-to-use-${tool.slug}`,
@@ -2768,6 +2783,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: isAutoLoanGuide
       ? 'A car payment can look fine while the full loan is expensive. This guide shows how price, down payment, trade-in, tax, fees, rate, and term turn into the monthly payment and total interest.'
+      : isBusinessLoanGuide
+      ? 'A business loan can look affordable until the fee and total interest show up. This guide shows how loan amount, rate, term, and origination fee turn into payment, cash received, and total cost.'
       : isSalesTaxGuide
       ? 'Sales tax math is simple once the rate is in the right format. Enter the before-tax price, use a current local rate, then check the tax amount and final total before you trust the receipt.'
       : isAdRevenueGuide
@@ -2780,6 +2797,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Add down payment, trade-in value, estimated fees, sales tax rate, loan rate, and term.',
           'Calculate, then check amount financed, monthly payment, total interest, and total paid.',
           'Compare a shorter and longer term before choosing the easier-looking payment.',
+        ]
+      : isBusinessLoanGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter the loan amount, annual interest rate, loan term, and origination fee percent.',
+          'Calculate, then check monthly payment, total interest, origination fee, cash received after fee, and total cost with fee.',
+          'Compare a shorter term or lower fee before trusting the easiest-looking payment.',
+          'Check the written lender offer before treating the estimate as real approval.',
         ]
       : isSalesTaxGuide
       ? [
@@ -2810,6 +2835,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           detail.purpose,
           isAutoLoanGuide
             ? 'Use it before shopping for financing, comparing dealer offers, testing a trade-in, or seeing how much a longer loan term really costs.'
+            : isBusinessLoanGuide
+            ? 'Use it before talking to a lender, testing an equipment purchase, comparing working-capital offers, or checking whether the fee leaves enough cash for the job.'
             : isAdRevenueGuide
             ? 'Use it when you are testing a blog post, tool page, niche site, or traffic idea and want a rough number before opening a spreadsheet.'
             : `Good fit examples: ${tool.useCases.slice(0, 2).join(' ')}`,
@@ -2820,6 +2847,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isAutoLoanGuide
             ? 'Auto-loan estimates are easy to bend by leaving out fees or focusing only on the monthly payment. Enter the car price, tax, fees, down payment, trade-in, rate, and term as one complete deal.'
+            : isBusinessLoanGuide
+            ? 'Business-loan offers are easy to misread if you look only at the payment. Enter the loan amount, rate, term, and origination fee so you can see both repayment cost and cash received.'
             : isSalesTaxGuide
             ? 'Sales-tax mistakes usually come from using the wrong rate format or a rate that does not match the place, product, or checkout rule.'
             : isAdRevenueGuide
@@ -2834,6 +2863,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           primaryExample
             ? isAutoLoanGuide
               ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
+              : isBusinessLoanGuide
+              ? 'Try the starter example: $50,000 at 9.5% for 5 years with a 2% origination fee. The estimate is about $1,050.09 per month, $13,005.58 in interest, $1,000 in fees, $49,000 cash received, and $64,005.58 total cost with fee.'
               : isAdRevenueGuide
               ? 'Try the starter example: 1,000 daily page views, 1.5% page CTR, and $0.35 average CPC. That gives about 15 clicks per day, $5.25 per day, about $159.80 per average month, and a $5.25 page RPM.'
               : `Try the calculator example: ${primaryExampleText}. The example result is ${primaryExample.result}.`
@@ -2847,6 +2878,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           getFormulaAnswer(tool.slug),
           isAutoLoanGuide
             ? 'The formula is not the hard part. The hard part is using the same full deal each time: tax, fees, down payment, trade-in, rate, and term. That is why the calculator shows amount financed and total interest beside the monthly payment.'
+            : isBusinessLoanGuide
+            ? 'The formula is only one part of the decision. The fee matters because you may repay the full loan amount even when the cash you receive is lower.'
             : isSalesTaxGuide
             ? 'If the estimate looks different from a receipt, check whether the store rounded by item, rounded the whole basket, used a different taxable subtotal, or applied a different local rule.'
             : isAdRevenueGuide
@@ -2859,6 +2892,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isAutoLoanGuide
             ? 'Start with the monthly payment, then immediately check amount financed, total interest, and total paid. That stops a long loan from looking better just because the monthly number is smaller.'
+            : isBusinessLoanGuide
+            ? 'Start with the monthly payment, then check total interest, origination fee, cash received, and total cost with fee. That is the part that shows whether the loan still fits the business plan.'
             : isSalesTaxGuide
             ? 'Start with the tax amount, then check the final total. The final total should equal before-tax price plus sales tax.'
             : isAdRevenueGuide
@@ -2872,6 +2907,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isAutoLoanGuide
             ? 'Most bad car-payment estimates come from leaving out fees, using a rate from a different offer, forgetting negative equity, or choosing the longest term before checking total interest.'
+            : isBusinessLoanGuide
+            ? 'Most bad business-loan estimates come from ignoring the fee, comparing interest rates without APR context, or treating a fixed-payment loan like a merchant cash advance.'
             : isSalesTaxGuide
             ? 'Most bad sales-tax estimates come from typing the percent as a decimal, using an old local rate, or taxing the wrong subtotal.'
             : isAdRevenueGuide
@@ -2885,6 +2922,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isAutoLoanGuide
             ? 'A related tool can help when the car deal has one moving piece you want to isolate, such as sales tax, a plain loan comparison, or a dealer incentive.'
+            : isBusinessLoanGuide
+            ? 'A related tool can help when the loan payment is only one part of the decision, such as the rate, a plain fixed loan, or the profit target for the project.'
             : isSalesTaxGuide
             ? 'A related tool helps when the sales tax is only one part of the price question.'
             : isAdRevenueGuide
@@ -2897,6 +2936,12 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/auto-loan-calculator/', label: 'Open the Auto Loan Calculator' },
               { href: '/tools/sales-tax-calculator/', label: 'Check vehicle sales tax math' },
               { href: '/tools/cash-back-or-low-interest-calculator/', label: 'Compare rebate and low-rate offers' },
+            ]
+          : isBusinessLoanGuide
+          ? [
+              { href: '/tools/business-loan-calculator/', label: 'Open the Business Loan Calculator' },
+              { href: '/tools/interest-rate-calculator/', label: 'Estimate a rate from payment and term' },
+              { href: '/tools/profit-goal-calculator/', label: 'Check the project profit target' },
             ]
           : isAdRevenueGuide
           ? [
@@ -2911,6 +2956,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isAutoLoanGuide
             ? 'CFPB and FTC sources both push the same practical warning: compare the total cost, not just the monthly payment. They also explain APR, loan terms, add-ons, trade-ins, and shopping for financing before the dealer visit.'
+            : isBusinessLoanGuide
+            ? 'SBA and FTC sources are useful here because business financing is not just payment math. SBA explains lender risk and loan context, while FTC warns that some small-business financing offers can have high costs or confusing terms.'
             : isSalesTaxGuide
             ? 'The IRS source explains state and local sales-tax deduction context. The Tax Foundation source gives current state and local rate context for 2026.'
             : isAdRevenueGuide
@@ -2920,6 +2967,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             : 'This guide explains the calculator inputs, formula context, and estimate limits without treating the result as a final quote or professional recommendation.',
           isAutoLoanGuide
             ? 'This calculator still stays simple. It does not approve credit, price insurance, know your exact registration fees, decide whether an add-on is worth it, or replace a written lender quote.'
+            : isBusinessLoanGuide
+            ? 'This calculator still stays simple. It does not approve a loan, check SBA eligibility, read a merchant cash advance contract, judge collateral, or replace written lender terms.'
             : isSalesTaxGuide
             ? 'Those sources help with context, but this calculator still does not replace a state rate lookup, an official filing system, or tax advice.'
             : isAdRevenueGuide
@@ -2933,6 +2982,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? `Keep the ${tool.name} open beside this guide. Try $80 at 7.5%, then replace the price and rate with your receipt or checkout numbers.`
       : isAutoLoanGuide
       ? 'Keep the Auto Loan Calculator open beside this guide. Try the $32,000 car example first, then change only the term so you can see why a lower payment can still cost more.'
+      : isBusinessLoanGuide
+      ? 'Keep the Business Loan Calculator open beside this guide. Try the $50,000 example first, then change only the fee so you can see why cash received matters.'
       : isAdRevenueGuide
       ? 'Keep the Ad Revenue Calculator open beside this guide. Try 1,000 views, 1.5% CTR, and $0.35 CPC first, then test a lower CTR so the plan does not feel magically better than it is.'
       : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,
