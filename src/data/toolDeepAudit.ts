@@ -861,6 +861,21 @@ const irsEstateGift = {
   label: 'IRS: Estate and gift tax updates',
 };
 
+const irsEstateTax = {
+  href: 'https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax',
+  label: 'IRS: Estate tax basics',
+};
+
+const irsEstateTaxFaqs = {
+  href: 'https://www.irs.gov/businesses/small-businesses-self-employed/frequently-asked-questions-on-estate-taxes',
+  label: 'IRS: Frequently asked questions on estate taxes',
+};
+
+const irsForm706Instructions = {
+  href: 'https://www.irs.gov/instructions/i706',
+  label: 'IRS: Instructions for Form 706',
+};
+
 const irsWithholdingEstimatorFaqs = {
   href: 'https://www.irs.gov/individuals/tax-withholding-estimator-faqs',
   label: 'IRS: Tax Withholding Estimator FAQs',
@@ -2707,17 +2722,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'estate-tax-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-5-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [irsTax2026, irsEstateGift],
+    sources: [irsTax2026, irsEstateTax, irsEstateTaxFaqs, irsForm706Instructions],
     findings: [
       'The calculator subtracts debts, expenses, charitable bequests, and spouse transfers from gross estate, reduces the 2026 basic exclusion by prior taxable gifts, and applies a simplified 40% estimate above the remaining exclusion.',
       'The 2026 federal basic exclusion amount matches the IRS published $15,000,000 amount for estates of decedents dying in 2026.',
-      'The guide now makes clear that trusts, portability, GST tax, state estate tax, valuation discounts, and Form 706 decisions are outside this calculator.',
+      'The guide now makes clear that Form 706, trusts, portability, DSUE, GST tax, state estate tax, inheritance tax, valuation discounts, business/farm issues, and elections are outside this calculator.',
     ],
     improvements: [
-      'Added estate-tax-specific guide detail and manually checked exclusion math, deduction language, prior-gift handling, IRS source coverage, examples, FAQ cautions, SEO copy, and privacy behavior.',
+      'Replaced generic finance template wording with estate-tax-specific SEO title, description, FAQ answers, guide copy, result-reading language, trust note, image alt/caption text, examples, IRS source coverage, and privacy limits.',
     ],
     followUps: [
       'Do not add state estate tax presets until a maintained state-law source and update policy are in place.',
@@ -7071,7 +7086,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['estate-tax', 'estate tax'])) {
-      return sourceBackstop([irsTax2026, irsEstateGift]);
+      return sourceBackstop([irsTax2026, irsEstateTax, irsEstateTaxFaqs, irsForm706Instructions]);
     }
 
     if (includesAny(key, ['social-security', 'social security'])) {

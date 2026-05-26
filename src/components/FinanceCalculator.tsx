@@ -1728,7 +1728,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Estate Tax Calculator',
     buttonLabel: 'Estimate estate tax',
     emptyHistory: 'Recent estate tax estimates will appear here.',
-    privacyNote: 'Estate tax estimates use a simplified federal 2026 exclusion and top-rate model. Estate planning needs professional advice.',
+    privacyNote: 'Estate tax estimates use a simplified 2026 federal exclusion screen. They are not a Form 706 tax return or estate-planning advice.',
     modes: [
       {
         id: 'estate-tax',
@@ -3950,7 +3950,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Reduce the 2026 federal basic exclusion by prior taxable gifts you entered.',
           'Apply a simplified 40% federal top-rate estimate to the amount above the remaining exclusion.',
         ],
-        note: 'Estate tax is complex. This page is only a rough planning screen before professional estate and tax advice.',
+        note: 'This is not the Form 706 tax computation. It is a rough federal exclusion screen before professional estate and tax advice.',
       };
     }
     case 'social-security': {

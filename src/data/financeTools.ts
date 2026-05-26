@@ -17,6 +17,10 @@ interface FinanceToolSpec {
   inputExplanations?: Array<{ term: string; meaning: string }>;
   priorityFaq?: ToolFaq[];
   extraFaq?: ToolFaq[];
+  formulaCheck?: string;
+  resultReading?: string;
+  doubleCheck?: string;
+  limitFollowup?: string;
 }
 
 const financeLimit =
@@ -41,20 +45,28 @@ function makeFaq(spec: FinanceToolSpec): ToolFaq[] {
     ...(spec.priorityFaq ?? []),
     {
       question: `What is the ${spec.name} doing with my numbers?`,
-      answer: `In plain language: ${spec.formula} If the result seems too high or too low, first check whether each field expects a monthly amount, annual amount, dollar value, or percent.`,
+      answer: `In plain language: ${spec.formula} ${
+        spec.formulaCheck ??
+        'If the result seems too high or too low, first check whether each field expects a monthly amount, annual amount, dollar value, or percent.'
+      }`,
     },
     {
       question: `How should I read the ${spec.name} answer?`,
       answer:
+        spec.resultReading ??
         'Start with the headline number, then use the supporting lines to see why the answer moved. For finance calculators, the extra lines often explain interest, tax, fees, principal, payment timing, or totals paid over time. Those pieces matter because two results can look close at first but cost very different amounts later.',
     },
     {
       question: 'What does this estimate leave out?',
-      answer: `${spec.limit} Real finance decisions can also depend on fees, timing, local rules, credit details, and provider-specific terms.`,
+      answer: `${spec.limit} ${
+        spec.limitFollowup ??
+        'Real finance decisions can also depend on fees, timing, local rules, credit details, and provider-specific terms.'
+      }`,
     },
     {
       question: 'What should I double-check before copying the result?',
       answer:
+        spec.doubleCheck ??
         'Check the rate, time period, compounding or payment frequency, and whether the value is before tax or after tax. A common mistake is mixing monthly and yearly numbers, which can make a finance answer look believable even when it is off by a lot.',
     },
     ...(spec.extraFaq ?? []),
@@ -559,14 +571,18 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'estate-tax-calculator',
     name: 'Estate Tax Calculator',
-    summary: 'Estimate a simplified 2026 federal estate tax amount above the basic exclusion.',
+    summary: 'Check a large estate against the 2026 federal estate tax exclusion.',
     description:
-      'Use this free estate tax calculator to estimate a rough federal estate tax amount from gross estate, deductions, prior taxable gifts, and the 2026 basic exclusion.',
+      'Use this free estate tax calculator to screen a large estate against the 2026 federal basic exclusion using gross estate, deductions, spouse transfers, charitable bequests, and prior taxable gifts.',
+    seoTitle: 'Estate Tax Calculator | 2026 Federal Exclusion Estimate',
+    seoDescription:
+      'Estimate whether a large estate may sit above the 2026 federal estate tax exclusion. Enter gross estate, deductions, spouse transfers, charity, and prior taxable gifts.',
     icon: 'calculator-tax',
+    aliases: ['federal estate tax calculator', 'estate tax exclusion calculator', 'Form 706 estimate calculator'],
     formula:
       'The calculator subtracts entered debts, charitable bequests, and spouse transfers, reduces the 2026 basic exclusion by prior taxable gifts, then applies a simplified 40% top-rate estimate above the remaining exclusion.',
     limit:
-      'Estate tax is complex. This estimate does not include state estate tax, generation-skipping tax, gift tax calculations, portability, valuation discounts, trusts, elections, or legal advice.',
+      'Estate tax is complex. This estimate does not run the Form 706 tax computation and does not include state estate tax, generation-skipping tax, full gift tax calculations, portability, valuation discounts, trusts, elections, or legal advice.',
     useCases: [
       'Screen whether a large estate might exceed the 2026 federal exclusion.',
       'See how debts, charitable bequests, or spouse transfers change the rough taxable amount.',
@@ -574,11 +590,65 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Prepare better questions for an estate attorney or tax professional.',
     ],
     examples: [
-      { label: '$18M estate', expression: '$18,000,000 estate with $500,000 deductions', result: 'Simplified tax above exclusion' },
-      { label: 'Charitable bequest', expression: '$22M estate and $2M charity', result: 'Lower taxable amount' },
-      { label: 'Prior gifts', expression: '$16M estate with prior taxable gifts', result: 'Reduced remaining exclusion' },
+      { label: '$18M estate', expression: '$18,000,000 estate with $500,000 debts and expenses', result: '$1,000,000 simplified federal estimate above the 2026 exclusion' },
+      { label: 'Charitable bequest', expression: '$22,000,000 estate, $600,000 debts, and $2,000,000 charity', result: '$1,760,000 simplified estimate after deductions' },
+      { label: 'Prior gifts', expression: '$16,000,000 estate, $300,000 debts, and $1,000,000 prior taxable gifts', result: '$680,000 simplified estimate after reduced exclusion' },
     ],
     relatedSlugs: ['income-tax-calculator', 'finance-calculator', 'future-value-calculator'],
+    inputExplanations: [
+      { term: 'Gross estate', meaning: 'the rough total value of the estate before the deductions you enter on this page.' },
+      { term: 'Debts and expenses', meaning: 'mortgages, debts, and estate costs you want to subtract in this rough screen.' },
+      { term: 'Charitable bequests', meaning: 'amounts going to qualified charities that you want treated as deductions in the estimate.' },
+      { term: 'Spouse transfers', meaning: 'amounts passing to a surviving spouse that you want removed from the rough taxable estate.' },
+      { term: 'Prior taxable gifts', meaning: 'lifetime taxable gifts that may have already used part of the lifetime exclusion.' },
+    ],
+    formulaCheck:
+      'If the answer looks wrong, check the gross estate first, then the deduction fields, then prior taxable gifts. This is not the full Form 706 tax computation.',
+    resultReading:
+      'Start with the estimated federal estate tax, then read the supporting lines. Estate before exclusion shows what is left after the deductions you entered. Remaining basic exclusion shows how much of the 2026 exclusion is still left in this simplified screen. Above exclusion is the amount this page applies the 40% estimate to.',
+    doubleCheck:
+      'Check the year of death, gross estate value, debts, spouse transfers, charity amounts, and prior taxable gifts. Also check whether a state estate tax, inheritance tax, portability election, GST tax, trust, farm, business, or valuation issue needs a professional review.',
+    limitFollowup:
+      'Use IRS instructions and a qualified professional for filing decisions, portability, tax due dates, and state rules.',
+    priorityFaq: [
+      {
+        question: 'What 2026 estate tax exclusion does this use?',
+        answer:
+          'It uses the IRS-published 2026 federal basic exclusion amount of $15,000,000 for estates of decedents who die during 2026. If the year of death is different, use the IRS threshold for that year instead.',
+      },
+      {
+        question: 'Is this the same as filing Form 706?',
+        answer:
+          'No. This is a rough exclusion screen. Form 706 uses detailed asset values, deductions, adjusted taxable gifts, credits, elections, schedules, and supporting records. Use this page to spot whether the numbers deserve a professional review, not to file.',
+      },
+      {
+        question: 'Why do prior taxable gifts matter?',
+        answer:
+          'Prior taxable gifts can use part of the lifetime exclusion before death. This simplified model subtracts the prior taxable gifts you enter from the 2026 basic exclusion before estimating the amount above the exclusion.',
+      },
+      {
+        question: 'Does this include portability or DSUE?',
+        answer:
+          'No. Portability and the deceased spousal unused exclusion are handled through Form 706 rules and deadlines. The IRS says a timely, complete Form 706 is generally needed to elect portability, so this page does not try to model it.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Does this include state estate tax or inheritance tax?',
+        answer:
+          'No. Some states have their own estate tax or inheritance tax rules. This calculator only screens a simplified federal estate tax scenario.',
+      },
+      {
+        question: 'When is a professional review important?',
+        answer:
+          'Get professional estate and tax help when the estate may be near the filing threshold, when portability matters, when there are trusts, business interests, farms, non-U.S. issues, large gifts, disputed values, state taxes, or generation-skipping transfers.',
+      },
+      {
+        question: 'When is Form 706 usually due?',
+        answer:
+          'IRS Form 706 is generally due within 9 months after the date of death, with an automatic 6-month filing extension available through Form 4768 when requested on time. Tax payments can have their own rules, so do not wait on a calculator result.',
+      },
+    ],
   },
   {
     slug: 'social-security-calculator',

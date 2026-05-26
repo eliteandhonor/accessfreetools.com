@@ -231,6 +231,18 @@ const sourceLinks = {
     href: 'https://www.irs.gov/businesses/small-businesses-self-employed/whats-new-estate-and-gift-tax',
     label: 'IRS: Estate and gift tax updates',
   },
+  irsEstateTax: {
+    href: 'https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax',
+    label: 'IRS: Estate tax basics',
+  },
+  irsEstateTaxFaqs: {
+    href: 'https://www.irs.gov/businesses/small-businesses-self-employed/frequently-asked-questions-on-estate-taxes',
+    label: 'IRS: Frequently asked questions on estate taxes',
+  },
+  irsForm706Instructions: {
+    href: 'https://www.irs.gov/instructions/i706',
+    label: 'IRS: Instructions for Form 706',
+  },
   irsRmd: {
     href: 'https://www.irs.gov/publications/p590b',
     label: 'IRS Publication 590-B: RMD Uniform Lifetime Table',
@@ -592,7 +604,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'estate-tax-calculator') {
-    return [sourceLinks.irs2026, sourceLinks.irsEstateGift];
+    return [sourceLinks.irs2026, sourceLinks.irsEstateTax, sourceLinks.irsEstateTaxFaqs, sourceLinks.irsForm706Instructions];
   }
 
   if (['income-tax-calculator', 'marriage-tax-calculator'].includes(toolSlug)) {
@@ -2146,27 +2158,30 @@ const guideDetails: Record<string, GuideDetail> = {
   'estate-tax-calculator': {
     summary: 'Learn how gross estate, deductions, lifetime taxable gifts, and the 2026 exclusion affect a rough federal estate tax estimate.',
     purpose:
-      'The Estate Tax Calculator is a high-level screen for very large estates. It shows whether the entered estate might sit above the 2026 federal basic exclusion, but it is not legal or tax planning.',
+      'The Estate Tax Calculator is a high-level screen for very large estates. It checks whether the numbers you enter sit above the 2026 federal basic exclusion, but it is not a Form 706 filing tool or legal advice.',
     enter: [
-      'Enter gross estate before deductions.',
-      'Enter debts and expenses, charitable bequests, and spouse transfers if they apply.',
-      'Enter prior lifetime taxable gifts because they reduce the remaining exclusion in this simplified model.',
+      'Enter gross estate as the rough total estate value before the deductions on this page.',
+      'Enter debts and expenses, charitable bequests, and spouse transfers only when they belong in the rough scenario you are testing.',
+      'Enter prior lifetime taxable gifts because this simplified model treats them as using part of the 2026 basic exclusion.',
     ],
     example: [
       'An $18,000,000 estate with $500,000 of deductions starts with $17,500,000 before exclusion.',
-      'The calculator subtracts the remaining 2026 exclusion and applies a simplified 40% estimate only to the amount above that exclusion.',
+      'The calculator subtracts the $15,000,000 2026 federal exclusion and applies a simplified 40% estimate only to the $2,500,000 above that exclusion, giving a rough $1,000,000 federal estimate.',
     ],
     read: [
       'Taxable estate before exclusion is the estate after the deductions you entered.',
       'Remaining exclusion shows how much of the 2026 basic exclusion is still available after prior taxable gifts.',
-      'Estimated federal estate tax is simplified. Real estate tax work is much more detailed.',
+      'Estimated federal estate tax is simplified. Real federal estate tax work is much more detailed.',
     ],
     mistakes: [
-      'Do not use this for trusts, portability, generation-skipping tax, state estate tax, valuation discounts, or Form 706 decisions.',
-      'Do not forget that asset values, debts, deductions, and elections can change the result.',
-      'Do not treat the 40% estimate as the full IRS rate schedule for every case.',
+      'Do not use this for trusts, portability, generation-skipping tax, state estate tax, inheritance tax, valuation discounts, or Form 706 decisions.',
+      'Do not forget that asset values, debts, deductions, adjusted taxable gifts, and elections can change the real return.',
+      'Do not treat the simplified 40% estimate as the full IRS computation for every estate.',
     ],
-    next: ['Use Future Value Calculator to test how estate value might grow.', 'Talk to an estate attorney or tax professional for real planning.'],
+    next: [
+      'Use Future Value Calculator to test how estate value might grow.',
+      'Talk to an estate attorney or tax professional when the estate may be near the filing threshold, when portability matters, or when Form 706 could be required.',
+    ],
   },
   'social-security-calculator': {
     summary: 'Learn how claiming before or after full retirement age can change a Social Security retirement benefit estimate.',
@@ -2837,6 +2852,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
   const isDownPaymentGuide = tool.slug === 'down-payment-calculator';
+  const isEstateTaxGuide = tool.slug === 'estate-tax-calculator';
 
   return {
     slug: `how-to-use-${tool.slug}`,
@@ -2857,6 +2873,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Sales tax math is simple once the rate is in the right format. Enter the before-tax price, use a current local rate, then check the tax amount and final total before you trust the receipt.'
       : isAdRevenueGuide
       ? 'Before you assume 10,000 page views means steady ad income, test the click rate and CPC separately. This guide shows the simple math, the 1,000-view example, and the reasons real ad reports can move.'
+      : isEstateTaxGuide
+      ? 'A huge estate number can look scary until you separate gross estate, deductions, prior taxable gifts, and the federal exclusion. This guide shows the rough 2026 federal screen and the parts it cannot handle.'
       : `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
     quickStart: isAutoLoanGuide
       ? [
@@ -2906,6 +2924,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter average CPC as dollars per click, such as 0.35.',
           'Calculate, then compare monthly revenue, estimated clicks per day, and page RPM before trusting the plan.',
         ]
+      : isEstateTaxGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter the gross estate as the rough total value before this page subtracts anything.',
+          'Add debts and expenses, charitable bequests, spouse transfers, and prior taxable gifts only when they belong in the scenario.',
+          'Calculate, then check estate before exclusion, remaining basic exclusion, amount above exclusion, and the simplified federal estimate.',
+          'Use the answer as a rough 2026 federal screen before professional estate and tax advice, not as Form 706.',
+        ]
       : [
           `Open the ${tool.name}.`,
           detail.enter[0],
@@ -2927,6 +2953,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before asking for a loan estimate, comparing down payment choices, checking whether 3.5%, 5%, 10%, or 20% changes the loan size, or planning how much cash to keep outside the purchase.'
             : isAdRevenueGuide
             ? 'Use it when you are testing a blog post, tool page, niche site, or traffic idea and want a rough number before opening a spreadsheet.'
+            : isEstateTaxGuide
+            ? 'Use it when the estate may be large enough to deserve a first-pass federal check before you ask sharper questions about Form 706, portability, state estate tax, trusts, or professional planning.'
             : `Good fit examples: ${tool.useCases.slice(0, 2).join(' ')}`,
         ],
       },
@@ -2945,6 +2973,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Sales-tax mistakes usually come from using the wrong rate format or a rate that does not match the place, product, or checkout rule.'
             : isAdRevenueGuide
             ? 'Ad revenue estimates are easy to break with one bad input. Page views are counts, CTR is a percent, and CPC is a dollar amount per click.'
+            : isEstateTaxGuide
+            ? 'Estate-tax screens need the gross estate, debts and expenses, charitable bequests, spouse transfers, and prior taxable gifts to stay separate. Do not hide one number inside another unless you mean to.'
             : 'Finance estimates are sensitive to small input changes. Check whether a field expects a monthly amount, annual amount, dollar value, or percent before calculating.',
         ],
         bullets: detail.enter,
@@ -2963,6 +2993,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: a $400,000 home, 20% down, and 3% closing costs. The estimate is $80,000 down, a $320,000 loan, 80% LTV, $12,000 closing costs, and $92,000 cash needed.'
               : isAdRevenueGuide
               ? 'Try the starter example: 1,000 daily page views, 1.5% page CTR, and $0.35 average CPC. That gives about 15 clicks per day, $5.25 per day, about $159.80 per average month, and a $5.25 page RPM.'
+              : isEstateTaxGuide
+              ? 'Try the starter example: an $18,000,000 estate with $500,000 in debts and expenses. The estate before exclusion is $17,500,000, the amount above the 2026 federal exclusion is $2,500,000, and the simplified estimate is $1,000,000.'
               : `Try the calculator example: ${primaryExampleText}. The example result is ${primaryExample.result}.`
             : 'Use one of the examples on the tool page to see a complete estimate before entering your own values.',
         ],
@@ -2984,6 +3016,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'If the estimate looks different from a receipt, check whether the store rounded by item, rounded the whole basket, used a different taxable subtotal, or applied a different local rule.'
             : isAdRevenueGuide
             ? 'The formula is simple on purpose: page views times CTR gives estimated clicks, clicks times CPC gives daily revenue, and daily revenue divided by page views times 1,000 gives page RPM.'
+            : isEstateTaxGuide
+            ? 'This is a screen, not a tax return. IRS Form 706 can involve detailed valuations, adjusted taxable gifts, credits, deductions, elections, portability, and supporting records that this page does not model.'
             : 'If the estimate looks surprising, check the formula and inputs before using the answer in a budget, comparison, or planning note.',
         ],
       },
@@ -3002,6 +3036,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with the tax amount, then check the final total. The final total should equal before-tax price plus sales tax.'
             : isAdRevenueGuide
             ? 'Start with monthly revenue, because that is usually how site owners compare costs. Then check estimated clicks and page RPM so the number has context.'
+            : isEstateTaxGuide
+            ? 'Start with the simplified federal estate tax estimate. Then check estate before exclusion, remaining basic exclusion, and amount above exclusion so you can see exactly where the number came from.'
             : 'Start with the headline result. Then read the supporting lines to see what made the number larger or smaller, such as rates, time periods, costs, taxes, fees, discounts, or contributions.',
         ],
         bullets: detail.read,
@@ -3021,6 +3057,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad sales-tax estimates come from typing the percent as a decimal, using an old local rate, or taxing the wrong subtotal.'
             : isAdRevenueGuide
             ? 'Most bad ad revenue estimates come from typing CTR as a decimal, guessing a CPC that is too high, or forgetting that real ad reports can remove invalid traffic and change after review.'
+            : isEstateTaxGuide
+            ? 'Most bad estate-tax estimates come from using a rough asset value, forgetting prior taxable gifts, treating spouse or charity transfers too casually, or acting like the calculator replaced Form 706.'
             : 'Most bad finance estimates come from mixing rates, terms, monthly amounts, and annual amounts. The other common mistake is using a planning estimate as if it were a final quote.',
         ],
         bullets: detail.mistakes,
@@ -3040,6 +3078,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool helps when the sales tax is only one part of the price question.'
             : isAdRevenueGuide
             ? 'A related tool can help when ad revenue is only one part of the plan. Compare the estimate with costs, traffic campaigns, and profit goals before you count it as income.'
+            : isEstateTaxGuide
+            ? 'A related tool can help when the estate-tax screen is only one part of the planning question, such as growth over time, income tax, or a wider finance scenario.'
             : 'A related money tool can help check the same question from another angle before you rely on one result.',
         ],
         bullets: detail.next,
@@ -3073,6 +3113,12 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/margin-calculator/', label: 'Compare ad revenue with costs' },
               { href: '/tools/utm-builder/', label: 'Plan traffic links with UTM Builder' },
             ]
+          : isEstateTaxGuide
+          ? [
+              { href: '/tools/estate-tax-calculator/', label: 'Open the Estate Tax Calculator' },
+              { href: '/tools/future-value-calculator/', label: 'Test estate growth over time' },
+              { href: '/tools/income-tax-calculator/', label: 'Check a separate income tax estimate' },
+            ]
           : undefined,
       },
       {
@@ -3090,6 +3136,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The IRS source explains state and local sales-tax deduction context. The Tax Foundation source gives current state and local rate context for 2026.'
             : isAdRevenueGuide
             ? 'Google AdSense Help explains page CTR, page RPM, how AdSense works, revenue share, and invalid traffic. Those sources are useful because ad revenue is not just one clean formula.'
+            : isEstateTaxGuide
+            ? 'IRS estate-tax sources explain the 2026 federal exclusion, gross estate idea, deductions, adjusted taxable gifts, Form 706 timing, and portability context. Those sources are why this guide stays honest about what the calculator can and cannot do.'
             : sourceLinks.length > 0
             ? 'This guide links to public financial, consumer, statistical, or tax references where they are useful for understanding the calculator context.'
             : 'This guide explains the calculator inputs, formula context, and estimate limits without treating the result as a final quote or professional recommendation.',
@@ -3105,6 +3153,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Those sources help with context, but this calculator still does not replace a state rate lookup, an official filing system, or tax advice.'
             : isAdRevenueGuide
             ? 'The calculator still stays simple. It does not read your ad account, approve earnings, predict fill rate, or know which clicks may later be filtered.'
+            : isEstateTaxGuide
+            ? 'The calculator still stays simple. It does not file Form 706, calculate state estate tax, model DSUE, value trusts or businesses, check GST tax, or replace an estate attorney or tax professional.'
             : 'Source links improve transparency, but they do not turn a quick calculator into professional advice or a final loan, tax, payroll, or investment answer.',
         ],
         links: sourceLinks,
@@ -3122,6 +3172,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Down Payment Calculator open beside this guide. Try the $400,000 example first, then change only the down payment percent so you can see how loan amount, LTV, and cash needed move.'
       : isAdRevenueGuide
       ? 'Keep the Ad Revenue Calculator open beside this guide. Try 1,000 views, 1.5% CTR, and $0.35 CPC first, then test a lower CTR so the plan does not feel magically better than it is.'
+      : isEstateTaxGuide
+      ? 'Keep the Estate Tax Calculator open beside this guide. Try the $18,000,000 example first, then change only prior taxable gifts so you can see how the remaining exclusion moves.'
       : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,
   };
 });

@@ -1608,6 +1608,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/estate-tax-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/estate-tax-calculator-guide.webp",
+    "alt": "Smoke mascot sorting estate papers, charity notes, spouse-transfer records, prior-gift records, and a $15,000,000 federal exclusion marker.",
+    "caption": "Estate Tax Calculator guide art matches the walkthrough for checking a large estate against the 2026 federal exclusion before professional estate and tax advice.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -1616,6 +1618,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/estate-tax-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/estate-tax-calculator-tool.webp",
+    "alt": "Smoke mascot beside an estate tax estimate screen with gross estate, debts, charity, spouse transfer, prior gifts, and amount above exclusion.",
+    "caption": "Estate Tax Calculator art matches the tool inputs: gross estate, deductions, spouse transfers, prior taxable gifts, remaining exclusion, and simplified federal estimate.",
     "status": "approved",
     "qaStatus": "approved"
   },

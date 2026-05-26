@@ -650,6 +650,13 @@ const financeToolInstructions = financeToolVariant
         'Press the calculate button to see monthly revenue, daily revenue, yearly revenue, estimated clicks, and page RPM.',
         'Use the result as a rough website-ad planning estimate, then check real ad reports and policy limits before trusting it.',
       ]
+    : tool.slug === 'estate-tax-calculator'
+    ? [
+        'Enter the gross estate as the rough total value before the deductions on this page.',
+        'Add debts, expenses, charitable bequests, spouse transfers, and prior taxable gifts when they belong in the scenario.',
+        'Press the calculate button to see deductions entered, estate before exclusion, remaining basic exclusion, amount above exclusion, and the simplified federal estimate.',
+        'Use the result as a rough 2026 federal exclusion screen, not as Form 706, state estate tax, portability, GST, trust, or legal advice.',
+      ]
     : [
       'Enter the requested dollar amounts, rates, terms, tax settings, or contribution details.',
       'Use rates as percentages, such as 6.5 for 6.5%, and check whether a field asks for a monthly or annual amount.',
@@ -1853,6 +1860,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Payment, LTV, and interest'
               : tool.slug === 'down-payment-calculator'
               ? 'Cash needed, LTV, and closing costs'
+              : tool.slug === 'estate-tax-calculator'
+              ? 'Exclusion and excess shown'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -1943,6 +1952,15 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 A real closing can still change with lender fees, title fees, prepaid taxes, insurance,
                 escrow deposits, mortgage insurance, seller credits, assistance programs, reserves,
                 and the Loan Estimate or Closing Disclosure.
+              </p>
+            </>
+          ) : tool.slug === 'estate-tax-calculator' ? (
+            <>
+              <strong>Federal estate-tax screen, not Form 706</strong>
+              <p>
+                Use this to test gross estate, debts, charity, spouse transfers, prior taxable gifts, and the
+                2026 federal exclusion. A real estate-tax return can still change with asset values, state tax,
+                portability, GST tax, trusts, farms, business interests, elections, and professional review.
               </p>
             </>
           ) : (
