@@ -9,6 +9,7 @@ const DEFAULT_BLOG_PUBLISHED_DATE = '2026-04-30';
 
 const toolLastmodOverrides: Record<string, string> = {
   'age-calculator': '2026-05-26',
+  'auto-loan-calculator': '2026-05-26',
   'interest-rate-calculator': '2026-05-26',
   'gas-mileage-calculator': '2026-05-26',
   'height-calculator': '2026-05-26',
@@ -36,6 +37,7 @@ const toolLastmodOverrides: Record<string, string> = {
 
 const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-age-calculator': '2026-05-26',
+  'how-to-use-auto-loan-calculator': '2026-05-26',
   'how-to-use-height-calculator': '2026-05-26',
   'how-to-use-sleep-calculator': '2026-05-26',
   'how-to-use-ad-revenue-calculator': '2026-05-26',

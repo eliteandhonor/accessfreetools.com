@@ -1180,26 +1180,71 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'auto-loan-calculator',
     name: 'Auto Loan Calculator',
-    summary: 'Estimate a vehicle loan payment with tax, fees, down payment, and trade-in.',
+    summary: 'Estimate a car payment from vehicle price, tax, fees, down payment, trade-in, rate, and term.',
     description:
-      'Use this free auto loan calculator to estimate amount financed, monthly payment, total interest, sales tax, fees, down payment, and trade-in impact.',
+      'Estimate an auto loan payment from vehicle price, sales tax, fees, down payment, trade-in value, interest rate, and loan term.',
+    seoTitle: 'Auto Loan Calculator | Car Payment, Tax & Interest',
+    seoDescription:
+      'Estimate a car payment from price, tax, fees, down payment, trade-in value, rate, and term. See amount financed, monthly payment, total interest, and total paid.',
     icon: 'calculator-auto-loan',
+    aliases: ['car payment calculator', 'vehicle loan calculator', 'car loan calculator', 'auto payment calculator'],
     formula:
-      'The calculator estimates amount financed as price plus sales tax and fees minus down payment and trade-in, then applies the fixed-payment loan formula.',
+      'The calculator estimates taxable vehicle price, adds sales tax and fees, subtracts down payment and trade-in value, then applies the fixed-payment loan formula to estimate the monthly payment.',
     limit:
-      'This is a vehicle-payment estimate only. Dealer fees, lender fees, registration, taxes, rebates, trade-in tax treatment, and credit approval can change the real offer.',
+      'This is a vehicle-payment estimate only. It is not a lender quote and does not include every dealer add-on, registration charge, rebate rule, trade-in tax rule, APR fee, credit approval condition, insurance cost, or prepayment term.',
     useCases: [
-      'Estimate the payment before shopping for a car.',
-      'Compare the impact of down payment, trade-in value, tax, fees, and interest rate.',
-      'See how a longer term lowers payment but increases total interest.',
-      'Check whether a monthly payment fits a budget before visiting a dealer.',
+      'Estimate a monthly car payment before talking to a dealer or lender.',
+      'Compare how down payment, trade-in value, taxes, fees, APR, and loan term move the result.',
+      'See how a longer term can lower the payment while raising total interest.',
+      'Check the amount financed and total paid instead of judging the deal by monthly payment only.',
     ],
     examples: [
-      { label: 'Used vehicle', expression: '$32,000 price, $4,000 down, $3,000 trade-in', result: 'Amount financed and payment estimate' },
-      { label: 'Lower down payment', expression: '$28,000 price, $1,500 down, 7.9%', result: 'Higher financed amount' },
-      { label: 'Shorter term', expression: '$25,000 financed over 48 months', result: 'Higher payment, less interest' },
+      { label: 'Used vehicle', expression: '$32,000 price, $4,000 down, $3,000 trade-in, 6% tax, 7.2% for 5 years', result: 'About $549.92/month with $27,640 financed and $5,355.02 interest' },
+      { label: 'Lower down payment', expression: '$28,000 price, $1,500 down, 6.25% tax, 7.9% for 6 years', result: 'About $507.05/month with $29,000 financed and $7,507.54 interest' },
+      { label: 'Shorter term', expression: '$30,000 price, $5,000 down, $2,500 trade-in, 6.8% for 4 years', result: 'About $593.06/month with $3,604.34 interest' },
     ],
-    relatedSlugs: ['loan-calculator', 'payment-calculator', 'sales-tax-calculator'],
+    relatedSlugs: ['loan-calculator', 'sales-tax-calculator', 'cash-back-or-low-interest-calculator'],
+    inputExplanations: [
+      { term: 'Vehicle price', meaning: 'the negotiated price before down payment, trade-in, tax, and fees.' },
+      { term: 'Down payment', meaning: 'cash paid up front so less money has to be financed.' },
+      { term: 'Trade-in value', meaning: 'the value credited for your current vehicle; some places tax trade-ins differently.' },
+      { term: 'Sales tax and fees', meaning: 'estimated taxes, title, registration, dealer, or lender charges added before financing.' },
+      { term: 'Interest rate and term', meaning: 'the annual rate and number of years used for the fixed monthly payment estimate.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'How does the Auto Loan Calculator find the monthly payment?',
+        answer:
+          'It estimates the amount financed first: vehicle price plus tax and fees, minus down payment and trade-in value. Then it uses a fixed-payment loan formula with the rate and term to estimate the monthly payment.',
+      },
+      {
+        question: 'Why should I look past the monthly payment?',
+        answer:
+          'A lower payment can hide a more expensive loan if the term is longer or the rate is higher. Compare amount financed, total interest, and total paid before deciding that a smaller monthly payment is a better deal.',
+      },
+      {
+        question: 'Should I enter APR or interest rate?',
+        answer:
+          'Use the rate your loan quote gives for payment math. APR can include some credit costs, so it is helpful for comparing offers, but the calculator cannot know every lender fee unless you add it yourself.',
+      },
+      {
+        question: 'How should I handle trade-in value?',
+        answer:
+          'Enter the trade-in value as the amount credited toward the deal. If you owe more than the trade-in is worth, that negative equity may increase the amount financed and should be added to the deal outside this simple estimate.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Does this include dealer add-ons or registration?',
+        answer:
+          'Only if you include them in the fees field. Extended warranties, service contracts, gap products, title, registration, document fees, and other add-ons can change both the amount financed and the total cost.',
+      },
+      {
+        question: 'Can I use this before shopping for financing?',
+        answer:
+          'Yes. It is useful for comparing rough scenarios before shopping, but a real offer should still be checked against written terms from a bank, credit union, finance company, or dealer.',
+      },
+    ],
   }),
   makeFinanceTool({
     slug: 'interest-calculator',

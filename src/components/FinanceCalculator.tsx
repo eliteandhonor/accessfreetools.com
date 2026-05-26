@@ -343,7 +343,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Auto Loan Calculator',
     buttonLabel: 'Estimate auto loan',
     emptyHistory: 'Recent auto loan estimates will appear here.',
-    privacyNote: 'Auto loan estimates can change with dealer fees, rebates, registration, tax rules, and credit approval.',
+    privacyNote: 'Auto loan estimates stay in your browser and can change with APR fees, dealer add-ons, rebates, registration, tax rules, insurance, negative equity, and credit approval.',
     modes: [
       {
         id: 'auto-loan',
@@ -2609,7 +2609,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Use the amount financed in the fixed-payment loan formula.',
           'Total interest equals total paid minus amount financed.',
         ],
-        note: 'Trade-in tax treatment and dealer fees vary by location and offer.',
+        note: 'Trade-in tax treatment, dealer fees, APR costs, add-ons, rebates, negative equity, and credit approval can change the real offer.',
       };
     }
     case 'interest': {

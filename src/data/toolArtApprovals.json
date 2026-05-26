@@ -272,6 +272,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/auto-loan-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/auto-loan-calculator-guide.webp",
+    "alt": "Smoke mascot reviewing a car payment worksheet with a small car, down payment tag, tax fee note, and monthly payment chart.",
+    "caption": "Auto Loan Calculator guide artwork shows the car price, down payment, tax and fees, and monthly payment being checked before comparing a loan offer.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -280,6 +282,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/auto-loan-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/auto-loan-calculator-tool.webp",
+    "alt": "Smoke mascot beside a car, calculator, down payment tag, and loan chart for estimating an auto loan payment.",
+    "caption": "Auto Loan Calculator artwork shows a car purchase estimate with down payment, trade-in, tax, fees, and monthly payment pieces.",
     "status": "approved",
     "qaStatus": "approved"
   },

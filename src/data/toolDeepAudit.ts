@@ -541,6 +541,16 @@ const cfpbAutoLoans = {
   label: 'Consumer Financial Protection Bureau: Auto loans',
 };
 
+const cfpbAutoLoanCompare = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/how-do-i-compare-auto-loan-offers-what-should-i-look-at-besides-the-monthly-payment-en-753/',
+  label: 'CFPB: How to compare auto loan offers',
+};
+
+const cfpbAutoLoanTerms = {
+  href: 'https://www.consumerfinance.gov/language/cfpb-in-english/auto-loans-key-terms/',
+  label: 'CFPB: Auto loans key terms',
+};
+
 const investorCompound = {
   href: 'https://openstax.org/books/principles-finance/pages/7-2-time-value-of-money-tvm-basics',
   label: 'OpenStax Principles of Finance: Time value of money basics',
@@ -704,6 +714,11 @@ const dolCommissions = {
 const ftcAutoLease = {
   href: 'https://consumer.ftc.gov/financing-or-leasing-car',
   label: 'FTC: Financing or Leasing a Car',
+};
+
+const ftcAutoNegativeEquity = {
+  href: 'https://consumer.ftc.gov/articles/auto-trade-ins-and-negative-equity-when-you-owe-more-your-car-worth',
+  label: 'FTC: Auto trade-ins and negative equity',
 };
 
 const irsDepreciation = {
@@ -1525,20 +1540,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'auto-loan-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-risk-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [cfpbAutoLoans, cfpbDebtToIncome],
+    sources: [cfpbAutoLoans, cfpbAutoLoanCompare, cfpbAutoLoanTerms, ftcAutoLease, ftcAutoNegativeEquity, cfpbAprVsInterest],
     findings: [
       'The calculator estimates taxable vehicle amount, sales tax, fees, down payment, trade-in, amount financed, monthly payment, total interest, and total paid.',
-      'The guide explains that trade-in tax treatment, registration, dealer fees, rebates, and credit approval can change the real offer.',
-      'The examples cover used-car, low-down-payment, and shorter-term comparisons so users see payment versus total-interest tradeoffs.',
+      'The 2026-05-26 sprint refreshed DataForSEO evidence for the tool and guide, then aligned the page with CFPB/FTC warnings to compare total cost instead of monthly payment alone.',
+      'Current examples show concrete outputs: the $32,000 vehicle scenario estimates $27,640 financed, about $549.92/month, and about $5,355.02 total interest.',
     ],
     improvements: [
-      'Manually checked auto-loan math, result steps, guide article, FAQ cautions, related tools, and source coverage.',
+      'Added auto-loan-specific title/meta, input explanations, priority FAQs, APR/interest-rate caution, negative-equity note, total-cost guidance, visible guide source links, updated modified dates, and specific image alt/caption text.',
     ],
     followUps: [
-      'Add an optional rebate field later if user demand shows people compare cash-back offers on this page.',
+      'Add optional rebate and negative-equity fields later if Search Console, usage data, or DataForSEO evidence shows people need those workflows directly in the calculator.',
     ],
   },
   {

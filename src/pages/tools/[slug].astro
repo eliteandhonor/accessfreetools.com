@@ -615,7 +615,14 @@ const healthToolInstructions = healthToolVariant
     ]
   : undefined;
 const financeToolInstructions = financeToolVariant
-  ? tool.slug === 'ad-revenue-calculator'
+  ? tool.slug === 'auto-loan-calculator'
+    ? [
+        'Enter the vehicle price after negotiation, before down payment, trade-in, tax, and fees.',
+        'Add down payment, trade-in value, estimated fees, sales tax rate, loan rate, and term.',
+        'Press the calculate button to see amount financed, monthly payment, sales tax, total interest, and total paid.',
+        'Compare total interest and total paid, not only the monthly payment, before trusting a long loan term.',
+      ]
+    : tool.slug === 'ad-revenue-calculator'
     ? [
         'Enter daily page views as a one-day traffic estimate.',
         'Enter page CTR as a percent, such as 1.5 for 1.5%, and average CPC as dollars per ad click.',
@@ -1814,7 +1821,13 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       isFinanceTool && (
         <div class="advanced-tool-points finance-tool-points" aria-label={`${tool.name} highlights`}>
           <span>Estimate, not advice</span>
-          <span>{tool.slug === 'ad-revenue-calculator' ? 'Monthly, yearly, and RPM shown' : 'Payment or total shown'}</span>
+          <span>
+            {tool.slug === 'ad-revenue-calculator'
+              ? 'Monthly, yearly, and RPM shown'
+              : tool.slug === 'auto-loan-calculator'
+              ? 'Payment, interest, and total cost'
+              : 'Payment or total shown'}
+          </span>
           <span>Example inputs</span>
           <span>Tab-only history</span>
         </div>
@@ -1859,7 +1872,16 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isFinanceTool && (
         <aside class="trust-note trust-note-finance" aria-label={`${tool.name} estimate limits`}>
-          {tool.slug === 'ad-revenue-calculator' ? (
+          {tool.slug === 'auto-loan-calculator' ? (
+            <>
+              <strong>Car payment estimate, not a lender quote</strong>
+              <p>
+                Use this to compare vehicle price, down payment, trade-in, tax, fees, rate, and term.
+                A real offer can still change with APR fees, registration, add-ons, rebates, credit approval,
+                trade-in tax rules, insurance, and negative equity.
+              </p>
+            </>
+          ) : tool.slug === 'ad-revenue-calculator' ? (
             <>
               <strong>Ad revenue estimate, not an ad account report</strong>
               <p>

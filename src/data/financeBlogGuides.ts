@@ -131,6 +131,14 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/ask-cfpb/how-do-i-qualify-for-an-advertised-0-auto-financing-en-781/',
     label: 'CFPB: Advertised 0% auto financing and cash rebate incentives',
   },
+  cfpbAutoLoanCompare: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/how-do-i-compare-auto-loan-offers-what-should-i-look-at-besides-the-monthly-payment-en-753/',
+    label: 'CFPB: How to compare auto loan offers',
+  },
+  cfpbAutoLoanTerms: {
+    href: 'https://www.consumerfinance.gov/language/cfpb-in-english/auto-loans-key-terms/',
+    label: 'CFPB: Auto loans key terms',
+  },
   sbaLoans: {
     href: 'https://www.sba.gov/funding-programs/loans',
     label: 'U.S. Small Business Administration: Loans',
@@ -393,6 +401,10 @@ function getSourceLinks(toolSlug: string) {
 
   if (toolSlug === 'cash-back-or-low-interest-calculator') {
     return [sourceLinks.cfpbAutoFinancingOffers, sourceLinks.cfpbApr];
+  }
+
+  if (toolSlug === 'auto-loan-calculator') {
+    return [sourceLinks.cfpbAutoLoanCompare, sourceLinks.cfpbAutoLoanTerms, sourceLinks.ftcAutoLease, sourceLinks.cfpbAprVsInterest];
   }
 
   if (toolSlug === 'business-loan-calculator') {
@@ -799,29 +811,31 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Payment Calculator for the same formula with a simpler layout.', 'Use Amortization Calculator to test extra monthly payments.'],
   },
   'auto-loan-calculator': {
-    summary: 'Learn how vehicle price, taxes, fees, down payment, and trade-in affect an auto loan payment.',
+    summary: 'Estimate a car payment from vehicle price, sales tax, fees, down payment, trade-in value, rate, and term.',
     purpose:
-      'The Auto Loan Calculator estimates how much may be financed after sales tax, fees, down payment, and trade-in. It is meant for comparing scenarios before shopping or negotiating.',
+      'The Auto Loan Calculator helps you test a car deal before you sit with a salesperson. It estimates the amount financed, monthly payment, total interest, and total paid from the numbers you enter.',
     enter: [
-      'Enter vehicle price before down payment and trade-in.',
-      'Enter trade-in value and down payment as dollar amounts.',
-      'Add estimated sales tax rate and fees, then enter loan rate and term.',
+      'Enter the vehicle price after negotiation, before down payment, trade-in, tax, and fees.',
+      'Enter down payment, trade-in value, estimated fees, sales tax rate, loan rate, and term.',
+      'Use the same assumptions when comparing two loan offers so the monthly payment is not tricking you.',
     ],
     example: [
-      'For a $32,000 vehicle, $4,000 down, and $3,000 trade-in, the financed amount starts below the sticker price.',
-      'Sales tax and fees are added before the fixed monthly payment is estimated.',
+      'For a $32,000 vehicle with $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years, the estimate is about $549.92 per month.',
+      'That same example finances about $27,640 and pays about $5,355.02 in interest over the full term.',
+      'A longer term can make the monthly payment easier while adding more interest, so compare total paid too.',
     ],
     read: [
-      'Amount financed is the number used in the loan payment formula.',
-      'Total interest grows when the rate or term increases.',
-      'Trade-in tax treatment can vary, so this is a planning estimate.',
+      'Amount financed is the number the loan payment formula uses after tax, fees, down payment, and trade-in.',
+      'Monthly payment is the estimated fixed payment before insurance, registration renewal, late fees, or optional add-ons.',
+      'Total interest and total paid show why the cheapest-looking monthly payment is not always the cheapest deal.',
     ],
     mistakes: [
-      'Do not forget registration, documentation, title, or lender fees.',
-      'Do not assume every state taxes a trade-in the same way.',
-      'Do not choose a longer term only because the monthly payment looks easier.',
+      'Do not forget registration, documentation, title, lender, warranty, gap, or service-contract fees.',
+      'Do not assume every state taxes a trade-in the same way, and do not ignore negative equity from an old car.',
+      'Do not choose a longer term only because the monthly payment looks easier. It can raise the total cost.',
+      'Do not compare one offer using APR and another using interest rate unless you understand which fees are included.',
     ],
-    next: ['Use Sales Tax Calculator to check tax on a purchase amount.', 'Use Loan Calculator to compare the auto loan with another fixed loan.'],
+    next: ['Use Sales Tax Calculator to check tax on a purchase amount.', 'Use Loan Calculator to compare the auto loan with another fixed loan.', 'Use Cash Back or Low Interest Calculator if a dealer offers a rebate or special financing.'],
   },
   'interest-calculator': {
     summary: 'Learn the difference between simple interest and compound interest with clear examples.',
@@ -2693,6 +2707,10 @@ function formatExample(example: (typeof financeTools)[number]['examples'][number
 }
 
 function getGuideTitle(tool: (typeof financeTools)[number]) {
+  if (tool.slug === 'auto-loan-calculator') {
+    return 'Auto Loan Calculator Guide';
+  }
+
   if (tool.slug === 'ad-revenue-calculator') {
     return 'Ad Revenue Calculator Guide';
   }
@@ -2708,6 +2726,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
 }
 
 function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summary: string) {
+  if (tool.slug === 'auto-loan-calculator') {
+    return 'Estimate a car payment from price, tax, fees, down payment, trade-in, rate, and term, with total interest and total paid checks.';
+  }
+
   if (tool.slug === 'ad-revenue-calculator') {
     return 'Estimate website ad revenue from page views, CTR, CPC, and page RPM, with a 1,000-view example and clear AdSense-style limits.';
   }
@@ -2735,6 +2757,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const sourceLinks = getSourceLinks(tool.slug);
   const isSalesTaxGuide = tool.slug === 'sales-tax-calculator';
   const isAdRevenueGuide = tool.slug === 'ad-revenue-calculator';
+  const isAutoLoanGuide = tool.slug === 'auto-loan-calculator';
 
   return {
     slug: `how-to-use-${tool.slug}`,
@@ -2743,12 +2766,22 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     title: getGuideTitle(tool),
     description: buildFinanceMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: isSalesTaxGuide
+    intro: isAutoLoanGuide
+      ? 'A car payment can look fine while the full loan is expensive. This guide shows how price, down payment, trade-in, tax, fees, rate, and term turn into the monthly payment and total interest.'
+      : isSalesTaxGuide
       ? 'Sales tax math is simple once the rate is in the right format. Enter the before-tax price, use a current local rate, then check the tax amount and final total before you trust the receipt.'
       : isAdRevenueGuide
       ? 'Before you assume 10,000 page views means steady ad income, test the click rate and CPC separately. This guide shows the simple math, the 1,000-view example, and the reasons real ad reports can move.'
       : `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
-    quickStart: isSalesTaxGuide
+    quickStart: isAutoLoanGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter the vehicle price after negotiation.',
+          'Add down payment, trade-in value, estimated fees, sales tax rate, loan rate, and term.',
+          'Calculate, then check amount financed, monthly payment, total interest, and total paid.',
+          'Compare a shorter and longer term before choosing the easier-looking payment.',
+        ]
+      : isSalesTaxGuide
       ? [
           `Open the ${tool.name}.`,
           'Enter the before-tax subtotal, such as 80 for an $80 item.',
@@ -2775,7 +2808,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         title: 'What this calculator is for',
         paragraphs: [
           detail.purpose,
-          isAdRevenueGuide
+          isAutoLoanGuide
+            ? 'Use it before shopping for financing, comparing dealer offers, testing a trade-in, or seeing how much a longer loan term really costs.'
+            : isAdRevenueGuide
             ? 'Use it when you are testing a blog post, tool page, niche site, or traffic idea and want a rough number before opening a spreadsheet.'
             : `Good fit examples: ${tool.useCases.slice(0, 2).join(' ')}`,
         ],
@@ -2783,7 +2818,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       {
         title: 'What to enter',
         paragraphs: [
-          isSalesTaxGuide
+          isAutoLoanGuide
+            ? 'Auto-loan estimates are easy to bend by leaving out fees or focusing only on the monthly payment. Enter the car price, tax, fees, down payment, trade-in, rate, and term as one complete deal.'
+            : isSalesTaxGuide
             ? 'Sales-tax mistakes usually come from using the wrong rate format or a rate that does not match the place, product, or checkout rule.'
             : isAdRevenueGuide
             ? 'Ad revenue estimates are easy to break with one bad input. Page views are counts, CTR is a percent, and CPC is a dollar amount per click.'
@@ -2795,7 +2832,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         title: 'Example walkthrough',
         paragraphs: [
           primaryExample
-            ? isAdRevenueGuide
+            ? isAutoLoanGuide
+              ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
+              : isAdRevenueGuide
               ? 'Try the starter example: 1,000 daily page views, 1.5% page CTR, and $0.35 average CPC. That gives about 15 clicks per day, $5.25 per day, about $159.80 per average month, and a $5.25 page RPM.'
               : `Try the calculator example: ${primaryExampleText}. The example result is ${primaryExample.result}.`
             : 'Use one of the examples on the tool page to see a complete estimate before entering your own values.',
@@ -2806,7 +2845,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         title: 'Formula and steps',
         paragraphs: [
           getFormulaAnswer(tool.slug),
-          isSalesTaxGuide
+          isAutoLoanGuide
+            ? 'The formula is not the hard part. The hard part is using the same full deal each time: tax, fees, down payment, trade-in, rate, and term. That is why the calculator shows amount financed and total interest beside the monthly payment.'
+            : isSalesTaxGuide
             ? 'If the estimate looks different from a receipt, check whether the store rounded by item, rounded the whole basket, used a different taxable subtotal, or applied a different local rule.'
             : isAdRevenueGuide
             ? 'The formula is simple on purpose: page views times CTR gives estimated clicks, clicks times CPC gives daily revenue, and daily revenue divided by page views times 1,000 gives page RPM.'
@@ -2816,7 +2857,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       {
         title: 'How to read the answer',
         paragraphs: [
-          isSalesTaxGuide
+          isAutoLoanGuide
+            ? 'Start with the monthly payment, then immediately check amount financed, total interest, and total paid. That stops a long loan from looking better just because the monthly number is smaller.'
+            : isSalesTaxGuide
             ? 'Start with the tax amount, then check the final total. The final total should equal before-tax price plus sales tax.'
             : isAdRevenueGuide
             ? 'Start with monthly revenue, because that is usually how site owners compare costs. Then check estimated clicks and page RPM so the number has context.'
@@ -2827,7 +2870,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       {
         title: 'Common mistakes to avoid',
         paragraphs: [
-          isSalesTaxGuide
+          isAutoLoanGuide
+            ? 'Most bad car-payment estimates come from leaving out fees, using a rate from a different offer, forgetting negative equity, or choosing the longest term before checking total interest.'
+            : isSalesTaxGuide
             ? 'Most bad sales-tax estimates come from typing the percent as a decimal, using an old local rate, or taxing the wrong subtotal.'
             : isAdRevenueGuide
             ? 'Most bad ad revenue estimates come from typing CTR as a decimal, guessing a CPC that is too high, or forgetting that real ad reports can remove invalid traffic and change after review.'
@@ -2838,14 +2883,22 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       {
         title: 'What to try next',
         paragraphs: [
-          isSalesTaxGuide
+          isAutoLoanGuide
+            ? 'A related tool can help when the car deal has one moving piece you want to isolate, such as sales tax, a plain loan comparison, or a dealer incentive.'
+            : isSalesTaxGuide
             ? 'A related tool helps when the sales tax is only one part of the price question.'
             : isAdRevenueGuide
             ? 'A related tool can help when ad revenue is only one part of the plan. Compare the estimate with costs, traffic campaigns, and profit goals before you count it as income.'
             : 'A related money tool can help check the same question from another angle before you rely on one result.',
         ],
         bullets: detail.next,
-        links: isAdRevenueGuide
+        links: isAutoLoanGuide
+          ? [
+              { href: '/tools/auto-loan-calculator/', label: 'Open the Auto Loan Calculator' },
+              { href: '/tools/sales-tax-calculator/', label: 'Check vehicle sales tax math' },
+              { href: '/tools/cash-back-or-low-interest-calculator/', label: 'Compare rebate and low-rate offers' },
+            ]
+          : isAdRevenueGuide
           ? [
               { href: '/tools/ad-revenue-calculator/', label: 'Open the Ad Revenue Calculator' },
               { href: '/tools/margin-calculator/', label: 'Compare ad revenue with costs' },
@@ -2856,14 +2909,18 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       {
         title: 'Sources and estimate notes',
         paragraphs: [
-          isSalesTaxGuide
+          isAutoLoanGuide
+            ? 'CFPB and FTC sources both push the same practical warning: compare the total cost, not just the monthly payment. They also explain APR, loan terms, add-ons, trade-ins, and shopping for financing before the dealer visit.'
+            : isSalesTaxGuide
             ? 'The IRS source explains state and local sales-tax deduction context. The Tax Foundation source gives current state and local rate context for 2026.'
             : isAdRevenueGuide
             ? 'Google AdSense Help explains page CTR, page RPM, how AdSense works, revenue share, and invalid traffic. Those sources are useful because ad revenue is not just one clean formula.'
             : sourceLinks.length > 0
             ? 'This guide links to public financial, consumer, statistical, or tax references where they are useful for understanding the calculator context.'
             : 'This guide explains the calculator inputs, formula context, and estimate limits without treating the result as a final quote or professional recommendation.',
-          isSalesTaxGuide
+          isAutoLoanGuide
+            ? 'This calculator still stays simple. It does not approve credit, price insurance, know your exact registration fees, decide whether an add-on is worth it, or replace a written lender quote.'
+            : isSalesTaxGuide
             ? 'Those sources help with context, but this calculator still does not replace a state rate lookup, an official filing system, or tax advice.'
             : isAdRevenueGuide
             ? 'The calculator still stays simple. It does not read your ad account, approve earnings, predict fill rate, or know which clicks may later be filtered.'
@@ -2874,6 +2931,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     ],
     sidecarText: isSalesTaxGuide
       ? `Keep the ${tool.name} open beside this guide. Try $80 at 7.5%, then replace the price and rate with your receipt or checkout numbers.`
+      : isAutoLoanGuide
+      ? 'Keep the Auto Loan Calculator open beside this guide. Try the $32,000 car example first, then change only the term so you can see why a lower payment can still cost more.'
       : isAdRevenueGuide
       ? 'Keep the Ad Revenue Calculator open beside this guide. Try 1,000 views, 1.5% CTR, and $0.35 CPC first, then test a lower CTR so the plan does not feel magically better than it is.'
       : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,
