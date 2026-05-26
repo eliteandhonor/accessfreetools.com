@@ -276,7 +276,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Area Calculator',
     label: 'Area calculator guide',
     summary:
-      'Learn how to calculate area for rectangles, triangles, circles, trapezoids, and parallelograms.',
+      'Learn how to calculate flat-shape area, keep square units straight, and avoid radius, height, and odd-shape mistakes.',
   },
   {
     slug: 'how-to-use-distance-calculator',

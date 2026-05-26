@@ -165,3 +165,13 @@
 - Fresh Playwright browser proof confirms the public generic health instructions, placeholder `Target bpm range`, Mifflin-St Jeor source mismatch, and rough `showing estimate exercise` alt phrasing are absent.
 - Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Target Heart Rate pages; page scores are 100/100 and 100/100, post-edit DataForSEO paid evidence passed.
 - Deployed main commit `d6c7637` through Hostinger Node build `019e62bb-26fd-714d-885b-f727eba99410`; live Ask, production sitemap, full GSC sitemap submission from the OAuth-enabled worktree, live DOM proof, live browser screenshots, and post-deploy DataForSEO page evidence all passed.
+
+## 2026-05-26 - Area Tool And Guide Sprint Cleared For Deploy
+
+- Reviewed `/tools/area-calculator/` and `/blog/how-to-use-area-calculator/` as the next high-impression GSC page pair using current OpenStax, NIST, Google Search Central, Inch Calculator competitor, GSC, and DataForSEO evidence.
+- Updated the Area tool with shape-specific metadata, rectangle/triangle/circle/trapezoid examples, square-unit wording, radius/diameter and base/height FAQs, odd-shape splitting guidance, and specific Area instructions.
+- Rewrote the matching guide around choosing the right flat shape, keeping square units straight, checking a 12 ft by 8 ft room, checking an 8/14/5 trapezoid bed, and using source links without generic SEO filler.
+- Repaired Area tool and guide image alt/caption source data so the artwork describes the visible glowing rectangle and floating shape pieces instead of generic mascot/category text.
+- Fresh Playwright browser proof confirms the public internal-review wording is absent and the new 96 ft^2, 55 ft^2, square-unit, OpenStax, NIST, and shape-specific guidance renders.
+- Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Area pages; page scores are 98/100 and 98/100, post-edit DataForSEO paid evidence passed, and `npm run check` passed.
+- Commit, deploy, live proof, sitemap submission, and post-deploy DataForSEO are the remaining gates before the Area sprint can be called live.

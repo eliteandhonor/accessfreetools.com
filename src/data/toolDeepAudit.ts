@@ -5218,20 +5218,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'area-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [openStaxGeometry, nistSi],
+    sources: [openStaxGeometry, nistSi, googleHelpfulContent],
     findings: [
-      'The area page explains shape choice and unit consistency, which are the two main ways users get area wrong.',
-      'Examples cover common shapes and keep results tied to square units.',
-      'Related tools point to Square Footage, Circle, and Surface Area when the job is more specific.',
+      'GSC and DataForSEO selected Area Calculator as the next high-impression tool/guide pair after Target Heart Rate.',
+      'The page now explains shape choice, square units, radius versus diameter, straight height, and odd-shape splitting in plain wording.',
+      'Examples cover rectangle, triangle, circle, and trapezoid results while keeping answers tied to square units.',
     ],
     improvements: [
-      'Manually checked area formula wording, unit labels, examples, FAQ clarity, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Updated area metadata, examples, FAQs, guide sections, source links, related links, tool instructions, image alt/caption text, and modified dates with OpenStax, NIST, Google, competitor, and DataForSEO evidence.',
     ],
     followUps: [
-      'Add irregular-area guidance later if users ask for map or floor-plan measurement help.',
+      'Add map-style irregular polygon input only if users ask for coordinate or floor-plan measurement help.',
     ],
   },
   {

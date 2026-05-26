@@ -2221,23 +2221,24 @@ const baseTools: ToolDefinition[] = [
     slug: 'area-calculator',
     name: 'Area Calculator',
     category: 'calculators',
-    summary: 'Calculate area for rectangles, triangles, circles, trapezoids, and parallelograms.',
+    summary: 'Calculate flat-shape area for rectangles, triangles, circles, trapezoids, and parallelograms.',
     description:
-      'Use this free area calculator to find square-unit area for rectangles, triangles, circles, trapezoids, and parallelograms with formula steps.',
+      'Choose a flat shape, enter the needed measurements, and get the square-unit area with formula steps.',
     icon: 'calculator-area',
-    seoTitle: 'Area Calculator | Rectangle, Triangle, Circle',
+    seoTitle: 'Area Calculator | Rectangle, Triangle, Circle Area',
     seoDescription:
-      'Calculate area for rectangles, triangles, circles, trapezoids, and parallelograms with square units, examples, and steps.',
+      'Calculate rectangle, triangle, circle, trapezoid, and parallelogram area with square units, examples, and formula steps.',
     useCases: [
-      'Find area for common 2D geometry shapes.',
-      'Compare rectangle, triangle, circle, trapezoid, and parallelogram measurements.',
-      'Check square-unit answers for homework or planning examples.',
-      'Copy area results and formula steps into notes.',
+      'Find the area of a room, drawing, garden bed, or school geometry shape.',
+      'Compare rectangle, triangle, circle, trapezoid, and parallelogram area without changing tools.',
+      'Check square-unit answers before using a result in notes, homework, or a project list.',
+      'See the formula step so you can spot a wrong unit, radius, base, or height.',
     ],
     examples: [
-      { label: 'Rectangle', expression: '12 x 8', result: '96 square units' },
-      { label: 'Triangle', expression: 'base 10, height 6', result: '30 square units' },
-      { label: 'Circle', expression: 'radius 5', result: '78.5398163397 square units' },
+      { label: 'Rectangle room', expression: '12 ft x 8 ft', result: '96 ft^2' },
+      { label: 'Triangle panel', expression: 'base 10 in, height 6 in', result: '30 in^2' },
+      { label: 'Circle mat', expression: 'radius 5 ft', result: '78.5398163397 ft^2' },
+      { label: 'Trapezoid bed', expression: 'bases 8 ft and 14 ft, height 5 ft', result: '55 ft^2' },
     ],
     faq: [
       {
@@ -2246,14 +2247,19 @@ const baseTools: ToolDefinition[] = [
           'The Area Calculator supports rectangle, triangle, circle, trapezoid, and parallelogram modes.',
       },
       {
-        question: 'What formula does triangle area use?',
+        question: 'Is area the same as perimeter?',
         answer:
-          'Triangle area uses A = base x height / 2. If you know three sides instead of base and height, use the Triangle Calculator.',
+          'No. Area measures the flat space inside a shape, such as 96 ft^2. Perimeter measures the distance around the outside edge.',
       },
       {
-        question: 'What formula does circle area use?',
+        question: 'What formula does triangle area use?',
         answer:
-          'Circle area uses A = pi r^2, where r is the radius. Enter the radius in the same length unit you want squared.',
+          'Triangle area uses A = base x height / 2. Use the height that drops straight to the base, not a slanted side.',
+      },
+      {
+        question: 'Should I enter circle radius or diameter?',
+        answer:
+          'Enter radius. If you measured diameter, divide it by 2 first. A 10 ft diameter circle has a 5 ft radius.',
       },
       {
         question: 'What units should I enter?',
@@ -2261,9 +2267,14 @@ const baseTools: ToolDefinition[] = [
           'Use the same length unit for every measurement. The result is reported in square units, such as cm^2 or ft^2.',
       },
       {
-        question: 'Can this calculate volume?',
+        question: 'How do I handle an odd-shaped area?',
         answer:
-          'No. This calculator is for flat 2D area. Use the Volume Calculator for cubic volume.',
+          'Split it into simple rectangles, triangles, circles, trapezoids, or parallelograms, calculate each part, then add the areas together.',
+      },
+      {
+        question: 'When should I use another tool?',
+        answer:
+          'Use Square Footage Calculator for room-style flooring jobs, Circle Calculator for all circle measurements, and Surface Area Calculator or Volume Calculator for 3D solids.',
       },
       {
         question: 'Is my area history private?',
@@ -2271,7 +2282,7 @@ const baseTools: ToolDefinition[] = [
           'Yes. Recent area answers stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['triangle-calculator', 'circle-calculator', 'volume-calculator'],
+    relatedSlugs: ['square-footage-calculator', 'circle-calculator', 'surface-area-calculator'],
   },
   {
     slug: 'distance-calculator',

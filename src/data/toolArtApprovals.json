@@ -180,6 +180,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/area-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/area-calculator-guide.webp",
+    "alt": "Smoke mascot pointing at small floating shape pieces above a glowing circle-like area for the Area Calculator guide.",
+    "caption": "The guide artwork gives a visual cue for breaking flat areas into simple pieces before checking the calculator's shape formulas.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -188,6 +190,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/area-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/area-calculator-tool.webp",
+    "alt": "Smoke mascot standing on a glowing rounded rectangle with one hand raised for the Area Calculator.",
+    "caption": "The tool artwork is a simple flat-area cue; the calculator fields handle the exact rectangle, triangle, circle, trapezoid, or parallelogram formula.",
     "status": "approved",
     "qaStatus": "approved"
   },

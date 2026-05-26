@@ -7,37 +7,65 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="area-calculator"
   label="Area calculator guide"
   title="How to use the Area Calculator"
-  description="Learn how to calculate area for rectangles, triangles, circles, trapezoids, and parallelograms."
+  description="Learn how to calculate rectangle, triangle, circle, trapezoid, and parallelogram area with square units and examples."
   path="/blog/how-to-use-area-calculator/"
-  intro="The Area Calculator finds square-unit area for common flat shapes and shows the formula for each one."
+  intro="Area is the space inside a flat shape. Pick the shape that matches your drawing, room, or panel, then keep every length in the same unit."
   quickStart={[
     'Choose rectangle, triangle, circle, trapezoid, or parallelogram.',
-    'Enter the measurements requested for that shape.',
-    'Add a unit label if useful.',
-    'Press Calculate area and review the formula steps.',
+    'Enter the measurements for that exact shape, such as length and width or radius.',
+    'Use one unit for every length, like feet, inches, meters, or centimeters.',
+    'Press Calculate area, then check the formula step before copying the result.',
   ]}
   sections={[
     {
       title: 'Choosing the right shape mode',
       paragraphs: [
-        'Use rectangle mode for length times width, triangle mode for base and height, circle mode for radius, trapezoid mode for two bases and height, and parallelogram mode for base and height.',
-        'Each shape mode keeps the fields focused so you do not have to ignore irrelevant inputs.',
+        'Use rectangle mode for length times width. Use triangle mode when you know the base and the straight height. Use circle mode when you know the radius.',
+        'Use trapezoid mode when two sides are parallel and you know both bases plus the height. Use parallelogram mode when you know the base and straight height.',
       ],
     },
     {
       title: 'Square units',
       paragraphs: [
-        'Area is reported in square units because it measures a flat surface. If the measurements are in meters, the area is in m^2.',
-        'Make sure every measurement uses the same unit before calculating.',
+        'Area is reported in square units because it measures a flat surface. A 12 ft by 8 ft rectangle is 96 ft^2, not 96 ft.',
+        'Do not mix feet and inches, or meters and centimeters, in the same calculation unless you convert first. The calculator does not guess which unit you meant.',
+      ],
+    },
+    {
+      title: 'Example: a room and a trapezoid bed',
+      paragraphs: [
+        'For a simple room, choose rectangle and enter 12 ft for length and 8 ft for width. The result is 96 ft^2 because 12 x 8 = 96.',
+        'For a trapezoid garden bed with bases of 8 ft and 14 ft and a height of 5 ft, the result is 55 ft^2 because (8 + 14) x 5 / 2 = 55.',
+      ],
+    },
+    {
+      title: 'Mistakes to check before trusting the answer',
+      paragraphs: [
+        'For triangles and parallelograms, height means the straight up-and-down distance from the base, not the slanted side.',
+        'For circles, enter radius. If you measured across the whole circle, divide that diameter by 2 first.',
+      ],
+      bullets: [
+        'For odd floor plans, split the shape into smaller rectangles, triangles, or trapezoids and add the areas.',
+        'For paint, flooring, tile, or material orders, use the project-specific calculator when waste, coverage, or product labels matter.',
       ],
     },
     {
       title: 'When to use another tool',
       paragraphs: [
         'Use the Circle Calculator if you want radius, diameter, circumference, and area together.',
-        'Use the Volume Calculator or Surface Area Calculator for three-dimensional solid shapes.',
+        'Use the Square Footage Calculator for room-style flooring jobs, or the Volume Calculator and Surface Area Calculator for three-dimensional solid shapes.',
+      ],
+    },
+    {
+      title: 'Sources used for this guide',
+      paragraphs: [
+        'The calculator uses standard flat-shape geometry formulas and square-unit labels. These sources are useful if you want to compare the formula list or unit wording.',
+      ],
+      links: [
+        { href: 'https://openstax.org/books/prealgebra-2e/pages/c-geometric-formulas', label: 'OpenStax Prealgebra: Geometric formulas' },
+        { href: 'https://www.nist.gov/publications/guide-use-international-system-units-si', label: 'NIST SP 811: Guide for the Use of the International System of Units' },
       ],
     },
   ]}
-  sidecarText="Use the Area Calculator while you follow the guide."
+  sidecarText="Open the Area Calculator and test the same shape examples while you read."
 />
