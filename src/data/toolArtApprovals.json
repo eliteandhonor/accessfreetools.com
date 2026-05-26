@@ -1788,6 +1788,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/gdp-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/gdp-calculator-guide.webp",
+    "alt": "Smoke mascot pointing to GDP spending blocks for consumption, investment, government spending, exports minus imports, and GDP per person.",
+    "caption": "GDP Calculator guide artwork shows the expenditure approach as spending blocks flowing into a city output result, with exports minus imports and population scale called out visually.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -1796,6 +1798,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/gdp-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/gdp-calculator-tool.webp",
+    "alt": "Smoke mascot holding a calculator beside GDP inputs for consumption, investment, government spending, exports, imports, and population.",
+    "caption": "GDP Calculator artwork matches the tool inputs: consumption, investment, government spending, exports, imports, and optional population for GDP per person.",
     "status": "approved",
     "qaStatus": "approved"
   },

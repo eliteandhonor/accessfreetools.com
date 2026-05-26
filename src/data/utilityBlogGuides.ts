@@ -365,6 +365,10 @@ const sourceLinks = {
     href: 'https://www.bea.gov/help/glossary/gross-domestic-product-gdp',
     label: 'BEA: Gross domestic product glossary',
   },
+  beaGdpExpenditure: {
+    href: 'https://www.bea.gov/news/blog/2025-06-03/expenditures-approach-measuring-gdp',
+    label: 'BEA: Expenditures approach to measuring GDP',
+  },
   nistConversionFactors: {
     href: 'https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8',
     label: 'NIST SP 811: Conversion factors listed alphabetically',
@@ -2879,9 +2883,17 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'gdp-calculator': {
-    summary: 'Learn how the expenditure approach adds spending categories into GDP.',
+    summary: 'Learn how the expenditure approach adds consumption, investment, government spending, and net exports into GDP.',
     purpose:
-      'The GDP Calculator is a classroom-style way to understand gross domestic product. It uses consumption, investment, government spending, exports, and imports to show how the expenditure identity works.',
+      'The GDP Calculator is a classroom-style way to understand gross domestic product. It uses consumption, investment, government spending, exports, and imports to show how the expenditure identity works without pretending to be an official data release.',
+    inputMatch:
+      'consumption, investment, government spending, exports, imports, and optional population, using the same scale',
+    logicNote:
+      'A good quick check is the net export line. If imports are bigger than exports, net exports are negative and pull the GDP estimate down.',
+    readIntro:
+      'Read the estimated GDP first, then check net exports and GDP per person. Those smaller lines explain whether trade or population scale changed the answer.',
+    mistakeIntro:
+      'Most GDP mistakes come from mixing scales or treating a learning estimate like official data.',
     enter: [
       'Enter personal consumption, private investment, and government spending in the same money unit.',
       'Enter exports and imports separately so the calculator can find net exports.',
@@ -2898,7 +2910,23 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not add imports; imports are subtracted in the expenditure approach.',
       'Do not treat this as an official economic release or forecast.',
     ],
-    sources: [sourceLinks.beaGdp],
+    extraSections: [
+      {
+        title: 'Official data limits',
+        paragraphs: [
+          'This page does not fetch live national accounts. Official GDP releases can use source data, seasonal adjustment, annualized rates, inflation adjustment, and later revisions.',
+          'Use this calculator when you already have the inputs and want to understand the math. Use BEA or another official statistics office when you need the real published number.',
+        ],
+      },
+      {
+        title: 'Why imports lower the result',
+        paragraphs: [
+          'Imports are subtracted because some imported goods can already be included inside consumption, investment, or government spending. The subtraction keeps the GDP estimate closer to domestic production.',
+          'That does not mean imports are bad. It just means the expenditure formula is trying not to count foreign-made output as local output.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.beaGdp, sourceLinks.beaGdpExpenditure, sourceLinks.googleHelpfulContent],
   },
   'horsepower-calculator': {
     summary: 'Learn how horsepower, watts, kilowatts, and metric horsepower convert.',

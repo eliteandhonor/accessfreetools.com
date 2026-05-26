@@ -3824,11 +3824,62 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate gross domestic product from consumption, investment, government spending, exports, and imports.',
     description:
       'Use this free GDP calculator to learn the expenditure approach: consumption plus investment plus government spending plus net exports.',
+    seoTitle: 'GDP Calculator | Expenditure Approach And Per Person',
+    seoDescription:
+      'Estimate GDP with C + I + G + exports minus imports, then check GDP per person with clear scale warnings and official-data limits.',
     icon: 'calculator-gdp',
+    aliases: ['Gross Domestic Product Calculator', 'GDP Per Capita Calculator', 'Expenditure Approach Calculator'],
     formula:
       'The calculator uses the expenditure approach: GDP = C + I + G + (exports - imports). If population is entered in the same scale, it divides GDP by population for GDP per person.',
     limit:
       'Use consistent money units. This is a learning estimate, not an official national account, forecast, or economic policy model.',
+    faqLanguage: {
+      expectedInputs:
+        'consumption, investment, government spending, exports, imports, and optional population with matching money and population scales',
+      inputFallback:
+        'Enter consumption, investment, government spending, exports, and imports in the same money scale. Add population only if you want GDP per person, and keep that population in the same scale too.',
+      doubleCheck:
+        'Also check that exports and imports are separate, imports are subtracted, money values use the same scale, and population matches that scale.',
+    },
+    inputExplanations: [
+      { term: 'Consumption', meaning: 'household spending on final goods and services in the scale you picked.' },
+      { term: 'Investment', meaning: 'private investment spending, not your personal stock portfolio return.' },
+      { term: 'Government spending', meaning: 'government purchases in the same money scale as the other GDP fields.' },
+      { term: 'Exports and imports', meaning: 'exports are added, imports are subtracted to get net exports.' },
+      { term: 'Population', meaning: 'optional. Use 0.34 if your money fields are in billions and population is 340 million.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How should I read the GDP Calculator answer?',
+        answer:
+          'Start with estimated GDP, then check net exports and GDP per person. Net exports show whether imports pulled the total down, and GDP per person only makes sense when the population scale matches the money scale.',
+      },
+      {
+        question: 'Is this official GDP data?',
+        answer:
+          'No. This calculator does not fetch BEA releases, country tables, revision dates, annualized rates, real GDP, chained-dollar series, or currency conversions. It only helps you understand the formula with numbers you enter.',
+      },
+      {
+        question: 'Why are imports subtracted from GDP?',
+        answer:
+          'Imports can already sit inside consumption, investment, or government spending. Subtracting imports helps keep the final GDP number focused on domestic production instead of counting foreign-made goods as local output.',
+      },
+      {
+        question: 'What does GDP per person mean here?',
+        answer:
+          'GDP per person is total GDP divided by the population scale you entered. It is not the same as wages, household income, or how well people are doing day to day.',
+      },
+      {
+        question: 'Should I enter dollars, millions, or billions?',
+        answer:
+          'Any scale can work if every field uses the same scale. If consumption is entered in billions, investment, government spending, exports, imports, and population should use billions too.',
+      },
+      {
+        question: 'What does this GDP calculator leave out?',
+        answer:
+          'It does not measure the income approach, production approach, inflation adjustment, underground activity, environmental costs, inequality, or later official revisions. Use it for learning and quick examples, not policy decisions.',
+      },
+    ],
     useCases: [
       'Practice GDP homework examples with the expenditure formula.',
       'See how imports reduce net exports in the GDP identity.',
