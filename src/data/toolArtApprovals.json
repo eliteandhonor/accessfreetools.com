@@ -3892,6 +3892,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/sales-tax-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/sales-tax-calculator-guide.webp",
+    "alt": "Smoke mascot pointing at a shopping box, price tag, coin stack, receipt, and calculator for the Sales Tax Calculator guide.",
+    "caption": "The guide artwork matches the page's job: starting with a before-tax price, adding the sales tax amount, and checking the final checkout total.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -3900,6 +3902,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/sales-tax-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/sales-tax-calculator-tool.webp",
+    "alt": "Smoke mascot holding a receipt beside a price block, tax tag, shopping basket, and calculator for the Sales Tax Calculator.",
+    "caption": "The tool artwork shows the checkout math: item price plus tax rate becomes the tax amount and final basket total.",
     "status": "approved",
     "qaStatus": "approved"
   },

@@ -67,6 +67,10 @@ const sourceLinks = {
     href: 'https://www.irs.gov/salestax',
     label: 'IRS: Sales Tax Deduction Calculator and state/local sales tax context',
   },
+  taxFoundationSalesTaxRates: {
+    href: 'https://taxfoundation.org/data/all/state/sales-tax-rates/',
+    label: 'Tax Foundation: 2026 state and local sales tax rates',
+  },
   irsRevenueProcedure: {
     href: 'https://www.irs.gov/pub/irs-drop/rp-25-32.pdf',
     label: 'IRS Revenue Procedure 2025-32',
@@ -516,7 +520,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'sales-tax-calculator') {
-    return [sourceLinks.irsSalesTax];
+    return [sourceLinks.irsSalesTax, sourceLinks.taxFoundationSalesTaxRates];
   }
 
   return [];
@@ -1076,29 +1080,31 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Loan Calculator once you know the rate.', 'Use Auto Loan Calculator if the quote includes vehicle tax and fees.'],
   },
   'sales-tax-calculator': {
-    summary: 'Learn how to calculate sales tax amount and final total from a subtotal and tax rate.',
+    summary: 'Learn how to calculate sales tax amount and final total from a before-tax price and local rate.',
     purpose:
-      'The Sales Tax Calculator is for quick receipt and checkout math. You enter the subtotal and tax rate, and it shows the tax amount and total.',
+      'The Sales Tax Calculator is for quick receipt and checkout math. It does not look up rates. You bring the current local rate, then the calculator shows the tax amount and final total.',
     enter: [
-      'Enter the price before sales tax.',
-      'Enter the tax rate as a percent, such as 7.5 for 7.5%.',
-      'Use the rate from your local checkout, receipt, or tax table.',
+      'Enter the before-tax price. If a discount already applies, use the discounted taxable price.',
+      'Enter the sales tax rate as a percent, such as 7.5 for 7.5%. Do not type 0.075.',
+      'Use a current combined state and local rate from checkout, a state tax page, or a trusted tax table.',
     ],
     example: [
       '$80 at 7.5% gives $6 tax because 80 x 0.075 equals 6.',
       'The total is $86 because subtotal plus tax equals final cost.',
+      'A $1,200 item at 6.25% adds $75 tax, so the final total is $1,275 before any shipping or extra fees.',
     ],
     read: [
       'Tax amount is the added sales tax.',
       'Total is the final amount after tax.',
-      'A manual rate keeps the tool fast but means you must supply the correct local rate.',
+      'A manual rate keeps the tool fast, but the answer is only as good as the local rate and taxable subtotal you enter.',
     ],
     mistakes: [
       'Do not use the calculator as a local rate lookup.',
       'Do not forget exemptions, shipping rules, marketplace rules, or tax holidays.',
       'Do not enter 0.075 when the field asks for 7.5%.',
+      'Do not use one purchase estimate as an official sales-tax filing or federal tax deduction answer.',
     ],
-    next: ['Use Percentage Calculator for discount-before-tax math.', 'Use Auto Loan Calculator when vehicle price, tax, fees, and financing all matter.'],
+    next: ['Use Percent Off Calculator before tax when a sale price is involved.', 'Use Percentage Calculator to check rate math.', 'Use Auto Loan Calculator when vehicle price, tax, fees, and financing all matter.'],
   },
   'currency-calculator': {
     summary: 'Learn how to convert currency with a manual exchange rate, optional fee, and clear conversion steps.',
@@ -2665,6 +2671,10 @@ function formatExample(example: (typeof financeTools)[number]['examples'][number
 }
 
 function getGuideTitle(tool: (typeof financeTools)[number]) {
+  if (tool.slug === 'sales-tax-calculator') {
+    return 'Sales Tax Calculator Guide';
+  }
+
   const standardTitle = `How to use the ${tool.name}`;
   const pageTitle = `${standardTitle} | Access Free Tools`;
 
@@ -2693,6 +2703,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const primaryExample = tool.examples[0];
   const primaryExampleText = formatExample(primaryExample);
   const sourceLinks = getSourceLinks(tool.slug);
+  const isSalesTaxGuide = tool.slug === 'sales-tax-calculator';
 
   return {
     slug: `how-to-use-${tool.slug}`,
@@ -2701,13 +2712,23 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     title: getGuideTitle(tool),
     description: buildFinanceMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
-    quickStart: [
-      `Open the ${tool.name}.`,
-      detail.enter[0],
-      `Use the first example, "${primaryExampleText}", if you want to see a filled-out estimate before entering your own values.`,
-      'Calculate, read the formula line, then copy the result only after the amounts, percentages, time periods, or assumptions look right.',
-    ],
+    intro: isSalesTaxGuide
+      ? 'Sales tax math is simple once the rate is in the right format. Enter the before-tax price, use a current local rate, then check the tax amount and final total before you trust the receipt.'
+      : `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
+    quickStart: isSalesTaxGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter the before-tax subtotal, such as 80 for an $80 item.',
+          'Enter the local sales tax rate as 7.5 for 7.5%, not 0.075.',
+          'Calculate, then check the tax amount and final total.',
+          'Before copying the answer, check whether discounts, shipping, exemptions, or a tax holiday change the taxable amount.',
+        ]
+      : [
+          `Open the ${tool.name}.`,
+          detail.enter[0],
+          `Use the first example, "${primaryExampleText}", if you want to see a filled-out estimate before entering your own values.`,
+          'Calculate, read the formula line, then copy the result only after the amounts, percentages, time periods, or assumptions look right.',
+        ],
     sections: [
       {
         title: 'What this calculator is for',
@@ -2719,7 +2740,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       {
         title: 'What to enter',
         paragraphs: [
-          'Finance estimates are sensitive to small input changes. Check whether a field expects a monthly amount, annual amount, dollar value, or percent before calculating.',
+          isSalesTaxGuide
+            ? 'Sales-tax mistakes usually come from using the wrong rate format or a rate that does not match the place, product, or checkout rule.'
+            : 'Finance estimates are sensitive to small input changes. Check whether a field expects a monthly amount, annual amount, dollar value, or percent before calculating.',
         ],
         bullets: detail.enter,
       },
@@ -2736,42 +2759,56 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         title: 'Formula and steps',
         paragraphs: [
           getFormulaAnswer(tool.slug),
-          'If the estimate looks surprising, check the formula and inputs before using the answer in a budget, comparison, or planning note.',
+          isSalesTaxGuide
+            ? 'If the estimate looks different from a receipt, check whether the store rounded by item, rounded the whole basket, used a different taxable subtotal, or applied a different local rule.'
+            : 'If the estimate looks surprising, check the formula and inputs before using the answer in a budget, comparison, or planning note.',
         ],
       },
       {
         title: 'How to read the answer',
         paragraphs: [
-          'Start with the headline result. Then read the supporting lines to see what made the number larger or smaller, such as rates, time periods, costs, taxes, fees, discounts, or contributions.',
+          isSalesTaxGuide
+            ? 'Start with the tax amount, then check the final total. The final total should equal before-tax price plus sales tax.'
+            : 'Start with the headline result. Then read the supporting lines to see what made the number larger or smaller, such as rates, time periods, costs, taxes, fees, discounts, or contributions.',
         ],
         bullets: detail.read,
       },
       {
         title: 'Common mistakes to avoid',
         paragraphs: [
-          'Most bad finance estimates come from mixing rates, terms, monthly amounts, and annual amounts. The other common mistake is using a planning estimate as if it were a final quote.',
+          isSalesTaxGuide
+            ? 'Most bad sales-tax estimates come from typing the percent as a decimal, using an old local rate, or taxing the wrong subtotal.'
+            : 'Most bad finance estimates come from mixing rates, terms, monthly amounts, and annual amounts. The other common mistake is using a planning estimate as if it were a final quote.',
         ],
         bullets: detail.mistakes,
       },
       {
         title: 'What to try next',
         paragraphs: [
-          'A related money tool can help check the same question from another angle before you rely on one result.',
+          isSalesTaxGuide
+            ? 'A related tool helps when the sales tax is only one part of the price question.'
+            : 'A related money tool can help check the same question from another angle before you rely on one result.',
         ],
         bullets: detail.next,
       },
       {
         title: 'Sources and estimate notes',
         paragraphs: [
-          sourceLinks.length > 0
+          isSalesTaxGuide
+            ? 'The IRS source explains state and local sales-tax deduction context. The Tax Foundation source gives current state and local rate context for 2026.'
+            : sourceLinks.length > 0
             ? 'This guide links to public financial, consumer, statistical, or tax references where they are useful for understanding the calculator context.'
             : 'This guide explains the calculator inputs, formula context, and estimate limits without treating the result as a final quote or professional recommendation.',
-          'Source links improve transparency, but they do not turn a quick calculator into professional advice or a final loan, tax, payroll, or investment answer.',
+          isSalesTaxGuide
+            ? 'Those sources help with context, but this calculator still does not replace a state rate lookup, an official filing system, or tax advice.'
+            : 'Source links improve transparency, but they do not turn a quick calculator into professional advice or a final loan, tax, payroll, or investment answer.',
         ],
         links: sourceLinks,
       },
     ],
-    sidecarText: `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,
+    sidecarText: isSalesTaxGuide
+      ? `Keep the ${tool.name} open beside this guide. Try $80 at 7.5%, then replace the price and rate with your receipt or checkout numbers.`
+      : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,
   };
 });
 

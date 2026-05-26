@@ -1478,26 +1478,61 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'sales-tax-calculator',
     name: 'Sales Tax Calculator',
-    summary: 'Calculate sales tax amount and total from subtotal and tax rate.',
+    summary: 'Find sales tax and final total from a subtotal and local rate.',
     description:
-      'Use this free sales tax calculator to estimate tax amount and final total from a subtotal and local sales tax rate.',
+      'Enter the before-tax price and a local sales tax rate to estimate the tax amount, final total, and percent math behind the receipt.',
+    seoTitle: 'Sales Tax Calculator | Tax Amount And Total',
+    seoDescription:
+      'Calculate sales tax amount and final total from a before-tax price and local tax rate, with receipt checks, rounding notes, and local-rate limits.',
     icon: 'calculator-sales-tax',
+    aliases: ['tax calculator', 'sales tax rate calculator', 'receipt tax calculator', 'checkout tax calculator'],
     formula:
-      'The calculator multiplies subtotal by the sales tax rate, then adds the tax amount to the subtotal for the final total.',
+      'The calculator changes the sales tax rate into a decimal, multiplies subtotal by that rate to get tax, then adds tax to subtotal for the final total.',
     limit:
-      'This is a manual-rate estimate. It does not look up local rates, exemptions, shipping rules, marketplace rules, or tax holidays.',
+      'This is a manual-rate estimate. It does not look up current local rates, product exemptions, shipping rules, marketplace rules, tax holidays, or official filing amounts.',
     useCases: [
-      'Estimate sales tax before checkout.',
-      'Convert a subtotal and tax rate into a final total.',
-      'Check receipt math or split a purchase with tax included.',
-      'Use a manual local rate when exact tax lookup is not needed.',
+      'Estimate sales tax before checkout when you already know the local rate.',
+      'Convert a before-tax subtotal and percent rate into a final total.',
+      'Check receipt math when the tax line looks a few cents off.',
+      'Separate simple purchase math from income tax, VAT, or official sales-tax filing work.',
     ],
     examples: [
       { label: 'Simple total', expression: '$80 at 7.5%', result: '$6 tax, $86 total' },
-      { label: 'Large purchase', expression: '$1,200 at 6.25%', result: 'Estimated tax and total' },
-      { label: 'Receipt check', expression: '$42.50 at 8.2%', result: 'Tax amount and final total' },
+      { label: 'Large purchase', expression: '$1,200 at 6.25%', result: '$75 tax, $1,275 total' },
+      { label: 'Receipt check', expression: '$42.50 at 8.2%', result: '$3.49 tax, $45.99 total' },
     ],
-    relatedSlugs: ['percentage-calculator', 'auto-loan-calculator', 'income-tax-calculator'],
+    relatedSlugs: ['percentage-calculator', 'percent-off-calculator', 'auto-loan-calculator'],
+    inputExplanations: [
+      { term: 'Subtotal', meaning: 'the price before sales tax, usually after any discount that already applies to the item.' },
+      { term: 'Sales tax rate', meaning: 'the combined state and local rate written as a percent, such as 7.5 for 7.5%, not 0.075.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Does this calculator look up my local sales tax rate?',
+        answer:
+          'No. It uses the rate you enter. Sales tax can change by state, city, county, product type, shipping rule, or tax holiday, so use a current local rate from checkout, a state tax page, or a trusted tax table.',
+      },
+      {
+        question: 'Should I calculate sales tax before or after a discount?',
+        answer:
+          'Most normal checkout math applies a discount first, then calculates sales tax on the reduced taxable price. Some coupons, shipping charges, and local rules can work differently, so check the receipt if the cents do not match.',
+      },
+      {
+        question: 'Why is my receipt off by one or two cents?',
+        answer:
+          'Stores may round each item, round the whole basket, or apply different taxability rules to different products. A one-cent difference is usually rounding, but a larger gap means the rate or taxable subtotal may be different.',
+      },
+      {
+        question: 'Can this remove tax from a total?',
+        answer:
+          'Not as a separate reverse mode yet. If the total already includes tax, the rough reverse formula is before-tax price = total / (1 + rate / 100).',
+      },
+      {
+        question: 'Is this the same as the IRS sales tax deduction calculator?',
+        answer:
+          'No. This page checks one purchase or receipt. The IRS sales tax deduction calculator is for estimating state and local sales tax deduction amounts when itemizing federal taxes.',
+      },
+    ],
   }),
   makeFinanceTool({
     slug: 'currency-calculator',

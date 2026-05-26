@@ -186,3 +186,13 @@
 - Fresh Playwright browser proof confirms the public internal-review wording is absent and the new fraction-specific examples, source links, related links, FAQ/schema, modified date, and smart-14 wording render.
 - Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Fraction pages; page scores are 98/100 and 99/100, post-edit DataForSEO paid evidence passed, and `npm run check` passed.
 - Deployed main commit `bd38133` through Hostinger Node build `019e62f4-7e1c-715b-8f24-1d1eaffd1579`; live Ask, production sitemap, full GSC sitemap submission from the OAuth-enabled worktree, live DOM proof, live browser screenshots, and post-deploy DataForSEO page evidence all passed.
+
+## 2026-05-26 - Sales Tax Tool And Guide Sprint Cleared For Deploy
+
+- Reviewed `/tools/sales-tax-calculator/` and `/blog/how-to-use-sales-tax-calculator/` as the next high-impression YMYL page pair using current Google Search Central, IRS, Tax Foundation, Calculator.net/Omni competitor checks, GSC, and DataForSEO evidence.
+- Updated the Sales Tax tool with tax-amount/final-total metadata, aliases, exact $80 at 7.5%, $1,200 at 6.25%, and $42.50 at 8.2% examples, local-rate/rate-format warnings, receipt rounding notes, and 12 visible FAQs.
+- Rewrote the matching finance guide path with a page-specific intro, quick-start steps, source notes, discount/shipping/exemption cautions, current local-rate guidance, and 7.5% versus 0.075 warnings.
+- Repaired Sales Tax tool and guide image alt/caption source data so the artwork describes the receipt, price block, tax tag, shopping basket, coin stack, and calculator use instead of generic mascot/category text.
+- Fresh Playwright browser proof confirms the public internal-review wording and generic guide intro are absent, and the new examples, source links, related links, FAQ/schema, modified date, and smart-14 wording render.
+- Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Sales Tax pages; page scores are 100/100 and 100/100, post-edit DataForSEO paid evidence passed, and `npm run check` passed.
+- Deploy, live proof, GSC sitemap resubmission, and post-deploy DataForSEO still need to run before the page pair is marked live and the queue moves to Flooring.

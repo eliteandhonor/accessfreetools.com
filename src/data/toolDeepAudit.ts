@@ -536,6 +536,11 @@ const irsSalesTax = {
   label: 'IRS: Sales Tax Deduction Calculator and state/local sales tax context',
 };
 
+const taxFoundationSalesTaxRates = {
+  href: 'https://taxfoundation.org/data/all/state/sales-tax-rates/',
+  label: 'Tax Foundation: 2026 state and local sales tax rates',
+};
+
 const cfpbCreditCards = {
   href: 'https://www.consumerfinance.gov/consumer-tools/credit-cards/answers/basics/',
   label: 'Consumer Financial Protection Bureau: Credit card basics',
@@ -1626,17 +1631,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'sales-tax-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-top-25-completion-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [irsSalesTax, openStaxPercent],
+    sources: [irsSalesTax, taxFoundationSalesTaxRates, googleHelpfulContent],
     findings: [
-      'The calculator multiplies subtotal by the manual sales-tax percent, then adds the tax amount to subtotal for the final total.',
-      'The tool and guide explain that the user must supply the local rate and that exemptions, shipping, marketplaces, and holidays can change real checkout tax.',
-      'The guide now has an official IRS state/local sales-tax context source instead of relying on generic tax or percentage references only.',
+      'GSC and DataForSEO selected the sales-tax page pair for a page-specific sprint after the Fraction closeout.',
+      'The calculator multiplies before-tax subtotal by the manual sales-tax percent, then adds the tax amount to subtotal for the final checkout total.',
+      'The tool and guide explain that the user must supply a current local rate and that discounts, exemptions, shipping, marketplaces, rounding, and holidays can change real checkout tax.',
     ],
     improvements: [
-      'Added the IRS sales-tax source to finance guides and manually checked formula, examples, FAQ, local-rate caveats, related links, and privacy behavior.',
+      'Rewrote metadata, description, examples, FAQs, blog hook, source links, related-tool routing, image alt/caption text, and modified dates in smart-14 wording.',
     ],
     followUps: [
       'Consider a future reverse-sales-tax mode for users who know the total and need the pre-tax subtotal.',
@@ -7013,7 +7018,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
     if (includesAny(key, ['tax', 'salary', 'paycheck'])) {
       if (includesAny(key, ['sales-tax', 'sales tax'])) {
-        return sourceBackstop([irsSalesTax, openStaxPercent]);
+        return sourceBackstop([irsSalesTax, taxFoundationSalesTaxRates]);
       }
 
       return sourceBackstop([irsTax2026, blsInflation]);
