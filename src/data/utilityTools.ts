@@ -1958,20 +1958,59 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate flooring boxes, adjusted square feet, coverage ordered, and optional material cost.',
     description:
-      'Use this free flooring calculator to estimate whole flooring boxes from project area, waste percentage, box coverage, and optional box price.',
+      'Estimate whole flooring boxes from measured floor area, waste percent, box coverage, and optional box price.',
+    seoTitle: 'Flooring Calculator | Boxes, Waste, And Cost',
+    seoDescription:
+      'Estimate flooring boxes from square feet, waste percent, box coverage, and optional box price. See adjusted area, coverage ordered, and rough material cost.',
     icon: 'calculator-flooring',
-    aliases: ['Floor Calculator', 'Flooring Box Calculator', 'Laminate Flooring Calculator'],
+    aliases: [
+      'Floor Calculator',
+      'Flooring Box Calculator',
+      'Laminate Flooring Calculator',
+      'Vinyl Plank Flooring Calculator',
+      'LVP Box Calculator',
+    ],
     formula:
-      'The calculator adds waste to the measured floor area, divides by square feet per box, rounds up to whole boxes, and multiplies by box price when entered.',
+      'The calculator uses adjusted area = floor area x (1 + waste percent / 100), then boxes = ceiling(adjusted area / square feet per box). If price per box is entered, it multiplies whole boxes by that price.',
     limit:
-      'Flooring orders depend on room shape, product layout, pattern direction, stairs, closets, damaged pieces, overage for repairs, and matching dye lots.',
+      'Flooring orders depend on room shape, product layout, diagonal or herringbone patterns, stairs, closets, transitions, damaged pieces, underlayment, trim, installer layout, returns, and matching dye lots.',
     inputExplanations: [
-      { term: 'Floor area', meaning: 'the measured square footage before extra material is added.' },
-      { term: 'Waste percent', meaning: 'extra flooring for cuts, damaged planks, layout direction, and future repairs.' },
+      { term: 'Floor area', meaning: 'the measured square footage for every room, closet, hallway, or connected area that gets the same flooring.' },
+      { term: 'Waste percent', meaning: 'extra flooring for cuts, damaged planks, pattern direction, mistakes, and future repairs.' },
       { term: 'Box coverage', meaning: 'how many square feet one box covers according to the product label.' },
       { term: 'Price per box', meaning: 'an optional material price used only when you want an estimated product cost.' },
     ],
     extraFaq: [
+      {
+        question: 'How much waste should I add for flooring?',
+        answer:
+          'For a simple straight layout, 5% to 10% is a common starting point. Use more when the room has many cuts, closets, stairs, diagonal layout, herringbone layout, fragile boards, or if you want spare pieces for repairs. The product label or installer should win if they give a specific overage.',
+      },
+      {
+        question: 'Why does the Flooring Calculator round boxes up?',
+        answer:
+          'Flooring is bought in whole boxes. If the math says 10.2 boxes, you still need 11 boxes because stores will not sell 0.2 of a box for most plank or laminate products. Rounding up also helps cover small measuring mistakes.',
+      },
+      {
+        question: 'Where do I find square feet per box?',
+        answer:
+          'Look on the product label, product page, or carton. Use the square feet per carton or box number, not the size of one plank. If the box says 24 square feet, enter 24.',
+      },
+      {
+        question: 'Does the estimate include stairs, trim, or underlayment?',
+        answer:
+          'Only if you include those areas or costs yourself. The calculator estimates flooring boxes and optional product cost. It does not price stair noses, transition strips, underlayment, adhesive, tax, delivery, tools, or labor.',
+      },
+      {
+        question: 'Should I buy all boxes at the same time?',
+        answer:
+          'Yes when you can. Flooring bought later may come from a different dye lot, finish run, or shade batch. Buying the main order together and keeping a little spare material can make future repairs less obvious.',
+      },
+      {
+        question: 'Can I use this for tile or carpet?',
+        answer:
+          'Use this page for boxed plank, laminate, vinyl, engineered wood, or similar flooring. For tile counts and grout assumptions, use the Tile Calculator. For roll width and square yards, use the Carpet Calculator.',
+      },
       {
         question: 'Why do flooring and wallpaper both ask for waste percent?',
         answer:
@@ -1985,11 +2024,11 @@ export const utilityTools: ToolDefinition[] = [
       'Estimate material cost when you know price per box.',
     ],
     examples: [
-      { label: 'Living room', expression: '240 ft2, 10% waste, 24 ft2/box, $48/box', result: '11 boxes' },
-      { label: 'Small bedroom', expression: '120 ft2, 8% waste, 22.5 ft2/box', result: 'Box count estimate' },
-      { label: 'Whole level', expression: '850 ft2, 12% waste, 20 ft2/box', result: 'Large flooring order' },
+      { label: 'Living room', expression: '240 ft2, 10% waste, 24 ft2/box, $48/box', result: '11 boxes, 264 ft2 ordered, about $528' },
+      { label: 'Small bedroom', expression: '120 ft2, 8% waste, 22.5 ft2/box', result: '6 boxes, 135 ft2 ordered' },
+      { label: 'Whole level', expression: '850 ft2, 12% waste, 20 ft2/box', result: '48 boxes, 960 ft2 ordered' },
     ],
-    relatedSlugs: ['wallpaper-calculator', 'square-footage-calculator', 'carpet-calculator', 'tile-calculator'],
+    relatedSlugs: ['wallpaper-calculator', 'area-calculator', 'carpet-calculator', 'paint-calculator'],
   }),
   makeUtilityTool({
     slug: 'wallpaper-calculator',

@@ -181,6 +181,18 @@ const sourceLinks = {
     href: 'https://www.lowes.com/pdf/kitchen_countertop_measure_guide.pdf',
     label: 'Lowe\'s: Kitchen countertop measurement guide',
   },
+  lowesFlooringFootage: {
+    href: 'https://pdf.lowes.com/productdocuments/3f70b1c9-8ab7-4125-a2e7-9a3d080d2861/08130541.pdf',
+    label: 'Lowe\'s: Calculating correct hardwood flooring footage',
+  },
+  lowesFlooringPlanner: {
+    href: 'https://pdf.lowes.com/productdocuments/a1902812-3b3c-47a8-b344-3e03ce6c804a/48135912.pdf',
+    label: 'Lowe\'s: Flooring project planner',
+  },
+  homeDepotFlooringInstall: {
+    href: 'https://www.homedepot.com/catalog/pdfImages/c2/c274b7a0-d4cc-4196-9f09-da4ca69388e9.pdf',
+    label: 'The Home Depot: Flooring installation instructions',
+  },
   doeInsulation: {
     href: 'https://www.energy.gov/energysaver/insulation',
     label: 'U.S. Department of Energy: Insulation guidance',
@@ -1712,25 +1724,52 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'flooring-calculator': {
-    summary: 'Learn how measured floor area becomes whole flooring boxes and an optional material cost.',
+    summary: 'Learn how square feet, waste percent, box coverage, and box price become a flooring order.',
     purpose:
-      'The Flooring Calculator estimates how many boxes of flooring to buy from your measured square footage. It is helpful for laminate, vinyl plank, engineered wood, and other products sold by box coverage.',
+      'The Flooring Calculator estimates how many flooring boxes to buy before a store trip. It works best for laminate, vinyl plank, LVP, engineered wood, and other products where the carton tells you square feet per box.',
     enter: [
-      'Enter the measured floor area in square feet.',
-      'Enter waste percent and the square feet covered by one product box.',
-      'Add price per box only when you want a rough material cost.',
+      'Enter the measured floor area in square feet. Include closets, hallways, and connected areas if they will use the same flooring.',
+      'Enter the waste percent you want for cuts, damaged planks, layout direction, and future repairs.',
+      'Enter the square feet covered by one box or carton from the product label.',
+      'Add price per box only when you want a rough product cost before tax, delivery, underlayment, trim, tools, or labor.',
     ],
     read: [
-      'Boxes needed is the main whole-number answer.',
-      'Area with waste shows the square footage after your overage allowance.',
-      'Coverage ordered shows how much square footage the rounded-up boxes cover.',
+      'Boxes needed is rounded up because flooring is normally bought by whole boxes.',
+      'Area with waste shows the measured square footage after your overage allowance.',
+      'Coverage ordered shows how much square footage the rounded-up boxes cover, so you can see the spare amount.',
+      'Estimated cost is only the box count multiplied by price per box.',
     ],
     mistakes: [
-      'Do not use room dimensions without adding closets, hallways, or connected areas that need the same material.',
-      'Do not ignore cuts, pattern direction, stairs, transitions, and damaged pieces.',
-      'Check the box label and keep extra material when future repairs may need the same dye lot.',
+      'Do not type the size of one plank when the input asks for square feet per box.',
+      'Do not leave out closets, hallways, stair landings, or connected areas that need the same material.',
+      'Do not use a tiny waste percent for diagonal, herringbone, damaged-board, or DIY-heavy layouts.',
+      'Buy the main order together when possible so shade, finish, and dye lot differences are less likely.',
     ],
     extraSections: [
+      {
+        title: 'Example: 240 square foot living room',
+        paragraphs: [
+          'Say the room is 240 square feet, the waste percent is 10%, each box covers 24 square feet, and each box costs $48. The calculator first plans for 264 square feet because 240 x 1.10 = 264.',
+          'Then it divides 264 by 24. That equals exactly 11 boxes. At $48 per box, the rough material cost is $528 before tax, delivery, underlayment, trim, tools, or labor.',
+        ],
+        links: [{ href: '/tools/flooring-calculator/', label: 'Run the flooring box example' }],
+      },
+      {
+        title: 'What waste percent really does',
+        paragraphs: [
+          'Waste percent is not a trick to make the project look bigger. It is the extra material for cuts, bad boards, pattern direction, stair pieces, mistakes, and repair pieces.',
+          'A simple straight layout may only need a small buffer. Diagonal or patterned layouts usually need more because more boards get cut at angles. Product instructions and installer advice should beat any default number.',
+        ],
+        links: [{ href: '/tools/area-calculator/', label: 'Check the floor area first' }],
+      },
+      {
+        title: 'What the calculator leaves out',
+        paragraphs: [
+          'The result is a material estimate, not a full installation quote. It does not include subfloor repair, moisture testing, underlayment, stair noses, transition strips, adhesive, tax, delivery, returns, or installer labor.',
+          'If the product page says to buy extra cartons for future repairs, keep that in mind before returning every spare box. A later carton may not match the same shade or finish batch.',
+        ],
+        links: [{ href: '/tools/carpet-calculator/', label: 'Use the carpet calculator for roll-width flooring' }],
+      },
       {
         title: 'Why flooring waste and wallpaper waste feel similar',
         paragraphs: [
@@ -1740,7 +1779,13 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         links: [{ href: '/tools/wallpaper-calculator/', label: 'Plan wallpaper waste percent separately' }],
       },
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [
+      sourceLinks.lowesFlooringFootage,
+      sourceLinks.lowesFlooringPlanner,
+      sourceLinks.homeDepotFlooringInstall,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'wallpaper-calculator': {
     summary: 'Learn how wall area, openings, roll coverage, pattern repeat, waste percent, and optional roll price turn into rolls and rough cost.',

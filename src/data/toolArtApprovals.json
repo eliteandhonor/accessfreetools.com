@@ -1696,6 +1696,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/flooring-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/flooring-calculator-guide.webp",
+    "alt": "Smoke mascot beside flooring measurement panels, cut boards, box stacks, stairs, trim pieces, and damaged planks for the Flooring Calculator guide.",
+    "caption": "The guide artwork matches the flooring order walkthrough: measure the floor, add waste, divide by box coverage, and check stairs, trim, and broken boards before buying.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -1704,6 +1706,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/flooring-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/flooring-calculator-tool.webp",
+    "alt": "Smoke mascot pointing at a floor plan, cut flooring pieces, stacked cartons, and coins for the Flooring Calculator.",
+    "caption": "The tool artwork shows the live calculator job: turn measured floor area, waste percent, box coverage, and box price into whole cartons and rough material cost.",
     "status": "approved",
     "qaStatus": "approved"
   },

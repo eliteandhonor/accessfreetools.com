@@ -456,6 +456,21 @@ const lowesCountertopGuide = {
   label: 'Lowe\'s: Kitchen countertop measurement guide',
 };
 
+const lowesFlooringFootage = {
+  href: 'https://pdf.lowes.com/productdocuments/3f70b1c9-8ab7-4125-a2e7-9a3d080d2861/08130541.pdf',
+  label: 'Lowe\'s: Calculating correct hardwood flooring footage',
+};
+
+const lowesFlooringPlanner = {
+  href: 'https://pdf.lowes.com/productdocuments/a1902812-3b3c-47a8-b344-3e03ce6c804a/48135912.pdf',
+  label: 'Lowe\'s: Flooring project planner',
+};
+
+const homeDepotFlooringInstall = {
+  href: 'https://www.homedepot.com/catalog/pdfImages/c2/c274b7a0-d4cc-4196-9f09-da4ca69388e9.pdf',
+  label: 'The Home Depot: Flooring installation instructions',
+};
+
 const usdaFoodDataCentral = {
   href: 'https://fdc.nal.usda.gov/',
   label: 'USDA FoodData Central: ingredient and food data reference',
@@ -3593,17 +3608,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'flooring-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [nistSi, openStaxGeometry],
+    sources: [lowesFlooringFootage, lowesFlooringPlanner, homeDepotFlooringInstall, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator adds waste to measured floor area, divides by box coverage, rounds up boxes, and optionally estimates material cost.',
-      'The FAQ explains box coverage and price per box clearly enough for product-label use.',
-      'The guide warns about closets, connected rooms, stairs, transitions, pattern direction, damaged planks, and dye lots.',
+      'The calculator adds waste to measured floor area, divides by box coverage, rounds up whole boxes, and optionally estimates material cost.',
+      'Current flooring source checks support explaining 5-10% straight-layout waste, higher overage for diagonal or complex layouts, carton coverage, and buying matching cartons together.',
+      'The guide now uses a 240 square foot, 10% waste, 24 square feet per box, $48 per box example and warns about closets, stairs, transitions, trim, underlayment, damaged planks, returns, and dye lots.',
     ],
     improvements: [
-      'Manually checked box-count math, rounding behavior, optional cost output, examples, FAQ details, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Updated title/meta, examples, FAQs, guide sections, source links, image alt/captions, related links, source coverage, SEO copy, privacy behavior, and result labels for the 2026-05-26 page sprint.',
     ],
     followUps: [
       'Add multi-area input only if the UI can keep room names and box totals understandable on mobile.',
@@ -7098,6 +7113,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
   if (tool.category === 'home-projects') {
     if (includesAny(key, ['wallpaper'])) {
       return sourceBackstop([lowesWallpaper, nistSi]);
+    }
+
+    if (includesAny(key, ['flooring'])) {
+      return sourceBackstop([lowesFlooringFootage, lowesFlooringPlanner, homeDepotFlooringInstall, nistSi]);
     }
 
     if (includesAny(key, ['paint'])) {
