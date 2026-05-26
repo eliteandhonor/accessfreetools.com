@@ -155,6 +155,18 @@ const sourceLinks = {
     href: 'https://support.google.com/adsense/answer/112030?hl=en',
     label: 'Google AdSense Help: Page RPM',
   },
+  googleAdSenseHowWorks: {
+    href: 'https://support.google.com/adsense/answer/6242051?hl=en-EN',
+    label: 'Google AdSense Help: How AdSense works',
+  },
+  googleAdSenseRevenueShare: {
+    href: 'https://support.google.com/adsense/answer/180195?hl=en-EN',
+    label: 'Google AdSense Help: AdSense revenue share',
+  },
+  googleAdSenseInvalidTraffic: {
+    href: 'https://support.google.com/adsense/answer/16737?hl=en',
+    label: 'Google AdSense Help: Invalid traffic',
+  },
   openStaxInvestments: {
     href: 'https://openstax.org/books/contemporary-mathematics/pages/6-7-investments',
     label: 'OpenStax: Investments and return on investment',
@@ -416,7 +428,14 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'ad-revenue-calculator') {
-    return [sourceLinks.googleAdSensePageCtr, sourceLinks.googleAdSensePageRpm, sourceLinks.openStaxPercent];
+    return [
+      sourceLinks.googleAdSensePageCtr,
+      sourceLinks.googleAdSensePageRpm,
+      sourceLinks.googleAdSenseHowWorks,
+      sourceLinks.googleAdSenseRevenueShare,
+      sourceLinks.googleAdSenseInvalidTraffic,
+      sourceLinks.openStaxPercent,
+    ];
   }
 
   if (['break-even-calculator', 'profit-goal-calculator'].includes(toolSlug)) {
@@ -1782,29 +1801,32 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use IRR Calculator for uneven cash flows.', 'Use ROI Calculator for a simpler gain-versus-cost check.'],
   },
   'ad-revenue-calculator': {
-    summary: 'Learn how page views, page CTR, and average CPC turn into a rough ad revenue estimate.',
+    summary: 'Estimate website ad revenue from page views, page CTR, average CPC, and page RPM without treating the number like a confirmed payout.',
     purpose:
-      'The Ad Revenue Calculator is for simple website planning. It helps you see how traffic, click rate, and average click value can combine into daily, monthly, yearly, and page RPM estimates.',
+      'The Ad Revenue Calculator is for early website planning. It helps you test a simple question: if a page gets this many views, this click rate, and this average click value, what could the ad revenue look like?',
     enter: [
       'Enter daily page views as the number of page loads you want to estimate for one day.',
       'Enter page CTR as a normal percent, such as 1.5 for 1.5%, not 0.015.',
-      'Enter average CPC as a dollar amount per click, such as 0.35 for thirty-five cents.',
+      'Enter average CPC as a dollar amount per ad click, such as 0.35 for thirty-five cents.',
     ],
     example: [
       '1,000 daily page views with 1.5% page CTR creates about 15 estimated clicks per day.',
       'At $0.35 average CPC, those clicks estimate $5.25 per day, about $159.80 per average month, and a $5.25 page RPM.',
+      'If the CTR drops to 0.6% or the average CPC drops to $0.25, the same traffic can feel much less exciting. That is why this page is better for testing scenarios than making promises.',
     ],
     read: [
       'Monthly revenue is the headline estimate because many site owners plan traffic and costs monthly.',
       'Daily revenue shows the raw one-day estimate before scaling up.',
       'Page RPM converts the estimate into revenue per 1,000 page views, which is easier to compare across pages with different traffic.',
+      'Estimated clicks per day helps you spot the hidden lever. More page views do not help much if the click rate or CPC is weak.',
     ],
     mistakes: [
-      'Do not treat this as guaranteed AdSense income or an official Google report.',
+      'Do not treat this as real AdSense income or an official Google report.',
       'Do not forget invalid traffic, ad blocking, country mix, niche, seasonality, ad placement, policy status, and advertiser demand.',
       'Do not enter 1.5% CTR as 0.015 unless a field specifically asks for decimal form. This field wants 1.5.',
+      'Do not compare two pages by total revenue alone. Compare page RPM too, because one page may earn more only because it gets more views.',
     ],
-    next: ['Use Margin Calculator if you want to compare ad revenue with site costs.', 'Use UTM Builder when you are planning traffic campaigns.'],
+    next: ['Use Margin Calculator if you want to compare ad revenue with site costs.', 'Use UTM Builder when you are planning traffic campaigns.', 'Open the Ad Revenue Calculator again when you want to test a second CTR or CPC scenario.'],
   },
   'margin-calculator': {
     summary: 'Learn how revenue and cost turn into profit, profit margin, and markup.',
@@ -2671,6 +2693,10 @@ function formatExample(example: (typeof financeTools)[number]['examples'][number
 }
 
 function getGuideTitle(tool: (typeof financeTools)[number]) {
+  if (tool.slug === 'ad-revenue-calculator') {
+    return 'Ad Revenue Calculator Guide';
+  }
+
   if (tool.slug === 'sales-tax-calculator') {
     return 'Sales Tax Calculator Guide';
   }
@@ -2682,6 +2708,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
 }
 
 function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summary: string) {
+  if (tool.slug === 'ad-revenue-calculator') {
+    return 'Estimate website ad revenue from page views, CTR, CPC, and page RPM, with a 1,000-view example and clear AdSense-style limits.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -2704,6 +2734,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const primaryExampleText = formatExample(primaryExample);
   const sourceLinks = getSourceLinks(tool.slug);
   const isSalesTaxGuide = tool.slug === 'sales-tax-calculator';
+  const isAdRevenueGuide = tool.slug === 'ad-revenue-calculator';
 
   return {
     slug: `how-to-use-${tool.slug}`,
@@ -2714,6 +2745,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: isSalesTaxGuide
       ? 'Sales tax math is simple once the rate is in the right format. Enter the before-tax price, use a current local rate, then check the tax amount and final total before you trust the receipt.'
+      : isAdRevenueGuide
+      ? 'Before you assume 10,000 page views means steady ad income, test the click rate and CPC separately. This guide shows the simple math, the 1,000-view example, and the reasons real ad reports can move.'
       : `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
     quickStart: isSalesTaxGuide
       ? [
@@ -2722,6 +2755,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter the local sales tax rate as 7.5 for 7.5%, not 0.075.',
           'Calculate, then check the tax amount and final total.',
           'Before copying the answer, check whether discounts, shipping, exemptions, or a tax holiday change the taxable amount.',
+        ]
+      : isAdRevenueGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter daily page views, such as 1000.',
+          'Enter page CTR as a percent, such as 1.5 for 1.5%.',
+          'Enter average CPC as dollars per click, such as 0.35.',
+          'Calculate, then compare monthly revenue, estimated clicks per day, and page RPM before trusting the plan.',
         ]
       : [
           `Open the ${tool.name}.`,
@@ -2734,7 +2775,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         title: 'What this calculator is for',
         paragraphs: [
           detail.purpose,
-          `Good fit examples: ${tool.useCases.slice(0, 2).join(' ')}`,
+          isAdRevenueGuide
+            ? 'Use it when you are testing a blog post, tool page, niche site, or traffic idea and want a rough number before opening a spreadsheet.'
+            : `Good fit examples: ${tool.useCases.slice(0, 2).join(' ')}`,
         ],
       },
       {
@@ -2742,6 +2785,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isSalesTaxGuide
             ? 'Sales-tax mistakes usually come from using the wrong rate format or a rate that does not match the place, product, or checkout rule.'
+            : isAdRevenueGuide
+            ? 'Ad revenue estimates are easy to break with one bad input. Page views are counts, CTR is a percent, and CPC is a dollar amount per click.'
             : 'Finance estimates are sensitive to small input changes. Check whether a field expects a monthly amount, annual amount, dollar value, or percent before calculating.',
         ],
         bullets: detail.enter,
@@ -2750,7 +2795,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         title: 'Example walkthrough',
         paragraphs: [
           primaryExample
-            ? `Try the calculator example: ${primaryExampleText}. The example result is ${primaryExample.result}.`
+            ? isAdRevenueGuide
+              ? 'Try the starter example: 1,000 daily page views, 1.5% page CTR, and $0.35 average CPC. That gives about 15 clicks per day, $5.25 per day, about $159.80 per average month, and a $5.25 page RPM.'
+              : `Try the calculator example: ${primaryExampleText}. The example result is ${primaryExample.result}.`
             : 'Use one of the examples on the tool page to see a complete estimate before entering your own values.',
         ],
         bullets: detail.example,
@@ -2761,6 +2808,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           getFormulaAnswer(tool.slug),
           isSalesTaxGuide
             ? 'If the estimate looks different from a receipt, check whether the store rounded by item, rounded the whole basket, used a different taxable subtotal, or applied a different local rule.'
+            : isAdRevenueGuide
+            ? 'The formula is simple on purpose: page views times CTR gives estimated clicks, clicks times CPC gives daily revenue, and daily revenue divided by page views times 1,000 gives page RPM.'
             : 'If the estimate looks surprising, check the formula and inputs before using the answer in a budget, comparison, or planning note.',
         ],
       },
@@ -2769,6 +2818,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isSalesTaxGuide
             ? 'Start with the tax amount, then check the final total. The final total should equal before-tax price plus sales tax.'
+            : isAdRevenueGuide
+            ? 'Start with monthly revenue, because that is usually how site owners compare costs. Then check estimated clicks and page RPM so the number has context.'
             : 'Start with the headline result. Then read the supporting lines to see what made the number larger or smaller, such as rates, time periods, costs, taxes, fees, discounts, or contributions.',
         ],
         bullets: detail.read,
@@ -2778,6 +2829,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isSalesTaxGuide
             ? 'Most bad sales-tax estimates come from typing the percent as a decimal, using an old local rate, or taxing the wrong subtotal.'
+            : isAdRevenueGuide
+            ? 'Most bad ad revenue estimates come from typing CTR as a decimal, guessing a CPC that is too high, or forgetting that real ad reports can remove invalid traffic and change after review.'
             : 'Most bad finance estimates come from mixing rates, terms, monthly amounts, and annual amounts. The other common mistake is using a planning estimate as if it were a final quote.',
         ],
         bullets: detail.mistakes,
@@ -2787,20 +2840,33 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isSalesTaxGuide
             ? 'A related tool helps when the sales tax is only one part of the price question.'
+            : isAdRevenueGuide
+            ? 'A related tool can help when ad revenue is only one part of the plan. Compare the estimate with costs, traffic campaigns, and profit goals before you count it as income.'
             : 'A related money tool can help check the same question from another angle before you rely on one result.',
         ],
         bullets: detail.next,
+        links: isAdRevenueGuide
+          ? [
+              { href: '/tools/ad-revenue-calculator/', label: 'Open the Ad Revenue Calculator' },
+              { href: '/tools/margin-calculator/', label: 'Compare ad revenue with costs' },
+              { href: '/tools/utm-builder/', label: 'Plan traffic links with UTM Builder' },
+            ]
+          : undefined,
       },
       {
         title: 'Sources and estimate notes',
         paragraphs: [
           isSalesTaxGuide
             ? 'The IRS source explains state and local sales-tax deduction context. The Tax Foundation source gives current state and local rate context for 2026.'
+            : isAdRevenueGuide
+            ? 'Google AdSense Help explains page CTR, page RPM, how AdSense works, revenue share, and invalid traffic. Those sources are useful because ad revenue is not just one clean formula.'
             : sourceLinks.length > 0
             ? 'This guide links to public financial, consumer, statistical, or tax references where they are useful for understanding the calculator context.'
             : 'This guide explains the calculator inputs, formula context, and estimate limits without treating the result as a final quote or professional recommendation.',
           isSalesTaxGuide
             ? 'Those sources help with context, but this calculator still does not replace a state rate lookup, an official filing system, or tax advice.'
+            : isAdRevenueGuide
+            ? 'The calculator still stays simple. It does not read your ad account, approve earnings, predict fill rate, or know which clicks may later be filtered.'
             : 'Source links improve transparency, but they do not turn a quick calculator into professional advice or a final loan, tax, payroll, or investment answer.',
         ],
         links: sourceLinks,
@@ -2808,6 +2874,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     ],
     sidecarText: isSalesTaxGuide
       ? `Keep the ${tool.name} open beside this guide. Try $80 at 7.5%, then replace the price and rate with your receipt or checkout numbers.`
+      : isAdRevenueGuide
+      ? 'Keep the Ad Revenue Calculator open beside this guide. Try 1,000 views, 1.5% CTR, and $0.35 CPC first, then test a lower CTR so the plan does not feel magically better than it is.'
       : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,
   };
 });

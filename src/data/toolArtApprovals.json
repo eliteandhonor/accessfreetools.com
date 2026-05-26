@@ -20,6 +20,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/ad-revenue-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/ad-revenue-calculator-guide.webp",
+    "alt": "Smoke mascot explaining a browser ad dashboard with click icons, a chart, and a revenue gauge for the ad revenue guide.",
+    "caption": "Ad Revenue Calculator guide artwork shows page views becoming ad clicks, clicks connecting to CPC, and the result being checked with page RPM.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -28,6 +30,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/ad-revenue-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/ad-revenue-calculator-tool.webp",
+    "alt": "Smoke mascot pointing at a browser ad panel with glowing clicks turning into coins for an ad revenue estimate.",
+    "caption": "Ad Revenue Calculator artwork shows page activity, ad clicks, and coins to match the page views, CTR, CPC, and RPM estimate.",
     "status": "approved",
     "qaStatus": "approved"
   },

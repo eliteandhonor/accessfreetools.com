@@ -741,6 +741,21 @@ const googleAdSensePageRpm = {
   label: 'Google AdSense Help: Page RPM',
 };
 
+const googleAdSenseHowWorks = {
+  href: 'https://support.google.com/adsense/answer/6242051?hl=en-EN',
+  label: 'Google AdSense Help: How AdSense works',
+};
+
+const googleAdSenseRevenueShare = {
+  href: 'https://support.google.com/adsense/answer/180195?hl=en-EN',
+  label: 'Google AdSense Help: AdSense revenue share',
+};
+
+const googleAdSenseInvalidTraffic = {
+  href: 'https://support.google.com/adsense/answer/16737?hl=en',
+  label: 'Google AdSense Help: Invalid traffic',
+};
+
 const openStaxIrr = {
   href: 'https://openstax.org/books/principles-finance/pages/16-3-internal-rate-of-return-irr-method',
   label: 'OpenStax Principles of Finance: Internal Rate of Return method',
@@ -6705,20 +6720,30 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'ad-revenue-calculator',
     status: 'deep-reviewed',
-    batch: 'search-console-ranking-gap-2026-05-02',
-    reviewedOn: '2026-05-02',
+    batch: 'all-pages-dataforseo-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [googleAdSensePageCtr, googleAdSensePageRpm, openStaxPercent, googleHelpfulContent],
+    sources: [
+      googleAdSensePageCtr,
+      googleAdSensePageRpm,
+      googleAdSenseHowWorks,
+      googleAdSenseRevenueShare,
+      googleAdSenseInvalidTraffic,
+      openStaxPercent,
+      googleHelpfulContent,
+    ],
     findings: [
-      'Search Console showed an old AdSense earnings URL receiving impressions while returning 404, so a focused replacement page is better than sending that signal to a generic hub.',
+      'DataForSEO paid sprint evidence for the exact tool and blog pages passed account and status gates on 2026-05-26 before edits.',
+      'Google AdSense Help says page CTR is clicks divided by page views, page RPM is estimated earnings divided by page views times 1,000, and invalid traffic can create differences between estimated and finalized earnings.',
       'Formula review checked daily page views multiplied by page CTR for estimated clicks, clicks multiplied by average CPC for daily revenue, and revenue per 1,000 page views for page RPM.',
-      'FAQ and guide explain page CTR, average CPC, page RPM, and why the result is not an official Google AdSense prediction.',
+      'FAQ and guide now put the ad-specific questions before generic finance questions so schema and visible guide FAQ explain CTR, CPC, page RPM, invalid traffic, and AdSense-style limits.',
     ],
     improvements: [
-      'Added a browser-first Ad Revenue Calculator with examples, detailed FAQ, guide article, source links, related tools, and a 301 redirect from the old ranking URL.',
+      'Updated title, meta description, examples, top FAQ order, guide copy, source links, trust note, calculator notes, modified dates, and actual-image alt/caption text for the Ad Revenue Calculator sprint.',
     ],
     followUps: [
       'Add an RPM-only mode later if Search Console shows users asking for page RPM calculations from known revenue and page views.',
+      'Consider a CPM/impression mode later if DataForSEO or Search Console shows users asking for ad impression revenue rather than click/CPC estimates.',
     ],
   },
   {

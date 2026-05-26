@@ -1236,7 +1236,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Ad Revenue Calculator',
     buttonLabel: 'Estimate ad revenue',
     emptyHistory: 'Recent ad revenue estimates will appear here.',
-    privacyNote: 'Ad revenue estimates are educational planning math. They are not affiliated with Google AdSense and do not predict approved earnings, invalid traffic adjustments, fill rate, ad placement rules, seasonality, or advertiser demand.',
+    privacyNote: 'Ad revenue estimates stay in your browser and use simple planning math. They are not affiliated with Google AdSense and do not predict approved earnings, invalid traffic adjustments, fill rate, revenue share, ad placement rules, seasonality, or advertiser demand.',
     modes: [
       {
         id: 'ad-revenue',
@@ -3446,9 +3446,9 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Multiply daily page views by page CTR to estimate daily ad clicks.',
           'Multiply estimated clicks by average CPC to estimate daily revenue.',
           'Multiply daily revenue by the average days in a month for monthly revenue.',
-          'Divide daily revenue by page views, then multiply by 1,000 for page RPM.',
+          'Divide daily revenue by page views, then multiply by 1,000 so different pages can be compared with page RPM.',
         ],
-        note: 'This is a traffic and ad-rate estimate only. Real ad revenue can change with ad placement, policy status, invalid traffic, country mix, seasonality, and advertiser demand.',
+        note: 'This is a traffic and ad-rate estimate only. Real ad revenue can change with ad placement, fill rate, policy status, invalid traffic, revenue share, country mix, seasonality, and advertiser demand.',
       };
     }
     case 'break-even': {

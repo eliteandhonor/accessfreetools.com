@@ -615,7 +615,14 @@ const healthToolInstructions = healthToolVariant
     ]
   : undefined;
 const financeToolInstructions = financeToolVariant
-  ? [
+  ? tool.slug === 'ad-revenue-calculator'
+    ? [
+        'Enter daily page views as a one-day traffic estimate.',
+        'Enter page CTR as a percent, such as 1.5 for 1.5%, and average CPC as dollars per ad click.',
+        'Press the calculate button to see monthly revenue, daily revenue, yearly revenue, estimated clicks, and page RPM.',
+        'Use the result as a rough website-ad planning estimate, then check real ad reports and policy limits before trusting it.',
+      ]
+    : [
       'Enter the requested dollar amounts, rates, terms, tax settings, or contribution details.',
       'Use rates as percentages, such as 6.5 for 6.5%, and check whether a field asks for a monthly or annual amount.',
       'Press the calculate button to see the answer, supporting metrics, and formula steps.',
@@ -1807,7 +1814,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       isFinanceTool && (
         <div class="advanced-tool-points finance-tool-points" aria-label={`${tool.name} highlights`}>
           <span>Estimate, not advice</span>
-          <span>Payment or total shown</span>
+          <span>{tool.slug === 'ad-revenue-calculator' ? 'Monthly, yearly, and RPM shown' : 'Payment or total shown'}</span>
           <span>Example inputs</span>
           <span>Tab-only history</span>
         </div>
@@ -1852,11 +1859,24 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isFinanceTool && (
         <aside class="trust-note trust-note-finance" aria-label={`${tool.name} estimate limits`}>
-          <strong>Planning estimate, not financial advice</strong>
-          <p>
-            Use this to compare the numbers you enter. Real fees, taxes, lender rules, payroll rules, penalties,
-            insurance, and personal details can still change the final answer.
-          </p>
+          {tool.slug === 'ad-revenue-calculator' ? (
+            <>
+              <strong>Ad revenue estimate, not an ad account report</strong>
+              <p>
+                Use this to test page views, CTR, CPC, and RPM. It is not connected to Google AdSense,
+                does not approve earnings, and cannot predict invalid traffic filtering, fill rate, country
+                mix, revenue share, policy status, seasonality, or ad placement results.
+              </p>
+            </>
+          ) : (
+            <>
+              <strong>Planning estimate, not financial advice</strong>
+              <p>
+                Use this to compare the numbers you enter. Real fees, taxes, lender rules, payroll rules, penalties,
+                insurance, and personal details can still change the final answer.
+              </p>
+            </>
+          )}
         </aside>
       )
     }
