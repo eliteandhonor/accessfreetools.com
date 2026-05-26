@@ -522,21 +522,33 @@ function findToolSource(slug) {
       block.includes('makeFinanceTool({') || text.slice(Math.max(0, match.index - 120), match.index).includes('makeFinanceTool');
     const isHealthFactoryBlock =
       block.includes('makeHealthTool({') || text.slice(Math.max(0, match.index - 120), match.index).includes('makeHealthTool');
+    const isAiFactoryBlock =
+      /aiTools\.ts$/.test(relative(root, file).replace(/\\/g, '/')) ||
+      block.includes('makeAiTool({') ||
+      text.slice(Math.max(0, match.index - 120), match.index).includes('makeAiTool');
     const titleType = name.endsWith('Generator')
       ? 'Free Online Generator'
       : name.endsWith('Calculator')
         ? 'Free Online Calculator'
         : 'Free Online Tool';
+    const explicitQuestionCount = countProperty(block, 'question');
+    const hasExplicitFaq = /\bfaq\s*:\s*\[/.test(block);
     return {
       file: relative(root, file).replace(/\\/g, '/'),
       block,
       slug,
       name,
       category: extractProperty(block, 'category'),
-      seoTitle: extractProperty(block, 'seoTitle') || ((isUtilityFactoryBlock || isHealthFactoryBlock) && name ? `${name} | ${titleType}` : ''),
+      seoTitle:
+        extractProperty(block, 'seoTitle') ||
+        (isAiFactoryBlock && name ? `${name} | Free Browser AI Tool` : (isUtilityFactoryBlock || isHealthFactoryBlock) && name ? `${name} | ${titleType}` : ''),
       seoDescription:
-        extractProperty(block, 'seoDescription') || (isUtilityFactoryBlock || isFinanceFactoryBlock || isHealthFactoryBlock ? description : ''),
-      faqCount: countProperty(block, 'question') + (isUtilityFactoryBlock ? 5 : 0) + (isFinanceFactoryBlock ? 7 : 0),
+        extractProperty(block, 'seoDescription') || (isUtilityFactoryBlock || isFinanceFactoryBlock || isHealthFactoryBlock || isAiFactoryBlock ? description : ''),
+      faqCount:
+        explicitQuestionCount +
+        (!hasExplicitFaq && isUtilityFactoryBlock ? 5 : 0) +
+        (!hasExplicitFaq && isFinanceFactoryBlock ? 7 : 0) +
+        (!hasExplicitFaq && isAiFactoryBlock ? 7 : 0),
       exampleCount: countProperty(block, 'label'),
       relatedSlugs: extractRelatedSlugs(block),
     };

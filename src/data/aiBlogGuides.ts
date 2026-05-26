@@ -66,24 +66,26 @@ const sourceLinks = {
 const guideDetails: Record<string, AiGuideDetail> = {
   'image-to-text-ocr-tool': {
     summary:
-      'Learn how to use the browser-only Image to Text OCR Tool, choose clearer images, read OCR output, and avoid common copy mistakes.',
+      'Learn how to copy text from screenshots and image files, choose clearer OCR images, and catch common copy mistakes.',
     purpose:
-      'The Image to Text OCR Tool reads text from an image in your browser. It is useful when you have a screenshot, label, or simple document image and want editable text without uploading that image to Access Free Tools.',
+      'The Image to Text OCR Tool turns a clear image of typed or printed words into editable text in your browser. Use it for screenshots, labels, receipts, and simple document photos when you want a draft copy without uploading the image to Access Free Tools.',
     enter: [
-      'Open the tool and choose a clear image file.',
-      'Pick the language that best matches the text in the image.',
-      'Press Read text and wait while OCR data loads in the browser.',
-      'Copy the result only after checking numbers, names, and line breaks.',
+      'Choose a sharp screenshot or photo with typed or printed text.',
+      'Pick the language shown in the image.',
+      'Press Read text and wait while the OCR files load in the browser.',
+      'Before copying, compare names, totals, dates, and codes with the image.',
     ],
     read: [
-      'The result is best effort editable text, not a certified copy.',
-      'Short lines, columns, tiny text, blur, and glare can lower accuracy.',
-      'If the result looks messy, try a sharper crop with better contrast.',
+      'Treat the result as a draft copy, not a certified transcript.',
+      'If the image says INV-10018 or $42.50, check those exact characters before pasting.',
+      'Columns, tiny text, blur, glare, and sideways photos can lower accuracy.',
+      'If the output looks messy, crop closer, brighten the image, and run OCR again.',
     ],
     mistakes: [
-      'Do not trust OCR for totals, serial numbers, passwords, IDs, or legal wording without checking the original.',
-      'Do not upload private documents if you do not need OCR for that exact file.',
-      'Do not expect handwriting or stylized fonts to work as cleanly as typed text.',
+      'Do not trust OCR for totals, serial numbers, passwords, private IDs, legal wording, medical records, or bank details without checking the original.',
+      'Do not use a random image-to-text tool for sensitive files just because it is fast.',
+      'Do not expect handwriting, cursive, decorative fonts, or low-light photos to work as cleanly as typed text.',
+      'Do not ignore 0/O, 1/l/I, 5/S, and 8/B mistakes. Those are small errors that can break a form or code.',
     ],
     sources: [sourceLinks.tesseractJs, sourceLinks.tesseractDocs],
   },
@@ -264,6 +266,8 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
     throw new Error(`Missing AI guide detail for ${toolSlug}`);
   }
 
+  const isOcrTool = tool.slug === 'image-to-text-ocr-tool';
+
   return {
     slug: `how-to-use-${tool.slug}`,
     toolSlug: tool.slug,
@@ -275,17 +279,23 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
     quickStart: detail.enter,
     sections: [
       {
-        title: 'What this AI tool does',
+        title: isOcrTool ? 'What this OCR tool does' : 'What this AI tool does',
         paragraphs: [
           detail.purpose,
-          'The important privacy idea is simple: your input runs in the browser tab. Access Free Tools does not need to receive the image or text for the tool to work.',
-          'For this first self-hosted pass, OCR files and the starter text classifier files are served from Access Free Tools after you click the tool button. Heavier experimental model tools may still download model files from a third-party model host until we self-host more models.',
+          isOcrTool
+            ? 'The important privacy idea is simple: the image is read in your browser tab. Access Free Tools does not need to receive the selected image for OCR to work.'
+            : 'The important privacy idea is simple: your input runs in the browser tab. Access Free Tools does not need to receive the image or text for the tool to work.',
+          isOcrTool
+            ? 'The OCR worker, WebAssembly core, and language files are served from Access Free Tools after you press Read text. That first run can take longer than a normal calculator.'
+            : 'For this first self-hosted pass, OCR files and the starter text classifier files are served from Access Free Tools after you click the tool button. Heavier experimental model tools may still download model files from a third-party model host until we self-host more models.',
         ],
       },
       {
         title: 'How to read the result',
         paragraphs: [
-          'Start with the main result, then read the supporting notes. Browser AI tools are useful helpers, but they can still be wrong, incomplete, or unsure.',
+          isOcrTool
+            ? 'Start with the extracted text, then check the original image. OCR is useful, but it can still miss punctuation, split columns badly, or swap similar-looking characters.'
+            : 'Start with the main result, then read the supporting notes. Browser AI tools are useful helpers, but they can still be wrong, incomplete, or unsure.',
         ],
         bullets: detail.read,
       },

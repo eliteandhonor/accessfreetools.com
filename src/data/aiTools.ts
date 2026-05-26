@@ -6,6 +6,8 @@ interface AiToolSpec {
   name: string;
   summary: string;
   description: string;
+  seoTitle?: string;
+  seoDescription?: string;
   icon: string;
   modelNote: string;
   inputMeaning: string;
@@ -13,6 +15,7 @@ interface AiToolSpec {
   doubleCheck: string;
   useCases: string[];
   examples: ToolExample[];
+  faq?: ToolFaq[];
   relatedSlugs: string[];
 }
 
@@ -65,11 +68,11 @@ function makeAiTool(spec: AiToolSpec): ToolDefinition {
     description: spec.description,
     icon: spec.icon,
     aliases: spec.name === 'Image to Text OCR Tool' ? ['OCR Tool', 'Image Text Reader'] : undefined,
-    seoTitle: `${spec.name} | Free Browser AI Tool`,
-    seoDescription: spec.description,
+    seoTitle: spec.seoTitle ?? `${spec.name} | Free Browser AI Tool`,
+    seoDescription: spec.seoDescription ?? spec.description,
     useCases: spec.useCases,
     examples: spec.examples,
-    faq: makeAiFaq(spec),
+    faq: spec.faq ?? makeAiFaq(spec),
     relatedSlugs: spec.relatedSlugs,
   };
 }
@@ -78,27 +81,84 @@ export const aiTools: ToolDefinition[] = [
   makeAiTool({
     slug: 'image-to-text-ocr-tool',
     name: 'Image to Text OCR Tool',
-    summary: 'Extract readable text from an image in your browser with OCR.',
+    summary: 'Copy text from screenshots, labels, and simple document images with browser OCR.',
     description:
-      'Use this free browser OCR tool to read text from screenshots, labels, notes, and simple document images without uploading the image to Access Free Tools.',
+      'Use this free OCR tool to pull editable text from screenshots, labels, receipts, and simple document images in your browser.',
+    seoTitle: 'Image to Text OCR Tool | Copy Text From Images',
+    seoDescription:
+      'Copy text from screenshots, labels, receipts, and simple document images with browser OCR. Learn where OCR can miss numbers, columns, and handwriting.',
     icon: 'tool-ai-ocr',
-    modelNote: 'Uses self-hosted Tesseract.js OCR files in the browser after you choose an image and press the read button.',
+    modelNote: 'Uses self-hosted Tesseract.js OCR files in the browser after you choose an image and press Read text.',
     inputMeaning:
-      'Choose an image file that contains readable printed or typed text. The language setting tells OCR which character patterns to expect, and image quality matters: sharper, brighter, higher-contrast images usually give better text.',
+      'Choose a sharp image with typed or printed text. Pick the language shown in the image, then crop out clutter if the screenshot has menus, shadows, or tiny side text.',
     resultMeaning:
-      'Read the extracted text as a best effort copy. Line breaks, punctuation, columns, handwriting, and small letters may need cleanup before you paste the result somewhere important.',
+      'Read the OCR output as a draft copy of the image text. It is useful for simple lines, but columns, punctuation, tiny letters, handwriting, and totals still need checking.',
     doubleCheck:
-      'Check names, numbers, totals, dates, and email addresses against the original image. OCR can confuse similar characters such as 0 and O, 1 and l, or 5 and S.',
+      'Check names, totals, dates, invoice numbers, email addresses, and codes against the original image. OCR can mix up 0/O, 1/l/I, 5/S, and 8/B.',
     useCases: [
-      'Copy text from a screenshot without retyping it.',
-      'Turn a clear label, receipt, or note image into editable text.',
-      'Grab text from simple document images for a draft or study note.',
-      'Check whether an image is clean enough for OCR before using it elsewhere.',
+      'Copy a clear screenshot line without retyping it.',
+      'Turn a label, receipt, or typed note photo into editable text.',
+      'Grab text from a simple document image for a draft or study note.',
+      'Check whether a photo is sharp enough before you trust the OCR result.',
     ],
     examples: [
-      { label: 'Screenshot text', expression: 'Upload a clear screenshot with a heading and paragraph', result: 'Editable text output' },
-      { label: 'Printed label', expression: 'Upload a product label with block text', result: 'Best effort label text' },
-      { label: 'Study note image', expression: 'Upload a photo of typed notes', result: 'Copied lines for review' },
+      {
+        label: 'Invoice screenshot',
+        expression: 'Upload an image that shows "Invoice INV-10018 total $42.50"',
+        result: 'Copy the text, then check INV-10018 and $42.50 against the image.',
+      },
+      {
+        label: 'Box label',
+        expression: 'Upload a label that says "Do not stack above 4 boxes"',
+        result: 'Use the extracted warning only after checking the number 4.',
+      },
+      {
+        label: 'Study note photo',
+        expression: 'Upload a sharp photo of typed notes with one heading and three lines',
+        result: 'Copy the lines into a draft, then fix line breaks and punctuation.',
+      },
+    ],
+    faq: [
+      {
+        question: 'When should I use the Image to Text OCR Tool?',
+        answer:
+          'Use it when a clear screenshot, label, receipt, or typed note has text you do not want to retype. It is best for simple printed text, not messy handwriting or official transcripts.',
+      },
+      {
+        question: 'Does the OCR image upload to Access Free Tools?',
+        answer:
+          'No. The image is read in your browser tab. The OCR worker, core, and language files load from Access Free Tools after you press Read text, but the selected image is not uploaded to our server.',
+      },
+      {
+        question: 'What kind of image gives the best OCR result?',
+        answer:
+          'Use a sharp, straight, high-contrast image. Crop close to the text, avoid glare, and zoom in before taking a screenshot if the original text is tiny.',
+      },
+      {
+        question: 'Can this read handwriting?',
+        answer:
+          'Not reliably. Tesseract-style OCR works much better on typed or printed text. Handwriting, cursive, decorative fonts, and low-light photos can produce messy output.',
+      },
+      {
+        question: 'Why can the first OCR run take longer?',
+        answer:
+          'The browser may need to download the OCR worker, WebAssembly core, and OCR language model data the first time. After that, your browser can often reuse cached files.',
+      },
+      {
+        question: 'What should I double-check before copying the result?',
+        answer:
+          'Check names, totals, dates, invoice numbers, email addresses, and codes. OCR can confuse characters like 0/O, 1/l/I, 5/S, and 8/B.',
+      },
+      {
+        question: 'What should I try if the OCR output is messy?',
+        answer:
+          'Crop closer, retake the photo straight-on, brighten the image, increase contrast, or use a higher-resolution screenshot. Then run OCR again and compare the result with the original.',
+      },
+      {
+        question: 'Should I use this for private IDs, passwords, or legal records?',
+        answer:
+          'No. Even with browser-side OCR, do not process passwords, private IDs, bank records, medical records, legal text, or sensitive work documents unless you fully understand the privacy and accuracy risk.',
+      },
     ],
     relatedSlugs: ['image-classifier', 'text-summarizer', 'keyword-extractor'],
   }),

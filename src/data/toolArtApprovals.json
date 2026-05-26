@@ -2148,6 +2148,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/image-to-text-ocr-tool-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/image-to-text-ocr-tool-guide.webp",
+    "alt": "Smoke mascot pointing from a scanned document grid through OCR blocks to editable text and a checked clipboard for the Image to Text OCR guide.",
+    "caption": "The guide artwork shows the OCR workflow: choose a clear image, let the browser read the text, then check the copied result before using it.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2156,6 +2158,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/image-to-text-ocr-tool-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/image-to-text-ocr-tool-tool.webp",
+    "alt": "Smoke mascot sending a document image through an OCR scan beam into an editable text panel for the Image to Text OCR Tool.",
+    "caption": "The tool artwork matches the live task: turn a clear screenshot, label, or document image into editable OCR text, then proofread the output.",
     "status": "approved",
     "qaStatus": "approved"
   },

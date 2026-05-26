@@ -260,27 +260,35 @@ export function extractToolRecords() {
         /healthTools\.ts$/.test(unixPath(relative(process.cwd(), file))) ||
         chunk.includes('makeHealthTool({') ||
         text.slice(Math.max(0, (match.index ?? 0) - 120), match.index ?? 0).includes('makeHealthTool');
+      const isAiFactoryBlock =
+        /aiTools\.ts$/.test(unixPath(relative(process.cwd(), file))) ||
+        chunk.includes('makeAiTool({') ||
+        text.slice(Math.max(0, (match.index ?? 0) - 120), match.index ?? 0).includes('makeAiTool');
       const titleType = name.endsWith('Generator')
         ? 'Free Online Generator'
         : name.endsWith('Calculator')
           ? 'Free Online Calculator'
           : 'Free Online Tool';
       const explicitFaqCount = extractArrayLength(chunk, 'faq');
-      const generatedUtilityFaqCount = isUtilityFactoryBlock ? countFieldOccurrences(chunk, 'question') + 5 : 0;
-      const generatedFinanceFaqCount = isFinanceFactoryBlock ? countFieldOccurrences(chunk, 'question') + 7 : 0;
-      const generatedHealthFaqCount = isHealthFactoryBlock ? countFieldOccurrences(chunk, 'question') + 7 : 0;
+      const hasExplicitFaq = /\bfaq\s*:\s*\[/.test(chunk);
+      const generatedUtilityFaqCount = !hasExplicitFaq && isUtilityFactoryBlock ? countFieldOccurrences(chunk, 'question') + 5 : 0;
+      const generatedFinanceFaqCount = !hasExplicitFaq && isFinanceFactoryBlock ? countFieldOccurrences(chunk, 'question') + 7 : 0;
+      const generatedHealthFaqCount = !hasExplicitFaq && isHealthFactoryBlock ? countFieldOccurrences(chunk, 'question') + 7 : 0;
+      const generatedAiFaqCount = !hasExplicitFaq && isAiFactoryBlock ? countFieldOccurrences(chunk, 'question') + 7 : 0;
 
       records.push({
         category: extractStringField(chunk, 'category'),
         description,
         exampleCount: extractArrayLength(chunk, 'examples'),
-        faqCount: explicitFaqCount || generatedUtilityFaqCount || generatedFinanceFaqCount || generatedHealthFaqCount,
+        faqCount: hasExplicitFaq ? explicitFaqCount : generatedUtilityFaqCount || generatedFinanceFaqCount || generatedHealthFaqCount || generatedAiFaqCount,
         file: unixPath(relative(process.cwd(), file)),
         name,
         relatedCount: extractArrayLength(chunk, 'relatedSlugs'),
         relatedSlugs: extractStringArray(chunk, 'relatedSlugs'),
-        seoDescription: extractStringField(chunk, 'seoDescription') || (isUtilityFactoryBlock || isHealthFactoryBlock ? description : ''),
-        seoTitle: extractStringField(chunk, 'seoTitle') || (isUtilityFactoryBlock || isHealthFactoryBlock ? `${name} | ${titleType}` : ''),
+        seoDescription: extractStringField(chunk, 'seoDescription') || (isUtilityFactoryBlock || isHealthFactoryBlock || isAiFactoryBlock ? description : ''),
+        seoTitle:
+          extractStringField(chunk, 'seoTitle') ||
+          (isAiFactoryBlock ? `${name} | Free Browser AI Tool` : isUtilityFactoryBlock || isHealthFactoryBlock ? `${name} | ${titleType}` : ''),
         slug,
         summary: extractStringField(chunk, 'summary'),
       });
