@@ -1693,7 +1693,9 @@
     "imagePath": "/tool-art/fha-loan-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/fha-loan-calculator-guide.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Smoke mascot comparing an FHA home price, 3.5% down payment, upfront MIP, monthly MIP, tax, and insurance on a guide page.",
+    "caption": "Guide art for FHA mortgage payment planning with down payment and mortgage insurance shown as separate pieces."
   },
   {
     "slug": "fha-loan-calculator",
@@ -1701,7 +1703,9 @@
     "imagePath": "/tool-art/fha-loan-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/fha-loan-calculator-tool.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Smoke mascot beside an FHA loan estimate screen with home price, down payment, upfront MIP, annual MIP, and monthly payment.",
+    "caption": "Tool art for the FHA Loan Calculator showing the loan, mortgage insurance, and monthly payment estimate together."
   },
   {
     "slug": "finance-calculator",

@@ -1953,7 +1953,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'FHA Loan Calculator',
     buttonLabel: 'Estimate FHA payment',
     emptyHistory: 'Recent FHA loan estimates will appear here.',
-    privacyNote: 'FHA loan estimates use entered MIP assumptions and do not decide eligibility, underwriting, or official FHA costs.',
+    privacyNote: 'FHA estimates use the MIP assumptions you enter. They do not approve credit, check county loan limits, or replace lender underwriting.',
     modes: [
       {
         id: 'fha-loan',
@@ -4193,7 +4193,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Add entered upfront MIP to the financed balance.',
           'Estimate principal and interest, tax, insurance, and monthly MIP.',
         ],
-        note: 'FHA MIP duration, eligibility, loan limits, and underwriting depend on official FHA and lender rules.',
+        note: 'Check official FHA limits, MIP rules, credit approval, debt-to-income ratio, closing costs, and the written Loan Estimate before relying on this payment.',
       };
     }
     case 'va-mortgage': {

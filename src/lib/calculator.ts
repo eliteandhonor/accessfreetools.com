@@ -6483,6 +6483,7 @@ export function calculateFhaLoan(input: {
     upfrontMip,
     annualMipPercent,
     monthlyMip,
+    loanToValuePercent: (baseLoanAmount / input.homePrice) * 100,
     totalMonthlyPayment: mortgage.totalMonthlyPayment + monthlyMip,
   };
 }

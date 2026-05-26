@@ -1536,6 +1536,7 @@ describe('finance helpers', () => {
     expect(roi.roiPercent).toBeCloseTo(28.5, 8);
     expect(apr.aprPercent).toBeGreaterThan(8);
     expect(fha.monthlyMip).toBeGreaterThan(0);
+    expect(fha.loanToValuePercent).toBeCloseTo(96.5, 8);
     expect(va.fundingFeePercent).toBe(2.15);
     expect(homeEquity.availableEquity).toBeGreaterThan(homeEquity.principal);
     expect(heloc.interestOnlyPayment).toBe(225);

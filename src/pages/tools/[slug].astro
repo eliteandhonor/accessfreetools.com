@@ -643,6 +643,13 @@ const financeToolInstructions = financeToolVariant
         'Add a rough closing-cost percent to estimate down payment, loan amount, loan-to-value, closing costs, and cash needed.',
         'Check the lender Loan Estimate, Closing Disclosure, mortgage insurance, seller credits, assistance rules, and cash reserves before relying on the number.',
       ]
+    : tool.slug === 'fha-loan-calculator'
+    ? [
+        'Enter the home price and down payment. For a 3.5% example on $325,000, use $11,375 down.',
+        'Enter the interest rate, term, upfront MIP percent, annual MIP percent, annual property tax, and monthly homeowners insurance.',
+        'Press the calculate button to see total monthly payment, principal and interest, upfront MIP, monthly MIP, and loan-to-value.',
+        'Check the county FHA loan limit, lender quote, Loan Estimate, credit approval, debt-to-income ratio, and property rules before relying on the number.',
+      ]
     : tool.slug === 'ad-revenue-calculator'
     ? [
         'Enter daily page views as a one-day traffic estimate.',
@@ -1860,6 +1867,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Payment, LTV, and interest'
               : tool.slug === 'down-payment-calculator'
               ? 'Cash needed, LTV, and closing costs'
+              : tool.slug === 'fha-loan-calculator'
+              ? 'Payment, MIP, and LTV'
               : tool.slug === 'estate-tax-calculator'
               ? 'Exclusion and excess shown'
               : 'Payment or total shown'}
@@ -1954,6 +1963,15 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 and the Loan Estimate or Closing Disclosure.
               </p>
             </>
+          ) : tool.slug === 'fha-loan-calculator' ? (
+            <>
+              <strong>FHA payment estimate, not lender approval</strong>
+              <p>
+                Use this to compare home price, down payment, rate, upfront MIP, monthly MIP, tax, and insurance.
+                A real FHA loan can still change with county loan limits, credit score, debt-to-income ratio,
+                property rules, appraisal, closing costs, escrow setup, MIP duration, and the written Loan Estimate.
+              </p>
+            </>
           ) : tool.slug === 'estate-tax-calculator' ? (
             <>
               <strong>Federal estate-tax screen, not Form 706</strong>
@@ -2040,7 +2058,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     )}
 
     <section class="content-section">
-      <h2>How to use the {tool.name.toLowerCase()}</h2>
+      <h2>How to use the {tool.name}</h2>
       <ol class="instruction-list">
         {toolInstructions.map((instruction) => <li>{instruction}</li>)}
       </ol>

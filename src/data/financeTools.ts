@@ -847,14 +847,18 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'fha-loan-calculator',
     name: 'FHA Loan Calculator',
-    summary: 'Estimate FHA-style monthly payment with upfront and annual MIP assumptions.',
+    summary: 'Estimate an FHA-style mortgage payment with upfront MIP, monthly MIP, taxes, and insurance.',
     description:
-      'Use this free FHA loan calculator to estimate principal, interest, taxes, insurance, upfront MIP, monthly MIP, and total monthly payment.',
+      'Use this free FHA loan calculator to estimate an FHA-style monthly mortgage payment from home price, down payment, rate, term, upfront MIP, annual MIP, property tax, and insurance.',
+    seoTitle: 'FHA Loan Calculator | Payment, MIP & Limit Cautions',
+    seoDescription:
+      'Estimate an FHA-style mortgage payment with upfront MIP, monthly MIP, tax, and insurance. Check 3.5% down, 2026 loan-limit cautions, and monthly cost.',
     icon: 'calculator-mortgage',
+    aliases: ['FHA mortgage calculator', 'FHA payment calculator', 'FHA MIP calculator', 'FHA loan payment estimate'],
     formula:
       'The calculator adds entered upfront MIP to the financed balance, calculates principal and interest, then adds tax, insurance, and monthly MIP from the entered annual MIP rate.',
     limit:
-      'FHA eligibility, loan limits, MIP duration, property rules, lender underwriting, closing costs, and official MIP schedules can change the real result.',
+      'This does not approve an FHA loan, check credit, verify debt-to-income ratio, look up county loan limits, price closing costs, judge property rules, choose the official MIP table, or replace lender underwriting.',
     useCases: [
       'Estimate an FHA-style payment with 3.5% down.',
       'Test upfront and annual MIP assumptions.',
@@ -862,11 +866,76 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Screen payment before lender preapproval.',
     ],
     examples: [
-      { label: '3.5% down', expression: '$325,000 home with 1.75% upfront MIP', result: 'FHA payment estimate' },
-      { label: 'Lower price', expression: '$260,000 home with default MIP assumptions', result: 'Monthly estimate' },
-      { label: 'Larger down', expression: '$400,000 home with larger down payment', result: 'Payment estimate' },
+      { label: '3.5% down', expression: '$325,000 home, 6.5%, 1.75% upfront MIP, 0.55% annual MIP', result: 'About $2,615.76/month, $5,488.44 upfront MIP, and 96.5% LTV' },
+      { label: 'Lower price', expression: '$260,000 home, 3.5% down, 6.75%, same MIP assumptions', result: 'About $2,130.81/month' },
+      { label: '10% down', expression: '$400,000 home, 10% down, 6.25%, 0.50% annual MIP', result: 'About $2,998.71/month and 90% LTV' },
     ],
     relatedSlugs: ['mortgage-calculator', 'down-payment-calculator', 'house-affordability-calculator'],
+    inputExplanations: [
+      { term: 'Home price', meaning: 'the purchase price you want to test before down payment.' },
+      { term: 'Down payment', meaning: 'cash paid upfront toward the price. A 3.5% example on $325,000 is $11,375.' },
+      { term: 'Interest rate', meaning: 'the note rate for the scenario, entered as 6.5 for 6.5%.' },
+      { term: 'Upfront MIP', meaning: 'the one-time FHA mortgage insurance premium percent you want to finance into the loan.' },
+      { term: 'Annual MIP', meaning: 'the yearly mortgage insurance percent that the calculator divides by 12 for monthly MIP.' },
+      { term: 'Annual property tax and monthly insurance', meaning: 'rough escrow-style amounts added to the monthly payment estimate.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Can an FHA down payment be as low as 3.5%?',
+        answer:
+          'Yes, FHA purchase loans can allow down payments as low as 3.5% for borrowers who qualify. That is why the first example uses 96.5% loan-to-value. Credit score, income, debt-to-income ratio, property approval, and lender overlays still matter, so 3.5% down is not automatic approval.',
+      },
+      {
+        question: 'What 2026 FHA loan-limit number should I know?',
+        answer:
+          'HUD says the 2026 one-unit FHA forward mortgage limit floor is $541,287 and the high-cost-area ceiling is $1,249,125. Alaska, Hawaii, Guam, and the U.S. Virgin Islands have a higher special-exception one-unit ceiling. County limits can sit between the floor and ceiling, so this calculator does not tell you whether a specific home is inside the local FHA limit.',
+      },
+      {
+        question: 'What is upfront MIP?',
+        answer:
+          'Upfront MIP is the one-time FHA mortgage insurance premium. The common input here is 1.75% of the base loan amount. If you finance it, the calculator adds it to the balance before estimating principal and interest.',
+      },
+      {
+        question: 'What is annual MIP?',
+        answer:
+          'Annual MIP is mortgage insurance charged over the year and usually paid monthly. The calculator takes the annual MIP percent you enter, applies it to the base loan amount, and divides by 12.',
+      },
+      {
+        question: 'Is 0.55% the right annual MIP for every FHA loan?',
+        answer:
+          'No. HUD Mortgagee Letter 2023-05 lists different annual MIP rates by term, base loan amount, and LTV. For terms over 15 years at or below the listed base-loan threshold, the table shows 0.50% at 90% to 95% LTV and 0.55% above 95% LTV. Higher base loans can use higher rates. The lender and current HUD table should decide the real rate.',
+      },
+      {
+        question: 'Does this check FHA eligibility?',
+        answer:
+          'No. FHA eligibility can depend on credit, income, debt-to-income ratio, employment, property type, appraisal, loan limits, occupancy, lender overlays, and documents. This page only estimates payment math from the numbers you enter.',
+      },
+      {
+        question: 'Does FHA mortgage insurance go away?',
+        answer:
+          'It depends on the loan case, term, LTV, and payoff/refinance path. Some FHA monthly MIP lasts for the mortgage term, while some older or lower-LTV cases have different rules. Ask the lender or servicer before planning around MIP removal.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Does this estimate include cash to close?',
+        answer:
+          'No. It estimates the monthly payment pieces. Cash to close can include the down payment, closing costs, prepaid property tax, prepaid homeowners insurance, escrow deposits, points, lender fees, title fees, and other charges. CFPB says early closing-cost estimates often use a 2% to 5% range before the real Loan Estimate arrives.',
+      },
+      {
+        question: 'Can this calculator check debt-to-income ratio?',
+        answer:
+          'No. FHA and lender reviews can use automated underwriting, manual underwriting, compensating factors, credit history, and verified income. This page does not read your debts or income, so it cannot say whether the payment is approvable.',
+      },
+    ],
+    formulaCheck:
+      'It does not look up your county loan limit, choose an official MIP table, or decide whether the lender can approve the loan.',
+    resultReading:
+      'Start with total monthly payment, then read principal and interest, upfront MIP, monthly MIP, and loan-to-value. That keeps the FHA insurance cost from disappearing inside one big payment number.',
+    doubleCheck:
+      'Check the down payment, rate, term, upfront MIP, annual MIP, tax, insurance, and whether your base loan sits near a 2026 FHA limit or MIP-rate threshold. Then compare the result with a written Loan Estimate, county FHA limit, and lender quote before using it for a real home decision.',
+    limitFollowup:
+      'Use HUD, CFPB, and lender documents for the real FHA limit, MIP schedule, closing costs, escrow amounts, credit approval, and property approval.',
   },
   {
     slug: 'va-mortgage-calculator',

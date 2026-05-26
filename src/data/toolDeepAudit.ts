@@ -666,6 +666,26 @@ const hudFhaMip = {
   label: 'HUD: FHA single family mortgage insurance premiums',
 };
 
+const hudFhaMipMortgageeLetter2023 = {
+  href: 'https://www.hud.gov/sites/dfiles/OCHCO/documents/2023-05hsgml.pdf',
+  label: 'HUD Mortgagee Letter 2023-05: FHA annual MIP rates',
+};
+
+const hudFhaLoanLimits2026 = {
+  href: 'https://www.hud.gov/hud-partners/single-family-lender',
+  label: 'HUD: 2026 FHA forward mortgage loan limits',
+};
+
+const hudFhaLoanLimitsMl2025 = {
+  href: 'https://www.hud.gov/sites/dfiles/hudclips/documents/2025-23hsgml.pdf',
+  label: 'HUD Mortgagee Letter 2025-23: 2026 FHA forward mortgage loan limits',
+};
+
+const cfpbFhaLoans = {
+  href: 'https://www.consumerfinance.gov/owning-a-home/fha-loans/',
+  label: 'CFPB: FHA loans',
+};
+
 const vaFundingFee = {
   href: 'https://www.va.gov/housing-assistance/home-loans/funding-fee-and-closing-costs',
   label: 'VA: Funding fee and loan closing costs',
@@ -2893,20 +2913,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'fha-loan-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-6-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [hudFhaMip, cfpbMortgage],
+    sources: [cfpbFhaLoans, hudFhaLoans, hudFhaLoanLimits2026, hudFhaLoanLimitsMl2025, hudFhaMip, hudFhaMipMortgageeLetter2023, cfpbDownPayment, cfpbPrepareHomeMoney],
     findings: [
-      'The calculator estimates base loan amount, upfront MIP, financed balance, principal and interest, property tax, insurance, monthly MIP, and total monthly payment.',
-      'The guide now separates upfront MIP from monthly MIP so the financed-fee and monthly-payment effects are easier to understand.',
-      'The limitations now emphasize FHA eligibility, loan limits, MIP duration, property rules, lender overlays, closing costs, escrow, and official FHA updates.',
+      'The calculator estimates base loan amount, financed upfront MIP, principal and interest, property tax, insurance, monthly MIP, loan-to-value, and total monthly payment.',
+      'The guide now uses the $325,000, 3.5% down, 1.75% upfront MIP, 0.55% annual MIP example and keeps upfront MIP, monthly MIP, LTV, closing costs, and total payment separate.',
+      'The limitations now emphasize 2026 county loan limits, FHA eligibility, credit and debt-to-income review, property rules, lender overlays, closing costs, escrow, MIP duration, and official FHA updates.',
     ],
     improvements: [
-      'Added FHA-loan-specific guide detail and manually checked MIP handling, payment math, examples, FAQ cautions, HUD/CFPB source coverage, related tools, SEO copy, and privacy note.',
+      'Added FHA-loan-specific SEO title and description, MIP/LTV examples, 2026 loan-limit cautions, annual-MIP-rate caveats, priority FAQs, current HUD/CFPB source coverage, trust wording, internal links, specific image alt/caption text, and privacy/result notes.',
     ],
     followUps: [
-      'Add current FHA MIP presets only if there is a maintained update source and date-stamped assumptions on the tool.',
+      'Add county-limit lookup or maintained official MIP presets only if there is a durable update source and a date-stamped assumptions table on the tool.',
     ],
   },
   {
@@ -7122,7 +7142,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['fha-loan', 'fha loan'])) {
-      return sourceBackstop([hudFhaMip, cfpbMortgage]);
+      return sourceBackstop([cfpbFhaLoans, hudFhaLoans, hudFhaLoanLimits2026, hudFhaLoanLimitsMl2025, hudFhaMip, hudFhaMipMortgageeLetter2023, cfpbDownPayment, cfpbPrepareHomeMoney]);
     }
 
     if (includesAny(key, ['va-mortgage', 'va mortgage'])) {

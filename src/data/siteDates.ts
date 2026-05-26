@@ -38,6 +38,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'gdp-calculator': '2026-05-26',
   'wallpaper-calculator': '2026-05-26',
   'estate-tax-calculator': '2026-05-26',
+  'fha-loan-calculator': '2026-05-26',
 };
 
 const blogModifiedOverrides: Record<string, string> = {
@@ -69,6 +70,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-gdp-calculator': '2026-05-26',
   'how-to-use-wallpaper-calculator': '2026-05-26',
   'how-to-use-estate-tax-calculator': '2026-05-26',
+  'how-to-use-fha-loan-calculator': '2026-05-26',
 };
 
 const staticPageLastmod: Record<string, string> = {
