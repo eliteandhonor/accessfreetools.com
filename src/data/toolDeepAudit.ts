@@ -961,6 +961,11 @@ const epaFuelEconomy = {
   label: 'U.S. EPA: Fuel Economy',
 };
 
+const eiaGasolinePrices = {
+  href: 'https://www.eia.gov/petroleum/gasdiesel/',
+  label: 'U.S. EIA: Weekly gasoline and diesel fuel update',
+};
+
 const irsMileage2026 = {
   href: 'https://www.irs.gov/newsroom/irs-sets-2026-business-standard-mileage-rate-at-725-cents-per-mile-up-25-cents',
   label: 'IRS: 2026 standard mileage rates',
@@ -5621,17 +5626,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'fuel-cost-calculator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [epaFuelEconomy, nistSi],
+    sources: [epaFuelEconomy, eiaGasolinePrices, irsMileage2026, nistSi, googleHelpfulContent],
     findings: [
       'The fuel-cost helper uses distance divided by MPG times fuel price and doubles distance only when round trip is selected.',
       'Tests cover the 120-mile, 28 MPG, $3.75, round-trip example.',
-      'The guide explains that traffic, speed, weather, load, maintenance, fuel blend, and price changes can move real cost away from the estimate.',
+      'The tool and guide now separate fuel-only trip cost from live gas prices, tolls, parking, vehicle wear, and IRS mileage-rate reimbursement.',
     ],
     improvements: [
-      'Manually checked fuel-cost formula, round-trip behavior, cost-per-mile labels, examples, generated FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Manually checked fuel-cost formula, round-trip behavior, cost-per-mile labels, examples, visible FAQ detail, guide coverage, related links, SEO copy, image alt/caption wording, and privacy behavior.',
     ],
     followUps: [
       'Add EV charging cost as a separate tool or mode only after researching kWh pricing and charging-loss assumptions.',

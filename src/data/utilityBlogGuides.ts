@@ -28,6 +28,12 @@ interface UtilityGuideDetail {
   title?: string;
   summary: string;
   purpose: string;
+  intro?: string;
+  inputMatch?: string;
+  logicNote?: string;
+  readIntro?: string;
+  mistakeIntro?: string;
+  sidecarText?: string;
   enter: string[];
   read: string[];
   mistakes: string[];
@@ -210,6 +216,10 @@ const sourceLinks = {
   epaFuelEconomy: {
     href: 'https://www.epa.gov/fueleconomy',
     label: 'U.S. EPA: Fuel Economy',
+  },
+  eiaGasolinePrices: {
+    href: 'https://www.eia.gov/petroleum/gasdiesel/',
+    label: 'U.S. EIA: Weekly gasoline and diesel fuel update',
   },
   irsMileage: {
     href: 'https://www.irs.gov/newsroom/irs-sets-2026-business-standard-mileage-rate-at-725-cents-per-mile-up-25-cents',
@@ -699,25 +709,67 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [],
   },
   'fuel-cost-calculator': {
-    summary: 'Learn how distance, MPG, and fuel price combine into a trip fuel estimate.',
+    title: 'Fuel Cost Calculator Guide',
+    summary: 'Learn how miles, MPG, and pump price turn into gallons, trip fuel cost, and cost per mile.',
     purpose:
-      'The Fuel Cost Calculator helps you turn a trip distance into an estimated fuel budget using your vehicle MPG and the fuel price you expect to pay.',
+      'The Fuel Cost Calculator turns one-way miles, MPG, pump price, and round-trip choice into a fuel-only estimate. It is for quick trip budgeting, not live gas prices, tolls, parking, or tax reimbursement.',
+    intro:
+      'Start with the one-way miles, add the MPG you expect, type the pump price, and turn on round trip only when the return drive should be counted too.',
+    inputMatch:
+      'your one-way route distance, expected MPG, price per gallon, and whether the return drive should be included',
+    logicNote:
+      'Use the 120-mile road trip example as a quick check: round trip turns 120 miles into 240 miles before gallons and cost are calculated.',
+    readIntro:
+      'Read the fuel cost first, then check gallons needed, cost per mile, and total distance so you can spot a wrong distance or MPG before using the number.',
+    mistakeIntro:
+      'Fuel estimates go wrong fastest when the distance, round-trip switch, MPG, or pump price does not match the trip you are actually planning.',
+    sidecarText:
+      'Open the Fuel Cost Calculator beside this guide. Try the 120-mile example first, then swap in your own route miles, MPG, and fuel price.',
     enter: [
-      'Enter the one-way trip distance in miles.',
-      'Enter the vehicle MPG you want to use.',
-      'Enter fuel price per gallon and turn on round trip when needed.',
+      'Enter the one-way trip distance in miles, even if you are planning to come back.',
+      'Enter the MPG you expect for this trip, not the best number your car ever showed.',
+      'Enter fuel price per gallon, then turn on round trip if the calculator should double the distance.',
     ],
     read: [
-      'Fuel cost is the headline estimate.',
-      'Gallons needed shows how much fuel the trip uses at the entered MPG.',
-      'Cost per mile helps compare trips and vehicles.',
+      'Fuel cost is the fuel-only estimate for the selected one-way or round-trip distance.',
+      'Gallons needed shows how many gallons the trip uses at the MPG you entered.',
+      'Cost per mile shows the fuel cost for each mile, which helps compare cars, routes, or gas prices.',
     ],
     mistakes: [
-      'Do not assume EPA MPG is exactly what your trip will get.',
-      'Check whether the distance is one-way or round-trip.',
-      'Use the fuel price you expect to pay, not an old saved value.',
+      'Do not mix a round-trip distance with the round-trip switch. That doubles the trip twice.',
+      'Do not treat EPA MPG as a promise. Speed, traffic, hills, weather, cargo, and tires can change real MPG.',
+      'Do not use the IRS mileage rate as the fuel price. That rate covers more than gasoline.',
+      'Do not forget tolls, parking, rental fees, and wear if you need a full travel budget.',
     ],
-    sources: [sourceLinks.epaFuelEconomy],
+    extraSections: [
+      {
+        title: 'Road trip example',
+        paragraphs: [
+          'Say the destination is 120 miles away, the car gets 28 MPG, gas is $3.75 per gallon, and round trip is turned on. The calculator doubles the trip to 240 miles, divides by 28 MPG, and gets about 8.57 gallons.',
+          'Then it multiplies 8.57 gallons by $3.75. The fuel-only estimate is about $32.14, or about 13.4 cents per mile.',
+        ],
+      },
+      {
+        title: 'What number should I use for MPG?',
+        paragraphs: [
+          'If you have recent real MPG for your own car, use that. EPA fuel economy labels are useful for comparing vehicles, but your route can be worse or better than the label.',
+          'A heavy load, fast highway driving, stop-start traffic, cold weather, tire pressure, and hills can all move the real fuel cost.',
+        ],
+      },
+      {
+        title: 'Fuel cost versus mileage reimbursement',
+        paragraphs: [
+          'Fuel cost is only gallons times price per gallon. The IRS mileage rate is different because it is meant for tax or reimbursement rules and can include more than fuel.',
+          'For a personal trip budget, use this fuel estimate first, then add tolls, parking, rental fees, and other costs yourself.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.epaFuelEconomy,
+      sourceLinks.eiaGasolinePrices,
+      sourceLinks.irsMileage,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'square-footage-calculator': {
     summary: 'Learn how to calculate square footage for rooms, panels, and repeated rectangles.',
@@ -3578,34 +3630,37 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
     title: detail.title ?? `How to use the ${tool.name}`,
     description: buildUtilityMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: `${detail.purpose} Start here: ${guideLanguage.firstStep}, read the result, then check the limits before you use it.`,
+    intro: `${detail.purpose} ${detail.intro ?? `Start here: ${guideLanguage.firstStep}, read the result, then check the limits before you use it.`}`,
     quickStart: detail.enter,
     sections: [
       {
         title: guideLanguage.sectionTitle,
         paragraphs: [
           detail.purpose,
-          `Match each input label on the ${guideLanguage.pageNoun} to ${guideLanguage.inputMatch}.`,
+          `Match each input label on the ${guideLanguage.pageNoun} to ${detail.inputMatch ?? guideLanguage.inputMatch}.`,
         ],
       },
       {
         title: guideLanguage.logicTitle,
         paragraphs: [
           getFormulaAnswer(tool.slug),
-          `The example cards on the ${guideLanguage.pageNoun} page show a ${guideLanguage.examplePhrase} and the kind of answer you should expect.`,
+          detail.logicNote ??
+            `The example cards on the ${guideLanguage.pageNoun} page show a ${guideLanguage.examplePhrase} and the kind of answer you should expect.`,
         ],
       },
       {
         title: 'How to read the answer',
         paragraphs: [
-          'Read the main result first. Then check the smaller lines for the totals, units, ranges, counts, or formula steps behind it.',
+          detail.readIntro ??
+            'Read the main result first. Then check the smaller lines for the totals, units, ranges, counts, or formula steps behind it.',
         ],
         bullets: detail.read,
       },
       {
         title: 'Common mistakes to avoid',
         paragraphs: [
-          `If the answer looks strange, the most likely cause is a small input mismatch: ${guideLanguage.mismatch}.`,
+          detail.mistakeIntro ??
+            `If the answer looks strange, the most likely cause is a small input mismatch: ${guideLanguage.mismatch}.`,
         ],
         bullets: detail.mistakes,
       },
@@ -3620,7 +3675,9 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
         links: detail.sources,
       },
     ],
-    sidecarText: `Open the ${tool.name} beside this guide. Try one example first, then replace the ${guideLanguage.sidecarInputPhrase} with your own.`,
+    sidecarText:
+      detail.sidecarText ??
+      `Open the ${tool.name} beside this guide. Try one example first, then replace the ${guideLanguage.sidecarInputPhrase} with your own.`,
   };
 }
 

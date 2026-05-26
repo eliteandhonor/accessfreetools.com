@@ -2661,8 +2661,10 @@ function getCategoryReadingAnswer(tool: ToolDefinition) {
       return 'Read the output next to your original text. If the tool changes spacing, line breaks, encoding, capitalization, or word breaks, compare a small sample before copying the whole result into another app.';
     case 'ai-tools':
       return 'Read the AI result as a best-effort clue or draft. Look at labels, scores, notes, and warnings together, then compare the result with the original text or image before using it anywhere important.';
+    case 'everyday-tools':
+      return 'Read the headline answer, then check the smaller lines beside it. For everyday tools, those lines usually show the distance, time, cost, units, or setting that made the answer change.';
     default:
-      return 'Start with the result card, then check the supporting lines and examples to understand how the calculator got there. If one input changes, rerun the tool and compare the new answer instead of guessing.';
+      return 'Read the headline answer, then check the supporting lines and examples to understand how the calculator got there. If one input changes, rerun the tool and compare the new answer instead of guessing.';
   }
 }
 

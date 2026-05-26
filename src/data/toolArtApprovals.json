@@ -1720,6 +1720,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/fuel-cost-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/fuel-cost-calculator-guide.webp",
+    "alt": "Smoke mascot planning a road trip fuel estimate with route miles, MPG, gas price, gallons, and cost-per-mile cards.",
+    "caption": "The Fuel Cost guide artwork matches the walkthrough: enter one-way miles, MPG, pump price, and round trip to estimate gallons and fuel-only cost.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -1728,6 +1730,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/fuel-cost-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/fuel-cost-calculator-tool.webp",
+    "alt": "Smoke mascot beside a gas pump, route line, MPG gauge, and fuel-cost result cards for the Fuel Cost Calculator.",
+    "caption": "The Fuel Cost Calculator artwork matches the live tool: miles, MPG, fuel price, round trip, gallons needed, and cost per mile.",
     "status": "approved",
     "qaStatus": "approved"
   },

@@ -13,6 +13,7 @@ interface UtilityToolSpec {
   aliases?: string[];
   formula: string;
   limit: string;
+  faqLanguage?: Partial<UtilityFaqLanguage>;
   inputExplanations?: Array<{
     term: string;
     meaning: string;
@@ -23,13 +24,22 @@ interface UtilityToolSpec {
   relatedSlugs: string[];
 }
 
-function getUtilityFaqLanguage(spec: UtilityToolSpec) {
+interface UtilityFaqLanguage {
+  expectedInputs: string;
+  inputFallback: string;
+  examplePhrase: string;
+  doubleCheck: string;
+  privacy: string;
+}
+
+function getUtilityFaqLanguage(spec: UtilityToolSpec): UtilityFaqLanguage {
   const isCalculator = spec.name.endsWith('Calculator');
   const pageNoun = isCalculator ? 'calculator' : 'tool';
+  let language: UtilityFaqLanguage;
 
   switch (spec.category) {
     case 'text-tools':
-      return {
+      language = {
         expectedInputs: 'the exact text, spacing, line breaks, format, or platform rule the page asks for',
         inputFallback:
           'The main input is the text you want to count, clean, format, or rewrite. Paste the exact text you want to check, including spaces and line breaks when they matter.',
@@ -38,8 +48,9 @@ function getUtilityFaqLanguage(spec: UtilityToolSpec) {
         privacy:
           'No. The tool runs in your browser tab. Your recent answers stay only on the page while you use it, and they are not sent to a server.',
       };
+      break;
     case 'developer-tools':
-      return {
+      language = {
         expectedInputs: 'the text, code, URL, mode, format, or technical setting the page asks for',
         inputFallback:
           'The main inputs are usually text, code, a URL, a number base, or a mode setting. Paste only the part you want the tool to work on and compare the output with the examples.',
@@ -48,8 +59,9 @@ function getUtilityFaqLanguage(spec: UtilityToolSpec) {
         privacy:
           'No. The tool runs in your browser tab. Your recent answers stay only on the page while you use it, and they are not sent to a server.',
       };
+      break;
     case 'converters':
-      return {
+      language = {
         expectedInputs: 'the value, source unit, target unit, format, or mode the page asks for',
         inputFallback:
           'The main inputs are the value you want to convert and the from/to units or formats. Keep the original value in the first field and choose the target unit carefully.',
@@ -58,8 +70,9 @@ function getUtilityFaqLanguage(spec: UtilityToolSpec) {
         privacy:
           'No. The tool runs in your browser tab. Your recent answers stay only on the page while you use it, and they are not sent to a server.',
       };
+      break;
     default:
-      return {
+      language = {
         expectedInputs: 'the measurements, amounts, units, or options the page asks for',
         inputFallback:
           'The main inputs are the measurements, amounts, units, or options the tool needs before it can work. Read each field label, keep units consistent, and compare your entry with the examples if the answer looks strange.',
@@ -67,7 +80,10 @@ function getUtilityFaqLanguage(spec: UtilityToolSpec) {
         doubleCheck: 'Also check the unit, scale, mode, and result limit because small input changes can change the answer.',
         privacy: `No. The ${pageNoun} runs in your browser tab. Your recent answers stay only on the page while you use it, and they are not sent to a server.`,
       };
+      break;
   }
+
+  return spec.faqLanguage ? { ...language, ...spec.faqLanguage } : language;
 }
 
 function makeFaq(spec: UtilityToolSpec): ToolFaq[] {
@@ -415,12 +431,72 @@ export const utilityTools: ToolDefinition[] = [
     category: 'everyday-tools',
     summary: 'Estimate fuel cost from distance, MPG, fuel price, and round-trip setting.',
     description:
-      'Use this free fuel cost calculator to estimate gallons needed, trip fuel cost, and cost per mile from distance, MPG, and fuel price.',
+      'Estimate trip fuel cost from miles, MPG, fuel price, and the round-trip switch. See gallons needed, total fuel cost, and cost per mile.',
+    seoTitle: 'Fuel Cost Calculator | Trip Gas Cost And MPG',
+    seoDescription:
+      'Estimate road trip gas cost from one-way miles, MPG, pump price, and round-trip choice. Shows gallons needed, total fuel cost, and cost per mile.',
     icon: 'calculator-fuel-cost',
+    aliases: [
+      'Gas Cost Calculator',
+      'Trip Cost Calculator',
+      'Road Trip Gas Calculator',
+      'Gas Trip Calculator',
+      'Fuel Cost Calculator Trip',
+    ],
     formula:
       'The calculator divides trip miles by miles per gallon to estimate gallons needed, then multiplies gallons by the price per gallon.',
     limit:
-      'Real fuel cost changes with traffic, speed, weather, terrain, vehicle load, maintenance, fuel blend, and the actual price you pay.',
+      'Real fuel cost changes with traffic, speed, weather, terrain, vehicle load, maintenance, fuel blend, driving style, and the actual price you pay.',
+    faqLanguage: {
+      expectedInputs: 'your one-way miles, expected MPG, price per gallon, and whether the trip is round trip',
+      doubleCheck:
+        'Also check that the distance is one-way, the round-trip switch matches the trip, the MPG fits your actual driving, and the gas price is the price you expect to pay.',
+    },
+    inputExplanations: [
+      {
+        term: 'One-way distance',
+        meaning: 'Enter the miles from start to destination once. Turn on round trip if you are coming back the same way.',
+      },
+      {
+        term: 'Fuel economy',
+        meaning: 'Use the MPG you expect for this trip. EPA label MPG is helpful, but traffic, speed, and load can move the real number.',
+      },
+      {
+        term: 'Fuel price',
+        meaning: 'Enter the price per gallon you expect to pay at the pump, not an old saved price.',
+      },
+      {
+        term: 'Round trip',
+        meaning: 'Leave it off for one-way driving. Turn it on to double the distance before the fuel cost is calculated.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Is this a live gas price lookup?',
+        answer:
+          'No. You enter the fuel price yourself. Check a local station, a route app, or a current price source first, then put that price per gallon into the calculator.',
+      },
+      {
+        question: 'Should I use EPA MPG or my real MPG?',
+        answer:
+          'Use your real MPG if you know it from recent driving. EPA MPG is a useful starting point, but hills, speed, traffic, weather, cargo, tires, and driving style can change the trip result.',
+      },
+      {
+        question: 'Does this include tolls, parking, wear, or maintenance?',
+        answer:
+          'No. This is fuel-only. Add tolls, parking, rental fees, tire wear, maintenance, and other travel costs separately if you need the full trip budget.',
+      },
+      {
+        question: 'Why is this different from the IRS mileage rate?',
+        answer:
+          'The IRS standard mileage rate is a broad tax or reimbursement rate. This calculator only estimates fuel cost from gallons and price per gallon, so it will usually be much lower.',
+      },
+      {
+        question: 'What does cost per mile mean here?',
+        answer:
+          'Cost per mile is fuel price divided by MPG. For example, $3.75 per gallon at 28 MPG is about 13.4 cents of fuel per mile.',
+      },
+    ],
     useCases: [
       'Estimate fuel cost for a trip before driving.',
       'Compare one-way and round-trip fuel cost.',

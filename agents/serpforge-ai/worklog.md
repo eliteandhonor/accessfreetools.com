@@ -123,3 +123,13 @@
 - Fresh built-browser proof confirms the public internal-review wording is absent and the new paver/flagstone/bag-label phrases, FAQ/schema, modified date, and smart-14 wording render.
 - Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Polymeric Sand pages; page scores are 100/100 and post-edit DataForSEO paid evidence passed. Pending commit, deploy, live proof, GSC sitemap submission, and post-deploy DataForSEO closeout.
 - Deployed main commit `11bc45b` through Hostinger Node build `019e6255-3154-7081-84ca-21ec3c1e5d56`; live Ask, production sitemap, full GSC sitemap submission, live DOM proof, live browser screenshots, and post-deploy DataForSEO page evidence all passed.
+
+## 2026-05-26 - Fuel Cost Tool And Guide Sprint Cleared For Deploy
+
+- Reviewed `/tools/fuel-cost-calculator/` and `/blog/how-to-use-fuel-cost-calculator/` as the next GSC near-page-one page pair using current EPA, EIA, IRS, Google Search Central, competitor, and DataForSEO evidence.
+- Updated the Fuel Cost tool with source SEO metadata, gas/trip/road-trip aliases, input explanations for one-way miles, MPG, pump price, and round trip, plus fuel-specific FAQs for live gas prices, real MPG, IRS mileage rates, tolls, parking, wear, and cost per mile.
+- Expanded the matching guide with a 120-mile road trip walkthrough, 240 total miles, 8.57 gallons, $32.14 fuel-only cost, 13.4 cents per mile, real-MPG limits, and mileage-reimbursement separation.
+- Repaired Fuel Cost tool and guide image alt/caption source data so the artwork describes a gas pump, route line, MPG gauge, gallons, trip cost, and cost-per-mile cards.
+- Removed the shared "Start with the result card" template line after browser proof caught it on the exact Fuel Cost pages.
+- Fresh built-browser proof confirms the public internal-review wording is absent and the new fuel-specific phrases, FAQ/schema, modified date, and smart-14 wording render.
+- Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Fuel Cost pages; page scores are 100/100 and post-edit DataForSEO paid evidence passed. Pending commit, deploy, live proof, GSC sitemap submission, and post-deploy DataForSEO closeout.
