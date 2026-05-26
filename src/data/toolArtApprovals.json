@@ -3229,7 +3229,9 @@
     "imagePath": "/tool-art/polymeric-sand-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/polymeric-sand-calculator-guide.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Smoke mascot checking polymeric sand bags beside paver and flagstone joints with width, depth, and coverage cards.",
+    "caption": "The Polymeric Sand Calculator guide artwork matches the walkthrough: measure square feet, joint width, joint depth, waste, and bag coverage before checking the product label."
   },
   {
     "slug": "polymeric-sand-calculator",
@@ -3237,7 +3239,9 @@
     "imagePath": "/tool-art/polymeric-sand-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/polymeric-sand-calculator-tool.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Smoke mascot beside paver joints, a sand bucket, and bag-count cards for the Polymeric Sand Calculator.",
+    "caption": "The Polymeric Sand Calculator artwork matches the live tool: enter paver area, joint width, joint depth, waste, and bag coverage to estimate bags."
   },
   {
     "slug": "pool-volume-calculator",

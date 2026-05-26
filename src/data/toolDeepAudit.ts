@@ -356,6 +356,16 @@ const inchPolymericSand = {
   label: 'Inch Calculator: Polymeric sand calculator reference',
 };
 
+const sakretePermasand = {
+  href: 'https://www.sakrete.com/content/uploads/2021/12/PermaSand-TDS.pdf',
+  label: 'Sakrete: PermaSand polymeric jointing sand data sheet',
+};
+
+const quikretePolymericSand = {
+  href: 'https://www.quikrete.com/dealers/products/sandpolymericjointing.asp',
+  label: 'QUIKRETE: Polymeric jointing sand product guidance',
+};
+
 const inchGrassSeed = {
   href: 'https://www.inchcalculator.com/grass-seed-calculator/',
   label: 'Inch Calculator: Grass seed calculator reference',
@@ -3710,20 +3720,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'polymeric-sand-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-deck-patio-landscaping-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [inchPolymericSand, nistSi],
+    sources: [inchPolymericSand, sakretePermasand, quikretePolymericSand, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator estimates paver count from area and paver size, then uses joint width and depth to approximate joint volume.',
-      'The result reports raw joint volume, waste-adjusted volume, estimated pavers, and whole bags.',
-      'The FAQ and guide explain why irregular pavers, old joint cleanup, wide joints, product bag coverage, sweeping loss, and watering instructions matter.',
+      'Google Search Console near-page-one data and DataForSEO showed intent around polymeric sand calculator, square feet, pavers, flagstone, paver joint sand, and bag coverage.',
+      'The calculator estimates paver count from area and paver size, then uses joint width and depth to approximate joint volume before waste and whole-bag rounding.',
+      'Manufacturer guidance shows product coverage depends on joint width, joint depth, paver shape, dry installation, cleanup, watering, curing, and rain protection.',
     ],
     improvements: [
-      'Manually checked joint-volume math, bag rounding, examples, product-coverage caveats, FAQ specificity, guide clarity, source notes, SEO copy, and privacy wording.',
+      'Rewrote metadata, description, aliases, examples, FAQs, guide sections, source notes, and image alt/caption text around pavers, flagstone, 50 lb bag/product-label checks, and planning limits.',
     ],
     followUps: [
-      'Add support for manufacturer square-foot coverage labels if users want a simpler product-driven mode.',
+      'Consider a future product-label mode if users want to enter square-foot bag coverage directly instead of cubic-foot bag yield.',
     ],
   },
   {

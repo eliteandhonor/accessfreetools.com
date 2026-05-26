@@ -2736,7 +2736,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         title: 'Formula and steps',
         paragraphs: [
           getFormulaAnswer(tool.slug),
-          'The formula line on the calculator page is there so the number is not a black box. If the estimate is surprising, check the formula line and the inputs before using the answer in a budget, comparison, or planning note.',
+          'If the estimate looks surprising, check the formula and inputs before using the answer in a budget, comparison, or planning note.',
         ],
       },
       {
@@ -2756,7 +2756,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       {
         title: 'What to try next',
         paragraphs: [
-          'A related calculator can help check the same money question from another angle before you rely on one result.',
+          'A related money tool can help check the same question from another angle before you rely on one result.',
         ],
         bullets: detail.next,
       },

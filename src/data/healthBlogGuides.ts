@@ -1110,7 +1110,7 @@ export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) 
         title: 'Formula and steps',
         paragraphs: [
           getFormulaAnswer(tool.slug),
-          'The formula line on the calculator page is there so the answer is not a mystery. Read it when you need to understand where the number came from, especially before comparing results over time.',
+          'Read the formula note when you need to understand where the number came from, especially before comparing results over time.',
         ],
       },
       {
@@ -1124,14 +1124,14 @@ export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) 
       {
         title: 'Common mistakes to avoid',
         paragraphs: [
-          'Most bad calculator results come from a small input mistake or from using a good estimate for the wrong decision.',
+          'Most bad results come from a small input mistake or from using a rough estimate for a decision it cannot safely answer.',
         ],
         bullets: detail.mistakes,
       },
       {
         title: 'What to try next',
         paragraphs: [
-          'A related calculator can help check the same topic from another angle instead of relying on one number.',
+          'A related health tool can help check the same topic from another angle, but one number should not replace proper care.',
         ],
         bullets: detail.next,
       },

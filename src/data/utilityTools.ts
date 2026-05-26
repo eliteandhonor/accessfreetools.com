@@ -60,11 +60,11 @@ function getUtilityFaqLanguage(spec: UtilityToolSpec) {
       };
     default:
       return {
-        expectedInputs: 'the values, dates, units, or settings the page asks for',
+        expectedInputs: 'the measurements, amounts, units, or options the page asks for',
         inputFallback:
-          'The main inputs are the values, text, dates, units, or settings the tool needs before it can work. Read each field label carefully, keep units consistent, and compare your entry with the examples if the answer looks strange.',
-        examplePhrase: isCalculator ? 'filled-out calculation' : 'filled-out example',
-        doubleCheck: 'Also check that you used the right unit, date, scale, or mode because small input changes can change the result.',
+          'The main inputs are the measurements, amounts, units, or options the tool needs before it can work. Read each field label, keep units consistent, and compare your entry with the examples if the answer looks strange.',
+        examplePhrase: isCalculator ? 'worked example' : 'filled-out example',
+        doubleCheck: 'Also check the unit, scale, mode, and result limit because small input changes can change the answer.',
         privacy: `No. The ${pageNoun} runs in your browser tab. Your recent answers stay only on the page while you use it, and they are not sent to a server.`,
       };
   }
@@ -2253,17 +2253,30 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate polymeric sand volume and bag count from paver area, paver size, joint width, and joint depth.',
     description:
-      'Use this free polymeric sand calculator to estimate joint sand volume and whole bags from paver area, paver size, joint width, joint depth, waste, and bag coverage.',
+      'Estimate polymeric sand volume and whole bags from finished paver area, paver size, joint width, joint depth, waste, and bag coverage.',
+    seoTitle: 'Polymeric Sand Calculator | Pavers, Flagstone, And Bags',
+    seoDescription:
+      'Estimate polymeric sand bags from square feet, paver or flagstone joint width, joint depth, waste, and bag coverage before checking the product label.',
     icon: 'calculator-polymeric-sand',
-    aliases: ['Joint Sand Calculator', 'Paver Sand Calculator', 'Polymeric Joint Sand Calculator'],
+    aliases: [
+      'Joint Sand Calculator',
+      'Paver Sand Calculator',
+      'Polymeric Joint Sand Calculator',
+      'polymeric sand calculator square feet',
+      'polymeric sand calculator for pavers',
+      'polymeric sand calculator for flagstone',
+      'paver sand calculator square feet',
+      '50 lb bag polymeric sand calculator',
+    ],
     formula:
       'The calculator estimates paver count from area and paver size, estimates joint volume from paver edges, adds waste, then divides by bag coverage.',
     limit:
-      'Irregular pavers, old joint cleanup, wide joints, deep joints, product coverage, sweeping loss, and installation method can change the actual bag count.',
+      'This is a planning estimate. Irregular pavers, flagstone shapes, old joint cleanup, wide joints, deep joints, product coverage, sweeping loss, watering, and installation method can change the actual bag count.',
     inputExplanations: [
-      { term: 'Joint width', meaning: 'the average gap between pavers.' },
-      { term: 'Joint depth', meaning: 'how deep the sand needs to fill the gaps.' },
-      { term: 'Bag coverage', meaning: 'the cubic feet or equivalent coverage one bag provides.' },
+      { term: 'Paver area', meaning: 'the finished paver area in square feet, such as a patio, walkway, or flagstone section.' },
+      { term: 'Joint width', meaning: 'the average gap between pavers or flagstone pieces.' },
+      { term: 'Joint depth', meaning: 'how deep the sand needs to fill the joints.' },
+      { term: 'Bag coverage', meaning: 'the cubic feet one bag fills, or the coverage number you convert from the product label.' },
       { term: 'Waste percent', meaning: 'extra sand for sweeping loss, uneven joints, and touch-ups.' },
     ],
     extraFaq: [
@@ -2275,7 +2288,32 @@ export const utilityTools: ToolDefinition[] = [
       {
         question: 'Should I use the bag coverage or the calculator volume?',
         answer:
-          'Use the bag coverage from the product label when you have it. The calculator volume helps you understand the math, but the manufacturer coverage is usually the better buying number.',
+          'Use the bag coverage from the product label when you have it. The calculator volume helps you understand the math, but the exact product label is the number to check before buying.',
+      },
+      {
+        question: 'Can I use this for pavers or flagstone?',
+        answer:
+          'Yes, as a rough estimate. Rectangular pavers fit the math best. Flagstone and random stone joints are less even, so measure a few real joints, use a higher waste percent, and check the product instructions.',
+      },
+      {
+        question: 'What if the bag lists square-foot coverage instead of cubic feet?',
+        answer:
+          'Use the square-foot coverage as a reality check. A 50 lb bag may cover very different areas depending on joint width, joint depth, and paver shape. If the label gives a calculator or chart, check it before buying.',
+      },
+      {
+        question: 'Why do joint width and joint depth matter so much?',
+        answer:
+          'A small change in the gap can change the bag count fast. Wider or deeper joints hold more sand, and shallow joints may not match the product instructions.',
+      },
+      {
+        question: 'Should old polymeric sand be removed first?',
+        answer:
+          'For repairs, old joints may already contain some sand or debris. Clean the joints to the depth required by the product, then measure the space you actually need to refill.',
+      },
+      {
+        question: 'Does the calculator tell me how to install the sand?',
+        answer:
+          'No. It estimates quantity only. Follow the bag instructions for dry pavers, sweeping, compacting, cleaning dust, watering, curing time, and rain protection.',
       },
     ],
     useCases: [
@@ -2285,9 +2323,9 @@ export const utilityTools: ToolDefinition[] = [
       'Add waste for sweeping loss and touch-ups.',
     ],
     examples: [
-      { label: 'Standard paver patio', expression: '200 ft2, 8 x 4 in pavers, 1/4 in joints', result: '4 bags' },
-      { label: 'Wide joints', expression: '120 ft2, 6 x 9 in pavers, 3/8 in joints', result: 'Joint sand bags' },
-      { label: 'Large pavers', expression: '180 ft2, 12 x 12 in pavers', result: 'Lower joint volume' },
+      { label: 'Standard paver patio', expression: '200 ft2, 8 x 4 in pavers, 1/4 in joints, 1 in deep, 0.5 ft3 per bag', result: '1.72 ft3, 4 bags' },
+      { label: 'Wide walkway joints', expression: '120 ft2, 6 x 9 in pavers, 3/8 in joints, 1.25 in deep, 0.45 ft3 per bag', result: '1.46 ft3, 4 bags' },
+      { label: 'Flagstone check', expression: '180 ft2, uneven joints, 50 lb bag label coverage', result: 'Measure real joints and check the product label' },
     ],
     relatedSlugs: ['paver-calculator', 'paver-base-calculator', 'sand-calculator'],
   }),

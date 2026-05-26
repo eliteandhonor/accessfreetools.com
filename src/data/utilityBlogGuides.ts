@@ -99,6 +99,14 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/polymeric-sand-calculator/',
     label: 'Inch Calculator: Polymeric sand calculator reference',
   },
+  sakretePermasand: {
+    href: 'https://www.sakrete.com/content/uploads/2021/12/PermaSand-TDS.pdf',
+    label: 'Sakrete: PermaSand polymeric jointing sand data sheet',
+  },
+  quikretePolymericSand: {
+    href: 'https://www.quikrete.com/dealers/products/sandpolymericjointing.asp',
+    label: 'QUIKRETE: Polymeric jointing sand product guidance',
+  },
   inchGrassSeed: {
     href: 'https://www.inchcalculator.com/grass-seed-calculator/',
     label: 'Inch Calculator: Grass seed calculator reference',
@@ -1916,25 +1924,63 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchPaverBase, sourceLinks.nistUnits],
   },
   'polymeric-sand-calculator': {
-    summary: 'Learn how paver area, paver size, joint width, and joint depth estimate polymeric sand bags.',
+    summary: 'Learn how square feet, paver size, joint width, joint depth, waste, and bag coverage estimate polymeric sand bags.',
     purpose:
-      'The Polymeric Sand Calculator estimates how much joint sand fits between pavers. It is helpful when product coverage is hard to compare across bag sizes.',
+      'The Polymeric Sand Calculator estimates how much joint sand fits between pavers or flagstone. It helps with quantity planning before you check the bag label and product instructions.',
     enter: [
-      'Enter finished paver area and paver dimensions.',
-      'Enter average joint width and joint depth.',
-      'Enter waste percent and the bag coverage in cubic feet.',
+      'Enter the finished paver area in square feet, then add paver length and width.',
+      'Enter average joint width and joint depth. Measure a few spots if the joints are uneven.',
+      'Enter waste percent and bag coverage. If the bag lists square-foot coverage, use that label as a check before buying.',
     ],
     read: [
       'Bags needed rounds the sand volume up by bag coverage.',
       'Sand volume with waste shows the estimated joint fill volume.',
       'Estimated pavers explains the rough piece count used for joint math.',
+      'For example, a 200 square foot patio with 8 x 4 inch pavers, 1/4 inch joints, 1 inch joint depth, 10% waste, and 0.5 cubic foot per bag needs about 1.72 cubic feet of sand, so you buy 4 bags.',
     ],
     mistakes: [
       'Do not expect perfect accuracy for irregular pavers or uneven joints.',
       'Do not forget old joints may already contain some sand.',
       'Do not skip product instructions for joint width, joint depth, watering, and cleanup.',
+      'Do not assume every 50 lb bag covers the same square footage. Joint width, joint depth, and paver shape change coverage.',
     ],
-    sources: [sourceLinks.inchPolymericSand, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick paver patio example',
+        paragraphs: [
+          'Say the patio is 200 square feet and uses 8 x 4 inch pavers. The joints average 1/4 inch wide and 1 inch deep. With 10% waste, the calculator estimates about 1.72 cubic feet of polymeric sand.',
+          'If the bag coverage is 0.5 cubic foot, 1.72 / 0.5 = 3.44. Round up and buy 4 bags. This is a planning estimate, so compare it with the product label before checkout.',
+        ],
+      },
+      {
+        title: 'Why the bag label matters',
+        paragraphs: [
+          'Polymeric sand products do not all cover the same area. Some labels use cubic feet. Some use square feet for a certain joint width and paver thickness. A 50 lb bag can cover very different projects.',
+          'Use the calculator to understand the joint volume, then check the product label or manufacturer chart for the exact sand you plan to buy.',
+        ],
+      },
+      {
+        title: 'Flagstone and old joints',
+        paragraphs: [
+          'Flagstone joints are often wider and less regular than paver joints. Measure several real gaps, use a higher waste percent, and keep the result rough.',
+          'For repairs, old joints may already contain sand, dust, or debris. Clean the joints to the depth the product asks for before trusting any bag count.',
+        ],
+      },
+      {
+        title: 'Watering and cleanup are not optional',
+        paragraphs: [
+          'This page only estimates quantity. Polymeric sand can stain or fail if the surface is damp, dusty, over-watered, under-watered, or hit by rain too soon.',
+          'Follow the bag instructions for dry pavers, sweeping, compacting, dust cleanup, misting, curing time, and rain protection.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchPolymericSand,
+      sourceLinks.sakretePermasand,
+      sourceLinks.quikretePolymericSand,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'grass-seed-calculator': {
     summary: 'Learn how lawn area and seed label rates estimate seed pounds and bags.',
@@ -3499,17 +3545,17 @@ function getUtilityGuideLanguage(tool: (typeof utilityTools)[number]) {
       ? 'enter the values the calculator asks for'
       : 'paste or enter the text, file, setting, or option the tool asks for',
     inputMatch: isCalculator
-      ? 'the number, date, unit, or setting you actually have'
+      ? 'the real measurement, amount, rate, unit, or setting for your job'
       : 'the text, format, mode, option, or platform rule you actually need',
     mismatch: isCalculator
-      ? 'the wrong unit, date, weight, scale, mode, or policy assumption'
+      ? 'a mixed unit, copied value, wrong mode, missing label, or result used for the wrong job'
       : 'the wrong text, mode, format, line break, privacy choice, or platform rule',
     referenceIntro: isCalculator
-      ? 'These references shaped the calculator assumptions, unit choices, or safety notes.'
-      : 'These references shaped the tool logic, format choices, platform limits, or safety notes.',
+      ? 'These references help check the measurements, units, limits, or safety notes used in this guide.'
+      : 'These references help check the tool logic, format choices, platform limits, or safety notes.',
     fallbackReferenceIntro: isCalculator
-      ? 'This guide is based on the calculator inputs, the formula note on the tool page, and common school or everyday usage patterns. If your school, workplace, or organization has an official rule, use that rule first.'
-      : 'This guide is based on the tool inputs, the logic note on the tool page, and common everyday usage patterns. If your school, workplace, platform, or organization has an official rule, use that rule first.',
+      ? 'This guide follows the inputs, formula note, and examples on the tool page. If your project, class, or workplace has an official rule, use that rule first.'
+      : 'This guide follows the inputs, logic note, and examples on the tool page. If your platform, class, or workplace has an official rule, use that rule first.',
     sectionTitle: isCalculator ? 'What this calculator is solving' : `What this ${pageNoun} helps with`,
     logicTitle: isCalculator ? 'The formula in plain language' : 'The logic in plain language',
   };
@@ -3532,27 +3578,27 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
     title: detail.title ?? `How to use the ${tool.name}`,
     description: buildUtilityMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: `${detail.purpose} Use this guide as a short walkthrough: ${guideLanguage.firstStep}, start with the displayed result, then check the notes so you know what it does and does not mean.`,
+    intro: `${detail.purpose} Start here: ${guideLanguage.firstStep}, read the result, then check the limits before you use it.`,
     quickStart: detail.enter,
     sections: [
       {
         title: guideLanguage.sectionTitle,
         paragraphs: [
           detail.purpose,
-          `You do not need to memorize the formula or logic first. Start by matching each input label on the ${guideLanguage.pageNoun} to ${guideLanguage.inputMatch}.`,
+          `Match each input label on the ${guideLanguage.pageNoun} to ${guideLanguage.inputMatch}.`,
         ],
       },
       {
         title: guideLanguage.logicTitle,
         paragraphs: [
           getFormulaAnswer(tool.slug),
-          `If that sounds abstract, use the example cards on the ${guideLanguage.pageNoun} page. They show a ${guideLanguage.examplePhrase} and the kind of answer you should expect.`,
+          `The example cards on the ${guideLanguage.pageNoun} page show a ${guideLanguage.examplePhrase} and the kind of answer you should expect.`,
         ],
       },
       {
         title: 'How to read the answer',
         paragraphs: [
-          'Read the main result first. Then look at the smaller supporting lines because they explain the parts behind the answer, such as totals, units, ranges, counts, or formula steps.',
+          'Read the main result first. Then check the smaller lines for the totals, units, ranges, counts, or formula steps behind it.',
         ],
         bullets: detail.read,
       },

@@ -112,3 +112,13 @@
 - Fresh built-browser proof confirms the public internal-review wording is absent and the new examples, FAQ/schema, modified date, and smart-14 wording render.
 - Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Insulation pages; page scores are 100/100 and post-edit DataForSEO paid evidence passed. Pending commit, deploy, live proof, GSC sitemap submission, and post-deploy DataForSEO closeout.
 - Deployed main commit `b460f73` through Hostinger Node build `019e6234-665b-7106-855c-e3dd52682945`; live Ask retry, production sitemap retry, full GSC sitemap submission, live DOM proof, live browser screenshots, and post-deploy DataForSEO page evidence all passed.
+
+## 2026-05-26 - Polymeric Sand Tool And Guide Sprint Cleared For Deploy
+
+- Reviewed `/tools/polymeric-sand-calculator/` and `/blog/how-to-use-polymeric-sand-calculator/` as a paired sprint using current Google Search Central, Sakrete, QUIKRETE, Inch Calculator competitor, GSC near-page-one data, and DataForSEO evidence.
+- Updated the Polymeric Sand tool with source SEO metadata, square-foot/paver/flagstone/50 lb bag aliases, exact 1.72 ft3 / 4 bag and 1.46 ft3 / 4 bag examples, product-label coverage FAQs, and clearer planning-estimate limits.
+- Expanded the matching guide with a 200 square foot patio walkthrough, a 50 lb bag/product-label section, flagstone and old-joint cautions, and dry-paver/watering/cleanup limits.
+- Repaired Polymeric Sand tool and guide image alt/caption source data so the artwork describes paver joints, flagstone joints, sand buckets, joint width/depth, coverage cards, and bag count.
+- Cleaned low-risk generic guide template copy flagged by the sub-agent, including “calculator assumptions”, “Use this guide as a short walkthrough”, and non-specific calculator/resource wording.
+- Fresh built-browser proof confirms the public internal-review wording is absent and the new paver/flagstone/bag-label phrases, FAQ/schema, modified date, and smart-14 wording render.
+- Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Polymeric Sand pages; page scores are 100/100 and post-edit DataForSEO paid evidence passed. Pending commit, deploy, live proof, GSC sitemap submission, and post-deploy DataForSEO closeout.
