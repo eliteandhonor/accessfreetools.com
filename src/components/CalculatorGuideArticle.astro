@@ -72,10 +72,16 @@ const resourcesLabel = isCalculatorGuide ? 'Free calculator resources' : 'Free t
 const resourcesText = isCalculatorGuide
   ? 'Start here when you are not sure which calculator page fits.'
   : 'Start here when you are not sure which tool page fits.';
+const guidePrivacyCopyBySlug: Partial<Record<string, string>> = {
+  'age-calculator':
+    'Use Copy answer when you want to save the birth date, as-of date, exact age, total days, or next birthday note. Check the cutoff date and any official rule before using it on a form.',
+};
 const privacyCopy = {
-  copy: tool?.category === 'text-tools'
-    ? 'Use Copy answer when you want to paste the count or result into notes, schoolwork, a message, or another document. Check spacing, line breaks, emoji, byte limits, and platform rules before copying.'
-    : 'Use Copy answer when you want to save the inputs and result in notes, homework, a message, or a project list. Check the units, labels, and limits before copying.',
+  copy:
+    (tool ? guidePrivacyCopyBySlug[tool.slug] : undefined) ??
+    (tool?.category === 'text-tools'
+      ? 'Use Copy answer when you want to paste the count or result into notes, schoolwork, a message, or another document. Check spacing, line breaks, emoji, byte limits, and platform rules before copying.'
+      : 'Use Copy answer when you want to save the inputs and result in notes, homework, a message, or a project list. Check the units, labels, and limits before copying.'),
 };
 const imageUrl = guideArt
   ? `https://accessfreetools.com${guideArt.imagePath}`

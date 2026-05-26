@@ -36,6 +36,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/age-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/age-calculator-guide.webp",
+    "alt": "Smoke mascot comparing two calendar cards with baby footprints and arrows showing age results over time.",
+    "caption": "Age Calculator guide artwork shows the birth date and as-of date as two calendars, with arrows pointing to exact age and birthday timing.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -44,6 +46,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/age-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/age-calculator-tool.webp",
+    "alt": "Smoke mascot holding a birthday cupcake beside a calendar, baby footprints, a graduation cap, and adult age markers.",
+    "caption": "Age Calculator artwork follows a birthday-to-as-of-date timeline, with calendar and life-stage icons for exact age, total days, and next birthday checks.",
     "status": "approved",
     "qaStatus": "approved"
   },

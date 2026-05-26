@@ -34,6 +34,8 @@ interface UtilityGuideDetail {
   readIntro?: string;
   mistakeIntro?: string;
   sidecarText?: string;
+  metaDescription?: string;
+  referenceIntro?: string;
   enter: string[];
   read: string[];
   mistakes: string[];
@@ -56,6 +58,10 @@ const sourceLinks = {
   mdnDate: {
     href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date',
     label: 'MDN: JavaScript Date reference',
+  },
+  mdnDateInput: {
+    href: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/date',
+    label: 'MDN: HTML date input',
   },
   nistUnits: {
     href: 'https://www.nist.gov/pml/special-publication-811',
@@ -501,25 +507,72 @@ const sourceLinks = {
 
 const guideDetails: Record<string, UtilityGuideDetail> = {
   'age-calculator': {
-    summary: 'Learn how to calculate exact age from a birth date to any selected date.',
+    title: 'Age Calculator Guide',
+    summary: 'Learn how to check exact age, total days lived, and the next birthday from two calendar dates.',
+    metaDescription:
+      'Use the Age Calculator guide to enter a birth date, choose an as-of date, read exact age, check total days, and avoid leap-day or cutoff mistakes.',
     purpose:
-      'The Age Calculator is for exact calendar age, not just an approximate year count. It shows years, months, days, total days, and next birthday timing from two date inputs.',
+      'The Age Calculator is for exact calendar age, not just a rough birth-year guess. It compares a birth date with the as-of date you choose, then shows years, months, days, total days, and the next birthday countdown.',
+    intro:
+      'Use it when the exact date matters: a birthday, a form, a school cutoff, a future event, or a quick check before you copy an age somewhere else.',
+    inputMatch: 'a birth date and an as-of date entered as real YYYY-MM-DD calendar dates',
+    logicNote:
+      'The tool counts completed years first, then completed months, then leftover days. It also counts total days using date-only UTC math so clock time and daylight-saving changes do not move the answer.',
+    readIntro:
+      'Read the years-months-days line first, then use total days or next birthday only if that is the number your task needs.',
+    mistakeIntro:
+      'Most wrong age results come from using today when you needed a future cutoff date, swapping month and day order, or treating a legal rule like it has the same birthday rule as a simple calculator.',
+    referenceIntro:
+      'These references help check date format and browser date behavior used by this guide.',
     enter: [
       'Enter the birth date in the first date field.',
-      'Enter the date you want to calculate age on in the second field.',
-      'Use a future as-of date when you need age on a deadline, birthday, or event date.',
+      'Enter the as-of date in the second field. Use today only when you really mean today.',
+      'Use a future as-of date for a school cutoff, sports age group, birthday, deadline, or event date.',
     ],
     read: [
       'The main answer shows completed years, months, and days.',
-      'Total days is useful when you need a continuous day count.',
-      'Next birthday helps with countdowns and planning.',
+      'Total days is useful when you need one continuous day count instead of calendar age.',
+      'Next birthday shows the next matching month and day after the as-of date.',
     ],
     mistakes: [
       'Do not use this as a final legal age decision when a rule has its own cutoff.',
       'Do not confuse exact calendar age with rough age by birth year.',
+      'Do not assume every leap-day rule uses the same non-leap-year birthday.',
       'Check the as-of date before copying the result.',
     ],
-    sources: [sourceLinks.isoDate, sourceLinks.mdnDate],
+    extraSections: [
+      {
+        title: 'Quick example',
+        paragraphs: [
+          'If someone was born on 2010-04-30 and the as-of date is 2026-04-30, the answer is 16 years, 0 months, and 0 days. If the as-of date is 2026-04-29, they are still 15 years, 11 months, and 30 days.',
+        ],
+      },
+      {
+        title: 'Leap-day birthdays',
+        paragraphs: [
+          'A February 29 birthday is a real date, but non-leap years can be handled differently by schools, sports groups, insurance forms, and legal rules. Use the calculator for the date math, then check the official rule when the result matters.',
+        ],
+      },
+      {
+        title: 'Calendar age vs total days',
+        paragraphs: [
+          'Calendar age feels natural because people talk in years, months, and days. Total days is better when the exact continuous day count matters. They are both useful, but they answer different questions.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'If you need the number of days between two dates without calling it an age, use the Date Calculator. If time of day matters, use a time or hours tool instead of this date-only page.',
+        ],
+        links: [
+          { href: '/tools/date-calculator/', label: 'Count days between two dates' },
+          { href: '/tools/time-calculator/', label: 'Work with clock time' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Age Calculator beside this guide. Try the birthday-today example first, then change the birth date and as-of date to your own check.',
+    sources: [sourceLinks.isoDate, sourceLinks.mdnDate, sourceLinks.mdnDateInput],
   },
   'date-calculator': {
     title: 'Date Calculator Guide',
@@ -3774,7 +3827,7 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
     toolSlug: tool.slug,
     label: `${tool.name} guide`,
     title: detail.title ?? `How to use the ${tool.name}`,
-    description: buildUtilityMetaDescription(tool, detail.summary),
+    description: detail.metaDescription ?? buildUtilityMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: `${detail.purpose} ${detail.intro ?? `Start here: ${guideLanguage.firstStep}, read the result, then check the limits before you use it.`}`,
     quickStart: detail.enter,
@@ -3814,9 +3867,10 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
       {
         title: 'Research and references',
         paragraphs: [
-          detail.sources.length > 0
+          detail.referenceIntro ??
+          (detail.sources.length > 0
             ? guideLanguage.referenceIntro
-            : guideLanguage.fallbackReferenceIntro,
+            : guideLanguage.fallbackReferenceIntro),
         ],
         links: detail.sources,
       },

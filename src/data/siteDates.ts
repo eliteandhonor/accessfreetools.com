@@ -8,6 +8,7 @@ export const RSS_ITEM_LIMIT = 60;
 const DEFAULT_BLOG_PUBLISHED_DATE = '2026-04-30';
 
 const toolLastmodOverrides: Record<string, string> = {
+  'age-calculator': '2026-05-26',
   'interest-rate-calculator': '2026-05-26',
   'gas-mileage-calculator': '2026-05-26',
   'half-life-calculator': '2026-05-26',
@@ -31,6 +32,7 @@ const toolLastmodOverrides: Record<string, string> = {
 };
 
 const blogModifiedOverrides: Record<string, string> = {
+  'how-to-use-age-calculator': '2026-05-26',
   'how-to-use-half-life-calculator': '2026-05-26',
   'how-to-use-character-counter': '2026-05-26',
   'how-to-use-markup-calculator': '2026-05-26',

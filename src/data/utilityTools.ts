@@ -149,12 +149,61 @@ export const utilityTools: ToolDefinition[] = [
     category: 'date-time',
     summary: 'Calculate exact calendar age in years, months, days, and total days.',
     description:
-      'Use this free age calculator to find age on any date, total days lived, next birthday, and days until the next birthday.',
+      'Enter a birth date and an as-of date to get exact calendar age, total days lived, and the next birthday countdown.',
     icon: 'calculator-age',
+    aliases: ['Birthday Calculator', 'Exact Age Calculator', 'Age Difference Calculator', 'Age in Days Calculator'],
+    seoTitle: 'Age Calculator | Exact Age, Total Days, Next Birthday',
+    seoDescription:
+      'Calculate age from a birth date to any as-of date. See years, months, days, total days lived, and next birthday timing.',
     formula:
       'The calculator compares two valid calendar dates, subtracts full years, then remaining months and days. It also counts total days using UTC calendar dates.',
     limit:
       'Check the as-of date carefully. Legal, school, insurance, and age-restricted decisions can use their own cutoff rules.',
+    faqLanguage: {
+      expectedInputs: 'a real birth date and the exact as-of calendar date you want to check',
+      inputFallback:
+        'Birth date is the starting date. As-of date is the date you want to know the age on, such as today, a birthday, a school cutoff, or a future event.',
+      doubleCheck:
+        'Also check the birth date, as-of date, leap-day rule, and any official cutoff date because one day can change the answer.',
+    },
+    inputExplanations: [
+      { term: 'Birth date', meaning: 'the birth or start date you want to compare, in YYYY-MM-DD form.' },
+      { term: 'As-of date', meaning: 'the calendar date you want to calculate age on, not always today.' },
+      { term: 'Total days', meaning: 'the full day count between those two dates, separate from calendar years and months.' },
+      { term: 'Next birthday', meaning: 'the next matching month and day after the as-of date.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Does the Age Calculator include today?',
+        answer:
+          'It compares date to date. If the birth date and as-of date are the same calendar day, age is 0 days. If the as-of date is tomorrow, it counts 1 full day.',
+      },
+      {
+        question: 'Why can calendar age differ from total days lived?',
+        answer:
+          'Calendar age uses completed years, then months, then days. Total days is one continuous count. They differ because months and years do not all have the same number of days.',
+      },
+      {
+        question: 'How are leap-day birthdays handled?',
+        answer:
+          'The calculator treats February 29 as the actual birth date. For official forms, schools, insurance, and age limits, check the rule that says whether a non-leap year uses February 28 or March 1.',
+      },
+      {
+        question: 'Can I use this for legal age checks?',
+        answer:
+          'Use it as a quick check only. Legal age, school eligibility, sports groups, insurance, and age-restricted services may define their own cutoff date or leap-day rule.',
+      },
+      {
+        question: 'What date format should I use?',
+        answer:
+          'Use the browser date picker when it appears. The stored value is a YYYY-MM-DD date, which keeps month and day order clear across different countries.',
+      },
+      {
+        question: 'What does days until next birthday mean?',
+        answer:
+          'It is the number of days from the as-of date to the next birthday date. If the birthday is today, the countdown is 0 days.',
+      },
+    ],
     useCases: [
       'Find exact age today or on a future date.',
       'Calculate age for forms, school records, birthday planning, or quick checks.',
@@ -163,7 +212,7 @@ export const utilityTools: ToolDefinition[] = [
     ],
     examples: [
       { label: 'Born Jan 1, 2000', expression: '2000-01-01 to 2026-04-30', result: '26 years, 3 months, 29 days' },
-      { label: 'Leap day birthday', expression: '2004-02-29 to 2026-04-30', result: 'Leap-aware calendar age' },
+      { label: 'Leap day birthday', expression: '2004-02-29 to 2026-04-30', result: '22 years, 2 months, 1 day' },
       { label: 'Birthday today', expression: '2010-04-30 to 2026-04-30', result: '16 years, 0 months, 0 days' },
     ],
     relatedSlugs: ['date-calculator', 'time-calculator', 'hours-calculator'],

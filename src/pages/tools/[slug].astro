@@ -88,6 +88,8 @@ const toolPageNoun = isNamedCalculator
       ? 'generator'
       : 'tool';
 const utilityTrustTextBySlug: Partial<Record<string, string>> = {
+  'age-calculator':
+    'This page is for date-only age checks. If a legal, school, sports, insurance, or age-restricted rule has its own cutoff date, use that rule before trusting the quick result.',
   'date-calculator':
     'This page is for calendar dates, not clock times. If a deadline has official counting rules, business days, holidays, or a time zone, use those rules before trusting the quick result.',
 };
@@ -634,6 +636,12 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Choose Add or subtract when you want a date before or after a starting date.',
     'Enter dates in YYYY-MM-DD form so month and day order stay clear.',
     'Check the start-date, business-day, holiday, and time-zone rules before using the result as a deadline.',
+  ],
+  'age-calculator': [
+    'Enter the birth date as a real calendar date.',
+    'Enter the as-of date you want to check, such as today, a birthday, a school cutoff, or a future deadline.',
+    'Press Calculate Age to see completed years, months, days, total days, and days until the next birthday.',
+    'Use the result for planning and checking, not as the final answer for a legal, school, insurance, or age-restricted rule.',
   ],
   'square-footage-calculator': [
     'Enter length and width in feet for one rectangular section.',

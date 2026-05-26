@@ -206,6 +206,11 @@ const mdnDate = {
   label: 'MDN: JavaScript Date reference',
 };
 
+const mdnDateInput = {
+  href: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/date',
+  label: 'MDN: HTML date input',
+};
+
 const ianaTimeZones = {
   href: 'https://www.iana.org/time-zones',
   label: 'IANA: Time Zone Database',
@@ -5500,17 +5505,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'age-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [isoDate, mdnDate],
+    sources: [isoDate, mdnDate, mdnDateInput],
     findings: [
       'The age helper compares two calendar dates, subtracts full years first, then remaining months and days.',
-      'Tests cover age, total days, date difference, and shifted-date behavior in the date-time helper group.',
-      'The generated FAQ explains date inputs and reminds users that date-only math is different from time-zone or birth-time astrology-style claims.',
+      'The page now explains total days, next birthday, leap-day birthdays, and why official cutoff rules can differ from a quick calculator result.',
+      'Date input copy is specific to a birth date and as-of date, not generic units or mixed calculator wording.',
     ],
     improvements: [
-      'Manually checked age calculation wording, date input labels, examples, generated FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Expanded Age Calculator metadata, FAQs, guide sections, examples, trust note, image alt text, and privacy wording using DataForSEO and page-specific browser proof.',
     ],
     followUps: [
       'Add time-of-birth mode only if it has exact time-zone handling and clear limitations.',
