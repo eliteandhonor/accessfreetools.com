@@ -1056,9 +1056,24 @@ const ftcInsulationBuying = {
   label: 'FTC: What to know when buying home insulation',
 };
 
-const lowesWallpaper = {
-  href: 'https://www.inchcalculator.com/wallpaper-calculator/',
-  label: 'Inch Calculator: Wallpaper calculator reference',
+const yorkWallpaperRoomChart = {
+  href: 'https://www.yorkwallcoverings.com/documents/how-much-wallpaper.pdf',
+  label: 'York Wallcoverings: Wallpaper room estimate chart',
+};
+
+const lowesWallpaperInstall = {
+  href: 'https://www.lowes.com/pdf/Step-by-Step-Guide-Wallpaper-Installation.pdf',
+  label: 'Lowe\'s: Peel-and-stick wallpaper installation guide',
+};
+
+const grahamBrownWallpaperAmount = {
+  href: 'https://support.grahambrown.com/hc/en-us/articles/207134025-How-do-I-know-how-much-wallpaper-I-need',
+  label: 'Graham & Brown: How much wallpaper you need',
+};
+
+const grahamBrownWallpaperBatch = {
+  href: 'https://support.grahambrown.com/hc/en-us/articles/4407747771026-What-is-a-batch-number',
+  label: 'Graham & Brown: Wallpaper batch number guidance',
 };
 
 const lowesTile = {
@@ -1718,17 +1733,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'wallpaper-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-risk-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [lowesWallpaper, nistSi],
+    sources: [yorkWallpaperRoomChart, lowesWallpaperInstall, grahamBrownWallpaperAmount, grahamBrownWallpaperBatch, nistSi, googleHelpfulContent],
     findings: [
       'The calculator finds wall area from perimeter and height, subtracts standard doors/windows, adds waste, divides by roll coverage, and rounds to whole rolls.',
       'The FAQ and guide explain waste percent, roll coverage, pattern repeat, drop matches, dye lots, and why usable roll yield can be lower than printed roll size.',
-      'The page includes the detailed plain-language explanation the user requested for waste percent and product-label coverage.',
+      'Current source checks confirmed the page should keep product-label coverage, pattern repeat, extra waste, and batch/lot checks visible instead of pretending square-foot math is perfect.',
     ],
     improvements: [
-      'Manually checked wallpaper math, detailed FAQ, expanded guide sections, example roll calculation, related tools, and source notes.',
+      'Manually checked wallpaper math, detailed FAQ, expanded guide sections, example roll calculation, source notes, image alt/caption text, modified dates, and DataForSEO sprint evidence.',
     ],
     followUps: [
       'Add accent-wall mode later so users do not have to estimate a single wall as a full room.',
@@ -7236,7 +7251,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
   if (tool.category === 'home-projects') {
     if (includesAny(key, ['wallpaper'])) {
-      return sourceBackstop([lowesWallpaper, nistSi]);
+      return sourceBackstop([yorkWallpaperRoomChart, lowesWallpaperInstall, grahamBrownWallpaperAmount, grahamBrownWallpaperBatch, nistSi, googleHelpfulContent]);
     }
 
     if (includesAny(key, ['flooring'])) {

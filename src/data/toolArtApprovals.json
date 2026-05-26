@@ -4748,6 +4748,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/wallpaper-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/wallpaper-calculator-guide.webp",
+    "alt": "Smoke mascot measuring room walls beside wallpaper rolls, window cutouts, pattern-repeat marks, waste percent, and cost tags.",
+    "caption": "Wallpaper Calculator guide art matches the walkthrough: measure the walls, subtract openings, add waste, check pattern repeat, and buy whole rolls.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -4756,6 +4758,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/wallpaper-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/wallpaper-calculator-tool.webp",
+    "alt": "Smoke mascot beside a wallpaper roll estimator screen with room size, doors, windows, roll coverage, waste percent, and rolls needed.",
+    "caption": "Wallpaper Calculator art shows the tool inputs that matter: room size, openings, roll coverage, waste percent, whole-roll rounding, and optional roll cost.",
     "status": "approved",
     "qaStatus": "approved"
   },

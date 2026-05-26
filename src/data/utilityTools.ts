@@ -2264,7 +2264,7 @@ export const utilityTools: ToolDefinition[] = [
     ],
     examples: [
       { label: 'Bedroom', expression: '12 x 10 x 8 ft, 1 door, 2 windows, 56 ft2/roll, $42/roll', result: '6 rolls, about $252' },
-      { label: 'Small office', expression: '10 x 9 x 8 ft, 48 ft2/roll, 12% waste', result: 'Wallpaper roll estimate' },
+      { label: 'Small office', expression: '10 x 9 x 8 ft, 1 door, 1 window, 48 ft2/roll, 12% waste', result: '7 rolls, about 301 ft2 with waste' },
       { label: 'Accent wall plan', expression: '96 ft2 wall, 56 ft2/roll, 15% waste', result: '2 rolls' },
     ],
     relatedSlugs: ['paint-calculator', 'drywall-calculator', 'flooring-calculator', 'square-footage-calculator'],

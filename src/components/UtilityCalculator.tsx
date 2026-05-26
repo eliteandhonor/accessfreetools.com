@@ -5844,7 +5844,7 @@ function calculateUtility(
           { label: 'Wallpaper area', value: `${formatCalculatorNumber(result.wallpaperSquareFeet)} ft2` },
           { label: 'Area with waste', value: `${formatCalculatorNumber(result.adjustedSquareFeet)} ft2` },
           { label: 'Roll coverage', value: `${formatCalculatorNumber(result.rollCoverageSquareFeet)} ft2` },
-          { label: 'Estimated cost', value: result.estimatedCost === null ? 'Not entered' : money(result.estimatedCost) },
+          { label: 'Estimated cost', value: result.estimatedCost === null ? 'Add price per roll' : money(result.estimatedCost) },
         ],
         steps: [
           'Find wall area from room perimeter times wall height.',
@@ -5852,7 +5852,7 @@ function calculateUtility(
           'Add waste, divide by roll coverage, and round up to whole rolls.',
           'Multiply rolls by price per roll when a price is entered.',
         ],
-        note: 'Pattern repeat, usable roll yield, odd walls, and dye lots can change the real number of rolls.',
+        note: 'Pattern repeat, usable roll yield, odd walls, returns, and batch numbers can change the real order.',
       };
     }
     case 'fence': {

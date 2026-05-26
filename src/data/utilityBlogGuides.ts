@@ -415,29 +415,21 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/asphalt-calculator/',
     label: 'Inch Calculator: Asphalt calculator reference',
   },
-  lowesWallpaper: {
-    href: 'https://www.inchcalculator.com/wallpaper-calculator/',
-    label: 'Inch Calculator: Wallpaper calculator reference',
+  yorkWallpaperRoomChart: {
+    href: 'https://www.yorkwallcoverings.com/documents/how-much-wallpaper.pdf',
+    label: 'York Wallcoverings: Wallpaper room estimate chart',
   },
   lowesWallpaperInstall: {
     href: 'https://www.lowes.com/pdf/Step-by-Step-Guide-Wallpaper-Installation.pdf',
     label: 'Lowe\'s: Peel-and-stick wallpaper installation guide',
   },
-  homeDepotWallpaper: {
-    href: 'https://www.inchcalculator.com/wallpaper-calculator/',
-    label: 'Inch Calculator: Wallpaper measuring reference',
+  grahamBrownWallpaperAmount: {
+    href: 'https://support.grahambrown.com/hc/en-us/articles/207134025-How-do-I-know-how-much-wallpaper-I-need',
+    label: 'Graham & Brown: How much wallpaper you need',
   },
-  homeDepotPastedWallpaper: {
-    href: 'https://www.ethanallen.ca/on/demandware.static/-/Library-Sites-ethanallen-shared/default/dw121d97c4/pdf/buying-guides/wallpaper_buying_guide.pdf',
-    label: 'Ethan Allen: Wallpaper repeat and match glossary',
-  },
-  grahamBrownWallpaper: {
-    href: 'https://www.ethanallen.com/on/demandware.static/-/Sites-main/default/dw86adbffa/pdfs/wallcovering_how_to%20measure_guide.pdf',
-    label: 'Ethan Allen: Wallpaper measuring and pattern repeat guide',
-  },
-  ethanAllenWallpaperGuide: {
-    href: 'https://www.ethanallen.ca/on/demandware.static/-/Library-Sites-ethanallen-shared/default/dw121d97c4/pdf/buying-guides/wallpaper_buying_guide.pdf',
-    label: 'Ethan Allen: Wallpaper repeat and match glossary',
+  grahamBrownWallpaperBatch: {
+    href: 'https://support.grahambrown.com/hc/en-us/articles/4407747771026-What-is-a-batch-number',
+    label: 'Graham & Brown: Wallpaper batch number guidance',
   },
   lowesSiding: {
     href: 'https://www.certainteed.com/products/documents-downloads',
@@ -2046,13 +2038,12 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       },
     ],
     sources: [
-      sourceLinks.lowesWallpaper,
+      sourceLinks.yorkWallpaperRoomChart,
       sourceLinks.lowesWallpaperInstall,
-      sourceLinks.homeDepotWallpaper,
-      sourceLinks.homeDepotPastedWallpaper,
-      sourceLinks.grahamBrownWallpaper,
-      sourceLinks.ethanAllenWallpaperGuide,
+      sourceLinks.grahamBrownWallpaperAmount,
+      sourceLinks.grahamBrownWallpaperBatch,
       sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
     ],
   },
   'fence-calculator': {

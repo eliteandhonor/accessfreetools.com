@@ -36,6 +36,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'oven-temperature-converter': '2026-05-26',
   'image-to-text-ocr-tool': '2026-05-26',
   'gdp-calculator': '2026-05-26',
+  'wallpaper-calculator': '2026-05-26',
 };
 
 const blogModifiedOverrides: Record<string, string> = {
@@ -65,6 +66,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-oven-temperature-converter': '2026-05-26',
   'how-to-use-image-to-text-ocr-tool': '2026-05-26',
   'how-to-use-gdp-calculator': '2026-05-26',
+  'how-to-use-wallpaper-calculator': '2026-05-26',
 };
 
 const staticPageLastmod: Record<string, string> = {
