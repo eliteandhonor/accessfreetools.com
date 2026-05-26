@@ -79,6 +79,26 @@ const guidePath = getBlogGuidePathForTool(tool.slug);
 const guideToolSlug = getBlogGuideToolSlugForTool(tool.slug);
 const guideTool = tools.find((candidate) => candidate.slug === guideToolSlug);
 const guideTitle = `How to use the ${guideTool?.name ?? tool.name}`;
+const isNamedCalculator = tool.name.endsWith('Calculator') || tool.category === 'calculators';
+const toolPageNoun = isNamedCalculator
+  ? 'calculator'
+  : tool.name.endsWith('Converter')
+    ? 'converter'
+    : tool.name.endsWith('Generator')
+      ? 'generator'
+      : 'tool';
+const utilityTrustText =
+  tool.category === 'text-tools'
+    ? 'This is a fast browser tool for text checks, formatting, and learning. If a school, app, client, API, or form has an official limit, use that rule before trusting a quick count.'
+    : 'This is a fast browser tool for estimates, formatting, checks, and learning. If a school, workplace, building job, network, account, API, or regulated measurement has an official rule, use that rule before trusting a quick result.';
+const categoryLinkDescription =
+  tool.category === 'text-tools'
+    ? 'Browse related text tools and editing checks in the same category.'
+    : 'Browse related calculators and utilities in the same category.';
+const guideLibraryLabel = isNamedCalculator ? 'Calculator and utility guides' : 'Tool and utility guides';
+const guideLibraryDescription = isNamedCalculator
+  ? 'Find more guides that use real tool inputs and example numbers.'
+  : 'Find more guides that use real tool inputs, examples, mistakes, and result notes.';
 const toolArt = !isAliasPage ? getToolArt(tool.slug, 'tool') : undefined;
 const toolSocialImagePath =
   {
@@ -1800,11 +1820,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       isUtilityTool && (
         <aside class="trust-note trust-note-utility" aria-label={`${tool.name} assumptions`}>
           <strong>Check the assumptions before relying on the result</strong>
-          <p>
-            This is a fast browser tool for estimates, formatting, checks, and learning. If a school, workplace,
-            building job, network, account, API, or regulated measurement has an official rule, use that rule before
-            trusting a quick result.
-          </p>
+          <p>{utilityTrustText}</p>
         </aside>
       )
     }
@@ -1915,7 +1931,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     <section class="content-section">
       <h2>Need the guide or a nearby tool?</h2>
       <p>
-        Need a slower walkthrough, a nearby calculator, or the full library? These links keep you
+        Need a slower walkthrough, a related {toolPageNoun}, or the full library? These links keep you
         close to the task you started.
       </p>
       <ul class="guide-link-list">
@@ -1925,7 +1941,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         </li>
         <li>
           <a href={categoryPath}>{categoryName}</a>
-          <span>Browse related calculators and utilities in the same category.</span>
+          <span>{categoryLinkDescription}</span>
         </li>
         {matchingHub && (
           <li>
@@ -1934,12 +1950,12 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
           </li>
         )}
         <li>
-          <a href="/blog/">Calculator and utility guides</a>
-          <span>Find more guides that use real tool inputs and example numbers.</span>
+          <a href="/blog/">{guideLibraryLabel}</a>
+          <span>{guideLibraryDescription}</span>
         </li>
         <li>
           <a href="/tools/">All free tools</a>
-          <span>Search every live calculator, converter, AI helper, and browser utility.</span>
+          <span>Search every live tool, converter, calculator, AI helper, and browser utility.</span>
         </li>
       </ul>
     </section>

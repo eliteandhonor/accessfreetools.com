@@ -3707,7 +3707,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         examples: [
           { label: 'Page title', inputs: { text: 'Free calculator tools for quick everyday math.' } },
           { label: 'Short message', inputs: { text: 'Meeting moved to 2:30 PM. Bring the latest estimate.' } },
-          { label: 'Emoji check', inputs: { text: 'Launch day notes: calculators, converters, and design tools.' } },
+          { label: 'Emoji check', inputs: { text: 'Launch day notes: calculators, converters, and design tools 🙂' } },
         ],
       },
     ],
@@ -7006,7 +7006,7 @@ function calculateUtility(
           { label: 'Lines', value: formatCalculatorNumber(result.lines) },
         ],
         steps: [
-          'Count visible Unicode characters in the text.',
+          'Count Unicode code points in the text.',
           'Count a second value after removing whitespace characters.',
           'Encode the text as UTF-8 to estimate byte length for technical limits.',
         ],

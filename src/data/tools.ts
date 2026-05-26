@@ -2655,9 +2655,10 @@ function getCategoryReadingAnswer(tool: ToolDefinition) {
     case 'home-projects':
       return 'Read the headline estimate first, then check the material, waste, coverage, and unit lines. For project tools, the supporting lines are often the difference between a rough idea and a list you can actually shop from.';
     case 'developer-tools':
-    case 'text-tools':
     case 'converters':
       return 'Read the output next to your original input. If the tool changes format, units, encoding, spacing, or capitalization, compare a small sample before copying the whole result into another app.';
+    case 'text-tools':
+      return 'Read the output next to your original text. If the tool changes spacing, line breaks, encoding, capitalization, or word breaks, compare a small sample before copying the whole result into another app.';
     case 'ai-tools':
       return 'Read the AI result as a best-effort clue or draft. Look at labels, scores, notes, and warnings together, then compare the result with the original text or image before using it anywhere important.';
     default:

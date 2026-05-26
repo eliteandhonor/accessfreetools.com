@@ -276,6 +276,11 @@ const mdnTextEncoder = {
   label: 'MDN: TextEncoder',
 };
 
+const mdnStringLength = {
+  href: 'https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/length',
+  label: 'MDN: JavaScript String length',
+};
+
 const mdnCssClamp = {
   href: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/clamp',
   label: 'MDN: CSS clamp()',
@@ -309,6 +314,11 @@ const nistFips180 = {
 const googleSeoStarter = {
   href: 'https://developers.google.com/search/docs/fundamentals/seo-starter-guide',
   label: 'Google Search Central: SEO Starter Guide',
+};
+
+const googleSnippets = {
+  href: 'https://developers.google.com/search/docs/appearance/snippet',
+  label: 'Google Search Central: Snippets',
 };
 
 const calculatorInnSitemap = {
@@ -5880,17 +5890,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'character-counter',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [mdnTextEncoder, googleSeoStarter],
+    sources: [mdnTextEncoder, mdnStringLength, googleSnippets],
     findings: [
-      'The character counter uses the shared text analyzer for visible characters, no-space characters, lines, words, and UTF-8 byte length.',
+      'The character counter uses the shared text analyzer for Unicode code point counts, no-space counts, lines, words, and UTF-8 byte length.',
       'Tests cover the shared text analyzer that powers the character and word counts.',
-      'The guide warns that apps and platforms can count emoji sequences, links, rich text, and line breaks differently.',
+      'The guide warns that apps and platforms can count emoji sequences, links, rich text, spaces, and line breaks differently.',
     ],
     improvements: [
-      'Manually checked character-count wording, byte-length explanation, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Manually checked character-count wording, byte-length explanation, real-number examples, generated FAQ detail, guide cautions, related links, SEO copy, image alt text, and privacy behavior.',
     ],
     followUps: [
       'Add social/meta length presets only if the UI explains they are practical targets, not guaranteed display lengths.',

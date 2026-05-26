@@ -23,34 +23,81 @@ interface UtilityToolSpec {
   relatedSlugs: string[];
 }
 
+function getUtilityFaqLanguage(spec: UtilityToolSpec) {
+  const isCalculator = spec.name.endsWith('Calculator');
+  const pageNoun = isCalculator ? 'calculator' : 'tool';
+
+  switch (spec.category) {
+    case 'text-tools':
+      return {
+        expectedInputs: 'the exact text, spacing, line breaks, format, or platform rule the page asks for',
+        inputFallback:
+          'The main input is the text you want to count, clean, format, or rewrite. Paste the exact text you want to check, including spaces and line breaks when they matter.',
+        examplePhrase: 'filled-out example',
+        doubleCheck: 'Also check the target app limit, spacing, line breaks, emoji, and selected mode because small text changes can change the result.',
+        privacy:
+          'No. The tool runs in your browser tab. Your recent answers stay only on the page while you use it, and they are not sent to a server.',
+      };
+    case 'developer-tools':
+      return {
+        expectedInputs: 'the text, code, URL, mode, format, or technical setting the page asks for',
+        inputFallback:
+          'The main inputs are usually text, code, a URL, a number base, or a mode setting. Paste only the part you want the tool to work on and compare the output with the examples.',
+        examplePhrase: 'filled-out example',
+        doubleCheck: 'Also check the selected mode, input format, encoding, and whether the text includes private keys, passwords, or sensitive data.',
+        privacy:
+          'No. The tool runs in your browser tab. Your recent answers stay only on the page while you use it, and they are not sent to a server.',
+      };
+    case 'converters':
+      return {
+        expectedInputs: 'the value, source unit, target unit, format, or mode the page asks for',
+        inputFallback:
+          'The main inputs are the value you want to convert and the from/to units or formats. Keep the original value in the first field and choose the target unit carefully.',
+        examplePhrase: 'filled-out example',
+        doubleCheck: 'Also check the source unit, target unit, format, decimal places, and selected mode because small input changes can change the result.',
+        privacy:
+          'No. The tool runs in your browser tab. Your recent answers stay only on the page while you use it, and they are not sent to a server.',
+      };
+    default:
+      return {
+        expectedInputs: 'the values, dates, units, or settings the page asks for',
+        inputFallback:
+          'The main inputs are the values, text, dates, units, or settings the tool needs before it can work. Read each field label carefully, keep units consistent, and compare your entry with the examples if the answer looks strange.',
+        examplePhrase: isCalculator ? 'filled-out calculation' : 'filled-out example',
+        doubleCheck: 'Also check that you used the right unit, date, scale, or mode because small input changes can change the result.',
+        privacy: `No. The ${pageNoun} runs in your browser tab. Your recent answers stay only on the page while you use it, and they are not sent to a server.`,
+      };
+  }
+}
+
 function makeFaq(spec: UtilityToolSpec): ToolFaq[] {
   const exampleUses = spec.useCases.slice(0, 2).join(' ');
+  const faqLanguage = getUtilityFaqLanguage(spec);
   const inputExplanationFaq = {
     question: `What do the main ${spec.name} inputs mean?`,
     answer: spec.inputExplanations?.length
       ? spec.inputExplanations.map((item) => `${item.term}: ${item.meaning}`).join(' ')
-      : 'The main inputs are the values, text, dates, units, or settings the tool needs before it can work. Read each field label carefully, keep units consistent, and compare your entry with the examples if the answer looks strange.',
+      : faqLanguage.inputFallback,
   };
 
   return [
     {
       question: `When should I use the ${spec.name}?`,
-      answer: `Use it when your task matches one of these common needs: ${exampleUses} It works best when you already know the values, dates, units, or settings the page asks for.`,
+      answer: `Use it when your task matches one of these common needs: ${exampleUses} It works best when you already know ${faqLanguage.expectedInputs}.`,
     },
     {
       question: `What is the ${spec.name} doing with my inputs?`,
-      answer: `In plain language: ${spec.formula} The examples on the page are there so you can compare your inputs with a filled-out calculation before copying the answer.`,
+      answer: `In plain language: ${spec.formula} The examples on the page are there so you can compare your inputs with a ${faqLanguage.examplePhrase} before copying the answer.`,
     },
     inputExplanationFaq,
     {
       question: 'What should I double-check before trusting the answer?',
-      answer: `${spec.limit} Also check that you used the right unit, date, scale, or mode because small input changes can change the result.`,
+      answer: `${spec.limit} ${faqLanguage.doubleCheck}`,
     },
     ...(spec.extraFaq ?? []),
     {
       question: 'Does the site save what I enter?',
-      answer:
-        'No. The calculator runs in your browser tab. Your recent answers stay only on the page while you use it, and they are not sent to a server.',
+      answer: faqLanguage.privacy,
     },
   ];
 }
@@ -3680,15 +3727,41 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'character-counter',
     name: 'Character Counter',
     category: 'text-tools',
-    summary: 'Count characters with spaces, characters without spaces, lines, words, and UTF-8 bytes.',
+    summary: 'Count characters, words, lines, no-space text, and UTF-8 bytes.',
     description:
-      'Use this free character counter to check total characters, characters without spaces, UTF-8 byte length, words, and lines for short-form text.',
+      'Count characters, words, lines, no-space text, and UTF-8 bytes in your browser for titles, snippets, captions, messages, and field limits.',
     icon: 'tool-character-counter',
-    aliases: ['Letter Counter', 'Online Character Counter'],
+    aliases: ['Letter Counter', 'Online Character Counter', 'Character Count Online', 'Free Character Counter'],
     formula:
-      'The tool counts Unicode characters, removes whitespace for a no-spaces count, and encodes the text as UTF-8 to estimate byte length.',
+      'The tool counts Unicode code points, removes whitespace for a no-spaces count, splits line breaks, counts word-like groups, and encodes the text as UTF-8 to estimate byte length.',
     limit:
-      'Hard limits can vary by app because some platforms count emoji sequences, links, rich text, or line breaks in their own way.',
+      'Hard limits can vary by app because some platforms count emoji sequences, links, rich text, spaces, or line breaks in their own way.',
+    inputExplanations: [
+      {
+        term: 'Text to count',
+        meaning: 'Paste the exact title, snippet, caption, message, or technical string you plan to use, including spaces and line breaks.',
+      },
+      {
+        term: 'Characters',
+        meaning: 'The main count uses Unicode code points, so combined emoji can still differ from a platform count.',
+      },
+      {
+        term: 'UTF-8 bytes',
+        meaning: 'This shows how many bytes the same text uses when encoded as UTF-8, which matters for some technical fields.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Do emoji always count as one character?',
+        answer:
+          'No. Some emoji are built from more than one Unicode code point, and platforms can count those sequences differently. Use this counter for a fast draft check, then paste into the target app when the limit is strict.',
+      },
+      {
+        question: 'Why can UTF-8 bytes be higher than the character count?',
+        answer:
+          'Plain English letters usually use one UTF-8 byte each, but many symbols, accents, and emoji use more. Check the byte count when a form, API, database, or message system sets a byte limit instead of a visible character limit.',
+      },
+    ],
     useCases: [
       'Check page titles, snippets, captions, messages, and form text against limits.',
       'Compare character count with and without spaces.',
@@ -3696,9 +3769,9 @@ export const utilityTools: ToolDefinition[] = [
       'Review line and word counts while editing short text.',
     ],
     examples: [
-      { label: 'Page title', expression: 'Free calculator tools for quick everyday math.', result: 'Character total' },
-      { label: 'Short message', expression: 'Meeting moved to 2:30 PM.', result: 'Characters and words' },
-      { label: 'Technical text', expression: 'Text with line breaks', result: 'Lines and UTF-8 bytes' },
+      { label: 'Page title', expression: 'Free Character Counter for Titles and Messages', result: '46 characters, 40 without spaces' },
+      { label: 'Short message', expression: 'Meeting moved to 2:30 PM. Bring notes.', result: '38 characters and 8 words' },
+      { label: 'Emoji line check', expression: 'Line one\nLine two with emoji 🙂', result: '30 characters, 33 UTF-8 bytes, 2 lines' },
     ],
     relatedSlugs: ['word-counter', 'text-case-converter', 'slug-generator'],
   }),

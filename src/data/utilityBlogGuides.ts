@@ -379,6 +379,18 @@ const sourceLinks = {
     href: 'https://developers.google.com/search/docs/fundamentals/seo-starter-guide',
     label: 'Google Search Central: SEO Starter Guide',
   },
+  googleSnippets: {
+    href: 'https://developers.google.com/search/docs/appearance/snippet',
+    label: 'Google Search Central: Snippets',
+  },
+  mdnTextEncoder: {
+    href: 'https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder/encode',
+    label: 'MDN: TextEncoder encode()',
+  },
+  mdnStringLength: {
+    href: 'https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/length',
+    label: 'MDN: JavaScript String length',
+  },
   openAiTokens: {
     href: 'https://developers.openai.com/cookbook/examples/how_to_count_tokens_with_tiktoken',
     label: 'OpenAI Cookbook: How to count tokens with tiktoken',
@@ -2761,7 +2773,22 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not rely on byte length when a platform says it uses visible characters.',
       'For search snippets, remember Google may choose different snippet text from the page.',
     ],
-    sources: [sourceLinks.googleSeoStarter],
+    extraSections: [
+      {
+        title: 'A quick example',
+        paragraphs: [
+          'If your draft title is "Free Character Counter for Titles and Messages", the tool shows 46 characters and 40 characters without spaces. That is the kind of quick check you want before pasting a title, caption, or message into a place with a limit.',
+        ],
+      },
+      {
+        title: 'Why emoji and bytes can surprise you',
+        paragraphs: [
+          'Some emoji are made from more than one Unicode code point, even when they look like one symbol on screen. That is why this page warns you to check the final app when emoji, rich text, or a strict platform limit matters.',
+          'UTF-8 bytes are different again. Plain English letters usually take one byte each, but many symbols and emoji take more, so the byte count can be higher than the character count.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.googleSnippets, sourceLinks.mdnStringLength, sourceLinks.mdnTextEncoder],
   },
   'text-case-converter': {
     summary: 'Learn how to convert plain text into common writing, code, filename, and URL case styles.',
@@ -3384,6 +3411,41 @@ function buildUtilityMetaDescription(tool: (typeof utilityTools)[number], summar
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
 }
 
+function getUtilityGuideLanguage(tool: (typeof utilityTools)[number]) {
+  const lowerName = tool.name.toLowerCase();
+  const isCalculator = lowerName.endsWith('calculator');
+  const pageNoun = isCalculator
+    ? 'calculator'
+    : lowerName.endsWith('converter')
+      ? 'converter'
+      : lowerName.endsWith('generator')
+        ? 'generator'
+        : 'tool';
+
+  return {
+    pageNoun,
+    examplePhrase: isCalculator ? 'complete set of inputs' : 'complete input',
+    sidecarInputPhrase: isCalculator ? 'example inputs' : 'example input',
+    firstStep: isCalculator
+      ? 'enter the values the calculator asks for'
+      : 'paste or enter the text, file, setting, or option the tool asks for',
+    inputMatch: isCalculator
+      ? 'the number, date, unit, or setting you actually have'
+      : 'the text, format, mode, option, or platform rule you actually need',
+    mismatch: isCalculator
+      ? 'the wrong unit, date, weight, scale, mode, or policy assumption'
+      : 'the wrong text, mode, format, line break, privacy choice, or platform rule',
+    referenceIntro: isCalculator
+      ? 'These references shaped the calculator assumptions, unit choices, or safety notes.'
+      : 'These references shaped the tool logic, format choices, platform limits, or safety notes.',
+    fallbackReferenceIntro: isCalculator
+      ? 'This guide is based on the calculator inputs, the formula note on the tool page, and common school or everyday usage patterns. If your school, workplace, or organization has an official rule, use that rule first.'
+      : 'This guide is based on the tool inputs, the logic note on the tool page, and common everyday usage patterns. If your school, workplace, platform, or organization has an official rule, use that rule first.',
+    sectionTitle: isCalculator ? 'What this calculator is solving' : `What this ${pageNoun} helps with`,
+    logicTitle: isCalculator ? 'The formula in plain language' : 'The logic in plain language',
+  };
+}
+
 function makeGuide(toolSlug: string): UtilityGuideDefinition {
   const tool = utilityTools.find((candidate) => candidate.slug === toolSlug);
   const detail = guideDetails[toolSlug];
@@ -3392,6 +3454,8 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
     throw new Error(`Missing utility guide detail for ${toolSlug}`);
   }
 
+  const guideLanguage = getUtilityGuideLanguage(tool);
+
   return {
     slug: `how-to-use-${tool.slug}`,
     toolSlug: tool.slug,
@@ -3399,34 +3463,34 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
     title: detail.title ?? `How to use the ${tool.name}`,
     description: buildUtilityMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: `${detail.purpose} Use this guide as a short walkthrough: enter the values the tool asks for, start with the displayed result, then check the notes so you know what the number does and does not mean.`,
+    intro: `${detail.purpose} Use this guide as a short walkthrough: ${guideLanguage.firstStep}, start with the displayed result, then check the notes so you know what it does and does not mean.`,
     quickStart: detail.enter,
     sections: [
       {
-        title: 'What this calculator is solving',
+        title: guideLanguage.sectionTitle,
         paragraphs: [
           detail.purpose,
-          'You do not need to memorize the formula first. Start by matching each input label on the calculator to the number, date, unit, or setting you actually have.',
+          `You do not need to memorize the formula or logic first. Start by matching each input label on the ${guideLanguage.pageNoun} to ${guideLanguage.inputMatch}.`,
         ],
       },
       {
-        title: 'The formula in plain language',
+        title: guideLanguage.logicTitle,
         paragraphs: [
           getFormulaAnswer(tool.slug),
-          'If that sounds abstract, use the example cards on the calculator page. They show a complete set of inputs and the kind of answer you should expect.',
+          `If that sounds abstract, use the example cards on the ${guideLanguage.pageNoun} page. They show a ${guideLanguage.examplePhrase} and the kind of answer you should expect.`,
         ],
       },
       {
         title: 'How to read the answer',
         paragraphs: [
-          'Read the headline result first. Then look at the smaller supporting lines because they explain the parts behind the answer, such as totals, units, ranges, or formula steps.',
+          'Read the main result first. Then look at the smaller supporting lines because they explain the parts behind the answer, such as totals, units, ranges, counts, or formula steps.',
         ],
         bullets: detail.read,
       },
       {
         title: 'Common mistakes to avoid',
         paragraphs: [
-          'If the answer looks strange, the most likely cause is a small input mismatch: the wrong unit, date, weight, scale, mode, or policy assumption.',
+          `If the answer looks strange, the most likely cause is a small input mismatch: ${guideLanguage.mismatch}.`,
         ],
         bullets: detail.mistakes,
       },
@@ -3435,13 +3499,13 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
         title: 'Research and references',
         paragraphs: [
           detail.sources.length > 0
-            ? 'These references shaped the calculator assumptions, unit choices, or safety notes.'
-            : 'This guide is based on the calculator inputs, the formula note on the tool page, and common school or everyday usage patterns. If your school, workplace, or organization has an official rule, use that rule first.',
+            ? guideLanguage.referenceIntro
+            : guideLanguage.fallbackReferenceIntro,
         ],
         links: detail.sources,
       },
     ],
-    sidecarText: `Open the ${tool.name} beside this guide. Try one example first, then replace the example inputs with your own values.`,
+    sidecarText: `Open the ${tool.name} beside this guide. Try one example first, then replace the ${guideLanguage.sidecarInputPhrase} with your own.`,
   };
 }
 

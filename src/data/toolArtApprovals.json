@@ -788,6 +788,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/character-counter-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/character-counter-guide.webp",
+    "alt": "Smoke mascot checking a text draft with character totals, line marks, and byte-count blocks for the Character Counter guide.",
+    "caption": "The guide artwork matches the walkthrough: paste text, compare spaces and lines, and check byte length before using a strict limit.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -796,6 +798,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/character-counter-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/character-counter-tool.webp",
+    "alt": "Smoke mascot beside a text box with character count, no-space count, line count, and UTF-8 byte blocks.",
+    "caption": "The Character Counter artwork shows the exact task: count a short text draft with spaces, lines, words, and UTF-8 bytes.",
     "status": "approved",
     "qaStatus": "approved"
   },

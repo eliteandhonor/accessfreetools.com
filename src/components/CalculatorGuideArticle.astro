@@ -55,6 +55,24 @@ const relatedTools = (tool?.relatedSlugs ?? [])
   .filter((relatedTool): relatedTool is NonNullable<typeof relatedTool> => Boolean(relatedTool));
 const articleDates = getBlogDates(path.match(/^\/blog\/([^/]+)\/?$/)?.[1] ?? '');
 const guideArt = tool ? getToolArt(tool.slug, 'guide') : undefined;
+const isCalculatorGuide = Boolean(tool && (tool.name.endsWith('Calculator') || tool.category === 'calculators'));
+const categoryBrowseText =
+  tool?.category === 'text-tools'
+    ? 'Browse the full category for nearby text tools and editing checks.'
+    : 'Browse the full category for nearby calculators and comparison tools.';
+const allGuidesLabel = isCalculatorGuide ? 'All calculator and utility guides' : 'All tool and utility guides';
+const allGuidesText = isCalculatorGuide
+  ? 'Find more plain-language examples, formulas, mistakes, and result explanations.'
+  : 'Find more plain-language examples, logic notes, mistakes, and result explanations.';
+const resourcesLabel = isCalculatorGuide ? 'Free calculator resources' : 'Free tool resources';
+const resourcesText = isCalculatorGuide
+  ? 'Start here when you are not sure which calculator page fits.'
+  : 'Start here when you are not sure which tool page fits.';
+const privacyCopy = {
+  copy: tool?.category === 'text-tools'
+    ? 'Use Copy answer when you want to paste the count or result into notes, schoolwork, a message, or another document. Check spacing, line breaks, emoji, byte limits, and platform rules before copying.'
+    : 'Use Copy answer when you want to paste the expression and result into notes, homework, a message, or another document. Check the units and assumptions before copying.',
+};
 const imageUrl = guideArt
   ? `https://accessfreetools.com${guideArt.imagePath}`
   : 'https://accessfreetools.com/social/free-guides.png';
@@ -240,7 +258,7 @@ const articleStructuredData = {
             {tool && (
               <li>
                 <a href={`/categories/${tool.category}/`}>{category?.name ?? 'Related category'}</a>
-                <span>Browse the full category for nearby calculators and comparison tools.</span>
+                <span>{categoryBrowseText}</span>
               </li>
             )}
             <li>
@@ -248,12 +266,12 @@ const articleStructuredData = {
               <span>Search the complete Access Free Tools library by task, category, or tool name.</span>
             </li>
             <li>
-              <a href="/blog/">All calculator and utility guides</a>
-              <span>Find more plain-language examples, formulas, mistakes, and result explanations.</span>
+              <a href="/blog/">{allGuidesLabel}</a>
+              <span>{allGuidesText}</span>
             </li>
             <li>
-              <a href="/free-calculator-resources/">Free calculator resources</a>
-              <span>Start here when you are not sure which calculator page fits.</span>
+              <a href="/free-calculator-resources/">{resourcesLabel}</a>
+              <span>{resourcesText}</span>
             </li>
           </ul>
         </section>
@@ -265,8 +283,7 @@ const articleStructuredData = {
             not sent to a server.
           </p>
           <p>
-            Use Copy answer when you want to paste the expression and result into notes, homework,
-            a message, or another document. Check the units and assumptions before copying.
+            {privacyCopy.copy}
           </p>
         </section>
       </div>
