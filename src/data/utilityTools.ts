@@ -488,11 +488,33 @@ export const utilityTools: ToolDefinition[] = [
       'Use a real trip value inside the Fuel Cost Calculator.',
     ],
     examples: [
-      { label: 'Road trip', expression: '350 miles, 12.5 gallons', result: '28 MPG' },
-      { label: 'Commute tank', expression: '275 miles, 9.8 gallons', result: 'About 28.06 MPG' },
-      { label: 'Truck tank', expression: '420 miles, 24 gallons', result: '17.5 MPG' },
+      { label: 'Road trip', expression: '350 miles, 12.5 gallons', result: '28 MPG, or about 3.57 gallons per 100 miles' },
+      { label: 'Commute tank', expression: '275 miles, 9.8 gallons', result: 'About 28.06 MPG, useful for comparing your next tank' },
+      { label: 'Truck tank', expression: '420 miles, 24 gallons', result: '17.5 MPG, which can feed a fuel-cost estimate' },
     ],
     relatedSlugs: ['fuel-cost-calculator', 'mileage-calculator', 'conversion-calculator'],
+    inputExplanations: [
+      { term: 'Miles driven', meaning: 'the distance since the last fill-up, trip reset, or route you want to measure.' },
+      { term: 'Gallons used', meaning: 'the fuel added back into the tank for the same driving distance.' },
+      { term: 'Unit outputs', meaning: 'MPG gets higher when a vehicle uses less fuel, while gallons per 100 miles and L/100 km get lower.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Should I use a full tank or a single trip?',
+        answer:
+          'A full-tank fill-up is usually cleaner because the gallons added should match the miles driven since the last fill. A single trip can still work if you know the actual fuel used for that trip.',
+      },
+      {
+        question: 'Why do I also see gallons per 100 miles and L/100 km?',
+        answer:
+          'MPG is common in the United States, but gallons per 100 miles and L/100 km make fuel used per distance easier to compare. Lower is better for those two outputs.',
+      },
+      {
+        question: 'When should I use the Fuel Cost Calculator instead?',
+        answer:
+          'Use this page to find fuel economy. Use the Fuel Cost Calculator when you already know the trip distance, MPG, and fuel price and want the money estimate.',
+      },
+    ],
   }),
   makeUtilityTool({
     slug: 'tip-calculator',
