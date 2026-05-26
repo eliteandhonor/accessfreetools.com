@@ -682,8 +682,33 @@ const cfpbHeloc = {
 };
 
 const cfpbDownPayment = {
-  href: 'https://www.consumerfinance.gov/owning-a-home/your-down-payment-decision/',
-  label: 'CFPB: Your down payment decision',
+  href: 'https://www.consumerfinance.gov/owning-a-home/prepare/determine-your-down-payment/',
+  label: 'CFPB: Determine your down payment',
+};
+
+const cfpbPrepareHomeMoney = {
+  href: 'https://www.consumerfinance.gov/language/cfpb-in-english/prepare-your-money-situation-before-you-buy-a-home/',
+  label: 'CFPB: Prepare your money situation before buying a home',
+};
+
+const fannieClosingCostsCalculator = {
+  href: 'https://yourhome.fanniemae.com/calculators-tools/closing-costs-calculator',
+  label: 'Fannie Mae: Closing costs calculator',
+};
+
+const fannieDownPayment = {
+  href: 'https://yourhome.fanniemae.com/buy/homebuyer-down-payment',
+  label: 'Fannie Mae: What you need to know about down payments',
+};
+
+const fannieClosingOnLoan = {
+  href: 'https://yourhome.fanniemae.com/buy/closing-on-a-loan',
+  label: 'Fannie Mae: Closing on a loan',
+};
+
+const hudFhaLoans = {
+  href: 'https://www.hud.gov/helping-americans/loans',
+  label: 'HUD: Let FHA loans help you',
 };
 
 const govUkMortgage = {
@@ -2914,20 +2939,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'down-payment-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-6-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [cfpbDownPayment, cfpbMortgage],
+    sources: [cfpbDownPayment, cfpbPrepareHomeMoney, fannieClosingCostsCalculator, fannieDownPayment, fannieClosingOnLoan, hudFhaLoans],
     findings: [
-      'The calculator uses an exact down payment when entered, otherwise multiplies home price by down payment percent, then adds estimated closing costs for cash needed.',
-      'The result separates down payment, loan amount, loan-to-value, closing cost estimate, and total cash needed.',
-      'The guide now makes clear that closing costs are separate from down payment and that escrow deposits, reserves, inspections, moving costs, and assistance rules can change cash needed.',
+      'The calculator uses an exact down payment when entered; otherwise it multiplies home price by down payment percent, then estimates loan amount, LTV, closing costs, and cash needed.',
+      'The result separates down payment, loan amount, loan-to-value, closing cost estimate, and cash needed so low-down-payment examples do not hide extra borrowing.',
+      'The guide now uses CFPB, Fannie Mae, and HUD context to explain that closing costs are separate from down payment, 2% to 5% is only a rough early planning range, and FHA 3.5% is not automatic approval.',
     ],
     improvements: [
-      'Added down-payment-specific guide detail and manually checked exact-dollar versus percent behavior, closing-cost math, examples, FAQ cautions, CFPB source coverage, related tools, SEO copy, and privacy note.',
+      'Added page-specific SEO title and description, exact $400,000, $325,000, and $450,000 examples, down-payment FAQs, source links, cash-to-close cautions, DataForSEO proof placeholders, result-note wording, and specific tool-art alt/caption text.',
     ],
     followUps: [
-      'Add assistance-program notes only if they can stay location-neutral or use a maintained source.',
+      'Add a location-aware assistance-program lookup only if a maintained source can support it without guessing state and local rules.',
     ],
   },
   {
@@ -7083,7 +7108,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['down-payment', 'down payment'])) {
-      return sourceBackstop([cfpbDownPayment, cfpbMortgage]);
+      return sourceBackstop([cfpbDownPayment, cfpbPrepareHomeMoney, fannieClosingCostsCalculator, fannieDownPayment, hudFhaLoans]);
     }
 
     if (includesAny(key, ['rent-vs-buy', 'rent vs buy'])) {

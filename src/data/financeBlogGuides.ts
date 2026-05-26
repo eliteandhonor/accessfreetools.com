@@ -268,8 +268,28 @@ const sourceLinks = {
     label: 'CFPB: What is a home equity loan?',
   },
   cfpbDownPayment: {
-    href: 'https://www.consumerfinance.gov/owning-a-home/your-down-payment-decision/',
-    label: 'CFPB: Your down payment decision',
+    href: 'https://www.consumerfinance.gov/owning-a-home/prepare/determine-your-down-payment/',
+    label: 'CFPB: Determine your down payment',
+  },
+  cfpbPrepareHomeMoney: {
+    href: 'https://www.consumerfinance.gov/language/cfpb-in-english/prepare-your-money-situation-before-you-buy-a-home/',
+    label: 'CFPB: Prepare your money situation before buying a home',
+  },
+  fannieClosingCostsCalculator: {
+    href: 'https://yourhome.fanniemae.com/calculators-tools/closing-costs-calculator',
+    label: 'Fannie Mae: Closing costs calculator',
+  },
+  fannieDownPayment: {
+    href: 'https://yourhome.fanniemae.com/buy/homebuyer-down-payment',
+    label: 'Fannie Mae: What you need to know about down payments',
+  },
+  fannieClosingOnLoan: {
+    href: 'https://yourhome.fanniemae.com/buy/closing-on-a-loan',
+    label: 'Fannie Mae: Closing on a loan',
+  },
+  hudFhaLoans: {
+    href: 'https://www.hud.gov/helping-americans/loans',
+    label: 'HUD: Let FHA loans help you',
   },
   canadaMortgage: {
     href: 'https://www.canada.ca/en/financial-consumer-agency/services/mortgages/mortgage-terms-amortization.html',
@@ -527,7 +547,14 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'down-payment-calculator') {
-    return [sourceLinks.cfpbDownPayment, sourceLinks.cfpbMortgage];
+    return [
+      sourceLinks.cfpbDownPayment,
+      sourceLinks.cfpbPrepareHomeMoney,
+      sourceLinks.fannieClosingCostsCalculator,
+      sourceLinks.fannieDownPayment,
+      sourceLinks.fannieClosingOnLoan,
+      sourceLinks.hudFhaLoans,
+    ];
   }
 
   if (toolSlug === 'rent-vs-buy-calculator') {
@@ -2740,6 +2767,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Canadian Mortgage Calculator Guide';
   }
 
+  if (tool.slug === 'down-payment-calculator') {
+    return 'Down Payment Calculator Guide';
+  }
+
   if (tool.slug === 'auto-loan-calculator') {
     return 'Auto Loan Calculator Guide';
   }
@@ -2765,6 +2796,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'canadian-mortgage-calculator') {
     return 'Estimate a Canadian mortgage payment from price, down payment, rate, amortization, and payment frequency, with LTV and interest checks.';
+  }
+
+  if (tool.slug === 'down-payment-calculator') {
+    return 'Estimate down payment, loan amount, LTV, closing costs, and cash needed for a home purchase, with 20% and 3.5% examples.';
   }
 
   if (tool.slug === 'auto-loan-calculator') {
@@ -2801,6 +2836,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isAutoLoanGuide = tool.slug === 'auto-loan-calculator';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
+  const isDownPaymentGuide = tool.slug === 'down-payment-calculator';
 
   return {
     slug: `how-to-use-${tool.slug}`,
@@ -2815,6 +2851,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A business loan can look affordable until the fee and total interest show up. This guide shows how loan amount, rate, term, and origination fee turn into payment, cash received, and total cost.'
       : isCanadianMortgageGuide
       ? 'A Canadian mortgage payment is not just price divided by months. This guide shows how down payment, amortization, payment frequency, and semi-annual compounding turn into the payment, LTV, and interest estimate.'
+      : isDownPaymentGuide
+      ? 'A down payment is only one part of the money you may need at closing. This guide shows how home price, down payment, LTV, and a rough closing-cost estimate turn into the cash-needed number.'
       : isSalesTaxGuide
       ? 'Sales tax math is simple once the rate is in the right format. Enter the before-tax price, use a current local rate, then check the tax amount and final total before you trust the receipt.'
       : isAdRevenueGuide
@@ -2843,6 +2881,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Calculate, then check payment, loan amount, loan-to-value, total interest, and payment count.',
           'If the down payment is under 20%, check official mortgage loan insurance rules before trusting the cash plan.',
           'Treat the answer as payment math, not a stress-test or lender approval result.',
+        ]
+      : isDownPaymentGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter the home price.',
+          'Either enter an exact down payment amount or leave it blank and use a down payment percent.',
+          'Add a rough closing-cost percent, then check down payment, loan amount, LTV, closing costs, and cash needed.',
+          'Compare 20%, 10%, 5%, and 3.5% down before trusting the first number.',
         ]
       : isSalesTaxGuide
       ? [
@@ -2877,6 +2923,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before talking to a lender, testing an equipment purchase, comparing working-capital offers, or checking whether the fee leaves enough cash for the job.'
             : isCanadianMortgageGuide
             ? 'Use it before comparing mortgage quotes, testing a down payment, checking a biweekly payment, or seeing how much a shorter amortization changes the payment.'
+            : isDownPaymentGuide
+            ? 'Use it before asking for a loan estimate, comparing down payment choices, checking whether 3.5%, 5%, 10%, or 20% changes the loan size, or planning how much cash to keep outside the purchase.'
             : isAdRevenueGuide
             ? 'Use it when you are testing a blog post, tool page, niche site, or traffic idea and want a rough number before opening a spreadsheet.'
             : `Good fit examples: ${tool.useCases.slice(0, 2).join(' ')}`,
@@ -2891,6 +2939,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Business-loan offers are easy to misread if you look only at the payment. Enter the loan amount, rate, term, and origination fee so you can see both repayment cost and cash received.'
             : isCanadianMortgageGuide
             ? 'Canadian mortgage estimates need the price, down payment, nominal annual rate, amortization, and payment frequency to stay together. A small rate or amortization change can move both the payment and total interest.'
+            : isDownPaymentGuide
+            ? 'Down-payment estimates are easy to undercount because the down payment and closing costs are separate. Enter the home price, choose exact cash or a percent, then add a rough closing-cost percent for early planning.'
             : isSalesTaxGuide
             ? 'Sales-tax mistakes usually come from using the wrong rate format or a rate that does not match the place, product, or checkout rule.'
             : isAdRevenueGuide
@@ -2909,6 +2959,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $50,000 at 9.5% for 5 years with a 2% origination fee. The estimate is about $1,050.09 per month, $13,005.58 in interest, $1,000 in fees, $49,000 cash received, and $64,005.58 total cost with fee.'
               : isCanadianMortgageGuide
               ? 'Try the starter example: a $600,000 property, $120,000 down payment, 5.1% rate, and 25-year amortization. The estimate is about $2,819.09 per month, with a $480,000 loan, 80% LTV, and about $365,727.47 in interest.'
+              : isDownPaymentGuide
+              ? 'Try the starter example: a $400,000 home, 20% down, and 3% closing costs. The estimate is $80,000 down, a $320,000 loan, 80% LTV, $12,000 closing costs, and $92,000 cash needed.'
               : isAdRevenueGuide
               ? 'Try the starter example: 1,000 daily page views, 1.5% page CTR, and $0.35 average CPC. That gives about 15 clicks per day, $5.25 per day, about $159.80 per average month, and a $5.25 page RPM.'
               : `Try the calculator example: ${primaryExampleText}. The example result is ${primaryExample.result}.`
@@ -2926,6 +2978,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The formula is only one part of the decision. The fee matters because you may repay the full loan amount even when the cash you receive is lower.'
             : isCanadianMortgageGuide
             ? 'The calculator first turns the nominal annual rate into an effective annual rate using semi-annual compounding. Then it converts that rate to the selected payment period and runs the fixed-payment formula.'
+            : isDownPaymentGuide
+            ? 'The closing-cost field is intentionally rough. CFPB and Fannie Mae both point buyers toward 2% to 5% style planning ranges early on, but the real number comes from lender and closing documents.'
             : isSalesTaxGuide
             ? 'If the estimate looks different from a receipt, check whether the store rounded by item, rounded the whole basket, used a different taxable subtotal, or applied a different local rule.'
             : isAdRevenueGuide
@@ -2942,6 +2996,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with the monthly payment, then check total interest, origination fee, cash received, and total cost with fee. That is the part that shows whether the loan still fits the business plan.'
             : isCanadianMortgageGuide
             ? 'Start with the payment, then check whether it is monthly, biweekly, semimonthly, or weekly. Then read loan amount, LTV, payment count, and total interest so the payment has context.'
+            : isDownPaymentGuide
+            ? 'Start with estimated cash needed, then look at down payment, loan amount, LTV, and closing costs separately. That keeps a low-down-payment example from hiding a larger loan or extra closing cash.'
             : isSalesTaxGuide
             ? 'Start with the tax amount, then check the final total. The final total should equal before-tax price plus sales tax.'
             : isAdRevenueGuide
@@ -2959,6 +3015,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad business-loan estimates come from ignoring the fee, comparing interest rates without APR context, or treating a fixed-payment loan like a merchant cash advance.'
             : isCanadianMortgageGuide
             ? 'Most bad Canadian mortgage estimates come from forgetting default insurance, mixing monthly and biweekly payments, using the wrong compounding assumption, or treating payment math as lender qualification.'
+            : isDownPaymentGuide
+            ? 'Most bad down-payment estimates come from counting only the down payment, forgetting closing costs, assuming assistance always applies, or treating a 3.5% example like lender approval.'
             : isSalesTaxGuide
             ? 'Most bad sales-tax estimates come from typing the percent as a decimal, using an old local rate, or taxing the wrong subtotal.'
             : isAdRevenueGuide
@@ -2976,6 +3034,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help when the loan payment is only one part of the decision, such as the rate, a plain fixed loan, or the profit target for the project.'
             : isCanadianMortgageGuide
             ? 'A related tool can help when the mortgage payment is only one part of the home-buying question, such as down payment, another country-specific mortgage style, or a plain loan comparison.'
+            : isDownPaymentGuide
+            ? 'A related tool can help after you know the upfront cash number. The next question is usually monthly payment, FHA-style low-down-payment math, or whether the house still fits the budget.'
             : isSalesTaxGuide
             ? 'A related tool helps when the sales tax is only one part of the price question.'
             : isAdRevenueGuide
@@ -3001,6 +3061,12 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/down-payment-calculator/', label: 'Compare down payment and LTV' },
               { href: '/tools/mortgage-calculator/', label: 'Compare with the plain Mortgage Calculator' },
             ]
+          : isDownPaymentGuide
+          ? [
+              { href: '/tools/down-payment-calculator/', label: 'Open the Down Payment Calculator' },
+              { href: '/tools/mortgage-calculator/', label: 'Estimate the monthly mortgage payment' },
+              { href: '/tools/fha-loan-calculator/', label: 'Compare an FHA-style low-down-payment example' },
+            ]
           : isAdRevenueGuide
           ? [
               { href: '/tools/ad-revenue-calculator/', label: 'Open the Ad Revenue Calculator' },
@@ -3018,6 +3084,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'SBA and FTC sources are useful here because business financing is not just payment math. SBA explains lender risk and loan context, while FTC warns that some small-business financing offers can have high costs or confusing terms.'
             : isCanadianMortgageGuide
             ? 'Canada.ca explains mortgage terms, amortization, down payment, and mortgage loan insurance. OSFI explains the minimum qualifying rate stress-test idea, while the Bank of Canada policy-rate page helps separate central-bank rate news from the exact lender rate in your quote.'
+            : isDownPaymentGuide
+            ? 'CFPB explains down payment decisions and why closing costs are separate from the down payment. Fannie Mae adds down-payment, closing-cost, and closing-document context. HUD explains that FHA down payments can be as low as 3.5% for some buyers and properties.'
             : isSalesTaxGuide
             ? 'The IRS source explains state and local sales-tax deduction context. The Tax Foundation source gives current state and local rate context for 2026.'
             : isAdRevenueGuide
@@ -3031,6 +3099,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not approve a loan, check SBA eligibility, read a merchant cash advance contract, judge collateral, or replace written lender terms.'
             : isCanadianMortgageGuide
             ? 'This calculator still stays simple. It does not add default insurance premiums, check income or debts, approve a mortgage, predict renewal rates, or replace a written lender quote.'
+            : isDownPaymentGuide
+            ? 'This calculator still stays simple. It does not approve a mortgage, price mortgage insurance, verify assistance, read a Loan Estimate, set escrow deposits, or replace the cash-to-close figure from your lender and settlement company.'
             : isSalesTaxGuide
             ? 'Those sources help with context, but this calculator still does not replace a state rate lookup, an official filing system, or tax advice.'
             : isAdRevenueGuide
@@ -3048,6 +3118,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Business Loan Calculator open beside this guide. Try the $50,000 example first, then change only the fee so you can see why cash received matters.'
       : isCanadianMortgageGuide
       ? 'Keep the Canadian Mortgage Calculator open beside this guide. Try the $600,000 example first, then change only the down payment or amortization so you can see what actually moved.'
+      : isDownPaymentGuide
+      ? 'Keep the Down Payment Calculator open beside this guide. Try the $400,000 example first, then change only the down payment percent so you can see how loan amount, LTV, and cash needed move.'
       : isAdRevenueGuide
       ? 'Keep the Ad Revenue Calculator open beside this guide. Try 1,000 views, 1.5% CTR, and $0.35 CPC first, then test a lower CTR so the plan does not feel magically better than it is.'
       : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,

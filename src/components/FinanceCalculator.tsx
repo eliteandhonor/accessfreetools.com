@@ -2067,7 +2067,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Down Payment Calculator',
     buttonLabel: 'Calculate down payment',
     emptyHistory: 'Recent down payment estimates will appear here.',
-    privacyNote: 'Down payment estimates do not include all cash-to-close details, lender rules, assistance programs, or escrow reserves.',
+    privacyNote: 'Down payment estimates are rough and do not replace lender cash-to-close documents, mortgage insurance rules, assistance terms, seller credits, or escrow reserves.',
     modes: [
       {
         id: 'down-payment',
@@ -4305,8 +4305,9 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         steps: [
           'Use exact down payment if entered, otherwise multiply price by down payment percent.',
           'Subtract down payment from home price for estimated loan amount.',
-          'Add estimated closing costs to down payment for cash needed.',
+          'Estimate closing costs from home price, then add them to down payment for cash needed.',
         ],
+        note: 'This is not final cash to close. Lender fees, title fees, prepaid taxes, insurance, escrow deposits, mortgage insurance, seller credits, assistance programs, and reserves can change the real number.',
       };
     }
     case 'rent-vs-buy': {

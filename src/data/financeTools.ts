@@ -875,12 +875,21 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     name: 'Down Payment Calculator',
     summary: 'Estimate down payment, loan amount, loan-to-value, closing costs, and cash needed.',
     description:
-      'Use this free down payment calculator to estimate down payment amount, loan amount, loan-to-value, closing costs, and total cash needed.',
+      'Estimate the down payment, loan amount, loan-to-value, rough closing costs, and cash needed for a home purchase.',
+    seoTitle: 'Down Payment Calculator | Cash Needed, LTV & Closing Costs',
+    seoDescription:
+      'Estimate home down payment, loan amount, LTV, closing costs, and cash needed. Compare 20%, 10%, 5%, and 3.5% down examples.',
     icon: 'calculator-house-affordability',
+    aliases: [
+      'home down payment calculator',
+      'cash to close calculator estimate',
+      'mortgage down payment calculator',
+      'loan to value down payment calculator',
+    ],
     formula:
-      'The calculator uses an exact down payment if entered, otherwise multiplies home price by down payment percent, then adds estimated closing costs.',
+      'The calculator uses an exact down payment if entered. If that field is blank, it multiplies home price by the down payment percent. Then it subtracts the down payment from price for the loan amount, shows LTV, estimates closing costs from home price, and adds those costs to the down payment for estimated cash needed.',
     limit:
-      'This does not include lender reserves, assistance programs, seller credits, escrow deposits, mortgage insurance rules, or official cash-to-close disclosures.',
+      'This is an early planning estimate. It does not itemize lender fees, title fees, prepaid taxes, insurance, escrow deposits, discount points, inspections, moving costs, seller credits, down payment assistance, lender reserves, mortgage insurance, or the official Loan Estimate and Closing Disclosure.',
     useCases: [
       'Estimate cash needed for a home purchase.',
       'Compare 20%, 10%, 5%, and 3.5% down payment scenarios.',
@@ -888,11 +897,56 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Add a rough closing cost percentage.',
     ],
     examples: [
-      { label: '20% down', expression: '$400,000 home and 20% down', result: 'Cash needed estimate' },
-      { label: '3.5% down', expression: '$325,000 home and 3.5% down', result: 'FHA-style cash screen' },
-      { label: 'Exact cash', expression: '$50,000 exact down payment', result: 'Loan amount and LTV' },
+      { label: '20% down', expression: '$400,000 home, 20% down, 3% closing costs', result: '$92,000 estimated cash needed, $80,000 down, $320,000 loan, and 80% LTV' },
+      { label: '3.5% down', expression: '$325,000 home, 3.5% down, 3.5% closing costs', result: '$22,750 estimated cash needed, $11,375 down, $313,625 loan, and 96.5% LTV' },
+      { label: 'Exact cash', expression: '$450,000 home, $50,000 exact down payment, 3% closing costs', result: '$63,500 estimated cash needed, $400,000 loan, and 88.89% LTV' },
     ],
     relatedSlugs: ['mortgage-calculator', 'fha-loan-calculator', 'house-affordability-calculator'],
+    inputExplanations: [
+      { term: 'Home price', meaning: 'the purchase price you want to test before taxes, fees, or moving costs.' },
+      { term: 'Down payment amount', meaning: 'the exact cash you plan to put toward the price. If you fill this in, it overrides the percent field.' },
+      { term: 'Down payment percent', meaning: 'the percent of the price paid upfront when the exact dollar field is blank, such as 20 for 20% or 3.5 for 3.5%.' },
+      { term: 'Closing cost estimate', meaning: 'a rough percent of the home price for closing costs, kept separate from the down payment.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is down payment the same as cash to close?',
+        answer:
+          'No. Down payment is the part of the home price you pay upfront. Cash to close is bigger because it can also include lender fees, title fees, prepaid taxes, insurance, escrow deposits, points, and other closing costs. This calculator estimates down payment plus a simple closing-cost percent.',
+      },
+      {
+        question: 'Should I enter an exact down payment or a percent?',
+        answer:
+          'Use the exact dollar field when you already know the cash amount, such as $50,000. Leave it blank when you want the calculator to use the percent field, such as 20% or 3.5%.',
+      },
+      {
+        question: 'What does loan-to-value mean here?',
+        answer:
+          'Loan-to-value, or LTV, is the estimated loan amount compared with the home price. A $320,000 loan on a $400,000 home is 80% LTV. Lower LTV usually means more cash down and less money borrowed.',
+      },
+      {
+        question: 'Why does the calculator include closing costs?',
+        answer:
+          'Because buyers usually need more than the down payment at closing. CFPB and Fannie Mae explain that closing costs are paid in addition to the down payment, and early planning often uses a rough 2% to 5% range before a lender gives exact numbers.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Does this include mortgage insurance?',
+        answer:
+          'No. Mortgage insurance depends on loan type, down payment, credit, lender rules, and the final loan amount. If you put less than 20% down on many conventional loans, mortgage insurance may be part of the monthly payment.',
+      },
+      {
+        question: 'Can seller credits or down payment assistance change the answer?',
+        answer:
+          'Yes. Seller credits, grants, gifts, assistance programs, and lender credits can change the cash you actually bring to closing. They also have rules, so check the written loan documents and program terms.',
+      },
+      {
+        question: 'Is 3.5% down always enough?',
+        answer:
+          'No. FHA loans may allow a down payment as low as 3.5% in many cases, but the full decision still depends on loan rules, credit, property, closing costs, mortgage insurance, and lender approval.',
+      },
+    ],
   },
   {
     slug: 'rent-vs-buy-calculator',

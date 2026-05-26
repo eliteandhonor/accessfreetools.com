@@ -636,6 +636,13 @@ const financeToolInstructions = financeToolVariant
         'Compare the payment with total interest before choosing a longer amortization just because the payment is lower.',
         'Check default insurance, closing costs, stress-test rules, renewal risk, and the written lender quote before relying on the estimate.',
       ]
+    : tool.slug === 'down-payment-calculator'
+    ? [
+        'Enter the home price you want to test.',
+        'Enter an exact down payment amount if you know it, or leave that field blank and use the down payment percent.',
+        'Add a rough closing-cost percent to estimate down payment, loan amount, loan-to-value, closing costs, and cash needed.',
+        'Check the lender Loan Estimate, Closing Disclosure, mortgage insurance, seller credits, assistance rules, and cash reserves before relying on the number.',
+      ]
     : tool.slug === 'ad-revenue-calculator'
     ? [
         'Enter daily page views as a one-day traffic estimate.',
@@ -1844,6 +1851,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Payment, fees, and cash received'
               : tool.slug === 'canadian-mortgage-calculator'
               ? 'Payment, LTV, and interest'
+              : tool.slug === 'down-payment-calculator'
+              ? 'Cash needed, LTV, and closing costs'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -1924,6 +1933,16 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 Use this to compare property price, down payment, rate, amortization, and payment frequency.
                 A real mortgage can still change with default insurance, provincial premium tax, closing costs,
                 stress-test qualification, renewal rates, prepayment rules, property tax, and lender approval.
+              </p>
+            </>
+          ) : tool.slug === 'down-payment-calculator' ? (
+            <>
+              <strong>Cash-needed estimate, not final cash to close</strong>
+              <p>
+                Use this to compare home price, down payment, loan amount, LTV, and rough closing costs.
+                A real closing can still change with lender fees, title fees, prepaid taxes, insurance,
+                escrow deposits, mortgage insurance, seller credits, assistance programs, reserves,
+                and the Loan Estimate or Closing Disclosure.
               </p>
             </>
           ) : (

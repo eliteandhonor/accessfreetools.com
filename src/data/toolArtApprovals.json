@@ -1508,6 +1508,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/down-payment-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/down-payment-calculator-guide.webp",
+    "alt": "Smoke mascot comparing a home price, down payment percent, loan amount, LTV, closing costs, and cash needed estimate.",
+    "caption": "Down Payment Calculator guide artwork shows how a home price, down payment, LTV, and rough closing costs become the cash-needed estimate.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -1516,6 +1518,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/down-payment-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/down-payment-calculator-tool.webp",
+    "alt": "Smoke mascot beside a down payment calculator screen with home price, down payment, closing costs, loan amount, and LTV.",
+    "caption": "Down Payment Calculator artwork shows the exact tool idea: down payment plus estimated closing costs, with loan amount and LTV kept separate.",
     "status": "approved",
     "qaStatus": "approved"
   },
