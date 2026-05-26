@@ -3085,9 +3085,20 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate insulation pack count from area, openings, package coverage, and waste.',
     description:
-      'Use this free insulation calculator to estimate pack count, total coverage, and optional cost from area, openings, coverage per pack, and waste.',
+      'Estimate insulation packs from square footage, openings, package coverage, and waste before you compare product labels.',
+    seoTitle: 'Insulation Calculator | Square Feet And Packs',
+    seoDescription:
+      'Estimate insulation packs from wall, attic, ceiling, or floor square footage. Subtract openings, add waste, and check R-value limits before buying.',
     icon: 'calculator-insulation',
-    aliases: ['Insulation Roll Calculator', 'Insulation Batt Calculator'],
+    aliases: [
+      'Insulation Roll Calculator',
+      'Insulation Batt Calculator',
+      'insulation calculator square feet',
+      'wall insulation calculator',
+      'attic insulation calculator',
+      'ceiling insulation calculator',
+      'residential insulation calculator',
+    ],
     formula:
       'The calculator subtracts openings from measured area, adds waste, divides by square feet covered per pack, and rounds up to whole packs.',
     limit:
@@ -3109,6 +3120,26 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'No. It estimates packs after you choose a product. Use local code, ENERGY STAR or DOE guidance, and product labels to choose the right R-value and installation method.',
       },
+      {
+        question: 'Why do I need coverage per pack?',
+        answer:
+          'Coverage changes by product, thickness, and R-value. Use the square-foot coverage printed on the bag, roll, batt pack, or store product page.',
+      },
+      {
+        question: 'Should I subtract windows, doors, and attic hatches?',
+        answer:
+          'Yes. Subtract areas that will not receive insulation, then add waste for cuts, odd framing bays, and fitting around small obstacles.',
+      },
+      {
+        question: 'Can I use this for attic insulation?',
+        answer:
+          'Yes, if you already know the product coverage at the R-value or depth you plan to install. For blown-in insulation, use the bag coverage chart instead of guessing.',
+      },
+      {
+        question: 'Does higher R-value always mean fewer packs?',
+        answer:
+          'Usually no. Higher R-value often means thicker insulation or more material, so each pack may cover fewer square feet. Check the label for the exact coverage.',
+      },
     ],
     useCases: [
       'Estimate insulation packs for walls, attics, or floor areas.',
@@ -3118,8 +3149,8 @@ export const utilityTools: ToolDefinition[] = [
     ],
     examples: [
       { label: 'Wall insulation', expression: '960 ft2 area, 80 ft2 openings, 40 ft2 per pack, 10% waste', result: '25 packs' },
-      { label: 'Attic roll coverage', expression: '700 ft2 area, 65 ft2 per pack, 8% waste', result: 'Pack count estimate' },
-      { label: 'Small garage wall', expression: '320 ft2 area, 35 ft2 per pack', result: 'Insulation packs' },
+      { label: 'Attic roll coverage', expression: '1,200 ft2 area, 48 ft2 per pack, 10% waste', result: '28 packs' },
+      { label: 'Small garage wall', expression: '420 ft2 area, 20 ft2 openings, 32 ft2 per pack, 12% waste', result: '14 packs' },
     ],
     relatedSlugs: ['btu-calculator', 'square-footage-calculator', 'drywall-calculator'],
   }),

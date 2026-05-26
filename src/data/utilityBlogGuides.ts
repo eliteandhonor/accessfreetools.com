@@ -171,6 +171,18 @@ const sourceLinks = {
     href: 'https://www.energy.gov/energysaver/insulation',
     label: 'U.S. Department of Energy: Insulation guidance',
   },
+  energyStarInsulationRValues: {
+    href: 'https://www.energystar.gov/saveathome/seal_insulate/identify-problems-you-want-fix/diy-checks-inspections/insulation-r-values',
+    label: 'ENERGY STAR: Recommended home insulation R-values',
+  },
+  energyStarAtticInsulation: {
+    href: 'https://www.energystar.gov/products/energy_star_home_upgrade/attic_insulation',
+    label: 'ENERGY STAR: Well-insulated and sealed attic',
+  },
+  ftcInsulationBuying: {
+    href: 'https://consumer.ftc.gov/articles/what-know-when-youre-buying-home-insulation',
+    label: 'FTC: What to know when buying home insulation',
+  },
   rfc4648: {
     href: 'https://datatracker.ietf.org/doc/html/rfc4648/',
     label: 'IETF RFC 4648: Base-N Encodings',
@@ -2333,9 +2345,9 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchPlywood, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'insulation-calculator': {
-    summary: 'Learn how area, openings, pack coverage, waste, and R-value planning work together.',
+    summary: 'Learn how square footage, openings, pack coverage, waste, and R-value planning work together.',
     purpose:
-      'The Insulation Calculator estimates package count after you choose an insulation product. It helps with quantity, not product selection.',
+      'The Insulation Calculator estimates package count after you choose an insulation product. It helps with quantity, not code approval or product selection.',
     enter: [
       'Enter the area before openings, then subtract windows, doors, hatches, or other spaces.',
       'Enter coverage per pack from the product label for the chosen thickness or R-value.',
@@ -2345,11 +2357,13 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Packs needed is rounded up to whole packages.',
       'Adjusted area shows net area after openings and waste.',
       'Total coverage bought helps compare the rounded package count with the area needed.',
+      'For example, a 1,200 square foot attic using packs that cover 48 square feet each with 10% waste needs 28 packs.',
     ],
     mistakes: [
       'Do not confuse square-foot coverage with R-value.',
       'Do not skip air sealing, vapor control, ventilation, moisture checks, fire rules, or local code.',
-      'Use the product label and climate guidance before choosing the actual insulation.',
+      'Do not use one pack coverage number for every R-value. Thicker insulation often covers less area per pack.',
+      'Use the product label, local code, and climate guidance before choosing the actual insulation.',
     ],
     extraSections: [
       {
@@ -2359,8 +2373,29 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
           'This tool does not pick the R-value. It estimates how many packs you need after you pick a product and know the product coverage.',
         ],
       },
+      {
+        title: 'Quick square-foot example',
+        paragraphs: [
+          'Say an attic is 1,200 square feet. The insulation pack says it covers 48 square feet at the R-value you picked. You add 10% waste for cuts and awkward spots.',
+          'The adjusted area is 1,200 x 1.10 = 1,320 square feet. Then 1,320 / 48 = 27.5, so you round up and buy 28 packs.',
+        ],
+      },
+      {
+        title: 'Why the product label matters',
+        paragraphs: [
+          'Insulation coverage is not one fixed number. A roll, batt pack, or blown-in bag may cover a different square-foot area at R-13, R-30, R-38, or R-49.',
+          'That is why the calculator asks for coverage per pack instead of guessing. The FTC says R-value information should be available before you buy, and ENERGY STAR recommends choosing R-value by climate and home location.',
+        ],
+      },
     ],
-    sources: [sourceLinks.doeInsulation, sourceLinks.inchCalculatorSitemap, sourceLinks.nistUnits],
+    sources: [
+      sourceLinks.doeInsulation,
+      sourceLinks.energyStarInsulationRValues,
+      sourceLinks.energyStarAtticInsulation,
+      sourceLinks.ftcInsulationBuying,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'countertop-calculator': {
     summary: 'Learn how countertop run length, depth, backsplash, cutouts, waste, and price estimate square footage.',

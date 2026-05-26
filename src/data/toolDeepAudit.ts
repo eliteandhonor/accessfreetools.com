@@ -886,6 +886,21 @@ const doeInsulation = {
   label: 'U.S. Department of Energy: Insulation guidance',
 };
 
+const energyStarInsulationRValues = {
+  href: 'https://www.energystar.gov/saveathome/seal_insulate/identify-problems-you-want-fix/diy-checks-inspections/insulation-r-values',
+  label: 'ENERGY STAR: Recommended home insulation R-values',
+};
+
+const energyStarAtticInsulation = {
+  href: 'https://www.energystar.gov/products/energy_star_home_upgrade/attic_insulation',
+  label: 'ENERGY STAR: Well-insulated and sealed attic',
+};
+
+const ftcInsulationBuying = {
+  href: 'https://consumer.ftc.gov/articles/what-know-when-youre-buying-home-insulation',
+  label: 'FTC: What to know when buying home insulation',
+};
+
 const lowesWallpaper = {
   href: 'https://www.inchcalculator.com/wallpaper-calculator/',
   label: 'Inch Calculator: Wallpaper calculator reference',
@@ -4075,20 +4090,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'insulation-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-construction-materials-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [inchCalculatorSitemap, doeInsulation, nistSi, googleHelpfulContent],
+    sources: [doeInsulation, energyStarInsulationRValues, energyStarAtticInsulation, ftcInsulationBuying, nistSi, googleHelpfulContent],
     findings: [
       'The calculator subtracts openings, adds waste, divides by package coverage, rounds up packs, and optionally estimates cost.',
-      'The FAQ explains R-value in plain language and states the calculator estimates quantity after the user chooses a product.',
-      'The guide warns about climate, air sealing, vapor control, moisture, ventilation, fire rules, and local code.',
+      'The FAQ explains R-value in plain language and states the calculator estimates quantity after the user chooses a product and reads the product label.',
+      'The guide now uses a 1,200 square foot attic example and warns about climate, air sealing, vapor control, moisture, ventilation, fire rules, local code, and label coverage changes by R-value.',
     ],
     improvements: [
-      'Added insulation pack-count UI, R-value explanation, detailed FAQ, source-backed guide, related tools, formula tests, and manual review record.',
+      'Added source SEO metadata, DataForSEO proof, square-foot/wall/attic/ceiling intent coverage, exact pack-count examples, ENERGY STAR/FTC source coverage, browser proof, and specific image alt text.',
     ],
     followUps: [
-      'Do not add R-value recommendations until climate-zone and code context can be handled accurately.',
+      'Do not turn this into an R-value selector unless climate-zone, assembly, and local-code context can be handled accurately.',
     ],
   },
   {

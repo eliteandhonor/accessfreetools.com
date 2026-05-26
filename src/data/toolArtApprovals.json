@@ -2193,7 +2193,9 @@
     "imagePath": "/tool-art/insulation-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/insulation-calculator-guide.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Smoke mascot measuring attic insulation beside R-value, square-foot coverage, and pack-count cards.",
+    "caption": "The Insulation Calculator guide artwork matches the walkthrough: measure the area, read the product coverage, add waste, and round up to whole packs."
   },
   {
     "slug": "insulation-calculator",
@@ -2201,7 +2203,9 @@
     "imagePath": "/tool-art/insulation-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/insulation-calculator-tool.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Smoke mascot beside insulation roll cards for area, openings, coverage per pack, waste, and packs needed.",
+    "caption": "The Insulation Calculator artwork matches the live tool: enter project area, subtract openings, add waste, and estimate pack count."
   },
   {
     "slug": "interest-calculator",

@@ -102,3 +102,12 @@
 - Fresh built-browser proof confirms the public internal-review wording is absent and the new examples, FAQ/schema, modified date, and smart-14 wording render.
 - Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Heat Index pages; page scores are 100/100 and post-edit DataForSEO paid evidence passed. Pending commit, deploy, live proof, GSC sitemap submission, and post-deploy DataForSEO closeout.
 - Deployed main commit `83a5934` through Hostinger Node build `019e6223-33bb-7280-a66d-2b778c41ffd7`; live Ask, production sitemap retry, full GSC sitemap submission, live DOM proof, live browser screenshots, and post-deploy DataForSEO page evidence all passed.
+
+## 2026-05-26 - Insulation Tool And Guide Sprint Cleared For Deploy
+
+- Reviewed `/tools/insulation-calculator/` and `/blog/how-to-use-insulation-calculator/` as a paired sprint using current ENERGY STAR, FTC, DOE, Google Search Central, Tallyard competitor, and DataForSEO evidence.
+- Updated the Insulation tool with source `seoTitle` and `seoDescription`, square-foot/wall/attic/ceiling aliases, exact 25/28/14 pack examples, product-label coverage FAQs, and clearer R-value limits.
+- Expanded the matching guide with a 1,200 square foot attic / 28 packs walkthrough, a product-label coverage warning, ENERGY STAR/FTC source context, and clearer quantity-vs-R-value wording.
+- Repaired Insulation tool and guide image alt/caption source data so the artwork describes area, openings, coverage per pack, waste, R-value, and pack-count cards.
+- Fresh built-browser proof confirms the public internal-review wording is absent and the new examples, FAQ/schema, modified date, and smart-14 wording render.
+- Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Insulation pages; page scores are 100/100 and post-edit DataForSEO paid evidence passed. Pending commit, deploy, live proof, GSC sitemap submission, and post-deploy DataForSEO closeout.

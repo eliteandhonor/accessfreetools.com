@@ -15,6 +15,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'markup-calculator': '2026-05-26',
   'payback-period-calculator': '2026-05-26',
   'heat-index-calculator': '2026-05-26',
+  'insulation-calculator': '2026-05-26',
 };
 
 const blogModifiedOverrides: Record<string, string> = {
@@ -23,6 +24,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-markup-calculator': '2026-05-26',
   'how-to-use-payback-period-calculator': '2026-05-26',
   'how-to-use-heat-index-calculator': '2026-05-26',
+  'how-to-use-insulation-calculator': '2026-05-26',
 };
 
 const staticPageLastmod: Record<string, string> = {
