@@ -5634,10 +5634,12 @@ function calculateUtility(
         ],
         steps: [
           'Treat one sleep cycle as about 90 minutes.',
-          result.mode === 'wake-up' ? 'Count backward from wake-up time by cycles and fall-asleep buffer.' : 'Count forward from bedtime by cycles and fall-asleep buffer.',
+          result.mode === 'wake-up'
+            ? 'Count backward from wake-up time by sleep cycles and your fall-asleep buffer.'
+            : 'Count forward from bedtime by sleep cycles and your fall-asleep buffer.',
           'Wrap around midnight when needed.',
         ],
-        note: 'Adults commonly need at least 7 hours of sleep, but quality and personal needs matter too.',
+        note: 'Adults commonly need at least 7 hours of sleep. If you keep waking tired, sleep quality and health context matter more than cycle math.',
       };
     }
     case 'tire-size': {

@@ -4080,6 +4080,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/sleep-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/sleep-calculator-guide.webp",
+    "alt": "Smoke mascot pointing from a moonlit clock to five glowing sleep-cycle loops, an hourglass, and a sunrise path.",
+    "caption": "Sleep Calculator guide artwork shows the guide idea: a clock time, fall-asleep buffer, repeated sleep cycles, and a wake-up path toward sunrise.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -4088,6 +4090,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/sleep-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/sleep-calculator-tool.webp",
+    "alt": "Smoke mascot beside a moonlit clock, five glowing sleep-cycle loops, an hourglass, and a sunrise trail.",
+    "caption": "Sleep Calculator artwork matches the tool: bedtime or wake-up time, 90-minute cycle loops, and a fall-asleep buffer shown with an hourglass.",
     "status": "approved",
     "qaStatus": "approved"
   },

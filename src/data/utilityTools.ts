@@ -1788,12 +1788,57 @@ export const utilityTools: ToolDefinition[] = [
     category: 'health-fitness',
     summary: 'Find a bedtime or wake-up time from 90-minute sleep cycles and a fall-asleep buffer.',
     description:
-      'Use this free sleep calculator to count sleep cycles backward from wake-up time or forward from bedtime.',
+      'Plan a bedtime or wake-up time with 90-minute sleep cycles, a real fall-asleep buffer, and a clear warning when cycle math is not enough.',
     icon: 'calculator-sleep',
+    aliases: ['Sleep Cycle Calculator', 'Bedtime Calculator', 'Wake Up Time Calculator'],
+    seoTitle: 'Sleep Calculator | Bedtime And Wake-Up Cycle Planner',
+    seoDescription:
+      'Find a bedtime or wake-up time from 90-minute sleep cycles. Add a fall-asleep buffer, compare 4-6 cycles, and check sleep-quality limits.',
     formula:
       'The calculator treats one sleep cycle as about 90 minutes, then adds or subtracts cycles and your fall-asleep buffer from the clock time.',
     limit:
       'Sleep needs vary by age, health, schedule, stress, and sleep quality. This is a planning helper, not medical advice.',
+    faqLanguage: {
+      expectedInputs: 'wake-up or bedtime mode, the clock time, sleep cycles, and the minutes you usually need to fall asleep',
+      inputFallback:
+        'Choose wake-up time or bedtime mode, enter the clock time, then set the number of sleep cycles and your fall-asleep buffer.',
+      examplePhrase: 'sleep-cycle example',
+      doubleCheck:
+        'Also check wake-up or bedtime mode, AM/PM or 24-hour time, sleep cycles, fall-asleep buffer, age-based sleep needs, and whether poor sleep needs a healthcare provider.',
+    },
+    inputExplanations: [
+      { term: 'Wake-up mode', meaning: 'counts backward from the time you need to wake up.' },
+      { term: 'Bedtime mode', meaning: 'counts forward from the time you plan to get into bed.' },
+      { term: 'Sleep cycles', meaning: '90-minute blocks used for the timing estimate. Five cycles equals 7 hours 30 minutes.' },
+      { term: 'Fall-asleep buffer', meaning: 'extra minutes before sleep starts, so the bedtime result is not too late.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How should I read the Sleep Calculator answer?',
+        answer:
+          'Read the suggested clock time first, then check the sleep-time line and fall-asleep buffer. If the plan gives you less sleep than your age usually needs, try more cycles or move the schedule.',
+      },
+      {
+        question: 'Is 90 minutes exact for everyone?',
+        answer:
+          'No. Ninety minutes is a useful average for planning. Real sleep cycles can be shorter or longer, and waking between cycles does not guarantee you will feel rested.',
+      },
+      {
+        question: 'How many sleep cycles should most adults try?',
+        answer:
+          'Five cycles gives 7 hours 30 minutes of sleep, and six cycles gives 9 hours. Four cycles is only 6 hours, so it is usually a backup-night option, not a good normal target for most adults.',
+      },
+      {
+        question: 'Does this replace sleep advice from a doctor?',
+        answer:
+          'No. Use it as a planning helper. Talk to a healthcare provider if sleep problems keep happening, you wake up tired after enough hours, snore loudly, or someone notices breathing pauses during sleep.',
+      },
+      {
+        question: 'Why does the fall-asleep buffer matter?',
+        answer:
+          'If you need 15 minutes to fall asleep, a 23:30 bedtime does not start sleep at 23:30. The buffer moves the suggested time earlier or later so the cycle math starts closer to actual sleep.',
+      },
+    ],
     useCases: [
       'Find a bedtime from a planned wake-up time.',
       'Find a wake-up time from bedtime.',
@@ -1801,9 +1846,9 @@ export const utilityTools: ToolDefinition[] = [
       'Add a realistic fall-asleep buffer.',
     ],
     examples: [
-      { label: 'Wake at 7:00', expression: '5 cycles plus 15 min buffer', result: 'Suggested bedtime' },
-      { label: 'Bed at 10:30 PM', expression: '5 cycles plus 15 min buffer', result: 'Suggested wake time' },
-      { label: 'Short night', expression: '4 cycles plus 20 min buffer', result: 'Alternate sleep time' },
+      { label: 'Wake at 7:00', expression: '5 cycles plus 15 min buffer', result: 'Bed at 23:15' },
+      { label: 'Bed at 10:30 PM', expression: '5 cycles plus 15 min buffer', result: 'Wake at 06:15' },
+      { label: 'Six-cycle night', expression: 'Wake at 7:00, 6 cycles plus 15 min buffer', result: 'Bed at 21:45' },
     ],
     relatedSlugs: ['time-calculator', 'hours-calculator', 'target-heart-rate-calculator'],
   }),

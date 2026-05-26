@@ -856,6 +856,16 @@ const cdcSleep = {
   label: 'CDC: About Sleep',
 };
 
+const cdcStudentSleep = {
+  href: 'https://www.cdc.gov/physical-activity-education/staying-healthy/sleep.html',
+  label: 'CDC: Sleep and Student Health',
+};
+
+const mayoSleepTips = {
+  href: 'https://www.mayoclinic.org/healthy-lifestyle/adult-health/in-depth/sleep/art-20048379',
+  label: 'Mayo Clinic: Sleep tips',
+};
+
 const nimhEatingDisorders = {
   href: 'https://www.nimh.nih.gov/health/publications/eating-disorders',
   label: 'NIMH: Eating disorders signs, symptoms, and help',
@@ -5838,17 +5848,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'sleep-calculator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [cdcSleep, nistTimeDefinitions],
+    sources: [cdcSleep, cdcStudentSleep, mayoSleepTips, nistTimeDefinitions, googleHelpfulContent],
     findings: [
       'The sleep helper adds or subtracts 90-minute cycles plus a fall-asleep buffer from a clock time.',
       'Tests cover wake-up mode with five cycles and a 15-minute buffer producing 23:15.',
-      'The guide explains that sleep needs vary by age, health, schedule, stress, and quality, so the page is planning help, not medical advice.',
+      'The guide now explains that five cycles is 7 hours 30 minutes, six cycles is 9 hours, and four cycles is usually a backup-night option for most adults.',
+      'The page distinguishes simple cycle planning from sleep quality, insomnia, loud snoring, breathing pauses, and ongoing tiredness that need healthcare context.',
     ],
     improvements: [
-      'Manually checked sleep-cycle math, bedtime and wake-up modes, fall-asleep buffer wording, examples, FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Added sleep-cycle metadata, exact bedtime/wake-up examples, age-based sleep-need context, source-backed cautions, extra visible FAQs, specific image alt/caption text, and fresh DataForSEO/page proof.',
     ],
     followUps: [
       'Add age-based sleep-duration suggestions only if source notes stay current and medical caveats stay visible.',

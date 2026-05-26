@@ -255,6 +255,14 @@ const sourceLinks = {
     href: 'https://www.cdc.gov/sleep/about/index.html',
     label: 'CDC: Sleep recommendations by age',
   },
+  cdcStudentSleep: {
+    href: 'https://www.cdc.gov/physical-activity-education/staying-healthy/sleep.html',
+    label: 'CDC: Sleep and student health',
+  },
+  mayoSleepTips: {
+    href: 'https://www.mayoclinic.org/healthy-lifestyle/adult-health/in-depth/sleep/art-20048379',
+    label: 'Mayo Clinic: Sleep tips',
+  },
   cdcGrowthCharts: {
     href: 'https://www.cdc.gov/growthcharts/',
     label: 'CDC: Growth Charts',
@@ -1619,9 +1627,21 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.bipmSi, sourceLinks.nistAtomicWeights],
   },
   'sleep-calculator': {
+    title: 'Sleep Calculator Guide',
     summary: 'Learn how to count sleep cycles from bedtime or wake-up time.',
+    metaDescription:
+      'Use the Sleep Calculator guide to count 90-minute cycles, add a fall-asleep buffer, compare bedtime options, and know when sleep quality matters more.',
     purpose:
       'The Sleep Calculator counts 90-minute sleep cycles forward or backward and includes a fall-asleep buffer. It helps plan a bedtime or wake-up time without pretending sleep is only math.',
+    intro:
+      'Use it when you need a simple bedtime or wake-up target and want the math shown clearly. It is best for normal planning, not for fixing insomnia, sleep apnea, shift-work fatigue, or ongoing tiredness.',
+    inputMatch: 'wake-up or bedtime mode, the clock time, sleep cycles, and the minutes you usually need to fall asleep',
+    logicNote:
+      'One cycle is counted as 90 minutes. In wake-up mode, the calculator subtracts cycles plus the fall-asleep buffer from your wake-up time. In bedtime mode, it adds them to your bedtime.',
+    readIntro:
+      'Read the suggested time first, then check the sleep-time line and fall-asleep buffer. If the result gives you less sleep than your age usually needs, pick more cycles or change the schedule.',
+    mistakeIntro:
+      'Most bad results come from using too few cycles, forgetting the fall-asleep buffer, or treating cycle timing as more important than enough sleep and sleep quality.',
     enter: [
       'Choose wake-up time or bedtime mode.',
       'Enter the clock time.',
@@ -1637,7 +1657,28 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not assume everyone needs the same number of cycles.',
       'Talk to a healthcare provider if sleep problems persist.',
     ],
-    sources: [sourceLinks.cdcSleep],
+    extraSections: [
+      {
+        title: 'Quick example',
+        paragraphs: [
+          'If you need to wake at 7:00 and choose 5 cycles, the calculator counts 7 hours 30 minutes of sleep plus a 15-minute fall-asleep buffer. The suggested bedtime is 23:15, or 11:15 PM.',
+        ],
+      },
+      {
+        title: 'How many cycles should I try?',
+        paragraphs: [
+          'Five cycles is 7 hours 30 minutes of sleep. Six cycles is 9 hours. Four cycles is only 6 hours, so it can be useful for a rough backup night but should not become the normal plan for most adults.',
+          'Age matters. CDC sleep guidance says adults generally need at least 7 hours, while teens and children usually need more.',
+        ],
+      },
+      {
+        title: 'When the calculator is not enough',
+        paragraphs: [
+          'A sleep-cycle time can help with planning, but it cannot tell whether your sleep is deep, interrupted, or healthy. If you regularly wake up tired, snore loudly, stop breathing during sleep, or struggle to sleep, use this as a note to discuss with a healthcare provider.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.cdcSleep, sourceLinks.cdcStudentSleep, sourceLinks.mayoSleepTips, sourceLinks.nistUnits],
   },
   'tire-size-calculator': {
     summary: 'Learn how tire width, aspect ratio, and wheel diameter create tire diameter.',

@@ -12,6 +12,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'interest-rate-calculator': '2026-05-26',
   'gas-mileage-calculator': '2026-05-26',
   'height-calculator': '2026-05-26',
+  'sleep-calculator': '2026-05-26',
   'half-life-calculator': '2026-05-26',
   'character-counter': '2026-05-26',
   'markup-calculator': '2026-05-26',
@@ -35,6 +36,7 @@ const toolLastmodOverrides: Record<string, string> = {
 const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-age-calculator': '2026-05-26',
   'how-to-use-height-calculator': '2026-05-26',
+  'how-to-use-sleep-calculator': '2026-05-26',
   'how-to-use-half-life-calculator': '2026-05-26',
   'how-to-use-character-counter': '2026-05-26',
   'how-to-use-markup-calculator': '2026-05-26',
