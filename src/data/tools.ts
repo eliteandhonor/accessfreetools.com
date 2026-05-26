@@ -2223,7 +2223,7 @@ const baseTools: ToolDefinition[] = [
     category: 'calculators',
     summary: 'Calculate flat-shape area for rectangles, triangles, circles, trapezoids, and parallelograms.',
     description:
-      'Choose a flat shape, enter the needed measurements, and get the square-unit area with formula steps.',
+      'Choose a flat shape, enter the needed measurements, and get the area in square units with formula steps.',
     icon: 'calculator-area',
     seoTitle: 'Area Calculator | Rectangle, Triangle, Circle Area',
     seoDescription:
@@ -2231,7 +2231,7 @@ const baseTools: ToolDefinition[] = [
     useCases: [
       'Find the area of a room, drawing, garden bed, or school geometry shape.',
       'Compare rectangle, triangle, circle, trapezoid, and parallelogram area without changing tools.',
-      'Check square-unit answers before using a result in notes, homework, or a project list.',
+      'Check answers in square units before using a result in notes, homework, or a project list.',
       'See the formula step so you can spot a wrong unit, radius, base, or height.',
     ],
     examples: [
