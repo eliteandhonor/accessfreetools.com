@@ -5474,17 +5474,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'date-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [isoDate, mdnDate],
+    sources: [isoDate, mdnDate, googleHelpfulContent],
     findings: [
-      'The date helper supports date difference and date shifting, with tests covering both paths.',
-      'The content explains date-only calendar math and keeps clock times out of this tool.',
-      'Related links point to Age, Time, Hours, and Day of the Week calculators for adjacent date-time jobs.',
+      'Search Console showed impressions without clicks, so the page needed sharper intent matching for days-between-dates and add-days searches.',
+      'The date helper counts full UTC calendar days between YYYY-MM-DD dates and applies year/month offsets before week/day offsets.',
+      'The updated FAQ explains start-date counting, month-end clamping, business-day limits, and browser-only privacy.',
     ],
     improvements: [
-      'Manually checked date difference and date-shift wording, input labels, examples, generated FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Reworked metadata, aliases, examples, FAQ detail, guide examples, image alt text, DataForSEO evidence, and browser-proof requirements for the Date Calculator page pair.',
     ],
     followUps: [
       'Add business-day counting only as a separate mode with weekend and holiday assumptions shown.',

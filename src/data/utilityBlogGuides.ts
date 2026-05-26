@@ -498,23 +498,54 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.isoDate, sourceLinks.mdnDate],
   },
   'date-calculator': {
-    summary: 'Learn how to count days between dates or add and subtract date offsets.',
+    title: 'Date Calculator Guide',
+    summary: 'Count days between dates, add 45 days, or check month-end shifts without vague calendar math.',
     purpose:
-      'The Date Calculator handles two common jobs: measuring the gap between two dates and moving a date forward or backward by years, months, weeks, and days.',
+      'The Date Calculator answers calendar questions like "how many days until this deadline?" and "what date is 45 days from now?"',
+    intro:
+      'It uses date-only math, so it is better for calendars than clock times, shifts, or time-zone scheduling.',
+    inputMatch: 'a real YYYY-MM-DD calendar date and the mode you mean: difference or add/subtract',
+    logicNote:
+      'For 2026-05-26 to 2026-06-10, the result is 15 days. Same start and end date gives 0 days because the start date is not counted as a completed day.',
+    readIntro:
+      'Read the big answer first, then check the weeks-and-days line or the result-date line to make sure it matches how you plan to use it.',
+    mistakeIntro:
+      'Date mistakes are usually small but annoying: the wrong mode, a mixed-up date format, or forgetting whether weekends and holidays count.',
     enter: [
       'Use Difference mode when you need days between two dates.',
       'Use Add or subtract mode when you need a date before or after a starting date.',
-      'Enter dates as calendar dates, not times of day.',
+      'Enter dates as YYYY-MM-DD calendar dates, not times of day.',
     ],
     read: [
-      'Days gives the full day count between dates.',
+      'Days gives the full day count between dates, without counting the start date as a finished day.',
       'Weeks and days splits that count into whole weeks plus remaining days.',
-      'Calendar difference gives a human-friendly years, months, and days view.',
+      'Result date shows the final date after years, months, weeks, and days are applied.',
     ],
     mistakes: [
       'Do not use this for business-day counts unless weekends and holidays do not matter.',
       'Do not use it as a time-zone scheduler.',
+      'Do not enter dates like 05/06/2026 if month/day order could be confused.',
       'For month-end dates, remember that shorter months may clamp to the last valid day.',
+    ],
+    extraSections: [
+      {
+        title: 'Quick examples to check yourself',
+        paragraphs: [
+          'A few simple examples make this page easier to trust before you use it on a real deadline.',
+        ],
+        bullets: [
+          '2026-05-26 to 2026-06-10 gives 15 days, which is 2 weeks and 1 day.',
+          '2026-05-26 plus 6 weeks and 3 days gives 2026-07-10.',
+          '2026-01-31 plus 1 month gives 2026-02-28 because February 2026 does not have 31 days.',
+        ],
+      },
+      {
+        title: 'When this is not enough',
+        paragraphs: [
+          'Use this calculator for calendar math. Do not use it by itself when a school, court, airline, workplace, bank, or local rule decides how a deadline is counted.',
+          'For business days, holidays, daylight-saving changes, or exact appointment times, check the official rule and local time zone too.',
+        ],
+      },
     ],
     sources: [sourceLinks.isoDate, sourceLinks.mdnDate],
   },

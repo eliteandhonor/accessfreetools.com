@@ -172,24 +172,56 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'date-calculator',
     name: 'Date Calculator',
     category: 'date-time',
-    summary: 'Find days between dates or add and subtract years, months, weeks, and days.',
+    summary: 'Count days between dates or move a calendar date forward or backward.',
     description:
-      'Use this free date calculator to count days between dates or add and subtract years, months, weeks, and days from a calendar date.',
+      'Count full days between two dates, or add and subtract years, months, weeks, and days from one calendar date.',
     icon: 'calculator-date',
+    aliases: [
+      'Days Between Dates Calculator',
+      'Date Difference Calculator',
+      'Add Days to Date Calculator',
+      'Subtract Days from Date Calculator',
+    ],
+    seoTitle: 'Date Calculator | Days Between Dates',
+    seoDescription:
+      'Count full days between two dates, add or subtract date offsets, and check month-end calendar shifts with clear examples.',
     formula:
-      'Date difference counts full UTC calendar days between two dates. Add/subtract mode applies years and months first, then weeks and days.',
+      'Date difference counts full UTC calendar days between two YYYY-MM-DD dates. Add/subtract mode applies years and months first, clamps month-end dates when needed, then applies weeks and days.',
     limit:
       'Calendar-date math is not the same as time-zone scheduling. Confirm local deadlines, business days, holidays, and time zones separately.',
+    inputExplanations: [
+      { term: 'Start date', meaning: 'the first calendar date in YYYY-MM-DD format.' },
+      { term: 'End date', meaning: 'the second calendar date for difference mode.' },
+      { term: 'Direction', meaning: 'add moves the date forward; subtract moves it backward.' },
+      { term: 'Years, months, weeks, days', meaning: 'the whole-number offset used in add or subtract mode.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Does the Date Calculator include the start date?',
+        answer:
+          'No. Difference mode counts full days between the two dates. May 26, 2026 to June 10, 2026 is 15 days because May 26 is the starting point, not a completed day.',
+      },
+      {
+        question: 'What happens when I add one month to a month-end date?',
+        answer:
+          'The calculator clamps to the last valid day when the target month is shorter. January 31, 2026 plus 1 month becomes February 28, 2026, then any week or day offset is added after that.',
+      },
+      {
+        question: 'Can this count business days or holidays?',
+        answer:
+          'No. This page counts calendar days. If weekends, school breaks, bank holidays, or local public holidays matter, check those rules separately before using the result as a deadline.',
+      },
+    ],
     useCases: [
-      'Count days between deadlines, trips, projects, or events.',
-      'Add or subtract a date offset such as 90 days or 3 months.',
-      'Compare weeks plus remaining days with a calendar year-month-day difference.',
-      'Avoid daylight-saving surprises by using date-only UTC math.',
+      'Count full days between deadlines, trips, projects, or events.',
+      'Add or subtract offsets such as 45 days, 6 weeks, or 3 months.',
+      'Check how many weeks and leftover days sit between two dates.',
+      'Avoid daylight-saving surprises by using date-only calendar math.',
     ],
     examples: [
-      { label: 'Rest of 2026', expression: '2026-04-30 to 2026-12-31', result: '245 days' },
-      { label: 'Add 1 month, 2 weeks, 3 days', expression: '2026-04-30 + 0y 1m 2w 3d', result: '2026-06-16' },
-      { label: 'Subtract 90 days', expression: '2026-12-31 - 90 days', result: '2026-10-02' },
+      { label: 'Two-week deadline', expression: '2026-05-26 to 2026-06-10', result: '15 days, or 2 weeks and 1 day' },
+      { label: 'Add 45 days', expression: '2026-05-26 + 0y 0m 6w 3d', result: '2026-07-10' },
+      { label: 'Month-end clamp', expression: '2026-01-31 + 0y 1m 0w 0d', result: '2026-02-28' },
     ],
     relatedSlugs: ['age-calculator', 'time-calculator', 'hours-calculator'],
   }),

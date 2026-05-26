@@ -19,6 +19,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'polymeric-sand-calculator': '2026-05-26',
   'fuel-cost-calculator': '2026-05-26',
   'matrix-calculator': '2026-05-26',
+  'date-calculator': '2026-05-26',
 };
 
 const blogModifiedOverrides: Record<string, string> = {
@@ -31,6 +32,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-polymeric-sand-calculator': '2026-05-26',
   'how-to-use-fuel-cost-calculator': '2026-05-26',
   'how-to-use-matrix-calculator': '2026-05-26',
+  'how-to-use-date-calculator': '2026-05-26',
 };
 
 const staticPageLastmod: Record<string, string> = {

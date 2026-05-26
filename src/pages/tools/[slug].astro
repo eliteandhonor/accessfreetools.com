@@ -87,10 +87,15 @@ const toolPageNoun = isNamedCalculator
     : tool.name.endsWith('Generator')
       ? 'generator'
       : 'tool';
+const utilityTrustTextBySlug: Partial<Record<string, string>> = {
+  'date-calculator':
+    'This page is for calendar dates, not clock times. If a deadline has official counting rules, business days, holidays, or a time zone, use those rules before trusting the quick result.',
+};
 const utilityTrustText =
-  tool.category === 'text-tools'
+  utilityTrustTextBySlug[tool.slug] ??
+  (tool.category === 'text-tools'
     ? 'This is a fast browser tool for text checks, formatting, and learning. If a school, app, client, API, or form has an official limit, use that rule before trusting a quick count.'
-    : 'This is a fast browser tool for estimates, formatting, checks, and learning. If a school, workplace, building job, network, account, API, or regulated measurement has an official rule, use that rule before trusting a quick result.';
+    : 'This is a fast browser tool for estimates, formatting, checks, and learning. If a school, workplace, building job, network, account, API, or regulated measurement has an official rule, use that rule before trusting a quick result.');
 const categoryLinkDescription =
   tool.category === 'text-tools'
     ? 'Browse related text tools and editing checks in the same category.'
@@ -613,6 +618,12 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Press Estimate fuel cost to see gallons needed, total cost, and cost per mile.',
     'Use your actual fuel price and realistic MPG when you want a closer estimate.',
     'Open Gas Mileage Calculator first if you need to calculate MPG from a tank.',
+  ],
+  'date-calculator': [
+    'Choose Difference when you need days between two calendar dates.',
+    'Choose Add or subtract when you want a date before or after a starting date.',
+    'Enter dates in YYYY-MM-DD form so month and day order stay clear.',
+    'Check the start-date, business-day, holiday, and time-zone rules before using the result as a deadline.',
   ],
   'square-footage-calculator': [
     'Enter length and width in feet for one rectangular section.',

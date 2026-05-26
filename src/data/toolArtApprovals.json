@@ -1224,6 +1224,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/date-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/date-calculator-guide.webp",
+    "alt": "Smoke mascot pointing at calendar panels, date blocks, and arrows for the Date Calculator guide.",
+    "caption": "The guide image shows calendar panels, arrows, and grouped date blocks, matching the walkthrough for days between dates and add-or-subtract offsets.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -1232,6 +1234,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/date-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/date-calculator-tool.webp",
+    "alt": "Smoke mascot beside two calendar grids and add-subtract controls for the Date Calculator.",
+    "caption": "The tool image shows two calendar grids for date difference plus smaller calendar controls for adding or subtracting date offsets.",
     "status": "approved",
     "qaStatus": "approved"
   },
