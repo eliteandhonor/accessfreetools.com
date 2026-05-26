@@ -2306,7 +2306,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Finance Calculator',
     buttonLabel: 'Project balance',
     emptyHistory: 'Recent finance projections will appear here.',
-    privacyNote: 'General finance projections are quick estimates and do not include fees, taxes, or account-specific rules.',
+    privacyNote: 'Finance projections stay in your browser and do not include fees, taxes, inflation, withdrawals, changing rates, losses, or account rules.',
     modes: [
       {
         id: 'finance',
@@ -2750,7 +2750,10 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Add each monthly contribution as an end-of-month deposit.',
           'Estimated growth equals ending balance minus total contributions.',
         ],
-        note: 'This is a projection, not a guaranteed return.',
+        note:
+          variant === 'finance'
+            ? 'This is a what-if projection, not financial advice or a guaranteed return. Taxes, fees, inflation, withdrawals, changing rates, losses, and account rules can move the real result.'
+            : 'This is a projection, not a guaranteed return.',
       };
     }
     case 'currency': {

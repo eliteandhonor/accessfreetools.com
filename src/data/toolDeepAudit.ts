@@ -556,6 +556,16 @@ const investorCompound = {
   label: 'OpenStax Principles of Finance: Time value of money basics',
 };
 
+const cfpbCompoundInterest = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/how-does-compound-interest-work-en-1683/',
+  label: 'CFPB: How compound interest works',
+};
+
+const investorGovCompoundCalculator = {
+  href: 'https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator',
+  label: 'Investor.gov: Compound Interest Calculator',
+};
+
 const openStaxLoanAmortization = {
   href: 'https://openstax.org/books/principles-finance/pages/8-3-loan-amortization',
   label: 'OpenStax Principles of Finance: Loan amortization',
@@ -2031,20 +2041,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'finance-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [investorCompound, googleHelpfulContent],
+    sources: [investorCompound, cfpbCompoundInterest, investorGovCompoundCalculator, consumerBudgetWorksheet, googleHelpfulContent],
     findings: [
-      'The general finance calculator reuses the investment-growth helper for a simple future-value scratchpad with starting amount, monthly contribution, rate, and time.',
-      'The guide positions the page as a quick scenario tool and points users to more specific calculators for debt, investing, or payment questions.',
-      'The FAQ and privacy copy keep the result framed as a rough estimate that excludes fees, taxes, and account-specific rules.',
+      'The general finance calculator uses the future-balance helper for a what-if projection from starting amount, monthly deposit, estimated annual rate, and time.',
+      'The guide now uses exact starter numbers: $2,000 plus $150/month at 5% for 8 years gives about $20,642.25, with $16,400 contributed and about $4,242.25 estimated growth.',
+      'The FAQ, privacy note, tool trust block, and guide source note keep the result framed as a projection that excludes taxes, fees, inflation, withdrawals, changing rates, losses, and account rules.',
     ],
     improvements: [
-      'Manually checked shared future-value logic, examples, result labels, guide article, FAQ wording, source coverage, related tools, and privacy note.',
+      'Rewrote metadata, examples, input explanations, FAQ cautions, guide copy, source links, image alt/caption text, tool trust note, and modified dates in smart-14 wording.',
     ],
     followUps: [
-      'Consider renaming the page or adding mode tabs later if analytics show users expect a broader finance dashboard.',
+      'Consider adding mode tabs later only if Search Console or usage data proves visitors expect a broader finance dashboard instead of a future-balance projection.',
     ],
   },
   {
@@ -7070,6 +7080,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
     if (includesAny(key, ['loan-calculator', 'loan calculator'])) {
       return sourceBackstop([openStaxLoanAmortization, cfpbAprVsInterest, cfpbLoanEstimate, cfpbAutoTruthInLending]);
+    }
+
+    if (includesAny(key, ['finance-calculator', 'finance calculator'])) {
+      return sourceBackstop([investorCompound, cfpbCompoundInterest, investorGovCompoundCalculator, consumerBudgetWorksheet]);
     }
 
     if (includesAny(key, ['college-cost', 'college cost'])) {

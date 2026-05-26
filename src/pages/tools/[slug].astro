@@ -1871,6 +1871,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Payment, MIP, and LTV'
               : tool.slug === 'loan-calculator'
               ? 'Payment, total paid, and interest'
+              : tool.slug === 'finance-calculator'
+              ? 'Balance, deposits, and growth'
               : tool.slug === 'estate-tax-calculator'
               ? 'Exclusion and excess shown'
               : 'Payment or total shown'}
@@ -1994,6 +1996,30 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/" rel="noreferrer" target="_blank">
                   CFPB Loan Estimate
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'finance-calculator' ? (
+            <>
+              <strong>Money projection, not a promise</strong>
+              <p>
+                Use this to compare starting amount, monthly deposits, estimated annual rate, and time.
+                A real result can still change with taxes, fees, inflation, withdrawals, market losses,
+                changing rates, account rules, and provider terms.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://openstax.org/books/principles-finance/pages/7-2-time-value-of-money-tvm-basics" rel="noreferrer" target="_blank">
+                  OpenStax time value of money
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/how-does-compound-interest-work-en-1683/" rel="noreferrer" target="_blank">
+                  CFPB compound interest
+                </a>
+                {', and '}
+                <a href="https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator" rel="noreferrer" target="_blank">
+                  Investor.gov compound interest calculator
                 </a>
                 .
               </p>

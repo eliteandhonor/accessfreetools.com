@@ -1713,7 +1713,9 @@
     "imagePath": "/tool-art/finance-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/finance-calculator-guide.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Finance Calculator guide art showing starting money, monthly deposits, rate, time, and a future balance check.",
+    "caption": "The guide image matches the walkthrough for projecting a future balance from starting money, monthly deposits, rate, and time."
   },
   {
     "slug": "finance-calculator",
@@ -1721,7 +1723,9 @@
     "imagePath": "/tool-art/finance-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/finance-calculator-tool.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Finance Calculator tool art showing a money projection with deposits, growth, and an ending balance.",
+    "caption": "The tool image matches the calculator workflow: enter starting money, monthly deposit, annual rate, and years, then compare balance with estimated growth."
   },
   {
     "slug": "flooring-calculator",

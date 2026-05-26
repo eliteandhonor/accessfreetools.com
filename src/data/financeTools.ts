@@ -1684,24 +1684,55 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'finance-calculator',
     name: 'Finance Calculator',
-    summary: 'Project a general balance from starting amount, monthly change, rate, and time.',
+    summary: 'Project a future balance from starting money, monthly deposits, rate, and time.',
     description:
-      'Use this free finance calculator for a general future-value estimate from starting amount, monthly contribution, annual rate, and time horizon.',
+      'Use this free finance calculator as a what-if money projection for starting balance, monthly deposits, annual rate, and time.',
+    seoTitle: 'Finance Calculator | Future Balance What-If',
+    seoDescription:
+      'Estimate a future balance from starting money, monthly deposits, annual rate, and time. See contributions, growth, and honest limits.',
     icon: 'calculator-finance',
+    aliases: ['Future Balance Calculator', 'Money Projection Calculator', 'Savings Projection Calculator'],
     formula:
-      'The calculator compounds a starting amount and monthly contributions using the estimated annual rate converted to monthly growth.',
-    limit: financeLimit,
+      'The calculator converts the annual rate into monthly growth, compounds the starting balance, and adds each monthly deposit at the end of the month.',
+    limit:
+      'This is a simple projection, not financial advice or a guaranteed return. It does not include tax, fees, inflation, withdrawals, changing rates, market losses, account rules, or provider terms.',
     useCases: [
-      'Run a quick future-value estimate without choosing a specialized tool.',
-      'Project a savings balance from monthly contributions.',
-      'Compare time, rate, and contribution scenarios.',
-      'Use as a general finance scratchpad before opening a specific calculator.',
+      'Run a quick future-balance estimate before choosing a specialized tool.',
+      'See how monthly deposits change a savings or investment scenario.',
+      'Compare 3%, 5%, and 7% rate assumptions without pretending any rate is promised.',
+      'Use a first-pass money projection before opening a loan, investment, retirement, or compound-interest calculator.',
     ],
     examples: [
-      { label: 'Savings projection', expression: '$2,000 plus $150/month at 5% for 8 years', result: 'Future balance estimate' },
-      { label: 'Short-term plan', expression: '$500 plus $75/month for 2 years', result: 'Projected balance' },
-      { label: 'Rate check', expression: '3%, 5%, and 7% assumptions', result: 'Compare ending balances' },
+      { label: 'Savings projection', expression: '$2,000 plus $150/month at 5% for 8 years', result: 'About $20,642.25 ending balance' },
+      { label: 'Short-term plan', expression: '$500 plus $75/month at 2% for 2 years', result: 'About $2,355.31 ending balance' },
+      { label: 'Rate check', expression: '$2,000 plus $150/month at 7% for 8 years', result: 'About $22,725.48 ending balance' },
     ],
+    inputExplanations: [
+      { term: 'Starting amount', meaning: 'the money already in the account or scenario before future deposits.' },
+      { term: 'Monthly contribution', meaning: 'the amount added at the end of each month. Use 0 if there are no new deposits.' },
+      { term: 'Estimated annual rate', meaning: 'the what-if growth rate, entered as 5 for 5%, not 0.05.' },
+      { term: 'Time', meaning: 'how many years the projection runs before showing the ending balance.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this the same as an investment calculator?',
+        answer:
+          'It uses the same basic future-balance idea, but it stays general. Use the Investment Calculator when you want investment wording, the Compound Interest Calculator when compounding frequency matters, and the Payment Calculator when the question is debt payment.',
+      },
+      {
+        question: 'Why does a small rate change move the result so much?',
+        answer:
+          'The rate is applied every month for the whole time period. That means extra time gives growth more chances to build on itself. The rate is still only an assumption, not a promise.',
+      },
+    ],
+    formulaCheck:
+      'For the starter example, $2,000 plus $150 each month at 5% for 8 years gives about $20,642.25, made from $16,400 in contributions and about $4,242.25 in estimated growth.',
+    resultReading:
+      'Start with the ending balance, then check total contributions and estimated growth. Contributions are the money you put in. Estimated growth is the part that came from the rate assumption.',
+    doubleCheck:
+      'Check that the monthly contribution is monthly, the rate is a percent like 5, and the time is in years. Then test a lower rate so the projection does not feel more certain than it is.',
+    limitFollowup:
+      'If the number affects a real loan, tax, retirement, or investment decision, use the matching specialized calculator and compare it with official account, lender, or adviser information.',
     relatedSlugs: ['investment-calculator', 'compound-interest-calculator', 'payment-calculator'],
   }),
   makeFinanceTool({
