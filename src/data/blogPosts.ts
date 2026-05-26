@@ -154,10 +154,10 @@ const blogPostCandidates: BlogPostDefinition[] = [
   },
   {
     slug: 'how-to-use-matrix-calculator',
-    title: 'How to use the Matrix Calculator',
+    title: 'Matrix Calculator Guide',
     label: 'Matrix calculator guide',
     summary:
-      'Learn how to add, subtract, multiply, transpose, and find determinants for 2x2 and 3x3 matrices.',
+      'Check 2x2 and 3x3 matrix addition, multiplication, transpose, and determinant steps with plain examples.',
   },
   {
     slug: 'how-to-use-scientific-notation-calculator',

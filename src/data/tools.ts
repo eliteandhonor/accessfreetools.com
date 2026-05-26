@@ -1331,27 +1331,33 @@ const baseTools: ToolDefinition[] = [
     category: 'calculators',
     summary: 'Add, subtract, multiply, transpose, and find determinants for 2x2 and 3x3 matrices.',
     description:
-      'Use this free matrix calculator for 2x2 and 3x3 matrix addition, subtraction, multiplication, transpose, and determinant calculations with steps, examples, copy, and history.',
+      'Enter 2x2 or 3x3 matrices, then add, subtract, multiply, transpose, or find the determinant with plain steps and copyable answers.',
     icon: 'calculator-matrix',
-    seoTitle: 'Matrix Calculator | Free Online Matrix Operations',
+    aliases: ['2x2 Matrix Calculator', '3x3 Matrix Calculator', 'Matrix Multiplication Calculator', 'Determinant Calculator'],
+    seoTitle: 'Matrix Calculator | 2x2 and 3x3 Steps',
     seoDescription:
-      'Use the free Access Free Tools matrix calculator to add, subtract, multiply, transpose, and find determinants for 2x2 and 3x3 matrices with steps.',
+      'Add, subtract, multiply, transpose, and find 2x2 or 3x3 determinants with clear matrix steps and example answers.',
     useCases: [
-      'Check 2x2 and 3x3 matrix addition or subtraction problems.',
-      'Multiply square matrices while seeing row-by-column steps.',
-      'Find determinants for 2x2 and 3x3 matrices.',
-      'Transpose a matrix for algebra, precalculus, or linear algebra practice.',
+      'Check 2x2 and 3x3 matrix addition or subtraction before homework goes in.',
+      'Multiply square matrices and see the row-by-column rule instead of just the answer.',
+      'Find a 2x2 determinant with ad - bc or a 3x3 determinant with expansion by minors.',
+      'Transpose a matrix when rows and columns need to switch places.',
     ],
     examples: [
       {
         label: '2x2 multiply',
-        expression: '[[1,2],[3,4]] x [[5,6],[7,8]]',
-        result: '[[19,22],[43,50]]',
+        expression: '[[1,2],[3,4]] x [[2,0],[1,2]]',
+        result: '[[4,4],[10,8]] because row 1 x column 1 is 1x2 + 2x1 = 4',
+      },
+      {
+        label: '2x2 add',
+        expression: '[[1,2],[3,4]] + [[5,6],[7,8]]',
+        result: '[[6,8],[10,12]] by adding matching spots',
       },
       {
         label: '2x2 determinant',
-        expression: 'det([[1,2],[3,4]])',
-        result: '-2',
+        expression: 'det([[3,4],[2,5]])',
+        result: '7 because 3x5 - 4x2 = 15 - 8',
       },
       {
         label: '3x3 determinant',
@@ -1366,9 +1372,14 @@ const baseTools: ToolDefinition[] = [
           'The Matrix Calculator supports addition, subtraction, multiplication, determinant, and transpose for 2x2 and 3x3 square matrices.',
       },
       {
+        question: 'When can I add or subtract two matrices?',
+        answer:
+          'The two matrices need the same size. A 2x2 can add to another 2x2, and a 3x3 can add to another 3x3. Each answer spot comes from the matching spot in Matrix A and Matrix B.',
+      },
+      {
         question: 'Does order matter for matrix multiplication?',
         answer:
-          'Yes. Matrix multiplication is order-sensitive. A x B can be different from B x A because each result entry uses rows from the first matrix and columns from the second.',
+          'Yes. Matrix multiplication is order-sensitive. A x B can be different from B x A because each answer entry uses a row from the first matrix and a column from the second.',
       },
       {
         question: 'What is a determinant?',
@@ -1376,9 +1387,14 @@ const baseTools: ToolDefinition[] = [
           'A determinant is a single value calculated from a square matrix. For a 2x2 matrix [[a,b],[c,d]], the determinant is ad - bc.',
       },
       {
+        question: 'Why does the calculator only show 2x2 and 3x3 matrices?',
+        answer:
+          'Those sizes cover the quick checks most people need on this page, and they keep the grid readable on a phone. Bigger matrices need a different layout and slower step display.',
+      },
+      {
         question: 'Can this solve systems of equations?',
         answer:
-          'Not yet. This version focuses on core matrix operations. Systems of equations can be a later tool or future expansion.',
+          'Not yet. This version checks core matrix operations. If you are solving systems, use the result as one step in your work and still check the equation setup.',
       },
       {
         question: 'Can I use decimals or negative values?',

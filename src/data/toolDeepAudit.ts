@@ -4961,17 +4961,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'matrix-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [openStaxMatrices, openStaxScientificNotation],
+    sources: [openStaxMatrices, googleHelpfulContent],
     findings: [
-      'The matrix helpers validate matrix shape, same-size add/subtract rules, multiplication dimensions, transpose, and square-matrix determinant rules.',
-      'Tests cover add, subtract, multiply, transpose, determinant, non-square determinant errors, and size mismatch errors.',
-      'The FAQ explains that matrix multiplication is order-sensitive and that determinant mode needs a square matrix.',
+      'The matrix helpers validate same-size add/subtract rules, row-by-column multiplication, transpose, and square-matrix determinant rules.',
+      'GSC showed high impressions but weak clicks, so the sprint replaced boilerplate SEO copy with clearer 2x2 and 3x3 intent wording.',
+      'The guide now uses specific 2x2 addition, multiplication, and determinant examples instead of only naming the operations.',
     ],
     improvements: [
-      'Manually checked matrix operation rules, validation messages, examples, FAQ detail, guide coverage, source coverage, related links, SEO copy, and privacy behavior.',
+      'Refreshed Matrix Calculator metadata, examples, FAQs, guide copy, image alt/caption text, source coverage, page dates, DataForSEO evidence, and browser-proof requirements.',
     ],
     followUps: [
       'Add row-reduction or inverse modes only after adding separate tests and clear step explanations.',

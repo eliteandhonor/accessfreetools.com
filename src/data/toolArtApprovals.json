@@ -2652,6 +2652,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/matrix-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/matrix-calculator-guide.webp",
+    "alt": "Smoke mascot pointing at a glowing matrix grid with row and column dots for the Matrix Calculator guide.",
+    "caption": "The guide image shows a glowing matrix grid so it matches the walkthrough for rows, columns, transpose, multiplication order, and determinant checks.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2660,6 +2662,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/matrix-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/matrix-calculator-tool.webp",
+    "alt": "Smoke mascot holding glowing matrix cells beside 2x2 and 3x3 grids for the Matrix Calculator.",
+    "caption": "The tool image shows separate glowing matrix cells and grids, matching the live add, subtract, multiply, transpose, and determinant controls.",
     "status": "approved",
     "qaStatus": "approved"
   },

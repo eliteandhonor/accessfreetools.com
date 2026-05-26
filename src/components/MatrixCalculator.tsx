@@ -31,8 +31,8 @@ const defaultLeft = [
 ];
 
 const defaultRight = [
-  ['5', '6', '0'],
-  ['7', '8', '0'],
+  ['2', '0', '0'],
+  ['1', '2', '0'],
   ['0', '0', '1'],
 ];
 
@@ -47,8 +47,8 @@ const examples: MatrixExample[] = [
       ['0', '0', '1'],
     ],
     right: [
-      ['5', '6', '0'],
-      ['7', '8', '0'],
+      ['2', '0', '0'],
+      ['1', '2', '0'],
       ['0', '0', '1'],
     ],
   },
@@ -57,8 +57,8 @@ const examples: MatrixExample[] = [
     size: 2,
     operation: 'determinant',
     left: [
-      ['1', '2', '0'],
       ['3', '4', '0'],
+      ['2', '5', '0'],
       ['0', '0', '1'],
     ],
     right: defaultRight,
@@ -331,8 +331,9 @@ export default function MatrixCalculator() {
 
         <section className="advanced-note">
           <h2>Input tips</h2>
-          <p>Add, subtract, and determinant need same-size square matrices here.</p>
-          <p>Matrix multiplication multiplies rows of Matrix A by columns of Matrix B.</p>
+          <p>Add and subtract need Matrix A and Matrix B to be the same size.</p>
+          <p>Matrix multiplication uses rows of Matrix A and columns of Matrix B, so order matters.</p>
+          <p>Determinant and transpose only use Matrix A on this page.</p>
         </section>
       </aside>
     </section>

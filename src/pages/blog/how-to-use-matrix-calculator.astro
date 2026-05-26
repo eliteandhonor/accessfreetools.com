@@ -6,31 +6,57 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
 <CalculatorGuideArticle
   toolSlug="matrix-calculator"
   label="Matrix calculator guide"
-  title="How to use the Matrix Calculator"
-  description="Learn how to use the free Access Free Tools matrix calculator for 2x2 and 3x3 addition, subtraction, multiplication, transpose, and determinants."
+  title="Matrix Calculator Guide"
+  description="Check 2x2 and 3x3 matrix addition, multiplication, transpose, and determinant steps with plain examples."
   path="/blog/how-to-use-matrix-calculator/"
-  intro="The Matrix Calculator handles common 2x2 and 3x3 matrix operations: add, subtract, multiply, determinant, and transpose. It is built for quick checking and study examples."
+  intro="Matrix work gets messy when one row or column is copied wrong. This guide shows what to enter, what the calculator is doing, and which result checks matter most."
   quickStart={[
     'Choose 2x2 or 3x3.',
     'Choose the operation you want.',
-    'Enter Matrix A and Matrix B when the operation needs both matrices.',
-    'Press Calculate matrix and review the result, steps, examples, and recent answers.',
+    'Enter Matrix A. Enter Matrix B too for add, subtract, and multiply.',
+    'Press Calculate matrix, then check the result, steps, examples, and recent answers.',
   ]}
   sections={[
     {
+      title: 'Fast 2x2 checks',
+      paragraphs: [
+        'For addition, match the same position in each matrix. [[1,2],[3,4]] plus [[5,6],[7,8]] becomes [[6,8],[10,12]]. Nothing moves around.',
+        'For a 2x2 determinant, use ad - bc. Matrix [[3,4],[2,5]] gives 3x5 - 4x2 = 7. If you get a different number, check the diagonal order first.',
+      ],
+    },
+    {
       title: 'Matrix multiplication order',
       paragraphs: [
-        'Matrix multiplication uses rows from Matrix A and columns from Matrix B. Because of that, A x B can produce a different result than B x A.',
-        'The calculator keeps the current version focused on square 2x2 and 3x3 matrices so the inputs stay simple and mobile-friendly.',
+        'Matrix multiplication uses rows from Matrix A and columns from Matrix B. That is why A x B can be different from B x A.',
+        'Example: [[1,2],[3,4]] x [[2,0],[1,2]] gives [[4,4],[10,8]]. The top-left answer is 1x2 + 2x1 = 4.',
       ],
     },
     {
       title: 'Determinant and transpose',
       paragraphs: [
-        'A determinant is a single value calculated from a square matrix. For a 2x2 matrix [[a,b],[c,d]], the determinant is ad - bc.',
-        'Transpose swaps rows and columns. Entry row 1, column 2 becomes row 2, column 1.',
+        'A determinant is one number from a square matrix. A 3x3 determinant needs more steps, so use the calculator output as a check while you study the expansion.',
+        'Transpose swaps rows and columns. Entry row 1, column 2 becomes row 2, column 1. This page keeps the grid at 2x2 and 3x3 so it stays readable on a phone.',
+      ],
+    },
+    {
+      title: 'Mistakes to check first',
+      paragraphs: [
+        'Addition and subtraction need the same matrix size. If the problem mixes sizes, the operation is not defined.',
+        'Do not flip multiplication order unless your teacher or source says to. Matrix A times Matrix B is a different question from Matrix B times Matrix A.',
+      ],
+      links: [
+        {
+          href: 'https://openstax.org/books/college-algebra-2e/pages/7-5-matrices-and-matrix-operations',
+          label: 'OpenStax: matrices and matrix operations',
+        },
+        {
+          href: 'https://developers.google.com/search/docs/fundamentals/creating-helpful-content',
+          label: 'Google Search Central: helpful, people-first content',
+        },
       ],
     },
   ]}
-  sidecarText="Use the Matrix Calculator while you follow the guide."
+  sidecarText="Open the Matrix Calculator beside this guide and test the 2x2 examples as you read."
+  bestUsesIntro="Use this page when the problem is about small square matrices and you want to check the answer without losing the row and column logic."
+  keepExploringIntro="If the matrix problem is only part of the assignment, these links keep you close to algebra and calculator pages that match it."
 />

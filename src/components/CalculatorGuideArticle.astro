@@ -28,6 +28,8 @@ interface Props {
   quickStart: string[];
   sections: GuideSection[];
   sidecarText: string;
+  bestUsesIntro?: string;
+  keepExploringIntro?: string;
 }
 
 const {
@@ -40,6 +42,8 @@ const {
   quickStart,
   sections,
   sidecarText,
+  bestUsesIntro,
+  keepExploringIntro,
 } = Astro.props;
 const tool = getTool(toolSlug);
 const category = tool ? getCategory(tool.category) : undefined;
@@ -150,8 +154,7 @@ const articleStructuredData = {
           <section class="content-section">
             <h2>Best uses</h2>
             <p>
-              Start here if one of these sounds like your job. The examples below show which
-              inputs matter most.
+              {bestUsesIntro ?? 'Start here if one of these sounds like your job. The examples below show which inputs matter most.'}
             </p>
             <ul class="guide-bullet-list">
               {useCases.slice(0, 4).map((useCase) => <li>{useCase}</li>)}
@@ -251,8 +254,7 @@ const articleStructuredData = {
         <section class="content-section">
           <h2>Keep exploring</h2>
           <p>
-            If this guide is close but not exact, these links keep you near the same kind of
-            problem.
+            {keepExploringIntro ?? 'If this guide is close but not exact, these links keep you near the same kind of problem.'}
           </p>
           <ul class="guide-link-list">
             {tool && (
