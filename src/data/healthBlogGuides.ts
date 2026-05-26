@@ -106,8 +106,22 @@ function getSourceLinks(toolSlug: string) {
 
   if (toolSlug === 'target-heart-rate-calculator') {
     return [
-      { href: 'https://www.heart.org/en/healthy-living/fitness/fitness-basics/target-heart-rates', label: 'American Heart Association: Target heart rates' },
-      ...energySources,
+      {
+        href: 'https://www.heart.org/en/healthy-living/exercise-and-physical-activity/fitness-basics/target-heart-rates',
+        label: 'American Heart Association: Target heart rates',
+      },
+      {
+        href: 'https://www.cdc.gov/physical-activity-basics/measuring/index.html',
+        label: 'CDC: Physical activity intensity',
+      },
+      {
+        href: 'https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise-intensity/art-20046887',
+        label: 'Mayo Clinic: Exercise intensity',
+      },
+      {
+        href: 'https://www.hopkinsmedicine.org/health/wellness-and-prevention/understanding-your-target-heart-rate',
+        label: 'Johns Hopkins Medicine: Understanding target heart rate',
+      },
     ];
   }
 
@@ -545,26 +559,26 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'target-heart-rate-calculator': {
-    summary: 'Learn how age and intensity ranges become estimated exercise heart-rate zones.',
+    summary: 'Learn how age, effort range, and resting pulse become estimated exercise heart-rate zones.',
     purpose:
-      'The Target Heart Rate Calculator estimates exercise zones using age-predicted max heart rate, and can also show heart-rate reserve when resting pulse is entered.',
+      'The Target Heart Rate Calculator gives a beats-per-minute range for exercise. It is useful when you want a quick check for moderate or vigorous effort, but it is still an estimate, not a medical limit.',
     enter: [
-      'Enter age to estimate maximum heart rate.',
-      'Choose moderate, vigorous, or custom intensity.',
-      'Add resting heart rate if you want the heart-rate-reserve method.',
+      'Enter age so the tool can estimate maximum heart rate.',
+      'Choose moderate 50-70%, vigorous 70-85%, or the wider 50-85% range.',
+      'Add resting heart rate if you want the heart-rate-reserve result beside the simple result.',
     ],
     example: [
-      'For age 35, the simple maximum estimate is 220 minus 35.',
-      'The calculator then multiplies that maximum by the selected intensity range.',
+      'For age 35, the simple maximum estimate is 220 minus 35, which is 185 bpm.',
+      'The 50-85% range is about 93-157 bpm. With a 65 bpm resting pulse, the heart-rate-reserve range is about 125-167 bpm.',
     ],
     read: [
-      'A zone is a range, not a single perfect number.',
-      'Breathing, heat, sleep, medication, and fitness can all change real effort at the same heart rate.',
+      'Use the range as a guide, then check how you feel. Moderate effort should usually let you talk, while vigorous effort makes talking harder.',
+      'Heat, sleep, stress, caffeine, medication, fitness, and illness can all make the same heart rate feel different.',
     ],
     mistakes: [
       'Do not push into a zone that feels unsafe just because the calculator shows it.',
-      'Do not use the simple 220-minus-age estimate as a clinical test.',
-      'Do not ignore medical advice about exercise limits.',
+      'Do not treat 220 minus age as exact. It is a quick estimate, not a lab test.',
+      'Do not ignore medical advice about exercise limits, heart conditions, pregnancy, or medication that changes pulse.',
     ],
     next: [
       'Use Pace Calculator to compare heart rate with speed.',
@@ -1075,7 +1089,7 @@ export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) 
     title: `How to use the ${tool.name}`,
     description: buildHealthMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: `${detail.summary} Use this guide as a plain-English walkthrough: enter the measurements carefully, read what the estimate means, then check the safety notes before using or copying the result.`,
+    intro: `${detail.summary} Enter the inputs carefully, try the example, then read the limits before using or copying the number.`,
     quickStart: [
       `Open the ${tool.name}.`,
       detail.enter[0],
@@ -1087,7 +1101,7 @@ export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) 
         title: 'What this calculator is for',
         paragraphs: [
           detail.purpose,
-          `Good fit examples: ${tool.useCases.slice(0, 2).join(' ')}`,
+          `Use it when you want to: ${tool.useCases.slice(0, 2).join(' ')}`,
         ],
       },
       {

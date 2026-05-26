@@ -5,22 +5,29 @@ interface HealthToolSpec {
   name: string;
   summary: string;
   description: string;
+  seoDescription?: string;
   icon: string;
   formula: string;
   caution: string;
   useCases: string[];
   examples: ToolExample[];
+  extraFaq?: ToolFaq[];
   relatedSlugs: string[];
 }
 
 function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const exampleUses = spec.useCases.slice(0, 2).join(' ');
   const isBmiCalculator = spec.slug === 'bmi-calculator';
+  const isTargetHeartRateCalculator = spec.slug === 'target-heart-rate-calculator';
   const inputAnswer = isBmiCalculator
     ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
+    : isTargetHeartRateCalculator
+      ? 'Enter your age, choose the effort range, and add resting heart rate only if you want the heart-rate-reserve estimate. Age sets the rough maximum heart rate. The effort range turns that into beats per minute.'
     : 'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.';
   const readingAnswer = isBmiCalculator
     ? 'Read BMI as a quick adult screening number. It can miss important context such as pregnancy, high muscle mass, waist size, body composition, age, medical history, and ethnicity. Use it as a clue, not a final health answer.'
+    : isTargetHeartRateCalculator
+      ? 'Read the answer as a training range in beats per minute, not a perfect target you must hit. If the range feels too hard, you feel pain, or a clinician gave you a different limit, slow down and use the safer guidance.'
     : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
 
   return [
@@ -40,6 +47,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       question: `How should I read the ${spec.name} result?`,
       answer: readingAnswer,
     },
+    ...(spec.extraFaq ?? []),
     ...(isBmiCalculator
       ? [
           {
@@ -75,7 +83,7 @@ function makeHealthTool(spec: HealthToolSpec): ToolDefinition {
     description: spec.description,
     icon: spec.icon,
     seoTitle: `${spec.name} | Free Online Health Calculator`,
-    seoDescription: spec.description,
+    seoDescription: spec.seoDescription ?? spec.description,
     useCases: spec.useCases,
     examples: spec.examples,
     faq: makeFaq(spec),
@@ -409,22 +417,58 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'target-heart-rate-calculator',
     name: 'Target Heart Rate Calculator',
-    summary: 'Estimate exercise heart-rate zones from age and intensity.',
+    summary: 'Estimate exercise heart-rate zones in beats per minute.',
     description:
-      'Use this free target heart rate calculator to estimate moderate, vigorous, or general exercise heart-rate zones.',
+      'Estimate moderate, vigorous, or general exercise heart-rate zones from age, effort range, and optional resting pulse.',
+    seoDescription:
+      'Estimate target heart rate zones by age, compare 50-70% and 70-85% effort, and add resting pulse for heart-rate reserve.',
     icon: 'calculator-target-heart',
-    formula: 'The calculator estimates maximum heart rate as 220 minus age, then multiplies by the selected intensity range. It also shows heart-rate reserve when resting pulse is entered.',
-    caution: estimateCaution,
+    formula:
+      'The calculator estimates maximum heart rate as 220 minus age, multiplies that number by the selected intensity range, and also shows heart-rate reserve when resting pulse is entered.',
+    caution:
+      'This is an exercise-intensity estimate, not medical advice. Ask a clinician what heart-rate limit to use if you have a heart condition, take medication that affects pulse, are pregnant, or feel chest pain, dizziness, or unusual shortness of breath.',
     useCases: [
       'Estimate moderate-intensity heart-rate range.',
       'Estimate vigorous-intensity heart-rate range.',
       'Compare simple max-heart-rate and heart-rate-reserve methods.',
-      'Use zones as broad exercise guidance.',
+      'Check whether a workout feels close to the intended effort.',
     ],
     examples: [
-      { label: 'Age 35', expression: '50-85% zone', result: 'Target bpm range' },
-      { label: 'Age 50', expression: 'Moderate 50-70%', result: 'Moderate bpm range' },
-      { label: 'Resting HR included', expression: 'Karvonen estimate', result: 'Heart-rate reserve range' },
+      { label: 'Age 35', expression: '50-85% zone', result: '93-157 bpm from an estimated 185 bpm max' },
+      { label: 'Age 50', expression: 'Moderate 50-70%', result: '85-119 bpm from an estimated 170 bpm max' },
+      { label: 'Resting HR included', expression: 'Age 35, resting 65, 50-85%', result: '125-167 bpm heart-rate reserve range' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does 50-70% mean for target heart rate?',
+        answer:
+          'It is the common moderate-intensity range. For a 35-year-old, the simple max estimate is 185 bpm, so 50-70% is about 93-130 bpm.',
+      },
+      {
+        question: 'What does 70-85% mean for target heart rate?',
+        answer:
+          'It is the common vigorous-intensity range. For a 35-year-old, the simple estimate is about 130-157 bpm, but you should still listen to breathing, comfort, heat, and medical limits.',
+      },
+      {
+        question: 'Why does resting heart rate change the result?',
+        answer:
+          'Resting heart rate lets the calculator show a heart-rate-reserve estimate. It starts from your resting pulse, then adds part of the gap between resting pulse and estimated maximum heart rate.',
+      },
+      {
+        question: 'Is 220 minus age exact?',
+        answer:
+          'No. It is a quick age-based estimate. Real maximum heart rate can be higher or lower, and fitness level, sleep, heat, stress, and medication can all change how hard a number feels.',
+      },
+      {
+        question: 'Should I chase the top of the zone?',
+        answer:
+          'No. Start near the lower end if you are new, coming back after a break, exercising in heat, or unsure how hard to go. A safer workout you can repeat is better than forcing a number.',
+      },
+      {
+        question: 'When should I stop using the number and slow down?',
+        answer:
+          'Slow down or stop if you feel chest pain, dizziness, faintness, unusual shortness of breath, or a heart rate that feels wrong for you. Use medical advice before training through warning signs.',
+      },
     ],
     relatedSlugs: ['pace-calculator', 'calories-burned-calculator', 'calorie-calculator'],
   }),

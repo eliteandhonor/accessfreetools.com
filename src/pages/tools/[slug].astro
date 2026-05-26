@@ -590,12 +590,22 @@ const geometryToolInstructions: Record<string, string[]> = {
     'Use examples, recent answers, or copy the result while solving right triangles.',
   ],
 };
+const healthToolInstructionsBySlug: Partial<Record<string, string[]>> = {
+  'target-heart-rate-calculator': [
+    'Enter your age so the tool can estimate a rough maximum heart rate.',
+    'Choose moderate 50-70%, vigorous 70-85%, or the wider 50-85% range.',
+    'Add resting heart rate if you want the heart-rate-reserve range beside the simple range.',
+    'Use breathing, comfort, heat, medication, symptoms, and clinician advice before chasing a number.',
+  ],
+};
 const healthToolInstructions = healthToolVariant
   ? [
-      'Enter the requested measurements, dates, lab values, or workout details.',
-      'Check that the units and formula assumptions match what the tool is asking for.',
-      'Press the calculate button to see the answer, supporting metrics, and formula steps.',
-      'Read the estimate with the health disclaimer in mind, then copy the result if you need it for notes.',
+      ...(healthToolInstructionsBySlug[tool.slug] ?? [
+        'Enter the requested measurements, dates, lab values, or workout details.',
+        'Check that the units and formula assumptions match what the tool is asking for.',
+        'Press the calculate button to see the answer, supporting metrics, and formula steps.',
+        'Read the estimate with the health disclaimer in mind, then copy the result if you need it for notes.',
+      ]),
     ]
   : undefined;
 const financeToolInstructions = financeToolVariant

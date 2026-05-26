@@ -154,3 +154,13 @@
 - Fresh Playwright browser proof caught and removed the generic "dates, times, grades, dimensions" fallback instructions from the Date tool page; rebuilt proof confirms that generic copy is absent.
 - Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Date pages; page scores are 100/100 and 100/100, post-edit DataForSEO paid evidence passed, and `npm run check` passed.
 - Deployed main commit `df3c191` through Hostinger Node build `019e629a-e2c5-71ab-aea9-8e1b775b47e6`; live Ask retry, production sitemap retry, full GSC sitemap submission, live DOM proof, live browser screenshots, and post-deploy DataForSEO page evidence all passed.
+
+## 2026-05-26 - Target Heart Rate Tool And Guide Sprint Cleared For Deploy
+
+- Reviewed `/tools/target-heart-rate-calculator/` and `/blog/how-to-use-target-heart-rate-calculator/` as the next GSC high-impression health page pair using current AHA, CDC, Mayo Clinic, Johns Hopkins, Calculator.net competitor, GSC, and DataForSEO evidence.
+- Updated the Target Heart Rate tool with bpm-specific metadata, exact 93-157 bpm, 85-119 bpm, and 125-167 bpm heart-rate-reserve examples, target-specific instructions, and health/symptom/medication/pregnancy cautions.
+- Expanded the matching guide around age, effort range, resting pulse, heart-rate reserve, perceived effort, and when not to chase a number.
+- Repaired Target Heart Rate tool and guide image alt/caption source data so the artwork describes the actual gauge, zone bar, pulse line, water bottle, and running shoe.
+- Fixed the SEO agent source extractors so health factory tools are scored with generated SEO titles, descriptions, and visible FAQs instead of false 0-FAQ warnings.
+- Fresh Playwright browser proof confirms the public generic health instructions, placeholder `Target bpm range`, Mifflin-St Jeor source mismatch, and rough `showing estimate exercise` alt phrasing are absent.
+- Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Target Heart Rate pages; page scores are 100/100 and 100/100, post-edit DataForSEO paid evidence passed. Pending commit, deploy, live proof, GSC sitemap submission, and post-deploy DataForSEO closeout.

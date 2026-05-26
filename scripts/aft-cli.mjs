@@ -520,6 +520,8 @@ function findToolSource(slug) {
       block.includes('makeUtilityTool({') || text.slice(Math.max(0, match.index - 120), match.index).includes('makeUtilityTool');
     const isFinanceFactoryBlock =
       block.includes('makeFinanceTool({') || text.slice(Math.max(0, match.index - 120), match.index).includes('makeFinanceTool');
+    const isHealthFactoryBlock =
+      block.includes('makeHealthTool({') || text.slice(Math.max(0, match.index - 120), match.index).includes('makeHealthTool');
     const titleType = name.endsWith('Generator')
       ? 'Free Online Generator'
       : name.endsWith('Calculator')
@@ -531,8 +533,9 @@ function findToolSource(slug) {
       slug,
       name,
       category: extractProperty(block, 'category'),
-      seoTitle: extractProperty(block, 'seoTitle') || (isUtilityFactoryBlock && name ? `${name} | ${titleType}` : ''),
-      seoDescription: extractProperty(block, 'seoDescription') || (isUtilityFactoryBlock || isFinanceFactoryBlock ? description : ''),
+      seoTitle: extractProperty(block, 'seoTitle') || ((isUtilityFactoryBlock || isHealthFactoryBlock) && name ? `${name} | ${titleType}` : ''),
+      seoDescription:
+        extractProperty(block, 'seoDescription') || (isUtilityFactoryBlock || isFinanceFactoryBlock || isHealthFactoryBlock ? description : ''),
       faqCount: countProperty(block, 'question') + (isUtilityFactoryBlock ? 5 : 0) + (isFinanceFactoryBlock ? 7 : 0),
       exampleCount: countProperty(block, 'label'),
       relatedSlugs: extractRelatedSlugs(block),

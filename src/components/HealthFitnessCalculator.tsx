@@ -513,7 +513,8 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
     title: 'Target Heart Rate Calculator',
     buttonLabel: 'Calculate heart rate zone',
     emptyHistory: 'Recent target heart rate zones will appear here.',
-    privacyNote: 'Heart-rate zones are general estimates. Ask a clinician if medication or heart conditions affect your pulse.',
+    privacyNote:
+      'Heart-rate zones are general estimates. Ask a clinician if medication, pregnancy, symptoms, or heart conditions affect your pulse.',
     modes: [
       {
         id: 'target-heart-rate',
@@ -526,9 +527,9 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
         ],
         defaultInputs: { age: '35', zone: '50-85', restingHeartRate: '65' },
         examples: [
-          { label: 'Age 35 target', inputs: { age: '35', zone: '50-85', restingHeartRate: '65' } },
-          { label: 'Moderate age 50', inputs: { age: '50', zone: '50-70', restingHeartRate: '70' } },
-          { label: 'Vigorous age 28', inputs: { age: '28', zone: '70-85', restingHeartRate: '58' } },
+          { label: 'Age 35, 50-85%', inputs: { age: '35', zone: '50-85', restingHeartRate: '65' } },
+          { label: 'Age 50, moderate', inputs: { age: '50', zone: '50-70', restingHeartRate: '70' } },
+          { label: 'Age 28, vigorous', inputs: { age: '28', zone: '70-85', restingHeartRate: '58' } },
         ],
       },
     ],
@@ -1286,6 +1287,7 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
           'Estimate maximum heart rate as 220 minus age.',
           'Multiply maximum heart rate by the selected intensity range.',
           'If resting heart rate is entered, also show the heart-rate reserve estimate.',
+          'Use breathing, comfort, heat, medication, and medical limits before chasing a number.',
         ],
       };
     }

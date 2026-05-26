@@ -4316,6 +4316,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/target-heart-rate-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/target-heart-rate-calculator-guide.webp",
+    "alt": "Smoke mascot pointing at a heart-rate gauge, effort-zone bar, pulse line, and running shoe for the Target Heart Rate guide.",
+    "caption": "The guide artwork matches the walkthrough: age and effort range feed into a heart-rate zone, with a pulse line and shoe cue for exercise intensity.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -4324,6 +4326,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/target-heart-rate-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/target-heart-rate-calculator-tool.webp",
+    "alt": "Smoke mascot beside a colored heart-rate gauge, zone bar, pulse icon, water bottle, and running shoe for the Target Heart Rate Calculator.",
+    "caption": "The tool artwork matches the live calculator: choose an effort zone, check the gauge, and read the estimated beats-per-minute range.",
     "status": "approved",
     "qaStatus": "approved"
   },

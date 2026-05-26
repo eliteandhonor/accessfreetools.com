@@ -837,8 +837,18 @@ const aceOneRepMax = {
 };
 
 const ahaTargetHeartRates = {
-  href: 'https://www.heart.org/en/healthy-living/fitness/fitness-basics/target-heart-rates',
+  href: 'https://www.heart.org/en/healthy-living/exercise-and-physical-activity/fitness-basics/target-heart-rates',
   label: 'American Heart Association: Target heart rates',
+};
+
+const mayoExerciseIntensity = {
+  href: 'https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise-intensity/art-20046887',
+  label: 'Mayo Clinic: Exercise intensity',
+};
+
+const johnsHopkinsTargetHeartRate = {
+  href: 'https://www.hopkinsmedicine.org/health/wellness-and-prevention/understanding-your-target-heart-rate',
+  label: 'Johns Hopkins Medicine: Understanding target heart rate',
 };
 
 const johnsHopkinsDueDate = {
@@ -3212,20 +3222,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'target-heart-rate-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [ahaTargetHeartRates, cdcActivity],
+    sources: [ahaTargetHeartRates, cdcActivity, mayoExerciseIntensity, johnsHopkinsTargetHeartRate, googleHelpfulContent],
     findings: [
       'The calculator uses age-predicted max heart rate and intensity percentages, with optional heart-rate-reserve output when resting pulse is entered.',
-      'The guide explains that 220 minus age is an estimate and that medication, heat, sleep, fitness, and medical advice can change safe exercise intensity.',
-      'The result shows zones as ranges instead of a single perfect number, which is the right user expectation.',
+      'The guide now explains the 93-157 bpm age-35 example, the 125-167 bpm heart-rate-reserve example, and why 220 minus age is only a quick estimate.',
+      'The result shows zones as ranges instead of a single perfect number and adds practical limits for symptoms, medication, pregnancy, heat, and clinician advice.',
     ],
     improvements: [
-      'Manually checked max-heart-rate logic, custom intensity inputs, resting-heart-rate reserve output, examples, FAQ cautions, AHA/CDC source coverage, related tools, SEO copy, privacy behavior, and result readability.',
+      'Ran GSC-driven page sprint with current AHA, CDC, Mayo Clinic, Johns Hopkins, competitor, and DataForSEO evidence; updated metadata, examples, FAQs, source links, target-specific instructions, art alt/captions, SEO-agent factory scoring, browser proof, and final judges.',
     ],
     followUps: [
-      'Add a perceived-exertion explanation later for users who do not track heart rate.',
+      'Watch Search Console for target heart rate by age, heart rate zone, and running-intensity queries before changing the formula model.',
     ],
   },
   {

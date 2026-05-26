@@ -256,6 +256,10 @@ export function extractToolRecords() {
         /financeTools\.ts$/.test(unixPath(relative(process.cwd(), file))) ||
         chunk.includes('makeFinanceTool({') ||
         text.slice(Math.max(0, (match.index ?? 0) - 120), match.index ?? 0).includes('makeFinanceTool');
+      const isHealthFactoryBlock =
+        /healthTools\.ts$/.test(unixPath(relative(process.cwd(), file))) ||
+        chunk.includes('makeHealthTool({') ||
+        text.slice(Math.max(0, (match.index ?? 0) - 120), match.index ?? 0).includes('makeHealthTool');
       const titleType = name.endsWith('Generator')
         ? 'Free Online Generator'
         : name.endsWith('Calculator')
@@ -264,18 +268,19 @@ export function extractToolRecords() {
       const explicitFaqCount = extractArrayLength(chunk, 'faq');
       const generatedUtilityFaqCount = isUtilityFactoryBlock ? countFieldOccurrences(chunk, 'question') + 5 : 0;
       const generatedFinanceFaqCount = isFinanceFactoryBlock ? countFieldOccurrences(chunk, 'question') + 7 : 0;
+      const generatedHealthFaqCount = isHealthFactoryBlock ? countFieldOccurrences(chunk, 'question') + 7 : 0;
 
       records.push({
         category: extractStringField(chunk, 'category'),
         description,
         exampleCount: extractArrayLength(chunk, 'examples'),
-        faqCount: explicitFaqCount || generatedUtilityFaqCount || generatedFinanceFaqCount,
+        faqCount: explicitFaqCount || generatedUtilityFaqCount || generatedFinanceFaqCount || generatedHealthFaqCount,
         file: unixPath(relative(process.cwd(), file)),
         name,
         relatedCount: extractArrayLength(chunk, 'relatedSlugs'),
         relatedSlugs: extractStringArray(chunk, 'relatedSlugs'),
-        seoDescription: extractStringField(chunk, 'seoDescription') || (isUtilityFactoryBlock ? description : ''),
-        seoTitle: extractStringField(chunk, 'seoTitle') || (isUtilityFactoryBlock ? `${name} | ${titleType}` : ''),
+        seoDescription: extractStringField(chunk, 'seoDescription') || (isUtilityFactoryBlock || isHealthFactoryBlock ? description : ''),
+        seoTitle: extractStringField(chunk, 'seoTitle') || (isUtilityFactoryBlock || isHealthFactoryBlock ? `${name} | ${titleType}` : ''),
         slug,
         summary: extractStringField(chunk, 'summary'),
       });
