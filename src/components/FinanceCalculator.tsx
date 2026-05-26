@@ -319,7 +319,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Loan Calculator',
     buttonLabel: 'Calculate loan',
     emptyHistory: 'Recent loan estimates will appear here.',
-    privacyNote: 'Loan estimates do not include lender fees, penalties, insurance, or approval rules.',
+    privacyNote: 'Loan estimates stay in your browser and do not include APR fees, penalties, insurance, taxes, variable-rate changes, or approval rules.',
     modes: [
       {
         id: 'loan',
@@ -2553,6 +2553,7 @@ function loanCalculation(inputs: FinanceInputs, title = 'Monthly payment'): Fina
       'Apply the fixed-payment amortization formula to estimate the monthly payment.',
       'Total interest equals total paid minus principal.',
     ],
+    note: 'This is fixed-rate payment math only. Compare the result with the written APR, fees, prepayment terms, and lender disclosure before signing.',
   };
 }
 

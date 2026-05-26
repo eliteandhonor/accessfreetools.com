@@ -1869,6 +1869,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Cash needed, LTV, and closing costs'
               : tool.slug === 'fha-loan-calculator'
               ? 'Payment, MIP, and LTV'
+              : tool.slug === 'loan-calculator'
+              ? 'Payment, total paid, and interest'
               : tool.slug === 'estate-tax-calculator'
               ? 'Exclusion and excess shown'
               : 'Payment or total shown'}
@@ -1970,6 +1972,30 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 Use this to compare home price, down payment, rate, upfront MIP, monthly MIP, tax, and insurance.
                 A real FHA loan can still change with county loan limits, credit score, debt-to-income ratio,
                 property rules, appraisal, closing costs, escrow setup, MIP duration, and the written Loan Estimate.
+              </p>
+            </>
+          ) : tool.slug === 'loan-calculator' ? (
+            <>
+              <strong>Loan payment estimate, not a lender disclosure</strong>
+              <p>
+                Use this to compare loan amount, rate, term, monthly payment, total paid, and total interest.
+                A real offer can still change with APR fees, finance charges, late fees, insurance, taxes,
+                prepayment terms, variable rates, lender rounding, approval rules, and the written disclosure.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://openstax.org/books/principles-finance/pages/8-3-loan-amortization" rel="noreferrer" target="_blank">
+                  OpenStax loan amortization
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/" rel="noreferrer" target="_blank">
+                  CFPB interest rate vs. APR
+                </a>
+                {', and '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/" rel="noreferrer" target="_blank">
+                  CFPB Loan Estimate
+                </a>
+                .
               </p>
             </>
           ) : tool.slug === 'estate-tax-calculator' ? (

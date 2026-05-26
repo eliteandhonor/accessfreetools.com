@@ -556,6 +556,11 @@ const investorCompound = {
   label: 'OpenStax Principles of Finance: Time value of money basics',
 };
 
+const openStaxLoanAmortization = {
+  href: 'https://openstax.org/books/principles-finance/pages/8-3-loan-amortization',
+  label: 'OpenStax Principles of Finance: Loan amortization',
+};
+
 const blsInflation = {
   href: 'https://www.bls.gov/bls/inflation.htm',
   label: 'BLS: Overview of inflation and price statistics',
@@ -654,6 +659,16 @@ const cfpbAutoFinancingOffers = {
 const cfpbAprVsInterest = {
   href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/',
   label: 'CFPB: Loan interest rate vs. APR',
+};
+
+const cfpbLoanEstimate = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/',
+  label: 'CFPB: What is a Loan Estimate?',
+};
+
+const cfpbAutoTruthInLending = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-truth-in-lending-disclosure-for-an-auto-loan-en-787/',
+  label: 'CFPB: Truth in Lending disclosure for an auto loan',
 };
 
 const cfpbPersonalInstallmentFees = {
@@ -1521,20 +1536,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'loan-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-risk-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [cfpbDebtToIncome, investorCompound],
+    sources: [openStaxLoanAmortization, cfpbAprVsInterest, cfpbLoanEstimate, cfpbAutoTruthInLending],
     findings: [
-      'The loan payment path uses the standard amortized fixed-payment formula and handles a zero-interest example by dividing principal across payments.',
-      'The guide explains principal, annual rate, term, monthly payment, total paid, and total interest in plain language.',
-      'The FAQ and limit copy warn users not to compare loans by payment alone or ignore APR fees, insurance, penalties, and lender terms.',
+      'The loan payment path uses fixed-rate amortization math and handles a zero-interest example by dividing principal across payments.',
+      'The guide explains loan amount, annual interest rate, term, monthly payment, total paid, and total interest in smart-14 language.',
+      'The FAQ and limit copy warn users not to compare loans by payment alone or ignore APR, origination fees, disclosures, prepayment terms, taxes, insurance, penalties, and lender-specific rounding.',
     ],
     improvements: [
-      'Manually checked the formula path, examples, guide article, FAQ, related tools, and finance disclaimer language.',
+      'Refreshed the tool and guide with exact $12,000, $50,000, and 0% examples, explicit SEO metadata, APR-versus-interest cautions, disclosure cross-checks, specific image alt/caption text, and current OpenStax/CFPB sources.',
     ],
     followUps: [
-      'Add optional APR-versus-interest-rate examples when loan comparison content is expanded.',
+      'Consider a later feature pass for optional origination fees or a compact amortization preview, but do not imply those fields exist on this page yet.',
     ],
   },
   {
@@ -7051,6 +7066,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
     if (includesAny(key, ['student-loan', 'student loan'])) {
       return sourceBackstop([fsaRepaymentPlans, investorCompound]);
+    }
+
+    if (includesAny(key, ['loan-calculator', 'loan calculator'])) {
+      return sourceBackstop([openStaxLoanAmortization, cfpbAprVsInterest, cfpbLoanEstimate, cfpbAutoTruthInLending]);
     }
 
     if (includesAny(key, ['college-cost', 'college cost'])) {

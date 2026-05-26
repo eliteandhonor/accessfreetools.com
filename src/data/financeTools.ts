@@ -1395,25 +1395,80 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'loan-calculator',
     name: 'Loan Calculator',
-    summary: 'Estimate a fixed monthly loan payment and total interest.',
+    summary: 'Estimate a fixed monthly loan payment, total paid, and total interest from amount, rate, and term.',
     description:
-      'Use this free loan calculator to estimate a fixed monthly payment, total paid, and total interest from loan amount, annual rate, and term.',
+      'Use this free loan calculator to estimate a fixed monthly payment, total paid, total interest, and payment count from loan amount, annual interest rate, and term.',
+    seoTitle: 'Loan Calculator | Monthly Payment & Interest',
+    seoDescription:
+      'Estimate a fixed loan payment from amount, rate, and term. See monthly payment, total paid, total interest, and APR-versus-interest cautions.',
     icon: 'calculator-loan',
+    aliases: ['loan payment calculator', 'monthly loan payment calculator', 'fixed loan calculator', 'personal loan payment estimate'],
     formula:
       'The calculator uses the standard amortized loan payment formula: payment equals principal times monthly rate times growth factor divided by growth factor minus one.',
-    limit: financeLimit,
+    limit:
+      'This is fixed-rate payment math only. It is not a lender quote, APR disclosure, approval decision, payoff statement, or Loan Estimate, and it does not include fees, taxes, insurance, prepayment penalties, late fees, variable-rate changes, or lender-specific rounding.',
     useCases: [
       'Estimate payments for personal loans, student loans, or other fixed-payment debt.',
       'Compare different loan terms before choosing a repayment plan.',
       'See the total interest cost behind a monthly payment.',
-      'Use the result as a baseline for the amortization calculator.',
+      'Use the result as a baseline before checking an amortization table or written loan offer.',
     ],
     examples: [
-      { label: 'Personal loan', expression: '$12,000 at 9.5% for 4 years', result: 'Monthly payment and total interest' },
-      { label: 'Large loan', expression: '$50,000 at 7% for 6 years', result: 'Payment comparison estimate' },
-      { label: 'Zero interest', expression: '$3,000 at 0% for 12 months', result: 'Principal divided by months' },
+      { label: 'Personal loan', expression: '$12,000 at 9.5% for 4 years', result: 'About $301.48/month and $2,470.93 interest' },
+      { label: 'Large loan', expression: '$50,000 at 7% for 6 years', result: 'About $852.45/month and $11,376.42 interest' },
+      { label: 'Zero interest', expression: '$3,000 at 0% for 12 months', result: '$250/month with no interest before fees' },
     ],
     relatedSlugs: ['payment-calculator', 'amortization-calculator', 'interest-rate-calculator'],
+    inputExplanations: [
+      { term: 'Loan amount', meaning: 'the principal you plan to borrow before fees or add-ons.' },
+      { term: 'Interest rate', meaning: 'the yearly contract rate used for payment math, entered as 9.5 for 9.5%.' },
+      { term: 'Loan term', meaning: 'how long repayment lasts. Four years means 48 monthly payments.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'How does the Loan Calculator find the monthly payment?',
+        answer:
+          'It converts the annual interest rate into a monthly rate, turns the term into monthly payments, then uses the fixed-payment amortization formula. For $12,000 at 9.5% over 4 years, that works out to about $301.48 per month before any fees.',
+      },
+      {
+        question: 'Why should I look at total interest?',
+        answer:
+          'The monthly payment can hide the real cost. A longer term can make the payment smaller while adding more interest. Total interest shows how much extra money is paid above the original loan amount if the rate and payment stay fixed.',
+      },
+      {
+        question: 'Should I enter interest rate or APR?',
+        answer:
+          'Use the contract interest rate for basic payment math. APR can include certain fees, so CFPB says it is useful for comparing offers, but this simple calculator cannot know every fee unless the loan terms give you a clean rate to enter.',
+      },
+      {
+        question: 'Does this include lender fees?',
+        answer:
+          'No. Origination fees, finance charges, application fees, late fees, insurance, taxes, and prepayment penalties are not included. Check the written offer, Truth in Lending disclosure, or Loan Estimate before signing.',
+      },
+      {
+        question: 'Does this create an amortization table?',
+        answer:
+          'This page gives the quick monthly payment, total paid, and total interest. Use the Amortization Calculator when you want the month-by-month split between principal, interest, and remaining balance.',
+      },
+      {
+        question: 'Can I use this for a 0% loan?',
+        answer:
+          'Yes. If the rate is 0%, the calculator divides the principal by the number of payments. A $3,000 loan over 12 months is $250 per month before fees or penalties.',
+      },
+      {
+        question: 'Is the result a loan approval?',
+        answer:
+          'No. Approval can depend on credit, income, debt-to-income ratio, collateral, documents, lender rules, and the exact offer. This page only estimates payment math from the numbers you type.',
+      },
+    ],
+    formulaCheck:
+      'It assumes a fixed rate, monthly payments, and no added fees. It does not solve an official APR disclosure or read the lender contract.',
+    resultReading:
+      'Start with the monthly payment, then check total paid and total interest. If the payment looks easy but total interest is high, test a shorter term or lower rate before trusting the first scenario.',
+    doubleCheck:
+      'Compare the estimate with the written loan offer, APR, fees, payment schedule, prepayment terms, and any Loan Estimate or Truth in Lending disclosure that applies.',
+    limitFollowup:
+      'Use an official lender disclosure for APR, finance charge, amount financed, total of payments, late fees, prepayment penalties, taxes, insurance, and approval conditions.',
   }),
   makeFinanceTool({
     slug: 'auto-loan-calculator',

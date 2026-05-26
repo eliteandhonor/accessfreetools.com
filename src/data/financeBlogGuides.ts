@@ -43,6 +43,10 @@ const sourceLinks = {
     href: 'https://openstax.org/books/principles-finance/pages/8-2-annuities',
     label: 'OpenStax Principles of Finance: Annuities and present value',
   },
+  openStaxLoanAmortization: {
+    href: 'https://openstax.org/books/principles-finance/pages/8-3-loan-amortization',
+    label: 'OpenStax Principles of Finance: Loan amortization',
+  },
   consumerBudgetWorksheet: {
     href: 'https://www.mymoney.gov/tools',
     label: 'MyMoney.gov: Financial tools and budget resources',
@@ -122,6 +126,14 @@ const sourceLinks = {
   cfpbAprVsInterest: {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/',
     label: 'CFPB: Loan interest rate vs. APR',
+  },
+  cfpbLoanEstimate: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/',
+    label: 'CFPB: What is a Loan Estimate?',
+  },
+  cfpbAutoTruthInLending: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-truth-in-lending-disclosure-for-an-auto-loan-en-787/',
+    label: 'CFPB: Truth in Lending disclosure for an auto loan',
   },
   cfpbPersonalInstallmentFees: {
     href: 'https://www.consumerfinance.gov/ask-cfpb/do-personal-installment-loans-have-fees-en-2120/',
@@ -369,6 +381,15 @@ function getFormulaAnswer(toolSlug: string) {
 function getSourceLinks(toolSlug: string) {
   if (['mortgage-calculator', 'amortization-calculator'].includes(toolSlug)) {
     return [sourceLinks.cfpbMortgage];
+  }
+
+  if (toolSlug === 'loan-calculator') {
+    return [
+      sourceLinks.openStaxLoanAmortization,
+      sourceLinks.cfpbAprVsInterest,
+      sourceLinks.cfpbLoanEstimate,
+      sourceLinks.cfpbAutoTruthInLending,
+    ];
   }
 
   if (['mortgage-payoff-calculator', 'house-affordability-calculator'].includes(toolSlug)) {
@@ -872,29 +893,29 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Amortization Calculator to test extra payments.', 'Use Interest Rate Calculator if you only know the payment quote.'],
   },
   'loan-calculator': {
-    summary: 'Learn how fixed loan payments are estimated from principal, interest rate, and term.',
+    summary: 'Learn how loan amount, interest rate, and term turn into a monthly payment and total interest.',
     purpose:
-      'The Loan Calculator is for fixed-payment debt where the balance is paid down over time. It shows the monthly payment and the interest cost behind that payment.',
+      'The Loan Calculator is for fixed-payment debt where the balance is paid down over time. It shows the monthly payment, total paid, and interest cost behind that payment.',
     enter: [
-      'Enter the amount borrowed as principal.',
-      'Enter the annual interest rate as a percent, such as 9.5 for 9.5%.',
-      'Enter the repayment term in years, using decimals for partial years when needed.',
+      'Enter the loan amount before fees or add-ons.',
+      'Enter the annual interest rate as a percent, such as 9.5 for 9.5%. Use the contract interest rate for payment math, not a fee-loaded APR unless that is the exact comparison you want.',
+      'Enter the repayment term in years. Four years means 48 monthly payments.',
     ],
     example: [
-      'For $12,000 at 9.5% for 4 years, the calculator converts the annual rate to a monthly rate.',
-      'It spreads repayment over 48 monthly payments and calculates total interest from total paid minus principal.',
+      'For $12,000 at 9.5% for 4 years, the calculator converts the annual rate to a monthly rate and uses 48 monthly payments.',
+      'The estimate is about $301.48 per month, about $14,470.93 total paid, and about $2,470.93 total interest before fees.',
     ],
     read: [
       'Monthly payment is the fixed estimate before extra fees or insurance.',
-      'Total paid is payment times number of payments.',
-      'Total interest shows the borrowing cost before fees or penalties.',
+      'Total paid is monthly payment times the number of payments.',
+      'Total interest shows the borrowing cost before fees, penalties, taxes, insurance, or variable-rate changes.',
     ],
     mistakes: [
       'Do not compare two loans by payment alone if the terms are different.',
-      'Do not use APR-with-fees as if it were always the contract interest rate.',
-      'Do not ignore prepayment penalties or fees that are not in the calculator.',
+      'Do not use APR-with-fees as if it were always the contract interest rate used for payment math.',
+      'Do not ignore origination fees, finance charges, late fees, prepayment penalties, insurance, taxes, or disclosure terms that are not in the calculator.',
     ],
-    next: ['Use Payment Calculator for the same formula with a simpler layout.', 'Use Amortization Calculator to test extra monthly payments.'],
+    next: ['Use Payment Calculator for the same formula with a simpler layout.', 'Use Amortization Calculator to see the month-by-month balance.', 'Use Interest Rate Calculator if you know the payment but not the rate.'],
   },
   'auto-loan-calculator': {
     summary: 'Estimate a car payment from vehicle price, sales tax, fees, down payment, trade-in value, rate, and term.',
@@ -2843,6 +2864,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate down payment, loan amount, LTV, closing costs, and cash needed for a home purchase, with 20% and 3.5% examples.';
   }
 
+  if (tool.slug === 'loan-calculator') {
+    return 'Estimate a fixed loan payment from amount, rate, and term, with total paid, total interest, and APR-versus-interest cautions.';
+  }
+
   if (tool.slug === 'fha-loan-calculator') {
     return 'Estimate an FHA-style payment with down payment, upfront MIP, monthly MIP, tax, insurance, and clear limits on approval and county-limit checks.';
   }
@@ -2882,6 +2907,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
   const isDownPaymentGuide = tool.slug === 'down-payment-calculator';
+  const isLoanGuide = tool.slug === 'loan-calculator';
   const isFhaLoanGuide = tool.slug === 'fha-loan-calculator';
   const isEstateTaxGuide = tool.slug === 'estate-tax-calculator';
 
@@ -2900,6 +2926,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A Canadian mortgage payment is not just price divided by months. This guide shows how down payment, amortization, payment frequency, and semi-annual compounding turn into the payment, LTV, and interest estimate.'
       : isDownPaymentGuide
       ? 'A down payment is only one part of the money you may need at closing. This guide shows how home price, down payment, LTV, and a rough closing-cost estimate turn into the cash-needed number.'
+      : isLoanGuide
+      ? 'A loan payment is not just “how much can I afford this month.” This guide shows how amount, rate, and term turn into monthly payment, total paid, and total interest.'
       : isFhaLoanGuide
       ? 'An FHA payment is not just price, rate, and term. This guide shows how a 3.5% down example, financed upfront MIP, monthly MIP, tax, and insurance turn into one monthly estimate.'
       : isSalesTaxGuide
@@ -2949,6 +2977,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Calculate, then check total monthly payment, upfront MIP, monthly MIP, and loan-to-value.',
           'Use the answer as payment math before checking 2026 county FHA limits, cash to close, lender approval, and the written Loan Estimate.',
         ]
+      : isLoanGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter the loan amount before fees.',
+          'Enter the annual interest rate as a percent, such as 9.5 for 9.5%.',
+          'Enter the term in years, then calculate.',
+          'Read monthly payment, total paid, total interest, and payment count before comparing it with a written offer.',
+        ]
       : isSalesTaxGuide
       ? [
           `Open the ${tool.name}.`,
@@ -2992,6 +3028,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before comparing mortgage quotes, testing a down payment, checking a biweekly payment, or seeing how much a shorter amortization changes the payment.'
             : isDownPaymentGuide
             ? 'Use it before asking for a loan estimate, comparing down payment choices, checking whether 3.5%, 5%, 10%, or 20% changes the loan size, or planning how much cash to keep outside the purchase.'
+            : isLoanGuide
+            ? 'Use it before comparing personal loan, school loan, equipment loan, or fixed-payment debt scenarios. It is a payment estimate, not an approval or APR disclosure.'
             : isFhaLoanGuide
             ? 'Use it before asking a lender for numbers, comparing FHA with a conventional mortgage, or seeing how much monthly MIP changes the payment. It is not an approval tool.'
             : isAdRevenueGuide
@@ -3012,6 +3050,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Canadian mortgage estimates need the price, down payment, nominal annual rate, amortization, and payment frequency to stay together. A small rate or amortization change can move both the payment and total interest.'
             : isDownPaymentGuide
             ? 'Down-payment estimates are easy to undercount because the down payment and closing costs are separate. Enter the home price, choose exact cash or a percent, then add a rough closing-cost percent for early planning.'
+            : isLoanGuide
+            ? 'Loan estimates get misleading when the payment is the only number checked. Enter amount, rate, and term, then compare payment with total interest and the written APR or fee disclosure.'
             : isFhaLoanGuide
             ? 'FHA estimates are easy to undercount when upfront MIP, monthly MIP, tax, insurance, or county loan limits are left out. Keep those pieces separate before you compare the payment with another loan type.'
             : isSalesTaxGuide
@@ -3036,6 +3076,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: a $600,000 property, $120,000 down payment, 5.1% rate, and 25-year amortization. The estimate is about $2,819.09 per month, with a $480,000 loan, 80% LTV, and about $365,727.47 in interest.'
               : isDownPaymentGuide
               ? 'Try the starter example: a $400,000 home, 20% down, and 3% closing costs. The estimate is $80,000 down, a $320,000 loan, 80% LTV, $12,000 closing costs, and $92,000 cash needed.'
+            : isLoanGuide
+              ? 'Try the starter example: $12,000 at 9.5% for 4 years. The estimate is about $301.48 per month, about $14,470.93 total paid, and about $2,470.93 interest across 48 payments. That still does not include lender fees or penalties.'
             : isFhaLoanGuide
               ? 'Try the starter example: a $325,000 home, $11,375 down, 6.5% for 30 years, 1.75% upfront MIP, 0.55% annual MIP, $3,900 property tax, and $130 monthly insurance. The estimate is about $2,615.76 per month, with $5,488.44 upfront MIP, about $143.74 monthly MIP, and 96.5% LTV. That payment still does not include closing costs or prove the loan fits a county FHA limit.'
               : isAdRevenueGuide
@@ -3059,6 +3101,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The calculator first turns the nominal annual rate into an effective annual rate using semi-annual compounding. Then it converts that rate to the selected payment period and runs the fixed-payment formula.'
             : isDownPaymentGuide
             ? 'The closing-cost field is intentionally rough. CFPB and Fannie Mae both point buyers toward 2% to 5% style planning ranges early on, but the real number comes from lender and closing documents.'
+            : isLoanGuide
+            ? 'The calculator uses fixed-rate amortization math. It converts the annual rate into a monthly rate, uses the number of monthly payments, and solves for the payment that pays the balance down to zero. If the rate is 0%, it simply divides principal by the number of payments.'
             : isFhaLoanGuide
             ? 'The calculator starts with price minus down payment, adds upfront MIP to the financed balance, estimates principal and interest, then adds tax, insurance, and monthly MIP. The default 0.55% annual MIP fits a common 30-year, more-than-95% LTV example, but HUD Mortgagee Letter 2023-05 also shows 0.50%, 0.70%, 0.75%, and other rates depending on term, base loan amount, and LTV. This page does not look up county loan limits or choose the official MIP table for you.'
             : isSalesTaxGuide
@@ -3081,6 +3125,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with the payment, then check whether it is monthly, biweekly, semimonthly, or weekly. Then read loan amount, LTV, payment count, and total interest so the payment has context.'
             : isDownPaymentGuide
             ? 'Start with estimated cash needed, then look at down payment, loan amount, LTV, and closing costs separately. That keeps a low-down-payment example from hiding a larger loan or extra closing cash.'
+            : isLoanGuide
+            ? 'Start with monthly payment, then check total paid and total interest. A lower payment can still be the worse deal if the term is much longer.'
             : isFhaLoanGuide
             ? 'Start with total monthly payment, then check principal and interest, upfront MIP, monthly MIP, and LTV. That shows whether the FHA insurance is carrying more of the cost than you expected.'
             : isSalesTaxGuide
@@ -3104,6 +3150,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad Canadian mortgage estimates come from forgetting default insurance, mixing monthly and biweekly payments, using the wrong compounding assumption, or treating payment math as lender qualification.'
             : isDownPaymentGuide
             ? 'Most bad down-payment estimates come from counting only the down payment, forgetting closing costs, assuming assistance always applies, or treating a 3.5% example like lender approval.'
+            : isLoanGuide
+            ? 'Most bad loan estimates come from comparing by payment alone, mixing APR with contract interest rate, ignoring origination fees, skipping prepayment terms, or forgetting that lender rounding can move the final number.'
             : isFhaLoanGuide
             ? 'Most bad FHA estimates come from treating 3.5% down as automatic approval, using the wrong MIP rate, forgetting 2% to 5% style closing-cost planning, skipping county loan limits, ignoring debt-to-income review, or comparing only the monthly payment.'
             : isSalesTaxGuide
@@ -3127,6 +3175,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help when the mortgage payment is only one part of the home-buying question, such as down payment, another country-specific mortgage style, or a plain loan comparison.'
             : isDownPaymentGuide
             ? 'A related tool can help after you know the upfront cash number. The next question is usually monthly payment, FHA-style low-down-payment math, or whether the house still fits the budget.'
+            : isLoanGuide
+            ? 'A related tool can help after the quick payment estimate. The next question is usually a simpler payment check, a full amortization schedule, or the rate implied by a quoted payment.'
             : isFhaLoanGuide
             ? 'A related tool can help when the FHA payment is only one part of the decision, such as plain mortgage math, upfront cash, or home affordability.'
             : isSalesTaxGuide
@@ -3169,6 +3219,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/down-payment-calculator/', label: 'Check upfront cash needed' },
               { href: '/tools/house-affordability-calculator/', label: 'Check the wider affordability question' },
             ]
+          : isLoanGuide
+          ? [
+              { href: '/tools/loan-calculator/', label: 'Open the Loan Calculator' },
+              { href: '/tools/amortization-calculator/', label: 'See the payment schedule' },
+              { href: '/tools/payment-calculator/', label: 'Run a simpler payment check' },
+              { href: '/tools/interest-rate-calculator/', label: 'Back into the rate from a payment quote' },
+            ]
           : isAdRevenueGuide
           ? [
               { href: '/tools/ad-revenue-calculator/', label: 'Open the Ad Revenue Calculator' },
@@ -3194,6 +3251,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Canada.ca explains mortgage terms, amortization, down payment, and mortgage loan insurance. OSFI explains the minimum qualifying rate stress-test idea, while the Bank of Canada policy-rate page helps separate central-bank rate news from the exact lender rate in your quote.'
             : isDownPaymentGuide
             ? 'CFPB explains down payment decisions and why closing costs are separate from the down payment. Fannie Mae adds down-payment, closing-cost, and closing-document context. HUD explains that FHA down payments can be as low as 3.5% for some buyers and properties.'
+            : isLoanGuide
+            ? 'OpenStax explains loan amortization and the fixed-payment idea. CFPB explains why interest rate and APR are not the same thing, and why written disclosures such as a Loan Estimate or Truth in Lending disclosure matter before signing.'
             : isFhaLoanGuide
             ? 'HUD and CFPB sources explain the key FHA pieces: FHA insures loans made by private lenders, FHA loans can allow down payments as low as 3.5%, mortgage insurance is required, MIP rates depend on HUD rules, closing costs are separate from the down payment, and 2026 county loan limits matter. HUD lists a 2026 one-unit floor of $541,287, a high-cost-area ceiling of $1,249,125, and higher special-exception ceilings for Alaska, Hawaii, Guam, and the U.S. Virgin Islands.'
             : isSalesTaxGuide
@@ -3213,6 +3272,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not add default insurance premiums, check income or debts, approve a mortgage, predict renewal rates, or replace a written lender quote.'
             : isDownPaymentGuide
             ? 'This calculator still stays simple. It does not approve a mortgage, price mortgage insurance, verify assistance, read a Loan Estimate, set escrow deposits, or replace the cash-to-close figure from your lender and settlement company.'
+            : isLoanGuide
+            ? 'This calculator still stays simple. It does not include origination fees, insurance, taxes, late fees, prepayment penalties, variable-rate changes, lender rounding, approval checks, or official APR disclosures.'
             : isFhaLoanGuide
             ? 'This calculator still stays simple. It does not approve credit, verify income, check debt-to-income ratio, choose the right MIP rate, read a county FHA limit, price closing costs, inspect a property, or replace a written lender quote.'
             : isSalesTaxGuide
@@ -3236,6 +3297,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Canadian Mortgage Calculator open beside this guide. Try the $600,000 example first, then change only the down payment or amortization so you can see what actually moved.'
       : isDownPaymentGuide
       ? 'Keep the Down Payment Calculator open beside this guide. Try the $400,000 example first, then change only the down payment percent so you can see how loan amount, LTV, and cash needed move.'
+      : isLoanGuide
+      ? 'Keep the Loan Calculator open beside this guide. Try the $12,000 example first, then change only the term so you can see how a lower payment can still raise total interest.'
       : isFhaLoanGuide
       ? 'Keep the FHA Loan Calculator open beside this guide. Try the $325,000 example first, then change only the annual MIP so you can see how insurance moves the monthly payment.'
       : isAdRevenueGuide

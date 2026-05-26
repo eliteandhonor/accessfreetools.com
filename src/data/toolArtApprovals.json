@@ -2548,6 +2548,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/loan-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/loan-calculator-guide.webp",
+    "alt": "Loan Calculator guide art showing a fixed loan payment example with monthly payment and total interest notes.",
+    "caption": "The guide image matches the walkthrough for turning loan amount, rate, and term into a monthly payment and total interest check.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2556,6 +2558,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/loan-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/loan-calculator-tool.webp",
+    "alt": "Loan Calculator tool art showing loan amount, interest rate, term, monthly payment, and total interest.",
+    "caption": "The tool image matches the calculator workflow: enter amount, rate, and term, then compare monthly payment with total interest.",
     "status": "approved",
     "qaStatus": "approved"
   },
