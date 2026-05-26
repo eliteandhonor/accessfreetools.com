@@ -8045,6 +8045,8 @@ export interface OvenTemperatureResult {
   inputUnit: string;
   fahrenheit: number;
   celsius: number;
+  fanCelsius: number;
+  fanFahrenheit: number;
   nearestGasMark: string;
   nearestGasMarkFahrenheit: number;
 }
@@ -11849,6 +11851,10 @@ export function convertOvenTemperature(inputTemperature: number, inputUnit: stri
     throw new Error('Choose a supported oven temperature unit');
   }
 
+  const celsius = ((fahrenheit - 32) * 5) / 9;
+  const roundedConventionalCelsius = Math.round(celsius / 10) * 10;
+  const fanCelsius = roundedConventionalCelsius - 20;
+  const fanFahrenheit = Math.round(((fanCelsius * 9) / 5 + 32) / 5) * 5;
   const nearest = gasMarkTemperatures.reduce((best, candidate) =>
     Math.abs(candidate.fahrenheit - fahrenheit) < Math.abs(best.fahrenheit - fahrenheit) ? candidate : best,
   );
@@ -11857,7 +11863,9 @@ export function convertOvenTemperature(inputTemperature: number, inputUnit: stri
     inputTemperature,
     inputUnit,
     fahrenheit,
-    celsius: ((fahrenheit - 32) * 5) / 9,
+    celsius,
+    fanCelsius,
+    fanFahrenheit,
     nearestGasMark: nearest.mark,
     nearestGasMarkFahrenheit: nearest.fahrenheit,
   };

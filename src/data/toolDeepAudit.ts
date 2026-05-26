@@ -481,6 +481,16 @@ const foodSafetyTemperatures = {
   label: 'FDA: Safe food handling',
 };
 
+const goodFoodConversionGuides = {
+  href: 'https://www.bbcgoodfood.com/conversion-guides',
+  label: 'Good Food: Recipe conversion guides',
+};
+
+const whichOvenTemperatureChart = {
+  href: 'https://www.which.co.uk/reviews/built-in-ovens/article/oven-temperature-conversion-degrees-celsius-to-fahrenheit-gas-mark-and-fan-aA5Ol9b157On',
+  label: 'Which?: Oven temperature conversion chart',
+};
+
 const calculatorSoupSitemap = {
   href: 'https://www.calculatorsoup.com/sitemap.php',
   label: 'CalculatorSoup sitemap: business and financial-ratio competitor gap reference',
@@ -6611,17 +6621,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'oven-temperature-converter',
     status: 'deep-reviewed',
-    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [inchCalculatorSitemap, nistSi, foodSafetyTemperatures, googleHelpfulContent],
+    sources: [goodFoodConversionGuides, whichOvenTemperatureChart, nistSi, foodSafetyTemperatures, googleHelpfulContent],
     findings: [
       'Oven temperature conversion is a focused cooking converter gap that should not be hidden inside a generic temperature tool.',
-      'Formula review checked Fahrenheit, Celsius, gas mark input, nearest gas mark, and oven-setting caveats.',
-      'FAQ and guide distinguish oven temperature conversion from food internal safety temperature.',
+      'Formula review checked Fahrenheit, Celsius, gas mark input, nearest gas mark, a rough fan-oven starting point, and oven-setting caveats.',
+      'Current source checks support explaining common 350 F / 180 C / gas mark 4 style chart rounding, fan-oven adjustment limits, and food-safety separation.',
+      'FAQ and guide distinguish oven temperature conversion from food internal safety temperature and warn that some ovens auto-convert convection settings.',
     ],
     improvements: [
-      'Added oven temperature UI, gas mark approximation, examples, safety-aware notes, guide details, FAQ depth, and tests.',
+      'Updated oven temperature UI, fan-oven metric, title/meta, examples, source-backed guide sections, FAQ depth, specific art alt/caption text, and formula tests.',
     ],
     followUps: [
       'Consider adding common oven terms like low, moderate, and hot only if the wording remains clearly approximate.',
@@ -7167,6 +7178,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
   }
 
   if (tool.category === 'converters') {
+    if (includesAny(key, ['oven-temperature', 'oven temperature', 'gas mark'])) {
+      return sourceBackstop([goodFoodConversionGuides, whichOvenTemperatureChart, foodSafetyTemperatures, nistSi]);
+    }
+
     if (includesAny(key, ['roman'])) {
       return sourceBackstop([openStaxPrimeLcm, nistSi]);
     }

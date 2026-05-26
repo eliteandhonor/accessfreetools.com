@@ -25,6 +25,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'fraction-calculator': '2026-05-26',
   'sales-tax-calculator': '2026-05-26',
   'flooring-calculator': '2026-05-26',
+  'oven-temperature-converter': '2026-05-26',
 };
 
 const blogModifiedOverrides: Record<string, string> = {
@@ -43,6 +44,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-fraction-calculator': '2026-05-26',
   'how-to-use-sales-tax-calculator': '2026-05-26',
   'how-to-use-flooring-calculator': '2026-05-26',
+  'how-to-use-oven-temperature-converter': '2026-05-26',
 };
 
 const staticPageLastmod: Record<string, string> = {

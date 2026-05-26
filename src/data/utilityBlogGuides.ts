@@ -69,6 +69,14 @@ const sourceLinks = {
     href: 'https://www.fda.gov/food/buy-store-serve-safe-food/safe-food-handling',
     label: 'FDA: Safe food handling',
   },
+  goodFoodConversionGuides: {
+    href: 'https://www.bbcgoodfood.com/conversion-guides',
+    label: 'Good Food: Recipe conversion guides',
+  },
+  whichOvenTemperatureChart: {
+    href: 'https://www.which.co.uk/reviews/built-in-ovens/article/oven-temperature-conversion-degrees-celsius-to-fahrenheit-gas-mark-and-fan-aA5Ol9b157On',
+    label: 'Which?: Oven temperature conversion chart',
+  },
   rfc4632: {
     href: 'https://www.rfc-editor.org/rfc/rfc4632.html',
     label: 'RFC 4632: Classless Inter-domain Routing',
@@ -3559,25 +3567,59 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.googleHelpfulContent],
   },
   'oven-temperature-converter': {
-    summary: 'Learn how to convert recipe oven settings between Fahrenheit, Celsius, and gas mark.',
+    summary: 'Learn how to convert recipe oven settings between Fahrenheit, Celsius, gas mark, and fan oven starting points.',
     purpose:
-      'The Oven Temperature Converter helps when a recipe uses a different oven temperature unit than your oven. It translates the setting and shows the nearest common gas mark.',
+      'The Oven Temperature Converter helps when a recipe uses a different oven setting than your oven. It converts Fahrenheit and Celsius, shows the nearest common gas mark, and gives a rough fan-oven starting point.',
     enter: [
-      'Enter the oven temperature from the recipe.',
+      'Enter the oven setting from the recipe, such as 350 F, 180 C, or gas mark 6.',
       'Choose whether the recipe uses Fahrenheit, Celsius, or gas mark.',
-      'Run the converter before preheating.',
+      'Run the converter before preheating so you can set the oven once instead of guessing.',
     ],
     read: [
       'The main answer shows Fahrenheit and Celsius together.',
-      'Nearest gas mark gives the closest common gas setting.',
+      'Fan oven starting point gives a rough convection setting based on lowering the rounded Celsius setting by about 20 C.',
+      'Nearest gas mark gives the closest common gas setting, not an exact lab value.',
       'Use the note to remember that oven setting is not the same as food internal temperature.',
     ],
     mistakes: [
       'Do not treat gas mark as a lab-exact temperature.',
-      'Do not assume your oven runs perfectly at the dial setting.',
+      'Do not assume every fan oven uses the same adjustment. Some ovens auto-convert convection temperatures.',
+      'Do not assume your oven runs perfectly at the dial setting, especially for older ovens or small countertop ovens.',
       'Do not use oven temperature conversion as a food safety check.',
     ],
-    sources: [sourceLinks.nistUnits, sourceLinks.foodSafetyTemperatures],
+    extraSections: [
+      {
+        title: 'Example: 350 F in a Celsius oven',
+        paragraphs: [
+          'If a US cookie recipe says 350 F, the formula gives about 177 C. Most oven charts round that to 180 C because ovens are set in simple steps.',
+          'The nearest gas mark is 4. For a fan oven, a rough starting point is about 160 C, but the recipe and oven manual should win if they give a different fan setting.',
+        ],
+        links: [{ href: '/tools/oven-temperature-converter/', label: 'Convert 350 F before preheating' }],
+      },
+      {
+        title: 'Why fan oven numbers are lower',
+        paragraphs: [
+          'A fan oven moves hot air around the food, so it often cooks faster than a regular oven at the same dial temperature. That is why many conversion charts lower the Celsius setting by about 20 C for fan cooking.',
+          'This is still a starting point, not a safety promise. Dense food, full trays, dark pans, and ovens that run hot or cold can change the real result.',
+        ],
+        links: [{ href: '/tools/recipe-scaler/', label: 'Scale the recipe before setting the oven' }],
+      },
+      {
+        title: 'Oven setting is not food safety',
+        paragraphs: [
+          'The converter only helps with the oven dial. It does not tell you when chicken, leftovers, casseroles, or other foods are safe inside.',
+          'Use a food thermometer and trusted food-safety guidance when doneness matters. A recipe can say 400 F and still need an internal-temperature check.',
+        ],
+        links: [{ href: '/tools/cooking-measurement-converter/', label: 'Convert other recipe measurements' }],
+      },
+    ],
+    sources: [
+      sourceLinks.goodFoodConversionGuides,
+      sourceLinks.whichOvenTemperatureChart,
+      sourceLinks.nistUnits,
+      sourceLinks.foodSafetyTemperatures,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'butter-converter': {
     summary: 'Learn common butter equivalents for sticks, tablespoons, cups, ounces, grams, and pounds.',

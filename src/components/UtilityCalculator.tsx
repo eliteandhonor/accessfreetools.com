@@ -849,8 +849,8 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     servings: 'How many servings the batch makes.',
   },
   'oven-temperature-converter': {
-    temperature: 'Recipe oven temperature, not food internal temperature.',
-    unit: 'Choose the unit used by the recipe: Fahrenheit, Celsius, or gas mark.',
+    temperature: 'Recipe oven setting, not the safe internal food temperature.',
+    unit: 'Choose the unit written in the recipe: Fahrenheit, Celsius, or gas mark.',
   },
   'butter-converter': {
     amount: 'Butter quantity from the recipe or package.',
@@ -7616,14 +7616,19 @@ function calculateUtility(
         metrics: [
           { label: 'Fahrenheit', value: `${formatCalculatorNumber(result.fahrenheit)} F` },
           { label: 'Celsius', value: `${formatCalculatorNumber(result.celsius)} C` },
+          {
+            label: 'Fan oven starting point',
+            value: `about ${formatCalculatorNumber(result.fanCelsius)} C / ${formatCalculatorNumber(result.fanFahrenheit)} F`,
+          },
           { label: 'Nearest gas mark', value: `${result.nearestGasMark} (${formatCalculatorNumber(result.nearestGasMarkFahrenheit)} F)` },
         ],
         steps: [
           'Convert the entered oven temperature into Fahrenheit.',
           'Convert Fahrenheit into Celsius.',
+          'Estimate a fan-oven starting point by lowering the rounded Celsius setting by about 20 C.',
           'Find the nearest common gas mark temperature.',
         ],
-        note: 'This is oven setting conversion. Always follow safe internal food temperature guidance when checking whether food is cooked.',
+        note: 'Fan and gas mark settings are approximate. Your oven manual, recipe notes, and a food thermometer matter more than a converter when safety or doneness is on the line.',
       };
     }
     case 'butter-converter': {

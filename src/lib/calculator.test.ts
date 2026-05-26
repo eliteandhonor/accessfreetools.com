@@ -2019,6 +2019,8 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(unitPrice.itemBUnitPrice)).toBe('0.3328571429');
     expect(serving.costPerServing).toBe(2.5625);
     expect(formatCalculatorNumber(oven.fahrenheit)).toBe('356');
+    expect(oven.fanCelsius).toBe(160);
+    expect(oven.fanFahrenheit).toBe(320);
     expect(oven.nearestGasMark).toBe('4');
     expect(butter.tablespoons).toBe(8);
     expect(formatCalculatorNumber(butter.grams)).toBe('113.3980925');

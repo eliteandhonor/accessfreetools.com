@@ -2928,6 +2928,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/oven-temperature-converter-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/oven-temperature-converter-guide.webp",
+    "alt": "Smoke mascot pointing at recipe notes, a thermometer, gas-flame oven dial, fan oven, baking tray, probe thermometer, and roast for the Oven Temperature Converter guide.",
+    "caption": "The guide artwork matches the page's job: turn recipe oven settings into Fahrenheit, Celsius, gas mark, and a rough fan-oven starting point while remembering food-safety checks.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2936,6 +2938,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/oven-temperature-converter-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/oven-temperature-converter-tool.webp",
+    "alt": "Smoke mascot beside an oven temperature converter panel, oven dial, thermometer, gas flame icon, cookie tray, and probe thermometer.",
+    "caption": "The tool artwork shows the live converter workflow: enter a recipe oven setting, compare Fahrenheit and Celsius, find the nearest gas mark, and check the fan-oven note.",
     "status": "approved",
     "qaStatus": "approved"
   },

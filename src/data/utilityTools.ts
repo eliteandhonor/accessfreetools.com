@@ -4893,24 +4893,59 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'oven-temperature-converter',
     name: 'Oven Temperature Converter',
     category: 'converters',
-    summary: 'Convert oven temperatures between Fahrenheit, Celsius, and common gas mark settings.',
+    summary: 'Convert recipe oven settings between Fahrenheit, Celsius, gas mark, and a rough fan-oven starting point.',
     description:
-      'Use this free oven temperature converter to translate recipe oven settings between Fahrenheit, Celsius, and gas mark approximations.',
+      'Translate recipe oven settings between Fahrenheit, Celsius, common gas mark, and an approximate fan-oven starting point.',
+    seoTitle: 'Oven Temperature Converter | F, C, Gas Mark, Fan',
+    seoDescription:
+      'Convert recipe oven settings between Fahrenheit, Celsius, gas mark, and a rough fan-oven starting point. Check 350 F, 180 C, and gas mark 4 quickly.',
     icon: 'tool-oven-temp',
-    aliases: ['Oven Temp Converter', 'Fahrenheit Celsius Gas Mark Converter', 'Baking Temperature Converter'],
+    aliases: [
+      'Oven Temp Converter',
+      'Fahrenheit Celsius Gas Mark Converter',
+      'Baking Temperature Converter',
+      'Fan Oven Temperature Converter',
+      'Gas Mark Converter',
+      '350 F to C Oven Converter',
+    ],
     formula:
-      'The converter uses F = C x 9 / 5 + 32 and C = (F - 32) x 5 / 9, then finds the nearest common gas mark temperature.',
+      'The converter uses F = C x 9 / 5 + 32 and C = (F - 32) x 5 / 9, estimates a fan-oven starting point by lowering the rounded Celsius setting by about 20 C, then finds the nearest common gas mark temperature.',
     limit:
-      'Oven settings are approximate. Real ovens can run hot or cold, and this does not replace safe internal food temperature checks.',
+      'Oven settings are approximate. Fan and gas mark charts vary, some ovens auto-convert convection settings, real ovens can run hot or cold, and this does not replace safe internal food temperature checks.',
     inputExplanations: [
-      { term: 'Temperature', meaning: 'The oven setting from the recipe.' },
-      { term: 'Unit', meaning: 'Whether the recipe uses Fahrenheit, Celsius, or gas mark.' },
+      { term: 'Temperature', meaning: 'the oven setting printed in the recipe, not the cooked food temperature.' },
+      { term: 'Unit', meaning: 'whether the recipe uses Fahrenheit, Celsius, or gas mark.' },
     ],
     extraFaq: [
       {
         question: 'Is gas mark exact?',
         answer:
           'No. Gas mark is usually treated as a practical oven setting with common approximate Fahrenheit and Celsius equivalents. Use the nearest mark and watch the food.',
+      },
+      {
+        question: 'What fan oven temperature should I use?',
+        answer:
+          'For a conventional-oven recipe, a common fan-oven starting point is about 20 C lower than the rounded Celsius setting. Some US convection ovens instead auto-lower by about 25 F. Check the oven manual and recipe notes before trusting one rule.',
+      },
+      {
+        question: 'What is 350 F in Celsius and gas mark?',
+        answer:
+          '350 F is about 177 C by the formula, commonly rounded to 180 C on oven charts, and nearest to gas mark 4. A rough fan-oven starting point is about 160 C.',
+      },
+      {
+        question: 'What is 180 C in Fahrenheit?',
+        answer:
+          '180 C is 356 F by the formula, so many recipe charts round it to 350 F. It is also nearest to gas mark 4.',
+      },
+      {
+        question: 'Why does the converter show "nearest" gas mark?',
+        answer:
+          'Gas mark settings use common steps, so not every exact Fahrenheit or Celsius result has a perfect match. The converter picks the closest common mark and keeps the Fahrenheit value visible.',
+      },
+      {
+        question: 'What if my oven runs hot or cold?',
+        answer:
+          'Use the converter for the recipe setting, then check the real oven with an oven thermometer if accuracy matters. Older ovens, small countertop ovens, and fan settings can drift from the dial.',
       },
       {
         question: 'Does this tell me when food is safe to eat?',
@@ -4921,15 +4956,16 @@ export const utilityTools: ToolDefinition[] = [
     useCases: [
       'Use a Celsius recipe in a Fahrenheit oven.',
       'Convert a gas mark recipe to Fahrenheit or Celsius.',
+      'Estimate a fan-oven starting point for a conventional recipe.',
       'Check a baking temperature before preheating.',
       'Explain why oven setting and food internal temperature are different.',
     ],
     examples: [
-      { label: 'Common bake temp', expression: '350 F', result: 'About 177 C, gas mark 4' },
-      { label: 'Celsius recipe', expression: '180 C', result: 'About 356 F' },
-      { label: 'Gas mark recipe', expression: 'Gas mark 4', result: 'About 350 F' },
+      { label: 'Common bake temp', expression: '350 F', result: 'About 177 C, gas mark 4, fan about 160 C' },
+      { label: 'Celsius recipe', expression: '180 C', result: '356 F, gas mark 4, fan about 160 C' },
+      { label: 'Gas mark recipe', expression: 'Gas mark 6', result: '400 F, about 204 C, fan about 180 C' },
     ],
-    relatedSlugs: ['cooking-measurement-converter', 'recipe-scaler', 'conversion-calculator'],
+    relatedSlugs: ['cooking-measurement-converter', 'recipe-scaler', 'baking-pan-conversion-calculator', 'butter-converter'],
   }),
   makeUtilityTool({
     slug: 'butter-converter',
