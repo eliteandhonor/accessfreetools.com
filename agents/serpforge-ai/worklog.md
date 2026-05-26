@@ -82,3 +82,4 @@
 - Tightened the matching guide around the $30 cost and 50% markup example, including $45 selling price, $1,500 batch profit, and 33.33% margin without treating markup and margin as the same thing.
 - Repaired Markup tool and guide image alt/caption source data so the artwork describes unit cost, markup percent, selling price, profit, and margin cards.
 - Fixed the SEO agent evidence extractor so generated finance FAQs count correctly for finance factory-list pages; final page agent judges now report `ready-for-human-approval` with 0 gaps for both Markup pages.
+- Deployed main commit `61cbace` through Hostinger Node build `019e61f7-634a-73cd-8a45-af21a90c9a12`; live Ask, production sitemap, full GSC sitemap submission, live DOM proof, live browser screenshots, and post-deploy DataForSEO page evidence all passed.
