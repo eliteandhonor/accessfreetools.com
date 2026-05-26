@@ -96,7 +96,13 @@ const utilityTrustTextBySlug: Partial<Record<string, string>> = {
     'This page is a rough family-height estimate from parent heights only. If you are worried about a child\'s growth, use growth charts and ask a healthcare professional.',
   'sleep-calculator':
     'This page is a timing planner, not a sleep diagnosis. If poor sleep keeps happening, you wake tired after enough hours, snore loudly, or notice breathing problems, ask a healthcare provider.',
+  'love-calculator':
+    'This page turns two names into a repeatable browser-game score. It does not measure attraction, consent, trust, effort, timing, or whether two people should be together.',
 };
+const utilityTrustHeadingBySlug: Partial<Record<string, string>> = {
+  'love-calculator': 'Game score, not relationship proof',
+};
+const utilityTrustHeading = utilityTrustHeadingBySlug[tool.slug] ?? 'Check the assumptions before relying on the result';
 const utilityTrustText =
   utilityTrustTextBySlug[tool.slug] ??
   (tool.category === 'text-tools'
@@ -715,10 +721,10 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Use official calendar invites for critical meetings or deadlines.',
   ],
   'love-calculator': [
-    'Enter two names or nicknames.',
-    'Press Calculate match to create a repeatable playful score.',
-    'Read the result as a game only, not real relationship advice.',
-    'Use names only; do not enter sensitive private information.',
+    'Enter two names, nicknames, initials, or made-up names.',
+    'Press Calculate match to create a repeatable playful score from those exact spellings.',
+    'Read the result as a game only, not real compatibility science or relationship advice.',
+    'Use nicknames if you want; do not enter ages, locations, socials, photos, or private details.',
   ],
   'word-counter': [
     'Paste or type the plain text you want to measure.',
@@ -2049,7 +2055,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isUtilityTool && (
         <aside class="trust-note trust-note-utility" aria-label={`${tool.name} assumptions`}>
-          <strong>Check the assumptions before relying on the result</strong>
+          <strong>{utilityTrustHeading}</strong>
           <p>{utilityTrustText}</p>
         </aside>
       )

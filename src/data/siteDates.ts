@@ -16,6 +16,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'finance-calculator': '2026-05-26',
   'interest-rate-calculator': '2026-05-26',
   'loan-calculator': '2026-05-26',
+  'love-calculator': '2026-05-26',
   'gas-mileage-calculator': '2026-05-26',
   'height-calculator': '2026-05-26',
   'sleep-calculator': '2026-05-26',
@@ -75,6 +76,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-estate-tax-calculator': '2026-05-26',
   'how-to-use-fha-loan-calculator': '2026-05-26',
   'how-to-use-loan-calculator': '2026-05-26',
+  'how-to-use-love-calculator': '2026-05-26',
 };
 
 const staticPageLastmod: Record<string, string> = {

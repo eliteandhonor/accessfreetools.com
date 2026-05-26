@@ -3656,7 +3656,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Love Calculator',
     buttonLabel: 'Calculate match',
     emptyHistory: 'Recent playful matches will appear here.',
-    privacyNote: 'Names stay in your browser. This is a deterministic game, not relationship advice or a real compatibility test.',
+    privacyNote: 'Names stay in your browser tab. Use nicknames or initials if you want; this is a game, not relationship advice.',
     modes: [
       {
         id: 'love',
@@ -6976,7 +6976,7 @@ function calculateUtility(
           'Use a deterministic local hash so the same pair gets the same playful score.',
           'Show the result as entertainment only, not a real compatibility reading.',
         ],
-        note: 'This is a light browser game. It cannot measure feelings, trust, communication, or relationship health.',
+        note: 'Cute? Maybe. Scientific? No. Real relationships need respect, honesty, boundaries, communication, timing, and effort.',
       };
     }
     case 'word-counter': {

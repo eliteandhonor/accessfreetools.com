@@ -2605,7 +2605,9 @@
     "imagePath": "/tool-art/love-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/love-calculator-guide.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Love Calculator guide art showing two nickname cards becoming a playful match score with a clear game-only warning.",
+    "caption": "The guide image matches the walkthrough: type two names or nicknames, get a repeatable game score, and remember it is for fun only."
   },
   {
     "slug": "love-calculator",
@@ -2613,7 +2615,9 @@
     "imagePath": "/tool-art/love-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/love-calculator-tool.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Love Calculator tool art showing two names going into a playful local name-match score.",
+    "caption": "The tool image matches the live calculator: enter two names or nicknames, then read the result as a silly browser game."
   },
   {
     "slug": "macro-calculator",

@@ -166,6 +166,26 @@ const googleHelpfulContent = {
   label: 'Google Search Central: Creating helpful, reliable, people-first content',
 };
 
+const hhsHealthyRelationships = {
+  href: 'https://opa.hhs.gov/adolescent-health/healthy-relationships-adolescence',
+  label: 'HHS OPA: Healthy relationships in adolescence',
+};
+
+const youthGovHealthyRelationships = {
+  href: 'https://youth.gov/youth-topics/teen-dating-violence/characteristics',
+  label: 'Youth.gov: Characteristics of healthy relationships',
+};
+
+const nistRandomNumber = {
+  href: 'https://csrc.nist.gov/glossary/term/random_number',
+  label: 'NIST CSRC: Random number glossary',
+};
+
+const ftcWebAppsCollectInfo = {
+  href: 'https://consumer.ftc.gov/articles/how-websites-apps-collect-use-your-information',
+  label: 'FTC: How websites and apps collect and use your information',
+};
+
 const transformersJs = {
   href: 'https://huggingface.co/docs/transformers.js/',
   label: 'Hugging Face: Transformers.js browser inference',
@@ -6115,20 +6135,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'love-calculator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
+    reviewedOn: '2026-05-26',
     scope: commonMathScope,
-    sources: [googleHelpfulContent, mdnTextEncoder],
+    sources: [hhsHealthyRelationships, youthGovHealthyRelationships, nistRandomNumber, ftcWebAppsCollectInfo, googleHelpfulContent, mdnTextEncoder],
     findings: [
-      'The love calculator is clearly framed as a deterministic local name-match game, not real relationship advice.',
+      'The love calculator is clearly framed as a deterministic local name-match game, not relationship advice or compatibility science.',
       'Tests cover score symmetry so Alex/Sam and Sam/Alex return the same score.',
-      'The guide warns users not to use the score to pressure, judge, or make relationship decisions.',
+      'The guide warns users not to use the score to pressure, shame, judge, share embarrassing results, or make relationship decisions.',
     ],
     improvements: [
-      'Manually checked novelty-game wording, deterministic-name normalization, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Refreshed novelty-game title, description, exact Alex/Sam examples, generated FAQ detail, guide cautions, source links, image alt/caption wording, SEO copy, and privacy behavior.',
     ],
     followUps: [
-      'Keep entertainment-only wording visible if this page gets social traffic.',
+      'Keep entertainment-only wording visible if this page gets social traffic, and avoid soulmate, destiny, proven-algorithm, or relationship-advice claims.',
     ],
   },
   {

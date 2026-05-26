@@ -1900,6 +1900,8 @@ describe('utility helpers', () => {
     const courseHandicap = calculateGolfCourseHandicap(14.2, 128, 71.2, 72, 95);
     const love = calculateLoveCompatibility('Alex', 'Sam');
     const loveReversed = calculateLoveCompatibility('Sam', 'Alex');
+    const loveTaylorJordan = calculateLoveCompatibility('Taylor', 'Jordan');
+    const loveCaseCheck = calculateLoveCompatibility('alex', 'SAM');
 
     expect(gdp.gdp).toBe(28600);
     expect(formatCalculatorNumber(gdp.gdpPerPerson ?? 0)).toBe('0.0000841176');
@@ -1911,7 +1913,13 @@ describe('utility helpers', () => {
     expect(courseHandicap.courseHandicap).toBe(15);
     expect(courseHandicap.playingHandicap).toBe(14);
     expect(love.score).toBe(loveReversed.score);
-    expect(love.label.length).toBeGreaterThan(0);
+    expect(love.score).toBe(86);
+    expect(love.label).toBe('Sparkly match');
+    expect(loveTaylorJordan.score).toBe(79);
+    expect(loveTaylorJordan.label).toBe('Sweet match');
+    expect(loveCaseCheck.score).toBe(86);
+    expect(loveCaseCheck.normalizedA).toBe('alex');
+    expect(loveCaseCheck.normalizedB).toBe('sam');
   });
 
   it('calculates text, developer, timestamp, color, and aspect-ratio utility helpers', async () => {

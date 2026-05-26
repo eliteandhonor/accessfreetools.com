@@ -463,6 +463,22 @@ const sourceLinks = {
     href: 'https://developers.google.com/search/docs/appearance/snippet',
     label: 'Google Search Central: Snippets',
   },
+  hhsHealthyRelationships: {
+    href: 'https://opa.hhs.gov/adolescent-health/healthy-relationships-adolescence',
+    label: 'HHS OPA: Healthy relationships in adolescence',
+  },
+  youthGovHealthyRelationships: {
+    href: 'https://youth.gov/youth-topics/teen-dating-violence/characteristics',
+    label: 'Youth.gov: Characteristics of healthy relationships',
+  },
+  nistRandomNumber: {
+    href: 'https://csrc.nist.gov/glossary/term/random_number',
+    label: 'NIST CSRC: Random number glossary',
+  },
+  ftcWebAppsCollectInfo: {
+    href: 'https://consumer.ftc.gov/articles/how-websites-apps-collect-use-your-information',
+    label: 'FTC: How websites and apps collect and use your information',
+  },
   mdnTextEncoder: {
     href: 'https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder/encode',
     label: 'MDN: TextEncoder encode()',
@@ -3122,25 +3138,67 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.usgaScoreDifferential, sourceLinks.usgaCourseHandicap],
   },
   'love-calculator': {
-    summary: 'Learn how the Love Calculator works as a private, deterministic name-match game.',
+    summary: 'Learn how the Love Calculator works as a silly private name-match game.',
+    metaDescription:
+      'Use the Love Calculator as a silly name-match game. See exact Alex and Sam examples, privacy tips, and why the score is not real relationship science.',
     purpose:
-      'The Love Calculator is a novelty game. It turns two names into a repeatable playful score, but it does not claim to measure attraction, trust, communication, consent, or relationship health.',
+      'The Love Calculator is for laughs. It turns two names into a repeatable playful score, but it does not claim to measure attraction, trust, effort, communication, consent, timing, or real relationship health.',
+    intro:
+      'Try it when you want a quick joke result, then keep the real-life part simple: the number is just a game.',
+    inputMatch: 'the two names, nicknames, initials, or made-up names you want to try',
+    logicNote:
+      'The same spellings give the same score because the browser uses the same cleanup and hash rule each time. Change a spelling or nickname and the game can change too.',
+    readIntro:
+      'Read the percentage like a game caption. The smaller lines show the playful label and the cleaned name keys used for the score.',
+    mistakeIntro:
+      'The easiest mistake is taking the number seriously. It is fine for a laugh, but it is not a test of attraction, honesty, boundaries, or the future.',
+    sidecarText:
+      'Open the Love Calculator beside this guide. Try Alex and Sam first, then use nicknames or initials if you do not want to type real names.',
+    referenceIntro:
+      'These references are for the serious parts: healthy relationship basics, random-number language, and web/app privacy. They do not prove the score measures love.',
     enter: [
-      'Enter the first name or nickname.',
-      'Enter the second name or nickname.',
-      'Press Calculate match to see the same playful score any time those two names are entered the same way.',
+      'Enter the first name, nickname, initials, or a made-up name.',
+      'Enter the second name the same way.',
+      'Press Calculate match to get a repeatable name-game score from the exact spellings you typed.',
     ],
     read: [
-      'The percentage is entertainment only.',
-      'The game label is a light caption, not advice.',
-      'The cleaned name keys show what the browser used to make the repeatable score.',
+      'The percentage is entertainment only. Alex and Sam, for example, return 86% and the label "Sparkly match."',
+      'The game label is a light caption, not advice. Cute can be funny, but it is not proof.',
+      'The cleaned name keys show what the browser used to make the repeatable score, so changing the spelling can change the number.',
     ],
     mistakes: [
       'Do not treat the result as real compatibility science.',
-      'Do not use the score to pressure, judge, or make decisions about another person.',
-      'Do not enter sensitive private information; names or nicknames are enough for the game.',
+      'Do not use the score to pressure, shame, judge, or make decisions about another person.',
+      'Do not enter sensitive private information; names, nicknames, initials, or fictional names are enough for the game.',
+      'Do not share another person\'s name or result in a way that would embarrass them.',
     ],
-    sources: [],
+    extraSections: [
+      {
+        title: 'Quick example',
+        paragraphs: [
+          'Type Alex in the first box and Sam in the second box, then press Calculate match. The tool returns 86% with a Sparkly match label. Type alex and SAM, and the cleaned names still become alex and sam, so the score stays the same.',
+        ],
+      },
+      {
+        title: 'What the score does not mean',
+        paragraphs: [
+          'A high score does not mean two people are meant to be together. A low score does not mean anything is wrong. The score is made by a browser rule, not by reading feelings or predicting the future.',
+          'For real life, look at how people treat each other. Respect, honesty, boundaries, communication, and time matter more than any number this game can show.',
+        ],
+      },
+      {
+        title: 'Privacy tip',
+        paragraphs: [
+          'The tool only needs two short name fields. Use nicknames, initials, or fictional names if you do not want to type real names. Never put ages, locations, photos, social handles, or private details into a novelty game.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.hhsHealthyRelationships,
+      sourceLinks.youthGovHealthyRelationships,
+      sourceLinks.nistRandomNumber,
+      sourceLinks.ftcWebAppsCollectInfo,
+    ],
   },
   'word-counter': {
     summary: 'Learn how to count words, characters, sentences, paragraphs, and reading time from plain text.',

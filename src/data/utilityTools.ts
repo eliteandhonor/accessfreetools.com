@@ -4116,24 +4116,74 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'love-calculator',
     name: 'Love Calculator',
     category: 'everyday-tools',
-    summary: 'A playful name compatibility game that runs locally in your browser.',
+    summary: 'Type two names and get a silly match score for fun.',
     description:
-      'Use this free love calculator as a light name-match game with a deterministic score and clear entertainment-only notes.',
+      'Use this free love calculator as a silly name-match game. It gives a repeatable score for laughs, not life decisions.',
+    seoTitle: 'Love Calculator | Silly Name Match Game',
+    seoDescription:
+      'Type two names or nicknames and get a repeatable love score for fun. No signup, clear privacy note, and no fake relationship science.',
     icon: 'calculator-love',
+    aliases: ['Love Test', 'Love Compatibility Calculator', 'Crush Calculator', 'Name Match Calculator'],
     formula:
-      'The calculator cleans the two names, creates a deterministic local hash, and turns it into a playful percentage score from 40 to 100.',
+      'The calculator trims the two names, lowercases the letters, creates a deterministic local hash, and turns that into a playful percentage score from 40 to 100.',
     limit:
-      'This is only a game. It cannot measure attraction, trust, communication, values, consent, or relationship health.',
+      'This is only a game. It cannot measure attraction, trust, effort, communication, values, consent, timing, or real relationship health.',
+    faqLanguage: {
+      expectedInputs: 'two names, nicknames, or initials only',
+      inputFallback:
+        'Enter two names, nicknames, or initials. The spelling matters because the browser turns those exact letters into the repeatable game score.',
+      examplePhrase: 'name-match example',
+      doubleCheck:
+        'Use the score for fun only, and never use it to pressure, shame, judge, or make decisions about another person.',
+      privacy:
+        'No. The game runs in your browser tab. Use nicknames or initials if you want, and do not enter ages, locations, photos, socials, or other private details.',
+    },
+    inputExplanations: [
+      {
+        term: 'First name',
+        meaning: 'Use a first name, nickname, initials, or a made-up name. The tool does not need a full legal name.',
+      },
+      {
+        term: 'Second name',
+        meaning: 'Use the other name or nickname. Different spellings can make a different game score.',
+      },
+      {
+        term: 'Playful score',
+        meaning: 'A repeatable name-game percentage. It is not a real compatibility test.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'How should I read the Love Calculator answer?',
+        answer:
+          'Read it as a joke score only. The percentage, label, and cleaned name keys explain the name-game result, not real attraction, effort, or compatibility.',
+      },
+      {
+        question: 'Is the Love Calculator accurate?',
+        answer:
+          'No. It is a silly name game. Real relationships depend on things like respect, honesty, communication, boundaries, timing, and how people treat each other.',
+      },
+      {
+        question: 'Should I trust a low love score?',
+        answer:
+          'No. A low score only means the name-game rule made a lower number. It says nothing real about a crush, friendship, partner, or future relationship.',
+      },
+      {
+        question: 'Can I use nicknames or initials?',
+        answer:
+          'Yes. Nicknames, initials, and fictional names are better if you do not want to type real names. Just remember that changing the spelling can change the score.',
+      },
+    ],
     useCases: [
-      'Play a harmless name-match game with friends.',
-      'Get the same score for the same two names on the same page.',
+      'Play a harmless name-match game with friends or a group chat.',
+      'Check the same pair again and get the same score from the same spelling.',
       'Use a novelty calculator without pretending it is real compatibility science.',
-      'Keep entered names private in the browser tab.',
+      'Use nicknames or initials instead of typing private details.',
     ],
     examples: [
-      { label: 'Alex + Sam', expression: 'Alex and Sam', result: 'Playful match score' },
-      { label: 'Taylor + Jordan', expression: 'Taylor and Jordan', result: 'Playful match score' },
-      { label: 'Case check', expression: 'alex and SAM', result: 'Same deterministic style score' },
+      { label: 'Alex + Sam', expression: 'Alex and Sam', result: '86% Sparkly match' },
+      { label: 'Taylor + Jordan', expression: 'Taylor and Jordan', result: '79% Sweet match' },
+      { label: 'Case check', expression: 'alex and SAM', result: 'Same 86% score after cleanup' },
     ],
     relatedSlugs: ['random-number-generator', 'dice-roller', 'percentage-calculator'],
   }),
