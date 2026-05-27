@@ -22,6 +22,7 @@ export interface UtilityGuideDefinition {
   quickStart: string[];
   sections: GuideSection[];
   sidecarText: string;
+  bestUsesIntro?: string;
 }
 
 interface UtilityGuideDetail {
@@ -34,6 +35,7 @@ interface UtilityGuideDetail {
   readIntro?: string;
   mistakeIntro?: string;
   sidecarText?: string;
+  bestUsesIntro?: string;
   metaDescription?: string;
   referenceIntro?: string;
   enter: string[];
@@ -286,6 +288,22 @@ const sourceLinks = {
   oshaStairs: {
     href: 'https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.25',
     label: 'OSHA: Stairways standard',
+  },
+  gafMeasureRoofingSquare: {
+    href: 'https://www.gaf.com/en-us/blog/your-home/how-to-measure-a-roofing-square-3faec381-6f6f-49ff-841f-114c59108f2a',
+    label: 'GAF: How to measure a roofing square',
+  },
+  gafMinimumSlopeShingles: {
+    href: 'https://www.gaf.com/en-us/blog/residential-roofing/minimum-slope-for-shingles-what-contractors-need-to-know-281474980375031',
+    label: 'GAF: Minimum slope for shingles',
+  },
+  ikoShingleBundles: {
+    href: 'https://www.iko.com/na/blog/how-many-shingles-in-a-bundle/',
+    label: 'IKO: How many shingles are in a bundle',
+  },
+  oshaFallProtectionConstruction: {
+    href: 'https://www.osha.gov/fall-protection/construction',
+    label: 'OSHA: Fall protection in construction',
   },
   nwsWindChill: {
     href: 'https://www.weather.gov/gjt/windchill',
@@ -1711,24 +1729,63 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   },
   'roofing-calculator': {
     summary: 'Learn how footprint, pitch, and waste estimate roof squares and bundles.',
+    metaDescription:
+      'Use the Roofing Calculator with a 40 x 30 ft example. Learn roofing squares, pitch factor, shingle bundles, waste, and when to check a roofer.',
     purpose:
-      'The Roofing Calculator estimates materials for a simple pitched roof. It turns a footprint into slope-adjusted roof area, adds waste, then estimates roofing squares and bundles.',
+      'The Roofing Calculator estimates materials for a simple pitched roof. It turns a flat footprint into slope-adjusted roof area, adds waste, then estimates roofing squares and bundles.',
+    intro:
+      'Use it for a rough shopping or quote-check number, not as permission to climb a roof or skip a contractor measurement.',
+    bestUsesIntro:
+      'Use this guide when you have a simple roof footprint and want a first pass at roof squares, bundles, pitch, and waste before checking the real roof.',
+    inputMatch: 'the flat roof footprint, the rise per 12 inches of run, and the waste percent you want to add',
+    logicNote:
+      'Pitch matters because shingles sit on the sloped roof surface, not the flat footprint. The calculator turns rise per 12 into a slope multiplier before it adds waste.',
+    readIntro:
+      'Read the square count first, then the bundle count. The bundle count uses a common 3-bundles-per-square assumption, so the product wrapper can still change the order.',
+    mistakeIntro:
+      'The big mistake is treating a clean rectangle as the whole roof. Hips, valleys, dormers, overhangs, skylights, ridge cap, starter strips, and low-slope rules can all change the real list.',
+    sidecarText:
+      'Open the Roofing Calculator beside this guide. Try the 40 x 30 ft example first, then replace it with your own footprint, pitch, and waste percent.',
+    referenceIntro:
+      'These references help with roofing squares, bundle coverage, low-slope cautions, and roof-work safety. Use them as checks, not as a replacement for local code or a roofer.',
     enter: [
-      'Enter footprint length and width.',
-      'Enter pitch rise per 12 inches of run.',
-      'Enter waste percent.',
+      'Enter footprint length and width in feet. Use the flat footprint, not the house square footage.',
+      'Enter pitch rise per 12 inches of run. A 6/12 roof rises 6 inches for every 12 inches across.',
+      'Enter waste percent. Ten percent is a simple starting point, but complex roofs may need more.',
     ],
     read: [
-      'Roof squares are 100-square-foot units.',
-      'Bundles estimate assumes 3 shingle bundles per square.',
+      'Roof squares are 100-square-foot units. A result of 14.76 squares means about 1,476 square feet after pitch and waste.',
+      'Bundles estimate assumes 3 shingle bundles per square. Check your shingle wrapper or product sheet before buying.',
       'Pitch factor shows how slope increased the footprint area.',
     ],
     mistakes: [
       'Do not use this as a contractor measurement.',
-      'Do not ignore hips, valleys, dormers, waste, openings, and product coverage.',
-      'Check local roofing practices before ordering.',
+      'Do not ignore hips, valleys, dormers, overhangs, skylights, ridge cap, starter strips, underlayment, flashing, and product coverage.',
+      'Do not assume shingles are right for every low-slope roof. Check manufacturer instructions and local code.',
+      'Do not climb onto a roof just to measure. Use safe ground measurements, plans, a measurement report, or a pro.',
     ],
-    sources: [sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick 40 x 30 roof example',
+        paragraphs: [
+          'Say the footprint is 40 ft by 30 ft. That is 1,200 sq ft flat. With a 6/12 pitch, the roof surface is about 1,342 sq ft before waste.',
+          'Add 10% waste and the estimate becomes about 1,476 sq ft, or 14.76 roofing squares. With the common 3-bundles-per-square assumption, the calculator rounds that to 45 bundles.',
+        ],
+      },
+      {
+        title: 'What this estimate leaves out',
+        paragraphs: [
+          'The calculator does not count every roof plane, valley, ridge, starter strip, vent, flashing detail, tear-off layer, underlayment roll, nail box, or permit rule. It is the first math pass, not the full material list.',
+          'If your roof is steep, low-slope, cut up into many planes, or hard to access safely, the next step is a roofer, local code check, or manufacturer instructions.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.gafMeasureRoofingSquare,
+      sourceLinks.gafMinimumSlopeShingles,
+      sourceLinks.ikoShingleBundles,
+      sourceLinks.oshaFallProtectionConstruction,
+    ],
   },
   'tile-calculator': {
     summary: 'Learn how area, tile dimensions, and waste estimate tile count.',
@@ -3966,6 +4023,7 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: `${detail.purpose} ${detail.intro ?? `Start here: ${guideLanguage.firstStep}, read the result, then check the limits before you use it.`}`,
     quickStart: detail.enter,
+    bestUsesIntro: detail.bestUsesIntro,
     sections: [
       {
         title: guideLanguage.sectionTitle,

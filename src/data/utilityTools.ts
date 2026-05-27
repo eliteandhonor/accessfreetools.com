@@ -1883,16 +1883,56 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate roof squares and shingle bundles from footprint, pitch, and waste.',
     description:
-      'Use this free roofing calculator to estimate roof area, roofing squares, and shingle bundles for a simple pitched roof.',
+      'Use this free roofing calculator to estimate roof area, roofing squares, and shingle bundles for a simple pitched roof before you check the real roof and product label.',
+    seoTitle: 'Roofing Calculator | Squares And Shingle Bundles',
+    seoDescription:
+      'Estimate roof squares and shingle bundles from footprint, pitch, and waste. Includes a 40 x 30 ft example, 3-bundle caveat, and safety limits.',
     icon: 'calculator-roofing',
     formula:
       'The calculator multiplies footprint area by a pitch factor, adds waste, divides by 100 square feet per roofing square, and estimates 3 bundles per square.',
     limit:
-      'Complex roofs, valleys, hips, dormers, openings, product coverage, and local installation practices can change material needs.',
+      'Complex roofs, valleys, hips, dormers, openings, starter strips, ridge cap, product coverage, low-slope rules, and local installation practices can change material needs.',
+    faqLanguage: {
+      expectedInputs: 'simple footprint length, footprint width, pitch rise per 12, and waste percent',
+      inputFallback:
+        'Enter the flat footprint length and width, the roof rise per 12 inches of run, and the waste percent you want to add.',
+      examplePhrase: 'roofing material example',
+      doubleCheck:
+        'Check the roof shape, pitch, shingle wrapper, manufacturer instructions, local code, and safe access before ordering materials.',
+      privacy:
+        'No. The roofing estimate runs in your browser tab. Do not enter your address or any private job details.',
+    },
     inputExplanations: [
-      { term: 'Footprint length and width', meaning: 'the flat building footprint, not the sloped roof surface.' },
-      { term: 'Pitch rise per 12', meaning: 'how many inches the roof rises for every 12 inches of horizontal run.' },
-      { term: 'Waste percent', meaning: 'extra roofing for cuts, starter strips, ridge, hips, valleys, and mistakes.' },
+      { term: 'Footprint length and width', meaning: 'The flat building footprint, not the house square footage and not the sloped roof surface.' },
+      { term: 'Pitch rise per 12', meaning: 'How many inches the roof rises for every 12 inches of horizontal run. A 6/12 roof rises 6 inches over 12 inches.' },
+      { term: 'Waste percent', meaning: 'Extra roofing for cuts, starter strips, ridge cap, hips, valleys, overhangs, and mistakes.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How many square feet are in one roofing square?',
+        answer:
+          'One roofing square is 100 square feet of roof surface. If the calculator shows 14.76 squares, that means about 1,476 square feet after pitch and waste.',
+      },
+      {
+        question: 'Does every shingle use 3 bundles per square?',
+        answer:
+          'No. Three bundles per square is common for many asphalt shingles, but heavier or specialty products can be different. Check the wrapper or manufacturer sheet before buying.',
+      },
+      {
+        question: 'Does this include starter strips and ridge cap?',
+        answer:
+          'Not exactly. The waste percent can help cover cuts and small extras, but starter strips, ridge cap, ridge vent, flashing, underlayment, nails, and drip edge often need separate planning.',
+      },
+      {
+        question: 'Can I use this for a low-slope roof?',
+        answer:
+          'Use extra caution. Low-slope roofs can need special underlayment or different roofing materials. Check the shingle instructions, local code, and a roofer before ordering.',
+      },
+      {
+        question: 'Should I measure from the roof?',
+        answer:
+          'Do not climb onto a roof just to use this calculator. Use ground measurements, plans, a safe measurement report, or a professional if roof access is not clearly safe.',
+      },
     ],
     useCases: [
       'Estimate roof squares for a simple footprint.',
@@ -1901,9 +1941,9 @@ export const utilityTools: ToolDefinition[] = [
       'Prepare a rough number before contractor measurement.',
     ],
     examples: [
-      { label: 'Simple roof', expression: '40 ft x 30 ft, 6/12 pitch, 10% waste', result: 'Roof squares and bundles' },
-      { label: 'Low pitch', expression: '30 ft x 24 ft, 3/12 pitch', result: 'Pitch-adjusted area' },
-      { label: 'Higher waste', expression: '48 ft x 32 ft, 8/12 pitch, 15% waste', result: 'Roofing material estimate' },
+      { label: 'Simple roof', expression: '40 ft x 30 ft, 6/12 pitch, 10% waste', result: '14.76 squares, 45 bundles' },
+      { label: 'Low pitch', expression: '30 ft x 24 ft, 3/12 pitch, 10% waste', result: '8.16 squares, 25 bundles' },
+      { label: 'Higher waste', expression: '48 ft x 32 ft, 8/12 pitch, 15% waste', result: '21.23 squares, 64 bundles' },
     ],
     relatedSlugs: ['square-footage-calculator', 'area-calculator', 'slope-calculator'],
   }),

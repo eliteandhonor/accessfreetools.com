@@ -3876,6 +3876,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/roofing-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/roofing-calculator-guide.webp",
+    "alt": "Roofing Calculator guide art showing a roof footprint, pitch note, waste percent, and shingle bundle estimate.",
+    "caption": "The guide image matches the walkthrough: start with footprint, add pitch and waste, then read roof squares and bundles as a rough estimate.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -3884,6 +3886,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/roofing-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/roofing-calculator-tool.webp",
+    "alt": "Roofing Calculator tool art showing footprint, pitch, waste percent, roofing squares, and shingle bundles.",
+    "caption": "The tool image matches the live calculator: enter a simple footprint, pitch, and waste percent to estimate roofing squares and bundles.",
     "status": "approved",
     "qaStatus": "approved"
   },

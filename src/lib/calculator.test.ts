@@ -1698,6 +1698,7 @@ describe('utility helpers', () => {
     const sleep = calculateSleepSchedule('wake-up', '07:00', 5, 15);
     const tire = calculateTireSize(225, 60, 16);
     const roof = calculateRoofingEstimate(40, 30, 6, 10);
+    const flatRoof = calculateRoofingEstimate(20, 10, 0, 0);
     const tile = calculateTileEstimate(120, 12, 12, 10);
     const mulch = calculateMulchEstimate(200, 3, 5);
     const gravel = calculateGravelEstimate(20, 10, 3, 1.4);
@@ -1803,7 +1804,16 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(molecularWeight.molarMass)).toBe('180.156');
     expect(sleep.targetTime).toBe('23:15');
     expect(formatCalculatorNumber(tire.tireDiameterInches)).toBe('26.6299212598');
-    expect(roof.shingleBundles).toBeGreaterThan(40);
+    expect(roof.footprintSquareFeet).toBe(1200);
+    expect(formatCalculatorNumber(roof.pitchFactor)).toBe('1.1180339888');
+    expect(formatCalculatorNumber(roof.roofSquareFeet)).toBe('1475.80486515');
+    expect(formatCalculatorNumber(roof.roofSquares)).toBe('14.7580486515');
+    expect(roof.shingleBundles).toBe(45);
+    expect(flatRoof.roofSquareFeet).toBe(200);
+    expect(flatRoof.shingleBundles).toBe(6);
+    expect(flatRoof.lowSlopeWarning).toMatch(/below 2\/12/);
+    expect(roof.lowSlopeWarning).toBeUndefined();
+    expect(() => calculateRoofingEstimate(40, 30, 6, 101)).toThrow(/Waste percent cannot be greater than 100%/);
     expect(tile.tilesNeeded).toBe(132);
     expect(formatCalculatorNumber(mulch.cubicYards)).toBe('1.9444444444');
     expect(formatCalculatorNumber(gravel.tons)).toBe('2.5925925926');

@@ -1266,6 +1266,26 @@ const oshaStairs = {
   label: 'OSHA: Stairways standard',
 };
 
+const gafMeasureRoofingSquare = {
+  href: 'https://www.gaf.com/en-us/blog/your-home/how-to-measure-a-roofing-square-3faec381-6f6f-49ff-841f-114c59108f2a',
+  label: 'GAF: How to measure a roofing square',
+};
+
+const gafMinimumSlopeShingles = {
+  href: 'https://www.gaf.com/en-us/blog/residential-roofing/minimum-slope-for-shingles-what-contractors-need-to-know-281474980375031',
+  label: 'GAF: Minimum slope for shingles',
+};
+
+const ikoShingleBundles = {
+  href: 'https://www.iko.com/na/blog/how-many-shingles-in-a-bundle/',
+  label: 'IKO: How many shingles are in a bundle',
+};
+
+const oshaFallProtectionConstruction = {
+  href: 'https://www.osha.gov/fall-protection/construction',
+  label: 'OSHA: Fall protection in construction',
+};
+
 const doeApplianceEnergy = {
   href: 'https://www.energy.gov/energysaver/articles/estimating-appliance-and-home-electronic-energy-use',
   label: 'U.S. Department of Energy: Estimating appliance energy use',
@@ -3720,20 +3740,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'roofing-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-27',
+    reviewedOn: '2026-05-27',
     scope: commonMathScope,
-    sources: [nistSi, openStaxGeometry],
+    sources: [gafMeasureRoofingSquare, gafMinimumSlopeShingles, ikoShingleBundles, oshaFallProtectionConstruction],
     findings: [
       'The calculator turns a flat footprint into a slope-adjusted roof area, adds waste, and converts 100 square feet into one roofing square.',
-      'The page explains pitch rise per 12, waste percent, roofing squares, and the 3-bundles-per-square assumption without calling it a contractor takeoff.',
-      'The guide warns that hips, valleys, dormers, openings, product coverage, starter strips, and local installation practices can change the order.',
+      'The page explains pitch rise per 12, waste percent, roofing squares, and the 3-bundles-per-square assumption without calling it a contractor takeoff, safety plan, or code approval.',
+      'The guide warns that hips, valleys, dormers, openings, product coverage, starter strips, ridge cap, low-slope rules, and local installation practices can change the order.',
     ],
     improvements: [
-      'Manually checked pitch-factor math, square and bundle wording, examples, FAQ input definitions, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and mobile result labels.',
+      'Updated metadata, exact examples, FAQs, guide sections, trust wording, low-slope warnings, image alt/captions, and exact calculator tests with current GAF, IKO, OSHA, and competitor research queued for page-level proof.',
     ],
     followUps: [
-      'Add roof-shape options later only if the UI can clearly separate simple footprint math from professional roof measurement.',
+      'Add roof-shape options later only if the UI can clearly separate simple footprint math from professional roof measurement and keep low-slope/code warnings visible.',
     ],
   },
   {

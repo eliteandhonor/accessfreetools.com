@@ -2291,7 +2291,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Roofing Calculator',
     buttonLabel: 'Estimate roofing',
     emptyHistory: 'Recent roofing estimates will appear here.',
-    privacyNote: 'Roofing estimates stay local and assume a simple roof footprint.',
+    privacyNote: 'Roofing estimates stay in this browser tab. Use rough dimensions only; the tool does not need an address.',
     modes: [
       {
         id: 'shingles',
@@ -5663,6 +5663,7 @@ function calculateUtility(
     }
     case 'roofing': {
       const result = calculateRoofingEstimate(parseNumber(inputs.lengthFeet, 'Length'), parseNumber(inputs.widthFeet, 'Width'), parseNumber(inputs.pitchRisePer12, 'Pitch rise'), parseNumber(inputs.wastePercent, 'Waste percent'));
+      const lowSlopeNote = result.lowSlopeWarning ? `${result.lowSlopeWarning} ` : '';
       return {
         label: 'Estimated roof material',
         expression: `${formatCalculatorNumber(result.footprintSquareFeet)} ft2 footprint, ${formatCalculatorNumber(result.pitchRisePer12)}/12 pitch`,
@@ -5677,7 +5678,7 @@ function calculateUtility(
           'Apply a pitch factor from the 12-inch roof run and pitch rise.',
           'Add waste and divide by 100 square feet per roofing square.',
         ],
-        note: 'Complex roofs, valleys, hips, dormers, tear-off, and product coverage can change real orders.',
+        note: `${lowSlopeNote}This is a rough planning number. Product wrapper coverage, ridge cap, starter strips, low-slope rules, safe access, and contractor measurement can change the real order.`,
       };
     }
     case 'tile': {

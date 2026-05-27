@@ -7304,6 +7304,7 @@ export interface RoofingEstimateResult {
   wastePercent: number;
   roofSquares: number;
   shingleBundles: number;
+  lowSlopeWarning?: string;
 }
 
 export interface TileEstimateResult {
@@ -9854,6 +9855,10 @@ export function calculateRoofingEstimate(
   const pitchFactor = Math.sqrt(pitchRisePer12 ** 2 + 12 ** 2) / 12;
   const roofSquareFeet = footprintSquareFeet * pitchFactor * (1 + wastePercent / 100);
   const roofSquares = roofSquareFeet / 100;
+  const lowSlopeWarning =
+    pitchRisePer12 < 2
+      ? 'Pitch is below 2/12. Do not use the shingle bundle estimate as an order list without checking the product instructions, local code, and a roofer.'
+      : undefined;
 
   return {
     footprintSquareFeet,
@@ -9863,6 +9868,7 @@ export function calculateRoofingEstimate(
     wastePercent,
     roofSquares,
     shingleBundles: Math.ceil(roofSquares * 3),
+    lowSlopeWarning,
   };
 }
 
