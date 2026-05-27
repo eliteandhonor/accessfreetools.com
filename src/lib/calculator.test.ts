@@ -1128,8 +1128,17 @@ describe('finance helpers', () => {
 
   it('solves an estimated annual rate from payment and rejects impossible payments', () => {
     const rate = calculateInterestRateFromPayment(25000, 483.32, 5);
+    const zeroRate = calculateInterestRateFromPayment(12000, 1000, 1);
+    const highRate = calculateInterestRateFromPayment(10000, 1200, 1);
+    const fractionalTerm = calculateInterestRateFromPayment(25000, 600, 5.5);
 
     expect(formatCalculatorNumber(rate.annualRatePercent)).toBe('5.9999967108');
+    expect(formatCalculatorNumber(rate.totalInterest)).toBe('3999.2');
+    expect(zeroRate.annualRatePercent).toBe(0);
+    expect(zeroRate.totalInterest).toBe(0);
+    expect(formatCalculatorNumber(highRate.annualRatePercent)).toBe('73.3247874318');
+    expect(formatCalculatorNumber(fractionalTerm.annualRatePercent)).toBe('18.0471177899');
+    expect(fractionalTerm.paymentCount).toBe(66);
     expect(() => calculateInterestRateFromPayment(25000, 200, 5)).toThrow(
       'Monthly payment is too low to repay the principal within this term',
     );

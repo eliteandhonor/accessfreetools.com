@@ -673,6 +673,13 @@ const financeToolInstructions = financeToolVariant
         'Press the calculate button to see deductions entered, estate before exclusion, remaining basic exclusion, amount above exclusion, and the simplified federal estimate.',
         'Use the result as a rough 2026 federal exclusion screen, not as Form 706, state estate tax, portability, GST, trust, or legal advice.',
       ]
+    : tool.slug === 'interest-rate-calculator'
+    ? [
+        'Enter the amount financed, not the sticker price or cash price if fees were already added.',
+        'Enter the fixed monthly loan payment from the quote, leaving out taxes, insurance, warranties, and add-ons if you only want the loan rate.',
+        'Enter the loan term in years, then calculate to see the estimated annual rate, monthly rate, total paid, and total interest.',
+        'Compare the answer with APR, fees, and the written lender disclosure before treating the quote as cheap or expensive.',
+      ]
     : [
       'Enter the requested dollar amounts, rates, terms, tax settings, or contribution details.',
       'Use rates as percentages, such as 6.5 for 6.5%, and check whether a field asks for a monthly or annual amount.',
@@ -2009,6 +2016,30 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 .
               </p>
             </>
+          ) : tool.slug === 'interest-rate-calculator' ? (
+            <>
+              <strong>Rate estimate, not an APR disclosure</strong>
+              <p>
+                Use this when a quote gives you the amount financed, monthly payment, and term but the rate is unclear.
+                A real offer can still change with lender fees, APR rules, taxes, insurance, warranties, add-ons,
+                variable rates, prepayment terms, approval rules, and written disclosures.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/" rel="noreferrer" target="_blank">
+                  CFPB interest rate vs. APR
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/rules-policy/regulations/1026/22/" rel="noreferrer" target="_blank">
+                  CFPB Regulation Z APR rules
+                </a>
+                {', and '}
+                <a href="https://www.minneapolisfed.org/article/2025/what-drives-consumer-interest-rates" rel="noreferrer" target="_blank">
+                  Minneapolis Fed consumer rate context
+                </a>
+                .
+              </p>
+            </>
           ) : tool.slug === 'finance-calculator' ? (
             <>
               <strong>Money projection, not a promise</strong>
@@ -2152,9 +2183,9 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         <section class="content-section">
           <h2>How to read the rate</h2>
           <p>
-            If a $10,000 loan over 5 years needs about $193 each month, the hidden rate is close
-            to 6% before extra fees. If the same loan needs a bigger monthly payment, the rate is
-            probably higher unless the quote also includes insurance, taxes, or add-ons.
+            If a $25,000 loan quote says $483.32 each month for 5 years, the hidden rate is about
+            6% before extra fees. A $30,000 quote at $540 each month for 6 years points closer to
+            8.95%, with about $8,880 in total interest.
           </p>
           <p>
             Use the <a href="/tools/payment-calculator/">payment calculator when you already know the rate</a>,
@@ -2168,11 +2199,20 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     }
 
     <section class="content-section">
-      <h2>Need the guide or a nearby tool?</h2>
-      <p>
-        Need a slower walkthrough, a related {toolPageNoun}, or the full library? These links keep you
-        close to the task you started.
-      </p>
+      <h2>{isInterestRateTool ? 'Check the quote another way' : 'Need the guide or a nearby tool?'}</h2>
+      {
+        isInterestRateTool ? (
+          <p>
+            If the estimated rate looks odd, check the same quote from another angle before trusting it.
+            Payment math, APR-with-fees math, and the written lender quote can tell different stories.
+          </p>
+        ) : (
+          <p>
+            Need a slower walkthrough, a related {toolPageNoun}, or the full library? These links keep you
+            close to the task you started.
+          </p>
+        )
+      }
       <ul class="guide-link-list">
         <li>
           <a href={guidePath}>{guideTitle}</a>
@@ -2228,7 +2268,11 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         {isStatsSuiteTool && <p>Quick answers about formulas, inputs, examples, result copying, and private in-browser history.</p>}
         {isGeometryTool && <p>Quick answers about formulas, units, valid measurements, examples, copying, and private in-browser history.</p>}
         {isHealthTool && <p>Plain-language answers about when to use the estimate, what the formula means, what it cannot decide for you, and how privacy works.</p>}
-        {isFinanceTool && <p>Plain-language answers about when to use the estimate, what your numbers mean, what is left out, and how privacy works.</p>}
+        {isInterestRateTool ? (
+          <p>Quick answers about payment quotes, estimated rates, APR, fees, impossible payments, and private in-browser history.</p>
+        ) : (
+          isFinanceTool && <p>Plain-language answers about when to use the estimate, what your numbers mean, what is left out, and how privacy works.</p>
+        )}
         {isUtilityTool && <p>Plain-language answers about when to use the tool, what it does with your inputs, what to double-check, and how privacy works.</p>}
         {isAiTool && <p>Plain-language answers about browser-only models, privacy, confidence limits, common mistakes, and when to double-check AI output.</p>}
       </div>

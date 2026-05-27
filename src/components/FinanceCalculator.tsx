@@ -2412,7 +2412,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
       {
         id: 'interest-rate',
         label: 'Rate',
-        symbol: 'APR',
+        symbol: 'RATE',
         fields: [
           numberField('principal', 'Principal ($)'),
           numberField('monthlyPayment', 'Monthly payment ($)'),
@@ -2503,6 +2503,11 @@ function compactMoney(value: number, currency = 'USD') {
 
 function percent(value: number) {
   return `${formatCalculatorNumber(value)}%`;
+}
+
+function roundedPercent(value: number, fractionDigits = 2) {
+  const rounded = Number(value.toFixed(fractionDigits));
+  return `${formatCalculatorNumber(rounded)}%`;
 }
 
 function years(value: number) {
@@ -4638,9 +4643,9 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
       return {
         label: 'Estimated annual rate',
         expression: `${compactMoney(principal)}, ${money(monthlyPayment)}/mo for ${years(loanYears)}`,
-        answer: percent(result.annualRatePercent),
+        answer: roundedPercent(result.annualRatePercent),
         metrics: [
-          { label: 'Monthly rate', value: percent(result.monthlyRatePercent) },
+          { label: 'Monthly rate', value: roundedPercent(result.monthlyRatePercent, 3) },
           { label: 'Total interest', value: money(result.totalInterest) },
           { label: 'Total paid', value: money(result.totalPaid) },
         ],

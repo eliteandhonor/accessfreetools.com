@@ -2297,7 +2297,9 @@
     "imagePath": "/tool-art/interest-rate-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/interest-rate-calculator-guide.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Smoke mascot with loan blocks, a payment timeline, a magnifying glass, and a rate gauge for checking a quoted payment.",
+    "caption": "The guide art matches the walkthrough: start with amount financed, monthly payment, and term, then check the estimated rate before trusting the quote."
   },
   {
     "slug": "interest-rate-calculator",
@@ -2305,7 +2307,9 @@
     "imagePath": "/tool-art/interest-rate-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/interest-rate-calculator-tool.webp",
     "status": "approved",
-    "qaStatus": "approved"
+    "qaStatus": "approved",
+    "alt": "Smoke mascot beside principal blocks, monthly payment tokens, a term path, and a rate gauge.",
+    "caption": "The tool art shows the actual job: use principal, payment, and term to estimate the rate hidden in a fixed loan quote."
   },
   {
     "slug": "internet-speed-needs-calculator",

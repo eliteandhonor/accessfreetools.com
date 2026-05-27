@@ -14,7 +14,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'canadian-mortgage-calculator': '2026-05-26',
   'down-payment-calculator': '2026-05-26',
   'finance-calculator': '2026-05-26',
-  'interest-rate-calculator': '2026-05-26',
+  'interest-rate-calculator': '2026-05-27',
   'loan-calculator': '2026-05-26',
   'love-calculator': '2026-05-26',
   'roofing-calculator': '2026-05-26',

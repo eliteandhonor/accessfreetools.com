@@ -135,6 +135,10 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/',
     label: 'CFPB: Loan interest rate vs. APR',
   },
+  minneapolisFedConsumerRates: {
+    href: 'https://www.minneapolisfed.org/article/2025/what-drives-consumer-interest-rates',
+    label: 'Minneapolis Fed: What drives consumer interest rates',
+  },
   cfpbLoanEstimate: {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/',
     label: 'CFPB: What is a Loan Estimate?',
@@ -462,7 +466,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'interest-rate-calculator') {
-    return [sourceLinks.cfpbAprVsInterest, sourceLinks.cfpbApr];
+    return [sourceLinks.cfpbAprVsInterest, sourceLinks.cfpbApr, sourceLinks.minneapolisFedConsumerRates];
   }
 
   if (['compound-interest-calculator', 'investment-calculator', 'retirement-calculator', 'interest-calculator', 'simple-interest-calculator', 'future-value-calculator'].includes(toolSlug)) {
@@ -1216,17 +1220,17 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Income Tax Calculator for federal tax estimate context.', 'Use Percentage Calculator for raise or pay-change math.'],
   },
   'interest-rate-calculator': {
-    summary: 'Learn how to estimate the annual rate implied by a payment, principal, and loan term.',
+    summary: 'Learn how to estimate the annual rate hidden inside a fixed loan payment quote.',
     purpose:
-      'The Interest Rate Calculator works backward from a payment quote. It estimates the annual rate that would make the fixed-payment loan formula match your numbers.',
+      'The Interest Rate Calculator is for the moment when a quote shows the payment but not a clear rate. It works backward from amount financed, monthly payment, and term to estimate the annual rate before extra fees.',
     enter: [
-      'Enter principal or amount financed.',
-      'Enter the quoted monthly payment.',
-      'Enter the repayment term in years.',
+      'Enter the amount financed, not the sticker price if fees or add-ons were already rolled in.',
+      'Enter the fixed monthly loan payment. Leave out taxes, insurance, warranties, and add-ons if you only want the loan rate.',
+      'Enter the repayment term in years so the calculator can turn it into monthly payments.',
     ],
     example: [
-      '$25,000 principal, $483.32 monthly payment, and 5 years produces an estimated annual rate near 6%.',
-      'If the payment is too low to repay principal even at 0%, the calculator shows an input warning.',
+      '$25,000 principal, $483.32 monthly payment, and 5 years produces an estimated annual rate near 6%, about $3,999.20 interest, and $28,999.20 total paid.',
+      '$30,000, $540 per month, and 6 years produces an estimated annual rate near 8.95%, about $8,880 interest, and $38,880 total paid.',
     ],
     read: [
       'Annual rate is the estimated nominal rate, not necessarily APR.',
@@ -1238,7 +1242,7 @@ const guideDetails: Record<string, GuideDetail> = {
       'Do not include taxes or insurance in the monthly payment if you only want the loan rate.',
       'Do not use it for variable-rate, interest-only, or balloon loans.',
     ],
-    next: ['Use Loan Calculator once you know the rate.', 'Use Auto Loan Calculator if the quote includes vehicle tax and fees.'],
+    next: ['Use Loan Calculator once you know the rate.', 'Use APR Calculator if fees are part of the quote.', 'Use Auto Loan Calculator if the quote includes vehicle tax and fees.'],
   },
   'sales-tax-calculator': {
     summary: 'Learn how to calculate sales tax amount and final total from a before-tax price and local rate.',
@@ -2866,6 +2870,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Sales Tax Calculator Guide';
   }
 
+  if (tool.slug === 'interest-rate-calculator') {
+    return 'Interest Rate Calculator Guide';
+  }
+
   const standardTitle = `How to use the ${tool.name}`;
   const pageTitle = `${standardTitle} | Access Free Tools`;
 
@@ -2905,6 +2913,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate website ad revenue from page views, CTR, CPC, and page RPM, with a 1,000-view example and clear AdSense-style limits.';
   }
 
+  if (tool.slug === 'interest-rate-calculator') {
+    return 'Estimate the annual rate behind a loan payment quote from amount financed, monthly payment, and term, with APR and fee cautions.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -2936,6 +2948,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isFinanceGuide = tool.slug === 'finance-calculator';
   const isFhaLoanGuide = tool.slug === 'fha-loan-calculator';
   const isEstateTaxGuide = tool.slug === 'estate-tax-calculator';
+  const isInterestRateGuide = tool.slug === 'interest-rate-calculator';
 
   return {
     slug: `how-to-use-${tool.slug}`,
@@ -2964,6 +2977,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Before you assume 10,000 page views means steady ad income, test the click rate and CPC separately. This guide shows the simple math, the 1,000-view example, and the reasons real ad reports can move.'
       : isEstateTaxGuide
       ? 'A huge estate number can look scary until you separate gross estate, deductions, prior taxable gifts, and the federal exclusion. This guide shows the rough 2026 federal screen and the parts it cannot handle.'
+      : isInterestRateGuide
+      ? 'A loan quote can hide the rate behind one neat monthly payment. This guide shows how amount financed, payment, and term turn into an estimated rate before fees or APR rules change the story.'
       : `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
     quickStart: isAutoLoanGuide
       ? [
@@ -3045,6 +3060,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Calculate, then check estate before exclusion, remaining basic exclusion, amount above exclusion, and the simplified federal estimate.',
           'Use the answer as a rough 2026 federal screen before professional estate and tax advice, not as Form 706.',
         ]
+      : isInterestRateGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter the amount financed from the quote.',
+          'Enter the fixed monthly loan payment, without taxes, insurance, warranties, or add-ons if you only want the loan rate.',
+          'Enter the term in years, then check estimated annual rate, monthly rate, total paid, and total interest.',
+          'Compare the answer with APR, fees, and the written lender disclosure before trusting the quote.',
+        ]
       : [
           `Open the ${tool.name}.`,
           detail.enter[0],
@@ -3074,6 +3097,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it when you are testing a blog post, tool page, niche site, or traffic idea and want a rough number before opening a spreadsheet.'
             : isEstateTaxGuide
             ? 'Use it when the estate may be large enough to deserve a first-pass federal check before you ask sharper questions about Form 706, portability, state estate tax, trusts, or professional planning.'
+            : isInterestRateGuide
+            ? 'Use it when a lender, dealer, or payment page gives you a fixed monthly payment but the rate is missing or hard to compare. It is a rate estimate, not lender approval or an APR disclosure.'
             : `Good fit examples: ${tool.useCases.slice(0, 2).join(' ')}`,
         ],
       },
@@ -3100,6 +3125,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Ad revenue estimates are easy to break with one bad input. Page views are counts, CTR is a percent, and CPC is a dollar amount per click.'
             : isEstateTaxGuide
             ? 'Estate-tax screens need the gross estate, debts and expenses, charitable bequests, spouse transfers, and prior taxable gifts to stay separate. Do not hide one number inside another unless you mean to.'
+            : isInterestRateGuide
+            ? 'Rate estimates get weird when the payment includes more than principal and interest. Keep the amount financed, fixed monthly loan payment, and term separate before you calculate.'
             : 'Finance estimates are sensitive to small input changes. Check whether a field expects a monthly amount, annual amount, dollar value, or percent before calculating.',
         ],
         bullets: detail.enter,
@@ -3126,6 +3153,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: 1,000 daily page views, 1.5% page CTR, and $0.35 average CPC. That gives about 15 clicks per day, $5.25 per day, about $159.80 per average month, and a $5.25 page RPM.'
               : isEstateTaxGuide
               ? 'Try the starter example: an $18,000,000 estate with $500,000 in debts and expenses. The estate before exclusion is $17,500,000, the amount above the 2026 federal exclusion is $2,500,000, and the simplified estimate is $1,000,000.'
+              : isInterestRateGuide
+              ? 'Try the starter example: $25,000 principal, $483.32 per month, and 5 years. The estimate is about 6% annual interest, about 0.5% per month, about $28,999.20 total paid, and about $3,999.20 interest before any extra fees.'
               : `Try the calculator example: ${primaryExampleText}. The example result is ${primaryExample.result}.`
             : 'Use one of the examples on the tool page to see a complete estimate before entering your own values.',
         ],
@@ -3155,6 +3184,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The formula is simple on purpose: page views times CTR gives estimated clicks, clicks times CPC gives daily revenue, and daily revenue divided by page views times 1,000 gives page RPM.'
             : isEstateTaxGuide
             ? 'This is a screen, not a tax return. IRS Form 706 can involve detailed valuations, adjusted taxable gifts, credits, deductions, elections, portability, and supporting records that this page does not model.'
+            : isInterestRateGuide
+            ? 'The calculator is solving backward. It tests monthly rates until the fixed-payment formula matches the payment you entered, then multiplies the monthly rate by 12 to show an estimated nominal annual rate.'
             : 'If the estimate looks surprising, check the formula and inputs before using the answer in a budget, comparison, or planning note.',
         ],
       },
@@ -3181,6 +3212,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with monthly revenue, because that is usually how site owners compare costs. Then check estimated clicks and page RPM so the number has context.'
             : isEstateTaxGuide
             ? 'Start with the simplified federal estate tax estimate. Then check estate before exclusion, remaining basic exclusion, and amount above exclusion so you can see exactly where the number came from.'
+            : isInterestRateGuide
+            ? 'Start with the estimated annual rate, then check total interest and total paid. If those numbers look too high, the monthly payment may include fees, insurance, taxes, warranties, or add-ons.'
             : 'Start with the headline result. Then read the supporting lines to see what made the number larger or smaller, such as rates, time periods, costs, taxes, fees, discounts, or contributions.',
         ],
         bullets: detail.read,
@@ -3208,6 +3241,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad ad revenue estimates come from typing CTR as a decimal, guessing a CPC that is too high, or forgetting that real ad reports can remove invalid traffic and change after review.'
             : isEstateTaxGuide
             ? 'Most bad estate-tax estimates come from using a rough asset value, forgetting prior taxable gifts, treating spouse or charity transfers too casually, or acting like the calculator replaced Form 706.'
+            : isInterestRateGuide
+            ? 'Most bad rate estimates come from putting a fee-heavy payment into the calculator and then reading the answer like a clean loan rate. APR and written lender disclosures matter when fees are included.'
             : 'Most bad finance estimates come from mixing rates, terms, monthly amounts, and annual amounts. The other common mistake is using a planning estimate as if it were a final quote.',
         ],
         bullets: detail.mistakes,
@@ -3235,6 +3270,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help when ad revenue is only one part of the plan. Compare the estimate with costs, traffic campaigns, and profit goals before you count it as income.'
             : isEstateTaxGuide
             ? 'A related tool can help when the estate-tax screen is only one part of the planning question, such as growth over time, income tax, or a wider finance scenario.'
+            : isInterestRateGuide
+            ? 'A related tool can help when the quote is missing a different piece. Use payment math when you know the rate, APR math when fees matter, or a full loan estimate when you want total interest.'
             : 'A related money tool can help check the same question from another angle before you rely on one result.',
         ],
         bullets: detail.next,
@@ -3283,6 +3320,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/compound-interest-calculator/', label: 'Check compounding frequency' },
               { href: '/tools/payment-calculator/', label: 'Switch to debt payment math' },
             ]
+          : isInterestRateGuide
+          ? [
+              { href: '/tools/interest-rate-calculator/', label: 'Open the Interest Rate Calculator' },
+              { href: '/tools/loan-calculator/', label: 'Find the payment once you know the rate' },
+              { href: '/tools/apr-calculator/', label: 'Check fee-loaded APR math' },
+              { href: '/tools/payment-calculator/', label: 'Run a plain payment check' },
+            ]
           : isAdRevenueGuide
           ? [
               { href: '/tools/ad-revenue-calculator/', label: 'Open the Ad Revenue Calculator' },
@@ -3320,6 +3364,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Google AdSense Help explains page CTR, page RPM, how AdSense works, revenue share, and invalid traffic. Those sources are useful because ad revenue is not just one clean formula.'
             : isEstateTaxGuide
             ? 'IRS estate-tax sources explain the 2026 federal exclusion, gross estate idea, deductions, adjusted taxable gifts, Form 706 timing, and portability context. Those sources are why this guide stays honest about what the calculator can and cannot do.'
+            : isInterestRateGuide
+            ? 'CFPB explains why a loan interest rate and APR are not the same thing, and Regulation Z shows why APR disclosures follow specific rules. The Minneapolis Fed adds useful context: consumer rates can depend on funding costs, benchmarks, lender margin, credit risk, and the type of loan.'
             : sourceLinks.length > 0
             ? 'This guide links to public financial, consumer, statistical, or tax references where they are useful for understanding the calculator context.'
             : 'This guide explains the calculator inputs, formula context, and estimate limits without treating the result as a final quote or professional recommendation.',
@@ -3343,6 +3389,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The calculator still stays simple. It does not read your ad account, approve earnings, predict fill rate, or know which clicks may later be filtered.'
             : isEstateTaxGuide
             ? 'The calculator still stays simple. It does not file Form 706, calculate state estate tax, model DSUE, value trusts or businesses, check GST tax, or replace an estate attorney or tax professional.'
+            : isInterestRateGuide
+            ? 'This calculator still stays simple. It does not calculate official APR, read lender fees, approve credit, handle changing rates, or replace the Truth in Lending or loan documents you get before signing.'
             : 'Source links improve transparency, but they do not turn a quick calculator into professional advice or a final loan, tax, payroll, or investment answer.',
         ],
         links: sourceLinks,
@@ -3368,6 +3416,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Ad Revenue Calculator open beside this guide. Try 1,000 views, 1.5% CTR, and $0.35 CPC first, then test a lower CTR so the plan does not feel magically better than it is.'
       : isEstateTaxGuide
       ? 'Keep the Estate Tax Calculator open beside this guide. Try the $18,000,000 example first, then change only prior taxable gifts so you can see how the remaining exclusion moves.'
+      : isInterestRateGuide
+      ? 'Keep the Interest Rate Calculator open beside this guide. Try $25,000, $483.32/month, and 5 years first, then change only the payment so you can see how quickly the estimated rate moves.'
       : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,
   };
 });

@@ -1809,12 +1809,14 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'interest-rate-calculator',
     name: 'Interest Rate Calculator',
-    summary: 'Estimate annual interest rate from principal, payment, and term.',
+    summary: 'Find the rate hidden inside a fixed loan payment quote.',
     description:
-      'Use this free interest rate calculator to estimate an annual rate from loan amount, fixed monthly payment, and repayment term.',
+      'Enter the amount financed, fixed monthly payment, and loan term to estimate the annual interest rate behind the quote.',
+    seoTitle: 'Interest Rate Calculator | Estimate Rate From Payment',
     seoDescription:
-      'Estimate the annual interest rate hidden inside a loan payment quote using the loan amount, monthly payment, and repayment term.',
+      'Estimate the annual interest rate hidden inside a loan payment quote from amount financed, monthly payment, and term, with APR fee warnings.',
     icon: 'calculator-rate',
+    aliases: ['calculate interest rate from payment', 'loan rate calculator', 'implied interest rate calculator'],
     formula:
       'The calculator searches for the monthly rate that makes the fixed-payment loan formula match your monthly payment, then converts that to an annual rate.',
     limit:
@@ -1826,15 +1828,27 @@ export const financeTools: ToolDefinition[] = [
       'Use the answer alongside loan and payment calculators.',
     ],
     examples: [
-      { label: 'Payment quote', expression: '$25,000 principal, $483.32/month, 5 years', result: 'About 6% annual interest before extra fees' },
-      { label: 'Higher payment', expression: '$15,000, $350/month, 4 years', result: 'The payment points to a much higher implied rate' },
-      { label: 'Impossible payment', expression: 'Payment below zero-interest payoff', result: 'Calculator shows an input warning' },
+      { label: 'Payment quote', expression: '$25,000 principal, $483.32/month, 5 years', result: 'About 6% annual interest, $3,999.20 interest' },
+      { label: 'Smaller loan quote', expression: '$15,000, $350/month, 4 years', result: 'About 5.67% annual interest, $1,800 interest' },
+      { label: 'Longer quote', expression: '$30,000, $540/month, 6 years', result: 'About 8.95% annual interest, $8,880 interest' },
     ],
     relatedSlugs: ['loan-calculator', 'payment-calculator', 'apr-calculator'],
     inputExplanations: [
       { term: 'Principal', meaning: 'the loan amount you are trying to repay, before interest.' },
       { term: 'Monthly payment', meaning: 'the fixed payment quote you were given, without taxes, insurance, or fees if you only want the loan rate.' },
       { term: 'Term', meaning: 'how many years the loan lasts. The calculator converts this into monthly payments.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'How does the payment quote turn into a rate?',
+        answer:
+          'The calculator tries monthly rates until the fixed-payment formula lands on the payment you entered. For $25,000, $483.32 per month, and 5 years, the match is about 6% before extra fees.',
+      },
+      {
+        question: 'Why can APR be different from this estimated rate?',
+        answer:
+          'CFPB explains that APR can include the interest rate plus certain fees. This page backs into the rate from the payment only, so lender fees can make the real APR higher.',
+      },
     ],
     extraFaq: [
       {
@@ -1868,6 +1882,14 @@ export const financeTools: ToolDefinition[] = [
           'Not as a final answer. Credit cards, variable-rate loans, balloon loans, and promotional plans can use rules this simple fixed-payment estimate does not include.',
       },
     ],
+    formulaCheck:
+      'For $25,000, $483.32 per month, and 5 years, the solver lands near 0.5% per month, which is about 6% per year before fees.',
+    resultReading:
+      'Read the estimated annual rate first, then check monthly rate, total paid, and total interest. If the payment included taxes, insurance, warranties, or lender fees, the rate can look higher than the loan rate itself.',
+    doubleCheck:
+      'Check that the monthly payment is only the loan payment, the amount is the amount financed, and the term matches the quote. If the lender gave APR, fees, or a Loan Estimate, compare those written numbers too.',
+    limitFollowup:
+      'Use lender disclosures, APR rules, and written offer details before treating a quote as cheap or expensive.',
   }),
   makeFinanceTool({
     slug: 'sales-tax-calculator',

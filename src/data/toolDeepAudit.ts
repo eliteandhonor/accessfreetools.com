@@ -691,6 +691,11 @@ const cfpbAprVsInterest = {
   label: 'CFPB: Loan interest rate vs. APR',
 };
 
+const minneapolisFedConsumerRates = {
+  href: 'https://www.minneapolisfed.org/article/2025/what-drives-consumer-interest-rates',
+  label: 'Minneapolis Fed: What drives consumer interest rates',
+};
+
 const cfpbLoanEstimate = {
   href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/',
   label: 'CFPB: What is a Loan Estimate?',
@@ -3227,17 +3232,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'interest-rate-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-7-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-05-27',
+    reviewedOn: '2026-05-27',
     scope: commonMathScope,
-    sources: [cfpbAprVsInterest, cfpbApr],
+    sources: [cfpbAprVsInterest, cfpbApr, minneapolisFedConsumerRates],
     findings: [
       'The calculator works backward from principal, monthly payment, and term to solve the nominal annual rate implied by a fixed-payment loan formula.',
-      'The guide already explains that the solved rate is not necessarily APR, especially when fees, insurance, taxes, or other costs are inside the quoted payment.',
+      'The 2026-05-27 sprint used current CFPB and Minneapolis Fed source checks plus page-specific DataForSEO proof for the tool and guide.',
+      'The guide explains that the solved rate is not necessarily APR, especially when fees, insurance, taxes, warranties, or other costs are inside the quoted payment.',
       'The error guardrail protects users from payment amounts too low to repay principal even at a zero percent rate.',
     ],
     improvements: [
-      'Manually checked solver behavior, low-payment guardrail, examples, FAQ cautions, CFPB APR source coverage, related tools, SEO copy, and privacy behavior.',
+      'Added a custom SEO title, exact $25,000, $15,000, and $30,000 examples, APR-versus-rate FAQs, rounded UI rate display, RATE badge wording, source-backed trust copy, guide-specific source notes, stronger tests, and specific image alt/caption text.',
     ],
     followUps: [
       'Add an APR handoff callout if user testing shows people enter fee-heavy quotes into the interest-rate solver.',
@@ -7263,7 +7269,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['interest-rate', 'interest rate'])) {
-      return sourceBackstop([cfpbAprVsInterest, cfpbApr]);
+      return sourceBackstop([cfpbAprVsInterest, cfpbApr, minneapolisFedConsumerRates]);
     }
 
     if (includesAny(key, ['mortgage', 'loan', 'rent-vs-buy', 'house-affordability', 'heloc', 'home-equity'])) {
