@@ -195,6 +195,7 @@ import {
   calculateSalaryBreakdown,
   calculateSavingsProjection,
   calculateSalesTax,
+  calculateSimpleInterest,
   calculateSocialSecurityClaiming,
   calculateStockRatios,
   calculateTakeHomePaycheck,
@@ -1620,6 +1621,7 @@ describe('finance helpers', () => {
       newYears: 3,
       fees: 300,
     });
+    const simpleInterest = calculateSimpleInterest(2500, 6.25, 1.5);
     const college = calculateCollegeCost({
       currentAnnualCost: 28000,
       yearsUntilStart: 8,
@@ -1640,6 +1642,8 @@ describe('finance helpers', () => {
     expect(annuityPayout.payment).toBeLessThan(700);
     expect(debtPayoff.monthsToPayoff).toBeLessThan(30);
     expect(consolidation.consolidationLoan.monthlyPayment).toBeLessThan(consolidation.currentDebt.monthlyPayment);
+    expect(simpleInterest.interest).toBeCloseTo(234.375, 3);
+    expect(simpleInterest.endingBalance).toBeCloseTo(2734.375, 3);
     expect(college.firstYearCost).toBeGreaterThan(college.currentAnnualCost);
     expect(college.totalEstimatedCost).toBeGreaterThan(college.firstYearCost);
     expect(college.firstYearCost).toBeCloseTo(38319.93, 2);

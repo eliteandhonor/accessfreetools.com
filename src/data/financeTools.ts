@@ -3422,26 +3422,67 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'simple-interest-calculator',
     name: 'Simple Interest Calculator',
-    summary: 'Calculate simple interest from principal, annual rate, and time.',
+    summary: 'Estimate simple interest and ending balance from principal, annual rate, and time.',
     description:
-      'Use this free simple interest calculator to calculate interest and ending balance from principal, annual interest rate, and time in years.',
+      'Estimate simple interest from a starting amount, annual interest rate, and time in years. See the interest amount and ending balance without compounding.',
+    seoTitle: 'Simple Interest Calculator | Principal Rate Time',
+    seoDescription:
+      'Calculate simple interest and ending balance from principal, annual interest rate, and time, with percent-entry and compounding limits.',
     icon: 'calculator-simple-interest',
+    aliases: [
+      'simple interest calculator',
+      'simple interest formula calculator',
+      'calculate simple interest',
+      'principal rate time calculator',
+      'interest calculator simple',
+      'simple interest calculator daily',
+    ],
     formula:
-      'The calculator multiplies principal by annual rate and time, then adds the simple interest to principal for the ending balance.',
+      'Simple interest equals principal x annual rate x time. The ending balance equals principal plus simple interest.',
     limit:
-      'This does not include compounding, changing rates, payment schedules, fees, taxes, or account-specific rules.',
+      'This is straight principal-rate-time math. It is not APR disclosure, amortization, compound interest, daily balance interest, lender payoff math, bank disclosure, tax advice, or a quote.',
     useCases: [
-      'Calculate simple interest for classwork or quick planning.',
-      'Compare simple interest with compound interest.',
-      'Estimate interest when interest does not earn interest.',
-      'Check a principal-rate-time formula quickly.',
+      'Calculate simple interest for classwork, worksheets, or quick planning.',
+      'Estimate interest when interest does not earn more interest.',
+      'Compare a straight simple-interest result with compound interest.',
+      'Check a principal-rate-time example before reading a loan, savings, or disclosure document.',
     ],
     examples: [
       { label: '$1k at 5%', expression: '$1,000 at 5% for 3 years', result: '$150 interest, $1,150 ending balance' },
-      { label: '18 months', expression: '$10,000 at 4.5% for 1.5 years', result: 'Simple interest estimate' },
-      { label: 'Zero interest', expression: '$2,500 at 0% for 2 years', result: 'No interest growth' },
+      { label: '18 months', expression: '$2,500 at 6.25% for 1.5 years', result: '$234.38 interest, $2,734.38 ending balance' },
+      { label: 'Three months', expression: '$12,000 at 8% for 0.25 years', result: '$240 interest, $12,240 ending balance' },
     ],
     relatedSlugs: ['interest-calculator', 'compound-interest-calculator', 'loan-calculator'],
+    inputExplanations: [
+      { term: 'Principal', meaning: 'the starting amount before interest is added.' },
+      { term: 'Annual interest rate', meaning: 'the yearly rate as a percent. Enter 5 for 5%, not 0.05.' },
+      { term: 'Time in years', meaning: 'how long the money earns or owes simple interest. Use 1.5 for 18 months or 0.25 for 3 months.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What is the simple interest formula?',
+        answer:
+          'Simple interest is principal x annual rate x time. A $1,000 principal at 5% for 3 years gives $1,000 x 0.05 x 3, or $150 interest.',
+      },
+      {
+        question: 'Is this the same as APR?',
+        answer:
+          'No. APR can include fees and timing rules. This calculator only multiplies principal, annual interest rate, and years.',
+      },
+      {
+        question: 'When should I use compound interest instead?',
+        answer:
+          'Use compound interest when interest gets added to the balance and then earns more interest. Simple interest keeps the interest separate from the principal.',
+      },
+    ],
+    formulaCheck:
+      'For the starter example, $1,000 x 0.05 x 3 equals $150 simple interest. The ending balance is $1,000 + $150 = $1,150.',
+    resultReading:
+      'Read the interest amount first, then the ending balance. The ending balance is not a payment schedule, payoff quote, APR, or compound-growth result.',
+    doubleCheck:
+      'Check that the rate is annual, the time is in years, and the percent is entered as 5 for 5%. Use 1.5 for 18 months and 0.25 for 3 months.',
+    limitFollowup:
+      'Use the lender, bank, or school worksheet when a real decision depends on APR, compounding, fees, taxes, due dates, payments, or daily balance rules.',
   }),
   makeFinanceTool({
     slug: 'cd-calculator',

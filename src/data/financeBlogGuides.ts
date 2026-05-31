@@ -39,6 +39,10 @@ const sourceLinks = {
     href: 'https://openstax.org/books/principles-finance/pages/7-2-time-value-of-money-tvm-basics',
     label: 'OpenStax Principles of Finance: Time value of money basics',
   },
+  investorSimpleInterest: {
+    href: 'https://www.investor.gov/introduction-investing/investing-basics/glossary/simple-interest',
+    label: 'Investor.gov: Simple interest glossary',
+  },
   cfpbCompoundInterest: {
     href: 'https://www.consumerfinance.gov/ask-cfpb/how-does-compound-interest-work-en-1683/',
     label: 'CFPB: How compound interest works',
@@ -306,6 +310,10 @@ const sourceLinks = {
   cfpbAprVsInterest: {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/',
     label: 'CFPB: Loan interest rate vs. APR',
+  },
+  cfpbSimpleInterestAuto: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/whats-the-difference-between-a-simple-interest-rate-and-precomputed-interest-on-an-auto-loan-en-841/',
+    label: 'CFPB: Simple interest vs. precomputed interest',
   },
   minneapolisFedConsumerRates: {
     href: 'https://www.minneapolisfed.org/article/2025/what-drives-consumer-interest-rates',
@@ -745,7 +753,11 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.cfpbAprVsInterest, sourceLinks.cfpbApr, sourceLinks.minneapolisFedConsumerRates];
   }
 
-  if (['compound-interest-calculator', 'retirement-calculator', 'interest-calculator', 'simple-interest-calculator', 'future-value-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'simple-interest-calculator') {
+    return [sourceLinks.investorSimpleInterest, sourceLinks.cfpbSimpleInterestAuto, sourceLinks.cfpbAprVsInterest, sourceLinks.investorCompound];
+  }
+
+  if (['compound-interest-calculator', 'retirement-calculator', 'interest-calculator', 'future-value-calculator'].includes(toolSlug)) {
     return [sourceLinks.investorCompound];
   }
 
@@ -2049,29 +2061,35 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'simple-interest-calculator': {
-    summary: 'Learn how principal, annual rate, and time create a simple interest result.',
+    summary: 'Learn how principal, annual interest rate, and time create a simple interest result.',
     purpose:
-      'The Simple Interest Calculator uses the basic principal x rate x time formula. It is useful for classwork and quick examples where interest does not earn more interest.',
+      'The Simple Interest Calculator uses the basic principal x annual interest rate x time formula. It is useful for classwork, quick checks, and examples where interest does not earn more interest.',
     enter: [
       'Enter principal as the starting dollar amount.',
-      'Enter the annual rate as a percent, such as 5 for 5%.',
-      'Enter time in years, using 1.5 for 18 months.',
+      'Enter the annual interest rate as a percent, such as 5 for 5%.',
+      'Enter time in years. Use 1.5 for 18 months or 0.25 for 3 months.',
     ],
     example: [
       '$1,000 at 5% for 3 years gives $1,000 x 0.05 x 3 = $150 interest.',
       'The ending balance is principal plus interest, so $1,000 plus $150 equals $1,150.',
+      '$2,500 at 6.25% for 1.5 years gives $234.38 interest and a $2,734.38 ending balance.',
     ],
     read: [
-      'Simple interest is the amount earned or charged before compounding.',
+      'Simple interest is the amount earned or charged before compounding, payment schedules, fees, or daily balance rules.',
       'Ending balance is principal plus simple interest.',
       'Time is the number of years used in the multiplication.',
     ],
     mistakes: [
       'Do not use simple interest when the account or loan compounds.',
       'Do not enter 5% as 0.05 in the percent field.',
-      'Do not forget fees, taxes, payment schedules, and changing rates.',
+      'Do not treat the result as APR, an amortized loan payment, a lender payoff quote, or a bank disclosure.',
+      'Do not forget fees, taxes, payment schedules, day-count rules, and changing rates.',
     ],
-    next: ['Use Compound Interest Calculator when interest earns interest.', 'Use Interest Calculator to compare simple and compound modes.'],
+    next: [
+      'Use Compound Interest Calculator when interest earns interest.',
+      'Use Interest Calculator to compare simple and compound modes.',
+      'Use Loan Calculator when payments and payoff schedules matter.',
+    ],
   },
   'cd-calculator': {
     summary: 'Learn how deposit amount, APY, term, and penalty months affect a certificate of deposit estimate.',
@@ -3312,6 +3330,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'College Cost Calculator Guide';
   }
 
+  if (tool.slug === 'simple-interest-calculator') {
+    return 'Simple Interest Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3435,6 +3457,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate future college cost, first-year cost, savings gap, and aid-limit checks before using school net price calculators.';
   }
 
+  if (tool.slug === 'simple-interest-calculator') {
+    return 'Calculate simple interest from principal, annual interest rate, and years, with percent-entry, APR, and compounding limits.';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Estimate a defined-benefit pension from final average salary, credited service, and plan multiplier, with monthly and replacement-rate checks.';
   }
@@ -3481,6 +3507,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isRepaymentGuide = tool.slug === 'repayment-calculator';
   const isStudentLoanGuide = tool.slug === 'student-loan-calculator';
   const isCollegeCostGuide = tool.slug === 'college-cost-calculator';
+  const isSimpleInterestGuide = tool.slug === 'simple-interest-calculator';
   const isPensionGuide = tool.slug === 'pension-calculator';
   const isAnnuityPayoutGuide = tool.slug === 'annuity-payout-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
@@ -3531,6 +3558,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A student loan payment is easier to check when the official-plan stuff is kept separate from the basic math. This guide shows how balance, rate, term, and extra payment change a standard student-loan estimate before you compare Federal Student Aid or servicer options.'
       : isCollegeCostGuide
       ? 'College cost planning gets confusing when sticker price, net price, savings, aid, and loans are all mixed together. This guide keeps the simple projection separate: today\'s cost, years until school, yearly cost growth, savings, and the gap before official aid numbers.'
+      : isSimpleInterestGuide
+      ? 'Simple interest is one of the easiest money formulas to check, but it is also easy to overuse. This guide keeps the job small: principal, annual interest rate, time in years, simple interest, and ending balance.'
       : isPensionGuide
       ? 'A pension estimate is easy to overtrust if the plan formula is guessed. This guide shows how final average salary, credited service, and a plan multiplier turn into annual pension, monthly pension, and replacement rate.'
       : isAnnuityPayoutGuide
@@ -3677,6 +3706,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Add years until school starts, years in school, and the yearly cost increase you want to test.',
           'Enter current savings, monthly savings, and estimated savings return.',
           'Calculate, then compare total estimated cost, first-year cost, projected savings, and the savings gap before checking school net price calculators and aid offers.',
+        ]
+      : isSimpleInterestGuide
+      ? [
+          'Open the Simple Interest Calculator.',
+          'Enter the principal, which is the starting amount before interest.',
+          'Enter the annual interest rate as a normal percent, such as 5 for 5%.',
+          'Enter time in years. Use 1.5 for 18 months or 0.25 for 3 months.',
+          'Calculate, then compare simple interest and ending balance before using any real loan, savings, or APR disclosure.',
         ]
       : isPensionGuide
       ? [
@@ -3863,6 +3900,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it when you want a quick standard student-loan payment estimate before you compare official federal repayment plans, private lender terms, or a servicer quote.'
             : isCollegeCostGuide
             ? 'Use it when you want a first-pass college budget before comparing schools. It is helpful before checking the U.S. Department of Education Net Price Calculator Center, College Scorecard, a FAFSA result, or a financial aid offer.'
+            : isSimpleInterestGuide
+            ? 'Use it when interest is based only on the original principal, annual interest rate, and time. It is best for clean examples, not bank statements, APR disclosures, or amortized loan schedules.'
             : isPensionGuide
             ? 'Use it when you want to test a defined-benefit formula before you compare the number with your pension statement, plan summary, retirement office, or PBGC coverage notes.'
             : isAnnuityPayoutGuide
@@ -3913,6 +3952,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Student-loan estimates get shaky when official-plan rules and simple loan math are mixed together. Keep balance, annual rate, term, and extra payment separate, then check Federal Student Aid or your servicer for the real plan.'
             : isCollegeCostGuide
             ? 'College-cost estimates get shaky when tuition is treated like the whole bill. Keep tuition and fees, housing and meals, books and supplies, transportation, personal costs, years until school, cost increase, and savings assumptions separate.'
+            : isSimpleInterestGuide
+            ? 'Simple-interest estimates get shaky when the real product compounds, charges fees, uses a daily balance, changes rates, or requires payments. Keep the principal, annual interest rate, and time in years separate.'
             : isPensionGuide
             ? 'Pension estimates get shaky when calendar years worked and credited service are treated as the same thing. Use the salary, service, and multiplier your plan actually uses, then check whether vesting, caps, early retirement, or survivor choices change the benefit.'
             : isAnnuityPayoutGuide
@@ -3981,6 +4022,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $30,000 balance, 6.5% annual rate, 10 years, and $50 extra each month. The scheduled payment is about $340.64. With the extra $50, the estimate is a 100-month payoff, about $8,892.17 interest, about $38,892.17 total paid, and about $1,985.10 interest saved.'
               : isCollegeCostGuide
               ? 'Try the starter example: $28,000 current annual cost, 8 years until start, 4 school years, 4% yearly cost increase, $10,000 saved, $250 saved each month, and 5% savings return. The estimate is about $38,319.93 for the first year, $162,724.22 total cost, $44,340.98 projected savings, and a $118,383.23 savings gap before aid.'
+              : isSimpleInterestGuide
+              ? 'Try the starter example: $1,000 principal, 5% annual interest rate, and 3 years. The formula is $1,000 x 0.05 x 3, so the simple interest is $150 and the ending balance is $1,150.'
               : isPensionGuide
               ? 'Try the starter example: $82,000 final average salary, 27 credited service years, and a 1.6% multiplier. The estimate is $35,424 per year, $2,952 per month, and a 43.2% replacement rate before taxes or plan adjustments.'
               : isAnnuityPayoutGuide

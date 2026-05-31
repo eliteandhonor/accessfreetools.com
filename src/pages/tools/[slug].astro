@@ -799,6 +799,13 @@ const financeToolInstructions = financeToolVariant
         'Add current savings, monthly savings, and estimated savings return.',
         'Calculate, then compare total estimated cost, first-year cost, projected savings, and the savings gap before checking school net price calculators and aid offers.',
       ]
+    : tool.slug === 'simple-interest-calculator'
+    ? [
+        'Enter the principal, which is the starting amount before interest is added.',
+        'Enter the annual simple interest rate as a normal percent, such as 5 for 5%.',
+        'Enter time in years. Use 1.5 for 18 months or 0.25 for 3 months.',
+        'Calculate, then compare simple interest and ending balance before checking a real loan, savings, or APR disclosure.',
+      ]
     : tool.slug === 'pension-calculator'
     ? [
         'Enter the final average salary or plan salary number used by the pension formula.',
@@ -2645,6 +2652,30 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.consumerfinance.gov/paying-for-college/compare-financial-aid-and-college-cost/" rel="noreferrer" target="_blank">
                   CFPB college cost and aid comparison
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'simple-interest-calculator' ? (
+            <>
+              <strong>Simple formula, not a full loan disclosure</strong>
+              <p>
+                Use this to test principal, annual simple interest rate, time in years, simple interest,
+                and ending balance. A real loan, account, or offer can still change with APR fees,
+                compounding, daily balance rules, payment schedules, payoff quotes, taxes, and changing rates.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.investor.gov/introduction-investing/investing-basics/glossary/simple-interest" rel="noreferrer" target="_blank">
+                  Investor.gov simple interest
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/whats-the-difference-between-a-simple-interest-rate-and-precomputed-interest-on-an-auto-loan-en-841/" rel="noreferrer" target="_blank">
+                  CFPB simple interest vs. precomputed interest
+                </a>
+                {', and '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/" rel="noreferrer" target="_blank">
+                  CFPB interest rate vs. APR
                 </a>
                 .
               </p>

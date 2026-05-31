@@ -935,22 +935,23 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Simple Interest Calculator',
     buttonLabel: 'Calculate simple interest',
     emptyHistory: 'Recent simple interest estimates will appear here.',
-    privacyNote: 'Simple interest estimates do not include compounding, fees, taxes, payment schedules, or changing rates.',
+    privacyNote:
+      'Simple interest estimates use straight principal-rate-time math. They do not include compounding, APR fees, daily balance rules, taxes, payment schedules, payoff quotes, or changing rates.',
     modes: [
       {
         id: 'simple-interest',
         label: 'Simple',
         symbol: 'SI',
         fields: [
-          numberField('principal', 'Principal ($)'),
-          numberField('annualRatePercent', 'Annual rate (%)'),
-          numberField('years', 'Time (years)'),
+          numberField('principal', 'Principal or starting amount ($)'),
+          numberField('annualRatePercent', 'Annual simple interest rate (%)'),
+          numberField('years', 'Time in years'),
         ],
         defaultInputs: { principal: '1000', annualRatePercent: '5', years: '3' },
         examples: [
           { label: '$1k at 5%', inputs: { principal: '1000', annualRatePercent: '5', years: '3' } },
-          { label: '$10k for 18 months', inputs: { principal: '10000', annualRatePercent: '4.5', years: '1.5' } },
-          { label: 'Zero interest', inputs: { principal: '2500', annualRatePercent: '0', years: '2' } },
+          { label: '$2.5k for 18 months', inputs: { principal: '2500', annualRatePercent: '6.25', years: '1.5' } },
+          { label: '$12k for 3 months', inputs: { principal: '12000', annualRatePercent: '8', years: '0.25' } },
         ],
       },
     ],
@@ -3201,9 +3202,11 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         ],
         steps: [
           `Convert ${percent(annualRatePercent)} to decimal rate ${formatCalculatorNumber(annualRatePercent / 100)}.`,
-          'Multiply principal by annual rate and time.',
+          'Multiply principal by annual simple interest rate and time in years.',
           'Add simple interest to principal for the ending balance.',
         ],
+        note:
+          'This is not APR, compound interest, amortization, a lender payoff quote, or a bank statement. Use it only when the simple principal x rate x time setup matches the question.',
       };
     }
     case 'cd': {

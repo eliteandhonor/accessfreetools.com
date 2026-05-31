@@ -160,6 +160,18 @@ const toolArtMetadataOverrides = {
         'College Cost Calculator guide artwork supports the walkthrough by showing where a savings-gap estimate helps and where net price calculators, aid offers, and school-specific costs still matter.',
     },
   },
+  'simple-interest-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a simple interest screen with $1,000 principal, 5 percent annual rate, 3 years, $150 interest, and $1,150 ending balance cards.',
+      caption:
+        'Simple Interest Calculator artwork matches the live workflow: principal, annual simple interest rate, time in years, simple interest, and ending balance.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining principal x annual rate x time beside $1,000, 5 percent, 3 years, APR warning, compounding warning, and ending balance notes.',
+      caption:
+        'Simple Interest Calculator guide artwork supports the walkthrough by showing the principal-rate-time formula, the $150 interest example, and limits around APR, compounding, and fees.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

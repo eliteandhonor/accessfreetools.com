@@ -611,6 +611,11 @@ const investorCompound = {
   label: 'OpenStax Principles of Finance: Time value of money basics',
 };
 
+const investorSimpleInterest = {
+  href: 'https://www.investor.gov/introduction-investing/investing-basics/glossary/simple-interest',
+  label: 'Investor.gov: Simple interest glossary',
+};
+
 const cfpbCompoundInterest = {
   href: 'https://www.consumerfinance.gov/ask-cfpb/how-does-compound-interest-work-en-1683/',
   label: 'CFPB: How compound interest works',
@@ -894,6 +899,11 @@ const cfpbAutoFinancingOffers = {
 const cfpbAprVsInterest = {
   href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/',
   label: 'CFPB: Loan interest rate vs. APR',
+};
+
+const cfpbSimpleInterestAuto = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/whats-the-difference-between-a-simple-interest-rate-and-precomputed-interest-on-an-auto-loan-en-841/',
+  label: 'CFPB: Simple interest vs. precomputed interest',
 };
 
 const minneapolisFedConsumerRates = {
@@ -2758,17 +2768,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'simple-interest-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-3-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [investorCompound, openStaxPercent],
+    sources: [investorSimpleInterest, cfpbSimpleInterestAuto, cfpbAprVsInterest, investorCompound, openStaxPercent],
     findings: [
       'The calculator uses the simple interest formula principal times annual rate times years, then adds interest to principal for ending balance.',
-      'The examples cover whole-year, partial-year, and zero-rate cases without implying compounding or payment schedules.',
-      'The guide and FAQ explain the key mistake: simple interest is not compound interest, and a percent field expects 5 for 5%, not 0.05.',
+      'DataForSEO shows simple interest calculator has informational intent and strong page-specific search demand, so the page now states the formula and example answer plainly.',
+      'The guide and FAQ explain the key mistakes: simple interest is not APR, amortization, compound interest, a payoff quote, or a bank disclosure, and a percent field expects 5 for 5%, not 0.05.',
     ],
     improvements: [
-      'Added simple-interest-specific guide detail and manually checked formula behavior, examples, result labels, FAQ wording, related links, source coverage, SEO copy, and privacy note.',
+      'Added simple-interest-specific SEO title and description, aliases, guide title, official source links, DataForSEO evidence, concrete $1,000 and $2,500 examples, result-label wording, source coverage, trust note, and image alt/caption text.',
     ],
     followUps: [
       'Add day-count basis options only if a future tool needs bank-style actual-day interest conventions.',
@@ -7504,6 +7514,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
     if (includesAny(key, ['college-cost', 'college cost'])) {
       return sourceBackstop([educationCollegeAffordability, educationNetPrice, educationCollegeScorecard, cfpbCollegePath, cfpbCollegeNumbers, investorCompound]);
+    }
+
+    if (includesAny(key, ['simple-interest', 'simple interest'])) {
+      return sourceBackstop([investorSimpleInterest, cfpbSimpleInterestAuto, cfpbAprVsInterest, investorCompound]);
     }
 
     if (includesAny(key, ['cash-back-or-low-interest', 'cash back', 'low interest'])) {
