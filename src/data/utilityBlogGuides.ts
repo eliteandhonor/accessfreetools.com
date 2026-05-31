@@ -449,9 +449,17 @@ const sourceLinks = {
     href: 'https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/for9.htm',
     label: 'University of Kentucky Extension: Measuring farm timber',
   },
-  mndotAsphalt: {
-    href: 'https://www.inchcalculator.com/asphalt-calculator/',
-    label: 'Inch Calculator: Asphalt calculator reference',
+  asphaltInstituteQuantity: {
+    href: 'https://www.asphaltinstitute.org/engineering/engineering-faqs/',
+    label: 'Asphalt Institute: asphalt quantity and density FAQ',
+  },
+  pavementInteractiveCompaction: {
+    href: 'https://pavementinteractive.org/compaction-and-measuring-pavement-density/',
+    label: 'Pavement Interactive: compaction and pavement density',
+  },
+  napaEngineeringAsphalt: {
+    href: 'https://www.asphaltpavement.org/all-about-asphalt/asphalt-facts/engineering/',
+    label: 'NAPA: Engineering asphalt pavement',
   },
   yorkWallpaperRoomChart: {
     href: 'https://www.yorkwallcoverings.com/documents/how-much-wallpaper.pdf',
@@ -3068,25 +3076,71 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'asphalt-calculator': {
-    summary: 'Learn how pavement dimensions, compacted depth, density, and waste estimate asphalt tons.',
+    summary: 'Learn how pavement length, width, compacted depth, density, and waste turn into asphalt tons.',
+    metaDescription:
+      'Use the Asphalt Calculator with a 30 ft by 12 ft by 3 in example. See cubic yards, tons, density, waste, and compaction limits.',
     purpose:
-      'The Asphalt Calculator estimates rough asphalt quantity from dimensions and compacted depth. It is best for early planning before a paving contractor measures the job.',
+      'The Asphalt Calculator estimates rough hot-mix asphalt quantity from pavement dimensions and compacted depth. It is best for early planning before a paving contractor measures the job.',
+    intro:
+      'Asphalt estimates go wrong fast when the depth is loose depth instead of compacted depth. Start with the finished thickness, then check the density your supplier wants you to use.',
+    inputMatch: 'the paved length, paved width, compacted depth, tons per cubic yard, and waste percent',
+    logicNote:
+      'The calculator turns inches into feet, finds cubic feet, adds waste, converts to cubic yards, then multiplies by tons per cubic yard.',
+    readIntro:
+      'Read tons as the rough ordering number. Read cubic yards and cubic feet as the volume behind that number, so you can spot a bad density assumption before calling a supplier.',
+    mistakeIntro:
+      'The big mistake is mixing loose depth, compacted depth, and supplier density in one estimate. Asphalt Institute notes that in-place asphalt mixture commonly weighs about 142 to 148 pounds per cubic foot, so the default 2 tons per cubic yard is only a planning shortcut.',
+    sidecarText:
+      'Open the Asphalt Calculator beside this guide. Try 30 feet long, 12 feet wide, 3 inches compacted depth, 2 tons per cubic yard, and 5 percent waste first.',
+    bestUsesIntro:
+      'Use this guide for driveway sections, parking pads, patch planning, and checking whether a paving quote feels close before you ask for a site measurement.',
+    referenceIntro:
+      'These references explain asphalt quantity, density, compaction, and why a real paving job needs project-specific measurements.',
     enter: [
       'Enter pavement length and width in feet.',
-      'Enter compacted asphalt depth in inches.',
-      'Enter tons per cubic yard from the supplier or use the default only as a rough assumption.',
+      'Enter compacted asphalt depth in inches, not the loose depth before rolling.',
+      'Enter tons per cubic yard from the supplier, or use 2 only as a rough hot-mix planning number.',
     ],
     read: [
-      'Estimated tons is the main quantity for asphalt planning.',
-      'Cubic yards and cubic feet show the volume behind the tonnage.',
-      'Density used reminds you which tons-per-yard factor was applied.',
+      'A 30 ft by 12 ft section at 3 inches compacted depth is 90 cubic feet before waste.',
+      'With 5 percent waste, that becomes 94.5 cubic feet, or 3.5 cubic yards.',
+      'At 2 tons per cubic yard, the estimate is 7 tons.',
     ],
     mistakes: [
-      'Do not use this as a paving specification.',
+      'Do not use this as a paving specification or contractor measurement.',
       'Do not ignore base condition, lift thickness, compaction, mix type, and plant minimums.',
       'Ask a paving professional or supplier for project-specific density and ordering guidance.',
+      'Do not use loose asphalt depth unless your supplier specifically tells you how to convert it.',
     ],
-    sources: [sourceLinks.mndotAsphalt, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Example: 30 ft by 12 ft driveway section',
+        paragraphs: [
+          'A 30 ft by 12 ft section has 360 square feet of area. At 3 inches compacted depth, that is 90 cubic feet before waste.',
+          'Add 5 percent waste and the volume becomes 94.5 cubic feet. Divide by 27 and you get 3.5 cubic yards. At 2 tons per cubic yard, the result is 7 tons.',
+        ],
+      },
+      {
+        title: 'Why compacted depth matters',
+        paragraphs: [
+          'The calculator is asking for the finished depth after rolling. Loose material can shrink during compaction, so loose depth and compacted depth are not the same thing.',
+          'Compaction quality also affects pavement life. Poor density can lead to problems like rutting, raveling, and moisture damage, so a real paving job needs more than calculator math.',
+        ],
+      },
+      {
+        title: 'Why the density box is not a tiny detail',
+        paragraphs: [
+          'Asphalt Institute says in-place asphalt mixture commonly weighs about 142 to 148 pounds per cubic foot. That works out close to 2 tons per cubic yard.',
+          'Your local mix, recycled material, temperature, and supplier practice can still change the number. Use the supplier density when you have it.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.asphaltInstituteQuantity,
+      sourceLinks.pavementInteractiveCompaction,
+      sourceLinks.napaEngineeringAsphalt,
+      sourceLinks.nistUnits,
+    ],
   },
   'wind-chill-calculator': {
     summary: 'Learn how the NWS wind chill formula estimates feels-like cold.',

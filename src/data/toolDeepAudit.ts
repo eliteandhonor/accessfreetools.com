@@ -1201,9 +1201,19 @@ const ukBoardFoot = {
   label: 'University of Kentucky Extension: Measuring farm timber',
 };
 
-const mndotAsphalt = {
-  href: 'https://www.inchcalculator.com/asphalt-calculator/',
-  label: 'Inch Calculator: Asphalt calculator reference',
+const asphaltInstituteQuantity = {
+  href: 'https://www.asphaltinstitute.org/engineering/engineering-faqs/',
+  label: 'Asphalt Institute: asphalt quantity and density FAQ',
+};
+
+const pavementInteractiveCompaction = {
+  href: 'https://pavementinteractive.org/compaction-and-measuring-pavement-density/',
+  label: 'Pavement Interactive: compaction and pavement density',
+};
+
+const napaEngineeringAsphalt = {
+  href: 'https://www.asphaltpavement.org/all-about-asphalt/asphalt-facts/engineering/',
+  label: 'NAPA: Engineering asphalt pavement',
 };
 
 const epaFuelEconomy = {
@@ -4579,17 +4589,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'asphalt-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [mndotAsphalt, nistSi],
+    sources: [asphaltInstituteQuantity, pavementInteractiveCompaction, napaEngineeringAsphalt, nistSi],
     findings: [
-      'The calculator converts compacted depth into rectangular volume, converts cubic feet to cubic yards, and multiplies by tons per cubic yard.',
-      'The guide clearly says compacted depth is not loose material depth and that mix type, compaction, lift thickness, base condition, and plant minimums matter.',
-      'The result labels density used and estimated tons so users can discuss assumptions with a supplier or paving professional.',
+      'Asphalt Institute source refresh confirmed the quantity process: cubic feet from area and thickness, in-place asphalt mixture around 142 to 148 lb/ft3, then pounds to tons.',
+      'The calculator converts compacted depth into rectangular volume, adds waste, converts cubic feet to cubic yards, and multiplies by tons per cubic yard.',
+      'The page now explains the 30 ft by 12 ft by 3 in example as 94.5 cubic feet with 5 percent waste, 3.5 cubic yards, and 7 tons at 2 tons/yd3.',
+      'The guide warns that compacted depth, supplier density, mix type, base condition, lift thickness, plant minimums, and professional site measurement can change the order.',
     ],
     improvements: [
-      'Manually checked compacted-depth volume math, density input, tonnage output, examples, FAQ cautions, MnDOT/NIST source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Manually checked compacted-depth volume math, density input, tonnage output, examples, FAQ cautions, Asphalt Institute/Pavement Interactive/NAPA/NIST source coverage, related tools, SEO copy, privacy behavior, and result labels.',
     ],
     followUps: [
       'Add contractor-measurement reminders if this page receives quote-intent traffic.',

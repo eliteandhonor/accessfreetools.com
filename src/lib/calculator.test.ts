@@ -1924,6 +1924,8 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(sand.tons)).toBe('1.75');
     expect(soil.twoCubicFootBags).toBe(22);
     expect(asphalt.tons).toBe(7);
+    expect(asphalt.cubicFeet).toBe(94.5);
+    expect(asphalt.cubicYards).toBe(3.5);
     expect(windChill.resultFahrenheit).toBeLessThan(30);
     expect(heatIndex.resultFahrenheit).toBeGreaterThan(90);
     expect(formatCalculatorNumber(calculateHeatIndex(70, 50).resultFahrenheit)).toBe('69.525');

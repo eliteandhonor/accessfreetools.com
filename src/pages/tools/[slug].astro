@@ -2036,6 +2036,33 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     }
 
     {
+      tool.slug === 'asphalt-calculator' && (
+        <aside class="trust-note" aria-label="Asphalt Calculator density notes">
+          <strong>Compacted depth matters</strong>
+          <p>
+            This calculator uses finished compacted depth, then converts volume into tons. Asphalt Institute notes
+            that in-place asphalt mixture commonly weighs about 142 to 148 pounds per cubic foot, which is why 2
+            tons per cubic yard is only a planning shortcut.
+          </p>
+          <p>
+            Good references:{' '}
+            <a href="https://www.asphaltinstitute.org/engineering/engineering-faqs/" rel="noreferrer" target="_blank">
+              Asphalt Institute quantity FAQ
+            </a>{' '}
+            and{' '}
+            <a
+              href="https://pavementinteractive.org/compaction-and-measuring-pavement-density/"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Pavement Interactive compaction notes.
+            </a>
+          </p>
+        </aside>
+      )
+    }
+
+    {
       isHealthTool && (
         <aside class="trust-note trust-note-health" aria-label={`${tool.name} estimate limits`}>
           <strong>Educational health estimate</strong>

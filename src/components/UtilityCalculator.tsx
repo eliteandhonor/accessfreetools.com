@@ -724,6 +724,7 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     lengthFeet: 'Paved area length in feet.',
     widthFeet: 'Paved area width in feet.',
     depthInches: 'Compacted asphalt depth, not loose material depth.',
+    tonsPerCubicYard: 'Use the supplier or plant density when you have it. The default is only a rough asphalt planning shortcut.',
     wastePercent: 'Extra asphalt for compaction differences, edges, and small measurement errors.',
   },
   'watts-to-amps': {
@@ -3440,7 +3441,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Asphalt Calculator',
     buttonLabel: 'Estimate asphalt',
     emptyHistory: 'Recent asphalt estimates will appear here.',
-    privacyNote: 'Asphalt estimates stay local and are rough planning numbers, not paving specifications.',
+    privacyNote: 'Asphalt estimates stay local and are rough planning numbers, not paving specs or quotes.',
     modes: [
       {
         id: 'asphalt-volume',
@@ -3450,13 +3451,14 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
           numberField('lengthFeet', 'Length feet', '30'),
           numberField('widthFeet', 'Width feet', '12'),
           numberField('depthInches', 'Compacted depth inches', '3'),
-          numberField('tonsPerCubicYard', 'Tons per cubic yard', '2'),
+          numberField('tonsPerCubicYard', 'Tons per yd3', '2'),
           numberField('wastePercent', 'Waste percent', '5'),
         ],
         defaultInputs: { lengthFeet: '30', widthFeet: '12', depthInches: '3', tonsPerCubicYard: '2', wastePercent: '5' },
         examples: [
           { label: 'Driveway section', inputs: { lengthFeet: '30', widthFeet: '12', depthInches: '3', tonsPerCubicYard: '2', wastePercent: '5' } },
           { label: 'Parking pad', inputs: { lengthFeet: '20', widthFeet: '18', depthInches: '4', tonsPerCubicYard: '2', wastePercent: '8' } },
+          { label: 'Thin overlay', inputs: { lengthFeet: '40', widthFeet: '10', depthInches: '2', tonsPerCubicYard: '2', wastePercent: '5' } },
         ],
       },
     ],
@@ -6765,7 +6767,7 @@ function calculateUtility(
           'Multiply length, width, and depth, then add waste.',
           'Convert cubic feet to cubic yards and multiply by tons per cubic yard.',
         ],
-        note: 'Asphalt mix, compaction target, base, lift thickness, plant minimums, and paving specifications matter for real jobs.',
+        note: 'Use compacted depth. Asphalt mix, density, base, lift thickness, plant minimums, and paving specs matter for real jobs.',
       };
     }
     case 'wind-chill': {

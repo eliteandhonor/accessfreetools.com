@@ -240,6 +240,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/asphalt-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/asphalt-calculator-guide.webp",
+    "alt": "Smoke mascot checking a driveway sketch with 30 feet, 12 feet, 3 inches compacted depth, 5 percent waste, and a 7 ton asphalt estimate.",
+    "caption": "The guide art follows the walkthrough: a 30 ft by 12 ft driveway section at 3 inches compacted depth, plus waste and density checks.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -248,6 +250,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/asphalt-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/asphalt-calculator-tool.webp",
+    "alt": "Smoke mascot beside an asphalt driveway plan with length, width, compacted depth, tons per cubic yard, waste percent, and tons output.",
+    "caption": "The tool art matches the page workflow: enter pavement size, compacted depth, density, and waste to estimate asphalt tons.",
     "status": "approved",
     "qaStatus": "approved"
   },

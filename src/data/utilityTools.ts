@@ -3874,18 +3874,67 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'asphalt-calculator',
     name: 'Asphalt Calculator',
     category: 'home-projects',
-    summary: 'Estimate asphalt tons from length, width, compacted depth, density, and waste.',
+    summary: 'Estimate asphalt tons from pavement size, compacted depth, density, and waste.',
     description:
-      'Use this free asphalt calculator to estimate cubic yards and tons from pavement dimensions, compacted depth, density, and waste.',
+      'Estimate hot-mix asphalt cubic yards and tons from length, width, compacted depth, tons per cubic yard, and waste.',
+    seoTitle: 'Asphalt Calculator | Tons, Cubic Yards, And Waste',
+    seoDescription:
+      'Estimate asphalt tons from length, width, compacted depth, density, and waste. Includes a 30 ft by 12 ft driveway example and density limits.',
     icon: 'calculator-asphalt',
+    aliases: ['Asphalt Tonnage Calculator', 'Asphalt Driveway Calculator', 'Hot Mix Asphalt Calculator'],
     formula:
-      'The calculator converts compacted depth from inches to feet, multiplies length by width by depth, adds waste, converts to cubic yards, then multiplies by tons per cubic yard.',
+      'Cubic feet = length x width x compacted depth in feet. Cubic yards = cubic feet / 27. Tons = cubic yards x tons per cubic yard.',
     limit:
-      'Asphalt quantity depends on mix type, compaction, lift thickness, base condition, paving specs, plant minimums, and professional site measurement.',
+      'Asphalt Institute gives 142 to 148 lb/ft3 as a common in-place asphalt mixture range. Local mix, compaction target, lift thickness, base, plant minimums, and professional measurement can change the order.',
+    faqLanguage: {
+      expectedInputs: 'the paved length, paved width, compacted depth, tons per cubic yard, and waste percent',
+      inputFallback:
+        'Length and width define the paved rectangle. Compacted depth is the finished thickness after rolling. Tons per cubic yard is the density assumption. Waste percent adds a small cushion for edges and measurement misses.',
+      examplePhrase: 'driveway section example',
+      doubleCheck:
+        'Check that the depth is compacted depth, the density came from a supplier when possible, and the area matches the part being paved. A real paving quote also needs base condition, drainage, lift thickness, and site access.',
+      privacy:
+        'No. The asphalt estimate runs in your browser tab. Your dimensions, density, waste percent, and recent answers are not sent to a server.',
+    },
     inputExplanations: [
+      { term: 'Length and width', meaning: 'the paved rectangle in feet, measured only for the section you want to estimate.' },
       { term: 'Compacted depth', meaning: 'the finished asphalt thickness after compaction, not loose material depth.' },
-      { term: 'Tons per cubic yard', meaning: 'the density assumption used to convert volume into asphalt tonnage.' },
+      { term: 'Tons per cubic yard', meaning: 'the density assumption used to convert volume into asphalt tonnage. About 2 is a common planning shortcut for hot mix.' },
       { term: 'Waste percent', meaning: 'extra material for edges, compaction differences, and small measurement errors.' },
+      { term: 'Cubic yards', meaning: 'the volume before it is converted into tons.' },
+      { term: 'Estimated tons', meaning: 'the rough material weight to discuss with a supplier or paving contractor.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the Asphalt Calculator use compacted depth?',
+        answer:
+          'Because the finished pavement thickness is what matters. Loose hot mix can change depth after rolling, so loose depth and compacted depth should not be treated as the same number.',
+      },
+      {
+        question: 'Is 2 tons per cubic yard always right for asphalt?',
+        answer:
+          'No. It is a useful planning shortcut because 148 lb/ft3 is about 2 tons per cubic yard. Ask your asphalt supplier for the density they want you to use.',
+      },
+      {
+        question: 'What does the 5 percent waste setting cover?',
+        answer:
+          'It adds a small cushion for edges, odd shapes, and measurement misses. It does not replace a contractor measurement or a plant minimum order.',
+      },
+      {
+        question: 'Can I use this number as my paving quote?',
+        answer:
+          'No. Use it as a rough check before talking to a paving contractor. A quote needs base condition, drainage, lift thickness, mix type, access, labor, and local plant rules.',
+      },
+      {
+        question: 'Should I order exactly the tons shown?',
+        answer:
+          'Not without checking with the supplier. Some asphalt plants have minimum loads, truck limits, mix rules, or rounding rules that can change the final order.',
+      },
+      {
+        question: 'What does the asphalt estimate leave out?',
+        answer:
+          'It does not price excavation, base repair, grading, drainage, tack coat, disposal, equipment, labor, permits, or local specs. It only estimates material volume and tons.',
+      },
     ],
     useCases: [
       'Estimate asphalt tons for a simple driveway section.',
@@ -3894,9 +3943,9 @@ export const utilityTools: ToolDefinition[] = [
       'Use supplier density before talking with a paving contractor.',
     ],
     examples: [
-      { label: 'Driveway section', expression: '30 ft x 12 ft x 3 in, 2 tons/yd3', result: 'Estimated tons' },
-      { label: 'Parking pad', expression: '20 ft x 18 ft x 4 in, 2 tons/yd3', result: 'Cubic yards and tons' },
-      { label: 'Thin overlay', expression: '40 ft x 10 ft x 2 in, 5% waste', result: 'Overlay estimate' },
+      { label: 'Driveway section', expression: '30 ft x 12 ft x 3 in, 2 tons/yd3, 5% waste', result: '7 tons' },
+      { label: 'Parking pad', expression: '20 ft x 18 ft x 4 in, 2 tons/yd3, 8% waste', result: '9.6 tons' },
+      { label: 'Thin overlay', expression: '40 ft x 10 ft x 2 in, 2 tons/yd3, 5% waste', result: '5.19 tons' },
     ],
     relatedSlugs: ['gravel-calculator', 'cubic-yard-calculator', 'area-calculator'],
   }),
