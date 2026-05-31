@@ -827,6 +827,13 @@ const financeToolInstructions = financeToolVariant
         'Enter coupon payments per year, such as 2 when the bond pays semiannually.',
         'Calculate, then compare annual coupon, current yield, and rough YTM before reading the real bond quote or TreasuryDirect page.',
       ]
+    : tool.slug === 'mutual-fund-calculator'
+    ? [
+        'Enter the starting investment, monthly contribution, expected annual return before expenses, and annual expense ratio.',
+        'Use the starting investment like a lump-sum amount, then use monthly contribution for the recurring deposit.',
+        'Calculate, then compare projected balance after expenses, balance before expense estimate, total contributions, and expense drag.',
+        'Check the fund prospectus, NAV, share class, sales loads, redemption fees, taxes, distributions, and risk before treating the projection like a real fund result.',
+      ]
     : tool.slug === 'pension-calculator'
     ? [
         'Enter the final average salary or plan salary number used by the pension formula.',
@@ -2782,6 +2789,36 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.treasurydirect.gov/savings-bonds/" rel="noreferrer" target="_blank">
                   TreasuryDirect savings bonds
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'mutual-fund-calculator' ? (
+            <>
+              <strong>Mutual fund projection, not a fund quote</strong>
+              <p>
+                Use this to test starting investment, monthly contribution, expected annual return,
+                annual expense ratio, years invested, balance before expenses, balance after expenses,
+                total contributions, and estimated expense drag. A real fund result can still change with
+                NAV, share class, sales loads, redemption fees, taxable distributions, capital-gain
+                distributions, turnover, market losses, liquidity, and the fund prospectus.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs/mutual-funds" rel="noreferrer" target="_blank">
+                  Investor.gov mutual funds
+                </a>
+                {', '}
+                <a href="https://www.finra.org/investors/investing/investment-products/mutual-funds" rel="noreferrer" target="_blank">
+                  FINRA mutual funds
+                </a>
+                {', '}
+                <a href="https://www.investor.gov/introduction-investing/getting-started/understanding-fees" rel="noreferrer" target="_blank">
+                  Investor.gov fees
+                </a>
+                {', and '}
+                <a href="https://www.irs.gov/faqs/capital-gains-losses-and-sale-of-home/mutual-funds-costs-distributions-etc/mutual-funds-costs-distributions-etc-4" rel="noreferrer" target="_blank">
+                  IRS mutual fund distribution notes
                 </a>
                 .
               </p>

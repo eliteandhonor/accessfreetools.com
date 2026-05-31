@@ -3683,28 +3683,85 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'mutual-fund-calculator',
     name: 'Mutual Fund Calculator',
-    summary: 'Project mutual fund growth after a simple expense ratio estimate.',
+    seoTitle: 'Mutual Fund Calculator | Fees, Contributions & Growth',
+    summary: 'Project a mutual fund balance before and after simple expense-ratio drag.',
     description:
-      'Use this free mutual fund calculator to project balance, total contributions, estimated growth, and expense drag from initial investment, monthly contribution, return, expense ratio, and time.',
+      'Project a mutual fund balance, total contributions, estimated growth, and expense drag from starting investment, monthly contribution, expected return, expense ratio, and time.',
     seoDescription:
-      'Project mutual fund balance, contributions, growth, and expense drag from starting investment, monthly contribution, return, fees, and time.',
+      'Project mutual fund balance, contributions, growth, and expense drag from starting investment, monthly contribution, return, fees, and years invested.',
+    aliases: [
+      'mutual fund calculator',
+      'mutual fund return calculator',
+      'mutual fund fee calculator',
+      'mutual fund expense ratio calculator',
+      'sip mutual fund calculator',
+      'mutual fund calculator usa',
+      'mutual fund lump sum calculator',
+    ],
     icon: 'calculator-mutual-fund',
     formula:
-      'The calculator projects balance before expenses, subtracts expense ratio from the annual return assumption for a simple net-return estimate, then compares the two balances.',
+      'The calculator projects the balance with the expected annual return, subtracts the annual expense ratio from that return for a simple net-return estimate, then compares the two balances.',
     limit:
-      'This is a hypothetical projection. It does not include actual fund performance, taxes, loads, trading costs, distributions, changing expenses, market volatility, or investment advice.',
+      'This is a hypothetical projection. It does not include actual fund performance, share price or NAV movement, front-end or back-end loads, purchase or redemption fees, 12b-1 fees, trading costs, taxable distributions, capital-gain distributions, changing expenses, market losses, fund closure, liquidity limits, or investment advice.',
     useCases: [
       'Project a mutual fund balance with recurring contributions.',
       'Estimate how an expense ratio can reduce a projection.',
-      'Compare low-fee and higher-fee scenarios.',
+      'Compare low-fee and higher-fee scenarios before reading a fund prospectus.',
       'Separate contributions from estimated investment growth.',
     ],
     examples: [
-      { label: 'Index-style fund', expression: '$5,000 start, $250/month, 7% return, 0.5% expense', result: 'Projected balance after expenses' },
-      { label: 'Higher fee', expression: '$10,000 start, 1.2% expense ratio', result: 'Expense drag comparison' },
-      { label: 'Small start', expression: '$1,000 start, $100/month for 10 years', result: 'Long-term projection' },
+      { label: 'Index-style fund', expression: '$5,000 start, $250/month, 7% return, 0.5% expense, 20 years', result: 'About $140,887.47 after expenses vs. $150,425.36 before expenses' },
+      { label: 'Higher fee', expression: '$10,000 start, $300/month, 7% return, 1.2% expense, 15 years', result: 'About $109,593.09 after expenses and about $13,985.06 expense drag' },
+      { label: 'Small start', expression: '$1,000 start, $100/month, 6% return, 0.3% expense, 10 years', result: 'About $17,889.72 after expenses from $13,000 contributed' },
     ],
     relatedSlugs: ['investment-calculator', 'compound-interest-calculator', 'bond-calculator'],
+    inputExplanations: [
+      {
+        term: 'Starting investment',
+        meaning: 'The money already invested. This can act like a lump-sum starting amount.',
+      },
+      {
+        term: 'Monthly contribution',
+        meaning: 'The recurring deposit you want to test. Some people call this SIP-style investing, but this tool does not check any country-specific fund rules.',
+      },
+      {
+        term: 'Expected annual return',
+        meaning: 'A what-if return before expenses. It is not a promise and can be negative in real markets.',
+      },
+      {
+        term: 'Expense ratio',
+        meaning: 'The annual operating-cost percent you want to subtract from the return assumption. Real funds can also have loads, redemption fees, and taxes.',
+      },
+      {
+        term: 'Years invested',
+        meaning: 'How long the projection runs. Longer time makes both compounding and fee drag easier to see.',
+      },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this the same as a real mutual fund return?',
+        answer:
+          'No. It is a what-if projection. Real mutual funds move with the securities they own, and the next share value is based on NAV, not a smooth return line.',
+      },
+      {
+        question: 'Does this include fund taxes and distributions?',
+        answer:
+          'No. Taxable accounts can owe tax on dividends and capital-gain distributions, even when distributions are reinvested. This calculator keeps those outside the estimate.',
+      },
+      {
+        question: 'Why does the expense ratio matter so much?',
+        answer:
+          'An expense ratio is charged every year, so the drag compounds over time. A small-looking difference can turn into a large dollar gap in a long projection.',
+      },
+    ],
+    formulaCheck:
+      'For the starter example, $5,000 plus $250/month at 7% for 20 years gives about $150,425.36 before expenses. With a 0.5% expense ratio, the simple net-return estimate is 6.5%, giving about $140,887.47 after expenses.',
+    resultReading:
+      'Read projected fund balance after expenses as the main what-if number, balance before expenses as the no-expense comparison, and estimated expense drag as the gap caused by the fee assumption.',
+    doubleCheck:
+      'Check the fund prospectus, expense ratio, share class, sales load, redemption fees, distributions, tax account type, investment objective, risk level, and whether the return assumption is realistic.',
+    limitFollowup:
+      'Use the fund prospectus, broker data, FINRA Fund Analyzer, SEC/Investor.gov materials, and tax records before making a real investment or tax decision.',
   }),
   makeFinanceTool({
     slug: 'roth-ira-calculator',

@@ -1014,18 +1014,19 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Mutual Fund Calculator',
     buttonLabel: 'Project fund balance',
     emptyHistory: 'Recent mutual fund projections will appear here.',
-    privacyNote: 'Mutual fund projections are hypothetical and do not include taxes, changing returns, transaction fees, loads, or fund-specific risks.',
+    privacyNote:
+      'Mutual fund projections are hypothetical. They do not include NAV changes, share classes, loads, redemption fees, taxable distributions, changing returns, or fund-specific risks.',
     modes: [
       {
         id: 'mutual-fund',
         label: 'Mutual fund',
         symbol: 'FUND',
         fields: [
-          numberField('principal', 'Initial investment ($)'),
+          numberField('principal', 'Starting investment / lump sum ($)'),
           numberField('monthlyContribution', 'Monthly contribution ($)'),
-          numberField('annualReturnPercent', 'Estimated annual return (%)'),
-          numberField('expenseRatioPercent', 'Expense ratio (%)'),
-          numberField('years', 'Time (years)'),
+          numberField('annualReturnPercent', 'Expected annual return before expenses (%)'),
+          numberField('expenseRatioPercent', 'Annual expense ratio (%)'),
+          numberField('years', 'Years invested'),
         ],
         defaultInputs: { principal: '5000', monthlyContribution: '250', annualReturnPercent: '7', expenseRatioPercent: '0.5', years: '20' },
         examples: [
@@ -3297,7 +3298,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Project the balance again with the net return.',
           'Compare the two balances to estimate expense drag.',
         ],
-        note: 'Actual fund returns, taxes, distributions, loads, and fees vary and are not guaranteed.',
+        note:
+          'This is a simple projection, not a fund quote. Real mutual fund results can change with NAV, share class, loads, redemption fees, taxable distributions, turnover, market losses, and the fund prospectus.',
       };
     }
     case 'roth-ira':

@@ -917,8 +917,23 @@ const treasurySavingsBonds = {
 };
 
 const investorMutualFunds = {
+  href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs/mutual-funds',
+  label: 'Investor.gov: Mutual funds',
+};
+
+const finraMutualFunds = {
   href: 'https://www.finra.org/investors/investing/investment-products/mutual-funds',
   label: 'FINRA: Mutual funds',
+};
+
+const secMutualFundGuide = {
+  href: 'https://www.sec.gov/investor/pubs/sec-guide-to-mutual-funds.pdf',
+  label: 'SEC: Guide to mutual funds',
+};
+
+const irsMutualFundDistributions = {
+  href: 'https://www.irs.gov/faqs/capital-gains-losses-and-sale-of-home/mutual-funds-costs-distributions-etc/mutual-funds-costs-distributions-etc-4',
+  label: 'IRS: Mutual fund capital gain distributions',
 };
 
 const euVat = {
@@ -2866,17 +2881,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'mutual-fund-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-3-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [investorMutualFunds, investorCompound],
+    sources: [investorMutualFunds, finraMutualFunds, secMutualFundGuide, investorGovFees, irsMutualFundDistributions, investorCompound],
     findings: [
       'The calculator projects a gross balance, subtracts expense ratio from the annual return assumption for a simple net projection, then reports estimated expense drag.',
-      'The result separates projected balance after expenses, balance before expense estimate, total contributions, net return, and fee drag.',
-      'The guide and FAQ now make clear that this is hypothetical and excludes actual fund performance, taxes, loads, trading costs, distributions, changing expenses, and market volatility.',
+      'DataForSEO shows informational intent for mutual fund calculator plus related SIP, lump-sum, USA, Fidelity, and Bankrate-style queries, so the page now explains starting investment, recurring contribution, expected return before expenses, and expense-ratio drag without pretending to choose a fund.',
+      'The result separates projected balance after expenses, balance before expense estimate, total contributions, net return, and fee drag, while the page warns about NAV, share class, loads, redemption fees, taxable distributions, capital-gain distributions, market losses, and prospectus rules.',
     ],
     improvements: [
-      'Added mutual-fund-specific guide detail and manually checked projection logic, expense-ratio wording, examples, FAQ cautions, source coverage, related tools, SEO copy, and privacy note.',
+      'Added mutual-fund-specific SEO title, aliases, guide title and meta description, exact $5,000/$250/month/7%/0.5%/20-year and higher-fee examples, DataForSEO evidence, official Investor.gov/FINRA/SEC/IRS source links, trust wording, and specific image alt/caption text.',
     ],
     followUps: [
       'Add a richer expense model later if the site supports annual fee timing, loads, and taxable distributions.',
@@ -7757,7 +7772,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['mutual-fund', 'mutual fund'])) {
-      return sourceBackstop([investorMutualFunds, investorCompound]);
+      return sourceBackstop([investorMutualFunds, finraMutualFunds, secMutualFundGuide, investorGovFees, irsMutualFundDistributions, investorCompound]);
     }
 
     if (includesAny(key, ['credit', 'debt', 'repayment'])) {

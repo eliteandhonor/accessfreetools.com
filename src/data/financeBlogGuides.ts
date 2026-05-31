@@ -324,8 +324,20 @@ const sourceLinks = {
     label: 'TreasuryDirect: U.S. savings bonds',
   },
   investorMutualFunds: {
+    href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs/mutual-funds',
+    label: 'Investor.gov: Mutual funds',
+  },
+  finraMutualFunds: {
     href: 'https://www.finra.org/investors/investing/investment-products/mutual-funds',
     label: 'FINRA: Mutual funds',
+  },
+  secMutualFundGuide: {
+    href: 'https://www.sec.gov/investor/pubs/sec-guide-to-mutual-funds.pdf',
+    label: 'SEC: Guide to mutual funds',
+  },
+  irsMutualFundDistributions: {
+    href: 'https://www.irs.gov/faqs/capital-gains-losses-and-sale-of-home/mutual-funds-costs-distributions-etc/mutual-funds-costs-distributions-etc-4',
+    label: 'IRS: Mutual fund capital gain distributions',
   },
   irsIraLimits: {
     href: 'https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-ira-contribution-limits',
@@ -861,7 +873,13 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'mutual-fund-calculator') {
-    return [sourceLinks.investorMutualFunds];
+    return [
+      sourceLinks.investorMutualFunds,
+      sourceLinks.finraMutualFunds,
+      sourceLinks.secMutualFundGuide,
+      sourceLinks.investorGovFees,
+      sourceLinks.irsMutualFundDistributions,
+    ];
   }
 
   if (['ira-calculator', 'roth-ira-calculator'].includes(toolSlug)) {
@@ -2192,29 +2210,33 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Investment Calculator for broad growth scenarios.', 'Use Mutual Fund Calculator for fund-style projections.', 'Use Simple Interest Calculator when you only need coupon-style interest math.'],
   },
   'mutual-fund-calculator': {
-    summary: 'Learn how starting investment, monthly contributions, estimated return, expense ratio, and time affect a mutual fund projection.',
+    summary: 'Learn how starting investment, monthly contributions, expected return, expense ratio, and time affect a mutual fund projection.',
     purpose:
-      'The Mutual Fund Calculator projects a hypothetical balance before and after a simple expense-ratio adjustment. It helps explain fee drag, not predict actual fund performance.',
+      'The Mutual Fund Calculator projects a hypothetical balance before and after a simple expense-ratio adjustment. It helps explain fee drag and contribution math, not predict actual fund performance or pick a fund.',
     enter: [
-      'Enter initial investment and monthly contribution.',
-      'Enter estimated annual return as a percent.',
-      'Enter expense ratio as a percent, such as 0.5 for 0.5%.',
+      'Enter the starting investment, which can work like a lump-sum starting amount.',
+      'Enter the monthly contribution you want to keep adding.',
+      'Enter expected annual return before expenses as a percent, then enter the annual expense ratio, such as 0.5 for 0.5%.',
+      'Enter years invested. Longer periods make fee drag easier to see.',
     ],
     example: [
-      '$5,000 plus $250 per month at 7% for 20 years creates a before-expense projection.',
-      'The calculator subtracts the 0.5% expense ratio from the return assumption to create a simple after-expense estimate.',
+      '$5,000 plus $250 per month at 7% for 20 years gives about $150,425.36 before expenses.',
+      'A 0.5% expense ratio lowers the simple net return to 6.5%, giving about $140,887.47 after expenses.',
+      'That leaves about $9,537.89 of estimated expense drag in this simple model.',
     ],
     read: [
       'Projected fund balance after expenses is the main estimate.',
-      'Balance before expense estimate shows the same projection without the expense-ratio adjustment.',
+      'Read the balance before expenses as the same projection without the expense-ratio adjustment.',
       'Estimated expense drag is the difference between those two projections.',
+      'Total contributions shows the money you put in before any market growth is counted.',
     ],
     mistakes: [
       'Do not treat an estimated return as a promise.',
-      'Do not forget taxes, loads, trading costs, distributions, changing expenses, or market losses.',
-      'Do not compare funds by expense ratio alone without checking risk and investment objective.',
+      'Do not treat this as a NAV, share-price, or fund-performance lookup.',
+      'Do not forget taxes, dividend and capital-gain distributions, front-end loads, back-end loads, redemption fees, 12b-1 fees, changing expenses, or market losses.',
+      'Do not compare funds by expense ratio alone without checking risk, holdings, investment objective, share class, and the prospectus.',
     ],
-    next: ['Use Investment Calculator for a simpler growth model.', 'Use Bond Calculator for fixed-income basics.'],
+    next: ['Use Investment Calculator for a simpler growth model.', 'Use Compound Interest Calculator to test compounding without fund fees.', 'Use Bond Calculator for fixed-income basics.'],
   },
   'roth-ira-calculator': {
     summary: 'Learn how current balance, annual contribution, estimated return, and time affect a Roth IRA projection.',
@@ -3396,6 +3418,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Bond Calculator Guide';
   }
 
+  if (tool.slug === 'mutual-fund-calculator') {
+    return 'Mutual Fund Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3433,6 +3459,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'bond-calculator') {
     return 'Estimate bond coupon income, current yield, total coupon payments, and rough YTM, with clear limits for savings bonds and callable bonds.';
+  }
+
+  if (tool.slug === 'mutual-fund-calculator') {
+    return 'Project mutual fund growth, monthly contributions, expense-ratio drag, and total contributions, with clear limits for taxes and real fund performance.';
   }
 
   if (tool.slug === 'fha-loan-calculator') {
@@ -3585,6 +3615,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isSimpleInterestGuide = tool.slug === 'simple-interest-calculator';
   const isCdGuide = tool.slug === 'cd-calculator';
   const isBondGuide = tool.slug === 'bond-calculator';
+  const isMutualFundGuide = tool.slug === 'mutual-fund-calculator';
   const isPensionGuide = tool.slug === 'pension-calculator';
   const isAnnuityPayoutGuide = tool.slug === 'annuity-payout-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
@@ -3643,6 +3674,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A CD estimate can look simple until APY, term length, renewal, grace periods, and early-withdrawal penalties show up. This guide keeps maturity value separate from the penalty what-if so the result is easier to read.'
       : isBondGuide
       ? 'Bond yield math gets messy when coupon rate, market price, current yield, rough YTM, and savings bond lookup are treated like one thing. This guide keeps plain bond math separate so the answer is easier to trust.'
+      : isMutualFundGuide
+      ? 'A mutual fund projection is easy to overtrust if return, fees, taxes, and real fund behavior are mixed together. This guide keeps the what-if math clear: starting money, monthly deposits, expected return, expense ratio, years, and the fee drag that appears over time.'
       : isPensionGuide
       ? 'A pension estimate is easy to overtrust if the plan formula is guessed. This guide shows how final average salary, credited service, and a plan multiplier turn into annual pension, monthly pension, and replacement rate.'
       : isAnnuityPayoutGuide
@@ -3821,6 +3854,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter the annual coupon rate as a normal percent, such as 5 for 5%.',
           'Enter years to maturity and coupon payments per year, such as 2 for semiannual coupons.',
           'Calculate, then compare annual coupon, current yield, and rough YTM before checking the real bond quote or TreasuryDirect page.',
+        ]
+      : isMutualFundGuide
+      ? [
+          'Open the Mutual Fund Calculator.',
+          'Enter the starting investment and monthly contribution you want to test.',
+          'Enter expected annual return before expenses, then the annual expense ratio.',
+          'Enter years invested, then calculate the before-expense and after-expense projections.',
+          'Compare expense drag with the fund prospectus, share class, loads, taxes, distributions, and risk before trusting the result.',
         ]
       : isPensionGuide
       ? [

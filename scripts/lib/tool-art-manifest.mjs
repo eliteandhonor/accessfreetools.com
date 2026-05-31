@@ -208,6 +208,18 @@ const toolArtMetadataOverrides = {
         'Bond Calculator guide artwork supports the walkthrough by showing how coupon income, market price, rough YTM, call risk, accrued interest, and savings-bond lookup limits need checking.',
     },
   },
+  'mutual-fund-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a mutual fund screen with $5,000 starting investment, $250 monthly contribution, 7 percent expected return, 0.5 percent expense ratio, 20 years, $140,887 after expenses, and $9,538 expense drag.',
+      caption:
+        'Mutual Fund Calculator artwork matches the live workflow: starting investment, monthly contribution, expected return, expense ratio, years invested, before-expense balance, after-expense balance, and fee drag.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing mutual fund notes for expense ratio, NAV, share class, sales loads, taxable distributions, prospectus checks, market risk, and monthly contributions.',
+      caption:
+        'Mutual Fund Calculator guide artwork supports the walkthrough by showing where contribution math helps and where NAV, share class, loads, distributions, taxes, and prospectus details still matter.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',
