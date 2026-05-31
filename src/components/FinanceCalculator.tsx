@@ -2331,7 +2331,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Income Tax Calculator',
     buttonLabel: 'Estimate federal tax',
     emptyHistory: 'Recent income tax estimates will appear here.',
-    privacyNote: 'Tax estimates are simplified federal ordinary income estimates and are not filing, legal, or tax advice.',
+    privacyNote: 'Tax estimates stay in your browser and are simplified 2026 federal ordinary income estimates, not IRS filing, withholding, legal, or tax advice.',
     modes: [
       {
         id: 'income-tax',
@@ -4579,7 +4579,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Apply 2026 U.S. federal ordinary income tax brackets by filing status.',
           'Subtract credits you entered after bracket tax is calculated.',
         ],
-        note: 'This simplified federal estimate excludes state tax, payroll tax, capital gains, AMT, phaseouts, and many credits.',
+        note: 'This simplified federal estimate excludes state tax, payroll tax, capital gains, AMT, credit phaseouts, withholding, penalties, and many credits.',
       };
     }
     case 'compound-interest': {

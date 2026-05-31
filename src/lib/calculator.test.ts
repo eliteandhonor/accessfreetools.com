@@ -1131,6 +1131,17 @@ describe('finance helpers', () => {
 
   it('estimates 2026 federal income tax and salary breakdowns', () => {
     const tax = calculateFederalIncomeTax2026({ filingStatus: 'single', grossIncome: 100000 });
+    const jointTax = calculateFederalIncomeTax2026({ filingStatus: 'married-joint', grossIncome: 160000 });
+    const headOfHouseholdTax = calculateFederalIncomeTax2026({
+      filingStatus: 'head-household',
+      grossIncome: 90000,
+      deduction: 20000,
+    });
+    const taxWithCredits = calculateFederalIncomeTax2026({
+      filingStatus: 'single',
+      grossIncome: 100000,
+      credits: 2000,
+    });
     const salary = calculateSalaryBreakdown({
       annualSalary: 78000,
       hoursPerWeek: 40,
@@ -1141,6 +1152,12 @@ describe('finance helpers', () => {
     expect(formatCalculatorNumber(tax.taxableIncome)).toBe('83900');
     expect(formatCalculatorNumber(tax.federalTax)).toBe('13170');
     expect(tax.marginalRatePercent).toBe(22);
+    expect(formatCalculatorNumber(jointTax.taxableIncome)).toBe('127800');
+    expect(formatCalculatorNumber(jointTax.federalTax)).toBe('17540');
+    expect(jointTax.marginalRatePercent).toBe(22);
+    expect(formatCalculatorNumber(headOfHouseholdTax.taxableIncome)).toBe('70000');
+    expect(formatCalculatorNumber(headOfHouseholdTax.federalTax)).toBe('8301');
+    expect(formatCalculatorNumber(taxWithCredits.federalTax)).toBe('11170');
     expect(formatCalculatorNumber(salary.grossHourly)).toBe('37.5');
     expect(formatCalculatorNumber(salary.estimatedTakeHomeMonthly)).toBe('5070');
   });

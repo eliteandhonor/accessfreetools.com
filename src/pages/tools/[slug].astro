@@ -680,6 +680,13 @@ const financeToolInstructions = financeToolVariant
         'Enter the loan term in years, then calculate to see the estimated annual rate, monthly rate, total paid, and total interest.',
         'Compare the answer with APR, fees, and the written lender disclosure before treating the quote as cheap or expensive.',
       ]
+    : tool.slug === 'income-tax-calculator'
+    ? [
+        'Choose filing status first because it changes the 2026 standard deduction and bracket thresholds.',
+        'Enter gross ordinary income before deductions.',
+        'Leave deduction blank for the 2026 standard deduction, or enter a custom deduction and credits.',
+        'Calculate, then read taxable income, estimated federal tax, effective rate, and marginal bracket as separate numbers.',
+      ]
     : [
       'Enter the requested dollar amounts, rates, terms, tax settings, or contribution details.',
       'Use rates as percentages, such as 6.5 for 6.5%, and check whether a field asks for a monthly or annual amount.',
@@ -1897,11 +1904,29 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Balance, deposits, and growth'
               : tool.slug === 'estate-tax-calculator'
               ? 'Exclusion and excess shown'
+              : tool.slug === 'income-tax-calculator'
+              ? 'Taxable income and bracket'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
           <span>Tab-only history</span>
         </div>
+      )
+    }
+
+    {
+      tool.slug === 'income-tax-calculator' && (
+        <aside class="trust-note trust-note-finance" aria-label="Income Tax Calculator 2026 federal tax-year notes">
+          <strong>2026 federal numbers this page uses</strong>
+          <p>
+            Standard deduction: $16,100 for single or married filing separately, $32,200 for married filing jointly,
+            and $24,150 for head of household. The bracket rates are 10%, 12%, 22%, 24%, 32%, 35%, and 37%.
+          </p>
+          <p>
+            The page uses those IRS ordinary-income brackets only. It does not add state income tax, payroll tax,
+            capital gains tax, withholding tables, estimated-tax penalties, AMT, or credit phaseouts.
+          </p>
+        </aside>
       )
     }
 
@@ -2175,6 +2200,30 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.irs.gov/publications/p936" rel="noreferrer" target="_blank">
                   IRS Publication 936
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'income-tax-calculator' ? (
+            <>
+              <strong>Federal tax estimate, not a filed return</strong>
+              <p>
+                Use this to compare filing status, gross ordinary income, deduction, credits, taxable income, effective rate,
+                and marginal bracket for 2026. A real return can still change with state tax, payroll tax, capital gains,
+                dependents, AMT, credit phaseouts, withholding, penalties, self-employment tax, and tax software rules.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill" rel="noreferrer" target="_blank">
+                  IRS 2026 tax inflation adjustments
+                </a>
+                {', '}
+                <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" rel="noreferrer" target="_blank">
+                  IRS Revenue Procedure 2025-32
+                </a>
+                {', and '}
+                <a href="https://www.irs.gov/individuals/tax-withholding-estimator-faqs" rel="noreferrer" target="_blank">
+                  IRS Tax Withholding Estimator FAQs
                 </a>
                 .
               </p>

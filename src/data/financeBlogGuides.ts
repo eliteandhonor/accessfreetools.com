@@ -283,6 +283,14 @@ const sourceLinks = {
     href: 'https://www.irs.gov/individuals/tax-withholding-estimator-faqs',
     label: 'IRS: Tax Withholding Estimator FAQs',
   },
+  irsPub15T: {
+    href: 'https://www.irs.gov/publications/p15t',
+    label: 'IRS Publication 15-T: Federal Income Tax Withholding Methods',
+  },
+  irsPub505: {
+    href: 'https://www.irs.gov/publications/p505',
+    label: 'IRS Publication 505: Tax Withholding and Estimated Tax',
+  },
   openStaxIrr: {
     href: 'https://openstax.org/books/principles-finance/pages/16-3-internal-rate-of-return-irr-method',
     label: 'OpenStax Principles of Finance: Internal Rate of Return method',
@@ -697,7 +705,17 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.irs2026, sourceLinks.irsEstateTax, sourceLinks.irsEstateTaxFaqs, sourceLinks.irsForm706Instructions];
   }
 
-  if (['income-tax-calculator', 'marriage-tax-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'income-tax-calculator') {
+    return [
+      sourceLinks.irs2026,
+      sourceLinks.irsRevenueProcedure,
+      sourceLinks.irsWithholdingEstimatorFaqs,
+      sourceLinks.irsPub15T,
+      sourceLinks.irsPub505,
+    ];
+  }
+
+  if (toolSlug === 'marriage-tax-calculator') {
     return [sourceLinks.irs2026, sourceLinks.irsRevenueProcedure];
   }
 
@@ -1168,17 +1186,17 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'income-tax-calculator': {
-    summary: 'Learn how a simplified 2026 U.S. federal ordinary income tax estimate is calculated.',
+    summary: 'Learn how a simplified 2026 U.S. federal ordinary income tax estimate works before you trust the number.',
     purpose:
-      'The Income Tax Calculator estimates 2026 U.S. federal ordinary income tax. It applies a deduction, then uses 2026 federal tax brackets to estimate tax before and after credits you enter.',
+      'The Income Tax Calculator estimates 2026 U.S. federal ordinary income tax. It applies the standard deduction or your custom deduction, runs the taxable income through 2026 brackets, then subtracts credits you enter.',
     enter: [
       'Choose filing status because the standard deduction and brackets depend on it.',
       'Enter gross ordinary income before deduction.',
-      'Use the 2026 standard deduction by default, or enter a custom deduction and credits if you are testing a scenario.',
+      'Leave deduction blank for the 2026 standard deduction, or enter your own deduction and credits if you are testing a scenario.',
     ],
     example: [
-      'For a single filer with $100,000 gross income, the calculator subtracts the 2026 standard deduction.',
-      'The remaining taxable income is taxed across the ordinary income brackets rather than all at one rate.',
+      'For a single filer with $100,000 gross income, the calculator subtracts the $16,100 standard deduction and gets $83,900 taxable income.',
+      'That taxable income is taxed in layers, so the estimate is about $13,170 before credits, not 22% of the whole $100,000.',
     ],
     read: [
       'Taxable income is gross income minus the deduction used.',
@@ -2898,6 +2916,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Interest Rate Calculator Guide';
   }
 
+  if (tool.slug === 'income-tax-calculator') {
+    return 'Income Tax Calculator Guide';
+  }
+
   const standardTitle = `How to use the ${tool.name}`;
   const pageTitle = `${standardTitle} | Access Free Tools`;
 
@@ -2941,6 +2963,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate the annual rate behind a loan payment quote from amount financed, monthly payment, and term, with APR and fee cautions.';
   }
 
+  if (tool.slug === 'income-tax-calculator') {
+    return 'Estimate 2026 federal income tax from filing status, deduction, credits, taxable income, effective rate, and marginal bracket.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -2973,6 +2999,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isFhaLoanGuide = tool.slug === 'fha-loan-calculator';
   const isEstateTaxGuide = tool.slug === 'estate-tax-calculator';
   const isInterestRateGuide = tool.slug === 'interest-rate-calculator';
+  const isIncomeTaxGuide = tool.slug === 'income-tax-calculator';
 
   return {
     slug: `how-to-use-${tool.slug}`,
@@ -3003,6 +3030,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A huge estate number can look scary until you separate gross estate, deductions, prior taxable gifts, and the federal exclusion. This guide shows the rough 2026 federal screen and the parts it cannot handle.'
       : isInterestRateGuide
       ? 'A loan quote can hide the rate behind one neat monthly payment. This guide shows how amount financed, payment, and term turn into an estimated rate before fees or APR rules change the story.'
+      : isIncomeTaxGuide
+      ? 'Federal income tax is not one flat percent of your whole paycheck. This guide shows how filing status, deduction, credits, taxable income, effective rate, and marginal bracket fit together for a 2026 estimate.'
       : `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
     quickStart: isAutoLoanGuide
       ? [
@@ -3091,6 +3120,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter the fixed monthly loan payment, without taxes, insurance, warranties, or add-ons if you only want the loan rate.',
           'Enter the term in years, then check estimated annual rate, monthly rate, total paid, and total interest.',
           'Compare the answer with APR, fees, and the written lender disclosure before trusting the quote.',
+        ]
+      : isIncomeTaxGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Choose filing status first because it changes the standard deduction and bracket thresholds.',
+          'Enter gross ordinary income before deductions.',
+          'Leave deduction blank for the 2026 standard deduction, or enter a custom deduction and credits.',
+          'Calculate, then read taxable income, estimated federal tax, effective rate, and marginal bracket separately.',
         ]
       : [
           `Open the ${tool.name}.`,
@@ -3363,6 +3400,12 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/future-value-calculator/', label: 'Test estate growth over time' },
               { href: '/tools/income-tax-calculator/', label: 'Check a separate income tax estimate' },
             ]
+          : isIncomeTaxGuide
+          ? [
+              { href: '/tools/income-tax-calculator/', label: 'Open the Income Tax Calculator' },
+              { href: '/tools/salary-calculator/', label: 'Convert salary before tax' },
+              { href: '/tools/take-home-paycheck-calculator/', label: 'Estimate paycheck take-home separately' },
+            ]
           : undefined,
       },
       {
@@ -3390,6 +3433,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'IRS estate-tax sources explain the 2026 federal exclusion, gross estate idea, deductions, adjusted taxable gifts, Form 706 timing, and portability context. Those sources are why this guide stays honest about what the calculator can and cannot do.'
             : isInterestRateGuide
             ? 'CFPB explains why a loan interest rate and APR are not the same thing, and Regulation Z shows why APR disclosures follow specific rules. The Minneapolis Fed adds useful context: consumer rates can depend on funding costs, benchmarks, lender margin, credit risk, and the type of loan.'
+            : isIncomeTaxGuide
+            ? 'IRS 2026 inflation-adjustment sources set the standard deductions and ordinary income bracket thresholds used here. IRS withholding sources, including Publication 15-T and Publication 505, are useful because tax owed, paycheck withholding, estimated tax, and refund size are different questions.'
             : sourceLinks.length > 0
             ? 'This guide links to public financial, consumer, statistical, or tax references where they are useful for understanding the calculator context.'
             : 'This guide explains the calculator inputs, formula context, and estimate limits without treating the result as a final quote or professional recommendation.',
@@ -3415,6 +3460,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The calculator still stays simple. It does not file Form 706, calculate state estate tax, model DSUE, value trusts or businesses, check GST tax, or replace an estate attorney or tax professional.'
             : isInterestRateGuide
             ? 'This calculator still stays simple. It does not calculate official APR, read lender fees, approve credit, handle changing rates, or replace the Truth in Lending or loan documents you get before signing.'
+            : isIncomeTaxGuide
+            ? 'This calculator still stays simple. It does not file a return, calculate state tax, payroll tax, capital gains, AMT, penalties, every credit, withholding, or refund size.'
             : 'Source links improve transparency, but they do not turn a quick calculator into professional advice or a final loan, tax, payroll, or investment answer.',
         ],
         links: sourceLinks,
@@ -3442,6 +3489,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Estate Tax Calculator open beside this guide. Try the $18,000,000 example first, then change only prior taxable gifts so you can see how the remaining exclusion moves.'
       : isInterestRateGuide
       ? 'Keep the Interest Rate Calculator open beside this guide. Try $25,000, $483.32/month, and 5 years first, then change only the payment so you can see how quickly the estimated rate moves.'
+      : isIncomeTaxGuide
+      ? 'Keep the Income Tax Calculator open beside this guide. Try the $100,000 single example first, then change only the filing status so you can see how the deduction and brackets move.'
       : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,
   };
 });

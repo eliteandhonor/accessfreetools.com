@@ -1807,26 +1807,95 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'income-tax-calculator',
     name: 'Income Tax Calculator',
-    summary: 'Estimate 2026 U.S. federal income tax from income, filing status, deduction, and credits.',
+    summary: 'Estimate 2026 U.S. federal income tax from income, filing status, deduction, credits, and brackets.',
     description:
-      'Use this free income tax calculator to estimate 2026 U.S. federal income tax, taxable income, effective rate, and marginal bracket from income and filing status.',
+      'Use this free income tax calculator to estimate 2026 U.S. federal ordinary income tax, taxable income, effective rate, and marginal bracket from income, filing status, deduction, and credits.',
+    seoTitle: 'Income Tax Calculator | 2026 Federal Brackets & Deduction',
+    seoDescription:
+      'Estimate 2026 U.S. federal income tax with filing status, standard deduction, credits, taxable income, effective rate, and marginal bracket.',
     icon: 'calculator-tax',
+    aliases: ['federal income tax calculator', '2026 income tax calculator', 'tax bracket calculator', 'income tax estimator'],
     formula:
       'The calculator subtracts the selected deduction from gross income, applies the 2026 U.S. federal ordinary income tax brackets, then subtracts credits you enter.',
     limit:
-      'This is a simplified federal income tax estimate only. It does not calculate state tax, payroll tax, capital gains, AMT, deductions, credits, phaseouts, penalties, withholding, or filing advice.',
+      'This is a simplified federal income tax estimate only. It does not calculate state tax, payroll tax, capital gains, AMT, credit phaseouts, penalties, withholding, self-employment tax, or filing advice.',
     useCases: [
       'Estimate 2026 U.S. federal ordinary income tax for planning.',
       'Compare filing statuses with the standard deduction or a custom deduction.',
       'See taxable income, estimated federal tax, effective rate, and marginal bracket.',
-      'Use a transparent estimate before checking IRS forms or a tax professional.',
+      'Use a transparent estimate before checking IRS forms, withholding, tax software, or a tax professional.',
     ],
     examples: [
-      { label: 'Single filer', expression: '$100,000 income, 2026 standard deduction', result: 'Estimated federal ordinary income tax' },
-      { label: 'Joint return', expression: '$160,000 income, married filing jointly', result: 'Larger standard deduction and joint brackets' },
-      { label: 'Custom deduction', expression: '$90,000 income, $20,000 deduction', result: 'Taxable-income estimate' },
+      {
+        label: 'Single filer',
+        expression: '$100,000 income, 2026 standard deduction',
+        result: '$83,900 taxable income and about $13,170 federal ordinary income tax',
+      },
+      {
+        label: 'Joint return',
+        expression: '$160,000 income, married filing jointly',
+        result: '$127,800 taxable income and about $17,540 federal ordinary income tax',
+      },
+      {
+        label: 'Custom deduction',
+        expression: '$90,000 income, head of household, $20,000 deduction',
+        result: '$70,000 taxable income and about $8,301 federal ordinary income tax',
+      },
     ],
     relatedSlugs: ['salary-calculator', 'finance-calculator', 'sales-tax-calculator'],
+    inputExplanations: [
+      { term: 'Filing status', meaning: 'the IRS filing bucket used for the 2026 standard deduction and bracket thresholds.' },
+      { term: 'Gross ordinary income', meaning: 'the ordinary income you want to test before this calculator subtracts a deduction.' },
+      { term: 'Deduction', meaning: 'the amount removed before brackets. Leave it blank to use the 2026 standard deduction for the filing status.' },
+      { term: 'Credits', meaning: 'dollar-for-dollar reductions you want to test after bracket tax is calculated.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What 2026 tax brackets does this use?',
+        answer:
+          'It uses the IRS 2026 ordinary income bracket thresholds and standard deductions. For example, the single standard deduction is $16,100, married filing jointly is $32,200, and head of household is $24,150.',
+      },
+      {
+        question: 'Why is my marginal rate higher than my effective rate?',
+        answer:
+          'The marginal rate is the rate on the next ordinary dollar. The effective rate compares estimated tax with gross income. A single filer at $100,000 can land in the 22% bracket while the effective federal ordinary income tax rate is about 13.17%.',
+      },
+      {
+        question: 'Is this a paycheck or refund calculator?',
+        answer:
+          'No. It does not know your W-4, paycheck timing, payroll tax, state tax, withholding, estimated payments, refund history, or employer deductions. Use it for federal ordinary income tax math, then check IRS withholding tools or tax software for filing details.',
+      },
+    ],
+    formulaCheck:
+      'For the starter example, $100,000 single income minus the $16,100 standard deduction gives $83,900 taxable income. Bracket math gives about $13,170 tax before any credits entered.',
+    resultReading:
+      'Read taxable income first, then the estimated federal tax. Effective rate shows tax compared with gross income. Marginal bracket shows the rate on the next ordinary dollar, not the rate on every dollar.',
+    doubleCheck:
+      'Check the tax year, filing status, deduction choice, and whether the income is ordinary income. Then remember that credits, payroll tax, state tax, capital gains, and phaseouts can change the real return.',
+    limitFollowup:
+      'Use IRS forms, the IRS Tax Withholding Estimator, tax software, or a qualified tax professional before making filing, withholding, payment, or refund decisions.',
+    extraFaq: [
+      {
+        question: 'Does this include state income tax?',
+        answer:
+          'No. This page is federal-only. State and city taxes can change the real bill, so check your state tax agency, local tax office, or filing software separately.',
+      },
+      {
+        question: 'Can I enter itemized deductions?',
+        answer:
+          'Yes, as a custom deduction amount. The calculator will use the number you enter instead of the standard deduction, but it does not decide whether your itemized deduction is allowed.',
+      },
+      {
+        question: 'Do credits work the same as deductions here?',
+        answer:
+          'No. A deduction lowers taxable income before bracket tax. A credit lowers the calculated tax after bracket tax. This calculator only subtracts the credit amount you enter; it does not check credit eligibility or phaseouts.',
+      },
+      {
+        question: 'Why does this not match my tax software exactly?',
+        answer:
+          'Tax software can include many details this simple page leaves out, such as payroll tax, state tax, dependents, itemized deduction rules, capital gains, retirement contributions, AMT, penalties, and credit phaseouts.',
+      },
+    ],
   }),
   makeFinanceTool({
     slug: 'compound-interest-calculator',

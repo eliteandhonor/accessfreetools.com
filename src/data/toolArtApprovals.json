@@ -2232,6 +2232,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/income-tax-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/income-tax-calculator-guide.webp",
+    "alt": "Smoke mascot points from income coins through deduction blocks, bracket steps, a percent note, filing status cards, and a calculator result.",
+    "caption": "The guide artwork follows the income-tax walkthrough: start with income, apply a deduction, move through brackets, subtract credits, and compare filing statuses.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2240,6 +2242,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/income-tax-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/income-tax-calculator-tool.webp",
+    "alt": "Smoke mascot beside income and home icons, a deduction arrow, tax bracket steps, filing status cards, and a calculator receipt.",
+    "caption": "The tool artwork matches the live calculator: gross ordinary income minus deduction, layered 2026 brackets, credits, and filing-status choices.",
     "status": "approved",
     "qaStatus": "approved"
   },

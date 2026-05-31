@@ -976,6 +976,16 @@ const irsWithholdingEstimatorFaqs = {
   label: 'IRS: Tax Withholding Estimator FAQs',
 };
 
+const irsPub15T = {
+  href: 'https://www.irs.gov/publications/p15t',
+  label: 'IRS Publication 15-T: Federal Income Tax Withholding Methods',
+};
+
+const irsPub505 = {
+  href: 'https://www.irs.gov/publications/p505',
+  label: 'IRS Publication 505: Tax Withholding and Estimated Tax',
+};
+
 const irsRmd = {
   href: 'https://www.irs.gov/publications/p590b',
   label: 'IRS Publication 590-B: RMD Uniform Lifetime Table',
@@ -1742,20 +1752,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'income-tax-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-risk-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [irsTax2026, blsInflation],
+    sources: [irsTax2026, irsRevenueProcedure, irsWithholdingEstimatorFaqs, irsPub15T, irsPub505],
     findings: [
-      'The calculator uses 2026 U.S. federal ordinary income brackets and standard deductions that match the current IRS 2026 inflation-adjustment source.',
-      'The guide explains taxable income, effective rate, and marginal rate without making the common mistake that all income is taxed at the top bracket.',
-      'The page clearly excludes state tax, payroll tax, capital gains, AMT, phaseouts, filing advice, and many credits.',
+      'The calculator uses 2026 U.S. federal ordinary income brackets and standard deductions from the current IRS 2026 inflation-adjustment source and Revenue Procedure 2025-32.',
+      'DataForSEO page evidence shows income tax calculator intent is high-volume, informational, and federal/state/paycheck-adjacent, so this page now states federal-only scope clearly instead of pretending to answer every tax search.',
+      'The guide explains taxable income, effective rate, marginal bracket, deductions, and credits without making the common mistake that all income is taxed at the top bracket.',
     ],
     improvements: [
-      'Manually checked tax-year wording, bracket logic, deduction and credit behavior, guide article, FAQ cautions, and legal-advice boundaries.',
+      'Added income-tax-specific SEO title, meta description, aliases, exact 2026 examples, input explanations, priority FAQs, IRS source links, DataForSEO-backed federal/state/paycheck limits, visible trust note, and specific image alt/caption text.',
     ],
     followUps: [
-      'Add a visible tax-year badge near the result so users notice when the estimate is for 2026.',
+      'Add state tax, paycheck withholding, and refund-size calculators only as separate maintained tools with their own sources and update process.',
     ],
   },
   {
