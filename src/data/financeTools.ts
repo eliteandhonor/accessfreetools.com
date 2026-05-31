@@ -2508,27 +2508,61 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'house-affordability-calculator',
     name: 'House Affordability Calculator',
-    summary: 'Estimate an affordable home price from income, debts, down payment, rate, and costs.',
+    summary: 'Estimate a home price from income, debts, down payment, rate, and housing costs.',
     description:
-      'Use this free house affordability calculator to estimate a home price from income, monthly debts, down payment, mortgage rate, debt-to-income target, tax, insurance, and HOA.',
+      'Use this free house affordability calculator to test a home price from income, monthly debts, down payment, mortgage rate, debt-to-income target, tax, insurance, and HOA.',
+    seoTitle: 'House Affordability Calculator | Income, Debt & Home Budget',
     seoDescription:
-      'Estimate an affordable home price from income, debts, down payment, mortgage rate, DTI target, taxes, insurance, and HOA.',
+      'Estimate a home price from income, debts, down payment, mortgage rate, DTI target, property tax, insurance, and HOA before shopping.',
     icon: 'calculator-house-affordability',
+    aliases: ['home affordability calculator', 'house budget calculator', 'mortgage affordability calculator', 'home price calculator by income'],
     formula:
       'The calculator applies a debt-to-income target to monthly income, subtracts monthly debts, then searches for the highest home price whose estimated housing payment fits.',
     limit:
-      'This is not mortgage approval. Credit, reserves, closing costs, exact taxes, insurance, HOA, lender rules, and local housing costs can change affordability.',
+      'This is not mortgage approval. Credit score, lender underwriting, cash reserves, closing costs, exact property tax, insurance, HOA, repairs, utilities, local prices, and the written Loan Estimate can change affordability.',
     useCases: [
-      'Estimate a rough home-buying budget before shopping.',
-      'See how debts, down payment, and mortgage rate affect affordability.',
+      'Estimate a home-buying budget before touring houses.',
+      'See how debts, down payment, mortgage rate, tax, insurance, and HOA affect affordability.',
       'Compare debt-to-income targets in a transparent way.',
-      'Separate principal and interest from estimated tax, insurance, and HOA.',
+      'Separate principal and interest from tax, insurance, and HOA costs.',
     ],
     examples: [
-      { label: 'Income-based budget', expression: '$110,000 income, $450 debts, $60,000 down', result: 'Estimated affordable home price' },
-      { label: 'Lower debt case', expression: '$90,000 income, $150 debts, 33% DTI', result: 'Home price estimate' },
-      { label: 'Higher down payment', expression: '$140,000 income, $120,000 down', result: 'Higher affordability estimate' },
+      { label: 'Income-based budget', expression: '$110,000 income, $450 debts, $60,000 down, 6.5%, 36% DTI', result: 'About $421,988.22 home price and $2,850 housing budget' },
+      { label: 'Lower debt case', expression: '$90,000 income, $150 debts, $45,000 down, 33% DTI', result: 'About $340,278.15 home price and $2,325 housing budget' },
+      { label: 'Higher down payment', expression: '$140,000 income, $700 debts, $120,000 down, 36% DTI', result: 'About $540,909.46 home price and $3,500 housing budget' },
     ],
+    inputExplanations: [
+      { term: 'Annual gross income', meaning: 'your yearly income before tax and payroll deductions.' },
+      { term: 'Monthly debt payments', meaning: 'recurring debt payments such as car loans, student loans, credit cards, or other debts that compete with the mortgage payment.' },
+      { term: 'Down payment', meaning: 'cash applied to the home price before the mortgage loan amount is calculated.' },
+      { term: 'Debt-to-income target', meaning: 'the share of gross monthly income you want to allow for housing plus debts in this estimate.' },
+      { term: 'Property tax, insurance, and HOA', meaning: 'housing costs that reduce the room left for principal and interest.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this the same as mortgage preapproval?',
+        answer:
+          'No. CFPB warns that how much you qualify to borrow can be different from what you can comfortably repay. This calculator is a planning screen. A lender still checks credit, income, debts, assets, property details, and underwriting rules.',
+      },
+      {
+        question: 'Why does the calculator include tax, insurance, and HOA?',
+        answer:
+          'Because the monthly home budget is not only principal and interest. CFPB says property taxes, homeowners insurance, PMI, and HOA fees can be part of the monthly mortgage cost, and Fannie Mae tells buyers to budget for more than the loan payment.',
+      },
+      {
+        question: 'What debt-to-income target should I use?',
+        answer:
+          'Use the target as a what-if, not a rule. Fannie Mae says housing cost is often discussed around 25% to 30% of gross income, while lenders may review broader debt-to-income rules. Try a lower target if the result crowds out savings, repairs, utilities, or other bills.',
+      },
+    ],
+    formulaCheck:
+      'The search is monthly and estimate-based: it tests candidate home prices until principal and interest plus property tax, insurance, and HOA fit inside the housing budget.',
+    resultReading:
+      'Affordable home price is the highest price that fits your chosen target. Loan amount is home price minus down payment. Monthly housing budget shows the cap after existing debts. Principal and interest plus tax, insurance, and HOA show what fills that cap.',
+    doubleCheck:
+      'Check gross income, monthly debts, down payment, rate, loan term, DTI target, property tax, insurance, and HOA. Then check whether the answer leaves room for closing costs, repairs, emergency savings, utilities, and moving costs.',
+    limitFollowup:
+      'Use a lender Loan Estimate, local tax/insurance quotes, and your own budget before treating a home price as affordable.',
     relatedSlugs: ['mortgage-calculator', 'mortgage-payoff-calculator', 'loan-calculator'],
   }),
   makeFinanceTool({

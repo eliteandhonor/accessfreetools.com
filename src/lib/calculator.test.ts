@@ -1340,6 +1340,39 @@ describe('finance helpers', () => {
     expect(matchCap.endingBalance).toBeCloseTo(241020.45, 2);
   });
 
+  it('keeps house affordability examples stable', () => {
+    const starter = calculateHouseAffordability({
+      annualIncome: 110000,
+      monthlyDebts: 450,
+      downPayment: 60000,
+      annualRatePercent: 6.5,
+      years: 30,
+      debtToIncomePercent: 36,
+      propertyTaxPercent: 1.2,
+      monthlyInsurance: 140,
+      monthlyHoa: 0,
+    });
+    const lowerDebt = calculateHouseAffordability({
+      annualIncome: 90000,
+      monthlyDebts: 150,
+      downPayment: 45000,
+      annualRatePercent: 6.25,
+      years: 30,
+      debtToIncomePercent: 33,
+      propertyTaxPercent: 1.1,
+      monthlyInsurance: 120,
+      monthlyHoa: 75,
+    });
+
+    expect(starter.homePrice).toBeCloseTo(421988.22, 2);
+    expect(starter.loanAmount).toBeCloseTo(361988.22, 2);
+    expect(starter.maxMonthlyHousingPayment).toBeCloseTo(2850, 2);
+    expect(starter.principalAndInterest).toBeCloseTo(2288.01, 2);
+    expect(starter.monthlyPropertyTax + starter.monthlyInsurance + starter.monthlyHoa).toBeCloseTo(561.99, 2);
+    expect(lowerDebt.homePrice).toBeCloseTo(340278.15, 2);
+    expect(lowerDebt.maxMonthlyHousingPayment).toBe(2325);
+  });
+
   it('calculates the retirement, debt, education, and investment sitemap batch', () => {
     const pension = calculatePensionEstimate(80000, 25, 1.5);
     const annuityPayout = calculateAnnuityPayout(100000, 5, 20, 12);

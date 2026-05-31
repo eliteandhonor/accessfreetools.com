@@ -79,6 +79,10 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/language/cfpb-in-english/mortgages-key-terms/',
     label: 'Consumer Financial Protection Bureau: Mortgage key terms',
   },
+  cfpbMortgageAffordability: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/how-can-i-figure-out-if-i-can-afford-to-buy-a-home-and-take-out-a-mortgage-en-118/',
+    label: 'CFPB: How to decide what mortgage payment is affordable',
+  },
   cfpbMonthlyMortgagePayment: {
     href: 'https://www.consumerfinance.gov/ask-cfpb/how-do-mortgage-lenders-calculate-monthly-payments-en-1965/',
     label: 'CFPB: How mortgage lenders calculate monthly payments',
@@ -102,6 +106,14 @@ const sourceLinks = {
   fannieExtraPaymentCalculator: {
     href: 'https://yourhome.fanniemae.com/calculators-tools/extra-mortgage-payment-calculator',
     label: 'Fannie Mae: Extra Mortgage Payment Calculator',
+  },
+  fannieMortgageAffordability: {
+    href: 'https://yourhome.fanniemae.com/calculators-tools/mortgage-affordability-calculator',
+    label: 'Fannie Mae: Mortgage Affordability Calculator',
+  },
+  fannieHowMuchHouse: {
+    href: 'https://yourhome.fanniemae.com/buy/how-much-house-can-you-afford',
+    label: 'Fannie Mae: How much house can you afford?',
   },
   freddieMacPmms: {
     href: 'https://www.freddiemac.com/pmms',
@@ -509,7 +521,13 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'house-affordability-calculator') {
-    return [sourceLinks.cfpbMortgage];
+    return [
+      sourceLinks.cfpbMortgageAffordability,
+      sourceLinks.fannieMortgageAffordability,
+      sourceLinks.fannieHowMuchHouse,
+      sourceLinks.cfpbDebtToIncome,
+      sourceLinks.cfpbMortgage,
+    ];
   }
 
   if (toolSlug === 'savings-calculator') {
@@ -1498,29 +1516,30 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Retirement Calculator for a broader savings target.', 'Use Investment Calculator for deposit-and-return scenarios.', 'Use Compound Interest Calculator to compare deposit and rate assumptions.'],
   },
   'house-affordability-calculator': {
-    summary: 'Learn how income, debts, down payment, mortgage rate, taxes, insurance, and HOA affect a home price estimate.',
+    summary: 'Learn how income, debts, down payment, mortgage rate, property tax, insurance, HOA, and a debt-to-income target shape a home price estimate.',
     purpose:
-      'The House Affordability Calculator estimates a possible home price from a monthly housing budget. It uses a debt-to-income target so you can see how debts and housing costs compete for the same monthly income.',
+      'The House Affordability Calculator estimates a possible home price from a monthly housing budget. It uses a debt-to-income target so you can see how existing debts and housing costs compete for the same gross monthly income.',
     enter: [
       'Enter annual gross income and existing monthly debts.',
       'Enter down payment, mortgage rate, and loan term.',
-      'Enter estimated property tax percent, insurance, and HOA so the monthly payment is not principal and interest only.',
+      'Enter estimated property tax percent, monthly insurance, and HOA so the monthly payment is not principal and interest only.',
     ],
     example: [
-      'For $110,000 annual income, the calculator first estimates monthly income.',
-      'At a 36% debt-to-income target, it subtracts monthly debts and searches for a home price whose payment fits the remaining amount.',
+      'With $110,000 income, $450 monthly debts, $60,000 down, 6.5% for 30 years, 36% DTI, 1.2% property tax, and $140 insurance, the estimated home price is about $421,988.22.',
+      'The example leaves about $2,850 for housing after existing debts, with about $2,288.01 for principal and interest and about $561.99 for tax, insurance, and HOA.',
     ],
     read: [
       'Affordable home price is the highest estimate that fits the selected monthly target.',
       'Loan amount is home price minus down payment.',
+      'Monthly housing budget is what remains after the debt-to-income target and existing debts.',
       'Tax, insurance, and HOA reduce the room left for principal and interest.',
     ],
     mistakes: [
       'Do not treat this as mortgage approval.',
       'Do not leave out HOA, insurance, or tax if they apply.',
-      'Do not forget closing costs, emergency savings, repairs, credit requirements, and lender rules.',
+      'Do not forget closing costs, emergency savings, repairs, utilities, credit requirements, and lender rules.',
     ],
-    next: ['Use Mortgage Calculator to inspect the monthly payment.', 'Use Mortgage Payoff Calculator later when comparing extra principal payments.'],
+    next: ['Use Mortgage Calculator to inspect the monthly payment.', 'Use Down Payment Calculator to test cash needed at closing.', 'Use Mortgage Payoff Calculator later when comparing extra principal payments.'],
   },
   'savings-calculator': {
     summary: 'Learn how current savings, monthly deposits, interest rate, and time affect a savings goal.',
@@ -3042,6 +3061,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Investment Calculator Guide';
   }
 
+  if (tool.slug === 'house-affordability-calculator') {
+    return 'House Affordability Calculator Guide';
+  }
+
   const standardTitle = `How to use the ${tool.name}`;
   const pageTitle = `${standardTitle} | Access Free Tools`;
 
@@ -3113,6 +3136,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Project 401K growth from salary contribution percent, employer match, current balance, return, and years, with IRS and plan-rule limits.';
   }
 
+  if (tool.slug === 'house-affordability-calculator') {
+    return 'Estimate a home price from income, debts, down payment, rate, tax, insurance, HOA, and DTI, with budget and lender-limit cautions.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -3140,6 +3167,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isMortgageGuide = tool.slug === 'mortgage-calculator';
   const isMortgagePayoffGuide = tool.slug === 'mortgage-payoff-calculator';
   const is401kGuide = tool.slug === '401k-calculator';
+  const isHouseAffordabilityGuide = tool.slug === 'house-affordability-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
@@ -3166,6 +3194,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Paying extra on a mortgage only helps if the extra money really reduces principal. This guide shows how balance, rate, term, monthly extra principal, and one-time principal payments change payoff time and interest.'
       : is401kGuide
       ? 'A 401K estimate is not just one magic retirement number. This guide shows how salary, contribution percent, employer match, return, and years build a projection before IRS limits and plan rules have the final say.'
+      : isHouseAffordabilityGuide
+      ? 'A house budget is not just the biggest mortgage a lender might allow. This guide shows how income, existing debts, down payment, rate, property tax, insurance, HOA, and a debt-to-income target shape a home price estimate.'
       : isUkMortgageGuide
       ? 'A UK repayment mortgage is not just the property price split across months. This guide shows how price, deposit, rate, term, and monthly fees turn into a payment, LTV, and interest estimate.'
       : isAutoLoanGuide
@@ -3220,6 +3250,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter your salary contribution percent, employer match percent, and match limit.',
           'Add an estimated return and years to grow, then project the balance.',
           'Compare your annual employee contribution with current IRS limits and your employer plan before changing payroll.',
+        ]
+      : isHouseAffordabilityGuide
+      ? [
+          'Open the House Affordability Calculator.',
+          'Enter annual gross income, existing monthly debts, and down payment.',
+          'Add rate, term, debt-to-income target, property tax, monthly insurance, and HOA.',
+          'Calculate, then compare affordable home price, loan amount, monthly housing budget, principal and interest, and tax/insurance/HOA.',
+          'Check the result against closing costs, repairs, emergency savings, utilities, and a lender Loan Estimate before shopping hard.',
         ]
       : isUkMortgageGuide
       ? [
@@ -3396,6 +3434,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Mortgage payoff estimates get messy when principal, interest, escrow, and payoff quotes are treated like the same thing. The calculator needs the current principal balance, annual rate, years remaining, and any extra money you want applied to principal.'
             : is401kGuide
             ? '401K projections get misleading when salary percent, match percent, and match limit are treated like the same field. Keep your contribution, the employer match rate, the match cap, estimated return, and years separate.'
+            : isHouseAffordabilityGuide
+            ? 'House affordability estimates get shaky when principal and interest are the only costs counted. Keep income, existing debts, down payment, rate, DTI target, property tax, insurance, and HOA separate so the monthly budget is visible.'
             : isUkMortgageGuide
             ? 'UK mortgage estimates get messy when one-off costs and monthly costs are mixed together. Property price, deposit, rate, and term build the repayment estimate. The monthly fee field is only for a cost that repeats every month.'
             : isAutoLoanGuide
@@ -3438,6 +3478,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $280,000 current principal, 6.25% rate, 25 years remaining, and $200 extra to principal each month. The estimate is about $2,047.07 paid each month, a 20-year payoff, about $63,050.68 interest saved, and 60 months saved.'
               : is401kGuide
               ? 'Try the starter example: $25,000 saved, a $75,000 salary, 8% contribution, 50% match up to 6%, and 7% for 25 years. The projection is about $700,059.74, with $500 from you each month and $187.50 from the employer match.'
+              : isHouseAffordabilityGuide
+              ? 'Try the starter example: $110,000 income, $450 monthly debts, $60,000 down, 6.5% for 30 years, 36% DTI, 1.2% property tax, and $140 monthly insurance. The estimate is about a $421,988.22 home price, $361,988.22 loan amount, and $2,850 monthly housing budget.'
               : isAutoLoanGuide
               ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
               : isBusinessLoanGuide
@@ -3473,6 +3515,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           getFormulaAnswer(tool.slug),
           isMortgageGuide
             ? 'The loan formula is only the first layer. The budget number changes when you add property tax, homeowners insurance, PMI, and HOA dues. CFPB calls the core monthly pieces PITI: principal, interest, taxes, and insurance.'
+            : isHouseAffordabilityGuide
+            ? 'Start with the affordable home price, then check the monthly housing budget and the cost split. CFPB says a comfortable mortgage payment can be different from the amount a lender says you qualify to borrow.'
             : isMortgagePayoffGuide
             ? 'The calculator first finds the scheduled fixed mortgage payment. Then it subtracts any one-time principal payment, adds extra monthly principal, and simulates month-by-month interest until the balance reaches zero.'
             : is401kGuide
@@ -3554,6 +3598,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad mortgage payoff estimates come from using the original loan amount instead of current principal, counting escrow as extra principal, ignoring payoff-statement interest, or assuming the servicer applied extra money correctly.'
             : is401kGuide
             ? 'Most bad 401K projections come from using a return that is too hopeful, putting the employer match in the wrong field, ignoring vesting, forgetting fees and taxes, or assuming the page enforces IRS limits.'
+            : isHouseAffordabilityGuide
+            ? 'Most bad affordability estimates come from leaving out taxes, insurance, HOA, repairs, utilities, or closing costs, using debts that are too low, or treating a lender maximum like a comfortable budget.'
             : isAutoLoanGuide
             ? 'Most bad car-payment estimates come from leaving out fees, using a rate from a different offer, forgetting negative equity, or choosing the longest term before checking total interest.'
             : isBusinessLoanGuide
@@ -3593,6 +3639,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help when the payoff estimate is only one part of the question, such as the full monthly payment, another fixed-loan payoff, or the rate hidden inside a quote.'
             : is401kGuide
             ? 'A related tool can help when the 401K projection is only one part of the retirement question, such as a wider savings target, investment what-if, or compound-interest check.'
+            : isHouseAffordabilityGuide
+            ? 'A related tool can help after the first affordability screen. The next question is usually the exact mortgage payment, the cash needed at closing, or how the same home looks with a different down payment.'
             : isBusinessLoanGuide
             ? 'A related tool can help when the loan payment is only one part of the decision, such as the rate, a plain fixed loan, or the profit target for the project.'
             : isCanadianMortgageGuide
@@ -3773,6 +3821,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not request a payoff statement, calculate daily payoff interest, handle escrow, check unpaid fees, apply servicer rules, approve a recast, or replace written payoff instructions.'
             : is401kGuide
             ? 'This calculator still stays simple. It does not enforce annual contribution limits, catch-up rules, plan eligibility, vesting schedules, Roth or pre-tax treatment, fees, loans, hardship withdrawals, or future tax rules.'
+            : isHouseAffordabilityGuide
+            ? 'This calculator still stays simple. It does not approve a mortgage, check credit, verify income, price closing costs, know exact tax or insurance bills, estimate repairs, or replace a lender Loan Estimate.'
             : isUkMortgageGuide
             ? 'This calculator still stays simple. It does not approve a mortgage, check affordability, include stamp duty, price product fees you do not enter, handle interest-only loans, read leasehold charges, or replace a written lender illustration.'
             : isBusinessLoanGuide
@@ -3812,6 +3862,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Mortgage Payoff Calculator open beside this guide. Try the $280,000 balance example first, then change only the extra monthly principal so you can see what actually moved.'
       : is401kGuide
       ? 'Keep the 401K Calculator open beside this guide. Try the $25,000 saved and $75,000 salary example first, then change only your salary contribution percent so you can see what actually moved.'
+      : isHouseAffordabilityGuide
+      ? 'Keep the House Affordability Calculator open beside this guide. Try the $110,000 income example first, then change only monthly debts or down payment so you can see what actually moved.'
       : isAutoLoanGuide
       ? 'Keep the Auto Loan Calculator open beside this guide. Try the $32,000 car example first, then change only the term so you can see why a lower payment can still cost more.'
       : isBusinessLoanGuide

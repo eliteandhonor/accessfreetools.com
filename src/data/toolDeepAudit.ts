@@ -561,6 +561,11 @@ const cfpbMortgage = {
   label: 'Consumer Financial Protection Bureau: Mortgage key terms',
 };
 
+const cfpbMortgageAffordability = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/how-can-i-figure-out-if-i-can-afford-to-buy-a-home-and-take-out-a-mortgage-en-118/',
+  label: 'CFPB: How to decide what mortgage payment is affordable',
+};
+
 const cfpbMonthlyMortgagePayment = {
   href: 'https://www.consumerfinance.gov/ask-cfpb/how-do-mortgage-lenders-calculate-monthly-payments-en-1965/',
   label: 'CFPB: How mortgage lenders calculate monthly payments',
@@ -854,6 +859,16 @@ const fannieExtraMortgagePayments = {
 const fannieExtraPaymentCalculator = {
   href: 'https://yourhome.fanniemae.com/calculators-tools/extra-mortgage-payment-calculator',
   label: 'Fannie Mae: Extra Mortgage Payment Calculator',
+};
+
+const fannieMortgageAffordability = {
+  href: 'https://yourhome.fanniemae.com/calculators-tools/mortgage-affordability-calculator',
+  label: 'Fannie Mae: Mortgage Affordability Calculator',
+};
+
+const fannieHowMuchHouse = {
+  href: 'https://yourhome.fanniemae.com/buy/how-much-house-can-you-afford',
+  label: 'Fannie Mae: How much house can you afford?',
 };
 
 const hudFhaLoans = {
@@ -2329,18 +2344,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'house-affordability-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [cfpbMortgage, cfpbDebtToIncome],
+    sources: [cfpbMortgageAffordability, fannieMortgageAffordability, fannieHowMuchHouse, cfpbDebtToIncome, cfpbMortgage],
     findings: [
       'The calculator applies the debt-to-income target to monthly gross income, subtracts existing monthly debts, then searches for the highest home price that fits taxes, insurance, HOA, and principal-and-interest.',
       'The result separates loan amount, housing budget, principal and interest, and tax/insurance/HOA so users can see what is driving affordability.',
-      'The guide warns that this is not approval and excludes credit, reserves, closing costs, exact taxes, insurance, lender rules, repairs, and local market costs.',
+      'DataForSEO page evidence showed house affordability calculator demand around 49,500 searches, with extra intent around income-based and monthly-payment affordability.',
+      'The guide now warns that how much a lender may qualify someone to borrow can differ from what fits their budget, and it excludes credit, reserves, closing costs, exact taxes, insurance, lender rules, repairs, utilities, and local market costs.',
     ],
     improvements: [
-      'Manually checked affordability search logic, DTI field wording, examples, guide article, FAQ cautions, source coverage, related mortgage tools, and privacy note.',
-      'Improved source targeting so house-affordability pages include a debt-to-income reference as well as mortgage context.',
+      'Rewrote metadata, examples, input explanations, FAQ cautions, guide copy, source links, image alt/caption text, tool trust note, and modified dates in smart-14 wording.',
     ],
     followUps: [
       'Add a closing-cost and cash-reserve field only if the tool gets a second advanced mortgage-planning mode.',
@@ -7294,7 +7309,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['house-affordability', 'house affordability'])) {
-      return sourceBackstop([cfpbMortgage, cfpbDebtToIncome]);
+      return sourceBackstop([cfpbMortgageAffordability, fannieMortgageAffordability, fannieHowMuchHouse, cfpbDebtToIncome, cfpbMortgage]);
     }
 
     if (includesAny(key, ['mortgage-calculator', 'mortgage calculator'])) {

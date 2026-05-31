@@ -2152,6 +2152,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/house-affordability-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/house-affordability-calculator-guide.webp",
+    "alt": "Smoke mascot reviewing a home affordability worksheet with income, debts, down payment, DTI target, tax, insurance, and HOA notes.",
+    "caption": "House Affordability Calculator guide artwork matches the walkthrough for income, debts, down payment, DTI target, property tax, insurance, HOA, and home price.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2160,6 +2162,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/house-affordability-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/house-affordability-calculator-tool.webp",
+    "alt": "Smoke mascot beside a house affordability calculator screen with income, monthly debts, down payment, mortgage rate, and home price result cards.",
+    "caption": "House Affordability Calculator artwork shows income, monthly debts, down payment, mortgage rate, housing budget, and estimated home price.",
     "status": "approved",
     "qaStatus": "approved"
   },

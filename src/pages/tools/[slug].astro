@@ -722,6 +722,13 @@ const financeToolInstructions = financeToolVariant
         'Add an estimated return and years to grow, then calculate the projected balance.',
         'Compare the monthly deposit split with IRS limits and your employer plan before changing payroll.',
       ]
+    : tool.slug === 'house-affordability-calculator'
+    ? [
+        'Enter annual gross income, monthly debt payments, and down payment.',
+        'Add mortgage rate, loan term, debt-to-income target, property tax, monthly insurance, and HOA.',
+        'Calculate, then compare affordable home price, loan amount, monthly housing budget, principal and interest, and tax/insurance/HOA.',
+        'Check closing costs, repairs, emergency savings, utilities, credit review, and a lender Loan Estimate before treating the price as affordable.',
+      ]
     : tool.slug === 'investment-calculator'
     ? [
         'Enter the starting money already invested.',
@@ -2262,6 +2269,32 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.irs.gov/retirement-plans/401k-plans" rel="noreferrer" target="_blank">
                   IRS 401(k) plans
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'house-affordability-calculator' ? (
+            <>
+              <strong>Home budget estimate, not mortgage approval</strong>
+              <p>
+                Use this to test gross income, monthly debts, down payment, rate, loan term, DTI target,
+                property tax, insurance, HOA, affordable home price, loan amount, housing budget, and
+                principal and interest. A real purchase can still change with credit review, underwriting,
+                cash reserves, closing costs, exact property taxes, insurance quotes, repairs, utilities,
+                lender rules, and the written Loan Estimate.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/how-can-i-figure-out-if-i-can-afford-to-buy-a-home-and-take-out-a-mortgage-en-118/" rel="noreferrer" target="_blank">
+                  CFPB mortgage affordability guidance
+                </a>
+                {', '}
+                <a href="https://yourhome.fanniemae.com/calculators-tools/mortgage-affordability-calculator" rel="noreferrer" target="_blank">
+                  Fannie Mae mortgage affordability calculator
+                </a>
+                {', and '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-debt-to-income-ratio-en-1791/" rel="noreferrer" target="_blank">
+                  CFPB debt-to-income ratio
                 </a>
                 .
               </p>

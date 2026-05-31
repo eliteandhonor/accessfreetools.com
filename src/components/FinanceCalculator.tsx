@@ -594,7 +594,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'House Affordability Calculator',
     buttonLabel: 'Estimate affordability',
     emptyHistory: 'Recent house affordability estimates will appear here.',
-    privacyNote: 'House affordability estimates are simple planning numbers and are not mortgage approval, underwriting, or financial advice.',
+    privacyNote: 'House affordability estimates stay in this browser tab and are not mortgage approval, underwriting, or financial advice.',
     modes: [
       {
         id: 'house-affordability',
@@ -2875,7 +2875,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Estimate principal, interest, property tax, insurance, and HOA for candidate home prices.',
           'Search for the highest home price that fits the monthly housing budget.',
         ],
-        note: 'This is not mortgage approval and does not include credit, reserves, closing costs, or underwriting rules.',
+        note: 'This is not mortgage approval and does not include credit review, cash reserves, closing costs, exact property tax, exact insurance, repairs, utilities, lender underwriting, or a written Loan Estimate.',
       };
     }
     case 'savings': {
