@@ -778,6 +778,13 @@ const financeToolInstructions = financeToolVariant
         'Enter the new consolidation loan APR, term, and any fees added to the new balance.',
         'Calculate, then compare the new payment, monthly payment change, total cost change, and whether the lower payment is worth the new term.',
       ]
+    : tool.slug === 'repayment-calculator'
+    ? [
+        'Enter the current balance still owed.',
+        'Enter the annual interest rate or APR as a normal percent, such as 8 for 8%.',
+        'Enter the regular monthly payment and any extra monthly payment you can reliably add.',
+        'Calculate, then compare payoff months, total interest, total paid, and final payment before treating the estimate like a plan.',
+      ]
     : tool.slug === 'pension-calculator'
     ? [
         'Enter the final average salary or plan salary number used by the pension formula.',
@@ -2532,6 +2539,35 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', '}
                 <a href="https://consumer.ftc.gov/how-get-out-debt" rel="noreferrer" target="_blank">
                   FTC debt help and scam warnings
+                </a>
+                {', and '}
+                <a href="https://consumer.gov/your-money/making-budget" rel="noreferrer" target="_blank">
+                  consumer.gov budgeting basics
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'repayment-calculator' ? (
+            <>
+              <strong>Fixed-balance repayment math, not an official payment plan</strong>
+              <p>
+                Use this to test one balance, one annual rate or APR, a regular monthly payment, an extra monthly
+                payment, payoff months, total interest, total paid, and final payment. A real repayment path can still
+                change because of daily interest, fees, late charges, payment timing, minimum-payment rules,
+                income-driven student loan plans, deferment, forbearance, hardship plans, collections, or new charges.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-truth-in-lending-disclosure-for-an-auto-loan-en-787/" rel="noreferrer" target="_blank">
+                  CFPB APR and payment disclosure terms
+                </a>
+                {', '}
+                <a href="https://studentaid.gov/articles/compare-student-loan-repayment-plans-calculator/" rel="noreferrer" target="_blank">
+                  Federal Student Aid Loan Simulator notes
+                </a>
+                {', '}
+                <a href="https://consumer.ftc.gov/how-get-out-debt" rel="noreferrer" target="_blank">
+                  FTC debt payment-plan guidance
                 </a>
                 {', and '}
                 <a href="https://consumer.gov/your-money/making-budget" rel="noreferrer" target="_blank">

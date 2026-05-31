@@ -3206,14 +3206,18 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'repayment-calculator',
     name: 'Repayment Calculator',
-    summary: 'Estimate repayment time and interest for a balance and monthly payment.',
+    summary: 'Estimate payoff time, interest, total paid, and final payment for one fixed balance.',
     description:
-      'Use this free repayment calculator to estimate how long a balance may take to repay and how much interest may be paid from rate, payment, and optional extra payment.',
+      'Estimate how long one fixed balance may take to repay from balance, annual rate, monthly payment, and optional extra payment.',
+    seoTitle: 'Repayment Calculator | Payoff Time & Interest',
+    seoDescription:
+      'Estimate repayment months, total interest, total paid, and final payment for one fixed balance with regular and extra monthly payments.',
     icon: 'calculator-repayment',
+    aliases: ['loan repayment calculator', 'balance payoff calculator', 'monthly repayment calculator', 'extra payment repayment calculator'],
     formula:
-      'The calculator adds monthly interest, subtracts the regular and extra monthly payment, and repeats until the balance is paid off.',
+      'The calculator turns the annual rate into a monthly rate, adds that month’s interest to the remaining balance, subtracts the regular payment plus any extra payment, and repeats until the balance reaches zero.',
     limit:
-      'This is a general fixed-rate repayment estimate. It does not include payment pauses, deferment, fees, changing rates, income-based plans, or provider-specific rules.',
+      'This is fixed-balance repayment math only. It does not include income-driven student loan plans, deferment, forbearance, hardship plans, payment pauses, fees, late charges, changing rates, minimum-payment changes, or provider-specific rules.',
     useCases: [
       'Estimate how long a balance may take to repay.',
       'Test whether a payment is enough to reduce principal.',
@@ -3221,11 +3225,42 @@ export const financeTools: ToolDefinition[] = [
       'Create a simple repayment plan for a fixed balance.',
     ],
     examples: [
-      { label: 'General balance', expression: '$12,000 balance, 8%, $300 + $50 extra/month', result: 'Estimated repayment time' },
-      { label: 'Small payoff', expression: '$3,500 at 14%, $175/month', result: 'Short payoff estimate' },
-      { label: 'No extra payment', expression: '$9,000 at 9.5%, $250/month', result: 'Baseline repayment estimate' },
+      { label: 'Balance plus extra', expression: '$12,000 balance, 8%, $300 regular + $50 extra/month', result: '40 months, about $1,669.76 interest, about $13,669.76 total paid' },
+      { label: 'Small loan payoff', expression: '$3,500 at 14%, $150 regular + $25 extra/month', result: '23 months and about $508.84 interest' },
+      { label: 'No extra payment', expression: '$9,000 at 9.5%, $250/month', result: '43 months and about $1,636.00 interest' },
     ],
     relatedSlugs: ['debt-payoff-calculator', 'payment-calculator', 'loan-calculator'],
+    inputExplanations: [
+      { term: 'Current balance', meaning: 'the amount still owed today, before the next interest charge or payment.' },
+      { term: 'Annual interest rate or APR', meaning: 'the yearly rate entered as a percent, such as 8 for 8%, not 0.08.' },
+      { term: 'Regular monthly payment', meaning: 'the payment you expect to send every month before any extra amount.' },
+      { term: 'Extra monthly payment', meaning: 'money you can reliably add on top of the regular payment.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What does the repayment time mean?',
+        answer:
+          'Repayment time is the estimated number of months until the balance reaches zero. For example, $12,000 at 8% with $300 regular payment plus $50 extra takes about 40 months in this simple monthly-interest model.',
+      },
+      {
+        question: 'How much does the $50 extra payment change the example?',
+        answer:
+          'With the $50 extra payment, the $12,000 example estimates about 40 months and about $1,669.76 interest. Without the extra $50, the same balance estimates about 47 months and about $2,003.66 interest. That is about 7 months faster and about $333.90 less interest.',
+      },
+      {
+        question: 'Why can an official repayment plan be different?',
+        answer:
+          'Official student loan, lender, card, or servicer plans can use rules this page does not model, such as income-driven payments, deferment, forbearance, daily interest, payment allocation, late fees, minimum-payment changes, or written APR disclosures.',
+      },
+    ],
+    formulaCheck:
+      'If the first month of interest is bigger than the payment, the balance will not go down. A $12,000 balance at 8% adds about $80 interest in the first month, so a $350 total payment has room to reduce principal.',
+    resultReading:
+      'Start with payoff months, then check total interest and total paid. Final payment is often smaller than the usual monthly payment because the last bit of balance may be less than a full payment.',
+    doubleCheck:
+      'Check that the balance is current, the rate is annual, the payment is monthly, and the extra payment is money you can keep sending without missing rent, food, utilities, insurance, or other required bills.',
+    limitFollowup:
+      'For federal student loans, use Federal Student Aid tools for official repayment-plan options. For loans or credit, compare the estimate with the written APR, finance charge, payment schedule, fees, and provider rules.',
   }),
   makeFinanceTool({
     slug: 'student-loan-calculator',

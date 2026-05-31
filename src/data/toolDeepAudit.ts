@@ -681,6 +681,11 @@ const cfpbCreditCards = {
   label: 'CFPB: Credit cards',
 };
 
+const cfpbTruthInLendingAutoLoan = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-truth-in-lending-disclosure-for-an-auto-loan-en-787/',
+  label: 'CFPB: Truth in Lending auto loan disclosure terms',
+};
+
 const cfpbCreditCardApr = {
   href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-credit-card-interest-rate-what-does-apr-mean-en-44/',
   label: 'CFPB: What credit card APR means',
@@ -809,6 +814,11 @@ const irsRetirementPlanBenefits = {
 const fsaRepaymentPlans = {
   href: 'https://www.consumerfinance.gov/paying-for-college/repay-student-debt/',
   label: 'Consumer Financial Protection Bureau: Repay student debt',
+};
+
+const fsaLoanSimulatorArticle = {
+  href: 'https://studentaid.gov/articles/compare-student-loan-repayment-plans-calculator/',
+  label: 'Federal Student Aid: Loan Simulator repayment-plan calculator',
 };
 
 const educationNetPrice = {
@@ -2653,20 +2663,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'repayment-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [cfpbDebtCollection, investorCompound],
+    sources: [cfpbTruthInLendingAutoLoan, fsaLoanSimulatorArticle, ftcGetOutOfDebt, consumerGovBudget],
     findings: [
-      'The calculator uses the same tested fixed-balance repayment helper as the debt payoff tools, with regular and extra payment inputs.',
-      'The output gives payoff months, interest, total paid, and final payment, so users can see both time and cost.',
-      'The guide and FAQ explain that deferment, hardship plans, fees, changing rates, income-based plans, and provider-specific rules are not included.',
+      'The 2026-05-31 sprint used page-specific DataForSEO evidence, built-in browser review, Calculator.net competitor evidence, and current official source checks before editing.',
+      'The calculator uses the tested fixed-balance payoff helper with balance, annual interest rate or APR, regular monthly payment, and extra monthly payment.',
+      'The page now shows exact repayment examples: $12,000 at 8% with $300 regular plus $50 extra estimates 40 months, about $1,669.76 interest, about $13,669.76 total paid, and a final payment near $19.76.',
+      'The guide and FAQ separate fixed-balance math from official student loan repayment plans, deferment, forbearance, hardship plans, fees, late charges, minimum-payment changes, daily interest, and provider-specific rules.',
     ],
     improvements: [
-      'Added repayment-specific guide detail and manually checked repayment logic, examples, FAQ cautions, source coverage, related links, SEO copy, and privacy behavior.',
+      'Rewrote the tool and guide in the Access Free Tools smart 14-year-old tone, added SEO title/meta descriptions, repaired generic instructions, added official source links, and replaced generic image alt/caption text.',
     ],
     followUps: [
-      'Add provider-specific repayment pages only if they can be maintained with official source checks.',
+      'Add provider-specific repayment pages only if they can be maintained with official source checks and tested plan rules.',
     ],
   },
   {

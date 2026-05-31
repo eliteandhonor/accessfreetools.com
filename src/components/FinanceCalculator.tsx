@@ -854,24 +854,24 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
   repayment: {
     title: 'Repayment Calculator',
     buttonLabel: 'Estimate repayment',
-    emptyHistory: 'Recent repayment estimates will appear here.',
-    privacyNote: 'Repayment estimates use fixed payment math and do not include hardship plans, deferment, fees, changing rates, or provider-specific rules.',
+    emptyHistory: 'Recent fixed-balance repayment checks will appear here.',
+    privacyNote: 'This is fixed-balance math only. It is not an official student loan plan, lender payoff quote, hardship plan, or credit advice.',
     modes: [
       {
         id: 'repayment',
-        label: 'Repayment',
+        label: 'Fixed balance',
         symbol: 'REPAY',
         fields: [
-          numberField('balance', 'Balance ($)'),
-          numberField('annualRatePercent', 'Annual interest rate (%)'),
-          numberField('monthlyPayment', 'Monthly payment ($)'),
+          numberField('balance', 'Current balance still owed ($)'),
+          numberField('annualRatePercent', 'Annual interest rate or APR (%)'),
+          numberField('monthlyPayment', 'Regular monthly payment ($)'),
           numberField('extraMonthlyPayment', 'Extra monthly payment ($)'),
         ],
         defaultInputs: { balance: '12000', annualRatePercent: '8', monthlyPayment: '300', extraMonthlyPayment: '50' },
         examples: [
-          { label: 'General balance', inputs: { balance: '12000', annualRatePercent: '8', monthlyPayment: '300', extraMonthlyPayment: '50' } },
-          { label: 'Small payoff', inputs: { balance: '3500', annualRatePercent: '14', monthlyPayment: '150', extraMonthlyPayment: '25' } },
-          { label: 'No extra payment', inputs: { balance: '9000', annualRatePercent: '9.5', monthlyPayment: '250', extraMonthlyPayment: '0' } },
+          { label: 'Balance + extra', inputs: { balance: '12000', annualRatePercent: '8', monthlyPayment: '300', extraMonthlyPayment: '50' } },
+          { label: 'Small loan', inputs: { balance: '3500', annualRatePercent: '14', monthlyPayment: '150', extraMonthlyPayment: '25' } },
+          { label: 'Payment only', inputs: { balance: '9000', annualRatePercent: '9.5', monthlyPayment: '250', extraMonthlyPayment: '0' } },
         ],
       },
     ],
@@ -3078,7 +3078,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           ? 'Real payoff can change with fees, penalty rates, skipped payments, settlement terms, collector rules, creditor agreements, court deadlines, or a changing rate.'
           : variant === 'credit-cards-payoff'
           ? 'Real card payoff can change with average daily balance billing, separate APR tiers, payment allocation, fees, cash advances, balance transfers, deferred interest, grace-period rules, and new purchases.'
-          : 'Real balances can change with fees, payment timing, minimum-payment rules, collections, or new charges.';
+          : 'Real repayment can change with fees, payment timing, daily interest, minimum-payment changes, income-driven student loan plans, deferment, forbearance, collections, or new charges.';
 
       return {
         label: heading,

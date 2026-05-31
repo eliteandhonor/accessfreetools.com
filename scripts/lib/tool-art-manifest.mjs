@@ -124,6 +124,18 @@ const toolArtMetadataOverrides = {
         'Debt Consolidation Calculator guide artwork supports the walkthrough by showing why the fee, term, APR, credit risk, collateral risk, and total cost matter before signing.',
     },
   },
+  'repayment-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a $12,000 repayment balance with 8 percent annual rate, $300 regular payment, $50 extra payment, 40-month payoff, interest, total paid, and final payment cards.',
+      caption:
+        'Repayment Calculator artwork matches the fixed-balance workflow: balance, annual rate or APR, regular payment, extra payment, payoff months, interest, total paid, and final payment.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing a fixed-balance repayment estimate with APR disclosure notes, Federal Student Aid plan notes, budget reminders, fee warnings, and extra-payment choices.',
+      caption:
+        'Repayment Calculator guide artwork supports the walkthrough by showing where simple payoff math helps and where official plans, fees, payment timing, and budget limits still matter.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

@@ -195,6 +195,10 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/consumer-tools/credit-cards/',
     label: 'CFPB: Credit cards',
   },
+  cfpbTruthInLendingAutoLoan: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-truth-in-lending-disclosure-for-an-auto-loan-en-787/',
+    label: 'CFPB: Truth in Lending auto loan disclosure terms',
+  },
   cfpbCreditCardApr: {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-credit-card-interest-rate-what-does-apr-mean-en-44/',
     label: 'CFPB: What credit card APR means',
@@ -238,6 +242,10 @@ const sourceLinks = {
   fsaRepaymentPlans: {
     href: 'https://www.consumerfinance.gov/paying-for-college/repay-student-debt/',
     label: 'Consumer Financial Protection Bureau: Repay student debt',
+  },
+  fsaLoanSimulatorArticle: {
+    href: 'https://studentaid.gov/articles/compare-student-loan-repayment-plans-calculator/',
+    label: 'Federal Student Aid: Loan Simulator repayment-plan calculator',
   },
   educationNetPrice: {
     href: 'https://collegecost.ed.gov/net-price',
@@ -727,7 +735,12 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'repayment-calculator') {
-    return [sourceLinks.cfpbDebtCollection, sourceLinks.cfpbCreditCards];
+    return [
+      sourceLinks.cfpbTruthInLendingAutoLoan,
+      sourceLinks.fsaLoanSimulatorArticle,
+      sourceLinks.ftcGetOutOfDebt,
+      sourceLinks.consumerGovBudget,
+    ];
   }
 
   if (toolSlug === 'debt-consolidation-calculator') {
@@ -1906,29 +1919,30 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Debt Payoff Calculator to test the current path with extra payments.', 'Use Credit Cards Payoff Calculator before rolling several cards into one shortcut.', 'Use Loan Calculator to inspect the new loan payment by itself.'],
   },
   'repayment-calculator': {
-    summary: 'Learn how balance, interest rate, regular payment, and extra payment affect a repayment estimate.',
+    summary: 'Learn how one balance, an annual rate, a regular payment, and an extra payment change payoff time and interest.',
     purpose:
-      'The Repayment Calculator is a general fixed-balance payoff tool. It is useful when you want to know how long a balance may take to repay at a chosen payment amount.',
+      'The Repayment Calculator is for one fixed balance at one rate. It is useful when you want to see whether a monthly payment is actually shrinking the balance and how much time or interest an extra payment may save.',
     enter: [
-      'Enter the current balance.',
-      'Enter the annual interest rate as a percent.',
-      'Enter the regular monthly payment and optional extra monthly payment.',
+      'Enter the current balance still owed today.',
+      'Enter the annual interest rate or APR as a percent, such as 8 for 8%.',
+      'Enter the regular monthly payment and any extra amount you can keep adding.',
     ],
     example: [
-      '$12,000 at 8% with $300/month plus $50 extra creates a fixed-payment payoff estimate.',
-      'The calculator adds interest, subtracts the payment, and repeats until the balance is gone.',
+      '$12,000 at 8% with a $300 regular payment plus $50 extra means $350 goes toward the balance each month after interest is added.',
+      'The estimate is 40 months, about $1,669.76 interest, about $13,669.76 total paid, and a final payment near $19.76.',
+      'Without the extra $50, the same example estimates 47 months and about $2,003.66 interest.',
     ],
     read: [
-      'Repayment time is the estimated number of months to reach zero.',
-      'Total interest helps you compare one payment plan with another.',
-      'Final payment may be smaller than your usual payment.',
+      'Payoff months is the estimated time until the balance reaches zero.',
+      'Total interest shows the estimated interest cost during repayment.',
+      'Total paid is balance plus interest, and final payment may be smaller than the usual monthly payment.',
     ],
     mistakes: [
-      'Do not use this for official student loan, hardship, income-based, deferment, or provider-specific plans.',
-      'Do not ignore fees, payment pauses, or changing rates.',
+      'Do not treat this as an official federal student loan repayment plan or lender payoff quote.',
+      'Do not ignore fees, late charges, deferment, forbearance, income-driven plans, minimum-payment changes, or changing rates.',
       'Do not enter annual payment amounts in monthly payment fields.',
     ],
-    next: ['Use Payment Calculator if you know the term and want the payment.', 'Use Debt Payoff Calculator for debt-specific payoff language.'],
+    next: ['Use Payment Calculator if you know the term and want the payment.', 'Use Debt Payoff Calculator for debt-specific payoff language.', 'Use Student Loan Calculator before comparing standard student-loan payment examples.'],
   },
   'student-loan-calculator': {
     summary: 'Learn how loan balance, interest rate, term, and extra monthly payment affect a standard student loan estimate.',
@@ -3232,6 +3246,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Debt Consolidation Calculator Guide';
   }
 
+  if (tool.slug === 'repayment-calculator') {
+    return 'Repayment Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3343,6 +3361,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Learn how to compare a consolidation loan with your current payoff path, including APR, fees, term length, and total cost.';
   }
 
+  if (tool.slug === 'repayment-calculator') {
+    return 'Estimate fixed-balance repayment months, interest, total paid, and final payment from balance, APR, regular payment, and extra payment.';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Estimate a defined-benefit pension from final average salary, credited service, and plan multiplier, with monthly and replacement-rate checks.';
   }
@@ -3386,6 +3408,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isCreditCardsPayoffGuide = tool.slug === 'credit-cards-payoff-calculator';
   const isDebtPayoffGuide = tool.slug === 'debt-payoff-calculator';
   const isDebtConsolidationGuide = tool.slug === 'debt-consolidation-calculator';
+  const isRepaymentGuide = tool.slug === 'repayment-calculator';
   const isPensionGuide = tool.slug === 'pension-calculator';
   const isAnnuityPayoutGuide = tool.slug === 'annuity-payout-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
@@ -3430,6 +3453,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A debt payoff estimate can look good even when the monthly payment barely beats the interest. This guide shows how one balance, one rate, a regular payment, and an extra payment turn into payoff months, interest, total paid, and final payment.'
       : isDebtConsolidationGuide
       ? 'A debt consolidation offer can look helpful because the monthly payment drops. This guide shows how current payoff, new APR, term, fees, monthly payment change, and total cost change decide whether the offer is actually better.'
+      : isRepaymentGuide
+      ? 'A repayment estimate can look fine while interest is quietly eating the payment. This guide shows how one balance, one annual rate, a regular payment, and an extra payment turn into payoff months, interest, total paid, and the last payment.'
       : isPensionGuide
       ? 'A pension estimate is easy to overtrust if the plan formula is guessed. This guide shows how final average salary, credited service, and a plan multiplier turn into annual pension, monthly pension, and replacement rate.'
       : isAnnuityPayoutGuide
@@ -3552,6 +3577,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter the current weighted average APR and total current monthly payment.',
           'Enter the new loan APR, term, and any fees added to the new balance.',
           'Calculate, then compare the new monthly payment, monthly payment change, and total cost change before trusting the offer.',
+        ]
+      : isRepaymentGuide
+      ? [
+          'Open the Repayment Calculator.',
+          'Enter the current balance still owed.',
+          'Enter the annual interest rate or APR as a normal percent.',
+          'Enter the regular monthly payment and any extra monthly payment you can really keep sending.',
+          'Calculate, then compare payoff months, total interest, total paid, and final payment before treating the number like a plan.',
         ]
       : isPensionGuide
       ? [
@@ -3732,6 +3765,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it when you want to test one fixed debt balance before calling a creditor, adding extra payment, comparing consolidation, or asking for counseling help.'
             : isDebtConsolidationGuide
             ? 'Use it when you have a real or possible consolidation offer and want to see whether the lower rate, fee, and term beat the payoff path you already have.'
+            : isRepaymentGuide
+            ? 'Use it when you have one clean balance and want to test whether the payment is strong enough, whether extra money helps, and how much interest the payoff path may cost.'
             : isPensionGuide
             ? 'Use it when you want to test a defined-benefit formula before you compare the number with your pension statement, plan summary, retirement office, or PBGC coverage notes.'
             : isAnnuityPayoutGuide
@@ -3776,6 +3811,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Debt payoff estimates get shaky when fees, penalties, skipped payments, court deadlines, or collector rules are treated like normal monthly interest. Keep this page to one clean balance, then check real paperwork before acting.'
             : isDebtConsolidationGuide
             ? 'Debt consolidation estimates get shaky when the advertised rate is not the real APR, fees are ignored, the term is stretched too far, or a home-equity offer turns unsecured debt into debt backed by your home.'
+            : isRepaymentGuide
+            ? 'Repayment estimates get shaky when the balance is old, the rate is monthly instead of annual, or the extra payment is money the budget cannot keep sending. Keep balance, annual rate, regular payment, and extra payment separate.'
             : isPensionGuide
             ? 'Pension estimates get shaky when calendar years worked and credited service are treated as the same thing. Use the salary, service, and multiplier your plan actually uses, then check whether vesting, caps, early retirement, or survivor choices change the benefit.'
             : isAnnuityPayoutGuide
@@ -3838,6 +3875,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $10,000 balance, 12% annual rate, $300 regular monthly payment, and $100 extra. The estimate is 29 months, about $1,564.88 interest, about $11,564.88 total paid, and a final payment near $364.88.'
               : isDebtConsolidationGuide
               ? 'Try the starter example: $18,000 debt, 18% current APR, $650 current payment, 10.5% new loan APR, 3-year term, and $300 fee. The estimate is a $594.79 new payment, about $55.21 less per month, and about $2,023.05 lower total cost.'
+              : isRepaymentGuide
+              ? 'Try the starter example: $12,000 balance, 8% annual rate, $300 regular monthly payment, and $50 extra. The estimate is 40 months, about $1,669.76 interest, about $13,669.76 total paid, and a final payment near $19.76. Without the extra $50, the same balance takes about 47 months and about $2,003.66 interest.'
               : isPensionGuide
               ? 'Try the starter example: $82,000 final average salary, 27 credited service years, and a 1.6% multiplier. The estimate is $35,424 per year, $2,952 per month, and a 43.2% replacement rate before taxes or plan adjustments.'
               : isAnnuityPayoutGuide
@@ -3893,6 +3932,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start by turning the annual rate into a simple monthly rate. Each month, the calculator adds estimated interest, subtracts the regular payment plus extra payment, and repeats until the balance reaches zero. If the payment does not cover monthly interest, the calculator stops instead of inventing a payoff date.'
             : isDebtConsolidationGuide
             ? 'Start by estimating the current payoff path from the current balance, weighted APR, and monthly payment. Then add fees to the new loan balance, calculate the fixed consolidation payment, and compare monthly payment and total paid across both paths.'
+            : isRepaymentGuide
+            ? 'Start by turning the annual rate into a simple monthly rate. Each month, the calculator adds estimated interest, subtracts the regular payment plus extra payment, and repeats until the balance reaches zero. If the payment cannot beat the interest, the estimate should not be treated like a real payoff plan.'
             : isPensionGuide
             ? 'Start with the plan salary number, multiply by credited service, then apply the multiplier percentage. IRS and DOL materials separate defined-benefit pensions from contribution accounts, and PBGC coverage rules are another reason to check the official plan source before trusting a quick estimate.'
             : isAnnuityPayoutGuide
@@ -3963,6 +4004,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with payoff months, then check total interest and total paid. If the interest still looks painful, test a bigger extra payment or compare a real consolidation offer before changing the plan.'
             : isDebtConsolidationGuide
             ? 'Start with total cost change, then check monthly payment change. If the payment is lower but total cost is higher, the offer is giving relief now by keeping the debt around longer.'
+            : isRepaymentGuide
+            ? 'Start with payoff months, then check total interest and total paid. If the payoff time is longer than expected, test a higher payment or check whether the first month of interest is eating too much of the payment.'
             : isMarriageTaxGuide
             ? 'Start with the difference, then check joint federal tax, two single returns, joint taxable income, and the joint marginal bracket. A $0 difference is a real answer, not an error.'
             : isInvestmentGuide
@@ -4014,6 +4057,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad debt payoff estimates come from using an old balance, entering the monthly rate instead of the annual rate, ignoring fees, or counting extra money that will be needed for rent, food, utilities, or other bills.'
             : isDebtConsolidationGuide
             ? 'Most bad consolidation estimates come from using the best advertised rate instead of the actual offer, forgetting fees, mixing monthly and annual rates, or ignoring the reason the debt grew in the first place.'
+            : isRepaymentGuide
+            ? 'Most bad repayment estimates come from using an old balance, entering 0.08 instead of 8, treating an annual payment like a monthly payment, or ignoring fees, payment pauses, and official servicer rules.'
             : isCreditCardGuide
             ? 'Most bad credit card payoff estimates come from paying only the minimum without checking time, adding new spending every month, ignoring fees or promotions, or expecting simple monthly math to match daily-balance billing exactly.'
             : isCreditCardsPayoffGuide
@@ -4252,6 +4297,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'FTC debt guidance is useful because a payment plan is more than calculator math: it can involve creditors, collectors, written agreements, settlement risks, and scams. CFPB debt-collection resources help with rights and collector contact, while consumer.gov keeps the budget step simple.'
             : isDebtConsolidationGuide
             ? 'CFPB consolidation guidance is useful because a lower payment can hide fees, a longer term, or new risk. FTC debt guidance helps with debt-relief scam warnings, while consumer.gov keeps the budget test simple before a new loan is signed.'
+            : isRepaymentGuide
+            ? 'CFPB disclosure guidance is useful because monthly payment, APR, finance charge, and total paid are different pieces of a loan. Federal Student Aid is useful for the warning that official student loan repayment plans need the Loan Simulator or servicer rules. FTC debt guidance and consumer.gov budget notes help keep the payment realistic.'
             : isPensionGuide
             ? 'PBGC, DOL, and IRS sources are useful here because defined-benefit pensions are plan formulas, not personal account balances. Real benefits can depend on vesting, credited service, payment form, survivor options, plan guarantees, taxes, and the official plan document.'
             : isAnnuityPayoutGuide

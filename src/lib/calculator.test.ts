@@ -1536,6 +1536,36 @@ describe('finance helpers', () => {
     expect(fastPayoff.totalInterest).toBeCloseTo(578.63, 2);
   });
 
+  it('keeps repayment calculator examples stable', () => {
+    const balancePlusExtra = calculateFixedDebtPayoff({
+      balance: 12000,
+      annualRatePercent: 8,
+      monthlyPayment: 300,
+      extraMonthlyPayment: 50,
+    });
+    const noExtra = calculateFixedDebtPayoff({
+      balance: 12000,
+      annualRatePercent: 8,
+      monthlyPayment: 300,
+      extraMonthlyPayment: 0,
+    });
+    const smallLoan = calculateFixedDebtPayoff({
+      balance: 3500,
+      annualRatePercent: 14,
+      monthlyPayment: 150,
+      extraMonthlyPayment: 25,
+    });
+
+    expect(balancePlusExtra.monthsToPayoff).toBe(40);
+    expect(balancePlusExtra.totalInterest).toBeCloseTo(1669.76, 2);
+    expect(balancePlusExtra.totalPaid).toBeCloseTo(13669.76, 2);
+    expect(balancePlusExtra.finalPayment).toBeCloseTo(19.76, 2);
+    expect(noExtra.monthsToPayoff).toBe(47);
+    expect(noExtra.totalInterest).toBeCloseTo(2003.66, 2);
+    expect(smallLoan.monthsToPayoff).toBe(23);
+    expect(smallLoan.totalInterest).toBeCloseTo(508.84, 2);
+  });
+
   it('keeps debt consolidation calculator examples stable', () => {
     const lowerRateLoan = calculateDebtConsolidation({
       totalDebt: 18000,
