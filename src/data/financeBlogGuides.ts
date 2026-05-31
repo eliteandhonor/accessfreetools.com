@@ -757,7 +757,11 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.investorSimpleInterest, sourceLinks.cfpbSimpleInterestAuto, sourceLinks.cfpbAprVsInterest, sourceLinks.investorCompound];
   }
 
-  if (['compound-interest-calculator', 'retirement-calculator', 'interest-calculator', 'future-value-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'interest-calculator') {
+    return [sourceLinks.investorSimpleInterest, sourceLinks.cfpbCompoundInterest, sourceLinks.cfpbAprVsInterest, sourceLinks.investorGovCompoundCalculator];
+  }
+
+  if (['compound-interest-calculator', 'retirement-calculator', 'future-value-calculator'].includes(toolSlug)) {
     return [sourceLinks.investorCompound];
   }
 
@@ -1321,29 +1325,31 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Sales Tax Calculator to check tax on a purchase amount.', 'Use Loan Calculator to compare the auto loan with another fixed loan.', 'Use Cash Back or Low Interest Calculator if a dealer offers a rebate or special financing.'],
   },
   'interest-calculator': {
-    summary: 'Learn the difference between simple interest and compound interest with clear examples.',
+    summary: 'Compare simple interest and compound interest with real numbers, annual-rate checks, and clear limits.',
     purpose:
-      'The Interest Calculator helps you compare two common interest ideas: simple interest grows from the original principal only, while compound interest grows from an increasing balance.',
+      'The Interest Calculator helps you compare two common interest jobs: simple interest based only on the original principal, and compound interest where interest gets added back to the balance.',
     enter: [
-      'Choose simple interest when interest does not earn additional interest.',
-      'Choose compound interest when earnings are added back to the balance.',
-      'Enter principal, annual rate, time, and any monthly contribution requested by the mode.',
+      'Choose Simple when the question is principal x annual interest rate x time.',
+      'Choose Compound when interest is added back to the balance and can earn more interest later.',
+      'Enter principal, annual interest rate, time in years, compounding frequency, and monthly deposits only where the selected mode asks for them.',
     ],
     example: [
-      '$1,000 at 5% simple interest for 3 years earns $150 because 1000 x 0.05 x 3 equals 150.',
-      'With compounding, the balance can grow faster because each period starts from a larger balance.',
+      '$1,000 at 5% simple interest for 3 years earns $150 because 1000 x 0.05 x 3 equals 150, so the ending balance is $1,150.',
+      '$2,500 at 5% for 8 years with quarterly compounding grows to about $3,720.33 before taxes, fees, or withdrawals.',
+      '$1,000 plus $100 per month at 6% for 10 years grows to about $18,207.33, with $13,000 from deposits and about $5,207.33 from estimated interest.',
     ],
     read: [
-      'Interest is the growth or cost before tax, fees, or penalties.',
-      'Ending balance is principal plus interest and contributions.',
-      'Compounding frequency can change the effective growth rate.',
+      'Simple interest and compound interest are not the same formula, so do not compare them without checking the mode.',
+      'In compound mode, total contributions are your deposits. Estimated interest is the growth above those deposits.',
+      'Effective annual rate helps show how compounding changes the rate you actually model.',
     ],
     mistakes: [
-      'Do not mix monthly and annual rates.',
-      'Do not compare simple and compound results as if the formulas are the same.',
-      'Do not treat an estimated return as guaranteed investment performance.',
+      'Do not enter 0.05 when the field asks for 5%.',
+      'Do not mix months and years. Use 1.5 for 18 months or 0.25 for 3 months.',
+      'Do not treat annual interest rate, APR, and APY as the same thing.',
+      'Do not use the compound result as a guaranteed investment return or official bank statement.',
     ],
-    next: ['Use Compound Interest Calculator for more compounding controls.', 'Use Investment Calculator for recurring investing scenarios.'],
+    next: ['Use Simple Interest Calculator when you only need principal-rate-time math.', 'Use Compound Interest Calculator for more compounding controls.', 'Use Investment Calculator for recurring investing scenarios.', 'Use Interest Rate Calculator when the missing number is the rate.'],
   },
   'payment-calculator': {
     summary: 'Learn how to estimate a fixed monthly payment and total interest from a balance, rate, and term.',
@@ -3330,6 +3336,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'College Cost Calculator Guide';
   }
 
+  if (tool.slug === 'interest-calculator') {
+    return 'Interest Calculator Guide';
+  }
+
   if (tool.slug === 'simple-interest-calculator') {
     return 'Simple Interest Calculator Guide';
   }
@@ -3457,6 +3467,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate future college cost, first-year cost, savings gap, and aid-limit checks before using school net price calculators.';
   }
 
+  if (tool.slug === 'interest-calculator') {
+    return 'Compare simple and compound interest from principal, annual interest rate, years, compounding frequency, and deposits.';
+  }
+
   if (tool.slug === 'simple-interest-calculator') {
     return 'Calculate simple interest from principal, annual interest rate, and years, with percent-entry, APR, and compounding limits.';
   }
@@ -3507,6 +3521,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isRepaymentGuide = tool.slug === 'repayment-calculator';
   const isStudentLoanGuide = tool.slug === 'student-loan-calculator';
   const isCollegeCostGuide = tool.slug === 'college-cost-calculator';
+  const isInterestGuide = tool.slug === 'interest-calculator';
   const isSimpleInterestGuide = tool.slug === 'simple-interest-calculator';
   const isPensionGuide = tool.slug === 'pension-calculator';
   const isAnnuityPayoutGuide = tool.slug === 'annuity-payout-calculator';
@@ -3558,6 +3573,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A student loan payment is easier to check when the official-plan stuff is kept separate from the basic math. This guide shows how balance, rate, term, and extra payment change a standard student-loan estimate before you compare Federal Student Aid or servicer options.'
       : isCollegeCostGuide
       ? 'College cost planning gets confusing when sticker price, net price, savings, aid, and loans are all mixed together. This guide keeps the simple projection separate: today\'s cost, years until school, yearly cost growth, savings, and the gap before official aid numbers.'
+      : isInterestGuide
+      ? 'Interest math gets messy when simple interest, compound interest, APR, APY, and investment return are treated like one thing. This guide keeps the job clear: pick the right mode, enter the annual interest rate, then read what the result leaves out.'
       : isSimpleInterestGuide
       ? 'Simple interest is one of the easiest money formulas to check, but it is also easy to overuse. This guide keeps the job small: principal, annual interest rate, time in years, simple interest, and ending balance.'
       : isPensionGuide
@@ -3706,6 +3723,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Add years until school starts, years in school, and the yearly cost increase you want to test.',
           'Enter current savings, monthly savings, and estimated savings return.',
           'Calculate, then compare total estimated cost, first-year cost, projected savings, and the savings gap before checking school net price calculators and aid offers.',
+        ]
+      : isInterestGuide
+      ? [
+          'Open the Interest Calculator.',
+          'Choose Simple when the question is principal x annual interest rate x time.',
+          'Choose Compound when interest gets added back to the balance and can earn more interest later.',
+          'Enter principal, annual interest rate, time in years, compounding frequency, and monthly deposits only where the mode asks for them.',
+          'Calculate, then compare interest, ending balance, total contributions, and effective annual rate before treating the estimate like a real offer.',
         ]
       : isSimpleInterestGuide
       ? [
@@ -3900,6 +3925,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it when you want a quick standard student-loan payment estimate before you compare official federal repayment plans, private lender terms, or a servicer quote.'
             : isCollegeCostGuide
             ? 'Use it when you want a first-pass college budget before comparing schools. It is helpful before checking the U.S. Department of Education Net Price Calculator Center, College Scorecard, a FAFSA result, or a financial aid offer.'
+            : isInterestGuide
+            ? 'Use it when you want to compare simple interest with compound interest, check a homework formula, test a savings idea, or decide whether a more specific loan, investment, APY, or APR calculator fits better.'
             : isSimpleInterestGuide
             ? 'Use it when interest is based only on the original principal, annual interest rate, and time. It is best for clean examples, not bank statements, APR disclosures, or amortized loan schedules.'
             : isPensionGuide
@@ -3952,6 +3979,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Student-loan estimates get shaky when official-plan rules and simple loan math are mixed together. Keep balance, annual rate, term, and extra payment separate, then check Federal Student Aid or your servicer for the real plan.'
             : isCollegeCostGuide
             ? 'College-cost estimates get shaky when tuition is treated like the whole bill. Keep tuition and fees, housing and meals, books and supplies, transportation, personal costs, years until school, cost increase, and savings assumptions separate.'
+            : isInterestGuide
+            ? 'Interest estimates get shaky when annual rates, monthly rates, APR, APY, simple interest, and compound interest are mixed together. Pick the mode first, then keep principal, annual interest rate, time in years, compounding frequency, and deposits separate.'
             : isSimpleInterestGuide
             ? 'Simple-interest estimates get shaky when the real product compounds, charges fees, uses a daily balance, changes rates, or requires payments. Keep the principal, annual interest rate, and time in years separate.'
             : isPensionGuide

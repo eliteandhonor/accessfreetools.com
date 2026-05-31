@@ -371,22 +371,23 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Interest Calculator',
     buttonLabel: 'Calculate interest',
     emptyHistory: 'Recent interest estimates will appear here.',
-    privacyNote: 'Interest estimates are educational and do not include taxes, fees, penalties, or account rules.',
+    privacyNote:
+      'Interest estimates run in this browser tab. They do not include APR fees, APY rules, taxes, penalties, daily balance billing, payment schedules, lender disclosures, or investment risk.',
     modes: [
       {
         id: 'simple',
         label: 'Simple',
         symbol: 'SI',
         fields: [
-          numberField('principal', 'Principal ($)'),
-          numberField('annualRatePercent', 'Interest rate (%)'),
-          numberField('years', 'Time (years)'),
+          numberField('principal', 'Principal or starting amount ($)'),
+          numberField('annualRatePercent', 'Annual interest rate (%)'),
+          numberField('years', 'Time in years'),
         ],
         defaultInputs: { principal: '1000', annualRatePercent: '5', years: '3' },
         examples: [
           { label: '$1k at 5%', inputs: { principal: '1000', annualRatePercent: '5', years: '3' } },
-          { label: '$2.5k at 4.5%', inputs: { principal: '2500', annualRatePercent: '4.5', years: '5' } },
-          { label: 'One-year check', inputs: { principal: '800', annualRatePercent: '8', years: '1' } },
+          { label: '$2.5k at 6.25%', inputs: { principal: '2500', annualRatePercent: '6.25', years: '1.5' } },
+          { label: '3-month check', inputs: { principal: '12000', annualRatePercent: '8', years: '0.25' } },
         ],
       },
       {
@@ -396,15 +397,15 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         fields: [
           numberField('principal', 'Initial amount ($)'),
           numberField('monthlyContribution', 'Monthly contribution ($)'),
-          numberField('annualRatePercent', 'Interest rate (%)'),
-          numberField('years', 'Time (years)'),
-          selectField('compoundFrequency', 'Compounding', compoundOptions),
+          numberField('annualRatePercent', 'Annual interest rate or return (%)'),
+          numberField('years', 'Time in years'),
+          selectField('compoundFrequency', 'Compounding frequency', compoundOptions),
         ],
         defaultInputs: { principal: '1000', monthlyContribution: '100', annualRatePercent: '6', years: '10', compoundFrequency: '12' },
         examples: [
           { label: '$100/month', inputs: { principal: '1000', monthlyContribution: '100', annualRatePercent: '6', years: '10', compoundFrequency: '12' } },
-          { label: 'Quarterly compounding', inputs: { principal: '2500', monthlyContribution: '0', annualRatePercent: '5', years: '8', compoundFrequency: '4' } },
-          { label: 'Daily compounding', inputs: { principal: '5000', monthlyContribution: '50', annualRatePercent: '4.5', years: '5', compoundFrequency: '365' } },
+          { label: '$2.5k quarterly', inputs: { principal: '2500', monthlyContribution: '0', annualRatePercent: '5', years: '8', compoundFrequency: '4' } },
+          { label: '$50/month daily', inputs: { principal: '5000', monthlyContribution: '50', annualRatePercent: '4.5', years: '5', compoundFrequency: '365' } },
         ],
       },
     ],
@@ -2657,9 +2658,11 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           ],
           steps: [
             `Convert ${percent(annualRatePercent)} to decimal rate ${formatCalculatorNumber(annualRatePercent / 100)}.`,
-            'Multiply principal by annual rate and years.',
+            'Multiply principal by annual interest rate and time in years.',
             'Add interest to principal for the ending balance.',
           ],
+          note:
+            'This is simple principal x rate x time math. It is not APR, APY, compound interest, daily balance billing, amortization, a bank disclosure, or a lender payoff quote.',
         };
       }
 
@@ -2685,6 +2688,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Compound the starting balance and add end-of-month contributions.',
           'Interest equals ending balance minus total contributions.',
         ],
+        note:
+          'This is a compound-growth estimate, not a guaranteed investment return, bank APY disclosure, loan APR, tax result, or account statement.',
       };
     }
     case 'retirement': {

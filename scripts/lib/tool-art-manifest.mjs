@@ -160,6 +160,18 @@ const toolArtMetadataOverrides = {
         'College Cost Calculator guide artwork supports the walkthrough by showing where a savings-gap estimate helps and where net price calculators, aid offers, and school-specific costs still matter.',
     },
   },
+  'interest-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing simple and compound interest screens with $1,000 principal, 5 percent annual rate, 3 years, $150 interest, and compound-growth cards.',
+      caption:
+        'Interest Calculator artwork matches the live workflow: simple mode, compound mode, principal, annual interest rate, time in years, compounding frequency, monthly deposits, and ending balance.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining simple interest versus compound interest beside APR, APY, bank-account, loan, and investment-return warning notes.',
+      caption:
+        'Interest Calculator guide artwork supports the walkthrough by showing when to use simple interest, when to use compounding, and why APR, APY, fees, taxes, and risk still need checking.',
+    },
+  },
   'simple-interest-calculator': {
     tool: {
       alt: 'Smoke mascot checking a simple interest screen with $1,000 principal, 5 percent annual rate, 3 years, $150 interest, and $1,150 ending balance cards.',

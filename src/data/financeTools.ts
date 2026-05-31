@@ -1789,25 +1789,70 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'interest-calculator',
     name: 'Interest Calculator',
-    summary: 'Calculate simple or compound interest from principal, rate, and time.',
+    summary: 'Compare simple interest and compound interest from principal, annual rate, time, and deposits.',
     description:
-      'Use this free interest calculator to estimate simple interest or compound interest with principal, annual rate, time, compounding frequency, and monthly contributions.',
+      'Compare simple interest and compound interest from principal, annual interest rate, time in years, compounding frequency, and monthly deposits.',
+    seoTitle: 'Interest Calculator | Simple & Compound Interest',
+    seoDescription:
+      'Compare simple and compound interest from principal, annual interest rate, years, compounding frequency, and monthly deposits.',
     icon: 'calculator-interest',
+    aliases: [
+      'interest calculator',
+      'interest calculator formula',
+      'simple interest calculator',
+      'compound interest calculator',
+      'monthly compound interest calculator',
+      'bank interest calculator',
+      'loan interest calculator',
+    ],
     formula:
-      'Simple interest is principal times rate times time. Compound interest grows the balance by the effective periodic rate and can include monthly contributions.',
-    limit: financeLimit,
+      'Simple interest multiplies principal by annual interest rate and time. Compound interest grows the balance by the selected compounding frequency, then adds monthly deposits in the estimate.',
+    limit:
+      'This is interest math only. It does not include APR fees, taxes, penalties, minimum balances, bank APY rules, investment risk, loan payment schedules, daily balance billing, promotional rates, or lender disclosures.',
     useCases: [
       'Compare simple interest with compound interest.',
       'Estimate interest earned on savings or interest charged on a balance.',
       'Test how contribution size and time change compound growth.',
-      'Build intuition before using the investment or compound interest calculators.',
+      'Check whether a question belongs in the simple mode, compound mode, investment calculator, or loan calculator.',
     ],
     examples: [
-      { label: 'Simple interest', expression: '$1,000 at 5% for 3 years', result: '$150 interest before any fees or tax' },
-      { label: 'Compound growth', expression: '$2,500 at 6% for 10 years', result: 'Ending balance with compounding' },
-      { label: 'Monthly deposits', expression: '$1,000 plus $100/month at 6%', result: 'Contribution growth estimate' },
+      { label: 'Simple interest', expression: '$1,000 at 5% for 3 years', result: '$150 interest and $1,150 ending balance' },
+      { label: 'Compound growth', expression: '$2,500 at 5% for 8 years, compounded quarterly', result: 'About $3,720.33 ending balance' },
+      { label: 'Monthly deposits', expression: '$1,000 plus $100/month at 6% for 10 years', result: 'About $18,207.33 ending balance' },
     ],
     relatedSlugs: ['compound-interest-calculator', 'investment-calculator', 'interest-rate-calculator'],
+    inputExplanations: [
+      { term: 'Principal', meaning: 'the starting amount before new interest or deposits are added.' },
+      { term: 'Annual interest rate', meaning: 'the yearly rate entered as a normal percent, such as 5 for 5%.' },
+      { term: 'Time in years', meaning: 'how long the estimate runs. Use 1.5 for 18 months or 0.25 for 3 months.' },
+      { term: 'Compounding frequency', meaning: 'how often interest is added back to the balance in compound mode.' },
+      { term: 'Monthly deposits', meaning: 'extra money added each month in compound mode.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Should I choose simple or compound interest?',
+        answer:
+          'Choose simple interest when interest is based only on the original principal. Choose compound interest when interest gets added back to the balance and can earn more interest later.',
+      },
+      {
+        question: 'Why does the compound result grow faster?',
+        answer:
+          'Compound interest starts each new period from a bigger balance. For example, $2,500 at 5% for 8 years with quarterly compounding grows to about $3,720.33 before taxes, fees, or withdrawals.',
+      },
+      {
+        question: 'Is annual interest rate the same as APR or APY?',
+        answer:
+          'No. The annual interest rate is the rate used by this calculator. APR can include certain loan fees, and APY reflects compounding on deposit accounts. Check the real disclosure when the exact legal or bank number matters.',
+      },
+    ],
+    formulaCheck:
+      'If the answer looks strange, check that the rate is annual, the time is in years, and the compound mode uses the compounding frequency you meant.',
+    resultReading:
+      'In simple mode, read interest and ending balance separately. In compound mode, compare ending balance, total contributions, estimated interest, and effective annual rate so deposits are not confused with growth.',
+    doubleCheck:
+      'Double-check annual rate, time in years, compounding frequency, and whether you are trying to estimate savings growth, loan interest, APR, APY, or investment return.',
+    limitFollowup:
+      'For loans, compare the lender APR and payment schedule. For bank accounts, compare the stated APY and account rules. For investing, remember the return is not guaranteed.',
   }),
   makeFinanceTool({
     slug: 'payment-calculator',

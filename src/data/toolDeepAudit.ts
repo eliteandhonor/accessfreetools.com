@@ -2197,20 +2197,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'interest-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-top-25-completion-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [investorCompound, openStaxPercent],
+    sources: [investorSimpleInterest, cfpbCompoundInterest, cfpbAprVsInterest, investorGovCompoundCalculator, investorCompound, openStaxPercent],
     findings: [
-      'The simple-interest mode uses principal times annual rate times years and shows ending balance separately from interest earned or owed.',
-      'The compound mode reuses the compound-interest helper so compounding frequency, monthly contributions, effective annual rate, and estimated interest are consistent with the dedicated compound tool.',
-      'The guide clearly warns users not to mix monthly and annual rates or treat estimated investment returns as guaranteed.',
+      'DataForSEO selected the page-specific query `interest calculator` as a high-volume informational target, with related demand for simple interest, formula, loan interest, monthly compound interest, and bank interest.',
+      'The simple mode uses principal x annual interest rate x time in years and shows interest separately from ending balance.',
+      'The compound mode reuses the compound-interest helper so compounding frequency, monthly deposits, effective annual rate, total contributions, estimated interest, and ending balance stay consistent with the dedicated compound tool.',
+      'The tool and guide now separate annual interest rate from APR and APY, and warn that real loans, bank accounts, and investments can change with fees, taxes, account terms, payment schedules, risk, and changing rates.',
     ],
     improvements: [
-      'Manually checked simple and compound paths, rate/time wording, examples, guide, FAQ cautions, privacy note, and source coverage.',
+      'Rewrote metadata, description, aliases, examples, FAQs, field labels, privacy note, formula notes, guide copy, source links, trust block, image alt/caption text, modified dates, and audit record in smart-14 wording.',
     ],
     followUps: [
-      'Add a side-by-side simple versus compound comparison table when finance visualizations are expanded.',
+      'Add a side-by-side simple-versus-compound comparison table when finance visualizations are expanded.',
     ],
   },
   {
@@ -7514,6 +7515,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
     if (includesAny(key, ['college-cost', 'college cost'])) {
       return sourceBackstop([educationCollegeAffordability, educationNetPrice, educationCollegeScorecard, cfpbCollegePath, cfpbCollegeNumbers, investorCompound]);
+    }
+
+    if (includesAny(key, ['interest-calculator', 'interest calculator'])) {
+      return sourceBackstop([investorSimpleInterest, cfpbCompoundInterest, cfpbAprVsInterest, investorGovCompoundCalculator]);
     }
 
     if (includesAny(key, ['simple-interest', 'simple interest'])) {
