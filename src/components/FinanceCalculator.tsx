@@ -624,7 +624,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Savings Calculator',
     buttonLabel: 'Project savings',
     emptyHistory: 'Recent savings projections will appear here.',
-    privacyNote: 'Savings projections use your chosen rate and do not include taxes, fees, changing rates, or account rules.',
+    privacyNote: 'Savings inputs stay in this browser tab and are not sent to a bank or lender.',
     modes: [
       {
         id: 'savings',
@@ -633,7 +633,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         fields: [
           numberField('currentSavings', 'Current savings ($)'),
           numberField('monthlyDeposit', 'Monthly deposit ($)'),
-          numberField('annualRatePercent', 'Annual rate (%)'),
+          numberField('annualRatePercent', 'Estimated annual rate (%)'),
           numberField('years', 'Time (years)'),
           numberField('targetAmount', 'Target amount ($)'),
         ],
@@ -2707,7 +2707,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Add monthly contributions at the end of each month.',
           'Compare the projected balance with the target amount.',
         ],
-        note: 'This projection does not include taxes, fees, inflation, withdrawals, or market volatility.',
+        note: 'This projection does not include taxes, bank fees, APY-vs-rate differences, balance tiers, minimum balances, withdrawals, exact deposit dates, changing rates, or account rules.',
       };
     }
     case 'amortization': {

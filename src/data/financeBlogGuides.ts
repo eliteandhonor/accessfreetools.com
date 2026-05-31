@@ -43,6 +43,10 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/ask-cfpb/how-does-compound-interest-work-en-1683/',
     label: 'CFPB: How compound interest works',
   },
+  fdicCompoundInterest: {
+    href: 'https://www.fdic.gov/consumer-resource-center/chapter-5-compound-interest',
+    label: 'FDIC: Compound interest',
+  },
   investorGovCompoundCalculator: {
     href: 'https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator',
     label: 'Investor.gov: Compound Interest Calculator',
@@ -531,7 +535,12 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'savings-calculator') {
-    return [sourceLinks.investorCompound, sourceLinks.consumerBudgetWorksheet];
+    return [
+      sourceLinks.cfpbCompoundInterest,
+      sourceLinks.investorGovCompoundCalculator,
+      sourceLinks.fdicCompoundInterest,
+      sourceLinks.consumerBudgetWorksheet,
+    ];
   }
 
   if (toolSlug === 'finance-calculator') {
@@ -1542,29 +1551,31 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Mortgage Calculator to inspect the monthly payment.', 'Use Down Payment Calculator to test cash needed at closing.', 'Use Mortgage Payoff Calculator later when comparing extra principal payments.'],
   },
   'savings-calculator': {
-    summary: 'Learn how current savings, monthly deposits, interest rate, and time affect a savings goal.',
+    summary: 'Learn how current savings, monthly deposits, rate, and time affect a savings goal.',
     purpose:
-      'The Savings Calculator projects a future balance and compares it with a target. It is useful for emergency funds, travel funds, down payments, and other goals with regular deposits.',
+      'The Savings Calculator projects a future balance and compares it with a target. It is useful for emergency funds, travel, car cash, wedding money, down payments, and other goals that need steady deposits.',
     enter: [
       'Enter current savings and the monthly amount you plan to deposit.',
-      'Enter an annual rate as a percent, such as 4 for 4%.',
+      'Enter an estimated annual rate as a percent, such as 4 for 4%.',
       'Enter the time horizon and optional target amount.',
     ],
     example: [
-      '$2,500 saved plus $300 per month at 4% for 5 years compounds into a projected balance.',
-      'The calculator compares that balance with the target so you can see whether there is a gap.',
+      '$2,500 saved plus $300 per month at 4% for 5 years gives about $22,942.18.',
+      'Against a $25,000 target, the plan is still about $2,057.82 short.',
     ],
     read: [
       'Projected balance is the estimate at the end of the time period.',
-      'Total deposits shows money you put in, while estimated interest shows growth from the rate.',
-      'Target gap tells you how far the projection is from your goal.',
+      'Total deposits shows your starting money plus monthly deposits.',
+      'Estimated interest shows the part from the rate.',
+      'Target gap tells you whether the plan is still short or already over the goal.',
     ],
     mistakes: [
       'Do not assume the rate will stay fixed unless your account guarantees it.',
-      'Do not forget taxes, fees, withdrawals, or changed deposit habits.',
+      'Do not forget taxes, bank fees, withdrawals, minimum balances, or changed deposit habits.',
+      'Do not treat APY, interest rate, and exact bank statement math as the same thing.',
       'Do not compare savings and investments as if their risk is the same.',
     ],
-    next: ['Use Compound Interest Calculator for compounding frequency controls.', 'Use Investment Calculator for longer risk-based growth scenarios.'],
+    next: ['Use Compound Interest Calculator for compounding frequency controls.', 'Use Budget Calculator to see whether the monthly deposit fits.', 'Use Investment Calculator for longer risk-based growth scenarios.'],
   },
   'rent-calculator': {
     summary: 'Learn how to estimate a rent budget from income, target percentage, debts, and utilities.',
@@ -3065,6 +3076,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'House Affordability Calculator Guide';
   }
 
+  if (tool.slug === 'savings-calculator') {
+    return 'Savings Calculator Guide';
+  }
+
   const standardTitle = `How to use the ${tool.name}`;
   const pageTitle = `${standardTitle} | Access Free Tools`;
 
@@ -3140,6 +3155,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate a home price from income, debts, down payment, rate, tax, insurance, HOA, and DTI, with budget and lender-limit cautions.';
   }
 
+  if (tool.slug === 'savings-calculator') {
+    return 'Project savings from current balance, monthly deposit, rate, and time. See estimated interest and whether the goal is still short.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -3168,6 +3187,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isMortgagePayoffGuide = tool.slug === 'mortgage-payoff-calculator';
   const is401kGuide = tool.slug === '401k-calculator';
   const isHouseAffordabilityGuide = tool.slug === 'house-affordability-calculator';
+  const isSavingsGuide = tool.slug === 'savings-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
@@ -3196,6 +3216,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A 401K estimate is not just one magic retirement number. This guide shows how salary, contribution percent, employer match, return, and years build a projection before IRS limits and plan rules have the final say.'
       : isHouseAffordabilityGuide
       ? 'A house budget is not just the biggest mortgage a lender might allow. This guide shows how income, existing debts, down payment, rate, property tax, insurance, HOA, and a debt-to-income target shape a home price estimate.'
+      : isSavingsGuide
+      ? 'A savings goal is easier to trust when the deposits, interest, and gap are split apart. This guide shows how current savings, monthly deposits, rate, time, and a target amount turn into a plan you can check.'
       : isUkMortgageGuide
       ? 'A UK repayment mortgage is not just the property price split across months. This guide shows how price, deposit, rate, term, and monthly fees turn into a payment, LTV, and interest estimate.'
       : isAutoLoanGuide
@@ -3258,6 +3280,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Add rate, term, debt-to-income target, property tax, monthly insurance, and HOA.',
           'Calculate, then compare affordable home price, loan amount, monthly housing budget, principal and interest, and tax/insurance/HOA.',
           'Check the result against closing costs, repairs, emergency savings, utilities, and a lender Loan Estimate before shopping hard.',
+        ]
+      : isSavingsGuide
+      ? [
+          'Open the Savings Calculator.',
+          'Enter current savings and the monthly deposit you can keep making.',
+          'Add the estimated annual rate, time in years, and target amount.',
+          'Calculate, then compare projected balance, total deposits, estimated interest, and target gap.',
+          'Check account fees, rate changes, withdrawals, APY wording, and minimum balances before trusting the exact interest amount.',
         ]
       : isUkMortgageGuide
       ? [
@@ -3436,6 +3466,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? '401K projections get misleading when salary percent, match percent, and match limit are treated like the same field. Keep your contribution, the employer match rate, the match cap, estimated return, and years separate.'
             : isHouseAffordabilityGuide
             ? 'House affordability estimates get shaky when principal and interest are the only costs counted. Keep income, existing debts, down payment, rate, DTI target, property tax, insurance, and HOA separate so the monthly budget is visible.'
+            : isSavingsGuide
+            ? 'Savings estimates get fuzzy when the goal, deposits, and interest are all blended together. Keep current savings, monthly deposit, annual rate, years, and target amount separate so the gap is easy to check.'
             : isUkMortgageGuide
             ? 'UK mortgage estimates get messy when one-off costs and monthly costs are mixed together. Property price, deposit, rate, and term build the repayment estimate. The monthly fee field is only for a cost that repeats every month.'
             : isAutoLoanGuide
@@ -3480,6 +3512,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $25,000 saved, a $75,000 salary, 8% contribution, 50% match up to 6%, and 7% for 25 years. The projection is about $700,059.74, with $500 from you each month and $187.50 from the employer match.'
               : isHouseAffordabilityGuide
               ? 'Try the starter example: $110,000 income, $450 monthly debts, $60,000 down, 6.5% for 30 years, 36% DTI, 1.2% property tax, and $140 monthly insurance. The estimate is about a $421,988.22 home price, $361,988.22 loan amount, and $2,850 monthly housing budget.'
+              : isSavingsGuide
+              ? 'Try the starter example: $2,500 saved, $300 added each month, 4% annual rate, 5 years, and a $25,000 target. The estimate is about $22,942.18, with $20,500 from deposits, about $2,442.18 from interest, and about $2,057.82 still short.'
               : isAutoLoanGuide
               ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
               : isBusinessLoanGuide
@@ -3517,6 +3551,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The loan formula is only the first layer. The budget number changes when you add property tax, homeowners insurance, PMI, and HOA dues. CFPB calls the core monthly pieces PITI: principal, interest, taxes, and insurance.'
             : isHouseAffordabilityGuide
             ? 'Start with the affordable home price, then check the monthly housing budget and the cost split. CFPB says a comfortable mortgage payment can be different from the amount a lender says you qualify to borrow.'
+            : isSavingsGuide
+            ? 'Start with the projected balance, then check the split. Deposits are the money you put in. Estimated interest is the extra growth from the rate. CFPB and FDIC both explain compound interest as interest earning more interest over time.'
             : isMortgagePayoffGuide
             ? 'The calculator first finds the scheduled fixed mortgage payment. Then it subtracts any one-time principal payment, adds extra monthly principal, and simulates month-by-month interest until the balance reaches zero.'
             : is401kGuide
@@ -3600,6 +3636,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad 401K projections come from using a return that is too hopeful, putting the employer match in the wrong field, ignoring vesting, forgetting fees and taxes, or assuming the page enforces IRS limits.'
             : isHouseAffordabilityGuide
             ? 'Most bad affordability estimates come from leaving out taxes, insurance, HOA, repairs, utilities, or closing costs, using debts that are too low, or treating a lender maximum like a comfortable budget.'
+            : isSavingsGuide
+            ? 'Most bad savings estimates come from using a rate that changes, typing APY like it is exact statement math, skipping fees or taxes, forgetting withdrawals, or choosing a monthly deposit that the budget cannot actually handle.'
             : isAutoLoanGuide
             ? 'Most bad car-payment estimates come from leaving out fees, using a rate from a different offer, forgetting negative equity, or choosing the longest term before checking total interest.'
             : isBusinessLoanGuide
@@ -3641,6 +3679,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help when the 401K projection is only one part of the retirement question, such as a wider savings target, investment what-if, or compound-interest check.'
             : isHouseAffordabilityGuide
             ? 'A related tool can help after the first affordability screen. The next question is usually the exact mortgage payment, the cash needed at closing, or how the same home looks with a different down payment.'
+            : isSavingsGuide
+            ? 'A related tool can help after the first savings estimate. The next question is usually exact compounding, whether the monthly deposit fits the budget, or whether a higher-risk investment-style return is really the comparison you meant.'
             : isBusinessLoanGuide
             ? 'A related tool can help when the loan payment is only one part of the decision, such as the rate, a plain fixed loan, or the profit target for the project.'
             : isCanadianMortgageGuide
@@ -3823,6 +3863,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not enforce annual contribution limits, catch-up rules, plan eligibility, vesting schedules, Roth or pre-tax treatment, fees, loans, hardship withdrawals, or future tax rules.'
             : isHouseAffordabilityGuide
             ? 'This calculator still stays simple. It does not approve a mortgage, check credit, verify income, price closing costs, know exact tax or insurance bills, estimate repairs, or replace a lender Loan Estimate.'
+            : isSavingsGuide
+            ? 'This calculator still stays simple. It does not read bank disclosures, calculate exact APY, apply fees, handle balance tiers, track withdrawals, predict future rate changes, or replace your account statement.'
             : isUkMortgageGuide
             ? 'This calculator still stays simple. It does not approve a mortgage, check affordability, include stamp duty, price product fees you do not enter, handle interest-only loans, read leasehold charges, or replace a written lender illustration.'
             : isBusinessLoanGuide
@@ -3864,6 +3906,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the 401K Calculator open beside this guide. Try the $25,000 saved and $75,000 salary example first, then change only your salary contribution percent so you can see what actually moved.'
       : isHouseAffordabilityGuide
       ? 'Keep the House Affordability Calculator open beside this guide. Try the $110,000 income example first, then change only monthly debts or down payment so you can see what actually moved.'
+      : isSavingsGuide
+      ? 'Keep the Savings Calculator open beside this guide. Try the $2,500 saved and $300 monthly deposit example first, then change only the monthly deposit so you can see what actually moved.'
       : isAutoLoanGuide
       ? 'Keep the Auto Loan Calculator open beside this guide. Try the $32,000 car example first, then change only the term so you can see why a lower payment can still cost more.'
       : isBusinessLoanGuide

@@ -2568,25 +2568,65 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'savings-calculator',
     name: 'Savings Calculator',
-    summary: 'Project savings growth and target gap from deposits, rate, and time.',
+    summary: 'Project a savings goal from current balance, monthly deposits, rate, and time.',
     description:
-      'Use this free savings calculator to project future savings, total deposits, estimated interest, and target gap from current savings, monthly deposits, rate, and time.',
+      'Use this free savings calculator to project a future balance, total deposits, estimated interest, and the gap to a target amount.',
+    seoTitle: 'Savings Calculator | Monthly Deposit, Interest & Goal Gap',
+    seoDescription:
+      'Project savings from current balance, monthly deposit, rate, and time. See total deposits, estimated interest, and the gap to your goal.',
     icon: 'calculator-savings',
+    aliases: ['monthly savings calculator', 'savings goal calculator', 'savings interest calculator', 'savings calculator apy'],
     formula:
-      'The calculator compounds current savings monthly, adds monthly deposits at the end of each month, then compares the projection with your target amount.',
+      'The calculator compounds current savings monthly, adds each monthly deposit at the end of the month, then subtracts the projected balance from your target amount.',
     limit:
-      'This is a rate-based savings projection. It does not include taxes, fees, variable rates, account limits, withdrawal timing, or bank-specific rules.',
+      'This is a simple savings projection. It does not include taxes, bank fees, changing rates, APY-vs-rate details, withdrawals, balance tiers, minimum balances, or account rules.',
     useCases: [
-      'Estimate when a savings goal may be reachable.',
-      'Compare monthly deposit amounts for a target balance.',
-      'See estimated interest separately from deposits.',
-      'Plan emergency fund, travel, purchase, or down-payment scenarios.',
+      'Check whether a monthly deposit is enough for a savings goal.',
+      'See the difference between money you deposit and estimated interest.',
+      'Compare emergency fund, trip, car, wedding, or down-payment scenarios.',
+      'Test a rate before opening or switching a savings account.',
     ],
     examples: [
-      { label: 'Savings goal', expression: '$2,500 saved, $300/month, 4%, 5 years', result: 'Projected balance and gap' },
-      { label: 'Emergency fund', expression: '$1,000 saved, $250/month for 2 years', result: 'Target comparison' },
-      { label: 'Longer horizon', expression: '$5,000 saved, $200/month, 10 years', result: 'Growth estimate' },
+      { label: 'Savings goal', expression: '$2,500 saved, $300/month, 4%, 5 years, $25,000 target', result: 'About $22,942.18 projected, $2,057.82 short' },
+      { label: 'Emergency fund', expression: '$1,000 saved, $250/month, 3.5%, 2 years, $8,000 target', result: 'About $7,278.02 projected, $721.98 short' },
+      { label: 'Goal cleared', expression: '$0 saved, $500/month, 4%, 3 years, $18,000 target', result: 'About $19,090.78 projected, $1,090.78 over target' },
     ],
+    inputExplanations: [
+      { term: 'Current savings', meaning: 'the money already set aside before the new monthly deposits start.' },
+      { term: 'Monthly deposit', meaning: 'the amount you plan to add at the end of each month.' },
+      { term: 'Annual rate', meaning: 'the estimated yearly interest rate. If your bank shows APY, use this as a close planning input, not exact statement math.' },
+      { term: 'Target amount', meaning: 'the goal you want to compare against, such as an emergency fund or down payment.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Does this savings calculator use APY?',
+        answer:
+          'It uses an estimated annual rate and monthly compounding. If your bank gives APY, the result is still useful for planning, but the bank statement can differ because APY, compounding rules, fees, and balance tiers are specific to that account.',
+      },
+      {
+        question: 'Are monthly deposits added before or after interest?',
+        answer:
+          'The calculator adds monthly deposits at the end of each month. That keeps the estimate simple and avoids pretending the page knows the exact day each deposit will arrive.',
+      },
+      {
+        question: 'Why is my target gap still positive?',
+        answer:
+          'A positive gap means the projected balance is still below the target. Try a larger monthly deposit, more time, a lower target, or a different rate assumption.',
+      },
+      {
+        question: 'Can I use this for an emergency fund?',
+        answer:
+          'Yes. Enter your current emergency savings, a monthly deposit you can actually keep making, and a target amount. Then check whether the result leaves enough room for bills, debt, and other savings goals.',
+      },
+    ],
+    formulaCheck:
+      'Monthly compounding grows the current balance first. Each monthly deposit is added at the end of the month. Target gap is target amount minus projected balance.',
+    resultReading:
+      'Projected balance is the estimated ending amount. Total deposits is your current savings plus monthly deposits. Estimated interest is the growth from the rate. Target gap shows whether the plan is short or over the goal.',
+    doubleCheck:
+      'Check the current balance, monthly deposit, annual rate, years, and target amount. Then check whether taxes, bank fees, withdrawals, minimum balances, or a changing rate would move the real account.',
+    limitFollowup:
+      'Compare the estimate with the account disclosure or bank calculator before relying on the exact interest amount.',
     relatedSlugs: ['compound-interest-calculator', 'investment-calculator', 'finance-calculator'],
   }),
   makeFinanceTool({

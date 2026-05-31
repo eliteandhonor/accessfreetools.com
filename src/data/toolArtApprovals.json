@@ -4072,6 +4072,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/savings-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/savings-calculator-guide.webp",
+    "alt": "Smoke mascot checking a savings goal worksheet with current balance, monthly deposit, rate, time, and target gap notes.",
+    "caption": "Savings Calculator guide artwork matches the walkthrough for current savings, monthly deposits, estimated interest, and target gap.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -4080,6 +4082,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/savings-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/savings-calculator-tool.webp",
+    "alt": "Smoke mascot beside a savings calculator screen with monthly deposit, annual rate, projected balance, interest, and target gap cards.",
+    "caption": "Savings Calculator artwork shows monthly deposits, estimated interest, projected balance, and the gap to a savings target.",
     "status": "approved",
     "qaStatus": "approved"
   },

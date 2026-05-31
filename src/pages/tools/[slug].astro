@@ -729,6 +729,13 @@ const financeToolInstructions = financeToolVariant
         'Calculate, then compare affordable home price, loan amount, monthly housing budget, principal and interest, and tax/insurance/HOA.',
         'Check closing costs, repairs, emergency savings, utilities, credit review, and a lender Loan Estimate before treating the price as affordable.',
       ]
+    : tool.slug === 'savings-calculator'
+    ? [
+        'Enter current savings and the monthly deposit you can keep making.',
+        'Add the estimated annual rate, time in years, and target amount.',
+        'Calculate, then compare projected balance, total deposits, estimated interest, and target gap.',
+        'Check bank fees, APY wording, minimum balances, withdrawals, exact deposit dates, and changing rates before trusting the exact interest amount.',
+      ]
     : tool.slug === 'investment-calculator'
     ? [
         'Enter the starting money already invested.',
@@ -2295,6 +2302,31 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-debt-to-income-ratio-en-1791/" rel="noreferrer" target="_blank">
                   CFPB debt-to-income ratio
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'savings-calculator' ? (
+            <>
+              <strong>Savings projection, not bank statement math</strong>
+              <p>
+                Use this to test current savings, monthly deposits, estimated annual rate, time, target
+                amount, projected balance, total deposits, estimated interest, and target gap. A real
+                account can still change with APY wording, compounding rules, balance tiers, minimum
+                balances, fees, taxes, withdrawals, exact deposit dates, and future rate changes.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/how-does-compound-interest-work-en-1683/" rel="noreferrer" target="_blank">
+                  CFPB compound interest guidance
+                </a>
+                {', '}
+                <a href="https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator" rel="noreferrer" target="_blank">
+                  Investor.gov compound interest calculator
+                </a>
+                {', and '}
+                <a href="https://www.fdic.gov/consumer-resource-center/chapter-5-compound-interest" rel="noreferrer" target="_blank">
+                  FDIC compound interest explanation
                 </a>
                 .
               </p>

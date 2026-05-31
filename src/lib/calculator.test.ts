@@ -1373,6 +1373,23 @@ describe('finance helpers', () => {
     expect(lowerDebt.maxMonthlyHousingPayment).toBe(2325);
   });
 
+  it('keeps savings goal examples stable', () => {
+    const starter = calculateSavingsProjection(2500, 300, 4, 5, 25000);
+    const emergencyFund = calculateSavingsProjection(1000, 250, 3.5, 2, 8000);
+    const goalCleared = calculateSavingsProjection(0, 500, 4, 3, 18000);
+
+    expect(starter.endingBalance).toBeCloseTo(22942.18, 2);
+    expect(starter.totalContributions).toBe(20500);
+    expect(starter.totalInterest).toBeCloseTo(2442.18, 2);
+    expect(starter.targetGap).toBeCloseTo(2057.82, 2);
+    expect(starter.targetMet).toBe(false);
+    expect(emergencyFund.endingBalance).toBeCloseTo(7278.02, 2);
+    expect(emergencyFund.targetGap).toBeCloseTo(721.98, 2);
+    expect(goalCleared.endingBalance).toBeCloseTo(19090.78, 2);
+    expect(goalCleared.targetGap).toBeCloseTo(-1090.78, 2);
+    expect(goalCleared.targetMet).toBe(true);
+  });
+
   it('calculates the retirement, debt, education, and investment sitemap batch', () => {
     const pension = calculatePensionEstimate(80000, 25, 1.5);
     const annuityPayout = calculateAnnuityPayout(100000, 5, 20, 12);

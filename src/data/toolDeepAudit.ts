@@ -616,6 +616,11 @@ const cfpbCompoundInterest = {
   label: 'CFPB: How compound interest works',
 };
 
+const fdicCompoundInterest = {
+  href: 'https://www.fdic.gov/consumer-resource-center/chapter-5-compound-interest',
+  label: 'FDIC: Compound interest',
+};
+
 const investorGovCompoundCalculator = {
   href: 'https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator',
   label: 'Investor.gov: Compound Interest Calculator',
@@ -2364,17 +2369,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'savings-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [investorCompound, consumerBudgetWorksheet],
+    sources: [cfpbCompoundInterest, investorGovCompoundCalculator, fdicCompoundInterest, consumerBudgetWorksheet],
     findings: [
       'The calculator compounds current savings monthly, adds end-of-month deposits, and compares the projected balance with the optional target amount.',
       'The results split total deposits from estimated interest, which keeps the growth estimate understandable for goal planning.',
-      'The guide and FAQ now frame the rate as an assumption and warn about taxes, fees, withdrawals, changing rates, and account rules.',
+      'DataForSEO page evidence showed savings calculator demand around 60,500 searches, with extra intent around simple savings, APY, withdrawals, goal planning, monthly savings, and compound interest.',
+      'The guide and FAQ now frame the rate as an assumption and warn about APY-vs-rate wording, taxes, fees, withdrawals, balance tiers, changing rates, and account rules.',
     ],
     improvements: [
-      'Manually checked savings projection math, target-gap wording, examples, guide article, FAQ cautions, related tools, source coverage, SEO copy, and privacy behavior.',
+      'Rewrote metadata, examples, input explanations, FAQ cautions, guide copy, source links, image alt/caption text, tool trust note, and modified dates in smart-14 wording.',
     ],
     followUps: [
       'Add a reverse savings-goal mode later so users can solve for required monthly deposit.',
@@ -7508,7 +7514,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['savings'])) {
-      return sourceBackstop([investorCompound, consumerBudgetWorksheet]);
+      return sourceBackstop([cfpbCompoundInterest, investorGovCompoundCalculator, fdicCompoundInterest, consumerBudgetWorksheet]);
     }
 
     if (includesAny(key, ['rent'])) {
