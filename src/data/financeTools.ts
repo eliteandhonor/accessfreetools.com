@@ -2368,26 +2368,75 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'mortgage-payoff-calculator',
     name: 'Mortgage Payoff Calculator',
-    summary: 'Estimate mortgage payoff time and interest saved from extra payments.',
+    summary: 'Estimate early mortgage payoff time, interest saved, and months saved from extra principal payments.',
     description:
-      'Use this free mortgage payoff calculator to estimate payoff time, interest saved, months saved, and the impact of extra monthly or one-time payments.',
+      'Estimate how extra monthly principal or a one-time payment may shorten a fixed-rate mortgage payoff, reduce interest, and change the remaining balance.',
+    seoTitle: 'Mortgage Payoff Calculator | Extra Payments & Interest Saved',
+    seoDescription:
+      'Estimate early mortgage payoff from balance, rate, term, extra monthly principal, and one-time payments. See payoff time, interest saved, and months saved.',
     icon: 'calculator-mortgage-payoff',
+    aliases: [
+      'early mortgage payoff calculator',
+      'extra mortgage payment calculator',
+      'mortgage principal payment calculator',
+      'pay off mortgage early calculator',
+      'mortgage payoff calculator with extra payments',
+    ],
     formula:
-      'The calculator finds the scheduled payment, subtracts any one-time extra payment, adds extra monthly payment, then simulates monthly interest and principal reduction until payoff.',
+      'The calculator finds the scheduled fixed mortgage payment, subtracts any one-time principal payment from the balance, adds extra monthly principal to the scheduled payment, then simulates monthly interest and principal reduction until payoff.',
     limit:
-      'This is not an official payoff quote. Lenders may include escrow, fees, interest timing, payoff statement rules, or prepayment rules.',
+      'This is not an official payoff quote. Your lender or mortgage servicer may apply extra payments differently and may include daily interest, escrow, unpaid fees, recording costs, wire instructions, payoff-statement rules, recast rules, or prepayment penalties.',
     useCases: [
-      'See how an extra monthly mortgage payment changes payoff time.',
+      'See how extra monthly principal changes mortgage payoff time.',
       'Estimate interest saved from a one-time principal payment.',
-      'Compare conservative and aggressive payoff scenarios.',
-      'Plan questions to ask a lender before making extra payments.',
+      'Compare a normal payoff path with an aggressive early-payoff plan.',
+      'Plan what to ask your lender or servicer before sending extra money.',
     ],
     examples: [
-      { label: 'Extra monthly', expression: '$280,000 balance, 6.25%, 25 years, +$200/month', result: 'Payoff time and interest saved' },
-      { label: 'One-time payment', expression: '$240,000 balance with $5,000 extra now', result: 'Lower remaining principal' },
-      { label: 'Aggressive payoff', expression: '$320,000 balance, +$500/month and $10,000 now', result: 'Shorter payoff estimate' },
+      { label: 'Extra monthly principal', expression: '$280,000 balance, 6.25%, 25 years left, +$200/month', result: 'About 20 years to payoff, 60 months saved, and about $63,050.68 interest saved' },
+      { label: 'One-time principal payment', expression: '$240,000 balance, 6.5%, 20 years left, $5,000 extra now', result: 'Remaining balance drops to $235,000 and estimated interest falls by about $3,946.88' },
+      { label: 'Aggressive early payoff', expression: '$320,000 balance, 6.6%, 28 years left, +$500/month and $10,000 now', result: 'About 17 years 1 month to payoff, 131 months saved, and about $175,003.22 interest saved' },
     ],
     relatedSlugs: ['mortgage-calculator', 'amortization-calculator', 'loan-calculator'],
+    inputExplanations: [
+      { term: 'Current loan balance', meaning: 'the unpaid principal balance you want to test, not the original home price.' },
+      { term: 'Interest rate', meaning: 'the annual mortgage rate used for the estimate, entered as 6.25 for 6.25%.' },
+      { term: 'Remaining term', meaning: 'the years left in the payoff scenario before any extra principal is added.' },
+      { term: 'Extra monthly payment', meaning: 'extra money you plan to send each month and have applied to principal.' },
+      { term: 'One-time extra payment', meaning: 'one extra principal payment made now before the payoff estimate starts.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this the same as a lender payoff quote?',
+        answer:
+          'No. CFPB explains that a payoff amount can be different from the current balance because it can include interest through the payoff date plus unpaid fees or a prepayment penalty. Ask your lender or servicer for the official payoff amount before sending final payoff money.',
+      },
+      {
+        question: 'Why does applying extra money to principal matter?',
+        answer:
+          'Fannie Mae explains that extra principal reduces the mortgage balance, which can reduce future interest. Tell your lender or servicer that extra money should go to principal, then check the next statement to make sure it was applied that way.',
+      },
+      {
+        question: 'Does a one-time principal payment always lower my required monthly payment?',
+        answer:
+          'Not always. This calculator reduces the balance and re-estimates the payoff path for planning. A real servicer may keep the scheduled payment the same unless a recast or re-amortization is allowed and approved.',
+      },
+    ],
+    formulaCheck:
+      'The estimate assumes fixed-rate monthly interest and that extra payments reduce principal. It does not model daily payoff interest, escrow, late fees, or servicer-specific application rules.',
+    resultReading:
+      'Payoff time tells you the estimated time until the balance reaches zero. Interest saved compares the extra-payment path with the scheduled path. Months saved shows how much earlier the loan may end.',
+    doubleCheck:
+      'Check that the balance is the current principal balance, the rate is annual, the term is years remaining, and any extra money is meant for principal. Then confirm with your servicer before sending extra or final payoff money.',
+    limitFollowup:
+      'For a final payoff, use the official payoff statement from the lender or servicer, not this planning estimate.',
+    extraFaq: [
+      {
+        question: 'Can extra mortgage payments remove PMI or escrow?',
+        answer:
+          'Not by itself in this calculator. Paying down principal can change loan-to-value over time, but PMI cancellation, escrow, taxes, and insurance follow lender, investor, and legal rules outside this estimate.',
+      },
+    ],
   }),
   makeFinanceTool({
     slug: '401k-calculator',

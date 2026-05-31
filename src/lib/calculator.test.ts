@@ -1294,6 +1294,22 @@ describe('finance helpers', () => {
     ).toThrow('Monthly payment must be higher');
   });
 
+  it('keeps mortgage payoff examples stable', () => {
+    const extraMonthly = calculateMortgagePayoffSummary(280000, 6.25, 25, 200, 0);
+    const oneTime = calculateMortgagePayoffSummary(240000, 6.5, 20, 0, 5000);
+    const aggressive = calculateMortgagePayoffSummary(320000, 6.6, 28, 500, 10000);
+
+    expect(extraMonthly.scheduledMonthlyPayment).toBeCloseTo(1847.07, 2);
+    expect(extraMonthly.monthlyPayment).toBeCloseTo(2047.07, 2);
+    expect(extraMonthly.monthsToPayoff).toBe(240);
+    expect(extraMonthly.interestSaved).toBeCloseTo(63050.68, 2);
+    expect(extraMonthly.monthsSaved).toBe(60);
+    expect(oneTime.remainingPrincipal).toBe(235000);
+    expect(oneTime.interestSaved).toBeCloseTo(3946.88, 2);
+    expect(aggressive.monthsToPayoff).toBe(205);
+    expect(aggressive.interestSaved).toBeCloseTo(175003.22, 2);
+  });
+
   it('calculates the retirement, debt, education, and investment sitemap batch', () => {
     const pension = calculatePensionEstimate(80000, 25, 1.5);
     const annuityPayout = calculateAnnuityPayout(100000, 5, 20, 12);

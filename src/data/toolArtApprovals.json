@@ -2904,6 +2904,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/mortgage-payoff-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/mortgage-payoff-calculator-guide.webp",
+    "alt": "Smoke mascot reviewing a mortgage payoff worksheet with extra principal, official payoff quote, interest saved, and months saved notes.",
+    "caption": "Mortgage Payoff Calculator guide artwork matches the walkthrough for extra principal payments, payoff time, interest saved, servicer checks, and official payoff quotes.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2912,6 +2914,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/mortgage-payoff-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/mortgage-payoff-calculator-tool.webp",
+    "alt": "Smoke mascot beside a mortgage payoff screen with current balance, extra principal, payoff time, interest saved, and months saved cards.",
+    "caption": "Mortgage Payoff Calculator artwork shows current balance, extra monthly principal, one-time payment, payoff time, interest saved, and months saved.",
     "status": "approved",
     "qaStatus": "approved"
   },

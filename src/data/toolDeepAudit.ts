@@ -571,6 +571,16 @@ const cfpbPiti = {
   label: 'CFPB: What is PITI?',
 };
 
+const cfpbPayoffAmount = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-payoff-amount-and-is-it-the-same-as-my-current-balance-en-205/',
+  label: 'CFPB: Payoff amount vs. current balance',
+};
+
+const cfpbServicerRules = {
+  href: 'https://www.consumerfinance.gov/consumer-tools/mortgages/your-mortgage-servicer-must-comply-with-federal-rules/',
+  label: 'CFPB: Mortgage servicer rules',
+};
+
 const freddieMacPmms = {
   href: 'https://www.freddiemac.com/pmms',
   label: 'Freddie Mac: Primary Mortgage Market Survey',
@@ -834,6 +844,16 @@ const fannieDownPayment = {
 const fannieClosingOnLoan = {
   href: 'https://yourhome.fanniemae.com/buy/closing-on-a-loan',
   label: 'Fannie Mae: Closing on a loan',
+};
+
+const fannieExtraMortgagePayments = {
+  href: 'https://yourhome.fanniemae.com/own/making-extra-mortgage-payments',
+  label: 'Fannie Mae: Making extra mortgage payments',
+};
+
+const fannieExtraPaymentCalculator = {
+  href: 'https://yourhome.fanniemae.com/calculators-tools/extra-mortgage-payment-calculator',
+  label: 'Fannie Mae: Extra Mortgage Payment Calculator',
 };
 
 const hudFhaLoans = {
@@ -2260,20 +2280,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'mortgage-payoff-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [cfpbMortgage, investorCompound],
+    sources: [cfpbPayoffAmount, cfpbServicerRules, fannieExtraMortgagePayments, fannieExtraPaymentCalculator, cfpbMortgage],
     findings: [
       'The calculator subtracts any one-time extra payment from the balance, adds extra monthly principal to the scheduled payment, and simulates monthly payoff.',
-      'The result explains payoff time, scheduled payment, interest saved, months saved, and one-time payment, which matches the guide walkthrough.',
-      'The guide warns that official lender payoff quotes, escrow, fees, interest timing, and prepayment rules can change the real payoff.',
+      'DataForSEO page evidence showed mortgage payoff calculator demand around 74,000 searches and early mortgage payoff calculator demand around 22,200 searches, so the page now targets current balance, extra principal, payoff time, and interest saved without bloated copy.',
+      'The guide and tool page now separate current principal from an official servicer payoff amount, and they warn that payoff-date interest, unpaid fees, escrow, recast rules, and prepayment rules can change real payoff instructions.',
     ],
     improvements: [
-      'Manually checked payoff logic, one-time-payment guardrail, examples, guide article, FAQ cautions, source coverage, related tools, and privacy note.',
+      'Rewrote metadata, examples, input explanations, FAQ cautions, guide copy, source links, image alt/caption text, tool trust note, and modified dates in smart-14 wording.',
     ],
     followUps: [
-      'Add a lender-payoff-quote explanation box if this page becomes a high-traffic mortgage page.',
+      'Add a maintained recast calculator only if user demand proves it should be a separate feature with lender-limit warnings.',
     ],
   },
   {
@@ -7271,7 +7291,11 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
       return sourceBackstop([cfpbMonthlyMortgagePayment, cfpbPiti, cfpbLoanEstimate, freddieMacPmms, cfpbMortgage]);
     }
 
-    if (includesAny(key, ['amortization', 'mortgage-payoff', 'mortgage payoff'])) {
+    if (includesAny(key, ['mortgage-payoff', 'mortgage payoff'])) {
+      return sourceBackstop([cfpbPayoffAmount, cfpbServicerRules, fannieExtraMortgagePayments, fannieExtraPaymentCalculator, cfpbMortgage]);
+    }
+
+    if (includesAny(key, ['amortization'])) {
       return sourceBackstop([cfpbMortgage, investorCompound]);
     }
 

@@ -87,6 +87,22 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-piti-en-152/',
     label: 'CFPB: What is PITI?',
   },
+  cfpbPayoffAmount: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-payoff-amount-and-is-it-the-same-as-my-current-balance-en-205/',
+    label: 'CFPB: Payoff amount vs. current balance',
+  },
+  cfpbServicerRules: {
+    href: 'https://www.consumerfinance.gov/consumer-tools/mortgages/your-mortgage-servicer-must-comply-with-federal-rules/',
+    label: 'CFPB: Mortgage servicer rules',
+  },
+  fannieExtraMortgagePayments: {
+    href: 'https://yourhome.fanniemae.com/own/making-extra-mortgage-payments',
+    label: 'Fannie Mae: Making extra mortgage payments',
+  },
+  fannieExtraPaymentCalculator: {
+    href: 'https://yourhome.fanniemae.com/calculators-tools/extra-mortgage-payment-calculator',
+    label: 'Fannie Mae: Extra Mortgage Payment Calculator',
+  },
   freddieMacPmms: {
     href: 'https://www.freddiemac.com/pmms',
     label: 'Freddie Mac: Primary Mortgage Market Survey',
@@ -474,7 +490,17 @@ function getSourceLinks(toolSlug: string) {
     ];
   }
 
-  if (['mortgage-payoff-calculator', 'house-affordability-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'mortgage-payoff-calculator') {
+    return [
+      sourceLinks.cfpbPayoffAmount,
+      sourceLinks.cfpbServicerRules,
+      sourceLinks.fannieExtraMortgagePayments,
+      sourceLinks.fannieExtraPaymentCalculator,
+      sourceLinks.cfpbMortgage,
+    ];
+  }
+
+  if (toolSlug === 'house-affordability-calculator') {
     return [sourceLinks.cfpbMortgage];
   }
 
@@ -1406,29 +1432,33 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Percentage Calculator if you need to compare fees.', 'Use Finance Calculator for general money projections.'],
   },
   'mortgage-payoff-calculator': {
-    summary: 'Learn how extra monthly payments or a one-time principal payment can shorten a mortgage payoff estimate.',
+    summary: 'Learn how extra monthly principal or a one-time payment can shorten an early mortgage payoff estimate.',
     purpose:
-      'The Mortgage Payoff Calculator estimates how long a fixed-rate mortgage balance may take to pay off when you add extra principal payments. It is for planning before you request an official lender payoff quote.',
+      'The Mortgage Payoff Calculator estimates how long a fixed-rate mortgage balance may take to pay off when you add extra principal payments. It is for planning before you request an official payoff amount from your lender or servicer.',
     enter: [
-      'Enter the current loan balance, not the original home price.',
-      'Enter the remaining term and current fixed interest rate.',
-      'Add an extra monthly payment or one-time extra payment only if you plan to pay it toward principal.',
+      'Enter the current principal balance, not the original home price.',
+      'Enter the remaining term in years and the current fixed interest rate as a percent.',
+      'Add extra monthly money only if you plan to tell the servicer to apply it to principal.',
+      'Use the one-time payment field for extra principal paid now, not escrow or a normal monthly payment.',
     ],
     example: [
-      'A $280,000 balance at 6.25% with 25 years remaining gets a scheduled payment first.',
-      'Adding $200 per month increases the principal paid each month and can reduce both months and interest.',
+      'A $280,000 balance at 6.25% with 25 years left has a scheduled payment of about $1,847.07.',
+      'Adding $200 per month makes the paid amount about $2,047.07 and estimates payoff in about 20 years.',
+      'That example saves about 60 months and about $63,050.68 in interest compared with the scheduled path.',
     ],
     read: [
       'Payoff time is the estimated number of months until the balance reaches zero.',
       'Interest saved compares the extra-payment scenario with the scheduled payment.',
       'Months saved shows how much sooner the loan may be paid off.',
+      'One-time payment shows the extra principal paid now before the calculator starts the payoff estimate.',
     ],
     mistakes: [
-      'Do not use this as an official payoff statement.',
-      'Do not include escrow payments as extra principal.',
-      'Do not assume your lender applies every extra payment the same way without checking.',
+      'Do not use this as an official payoff statement or wire amount.',
+      'Do not include escrow, tax, insurance, or regular monthly payment money as extra principal.',
+      'Do not assume your lender or servicer applies every extra payment to principal without checking.',
+      'Do not forget possible daily interest, unpaid fees, prepayment penalties, payoff statement timing, or recast rules.',
     ],
-    next: ['Use Mortgage Calculator for the full monthly payment estimate.', 'Use Amortization Calculator to test extra payments on other fixed loans.'],
+    next: ['Use Mortgage Calculator for the full monthly payment estimate.', 'Use Amortization Calculator to test extra payments on other fixed loans.', 'Use Interest Rate Calculator when the rate is the missing piece.'],
   },
   '401k-calculator': {
     summary: 'Learn how salary contributions, employer match, time, and return assumptions affect a 401K projection.',
@@ -3063,6 +3093,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate a UK repayment mortgage from property price, deposit, rate, term, fees, LTV, and interest, with affordability and stamp duty limits.';
   }
 
+  if (tool.slug === 'mortgage-payoff-calculator') {
+    return 'Estimate mortgage payoff time, interest saved, and months saved from extra monthly principal or a one-time payment.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -3088,6 +3122,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isAdRevenueGuide = tool.slug === 'ad-revenue-calculator';
   const isAutoLoanGuide = tool.slug === 'auto-loan-calculator';
   const isMortgageGuide = tool.slug === 'mortgage-calculator';
+  const isMortgagePayoffGuide = tool.slug === 'mortgage-payoff-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
@@ -3110,6 +3145,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: isMortgageGuide
       ? 'A mortgage payment is not just the loan. This guide shows how home price, down payment, rate, term, property tax, insurance, PMI, and HOA dues turn into one monthly estimate.'
+      : isMortgagePayoffGuide
+      ? 'Paying extra on a mortgage only helps if the extra money really reduces principal. This guide shows how balance, rate, term, monthly extra principal, and one-time principal payments change payoff time and interest.'
       : isUkMortgageGuide
       ? 'A UK repayment mortgage is not just the property price split across months. This guide shows how price, deposit, rate, term, and monthly fees turn into a payment, LTV, and interest estimate.'
       : isAutoLoanGuide
@@ -3148,6 +3185,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter the interest rate and loan term, such as 6.5% for 30 years.',
           'Add yearly property tax, then monthly insurance, PMI, and HOA only when those costs apply.',
           'Calculate, then read total monthly payment, principal and interest, total interest, and LTV before comparing it with a lender Loan Estimate.',
+        ]
+      : isMortgagePayoffGuide
+      ? [
+          'Open the Mortgage Payoff Calculator.',
+          'Enter the current principal balance, rate, and years remaining.',
+          'Add extra monthly principal or a one-time principal payment only when that is how you plan to pay.',
+          'Calculate, then compare payoff time, months saved, and interest saved with the scheduled path.',
+          'Ask your lender or servicer for the official payoff amount before sending final payoff money.',
         ]
       : isUkMortgageGuide
       ? [
@@ -3282,6 +3327,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           detail.purpose,
           isMortgageGuide
             ? 'Use it before asking for a quote, comparing 15-year and 30-year payments, testing PMI, or seeing whether tax and insurance make a home feel less affordable than the loan payment alone.'
+            : isMortgagePayoffGuide
+            ? 'Use it before making extra principal payments, testing a one-time lump sum, or deciding what questions to ask your mortgage servicer.'
             : isUkMortgageGuide
             ? 'Use it before checking a UK mortgage quote, comparing deposit sizes, testing a 25-year versus 30-year term, or seeing whether a small monthly fee changes the payment enough to matter.'
             : isAutoLoanGuide
@@ -3316,6 +3363,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isMortgageGuide
             ? 'Mortgage estimates get messy when annual and monthly costs are mixed together. Home price, down payment, rate, and term build the loan payment. Property tax, insurance, PMI, and HOA dues are add-ons that make the real monthly budget bigger.'
+            : isMortgagePayoffGuide
+            ? 'Mortgage payoff estimates get messy when principal, interest, escrow, and payoff quotes are treated like the same thing. The calculator needs the current principal balance, annual rate, years remaining, and any extra money you want applied to principal.'
             : isUkMortgageGuide
             ? 'UK mortgage estimates get messy when one-off costs and monthly costs are mixed together. Property price, deposit, rate, and term build the repayment estimate. The monthly fee field is only for a cost that repeats every month.'
             : isAutoLoanGuide
@@ -3354,6 +3403,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           primaryExample
             ? isMortgageGuide
               ? 'Try the starter example: a $400,000 home, $80,000 down, 6.5% for 30 years, $4,800 yearly tax, $140 monthly insurance, and a $75 HOA. The estimate is about $2,637.62 per month total, with $2,022.62 of that as principal and interest and 80% LTV.'
+              : isMortgagePayoffGuide
+              ? 'Try the starter example: $280,000 current principal, 6.25% rate, 25 years remaining, and $200 extra to principal each month. The estimate is about $2,047.07 paid each month, a 20-year payoff, about $63,050.68 interest saved, and 60 months saved.'
               : isAutoLoanGuide
               ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
               : isBusinessLoanGuide
@@ -3389,6 +3440,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           getFormulaAnswer(tool.slug),
           isMortgageGuide
             ? 'The loan formula is only the first layer. The budget number changes when you add property tax, homeowners insurance, PMI, and HOA dues. CFPB calls the core monthly pieces PITI: principal, interest, taxes, and insurance.'
+            : isMortgagePayoffGuide
+            ? 'The calculator first finds the scheduled fixed mortgage payment. Then it subtracts any one-time principal payment, adds extra monthly principal, and simulates month-by-month interest until the balance reaches zero.'
             : isAutoLoanGuide
             ? 'The formula is not the hard part. The hard part is using the same full deal each time: tax, fees, down payment, trade-in, rate, and term. That is why the calculator shows amount financed and total interest beside the monthly payment.'
             : isBusinessLoanGuide
@@ -3423,6 +3476,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isMortgageGuide
             ? 'Start with total monthly payment because that is closest to the budget hit. Then check principal and interest, total interest, and loan-to-value so you can tell whether the payment is being moved by the loan, the rate, the term, or the add-on costs.'
+            : isMortgagePayoffGuide
+            ? 'Start with payoff time, then check interest saved and months saved. If the one-time payment looks helpful, remember the real servicer may keep the required payment the same unless a recast is allowed.'
             : isAutoLoanGuide
             ? 'Start with the monthly payment, then immediately check amount financed, total interest, and total paid. That stops a long loan from looking better just because the monthly number is smaller.'
             : isBusinessLoanGuide
@@ -3458,6 +3513,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isMortgageGuide
             ? 'Most bad mortgage estimates come from using a rate that is not your quote, entering yearly insurance as monthly insurance, forgetting PMI, ignoring tax reassessments, or treating the calculator like a lender approval.'
+            : isMortgagePayoffGuide
+            ? 'Most bad mortgage payoff estimates come from using the original loan amount instead of current principal, counting escrow as extra principal, ignoring payoff-statement interest, or assuming the servicer applied extra money correctly.'
             : isAutoLoanGuide
             ? 'Most bad car-payment estimates come from leaving out fees, using a rate from a different offer, forgetting negative equity, or choosing the longest term before checking total interest.'
             : isBusinessLoanGuide
@@ -3493,6 +3550,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isAutoLoanGuide
             ? 'A related tool can help when the car deal has one moving piece you want to isolate, such as sales tax, a plain loan comparison, or a dealer incentive.'
+            : isMortgagePayoffGuide
+            ? 'A related tool can help when the payoff estimate is only one part of the question, such as the full monthly payment, another fixed-loan payoff, or the rate hidden inside a quote.'
             : isBusinessLoanGuide
             ? 'A related tool can help when the loan payment is only one part of the decision, such as the rate, a plain fixed loan, or the profit target for the project.'
             : isCanadianMortgageGuide
@@ -3522,7 +3581,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             : 'A related money tool can help check the same question from another angle before you rely on one result.',
         ],
         bullets: detail.next,
-        links: isAutoLoanGuide
+        links: isMortgagePayoffGuide
+          ? [
+              { href: '/tools/mortgage-payoff-calculator/', label: 'Open the Mortgage Payoff Calculator' },
+              { href: '/tools/mortgage-calculator/', label: 'Estimate the full monthly payment' },
+              { href: '/tools/amortization-calculator/', label: 'Compare fixed-loan payoff paths' },
+            ]
+          : isAutoLoanGuide
           ? [
               { href: '/tools/auto-loan-calculator/', label: 'Open the Auto Loan Calculator' },
               { href: '/tools/sales-tax-calculator/', label: 'Check vehicle sales tax math' },
@@ -3619,6 +3684,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isAutoLoanGuide
             ? 'CFPB and FTC sources both push the same practical warning: compare the total cost, not just the monthly payment. They also explain APR, loan terms, add-ons, trade-ins, and shopping for financing before the dealer visit.'
+            : isMortgagePayoffGuide
+            ? 'CFPB explains that a payoff amount can be different from the current balance because it can include interest through the payoff date, unpaid fees, and possible prepayment penalties. Fannie Mae also warns that extra payments should be applied to principal if the goal is to reduce balance and future interest.'
             : isUkMortgageGuide
             ? 'MoneyHelper explains mortgage repayments, repayment versus interest-only mortgages, and mortgage calculators. GOV.UK explains that lenders look at affordability, income, outgoings, deposit, credit, and possible rate changes, and that stamp duty and moving costs are separate from the mortgage payment.'
             : isBusinessLoanGuide
@@ -3652,6 +3719,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             : 'This guide explains the calculator inputs, formula context, and estimate limits without treating the result as a final quote or professional recommendation.',
           isAutoLoanGuide
             ? 'This calculator still stays simple. It does not approve credit, price insurance, know your exact registration fees, decide whether an add-on is worth it, or replace a written lender quote.'
+            : isMortgagePayoffGuide
+            ? 'This calculator still stays simple. It does not request a payoff statement, calculate daily payoff interest, handle escrow, check unpaid fees, apply servicer rules, approve a recast, or replace written payoff instructions.'
             : isUkMortgageGuide
             ? 'This calculator still stays simple. It does not approve a mortgage, check affordability, include stamp duty, price product fees you do not enter, handle interest-only loans, read leasehold charges, or replace a written lender illustration.'
             : isBusinessLoanGuide
@@ -3687,6 +3756,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     ],
     sidecarText: isSalesTaxGuide
       ? `Keep the ${tool.name} open beside this guide. Try $80 at 7.5%, then replace the price and rate with your receipt or checkout numbers.`
+      : isMortgagePayoffGuide
+      ? 'Keep the Mortgage Payoff Calculator open beside this guide. Try the $280,000 balance example first, then change only the extra monthly principal so you can see what actually moved.'
       : isAutoLoanGuide
       ? 'Keep the Auto Loan Calculator open beside this guide. Try the $32,000 car example first, then change only the term so you can see why a lower payment can still cost more.'
       : isBusinessLoanGuide

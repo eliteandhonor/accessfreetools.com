@@ -701,6 +701,13 @@ const financeToolInstructions = financeToolVariant
         'Add yearly property tax, then monthly insurance, PMI, and HOA only when those costs apply.',
         'Calculate, then compare total monthly payment, principal and interest, total interest, and LTV with a lender Loan Estimate.',
       ]
+    : tool.slug === 'mortgage-payoff-calculator'
+    ? [
+        'Enter the current principal balance, not the original home price.',
+        'Enter the fixed mortgage rate and years remaining.',
+        'Add extra monthly principal or a one-time principal payment only when that money will be applied to principal.',
+        'Calculate, then compare payoff time, scheduled payment, interest saved, months saved, and one-time payment with your servicer\'s rules.',
+      ]
     : tool.slug === 'mortgage-calculator-uk'
     ? [
         'Enter the property price and deposit in pounds.',
@@ -2200,6 +2207,31 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               </p>
               <p>
                 Sources used for this review: <a href="https://www.consumerfinance.gov/ask-cfpb/how-do-mortgage-lenders-calculate-monthly-payments-en-1965/" rel="noreferrer" target="_blank">CFPB monthly mortgage payments</a>, <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-piti-en-152/" rel="noreferrer" target="_blank">CFPB PITI</a>, and <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/" rel="noreferrer" target="_blank">CFPB Loan Estimate</a>.
+              </p>
+            </>
+          ) : tool.slug === 'mortgage-payoff-calculator' ? (
+            <>
+              <strong>Planning estimate, not a payoff statement</strong>
+              <p>
+                Use this to test current principal, rate, years remaining, extra monthly principal, one-time
+                principal payments, payoff time, interest saved, and months saved. A real payoff can still change
+                with the servicer payoff date, daily interest, unpaid fees, escrow, prepayment rules, recast rules,
+                and whether extra money is actually applied to principal.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-payoff-amount-and-is-it-the-same-as-my-current-balance-en-205/" rel="noreferrer" target="_blank">
+                  CFPB payoff amount vs. current balance
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/your-mortgage-servicer-must-comply-with-federal-rules/" rel="noreferrer" target="_blank">
+                  CFPB mortgage servicer rules
+                </a>
+                {', and '}
+                <a href="https://yourhome.fanniemae.com/own/making-extra-mortgage-payments" rel="noreferrer" target="_blank">
+                  Fannie Mae extra mortgage payments
+                </a>
+                .
               </p>
             </>
           ) : tool.slug === 'mortgage-calculator-uk' ? (

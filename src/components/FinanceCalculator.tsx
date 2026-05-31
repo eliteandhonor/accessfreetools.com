@@ -538,7 +538,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Mortgage Payoff Calculator',
     buttonLabel: 'Estimate payoff',
     emptyHistory: 'Recent mortgage payoff estimates will appear here.',
-    privacyNote: 'Mortgage payoff estimates assume a fixed rate and do not include lender payoff quotes, escrow, fees, or prepayment rules.',
+    privacyNote:
+      'Mortgage payoff estimates stay in your browser and are not official payoff statements, recast approvals, escrow updates, fee checks, or servicer instructions.',
     modes: [
       {
         id: 'mortgage-payoff',
@@ -2809,7 +2810,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Add the extra monthly payment to the regular payment.',
           'Simulate monthly interest and principal until the balance reaches zero.',
         ],
-        note: 'Ask your lender for an official payoff quote before sending a final payoff amount.',
+        note:
+          'Ask your lender or mortgage servicer for an official payoff statement before sending final payoff money. Confirm extra payments are applied to principal and whether a recast, fee, escrow adjustment, or prepayment rule applies.',
       };
     }
     case '401k': {
