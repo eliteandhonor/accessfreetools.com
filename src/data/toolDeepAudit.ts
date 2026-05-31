@@ -1201,6 +1201,16 @@ const ukBoardFoot = {
   label: 'University of Kentucky Extension: Measuring farm timber',
 };
 
+const usForestServiceLogRules = {
+  href: 'https://research.fs.usda.gov/treesearch/9829',
+  label: 'USDA Forest Service: A collection of log rules',
+};
+
+const tennesseeBoardFootRules = {
+  href: 'https://utia.tennessee.edu/publications/wp-content/uploads/sites/269/2023/10/W262.pdf',
+  label: 'University of Tennessee Extension: Doyle and International board foot rules',
+};
+
 const asphaltInstituteQuantity = {
   href: 'https://www.asphaltinstitute.org/engineering/engineering-faqs/',
   label: 'Asphalt Institute: asphalt quantity and density FAQ',
@@ -4494,17 +4504,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'board-foot-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [ukBoardFoot, nistSi],
+    sources: [ukBoardFoot, usForestServiceLogRules, tennesseeBoardFootRules, nistSi],
     findings: [
-      'The calculator uses thickness inches times width inches times length feet divided by 12, then multiplies by quantity.',
-      'The guide explains that board feet measure lumber volume, not weight, strength, or final usable finished size.',
-      'The cautions cover nominal versus actual dimensions, surfaced lumber, defects, species, grade, moisture, and waste.',
+      'University of Kentucky Extension supports the board-foot idea for lumber volume; the calculator uses thickness inches times width inches times length feet divided by 12, then multiplies by quantity.',
+      'The page now explains the four 1 x 6 x 8 ft board example as 4 board feet each and 16 board feet total.',
+      'USDA Forest Service and University of Tennessee Extension sources were added to separate simple sawn-lumber board-foot math from log-rule estimates such as Doyle and International 1/4-inch.',
+      'The guide warns that actual vs nominal dimensions, surfaced thickness, local seller rules, defects, species, grade, moisture, waste, and log rules can change real buying needs.',
     ],
     improvements: [
-      'Manually checked board-foot formula, quantity behavior, examples, FAQ definitions, University of Kentucky/NIST source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Manually checked board-foot formula, quantity behavior, examples, FAQ definitions, University of Kentucky/USDA Forest Service/University of Tennessee/NIST source coverage, related tools, SEO copy, privacy behavior, result labels, and image alt/caption text.',
     ],
     followUps: [
       'Add actual-versus-nominal lumber helper text if woodworking traffic grows.',

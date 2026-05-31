@@ -2063,6 +2063,28 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     }
 
     {
+      tool.slug === 'board-foot-calculator' && (
+        <aside class="trust-note" aria-label="Board Foot Calculator lumber notes">
+          <strong>Use the size the seller prices from</strong>
+          <p>
+            This calculator is for sawn lumber with known thickness, width, and length. Board feet are volume, not
+            weight, strength, or guaranteed usable parts after defects and milling.
+          </p>
+          <p>
+            Good references:{' '}
+            <a href="https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/for9.htm" rel="noreferrer" target="_blank">
+              University of Kentucky Extension board-foot notes
+            </a>{' '}
+            and{' '}
+            <a href="https://research.fs.usda.gov/treesearch/9829" rel="noreferrer" target="_blank">
+              USDA Forest Service log-rule limits.
+            </a>
+          </p>
+        </aside>
+      )
+    }
+
+    {
       isHealthTool && (
         <aside class="trust-note trust-note-health" aria-label={`${tool.name} estimate limits`}>
           <strong>Educational health estimate</strong>

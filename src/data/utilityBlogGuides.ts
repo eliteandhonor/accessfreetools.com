@@ -449,6 +449,14 @@ const sourceLinks = {
     href: 'https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/for9.htm',
     label: 'University of Kentucky Extension: Measuring farm timber',
   },
+  usForestServiceLogRules: {
+    href: 'https://research.fs.usda.gov/treesearch/9829',
+    label: 'USDA Forest Service: A collection of log rules',
+  },
+  tennesseeBoardFootRules: {
+    href: 'https://utia.tennessee.edu/publications/wp-content/uploads/sites/269/2023/10/W262.pdf',
+    label: 'University of Tennessee Extension: Doyle and International board foot rules',
+  },
   asphaltInstituteQuantity: {
     href: 'https://www.asphaltinstitute.org/engineering/engineering-faqs/',
     label: 'Asphalt Institute: asphalt quantity and density FAQ',
@@ -2971,25 +2979,71 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchFraming, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'board-foot-calculator': {
-    summary: 'Learn how thickness, width, length, and quantity become lumber board feet.',
+    summary: 'Learn how lumber thickness, width, length, and quantity turn into board feet.',
+    metaDescription:
+      'Use the Board Foot Calculator with a 1 x 6 x 8 ft example. See the formula, actual vs nominal size cautions, 4/4 lumber notes, pricing, and log-rule limits.',
     purpose:
-      'The Board Foot Calculator estimates lumber volume. It is useful when comparing rough lumber, sawmill boards, or board-foot pricing.',
+      'The Board Foot Calculator estimates sawn-lumber volume. It is useful when comparing rough boards, sawmill lumber, hardwood pricing, or a small material list.',
+    intro:
+      'Board feet sound weird until you picture one board foot as a board 1 inch thick, 12 inches wide, and 12 inches long. The calculator just scales that idea up for your real board size.',
+    inputMatch: 'thickness in inches, width in inches, length in feet, and quantity',
+    logicNote:
+      'The calculator multiplies thickness by width by length, then divides by 12 because thickness and width are inches while length is feet. If you convert length to inches first, the same idea is divided by 144 cubic inches.',
+    readIntro:
+      'Read total board feet as the lumber-volume number to compare with a board-foot price. Read board feet each when you want to check one board before multiplying by quantity.',
+    mistakeIntro:
+      'The easy mistake is using a store label like 1x6 when the seller actually prices by measured rough thickness, surfaced thickness, or a local rule. Ask whether to use actual or nominal dimensions before money changes hands.',
+    sidecarText:
+      'Open the Board Foot Calculator beside this guide. Try 1 inch thick, 6 inches wide, 8 feet long, and quantity 4 first. The answer should be 16 board feet.',
+    bestUsesIntro:
+      'Use this guide for rough lumber, hardwood boards, small sawmill orders, slab checks, and board-foot price comparisons. Do not use it as a log scale or a structural design check.',
+    referenceIntro:
+      'These references help separate simple sawn-lumber board feet from forestry log rules, which can change by region and measurement method.',
     enter: [
-      'Enter thickness and width in inches.',
-      'Enter length in feet.',
+      'Enter thickness and width in inches. Use actual measured size when the seller gives it.',
+      'Enter length in feet. A board 8 feet long uses 8, not 96.',
       'Enter quantity when you have several boards with the same dimensions.',
     ],
     read: [
-      'Total board feet is the combined lumber volume.',
-      'Board feet each shows one board before multiplying by quantity.',
-      'The formula divisor is 12 because thickness and width are inches while length is feet.',
+      'Four 1 in x 6 in x 8 ft boards equal 16 board feet.',
+      'One 2 in x 18 in x 7 ft slab equals 21 board feet.',
+      'The formula divisor is 12 because thickness and width are inches while length is still feet.',
     ],
     mistakes: [
       'Do not confuse nominal size with actual measured size unless the seller tells you which to use.',
       'Do not treat board feet as weight or structural strength.',
       'Allow for defects, milling, waste, species, grade, and moisture content.',
+      'Do not use this simple board calculator as a Doyle, Scribner, or International log-rule calculator.',
     ],
-    sources: [sourceLinks.ukBoardFoot, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Example: four 1 x 6 boards',
+        paragraphs: [
+          'For one board, multiply 1 inch thick by 6 inches wide by 8 feet long. That gives 48, then 48 divided by 12 equals 4 board feet.',
+          'With 4 matching boards, multiply 4 board feet by 4 boards. The total is 16 board feet.',
+        ],
+      },
+      {
+        title: 'Actual size vs nominal size',
+        paragraphs: [
+          'A lumber label is not always the exact measured size. Rough hardwood, surfaced lumber, and home-center construction boards can be handled differently.',
+          'If the seller prices by board foot, ask which thickness and width they use. That one question can stop a small estimate from becoming a wrong bill.',
+        ],
+      },
+      {
+        title: 'Why this is not a log-rule calculator',
+        paragraphs: [
+          'This page estimates sawn lumber that already has board dimensions. Logs are different because saw kerf, slabs, taper, shrinkage, and local log rules change the yield.',
+          'The USDA Forest Service notes that many log rules exist, and University of Tennessee Extension shows that Doyle and International 1/4-inch conversions vary by tree size. Use a forester, sawmill, or local log rule for standing timber or round logs.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.ukBoardFoot,
+      sourceLinks.usForestServiceLogRules,
+      sourceLinks.tennesseeBoardFootRules,
+      sourceLinks.nistUnits,
+    ],
   },
   'cubic-yard-calculator': {
     summary: 'Learn how rectangular dimensions and depth estimate cubic yards.',

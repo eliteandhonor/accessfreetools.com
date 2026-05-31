@@ -488,6 +488,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/board-foot-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/board-foot-calculator-guide.webp",
+    "alt": "Smoke mascot checking four 1 by 6 boards that are 8 feet long, with a 16 board foot lumber estimate.",
+    "caption": "The guide art matches the worked example: four 1 x 6 x 8 ft boards turn into 16 board feet.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -496,6 +498,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/board-foot-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/board-foot-calculator-tool.webp",
+    "alt": "Smoke mascot beside a lumber board sketch with thickness, width, length, quantity, and board feet output.",
+    "caption": "The tool art shows the exact inputs the calculator uses: board thickness, width, length, quantity, and total board feet.",
     "status": "approved",
     "qaStatus": "approved"
   },

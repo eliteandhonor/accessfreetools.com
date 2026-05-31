@@ -3723,31 +3723,81 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'board-foot-calculator',
     name: 'Board Foot Calculator',
     category: 'home-projects',
-    summary: 'Calculate lumber board feet from thickness, width, length, and quantity.',
+    summary: 'Estimate board feet from lumber size, quantity, and actual board dimensions.',
     description:
-      'Use this free board foot calculator to estimate lumber volume from thickness in inches, width in inches, length in feet, and quantity.',
+      'Estimate sawn-lumber board feet from thickness in inches, width in inches, length in feet, and quantity, with actual-size and pricing cautions.',
+    seoTitle: 'Board Foot Calculator | Lumber Volume And Price Checks',
+    seoDescription:
+      'Calculate board feet from thickness, width, length, and quantity. Includes 1x6 and slab examples, actual vs nominal size tips, and log-rule limits.',
     icon: 'calculator-board-foot',
+    aliases: ['Lumber Board Foot Calculator', 'Board Feet Calculator', 'Hardwood Board Foot Calculator'],
     formula:
-      'The calculator multiplies thickness in inches by width in inches by length in feet, divides by 12, then multiplies by quantity.',
+      'Board feet each = thickness inches x width inches x length feet / 12. Total board feet = board feet each x quantity.',
     limit:
-      'Board feet measure volume only. Nominal sizes, surfaced dimensions, seller rules, moisture, defects, species, grade, and waste can change real buying needs.',
+      'Board feet measure sawn-lumber volume only. Actual vs nominal dimensions, surfaced thickness, seller rules, moisture, defects, species, grade, waste, and log rules can change real buying needs.',
+    faqLanguage: {
+      expectedInputs: 'thickness in inches, width in inches, length in feet, and quantity',
+      inputFallback:
+        'Thickness and width are board dimensions in inches. Length is the board length in feet. Quantity multiplies the same board size. Use actual measured dimensions when the seller gives them.',
+      examplePhrase: '1 x 6 lumber example',
+      doubleCheck:
+        'Check whether the seller prices by rough, surfaced, nominal, or actual size. Also leave waste for defects, milling, knots, and bad cuts.',
+      privacy:
+        'No. The board-foot estimate runs in your browser tab. Your lumber dimensions, quantity, price checks, and recent answers are not sent to a server.',
+    },
     inputExplanations: [
-      { term: 'Thickness and width', meaning: 'board dimensions in inches, preferably actual dimensions when you know them.' },
-      { term: 'Length', meaning: 'board length in feet.' },
-      { term: 'Quantity', meaning: 'how many boards of that same size to include.' },
+      { term: 'Thickness', meaning: 'board thickness in inches, such as 1, 1.5, 2, or a rough-lumber value like 4/4 when converted to inches.' },
+      { term: 'Width', meaning: 'board width in inches. Use the measured width when the board is rough, live edge, or not a simple store label.' },
+      { term: 'Length', meaning: 'board length in feet. An 8-foot board is entered as 8, not 96.' },
+      { term: 'Quantity', meaning: 'how many boards with that same thickness, width, and length to include.' },
+      { term: 'Board feet each', meaning: 'the lumber volume for one board before multiplying by quantity.' },
+      { term: 'Total board feet', meaning: 'the combined lumber volume to compare with board-foot pricing.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the Board Foot Calculator divide by 12?',
+        answer:
+          'Thickness and width are entered in inches, but length is entered in feet. Dividing by 12 converts that mixed-unit volume into board feet.',
+      },
+      {
+        question: 'Should I use actual or nominal lumber size?',
+        answer:
+          'Use the size your seller uses for board-foot pricing. Rough lumber, surfaced lumber, and home-center labels can be different, so ask before comparing prices.',
+      },
+      {
+        question: 'How many board feet are in four 1x6 boards that are 8 feet long?',
+        answer:
+          'One board is 1 x 6 x 8 / 12 = 4 board feet. Four matching boards are 16 board feet total.',
+      },
+      {
+        question: 'Is board foot the same as linear foot?',
+        answer:
+          'No. Linear foot only measures length. Board foot measures lumber volume, so thickness and width change the answer.',
+      },
+      {
+        question: 'Can I use this for logs or standing timber?',
+        answer:
+          'Not by itself. Logs need a local log rule such as Doyle, Scribner, or International 1/4-inch, plus allowances for taper, saw kerf, slabs, shrinkage, and defects.',
+      },
+      {
+        question: 'Should I add waste to a board-foot estimate?',
+        answer:
+          'Usually, yes. Board feet measure volume, not usable finished parts. Add waste for knots, cracks, milling, mistakes, matching grain, and offcuts.',
+      },
     ],
     useCases: [
       'Estimate lumber volume before visiting a lumber yard.',
       'Compare rough boards with different dimensions.',
       'Multiply one board size by quantity.',
       'Understand board-foot pricing better.',
+      'Check whether a slab or hardwood board listing is in the right range.',
     ],
     examples: [
       { label: 'Four 1x6 boards', expression: '1 in x 6 in x 8 ft x 4', result: '16 board feet' },
       { label: 'Rough boards', expression: '2 in x 8 in x 10 ft x 3', result: '40 board feet' },
       { label: 'Single slab', expression: '2 in x 18 in x 7 ft', result: '21 board feet' },
     ],
-    relatedSlugs: ['deck-cost-calculator', 'factor-calculator', 'conversion-calculator'],
+    relatedSlugs: ['deck-cost-calculator', 'plywood-calculator', 'conversion-calculator'],
   }),
   makeUtilityTool({
     slug: 'cubic-yard-calculator',

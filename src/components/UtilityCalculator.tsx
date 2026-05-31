@@ -692,9 +692,9 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     wastePercent: 'Extra boards for cuts, layout changes, and damaged pieces.',
   },
   'board-foot': {
-    thicknessInches: 'Board thickness in inches. Use actual size when you know it.',
-    widthInches: 'Board width in inches. Use actual size when you know it.',
-    lengthFeet: 'Board length in feet.',
+    thicknessInches: 'Board thickness in inches. Use the seller measurement, not just the shelf label, when it matters.',
+    widthInches: 'Board width in inches. For rough or live-edge boards, use the measured width the seller prices from.',
+    lengthFeet: 'Board length in feet. Enter 8 for an 8-foot board.',
     quantity: 'Number of boards with the same dimensions.',
   },
   'cubic-yard': {
@@ -3321,7 +3321,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Board Foot Calculator',
     buttonLabel: 'Calculate board feet',
     emptyHistory: 'Recent board-foot calculations will appear here.',
-    privacyNote: 'Board-foot math stays local and measures lumber volume only.',
+    privacyNote: 'Board-foot math stays local and measures lumber volume only, not strength or log yield.',
     modes: [
       {
         id: 'lumber-volume',
@@ -3337,6 +3337,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         examples: [
           { label: 'Four 1x6 boards', inputs: { thicknessInches: '1', widthInches: '6', lengthFeet: '8', quantity: '4' } },
           { label: 'Rough lumber', inputs: { thicknessInches: '2', widthInches: '8', lengthFeet: '10', quantity: '3' } },
+          { label: 'Single slab', inputs: { thicknessInches: '2', widthInches: '18', lengthFeet: '7', quantity: '1' } },
         ],
       },
     ],
@@ -6661,7 +6662,7 @@ function calculateUtility(
           'Multiply by length in feet.',
           'Divide by 12 to convert the mixed units into board feet.',
         ],
-        note: 'Board feet measure lumber volume. Nominal vs actual dimensions, grade, species, moisture, and seller rules can differ.',
+        note: 'Board feet measure sawn-lumber volume. Actual vs nominal dimensions, grade, species, moisture, waste, and log rules can differ.',
       };
     }
     case 'cubic-yard': {
