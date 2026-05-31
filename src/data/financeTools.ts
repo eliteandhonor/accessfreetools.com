@@ -2441,26 +2441,69 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: '401k-calculator',
     name: '401K Calculator',
-    summary: 'Project 401K growth with salary contributions, employer match, return, and time.',
+    summary: 'Project 401K growth from salary contributions, employer match, return, and time.',
     description:
-      'Use this free 401K calculator to project retirement account growth from current balance, salary contribution percent, employer match, estimated return, and years to grow.',
+      'Estimate 401K growth from current balance, annual salary, contribution percent, employer match, estimated return, and years to grow.',
+    seoTitle: '401K Calculator | Contribution, Match & Growth Estimate',
+    seoDescription:
+      'Project 401K growth from salary, contribution percent, employer match, current balance, return, and years. Check deposits, match, and estimate limits.',
     icon: 'calculator-401k',
+    aliases: [
+      '401k calculator with match',
+      '401k growth calculator',
+      'simple 401k calculator',
+      '401k calculator by age',
+      '401k contribution calculator',
+    ],
     formula:
-      'The calculator converts your salary contribution and estimated employer match into monthly deposits, then compounds the current balance and deposits monthly.',
+      'The calculator converts your salary contribution percent and estimated employer match into monthly deposits, then compounds the current balance and deposits monthly with the return you enter.',
     limit:
-      'This is a simplified projection. It does not enforce IRS limits, plan rules, vesting, taxes, loans, withdrawals, fees, or market volatility.',
+      'This is a simplified projection. It does not enforce IRS limits, plan rules, Roth or pre-tax treatment, vesting, fees, loans, withdrawals, taxes, or market volatility.',
     useCases: [
-      'Estimate how salary contribution percent affects a 401K balance.',
-      'Compare the impact of an employer match.',
-      'Project long-term growth from current balance and monthly deposits.',
-      'Check savings scenarios before reviewing the official plan rules.',
+      'Estimate how a salary contribution percent affects a 401K balance.',
+      'Compare the impact of an employer match and match cap.',
+      'Project long-term growth from current balance, monthly deposits, and return assumptions.',
+      'Check a 401K savings scenario before reviewing IRS limits and the official plan rules.',
     ],
     examples: [
-      { label: '8% contribution', expression: '$75,000 salary, 8%, 50% match up to 6%', result: 'Projected 401K balance' },
-      { label: 'Start from zero', expression: '$60,000 salary, 6%, 100% match up to 4%', result: 'Long-term projection' },
-      { label: 'Catch-up scenario', expression: '$120,000 saved, 12% contribution, 15 years', result: 'Projected balance' },
+      { label: '8% with 50% match', expression: '$25,000 saved, $75,000 salary, 8%, 50% match up to 6%, 7% for 25 years', result: 'About $700,059.74 projected, with $500/month from you and $187.50/month from the match' },
+      { label: 'Match cap check', expression: '$10,000 saved, $60,000 salary, 6%, 100% match up to 3%, 6% for 20 years', result: 'About $241,020.45 projected, with $300/month from you and $150/month from the match' },
+      { label: 'Higher contribution', expression: '$50,000 saved, $120,000 salary, 20.42%, 50% match up to 6%, 6.5% for 15 years', result: 'About $843,010.70 projected before plan limits, fees, taxes, and market changes' },
     ],
     relatedSlugs: ['retirement-calculator', 'investment-calculator', 'compound-interest-calculator'],
+    inputExplanations: [
+      { term: 'Current balance', meaning: 'the money already in the 401K account before this projection starts.' },
+      { term: 'Annual salary', meaning: 'the gross salary used to estimate your employee contribution and employer match.' },
+      { term: 'Your contribution', meaning: 'the percent of salary you plan to contribute, such as 8 for 8%.' },
+      { term: 'Employer match', meaning: 'how much the employer adds compared with your contribution, such as 50 for a 50% match.' },
+      { term: 'Match limit', meaning: 'the salary percent where the employer match stops, such as 6 for match up to 6% of salary.' },
+      { term: 'Estimated return', meaning: 'a what-if annual return, not a guaranteed investment result.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Does this calculator enforce the 2026 IRS 401K limit?',
+        answer:
+          'No. IRS says the employee elective deferral limit for many 401(k), 403(b), governmental 457, and TSP plans is $24,500 for 2026, with a general $8,000 catch-up for age 50 or older. This tool shows a projection only, so compare the result with your plan and IRS limits.',
+      },
+      {
+        question: 'Does the employer match always belong to me?',
+        answer:
+          'Not always. Your own salary deferrals are yours, but employer match money can follow a vesting schedule unless the plan says it is immediately vested. Check the plan rules before treating the match as money you can keep if you leave.',
+      },
+      {
+        question: 'Should I enter Roth 401K or pre-tax 401K contributions differently?',
+        answer:
+          'No. This calculator only projects balance growth from deposits and return. It does not compare Roth versus pre-tax taxes, required Roth catch-up rules, payroll withholding, or future withdrawal tax.',
+      },
+    ],
+    formulaCheck:
+      'The estimate uses monthly compounding and end-of-month deposits. It does not check IRS annual additions, employee deferral limits, highly compensated employee rules, vesting, plan fees, or investment risk.',
+    resultReading:
+      'Projected balance is the future account estimate. Your monthly contribution and employer monthly match show the deposit split. Total contributions separate your deposits, employer match, and estimated growth.',
+    doubleCheck:
+      'Check salary, contribution percent, match percent, match cap, return, and years. Then compare the annual employee contribution with current IRS and plan limits before changing payroll.',
+    limitFollowup:
+      'Use your employer plan portal, plan documents, and IRS limits for real contribution rules.',
   }),
   makeFinanceTool({
     slug: 'house-affordability-calculator',

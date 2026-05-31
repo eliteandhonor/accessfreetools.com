@@ -135,6 +135,14 @@ const sourceLinks = {
     href: 'https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-401k-and-profit-sharing-plan-contribution-limits',
     label: 'IRS: 401(k) and profit-sharing plan contribution limits',
   },
+  irs401k2026Limits: {
+    href: 'https://www.irs.gov/newsroom/401k-limit-increases-to-24500-for-2026-ira-limit-increases-to-7500',
+    label: 'IRS: 2026 401(k) contribution limits',
+  },
+  irs401kPlans: {
+    href: 'https://www.irs.gov/retirement-plans/401k-plans',
+    label: 'IRS: 401(k) plans',
+  },
   cfpbCreditCards: {
     href: 'https://www.consumerfinance.gov/consumer-tools/credit-cards/answers/basics/',
     label: 'Consumer Financial Protection Bureau: Credit card basics',
@@ -778,7 +786,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === '401k-calculator') {
-    return [sourceLinks.irs401k, sourceLinks.investorCompound];
+    return [sourceLinks.irs401k2026Limits, sourceLinks.irs401k, sourceLinks.irs401kPlans, sourceLinks.investorCompound];
   }
 
   if (toolSlug === 'credit-card-calculator') {
@@ -1463,27 +1471,31 @@ const guideDetails: Record<string, GuideDetail> = {
   '401k-calculator': {
     summary: 'Learn how salary contributions, employer match, time, and return assumptions affect a 401K projection.',
     purpose:
-      'The 401K Calculator projects a retirement account balance from current savings, your salary contribution percent, an estimated employer match, time, and return assumption. It is built for scenario planning, not plan administration.',
+      'The 401K Calculator projects a retirement account balance from current savings, salary contribution percent, employer match, time, and return assumption. It is built for scenario planning before you check payroll settings, IRS limits, and plan rules.',
     enter: [
       'Enter your current 401K balance and annual salary.',
-      'Enter your contribution as a percent of salary.',
+      'Enter your contribution as a percent of salary, such as 8 for 8%.',
       'Enter employer match as a percent of your contribution and the salary percent where the match stops.',
+      'Enter an estimated return and years to grow, knowing the return is only a what-if.',
     ],
     example: [
-      'With a $75,000 salary and 8% contribution, your monthly contribution is based on salary x 8% / 12.',
-      'A 50% match up to 6% of salary means the employer match is based on the first 6% you contribute.',
+      'With $25,000 saved, a $75,000 salary, 8% contribution, 50% match up to 6%, and 7% for 25 years, your monthly contribution is $500.',
+      'The employer match is $187.50 per month because the match applies to the first 6% of salary.',
+      'The example projects about $700,059.74 before plan limits, fees, taxes, and real market changes.',
     ],
     read: [
       'Projected balance is the estimated future account value.',
       'Your monthly contribution and employer monthly match show the deposit split.',
-      'The projection does not tell you whether contributions are inside current legal or plan limits.',
+      'Your total contributions and employer total match show how much money was deposited before estimated growth.',
+      'The projection does not tell you whether contributions are inside current IRS or employer plan limits.',
     ],
     mistakes: [
       'Do not treat the result as guaranteed investment performance.',
       'Do not ignore vesting, fees, taxes, Roth/traditional choices, loans, or withdrawals.',
-      'Do not rely on this tool to enforce IRS contribution limits.',
+      'Do not rely on this tool to enforce IRS contribution limits or catch-up rules.',
+      'Do not enter a match cap higher than your plan allows just because the estimate looks better.',
     ],
-    next: ['Use Retirement Calculator for a broader savings target.', 'Use Compound Interest Calculator to compare deposit and rate assumptions.'],
+    next: ['Use Retirement Calculator for a broader savings target.', 'Use Investment Calculator for deposit-and-return scenarios.', 'Use Compound Interest Calculator to compare deposit and rate assumptions.'],
   },
   'house-affordability-calculator': {
     summary: 'Learn how income, debts, down payment, mortgage rate, taxes, insurance, and HOA affect a home price estimate.',
@@ -3097,6 +3109,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate mortgage payoff time, interest saved, and months saved from extra monthly principal or a one-time payment.';
   }
 
+  if (tool.slug === '401k-calculator') {
+    return 'Project 401K growth from salary contribution percent, employer match, current balance, return, and years, with IRS and plan-rule limits.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -3123,6 +3139,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isAutoLoanGuide = tool.slug === 'auto-loan-calculator';
   const isMortgageGuide = tool.slug === 'mortgage-calculator';
   const isMortgagePayoffGuide = tool.slug === 'mortgage-payoff-calculator';
+  const is401kGuide = tool.slug === '401k-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
@@ -3147,6 +3164,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A mortgage payment is not just the loan. This guide shows how home price, down payment, rate, term, property tax, insurance, PMI, and HOA dues turn into one monthly estimate.'
       : isMortgagePayoffGuide
       ? 'Paying extra on a mortgage only helps if the extra money really reduces principal. This guide shows how balance, rate, term, monthly extra principal, and one-time principal payments change payoff time and interest.'
+      : is401kGuide
+      ? 'A 401K estimate is not just one magic retirement number. This guide shows how salary, contribution percent, employer match, return, and years build a projection before IRS limits and plan rules have the final say.'
       : isUkMortgageGuide
       ? 'A UK repayment mortgage is not just the property price split across months. This guide shows how price, deposit, rate, term, and monthly fees turn into a payment, LTV, and interest estimate.'
       : isAutoLoanGuide
@@ -3193,6 +3212,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Add extra monthly principal or a one-time principal payment only when that is how you plan to pay.',
           'Calculate, then compare payoff time, months saved, and interest saved with the scheduled path.',
           'Ask your lender or servicer for the official payoff amount before sending final payoff money.',
+        ]
+      : is401kGuide
+      ? [
+          'Open the 401K Calculator.',
+          'Enter your current balance and annual salary.',
+          'Enter your salary contribution percent, employer match percent, and match limit.',
+          'Add an estimated return and years to grow, then project the balance.',
+          'Compare your annual employee contribution with current IRS limits and your employer plan before changing payroll.',
         ]
       : isUkMortgageGuide
       ? [
@@ -3329,6 +3356,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before asking for a quote, comparing 15-year and 30-year payments, testing PMI, or seeing whether tax and insurance make a home feel less affordable than the loan payment alone.'
             : isMortgagePayoffGuide
             ? 'Use it before making extra principal payments, testing a one-time lump sum, or deciding what questions to ask your mortgage servicer.'
+            : is401kGuide
+            ? 'Use it before changing payroll contributions, comparing a match scenario, testing a longer time horizon, or checking whether a return assumption is doing too much work.'
             : isUkMortgageGuide
             ? 'Use it before checking a UK mortgage quote, comparing deposit sizes, testing a 25-year versus 30-year term, or seeing whether a small monthly fee changes the payment enough to matter.'
             : isAutoLoanGuide
@@ -3365,6 +3394,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Mortgage estimates get messy when annual and monthly costs are mixed together. Home price, down payment, rate, and term build the loan payment. Property tax, insurance, PMI, and HOA dues are add-ons that make the real monthly budget bigger.'
             : isMortgagePayoffGuide
             ? 'Mortgage payoff estimates get messy when principal, interest, escrow, and payoff quotes are treated like the same thing. The calculator needs the current principal balance, annual rate, years remaining, and any extra money you want applied to principal.'
+            : is401kGuide
+            ? '401K projections get misleading when salary percent, match percent, and match limit are treated like the same field. Keep your contribution, the employer match rate, the match cap, estimated return, and years separate.'
             : isUkMortgageGuide
             ? 'UK mortgage estimates get messy when one-off costs and monthly costs are mixed together. Property price, deposit, rate, and term build the repayment estimate. The monthly fee field is only for a cost that repeats every month.'
             : isAutoLoanGuide
@@ -3405,6 +3436,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: a $400,000 home, $80,000 down, 6.5% for 30 years, $4,800 yearly tax, $140 monthly insurance, and a $75 HOA. The estimate is about $2,637.62 per month total, with $2,022.62 of that as principal and interest and 80% LTV.'
               : isMortgagePayoffGuide
               ? 'Try the starter example: $280,000 current principal, 6.25% rate, 25 years remaining, and $200 extra to principal each month. The estimate is about $2,047.07 paid each month, a 20-year payoff, about $63,050.68 interest saved, and 60 months saved.'
+              : is401kGuide
+              ? 'Try the starter example: $25,000 saved, a $75,000 salary, 8% contribution, 50% match up to 6%, and 7% for 25 years. The projection is about $700,059.74, with $500 from you each month and $187.50 from the employer match.'
               : isAutoLoanGuide
               ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
               : isBusinessLoanGuide
@@ -3442,6 +3475,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The loan formula is only the first layer. The budget number changes when you add property tax, homeowners insurance, PMI, and HOA dues. CFPB calls the core monthly pieces PITI: principal, interest, taxes, and insurance.'
             : isMortgagePayoffGuide
             ? 'The calculator first finds the scheduled fixed mortgage payment. Then it subtracts any one-time principal payment, adds extra monthly principal, and simulates month-by-month interest until the balance reaches zero.'
+            : is401kGuide
+            ? 'The calculator turns salary contribution percent into a monthly employee deposit, estimates the employer match from the match rate and match cap, then compounds the current balance and monthly deposits.'
             : isAutoLoanGuide
             ? 'The formula is not the hard part. The hard part is using the same full deal each time: tax, fees, down payment, trade-in, rate, and term. That is why the calculator shows amount financed and total interest beside the monthly payment.'
             : isBusinessLoanGuide
@@ -3478,6 +3513,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with total monthly payment because that is closest to the budget hit. Then check principal and interest, total interest, and loan-to-value so you can tell whether the payment is being moved by the loan, the rate, the term, or the add-on costs.'
             : isMortgagePayoffGuide
             ? 'Start with payoff time, then check interest saved and months saved. If the one-time payment looks helpful, remember the real servicer may keep the required payment the same unless a recast is allowed.'
+            : is401kGuide
+            ? 'Start with projected balance, then check your monthly contribution and employer monthly match. If estimated growth is most of the answer, test a lower return before treating the number like a plan.'
             : isAutoLoanGuide
             ? 'Start with the monthly payment, then immediately check amount financed, total interest, and total paid. That stops a long loan from looking better just because the monthly number is smaller.'
             : isBusinessLoanGuide
@@ -3515,6 +3552,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad mortgage estimates come from using a rate that is not your quote, entering yearly insurance as monthly insurance, forgetting PMI, ignoring tax reassessments, or treating the calculator like a lender approval.'
             : isMortgagePayoffGuide
             ? 'Most bad mortgage payoff estimates come from using the original loan amount instead of current principal, counting escrow as extra principal, ignoring payoff-statement interest, or assuming the servicer applied extra money correctly.'
+            : is401kGuide
+            ? 'Most bad 401K projections come from using a return that is too hopeful, putting the employer match in the wrong field, ignoring vesting, forgetting fees and taxes, or assuming the page enforces IRS limits.'
             : isAutoLoanGuide
             ? 'Most bad car-payment estimates come from leaving out fees, using a rate from a different offer, forgetting negative equity, or choosing the longest term before checking total interest.'
             : isBusinessLoanGuide
@@ -3552,6 +3591,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help when the car deal has one moving piece you want to isolate, such as sales tax, a plain loan comparison, or a dealer incentive.'
             : isMortgagePayoffGuide
             ? 'A related tool can help when the payoff estimate is only one part of the question, such as the full monthly payment, another fixed-loan payoff, or the rate hidden inside a quote.'
+            : is401kGuide
+            ? 'A related tool can help when the 401K projection is only one part of the retirement question, such as a wider savings target, investment what-if, or compound-interest check.'
             : isBusinessLoanGuide
             ? 'A related tool can help when the loan payment is only one part of the decision, such as the rate, a plain fixed loan, or the profit target for the project.'
             : isCanadianMortgageGuide
@@ -3586,6 +3627,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/mortgage-payoff-calculator/', label: 'Open the Mortgage Payoff Calculator' },
               { href: '/tools/mortgage-calculator/', label: 'Estimate the full monthly payment' },
               { href: '/tools/amortization-calculator/', label: 'Compare fixed-loan payoff paths' },
+            ]
+          : is401kGuide
+          ? [
+              { href: '/tools/401k-calculator/', label: 'Open the 401K Calculator' },
+              { href: '/tools/retirement-calculator/', label: 'Check a wider retirement target' },
+              { href: '/tools/investment-calculator/', label: 'Test deposit and return scenarios' },
+              { href: '/tools/compound-interest-calculator/', label: 'Check compounding separately' },
             ]
           : isAutoLoanGuide
           ? [
@@ -3686,6 +3734,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'CFPB and FTC sources both push the same practical warning: compare the total cost, not just the monthly payment. They also explain APR, loan terms, add-ons, trade-ins, and shopping for financing before the dealer visit.'
             : isMortgagePayoffGuide
             ? 'CFPB explains that a payoff amount can be different from the current balance because it can include interest through the payoff date, unpaid fees, and possible prepayment penalties. Fannie Mae also warns that extra payments should be applied to principal if the goal is to reduce balance and future interest.'
+            : is401kGuide
+            ? 'IRS sources set the 2026 401(k) context: the employee elective deferral limit is $24,500 for many workplace plans, and the general age-50 catch-up is $8,000. IRS 401(k) plan pages also explain that 401(k) salary deferrals are part of a qualified plan, not a personal guess.'
             : isUkMortgageGuide
             ? 'MoneyHelper explains mortgage repayments, repayment versus interest-only mortgages, and mortgage calculators. GOV.UK explains that lenders look at affordability, income, outgoings, deposit, credit, and possible rate changes, and that stamp duty and moving costs are separate from the mortgage payment.'
             : isBusinessLoanGuide
@@ -3721,6 +3771,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not approve credit, price insurance, know your exact registration fees, decide whether an add-on is worth it, or replace a written lender quote.'
             : isMortgagePayoffGuide
             ? 'This calculator still stays simple. It does not request a payoff statement, calculate daily payoff interest, handle escrow, check unpaid fees, apply servicer rules, approve a recast, or replace written payoff instructions.'
+            : is401kGuide
+            ? 'This calculator still stays simple. It does not enforce annual contribution limits, catch-up rules, plan eligibility, vesting schedules, Roth or pre-tax treatment, fees, loans, hardship withdrawals, or future tax rules.'
             : isUkMortgageGuide
             ? 'This calculator still stays simple. It does not approve a mortgage, check affordability, include stamp duty, price product fees you do not enter, handle interest-only loans, read leasehold charges, or replace a written lender illustration.'
             : isBusinessLoanGuide
@@ -3758,6 +3810,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? `Keep the ${tool.name} open beside this guide. Try $80 at 7.5%, then replace the price and rate with your receipt or checkout numbers.`
       : isMortgagePayoffGuide
       ? 'Keep the Mortgage Payoff Calculator open beside this guide. Try the $280,000 balance example first, then change only the extra monthly principal so you can see what actually moved.'
+      : is401kGuide
+      ? 'Keep the 401K Calculator open beside this guide. Try the $25,000 saved and $75,000 salary example first, then change only your salary contribution percent so you can see what actually moved.'
       : isAutoLoanGuide
       ? 'Keep the Auto Loan Calculator open beside this guide. Try the $32,000 car example first, then change only the term so you can see why a lower payment can still cost more.'
       : isBusinessLoanGuide

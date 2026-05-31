@@ -1310,6 +1310,36 @@ describe('finance helpers', () => {
     expect(aggressive.interestSaved).toBeCloseTo(175003.22, 2);
   });
 
+  it('keeps 401K projection examples stable', () => {
+    const starter = calculateFourOhOneKProjection({
+      currentBalance: 25000,
+      annualSalary: 75000,
+      employeeContributionPercent: 8,
+      employerMatchPercent: 50,
+      employerMatchLimitPercent: 6,
+      annualReturnPercent: 7,
+      years: 25,
+    });
+    const matchCap = calculateFourOhOneKProjection({
+      currentBalance: 10000,
+      annualSalary: 60000,
+      employeeContributionPercent: 6,
+      employerMatchPercent: 100,
+      employerMatchLimitPercent: 3,
+      annualReturnPercent: 6,
+      years: 20,
+    });
+
+    expect(starter.monthlyEmployeeContribution).toBe(500);
+    expect(starter.monthlyEmployerContribution).toBe(187.5);
+    expect(starter.endingBalance).toBeCloseTo(700059.74, 2);
+    expect(starter.totalEmployeeContributions).toBe(150000);
+    expect(starter.totalEmployerContributions).toBe(56250);
+    expect(matchCap.monthlyEmployeeContribution).toBe(300);
+    expect(matchCap.monthlyEmployerContribution).toBe(150);
+    expect(matchCap.endingBalance).toBeCloseTo(241020.45, 2);
+  });
+
   it('calculates the retirement, debt, education, and investment sitemap batch', () => {
     const pension = calculatePensionEstimate(80000, 25, 1.5);
     const annuityPayout = calculateAnnuityPayout(100000, 5, 20, 12);

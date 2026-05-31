@@ -715,6 +715,13 @@ const financeToolInstructions = financeToolVariant
         'Add a monthly fee only when that cost repeats every month.',
         'Calculate, then compare repayment, total monthly payment, loan amount, LTV, and total interest with a lender illustration.',
       ]
+    : tool.slug === '401k-calculator'
+    ? [
+        'Enter your current 401K balance and annual salary.',
+        'Enter your salary contribution percent, employer match percent, and match limit percent.',
+        'Add an estimated return and years to grow, then calculate the projected balance.',
+        'Compare the monthly deposit split with IRS limits and your employer plan before changing payroll.',
+      ]
     : tool.slug === 'investment-calculator'
     ? [
         'Enter the starting money already invested.',
@@ -2230,6 +2237,31 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://yourhome.fanniemae.com/own/making-extra-mortgage-payments" rel="noreferrer" target="_blank">
                   Fannie Mae extra mortgage payments
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === '401k-calculator' ? (
+            <>
+              <strong>401K projection, not plan advice</strong>
+              <p>
+                Use this to test current balance, salary, employee contribution percent, employer match,
+                match cap, estimated return, and years to grow. A real 401K can still change with IRS limits,
+                catch-up rules, Roth or pre-tax treatment, plan eligibility, vesting, investment fees, loans,
+                withdrawals, payroll timing, and market results.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.irs.gov/newsroom/401k-limit-increases-to-24500-for-2026-ira-limit-increases-to-7500" rel="noreferrer" target="_blank">
+                  IRS 2026 401(k) contribution limits
+                </a>
+                {', '}
+                <a href="https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-401k-and-profit-sharing-plan-contribution-limits" rel="noreferrer" target="_blank">
+                  IRS 401(k) contribution limits
+                </a>
+                {', and '}
+                <a href="https://www.irs.gov/retirement-plans/401k-plans" rel="noreferrer" target="_blank">
+                  IRS 401(k) plans
                 </a>
                 .
               </p>

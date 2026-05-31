@@ -565,7 +565,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: '401K Calculator',
     buttonLabel: 'Project 401K',
     emptyHistory: 'Recent 401K projections will appear here.',
-    privacyNote: '401K projections do not enforce plan rules, IRS limits, vesting, taxes, fees, loans, withdrawals, or market volatility.',
+    privacyNote:
+      '401K projections stay in your browser and do not enforce IRS limits, plan rules, Roth or pre-tax treatment, vesting, taxes, fees, loans, withdrawals, or market volatility.',
     modes: [
       {
         id: '401k',
@@ -574,7 +575,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         fields: [
           numberField('currentBalance', 'Current balance ($)'),
           numberField('annualSalary', 'Annual salary ($)'),
-          numberField('employeeContributionPercent', 'Your contribution (%)'),
+          numberField('employeeContributionPercent', 'Your salary contribution (%)'),
           numberField('employerMatchPercent', 'Employer match (%)'),
           numberField('employerMatchLimitPercent', 'Match limit (% of salary)'),
           numberField('annualReturnPercent', 'Estimated return (%)'),
@@ -2841,7 +2842,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Add employee and employer contributions each month.',
           'Compound the current balance and monthly contributions using the estimated return.',
         ],
-        note: 'This projection does not enforce current IRS limits or your employer plan rules.',
+        note:
+          'This projection does not enforce current IRS limits, catch-up rules, Roth or pre-tax treatment, vesting, fees, taxes, loans, withdrawals, or your employer plan rules.',
       };
     }
     case 'house-affordability': {

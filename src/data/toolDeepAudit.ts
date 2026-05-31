@@ -1021,6 +1021,16 @@ const irs401kLimits = {
   label: 'IRS: 401(k) and profit-sharing plan contribution limits',
 };
 
+const irs401k2026Limits = {
+  href: 'https://www.irs.gov/newsroom/401k-limit-increases-to-24500-for-2026-ira-limit-increases-to-7500',
+  label: 'IRS: 2026 401(k) contribution limits',
+};
+
+const irs401kPlans = {
+  href: 'https://www.irs.gov/retirement-plans/401k-plans',
+  label: 'IRS: 401(k) plans',
+};
+
 const irsEstateGift = {
   href: 'https://www.irs.gov/businesses/small-businesses-self-employed/whats-new-estate-and-gift-tax',
   label: 'IRS: Estate and gift tax updates',
@@ -2299,21 +2309,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: '401k-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [irs401kLimits, investorCompound],
+    sources: [irs401k2026Limits, irs401kLimits, irs401kPlans, investorCompound],
     findings: [
       'The calculator converts employee salary percent and employer match into monthly deposits, then compounds the current balance and combined deposits monthly.',
       'The employer match logic caps the matched salary percent at the entered match-limit percent, which matches the field labels.',
-      'The guide and privacy copy are honest that the calculator does not enforce IRS limits, plan rules, vesting, taxes, loans, withdrawals, fees, or market volatility.',
+      'DataForSEO page evidence showed 401k calculator demand around 165,000 searches, plus visible demand for match, growth, Roth, simple, payout, and by-age intent.',
+      'The guide and privacy copy now cite 2026 IRS contribution-limit context while staying honest that the calculator does not enforce IRS limits, plan rules, Roth or pre-tax treatment, vesting, taxes, loans, withdrawals, fees, or market volatility.',
     ],
     improvements: [
-      'Manually checked 401K projection math, match-limit wording, examples, guide article, FAQ cautions, IRS source coverage, related tools, and privacy behavior.',
-      'Added a 401(k)-specific IRS source to the deep-audit source coverage instead of relying only on generic retirement links.',
+      'Rewrote metadata, examples, input explanations, FAQ cautions, guide copy, source links, image alt/caption text, tool trust note, and modified dates in smart-14 wording.',
     ],
     followUps: [
-      'Add optional annual contribution-limit warning text later without hard-coding year-sensitive values into the calculator logic.',
+      'Add optional contribution-limit warnings only if the feature has maintained year data, catch-up handling, and plan-rule wording.',
     ],
   },
   {
@@ -7515,7 +7525,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['401k', '401 k'])) {
-      return sourceBackstop([irs401kLimits, investorCompound]);
+      return sourceBackstop([irs401k2026Limits, irs401kLimits, irs401kPlans, investorCompound]);
     }
 
     if (includesAny(key, ['ira', '401k', 'retirement', 'pension', 'rmd'])) {

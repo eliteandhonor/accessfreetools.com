@@ -4,6 +4,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/401k-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/401k-calculator-guide.webp",
+    "alt": "Smoke mascot reviewing a 401K growth worksheet with salary contribution, employer match, IRS limit, and projected balance notes.",
+    "caption": "401K Calculator guide artwork matches the walkthrough for salary contribution percent, employer match, match cap, IRS limits, and projected growth.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -12,6 +14,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/401k-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/401k-calculator-tool.webp",
+    "alt": "Smoke mascot beside a 401K calculator screen with current balance, salary contribution, employer match, return, and projected balance cards.",
+    "caption": "401K Calculator artwork shows current balance, salary contribution percent, employer match, estimated return, and projected balance.",
     "status": "approved",
     "qaStatus": "approved"
   },
