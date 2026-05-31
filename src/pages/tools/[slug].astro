@@ -764,6 +764,13 @@ const financeToolInstructions = financeToolVariant
         'Enter the regular total monthly card payment and any extra payment you can keep sending.',
         'Calculate, then compare payoff months, total interest, total paid, final payment, and whether the combined estimate is too rough for your real card mix.',
       ]
+    : tool.slug === 'debt-payoff-calculator'
+    ? [
+        'Enter the current balance for the one debt you want to test.',
+        'Enter the annual interest rate or APR as a normal percent, such as 12 for 12%.',
+        'Enter the regular monthly payment and any extra amount you can safely keep adding.',
+        'Calculate, then compare payoff months, total interest, total paid, final payment, and whether the payment actually beats the monthly interest.',
+      ]
     : tool.slug === 'pension-calculator'
     ? [
         'Enter the final average salary or plan salary number used by the pension formula.',
@@ -2472,6 +2479,31 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://consumer.ftc.gov/paying-holiday-credit-card-debt" rel="noreferrer" target="_blank">
                   FTC credit card debt payoff tips
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'debt-payoff-calculator' ? (
+            <>
+              <strong>Fixed-balance payoff math, not a debt settlement plan</strong>
+              <p>
+                Use this to test one balance, one annual rate, a regular monthly payment, an extra monthly payment,
+                payoff months, total interest, total paid, and final payment. Real debt payoff can still change because
+                of late fees, penalty rates, skipped payments, settlement terms, collection status, court deadlines,
+                variable rates, or creditor agreements.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://consumer.ftc.gov/how-get-out-debt" rel="noreferrer" target="_blank">
+                  FTC debt help and payment-plan guidance
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/consumer-tools/debt-collection/" rel="noreferrer" target="_blank">
+                  CFPB debt-collection resources
+                </a>
+                {', and '}
+                <a href="https://consumer.gov/your-money/making-budget" rel="noreferrer" target="_blank">
+                  consumer.gov budgeting basics
                 </a>
                 .
               </p>

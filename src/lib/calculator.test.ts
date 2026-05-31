@@ -1506,6 +1506,36 @@ describe('finance helpers', () => {
     expect(aggressive.totalInterest).toBeCloseTo(2735.69, 2);
   });
 
+  it('keeps debt payoff calculator examples stable', () => {
+    const basePlan = calculateFixedDebtPayoff({
+      balance: 10000,
+      annualRatePercent: 12,
+      monthlyPayment: 300,
+      extraMonthlyPayment: 100,
+    });
+    const noExtra = calculateFixedDebtPayoff({
+      balance: 7500,
+      annualRatePercent: 15,
+      monthlyPayment: 260,
+      extraMonthlyPayment: 0,
+    });
+    const fastPayoff = calculateFixedDebtPayoff({
+      balance: 5000,
+      annualRatePercent: 18,
+      monthlyPayment: 250,
+      extraMonthlyPayment: 150,
+    });
+
+    expect(basePlan.monthsToPayoff).toBe(29);
+    expect(basePlan.totalInterest).toBeCloseTo(1564.88, 2);
+    expect(basePlan.totalPaid).toBeCloseTo(11564.88, 2);
+    expect(basePlan.finalPayment).toBeCloseTo(364.88, 2);
+    expect(noExtra.monthsToPayoff).toBe(36);
+    expect(noExtra.totalInterest).toBeCloseTo(1859.55, 2);
+    expect(fastPayoff.monthsToPayoff).toBe(14);
+    expect(fastPayoff.totalInterest).toBeCloseTo(578.63, 2);
+  });
+
   it('calculates the retirement, debt, education, and investment sitemap batch', () => {
     const pension = calculatePensionEstimate(80000, 25, 1.5);
     const annuityPayout = calculateAnnuityPayout(100000, 5, 20, 12);

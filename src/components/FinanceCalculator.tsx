@@ -802,17 +802,17 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
   'debt-payoff': {
     title: 'Debt Payoff Calculator',
     buttonLabel: 'Estimate payoff',
-    emptyHistory: 'Recent debt payoff estimates will appear here.',
-    privacyNote: 'Debt payoff estimates are simplified and do not include fees, collections, settlement terms, changing rates, or creditor rules.',
+    emptyHistory: 'Recent fixed-debt payoff checks will appear here.',
+    privacyNote: 'This is one fixed-balance payoff estimate. It is not a collector notice, settlement offer, creditor agreement, or debt advice.',
     modes: [
       {
         id: 'debt-payoff',
         label: 'Payoff',
         symbol: 'DEBT',
         fields: [
-          numberField('balance', 'Debt balance ($)'),
-          numberField('annualRatePercent', 'Annual interest rate (%)'),
-          numberField('monthlyPayment', 'Monthly payment ($)'),
+          numberField('balance', 'Current debt balance ($)'),
+          numberField('annualRatePercent', 'Annual interest rate or APR (%)'),
+          numberField('monthlyPayment', 'Regular monthly payment ($)'),
           numberField('extraMonthlyPayment', 'Extra monthly payment ($)'),
         ],
         defaultInputs: { balance: '10000', annualRatePercent: '12', monthlyPayment: '300', extraMonthlyPayment: '100' },
@@ -3053,7 +3053,14 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
             ? 'Estimated debt payoff time'
             : 'Estimated repayment time';
       const payoffSteps =
-        variant === 'credit-cards-payoff'
+        variant === 'debt-payoff'
+          ? [
+              'Start with the current debt balance.',
+              'Convert the annual rate into a simple monthly rate.',
+              'Add monthly interest, then subtract the regular payment plus extra payment.',
+              'Repeat until the balance reaches zero, then total the interest and final payment.',
+            ]
+          : variant === 'credit-cards-payoff'
           ? [
               'Treat the card balances as one combined balance.',
               'Convert the weighted APR into a simple monthly rate.',
@@ -3067,7 +3074,9 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
               'Repeat until the balance reaches zero, then add up interest and total paid.',
             ];
       const payoffNote =
-        variant === 'credit-cards-payoff'
+        variant === 'debt-payoff'
+          ? 'Real payoff can change with fees, penalty rates, skipped payments, settlement terms, collector rules, creditor agreements, court deadlines, or a changing rate.'
+          : variant === 'credit-cards-payoff'
           ? 'Real card payoff can change with average daily balance billing, separate APR tiers, payment allocation, fees, cash advances, balance transfers, deferred interest, grace-period rules, and new purchases.'
           : 'Real balances can change with fees, payment timing, minimum-payment rules, collections, or new charges.';
 

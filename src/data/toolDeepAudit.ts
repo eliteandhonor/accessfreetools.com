@@ -706,6 +706,16 @@ const ftcCreditCardDebt = {
   label: 'FTC: Paying credit card debt',
 };
 
+const ftcGetOutOfDebt = {
+  href: 'https://consumer.ftc.gov/how-get-out-debt',
+  label: 'FTC: How to get out of debt',
+};
+
+const consumerGovBudget = {
+  href: 'https://consumer.gov/your-money/making-budget',
+  label: 'consumer.gov: Making a budget',
+};
+
 const cfpbDebtToIncome = {
   href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-debt-to-income-ratio-en-1791/',
   label: 'Consumer Financial Protection Bureau: Debt-to-income ratio',
@@ -2589,17 +2599,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'debt-payoff-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [cfpbDebtCollection, cfpbCreditCards],
+    sources: [cfpbDebtCollection, ftcGetOutOfDebt, consumerGovBudget, cfpbCreditCards],
     findings: [
       'The calculator adds monthly interest, subtracts the regular plus extra payment, and repeats until the fixed balance reaches zero.',
       'The payment guardrail stops results when the monthly payment cannot cover monthly interest, preventing a fake payoff timeline.',
-      'The guide and FAQ warn about fees, penalties, settlement terms, collection rules, creditor agreements, changing rates, and legal-advice limits.',
+      'DataForSEO page evidence was run for the exact tool and guide during the required all-pages sprint.',
+      'In-app browser baseline found generic tool copy, no visible official source links on the tool page, and generic image alt text despite a clean page score.',
+      '$10,000 at 12% with a $300 regular payment plus $100 extra estimates 29 months, about $1,564.88 interest, about $11,564.88 total paid, and a final payment near $364.88.',
+      'Current FTC, CFPB, and consumer.gov context supports warnings around written payment plans, budgeting, creditors, debt collectors, settlements, scams, rights, fees, and court or collection status.',
     ],
     improvements: [
-      'Added debt-payoff-specific guide detail and manually checked payoff loop, error guardrail, examples, FAQ cautions, source coverage, related tools, and privacy note.',
+      'Rewrote metadata, field labels, examples, input explanations, FAQ cautions, guide copy, tool trust note, source links, image alt/caption text, and modified dates in smart-14 wording.',
     ],
     followUps: [
       'Add payoff strategy modes only after separate avalanche and snowball logic has tests.',

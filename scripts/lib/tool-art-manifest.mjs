@@ -100,6 +100,18 @@ const toolArtMetadataOverrides = {
         'Credit Cards Payoff Calculator guide artwork supports the walkthrough by showing where a combined payoff shortcut helps and where card-by-card rules still matter.',
     },
   },
+  'debt-payoff-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a $10,000 debt payoff plan with 12 percent annual rate, $300 regular payment, $100 extra payment, 29 months, interest, total paid, and final payment.',
+      caption:
+        'Debt Payoff Calculator artwork matches the fixed-balance workflow: balance, annual rate, regular payment, extra payment, payoff months, interest, total paid, and final payment.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing a fixed debt payoff estimate with budget notes, creditor call notes, payment-plan paperwork, debt-collection warnings, and extra-payment choices.',
+      caption:
+        'Debt Payoff Calculator guide artwork supports the walkthrough by showing where payoff math helps and where creditor, collector, budget, or counseling details still matter.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

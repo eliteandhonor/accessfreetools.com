@@ -3072,27 +3072,67 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'debt-payoff-calculator',
     name: 'Debt Payoff Calculator',
-    summary: 'Estimate payoff time, total interest, and total paid for a debt balance.',
+    summary: 'Check how fast a fixed debt can disappear when you pay the regular amount plus extra.',
     description:
-      'Use this free debt payoff calculator to estimate payoff months, total interest, total paid, and final payment from debt balance, interest rate, monthly payment, and extra payment.',
+      'Estimate debt payoff months, total interest, total paid, and final payment from one balance, one interest rate, a regular payment, and any extra payment.',
+    seoTitle: 'Debt Payoff Calculator | Extra Payment Plan',
     seoDescription:
-      'Estimate debt payoff months, total interest, total paid, and final payment from balance, rate, monthly payment, and extra payment.',
+      'Estimate debt payoff months, interest, total paid, and final payment from balance, APR, regular payment, and extra payment.',
     icon: 'calculator-debt-payoff',
+    aliases: ['debt payoff plan', 'extra payment debt calculator', 'fixed debt payoff calculator'],
     formula:
-      'The calculator adds monthly interest to the balance, subtracts the monthly payment plus extra payment, and repeats until the balance reaches zero.',
+      'The calculator turns the annual rate into a monthly rate, adds one month of interest, subtracts the regular payment plus extra payment, and repeats until the balance reaches zero.',
     limit:
-      'This is a fixed-rate payoff model. It does not include fees, penalties, settlement terms, collection rules, creditor agreements, changing rates, or legal advice.',
+      'This is a fixed-balance payoff model. It does not choose an avalanche order, settle debt, read a collector notice, include late fees, handle court deadlines, or replace advice from a qualified debt counselor.',
     useCases: [
-      'Estimate how long a debt balance may take to repay.',
-      'Compare payoff speed with and without an extra payment.',
-      'Estimate total interest before choosing a repayment plan.',
-      'Check whether a monthly payment is high enough to reduce principal.',
+      'See whether the payment is actually reducing principal.',
+      'Compare the same debt with and without an extra monthly payment.',
+      'Estimate interest before asking a creditor about a payment plan.',
+      'Check a simple payoff path before looking at consolidation or counseling.',
     ],
     examples: [
-      { label: '$10k payoff', expression: '$10,000 debt, 12%, $300 + $100 extra/month', result: 'Payoff months and interest' },
-      { label: 'No extra payment', expression: '$7,500 at 15%, $260/month', result: 'Baseline payoff time' },
-      { label: 'Fast payoff', expression: '$5,000 at 18%, $400/month', result: 'Shorter payoff estimate' },
+      { label: '$10k payoff', expression: '$10,000 debt, 12%, $300 regular + $100 extra/month', result: '29 months, about $1,564.88 interest, about $11,564.88 total paid, final payment near $364.88' },
+      { label: 'No extra payment', expression: '$7,500 at 15%, $260/month', result: '36 months, about $1,859.55 interest, about $9,359.55 total paid' },
+      { label: 'Fast payoff', expression: '$5,000 at 18%, $250 regular + $150 extra/month', result: '14 months, about $578.63 interest, about $5,578.63 total paid' },
     ],
+    inputExplanations: [
+      { term: 'Debt balance', meaning: 'the current amount you still owe on the debt you are testing.' },
+      { term: 'Annual interest rate', meaning: 'the yearly rate as a percent, such as 12 for 12%, not 0.12.' },
+      { term: 'Monthly payment', meaning: 'the regular payment you can keep making each month.' },
+      { term: 'Extra monthly payment', meaning: 'extra money you can add on top of the regular payment without skipping other required bills.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this a debt avalanche or snowball calculator?',
+        answer:
+          'No. This page tests one fixed balance at one rate. An avalanche or snowball plan needs separate debts, minimum payments, interest rates, and a payoff order.',
+      },
+      {
+        question: 'Why does the calculator stop when my payment is too low?',
+        answer:
+          'If the payment does not cover the monthly interest, the balance can grow instead of shrink. The calculator stops so it does not show a fake payoff date.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Can this help before I call a creditor?',
+        answer:
+          'Yes. It can give you a rough monthly-payment target before you ask about a payment plan. Still get any agreement in writing and check fees, collection status, and credit reporting.',
+      },
+      {
+        question: 'What if the debt is already with a collector?',
+        answer:
+          'Use the number as a planning estimate only. First confirm the debt, check your rights, avoid sharing sensitive information with an unknown caller, and watch for court or statute-of-limitations issues.',
+      },
+    ],
+    formulaCheck:
+      '$10,000 at 12% with a $300 regular payment plus $100 extra estimates 29 months, about $1,564.88 interest, about $11,564.88 total paid, and a final payment near $364.88.',
+    resultReading:
+      'Start with payoff months, then compare total interest and total paid. If the interest still feels too high, test a bigger extra payment or compare a consolidation offer.',
+    doubleCheck:
+      'Check that the balance is current, the rate is annual, the monthly payment is realistic, and the extra payment will not make you miss rent, food, utilities, or other required bills.',
+    limitFollowup:
+      'For debts in collections, settlement, hardship, court, or bankruptcy, use creditor paperwork, CFPB or FTC guidance, and a qualified nonprofit counselor or legal professional.',
     relatedSlugs: ['repayment-calculator', 'debt-consolidation-calculator', 'credit-cards-payoff-calculator'],
   }),
   makeFinanceTool({
