@@ -1246,6 +1246,31 @@ const irsIraLimits = {
   label: 'IRS: IRA contribution limits',
 };
 
+const irsRothIras = {
+  href: 'https://www.irs.gov/retirement-plans/roth-iras',
+  label: 'IRS: Roth IRAs',
+};
+
+const irsRothContributions = {
+  href: 'https://www.irs.gov/taxtopics/tc309',
+  label: 'IRS Topic 309: Roth IRA contributions',
+};
+
+const irs2026IraLimits = {
+  href: 'https://www.irs.gov/newsroom/401k-limit-increases-to-24500-for-2026-ira-limit-increases-to-7500',
+  label: 'IRS: 2026 IRA contribution limits',
+};
+
+const irsIraCatchUp = {
+  href: 'https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-catch-up-contributions',
+  label: 'IRS: IRA catch-up contributions',
+};
+
+const investorIras = {
+  href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-accounts/tax-advantaged-accounts/retirement-savings/individual-retirement-accounts-iras',
+  label: 'Investor.gov: Individual Retirement Accounts',
+};
+
 const irs401kLimits = {
   href: 'https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-401k-and-profit-sharing-plan-contribution-limits',
   label: 'IRS: 401(k) and profit-sharing plan contribution limits',
@@ -2900,20 +2925,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'roth-ira-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-3-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [irsIraLimits, investorCompound],
+    sources: [irsRothIras, irsRothContributions, irs2026IraLimits, irsIraCatchUp, irsIraLimits, investorIras, investorCompound],
     findings: [
       'The calculator converts annual contribution to monthly deposits, compounds the current balance monthly, and separates contributions from estimated growth.',
-      'The guide and FAQ keep Roth IRA tax and eligibility language careful: the tool does not enforce IRS limits, income phaseouts, withdrawal rules, penalties, taxes, fees, or market risk.',
-      'The examples support long-term, starting-from-zero, and near-retirement scenarios without implying contribution eligibility.',
+      'DataForSEO shows informational intent for Roth IRA Calculator plus related by-age, 2026, $100/month, Fidelity, Schwab, and Vanguard-style queries, so the page now keeps growth math separate from contribution eligibility.',
+      'The guide and FAQ keep Roth IRA tax and eligibility language careful: the tool does not enforce taxable compensation, MAGI, filing status, 2026 IRS limits, phase-outs, qualified distribution rules, 59½ rules, the 5-year rule, penalties, taxes, fees, or market risk.',
     ],
     improvements: [
-      'Added Roth-IRA-specific guide detail and manually checked projection math, contribution wording, examples, IRS source coverage, FAQ cautions, related tools, SEO copy, and privacy note.',
+      'Added Roth-IRA-specific SEO title, aliases, guide title and meta description, exact $12,000/$7,500/year/7%/25-year and $100/month examples, 2026 IRS $7,500/$1,100/$8,600 contribution context, MAGI phase-out ranges, official IRS/Investor.gov source links, trust wording, and specific image alt/caption text.',
     ],
     followUps: [
-      'Add year-sensitive limit warnings only with a maintained source update process.',
+      'Recheck IRS limits and phase-out ranges during each annual limit update before keeping year-specific copy live.',
     ],
   },
   {
@@ -7781,6 +7806,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
     if (includesAny(key, ['401k', '401 k'])) {
       return sourceBackstop([irs401k2026Limits, irs401kLimits, irs401kPlans, investorCompound]);
+    }
+
+    if (includesAny(key, ['roth-ira', 'roth ira'])) {
+      return sourceBackstop([irsRothIras, irsRothContributions, irs2026IraLimits, irsIraCatchUp, irsIraLimits, investorIras, investorCompound]);
     }
 
     if (includesAny(key, ['ira', '401k', 'retirement', 'pension', 'rmd'])) {

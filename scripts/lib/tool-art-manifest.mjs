@@ -220,6 +220,18 @@ const toolArtMetadataOverrides = {
         'Mutual Fund Calculator guide artwork supports the walkthrough by showing where contribution math helps and where NAV, share class, loads, distributions, taxes, and prospectus details still matter.',
     },
   },
+  'roth-ira-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a Roth IRA projection screen with $12,000 current balance, $7,500 annual contribution, 7 percent expected return, 25 years, $574,999 projected balance, MAGI phase-out notes, and 2026 IRS limit reminders.',
+      caption:
+        'Roth IRA Calculator artwork matches the live workflow: current balance, annual contribution, expected return, years to grow, projected balance, total contributions, estimated growth, and 2026 IRS eligibility checks.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing Roth IRA guide notes for $7,500 2026 contribution limit, $1,100 catch-up amount, $8,600 age 50 plus total, MAGI phase-outs, 59-and-a-half withdrawals, and the 5-year rule.',
+      caption:
+        'Roth IRA Calculator guide artwork supports the walkthrough by separating growth math from MAGI phase-outs, contribution limits, qualified distribution rules, taxes, penalties, and market risk.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

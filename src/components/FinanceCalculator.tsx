@@ -1041,7 +1041,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Roth IRA Calculator',
     buttonLabel: 'Project Roth IRA',
     emptyHistory: 'Recent Roth IRA projections will appear here.',
-    privacyNote: 'Roth IRA estimates do not check contribution eligibility, income phaseouts, tax treatment, penalties, fees, or IRS limit compliance.',
+    privacyNote:
+      'Roth IRA estimates use the numbers you enter. They do not check taxable compensation, MAGI phase-outs, qualified distribution rules, penalties, fees, or IRS limit compliance.',
     modes: [
       {
         id: 'roth-ira',
@@ -1050,14 +1051,14 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         fields: [
           numberField('currentBalance', 'Current balance ($)'),
           numberField('annualContribution', 'Annual contribution ($)'),
-          numberField('annualReturnPercent', 'Estimated annual return (%)'),
+          numberField('annualReturnPercent', 'Expected annual return (%)'),
           numberField('years', 'Years to grow'),
         ],
-        defaultInputs: { currentBalance: '12000', annualContribution: '7000', annualReturnPercent: '7', years: '25' },
+        defaultInputs: { currentBalance: '12000', annualContribution: '7500', annualReturnPercent: '7', years: '25' },
         examples: [
-          { label: 'Annual max-style saving', inputs: { currentBalance: '12000', annualContribution: '7000', annualReturnPercent: '7', years: '25' } },
-          { label: 'Starting from zero', inputs: { currentBalance: '0', annualContribution: '4000', annualReturnPercent: '6.5', years: '30' } },
-          { label: 'Near retirement', inputs: { currentBalance: '85000', annualContribution: '8000', annualReturnPercent: '5', years: '10' } },
+          { label: '2026 limit-style saving', inputs: { currentBalance: '12000', annualContribution: '7500', annualReturnPercent: '7', years: '25' } },
+          { label: '$100 per month habit', inputs: { currentBalance: '0', annualContribution: '1200', annualReturnPercent: '7', years: '30' } },
+          { label: 'Age 50+ catch-up scenario', inputs: { currentBalance: '85000', annualContribution: '8600', annualReturnPercent: '5', years: '10' } },
         ],
       },
     ],
@@ -3326,7 +3327,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Add monthly contributions at the end of each month.',
           'Separate total contributions from estimated growth.',
         ],
-        note: 'This does not check IRS contribution limits, eligibility, deductions, tax treatment, penalties, or required distributions.',
+        note:
+          'This is a growth projection, not a Roth IRA eligibility check. For 2026, the IRS IRA limit is $7,500, with a $1,100 catch-up amount for age 50+ ($8,600 total), but Roth contributions can phase out by MAGI and filing status. Qualified distributions, 59½ rules, the 5-year rule, taxes, penalties, and investment risk still need separate review.',
       };
     }
     case 'vat': {

@@ -3766,28 +3766,87 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'roth-ira-calculator',
     name: 'Roth IRA Calculator',
-    summary: 'Project Roth IRA growth from current balance, annual contribution, return, and time.',
+    seoTitle: 'Roth IRA Calculator | 2026 Limits & Growth',
+    summary: 'Project Roth IRA growth before checking IRS contribution and income rules.',
     description:
-      'Use this free Roth IRA calculator to project future balance, total contributions, and estimated growth from current balance, annual contribution, annual return, and years to grow.',
+      'Project future Roth IRA balance, total contributions, and estimated growth from current balance, annual contribution, expected annual return, and years to grow.',
     seoDescription:
-      'Project Roth IRA future balance, total contributions, and growth from current balance, annual contribution, return, and years.',
+      'Project Roth IRA growth with current balance, annual contribution, expected return, years to grow, 2026 IRA limits, and clear eligibility cautions.',
+    aliases: [
+      'roth ira calculator',
+      'roth ira growth calculator',
+      'roth ira contribution calculator',
+      'roth ira calculator 2026',
+      'roth ira calculator by age',
+      'roth ira compound interest calculator',
+      '$100 a month in a roth ira for 30 years',
+    ],
     icon: 'calculator-roth-ira',
     formula:
-      'The calculator converts annual contribution to a monthly deposit, compounds the current balance monthly, and adds each monthly contribution through the projection period.',
+      'The calculator divides the annual contribution into monthly deposits, compounds the current balance monthly using the expected annual return, adds each monthly deposit at the end of the month, then separates total contributions from estimated growth.',
     limit:
-      'This does not verify Roth IRA eligibility, income phaseouts, IRS limits, withdrawal rules, penalties, taxes, fees, or investment risk.',
+      'This is a projection, not tax advice. It does not verify taxable compensation, MAGI, filing status, IRS contribution limits, 2026 Roth IRA phase-outs, qualified distribution rules, the 5-year rule, early-withdrawal penalties, taxes, investment fees, or market risk.',
     useCases: [
       'Project Roth IRA growth from annual contributions.',
-      'Compare contribution amounts and time horizons.',
+      'Compare contribution amounts, including a 2026 limit-style scenario.',
+      'Test smaller habits such as $100 a month in a Roth IRA for 30 years.',
       'Separate total contributions from estimated growth.',
-      'Check a retirement savings scenario before reviewing IRS limits.',
+      'Check a retirement savings scenario before reviewing IRS MAGI and contribution limits.',
     ],
     examples: [
-      { label: 'Annual max-style saving', expression: '$12,000 balance, $7,000/year, 7%, 25 years', result: 'Projected Roth IRA balance' },
-      { label: 'Starting from zero', expression: '$0 balance, $4,000/year, 30 years', result: 'Long-term growth estimate' },
-      { label: 'Near retirement', expression: '$85,000 balance, $8,000/year, 10 years', result: 'Shorter-horizon projection' },
+      { label: '2026 limit-style saving', expression: '$12,000 balance, $7,500/year, 7%, 25 years', result: 'About $574,999.83 projected balance from $199,500 contributed' },
+      { label: '$100 per month habit', expression: '$0 balance, $1,200/year, 7%, 30 years', result: 'About $121,997.10 projected balance from $36,000 contributed' },
+      { label: 'Age 50+ catch-up scenario', expression: '$85,000 balance, $8,600/year, 5%, 10 years', result: 'About $251,281.44 projected balance from $171,000 contributed' },
     ],
     relatedSlugs: ['ira-calculator', 'retirement-calculator', '401k-calculator'],
+    inputExplanations: [
+      {
+        term: 'Current balance',
+        meaning: 'The Roth IRA money already in the account before this projection starts.',
+      },
+      {
+        term: 'Annual contribution',
+        meaning: 'The yearly amount you want to test. The calculator spreads it into monthly deposits; it does not prove that the IRS lets you contribute that amount.',
+      },
+      {
+        term: 'Expected annual return',
+        meaning: 'A what-if growth rate before investment fees and market losses. It is not a promise.',
+      },
+      {
+        term: 'Years to grow',
+        meaning: 'How long the projection runs. More years gives compounding more time, but it also gives markets more time to move up or down.',
+      },
+    ],
+    priorityFaq: [
+      {
+        question: 'Does this check the 2026 Roth IRA contribution limit?',
+        answer:
+          'No. It lets you test a number. For 2026, the general IRA limit is $7,500. If you are 50 or older, the catch-up amount is $1,100, making $8,600 total. Your taxable compensation still matters.',
+      },
+      {
+        question: 'What Roth IRA income limits should I check for 2026?',
+        answer:
+          'The IRS says direct Roth IRA contributions phase out by MAGI. For 2026, the phase-out range is $153,000 to $168,000 for single or head-of-household filers and $242,000 to $252,000 for married filing jointly.',
+      },
+      {
+        question: 'Does the calculator prove my withdrawals will be tax-free?',
+        answer:
+          'No. Qualified distributions usually depend on rules such as the 5-year clock and being at least 59½, plus other IRS exceptions. This page only projects growth from your inputs.',
+      },
+      {
+        question: 'What happens with $100 a month in a Roth IRA for 30 years?',
+        answer:
+          'With $0 starting balance, $1,200 per year, a 7% expected return, and 30 years, the calculator projects about $121,997.10 from $36,000 contributed. Real returns will not move in a smooth line.',
+      },
+    ],
+    formulaCheck:
+      'For the 2026 limit-style example, $12,000 current balance plus $7,500 per year is treated as $625 per month. At 7% for 25 years, the projection is about $574,999.83, with $199,500 counted as total contributions and about $375,499.83 as estimated growth.',
+    resultReading:
+      'Read projected Roth IRA balance as the what-if ending balance, total contributions as current balance plus deposits, and estimated growth as the amount created by the return assumption.',
+    doubleCheck:
+      'Check taxable compensation, MAGI, filing status, the 2026 IRS limit, phase-out range, excess-contribution rules, qualified distribution rules, the 5-year clock, tax treatment, investment fees, and market risk before acting.',
+    limitFollowup:
+      'Use IRS Roth IRA pages, IRS Topic 309, IRS 2026 limit guidance, and a tax professional when contribution eligibility or withdrawal tax treatment matters.',
   }),
   makeFinanceTool({
     slug: 'ira-calculator',

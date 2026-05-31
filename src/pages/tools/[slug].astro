@@ -834,6 +834,13 @@ const financeToolInstructions = financeToolVariant
         'Calculate, then compare projected balance after expenses, balance before expense estimate, total contributions, and expense drag.',
         'Check the fund prospectus, NAV, share class, sales loads, redemption fees, taxes, distributions, and risk before treating the projection like a real fund result.',
       ]
+    : tool.slug === 'roth-ira-calculator'
+    ? [
+        'Enter the current Roth IRA balance, annual contribution, expected annual return, and years to grow.',
+        'For a 2026 limit-style scenario, try $7,500 per year, or $8,600 if you are testing the age 50+ catch-up amount.',
+        'Calculate, then compare projected Roth IRA balance, total contributions, and estimated growth.',
+        'Check taxable compensation, MAGI, filing status, IRS phase-out rules, qualified distribution rules, and tax treatment before treating the contribution or withdrawal as allowed.',
+      ]
     : tool.slug === 'pension-calculator'
     ? [
         'Enter the final average salary or plan salary number used by the pension formula.',
@@ -2819,6 +2826,41 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.irs.gov/faqs/capital-gains-losses-and-sale-of-home/mutual-funds-costs-distributions-etc/mutual-funds-costs-distributions-etc-4" rel="noreferrer" target="_blank">
                   IRS mutual fund distribution notes
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'roth-ira-calculator' ? (
+            <>
+              <strong>Roth IRA projection, not an eligibility check</strong>
+              <p>
+                Use this to test current balance, annual contribution, expected annual return,
+                years to grow, projected Roth IRA balance, total contributions, and estimated growth.
+                For 2026, the IRS IRA contribution limit is $7,500, with a $1,100 catch-up amount
+                for age 50+ ($8,600 total), but Roth IRA contributions can phase out by MAGI and
+                filing status. The tool does not check taxable compensation, excess-contribution
+                rules, qualified distributions, the 5-year rule, 59½ rules, taxes, penalties,
+                investment fees, or market risk.
+              </p>
+              <p>
+                2026 Roth IRA phase-out ranges to check before contributing: $153,000 to $168,000
+                for single or head-of-household filers, $242,000 to $252,000 for married filing
+                jointly, and $0 to $10,000 for married filing separately. Sources used for this
+                review:{' '}
+                <a href="https://www.irs.gov/retirement-plans/roth-iras" rel="noreferrer" target="_blank">
+                  IRS Roth IRAs
+                </a>
+                {', '}
+                <a href="https://www.irs.gov/taxtopics/tc309" rel="noreferrer" target="_blank">
+                  IRS Topic 309
+                </a>
+                {', '}
+                <a href="https://www.irs.gov/newsroom/401k-limit-increases-to-24500-for-2026-ira-limit-increases-to-7500" rel="noreferrer" target="_blank">
+                  IRS 2026 IRA limits
+                </a>
+                {', and '}
+                <a href="https://www.investor.gov/introduction-investing/investing-basics/investment-accounts/tax-advantaged-accounts/retirement-savings/individual-retirement-accounts-iras" rel="noreferrer" target="_blank">
+                  Investor.gov IRAs
                 </a>
                 .
               </p>
