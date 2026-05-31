@@ -752,17 +752,17 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
   'annuity-payout': {
     title: 'Annuity Payout Calculator',
     buttonLabel: 'Estimate payout',
-    emptyHistory: 'Recent annuity payout estimates will appear here.',
-    privacyNote: 'This payout estimate is a simplified fixed-rate drawdown and is not an annuity contract, insurance quote, or investment recommendation.',
+    emptyHistory: 'Recent fixed-term payout estimates will appear here.',
+    privacyNote: 'This uses fixed-term payout math. It is not an insurer quote, lifetime income guarantee, tax answer, or investment recommendation.',
     modes: [
       {
         id: 'annuity-payout',
         label: 'Payout',
         symbol: 'PAY',
         fields: [
-          numberField('principal', 'Starting balance ($)'),
-          numberField('annualRatePercent', 'Annual rate (%)'),
-          numberField('years', 'Payout time (years)'),
+          numberField('principal', 'Starting balance or lump sum ($)'),
+          numberField('annualRatePercent', 'Annual rate assumption (%)'),
+          numberField('years', 'Fixed payout term (years)'),
           numberField('paymentsPerYear', 'Payments per year'),
         ],
         defaultInputs: { principal: '100000', annualRatePercent: '5', years: '20', paymentsPerYear: '12' },
@@ -3029,12 +3029,12 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           { label: 'Payments per year', value: `${result.paymentsPerYear}` },
         ],
         steps: [
-          'Convert the annual rate to a periodic rate.',
-          'Use the fixed annuity payout formula to spread the balance over the payout term.',
-          'Multiply payment by payment count to estimate total paid out.',
-          'Estimated interest equals total payout minus starting balance.',
+          'Convert the annual rate into a rate for each payment period.',
+          'Count the fixed-term payments from years and payments per year.',
+          'Use the annuity payout formula to spread the balance across those payments.',
+          'Subtract starting balance from total paid out to estimate interest.',
         ],
-        note: 'This is a math estimate and not an annuity contract quote.',
+        note: 'A real annuity contract can change with insurer pricing, lifetime guarantees, fees, surrender charges, riders, taxes, and payout options.',
       };
     }
     case 'credit-cards-payoff':

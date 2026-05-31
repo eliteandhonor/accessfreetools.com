@@ -1764,29 +1764,29 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Retirement Calculator for broader savings planning.', 'Use 401K Calculator for contribution-account growth.', 'Use Annuity Payout Calculator to compare fixed payout math.'],
   },
   'annuity-payout-calculator': {
-    summary: 'Learn how a starting balance, rate, payout time, and payment frequency affect a fixed payout estimate.',
+    summary: 'Learn how starting balance, rate assumption, payout term, and payment frequency affect a fixed-term annuity payout estimate.',
     purpose:
-      'The Annuity Payout Calculator spreads a starting balance across a fixed number of payments. It is useful for learning drawdown math, but it is not an insurance-company quote or a guaranteed lifetime income promise.',
+      'Use the Annuity Payout Calculator when you want to spread one balance across a fixed number of payments. It is useful for clean payout math, but it is not an insurance-company quote or a guaranteed lifetime income promise.',
     enter: [
-      'Enter the starting balance or lump sum you want to spread across payments.',
-      'Enter the annual rate as a percent and the payout time in years.',
+      'Enter the starting balance or lump sum you want to spread across fixed payments.',
+      'Enter the annual rate assumption as a percent and the fixed payout term in years.',
       'Enter payments per year, such as 12 for monthly payments or 1 for annual payments.',
     ],
     example: [
       '$100,000 at 5% over 20 years with monthly payments means 240 payments.',
-      'The calculator uses the rate and payment count to estimate one fixed payment amount.',
+      'The estimate is about $659.96 per month, about $158,389.38 total paid, and about $58,389.38 estimated interest.',
     ],
     read: [
-      'Payment is the estimated amount for each payout period.',
-      'Total paid is payment amount times payment count.',
-      'Estimated interest is total paid minus the starting balance.',
+      'Payment amount is the estimated payout for each selected period.',
+      'Total paid out is payment amount times payment count.',
+      'Estimated interest is total paid out minus the starting balance.',
     ],
     mistakes: [
-      'Do not treat the result as a real annuity quote.',
-      'Do not forget fees, taxes, surrender charges, inflation riders, guarantees, or contract rules.',
+      'Do not treat this fixed-term estimate as a lifetime annuity guarantee.',
+      'Do not ignore fees, surrender charges, taxes, contract riders, inflation, market value adjustments, or insurer pricing.',
       'Do not enter annual payments while thinking the result is monthly.',
     ],
-    next: ['Use Annuity Calculator for present value and future value of payments.', 'Use Retirement Calculator for a wider retirement scenario.'],
+    next: ['Use Annuity Calculator for present value and future value of payments.', 'Use Retirement Calculator for a wider retirement scenario.', 'Use Investment Calculator when the balance is still growing.'],
   },
   'credit-cards-payoff-calculator': {
     summary: 'Learn how combined card balance, weighted APR, regular payment, and extra payment affect payoff time.',
@@ -3182,6 +3182,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Pension Calculator Guide';
   }
 
+  if (tool.slug === 'annuity-payout-calculator') {
+    return 'Annuity Payout Calculator Guide';
+  }
+
   const standardTitle = `How to use the ${tool.name}`;
   const pageTitle = `${standardTitle} | Access Free Tools`;
 
@@ -3277,6 +3281,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate a defined-benefit pension from final average salary, credited service, and plan multiplier, with monthly and replacement-rate checks.';
   }
 
+  if (tool.slug === 'annuity-payout-calculator') {
+    return 'Estimate a fixed annuity payout from balance, rate, term, and payment frequency, with total paid, interest, and contract-limit cautions.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -3310,6 +3318,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isAnnuityGuide = tool.slug === 'annuity-calculator';
   const isCreditCardGuide = tool.slug === 'credit-card-calculator';
   const isPensionGuide = tool.slug === 'pension-calculator';
+  const isAnnuityPayoutGuide = tool.slug === 'annuity-payout-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
@@ -3348,6 +3357,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A credit card payoff estimate changes fast when APR, payment size, and new spending move. This guide shows how one card balance turns into payoff months, interest, total paid, and the last payment.'
       : isPensionGuide
       ? 'A pension estimate is easy to overtrust if the plan formula is guessed. This guide shows how final average salary, credited service, and a plan multiplier turn into annual pension, monthly pension, and replacement rate.'
+      : isAnnuityPayoutGuide
+      ? 'An annuity payout estimate is easy to misread if fixed-term math is treated like a lifetime quote. This guide shows how balance, rate, term, and payment frequency turn into payout amount, total paid, and estimated interest.'
       : isUkMortgageGuide
       ? 'A UK repayment mortgage is not just the property price split across months. This guide shows how price, deposit, rate, term, and monthly fees turn into a payment, LTV, and interest estimate.'
       : isAutoLoanGuide
@@ -3450,6 +3461,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter credited years of service, including partial years only if the plan counts them.',
           'Enter the plan multiplier as a percent, such as 1.6 for 1.6%.',
           'Calculate, then compare annual pension, monthly pension, and replacement rate before reading the plan document or benefit statement.',
+        ]
+      : isAnnuityPayoutGuide
+      ? [
+          'Open the Annuity Payout Calculator.',
+          'Enter the starting balance or lump sum you want to spread across payments.',
+          'Add the annual rate assumption and fixed payout term in years.',
+          'Enter payments per year, such as 12 for monthly or 1 for annual.',
+          'Calculate, then compare payout per period, total paid out, estimated interest, and payment count before reading any annuity contract.',
         ]
       : isUkMortgageGuide
       ? [
@@ -3610,6 +3629,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it when you want to test one credit card balance, compare a larger monthly payment, or see how new card spending keeps the payoff from moving as fast as it should.'
             : isPensionGuide
             ? 'Use it when you want to test a defined-benefit formula before you compare the number with your pension statement, plan summary, retirement office, or PBGC coverage notes.'
+            : isAnnuityPayoutGuide
+            ? 'Use it when you want to test fixed-term payout math before comparing the number with an insurer illustration, annuity contract, rider, or tax note.'
             : isMarriageTaxGuide
             ? 'Use it when you want to see whether the numbers you enter create a rough federal marriage bonus, penalty, or no difference before you look at the bigger tax details.'
             : isInvestmentGuide
@@ -3646,6 +3667,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Credit card payoff estimates get shaky when APR, minimum payments, and new spending are mixed together. Enter the payment you can actually send, then keep new card spending honest.'
             : isPensionGuide
             ? 'Pension estimates get shaky when calendar years worked and credited service are treated as the same thing. Use the salary, service, and multiplier your plan actually uses, then check whether vesting, caps, early retirement, or survivor choices change the benefit.'
+            : isAnnuityPayoutGuide
+            ? 'Annuity payout estimates get shaky when monthly and annual payments are mixed up. Keep starting balance, annual rate, fixed payout term, and payments per year separate so the payment count is clear.'
             : isUkMortgageGuide
             ? 'UK mortgage estimates get messy when one-off costs and monthly costs are mixed together. Property price, deposit, rate, and term build the repayment estimate. The monthly fee field is only for a cost that repeats every month.'
             : isAutoLoanGuide
@@ -3700,6 +3723,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $4,500 balance, 22.9% APR, $250 monthly payment, and $0 new monthly spending. The estimate is about 23 months, about $1,065.99 interest, about $5,565.99 total paid, and a final payment of about $65.99.'
               : isPensionGuide
               ? 'Try the starter example: $82,000 final average salary, 27 credited service years, and a 1.6% multiplier. The estimate is $35,424 per year, $2,952 per month, and a 43.2% replacement rate before taxes or plan adjustments.'
+              : isAnnuityPayoutGuide
+              ? 'Try the starter example: $100,000 balance, 5% rate, 20 years, and 12 payments per year. The estimate is about $659.96 per month, 240 payments, about $158,389.38 total paid, and about $58,389.38 estimated interest.'
               : isAutoLoanGuide
               ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
               : isBusinessLoanGuide
@@ -3747,6 +3772,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start by turning APR into a simple monthly rate. Each month, the calculator adds estimated interest and any new card spending, subtracts your payment, and repeats until the balance reaches zero. CFPB explains that real issuers often calculate interest daily, so this is a planning estimate, not a statement replica.'
             : isPensionGuide
             ? 'Start with the plan salary number, multiply by credited service, then apply the multiplier percentage. IRS and DOL materials separate defined-benefit pensions from contribution accounts, and PBGC coverage rules are another reason to check the official plan source before trusting a quick estimate.'
+            : isAnnuityPayoutGuide
+            ? 'Start by turning the annual rate into a rate per payment period. Then count payments and use the fixed-term annuity payout formula. Investor.gov, FINRA, and NAIC all warn that real annuity contracts can add fees, surrender rules, riders, guarantees, taxes, and insurer-specific pricing.'
             : isMortgagePayoffGuide
             ? 'The calculator first finds the scheduled fixed mortgage payment. Then it subtracts any one-time principal payment, adds extra monthly principal, and simulates month-by-month interest until the balance reaches zero.'
             : is401kGuide
@@ -4077,6 +4104,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'CFPB sources are useful here because they explain APR, daily interest, grace periods, minimum payments, payment allocation, and card agreement terms. FTC debt guidance adds the plain warning that paying more than the minimum and stopping new spending can make the payoff real instead of just hopeful.'
             : isPensionGuide
             ? 'PBGC, DOL, and IRS sources are useful here because defined-benefit pensions are plan formulas, not personal account balances. Real benefits can depend on vesting, credited service, payment form, survivor options, plan guarantees, taxes, and the official plan document.'
+            : isAnnuityPayoutGuide
+            ? 'Investor.gov, FINRA, and NAIC sources are useful here because annuities are contracts, not just formulas. Real payout choices can depend on insurer strength, payout phase, fees, surrender charges, riders, guarantees, taxes, and contract wording.'
             : isInvestmentGuide
             ? 'OpenStax explains time value of money, and Investor.gov is useful for the plain inputs behind this page: starting money, monthly contributions, time, fees, risk, return, and regular investing.'
             : isFhaLoanGuide
@@ -4126,6 +4155,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not read your statement, calculate average daily balance, split balances by APR, apply fees, model deferred interest, decide payment allocation, keep a grace period, or replace the card agreement.'
             : isPensionGuide
             ? 'This calculator still stays simple. It does not read your plan document, prove vesting, apply early-retirement reductions, price survivor options, calculate COLA, decide lump-sum value, apply PBGC limits, estimate tax withholding, or replace an official benefit statement.'
+            : isAnnuityPayoutGuide
+            ? 'This calculator still stays simple. It does not price an insurance contract, estimate lifetime income, use mortality assumptions, handle surrender periods, apply rider costs, calculate tax withholding, model inflation, or replace an insurer illustration.'
             : isInvestmentGuide
             ? 'This calculator still stays simple. It does not include taxes, fees, inflation, withdrawals, changing returns, market losses, account limits, product risk, or advice about what you should buy.'
             : isFhaLoanGuide
@@ -4163,6 +4194,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Credit Card Calculator open beside this guide. Try the $4,500 balance example first, then change only the payment amount so you can see how much faster the debt moves.'
       : isPensionGuide
       ? 'Keep the Pension Calculator open beside this guide. Try the $82,000 salary and 27 service-year example first, then change only the multiplier so you can see why plan formulas matter.'
+      : isAnnuityPayoutGuide
+      ? 'Keep the Annuity Payout Calculator open beside this guide. Try the $100,000 example first, then change only the payout term so you can see why a bigger payment may run out faster.'
       : isAutoLoanGuide
       ? 'Keep the Auto Loan Calculator open beside this guide. Try the $32,000 car example first, then change only the term so you can see why a lower payment can still cost more.'
       : isBusinessLoanGuide

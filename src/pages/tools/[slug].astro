@@ -764,6 +764,13 @@ const financeToolInstructions = financeToolVariant
         'Add the plan multiplier as a percent, such as 1.6 for a 1.6% multiplier.',
         'Calculate, then compare annual pension, monthly pension, and replacement rate before checking your plan document or benefit statement.',
       ]
+    : tool.slug === 'annuity-payout-calculator'
+    ? [
+        'Enter the starting balance or lump sum you want to spread across fixed payments.',
+        'Add the annual rate assumption and fixed payout term in years.',
+        'Enter payments per year, such as 12 for monthly payments or 1 for annual payments.',
+        'Calculate, then compare payout per period, total paid out, estimated interest, and payment count before reading any annuity contract.',
+      ]
     : tool.slug === 'investment-calculator'
     ? [
         'Enter the starting money already invested.',
@@ -2458,6 +2465,32 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.irs.gov/retirement-plans/defined-benefit-plan" rel="noreferrer" target="_blank">
                   IRS defined benefit plan basics
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'annuity-payout-calculator' ? (
+            <>
+              <strong>Fixed-term payout math, not an insurer quote</strong>
+              <p>
+                Use this to test starting balance, annual rate assumption, fixed payout term,
+                payment frequency, payout amount, total paid out, estimated interest, and
+                payment count. A real annuity contract can still change because of insurer
+                pricing, lifetime guarantees, fees, surrender charges, riders, taxes,
+                inflation features, market value adjustments, and contract wording.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.investor.gov/introduction-investing/investing-basics/investment-products/annuities" rel="noreferrer" target="_blank">
+                  Investor.gov annuity payout phase
+                </a>
+                {', '}
+                <a href="https://www.finra.org/investors/investing/investment-products/annuities" rel="noreferrer" target="_blank">
+                  FINRA annuity guidance
+                </a>
+                {', and '}
+                <a href="https://content.naic.org/sites/default/files/publication-anb-lp-consumer-annuities.pdf" rel="noreferrer" target="_blank">
+                  NAIC deferred annuity buyer guide
                 </a>
                 .
               </p>

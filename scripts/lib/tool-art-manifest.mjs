@@ -64,6 +64,18 @@ const toolArtMetadataOverrides = {
         'Annuity Calculator guide artwork supports the walkthrough by showing payment timing, 240 monthly payments, future value, present value, and contract cautions.',
     },
   },
+  'annuity-payout-calculator': {
+    tool: {
+      alt: 'Smoke mascot spreading a $100,000 annuity balance into 240 monthly payout cards with 5 percent rate, payment count, total paid, and interest notes.',
+      caption:
+        'Annuity Payout Calculator artwork matches the live workflow: starting balance, annual rate, payout term, payments per year, payout amount, total paid, and interest.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing fixed-term annuity payout cards with monthly payment, total-paid, interest, surrender-charge, rider, and tax caution notes.',
+      caption:
+        'Annuity Payout Calculator guide artwork supports the walkthrough by showing fixed-term payout math beside contract limits like fees, riders, taxes, and surrender rules.',
+    },
+  },
   'credit-card-calculator': {
     tool: {
       alt: 'Smoke mascot checking one credit card balance with 22.9 percent APR, $250 monthly payment, payoff months, interest, and total paid cards.',

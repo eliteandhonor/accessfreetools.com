@@ -1321,6 +1321,21 @@ describe('finance helpers', () => {
     expect(annualPayments.presentValue).toBeCloseTo(64437.27, 2);
   });
 
+  it('keeps annuity payout calculator examples stable', () => {
+    const starter = calculateAnnuityPayout(100000, 5, 20, 12);
+    const annual = calculateAnnuityPayout(75000, 4, 15, 1);
+    const short = calculateAnnuityPayout(50000, 3.5, 10, 12);
+
+    expect(starter.payment).toBeCloseTo(659.96, 2);
+    expect(starter.totalPaid).toBeCloseTo(158389.38, 2);
+    expect(starter.estimatedInterest).toBeCloseTo(58389.38, 2);
+    expect(starter.paymentCount).toBe(240);
+    expect(annual.payment).toBeCloseTo(6745.58, 2);
+    expect(annual.paymentCount).toBe(15);
+    expect(short.payment).toBeCloseTo(494.43, 2);
+    expect(short.paymentCount).toBe(120);
+  });
+
   it('keeps credit card calculator examples stable', () => {
     const mainExample = calculateCreditCardPayoff({
       balance: 4500,

@@ -2940,27 +2940,67 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'annuity-payout-calculator',
     name: 'Annuity Payout Calculator',
-    summary: 'Estimate a fixed payout from a starting balance, rate, payout time, and frequency.',
+    summary: 'Estimate a fixed payout from a lump sum, annual rate, payout term, and payment frequency.',
     description:
-      'Use this free annuity payout calculator to estimate fixed payment amount, total paid, and estimated interest from a starting balance, rate, payout term, and payment frequency.',
+      'Estimate a fixed payout from a starting balance, annual rate, payout term, and payment frequency, then check payment amount, total paid out, estimated interest, and payment count.',
+    seoTitle: 'Annuity Payout Calculator | Payment, Term & Interest',
     seoDescription:
-      'Estimate annuity payout amount, total paid, and interest from starting balance, rate, payout term, and payment frequency.',
+      'Estimate fixed annuity payout amount, total paid, interest, and payment count from starting balance, annual rate, payout term, and frequency.',
     icon: 'calculator-annuity-payout',
+    aliases: ['annuity withdrawal calculator', 'fixed payout calculator', 'annuity income calculator', 'retirement payout calculator'],
     formula:
-      'The calculator converts annual rate to a periodic rate, then uses the present-value annuity payout formula to spread the balance over the selected payment count.',
+      'The calculator converts the annual rate to a rate per payment period, counts the payments, then uses the present-value annuity payout formula to spread the balance across those payments.',
     limit:
-      'This is a simplified fixed-rate drawdown. It does not include insurance company pricing, guarantees, fees, surrender charges, taxes, riders, inflation adjustments, or contract terms.',
+      'This is simplified fixed-rate payout math. It does not include insurance company pricing, lifetime income guarantees, mortality assumptions, fees, surrender charges, taxes, riders, inflation adjustments, market value adjustments, or contract terms.',
     useCases: [
-      'Estimate a fixed monthly payout from a lump sum.',
-      'Compare payout periods such as 10, 15, or 20 years.',
-      'See total payout and interest implied by the rate assumption.',
-      'Check annuity math examples without using personal information.',
+      'Estimate a fixed monthly payout from a lump sum balance.',
+      'Compare payout terms such as 10, 15, 20, or 25 years.',
+      'See total payout, estimated interest, and payment count from the rate assumption.',
+      'Check clean annuity payout math before reading a real contract or quote.',
     ],
     examples: [
-      { label: '$100k payout', expression: '$100,000 balance, 5%, 20 years, monthly', result: 'Estimated monthly payout' },
-      { label: 'Annual payout', expression: '$75,000, 4%, 15 years, annual', result: 'Estimated yearly payout' },
-      { label: 'Short payout', expression: '$50,000, 3.5%, 10 years', result: 'Higher payment over a shorter term' },
+      { label: '$100k monthly payout', expression: '$100,000 balance, 5%, 20 years, monthly', result: '$659.96 per month, about $158,389.38 total paid' },
+      { label: 'Annual payout', expression: '$75,000 balance, 4%, 15 years, annual', result: '$6,745.58 per year, about $101,183.74 total paid' },
+      { label: 'Short payout', expression: '$50,000 balance, 3.5%, 10 years, monthly', result: '$494.43 per month, about $59,331.52 total paid' },
     ],
+    inputExplanations: [
+      { term: 'Starting balance', meaning: 'the lump sum you want to spread across fixed payouts.' },
+      { term: 'Annual rate', meaning: 'the rate assumption used by this math model, entered as a percent such as 5 for 5%.' },
+      { term: 'Payout term', meaning: 'how many years the fixed payout should last.' },
+      { term: 'Payments per year', meaning: 'how often payments happen, such as 12 for monthly or 1 for annual.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this an insurance-company annuity quote?',
+        answer:
+          'No. This is clean fixed payout math. A real annuity quote can include insurer pricing, life expectancy assumptions, guarantee periods, rider costs, fees, surrender rules, taxes, and contract wording.',
+      },
+      {
+        question: 'Is this the same as a lifetime annuity payout?',
+        answer:
+          'No. This page spreads a balance over a fixed number of payments. Lifetime income products can price payments using age, sex where allowed, interest rates, guarantees, survivor benefits, and insurer assumptions.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does payment frequency matter?',
+        answer:
+          'Payment frequency changes the rate per period and the number of payments. Monthly payments give 12 payments per year, while annual payments give only one, so the payment amount and total interest can change.',
+      },
+      {
+        question: 'Can fees or surrender charges change the result?',
+        answer:
+          'Yes. Fees, surrender charges, market value adjustments, taxes, riders, and contract limits can reduce the real money available or change when withdrawals make sense.',
+      },
+    ],
+    formulaCheck:
+      '$100,000 at 5% over 20 years with monthly payments gives about $659.96 per month, 240 payments, about $158,389.38 total paid, and about $58,389.38 estimated interest.',
+    resultReading:
+      'Start with payout per period, then check total paid out, estimated interest, and payment count. A higher payout can simply mean the money runs out faster.',
+    doubleCheck:
+      'Check whether you want a fixed-term payout, lifetime income quote, annual or monthly payments, and whether the rate is only a what-if assumption before copying the result.',
+    limitFollowup:
+      'Use the insurer quote, contract, state insurance materials, tax guidance, and a qualified professional for actual annuity pricing, guarantees, fees, and withdrawal rules.',
     relatedSlugs: ['annuity-calculator', 'retirement-calculator', 'investment-calculator'],
   }),
   makeFinanceTool({

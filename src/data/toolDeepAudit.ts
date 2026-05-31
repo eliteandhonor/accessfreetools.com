@@ -2548,17 +2548,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'annuity-payout-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [investorAnnuities, investorCompound],
+    sources: [investorAnnuities, investorGovAnnuities, finraAnnuities, investorGovVariableAnnuities, naicDeferredAnnuities],
     findings: [
       'The calculator uses the present-value annuity payout formula to spread a starting balance over a fixed number of payments at the selected rate.',
       'Zero-rate behavior divides the balance by the payment count, which keeps the estimate usable when users want a no-growth drawdown.',
-      'The guide and FAQ distinguish a math payout estimate from an annuity contract, insurance quote, lifetime guarantee, tax result, or professional recommendation.',
+      'The $100,000 balance, 5%, 20-year, monthly example correctly gives about $659.96 per month, 240 payments, $158,389.38 total paid, and $58,389.38 estimated interest.',
+      'Current Investor.gov, FINRA, and NAIC context supports stronger warnings around payout phase, insurer strength, fees, surrender charges, riders, guarantees, taxes, and contract wording.',
     ],
     improvements: [
-      'Added annuity-payout-specific guide detail and manually checked payout formula, payment-count validation, examples, source coverage, SEO copy, related links, and privacy note.',
+      'Rewrote metadata, aliases, field labels, examples, input explanations, FAQ cautions, guide copy, source links, image alt/caption text, tool trust note, and modified dates in smart-14 wording.',
     ],
     followUps: [
       'Add lifetime or inflation-adjusted payout modes only after researching the additional actuarial assumptions.',
