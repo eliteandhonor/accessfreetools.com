@@ -690,7 +690,18 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.investorCompound];
   }
 
-  if (['credit-cards-payoff-calculator', 'debt-payoff-calculator', 'repayment-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'credit-cards-payoff-calculator') {
+    return [
+      sourceLinks.cfpbCreditCards,
+      sourceLinks.cfpbCreditCardApr,
+      sourceLinks.cfpbCreditCardInterest,
+      sourceLinks.cfpbCreditCardGracePeriod,
+      sourceLinks.cfpbCreditCardAgreement,
+      sourceLinks.ftcCreditCardDebt,
+    ];
+  }
+
+  if (['debt-payoff-calculator', 'repayment-calculator'].includes(toolSlug)) {
     return [sourceLinks.cfpbDebtCollection, sourceLinks.cfpbCreditCards];
   }
 
@@ -1789,29 +1800,29 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Annuity Calculator for present value and future value of payments.', 'Use Retirement Calculator for a wider retirement scenario.', 'Use Investment Calculator when the balance is still growing.'],
   },
   'credit-cards-payoff-calculator': {
-    summary: 'Learn how combined card balance, weighted APR, regular payment, and extra payment affect payoff time.',
+    summary: 'Learn how combined card balance, weighted APR, regular payment, and extra payment affect payoff months, interest, and total paid.',
     purpose:
-      'The Credit Cards Payoff Calculator is for a quick combined-balance payoff estimate. It works best when you already know the total balance, a reasonable weighted APR, and the total monthly payment you can make.',
+      'Use the Credit Cards Payoff Calculator when you want one rough payoff picture for several cards. It works best when you know the combined balance, a weighted average APR, the regular payment, and the extra amount you can keep adding.',
     enter: [
-      'Add your card balances together and enter the combined balance.',
-      'Enter a weighted APR if the cards have different rates, or use the rate that best represents the balance you are paying down.',
-      'Enter the regular monthly payment and any extra monthly amount you can add.',
+      'Add the card balances together and enter the combined balance.',
+      'Enter a weighted average APR if the cards have different rates, giving more weight to larger balances.',
+      'Enter the regular monthly card payment and any extra monthly amount you can keep adding.',
     ],
     example: [
-      '$8,500 at 21.5% APR with $350 regular payment plus $100 extra is treated as one combined balance.',
-      'Each month, interest is added first, then the total payment is subtracted.',
+      '$8,500 at 21.5% weighted APR with a $350 regular payment plus $100 extra is treated as one combined balance.',
+      'The estimate is 24 months, about $1,969.83 interest, about $10,469.83 total paid, and a final payment near $119.83.',
     ],
     read: [
       'Payoff months estimates how long the combined balance may take to reach zero.',
       'Total interest shows the estimated interest cost during payoff.',
-      'Final payment may be lower than the regular monthly payment.',
+      'Total paid is balance plus estimated interest, and final payment may be lower than the normal monthly payment.',
     ],
     mistakes: [
       'Do not use this as a full avalanche or snowball plan.',
-      'Do not forget separate APR tiers, balance transfer fees, promotional rates, late fees, and new purchases.',
+      'Do not forget separate APR tiers, payment allocation, balance-transfer fees, promotional rates, late fees, cash advances, deferred interest, and new purchases.',
       'Do not enter a payment that is lower than the monthly interest on the balance.',
     ],
-    next: ['Use Credit Card Calculator for a single-card payoff.', 'Use Debt Consolidation Calculator to compare a new loan offer.'],
+    next: ['Use Credit Card Calculator for a single-card payoff.', 'Use Debt Payoff Calculator for a plain fixed-balance payoff.', 'Use Debt Consolidation Calculator to compare a new loan offer.'],
   },
   'debt-payoff-calculator': {
     summary: 'Learn how a fixed debt balance, interest rate, monthly payment, and extra payment affect payoff time.',
@@ -3178,6 +3189,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Credit Card Calculator Guide';
   }
 
+  if (tool.slug === 'credit-cards-payoff-calculator') {
+    return 'Credit Cards Payoff Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3277,6 +3292,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate credit card payoff months, interest, total paid, and final payment from balance, APR, payment, and new charges.';
   }
 
+  if (tool.slug === 'credit-cards-payoff-calculator') {
+    return 'Estimate multi-card payoff months, interest, total paid, and final payment from combined balance, weighted APR, regular payment, and extra payment.';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Estimate a defined-benefit pension from final average salary, credited service, and plan multiplier, with monthly and replacement-rate checks.';
   }
@@ -3317,6 +3336,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isRentGuide = tool.slug === 'rent-calculator';
   const isAnnuityGuide = tool.slug === 'annuity-calculator';
   const isCreditCardGuide = tool.slug === 'credit-card-calculator';
+  const isCreditCardsPayoffGuide = tool.slug === 'credit-cards-payoff-calculator';
   const isPensionGuide = tool.slug === 'pension-calculator';
   const isAnnuityPayoutGuide = tool.slug === 'annuity-payout-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
@@ -3355,6 +3375,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'An annuity result is easy to misread if timing and payment frequency are mixed up. This guide shows how one fixed payment, a rate, years, payment count, and ordinary or annuity-due timing change future value and present value.'
       : isCreditCardGuide
       ? 'A credit card payoff estimate changes fast when APR, payment size, and new spending move. This guide shows how one card balance turns into payoff months, interest, total paid, and the last payment.'
+      : isCreditCardsPayoffGuide
+      ? 'A combined credit-card payoff estimate is useful only if the rough average is honest. This guide shows how combined balance, weighted APR, regular payment, and extra payment turn into payoff months, interest, total paid, and final payment.'
       : isPensionGuide
       ? 'A pension estimate is easy to overtrust if the plan formula is guessed. This guide shows how final average salary, credited service, and a plan multiplier turn into annual pension, monthly pension, and replacement rate.'
       : isAnnuityPayoutGuide
@@ -3453,6 +3475,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Add the card APR as a percent, such as 22.9 for 22.9%.',
           'Enter the payment you can send each month and any new card spending you expect to keep adding.',
           'Calculate, then compare payoff months, interest, total paid, final payment, and whether new spending is keeping the balance alive.',
+        ]
+      : isCreditCardsPayoffGuide
+      ? [
+          'Open the Credit Cards Payoff Calculator.',
+          'Add the balances from the cards you want to group together.',
+          'Enter a weighted average APR, giving more weight to the cards with bigger balances.',
+          'Enter the regular monthly card payment and the extra amount you can keep adding.',
+          'Calculate, then compare payoff months, total interest, total paid, and final payment before deciding whether you need a card-by-card plan.',
         ]
       : isPensionGuide
       ? [
@@ -3627,6 +3657,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it when you need fixed-payment annuity math for homework, retirement planning notes, ordinary annuity timing, annuity-due timing, present value, or future value before looking at real contract rules.'
             : isCreditCardGuide
             ? 'Use it when you want to test one credit card balance, compare a larger monthly payment, or see how new card spending keeps the payoff from moving as fast as it should.'
+            : isCreditCardsPayoffGuide
+            ? 'Use it when you want a quick combined view of several cards before deciding whether to build a true avalanche, snowball, consolidation, or hardship plan.'
             : isPensionGuide
             ? 'Use it when you want to test a defined-benefit formula before you compare the number with your pension statement, plan summary, retirement office, or PBGC coverage notes.'
             : isAnnuityPayoutGuide
@@ -3665,6 +3697,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Annuity estimates get shaky when monthly payments, annual payments, ordinary timing, and annuity-due timing are mixed together. Set payment frequency first, then keep the timing choice honest.'
             : isCreditCardGuide
             ? 'Credit card payoff estimates get shaky when APR, minimum payments, and new spending are mixed together. Enter the payment you can actually send, then keep new card spending honest.'
+            : isCreditCardsPayoffGuide
+            ? 'Combined-card payoff estimates get shaky when one high-rate card is hidden inside a rough average. Keep balances, weighted APR, regular payment, and extra payment separate, then build a card-by-card plan if the stakes are high.'
             : isPensionGuide
             ? 'Pension estimates get shaky when calendar years worked and credited service are treated as the same thing. Use the salary, service, and multiplier your plan actually uses, then check whether vesting, caps, early retirement, or survivor choices change the benefit.'
             : isAnnuityPayoutGuide
@@ -3721,6 +3755,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $500 each month for 20 years at 5%, with payments at the end of each month. That means 240 payments, $120,000 paid in, about $205,516.83 future value, and about $75,762.66 present value.'
               : isCreditCardGuide
               ? 'Try the starter example: $4,500 balance, 22.9% APR, $250 monthly payment, and $0 new monthly spending. The estimate is about 23 months, about $1,065.99 interest, about $5,565.99 total paid, and a final payment of about $65.99.'
+              : isCreditCardsPayoffGuide
+              ? 'Try the starter example: $8,500 combined balance, 21.5% weighted APR, $350 regular monthly payment, and $100 extra. The estimate is 24 months, about $1,969.83 interest, about $10,469.83 total paid, and a final payment near $119.83.'
               : isPensionGuide
               ? 'Try the starter example: $82,000 final average salary, 27 credited service years, and a 1.6% multiplier. The estimate is $35,424 per year, $2,952 per month, and a 43.2% replacement rate before taxes or plan adjustments.'
               : isAnnuityPayoutGuide
@@ -3770,6 +3806,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start by turning the annual rate into a rate for each payment period. Then count the payments and run the fixed-payment annuity formulas. Investor.gov and FINRA both warn that real annuity products can add fees, riders, surrender rules, and guarantees that are not part of this clean formula.'
             : isCreditCardGuide
             ? 'Start by turning APR into a simple monthly rate. Each month, the calculator adds estimated interest and any new card spending, subtracts your payment, and repeats until the balance reaches zero. CFPB explains that real issuers often calculate interest daily, so this is a planning estimate, not a statement replica.'
+            : isCreditCardsPayoffGuide
+            ? 'Start by combining balances, then turn the weighted APR into a simple monthly rate. Each month, the calculator adds estimated interest, subtracts the regular payment plus extra payment, and repeats until the combined balance reaches zero. CFPB explains that real card issuers often calculate interest daily and may split balances by APR, so this is a planning shortcut.'
             : isPensionGuide
             ? 'Start with the plan salary number, multiply by credited service, then apply the multiplier percentage. IRS and DOL materials separate defined-benefit pensions from contribution accounts, and PBGC coverage rules are another reason to check the official plan source before trusting a quick estimate.'
             : isAnnuityPayoutGuide
@@ -3834,6 +3872,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with future value, then check present value and total payments. If future value looks huge, compare it with total payments so you can see how much comes from the rate assumption.'
             : isCreditCardGuide
             ? 'Start with payoff months, then check total interest and total paid. If the interest number feels painful, test a higher payment or stop new card spending before you trust the plan.'
+            : isCreditCardsPayoffGuide
+            ? 'Start with payoff months, then check total interest and total paid. If the number still hurts, test more extra payment or split the cards into a real avalanche plan so the highest APR is handled first.'
             : isMarriageTaxGuide
             ? 'Start with the difference, then check joint federal tax, two single returns, joint taxable income, and the joint marginal bracket. A $0 difference is a real answer, not an error.'
             : isInvestmentGuide
@@ -3883,6 +3923,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad annuity estimates come from mixing monthly and yearly payments, choosing the wrong timing, using a rate that is too hopeful, or treating simple formula math like a real insurer quote.'
             : isCreditCardGuide
             ? 'Most bad credit card payoff estimates come from paying only the minimum without checking time, adding new spending every month, ignoring fees or promotions, or expecting simple monthly math to match daily-balance billing exactly.'
+            : isCreditCardsPayoffGuide
+            ? 'Most bad combined-card payoff estimates come from using a lazy APR average, forgetting balance-transfer fees, keeping new spending alive, ignoring payment allocation, or treating a one-balance shortcut like a true card-by-card payoff strategy.'
             : isMarriageTaxGuide
             ? 'Most bad marriage-tax estimates come from treating this as filing advice, forgetting state or payroll tax, ignoring dependent and credit phaseouts, or assuming the result stays the same at every income level.'
             : isInvestmentGuide
@@ -3930,6 +3972,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help after the fixed-payment math. The next question is usually broader investment growth, retirement savings, or turning an existing balance into a payout estimate.'
             : isCreditCardGuide
             ? 'A related tool can help after the single-card estimate. The next question is usually a combined multi-card plan, a plain APR check, or a fixed-payment comparison.'
+            : isCreditCardsPayoffGuide
+            ? 'A related tool can help after the combined-card estimate. The next question is usually one-card payoff detail, a plain debt payoff comparison, or whether consolidation changes the total cost.'
             : isMarriageTaxGuide
             ? 'A related tool can help after the comparison. The next question is usually a one-status federal estimate, paycheck withholding, or gross-salary planning.'
             : isInvestmentGuide
@@ -4034,6 +4078,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/interest-calculator/', label: 'Check APR interest math' },
               { href: '/tools/payment-calculator/', label: 'Compare fixed-payment debt' },
             ]
+          : isCreditCardsPayoffGuide
+          ? [
+              { href: '/tools/credit-cards-payoff-calculator/', label: 'Open the Credit Cards Payoff Calculator' },
+              { href: '/tools/credit-card-calculator/', label: 'Check one card payoff' },
+              { href: '/tools/debt-payoff-calculator/', label: 'Compare a plain debt payoff' },
+              { href: '/tools/debt-consolidation-calculator/', label: 'Compare a consolidation offer' },
+            ]
           : isInvestmentGuide
           ? [
               { href: '/tools/investment-calculator/', label: 'Open the Investment Calculator' },
@@ -4102,6 +4153,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'OpenStax is useful for the clean annuity formulas. Investor.gov, FINRA, and NAIC are useful for the real-world warning: annuity products can include fees, riders, surrender charges, guarantees, tax issues, state insurance rules, and contract limits that are not in the formula.'
             : isCreditCardGuide
             ? 'CFPB sources are useful here because they explain APR, daily interest, grace periods, minimum payments, payment allocation, and card agreement terms. FTC debt guidance adds the plain warning that paying more than the minimum and stopping new spending can make the payoff real instead of just hopeful.'
+            : isCreditCardsPayoffGuide
+            ? 'CFPB sources are useful here because combined-card payoff depends on APR, daily interest, grace periods, payment allocation, balance types, and card agreement terms. FTC debt guidance adds the plain warning that paying more than the minimum and stopping new spending can make the payoff real instead of just hopeful.'
             : isPensionGuide
             ? 'PBGC, DOL, and IRS sources are useful here because defined-benefit pensions are plan formulas, not personal account balances. Real benefits can depend on vesting, credited service, payment form, survivor options, plan guarantees, taxes, and the official plan document.'
             : isAnnuityPayoutGuide
@@ -4153,6 +4206,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not price an insurance contract, estimate lifetime income, include mortality assumptions, read fee tables, handle surrender periods, apply tax rules, value riders, or tell you whether an annuity is a good purchase.'
             : isCreditCardGuide
             ? 'This calculator still stays simple. It does not read your statement, calculate average daily balance, split balances by APR, apply fees, model deferred interest, decide payment allocation, keep a grace period, or replace the card agreement.'
+            : isCreditCardsPayoffGuide
+            ? 'This calculator still stays simple. It does not read each statement, calculate average daily balance, split cards by APR, choose avalanche order, apply fees, model deferred interest, decide payment allocation, preserve a grace period, or replace card agreements.'
             : isPensionGuide
             ? 'This calculator still stays simple. It does not read your plan document, prove vesting, apply early-retirement reductions, price survivor options, calculate COLA, decide lump-sum value, apply PBGC limits, estimate tax withholding, or replace an official benefit statement.'
             : isAnnuityPayoutGuide
@@ -4192,6 +4247,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Rent Calculator open beside this guide. Try the $5,200 income example first, then change only the rent target or utility estimate so you can see what actually moved.'
       : isCreditCardGuide
       ? 'Keep the Credit Card Calculator open beside this guide. Try the $4,500 balance example first, then change only the payment amount so you can see how much faster the debt moves.'
+      : isCreditCardsPayoffGuide
+      ? 'Keep the Credit Cards Payoff Calculator open beside this guide. Try the $8,500 combined-balance example first, then change only the extra payment so you can see how much interest moves.'
       : isPensionGuide
       ? 'Keep the Pension Calculator open beside this guide. Try the $82,000 salary and 27 service-year example first, then change only the multiplier so you can see why plan formulas matter.'
       : isAnnuityPayoutGuide

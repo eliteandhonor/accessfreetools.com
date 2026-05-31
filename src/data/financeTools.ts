@@ -3006,27 +3006,67 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'credit-cards-payoff-calculator',
     name: 'Credit Cards Payoff Calculator',
-    summary: 'Estimate payoff time and interest for combined credit card balances.',
+    summary: 'Estimate a combined credit card payoff from balance, weighted APR, regular payment, and extra payment.',
     description:
-      'Use this free credit cards payoff calculator to estimate payoff months, total interest, total paid, and final payment from combined card balance, weighted APR, monthly payment, and extra payment.',
+      'Estimate payoff months, total interest, total paid, and final payment from combined card balances, weighted APR, regular monthly payment, and extra monthly payment.',
+    seoTitle: 'Credit Cards Payoff Calculator | Multi-Card Plan',
     seoDescription:
-      'Estimate credit card payoff months, total interest, total paid, and final payment from balance, APR, monthly payment, and extra payment.',
+      'Estimate multi-card payoff months, total interest, total paid, and final payment from combined balance, weighted APR, regular payment, and extra payment.',
     icon: 'calculator-card-payoff',
+    aliases: ['multi card payoff calculator', 'credit card debt payoff calculator', 'weighted APR payoff calculator', 'credit card payoff plan'],
     formula:
-      'The calculator converts APR to a monthly rate, adds monthly interest, subtracts the base payment plus extra payment, and repeats until the combined balance is paid off.',
+      'The calculator treats the cards as one combined balance, converts weighted APR to a monthly rate, adds monthly interest, subtracts regular plus extra payment, and repeats until the combined balance reaches zero.',
     limit:
-      'This is a simplified combined-balance estimate. It does not model daily balances, separate APR tiers, fees, promotional APRs, minimum-payment changes, or new purchases.',
+      'This is simplified combined-balance payoff math. It does not model average daily balance billing, separate APR tiers, payment allocation, cash advances, balance-transfer terms, deferred interest, fees, penalty APRs, minimum-payment changes, grace-period rules, or new purchases.',
     useCases: [
-      'Estimate payoff time for multiple credit card balances combined.',
-      'Compare normal payment versus extra payment.',
-      'See how much interest a payoff plan may cost.',
-      'Create a quick debt-paydown planning number.',
+      'Estimate payoff time after combining several card balances into one planning number.',
+      'Compare the regular payment with an extra monthly payment.',
+      'See total interest before choosing a debt payoff strategy.',
+      'Check whether the total payment is strong enough to reduce principal.',
     ],
     examples: [
-      { label: 'Two-card payoff', expression: '$8,500 balance, 21.5% APR, $450/month total', result: 'Payoff time and interest' },
-      { label: 'Minimum plus extra', expression: '$6,000 at 19.9%, $220 + $80 extra', result: 'Shorter payoff estimate' },
-      { label: 'Aggressive payoff', expression: '$12,000 at 24.9%, $750/month', result: 'Faster debt-free date' },
+      { label: 'Two-card payoff', expression: '$8,500 balance, 21.5% weighted APR, $350 + $100 extra', result: '24 months, about $1,969.83 interest, about $10,469.83 total paid, final payment near $119.83' },
+      { label: 'Minimum plus extra', expression: '$6,000 balance, 19.9% weighted APR, $220 + $80 extra', result: '25 months, about $1,350.77 interest, about $7,350.77 total paid, final payment near $150.77' },
+      { label: 'Aggressive payoff', expression: '$12,000 balance, 24.9% weighted APR, $500 + $250 extra', result: '20 months, about $2,735.69 interest, about $14,735.69 total paid, final payment near $485.69' },
     ],
+    inputExplanations: [
+      { term: 'Combined balance', meaning: 'the total balance across the cards you want to treat as one payoff plan.' },
+      { term: 'Weighted APR', meaning: 'an average APR that gives more weight to cards with bigger balances.' },
+      { term: 'Regular monthly payment', meaning: 'the total payment you can send every month before any extra payoff money.' },
+      { term: 'Extra monthly payment', meaning: 'extra money added on top of the regular payment to speed up the payoff.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this a snowball or avalanche payoff plan?',
+        answer:
+          'No. This combines your cards into one balance. A true snowball or avalanche plan needs each card balance, APR, minimum payment, and payoff order.',
+      },
+      {
+        question: 'What is weighted APR?',
+        answer:
+          'Weighted APR is an average rate that gives more influence to larger card balances. It is useful for a quick combined estimate, but it is not the same as each card statement.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Why can the real payoff differ from this estimate?',
+        answer:
+          'Real card issuers often calculate interest daily, may split balances by APR, and can add fees, cash advances, balance transfers, deferred interest, penalty APRs, or new purchases.',
+      },
+      {
+        question: 'Should I stop new card spending while using this?',
+        answer:
+          'Yes, if payoff speed is the goal. New purchases can add interest, reduce or remove a grace period, and make the balance fall slower than the estimate.',
+      },
+    ],
+    formulaCheck:
+      '$8,500 at 21.5% weighted APR with a $350 regular payment plus $100 extra estimates 24 months, about $1,969.83 interest, about $10,469.83 total paid, and a final payment near $119.83.',
+    resultReading:
+      'Start with payoff months, then check total interest and total paid. If interest still looks high, test a bigger payment or separate the cards into an avalanche plan.',
+    doubleCheck:
+      'Check that the balance is the combined current balance, the APR is weighted, the payment is realistic, and new charges are not being added while you try to pay the cards down.',
+    limitFollowup:
+      'Use card statements, card agreements, payoff tools from the issuer, or a nonprofit credit counselor for exact daily interest, payment allocation, hardship plans, and account-specific rules.',
     relatedSlugs: ['credit-card-calculator', 'debt-payoff-calculator', 'debt-consolidation-calculator'],
   }),
   makeFinanceTool({

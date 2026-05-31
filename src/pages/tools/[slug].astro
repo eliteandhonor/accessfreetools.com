@@ -757,6 +757,13 @@ const financeToolInstructions = financeToolVariant
         'Enter the payment you can send each month and any new card spending you expect to keep adding.',
         'Calculate, then compare payoff months, total interest, total paid, final payment, and whether new spending is slowing the payoff.',
       ]
+    : tool.slug === 'credit-cards-payoff-calculator'
+    ? [
+        'Add the balances from the cards you want to treat as one payoff plan.',
+        'Enter a weighted average APR, giving more weight to cards with bigger balances.',
+        'Enter the regular total monthly card payment and any extra payment you can keep sending.',
+        'Calculate, then compare payoff months, total interest, total paid, final payment, and whether the combined estimate is too rough for your real card mix.',
+      ]
     : tool.slug === 'pension-calculator'
     ? [
         'Enter the final average salary or plan salary number used by the pension formula.',
@@ -2435,6 +2442,32 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', '}
                 <a href="https://www.consumerfinance.gov/ask-cfpb/how-does-my-credit-card-company-calculate-the-amount-of-interest-i-owe-en-51/" rel="noreferrer" target="_blank">
                   CFPB credit card interest method
+                </a>
+                {', and '}
+                <a href="https://consumer.ftc.gov/paying-holiday-credit-card-debt" rel="noreferrer" target="_blank">
+                  FTC credit card debt payoff tips
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'credit-cards-payoff-calculator' ? (
+            <>
+              <strong>Combined-card payoff math, not a snowball plan</strong>
+              <p>
+                Use this to test combined card balances, weighted average APR, regular monthly payment,
+                extra monthly payment, payoff months, total interest, total paid, and final payment.
+                A real card payoff can still change because of average daily balance billing, separate APRs,
+                payment allocation, grace-period rules, minimum-payment rules, balance transfers,
+                cash advances, deferred interest, fees, penalty APRs, and new purchases.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/how-does-my-credit-card-company-calculate-the-amount-of-interest-i-owe-en-51/" rel="noreferrer" target="_blank">
+                  CFPB credit card interest method
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-grace-period-for-a-credit-card-en-47/" rel="noreferrer" target="_blank">
+                  CFPB grace-period rules
                 </a>
                 {', and '}
                 <a href="https://consumer.ftc.gov/paying-holiday-credit-card-debt" rel="noreferrer" target="_blank">

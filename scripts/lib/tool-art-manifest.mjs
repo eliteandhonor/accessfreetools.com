@@ -88,6 +88,18 @@ const toolArtMetadataOverrides = {
         'Credit Card Calculator guide artwork supports the walkthrough by showing how APR, payment size, and new spending change payoff time and interest.',
     },
   },
+  'credit-cards-payoff-calculator': {
+    tool: {
+      alt: 'Smoke mascot grouping three credit card balance cards into one $8,500 payoff plan with 21.5 percent weighted APR, $350 regular payment, $100 extra payment, payoff months, interest, and total paid.',
+      caption:
+        'Credit Cards Payoff Calculator artwork matches the combined-card workflow: balances, weighted APR, regular payment, extra payment, payoff months, interest, total paid, and final payment.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing a combined credit card payoff shortcut with separate card notes for APR, payment allocation, grace period, fees, balance transfers, and new purchases.',
+      caption:
+        'Credit Cards Payoff Calculator guide artwork supports the walkthrough by showing where a combined payoff shortcut helps and where card-by-card rules still matter.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

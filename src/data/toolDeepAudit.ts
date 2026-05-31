@@ -2568,17 +2568,19 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'credit-cards-payoff-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [cfpbCreditCards, cfpbDebtCollection],
+    sources: [cfpbCreditCards, cfpbCreditCardApr, cfpbCreditCardInterest, cfpbCreditCardGracePeriod, cfpbCreditCardAgreement, ftcCreditCardDebt],
     findings: [
       'The tool uses the fixed debt payoff helper for a combined credit card balance, weighted APR, regular monthly payment, and extra monthly payment.',
-      'The guide explains weighted APR as a simplified average, which is important because the calculator does not model separate card balances or APR tiers.',
-      'The FAQ and guide caution that daily balance methods, fees, promotional APRs, minimum-payment changes, and new purchases are outside the estimate.',
+      'DataForSEO page evidence was run for the exact tool and guide during the required all-pages sprint.',
+      'In-app browser baseline found the page score missed generic tool copy, weak source visibility, and generic image alt text, so the sprint rewrote the page around combined-card payoff math instead of a finance template.',
+      '$8,500 at 21.5% weighted APR with a $350 regular payment plus $100 extra estimates 24 months, about $1,969.83 interest, about $10,469.83 total paid, and a final payment near $119.83.',
+      'Current CFPB and FTC context supports warnings around daily interest, grace periods, payment allocation, minimum payments, balance-transfer terms, deferred interest, fees, new purchases, and card agreement rules.',
     ],
     improvements: [
-      'Added credit-cards-payoff guide detail and manually checked payoff logic, weighted-APR wording, examples, FAQ cautions, source coverage, SEO copy, and privacy behavior.',
+      'Rewrote metadata, aliases, field labels, examples, input explanations, FAQ cautions, guide copy, source links, image alt/caption text, tool trust note, and modified dates in smart-14 wording.',
     ],
     followUps: [
       'Build a separate debt avalanche or snowball calculator when the site is ready for per-card input rows.',

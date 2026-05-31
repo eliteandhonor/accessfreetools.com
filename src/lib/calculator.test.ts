@@ -1476,6 +1476,36 @@ describe('finance helpers', () => {
     expect(smallerMultiplier.monthlyPension).toBe(1400);
   });
 
+  it('keeps credit cards payoff calculator examples stable', () => {
+    const twoCard = calculateFixedDebtPayoff({
+      balance: 8500,
+      annualRatePercent: 21.5,
+      monthlyPayment: 350,
+      extraMonthlyPayment: 100,
+    });
+    const minimumPlusExtra = calculateFixedDebtPayoff({
+      balance: 6000,
+      annualRatePercent: 19.9,
+      monthlyPayment: 220,
+      extraMonthlyPayment: 80,
+    });
+    const aggressive = calculateFixedDebtPayoff({
+      balance: 12000,
+      annualRatePercent: 24.9,
+      monthlyPayment: 500,
+      extraMonthlyPayment: 250,
+    });
+
+    expect(twoCard.monthsToPayoff).toBe(24);
+    expect(twoCard.totalInterest).toBeCloseTo(1969.83, 2);
+    expect(twoCard.totalPaid).toBeCloseTo(10469.83, 2);
+    expect(twoCard.finalPayment).toBeCloseTo(119.83, 2);
+    expect(minimumPlusExtra.monthsToPayoff).toBe(25);
+    expect(minimumPlusExtra.totalInterest).toBeCloseTo(1350.77, 2);
+    expect(aggressive.monthsToPayoff).toBe(20);
+    expect(aggressive.totalInterest).toBeCloseTo(2735.69, 2);
+  });
+
   it('calculates the retirement, debt, education, and investment sitemap batch', () => {
     const pension = calculatePensionEstimate(80000, 25, 1.5);
     const annuityPayout = calculateAnnuityPayout(100000, 5, 20, 12);
