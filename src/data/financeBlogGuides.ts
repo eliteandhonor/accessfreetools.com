@@ -300,8 +300,28 @@ const sourceLinks = {
     label: 'CFPB Regulation DD: CD advertising and APY disclosures',
   },
   investorBonds: {
-    href: 'https://www.finra.org/investors/investing/investment-products/bonds',
-    label: 'FINRA: Bonds',
+    href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/bonds-or-fixed-income-products/bonds',
+    label: 'Investor.gov: Bonds FAQs',
+  },
+  investorCurrentYield: {
+    href: 'https://www.investor.gov/introduction-investing/investing-basics/glossary/current-yield',
+    label: 'Investor.gov: Current yield',
+  },
+  investorCallableBonds: {
+    href: 'https://www.investor.gov/introduction-investing/investing-basics/glossary/callable-or-redeemable-bonds',
+    label: 'Investor.gov: Callable or redeemable bonds',
+  },
+  finraBondYieldReturn: {
+    href: 'https://www.finra.org/investors/insights/bond-yield-return',
+    label: 'FINRA: Understanding bond yield and return',
+  },
+  msrbBondPricesYields: {
+    href: 'https://www.msrb.org/Bond-Prices-and-Yields',
+    label: 'MSRB: Bond prices and yields',
+  },
+  treasurySavingsBonds: {
+    href: 'https://www.treasurydirect.gov/savings-bonds/',
+    label: 'TreasuryDirect: U.S. savings bonds',
   },
   investorMutualFunds: {
     href: 'https://www.finra.org/investors/investing/investment-products/mutual-funds',
@@ -830,7 +850,14 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'bond-calculator') {
-    return [sourceLinks.investorBonds];
+    return [
+      sourceLinks.investorBonds,
+      sourceLinks.investorCurrentYield,
+      sourceLinks.finraBondYieldReturn,
+      sourceLinks.msrbBondPricesYields,
+      sourceLinks.investorCallableBonds,
+      sourceLinks.treasurySavingsBonds,
+    ];
   }
 
   if (toolSlug === 'mutual-fund-calculator') {
@@ -2138,29 +2165,31 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Savings Calculator for flexible deposits.', 'Use Compound Interest Calculator for compounding-frequency comparisons.', 'Use Interest Calculator when you need to compare simple and compound interest.'],
   },
   'bond-calculator': {
-    summary: 'Learn how face value, market price, coupon rate, and maturity affect bond income and approximate yield.',
+    summary: 'Learn how face value, market price, coupon rate, and maturity affect coupon income, current yield, and rough YTM.',
     purpose:
-      'The Bond Calculator estimates annual coupon income, current yield, and an approximate yield to maturity. It is a quick teaching tool, not a full bond pricing model.',
+      'The Bond Calculator estimates annual coupon income, current yield, and a rough yield to maturity. It is for plain bond math, not an exact broker quote or a TreasuryDirect savings bond lookup.',
     enter: [
-      'Enter face value and current market price.',
-      'Enter coupon rate as a percent and years to maturity.',
+      'Enter face value, also called par value, and the current market price you want to test.',
+      'Enter the annual coupon rate as a normal percent and the years to maturity.',
       'Enter coupon payments per year, such as 2 for semiannual coupons.',
     ],
     example: [
-      'A $1,000 face value bond at a $950 market price and 5% coupon pays about $50 per year in coupon income.',
-      'Because the market price is below face value, the approximate yield to maturity includes coupon income plus the price gain toward face value.',
+      'A $1,000 face value bond at a $950 market price with a 5% coupon pays $50 per year in coupon income.',
+      'Because the market price is below face value, the rough YTM includes coupon income plus the $50 gain toward face value over 10 years, giving about 5.64%.',
+      'A premium bond works the other way: a $1,050 price with a $1,000 face value lowers the rough YTM because some money is lost back to par at maturity.',
     ],
     read: [
       'Annual coupon is face value times coupon rate.',
       'Current yield compares annual coupon with market price.',
-      'Approximate yield to maturity is only a rough estimate, not a precise bond valuation.',
+      'Rough yield to maturity is a shortcut, not a precise present-value yield calculation.',
     ],
     mistakes: [
-      'Do not use this for callable, floating-rate, inflation-linked, or complex bonds without deeper pricing.',
-      'Do not ignore accrued interest, taxes, reinvestment risk, duration, credit risk, or changing market rates.',
-      'Do not treat approximate yield as a guaranteed return.',
+      'Do not use this as an official savings bond calculator. EE and I savings bonds need TreasuryDirect issue-date and redemption rules.',
+      'Do not use this for callable, floating-rate, inflation-linked, zero-coupon, municipal, or complex bonds without deeper pricing.',
+      'Do not ignore accrued interest, dirty price, taxes, fees, reinvestment risk, duration, credit risk, liquidity, or changing market rates.',
+      'Do not treat rough YTM as a guaranteed return.',
     ],
-    next: ['Use Investment Calculator for broad growth scenarios.', 'Use Mutual Fund Calculator for fund-style projections.'],
+    next: ['Use Investment Calculator for broad growth scenarios.', 'Use Mutual Fund Calculator for fund-style projections.', 'Use Simple Interest Calculator when you only need coupon-style interest math.'],
   },
   'mutual-fund-calculator': {
     summary: 'Learn how starting investment, monthly contributions, estimated return, expense ratio, and time affect a mutual fund projection.',
@@ -3363,6 +3392,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'CD Calculator Guide';
   }
 
+  if (tool.slug === 'bond-calculator') {
+    return 'Bond Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3396,6 +3429,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'finance-calculator') {
     return 'Project a future balance from starting money, monthly deposits, annual rate, and time, with contribution and growth checks.';
+  }
+
+  if (tool.slug === 'bond-calculator') {
+    return 'Estimate bond coupon income, current yield, total coupon payments, and rough YTM, with clear limits for savings bonds and callable bonds.';
   }
 
   if (tool.slug === 'fha-loan-calculator') {
@@ -3547,6 +3584,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isInterestGuide = tool.slug === 'interest-calculator';
   const isSimpleInterestGuide = tool.slug === 'simple-interest-calculator';
   const isCdGuide = tool.slug === 'cd-calculator';
+  const isBondGuide = tool.slug === 'bond-calculator';
   const isPensionGuide = tool.slug === 'pension-calculator';
   const isAnnuityPayoutGuide = tool.slug === 'annuity-payout-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
@@ -3603,6 +3641,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Simple interest is one of the easiest money formulas to check, but it is also easy to overuse. This guide keeps the job small: principal, annual interest rate, time in years, simple interest, and ending balance.'
       : isCdGuide
       ? 'A CD estimate can look simple until APY, term length, renewal, grace periods, and early-withdrawal penalties show up. This guide keeps maturity value separate from the penalty what-if so the result is easier to read.'
+      : isBondGuide
+      ? 'Bond yield math gets messy when coupon rate, market price, current yield, rough YTM, and savings bond lookup are treated like one thing. This guide keeps plain bond math separate so the answer is easier to trust.'
       : isPensionGuide
       ? 'A pension estimate is easy to overtrust if the plan formula is guessed. This guide shows how final average salary, credited service, and a plan multiplier turn into annual pension, monthly pension, and replacement rate.'
       : isAnnuityPayoutGuide
@@ -3773,6 +3813,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter the APY from the CD offer as a normal percent, such as 4.25 for 4.25%.',
           'Enter the CD term in months and the early-withdrawal penalty months only as a what-if.',
           'Calculate, then compare maturity value, interest earned, penalty estimate, and value after penalty before reading the real account disclosure.',
+        ]
+      : isBondGuide
+      ? [
+          'Open the Bond Calculator.',
+          'Enter face value, also called par value, and the current market price.',
+          'Enter the annual coupon rate as a normal percent, such as 5 for 5%.',
+          'Enter years to maturity and coupon payments per year, such as 2 for semiannual coupons.',
+          'Calculate, then compare annual coupon, current yield, and rough YTM before checking the real bond quote or TreasuryDirect page.',
         ]
       : isPensionGuide
       ? [
@@ -3965,6 +4013,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it when interest is based only on the original principal, annual interest rate, and time. It is best for clean examples, not bank statements, APR disclosures, or amortized loan schedules.'
             : isCdGuide
             ? 'Use it when you want to check a CD offer, compare term lengths, estimate maturity value, or see how a penalty might change an early-withdrawal scenario before reading the bank disclosure.'
+            : isBondGuide
+            ? 'Use it when you want to check plain bond coupon income, compare a discount or premium price, or understand why current yield and rough YTM can point in different directions.'
             : isPensionGuide
             ? 'Use it when you want to test a defined-benefit formula before you compare the number with your pension statement, plan summary, retirement office, or PBGC coverage notes.'
             : isAnnuityPayoutGuide
@@ -4093,6 +4143,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $1,000 principal, 5% annual interest rate, and 3 years. The formula is $1,000 x 0.05 x 3, so the simple interest is $150 and the ending balance is $1,150.'
               : isCdGuide
               ? 'Try the starter example: $10,000 deposit, 4.25% APY, 12 months, and a 3-month early-withdrawal penalty what-if. The estimate is a $10,425 maturity value, $425 interest earned, about a $106.25 penalty estimate, and about $10,318.75 value after penalty.'
+              : isBondGuide
+              ? 'Try the starter example: $1,000 face value, $950 current market price, 5% annual coupon, 10 years to maturity, and 2 coupon payments per year. The estimate is $50 annual coupon income, 5.26% current yield, and about 5.64% rough YTM.'
               : isPensionGuide
               ? 'Try the starter example: $82,000 final average salary, 27 credited service years, and a 1.6% multiplier. The estimate is $35,424 per year, $2,952 per month, and a 43.2% replacement rate before taxes or plan adjustments.'
               : isAnnuityPayoutGuide
@@ -4156,6 +4208,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start by growing the annual cost until the first school year. Then add each school year with the same cost increase. The savings side grows current savings and monthly deposits until school starts. It does not subtract financial aid, scholarships, grants, work-study, loans, or family payments during school.'
             : isCdGuide
             ? 'Start with the annual percentage yield, then apply APY growth across the CD term in months. The calculator subtracts the starting deposit to show interest earned, then subtracts a simple months-of-interest penalty only for the early-withdrawal what-if.'
+            : isBondGuide
+            ? 'Start with face value times coupon rate to get the annual coupon. Current yield is annual coupon divided by current market price. Rough YTM adds the yearly price gain or loss between market price and face value, then divides by the average of those two prices. FINRA and MSRB both explain that exact YTM is a deeper present-value calculation, so this page keeps the label rough on purpose.'
             : isPensionGuide
             ? 'Start with the plan salary number, multiply by credited service, then apply the multiplier percentage. IRS and DOL materials separate defined-benefit pensions from contribution accounts, and PBGC coverage rules are another reason to check the official plan source before trusting a quick estimate.'
             : isAnnuityPayoutGuide
@@ -4234,6 +4288,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with total estimated cost, then check first-year cost, projected savings, and the savings gap. If the gap looks huge, do not panic or ignore it. Compare official net price calculators, aid offers, scholarships, grants, cheaper school paths, and possible loan payments next.'
             : isCdGuide
             ? 'Start with maturity value because that is the normal end-of-term estimate. Then check interest earned, penalty estimate, and value after penalty so you do not mix a normal CD maturity result with an early-withdrawal scenario.'
+            : isBondGuide
+            ? 'Start with annual coupon because that is the simple income estimate. Then check current yield and rough YTM separately. A discount price can make rough YTM higher than current yield, while a premium price can push rough YTM lower.'
             : isMarriageTaxGuide
             ? 'Start with the difference, then check joint federal tax, two single returns, joint taxable income, and the joint marginal bracket. A $0 difference is a real answer, not an error.'
             : isInvestmentGuide
@@ -4311,6 +4367,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad rate estimates come from putting a fee-heavy payment into the calculator and then reading the answer like a clean loan rate. APR and written lender disclosures matter when fees are included.'
             : isCdGuide
             ? 'Most bad CD estimates come from mixing APY with a stated interest rate, using years when the page asks for term months, guessing penalty months, or forgetting renewal, grace-period, brokered-CD, callable-CD, insurance-limit, and tax details.'
+            : isBondGuide
+            ? 'Most bad bond estimates come from using the coupon rate like it is the return, ignoring the market price, forgetting accrued interest, missing a call feature, using this for EE or I savings bond redemption, or treating rough YTM like a guaranteed broker quote.'
             : 'Most bad finance estimates come from mixing rates, terms, monthly amounts, and annual amounts. The other common mistake is using a planning estimate as if it were a final quote.',
         ],
         bullets: detail.mistakes,
@@ -4330,6 +4388,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help after the first savings estimate. The next question is usually exact compounding, whether the monthly deposit fits the budget, or whether a higher-risk investment-style return is really the comparison you meant.'
             : isCdGuide
             ? 'A related tool can help after the CD estimate. The next question is usually flexible savings, compounding-frequency detail, or simple interest when you are checking a penalty or classroom-style formula.'
+            : isBondGuide
+            ? 'A related tool can help after the bond estimate. The next question is usually broad investment growth, fund-style projections, or simple coupon-style interest math.'
             : isBusinessLoanGuide
             ? 'A related tool can help when the loan payment is only one part of the decision, such as the rate, a plain fixed loan, or the profit target for the project.'
             : isCanadianMortgageGuide
@@ -4439,6 +4499,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/savings-calculator/', label: 'Compare flexible savings instead' },
               { href: '/tools/compound-interest-calculator/', label: 'Check compounding frequency' },
               { href: '/tools/interest-calculator/', label: 'Compare simple and compound interest' },
+            ]
+          : isBondGuide
+          ? [
+              { href: '/tools/bond-calculator/', label: 'Open the Bond Calculator' },
+              { href: '/tools/investment-calculator/', label: 'Compare broad investment growth' },
+              { href: '/tools/mutual-fund-calculator/', label: 'Compare fund-style projections' },
+              { href: '/tools/simple-interest-calculator/', label: 'Check coupon-style interest math' },
             ]
           : isRentGuide
           ? [
@@ -4557,6 +4624,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'U.S. Department of Education sources are useful because school costs, net price, and College Scorecard data are school-specific. CFPB sources are useful because aid offers split tuition and fees, housing and meals, books, transportation, personal costs, grants, scholarships, work-study, and loans into pieces you should compare line by line.'
             : isCdGuide
             ? 'CFPB explains the basic CD tradeoff: you usually leave money in for a set term, and early withdrawal can mean a penalty. FDIC adds the real shopping checks: insured bank status, insurance limits, brokered CDs, renewal rules, call features, and deposit agreements. OCC penalty notes and CFPB Regulation DD keep APY and early-withdrawal wording honest.'
+            : isBondGuide
+            ? 'Investor.gov explains bonds as lending money to an issuer that pays interest and repays face value at maturity if things go as planned. Investor.gov and FINRA separate coupon yield, current yield, and YTM, while MSRB explains price, par value, coupon rate, maturity, credit rating, and municipal-bond yield terms. TreasuryDirect matters because DataForSEO shows many searchers mean savings bonds, which need separate official lookup rules.'
             : isPensionGuide
             ? 'PBGC, DOL, and IRS sources are useful here because defined-benefit pensions are plan formulas, not personal account balances. Real benefits can depend on vesting, credited service, payment form, survivor options, plan guarantees, taxes, and the official plan document.'
             : isAnnuityPayoutGuide
@@ -4616,6 +4685,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not read school aid formulas, choose a 529 plan, predict FAFSA results, renew scholarships, price every fee, know residency rules, or replace each school\'s official net price calculator and aid offer.'
             : isCdGuide
             ? 'This calculator still stays simple. It does not read the bank disclosure, calculate exact daily compounding, choose the official APY, check renewal or grace-period rules, price brokered or callable CDs, verify insurance coverage, calculate tax, or promise the early-withdrawal payout.'
+            : isBondGuide
+            ? 'This calculator still stays simple. It does not solve exact market YTM, price dirty bonds, add accrued interest, model callable or puttable bonds, value EE or I savings bonds, check credit risk, include taxes or fees, or replace official broker, EMMA, FINRA, TreasuryDirect, or offering-document data.'
             : isPensionGuide
             ? 'This calculator still stays simple. It does not read your plan document, prove vesting, apply early-retirement reductions, price survivor options, calculate COLA, decide lump-sum value, apply PBGC limits, estimate tax withholding, or replace an official benefit statement.'
             : isAnnuityPayoutGuide
@@ -4677,6 +4748,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Finance Calculator open beside this guide. Try $2,000 plus $150/month at 5% first, then change only the rate so you can see why the answer is a what-if, not a promise.'
       : isCdGuide
       ? 'Keep the CD Calculator open beside this guide. Try the $10,000, 4.25% APY, 12-month example first, then change only the CD term in months or penalty months so you can see what actually moved.'
+      : isBondGuide
+      ? 'Keep the Bond Calculator open beside this guide. Try the $1,000 face, $950 price, 5% coupon example first, then change only the market price so you can see why price and yield move against each other.'
       : isInvestmentGuide
       ? 'Keep the Investment Calculator open beside this guide. Try $5,000 plus $250/month at 7% first, then change only the monthly deposit so you can see what actually moved.'
       : isFhaLoanGuide

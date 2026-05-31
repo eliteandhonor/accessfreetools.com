@@ -887,8 +887,33 @@ const cfpbCdAdvertising = {
 };
 
 const investorBonds = {
-  href: 'https://www.finra.org/investors/investing/investment-products/bonds',
-  label: 'FINRA: Bonds',
+  href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/bonds-or-fixed-income-products/bonds',
+  label: 'Investor.gov: Bonds FAQs',
+};
+
+const investorCurrentYield = {
+  href: 'https://www.investor.gov/introduction-investing/investing-basics/glossary/current-yield',
+  label: 'Investor.gov: Current yield',
+};
+
+const investorCallableBonds = {
+  href: 'https://www.investor.gov/introduction-investing/investing-basics/glossary/callable-or-redeemable-bonds',
+  label: 'Investor.gov: Callable or redeemable bonds',
+};
+
+const finraBondYieldReturn = {
+  href: 'https://www.finra.org/investors/insights/bond-yield-return',
+  label: 'FINRA: Understanding bond yield and return',
+};
+
+const msrbBondPricesYields = {
+  href: 'https://www.msrb.org/Bond-Prices-and-Yields',
+  label: 'MSRB: Bond prices and yields',
+};
+
+const treasurySavingsBonds = {
+  href: 'https://www.treasurydirect.gov/savings-bonds/',
+  label: 'TreasuryDirect: U.S. savings bonds',
 };
 
 const investorMutualFunds = {
@@ -2822,20 +2847,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'bond-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-3-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [investorBonds, investorCompound],
+    sources: [investorBonds, investorCurrentYield, finraBondYieldReturn, msrbBondPricesYields, investorCallableBonds, treasurySavingsBonds],
     findings: [
-      'The calculator computes annual coupon income, current yield, total coupon payments, and an approximate yield to maturity from face value, market price, coupon rate, and years.',
-      'The UI asks for coupon payments per year but correctly labels the yield result as approximate instead of a full bond-pricing output.',
-      'The guide and FAQ warn about callable bonds, accrued interest, taxes, reinvestment risk, credit risk, duration, convexity, and changing market rates.',
+      'The calculator computes annual coupon income, current yield, total coupon payments, and a rough yield to maturity from face value, current market price, coupon rate, and years.',
+      'DataForSEO shows informational intent for bond calculator and high related demand for savings bond calculator, so the page now states plainly that this is not a TreasuryDirect EE/I savings bond redemption lookup.',
+      'The UI, guide, FAQ, and source block separate coupon rate, current yield, and rough YTM, and warn about exact market YTM, dirty price, accrued interest, callable bonds, savings bond rules, taxes, fees, reinvestment risk, credit risk, liquidity, duration, convexity, and changing market rates.',
     ],
     improvements: [
-      'Added bond-specific guide detail and manually checked coupon/yield math, examples, result labels, FAQ cautions, source coverage, related tools, SEO copy, and privacy behavior.',
+      'Added bond-specific SEO title and aliases, guide title and meta description, exact $1,000/$950/5%/10-year and premium-bond examples, DataForSEO evidence, official Investor.gov/FINRA/MSRB/TreasuryDirect source links, plain-bond trust wording, source coverage, and specific image alt/caption text.',
     ],
     followUps: [
-      'Add precise yield-to-maturity solving and dirty-price handling only as a separate advanced bond mode with tests.',
+      'Add exact present-value YTM solving, dirty-price handling, call-date yield, and a separate savings bond lookup path only as separate advanced modes with tests and official source limits.',
     ],
   },
   {
@@ -7728,7 +7753,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['bond'])) {
-      return sourceBackstop([investorBonds, investorCompound]);
+      return sourceBackstop([investorBonds, investorCurrentYield, finraBondYieldReturn, msrbBondPricesYields, investorCallableBonds, treasurySavingsBonds]);
     }
 
     if (includesAny(key, ['mutual-fund', 'mutual fund'])) {

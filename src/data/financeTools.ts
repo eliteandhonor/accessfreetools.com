@@ -3599,28 +3599,86 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'bond-calculator',
     name: 'Bond Calculator',
-    summary: 'Estimate bond coupon income, current yield, and approximate yield to maturity.',
+    summary: 'Estimate coupon income, current yield, and rough yield to maturity for a plain bond.',
     description:
-      'Use this free bond calculator to estimate annual coupon income, total coupon payments, current yield, and approximate yield to maturity from face value, market price, coupon rate, and maturity.',
+      'Estimate annual coupon income, total coupon payments, current yield, and rough yield to maturity from face value, market price, coupon rate, and years to maturity.',
     seoDescription:
-      'Estimate bond coupon income, total coupon payments, current yield, and approximate yield to maturity from face value, price, and coupon rate.',
+      'Estimate bond coupon income, current yield, total coupon payments, and rough YTM from face value, market price, coupon rate, and maturity.',
+    seoTitle: 'Bond Calculator | Coupon, Current Yield & Rough YTM',
     icon: 'calculator-bond',
+    aliases: [
+      'bond calculator',
+      'bond yield calculator',
+      'current yield calculator',
+      'yield to maturity calculator',
+      'coupon payment calculator',
+      'bond interest calculator',
+      'treasury bond calculator',
+      'savings bond calculator',
+    ],
     formula:
-      'The calculator multiplies face value by coupon rate for annual coupon, divides coupon by market price for current yield, then estimates yield to maturity from coupon income plus price gain or loss.',
+      'The calculator multiplies face value by coupon rate for annual coupon, divides annual coupon by market price for current yield, then uses the common approximate YTM shortcut: annual coupon plus yearly price gain or loss, divided by the average of face value and market price.',
     limit:
-      'This is an approximate yield calculator. It does not price callable bonds, accrued interest, tax treatment, reinvestment risk, credit risk, duration, convexity, or changing market rates.',
+      'This is a plain-bond estimate. It does not solve exact market YTM, dirty price, accrued interest, callable or puttable bonds, savings bond serial-number values, TreasuryDirect redemptions, taxes, fees, reinvestment risk, credit risk, duration, convexity, liquidity, or changing market rates.',
     useCases: [
-      'Estimate annual coupon income from a bond.',
-      'Compare market price with face value.',
-      'Estimate current yield and approximate yield to maturity.',
-      'Check basic bond math before reading official offering documents.',
+      'Estimate annual coupon income from face value and coupon rate.',
+      'Compare a discount or premium price with face value.',
+      'Estimate current yield and rough yield to maturity before reading a quote.',
+      'Check basic bond math before reviewing official offering documents or broker data.',
     ],
     examples: [
-      { label: 'Discount bond', expression: '$1,000 face, $950 price, 5% coupon, 10 years', result: 'Current yield and approximate YTM' },
-      { label: 'Premium bond', expression: '$1,000 face, $1,050 price, 6% coupon', result: 'Lower YTM from premium price' },
-      { label: 'Annual coupon', expression: '$5,000 face, 4.5% coupon, annual payments', result: 'Coupon and yield estimate' },
+      { label: 'Discount bond', expression: '$1,000 face, $950 price, 5% coupon, 10 years', result: '$50 annual coupon, about 5.26% current yield, and about 5.64% rough YTM' },
+      { label: 'Premium bond', expression: '$1,000 face, $1,050 price, 6% coupon, 8 years', result: '$60 annual coupon and about 5.24% rough YTM' },
+      { label: 'Annual coupon', expression: '$5,000 face, $4,800 price, 4.5% coupon, 5 years', result: '$225 annual coupon and about 5.41% rough YTM' },
     ],
     relatedSlugs: ['investment-calculator', 'mutual-fund-calculator', 'simple-interest-calculator'],
+    inputExplanations: [
+      {
+        term: 'Face value',
+        meaning: 'the amount the issuer is expected to repay at maturity, often called par value.',
+      },
+      {
+        term: 'Market price',
+        meaning: 'the price you are testing now. A price below face value is a discount; a price above face value is a premium.',
+      },
+      {
+        term: 'Coupon rate',
+        meaning: 'the yearly interest rate printed on the bond. A 5% coupon on $1,000 face value means $50 per year before fees or taxes.',
+      },
+      {
+        term: 'Years to maturity',
+        meaning: 'how long until the bond is expected to repay face value, assuming it is not called or sold first.',
+      },
+      {
+        term: 'Coupon payments per year',
+        meaning: 'how many coupon payments happen each year. Many bonds pay twice a year, so 2 is a common starting point.',
+      },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this an exact yield to maturity calculator?',
+        answer:
+          'No. It uses a rough shortcut so the result is easy to understand. Exact YTM solves the present value of every coupon and principal payment against the market price, and broker quotes can also include accrued interest and fees.',
+      },
+      {
+        question: 'Can I use this for savings bonds?',
+        answer:
+          'Not for official savings bond value or redemption. DataForSEO shows many people search for savings bond calculators, but EE and I savings bonds need TreasuryDirect rules, issue dates, serial-number lookup, compounding, and redemption rules that this plain-bond tool does not handle.',
+      },
+      {
+        question: 'Why can current yield and YTM be different?',
+        answer:
+          'Current yield only compares annual coupon income with today\'s market price. Rough YTM also includes the price gain or loss between today\'s price and face value by maturity.',
+      },
+    ],
+    formulaCheck:
+      'For the starter example, a $1,000 face bond with a 5% coupon pays $50 per year. At a $950 market price, current yield is about 5.26%, and the rough YTM shortcut gives about 5.64%.',
+    resultReading:
+      'Read annual coupon as the income estimate, current yield as coupon income divided by price, and rough YTM as a quick maturity estimate. Do not read it as a broker quote or guaranteed return.',
+    doubleCheck:
+      'Check whether the bond is callable, the price includes accrued interest, the issuer can repay, the quote has fees, and whether a TreasuryDirect savings bond lookup is actually the tool you need.',
+    limitFollowup:
+      'Use official offering documents, broker fixed-income data, TreasuryDirect, EMMA, or FINRA data for exact bond terms, value, yield, call risk, taxes, fees, and redemption rules.',
   }),
   makeFinanceTool({
     slug: 'mutual-fund-calculator',

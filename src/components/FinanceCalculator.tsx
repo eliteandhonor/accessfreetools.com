@@ -987,16 +987,17 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Bond Calculator',
     buttonLabel: 'Estimate bond',
     emptyHistory: 'Recent bond estimates will appear here.',
-    privacyNote: 'Bond estimates use simple current yield and approximate yield-to-maturity formulas, not a full pricing model or investment advice.',
+    privacyNote:
+      'Bond estimates use simple coupon, current-yield, and rough YTM shortcuts. They do not price exact market yield, accrued interest, call features, TreasuryDirect savings bond redemptions, taxes, fees, or investment risk.',
     modes: [
       {
         id: 'bond',
         label: 'Bond',
         symbol: 'BOND',
         fields: [
-          numberField('faceValue', 'Face value ($)'),
-          numberField('marketPrice', 'Market price ($)'),
-          numberField('couponRatePercent', 'Coupon rate (%)'),
+          numberField('faceValue', 'Face value / par value ($)'),
+          numberField('marketPrice', 'Current market price ($)'),
+          numberField('couponRatePercent', 'Annual coupon rate (%)'),
           numberField('yearsToMaturity', 'Years to maturity'),
           numberField('paymentsPerYear', 'Coupon payments per year'),
         ],
@@ -3265,9 +3266,10 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Multiply face value by coupon rate to estimate annual coupon income.',
           'Divide annual coupon by market price for current yield.',
           'Use the gain or loss from market price to face value across years to maturity.',
-          'Combine coupon income and price change for an approximate yield-to-maturity estimate.',
+          'Combine coupon income and price change for a rough yield-to-maturity shortcut.',
         ],
-        note: 'This is an approximate yield formula and does not price callable bonds, reinvestment, taxes, credit risk, or market risk.',
+        note:
+          'This is a rough yield shortcut, not an exact broker quote. It does not price callable bonds, accrued interest, dirty price, TreasuryDirect savings bond value, taxes, fees, reinvestment, credit risk, liquidity, or market risk.',
       };
     }
     case 'mutual-fund': {

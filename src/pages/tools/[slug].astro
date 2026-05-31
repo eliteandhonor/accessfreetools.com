@@ -820,6 +820,13 @@ const financeToolInstructions = financeToolVariant
         'Enter the CD term in whole months, then add penalty months only as a rough early-withdrawal what-if.',
         'Calculate, then compare maturity value, interest earned, penalty estimate, and value after penalty before reading the real account disclosure.',
       ]
+    : tool.slug === 'bond-calculator'
+    ? [
+        'Enter face value, also called par value, and the current market price you want to test.',
+        'Enter annual coupon rate as a normal percent, such as 5 for 5%, then add years to maturity.',
+        'Enter coupon payments per year, such as 2 when the bond pays semiannually.',
+        'Calculate, then compare annual coupon, current yield, and rough YTM before reading the real bond quote or TreasuryDirect page.',
+      ]
     : tool.slug === 'pension-calculator'
     ? [
         'Enter the final average salary or plan salary number used by the pension formula.',
@@ -2746,6 +2753,35 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.consumerfinance.gov/rules-policy/regulations/1030/8/" rel="noreferrer" target="_blank">
                   CFPB Regulation DD APY rules
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'bond-calculator' ? (
+            <>
+              <strong>Plain bond estimate, not a broker quote</strong>
+              <p>
+                Use this to test face value, current market price, annual coupon rate, years to maturity,
+                coupon payments per year, annual coupon, current yield, and rough YTM. A real bond quote can still
+                change with accrued interest, dirty price, call features, issuer credit, liquidity, taxes, fees,
+                reinvestment assumptions, market rates, and whether you actually meant a TreasuryDirect savings bond.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.investor.gov/introduction-investing/investing-basics/investment-products/bonds-or-fixed-income-products/bonds" rel="noreferrer" target="_blank">
+                  Investor.gov bond basics
+                </a>
+                {', '}
+                <a href="https://www.finra.org/investors/insights/bond-yield-return" rel="noreferrer" target="_blank">
+                  FINRA bond yield and return
+                </a>
+                {', '}
+                <a href="https://www.msrb.org/Bond-Prices-and-Yields" rel="noreferrer" target="_blank">
+                  MSRB bond prices and yields
+                </a>
+                {', and '}
+                <a href="https://www.treasurydirect.gov/savings-bonds/" rel="noreferrer" target="_blank">
+                  TreasuryDirect savings bonds
                 </a>
                 .
               </p>

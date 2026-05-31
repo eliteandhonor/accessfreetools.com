@@ -196,6 +196,18 @@ const toolArtMetadataOverrides = {
         'CD Calculator guide artwork supports the walkthrough by showing how APY, term, maturity value, insurance limits, renewal rules, and penalty terms need checking before using a CD estimate.',
     },
   },
+  'bond-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a bond screen with $1,000 face value, $950 market price, 5 percent coupon, 10-year maturity, $50 annual coupon, 5.26 percent current yield, and rough YTM card.',
+      caption:
+        'Bond Calculator artwork matches the live workflow: face value, market price, coupon rate, years to maturity, coupon frequency, annual coupon, current yield, and rough YTM.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing bond yield notes for coupon income, discount price, premium price, current yield, rough YTM, callable-bond risk, and TreasuryDirect savings bond lookup.',
+      caption:
+        'Bond Calculator guide artwork supports the walkthrough by showing how coupon income, market price, rough YTM, call risk, accrued interest, and savings-bond lookup limits need checking.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',
