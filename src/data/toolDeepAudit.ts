@@ -811,14 +811,29 @@ const irsRetirementPlanBenefits = {
   label: 'IRS: Types of retirement plan benefits',
 };
 
-const fsaRepaymentPlans = {
-  href: 'https://www.consumerfinance.gov/paying-for-college/repay-student-debt/',
-  label: 'Consumer Financial Protection Bureau: Repay student debt',
-};
-
 const fsaLoanSimulatorArticle = {
   href: 'https://studentaid.gov/articles/compare-student-loan-repayment-plans-calculator/',
   label: 'Federal Student Aid: Loan Simulator repayment-plan calculator',
+};
+
+const fsaRepaymentPlanList = {
+  href: 'https://studentaid.gov/manage-loans/repayment/plans',
+  label: 'Federal Student Aid: Federal student loan repayment plans',
+};
+
+const fsaInterestRates = {
+  href: 'https://studentaid.gov/understand-aid/types/loans/interest-rates',
+  label: 'Federal Student Aid: Federal student loan interest rates',
+};
+
+const cfpbFederalStudentLoans = {
+  href: 'https://www.consumerfinance.gov/paying-for-college/repay-student-debt/federal-student-loans/',
+  label: 'CFPB: Options for repaying federal student loans',
+};
+
+const cfpbFederalAndPrivateStudentLoans = {
+  href: 'https://www.consumerfinance.gov/paying-for-college/repay-student-debt/federal-and-private-student-loans/',
+  label: 'CFPB: Options for federal and private student loans',
 };
 
 const educationNetPrice = {
@@ -2683,20 +2698,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'student-loan-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-3-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [fsaRepaymentPlans, investorCompound],
+    sources: [fsaLoanSimulatorArticle, fsaRepaymentPlanList, fsaInterestRates, cfpbFederalStudentLoans, cfpbFederalAndPrivateStudentLoans],
     findings: [
-      'The calculator estimates a scheduled fixed loan payment, then runs the amortization helper again with any extra monthly payment to show payoff time and interest saved.',
-      'The guide and FAQ clearly separate this standard fixed-payment math from income-driven repayment, deferment, forbearance, forgiveness, subsidies, capitalization, fees, and servicer rules.',
-      'The default example and tests cover a 10-year student loan path and verify extra-payment payoff metrics through the shared amortization logic.',
+      'The 2026-05-31 sprint used page-specific DataForSEO evidence, built-in browser review, current web/source checks, and GSC-style approval gates before editing.',
+      'The calculator estimates a scheduled fixed loan payment, then runs the amortization helper again with any extra monthly principal payment to show payoff time and interest saved.',
+      'The page now shows exact student-loan example math: $30,000 at 6.5% for 10 years gives about $340.64 scheduled payment; adding $50 estimates 100 months, about $8,892.17 interest, about $38,892.17 total paid, and about $1,985.10 interest saved.',
+      'The guide and FAQ separate this standard fixed-payment math from Federal Student Aid Loan Simulator, income-driven repayment, deferment, forbearance, forgiveness, subsidies, capitalization, payment allocation, private-loan fees, variable rates, and servicer rules.',
     ],
     improvements: [
-      'Added a student-loan-specific guide detail and manually checked scheduled payment logic, extra-payment logic, examples, FAQ cautions, source coverage, SEO copy, related tools, and privacy note.',
+      'Rewrote the tool and guide in the Access Free Tools smart 14-year-old tone, added SEO title/meta descriptions, DataForSEO keyword-fit terms, official source links, specific trust notes, and repaired generic image alt/caption text.',
     ],
     followUps: [
-      'Add official federal repayment-plan modes only if each plan is researched, dated, and tested against Federal Student Aid rules.',
+      'Add official federal repayment-plan modes only if each plan is researched, dated, and tested against Federal Student Aid rules and kept current after policy changes.',
     ],
   },
   {
@@ -7454,7 +7470,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['student-loan', 'student loan'])) {
-      return sourceBackstop([fsaRepaymentPlans, investorCompound]);
+      return sourceBackstop([fsaLoanSimulatorArticle, fsaRepaymentPlanList, fsaInterestRates, cfpbFederalStudentLoans]);
     }
 
     if (includesAny(key, ['loan-calculator', 'loan calculator'])) {

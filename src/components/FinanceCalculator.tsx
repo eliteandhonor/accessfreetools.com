@@ -880,17 +880,18 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Student Loan Calculator',
     buttonLabel: 'Estimate student loan',
     emptyHistory: 'Recent student loan estimates will appear here.',
-    privacyNote: 'Student loan estimates are not official federal loan repayment plan results and do not include income-driven repayment, forgiveness, deferment, or subsidies.',
+    privacyNote:
+      'Student loan estimates are fixed-payment math only. They are not Federal Student Aid results, servicer payoff quotes, private-lender quotes, IDR advice, forgiveness advice, or credit advice.',
     modes: [
       {
         id: 'student-loan',
         label: 'Student loan',
         symbol: 'STU',
         fields: [
-          numberField('principal', 'Loan balance ($)'),
-          numberField('annualRatePercent', 'Interest rate (%)'),
-          numberField('years', 'Repayment term (years)'),
-          numberField('extraMonthlyPayment', 'Extra monthly payment ($)'),
+          numberField('principal', 'Current student loan balance ($)'),
+          numberField('annualRatePercent', 'Annual interest rate (%)'),
+          numberField('years', 'Standard repayment term (years)'),
+          numberField('extraMonthlyPayment', 'Extra monthly principal payment ($)'),
         ],
         defaultInputs: { principal: '30000', annualRatePercent: '6.5', years: '10', extraMonthlyPayment: '50' },
         examples: [
@@ -3147,7 +3148,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Simulate monthly interest and principal reduction.',
           'Compare payoff time and interest with the scheduled repayment term.',
         ],
-        note: 'Federal loan options can include income-driven repayment, deferment, forbearance, and forgiveness rules not modeled here.',
+        note:
+          'Federal loan options can include income-driven repayment, deferment, forbearance, forgiveness, servicer rules, payment allocation, and rate details not modeled here. Use Federal Student Aid Loan Simulator or your servicer for official plan choices.',
       };
     }
     case 'college-cost': {

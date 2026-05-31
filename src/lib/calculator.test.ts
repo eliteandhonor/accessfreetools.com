@@ -1566,6 +1566,25 @@ describe('finance helpers', () => {
     expect(smallLoan.totalInterest).toBeCloseTo(508.84, 2);
   });
 
+  it('keeps student loan calculator examples stable', () => {
+    const scheduled = calculateLoanSummary(30000, 6.5, 10);
+    const extraPayment = calculateAmortizationSummary(30000, 6.5, 10, 50);
+    const noExtra = calculateLoanSummary(25000, 5.5, 10);
+    const aggressive = calculateAmortizationSummary(45000, 7, 10, 200);
+
+    expect(scheduled.monthlyPayment).toBeCloseTo(340.64, 2);
+    expect(extraPayment.monthlyPayment).toBeCloseTo(390.64, 2);
+    expect(extraPayment.monthsToPayoff).toBe(100);
+    expect(extraPayment.totalInterest).toBeCloseTo(8892.17, 2);
+    expect(extraPayment.totalPaid).toBeCloseTo(38892.17, 2);
+    expect(extraPayment.interestSaved).toBeCloseTo(1985.10, 2);
+    expect(extraPayment.monthsSaved).toBe(20);
+    expect(noExtra.monthlyPayment).toBeCloseTo(271.32, 2);
+    expect(noExtra.totalInterest).toBeCloseTo(7557.88, 2);
+    expect(aggressive.monthsToPayoff).toBe(78);
+    expect(aggressive.interestSaved).toBeCloseTo(6614.52, 2);
+  });
+
   it('keeps debt consolidation calculator examples stable', () => {
     const lowerRateLoan = calculateDebtConsolidation({
       totalDebt: 18000,

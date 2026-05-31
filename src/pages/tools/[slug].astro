@@ -785,6 +785,13 @@ const financeToolInstructions = financeToolVariant
         'Enter the regular monthly payment and any extra monthly payment you can reliably add.',
         'Calculate, then compare payoff months, total interest, total paid, and final payment before treating the estimate like a plan.',
       ]
+    : tool.slug === 'student-loan-calculator'
+    ? [
+        'Enter the current student loan balance, not the original amount if you have already paid some down.',
+        'Enter the annual interest rate from StudentAid.gov, your servicer, or your private-loan agreement.',
+        'Enter the standard repayment term, then add extra monthly principal only if you can really keep sending it.',
+        'Calculate, then compare scheduled payment, payoff time, total interest, and interest saved before checking official plan choices.',
+      ]
     : tool.slug === 'pension-calculator'
     ? [
         'Enter the final average salary or plan salary number used by the pension formula.',
@@ -2572,6 +2579,35 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://consumer.gov/your-money/making-budget" rel="noreferrer" target="_blank">
                   consumer.gov budgeting basics
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'student-loan-calculator' ? (
+            <>
+              <strong>Standard student-loan math, not an official plan</strong>
+              <p>
+                Use this to test loan balance, annual rate, term, scheduled payment, extra monthly principal,
+                payoff time, total interest, and interest saved. A real student loan can still change with
+                income-driven repayment, deferment, forbearance, forgiveness, subsidies, capitalization,
+                payment allocation, auto-pay discounts, private-loan fees, variable rates, and servicer rules.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://studentaid.gov/articles/compare-student-loan-repayment-plans-calculator/" rel="noreferrer" target="_blank">
+                  Federal Student Aid Loan Simulator notes
+                </a>
+                {', '}
+                <a href="https://studentaid.gov/understand-aid/types/loans/interest-rates" rel="noreferrer" target="_blank">
+                  Federal Student Aid interest rates
+                </a>
+                {', '}
+                <a href="https://studentaid.gov/manage-loans/repayment/plans" rel="noreferrer" target="_blank">
+                  Federal Student Aid repayment plans
+                </a>
+                {', and '}
+                <a href="https://www.consumerfinance.gov/paying-for-college/repay-student-debt/federal-and-private-student-loans/" rel="noreferrer" target="_blank">
+                  CFPB federal and private student loan options
                 </a>
                 .
               </p>

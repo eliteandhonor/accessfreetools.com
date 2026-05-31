@@ -3265,26 +3265,73 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'student-loan-calculator',
     name: 'Student Loan Calculator',
-    summary: 'Estimate student loan payment, payoff time, interest, and extra-payment savings.',
+    summary: 'Estimate a standard student loan payment, interest, payoff time, and extra-payment savings.',
     description:
-      'Use this free student loan calculator to estimate scheduled monthly payment, payoff time, total interest, and interest saved from extra monthly payments.',
+      'Estimate a standard student loan payment from balance, rate, term, and extra monthly payment, then compare payoff time and interest saved.',
+    seoTitle: 'Student Loan Calculator | Payments, Interest & Extra Payoff',
+    seoDescription:
+      'Estimate student loan payment, payoff time, total interest, and extra-payment savings from balance, rate, term, and monthly extra payment.',
     icon: 'calculator-student-loan',
+    aliases: [
+      'student loan payment calculator',
+      'student loan repayment calculator',
+      'student loan payoff calculator',
+      'federal student loan calculator',
+      'student loan interest calculator',
+      'extra payment student loan calculator',
+    ],
     formula:
-      'The calculator uses the fixed-payment loan formula for scheduled repayment, then simulates monthly payoff again with any extra monthly payment.',
+      'The calculator uses the fixed-payment loan formula for the scheduled monthly payment, then simulates monthly interest and principal reduction again with any extra payment added.',
     limit:
-      'This is not an official federal repayment plan result. It does not include income-driven repayment, deferment, forbearance, forgiveness, subsidies, capitalization, fees, or servicer rules.',
+      'This is not an official federal repayment plan result, servicer quote, or private-lender payoff statement. It does not include income-driven repayment, deferment, forbearance, forgiveness, subsidies, capitalization, fees, payment allocation, auto-pay discounts, or servicer rules.',
     useCases: [
       'Estimate a standard student loan payment from balance, rate, and term.',
       'See how an extra payment may reduce payoff time.',
       'Estimate interest cost before choosing a repayment strategy.',
-      'Compare simplified repayment scenarios before reviewing official options.',
+      'Compare simplified repayment scenarios before using Federal Student Aid Loan Simulator or asking a servicer.',
     ],
     examples: [
-      { label: '10-year plan', expression: '$30,000 balance, 6.5%, 10 years, $50 extra/month', result: 'Payment and payoff time' },
-      { label: 'No extra payment', expression: '$25,000 at 5.5% for 10 years', result: 'Scheduled payment estimate' },
-      { label: 'Aggressive payment', expression: '$45,000 at 7%, $200 extra/month', result: 'Interest saved estimate' },
+      { label: '10-year plan', expression: '$30,000 balance, 6.5%, 10 years, $50 extra/month', result: '$340.64 scheduled payment, 100-month payoff with extra, about $1,985.10 interest saved' },
+      { label: 'No extra payment', expression: '$25,000 at 5.5% for 10 years', result: '$271.32/month and about $7,557.88 interest' },
+      { label: 'Aggressive payment', expression: '$45,000 at 7%, $200 extra/month', result: '78-month payoff and about $6,614.52 interest saved' },
     ],
     relatedSlugs: ['loan-calculator', 'amortization-calculator', 'repayment-calculator'],
+    inputExplanations: [
+      { term: 'Loan balance', meaning: 'the current principal you still owe, not the original amount if you have already paid some down.' },
+      { term: 'Interest rate', meaning: 'the annual rate for this loan, entered as 6.5 for 6.5%, not as 0.065.' },
+      { term: 'Repayment term', meaning: 'the standard fixed-payment term in years, such as 10 years for a basic standard-plan comparison.' },
+      { term: 'Extra monthly payment', meaning: 'extra money you plan to send each month on top of the scheduled payment.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this the same as the Federal Student Aid Loan Simulator?',
+        answer:
+          'No. This page only does fixed-payment loan math from the numbers you enter. Federal Student Aid Loan Simulator can compare official federal repayment options, IDR plans, forgiveness paths, deferment, forbearance, and other rules this calculator does not model.',
+      },
+      {
+        question: 'What does the $50 extra payment do in the example?',
+        answer:
+          'With $30,000 at 6.5% for 10 years, the scheduled payment is about $340.64. Adding $50 makes the monthly amount about $390.64, estimates a 100-month payoff, and saves about $1,985.10 in interest compared with the standard 120-month path.',
+      },
+      {
+        question: 'What rate should I enter for a federal student loan?',
+        answer:
+          'Use the rate from StudentAid.gov or your servicer. Federal student loan rates depend on loan type and first disbursement date. The 6.5% starter example is only a clean test number, not a current-rate promise.',
+      },
+      {
+        question: 'Can I use this for private student loans?',
+        answer:
+          'You can use it for simple fixed-rate payment math, but private loans can have lender rules, fees, variable rates, refinance terms, and payment allocation rules this page does not know. Check the lender agreement before acting.',
+      },
+    ],
+    formulaCheck:
+      'For the starter example, $30,000 at 6.5% over 10 years gives a scheduled payment near $340.64. Adding $50 makes the simulated monthly payment about $390.64.',
+    resultReading:
+      'Start with the scheduled payment, then check payoff time, total interest, and interest saved. A smaller payment can feel easier, but total interest shows what the loan really costs over time.',
+    doubleCheck:
+      'Check the loan balance, annual rate, term, and whether extra payments are applied to principal. For federal loans, compare the result with Federal Student Aid Loan Simulator or your servicer before changing plans.',
+    limitFollowup:
+      'Use Federal Student Aid for official federal repayment-plan choices. Use your servicer or lender for payoff quotes, IDR, deferment, forbearance, forgiveness, capitalization, payment allocation, and private-loan rules.',
   }),
   makeFinanceTool({
     slug: 'college-cost-calculator',

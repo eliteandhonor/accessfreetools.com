@@ -136,6 +136,18 @@ const toolArtMetadataOverrides = {
         'Repayment Calculator guide artwork supports the walkthrough by showing where simple payoff math helps and where official plans, fees, payment timing, and budget limits still matter.',
     },
   },
+  'student-loan-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a student loan screen with $30,000 balance, 6.5 percent annual rate, 10-year term, $50 extra principal, scheduled payment, payoff months, and interest-saved cards.',
+      caption:
+        'Student Loan Calculator artwork matches the live workflow: balance, annual rate, term, extra monthly principal, scheduled payment, payoff time, total interest, and interest saved.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing student loan payment math with Federal Student Aid Loan Simulator notes, interest-rate notes, servicer rules, IDR warnings, and private-loan cautions.',
+      caption:
+        'Student Loan Calculator guide artwork supports the walkthrough by showing where simple payment math helps and where official federal, servicer, and private-loan rules still matter.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',
