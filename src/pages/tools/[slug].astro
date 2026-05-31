@@ -687,6 +687,13 @@ const financeToolInstructions = financeToolVariant
         'Leave deduction blank for the 2026 standard deduction, or enter a custom deduction and credits.',
         'Calculate, then read taxable income, estimated federal tax, effective rate, and marginal bracket as separate numbers.',
       ]
+    : tool.slug === 'marriage-tax-calculator'
+    ? [
+        'Enter each person\'s ordinary income separately.',
+        'Leave deduction fields blank for the 2026 standard deductions, or enter custom deductions for a specific test.',
+        'Add joint credits only if they belong in the married filing jointly estimate.',
+        'Calculate, then compare joint federal tax with the two-single estimate and read whether the difference is positive, negative, or $0.',
+      ]
     : tool.slug === 'investment-calculator'
     ? [
         'Enter the starting money already invested.',
@@ -1915,6 +1922,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Exclusion and excess shown'
               : tool.slug === 'income-tax-calculator'
               ? 'Taxable income and bracket'
+              : tool.slug === 'marriage-tax-calculator'
+              ? 'Joint vs two-single tax'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -1934,6 +1943,22 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
           <p>
             The page uses those IRS ordinary-income brackets only. It does not add state income tax, payroll tax,
             capital gains tax, withholding tables, estimated-tax penalties, AMT, or credit phaseouts.
+          </p>
+        </aside>
+      )
+    }
+
+    {
+      tool.slug === 'marriage-tax-calculator' && (
+        <aside class="trust-note trust-note-finance" aria-label="Marriage Tax Calculator 2026 federal comparison notes">
+          <strong>2026 federal single-vs-joint check</strong>
+          <p>
+            This page compares two single 2026 federal ordinary-income estimates with one married filing jointly estimate.
+            For $90,000 plus $70,000, the simplified difference is $0 because the 2026 joint brackets and deduction line up closely with two single estimates.
+          </p>
+          <p>
+            It does not compare married filing separately, state tax, payroll tax, credits, dependents, phaseouts,
+            AMT, community-property rules, benefits, or whether a filing choice is right for you.
           </p>
         </aside>
       )
@@ -2345,6 +2370,30 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.investor.gov/introduction-investing/getting-started/understanding-fees" rel="noreferrer" target="_blank">
                   Investor.gov fee notes
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'marriage-tax-calculator' ? (
+            <>
+              <strong>Marriage tax comparison, not filing advice</strong>
+              <p>
+                Use this to compare the entered incomes as two single estimates and one married filing jointly estimate.
+                A real return can still change with married filing separately, state tax, payroll tax, credits,
+                dependents, phaseouts, AMT, benefits, and local rules.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill" rel="noreferrer" target="_blank">
+                  IRS 2026 inflation adjustments
+                </a>
+                {', '}
+                <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" rel="noreferrer" target="_blank">
+                  Revenue Procedure 2025-32
+                </a>
+                {', and '}
+                <a href="https://www.irs.gov/publications/p501" rel="noreferrer" target="_blank">
+                  IRS Publication 501 filing-status notes
                 </a>
                 .
               </p>

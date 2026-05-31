@@ -2724,6 +2724,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/marriage-tax-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/marriage-tax-calculator-guide.webp",
+    "alt": "Smoke mascot points between two single tax cards and one married filing jointly card with deduction, bracket, and result notes.",
+    "caption": "The guide artwork follows the walkthrough: enter two incomes, compare two single estimates with married filing jointly, then read the bonus, penalty, or $0 difference.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2732,6 +2734,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/marriage-tax-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/marriage-tax-calculator-tool.webp",
+    "alt": "Smoke mascot compares two single-filer cards with a married filing jointly card, deduction boxes, bracket bars, and a tax difference panel.",
+    "caption": "The tool artwork matches the calculator: two single estimates, one joint estimate, deductions, credits, brackets, and the final marriage difference.",
     "status": "approved",
     "qaStatus": "approved"
   },

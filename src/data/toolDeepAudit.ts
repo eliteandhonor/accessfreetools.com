@@ -626,6 +626,11 @@ const irsRevenueProcedure = {
   label: 'IRS Revenue Procedure 2025-32',
 };
 
+const irsPublication501 = {
+  href: 'https://www.irs.gov/publications/p501',
+  label: 'IRS Publication 501: Filing status and standard deduction',
+};
+
 const irsSalesTax = {
   href: 'https://www.irs.gov/salestax',
   label: 'IRS: Sales Tax Deduction Calculator and state/local sales tax context',
@@ -2893,20 +2898,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'marriage-tax-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-5-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [irsTax2026, irsRevenueProcedure],
+    sources: [irsTax2026, irsRevenueProcedure, irsPublication501],
     findings: [
       'The calculator estimates each person as a single filer, estimates combined income as married filing jointly, then reports the joint tax minus the two-single total.',
-      'The guide now explains how to read positive versus negative marriage difference without calling it filing advice.',
-      'The FAQ and guide keep the simplified federal scope clear because state tax, payroll tax, credits, dependents, AMT, and phaseouts can change the real answer.',
+      'DataForSEO page evidence found demand around married filing jointly tax calculator, taxes married vs single calculator, married vs single tax brackets, marriage tax bonus, and marriage penalty intent.',
+      'The guide now explains why the $90,000 plus $70,000 example can show a $0 difference, and how to read positive versus negative marriage difference without calling it filing advice.',
+      'The FAQ and guide keep the simplified federal scope clear because married filing separately, state tax, payroll tax, credits, dependents, AMT, community-property rules, benefits, and phaseouts can change the real answer.',
     ],
     improvements: [
-      'Added marriage-tax-specific guide detail and manually checked 2026 bracket framing, comparison sign language, examples, FAQ cautions, IRS source coverage, related tools, SEO copy, and privacy note.',
+      'Refreshed marriage-tax-specific title/meta copy, examples with deterministic outputs, input explanations, FAQ cautions, guide sections, trust blocks, image alt/captions, IRS source coverage, dates, and zero-difference result wording.',
     ],
     followUps: [
-      'Add detailed credit and dependent modeling only after a separate tax-data update process exists.',
+      'Add married filing separately, state tax, dependent credits, and phaseout modeling only after a maintained tax-data update process exists.',
     ],
   },
   {

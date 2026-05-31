@@ -550,11 +550,22 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     summary: 'Compare a simplified 2026 federal tax estimate for two single filers versus married filing jointly.',
     description:
       'Use this free marriage tax calculator to compare two single federal tax estimates with a married filing jointly estimate using 2026 ordinary-income brackets.',
+    seoTitle: 'Marriage Tax Calculator | Married vs Single 2026 Estimate',
+    seoDescription:
+      'Compare two single 2026 federal tax estimates with a married filing jointly estimate. See the tax difference, taxable income, and bracket limits.',
     icon: 'calculator-tax',
+    aliases: [
+      'married filing jointly tax calculator',
+      'taxes married vs single calculator',
+      'married vs single tax brackets',
+      'marriage tax bonus calculator',
+      'marriage penalty tax calculator',
+      'tax calculator married filing jointly vs separately',
+    ],
     formula:
       'The calculator estimates each person as a single filer, estimates the combined income as married filing jointly, then subtracts the two-single total from the joint total.',
     limit:
-      'This is a simplified federal ordinary-income estimate. It does not include state tax, payroll tax, phaseouts, itemized deduction limits, AMT, credits, dependents, or filing advice.',
+      'This is a simplified 2026 federal ordinary-income estimate. It does not include married filing separately, state tax, payroll tax, capital gains, phaseouts, itemized deduction limits, AMT, most credits, dependents, community-property rules, benefits, student-loan rules, or filing advice.',
     useCases: [
       'Compare whether the entered incomes show a rough marriage bonus or penalty.',
       'Test how custom deductions or joint credits affect the simple comparison.',
@@ -562,11 +573,60 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Use as an education screen, not as tax filing guidance.',
     ],
     examples: [
-      { label: 'Two earners', expression: '$90,000 and $70,000 income', result: 'Joint vs two-single tax comparison' },
-      { label: 'One higher earner', expression: '$180,000 and $25,000 income', result: 'Marriage difference estimate' },
-      { label: 'Custom deductions', expression: 'Two incomes with custom deduction entries', result: 'Adjusted comparison' },
+      { label: 'Two earners', expression: '$90,000 and $70,000 income', result: '$17,540 joint tax and $17,540 as two single estimates, so $0 difference' },
+      { label: 'One higher earner', expression: '$180,000 and $25,000 income', result: 'About $5,384 lower tax as married filing jointly in this simple model' },
+      { label: 'Custom deductions', expression: '$120,000 and $80,000 income, custom deductions, and $1,000 joint credits', result: 'About $1,858 lower tax after the entered deduction and credit assumptions' },
     ],
     relatedSlugs: ['income-tax-calculator', 'salary-calculator', 'take-home-paycheck-calculator'],
+    inputExplanations: [
+      { term: 'Person 1 income', meaning: 'ordinary income for the first person before the deduction entered on this page.' },
+      { term: 'Person 2 income', meaning: 'ordinary income for the second person before the deduction entered on this page.' },
+      { term: 'Single deductions', meaning: 'optional custom deductions for the two separate single estimates. Leave blank to use the 2026 single standard deduction.' },
+      { term: 'Joint deduction', meaning: 'optional custom deduction for the married filing jointly estimate. Leave blank to use the 2026 joint standard deduction.' },
+      { term: 'Joint credits', meaning: 'credits you want to subtract from the joint federal estimate only in this simple comparison.' },
+    ],
+    formulaCheck:
+      '$90,000 plus $70,000 gives $17,540 as two single estimates and $17,540 as married filing jointly, so the simplified difference is $0. $180,000 plus $25,000 gives about a $5,384 lower joint estimate.',
+    resultReading:
+      'A negative marriage difference means the joint estimate is lower than the two-single estimate. A positive difference means the joint estimate is higher. A $0 difference means this simple 2026 bracket-and-deduction model did not find a bonus or penalty.',
+    doubleCheck:
+      'Check both incomes, whether deductions are blank or custom, and whether credits belong in the joint-credit field. Then remember that state tax, payroll tax, dependents, phaseouts, benefits, and married filing separately can change the real answer.',
+    limitFollowup:
+      'Use IRS filing-status rules, current tax forms, and a qualified tax professional for filing decisions. This page is only a quick federal ordinary-income comparison.',
+    priorityFaq: [
+      {
+        question: 'What does marriage bonus or penalty mean here?',
+        answer:
+          'On this page, a marriage bonus means the married filing jointly estimate is lower than two single estimates. A penalty means the joint estimate is higher. It is only a simplified federal comparison, not a filing recommendation.',
+      },
+      {
+        question: 'Why can $90,000 and $70,000 show no difference?',
+        answer:
+          'For that example, the 2026 married filing jointly standard deduction and bracket thresholds line up closely with two single estimates. The calculator gets $17,540 either way, so the difference is $0.',
+      },
+      {
+        question: 'Does this compare married filing jointly with married filing separately?',
+        answer:
+          'No. It compares two single estimates with one married filing jointly estimate. Married filing separately has its own limits, credits, state rules, and community-property issues, so this page does not choose a filing status for you.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Does this include state tax or payroll tax?',
+        answer:
+          'No. It only estimates 2026 federal ordinary income tax. State income tax, Social Security tax, Medicare tax, local tax, and benefit rules can change the real cost.',
+      },
+      {
+        question: 'Do credits and dependents change the answer?',
+        answer:
+          'Yes. Dependents, education credits, child tax credit rules, earned income credit, phaseouts, and other credits can change the real result. This calculator only has one simple joint-credit field.',
+      },
+      {
+        question: 'Can I use this to decide whether getting married is worth it?',
+        answer:
+          'No. Use it to understand one tax estimate. Marriage affects legal, benefit, state, household, insurance, debt, and planning questions that a calculator like this cannot decide.',
+      },
+    ],
   },
   {
     slug: 'estate-tax-calculator',

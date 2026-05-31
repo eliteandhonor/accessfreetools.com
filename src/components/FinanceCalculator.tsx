@@ -1702,7 +1702,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Marriage Tax Calculator',
     buttonLabel: 'Compare tax',
     emptyHistory: 'Recent marriage tax comparisons will appear here.',
-    privacyNote: 'Marriage tax estimates use simplified 2026 federal ordinary-income brackets only and are not tax advice.',
+    privacyNote: 'Marriage tax estimates use simplified 2026 federal ordinary-income brackets only. They are not filing, payroll, state-tax, or benefits advice.',
     modes: [
       {
         id: 'marriage-tax',
@@ -3918,8 +3918,15 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         credits: parseNumber(inputs.credits, 'Credits'),
       });
 
+      const comparisonLabel =
+        result.marriageDifference > 0
+          ? 'Estimated marriage penalty'
+          : result.marriageDifference < 0
+            ? 'Estimated marriage bonus'
+            : 'No estimated marriage difference';
+
       return {
-        label: result.marriageDifference > 0 ? 'Estimated marriage penalty' : 'Estimated marriage bonus',
+        label: comparisonLabel,
         expression: `${compactMoney(result.spouseOneTax.grossIncome)} + ${compactMoney(result.spouseTwoTax.grossIncome)} compared with joint filing`,
         answer: money(Math.abs(result.marriageDifference)),
         metrics: [
@@ -3933,7 +3940,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Estimate the same income as married filing jointly.',
           'Subtract the combined single estimate from the joint estimate.',
         ],
-        note: 'This excludes state tax, payroll tax, credits, phaseouts, itemized deduction limits, AMT, and many tax details.',
+        note: 'This excludes married filing separately, state tax, payroll tax, capital gains, most credits, dependents, phaseouts, itemized deduction limits, AMT, community-property rules, benefits, and filing advice.',
       };
     }
     case 'estate-tax': {

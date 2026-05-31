@@ -99,6 +99,10 @@ const sourceLinks = {
     href: 'https://www.irs.gov/pub/irs-drop/rp-25-32.pdf',
     label: 'IRS Revenue Procedure 2025-32',
   },
+  irsPublication501: {
+    href: 'https://www.irs.gov/publications/p501',
+    label: 'IRS Publication 501: Filing status and standard deduction',
+  },
   irs401k: {
     href: 'https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-401k-and-profit-sharing-plan-contribution-limits',
     label: 'IRS: 401(k) and profit-sharing plan contribution limits',
@@ -738,7 +742,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'marriage-tax-calculator') {
-    return [sourceLinks.irs2026, sourceLinks.irsRevenueProcedure];
+    return [sourceLinks.irs2026, sourceLinks.irsRevenueProcedure, sourceLinks.irsPublication501];
   }
 
   if (toolSlug === 'sales-tax-calculator') {
@@ -2274,22 +2278,24 @@ const guideDetails: Record<string, GuideDetail> = {
     purpose:
       'The Marriage Tax Calculator is a simplified federal tax comparison. It answers one narrow question: with the incomes and deductions entered, does the joint estimate look higher or lower than two single estimates?',
     enter: [
-      'Enter each person\'s income separately.',
-      'Use deduction fields only if you want to override the default 2026 standard deduction style assumptions.',
-      'Enter joint credits if you want to reduce the married filing jointly estimate in the comparison.',
+      'Enter each person\'s ordinary income separately.',
+      'Leave the single deduction fields blank to use the 2026 single standard deduction, or enter custom deductions if you are testing a specific scenario.',
+      'Leave the joint deduction blank to use the 2026 married filing jointly standard deduction, then add joint credits only if they belong in the simple comparison.',
     ],
     example: [
-      '$90,000 and $70,000 are first estimated as two single filers.',
-      'Then the calculator combines the income as married filing jointly and subtracts the two-single total from the joint total.',
+      '$90,000 and $70,000 are first estimated as two single filers. The two-single estimate is $17,540.',
+      'Then the calculator combines the income as married filing jointly. The joint estimate is also $17,540, so the simplified difference is $0.',
+      'For $180,000 and $25,000, the joint estimate is about $5,384 lower than the two-single estimate in this model.',
     ],
     read: [
       'A negative marriage difference means the joint estimate is lower than the two-single estimate.',
       'A positive marriage difference means the joint estimate is higher in this simplified model.',
+      'A $0 difference means this bracket-and-deduction check did not find a bonus or penalty for the numbers entered.',
       'The marginal bracket lines are clues, not a full tax return.',
     ],
     mistakes: [
       'Do not use this for filing advice or wedding decisions.',
-      'Do not forget state tax, payroll tax, credits, dependents, AMT, itemized deductions, student loans, benefits, and phaseouts.',
+      'Do not forget state tax, payroll tax, credits, dependents, AMT, itemized deductions, student loans, community-property rules, benefits, and phaseouts.',
       'Do not assume a marriage bonus or penalty stays the same when income changes.',
     ],
     next: ['Use Income Tax Calculator for one filing-status estimate.', 'Use Take-Home-Paycheck Calculator to estimate paycheck impact separately.'],
@@ -2947,6 +2953,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Income Tax Calculator Guide';
   }
 
+  if (tool.slug === 'marriage-tax-calculator') {
+    return 'Marriage Tax Calculator Guide';
+  }
+
   if (tool.slug === 'investment-calculator') {
     return 'Investment Calculator Guide';
   }
@@ -2998,6 +3008,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate 2026 federal income tax from filing status, deduction, credits, taxable income, effective rate, and marginal bracket.';
   }
 
+  if (tool.slug === 'marriage-tax-calculator') {
+    return 'Compare two single 2026 federal tax estimates with married filing jointly, including bracket, deduction, bonus, and penalty limits.';
+  }
+
   if (tool.slug === 'investment-calculator') {
     return 'Project an investment balance from starting money, monthly deposits, estimated return, and time, with risk, fee, inflation, and tax limits.';
   }
@@ -3035,6 +3049,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isEstateTaxGuide = tool.slug === 'estate-tax-calculator';
   const isInterestRateGuide = tool.slug === 'interest-rate-calculator';
   const isIncomeTaxGuide = tool.slug === 'income-tax-calculator';
+  const isMarriageTaxGuide = tool.slug === 'marriage-tax-calculator';
   const isInvestmentGuide = tool.slug === 'investment-calculator';
 
   return {
@@ -3068,6 +3083,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A loan quote can hide the rate behind one neat monthly payment. This guide shows how amount financed, payment, and term turn into an estimated rate before fees or APR rules change the story.'
       : isIncomeTaxGuide
       ? 'Federal income tax is not one flat percent of your whole paycheck. This guide shows how filing status, deduction, credits, taxable income, effective rate, and marginal bracket fit together for a 2026 estimate.'
+      : isMarriageTaxGuide
+      ? 'Marriage tax math is not about guessing whether marriage is good or bad. This guide shows the exact small comparison this tool makes: two single 2026 federal estimates versus one married filing jointly estimate.'
       : isInvestmentGuide
       ? 'An investment projection can look powerful, but it is still a what-if. This guide shows how starting money, monthly deposits, estimated return, and years turn into ending balance, contributions, and growth.'
       : `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
@@ -3167,6 +3184,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Leave deduction blank for the 2026 standard deduction, or enter a custom deduction and credits.',
           'Calculate, then read taxable income, estimated federal tax, effective rate, and marginal bracket separately.',
         ]
+      : isMarriageTaxGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter each person\'s ordinary income separately.',
+          'Leave the deduction fields blank for the 2026 standard deductions, or add custom deductions for a specific test.',
+          'Add joint credits only if they belong in the married filing jointly estimate.',
+          'Calculate, then compare joint federal tax with the two-single estimate and read the difference sign carefully.',
+        ]
       : isInvestmentGuide
       ? [
           `Open the ${tool.name}.`,
@@ -3198,6 +3223,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before comparing personal loan, school loan, equipment loan, or fixed-payment debt scenarios. It is a payment estimate, not an approval or APR disclosure.'
             : isFinanceGuide
             ? 'Use it when you want a first-pass savings, investing, or general money projection before picking a more specific calculator. It is a scenario check, not a promise about the future.'
+            : isMarriageTaxGuide
+            ? 'Use it when you want to see whether the numbers you enter create a rough federal marriage bonus, penalty, or no difference before you look at the bigger tax details.'
             : isInvestmentGuide
             ? 'Use it when you want to test a habit, like adding $250 a month, before deciding whether the goal needs more money, more time, or a lower-risk plan. It is projection math, not investment advice.'
             : isFhaLoanGuide
@@ -3226,6 +3253,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Loan estimates get misleading when the payment is the only number checked. Enter amount, rate, and term, then compare payment with total interest and the written APR or fee disclosure.'
             : isFinanceGuide
             ? 'Finance projections get misleading when monthly deposits, annual rates, and years get mixed up. Enter the starting amount, monthly deposit, estimated rate, and time as separate pieces.'
+            : isMarriageTaxGuide
+            ? 'Marriage-tax comparisons get misleading when the two incomes, deductions, and credits are mashed together too early. Keep each single estimate separate, then compare it with the joint estimate.'
             : isInvestmentGuide
             ? 'Investment projections get misleading when a return guess is treated like a promise. Keep starting money, monthly deposits, estimated annual return, and years separate, then test a lower return before trusting the number.'
             : isFhaLoanGuide
@@ -3258,6 +3287,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $12,000 at 9.5% for 4 years. The estimate is about $301.48 per month, about $14,470.93 total paid, and about $2,470.93 interest across 48 payments. That still does not include lender fees or penalties.'
             : isFinanceGuide
               ? 'Try the starter example: $2,000 plus $150 each month at 5% for 8 years. The estimate is about $20,642.25, with $16,400 from contributions and about $4,242.25 from the rate assumption.'
+            : isMarriageTaxGuide
+              ? 'Try the starter example: $90,000 and $70,000 with the default 2026 deductions. The two-single estimate is $17,540, the married filing jointly estimate is $17,540, and the simplified difference is $0.'
             : isInvestmentGuide
               ? 'Try the starter example: $5,000 plus $250 each month at 7% for 20 years. The estimate is about $150,425.36, with $65,000 from contributions and about $85,425.36 from the return assumption.'
             : isFhaLoanGuide
@@ -3289,6 +3320,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The calculator uses fixed-rate amortization math. It converts the annual rate into a monthly rate, uses the number of monthly payments, and solves for the payment that pays the balance down to zero. If the rate is 0%, it simply divides principal by the number of payments.'
             : isFinanceGuide
             ? 'The calculator converts the annual rate into monthly growth, compounds the starting amount, then adds each monthly deposit at the end of the month. Estimated growth equals ending balance minus starting money and deposits.'
+            : isMarriageTaxGuide
+            ? 'The calculator estimates person 1 as single, person 2 as single, then the same combined income as married filing jointly. The difference is joint federal tax minus the two-single total, so negative is lower joint tax and positive is higher joint tax.'
             : isInvestmentGuide
             ? 'The calculator converts the annual return assumption into monthly growth, compounds the starting money, then adds each monthly contribution as an end-of-month deposit. Estimated growth equals ending balance minus the money you put in.'
             : isFhaLoanGuide
@@ -3319,6 +3352,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with monthly payment, then check total paid and total interest. A lower payment can still be the worse deal if the term is much longer.'
             : isFinanceGuide
             ? 'Start with ending balance, then check total contributions and estimated growth. That shows how much came from your deposits and how much came from the rate assumption.'
+            : isMarriageTaxGuide
+            ? 'Start with the difference, then check joint federal tax, two single returns, joint taxable income, and the joint marginal bracket. A $0 difference is a real answer, not an error.'
             : isInvestmentGuide
             ? 'Start with ending balance, then check total contributions and estimated growth. If growth is most of the answer, test a lower return so the plan is not balanced on one hopeful number.'
             : isFhaLoanGuide
@@ -3350,6 +3385,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad loan estimates come from comparing by payment alone, mixing APR with contract interest rate, ignoring origination fees, skipping prepayment terms, or forgetting that lender rounding can move the final number.'
             : isFinanceGuide
             ? 'Most bad finance projections come from using a rate that is too hopeful, mixing monthly deposits with yearly deposits, or forgetting that tax, fees, inflation, withdrawals, and losses can change the real result.'
+            : isMarriageTaxGuide
+            ? 'Most bad marriage-tax estimates come from treating this as filing advice, forgetting state or payroll tax, ignoring dependent and credit phaseouts, or assuming the result stays the same at every income level.'
             : isInvestmentGuide
             ? 'Most bad investment projections come from using one high return, forgetting fees and taxes, skipping inflation, or acting like the market grows smoothly every year.'
             : isFhaLoanGuide
@@ -3381,6 +3418,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help after the quick payment estimate. The next question is usually a simpler payment check, a full amortization schedule, or the rate implied by a quoted payment.'
             : isFinanceGuide
             ? 'A related tool can help after the first projection. The next question is usually investment-specific growth, compound-interest details, or debt payment math.'
+            : isMarriageTaxGuide
+            ? 'A related tool can help after the comparison. The next question is usually a one-status federal estimate, paycheck withholding, or gross-salary planning.'
             : isInvestmentGuide
             ? 'A related tool can help after the first investment projection. The next question is usually compounding detail, inflation pressure, or whether the same goal belongs in a retirement plan.'
             : isFhaLoanGuide
@@ -3448,6 +3487,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/inflation-calculator/', label: 'Test buying-power pressure' },
               { href: '/tools/retirement-calculator/', label: 'Compare with a retirement target' },
             ]
+          : isMarriageTaxGuide
+          ? [
+              { href: '/tools/marriage-tax-calculator/', label: 'Open the Marriage Tax Calculator' },
+              { href: '/tools/income-tax-calculator/', label: 'Run one filing-status estimate' },
+              { href: '/tools/take-home-paycheck-calculator/', label: 'Check paycheck withholding separately' },
+              { href: '/tools/salary-calculator/', label: 'Convert salary before tax' },
+            ]
           : isInterestRateGuide
           ? [
               { href: '/tools/interest-rate-calculator/', label: 'Open the Interest Rate Calculator' },
@@ -3504,6 +3550,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'CFPB explains why a loan interest rate and APR are not the same thing, and Regulation Z shows why APR disclosures follow specific rules. The Minneapolis Fed adds useful context: consumer rates can depend on funding costs, benchmarks, lender margin, credit risk, and the type of loan.'
             : isIncomeTaxGuide
             ? 'IRS 2026 inflation-adjustment sources set the standard deductions and ordinary income bracket thresholds used here. IRS withholding sources, including Publication 15-T and Publication 505, are useful because tax owed, paycheck withholding, estimated tax, and refund size are different questions.'
+            : isMarriageTaxGuide
+            ? 'IRS 2026 inflation-adjustment sources set the standard deductions and ordinary bracket thresholds used here. IRS Publication 501 is useful because filing status rules matter before anyone treats a calculator result like a filing decision.'
             : sourceLinks.length > 0
             ? 'This guide links to public financial, consumer, statistical, or tax references where they are useful for understanding the calculator context.'
             : 'This guide explains the calculator inputs, formula context, and estimate limits without treating the result as a final quote or professional recommendation.',
@@ -3533,6 +3581,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not calculate official APR, read lender fees, approve credit, handle changing rates, or replace the Truth in Lending or loan documents you get before signing.'
             : isIncomeTaxGuide
             ? 'This calculator still stays simple. It does not file a return, calculate state tax, payroll tax, capital gains, AMT, penalties, every credit, withholding, or refund size.'
+            : isMarriageTaxGuide
+            ? 'This calculator still stays simple. It does not file a return, compare married filing separately, calculate state tax, payroll tax, capital gains, every credit, dependents, AMT, phaseouts, community-property rules, or benefit changes.'
             : 'Source links improve transparency, but they do not turn a quick calculator into professional advice or a final loan, tax, payroll, or investment answer.',
         ],
         links: sourceLinks,
@@ -3564,6 +3614,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Interest Rate Calculator open beside this guide. Try $25,000, $483.32/month, and 5 years first, then change only the payment so you can see how quickly the estimated rate moves.'
       : isIncomeTaxGuide
       ? 'Keep the Income Tax Calculator open beside this guide. Try the $100,000 single example first, then change only the filing status so you can see how the deduction and brackets move.'
+      : isMarriageTaxGuide
+      ? 'Keep the Marriage Tax Calculator open beside this guide. Try $90,000 and $70,000 first, then change only one income so you can see when the difference moves.'
       : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,
   };
 });

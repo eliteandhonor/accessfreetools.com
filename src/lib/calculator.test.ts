@@ -1463,6 +1463,15 @@ describe('finance helpers', () => {
 
   it('calculates the remaining finance roadmap estimates', () => {
     const marriage = calculateMarriageTaxComparison({ spouseOneIncome: 90000, spouseTwoIncome: 70000 });
+    const marriageBonus = calculateMarriageTaxComparison({ spouseOneIncome: 180000, spouseTwoIncome: 25000 });
+    const marriageCustom = calculateMarriageTaxComparison({
+      spouseOneIncome: 120000,
+      spouseTwoIncome: 80000,
+      spouseOneDeduction: 18000,
+      spouseTwoDeduction: 16100,
+      jointDeduction: 38000,
+      credits: 1000,
+    });
     const estate = calculateEstateTaxEstimate({ grossEstate: 18000000, debtsAndExpenses: 500000 });
     const socialSecurity = calculateSocialSecurityClaiming({
       birthYear: 1962,
@@ -1575,7 +1584,14 @@ describe('finance helpers', () => {
       years: 25,
     });
 
-    expect(marriage.jointTax.federalTax).toBeGreaterThan(0);
+    expect(marriage.jointTax.federalTax).toBe(17540);
+    expect(marriage.combinedSingleTax).toBe(17540);
+    expect(marriage.marriageDifference).toBe(0);
+    expect(marriageBonus.marriageDifference).toBe(-5384);
+    expect(marriageBonus.jointTax.federalTax).toBe(27440);
+    expect(marriageBonus.combinedSingleTax).toBe(32824);
+    expect(marriageCustom.marriageDifference).toBe(-1858);
+    expect(marriageCustom.jointTax.federalTax).toBe(24064);
     expect(estate.taxableAboveExclusion).toBe(2500000);
     expect(socialSecurity.monthlyBenefit).toBeGreaterThan(socialSecurity.fullRetirementAgeBenefit);
     expect(rmd.lifeExpectancyFactor).toBe(24.6);
