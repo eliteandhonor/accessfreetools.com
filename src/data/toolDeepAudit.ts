@@ -146,6 +146,11 @@ const openStaxDistance = {
   label: 'OpenStax Intermediate Algebra: Distance, midpoint, and circles',
 };
 
+const khanHeronsFormula = {
+  href: 'https://www.khanacademy.org/math/geometry-home/geometry-volume-surface-area/heron-formula-tutorial/v/heron-s-formula',
+  label: 'Khan Academy: Heron\'s formula',
+};
+
 const openStaxSequences = {
   href: 'https://openstax.org/books/intermediate-algebra-2e/pages/12-1-sequences',
   label: 'OpenStax Intermediate Algebra: Sequences',
@@ -5457,17 +5462,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'triangle-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [openStaxGeometry, openStaxDistance],
+    sources: [openStaxGeometry, khanHeronsFormula, googleHelpfulContent],
     findings: [
-      'The triangle helper validates the triangle inequality and returns perimeter, area, and angle-style outputs from side lengths.',
-      'Tests cover a 13-14-15 triangle and invalid 1-2-3 side lengths.',
-      'The FAQ explains that impossible side combinations are rejected instead of producing fake geometry.',
+      'The triangle helper validates the triangle inequality before returning perimeter, semiperimeter, area, side type, angle type, and angle estimates from three side lengths.',
+      'The page now explains the 13-14-15 example with perimeter 42, semiperimeter 21, and area 84, plus the 3-4-5 right-triangle check.',
+      'The FAQ explains three-side mode, base-height limits, unit handling, angle rounding, side order, decimal sides, right-triangle alternatives, and private tab-only history.',
     ],
     improvements: [
-      'Manually checked triangle side validation, area/perimeter wording, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Updated triangle metadata, examples, FAQ depth, guide sections, source links, image alt/caption text, tool instructions, formula trust note, tests, and modified dates using OpenStax, Khan Academy, Google Search Central, DataForSEO, and browser proof.',
     ],
     followUps: [
       'Add angle-input solving later only with clear SSA ambiguity handling.',

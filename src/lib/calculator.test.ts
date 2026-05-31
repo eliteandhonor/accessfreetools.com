@@ -501,8 +501,27 @@ describe('geometry helpers', () => {
 
     expect(formatCalculatorNumber(result.area)).toBe('84');
     expect(formatCalculatorNumber(result.perimeter)).toBe('42');
+    expect(formatCalculatorNumber(result.semiperimeter)).toBe('21');
     expect(result.sideType).toBe('scalene');
     expect(result.angleType).toBe('acute');
+  });
+
+  it('classifies common triangle side sets', () => {
+    const rightTriangle = calculateTriangleFromSides(3, 4, 5);
+    const isoscelesTriangle = calculateTriangleFromSides(8, 8, 10);
+    const equilateralTriangle = calculateTriangleFromSides(2, 2, 2);
+
+    expect(formatCalculatorNumber(rightTriangle.area)).toBe('6');
+    expect(formatCalculatorNumber(rightTriangle.angleC)).toBe('90');
+    expect(rightTriangle.sideType).toBe('scalene');
+    expect(rightTriangle.angleType).toBe('right');
+
+    expect(formatCalculatorNumber(isoscelesTriangle.area)).toBe('31.224989992');
+    expect(isoscelesTriangle.sideType).toBe('isosceles');
+    expect(isoscelesTriangle.angleType).toBe('acute');
+
+    expect(equilateralTriangle.sideType).toBe('equilateral');
+    expect(equilateralTriangle.angleType).toBe('acute');
   });
 
   it('calculates common area, volume, and surface area formulas', () => {

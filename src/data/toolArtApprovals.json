@@ -4584,6 +4584,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/triangle-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/triangle-calculator-guide.webp",
+    "alt": "Smoke mascot explaining a 13-14-15 triangle with three side labels, angle arcs, and an area shape.",
+    "caption": "The guide art follows the same three-side example: 13, 14, and 15 become semiperimeter 21 and area 84.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -4592,6 +4594,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/triangle-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/triangle-calculator-tool.webp",
+    "alt": "Smoke mascot beside a labeled triangle, side-length inputs, angle arcs, and a small area grid.",
+    "caption": "The tool art matches the SSS workflow: enter three side lengths, then check area, perimeter, angles, and triangle type.",
     "status": "approved",
     "qaStatus": "approved"
   },

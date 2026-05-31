@@ -9,35 +9,79 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   title="How to use the Triangle Calculator"
   description="Learn how to calculate triangle area, perimeter, angles, and triangle type from three side lengths."
   path="/blog/how-to-use-triangle-calculator/"
-  intro="The Triangle Calculator takes three side lengths and turns them into area, perimeter, angles, and triangle classification."
+  intro="Use this guide when you know the three sides of a triangle, but not the height. The calculator checks whether the sides can make a real triangle, then shows the area, perimeter, angles, and type."
   quickStart={[
     'Enter side a, side b, and side c using the same unit.',
-    'Add a unit label if you want the result to show cm, m, in, or another unit.',
+    'Add a unit label like cm, m, or in if you want the result labels to match your work.',
     'Press Calculate triangle.',
-    'Review area, perimeter, semiperimeter, angles, side type, and angle type.',
+    'Check the area, perimeter, semiperimeter, angle estimates, side type, and angle type before copying.',
   ]}
   sections={[
     {
       title: 'When to use three-side triangle mode',
       paragraphs: [
-        'Use this calculator when you know all three side lengths but do not know the height. The calculator first checks that the sides can form a real triangle.',
-        'After the sides pass the triangle inequality check, it uses Heron\'s formula for area and the law of cosines for angle estimates.',
+        'Use the Triangle Calculator when the problem gives you three sides, such as 13 cm, 14 cm, and 15 cm. You do not need the height for this mode.',
+        'The calculator first checks the triangle inequality. If one side is too long, like 1, 2, and 3, the sides cannot close into a triangle and the page stops instead of making up an area.',
+      ],
+      links: [
+        { href: 'https://accessfreetools.com/tools/triangle-calculator/', label: 'Open the Access Free Tools Triangle Calculator' },
+        { href: '/tools/area-calculator/', label: 'Use base and height in the Area Calculator' },
+      ],
+    },
+    {
+      title: 'Example: 13, 14, and 15',
+      paragraphs: [
+        'Enter 13, 14, and 15 with cm as the unit. The perimeter is 42 cm, so the semiperimeter is 21 cm.',
+        'Heron\'s formula becomes sqrt(21 x 8 x 7 x 6), which gives an area of 84 cm^2. The angle estimates are all under 90 degrees, so this is a scalene acute triangle.',
+      ],
+      bullets: [
+        'Perimeter: 13 + 14 + 15 = 42 cm.',
+        'Semiperimeter: 42 / 2 = 21 cm.',
+        'Area: 84 cm^2.',
+        'Type: scalene acute triangle.',
+      ],
+    },
+    {
+      title: 'Example: 3, 4, and 5',
+      paragraphs: [
+        'Enter 3, 4, and 5 with m as the unit. The calculator returns area 6 m^2 and perimeter 12 m.',
+        'Because 3^2 + 4^2 = 5^2, the angle across from side 5 is 90 degrees. The page labels it as a scalene right triangle.',
+      ],
+      links: [
+        { href: '/tools/right-triangle-calculator/', label: 'Right Triangle Calculator' },
+        { href: '/tools/pythagorean-theorem-calculator/', label: 'Pythagorean Theorem Calculator' },
       ],
     },
     {
       title: 'Reading the answer',
       paragraphs: [
-        'Area is shown in square units. Perimeter and semiperimeter are shown in the same length unit you entered.',
-        'The classification helps you spot whether the triangle is scalene, isosceles, equilateral, acute, right, or obtuse.',
+        'Area is shown in square units because it measures the space inside the triangle. If you enter inches, the area is square inches.',
+        'Perimeter and semiperimeter stay in the length unit you entered. The side type tells you whether sides match. The angle type tells you whether the triangle is acute, right, or obtuse.',
       ],
     },
     {
-      title: 'Common mistakes to avoid',
+      title: 'Mistakes to check before trusting it',
       paragraphs: [
-        'Do not mix units in the same calculation. Convert all sides first if one side is in inches and another is in centimeters.',
-        'If the calculator says the triangle inequality fails, the three side lengths cannot close into a triangle.',
+        'Do not mix units in one calculation. Convert everything first if one side is in inches and another side is in centimeters.',
+        'Do not use this page when you only know base and height. Use the Area Calculator for that job, because Heron\'s formula needs all three side lengths.',
+      ],
+      bullets: [
+        'If the result says the triangle inequality fails, re-check the side numbers before changing formulas.',
+        'If your homework uses exact radicals, copy the decimal as a check, not as the final exact form.',
+        'If a drawing looks right but the numbers fail, one side may be measured from the wrong endpoint.',
+      ],
+    },
+    {
+      title: 'Sources used for this guide',
+      paragraphs: [
+        'The page uses standard triangle perimeter, area, and angle rules. These links are useful if you want to compare the formula notes before using the result in homework or a project.',
+      ],
+      links: [
+        { href: 'https://openstax.org/books/prealgebra-2e/pages/c-geometric-formulas', label: 'OpenStax Prealgebra: Geometric formulas' },
+        { href: 'https://www.khanacademy.org/math/geometry-home/geometry-volume-surface-area/heron-formula-tutorial/v/heron-s-formula', label: 'Khan Academy: Heron\'s formula' },
+        { href: 'https://developers.google.com/search/docs/fundamentals/creating-helpful-content', label: 'Google Search Central: helpful, reliable, people-first content' },
       ],
     },
   ]}
-  sidecarText="Use the Triangle Calculator while you follow the guide."
+  sidecarText="Open the Triangle Calculator and test 13, 14, 15 or 3, 4, 5 while you read."
 />

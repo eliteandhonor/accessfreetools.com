@@ -551,10 +551,10 @@ const statsToolInstructions: Record<string, string[]> = {
 };
 const geometryToolInstructions: Record<string, string[]> = {
   'triangle-calculator': [
-    'Enter the three side lengths of the triangle.',
-    'Add an optional unit label such as cm, m, or in.',
-    'Press Calculate triangle to find area, perimeter, angles, and triangle type.',
-    'Use examples, recent answers, or copy the result while checking geometry work.',
+    'Enter the three side lengths from the same triangle, such as 13, 14, and 15.',
+    'Use one unit for all three sides and add an optional label such as cm, m, or in.',
+    'Press Calculate triangle to check the triangle inequality, area, perimeter, angles, and type.',
+    'If you only know base and height, use the Area Calculator instead of this three-side mode.',
   ],
   'volume-calculator': [
     'Choose the solid shape: rectangular prism, cube, cylinder, sphere, or cone.',
@@ -1849,9 +1849,9 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isGeometryTool && (
         <div class="advanced-tool-points" aria-label={`${tool.name} highlights`}>
-          <span>Unit-aware inputs</span>
-          <span>Formula note</span>
-          <span>Example numbers</span>
+          <span>{tool.slug === 'triangle-calculator' ? '3-side check' : 'Unit-aware inputs'}</span>
+          <span>{tool.slug === 'triangle-calculator' ? 'Heron formula steps' : 'Formula note'}</span>
+          <span>{tool.slug === 'triangle-calculator' ? 'Angle estimates' : 'Example numbers'}</span>
           <span>Tab-only history</span>
         </div>
       )
@@ -1918,6 +1918,30 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
           <span>Lazy model loading</span>
           <span>Copy after checking</span>
         </div>
+      )
+    }
+
+    {
+      tool.slug === 'triangle-calculator' && (
+        <aside class="trust-note" aria-label="Triangle Calculator formula notes">
+          <strong>Three sides only</strong>
+          <p>
+            Use this page when you know all three side lengths. It checks the triangle inequality first,
+            then uses Heron&apos;s formula for area and the law of cosines for the angle estimates.
+            If you know base and height instead, use the Area Calculator triangle mode.
+          </p>
+          <p>
+            Sources used for this review:{' '}
+            <a href="https://openstax.org/books/prealgebra-2e/pages/c-geometric-formulas" rel="noreferrer" target="_blank">
+              OpenStax geometric formulas
+            </a>
+            {' and '}
+            <a href="https://www.khanacademy.org/math/geometry-home/geometry-volume-surface-area/heron-formula-tutorial/v/heron-s-formula" rel="noreferrer" target="_blank">
+              Khan Academy Heron&apos;s formula
+            </a>
+            .
+          </p>
+        </aside>
       )
     }
 

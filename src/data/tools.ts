@@ -2075,27 +2075,27 @@ const baseTools: ToolDefinition[] = [
     category: 'calculators',
     summary: 'Find triangle area, perimeter, angles, and type from three side lengths.',
     description:
-      'Use this free triangle calculator to enter three sides and find area with Heron\'s formula, perimeter, semiperimeter, angles, side type, and angle type.',
+      'Enter three triangle sides and get the area, perimeter, semiperimeter, angles, and triangle type with the formula steps shown.',
     icon: 'calculator-triangle',
     seoTitle: 'Triangle Calculator | Area, Perimeter, and Angles',
     seoDescription:
-      'Calculate triangle area, perimeter, semiperimeter, angles, and triangle type from three side lengths with formula steps.',
+      'Calculate triangle area, perimeter, semiperimeter, angles, and triangle type from three side lengths with Heron formula steps.',
     useCases: [
       'Find the area of a triangle when you know all three side lengths.',
-      'Check whether side lengths form a valid triangle.',
+      'Check whether three side lengths can close into a real triangle.',
       'Estimate triangle angles with the law of cosines.',
-      'Classify triangles as scalene, isosceles, equilateral, acute, right, or obtuse.',
+      'Tell whether the triangle is scalene, isosceles, equilateral, acute, right, or obtuse.',
     ],
     examples: [
-      { label: 'Classic Heron example', expression: '13, 14, 15', result: 'Area = 84' },
-      { label: 'Right triangle', expression: '3, 4, 5', result: 'Area = 6' },
-      { label: 'Isosceles triangle', expression: '8, 8, 10', result: 'Area = 31.2249899919' },
+      { label: 'Classic Heron example', expression: '13, 14, 15 cm', result: 'Area = 84 cm^2, perimeter = 42 cm' },
+      { label: 'Right triangle check', expression: '3, 4, 5 m', result: 'Area = 6 m^2, scalene right triangle' },
+      { label: 'Isosceles triangle', expression: '8, 8, 10 in', result: 'Area is about 31.22 in^2' },
     ],
     faq: [
       {
         question: 'What can I use the Triangle Calculator for?',
         answer:
-          'Use it to calculate triangle area, perimeter, semiperimeter, angles, and triangle type when you know all three side lengths.',
+          'Use it when you know all three side lengths and want area, perimeter, semiperimeter, angles, and triangle type in one check.',
       },
       {
         question: 'What formula does the Triangle Calculator use?',
@@ -2103,14 +2103,34 @@ const baseTools: ToolDefinition[] = [
           'It uses Heron\'s formula for area: s = (a + b + c) / 2, then area = sqrt(s(s-a)(s-b)(s-c)). Angles are estimated with the law of cosines.',
       },
       {
-        question: 'Can any three numbers make a triangle?',
+        question: 'Can any three side lengths make a triangle?',
         answer:
-          'No. The sides must pass the triangle inequality: each pair of sides must add to more than the third side.',
+          'No. The sides must pass the triangle inequality. Each pair of sides must add to more than the third side, or the shape cannot close.',
+      },
+      {
+        question: 'Do I need the triangle height?',
+        answer:
+          'No. This page is for the three-side case. If you know base and height instead, use the Area Calculator triangle mode.',
       },
       {
         question: 'Does this replace a right triangle calculator?',
         answer:
-          'Use this tool for any triangle from three sides. Use the Right Triangle Calculator or Pythagorean Theorem Calculator when the triangle is known to have a 90-degree angle.',
+          'Use this page for any triangle from three sides. Use the Right Triangle Calculator or Pythagorean Theorem Calculator when the problem is only about a 90-degree triangle.',
+      },
+      {
+        question: 'Why are the angles rounded?',
+        answer:
+          'The angles come from the law of cosines and are rounded for reading. Tiny decimal differences are normal, but the three angles should add to about 180 degrees.',
+      },
+      {
+        question: 'Does the side order matter?',
+        answer:
+          'The area, perimeter, and triangle type stay the same if you swap the side order. The angle labels follow side a, side b, and side c, so keep the order clear if you are matching a drawing.',
+      },
+      {
+        question: 'Can I use decimal side lengths?',
+        answer:
+          'Yes. Use positive decimal side lengths when your measurements are not whole numbers, and keep every side in the same unit.',
       },
       {
         question: 'How should I enter units?',
