@@ -287,6 +287,18 @@ const sourceLinks = {
     href: 'https://www.fdic.gov/consumer-resource-center/2023-11/shopping-certificate-deposit',
     label: 'FDIC: Shopping for a Certificate of Deposit',
   },
+  cfpbCertificateDeposit: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-certificate-of-deposit-cd-en-917/',
+    label: 'CFPB: What is a certificate of deposit?',
+  },
+  occCdPenalty: {
+    href: 'https://www.helpwithmybank.gov/help-topics/bank-accounts/certificates-of-deposit/cd-penalties.html',
+    label: 'OCC HelpWithMyBank.gov: CD early withdrawal penalties',
+  },
+  cfpbCdAdvertising: {
+    href: 'https://www.consumerfinance.gov/rules-policy/regulations/1030/8',
+    label: 'CFPB Regulation DD: CD advertising and APY disclosures',
+  },
   investorBonds: {
     href: 'https://www.finra.org/investors/investing/investment-products/bonds',
     label: 'FINRA: Bonds',
@@ -814,7 +826,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'cd-calculator') {
-    return [sourceLinks.fdicCdShopping];
+    return [sourceLinks.cfpbCertificateDeposit, sourceLinks.fdicCdShopping, sourceLinks.occCdPenalty, sourceLinks.cfpbCdAdvertising];
   }
 
   if (toolSlug === 'bond-calculator') {
@@ -2098,29 +2110,32 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'cd-calculator': {
-    summary: 'Learn how deposit amount, APY, term, and penalty months affect a certificate of deposit estimate.',
+    summary: 'Estimate CD maturity value, interest earned, and early-withdrawal penalty what-if from APY and term.',
     purpose:
-      'The CD Calculator estimates maturity value from deposit amount, APY, and term. It also shows a rough early withdrawal penalty scenario using months of interest.',
+      'The CD Calculator estimates maturity value from deposit amount, APY, and term. It also separates the normal maturity estimate from a rough early-withdrawal penalty scenario.',
     enter: [
-      'Enter the deposit amount and APY from the CD offer.',
-      'Enter the term in whole months.',
-      'Enter penalty months only as a simple estimate after reading the bank disclosure.',
+      'Enter the deposit amount from the CD offer.',
+      'Enter the APY as a normal percent, such as 4.25 for 4.25%.',
+      'Enter the CD term in whole months.',
+      'Enter penalty months only as a rough what-if after reading the bank or credit union disclosure.',
     ],
     example: [
-      '$10,000 at 4.25% APY for 12 months estimates maturity value and interest earned.',
-      'A 3-month penalty estimate subtracts about three months of simple interest from the maturity value.',
+      '$10,000 at 4.25% APY for 12 months estimates a $10,425 maturity value and $425 interest earned.',
+      'A 3-month penalty estimate subtracts about $106.25, leaving about $10,318.75 after penalty.',
+      '$5,000 at 3.9% APY for 6 months estimates about $96.57 interest before any penalty.',
     ],
     read: [
       'Maturity value is the estimated value at the end of the term.',
       'Interest earned is maturity value minus the starting deposit.',
-      'Value after penalty is only a rough what-if for early withdrawal.',
+      'Value after penalty is only a rough what-if for early withdrawal, not a promised payout.',
     ],
     mistakes: [
-      'Do not use this instead of the bank\'s CD disclosure.',
-      'Do not forget renewal rules, grace periods, exact compounding, brokered CDs, minimum balances, or early withdrawal terms.',
-      'Do not assume every CD is FDIC-insured without checking the institution.',
+      'Do not use this instead of the bank or credit union disclosure.',
+      'Do not treat APY, interest rate, and bonus offers as the same thing.',
+      'Do not forget renewal rules, grace periods, exact compounding, call features, brokered CDs, minimum balances, taxes, or early withdrawal terms.',
+      'Do not assume every CD is FDIC- or NCUA-insured without checking the institution and account limits.',
     ],
-    next: ['Use Savings Calculator for flexible deposits.', 'Use Compound Interest Calculator for compounding-frequency comparisons.'],
+    next: ['Use Savings Calculator for flexible deposits.', 'Use Compound Interest Calculator for compounding-frequency comparisons.', 'Use Interest Calculator when you need to compare simple and compound interest.'],
   },
   'bond-calculator': {
     summary: 'Learn how face value, market price, coupon rate, and maturity affect bond income and approximate yield.',
@@ -3344,6 +3359,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Simple Interest Calculator Guide';
   }
 
+  if (tool.slug === 'cd-calculator') {
+    return 'CD Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3475,6 +3494,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Calculate simple interest from principal, annual interest rate, and years, with percent-entry, APR, and compounding limits.';
   }
 
+  if (tool.slug === 'cd-calculator') {
+    return 'Estimate CD maturity value, interest earned, and early-withdrawal penalty from deposit amount, APY, and term.';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Estimate a defined-benefit pension from final average salary, credited service, and plan multiplier, with monthly and replacement-rate checks.';
   }
@@ -3523,6 +3546,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isCollegeCostGuide = tool.slug === 'college-cost-calculator';
   const isInterestGuide = tool.slug === 'interest-calculator';
   const isSimpleInterestGuide = tool.slug === 'simple-interest-calculator';
+  const isCdGuide = tool.slug === 'cd-calculator';
   const isPensionGuide = tool.slug === 'pension-calculator';
   const isAnnuityPayoutGuide = tool.slug === 'annuity-payout-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
@@ -3577,6 +3601,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Interest math gets messy when simple interest, compound interest, APR, APY, and investment return are treated like one thing. This guide keeps the job clear: pick the right mode, enter the annual interest rate, then read what the result leaves out.'
       : isSimpleInterestGuide
       ? 'Simple interest is one of the easiest money formulas to check, but it is also easy to overuse. This guide keeps the job small: principal, annual interest rate, time in years, simple interest, and ending balance.'
+      : isCdGuide
+      ? 'A CD estimate can look simple until APY, term length, renewal, grace periods, and early-withdrawal penalties show up. This guide keeps maturity value separate from the penalty what-if so the result is easier to read.'
       : isPensionGuide
       ? 'A pension estimate is easy to overtrust if the plan formula is guessed. This guide shows how final average salary, credited service, and a plan multiplier turn into annual pension, monthly pension, and replacement rate.'
       : isAnnuityPayoutGuide
@@ -3739,6 +3765,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter the annual interest rate as a normal percent, such as 5 for 5%.',
           'Enter time in years. Use 1.5 for 18 months or 0.25 for 3 months.',
           'Calculate, then compare simple interest and ending balance before using any real loan, savings, or APR disclosure.',
+        ]
+      : isCdGuide
+      ? [
+          'Open the CD Calculator.',
+          'Enter the deposit amount you plan to lock in.',
+          'Enter the APY from the CD offer as a normal percent, such as 4.25 for 4.25%.',
+          'Enter the CD term in months and the early-withdrawal penalty months only as a what-if.',
+          'Calculate, then compare maturity value, interest earned, penalty estimate, and value after penalty before reading the real account disclosure.',
         ]
       : isPensionGuide
       ? [
@@ -3929,6 +3963,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it when you want to compare simple interest with compound interest, check a homework formula, test a savings idea, or decide whether a more specific loan, investment, APY, or APR calculator fits better.'
             : isSimpleInterestGuide
             ? 'Use it when interest is based only on the original principal, annual interest rate, and time. It is best for clean examples, not bank statements, APR disclosures, or amortized loan schedules.'
+            : isCdGuide
+            ? 'Use it when you want to check a CD offer, compare term lengths, estimate maturity value, or see how a penalty might change an early-withdrawal scenario before reading the bank disclosure.'
             : isPensionGuide
             ? 'Use it when you want to test a defined-benefit formula before you compare the number with your pension statement, plan summary, retirement office, or PBGC coverage notes.'
             : isAnnuityPayoutGuide
@@ -3983,6 +4019,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Interest estimates get shaky when annual rates, monthly rates, APR, APY, simple interest, and compound interest are mixed together. Pick the mode first, then keep principal, annual interest rate, time in years, compounding frequency, and deposits separate.'
             : isSimpleInterestGuide
             ? 'Simple-interest estimates get shaky when the real product compounds, charges fees, uses a daily balance, changes rates, or requires payments. Keep the principal, annual interest rate, and time in years separate.'
+            : isCdGuide
+            ? 'CD estimates get shaky when APY, stated interest rate, term, renewal rules, grace periods, minimum balances, brokered-CD rules, call features, insurance limits, and early-withdrawal penalties are mixed together. Keep the offer details separate.'
             : isPensionGuide
             ? 'Pension estimates get shaky when calendar years worked and credited service are treated as the same thing. Use the salary, service, and multiplier your plan actually uses, then check whether vesting, caps, early retirement, or survivor choices change the benefit.'
             : isAnnuityPayoutGuide
@@ -4053,6 +4091,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $28,000 current annual cost, 8 years until start, 4 school years, 4% yearly cost increase, $10,000 saved, $250 saved each month, and 5% savings return. The estimate is about $38,319.93 for the first year, $162,724.22 total cost, $44,340.98 projected savings, and a $118,383.23 savings gap before aid.'
               : isSimpleInterestGuide
               ? 'Try the starter example: $1,000 principal, 5% annual interest rate, and 3 years. The formula is $1,000 x 0.05 x 3, so the simple interest is $150 and the ending balance is $1,150.'
+              : isCdGuide
+              ? 'Try the starter example: $10,000 deposit, 4.25% APY, 12 months, and a 3-month early-withdrawal penalty what-if. The estimate is a $10,425 maturity value, $425 interest earned, about a $106.25 penalty estimate, and about $10,318.75 value after penalty.'
               : isPensionGuide
               ? 'Try the starter example: $82,000 final average salary, 27 credited service years, and a 1.6% multiplier. The estimate is $35,424 per year, $2,952 per month, and a 43.2% replacement rate before taxes or plan adjustments.'
               : isAnnuityPayoutGuide
@@ -4114,6 +4154,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with the fixed-payment loan formula. The calculator turns the annual rate into a monthly rate, finds the scheduled payment for the term, then adds extra payment and simulates the balance month by month. It does not choose or price official federal repayment plans.'
             : isCollegeCostGuide
             ? 'Start by growing the annual cost until the first school year. Then add each school year with the same cost increase. The savings side grows current savings and monthly deposits until school starts. It does not subtract financial aid, scholarships, grants, work-study, loans, or family payments during school.'
+            : isCdGuide
+            ? 'Start with the annual percentage yield, then apply APY growth across the CD term in months. The calculator subtracts the starting deposit to show interest earned, then subtracts a simple months-of-interest penalty only for the early-withdrawal what-if.'
             : isPensionGuide
             ? 'Start with the plan salary number, multiply by credited service, then apply the multiplier percentage. IRS and DOL materials separate defined-benefit pensions from contribution accounts, and PBGC coverage rules are another reason to check the official plan source before trusting a quick estimate.'
             : isAnnuityPayoutGuide
@@ -4190,6 +4232,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with scheduled payment, then check payoff time, total interest, and interest saved. If the lower payment looks nice but total interest looks heavy, compare the result with an official plan before making changes.'
             : isCollegeCostGuide
             ? 'Start with total estimated cost, then check first-year cost, projected savings, and the savings gap. If the gap looks huge, do not panic or ignore it. Compare official net price calculators, aid offers, scholarships, grants, cheaper school paths, and possible loan payments next.'
+            : isCdGuide
+            ? 'Start with maturity value because that is the normal end-of-term estimate. Then check interest earned, penalty estimate, and value after penalty so you do not mix a normal CD maturity result with an early-withdrawal scenario.'
             : isMarriageTaxGuide
             ? 'Start with the difference, then check joint federal tax, two single returns, joint taxable income, and the joint marginal bracket. A $0 difference is a real answer, not an error.'
             : isInvestmentGuide
@@ -4265,6 +4309,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad estate-tax estimates come from using a rough asset value, forgetting prior taxable gifts, treating spouse or charity transfers too casually, or acting like the calculator replaced Form 706.'
             : isInterestRateGuide
             ? 'Most bad rate estimates come from putting a fee-heavy payment into the calculator and then reading the answer like a clean loan rate. APR and written lender disclosures matter when fees are included.'
+            : isCdGuide
+            ? 'Most bad CD estimates come from mixing APY with a stated interest rate, using years when the page asks for term months, guessing penalty months, or forgetting renewal, grace-period, brokered-CD, callable-CD, insurance-limit, and tax details.'
             : 'Most bad finance estimates come from mixing rates, terms, monthly amounts, and annual amounts. The other common mistake is using a planning estimate as if it were a final quote.',
         ],
         bullets: detail.mistakes,
@@ -4282,6 +4328,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help after the first affordability screen. The next question is usually the exact mortgage payment, the cash needed at closing, or how the same home looks with a different down payment.'
             : isSavingsGuide
             ? 'A related tool can help after the first savings estimate. The next question is usually exact compounding, whether the monthly deposit fits the budget, or whether a higher-risk investment-style return is really the comparison you meant.'
+            : isCdGuide
+            ? 'A related tool can help after the CD estimate. The next question is usually flexible savings, compounding-frequency detail, or simple interest when you are checking a penalty or classroom-style formula.'
             : isBusinessLoanGuide
             ? 'A related tool can help when the loan payment is only one part of the decision, such as the rate, a plain fixed loan, or the profit target for the project.'
             : isCanadianMortgageGuide
@@ -4384,6 +4432,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/investment-calculator/', label: 'Use investment-specific wording' },
               { href: '/tools/compound-interest-calculator/', label: 'Check compounding frequency' },
               { href: '/tools/payment-calculator/', label: 'Switch to debt payment math' },
+            ]
+          : isCdGuide
+          ? [
+              { href: '/tools/cd-calculator/', label: 'Open the CD Calculator' },
+              { href: '/tools/savings-calculator/', label: 'Compare flexible savings instead' },
+              { href: '/tools/compound-interest-calculator/', label: 'Check compounding frequency' },
+              { href: '/tools/interest-calculator/', label: 'Compare simple and compound interest' },
             ]
           : isRentGuide
           ? [
@@ -4500,6 +4555,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Federal Student Aid sources are useful because official federal student loan choices depend on loan type, interest rate, repayment plan, deferment, forbearance, and servicer rules. CFPB sources help separate federal loans from private loans so this page stays honest about what simple payment math can and cannot answer.'
             : isCollegeCostGuide
             ? 'U.S. Department of Education sources are useful because school costs, net price, and College Scorecard data are school-specific. CFPB sources are useful because aid offers split tuition and fees, housing and meals, books, transportation, personal costs, grants, scholarships, work-study, and loans into pieces you should compare line by line.'
+            : isCdGuide
+            ? 'CFPB explains the basic CD tradeoff: you usually leave money in for a set term, and early withdrawal can mean a penalty. FDIC adds the real shopping checks: insured bank status, insurance limits, brokered CDs, renewal rules, call features, and deposit agreements. OCC penalty notes and CFPB Regulation DD keep APY and early-withdrawal wording honest.'
             : isPensionGuide
             ? 'PBGC, DOL, and IRS sources are useful here because defined-benefit pensions are plan formulas, not personal account balances. Real benefits can depend on vesting, credited service, payment form, survivor options, plan guarantees, taxes, and the official plan document.'
             : isAnnuityPayoutGuide
@@ -4557,6 +4614,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not choose an IDR plan, model forgiveness, apply subsidies, handle deferment or forbearance, capitalize interest, check auto-pay discounts, read private-loan fees, or replace Federal Student Aid Loan Simulator or your servicer.'
             : isCollegeCostGuide
             ? 'This calculator still stays simple. It does not read school aid formulas, choose a 529 plan, predict FAFSA results, renew scholarships, price every fee, know residency rules, or replace each school\'s official net price calculator and aid offer.'
+            : isCdGuide
+            ? 'This calculator still stays simple. It does not read the bank disclosure, calculate exact daily compounding, choose the official APY, check renewal or grace-period rules, price brokered or callable CDs, verify insurance coverage, calculate tax, or promise the early-withdrawal payout.'
             : isPensionGuide
             ? 'This calculator still stays simple. It does not read your plan document, prove vesting, apply early-retirement reductions, price survivor options, calculate COLA, decide lump-sum value, apply PBGC limits, estimate tax withholding, or replace an official benefit statement.'
             : isAnnuityPayoutGuide
@@ -4616,6 +4675,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Loan Calculator open beside this guide. Try the $12,000 example first, then change only the term so you can see how a lower payment can still raise total interest.'
       : isFinanceGuide
       ? 'Keep the Finance Calculator open beside this guide. Try $2,000 plus $150/month at 5% first, then change only the rate so you can see why the answer is a what-if, not a promise.'
+      : isCdGuide
+      ? 'Keep the CD Calculator open beside this guide. Try the $10,000, 4.25% APY, 12-month example first, then change only the CD term in months or penalty months so you can see what actually moved.'
       : isInvestmentGuide
       ? 'Keep the Investment Calculator open beside this guide. Try $5,000 plus $250/month at 7% first, then change only the monthly deposit so you can see what actually moved.'
       : isFhaLoanGuide

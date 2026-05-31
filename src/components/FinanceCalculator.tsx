@@ -961,7 +961,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'CD Calculator',
     buttonLabel: 'Estimate CD',
     emptyHistory: 'Recent CD estimates will appear here.',
-    privacyNote: 'CD estimates use APY math and a manual penalty estimate. Check your bank disclosures for exact maturity, renewal, and early withdrawal terms.',
+    privacyNote:
+      'CD estimates use APY math and a manual penalty what-if. They do not include exact bank compounding, renewal choices, grace periods, call features, taxes, insurance limits, or account-specific withdrawal rules.',
     modes: [
       {
         id: 'cd',
@@ -969,9 +970,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         symbol: 'CD',
         fields: [
           numberField('principal', 'Deposit amount ($)'),
-          numberField('annualPercentageYield', 'APY (%)'),
-          numberField('termMonths', 'Term (months)'),
-          numberField('earlyWithdrawalPenaltyMonths', 'Penalty months of interest'),
+          numberField('annualPercentageYield', 'Annual percentage yield, APY (%)'),
+          numberField('termMonths', 'CD term in months'),
+          numberField('earlyWithdrawalPenaltyMonths', 'Early withdrawal penalty months'),
         ],
         defaultInputs: { principal: '10000', annualPercentageYield: '4.25', termMonths: '12', earlyWithdrawalPenaltyMonths: '3' },
         examples: [
@@ -3232,12 +3233,13 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           { label: 'Value after penalty estimate', value: money(result.valueAfterPenalty) },
         ],
         steps: [
-          'Apply APY growth over the CD term.',
+          'Apply APY growth over the CD term in months.',
           'Subtract principal from maturity value to estimate interest earned.',
           'Estimate early withdrawal penalty as months of simple interest.',
           'Subtract that penalty from maturity value for the penalty scenario.',
         ],
-        note: 'Bank CD disclosures control the actual APY, compounding, maturity date, renewal, and early withdrawal penalty.',
+        note:
+          'The maturity value is the normal end-of-term estimate. The value after penalty is only an early-withdrawal what-if; the bank or credit union disclosure controls the real APY, compounding, maturity date, renewal, grace period, and penalty.',
       };
     }
     case 'bond': {

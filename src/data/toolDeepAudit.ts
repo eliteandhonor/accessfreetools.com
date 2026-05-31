@@ -871,6 +871,21 @@ const fdicCdShopping = {
   label: 'FDIC: Shopping for a Certificate of Deposit',
 };
 
+const cfpbCertificateDeposit = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-certificate-of-deposit-cd-en-917/',
+  label: 'CFPB: What is a certificate of deposit?',
+};
+
+const occCdPenalty = {
+  href: 'https://www.helpwithmybank.gov/help-topics/bank-accounts/certificates-of-deposit/cd-penalties.html',
+  label: 'OCC HelpWithMyBank.gov: CD early withdrawal penalties',
+};
+
+const cfpbCdAdvertising = {
+  href: 'https://www.consumerfinance.gov/rules-policy/regulations/1030/8/',
+  label: 'CFPB Regulation DD: CD advertising and APY disclosures',
+};
+
 const investorBonds = {
   href: 'https://www.finra.org/investors/investing/investment-products/bonds',
   label: 'FINRA: Bonds',
@@ -2788,17 +2803,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'cd-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-3-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [fdicCdShopping, investorCompound],
+    sources: [cfpbCertificateDeposit, fdicCdShopping, occCdPenalty, cfpbCdAdvertising, investorCompound],
     findings: [
-      'The calculator applies APY growth over the term in months and estimates the early withdrawal penalty as entered months of simple interest.',
-      'The result separates maturity value, interest earned, penalty estimate, and value after penalty so users do not confuse normal maturity with early withdrawal.',
-      'The guide and FAQ warn that bank disclosures control exact APY, compounding, maturity, renewal, insurance, minimum balance, and withdrawal penalty rules.',
+      'The calculator applies APY growth over the CD term in months, then estimates the early-withdrawal penalty as entered months of simple interest.',
+      'DataForSEO shows CD calculator has informational intent and strong page-specific search demand, so the page now states APY, maturity value, interest earned, and penalty what-if language plainly.',
+      'The guide and FAQ warn that bank and credit union disclosures control exact APY, compounding, maturity, renewal, grace period, insurance, minimum balance, call feature, brokered-CD terms, and withdrawal penalty rules.',
     ],
     improvements: [
-      'Added CD-specific guide detail and manually checked APY math, term-month validation, penalty wording, examples, FDIC source coverage, SEO copy, related tools, and privacy note.',
+      'Added CD-specific SEO title and description, aliases, guide title, official source links, DataForSEO evidence, concrete $10,000 and $5,000 examples, result-label wording, source coverage, trust note, and image alt/caption text.',
     ],
     followUps: [
       'Add separate daily-compounding and brokered-CD options only after researching disclosure-safe wording.',
@@ -7709,7 +7724,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['cd-calculator', 'certificate of deposit'])) {
-      return sourceBackstop([fdicCdShopping, investorCompound]);
+      return sourceBackstop([cfpbCertificateDeposit, fdicCdShopping, occCdPenalty, cfpbCdAdvertising, investorCompound]);
     }
 
     if (includesAny(key, ['bond'])) {

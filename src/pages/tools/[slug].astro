@@ -813,6 +813,13 @@ const financeToolInstructions = financeToolVariant
         'Enter time in years. Use 1.5 for 18 months or 0.25 for 3 months.',
         'Calculate, then compare simple interest and ending balance before checking a real loan, savings, or APR disclosure.',
       ]
+    : tool.slug === 'cd-calculator'
+    ? [
+        'Enter the deposit amount from the CD offer.',
+        'Enter annual percentage yield, or APY, as a normal percent, such as 4.25 for 4.25%.',
+        'Enter the CD term in whole months, then add penalty months only as a rough early-withdrawal what-if.',
+        'Calculate, then compare maturity value, interest earned, penalty estimate, and value after penalty before reading the real account disclosure.',
+      ]
     : tool.slug === 'pension-calculator'
     ? [
         'Enter the final average salary or plan salary number used by the pension formula.',
@@ -2709,6 +2716,36 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/" rel="noreferrer" target="_blank">
                   CFPB interest rate vs. APR
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'cd-calculator' ? (
+            <>
+              <strong>CD estimate, not a bank disclosure</strong>
+              <p>
+                Use this to test deposit amount, APY, CD term in months, interest earned, maturity value,
+                early-withdrawal penalty months, and value after penalty. A real CD can still change with
+                the account agreement, exact compounding, maturity date, renewal rules, grace period,
+                minimum balance, call feature, brokered-CD terms, taxes, insurance limits, and the bank
+                or credit union disclosure.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-certificate-of-deposit-cd-en-917/" rel="noreferrer" target="_blank">
+                  CFPB CD basics
+                </a>
+                {', '}
+                <a href="https://www.fdic.gov/consumer-resource-center/2023-11/shopping-certificate-deposit" rel="noreferrer" target="_blank">
+                  FDIC CD shopping tips
+                </a>
+                {', and '}
+                <a href="https://www.helpwithmybank.gov/help-topics/bank-accounts/certificates-of-deposit/cd-penalties.html" rel="noreferrer" target="_blank">
+                  OCC early-withdrawal penalty notes
+                </a>
+                {', and '}
+                <a href="https://www.consumerfinance.gov/rules-policy/regulations/1030/8/" rel="noreferrer" target="_blank">
+                  CFPB Regulation DD APY rules
                 </a>
                 .
               </p>

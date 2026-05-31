@@ -184,6 +184,18 @@ const toolArtMetadataOverrides = {
         'Simple Interest Calculator guide artwork supports the walkthrough by showing the principal-rate-time formula, the $150 interest example, and limits around APR, compounding, and fees.',
     },
   },
+  'cd-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a CD screen with $10,000 deposit, 4.25 percent APY, 12-month term, $425 interest, $10,425 maturity value, and a 3-month penalty card.',
+      caption:
+        'CD Calculator artwork matches the live workflow: deposit amount, APY, CD term, interest earned, maturity value, early-withdrawal penalty, and value after penalty.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing a CD offer with APY, term length, maturity value, renewal, grace-period, FDIC insurance, and early-withdrawal penalty notes.',
+      caption:
+        'CD Calculator guide artwork supports the walkthrough by showing how APY, term, maturity value, insurance limits, renewal rules, and penalty terms need checking before using a CD estimate.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

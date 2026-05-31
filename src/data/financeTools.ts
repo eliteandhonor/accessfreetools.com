@@ -3532,16 +3532,26 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'cd-calculator',
     name: 'CD Calculator',
-    summary: 'Estimate certificate of deposit maturity value, interest, and penalty scenario.',
+    summary: 'Estimate CD maturity value, interest earned, and early-withdrawal penalty what-if.',
     description:
-      'Use this free CD calculator to estimate maturity value, interest earned, early withdrawal penalty, and value after penalty from deposit amount, APY, term, and penalty months.',
+      'Estimate certificate of deposit maturity value, interest earned, early withdrawal penalty, and value after penalty from deposit amount, APY, term, and penalty months.',
+    seoTitle: 'CD Calculator | APY, Maturity & Penalty Estimate',
     seoDescription:
       'Estimate CD maturity value, interest earned, early withdrawal penalty, and value after penalty from deposit, APY, and term.',
     icon: 'calculator-cd',
+    aliases: [
+      'cd calculator',
+      'certificate of deposit calculator',
+      'cd interest calculator',
+      'cd maturity calculator',
+      'cd early withdrawal penalty calculator',
+      'apy calculator cd',
+      'bank cd calculator',
+    ],
     formula:
-      'The calculator applies APY growth over the CD term, estimates interest earned, and subtracts a manual early withdrawal penalty measured in months of interest.',
+      'The calculator applies APY growth over the CD term, subtracts the starting deposit to estimate interest earned, then subtracts a manual early-withdrawal penalty measured in months of simple interest for the what-if penalty scenario.',
     limit:
-      'This is not a bank disclosure. It does not include exact daily compounding, renewal rules, grace periods, brokered CDs, minimum balances, or bank-specific early withdrawal terms.',
+      'This is not a bank or credit union disclosure. It does not include exact daily compounding, APY disclosure rules, renewal choices, grace periods, call features, brokered CDs, minimum balances, insurance limits, taxes, or account-specific early withdrawal terms.',
     useCases: [
       'Estimate CD value at maturity from deposit, APY, and term.',
       'Compare term lengths with the same deposit amount.',
@@ -3549,11 +3559,42 @@ export const financeTools: ToolDefinition[] = [
       'Check a CD offer before reading the full bank disclosure.',
     ],
     examples: [
-      { label: 'One-year CD', expression: '$10,000 deposit, 4.25% APY, 12 months', result: 'Maturity value and interest' },
-      { label: 'Six-month CD', expression: '$5,000 at 3.9% APY for 6 months', result: 'Short-term CD estimate' },
-      { label: 'Five-year CD', expression: '$25,000 at 4.1% APY for 60 months', result: 'Longer-term maturity estimate' },
+      { label: 'One-year CD', expression: '$10,000 deposit, 4.25% APY, 12 months, 3-month penalty', result: '$10,425 maturity value and $10,318.75 after penalty' },
+      { label: 'Six-month CD', expression: '$5,000 at 3.9% APY for 6 months, 1-month penalty', result: 'About $96.57 interest and $5,080.32 after penalty' },
+      { label: 'Five-year CD', expression: '$25,000 at 4.1% APY for 60 months, 6-month penalty', result: 'About $30,562.84 maturity value' },
     ],
     relatedSlugs: ['savings-calculator', 'simple-interest-calculator', 'compound-interest-calculator'],
+    inputExplanations: [
+      { term: 'Deposit amount', meaning: 'the money placed into the CD at the start.' },
+      { term: 'APY', meaning: 'the annual percentage yield from the CD offer, entered as 4.25 for 4.25%.' },
+      { term: 'Term', meaning: 'how many months the CD is meant to stay locked until maturity.' },
+      { term: 'Penalty months', meaning: 'a rough early-withdrawal penalty entered as months of interest after you check the account disclosure.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What does maturity value mean for a CD?',
+        answer:
+          'Maturity value is the estimated balance when the CD term ends. For example, a $10,000 CD at 4.25% APY for 12 months estimates a $10,425 maturity value before taxes or account-specific rules.',
+      },
+      {
+        question: 'How does the early withdrawal penalty estimate work?',
+        answer:
+          'The penalty field is a simple what-if measured in months of interest. A 3-month penalty on a $10,000 CD at 4.25% APY estimates about $106.25, leaving about $10,318.75 after penalty in the one-year example.',
+      },
+      {
+        question: 'Is APY the same as the interest rate?',
+        answer:
+          'No. APY includes the effect of compounding over a year. The CD offer or bank disclosure controls the official APY, interest rate, compounding method, maturity date, renewal terms, and early-withdrawal penalty.',
+      },
+    ],
+    formulaCheck:
+      'For the starter example, $10,000 at 4.25% APY for 12 months gives a $10,425 maturity value. A 3-month simple-interest penalty is about $106.25.',
+    resultReading:
+      'Read maturity value as the normal end-of-term estimate. Read value after penalty as a separate early-withdrawal what-if, not the promised account payout.',
+    doubleCheck:
+      'Check the APY, term months, penalty months, maturity date, renewal rules, insurance status, and whether the account has a grace period or call feature.',
+    limitFollowup:
+      'Use the bank or credit union disclosure for exact APY, compounding, early-withdrawal penalty, renewal, grace period, tax, and insurance details.',
   }),
   makeFinanceTool({
     slug: 'bond-calculator',
