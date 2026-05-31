@@ -2155,6 +2155,30 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 property rules, appraisal, closing costs, escrow setup, MIP duration, and the written Loan Estimate.
               </p>
             </>
+          ) : tool.slug === 'home-equity-loan-calculator' ? (
+            <>
+              <strong>Home-equity estimate, not a borrowing decision</strong>
+              <p>
+                Use this to compare home value, current mortgage balance, desired loan amount, rate, term, and CLTV.
+                A real home equity loan can still change with appraisal value, credit review, fees, APR, lien position,
+                closing costs, tax rules, lender limits, and whether the home can be at risk if payments are missed.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-home-equity-loan-and-a-home-equity-line-of-credit-heloc-en-247/" rel="noreferrer" target="_blank">
+                  CFPB home equity loan vs. HELOC
+                </a>
+                {', '}
+                <a href="https://consumer.ftc.gov/articles/home-equity-loans-home-equity-lines-credit" rel="noreferrer" target="_blank">
+                  FTC home equity loan risks
+                </a>
+                {', and '}
+                <a href="https://www.irs.gov/publications/p936" rel="noreferrer" target="_blank">
+                  IRS Publication 936
+                </a>
+                .
+              </p>
+            </>
           ) : tool.slug === 'loan-calculator' ? (
             <>
               <strong>Loan payment estimate, not a lender disclosure</strong>

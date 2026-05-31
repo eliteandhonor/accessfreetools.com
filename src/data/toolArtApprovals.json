@@ -2096,6 +2096,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/home-equity-loan-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/home-equity-loan-calculator-guide.webp",
+    "alt": "Smoke mascot pointing from home equity icons to coins, a falling balance chart, and a payment gauge.",
+    "caption": "The guide art shows the home-equity idea in steps: home value, existing mortgage debt, possible cash, payment pressure, and risk checks.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2104,6 +2106,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/home-equity-loan-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/home-equity-loan-calculator-tool.webp",
+    "alt": "Smoke mascot beside a house, lock, coins, calendar, and gauge for a home equity loan estimate.",
+    "caption": "The tool art matches the calculator inputs and outputs: home value, current mortgage balance, desired loan, term, payment, and CLTV.",
     "status": "approved",
     "qaStatus": "approved"
   },

@@ -2012,7 +2012,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Home Equity Loan Calculator',
     buttonLabel: 'Estimate equity loan',
     emptyHistory: 'Recent home equity loan estimates will appear here.',
-    privacyNote: 'Home equity estimates do not approve borrowing and do not include lender limits, fees, foreclosure risk, or tax rules.',
+    privacyNote: 'Home equity estimates stay in your browser and do not approve borrowing, include lender fees, prove tax treatment, or remove foreclosure risk.',
     modes: [
       {
         id: 'home-equity-loan',
@@ -4261,7 +4261,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Calculate the fixed home equity loan payment.',
           'Compare requested loan amount with the available-equity estimate.',
         ],
-        note: 'Home equity borrowing can put the home at risk if payments are not made.',
+        note: 'This is payment and CLTV math only. Compare APR, fees, closing costs, tax rules, and lender documents before using home equity for real borrowing.',
       };
     }
     case 'heloc': {

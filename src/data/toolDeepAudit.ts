@@ -751,9 +751,29 @@ const cfpbHomeEquity = {
   label: 'CFPB: What is a home equity loan?',
 };
 
+const cfpbHomeEquityVsHeloc = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-home-equity-loan-and-a-home-equity-line-of-credit-heloc-en-247/',
+  label: 'CFPB: Home equity loan vs. HELOC',
+};
+
 const cfpbHeloc = {
   href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-home-equity-line-of-credit-heloc-en-107/',
   label: 'CFPB: What is a HELOC?',
+};
+
+const cfpbClosingDisclosure = {
+  href: 'https://www.consumerfinance.gov/owning-a-home/closing-disclosure/',
+  label: 'CFPB: Closing Disclosure explainer',
+};
+
+const ftcHomeEquityLoans = {
+  href: 'https://consumer.ftc.gov/articles/home-equity-loans-home-equity-lines-credit',
+  label: 'FTC: Home equity loans and lines of credit',
+};
+
+const irsPub936HomeMortgageInterest = {
+  href: 'https://www.irs.gov/publications/p936',
+  label: 'IRS Publication 936: Home mortgage interest deduction',
 };
 
 const cfpbDownPayment = {
@@ -3076,17 +3096,26 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'home-equity-loan-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-6-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [cfpbHomeEquity, cfpbMortgage],
+    sources: [
+      cfpbHomeEquity,
+      cfpbHomeEquityVsHeloc,
+      ftcHomeEquityLoans,
+      cfpbLoanEstimate,
+      cfpbClosingDisclosure,
+      irsPub936HomeMortgageInterest,
+      googleHelpfulContent,
+    ],
     findings: [
       'The calculator estimates available equity from home value, current mortgage balance, and max combined LTV, then estimates fixed payment and total interest for the desired loan amount.',
       'The result separates available equity at limit from combined LTV, preventing the requested loan amount from being confused with total equity.',
       'The guide now makes the collateral risk explicit: missed home equity loan payments can put the home at risk.',
+      'The 2026-05-31 sprint added current CFPB, FTC, disclosure, and IRS context so the page does not imply payment math is the whole decision.',
     ],
     improvements: [
-      'Added home-equity-loan-specific guide detail and manually checked CLTV math, fixed-payment output, examples, FAQ cautions, CFPB source coverage, related tools, SEO copy, and privacy note.',
+      'Added a source SEO title and description, CLTV and payment examples, six extra visible FAQs, payment-vs-APR/fee cautions, tax-deductibility caveats, current source links, specific image alt/caption text, and privacy/result notes.',
     ],
     followUps: [
       'Add an upfront-fee and APR comparison mode after APR assumptions are made clearer in the UI.',
@@ -7289,7 +7318,14 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['home-equity-loan', 'home equity loan'])) {
-      return sourceBackstop([cfpbHomeEquity, cfpbMortgage]);
+      return sourceBackstop([
+        cfpbHomeEquity,
+        cfpbHomeEquityVsHeloc,
+        ftcHomeEquityLoans,
+        cfpbLoanEstimate,
+        cfpbClosingDisclosure,
+        irsPub936HomeMortgageInterest,
+      ]);
     }
 
     if (includesAny(key, ['heloc'])) {

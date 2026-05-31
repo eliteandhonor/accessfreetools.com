@@ -964,10 +964,19 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'home-equity-loan-calculator',
     name: 'Home Equity Loan Calculator',
-    summary: 'Estimate fixed home equity loan payment, available equity, and combined loan-to-value.',
+    summary: 'Estimate a fixed home equity loan payment, borrowing room, and combined loan-to-value.',
     description:
-      'Use this free home equity loan calculator to estimate a fixed payment, total interest, available equity, and combined loan-to-value.',
+      'Estimate a fixed home equity loan payment, total interest, borrowing room at a CLTV limit, and the combined loan-to-value after the new loan.',
+    seoTitle: 'Home Equity Loan Calculator | Payment, Equity And CLTV',
+    seoDescription:
+      'Estimate a fixed home equity loan payment, total interest, available equity, and combined loan-to-value. Includes CLTV, fee, tax, and foreclosure-risk cautions.',
     icon: 'calculator-house-affordability',
+    aliases: [
+      'home equity loan payment calculator',
+      'home equity loan calculator with cltv',
+      'second mortgage payment calculator',
+      'home equity borrowing calculator',
+    ],
     formula:
       'The calculator estimates available equity from home value, mortgage balance, and max combined LTV, then applies the fixed-payment loan formula to the requested loan amount.',
     limit:
@@ -984,6 +993,66 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       { label: 'Small loan', expression: '$25,000 equity loan', result: 'Monthly payment' },
     ],
     relatedSlugs: ['heloc-calculator', 'mortgage-calculator', 'loan-calculator'],
+    inputExplanations: [
+      { term: 'Home value', meaning: 'your best current estimate of what the home could appraise or sell for, not the original purchase price.' },
+      { term: 'Current mortgage balance', meaning: 'what you still owe on loans already secured by the home.' },
+      { term: 'Desired equity loan', meaning: 'the new lump-sum amount you want to test as a fixed loan.' },
+      { term: 'Interest rate', meaning: 'the yearly rate for the new loan. Enter 8.25 for 8.25%, not 0.0825.' },
+      { term: 'Loan term', meaning: 'how many years the new home equity loan would be repaid over.' },
+      { term: 'Max combined LTV', meaning: 'the combined loan-to-value limit you want to test, such as 80 or 85.' },
+    ],
+    formulaCheck:
+      'It does not pull an appraisal, choose a lender CLTV rule, include closing costs, or decide whether the loan is affordable.',
+    resultReading:
+      'Read available equity first, then combined LTV, then monthly payment. For the starter example, a $450,000 home with a $260,000 mortgage and an 85% CLTV cap leaves about $122,500 of borrowing room. A $50,000 loan at 8.25% for 10 years estimates about $613 per month before fees.',
+    doubleCheck:
+      'Check the home value, mortgage balance, CLTV cap, loan amount, rate, term, fees, and whether the loan is fixed or adjustable. Then compare the result with a Loan Estimate or lender quote before making a real borrowing decision.',
+    limitFollowup:
+      'Home equity borrowing is secured by the home. If payments are missed, the home can be at risk. Tax treatment can also depend on how the money is used, so check IRS rules or a tax professional before assuming interest is deductible.',
+    priorityFaq: [
+      {
+        question: 'Is this a home equity loan or a HELOC calculator?',
+        answer:
+          'This page is for a lump-sum home equity loan with a fixed payment. A HELOC is different because it is a line of credit that may let you draw money more than once and often has a variable rate.',
+      },
+      {
+        question: 'What does combined loan-to-value mean?',
+        answer:
+          'Combined loan-to-value compares all home-secured debt with the home value. If you owe $260,000 on the first mortgage and test a $50,000 equity loan on a $450,000 home, the combined LTV is about 68.9%.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'How much home equity could I borrow?',
+        answer:
+          'The calculator uses the CLTV cap you enter. At 85% on a $450,000 home, the debt limit is $382,500. If the current mortgage is $260,000, the rough available equity is $122,500 before lender rules and fees.',
+      },
+      {
+        question: 'Does the calculator include closing costs or points?',
+        answer:
+          'No. It estimates payment and interest on the loan amount only. Closing costs, points, appraisal fees, title fees, and recording fees can change the real cost, so compare lender documents before choosing.',
+      },
+      {
+        question: 'Can a home equity loan put my home at risk?',
+        answer:
+          'Yes. A home equity loan is secured by the home. If payments are missed and the default is not fixed, the lender may have foreclosure rights under the loan documents and local law.',
+      },
+      {
+        question: 'Is home equity loan interest tax deductible?',
+        answer:
+          'Do not assume it is. IRS Publication 936 says home equity loan or line interest is generally deductible only when the money is used to buy, build, or substantially improve the home securing the loan and other rules are met.',
+      },
+      {
+        question: 'Why does payment alone miss part of the decision?',
+        answer:
+          'Two loans can have similar payments but different fees, APRs, terms, prepayment rules, or total interest. Payment is useful, but it should not be the only number you compare.',
+      },
+      {
+        question: 'What should I compare with a lender quote?',
+        answer:
+          'Compare loan amount, rate, APR, payment, fees, term, prepayment penalties, balloon-payment language, and cash needed at closing. Ask why if the lender document does not match your estimate.',
+      },
+    ],
   },
   {
     slug: 'heloc-calculator',

@@ -319,6 +319,22 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-home-equity-loan-en-106/',
     label: 'CFPB: What is a home equity loan?',
   },
+  cfpbHomeEquityVsHeloc: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-home-equity-loan-and-a-home-equity-line-of-credit-heloc-en-247/',
+    label: 'CFPB: Home equity loan vs. HELOC',
+  },
+  cfpbClosingDisclosure: {
+    href: 'https://www.consumerfinance.gov/owning-a-home/closing-disclosure/',
+    label: 'CFPB: Closing Disclosure explainer',
+  },
+  ftcHomeEquityLoans: {
+    href: 'https://consumer.ftc.gov/articles/home-equity-loans-home-equity-lines-credit',
+    label: 'FTC: Home equity loans and lines of credit',
+  },
+  irsPub936HomeMortgageInterest: {
+    href: 'https://www.irs.gov/publications/p936',
+    label: 'IRS Publication 936: Home mortgage interest deduction',
+  },
   cfpbDownPayment: {
     href: 'https://www.consumerfinance.gov/owning-a-home/prepare/determine-your-down-payment/',
     label: 'CFPB: Determine your down payment',
@@ -618,7 +634,14 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'home-equity-loan-calculator') {
-    return [sourceLinks.cfpbHomeEquity, sourceLinks.cfpbMortgage];
+    return [
+      sourceLinks.cfpbHomeEquity,
+      sourceLinks.cfpbHomeEquityVsHeloc,
+      sourceLinks.ftcHomeEquityLoans,
+      sourceLinks.cfpbLoanEstimate,
+      sourceLinks.cfpbClosingDisclosure,
+      sourceLinks.irsPub936HomeMortgageInterest,
+    ];
   }
 
   if (toolSlug === 'heloc-calculator') {
@@ -2506,27 +2529,28 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use FHA Loan Calculator for another government-backed loan comparison.', 'Use Mortgage Calculator for a plain mortgage estimate.'],
   },
   'home-equity-loan-calculator': {
-    summary: 'Learn how home value, mortgage balance, loan amount, and CLTV affect a fixed home equity loan estimate.',
+    summary: 'Learn how home value, mortgage balance, loan amount, and CLTV shape a fixed home equity loan estimate.',
     purpose:
-      'The Home Equity Loan Calculator estimates a lump-sum second loan. It shows both the fixed payment and whether the requested loan fits inside a combined loan-to-value limit.',
+      'The Home Equity Loan Calculator is for a lump-sum second loan. It shows the fixed payment, rough borrowing room, and combined loan-to-value after the new loan.',
     enter: [
-      'Enter home value and current mortgage balance first.',
+      'Enter home value and current mortgage balance first. These two numbers set the equity picture.',
       'Enter the desired loan amount, rate, term, and max combined loan-to-value percent.',
-      'Use a realistic home value because available equity depends on it.',
+      'Use a realistic home value. If the home value is too high, the borrowing-room estimate will look safer than it is.',
     ],
     example: [
-      '$450,000 home value, $260,000 mortgage balance, and an 85% max CLTV gives an available-equity estimate.',
-      'A $50,000 requested loan is then run through the fixed-payment loan formula.',
+      '$450,000 home value, $260,000 mortgage balance, and an 85% max CLTV gives about $122,500 of estimated borrowing room.',
+      'A $50,000 requested loan at 8.25% for 10 years estimates about $613 per month before lender fees and closing costs.',
     ],
     read: [
-      'Available equity at limit is the maximum borrowing room under the entered CLTV cap.',
-      'Combined LTV shows mortgage balance plus requested loan compared with home value.',
-      'Monthly payment and total interest are for the desired loan amount, not the whole mortgage balance.',
+      'Available equity at limit is the rough borrowing room under the CLTV cap you entered.',
+      'Combined LTV shows the first mortgage plus the requested equity loan compared with home value.',
+      'Monthly payment and total interest are for the new equity loan only, not the original mortgage.',
     ],
     mistakes: [
-      'Do not forget that the home is collateral and can be at risk if payments are missed.',
-      'Do not compare by payment alone when upfront fees, closing costs, and rate type differ.',
-      'Do not assume an estimated home value or CLTV cap means approval.',
+      'Do not forget that the home is collateral. Missed payments can put the home at risk.',
+      'Do not compare by payment alone when upfront fees, APR, closing costs, and rate type differ.',
+      'Do not assume an estimated home value, online valuation, or CLTV cap means approval.',
+      'Do not assume interest is tax deductible unless the loan use and IRS rules match.',
     ],
     next: ['Use HELOC Calculator if the borrowing is a line of credit.', 'Use Loan Calculator for a non-home-secured comparison.'],
   },
