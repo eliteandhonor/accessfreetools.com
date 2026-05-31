@@ -775,14 +775,28 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'mileage-calculator',
     name: 'Mileage Calculator',
     category: 'everyday-tools',
-    summary: 'Multiply miles by a rate per mile and add optional parking or toll costs.',
+    summary: 'Estimate mileage reimbursement from miles, rate per mile, parking, tolls, and extras.',
     description:
-      'Use this free mileage calculator to estimate mileage reimbursement, delivery totals, or trip allowance from miles, rate per mile, and extra costs.',
+      'Work out a mileage total from miles driven, a rate per mile, and optional parking, tolls, or trip extras.',
+    seoTitle: 'Mileage Calculator | Reimbursement And Trip Extras',
+    seoDescription:
+      'Calculate a mileage total from miles, rate per mile, parking, tolls, and extras. Includes 2026 IRS/GSA rate context and rate checks.',
     icon: 'calculator-mileage',
+    aliases: ['Mileage Reimbursement Calculator', 'Miles To Dollars Calculator', 'Rate Per Mile Calculator'],
     formula:
-      'The calculator multiplies miles by the rate per mile, then adds parking, tolls, or other extra costs when entered.',
+      'Mileage amount = miles driven x rate per mile. Total = mileage amount + parking, tolls, or other entered extras.',
     limit:
-      'Use the rate required by your employer, client, contract, or tax authority. This tool does not decide official reimbursement eligibility.',
+      'The 2026 IRS business rate and the GSA rate for an authorized privately owned car are both $0.725 per mile, but your employer, client, contract, app, or tax situation may use a different rule.',
+    faqLanguage: {
+      expectedInputs: 'the miles driven, the rate per mile, and any parking, tolls, or extras that should be added',
+      inputFallback:
+        'Miles is the trip distance. Rate per mile is the reimbursement or allowance rate you are allowed to use. Extras are separate costs, such as parking or tolls, only when they belong in the same claim.',
+      examplePhrase: 'reimbursement example',
+      doubleCheck:
+        'Check the rate source, the trip date, and whether parking or tolls should be added separately. Do not assume the example rate applies to every job or tax return.',
+      privacy:
+        'No. The math runs in your browser tab. Your miles, rate, extras, and recent totals are not sent to a server.',
+    },
     useCases: [
       'Estimate mileage reimbursement from miles and rate.',
       'Add parking, tolls, or trip extras.',
@@ -790,11 +804,35 @@ export const utilityTools: ToolDefinition[] = [
       'Copy a quick total for an invoice draft or personal note.',
     ],
     examples: [
-      { label: 'Client visit', expression: '125 miles x $0.67 + $12', result: '$95.75' },
-      { label: 'Local errand', expression: '18.4 miles x $0.67', result: '$12.33' },
+      { label: 'Client visit', expression: '125 miles x $0.725 + $12', result: '$102.63' },
+      { label: 'Local errand', expression: '18.4 miles x $0.725', result: '$13.34' },
       { label: 'Delivery day', expression: '92 miles x $0.55 + $8', result: '$58.60' },
     ],
     relatedSlugs: ['fuel-cost-calculator', 'gas-mileage-calculator', 'auto-loan-calculator'],
+    inputExplanations: [
+      { term: 'Miles', meaning: 'the trip distance you are claiming or checking.' },
+      { term: 'Rate per mile', meaning: 'the allowed dollar amount for each mile, such as 0.725 for 72.5 cents per mile.' },
+      { term: 'Extras', meaning: 'parking, tolls, or other trip costs you are allowed to add separately.' },
+      { term: 'Mileage only', meaning: 'miles multiplied by the rate, before extras.' },
+      { term: 'Total', meaning: 'mileage only plus the extras you entered.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What is the 2026 IRS business mileage rate?',
+        answer:
+          'The IRS announced 72.5 cents per mile for business use starting January 1, 2026. That is $0.725 in this calculator. It is optional for tax use, so check the rule that applies to your trip.',
+      },
+      {
+        question: 'Is the GSA 2026 privately owned car rate also 72.5 cents?',
+        answer:
+          'Yes. GSA lists $0.725 per mile from January 1, 2026 when a privately owned automobile is authorized or no government-furnished automobile is available.',
+      },
+      {
+        question: 'Should parking and tolls go in extras?',
+        answer:
+          'Only if your employer, client, app, or tax rule lets you add them separately. Some systems include those costs elsewhere, so check before adding them twice.',
+      },
+    ],
   }),
   makeUtilityTool({
     slug: 'density-calculator',

@@ -857,9 +857,9 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Use separate calculations when people are not splitting the bill evenly.',
   ],
   'mileage-calculator': [
-    'Enter miles, rate per mile, and any parking, tolls, or extras to include.',
+    'Enter miles, rate per mile, and any parking, tolls, or extras that belong in the same claim.',
     'Press Calculate mileage amount to see mileage-only amount and total.',
-    'Use the rate required by your employer, client, contract, or tax authority.',
+    'Use the rate required by your employer, client, contract, app, or tax authority.',
     'Keep real documentation when mileage is for reimbursement or tax records.',
   ],
   'density-calculator': [
@@ -1999,6 +1999,36 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
             and{' '}
             <a href="https://www.energy.gov/energysaver/driving-more-efficiently" rel="noreferrer" target="_blank">
               DOE efficient driving guidance.
+            </a>
+          </p>
+        </aside>
+      )
+    }
+
+    {
+      tool.slug === 'mileage-calculator' && (
+        <aside class="trust-note" aria-label="Mileage Calculator rate notes">
+          <strong>Rate first, math second</strong>
+          <p>
+            The calculator multiplies miles by the rate you enter, then adds approved extras. For 2026,
+            IRS business mileage and the GSA rate for an authorized privately owned car are both 72.5 cents per mile.
+          </p>
+          <p>
+            Good references:{' '}
+            <a
+              href="https://www.irs.gov/newsroom/irs-sets-2026-business-standard-mileage-rate-at-725-cents-per-mile-up-25-cents"
+              rel="noreferrer"
+              target="_blank"
+            >
+              IRS 2026 mileage rates
+            </a>{' '}
+            and{' '}
+            <a
+              href="https://www.gsa.gov/travel/plan-a-trip/transportation-airfare-rates-pov-rates/privately-owned-vehicle-pov-mileage-reimbursement"
+              rel="noreferrer"
+              target="_blank"
+            >
+              GSA POV reimbursement rates.
             </a>
           </p>
         </aside>

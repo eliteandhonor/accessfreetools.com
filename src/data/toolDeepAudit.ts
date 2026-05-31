@@ -1236,6 +1236,16 @@ const irsMileage2026 = {
   label: 'IRS: 2026 standard mileage rates',
 };
 
+const irsMileageUpdate2026 = {
+  href: 'https://www.irs.gov/forms-pubs/the-standard-mileage-rates-and-maximum-automobile-fair-market-values-have-been-updated-for-2026',
+  label: 'IRS: 2026 mileage-rate update',
+};
+
+const gsaPovMileage2026 = {
+  href: 'https://www.gsa.gov/travel/plan-a-trip/transportation-airfare-rates-pov-rates/privately-owned-vehicle-pov-mileage-reimbursement',
+  label: 'GSA: 2026 POV mileage reimbursement rates',
+};
+
 const nhtsaTireSize = {
   href: 'https://www.nhtsa.gov/vehicle-safety/tires',
   label: 'NHTSA: Tire safety and sidewall information',
@@ -5977,17 +5987,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'mileage-calculator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [irsMileage2026, epaFuelEconomy],
+    sources: [irsMileage2026, irsMileageUpdate2026, gsaPovMileage2026, googleHelpfulContent],
     findings: [
       'The mileage helper multiplies miles by an entered rate per mile and adds optional parking, tolls, or extras.',
-      'Tests cover 125 miles at 0.67 plus $12 in extra costs.',
-      'The guide tells users to use their employer, client, contract, or tax authority rate instead of assuming the example rate applies.',
+      'IRS and GSA source refresh confirmed the 2026 business rate and authorized privately owned car rate context: 72.5 cents, or $0.725, per mile.',
+      'Tests cover 125 miles at 0.725 plus $12 in extra costs, including the mileage-only subtotal and final total.',
+      'The guide tells users to use their employer, client, contract, app, or tax authority rate instead of assuming the example rate applies.',
     ],
     improvements: [
-      'Manually checked mileage multiplication, extras handling, example rate wording, guide cautions, FAQ detail, related links, SEO copy, and privacy behavior.',
+      'Refreshed mileage multiplication, extras handling, 2026 rate wording, source links, guide examples, FAQ detail, related links, SEO copy, image alt/caption text, and privacy behavior.',
     ],
     followUps: [
       'Avoid hard-coding annual mileage rates unless there is a maintained update process and visible effective date.',

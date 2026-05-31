@@ -1624,10 +1624,10 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         label: 'Rate',
         symbol: '$/mi',
         fields: [numberField('miles', 'Miles'), numberField('ratePerMile', 'Rate per mile ($)'), numberField('extraCosts', 'Parking, tolls, or extras ($)')],
-        defaultInputs: { miles: '125', ratePerMile: '0.67', extraCosts: '12' },
+        defaultInputs: { miles: '125', ratePerMile: '0.725', extraCosts: '12' },
         examples: [
-          { label: 'Client visit', inputs: { miles: '125', ratePerMile: '0.67', extraCosts: '12' } },
-          { label: 'Local errand', inputs: { miles: '18.4', ratePerMile: '0.67', extraCosts: '0' } },
+          { label: 'Client visit', inputs: { miles: '125', ratePerMile: '0.725', extraCosts: '12' } },
+          { label: 'Local errand', inputs: { miles: '18.4', ratePerMile: '0.725', extraCosts: '0' } },
           { label: 'Delivery day', inputs: { miles: '92', ratePerMile: '0.55', extraCosts: '8' } },
         ],
       },

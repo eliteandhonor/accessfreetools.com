@@ -1658,7 +1658,7 @@ describe('utility helpers', () => {
     const squareFeet = calculateSquareFootage(12, 10, 2);
     const gasMileage = calculateGasMileage(350, 12.5);
     const tip = calculateTip(84.5, 20, 8.25, 2);
-    const mileage = calculateMileageCost(125, 0.67, 12);
+    const mileage = calculateMileageCost(125, 0.725, 12);
 
     expect(dice.rolls).toEqual([1, 6]);
     expect(dice.total).toBe(8);
@@ -1669,7 +1669,8 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(gasMileage.litersPer100Km)).toBe('8.4005208214');
     expect(() => calculateGasMileage(350, 0)).toThrow(/Gallons used/);
     expect(formatCalculatorNumber(tip.perPerson)).toBe('54.185625');
-    expect(formatCalculatorNumber(mileage.total)).toBe('95.75');
+    expect(formatCalculatorNumber(mileage.mileageAmount)).toBe('90.625');
+    expect(formatCalculatorNumber(mileage.total)).toBe('102.625');
   });
 
   it('calculates science, date, encoding, and time helpers for the utility batch', () => {
