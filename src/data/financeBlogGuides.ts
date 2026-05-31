@@ -263,6 +263,22 @@ const sourceLinks = {
     href: 'https://collegecost.ed.gov/net-price',
     label: 'U.S. Department of Education: Net Price Calculator Center',
   },
+  educationCollegeAffordability: {
+    href: 'https://collegecost.ed.gov/',
+    label: 'U.S. Department of Education: College Affordability and Transparency Center',
+  },
+  educationCollegeScorecard: {
+    href: 'https://collegescorecard.ed.gov/',
+    label: 'U.S. Department of Education: College Scorecard',
+  },
+  cfpbCollegePath: {
+    href: 'https://www.consumerfinance.gov/paying-for-college/compare-financial-aid-and-college-cost/',
+    label: 'CFPB: Compare financial aid and college cost',
+  },
+  cfpbCollegeNumbers: {
+    href: 'https://www.consumerfinance.gov/paying-for-college/your-financial-path-to-graduation/how-we-got-these-numbers/',
+    label: 'CFPB: How college cost and aid numbers are used',
+  },
   fdicCdShopping: {
     href: 'https://www.fdic.gov/consumer-resource-center/2023-11/shopping-certificate-deposit',
     label: 'FDIC: Shopping for a Certificate of Deposit',
@@ -691,7 +707,14 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'college-cost-calculator') {
-    return [sourceLinks.educationNetPrice, sourceLinks.investorCompound];
+    return [
+      sourceLinks.educationCollegeAffordability,
+      sourceLinks.educationNetPrice,
+      sourceLinks.educationCollegeScorecard,
+      sourceLinks.cfpbCollegePath,
+      sourceLinks.cfpbCollegeNumbers,
+      sourceLinks.investorCompound,
+    ];
   }
 
   if (toolSlug === 'irr-calculator') {
@@ -1994,29 +2017,36 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'college-cost-calculator': {
-    summary: 'Learn how current annual cost, cost increases, savings, and years until school affect a college cost estimate.',
+    summary: 'Learn how today\'s college cost, yearly increases, savings, and aid limits shape a future college gap estimate.',
     purpose:
-      'The College Cost Calculator projects a future school cost from today\'s annual cost and a yearly increase assumption. It is a planning number to use before checking each school\'s official net price calculator.',
+      'The College Cost Calculator projects one future school plan from today\'s annual cost, a yearly cost increase, savings, and monthly deposits. It is a planning number to use before checking each school\'s official net price calculator, College Scorecard data, FAFSA results, and aid offer.',
     enter: [
-      'Enter today\'s annual cost for one school year.',
-      'Enter years until school starts, years in school, and expected annual cost increase.',
-      'Enter current savings, monthly savings, and savings return if you want to compare cost with projected savings.',
+      'Enter a full current annual cost for one school year: tuition, fees, housing, meals, books, supplies, transportation, and personal costs if you have them.',
+      'Enter years until school starts, years in school, and an annual cost increase you want to test.',
+      'Enter current savings, monthly savings, and estimated savings return if you want to compare the cost with money available at the start date.',
     ],
     example: [
-      '$28,000 today, starting in 8 years, grows the first school year before adding later school years.',
-      'The savings side projects current savings and monthly deposits only until school starts, then compares them with total estimated cost.',
+      '$28,000 today, 8 years until start, 4 school years, and 4% cost growth gives a first-year estimate near $38,319.93.',
+      'The same starter example estimates about $162,724.22 total cost, $44,340.98 projected savings, and a $118,383.23 savings gap.',
+      'That gap is before scholarships, grants, financial aid offers, work-study, loans, family payments during school, or choosing a cheaper school.',
     ],
     read: [
       'Total estimated cost is the projected cost for all school years entered.',
       'First year estimate shows the projected cost of the first school year.',
-      'Savings gap or surplus compares projected savings with the estimated total cost.',
+      'Projected savings shows what the savings side may reach by the start date.',
+      'Savings gap or surplus compares projected savings with estimated total cost, but it is not the same as net price after aid.',
     ],
     mistakes: [
-      'Do not treat this as a school financial aid offer.',
-      'Do not forget scholarships, grants, loans, work-study, housing, travel, books, program fees, residency, or net price calculators.',
-      'Do not use one national cost increase assumption for every school without checking the school\'s published costs.',
+      'Do not treat this as a school financial aid offer, official net price calculator, FAFSA result, or loan recommendation.',
+      'Do not enter tuition only if you really need total cost of attendance. Fees, housing, meals, books, supplies, transportation, and personal costs can be large.',
+      'Do not use one national cost increase assumption for every school without checking the school\'s published costs and College Scorecard or College Navigator data.',
+      'Do not forget that some aid renews each year and some does not.',
     ],
-    next: ['Use Savings Calculator to adjust monthly savings.', 'Use Student Loan Calculator to inspect a possible loan payment.'],
+    next: [
+      'Use Savings Calculator to adjust monthly savings.',
+      'Use Student Loan Calculator to inspect a possible loan payment.',
+      'Use Compound Interest Calculator if you want to isolate the savings-growth side.',
+    ],
   },
   'simple-interest-calculator': {
     summary: 'Learn how principal, annual rate, and time create a simple interest result.',
@@ -3278,6 +3308,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Student Loan Calculator Guide';
   }
 
+  if (tool.slug === 'college-cost-calculator') {
+    return 'College Cost Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3397,6 +3431,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate student loan payment, payoff time, total interest, and extra-payment savings, with Federal Student Aid and servicer cautions.';
   }
 
+  if (tool.slug === 'college-cost-calculator') {
+    return 'Estimate future college cost, first-year cost, savings gap, and aid-limit checks before using school net price calculators.';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Estimate a defined-benefit pension from final average salary, credited service, and plan multiplier, with monthly and replacement-rate checks.';
   }
@@ -3442,6 +3480,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isDebtConsolidationGuide = tool.slug === 'debt-consolidation-calculator';
   const isRepaymentGuide = tool.slug === 'repayment-calculator';
   const isStudentLoanGuide = tool.slug === 'student-loan-calculator';
+  const isCollegeCostGuide = tool.slug === 'college-cost-calculator';
   const isPensionGuide = tool.slug === 'pension-calculator';
   const isAnnuityPayoutGuide = tool.slug === 'annuity-payout-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
@@ -3490,6 +3529,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A repayment estimate can look fine while interest is quietly eating the payment. This guide shows how one balance, one annual rate, a regular payment, and an extra payment turn into payoff months, interest, total paid, and the last payment.'
       : isStudentLoanGuide
       ? 'A student loan payment is easier to check when the official-plan stuff is kept separate from the basic math. This guide shows how balance, rate, term, and extra payment change a standard student-loan estimate before you compare Federal Student Aid or servicer options.'
+      : isCollegeCostGuide
+      ? 'College cost planning gets confusing when sticker price, net price, savings, aid, and loans are all mixed together. This guide keeps the simple projection separate: today\'s cost, years until school, yearly cost growth, savings, and the gap before official aid numbers.'
       : isPensionGuide
       ? 'A pension estimate is easy to overtrust if the plan formula is guessed. This guide shows how final average salary, credited service, and a plan multiplier turn into annual pension, monthly pension, and replacement rate.'
       : isAnnuityPayoutGuide
@@ -3628,6 +3669,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter the annual interest rate from StudentAid.gov, your servicer, or your private-loan agreement.',
           'Use a standard repayment term such as 10 years, then add extra monthly payment only if you can really keep sending it.',
           'Calculate, then compare scheduled payment, payoff time, total interest, and interest saved before checking official plans.',
+        ]
+      : isCollegeCostGuide
+      ? [
+          'Open the College Cost Calculator.',
+          'Enter a full one-year cost if you can: tuition, fees, housing, meals, books, supplies, transportation, and personal costs.',
+          'Add years until school starts, years in school, and the yearly cost increase you want to test.',
+          'Enter current savings, monthly savings, and estimated savings return.',
+          'Calculate, then compare total estimated cost, first-year cost, projected savings, and the savings gap before checking school net price calculators and aid offers.',
         ]
       : isPensionGuide
       ? [
@@ -3812,6 +3861,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it when you have one clean balance and want to test whether the payment is strong enough, whether extra money helps, and how much interest the payoff path may cost.'
             : isStudentLoanGuide
             ? 'Use it when you want a quick standard student-loan payment estimate before you compare official federal repayment plans, private lender terms, or a servicer quote.'
+            : isCollegeCostGuide
+            ? 'Use it when you want a first-pass college budget before comparing schools. It is helpful before checking the U.S. Department of Education Net Price Calculator Center, College Scorecard, a FAFSA result, or a financial aid offer.'
             : isPensionGuide
             ? 'Use it when you want to test a defined-benefit formula before you compare the number with your pension statement, plan summary, retirement office, or PBGC coverage notes.'
             : isAnnuityPayoutGuide
@@ -3860,6 +3911,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Repayment estimates get shaky when the balance is old, the rate is monthly instead of annual, or the extra payment is money the budget cannot keep sending. Keep balance, annual rate, regular payment, and extra payment separate.'
             : isStudentLoanGuide
             ? 'Student-loan estimates get shaky when official-plan rules and simple loan math are mixed together. Keep balance, annual rate, term, and extra payment separate, then check Federal Student Aid or your servicer for the real plan.'
+            : isCollegeCostGuide
+            ? 'College-cost estimates get shaky when tuition is treated like the whole bill. Keep tuition and fees, housing and meals, books and supplies, transportation, personal costs, years until school, cost increase, and savings assumptions separate.'
             : isPensionGuide
             ? 'Pension estimates get shaky when calendar years worked and credited service are treated as the same thing. Use the salary, service, and multiplier your plan actually uses, then check whether vesting, caps, early retirement, or survivor choices change the benefit.'
             : isAnnuityPayoutGuide
@@ -3926,6 +3979,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $12,000 balance, 8% annual rate, $300 regular monthly payment, and $50 extra. The estimate is 40 months, about $1,669.76 interest, about $13,669.76 total paid, and a final payment near $19.76. Without the extra $50, the same balance takes about 47 months and about $2,003.66 interest.'
               : isStudentLoanGuide
               ? 'Try the starter example: $30,000 balance, 6.5% annual rate, 10 years, and $50 extra each month. The scheduled payment is about $340.64. With the extra $50, the estimate is a 100-month payoff, about $8,892.17 interest, about $38,892.17 total paid, and about $1,985.10 interest saved.'
+              : isCollegeCostGuide
+              ? 'Try the starter example: $28,000 current annual cost, 8 years until start, 4 school years, 4% yearly cost increase, $10,000 saved, $250 saved each month, and 5% savings return. The estimate is about $38,319.93 for the first year, $162,724.22 total cost, $44,340.98 projected savings, and a $118,383.23 savings gap before aid.'
               : isPensionGuide
               ? 'Try the starter example: $82,000 final average salary, 27 credited service years, and a 1.6% multiplier. The estimate is $35,424 per year, $2,952 per month, and a 43.2% replacement rate before taxes or plan adjustments.'
               : isAnnuityPayoutGuide
@@ -3985,6 +4040,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start by turning the annual rate into a simple monthly rate. Each month, the calculator adds estimated interest, subtracts the regular payment plus extra payment, and repeats until the balance reaches zero. If the payment cannot beat the interest, the estimate should not be treated like a real payoff plan.'
             : isStudentLoanGuide
             ? 'Start with the fixed-payment loan formula. The calculator turns the annual rate into a monthly rate, finds the scheduled payment for the term, then adds extra payment and simulates the balance month by month. It does not choose or price official federal repayment plans.'
+            : isCollegeCostGuide
+            ? 'Start by growing the annual cost until the first school year. Then add each school year with the same cost increase. The savings side grows current savings and monthly deposits until school starts. It does not subtract financial aid, scholarships, grants, work-study, loans, or family payments during school.'
             : isPensionGuide
             ? 'Start with the plan salary number, multiply by credited service, then apply the multiplier percentage. IRS and DOL materials separate defined-benefit pensions from contribution accounts, and PBGC coverage rules are another reason to check the official plan source before trusting a quick estimate.'
             : isAnnuityPayoutGuide
@@ -4059,6 +4116,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with payoff months, then check total interest and total paid. If the payoff time is longer than expected, test a higher payment or check whether the first month of interest is eating too much of the payment.'
             : isStudentLoanGuide
             ? 'Start with scheduled payment, then check payoff time, total interest, and interest saved. If the lower payment looks nice but total interest looks heavy, compare the result with an official plan before making changes.'
+            : isCollegeCostGuide
+            ? 'Start with total estimated cost, then check first-year cost, projected savings, and the savings gap. If the gap looks huge, do not panic or ignore it. Compare official net price calculators, aid offers, scholarships, grants, cheaper school paths, and possible loan payments next.'
             : isMarriageTaxGuide
             ? 'Start with the difference, then check joint federal tax, two single returns, joint taxable income, and the joint marginal bracket. A $0 difference is a real answer, not an error.'
             : isInvestmentGuide
@@ -4114,6 +4173,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad repayment estimates come from using an old balance, entering 0.08 instead of 8, treating an annual payment like a monthly payment, or ignoring fees, payment pauses, and official servicer rules.'
             : isStudentLoanGuide
             ? 'Most bad student-loan estimates come from using the wrong rate, old balance, wrong term, or assuming this page can model IDR, forgiveness, deferment, forbearance, capitalization, subsidies, private-loan fees, or servicer payment allocation.'
+            : isCollegeCostGuide
+            ? 'Most bad college-cost estimates come from entering tuition only, guessing one cost increase for every school, ignoring whether aid renews, or treating a rough savings gap like an official financial aid bill.'
             : isCreditCardGuide
             ? 'Most bad credit card payoff estimates come from paying only the minimum without checking time, adding new spending every month, ignoring fees or promotions, or expecting simple monthly math to match daily-balance billing exactly.'
             : isCreditCardsPayoffGuide
@@ -4365,6 +4426,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'CFPB disclosure guidance is useful because monthly payment, APR, finance charge, and total paid are different pieces of a loan. Federal Student Aid is useful for the warning that official student loan repayment plans need the Loan Simulator or servicer rules. FTC debt guidance and consumer.gov budget notes help keep the payment realistic.'
             : isStudentLoanGuide
             ? 'Federal Student Aid sources are useful because official federal student loan choices depend on loan type, interest rate, repayment plan, deferment, forbearance, and servicer rules. CFPB sources help separate federal loans from private loans so this page stays honest about what simple payment math can and cannot answer.'
+            : isCollegeCostGuide
+            ? 'U.S. Department of Education sources are useful because school costs, net price, and College Scorecard data are school-specific. CFPB sources are useful because aid offers split tuition and fees, housing and meals, books, transportation, personal costs, grants, scholarships, work-study, and loans into pieces you should compare line by line.'
             : isPensionGuide
             ? 'PBGC, DOL, and IRS sources are useful here because defined-benefit pensions are plan formulas, not personal account balances. Real benefits can depend on vesting, credited service, payment form, survivor options, plan guarantees, taxes, and the official plan document.'
             : isAnnuityPayoutGuide
@@ -4420,6 +4483,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not read each statement, calculate average daily balance, split cards by APR, choose avalanche order, apply fees, model deferred interest, decide payment allocation, preserve a grace period, or replace card agreements.'
             : isStudentLoanGuide
             ? 'This calculator still stays simple. It does not choose an IDR plan, model forgiveness, apply subsidies, handle deferment or forbearance, capitalize interest, check auto-pay discounts, read private-loan fees, or replace Federal Student Aid Loan Simulator or your servicer.'
+            : isCollegeCostGuide
+            ? 'This calculator still stays simple. It does not read school aid formulas, choose a 529 plan, predict FAFSA results, renew scholarships, price every fee, know residency rules, or replace each school\'s official net price calculator and aid offer.'
             : isPensionGuide
             ? 'This calculator still stays simple. It does not read your plan document, prove vesting, apply early-retirement reductions, price survivor options, calculate COLA, decide lump-sum value, apply PBGC limits, estimate tax withholding, or replace an official benefit statement.'
             : isAnnuityPayoutGuide
@@ -4491,6 +4556,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Interest Rate Calculator open beside this guide. Try $25,000, $483.32/month, and 5 years first, then change only the payment so you can see how quickly the estimated rate moves.'
       : isStudentLoanGuide
       ? 'Keep the Student Loan Calculator open beside this guide. Try $30,000 at 6.5% for 10 years first, then change only the extra monthly payment so you can see what actually moved.'
+      : isCollegeCostGuide
+      ? 'Keep the College Cost Calculator open beside this guide. Try the $28,000, 8-year, 4-year example first, then change only monthly savings so you can see how much the gap moves.'
       : isIncomeTaxGuide
       ? 'Keep the Income Tax Calculator open beside this guide. Try the $100,000 single example first, then change only the filing status so you can see how the deduction and brackets move.'
       : isMarriageTaxGuide

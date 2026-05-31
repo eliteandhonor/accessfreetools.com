@@ -841,6 +841,26 @@ const educationNetPrice = {
   label: 'U.S. Department of Education: Net Price Calculator Center',
 };
 
+const educationCollegeAffordability = {
+  href: 'https://collegecost.ed.gov/',
+  label: 'U.S. Department of Education: College Affordability and Transparency Center',
+};
+
+const educationCollegeScorecard = {
+  href: 'https://collegescorecard.ed.gov/',
+  label: 'U.S. Department of Education: College Scorecard',
+};
+
+const cfpbCollegePath = {
+  href: 'https://www.consumerfinance.gov/paying-for-college/compare-financial-aid-and-college-cost/',
+  label: 'CFPB: Compare financial aid and college cost',
+};
+
+const cfpbCollegeNumbers = {
+  href: 'https://www.consumerfinance.gov/paying-for-college/your-financial-path-to-graduation/how-we-got-these-numbers/',
+  label: 'CFPB: How college cost and aid numbers are used',
+};
+
 const fdicCdShopping = {
   href: 'https://www.fdic.gov/consumer-resource-center/2023-11/shopping-certificate-deposit',
   label: 'FDIC: Shopping for a Certificate of Deposit',
@@ -2718,20 +2738,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'college-cost-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-3-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [educationNetPrice, investorCompound],
+    sources: [educationCollegeAffordability, educationNetPrice, educationCollegeScorecard, cfpbCollegePath, cfpbCollegeNumbers, investorCompound],
     findings: [
+      'The 2026-05-31 sprint used page-specific DataForSEO evidence, built-in browser review, Calculator.net competitor evidence, and current U.S. Department of Education/CFPB source checks before editing.',
       'The calculator grows today\'s annual cost until school starts, increases each school year separately, and compares the total with projected savings at the start date.',
-      'The result labels first-year estimate, total estimated cost, projected savings, and gap or surplus so users can see the cost side and savings side separately.',
-      'The guide now directs users to school net price calculators and warns that aid, grants, loans, housing, books, travel, residency, and school-specific billing can change the real cost.',
+      'The page now shows exact college-cost example math: $28,000 today, 8 years until start, 4 school years, 4% cost increase, $10,000 saved, $250/month, and 5% savings return estimates $38,319.93 first-year cost, $162,724.22 total cost, $44,340.98 projected savings, and a $118,383.23 savings gap.',
+      'The guide and FAQ separate this rough planning projection from school net price calculators, College Scorecard context, FAFSA results, aid offers, grants, scholarships, work-study, loans, residency, housing, books, transportation, and school-specific billing rules.',
     ],
     improvements: [
-      'Added a college-cost-specific guide detail and source, then manually checked cost-growth math, savings projection, examples, FAQ cautions, related tools, SEO copy, and privacy behavior.',
+      'Rewrote the tool and guide in the Access Free Tools smart 14-year-old tone, added SEO title/meta descriptions, DataForSEO keyword-fit aliases, official source links, specific trust notes, and repaired generic image alt/caption text.',
     ],
     followUps: [
-      'Add a school-year cash-flow mode later if users need savings drawdown during each year of school instead of one start-date comparison.',
+      'Add a school-year cash-flow mode later only if users need savings drawdown during each year of school instead of one start-date comparison.',
     ],
   },
   {
@@ -7482,7 +7503,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['college-cost', 'college cost'])) {
-      return sourceBackstop([educationNetPrice, investorCompound]);
+      return sourceBackstop([educationCollegeAffordability, educationNetPrice, educationCollegeScorecard, cfpbCollegePath, cfpbCollegeNumbers, investorCompound]);
     }
 
     if (includesAny(key, ['cash-back-or-low-interest', 'cash back', 'low interest'])) {

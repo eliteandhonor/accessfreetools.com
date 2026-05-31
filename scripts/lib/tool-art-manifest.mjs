@@ -148,6 +148,18 @@ const toolArtMetadataOverrides = {
         'Student Loan Calculator guide artwork supports the walkthrough by showing where simple payment math helps and where official federal, servicer, and private-loan rules still matter.',
     },
   },
+  'college-cost-calculator': {
+    tool: {
+      alt: 'Smoke mascot planning a college cost screen with $28,000 annual cost, 8 years until start, 4 school years, monthly savings, first-year cost, total cost, projected savings, and gap cards.',
+      caption:
+        'College Cost Calculator artwork matches the live workflow: annual cost, years until school, school years, cost increase, savings, first-year cost, total cost, and savings gap.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing college sticker cost with net price calculator notes, aid-offer cards, tuition, fees, housing, books, transportation, savings, and loan cautions.',
+      caption:
+        'College Cost Calculator guide artwork supports the walkthrough by showing where a savings-gap estimate helps and where net price calculators, aid offers, and school-specific costs still matter.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

@@ -1642,6 +1642,10 @@ describe('finance helpers', () => {
     expect(consolidation.consolidationLoan.monthlyPayment).toBeLessThan(consolidation.currentDebt.monthlyPayment);
     expect(college.firstYearCost).toBeGreaterThan(college.currentAnnualCost);
     expect(college.totalEstimatedCost).toBeGreaterThan(college.firstYearCost);
+    expect(college.firstYearCost).toBeCloseTo(38319.93, 2);
+    expect(college.totalEstimatedCost).toBeCloseTo(162724.22, 2);
+    expect(college.projectedSavings).toBeCloseTo(44340.98, 2);
+    expect(college.savingsGap).toBeCloseTo(118383.23, 2);
     expect(cd.interestEarned).toBeGreaterThan(400);
     expect(formatCalculatorNumber(bond.currentYieldPercent)).toBe('5.2631578947');
     expect(mutualFund.estimatedExpenseDrag).toBeGreaterThan(0);

@@ -792,6 +792,13 @@ const financeToolInstructions = financeToolVariant
         'Enter the standard repayment term, then add extra monthly principal only if you can really keep sending it.',
         'Calculate, then compare scheduled payment, payoff time, total interest, and interest saved before checking official plan choices.',
       ]
+    : tool.slug === 'college-cost-calculator'
+    ? [
+        'Enter a full one-year cost if you can: tuition, fees, housing, meals, books, supplies, transportation, and personal costs.',
+        'Enter years until school starts, years in school, and a yearly cost increase you want to test.',
+        'Add current savings, monthly savings, and estimated savings return.',
+        'Calculate, then compare total estimated cost, first-year cost, projected savings, and the savings gap before checking school net price calculators and aid offers.',
+      ]
     : tool.slug === 'pension-calculator'
     ? [
         'Enter the final average salary or plan salary number used by the pension formula.',
@@ -2608,6 +2615,36 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.consumerfinance.gov/paying-for-college/repay-student-debt/federal-and-private-student-loans/" rel="noreferrer" target="_blank">
                   CFPB federal and private student loan options
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'college-cost-calculator' ? (
+            <>
+              <strong>College cost projection, not an aid offer</strong>
+              <p>
+                Use this to test today&apos;s annual cost, years until school starts, years in school,
+                yearly cost increase, current savings, monthly savings, savings return, first-year cost,
+                total estimated cost, projected savings, and the savings gap. Real college bills can still
+                change with grants, scholarships, FAFSA results, work-study, loans, residency rules,
+                program fees, housing choices, books, transportation, personal costs, and school billing rules.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://collegecost.ed.gov/" rel="noreferrer" target="_blank">
+                  U.S. Department of Education College Affordability and Transparency Center
+                </a>
+                {', '}
+                <a href="https://collegecost.ed.gov/net-price" rel="noreferrer" target="_blank">
+                  Net Price Calculator Center
+                </a>
+                {', '}
+                <a href="https://collegescorecard.ed.gov/" rel="noreferrer" target="_blank">
+                  College Scorecard
+                </a>
+                {', and '}
+                <a href="https://www.consumerfinance.gov/paying-for-college/compare-financial-aid-and-college-cost/" rel="noreferrer" target="_blank">
+                  CFPB college cost and aid comparison
                 </a>
                 .
               </p>

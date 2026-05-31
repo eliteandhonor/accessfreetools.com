@@ -3336,28 +3336,88 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'college-cost-calculator',
     name: 'College Cost Calculator',
-    summary: 'Estimate future college cost and savings gap from cost inflation and savings.',
+    summary: 'Project future college costs and the gap your savings may need to cover.',
     description:
-      'Use this free college cost calculator to estimate future annual college cost, total school cost, projected savings, and savings gap from current cost, years until start, school length, and savings plan.',
+      'Project one college plan from today\'s annual cost, years until school starts, yearly cost increase, current savings, and monthly deposits. See first-year cost, total estimated cost, projected savings, and the savings gap.',
+    seoTitle: 'College Cost Calculator | Future Tuition & Savings Gap',
     seoDescription:
-      'Estimate future college cost, total school cost, projected savings, and savings gap from current costs and savings plan.',
+      'Estimate future college cost, first-year cost, projected savings, and savings gap from today\'s cost, school years, inflation, and deposits.',
     icon: 'calculator-college-cost',
+    aliases: [
+      'college cost calculator',
+      'college tuition calculator',
+      'college savings calculator',
+      'future college cost calculator',
+      '529 college savings calculator',
+      'college net price planning calculator',
+    ],
     formula:
-      'The calculator grows today’s annual cost until school starts, adds each school year with annual increases, then compares that total with projected savings.',
+      'The calculator grows today\'s annual cost until school starts, adds each school year with annual increases, then compares that total with projected savings at the start date.',
     limit:
-      'This does not include school-specific aid, scholarships, grants, tax credits, loans, housing changes, residency rules, tuition guarantees, or billing details.',
+      'This is planning math, not a school net price calculator or financial aid offer. It does not include grants, scholarships, FAFSA results, loans, work-study, tax credits, residency rules, program fees, housing changes, tuition guarantees, or school billing details.',
     useCases: [
-      'Estimate a future college cost from today’s annual cost.',
-      'Compare projected savings with estimated total cost.',
-      'Test how monthly savings changes the gap.',
-      'Plan a starting point before using school net-price calculators.',
+      'Estimate future tuition, fees, housing, books, transportation, and other school costs from one annual cost number.',
+      'Compare projected savings with estimated total college cost.',
+      'Test how monthly savings changes the gap before school starts.',
+      'Plan a starting point before using a school net price calculator or reading an aid offer.',
     ],
     examples: [
-      { label: 'Four-year plan', expression: '$28,000 current annual cost, starts in 8 years, 4 years', result: 'Total cost and savings gap' },
-      { label: 'Sooner start', expression: '$22,000 annual cost, starts in 3 years', result: 'Near-term cost estimate' },
-      { label: 'Two-year program', expression: '$12,000 annual cost, 2 years in school', result: 'Shorter program estimate' },
+      {
+        label: 'Four-year plan',
+        expression: '$28,000 current annual cost, 8 years until start, 4 school years, 4% cost increase, $10,000 saved, $250/month, 5% savings return',
+        result: '$162,724.22 estimated total cost, $44,340.98 projected savings, $118,383.23 savings gap',
+      },
+      { label: 'Sooner start', expression: '$22,000 annual cost, starts in 3 years, $300/month savings', result: 'Near-term cost and gap estimate' },
+      { label: 'Two-year program', expression: '$12,000 annual cost, 2 years in school, 5 years until start', result: 'Shorter program estimate' },
     ],
     relatedSlugs: ['savings-calculator', 'student-loan-calculator', 'compound-interest-calculator'],
+    inputExplanations: [
+      {
+        term: 'Current annual cost',
+        meaning:
+          'the full one-year sticker estimate you want to grow, such as tuition, required fees, housing, meals, books, supplies, transportation, and personal costs.',
+      },
+      { term: 'Years until start', meaning: 'how long the savings have to grow before the first school year begins.' },
+      {
+        term: 'Years in school',
+        meaning: 'the number of school years to add. Use 2 for a two-year program or 4 for a common bachelor\'s plan.',
+      },
+      {
+        term: 'Annual cost increase',
+        meaning:
+          'a what-if percent. Use a lower and higher test because tuition, housing, and fees do not rise the same way at every school.',
+      },
+      {
+        term: 'Savings inputs',
+        meaning:
+          'current savings, monthly savings, and savings return estimate the money available at the start date. The calculator does not spend savings during each school year.',
+      },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this the same as a net price calculator?',
+        answer:
+          'No. A school net price calculator uses that school\'s data and your aid details. This page is a rough planning screen that grows one annual cost number and compares it with savings.',
+      },
+      {
+        question: 'What should I use for current annual cost?',
+        answer:
+          'Use the closest full cost of attendance number you can find: tuition, fees, housing, meals, books, supplies, transportation, and personal costs. If you only enter tuition, the gap will probably look too small.',
+      },
+      {
+        question: 'Why does the calculator show a big savings gap?',
+        answer:
+          'The gap compares projected savings at the start date with the estimated total cost for all school years. It does not subtract future financial aid, scholarships, grants, loans, work-study, tax credits, or family payments during school.',
+      },
+    ],
+    formulaCheck:
+      'For the starter example, $28,000 today grows to about $38,319.93 for the first school year after 8 years at 4%. Four rising school years total about $162,724.22.',
+    resultReading:
+      'Start with total estimated cost, then check first-year cost, projected savings, and the savings gap. A big gap does not mean college is impossible; it means aid offers, scholarships, lower-cost schools, monthly savings, or loan choices still need checking.',
+    doubleCheck:
+      'Check whether your annual cost includes tuition and fees, housing and meals, books and supplies, transportation, and personal expenses. Then compare the result with each school\'s official net price calculator.',
+    limitFollowup:
+      'Use the U.S. Department of Education College Affordability and Transparency Center, College Scorecard, school net price calculators, FAFSA and aid offers, and CFPB college-cost worksheets before making a real school or borrowing decision.',
   }),
   makeFinanceTool({
     slug: 'simple-interest-calculator',

@@ -906,20 +906,21 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'College Cost Calculator',
     buttonLabel: 'Estimate college cost',
     emptyHistory: 'Recent college cost estimates will appear here.',
-    privacyNote: 'College estimates do not include financial aid, scholarships, tuition guarantees, taxes, or school-specific billing rules.',
+    privacyNote:
+      'College cost estimates are planning math only. They are not school net price calculator results, FAFSA results, aid offers, 529 advice, loan advice, or a promise that costs will rise at one exact rate.',
     modes: [
       {
         id: 'college-cost',
         label: 'College cost',
         symbol: 'COL',
         fields: [
-          numberField('currentAnnualCost', 'Current annual cost ($)'),
-          numberField('yearsUntilStart', 'Years until start'),
-          numberField('yearsInSchool', 'Years in school'),
-          numberField('annualCostIncreasePercent', 'Annual cost increase (%)'),
-          numberField('currentSavings', 'Current savings ($)'),
-          numberField('monthlySavings', 'Monthly savings ($)'),
-          numberField('annualSavingsReturnPercent', 'Savings return (%)'),
+          numberField('currentAnnualCost', 'Current full annual cost ($)'),
+          numberField('yearsUntilStart', 'Years until school starts'),
+          numberField('yearsInSchool', 'School years to include'),
+          numberField('annualCostIncreasePercent', 'Yearly cost increase (%)'),
+          numberField('currentSavings', 'Current college savings ($)'),
+          numberField('monthlySavings', 'Monthly savings before school ($)'),
+          numberField('annualSavingsReturnPercent', 'Estimated savings return (%)'),
         ],
         defaultInputs: { currentAnnualCost: '28000', yearsUntilStart: '8', yearsInSchool: '4', annualCostIncreasePercent: '4', currentSavings: '10000', monthlySavings: '250', annualSavingsReturnPercent: '5' },
         examples: [
@@ -3174,12 +3175,13 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           { label: 'Years in school', value: years(result.yearsInSchool) },
         ],
         steps: [
-          'Grow today’s annual cost by the yearly cost increase until school starts.',
+          'Grow today\'s annual cost by the yearly cost increase until school starts.',
           'Add each school year, increasing the cost year by year.',
           'Project current savings and monthly savings until the start year.',
           'Compare projected savings with total estimated school cost.',
         ],
-        note: 'Financial aid, scholarships, grants, tax credits, housing, and school-specific costs can change the real amount.',
+        note:
+          'Financial aid, scholarships, grants, work-study, loans, tax credits, residency, housing, meals, books, transportation, and school-specific billing can change the real amount. Check official net price calculators and aid offers next.',
       };
     }
     case 'simple-interest': {
