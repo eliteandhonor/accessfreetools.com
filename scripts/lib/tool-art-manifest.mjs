@@ -51,6 +51,21 @@ const categoryVisualCues = {
   'everyday-tools': 'checklists, small household objects, and simple task icons',
 };
 
+const toolArtMetadataOverrides = {
+  'rent-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a rent budget screen with monthly income, rent target percent, debt payments, utilities, max rent, and income-left cards.',
+      caption:
+        'Rent Calculator artwork matches the live rent workflow: income and rent target at the top, debts and utilities subtracted, then max rent and income-left result cards.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing apartment rent notes with monthly income, 30 percent target, debt payments, utilities, deposits, and moving-cost reminders.',
+      caption:
+        'Rent Calculator guide artwork supports the walkthrough by showing the rent ceiling, utility costs, debt payments, and lease extras a renter should check before applying.',
+    },
+  },
+};
+
 function propertyKeyName(name) {
   if (ts.isIdentifier(name) || ts.isStringLiteral(name) || ts.isNumericLiteral(name)) return name.text;
   return undefined;
@@ -210,6 +225,9 @@ function slugWords(slug) {
 }
 
 function buildAlt(tool, kind) {
+  const override = toolArtMetadataOverrides[tool.slug]?.[kind]?.alt;
+  if (override) return override;
+
   const concept = imageAltConcept(shortSummary(tool.summary, kind === 'tool' ? 116 : 72));
 
   if (kind === 'tool') {
@@ -224,6 +242,9 @@ function buildAlt(tool, kind) {
 }
 
 function buildCaption(tool, kind) {
+  const override = toolArtMetadataOverrides[tool.slug]?.[kind]?.caption;
+  if (override) return override;
+
   const summary = shortSummary(tool.summary, 110);
   const concept = summary ? lowerFirst(summary) : `the ${slugWords(tool.slug) || tool.name} workflow`;
 

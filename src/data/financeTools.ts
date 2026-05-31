@@ -2632,25 +2632,84 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'rent-calculator',
     name: 'Rent Calculator',
-    summary: 'Estimate a rent budget from monthly income, rent target, debts, and utilities.',
+    summary: 'Estimate how much rent may fit after income, debts, utilities, and a rent target.',
     description:
-      'Use this free rent calculator to estimate maximum monthly rent from income, target rent percentage, monthly debt payments, and estimated utilities.',
+      'Use this rent calculator to estimate a monthly rent ceiling from income, rent target, debts, and utilities before apartment hunting.',
+    seoTitle: 'Rent Calculator | Income, Debts, Utilities & Rent Budget',
+    seoDescription:
+      'Estimate max monthly rent from income, rent target, monthly debts, and utilities. See annual rent and income left before lease fees.',
     icon: 'calculator-rent',
+    aliases: ['rent affordability calculator', 'monthly rent calculator based on income', 'income based rent calculator', 'apartment rent budget calculator'],
     formula:
       'The calculator multiplies monthly income by the target rent percentage, then subtracts monthly debts and estimated utilities to produce a rent ceiling.',
     limit:
-      'This is a simple budget estimate. It does not include deposits, application fees, moving costs, renters insurance, local market prices, or landlord screening rules.',
+      'This is a simple rent budget estimate. It does not include deposits, application fees, moving costs, renters insurance, parking, pet fees, local market prices, lease terms, or landlord screening rules.',
     useCases: [
       'Estimate a monthly rent ceiling before apartment hunting.',
       'Compare 25%, 30%, and 35% rent budget targets.',
       'Account for existing debts and utilities before choosing rent.',
-      'Check whether a rent amount leaves enough income for other costs.',
+      'Check whether the rent budget still leaves income for groceries, transport, savings, and other bills.',
     ],
     examples: [
-      { label: '30% target', expression: '$5,200 income, 30%, $350 debts, $180 utilities', result: 'Estimated max rent' },
-      { label: 'Lower income', expression: '$3,600 income, 30%, $150 debts', result: 'Rent ceiling' },
-      { label: 'Conservative target', expression: '$6,200 income, 25% target', result: 'Lower rent budget' },
+      { label: '30% target', expression: '$5,200 income, 30%, $350 debts, $180 utilities', result: '$1,030 max rent' },
+      { label: 'Lower income', expression: '$3,600 income, 30%, $150 debts, $160 utilities', result: '$770 max rent' },
+      { label: 'Conservative target', expression: '$6,200 income, 25%, $500 debts, $220 utilities', result: '$830 max rent' },
     ],
+    inputExplanations: [
+      {
+        term: 'Monthly income',
+        meaning:
+          'the income number you want to budget from. Use gross monthly income for a quick landlord-style check, or take-home pay for your own safer budget.',
+      },
+      {
+        term: 'Target rent percent',
+        meaning:
+          'the share of income you want rent to use, such as 25, 30, or 35. A lower percent leaves more room for food, transport, savings, and surprises.',
+      },
+      { term: 'Monthly debts', meaning: 'payments you already owe each month, such as student loans, car loans, credit cards, or personal loans.' },
+      {
+        term: 'Estimated utilities',
+        meaning:
+          'monthly bills you expect to pay on top of rent, such as electricity, gas, water, sewer, trash, or internet when they are not included.',
+      },
+    ],
+    priorityFaq: [
+      {
+        question: 'Should I use gross income or take-home pay?',
+        answer:
+          'Use gross monthly income if you are checking a rough landlord-style rent rule. Use take-home pay if you want a safer personal budget. If those answers are far apart, treat the lower rent number as the warning light.',
+      },
+      {
+        question: 'Is 30% of income always the right rent target?',
+        answer:
+          'No. Thirty percent is a common starting point, but it is not magic. A person with high debt, expensive transport, childcare, medical costs, or no savings buffer may need a lower target.',
+      },
+      {
+        question: 'Can this replace a landlord approval rule?',
+        answer:
+          'No. Landlords may check gross income, credit, rental history, deposits, local rules, and lease terms. This page is for your budget first, not proof that an application will pass.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Can I use this for split rent with roommates?',
+        answer:
+          'Use it to find your own rent ceiling first. If roommates are involved, compare each person separately, then split the actual rent in a way everyone can explain and afford. This page does not split rent by bedroom size or square footage.',
+      },
+      {
+        question: 'Why do utilities lower the rent estimate?',
+        answer:
+          'Utilities are still housing costs when you pay them outside the rent. Subtracting them keeps a $1,300 rent plus $200 utilities from looking the same as a true $1,300 all-in housing cost.',
+      },
+    ],
+    formulaCheck:
+      '$5,200 x 30% gives $1,560. Subtract $350 of debts and $180 of utilities, and the rent ceiling becomes $1,030.',
+    resultReading:
+      'Max monthly rent is the main ceiling. Annual rent multiplies that by 12. Monthly debts and utilities show what reduced the rent number. Income left shows what remains before other living costs.',
+    doubleCheck:
+      'Check whether income is gross or take-home, whether debts are monthly, and whether utilities are included in the lease. Then add deposits, application fees, renters insurance, parking, pets, moving costs, and savings before signing.',
+    limitFollowup:
+      'Compare the estimate with real listings, the lease, local tenant rules, and your full monthly budget before treating the number as affordable.',
     relatedSlugs: ['salary-calculator', 'finance-calculator', 'percentage-calculator'],
   }),
   makeFinanceTool({

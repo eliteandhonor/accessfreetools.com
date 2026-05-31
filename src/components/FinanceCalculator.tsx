@@ -649,18 +649,18 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
   rent: {
     title: 'Rent Calculator',
     buttonLabel: 'Estimate rent',
-    emptyHistory: 'Recent rent affordability estimates will appear here.',
-    privacyNote: 'Rent estimates are planning numbers and do not include application rules, deposits, local market changes, or lease terms.',
+    emptyHistory: 'Recent rent budget checks will appear here.',
+    privacyNote: 'Rent estimates are budget checks and do not include application rules, deposits, moving costs, local market changes, or lease terms.',
     modes: [
       {
         id: 'rent',
         label: 'Rent budget',
         symbol: 'RENT',
         fields: [
-          numberField('monthlyIncome', 'Monthly income ($)'),
-          numberField('targetRentPercent', 'Target rent percent (%)'),
-          numberField('monthlyDebts', 'Monthly debts ($)'),
-          numberField('monthlyUtilities', 'Estimated utilities ($)'),
+          numberField('monthlyIncome', 'Monthly income for budget ($)'),
+          numberField('targetRentPercent', 'Rent target (% of income)'),
+          numberField('monthlyDebts', 'Monthly debt payments ($)'),
+          numberField('monthlyUtilities', 'Utilities not in rent ($)'),
         ],
         defaultInputs: { monthlyIncome: '5200', targetRentPercent: '30', monthlyDebts: '350', monthlyUtilities: '180' },
         examples: [
@@ -2923,9 +2923,9 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           { label: 'Income left after rent/debts/utilities', value: money(result.incomeAfterRentAndBills) },
         ],
         steps: [
-          'Multiply monthly income by the target rent percentage.',
-          'Subtract monthly debts and estimated utilities.',
-          'Treat the result as a planning rent ceiling before deposits, fees, or moving costs.',
+          'Start with monthly income and the rent percent you want to test.',
+          'Subtract monthly debt payments and utilities that are not included in rent.',
+          'Use the result as a rent ceiling before deposits, application fees, insurance, parking, pets, or moving costs.',
         ],
       };
     }

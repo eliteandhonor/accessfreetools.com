@@ -331,6 +331,18 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-debt-to-income-ratio-en-1791/',
     label: 'Consumer Financial Protection Bureau: Debt-to-income ratio',
   },
+  hudHousingChoiceVouchers: {
+    href: 'https://www.hud.gov/helping-americans/housing-choice-vouchers-tenants',
+    label: 'HUD: Housing Choice Voucher tenants, rent, and utilities',
+  },
+  hudUtilityAllowances: {
+    href: 'https://www.hud.gov/helping-americans/public-housing-energy-branch-util',
+    label: 'HUD: Utility allowances and rent affordability',
+  },
+  usaGovTenantRights: {
+    href: 'https://www.usa.gov/tenant-rights',
+    label: 'USAGov: Tenant rights and landlord disputes',
+  },
   irsEstateGift: {
     href: 'https://www.irs.gov/businesses/small-businesses-self-employed/whats-new-estate-and-gift-tax',
     label: 'IRS: Estate and gift tax updates',
@@ -567,7 +579,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'rent-calculator') {
-    return [sourceLinks.consumerBudgetWorksheet, sourceLinks.cfpbDebtToIncome];
+    return [sourceLinks.consumerBudgetWorksheet, sourceLinks.cfpbDebtToIncome, sourceLinks.hudHousingChoiceVouchers, sourceLinks.hudUtilityAllowances, sourceLinks.usaGovTenantRights];
   }
 
   if (['annuity-calculator', 'annuity-payout-calculator'].includes(toolSlug)) {
@@ -1578,29 +1590,30 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Compound Interest Calculator for compounding frequency controls.', 'Use Budget Calculator to see whether the monthly deposit fits.', 'Use Investment Calculator for longer risk-based growth scenarios.'],
   },
   'rent-calculator': {
-    summary: 'Learn how to estimate a rent budget from income, target percentage, debts, and utilities.',
+    summary: 'Learn how to estimate a rent ceiling from income, debts, utilities, and a rent target.',
     purpose:
-      'The Rent Calculator helps turn monthly income into a practical rent ceiling. It subtracts debts and estimated utilities from a target rent percentage so the estimate is easier to compare with real listings.',
+      'The Rent Calculator turns one income number into a rent ceiling you can compare with real listings. It starts with a rent target, then subtracts debts and utilities so the answer is not just a loose 30% rule.',
     enter: [
-      'Enter monthly income after choosing the income basis you want to use.',
-      'Enter a target rent percent such as 25, 30, or 35.',
-      'Enter monthly debt payments and estimated utilities so they reduce the rent ceiling.',
+      'Enter monthly income. Use gross income for a rough landlord-style check, or take-home pay for a safer personal budget.',
+      'Enter a rent target such as 25, 30, or 35 percent.',
+      'Enter monthly debt payments and utilities that are not already included in rent.',
     ],
     example: [
-      'If monthly income is $5,200 and the target is 30%, the starting rent target is $1,560.',
-      'Subtracting $350 debts and $180 utilities leaves an estimated rent ceiling of $1,030.',
+      '$5,200 monthly income at a 30% target starts with $1,560 for rent.',
+      'After $350 in debts and $180 in utilities, the estimated max rent is $1,030.',
+      'That equals $12,360 per year and leaves $3,640 before groceries, transport, savings, and other bills.',
     ],
     read: [
-      'Max rent is the monthly rent estimate after debts and utilities.',
-      'Annual rent simply multiplies the monthly estimate by 12.',
-      'Income left after rent, debts, and utilities shows breathing room before other expenses.',
+      'Max rent is the monthly ceiling after debts and utilities.',
+      'Annual rent multiplies the monthly ceiling by 12 so yearly cost is visible.',
+      'Income left after rent, debts, and utilities shows breathing room before the rest of life.',
     ],
     mistakes: [
-      'Do not forget deposits, renters insurance, parking, pet fees, or moving costs.',
-      'Do not use a rent percentage that ignores your real monthly bills.',
-      'Do not treat the estimate as a landlord approval rule.',
+      'Do not use a rent percentage that ignores debt, transport, food, medical costs, savings, or childcare.',
+      'Do not forget deposits, application fees, renters insurance, parking, pet fees, internet, or moving costs.',
+      'Do not treat this as landlord approval, a lease promise, or a local rent limit.',
     ],
-    next: ['Use Salary Calculator to convert annual salary into monthly pay.', 'Use Percentage Calculator to compare rent targets.'],
+    next: ['Use Salary Calculator to convert annual salary into monthly income.', 'Use Budget Calculator to test the rest of the month.', 'Use Percentage Calculator to compare 25%, 30%, and 35% targets.'],
   },
   'annuity-calculator': {
     summary: 'Learn how fixed payments, rate, timing, and years affect annuity present value and future value.',
@@ -3080,6 +3093,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Savings Calculator Guide';
   }
 
+  if (tool.slug === 'rent-calculator') {
+    return 'Rent Calculator Guide';
+  }
+
   const standardTitle = `How to use the ${tool.name}`;
   const pageTitle = `${standardTitle} | Access Free Tools`;
 
@@ -3159,6 +3176,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Project savings from current balance, monthly deposit, rate, and time. See estimated interest and whether the goal is still short.';
   }
 
+  if (tool.slug === 'rent-calculator') {
+    return 'Estimate max rent from income, rent target, debts, and utilities, with deposit, lease-fee, and landlord-rule cautions.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -3188,6 +3209,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const is401kGuide = tool.slug === '401k-calculator';
   const isHouseAffordabilityGuide = tool.slug === 'house-affordability-calculator';
   const isSavingsGuide = tool.slug === 'savings-calculator';
+  const isRentGuide = tool.slug === 'rent-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
@@ -3218,6 +3240,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A house budget is not just the biggest mortgage a lender might allow. This guide shows how income, existing debts, down payment, rate, property tax, insurance, HOA, and a debt-to-income target shape a home price estimate.'
       : isSavingsGuide
       ? 'A savings goal is easier to trust when the deposits, interest, and gap are split apart. This guide shows how current savings, monthly deposits, rate, time, and a target amount turn into a plan you can check.'
+      : isRentGuide
+      ? 'A rent number can look fine until debts, utilities, deposits, and lease fees hit. This guide shows how income, a rent target, monthly debts, and utilities turn into a rent ceiling you can compare with listings.'
       : isUkMortgageGuide
       ? 'A UK repayment mortgage is not just the property price split across months. This guide shows how price, deposit, rate, term, and monthly fees turn into a payment, LTV, and interest estimate.'
       : isAutoLoanGuide
@@ -3288,6 +3312,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Add the estimated annual rate, time in years, and target amount.',
           'Calculate, then compare projected balance, total deposits, estimated interest, and target gap.',
           'Check account fees, rate changes, withdrawals, APY wording, and minimum balances before trusting the exact interest amount.',
+        ]
+      : isRentGuide
+      ? [
+          'Open the Rent Calculator.',
+          'Enter the monthly income number you want to budget from.',
+          'Add a rent target such as 25%, 30%, or 35%, then enter monthly debts and utilities.',
+          'Calculate, then compare max monthly rent, annual rent, and income left after rent, debts, and utilities.',
+          'Check deposits, application fees, renters insurance, parking, pets, moving costs, and the lease before treating the number as affordable.',
         ]
       : isUkMortgageGuide
       ? [
@@ -3440,6 +3472,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before comparing personal loan, school loan, equipment loan, or fixed-payment debt scenarios. It is a payment estimate, not an approval or APR disclosure.'
             : isFinanceGuide
             ? 'Use it when you want a first-pass savings, investing, or general money projection before picking a more specific calculator. It is a scenario check, not a promise about the future.'
+            : isRentGuide
+            ? 'Use it before apartment hunting, comparing two rent targets, deciding whether utilities make a listing too expensive, or checking whether debts leave enough room for the rent you want.'
             : isMarriageTaxGuide
             ? 'Use it when you want to see whether the numbers you enter create a rough federal marriage bonus, penalty, or no difference before you look at the bigger tax details.'
             : isInvestmentGuide
@@ -3468,6 +3502,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'House affordability estimates get shaky when principal and interest are the only costs counted. Keep income, existing debts, down payment, rate, DTI target, property tax, insurance, and HOA separate so the monthly budget is visible.'
             : isSavingsGuide
             ? 'Savings estimates get fuzzy when the goal, deposits, and interest are all blended together. Keep current savings, monthly deposit, annual rate, years, and target amount separate so the gap is easy to check.'
+            : isRentGuide
+            ? 'Rent estimates get shaky when gross income, take-home pay, debts, and utilities are mixed together. Pick the income basis first, then subtract debts and utilities that will still hit every month.'
             : isUkMortgageGuide
             ? 'UK mortgage estimates get messy when one-off costs and monthly costs are mixed together. Property price, deposit, rate, and term build the repayment estimate. The monthly fee field is only for a cost that repeats every month.'
             : isAutoLoanGuide
@@ -3514,6 +3550,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $110,000 income, $450 monthly debts, $60,000 down, 6.5% for 30 years, 36% DTI, 1.2% property tax, and $140 monthly insurance. The estimate is about a $421,988.22 home price, $361,988.22 loan amount, and $2,850 monthly housing budget.'
               : isSavingsGuide
               ? 'Try the starter example: $2,500 saved, $300 added each month, 4% annual rate, 5 years, and a $25,000 target. The estimate is about $22,942.18, with $20,500 from deposits, about $2,442.18 from interest, and about $2,057.82 still short.'
+              : isRentGuide
+              ? 'Try the starter example: $5,200 monthly income, a 30% rent target, $350 in debts, and $180 in utilities. The estimate is $1,030 max monthly rent, $12,360 annual rent, and $3,640 left after rent, debts, and utilities.'
               : isAutoLoanGuide
               ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
               : isBusinessLoanGuide
@@ -3553,6 +3591,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with the affordable home price, then check the monthly housing budget and the cost split. CFPB says a comfortable mortgage payment can be different from the amount a lender says you qualify to borrow.'
             : isSavingsGuide
             ? 'Start with the projected balance, then check the split. Deposits are the money you put in. Estimated interest is the extra growth from the rate. CFPB and FDIC both explain compound interest as interest earning more interest over time.'
+            : isRentGuide
+            ? 'Start with income times the rent target, then subtract debt payments and utilities. HUD rental assistance materials treat rent and tenant-paid utilities together, which is a useful reminder that utilities still count when you pay them outside the rent.'
             : isMortgagePayoffGuide
             ? 'The calculator first finds the scheduled fixed mortgage payment. Then it subtracts any one-time principal payment, adds extra monthly principal, and simulates month-by-month interest until the balance reaches zero.'
             : is401kGuide
@@ -3607,6 +3647,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with monthly payment, then check total paid and total interest. A lower payment can still be the worse deal if the term is much longer.'
             : isFinanceGuide
             ? 'Start with ending balance, then check total contributions and estimated growth. That shows how much came from your deposits and how much came from the rate assumption.'
+            : isRentGuide
+            ? 'Start with max monthly rent. Then check annual rent and income left after rent, debts, and utilities. If the leftover money looks thin, test a lower target before looking at real listings.'
             : isMarriageTaxGuide
             ? 'Start with the difference, then check joint federal tax, two single returns, joint taxable income, and the joint marginal bracket. A $0 difference is a real answer, not an error.'
             : isInvestmentGuide
@@ -3650,6 +3692,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad loan estimates come from comparing by payment alone, mixing APR with contract interest rate, ignoring origination fees, skipping prepayment terms, or forgetting that lender rounding can move the final number.'
             : isFinanceGuide
             ? 'Most bad finance projections come from using a rate that is too hopeful, mixing monthly deposits with yearly deposits, or forgetting that tax, fees, inflation, withdrawals, and losses can change the real result.'
+            : isRentGuide
+            ? 'Most bad rent estimates come from using gross income for a personal budget, forgetting utilities, ignoring debts, or skipping lease costs like deposits, application fees, renters insurance, parking, pets, and moving.'
             : isMarriageTaxGuide
             ? 'Most bad marriage-tax estimates come from treating this as filing advice, forgetting state or payroll tax, ignoring dependent and credit phaseouts, or assuming the result stays the same at every income level.'
             : isInvestmentGuide
@@ -3691,6 +3735,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help after the quick payment estimate. The next question is usually a simpler payment check, a full amortization schedule, or the rate implied by a quoted payment.'
             : isFinanceGuide
             ? 'A related tool can help after the first projection. The next question is usually investment-specific growth, compound-interest details, or debt payment math.'
+            : isRentGuide
+            ? 'A related tool can help after the rent ceiling. The next question is usually monthly income, the rest of the budget, or how much a different rent percentage changes the answer.'
             : isMarriageTaxGuide
             ? 'A related tool can help after the comparison. The next question is usually a one-status federal estimate, paycheck withholding, or gross-salary planning.'
             : isInvestmentGuide
@@ -3774,6 +3820,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/compound-interest-calculator/', label: 'Check compounding frequency' },
               { href: '/tools/payment-calculator/', label: 'Switch to debt payment math' },
             ]
+          : isRentGuide
+          ? [
+              { href: '/tools/rent-calculator/', label: 'Open the Rent Calculator' },
+              { href: '/tools/salary-calculator/', label: 'Convert salary into monthly income' },
+              { href: '/tools/budget-calculator/', label: 'Check the rest of the monthly budget' },
+              { href: '/tools/percentage-calculator/', label: 'Compare rent target percentages' },
+            ]
           : isInvestmentGuide
           ? [
               { href: '/tools/investment-calculator/', label: 'Open the Investment Calculator' },
@@ -3836,6 +3889,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'OpenStax explains loan amortization and the fixed-payment idea. CFPB explains why interest rate and APR are not the same thing, and why written disclosures such as a Loan Estimate or Truth in Lending disclosure matter before signing.'
             : isFinanceGuide
             ? 'OpenStax explains future value and why money can grow over time. CFPB explains compound interest in plain language, and Investor.gov shows the same core inputs: starting amount, monthly contribution, time, estimated rate, and compounding.'
+            : isRentGuide
+            ? 'MyMoney.gov and CFPB sources help with the budget and debt side. HUD sources are useful because rental help rules often treat rent and tenant-paid utilities together, and USAGov points renters back to lease terms and tenant-rights help when a landlord problem is bigger than a calculator.'
             : isInvestmentGuide
             ? 'OpenStax explains time value of money, and Investor.gov is useful for the plain inputs behind this page: starting money, monthly contributions, time, fees, risk, return, and regular investing.'
             : isFhaLoanGuide
@@ -3877,6 +3932,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not include origination fees, insurance, taxes, late fees, prepayment penalties, variable-rate changes, lender rounding, approval checks, or official APR disclosures.'
             : isFinanceGuide
             ? 'This calculator still stays simple. It does not include tax, fees, inflation, withdrawals, changing rates, market losses, account limits, or advice about what you should do.'
+            : isRentGuide
+            ? 'This calculator still stays simple. It does not approve a rental application, check credit, read a lease, know local rent prices, include every fee, price renters insurance, or decide whether a landlord will accept your income.'
             : isInvestmentGuide
             ? 'This calculator still stays simple. It does not include taxes, fees, inflation, withdrawals, changing returns, market losses, account limits, product risk, or advice about what you should buy.'
             : isFhaLoanGuide
@@ -3908,6 +3965,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the House Affordability Calculator open beside this guide. Try the $110,000 income example first, then change only monthly debts or down payment so you can see what actually moved.'
       : isSavingsGuide
       ? 'Keep the Savings Calculator open beside this guide. Try the $2,500 saved and $300 monthly deposit example first, then change only the monthly deposit so you can see what actually moved.'
+      : isRentGuide
+      ? 'Keep the Rent Calculator open beside this guide. Try the $5,200 income example first, then change only the rent target or utility estimate so you can see what actually moved.'
       : isAutoLoanGuide
       ? 'Keep the Auto Loan Calculator open beside this guide. Try the $32,000 car example first, then change only the term so you can see why a lower payment can still cost more.'
       : isBusinessLoanGuide

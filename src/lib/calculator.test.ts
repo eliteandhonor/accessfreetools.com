@@ -1294,6 +1294,18 @@ describe('finance helpers', () => {
     ).toThrow('Monthly payment must be higher');
   });
 
+  it('keeps rent calculator examples stable', () => {
+    const mainExample = calculateRentAffordability(5200, 30, 350, 180);
+    const lowerIncome = calculateRentAffordability(3600, 30, 150, 160);
+    const conservativeTarget = calculateRentAffordability(6200, 25, 500, 220);
+
+    expect(mainExample.maxRent).toBe(1030);
+    expect(mainExample.annualRent).toBe(12360);
+    expect(mainExample.incomeAfterRentAndBills).toBe(3640);
+    expect(lowerIncome.maxRent).toBe(770);
+    expect(conservativeTarget.maxRent).toBe(830);
+  });
+
   it('keeps mortgage payoff examples stable', () => {
     const extraMonthly = calculateMortgagePayoffSummary(280000, 6.25, 25, 200, 0);
     const oneTime = calculateMortgagePayoffSummary(240000, 6.5, 20, 0, 5000);

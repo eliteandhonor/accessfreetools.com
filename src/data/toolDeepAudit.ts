@@ -686,6 +686,21 @@ const cfpbDebtToIncome = {
   label: 'Consumer Financial Protection Bureau: Debt-to-income ratio',
 };
 
+const hudHousingChoiceVouchers = {
+  href: 'https://www.hud.gov/helping-americans/housing-choice-vouchers-tenants',
+  label: 'HUD: Housing Choice Voucher tenants, rent, and utilities',
+};
+
+const hudUtilityAllowances = {
+  href: 'https://www.hud.gov/helping-americans/public-housing-energy-branch-util',
+  label: 'HUD: Utility allowances and rent affordability',
+};
+
+const usaGovTenantRights = {
+  href: 'https://www.usa.gov/tenant-rights',
+  label: 'USAGov: Tenant rights and landlord disputes',
+};
+
 const cfpbDebtCollection = {
   href: 'https://www.consumerfinance.gov/consumer-tools/debt-collection/',
   label: 'Consumer Financial Protection Bureau: Debt collection resources',
@@ -2389,20 +2404,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'rent-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [consumerBudgetWorksheet, cfpbDebtToIncome],
+    sources: [consumerBudgetWorksheet, cfpbDebtToIncome, hudHousingChoiceVouchers, hudUtilityAllowances, usaGovTenantRights],
     findings: [
       'The calculator multiplies monthly income by the chosen rent percentage, then subtracts monthly debts and utilities to create a rent ceiling.',
       'The sample result correctly shows $1,030 max rent from $5,200 income at 30% after $350 debts and $180 utilities.',
-      'The guide makes clear that this is a budget screen, not landlord approval, and calls out deposits, insurance, fees, moving costs, and local market prices.',
+      'DataForSEO page evidence showed rent calculator demand around 74,000 searches, with extra intent around split rent, monthly rent based on income, landlord checks, and income-based rent wording.',
+      'Current HUD rental context supports treating rent and tenant-paid utilities together, so the guide now explains why utilities lower the rent ceiling instead of sitting outside the housing budget.',
     ],
     improvements: [
-      'Manually checked rent-ceiling math, field labels, result wording, examples, guide article, FAQ cautions, source coverage, related links, and privacy note.',
+      'Rewrote metadata, aliases, field labels, examples, input explanations, extra FAQs, guide hook, source links, image alt/caption text, tool trust note, and modified dates in smart-14 wording.',
     ],
     followUps: [
-      'Consider adding an optional actual-rent comparison field after the core finance review batch is complete.',
+      'Consider adding an optional actual-rent comparison field and a separate split-rent calculator if DataForSEO and Search Console keep showing those intents.',
     ],
   },
   {
@@ -7518,7 +7534,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['rent'])) {
-      return sourceBackstop([consumerBudgetWorksheet, cfpbDebtToIncome]);
+      return sourceBackstop([consumerBudgetWorksheet, cfpbDebtToIncome, hudHousingChoiceVouchers, hudUtilityAllowances, usaGovTenantRights]);
     }
 
     if (includesAny(key, ['annuity-payout', 'annuity payout', 'annuity'])) {

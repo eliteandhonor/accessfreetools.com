@@ -736,6 +736,13 @@ const financeToolInstructions = financeToolVariant
         'Calculate, then compare projected balance, total deposits, estimated interest, and target gap.',
         'Check bank fees, APY wording, minimum balances, withdrawals, exact deposit dates, and changing rates before trusting the exact interest amount.',
       ]
+    : tool.slug === 'rent-calculator'
+    ? [
+        'Enter monthly income before tax so the rent target has a clean starting number.',
+        'Choose the rent target percent you want to test, such as 30% when you want a quick affordability check.',
+        'Add monthly debt payments and utilities that are not included in the lease.',
+        'Calculate, then compare max rent, annual rent, and income left before deposits, moving costs, parking, pet rent, or local rules.',
+      ]
     : tool.slug === 'investment-calculator'
     ? [
         'Enter the starting money already invested.',
@@ -2327,6 +2334,31 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.fdic.gov/consumer-resource-center/chapter-5-compound-interest" rel="noreferrer" target="_blank">
                   FDIC compound interest explanation
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'rent-calculator' ? (
+            <>
+              <strong>Rent budget check, not landlord approval</strong>
+              <p>
+                Use this to test monthly income, rent target percent, debts, utilities, max rent,
+                annual rent, and income left after housing costs. A real apartment can still change with
+                deposits, application fees, renters insurance, parking, pet fees, moving costs, local prices,
+                lease terms, credit checks, rental history, and landlord rules.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.mymoney.gov/tools" rel="noreferrer" target="_blank">
+                  MyMoney.gov budget tools
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-debt-to-income-ratio-en-1791/" rel="noreferrer" target="_blank">
+                  CFPB debt-to-income ratio
+                </a>
+                {', and '}
+                <a href="https://www.hud.gov/helping-americans/housing-choice-vouchers-tenants" rel="noreferrer" target="_blank">
+                  HUD rent and utility guidance
                 </a>
                 .
               </p>
