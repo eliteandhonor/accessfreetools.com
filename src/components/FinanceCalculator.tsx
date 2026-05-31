@@ -827,20 +827,20 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
   'debt-consolidation': {
     title: 'Debt Consolidation Calculator',
     buttonLabel: 'Compare consolidation',
-    emptyHistory: 'Recent consolidation comparisons will appear here.',
-    privacyNote: 'Debt consolidation estimates compare simple payment math only and do not include approval, balance transfer rules, origination terms, or credit effects.',
+    emptyHistory: 'Recent consolidation offer checks will appear here.',
+    privacyNote: 'This compares the math only. It is not loan approval, debt advice, credit counseling, or a promise that taking new debt will help.',
     modes: [
       {
         id: 'debt-consolidation',
         label: 'Consolidate',
         symbol: 'CONS',
         fields: [
-          numberField('totalDebt', 'Total debt ($)'),
-          numberField('currentAnnualRatePercent', 'Current average rate (%)'),
-          numberField('currentMonthlyPayment', 'Current monthly payment ($)'),
-          numberField('newAnnualRatePercent', 'New loan rate (%)'),
+          numberField('totalDebt', 'Total current debt to consolidate ($)'),
+          numberField('currentAnnualRatePercent', 'Current weighted average APR (%)'),
+          numberField('currentMonthlyPayment', 'Total current monthly payment ($)'),
+          numberField('newAnnualRatePercent', 'New consolidation loan APR (%)'),
           numberField('newYears', 'New loan term (years)'),
-          numberField('fees', 'Fees added ($)'),
+          numberField('fees', 'Fees added to new loan ($)'),
         ],
         defaultInputs: { totalDebt: '18000', currentAnnualRatePercent: '18', currentMonthlyPayment: '650', newAnnualRatePercent: '10.5', newYears: '3', fees: '300' },
         examples: [
@@ -3120,7 +3120,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Estimate the new fixed loan payment over the new term.',
           'Compare monthly payment and total paid between the two scenarios.',
         ],
-        note: 'A lower payment can still cost more if the new term is much longer.',
+        note: 'A lower payment can still cost more if the new term is much longer, fees are high, the rate changes later, or the new loan uses your home or another asset as collateral.',
       };
     }
     case 'student-loan': {

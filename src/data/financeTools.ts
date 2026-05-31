@@ -3138,27 +3138,69 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'debt-consolidation-calculator',
     name: 'Debt Consolidation Calculator',
-    summary: 'Compare current debt payoff with a new consolidation loan.',
+    summary: 'Compare your current payoff path with a new consolidation loan before you trust the lower payment.',
     description:
-      'Use this free debt consolidation calculator to compare current payoff time and cost with a new consolidation loan payment, fees, monthly payment change, and total cost change.',
+      'Compare current debt payoff time and cost with a new consolidation loan payment, fees, monthly payment change, and total cost change.',
+    seoTitle: 'Debt Consolidation Calculator | Compare Loan Savings',
     seoDescription:
-      'Compare current debt payoff with a consolidation loan payment, fees, monthly payment change, and total cost change.',
+      'Compare a consolidation loan offer with current debt payoff, including new payment, fees, monthly change, and total cost change.',
     icon: 'calculator-debt-consolidation',
+    aliases: ['debt consolidation loan calculator', 'consolidation loan savings calculator', 'debt refinance calculator'],
     formula:
-      'The calculator estimates current debt payoff with the current payment, then compares it with a new fixed-payment loan after adding any consolidation fees.',
+      'The calculator estimates the current payoff path, adds entered fees to the new loan principal, calculates the new fixed payment, then compares payment size and total paid.',
     limit:
-      'This does not determine approval or credit impact. It does not include balance transfer rules, origination terms, hardship plans, settlement offers, or provider-specific fees.',
+      'This does not decide approval, credit score impact, teaser-rate risk, home-equity risk, hardship plans, settlement offers, or whether taking new debt is a good idea.',
     useCases: [
-      'Compare a consolidation loan with the current debt payoff path.',
-      'Estimate whether a lower rate offsets fees.',
-      'See when a lower monthly payment may raise total cost.',
-      'Prepare questions before applying for a consolidation offer.',
+      'Compare a quoted consolidation loan with your current payoff path.',
+      'Check whether a lower rate offsets fees and a new term.',
+      'Spot a lower monthly payment that could still cost more over time.',
+      'Prepare sharper questions before applying for a consolidation offer.',
     ],
     examples: [
-      { label: 'Lower-rate loan', expression: '$18,000 debt, 18% current, 10.5% new for 3 years', result: 'New payment and cost change' },
-      { label: 'No fee option', expression: '$12,000 debt, 11% new rate, no fee', result: 'Consolidation comparison' },
-      { label: 'Longer term', expression: '$25,000 debt, 5-year consolidation', result: 'Payment relief versus total cost' },
+      { label: 'Lower-rate loan', expression: '$18,000 debt, 18% current rate, $650 current payment, 10.5% new loan for 3 years, $300 fee', result: '$594.79 new payment, about $55.21 less per month, about $2,023.05 lower total cost' },
+      { label: 'No fee option', expression: '$12,000 debt, 16% current rate, $420 current payment, 11% new loan for 3 years, no fee', result: 'Compare payment relief with total cost' },
+      { label: 'Longer term', expression: '$25,000 debt, 20% current rate, $750 current payment, 13% new loan for 5 years, $500 fee', result: 'Check whether lower payment hides extra total cost' },
     ],
+    inputExplanations: [
+      { term: 'Total current debt', meaning: 'the balances you would actually roll into the new loan.' },
+      { term: 'Current average rate', meaning: 'the weighted average annual rate on those debts, not the lowest card rate.' },
+      { term: 'Current monthly payment', meaning: 'the total amount you are already paying toward those debts each month.' },
+      { term: 'New loan rate', meaning: 'the annual rate from the real offer or the rate you are testing.' },
+      { term: 'New loan term', meaning: 'how many years the new loan would run.' },
+      { term: 'Fees added', meaning: 'origination, transfer, closing, or setup fees that become part of the new cost.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Can a lower consolidation payment still cost more?',
+        answer:
+          'Yes. A lower monthly payment can come from stretching the debt over more years. Always compare total paid, fees, and the new term, not only the monthly number.',
+      },
+      {
+        question: 'Does this tell me whether I will be approved?',
+        answer:
+          'No. Lenders still check credit, income, debt-to-income ratio, collateral, and their own rules. This page only compares the math after you enter a possible offer.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Should I include balance transfer or origination fees?',
+        answer:
+          'Yes. Add any fee that makes the new path more expensive. If a fee is charged separately, still compare it because it changes whether consolidation is worth it.',
+      },
+      {
+        question: 'What if the offer uses my house as collateral?',
+        answer:
+          'Be careful. Home-equity consolidation can put your home at risk if payments are late. Use this estimate as a math check, then read the loan documents and get qualified advice.',
+      },
+    ],
+    formulaCheck:
+      '$18,000 at 18% with a $650 current payment compared with a 10.5% three-year consolidation loan plus a $300 fee estimates a $594.79 new payment, about $55.21 less per month, and about $2,023.05 lower total cost.',
+    resultReading:
+      'Start with total cost change, then check monthly payment change. A smaller payment only helps if the full cost, fee, term, and risk still make sense.',
+    doubleCheck:
+      'Check the balances, weighted current rate, total current payment, real offered APR, fees, loan term, teaser-rate rules, and whether new borrowing fixes the reason the debt grew.',
+    limitFollowup:
+      'Before signing, compare the Loan Estimate or offer paperwork, ask about fees and rate changes, avoid debt-relief scams, and consider a nonprofit credit counselor when the debt is hard to manage.',
     relatedSlugs: ['debt-payoff-calculator', 'credit-cards-payoff-calculator', 'loan-calculator'],
   }),
   makeFinanceTool({

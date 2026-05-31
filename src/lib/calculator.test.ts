@@ -1536,6 +1536,24 @@ describe('finance helpers', () => {
     expect(fastPayoff.totalInterest).toBeCloseTo(578.63, 2);
   });
 
+  it('keeps debt consolidation calculator examples stable', () => {
+    const lowerRateLoan = calculateDebtConsolidation({
+      totalDebt: 18000,
+      currentAnnualRatePercent: 18,
+      currentMonthlyPayment: 650,
+      newAnnualRatePercent: 10.5,
+      newYears: 3,
+      fees: 300,
+    });
+
+    expect(lowerRateLoan.currentDebt.monthsToPayoff).toBe(37);
+    expect(lowerRateLoan.currentDebt.totalPaid).toBeCloseTo(23435.66, 2);
+    expect(lowerRateLoan.consolidationLoan.monthlyPayment).toBeCloseTo(594.79, 2);
+    expect(lowerRateLoan.consolidationLoan.totalPaid).toBeCloseTo(21412.61, 2);
+    expect(lowerRateLoan.monthlyPaymentChange).toBeCloseTo(-55.21, 2);
+    expect(lowerRateLoan.totalCostChange).toBeCloseTo(-2023.05, 2);
+  });
+
   it('calculates the retirement, debt, education, and investment sitemap batch', () => {
     const pension = calculatePensionEstimate(80000, 25, 1.5);
     const annuityPayout = calculateAnnuityPayout(100000, 5, 20, 12);

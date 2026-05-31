@@ -112,6 +112,18 @@ const toolArtMetadataOverrides = {
         'Debt Payoff Calculator guide artwork supports the walkthrough by showing where payoff math helps and where creditor, collector, budget, or counseling details still matter.',
     },
   },
+  'debt-consolidation-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing $18,000 current debt with a 10.5 percent three-year consolidation loan, $300 fee, lower monthly payment, and total cost savings.',
+      caption:
+        'Debt Consolidation Calculator artwork matches the comparison job: current debt, current APR, current payment, new loan APR, term, fees, monthly payment change, and total cost change.',
+    },
+    guide: {
+      alt: 'Smoke mascot checking a consolidation loan offer beside budget notes, fee slips, credit-warning cards, home-collateral caution, and payoff comparison charts.',
+      caption:
+        'Debt Consolidation Calculator guide artwork supports the walkthrough by showing why the fee, term, APR, credit risk, collateral risk, and total cost matter before signing.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

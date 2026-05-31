@@ -716,6 +716,16 @@ const consumerGovBudget = {
   label: 'consumer.gov: Making a budget',
 };
 
+const cfpbDebtConsolidation = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-do-i-need-to-know-if-im-thinking-about-consolidating-my-credit-card-debt-en-1861/',
+  label: 'CFPB: Consolidating credit card debt',
+};
+
+const cfpbCreditCounselingVsSettlement = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/whats-the-difference-between-a-credit-counselor-and-a-debt-settlement-company-en-1449/',
+  label: 'CFPB: Credit counselor and debt settlement differences',
+};
+
 const cfpbDebtToIncome = {
   href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-debt-to-income-ratio-en-1791/',
   label: 'Consumer Financial Protection Bureau: Debt-to-income ratio',
@@ -2621,20 +2631,23 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'debt-consolidation-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [cfpbDebtCollection, cfpbDebtToIncome],
+    sources: [cfpbDebtConsolidation, ftcGetOutOfDebt, cfpbCreditCounselingVsSettlement, consumerGovBudget],
     findings: [
       'The calculator estimates the current payoff path, then compares it with a new amortized consolidation loan after adding fees to the new principal.',
       'The result separates monthly payment change from total cost change, which helps users see when a lower payment may cost more over a longer term.',
-      'The guide and FAQ warn that approval, credit impact, balance-transfer rules, origination terms, hardship plans, settlement offers, and provider fees are outside the math.',
+      'DataForSEO page evidence was run for the exact tool and guide during the required all-pages sprint.',
+      'In-app browser baseline found generic tool copy, no visible official source links on the tool page, and generic image alt text despite clean page scores.',
+      '$18,000 at 18% with a $650 current payment compared with a 10.5% three-year consolidation loan plus a $300 fee estimates a $594.79 new payment, about $55.21 less per month, and about $2,023.05 lower total cost.',
+      'Current CFPB, FTC, and consumer.gov context supports warnings around lower-payment traps, fees, term length, home-equity risk, debt-relief scams, settlement promises, and budget checks before signing.',
     ],
     improvements: [
-      'Added debt-consolidation guide detail and manually checked comparison logic, fee handling, examples, FAQ cautions, source coverage, SEO copy, related links, and privacy behavior.',
+      'Rewrote metadata, field labels, examples, input explanations, FAQ cautions, guide copy, tool trust note, source links, image alt/caption text, and modified dates in smart-14 wording.',
     ],
     followUps: [
-      'Add a debt-to-income handoff once the remaining finance review batch reaches that calculator.',
+      'Add a lender-offer checklist only after it can stay generic enough to avoid legal or lending advice.',
     ],
   },
   {
