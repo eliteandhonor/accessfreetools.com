@@ -1935,7 +1935,9 @@ describe('utility helpers', () => {
     const horsepower = calculateHorsepowerConversion(100, 'kilowatt');
     const engine = calculateEngineHorsepower(300, 5252.1131, 15);
     const differential = calculateGolfScoreDifferential(86, 71.2, 128, 0);
+    const weatherDifferential = calculateGolfScoreDifferential(92, 73.4, 136, 1);
     const courseHandicap = calculateGolfCourseHandicap(14.2, 128, 71.2, 72, 95);
+    const partnerAllowance = calculateGolfCourseHandicap(14.2, 128, 71.2, 72, 85);
     const love = calculateLoveCompatibility('Alex', 'Sam');
     const loveReversed = calculateLoveCompatibility('Sam', 'Alex');
     const loveTaylorJordan = calculateLoveCompatibility('Taylor', 'Jordan');
@@ -1948,8 +1950,12 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(engine.engineHorsepower)).toBe('300');
     expect(formatCalculatorNumber(engine.wheelHorsepower)).toBe('255');
     expect(differential.scoreDifferential).toBe(13.1);
+    expect(weatherDifferential.scoreDifferential).toBe(14.6);
     expect(courseHandicap.courseHandicap).toBe(15);
     expect(courseHandicap.playingHandicap).toBe(14);
+    expect(partnerAllowance.playingHandicap).toBe(13);
+    expect(() => calculateGolfScoreDifferential(86, 71.2, 54, 0)).toThrow(/between 55 and 155/);
+    expect(() => calculateGolfCourseHandicap(14.2, 128, 71.2, 72, 101)).toThrow(/above 100%/);
     expect(love.score).toBe(loveReversed.score);
     expect(love.score).toBe(86);
     expect(love.label).toBe('Sparkly match');

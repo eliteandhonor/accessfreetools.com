@@ -1860,6 +1860,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/golf-handicap-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/golf-handicap-calculator-guide.webp",
+    "alt": "Smoke mascot comparing a golf scorecard with score 86, Course Rating 71.2, Slope Rating 128, and score differential notes.",
+    "caption": "The guide art matches the example: an adjusted 86 on a 71.2 rating and 128 slope becomes a 13.1 score differential.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -1868,6 +1870,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/golf-handicap-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/golf-handicap-calculator-tool.webp",
+    "alt": "Smoke mascot holding a golf scorecard beside Handicap Index, Slope Rating, Course Rating, par, PCC, and allowance fields.",
+    "caption": "The tool art follows the page workflow: enter scorecard or tee data, then check score differential, course handicap, and playing handicap.",
     "status": "approved",
     "qaStatus": "approved"
   },

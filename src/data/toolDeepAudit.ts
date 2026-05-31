@@ -1232,13 +1232,18 @@ const beaGdpExpenditures = {
 };
 
 const usgaScoreDifferential = {
-  href: 'https://www.randa.org/roh/the-rules-of-handicapping',
-  label: 'R&A: Rules of Handicapping',
+  href: 'https://digital-pd.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---what-is-a-score-differential.html',
+  label: 'USGA: What is a Score Differential',
 };
 
 const usgaCourseHandicap = {
-  href: 'https://www.randa.org/roh/the-rules-of-handicapping',
-  label: 'R&A: World Handicap System rules',
+  href: 'https://digital-pd.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---calculate-course-handicap-and-playing-handicap.html',
+  label: 'USGA: Course Handicap and Playing Handicap',
+};
+
+const usgaHandicapDefinitions = {
+  href: 'https://www.usga.org/handicapping/roh/Content/rules/Definitions.htm',
+  label: 'USGA: Rules of Handicapping definitions',
 };
 
 const nwsWindChill = {
@@ -6147,17 +6152,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'golf-handicap-calculator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [usgaScoreDifferential, usgaCourseHandicap],
+    sources: [usgaScoreDifferential, usgaCourseHandicap, usgaHandicapDefinitions, googleHelpfulContent],
     findings: [
-      'The golf helper supports score differential and course handicap modes with slope rating validation from 55 to 155.',
-      'Tests cover score differential, rounded course handicap, and playing handicap allowance.',
-      'The guide warns that official WHS records can include caps, exceptional-score reductions, 9-hole rules, committee adjustments, and exact tee data.',
+      'The golf helper supports score differential, course handicap, and playing handicap checks with slope rating validation from 55 to 155.',
+      'USGA source refresh confirmed the course handicap formula, playing handicap allowance step, and key definitions for adjusted gross score, Course Rating, Slope Rating, PCC, and Score Differential.',
+      'Tests cover score differential, PCC, rounded course handicap, allowance, and invalid slope or allowance guards.',
+      'The guide now warns that official records can include score-history rules, caps, exceptional-score reductions, 9-hole handling, committee adjustments, and exact tee data.',
     ],
     improvements: [
-      'Manually checked score differential formula, course handicap formula, PCC and allowance wording, examples, FAQ detail, USGA source coverage, related links, SEO copy, and privacy behavior.',
+      'Refreshed score differential formula, course handicap formula, PCC and allowance wording, examples, FAQ detail, official USGA references, image alt/caption text, SEO copy, and privacy behavior.',
     ],
     followUps: [
       'Add full Handicap Index calculation only if the tool can explain score history rules and WHS update assumptions.',

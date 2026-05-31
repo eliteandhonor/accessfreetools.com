@@ -4131,24 +4131,98 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'golf-handicap-calculator',
     name: 'Golf Handicap Calculator',
     category: 'everyday-tools',
-    summary: 'Estimate a score differential or course handicap from rating, slope, par, and index inputs.',
+    summary: 'Estimate score differential, course handicap, and playing handicap from the numbers on your scorecard.',
     description:
-      'Use this free golf handicap calculator to estimate score differential and course handicap using common World Handicap System formulas.',
+      'Estimate a golf score differential or course handicap from adjusted score, rating, slope, par, index, PCC, and allowance.',
+    seoTitle: 'Golf Handicap Calculator | Score Differential And Course Handicap',
+    seoDescription:
+      'Estimate score differential, course handicap, and playing handicap from WHS-style inputs. Includes rating, slope, par, PCC, allowance, and clear limits.',
     icon: 'calculator-golf-handicap',
+    aliases: ['Course Handicap Calculator', 'Score Differential Calculator', 'Playing Handicap Calculator'],
     formula:
       'Score differential uses (113 / slope rating) x (adjusted gross score - course rating - PCC). Course handicap uses Handicap Index x (slope / 113) + (course rating - par).',
     limit:
-      'This is not an official Handicap Index. Official records may include caps, exceptional-score reductions, 9-hole rules, and committee adjustments.',
+      'This estimates one round or one tee setup. It does not create an official Handicap Index. Official records can include score-history rules, caps, exceptional-score reductions, 9-hole handling, and committee adjustments.',
+    faqLanguage: {
+      expectedInputs:
+        'the adjusted gross score, course rating, slope rating, PCC, Handicap Index, par, and allowance from the exact tees or format you are checking',
+      inputFallback:
+        'Adjusted gross score is the score after handicap max-hole rules. Course rating and slope rating come from the tees played. PCC is the playing conditions adjustment when your scoring record gives one. Handicap Index is your official index, not your average score. Allowance is the format percentage, such as 95% or 85%.',
+      examplePhrase: 'golf scorecard example',
+      doubleCheck:
+        'Also check the exact tees, rating, slope, par, PCC, and allowance. A small tee or rating change can move the answer by a stroke.',
+      privacy:
+        'No. The calculation runs in your browser tab. Your score, rating, slope, par, index, and allowance are not sent to a server.',
+    },
+    inputExplanations: [
+      {
+        term: 'Adjusted gross score',
+        meaning:
+          'the round score after any maximum-hole-score adjustments required by the handicap rules. If you only know raw strokes, confirm the adjusted score first.',
+      },
+      {
+        term: 'Course rating',
+        meaning:
+          'the expected score for a scratch player from the exact tees. Use the rating printed for your tee set, not a different box.',
+      },
+      {
+        term: 'Slope rating',
+        meaning:
+          'the course difficulty number for non-scratch players. WHS-style formulas use 113 as the standard slope.',
+      },
+      {
+        term: 'PCC',
+        meaning:
+          'the playing conditions calculation. Leave it at 0 unless your official scoring record or event gives a value.',
+      },
+      {
+        term: 'Handicap Index',
+        meaning:
+          'your official index before it is adjusted for the course and tees you are playing.',
+      },
+      {
+        term: 'Allowance',
+        meaning:
+          'the event or format percentage used to turn course handicap into playing handicap.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Does this calculate my official Handicap Index?',
+        answer:
+          'No. It estimates score differential, course handicap, and playing handicap. An official Handicap Index needs your scoring record and the rules used by your golf association.',
+      },
+      {
+        question: 'Why do course rating and slope matter?',
+        answer:
+          'They adjust for the course and tees. An 86 from harder tees can be a better round than an 86 from easier tees, so the calculator needs those numbers.',
+      },
+      {
+        question: 'What should I enter for PCC?',
+        answer:
+          'Use 0 for a normal estimate. Enter -1, 1, 2, or 3 only when the official scoring record or event gives a playing conditions adjustment.',
+      },
+      {
+        question: 'Why is playing handicap different from course handicap?',
+        answer:
+          'Course handicap is the tee-adjusted number. Playing handicap applies the allowance for the game format, such as 95% for some singles formats or 85% for some partner formats.',
+      },
+      {
+        question: 'Can I use this for a tournament?',
+        answer:
+          'Use it as a check only. For an official event, use the tournament committee, GHIN or local association app, and the exact rules for that format.',
+      },
+    ],
     useCases: [
-      'Estimate a round score differential from adjusted score, rating, slope, and PCC.',
-      'Estimate course handicap from Handicap Index and tee ratings.',
-      'Apply a playing handicap allowance for casual formats.',
-      'Learn why course rating and slope change handicap math.',
+      'Estimate a round score differential from adjusted score, course rating, slope rating, and PCC.',
+      'Estimate course handicap from Handicap Index, slope rating, course rating, and par.',
+      'Apply a playing handicap allowance for casual matches or format checks.',
+      'See why changing tees can change the handicap strokes you receive.',
     ],
     examples: [
-      { label: 'Score differential', expression: '(113 / 128) x (86 - 71.2 - 0)', result: 'About 13.1' },
-      { label: 'Course handicap', expression: '14.2 x (128 / 113) + (71.2 - 72)', result: 'About 15' },
-      { label: 'Playing handicap', expression: 'Course handicap 15 with 85% allowance', result: 'About 13' },
+      { label: 'Score differential', expression: '(113 / 128) x (86 - 71.2 - 0)', result: '13.1' },
+      { label: 'Hard-weather PCC', expression: '(113 / 136) x (92 - 73.4 - 1)', result: '14.6' },
+      { label: 'Course handicap', expression: '14.2 x (128 / 113) + (71.2 - 72)', result: '15' },
     ],
     relatedSlugs: ['percentage-calculator', 'average-calculator', 'rounding-calculator'],
   }),

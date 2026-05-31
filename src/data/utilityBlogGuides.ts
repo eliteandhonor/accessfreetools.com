@@ -462,12 +462,16 @@ const sourceLinks = {
     label: 'Archtoolbox: CMU sizes, nominal dimensions, and mortar joints',
   },
   usgaScoreDifferential: {
-    href: 'https://www.randa.org/roh/the-rules-of-handicapping',
-    label: 'R&A: Rules of Handicapping',
+    href: 'https://digital-pd.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---what-is-a-score-differential.html',
+    label: 'USGA: What is a Score Differential',
   },
   usgaCourseHandicap: {
-    href: 'https://www.randa.org/roh/the-rules-of-handicapping',
-    label: 'R&A: World Handicap System rules',
+    href: 'https://digital-pd.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---calculate-course-handicap-and-playing-handicap.html',
+    label: 'USGA: Course Handicap and Playing Handicap',
+  },
+  usgaHandicapDefinitions: {
+    href: 'https://www.usga.org/handicapping/roh/Content/rules/Definitions.htm',
+    label: 'USGA: Rules of Handicapping definitions',
   },
   googleHelpfulContent: {
     href: 'https://developers.google.com/search/docs/fundamentals/creating-helpful-content',
@@ -3174,25 +3178,70 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistConversionFactors],
   },
   'golf-handicap-calculator': {
-    summary: 'Learn how score differential and course handicap estimates use rating, slope, par, and index.',
+    summary:
+      'Learn how score differential, course handicap, and playing handicap estimates use score, rating, slope, par, index, PCC, and allowance.',
+    metaDescription:
+      'Use the Golf Handicap Calculator with scorecard examples for score differential, course handicap, and playing handicap. Clear WHS-style formulas and limits.',
     purpose:
-      'The Golf Handicap Calculator gives two useful estimates: a score differential for one adjusted round and a course handicap for playing a specific set of tees.',
+      'The Golf Handicap Calculator is for quick checks before or after a round. It can estimate a score differential from one adjusted score, or estimate the course and playing handicap for a specific set of tees.',
+    intro:
+      'Golf handicap math is not just "score minus par." The tee rating and slope matter. That is why the same 86 can look better on one course than another.',
+    inputMatch:
+      'the adjusted score, Course Rating, Slope Rating, par, PCC, Handicap Index, and allowance from the exact tees or format you are checking',
+    logicNote:
+      'For score differential, the calculator subtracts Course Rating and PCC from adjusted score, then scales by 113 divided by Slope Rating. For course handicap, it scales Handicap Index by Slope Rating divided by 113, then adjusts Course Rating against par.',
+    readIntro:
+      'Read the result as an estimate you can compare with your scorecard or golf app. Score differential is shown to one decimal place. Course handicap and playing handicap are whole-stroke estimates.',
+    mistakeIntro:
+      'The big mistake is using the wrong tee data. A blue-tee slope, white-tee rating, or guessed PCC can move the answer.',
+    sidecarText:
+      'Open the Golf Handicap Calculator beside this guide. Try the 86 on 71.2/128 example first, then swap in the rating and slope from your own tees.',
+    bestUsesIntro:
+      'This guide is best for checking one round, understanding why slope matters, and sanity-checking a course handicap before a casual match.',
+    referenceIntro:
+      'The source links below are official USGA handicap references for score differential, course handicap, playing handicap, and key definitions.',
     enter: [
-      'Use Score differential mode when you have adjusted gross score, course rating, slope rating, and PCC.',
-      'Use Course handicap mode when you have a Handicap Index, slope rating, course rating, and par.',
-      'Enter the handicap allowance when your casual format uses one.',
+      'Use Score differential mode when you know the adjusted gross score, Course Rating, Slope Rating, and PCC.',
+      'Use Course handicap mode when you know your Handicap Index plus the Slope Rating, Course Rating, and par for the tees.',
+      'Enter the allowance percentage only when the format uses one. Leave 100% for a plain course handicap check.',
     ],
     read: [
-      'Score differential is rounded to one decimal place.',
-      'Course handicap is rounded to a whole number.',
-      'Playing handicap applies the allowance to the rounded course handicap.',
+      'A score of 86 on a 71.2 rating, 128 slope, and PCC 0 gives about 13.1 as the score differential.',
+      'A Handicap Index of 14.2 on 128 slope, 71.2 rating, and par 72 gives a course handicap of about 15.',
+      'A playing handicap applies the allowance after the course handicap step. A 15 course handicap at 85% becomes about 13.',
     ],
     mistakes: [
-      'Do not call the result an official Handicap Index.',
-      'Do not ignore course rating, slope rating, and par from the exact tees played.',
-      'Remember official WHS records can include caps, exceptional-score reductions, and committee adjustments.',
+      'Do not call the result an official Handicap Index. This page does not read your scoring record.',
+      'Do not use course rating, slope rating, or par from the wrong tee box.',
+      'Do not guess PCC for an official score. Use 0 unless your scoring record or event gives a value.',
+      'Remember official records can include caps, exceptional-score reductions, 9-hole handling, and committee adjustments.',
     ],
-    sources: [sourceLinks.usgaScoreDifferential, sourceLinks.usgaCourseHandicap],
+    extraSections: [
+      {
+        title: 'Example: one round score differential',
+        paragraphs: [
+          'Say your adjusted gross score is 86. The tee rating is 71.2, the slope is 128, and PCC is 0.',
+          'The calculator uses (113 / 128) x (86 - 71.2 - 0). That gives 13.1 after rounding to one decimal place.',
+          'That does not mean your Handicap Index is 13.1. It is one round value that an official scoring record can use with your other scores.',
+        ],
+      },
+      {
+        title: 'Example: course handicap and playing handicap',
+        paragraphs: [
+          'Say your Handicap Index is 14.2. You are playing tees with slope 128, Course Rating 71.2, and par 72.',
+          'The course handicap estimate is 14.2 x (128 / 113) + (71.2 - 72), which rounds to 15.',
+          'If the format uses an 85% allowance, the playing handicap estimate is 15 x 0.85, which rounds to 13.',
+        ],
+      },
+      {
+        title: 'Why this is an estimate',
+        paragraphs: [
+          'The calculator only works with the numbers you type. It does not check whether your score was acceptable, whether holes were adjusted correctly, or whether your local association applied extra rules.',
+          'For a tournament or official posting, use the committee, GHIN or your local golf association app, and the scorecard data for the exact tees.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.usgaScoreDifferential, sourceLinks.usgaCourseHandicap, sourceLinks.usgaHandicapDefinitions],
   },
   'love-calculator': {
     summary: 'Learn how the Love Calculator works as a silly private name-match game.',

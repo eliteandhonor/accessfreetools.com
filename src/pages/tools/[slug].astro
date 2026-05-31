@@ -700,6 +700,12 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Use your actual fuel price and realistic MPG when you want a closer estimate.',
     'Open Gas Mileage Calculator first if you need to calculate MPG from a tank.',
   ],
+  'golf-handicap-calculator': [
+    'Choose Score differential when you are checking one adjusted round.',
+    'Choose Course handicap when you are checking how your Handicap Index adjusts to a set of tees.',
+    'Use the Course Rating, Slope Rating, par, and PCC from the exact tees or scoring record.',
+    'Use this as a check only; official Handicap Index updates come from your golf association or scoring app.',
+  ],
   'date-calculator': [
     'Choose Difference when you need days between two calendar dates.',
     'Choose Add or subtract when you want a date before or after a starting date.',
@@ -1938,6 +1944,38 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
             {' and '}
             <a href="https://www.khanacademy.org/math/geometry-home/geometry-volume-surface-area/heron-formula-tutorial/v/heron-s-formula" rel="noreferrer" target="_blank">
               Khan Academy Heron&apos;s formula
+            </a>
+            .
+          </p>
+        </aside>
+      )
+    }
+
+    {
+      tool.slug === 'golf-handicap-calculator' && (
+        <aside class="trust-note" aria-label="Golf Handicap Calculator formula notes">
+          <strong>Estimate, not official posting</strong>
+          <p>
+            Use this page to check one adjusted round or one tee setup. Score differential uses adjusted gross score,
+            Course Rating, Slope Rating, and PCC. Course handicap uses Handicap Index, Slope Rating, Course Rating,
+            and par. Playing handicap then applies the allowance for the format.
+          </p>
+          <p>
+            Sources used for this review:{' '}
+            <a
+              href="https://digital-pd.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---what-is-a-score-differential.html"
+              rel="noreferrer"
+              target="_blank"
+            >
+              USGA score differential
+            </a>
+            {' and '}
+            <a
+              href="https://digital-pd.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---calculate-course-handicap-and-playing-handicap.html"
+              rel="noreferrer"
+              target="_blank"
+            >
+              USGA course handicap
             </a>
             .
           </p>
