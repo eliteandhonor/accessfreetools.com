@@ -161,6 +161,7 @@ import {
   calculateHomeEquityLoan,
   calculateHouseAffordability,
   calculateInflationAdjustment,
+  calculateInvestmentGrowth,
   calculateInterestRateFromPayment,
   calculateIrr,
   calculateIraProjection,
@@ -1118,11 +1119,15 @@ describe('finance helpers', () => {
 
   it('calculates compound growth, inflation, amortization savings, and sales tax', () => {
     const compound = calculateCompoundInterest(1000, 6, 10, 12, 100);
+    const investment = calculateInvestmentGrowth(5000, 250, 7, 20);
     const inflation = calculateInflationAdjustment(100, 3, 10);
     const amortization = calculateAmortizationSummary(200000, 6, 30, 100);
     const salesTax = calculateSalesTax(80, 7.5);
 
     expect(formatCalculatorNumber(compound.endingBalance)).toBe('18207.3314147');
+    expect(investment.endingBalance).toBeCloseTo(150425.36, 2);
+    expect(investment.totalContributions).toBe(65000);
+    expect(investment.totalInterest).toBeCloseTo(85425.36, 2);
     expect(formatCalculatorNumber(inflation.futureCost)).toBe('134.391637934');
     expect(amortization.monthsToPayoff).toBeLessThan(360);
     expect(amortization.interestSaved).toBeGreaterThan(40000);

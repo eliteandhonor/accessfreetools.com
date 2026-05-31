@@ -47,6 +47,18 @@ const sourceLinks = {
     href: 'https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator',
     label: 'Investor.gov: Compound Interest Calculator',
   },
+  investorGovFees: {
+    href: 'https://www.investor.gov/introduction-investing/getting-started/understanding-fees',
+    label: 'Investor.gov: Understanding fees',
+  },
+  investorGovRiskReturn: {
+    href: 'https://www.investor.gov/additional-resources/information/youth/teachers-classroom-resources/risk-and-return',
+    label: 'Investor.gov: Risk and return',
+  },
+  investorGovBuildWealth: {
+    href: 'https://www.investor.gov/build-wealth-over-time-through-saving-and-investing',
+    label: 'Investor.gov: Build wealth over time through saving and investing',
+  },
   investorAnnuities: {
     href: 'https://openstax.org/books/principles-finance/pages/8-2-annuities',
     label: 'OpenStax Principles of Finance: Annuities and present value',
@@ -445,6 +457,16 @@ function getSourceLinks(toolSlug: string) {
     ];
   }
 
+  if (toolSlug === 'investment-calculator') {
+    return [
+      sourceLinks.investorCompound,
+      sourceLinks.investorGovCompoundCalculator,
+      sourceLinks.investorGovFees,
+      sourceLinks.investorGovRiskReturn,
+      sourceLinks.investorGovBuildWealth,
+    ];
+  }
+
   if (toolSlug === 'budget-calculator') {
     return [sourceLinks.consumerBudgetWorksheet, sourceLinks.cfpbDebtToIncome];
   }
@@ -493,7 +515,7 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.cfpbAprVsInterest, sourceLinks.cfpbApr, sourceLinks.minneapolisFedConsumerRates];
   }
 
-  if (['compound-interest-calculator', 'investment-calculator', 'retirement-calculator', 'interest-calculator', 'simple-interest-calculator', 'future-value-calculator'].includes(toolSlug)) {
+  if (['compound-interest-calculator', 'retirement-calculator', 'interest-calculator', 'simple-interest-calculator', 'future-value-calculator'].includes(toolSlug)) {
     return [sourceLinks.investorCompound];
   }
 
@@ -1107,29 +1129,34 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Mortgage Calculator for housing costs beyond principal and interest.', 'Use Loan Calculator for a plain payment estimate.'],
   },
   'investment-calculator': {
-    summary: 'Learn how starting amount, monthly deposits, return, and time create an investment projection.',
+    summary: 'Learn how starting money, monthly deposits, return, and time create an investment projection.',
     purpose:
-      'The Investment Calculator estimates a future balance from a starting investment and monthly deposits. It is useful for comparing habits and assumptions.',
+      'The Investment Calculator estimates a future balance from starting money and monthly deposits. It is useful for comparing habits and assumptions, not choosing an investment.',
     enter: [
       'Enter the starting investment and monthly contribution.',
-      'Enter an estimated annual return as a percent.',
+      'Enter an estimated annual return as a what-if percent.',
       'Enter the number of years you want to project.',
     ],
     example: [
-      '$5,000 plus $250/month at 7% for 20 years shows the effect of time and recurring contributions.',
-      'The calculator separates total contributions from estimated investment growth.',
+      '$5,000 plus $250/month at 7% for 20 years is about $150,425.36.',
+      'That example has $65,000 in contributions and about $85,425.36 in estimated growth.',
     ],
     read: [
-      'Ending balance is not guaranteed.',
+      'Ending balance is the projection, not a guarantee.',
       'Total contributions show the money you put in.',
       'Estimated growth is the difference between ending balance and contributions.',
     ],
     mistakes: [
       'Do not ignore investment fees and taxes.',
+      'Do not ignore inflation when the goal is years away.',
       'Do not assume a steady return happens every year.',
       'Do not choose investments based only on a calculator projection.',
     ],
-    next: ['Use Compound Interest Calculator for compounding frequency.', 'Use Retirement Calculator if you have a target amount.'],
+    next: [
+      'Use Compound Interest Calculator for compounding frequency.',
+      'Use Inflation Calculator to test buying-power pressure.',
+      'Use Retirement Calculator if you have a target amount.',
+    ],
   },
   'inflation-calculator': {
     summary: 'Learn how an annual inflation rate changes future cost and present buying power.',
@@ -2920,6 +2947,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Income Tax Calculator Guide';
   }
 
+  if (tool.slug === 'investment-calculator') {
+    return 'Investment Calculator Guide';
+  }
+
   const standardTitle = `How to use the ${tool.name}`;
   const pageTitle = `${standardTitle} | Access Free Tools`;
 
@@ -2967,6 +2998,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate 2026 federal income tax from filing status, deduction, credits, taxable income, effective rate, and marginal bracket.';
   }
 
+  if (tool.slug === 'investment-calculator') {
+    return 'Project an investment balance from starting money, monthly deposits, estimated return, and time, with risk, fee, inflation, and tax limits.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -3000,6 +3035,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isEstateTaxGuide = tool.slug === 'estate-tax-calculator';
   const isInterestRateGuide = tool.slug === 'interest-rate-calculator';
   const isIncomeTaxGuide = tool.slug === 'income-tax-calculator';
+  const isInvestmentGuide = tool.slug === 'investment-calculator';
 
   return {
     slug: `how-to-use-${tool.slug}`,
@@ -3032,6 +3068,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A loan quote can hide the rate behind one neat monthly payment. This guide shows how amount financed, payment, and term turn into an estimated rate before fees or APR rules change the story.'
       : isIncomeTaxGuide
       ? 'Federal income tax is not one flat percent of your whole paycheck. This guide shows how filing status, deduction, credits, taxable income, effective rate, and marginal bracket fit together for a 2026 estimate.'
+      : isInvestmentGuide
+      ? 'An investment projection can look powerful, but it is still a what-if. This guide shows how starting money, monthly deposits, estimated return, and years turn into ending balance, contributions, and growth.'
       : `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
     quickStart: isAutoLoanGuide
       ? [
@@ -3129,6 +3167,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Leave deduction blank for the 2026 standard deduction, or enter a custom deduction and credits.',
           'Calculate, then read taxable income, estimated federal tax, effective rate, and marginal bracket separately.',
         ]
+      : isInvestmentGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter the starting money already invested.',
+          'Enter the monthly amount you plan to add.',
+          'Enter an estimated annual return and the number of years.',
+          'Calculate, then read ending balance, total contributions, estimated growth, and the warning notes together.',
+        ]
       : [
           `Open the ${tool.name}.`,
           detail.enter[0],
@@ -3152,6 +3198,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before comparing personal loan, school loan, equipment loan, or fixed-payment debt scenarios. It is a payment estimate, not an approval or APR disclosure.'
             : isFinanceGuide
             ? 'Use it when you want a first-pass savings, investing, or general money projection before picking a more specific calculator. It is a scenario check, not a promise about the future.'
+            : isInvestmentGuide
+            ? 'Use it when you want to test a habit, like adding $250 a month, before deciding whether the goal needs more money, more time, or a lower-risk plan. It is projection math, not investment advice.'
             : isFhaLoanGuide
             ? 'Use it before asking a lender for numbers, comparing FHA with a conventional mortgage, or seeing how much monthly MIP changes the payment. It is not an approval tool.'
             : isAdRevenueGuide
@@ -3178,6 +3226,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Loan estimates get misleading when the payment is the only number checked. Enter amount, rate, and term, then compare payment with total interest and the written APR or fee disclosure.'
             : isFinanceGuide
             ? 'Finance projections get misleading when monthly deposits, annual rates, and years get mixed up. Enter the starting amount, monthly deposit, estimated rate, and time as separate pieces.'
+            : isInvestmentGuide
+            ? 'Investment projections get misleading when a return guess is treated like a promise. Keep starting money, monthly deposits, estimated annual return, and years separate, then test a lower return before trusting the number.'
             : isFhaLoanGuide
             ? 'FHA estimates are easy to undercount when upfront MIP, monthly MIP, tax, insurance, or county loan limits are left out. Keep those pieces separate before you compare the payment with another loan type.'
             : isSalesTaxGuide
@@ -3208,6 +3258,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $12,000 at 9.5% for 4 years. The estimate is about $301.48 per month, about $14,470.93 total paid, and about $2,470.93 interest across 48 payments. That still does not include lender fees or penalties.'
             : isFinanceGuide
               ? 'Try the starter example: $2,000 plus $150 each month at 5% for 8 years. The estimate is about $20,642.25, with $16,400 from contributions and about $4,242.25 from the rate assumption.'
+            : isInvestmentGuide
+              ? 'Try the starter example: $5,000 plus $250 each month at 7% for 20 years. The estimate is about $150,425.36, with $65,000 from contributions and about $85,425.36 from the return assumption.'
             : isFhaLoanGuide
               ? 'Try the starter example: a $325,000 home, $11,375 down, 6.5% for 30 years, 1.75% upfront MIP, 0.55% annual MIP, $3,900 property tax, and $130 monthly insurance. The estimate is about $2,615.76 per month, with $5,488.44 upfront MIP, about $143.74 monthly MIP, and 96.5% LTV. That payment still does not include closing costs or prove the loan fits a county FHA limit.'
               : isAdRevenueGuide
@@ -3237,6 +3289,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The calculator uses fixed-rate amortization math. It converts the annual rate into a monthly rate, uses the number of monthly payments, and solves for the payment that pays the balance down to zero. If the rate is 0%, it simply divides principal by the number of payments.'
             : isFinanceGuide
             ? 'The calculator converts the annual rate into monthly growth, compounds the starting amount, then adds each monthly deposit at the end of the month. Estimated growth equals ending balance minus starting money and deposits.'
+            : isInvestmentGuide
+            ? 'The calculator converts the annual return assumption into monthly growth, compounds the starting money, then adds each monthly contribution as an end-of-month deposit. Estimated growth equals ending balance minus the money you put in.'
             : isFhaLoanGuide
             ? 'The calculator starts with price minus down payment, adds upfront MIP to the financed balance, estimates principal and interest, then adds tax, insurance, and monthly MIP. The default 0.55% annual MIP fits a common 30-year, more-than-95% LTV example, but HUD Mortgagee Letter 2023-05 also shows 0.50%, 0.70%, 0.75%, and other rates depending on term, base loan amount, and LTV. This page does not look up county loan limits or choose the official MIP table for you.'
             : isSalesTaxGuide
@@ -3265,6 +3319,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with monthly payment, then check total paid and total interest. A lower payment can still be the worse deal if the term is much longer.'
             : isFinanceGuide
             ? 'Start with ending balance, then check total contributions and estimated growth. That shows how much came from your deposits and how much came from the rate assumption.'
+            : isInvestmentGuide
+            ? 'Start with ending balance, then check total contributions and estimated growth. If growth is most of the answer, test a lower return so the plan is not balanced on one hopeful number.'
             : isFhaLoanGuide
             ? 'Start with total monthly payment, then check principal and interest, upfront MIP, monthly MIP, and LTV. That shows whether the FHA insurance is carrying more of the cost than you expected.'
             : isSalesTaxGuide
@@ -3294,6 +3350,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad loan estimates come from comparing by payment alone, mixing APR with contract interest rate, ignoring origination fees, skipping prepayment terms, or forgetting that lender rounding can move the final number.'
             : isFinanceGuide
             ? 'Most bad finance projections come from using a rate that is too hopeful, mixing monthly deposits with yearly deposits, or forgetting that tax, fees, inflation, withdrawals, and losses can change the real result.'
+            : isInvestmentGuide
+            ? 'Most bad investment projections come from using one high return, forgetting fees and taxes, skipping inflation, or acting like the market grows smoothly every year.'
             : isFhaLoanGuide
             ? 'Most bad FHA estimates come from treating 3.5% down as automatic approval, using the wrong MIP rate, forgetting 2% to 5% style closing-cost planning, skipping county loan limits, ignoring debt-to-income review, or comparing only the monthly payment.'
             : isSalesTaxGuide
@@ -3323,6 +3381,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help after the quick payment estimate. The next question is usually a simpler payment check, a full amortization schedule, or the rate implied by a quoted payment.'
             : isFinanceGuide
             ? 'A related tool can help after the first projection. The next question is usually investment-specific growth, compound-interest details, or debt payment math.'
+            : isInvestmentGuide
+            ? 'A related tool can help after the first investment projection. The next question is usually compounding detail, inflation pressure, or whether the same goal belongs in a retirement plan.'
             : isFhaLoanGuide
             ? 'A related tool can help when the FHA payment is only one part of the decision, such as plain mortgage math, upfront cash, or home affordability.'
             : isSalesTaxGuide
@@ -3381,6 +3441,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/compound-interest-calculator/', label: 'Check compounding frequency' },
               { href: '/tools/payment-calculator/', label: 'Switch to debt payment math' },
             ]
+          : isInvestmentGuide
+          ? [
+              { href: '/tools/investment-calculator/', label: 'Open the Investment Calculator' },
+              { href: '/tools/compound-interest-calculator/', label: 'Check compounding frequency' },
+              { href: '/tools/inflation-calculator/', label: 'Test buying-power pressure' },
+              { href: '/tools/retirement-calculator/', label: 'Compare with a retirement target' },
+            ]
           : isInterestRateGuide
           ? [
               { href: '/tools/interest-rate-calculator/', label: 'Open the Interest Rate Calculator' },
@@ -3423,6 +3490,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'OpenStax explains loan amortization and the fixed-payment idea. CFPB explains why interest rate and APR are not the same thing, and why written disclosures such as a Loan Estimate or Truth in Lending disclosure matter before signing.'
             : isFinanceGuide
             ? 'OpenStax explains future value and why money can grow over time. CFPB explains compound interest in plain language, and Investor.gov shows the same core inputs: starting amount, monthly contribution, time, estimated rate, and compounding.'
+            : isInvestmentGuide
+            ? 'OpenStax explains time value of money, and Investor.gov is useful for the plain inputs behind this page: starting money, monthly contributions, time, fees, risk, return, and regular investing.'
             : isFhaLoanGuide
             ? 'HUD and CFPB sources explain the key FHA pieces: FHA insures loans made by private lenders, FHA loans can allow down payments as low as 3.5%, mortgage insurance is required, MIP rates depend on HUD rules, closing costs are separate from the down payment, and 2026 county loan limits matter. HUD lists a 2026 one-unit floor of $541,287, a high-cost-area ceiling of $1,249,125, and higher special-exception ceilings for Alaska, Hawaii, Guam, and the U.S. Virgin Islands.'
             : isSalesTaxGuide
@@ -3450,6 +3519,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not include origination fees, insurance, taxes, late fees, prepayment penalties, variable-rate changes, lender rounding, approval checks, or official APR disclosures.'
             : isFinanceGuide
             ? 'This calculator still stays simple. It does not include tax, fees, inflation, withdrawals, changing rates, market losses, account limits, or advice about what you should do.'
+            : isInvestmentGuide
+            ? 'This calculator still stays simple. It does not include taxes, fees, inflation, withdrawals, changing returns, market losses, account limits, product risk, or advice about what you should buy.'
             : isFhaLoanGuide
             ? 'This calculator still stays simple. It does not approve credit, verify income, check debt-to-income ratio, choose the right MIP rate, read a county FHA limit, price closing costs, inspect a property, or replace a written lender quote.'
             : isSalesTaxGuide
@@ -3481,6 +3552,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Loan Calculator open beside this guide. Try the $12,000 example first, then change only the term so you can see how a lower payment can still raise total interest.'
       : isFinanceGuide
       ? 'Keep the Finance Calculator open beside this guide. Try $2,000 plus $150/month at 5% first, then change only the rate so you can see why the answer is a what-if, not a promise.'
+      : isInvestmentGuide
+      ? 'Keep the Investment Calculator open beside this guide. Try $5,000 plus $250/month at 7% first, then change only the monthly deposit so you can see what actually moved.'
       : isFhaLoanGuide
       ? 'Keep the FHA Loan Calculator open beside this guide. Try the $325,000 example first, then change only the annual MIP so you can see how insurance moves the monthly payment.'
       : isAdRevenueGuide

@@ -591,6 +591,21 @@ const investorGovCompoundCalculator = {
   label: 'Investor.gov: Compound Interest Calculator',
 };
 
+const investorGovFees = {
+  href: 'https://www.investor.gov/introduction-investing/getting-started/understanding-fees',
+  label: 'Investor.gov: Understanding fees',
+};
+
+const investorGovRiskReturn = {
+  href: 'https://www.investor.gov/additional-resources/information/youth/teachers-classroom-resources/risk-and-return',
+  label: 'Investor.gov: Risk and return',
+};
+
+const investorGovBuildWealth = {
+  href: 'https://www.investor.gov/build-wealth-over-time-through-saving-and-investing',
+  label: 'Investor.gov: Build wealth over time through saving and investing',
+};
+
 const openStaxLoanAmortization = {
   href: 'https://openstax.org/books/principles-finance/pages/8-3-loan-amortization',
   label: 'OpenStax Principles of Finance: Loan amortization',
@@ -2133,20 +2148,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'investment-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [investorCompound, blsInflation],
+    sources: [investorCompound, investorGovCompoundCalculator, investorGovFees, investorGovRiskReturn, investorGovBuildWealth, blsInflation],
     findings: [
       'The calculator compounds a starting amount plus end-of-month deposits using a monthly rate derived from the annual return assumption.',
       'The result separates total contributions from estimated growth, which helps users see what came from deposits versus return assumptions.',
-      'The guide and FAQ keep investment risk, fees, taxes, market losses, account rules, and guaranteed-return language out of the estimate.',
+      'DataForSEO page evidence showed high-volume investment calculator demand plus long-tail intent for withdrawals, inflation, monthly deposits, formula help, and government-style trust.',
     ],
     improvements: [
-      'Manually checked investment-growth math, examples, result labels, guide article, FAQ cautions, source coverage, related tools, and privacy note.',
+      'Rewrote metadata, examples, input explanations, FAQ cautions, guide copy, source links, image alt/caption text, tool trust notes, and modified dates in smart-14 wording.',
     ],
     followUps: [
-      'Add a contribution-versus-growth chart when the site introduces shared calculator charts.',
+      'Add withdrawals or inflation-adjusted investment modes only if they become maintained separate features with their own examples and proof.',
     ],
   },
   {

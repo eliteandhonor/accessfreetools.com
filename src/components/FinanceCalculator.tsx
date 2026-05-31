@@ -488,7 +488,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Investment Calculator',
     buttonLabel: 'Project investment',
     emptyHistory: 'Recent investment projections will appear here.',
-    privacyNote: 'Investment projections are not guaranteed and do not include fees, tax, risk, or market losses.',
+    privacyNote:
+      'Investment projections stay in your browser and are simple what-if estimates. They do not include fees, taxes, inflation, withdrawals, market losses, account rules, product risk, or investment advice.',
     modes: [
       {
         id: 'investment',
@@ -2758,7 +2759,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         note:
           variant === 'finance'
             ? 'This is a what-if projection, not financial advice or a guaranteed return. Taxes, fees, inflation, withdrawals, changing rates, losses, and account rules can move the real result.'
-            : 'This is a projection, not a guaranteed return.',
+            : 'This is a what-if projection, not financial advice or a guaranteed return. Taxes, fees, inflation, withdrawals, market losses, account rules, product risk, and changing returns can move the real result.',
       };
     }
     case 'currency': {

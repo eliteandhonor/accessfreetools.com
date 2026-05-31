@@ -687,6 +687,13 @@ const financeToolInstructions = financeToolVariant
         'Leave deduction blank for the 2026 standard deduction, or enter a custom deduction and credits.',
         'Calculate, then read taxable income, estimated federal tax, effective rate, and marginal bracket as separate numbers.',
       ]
+    : tool.slug === 'investment-calculator'
+    ? [
+        'Enter the starting money already invested.',
+        'Enter the monthly amount you plan to add.',
+        'Enter an estimated annual return as a what-if percent, not a promise.',
+        'Enter the number of years, then calculate to see ending balance, total contributions, and estimated growth.',
+      ]
     : [
       'Enter the requested dollar amounts, rates, terms, tax settings, or contribution details.',
       'Use rates as percentages, such as 6.5 for 6.5%, and check whether a field asks for a monthly or annual amount.',
@@ -1902,6 +1909,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Payment, total paid, and interest'
               : tool.slug === 'finance-calculator'
               ? 'Balance, deposits, and growth'
+              : tool.slug === 'investment-calculator'
+              ? 'Balance, contributions, and growth'
               : tool.slug === 'estate-tax-calculator'
               ? 'Exclusion and excess shown'
               : tool.slug === 'income-tax-calculator'
@@ -1925,6 +1934,22 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
           <p>
             The page uses those IRS ordinary-income brackets only. It does not add state income tax, payroll tax,
             capital gains tax, withholding tables, estimated-tax penalties, AMT, or credit phaseouts.
+          </p>
+        </aside>
+      )
+    }
+
+    {
+      tool.slug === 'investment-calculator' && (
+        <aside class="trust-note trust-note-finance" aria-label="Investment Calculator estimate notes">
+          <strong>Projection, not a promised return</strong>
+          <p>
+            This page compounds your starting money and end-of-month deposits with the return rate you enter.
+            It does not predict the market or choose an investment for you.
+          </p>
+          <p>
+            Real results can change with fees, taxes, inflation, withdrawals, account rules, product risk,
+            market losses, and years where returns are lower than your estimate.
           </p>
         </aside>
       )
@@ -2296,6 +2321,30 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator" rel="noreferrer" target="_blank">
                   Investor.gov compound interest calculator
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'investment-calculator' ? (
+            <>
+              <strong>Investment projection, not advice</strong>
+              <p>
+                Use this to compare starting money, monthly deposits, estimated return, and years.
+                A real result can still change with fees, taxes, inflation, withdrawals, account rules,
+                product risk, market losses, and returns that do not arrive in a straight line.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://openstax.org/books/principles-finance/pages/7-2-time-value-of-money-tvm-basics" rel="noreferrer" target="_blank">
+                  OpenStax time value of money
+                </a>
+                {', '}
+                <a href="https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator" rel="noreferrer" target="_blank">
+                  Investor.gov compound interest calculator
+                </a>
+                {', and '}
+                <a href="https://www.investor.gov/introduction-investing/getting-started/understanding-fees" rel="noreferrer" target="_blank">
+                  Investor.gov fee notes
                 </a>
                 .
               </p>

@@ -1705,24 +1705,99 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'investment-calculator',
     name: 'Investment Calculator',
-    summary: 'Project investment growth from starting amount, monthly deposits, and return.',
+    summary: 'Project investment growth from starting money, monthly deposits, return, and time.',
     description:
-      'Use this free investment calculator to project ending balance, total contributions, and estimated growth from starting investment, monthly deposits, return, and time.',
+      'Use this free investment calculator to project ending balance, total contributions, and estimated growth from starting money, monthly deposits, return, and time.',
+    seoTitle: 'Investment Calculator | Monthly Deposits & Growth Projection',
+    seoDescription:
+      'Project an investment balance from starting money, monthly deposits, estimated return, and time. See total contributions, growth, fees, risk, and limits.',
     icon: 'calculator-investment',
+    aliases: [
+      'monthly investment calculator',
+      'investment growth calculator',
+      'investment calculator with inflation',
+      'investment calculator formula',
+      'investment return calculator',
+    ],
     formula:
       'The calculator compounds the starting amount and monthly contributions using an estimated annual return converted to monthly growth.',
     limit:
-      'This is an investment projection, not investment advice. It does not include taxes, fees, market losses, risk, account rules, or guaranteed returns.',
+      'This is an investment projection, not investment advice. It does not include taxes, fees, inflation, withdrawals, market losses, account rules, or guaranteed returns.',
     useCases: [
       'Estimate future value from monthly investing.',
       'Compare how time and contribution size affect growth.',
       'Separate total contributions from estimated investment gains.',
-      'Test return assumptions before using a real investment plan.',
+      'Test return assumptions before using a real investment plan or adviser conversation.',
     ],
     examples: [
-      { label: 'Monthly investing', expression: '$5,000 initial, $250/month, 7%, 20 years', result: 'Projected ending balance' },
-      { label: 'No new deposits', expression: '$10,000 at 6% for 15 years', result: 'Growth of starting amount' },
-      { label: 'Contribution comparison', expression: '$100 vs $300 per month', result: 'Different future balances' },
+      {
+        label: 'Monthly investing',
+        expression: '$5,000 initial, $250/month, 7%, 20 years',
+        result: 'About $150,425.36 ending balance, with $65,000 contributed and about $85,425.36 growth',
+      },
+      {
+        label: 'No new deposits',
+        expression: '$10,000 at 6% for 15 years',
+        result: 'About $24,540.94 ending balance, with about $14,540.94 growth',
+      },
+      {
+        label: 'Contribution comparison',
+        expression: '$5,000 initial, 7%, 20 years, $100 vs $300/month',
+        result: 'About $72,286.36 vs $176,471.69 ending balance',
+      },
+    ],
+    inputExplanations: [
+      { term: 'Starting investment', meaning: 'the money already invested before the projection starts.' },
+      { term: 'Monthly contribution', meaning: 'the amount added at the end of each month in this simple model.' },
+      { term: 'Estimated return', meaning: 'the annual return assumption. It is not a promise and real markets move unevenly.' },
+      { term: 'Time', meaning: 'how many years the projection runs before showing the ending balance.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'How does the Investment Calculator handle monthly deposits?',
+        answer:
+          'It converts the annual return assumption into monthly growth, compounds the starting money, then adds each monthly contribution at the end of the month. That timing is why the result is an estimate, not a brokerage statement.',
+      },
+      {
+        question: 'Does this include withdrawals?',
+        answer:
+          'No. This version is for money going in, not money coming out. If you need retirement withdrawals, required minimum distributions, or a drawdown plan, use a dedicated retirement or payout calculator instead.',
+      },
+      {
+        question: 'Does this include inflation?',
+        answer:
+          'No. It shows the future balance in the dollars you enter. Use the Inflation Calculator beside it if you want to see how buying power could shrink over the same years.',
+      },
+    ],
+    formulaCheck:
+      'For the starter example, $5,000 plus $250 each month at a 7% annual return for 20 years projects about $150,425.36. The calculator shows $65,000 of contributions and about $85,425.36 of estimated growth.',
+    resultReading:
+      'Start with ending balance, then check total contributions and estimated growth. Contributions are the money you put in. Estimated growth is the part that came from the return assumption.',
+    doubleCheck:
+      'Check the time period, contribution amount, and return assumption. Then remember that fees, taxes, inflation, withdrawals, account limits, and market losses can change the real account value.',
+    limitFollowup:
+      'Before using the number for a real decision, compare it with your account fees, tax situation, risk level, and an official account or adviser source.',
+    extraFaq: [
+      {
+        question: 'Why can small fees matter so much?',
+        answer:
+          'Fees can take money out every year, and the removed money no longer compounds. Investor.gov shows that even small annual fee differences can create a large gap over long periods.',
+      },
+      {
+        question: 'Can I use this as an investment recommendation?',
+        answer:
+          'No. It only does math from the numbers you enter. It does not choose stocks, funds, bonds, accounts, risk level, or tax strategy.',
+      },
+      {
+        question: 'Why does the same return every year feel unrealistic?',
+        answer:
+          'Because real investments can rise, fall, pause, or lose money. A steady return is useful for comparing scenarios, but it is not how markets usually move year by year.',
+      },
+      {
+        question: 'Is this the same as a compound interest calculator?',
+        answer:
+          'It is close, but this page uses investment wording and monthly deposits. Use the Compound Interest Calculator when you need compounding-frequency controls, and use this page when the question is monthly investing.',
+      },
     ],
     relatedSlugs: ['compound-interest-calculator', 'retirement-calculator', 'inflation-calculator'],
   }),

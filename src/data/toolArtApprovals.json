@@ -2356,6 +2356,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/investment-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/investment-calculator-guide.webp",
+    "alt": "Smoke mascot points from a starter coin sprout through monthly deposit calendars, a growth gauge, risk warning, piggy-bank chart, and a final coin tree.",
+    "caption": "The guide artwork follows the investment walkthrough: starting money, monthly deposits, time, return growth, risk checks, and a future balance.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2364,6 +2366,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/investment-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/investment-calculator-tool.webp",
+    "alt": "Smoke mascot beside panels for starting money, monthly deposits, time, growth path, contribution and risk sliders, and a final investment plant.",
+    "caption": "The tool artwork matches the live calculator: starting investment, monthly contributions, return assumptions, time, estimated growth, and risk limits.",
     "status": "approved",
     "qaStatus": "approved"
   },
