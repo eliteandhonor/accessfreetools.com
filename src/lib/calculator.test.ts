@@ -1665,6 +1665,9 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(fuel.fuelCost)).toBe('32.1428571429');
     expect(squareFeet.totalSquareFeet).toBe(240);
     expect(formatCalculatorNumber(gasMileage.milesPerGallon)).toBe('28');
+    expect(formatCalculatorNumber(gasMileage.gallonsPer100Miles)).toBe('3.5714285714');
+    expect(formatCalculatorNumber(gasMileage.litersPer100Km)).toBe('8.4005208214');
+    expect(() => calculateGasMileage(350, 0)).toThrow(/Gallons used/);
     expect(formatCalculatorNumber(tip.perPerson)).toBe('54.185625');
     expect(formatCalculatorNumber(mileage.total)).toBe('95.75');
   });

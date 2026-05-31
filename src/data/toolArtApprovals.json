@@ -1808,6 +1808,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/gas-mileage-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/gas-mileage-calculator-guide.webp",
+    "alt": "Smoke mascot comparing a gas receipt, trip odometer, 350 miles, 12.5 gallons, and a 28 MPG result.",
+    "caption": "The guide art matches the fill-up example: 350 miles and 12.5 gallons becomes 28 MPG.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -1816,6 +1818,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/gas-mileage-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/gas-mileage-calculator-tool.webp",
+    "alt": "Smoke mascot beside an odometer, fuel pump, 350 miles, 12.5 gallons, and MPG result cards.",
+    "caption": "The tool art follows the page workflow: enter miles and gallons from the same fill-up, then read MPG, gallons per 100 miles, and L/100 km.",
     "status": "approved",
     "qaStatus": "approved"
   },

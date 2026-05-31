@@ -677,14 +677,28 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'gas-mileage-calculator',
     name: 'Gas Mileage Calculator',
     category: 'everyday-tools',
-    summary: 'Calculate MPG, gallons per 100 miles, and liters per 100 km from miles and gallons.',
+    summary: 'Work out MPG from a real fill-up, plus gallons per 100 miles and L/100 km.',
     description:
-      'Use this free gas mileage calculator to find miles per gallon, gallons per 100 miles, and liters per 100 km from a tank or trip.',
+      'Calculate gas mileage from miles driven and gallons used. See MPG, gallons per 100 miles, and liters per 100 km.',
+    seoTitle: 'Gas Mileage Calculator | MPG And Gallons Per 100 Miles',
+    seoDescription:
+      'Calculate MPG from miles driven and gallons used. Includes gallons per 100 miles, L/100 km, fill-up tips, and clear limits.',
     icon: 'calculator-gas-mileage',
+    aliases: ['MPG Calculator', 'Fuel Economy Calculator', 'Miles Per Gallon Calculator'],
     formula:
-      'The calculator divides miles driven by gallons used to get MPG, then converts the same relationship into gallons per 100 miles and L/100 km.',
+      'MPG = miles driven / gallons used. Gallons per 100 miles = gallons used / miles driven x 100. L/100 km uses the standard 235.214583 divided by MPG conversion.',
     limit:
-      'Tank fill differences, tire pressure, route, speed, weather, and driving style can change real-world fuel economy.',
+      'One tank can be noisy. Pump shutoff, fill level, tire pressure, route, speed, weather, traffic, load, and driving style can all move the result.',
+    faqLanguage: {
+      expectedInputs: 'the miles driven and gallons used from the same fill-up, tank, or trip window',
+      inputFallback:
+        'Miles driven is the distance from the same tank or trip. Gallons used is the fuel added or measured for that exact distance. Do not mix miles from one fill-up with gallons from another.',
+      examplePhrase: 'fill-up example',
+      doubleCheck:
+        'Also check that the odometer/trip meter and fuel amount cover the same window. For cleaner long-term MPG, average several tanks instead of trusting one unusual drive.',
+      privacy:
+        'No. The math runs in your browser tab. Your miles, gallons, and recent results are not sent to a server.',
+    },
     useCases: [
       'Calculate MPG after filling a tank.',
       'Compare fuel use between trips or vehicles.',
@@ -698,9 +712,11 @@ export const utilityTools: ToolDefinition[] = [
     ],
     relatedSlugs: ['fuel-cost-calculator', 'mileage-calculator', 'conversion-calculator'],
     inputExplanations: [
-      { term: 'Miles driven', meaning: 'the distance since the last fill-up, trip reset, or route you want to measure.' },
-      { term: 'Gallons used', meaning: 'the fuel added back into the tank for the same driving distance.' },
-      { term: 'Unit outputs', meaning: 'MPG gets higher when a vehicle uses less fuel, while gallons per 100 miles and L/100 km get lower.' },
+      { term: 'Miles driven', meaning: 'the odometer or trip-meter distance since the fill-up or route started.' },
+      { term: 'Gallons used', meaning: 'the fuel used for those same miles, usually the gallons added at the next fill-up.' },
+      { term: 'MPG', meaning: 'miles per gallon. Higher MPG means you went farther on each gallon.' },
+      { term: 'Gallons per 100 miles', meaning: 'fuel used per distance. Lower is better, and it can make savings easier to compare.' },
+      { term: 'L/100 km', meaning: 'the metric fuel-use version. Lower is better here too.' },
     ],
     extraFaq: [
       {
@@ -717,6 +733,16 @@ export const utilityTools: ToolDefinition[] = [
         question: 'When should I use the Fuel Cost Calculator instead?',
         answer:
           'Use this page to find fuel economy. Use the Fuel Cost Calculator when you already know the trip distance, MPG, and fuel price and want the money estimate.',
+      },
+      {
+        question: 'Why can one tank show weird MPG?',
+        answer:
+          'The pump may stop at a slightly different fill level, the route may have more traffic, or the car may be carrying more weight. If one tank looks strange, average several normal fill-ups before deciding your MPG changed.',
+      },
+      {
+        question: 'Can this prove the EPA label is wrong?',
+        answer:
+          'No. EPA labels are standardized estimates for comparing vehicles. This calculator shows your real fill-up math, which can be higher or lower because your route, speed, weather, tires, and driving style are different.',
       },
     ],
   }),

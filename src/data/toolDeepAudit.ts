@@ -1211,6 +1211,21 @@ const epaFuelEconomy = {
   label: 'U.S. EPA: Fuel Economy',
 };
 
+const epaMpgMath = {
+  href: 'https://www.epa.gov/greenvehicles/miles-gallon-mpg-math',
+  label: 'U.S. EPA: Miles Per Gallon math',
+};
+
+const doeFuelEconomy = {
+  href: 'https://www.energy.gov/index.php/energysaver/fuel-economy',
+  label: 'U.S. Department of Energy: Fuel Economy',
+};
+
+const doeDrivingEfficiently = {
+  href: 'https://www.energy.gov/energysaver/driving-more-efficiently',
+  label: 'U.S. Department of Energy: Driving more efficiently',
+};
+
 const eiaGasolinePrices = {
   href: 'https://www.eia.gov/petroleum/gasdiesel/',
   label: 'U.S. EIA: Weekly gasoline and diesel fuel update',
@@ -5923,17 +5938,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'gas-mileage-calculator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [epaFuelEconomy, nistSi],
+    sources: [epaMpgMath, epaFuelEconomy, doeFuelEconomy, doeDrivingEfficiently, nistSi, googleHelpfulContent],
     findings: [
       'The gas-mileage helper divides miles driven by gallons used and also shows gallons per 100 miles plus L/100 km.',
-      'Tests cover a 350-mile and 12.5-gallon trip returning 28 MPG.',
-      'The guide warns that fill-level differences, tire pressure, route, speed, traffic, and weather can change one-trip MPG.',
+      'EPA and DOE source refresh confirmed the MPG framing, official fuel-economy context, and real-world factors such as speed, weight, traffic, and maintenance.',
+      'Tests cover a 350-mile and 12.5-gallon trip returning 28 MPG, 3.57 gallons per 100 miles, and about 8.4 L/100 km.',
+      'The guide warns that fill-level differences, tire pressure, route, speed, traffic, load, and weather can change one-trip MPG.',
     ],
     improvements: [
-      'Manually checked MPG formula, reciprocal consumption outputs, metric conversion wording, examples, FAQ detail, guide coverage, related links, and privacy behavior.',
+      'Refreshed MPG formula, reciprocal consumption outputs, metric conversion wording, examples, FAQ detail, official source coverage, image alt/caption text, guide sections, related links, and privacy behavior.',
     ],
     followUps: [
       'Add multi-fill average mode later if users need a cleaner long-term MPG estimate.',

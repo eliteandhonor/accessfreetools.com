@@ -845,10 +845,10 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Preview the table in the markdown editor where you plan to use it.',
   ],
   'gas-mileage-calculator': [
-    'Enter miles driven and gallons used from the same tank or trip.',
+    'Enter miles driven and gallons used from the same tank, receipt, or trip.',
     'Press Calculate gas mileage to see MPG, gallons per 100 miles, and L/100 km.',
-    'Use the result in the Fuel Cost Calculator when estimating trip cost.',
-    'Expect one-tank results to vary with fill level, weather, speed, and traffic.',
+    'Use the result in the Fuel Cost Calculator when you want a trip cost estimate.',
+    'For a cleaner average, total several normal tanks instead of trusting one odd fill-up.',
   ],
   'tip-calculator': [
     'Enter the bill subtotal, tip percent, optional tax percent, and number of people.',
@@ -1978,6 +1978,28 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               USGA course handicap
             </a>
             .
+          </p>
+        </aside>
+      )
+    }
+
+    {
+      tool.slug === 'gas-mileage-calculator' && (
+        <aside class="trust-note" aria-label="Gas Mileage Calculator formula notes">
+          <strong>Same tank, same window</strong>
+          <p>
+            Use miles and gallons from the same fill-up or trip. MPG is miles divided by gallons. Gallons per 100 miles
+            flips the idea around so you can compare fuel used over the same distance.
+          </p>
+          <p>
+            Good references:{' '}
+            <a href="https://www.epa.gov/greenvehicles/miles-gallon-mpg-math" rel="noreferrer" target="_blank">
+              EPA MPG math
+            </a>{' '}
+            and{' '}
+            <a href="https://www.energy.gov/energysaver/driving-more-efficiently" rel="noreferrer" target="_blank">
+              DOE efficient driving guidance.
+            </a>
           </p>
         </aside>
       )

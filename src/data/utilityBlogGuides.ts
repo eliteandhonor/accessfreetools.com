@@ -245,6 +245,18 @@ const sourceLinks = {
     href: 'https://www.epa.gov/fueleconomy',
     label: 'U.S. EPA: Fuel Economy',
   },
+  epaMpgMath: {
+    href: 'https://www.epa.gov/greenvehicles/miles-gallon-mpg-math',
+    label: 'U.S. EPA: Miles Per Gallon math',
+  },
+  doeFuelEconomy: {
+    href: 'https://www.energy.gov/index.php/energysaver/fuel-economy',
+    label: 'U.S. Department of Energy: Fuel Economy',
+  },
+  doeDrivingEfficiently: {
+    href: 'https://www.energy.gov/energysaver/driving-more-efficiently',
+    label: 'U.S. Department of Energy: Driving more efficiently',
+  },
   eiaGasolinePrices: {
     href: 'https://www.eia.gov/petroleum/gasdiesel/',
     label: 'U.S. EIA: Weekly gasoline and diesel fuel update',
@@ -993,25 +1005,73 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.ianaTimeZones],
   },
   'gas-mileage-calculator': {
-    summary: 'Learn how to calculate MPG from miles driven and gallons used.',
+    summary: 'Learn how to calculate MPG from a fill-up, then read gallons per 100 miles and L/100 km without guessing.',
+    metaDescription:
+      'Use the Gas Mileage Calculator with a 350-mile, 12.5-gallon example. See MPG, gallons per 100 miles, L/100 km, and why one tank can mislead.',
     purpose:
-      'The Gas Mileage Calculator turns a real tank or trip into MPG. It also shows gallons per 100 miles and liters per 100 km for comparison.',
+      'The Gas Mileage Calculator turns a real tank or trip into MPG. It also shows gallons per 100 miles and liters per 100 km, which are fuel-used-per-distance numbers.',
+    intro:
+      'The cleanest way to check gas mileage is simple: use miles and gallons from the same fill-up. Mixing numbers from different trips is how MPG gets weird fast.',
+    inputMatch: 'the miles driven and gallons used from the same tank, receipt, or trip window',
+    logicNote:
+      'The calculator divides miles by gallons for MPG. It also flips the idea into gallons per 100 miles, then converts MPG into L/100 km for metric comparison.',
+    readIntro:
+      'Read MPG as distance per gallon, so higher is better. Read gallons per 100 miles and L/100 km as fuel used per distance, so lower is better.',
+    mistakeIntro:
+      'The main mistake is using the wrong window: 350 miles from one tank and 12.5 gallons from another tank will not describe a real fill-up.',
+    sidecarText:
+      'Open the Gas Mileage Calculator beside this guide. Try 350 miles and 12.5 gallons first, then replace the numbers with your own fill-up.',
+    bestUsesIntro:
+      'Use this guide when you want to check one tank, compare two routes, or send a real MPG number into the Fuel Cost Calculator.',
+    referenceIntro:
+      'These references explain official fuel-economy context, MPG math, and why driving conditions can change real-world fuel use.',
     enter: [
-      'Enter miles driven since the last fill or for the trip.',
-      'Enter gallons used for the same distance.',
-      'Use the same trip window for both numbers.',
+      'Enter miles driven from your trip meter, odometer difference, or route log.',
+      'Enter gallons used for that same distance, usually the gallons added at the next fill-up.',
+      'Keep both numbers from the same tank or trip window.',
     ],
     read: [
-      'MPG is the main fuel economy answer.',
-      'Gallons per 100 miles shows consumption rather than distance per gallon.',
-      'L/100 km is useful for metric comparisons.',
+      '350 miles and 12.5 gallons gives 28 MPG.',
+      'The same fill-up is about 3.57 gallons per 100 miles.',
+      'The metric version is about 8.4 L/100 km.',
     ],
     mistakes: [
       'Do not mix miles from one trip with gallons from another.',
-      'Fill-level differences can make one-tank MPG noisy.',
-      'Weather, traffic, load, and speed can change the result.',
+      'Do not panic over one odd tank. Pump shutoff and fill level can shift the gallons number.',
+      'Weather, traffic, tire pressure, extra load, and speed can change the result.',
+      'Do not use this as a lab test of the EPA label. It is your real-world fill-up math.',
     ],
-    sources: [sourceLinks.epaFuelEconomy, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Example: 350 miles and 12.5 gallons',
+        paragraphs: [
+          'Say you reset the trip meter after filling up. At the next fill-up, the trip meter says 350 miles and the pump adds 12.5 gallons.',
+          'MPG is 350 / 12.5, which equals 28. That means the car went 28 miles for each gallon on that tank.',
+          'Gallons per 100 miles is 12.5 / 350 x 100, which is about 3.57. That means the car used about 3.57 gallons to go 100 miles.',
+        ],
+      },
+      {
+        title: 'Why gallons per 100 miles helps',
+        paragraphs: [
+          'MPG is familiar, but it can hide the actual fuel saved. Gallons per 100 miles is more direct because it tells you fuel used for the same distance.',
+          'For gallons per 100 miles and L/100 km, lower is better. That makes it easier to compare a route change, tire-pressure check, or slower highway speed.',
+        ],
+      },
+      {
+        title: 'How to get a cleaner average',
+        paragraphs: [
+          'One tank is useful, but several normal tanks are better. Write down miles and gallons each time, then total all miles and all gallons before dividing.',
+          'Skip weird tanks when they do not match real use, like a partial fill, towing day, snowstorm drive, or a tank with a lot of idling.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.epaMpgMath,
+      sourceLinks.epaFuelEconomy,
+      sourceLinks.doeFuelEconomy,
+      sourceLinks.doeDrivingEfficiently,
+      sourceLinks.nistUnits,
+    ],
   },
   'tip-calculator': {
     summary: 'Learn how to calculate a tip, optional tax, total bill, and split amount.',
