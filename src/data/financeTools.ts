@@ -36,7 +36,7 @@ function makeFaq(spec: FinanceToolSpec): ToolFaq[] {
   return [
     {
       question: `When should I use the ${spec.name}?`,
-      answer: `Use it for early planning and side-by-side comparisons, especially for tasks like these: ${exampleUses} Treat the answer as a planning estimate, not a final quote.`,
+      answer: `Use it when you want to test the exact inputs on this page: ${exampleUses} The result is a check against your assumptions, not proof that a lender, tax app, broker, platform, or provider will use the same number.`,
     },
     {
       question: `What do the main ${spec.name} inputs mean?`,
@@ -1503,11 +1503,21 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate monthly principal, interest, taxes, insurance, PMI, and HOA costs.',
     description:
       'Use this free mortgage calculator to estimate monthly principal and interest, total interest, loan-to-value, and optional property tax, insurance, PMI, and HOA costs.',
+    seoTitle: 'Mortgage Calculator | Monthly Payment, PMI, Tax & Insurance',
+    seoDescription:
+      'Estimate a mortgage payment from home price, down payment, rate, term, taxes, insurance, PMI, and HOA. See principal, interest, LTV, and total interest.',
     icon: 'calculator-mortgage',
+    aliases: [
+      'mortgage payment calculator',
+      'simple mortgage calculator',
+      'free mortgage calculator',
+      'house payment calculator',
+      'PITI calculator',
+    ],
     formula:
-      'The calculator uses the fixed-payment loan formula for principal and interest, then adds monthly property tax, insurance, PMI, and HOA amounts you enter.',
+      'The calculator subtracts the down payment from the home price, uses the fixed-rate mortgage payment formula for monthly principal and interest, then adds annual property tax divided by 12, monthly insurance, PMI, and HOA dues.',
     limit:
-      'This is a planning estimate, not a loan estimate. It does not include lender underwriting, closing costs, escrow changes, local tax rules, mortgage insurance rules, or adjustable-rate terms.',
+      'This is payment math, not a lender Loan Estimate, approval, or APR disclosure. It does not include points, closing costs, prepaid interest, escrow setup, property-tax reassessments, PMI cancellation rules, adjustable-rate changes, credit review, debt-to-income rules, or cash-to-close requirements.',
     useCases: [
       'Estimate monthly mortgage principal and interest from home price, down payment, rate, and term.',
       'Add common monthly ownership costs such as property tax, insurance, PMI, and HOA dues.',
@@ -1515,11 +1525,66 @@ export const financeTools: ToolDefinition[] = [
       'Check loan-to-value before discussing PMI or lending options.',
     ],
     examples: [
-      { label: 'Starter estimate', expression: '$400,000 home, $80,000 down, 6.5%, 30 years', result: 'Monthly P&I plus optional escrow-style costs' },
-      { label: 'Lower rate check', expression: '$320,000 loan, 5.9%, 30 years', result: 'Compare payment and total interest' },
-      { label: '15-year comparison', expression: '$320,000 loan, 6.1%, 15 years', result: 'Higher payment, lower total interest' },
+      { label: 'Starter estimate', expression: '$400,000 home, $80,000 down, 6.5%, 30 years, $4,800 tax/year, $140 insurance, $75 HOA', result: 'About $2,637.62/month total, with $2,022.62 principal and interest and 80% LTV' },
+      { label: 'PMI example', expression: '$360,000 home, $40,000 down, 5.9%, 30 years, $3,600 tax/year, $120 insurance, $95 PMI', result: 'About $2,413.04/month total and about 88.89% LTV' },
+      { label: '15-year comparison', expression: '$400,000 home, $80,000 down, 6.1%, 15 years, same tax and insurance', result: 'About $3,332.66/month total but about $169,178.93 total interest' },
     ],
     relatedSlugs: ['loan-calculator', 'amortization-calculator', 'interest-rate-calculator'],
+    inputExplanations: [
+      { term: 'Home price', meaning: 'the purchase price you want to test before closing costs.' },
+      { term: 'Down payment', meaning: 'cash paid upfront toward the home price. The calculator subtracts this from the price to get the loan amount.' },
+      { term: 'Interest rate', meaning: 'the yearly note rate used for payment math, entered as 6.5 for 6.5%.' },
+      { term: 'Loan term', meaning: 'how many years the fixed payment is spread across, usually 15 or 30 for common comparisons.' },
+      { term: 'Property tax per year', meaning: 'the yearly tax estimate. The calculator divides it by 12 for the monthly payment.' },
+      { term: 'Insurance, PMI, and HOA', meaning: 'monthly add-ons. Enter 0 for any cost that does not apply.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What does PITI mean on a mortgage?',
+        answer:
+          'PITI means principal, interest, taxes, and insurance. The calculator shows principal and interest first, then adds property tax, insurance, PMI, and HOA so the full monthly estimate is easier to check.',
+      },
+      {
+        question: 'Why is the total monthly payment higher than principal and interest?',
+        answer:
+          'Principal and interest only repay the loan. A real housing budget may also include property tax, homeowners insurance, mortgage insurance, and HOA dues. CFPB says these extra costs can appear in the projected payment section of a Loan Estimate.',
+      },
+      {
+        question: 'Does this use today\'s mortgage rates automatically?',
+        answer:
+          'No. Enter the rate you want to test from a lender quote or rate table. Freddie Mac publishes market averages, but your real rate can change with credit, loan type, points, location, down payment, and timing.',
+      },
+      {
+        question: 'Should I include PMI?',
+        answer:
+          'Include PMI if your loan estimate, lender, or scenario has monthly mortgage insurance. Do not guess it from LTV alone, because PMI rules and prices can vary by loan type, credit, down payment, and lender.',
+      },
+      {
+        question: 'Is this the same as a lender Loan Estimate?',
+        answer:
+          'No. A Loan Estimate is a formal lender form. CFPB says it includes estimated interest rate, monthly payment, closing costs, tax and insurance estimates, and special loan features. This page only estimates the numbers you enter.',
+      },
+    ],
+    formulaCheck:
+      'If the monthly payment looks wrong, check four things first: the rate is entered as a percent, property tax is yearly, insurance is monthly, and the down payment is a dollar amount instead of a percent.',
+    resultReading:
+      'Start with total monthly payment, then look at principal and interest, total interest, LTV, and the tax-plus-insurance line. A smaller monthly payment can still cost more if the term is longer.',
+    doubleCheck:
+      'Compare the estimate with a lender Loan Estimate before making a decision. Check the interest rate, APR, points, closing costs, escrow, PMI, property tax, insurance, HOA dues, and whether the loan is fixed or adjustable.',
+    limitFollowup:
+      'It also cannot tell whether you qualify, whether the home appraises, or whether the payment fits your full budget after repairs, utilities, moving costs, and cash reserves.',
+    extraFaq: [
+      {
+        question: 'Why does a 15-year mortgage show a higher payment but less interest?',
+        answer:
+          'A 15-year mortgage spreads the same loan over fewer months. That usually raises the monthly payment, but the balance falls faster, so less interest builds up over the life of the loan.',
+      },
+      {
+        question: 'Can I use this for an adjustable-rate mortgage?',
+        answer:
+          'Only as a rough starting payment check. The calculator assumes the rate stays fixed for the full term. Adjustable-rate loans can change later, so read the ARM details in the lender documents.',
+      },
+    ],
   }),
   makeFinanceTool({
     slug: 'loan-calculator',

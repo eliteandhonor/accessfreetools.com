@@ -561,6 +561,21 @@ const cfpbMortgage = {
   label: 'Consumer Financial Protection Bureau: Mortgage key terms',
 };
 
+const cfpbMonthlyMortgagePayment = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/how-do-mortgage-lenders-calculate-monthly-payments-en-1965/',
+  label: 'CFPB: How mortgage lenders calculate monthly payments',
+};
+
+const cfpbPiti = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-piti-en-152/',
+  label: 'CFPB: What is PITI?',
+};
+
+const freddieMacPmms = {
+  href: 'https://www.freddiemac.com/pmms',
+  label: 'Freddie Mac: Primary Mortgage Market Survey',
+};
+
 const cfpbAutoLoans = {
   href: 'https://www.consumerfinance.gov/consumer-tools/auto-loans/',
   label: 'Consumer Financial Protection Bureau: Auto loans',
@@ -1677,17 +1692,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'mortgage-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-risk-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [cfpbMortgage, investorCompound],
+    sources: [cfpbMonthlyMortgagePayment, cfpbPiti, cfpbLoanEstimate, freddieMacPmms, cfpbMortgage],
     findings: [
-      'The calculator uses the fixed-payment loan formula for principal and interest, then clearly separates tax, insurance, PMI, and HOA add-ons.',
-      'Loan-to-value, total interest, and escrow-style cost wording match a planning estimate rather than a lender quote.',
-      'The guide warns about closing costs, escrow changes, local tax rules, underwriting, and adjustable-rate terms.',
+      'DataForSEO confirmed mortgage calculator, mortgage payment calculator, simple mortgage calculator, and free mortgage calculator intent for the exact tool and guide sprint.',
+      'The calculator uses fixed-rate payment math for principal and interest, then separates property tax, homeowners insurance, PMI, HOA, total monthly payment, total interest, and LTV.',
+      'The tool and guide now tie the result to CFPB PITI and Loan Estimate limits without implying lender approval, APR disclosure, or current-rate automation.',
     ],
     improvements: [
-      'Manually checked the calculator config, result steps, finance guide, FAQ wording, privacy note, related tools, and source coverage.',
+      'Added page-specific title/meta, mortgage search aliases, exact $400,000 and PMI examples, 15-year comparison, PITI and Loan Estimate FAQs, source links, finance trust block, specific image alt/caption text, and browser/DataForSEO proof requirements.',
     ],
     followUps: [
       'Add an amortization table preview after the page supports lightweight expandable schedules.',
@@ -7234,6 +7249,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
     if (includesAny(key, ['house-affordability', 'house affordability'])) {
       return sourceBackstop([cfpbMortgage, cfpbDebtToIncome]);
+    }
+
+    if (includesAny(key, ['mortgage-calculator', 'mortgage calculator'])) {
+      return sourceBackstop([cfpbMonthlyMortgagePayment, cfpbPiti, cfpbLoanEstimate, freddieMacPmms, cfpbMortgage]);
     }
 
     if (includesAny(key, ['amortization', 'mortgage-payoff', 'mortgage payoff'])) {

@@ -1112,9 +1112,39 @@ describe('finance helpers', () => {
 
     expect(formatCalculatorNumber(loan.monthlyPayment)).toBe('1580.17005873');
     expect(formatCalculatorNumber(mortgage.totalMonthlyPayment)).toBe('2637.61767518');
+    expect(mortgage.principalAndInterest).toBeCloseTo(2022.62, 2);
+    expect(mortgage.totalInterest).toBeCloseTo(408142.36, 2);
     expect(formatCalculatorNumber(mortgage.loanToValuePercent)).toBe('80');
     expect(formatCalculatorNumber(auto.amountFinanced)).toBe('27640');
     expect(auto.monthlyPayment).toBeGreaterThan(540);
+  });
+
+  it('keeps mortgage PMI and 15-year examples stable', () => {
+    const pmiExample = calculateMortgagePayment({
+      homePrice: 360000,
+      downPayment: 40000,
+      annualRatePercent: 5.9,
+      years: 30,
+      annualPropertyTax: 3600,
+      monthlyInsurance: 120,
+      monthlyPmi: 95,
+      monthlyHoa: 0,
+    });
+    const fifteenYear = calculateMortgagePayment({
+      homePrice: 400000,
+      downPayment: 80000,
+      annualRatePercent: 6.1,
+      years: 15,
+      annualPropertyTax: 4800,
+      monthlyInsurance: 140,
+      monthlyPmi: 0,
+      monthlyHoa: 75,
+    });
+
+    expect(pmiExample.totalMonthlyPayment).toBeCloseTo(2413.04, 2);
+    expect(pmiExample.loanToValuePercent).toBeCloseTo(88.89, 2);
+    expect(fifteenYear.totalMonthlyPayment).toBeCloseTo(3332.66, 2);
+    expect(fifteenYear.totalInterest).toBeCloseTo(169178.93, 2);
   });
 
   it('calculates compound growth, inflation, amortization savings, and sales tax', () => {

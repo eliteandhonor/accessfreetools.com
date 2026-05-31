@@ -79,6 +79,18 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/language/cfpb-in-english/mortgages-key-terms/',
     label: 'Consumer Financial Protection Bureau: Mortgage key terms',
   },
+  cfpbMonthlyMortgagePayment: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/how-do-mortgage-lenders-calculate-monthly-payments-en-1965/',
+    label: 'CFPB: How mortgage lenders calculate monthly payments',
+  },
+  cfpbPiti: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-piti-en-152/',
+    label: 'CFPB: What is PITI?',
+  },
+  freddieMacPmms: {
+    href: 'https://www.freddiemac.com/pmms',
+    label: 'Freddie Mac: Primary Mortgage Market Survey',
+  },
   blsInflation: {
     href: 'https://www.bls.gov/bls/inflation.htm',
     label: 'BLS: Overview of inflation and price statistics',
@@ -432,7 +444,13 @@ function getFormulaAnswer(toolSlug: string) {
 
 function getSourceLinks(toolSlug: string) {
   if (['mortgage-calculator', 'amortization-calculator'].includes(toolSlug)) {
-    return [sourceLinks.cfpbMortgage];
+    return [
+      sourceLinks.cfpbMonthlyMortgagePayment,
+      sourceLinks.cfpbPiti,
+      sourceLinks.cfpbLoanEstimate,
+      sourceLinks.freddieMacPmms,
+      sourceLinks.cfpbMortgage,
+    ];
   }
 
   if (toolSlug === 'loan-calculator') {
@@ -958,7 +976,7 @@ const guideDetails: Record<string, GuideDetail> = {
   'mortgage-calculator': {
     summary: 'Learn how to estimate a mortgage payment with principal, interest, taxes, insurance, PMI, and HOA costs.',
     purpose:
-      'The Mortgage Calculator is for a first-pass monthly housing estimate. It separates principal and interest from property tax, insurance, PMI, and HOA costs so the monthly number is easier to read.',
+      'The Mortgage Calculator is for checking a home payment before the number turns into a big, blurry monthly bill. It separates principal and interest from property tax, insurance, PMI, and HOA costs so you can see what is actually driving the payment.',
     enter: [
       'Enter the home price and down payment as dollar amounts, not percentages.',
       'Use the loan rate and term you want to compare, such as 6.5% for 30 years.',
@@ -966,19 +984,20 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
     example: [
       'For a $400,000 home with $80,000 down, the loan amount is $320,000.',
-      'The calculator finds principal and interest first, then adds the monthly ownership costs you entered.',
+      'At 6.5% for 30 years, the principal and interest estimate is about $2,022.62 per month.',
+      'With $4,800 yearly property tax, $140 monthly insurance, and a $75 HOA, the total monthly estimate is about $2,637.62.',
     ],
     read: [
-      'Read principal and interest separately from the total monthly payment.',
-      'Loan-to-value helps you see how much of the home price is financed.',
-      'Total interest is the interest over the full loan term if the rate and payment stay fixed.',
+      'Total monthly payment is the number to budget around, but principal and interest show the loan-only part.',
+      'Loan-to-value helps you see how much of the home price is financed before you think about PMI.',
+      'Total interest shows the long-term cost if the rate, term, and payment stay fixed.',
     ],
     mistakes: [
       'Do not treat this as a lender Loan Estimate or final approval.',
       'Do not enter annual insurance in a monthly insurance box.',
-      'Do not forget that closing costs, escrow changes, and local taxes can change the real payment.',
+      'Do not forget closing costs, prepaid interest, escrow changes, points, PMI rules, and local tax changes.',
     ],
-    next: ['Use Amortization Calculator to test extra payments.', 'Use Interest Rate Calculator if you only know the payment quote.'],
+    next: ['Use Amortization Calculator to see the balance over time.', 'Use Down Payment Calculator to check cash needed at closing.', 'Use Interest Rate Calculator if you only know the payment quote.'],
   },
   'loan-calculator': {
     summary: 'Learn how loan amount, interest rate, and term turn into a monthly payment and total interest.',
@@ -2872,7 +2891,7 @@ function buildDefaultGuideDetail(tool: (typeof financeTools)[number]): GuideDeta
     'Use the formula and steps shown on the calculator page to check how the estimate was produced.';
   const limitNote =
     tool.faq.find((item) => item.question.includes('leave out'))?.answer ??
-    'This is a planning estimate, not a final quote, tax result, contract term, or professional financial recommendation.';
+    'Use it to check the numbers you enter, not as a lender decision, tax filing, contract term, or professional recommendation.';
 
   return {
     summary: `Learn how to use the ${tool.name} in plain language: what to enter, what the result means, and what the estimate leaves out.`,
@@ -2996,6 +3015,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate a car payment from price, tax, fees, down payment, trade-in, rate, and term, with total interest and total paid checks.';
   }
 
+  if (tool.slug === 'mortgage-calculator') {
+    return 'Estimate a mortgage payment from home price, down payment, rate, taxes, insurance, PMI, and HOA, with PITI, LTV, and Loan Estimate limits.';
+  }
+
   if (tool.slug === 'ad-revenue-calculator') {
     return 'Estimate website ad revenue from page views, CTR, CPC, and page RPM, with a 1,000-view example and clear AdSense-style limits.';
   }
@@ -3040,6 +3063,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isSalesTaxGuide = tool.slug === 'sales-tax-calculator';
   const isAdRevenueGuide = tool.slug === 'ad-revenue-calculator';
   const isAutoLoanGuide = tool.slug === 'auto-loan-calculator';
+  const isMortgageGuide = tool.slug === 'mortgage-calculator';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
   const isDownPaymentGuide = tool.slug === 'down-payment-calculator';
@@ -3059,7 +3083,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     title: getGuideTitle(tool),
     description: buildFinanceMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: isAutoLoanGuide
+    intro: isMortgageGuide
+      ? 'A mortgage payment is not just the loan. This guide shows how home price, down payment, rate, term, property tax, insurance, PMI, and HOA dues turn into one monthly estimate.'
+      : isAutoLoanGuide
       ? 'A car payment can look fine while the full loan is expensive. This guide shows how price, down payment, trade-in, tax, fees, rate, and term turn into the monthly payment and total interest.'
       : isBusinessLoanGuide
       ? 'A business loan can look affordable until the fee and total interest show up. This guide shows how loan amount, rate, term, and origination fee turn into payment, cash received, and total cost.'
@@ -3088,7 +3114,15 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       : isInvestmentGuide
       ? 'An investment projection can look powerful, but it is still a what-if. This guide shows how starting money, monthly deposits, estimated return, and years turn into ending balance, contributions, and growth.'
       : `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
-    quickStart: isAutoLoanGuide
+    quickStart: isMortgageGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter the home price and the down payment as dollar amounts.',
+          'Enter the interest rate and loan term, such as 6.5% for 30 years.',
+          'Add yearly property tax, then monthly insurance, PMI, and HOA only when those costs apply.',
+          'Calculate, then read total monthly payment, principal and interest, total interest, and LTV before comparing it with a lender Loan Estimate.',
+        ]
+      : isAutoLoanGuide
       ? [
           `Open the ${tool.name}.`,
           'Enter the vehicle price after negotiation.',
@@ -3211,7 +3245,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         title: 'What this calculator is for',
         paragraphs: [
           detail.purpose,
-          isAutoLoanGuide
+          isMortgageGuide
+            ? 'Use it before asking for a quote, comparing 15-year and 30-year payments, testing PMI, or seeing whether tax and insurance make a home feel less affordable than the loan payment alone.'
+            : isAutoLoanGuide
             ? 'Use it before shopping for financing, comparing dealer offers, testing a trade-in, or seeing how much a longer loan term really costs.'
             : isBusinessLoanGuide
             ? 'Use it before talking to a lender, testing an equipment purchase, comparing working-capital offers, or checking whether the fee leaves enough cash for the job.'
@@ -3241,7 +3277,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       {
         title: 'What to enter',
         paragraphs: [
-          isAutoLoanGuide
+          isMortgageGuide
+            ? 'Mortgage estimates get messy when annual and monthly costs are mixed together. Home price, down payment, rate, and term build the loan payment. Property tax, insurance, PMI, and HOA dues are add-ons that make the real monthly budget bigger.'
+            : isAutoLoanGuide
             ? 'Auto-loan estimates are easy to bend by leaving out fees or focusing only on the monthly payment. Enter the car price, tax, fees, down payment, trade-in, rate, and term as one complete deal.'
             : isBusinessLoanGuide
             ? 'Business-loan offers are easy to misread if you look only at the payment. Enter the loan amount, rate, term, and origination fee so you can see both repayment cost and cash received.'
@@ -3275,7 +3313,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         title: 'Example walkthrough',
         paragraphs: [
           primaryExample
-            ? isAutoLoanGuide
+            ? isMortgageGuide
+              ? 'Try the starter example: a $400,000 home, $80,000 down, 6.5% for 30 years, $4,800 yearly tax, $140 monthly insurance, and a $75 HOA. The estimate is about $2,637.62 per month total, with $2,022.62 of that as principal and interest and 80% LTV.'
+              : isAutoLoanGuide
               ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
               : isBusinessLoanGuide
               ? 'Try the starter example: $50,000 at 9.5% for 5 years with a 2% origination fee. The estimate is about $1,050.09 per month, $13,005.58 in interest, $1,000 in fees, $49,000 cash received, and $64,005.58 total cost with fee.'
@@ -3308,7 +3348,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         title: 'Formula and steps',
         paragraphs: [
           getFormulaAnswer(tool.slug),
-          isAutoLoanGuide
+          isMortgageGuide
+            ? 'The loan formula is only the first layer. The budget number changes when you add property tax, homeowners insurance, PMI, and HOA dues. CFPB calls the core monthly pieces PITI: principal, interest, taxes, and insurance.'
+            : isAutoLoanGuide
             ? 'The formula is not the hard part. The hard part is using the same full deal each time: tax, fees, down payment, trade-in, rate, and term. That is why the calculator shows amount financed and total interest beside the monthly payment.'
             : isBusinessLoanGuide
             ? 'The formula is only one part of the decision. The fee matters because you may repay the full loan amount even when the cash you receive is lower.'
@@ -3340,7 +3382,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       {
         title: 'How to read the answer',
         paragraphs: [
-          isAutoLoanGuide
+          isMortgageGuide
+            ? 'Start with total monthly payment because that is closest to the budget hit. Then check principal and interest, total interest, and loan-to-value so you can tell whether the payment is being moved by the loan, the rate, the term, or the add-on costs.'
+            : isAutoLoanGuide
             ? 'Start with the monthly payment, then immediately check amount financed, total interest, and total paid. That stops a long loan from looking better just because the monthly number is smaller.'
             : isBusinessLoanGuide
             ? 'Start with the monthly payment, then check total interest, origination fee, cash received, and total cost with fee. That is the part that shows whether the loan still fits the business plan.'
@@ -3373,7 +3417,9 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       {
         title: 'Common mistakes to avoid',
         paragraphs: [
-          isAutoLoanGuide
+          isMortgageGuide
+            ? 'Most bad mortgage estimates come from using a rate that is not your quote, entering yearly insurance as monthly insurance, forgetting PMI, ignoring tax reassessments, or treating the calculator like a lender approval.'
+            : isAutoLoanGuide
             ? 'Most bad car-payment estimates come from leaving out fees, using a rate from a different offer, forgetting negative equity, or choosing the longest term before checking total interest.'
             : isBusinessLoanGuide
             ? 'Most bad business-loan estimates come from ignoring the fee, comparing interest rates without APR context, or treating a fixed-payment loan like a merchant cash advance.'

@@ -2880,6 +2880,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/mortgage-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/mortgage-calculator-guide.webp",
+    "alt": "Smoke mascot reviewing a mortgage worksheet with home price, down payment, interest rate, PITI, PMI, HOA, and LTV notes.",
+    "caption": "Mortgage Calculator guide artwork shows the home-price, down-payment, rate, PITI, PMI, HOA, and LTV checks from the walkthrough.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2888,6 +2890,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/mortgage-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/mortgage-calculator-tool.webp",
+    "alt": "Smoke mascot beside a mortgage calculator screen with home price, down payment, monthly payment, PITI, PMI, HOA, and LTV cards.",
+    "caption": "Mortgage Calculator artwork shows a monthly payment estimate built from home price, down payment, rate, taxes, insurance, PMI, HOA, and LTV.",
     "status": "approved",
     "qaStatus": "approved"
   },

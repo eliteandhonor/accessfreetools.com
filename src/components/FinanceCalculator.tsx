@@ -281,7 +281,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Mortgage Calculator',
     buttonLabel: 'Estimate mortgage',
     emptyHistory: 'Recent mortgage estimates will appear here.',
-    privacyNote: 'Mortgage estimates are planning numbers, not lender quotes, approvals, or final escrow amounts.',
+    privacyNote: 'Mortgage estimates stay in your browser and are not lender quotes, approvals, APR disclosures, or final escrow amounts.',
     modes: [
       {
         id: 'mortgage',
@@ -2597,7 +2597,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide annual property tax by 12.',
           'Add monthly tax, insurance, PMI, and HOA to principal and interest.',
         ],
-        note: 'This estimate is not a lender Loan Estimate and does not include closing costs or escrow changes.',
+        note: 'This is payment math, not a lender Loan Estimate. It leaves out APR, points, closing costs, prepaid interest, escrow setup, tax changes, PMI rules, and approval checks.',
       };
     }
     case 'loan':

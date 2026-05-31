@@ -694,6 +694,13 @@ const financeToolInstructions = financeToolVariant
         'Add joint credits only if they belong in the married filing jointly estimate.',
         'Calculate, then compare joint federal tax with the two-single estimate and read whether the difference is positive, negative, or $0.',
       ]
+    : tool.slug === 'mortgage-calculator'
+    ? [
+        'Enter the home price and down payment as dollar amounts.',
+        'Use the rate and loan term you want to test, such as 6.5% for 30 years.',
+        'Add yearly property tax, then monthly insurance, PMI, and HOA only when those costs apply.',
+        'Calculate, then compare total monthly payment, principal and interest, total interest, and LTV with a lender Loan Estimate.',
+      ]
     : tool.slug === 'investment-calculator'
     ? [
         'Enter the starting money already invested.',
@@ -2175,7 +2182,20 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isFinanceTool && (
         <aside class="trust-note trust-note-finance" aria-label={`${tool.name} estimate limits`}>
-          {tool.slug === 'auto-loan-calculator' ? (
+          {tool.slug === 'mortgage-calculator' ? (
+            <>
+              <strong>Mortgage payment estimate, not lender approval</strong>
+              <p>
+                Use this to compare home price, down payment, rate, term, property tax, insurance, PMI, HOA,
+                principal and interest, total interest, and loan-to-value. A real mortgage can still change with
+                APR, points, closing costs, prepaid interest, escrow setup, property-tax changes, PMI rules,
+                credit review, debt-to-income limits, appraisal, and the written Loan Estimate.
+              </p>
+              <p>
+                Sources used for this review: <a href="https://www.consumerfinance.gov/ask-cfpb/how-do-mortgage-lenders-calculate-monthly-payments-en-1965/" rel="noreferrer" target="_blank">CFPB monthly mortgage payments</a>, <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-piti-en-152/" rel="noreferrer" target="_blank">CFPB PITI</a>, and <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/" rel="noreferrer" target="_blank">CFPB Loan Estimate</a>.
+              </p>
+            </>
+          ) : tool.slug === 'auto-loan-calculator' ? (
             <>
               <strong>Car payment estimate, not a lender quote</strong>
               <p>
