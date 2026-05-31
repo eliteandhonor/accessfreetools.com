@@ -52,6 +52,18 @@ const categoryVisualCues = {
 };
 
 const toolArtMetadataOverrides = {
+  'annuity-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',
+      caption:
+        'Annuity Calculator artwork matches the live workflow: fixed payment amount, annual rate, years, payment frequency, timing, future value, and present value.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining annuity due versus ordinary annuity timing beside payment-count, future-value, present-value, fee, and surrender-charge notes.',
+      caption:
+        'Annuity Calculator guide artwork supports the walkthrough by showing payment timing, 240 monthly payments, future value, present value, and contract cautions.',
+    },
+  },
   'rent-calculator': {
     tool: {
       alt: 'Smoke mascot checking a rent budget screen with monthly income, rent target percent, debt payments, utilities, max rent, and income-left cards.',

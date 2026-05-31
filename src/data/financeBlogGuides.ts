@@ -67,6 +67,22 @@ const sourceLinks = {
     href: 'https://openstax.org/books/principles-finance/pages/8-2-annuities',
     label: 'OpenStax Principles of Finance: Annuities and present value',
   },
+  investorGovAnnuities: {
+    href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/annuities',
+    label: 'Investor.gov: Annuities',
+  },
+  investorGovVariableAnnuities: {
+    href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/annuities/variable-annuities',
+    label: 'Investor.gov: Variable annuities',
+  },
+  finraAnnuities: {
+    href: 'https://www.finra.org/investors/investing/investment-products/annuities',
+    label: 'FINRA: Annuities',
+  },
+  naicDeferredAnnuities: {
+    href: 'https://content.naic.org/sites/default/files/publication-anb-lp-consumer-annuities.pdf',
+    label: 'NAIC: Buyer guide for deferred annuities',
+  },
   openStaxLoanAmortization: {
     href: 'https://openstax.org/books/principles-finance/pages/8-3-loan-amortization',
     label: 'OpenStax Principles of Finance: Loan amortization',
@@ -583,7 +599,13 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (['annuity-calculator', 'annuity-payout-calculator'].includes(toolSlug)) {
-    return [sourceLinks.investorAnnuities, sourceLinks.investorCompound];
+    return [
+      sourceLinks.investorAnnuities,
+      sourceLinks.investorGovAnnuities,
+      sourceLinks.finraAnnuities,
+      sourceLinks.investorGovVariableAnnuities,
+      sourceLinks.naicDeferredAnnuities,
+    ];
   }
 
   if (toolSlug === 'pension-calculator') {
@@ -1616,29 +1638,30 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Salary Calculator to convert annual salary into monthly income.', 'Use Budget Calculator to test the rest of the month.', 'Use Percentage Calculator to compare 25%, 30%, and 35% targets.'],
   },
   'annuity-calculator': {
-    summary: 'Learn how fixed payments, rate, timing, and years affect annuity present value and future value.',
+    summary: 'Learn how payment amount, rate, years, frequency, and timing change annuity future value and present value.',
     purpose:
-      'The Annuity Calculator estimates the present value and future value of a repeated fixed payment. It supports ordinary annuity timing and annuity-due timing for payments made at the beginning of each period.',
+      'The Annuity Calculator is for clean fixed-payment math. It estimates future value and present value from one repeated payment, then lets you compare ordinary timing with annuity-due timing before you look at any real contract.',
     enter: [
-      'Enter the fixed payment amount.',
-      'Enter annual rate, number of years, and payments per year.',
-      'Choose whether payments happen at the end or beginning of each period.',
+      'Enter the fixed payment made each period, such as $500 each month.',
+      'Enter the annual rate, number of years, and payments per year.',
+      'Choose end-of-period timing for an ordinary annuity or beginning-of-period timing for an annuity due.',
     ],
     example: [
-      '$500 per month for 20 years means 240 payments.',
-      'The calculator converts the annual rate to a monthly rate, then estimates future value and present value.',
+      '$500 per month for 20 years means 240 payments and $120,000 paid in.',
+      'At 5%, the ordinary annuity estimate is about $205,516.83 future value and $75,762.66 present value.',
+      'Switching to beginning-of-period timing raises the estimate because each payment gets one extra period in the formula.',
     ],
     read: [
-      'Future value estimates what the payment stream could grow to.',
-      'Present value estimates the value of that payment stream today at the selected rate.',
-      'Beginning-of-period payments are worth more in the formula because each payment has one extra period to grow.',
+      'Future value is the estimated ending value of the payment stream.',
+      'Present value is what that same stream is worth today using the rate you entered.',
+      'Total payments shows only the money paid in, so it is useful for checking how much of the future value comes from the rate assumption.',
     ],
     mistakes: [
-      'Do not treat this as an insurance annuity quote.',
-      'Do not ignore fees, taxes, inflation riders, surrender charges, or contract guarantees.',
+      'Do not treat this as an insurance annuity quote, lifetime-income promise, or tax answer.',
+      'Do not ignore fees, surrender charges, riders, guarantees, inflation adjustments, mortality assumptions, or contract rules.',
       'Do not mix monthly payments with annual payments without changing payments per year.',
     ],
-    next: ['Use Investment Calculator for contribution growth.', 'Use Retirement Calculator for broader retirement savings scenarios.'],
+    next: ['Use Investment Calculator for contribution growth.', 'Use Retirement Calculator for broader retirement savings scenarios.', 'Use Annuity Payout Calculator when you already have a balance and want an estimated payout.'],
   },
   'credit-card-calculator': {
     summary: 'Learn how balance, APR, monthly payment, and new charges affect credit card payoff time.',
@@ -3097,6 +3120,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Rent Calculator Guide';
   }
 
+  if (tool.slug === 'annuity-calculator') {
+    return 'Annuity Calculator Guide';
+  }
+
   const standardTitle = `How to use the ${tool.name}`;
   const pageTitle = `${standardTitle} | Access Free Tools`;
 
@@ -3180,6 +3207,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate max rent from income, rent target, debts, and utilities, with deposit, lease-fee, and landlord-rule cautions.';
   }
 
+  if (tool.slug === 'annuity-calculator') {
+    return 'Estimate annuity future value and present value from fixed payments, rate, years, frequency, and ordinary or annuity-due timing.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -3210,6 +3241,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isHouseAffordabilityGuide = tool.slug === 'house-affordability-calculator';
   const isSavingsGuide = tool.slug === 'savings-calculator';
   const isRentGuide = tool.slug === 'rent-calculator';
+  const isAnnuityGuide = tool.slug === 'annuity-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
@@ -3242,6 +3274,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A savings goal is easier to trust when the deposits, interest, and gap are split apart. This guide shows how current savings, monthly deposits, rate, time, and a target amount turn into a plan you can check.'
       : isRentGuide
       ? 'A rent number can look fine until debts, utilities, deposits, and lease fees hit. This guide shows how income, a rent target, monthly debts, and utilities turn into a rent ceiling you can compare with listings.'
+      : isAnnuityGuide
+      ? 'An annuity result is easy to misread if timing and payment frequency are mixed up. This guide shows how one fixed payment, a rate, years, payment count, and ordinary or annuity-due timing change future value and present value.'
       : isUkMortgageGuide
       ? 'A UK repayment mortgage is not just the property price split across months. This guide shows how price, deposit, rate, term, and monthly fees turn into a payment, LTV, and interest estimate.'
       : isAutoLoanGuide
@@ -3320,6 +3354,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Add a rent target such as 25%, 30%, or 35%, then enter monthly debts and utilities.',
           'Calculate, then compare max monthly rent, annual rent, and income left after rent, debts, and utilities.',
           'Check deposits, application fees, renters insurance, parking, pets, moving costs, and the lease before treating the number as affordable.',
+        ]
+      : isAnnuityGuide
+      ? [
+          'Open the Annuity Calculator.',
+          'Enter the fixed payment made each period, such as $500 each month.',
+          'Add the annual rate, number of years, and payments each year.',
+          'Choose ordinary timing for end-of-period payments or annuity due for beginning-of-period payments.',
+          'Calculate, then compare future value, present value, total payments, payment count, and timing before reading any real annuity contract.',
         ]
       : isUkMortgageGuide
       ? [
@@ -3474,6 +3516,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it when you want a first-pass savings, investing, or general money projection before picking a more specific calculator. It is a scenario check, not a promise about the future.'
             : isRentGuide
             ? 'Use it before apartment hunting, comparing two rent targets, deciding whether utilities make a listing too expensive, or checking whether debts leave enough room for the rent you want.'
+            : isAnnuityGuide
+            ? 'Use it when you need fixed-payment annuity math for homework, retirement planning notes, ordinary annuity timing, annuity-due timing, present value, or future value before looking at real contract rules.'
             : isMarriageTaxGuide
             ? 'Use it when you want to see whether the numbers you enter create a rough federal marriage bonus, penalty, or no difference before you look at the bigger tax details.'
             : isInvestmentGuide
@@ -3504,6 +3548,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Savings estimates get fuzzy when the goal, deposits, and interest are all blended together. Keep current savings, monthly deposit, annual rate, years, and target amount separate so the gap is easy to check.'
             : isRentGuide
             ? 'Rent estimates get shaky when gross income, take-home pay, debts, and utilities are mixed together. Pick the income basis first, then subtract debts and utilities that will still hit every month.'
+            : isAnnuityGuide
+            ? 'Annuity estimates get shaky when monthly payments, annual payments, ordinary timing, and annuity-due timing are mixed together. Set payment frequency first, then keep the timing choice honest.'
             : isUkMortgageGuide
             ? 'UK mortgage estimates get messy when one-off costs and monthly costs are mixed together. Property price, deposit, rate, and term build the repayment estimate. The monthly fee field is only for a cost that repeats every month.'
             : isAutoLoanGuide
@@ -3552,6 +3598,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $2,500 saved, $300 added each month, 4% annual rate, 5 years, and a $25,000 target. The estimate is about $22,942.18, with $20,500 from deposits, about $2,442.18 from interest, and about $2,057.82 still short.'
               : isRentGuide
               ? 'Try the starter example: $5,200 monthly income, a 30% rent target, $350 in debts, and $180 in utilities. The estimate is $1,030 max monthly rent, $12,360 annual rent, and $3,640 left after rent, debts, and utilities.'
+              : isAnnuityGuide
+              ? 'Try the starter example: $500 each month for 20 years at 5%, with payments at the end of each month. That means 240 payments, $120,000 paid in, about $205,516.83 future value, and about $75,762.66 present value.'
               : isAutoLoanGuide
               ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
               : isBusinessLoanGuide
@@ -3593,6 +3641,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with the projected balance, then check the split. Deposits are the money you put in. Estimated interest is the extra growth from the rate. CFPB and FDIC both explain compound interest as interest earning more interest over time.'
             : isRentGuide
             ? 'Start with income times the rent target, then subtract debt payments and utilities. HUD rental assistance materials treat rent and tenant-paid utilities together, which is a useful reminder that utilities still count when you pay them outside the rent.'
+            : isAnnuityGuide
+            ? 'Start by turning the annual rate into a rate for each payment period. Then count the payments and run the fixed-payment annuity formulas. Investor.gov and FINRA both warn that real annuity products can add fees, riders, surrender rules, and guarantees that are not part of this clean formula.'
             : isMortgagePayoffGuide
             ? 'The calculator first finds the scheduled fixed mortgage payment. Then it subtracts any one-time principal payment, adds extra monthly principal, and simulates month-by-month interest until the balance reaches zero.'
             : is401kGuide
@@ -3649,6 +3699,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with ending balance, then check total contributions and estimated growth. That shows how much came from your deposits and how much came from the rate assumption.'
             : isRentGuide
             ? 'Start with max monthly rent. Then check annual rent and income left after rent, debts, and utilities. If the leftover money looks thin, test a lower target before looking at real listings.'
+            : isAnnuityGuide
+            ? 'Start with future value, then check present value and total payments. If future value looks huge, compare it with total payments so you can see how much comes from the rate assumption.'
             : isMarriageTaxGuide
             ? 'Start with the difference, then check joint federal tax, two single returns, joint taxable income, and the joint marginal bracket. A $0 difference is a real answer, not an error.'
             : isInvestmentGuide
@@ -3694,6 +3746,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad finance projections come from using a rate that is too hopeful, mixing monthly deposits with yearly deposits, or forgetting that tax, fees, inflation, withdrawals, and losses can change the real result.'
             : isRentGuide
             ? 'Most bad rent estimates come from using gross income for a personal budget, forgetting utilities, ignoring debts, or skipping lease costs like deposits, application fees, renters insurance, parking, pets, and moving.'
+            : isAnnuityGuide
+            ? 'Most bad annuity estimates come from mixing monthly and yearly payments, choosing the wrong timing, using a rate that is too hopeful, or treating simple formula math like a real insurer quote.'
             : isMarriageTaxGuide
             ? 'Most bad marriage-tax estimates come from treating this as filing advice, forgetting state or payroll tax, ignoring dependent and credit phaseouts, or assuming the result stays the same at every income level.'
             : isInvestmentGuide
@@ -3737,6 +3791,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help after the first projection. The next question is usually investment-specific growth, compound-interest details, or debt payment math.'
             : isRentGuide
             ? 'A related tool can help after the rent ceiling. The next question is usually monthly income, the rest of the budget, or how much a different rent percentage changes the answer.'
+            : isAnnuityGuide
+            ? 'A related tool can help after the fixed-payment math. The next question is usually broader investment growth, retirement savings, or turning an existing balance into a payout estimate.'
             : isMarriageTaxGuide
             ? 'A related tool can help after the comparison. The next question is usually a one-status federal estimate, paycheck withholding, or gross-salary planning.'
             : isInvestmentGuide
@@ -3827,6 +3883,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/budget-calculator/', label: 'Check the rest of the monthly budget' },
               { href: '/tools/percentage-calculator/', label: 'Compare rent target percentages' },
             ]
+          : isAnnuityGuide
+          ? [
+              { href: '/tools/annuity-calculator/', label: 'Open the Annuity Calculator' },
+              { href: '/tools/investment-calculator/', label: 'Test contribution growth' },
+              { href: '/tools/retirement-calculator/', label: 'Check a wider retirement target' },
+              { href: '/tools/annuity-payout-calculator/', label: 'Estimate payout from an existing balance' },
+            ]
           : isInvestmentGuide
           ? [
               { href: '/tools/investment-calculator/', label: 'Open the Investment Calculator' },
@@ -3891,6 +3954,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'OpenStax explains future value and why money can grow over time. CFPB explains compound interest in plain language, and Investor.gov shows the same core inputs: starting amount, monthly contribution, time, estimated rate, and compounding.'
             : isRentGuide
             ? 'MyMoney.gov and CFPB sources help with the budget and debt side. HUD sources are useful because rental help rules often treat rent and tenant-paid utilities together, and USAGov points renters back to lease terms and tenant-rights help when a landlord problem is bigger than a calculator.'
+            : isAnnuityGuide
+            ? 'OpenStax is useful for the clean annuity formulas. Investor.gov, FINRA, and NAIC are useful for the real-world warning: annuity products can include fees, riders, surrender charges, guarantees, tax issues, state insurance rules, and contract limits that are not in the formula.'
             : isInvestmentGuide
             ? 'OpenStax explains time value of money, and Investor.gov is useful for the plain inputs behind this page: starting money, monthly contributions, time, fees, risk, return, and regular investing.'
             : isFhaLoanGuide
@@ -3934,6 +3999,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not include tax, fees, inflation, withdrawals, changing rates, market losses, account limits, or advice about what you should do.'
             : isRentGuide
             ? 'This calculator still stays simple. It does not approve a rental application, check credit, read a lease, know local rent prices, include every fee, price renters insurance, or decide whether a landlord will accept your income.'
+            : isAnnuityGuide
+            ? 'This calculator still stays simple. It does not price an insurance contract, estimate lifetime income, include mortality assumptions, read fee tables, handle surrender periods, apply tax rules, value riders, or tell you whether an annuity is a good purchase.'
             : isInvestmentGuide
             ? 'This calculator still stays simple. It does not include taxes, fees, inflation, withdrawals, changing returns, market losses, account limits, product risk, or advice about what you should buy.'
             : isFhaLoanGuide

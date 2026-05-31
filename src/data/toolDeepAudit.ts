@@ -716,6 +716,26 @@ const investorAnnuities = {
   label: 'OpenStax Principles of Finance: Annuities and present value',
 };
 
+const investorGovAnnuities = {
+  href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/annuities',
+  label: 'Investor.gov: Annuities',
+};
+
+const investorGovVariableAnnuities = {
+  href: 'https://www.investor.gov/introduction-investing/investing-basics/investment-products/annuities/variable-annuities',
+  label: 'Investor.gov: Variable annuities',
+};
+
+const finraAnnuities = {
+  href: 'https://www.finra.org/investors/investing/investment-products/annuities',
+  label: 'FINRA: Annuities',
+};
+
+const naicDeferredAnnuities = {
+  href: 'https://content.naic.org/sites/default/files/publication-anb-lp-consumer-annuities.pdf',
+  label: 'NAIC: Buyer guide for deferred annuities',
+};
+
 const pbgcPensionCoverage = {
   href: 'https://www.pbgc.gov/workers-retirees/learn/understanding-your-pension-pbgc-coverage',
   label: 'PBGC: Understanding your pension and PBGC coverage',
@@ -2424,20 +2444,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'annuity-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [investorAnnuities, investorCompound],
+    sources: [investorAnnuities, investorGovAnnuities, finraAnnuities, investorGovVariableAnnuities, naicDeferredAnnuities],
     findings: [
       'The calculator converts the annual rate to a periodic rate and uses ordinary annuity or annuity-due present-value and future-value formulas.',
-      'The UI exposes payments per year and payment timing, so monthly, annual, end-of-period, and beginning-of-period examples are not mixed together.',
-      'The guide and FAQ warn that insurance annuity quotes can include fees, taxes, guarantees, riders, surrender charges, and contract terms outside this formula.',
+      'The $500 monthly ordinary-annuity example correctly shows 240 payments, $120,000 paid in, about $205,516.83 future value, and about $75,762.66 present value.',
+      'DataForSEO page evidence showed annuity calculator demand around 40,500 searches, with extra intent around immediate, lottery, lifetime, fixed, and monthly annuity calculators.',
+      'Current Investor.gov, FINRA, and NAIC context supports a stronger warning that real annuity products can involve fees, surrender charges, riders, guarantees, tax issues, and contract limits outside the formula.',
     ],
     improvements: [
-      'Manually checked annuity formulas, timing multiplier, payments-per-year validation, examples, guide article, FAQ cautions, source coverage, SEO copy, and privacy behavior.',
+      'Rewrote metadata, aliases, field labels, examples, input explanations, FAQ cautions, guide copy, source links, image alt/caption text, tool trust note, and modified dates in smart-14 wording.',
     ],
     followUps: [
-      'Add a separate retirement-income explainer if annuity search traffic grows beyond formula-style use.',
+      'Consider a separate immediate annuity or lifetime-income explainer if DataForSEO and Search Console keep showing those intents.',
     ],
   },
   {
@@ -7538,7 +7559,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['annuity-payout', 'annuity payout', 'annuity'])) {
-      return sourceBackstop([investorAnnuities, investorCompound]);
+      return sourceBackstop([investorAnnuities, investorGovAnnuities, finraAnnuities, investorGovVariableAnnuities, naicDeferredAnnuities]);
     }
 
     if (includesAny(key, ['pension'])) {

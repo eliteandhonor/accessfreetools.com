@@ -673,22 +673,22 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
   },
   annuity: {
     title: 'Annuity Calculator',
-    buttonLabel: 'Calculate annuity',
-    emptyHistory: 'Recent annuity estimates will appear here.',
-    privacyNote: 'Annuity estimates use a simplified fixed-rate formula and do not include insurer terms, fees, taxes, guarantees, or surrender charges.',
+    buttonLabel: 'Estimate annuity value',
+    emptyHistory: 'Recent fixed-payment annuity checks will appear here.',
+    privacyNote: 'Annuity estimates use fixed-payment math and do not include insurer pricing, contract terms, fees, taxes, guarantees, riders, or surrender charges.',
     modes: [
       {
         id: 'annuity',
         label: 'Annuity',
         symbol: 'ANN',
         fields: [
-          numberField('payment', 'Payment amount ($)'),
-          numberField('annualRatePercent', 'Annual rate (%)'),
-          numberField('years', 'Time (years)'),
-          numberField('paymentsPerYear', 'Payments per year'),
+          numberField('payment', 'Payment each period ($)'),
+          numberField('annualRatePercent', 'Fixed annual rate (%)'),
+          numberField('years', 'Number of years'),
+          numberField('paymentsPerYear', 'Payments each year'),
           selectField('timing', 'Payment timing', [
-            { label: 'End of period', value: 'ordinary' },
-            { label: 'Beginning of period', value: 'due' },
+            { label: 'End of period (ordinary)', value: 'ordinary' },
+            { label: 'Beginning of period (annuity due)', value: 'due' },
           ]),
         ],
         defaultInputs: { payment: '500', annualRatePercent: '5', years: '20', paymentsPerYear: '12', timing: 'ordinary' },
@@ -2950,12 +2950,12 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           { label: 'Timing', value: result.timing === 'due' ? 'Beginning of period' : 'End of period' },
         ],
         steps: [
-          'Convert the annual rate to a periodic rate based on payments per year.',
-          'Calculate future value from the payment stream.',
-          'Calculate present value using the same rate and payment count.',
-          'Adjust for beginning-of-period payments when annuity due is selected.',
+          'Convert the annual rate into a rate for each payment period.',
+          'Count total payments from years and payments each year.',
+          'Estimate future value and present value for the fixed payment stream.',
+          'Add one extra period of timing when annuity due is selected.',
         ],
-        note: 'This is a simplified annuity formula, not an insurance quote or investment recommendation.',
+        note: 'This is fixed-payment math, not an insurance quote, tax answer, or investment recommendation.',
       };
     }
     case 'credit-card': {

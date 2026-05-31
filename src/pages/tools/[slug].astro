@@ -743,6 +743,13 @@ const financeToolInstructions = financeToolVariant
         'Add monthly debt payments and utilities that are not included in the lease.',
         'Calculate, then compare max rent, annual rent, and income left before deposits, moving costs, parking, pet rent, or local rules.',
       ]
+    : tool.slug === 'annuity-calculator'
+    ? [
+        'Enter the fixed payment made each period, such as $500 every month.',
+        'Add the annual rate, number of years, and payments each year, such as 12 for monthly payments.',
+        'Choose ordinary timing for end-of-period payments or annuity due for beginning-of-period payments.',
+        'Calculate, then compare future value, present value, total payments, payment count, and timing before reading any real annuity contract.',
+      ]
     : tool.slug === 'investment-calculator'
     ? [
         'Enter the starting money already invested.',
@@ -2359,6 +2366,32 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.hud.gov/helping-americans/housing-choice-vouchers-tenants" rel="noreferrer" target="_blank">
                   HUD rent and utility guidance
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'annuity-calculator' ? (
+            <>
+              <strong>Fixed-payment math, not an annuity quote</strong>
+              <p>
+                Use this to test payment amount, fixed annual rate, years, payment frequency,
+                ordinary timing, annuity-due timing, future value, present value, total payments,
+                and payment count. A real annuity contract can still change because of insurer
+                pricing, fees, taxes, guarantees, riders, surrender charges, age, state rules,
+                and contract wording.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.investor.gov/introduction-investing/investing-basics/investment-products/annuities" rel="noreferrer" target="_blank">
+                  Investor.gov annuity basics
+                </a>
+                {', '}
+                <a href="https://www.finra.org/investors/investing/investment-products/annuities" rel="noreferrer" target="_blank">
+                  FINRA annuity guidance
+                </a>
+                {', and '}
+                <a href="https://content.naic.org/sites/default/files/publication-anb-lp-consumer-annuities.pdf" rel="noreferrer" target="_blank">
+                  NAIC deferred annuity buyer guide
                 </a>
                 .
               </p>

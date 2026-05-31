@@ -1306,6 +1306,21 @@ describe('finance helpers', () => {
     expect(conservativeTarget.maxRent).toBe(830);
   });
 
+  it('keeps annuity calculator examples stable', () => {
+    const ordinaryMonthly = calculateAnnuity(500, 5, 20, 12, 'ordinary');
+    const dueMonthly = calculateAnnuity(500, 5, 20, 12, 'due');
+    const annualPayments = calculateAnnuity(6000, 4.5, 15, 1, 'ordinary');
+
+    expect(ordinaryMonthly.paymentCount).toBe(240);
+    expect(ordinaryMonthly.totalPayments).toBe(120000);
+    expect(ordinaryMonthly.futureValue).toBeCloseTo(205516.83, 2);
+    expect(ordinaryMonthly.presentValue).toBeCloseTo(75762.66, 2);
+    expect(dueMonthly.futureValue).toBeCloseTo(206373.15, 2);
+    expect(dueMonthly.presentValue).toBeCloseTo(76078.33, 2);
+    expect(annualPayments.futureValue).toBeCloseTo(124704.33, 2);
+    expect(annualPayments.presentValue).toBeCloseTo(64437.27, 2);
+  });
+
   it('keeps mortgage payoff examples stable', () => {
     const extraMonthly = calculateMortgagePayoffSummary(280000, 6.25, 25, 200, 0);
     const oneTime = calculateMortgagePayoffSummary(240000, 6.5, 20, 0, 5000);

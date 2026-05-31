@@ -2715,25 +2715,80 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'annuity-calculator',
     name: 'Annuity Calculator',
-    summary: 'Estimate present value and future value of a fixed annuity payment stream.',
+    summary: 'Estimate future value and present value for a fixed payment stream.',
     description:
-      'Use this free annuity calculator to estimate future value, present value, total payments, and payment count from payment amount, rate, time, frequency, and timing.',
+      'Estimate future value, present value, total payments, and payment count from one fixed payment, rate, time, payment frequency, and payment timing.',
+    seoTitle: 'Annuity Calculator | Future Value, Present Value & Timing',
+    seoDescription:
+      'Estimate annuity future value and present value from payment amount, rate, years, payment frequency, and ordinary or annuity-due timing.',
     icon: 'calculator-annuity',
+    aliases: [
+      'fixed annuity calculator',
+      'monthly annuity calculator',
+      'annuity future value calculator',
+      'annuity present value calculator',
+      'ordinary annuity calculator',
+      'annuity due calculator',
+    ],
     formula:
-      'The calculator converts the annual rate to a periodic rate, then uses ordinary annuity or annuity-due formulas for future value and present value.',
+      'The calculator converts the annual rate to a rate per payment period, counts the payments, then runs ordinary annuity or annuity-due formulas for future value and present value.',
     limit:
-      'This is a simplified fixed-rate annuity formula. It does not include insurer pricing, fees, taxes, guarantees, surrender charges, inflation riders, or contract terms.',
+      'This is fixed-payment math, not an insurance annuity quote. It does not include insurer pricing, mortality assumptions, fees, taxes, guarantees, riders, surrender charges, inflation adjustments, or contract terms.',
     useCases: [
-      'Estimate the future value of repeated payments.',
-      'Estimate present value for a fixed payment stream.',
-      'Compare end-of-period and beginning-of-period payments.',
-      'Check annuity formula homework or planning examples.',
+      'Estimate the future value of repeated monthly or yearly payments.',
+      'Estimate what a fixed payment stream is worth today.',
+      'Compare ordinary annuity timing with annuity-due timing.',
+      'Check fixed-payment annuity formula homework before looking at real contract rules.',
     ],
     examples: [
-      { label: 'Monthly annuity', expression: '$500/month, 5%, 20 years', result: 'Future value and present value' },
-      { label: 'Annual payments', expression: '$6,000/year, 4.5%, 15 years', result: 'Fixed payment stream estimate' },
-      { label: 'Annuity due', expression: '$400/month at beginning of period', result: 'Beginning-of-period adjustment' },
+      { label: 'Monthly ordinary annuity', expression: '$500/month, 5%, 20 years', result: '$205,516.83 future value; $75,762.66 present value' },
+      { label: 'Annual payments', expression: '$6,000/year, 4.5%, 15 years', result: '$124,704.33 future value; $64,437.27 present value' },
+      { label: 'Annuity due timing', expression: '$500/month at beginning of period', result: '$206,373.15 future value; $76,078.33 present value' },
     ],
+    inputExplanations: [
+      { term: 'Payment amount', meaning: 'the fixed payment made each period, such as $500 each month or $6,000 each year.' },
+      { term: 'Annual rate', meaning: 'the fixed yearly rate assumption. Enter 5 for 5%, not 0.05.' },
+      { term: 'Time', meaning: 'how many years the payment stream lasts.' },
+      { term: 'Payments per year', meaning: 'how often payments happen. Use 12 for monthly payments and 1 for annual payments.' },
+      { term: 'Payment timing', meaning: 'whether payments happen at the end of each period, or at the beginning with one extra period to grow.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this the same as an annuity quote from an insurance company?',
+        answer:
+          'No. This page does the clean math for a fixed payment stream. A real annuity quote can change because of insurance pricing, fees, riders, surrender rules, guarantees, taxes, age, state rules, and contract wording.',
+      },
+      {
+        question: 'What is the difference between ordinary annuity and annuity due?',
+        answer:
+          'An ordinary annuity treats each payment as happening at the end of the period. An annuity due treats each payment as happening at the beginning, so each payment gets one extra period in the formula.',
+      },
+      {
+        question: 'Can this handle immediate or lifetime annuities?',
+        answer:
+          'Use it only as fixed-payment math. Immediate and lifetime annuities depend on contract pricing, life expectancy assumptions, payout choices, guarantees, and fees that are not in this calculator.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does payment frequency matter so much?',
+        answer:
+          'Frequency changes both the rate per period and the number of payments. Monthly payments over 20 years means 240 payments, while annual payments over 20 years means 20 payments.',
+      },
+      {
+        question: 'Why should I check fees and surrender charges separately?',
+        answer:
+          'Fees and surrender charges can reduce real contract value. FINRA and Investor.gov both warn that annuities can be complex, so the math result should be checked against the actual contract.',
+      },
+    ],
+    formulaCheck:
+      '$500 per month for 20 years creates 240 payments. At a 5% annual rate, the ordinary annuity estimate is about $205,516.83 future value and $75,762.66 present value.',
+    resultReading:
+      'Future value is the estimated ending value of the payment stream. Present value is what that stream is worth today using the rate you entered. Total payments is only the money paid in, before interest math.',
+    doubleCheck:
+      'Check payment timing, payments per year, and whether the payment is monthly or yearly. Then compare the math with real fees, surrender charges, guarantees, taxes, and contract terms before trusting it.',
+    limitFollowup:
+      'Read real annuity materials, fee tables, surrender rules, and tax notes before treating the answer as a retirement-income decision.',
     relatedSlugs: ['investment-calculator', 'retirement-calculator', 'compound-interest-calculator'],
   }),
   makeFinanceTool({
