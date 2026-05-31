@@ -76,6 +76,18 @@ const toolArtMetadataOverrides = {
         'Credit Card Calculator guide artwork supports the walkthrough by showing how APR, payment size, and new spending change payoff time and interest.',
     },
   },
+  'pension-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',
+      caption:
+        'Pension Calculator artwork matches the live workflow: final average salary, credited service years, plan multiplier, annual pension, monthly pension, and replacement rate.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing pension plan notes for salary, service credit, multiplier, survivor choice, early retirement, PBGC limits, and monthly benefit.',
+      caption:
+        'Pension Calculator guide artwork supports the walkthrough by showing salary-service-multiplier math beside plan-rule cautions like survivor choices and PBGC limits.',
+    },
+  },
   'rent-calculator': {
     tool: {
       alt: 'Smoke mascot checking a rent budget screen with monthly income, rent target percent, debt payments, utilities, max rent, and income-left cards.',

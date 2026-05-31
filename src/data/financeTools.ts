@@ -2875,27 +2875,66 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'pension-calculator',
     name: 'Pension Calculator',
-    summary: 'Estimate a defined-benefit pension from salary, service years, and multiplier.',
+    summary: 'Estimate a defined-benefit pension from final salary, credited service, and plan multiplier.',
     description:
-      'Use this free pension calculator to estimate annual pension, monthly pension, and salary replacement rate from final average salary, years of service, and benefit multiplier.',
+      'Estimate a simple defined-benefit pension from final average salary, credited years of service, and the plan multiplier, then check annual pension, monthly pension, and replacement rate.',
+    seoTitle: 'Pension Calculator | Salary, Service & Multiplier',
     seoDescription:
-      'Estimate annual pension, monthly pension, and replacement rate from final average salary, service years, and benefit multiplier.',
+      'Estimate a defined-benefit pension from final average salary, credited years of service, and plan multiplier, with annual, monthly, and replacement-rate checks.',
     icon: 'calculator-pension',
+    aliases: ['defined benefit pension calculator', 'pension estimate calculator', 'final salary pension calculator', 'service years pension calculator'],
     formula:
-      'The calculator multiplies final average salary by years of service and the benefit multiplier, then divides the annual pension by 12 for a monthly estimate.',
+      'The calculator multiplies final average salary by credited years of service and the benefit multiplier, then divides the annual pension by 12 for a monthly estimate.',
     limit:
-      'This is not a plan benefit statement. It does not include vesting, service-credit rules, survivor options, cost-of-living adjustments, early retirement reductions, taxes, or plan-specific formulas.',
+      'This is not your plan benefit statement. It does not include vesting, service-credit rules, early retirement reductions, survivor choices, joint-and-survivor adjustments, cost-of-living adjustments, lump-sum options, taxes, PBGC limits, or plan-specific formulas.',
     useCases: [
-      'Estimate a defined-benefit pension from a simple salary-service formula.',
-      'Convert an annual pension estimate into a monthly amount.',
-      'Compare how years of service and multiplier affect the estimate.',
-      'Check replacement rate before reading the official plan document.',
+      'Estimate a defined-benefit pension from salary, credited service, and multiplier.',
+      'Turn an annual pension estimate into a monthly before-tax amount.',
+      'Compare how more service years or a different multiplier changes the estimate.',
+      'Check replacement rate before reading the official plan document or benefit statement.',
     ],
     examples: [
-      { label: 'Public plan style', expression: '$80,000 final salary, 25 years, 1.5% multiplier', result: '$30,000/year or $2,500/month' },
-      { label: 'Long service', expression: '$95,000, 32 years, 1.7%', result: 'Higher replacement-rate estimate' },
-      { label: 'Shorter career', expression: '$65,000, 15 years, 1.25%', result: 'Lower pension estimate' },
+      { label: 'Main estimate', expression: '$82,000 final average salary, 27 service years, 1.6% multiplier', result: '$35,424/year or $2,952/month' },
+      { label: 'Long service', expression: '$96,000 salary, 32.5 service years, 1.7% multiplier', result: '$53,040/year or $4,420/month' },
+      { label: 'Smaller multiplier', expression: '$70,000 salary, 20 service years, 1.2% multiplier', result: '$16,800/year or $1,400/month' },
     ],
+    inputExplanations: [
+      { term: 'Final average salary', meaning: 'the annual salary number your pension formula uses, often an average from your highest or final earning years.' },
+      { term: 'Credited years of service', meaning: 'the service years your plan counts for the formula, which may differ from calendar years worked.' },
+      { term: 'Benefit multiplier', meaning: 'the plan percent applied for each service year, such as 1.6 for a 1.6% multiplier.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this for a defined-benefit pension or a 401K?',
+        answer:
+          'This page is for defined-benefit style pension math: salary times credited service times multiplier. A 401K or IRA works differently because the balance depends on contributions, investments, fees, and withdrawals.',
+      },
+      {
+        question: 'Does this include survivor benefits or early retirement cuts?',
+        answer:
+          'No. Survivor options, joint-and-survivor choices, early retirement reductions, disability rules, and lump-sum choices can all change the real monthly benefit. Use your plan document or benefit statement for those details.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does replacement rate matter?',
+        answer:
+          'Replacement rate compares the estimated annual pension with final average salary. It is a quick way to see how much of that salary the simple formula replaces before tax, savings, Social Security, or other retirement income.',
+      },
+      {
+        question: 'Can PBGC change my pension estimate?',
+        answer:
+          'PBGC does not set your normal plan formula, but PBGC guarantees have limits if a covered private defined-benefit plan fails. That is another reason this page should not replace an official benefit statement.',
+      },
+    ],
+    formulaCheck:
+      '$82,000 times 27 service years times a 1.6% multiplier gives a $35,424 annual estimate, or $2,952 per month before taxes and plan adjustments.',
+    resultReading:
+      'Read the monthly estimate first, then check annual pension and replacement rate. Replacement rate shows how much of final average salary the simple formula replaces.',
+    doubleCheck:
+      'Check whether your plan uses final average salary, career average pay, credited service, partial years, caps, early retirement factors, or a different multiplier before copying the result.',
+    limitFollowup:
+      'Use the plan summary, benefit statement, pension administrator, PBGC information, and tax guidance for the exact benefit, payment form, guarantees, and taxable amount.',
     relatedSlugs: ['retirement-calculator', '401k-calculator', 'annuity-payout-calculator'],
   }),
   makeFinanceTool({

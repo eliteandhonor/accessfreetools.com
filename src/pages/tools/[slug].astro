@@ -757,6 +757,13 @@ const financeToolInstructions = financeToolVariant
         'Enter the payment you can send each month and any new card spending you expect to keep adding.',
         'Calculate, then compare payoff months, total interest, total paid, final payment, and whether new spending is slowing the payoff.',
       ]
+    : tool.slug === 'pension-calculator'
+    ? [
+        'Enter the final average salary or plan salary number used by the pension formula.',
+        'Enter credited years of service, including partial years only if your plan counts them.',
+        'Add the plan multiplier as a percent, such as 1.6 for a 1.6% multiplier.',
+        'Calculate, then compare annual pension, monthly pension, and replacement rate before checking your plan document or benefit statement.',
+      ]
     : tool.slug === 'investment-calculator'
     ? [
         'Enter the starting money already invested.',
@@ -2425,6 +2432,32 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://consumer.ftc.gov/paying-holiday-credit-card-debt" rel="noreferrer" target="_blank">
                   FTC credit card debt payoff tips
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'pension-calculator' ? (
+            <>
+              <strong>Defined-benefit formula check, not your plan statement</strong>
+              <p>
+                Use this to test final average salary, credited service years, plan multiplier,
+                annual pension, monthly pension, and replacement rate. A real pension can still
+                change because of vesting, service-credit rules, early retirement reductions,
+                survivor choices, cost-of-living adjustments, lump-sum options, PBGC limits,
+                taxes, and the official plan formula.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.pbgc.gov/workers-retirees/learn/understanding-your-pension-pbgc-coverage" rel="noreferrer" target="_blank">
+                  PBGC pension coverage notes
+                </a>
+                {', '}
+                <a href="https://www.dol.gov/index.php/general/topic/retirement/typesofplans" rel="noreferrer" target="_blank">
+                  DOL retirement plan types
+                </a>
+                {', and '}
+                <a href="https://www.irs.gov/retirement-plans/defined-benefit-plan" rel="noreferrer" target="_blank">
+                  IRS defined benefit plan basics
                 </a>
                 .
               </p>

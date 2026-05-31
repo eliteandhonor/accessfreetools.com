@@ -728,23 +728,23 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
   pension: {
     title: 'Pension Calculator',
     buttonLabel: 'Estimate pension',
-    emptyHistory: 'Recent pension estimates will appear here.',
-    privacyNote: 'Pension estimates use a simple defined-benefit formula and do not include vesting, plan rules, survivor options, COLA, or taxes.',
+    emptyHistory: 'Recent defined-benefit pension estimates will appear here.',
+    privacyNote: 'This uses one salary-service-multiplier formula. It does not include vesting, early retirement cuts, survivor choices, COLA, PBGC limits, lump sums, or taxes.',
     modes: [
       {
         id: 'pension',
         label: 'Pension',
         symbol: 'PEN',
         fields: [
-          numberField('finalAverageSalary', 'Final average salary ($)'),
-          numberField('yearsOfService', 'Years of service'),
-          numberField('multiplierPercent', 'Benefit multiplier (%)'),
+          numberField('finalAverageSalary', 'Final average salary used by plan ($)'),
+          numberField('yearsOfService', 'Credited years of service'),
+          numberField('multiplierPercent', 'Plan multiplier (%)'),
         ],
-        defaultInputs: { finalAverageSalary: '80000', yearsOfService: '25', multiplierPercent: '1.5' },
+        defaultInputs: { finalAverageSalary: '82000', yearsOfService: '27', multiplierPercent: '1.6' },
         examples: [
-          { label: 'Public plan style', inputs: { finalAverageSalary: '80000', yearsOfService: '25', multiplierPercent: '1.5' } },
-          { label: 'Long service', inputs: { finalAverageSalary: '95000', yearsOfService: '32', multiplierPercent: '1.7' } },
-          { label: 'Shorter service', inputs: { finalAverageSalary: '65000', yearsOfService: '15', multiplierPercent: '1.25' } },
+          { label: '$82k, 27 years', inputs: { finalAverageSalary: '82000', yearsOfService: '27', multiplierPercent: '1.6' } },
+          { label: '$96k, 32.5 years', inputs: { finalAverageSalary: '96000', yearsOfService: '32.5', multiplierPercent: '1.7' } },
+          { label: '$70k, 20 years', inputs: { finalAverageSalary: '70000', yearsOfService: '20', multiplierPercent: '1.2' } },
         ],
       },
     ],
@@ -3002,12 +3002,12 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           { label: 'Years of service', value: years(result.yearsOfService) },
         ],
         steps: [
-          'Multiply final average salary by years of service.',
-          'Multiply that result by the benefit multiplier percentage.',
-          'Divide the estimated annual pension by 12 for a monthly estimate.',
-          'Compare annual pension with final average salary for replacement rate.',
+          'Multiply the plan salary number by credited years of service.',
+          'Apply the plan multiplier percentage to estimate the annual pension.',
+          'Divide the annual estimate by 12 for a before-tax monthly amount.',
+          'Compare annual pension with final average salary to see the replacement rate.',
         ],
-        note: 'Check the real plan document for vesting, service credit, survivor benefit, COLA, and tax rules.',
+        note: 'Check the real plan document for vesting, service credit, early retirement reductions, survivor choices, COLA, lump-sum options, PBGC limits, and tax rules.',
       };
     }
     case 'annuity-payout': {

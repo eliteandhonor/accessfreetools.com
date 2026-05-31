@@ -766,6 +766,26 @@ const pbgcPensionCoverage = {
   label: 'PBGC: Understanding your pension and PBGC coverage',
 };
 
+const dolRetirementPlans = {
+  href: 'https://www.dol.gov/general/topic/retirement',
+  label: 'U.S. Department of Labor: Retirement plans, benefits, and savings',
+};
+
+const dolTypesRetirementPlans = {
+  href: 'https://www.dol.gov/index.php/general/topic/retirement/typesofplans',
+  label: 'U.S. Department of Labor: Types of retirement plans',
+};
+
+const irsDefinedBenefitPlan = {
+  href: 'https://www.irs.gov/retirement-plans/defined-benefit-plan',
+  label: 'IRS: Defined benefit plan',
+};
+
+const irsRetirementPlanBenefits = {
+  href: 'https://www.irs.gov/retirement-plans/types-of-retirement-plan-benefits',
+  label: 'IRS: Types of retirement plan benefits',
+};
+
 const fsaRepaymentPlans = {
   href: 'https://www.consumerfinance.gov/paying-for-college/repay-student-debt/',
   label: 'Consumer Financial Protection Bureau: Repay student debt',
@@ -2509,20 +2529,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'pension-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [pbgcPensionCoverage, investorCompound],
+    sources: [pbgcPensionCoverage, dolRetirementPlans, dolTypesRetirementPlans, irsDefinedBenefitPlan, irsRetirementPlanBenefits],
     findings: [
-      'The calculator uses the defined-benefit style estimate final average salary times years of service times benefit multiplier, then divides by 12.',
-      'The result also shows replacement rate, which helps users see the pension estimate as a share of final average salary.',
-      'The guide and FAQ warn that plan documents, vesting, survivor options, COLA, early retirement reductions, taxes, and service-credit rules can change the real benefit.',
+      'The calculator uses the defined-benefit style estimate final average salary times credited years of service times plan multiplier, then divides by 12.',
+      'The $82,000 final average salary, 27 service years, and 1.6% multiplier example correctly gives a $35,424 annual estimate, $2,952 monthly estimate, and 43.2% replacement rate.',
+      'Current PBGC, DOL, and IRS context supports stronger warnings around vesting, service credit, payment forms, survivor choices, early retirement reductions, PBGC limits, taxes, and official plan documents.',
     ],
     improvements: [
-      'Added a pension-specific guide detail and manually checked formula wording, examples, FAQ cautions, source coverage, related tools, SEO copy, and privacy note.',
+      'Rewrote metadata, aliases, field labels, examples, input explanations, FAQ cautions, guide copy, source links, image alt/caption text, tool trust note, and modified dates in smart-14 wording.',
     ],
     followUps: [
-      'Add separate public-sector or military pension calculators only if those formulas are researched and maintained individually.',
+      'Add separate public-sector, military, cash-balance, or lump-sum pension calculators only if those formulas are researched and maintained individually.',
     ],
   },
   {
@@ -7589,7 +7609,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['pension'])) {
-      return sourceBackstop([pbgcPensionCoverage, investorCompound]);
+      return sourceBackstop([pbgcPensionCoverage, dolRetirementPlans, dolTypesRetirementPlans, irsDefinedBenefitPlan, irsRetirementPlanBenefits]);
     }
 
     if (includesAny(key, ['cd-calculator', 'certificate of deposit'])) {

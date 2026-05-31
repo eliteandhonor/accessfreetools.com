@@ -1447,6 +1447,20 @@ describe('finance helpers', () => {
     expect(goalCleared.targetMet).toBe(true);
   });
 
+  it('keeps pension calculator examples stable', () => {
+    const starter = calculatePensionEstimate(82000, 27, 1.6);
+    const longService = calculatePensionEstimate(96000, 32.5, 1.7);
+    const smallerMultiplier = calculatePensionEstimate(70000, 20, 1.2);
+
+    expect(starter.annualPension).toBe(35424);
+    expect(starter.monthlyPension).toBe(2952);
+    expect(starter.replacementRatePercent).toBeCloseTo(43.2, 5);
+    expect(longService.annualPension).toBeCloseTo(53040, 2);
+    expect(longService.monthlyPension).toBeCloseTo(4420, 2);
+    expect(smallerMultiplier.annualPension).toBe(16800);
+    expect(smallerMultiplier.monthlyPension).toBe(1400);
+  });
+
   it('calculates the retirement, debt, education, and investment sitemap batch', () => {
     const pension = calculatePensionEstimate(80000, 25, 1.5);
     const annuityPayout = calculateAnnuityPayout(100000, 5, 20, 12);

@@ -95,6 +95,22 @@ const sourceLinks = {
     href: 'https://www.pbgc.gov/workers-retirees/learn/understanding-your-pension-pbgc-coverage',
     label: 'PBGC: Understanding your pension and PBGC coverage',
   },
+  dolRetirementPlans: {
+    href: 'https://www.dol.gov/general/topic/retirement',
+    label: 'U.S. Department of Labor: Retirement plans, benefits, and savings',
+  },
+  dolTypesRetirementPlans: {
+    href: 'https://www.dol.gov/index.php/general/topic/retirement/typesofplans',
+    label: 'U.S. Department of Labor: Types of retirement plans',
+  },
+  irsDefinedBenefitPlan: {
+    href: 'https://www.irs.gov/retirement-plans/defined-benefit-plan',
+    label: 'IRS: Defined benefit plan',
+  },
+  irsRetirementPlanBenefits: {
+    href: 'https://www.irs.gov/retirement-plans/types-of-retirement-plan-benefits',
+    label: 'IRS: Types of retirement plan benefits',
+  },
   cfpbMortgage: {
     href: 'https://www.consumerfinance.gov/language/cfpb-in-english/mortgages-key-terms/',
     label: 'Consumer Financial Protection Bureau: Mortgage key terms',
@@ -629,7 +645,13 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'pension-calculator') {
-    return [sourceLinks.pbgcPensionCoverage, sourceLinks.investorCompound];
+    return [
+      sourceLinks.pbgcPensionCoverage,
+      sourceLinks.dolRetirementPlans,
+      sourceLinks.dolTypesRetirementPlans,
+      sourceLinks.irsDefinedBenefitPlan,
+      sourceLinks.irsRetirementPlanBenefits,
+    ];
   }
 
   if (toolSlug === 'college-cost-calculator') {
@@ -1717,17 +1739,17 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Interest Calculator to understand APR math.', 'Use Payment Calculator for fixed-payment debt comparisons.', 'Use Credit Cards Payoff Calculator when you want a combined multi-card estimate.'],
   },
   'pension-calculator': {
-    summary: 'Learn how final average salary, service years, and a benefit multiplier create a simple pension estimate.',
+    summary: 'Learn how final average salary, credited service, and a plan multiplier create a defined-benefit pension estimate.',
     purpose:
-      'The Pension Calculator is for defined-benefit style planning when you know the salary, years of service, and multiplier you want to test. It gives a rough annual and monthly pension estimate, not an official plan statement.',
+      'Use the Pension Calculator when you know the salary number, credited service years, and multiplier a defined-benefit formula should test. It gives a rough annual and monthly estimate, not an official benefit statement.',
     enter: [
-      'Enter final average salary as a yearly dollar amount.',
-      'Enter years of service, including decimals only if your plan counts partial years that way.',
-      'Enter the benefit multiplier as a percent, such as 1.5 for 1.5%.',
+      'Enter the final average salary or plan salary as a yearly dollar amount.',
+      'Enter credited years of service, using decimals only if your plan counts partial years that way.',
+      'Enter the plan multiplier as a percent, such as 1.6 for a 1.6% multiplier.',
     ],
     example: [
-      '$80,000 final average salary x 25 years x 1.5% gives a $30,000 annual estimate.',
-      'Dividing $30,000 by 12 gives a $2,500 monthly estimate before taxes or plan adjustments.',
+      '$82,000 final average salary x 27 service years x 1.6% gives a $35,424 annual estimate.',
+      'Dividing $35,424 by 12 gives a $2,952 monthly estimate before taxes, survivor choices, or plan adjustments.',
     ],
     read: [
       'Annual pension is the main estimate from the simple salary-service formula.',
@@ -1736,10 +1758,10 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
     mistakes: [
       'Do not treat this as your official pension benefit.',
-      'Do not ignore vesting, survivor choices, early retirement reductions, cost-of-living adjustments, service-credit rules, or taxes.',
+      'Do not ignore vesting, service-credit rules, early retirement reductions, survivor choices, cost-of-living adjustments, lump-sum choices, PBGC limits, or taxes.',
       'Do not use a multiplier from another plan unless your own plan document uses the same rule.',
     ],
-    next: ['Use Retirement Calculator for broader savings planning.', 'Use Annuity Payout Calculator to compare fixed payout math.'],
+    next: ['Use Retirement Calculator for broader savings planning.', 'Use 401K Calculator for contribution-account growth.', 'Use Annuity Payout Calculator to compare fixed payout math.'],
   },
   'annuity-payout-calculator': {
     summary: 'Learn how a starting balance, rate, payout time, and payment frequency affect a fixed payout estimate.',
@@ -3156,6 +3178,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Credit Card Calculator Guide';
   }
 
+  if (tool.slug === 'pension-calculator') {
+    return 'Pension Calculator Guide';
+  }
+
   const standardTitle = `How to use the ${tool.name}`;
   const pageTitle = `${standardTitle} | Access Free Tools`;
 
@@ -3247,6 +3273,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate credit card payoff months, interest, total paid, and final payment from balance, APR, payment, and new charges.';
   }
 
+  if (tool.slug === 'pension-calculator') {
+    return 'Estimate a defined-benefit pension from final average salary, credited service, and plan multiplier, with monthly and replacement-rate checks.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -3279,6 +3309,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isRentGuide = tool.slug === 'rent-calculator';
   const isAnnuityGuide = tool.slug === 'annuity-calculator';
   const isCreditCardGuide = tool.slug === 'credit-card-calculator';
+  const isPensionGuide = tool.slug === 'pension-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
@@ -3315,6 +3346,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'An annuity result is easy to misread if timing and payment frequency are mixed up. This guide shows how one fixed payment, a rate, years, payment count, and ordinary or annuity-due timing change future value and present value.'
       : isCreditCardGuide
       ? 'A credit card payoff estimate changes fast when APR, payment size, and new spending move. This guide shows how one card balance turns into payoff months, interest, total paid, and the last payment.'
+      : isPensionGuide
+      ? 'A pension estimate is easy to overtrust if the plan formula is guessed. This guide shows how final average salary, credited service, and a plan multiplier turn into annual pension, monthly pension, and replacement rate.'
       : isUkMortgageGuide
       ? 'A UK repayment mortgage is not just the property price split across months. This guide shows how price, deposit, rate, term, and monthly fees turn into a payment, LTV, and interest estimate.'
       : isAutoLoanGuide
@@ -3409,6 +3442,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Add the card APR as a percent, such as 22.9 for 22.9%.',
           'Enter the payment you can send each month and any new card spending you expect to keep adding.',
           'Calculate, then compare payoff months, interest, total paid, final payment, and whether new spending is keeping the balance alive.',
+        ]
+      : isPensionGuide
+      ? [
+          'Open the Pension Calculator.',
+          'Enter the final average salary or plan salary number used by the pension formula.',
+          'Enter credited years of service, including partial years only if the plan counts them.',
+          'Enter the plan multiplier as a percent, such as 1.6 for 1.6%.',
+          'Calculate, then compare annual pension, monthly pension, and replacement rate before reading the plan document or benefit statement.',
         ]
       : isUkMortgageGuide
       ? [
@@ -3567,6 +3608,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it when you need fixed-payment annuity math for homework, retirement planning notes, ordinary annuity timing, annuity-due timing, present value, or future value before looking at real contract rules.'
             : isCreditCardGuide
             ? 'Use it when you want to test one credit card balance, compare a larger monthly payment, or see how new card spending keeps the payoff from moving as fast as it should.'
+            : isPensionGuide
+            ? 'Use it when you want to test a defined-benefit formula before you compare the number with your pension statement, plan summary, retirement office, or PBGC coverage notes.'
             : isMarriageTaxGuide
             ? 'Use it when you want to see whether the numbers you enter create a rough federal marriage bonus, penalty, or no difference before you look at the bigger tax details.'
             : isInvestmentGuide
@@ -3601,6 +3644,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Annuity estimates get shaky when monthly payments, annual payments, ordinary timing, and annuity-due timing are mixed together. Set payment frequency first, then keep the timing choice honest.'
             : isCreditCardGuide
             ? 'Credit card payoff estimates get shaky when APR, minimum payments, and new spending are mixed together. Enter the payment you can actually send, then keep new card spending honest.'
+            : isPensionGuide
+            ? 'Pension estimates get shaky when calendar years worked and credited service are treated as the same thing. Use the salary, service, and multiplier your plan actually uses, then check whether vesting, caps, early retirement, or survivor choices change the benefit.'
             : isUkMortgageGuide
             ? 'UK mortgage estimates get messy when one-off costs and monthly costs are mixed together. Property price, deposit, rate, and term build the repayment estimate. The monthly fee field is only for a cost that repeats every month.'
             : isAutoLoanGuide
@@ -3653,6 +3698,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $500 each month for 20 years at 5%, with payments at the end of each month. That means 240 payments, $120,000 paid in, about $205,516.83 future value, and about $75,762.66 present value.'
               : isCreditCardGuide
               ? 'Try the starter example: $4,500 balance, 22.9% APR, $250 monthly payment, and $0 new monthly spending. The estimate is about 23 months, about $1,065.99 interest, about $5,565.99 total paid, and a final payment of about $65.99.'
+              : isPensionGuide
+              ? 'Try the starter example: $82,000 final average salary, 27 credited service years, and a 1.6% multiplier. The estimate is $35,424 per year, $2,952 per month, and a 43.2% replacement rate before taxes or plan adjustments.'
               : isAutoLoanGuide
               ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
               : isBusinessLoanGuide
@@ -3698,6 +3745,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start by turning the annual rate into a rate for each payment period. Then count the payments and run the fixed-payment annuity formulas. Investor.gov and FINRA both warn that real annuity products can add fees, riders, surrender rules, and guarantees that are not part of this clean formula.'
             : isCreditCardGuide
             ? 'Start by turning APR into a simple monthly rate. Each month, the calculator adds estimated interest and any new card spending, subtracts your payment, and repeats until the balance reaches zero. CFPB explains that real issuers often calculate interest daily, so this is a planning estimate, not a statement replica.'
+            : isPensionGuide
+            ? 'Start with the plan salary number, multiply by credited service, then apply the multiplier percentage. IRS and DOL materials separate defined-benefit pensions from contribution accounts, and PBGC coverage rules are another reason to check the official plan source before trusting a quick estimate.'
             : isMortgagePayoffGuide
             ? 'The calculator first finds the scheduled fixed mortgage payment. Then it subtracts any one-time principal payment, adds extra monthly principal, and simulates month-by-month interest until the balance reaches zero.'
             : is401kGuide
@@ -4026,6 +4075,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'OpenStax is useful for the clean annuity formulas. Investor.gov, FINRA, and NAIC are useful for the real-world warning: annuity products can include fees, riders, surrender charges, guarantees, tax issues, state insurance rules, and contract limits that are not in the formula.'
             : isCreditCardGuide
             ? 'CFPB sources are useful here because they explain APR, daily interest, grace periods, minimum payments, payment allocation, and card agreement terms. FTC debt guidance adds the plain warning that paying more than the minimum and stopping new spending can make the payoff real instead of just hopeful.'
+            : isPensionGuide
+            ? 'PBGC, DOL, and IRS sources are useful here because defined-benefit pensions are plan formulas, not personal account balances. Real benefits can depend on vesting, credited service, payment form, survivor options, plan guarantees, taxes, and the official plan document.'
             : isInvestmentGuide
             ? 'OpenStax explains time value of money, and Investor.gov is useful for the plain inputs behind this page: starting money, monthly contributions, time, fees, risk, return, and regular investing.'
             : isFhaLoanGuide
@@ -4073,6 +4124,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not price an insurance contract, estimate lifetime income, include mortality assumptions, read fee tables, handle surrender periods, apply tax rules, value riders, or tell you whether an annuity is a good purchase.'
             : isCreditCardGuide
             ? 'This calculator still stays simple. It does not read your statement, calculate average daily balance, split balances by APR, apply fees, model deferred interest, decide payment allocation, keep a grace period, or replace the card agreement.'
+            : isPensionGuide
+            ? 'This calculator still stays simple. It does not read your plan document, prove vesting, apply early-retirement reductions, price survivor options, calculate COLA, decide lump-sum value, apply PBGC limits, estimate tax withholding, or replace an official benefit statement.'
             : isInvestmentGuide
             ? 'This calculator still stays simple. It does not include taxes, fees, inflation, withdrawals, changing returns, market losses, account limits, product risk, or advice about what you should buy.'
             : isFhaLoanGuide
@@ -4108,6 +4161,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Rent Calculator open beside this guide. Try the $5,200 income example first, then change only the rent target or utility estimate so you can see what actually moved.'
       : isCreditCardGuide
       ? 'Keep the Credit Card Calculator open beside this guide. Try the $4,500 balance example first, then change only the payment amount so you can see how much faster the debt moves.'
+      : isPensionGuide
+      ? 'Keep the Pension Calculator open beside this guide. Try the $82,000 salary and 27 service-year example first, then change only the multiplier so you can see why plan formulas matter.'
       : isAutoLoanGuide
       ? 'Keep the Auto Loan Calculator open beside this guide. Try the $32,000 car example first, then change only the term so you can see why a lower payment can still cost more.'
       : isBusinessLoanGuide
