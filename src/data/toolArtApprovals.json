@@ -2864,6 +2864,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/mortgage-calculator-uk-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/mortgage-calculator-uk-guide.webp",
+    "alt": "Smoke mascot reviewing a UK mortgage worksheet with property price, deposit, repayment, monthly fee, loan amount, LTV, and total interest cards.",
+    "caption": "Mortgage Calculator UK guide artwork shows the property-price, deposit, repayment, monthly-fee, LTV, and interest checks from the walkthrough.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2872,6 +2874,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/mortgage-calculator-uk-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/mortgage-calculator-uk-tool.webp",
+    "alt": "Smoke mascot beside a UK mortgage calculator screen with property price, deposit, monthly repayment, fees, LTV, and total interest cards.",
+    "caption": "Mortgage Calculator UK artwork matches the live tool workflow: property price, deposit, rate, term, monthly repayment, fees, LTV, and total interest.",
     "status": "approved",
     "qaStatus": "approved"
   },

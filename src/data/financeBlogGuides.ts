@@ -256,8 +256,20 @@ const sourceLinks = {
     label: 'U.S. Department of Labor: Commissions',
   },
   moneyHelperMortgage: {
-    href: 'https://www.consumerfinance.gov/consumer-tools/mortgages/',
-    label: 'Consumer Financial Protection Bureau: Mortgage resources',
+    href: 'https://www.moneyhelper.org.uk/en/homes/buying-a-home/mortgage-calculator',
+    label: 'MoneyHelper: Mortgage calculators',
+  },
+  moneyHelperMortgageOptions: {
+    href: 'https://www.moneyhelper.org.uk/en/homes/buying-a-home/mortgage-repayment-options',
+    label: 'MoneyHelper: Interest-only and repayment mortgages explained',
+  },
+  govUkBuyingHome: {
+    href: 'https://www.gov.uk/buying-a-home/preparing-to-buy',
+    label: 'GOV.UK: Preparing to buy a home',
+  },
+  govUkSdltRates: {
+    href: 'https://www.gov.uk/stamp-duty-land-tax/residential-property-rates',
+    label: 'GOV.UK: Stamp Duty Land Tax residential rates',
   },
   canadaInterestAct: {
     href: 'https://laws-lois.justice.gc.ca/eng/acts/I-15/FullText.html',
@@ -716,7 +728,13 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'mortgage-calculator-uk') {
-    return [sourceLinks.govUkMortgage, sourceLinks.moneyHelperMortgage];
+    return [
+      sourceLinks.moneyHelperMortgage,
+      sourceLinks.moneyHelperMortgageOptions,
+      sourceLinks.govUkBuyingHome,
+      sourceLinks.govUkSdltRates,
+      sourceLinks.govUkMortgage,
+    ];
   }
 
   if (toolSlug === 'canadian-mortgage-calculator') {
@@ -2806,29 +2824,31 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Salary Calculator to compare base pay.', 'Use Take-Home-Paycheck Calculator for a rough net-pay screen.'],
   },
   'mortgage-calculator-uk': {
-    summary: 'Learn how a UK-style repayment mortgage estimate uses property price, deposit, rate, term, and monthly fees.',
+    summary: 'Learn how a UK repayment mortgage estimate uses property price, deposit, rate, term, and monthly fees.',
     purpose:
-      'The UK Mortgage Calculator estimates a repayment mortgage payment. It subtracts the deposit from the property price, calculates the repayment amount, and adds any monthly fees entered.',
+      'The UK Mortgage Calculator estimates a capital-and-interest repayment mortgage. It subtracts the deposit from the property price, calculates the monthly repayment, and adds any monthly fees entered.',
     enter: [
-      'Enter property price and deposit in the same currency.',
-      'Enter the annual interest rate and repayment term in years.',
-      'Add monthly fees only when you want them included in the monthly payment estimate.',
+      'Enter the property price and deposit in pounds.',
+      'Enter the annual mortgage rate as a percent, such as 5.2 for 5.2%.',
+      'Enter the repayment term in years, then add monthly fees only when the fee really repeats every month.',
     ],
     example: [
-      'A 300,000 property with a 60,000 deposit creates a 240,000 loan.',
-      'The calculator estimates the repayment mortgage payment on that loan, then adds monthly fees if entered.',
+      'A £300,000 property with a £60,000 deposit creates a £240,000 loan and 80% LTV.',
+      'At 5.2% over 25 years, the repayment estimate is about £1,431.12 per month and about £189,337.09 total interest.',
+      'If a £20 monthly fee is added to the higher-deposit example, the total monthly estimate becomes about £1,612.18.',
     ],
     read: [
-      'Monthly repayment is the loan payment before optional monthly fees.',
-      'Total monthly payment includes the optional monthly fee field.',
-      'Loan-to-value shows the loan amount compared with property price, which is useful for comparing deposit scenarios.',
+      'Monthly repayment is the loan payment before the optional monthly fee field.',
+      'Total monthly payment includes the optional monthly fee field, but not one-off product, legal, survey, or stamp duty costs.',
+      'Loan-to-value shows the loan amount compared with property price, which is useful when comparing deposit scenarios and possible lender deals.',
     ],
     mistakes: [
-      'Do not use this as a lender affordability check.',
-      'Do not forget stamp duty, arrangement fees, valuation fees, insurance, solicitor costs, product rules, or interest-only mortgage differences.',
+      'Do not use this as a lender affordability check or mortgage illustration.',
+      'Do not forget stamp duty, arrangement fees, valuation fees, surveys, insurance, solicitor costs, leasehold costs, product rules, or rate-change risk.',
+      'Do not use this for interest-only mortgages; it is for repayment payment math.',
       'Do not enter a deposit equal to or larger than the property price.',
     ],
-    next: ['Use Mortgage Calculator for the U.S.-style version.', 'Use Canadian Mortgage Calculator if the loan follows Canadian payment conventions.'],
+    next: ['Use Down Payment Calculator to compare deposit and LTV.', 'Use Mortgage Calculator for the U.S.-style version.', 'Use Canadian Mortgage Calculator if the loan follows Canadian payment conventions.'],
   },
   'canadian-mortgage-calculator': {
     summary: 'Learn how Canadian mortgage payment math uses down payment, amortization, payment frequency, and semi-annual compounding.',
@@ -3039,6 +3059,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Project an investment balance from starting money, monthly deposits, estimated return, and time, with risk, fee, inflation, and tax limits.';
   }
 
+  if (tool.slug === 'mortgage-calculator-uk') {
+    return 'Estimate a UK repayment mortgage from property price, deposit, rate, term, fees, LTV, and interest, with affordability and stamp duty limits.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -3064,6 +3088,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isAdRevenueGuide = tool.slug === 'ad-revenue-calculator';
   const isAutoLoanGuide = tool.slug === 'auto-loan-calculator';
   const isMortgageGuide = tool.slug === 'mortgage-calculator';
+  const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
   const isDownPaymentGuide = tool.slug === 'down-payment-calculator';
@@ -3085,6 +3110,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: isMortgageGuide
       ? 'A mortgage payment is not just the loan. This guide shows how home price, down payment, rate, term, property tax, insurance, PMI, and HOA dues turn into one monthly estimate.'
+      : isUkMortgageGuide
+      ? 'A UK repayment mortgage is not just the property price split across months. This guide shows how price, deposit, rate, term, and monthly fees turn into a payment, LTV, and interest estimate.'
       : isAutoLoanGuide
       ? 'A car payment can look fine while the full loan is expensive. This guide shows how price, down payment, trade-in, tax, fees, rate, and term turn into the monthly payment and total interest.'
       : isBusinessLoanGuide
@@ -3121,6 +3148,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter the interest rate and loan term, such as 6.5% for 30 years.',
           'Add yearly property tax, then monthly insurance, PMI, and HOA only when those costs apply.',
           'Calculate, then read total monthly payment, principal and interest, total interest, and LTV before comparing it with a lender Loan Estimate.',
+        ]
+      : isUkMortgageGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter the property price and deposit in pounds.',
+          'Enter the rate and repayment term, such as 5.2% for 25 years.',
+          'Add a monthly fee only when the fee repeats every month.',
+          'Calculate, then read monthly repayment, total monthly payment, loan amount, LTV, and total interest before comparing it with a lender illustration.',
         ]
       : isAutoLoanGuide
       ? [
@@ -3247,6 +3282,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           detail.purpose,
           isMortgageGuide
             ? 'Use it before asking for a quote, comparing 15-year and 30-year payments, testing PMI, or seeing whether tax and insurance make a home feel less affordable than the loan payment alone.'
+            : isUkMortgageGuide
+            ? 'Use it before checking a UK mortgage quote, comparing deposit sizes, testing a 25-year versus 30-year term, or seeing whether a small monthly fee changes the payment enough to matter.'
             : isAutoLoanGuide
             ? 'Use it before shopping for financing, comparing dealer offers, testing a trade-in, or seeing how much a longer loan term really costs.'
             : isBusinessLoanGuide
@@ -3279,6 +3316,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isMortgageGuide
             ? 'Mortgage estimates get messy when annual and monthly costs are mixed together. Home price, down payment, rate, and term build the loan payment. Property tax, insurance, PMI, and HOA dues are add-ons that make the real monthly budget bigger.'
+            : isUkMortgageGuide
+            ? 'UK mortgage estimates get messy when one-off costs and monthly costs are mixed together. Property price, deposit, rate, and term build the repayment estimate. The monthly fee field is only for a cost that repeats every month.'
             : isAutoLoanGuide
             ? 'Auto-loan estimates are easy to bend by leaving out fees or focusing only on the monthly payment. Enter the car price, tax, fees, down payment, trade-in, rate, and term as one complete deal.'
             : isBusinessLoanGuide
@@ -3478,6 +3517,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help when the estate-tax screen is only one part of the planning question, such as growth over time, income tax, or a wider finance scenario.'
             : isInterestRateGuide
             ? 'A related tool can help when the quote is missing a different piece. Use payment math when you know the rate, APR math when fees matter, or a full loan estimate when you want total interest.'
+            : isUkMortgageGuide
+            ? 'A related tool can help when the UK mortgage payment is only one part of the home-buying question, such as deposit size, another country-specific mortgage style, or a plain loan comparison.'
             : 'A related money tool can help check the same question from another angle before you rely on one result.',
         ],
         bullets: detail.next,
@@ -3497,6 +3538,12 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           ? [
               { href: '/tools/canadian-mortgage-calculator/', label: 'Open the Canadian Mortgage Calculator' },
               { href: '/tools/down-payment-calculator/', label: 'Compare down payment and LTV' },
+              { href: '/tools/mortgage-calculator/', label: 'Compare with the plain Mortgage Calculator' },
+            ]
+          : isUkMortgageGuide
+          ? [
+              { href: '/tools/mortgage-calculator-uk/', label: 'Open the UK Mortgage Calculator' },
+              { href: '/tools/down-payment-calculator/', label: 'Compare deposit and LTV' },
               { href: '/tools/mortgage-calculator/', label: 'Compare with the plain Mortgage Calculator' },
             ]
           : isDownPaymentGuide
@@ -3572,6 +3619,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         paragraphs: [
           isAutoLoanGuide
             ? 'CFPB and FTC sources both push the same practical warning: compare the total cost, not just the monthly payment. They also explain APR, loan terms, add-ons, trade-ins, and shopping for financing before the dealer visit.'
+            : isUkMortgageGuide
+            ? 'MoneyHelper explains mortgage repayments, repayment versus interest-only mortgages, and mortgage calculators. GOV.UK explains that lenders look at affordability, income, outgoings, deposit, credit, and possible rate changes, and that stamp duty and moving costs are separate from the mortgage payment.'
             : isBusinessLoanGuide
             ? 'SBA and FTC sources are useful here because business financing is not just payment math. SBA explains lender risk and loan context, while FTC warns that some small-business financing offers can have high costs or confusing terms.'
             : isCanadianMortgageGuide
@@ -3603,6 +3652,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             : 'This guide explains the calculator inputs, formula context, and estimate limits without treating the result as a final quote or professional recommendation.',
           isAutoLoanGuide
             ? 'This calculator still stays simple. It does not approve credit, price insurance, know your exact registration fees, decide whether an add-on is worth it, or replace a written lender quote.'
+            : isUkMortgageGuide
+            ? 'This calculator still stays simple. It does not approve a mortgage, check affordability, include stamp duty, price product fees you do not enter, handle interest-only loans, read leasehold charges, or replace a written lender illustration.'
             : isBusinessLoanGuide
             ? 'This calculator still stays simple. It does not approve a loan, check SBA eligibility, read a merchant cash advance contract, judge collateral, or replace written lender terms.'
             : isCanadianMortgageGuide
@@ -3642,6 +3693,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Business Loan Calculator open beside this guide. Try the $50,000 example first, then change only the fee so you can see why cash received matters.'
       : isCanadianMortgageGuide
       ? 'Keep the Canadian Mortgage Calculator open beside this guide. Try the $600,000 example first, then change only the down payment or amortization so you can see what actually moved.'
+      : isUkMortgageGuide
+      ? 'Keep the UK Mortgage Calculator open beside this guide. Try the £300,000 property example first, then change only the deposit or term so you can see what actually moved.'
       : isDownPaymentGuide
       ? 'Keep the Down Payment Calculator open beside this guide. Try the $400,000 example first, then change only the down payment percent so you can see how loan amount, LTV, and cash needed move.'
       : isLoanGuide

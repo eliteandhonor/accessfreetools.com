@@ -1380,26 +1380,79 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'mortgage-calculator-uk',
     name: 'Mortgage Calculator UK',
-    summary: 'Estimate a UK-style repayment mortgage from property price, deposit, rate, term, and monthly fees.',
+    summary: 'Estimate a UK repayment mortgage from property price, deposit, rate, term, and monthly fees.',
     description:
-      'Use this free UK mortgage calculator to estimate repayment mortgage payment, loan amount, loan-to-value, total interest, and monthly fees.',
+      'Estimate a UK repayment mortgage payment from property price, deposit, rate, term, and monthly fees, with loan amount, LTV, and total interest.',
+    seoTitle: 'Mortgage Calculator UK | Repayment, Deposit, LTV & Interest',
+    seoDescription:
+      'Estimate a UK repayment mortgage from property price, deposit, rate, term, and monthly fees. See monthly payment, loan amount, LTV, and interest.',
     icon: 'calculator-mortgage',
+    aliases: ['mortgage repayment calculator', 'simple mortgage calculator uk', 'mortgage calculator uk first time buyer', 'uk mortgage payment calculator'],
     formula:
-      'The calculator subtracts deposit from property price, applies a repayment mortgage formula to the loan amount, then adds monthly fees entered.',
+      'The calculator subtracts the deposit from the property price, converts the annual rate to a monthly rate, applies the fixed repayment mortgage formula, then adds any monthly fees entered.',
     limit:
-      'This does not include stamp duty, arrangement fees, valuation fees, insurance, product rules, interest-only mortgages, or lender affordability checks.',
+      'This does not include lender affordability checks, credit scoring, product fees unless you enter them, stamp duty, valuation, survey, solicitor costs, insurance, leasehold charges, rate changes, or interest-only mortgages.',
     useCases: [
-      'Estimate monthly repayment on a UK mortgage scenario.',
-      'See loan-to-value from price and deposit.',
-      'Compare term length and interest rate assumptions.',
-      'Add simple monthly product fees.',
+      'Estimate a UK repayment mortgage payment from property price, deposit, rate, and term.',
+      'See loan amount and loan-to-value before comparing deposit sizes.',
+      'Compare term length and interest-rate assumptions before a lender quote.',
+      'Add a simple monthly fee when you want it included in the payment estimate.',
     ],
     examples: [
-      { label: '25-year mortgage', expression: '300,000 property, 60,000 deposit, 5.2%', result: 'Monthly repayment estimate' },
-      { label: 'Higher deposit', expression: '425,000 property with 125,000 deposit', result: 'Lower LTV estimate' },
-      { label: 'Shorter term', expression: '15-year repayment scenario', result: 'Higher payment, lower interest' },
+      { label: '25-year repayment', expression: '£300,000 property, £60,000 deposit, 5.2%, 25 years', result: 'About £1,431.12 per month, £240,000 loan, 80% LTV, and about £189,337.09 interest' },
+      { label: 'Higher deposit', expression: '£425,000 property, £125,000 deposit, 4.9%, 30 years, £20 monthly fee', result: 'About £1,612.18 total per month and 70.59% LTV' },
+      { label: 'Shorter term', expression: '£250,000 property, £50,000 deposit, 5.5%, 15 years', result: 'About £1,634.17 per month and about £94,150.04 interest' },
     ],
     relatedSlugs: ['mortgage-calculator', 'canadian-mortgage-calculator', 'down-payment-calculator'],
+    inputExplanations: [
+      { term: 'Property price', meaning: 'the price of the home before deposit, stamp duty, legal fees, surveys, insurance, or moving costs.' },
+      { term: 'Deposit', meaning: 'cash put toward the property price; the calculator subtracts it to get the mortgage loan amount.' },
+      { term: 'Interest rate', meaning: 'the annual rate used for the repayment estimate, entered as a percent such as 5.2 for 5.2%.' },
+      { term: 'Mortgage term', meaning: 'how many years the repayment is spread over. A longer term usually lowers the payment but raises total interest.' },
+      { term: 'Monthly fees', meaning: 'optional recurring fees you want included in the monthly total, not one-off product, legal, survey, or stamp duty costs.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this a UK repayment mortgage calculator?',
+        answer:
+          'Yes. It estimates a capital-and-interest repayment mortgage. Each monthly payment is treated as paying interest and reducing the loan balance. It is not an interest-only mortgage calculator.',
+      },
+      {
+        question: 'Does this check if a UK lender will approve me?',
+        answer:
+          'No. UK lenders still look at income, outgoings, credit history, deposit, property details, and whether payments would stay affordable if rates changed. This page only checks the payment math.',
+      },
+      {
+        question: 'Does this include stamp duty?',
+        answer:
+          'No. Stamp Duty Land Tax, Land and Buildings Transaction Tax, and Land Transaction Tax depend on location, buyer status, and property details. Use official calculators before treating the cash needed as final.',
+      },
+      {
+        question: 'Why does loan-to-value matter?',
+        answer:
+          'Loan-to-value compares the mortgage loan with the property price. A £240,000 loan on a £300,000 property is 80% LTV. LTV can affect the deals a lender offers, but this calculator does not approve a deal.',
+      },
+    ],
+    formulaCheck:
+      'Loan amount = property price - deposit. Monthly repayment uses the fixed-payment formula on the loan amount, monthly rate, and payment count. Total monthly payment then adds the monthly fee field.',
+    resultReading:
+      'Read monthly repayment, total monthly payment, loan amount, LTV, and total interest together. A lower monthly payment can still mean more interest if the term is longer.',
+    doubleCheck:
+      'Check the interest rate, term, deposit, and whether a fee is monthly or one-off before copying the result. Then compare it with a lender illustration or mortgage offer.',
+    limitFollowup:
+      'This is not a UK affordability check, mortgage illustration, or advice. It leaves out stamp duty, legal fees, surveys, insurance, product fees you do not enter, leasehold charges, rate changes, and lender rules.',
+    extraFaq: [
+      {
+        question: 'Can I use it for a first-time buyer estimate?',
+        answer:
+          'Yes for payment math, as long as you enter the property price, deposit, rate, and term you want to test. It does not check first-time buyer stamp duty relief, mortgage offers, or local tax rules.',
+      },
+      {
+        question: 'Why can a shorter term cost more each month but less overall?',
+        answer:
+          'A shorter term spreads the same loan across fewer payments, so each payment is higher. Because the balance falls faster, the total interest is usually lower if the rate is the same.',
+      },
+    ],
   },
   {
     slug: 'canadian-mortgage-calculator',

@@ -847,8 +847,23 @@ const govUkMortgage = {
 };
 
 const moneyHelperMortgage = {
-  href: 'https://www.consumerfinance.gov/consumer-tools/mortgages/',
-  label: 'Consumer Financial Protection Bureau: Mortgage resources',
+  href: 'https://www.moneyhelper.org.uk/en/homes/buying-a-home/mortgage-calculator',
+  label: 'MoneyHelper: Mortgage calculators',
+};
+
+const moneyHelperMortgageOptions = {
+  href: 'https://www.moneyhelper.org.uk/en/homes/buying-a-home/mortgage-repayment-options',
+  label: 'MoneyHelper: Interest-only and repayment mortgages explained',
+};
+
+const govUkBuyingHome = {
+  href: 'https://www.gov.uk/buying-a-home/preparing-to-buy',
+  label: 'GOV.UK: Preparing to buy a home',
+};
+
+const govUkSdltRates = {
+  href: 'https://www.gov.uk/stamp-duty-land-tax/residential-property-rates',
+  label: 'GOV.UK: Stamp Duty Land Tax residential rates',
 };
 
 const canadaMortgageTerms = {
@@ -3304,20 +3319,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'mortgage-calculator-uk',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-7-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [govUkMortgage, moneyHelperMortgage],
+    sources: [moneyHelperMortgage, moneyHelperMortgageOptions, govUkBuyingHome, govUkSdltRates, govUkMortgage],
     findings: [
-      'The calculator subtracts deposit from property price, estimates a repayment mortgage payment, and adds optional monthly fees for a total monthly estimate.',
-      'The result labels loan amount and loan-to-value so the deposit effect is visible instead of hidden inside one payment number.',
-      'The guide now separates repayment estimate from lender affordability checks, stamp duty, arrangement fees, solicitor costs, insurance, and interest-only products.',
+      'The calculator subtracts deposit from property price, estimates a UK repayment mortgage payment, and adds optional monthly fees for a total monthly estimate.',
+      'The 2026-05-31 sprint used page-specific DataForSEO evidence for mortgage repayment calculator intent, official MoneyHelper and GOV.UK source checks, competitor evidence, and in-app Browser proof.',
+      'The result labels loan amount, loan-to-value, monthly repayment, total monthly payment, and total interest so deposit, term, and rate effects are visible.',
+      'The guide separates repayment payment math from lender affordability checks, credit review, stamp duty or local land tax, product fees, valuation, survey, solicitor costs, leasehold costs, insurance, and interest-only products.',
     ],
     improvements: [
-      'Added UK-mortgage-specific guide detail and manually checked payment math, deposit validation, examples, FAQ cautions, GOV.UK source coverage, related tools, SEO copy, and privacy note.',
+      'Added UK-mortgage-specific SEO metadata, aliases, exact payment examples, priority FAQs, guide sections, source links, sitemap dates, result note wording, and tool/guide art alt and caption text.',
     ],
     followUps: [
-      'Add stamp-duty and fee fields only if the page can keep country-specific legal/tax assumptions current.',
+      'Add stamp-duty, local land-tax, or one-off product-fee fields only if the page can keep England, Northern Ireland, Scotland, and Wales rules clear and current.',
     ],
   },
   {
@@ -7407,7 +7423,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['mortgage-calculator-uk', 'mortgage calculator uk', 'uk mortgage'])) {
-      return sourceBackstop([govUkMortgage, moneyHelperMortgage]);
+      return sourceBackstop([moneyHelperMortgage, moneyHelperMortgageOptions, govUkBuyingHome, govUkSdltRates, govUkMortgage]);
     }
 
     if (includesAny(key, ['canadian-mortgage', 'canadian mortgage'])) {

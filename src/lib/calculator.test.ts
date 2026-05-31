@@ -1147,6 +1147,39 @@ describe('finance helpers', () => {
     expect(fifteenYear.totalInterest).toBeCloseTo(169178.93, 2);
   });
 
+  it('keeps UK mortgage repayment examples stable', () => {
+    const base = calculateUkMortgage({
+      propertyPrice: 300000,
+      deposit: 60000,
+      annualRatePercent: 5.2,
+      years: 25,
+      monthlyFees: 0,
+    });
+    const higherDeposit = calculateUkMortgage({
+      propertyPrice: 425000,
+      deposit: 125000,
+      annualRatePercent: 4.9,
+      years: 30,
+      monthlyFees: 20,
+    });
+    const shorterTerm = calculateUkMortgage({
+      propertyPrice: 250000,
+      deposit: 50000,
+      annualRatePercent: 5.5,
+      years: 15,
+      monthlyFees: 0,
+    });
+
+    expect(base.loanAmount).toBe(240000);
+    expect(base.totalMonthlyPayment).toBeCloseTo(1431.12, 2);
+    expect(base.loanToValuePercent).toBeCloseTo(80, 2);
+    expect(base.totalInterest).toBeCloseTo(189337.09, 2);
+    expect(higherDeposit.totalMonthlyPayment).toBeCloseTo(1612.18, 2);
+    expect(higherDeposit.loanToValuePercent).toBeCloseTo(70.59, 2);
+    expect(shorterTerm.totalMonthlyPayment).toBeCloseTo(1634.17, 2);
+    expect(shorterTerm.totalInterest).toBeCloseTo(94150.04, 2);
+  });
+
   it('calculates compound growth, inflation, amortization savings, and sales tax', () => {
     const compound = calculateCompoundInterest(1000, 6, 10, 12, 100);
     const investment = calculateInvestmentGrowth(5000, 250, 7, 20);

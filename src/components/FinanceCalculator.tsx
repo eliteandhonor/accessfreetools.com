@@ -2217,7 +2217,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Mortgage Calculator UK',
     buttonLabel: 'Estimate UK mortgage',
     emptyHistory: 'Recent UK mortgage estimates will appear here.',
-    privacyNote: 'UK mortgage estimates are repayment-payment estimates only and do not include lender affordability rules, stamp duty, or product fees beyond what you enter.',
+    privacyNote: 'UK mortgage estimates stay in your browser and are repayment-payment estimates only, not lender approval, affordability checks, stamp duty, or a mortgage illustration.',
     modes: [
       {
         id: 'mortgage-uk',
@@ -4483,7 +4483,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Use a repayment mortgage formula to estimate monthly principal and interest.',
           'Add any monthly fee entered.',
         ],
-        note: 'This does not include stamp duty, arrangement fees, valuation fees, insurance, or affordability checks.',
+        note: 'This is UK repayment payment math only. It leaves out affordability checks, credit review, product fees you do not enter, stamp duty or local land tax, valuation, survey, solicitor costs, insurance, leasehold charges, interest-only loans, and rate changes.',
       };
     }
     case 'canadian-mortgage': {

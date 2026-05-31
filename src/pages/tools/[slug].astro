@@ -701,6 +701,13 @@ const financeToolInstructions = financeToolVariant
         'Add yearly property tax, then monthly insurance, PMI, and HOA only when those costs apply.',
         'Calculate, then compare total monthly payment, principal and interest, total interest, and LTV with a lender Loan Estimate.',
       ]
+    : tool.slug === 'mortgage-calculator-uk'
+    ? [
+        'Enter the property price and deposit in pounds.',
+        'Use the mortgage rate and repayment term you want to test, such as 5.2% for 25 years.',
+        'Add a monthly fee only when that cost repeats every month.',
+        'Calculate, then compare repayment, total monthly payment, loan amount, LTV, and total interest with a lender illustration.',
+      ]
     : tool.slug === 'investment-calculator'
     ? [
         'Enter the starting money already invested.',
@@ -2193,6 +2200,20 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               </p>
               <p>
                 Sources used for this review: <a href="https://www.consumerfinance.gov/ask-cfpb/how-do-mortgage-lenders-calculate-monthly-payments-en-1965/" rel="noreferrer" target="_blank">CFPB monthly mortgage payments</a>, <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-piti-en-152/" rel="noreferrer" target="_blank">CFPB PITI</a>, and <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/" rel="noreferrer" target="_blank">CFPB Loan Estimate</a>.
+              </p>
+            </>
+          ) : tool.slug === 'mortgage-calculator-uk' ? (
+            <>
+              <strong>UK repayment estimate, not lender approval</strong>
+              <p>
+                Use this to compare property price, deposit, rate, term, monthly fees, repayment, loan amount,
+                total interest, and loan-to-value. A real UK mortgage can still change with lender affordability
+                checks, income and outgoings, credit history, rate changes, product fees, valuation, survey,
+                solicitor costs, stamp duty or local land tax, leasehold costs, insurance, and the written lender
+                illustration.
+              </p>
+              <p>
+                Sources used for this review: <a href="https://www.moneyhelper.org.uk/en/homes/buying-a-home/mortgage-calculator" rel="noreferrer" target="_blank">MoneyHelper mortgage calculators</a>, <a href="https://www.moneyhelper.org.uk/en/homes/buying-a-home/mortgage-repayment-options" rel="noreferrer" target="_blank">MoneyHelper repayment mortgage notes</a>, and <a href="https://www.gov.uk/buying-a-home/preparing-to-buy" rel="noreferrer" target="_blank">GOV.UK buying-a-home affordability notes</a>.
               </p>
             </>
           ) : tool.slug === 'auto-loan-calculator' ? (
