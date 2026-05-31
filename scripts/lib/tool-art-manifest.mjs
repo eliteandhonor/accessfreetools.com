@@ -64,6 +64,18 @@ const toolArtMetadataOverrides = {
         'Annuity Calculator guide artwork supports the walkthrough by showing payment timing, 240 monthly payments, future value, present value, and contract cautions.',
     },
   },
+  'credit-card-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking one credit card balance with 22.9 percent APR, $250 monthly payment, payoff months, interest, and total paid cards.',
+      caption:
+        'Credit Card Calculator artwork matches the live workflow: balance, APR, monthly payment, new card spending, payoff months, interest, total paid, and final payment.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing $250 and $350 credit card payments beside payoff-month, interest, total-paid, and new-spending notes.',
+      caption:
+        'Credit Card Calculator guide artwork supports the walkthrough by showing how APR, payment size, and new spending change payoff time and interest.',
+    },
+  },
   'rent-calculator': {
     tool: {
       alt: 'Smoke mascot checking a rent budget screen with monthly income, rent target percent, debt payments, utilities, max rent, and income-left cards.',

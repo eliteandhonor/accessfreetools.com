@@ -2794,26 +2794,83 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'credit-card-calculator',
     name: 'Credit Card Calculator',
-    summary: 'Estimate credit card payoff time, total interest, and total paid.',
+    summary: 'Estimate credit card payoff months, interest, total paid, and final payment.',
     description:
-      'Use this free credit card calculator to estimate payoff time, total interest, total paid, and final payment from balance, APR, monthly payment, and optional new charges.',
+      'Estimate how long one credit card balance may take to pay off from balance, APR, monthly payment, and any new monthly card spending.',
+    seoTitle: 'Credit Card Calculator | Payoff Time, APR & Interest',
+    seoDescription:
+      'Estimate credit card payoff months, interest, total paid, and final payment from balance, APR, monthly payment, and new monthly charges.',
     icon: 'calculator-credit-card',
+    aliases: ['credit card payoff calculator', 'credit card interest calculator', 'APR payoff calculator', 'monthly credit card payment calculator'],
     formula:
-      'The calculator converts APR to a monthly rate, adds monthly interest and new charges, subtracts the monthly payment, and repeats until the balance reaches zero.',
+      'The calculator converts APR to a monthly rate, adds estimated monthly interest and any new card spending, subtracts the monthly payment, and repeats until the balance reaches zero.',
     limit:
-      'This is a simplified payoff estimate. It does not include fees, daily balance methods, variable APR changes, grace periods, minimum-payment rules, or issuer terms.',
+      'This is a simplified payoff estimate. It does not include daily-balance interest, grace-period rules, fees, cash advances, balance-transfer APRs, deferred interest, changing minimum payments, variable APR changes, or issuer terms.',
     useCases: [
-      'Estimate how long a card balance may take to pay off.',
-      'Compare a regular payment with a larger payment.',
-      'See how new monthly charges slow payoff.',
-      'Estimate total interest before choosing a payoff strategy.',
+      'Estimate how long one credit card balance may take to pay off.',
+      'Compare a regular payment with a larger monthly payment.',
+      'See how new card spending slows a payoff plan.',
+      'Estimate total interest before choosing a debt payoff strategy.',
     ],
     examples: [
-      { label: 'Payoff estimate', expression: '$4,500 balance, 22.9% APR, $250/month', result: 'Payoff months and total interest' },
-      { label: 'Pay extra', expression: '$4,500 balance, $350/month', result: 'Shorter payoff estimate' },
-      { label: 'New charges', expression: '$3,000 balance, $50 new charges/month', result: 'Payoff estimate with spending' },
+      { label: 'Payoff estimate', expression: '$4,500 balance, 22.9% APR, $250/month', result: 'About 23 months, $1,065.99 interest, and $5,565.99 total paid' },
+      { label: 'Pay extra', expression: '$4,500 balance, 22.9% APR, $350/month', result: 'About 15 months and $712.51 interest' },
+      { label: 'New charges', expression: '$3,000 balance, 19.9% APR, $250/month, $50 new charges/month', result: 'About 18 months and $478.36 interest' },
     ],
     relatedSlugs: ['interest-calculator', 'payment-calculator', 'loan-calculator'],
+    inputExplanations: [
+      { term: 'Current balance', meaning: 'the card balance you are carrying now, before the next payment.' },
+      { term: 'APR', meaning: 'the yearly credit card rate, entered as 22.9 for 22.9%.' },
+      { term: 'Monthly payment', meaning: 'the amount you plan to send every month, not just the issuer minimum unless that is your real plan.' },
+      { term: 'New charges per month', meaning: 'new card spending you expect to keep adding while paying down the balance.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What happens in the $4,500 credit card example?',
+        answer:
+          'With a $4,500 balance, 22.9% APR, and $250 paid each month, the estimate takes about 23 months. The total interest is about $1,065.99, total paid is about $5,565.99, and the last payment is about $65.99.',
+      },
+      {
+        question: 'Why does paying $350 instead of $250 matter so much?',
+        answer:
+          'The extra $100 goes straight into the monthly payoff loop. In the $4,500 example, raising the payment to $350 cuts the estimate to about 15 months and lowers interest to about $712.51.',
+      },
+      {
+        question: 'Why do new monthly charges slow the payoff?',
+        answer:
+          'New charges are added before the payment is subtracted. If you add $50 each month while paying $250, part of that payment is only covering new spending instead of old balance.',
+      },
+      {
+        question: 'Is this the same as the credit card statement minimum-payment warning?',
+        answer:
+          'No. This page uses the fixed monthly payment you enter. Real statements can use issuer minimum-payment formulas, daily-balance interest, fees, grace-period rules, and repayment-warning rules that are more specific than this estimate.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Should I enter the minimum payment?',
+        answer:
+          'Only enter the minimum if that is the plan you want to test. CFPB materials warn that paying only the minimum can cost more interest and take longer, so it is worth trying a higher payment too.',
+      },
+      {
+        question: 'Why can my card statement show a different interest amount?',
+        answer:
+          'Many card issuers calculate interest daily from balances inside the billing cycle. This calculator uses a simpler monthly estimate, so use your statement for exact billing numbers.',
+      },
+      {
+        question: 'Does this include promotional APR or deferred interest?',
+        answer:
+          'No. Promotional APR, deferred-interest offers, balance transfers, cash advances, penalty APRs, fees, and grace-period rules can all change the real payoff. Read the card agreement before relying on a simple estimate.',
+      },
+    ],
+    formulaCheck:
+      '$4,500 at 22.9% APR with a $250 monthly payment estimates about 23 months, $1,065.99 interest, and $5,565.99 total paid.',
+    resultReading:
+      'Start with payoff months, then check total interest and total paid. The final payment may be smaller because the last month only needs enough to clear the remaining balance.',
+    doubleCheck:
+      'Check the APR, whether you are still adding new charges, and whether your payment is higher than estimated monthly interest plus new charges. If the card has a promotion or fee, check the statement too.',
+    limitFollowup:
+      'Use the credit card statement and card agreement for exact APR tiers, fees, grace-period rules, minimum-payment warnings, and payment allocation rules.',
   }),
   makeFinanceTool({
     slug: 'pension-calculator',

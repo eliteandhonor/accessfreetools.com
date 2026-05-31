@@ -703,8 +703,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
   'credit-card': {
     title: 'Credit Card Calculator',
     buttonLabel: 'Estimate payoff',
-    emptyHistory: 'Recent credit card payoff estimates will appear here.',
-    privacyNote: 'Credit card estimates do not include fees, variable APR changes, minimum-payment rules, promotional rates, or issuer terms.',
+    emptyHistory: 'Recent one-card payoff checks will appear here.',
+    privacyNote: 'Credit card estimates do not include daily-balance billing, fees, variable APR changes, minimum-payment formulas, promotional rates, or issuer terms.',
     modes: [
       {
         id: 'credit-card',
@@ -713,8 +713,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         fields: [
           numberField('balance', 'Current balance ($)'),
           numberField('annualRatePercent', 'APR (%)'),
-          numberField('monthlyPayment', 'Monthly payment ($)'),
-          numberField('monthlyNewCharges', 'New charges per month ($)'),
+          numberField('monthlyPayment', 'Payment you can send each month ($)'),
+          numberField('monthlyNewCharges', 'New card spending each month ($)'),
         ],
         defaultInputs: { balance: '4500', annualRatePercent: '22.9', monthlyPayment: '250', monthlyNewCharges: '0' },
         examples: [
@@ -2977,12 +2977,12 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           { label: 'New charges per month', value: money(result.monthlyNewCharges) },
         ],
         steps: [
-          'Convert APR to an estimated monthly interest rate.',
-          'Add monthly interest and any new charges to the balance.',
-          'Subtract the monthly payment.',
-          'Repeat until the balance is paid off.',
+          'Convert the APR into a simple monthly interest rate.',
+          'Add estimated interest and any new card spending to the balance.',
+          'Subtract the payment you plan to send each month.',
+          'Repeat month by month until the balance reaches zero.',
         ],
-        note: 'Actual credit card payoff can change with fees, daily interest, APR changes, and new purchases.',
+        note: 'Real card statements can change because of daily interest, fees, grace-period rules, APR tiers, and new purchases.',
       };
     }
     case 'pension': {

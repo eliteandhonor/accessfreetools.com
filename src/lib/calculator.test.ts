@@ -1321,6 +1321,36 @@ describe('finance helpers', () => {
     expect(annualPayments.presentValue).toBeCloseTo(64437.27, 2);
   });
 
+  it('keeps credit card calculator examples stable', () => {
+    const mainExample = calculateCreditCardPayoff({
+      balance: 4500,
+      annualRatePercent: 22.9,
+      monthlyPayment: 250,
+      monthlyNewCharges: 0,
+    });
+    const extraPayment = calculateCreditCardPayoff({
+      balance: 4500,
+      annualRatePercent: 22.9,
+      monthlyPayment: 350,
+      monthlyNewCharges: 0,
+    });
+    const newCharges = calculateCreditCardPayoff({
+      balance: 3000,
+      annualRatePercent: 19.9,
+      monthlyPayment: 250,
+      monthlyNewCharges: 50,
+    });
+
+    expect(mainExample.monthsToPayoff).toBe(23);
+    expect(mainExample.totalInterest).toBeCloseTo(1065.99, 2);
+    expect(mainExample.totalPaid).toBeCloseTo(5565.99, 2);
+    expect(mainExample.finalPayment).toBeCloseTo(65.99, 2);
+    expect(extraPayment.monthsToPayoff).toBe(15);
+    expect(extraPayment.totalInterest).toBeCloseTo(712.51, 2);
+    expect(newCharges.monthsToPayoff).toBe(18);
+    expect(newCharges.totalInterest).toBeCloseTo(478.36, 2);
+  });
+
   it('keeps mortgage payoff examples stable', () => {
     const extraMonthly = calculateMortgagePayoffSummary(280000, 6.25, 25, 200, 0);
     const oneTime = calculateMortgagePayoffSummary(240000, 6.5, 20, 0, 5000);

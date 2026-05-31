@@ -677,8 +677,33 @@ const taxFoundationSalesTaxRates = {
 };
 
 const cfpbCreditCards = {
-  href: 'https://www.consumerfinance.gov/consumer-tools/credit-cards/answers/basics/',
-  label: 'Consumer Financial Protection Bureau: Credit card basics',
+  href: 'https://www.consumerfinance.gov/consumer-tools/credit-cards/',
+  label: 'CFPB: Credit cards',
+};
+
+const cfpbCreditCardApr = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-credit-card-interest-rate-what-does-apr-mean-en-44/',
+  label: 'CFPB: What credit card APR means',
+};
+
+const cfpbCreditCardInterest = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/how-does-my-credit-card-company-calculate-the-amount-of-interest-i-owe-en-51/',
+  label: 'CFPB: How credit card interest is calculated',
+};
+
+const cfpbCreditCardGracePeriod = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-grace-period-for-a-credit-card-en-47/',
+  label: 'CFPB: Credit card grace periods',
+};
+
+const cfpbCreditCardAgreement = {
+  href: 'https://www.consumerfinance.gov/data-research/credit-card-data/know-you-owe-credit-cards/',
+  label: 'CFPB: Credit card agreement terms',
+};
+
+const ftcCreditCardDebt = {
+  href: 'https://consumer.ftc.gov/paying-holiday-credit-card-debt',
+  label: 'FTC: Paying credit card debt',
 };
 
 const cfpbDebtToIncome = {
@@ -2464,20 +2489,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'credit-card-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [cfpbCreditCards, cfpbDebtCollection],
+    sources: [cfpbCreditCards, cfpbCreditCardApr, cfpbCreditCardInterest, cfpbCreditCardGracePeriod, cfpbCreditCardAgreement, ftcCreditCardDebt],
     findings: [
       'The payoff loop adds monthly APR interest and optional new charges, then subtracts the payment until the balance reaches zero.',
       'The calculator blocks impossible payoff inputs when the payment is not higher than monthly interest plus new charges.',
-      'The guide and FAQ explain APR, new charges, final payment, daily-balance differences, variable APRs, fees, and promotional-rate limits in plain language.',
+      'The $4,500 balance, 22.9% APR, and $250 monthly payment example correctly estimates about 23 months, $1,065.99 interest, $5,565.99 total paid, and a final payment of about $65.99.',
+      'Current CFPB and FTC context supports stronger warnings around daily interest, grace periods, payment allocation, minimum-payment warnings, fees, deferred interest, new spending, and card agreement terms.',
     ],
     improvements: [
-      'Manually checked credit-card payoff logic, payment guardrail, examples, guide article, FAQ cautions, source coverage, related tools, and privacy note.',
+      'Rewrote metadata, aliases, field labels, examples, input explanations, FAQ cautions, guide copy, source links, image alt/caption text, tool trust note, and modified dates in smart-14 wording.',
     ],
     followUps: [
-      'Add a multi-card snowball or avalanche calculator as a separate tool rather than overloading this single-card payoff page.',
+      'Keep multi-card snowball or avalanche strategy work separate from this single-card payoff page unless a future sprint adds maintained payoff-order logic.',
     ],
   },
   {
@@ -7579,7 +7605,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['credit', 'debt', 'repayment'])) {
-      return sourceBackstop([cfpbCreditCards, cfpbDebtCollection]);
+      return sourceBackstop([cfpbCreditCards, cfpbCreditCardApr, cfpbCreditCardInterest, cfpbCreditCardGracePeriod, cfpbDebtCollection]);
     }
 
     if (includesAny(key, ['401k', '401 k'])) {

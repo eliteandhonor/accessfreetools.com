@@ -750,6 +750,13 @@ const financeToolInstructions = financeToolVariant
         'Choose ordinary timing for end-of-period payments or annuity due for beginning-of-period payments.',
         'Calculate, then compare future value, present value, total payments, payment count, and timing before reading any real annuity contract.',
       ]
+    : tool.slug === 'credit-card-calculator'
+    ? [
+        'Enter the card balance you are carrying now.',
+        'Add the APR as a percent, such as 22.9 for 22.9%.',
+        'Enter the payment you can send each month and any new card spending you expect to keep adding.',
+        'Calculate, then compare payoff months, total interest, total paid, final payment, and whether new spending is slowing the payoff.',
+      ]
     : tool.slug === 'investment-calculator'
     ? [
         'Enter the starting money already invested.',
@@ -2392,6 +2399,32 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://content.naic.org/sites/default/files/publication-anb-lp-consumer-annuities.pdf" rel="noreferrer" target="_blank">
                   NAIC deferred annuity buyer guide
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'credit-card-calculator' ? (
+            <>
+              <strong>One-card payoff math, not your card statement</strong>
+              <p>
+                Use this to test one balance, APR, monthly payment, new card spending,
+                payoff months, total interest, total paid, and final payment. A real
+                statement can still change because of average daily balance billing, fees,
+                cash advances, balance transfers, promotional APRs, deferred interest,
+                payment allocation, minimum-payment rules, and grace-period rules.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-credit-card-interest-rate-what-does-apr-mean-en-44/" rel="noreferrer" target="_blank">
+                  CFPB credit card APR basics
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/how-does-my-credit-card-company-calculate-the-amount-of-interest-i-owe-en-51/" rel="noreferrer" target="_blank">
+                  CFPB credit card interest method
+                </a>
+                {', and '}
+                <a href="https://consumer.ftc.gov/paying-holiday-credit-card-debt" rel="noreferrer" target="_blank">
+                  FTC credit card debt payoff tips
                 </a>
                 .
               </p>

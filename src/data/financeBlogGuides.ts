@@ -176,8 +176,28 @@ const sourceLinks = {
     label: 'IRS: 401(k) plans',
   },
   cfpbCreditCards: {
-    href: 'https://www.consumerfinance.gov/consumer-tools/credit-cards/answers/basics/',
-    label: 'Consumer Financial Protection Bureau: Credit card basics',
+    href: 'https://www.consumerfinance.gov/consumer-tools/credit-cards/',
+    label: 'CFPB: Credit cards',
+  },
+  cfpbCreditCardApr: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-credit-card-interest-rate-what-does-apr-mean-en-44/',
+    label: 'CFPB: What credit card APR means',
+  },
+  cfpbCreditCardInterest: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/how-does-my-credit-card-company-calculate-the-amount-of-interest-i-owe-en-51/',
+    label: 'CFPB: How credit card interest is calculated',
+  },
+  cfpbCreditCardGracePeriod: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-grace-period-for-a-credit-card-en-47/',
+    label: 'CFPB: Credit card grace periods',
+  },
+  cfpbCreditCardAgreement: {
+    href: 'https://www.consumerfinance.gov/data-research/credit-card-data/know-you-owe-credit-cards/',
+    label: 'CFPB: Credit card agreement terms',
+  },
+  ftcCreditCardDebt: {
+    href: 'https://consumer.ftc.gov/paying-holiday-credit-card-debt',
+    label: 'FTC: Paying credit card debt',
   },
   cfpbDebtCollection: {
     href: 'https://www.consumerfinance.gov/consumer-tools/debt-collection/',
@@ -851,7 +871,14 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'credit-card-calculator') {
-    return [sourceLinks.cfpbCreditCards];
+    return [
+      sourceLinks.cfpbCreditCards,
+      sourceLinks.cfpbCreditCardApr,
+      sourceLinks.cfpbCreditCardInterest,
+      sourceLinks.cfpbCreditCardGracePeriod,
+      sourceLinks.cfpbCreditCardAgreement,
+      sourceLinks.ftcCreditCardDebt,
+    ];
   }
 
   if (toolSlug === 'inflation-calculator') {
@@ -1664,29 +1691,30 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Investment Calculator for contribution growth.', 'Use Retirement Calculator for broader retirement savings scenarios.', 'Use Annuity Payout Calculator when you already have a balance and want an estimated payout.'],
   },
   'credit-card-calculator': {
-    summary: 'Learn how balance, APR, monthly payment, and new charges affect credit card payoff time.',
+    summary: 'Learn how balance, APR, monthly payment, and new card spending affect payoff time and interest.',
     purpose:
-      'The Credit Card Calculator estimates how long a balance may take to pay off with a fixed monthly payment. It shows interest cost and makes it easier to compare regular payment and extra-payment scenarios.',
+      'The Credit Card Calculator is for one-card payoff math. It estimates payoff months, interest, total paid, and final payment from the balance, APR, payment you can send each month, and any new card spending.',
     enter: [
-      'Enter the current credit card balance.',
+      'Enter the current credit card balance you are carrying now.',
       'Enter APR as a percent, such as 22.9 for 22.9%.',
-      'Enter the monthly payment and optional new monthly charges.',
+      'Enter the payment you can send each month and any new card spending you expect to keep adding.',
     ],
     example: [
-      'A $4,500 balance at 22.9% APR and $250 per month gets monthly interest added before the payment is subtracted.',
-      'Increasing the payment to $350 usually shortens payoff time and reduces total interest.',
+      'A $4,500 balance at 22.9% APR with a $250 monthly payment estimates about 23 months.',
+      'That same example estimates about $1,065.99 in interest, $5,565.99 total paid, and a final payment of about $65.99.',
+      'Increasing the payment to $350 cuts the estimate to about 15 months and about $712.51 interest.',
     ],
     read: [
       'Payoff time is the estimated number of months until the balance reaches zero.',
       'Total interest shows estimated interest paid during payoff.',
-      'Final payment may be smaller than the normal monthly payment.',
+      'Total paid is what you send across the whole payoff plan, and final payment may be smaller than the normal monthly payment.',
     ],
     mistakes: [
       'Do not keep adding new charges if your goal is fast payoff.',
-      'Do not assume this matches the issuer daily-balance method exactly.',
-      'Do not ignore late fees, annual fees, promotional APRs, or variable APR changes.',
+      'Do not assume this matches the issuer daily-balance method, payment allocation, or minimum-payment warning exactly.',
+      'Do not ignore late fees, annual fees, cash advances, balance transfers, deferred interest, promotional APRs, or variable APR changes.',
     ],
-    next: ['Use Interest Calculator to understand APR math.', 'Use Payment Calculator for fixed-payment debt comparisons.'],
+    next: ['Use Interest Calculator to understand APR math.', 'Use Payment Calculator for fixed-payment debt comparisons.', 'Use Credit Cards Payoff Calculator when you want a combined multi-card estimate.'],
   },
   'pension-calculator': {
     summary: 'Learn how final average salary, service years, and a benefit multiplier create a simple pension estimate.',
@@ -3124,6 +3152,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Annuity Calculator Guide';
   }
 
+  if (tool.slug === 'credit-card-calculator') {
+    return 'Credit Card Calculator Guide';
+  }
+
   const standardTitle = `How to use the ${tool.name}`;
   const pageTitle = `${standardTitle} | Access Free Tools`;
 
@@ -3211,6 +3243,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Estimate annuity future value and present value from fixed payments, rate, years, frequency, and ordinary or annuity-due timing.';
   }
 
+  if (tool.slug === 'credit-card-calculator') {
+    return 'Estimate credit card payoff months, interest, total paid, and final payment from balance, APR, payment, and new charges.';
+  }
+
   const base = summary.replace(/\.$/, '');
   const description = `${base}. Includes input tips, examples, result checks, and finance estimate limits for the ${tool.name}.`;
   return description.length > 160 ? `${description.slice(0, 156).trim()}...` : description;
@@ -3242,6 +3278,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isSavingsGuide = tool.slug === 'savings-calculator';
   const isRentGuide = tool.slug === 'rent-calculator';
   const isAnnuityGuide = tool.slug === 'annuity-calculator';
+  const isCreditCardGuide = tool.slug === 'credit-card-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
@@ -3276,6 +3313,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A rent number can look fine until debts, utilities, deposits, and lease fees hit. This guide shows how income, a rent target, monthly debts, and utilities turn into a rent ceiling you can compare with listings.'
       : isAnnuityGuide
       ? 'An annuity result is easy to misread if timing and payment frequency are mixed up. This guide shows how one fixed payment, a rate, years, payment count, and ordinary or annuity-due timing change future value and present value.'
+      : isCreditCardGuide
+      ? 'A credit card payoff estimate changes fast when APR, payment size, and new spending move. This guide shows how one card balance turns into payoff months, interest, total paid, and the last payment.'
       : isUkMortgageGuide
       ? 'A UK repayment mortgage is not just the property price split across months. This guide shows how price, deposit, rate, term, and monthly fees turn into a payment, LTV, and interest estimate.'
       : isAutoLoanGuide
@@ -3362,6 +3401,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Add the annual rate, number of years, and payments each year.',
           'Choose ordinary timing for end-of-period payments or annuity due for beginning-of-period payments.',
           'Calculate, then compare future value, present value, total payments, payment count, and timing before reading any real annuity contract.',
+        ]
+      : isCreditCardGuide
+      ? [
+          'Open the Credit Card Calculator.',
+          'Enter the card balance you are carrying now.',
+          'Add the card APR as a percent, such as 22.9 for 22.9%.',
+          'Enter the payment you can send each month and any new card spending you expect to keep adding.',
+          'Calculate, then compare payoff months, interest, total paid, final payment, and whether new spending is keeping the balance alive.',
         ]
       : isUkMortgageGuide
       ? [
@@ -3518,6 +3565,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before apartment hunting, comparing two rent targets, deciding whether utilities make a listing too expensive, or checking whether debts leave enough room for the rent you want.'
             : isAnnuityGuide
             ? 'Use it when you need fixed-payment annuity math for homework, retirement planning notes, ordinary annuity timing, annuity-due timing, present value, or future value before looking at real contract rules.'
+            : isCreditCardGuide
+            ? 'Use it when you want to test one credit card balance, compare a larger monthly payment, or see how new card spending keeps the payoff from moving as fast as it should.'
             : isMarriageTaxGuide
             ? 'Use it when you want to see whether the numbers you enter create a rough federal marriage bonus, penalty, or no difference before you look at the bigger tax details.'
             : isInvestmentGuide
@@ -3550,6 +3599,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Rent estimates get shaky when gross income, take-home pay, debts, and utilities are mixed together. Pick the income basis first, then subtract debts and utilities that will still hit every month.'
             : isAnnuityGuide
             ? 'Annuity estimates get shaky when monthly payments, annual payments, ordinary timing, and annuity-due timing are mixed together. Set payment frequency first, then keep the timing choice honest.'
+            : isCreditCardGuide
+            ? 'Credit card payoff estimates get shaky when APR, minimum payments, and new spending are mixed together. Enter the payment you can actually send, then keep new card spending honest.'
             : isUkMortgageGuide
             ? 'UK mortgage estimates get messy when one-off costs and monthly costs are mixed together. Property price, deposit, rate, and term build the repayment estimate. The monthly fee field is only for a cost that repeats every month.'
             : isAutoLoanGuide
@@ -3600,6 +3651,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $5,200 monthly income, a 30% rent target, $350 in debts, and $180 in utilities. The estimate is $1,030 max monthly rent, $12,360 annual rent, and $3,640 left after rent, debts, and utilities.'
               : isAnnuityGuide
               ? 'Try the starter example: $500 each month for 20 years at 5%, with payments at the end of each month. That means 240 payments, $120,000 paid in, about $205,516.83 future value, and about $75,762.66 present value.'
+              : isCreditCardGuide
+              ? 'Try the starter example: $4,500 balance, 22.9% APR, $250 monthly payment, and $0 new monthly spending. The estimate is about 23 months, about $1,065.99 interest, about $5,565.99 total paid, and a final payment of about $65.99.'
               : isAutoLoanGuide
               ? 'Try the starter example: a $32,000 vehicle, $4,000 down, $3,000 trade-in, $900 fees, 6% sales tax, and 7.2% for 5 years. The estimate is about $549.92 per month, with about $27,640 financed and about $5,355.02 in interest.'
               : isBusinessLoanGuide
@@ -3643,6 +3696,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with income times the rent target, then subtract debt payments and utilities. HUD rental assistance materials treat rent and tenant-paid utilities together, which is a useful reminder that utilities still count when you pay them outside the rent.'
             : isAnnuityGuide
             ? 'Start by turning the annual rate into a rate for each payment period. Then count the payments and run the fixed-payment annuity formulas. Investor.gov and FINRA both warn that real annuity products can add fees, riders, surrender rules, and guarantees that are not part of this clean formula.'
+            : isCreditCardGuide
+            ? 'Start by turning APR into a simple monthly rate. Each month, the calculator adds estimated interest and any new card spending, subtracts your payment, and repeats until the balance reaches zero. CFPB explains that real issuers often calculate interest daily, so this is a planning estimate, not a statement replica.'
             : isMortgagePayoffGuide
             ? 'The calculator first finds the scheduled fixed mortgage payment. Then it subtracts any one-time principal payment, adds extra monthly principal, and simulates month-by-month interest until the balance reaches zero.'
             : is401kGuide
@@ -3701,6 +3756,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with max monthly rent. Then check annual rent and income left after rent, debts, and utilities. If the leftover money looks thin, test a lower target before looking at real listings.'
             : isAnnuityGuide
             ? 'Start with future value, then check present value and total payments. If future value looks huge, compare it with total payments so you can see how much comes from the rate assumption.'
+            : isCreditCardGuide
+            ? 'Start with payoff months, then check total interest and total paid. If the interest number feels painful, test a higher payment or stop new card spending before you trust the plan.'
             : isMarriageTaxGuide
             ? 'Start with the difference, then check joint federal tax, two single returns, joint taxable income, and the joint marginal bracket. A $0 difference is a real answer, not an error.'
             : isInvestmentGuide
@@ -3748,6 +3805,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad rent estimates come from using gross income for a personal budget, forgetting utilities, ignoring debts, or skipping lease costs like deposits, application fees, renters insurance, parking, pets, and moving.'
             : isAnnuityGuide
             ? 'Most bad annuity estimates come from mixing monthly and yearly payments, choosing the wrong timing, using a rate that is too hopeful, or treating simple formula math like a real insurer quote.'
+            : isCreditCardGuide
+            ? 'Most bad credit card payoff estimates come from paying only the minimum without checking time, adding new spending every month, ignoring fees or promotions, or expecting simple monthly math to match daily-balance billing exactly.'
             : isMarriageTaxGuide
             ? 'Most bad marriage-tax estimates come from treating this as filing advice, forgetting state or payroll tax, ignoring dependent and credit phaseouts, or assuming the result stays the same at every income level.'
             : isInvestmentGuide
@@ -3793,6 +3852,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help after the rent ceiling. The next question is usually monthly income, the rest of the budget, or how much a different rent percentage changes the answer.'
             : isAnnuityGuide
             ? 'A related tool can help after the fixed-payment math. The next question is usually broader investment growth, retirement savings, or turning an existing balance into a payout estimate.'
+            : isCreditCardGuide
+            ? 'A related tool can help after the single-card estimate. The next question is usually a combined multi-card plan, a plain APR check, or a fixed-payment comparison.'
             : isMarriageTaxGuide
             ? 'A related tool can help after the comparison. The next question is usually a one-status federal estimate, paycheck withholding, or gross-salary planning.'
             : isInvestmentGuide
@@ -3890,6 +3951,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/retirement-calculator/', label: 'Check a wider retirement target' },
               { href: '/tools/annuity-payout-calculator/', label: 'Estimate payout from an existing balance' },
             ]
+          : isCreditCardGuide
+          ? [
+              { href: '/tools/credit-card-calculator/', label: 'Open the Credit Card Calculator' },
+              { href: '/tools/credit-cards-payoff-calculator/', label: 'Estimate combined card payoff' },
+              { href: '/tools/interest-calculator/', label: 'Check APR interest math' },
+              { href: '/tools/payment-calculator/', label: 'Compare fixed-payment debt' },
+            ]
           : isInvestmentGuide
           ? [
               { href: '/tools/investment-calculator/', label: 'Open the Investment Calculator' },
@@ -3956,6 +4024,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'MyMoney.gov and CFPB sources help with the budget and debt side. HUD sources are useful because rental help rules often treat rent and tenant-paid utilities together, and USAGov points renters back to lease terms and tenant-rights help when a landlord problem is bigger than a calculator.'
             : isAnnuityGuide
             ? 'OpenStax is useful for the clean annuity formulas. Investor.gov, FINRA, and NAIC are useful for the real-world warning: annuity products can include fees, riders, surrender charges, guarantees, tax issues, state insurance rules, and contract limits that are not in the formula.'
+            : isCreditCardGuide
+            ? 'CFPB sources are useful here because they explain APR, daily interest, grace periods, minimum payments, payment allocation, and card agreement terms. FTC debt guidance adds the plain warning that paying more than the minimum and stopping new spending can make the payoff real instead of just hopeful.'
             : isInvestmentGuide
             ? 'OpenStax explains time value of money, and Investor.gov is useful for the plain inputs behind this page: starting money, monthly contributions, time, fees, risk, return, and regular investing.'
             : isFhaLoanGuide
@@ -4001,6 +4071,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not approve a rental application, check credit, read a lease, know local rent prices, include every fee, price renters insurance, or decide whether a landlord will accept your income.'
             : isAnnuityGuide
             ? 'This calculator still stays simple. It does not price an insurance contract, estimate lifetime income, include mortality assumptions, read fee tables, handle surrender periods, apply tax rules, value riders, or tell you whether an annuity is a good purchase.'
+            : isCreditCardGuide
+            ? 'This calculator still stays simple. It does not read your statement, calculate average daily balance, split balances by APR, apply fees, model deferred interest, decide payment allocation, keep a grace period, or replace the card agreement.'
             : isInvestmentGuide
             ? 'This calculator still stays simple. It does not include taxes, fees, inflation, withdrawals, changing returns, market losses, account limits, product risk, or advice about what you should buy.'
             : isFhaLoanGuide
@@ -4034,6 +4106,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Savings Calculator open beside this guide. Try the $2,500 saved and $300 monthly deposit example first, then change only the monthly deposit so you can see what actually moved.'
       : isRentGuide
       ? 'Keep the Rent Calculator open beside this guide. Try the $5,200 income example first, then change only the rent target or utility estimate so you can see what actually moved.'
+      : isCreditCardGuide
+      ? 'Keep the Credit Card Calculator open beside this guide. Try the $4,500 balance example first, then change only the payment amount so you can see how much faster the debt moves.'
       : isAutoLoanGuide
       ? 'Keep the Auto Loan Calculator open beside this guide. Try the $32,000 car example first, then change only the term so you can see why a lower payment can still cost more.'
       : isBusinessLoanGuide
