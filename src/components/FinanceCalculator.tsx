@@ -1352,7 +1352,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Liquidity Ratios Calculator',
     buttonLabel: 'Calculate liquidity',
     emptyHistory: 'Recent liquidity ratio checks will appear here.',
-    privacyNote: 'Liquidity ratios are educational accounting math. They do not judge creditworthiness, audit a business, or replace financial statement analysis.',
+    privacyNote:
+      'Liquidity-ratio estimates stay in this browser tab. They do not audit statements, prove solvency, predict cash timing, value inventory, guarantee receivable collection, judge credit approval, test lender covenants, or replace accounting analysis.',
     modes: [
       {
         id: 'liquidity-ratios',
@@ -1377,9 +1378,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
           accountsReceivable: '35000',
         },
         examples: [
-          { label: 'Small business balance sheet', inputs: { currentAssets: '120000', currentLiabilities: '80000', inventory: '25000', prepaidExpenses: '5000', cashAndEquivalents: '30000', marketableSecurities: '10000', accountsReceivable: '35000' } },
-          { label: 'Inventory-heavy shop', inputs: { currentAssets: '200000', currentLiabilities: '125000', inventory: '90000', prepaidExpenses: '8000', cashAndEquivalents: '22000', marketableSecurities: '0', accountsReceivable: '45000' } },
-          { label: 'Cash-rich service firm', inputs: { currentAssets: '95000', currentLiabilities: '40000', inventory: '0', prepaidExpenses: '3000', cashAndEquivalents: '55000', marketableSecurities: '15000', accountsReceivable: '18000' } },
+          { label: '1.50 current / 1.13 quick', inputs: { currentAssets: '120000', currentLiabilities: '80000', inventory: '25000', prepaidExpenses: '5000', cashAndEquivalents: '30000', marketableSecurities: '10000', accountsReceivable: '35000' } },
+          { label: '0.82 quick inventory shop', inputs: { currentAssets: '200000', currentLiabilities: '125000', inventory: '90000', prepaidExpenses: '8000', cashAndEquivalents: '22000', marketableSecurities: '0', accountsReceivable: '45000' } },
+          { label: '1.75 cash ratio service firm', inputs: { currentAssets: '95000', currentLiabilities: '40000', inventory: '0', prepaidExpenses: '3000', cashAndEquivalents: '55000', marketableSecurities: '15000', accountsReceivable: '18000' } },
         ],
       },
     ],
@@ -3645,7 +3646,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide cash plus marketable securities by current liabilities for cash ratio.',
           'Subtract current liabilities from current assets for working capital.',
         ],
-        note: 'Liquidity ratios are only as good as the balance sheet numbers entered and do not prove that cash will arrive on time.',
+        note: 'Liquidity ratios are only balance sheet math. They do not prove cash will arrive on time, inventory will sell, receivables will be collected, or a lender will treat the business as safe.',
       };
     }
     case 'debt-ratios': {

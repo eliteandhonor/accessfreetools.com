@@ -1307,25 +1307,30 @@ const guideDetails: Record<string, GuideDetail> = {
   'liquidity-ratios-calculator': {
     summary: 'Learn how current ratio, quick ratio, cash ratio, and working capital describe short-term payment strength.',
     purpose:
-      'The Liquidity Ratios Calculator helps read part of a balance sheet. It checks whether short-term assets look large enough compared with short-term bills.',
+      'The Liquidity Ratios Calculator helps read the short-term part of a balance sheet. It checks whether current assets look large enough compared with bills due soon.',
     enter: [
-      'Enter current assets and current liabilities from the same balance sheet date.',
+      'Enter current assets and current liabilities from the same balance sheet date. Do not mix one month of assets with another month of bills.',
       'Enter inventory and prepaid expenses so the quick ratio can remove less-liquid current assets.',
       'Enter cash, marketable securities, and receivables so the cash ratio and supporting lines are easier to understand.',
     ],
     example: [
-      'If current assets are $120,000 and current liabilities are $80,000, current ratio is 1.5x.',
-      'If inventory and prepaid expenses total $30,000, quick assets are $90,000, so quick ratio is 1.125x.',
+      'If current assets are $120,000 and current liabilities are $80,000, the current ratio is 1.50x and working capital is $40,000.',
+      'If inventory is $25,000 and prepaid expenses are $5,000, quick assets are $90,000, so quick ratio is 1.13x.',
+      'If cash is $30,000 and marketable securities are $10,000, cash ratio is 0.50x. That means only half of current liabilities are covered by cash-like assets right now.',
+      'For an inventory-heavy shop with $200,000 current assets, $125,000 current liabilities, $90,000 inventory, and $8,000 prepaid expenses, the current ratio is 1.60x but quick ratio drops to 0.82x.',
     ],
     read: [
       'Current ratio compares all current assets with current liabilities.',
       'Quick ratio is stricter because it removes inventory and prepaid expenses.',
       'Cash ratio is the strictest of these because it looks only at cash and marketable securities.',
+      'Working capital shows the dollar gap between current assets and current liabilities.',
     ],
     mistakes: [
       'Do not mix numbers from different dates without realizing the ratio can change.',
       'Do not assume receivables are as good as cash if customers pay late.',
+      'Do not treat inventory as cash if it may sell slowly, need discounts, or become outdated.',
       'Do not judge the business from one ratio. Trend and industry context matter.',
+      'Do not use this as a lender-covenant, solvency, tax, or investing decision by itself.',
     ],
     next: ['Use Debt Ratios Calculator to review debt exposure.', 'Use Profitability Ratios Calculator to see whether the business is earning enough profit.'],
   },
@@ -3623,6 +3628,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Profit Goal Calculator Guide';
   }
 
+  if (tool.slug === 'liquidity-ratios-calculator') {
+    return 'Liquidity Ratios Calculator Guide';
+  }
+
   if (tool.slug === 'average-return-calculator') {
     return 'Average Return Calculator Guide';
   }
@@ -3708,6 +3717,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'profit-goal-calculator') {
     return 'Learn target-profit units, required sales, contribution margin, fixed costs, variable costs, rounding, and business limits with examples.';
+  }
+
+  if (tool.slug === 'liquidity-ratios-calculator') {
+    return 'Learn current ratio, quick ratio, cash ratio, working capital, balance sheet timing, inventory limits, and receivable cautions.';
   }
 
   if (tool.slug === 'average-return-calculator') {

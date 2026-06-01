@@ -7525,20 +7525,22 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'liquidity-ratios-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-business-ratios-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
     sources: [calculatorSoupSitemap, openStaxFinancialStatementAnalysis, secFinancialStatements, googleHelpfulContent],
     findings: [
-      'Financial-ratio competitor research showed current, quick, and cash ratio searches missing from the local library.',
-      'Formula review checked current ratio, quick ratio, cash ratio, working capital, inventory removal, and prepaid-expense removal.',
-      'FAQ and guide explain what liquidity ratios mean, what quick ratio removes, and why receivables and timing matter.',
+      'DataForSEO evidence is page-specific for liquidity ratios calculator, current ratio calculator, quick ratio calculator, cash ratio calculator, working capital, balance sheet liquidity, and short-term payment-strength intent.',
+      'OpenStax financial statement analysis supports current ratio, quick ratio, cash ratio, working capital, inventory removal, and point-in-time balance sheet limits, while SEC balance sheet guidance supports current-assets and current-liabilities context.',
+      'Formula review checks current ratio, working capital, quick ratio, cash ratio, inventory removal, prepaid-expense removal, cash plus marketable securities, and receivable timing.',
+      'FAQ and guide explain what each ratio means, why current ratio can look stronger than quick ratio, why cash ratio is stricter, and why trend, season, inventory quality, receivable collection, and industry context matter.',
     ],
     improvements: [
-      'Added liquidity-ratio UI, examples, balance-sheet input explanations, source-backed guide, FAQ depth, related finance links, and tests.',
+      'Rebuilt title/meta, examples, calculator note, input explanations, FAQ answers, guide title, guide meta, source-backed guide copy, trust wording, image alt/caption, sitemap dates, and page-specific proof around current ratio, quick ratio, cash ratio, working capital, same-date balance sheet inputs, and cash timing limits.',
     ],
     followUps: [
       'Add trend comparison later if the site builds multi-period statement tools.',
+      'Add industry benchmark notes only after a vetted benchmark data source is chosen.',
     ],
   },
   {

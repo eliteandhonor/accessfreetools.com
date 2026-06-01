@@ -304,6 +304,18 @@ const toolArtMetadataOverrides = {
         'Profit Goal Calculator guide artwork supports the walkthrough by separating target-profit math from demand, capacity, cash flow, taxes, owner pay, refunds, fees, shipping, waste, and mixed-product sales.',
     },
   },
+  'liquidity-ratios-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking $120,000 current assets, $80,000 current liabilities, $40,000 working capital, 1.50 current ratio, 1.13 quick ratio, and 0.50 cash ratio cards.',
+      caption:
+        'Liquidity Ratios Calculator artwork matches the live workflow: current assets, current liabilities, working capital, current ratio, quick ratio, cash ratio, inventory, prepaid expenses, cash, and marketable securities.',
+    },
+    guide: {
+      alt: 'Smoke mascot sorting liquidity-ratio cards for balance sheet date, current assets, current liabilities, inventory, prepaid expenses, receivables, cash timing, and industry context.',
+      caption:
+        'Liquidity Ratios Calculator guide artwork supports the walkthrough by separating balance sheet ratio math from inventory quality, receivable collection, cash timing, industry context, lender covenants, and accounting limits.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',
