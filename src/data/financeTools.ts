@@ -3851,28 +3851,76 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'ira-calculator',
     name: 'IRA Calculator',
-    summary: 'Project IRA growth from balance, annual contribution, return, and years.',
+    seoTitle: 'IRA Calculator | 2026 Limits & Growth',
+    summary: 'Project traditional or Roth IRA growth before checking IRS contribution and deduction rules.',
     description:
-      'Use this free IRA calculator to project future balance, total contributions, and estimated growth from current IRA balance, annual contribution, annual return, and years to grow.',
+      'Project future IRA balance, total contributions, and estimated growth from current balance, annual contribution, expected annual return, and years to grow.',
     seoDescription:
-      'Project IRA future balance, total contributions, and estimated growth from current balance, annual contribution, return, and years.',
+      'Project IRA growth from balance, annual contribution, expected return, and years, with 2026 IRS contribution and deduction cautions kept separate.',
     icon: 'calculator-ira',
+    aliases: [
+      'ira calculator',
+      'traditional ira calculator',
+      'ira contribution calculator',
+      'ira growth calculator',
+      'ira calculator 2026',
+      'simple ira calculator',
+      'sep ira calculator',
+      '401k ira calculator',
+    ],
     formula:
-      'The calculator converts annual contribution to a monthly deposit, compounds the current balance monthly, and adds monthly contributions through the projection period.',
+      'The calculator divides annual contribution into 12 monthly deposits, compounds the current IRA balance monthly, adds deposits at the end of each month, then separates total contributions from estimated growth.',
     limit:
-      'This does not handle deductions, Roth income limits, IRS contribution limits, required minimum distributions, penalties, taxes, fees, or investment risk.',
+      'This is a projection, not tax advice. It does not verify taxable compensation, traditional IRA deduction limits, workplace retirement plan coverage, Roth IRA income limits, 2026 IRS contribution limits, required minimum distributions, penalties, taxes, fees, or market risk.',
     useCases: [
-      'Project IRA growth from current balance and annual contributions.',
+      'Project traditional IRA growth from current balance and annual contributions.',
+      'Test a 2026 limit-style IRA contribution scenario before checking IRS rules.',
       'Compare contribution amounts, returns, and time horizons.',
       'Estimate how much of the projection comes from deposits versus growth.',
-      'Create a planning number before checking official IRA rules.',
+      'Create a planning number before checking traditional IRA deduction, Roth IRA eligibility, or rollover rules.',
     ],
     examples: [
-      { label: 'Traditional IRA projection', expression: '$25,000 balance, $7,000/year, 6.5%, 20 years', result: 'Projected IRA balance' },
-      { label: 'Catch-up style saving', expression: '$60,000 balance, $8,000/year, 12 years', result: 'Shorter retirement runway' },
-      { label: 'Small contribution', expression: '$5,000 balance, $3,000/year, 30 years', result: 'Long-term projection' },
+      { label: '2026 limit-style IRA', expression: '$25,000 balance, $7,500/year, 6.5%, 20 years', result: 'About $397,924.25 projected balance from $175,000 contributed' },
+      { label: 'Age 50+ catch-up scenario', expression: '$60,000 balance, $8,600/year, 6%, 12 years', result: 'About $273,652.67 projected balance from $163,200 contributed' },
+      { label: 'Small contribution', expression: '$5,000 balance, $3,000/year, 7%, 30 years', result: 'About $345,575.24 projected balance from $95,000 contributed' },
     ],
     relatedSlugs: ['roth-ira-calculator', 'retirement-calculator', '401k-calculator'],
+    inputExplanations: [
+      { term: 'Current balance', meaning: 'the IRA money already in the account before this projection starts.' },
+      { term: 'Annual contribution', meaning: 'the amount you want to add over one year. The calculator spreads it across 12 monthly deposits.' },
+      { term: 'Expected annual return', meaning: 'the yearly growth assumption entered as a percent, such as 6.5 for 6.5%.' },
+      { term: 'Years to grow', meaning: 'how many years the current balance and future deposits stay in the projection.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Does this check the 2026 IRA contribution limit?',
+        answer:
+          'No. The calculator lets you test any annual contribution. The IRS says total 2026 contributions across traditional IRAs and Roth IRAs are generally limited to $7,500, or $8,600 if age 50+ because of the $1,100 catch-up amount, or taxable compensation if that is smaller.',
+      },
+      {
+        question: 'Does this tell me whether a traditional IRA contribution is deductible?',
+        answer:
+          'No. Traditional IRA deductibility can depend on filing status, MAGI, and whether you or your spouse are covered by a retirement plan at work. The calculator only projects growth from the numbers entered.',
+      },
+      {
+        question: 'Can I use this for a Roth IRA?',
+        answer:
+          'You can use the math as a rough growth projection, but Roth IRA eligibility and tax treatment have separate rules. Use the Roth IRA Calculator when you want the page to keep Roth MAGI, phase-out, qualified-distribution, and 5-year-rule cautions closer to the result.',
+      },
+      {
+        question: 'What does the 2026 limit-style example show?',
+        answer:
+          '$25,000 starting balance plus $7,500 per year is treated as $625 monthly deposits. At 6.5% for 20 years, that projects about $397,924.25, with $175,000 counted as total contributions and about $222,924.25 as estimated growth.',
+      },
+    ],
+    formulaCheck:
+      'For the 2026 limit-style example, $25,000 current balance plus $7,500 per year is treated as $625 per month. At 6.5% for 20 years, the projection is about $397,924.25, with $175,000 counted as total contributions and about $222,924.25 as estimated growth.',
+    resultReading:
+      'Read projected IRA balance as the what-if ending balance, total contributions as current balance plus deposits, and estimated growth as the amount created by the expected annual return assumption.',
+    doubleCheck:
+      'Check taxable compensation, 2026 IRS contribution limits, traditional IRA deduction rules, workplace retirement plan coverage, Roth IRA phase-outs, RMD rules, tax treatment, penalties, fees, and market risk before acting.',
+    limitFollowup:
+      'Use IRS IRA contribution limits, IRS deduction-limit guidance, IRS annual COLA tables, Investor.gov IRA basics, and a tax professional when contribution eligibility, deductibility, or withdrawal tax treatment matters.',
   }),
   makeFinanceTool({
     slug: 'vat-calculator',

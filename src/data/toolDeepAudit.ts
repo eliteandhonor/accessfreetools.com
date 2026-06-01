@@ -1246,6 +1246,16 @@ const irsIraLimits = {
   label: 'IRS: IRA contribution limits',
 };
 
+const irsIraDeductionLimits = {
+  href: 'https://www.irs.gov/retirement-plans/ira-deduction-limits',
+  label: 'IRS: IRA deduction limits',
+};
+
+const irsRetirementColaLimits = {
+  href: 'https://www.irs.gov/retirement-plans/cola-increases-for-dollar-limitations-on-benefits-and-contributions',
+  label: 'IRS: annual retirement plan and IRA limit table',
+};
+
 const irsRothIras = {
   href: 'https://www.irs.gov/retirement-plans/roth-iras',
   label: 'IRS: Roth IRAs',
@@ -2944,20 +2954,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'ira-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-3-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
+    reviewedOn: '2026-05-31',
     scope: commonMathScope,
-    sources: [irsIraLimits, investorCompound],
+    sources: [irsIraLimits, irsIraDeductionLimits, irs2026IraLimits, irsIraCatchUp, irsRetirementColaLimits, investorIras, investorCompound],
     findings: [
       'The calculator uses the same IRA projection helper as Roth IRA: monthly compounding plus annual contribution divided into monthly deposits.',
-      'The result labels projected balance, total contributions, annual contribution, and estimated growth so users can separate deposits from return assumptions.',
-      'The guide and FAQ warn about deductions, Roth eligibility, IRS contribution limits, required minimum distributions, penalties, taxes, fees, and investment risk.',
+      'DataForSEO shows informational intent for IRA Calculator plus related Roth IRA, SIMPLE IRA, SEP IRA, Fidelity, 401K IRA, 2026, and Schwab-style queries, so the page now keeps general IRA projection math separate from account-type and tax rules.',
+      'The result labels projected IRA balance, total contributions, annual contribution, and estimated growth while the page warns about taxable compensation, traditional IRA deduction limits, workplace retirement plan coverage, Roth IRA eligibility, 2026 IRS limits, RMDs, penalties, taxes, fees, and investment risk.',
     ],
     improvements: [
-      'Added IRA-specific guide detail and manually checked projection math, examples, FAQ cautions, IRS source coverage, related tools, SEO copy, and privacy behavior.',
+      'Added IRA-specific SEO title, aliases, guide title and meta description, exact $25,000/$7,500/year/6.5%/20-year and age 50+ catch-up examples, 2026 IRS $7,500/$1,100/$8,600 contribution context, deduction-limit cautions, official IRS/Investor.gov source links, trust wording, and specific image alt/caption text.',
     ],
     followUps: [
-      'Add Traditional versus Roth comparison only after tax-assumption fields and disclaimers are designed.',
+      'Add Traditional versus Roth comparison only after tax-assumption fields, deduction-status fields, and disclaimers are designed.',
     ],
   },
   {
@@ -7813,7 +7823,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['ira', '401k', 'retirement', 'pension', 'rmd'])) {
-      return sourceBackstop([irsIraLimits, investorCompound]);
+      return sourceBackstop([irsIraLimits, irsIraDeductionLimits, irsRetirementColaLimits, investorIras, investorCompound]);
     }
 
     return sourceBackstop([investorCompound, cfpbMortgage]);

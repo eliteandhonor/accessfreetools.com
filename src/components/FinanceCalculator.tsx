@@ -1067,7 +1067,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'IRA Calculator',
     buttonLabel: 'Project IRA',
     emptyHistory: 'Recent IRA projections will appear here.',
-    privacyNote: 'IRA estimates do not handle deductions, Roth eligibility, tax rules, required distributions, penalties, fees, or contribution-limit compliance.',
+    privacyNote:
+      'IRA estimates use the numbers you enter. They do not check taxable compensation, deduction phase-outs, Roth eligibility, required distributions, taxes, penalties, fees, or IRS limit compliance.',
     modes: [
       {
         id: 'ira',
@@ -1076,13 +1077,13 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         fields: [
           numberField('currentBalance', 'Current balance ($)'),
           numberField('annualContribution', 'Annual contribution ($)'),
-          numberField('annualReturnPercent', 'Estimated annual return (%)'),
+          numberField('annualReturnPercent', 'Expected annual return (%)'),
           numberField('years', 'Years to grow'),
         ],
-        defaultInputs: { currentBalance: '25000', annualContribution: '7000', annualReturnPercent: '6.5', years: '20' },
+        defaultInputs: { currentBalance: '25000', annualContribution: '7500', annualReturnPercent: '6.5', years: '20' },
         examples: [
-          { label: 'Traditional IRA projection', inputs: { currentBalance: '25000', annualContribution: '7000', annualReturnPercent: '6.5', years: '20' } },
-          { label: 'Catch-up style saving', inputs: { currentBalance: '60000', annualContribution: '8000', annualReturnPercent: '6', years: '12' } },
+          { label: '2026 limit-style IRA', inputs: { currentBalance: '25000', annualContribution: '7500', annualReturnPercent: '6.5', years: '20' } },
+          { label: 'Age 50+ catch-up scenario', inputs: { currentBalance: '60000', annualContribution: '8600', annualReturnPercent: '6', years: '12' } },
           { label: 'Small annual contribution', inputs: { currentBalance: '5000', annualContribution: '3000', annualReturnPercent: '7', years: '30' } },
         ],
       },
@@ -3305,6 +3306,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
     }
     case 'roth-ira':
     case 'ira': {
+      const isRothIra = variant === 'roth-ira';
       const result = calculateIraProjection(
         parseNumber(inputs.currentBalance, 'Current balance'),
         parseNumber(inputs.annualContribution, 'Annual contribution'),
@@ -3313,7 +3315,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
       );
 
       return {
-        label: variant === 'roth-ira' ? 'Projected Roth IRA balance' : 'Projected IRA balance',
+        label: isRothIra ? 'Projected Roth IRA balance' : 'Projected IRA balance',
         expression: `${compactMoney(result.principal)} plus ${money(result.monthlyContribution)}/mo for ${years(result.years)}`,
         answer: money(result.endingBalance),
         metrics: [
@@ -3327,8 +3329,9 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Add monthly contributions at the end of each month.',
           'Separate total contributions from estimated growth.',
         ],
-        note:
-          'This is a growth projection, not a Roth IRA eligibility check. For 2026, the IRS IRA limit is $7,500, with a $1,100 catch-up amount for age 50+ ($8,600 total), but Roth contributions can phase out by MAGI and filing status. Qualified distributions, 59½ rules, the 5-year rule, taxes, penalties, and investment risk still need separate review.',
+        note: isRothIra
+          ? 'This is a growth projection, not a Roth IRA eligibility check. For 2026, the IRS IRA limit is $7,500, with a $1,100 catch-up amount for age 50+ ($8,600 total), but Roth contributions can phase out by MAGI and filing status. Qualified distributions, 59½ rules, the 5-year rule, taxes, penalties, and investment risk still need separate review.'
+          : 'This is a growth projection, not a traditional IRA deduction or eligibility check. For 2026, the IRS IRA contribution limit is $7,500, with a $1,100 catch-up amount for age 50+ ($8,600 total), or taxable compensation if smaller. Traditional IRA deductions can phase out when you or your spouse is covered by a retirement plan at work. Roth IRA rules, RMDs, taxes, penalties, fees, and investment risk still need separate review.',
       };
     }
     case 'vat': {

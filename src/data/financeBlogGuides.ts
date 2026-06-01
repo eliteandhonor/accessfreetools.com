@@ -343,6 +343,14 @@ const sourceLinks = {
     href: 'https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-ira-contribution-limits',
     label: 'IRS: IRA contribution limits',
   },
+  irsIraDeductionLimits: {
+    href: 'https://www.irs.gov/retirement-plans/ira-deduction-limits',
+    label: 'IRS: IRA deduction limits',
+  },
+  irsRetirementColaLimits: {
+    href: 'https://www.irs.gov/retirement-plans/cola-increases-for-dollar-limitations-on-benefits-and-contributions',
+    label: 'IRS: annual retirement plan and IRA limit table',
+  },
   irsRothIras: {
     href: 'https://www.irs.gov/retirement-plans/roth-iras',
     label: 'IRS: Roth IRAs',
@@ -915,7 +923,15 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'ira-calculator') {
-    return [sourceLinks.irsIraLimits, sourceLinks.investorCompound];
+    return [
+      sourceLinks.irsIraLimits,
+      sourceLinks.irsIraDeductionLimits,
+      sourceLinks.irs2026IraLimits,
+      sourceLinks.irsIraCatchUp,
+      sourceLinks.irsRetirementColaLimits,
+      sourceLinks.investorIras,
+      sourceLinks.investorCompound,
+    ];
   }
 
   if (toolSlug === 'vat-calculator') {
@@ -2300,29 +2316,32 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use IRA Calculator for general IRA projection math.', 'Use Retirement Calculator for a wider savings goal.'],
   },
   'ira-calculator': {
-    summary: 'Learn how current IRA balance, annual contribution, estimated return, and time affect an IRA projection.',
+    summary: 'Learn how current IRA balance, annual contribution, expected return, and time affect an IRA projection before you check IRS contribution and deduction rules.',
     purpose:
-      'The IRA Calculator projects a future balance from current savings and annual contributions. It keeps the math simple so you can compare scenarios before checking official IRA rules.',
+      'The IRA Calculator projects a future balance from current savings and annual contributions. It keeps the growth math separate from traditional IRA deduction rules, Roth IRA eligibility, RMDs, and taxes.',
     enter: [
-      'Enter current IRA balance.',
-      'Enter annual contribution, annual return, and years to grow.',
-      'Use a realistic contribution amount because the calculator does not check IRS limits.',
+      'Enter current IRA balance already in the account.',
+      'Enter annual contribution. For 2026, the general IRA limit is $7,500, or $8,600 if age 50+ because of the $1,100 catch-up amount, but the calculator does not enforce those rules.',
+      'Enter expected annual return and years to grow.',
+      'Check taxable compensation, traditional IRA deduction rules, and Roth IRA eligibility separately before treating the contribution as allowed or deductible.',
     ],
     example: [
-      '$25,000 current balance plus $7,000 per year at 6.5% for 20 years is converted into monthly deposits.',
-      'The projection shows total contributions and estimated growth separately.',
+      '$25,000 current balance plus $7,500 per year is converted into $625 monthly deposits for the projection.',
+      'At 6.5% for 20 years, the result is about $397,924.25, with $175,000 counted as total contributions and about $222,924.25 as estimated growth.',
+      '$60,000 plus $8,600 per year at 6% for 12 years projects about $273,652.67 from $163,200 contributed.',
     ],
     read: [
-      'Projected IRA balance is the future balance estimate.',
+      'Projected IRA balance is the estimate at the end of the entered years.',
       'Total contributions includes the starting balance and projected deposits.',
-      'Estimated growth depends completely on the return assumption.',
+      'Estimated growth depends completely on the expected annual return assumption.',
+      'The result does not say whether a traditional IRA contribution is deductible, whether a Roth contribution is allowed, or whether a withdrawal is taxable.',
     ],
     mistakes: [
-      'Do not use this as tax advice or an official IRA limit checker.',
-      'Do not ignore deductions, Roth eligibility, contribution limits, required minimum distributions, penalties, fees, or investment risk.',
-      'Do not compare IRA choices without understanding tax treatment.',
+      'Do not use this as tax advice, an official IRA limit checker, or a deduction calculator.',
+      'Do not ignore taxable compensation, 2026 IRS contribution limits, traditional IRA deduction phase-outs, workplace retirement plan coverage, Roth IRA phase-outs, required minimum distributions, penalties, taxes, fees, or investment risk.',
+      'Do not compare traditional IRA, Roth IRA, SEP IRA, SIMPLE IRA, rollover, or 401K choices without understanding tax treatment and plan rules.',
     ],
-    next: ['Use Roth IRA Calculator for Roth-specific planning language.', 'Use 401K Calculator for workplace contribution scenarios.'],
+    next: ['Use Roth IRA Calculator for Roth-specific planning language.', 'Use 401K Calculator for workplace contribution scenarios.', 'Use Retirement Calculator for a wider savings goal.'],
   },
   'vat-calculator': {
     summary: 'Learn how to add VAT to a net amount or remove VAT from a gross amount.',
@@ -3462,6 +3481,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Roth IRA Calculator Guide';
   }
 
+  if (tool.slug === 'ira-calculator') {
+    return 'IRA Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3507,6 +3530,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'roth-ira-calculator') {
     return 'Project Roth IRA growth from balance, annual contributions, return, and years, with 2026 IRS limit and MAGI cautions kept separate.';
+  }
+
+  if (tool.slug === 'ira-calculator') {
+    return 'Project IRA growth from balance, annual contributions, expected return, and years, with 2026 IRS limit and deduction cautions kept separate.';
   }
 
   if (tool.slug === 'fha-loan-calculator') {
@@ -3661,6 +3688,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isBondGuide = tool.slug === 'bond-calculator';
   const isMutualFundGuide = tool.slug === 'mutual-fund-calculator';
   const isRothIraGuide = tool.slug === 'roth-ira-calculator';
+  const isIraGuide = tool.slug === 'ira-calculator';
   const isPensionGuide = tool.slug === 'pension-calculator';
   const isAnnuityPayoutGuide = tool.slug === 'annuity-payout-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
@@ -3723,6 +3751,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A mutual fund projection is easy to overtrust if return, fees, taxes, and real fund behavior are mixed together. This guide keeps the what-if math clear: starting money, monthly deposits, expected return, expense ratio, years, and the fee drag that appears over time.'
       : isRothIraGuide
       ? 'A Roth IRA projection can look like a tax answer when it is really just growth math. This guide keeps the simple projection separate from 2026 IRS limits, MAGI phase-outs, qualified distribution rules, and market risk.'
+      : isIraGuide
+      ? 'An IRA projection can look like a tax answer when it is really just growth math. This guide keeps the simple projection separate from 2026 IRS limits, traditional IRA deduction rules, Roth IRA eligibility, RMDs, taxes, and market risk.'
       : isPensionGuide
       ? 'A pension estimate is easy to overtrust if the plan formula is guessed. This guide shows how final average salary, credited service, and a plan multiplier turn into annual pension, monthly pension, and replacement rate.'
       : isAnnuityPayoutGuide
@@ -3917,6 +3947,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter the annual contribution you want to test, such as $7,500 for a 2026 limit-style scenario or $1,200 for $100 a month.',
           'Enter expected annual return and years to grow, then calculate.',
           'Read projected Roth IRA balance, total contributions, and estimated growth, then check IRS MAGI, phase-out, qualified distribution, tax, and penalty rules separately.',
+        ]
+      : isIraGuide
+      ? [
+          'Open the IRA Calculator.',
+          'Enter the current IRA balance already in the account.',
+          'Enter the annual contribution you want to test, such as $7,500 for a 2026 limit-style scenario or $8,600 when testing the age 50+ catch-up amount.',
+          'Enter expected annual return and years to grow, then calculate.',
+          'Read projected IRA balance, total contributions, and estimated growth, then check taxable compensation, deduction limits, Roth eligibility, RMD, tax, penalty, fee, and market-risk rules separately.',
         ]
       : isPensionGuide
       ? [

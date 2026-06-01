@@ -232,6 +232,18 @@ const toolArtMetadataOverrides = {
         'Roth IRA Calculator guide artwork supports the walkthrough by separating growth math from MAGI phase-outs, contribution limits, qualified distribution rules, taxes, penalties, and market risk.',
     },
   },
+  'ira-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking an IRA projection screen with $25,000 current balance, $7,500 annual contribution, 6.5 percent expected return, 20 years, $397,924 projected balance, and 2026 IRS limit reminders.',
+      caption:
+        'IRA Calculator artwork matches the live workflow: current balance, annual contribution, expected return, years to grow, projected IRA balance, total contributions, estimated growth, and 2026 IRS rule checks.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing IRA guide notes for $7,500 2026 contribution limit, $1,100 catch-up amount, $8,600 age 50 plus total, taxable compensation, deduction phase-outs, RMDs, and Roth eligibility.',
+      caption:
+        'IRA Calculator guide artwork supports the walkthrough by separating growth math from taxable compensation, traditional IRA deduction limits, Roth eligibility, RMDs, taxes, penalties, fees, and market risk.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

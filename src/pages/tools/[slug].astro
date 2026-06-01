@@ -841,6 +841,13 @@ const financeToolInstructions = financeToolVariant
         'Calculate, then compare projected Roth IRA balance, total contributions, and estimated growth.',
         'Check taxable compensation, MAGI, filing status, IRS phase-out rules, qualified distribution rules, and tax treatment before treating the contribution or withdrawal as allowed.',
       ]
+    : tool.slug === 'ira-calculator'
+    ? [
+        'Enter the current IRA balance, annual contribution, expected annual return, and years to grow.',
+        'For a 2026 limit-style scenario, try $7,500 per year, or $8,600 if you are testing the age 50+ catch-up amount.',
+        'Calculate, then compare projected IRA balance, total contributions, and estimated growth.',
+        'Check taxable compensation, traditional IRA deduction rules, Roth IRA eligibility, RMDs, taxes, penalties, fees, and market risk before treating the result as a real tax or retirement answer.',
+      ]
     : tool.slug === 'pension-calculator'
     ? [
         'Enter the final average salary or plan salary number used by the pension formula.',
@@ -2857,6 +2864,39 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', '}
                 <a href="https://www.irs.gov/newsroom/401k-limit-increases-to-24500-for-2026-ira-limit-increases-to-7500" rel="noreferrer" target="_blank">
                   IRS 2026 IRA limits
+                </a>
+                {', and '}
+                <a href="https://www.investor.gov/introduction-investing/investing-basics/investment-accounts/tax-advantaged-accounts/retirement-savings/individual-retirement-accounts-iras" rel="noreferrer" target="_blank">
+                  Investor.gov IRAs
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'ira-calculator' ? (
+            <>
+              <strong>IRA growth projection, not a tax answer</strong>
+              <p>
+                Use this to test current balance, annual contribution, expected annual return,
+                years to grow, projected IRA balance, total contributions, and estimated growth.
+                For 2026, the IRS IRA contribution limit is $7,500, with a $1,100 catch-up amount
+                for age 50+ ($8,600 total), or taxable compensation if that is smaller. The tool
+                does not check traditional IRA deduction limits, workplace retirement plan coverage,
+                Roth IRA eligibility, RMDs, rollover rules, taxes, penalties, investment fees, or
+                market risk.
+              </p>
+              <p>
+                The IRS says traditional IRA deductibility can be limited when you or your spouse
+                are covered by a retirement plan at work. Sources used for this review:{' '}
+                <a href="https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-ira-contribution-limits" rel="noreferrer" target="_blank">
+                  IRS IRA contribution limits
+                </a>
+                {', '}
+                <a href="https://www.irs.gov/retirement-plans/ira-deduction-limits" rel="noreferrer" target="_blank">
+                  IRS IRA deduction limits
+                </a>
+                {', '}
+                <a href="https://www.irs.gov/retirement-plans/cola-increases-for-dollar-limitations-on-benefits-and-contributions" rel="noreferrer" target="_blank">
+                  IRS 2026 IRA limit table
                 </a>
                 {', and '}
                 <a href="https://www.investor.gov/introduction-investing/investing-basics/investment-accounts/tax-advantaged-accounts/retirement-savings/individual-retirement-accounts-iras" rel="noreferrer" target="_blank">
