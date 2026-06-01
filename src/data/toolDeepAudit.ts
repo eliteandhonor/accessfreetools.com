@@ -1051,6 +1051,31 @@ const cfpbLoanEstimate = {
   label: 'CFPB: What is a Loan Estimate?',
 };
 
+const cfpbRefinanceHandout = {
+  href: 'https://files.consumerfinance.gov/f/documents/cfpb_should_i_refinance_handout.pdf',
+  label: 'CFPB: Should I refinance? handout',
+};
+
+const cfpbMortgageApr = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-mortgage-interest-rate-and-an-apr-en-135/',
+  label: 'CFPB: Mortgage interest rate vs. APR',
+};
+
+const cfpbMortgageClosingFees = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-fees-or-charges-are-paid-when-closing-on-a-mortgage-and-who-pays-them-en-1845/',
+  label: 'CFPB: Mortgage closing fees',
+};
+
+const cfpbDiscountPoints = {
+  href: 'https://www.consumerfinance.gov/about-us/newsroom/cfpb-finds-americans-are-paying-upfront-fees-seeking-to-lower-interest-rates-on-mortgages/',
+  label: 'CFPB: Discount point tradeoffs',
+};
+
+const cfpbRefinanceRescission = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/how-long-do-i-have-to-rescind-when-does-the-right-of-rescission-start-en-187/',
+  label: 'CFPB: Refinance rescission timing',
+};
+
 const cfpbAutoTruthInLending = {
   href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-truth-in-lending-disclosure-for-an-auto-loan-en-787/',
   label: 'CFPB: Truth in Lending disclosure for an auto loan',
@@ -3362,17 +3387,24 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'refinance-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-5-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'serpforge-refinance-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [cfpbMortgage, cfpbAprVsInterest],
+    sources: [
+      cfpbRefinanceHandout,
+      cfpbLoanEstimate,
+      cfpbMortgageClosingFees,
+      cfpbMortgageApr,
+      cfpbDiscountPoints,
+      cfpbRefinanceRescission,
+    ],
     findings: [
-      'The calculator estimates the current payment, adds closing costs to the new principal, estimates the new payment, and compares monthly savings plus total paid and total interest changes.',
-      'The break-even result is only shown when payment savings are positive, which avoids a fake recovery date when the refinance payment is not lower.',
-      'The guide now explains the key refinance trap: lower monthly payment can come from a longer term, not only from a better rate.',
+      'The calculator estimates the current payment, adds closing costs to the new principal, estimates the new payment, and compares monthly savings, break-even time, total interest change, and total cost change.',
+      'The page now uses exact refinance examples for new payment, monthly savings, break-even months, no-savings cases, and shorter-term total-cost savings.',
+      'The guide explains the key refinance trap: lower monthly payment can come from a longer term, points, or rolled costs, not only from a better deal.',
     ],
     improvements: [
-      'Added refinance-specific guide detail and manually checked payment comparison math, closing-cost handling, break-even wording, source coverage, examples, FAQ cautions, SEO copy, and privacy behavior.',
+      'Added refinance-specific SEO title/description, source coverage, exact examples, FAQ cautions, trust copy, guide detail, DataForSEO sprint evidence, and specific image alt/caption copy.',
     ],
     followUps: [
       'Add an out-of-pocket closing-cost mode later so users can compare rolling costs into the loan versus paying costs upfront.',
@@ -7834,7 +7866,14 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['refinance'])) {
-      return sourceBackstop([cfpbMortgage, cfpbAprVsInterest]);
+      return sourceBackstop([
+        cfpbRefinanceHandout,
+        cfpbLoanEstimate,
+        cfpbMortgageClosingFees,
+        cfpbMortgageApr,
+        cfpbDiscountPoints,
+        cfpbRefinanceRescission,
+      ]);
     }
 
     if (includesAny(key, ['budget'])) {

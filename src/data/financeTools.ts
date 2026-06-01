@@ -5152,11 +5152,20 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Compare current loan payment with a new refinance payment and break-even estimate.',
     description:
       'Use this free refinance calculator to estimate new payment, monthly savings, closing-cost break-even time, total interest change, and total cost change.',
+    seoTitle: 'Refinance Calculator | Payment, Savings & Break-Even',
+    seoDescription:
+      'Compare current payment with a new refinance payment, monthly savings, closing-cost break-even time, interest change, and total cost change.',
     icon: 'calculator-refinance',
+    aliases: [
+      'mortgage refinance calculator',
+      'refinance break even calculator',
+      'refinance savings calculator',
+      'loan refinance calculator',
+    ],
     formula:
       'The calculator estimates the current loan payment, rolls closing costs into the new balance, estimates the new payment, then compares monthly payment and total cost.',
     limit:
-      'This does not include lender underwriting, taxes, escrow changes, credit rules, prepayment penalties, cash-out rules, or official loan disclosures.',
+      'This does not include lender underwriting, taxes, escrow changes, credit rules, prepayment penalties, cash-out rules, discount-point tradeoffs, rescission timing, or official loan disclosures.',
     useCases: [
       'Compare a current loan with a possible refinance.',
       'Estimate monthly savings from a lower rate.',
@@ -5164,11 +5173,68 @@ export const financeTools: ToolDefinition[] = [
       'See whether a longer term could reduce payment but increase cost.',
     ],
     examples: [
-      { label: 'Mortgage refinance', expression: '$280,000 balance, 7% now, 5.9% new, $4,500 costs', result: 'New payment and break-even estimate' },
-      { label: 'Shorter term', expression: '$220,000 into a 15-year refinance', result: 'Payment and interest comparison' },
-      { label: 'Small cost', expression: '$120,000 balance with $1,500 costs', result: 'Break-even estimate' },
+      {
+        label: 'Mortgage refinance',
+        expression: '$280,000 balance, 7% now, 26 years left, 5.9% new 30-year loan, $4,500 costs',
+        result: 'About $1,687.47/month, $263.67/month savings, and 17.1 months to break even',
+      },
+      {
+        label: 'Shorter term',
+        expression: '$220,000 balance, 6.8% now, 24 years left, 5.7% new 15-year loan, $3,800 costs',
+        result: 'About $1,852.47/month, no monthly savings, but about $113,367.40 lower total paid',
+      },
+      {
+        label: 'Small cost',
+        expression: '$120,000 balance, 8% now, 6.5% new 10-year loan, $1,500 costs',
+        result: 'About $1,379.61/month, $76.32/month savings, and 19.7 months to break even',
+      },
     ],
-    relatedSlugs: ['mortgage-payoff-calculator', 'mortgage-calculator', 'interest-rate-calculator'],
+    relatedSlugs: ['mortgage-payoff-calculator', 'apr-calculator', 'mortgage-calculator'],
+    inputExplanations: [
+      { term: 'Current balance', meaning: 'what is still owed on the loan you already have.' },
+      { term: 'Current rate', meaning: 'the yearly rate used to estimate your remaining current payment.' },
+      { term: 'Current remaining term', meaning: 'how many years are left if you keep the current loan.' },
+      { term: 'New rate', meaning: 'the yearly rate for the refinance idea you want to test.' },
+      { term: 'New term', meaning: 'how many years the new loan would run.' },
+      { term: 'Closing costs', meaning: 'the refinance costs entered as dollars. This calculator rolls them into the new balance.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What does refinance break-even mean?',
+        answer:
+          'Break-even means the rough number of months it takes monthly savings to cover closing costs. If costs are $4,500 and the new payment saves about $263.67 per month, the simple break-even is about 17.1 months.',
+      },
+      {
+        question: 'Can a refinance lower my payment but still cost more?',
+        answer:
+          'Yes. A new 30-year term can drop the monthly payment by stretching the debt over more months. Always compare total cost change, not only the new payment.',
+      },
+      {
+        question: 'Why does this calculator roll closing costs into the new balance?',
+        answer:
+          'It gives one clean comparison where the new loan starts with the current balance plus entered costs. If you plan to pay costs out of pocket, compare that separately with your lender paperwork.',
+      },
+    ],
+    formulaCheck:
+      'Break-even only appears when the new payment is lower. If the new payment is higher, the calculator shows no monthly-savings break-even.',
+    resultReading:
+      'Start with the new monthly payment, then read monthly savings, break-even time, and total cost change. A lower payment is only helpful if the costs and longer term still make sense.',
+    doubleCheck:
+      'Check whether closing costs are paid upfront, rolled into the loan, or traded for a higher rate. Also check whether the new quote uses interest rate or APR.',
+    limitFollowup:
+      'Use the lender Loan Estimate, Closing Disclosure, and payoff quote before acting. Check points, lender credits, escrow changes, tax changes, PMI, cash-out rules, prepayment penalties, and rescission timing.',
+    extraFaq: [
+      {
+        question: 'Should I compare interest rate or APR when refinancing?',
+        answer:
+          'Compare both. Interest rate helps explain the payment. APR can include more loan costs, so it can make an offer with a low rate but high fees look less cheap.',
+      },
+      {
+        question: 'Does this handle discount points?',
+        answer:
+          'Not as a separate field. If points or lender fees are part of the refinance costs, include them in closing costs, then use the Loan Estimate to decide whether paying upfront for a lower rate is worth it.',
+      },
+    ],
   }),
   makeFinanceTool({
     slug: 'budget-calculator',

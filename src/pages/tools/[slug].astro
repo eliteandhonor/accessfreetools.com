@@ -799,6 +799,13 @@ const financeToolInstructions = financeToolVariant
         'Add yearly property tax, then monthly insurance, PMI, and HOA only when those costs apply.',
         'Calculate, then compare total monthly payment, principal and interest, total interest, and LTV with a lender Loan Estimate.',
       ]
+    : tool.slug === 'refinance-calculator'
+    ? [
+        'Enter the current balance, current rate, and years left on the loan you already have.',
+        'Enter the new rate, new term, and closing costs from the refinance idea.',
+        'Calculate, then compare new payment, monthly savings, break-even time, and total cost change.',
+        'Check the lender Loan Estimate for APR, points, lender credits, escrow changes, payoff timing, and rescission rules.',
+      ]
     : tool.slug === 'mortgage-payoff-calculator'
     ? [
         'Enter the current principal balance, not the original home price.',
@@ -2198,6 +2205,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Fixed payment estimate'
               : tool.slug === 'personal-loan-calculator'
               ? 'Personal loan estimate'
+              : tool.slug === 'refinance-calculator'
+              ? 'Refinance comparison'
               : tool.slug === 'apr-calculator'
               ? 'Loan APR estimate'
               : 'Estimate, not advice'}
@@ -2255,6 +2264,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Monthly, interest, total paid'
               : tool.slug === 'apr-calculator'
               ? 'Rate, fees, amount received'
+              : tool.slug === 'refinance-calculator'
+              ? 'Savings, break-even, cost'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -2517,6 +2528,35 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               </p>
               <p>
                 Sources used for this review: <a href="https://www.consumerfinance.gov/ask-cfpb/how-do-mortgage-lenders-calculate-monthly-payments-en-1965/" rel="noreferrer" target="_blank">CFPB monthly mortgage payments</a>, <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-piti-en-152/" rel="noreferrer" target="_blank">CFPB PITI</a>, and <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/" rel="noreferrer" target="_blank">CFPB Loan Estimate</a>.
+              </p>
+            </>
+          ) : tool.slug === 'refinance-calculator' ? (
+            <>
+              <strong>Refinance estimate, not a lender offer</strong>
+              <p>
+                Use this to compare your current balance, current rate, years left, new rate, new term,
+                rolled closing costs, new payment, monthly savings, break-even time, and total cost change.
+                A real refinance can still change with APR, discount points, lender credits, payoff timing,
+                escrow setup, taxes, insurance, PMI rules, cash-out limits, underwriting, and rescission timing.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://files.consumerfinance.gov/f/documents/cfpb_should_i_refinance_handout.pdf" rel="noreferrer" target="_blank">
+                  CFPB refinance handout
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/" rel="noreferrer" target="_blank">
+                  CFPB Loan Estimate
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-fees-or-charges-are-paid-when-closing-on-a-mortgage-and-who-pays-them-en-1845/" rel="noreferrer" target="_blank">
+                  CFPB mortgage closing fees
+                </a>
+                {', and '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-mortgage-interest-rate-and-an-apr-en-135/" rel="noreferrer" target="_blank">
+                  CFPB mortgage APR notes
+                </a>
+                .
               </p>
             </>
           ) : tool.slug === 'mortgage-payoff-calculator' ? (

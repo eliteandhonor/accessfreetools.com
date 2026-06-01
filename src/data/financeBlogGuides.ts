@@ -431,6 +431,26 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/',
     label: 'CFPB: What is a Loan Estimate?',
   },
+  cfpbRefinanceHandout: {
+    href: 'https://files.consumerfinance.gov/f/documents/cfpb_should_i_refinance_handout.pdf',
+    label: 'CFPB: Should I refinance? handout',
+  },
+  cfpbMortgageApr: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-mortgage-interest-rate-and-an-apr-en-135/',
+    label: 'CFPB: Mortgage interest rate vs. APR',
+  },
+  cfpbMortgageClosingFees: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-fees-or-charges-are-paid-when-closing-on-a-mortgage-and-who-pays-them-en-1845/',
+    label: 'CFPB: Mortgage closing fees',
+  },
+  cfpbDiscountPoints: {
+    href: 'https://www.consumerfinance.gov/about-us/newsroom/cfpb-finds-americans-are-paying-upfront-fees-seeking-to-lower-interest-rates-on-mortgages/',
+    label: 'CFPB: Discount point tradeoffs',
+  },
+  cfpbRefinanceRescission: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/how-long-do-i-have-to-rescind-when-does-the-right-of-rescission-start-en-187/',
+    label: 'CFPB: Refinance rescission timing',
+  },
   cfpbAutoTruthInLending: {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-truth-in-lending-disclosure-for-an-auto-loan-en-787/',
     label: 'CFPB: Truth in Lending disclosure for an auto loan',
@@ -1269,7 +1289,14 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'refinance-calculator') {
-    return [sourceLinks.cfpbMortgage, sourceLinks.cfpbAprVsInterest];
+    return [
+      sourceLinks.cfpbRefinanceHandout,
+      sourceLinks.cfpbLoanEstimate,
+      sourceLinks.cfpbMortgageClosingFees,
+      sourceLinks.cfpbMortgageApr,
+      sourceLinks.cfpbDiscountPoints,
+      sourceLinks.cfpbRefinanceRescission,
+    ];
   }
 
   if (toolSlug === '401k-calculator') {
@@ -2916,27 +2943,34 @@ const guideDetails: Record<string, GuideDetail> = {
   'refinance-calculator': {
     summary: 'Learn how a refinance changes payment, loan balance, closing costs, break-even time, and long-term cost.',
     purpose:
-      'The Refinance Calculator compares the loan you have now with a new loan. It is best for seeing whether a lower payment is really from a lower rate or just from stretching the debt over more years.',
+      'The Refinance Calculator compares the loan you have now with a new loan. It is best for checking whether a lower payment comes from a better rate, a longer term, or costs being rolled into the new balance.',
     enter: [
       'Enter the current balance, current rate, and remaining years on the loan you already have.',
       'Enter the new rate, new term, and closing costs from the refinance idea you want to test.',
-      'Use closing costs as dollars. In this calculator those costs are added to the new principal, so the new loan balance starts higher.',
+      'Use closing costs as dollars. This calculator adds those costs to the new principal, so the new loan balance starts higher.',
     ],
     example: [
-      '$280,000 at 7% for the remaining term is compared with a new loan at 5.9% plus $4,500 in costs.',
-      'The calculator estimates both payments, subtracts the new payment from the current payment, then divides closing costs by monthly savings when savings are positive.',
+      '$280,000 at 7% with 26 years left is about $1,951.15 per month in this model.',
+      'A new 30-year loan at 5.9% with $4,500 costs rolled in starts at $284,500 and is about $1,687.47 per month.',
+      'That saves about $263.67 per month, so the simple break-even is about 17.1 months.',
     ],
     read: [
       'Monthly savings is useful, but it is not the whole story.',
       'Break-even months shows about how long the payment savings may take to cover closing costs.',
-      'Total cost change helps catch the sneaky part: a longer new term can lower the monthly payment but raise total cost over time.',
+      'Total cost change helps catch the sneaky part: a longer new term can lower the monthly payment but still raise total cost over time.',
+      'If the new payment is higher, the calculator shows no monthly-savings break-even.',
     ],
     mistakes: [
       'Do not ignore closing costs, escrow changes, points, prepaids, lender fees, title fees, appraisal fees, and prepayment penalties.',
       'Do not call a refinance better just because the monthly payment drops.',
-      'Do not use this as a loan disclosure. Use the lender Loan Estimate for real terms.',
+      'Do not treat interest rate and APR as the same thing when fees or points are part of the quote.',
+      'Do not use this as a loan disclosure. Use the lender Loan Estimate and Closing Disclosure for real terms.',
     ],
-    next: ['Use Mortgage Payoff Calculator if you want to compare extra payments instead.', 'Use APR Calculator if fees make two rate offers hard to compare.'],
+    next: [
+      'Use APR Calculator if points or lender fees make two refinance offers hard to compare.',
+      'Use Mortgage Payoff Calculator if extra payments on the current loan may be simpler.',
+      'Use Mortgage Calculator when you want the full payment picture with taxes and insurance.',
+    ],
   },
   'budget-calculator': {
     summary: 'Learn how income, monthly spending, savings, and debt payments turn into leftover money and budget ratios.',

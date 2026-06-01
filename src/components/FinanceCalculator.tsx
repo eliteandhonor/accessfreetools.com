@@ -1669,7 +1669,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Refinance Calculator',
     buttonLabel: 'Estimate refinance',
     emptyHistory: 'Recent refinance estimates will appear here.',
-    privacyNote: 'Refinance estimates do not include underwriting, taxes, escrow changes, credit rules, prepayment penalties, or lender disclosures.',
+    privacyNote:
+      'Refinance estimates do not include underwriting, APR disclosures, taxes, escrow changes, points, lender credits, prepayment penalties, rescission timing, or lender approval.',
     modes: [
       {
         id: 'refinance',
@@ -1685,9 +1686,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { currentBalance: '280000', currentAnnualRatePercent: '7', currentYears: '26', newAnnualRatePercent: '5.9', newYears: '30', closingCosts: '4500' },
         examples: [
-          { label: 'Mortgage refinance', inputs: { currentBalance: '280000', currentAnnualRatePercent: '7', currentYears: '26', newAnnualRatePercent: '5.9', newYears: '30', closingCosts: '4500' } },
-          { label: 'Shorter term', inputs: { currentBalance: '220000', currentAnnualRatePercent: '6.8', currentYears: '24', newAnnualRatePercent: '5.7', newYears: '15', closingCosts: '3800' } },
-          { label: 'Small cost', inputs: { currentBalance: '120000', currentAnnualRatePercent: '8', currentYears: '10', newAnnualRatePercent: '6.5', newYears: '10', closingCosts: '1500' } },
+          { label: '$1,687.47/mo refi', inputs: { currentBalance: '280000', currentAnnualRatePercent: '7', currentYears: '26', newAnnualRatePercent: '5.9', newYears: '30', closingCosts: '4500' } },
+          { label: '$1,852.47/mo shorter term', inputs: { currentBalance: '220000', currentAnnualRatePercent: '6.8', currentYears: '24', newAnnualRatePercent: '5.7', newYears: '15', closingCosts: '3800' } },
+          { label: '19.7-month break-even', inputs: { currentBalance: '120000', currentAnnualRatePercent: '8', currentYears: '10', newAnnualRatePercent: '6.5', newYears: '10', closingCosts: '1500' } },
         ],
       },
     ],

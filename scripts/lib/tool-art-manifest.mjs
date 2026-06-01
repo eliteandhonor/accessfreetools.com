@@ -136,6 +136,18 @@ const toolArtMetadataOverrides = {
         'Personal Loan Calculator guide artwork supports the walkthrough by showing why the fee, APR, cash received, payment, and lender warning signs matter before signing.',
     },
   },
+  'refinance-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing a current $280,000 loan with a 5.9 percent refinance, rolled closing costs, new payment, monthly savings, break-even months, and total cost change cards.',
+      caption:
+        'Refinance Calculator artwork matches the workflow: current balance, current rate, new rate, new term, closing costs, new payment, monthly savings, break-even time, and total cost change.',
+    },
+    guide: {
+      alt: 'Smoke mascot checking a refinance offer beside Loan Estimate notes, APR and point cards, closing-cost receipt, break-even calendar, and rescission timing reminder.',
+      caption:
+        'Refinance Calculator guide artwork supports the walkthrough by showing why payment savings, closing costs, APR, points, break-even time, and lender disclosures need checking together.',
+    },
+  },
   'payment-calculator': {
     tool: {
       alt: 'Smoke mascot linking amount financed, interest-rate gauge, term calendar, and a row of monthly payment cards for the Payment Calculator.',
