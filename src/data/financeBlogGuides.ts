@@ -727,6 +727,18 @@ const sourceLinks = {
     href: 'https://openstax.org/books/principles-finance/pages/6-3-profitability-ratios-and-the-dupont-method',
     label: 'OpenStax Principles of Finance: Profitability ratios and the DuPont method',
   },
+  openStaxMarketValueRatios: {
+    href: 'https://openstax.org/books/principles-finance/pages/6-5-market-value-ratios',
+    label: 'OpenStax Principles of Finance: Market value ratios',
+  },
+  openStaxStockValuationMultiples: {
+    href: 'https://openstax.org/books/principles-finance/pages/11-1-multiple-approaches-to-stock-valuation',
+    label: 'OpenStax Principles of Finance: Stock valuation multiples',
+  },
+  finraEvaluatingStocks: {
+    href: 'https://www.finra.org/investors/investing/investment-products/stocks/evaluating-stocks',
+    label: 'FINRA: Evaluating stocks',
+  },
   openStaxOperatingEfficiencyRatios: {
     href: 'https://openstax.org/books/principles-finance/pages/6-2-operating-efficiency-ratios',
     label: 'OpenStax Principles of Finance: Operating efficiency ratios',
@@ -1088,7 +1100,16 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.openStaxProfitabilityRatios, sourceLinks.secFinancialStatements];
   }
 
-  if (['liquidity-ratios-calculator', 'stock-ratios-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'stock-ratios-calculator') {
+    return [
+      sourceLinks.openStaxMarketValueRatios,
+      sourceLinks.openStaxStockValuationMultiples,
+      sourceLinks.finraEvaluatingStocks,
+      sourceLinks.secFinancialStatements,
+    ];
+  }
+
+  if (toolSlug === 'liquidity-ratios-calculator') {
     return [sourceLinks.openStaxFinancialStatementAnalysis, sourceLinks.secFinancialStatements];
   }
 
@@ -1438,17 +1459,18 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Stock Ratios Calculator for per-share valuation ratios.', 'Use Debt Ratios Calculator to see whether debt is affecting returns.'],
   },
   'stock-ratios-calculator': {
-    summary: 'Learn how P/E, price-to-sales, price-to-book, dividend yield, and payout ratio are calculated from per-share values.',
+    summary: 'Learn how P/E, price-to-sales, price-to-book, dividend yield, and payout ratio compare share price with per-share business numbers.',
     purpose:
-      'The Stock Ratios Calculator is for learning valuation math. It turns stock price, earnings, sales, book value, and dividend into common ratios people use when researching stocks.',
+      'The Stock Ratios Calculator keeps market ratios separate. It shows how price compares with EPS, sales, book value, and dividends before you decide what those clues might mean.',
     enter: [
       'Enter stock price as the share price you want to analyze.',
-      'Enter earnings per share, sales per share, and book value per share as positive per-share values.',
+      'Enter EPS, sales per share, and book value per share from the same reporting context when possible.',
       'Enter annual dividend per share if the stock pays one, or 0 if it does not.',
     ],
     example: [
-      'If price is $18 and EPS is $1.20, P/E is 15x.',
-      'If dividend is $0.45, dividend yield is 2.5% and payout ratio is 37.5% of EPS.',
+      'With an $18 price and $1.20 EPS, P/E is 15x.',
+      'With $9.50 sales per share and $2.60 book value per share, P/S is 1.89x and P/B is 6.92x.',
+      'With a $0.45 annual dividend, dividend yield is 2.5% and payout ratio is 37.5% of EPS.',
     ],
     read: [
       'P/E compares price with earnings per share.',
@@ -1457,7 +1479,8 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
     mistakes: [
       'Do not treat a low P/E as automatically cheap or a high P/E as automatically bad.',
-      'Do not use old per-share data if the company has changed a lot.',
+      'Do not mix a current price with stale EPS, stale sales per share, or old book value after a split, buyback, or big balance sheet change.',
+      'Do not trust a high dividend yield without checking whether the payout can survive.',
       'Do not use this as investment advice. Ratios are starting clues, not a full decision.',
     ],
     next: ['Use Profitability Ratios Calculator to understand the business behind the per-share numbers.', 'Use ROI Calculator for a simple return estimate.'],
@@ -3672,6 +3695,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Profitability Ratios Calculator Guide';
   }
 
+  if (tool.slug === 'stock-ratios-calculator') {
+    return 'Stock Ratios Calculator Guide';
+  }
+
   if (tool.slug === 'average-return-calculator') {
     return 'Average Return Calculator Guide';
   }
@@ -3773,6 +3800,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'profitability-ratios-calculator') {
     return 'Learn gross margin, operating margin, net margin, ROA, ROE, EPS, P/E, statement timing, and profit-ratio limits.';
+  }
+
+  if (tool.slug === 'stock-ratios-calculator') {
+    return 'Learn P/E, price-to-sales, price-to-book, dividend yield, payout ratio, per-share inputs, and stock-ratio limits.';
   }
 
   if (tool.slug === 'average-return-calculator') {
@@ -3941,6 +3972,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isDebtRatiosGuide = tool.slug === 'debt-ratios-calculator';
   const isOperationsRatiosGuide = tool.slug === 'operations-ratios-calculator';
   const isProfitabilityRatiosGuide = tool.slug === 'profitability-ratios-calculator';
+  const isStockRatiosGuide = tool.slug === 'stock-ratios-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
   const isDownPaymentGuide = tool.slug === 'down-payment-calculator';
   const isLoanGuide = tool.slug === 'loan-calculator';
@@ -4021,6 +4053,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Operations ratios can look good or bad for the wrong reason. This guide keeps inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier separate so you can see what moved.'
       : isProfitabilityRatiosGuide
       ? 'Profitability ratios can make a company look great too quickly. This guide keeps gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E separate so you can see which part is doing the work.'
+      : isStockRatiosGuide
+      ? 'Stock ratios can make a stock look cheap or expensive too quickly. This guide keeps P/E, P/S, P/B, dividend yield, and payout ratio separate so you can see what the price is being compared with.'
       : isCanadianMortgageGuide
       ? 'A Canadian mortgage payment is not just price divided by months. This guide shows how down payment, amortization, payment frequency, and semi-annual compounding turn into the payment, LTV, and interest estimate.'
       : isDownPaymentGuide
@@ -4294,6 +4328,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter shares outstanding and price per share if you want EPS and P/E.',
           'Calculate, then read gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E as separate checks.',
         ]
+      : isStockRatiosGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter the stock price you want to compare.',
+          'Enter EPS, sales per share, and book value per share from the same reporting context when possible.',
+          'Enter annual dividend per share, or 0 if the stock does not pay one.',
+          'Calculate, then read P/E, P/S, P/B, dividend yield, and payout ratio as separate clues.',
+        ]
       : isCanadianMortgageGuide
       ? [
           `Open the ${tool.name}.`,
@@ -4421,6 +4463,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before reading operations-heavy statements, asking why cash is stuck in inventory or receivables, checking whether assets are producing sales, or preparing sharper questions for an accountant or manager.'
             : isProfitabilityRatiosGuide
             ? 'Use it before comparing companies, asking why profit changed, checking whether returns come from assets or equity, or preparing sharper questions about margins, debt, shares, and price.'
+            : isStockRatiosGuide
+            ? 'Use it before comparing valuation ratios, checking whether a dividend stock needs a payout warning, or preparing sharper questions about EPS, sales, book value, dividends, debt, and growth.'
             : isCanadianMortgageGuide
             ? 'Use it before comparing mortgage quotes, testing a down payment, checking a biweekly payment, or seeing how much a shorter amortization changes the payment.'
             : isDownPaymentGuide
@@ -4529,6 +4573,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Operations ratios get misleading when period numbers and snapshot numbers are mixed. Keep COGS, sales, credit sales, average inventory, average assets, and average receivables matched to the same period.'
             : isProfitabilityRatiosGuide
             ? 'Profitability ratios get misleading when income statement numbers, average balance sheet numbers, share counts, and price come from different periods. Keep sales, COGS, operating income, net income, average assets, average equity, shares, and price matched to the question.'
+            : isStockRatiosGuide
+            ? 'Stock ratios get misleading when a live share price is mixed with old EPS, old sales per share, old book value, or a dividend that has already changed. Keep the price, per-share numbers, and dividend period matched to the question.'
             : isCanadianMortgageGuide
             ? 'Canadian mortgage estimates need the price, down payment, nominal annual rate, amortization, and payment frequency to stay together. A small rate or amortization change can move both the payment and total interest.'
             : isDownPaymentGuide
@@ -4607,6 +4653,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $600,000 COGS, $90,000 beginning inventory, $110,000 ending inventory, $950,000 net sales, $500,000 average assets, $700,000 credit sales, and $80,000 average receivables. The estimate is 6x inventory turnover, 1.90x asset turnover, 8.75x receivables turnover, and about 41.71 collection days.'
               : isProfitabilityRatiosGuide
               ? 'Try the starter example: $950,000 sales, $600,000 COGS, $180,000 operating income, $120,000 net income, $500,000 average assets, $260,000 average equity, 100,000 shares, and an $18 share price. The estimate is 36.84% gross margin, 18.95% operating margin, 12.63% net margin, 24% ROA, 46.15% ROE, $1.20 EPS, and 15x P/E.'
+              : isStockRatiosGuide
+              ? 'Try the starter example: an $18 share price, $1.20 EPS, $9.50 sales per share, $2.60 book value per share, and a $0.45 annual dividend. The estimate is 15x P/E, 1.89x P/S, 6.92x P/B, 2.5% dividend yield, and 37.5% payout ratio.'
               : isCanadianMortgageGuide
               ? 'Try the starter example: a $600,000 property, $120,000 down payment, 5.1% rate, and 25-year amortization. The estimate is about $2,819.09 per month, with a $480,000 loan, 80% LTV, and about $365,727.47 in interest.'
               : isDownPaymentGuide
@@ -4684,6 +4732,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The same statements can tell different operations stories. Inventory turnover uses COGS and average inventory, asset turnover uses sales and average assets, and receivables turnover uses credit sales and average receivables.'
             : isProfitabilityRatiosGuide
             ? 'The same statements can tell different profit stories. Gross margin uses gross profit, operating margin uses operating income, net margin uses net income, ROA uses average assets, ROE uses average equity, and P/E uses share price compared with EPS.'
+            : isStockRatiosGuide
+            ? 'The same stock price can tell different stories. P/E compares price with EPS, P/S compares price with sales per share, P/B compares price with book value, yield compares dividend with price, and payout compares dividend with EPS.'
             : isCanadianMortgageGuide
             ? 'The calculator first turns the nominal annual rate into an effective annual rate using semi-annual compounding. Then it converts that rate to the selected payment period and runs the fixed-payment formula.'
             : isDownPaymentGuide
@@ -4730,6 +4780,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with inventory turnover, then compare asset turnover and receivables turnover. A faster collection period can help cash, but very high turnover can also signal strict credit terms or stock levels that are too thin.'
             : isProfitabilityRatiosGuide
             ? 'Start with the three margins, then compare ROA and ROE. If ROE looks much stronger than ROA, check debt and equity context before calling the business better.'
+            : isStockRatiosGuide
+            ? 'Start with P/E, then compare P/S and P/B. If the dividend yield looks high, check payout ratio and dividend history before treating the yield like easy income.'
             : isCanadianMortgageGuide
             ? 'Start with the payment, then check whether it is monthly, biweekly, semimonthly, or weekly. Then read loan amount, LTV, payment count, and total interest so the payment has context.'
             : isDownPaymentGuide
@@ -4803,6 +4855,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad operations-ratio checks come from mixing statement periods, using net sales where credit sales belongs, ignoring seasonal inventory, or treating a high turnover number like it is always good.'
             : isProfitabilityRatiosGuide
             ? 'Most bad profitability checks come from mixing periods, ignoring one-time gains or costs, comparing unlike industries, treating high ROE as automatically good, or reading P/E like it is a recommendation.'
+            : isStockRatiosGuide
+            ? 'Most bad stock-ratio checks come from mixing fresh prices with stale per-share numbers, ignoring negative EPS, treating a low P/E like a bargain, or trusting a high dividend yield without checking payout risk.'
             : isCanadianMortgageGuide
             ? 'Most bad Canadian mortgage estimates come from forgetting default insurance, mixing monthly and biweekly payments, using the wrong compounding assumption, or treating payment math as lender qualification.'
             : isDownPaymentGuide
@@ -5109,6 +5163,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'OpenStax is useful here because it separates accounts receivable turnover, total asset turnover, inventory turnover, and days sales in inventory as operating-efficiency checks. The SEC guide is useful because inventory, assets, revenue, receivables, cash flow, and footnotes all affect how the ratios should be read.'
             : isProfitabilityRatiosGuide
             ? 'OpenStax is useful here because it separates gross profit margin, operating margin, net profit margin, ROA, ROE, EPS, and price-to-earnings as profitability checks. The SEC guide is useful because income statement layers, shares, assets, equity, cash flow, and footnotes all affect how the ratios should be read.'
+            : isStockRatiosGuide
+            ? 'OpenStax is useful here because it separates EPS, P/E, book value per share, P/S, P/B, and dividend yield as market-value and valuation checks. FINRA and the SEC are useful because real stock research also needs financial statements, earnings reports, risks, fees, and personal fit.'
             : isCanadianMortgageGuide
             ? 'Canada.ca explains mortgage terms, amortization, down payment, and mortgage loan insurance. OSFI explains the minimum qualifying rate stress-test idea, while the Bank of Canada policy-rate page helps separate central-bank rate news from the exact lender rate in your quote.'
             : isDownPaymentGuide

@@ -551,6 +551,21 @@ const openStaxProfitabilityRatios = {
   label: 'OpenStax Principles of Finance: Profitability ratios and the DuPont method',
 };
 
+const openStaxMarketValueRatios = {
+  href: 'https://openstax.org/books/principles-finance/pages/6-5-market-value-ratios',
+  label: 'OpenStax Principles of Finance: Market value ratios',
+};
+
+const openStaxStockValuationMultiples = {
+  href: 'https://openstax.org/books/principles-finance/pages/11-1-multiple-approaches-to-stock-valuation',
+  label: 'OpenStax Principles of Finance: Stock valuation multiples',
+};
+
+const finraEvaluatingStocks = {
+  href: 'https://www.finra.org/investors/investing/investment-products/stocks/evaluating-stocks',
+  label: 'FINRA: Evaluating stocks',
+};
+
 const openStaxOperatingEfficiencyRatios = {
   href: 'https://openstax.org/books/principles-finance/pages/6-2-operating-efficiency-ratios',
   label: 'OpenStax Principles of Finance: Operating efficiency ratios',
@@ -7621,20 +7636,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'stock-ratios-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-business-ratios-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [calculatorSoupSitemap, openStaxFinancialStatementAnalysis, secFinancialStatements, googleHelpfulContent],
+    sources: [calculatorSoupSitemap, openStaxMarketValueRatios, openStaxStockValuationMultiples, finraEvaluatingStocks, secFinancialStatements, googleHelpfulContent],
     findings: [
-      'Stock valuation ratios were added as a separate per-share utility instead of mixing market ratios into the profitability page only.',
-      'Formula review checked P/E, price-to-sales, price-to-book, dividend yield, and payout ratio from per-share inputs.',
-      'FAQ and guide explain that ratios are research starting points, not investment recommendations, and that positive EPS is required for simple P/E.',
+      'Live baseline found generic finance title text, generic trust wording, generic image alt wording, no tool source links, and template guide phrases on the stock ratios tool and guide.',
+      'DataForSEO page sprint required page-specific proof before the tool or guide could be marked approved.',
+      'OpenStax market-value and valuation-multiple guidance, FINRA stock-evaluation guidance, and SEC financial-statement guidance support keeping P/E, P/S, P/B, dividend yield, and payout ratio separate.',
     ],
     improvements: [
-      'Added stock-ratio UI, examples, guide detail, FAQ depth, related profitability and ROI pathways, and formula tests.',
+      'Rebuilt title/meta, examples, calculator note, input explanations, FAQ answers, guide title, guide meta, source-backed guide copy, trust wording, image alt/caption, sitemap dates, and page-specific proof around stock price, EPS, sales per share, book value per share, dividend per share, P/E, P/S, P/B, dividend yield, and payout ratio.',
     ],
     followUps: [
       'Add negative-EPS education only if the page can display non-meaningful P/E states cleanly.',
+      'Add industry benchmark notes only after a vetted benchmark data source is chosen.',
     ],
   },
 ];

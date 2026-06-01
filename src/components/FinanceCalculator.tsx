@@ -1486,7 +1486,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Stock Ratios Calculator',
     buttonLabel: 'Calculate stock ratios',
     emptyHistory: 'Recent stock ratio checks will appear here.',
-    privacyNote: 'Stock ratios are educational valuation math and do not include risk, growth quality, market timing, taxes, fees, or investment advice.',
+    privacyNote:
+      'Stock ratio checks stay in this tab. They do not judge growth quality, debt risk, accounting quality, dividend safety, market timing, taxes, fees, portfolio fit, or investment quality.',
     modes: [
       {
         id: 'stock-ratios',
@@ -1501,9 +1502,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { stockPrice: '18', earningsPerShare: '1.2', salesPerShare: '9.5', bookValuePerShare: '2.6', dividendPerShare: '0.45' },
         examples: [
-          { label: 'Dividend stock', inputs: { stockPrice: '18', earningsPerShare: '1.2', salesPerShare: '9.5', bookValuePerShare: '2.6', dividendPerShare: '0.45' } },
-          { label: 'Growth stock', inputs: { stockPrice: '75', earningsPerShare: '2.5', salesPerShare: '18', bookValuePerShare: '8', dividendPerShare: '0' } },
-          { label: 'Value check', inputs: { stockPrice: '32', earningsPerShare: '4', salesPerShare: '45', bookValuePerShare: '21', dividendPerShare: '1.2' } },
+          { label: '15x P/E / 2.5% yield', inputs: { stockPrice: '18', earningsPerShare: '1.2', salesPerShare: '9.5', bookValuePerShare: '2.6', dividendPerShare: '0.45' } },
+          { label: '30x P/E / no dividend', inputs: { stockPrice: '75', earningsPerShare: '2.5', salesPerShare: '18', bookValuePerShare: '8', dividendPerShare: '0' } },
+          { label: '8x P/E / 3.75% yield', inputs: { stockPrice: '32', earningsPerShare: '4', salesPerShare: '45', bookValuePerShare: '21', dividendPerShare: '1.2' } },
         ],
       },
     ],
@@ -3765,8 +3766,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         metrics: [
           { label: 'Price-to-sales', value: `${formatCalculatorNumber(result.priceSalesRatio)}x` },
           { label: 'Price-to-book', value: `${formatCalculatorNumber(result.priceBookRatio)}x` },
-          { label: 'Dividend yield', value: percent(result.dividendYieldPercent) },
-          { label: 'Payout ratio', value: percent(result.payoutRatioPercent) },
+          { label: 'Dividend yield', value: roundedPercent(result.dividendYieldPercent) },
+          { label: 'Payout ratio', value: roundedPercent(result.payoutRatioPercent) },
         ],
         steps: [
           'Divide stock price by earnings per share for P/E.',
@@ -3775,7 +3776,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide dividend per share by stock price for dividend yield.',
           'Divide dividend per share by EPS for payout ratio.',
         ],
-        note: 'Stock ratios do not say whether a stock is good or bad. Growth, debt, risk, accounting quality, and future expectations matter too.',
+        note:
+          'Stock ratios need matching per-share data, trailing versus forward EPS context, dividend history, debt checks, accounting quality, and industry context before anyone treats them as useful.',
       };
     }
     case 'discount': {

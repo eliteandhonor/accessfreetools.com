@@ -666,15 +666,16 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     name: 'Stock Ratios Calculator',
     summary: 'Calculate P/E, price-to-sales, price-to-book, dividend yield, and payout ratio.',
     description:
-      'Use this free stock ratios calculator to estimate price-to-earnings, price-to-sales, price-to-book, dividend yield, and payout ratio from per-share inputs.',
+      'Calculate price-to-earnings, price-to-sales, price-to-book, dividend yield, and payout ratio from share price and per-share inputs.',
+    seoTitle: 'Stock Ratios Calculator | P/E, P/S, P/B & Yield',
     seoDescription:
-      'Calculate stock valuation ratios including P/E, price-to-sales, price-to-book, dividend yield, and payout ratio from stock price and per-share values.',
+      'Calculate P/E, price-to-sales, price-to-book, dividend yield, and payout ratio with clear per-share examples and stock-ratio limits.',
     icon: 'calculator-stock-ratios',
     aliases: ['pe ratio calculator', 'price to sales calculator', 'price to book calculator', 'dividend yield calculator'],
     formula:
-      'The calculator divides stock price by EPS, sales per share, and book value per share, then compares dividend per share with price and earnings.',
+      'The calculator divides stock price by EPS for P/E, by sales per share for P/S, and by book value per share for P/B. It divides annual dividend per share by stock price for dividend yield, then divides dividend per share by EPS for payout ratio.',
     limit:
-      'This does not include future growth, analyst estimates, debt risk, accounting quality, dilution, taxes, fees, portfolio fit, or investment advice.',
+      'This does not include future growth, analyst estimates, debt risk, accounting quality, share dilution, dividend cuts, buybacks, industry norms, taxes, trading fees, portfolio fit, or investment advice.',
     useCases: [
       'Calculate common stock valuation ratios from per-share numbers.',
       'Compare P/E, price-to-sales, and price-to-book side by side.',
@@ -682,11 +683,11 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Learn what each ratio is measuring before researching a stock deeper.',
     ],
     examples: [
-      { label: 'Dividend stock', expression: '$18 price, $1.20 EPS, $0.45 dividend', result: 'Valuation and dividend ratios' },
-      { label: 'Growth stock', expression: '$75 price, $2.50 EPS, no dividend', result: 'Higher P/E comparison' },
-      { label: 'Value check', expression: '$32 price, $4 EPS, $21 book value per share', result: 'P/E and price-to-book comparison' },
+      { label: 'Dividend stock', expression: '$18 price, $1.20 EPS, $9.50 sales/share, $2.60 book/share, $0.45 dividend', result: '15x P/E, 1.89x P/S, 6.92x P/B, 2.5% yield, and 37.5% payout' },
+      { label: 'Growth stock', expression: '$75 price, $2.50 EPS, $18 sales/share, $8 book/share, no dividend', result: '30x P/E, 4.17x P/S, 9.38x P/B, and 0% dividend yield' },
+      { label: 'Value check', expression: '$32 price, $4 EPS, $45 sales/share, $21 book/share, $1.20 dividend', result: '8x P/E, 0.71x P/S, 1.52x P/B, 3.75% yield, and 30% payout' },
     ],
-    relatedSlugs: ['profitability-ratios-calculator', 'roi-calculator', 'average-return-calculator'],
+    relatedSlugs: ['roi-calculator', 'present-value-calculator', 'investment-calculator'],
     inputExplanations: [
       { term: 'Stock price', meaning: 'the share price you want to compare with earnings, sales, book value, and dividends.' },
       { term: 'EPS, sales per share, and book value per share', meaning: 'per-share fundamentals used as denominators for valuation ratios.' },
@@ -703,7 +704,25 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
         answer:
           'A normal P/E ratio is easiest to understand when earnings per share are positive. If EPS is zero or negative, the P/E ratio usually needs extra explanation instead of a simple calculator number.',
       },
+      {
+        question: 'What is the difference between dividend yield and payout ratio?',
+        answer:
+          'Dividend yield compares the annual dividend with the share price. Payout ratio compares the same dividend with EPS. A stock can have a high yield because the dividend is large, because the price fell, or because the market expects trouble.',
+      },
+      {
+        question: 'Why can price-to-book be misleading?',
+        answer:
+          'Book value comes from accounting records. It may miss brand value, software, debt risk, old asset values, buybacks, or write-down risk. P/B is a clue, not a full valuation.',
+      },
     ],
+    formulaCheck:
+      'Use per-share numbers from the same reporting period when possible. Check whether EPS is trailing or forward, whether dividends are annualized, and whether book value per share already reflects recent buybacks or share-count changes.',
+    resultReading:
+      'P/E says how many dollars of price sit on each dollar of EPS. P/S compares price with sales per share. P/B compares market price with accounting book value. Dividend yield compares dividend with price, while payout ratio compares dividend with EPS.',
+    doubleCheck:
+      'Double-check EPS type, share splits, stale prices, special dividends, missing dividends, negative EPS, and whether the company changed its share count or balance sheet after the numbers you entered.',
+    limitFollowup:
+      'Use full filings, earnings notes, cash-flow reports, debt ratios, profit ratios, dividend history, share-count notes, industry comparisons, and personal risk limits before treating a stock ratio as useful.',
   },
   {
     slug: 'marriage-tax-calculator',

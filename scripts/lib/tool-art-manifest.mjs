@@ -352,6 +352,18 @@ const toolArtMetadataOverrides = {
         'Profitability Ratios Calculator guide artwork supports the walkthrough by separating margin math, return math, per-share math, one-time gains, taxes, cash flow, debt load, share dilution, and industry context.',
     },
   },
+  'stock-ratios-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing $18 stock price, $1.20 EPS, $9.50 sales per share, $2.60 book value per share, $0.45 dividend, 15x P/E, 1.89x P/S, 6.92x P/B, 2.5% yield, and 37.5% payout cards.',
+      caption:
+        'Stock Ratios Calculator artwork matches the live workflow: stock price, EPS, sales per share, book value per share, dividend per share, P/E, price-to-sales, price-to-book, dividend yield, and payout ratio.',
+    },
+    guide: {
+      alt: 'Smoke mascot sorting stock-ratio cards for share price, EPS, sales per share, book value, dividend, P/E, P/S, P/B, yield, payout, debt risk, and dividend-cut warnings.',
+      caption:
+        'Stock Ratios Calculator guide artwork supports the walkthrough by separating valuation multiples, dividend math, trailing versus forward EPS, accounting quality, dividend safety, debt, dilution, and industry context.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',

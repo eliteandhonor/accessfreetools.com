@@ -666,6 +666,13 @@ const financeToolInstructions = financeToolVariant
         'Enter shares outstanding and price per share only if you want EPS and P/E context.',
         'Calculate, then compare gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E before trusting one number.',
       ]
+    : tool.slug === 'stock-ratios-calculator'
+    ? [
+        'Enter the stock price you want to compare.',
+        'Enter EPS, sales per share, and book value per share from the same reporting context when possible.',
+        'Enter annual dividend per share, or 0 if the stock does not pay one.',
+        'Calculate, then compare P/E, P/S, P/B, dividend yield, and payout ratio as separate clues.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
@@ -2108,6 +2115,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Operating ratio check'
               : tool.slug === 'profitability-ratios-calculator'
               ? 'Profitability ratio check'
+              : tool.slug === 'stock-ratios-calculator'
+              ? 'Market-ratio check'
               : 'Estimate, not advice'}
           </span>
           <span>
@@ -2141,6 +2150,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Turnover and collection days'
               : tool.slug === 'profitability-ratios-calculator'
               ? 'Margins, returns, EPS, P/E'
+              : tool.slug === 'stock-ratios-calculator'
+              ? 'P/E, P/S, P/B, yield'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -3349,6 +3360,35 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" rel="noreferrer" target="_blank">
                   Google helpful content guidance
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'stock-ratios-calculator' ? (
+            <>
+              <strong>Stock-ratio check, not investment advice</strong>
+              <p>
+                Use this to compare stock price, EPS, sales per share, book value per share, annual dividend per
+                share, P/E, price-to-sales, price-to-book, dividend yield, and payout ratio. A real stock review can
+                still change with trailing versus forward EPS, dividend cuts, debt load, cash flow, accounting
+                quality, buybacks, dilution, growth expectations, industry norms, taxes, fees, and personal risk.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://openstax.org/books/principles-finance/pages/6-5-market-value-ratios" rel="noreferrer" target="_blank">
+                  OpenStax market value ratios
+                </a>
+                {', '}
+                <a href="https://openstax.org/books/principles-finance/pages/11-1-multiple-approaches-to-stock-valuation" rel="noreferrer" target="_blank">
+                  OpenStax stock valuation multiples
+                </a>
+                {', '}
+                <a href="https://www.finra.org/investors/investing/investment-products/stocks/evaluating-stocks" rel="noreferrer" target="_blank">
+                  FINRA evaluating stocks
+                </a>
+                {', and '}
+                <a href="https://www.sec.gov/about/reports-publications/investorpubsbegfinstmtguide" rel="noreferrer" target="_blank">
+                  SEC financial statement guide
                 </a>
                 .
               </p>
