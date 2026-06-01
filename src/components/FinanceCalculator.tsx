@@ -1174,7 +1174,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Depreciation Calculator',
     buttonLabel: 'Estimate depreciation',
     emptyHistory: 'Recent depreciation estimates will appear here.',
-    privacyNote: 'Depreciation estimates are simplified book-value math and do not determine tax depreciation, accounting policy, or IRS compliance.',
+    privacyNote:
+      'Depreciation estimates stay in this browser tab. They are simple book-value math and do not determine IRS MACRS depreciation, section 179, bonus depreciation, class life, recapture, accounting policy, or tax compliance.',
     modes: [
       {
         id: 'depreciation',
@@ -1190,7 +1191,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { cost: '12000', salvageValue: '2000', lifeYears: '5', ageYears: '2', method: 'straight-line', decliningRatePercent: '20' },
         examples: [
-          { label: 'Straight-line asset', inputs: { cost: '12000', salvageValue: '2000', lifeYears: '5', ageYears: '2', method: 'straight-line', decliningRatePercent: '20' } },
+          { label: '$8,000 book value', inputs: { cost: '12000', salvageValue: '2000', lifeYears: '5', ageYears: '2', method: 'straight-line', decliningRatePercent: '20' } },
           { label: 'Declining balance', inputs: { cost: '25000', salvageValue: '5000', lifeYears: '8', ageYears: '3', method: 'declining-balance', decliningRatePercent: '25' } },
           { label: 'One-year check', inputs: { cost: '6000', salvageValue: '1000', lifeYears: '5', ageYears: '1', method: 'straight-line', decliningRatePercent: '20' } },
         ],
@@ -3448,7 +3449,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           method === 'straight-line' ? 'Divide depreciable amount by useful life for annual depreciation.' : 'Apply the declining balance rate to the remaining book value each year.',
           'Cap depreciation so book value does not fall below salvage value.',
         ],
-        note: 'Tax depreciation can use specific rules and schedules that are not modeled here.',
+        note:
+          'This is simple book-value math. IRS depreciation can depend on MACRS tables, section 179, bonus depreciation, placed-in-service dates, conventions, listed property rules, and recapture.',
       };
     }
     case 'average-return': {

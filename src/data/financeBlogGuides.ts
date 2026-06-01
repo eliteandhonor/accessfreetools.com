@@ -2465,27 +2465,31 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Auto Loan Calculator if buying might be better.', 'Use Cash Back or Low Interest Calculator for dealer incentive comparisons.', 'Use Lease Calculator for non-car lease math.'],
   },
   'depreciation-calculator': {
-    summary: 'Learn how cost, salvage value, useful life, age, and method affect depreciation and book value.',
+    summary: 'Learn how cost, salvage value, useful life, asset age, and method affect depreciation and book value.',
     purpose:
-      'The Depreciation Calculator estimates book value using straight-line or declining-balance math. It is useful for learning the idea, not for filing taxes or setting accounting policy.',
+      'The Depreciation Calculator estimates book value using straight-line or declining-balance math. It is useful for learning the idea or checking a simple book-value schedule, not for filing taxes or setting accounting policy.',
     enter: [
       'Enter original cost and estimated salvage value as dollar amounts.',
       'Enter useful life and asset age in years.',
       'Choose straight-line for even depreciation or declining balance for faster early depreciation.',
+      'For declining balance, enter the yearly rate as a percent, such as 25 for 25%.',
     ],
     example: [
       '$12,000 cost minus $2,000 salvage gives $10,000 of depreciable amount.',
-      'With a 5-year straight-line life, the calculator estimates $2,000 of depreciation per year until salvage value is reached.',
+      'With a 5-year straight-line life, annual depreciation is $2,000. After 2 years, accumulated depreciation is $4,000 and book value is $8,000.',
+      '$25,000 cost, $5,000 salvage, 25% declining balance, and age 3 gives about $10,546.88 book value in this simple model.',
     ],
     read: [
       'Book value is cost minus accumulated depreciation.',
       'Accumulated depreciation is the total depreciation counted so far.',
       'Annual depreciation estimate shows the current simple yearly amount for the selected method.',
+      'Declining-balance results usually count more depreciation earlier, then slow down as book value falls.',
     ],
     mistakes: [
       'Do not use this as tax depreciation advice.',
-      'Do not ignore MACRS class life, partial-year conventions, bonus depreciation, recapture, or accounting policy.',
+      'Do not ignore MACRS class life, placed-in-service dates, partial-year conventions, section 179, bonus depreciation, listed property rules, recapture, or accounting policy.',
       'Do not set salvage value equal to or above cost.',
+      'Do not treat asset age as the same thing as an IRS placed-in-service date.',
     ],
     next: ['Use Business Loan Calculator if the asset was financed.', 'Use Average Return Calculator to compare investment-style performance.'],
   },
@@ -3543,6 +3547,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Auto Lease Calculator Guide';
   }
 
+  if (tool.slug === 'depreciation-calculator') {
+    return 'Depreciation Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3604,6 +3612,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'auto-lease-calculator') {
     return 'Estimate a car lease payment from price, residual value, money factor, fees, tax, and term, with lease quote checks.';
+  }
+
+  if (tool.slug === 'depreciation-calculator') {
+    return 'Learn straight-line and declining-balance depreciation with cost, salvage value, useful life, accumulated depreciation, and book value examples.';
   }
 
   if (tool.slug === 'fha-loan-calculator') {

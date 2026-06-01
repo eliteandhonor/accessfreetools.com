@@ -280,6 +280,18 @@ const toolArtMetadataOverrides = {
         'Auto Lease Calculator guide artwork supports the walkthrough by tying lease math to written quote checks: amount due at signing, mileage limits, fees, wear rules, purchase option, and total lease amount.',
     },
   },
+  'depreciation-calculator': {
+    tool: {
+      alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',
+      caption:
+        'Depreciation Calculator artwork matches the live workflow: cost, salvage value, useful life, age, method, accumulated depreciation, annual depreciation, and book value.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing straight-line depreciation with declining-balance depreciation beside asset cost, salvage value, useful life, book value, IRS limits, and tax-rule warning notes.',
+      caption:
+        'Depreciation Calculator guide artwork supports the walkthrough by separating simple book-value math from IRS MACRS, section 179, bonus depreciation, recapture, and accounting-policy limits.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

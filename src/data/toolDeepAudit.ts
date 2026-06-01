@@ -3068,17 +3068,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'depreciation-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-4-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
     sources: [irsDepreciation, openStaxDepreciation],
     findings: [
+      'DataForSEO evidence is page-specific for depreciation calculator intent, with wording aimed at depreciation expense, accumulated depreciation, book value, straight-line depreciation, and declining-balance depreciation.',
       'The calculator handles straight-line depreciation as depreciable amount divided by useful life and declining-balance depreciation as a rate applied to remaining book value while respecting salvage value.',
       'The guardrails reject salvage value at or above cost and keep book value from dropping below salvage value, matching the educational depreciation model on the page.',
-      'The guide and FAQ now make the tax boundary clear: the tool does not determine MACRS class life, partial-year conventions, bonus depreciation, recapture, or accounting policy.',
+      'Current IRS Publication 946 and OpenStax source checks confirmed the page must keep simple book-value math separate from MACRS, section 179, bonus depreciation, placed-in-service dates, class life, partial-year conventions, listed property rules, recapture, and accounting policy.',
     ],
     improvements: [
-      'Added depreciation-specific guide detail and manually checked straight-line math, declining-balance loop, examples, FAQ cautions, IRS/OpenStax sources, SEO copy, related links, and privacy note.',
+      'Rebuilt title/meta, aliases, examples, input explanations, FAQ answers, guide title, guide meta, source links, trust wording, image alt/caption, sitemap dates, and page-specific proof around straight-line and declining-balance book-value math.',
     ],
     followUps: [
       'Add MACRS-style tax depreciation only as a separate maintained calculator with year-specific source review.',

@@ -4122,26 +4122,62 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'depreciation-calculator',
     name: 'Depreciation Calculator',
-    summary: 'Estimate straight-line or declining-balance depreciation and book value.',
+    seoTitle: 'Depreciation Calculator | Book Value And Expense',
+    seoDescription:
+      'Estimate straight-line or declining-balance depreciation, accumulated depreciation, annual expense, and book value.',
+    summary: 'Estimate depreciation expense, accumulated depreciation, and book value.',
     description:
-      'Use this free depreciation calculator to estimate accumulated depreciation, annual depreciation, and book value from cost, salvage value, useful life, age, and method.',
+      'Estimate straight-line or declining-balance depreciation from cost, salvage value, useful life, asset age, and method.',
     icon: 'calculator-depreciation',
+    aliases: ['depreciation expense calculator', 'straight line depreciation calculator', 'declining balance depreciation calculator', 'book value calculator', 'accumulated depreciation calculator'],
     formula:
-      'Straight-line depreciation divides depreciable amount by useful life. Declining balance applies a percentage rate to the remaining book value while respecting salvage value.',
+      'Depreciable amount = cost - salvage value. Straight-line depreciation divides depreciable amount by useful life. Declining balance applies the selected rate to remaining book value each year while stopping at salvage value.',
     limit:
-      'This is simplified book-value math. It does not determine tax depreciation, MACRS class life, accounting policy, partial-year conventions, recapture, or compliance.',
+      'This is simplified book-value math. It does not determine IRS MACRS depreciation, section 179, bonus depreciation, class life, placed-in-service date, partial-year conventions, listed property rules, recapture, accounting policy, or tax compliance.',
     useCases: [
       'Estimate book value after straight-line depreciation.',
-      'Compare straight-line and declining-balance methods.',
+      'Compare straight-line and declining-balance depreciation.',
       'Check accumulated depreciation for a simple asset example.',
-      'Understand depreciation math before reviewing tax or accounting rules.',
+      'Separate learning math from IRS tax depreciation rules.',
     ],
     examples: [
-      { label: 'Straight-line asset', expression: '$12,000 cost, $2,000 salvage, 5-year life, age 2', result: 'Book value and accumulated depreciation' },
-      { label: 'Declining balance', expression: '$25,000 cost, 25% rate, age 3', result: 'Declining-balance estimate' },
-      { label: 'One-year check', expression: '$6,000 cost, $1,000 salvage, 5-year life', result: 'First-year estimate' },
+      { label: 'Straight-line asset', expression: '$12,000 cost, $2,000 salvage, 5-year life, age 2', result: '$8,000 book value and $4,000 accumulated depreciation' },
+      { label: 'Declining balance', expression: '$25,000 cost, $5,000 salvage, 25% rate, age 3', result: 'About $10,546.88 book value' },
+      { label: 'One-year check', expression: '$6,000 cost, $1,000 salvage, 5-year life, age 1', result: '$5,000 book value after one year' },
     ],
     relatedSlugs: ['average-return-calculator', 'business-loan-calculator', 'finance-calculator'],
+    inputExplanations: [
+      { term: 'Original cost', meaning: 'the starting cost or recorded cost basis for this simple book-value estimate.' },
+      { term: 'Salvage value', meaning: 'the estimated value left at the end of useful life. The calculator does not depreciate below this amount.' },
+      { term: 'Useful life', meaning: 'how many years the asset is expected to be used in this simple model.' },
+      { term: 'Asset age', meaning: 'how many years of depreciation to count so far.' },
+      { term: 'Method', meaning: 'straight-line spreads depreciation evenly; declining balance counts more depreciation earlier.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this IRS tax depreciation?',
+        answer:
+          'No. This calculator teaches straight-line and declining-balance book-value math. IRS depreciation can depend on MACRS tables, class life, placed-in-service date, conventions, section 179, bonus depreciation, and recapture rules.',
+      },
+      {
+        question: 'What is accumulated depreciation?',
+        answer:
+          'Accumulated depreciation is the total depreciation counted so far. Book value is original cost minus accumulated depreciation.',
+      },
+      {
+        question: 'Why does salvage value matter?',
+        answer:
+          'Salvage value is the amount the asset is expected to be worth at the end. This calculator stops depreciation at salvage value so the book value does not go below the floor you entered.',
+      },
+    ],
+    formulaCheck:
+      'For the $12,000 straight-line example, depreciable amount is $10,000. Over 5 years, annual depreciation is $2,000. After 2 years, accumulated depreciation is $4,000 and book value is $8,000.',
+    resultReading:
+      'Read book value first, then check accumulated depreciation and annual depreciation. If you choose declining balance, early years usually have larger depreciation than later years.',
+    doubleCheck:
+      'Check that salvage value is lower than cost, useful life is realistic, and asset age is not being used as a tax placed-in-service rule. Use official IRS guidance or a tax pro before filing depreciation.',
+    limitFollowup:
+      'Use this for learning and rough book-value checks. Do not use it as a MACRS, section 179, bonus depreciation, recapture, or compliance calculator.',
   }),
   makeFinanceTool({
     slug: 'average-return-calculator',
