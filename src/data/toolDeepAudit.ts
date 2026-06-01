@@ -611,6 +611,16 @@ const cfpbAutoLoanTerms = {
   label: 'CFPB: Auto loans key terms',
 };
 
+const cfpbAutoLeaseBuy = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/what-should-i-know-about-leasing-versus-buying-a-car-en-815/',
+  label: 'CFPB: Leasing versus buying a car',
+};
+
+const cfpbRegM = {
+  href: 'https://www.consumerfinance.gov/rules-policy/regulations/1013/',
+  label: 'CFPB Regulation M: Consumer Leasing',
+};
+
 const investorCompound = {
   href: 'https://openstax.org/books/principles-finance/pages/7-2-time-value-of-money-tvm-basics',
   label: 'OpenStax Principles of Finance: Time value of money basics',
@@ -3038,17 +3048,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'auto-lease-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-4-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [ftcAutoLease, cfpbApr],
+    sources: [cfpbAutoLeaseBuy, ftcAutoLease, ftcCarDealerAds, cfpbRegM],
     findings: [
+      'DataForSEO evidence is page-specific for auto lease calculator intent, with wording aimed at payment, money factor, residual value, and lease quote checks instead of generic finance copy.',
       'The calculator subtracts down payment and trade-in from vehicle price plus fees, checks that adjusted capitalized cost is above residual value, then separates depreciation fee, finance fee, tax, and total lease cost.',
-      'The guide and FAQ now explain money factor, residual value, adjusted capitalized cost, mileage limits, acquisition/disposition fees, wear charges, and early termination limits in plain language.',
-      'The UI result labels support quote checking because users can see which part of the payment comes from depreciation versus financing instead of only seeing one monthly number.',
+      'Current CFPB and FTC source checks confirmed that leasing payments cover depreciation plus rental charges, leases often limit mileage, low-payment lease ads can hide fees due at signing, and written quote terms matter before visiting the dealer.',
+      'The guide and FAQ explain money factor, residual value, adjusted capitalized cost, amount due at signing, total lease amount, mileage allowance, acquisition/disposition fees, wear charges, buyout option, and early termination limits in plain language.',
     ],
     improvements: [
-      'Added auto-lease-specific guide detail and manually checked lease formula, edge guardrails, examples, FAQ cautions, FTC/CFPB source coverage, related tools, SEO copy, and privacy behavior.',
+      'Rebuilt title/meta, aliases, examples, input explanations, FAQ answers, guide title, guide meta, source links, trust wording, image alt/caption, sitemap dates, and page-specific proof around car lease payment math and written quote checks.',
     ],
     followUps: [
       'Add an optional money-factor-to-APR helper only after designing clear lease-specific wording that does not imply APR equivalence.',
@@ -7647,7 +7658,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['auto-lease', 'auto lease', 'lease-calculator', 'lease calculator'])) {
-      return sourceBackstop([ftcAutoLease, cfpbApr]);
+      return sourceBackstop([cfpbAutoLeaseBuy, ftcAutoLease, ftcCarDealerAds, cfpbRegM]);
     }
 
     if (includesAny(key, ['business-loan', 'business loan'])) {

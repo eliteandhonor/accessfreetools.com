@@ -268,6 +268,18 @@ const toolArtMetadataOverrides = {
         'Cash Back or Low Interest Calculator guide artwork supports the walkthrough by separating rebate math from dealer rules, credit approval, add-ons, taxes, fees, and written offer terms.',
     },
   },
+  'auto-lease-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a car lease worksheet with a $36,000 price, $21,000 residual value, 0.0025 money factor, 36-month term, fees, tax, and monthly payment cards.',
+      caption:
+        'Auto Lease Calculator artwork matches the live workflow: vehicle price, residual value, money factor, lease term, down payment, trade-in, fees, tax, adjusted capitalized cost, and monthly payment.',
+    },
+    guide: {
+      alt: 'Smoke mascot reviewing auto lease terms for amount due at signing, mileage allowance, residual value, money factor, wear charges, buyout option, and lease-end fees.',
+      caption:
+        'Auto Lease Calculator guide artwork supports the walkthrough by tying lease math to written quote checks: amount due at signing, mileage limits, fees, wear rules, purchase option, and total lease amount.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

@@ -431,6 +431,14 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/language/cfpb-in-english/auto-loans-key-terms/',
     label: 'CFPB: Auto loans key terms',
   },
+  cfpbAutoLeaseBuy: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/what-should-i-know-about-leasing-versus-buying-a-car-en-815/',
+    label: 'CFPB: Leasing versus buying a car',
+  },
+  cfpbRegM: {
+    href: 'https://www.consumerfinance.gov/rules-policy/regulations/1013/',
+    label: 'CFPB Regulation M: Consumer Leasing',
+  },
   sbaLoans: {
     href: 'https://www.sba.gov/funding-programs/loans',
     label: 'U.S. Small Business Administration: Loans',
@@ -986,7 +994,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (['auto-lease-calculator', 'lease-calculator'].includes(toolSlug)) {
-    return [sourceLinks.ftcAutoLease, sourceLinks.cfpbApr];
+    return [sourceLinks.cfpbAutoLeaseBuy, sourceLinks.ftcAutoLease, sourceLinks.ftcCarDealerAds, sourceLinks.cfpbRegM];
   }
 
   if (toolSlug === 'boat-loan-calculator') {
@@ -2428,29 +2436,33 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Auto Loan Calculator for the full vehicle loan estimate.', 'Use Interest Rate Calculator when you know payment but not rate.', 'Use Loan Calculator to compare the same APR and term outside a car-deal setup.'],
   },
   'auto-lease-calculator': {
-    summary: 'Learn how vehicle price, residual value, money factor, taxes, fees, and term shape an auto lease payment.',
+    summary: 'Learn how vehicle price, residual value, money factor, fees, tax, and term shape a car lease payment.',
     purpose:
-      'The Auto Lease Calculator estimates a monthly lease payment by separating the depreciation part, the finance part, and the tax part. It helps you understand a lease quote before reading the contract.',
+      'The Auto Lease Calculator estimates a monthly car lease payment by separating the depreciation part, the finance part, and the tax part. It helps you test the math before you read the contract.',
     enter: [
-      'Enter vehicle price, fees, down payment, trade-in value, residual value, money factor, term, and tax rate.',
-      'Use residual value as a dollar amount, not a percent, because the calculator compares it directly with adjusted capitalized cost.',
+      'Enter vehicle price, fees, down payment, trade-in value, residual value, money factor, lease term, and tax rate.',
+      'Use residual value as a dollar amount, not a percent, because the calculator compares it with adjusted capitalized cost.',
       'Enter the money factor exactly as shown in the quote, such as 0.0025, instead of converting it to APR first.',
     ],
     example: [
-      '$36,000 vehicle price, $21,000 residual value, and a 36-month term creates the depreciation portion first.',
-      'The finance fee uses adjusted capitalized cost plus residual value times the money factor, then tax is added to the pretax payment.',
+      '$36,000 vehicle price, $950 in fees, $2,500 down, $21,000 residual value, 36 months, 0.0025 money factor, and 6% tax gives about $542.97/month.',
+      'That example has about $34,450 adjusted capitalized cost, $373.61 depreciation fee, $138.63 finance fee, and $30.73 tax.',
+      'A $42,000 car with a $28,000 residual, $3,000 down, $1,500 trade-in, 0.0022 money factor, 36 months, and 7% tax estimates about $475.04/month.',
     ],
     read: [
       'Monthly payment is the estimated lease payment before contract-specific add-ons.',
+      'Adjusted capitalized cost is the amount the lease math starts from after fees, down payment, and trade-in.',
       'Depreciation fee shows the part caused by the vehicle losing value during the lease.',
       'Finance fee is the rent-charge style part based on the money factor.',
+      'Estimated total lease cost adds the down payment and the monthly payments. It does not prove the full contract cost.',
     ],
     mistakes: [
       'Do not compare leases by monthly payment alone.',
-      'Do not forget mileage limits, acquisition fees, disposition fees, wear charges, registration, insurance, and early termination rules.',
+      'Do not ignore the amount due at signing, total amount due under the lease, mileage allowance, excess-mile charge, acquisition fee, disposition fee, security deposit, wear charges, registration, insurance, and early termination rules.',
       'Do not enter residual percent when the field asks for residual dollars.',
+      'Do not assume a $0 due at signing ad means there are no taxes, fees, first payment, or other costs before you drive away.',
     ],
-    next: ['Use Auto Loan Calculator if buying might be better.', 'Use Cash Back or Low Interest Calculator for dealer incentive comparisons.'],
+    next: ['Use Auto Loan Calculator if buying might be better.', 'Use Cash Back or Low Interest Calculator for dealer incentive comparisons.', 'Use Lease Calculator for non-car lease math.'],
   },
   'depreciation-calculator': {
     summary: 'Learn how cost, salvage value, useful life, age, and method affect depreciation and book value.',
@@ -3527,6 +3539,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Cash Back or Low Interest Calculator Guide';
   }
 
+  if (tool.slug === 'auto-lease-calculator') {
+    return 'Auto Lease Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3584,6 +3600,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'cash-back-or-low-interest-calculator') {
     return 'Compare a cash-back rebate with a low-interest APR offer, including total cost, savings, dealer-rule, and eligibility checks.';
+  }
+
+  if (tool.slug === 'auto-lease-calculator') {
+    return 'Estimate a car lease payment from price, residual value, money factor, fees, tax, and term, with lease quote checks.';
   }
 
   if (tool.slug === 'fha-loan-calculator') {

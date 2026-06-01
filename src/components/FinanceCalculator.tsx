@@ -1144,7 +1144,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Auto Lease Calculator',
     buttonLabel: 'Estimate lease',
     emptyHistory: 'Recent auto lease estimates will appear here.',
-    privacyNote: 'Auto lease estimates are simplified and do not include mileage fees, wear charges, acquisition fees beyond the entered fee field, registration, or lease-end terms.',
+    privacyNote:
+      'Auto lease estimates stay in this browser tab. They do not verify mileage fees, wear charges, registration, insurance, security deposits, buyout terms, early termination charges, credit approval, or every fee in the signed lease.',
     modes: [
       {
         id: 'auto-lease',
@@ -1162,9 +1163,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { vehiclePrice: '36000', downPayment: '2500', tradeIn: '0', residualValue: '21000', moneyFactor: '0.0025', termMonths: '36', taxPercent: '6', fees: '950' },
         examples: [
-          { label: '36-month lease', inputs: { vehiclePrice: '36000', downPayment: '2500', tradeIn: '0', residualValue: '21000', moneyFactor: '0.0025', termMonths: '36', taxPercent: '6', fees: '950' } },
+          { label: '$543/month lease', inputs: { vehiclePrice: '36000', downPayment: '2500', tradeIn: '0', residualValue: '21000', moneyFactor: '0.0025', termMonths: '36', taxPercent: '6', fees: '950' } },
           { label: 'Higher residual', inputs: { vehiclePrice: '42000', downPayment: '3000', tradeIn: '1500', residualValue: '28000', moneyFactor: '0.0022', termMonths: '36', taxPercent: '7', fees: '1200' } },
-          { label: '48-month lease', inputs: { vehiclePrice: '30000', downPayment: '1500', tradeIn: '0', residualValue: '16000', moneyFactor: '0.0028', termMonths: '48', taxPercent: '6.5', fees: '900' } },
+          { label: '48-month check', inputs: { vehiclePrice: '30000', downPayment: '1500', tradeIn: '0', residualValue: '16000', moneyFactor: '0.0028', termMonths: '48', taxPercent: '6.5', fees: '900' } },
         ],
       },
     ],
@@ -3417,7 +3418,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Estimate the monthly finance fee with the money factor.',
           'Add tax to the pretax payment.',
         ],
-        note: 'Lease contracts can add acquisition, disposition, mileage, wear, registration, and early termination charges.',
+        note:
+          'Ask for the amount due at signing, total lease amount, mileage allowance, excess-mile charge, acquisition fee, disposition fee, security deposit, wear rules, purchase option, and early termination rules in writing.',
       };
     }
     case 'depreciation': {

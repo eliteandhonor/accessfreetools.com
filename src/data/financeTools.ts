@@ -4062,26 +4062,62 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'auto-lease-calculator',
     name: 'Auto Lease Calculator',
-    summary: 'Estimate a monthly auto lease payment from price, residual value, money factor, tax, and term.',
+    seoTitle: 'Auto Lease Calculator | Payment, Money Factor, Residual',
+    seoDescription:
+      'Estimate a car lease payment from price, residual value, money factor, fees, tax, and term, with lease-end limits.',
+    summary: 'Estimate a car lease payment by separating depreciation, finance charge, and tax.',
     description:
-      'Use this free auto lease calculator to estimate monthly lease payment, depreciation fee, finance fee, tax, adjusted capitalized cost, and total lease cost.',
+      'Estimate a car lease payment from vehicle price, residual value, money factor, down payment, trade-in, fees, tax, and term.',
     icon: 'calculator-auto-lease',
+    aliases: ['car lease payment calculator', 'auto lease payment calculator', 'money factor calculator', 'residual value lease calculator', 'lease payment estimator'],
     formula:
-      'The calculator subtracts down payment and trade-in from vehicle price plus fees, spreads depreciation across the term, adds a money-factor finance fee, then adds tax.',
+      'Adjusted capitalized cost = vehicle price + fees - down payment - trade-in. Depreciation fee = (adjusted cost - residual value) / term. Finance fee = (adjusted cost + residual value) x money factor. Monthly payment = depreciation fee + finance fee + tax.',
     limit:
-      'This does not include mileage limits, wear charges, acquisition and disposition rules, registration, insurance, lease-end buyout details, or early termination charges.',
+      'This is a lease-payment estimate, not a contract review. It does not verify mileage limits, wear charges, registration, insurance, maintenance, security deposits, lease-end buyout terms, early termination charges, credit approval, or every fee in the signed lease.',
     useCases: [
-      'Estimate a monthly car lease payment.',
-      'Separate depreciation fee from finance fee.',
-      'Compare different residual values, terms, and money factors.',
-      'Check whether a lease quote is driven by price, residual value, or financing cost.',
+      'Estimate a monthly car lease payment before reading the contract.',
+      'Separate depreciation fee, finance fee, and estimated tax.',
+      'Compare residual value, lease term, money factor, down payment, and trade-in changes.',
+      'Check whether a low monthly lease quote hides a large amount due at signing or strict mileage limits.',
     ],
     examples: [
-      { label: '36-month lease', expression: '$36,000 vehicle, $21,000 residual, 0.0025 money factor', result: 'Estimated monthly lease payment' },
-      { label: 'Higher residual', expression: '$42,000 vehicle, $28,000 residual', result: 'Lower depreciation portion' },
-      { label: '48-month lease', expression: '$30,000 vehicle over 48 months', result: 'Longer-term estimate' },
+      { label: '36-month lease', expression: '$36,000 price, $21,000 residual, $2,500 down, 0.0025 money factor', result: 'About $542.97/month' },
+      { label: 'Higher residual', expression: '$42,000 price, $28,000 residual, $3,000 down, $1,500 trade-in, 0.0022 money factor', result: 'About $475.04/month' },
+      { label: '48-month lease', expression: '$30,000 price, $16,000 residual, $1,500 down, 0.0028 money factor', result: 'About $432.70/month' },
     ],
     relatedSlugs: ['auto-loan-calculator', 'lease-calculator', 'cash-back-or-low-interest-calculator'],
+    inputExplanations: [
+      { term: 'Vehicle price', meaning: 'the negotiated price or gross capitalized cost before this simple estimate subtracts down payment and trade-in value.' },
+      { term: 'Residual value', meaning: 'the expected lease-end value in dollars. Enter the dollar amount from the quote, not the residual percent.' },
+      { term: 'Money factor', meaning: 'the lease finance-rate factor shown as a small decimal, such as 0.0025. Enter it as shown in the quote.' },
+      { term: 'Lease term', meaning: 'the number of months in the lease, such as 24, 36, or 48 months.' },
+      { term: 'Fees and tax rate', meaning: 'fees added into the estimate and the tax rate applied to the pretax monthly lease payment.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What is residual value in a car lease?',
+        answer:
+          'Residual value is the estimated value of the car at the end of the lease. A higher residual value usually lowers the depreciation part of the monthly payment, but it can also affect the buyout price if the lease has a purchase option.',
+      },
+      {
+        question: 'What is a money factor?',
+        answer:
+          'Money factor is the lease finance factor used to estimate the rent-charge part of the payment. It is not typed like an APR. If the quote says 0.0025, enter 0.0025.',
+      },
+      {
+        question: 'Why can my dealer lease quote be different?',
+        answer:
+          'A signed quote can include acquisition fees, disposition fees, security deposit, registration, taxes, mileage rules, wear charges, rebates, credit approval, and add-ons that this simple calculator cannot verify.',
+      },
+    ],
+    formulaCheck:
+      'For the $36,000 example, adjusted cost is $34,450 after $950 fees and $2,500 down. The calculator estimates about $373.61 depreciation fee, $138.63 finance fee, and $30.73 tax for about $542.97/month.',
+    resultReading:
+      'Read the monthly payment, then check adjusted capitalized cost, depreciation fee, finance fee, and total lease cost. A lower monthly payment can still be a worse deal if the amount due at signing, mileage limit, or lease-end fees are high.',
+    doubleCheck:
+      'Ask for the amount due at signing, total lease amount, mileage allowance, excess-mile charge, acquisition fee, disposition fee, security deposit, wear rules, purchase option, and early termination rules in writing.',
+    limitFollowup:
+      'Use this for lease math, not legal or dealer-contract advice. CFPB and FTC guidance both warn that lease ads and low monthly payment offers can leave out important costs unless you get the full terms in writing.',
   }),
   makeFinanceTool({
     slug: 'depreciation-calculator',
