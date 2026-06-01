@@ -1061,6 +1061,11 @@ const cfpbPersonalInstallmentFees = {
   label: 'CFPB: Personal installment loan fees',
 };
 
+const ftcAdvanceFeeLoans = {
+  href: 'https://consumer.ftc.gov/articles/what-know-about-advance-fee-loans',
+  label: 'FTC: Advance-fee loan warning signs',
+};
+
 const hudFhaMip = {
   href: 'https://www.hud.gov/hud-partners/housing-mip',
   label: 'HUD: FHA single family mortgage insurance premiums',
@@ -3300,17 +3305,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'personal-loan-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-4-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'serpforge-personal-loan-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [cfpbPersonalInstallmentFees, cfpbAprVsInterest],
+    sources: [cfpbPersonalInstallmentFees, cfpbAprVsInterest, ftcAdvanceFeeLoans],
     findings: [
-      'The calculator shares the fixed-payment and origination-fee model with the business loan tool, then labels the result for personal-loan comparison.',
-      'The guide now explains the difference between monthly payment, total interest, origination fee, cash received, and total cost with fee.',
-      'The page warns users to check lender disclosures for APR, fees, late charges, optional insurance, credit impact, prepayment rules, and rate eligibility.',
+      'The calculator now uses exact personal-loan examples for payment, total interest, origination fee, cash received after fee, and total cost with fee.',
+      'The guide explains why a borrower can repay the full principal even when an origination fee reduces cash received.',
+      'The page now warns users to check lender disclosures for APR, fees, late charges, optional insurance, credit impact, prepayment rules, rate eligibility, and advance-fee scam signs.',
     ],
     improvements: [
-      'Added personal-loan-specific guide detail and manually checked fixed-payment math, fee handling, examples, FAQ cautions, CFPB source coverage, related tools, SEO copy, and privacy note.',
+      'Added personal-loan-specific SEO title/description, source coverage, exact examples, FAQ cautions, trust copy, guide detail, DataForSEO sprint evidence, and specific image alt/caption copy.',
     ],
     followUps: [
       'Add a loan-offer comparison table only after APR, fee timing, and proceeds assumptions are explicit in the UI.',
@@ -7797,7 +7802,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['personal-loan', 'personal loan'])) {
-      return sourceBackstop([cfpbPersonalInstallmentFees, cfpbAprVsInterest]);
+      return sourceBackstop([cfpbPersonalInstallmentFees, cfpbAprVsInterest, ftcAdvanceFeeLoans]);
     }
 
     if (includesAny(key, ['boat-loan', 'boat loan'])) {

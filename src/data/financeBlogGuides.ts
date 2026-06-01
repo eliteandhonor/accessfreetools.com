@@ -243,6 +243,10 @@ const sourceLinks = {
     href: 'https://consumer.ftc.gov/how-get-out-debt',
     label: 'FTC: How to get out of debt',
   },
+  ftcAdvanceFeeLoans: {
+    href: 'https://consumer.ftc.gov/articles/what-know-about-advance-fee-loans',
+    label: 'FTC: Advance-fee loan warning signs',
+  },
   consumerGovBudget: {
     href: 'https://consumer.gov/your-money/making-budget',
     label: 'consumer.gov: Making a budget',
@@ -1084,7 +1088,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'personal-loan-calculator') {
-    return [sourceLinks.cfpbPersonalInstallmentFees, sourceLinks.cfpbAprVsInterest];
+    return [sourceLinks.cfpbPersonalInstallmentFees, sourceLinks.cfpbAprVsInterest, sourceLinks.ftcAdvanceFeeLoans];
   }
 
   if (toolSlug === 'apr-calculator') {
@@ -2828,29 +2832,36 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use House Affordability Calculator for home-buying context.', 'Use Mortgage Calculator to estimate a possible housing payment.'],
   },
   'personal-loan-calculator': {
-    summary: 'Learn how a personal loan amount, APR, term, and origination fee affect payment and total cost.',
+    summary: 'Learn how a personal loan amount, rate, term, and origination fee affect payment, cash received, and total cost.',
     purpose:
-      'The Personal Loan Calculator estimates a fixed monthly payment and shows how an origination fee can reduce cash received. It is for comparing offers before reading the lender disclosure.',
+      'The Personal Loan Calculator estimates a fixed monthly payment and shows how an origination fee can reduce the cash you actually receive. It is for checking an offer before you read the lender disclosure line by line.',
     enter: [
       'Enter the loan amount, annual rate, and repayment term.',
-      'Enter an origination fee percent if the lender charges one.',
-      'Use the lender disclosure to decide whether the rate field should use APR or stated interest rate for your comparison.',
+      'Enter an origination fee percent if the lender charges one, such as 2 for 2%.',
+      'Use the lender disclosure to decide whether the rate field should use APR or the stated interest rate for your comparison.',
     ],
     example: [
-      '$12,000 at 10.5% for 4 years estimates the monthly payment from the full principal.',
-      'A 2% origination fee is $240, so the cash received after fee is $11,760 if the fee is taken from proceeds.',
+      '$12,000 at 10.5% for 4 years is about $307.24 per month and about $2,747.55 in interest.',
+      'A 2% origination fee is $240, so the cash received after fee is $11,760 if the fee is taken from the loan proceeds.',
+      'That means the payment is based on $12,000, but the money landing in your account may be closer to $11,760.',
     ],
     read: [
       'Monthly payment is the estimated fixed payment.',
       'Total interest is payment total minus principal.',
       'Cash received after fee helps explain why a loan can feel smaller than the principal you repay.',
+      'Total cost with fee is the payment total plus the origination fee shown by the calculator.',
     ],
     mistakes: [
       'Do not ignore origination fees, late fees, credit insurance, prepayment rules, and variable-rate terms.',
       'Do not assume an advertised rate applies to your credit profile.',
-      'Do not use this as a debt plan without checking the full loan disclosure.',
+      'Do not compare one offer by APR and another by interest rate unless you understand what each number includes.',
+      'Do not pay money upfront just because someone promises approval. That can be a scam warning sign.',
     ],
-    next: ['Use Debt Payoff Calculator to compare keeping the current debt.', 'Use Interest Rate Calculator if you know payment but not rate.'],
+    next: [
+      'Use APR Calculator when fees make two loan quotes hard to compare.',
+      'Use Debt Payoff Calculator to compare keeping the current debt.',
+      'Use Loan Calculator when you only need simple payment and interest math.',
+    ],
   },
   'boat-loan-calculator': {
     summary: 'Learn how boat price, down payment, trade-in, tax, fees, rate, and term affect a boat loan payment.',

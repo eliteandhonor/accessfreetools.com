@@ -5014,11 +5014,20 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate personal loan payment, interest, and origination fee.',
     description:
       'Use this free personal loan calculator to estimate monthly payment, total paid, total interest, origination fee, and cash received after a fee.',
+    seoTitle: 'Personal Loan Calculator | Payment, Interest & Fees',
+    seoDescription:
+      'Estimate a personal loan monthly payment, total interest, origination fee, cash received after fees, and total cost before comparing offers.',
     icon: 'calculator-personal-loan',
+    aliases: [
+      'personal loan payment calculator',
+      'personal loan interest calculator',
+      'origination fee calculator',
+      'installment loan calculator',
+    ],
     formula:
       'The calculator uses the fixed-payment loan formula, then estimates any origination fee from the loan amount and shows cash received after the fee.',
     limit:
-      'This does not include lender approval, official APR disclosures, variable rates, late fees, credit insurance, prepayment rules, or credit-score impact.',
+      'This does not include lender approval, official APR disclosures, variable rates, late fees, credit insurance, prepayment rules, scam risk, or credit-score impact.',
     useCases: [
       'Estimate a personal loan monthly payment.',
       'Compare loan terms and interest rates.',
@@ -5026,11 +5035,66 @@ export const financeTools: ToolDefinition[] = [
       'Check total interest before comparing offers.',
     ],
     examples: [
-      { label: 'Personal loan', expression: '$12,000 at 10.5% for 4 years with 2% fee', result: 'Monthly payment and interest' },
-      { label: 'Debt refinance', expression: '$18,000 at 11.9% for 5 years', result: 'Payment estimate' },
-      { label: 'Short payoff', expression: '$5,000 at 8.5% for 2 years', result: 'Short-term estimate' },
+      {
+        label: 'Personal loan',
+        expression: '$12,000 at 10.5% for 4 years with 2% fee',
+        result: 'About $307.24/month, $2,747.55 interest, and $11,760 cash received after fee',
+      },
+      {
+        label: 'Debt refinance',
+        expression: '$18,000 at 11.9% for 5 years with 3% fee',
+        result: 'About $399.49/month, $5,969.46 interest, and $17,460 cash received after fee',
+      },
+      {
+        label: 'Short payoff',
+        expression: '$5,000 at 8.5% for 2 years with no fee',
+        result: 'About $227.28/month and $454.68 interest',
+      },
     ],
-    relatedSlugs: ['loan-calculator', 'debt-payoff-calculator', 'interest-rate-calculator'],
+    relatedSlugs: ['loan-calculator', 'apr-calculator', 'debt-payoff-calculator'],
+    inputExplanations: [
+      { term: 'Loan amount', meaning: 'the principal you repay, even if a fee means you receive less cash.' },
+      { term: 'Interest rate', meaning: 'the yearly rate used for the payment math. Use APR if the offer tells you to compare by APR.' },
+      { term: 'Loan term', meaning: 'how many years the payments last.' },
+      { term: 'Origination fee', meaning: 'a fee percent charged to create the loan. Some lenders subtract it from the money you receive.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Why does cash received after fee matter?',
+        answer:
+          'A personal loan can make you repay the full loan amount even when a fee is taken out first. A $12,000 loan with a 2% fee has a $240 fee, so you may receive $11,760 but still make payments on $12,000.',
+      },
+      {
+        question: 'Should I enter interest rate or APR?',
+        answer:
+          'Use the number you are trying to compare. APR usually includes more loan costs than the stated interest rate. If one offer gives APR and another gives only rate, check the lender disclosure before deciding which one is cheaper.',
+      },
+      {
+        question: 'Can this calculator tell me if I will be approved?',
+        answer:
+          'No. It only estimates payment math. Approval can depend on credit, income, debt, lender rules, state rules, identity checks, and the exact loan offer.',
+      },
+    ],
+    formulaCheck:
+      'The fee is not added into the payment formula here. The payment is based on the loan amount, then the fee is shown separately so you can see both cash received and cost.',
+    resultReading:
+      'Read monthly payment first, then compare total interest, origination fee, cash received after fee, and total cost with fee. A lower payment can still cost more if the term is longer or the fee is bigger.',
+    doubleCheck:
+      'Check whether the lender subtracts the fee from proceeds, adds it to the balance, or charges it another way. Also check whether the number you entered is interest rate or APR.',
+    limitFollowup:
+      'Read the written loan disclosure and watch for late fees, optional insurance, prepayment rules, variable rates, and any request to pay money upfront before a real loan is approved.',
+    extraFaq: [
+      {
+        question: 'Is an upfront fee before approval a warning sign?',
+        answer:
+          'Yes. Legit lenders may charge real fees, but a promise of guaranteed credit in exchange for money upfront is a major scam warning. Check the lender and the written terms before paying anyone.',
+      },
+      {
+        question: 'Why can a longer personal loan look easier but cost more?',
+        answer:
+          'A longer term spreads the balance across more payments, so the monthly payment can drop. The tradeoff is more months of interest, which can raise the total cost.',
+      },
+    ],
   }),
   makeFinanceTool({
     slug: 'boat-loan-calculator',

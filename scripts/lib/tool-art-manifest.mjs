@@ -124,6 +124,18 @@ const toolArtMetadataOverrides = {
         'Debt Consolidation Calculator guide artwork supports the walkthrough by showing why the fee, term, APR, credit risk, collateral risk, and total cost matter before signing.',
     },
   },
+  'personal-loan-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing a $12,000 personal loan with 10.5 percent rate, 2 percent origination fee, monthly payment, cash received, interest, and total cost cards.',
+      caption:
+        'Personal Loan Calculator artwork matches the workflow: loan amount, rate or APR, term, origination fee, cash received, monthly payment, interest, and total cost.',
+    },
+    guide: {
+      alt: 'Smoke mascot checking a personal loan offer beside APR notes, fee slips, cash-received card, payment calendar, and scam-warning sign.',
+      caption:
+        'Personal Loan Calculator guide artwork supports the walkthrough by showing why the fee, APR, cash received, payment, and lender warning signs matter before signing.',
+    },
+  },
   'payment-calculator': {
     tool: {
       alt: 'Smoke mascot linking amount financed, interest-rate gauge, term calendar, and a row of monthly payment cards for the Payment Calculator.',

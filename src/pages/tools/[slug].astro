@@ -638,6 +638,13 @@ const financeToolInstructions = financeToolVariant
         'Compare total cost with fee and cash received, not just the monthly payment.',
         'Check the written lender offer for APR, collateral, guarantees, variable rates, draw schedules, and prepayment rules.',
       ]
+    : tool.slug === 'personal-loan-calculator'
+    ? [
+        'Enter the loan amount you repay, even if a fee means you receive less cash.',
+        'Add the annual rate, term, and origination fee percent from the offer.',
+        'Calculate to see monthly payment, total interest, origination fee, cash received after fee, and total cost with fee.',
+        'Check the written loan disclosure for APR, late fees, optional insurance, prepayment rules, and upfront-fee scam signs.',
+      ]
     : tool.slug === 'liquidity-ratios-calculator'
     ? [
         'Enter current assets and current liabilities from the same balance sheet date.',
@@ -2189,6 +2196,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Simple ROI screen'
               : tool.slug === 'payment-calculator'
               ? 'Fixed payment estimate'
+              : tool.slug === 'personal-loan-calculator'
+              ? 'Personal loan estimate'
               : tool.slug === 'apr-calculator'
               ? 'Loan APR estimate'
               : 'Estimate, not advice'}
@@ -2200,6 +2209,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Payment, interest, and total cost'
               : tool.slug === 'business-loan-calculator'
               ? 'Payment, fees, and cash received'
+              : tool.slug === 'personal-loan-calculator'
+              ? 'Payment, fee, cash received'
               : tool.slug === 'canadian-mortgage-calculator'
               ? 'Payment, LTV, and interest'
               : tool.slug === 'down-payment-calculator'
@@ -3174,6 +3185,31 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 Use this to compare loan amount, rate, term, origination fee, cash received, and total cost.
                 A real offer can still change with APR details, underwriting, collateral, guarantees,
                 variable rates, draw schedules, SBA eligibility, tax effects, late fees, and prepayment rules.
+              </p>
+            </>
+          ) : tool.slug === 'personal-loan-calculator' ? (
+            <>
+              <strong>Personal loan estimate, not approval</strong>
+              <p>
+                Use this to compare loan amount, rate or APR, term, origination fee, monthly payment,
+                cash received after fee, total interest, and total cost with fee. A real offer can still
+                change with credit review, income checks, lender rules, late fees, optional insurance,
+                variable rates, prepayment rules, and how the fee is charged.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/do-personal-installment-loans-have-fees-en-2120/" rel="noreferrer" target="_blank">
+                  CFPB personal installment loan fees
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/" rel="noreferrer" target="_blank">
+                  CFPB interest rate vs. APR
+                </a>
+                {', and '}
+                <a href="https://consumer.ftc.gov/articles/what-know-about-advance-fee-loans" rel="noreferrer" target="_blank">
+                  FTC advance-fee loan warning signs
+                </a>
+                .
               </p>
             </>
           ) : tool.slug === 'canadian-mortgage-calculator' ? (

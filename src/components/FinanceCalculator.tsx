@@ -1588,7 +1588,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Personal Loan Calculator',
     buttonLabel: 'Estimate personal loan',
     emptyHistory: 'Recent personal loan estimates will appear here.',
-    privacyNote: 'Personal loan estimates do not include lender approval, APR disclosures, late fees, prepayment rules, insurance, or credit impact.',
+    privacyNote:
+      'Personal loan estimates do not include approval, official APR disclosures, late fees, prepayment rules, optional insurance, scam risk, or credit impact.',
     modes: [
       {
         id: 'personal-loan',
@@ -1602,9 +1603,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { principal: '12000', annualRatePercent: '10.5', years: '4', originationFeePercent: '2' },
         examples: [
-          { label: '$12k personal loan', inputs: { principal: '12000', annualRatePercent: '10.5', years: '4', originationFeePercent: '2' } },
-          { label: 'Debt refinance', inputs: { principal: '18000', annualRatePercent: '11.9', years: '5', originationFeePercent: '3' } },
-          { label: 'Short payoff', inputs: { principal: '5000', annualRatePercent: '8.5', years: '2', originationFeePercent: '0' } },
+          { label: '$307.24/mo example', inputs: { principal: '12000', annualRatePercent: '10.5', years: '4', originationFeePercent: '2' } },
+          { label: '$399.49/mo refinance', inputs: { principal: '18000', annualRatePercent: '11.9', years: '5', originationFeePercent: '3' } },
+          { label: '$227.28/mo short payoff', inputs: { principal: '5000', annualRatePercent: '8.5', years: '2', originationFeePercent: '0' } },
         ],
       },
     ],
