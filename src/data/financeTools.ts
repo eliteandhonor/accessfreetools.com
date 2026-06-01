@@ -378,11 +378,11 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     slug: 'liquidity-ratios-calculator',
     name: 'Liquidity Ratios Calculator',
     seoTitle: 'Liquidity Ratios Calculator | Current Quick Cash',
-    summary: 'Calculate working capital, current ratio, quick ratio, and cash ratio.',
+    summary: 'Check working capital plus current, quick, and cash coverage.',
     description:
-      'Calculate working capital, current ratio, quick ratio, and cash ratio from same-date balance sheet inputs.',
+      'Check working capital plus current, quick, and cash coverage from same-date balance sheet inputs.',
     seoDescription:
-      'Calculate current ratio, quick ratio, cash ratio, working capital, quick assets, and cash coverage from same-date balance sheet inputs.',
+      'Check working capital plus current, quick, and cash coverage from same-date balance sheet inputs.',
     icon: 'calculator-liquidity-ratios',
     aliases: ['current ratio calculator', 'quick ratio calculator', 'cash ratio calculator', 'working capital calculator', 'balance sheet liquidity calculator'],
     formula:
@@ -448,55 +448,105 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'debt-ratios-calculator',
     name: 'Debt Ratios Calculator',
-    summary: 'Calculate debt ratio, debt-to-equity ratio, and times interest earned.',
+    summary: 'Check debt ratio, debt-to-equity, and interest coverage from statement numbers.',
+    seoTitle: 'Debt Ratios Calculator | Debt Equity Interest Cover',
     description:
-      'Use this free debt ratios calculator to estimate debt ratio, debt-to-equity ratio, and times interest earned from debt, assets, equity, EBIT, and interest expense.',
+      'Check debt ratio, debt-to-equity ratio, and times interest earned from total debt, assets, equity, EBIT, and interest expense.',
     seoDescription:
-      'Calculate debt ratio, debt-to-equity ratio, and times interest earned from total debt, total assets, total equity, EBIT, and interest expense.',
+      'Calculate debt ratio, debt-to-equity ratio, and times interest earned with clear balance sheet and EBIT examples.',
     icon: 'calculator-debt-ratios',
-    aliases: ['debt ratio calculator', 'debt to equity ratio calculator', 'times interest earned calculator'],
+    aliases: [
+      'debt ratio calculator',
+      'debt to assets ratio calculator',
+      'debt to equity ratio calculator',
+      'times interest earned calculator',
+      'interest coverage calculator',
+      'solvency ratios calculator',
+    ],
     formula:
-      'The calculator divides debt by assets for debt ratio, debt by equity for debt-to-equity, and EBIT by interest expense for times interest earned.',
+      'Debt ratio = total debt / total assets. Debt-to-equity = total debt / total equity. Times interest earned = EBIT / interest expense.',
     limit:
-      'This does not include lease classification, debt maturity timing, refinancing risk, cash flow quality, covenant rules, credit rating methods, taxes, or investment advice.',
+      'This does not audit financial statements, classify leases, check maturity dates, test refinancing risk, prove cash flow quality, read lender covenants, assign credit ratings, calculate taxes, or give investment advice.',
     useCases: [
-      'Measure how much of a business is financed with debt.',
-      'Compare debt-to-equity with the company capital structure.',
-      'Check a simple interest coverage ratio.',
-      'Use alongside liquidity and profitability ratios for a fuller picture.',
+      'See what share of assets is funded by debt.',
+      'Compare debt with owner equity on the same balance sheet.',
+      'Check whether EBIT covers the interest expense entered.',
+      'Use beside liquidity and profitability ratios before trusting one number.',
     ],
     examples: [
-      { label: 'Balanced company', expression: '$220,000 debt, $500,000 assets, $280,000 equity', result: 'Debt ratio and coverage' },
-      { label: 'High debt load', expression: '$480,000 debt and $42,000 interest expense', result: 'Debt exposure and interest coverage' },
-      { label: 'Low debt exposure', expression: '$60,000 debt on $350,000 assets', result: 'Lower debt ratio' },
+      {
+        label: 'Balanced company',
+        expression: '$220,000 debt, $500,000 assets, $280,000 equity, $90,000 EBIT, $15,000 interest',
+        result: '44% debt ratio, 0.79x debt-to-equity, 6x interest cover',
+      },
+      {
+        label: 'High debt load',
+        expression: '$480,000 debt, $750,000 assets, $270,000 equity, $105,000 EBIT, $42,000 interest',
+        result: '64% debt ratio, 1.78x debt-to-equity, 2.5x interest cover',
+      },
+      {
+        label: 'Low debt exposure',
+        expression: '$60,000 debt, $350,000 assets, $290,000 equity, $65,000 EBIT, $5,000 interest',
+        result: '17.14% debt ratio, 0.21x debt-to-equity, 13x interest cover',
+      },
     ],
-    relatedSlugs: ['liquidity-ratios-calculator', 'debt-to-income-ratio-calculator', 'business-loan-calculator'],
+    relatedSlugs: ['liquidity-ratios-calculator', 'profitability-ratios-calculator', 'operations-ratios-calculator'],
     inputExplanations: [
-      { term: 'Total debt', meaning: 'interest-bearing debt or debt-like obligations you want included in the ratio.' },
-      { term: 'Total assets and equity', meaning: 'balance sheet totals used to compare debt with company resources and owner value.' },
-      { term: 'EBIT and interest expense', meaning: 'earnings before interest and tax compared with interest cost for a basic coverage check.' },
+      { term: 'Total debt', meaning: 'the debt or total liabilities number you want to compare with assets and equity. Use one clear definition and keep it consistent.' },
+      { term: 'Total assets and total equity', meaning: 'balance sheet totals from the same date, so the debt ratio and debt-to-equity ratio are not mixing periods.' },
+      { term: 'EBIT and interest expense', meaning: 'income statement numbers from the same period, used for the times-interest-earned coverage check.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What is the difference between debt ratio and debt-to-equity?',
+        answer:
+          'Debt ratio compares total debt with total assets. Debt-to-equity compares the same debt with owner equity. They tell a similar debt-load story, but the denominator changes, so the numbers will not match.',
+      },
+      {
+        question: 'Why can times interest earned look okay when cash is still tight?',
+        answer:
+          'Times interest earned uses EBIT, not bank cash. A company can show enough EBIT for interest coverage while receivables are late, inventory is stuck, principal payments are due, or cash flow is weak.',
+      },
+      {
+        question: 'Should I use total debt or total liabilities?',
+        answer:
+          'Use the definition your statement, lender, class, or analysis requires. Some checks use interest-bearing debt only. Others use total liabilities. The important part is labeling it honestly and comparing the same definition each time.',
+      },
     ],
     extraFaq: [
       {
         question: 'What is times interest earned?',
         answer:
-          'Times interest earned compares EBIT with interest expense. A result of 6x means EBIT is six times the interest expense entered. It is a rough coverage check, not a cash-flow promise.',
+          'Times interest earned compares EBIT with interest expense. A result of 6x means EBIT is six times the interest expense entered. It is a rough interest-coverage check, not a cash-flow promise.',
       },
       {
         question: 'Should debt-to-equity be low or high?',
         answer:
           'It depends on the industry and business model. Some stable asset-heavy businesses use more debt. Young or risky businesses may need less debt because cash flow is less predictable.',
       },
+      {
+        question: 'Can I compare this result across industries?',
+        answer:
+          'Only carefully. A utility, retailer, software company, and construction business can all have different normal debt levels. Compare with similar businesses, trends over time, lender rules, and the notes to the financial statements.',
+      },
     ],
+    formulaCheck:
+      'Use balance sheet numbers from one date for debt, assets, and equity. Use EBIT and interest expense from the same income statement period.',
+    resultReading:
+      'Debt ratio shows the asset share funded by debt. Debt-to-equity shows debt compared with owner capital. Times interest earned shows how many times EBIT covers the interest expense entered.',
+    doubleCheck:
+      'Double-check whether the debt field should mean total liabilities or only interest-bearing debt. Then check that assets, equity, EBIT, and interest expense all come from matching statements.',
+    limitFollowup:
+      'Use financial statements, footnotes, cash-flow reports, maturity schedules, covenant documents, industry benchmarks, and a qualified accountant before using debt ratios for lending, investing, or survival decisions.',
   },
   {
     slug: 'operations-ratios-calculator',
     name: 'Operations Ratios Calculator',
-    summary: 'Calculate inventory turnover, asset turnover, receivables turnover, collection period, and equity multiplier.',
+    summary: 'Check inventory, asset, receivables, collection-period, and equity-multiplier results.',
     description:
-      'Use this free operations ratios calculator to estimate inventory turnover, asset turnover, receivables turnover, average collection period, and equity multiplier.',
+      'Check inventory, asset, receivables, collection-period, and equity-multiplier results from operating statement inputs.',
     seoDescription:
-      'Calculate operations ratios including inventory turnover, asset turnover, receivables turnover, average collection period, and equity multiplier.',
+      'Check inventory, asset, receivables, collection-period, and equity-multiplier results from operating statement inputs.',
     icon: 'calculator-operations-ratios',
     aliases: ['inventory turnover calculator', 'asset turnover calculator', 'receivables turnover calculator'],
     formula:
@@ -537,11 +587,11 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'profitability-ratios-calculator',
     name: 'Profitability Ratios Calculator',
-    summary: 'Calculate gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E.',
+    summary: 'Compare gross, operating, net, ROA, ROE, EPS, and P/E results.',
     description:
-      'Use this free profitability ratios calculator to estimate gross margin, operating margin, net profit margin, return on assets, return on equity, earnings per share, and price-to-earnings ratio.',
+      'Compare gross, operating, net, ROA, ROE, EPS, and P/E results from financial statement inputs.',
     seoDescription:
-      'Calculate profitability ratios including gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E from financial statement inputs.',
+      'Compare gross, operating, net, ROA, ROE, EPS, and P/E results from financial statement inputs.',
     icon: 'calculator-profitability-ratios',
     aliases: ['profit margin ratios calculator', 'return on assets calculator', 'return on equity calculator'],
     formula:

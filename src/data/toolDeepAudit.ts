@@ -541,8 +541,13 @@ const openStaxFinancialStatementAnalysis = {
   label: 'OpenStax Financial Accounting: Financial statement analysis',
 };
 
+const openStaxSolvencyRatios = {
+  href: 'https://openstax.org/books/principles-finance/pages/6-4-solvency-ratios',
+  label: 'OpenStax Principles of Finance: Solvency ratios',
+};
+
 const secFinancialStatements = {
-  href: 'https://www.sec.gov/about/reports-publications/beginners-guide-financial-statements',
+  href: 'https://www.sec.gov/about/reports-publications/investorpubsbegfinstmtguide',
   label: "SEC: Beginners' Guide to Financial Statements",
 };
 
@@ -7546,20 +7551,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'debt-ratios-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-business-ratios-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [calculatorSoupSitemap, openStaxFinancialStatementAnalysis, secFinancialStatements, googleHelpfulContent],
+    sources: [calculatorSoupSitemap, openStaxSolvencyRatios, secFinancialStatements, googleHelpfulContent],
     findings: [
-      'Debt ratio, debt-to-equity, and times-interest-earned were added as a standalone accounting-ratio utility.',
-      'Formula review checked debt divided by assets, debt divided by equity, and EBIT divided by interest expense.',
-      'FAQ and guide explain debt exposure context, interest coverage, industry differences, and why cash flow still matters.',
+      'Live in-app browser baseline found generic finance title, instructions, trust text, and image alt wording on the debt ratios tool and guide.',
+      'Search Console export showed the debt-ratio guide receiving impressions for debt ratio formula and calculation queries with no clicks.',
+      'OpenStax solvency-ratio guidance and SEC financial-statement guidance support keeping debt-to-assets, debt-to-equity, and times interest earned clear and separate.',
     ],
     improvements: [
-      'Added debt-ratio UI, examples, guide detail, input explanations, FAQ depth, related liquidity and DTI links, and tests.',
+      'Rebuilt title/meta, examples, calculator note, input explanations, FAQ answers, guide title, guide meta, source-backed guide copy, trust wording, image alt/caption, sitemap dates, and page-specific proof around debt ratio, debt-to-equity, times interest earned, balance sheet dates, EBIT, interest expense, and cash-flow limits.',
     ],
     followUps: [
       'Add debt maturity and lease-adjusted analysis only if a richer financial-statement workflow is created.',
+      'Add industry benchmark notes only after a vetted benchmark data source is chosen.',
     ],
   },
   {

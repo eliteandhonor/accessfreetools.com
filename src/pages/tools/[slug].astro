@@ -645,6 +645,13 @@ const financeToolInstructions = financeToolVariant
         'Add cash, marketable securities, and receivables so the cash ratio and supporting lines are easier to read.',
         'Calculate, then compare current ratio, quick ratio, cash ratio, and working capital before trusting one number.',
       ]
+    : tool.slug === 'debt-ratios-calculator'
+    ? [
+        'Enter total debt, total assets, and total equity from the same balance sheet date.',
+        'Enter EBIT and interest expense from the same income statement period.',
+        'Calculate to see debt ratio, debt-to-equity, and times interest earned side by side.',
+        'Read the ratios with cash flow, maturity dates, covenants, and industry context before trusting one number.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
@@ -2080,7 +2087,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isFinanceTool && (
         <div class="advanced-tool-points finance-tool-points" aria-label={`${tool.name} highlights`}>
-          <span>Estimate, not advice</span>
+          <span>{tool.slug === 'debt-ratios-calculator' ? 'Statement ratio check' : 'Estimate, not advice'}</span>
           <span>
             {tool.slug === 'ad-revenue-calculator'
               ? 'Monthly, yearly, and RPM shown'
@@ -2106,6 +2113,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Taxable income and bracket'
               : tool.slug === 'marriage-tax-calculator'
               ? 'Joint vs two-single tax'
+              : tool.slug === 'debt-ratios-calculator'
+              ? 'Debt and interest cover'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -3241,6 +3250,31 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 Use this to test gross estate, debts, charity, spouse transfers, prior taxable gifts, and the
                 2026 federal exclusion. A real estate-tax return can still change with asset values, state tax,
                 portability, GST tax, trusts, farms, business interests, elections, and professional review.
+              </p>
+            </>
+          ) : tool.slug === 'debt-ratios-calculator' ? (
+            <>
+              <strong>Debt-ratio check, not credit approval</strong>
+              <p>
+                Use this to compare total debt, total assets, total equity, EBIT, interest expense, debt ratio,
+                debt-to-equity, and times interest earned. A real solvency review can still change with debt
+                maturity dates, lease treatment, cash-flow quality, lender covenants, refinancing risk, taxes,
+                credit ratings, and industry norms.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://openstax.org/books/principles-finance/pages/6-4-solvency-ratios" rel="noreferrer" target="_blank">
+                  OpenStax solvency ratios
+                </a>
+                {', '}
+                <a href="https://www.sec.gov/about/reports-publications/investorpubsbegfinstmtguide" rel="noreferrer" target="_blank">
+                  SEC financial statement guide
+                </a>
+                {', and '}
+                <a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" rel="noreferrer" target="_blank">
+                  Google helpful content guidance
+                </a>
+                .
               </p>
             </>
           ) : (

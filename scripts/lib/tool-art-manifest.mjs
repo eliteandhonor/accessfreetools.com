@@ -316,6 +316,18 @@ const toolArtMetadataOverrides = {
         'Liquidity Ratios Calculator guide artwork supports the walkthrough by separating balance sheet ratio math from inventory quality, receivable collection, cash timing, industry context, lender covenants, and accounting limits.',
     },
   },
+  'debt-ratios-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking $220,000 debt, $500,000 assets, $280,000 equity, 44% debt ratio, 0.79x debt-to-equity, and 6x interest cover cards.',
+      caption:
+        'Debt Ratios Calculator artwork matches the live workflow: total debt, total assets, total equity, EBIT, interest expense, debt ratio, debt-to-equity, and times interest earned.',
+    },
+    guide: {
+      alt: 'Smoke mascot sorting debt-ratio cards for balance sheet date, total debt, assets, equity, EBIT, interest expense, maturity dates, covenants, and cash-flow limits.',
+      caption:
+        'Debt Ratios Calculator guide artwork supports the walkthrough by separating debt-load ratios from interest coverage, cash flow, maturity dates, lease treatment, lender covenants, and industry context.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',

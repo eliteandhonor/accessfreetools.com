@@ -1389,7 +1389,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Debt Ratios Calculator',
     buttonLabel: 'Calculate debt ratios',
     emptyHistory: 'Recent debt ratio checks will appear here.',
-    privacyNote: 'Debt ratios are simplified statement math and do not decide loan approval, solvency, credit risk, tax treatment, or investing quality.',
+    privacyNote:
+      'Debt ratio checks stay in this tab. They do not decide loan approval, solvency, credit risk, covenant compliance, taxes, or investment quality.',
     modes: [
       {
         id: 'debt-ratios',
@@ -1404,9 +1405,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { totalDebt: '220000', totalAssets: '500000', totalEquity: '280000', ebit: '90000', interestExpense: '15000' },
         examples: [
-          { label: 'Balanced company', inputs: { totalDebt: '220000', totalAssets: '500000', totalEquity: '280000', ebit: '90000', interestExpense: '15000' } },
-          { label: 'High debt load', inputs: { totalDebt: '480000', totalAssets: '750000', totalEquity: '270000', ebit: '105000', interestExpense: '42000' } },
-          { label: 'Low debt exposure', inputs: { totalDebt: '60000', totalAssets: '350000', totalEquity: '290000', ebit: '65000', interestExpense: '5000' } },
+          { label: '44% debt / 6x cover', inputs: { totalDebt: '220000', totalAssets: '500000', totalEquity: '280000', ebit: '90000', interestExpense: '15000' } },
+          { label: '64% debt / 2.5x cover', inputs: { totalDebt: '480000', totalAssets: '750000', totalEquity: '270000', ebit: '105000', interestExpense: '42000' } },
+          { label: '17.14% debt / 13x cover', inputs: { totalDebt: '60000', totalAssets: '350000', totalEquity: '290000', ebit: '65000', interestExpense: '5000' } },
         ],
       },
     ],
@@ -3673,7 +3674,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide total debt by total equity for debt-to-equity ratio.',
           'Divide EBIT by interest expense for times interest earned.',
         ],
-        note: 'Debt ratios need context such as industry, maturity dates, cash flow quality, lease obligations, and interest-rate changes.',
+        note: 'Debt ratios are statement math. They need industry context, debt maturity dates, cash-flow quality, lease treatment, covenant rules, and interest-rate risk before anyone treats them as safe or unsafe.',
       };
     }
     case 'operations-ratios': {
