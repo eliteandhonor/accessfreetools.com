@@ -1081,26 +1081,68 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'take-home-paycheck-calculator',
     name: 'Take-Home-Paycheck Calculator',
-    summary: 'Estimate net pay per paycheck from salary, pay schedule, deductions, taxes, and FICA.',
+    summary: 'Estimate take-home pay per paycheck from salary, pay schedule, pretax deductions, tax estimates, and 2026 employee FICA.',
     description:
-      'Use this free take-home-paycheck calculator to estimate net pay from annual gross pay, pay frequency, pretax deductions, estimated tax percentages, and employee FICA.',
+      'Use this free take-home-paycheck calculator to estimate net pay from annual gross pay, pay frequency, pretax deductions, federal/state/local withholding estimates, and 2026 employee FICA.',
+    seoTitle: 'Take-Home-Paycheck Calculator | Net Pay & FICA Estimate',
+    seoDescription:
+      'Estimate take-home pay from salary, pay schedule, pretax deductions, tax percentages, Social Security, Medicare, and the 2026 wage-base limit.',
     icon: 'calculator-salary',
+    aliases: [
+      'take home pay calculator',
+      'paycheck tax calculator',
+      'net pay calculator',
+      'salary paycheck calculator',
+      'biweekly paycheck calculator',
+    ],
     formula:
-      'The calculator annualizes pretax deductions, applies entered tax percentages, applies employee Social Security and Medicare estimates, then divides annual take-home pay by pay periods.',
+      'The calculator annualizes pretax deductions, applies the federal, state, and local tax percentages you enter, applies employee Social Security and Medicare estimates, then divides annual take-home pay by the number of paychecks.',
     limit:
-      'This is not a payroll system. It does not use your W-4, exact state rules, benefit plan rules, garnishments, employer payroll timing, bonus withholding, or official withholding tables.',
+      'This is a rough paycheck estimate, not a payroll system or tax return. It does not read your Form W-4, use IRS Publication 15-T withholding tables, handle exact state/local rules, benefit plan rules, garnishments, bonus withholding, overtime, pre-tax limit rules, or employer payroll timing.',
     useCases: [
-      'Estimate take-home pay before accepting a salary.',
-      'Compare weekly, biweekly, semimonthly, and monthly pay schedules.',
-      'Include simple pretax deductions and estimated tax percentages.',
-      'See a rough FICA estimate separately.',
+      'Estimate take-home pay before accepting a salary or changing jobs.',
+      'Compare weekly, biweekly, semimonthly, and monthly pay schedules without changing annual salary.',
+      'Include simple pretax deductions and your own federal, state, and local withholding percentages.',
+      'See the employee Social Security and Medicare estimate separately so FICA is not hidden.',
     ],
     examples: [
-      { label: 'Biweekly salary', expression: '$78,000 salary over 26 paychecks', result: 'Estimated net paycheck' },
-      { label: 'Monthly pay', expression: '$96,000 salary over 12 paychecks', result: 'Monthly take-home estimate' },
-      { label: 'Weekly pay', expression: '$52,000 salary over 52 paychecks', result: 'Weekly take-home estimate' },
+      { label: 'Biweekly salary', expression: '$78,000 salary, 26 paychecks, $120 pretax each', result: '$2,189.70 estimated take-home' },
+      { label: 'Monthly pay', expression: '$96,000 salary, 12 paychecks, $300 pretax each', result: '$5,548.00 estimated take-home' },
+      { label: 'Weekly pay', expression: '$52,000 salary, 52 paychecks, $60 pretax each', result: '$741.30 estimated take-home' },
     ],
     relatedSlugs: ['salary-calculator', 'income-tax-calculator', 'marriage-tax-calculator'],
+    inputExplanations: [
+      { term: 'Annual gross pay', meaning: 'your yearly pay before paycheck deductions, income tax withholding, Social Security, and Medicare.' },
+      { term: 'Pay schedule', meaning: 'how many paychecks you get per year, such as 52 weekly, 26 biweekly, 24 semimonthly, or 12 monthly.' },
+      { term: 'Pretax deductions per paycheck', meaning: 'paycheck deductions you want to subtract before the simple tax percentages, such as a retirement or health-plan estimate.' },
+      { term: 'Federal withholding estimate', meaning: 'your rough federal income-tax withholding percent. This is not a W-4 table calculation.' },
+      { term: 'State and local withholding estimates', meaning: 'rough percentages for state or city/local withholding if they apply to you.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Does this use my Form W-4?',
+        answer:
+          'No. This version uses the percentages you enter. Real payroll uses your Form W-4, filing status, dependents, extra withholding, pay timing, benefits, and IRS withholding tables.',
+      },
+      {
+        question: 'Does this include Social Security and Medicare?',
+        answer:
+          'Yes, as a simplified 2026 employee FICA estimate. Social Security is estimated at 6.2% up to the 2026 wage base, and Medicare is estimated at 1.45% with extra Medicare tax above $200,000.',
+      },
+      {
+        question: 'Should I include FICA in the federal tax percent?',
+        answer:
+          'No. The calculator shows FICA separately. If you include Social Security or Medicare inside the federal percent field too, you will double count part of the paycheck deduction.',
+      },
+    ],
+    formulaCheck:
+      'For the default example: $78,000 salary / 26 paychecks = $3,000 gross per paycheck. $120 pretax per paycheck is $3,120 per year. With 12% federal, 4% state, 0% local, and 2026 employee FICA, estimated take-home is $56,932.20 per year, or $2,189.70 per paycheck.',
+    resultReading:
+      'The main answer is estimated take-home per paycheck. Gross per paycheck shows the before-deduction amount. Annual take-home shows the same estimate across the year. FICA estimate separates Social Security and Medicare from your entered income-tax percentages.',
+    doubleCheck:
+      'Check whether your federal percentage already includes FICA, whether your state or city has separate rules, whether benefits are actually pretax, and whether bonuses, overtime, garnishments, or extra W-4 withholding apply.',
+    limitFollowup:
+      'Use an actual paystub, employer payroll tool, IRS Tax Withholding Estimator, or payroll professional for exact withholding. This page is for quick salary and paycheck planning only.',
   },
   {
     slug: 'rental-property-calculator',

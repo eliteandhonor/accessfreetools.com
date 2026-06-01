@@ -3470,17 +3470,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'take-home-paycheck-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-5-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [irsFica, irsWithholdingEstimatorFaqs],
+    sources: [irsPub15T, irsFica, irsWithholdingEstimatorFaqs, irsPub505],
     findings: [
       'The calculator annualizes pretax deductions, applies entered federal, state, and local tax percentages, and separately estimates employee Social Security and Medicare withholding.',
-      'The FICA constants match IRS Topic 751 for 2026: 6.2% Social Security up to the 2026 wage base, 1.45% Medicare, and 0.9% Additional Medicare above $200,000.',
-      'The guide now warns users not to double count Social Security and Medicare inside the federal tax percentage field.',
+      'The 2026 FICA constants match IRS Topic 751: 6.2% Social Security up to the $184,500 wage base, 1.45% Medicare, and 0.9% Additional Medicare above $200,000.',
+      'DataForSEO showed paycheck-tax and hourly-paycheck intent, so the page now says plainly that it is a net-pay estimate from entered percentages, not a full W-4 or payroll-table calculator.',
     ],
     improvements: [
-      'Added take-home-paycheck-specific guide detail and manually checked pay-period math, FICA handling, percent-field wording, examples, FAQ cautions, IRS source coverage, SEO copy, and privacy behavior.',
+      'Rewrote title, meta description, examples, FAQ cautions, guide intro, quick start, source links, trust block, result-reading language, privacy note, calculator examples, highlight chips, and image alt/caption text around salary, pay schedule, pretax deductions, entered withholding percentages, 2026 employee FICA, and exact take-home examples.',
     ],
     followUps: [
       'Add W-4-style federal withholding only if the project can maintain official IRS table changes over time.',
@@ -7832,7 +7832,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['take-home-paycheck', 'take home paycheck', 'paycheck'])) {
-      return sourceBackstop([irsFica, irsWithholdingEstimatorFaqs]);
+      return sourceBackstop([irsPub15T, irsFica, irsWithholdingEstimatorFaqs, irsPub505]);
     }
 
     if (includesAny(key, ['rental-property', 'rental property'])) {

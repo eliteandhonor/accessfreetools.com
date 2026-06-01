@@ -1160,7 +1160,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'take-home-paycheck-calculator') {
-    return [sourceLinks.irsFica, sourceLinks.irsWithholdingEstimatorFaqs];
+    return [sourceLinks.irsPub15T, sourceLinks.irsFica, sourceLinks.irsWithholdingEstimatorFaqs, sourceLinks.irsPub505];
   }
 
   if (toolSlug === 'real-estate-calculator') {
@@ -3054,27 +3054,29 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Rental Property Calculator for monthly cash-flow screening.', 'Use Mortgage Calculator to inspect the loan payment separately.'],
   },
   'take-home-paycheck-calculator': {
-    summary: 'Learn how salary, pay frequency, pretax deductions, estimated taxes, and FICA affect net pay per paycheck.',
+    summary: 'Learn how salary, pay frequency, pretax deductions, tax estimates, and 2026 employee FICA affect take-home pay.',
     purpose:
-      'The Take-Home-Paycheck Calculator turns an annual salary into a rough paycheck estimate. It separates gross pay, pretax deductions, entered tax estimates, Social Security, Medicare, and net pay.',
+      'The Take-Home-Paycheck Calculator turns annual salary into a rough paycheck estimate. It is built for quick planning: gross pay, pretax deductions, your entered tax percentages, employee Social Security, employee Medicare, and estimated take-home pay.',
     enter: [
-      'Enter annual gross pay before deductions.',
-      'Choose pay periods per year, such as 26 for biweekly or 12 for monthly.',
-      'Enter pretax deductions per paycheck and tax percentages as estimates, not decimals.',
+      'Enter annual gross pay before paycheck deductions.',
+      'Choose pay periods per year, such as 52 weekly, 26 biweekly, 24 semimonthly, or 12 monthly.',
+      'Enter pretax deductions per paycheck, then enter federal, state, and local withholding estimates as percentages, not decimals.',
     ],
     example: [
       '$78,000 salary over 26 paychecks gives $3,000 gross per paycheck before deductions.',
-      'The calculator annualizes pretax deductions, applies the entered tax percentages, estimates employee FICA, then divides annual take-home pay by pay periods.',
+      '$120 pretax per paycheck becomes $3,120 per year. With 12% federal, 4% state, 0% local, and the 2026 employee FICA estimate, the result is about $56,932.20 per year, or $2,189.70 per paycheck.',
     ],
     read: [
       'Gross per paycheck is salary divided by pay periods.',
-      'Take-home per paycheck is the rough net amount after the deductions and taxes in the model.',
-      'FICA is shown separately so Social Security and Medicare are not hidden inside the tax percentage fields.',
+      'Take-home per paycheck is the rough net amount after the deductions and taxes in this simplified model.',
+      'The FICA line is separate, so Social Security and Medicare are not hidden inside the federal tax percentage field.',
+      'This can help compare pay schedules, but it does not replace a paystub or employer payroll system.',
     ],
     mistakes: [
       'Do not enter a dollar withholding amount in a percent field.',
-      'Do not assume this matches payroll exactly. Real payroll can use W-4 details, state rules, benefit plans, bonuses, garnishments, and employer timing.',
+      'Do not assume this matches payroll exactly. Real payroll can use Form W-4 details, IRS Publication 15-T withholding tables, state rules, benefit plans, bonuses, overtime, garnishments, and employer timing.',
       'Do not include Social Security or Medicare inside the federal tax percent if you want to avoid double counting.',
+      'Do not forget that the Social Security wage base, withholding tables, and some deduction rules can change by year.',
     ],
     next: ['Use Salary Calculator for annual-to-hourly comparisons.', 'Use Income Tax Calculator for a broader federal tax estimate.'],
   },

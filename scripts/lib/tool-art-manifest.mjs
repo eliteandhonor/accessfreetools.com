@@ -400,6 +400,18 @@ const toolArtMetadataOverrides = {
         'Real Estate Calculator guide artwork supports the walkthrough by showing the visible house, cost blocks, proceeds bowl, chart, and document behind the sale-profit and limit checks.',
     },
   },
+  'take-home-paycheck-calculator': {
+    tool: {
+      alt: 'Smoke mascot holding a paycheck above arrows to coin stacks, shield icons, tax coins, a calendar, calculator, mug, notebook, and final take-home money bag.',
+      caption:
+        'Take-Home-Paycheck Calculator artwork matches the live workflow: annual salary, pay schedule, pretax deductions, withholding estimates, employee FICA, and final take-home pay.',
+    },
+    guide: {
+      alt: 'Smoke mascot pointing at a paycheck flow with salary coins, pay-period calendars, benefit shields, tax icons, payroll coins, and a final money bag.',
+      caption:
+        'Take-Home-Paycheck Calculator guide artwork supports the walkthrough by showing salary, pay periods, deductions, tax estimates, FICA, and take-home pay as separate steps.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',

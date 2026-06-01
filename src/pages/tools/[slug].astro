@@ -694,6 +694,13 @@ const financeToolInstructions = financeToolVariant
         'Calculate, then compare estimated profit, net sale proceeds, ROI, and equity multiple.',
         'Check the payoff quote, Closing Disclosure, local transfer costs, agent agreement, tax basis, and IRS home-sale rules before relying on the result.',
       ]
+    : tool.slug === 'take-home-paycheck-calculator'
+    ? [
+        'Enter annual gross pay before paycheck deductions.',
+        'Choose the pay schedule, such as 52 weekly, 26 biweekly, 24 semimonthly, or 12 monthly.',
+        'Enter pretax deductions per paycheck and rough federal, state, and local withholding percentages.',
+        'Calculate, then compare gross pay, estimated take-home pay, employee FICA, and yearly pretax deductions. Use a paystub, employer payroll system, Form W-4, and IRS tools for exact withholding.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
@@ -2144,6 +2151,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'IRS table check'
               : tool.slug === 'real-estate-calculator'
               ? 'Sale-profit check'
+              : tool.slug === 'take-home-paycheck-calculator'
+              ? 'Paycheck estimate'
               : 'Estimate, not advice'}
           </span>
           <span>
@@ -2185,6 +2194,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Balance, age, factor'
               : tool.slug === 'real-estate-calculator'
               ? 'Proceeds, ROI, multiple'
+              : tool.slug === 'take-home-paycheck-calculator'
+              ? 'Net pay, FICA, pretax'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -3492,6 +3503,24 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                   <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-payoff-amount-and-is-it-the-same-as-my-current-balance-en-205/" rel="noreferrer" target="_blank">CFPB payoff amount guidance</a>,{' '}
                   <a href="https://www.consumerfinance.gov/owning-a-home/closing-disclosure/" rel="noreferrer" target="_blank">CFPB Closing Disclosure notes</a>, and{' '}
                   <a href="https://www.irs.gov/publications/p523" rel="noreferrer" target="_blank">IRS Publication 523</a>.
+                </span>
+              </p>
+            </>
+          ) : tool.slug === 'take-home-paycheck-calculator' ? (
+            <>
+              <strong>Paycheck estimate, not a payroll stub</strong>
+              <p>
+                Use this to test annual gross pay, pay schedule, pretax deductions, rough income-tax withholding
+                percentages, employee Social Security, employee Medicare, annual take-home pay, and take-home pay
+                per paycheck. It does not read your Form W-4, run the full IRS withholding tables, handle exact state
+                or local rules, benefit-plan limits, garnishments, bonuses, overtime, or employer payroll timing.
+              </p>
+              <p>
+                <span>
+                  Sources used for this review:{' '}
+                  <a href="https://www.irs.gov/publications/p15t" rel="noreferrer" target="_blank">IRS Publication 15-T</a>,{' '}
+                  <a href="https://www.irs.gov/taxtopics/tc751" rel="noreferrer" target="_blank">IRS Topic 751</a>, and{' '}
+                  <a href="https://www.irs.gov/individuals/tax-withholding-estimator-faqs" rel="noreferrer" target="_blank">IRS Tax Withholding Estimator FAQs</a>.
                 </span>
               </p>
             </>

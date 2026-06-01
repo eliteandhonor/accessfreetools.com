@@ -1851,7 +1851,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Take-Home-Paycheck Calculator',
     buttonLabel: 'Estimate paycheck',
     emptyHistory: 'Recent paycheck estimates will appear here.',
-    privacyNote: 'Paycheck estimates use simplified tax percentages plus 2026 employee FICA rates. They are not payroll advice.',
+    privacyNote: 'Paycheck estimates stay in this browser tab and use your entered percentages plus simplified 2026 employee FICA. This is not a W-4 or payroll-table calculation.',
     modes: [
       {
         id: 'take-home-paycheck',
@@ -1867,9 +1867,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { annualGrossPay: '78000', payPeriodsPerYear: '26', pretaxDeductionsPerPaycheck: '120', federalTaxPercent: '12', stateTaxPercent: '4', localTaxPercent: '0' },
         examples: [
-          { label: 'Biweekly salary', inputs: { annualGrossPay: '78000', payPeriodsPerYear: '26', pretaxDeductionsPerPaycheck: '120', federalTaxPercent: '12', stateTaxPercent: '4', localTaxPercent: '0' } },
-          { label: 'Monthly pay', inputs: { annualGrossPay: '96000', payPeriodsPerYear: '12', pretaxDeductionsPerPaycheck: '300', federalTaxPercent: '14', stateTaxPercent: '5', localTaxPercent: '1' } },
-          { label: 'Weekly pay', inputs: { annualGrossPay: '52000', payPeriodsPerYear: '52', pretaxDeductionsPerPaycheck: '60', federalTaxPercent: '10', stateTaxPercent: '3', localTaxPercent: '0' } },
+          { label: '$2,189.70 biweekly take-home', inputs: { annualGrossPay: '78000', payPeriodsPerYear: '26', pretaxDeductionsPerPaycheck: '120', federalTaxPercent: '12', stateTaxPercent: '4', localTaxPercent: '0' } },
+          { label: '$5,548 monthly take-home', inputs: { annualGrossPay: '96000', payPeriodsPerYear: '12', pretaxDeductionsPerPaycheck: '300', federalTaxPercent: '14', stateTaxPercent: '5', localTaxPercent: '1' } },
+          { label: '$741.30 weekly take-home', inputs: { annualGrossPay: '52000', payPeriodsPerYear: '52', pretaxDeductionsPerPaycheck: '60', federalTaxPercent: '10', stateTaxPercent: '3', localTaxPercent: '0' } },
         ],
       },
     ],
@@ -4145,10 +4145,10 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         steps: [
           'Annualize pretax paycheck deductions.',
           'Apply your estimated federal, state, and local withholding percentages.',
-          'Apply employee Social Security and Medicare tax estimates.',
+          'Apply simplified 2026 employee Social Security and Medicare estimates.',
           'Divide annual take-home pay by the number of paychecks.',
         ],
-        note: 'Actual payroll can differ because of W-4 settings, benefits, state rules, local taxes, bonuses, and employer systems.',
+        note: 'Actual payroll can differ because of W-4 settings, IRS withholding tables, benefits, state and local rules, bonuses, overtime, garnishments, and employer systems.',
       };
     }
     case 'rental-property': {
