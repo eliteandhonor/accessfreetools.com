@@ -307,17 +307,18 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'profit-goal-calculator',
     name: 'Profit Goal Calculator',
+    seoTitle: 'Profit Goal Calculator | Target Units And Sales',
     summary: 'Estimate how many units and how much revenue are needed to hit a target profit.',
     description:
-      'Use this free profit goal calculator to estimate the unit sales and sales revenue needed to cover fixed costs and reach a target profit.',
+      'Estimate the unit sales and sales revenue needed to cover fixed costs, cover variable costs, and reach a target profit.',
     seoDescription:
-      'Calculate units and revenue needed for a target profit using fixed costs, target profit, selling price, and variable cost per unit.',
+      'Calculate target-profit units, required sales, contribution margin, and price-versus-variable-cost checks from fixed costs and profit goal.',
     icon: 'calculator-profit-goal',
-    aliases: ['target profit calculator', 'sales goal calculator', 'profit target calculator'],
+    aliases: ['target profit calculator', 'sales goal calculator', 'profit target calculator', 'target sales calculator', 'cost volume profit calculator'],
     formula:
-      'The calculator adds fixed costs and target profit, then divides by contribution margin per unit, which is price per unit minus variable cost per unit.',
+      'Contribution margin per unit = price per unit - variable cost per unit. Target-profit units = (fixed costs + target profit) / contribution margin per unit. Required sales = target-profit units x price per unit.',
     limit:
-      'This does not include capacity limits, production delays, refunds, taxes, discounts, mixed product sales, marketing spend changes, or accounting advice.',
+      'This is a one-product planning estimate. It does not prove demand, capacity, cash flow, taxes, owner pay, refunds, discounts, payment fees, shipping, inventory waste, mixed product sales, marketing spend changes, financing, or accounting treatment.',
     useCases: [
       'Set a sales target for a product, event, or service package.',
       'Compare how price or variable cost changes the number of units needed.',
@@ -325,9 +326,9 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Use after a break-even check when zero profit is not enough.',
     ],
     examples: [
-      { label: '$2k profit target', expression: '$5,000 fixed costs, $2,000 target profit, $40 price, $18 variable cost', result: 'Units needed for the profit goal' },
-      { label: 'Event table', expression: '$900 fixed costs and $750 target profit', result: 'Event sales target' },
-      { label: 'Service package', expression: '$3,200 fixed costs, $4,500 target profit, $250 package price', result: 'Service sales goal' },
+      { label: '$2k profit target', expression: '$5,000 fixed costs, $2,000 target profit, $40 price, $18 variable cost', result: '318.18 units, about $12,727.27 sales, and $22 contribution per unit' },
+      { label: 'Event table', expression: '$900 fixed costs, $750 target profit, $15 price, $5.50 variable cost', result: '173.68 sales, about $2,605.26 revenue, and $9.50 contribution per sale' },
+      { label: 'Service package', expression: '$3,200 fixed costs, $4,500 target profit, $250 package price, $60 variable cost', result: '40.53 packages, about $10,131.58 revenue, and $190 contribution per package' },
     ],
     relatedSlugs: ['break-even-calculator', 'markup-calculator', 'margin-calculator'],
     inputExplanations: [
@@ -347,6 +348,31 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
           'This simple version works best for one product or one average bundle. If you sell many products with different prices and costs, use a weighted average contribution margin or calculate each product separately.',
       },
     ],
+    priorityFaq: [
+      {
+        question: 'Should I round the target-profit units up?',
+        answer:
+          'Usually yes. If the answer is 318.18 units and you sell whole items, 318 units is still short of the profit goal. You would need 319 units before the estimate clears the target.',
+      },
+      {
+        question: 'Does this prove I will make that profit?',
+        answer:
+          'No. It only solves the cost-volume-profit math from the numbers you entered. Demand, capacity, refunds, discounts, shipping, taxes, owner pay, and cash timing can still change the real result.',
+      },
+      {
+        question: 'What happens if price is not higher than variable cost?',
+        answer:
+          'The goal does not work in normal target-profit math. Each sale needs positive contribution margin. If price is equal to or lower than variable cost, selling more units does not cover fixed costs or profit.',
+      },
+    ],
+    formulaCheck:
+      '$5,000 fixed costs plus a $2,000 profit goal means $7,000 must be covered. A $40 price minus $18 variable cost leaves $22 contribution, so $7,000 / $22 = 318.18 units and about $12,727.27 in sales.',
+    resultReading:
+      'Read target-profit units first, then required sales, then contribution per unit. If contribution is small, the sales target rises quickly.',
+    doubleCheck:
+      'Check that fixed costs, target profit, and sales period match. Do not hide fees, refunds, discounts, shipping, waste, marketing spend, or capacity limits outside the estimate.',
+    limitFollowup:
+      'Use business records, accounting software, a bookkeeper, or a financial adviser before using target-profit math for funding, hiring, tax, or pricing decisions.',
   },
   {
     slug: 'liquidity-ratios-calculator',

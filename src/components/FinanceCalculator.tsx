@@ -1326,7 +1326,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Profit Goal Calculator',
     buttonLabel: 'Calculate sales goal',
     emptyHistory: 'Recent profit goal estimates will appear here.',
-    privacyNote: 'Profit-goal estimates use simple contribution margin math and do not include taxes, capacity limits, refunds, financing costs, or accounting advice.',
+    privacyNote:
+      'Profit-goal estimates stay in this browser tab. They do not verify demand, capacity, cash timing, taxes, owner pay, refunds, discounts, fees, shipping, inventory waste, mixed-product sales, financing, or accounting treatment.',
     modes: [
       {
         id: 'profit-goal',
@@ -1340,9 +1341,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { fixedCosts: '5000', targetProfit: '2000', pricePerUnit: '40', variableCostPerUnit: '18' },
         examples: [
-          { label: '$2k profit target', inputs: { fixedCosts: '5000', targetProfit: '2000', pricePerUnit: '40', variableCostPerUnit: '18' } },
-          { label: 'Event table', inputs: { fixedCosts: '900', targetProfit: '750', pricePerUnit: '15', variableCostPerUnit: '5.5' } },
-          { label: 'Service package', inputs: { fixedCosts: '3200', targetProfit: '4500', pricePerUnit: '250', variableCostPerUnit: '60' } },
+          { label: '318.18 units', inputs: { fixedCosts: '5000', targetProfit: '2000', pricePerUnit: '40', variableCostPerUnit: '18' } },
+          { label: '$2,605.26 event sales', inputs: { fixedCosts: '900', targetProfit: '750', pricePerUnit: '15', variableCostPerUnit: '5.5' } },
+          { label: '40.53 service packages', inputs: { fixedCosts: '3200', targetProfit: '4500', pricePerUnit: '250', variableCostPerUnit: '60' } },
         ],
       },
     ],
@@ -3613,7 +3614,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide the total money goal by contribution margin per unit.',
           'Multiply required units by price per unit for required sales.',
         ],
-        note: 'This does not check whether that many units can actually be produced, sold, shipped, or supported.',
+        note:
+          'This is target-profit planning math, not proof that people will buy. Real profit can move when capacity, refunds, discounts, fees, taxes, owner pay, waste, marketing spend, or mixed-product sales change.',
       };
     }
     case 'liquidity-ratios': {

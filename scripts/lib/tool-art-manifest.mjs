@@ -292,6 +292,18 @@ const toolArtMetadataOverrides = {
         'Break Even Calculator guide artwork supports the walkthrough by separating simple zero-profit math from demand, cash flow, mixed products, capacity, refunds, fees, taxes, and owner pay.',
     },
   },
+  'profit-goal-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking $5,000 fixed costs, $2,000 target profit, $40 price, $18 variable cost, $22 contribution margin, 318.18 target-profit units, and $12,727.27 sales cards.',
+      caption:
+        'Profit Goal Calculator artwork matches the live workflow: fixed costs, target profit, price per unit, variable cost per unit, contribution margin, target-profit units, and required sales.',
+    },
+    guide: {
+      alt: 'Smoke mascot sorting profit-goal cards for fixed costs, desired profit, contribution margin, rounded-up units, event sales, capacity limits, refunds, fees, taxes, and mixed-product notes.',
+      caption:
+        'Profit Goal Calculator guide artwork supports the walkthrough by separating target-profit math from demand, capacity, cash flow, taxes, owner pay, refunds, fees, shipping, waste, and mixed-product sales.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',

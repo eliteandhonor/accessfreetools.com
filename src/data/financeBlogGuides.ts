@@ -1057,7 +1057,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'profit-goal-calculator') {
-    return [sourceLinks.sbaBreakEven, sourceLinks.openStaxBreakEven];
+    return [sourceLinks.sbaBreakEven, sourceLinks.openStaxBreakEven, sourceLinks.openStaxContributionMargin, sourceLinks.irsPublication334];
   }
 
   if (toolSlug === 'markup-calculator') {
@@ -1274,27 +1274,33 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Margin Calculator when you already know selling price.', 'Use Break Even Calculator to see how many units need to sell.'],
   },
   'profit-goal-calculator': {
-    summary: 'Learn how to estimate the sales needed to cover costs and reach a target profit.',
+    summary: 'Learn how many units or how much sales revenue you need to cover costs and still hit a target profit.',
     purpose:
-      'The Profit Goal Calculator is like break-even math with an extra goal added. Instead of stopping at zero profit, it asks how many units are needed to earn the profit you want.',
+      'The Profit Goal Calculator is break-even math with one extra job: add the profit you want before dividing by contribution margin.',
     enter: [
-      'Enter fixed costs for the project, month, event, or product batch.',
-      'Enter target profit as the money you want left after costs.',
+      'Enter fixed costs for the same project, month, event, or product batch you are planning.',
+      'Enter target profit as a dollar amount, not a percent. This is the money you want left after fixed and variable costs.',
       'Enter price per unit and variable cost per unit so the calculator can find contribution margin.',
+      'Keep taxes, owner pay, financing, marketing spend, refunds, discounts, shipping, payment fees, waste, and mixed-product averages separate unless they belong in the same planning period.',
     ],
     example: [
       'If fixed costs are $5,000 and target profit is $2,000, the total amount to cover is $7,000.',
       'With a $40 price and $18 variable cost, each unit contributes $22, so the goal needs about 318.18 units.',
+      'If you sell whole items, round that to 319 units. At $40 each, the target is about $12,727.27 in sales before rounding.',
+      'For an event with $900 fixed costs, a $750 profit goal, a $15 price, and $5.50 variable cost, contribution is $9.50 and the goal is about 173.68 sales.',
     ],
     read: [
       'Units needed for goal is the main sales target.',
       'Required sales converts those units into revenue at the price you entered.',
       'Contribution per unit shows why lowering cost or raising price changes the target quickly.',
+      'The formula is target-profit units = fixed costs plus target profit, divided by contribution margin per unit.',
     ],
     mistakes: [
       'Do not forget that demand, capacity, and time can limit sales even if the math target looks possible.',
       'Do not enter the target profit as a percentage. It should be a dollar amount.',
-      'Do not use one average unit if your products have very different prices and costs without checking the mix.',
+      'Do not mix weekly sales goals with monthly fixed costs. The time period has to match.',
+      'Do not use one average unit if your products have very different prices and costs without checking the sales mix.',
+      'Do not treat target-profit math as cash-flow, tax, funding, or pricing advice.',
     ],
     next: ['Use Break Even Calculator for the zero-profit threshold.', 'Use Margin Calculator to review the profit percent from a known price.'],
   },
@@ -3613,6 +3619,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Break-Even Calculator Guide';
   }
 
+  if (tool.slug === 'profit-goal-calculator') {
+    return 'Profit Goal Calculator Guide';
+  }
+
   if (tool.slug === 'average-return-calculator') {
     return 'Average Return Calculator Guide';
   }
@@ -3694,6 +3704,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'break-even-calculator') {
     return 'Learn break-even units, sales revenue, contribution margin, fixed costs, variable costs, and zero-profit limits with clear examples.';
+  }
+
+  if (tool.slug === 'profit-goal-calculator') {
+    return 'Learn target-profit units, required sales, contribution margin, fixed costs, variable costs, rounding, and business limits with examples.';
   }
 
   if (tool.slug === 'average-return-calculator') {

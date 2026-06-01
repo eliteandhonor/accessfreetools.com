@@ -7504,17 +7504,19 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'profit-goal-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-business-ratios-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [calculatorSoupSitemap, sbaBreakEven, openStaxBreakEven, googleHelpfulContent],
+    sources: [calculatorSoupSitemap, sbaBreakEven, openStaxBreakEven, openStaxContributionMargin, irsPublication334, googleHelpfulContent],
     findings: [
+      'DataForSEO evidence is page-specific for profit goal calculator, target profit calculator, target sales, contribution margin, fixed costs, variable costs, and cost-volume-profit intent.',
       'Profit goal planning extends break-even into target-profit sales math without creating a duplicate break-even page.',
-      'Formula review checked fixed costs plus target profit, contribution margin per unit, required units, and required sales.',
-      'FAQ and guide explain how target profit differs from break-even and when an average unit can mislead.',
+      'OpenStax target-profit examples support fixed costs plus desired profit divided by contribution margin per unit, while SBA break-even guidance supports the base fixed-cost and contribution-margin logic.',
+      'OpenStax contribution-margin guidance and IRS Publication 334 help set careful boundaries around contribution, gross receipts, cost of goods sold, tax, and accounting limits.',
+      'FAQ and guide explain how target profit differs from break-even, why fractional whole-unit answers usually round up, and when demand, capacity, refunds, discounts, fees, taxes, owner pay, cash flow, and mixed products can change the result.',
     ],
     improvements: [
-      'Added profit-goal UI, examples, guide detail, FAQ depth, related break-even and markup links, and tests.',
+      'Rebuilt title/meta, examples, calculator note, input explanations, FAQ answers, guide title, guide meta, source links, trust wording, image alt/caption, sitemap dates, and page-specific proof around target-profit units, required sales, contribution margin, rounding, one-product limits, and demand/capacity limits.',
     ],
     followUps: [
       'Add multi-product sales-mix support only after a clear weighted-average input design is ready.',
