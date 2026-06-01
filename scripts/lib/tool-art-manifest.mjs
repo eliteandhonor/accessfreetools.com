@@ -244,6 +244,18 @@ const toolArtMetadataOverrides = {
         'IRA Calculator guide artwork supports the walkthrough by separating growth math from taxable compensation, traditional IRA deduction limits, Roth eligibility, RMDs, taxes, penalties, fees, and market risk.',
     },
   },
+  'vat-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a VAT calculator screen with $100 net price, 20 percent VAT rate, add mode, $20 VAT amount, and $120 gross total.',
+      caption:
+        'VAT Calculator artwork matches the live workflow: choose add or remove VAT, enter the amount and rate, then compare net amount, VAT amount, gross amount, and rate used.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining VAT add and remove examples with $100 net to $120 gross, $120 gross to $100 net, 5 percent rate notes, and invoice cautions.',
+      caption:
+        'VAT Calculator guide artwork supports the walkthrough by showing add-VAT and remove-VAT examples beside rate, invoice, exemption, reverse-charge, and country-rule cautions.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

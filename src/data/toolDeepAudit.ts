@@ -941,6 +941,21 @@ const euVat = {
   label: 'European Commission: VAT overview',
 };
 
+const euVatRulesRates = {
+  href: 'https://europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_en.htm',
+  label: 'Your Europe: VAT rules and rates',
+};
+
+const govUkVatRates = {
+  href: 'https://www.gov.uk/vat-rates',
+  label: 'GOV.UK: VAT rates',
+};
+
+const govUkVatCharge = {
+  href: 'https://www.gov.uk/how-vat-works/how-much-vat-you-must-charge',
+  label: 'GOV.UK: how much VAT to charge',
+};
+
 const cfpbApr = {
   href: 'https://www.consumerfinance.gov/rules-policy/regulations/1026/22/',
   label: 'CFPB Regulation Z: Annual percentage rate',
@@ -2973,17 +2988,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'vat-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-3-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [euVat, openStaxPercent],
+    sources: [govUkVatRates, govUkVatCharge, euVatRulesRates, euVat, openStaxPercent],
     findings: [
-      'The calculator adds VAT by multiplying net amount by one plus the rate, and removes VAT by dividing gross amount by one plus the rate.',
+      'DataForSEO shows informational intent for VAT Calculator plus VAT calculator UK, 20 VAT calculator, reverse VAT calculator UK, how to calculate VAT on calculator, 5% VAT, 7.5% VAT, app, and USA clarification queries.',
+      'The calculator adds VAT by multiplying net amount by the rate, then adding the VAT amount to net; remove mode divides gross amount by one plus the rate, then separates the VAT portion.',
       'The result shows net amount, VAT amount, gross amount, and rate used, which keeps add and remove modes easy to check.',
-      'The guide and FAQ now warn that rates, exemptions, invoice rules, registration, reverse charge, and reporting requirements vary by country and transaction type.',
+      'Official source checks confirmed that VAT rates and rules vary by country, goods, services, exemptions, and transaction type. GOV.UK lists 20% as the standard UK VAT rate, with reduced and zero-rate categories.',
     ],
     improvements: [
-      'Added VAT-specific guide detail and manually checked add/remove math, examples, FAQ cautions, source coverage, related tools, SEO copy, and privacy note.',
+      'Rebuilt VAT title/meta, aliases, examples, input explanations, FAQ answers, guide title, guide meta, source links, trust wording, image alt/caption, sitemap dates, and page-specific proof around add/remove VAT instead of generic finance copy.',
     ],
     followUps: [
       'Add country-specific VAT presets only if there is a maintained data source and clear update policy.',

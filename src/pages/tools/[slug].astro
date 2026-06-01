@@ -848,6 +848,13 @@ const financeToolInstructions = financeToolVariant
         'Calculate, then compare projected IRA balance, total contributions, and estimated growth.',
         'Check taxable compensation, traditional IRA deduction rules, Roth IRA eligibility, RMDs, taxes, penalties, fees, and market risk before treating the result as a real tax or retirement answer.',
       ]
+    : tool.slug === 'vat-calculator'
+    ? [
+        'Choose add VAT when the amount is the net price before tax.',
+        'Choose remove VAT when the amount is the gross price that already includes VAT.',
+        'Enter the VAT rate as a normal percent, such as 20 for 20% or 5 for 5%.',
+        'Calculate, then compare net amount, VAT amount, gross amount, and the rate used before checking official VAT rules.',
+      ]
     : tool.slug === 'pension-calculator'
     ? [
         'Enter the final average salary or plan salary number used by the pension formula.',
@@ -2901,6 +2908,32 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.investor.gov/introduction-investing/investing-basics/investment-accounts/tax-advantaged-accounts/retirement-savings/individual-retirement-accounts-iras" rel="noreferrer" target="_blank">
                   Investor.gov IRAs
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'vat-calculator' ? (
+            <>
+              <strong>VAT math check, not a tax filing answer</strong>
+              <p>
+                Use this to add VAT to a net price or remove VAT from a gross price. The calculator shows
+                net amount, VAT amount, gross amount, and rate used. It does not choose the correct legal
+                rate for a country, product, service, invoice, export, exemption, registration threshold,
+                reverse charge rule, or tax return.
+              </p>
+              <p>
+                GOV.UK lists 20% as the standard UK VAT rate, with reduced and zero-rate categories. EU VAT
+                rules can be applied differently by each EU country. Sources used for this review:{' '}
+                <a href="https://www.gov.uk/vat-rates" rel="noreferrer" target="_blank">
+                  GOV.UK VAT rates
+                </a>
+                {', '}
+                <a href="https://www.gov.uk/how-vat-works/how-much-vat-you-must-charge" rel="noreferrer" target="_blank">
+                  GOV.UK how much VAT to charge
+                </a>
+                {', and '}
+                <a href="https://europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_en.htm" rel="noreferrer" target="_blank">
+                  Your Europe VAT rules and rates
                 </a>
                 .
               </p>

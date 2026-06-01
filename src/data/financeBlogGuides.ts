@@ -375,6 +375,18 @@ const sourceLinks = {
     href: 'https://taxation-customs.ec.europa.eu/taxation/vat_en',
     label: 'European Commission: VAT overview',
   },
+  euVatRulesRates: {
+    href: 'https://europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_en.htm',
+    label: 'Your Europe: VAT rules and rates',
+  },
+  govUkVatRates: {
+    href: 'https://www.gov.uk/vat-rates',
+    label: 'GOV.UK: VAT rates',
+  },
+  govUkVatCharge: {
+    href: 'https://www.gov.uk/how-vat-works/how-much-vat-you-must-charge',
+    label: 'GOV.UK: how much VAT to charge',
+  },
   cfpbApr: {
     href: 'https://www.consumerfinance.gov/rules-policy/regulations/1026/22',
     label: 'CFPB Regulation Z: Annual percentage rate',
@@ -935,7 +947,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'vat-calculator') {
-    return [sourceLinks.euVat];
+    return [sourceLinks.govUkVatRates, sourceLinks.govUkVatCharge, sourceLinks.euVatRulesRates, sourceLinks.euVat];
   }
 
   if (toolSlug === 'cash-back-or-low-interest-calculator') {
@@ -2344,29 +2356,32 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Roth IRA Calculator for Roth-specific planning language.', 'Use 401K Calculator for workplace contribution scenarios.', 'Use Retirement Calculator for a wider savings goal.'],
   },
   'vat-calculator': {
-    summary: 'Learn how to add VAT to a net amount or remove VAT from a gross amount.',
+    summary: 'Learn how to add VAT to a net amount or remove VAT from a gross amount without using the wrong mode.',
     purpose:
-      'The VAT Calculator handles two common tasks: add VAT to a before-tax amount or remove VAT from a tax-included amount. It uses the rate you enter and does not know local tax rules.',
+      'The VAT Calculator handles two common jobs: add VAT to a before-tax amount or remove VAT from a tax-included amount. It uses the rate you enter, so you still need the official rule for the country, product, invoice, export, exemption, or reverse charge situation.',
     enter: [
-      'Enter the amount as net amount when adding VAT or gross amount when removing VAT.',
-      'Enter the VAT rate as a percent.',
-      'Choose add or remove before calculating.',
+      'Enter the amount as net amount when adding VAT, or gross amount when removing VAT.',
+      'Enter the VAT rate as a normal percent, such as 20 for 20% or 5 for 5%.',
+      'Choose add or remove before calculating. This is the part most people mix up.',
     ],
     example: [
       '$100 net at 20% VAT adds $20 VAT and gives $120 gross.',
       '$120 gross at 20% VAT divides by 1.20 to get $100 net and $20 VAT.',
+      '$210 gross at 5% VAT divides by 1.05 to get $200 net and $10 VAT.',
     ],
     read: [
       'Net amount is the price before VAT.',
       'VAT amount is the tax portion at the entered rate.',
       'Gross amount is net amount plus VAT.',
+      'Rate used is the percent you entered, not a country lookup.',
     ],
     mistakes: [
       'Do not use the wrong mode: add starts from net, remove starts from gross.',
       'Do not assume the entered rate is correct for every country, product, or invoice.',
-      'Do not use this for registration, reverse charge, exemption, or tax filing decisions.',
+      'Do not treat U.S. sales tax and VAT as the same tax system.',
+      'Do not use this for registration, reverse charge, exemption, export, import, or tax filing decisions.',
     ],
-    next: ['Use Sales Tax Calculator for U.S.-style sales tax math.', 'Use Percentage Calculator to check rate math.'],
+    next: ['Use Sales Tax Calculator for U.S.-style sales tax math.', 'Use Percentage Calculator to check rate math.', 'Use Discount Calculator before VAT if the price is discounted first.'],
   },
   'cash-back-or-low-interest-calculator': {
     summary: 'Learn how to compare a cash-back rebate offer with a low-interest financing offer by estimated total cost.',
@@ -3485,6 +3500,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'IRA Calculator Guide';
   }
 
+  if (tool.slug === 'vat-calculator') {
+    return 'VAT Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3534,6 +3553,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'ira-calculator') {
     return 'Project IRA growth from balance, annual contributions, expected return, and years, with 2026 IRS limit and deduction cautions kept separate.';
+  }
+
+  if (tool.slug === 'vat-calculator') {
+    return 'Add or remove VAT from a price, with 20%, 5%, and custom-rate examples plus net, VAT amount, and gross amount checks.';
   }
 
   if (tool.slug === 'fha-loan-calculator') {
@@ -3689,6 +3712,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isMutualFundGuide = tool.slug === 'mutual-fund-calculator';
   const isRothIraGuide = tool.slug === 'roth-ira-calculator';
   const isIraGuide = tool.slug === 'ira-calculator';
+  const isVatGuide = tool.slug === 'vat-calculator';
   const isPensionGuide = tool.slug === 'pension-calculator';
   const isAnnuityPayoutGuide = tool.slug === 'annuity-payout-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
@@ -3753,6 +3777,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A Roth IRA projection can look like a tax answer when it is really just growth math. This guide keeps the simple projection separate from 2026 IRS limits, MAGI phase-outs, qualified distribution rules, and market risk.'
       : isIraGuide
       ? 'An IRA projection can look like a tax answer when it is really just growth math. This guide keeps the simple projection separate from 2026 IRS limits, traditional IRA deduction rules, Roth IRA eligibility, RMDs, taxes, and market risk.'
+      : isVatGuide
+      ? 'VAT math is easy to flip around. This guide keeps the job simple: add VAT when the price is before tax, remove VAT when the price already includes tax, then check the official rate before using the answer on an invoice.'
       : isPensionGuide
       ? 'A pension estimate is easy to overtrust if the plan formula is guessed. This guide shows how final average salary, credited service, and a plan multiplier turn into annual pension, monthly pension, and replacement rate.'
       : isAnnuityPayoutGuide
@@ -3955,6 +3981,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter the annual contribution you want to test, such as $7,500 for a 2026 limit-style scenario or $8,600 when testing the age 50+ catch-up amount.',
           'Enter expected annual return and years to grow, then calculate.',
           'Read projected IRA balance, total contributions, and estimated growth, then check taxable compensation, deduction limits, Roth eligibility, RMD, tax, penalty, fee, and market-risk rules separately.',
+        ]
+      : isVatGuide
+      ? [
+          'Open the VAT Calculator.',
+          'Choose add VAT when your amount is the net price before tax.',
+          'Choose remove VAT when your amount is the gross price that already includes VAT.',
+          'Enter the VAT rate as a normal percent, such as 20 for 20% or 5 for 5%.',
+          'Calculate, then check net amount, VAT amount, gross amount, and the official country or product rule before using the number on an invoice.',
         ]
       : isPensionGuide
       ? [

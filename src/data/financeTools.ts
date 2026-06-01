@@ -3925,26 +3925,75 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'vat-calculator',
     name: 'VAT Calculator',
-    summary: 'Add VAT to a net price or remove VAT from a gross price.',
+    seoTitle: 'VAT Calculator | Add or Remove VAT',
+    summary: 'Add VAT to a net price or remove VAT from a gross price without mixing up the mode.',
     description:
-      'Use this free VAT calculator to add VAT to a net amount, remove VAT from a gross amount, and see the net amount, VAT amount, and gross amount clearly.',
+      'Add VAT to a net amount or remove VAT from a gross amount, then see the net amount, VAT amount, gross amount, and rate used.',
+    seoDescription:
+      'Add or remove VAT from a price, with 20%, 5%, and custom-rate examples plus clear net, VAT amount, and gross amount checks.',
     icon: 'calculator-vat',
+    aliases: [
+      'vat calculator',
+      'vat calculator uk',
+      '20 vat calculator',
+      'reverse vat calculator',
+      'reverse vat calculator uk',
+      'how to calculate vat on calculator',
+      '5% vat calculator',
+      '7.5% vat calculator',
+    ],
     formula:
-      'To add VAT, the calculator multiplies net amount by the VAT rate and adds it to the net amount. To remove VAT, it divides the gross amount by one plus the VAT rate.',
+      'To add VAT, the calculator multiplies net amount by the VAT rate, then adds that VAT amount to the net price. To remove VAT, it divides the gross price by one plus the VAT rate, then subtracts the net amount from the gross amount to find the VAT portion.',
     limit:
-      'This uses the manual VAT rate you enter. It does not check country-specific exemptions, invoices, registration rules, reverse charge rules, or tax reporting requirements.',
+      'This uses the manual VAT rate you enter. It does not choose the legal rate for a country, product, invoice, export, exemption, VAT registration threshold, reverse charge rule, or tax return.',
     useCases: [
-      'Add VAT to a before-tax price.',
-      'Remove VAT from a tax-inclusive receipt total.',
-      'Separate net amount, VAT amount, and gross amount.',
-      'Check simple VAT examples before reviewing local tax rules.',
+      'Add 20% VAT to a before-tax price.',
+      'Remove 20% VAT from a tax-inclusive receipt total.',
+      'Check 5%, 7.5%, 10%, or another custom VAT rate.',
+      'Separate net amount, VAT amount, and gross amount before checking an invoice.',
+      'Compare VAT math with U.S.-style sales tax when a page mentions both.',
     ],
     examples: [
       { label: 'Add VAT', expression: '$100 net at 20% VAT', result: '$120 gross and $20 VAT' },
       { label: 'Remove VAT', expression: '$120 gross at 20% VAT', result: '$100 net and $20 VAT' },
-      { label: 'Lower rate', expression: '$80 net at 10% VAT', result: 'VAT and gross amount' },
+      { label: 'Lower rate', expression: '$210 gross at 5% VAT', result: '$200 net and $10 VAT' },
     ],
     relatedSlugs: ['sales-tax-calculator', 'percentage-calculator', 'discount-calculator'],
+    inputExplanations: [
+      { term: 'Amount', meaning: 'the price you already know. In add mode it is the net price; in remove mode it is the gross price.' },
+      { term: 'VAT rate', meaning: 'the tax rate entered as a normal percent, such as 20 for 20% or 5 for 5%.' },
+      { term: 'Mode', meaning: 'add VAT when the price is before tax, or remove VAT when the price already includes VAT.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'How do I add 20% VAT to $100?',
+        answer:
+          'Use add mode, enter 100 as the amount, and enter 20 as the VAT rate. The calculator shows $20 VAT and $120 gross.',
+      },
+      {
+        question: 'How do I remove 20% VAT from $120?',
+        answer:
+          'Use remove mode, enter 120 as the amount, and enter 20 as the VAT rate. The calculator divides by 1.20, so the net amount is $100 and the VAT amount is $20.',
+      },
+      {
+        question: 'Can I use this as a UK VAT calculator?',
+        answer:
+          'Yes for the math if you enter the right UK rate yourself. GOV.UK lists 20% as the standard rate, with 5% reduced and 0% zero-rate categories, but the item or service still decides which rate applies.',
+      },
+      {
+        question: 'Is VAT the same as U.S. sales tax?',
+        answer:
+          'No. The math can look similar on a receipt, but VAT and sales tax are different systems. If you are checking a U.S. sale, use the Sales Tax Calculator instead.',
+      },
+    ],
+    formulaCheck:
+      'For $100 at 20%, add mode multiplies 100 x 0.20 to get $20 VAT and $120 gross. For $120 with 20% included, remove mode divides 120 by 1.20 to get $100 net and $20 VAT.',
+    resultReading:
+      'Read net amount as the before-VAT price, VAT amount as the tax portion, gross amount as the price including VAT, and rate used as the percent entered.',
+    doubleCheck:
+      'Check the mode first. Add starts with net amount; remove starts with gross amount. Then check the rate, country, product type, invoice wording, exemption, reverse charge rule, and whether VAT or sales tax is the right system.',
+    limitFollowup:
+      'Use the official tax authority for the country, GOV.UK or EU VAT guidance when relevant, and a tax professional when registration, invoices, exemptions, cross-border sales, or returns matter.',
   }),
   makeFinanceTool({
     slug: 'cash-back-or-low-interest-calculator',

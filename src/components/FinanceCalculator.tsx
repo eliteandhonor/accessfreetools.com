@@ -1093,7 +1093,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'VAT Calculator',
     buttonLabel: 'Calculate VAT',
     emptyHistory: 'Recent VAT calculations will appear here.',
-    privacyNote: 'VAT estimates use the manual rate you enter and do not check country-specific exemptions, invoices, or tax rules.',
+    privacyNote: 'VAT estimates use the manual rate you enter. They do not choose the legal country rate, product rate, invoice treatment, exemption, reverse charge rule, or filing rule.',
     modes: [
       {
         id: 'vat',
@@ -1108,7 +1108,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         examples: [
           { label: 'Add 20% VAT', inputs: { amount: '100', vatPercent: '20', mode: 'add' } },
           { label: 'Remove 20% VAT', inputs: { amount: '120', vatPercent: '20', mode: 'remove' } },
-          { label: 'Lower rate', inputs: { amount: '80', vatPercent: '10', mode: 'add' } },
+          { label: 'Remove 5% VAT', inputs: { amount: '210', vatPercent: '5', mode: 'remove' } },
         ],
       },
     ],
@@ -3355,7 +3355,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           mode === 'add' ? 'Multiply net amount by the rate to find VAT.' : 'Divide the gross amount by one plus the VAT rate to find net amount.',
           'Gross amount equals net amount plus VAT amount.',
         ],
-        note: 'VAT rules, exemptions, invoices, and reporting requirements vary by country and transaction type.',
+        note: 'Check the official VAT rate and treatment before using this on an invoice or tax return. Country, product type, exemptions, exports, reverse charge rules, and VAT registration can change the real answer.',
       };
     }
     case 'cash-back-low-interest': {
