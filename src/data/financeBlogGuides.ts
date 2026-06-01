@@ -1052,7 +1052,11 @@ function getSourceLinks(toolSlug: string) {
     ];
   }
 
-  if (['break-even-calculator', 'profit-goal-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'break-even-calculator') {
+    return [sourceLinks.sbaBreakEven, sourceLinks.openStaxBreakEven, sourceLinks.irsPublication334];
+  }
+
+  if (toolSlug === 'profit-goal-calculator') {
     return [sourceLinks.sbaBreakEven, sourceLinks.openStaxBreakEven];
   }
 
@@ -1213,27 +1217,32 @@ function getSourceLinks(toolSlug: string) {
 
 const guideDetails: Record<string, GuideDetail> = {
   'break-even-calculator': {
-    summary: 'Learn how to find the point where sales cover costs, using fixed costs, price per unit, and variable cost per unit.',
+    summary: 'Learn how many units or how much sales revenue you need before a product, service, or event covers its costs.',
     purpose:
-      'The Break Even Calculator is for simple business planning. It answers: how many units do I need to sell before I stop losing money on this product, event, or service?',
+      'The Break Even Calculator is for simple business planning. It answers: how many units do I need to sell before estimated revenue covers estimated fixed and variable costs?',
     enter: [
-      'Enter fixed costs for the period you are planning, such as booth fees, rent, software, equipment, setup, or design costs.',
+      'Enter fixed costs for the same period you are planning, such as booth fees, rent, software, equipment, setup, permits, insurance, or design costs.',
       'Enter price per unit as the amount one customer pays for one item, ticket, order, or service package.',
-      'Enter variable cost per unit as the cost that happens each time one unit sells, such as materials, packaging, payment fees, or direct labor.',
+      'Enter variable cost per unit as the cost that happens each time one unit sells, such as materials, packaging, payment fees, commissions, shipping, or direct labor.',
+      'Keep one-time startup costs, owner pay, debt payments, taxes, and mixed-product averages separate unless they belong in the period you are checking.',
     ],
     example: [
       'If fixed costs are $5,000, price is $40, and variable cost is $18, each sale leaves $22 after variable cost.',
       'The calculator divides $5,000 by $22, so the break-even point is about 227.27 units, or about $9,090.91 in sales.',
+      'If you sell physical items, round 227.27 up to 228 units because 227 units still does not quite cover the estimate.',
+      'For a $1,200 food stall with a $12 price and $4.25 variable cost, the contribution is $7.75 per item and break-even is about 154.84 items.',
     ],
     read: [
       'Break-even units is the main answer. In real life, you usually round up because you cannot sell part of a physical item.',
       'Break-even sales is the revenue needed at the price you entered.',
       'Contribution margin per unit is the amount each sale contributes toward fixed costs and then profit.',
+      'Contribution margin ratio shows the same idea as a percent of price, which helps when you compare price changes.',
     ],
     mistakes: [
       'Do not put total costs into variable cost per unit. Variable cost should be for one unit.',
-      'Do not forget fees, refunds, discounts, or wasted materials if they happen often.',
-      'Do not use this as proof that the business idea is good. It only checks one part of the money math.',
+      'Do not mix weekly sales with monthly fixed costs. The time period has to match.',
+      'Do not forget fees, refunds, discounts, waste, payment processing, or shipping if they happen often.',
+      'Do not use this as proof that the business idea is good. It only checks the zero-profit point, not demand, cash flow, taxes, or owner pay.',
     ],
     next: ['Use Profit Goal Calculator when you want profit above break-even.', 'Use Markup Calculator to test a different selling price.'],
   },
@@ -3600,6 +3609,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Discount Calculator Guide';
   }
 
+  if (tool.slug === 'break-even-calculator') {
+    return 'Break-Even Calculator Guide';
+  }
+
   if (tool.slug === 'average-return-calculator') {
     return 'Average Return Calculator Guide';
   }
@@ -3677,6 +3690,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'discount-calculator') {
     return 'Learn final price, total savings, effective discount, stacked discounts, tax, and sale-rule checks before checkout.';
+  }
+
+  if (tool.slug === 'break-even-calculator') {
+    return 'Learn break-even units, sales revenue, contribution margin, fixed costs, variable costs, and zero-profit limits with clear examples.';
   }
 
   if (tool.slug === 'average-return-calculator') {

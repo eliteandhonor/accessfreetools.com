@@ -280,6 +280,18 @@ const toolArtMetadataOverrides = {
         'Auto Lease Calculator guide artwork supports the walkthrough by tying lease math to written quote checks: amount due at signing, mileage limits, fees, wear rules, purchase option, and total lease amount.',
     },
   },
+  'break-even-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking $5,000 fixed costs, $40 price, $18 variable cost, $22 contribution margin, 227.27 break-even units, and $9,090.91 sales cards.',
+      caption:
+        'Break Even Calculator artwork matches the live workflow: fixed costs, price per unit, variable cost per unit, contribution margin, break-even units, and break-even sales.',
+    },
+    guide: {
+      alt: 'Smoke mascot sorting break-even cards for fixed costs, variable costs, contribution margin, rounded-up unit sales, mixed-product limits, fees, refunds, and capacity notes.',
+      caption:
+        'Break Even Calculator guide artwork supports the walkthrough by separating simple zero-profit math from demand, cash flow, mixed products, capacity, refunds, fees, taxes, and owner pay.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',

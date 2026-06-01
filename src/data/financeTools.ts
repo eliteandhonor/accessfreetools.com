@@ -172,17 +172,18 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'break-even-calculator',
     name: 'Break Even Calculator',
+    seoTitle: 'Break Even Calculator | Units And Sales Target',
     summary: 'Find the unit sales and revenue needed to cover fixed and variable costs.',
     description:
-      'Use this free break even calculator to estimate how many units and how much sales revenue are needed before a product, service, or project starts making profit.',
+      'Estimate how many units and how much sales revenue are needed before a product, service, or project covers its fixed and variable costs.',
     seoDescription:
-      'Calculate break-even units, break-even sales, contribution margin per unit, and contribution margin ratio from fixed costs, price, and variable cost.',
+      'Calculate break-even units, break-even sales, contribution margin, and price-versus-variable-cost checks before setting a sales target.',
     icon: 'calculator-break-even',
-    aliases: ['break even point calculator', 'break-even analysis calculator', 'break even sales calculator'],
+    aliases: ['break even point calculator', 'break-even analysis calculator', 'break even sales calculator', 'contribution margin calculator', 'cost volume profit calculator'],
     formula:
-      'The calculator subtracts variable cost per unit from selling price to get contribution margin per unit, then divides fixed costs by that contribution margin.',
+      'Contribution margin per unit = price per unit - variable cost per unit. Break-even units = fixed costs / contribution margin per unit. Break-even sales = break-even units x price per unit.',
     limit:
-      'This does not include taxes, refunds, discounts, credit-card fees, inventory shrinkage, mixed product bundles, capacity limits, financing, or accounting advice.',
+      'This is a one-product planning estimate. It does not prove demand, profit, cash flow, taxes, owner pay, refunds, discounts, payment fees, inventory shrinkage, mixed product bundles, capacity limits, financing, or accounting treatment.',
     useCases: [
       'Estimate how many items must sell before a product launch covers fixed costs.',
       'Compare prices or variable costs before choosing a sales target.',
@@ -190,9 +191,9 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Explain contribution margin in plain language before making a budget.',
     ],
     examples: [
-      { label: 'Product launch', expression: '$5,000 fixed costs, $40 price, $18 variable cost', result: 'Break-even units and sales' },
-      { label: 'Online course', expression: '$2,500 fixed costs, $99 price, $8 variable cost', result: 'Course sales needed' },
-      { label: 'Food stall', expression: '$1,200 fixed costs, $12 price, $4.25 variable cost', result: 'Event break-even point' },
+      { label: 'Product launch', expression: '$5,000 fixed costs, $40 price, $18 variable cost', result: '227.27 units, about $9,090.91 sales, and $22 contribution per unit' },
+      { label: 'Online course', expression: '$2,500 fixed costs, $99 price, $8 variable cost', result: '27.47 sales, about $2,719.78 revenue, and $91 contribution per sale' },
+      { label: 'Food stall', expression: '$1,200 fixed costs, $12 price, $4.25 variable cost', result: '154.84 items, about $1,858.06 sales, and $7.75 contribution per item' },
     ],
     relatedSlugs: ['profit-goal-calculator', 'markup-calculator', 'business-loan-calculator'],
     inputExplanations: [
@@ -212,6 +213,31 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
           'If price is not higher than variable cost, each sale loses money before fixed costs are even considered. In that situation, selling more units does not create a normal break-even point.',
       },
     ],
+    priorityFaq: [
+      {
+        question: 'Should I round break-even units up?',
+        answer:
+          'Usually yes. If the answer is 227.27 units and you sell physical items, 227 units is still short. You would need 228 units to cover the fixed-cost estimate.',
+      },
+      {
+        question: 'Can I use this for more than one product?',
+        answer:
+          'Only as a rough average. Mixed products need a weighted average contribution margin because a $12 item and a $99 service do not cover fixed costs at the same speed.',
+      },
+      {
+        question: 'Does break-even mean the idea is profitable?',
+        answer:
+          'No. Break-even means estimated revenue covers estimated costs at zero profit. It does not include owner pay, taxes, debt timing, inventory risk, or whether enough people will buy.',
+      },
+    ],
+    formulaCheck:
+      '$5,000 fixed costs with a $40 price and $18 variable cost leaves $22 per sale. $5,000 / $22 = 227.27 units, and 227.27 x $40 = about $9,090.91 in sales.',
+    resultReading:
+      'Read break-even units first, then break-even sales, then contribution per unit. If contribution is small, fixed costs take longer to cover.',
+    doubleCheck:
+      'Check that fixed costs and sales period match, variable cost is for one unit, and fees, discounts, refunds, waste, and capacity limits are not being ignored.',
+    limitFollowup:
+      'Use business records, accounting software, a bookkeeper, or a financial adviser before using break-even math for funding, tax, hiring, or pricing decisions.',
   },
   {
     slug: 'markup-calculator',

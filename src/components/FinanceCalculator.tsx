@@ -1277,7 +1277,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Break Even Calculator',
     buttonLabel: 'Calculate break-even',
     emptyHistory: 'Recent break-even estimates will appear here.',
-    privacyNote: 'Break-even estimates use the simple cost and price values you enter and do not include taxes, refunds, financing, inventory shrinkage, or accounting advice.',
+    privacyNote:
+      'Break-even estimates stay in this browser tab. They do not verify demand, taxes, owner pay, refunds, discounts, payment fees, inventory shrinkage, mixed-product sales, capacity, financing, or accounting treatment.',
     modes: [
       {
         id: 'break-even',
@@ -1290,9 +1291,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { fixedCosts: '5000', pricePerUnit: '40', variableCostPerUnit: '18' },
         examples: [
-          { label: 'Product launch', inputs: { fixedCosts: '5000', pricePerUnit: '40', variableCostPerUnit: '18' } },
-          { label: 'Online course', inputs: { fixedCosts: '2500', pricePerUnit: '99', variableCostPerUnit: '8' } },
-          { label: 'Food stall', inputs: { fixedCosts: '1200', pricePerUnit: '12', variableCostPerUnit: '4.25' } },
+          { label: '227.27 units', inputs: { fixedCosts: '5000', pricePerUnit: '40', variableCostPerUnit: '18' } },
+          { label: '$2,719.78 course sales', inputs: { fixedCosts: '2500', pricePerUnit: '99', variableCostPerUnit: '8' } },
+          { label: '154.84 food-stall items', inputs: { fixedCosts: '1200', pricePerUnit: '12', variableCostPerUnit: '4.25' } },
         ],
       },
     ],
@@ -3558,7 +3559,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide fixed costs by contribution margin per unit.',
           'Multiply break-even units by price per unit to estimate break-even sales.',
         ],
-        note: 'This is a planning estimate. Real break-even can move when refunds, discounts, taxes, capacity, or mixed product sales change.',
+        note:
+          'This is zero-profit planning math, not proof that the idea works. Real break-even can move when refunds, discounts, fees, taxes, inventory waste, capacity, owner pay, or mixed product sales change.',
       };
     }
     case 'markup': {

@@ -7464,17 +7464,19 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'break-even-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-business-ratios-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [calculatorSoupSitemap, sbaBreakEven, openStaxBreakEven, googleHelpfulContent],
+    sources: [calculatorSoupSitemap, sbaBreakEven, openStaxBreakEven, irsPublication334, googleHelpfulContent],
     findings: [
-      'CalculatorSoup competitor research surfaced break-even analysis as a standalone business-planning gap.',
+      'DataForSEO evidence is page-specific for break-even calculator, break-even point, break-even sales, contribution margin, fixed costs, variable costs, and cost-volume-profit intent.',
+      'SBA guidance confirms break-even units as fixed costs divided by price minus variable cost, with warnings about fixed, variable, and semi-variable costs.',
       'Formula review checked fixed costs, price per unit, variable cost per unit, contribution margin, break-even units, and break-even sales.',
-      'FAQ and guide explain contribution margin, why price must exceed variable cost, and why real capacity, discounts, and refunds can change the plan.',
+      'OpenStax backs contribution margin and break-even units/dollars, while IRS Publication 334 helps set careful boundaries around gross receipts, cost of goods sold, and tax/accounting limits.',
+      'FAQ and guide explain contribution margin, why price must exceed variable cost, why fractional units usually round up, and why real demand, capacity, discounts, fees, refunds, inventory loss, and mixed products can change the plan.',
     ],
     improvements: [
-      'Added break-even UI, examples, source-backed guide detail, contribution margin outputs, detailed FAQ, business-related links, and formula tests.',
+      'Rebuilt title/meta, examples, calculator note, input explanations, FAQ answers, guide title, guide meta, source links, trust wording, image alt/caption, sitemap dates, and page-specific proof around break-even units, sales revenue, contribution margin, rounding, one-product limits, and zero-profit meaning.',
     ],
     followUps: [
       'Add mixed-product break-even only if the UI can clearly explain weighted-average contribution margin.',
