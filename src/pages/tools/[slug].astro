@@ -757,6 +757,13 @@ const financeToolInstructions = financeToolVariant
         'Press the calculate button to see total monthly payment, principal and interest, upfront MIP, monthly MIP, and loan-to-value.',
         'Check the county FHA loan limit, lender quote, Loan Estimate, credit approval, debt-to-income ratio, and property rules before relying on the number.',
       ]
+    : tool.slug === 'va-mortgage-calculator'
+    ? [
+        'Enter the home price, down payment, interest rate, term, yearly property tax, and monthly homeowners insurance.',
+        'Choose first use or later use, whether the VA funding fee is officially exempt, and whether the funding fee is financed.',
+        'Calculate, then compare total monthly payment, base loan amount, funding-fee rate, funding-fee dollars, and loan-to-value.',
+        'Check your Certificate of Eligibility, lender Loan Estimate, Closing Disclosure, appraisal, entitlement review, seller credits, and VA closing-cost rules before relying on the number.',
+      ]
     : tool.slug === 'ad-revenue-calculator'
     ? [
         'Enter daily page views as a one-day traffic estimate.',
@@ -2207,6 +2214,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Personal loan estimate'
               : tool.slug === 'refinance-calculator'
               ? 'Refinance comparison'
+              : tool.slug === 'va-mortgage-calculator'
+              ? 'VA purchase estimate'
               : tool.slug === 'apr-calculator'
               ? 'Loan APR estimate'
               : 'Estimate, not advice'}
@@ -2226,6 +2235,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Cash needed, LTV, and closing costs'
               : tool.slug === 'fha-loan-calculator'
               ? 'Payment, MIP, and LTV'
+              : tool.slug === 'va-mortgage-calculator'
+              ? 'Payment, VA fee, and LTV'
               : tool.slug === 'loan-calculator'
               ? 'Payment, total paid, and interest'
               : tool.slug === 'finance-calculator'
@@ -2555,6 +2566,36 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-mortgage-interest-rate-and-an-apr-en-135/" rel="noreferrer" target="_blank">
                   CFPB mortgage APR notes
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'va-mortgage-calculator' ? (
+            <>
+              <strong>VA purchase estimate, not lender approval</strong>
+              <p>
+                Use this to test home price, down payment, interest rate, term, first-use status,
+                funding-fee exemption, financed funding fee, tax, insurance, payment, funding-fee dollars,
+                and loan-to-value. A real VA loan can still change with eligibility, Certificate of Eligibility,
+                entitlement, appraisal, occupancy rules, lender overlays, seller credits, concessions,
+                closing costs, discount points, escrow setup, and the written Loan Estimate.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.va.gov/housing-assistance/home-loans/funding-fee-and-closing-costs" rel="noreferrer" target="_blank">
+                  VA funding fee and closing costs
+                </a>
+                {', '}
+                <a href="https://www.va.gov/housing-assistance/home-loans/eligibility/" rel="noreferrer" target="_blank">
+                  VA home loan eligibility
+                </a>
+                {', '}
+                <a href="https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/" rel="noreferrer" target="_blank">
+                  VA Certificate of Eligibility
+                </a>
+                {', and '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/" rel="noreferrer" target="_blank">
+                  CFPB Loan Estimate
                 </a>
                 .
               </p>

@@ -2011,7 +2011,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'VA Mortgage Calculator',
     buttonLabel: 'Estimate VA payment',
     emptyHistory: 'Recent VA mortgage estimates will appear here.',
-    privacyNote: 'VA estimates use the public funding-fee rate logic for common purchase loans and do not decide eligibility or lender terms.',
+    privacyNote:
+      'VA estimates use public purchase funding-fee logic and do not decide eligibility, Certificate of Eligibility status, exemption, appraisal, entitlement, seller concessions, closing costs, or lender approval.',
     modes: [
       {
         id: 'va-mortgage',
@@ -2030,9 +2031,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { homePrice: '360000', downPayment: '0', annualRatePercent: '6.25', years: '30', firstUse: 'yes', exemptFundingFee: 'no', financeFundingFee: 'yes', annualPropertyTax: '4200', monthlyInsurance: '140' },
         examples: [
-          { label: 'First use, no down', inputs: { homePrice: '360000', downPayment: '0', annualRatePercent: '6.25', years: '30', firstUse: 'yes', exemptFundingFee: 'no', financeFundingFee: 'yes', annualPropertyTax: '4200', monthlyInsurance: '140' } },
-          { label: '5% down', inputs: { homePrice: '360000', downPayment: '18000', annualRatePercent: '6.1', years: '30', firstUse: 'yes', exemptFundingFee: 'no', financeFundingFee: 'yes', annualPropertyTax: '4200', monthlyInsurance: '140' } },
-          { label: 'Exempt fee', inputs: { homePrice: '300000', downPayment: '0', annualRatePercent: '6.3', years: '30', firstUse: 'yes', exemptFundingFee: 'yes', financeFundingFee: 'no', annualPropertyTax: '3600', monthlyInsurance: '125' } },
+          { label: '$2,754.24/mo, fee financed', inputs: { homePrice: '360000', downPayment: '0', annualRatePercent: '6.25', years: '30', firstUse: 'yes', exemptFundingFee: 'no', financeFundingFee: 'yes', annualPropertyTax: '4200', monthlyInsurance: '140' } },
+          { label: '5% down, 1.5% fee', inputs: { homePrice: '360000', downPayment: '18000', annualRatePercent: '6.1', years: '30', firstUse: 'yes', exemptFundingFee: 'no', financeFundingFee: 'yes', annualPropertyTax: '4200', monthlyInsurance: '140' } },
+          { label: '$0 funding fee exempt', inputs: { homePrice: '300000', downPayment: '0', annualRatePercent: '6.3', years: '30', firstUse: 'yes', exemptFundingFee: 'yes', financeFundingFee: 'no', annualPropertyTax: '3600', monthlyInsurance: '125' } },
         ],
       },
     ],

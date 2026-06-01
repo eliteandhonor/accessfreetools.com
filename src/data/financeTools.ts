@@ -1505,11 +1505,20 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     summary: 'Estimate a VA-backed purchase loan payment with common funding-fee logic.',
     description:
       'Use this free VA mortgage calculator to estimate monthly payment, VA funding fee, loan-to-value, and financing effect for a common VA purchase scenario.',
+    seoTitle: 'VA Mortgage Calculator | Funding Fee And Payment',
+    seoDescription:
+      'Estimate a VA purchase loan payment with VA funding fee, financed-fee option, tax and insurance inputs, loan-to-value, and exemption cautions.',
     icon: 'calculator-mortgage',
+    aliases: [
+      'va loan calculator',
+      'va mortgage payment calculator',
+      'va funding fee calculator',
+      'va home loan calculator',
+    ],
     formula:
       'The calculator estimates a common VA purchase funding-fee rate from down payment and first-use status, adds the fee to the loan if selected, then calculates monthly mortgage payment.',
     limit:
-      'This does not determine VA eligibility, exemption status, appraisal rules, entitlement, lender overlays, closing costs, seller concessions, or official loan terms.',
+      'This does not determine VA eligibility, Certificate of Eligibility status, funding-fee exemption, appraisal rules, entitlement, lender overlays, closing costs, seller concessions, tax treatment, or official loan terms.',
     useCases: [
       'Estimate payment on a VA purchase loan.',
       'Compare first-use, subsequent-use, down payment, and exemption scenarios.',
@@ -1517,11 +1526,68 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Screen monthly payment before lender quotes.',
     ],
     examples: [
-      { label: 'First use, no down', expression: '$360,000 home, first VA use, no down payment', result: 'Payment and funding fee' },
-      { label: '5% down', expression: '$360,000 home with 5% down', result: 'Lower funding fee rate' },
-      { label: 'Exempt fee', expression: 'Funding-fee exemption selected', result: 'No funding fee estimate' },
+      {
+        label: 'First use, no down',
+        expression: '$360,000 home, 6.25%, 30 years, first VA use, no down payment, funding fee financed',
+        result: 'About $2,754.24/month with a $7,740 VA funding fee financed into a $367,740 loan',
+      },
+      {
+        label: '5% down',
+        expression: '$360,000 home, $18,000 down, 6.1%, 30 years, first VA use, funding fee financed',
+        result: 'About $2,593.59/month with a 1.5% funding fee, or about $5,130',
+      },
+      {
+        label: 'Exempt fee',
+        expression: '$300,000 home, 6.3%, 30 years, no down payment, funding-fee exemption selected',
+        result: 'About $2,281.92/month with no VA funding fee added',
+      },
     ],
     relatedSlugs: ['mortgage-calculator', 'fha-loan-calculator', 'down-payment-calculator'],
+    inputExplanations: [
+      { term: 'Home price', meaning: 'the purchase price you want to test before any down payment.' },
+      { term: 'Down payment', meaning: 'cash paid upfront. VA purchase loans can be no-down, but a down payment can lower the funding-fee rate.' },
+      { term: 'First VA loan use', meaning: 'whether this is your first use of the VA home loan benefit. Later use can raise the no-down funding-fee rate.' },
+      { term: 'Funding fee exempt', meaning: 'choose yes only when official VA or lender paperwork says the funding fee does not apply.' },
+      { term: 'Finance funding fee', meaning: 'choose yes when the funding fee is rolled into the loan balance instead of paid at closing.' },
+      { term: 'Tax and insurance', meaning: 'rough monthly escrow-style costs you enter so the payment estimate is closer to a real budget.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What VA funding fee rate does this calculator use?',
+        answer:
+          'For VA-backed purchase loans, it uses the official VA chart effective April 7, 2023: 2.15% for first use under 5% down, 3.3% for later use under 5% down, 1.5% at 5% down, and 1.25% at 10% down. If exemption is selected, the fee is $0.',
+      },
+      {
+        question: 'What happens if I finance the VA funding fee?',
+        answer:
+          'The fee is added to the loan balance, so the monthly payment rises. For a $360,000 no-down first-use example, the 2.15% fee is $7,740 and the financed loan starts at $367,740.',
+      },
+      {
+        question: 'Does this prove I qualify for a VA loan?',
+        answer:
+          'No. VA eligibility, your Certificate of Eligibility, lender credit rules, income review, appraisal, occupancy, entitlement, and exemption status all need official review.',
+      },
+    ],
+    formulaCheck:
+      'This is purchase-loan funding-fee logic. It is not an IRRRL, cash-out refinance, manufactured-home, NADL, assumption, or Vendee-loan calculator.',
+    resultReading:
+      'Start with total monthly payment, then read principal and interest, funding fee dollars, funding-fee rate, and loan-to-value. If the fee is financed, remember the loan balance is higher.',
+    doubleCheck:
+      'Check whether the lender is using first-use or subsequent-use status, whether you are fee-exempt, whether seller credits or concessions apply, and whether only the funding fee is being financed on a purchase loan.',
+    limitFollowup:
+      'Use your VA Certificate of Eligibility, lender Loan Estimate, Closing Disclosure, appraisal, entitlement review, and VA funding-fee rules before acting on the estimate.',
+    extraFaq: [
+      {
+        question: 'Can I finance all VA closing costs?',
+        answer:
+          'For a VA purchase loan, the VA says you can finance only the VA funding fee into the loan amount. Other closing costs need to be paid at closing or handled through allowed credits and concessions.',
+      },
+      {
+        question: 'Why can a VA loan have no monthly mortgage insurance?',
+        answer:
+          'The VA funding fee helps support the program, and VA-backed loans do not require monthly mortgage insurance. You still need to budget for taxes, insurance, fees, and lender rules.',
+      },
+    ],
   },
   {
     slug: 'home-equity-loan-calculator',

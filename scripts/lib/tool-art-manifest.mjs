@@ -148,6 +148,18 @@ const toolArtMetadataOverrides = {
         'Refinance Calculator guide artwork supports the walkthrough by showing why payment savings, closing costs, APR, points, break-even time, and lender disclosures need checking together.',
     },
   },
+  'va-mortgage-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a $360,000 VA-backed purchase loan with no down payment, 2.15 percent funding fee, financed-fee loan balance, payment, tax, insurance, and loan-to-value cards.',
+      caption:
+        'VA Mortgage Calculator artwork matches the workflow: home price, down payment, first-use status, funding-fee exemption, financed funding fee, monthly payment, tax, insurance, and loan-to-value.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing VA funding-fee paperwork, Certificate of Eligibility notes, Loan Estimate, closing-cost receipt, and payment cards for a VA purchase loan.',
+      caption:
+        'VA Mortgage Calculator guide artwork supports the walkthrough by showing why funding-fee status, exemption proof, Loan Estimate details, closing costs, and payment math need checking together.',
+    },
+  },
   'payment-calculator': {
     tool: {
       alt: 'Smoke mascot linking amount financed, interest-rate gauge, term calendar, and a row of monthly payment cards for the Payment Calculator.',

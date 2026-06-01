@@ -691,6 +691,18 @@ const sourceLinks = {
     href: 'https://www.va.gov/housing-assistance/home-loans/funding-fee-and-closing-costs',
     label: 'VA: Funding fee and loan closing costs',
   },
+  vaEligibility: {
+    href: 'https://www.va.gov/housing-assistance/home-loans/eligibility/',
+    label: 'VA: Home loan eligibility',
+  },
+  vaCertificateOfEligibility: {
+    href: 'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/',
+    label: 'VA: How to request a Certificate of Eligibility',
+  },
+  vaPurchaseLoan: {
+    href: 'https://www.va.gov/housing-assistance/home-loans/loan-types/purchase-loan/',
+    label: 'VA: Purchase loan',
+  },
   hudFhaMip: {
     href: 'https://www.hud.gov/hud-partners/housing-mip',
     label: 'HUD: FHA single family mortgage insurance premiums',
@@ -1235,7 +1247,16 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'va-mortgage-calculator') {
-    return [sourceLinks.vaFundingFee, sourceLinks.cfpbMortgage];
+    return [
+      sourceLinks.vaFundingFee,
+      sourceLinks.vaEligibility,
+      sourceLinks.vaCertificateOfEligibility,
+      sourceLinks.vaPurchaseLoan,
+      sourceLinks.cfpbLoanEstimate,
+      sourceLinks.cfpbMortgageClosingFees,
+      sourceLinks.cfpbClosingDisclosure,
+      sourceLinks.cfpbMortgage,
+    ];
   }
 
   if (toolSlug === 'home-equity-loan-calculator') {
@@ -3299,27 +3320,33 @@ const guideDetails: Record<string, GuideDetail> = {
   'va-mortgage-calculator': {
     summary: 'Learn how a VA purchase funding fee can affect loan amount and payment.',
     purpose:
-      'The VA Mortgage Calculator estimates a common VA-backed purchase scenario. It focuses on payment and funding-fee logic, not eligibility.',
+      'The VA Mortgage Calculator estimates a common VA-backed purchase scenario. It is useful for checking payment, funding fee, and financed-fee effects before you compare the result with VA and lender paperwork.',
     enter: [
       'Enter home price, down payment, rate, term, property tax, and insurance.',
       'Choose first use or later use, funding-fee exemption, and whether to finance the funding fee.',
-      'Use the VA funding fee result as a planning estimate before checking official loan documents.',
+      'Choose exemption only when official VA or lender paperwork says the VA funding fee does not apply.',
     ],
     example: [
-      '$360,000 with no down payment and first VA use uses the common first-use funding-fee rate.',
-      'The calculator adds the fee to the loan if financed, then estimates the mortgage payment.',
+      '$360,000 with no down payment, first VA use, 6.25%, 30 years, $4,200 yearly tax, and $140 monthly insurance uses the 2.15% first-use funding-fee rate.',
+      'That fee is $7,740. If it is financed, the loan starts at $367,740 and the estimate is about $2,754.24 per month with the entered tax and insurance.',
+      'With 5% down on the same price, the VA funding-fee rate in this simplified purchase model drops to 1.5%, or about $5,130.',
     ],
     read: [
       'Funding fee rate is chosen from down payment, first-use status, and exemption setting.',
       'Funding fee dollars show the one-time fee amount in this simplified purchase model.',
       'Total monthly payment changes if the fee is financed because the loan balance is higher.',
+      'Loan-to-value still helps you see how much of the home price is being borrowed before other closing costs.',
     ],
     mistakes: [
       'Do not use this to prove VA eligibility or exemption status.',
-      'Do not forget lender fees, discount points, appraisal, title, seller credits, and VA closing-cost rules.',
-      'Do not use purchase funding-fee logic for every VA refinance type.',
+      'Do not forget the Certificate of Eligibility, appraisal, occupancy rules, lender overlays, seller credits, concessions, discount points, title fees, escrow setup, and cash needed at closing.',
+      'Do not use purchase funding-fee logic for every VA refinance type, assumption, manufactured-home case, Native American Direct Loan, or Vendee loan.',
     ],
-    next: ['Use FHA Loan Calculator for another government-backed loan comparison.', 'Use Mortgage Calculator for a plain mortgage estimate.'],
+    next: [
+      'Use FHA Loan Calculator for another government-backed loan comparison.',
+      'Use Mortgage Calculator for a plain mortgage estimate.',
+      'Use Down Payment Calculator to test how cash down changes the loan-to-value.',
+    ],
   },
   'home-equity-loan-calculator': {
     summary: 'Learn how home value, mortgage balance, loan amount, and CLTV shape a fixed home equity loan estimate.',

@@ -1121,6 +1121,21 @@ const vaFundingFee = {
   label: 'VA: Funding fee and loan closing costs',
 };
 
+const vaEligibility = {
+  href: 'https://www.va.gov/housing-assistance/home-loans/eligibility/',
+  label: 'VA: Home loan eligibility',
+};
+
+const vaCertificateOfEligibility = {
+  href: 'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/',
+  label: 'VA: How to request a Certificate of Eligibility',
+};
+
+const vaPurchaseLoan = {
+  href: 'https://www.va.gov/housing-assistance/home-loans/loan-types/purchase-loan/',
+  label: 'VA: Purchase loan',
+};
+
 const cfpbHomeEquity = {
   href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-home-equity-loan-en-106/',
   label: 'CFPB: What is a home equity loan?',
@@ -3642,17 +3657,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'va-mortgage-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-6-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'serpforge-va-mortgage-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [vaFundingFee, cfpbMortgage],
+    sources: [vaFundingFee, vaEligibility, vaCertificateOfEligibility, vaPurchaseLoan, cfpbLoanEstimate, cfpbMortgageClosingFees, cfpbClosingDisclosure, cfpbMortgage],
     findings: [
       'The calculator chooses common VA purchase funding-fee rates from down payment and first-use status, supports exemption, and optionally finances the fee into the loan.',
       'The VA funding-fee logic matches the official VA purchase chart effective April 7, 2023: 2.15% first use under 5%, 3.3% later use under 5%, 1.5% at 5% down, and 1.25% at 10% down.',
-      'The guide now warns that VA eligibility, exemption status, seller concessions, closing costs, lender fees, appraisal, and refinance types need official loan review.',
+      'The guide now warns that VA eligibility, Certificate of Eligibility status, exemption status, seller concessions, closing costs, lender fees, appraisal, occupancy, entitlement, and refinance types need official loan review.',
+      'DataForSEO page evidence was run for the exact tool and guide during the required all-pages sprint before the June 2 copy pass.',
     ],
     improvements: [
-      'Added VA-mortgage-specific guide detail and manually checked funding-fee conditions, financing behavior, payment math, examples, FAQ cautions, VA/CFPB source coverage, SEO copy, and privacy behavior.',
+      'Added VA-mortgage-specific SEO title and description, aliases, exact payment and funding-fee examples, input explanations, priority FAQs, guide detail, VA/CFPB source coverage, trust wording, specific image alt/caption text, and privacy/result notes.',
     ],
     followUps: [
       'Add separate VA IRRRL and cash-out refinance handling only as separate sourced tools or modes.',
@@ -7925,7 +7941,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['va-mortgage', 'va mortgage'])) {
-      return sourceBackstop([vaFundingFee, cfpbMortgage]);
+      return sourceBackstop([vaFundingFee, vaEligibility, vaCertificateOfEligibility, vaPurchaseLoan, cfpbLoanEstimate, cfpbMortgageClosingFees, cfpbClosingDisclosure, cfpbMortgage]);
     }
 
     if (includesAny(key, ['home-equity-loan', 'home equity loan'])) {
