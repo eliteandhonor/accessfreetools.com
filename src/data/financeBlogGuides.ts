@@ -918,7 +918,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'roi-calculator') {
-    return [sourceLinks.openStaxInvestments, sourceLinks.investorAnnualReturn];
+    return [sourceLinks.openStaxInvestments, sourceLinks.finraInvestmentReturns, sourceLinks.investorGovFees];
   }
 
   if (toolSlug === 'payback-period-calculator') {
@@ -3150,29 +3150,33 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use ROI Calculator for a simpler gain-versus-cost number.', 'Use Payback Period Calculator to see how long recovery takes.'],
   },
   'roi-calculator': {
-    summary: 'Learn how simple ROI compares gain or loss with the original investment.',
+    summary: 'Learn how simple ROI compares gain or loss with the starting cost.',
     purpose:
-      'The ROI Calculator is for a quick gain-versus-cost check. It is simple on purpose, so it is useful for one snapshot but not enough for full investment analysis.',
+      'The ROI Calculator is for a quick gain-versus-cost check. It is simple on purpose: one starting cost, one ending value, income, costs, and a clear percent. That makes it useful for a snapshot, but not enough for a full investment decision.',
     enter: [
-      'Enter the initial investment as the money or cost you are measuring against.',
-      'Enter ending value, extra income, and costs separately so the gain is not guessed.',
+      'Enter the initial investment as the starting cost or money at risk.',
+      'Enter ending value, income, and costs separately so the gain is not guessed.',
       'Use the same currency and the same project boundary for every field.',
     ],
     example: [
-      '$10,000 initial investment, $12,500 ending value, $300 income, and $100 costs gives a gain of $2,700.',
-      'The calculator divides that gain by the $10,000 initial investment to estimate ROI.',
+      '$10,000 initial investment, $12,500 ending value, $600 income, and $250 costs gives a gain of $2,850.',
+      'The calculator divides that $2,850 gain by the $10,000 initial investment, so the simple ROI is 28.5%.',
     ],
     read: [
       'ROI percent shows gain or loss compared with the starting investment.',
       'Gain or loss is the dollar result after ending value plus income minus costs and initial investment.',
-      'A positive ROI does not tell you whether the return was fast, slow, risky, or better than another option.',
+      'A positive ROI does not tell you whether the return was fast, slow, risky, fee-heavy, or better than another option.',
     ],
     mistakes: [
       'Do not compare ROI across projects with very different time lengths without another metric.',
       'Do not forget fees, taxes, financing cost, repairs, subscriptions, or labor if they belong in the project.',
-      'Do not use ROI as if it were IRR, annual return, or profit margin.',
+      'Do not use simple ROI as if it were IRR, annual return, NPV, or profit margin.',
     ],
-    next: ['Use IRR Calculator for uneven cash flows over time.', 'Use Payback Period Calculator to see how long cost recovery takes.'],
+    next: [
+      'Use Average Return Calculator when you need a yearly-style return check.',
+      'Use IRR Calculator for uneven cash flows over time.',
+      'Use Payback Period Calculator to see how long cost recovery takes.',
+    ],
   },
   'apr-calculator': {
     summary: 'Learn how loan fees can make APR higher than the note interest rate.',

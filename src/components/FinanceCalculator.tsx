@@ -1938,7 +1938,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'ROI Calculator',
     buttonLabel: 'Calculate ROI',
     emptyHistory: 'Recent ROI estimates will appear here.',
-    privacyNote: 'ROI is simple gain divided by initial investment and does not adjust for time, risk, taxes, or inflation.',
+    privacyNote:
+      'ROI estimates stay in this browser tab. Simple ROI does not annualize the result or adjust for time, risk, taxes, inflation, financing, or fees you leave out.',
     modes: [
       {
         id: 'roi',
@@ -1947,9 +1948,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         fields: [numberField('initialInvestment', 'Initial investment ($)'), numberField('endingValue', 'Ending value ($)'), numberField('income', 'Income received ($)'), numberField('costs', 'Costs paid ($)')],
         defaultInputs: { initialInvestment: '10000', endingValue: '12500', income: '600', costs: '250' },
         examples: [
-          { label: 'Investment gain', inputs: { initialInvestment: '10000', endingValue: '12500', income: '600', costs: '250' } },
-          { label: 'Small project', inputs: { initialInvestment: '3000', endingValue: '3900', income: '0', costs: '150' } },
-          { label: 'Loss check', inputs: { initialInvestment: '8000', endingValue: '7200', income: '300', costs: '100' } },
+          { label: '28.5% ROI gain', inputs: { initialInvestment: '10000', endingValue: '12500', income: '600', costs: '250' } },
+          { label: '25% project ROI', inputs: { initialInvestment: '3000', endingValue: '3900', income: '0', costs: '150' } },
+          { label: '-7.5% loss check', inputs: { initialInvestment: '8000', endingValue: '7200', income: '300', costs: '100' } },
         ],
       },
     ],
@@ -4235,6 +4236,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Subtract costs and initial investment.',
           'Divide gain or loss by initial investment.',
         ],
+        note:
+          'This is simple total ROI for the entered snapshot. It is not annualized and does not judge holding time, cash-flow timing, taxes, financing, inflation, or risk.',
       };
     }
     case 'apr': {

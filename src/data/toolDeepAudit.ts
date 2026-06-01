@@ -3547,17 +3547,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'roi-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-6-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [openStaxInvestments, investorAnnualReturn],
+    sources: [openStaxInvestments, finraInvestmentReturns, investorGovFees],
     findings: [
-      'The calculator adds ending value and income, subtracts costs and initial investment, then divides gain or loss by initial investment for simple ROI.',
-      'The result correctly labels positive and negative outcomes as estimated gain or estimated loss while keeping dollar gain and percentage ROI separate.',
-      'The guide now warns that simple ROI ignores time length, compounding, taxes, financing, risk, inflation, and cash-flow timing.',
+      'DataForSEO showed "roi calculator" demand at 22,200 United States monthly searches, with "roi formula" also strong at 14,800 monthly searches and modifiers around real estate, Excel, monthly ROI, and crypto.',
+      'Current OpenStax source checks confirm the simple ROI formula compares final value with the original investment as a percent, while FINRA and Investor.gov source checks reinforce that fees, costs, risk, and holding period can change the real answer.',
+      'The calculator keeps simple ROI, dollar gain or loss, and ending value separate, and the page now says clearly that this is not annualized ROI, IRR, NPV, or investment advice.',
     ],
     improvements: [
-      'Added ROI-specific guide detail and manually checked formula behavior, examples, result labels, FAQ cautions, OpenStax/Investor.gov source coverage, related tools, SEO copy, and privacy note.',
+      'Added ROI-specific SEO title and description, DataForSEO-backed aliases, exact 28.5%, 25%, and -7.5% examples, input explanations, priority FAQs, source-backed trust block, updated guide walkthrough, specific image alt/caption text, and clearer result notes.',
     ],
     followUps: [
       'Add an annualized ROI mode only if the UI makes the time-period assumption impossible to miss.',
@@ -7864,7 +7864,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['roi-calculator', 'roi calculator'])) {
-      return sourceBackstop([openStaxInvestments, investorAnnualReturn]);
+      return sourceBackstop([openStaxInvestments, finraInvestmentReturns, investorGovFees]);
     }
 
     if (includesAny(key, ['apr-calculator', 'apr calculator'])) {

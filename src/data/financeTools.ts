@@ -1277,26 +1277,68 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'roi-calculator',
     name: 'ROI Calculator',
-    summary: 'Calculate simple return on investment from initial investment, ending value, income, and costs.',
+    summary: 'Calculate simple ROI from starting cost, ending value, income, and costs.',
     description:
-      'Use this free ROI calculator to estimate gain or loss and return on investment percentage from initial investment, ending value, income, and costs.',
+      'Use this free ROI calculator to estimate gain or loss and return on investment percentage from starting cost, ending value, income, and costs.',
+    seoTitle: 'ROI Calculator | Return on Investment Formula',
+    seoDescription:
+      'Calculate simple ROI from starting cost, ending value, income, and costs. See gain or loss, fee cautions, risk limits, and when ROI is not enough.',
     icon: 'calculator-average-return',
+    aliases: [
+      'roi calculator',
+      'return on investment calculator',
+      'roi formula',
+      'investment roi calculator',
+      'roi calculator real estate',
+      'roi calculator excel',
+    ],
     formula:
-      'The calculator adds ending value and income, subtracts costs and initial investment, then divides gain or loss by the initial investment.',
+      'The calculator adds ending value and income, subtracts costs and initial investment, then divides gain or loss by the initial investment and shows the result as a percent.',
     limit:
-      'Simple ROI does not adjust for time, compounding, risk, taxes, inflation, financing, or cash-flow timing.',
+      'Simple ROI does not annualize the result or adjust for holding time, compounding, risk, taxes, inflation, financing, cash-flow timing, or whether another option was safer.',
     useCases: [
-      'Calculate simple investment ROI.',
-      'Include income and costs in the gain calculation.',
-      'Check whether a project produced a positive or negative return.',
+      'Calculate simple investment ROI from one start point and one end point.',
+      'Include income, fees, repairs, tax estimates, or other costs in the gain calculation.',
+      'Check whether a project produced a positive or negative return before deeper modeling.',
       'Use before comparing with IRR or payback period.',
     ],
     examples: [
-      { label: 'Investment gain', expression: '$10,000 grows to $12,500 plus income', result: 'ROI estimate' },
-      { label: 'Small project', expression: '$3,000 project ending at $3,900', result: 'Simple ROI' },
-      { label: 'Loss check', expression: 'Lower ending value with some income', result: 'Negative ROI check' },
+      { label: 'Investment gain', expression: '$10,000 starts, $12,500 ends, $600 income, $250 costs', result: '28.5% ROI and $2,850 gain' },
+      { label: 'Small project', expression: '$3,000 starts, $3,900 ends, $150 costs', result: '25% ROI and $750 gain' },
+      { label: 'Loss check', expression: '$8,000 starts, $7,200 ends, $300 income, $100 costs', result: '-7.5% ROI and $600 loss' },
     ],
     relatedSlugs: ['irr-calculator', 'average-return-calculator', 'payback-period-calculator'],
+    inputExplanations: [
+      { term: 'Initial investment', meaning: 'the starting cost or money at risk. This is the number ROI compares the gain or loss against.' },
+      { term: 'Ending value', meaning: 'what the investment, item, project, or deal is worth at the snapshot you are checking.' },
+      { term: 'Income received', meaning: 'cash returned during the period, such as dividends, rent, revenue, or rebates that are not already inside ending value.' },
+      { term: 'Costs paid', meaning: 'fees, repairs, taxes, subscriptions, commissions, financing costs, or other costs that belong in the same ROI boundary.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What formula does this ROI calculator use?',
+        answer:
+          'It uses (ending value + income - costs - initial investment) divided by initial investment, then multiplies by 100. That keeps dollar gain and percentage ROI separate.',
+      },
+      {
+        question: 'Does this calculator annualize ROI?',
+        answer:
+          'No. This page shows simple total ROI for the numbers entered. If two investments lasted different lengths of time, also check annual return, IRR, payback period, risk, and fees.',
+      },
+      {
+        question: 'Should fees and taxes be included?',
+        answer:
+          'Include them when they belong to the same deal or project. A small fee can make a simple ROI look better than the real result, especially when the gain is not large.',
+      },
+    ],
+    formulaCheck:
+      'For the default example: ($12,500 ending value + $600 income - $250 costs - $10,000 initial investment) / $10,000 = 0.285, so the simple ROI is 28.5% and the gain is $2,850.',
+    resultReading:
+      'ROI percent is the gain or loss compared with the starting investment. Gain or loss is the dollar amount after ending value plus income, minus costs and the starting investment.',
+    doubleCheck:
+      'Check that the starting cost, ending value, income, and costs all use the same project boundary. Do not mix one-time costs with monthly income unless that is the exact period you mean.',
+    limitFollowup:
+      'Use annual return, IRR, NPV, payback period, taxes, fees, risk, inflation, and professional review before choosing a real investment. A high simple ROI can still be slow, risky, or too small to matter.',
   },
   {
     slug: 'apr-calculator',

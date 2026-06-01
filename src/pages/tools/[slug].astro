@@ -715,6 +715,13 @@ const financeToolInstructions = financeToolVariant
         'Choose periods per year: 1 for annual, 4 for quarterly, or 12 for monthly spacing.',
         'Calculate, then compare annualized IRR, periodic IRR, and net cash flow. Check ROI, payback, NPV, fees, taxes, and risk before using the number for a real decision.',
       ]
+    : tool.slug === 'roi-calculator'
+    ? [
+        'Enter the starting cost as the initial investment.',
+        'Enter the ending value, income received, and costs paid for the same project or deal.',
+        'Calculate, then compare simple ROI percent with the dollar gain or loss.',
+        'Check holding time, fees, taxes, financing, inflation, risk, and annualized return before treating the percent as a real decision.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
@@ -2171,6 +2178,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Rental deal screen'
               : tool.slug === 'irr-calculator'
               ? 'IRR cash-flow screen'
+              : tool.slug === 'roi-calculator'
+              ? 'Simple ROI screen'
               : 'Estimate, not advice'}
           </span>
           <span>
@@ -2218,6 +2227,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'NOI, cap rate, cash flow'
               : tool.slug === 'irr-calculator'
               ? 'Periodic and annualized IRR'
+              : tool.slug === 'roi-calculator'
+              ? 'ROI, gain, ending value'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -3578,6 +3589,23 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                   <a href="https://openstax.org/books/principles-finance/pages/16-3-internal-rate-of-return-irr-method" rel="noreferrer" target="_blank">OpenStax IRR method</a>,{' '}
                   <a href="https://support.microsoft.com/en-us/office/irr-function-64925eaa-9988-495b-b290-3ad0c163c1bc" rel="noreferrer" target="_blank">Microsoft IRR function notes</a>, and{' '}
                   <a href="https://openstax.org/books/principles-finance/pages/7-2-time-value-of-money-tvm-basics" rel="noreferrer" target="_blank">OpenStax time value of money basics</a>.
+                </span>
+              </p>
+            </>
+          ) : tool.slug === 'roi-calculator' ? (
+            <>
+              <strong>Simple ROI, not the whole investment story</strong>
+              <p>
+                Use this to compare starting cost, ending value, income, costs, simple ROI percent, and dollar gain or
+                loss. It does not annualize the result or judge holding time, compounding, taxes, financing,
+                inflation, cash-flow timing, risk, or whether another option was safer.
+              </p>
+              <p>
+                <span>
+                  Sources used for this review:{' '}
+                  <a href="https://openstax.org/books/contemporary-mathematics/pages/6-7-investments" rel="noreferrer" target="_blank">OpenStax ROI formula notes</a>,{' '}
+                  <a href="https://www.finra.org/investors/insights/investment-returns" rel="noreferrer" target="_blank">FINRA investment return notes</a>, and{' '}
+                  <a href="https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/updated" rel="noreferrer" target="_blank">Investor.gov fee impact guidance</a>.
                 </span>
               </p>
             </>

@@ -436,6 +436,18 @@ const toolArtMetadataOverrides = {
         'IRR Calculator guide artwork supports the walkthrough by showing regular cash-flow periods, the NPV-zero target, annualized-rate check, and cautions around timing, project size, and reinvestment assumptions.',
     },
   },
+  'roi-calculator': {
+    tool: {
+      alt: 'Smoke mascot pointing at a rising leafy arrow between a small starting coin stack, income-and-cost dots, a minus coin, and a taller ending coin stack for a simple ROI check.',
+      caption:
+        'ROI Calculator artwork matches the live workflow: starting cost, ending value, income, costs, dollar gain or loss, and simple ROI percent.',
+    },
+    guide: {
+      alt: 'Smoke mascot standing between balance scales with coin stacks, arrows, pebbles, red beads, plants, and a blank banner for comparing cost against return.',
+      caption:
+        'ROI Calculator guide artwork supports the walkthrough by showing cost versus return as a balance, with separate visual pieces for starting money, ending value, costs, gain, and limits.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',
