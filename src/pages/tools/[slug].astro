@@ -638,6 +638,13 @@ const financeToolInstructions = financeToolVariant
         'Compare total cost with fee and cash received, not just the monthly payment.',
         'Check the written lender offer for APR, collateral, guarantees, variable rates, draw schedules, and prepayment rules.',
       ]
+    : tool.slug === 'liquidity-ratios-calculator'
+    ? [
+        'Enter current assets and current liabilities from the same balance sheet date.',
+        'Add inventory and prepaid expenses so quick ratio can remove money that may not turn into cash fast.',
+        'Add cash, marketable securities, and receivables so the cash ratio and supporting lines are easier to read.',
+        'Calculate, then compare current ratio, quick ratio, cash ratio, and working capital before trusting one number.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',

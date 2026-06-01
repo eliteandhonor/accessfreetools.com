@@ -3885,6 +3885,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isAnnuityPayoutGuide = tool.slug === 'annuity-payout-calculator';
   const isUkMortgageGuide = tool.slug === 'mortgage-calculator-uk';
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
+  const isLiquidityGuide = tool.slug === 'liquidity-ratios-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
   const isDownPaymentGuide = tool.slug === 'down-payment-calculator';
   const isLoanGuide = tool.slug === 'loan-calculator';
@@ -3957,6 +3958,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A car payment can look fine while the full loan is expensive. This guide shows how price, down payment, trade-in, tax, fees, rate, and term turn into the monthly payment and total interest.'
       : isBusinessLoanGuide
       ? 'A business loan can look affordable until the fee and total interest show up. This guide shows how loan amount, rate, term, and origination fee turn into payment, cash received, and total cost.'
+      : isLiquidityGuide
+      ? 'Liquidity ratios can look stronger than the business really feels. This guide keeps current ratio, quick ratio, cash ratio, working capital, inventory, receivables, and cash timing separate so the answer is easier to read.'
       : isCanadianMortgageGuide
       ? 'A Canadian mortgage payment is not just price divided by months. This guide shows how down payment, amortization, payment frequency, and semi-annual compounding turn into the payment, LTV, and interest estimate.'
       : isDownPaymentGuide
@@ -4198,6 +4201,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Compare a shorter term or lower fee before trusting the easiest-looking payment.',
           'Check the written lender offer before treating the estimate as real approval.',
         ]
+      : isLiquidityGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter current assets and current liabilities from the same balance sheet date.',
+          'Add inventory and prepaid expenses so quick ratio can remove less-liquid assets.',
+          'Add cash, marketable securities, and receivables so the cash ratio and supporting lines are visible.',
+          'Calculate, then compare current ratio, quick ratio, cash ratio, and working capital together.',
+        ]
       : isCanadianMortgageGuide
       ? [
           `Open the ${tool.name}.`,
@@ -4317,6 +4328,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before shopping for financing, comparing dealer offers, testing a trade-in, or seeing how much a longer loan term really costs.'
             : isBusinessLoanGuide
             ? 'Use it before talking to a lender, testing an equipment purchase, comparing working-capital offers, or checking whether the fee leaves enough cash for the job.'
+            : isLiquidityGuide
+            ? 'Use it before reading a balance sheet, asking why quick ratio is lower than current ratio, checking whether inventory is making liquidity look safer, or preparing cleaner questions for an accountant or lender.'
             : isCanadianMortgageGuide
             ? 'Use it before comparing mortgage quotes, testing a down payment, checking a biweekly payment, or seeing how much a shorter amortization changes the payment.'
             : isDownPaymentGuide
@@ -4417,6 +4430,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Auto-loan estimates are easy to bend by leaving out fees or focusing only on the monthly payment. Enter the car price, tax, fees, down payment, trade-in, rate, and term as one complete deal.'
             : isBusinessLoanGuide
             ? 'Business-loan offers are easy to misread if you look only at the payment. Enter the loan amount, rate, term, and origination fee so you can see both repayment cost and cash received.'
+            : isLiquidityGuide
+            ? 'Liquidity ratios get misleading when numbers come from different dates or inventory is treated like cash. Keep current assets, current liabilities, inventory, prepaid expenses, cash, marketable securities, and receivables in their own fields.'
             : isCanadianMortgageGuide
             ? 'Canadian mortgage estimates need the price, down payment, nominal annual rate, amortization, and payment frequency to stay together. A small rate or amortization change can move both the payment and total interest.'
             : isDownPaymentGuide
@@ -4558,6 +4573,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The formula is not the hard part. The hard part is using the same full deal each time: tax, fees, down payment, trade-in, rate, and term. That is why the calculator shows amount financed and total interest beside the monthly payment.'
             : isBusinessLoanGuide
             ? 'The formula is only one part of the decision. The fee matters because you may repay the full loan amount even when the cash you receive is lower.'
+            : isLiquidityGuide
+            ? 'The same balance sheet can tell different stories. Current ratio includes inventory and prepaid expenses, quick ratio removes them, and cash ratio only counts cash-like assets.'
             : isCanadianMortgageGuide
             ? 'The calculator first turns the nominal annual rate into an effective annual rate using semi-annual compounding. Then it converts that rate to the selected payment period and runs the fixed-payment formula.'
             : isDownPaymentGuide
@@ -4596,6 +4613,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with the monthly payment, then immediately check amount financed, total interest, and total paid. That stops a long loan from looking better just because the monthly number is smaller.'
             : isBusinessLoanGuide
             ? 'Start with the monthly payment, then check total interest, origination fee, cash received, and total cost with fee. That is the part that shows whether the loan still fits the business plan.'
+            : isLiquidityGuide
+            ? 'Start with working capital, then compare current ratio, quick ratio, and cash ratio. If current ratio looks safe but quick ratio drops hard, inventory or prepaid expenses may be making the balance sheet look more liquid than it feels.'
             : isCanadianMortgageGuide
             ? 'Start with the payment, then check whether it is monthly, biweekly, semimonthly, or weekly. Then read loan amount, LTV, payment count, and total interest so the payment has context.'
             : isDownPaymentGuide
@@ -4661,6 +4680,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad car-payment estimates come from leaving out fees, using a rate from a different offer, forgetting negative equity, or choosing the longest term before checking total interest.'
             : isBusinessLoanGuide
             ? 'Most bad business-loan estimates come from ignoring the fee, comparing interest rates without APR context, or treating a fixed-payment loan like a merchant cash advance.'
+            : isLiquidityGuide
+            ? 'Most bad liquidity checks come from mixing balance sheet dates, counting slow inventory like cash, trusting receivables that may arrive late, or reading one strong ratio like it proves the whole business is safe.'
             : isCanadianMortgageGuide
             ? 'Most bad Canadian mortgage estimates come from forgetting default insurance, mixing monthly and biweekly payments, using the wrong compounding assumption, or treating payment math as lender qualification.'
             : isDownPaymentGuide
@@ -4728,6 +4749,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help after the bond estimate. The next question is usually broad investment growth, fund-style projections, or simple coupon-style interest math.'
             : isBusinessLoanGuide
             ? 'A related tool can help when the loan payment is only one part of the decision, such as the rate, a plain fixed loan, or the profit target for the project.'
+            : isLiquidityGuide
+            ? 'A related tool can help after the liquidity check. The next question is usually whether debt is too heavy, how fast an investment pays back, or whether a profit target covers the cash pressure.'
             : isCanadianMortgageGuide
             ? 'A related tool can help when the mortgage payment is only one part of the home-buying question, such as down payment, another country-specific mortgage style, or a plain loan comparison.'
             : isDownPaymentGuide
@@ -4789,6 +4812,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/business-loan-calculator/', label: 'Open the Business Loan Calculator' },
               { href: '/tools/interest-rate-calculator/', label: 'Estimate a rate from payment and term' },
               { href: '/tools/profit-goal-calculator/', label: 'Check the project profit target' },
+            ]
+          : isLiquidityGuide
+          ? [
+              { href: '/tools/liquidity-ratios-calculator/', label: 'Open the Liquidity Ratios Calculator' },
+              { href: '/tools/business-loan-calculator/', label: 'Check a loan payment beside liquidity' },
+              { href: '/tools/payback-period-calculator/', label: 'Estimate how fast cash comes back' },
+              { href: '/tools/profit-goal-calculator/', label: 'Check the profit target behind the cash plan' },
             ]
           : isCanadianMortgageGuide
           ? [
@@ -4932,6 +4962,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'MoneyHelper explains mortgage repayments, repayment versus interest-only mortgages, and mortgage calculators. GOV.UK explains that lenders look at affordability, income, outgoings, deposit, credit, and possible rate changes, and that stamp duty and moving costs are separate from the mortgage payment.'
             : isBusinessLoanGuide
             ? 'SBA and FTC sources are useful here because business financing is not just payment math. SBA explains lender risk and loan context, while FTC warns that some small-business financing offers can have high costs or confusing terms.'
+            : isLiquidityGuide
+            ? 'OpenStax is useful here because it separates current ratio, quick ratio, cash ratio, and working capital inside financial statement analysis. The SEC balance-sheet guide is useful because the calculator depends on current assets and current liabilities being read from the same statement date.'
             : isCanadianMortgageGuide
             ? 'Canada.ca explains mortgage terms, amortization, down payment, and mortgage loan insurance. OSFI explains the minimum qualifying rate stress-test idea, while the Bank of Canada policy-rate page helps separate central-bank rate news from the exact lender rate in your quote.'
             : isDownPaymentGuide
@@ -4999,6 +5031,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not approve a mortgage, check affordability, include stamp duty, price product fees you do not enter, handle interest-only loans, read leasehold charges, or replace a written lender illustration.'
             : isBusinessLoanGuide
             ? 'This calculator still stays simple. It does not approve a loan, check SBA eligibility, read a merchant cash advance contract, judge collateral, or replace written lender terms.'
+            : isLiquidityGuide
+            ? 'This calculator still stays simple. It does not audit financial statements, prove solvency, predict cash timing, value inventory, guarantee receivable collection, test lender covenants, or replace accounting advice.'
             : isCanadianMortgageGuide
             ? 'This calculator still stays simple. It does not add default insurance premiums, check income or debts, approve a mortgage, predict renewal rates, or replace a written lender quote.'
             : isDownPaymentGuide
@@ -5072,6 +5106,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Auto Loan Calculator open beside this guide. Try the $32,000 car example first, then change only the term so you can see why a lower payment can still cost more.'
       : isBusinessLoanGuide
       ? 'Keep the Business Loan Calculator open beside this guide. Try the $50,000 example first, then change only the fee so you can see why cash received matters.'
+      : isLiquidityGuide
+      ? 'Keep the Liquidity Ratios Calculator open beside this guide. Try the $120,000 current-assets example first, then change only inventory so you can see why quick ratio can drop while current ratio stays comfortable.'
       : isCanadianMortgageGuide
       ? 'Keep the Canadian Mortgage Calculator open beside this guide. Try the $600,000 example first, then change only the down payment or amortization so you can see what actually moved.'
       : isUkMortgageGuide
