@@ -304,6 +304,18 @@ const toolArtMetadataOverrides = {
         'Average Return Calculator guide artwork supports the walkthrough by separating a quick return check from broker statements, time-weighted return, IRR, XIRR, fees, taxes, inflation, and investment advice.',
     },
   },
+  'margin-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing a $100 selling price, $60 direct cost, $40 gross profit, 40% profit margin, and 66.67% markup cards.',
+      caption:
+        'Margin Calculator artwork matches the live workflow: selling price or revenue, direct cost, gross profit, profit margin, and markup.',
+    },
+    guide: {
+      alt: 'Smoke mascot sorting margin and markup cards beside COGS, overhead, shipping, refunds, sales tax, marketplace fee, and net-profit warning notes.',
+      caption:
+        'Margin Calculator guide artwork supports the walkthrough by showing why gross margin, markup, direct cost, COGS, overhead, fees, and net profit must stay separate.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

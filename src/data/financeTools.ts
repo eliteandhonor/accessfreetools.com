@@ -4242,26 +4242,59 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'margin-calculator',
     name: 'Margin Calculator',
-    summary: 'Calculate profit, profit margin, and markup from revenue and cost.',
+    seoTitle: 'Margin Calculator | Profit Margin And Markup',
+    seoDescription:
+      'Calculate profit, profit margin, and markup from selling price or revenue and direct cost. See the difference between margin and markup with examples.',
+    summary: 'Calculate profit, profit margin, and markup from selling price and cost.',
     description:
-      'Use this free margin calculator to find profit, profit margin percentage, and markup percentage from revenue or selling price and cost.',
+      'Check gross profit, profit margin, and markup from a selling price or revenue amount and the direct cost behind it.',
     icon: 'calculator-margin',
+    aliases: ['profit margin calculator', 'gross margin calculator', 'markup calculator', 'selling price margin calculator', 'gross profit calculator'],
     formula:
-      'The calculator subtracts cost from revenue to find profit, divides profit by revenue for margin, and divides profit by cost for markup.',
+      'Profit = revenue - cost. Profit margin = profit / revenue. Markup = profit / cost. Margin uses the selling price as the base; markup uses cost as the base.',
     limit:
-      'This is business profit-margin math. It does not model brokerage margin accounts, borrowing to invest, borrowed-money risk, taxes, overhead allocation, or accounting rules.',
+      'This is gross pricing math, not a full accounting statement. It does not include overhead allocation, labor you did not enter, shipping, refunds, payment fees, taxes, inventory rules, net margin, brokerage margin accounts, or borrowed-money investing risk.',
     useCases: [
       'Calculate product or service profit margin.',
       'Compare margin and markup side by side.',
       'Check pricing math before changing a selling price.',
-      'Estimate how cost changes affect profitability.',
+      'Estimate how direct cost changes affect gross profit.',
     ],
     examples: [
       { label: 'Retail item', expression: '$100 price and $60 cost', result: '40% margin and 66.67% markup' },
-      { label: 'Service job', expression: '$2,500 revenue and $1,400 cost', result: 'Profit and margin' },
-      { label: 'Low margin', expression: '$1,200 revenue and $1,050 cost', result: 'Margin check' },
+      { label: 'Service job', expression: '$2,500 revenue and $1,400 direct cost', result: '$1,100 profit, 44% margin, and 78.57% markup' },
+      { label: 'Low margin', expression: '$1,200 revenue and $1,050 cost', result: '$150 profit, 12.5% margin, and 14.29% markup' },
     ],
     relatedSlugs: ['percentage-calculator', 'discount-calculator', 'business-loan-calculator'],
+    inputExplanations: [
+      { term: 'Revenue or selling price', meaning: 'the amount charged for the item, job, order, or sale before you subtract the cost you want to test.' },
+      { term: 'Cost', meaning: 'the direct cost you want to compare with the sale, such as item cost, material cost, or a job cost you already know.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Why are margin and markup different?',
+        answer:
+          'They use different bases. Margin divides profit by selling price. Markup divides profit by cost. A $100 sale with $60 cost has $40 profit, 40% margin, and 66.67% markup.',
+      },
+      {
+        question: 'Is this gross margin or net margin?',
+        answer:
+          'This is a gross-style pricing check because it compares revenue with the cost you enter. Net margin needs more business expenses, such as overhead, payroll, taxes, software, rent, refunds, and payment fees.',
+      },
+      {
+        question: 'Should I include sales tax in revenue?',
+        answer:
+          'Only include sales tax if that is how you track the sale in your own records. For clean pricing math, many people use the before-tax selling price and keep tax separate.',
+      },
+    ],
+    formulaCheck:
+      'For a $100 selling price and $60 cost, profit is $40. Margin is $40 / $100 = 40%. Markup is $40 / $60 = 66.67%.',
+    resultReading:
+      'Read profit dollars first, then margin percent, then markup percent. If markup looks bigger than margin, that is expected because cost is the smaller base.',
+    doubleCheck:
+      'Use the same unit or time period for revenue and cost. Do not compare one item of revenue with a full month of costs.',
+    limitFollowup:
+      'For tax, inventory, net profit, or financial statements, use your accounting records and include every cost your business actually needs to count.',
   }),
   makeFinanceTool({
     slug: 'discount-calculator',

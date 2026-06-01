@@ -1229,7 +1229,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Margin Calculator',
     buttonLabel: 'Calculate margin',
     emptyHistory: 'Recent margin estimates will appear here.',
-    privacyNote: 'Margin estimates are business profit math only and do not evaluate brokerage margin accounts, borrowed-money risk, taxes, or accounting rules.',
+    privacyNote:
+      'Margin estimates stay in this browser tab. They compare revenue with the cost you enter and do not include hidden overhead, payroll, refunds, payment fees, taxes, inventory rules, brokerage margin accounts, or borrowed-money investing risk.',
     modes: [
       {
         id: 'margin',
@@ -1241,9 +1242,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { revenue: '100', cost: '60' },
         examples: [
-          { label: 'Retail item', inputs: { revenue: '100', cost: '60' } },
-          { label: 'Service job', inputs: { revenue: '2500', cost: '1400' } },
-          { label: 'Low margin', inputs: { revenue: '1200', cost: '1050' } },
+          { label: '40% margin', inputs: { revenue: '100', cost: '60' } },
+          { label: '$1,100 profit', inputs: { revenue: '2500', cost: '1400' } },
+          { label: '12.5% margin', inputs: { revenue: '1200', cost: '1050' } },
         ],
       },
     ],
@@ -3500,11 +3501,12 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           { label: 'Cost', value: money(result.cost) },
         ],
         steps: [
-          'Subtract cost from revenue to find profit.',
+          'Subtract the direct cost from revenue to find gross profit.',
           'Divide profit by revenue to calculate profit margin.',
-          'Divide profit by cost to calculate markup.',
+          'Divide profit by cost to calculate markup, which uses a different base.',
         ],
-        note: 'This is business profit-margin math, not brokerage margin or borrowed-money investing advice.',
+        note:
+          'This is a gross pricing check, not a full net-profit report, tax record, inventory method, brokerage margin account, or borrowed-money investing guide.',
       };
     }
     case 'ad-revenue': {

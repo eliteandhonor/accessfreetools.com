@@ -1226,6 +1226,16 @@ const openStaxDiscounts = {
   label: 'OpenStax: Discounts, markups, and sales tax',
 };
 
+const openStaxContributionMargin = {
+  href: 'https://openstax.org/books/principles-managerial-accounting/pages/3-1-explain-contribution-margin-and-calculate-contribution-margin-per-unit-contribution-margin-ratio-and-total-contribution-margin',
+  label: 'OpenStax Managerial Accounting: Contribution margin and margin ratio',
+};
+
+const irsPublication334 = {
+  href: 'https://www.irs.gov/publications/p334',
+  label: 'IRS Publication 334: Gross receipts, cost of goods sold, and gross profit',
+};
+
 const googleAdSensePageCtr = {
   href: 'https://support.google.com/adsense/answer/112026?hl=en',
   label: 'Google AdSense Help: Page CTR',
@@ -3113,20 +3123,22 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'margin-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-4-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [openStaxDiscounts, openStaxPercent],
+    sources: [openStaxContributionMargin, irsPublication334, openStaxDiscounts, openStaxPercent],
     findings: [
-      'The calculator correctly separates profit, margin, and markup: profit equals revenue minus cost, margin divides profit by revenue, and markup divides profit by cost.',
+      'DataForSEO evidence is page-specific for profit margin, gross margin, markup, gross profit, selling price, and direct cost intent.',
+      'The calculator separates profit, margin, and markup: profit equals revenue minus cost, margin divides profit by revenue, and markup divides profit by cost.',
+      'OpenStax contribution-margin guidance backs the idea that margin shows how much of each sales dollar remains after the relevant cost base.',
+      'IRS Publication 334 adds tax-context boundaries for gross receipts, cost of goods sold, and gross profit without turning the tool into tax advice.',
       'The guide now spells out the common mistake that margin and markup are different percentages even when profit dollars are the same.',
-      'The page keeps the scope to business pricing math and does not confuse it with brokerage margin, debt-funded investing, or investment borrowing.',
     ],
     improvements: [
-      'Added margin-specific guide detail and manually checked formulas, examples, FAQ wording, OpenStax source coverage, related tools, SEO copy, and privacy note.',
+      'Rebuilt title/meta, aliases, examples, input explanations, FAQ answers, guide title, guide meta, source links, trust wording, image alt/caption, sitemap dates, and page-specific proof around profit margin, markup, COGS, gross profit, and net-margin limits.',
     ],
     followUps: [
-      'Add target-price solving later if users need to enter a desired margin and calculate selling price.',
+      'Add target-price solving later only if search and usage data show users need to enter a desired margin and calculate selling price.',
     ],
   },
   {
@@ -7692,7 +7704,11 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
       return sourceBackstop([investorAnnualReturn, investorCompound]);
     }
 
-    if (includesAny(key, ['margin', 'discount', 'percent-off', 'percent off'])) {
+    if (includesAny(key, ['margin'])) {
+      return sourceBackstop([openStaxContributionMargin, irsPublication334, openStaxDiscounts, openStaxPercent]);
+    }
+
+    if (includesAny(key, ['discount', 'percent-off', 'percent off'])) {
       return sourceBackstop([openStaxDiscounts, openStaxPercent]);
     }
 

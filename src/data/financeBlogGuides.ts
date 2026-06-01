@@ -459,6 +459,14 @@ const sourceLinks = {
     href: 'https://openstax.org/books/contemporary-mathematics/pages/6-2-discounts-markups-and-sales-tax',
     label: 'OpenStax: Discounts, markups, and sales tax',
   },
+  openStaxContributionMargin: {
+    href: 'https://openstax.org/books/principles-managerial-accounting/pages/3-1-explain-contribution-margin-and-calculate-contribution-margin-per-unit-contribution-margin-ratio-and-total-contribution-margin',
+    label: 'OpenStax Managerial Accounting: Contribution margin and margin ratio',
+  },
+  irsPublication334: {
+    href: 'https://www.irs.gov/publications/p334',
+    label: 'IRS Publication 334: Gross receipts, cost of goods sold, and gross profit',
+  },
   openStaxPercent: {
     href: 'https://openstax.org/books/contemporary-mathematics/pages/6-1-understanding-percent',
     label: 'OpenStax: Understanding Percent',
@@ -1013,7 +1021,11 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.finraInvestmentReturns, sourceLinks.investorGovCompoundCalculator, sourceLinks.investorAnnualReturn, sourceLinks.investorCompound];
   }
 
-  if (['margin-calculator', 'discount-calculator', 'percent-off-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'margin-calculator') {
+    return [sourceLinks.openStaxContributionMargin, sourceLinks.irsPublication334, sourceLinks.openStaxDiscounts, sourceLinks.openStaxPercent];
+  }
+
+  if (['discount-calculator', 'percent-off-calculator'].includes(toolSlug)) {
     return [sourceLinks.openStaxDiscounts, sourceLinks.openStaxPercent];
   }
 
@@ -2555,26 +2567,30 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Margin Calculator if you want to compare ad revenue with site costs.', 'Use UTM Builder when you are planning traffic campaigns.', 'Open the Ad Revenue Calculator again when you want to test a second CTR or CPC scenario.'],
   },
   'margin-calculator': {
-    summary: 'Learn how revenue and cost turn into profit, profit margin, and markup.',
+    summary: 'Learn how selling price and cost turn into profit, profit margin, gross margin, and markup.',
     purpose:
-      'The Margin Calculator is for business pricing math. It shows profit, margin, and markup side by side so users do not mix up the two percentages.',
+      'The Margin Calculator is for pricing math. It shows profit, margin, and markup side by side so you can see why the two percentages are not the same.',
     enter: [
-      'Enter revenue or selling price as the amount collected from the customer.',
-      'Enter cost as the direct cost you want to compare against the revenue.',
+      'Enter revenue or selling price as the amount charged for the item, job, or sale.',
+      'Enter cost as the direct cost you want to compare against that sale, such as item cost, material cost, or job cost.',
       'Use the same time period or product unit for both numbers.',
+      'Leave sales tax, shipping, refunds, marketplace fees, and overhead out unless you mean to include them in the cost number.',
     ],
     example: [
       '$100 revenue minus $60 cost gives $40 profit.',
       '$40 profit divided by $100 revenue is 40% margin, while $40 divided by $60 cost is 66.67% markup.',
+      '$2,500 revenue and $1,400 direct cost gives $1,100 profit, 44% margin, and 78.57% markup.',
     ],
     read: [
       'Profit is revenue minus cost.',
       'Margin shows profit as a percent of revenue.',
       'Markup shows profit as a percent of cost, so it is usually higher than margin for the same sale.',
+      'Gross-style margin only checks the cost you entered. Net margin needs the rest of the business expenses too.',
     ],
     mistakes: [
       'Do not use margin and markup as if they mean the same thing.',
-      'Do not forget overhead, labor, shipping, refunds, taxes, and marketplace fees if they matter to the real business result.',
+      'Do not compare one-item revenue with a monthly or yearly cost total.',
+      'Do not forget overhead, labor, shipping, refunds, taxes, payment fees, and marketplace fees if they matter to the real business result.',
       'Do not use this for brokerage margin or borrowed-investing risk.',
     ],
     next: ['Use Discount Calculator to see how a sale affects price.', 'Use Percentage Calculator for a basic percent check.'],
@@ -3559,6 +3575,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Depreciation Calculator Guide';
   }
 
+  if (tool.slug === 'margin-calculator') {
+    return 'Margin Calculator Guide';
+  }
+
   if (tool.slug === 'average-return-calculator') {
     return 'Average Return Calculator Guide';
   }
@@ -3628,6 +3648,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'depreciation-calculator') {
     return 'Learn straight-line and declining-balance depreciation with cost, salvage value, useful life, accumulated depreciation, and book value examples.';
+  }
+
+  if (tool.slug === 'margin-calculator') {
+    return 'Learn profit margin and markup with selling price, cost, gross profit, COGS, and clear examples that show why margin and markup differ.';
   }
 
   if (tool.slug === 'average-return-calculator') {
