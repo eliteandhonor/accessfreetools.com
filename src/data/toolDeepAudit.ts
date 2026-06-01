@@ -546,6 +546,11 @@ const openStaxSolvencyRatios = {
   label: 'OpenStax Principles of Finance: Solvency ratios',
 };
 
+const openStaxProfitabilityRatios = {
+  href: 'https://openstax.org/books/principles-finance/pages/6-3-profitability-ratios-and-the-dupont-method',
+  label: 'OpenStax Principles of Finance: Profitability ratios and the DuPont method',
+};
+
 const openStaxOperatingEfficiencyRatios = {
   href: 'https://openstax.org/books/principles-finance/pages/6-2-operating-efficiency-ratios',
   label: 'OpenStax Principles of Finance: Operating efficiency ratios',
@@ -7596,20 +7601,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'profitability-ratios-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-business-ratios-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [calculatorSoupSitemap, openStaxFinancialStatementAnalysis, secFinancialStatements, googleHelpfulContent],
+    sources: [calculatorSoupSitemap, openStaxProfitabilityRatios, secFinancialStatements, googleHelpfulContent],
     findings: [
-      'Profitability ratios were added to cover margin, ROA, ROE, EPS, and P/E searches in one useful accounting utility.',
-      'Formula review checked gross profit, gross margin, operating margin, net margin, return on assets, return on equity, EPS, and P/E.',
-      'FAQ and guide explain why different margin layers matter and why high ROE can be affected by debt-funded growth.',
+      'Live in-app browser baseline found generic finance title, generic trust text, generic image alt wording, generic guide phrasing, and long unrounded percentage outputs on the profitability ratios tool and guide.',
+      'DataForSEO page sprint required page-specific proof before the tool or guide could be marked approved.',
+      'OpenStax profitability-ratio guidance and SEC financial-statement guidance support keeping gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E clear and separate.',
     ],
     improvements: [
-      'Added profitability-ratio UI, examples, source-backed guide detail, FAQ depth, related stock and operations links, and tests.',
+      'Rebuilt title/meta, examples, calculator rounding, calculator note, input explanations, FAQ answers, guide title, guide meta, source-backed guide copy, trust wording, image alt/caption, sitemap dates, and page-specific proof around net sales, COGS, operating income, net income, average assets, average equity, shares, price, gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E.',
     ],
     followUps: [
       'Add loss-making company behavior later if the page needs negative-income education rather than positive-ratio basics.',
+      'Add industry benchmark notes only after a vetted benchmark data source is chosen.',
     ],
   },
   {

@@ -340,6 +340,18 @@ const toolArtMetadataOverrides = {
         'Operations Ratios Calculator guide artwork supports the walkthrough by separating turnover math from seasonality, inventory method, stockout risk, credit policy, bad-debt risk, and industry context.',
     },
   },
+  'profitability-ratios-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking $950,000 sales, $600,000 COGS, $120,000 net income, 36.84% gross margin, 12.63% net margin, 24% ROA, 46.15% ROE, $1.20 EPS, and 15x P/E cards.',
+      caption:
+        'Profitability Ratios Calculator artwork matches the live workflow: net sales, COGS, operating income, net income, average assets, average equity, shares, price, gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E.',
+    },
+    guide: {
+      alt: 'Smoke mascot sorting profitability-ratio cards for net sales, COGS, operating income, net income, average assets, average equity, EPS, P/E, one-time costs, debt, and share-dilution limits.',
+      caption:
+        'Profitability Ratios Calculator guide artwork supports the walkthrough by separating margin math, return math, per-share math, one-time gains, taxes, cash flow, debt load, share dilution, and industry context.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',

@@ -1457,7 +1457,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Profitability Ratios Calculator',
     buttonLabel: 'Calculate profitability',
     emptyHistory: 'Recent profitability ratio checks will appear here.',
-    privacyNote: 'Profitability ratios are educational statement math and do not decide business value, tax treatment, loan approval, or investment quality.',
+    privacyNote: 'Profitability ratio checks stay in this tab. They do not judge accounting quality, debt risk, cash flow, tax treatment, share dilution, market value, or investment quality.',
     modes: [
       {
         id: 'profitability-ratios',
@@ -1475,9 +1475,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { netSales: '950000', costOfGoodsSold: '600000', operatingIncome: '180000', netIncome: '120000', averageAssets: '500000', averageEquity: '260000', sharesOutstanding: '100000', pricePerShare: '18' },
         examples: [
-          { label: 'Profitable company', inputs: { netSales: '950000', costOfGoodsSold: '600000', operatingIncome: '180000', netIncome: '120000', averageAssets: '500000', averageEquity: '260000', sharesOutstanding: '100000', pricePerShare: '18' } },
-          { label: 'Thin margins', inputs: { netSales: '700000', costOfGoodsSold: '520000', operatingIncome: '65000', netIncome: '38000', averageAssets: '450000', averageEquity: '180000', sharesOutstanding: '80000', pricePerShare: '9.5' } },
-          { label: 'Service firm', inputs: { netSales: '480000', costOfGoodsSold: '120000', operatingIncome: '140000', netIncome: '95000', averageAssets: '220000', averageEquity: '160000', sharesOutstanding: '50000', pricePerShare: '24' } },
+          { label: '12.63% net margin', inputs: { netSales: '950000', costOfGoodsSold: '600000', operatingIncome: '180000', netIncome: '120000', averageAssets: '500000', averageEquity: '260000', sharesOutstanding: '100000', pricePerShare: '18' } },
+          { label: '5.43% net margin', inputs: { netSales: '700000', costOfGoodsSold: '520000', operatingIncome: '65000', netIncome: '38000', averageAssets: '450000', averageEquity: '180000', sharesOutstanding: '80000', pricePerShare: '9.5' } },
+          { label: '$1.90 EPS / 12.63x P/E', inputs: { netSales: '480000', costOfGoodsSold: '120000', operatingIncome: '140000', netIncome: '95000', averageAssets: '220000', averageEquity: '160000', sharesOutstanding: '50000', pricePerShare: '24' } },
         ],
       },
     ],
@@ -3730,12 +3730,12 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
       return {
         label: 'Net profit margin',
         expression: `${compactMoney(result.netIncome)} net income / ${compactMoney(result.netSales)} net sales`,
-        answer: percent(result.netProfitMarginPercent),
+        answer: roundedPercent(result.netProfitMarginPercent),
         metrics: [
-          { label: 'Gross margin', value: percent(result.grossMarginPercent) },
-          { label: 'Operating margin', value: percent(result.operatingMarginPercent) },
-          { label: 'Return on assets', value: percent(result.returnOnAssetsPercent) },
-          { label: 'Return on equity', value: percent(result.returnOnEquityPercent) },
+          { label: 'Gross margin', value: roundedPercent(result.grossMarginPercent) },
+          { label: 'Operating margin', value: roundedPercent(result.operatingMarginPercent) },
+          { label: 'Return on assets', value: roundedPercent(result.returnOnAssetsPercent) },
+          { label: 'Return on equity', value: roundedPercent(result.returnOnEquityPercent) },
           { label: 'Earnings per share', value: money(result.earningsPerShare) },
           { label: 'Price-to-earnings', value: `${formatCalculatorNumber(result.priceEarningsRatio)}x` },
         ],
@@ -3745,7 +3745,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide net income by average assets and average equity for return ratios.',
           'Divide net income by shares outstanding for EPS, then compare price to EPS.',
         ],
-        note: 'Profitability ratios need context. Different industries can have very different normal margins, asset bases, and capital structures.',
+        note:
+          'Profitability ratios need matching periods, one-time item checks, cash-flow context, debt context, share-count notes, and industry context before anyone treats them as strong or weak.',
       };
     }
     case 'stock-ratios': {

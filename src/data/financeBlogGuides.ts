@@ -723,6 +723,10 @@ const sourceLinks = {
     href: 'https://openstax.org/books/principles-financial-accounting/pages/a-financial-statement-analysis',
     label: 'OpenStax Financial Accounting: Financial statement analysis',
   },
+  openStaxProfitabilityRatios: {
+    href: 'https://openstax.org/books/principles-finance/pages/6-3-profitability-ratios-and-the-dupont-method',
+    label: 'OpenStax Principles of Finance: Profitability ratios and the DuPont method',
+  },
   openStaxOperatingEfficiencyRatios: {
     href: 'https://openstax.org/books/principles-finance/pages/6-2-operating-efficiency-ratios',
     label: 'OpenStax Principles of Finance: Operating efficiency ratios',
@@ -1080,7 +1084,11 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.openStaxOperatingEfficiencyRatios, sourceLinks.secFinancialStatements];
   }
 
-  if (['liquidity-ratios-calculator', 'profitability-ratios-calculator', 'stock-ratios-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'profitability-ratios-calculator') {
+    return [sourceLinks.openStaxProfitabilityRatios, sourceLinks.secFinancialStatements];
+  }
+
+  if (['liquidity-ratios-calculator', 'stock-ratios-calculator'].includes(toolSlug)) {
     return [sourceLinks.openStaxFinancialStatementAnalysis, sourceLinks.secFinancialStatements];
   }
 
@@ -1398,27 +1406,34 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Profitability Ratios Calculator to connect operations with profit.', 'Use Liquidity Ratios Calculator to check short-term balance sheet strength.'],
   },
   'profitability-ratios-calculator': {
-    summary: 'Learn how margin, ROA, ROE, EPS, and P/E connect income statement profit with assets, equity, shares, and price.',
+    summary: 'Learn how gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E connect profit with statements, shares, and price.',
     purpose:
-      'The Profitability Ratios Calculator groups common profit ratios in one place. It helps you see whether profit is strong at the sales level, asset level, equity level, and per-share level.',
+      'The Profitability Ratios Calculator checks profit from four angles: sales, assets, equity, and shares. It helps you see where profit looks strong before you ask why.',
     enter: [
-      'Enter net sales, cost of goods sold, operating income, and net income from the income statement.',
-      'Enter average assets and average equity from the balance sheet period you are analyzing.',
+      'Enter net sales, cost of goods sold, operating income, and net income from the same income statement period.',
+      'Enter average assets and average equity for that same period.',
       'Enter shares outstanding and price per share if you want EPS and P/E context.',
     ],
     example: [
+      'With $950,000 sales and $600,000 COGS, gross margin is 36.84%.',
+      'With $180,000 operating income, operating margin is 18.95%.',
       'With $950,000 sales and $120,000 net income, net margin is 12.63%.',
+      'With $120,000 net income and $500,000 average assets, ROA is 24%.',
       'With $120,000 net income and $260,000 average equity, ROE is 46.15%.',
+      'With 100,000 shares and an $18 price, EPS is $1.20 and P/E is 15x.',
     ],
     read: [
       'Gross margin focuses on sales after product or service cost.',
       'Operating margin includes operating expenses but stops before some other income statement layers.',
-      'ROA and ROE compare profit with assets and equity, while EPS and P/E connect profit to shares and price.',
+      'Net margin shows final profit as a percent of sales.',
+      'ROA and ROE compare profit with assets and equity.',
+      'EPS and P/E connect profit to shares and price.',
     ],
     mistakes: [
-      'Do not compare margins across industries without context.',
-      'Do not treat high ROE as automatically good if the company uses heavy debt.',
-      'Do not ignore one-time income, unusual costs, or accounting changes.',
+      'Do not compare margins across industries as if every business model should look the same.',
+      'Do not treat high ROE as automatically good if the company uses heavy debt or has a small equity base.',
+      'Do not ignore one-time income, unusual costs, tax items, share dilution, or accounting changes.',
+      'Do not read P/E as a recommendation. It is only price compared with the EPS entered.',
     ],
     next: ['Use Stock Ratios Calculator for per-share valuation ratios.', 'Use Debt Ratios Calculator to see whether debt is affecting returns.'],
   },
@@ -3653,6 +3668,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Operations Ratios Calculator Guide';
   }
 
+  if (tool.slug === 'profitability-ratios-calculator') {
+    return 'Profitability Ratios Calculator Guide';
+  }
+
   if (tool.slug === 'average-return-calculator') {
     return 'Average Return Calculator Guide';
   }
@@ -3750,6 +3769,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'operations-ratios-calculator') {
     return 'Learn inventory turnover, asset turnover, receivables turnover, collection days, average balances, and operating-ratio limits.';
+  }
+
+  if (tool.slug === 'profitability-ratios-calculator') {
+    return 'Learn gross margin, operating margin, net margin, ROA, ROE, EPS, P/E, statement timing, and profit-ratio limits.';
   }
 
   if (tool.slug === 'average-return-calculator') {
@@ -3917,6 +3940,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isLiquidityGuide = tool.slug === 'liquidity-ratios-calculator';
   const isDebtRatiosGuide = tool.slug === 'debt-ratios-calculator';
   const isOperationsRatiosGuide = tool.slug === 'operations-ratios-calculator';
+  const isProfitabilityRatiosGuide = tool.slug === 'profitability-ratios-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
   const isDownPaymentGuide = tool.slug === 'down-payment-calculator';
   const isLoanGuide = tool.slug === 'loan-calculator';
@@ -3995,6 +4019,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Debt ratios can sound scary or safe too quickly. This guide keeps debt ratio, debt-to-equity, and times interest earned separate so you can see what debt load and interest cover actually say.'
       : isOperationsRatiosGuide
       ? 'Operations ratios can look good or bad for the wrong reason. This guide keeps inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier separate so you can see what moved.'
+      : isProfitabilityRatiosGuide
+      ? 'Profitability ratios can make a company look great too quickly. This guide keeps gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E separate so you can see which part is doing the work.'
       : isCanadianMortgageGuide
       ? 'A Canadian mortgage payment is not just price divided by months. This guide shows how down payment, amortization, payment frequency, and semi-annual compounding turn into the payment, LTV, and interest estimate.'
       : isDownPaymentGuide
@@ -4260,6 +4286,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter total assets and total equity from the same balance sheet date for the equity multiplier.',
           'Calculate, then read inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier as separate checks.',
         ]
+      : isProfitabilityRatiosGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter net sales, COGS, operating income, and net income from the same income statement period.',
+          'Enter average assets and average equity for that same period.',
+          'Enter shares outstanding and price per share if you want EPS and P/E.',
+          'Calculate, then read gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E as separate checks.',
+        ]
       : isCanadianMortgageGuide
       ? [
           `Open the ${tool.name}.`,
@@ -4385,6 +4419,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before reading a balance sheet, asking whether debt is heavy, checking whether EBIT covers interest, or preparing sharper questions for an accountant, lender, or investor report.'
             : isOperationsRatiosGuide
             ? 'Use it before reading operations-heavy statements, asking why cash is stuck in inventory or receivables, checking whether assets are producing sales, or preparing sharper questions for an accountant or manager.'
+            : isProfitabilityRatiosGuide
+            ? 'Use it before comparing companies, asking why profit changed, checking whether returns come from assets or equity, or preparing sharper questions about margins, debt, shares, and price.'
             : isCanadianMortgageGuide
             ? 'Use it before comparing mortgage quotes, testing a down payment, checking a biweekly payment, or seeing how much a shorter amortization changes the payment.'
             : isDownPaymentGuide
@@ -4491,6 +4527,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Debt ratios get misleading when balance sheet and income statement periods are mixed. Keep total debt, assets, and equity from one balance sheet date, then match EBIT and interest expense from the same income statement period.'
             : isOperationsRatiosGuide
             ? 'Operations ratios get misleading when period numbers and snapshot numbers are mixed. Keep COGS, sales, credit sales, average inventory, average assets, and average receivables matched to the same period.'
+            : isProfitabilityRatiosGuide
+            ? 'Profitability ratios get misleading when income statement numbers, average balance sheet numbers, share counts, and price come from different periods. Keep sales, COGS, operating income, net income, average assets, average equity, shares, and price matched to the question.'
             : isCanadianMortgageGuide
             ? 'Canadian mortgage estimates need the price, down payment, nominal annual rate, amortization, and payment frequency to stay together. A small rate or amortization change can move both the payment and total interest.'
             : isDownPaymentGuide
@@ -4567,6 +4605,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $220,000 debt, $500,000 assets, $280,000 equity, $90,000 EBIT, and $15,000 interest expense. The estimate is 44% debt ratio, about 0.79x debt-to-equity, and 6x times interest earned.'
               : isOperationsRatiosGuide
               ? 'Try the starter example: $600,000 COGS, $90,000 beginning inventory, $110,000 ending inventory, $950,000 net sales, $500,000 average assets, $700,000 credit sales, and $80,000 average receivables. The estimate is 6x inventory turnover, 1.90x asset turnover, 8.75x receivables turnover, and about 41.71 collection days.'
+              : isProfitabilityRatiosGuide
+              ? 'Try the starter example: $950,000 sales, $600,000 COGS, $180,000 operating income, $120,000 net income, $500,000 average assets, $260,000 average equity, 100,000 shares, and an $18 share price. The estimate is 36.84% gross margin, 18.95% operating margin, 12.63% net margin, 24% ROA, 46.15% ROE, $1.20 EPS, and 15x P/E.'
               : isCanadianMortgageGuide
               ? 'Try the starter example: a $600,000 property, $120,000 down payment, 5.1% rate, and 25-year amortization. The estimate is about $2,819.09 per month, with a $480,000 loan, 80% LTV, and about $365,727.47 in interest.'
               : isDownPaymentGuide
@@ -4642,6 +4682,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The same statements can tell different debt stories. Debt ratio uses assets as the base, debt-to-equity uses owner capital as the base, and times interest earned leaves the balance sheet to compare EBIT with interest expense.'
             : isOperationsRatiosGuide
             ? 'The same statements can tell different operations stories. Inventory turnover uses COGS and average inventory, asset turnover uses sales and average assets, and receivables turnover uses credit sales and average receivables.'
+            : isProfitabilityRatiosGuide
+            ? 'The same statements can tell different profit stories. Gross margin uses gross profit, operating margin uses operating income, net margin uses net income, ROA uses average assets, ROE uses average equity, and P/E uses share price compared with EPS.'
             : isCanadianMortgageGuide
             ? 'The calculator first turns the nominal annual rate into an effective annual rate using semi-annual compounding. Then it converts that rate to the selected payment period and runs the fixed-payment formula.'
             : isDownPaymentGuide
@@ -4686,6 +4728,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with debt ratio, then compare debt-to-equity and times interest earned. A high debt ratio with low interest cover is a very different warning from a higher debt ratio with steady earnings and strong cover.'
             : isOperationsRatiosGuide
             ? 'Start with inventory turnover, then compare asset turnover and receivables turnover. A faster collection period can help cash, but very high turnover can also signal strict credit terms or stock levels that are too thin.'
+            : isProfitabilityRatiosGuide
+            ? 'Start with the three margins, then compare ROA and ROE. If ROE looks much stronger than ROA, check debt and equity context before calling the business better.'
             : isCanadianMortgageGuide
             ? 'Start with the payment, then check whether it is monthly, biweekly, semimonthly, or weekly. Then read loan amount, LTV, payment count, and total interest so the payment has context.'
             : isDownPaymentGuide
@@ -4757,6 +4801,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad debt-ratio checks come from mixing statement dates, using total liabilities in one comparison and interest-bearing debt in another, ignoring debt maturity, or treating EBIT coverage like bank cash.'
             : isOperationsRatiosGuide
             ? 'Most bad operations-ratio checks come from mixing statement periods, using net sales where credit sales belongs, ignoring seasonal inventory, or treating a high turnover number like it is always good.'
+            : isProfitabilityRatiosGuide
+            ? 'Most bad profitability checks come from mixing periods, ignoring one-time gains or costs, comparing unlike industries, treating high ROE as automatically good, or reading P/E like it is a recommendation.'
             : isCanadianMortgageGuide
             ? 'Most bad Canadian mortgage estimates come from forgetting default insurance, mixing monthly and biweekly payments, using the wrong compounding assumption, or treating payment math as lender qualification.'
             : isDownPaymentGuide
@@ -5061,6 +5107,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'OpenStax is useful here because it separates debt-to-assets, debt-to-equity, and times interest earned as solvency checks. The SEC guide is useful because these ratios depend on balance sheet, income statement, footnote, and industry context instead of one copied number.'
             : isOperationsRatiosGuide
             ? 'OpenStax is useful here because it separates accounts receivable turnover, total asset turnover, inventory turnover, and days sales in inventory as operating-efficiency checks. The SEC guide is useful because inventory, assets, revenue, receivables, cash flow, and footnotes all affect how the ratios should be read.'
+            : isProfitabilityRatiosGuide
+            ? 'OpenStax is useful here because it separates gross profit margin, operating margin, net profit margin, ROA, ROE, EPS, and price-to-earnings as profitability checks. The SEC guide is useful because income statement layers, shares, assets, equity, cash flow, and footnotes all affect how the ratios should be read.'
             : isCanadianMortgageGuide
             ? 'Canada.ca explains mortgage terms, amortization, down payment, and mortgage loan insurance. OSFI explains the minimum qualifying rate stress-test idea, while the Bank of Canada policy-rate page helps separate central-bank rate news from the exact lender rate in your quote.'
             : isDownPaymentGuide

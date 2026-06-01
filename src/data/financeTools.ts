@@ -606,17 +606,18 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'profitability-ratios-calculator',
     name: 'Profitability Ratios Calculator',
-    summary: 'Compare gross, operating, net, ROA, ROE, EPS, and P/E results.',
+    summary: 'Calculate gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E from statement inputs.',
     description:
-      'Compare gross, operating, net, ROA, ROE, EPS, and P/E results from financial statement inputs.',
+      'Calculate gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E from income statement, balance sheet, share, and price inputs.',
+    seoTitle: 'Profitability Ratios Calculator | Margin, ROA & ROE',
     seoDescription:
-      'Compare gross, operating, net, ROA, ROE, EPS, and P/E results from financial statement inputs.',
+      'Calculate gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E with clear statement examples and ratio limits.',
     icon: 'calculator-profitability-ratios',
     aliases: ['profit margin ratios calculator', 'return on assets calculator', 'return on equity calculator'],
     formula:
-      'The calculator divides gross profit, operating income, and net income by net sales for margins, then compares net income with average assets, average equity, shares, and stock price.',
+      'The calculator subtracts cost of goods sold from net sales for gross profit, divides gross profit, operating income, and net income by net sales for margins, then compares net income with average assets, average equity, shares, and stock price.',
     limit:
-      'This does not adjust for unusual gains or losses, accounting policy, tax items, share dilution, debt risk, industry differences, market expectations, or investment advice.',
+      'This does not adjust for unusual gains or losses, accounting policy, tax items, share dilution, debt-funded equity changes, industry differences, market expectations, cash flow, restatements, or investment advice.',
     useCases: [
       'Compare several profitability ratios from one set of statements.',
       'See the difference between gross, operating, and net margin.',
@@ -624,9 +625,9 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Connect earnings per share with a simple P/E ratio.',
     ],
     examples: [
-      { label: 'Profitable company', expression: '$950,000 sales, $120,000 net income, $100,000 shares', result: 'Margins, ROA, ROE, EPS, and P/E' },
-      { label: 'Thin margins', expression: 'High sales with smaller net income', result: 'Lower margin ratios' },
-      { label: 'Service firm', expression: 'Lower COGS and higher operating income', result: 'Profitability comparison' },
+      { label: 'Profitable company', expression: '$950,000 sales, $600,000 COGS, $180,000 operating income, $120,000 net income', result: '36.84% gross margin, 18.95% operating margin, and 12.63% net margin' },
+      { label: 'Return check', expression: '$120,000 net income, $500,000 average assets, $260,000 average equity', result: '24% ROA and 46.15% ROE' },
+      { label: 'Per-share check', expression: '$120,000 net income, 100,000 shares, $18 price', result: '$1.20 EPS and 15x P/E' },
     ],
     relatedSlugs: ['stock-ratios-calculator', 'operations-ratios-calculator', 'margin-calculator'],
     inputExplanations: [
@@ -645,7 +646,20 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
         answer:
           'Be careful. ROE can look high because a company is very profitable, but it can also look high because the company has less equity or more debt. Compare it with debt ratios and industry context.',
       },
+      {
+        question: 'Why do EPS and P/E need shares and price?',
+        answer:
+          'EPS divides net income by shares, so it needs a share count. P/E compares share price with EPS, so it needs the price per share too. Without those two inputs, margin and return ratios can still work, but per-share ratios cannot.',
+      },
     ],
+    formulaCheck:
+      'Use sales, COGS, operating income, and net income from the same income statement period. Use average assets and average equity for that same period, then use the share count and share price that match the EPS and P/E question.',
+    resultReading:
+      'Gross margin shows profit after direct cost. Operating margin shows profit after operating expenses. Net margin shows final profit as a percent of sales. ROA compares profit with assets, ROE compares profit with equity, EPS shows profit per share, and P/E compares price with EPS.',
+    doubleCheck:
+      'Double-check whether one-time gains, unusual costs, share dilution, debt-funded equity changes, or accounting changes are making the ratio look better or worse than the normal business.',
+    limitFollowup:
+      'Use full financial statements, footnotes, cash-flow reports, share-count notes, debt ratios, segment results, and industry comparisons before judging whether profitability is strong or weak.',
   },
   {
     slug: 'stock-ratios-calculator',

@@ -659,6 +659,13 @@ const financeToolInstructions = financeToolVariant
         'Enter total assets and total equity from the same balance sheet date for equity multiplier.',
         'Calculate, then compare inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier before trusting one number.',
       ]
+    : tool.slug === 'profitability-ratios-calculator'
+    ? [
+        'Enter net sales, cost of goods sold, operating income, and net income from the same income statement period.',
+        'Enter average assets and average equity for that same period.',
+        'Enter shares outstanding and price per share only if you want EPS and P/E context.',
+        'Calculate, then compare gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E before trusting one number.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
@@ -2099,6 +2106,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Statement ratio check'
               : tool.slug === 'operations-ratios-calculator'
               ? 'Operating ratio check'
+              : tool.slug === 'profitability-ratios-calculator'
+              ? 'Profitability ratio check'
               : 'Estimate, not advice'}
           </span>
           <span>
@@ -2130,6 +2139,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Debt and interest cover'
               : tool.slug === 'operations-ratios-calculator'
               ? 'Turnover and collection days'
+              : tool.slug === 'profitability-ratios-calculator'
+              ? 'Margins, returns, EPS, P/E'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -3305,6 +3316,31 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 Sources used for this review:{' '}
                 <a href="https://openstax.org/books/principles-finance/pages/6-2-operating-efficiency-ratios" rel="noreferrer" target="_blank">
                   OpenStax operating efficiency ratios
+                </a>
+                {', '}
+                <a href="https://www.sec.gov/about/reports-publications/investorpubsbegfinstmtguide" rel="noreferrer" target="_blank">
+                  SEC financial statement guide
+                </a>
+                {', and '}
+                <a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" rel="noreferrer" target="_blank">
+                  Google helpful content guidance
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'profitability-ratios-calculator' ? (
+            <>
+              <strong>Profitability-ratio check, not investment advice</strong>
+              <p>
+                Use this to compare net sales, cost of goods sold, operating income, net income, average assets,
+                average equity, shares, price, gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E.
+                A real profitability review can still change with unusual gains, one-time costs, taxes, cash flow,
+                debt load, share dilution, segment mix, accounting policy, restatements, and industry norms.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://openstax.org/books/principles-finance/pages/6-3-profitability-ratios-and-the-dupont-method" rel="noreferrer" target="_blank">
+                  OpenStax profitability ratios
                 </a>
                 {', '}
                 <a href="https://www.sec.gov/about/reports-publications/investorpubsbegfinstmtguide" rel="noreferrer" target="_blank">
