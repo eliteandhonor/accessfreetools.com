@@ -652,6 +652,13 @@ const financeToolInstructions = financeToolVariant
         'Calculate to see debt ratio, debt-to-equity, and times interest earned side by side.',
         'Read the ratios with cash flow, maturity dates, covenants, and industry context before trusting one number.',
       ]
+    : tool.slug === 'operations-ratios-calculator'
+    ? [
+        'Enter COGS plus beginning and ending inventory from the same period.',
+        'Enter net sales, average assets, net credit sales, and average receivables from that same period.',
+        'Enter total assets and total equity from the same balance sheet date for equity multiplier.',
+        'Calculate, then compare inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier before trusting one number.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
@@ -2087,7 +2094,13 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isFinanceTool && (
         <div class="advanced-tool-points finance-tool-points" aria-label={`${tool.name} highlights`}>
-          <span>{tool.slug === 'debt-ratios-calculator' ? 'Statement ratio check' : 'Estimate, not advice'}</span>
+          <span>
+            {tool.slug === 'debt-ratios-calculator'
+              ? 'Statement ratio check'
+              : tool.slug === 'operations-ratios-calculator'
+              ? 'Operating ratio check'
+              : 'Estimate, not advice'}
+          </span>
           <span>
             {tool.slug === 'ad-revenue-calculator'
               ? 'Monthly, yearly, and RPM shown'
@@ -2115,6 +2128,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Joint vs two-single tax'
               : tool.slug === 'debt-ratios-calculator'
               ? 'Debt and interest cover'
+              : tool.slug === 'operations-ratios-calculator'
+              ? 'Turnover and collection days'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -3265,6 +3280,31 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 Sources used for this review:{' '}
                 <a href="https://openstax.org/books/principles-finance/pages/6-4-solvency-ratios" rel="noreferrer" target="_blank">
                   OpenStax solvency ratios
+                </a>
+                {', '}
+                <a href="https://www.sec.gov/about/reports-publications/investorpubsbegfinstmtguide" rel="noreferrer" target="_blank">
+                  SEC financial statement guide
+                </a>
+                {', and '}
+                <a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" rel="noreferrer" target="_blank">
+                  Google helpful content guidance
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'operations-ratios-calculator' ? (
+            <>
+              <strong>Operating-ratio check, not an audit</strong>
+              <p>
+                Use this to compare cost of goods sold, inventory, net sales, average assets, credit sales,
+                receivables, total assets, equity, turnover ratios, collection days, and equity multiplier.
+                A real operations review can still change with seasonality, stockout risk, inventory method,
+                bad debts, one-time sales, lease treatment, customer mix, and industry norms.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://openstax.org/books/principles-finance/pages/6-2-operating-efficiency-ratios" rel="noreferrer" target="_blank">
+                  OpenStax operating efficiency ratios
                 </a>
                 {', '}
                 <a href="https://www.sec.gov/about/reports-publications/investorpubsbegfinstmtguide" rel="noreferrer" target="_blank">

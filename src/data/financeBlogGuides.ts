@@ -723,6 +723,10 @@ const sourceLinks = {
     href: 'https://openstax.org/books/principles-financial-accounting/pages/a-financial-statement-analysis',
     label: 'OpenStax Financial Accounting: Financial statement analysis',
   },
+  openStaxOperatingEfficiencyRatios: {
+    href: 'https://openstax.org/books/principles-finance/pages/6-2-operating-efficiency-ratios',
+    label: 'OpenStax Principles of Finance: Operating efficiency ratios',
+  },
   openStaxSolvencyRatios: {
     href: 'https://openstax.org/books/principles-finance/pages/6-4-solvency-ratios',
     label: 'OpenStax Principles of Finance: Solvency ratios',
@@ -1072,7 +1076,11 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.openStaxSolvencyRatios, sourceLinks.secFinancialStatements];
   }
 
-  if (['liquidity-ratios-calculator', 'operations-ratios-calculator', 'profitability-ratios-calculator', 'stock-ratios-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'operations-ratios-calculator') {
+    return [sourceLinks.openStaxOperatingEfficiencyRatios, sourceLinks.secFinancialStatements];
+  }
+
+  if (['liquidity-ratios-calculator', 'profitability-ratios-calculator', 'stock-ratios-calculator'].includes(toolSlug)) {
     return [sourceLinks.openStaxFinancialStatementAnalysis, sourceLinks.secFinancialStatements];
   }
 
@@ -1361,27 +1369,31 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Liquidity Ratios Calculator for short-term payment strength.', 'Use Profitability Ratios Calculator to compare debt exposure with earnings.'],
   },
   'operations-ratios-calculator': {
-    summary: 'Learn how turnover ratios show inventory, assets, and receivables moving through a business.',
+    summary: 'Learn how inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier show how operations move.',
     purpose:
-      'The Operations Ratios Calculator checks how efficiently a business uses inventory, assets, and credit sales. It is useful when profit is not the only question.',
+      'The Operations Ratios Calculator checks how inventory, assets, and credit sales move through a business. It helps you see operating speed without pretending one turnover ratio tells the whole story.',
     enter: [
-      'Enter cost of goods sold plus beginning and ending inventory for inventory turnover.',
-      'Enter net sales and average total assets for asset turnover.',
-      'Enter net credit sales and average receivables for receivables turnover and collection period.',
+      'Enter cost of goods sold plus beginning and ending inventory from the same period for inventory turnover.',
+      'Enter net sales and average total assets from the same period for asset turnover.',
+      'Enter net credit sales and average receivables from the same period for receivables turnover and collection days.',
+      'Enter total assets and total equity from the same balance sheet date for the equity multiplier.',
     ],
     example: [
       'If COGS is $600,000 and average inventory is $100,000, inventory turnover is 6x.',
+      'If net sales are $950,000 and average assets are $500,000, asset turnover is 1.90x.',
       'If credit sales are $700,000 and average receivables are $80,000, receivables turnover is 8.75x, or about 41.71 days.',
     ],
     read: [
       'Inventory turnover estimates how many times inventory is sold and replaced.',
-      'Asset turnover compares sales with the asset base.',
+      'Asset turnover compares sales with the average asset base.',
       'Average collection period estimates how long receivables take to collect.',
+      'Equity multiplier compares total assets with total equity and belongs beside debt context, not by itself.',
     ],
     mistakes: [
       'Do not ignore seasonal timing. A year-end inventory snapshot can look very different before or after a busy season.',
       'Do not compare a retailer, software company, and manufacturer as if their operations should look the same.',
       'Do not use net sales and credit sales interchangeably unless that is truly how the business reports them.',
+      'Do not treat high turnover as always good. It can also mean stockouts, strict credit terms, or too few assets for demand.',
     ],
     next: ['Use Profitability Ratios Calculator to connect operations with profit.', 'Use Liquidity Ratios Calculator to check short-term balance sheet strength.'],
   },
@@ -3637,6 +3649,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Debt Ratios Calculator Guide';
   }
 
+  if (tool.slug === 'operations-ratios-calculator') {
+    return 'Operations Ratios Calculator Guide';
+  }
+
   if (tool.slug === 'average-return-calculator') {
     return 'Average Return Calculator Guide';
   }
@@ -3730,6 +3746,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'debt-ratios-calculator') {
     return 'Learn debt ratio, debt-to-equity, times interest earned, EBIT, interest expense, balance sheet timing, and debt-risk limits.';
+  }
+
+  if (tool.slug === 'operations-ratios-calculator') {
+    return 'Learn inventory turnover, asset turnover, receivables turnover, collection days, average balances, and operating-ratio limits.';
   }
 
   if (tool.slug === 'average-return-calculator') {
@@ -3896,6 +3916,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isBusinessLoanGuide = tool.slug === 'business-loan-calculator';
   const isLiquidityGuide = tool.slug === 'liquidity-ratios-calculator';
   const isDebtRatiosGuide = tool.slug === 'debt-ratios-calculator';
+  const isOperationsRatiosGuide = tool.slug === 'operations-ratios-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
   const isDownPaymentGuide = tool.slug === 'down-payment-calculator';
   const isLoanGuide = tool.slug === 'loan-calculator';
@@ -3972,6 +3993,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Liquidity ratios can look stronger than the business really feels. This guide keeps current ratio, quick ratio, cash ratio, working capital, inventory, receivables, and cash timing separate so the answer is easier to read.'
       : isDebtRatiosGuide
       ? 'Debt ratios can sound scary or safe too quickly. This guide keeps debt ratio, debt-to-equity, and times interest earned separate so you can see what debt load and interest cover actually say.'
+      : isOperationsRatiosGuide
+      ? 'Operations ratios can look good or bad for the wrong reason. This guide keeps inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier separate so you can see what moved.'
       : isCanadianMortgageGuide
       ? 'A Canadian mortgage payment is not just price divided by months. This guide shows how down payment, amortization, payment frequency, and semi-annual compounding turn into the payment, LTV, and interest estimate.'
       : isDownPaymentGuide
@@ -4229,6 +4252,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Calculate, then read debt ratio, debt-to-equity, and times interest earned as three separate checks.',
           'Use the answer as a first pass before checking cash flow, maturity dates, covenants, and industry context.',
         ]
+      : isOperationsRatiosGuide
+      ? [
+          `Open the ${tool.name}.`,
+          'Enter COGS plus beginning and ending inventory from the same period.',
+          'Enter net sales, average total assets, net credit sales, and average receivables from the same period.',
+          'Enter total assets and total equity from the same balance sheet date for the equity multiplier.',
+          'Calculate, then read inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier as separate checks.',
+        ]
       : isCanadianMortgageGuide
       ? [
           `Open the ${tool.name}.`,
@@ -4352,6 +4383,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before reading a balance sheet, asking why quick ratio is lower than current ratio, checking whether inventory is making liquidity look safer, or preparing cleaner questions for an accountant or lender.'
             : isDebtRatiosGuide
             ? 'Use it before reading a balance sheet, asking whether debt is heavy, checking whether EBIT covers interest, or preparing sharper questions for an accountant, lender, or investor report.'
+            : isOperationsRatiosGuide
+            ? 'Use it before reading operations-heavy statements, asking why cash is stuck in inventory or receivables, checking whether assets are producing sales, or preparing sharper questions for an accountant or manager.'
             : isCanadianMortgageGuide
             ? 'Use it before comparing mortgage quotes, testing a down payment, checking a biweekly payment, or seeing how much a shorter amortization changes the payment.'
             : isDownPaymentGuide
@@ -4456,6 +4489,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Liquidity ratios get misleading when numbers come from different dates or inventory is treated like cash. Keep current assets, current liabilities, inventory, prepaid expenses, cash, marketable securities, and receivables in their own fields.'
             : isDebtRatiosGuide
             ? 'Debt ratios get misleading when balance sheet and income statement periods are mixed. Keep total debt, assets, and equity from one balance sheet date, then match EBIT and interest expense from the same income statement period.'
+            : isOperationsRatiosGuide
+            ? 'Operations ratios get misleading when period numbers and snapshot numbers are mixed. Keep COGS, sales, credit sales, average inventory, average assets, and average receivables matched to the same period.'
             : isCanadianMortgageGuide
             ? 'Canadian mortgage estimates need the price, down payment, nominal annual rate, amortization, and payment frequency to stay together. A small rate or amortization change can move both the payment and total interest.'
             : isDownPaymentGuide
@@ -4530,6 +4565,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: $50,000 at 9.5% for 5 years with a 2% origination fee. The estimate is about $1,050.09 per month, $13,005.58 in interest, $1,000 in fees, $49,000 cash received, and $64,005.58 total cost with fee.'
               : isDebtRatiosGuide
               ? 'Try the starter example: $220,000 debt, $500,000 assets, $280,000 equity, $90,000 EBIT, and $15,000 interest expense. The estimate is 44% debt ratio, about 0.79x debt-to-equity, and 6x times interest earned.'
+              : isOperationsRatiosGuide
+              ? 'Try the starter example: $600,000 COGS, $90,000 beginning inventory, $110,000 ending inventory, $950,000 net sales, $500,000 average assets, $700,000 credit sales, and $80,000 average receivables. The estimate is 6x inventory turnover, 1.90x asset turnover, 8.75x receivables turnover, and about 41.71 collection days.'
               : isCanadianMortgageGuide
               ? 'Try the starter example: a $600,000 property, $120,000 down payment, 5.1% rate, and 25-year amortization. The estimate is about $2,819.09 per month, with a $480,000 loan, 80% LTV, and about $365,727.47 in interest.'
               : isDownPaymentGuide
@@ -4603,6 +4640,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The same balance sheet can tell different stories. Current ratio includes inventory and prepaid expenses, quick ratio removes them, and cash ratio only counts cash-like assets.'
             : isDebtRatiosGuide
             ? 'The same statements can tell different debt stories. Debt ratio uses assets as the base, debt-to-equity uses owner capital as the base, and times interest earned leaves the balance sheet to compare EBIT with interest expense.'
+            : isOperationsRatiosGuide
+            ? 'The same statements can tell different operations stories. Inventory turnover uses COGS and average inventory, asset turnover uses sales and average assets, and receivables turnover uses credit sales and average receivables.'
             : isCanadianMortgageGuide
             ? 'The calculator first turns the nominal annual rate into an effective annual rate using semi-annual compounding. Then it converts that rate to the selected payment period and runs the fixed-payment formula.'
             : isDownPaymentGuide
@@ -4645,6 +4684,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with working capital, then compare current ratio, quick ratio, and cash ratio. If current ratio looks safe but quick ratio drops hard, inventory or prepaid expenses may be making the balance sheet look more liquid than it feels.'
             : isDebtRatiosGuide
             ? 'Start with debt ratio, then compare debt-to-equity and times interest earned. A high debt ratio with low interest cover is a very different warning from a higher debt ratio with steady earnings and strong cover.'
+            : isOperationsRatiosGuide
+            ? 'Start with inventory turnover, then compare asset turnover and receivables turnover. A faster collection period can help cash, but very high turnover can also signal strict credit terms or stock levels that are too thin.'
             : isCanadianMortgageGuide
             ? 'Start with the payment, then check whether it is monthly, biweekly, semimonthly, or weekly. Then read loan amount, LTV, payment count, and total interest so the payment has context.'
             : isDownPaymentGuide
@@ -4714,6 +4755,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad liquidity checks come from mixing balance sheet dates, counting slow inventory like cash, trusting receivables that may arrive late, or reading one strong ratio like it proves the whole business is safe.'
             : isDebtRatiosGuide
             ? 'Most bad debt-ratio checks come from mixing statement dates, using total liabilities in one comparison and interest-bearing debt in another, ignoring debt maturity, or treating EBIT coverage like bank cash.'
+            : isOperationsRatiosGuide
+            ? 'Most bad operations-ratio checks come from mixing statement periods, using net sales where credit sales belongs, ignoring seasonal inventory, or treating a high turnover number like it is always good.'
             : isCanadianMortgageGuide
             ? 'Most bad Canadian mortgage estimates come from forgetting default insurance, mixing monthly and biweekly payments, using the wrong compounding assumption, or treating payment math as lender qualification.'
             : isDownPaymentGuide
@@ -4785,6 +4828,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help after the liquidity check. The next question is usually whether debt is too heavy, how fast an investment pays back, or whether a profit target covers the cash pressure.'
             : isDebtRatiosGuide
             ? 'A related tool can help after the debt check. The next question is usually whether short-term bills are covered, whether profit supports the debt load, or whether operations are turning assets into sales.'
+            : isOperationsRatiosGuide
+            ? 'A related tool can help after the operations check. The next question is usually whether those turns produce profit, whether short-term bills are covered, or whether debt is adding risk.'
             : isCanadianMortgageGuide
             ? 'A related tool can help when the mortgage payment is only one part of the home-buying question, such as down payment, another country-specific mortgage style, or a plain loan comparison.'
             : isDownPaymentGuide
@@ -4860,6 +4905,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/liquidity-ratios-calculator/', label: 'Check short-term payment strength' },
               { href: '/tools/profitability-ratios-calculator/', label: 'Compare debt load with profit' },
               { href: '/tools/operations-ratios-calculator/', label: 'Check asset and receivable efficiency' },
+            ]
+          : isOperationsRatiosGuide
+          ? [
+              { href: '/tools/operations-ratios-calculator/', label: 'Open the Operations Ratios Calculator' },
+              { href: '/tools/profitability-ratios-calculator/', label: 'Compare operations with profit' },
+              { href: '/tools/liquidity-ratios-calculator/', label: 'Check short-term payment strength' },
+              { href: '/tools/debt-ratios-calculator/', label: 'Check debt load and interest cover' },
             ]
           : isCanadianMortgageGuide
           ? [
@@ -5007,6 +5059,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'OpenStax is useful here because it separates current ratio, quick ratio, cash ratio, and working capital inside financial statement analysis. The SEC balance-sheet guide is useful because the calculator depends on current assets and current liabilities being read from the same statement date.'
             : isDebtRatiosGuide
             ? 'OpenStax is useful here because it separates debt-to-assets, debt-to-equity, and times interest earned as solvency checks. The SEC guide is useful because these ratios depend on balance sheet, income statement, footnote, and industry context instead of one copied number.'
+            : isOperationsRatiosGuide
+            ? 'OpenStax is useful here because it separates accounts receivable turnover, total asset turnover, inventory turnover, and days sales in inventory as operating-efficiency checks. The SEC guide is useful because inventory, assets, revenue, receivables, cash flow, and footnotes all affect how the ratios should be read.'
             : isCanadianMortgageGuide
             ? 'Canada.ca explains mortgage terms, amortization, down payment, and mortgage loan insurance. OSFI explains the minimum qualifying rate stress-test idea, while the Bank of Canada policy-rate page helps separate central-bank rate news from the exact lender rate in your quote.'
             : isDownPaymentGuide
@@ -5078,6 +5132,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not audit financial statements, prove solvency, predict cash timing, value inventory, guarantee receivable collection, test lender covenants, or replace accounting advice.'
             : isDebtRatiosGuide
             ? 'This calculator still stays simple. It does not audit financial statements, classify leases, read maturity schedules, test lender covenants, price refinancing risk, judge credit quality, include taxes, or replace accounting or investment advice.'
+            : isOperationsRatiosGuide
+            ? 'This calculator still stays simple. It does not audit financial statements, prove demand, detect stockouts, judge inventory quality, age receivables, test customer credit risk, adjust seasonality, or replace accounting or management advice.'
             : isCanadianMortgageGuide
             ? 'This calculator still stays simple. It does not add default insurance premiums, check income or debts, approve a mortgage, predict renewal rates, or replace a written lender quote.'
             : isDownPaymentGuide

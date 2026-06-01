@@ -546,6 +546,11 @@ const openStaxSolvencyRatios = {
   label: 'OpenStax Principles of Finance: Solvency ratios',
 };
 
+const openStaxOperatingEfficiencyRatios = {
+  href: 'https://openstax.org/books/principles-finance/pages/6-2-operating-efficiency-ratios',
+  label: 'OpenStax Principles of Finance: Operating efficiency ratios',
+};
+
 const secFinancialStatements = {
   href: 'https://www.sec.gov/about/reports-publications/investorpubsbegfinstmtguide',
   label: "SEC: Beginners' Guide to Financial Statements",
@@ -7571,20 +7576,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'operations-ratios-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-business-ratios-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [calculatorSoupSitemap, openStaxFinancialStatementAnalysis, secFinancialStatements, googleHelpfulContent],
+    sources: [calculatorSoupSitemap, openStaxOperatingEfficiencyRatios, secFinancialStatements, googleHelpfulContent],
     findings: [
-      'Operations ratios fill competitor gaps for inventory turnover, asset turnover, receivables turnover, and collection period.',
-      'Formula review checked average inventory, inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier.',
-      'FAQ and guide explain seasonal timing, credit sales, inventory method, and why operations ratios need business context.',
+      'Live in-app browser baseline found generic finance title, generic image alt wording, guide template wording, and broad trust text on the operations ratios tool and guide.',
+      'DataForSEO page sprint and Search Console review required page-specific proof before the tool or guide could be marked approved.',
+      'OpenStax operating-efficiency guidance and SEC financial-statement guidance support keeping inventory turnover, asset turnover, receivables turnover, average collection period, and equity multiplier clear and separate.',
     ],
     improvements: [
-      'Added operations-ratio UI, examples, source-backed guide detail, detailed FAQ, related profitability and liquidity links, and tests.',
+      'Rebuilt title/meta, examples, calculator note, input explanations, FAQ answers, guide title, guide meta, source-backed guide copy, trust wording, image alt/caption, sitemap dates, and page-specific proof around same-period COGS, average inventory, net sales, average assets, credit sales, receivables, inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier.',
     ],
     followUps: [
-      'Add period-over-period comparison only when the UI can make multi-period data easy to scan.',
+      'Add period-over-period trend comparison only when the UI can make multi-period statement data easy to scan.',
+      'Add industry benchmark notes only after a vetted benchmark data source is chosen.',
     ],
   },
   {

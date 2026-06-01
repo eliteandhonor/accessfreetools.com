@@ -542,17 +542,18 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'operations-ratios-calculator',
     name: 'Operations Ratios Calculator',
-    summary: 'Check inventory, asset, receivables, collection-period, and equity-multiplier results.',
+    summary: 'Check inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier.',
     description:
-      'Check inventory, asset, receivables, collection-period, and equity-multiplier results from operating statement inputs.',
+      'Check inventory turnover, asset turnover, receivables turnover, collection days, and equity multiplier from statement inputs.',
+    seoTitle: 'Operations Ratios Calculator | Turnover & Collection Days',
     seoDescription:
-      'Check inventory, asset, receivables, collection-period, and equity-multiplier results from operating statement inputs.',
+      'Calculate inventory turnover, asset turnover, receivables turnover, average collection period, and equity multiplier with clear statement examples.',
     icon: 'calculator-operations-ratios',
     aliases: ['inventory turnover calculator', 'asset turnover calculator', 'receivables turnover calculator'],
     formula:
-      'The calculator averages inventory, divides cost of goods sold by average inventory, divides net sales by average assets, divides credit sales by receivables, and divides assets by equity for equity multiplier.',
+      'The calculator averages beginning and ending inventory, divides cost of goods sold by average inventory, divides net sales by average assets, divides credit sales by average receivables, converts receivables turnover into collection days, and divides assets by equity for equity multiplier.',
     limit:
-      'This does not adjust for seasonality, inventory accounting method, credit policy changes, one-time sales, customer mix, receivable quality, or financial-statement restatements.',
+      'This is a statement-ratio check. It does not adjust for seasonality, inventory accounting method, stockouts, credit-policy changes, bad debts, one-time sales, customer mix, receivable quality, leases, or financial-statement restatements.',
     useCases: [
       'See how quickly inventory turns over.',
       'Estimate how efficiently assets generate sales.',
@@ -560,9 +561,9 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Review operating ratios before looking at profit and debt ratios.',
     ],
     examples: [
-      { label: 'Retail operations', expression: '$600,000 COGS and $100,000 average inventory', result: 'Inventory turnover and operating ratios' },
-      { label: 'Faster receivables', expression: 'Higher credit sales with lower receivables', result: 'Shorter collection period' },
-      { label: 'Inventory-heavy year', expression: 'Higher ending inventory and asset base', result: 'Turnover comparison' },
+      { label: 'Retail operations', expression: '$600,000 COGS, $100,000 average inventory, $950,000 sales', result: '6x inventory turnover, 1.90x asset turnover, 8.75x receivables turnover, and 41.71 collection days' },
+      { label: 'Faster receivables', expression: '$500,000 credit sales and $45,000 average receivables', result: '11.11x receivables turnover and about 32.85 collection days' },
+      { label: 'Inventory-heavy year', expression: '$800,000 COGS and $205,000 average inventory', result: '3.90x inventory turnover before checking stock levels and demand' },
     ],
     relatedSlugs: ['profitability-ratios-calculator', 'liquidity-ratios-calculator', 'stock-ratios-calculator'],
     inputExplanations: [
@@ -573,6 +574,11 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     ],
     extraFaq: [
       {
+        question: 'Why does the calculator use average inventory?',
+        answer:
+          'Inventory is a balance sheet number at one date, while cost of goods sold covers a period. Averaging beginning and ending inventory gives the turnover ratio a fairer base than using only one snapshot.',
+      },
+      {
         question: 'What is average collection period?',
         answer:
           'Average collection period estimates how many days it takes to collect receivables. It uses 365 divided by receivables turnover, so it is a broad timing estimate, not a guarantee for each customer.',
@@ -582,7 +588,20 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
         answer:
           'A business can hold extra inventory before a busy season or collect receivables after a large billing cycle. One snapshot can look weak or strong just because of timing.',
       },
+      {
+        question: 'Can a high inventory turnover be bad?',
+        answer:
+          'Yes. High turnover can mean inventory is moving fast, but it can also mean stock is too low and customers may not find what they need. Read the ratio with stockout risk, demand, and supplier timing.',
+      },
     ],
+    formulaCheck:
+      'Use cost of goods sold and sales from the same period. Use beginning and ending inventory from the period edges, average assets for the same period, and average receivables that match the credit-sales period.',
+    resultReading:
+      'Inventory turnover shows how often inventory sold and was replaced. Asset turnover shows sales per dollar of assets. Receivables turnover and collection days show how quickly credit sales turn into cash. Equity multiplier shows how much assets sit on each dollar of equity.',
+    doubleCheck:
+      'Double-check whether sales means net sales or net credit sales in the field you are filling. Then check that inventory, receivables, assets, and equity come from matching statement periods.',
+    limitFollowup:
+      'Use full financial statements, footnotes, cash-flow reports, inventory notes, credit policy, customer aging reports, and industry comparisons before judging whether operations are strong or weak.',
   },
   {
     slug: 'profitability-ratios-calculator',

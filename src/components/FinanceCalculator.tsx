@@ -1416,7 +1416,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Operations Ratios Calculator',
     buttonLabel: 'Calculate operations ratios',
     emptyHistory: 'Recent operations ratio checks will appear here.',
-    privacyNote: 'Operations ratios use simplified accounting inputs and do not evaluate accounting quality, inventory method, credit policy, seasonality, or business risk.',
+    privacyNote:
+      'Operations ratio checks stay in this tab. They do not judge accounting quality, stockout risk, credit policy, seasonality, cash flow, or business value.',
     modes: [
       {
         id: 'operations-ratios',
@@ -1445,9 +1446,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
           totalEquity: '260000',
         },
         examples: [
-          { label: 'Retail operations', inputs: { costOfGoodsSold: '600000', beginningInventory: '90000', endingInventory: '110000', netSales: '950000', averageTotalAssets: '500000', netCreditSales: '700000', averageAccountsReceivable: '80000', totalAssets: '520000', totalEquity: '260000' } },
-          { label: 'Faster receivables', inputs: { costOfGoodsSold: '420000', beginningInventory: '65000', endingInventory: '70000', netSales: '720000', averageTotalAssets: '390000', netCreditSales: '500000', averageAccountsReceivable: '45000', totalAssets: '410000', totalEquity: '240000' } },
-          { label: 'Inventory-heavy year', inputs: { costOfGoodsSold: '800000', beginningInventory: '180000', endingInventory: '230000', netSales: '1100000', averageTotalAssets: '700000', netCreditSales: '640000', averageAccountsReceivable: '95000', totalAssets: '730000', totalEquity: '310000' } },
+          { label: '6x inventory / 41.71 days', inputs: { costOfGoodsSold: '600000', beginningInventory: '90000', endingInventory: '110000', netSales: '950000', averageTotalAssets: '500000', netCreditSales: '700000', averageAccountsReceivable: '80000', totalAssets: '520000', totalEquity: '260000' } },
+          { label: '11.11x receivables', inputs: { costOfGoodsSold: '420000', beginningInventory: '65000', endingInventory: '70000', netSales: '720000', averageTotalAssets: '390000', netCreditSales: '500000', averageAccountsReceivable: '45000', totalAssets: '410000', totalEquity: '240000' } },
+          { label: '3.90x inventory', inputs: { costOfGoodsSold: '800000', beginningInventory: '180000', endingInventory: '230000', netSales: '1100000', averageTotalAssets: '700000', netCreditSales: '640000', averageAccountsReceivable: '95000', totalAssets: '730000', totalEquity: '310000' } },
         ],
       },
     ],
@@ -3697,7 +3698,10 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         metrics: [
           { label: 'Asset turnover', value: `${formatCalculatorNumber(result.assetTurnover)}x` },
           { label: 'Receivables turnover', value: `${formatCalculatorNumber(result.receivablesTurnover)}x` },
-          { label: 'Average collection period', value: `${formatCalculatorNumber(result.averageCollectionPeriodDays)} days` },
+          {
+            label: 'Average collection period',
+            value: `${formatCalculatorNumber(Math.round(result.averageCollectionPeriodDays * 100) / 100)} days`,
+          },
           { label: 'Equity multiplier', value: `${formatCalculatorNumber(result.equityMultiplier)}x` },
         ],
         steps: [
@@ -3707,7 +3711,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide net credit sales by average accounts receivable for receivables turnover.',
           'Divide total assets by total equity for equity multiplier.',
         ],
-        note: 'Operations ratios can swing with seasonality, inventory method, collection policy, and one-time balance sheet changes.',
+        note:
+          'Operations ratios need period matching, seasonality, inventory method, stockout risk, credit policy, bad-debt risk, and industry context before anyone treats them as strong or weak.',
       };
     }
     case 'profitability-ratios': {

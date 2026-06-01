@@ -328,6 +328,18 @@ const toolArtMetadataOverrides = {
         'Debt Ratios Calculator guide artwork supports the walkthrough by separating debt-load ratios from interest coverage, cash flow, maturity dates, lease treatment, lender covenants, and industry context.',
     },
   },
+  'operations-ratios-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking $600,000 COGS, $100,000 average inventory, 6x inventory turnover, 1.90x asset turnover, 8.75x receivables turnover, and 41.71 collection-day cards.',
+      caption:
+        'Operations Ratios Calculator artwork matches the live workflow: COGS, beginning inventory, ending inventory, net sales, average assets, credit sales, receivables, inventory turnover, asset turnover, receivables turnover, and collection days.',
+    },
+    guide: {
+      alt: 'Smoke mascot sorting operations-ratio cards for average inventory, net sales, average assets, credit sales, receivables, stockout risk, seasonality, and credit-policy limits.',
+      caption:
+        'Operations Ratios Calculator guide artwork supports the walkthrough by separating turnover math from seasonality, inventory method, stockout risk, credit policy, bad-debt risk, and industry context.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',
