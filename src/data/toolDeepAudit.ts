@@ -1206,6 +1206,11 @@ const investorAnnualReturn = {
   label: 'OpenStax: Investments and return on investment',
 };
 
+const finraInvestmentReturns = {
+  href: 'https://www.finra.org/investors/insights/investment-returns',
+  label: 'FINRA: Calculating your investment returns',
+};
+
 const sbaLoans = {
   href: 'https://www.sba.gov/funding-programs/loans',
   label: 'U.S. Small Business Administration: Loans',
@@ -3088,17 +3093,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'average-return-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-4-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [investorAnnualReturn, investorCompound],
+    sources: [finraInvestmentReturns, investorAnnualReturn, investorCompound],
     findings: [
+      'DataForSEO evidence is page-specific for average return calculator intent, with wording aimed at average annual return, CAGR, cumulative return, investment return, and net gain.',
       'The calculator adjusts net gain for contributions and withdrawals, divides by beginning value plus contributions for cumulative return, then divides by years for simple average annual return.',
-      'The result also shows a basic CAGR comparison from beginning value to ending value, and the guide now warns that CAGR is not cash-flow adjusted in this simplified tool.',
-      'The page now explains that the estimate is not time-weighted return, money-weighted return, IRR, a tax report, or investment advice.',
+      'The result also shows a basic CAGR comparison from starting value to ending value, and the guide warns that CAGR is not cash-flow adjusted in this simplified tool.',
+      'FINRA return guidance confirms that annualized return gives a cleaner comparison than a simple average, while this page keeps the simpler shortcut clearly labeled and pushes uneven cash flows toward IRR or XIRR.',
     ],
     improvements: [
-      'Added average-return-specific guide detail and manually checked return math, example wording, source coverage, FAQ cautions, result labels, related tools, SEO copy, and privacy behavior.',
+      'Rebuilt title/meta, aliases, examples, input explanations, FAQ answers, guide title, guide meta, source links, trust wording, image alt/caption, sitemap dates, and page-specific proof around net gain, cumulative return, simple average annual return, and CAGR limits.',
     ],
     followUps: [
       'Promote users with uneven cash flows toward IRR Calculator until this tool gets a dedicated money-weighted return mode.',

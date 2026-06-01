@@ -4182,28 +4182,62 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'average-return-calculator',
     name: 'Average Return Calculator',
-    summary: 'Estimate cumulative return, simple average annual return, and CAGR.',
-    description:
-      'Use this free average return calculator to estimate net gain, cumulative return, average annual return, and CAGR from beginning value, ending value, time, contributions, and withdrawals.',
+    seoTitle: 'Average Return Calculator | CAGR And Net Gain',
     seoDescription:
-      'Estimate net gain, cumulative return, average annual return, and CAGR from beginning value, ending value, time, deposits, and withdrawals.',
+      'Estimate net gain, cumulative return, simple average annual return, and CAGR from starting value, ending value, years, contributions, and withdrawals.',
+    summary: 'Estimate net gain, cumulative return, average annual return, and CAGR.',
+    description:
+      'Estimate simple investment performance from starting value, ending value, years, contributions, and withdrawals.',
     icon: 'calculator-average-return',
+    aliases: ['average annual return calculator', 'cagr calculator', 'cumulative return calculator', 'investment return calculator', 'net gain calculator'],
     formula:
-      'The calculator adjusts ending value for withdrawals and contributions, divides net gain by invested base for cumulative return, then divides by years for average annual return.',
+      'Net gain = ending value + withdrawals - starting value - contributions. Cumulative return divides net gain by starting value plus contributions. Simple average annual return divides cumulative return by years. CAGR compares starting value with ending value only, so it is not cash-flow adjusted.',
     limit:
-      'This is not a full performance report. It does not calculate time-weighted return, internal rate of return, taxes, fees, volatility, or investment suitability.',
+      'This is a simple return check, not a full performance report. It does not calculate time-weighted return, money-weighted return, XIRR, exact cash-flow timing, dividends, fees, taxes, inflation, volatility, benchmark fit, or investment suitability.',
     useCases: [
       'Estimate average annual return from a beginning and ending value.',
       'Adjust a simple return for extra contributions or withdrawals.',
-      'Compare simple average return with CAGR.',
+      'Compare simple average return with a basic CAGR check.',
       'Check rough investment performance without saving personal data.',
     ],
     examples: [
-      { label: 'Five-year return', expression: '$10,000 to $16,000 over 5 years with $2,000 added', result: 'Average annual return and CAGR' },
-      { label: 'With withdrawals', expression: '$25,000 to $31,000 with $1,500 withdrawn', result: 'Adjusted net gain' },
-      { label: 'No contributions', expression: '$8,000 to $12,000 over 3 years', result: 'Simple growth return' },
+      { label: 'Five-year return', expression: '$10,000 to $16,000 over 5 years with $2,000 added', result: '$4,000 net gain, 33.33% cumulative return, and 6.67% simple average return' },
+      { label: 'With withdrawals', expression: '$25,000 to $31,000 over 4 years, $3,000 added, $1,500 withdrawn', result: '$4,500 net gain and 4.02% simple average return' },
+      { label: 'No contributions', expression: '$8,000 to $12,000 over 3 years', result: '50% cumulative return and 14.47% CAGR' },
     ],
     relatedSlugs: ['investment-calculator', 'compound-interest-calculator', 'mutual-fund-calculator'],
+    inputExplanations: [
+      { term: 'Starting value', meaning: 'the account or investment value at the beginning of the period.' },
+      { term: 'Ending value', meaning: 'the value at the end of the period before this quick return check.' },
+      { term: 'Years', meaning: 'the full length of the measurement period.' },
+      { term: 'Contributions', meaning: 'money added during the period. This quick estimate does not know the exact dates of each deposit.' },
+      { term: 'Withdrawals', meaning: 'money removed during the period. The calculator adds it back when finding net gain.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is average annual return the same as CAGR?',
+        answer:
+          'No. Simple average annual return divides cumulative return by years. CAGR shows the steady yearly growth rate from starting value to ending value, but this calculator does not adjust CAGR for contribution or withdrawal timing.',
+      },
+      {
+        question: 'Why do contributions change the result?',
+        answer:
+          'Money you add is not investment growth. The calculator subtracts contributions when finding net gain so a deposit is not counted as return.',
+      },
+      {
+        question: 'When should I use IRR instead?',
+        answer:
+          'Use IRR or XIRR when cash-flow timing matters, such as many deposits and withdrawals on different dates. This page is a quick estimate, not a money-weighted performance report.',
+      },
+    ],
+    formulaCheck:
+      'For the $10,000 to $16,000 example with $2,000 added, net gain is $4,000. The invested base is $12,000, so cumulative return is 33.33% and simple average annual return over 5 years is 6.67%.',
+    resultReading:
+      'Read net gain first, then cumulative return, then simple average annual return. Use CAGR as a separate growth-rate check, especially when there were no deposits or withdrawals.',
+    doubleCheck:
+      'Check whether deposits, withdrawals, dividends, fees, taxes, and the time period are entered the same way for every investment you compare.',
+    limitFollowup:
+      'For official statements, fund comparisons, tax reports, or uneven cash flows, use broker records, fund reports, or an IRR/XIRR method instead of this shortcut.',
   }),
   makeFinanceTool({
     slug: 'margin-calculator',

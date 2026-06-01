@@ -451,6 +451,10 @@ const sourceLinks = {
     href: 'https://openstax.org/books/contemporary-mathematics/pages/6-7-investments',
     label: 'OpenStax: Investments and return on investment',
   },
+  finraInvestmentReturns: {
+    href: 'https://www.finra.org/investors/insights/investment-returns',
+    label: 'FINRA: Calculating your investment returns',
+  },
   openStaxDiscounts: {
     href: 'https://openstax.org/books/contemporary-mathematics/pages/6-2-discounts-markups-and-sales-tax',
     label: 'OpenStax: Discounts, markups, and sales tax',
@@ -1006,7 +1010,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'average-return-calculator') {
-    return [sourceLinks.investorAnnualReturn, sourceLinks.investorCompound];
+    return [sourceLinks.finraInvestmentReturns, sourceLinks.investorGovCompoundCalculator, sourceLinks.investorAnnualReturn, sourceLinks.investorCompound];
   }
 
   if (['margin-calculator', 'discount-calculator', 'percent-off-calculator'].includes(toolSlug)) {
@@ -2494,27 +2498,31 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Business Loan Calculator if the asset was financed.', 'Use Average Return Calculator to compare investment-style performance.'],
   },
   'average-return-calculator': {
-    summary: 'Learn how beginning value, ending value, time, contributions, and withdrawals affect simple average return.',
+    summary: 'Learn how starting value, ending value, years, contributions, and withdrawals affect simple average return and CAGR.',
     purpose:
-      'The Average Return Calculator estimates net gain, cumulative return, simple average annual return, and a basic CAGR comparison. It is a quick performance check, not a professional performance report.',
+      'The Average Return Calculator estimates net gain, cumulative return, simple average annual return, and a basic CAGR comparison. It is a quick performance check, not a broker statement, tax report, or investment recommendation.',
     enter: [
-      'Enter beginning value, ending value, and number of years.',
-      'Add contributions and withdrawals if you want the simple gain estimate to account for money you added or removed.',
-      'Use years as the full measurement period, such as 5 for five years.',
+      'Enter the starting value, ending value, and full number of years.',
+      'Add contributions so deposits are not mistaken for investment growth.',
+      'Add withdrawals so money you took out is still counted in net gain.',
+      'Use IRR or XIRR instead when the exact dates of deposits and withdrawals matter.',
     ],
     example: [
-      '$10,000 to $16,000 over 5 years with $2,000 added gives a net gain after adjusting for the added money.',
-      'The calculator divides adjusted net gain by beginning value plus contributions for cumulative return, then divides by years for simple average annual return.',
+      '$10,000 to $16,000 over 5 years with $2,000 added gives $4,000 net gain after adjusting for the added money.',
+      'The calculator divides $4,000 by a $12,000 invested base for 33.33% cumulative return, then divides by 5 years for 6.67% simple average annual return.',
+      'With no contributions, $8,000 growing to $12,000 over 3 years gives 50% cumulative return and about 14.47% CAGR.',
     ],
     read: [
+      'Net gain adjusts for contributions and withdrawals so deposits are not counted as growth.',
+      'Cumulative return shows the total return for the whole period.',
       'Average annual return is the simple yearly average of the cumulative return.',
-      'CAGR estimate shows a growth-rate comparison from beginning value to ending value only.',
-      'Net gain adjusts for contributions and withdrawals so the result is not just ending value minus beginning value.',
+      'CAGR shows the steady growth-rate comparison from starting value to ending value only, so it is not cash-flow adjusted.',
     ],
     mistakes: [
       'Do not treat this as a time-weighted return or internal rate of return.',
-      'Do not ignore taxes, fees, dividends, deposits timing, withdrawals timing, and risk.',
+      'Do not ignore fees, taxes, dividends, inflation, risk, benchmark fit, deposits timing, and withdrawals timing.',
       'Do not compare two investments unless the measurement periods and cash flows are similar.',
+      'Do not assume past average return proves future return.',
     ],
     next: ['Use IRR Calculator for uneven cash flows.', 'Use ROI Calculator for a simpler gain-versus-cost check.'],
   },
@@ -3551,6 +3559,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Depreciation Calculator Guide';
   }
 
+  if (tool.slug === 'average-return-calculator') {
+    return 'Average Return Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3616,6 +3628,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'depreciation-calculator') {
     return 'Learn straight-line and declining-balance depreciation with cost, salvage value, useful life, accumulated depreciation, and book value examples.';
+  }
+
+  if (tool.slug === 'average-return-calculator') {
+    return 'Learn average return, cumulative return, net gain, and CAGR with contribution and withdrawal examples plus clear IRR limits.';
   }
 
   if (tool.slug === 'fha-loan-calculator') {

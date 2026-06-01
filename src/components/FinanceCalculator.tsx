@@ -1202,7 +1202,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Average Return Calculator',
     buttonLabel: 'Calculate return',
     emptyHistory: 'Recent return estimates will appear here.',
-    privacyNote: 'Average return estimates are simple performance math and do not include taxes, risk, fees, time-weighted returns, or investment advice.',
+    privacyNote:
+      'Average return estimates stay in this browser tab. They are simple performance math and do not include cash-flow dates, taxes, fees, inflation, volatility, benchmark fit, time-weighted returns, IRR, XIRR, or investment advice.',
     modes: [
       {
         id: 'average-return',
@@ -1217,9 +1218,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { beginningValue: '10000', endingValue: '16000', years: '5', contributions: '2000', withdrawals: '0' },
         examples: [
-          { label: 'Five-year return', inputs: { beginningValue: '10000', endingValue: '16000', years: '5', contributions: '2000', withdrawals: '0' } },
-          { label: 'With withdrawals', inputs: { beginningValue: '25000', endingValue: '31000', years: '4', contributions: '3000', withdrawals: '1500' } },
-          { label: 'No contributions', inputs: { beginningValue: '8000', endingValue: '12000', years: '3', contributions: '0', withdrawals: '0' } },
+          { label: '6.67% simple average', inputs: { beginningValue: '10000', endingValue: '16000', years: '5', contributions: '2000', withdrawals: '0' } },
+          { label: 'Withdrawal check', inputs: { beginningValue: '25000', endingValue: '31000', years: '4', contributions: '3000', withdrawals: '1500' } },
+          { label: '14.47% CAGR', inputs: { beginningValue: '8000', endingValue: '12000', years: '3', contributions: '0', withdrawals: '0' } },
         ],
       },
     ],
@@ -3478,7 +3479,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Divide cumulative return by years for simple average annual return.',
           'Also show CAGR from beginning value to ending value for a growth-rate comparison.',
         ],
-        note: 'This is not a time-weighted or money-weighted return and does not include taxes, fees, or risk.',
+        note:
+          'This is a quick return check, not a time-weighted return, money-weighted return, IRR, XIRR, tax report, fee-adjusted statement, inflation-adjusted result, or investment recommendation.',
       };
     }
     case 'margin': {

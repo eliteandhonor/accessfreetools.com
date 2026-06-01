@@ -292,6 +292,18 @@ const toolArtMetadataOverrides = {
         'Depreciation Calculator guide artwork supports the walkthrough by separating simple book-value math from IRS MACRS, section 179, bonus depreciation, recapture, and accounting-policy limits.',
     },
   },
+  'average-return-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing a $10,000 starting value, $16,000 ending value, $2,000 contribution, $4,000 net gain, 33.33% cumulative return, 6.67% simple average return, and CAGR card.',
+      caption:
+        'Average Return Calculator artwork matches the live workflow: starting value, ending value, years, contributions, withdrawals, net gain, cumulative return, simple average annual return, and CAGR.',
+    },
+    guide: {
+      alt: 'Smoke mascot sorting investment return cards for net gain, cumulative return, simple average annual return, CAGR, contribution timing, withdrawal timing, fees, taxes, and IRR limits.',
+      caption:
+        'Average Return Calculator guide artwork supports the walkthrough by separating a quick return check from broker statements, time-weighted return, IRR, XIRR, fees, taxes, inflation, and investment advice.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',
