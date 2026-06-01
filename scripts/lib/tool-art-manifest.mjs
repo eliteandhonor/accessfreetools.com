@@ -378,14 +378,14 @@ const toolArtMetadataOverrides = {
   },
   'rmd-calculator': {
     tool: {
-      alt: 'Smoke mascot checking a $500,000 prior December 31 balance, age 75, IRS factor 24.6, $20,325.20 estimated RMD, and balance-after-withdrawal card.',
+      alt: 'Smoke mascot moving coins from a retirement savings jar into a bowl beside a calendar and worksheet for an RMD withdrawal estimate.',
       caption:
-        'RMD Calculator artwork matches the live workflow: prior December 31 balance, age in the distribution year, IRS Uniform Lifetime Table factor, estimated RMD, and balance after RMD.',
+        'RMD Calculator artwork matches the page task: use a prior December 31 balance, age, IRS table factor, estimated withdrawal, and balance check.',
     },
     guide: {
-      alt: 'Smoke mascot sorting RMD guide cards for prior December 31 balance, age 75, factor 24.6, inherited IRA warning, younger-spouse warning, tax withholding, and custodian statement checks.',
+      alt: 'Smoke mascot pointing at a worksheet while coins move from a savings jar into a bowl for an RMD guide check.',
       caption:
-        'RMD Calculator guide artwork supports the walkthrough by separating simple Uniform Lifetime Table math from inherited IRA rules, younger-spouse rules, first-year timing, aggregation, tax withholding, and custodian records.',
+        'RMD Calculator guide artwork supports the walkthrough by tying the visible savings jar, worksheet, and withdrawal bowl to the RMD balance, age, table-factor, and limit checks.',
     },
   },
   'depreciation-calculator': {
