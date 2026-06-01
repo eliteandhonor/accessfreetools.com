@@ -601,6 +601,11 @@ const cfpbAutoLoanCompare = {
   label: 'CFPB: How to compare auto loan offers',
 };
 
+const cfpbAutoLoanRates = {
+  href: 'https://www.consumerfinance.gov/ask-cfpb/where-can-i-get-information-on-auto-loan-rates-en-761/',
+  label: 'CFPB: Where to get auto loan rate information',
+};
+
 const cfpbAutoLoanTerms = {
   href: 'https://www.consumerfinance.gov/language/cfpb-in-english/auto-loans-key-terms/',
   label: 'CFPB: Auto loans key terms',
@@ -1164,6 +1169,11 @@ const dolCommissions = {
 const ftcAutoLease = {
   href: 'https://consumer.ftc.gov/financing-or-leasing-car',
   label: 'FTC: Financing or Leasing a Car',
+};
+
+const ftcCarDealerAds = {
+  href: 'https://consumer.ftc.gov/car-dealer-ads-promotions-know-you-go',
+  label: 'FTC: Car dealer ads and promotions',
 };
 
 const ftcAutoNegativeEquity = {
@@ -3008,17 +3018,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'cash-back-or-low-interest-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-3-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [cfpbAutoFinancingOffers, cfpbApr],
+    sources: [cfpbAutoFinancingOffers, ftcAutoLease, cfpbAutoLoanRates, ftcCarDealerAds, cfpbApr, cfpbAutoLoanCompare],
     findings: [
-      'The calculator estimates total paid for the cash-back APR, subtracts the rebate value, then compares that net cost with the low-interest APR total paid over the same term.',
-      'The result names the lower estimated total-cost option and shows savings, cash-back value, cash-back net cost, and low-interest total cost.',
-      'The guide and FAQ warn that advertised low APRs and rebates can depend on credit approval, model restrictions, fees, taxes, eligibility rules, dealer add-ons, and offer dates.',
+      'DataForSEO evidence is page-specific for cash back or low interest calculator intent, with supporting rebate-vs-low-APR and dealer incentive wording kept natural rather than stuffed.',
+      'The calculator estimates total paid with the cash-back APR, subtracts the rebate value, then compares that net cost with the low-interest APR total paid over the same term.',
+      'The result names the lower estimated total-cost option and shows savings, cash-back value, cash-back net cost, and low-interest total cost so monthly payment does not decide the winner by itself.',
+      'Current CFPB and FTC source checks confirmed that advertised low APRs, manufacturer incentives, cash back, rebates, dealer add-ons, out-the-door price, and credit approval rules can change the real deal.',
     ],
     improvements: [
-      'Added cash-back-versus-low-interest guide detail, added a CFPB auto-financing incentive source, and manually checked comparison logic, examples, FAQ cautions, related tools, SEO copy, and privacy note.',
+      'Rebuilt title/meta, aliases, examples, input explanations, FAQ answers, guide title, guide meta, source links, trust wording, image alt/caption, sitemap dates, and page-specific proof around rebate vs low APR total-cost comparison.',
     ],
     followUps: [
       'Add a mode where the rebate is applied as a down payment if users need that specific dealer-offer comparison.',
@@ -7632,7 +7643,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['cash-back-or-low-interest', 'cash back', 'low interest'])) {
-      return sourceBackstop([cfpbAutoFinancingOffers, cfpbApr]);
+      return sourceBackstop([cfpbAutoFinancingOffers, ftcAutoLease, cfpbAutoLoanRates, ftcCarDealerAds, cfpbApr, cfpbAutoLoanCompare]);
     }
 
     if (includesAny(key, ['auto-lease', 'auto lease', 'lease-calculator', 'lease calculator'])) {

@@ -256,6 +256,18 @@ const toolArtMetadataOverrides = {
         'VAT Calculator guide artwork supports the walkthrough by showing add-VAT and remove-VAT examples beside rate, invoice, exemption, reverse-charge, and country-rule cautions.',
     },
   },
+  'cash-back-or-low-interest-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing a $32,000 car offer with a 4 percent rebate at 7.2 percent APR against a 3.9 percent low-APR offer, with total-cost and savings cards.',
+      caption:
+        'Cash Back or Low Interest Calculator artwork matches the live workflow: purchase amount, payoff months, cash-back percent, APR with rebate, low-interest APR, total cost, and estimated savings.',
+    },
+    guide: {
+      alt: 'Smoke mascot checking dealer incentive notes for cash-back rebate rules, low-APR eligibility, written out-the-door price, add-ons, and total-cost comparison.',
+      caption:
+        'Cash Back or Low Interest Calculator guide artwork supports the walkthrough by separating rebate math from dealer rules, credit approval, add-ons, taxes, fees, and written offer terms.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

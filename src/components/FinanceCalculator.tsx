@@ -1117,7 +1117,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Cash Back or Low Interest Calculator',
     buttonLabel: 'Compare offers',
     emptyHistory: 'Recent offer comparisons will appear here.',
-    privacyNote: 'Offer comparisons are simple payment estimates and do not include dealer restrictions, taxes, fees, rebates you do not qualify for, or credit approval.',
+    privacyNote:
+      'Offer comparisons stay in this browser tab. The estimate does not check taxes, fees, add-ons, trade-in rules, rebate eligibility, credit approval, model restrictions, or whether two incentives can be combined.',
     modes: [
       {
         id: 'cash-back-low-interest',
@@ -1132,9 +1133,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { purchaseAmount: '32000', payoffMonths: '60', cashBackPercent: '4', cashBackAprPercent: '7.2', lowInterestAprPercent: '3.9' },
         examples: [
-          { label: 'Dealer incentive', inputs: { purchaseAmount: '32000', payoffMonths: '60', cashBackPercent: '4', cashBackAprPercent: '7.2', lowInterestAprPercent: '3.9' } },
-          { label: 'Big rebate', inputs: { purchaseAmount: '28000', payoffMonths: '48', cashBackPercent: '6', cashBackAprPercent: '8', lowInterestAprPercent: '4.5' } },
-          { label: 'Short payoff', inputs: { purchaseAmount: '18000', payoffMonths: '36', cashBackPercent: '3', cashBackAprPercent: '6.5', lowInterestAprPercent: '2.9' } },
+          { label: 'Low APR wins', inputs: { purchaseAmount: '32000', payoffMonths: '60', cashBackPercent: '4', cashBackAprPercent: '7.2', lowInterestAprPercent: '3.9' } },
+          { label: 'Rebate wins', inputs: { purchaseAmount: '28000', payoffMonths: '36', cashBackPercent: '8', cashBackAprPercent: '5.5', lowInterestAprPercent: '3.9' } },
+          { label: 'Short payoff rebate', inputs: { purchaseAmount: '30000', payoffMonths: '36', cashBackPercent: '10', cashBackAprPercent: '6', lowInterestAprPercent: '3.9' } },
         ],
       },
     ],
@@ -3384,7 +3385,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Estimate the loan payment and total paid with the low-interest APR.',
           'Choose the lower estimated total cost.',
         ],
-        note: 'Dealer incentives can have eligibility rules, model limits, fees, tax treatment, and offer dates that this calculator does not check.',
+        note:
+          'Ask for the out-the-door price and financing terms in writing. Dealer incentives can depend on credit approval, model rules, fees, tax treatment, add-ons, offer dates, and whether the rebate can be combined with other financing.',
       };
     }
     case 'auto-lease': {

@@ -3998,27 +3998,66 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'cash-back-or-low-interest-calculator',
     name: 'Cash Back or Low Interest Calculator',
-    seoTitle: 'Cash Back or Low Interest Calculator | Access Free Tools',
-    summary: 'Compare a cash-back offer with a low-interest financing offer.',
+    seoTitle: 'Cash Back or Low Interest Calculator | Rebate vs APR',
+    seoDescription:
+      'Compare a cash-back rebate with a low-interest APR offer. See cash-back value, total cost, savings, and dealer-offer limits.',
+    summary: 'Compare a cash-back rebate with a low-interest APR offer by total cost.',
     description:
-      'Use this free cash back or low interest calculator to compare estimated total cost between a rebate-style offer and a lower APR offer over the same payoff term.',
+      'Compare a cash-back rebate with a low-interest APR offer over the same payoff term. See which path has the lower estimated total cost.',
     icon: 'calculator-cash-back',
+    aliases: ['rebate vs low APR calculator', 'cash back vs low interest calculator', 'auto rebate calculator', '0 APR vs rebate calculator', 'dealer incentive calculator'],
     formula:
-      'The calculator estimates total paid for the cash-back APR, subtracts the cash-back value, then compares that net cost with the total paid under the low-interest APR.',
+      'The calculator estimates total paid with the cash-back APR, subtracts the rebate value, then compares that net cost with the total paid under the low-interest APR.',
     limit:
-      'This is a simplified comparison. It does not include taxes, dealer fees, model restrictions, offer expiration dates, credit approval, or rebate eligibility rules.',
+      'This is a simplified offer comparison. It does not include taxes, dealer fees, add-ons, trade-in rules, model restrictions, offer expiration dates, credit approval, or rebate eligibility rules.',
     useCases: [
-      'Compare a dealer cash-back offer with a low APR offer.',
-      'See whether a bigger rebate beats a lower rate over your payoff term.',
-      'Estimate total cost instead of comparing monthly payment alone.',
-      'Check incentive math before reading the official offer terms.',
+      'Compare a dealer cash-back rebate with a low APR offer.',
+      'See whether a larger rebate beats a lower rate over your payoff term.',
+      'Compare total cost before judging the deal by monthly payment.',
+      'Check the math before reading the official incentive terms.',
     ],
     examples: [
-      { label: 'Dealer incentive', expression: '$32,000, 4% cash back at 7.2% vs 3.9% APR', result: 'Lower estimated total cost' },
-      { label: 'Big rebate', expression: '$28,000, 6% cash back, 48 months', result: 'Cash-back comparison' },
-      { label: 'Short payoff', expression: '$18,000 over 36 months', result: 'Rate-vs-rebate estimate' },
+      { label: 'Low APR wins', expression: '$32,000, 60 months, 4% cash back at 7.2% vs 3.9% APR', result: 'Low-interest offer saves about $1,646.59' },
+      { label: 'Rebate wins', expression: '$28,000, 36 months, 8% cash back at 5.5% vs 3.9% APR', result: 'Cash-back offer saves about $1,517.89' },
+      { label: 'Short payoff rebate', expression: '$30,000, 36 months, 10% cash back at 6% vs 3.9% APR', result: 'Cash-back offer saves about $1,982.19' },
     ],
     relatedSlugs: ['auto-loan-calculator', 'interest-rate-calculator', 'loan-calculator'],
+    inputExplanations: [
+      {
+        term: 'Purchase amount',
+        meaning:
+          'the agreed price being compared before this simple calculator applies the rebate math. Taxes, fees, down payment, trade-in, and add-ons are not included unless you fold them into the amount yourself.',
+      },
+      { term: 'Payoff term', meaning: 'the number of months both offers use, such as 36, 48, 60, or 72 months.' },
+      { term: 'Cash back percent', meaning: 'the rebate percent for the cash-back path, entered as 4 for 4%, not 0.04.' },
+      { term: 'APR with cash back', meaning: 'the annual percentage rate used when you take the rebate instead of the special low-rate offer.' },
+      { term: 'Low-interest APR', meaning: 'the promotional APR used when you skip the rebate and take the lower-rate financing offer.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Should I choose cash back or low interest?',
+        answer:
+          'Choose the option with the lower total cost after you use the same price and same payoff term. A low APR can win on a long loan, but a large rebate can win on a short loan or when the rate gap is small.',
+      },
+      {
+        question: 'Does this include taxes, fees, down payment, or trade-in value?',
+        answer:
+          'No. This calculator compares the incentive math only. Use the Auto Loan Calculator for a fuller car-payment estimate that includes tax, fees, down payment, and trade-in value.',
+      },
+      {
+        question: 'Can a 0% APR offer still be worse than cash back?',
+        answer:
+          'Yes. If the rebate is large enough, the loan is short enough, or your outside financing is close to the promo APR, cash back may cost less overall. The calculator is built to test that exact tradeoff.',
+      },
+    ],
+    formulaCheck:
+      'For the $32,000 example, the 4% rebate is $1,280. The calculator compares the cash-back loan total after subtracting that rebate with the 3.9% low-interest total paid.',
+    resultReading:
+      'Read the winner first, then check estimated savings, cash-back value, cash-back net cost, and low-interest total cost. The monthly payment can be useful, but total cost decides the winner here.',
+    doubleCheck:
+      'Check that both offers use the same price and payoff term. Then read the dealer rules for credit approval, model limits, rebate eligibility, taxes, add-ons, offer dates, and whether the rebate can be combined with outside financing.',
+    limitFollowup:
+      'Get the out-the-door price and financing terms in writing before relying on the estimate. FTC and CFPB guidance both warn that incentives, APR, add-ons, and monthly payment framing can change the real deal.',
   }),
   makeFinanceTool({
     slug: 'auto-lease-calculator',

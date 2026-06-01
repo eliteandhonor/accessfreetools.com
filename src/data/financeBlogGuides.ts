@@ -391,6 +391,10 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/rules-policy/regulations/1026/22',
     label: 'CFPB Regulation Z: Annual percentage rate',
   },
+  cfpbAutoLoanRates: {
+    href: 'https://www.consumerfinance.gov/ask-cfpb/where-can-i-get-information-on-auto-loan-rates-en-761/',
+    label: 'CFPB: Where to get auto loan rate information',
+  },
   cfpbAprVsInterest: {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/',
     label: 'CFPB: Loan interest rate vs. APR',
@@ -514,6 +518,10 @@ const sourceLinks = {
   ftcAutoLease: {
     href: 'https://consumer.ftc.gov/financing-or-leasing-car',
     label: 'FTC: Financing or Leasing a Car',
+  },
+  ftcCarDealerAds: {
+    href: 'https://consumer.ftc.gov/car-dealer-ads-promotions-know-you-go',
+    label: 'FTC: Car dealer ads and promotions',
   },
   irsDepreciation: {
     href: 'https://www.irs.gov/publications/p946',
@@ -951,7 +959,14 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'cash-back-or-low-interest-calculator') {
-    return [sourceLinks.cfpbAutoFinancingOffers, sourceLinks.cfpbApr];
+    return [
+      sourceLinks.cfpbAutoFinancingOffers,
+      sourceLinks.ftcAutoLease,
+      sourceLinks.cfpbAutoLoanRates,
+      sourceLinks.ftcCarDealerAds,
+      sourceLinks.cfpbApr,
+      sourceLinks.cfpbAutoLoanCompare,
+    ];
   }
 
   if (toolSlug === 'auto-loan-calculator') {
@@ -2384,29 +2399,33 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Sales Tax Calculator for U.S.-style sales tax math.', 'Use Percentage Calculator to check rate math.', 'Use Discount Calculator before VAT if the price is discounted first.'],
   },
   'cash-back-or-low-interest-calculator': {
-    summary: 'Learn how to compare a cash-back rebate offer with a low-interest financing offer by estimated total cost.',
+    summary: 'Learn how to compare a cash-back rebate with a low-interest APR offer by total cost.',
     purpose:
-      'The Cash Back or Low Interest Calculator compares two incentive paths over the same payoff term. It estimates the total paid with a rebate-style offer and compares it with the total paid under a lower APR offer.',
+      'The Cash Back or Low Interest Calculator helps you test a dealer incentive choice: take the cash-back rebate with the regular APR, or skip the rebate and take the lower APR. The winner is the option with the lower estimated total cost over the same payoff term.',
     enter: [
-      'Enter the purchase amount and payoff term in months.',
-      'Enter the cash back percent and the APR that goes with the cash-back option.',
-      'Enter the low-interest APR from the competing offer.',
+      'Enter the same purchase amount for both offers.',
+      'Enter the payoff term in months, such as 36, 48, 60, or 72.',
+      'Enter the cash back percent and the APR that goes with the rebate option.',
+      'Enter the low-interest APR from the offer that gives up the rebate.',
     ],
     example: [
-      '$32,000 over 60 months with 4% cash back at 7.2% APR is compared with the same amount at 3.9% APR.',
-      'The calculator subtracts the rebate value from the cash-back loan total, then chooses the lower estimated total cost.',
+      '$32,000 over 60 months with 4% cash back at 7.2% APR is compared with the same amount at 3.9% APR. The low-interest offer saves about $1,646.59.',
+      '$28,000 over 36 months with 8% cash back at 5.5% APR is compared with 3.9% APR. The cash-back offer saves about $1,517.89.',
+      'The calculator subtracts the rebate value from the cash-back loan total, then compares that net cost with the low-interest total paid.',
     ],
     read: [
-      'Estimated better offer is the option with lower estimated total cost.',
-      'Cash back value is the rebate amount based on purchase price.',
-      'Estimated savings is the difference between the two options.',
+      'Estimated better offer is the path with the lower estimated total cost.',
+      'Cash back value is the rebate amount based on the purchase amount.',
+      'Cash back net cost is the cash-back loan total after subtracting the rebate.',
+      'Estimated savings is the gap between the two total-cost estimates.',
     ],
     mistakes: [
       'Do not compare by monthly payment only.',
-      'Do not ignore taxes, fees, credit approval, model restrictions, rebate eligibility, expiration dates, or dealer add-ons.',
-      'Do not assume an advertised low APR is available to every buyer.',
+      'Do not assume the low APR and cash-back rebate can be combined.',
+      'Do not ignore taxes, fees, down payment, trade-in value, credit approval, model restrictions, rebate eligibility, expiration dates, or dealer add-ons.',
+      'Do not assume an advertised low APR is available to every buyer or every model.',
     ],
-    next: ['Use Auto Loan Calculator for the full vehicle loan estimate.', 'Use Interest Rate Calculator when you know payment but not rate.'],
+    next: ['Use Auto Loan Calculator for the full vehicle loan estimate.', 'Use Interest Rate Calculator when you know payment but not rate.', 'Use Loan Calculator to compare the same APR and term outside a car-deal setup.'],
   },
   'auto-lease-calculator': {
     summary: 'Learn how vehicle price, residual value, money factor, taxes, fees, and term shape an auto lease payment.',
@@ -3504,6 +3523,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'VAT Calculator Guide';
   }
 
+  if (tool.slug === 'cash-back-or-low-interest-calculator') {
+    return 'Cash Back or Low Interest Calculator Guide';
+  }
+
   if (tool.slug === 'pension-calculator') {
     return 'Pension Calculator Guide';
   }
@@ -3557,6 +3580,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'vat-calculator') {
     return 'Add or remove VAT from a price, with 20%, 5%, and custom-rate examples plus net, VAT amount, and gross amount checks.';
+  }
+
+  if (tool.slug === 'cash-back-or-low-interest-calculator') {
+    return 'Compare a cash-back rebate with a low-interest APR offer, including total cost, savings, dealer-rule, and eligibility checks.';
   }
 
   if (tool.slug === 'fha-loan-calculator') {
