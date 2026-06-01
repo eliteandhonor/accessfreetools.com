@@ -1910,7 +1910,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'IRR Calculator',
     buttonLabel: 'Calculate IRR',
     emptyHistory: 'Recent IRR estimates will appear here.',
-    privacyNote: 'IRR estimates assume evenly spaced cash flows and may not represent reinvestment returns or unusual cash-flow patterns.',
+    privacyNote: 'IRR estimates stay in this browser tab. They assume evenly spaced cash flows and are not investment, tax, fee, or reinvestment-return advice.',
     modes: [
       {
         id: 'irr',
@@ -1927,9 +1927,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { initialOutflow: '10000', cashFlow1: '2200', cashFlow2: '2400', cashFlow3: '2600', cashFlow4: '2800', cashFlow5: '4500', periodsPerYear: '1' },
         examples: [
-          { label: 'Five-year project', inputs: { initialOutflow: '10000', cashFlow1: '2200', cashFlow2: '2400', cashFlow3: '2600', cashFlow4: '2800', cashFlow5: '4500', periodsPerYear: '1' } },
-          { label: 'Uneven cash flows', inputs: { initialOutflow: '25000', cashFlow1: '4000', cashFlow2: '6500', cashFlow3: '7000', cashFlow4: '8000', cashFlow5: '9000', periodsPerYear: '1' } },
-          { label: 'Monthly shorthand', inputs: { initialOutflow: '5000', cashFlow1: '500', cashFlow2: '550', cashFlow3: '575', cashFlow4: '600', cashFlow5: '650', periodsPerYear: '12' } },
+          { label: '12.22% annualized IRR', inputs: { initialOutflow: '10000', cashFlow1: '2200', cashFlow2: '2400', cashFlow3: '2600', cashFlow4: '2800', cashFlow5: '4500', periodsPerYear: '1' } },
+          { label: '10.44% uneven-flow IRR', inputs: { initialOutflow: '25000', cashFlow1: '4000', cashFlow2: '6500', cashFlow3: '7000', cashFlow4: '8000', cashFlow5: '9000', periodsPerYear: '1' } },
+          { label: '-86.74% five-month warning', inputs: { initialOutflow: '5000', cashFlow1: '500', cashFlow2: '550', cashFlow3: '575', cashFlow4: '600', cashFlow5: '650', periodsPerYear: '12' } },
         ],
       },
     ],
@@ -4211,7 +4211,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Discount each future cash flow until net present value is near zero.',
           'Annualize the periodic IRR using the selected period frequency.',
         ],
-        note: 'Unusual cash-flow signs can produce multiple IRRs or no simple IRR.',
+        note: 'Cash flows should be evenly spaced. Sign changes, project size, taxes, fees, inflation, risk, and reinvestment assumptions can make IRR easy to misuse.',
       };
     }
     case 'roi': {

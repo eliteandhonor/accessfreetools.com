@@ -1326,6 +1326,11 @@ const openStaxIrr = {
   label: 'OpenStax Principles of Finance: Internal Rate of Return method',
 };
 
+const microsoftIrr = {
+  href: 'https://support.microsoft.com/en-us/office/irr-function-64925eaa-9988-495b-b290-3ad0c163c1bc',
+  label: 'Microsoft Support: IRR function',
+};
+
 const openStaxInvestments = {
   href: 'https://openstax.org/books/contemporary-mathematics/pages/6-7-investments',
   label: 'OpenStax: Investments and return on investment',
@@ -3523,20 +3528,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'irr-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-5-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [openStaxIrr, investorCompound],
+    sources: [openStaxIrr, microsoftIrr, investorCompound],
     findings: [
-      'The calculator requires at least one negative and one positive cash flow, then uses bisection to solve for the periodic rate that makes NPV approximately zero.',
-      'The annualized result compounds the solved periodic rate by periods per year, so the period setting is part of the math and not just a label.',
-      'The guide now warns that IRR can be misleading when cash-flow signs switch more than once, projects have very different sizes, or reinvestment assumptions are unrealistic.',
+      'DataForSEO showed "irr calculator" demand at 6,600 United States monthly searches with informational intent, plus modifiers around formula, monthly IRR, Excel, and real estate.',
+      'Current OpenStax source checks confirm IRR is the discount rate that sets NPV to zero and that multiple IRRs, reinvestment assumptions, and project scale can make the method misleading.',
+      'Current Microsoft IRR documentation confirms cash-flow amounts can vary but should occur at regular intervals, so the page now names the regular-spacing rule clearly.',
     ],
     improvements: [
-      'Added IRR-specific guide detail and manually checked solver guardrails, annualization, examples, FAQ cautions, OpenStax source coverage, related tools, SEO copy, and privacy behavior.',
+      'Added IRR-specific SEO title and description, DataForSEO-backed aliases, exact examples, source-backed guide detail, regular-interval warnings, trust block, priority FAQs, specific image alt/caption text, and clearer result notes.',
     ],
     followUps: [
-      'Add an NPV comparison line with a user-entered discount rate if users need a better companion metric for project ranking.',
+      'Add a user-entered discount-rate NPV companion line or an XIRR-style date mode only if the UI can keep the simple IRR screen easy to use.',
     ],
   },
   {
@@ -7855,7 +7860,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['irr-calculator', 'irr calculator'])) {
-      return sourceBackstop([openStaxIrr, investorCompound]);
+      return sourceBackstop([openStaxIrr, microsoftIrr, investorCompound]);
     }
 
     if (includesAny(key, ['roi-calculator', 'roi calculator'])) {

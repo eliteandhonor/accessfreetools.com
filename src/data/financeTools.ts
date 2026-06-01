@@ -1213,14 +1213,24 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'irr-calculator',
     name: 'IRR Calculator',
-    summary: 'Estimate internal rate of return from an initial outflow and five cash-flow periods.',
+    summary: 'Estimate IRR from one starting outflow and five evenly spaced cash-flow periods.',
     description:
-      'Use this free IRR calculator to estimate periodic and annualized internal rate of return from an initial investment and five cash-flow periods.',
+      'Use this free IRR calculator to estimate periodic and annualized internal rate of return from an initial investment and five evenly spaced cash-flow periods.',
+    seoTitle: 'IRR Calculator | Internal Rate of Return',
+    seoDescription:
+      'Estimate internal rate of return from an initial outflow and five regular cash-flow periods, with periodic IRR, annualized IRR, and limit checks.',
     icon: 'calculator-rate',
+    aliases: [
+      'irr calculator',
+      'internal rate of return calculator',
+      'irr calculator formula',
+      'irr calculator monthly',
+      'investment irr calculator',
+    ],
     formula:
       'The calculator treats the initial investment as a negative cash flow, then solves for the rate that makes the net present value of all entered cash flows approximately zero.',
     limit:
-      'IRR can be misleading for unusual cash-flow signs, reinvestment assumptions, different project sizes, taxes, fees, inflation, or risk.',
+      'IRR can be misleading for cash flows that change signs more than once, uneven real-world timing, reinvestment assumptions, different project sizes, taxes, fees, inflation, or risk.',
     useCases: [
       'Estimate a project internal rate of return.',
       'Compare uneven cash flows against a target return.',
@@ -1228,11 +1238,41 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Screen an investment before a detailed model.',
     ],
     examples: [
-      { label: 'Five-year project', expression: '$10,000 outflow and five annual inflows', result: 'IRR estimate' },
-      { label: 'Uneven cash flows', expression: 'Different cash flow each year', result: 'Solved rate' },
-      { label: 'Monthly shorthand', expression: 'Monthly-style period selection', result: 'Annualized IRR estimate' },
+      { label: 'Five-year project', expression: '$10,000 outflow, then $2,200 to $4,500 annual inflows', result: '12.22% annualized IRR' },
+      { label: 'Uneven annual cash flows', expression: '$25,000 outflow, then $4,000 to $9,000 annual inflows', result: '10.44% annualized IRR' },
+      { label: 'Five monthly periods', expression: '$5,000 outflow, then five smaller monthly inflows', result: '-86.74% annualized IRR warning' },
     ],
     relatedSlugs: ['roi-calculator', 'payback-period-calculator', 'present-value-calculator'],
+    inputExplanations: [
+      { term: 'Initial investment outflow', meaning: 'the starting cost or cash paid out. The calculator turns this into a negative cash flow.' },
+      { term: 'Year 1 through Year 5 cash flow', meaning: 'the money expected back in each regular period, entered in the same order it arrives.' },
+      { term: 'Periods per year', meaning: 'how often those cash-flow periods happen. Use 1 for annual, 4 for quarterly, or 12 for monthly spacing.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Do the cash flows need to be evenly spaced?',
+        answer:
+          'Yes. This IRR page works like spreadsheet IRR: the cash flows can be different amounts, but the periods should be regular, such as yearly, quarterly, or monthly. Irregular dates need an XIRR-style tool instead.',
+      },
+      {
+        question: 'Why can IRR look strange or fail?',
+        answer:
+          'IRR is the rate where NPV is about zero. If the cash flows switch from negative to positive and back again, there can be more than one possible IRR, or no simple answer this page should show.',
+      },
+      {
+        question: 'Is IRR better than ROI?',
+        answer:
+          'Not always. IRR includes cash-flow timing, which ROI ignores, but IRR can overrate tiny projects or assume reinvestment at the same rate. Use ROI, payback, NPV, and plain risk checks too.',
+      },
+    ],
+    formulaCheck:
+      'For the default example: -$10,000, $2,200, $2,400, $2,600, $2,800, and $4,500 produces a periodic IRR of about 12.22%. With annual periods, the annualized IRR is also about 12.22%.',
+    resultReading:
+      'Annualized IRR is the headline rate after using the periods-per-year setting. Periodic IRR is the solved rate for one cash-flow period. Net cash flow is simple dollars in minus dollars out, so it does not adjust for timing.',
+    doubleCheck:
+      'Check that the first value is the outflow, later values are in the right order, the periods are evenly spaced, and the periods-per-year setting matches your cash-flow timing.',
+    limitFollowup:
+      'Use a full investment model, real dates, NPV, MIRR, fees, taxes, inflation, risk, and professional review before choosing a real project or investment. This page is a quick IRR screen, not advice.',
   },
   {
     slug: 'roi-calculator',

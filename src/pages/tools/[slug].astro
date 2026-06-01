@@ -708,6 +708,13 @@ const financeToolInstructions = financeToolVariant
         'Calculate, then compare monthly NOI, mortgage payment, monthly cash flow, cap rate, and cash-on-cash return.',
         'Check rent comps, tax records, insurance quotes, HOA rules, repair history, lender rules, and local landlord rules before trusting a deal.',
       ]
+    : tool.slug === 'irr-calculator'
+    ? [
+        'Enter the starting investment as the initial outflow.',
+        'Enter the next five cash flows in the order they happen.',
+        'Choose periods per year: 1 for annual, 4 for quarterly, or 12 for monthly spacing.',
+        'Calculate, then compare annualized IRR, periodic IRR, and net cash flow. Check ROI, payback, NPV, fees, taxes, and risk before using the number for a real decision.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
@@ -2162,6 +2169,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Paycheck estimate'
               : tool.slug === 'rental-property-calculator'
               ? 'Rental deal screen'
+              : tool.slug === 'irr-calculator'
+              ? 'IRR cash-flow screen'
               : 'Estimate, not advice'}
           </span>
           <span>
@@ -2207,6 +2216,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Net pay, FICA, pretax'
               : tool.slug === 'rental-property-calculator'
               ? 'NOI, cap rate, cash flow'
+              : tool.slug === 'irr-calculator'
+              ? 'Periodic and annualized IRR'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -3550,6 +3561,23 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                   <a href="https://www.irs.gov/taxtopics/tc414" rel="noreferrer" target="_blank">IRS Topic 414</a>,{' '}
                   <a href="https://www.irs.gov/publications/p527" rel="noreferrer" target="_blank">IRS Publication 527</a>, and{' '}
                   <a href="https://selling-guide.fanniemae.com/sel/b3-3.8-01/rental-income" rel="noreferrer" target="_blank">Fannie Mae rental income guidance</a>.
+                </span>
+              </p>
+            </>
+          ) : tool.slug === 'irr-calculator' ? (
+            <>
+              <strong>IRR screen, not a full investment model</strong>
+              <p>
+                Use this to test one starting outflow, five regular cash-flow periods, periodic IRR, annualized IRR,
+                and net cash flow. It does not handle irregular dates, multiple sign-change answers, MIRR, NPV at
+                your target discount rate, taxes, fees, inflation, financing terms, project size, or investment risk.
+              </p>
+              <p>
+                <span>
+                  Sources used for this review:{' '}
+                  <a href="https://openstax.org/books/principles-finance/pages/16-3-internal-rate-of-return-irr-method" rel="noreferrer" target="_blank">OpenStax IRR method</a>,{' '}
+                  <a href="https://support.microsoft.com/en-us/office/irr-function-64925eaa-9988-495b-b290-3ad0c163c1bc" rel="noreferrer" target="_blank">Microsoft IRR function notes</a>, and{' '}
+                  <a href="https://openstax.org/books/principles-finance/pages/7-2-time-value-of-money-tvm-basics" rel="noreferrer" target="_blank">OpenStax time value of money basics</a>.
                 </span>
               </p>
             </>

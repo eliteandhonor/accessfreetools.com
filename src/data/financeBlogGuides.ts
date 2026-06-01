@@ -659,6 +659,10 @@ const sourceLinks = {
     href: 'https://openstax.org/books/principles-finance/pages/16-3-internal-rate-of-return-irr-method',
     label: 'OpenStax Principles of Finance: Internal Rate of Return method',
   },
+  microsoftIrr: {
+    href: 'https://support.microsoft.com/en-us/office/irr-function-64925eaa-9988-495b-b290-3ad0c163c1bc',
+    label: 'Microsoft Support: IRR function',
+  },
   vaFundingFee: {
     href: 'https://www.va.gov/housing-assistance/home-loans/funding-fee-and-closing-costs',
     label: 'VA: Funding fee and loan closing costs',
@@ -910,7 +914,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'irr-calculator') {
-    return [sourceLinks.openStaxIrr, sourceLinks.investorCompound];
+    return [sourceLinks.openStaxIrr, sourceLinks.microsoftIrr, sourceLinks.investorCompound];
   }
 
   if (toolSlug === 'roi-calculator') {
@@ -3120,26 +3124,27 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Real Estate Calculator for a sale-profit estimate.', 'Use Mortgage Calculator to inspect the loan payment separately.'],
   },
   'irr-calculator': {
-    summary: 'Learn how cash flows are used to solve the rate that makes net present value close to zero.',
+    summary: 'Learn how an initial outflow and regular cash flows turn into periodic and annualized IRR.',
     purpose:
-      'The IRR Calculator is for uneven cash flows. It estimates the periodic and annualized return rate that balances an initial outflow against later inflows.',
+      'The IRR Calculator is for regular cash-flow periods where the amounts can be uneven. It estimates the rate that makes the cash flows balance to about zero net present value.',
     enter: [
-      'Enter the first cash flow as the initial investment or outflow. The tool treats it as negative in the project-style setup.',
-      'Enter later cash flows in order by period.',
-      'Set periods per year carefully. Use 1 for annual cash flows, 12 for monthly cash flows, or another value that matches the spacing.',
+      'Enter the starting investment as the initial outflow. The tool turns that starting cost into a negative cash flow.',
+      'Enter the next five cash flows in the order they happen. The amounts can be different, but the spacing should stay regular.',
+      'Set periods per year carefully. Use 1 for annual cash flows, 4 for quarterly cash flows, or 12 for monthly cash flows.',
     ],
     example: [
-      '$10,000 outflow followed by five annual inflows is solved by searching for the rate where NPV is about zero.',
-      'If the cash-flow periods are monthly, the periodic IRR is converted into an annualized estimate using the periods-per-year setting.',
+      '$10,000 outflow followed by $2,200, $2,400, $2,600, $2,800, and $4,500 annual inflows solves to about 12.22% periodic IRR.',
+      'Because the default example uses annual periods, the annualized IRR is also about 12.22%. With monthly periods, the same solved periodic rate would be compounded into a yearly-style estimate.',
     ],
     read: [
       'Periodic IRR is the solved rate for one cash-flow period.',
-      'Annualized IRR converts that rate to a yearly-style estimate.',
+      'Annualized IRR converts that rate to a yearly-style estimate using the periods-per-year field.',
       'Net cash flow is simple dollars in minus dollars out. It is not time-adjusted like IRR.',
     ],
     mistakes: [
-      'Do not use IRR alone when project sizes are very different.',
+      'Do not use this page for irregular real dates. Use an XIRR-style tool or spreadsheet setup when the dates are not evenly spaced.',
       'Do not trust a simple IRR when cash flows switch signs more than once, because there can be more than one IRR.',
+      'Do not use IRR alone when project sizes are very different. A tiny project can show a high percent while adding less real money.',
       'Do not forget taxes, fees, inflation, risk, and reinvestment assumptions.',
     ],
     next: ['Use ROI Calculator for a simpler gain-versus-cost number.', 'Use Payback Period Calculator to see how long recovery takes.'],
@@ -3880,6 +3885,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Learn average return, cumulative return, net gain, and CAGR with contribution and withdrawal examples plus clear IRR limits.';
   }
 
+  if (tool.slug === 'irr-calculator') {
+    return 'Estimate internal rate of return from an initial outflow and five regular cash-flow periods, with periodic and annualized IRR checks.';
+  }
+
   if (tool.slug === 'fha-loan-calculator') {
     return 'Estimate an FHA-style payment with down payment, upfront MIP, monthly MIP, tax, insurance, and clear limits on approval and county-limit checks.';
   }
@@ -4045,6 +4054,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isStockRatiosGuide = tool.slug === 'stock-ratios-calculator';
   const isSocialSecurityGuide = tool.slug === 'social-security-calculator';
   const isRmdGuide = tool.slug === 'rmd-calculator';
+  const isIrrGuide = tool.slug === 'irr-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
   const isDownPaymentGuide = tool.slug === 'down-payment-calculator';
   const isLoanGuide = tool.slug === 'loan-calculator';
@@ -4131,6 +4141,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A Social Security estimate is only useful if the starting number is real. This guide uses your SSA full-retirement-age benefit, then tests claiming at 62, full retirement age, or 70.'
       : isRmdGuide
       ? 'An RMD estimate is only useful if the balance date and age are right. This guide uses the prior December 31 balance and the IRS Uniform Lifetime Table factor to make a simple owner-style withdrawal estimate.'
+      : isIrrGuide
+      ? 'IRR is useful when money goes out first and comes back over regular periods. This guide keeps the setup simple: one starting outflow, five later cash flows, a period setting, and a clear warning when IRR is easy to misuse.'
       : isCanadianMortgageGuide
       ? 'A Canadian mortgage payment is not just price divided by months. This guide shows how down payment, amortization, payment frequency, and semi-annual compounding turn into the payment, LTV, and interest estimate.'
       : isDownPaymentGuide
@@ -4331,6 +4343,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter your age on your birthday in the distribution year.',
           'Calculate, then compare estimated RMD, Uniform table factor, age used, and balance after RMD.',
           'Check IRS rules, your custodian statement, inherited-account status, spouse age rules, aggregation, withholding, and first-year timing before acting.',
+        ]
+      : isIrrGuide
+      ? [
+          'Open the IRR Calculator.',
+          'Enter the starting investment as the initial outflow.',
+          'Enter the next five cash flows in the order they happen.',
+          'Choose periods per year: 1 for annual, 4 for quarterly, or 12 for monthly.',
+          'Calculate, then compare annualized IRR, periodic IRR, and net cash flow before using ROI, payback, NPV, or a full model for the real decision.',
         ]
       : isVatGuide
       ? [

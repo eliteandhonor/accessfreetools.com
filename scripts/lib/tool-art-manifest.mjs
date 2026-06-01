@@ -424,6 +424,18 @@ const toolArtMetadataOverrides = {
         'Rental Property Calculator guide artwork supports the walkthrough by showing rent, vacancy, expenses, loan payment, NOI, cash flow, cap rate, and cash-on-cash return as separate steps.',
     },
   },
+  'irr-calculator': {
+    tool: {
+      alt: 'Smoke mascot pointing at an IRR cash-flow timeline with one starting outflow box, five later inflow boxes, arrows into a target, a rate gauge, calculator, bars, and pie chart.',
+      caption:
+        'IRR Calculator artwork matches the live workflow: one starting outflow, five regular cash-flow periods, a solved target rate, periodic IRR, annualized IRR, and net cash flow.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining an IRR guide timeline with a starting cash-flow box, five later period boxes, dashed arrows to a target, spiral caution symbol, coins, notebook, and plants.',
+      caption:
+        'IRR Calculator guide artwork supports the walkthrough by showing regular cash-flow periods, the NPV-zero target, annualized-rate check, and cautions around timing, project size, and reinvestment assumptions.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',
