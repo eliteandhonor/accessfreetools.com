@@ -1802,18 +1802,19 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'RMD Calculator',
     buttonLabel: 'Estimate RMD',
     emptyHistory: 'Recent RMD estimates will appear here.',
-    privacyNote: 'RMD estimates use the IRS Uniform Lifetime Table only and do not cover inherited IRA or younger-spouse special rules.',
+    privacyNote:
+      'RMD estimates use only the balance and age you enter. They do not check inherited IRA rules, spouse age rules, account aggregation, penalties, or tax withholding.',
     modes: [
       {
         id: 'rmd',
         label: 'Uniform table',
         symbol: 'RMD',
-        fields: [numberField('accountBalance', 'Prior Dec. 31 balance ($)'), numberField('age', 'Age this year')],
+        fields: [numberField('accountBalance', 'Prior Dec. 31 balance ($)'), numberField('age', 'Age in distribution year')],
         defaultInputs: { accountBalance: '500000', age: '75' },
         examples: [
-          { label: 'Age 75', inputs: { accountBalance: '500000', age: '75' } },
-          { label: 'Age 80', inputs: { accountBalance: '750000', age: '80' } },
-          { label: 'Age 90', inputs: { accountBalance: '300000', age: '90' } },
+          { label: '$20,325 at 75', inputs: { accountBalance: '500000', age: '75' } },
+          { label: '$37,129 at 80', inputs: { accountBalance: '750000', age: '80' } },
+          { label: '$24,590 at 90', inputs: { accountBalance: '300000', age: '90' } },
         ],
       },
     ],
@@ -4085,10 +4086,12 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         ],
         steps: [
           'Use the account balance from the prior December 31.',
-          'Look up the age factor in the IRS Uniform Lifetime Table.',
-          'Divide the balance by the factor.',
+          'Use your age on your birthday in the distribution year.',
+          'Look up that age in the IRS Uniform Lifetime Table.',
+          'Divide the balance by the table factor.',
         ],
-        note: 'Inherited accounts and a spouse more than 10 years younger may use different IRS tables.',
+        note:
+          'This is the simple owner-style table check. Current rules generally start RMDs at age 73, and inherited accounts, a spouse more than 10 years younger, Roth owner rules, first-year timing, account aggregation, penalties, and taxes need separate review.',
       };
     }
     case 'real-estate': {

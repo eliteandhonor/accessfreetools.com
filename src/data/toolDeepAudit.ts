@@ -1423,7 +1423,17 @@ const irsPub505 = {
 
 const irsRmd = {
   href: 'https://www.irs.gov/publications/p590b',
-  label: 'IRS Publication 590-B: RMD Uniform Lifetime Table',
+  label: 'IRS Publication 590-B: IRA distributions and RMD tables',
+};
+
+const irsRmdTopic = {
+  href: 'https://www.irs.gov/rmd',
+  label: 'IRS: Required minimum distributions',
+};
+
+const irsRmdFaqs = {
+  href: 'https://www.irs.gov/retirement-plans/retirement-plan-and-ira-required-minimum-distributions-faqs',
+  label: 'IRS: Required minimum distribution FAQs',
 };
 
 const ssaClaimingAge = {
@@ -3417,20 +3427,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'rmd-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-5-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [irsRmd, irsIraLimits],
+    sources: [irsRmdTopic, irsRmdFaqs, irsRmd],
     findings: [
       'The calculator uses the prior December 31 account balance divided by the IRS Uniform Lifetime Table factor for the entered age.',
-      'The guardrail rejects ages below the table range used by this simple owner-style estimate and floors decimal ages to the entered age year.',
-      'The guide now warns that inherited IRAs, spouse-more-than-10-years-younger rules, Roth IRA owner rules, multiple accounts, and excess withdrawals need separate review.',
+      'The baseline page still carried generic finance title/trust wording, generic tool and guide image labels, weak examples, and no source seoDescription; the 2026-06-01 sprint replaced those with RMD-specific evidence and copy.',
+      'DataForSEO showed strong informational intent for "rmd calculator" plus related demand around RMD by age, RMD table, inherited IRA RMD, and 2026 table searches. The page deliberately covers the owner-style Uniform Lifetime Table case and warns that inherited IRA cases are separate.',
     ],
     improvements: [
-      'Added RMD-specific guide detail and manually checked table-factor lookup, balance wording, examples, FAQ cautions, IRS source coverage, related tools, SEO copy, and privacy behavior.',
+      'Rewrote title, meta description, input explanations, examples, FAQ cautions, guide intro, quick start, result-reading language, trust block, source links, privacy note, calculator note, and image alt/caption text around prior December 31 balance, age in the distribution year, IRS table factor, estimated RMD, balance after RMD, and official IRS limits.',
     ],
     followUps: [
-      'Add inherited IRA and younger-spouse modes only after designing separate input flows and source notes.',
+      'Add inherited IRA, younger-spouse, first-year deadline, aggregation, and withholding modes only after designing separate input flows and maintained source notes.',
     ],
   },
   {
@@ -7809,7 +7819,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['rmd-calculator', 'rmd calculator'])) {
-      return sourceBackstop([irsRmd, irsIraLimits]);
+      return sourceBackstop([irsRmdTopic, irsRmdFaqs, irsRmd]);
     }
 
     if (includesAny(key, ['real-estate', 'real estate'])) {

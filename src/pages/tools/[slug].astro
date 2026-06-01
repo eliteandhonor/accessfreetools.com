@@ -680,6 +680,13 @@ const financeToolInstructions = financeToolVariant
         'Enter a claiming age from 62 through 70.',
         'Calculate, then compare monthly benefit, full retirement age, adjustment percent, and annual estimate.',
       ]
+    : tool.slug === 'rmd-calculator'
+    ? [
+        'Enter the account balance from the prior December 31. For a 2026 estimate, that usually means the December 31, 2025 balance.',
+        'Enter your age on your birthday in the distribution year.',
+        'Calculate, then compare estimated RMD, Uniform table factor, age used, and balance after RMD.',
+        'Check IRS rules, your custodian statement, inherited-account status, spouse age rules, account aggregation, withholding, penalties, and first-year timing before acting.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
@@ -2126,6 +2133,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Market-ratio check'
               : tool.slug === 'social-security-calculator'
               ? 'Claiming-age check'
+              : tool.slug === 'rmd-calculator'
+              ? 'IRS table check'
               : 'Estimate, not advice'}
           </span>
           <span>
@@ -2163,6 +2172,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'P/E, P/S, P/B, yield'
               : tool.slug === 'social-security-calculator'
               ? '62, FRA, or 70'
+              : tool.slug === 'rmd-calculator'
+              ? 'Balance, age, factor'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -3433,6 +3444,31 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.ssa.gov/cola/" rel="noreferrer" target="_blank">
                   SSA 2026 factsheet
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'rmd-calculator' ? (
+            <>
+              <strong>RMD estimate, not your custodian statement</strong>
+              <p>
+                Use this to test prior December 31 balance, age in the distribution year, IRS Uniform Lifetime
+                Table factor, estimated RMD, and balance after the withdrawal. Current rules generally start RMDs
+                at age 73, and inherited accounts, a spouse more than 10 years younger, Roth owner rules, first-year
+                timing, aggregation, tax withholding, penalties, and account paperwork can change the real answer.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.irs.gov/rmd" rel="noreferrer" target="_blank">
+                  IRS required minimum distributions
+                </a>
+                {', '}
+                <a href="https://www.irs.gov/retirement-plans/retirement-plan-and-ira-required-minimum-distributions-faqs" rel="noreferrer" target="_blank">
+                  IRS RMD FAQs
+                </a>
+                {', and '}
+                <a href="https://www.irs.gov/publications/p590b" rel="noreferrer" target="_blank">
+                  IRS Publication 590-B
                 </a>
                 .
               </p>

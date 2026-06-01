@@ -376,6 +376,18 @@ const toolArtMetadataOverrides = {
         'Social Security Calculator guide artwork supports the walkthrough by separating claiming-age math from official SSA records, spouse or survivor benefits, work rules, taxes, Medicare, and future COLA changes.',
     },
   },
+  'rmd-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a $500,000 prior December 31 balance, age 75, IRS factor 24.6, $20,325.20 estimated RMD, and balance-after-withdrawal card.',
+      caption:
+        'RMD Calculator artwork matches the live workflow: prior December 31 balance, age in the distribution year, IRS Uniform Lifetime Table factor, estimated RMD, and balance after RMD.',
+    },
+    guide: {
+      alt: 'Smoke mascot sorting RMD guide cards for prior December 31 balance, age 75, factor 24.6, inherited IRA warning, younger-spouse warning, tax withholding, and custodian statement checks.',
+      caption:
+        'RMD Calculator guide artwork supports the walkthrough by separating simple Uniform Lifetime Table math from inherited IRA rules, younger-spouse rules, first-year timing, aggregation, tax withholding, and custodian records.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',

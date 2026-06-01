@@ -593,7 +593,15 @@ const sourceLinks = {
   },
   irsRmd: {
     href: 'https://www.irs.gov/publications/p590b',
-    label: 'IRS Publication 590-B: RMD Uniform Lifetime Table',
+    label: 'IRS Publication 590-B: IRA distributions and RMD tables',
+  },
+  irsRmdTopic: {
+    href: 'https://www.irs.gov/rmd',
+    label: 'IRS: Required minimum distributions',
+  },
+  irsRmdFaqs: {
+    href: 'https://www.irs.gov/retirement-plans/retirement-plan-and-ira-required-minimum-distributions-faqs',
+    label: 'IRS: Required minimum distribution FAQs',
   },
   ssaClaimingAge: {
     href: 'https://www.ssa.gov/benefits/retirement/planner/applying2.html',
@@ -1144,7 +1152,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'rmd-calculator') {
-    return [sourceLinks.irsRmd];
+    return [sourceLinks.irsRmdTopic, sourceLinks.irsRmdFaqs, sourceLinks.irsRmd];
   }
 
   if (toolSlug === 'take-home-paycheck-calculator') {
@@ -2989,27 +2997,29 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Retirement Calculator for savings planning.', 'Use RMD Calculator if retirement account withdrawals are part of the plan.'],
   },
   'rmd-calculator': {
-    summary: 'Learn how prior year-end balance and IRS life expectancy factor create a required minimum distribution estimate.',
+    summary: 'Learn how prior Dec. 31 balance and IRS table factor create a required minimum distribution estimate.',
     purpose:
-      'The RMD Calculator estimates a traditional retirement account withdrawal using the IRS Uniform Lifetime Table. It is a quick check, not a custodian statement.',
+      'The RMD Calculator estimates a simple owner-style withdrawal using the IRS Uniform Lifetime Table. It is a quick check, not a custodian statement or tax filing answer.',
     enter: [
-      'Enter the account balance from the previous December 31.',
-      'Enter your age for the distribution year.',
-      'Use this only for the simple owner-style Uniform Lifetime Table case shown on the page.',
+      'Enter the account balance from the previous December 31. For a 2026 estimate, that is usually the December 31, 2025 balance.',
+      'Enter your age on your birthday in the distribution year.',
+      'Use this only for the simple owner-style Uniform Lifetime Table case. Inherited accounts and younger-spouse cases need different checks.',
     ],
     example: [
-      '$500,000 at age 75 uses the age 75 table factor.',
-      'The calculator divides the prior year-end balance by that factor and shows the estimated required distribution.',
+      '$500,000 at age 75 uses the age 75 table factor of 24.6.',
+      '$500,000 divided by 24.6 gives about $20,325.20 as the estimated RMD.',
+      '$750,000 at age 80 uses factor 20.2, which gives about $37,128.71.',
     ],
     read: [
-      'Required distribution is the estimated minimum amount for the year.',
-      'Life expectancy factor is the denominator used in the IRS table.',
-      'Remaining balance after RMD is just balance minus the estimate. It does not include market movement or taxes.',
+      'Estimated RMD is the minimum withdrawal estimate from the balance and age entered.',
+      'Uniform table factor is the denominator from the IRS table.',
+      'Balance after RMD is just the entered balance minus the estimate. It does not include market movement, tax withholding, or later deposits.',
     ],
     mistakes: [
       'Do not use this for inherited IRA rules, spouse-more-than-10-years-younger rules, Roth IRA owner rules, or beneficiary cases.',
-      'Do not use a current balance when the rule calls for the prior December 31 balance.',
-      'Do not assume extra withdrawals this year reduce next year\'s RMD.',
+      'Do not use today\'s balance when the rule calls for the prior December 31 balance.',
+      'Do not assume extra withdrawals this year reduce next year\'s RMD. Next year starts from its own prior year-end balance.',
+      'Do not ignore first-year timing, aggregation rules, custodian records, tax withholding, or possible penalties.',
     ],
     next: ['Use IRA Calculator for contribution-style planning.', 'Use Retirement Calculator for a wider retirement savings estimate.'],
   },
@@ -3726,6 +3736,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Social Security Calculator Guide';
   }
 
+  if (tool.slug === 'rmd-calculator') {
+    return 'RMD Calculator Guide';
+  }
+
   if (tool.slug === 'average-return-calculator') {
     return 'Average Return Calculator Guide';
   }
@@ -3835,6 +3849,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'social-security-calculator') {
     return 'Estimate Social Security retirement benefits at age 62, full retirement age, or 70 using birth year and an SSA FRA benefit estimate.';
+  }
+
+  if (tool.slug === 'rmd-calculator') {
+    return 'Estimate an RMD from prior Dec. 31 balance and age using the IRS Uniform Lifetime Table, with factor and limit checks.';
   }
 
   if (tool.slug === 'average-return-calculator') {
@@ -4005,6 +4023,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isProfitabilityRatiosGuide = tool.slug === 'profitability-ratios-calculator';
   const isStockRatiosGuide = tool.slug === 'stock-ratios-calculator';
   const isSocialSecurityGuide = tool.slug === 'social-security-calculator';
+  const isRmdGuide = tool.slug === 'rmd-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
   const isDownPaymentGuide = tool.slug === 'down-payment-calculator';
   const isLoanGuide = tool.slug === 'loan-calculator';
@@ -4089,6 +4108,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Stock ratios can make a stock look cheap or expensive too quickly. This guide keeps P/E, P/S, P/B, dividend yield, and payout ratio separate so you can see what the price is being compared with.'
       : isSocialSecurityGuide
       ? 'A Social Security estimate is only useful if the starting number is real. This guide uses your SSA full-retirement-age benefit, then tests claiming at 62, full retirement age, or 70.'
+      : isRmdGuide
+      ? 'An RMD estimate is only useful if the balance date and age are right. This guide uses the prior December 31 balance and the IRS Uniform Lifetime Table factor to make a simple owner-style withdrawal estimate.'
       : isCanadianMortgageGuide
       ? 'A Canadian mortgage payment is not just price divided by months. This guide shows how down payment, amortization, payment frequency, and semi-annual compounding turn into the payment, LTV, and interest estimate.'
       : isDownPaymentGuide
@@ -4281,6 +4302,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter the annual contribution you want to test, such as $7,500 for a 2026 limit-style scenario or $8,600 when testing the age 50+ catch-up amount.',
           'Enter expected annual return and years to grow, then calculate.',
           'Read projected IRA balance, total contributions, and estimated growth, then check taxable compensation, deduction limits, Roth eligibility, RMD, tax, penalty, fee, and market-risk rules separately.',
+        ]
+      : isRmdGuide
+      ? [
+          'Open the RMD Calculator.',
+          'Enter the prior December 31 balance, not today\'s balance.',
+          'Enter your age on your birthday in the distribution year.',
+          'Calculate, then compare estimated RMD, Uniform table factor, age used, and balance after RMD.',
+          'Check IRS rules, your custodian statement, inherited-account status, spouse age rules, aggregation, withholding, and first-year timing before acting.',
         ]
       : isVatGuide
       ? [
@@ -4830,6 +4859,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with P/E, then compare P/S and P/B. If the dividend yield looks high, check payout ratio and dividend history before treating the yield like easy income.'
             : isSocialSecurityGuide
             ? 'Start with the monthly benefit, then check the full retirement age and adjustment percent. A bigger age-70 check can still be the wrong fit if you need income earlier or other benefits, taxes, Medicare, or household plans change the decision.'
+            : isRmdGuide
+            ? 'Start with the estimated RMD, then check the Uniform table factor and age used. If the result looks off, the usual cause is the wrong balance date, the wrong age year, or a special rule that this simple table check does not handle.'
             : isCanadianMortgageGuide
             ? 'Start with the payment, then check whether it is monthly, biweekly, semimonthly, or weekly. Then read loan amount, LTV, payment count, and total interest so the payment has context.'
             : isDownPaymentGuide
@@ -4907,6 +4938,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad stock-ratio checks come from mixing fresh prices with stale per-share numbers, ignoring negative EPS, treating a low P/E like a bargain, or trusting a high dividend yield without checking payout risk.'
             : isSocialSecurityGuide
             ? 'Most bad Social Security estimates come from guessing the FRA benefit, comparing only the monthly check, forgetting work earnings-test rules, or treating a quick age test like the official SSA record.'
+            : isRmdGuide
+            ? 'Most bad RMD estimates come from using today\'s balance instead of the prior December 31 balance, using the wrong age year, missing inherited-account rules, ignoring a much-younger spouse case, or treating this quick check like the custodian statement.'
             : isCanadianMortgageGuide
             ? 'Most bad Canadian mortgage estimates come from forgetting default insurance, mixing monthly and biweekly payments, using the wrong compounding assumption, or treating payment math as lender qualification.'
             : isDownPaymentGuide

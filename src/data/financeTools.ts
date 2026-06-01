@@ -950,26 +950,66 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'rmd-calculator',
     name: 'RMD Calculator',
-    summary: 'Estimate a required minimum distribution using the IRS Uniform Lifetime Table.',
+    summary: 'Estimate a required minimum distribution from prior Dec. 31 balance and age.',
     description:
-      'Use this free RMD calculator to estimate a required minimum distribution from prior year-end balance and age using the IRS Uniform Lifetime Table.',
+      'Estimate a required minimum distribution from prior Dec. 31 balance and age using the IRS Uniform Lifetime Table.',
+    seoTitle: 'RMD Calculator | IRS Uniform Lifetime Table Estimate',
+    seoDescription:
+      'Estimate an RMD from prior Dec. 31 balance and age using the IRS Uniform Lifetime Table, with factor, withdrawal, and limits shown.',
     icon: 'calculator-retirement',
     formula:
-      'The calculator divides the prior December 31 account balance by the Uniform Lifetime Table factor for the entered age.',
+      'The calculator takes the prior December 31 account balance and divides it by the IRS Uniform Lifetime Table factor for the age entered.',
     limit:
-      'This does not cover inherited IRAs, Roth IRA owner rules, spouse more than 10 years younger rules, multiple account aggregation, penalties, or tax advice.',
+      'This is a simple owner-style Uniform Lifetime Table estimate. It does not cover inherited IRAs, a spouse more than 10 years younger who is the sole beneficiary, Roth IRA owner rules, multiple account aggregation, first-year deadlines, penalties, tax withholding, or tax advice.',
     useCases: [
-      'Estimate an annual RMD from a traditional retirement account.',
-      'Look up the Uniform Lifetime Table factor for an age.',
-      'See the balance left after the estimated distribution.',
-      'Prepare before checking custodian records.',
+      'Estimate an annual RMD from a traditional IRA or similar retirement account.',
+      'Look up the IRS Uniform Lifetime Table factor for one age.',
+      'Check the withdrawal amount and the balance left after the estimate.',
+      'Prepare questions before checking custodian records or IRS instructions.',
     ],
     examples: [
-      { label: 'Age 75', expression: '$500,000 balance at age 75', result: 'Balance divided by table factor' },
-      { label: 'Age 80', expression: '$750,000 balance at age 80', result: 'RMD estimate' },
-      { label: 'Age 90', expression: '$300,000 balance at age 90', result: 'RMD estimate' },
+      { label: 'Age 75', expression: '$500,000 prior Dec. 31 balance at age 75', result: '$20,325.20 RMD estimate using factor 24.6' },
+      { label: 'Age 80', expression: '$750,000 prior Dec. 31 balance at age 80', result: '$37,128.71 RMD estimate using factor 20.2' },
+      { label: 'Age 90', expression: '$300,000 prior Dec. 31 balance at age 90', result: '$24,590.16 RMD estimate using factor 12.2' },
     ],
     relatedSlugs: ['ira-calculator', 'retirement-calculator', 'social-security-calculator'],
+    inputExplanations: [
+      {
+        term: 'Prior Dec. 31 balance',
+        meaning:
+          'the account balance at the end of the year before the distribution year. For a 2026 RMD, that usually means the December 31, 2025 balance.',
+      },
+      {
+        term: 'Age this year',
+        meaning:
+          'your age on your birthday in the distribution year. The table factor is picked from that age, not from your age on the day you type the estimate.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Does this use the 2026 IRS RMD table?',
+        answer:
+          'It uses the IRS Uniform Lifetime Table factors shown in Publication 590-B for owner-style lifetime distributions. For example, age 75 uses factor 24.6, age 80 uses 20.2, and age 90 uses 12.2.',
+      },
+      {
+        question: 'Can I use this for an inherited IRA RMD?',
+        answer:
+          'No. Inherited IRA rules can use different tables, 10-year rules, spouse rules, and beneficiary dates. Use this page only for the simple owner-style Uniform Lifetime Table estimate.',
+      },
+      {
+        question: 'Why does the calculator allow age 72?',
+        answer:
+          'The IRS table still has an age 72 row, but the current general RMD starting age is usually 73. Use age 72 only if your account paperwork or tax professional says that row applies to your situation.',
+      },
+    ],
+    formulaCheck:
+      'For a 2026 owner-style estimate, use the December 31, 2025 balance, choose the age you turn in 2026, then divide by that table factor.',
+    resultReading:
+      'Estimated RMD is the minimum withdrawal estimate from the entered balance. Uniform table factor is the IRS denominator. Balance after RMD is only subtraction, not a year-end prediction after market changes or taxes.',
+    doubleCheck:
+      'Check the balance date, the age used for the distribution year, whether the account is inherited, and whether your spouse is the sole beneficiary and more than 10 years younger.',
+    limitFollowup:
+      'Check IRS Publication 590-B, IRS RMD FAQs, your custodian statement, tax withholding, aggregation rules, and first-year timing before treating the estimate as your real required withdrawal.',
   },
   {
     slug: 'real-estate-calculator',
