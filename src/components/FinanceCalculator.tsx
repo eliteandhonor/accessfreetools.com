@@ -414,7 +414,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Payment Calculator',
     buttonLabel: 'Calculate payment',
     emptyHistory: 'Recent payment estimates will appear here.',
-    privacyNote: 'Payment estimates do not include fees, variable rates, insurance, or lender-specific rules.',
+    privacyNote: 'Payment estimates stay in this browser tab. They do not include APR fees, taxes, insurance, PMI, escrow, car add-ons, student-loan plan rules, variable rates, or lender approval.',
     modes: [
       {
         id: 'payment',
@@ -427,9 +427,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { principal: '5000', annualRatePercent: '8', years: '3' },
         examples: [
-          { label: '$5k over 3 years', inputs: { principal: '5000', annualRatePercent: '8', years: '3' } },
-          { label: '$15k over 5 years', inputs: { principal: '15000', annualRatePercent: '10', years: '5' } },
-          { label: '$20k at 6%', inputs: { principal: '20000', annualRatePercent: '6', years: '4' } },
+          { label: '$156.68/month example', inputs: { principal: '5000', annualRatePercent: '8', years: '3' } },
+          { label: '$318.71/month example', inputs: { principal: '15000', annualRatePercent: '10', years: '5' } },
+          { label: '$469.70/month at 6%', inputs: { principal: '20000', annualRatePercent: '6', years: '4' } },
         ],
       },
     ],

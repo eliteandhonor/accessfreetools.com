@@ -2359,25 +2359,84 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'payment-calculator',
     name: 'Payment Calculator',
-    summary: 'Find a fixed monthly payment from amount, rate, and term.',
+    summary: 'Estimate a fixed loan payment from amount financed, rate, and term.',
     description:
-      'Use this free payment calculator to estimate a fixed monthly payment, total paid, and total interest for an amortized balance.',
+      'Use this free payment calculator to estimate a fixed monthly payment, total paid, and total interest for a simple amortized loan.',
+    seoTitle: 'Payment Calculator | Fixed Loan Monthly Payment',
+    seoDescription:
+      'Estimate a fixed monthly payment from amount financed, interest rate, and term. See total paid, total interest, limits, and payment-only traps.',
     icon: 'calculator-payment',
+    aliases: [
+      'payment calculator',
+      'monthly payment calculator',
+      'loan payment calculator',
+      'payment calculator with interest',
+      'car payment calculator',
+      'house payment calculator',
+    ],
     formula:
-      'The calculator divides the annual rate by 12 and uses the fixed-payment amortization formula across the selected number of months.',
-    limit: financeLimit,
+      'The calculator divides the annual interest rate by 12, counts the monthly payments from the term, then uses the fixed-payment amortization formula.',
+    limit:
+      'This is fixed-rate payment math only. It does not include APR fees, taxes, insurance, PMI, escrow, student-loan repayment plans, car add-ons, variable rates, balloon payments, late fees, or lender approval.',
     useCases: [
-      'Estimate a monthly payment from a principal amount.',
-      'Compare monthly payments for different rates or repayment terms.',
-      'Check total interest before accepting a payment plan.',
-      'Estimate payoff costs for a fixed-rate balance.',
+      'Estimate a monthly payment before comparing loan offers.',
+      'Check how rate and term changes move monthly payment and total interest.',
+      'See why a lower monthly payment can still cost more over time.',
+      'Use a simple fixed-rate estimate before checking APR, fees, and the written offer.',
     ],
     examples: [
-      { label: 'Small balance', expression: '$5,000 at 8% for 3 years', result: 'Monthly payment estimate' },
-      { label: 'Longer term', expression: '$15,000 at 10% for 5 years', result: 'Lower payment, higher interest' },
-      { label: 'Rate comparison', expression: '$20,000 at 6% vs 9%', result: 'Payment difference' },
+      { label: 'Small balance', expression: '$5,000 at 8% for 3 years', result: 'About $156.68/month, $5,640.55 total paid, and $640.55 interest' },
+      { label: 'Longer term', expression: '$15,000 at 10% for 5 years', result: 'About $318.71/month, $19,122.34 total paid, and $4,122.34 interest' },
+      { label: 'Rate comparison', expression: '$20,000 for 4 years at 6% vs 9%', result: '$469.70/month vs $497.70/month, before fees or add-ons' },
     ],
-    relatedSlugs: ['loan-calculator', 'interest-rate-calculator', 'amortization-calculator'],
+    relatedSlugs: ['loan-calculator', 'apr-calculator', 'amortization-calculator'],
+    inputExplanations: [
+      { term: 'Amount financed', meaning: 'the balance used for the payment formula. It may be different from the sticker price or cash you receive after fees.' },
+      { term: 'Interest rate', meaning: 'the annual rate used for payment math. APR can be higher when fees are included.' },
+      { term: 'Term', meaning: 'how many years the payment is spread over. A longer term can lower the payment but raise total interest.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What does the Payment Calculator estimate?',
+        answer:
+          'It estimates a fixed monthly payment, total paid, and total interest from amount financed, annual interest rate, and term. It is useful for a quick loan-payment check, not for a final lender quote.',
+      },
+      {
+        question: 'Why can a lower monthly payment still cost more?',
+        answer:
+          'A longer term spreads the balance over more months, so the payment can look easier. The tradeoff is that interest has more time to build, so the total paid can be higher.',
+      },
+      {
+        question: 'Is interest rate the same as APR?',
+        answer:
+          'No. The interest rate is used for the payment estimate. APR can include certain loan fees, so it is usually the better number for comparing written loan offers.',
+      },
+      {
+        question: 'Does this include taxes, insurance, or escrow?',
+        answer:
+          'No. For a mortgage, principal and interest may be only part of the monthly bill. Taxes, insurance, PMI, HOA fees, and escrow can make the real payment higher.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Can I use this as a car payment calculator?',
+        answer:
+          'Yes for the basic financed amount, rate, and term. It does not add sales tax, title fees, warranties, GAP coverage, trade-in details, or dealer add-ons unless you already included them in the amount financed.',
+      },
+      {
+        question: 'What should I check before trusting the result?',
+        answer:
+          'Check the written APR, fees, loan term, total amount financed, monthly payment, late fees, prepayment rules, variable-rate rules, and any costs this simple estimate leaves out.',
+      },
+    ],
+    formulaCheck:
+      'If the answer looks off, check that the amount financed is not the full purchase price by mistake, the rate is entered as a percent, and the term is in years.',
+    resultReading:
+      'Read the monthly payment with total paid and total interest. Do not choose a loan from the payment alone, because a longer term can make the monthly number smaller while raising the total cost.',
+    doubleCheck:
+      'Double-check amount financed, interest rate vs APR, term length, fees, taxes, insurance, add-ons, escrow, and whether the loan is fixed-rate.',
+    limitFollowup:
+      'Use the APR Calculator when fees matter, the Loan Calculator when you want a broader loan view, and the Amortization Calculator when you want the month-by-month balance.',
   }),
   makeFinanceTool({
     slug: 'retirement-calculator',

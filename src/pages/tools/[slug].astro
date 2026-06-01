@@ -2187,6 +2187,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'IRR cash-flow screen'
               : tool.slug === 'roi-calculator'
               ? 'Simple ROI screen'
+              : tool.slug === 'payment-calculator'
+              ? 'Fixed payment estimate'
               : tool.slug === 'apr-calculator'
               ? 'Loan APR estimate'
               : 'Estimate, not advice'}
@@ -2238,6 +2240,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Periodic and annualized IRR'
               : tool.slug === 'roi-calculator'
               ? 'ROI, gain, ending value'
+              : tool.slug === 'payment-calculator'
+              ? 'Monthly, interest, total paid'
               : tool.slug === 'apr-calculator'
               ? 'Rate, fees, amount received'
               : 'Payment or total shown'}
@@ -3268,6 +3272,34 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-loan-estimate-en-1995/" rel="noreferrer" target="_blank">
                   CFPB Loan Estimate
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'payment-calculator' ? (
+            <>
+              <strong>Payment estimate, not the full loan offer</strong>
+              <p>
+                Use this when you know the amount financed, interest rate, and term. It estimates the fixed monthly payment,
+                total paid, and total interest. It does not include APR fees, taxes, insurance, PMI, escrow, car add-ons,
+                student-loan repayment plans, variable rates, balloon payments, late fees, or lender approval.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://openstax.org/books/principles-finance/pages/8-3-loan-amortization" rel="noreferrer" target="_blank">
+                  OpenStax loan amortization
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/" rel="noreferrer" target="_blank">
+                  CFPB interest rate vs. APR
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-piti-en-152/" rel="noreferrer" target="_blank">
+                  CFPB PITI
+                </a>
+                {', and '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/how-do-i-compare-auto-loan-offers-what-should-i-look-at-besides-the-monthly-payment-en-753/" rel="noreferrer" target="_blank">
+                  CFPB auto loan offer comparison
                 </a>
                 .
               </p>

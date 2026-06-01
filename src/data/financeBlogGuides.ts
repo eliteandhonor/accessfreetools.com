@@ -982,6 +982,16 @@ function getSourceLinks(toolSlug: string) {
     ];
   }
 
+  if (toolSlug === 'payment-calculator') {
+    return [
+      sourceLinks.openStaxLoanAmortization,
+      sourceLinks.cfpbAprVsInterest,
+      sourceLinks.cfpbPiti,
+      sourceLinks.cfpbLoanEstimate,
+      sourceLinks.cfpbAutoLoanCompare,
+    ];
+  }
+
   if (toolSlug === 'debt-consolidation-calculator') {
     return [
       sourceLinks.cfpbDebtConsolidation,
@@ -1641,29 +1651,36 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Simple Interest Calculator when you only need principal-rate-time math.', 'Use Compound Interest Calculator for more compounding controls.', 'Use Investment Calculator for recurring investing scenarios.', 'Use Interest Rate Calculator when the missing number is the rate.'],
   },
   'payment-calculator': {
-    summary: 'Learn how to estimate a fixed monthly payment and total interest from a balance, rate, and term.',
+    summary: 'Learn how to estimate a fixed monthly payment, total paid, and interest without falling for the lowest-payment trap.',
     purpose:
-      'The Payment Calculator is a quick way to answer, "What would the monthly payment be?" It is useful when you already know principal, rate, and term.',
+      'The Payment Calculator answers the first loan question: "What would I pay each month?" It is best when you already know the amount financed, interest rate, and term, and you want a quick fixed-rate estimate before reading the full offer.',
     enter: [
-      'Enter the amount that will be repaid.',
-      'Enter the annual rate as a percent.',
-      'Enter the repayment term in years.',
+      'Enter the amount financed, not just the sticker price. If fees or add-ons are rolled into the loan, include them only when you want them in the estimate.',
+      'Enter the annual interest rate as a percent. Do not swap in APR unless you mean to use an APR-style comparison.',
+      'Enter the term in years. Longer terms usually make the monthly payment smaller, but the interest can grow.',
     ],
     example: [
-      'A $5,000 balance at 8% for 3 years becomes 36 monthly payments.',
-      'The calculator estimates the fixed payment and multiplies it by 36 to show total paid.',
+      'A $5,000 loan at 8% for 3 years becomes 36 monthly payments of about $156.68.',
+      'That means about $5,640.55 total paid and about $640.55 interest before fees, late charges, insurance, taxes, or lender rules.',
+      'For a bigger rate check, $20,000 over 4 years is about $469.70/month at 6% and $497.70/month at 9%, so the higher rate adds about $28/month before any other costs.',
     ],
     read: [
-      'Payment is the estimated monthly amount before fees.',
-      'Total interest is the extra amount paid above the principal.',
-      'A longer term usually lowers payment but raises total interest.',
+      'Monthly payment is the fixed principal-and-interest estimate from the inputs you entered.',
+      'Total paid is the payment multiplied by the number of months.',
+      'Total interest is the extra amount above the financed balance. Compare that number before picking the lowest monthly payment.',
     ],
     mistakes: [
-      'Do not use it for interest-only, balloon, variable-rate, or fee-heavy loans.',
-      'Do not compare payments without checking the term length.',
-      'Do not forget that paying extra may change the payoff timeline.',
+      'Do not use the result as a full mortgage payment. A real mortgage can include property tax, insurance, PMI, HOA fees, and escrow.',
+      'Do not compare car loans by monthly payment alone. CFPB warns that amount financed, APR, interest rate, term, and total cost all matter.',
+      'Do not treat interest rate and APR as the same thing. APR can include certain fees.',
+      'Do not use this for interest-only, balloon, variable-rate, or student-loan repayment-plan decisions.',
     ],
-    next: ['Use Interest Rate Calculator if the rate is missing.', 'Use Amortization Calculator if you want extra-payment savings.'],
+    next: [
+      'Use Loan Calculator when you want the broader loan estimate view.',
+      'Use APR Calculator when fees change the real cost of the offer.',
+      'Use Amortization Calculator if you want to see how the balance falls over time.',
+      'Use Interest Rate Calculator if the rate is missing but you know the payment.',
+    ],
   },
   'retirement-calculator': {
     summary: 'Learn how current savings, monthly contributions, time, and return assumptions shape a retirement projection.',

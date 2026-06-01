@@ -2566,21 +2566,22 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'payment-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [investorCompound, cfpbDebtToIncome],
+    sources: [openStaxLoanAmortization, cfpbAprVsInterest, cfpbPiti, cfpbLoanEstimate, cfpbAutoLoanCompare],
     findings: [
-      'The calculator uses the same fixed-payment amortization formula as the loan tool and handles zero-interest payments through the shared loan helper.',
-      'The tool labels amount financed, annual rate, and term clearly, while the guide warns that fees, variable rates, insurance, and lender-specific rules are outside the estimate.',
-      'The guide and FAQ explain that a longer term can lower the payment while raising total interest, which is the main user tradeoff.',
+      'The calculator uses the fixed-payment amortization formula confirmed by OpenStax, converts the annual rate to a monthly rate, and handles zero-interest payments through the shared loan helper.',
+      'DataForSEO page evidence found strong U.S. demand for payment calculator intent, including payment calculator, monthly payment calculator, car payment calculator, house payment calculator, and loan payment calculator with interest.',
+      'Current CFPB guidance confirms the page must warn that payment is not the whole loan decision: APR can include fees, mortgage payments can include PITI and escrow, and auto loan offers should be compared beyond monthly payment.',
     ],
     improvements: [
-      'Manually checked the payment formula path, examples, FAQ, guide article, privacy note, related tools, source coverage, and generated page wiring.',
-      'Fixed finance guides globally so their Formula and steps section now pulls the actual formula FAQ instead of the generic input FAQ.',
+      'Added payment-specific SEO title, description, aliases, exact example answers, input explanations, FAQs, result-reading guidance, and related APR/amortization handoffs.',
+      'Updated the guide to use exact $5,000, $15,000, and $20,000 examples, CFPB/OpenStax source context, and smart-14 wording about payment-only traps.',
+      'Repaired source coverage, trust copy, and generated tool/guide image alt and caption text for the payment page pair.',
     ],
     followUps: [
-      'Add an APR-with-fees comparison handoff when the APR Calculator gets its manual finance pass.',
+      'Consider a future advanced mode only if it can clearly separate mortgage PITI, auto add-ons, and student-loan repayment-plan rules without making the simple payment tool noisy.',
     ],
   },
   {
@@ -7761,6 +7762,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
     if (includesAny(key, ['loan-calculator', 'loan calculator'])) {
       return sourceBackstop([openStaxLoanAmortization, cfpbAprVsInterest, cfpbLoanEstimate, cfpbAutoTruthInLending]);
+    }
+
+    if (includesAny(key, ['payment-calculator', 'payment calculator'])) {
+      return sourceBackstop([openStaxLoanAmortization, cfpbAprVsInterest, cfpbPiti, cfpbLoanEstimate, cfpbAutoLoanCompare]);
     }
 
     if (includesAny(key, ['finance-calculator', 'finance calculator'])) {
