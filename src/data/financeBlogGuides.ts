@@ -471,6 +471,14 @@ const sourceLinks = {
     href: 'https://openstax.org/books/contemporary-mathematics/pages/6-1-understanding-percent',
     label: 'OpenStax: Understanding Percent',
   },
+  ftcDeceptivePricing: {
+    href: 'https://www.ftc.gov/legal-library/browse/rules/deceptive-pricing',
+    label: 'FTC: Deceptive Pricing',
+  },
+  ftcUnfairDeceptiveFees: {
+    href: 'https://www.ftc.gov/node/88176',
+    label: 'FTC: Unfair or Deceptive Fees FAQ',
+  },
   googleAdSensePageCtr: {
     href: 'https://support.google.com/adsense/answer/112026?hl=en',
     label: 'Google AdSense Help: Page CTR',
@@ -1025,7 +1033,11 @@ function getSourceLinks(toolSlug: string) {
     return [sourceLinks.openStaxContributionMargin, sourceLinks.irsPublication334, sourceLinks.openStaxDiscounts, sourceLinks.openStaxPercent];
   }
 
-  if (['discount-calculator', 'percent-off-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'discount-calculator') {
+    return [sourceLinks.openStaxDiscounts, sourceLinks.openStaxPercent, sourceLinks.ftcDeceptivePricing, sourceLinks.ftcUnfairDeceptiveFees];
+  }
+
+  if (toolSlug === 'percent-off-calculator') {
     return [sourceLinks.openStaxDiscounts, sourceLinks.openStaxPercent];
   }
 
@@ -2596,27 +2608,32 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Discount Calculator to see how a sale affects price.', 'Use Percentage Calculator for a basic percent check.'],
   },
   'discount-calculator': {
-    summary: 'Learn how one discount, an extra discount, and tax affect the final checkout price.',
+    summary: 'Learn how one discount, an extra discount, and tax affect final price, savings, and the real checkout total.',
     purpose:
-      'The Discount Calculator estimates a sale price after a percent discount, an optional second discount, and optional tax. It helps show why stacked discounts are not simply added together.',
+      'The Discount Calculator estimates a sale price after a percent discount, an optional second discount, and optional tax. It helps show why stacked discounts are not simply added together and why the offer rules still matter.',
     enter: [
       'Enter the original price before discounts.',
       'Enter the first discount percent and optional extra discount percent.',
       'Enter tax rate only if you want to estimate tax on the discounted subtotal.',
+      'Keep shipping, required fees, membership limits, minimum purchase rules, and coupon exclusions separate unless you have checked the actual offer.',
     ],
     example: [
       '$100 with 20% off becomes $80 after the first discount.',
       'A second 10% discount applies to $80, not the original $100, so the pretax subtotal becomes $72 before tax.',
+      'A 5% tax on $72 adds $3.60, making the final estimate $75.60.',
+      '$250 with 15% off, then 5% extra, and 7.25% tax estimates about $216.51 final price.',
     ],
     read: [
       'Final price is the estimated amount after discounts and tax.',
       'Total savings before tax shows how much the discounts removed from the original price.',
       'Effective discount shows the combined discount as one percentage of the original price.',
+      'The calculator does not prove the sale claim is fair, current, or available to every shopper.',
     ],
     mistakes: [
       'Do not add stacked discounts together unless the store says it works that way.',
-      'Do not forget shipping, coupon exclusions, minimum purchase rules, tax exemptions, and local tax rules.',
+      'Do not forget shipping, required fees, coupon exclusions, minimum purchase rules, tax exemptions, and local tax rules.',
       'Do not enter 20% as 0.20 in a percent field.',
+      'Do not assume a discount is useful if the original price, required fees, or eligibility rules make the deal worse.',
     ],
     next: ['Use Sales Tax Calculator for tax-only checks.', 'Use VAT Calculator for tax-included price math.'],
   },
@@ -3579,6 +3596,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Margin Calculator Guide';
   }
 
+  if (tool.slug === 'discount-calculator') {
+    return 'Discount Calculator Guide';
+  }
+
   if (tool.slug === 'average-return-calculator') {
     return 'Average Return Calculator Guide';
   }
@@ -3652,6 +3673,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'margin-calculator') {
     return 'Learn profit margin and markup with selling price, cost, gross profit, COGS, and clear examples that show why margin and markup differ.';
+  }
+
+  if (tool.slug === 'discount-calculator') {
+    return 'Learn final price, total savings, effective discount, stacked discounts, tax, and sale-rule checks before checkout.';
   }
 
   if (tool.slug === 'average-return-calculator') {

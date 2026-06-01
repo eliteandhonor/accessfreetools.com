@@ -4299,14 +4299,18 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'discount-calculator',
     name: 'Discount Calculator',
+    seoTitle: 'Discount Calculator | Final Price And Savings',
+    seoDescription:
+      'Calculate final price, total savings, effective discount, and tax after one discount or stacked discounts. Check coupon math before checkout.',
     summary: 'Find final price after one or two discounts and optional tax.',
     description:
-      'Use this free discount calculator to estimate sale price, stacked discounts, total savings, effective discount percentage, tax amount, and final price.',
+      'Estimate final checkout price, total savings, effective discount percentage, and tax after one discount or a stacked extra discount.',
     icon: 'calculator-discount',
+    aliases: ['percent off calculator', 'sale price calculator', 'coupon calculator', 'stacked discount calculator', 'final price calculator'],
     formula:
-      'The calculator applies the first discount to the original price, applies the extra discount to the reduced subtotal, then adds tax if a tax rate is entered.',
+      'First subtotal = original price x (1 - discount percent). Stacked subtotal = first subtotal x (1 - extra discount percent). Tax is added after the discounts when a tax rate is entered.',
     limit:
-      'This does not check coupon exclusions, minimum purchases, shipping, store policy, tax exemptions, or local tax rules.',
+      'This is checkout math only. It does not verify coupon exclusions, membership rules, limited-quantity offers, shipping, refunds, store policy, advertised-price rules, tax exemptions, or local tax law.',
     useCases: [
       'Calculate a sale price after a discount.',
       'Check stacked coupon math.',
@@ -4314,11 +4318,42 @@ export const financeTools: ToolDefinition[] = [
       'Compare total savings before buying.',
     ],
     examples: [
-      { label: 'Stacked sale', expression: '$100, 20% off, then 10% extra, 5% tax', result: 'Final price and savings' },
-      { label: 'Simple sale', expression: '$80 with 30% off', result: 'Discounted price' },
-      { label: 'Taxed purchase', expression: '$250 with 15% off, 5% extra, 7.25% tax', result: 'Final checkout estimate' },
+      { label: 'Stacked sale', expression: '$100, 20% off, then 10% extra, 5% tax', result: '$75.60 final price, $28.00 savings before tax, and 28% effective discount' },
+      { label: 'Simple sale', expression: '$80 with 30% off', result: '$56.00 final price and $24.00 savings' },
+      { label: 'Taxed purchase', expression: '$250 with 15% off, 5% extra, 7.25% tax', result: 'About $216.51 final price after $48.13 savings before tax' },
     ],
     relatedSlugs: ['percentage-calculator', 'sales-tax-calculator', 'vat-calculator'],
+    inputExplanations: [
+      { term: 'Original price', meaning: 'the before-discount price shown on the tag, listing, or quote.' },
+      { term: 'Discount', meaning: 'the first percent off the original price.' },
+      { term: 'Extra discount', meaning: 'a second percent off the already-discounted subtotal, not the original price.' },
+      { term: 'Tax rate', meaning: 'optional tax added after the discounts. Leave it at 0 if you only want the pre-tax sale price.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Do stacked discounts add together?',
+        answer:
+          'No. A 20% discount and an extra 10% discount do not make 30% off. The second discount applies after the first one, so $100 becomes $80, then $72 before tax.',
+      },
+      {
+        question: 'Does this check if the advertised sale is real?',
+        answer:
+          'No. The calculator only checks math. Store rules, limited eligibility, fake reference prices, required fees, and coupon exclusions need to be checked on the offer page or receipt.',
+      },
+      {
+        question: 'Should tax be calculated before or after the discount?',
+        answer:
+          'This calculator adds tax after discounts because that is the common checkout estimate. Actual tax rules can vary by place, item type, coupon type, and store policy.',
+      },
+    ],
+    formulaCheck:
+      '$100 with 20% off becomes $80. An extra 10% discount makes it $72. A 5% tax adds $3.60, so the final estimate is $75.60.',
+    resultReading:
+      'Read subtotal after discounts first, then total savings before tax, then tax amount, then final price. The effective discount shows the combined discount as one percent of the original price.',
+    doubleCheck:
+      'Check the coupon terms, whether the discount applies before tax, whether shipping or fees are extra, and whether the original price is the real price you would otherwise pay.',
+    limitFollowup:
+      'For legal, tax, or store-dispute questions, use the retailer terms, receipt, local tax rules, and official consumer-protection guidance instead of only this estimate.',
   }),
   makeFinanceTool({
     slug: 'business-loan-calculator',

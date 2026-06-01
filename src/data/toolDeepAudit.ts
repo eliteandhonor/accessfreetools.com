@@ -1236,6 +1236,16 @@ const irsPublication334 = {
   label: 'IRS Publication 334: Gross receipts, cost of goods sold, and gross profit',
 };
 
+const ftcDeceptivePricing = {
+  href: 'https://www.ftc.gov/legal-library/browse/rules/deceptive-pricing',
+  label: 'FTC: Deceptive Pricing',
+};
+
+const ftcUnfairDeceptiveFees = {
+  href: 'https://www.ftc.gov/node/88176',
+  label: 'FTC: Unfair or Deceptive Fees FAQ',
+};
+
 const googleAdSensePageCtr = {
   href: 'https://support.google.com/adsense/answer/112026?hl=en',
   label: 'Google AdSense Help: Page CTR',
@@ -3144,17 +3154,19 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'discount-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-4-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [openStaxDiscounts, openStaxPercent],
+    sources: [openStaxDiscounts, openStaxPercent, ftcDeceptivePricing, ftcUnfairDeceptiveFees],
     findings: [
+      'DataForSEO evidence is page-specific for discount calculator, percent off, final price, sale price, coupon, stacked discount, savings, and tax intent.',
       'The calculator applies the first discount to original price, applies the extra discount to the reduced subtotal, then adds tax to the discounted subtotal when a tax rate is entered.',
       'The result separates total savings before tax, effective discount, discounted subtotal, tax amount, and final price so stacked-discount math is checkable.',
-      'The guide and FAQ now warn that stacked discounts are sequential, not simply additive, and that coupon exclusions, shipping, tax exemptions, and local rules are outside the math.',
+      'OpenStax backs the percent-discount formula and FTC guidance adds boundaries around advertised prices, discount availability, required fees, and deceptive pricing claims.',
+      'The guide and FAQ warn that stacked discounts are sequential, not simply additive, and that coupon exclusions, shipping, tax exemptions, local rules, and required fees are outside the math.',
     ],
     improvements: [
-      'Added discount-specific guide detail and manually checked stacked discount behavior, tax handling, examples, FAQ cautions, source coverage, related tools, SEO copy, and privacy behavior.',
+      'Rebuilt title/meta, aliases, examples, input explanations, FAQ answers, guide title, guide meta, source links, trust wording, image alt/caption, sitemap dates, and page-specific proof around stacked discounts, effective discount, final price, sale-rule checks, and tax limits.',
     ],
     followUps: [
       'Add a reverse-discount mode only if it can stay clearly separate from the existing Percent Off and Percentage tools.',
@@ -7709,6 +7721,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['discount', 'percent-off', 'percent off'])) {
+      if (includesAny(key, ['discount'])) {
+        return sourceBackstop([openStaxDiscounts, openStaxPercent, ftcDeceptivePricing, ftcUnfairDeceptiveFees]);
+      }
+
       return sourceBackstop([openStaxDiscounts, openStaxPercent]);
     }
 

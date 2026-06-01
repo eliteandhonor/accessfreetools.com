@@ -316,6 +316,18 @@ const toolArtMetadataOverrides = {
         'Margin Calculator guide artwork supports the walkthrough by showing why gross margin, markup, direct cost, COGS, overhead, fees, and net profit must stay separate.',
     },
   },
+  'discount-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a $100 original price with 20% off, 10% extra discount, $72 subtotal, $3.60 tax, and $75.60 final price cards.',
+      caption:
+        'Discount Calculator artwork matches the live workflow: original price, first discount, extra discount, tax rate, subtotal after discounts, savings, and final price.',
+    },
+    guide: {
+      alt: 'Smoke mascot reviewing stacked discount cards beside coupon exclusions, required fees, shipping, membership rules, sales tax, and advertised-price warning notes.',
+      caption:
+        'Discount Calculator guide artwork supports the walkthrough by separating clean discount math from coupon rules, required fees, shipping, tax rules, and advertised-price limits.',
+    },
+  },
   'pension-calculator': {
     tool: {
       alt: 'Smoke mascot checking a defined-benefit pension formula with salary, credited service years, plan multiplier, monthly pension, and replacement-rate cards.',

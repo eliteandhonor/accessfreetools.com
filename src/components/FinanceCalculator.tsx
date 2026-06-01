@@ -1507,7 +1507,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Discount Calculator',
     buttonLabel: 'Calculate discount',
     emptyHistory: 'Recent discount estimates will appear here.',
-    privacyNote: 'Discount estimates use the prices and rates you enter and do not check store policy, coupon restrictions, shipping, or local tax rules.',
+    privacyNote:
+      'Discount estimates stay in this browser tab. They do not verify coupon exclusions, membership rules, limited-quantity offers, shipping, required fees, refunds, store policy, advertised-price rules, tax exemptions, or local tax law.',
     modes: [
       {
         id: 'discount',
@@ -1521,9 +1522,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { originalPrice: '100', discountPercent: '20', extraDiscountPercent: '10', taxPercent: '5' },
         examples: [
-          { label: 'Stacked sale', inputs: { originalPrice: '100', discountPercent: '20', extraDiscountPercent: '10', taxPercent: '5' } },
-          { label: 'Simple 30% off', inputs: { originalPrice: '80', discountPercent: '30', extraDiscountPercent: '0', taxPercent: '0' } },
-          { label: 'Taxed purchase', inputs: { originalPrice: '250', discountPercent: '15', extraDiscountPercent: '5', taxPercent: '7.25' } },
+          { label: '$75.60 final price', inputs: { originalPrice: '100', discountPercent: '20', extraDiscountPercent: '10', taxPercent: '5' } },
+          { label: '$56 after 30% off', inputs: { originalPrice: '80', discountPercent: '30', extraDiscountPercent: '0', taxPercent: '0' } },
+          { label: '$216.51 taxed', inputs: { originalPrice: '250', discountPercent: '15', extraDiscountPercent: '5', taxPercent: '7.25' } },
         ],
       },
     ],
@@ -3785,9 +3786,11 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         ],
         steps: [
           'Apply the first discount to the original price.',
-          'Apply the extra discount to the already-discounted subtotal.',
+          'Apply the extra discount to the already-discounted subtotal, not the original price.',
           'Add tax to the discounted subtotal if a tax rate is entered.',
         ],
+        note:
+          'This is checkout math only. It does not prove the advertised discount is valid, available to everyone, or free of required fees.',
       };
     }
     case 'business-loan':
