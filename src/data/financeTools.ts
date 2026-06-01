@@ -895,12 +895,15 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     name: 'Social Security Calculator',
     summary: 'Estimate how claiming age can change a monthly Social Security retirement benefit.',
     description:
-      'Use this free Social Security calculator to estimate a monthly retirement benefit from birth year, full-retirement-age benefit, and claiming age.',
+      'Estimate a monthly Social Security retirement benefit from birth year, full-retirement-age benefit, and claiming age.',
+    seoTitle: 'Social Security Calculator | Claim at 62, FRA or 70',
+    seoDescription:
+      'Estimate how claiming at 62, full retirement age, or 70 changes a monthly Social Security retirement benefit from your SSA estimate.',
     icon: 'calculator-retirement',
     formula:
       'The calculator estimates full retirement age from birth year, then applies early claiming reductions before full retirement age or delayed retirement credits after full retirement age through age 70.',
     limit:
-      'This does not access SSA records, earnings history, spousal benefits, survivor benefits, disability benefits, taxation, COLA changes, or official benefit estimates.',
+      'This does not access SSA records, rebuild your 35-year earnings history, model spousal or survivor benefits, apply WEP or GPO rules, calculate work earnings tests, estimate taxes, price Medicare, forecast COLA changes, or replace an official SSA estimate.',
     useCases: [
       'Compare claiming at 62, full retirement age, and 70.',
       'Use your SSA full-retirement-age benefit estimate as the starting point.',
@@ -908,11 +911,41 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Plan questions before using official SSA tools.',
     ],
     examples: [
-      { label: 'Claim at FRA', expression: 'Born 1962, $2,400 FRA benefit, claim at 67', result: 'Full benefit estimate' },
-      { label: 'Early claim', expression: 'Claim at age 62', result: 'Reduced monthly estimate' },
-      { label: 'Delayed claim', expression: 'Claim at age 70', result: 'Delayed-credit estimate' },
+      { label: 'Claim at FRA', expression: 'Born 1962, $2,400 FRA benefit, claim at 67', result: '$2,400 monthly and $28,800 yearly' },
+      { label: 'Early claim', expression: 'Born 1962, $2,400 FRA benefit, claim at 62', result: '$1,680 monthly after a 30% reduction' },
+      { label: 'Delayed claim', expression: 'Born 1960, $2,600 FRA benefit, claim at 70', result: '$3,224 monthly after a 24% delayed credit' },
     ],
     relatedSlugs: ['retirement-calculator', 'pension-calculator', 'rmd-calculator'],
+    inputExplanations: [
+      { term: 'Birth year', meaning: 'used to estimate full retirement age. People born in 1960 or later use age 67 in this simple model.' },
+      { term: 'Monthly benefit at full retirement age', meaning: 'the number to copy from an official SSA estimate when possible, not a guess from salary alone.' },
+      { term: 'Claiming age', meaning: 'the age from 62 through 70 that the calculator uses for early reduction or delayed-credit math.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Where should I get the full-retirement-age benefit number?',
+        answer:
+          'Use your my Social Security account or another official SSA estimate when you can. This calculator starts from that number; it does not rebuild your earnings record from scratch.',
+      },
+      {
+        question: 'Does claiming at 70 keep increasing forever?',
+        answer:
+          'No. SSA delayed retirement credits stop at age 70. This calculator lets you test ages 62 through 70 only.',
+      },
+      {
+        question: 'Does this include the 2026 Social Security earnings limit?',
+        answer:
+          'No. It shows claiming-age math only. If you work while claiming before full retirement age, SSA earnings-test rules can withhold some benefits, so check official SSA guidance before relying on the result.',
+      },
+    ],
+    formulaCheck:
+      'Start with an official SSA monthly benefit at full retirement age when possible. Then test one claiming age at a time so you can see whether the change comes from early reduction or delayed credits.',
+    resultReading:
+      'Monthly benefit is the rough benefit at the claiming age entered. Adjustment percent shows the change from the full-retirement-age benefit. Annual estimate is the monthly estimate multiplied by 12.',
+    doubleCheck:
+      'Double-check birth year, full retirement age, and the SSA estimate you copied. A wrong FRA benefit makes every claiming-age result wrong.',
+    limitFollowup:
+      'Use your my Social Security account, SSA calculators, spouse or survivor rules, earnings-test rules, Medicare timing, tax rules, and household cash needs before deciding when to claim.',
   },
   {
     slug: 'rmd-calculator',

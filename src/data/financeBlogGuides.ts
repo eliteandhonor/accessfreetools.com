@@ -596,8 +596,24 @@ const sourceLinks = {
     label: 'IRS Publication 590-B: RMD Uniform Lifetime Table',
   },
   ssaClaimingAge: {
-    href: 'https://www.benefits.gov/benefit/4402',
-    label: 'Benefits.gov: Social Security retirement insurance',
+    href: 'https://www.ssa.gov/benefits/retirement/planner/applying2.html',
+    label: 'SSA: Benefits before or after full retirement age',
+  },
+  ssaBenefitEstimate: {
+    href: 'https://www.ssa.gov/prepare/get-benefits-estimate',
+    label: 'SSA: Get a benefits estimate',
+  },
+  ssaFullRetirementAge: {
+    href: 'https://www.ssa.gov/retirement/full-retirement-age',
+    label: 'SSA: See your full retirement age',
+  },
+  ssaDelayedCredits: {
+    href: 'https://www.ssa.gov/benefits/retirement/planner/delayret.html',
+    label: 'SSA: Delayed retirement credits',
+  },
+  ssaCola2026: {
+    href: 'https://www.ssa.gov/cola/',
+    label: 'SSA: 2026 Social Security changes',
   },
   irsFica: {
     href: 'https://www.irs.gov/taxtopics/tc751',
@@ -1118,7 +1134,13 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'social-security-calculator') {
-    return [sourceLinks.ssaClaimingAge];
+    return [
+      sourceLinks.ssaBenefitEstimate,
+      sourceLinks.ssaFullRetirementAge,
+      sourceLinks.ssaClaimingAge,
+      sourceLinks.ssaDelayedCredits,
+      sourceLinks.ssaCola2026,
+    ];
   }
 
   if (toolSlug === 'rmd-calculator') {
@@ -2941,27 +2963,28 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'social-security-calculator': {
-    summary: 'Learn how claiming before or after full retirement age can change a Social Security retirement benefit estimate.',
+    summary: 'Learn how birth year, full-retirement-age benefit, and claiming age change a Social Security retirement estimate.',
     purpose:
-      'The Social Security Calculator uses your full-retirement-age benefit as the starting point and estimates how claiming age changes it. It is a planning screen before using official SSA records.',
+      'The Social Security Calculator starts with your SSA full-retirement-age benefit estimate. Then it checks how the monthly amount changes if you claim at 62, at full retirement age, or as late as 70.',
     enter: [
       'Enter birth year so the calculator can estimate full retirement age.',
-      'Enter the monthly benefit you expect at full retirement age, usually from an official SSA estimate.',
-      'Enter a claiming age from 62 through 70.',
+      'Enter the monthly benefit shown for full retirement age in your my Social Security estimate, if you have one.',
+      'Enter a claiming age from 62 through 70. Age 62 is the earliest retirement-claiming age, and age 70 is where delayed credits stop increasing the benefit.',
     ],
     example: [
-      'A person born in 1962 with a $2,400 full-retirement-age benefit is tested at age 67, 62, or 70.',
-      'The calculator applies early reduction before full retirement age or delayed credits after full retirement age, then shows monthly and annual estimates.',
+      'Born in 1962 with a $2,400 full-retirement-age benefit and claiming at 67 gives about $2,400 a month, or $28,800 a year.',
+      'The same $2,400 FRA benefit at age 62 gives about $1,680 a month after a 30% early-claiming reduction.',
+      'Born in 1960 with a $2,600 FRA benefit and claiming at 70 gives about $3,224 a month after delayed credits.',
     ],
     read: [
       'Monthly benefit is the adjusted estimate at the claiming age you entered.',
       'Adjustment percent shows how far the estimate moved from the full-retirement-age benefit.',
-      'Annual benefit is monthly benefit times 12, not a lifetime break-even analysis.',
+      'Annual benefit is monthly benefit times 12. It is not a lifetime break-even answer.',
     ],
     mistakes: [
-      'Do not use this instead of your official SSA account.',
-      'Do not forget earnings history, spousal benefits, survivor benefits, disability benefits, taxes, COLA changes, Medicare premiums, and work rules.',
-      'Do not compare only the monthly amount without thinking about health, job plans, savings, and household needs.',
+      'Do not guess the full-retirement-age benefit if you can use your my Social Security estimate instead.',
+      'Do not treat this as a full SSA record. It does not rebuild your 35-year earnings history or check spousal, survivor, disability, WEP, GPO, tax, Medicare, or work earnings-test rules.',
+      'Do not compare only the monthly amount. Health, job plans, savings, household needs, and taxes can matter more than one larger check.',
     ],
     next: ['Use Retirement Calculator for savings planning.', 'Use RMD Calculator if retirement account withdrawals are part of the plan.'],
   },
@@ -3699,6 +3722,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
     return 'Stock Ratios Calculator Guide';
   }
 
+  if (tool.slug === 'social-security-calculator') {
+    return 'Social Security Calculator Guide';
+  }
+
   if (tool.slug === 'average-return-calculator') {
     return 'Average Return Calculator Guide';
   }
@@ -3804,6 +3831,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
 
   if (tool.slug === 'stock-ratios-calculator') {
     return 'Learn P/E, price-to-sales, price-to-book, dividend yield, payout ratio, per-share inputs, and stock-ratio limits.';
+  }
+
+  if (tool.slug === 'social-security-calculator') {
+    return 'Estimate Social Security retirement benefits at age 62, full retirement age, or 70 using birth year and an SSA FRA benefit estimate.';
   }
 
   if (tool.slug === 'average-return-calculator') {
@@ -3973,6 +4004,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isOperationsRatiosGuide = tool.slug === 'operations-ratios-calculator';
   const isProfitabilityRatiosGuide = tool.slug === 'profitability-ratios-calculator';
   const isStockRatiosGuide = tool.slug === 'stock-ratios-calculator';
+  const isSocialSecurityGuide = tool.slug === 'social-security-calculator';
   const isCanadianMortgageGuide = tool.slug === 'canadian-mortgage-calculator';
   const isDownPaymentGuide = tool.slug === 'down-payment-calculator';
   const isLoanGuide = tool.slug === 'loan-calculator';
@@ -4055,6 +4087,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Profitability ratios can make a company look great too quickly. This guide keeps gross margin, operating margin, net margin, ROA, ROE, EPS, and P/E separate so you can see which part is doing the work.'
       : isStockRatiosGuide
       ? 'Stock ratios can make a stock look cheap or expensive too quickly. This guide keeps P/E, P/S, P/B, dividend yield, and payout ratio separate so you can see what the price is being compared with.'
+      : isSocialSecurityGuide
+      ? 'A Social Security estimate is only useful if the starting number is real. This guide uses your SSA full-retirement-age benefit, then tests claiming at 62, full retirement age, or 70.'
       : isCanadianMortgageGuide
       ? 'A Canadian mortgage payment is not just price divided by months. This guide shows how down payment, amortization, payment frequency, and semi-annual compounding turn into the payment, LTV, and interest estimate.'
       : isDownPaymentGuide
@@ -4336,6 +4370,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter annual dividend per share, or 0 if the stock does not pay one.',
           'Calculate, then read P/E, P/S, P/B, dividend yield, and payout ratio as separate clues.',
         ]
+      : isSocialSecurityGuide
+      ? [
+          'Open the Social Security Calculator.',
+          'Enter your birth year.',
+          'Enter your full-retirement-age monthly benefit from my Social Security if you have it.',
+          'Enter a claiming age from 62 through 70.',
+          'Calculate, then compare monthly benefit, full retirement age, adjustment percent, and annual estimate before using an official SSA calculator.',
+        ]
       : isCanadianMortgageGuide
       ? [
           `Open the ${tool.name}.`,
@@ -4465,6 +4507,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it before comparing companies, asking why profit changed, checking whether returns come from assets or equity, or preparing sharper questions about margins, debt, shares, and price.'
             : isStockRatiosGuide
             ? 'Use it before comparing valuation ratios, checking whether a dividend stock needs a payout warning, or preparing sharper questions about EPS, sales, book value, dividends, debt, and growth.'
+            : isSocialSecurityGuide
+            ? 'Use it before comparing claim-at-62, full-retirement-age, and claim-at-70 examples. It is best when you already have an SSA benefit estimate and want to see what claiming age does to that one number.'
             : isCanadianMortgageGuide
             ? 'Use it before comparing mortgage quotes, testing a down payment, checking a biweekly payment, or seeing how much a shorter amortization changes the payment.'
             : isDownPaymentGuide
@@ -4734,6 +4778,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'The same statements can tell different profit stories. Gross margin uses gross profit, operating margin uses operating income, net margin uses net income, ROA uses average assets, ROE uses average equity, and P/E uses share price compared with EPS.'
             : isStockRatiosGuide
             ? 'The same stock price can tell different stories. P/E compares price with EPS, P/S compares price with sales per share, P/B compares price with book value, yield compares dividend with price, and payout compares dividend with EPS.'
+            : isSocialSecurityGuide
+            ? 'The formula starts with the full-retirement-age benefit you entered. Then it applies an early-claiming reduction before full retirement age or delayed retirement credits after full retirement age, stopping at age 70.'
             : isCanadianMortgageGuide
             ? 'The calculator first turns the nominal annual rate into an effective annual rate using semi-annual compounding. Then it converts that rate to the selected payment period and runs the fixed-payment formula.'
             : isDownPaymentGuide
@@ -4782,6 +4828,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with the three margins, then compare ROA and ROE. If ROE looks much stronger than ROA, check debt and equity context before calling the business better.'
             : isStockRatiosGuide
             ? 'Start with P/E, then compare P/S and P/B. If the dividend yield looks high, check payout ratio and dividend history before treating the yield like easy income.'
+            : isSocialSecurityGuide
+            ? 'Start with the monthly benefit, then check the full retirement age and adjustment percent. A bigger age-70 check can still be the wrong fit if you need income earlier or other benefits, taxes, Medicare, or household plans change the decision.'
             : isCanadianMortgageGuide
             ? 'Start with the payment, then check whether it is monthly, biweekly, semimonthly, or weekly. Then read loan amount, LTV, payment count, and total interest so the payment has context.'
             : isDownPaymentGuide
@@ -4857,6 +4905,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad profitability checks come from mixing periods, ignoring one-time gains or costs, comparing unlike industries, treating high ROE as automatically good, or reading P/E like it is a recommendation.'
             : isStockRatiosGuide
             ? 'Most bad stock-ratio checks come from mixing fresh prices with stale per-share numbers, ignoring negative EPS, treating a low P/E like a bargain, or trusting a high dividend yield without checking payout risk.'
+            : isSocialSecurityGuide
+            ? 'Most bad Social Security estimates come from guessing the FRA benefit, comparing only the monthly check, forgetting work earnings-test rules, or treating a quick age test like the official SSA record.'
             : isCanadianMortgageGuide
             ? 'Most bad Canadian mortgage estimates come from forgetting default insurance, mixing monthly and biweekly payments, using the wrong compounding assumption, or treating payment math as lender qualification.'
             : isDownPaymentGuide
@@ -4962,6 +5012,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help when the quote is missing a different piece. Use payment math when you know the rate, APR math when fees matter, or a full loan estimate when you want total interest.'
             : isStudentLoanGuide
             ? 'A related tool can help after the student-loan estimate. The next question is usually a plain fixed-loan payment, a fuller amortization schedule, or a general payoff test.'
+            : isSocialSecurityGuide
+            ? 'A related tool can help after the claiming-age check. The next question is usually retirement savings, IRA growth, required withdrawals, or the rest of the household plan.'
             : isUkMortgageGuide
             ? 'A related tool can help when the UK mortgage payment is only one part of the home-buying question, such as deposit size, another country-specific mortgage style, or a plain loan comparison.'
             : 'A related money tool can help check the same question from another angle before you rely on one result.',
@@ -5122,6 +5174,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/amortization-calculator/', label: 'See a fuller payment schedule' },
               { href: '/tools/repayment-calculator/', label: 'Test a general balance payoff' },
             ]
+          : isSocialSecurityGuide
+          ? [
+              { href: '/tools/social-security-calculator/', label: 'Open the Social Security Calculator' },
+              { href: '/tools/retirement-calculator/', label: 'Check a wider retirement target' },
+              { href: '/tools/ira-calculator/', label: 'Project IRA growth separately' },
+              { href: '/tools/rmd-calculator/', label: 'Estimate required withdrawals later' },
+            ]
           : isAdRevenueGuide
           ? [
               { href: '/tools/ad-revenue-calculator/', label: 'Open the Ad Revenue Calculator' },
@@ -5165,6 +5224,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'OpenStax is useful here because it separates gross profit margin, operating margin, net profit margin, ROA, ROE, EPS, and price-to-earnings as profitability checks. The SEC guide is useful because income statement layers, shares, assets, equity, cash flow, and footnotes all affect how the ratios should be read.'
             : isStockRatiosGuide
             ? 'OpenStax is useful here because it separates EPS, P/E, book value per share, P/S, P/B, and dividend yield as market-value and valuation checks. FINRA and the SEC are useful because real stock research also needs financial statements, earnings reports, risks, fees, and personal fit.'
+            : isSocialSecurityGuide
+            ? 'SSA sources matter here because the calculator depends on your full-retirement-age benefit, your birth year, and the claiming-age rules. SSA is also where you check official benefit estimates, full retirement age, early or late claiming, delayed retirement credits, COLA changes, and account-specific records.'
             : isCanadianMortgageGuide
             ? 'Canada.ca explains mortgage terms, amortization, down payment, and mortgage loan insurance. OSFI explains the minimum qualifying rate stress-test idea, while the Bank of Canada policy-rate page helps separate central-bank rate news from the exact lender rate in your quote.'
             : isDownPaymentGuide
@@ -5282,6 +5343,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not file a return, calculate state tax, payroll tax, capital gains, AMT, penalties, every credit, withholding, or refund size.'
             : isMarriageTaxGuide
             ? 'This calculator still stays simple. It does not file a return, compare married filing separately, calculate state tax, payroll tax, capital gains, every credit, dependents, AMT, phaseouts, community-property rules, or benefit changes.'
+            : isSocialSecurityGuide
+            ? 'This calculator still stays simple. It does not sign in to SSA, rebuild your 35-year earnings history, check spouse or survivor benefits, model WEP or GPO, handle work earnings tests, price Medicare, calculate tax, or predict future COLA changes.'
             : 'Source links improve transparency, but they do not turn a quick calculator into professional advice or a final loan, tax, payroll, or investment answer.',
         ],
         links: sourceLinks,
@@ -5347,6 +5410,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Income Tax Calculator open beside this guide. Try the $100,000 single example first, then change only the filing status so you can see how the deduction and brackets move.'
       : isMarriageTaxGuide
       ? 'Keep the Marriage Tax Calculator open beside this guide. Try $90,000 and $70,000 first, then change only one income so you can see when the difference moves.'
+      : isSocialSecurityGuide
+      ? 'Keep the Social Security Calculator open beside this guide. Try birth year 1962, $2,400 at full retirement age, and claim age 62, 67, or 70 so you can see exactly what moved.'
       : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,
   };
 });

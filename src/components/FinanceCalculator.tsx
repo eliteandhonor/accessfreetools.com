@@ -1778,7 +1778,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Social Security Calculator',
     buttonLabel: 'Estimate benefit',
     emptyHistory: 'Recent Social Security estimates will appear here.',
-    privacyNote: 'Social Security estimates use claiming-age adjustment rules and your entered benefit. Use SSA records for official benefits.',
+    privacyNote: 'This uses only the birth year, FRA benefit, and claiming age you enter. It does not sign in to SSA or rebuild your earnings record.',
     modes: [
       {
         id: 'social-security',
@@ -1791,9 +1791,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { birthYear: '1962', fullRetirementAgeBenefit: '2400', claimingAgeYears: '67' },
         examples: [
-          { label: 'Full retirement age', inputs: { birthYear: '1962', fullRetirementAgeBenefit: '2400', claimingAgeYears: '67' } },
-          { label: 'Claim at 62', inputs: { birthYear: '1962', fullRetirementAgeBenefit: '2400', claimingAgeYears: '62' } },
-          { label: 'Delay to 70', inputs: { birthYear: '1960', fullRetirementAgeBenefit: '2600', claimingAgeYears: '70' } },
+          { label: '$2,400 at FRA', inputs: { birthYear: '1962', fullRetirementAgeBenefit: '2400', claimingAgeYears: '67' } },
+          { label: '$1,680 at 62', inputs: { birthYear: '1962', fullRetirementAgeBenefit: '2400', claimingAgeYears: '62' } },
+          { label: '$3,224 at 70', inputs: { birthYear: '1960', fullRetirementAgeBenefit: '2600', claimingAgeYears: '70' } },
         ],
       },
     ],
@@ -4059,16 +4059,16 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         answer: money(result.monthlyBenefit),
         metrics: [
           { label: 'Full retirement age', value: years(result.fullRetirementAgeYears) },
-          { label: 'Adjustment', value: percent(result.adjustmentPercent) },
+          { label: 'Adjustment', value: roundedPercent(result.adjustmentPercent) },
           { label: 'Benefit at FRA', value: money(result.fullRetirementAgeBenefit) },
           { label: 'Annual estimate', value: money(result.annualBenefit) },
         ],
         steps: [
-          'Estimate full retirement age from birth year.',
-          'Apply SSA-style early claiming reductions before full retirement age.',
-          'Apply delayed retirement credits after full retirement age through age 70.',
+          'Estimate full retirement age from the birth year you entered.',
+          'Reduce the monthly estimate when claiming starts before full retirement age.',
+          'Add delayed retirement credits after full retirement age, stopping at age 70.',
         ],
-        note: 'Use your official my Social Security record for real earnings history, spousal benefits, survivor benefits, and taxes.',
+        note: 'Use my Social Security or SSA calculators for your real earnings record, spouse or survivor rules, work earnings tests, taxes, Medicare timing, and COLA changes.',
       };
     }
     case 'rmd': {

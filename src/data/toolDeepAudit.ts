@@ -1427,8 +1427,28 @@ const irsRmd = {
 };
 
 const ssaClaimingAge = {
-  href: 'https://www.benefits.gov/benefit/4402',
-  label: 'Benefits.gov: Social Security retirement insurance',
+  href: 'https://www.ssa.gov/benefits/retirement/planner/applying2.html',
+  label: 'SSA: Benefits before or after full retirement age',
+};
+
+const ssaBenefitEstimate = {
+  href: 'https://www.ssa.gov/prepare/get-benefits-estimate',
+  label: 'SSA: Get a benefits estimate',
+};
+
+const ssaFullRetirementAge = {
+  href: 'https://www.ssa.gov/retirement/full-retirement-age',
+  label: 'SSA: See your full retirement age',
+};
+
+const ssaDelayedCredits = {
+  href: 'https://www.ssa.gov/benefits/retirement/planner/delayret.html',
+  label: 'SSA: Delayed retirement credits',
+};
+
+const ssaCola2026 = {
+  href: 'https://www.ssa.gov/cola/',
+  label: 'SSA: 2026 Social Security changes',
 };
 
 const irsFica = {
@@ -3378,17 +3398,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'social-security-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-5-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [ssaClaimingAge, investorCompound],
+    sources: [ssaBenefitEstimate, ssaFullRetirementAge, ssaClaimingAge, ssaDelayedCredits, ssaCola2026],
     findings: [
-      'The calculator estimates full retirement age from birth year and applies SSA-style early reduction before full retirement age or delayed credits after full retirement age through age 70.',
-      'The UI requires claiming age between 62 and 70, matching the retirement claiming range explained in the source material.',
-      'The guide now tells users to start from an official SSA full-retirement-age benefit estimate instead of guessing their lifetime earnings record.',
+      'The calculator estimates full retirement age from birth year, starts from the entered full-retirement-age benefit, and applies an early reduction before full retirement age or delayed credits after full retirement age through age 70.',
+      'The baseline page had generic finance title and trust wording plus generic tool/guide image labels; the 2026-06-01 sprint replaced those with Social-Security-specific copy and proof requirements.',
+      'DataForSEO paid evidence was generated for both the tool page and matching guide before the copy pass. The page still cannot be marked approved until browser proof, local checks, deploy proof, Search Console proof, and final judge proof are recorded.',
     ],
     improvements: [
-      'Added Social-Security-specific guide detail and manually checked claiming-age math, result labels, examples, FAQ cautions, SSA source coverage, related tools, SEO copy, and privacy note.',
+      'Rewrote title, meta description, examples, input explanations, output labels, FAQ cautions, guide intro, quick start, source notes, trust block, privacy note, related links, and image alt/caption text around SSA benefit estimate, full retirement age, claim age 62, claim age 70, early reduction, delayed credits, and official SSA limits.',
     ],
     followUps: [
       'Add spousal, survivor, earnings-test, tax, and COLA modeling only as separate clearly sourced modules.',
@@ -7785,7 +7805,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['social-security', 'social security'])) {
-      return sourceBackstop([ssaClaimingAge, investorCompound]);
+      return sourceBackstop([ssaBenefitEstimate, ssaFullRetirementAge, ssaClaimingAge, ssaDelayedCredits, ssaCola2026]);
     }
 
     if (includesAny(key, ['rmd-calculator', 'rmd calculator'])) {

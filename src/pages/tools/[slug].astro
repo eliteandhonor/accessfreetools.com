@@ -673,6 +673,13 @@ const financeToolInstructions = financeToolVariant
         'Enter annual dividend per share, or 0 if the stock does not pay one.',
         'Calculate, then compare P/E, P/S, P/B, dividend yield, and payout ratio as separate clues.',
       ]
+    : tool.slug === 'social-security-calculator'
+    ? [
+        'Enter your birth year.',
+        'Enter your monthly benefit at full retirement age from my Social Security if you have it.',
+        'Enter a claiming age from 62 through 70.',
+        'Calculate, then compare monthly benefit, full retirement age, adjustment percent, and annual estimate.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
@@ -2117,6 +2124,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Profitability ratio check'
               : tool.slug === 'stock-ratios-calculator'
               ? 'Market-ratio check'
+              : tool.slug === 'social-security-calculator'
+              ? 'Claiming-age check'
               : 'Estimate, not advice'}
           </span>
           <span>
@@ -2152,6 +2161,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Margins, returns, EPS, P/E'
               : tool.slug === 'stock-ratios-calculator'
               ? 'P/E, P/S, P/B, yield'
+              : tool.slug === 'social-security-calculator'
+              ? '62, FRA, or 70'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -3389,6 +3400,39 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.sec.gov/about/reports-publications/investorpubsbegfinstmtguide" rel="noreferrer" target="_blank">
                   SEC financial statement guide
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'social-security-calculator' ? (
+            <>
+              <strong>Social Security estimate, not an SSA record</strong>
+              <p>
+                Use this to test birth year, full-retirement-age benefit, claiming age, monthly estimate, annual
+                estimate, early reduction, and delayed credits through age 70. It does not sign in to SSA, rebuild
+                your earnings record, check spouse or survivor benefits, model WEP or GPO, handle work earnings
+                tests, price Medicare, calculate taxes, or predict future COLA changes.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.ssa.gov/prepare/get-benefits-estimate" rel="noreferrer" target="_blank">
+                  SSA benefit estimates
+                </a>
+                {', '}
+                <a href="https://www.ssa.gov/retirement/full-retirement-age" rel="noreferrer" target="_blank">
+                  SSA full retirement age
+                </a>
+                {', '}
+                <a href="https://www.ssa.gov/benefits/retirement/planner/applying2.html" rel="noreferrer" target="_blank">
+                  SSA early or late retirement
+                </a>
+                {', '}
+                <a href="https://www.ssa.gov/benefits/retirement/planner/delayret.html" rel="noreferrer" target="_blank">
+                  SSA delayed retirement credits
+                </a>
+                {', and '}
+                <a href="https://www.ssa.gov/cola/" rel="noreferrer" target="_blank">
+                  SSA 2026 factsheet
                 </a>
                 .
               </p>

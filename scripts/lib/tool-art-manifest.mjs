@@ -364,6 +364,18 @@ const toolArtMetadataOverrides = {
         'Stock Ratios Calculator guide artwork supports the walkthrough by separating valuation multiples, dividend math, trailing versus forward EPS, accounting quality, dividend safety, debt, dilution, and industry context.',
     },
   },
+  'social-security-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing birth year 1962, $2,400 FRA benefit, claim ages 62, 67, and 70, with $1,680, $2,400, and $3,224 monthly benefit cards.',
+      caption:
+        'Social Security Calculator artwork matches the live workflow: birth year, full-retirement-age benefit, claiming age, early reduction, delayed credits, monthly estimate, and annual estimate.',
+    },
+    guide: {
+      alt: 'Smoke mascot sorting Social Security cards for birth year, SSA benefit estimate, full retirement age, claim age 62, claim age 70, spouse rules, taxes, Medicare, and COLA limits.',
+      caption:
+        'Social Security Calculator guide artwork supports the walkthrough by separating claiming-age math from official SSA records, spouse or survivor benefits, work rules, taxes, Medicare, and future COLA changes.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',
