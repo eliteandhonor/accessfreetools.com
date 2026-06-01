@@ -1959,7 +1959,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'APR Calculator',
     buttonLabel: 'Estimate APR',
     emptyHistory: 'Recent APR estimates will appear here.',
-    privacyNote: 'APR estimates are simplified and are not official Truth in Lending disclosures.',
+    privacyNote:
+      'APR estimates stay in this browser tab. This is a simplified fixed-payment loan estimate, not an official Truth in Lending disclosure.',
     modes: [
       {
         id: 'apr',
@@ -1968,9 +1969,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         fields: [numberField('principal', 'Loan amount ($)'), numberField('annualRatePercent', 'Note rate (%)'), numberField('years', 'Term (years)'), numberField('fees', 'Finance charges / fees ($)')],
         defaultInputs: { principal: '20000', annualRatePercent: '8', years: '5', fees: '600' },
         examples: [
-          { label: 'Personal loan APR', inputs: { principal: '20000', annualRatePercent: '8', years: '5', fees: '600' } },
-          { label: 'Low fee', inputs: { principal: '12000', annualRatePercent: '9.5', years: '4', fees: '150' } },
-          { label: 'Large loan', inputs: { principal: '250000', annualRatePercent: '6.5', years: '30', fees: '5000' } },
+          { label: '9.30% APR estimate', inputs: { principal: '20000', annualRatePercent: '8', years: '5', fees: '600' } },
+          { label: '10.16% low-fee APR', inputs: { principal: '12000', annualRatePercent: '9.5', years: '4', fees: '150' } },
+          { label: '6.70% mortgage-style APR', inputs: { principal: '250000', annualRatePercent: '6.5', years: '30', fees: '5000' } },
         ],
       },
     ],
@@ -4263,7 +4264,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Subtract fees from principal to estimate net amount received.',
           'Solve the rate that makes the payment stream match the amount received.',
         ],
-        note: 'Official APR disclosures can include different finance charges and rounding rules.',
+        note:
+          'This is a simplified fixed-payment estimate. Official APR disclosures can include different finance charges, timing rules, rounding, tolerances, and lender disclosures.',
       };
     }
     case 'fha-loan': {

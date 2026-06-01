@@ -722,6 +722,13 @@ const financeToolInstructions = financeToolVariant
         'Calculate, then compare simple ROI percent with the dollar gain or loss.',
         'Check holding time, fees, taxes, financing, inflation, risk, and annualized return before treating the percent as a real decision.',
       ]
+    : tool.slug === 'apr-calculator'
+    ? [
+        'Enter the full loan amount, note rate, term, and upfront finance charges or fees.',
+        'Calculate, then compare note rate, fees included, amount received, monthly payment, and estimated APR.',
+        'Use this for fixed-payment loan comparisons where fees reduce the cash received.',
+        'Check the lender Loan Estimate, Truth in Lending disclosure, Closing Disclosure, or written loan agreement before treating the APR as official.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
@@ -2180,6 +2187,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'IRR cash-flow screen'
               : tool.slug === 'roi-calculator'
               ? 'Simple ROI screen'
+              : tool.slug === 'apr-calculator'
+              ? 'Loan APR estimate'
               : 'Estimate, not advice'}
           </span>
           <span>
@@ -2229,6 +2238,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Periodic and annualized IRR'
               : tool.slug === 'roi-calculator'
               ? 'ROI, gain, ending value'
+              : tool.slug === 'apr-calculator'
+              ? 'Rate, fees, amount received'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -3281,6 +3292,30 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', and '}
                 <a href="https://www.minneapolisfed.org/article/2025/what-drives-consumer-interest-rates" rel="noreferrer" target="_blank">
                   Minneapolis Fed consumer rate context
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'apr-calculator' ? (
+            <>
+              <strong>APR estimate, not the lender disclosure</strong>
+              <p>
+                Use this to compare loan amount, note rate, term, upfront fees, amount received, monthly payment, and estimated APR.
+                It is a simplified fixed-payment estimate. A real disclosure can still change with finance-charge rules,
+                prepaid interest, timing, rounding, tolerance rules, variable rates, add-ons, insurance, and lender terms.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/" rel="noreferrer" target="_blank">
+                  CFPB interest rate vs. APR
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/rules-policy/regulations/1026/22/" rel="noreferrer" target="_blank">
+                  CFPB Regulation Z APR rules
+                </a>
+                {', and '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/do-personal-installment-loans-have-fees-en-2120/" rel="noreferrer" target="_blank">
+                  CFPB personal loan fee notes
                 </a>
                 .
               </p>

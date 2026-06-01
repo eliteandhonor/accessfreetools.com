@@ -3566,17 +3566,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'apr-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-6-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [cfpbAprVsInterest, cfpbApr],
+    sources: [cfpbAprVsInterest, cfpbApr, cfpbPersonalInstallmentFees],
     findings: [
-      'The calculator estimates the scheduled payment from principal and note rate, subtracts fees from amount received, then solves the rate implied by that payment stream.',
-      'The guide now explains why APR can be higher than note rate when fees reduce the effective amount received.',
-      'The page clearly says this is not an official Truth in Lending disclosure and that official APR rules can use specific finance-charge and tolerance rules.',
+      'DataForSEO showed "apr calculator" demand at 27,100 United States monthly searches, with modifiers around credit card, car, personal loan, Excel, monthly APR, and savings APR intent.',
+      'Current CFPB source checks confirm that APR and interest rate are different, and Regulation Z APR disclosure rules can depend on finance charges, payment timing, rounding, and tolerances.',
+      'The calculator estimates the scheduled payment from principal and note rate, subtracts upfront fees from amount received, then solves the APR-style rate implied by that payment stream.',
     ],
     improvements: [
-      'Added APR-specific guide detail and manually checked solver behavior, fee handling, examples, FAQ cautions, CFPB source coverage, related tools, SEO copy, and privacy behavior.',
+      'Added APR-specific SEO title and description, DataForSEO-backed aliases, exact 9.30%, 10.16%, and 6.70% examples, input explanations, priority FAQs, source-backed trust block, updated guide walkthrough, credit-card APR caution, specific image alt/caption text, and clearer result notes.',
     ],
     followUps: [
       'Add an official-disclosure checklist later without implying the site can replace lender APR disclosures.',
@@ -7868,7 +7868,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['apr-calculator', 'apr calculator'])) {
-      return sourceBackstop([cfpbAprVsInterest, cfpbApr]);
+      return sourceBackstop([cfpbAprVsInterest, cfpbApr, cfpbPersonalInstallmentFees]);
     }
 
     if (includesAny(key, ['fha-loan', 'fha loan'])) {

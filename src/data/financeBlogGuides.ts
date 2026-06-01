@@ -1078,7 +1078,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'apr-calculator') {
-    return [sourceLinks.cfpbAprVsInterest, sourceLinks.cfpbApr];
+    return [sourceLinks.cfpbAprVsInterest, sourceLinks.cfpbApr, sourceLinks.cfpbPersonalInstallmentFees];
   }
 
   if (['auto-lease-calculator', 'lease-calculator'].includes(toolSlug)) {
@@ -3179,29 +3179,34 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'apr-calculator': {
-    summary: 'Learn how loan fees can make APR higher than the note interest rate.',
+    summary: 'Learn how loan fees can make APR higher than the note rate.',
     purpose:
-      'The APR Calculator estimates a rough annual percentage rate from the payment stream and the amount actually received after fees. It is a comparison tool, not an official disclosure.',
+      'The APR Calculator estimates a simplified APR-style rate from the payment stream and the amount actually received after fees. It is useful for fixed loan comparisons, but it is not an official disclosure.',
     enter: [
-      'Enter the loan amount, note rate, term, and finance charges or fees.',
-      'Use fees that reduce what you effectively receive or raise the borrowing cost.',
-      'Keep the note rate separate from APR. The tool solves the APR-style rate after estimating the scheduled payment.',
+      'Enter the loan amount, note rate, term, and upfront finance charges or fees.',
+      'Use fees that reduce what you effectively receive, such as a simple origination-fee comparison.',
+      'Keep the note rate separate from APR. The calculator solves the APR-style rate after estimating the scheduled payment.',
     ],
     example: [
-      '$20,000 at an 8% note rate with $600 in fees produces a payment from the full $20,000 loan.',
-      'Then the calculator treats the borrower as receiving $19,400 and solves the rate implied by making that same payment.',
+      '$20,000 at an 8% note rate for 5 years with $600 in fees produces a payment of about $405.53 from the full $20,000 loan.',
+      'Then the calculator treats the borrower as receiving $19,400 and solves the rate implied by making that same payment. In this example, the APR estimate is about 9.30%.',
     ],
     read: [
       'Estimated APR is the main comparison number.',
       'Amount received shows why fees can raise APR even when the note rate stays the same.',
-      'Monthly payment comes from the note rate and full principal in this simplified model.',
+      'Monthly payment comes from the note rate and full principal in this simplified fixed-payment model.',
     ],
     mistakes: [
       'Do not treat this as a Truth in Lending disclosure.',
-      'Do not enter fees that are not finance charges unless that is the comparison you intentionally want.',
+      'Do not enter costs that are not finance charges unless that is the comparison you intentionally want.',
       'Do not compare two loans by note rate alone when one has higher fees.',
+      'Do not use this as a credit card APR calculator. Cards can have daily balance methods, grace periods, promotional APRs, and separate cash-advance rules.',
     ],
-    next: ['Use Loan Calculator for the basic payment.', 'Use Personal Loan Calculator if origination fees reduce cash received.'],
+    next: [
+      'Use Loan Calculator for the basic payment.',
+      'Use Personal Loan Calculator if origination fees reduce cash received.',
+      'Use Interest Rate Calculator when you know payment, amount financed, and term but not the rate.',
+    ],
   },
   'fha-loan-calculator': {
     summary: 'Estimate an FHA-style payment with down payment, upfront MIP, monthly MIP, tax, and insurance.',

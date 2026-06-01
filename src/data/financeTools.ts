@@ -1343,26 +1343,68 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'apr-calculator',
     name: 'APR Calculator',
-    summary: 'Estimate APR from loan amount, note rate, term, and finance charges.',
+    summary: 'Estimate loan APR from amount borrowed, note rate, term, and upfront finance charges.',
     description:
-      'Use this free APR calculator to estimate an approximate annual percentage rate from loan amount, note rate, repayment term, and entered finance charges.',
+      'Use this free APR calculator to estimate how upfront finance charges can make a fixed loan cost more than the note rate suggests.',
+    seoTitle: 'APR Calculator | Loan APR With Fees',
+    seoDescription:
+      'Estimate loan APR from amount borrowed, note rate, term, and upfront fees. See amount received, monthly payment, APR limits, and disclosure cautions.',
     icon: 'calculator-rate',
+    aliases: [
+      'apr calculator',
+      'loan apr calculator',
+      'apr calculator personal loan',
+      'car apr calculator',
+      'apr formula calculator',
+      'apr calculator with fees',
+    ],
     formula:
-      'The calculator estimates the scheduled payment at the note rate, subtracts entered fees from amount received, then solves the annualized rate implied by that payment stream.',
+      'The calculator estimates the scheduled payment at the note rate, subtracts entered fees from the amount received, then solves the annualized rate implied by that same payment stream.',
     limit:
-      'This is not an official Truth in Lending disclosure. APR rules can include specific finance charges, timing rules, tolerances, and lender disclosures.',
+      'This is not an official Truth in Lending disclosure. APR rules can include specific finance charges, payment timing, prepaid interest, rounding, tolerances, and lender disclosures.',
     useCases: [
-      'Estimate how fees can raise APR above note rate.',
-      'Compare loan offers with different fees.',
-      'See amount received after finance charges.',
-      'Prepare questions before reading official disclosures.',
+      'Estimate how upfront loan fees can raise APR above the note rate.',
+      'Compare fixed-payment loan offers that have different fees.',
+      'See the amount received after finance charges are subtracted.',
+      'Prepare better questions before reading a Loan Estimate or lender disclosure.',
     ],
     examples: [
-      { label: 'Personal loan APR', expression: '$20,000 at 8% with $600 fees', result: 'APR estimate' },
-      { label: 'Low fee', expression: '$12,000 at 9.5% with $150 fees', result: 'Smaller APR gap' },
-      { label: 'Large loan', expression: '$250,000 mortgage with $5,000 fees', result: 'APR approximation' },
+      { label: 'Personal loan APR', expression: '$20,000 at 8% for 5 years with $600 fees', result: 'About 9.30% APR, $405.53/month, and $19,400 received' },
+      { label: 'Low fee', expression: '$12,000 at 9.5% for 4 years with $150 fees', result: 'About 10.16% APR and $11,850 received' },
+      { label: 'Large loan', expression: '$250,000 at 6.5% for 30 years with $5,000 fees', result: 'About 6.70% APR and $245,000 received' },
     ],
     relatedSlugs: ['loan-calculator', 'interest-rate-calculator', 'personal-loan-calculator'],
+    inputExplanations: [
+      { term: 'Loan amount', meaning: 'the full principal used to calculate the scheduled payment.' },
+      { term: 'Note rate', meaning: 'the interest rate on the loan note, before this page adjusts for upfront fees.' },
+      { term: 'Term', meaning: 'the fixed repayment length in years. The calculator turns this into monthly payments.' },
+      { term: 'Finance charges / fees', meaning: 'upfront costs you want to treat as reducing the amount received, such as an origination fee in a simple comparison.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Why is APR higher than the note rate?',
+        answer:
+          'APR can be higher when fees reduce the money you effectively receive while the payment is still based on the larger loan amount. That is why the calculator shows both amount received and monthly payment.',
+      },
+      {
+        question: 'Is this the official APR on my loan?',
+        answer:
+          'No. Official APR disclosures follow lender and Regulation Z rules. This page is a simplified fixed-payment estimate for learning how fees can change the yearly cost.',
+      },
+      {
+        question: 'Should I use this for credit card APR?',
+        answer:
+          'Not as the main tool. Credit cards can use daily balance methods, grace periods, cash advance APRs, promotional APRs, penalty APRs, and fees. Use this page for fixed loan examples, then check the actual card terms.',
+      },
+    ],
+    formulaCheck:
+      'For the default example, the note-rate payment is about $405.53 per month. If $600 in fees leaves $19,400 received, that same payment stream solves to about 9.30% APR.',
+    resultReading:
+      'Start with estimated APR, then compare it with note rate, fees included, amount received, and monthly payment. A larger gap usually means the fees matter more.',
+    doubleCheck:
+      'Check whether the fee is actually a finance charge, whether it is paid upfront or financed, and whether the loan has prepaid interest, points, insurance, variable rates, or lender-specific APR rules.',
+    limitFollowup:
+      'Use the lender Loan Estimate, Truth in Lending disclosure, Closing Disclosure, or written loan agreement for the official APR. This calculator is only a planning estimate.',
   },
   {
     slug: 'fha-loan-calculator',

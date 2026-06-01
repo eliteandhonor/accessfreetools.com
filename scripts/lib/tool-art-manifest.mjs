@@ -448,6 +448,18 @@ const toolArtMetadataOverrides = {
         'ROI Calculator guide artwork supports the walkthrough by showing cost versus return as a balance, with separate visual pieces for starting money, ending value, costs, gain, and limits.',
     },
   },
+  'apr-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing a loan box, fee icons, monthly payment cards, a note-rate gauge, and a higher APR-style gauge for a fixed loan with upfront charges.',
+      caption:
+        'APR Calculator artwork matches the live workflow: loan amount, note rate, term, upfront fees, amount received, monthly payment, and estimated APR.',
+    },
+    guide: {
+      alt: 'Smoke mascot pointing at two fixed-loan panels where one loan has no upfront fee and the other has fee icons reducing the amount received before the APR gauge rises.',
+      caption:
+        'APR Calculator guide artwork supports the walkthrough by showing why upfront finance charges can make APR higher than the note rate in a fixed-payment loan comparison.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',
