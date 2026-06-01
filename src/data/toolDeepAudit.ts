@@ -616,6 +616,21 @@ const irsPublication523 = {
   label: 'IRS Publication 523: Selling Your Home',
 };
 
+const irsRentalTopic414 = {
+  href: 'https://www.irs.gov/taxtopics/tc414',
+  label: 'IRS Topic 414: Rental income and expenses',
+};
+
+const irsPublication527 = {
+  href: 'https://www.irs.gov/publications/p527',
+  label: 'IRS Publication 527: Residential Rental Property',
+};
+
+const fannieRentalIncome = {
+  href: 'https://selling-guide.fanniemae.com/sel/b3-3.8-01/rental-income',
+  label: 'Fannie Mae Selling Guide: Rental income',
+};
+
 const cfpbServicerRules = {
   href: 'https://www.consumerfinance.gov/consumer-tools/mortgages/your-mortgage-servicer-must-comply-with-federal-rules/',
   label: 'CFPB: Mortgage servicer rules',
@@ -3489,17 +3504,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'rental-property-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-5-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [cfpbMortgage, consumerBudgetWorksheet],
+    sources: [irsRentalTopic414, irsPublication527, fannieRentalIncome, cfpbMortgage],
     findings: [
-      'The calculator estimates mortgage payment, vacancy reserve, maintenance reserve, operating expenses, NOI, monthly cash flow, cap rate, and cash-on-cash return.',
-      'The guide now explains that NOI is before loan payment while cash flow is after the mortgage payment, preventing a common rental-property reading mistake.',
-      'The page warns that depreciation, income tax, repairs timing, tenant risk, rent control, property management contracts, and local landlord rules are outside the estimate.',
+      'DataForSEO showed "rental property calculator" intent plus ROI and spreadsheet modifiers, so the page now names cash flow, NOI, cap rate, cash-on-cash return, and deal-screening limits clearly.',
+      'Current IRS Topic 414 and Publication 527 source checks confirmed that rental income, expenses, depreciation, passive-loss rules, and records belong outside this quick cash-flow estimate.',
+      'Current Fannie Mae rental income guidance confirms lender rental-income treatment needs separate underwriting proof, so the page does not imply lender approval.',
     ],
     improvements: [
-      'Added rental-property-specific guide detail and manually checked cash-flow math, NOI and cap-rate wording, examples, FAQ cautions, source coverage, related tools, SEO copy, and privacy note.',
+      'Added rental-property-specific SEO title and description, exact shortfall/cash-flow examples, source-backed guide detail, trust block, priority FAQs, input explanations, specific image alt/caption text, and clearer privacy and result notes.',
     ],
     followUps: [
       'Add a repair-capex reserve mode only if it stays separate from normal operating expenses in the result labels.',
@@ -7836,7 +7851,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['rental-property', 'rental property'])) {
-      return sourceBackstop([cfpbMortgage, consumerBudgetWorksheet]);
+      return sourceBackstop([irsRentalTopic414, irsPublication527, fannieRentalIncome, cfpbMortgage]);
     }
 
     if (includesAny(key, ['irr-calculator', 'irr calculator'])) {

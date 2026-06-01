@@ -1147,26 +1147,68 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'rental-property-calculator',
     name: 'Rental Property Calculator',
-    summary: 'Estimate rental property cash flow, NOI, cap rate, and cash-on-cash return.',
+    summary: 'Estimate rental cash flow, monthly NOI, cap rate, cash-on-cash return, and mortgage impact.',
     description:
-      'Use this free rental property calculator to estimate mortgage payment, operating expenses, monthly cash flow, NOI, cap rate, and cash-on-cash return.',
+      'Use this free rental property calculator to estimate mortgage payment, vacancy reserve, operating expenses, monthly cash flow, NOI, cap rate, and cash-on-cash return.',
+    seoTitle: 'Rental Property Calculator | Cash Flow, NOI & ROI',
+    seoDescription:
+      'Estimate rental cash flow, monthly NOI, cap rate, cash-on-cash return, mortgage payment, vacancy reserve, and operating expenses.',
     icon: 'calculator-rent',
+    aliases: [
+      'rental property calculator',
+      'roi for rental property calculator',
+      'rental cash flow calculator',
+      'cap rate calculator',
+      'cash on cash return calculator',
+    ],
     formula:
-      'The calculator subtracts vacancy and operating expenses from rent for NOI, subtracts mortgage payment for cash flow, then compares NOI and cash flow with property price and cash invested.',
+      'The calculator subtracts vacancy reserve, taxes, insurance, maintenance reserve, and operating expenses from rent for NOI. It then subtracts the mortgage payment for cash flow and compares NOI and cash flow with property price and cash invested.',
     limit:
-      'This does not include depreciation, income tax, repairs timing, tenant risk, rent control, property management contracts, refinancing, or local landlord rules.',
+      'This is a screening estimate, not a tax return, lender worksheet, appraisal, or full underwriting model. It does not include depreciation, income tax, passive-loss rules, capex timing, rent control, tenant risk, property management contracts, refinancing, local landlord rules, or sale taxes.',
     useCases: [
       'Screen whether monthly rent covers estimated costs.',
       'Estimate cap rate before financing effects.',
       'Estimate cash-on-cash return after mortgage payment.',
-      'Compare vacancy, maintenance, and expense assumptions.',
+      'Compare vacancy, maintenance, tax, insurance, and expense assumptions.',
     ],
     examples: [
-      { label: 'Rental house', expression: '$300k property renting for $2,400/mo', result: 'Cash flow and cap rate' },
-      { label: 'Condo', expression: 'Condo rent with higher monthly expenses', result: 'Cash-flow estimate' },
-      { label: 'Higher rent', expression: '$420k property renting for $3,400/mo', result: 'Return estimate' },
+      { label: 'Rental house', expression: '$300k property, $2,400 rent, 25% down', result: '$129.35 monthly shortfall, 5.32% cap rate' },
+      { label: 'Condo', expression: '$220k condo, $1,750 rent, higher expenses', result: '$189.58 monthly shortfall, 4.65% cap rate' },
+      { label: 'Higher rent', expression: '$420k property, $4,200 rent, 25% down', result: '$552.08 monthly cash flow, 7.50% cap rate' },
     ],
     relatedSlugs: ['real-estate-calculator', 'mortgage-calculator', 'roi-calculator'],
+    inputExplanations: [
+      { term: 'Property price', meaning: 'the purchase price used for cap rate, loan amount, and maintenance reserve math.' },
+      { term: 'Down payment and closing costs', meaning: 'the cash invested before the property starts producing income.' },
+      { term: 'Monthly rent', meaning: 'expected rent before vacancy, repairs, taxes, insurance, and loan payment.' },
+      { term: 'Vacancy reserve', meaning: 'a simple rent haircut for empty months, late turnover, or rent that does not arrive on schedule.' },
+      { term: 'Operating expenses', meaning: 'monthly non-loan costs such as management, HOA, utilities paid by the owner, routine repairs, or service contracts.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is NOI the same as cash flow?',
+        answer:
+          'No. NOI is rent minus vacancy and operating expenses before the loan payment. Cash flow is what is left after the estimated mortgage payment too.',
+      },
+      {
+        question: 'Does this include rental-property taxes or depreciation?',
+        answer:
+          'No. IRS rental rules can include income, expenses, depreciation, passive-loss limits, personal-use rules, and recordkeeping. This page only screens the deal math.',
+      },
+      {
+        question: 'Can a lender use this rental income number?',
+        answer:
+          'No. Lenders use their own rental income rules, leases, history, appraisals, vacancy factors, and underwriting worksheets. Use this as a first-pass check only.',
+      },
+    ],
+    formulaCheck:
+      'For the default example: $2,400 rent - $120 vacancy - $260 operating costs - $300 property tax - $140 insurance - $250 maintenance reserve = $1,330 monthly NOI. The estimated mortgage payment is $1,459.35, so monthly cash flow is a $129.35 shortfall.',
+    resultReading:
+      'Monthly cash flow is the after-loan result. Monthly NOI shows the property before financing. Cap rate compares annual NOI with purchase price. Cash-on-cash return compares annual cash flow with down payment plus closing costs.',
+    doubleCheck:
+      'Check rent comps, property taxes, insurance quotes, HOA rules, management fees, repair history, capex needs, local rental rules, vacancy risk, and the written loan estimate before trusting a deal.',
+    limitFollowup:
+      'Use a tax pro, lender, property manager, lease data, inspection report, and local landlord rules before buying or financing a rental property. This calculator is for fast screening, not a final investment decision.',
   },
   {
     slug: 'irr-calculator',

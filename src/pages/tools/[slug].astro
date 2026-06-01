@@ -701,6 +701,13 @@ const financeToolInstructions = financeToolVariant
         'Enter pretax deductions per paycheck and rough federal, state, and local withholding percentages.',
         'Calculate, then compare gross pay, estimated take-home pay, employee FICA, and yearly pretax deductions. Use a paystub, employer payroll system, Form W-4, and IRS tools for exact withholding.',
       ]
+    : tool.slug === 'rental-property-calculator'
+    ? [
+        'Enter property price, down payment, mortgage rate, loan term, and expected monthly rent.',
+        'Add vacancy reserve, operating costs, property tax, insurance, maintenance reserve, and closing costs.',
+        'Calculate, then compare monthly NOI, mortgage payment, monthly cash flow, cap rate, and cash-on-cash return.',
+        'Check rent comps, tax records, insurance quotes, HOA rules, repair history, lender rules, and local landlord rules before trusting a deal.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
@@ -2153,6 +2160,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Sale-profit check'
               : tool.slug === 'take-home-paycheck-calculator'
               ? 'Paycheck estimate'
+              : tool.slug === 'rental-property-calculator'
+              ? 'Rental deal screen'
               : 'Estimate, not advice'}
           </span>
           <span>
@@ -2196,6 +2205,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Proceeds, ROI, multiple'
               : tool.slug === 'take-home-paycheck-calculator'
               ? 'Net pay, FICA, pretax'
+              : tool.slug === 'rental-property-calculator'
+              ? 'NOI, cap rate, cash flow'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -3521,6 +3532,24 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                   <a href="https://www.irs.gov/publications/p15t" rel="noreferrer" target="_blank">IRS Publication 15-T</a>,{' '}
                   <a href="https://www.irs.gov/taxtopics/tc751" rel="noreferrer" target="_blank">IRS Topic 751</a>, and{' '}
                   <a href="https://www.irs.gov/individuals/tax-withholding-estimator-faqs" rel="noreferrer" target="_blank">IRS Tax Withholding Estimator FAQs</a>.
+                </span>
+              </p>
+            </>
+          ) : tool.slug === 'rental-property-calculator' ? (
+            <>
+              <strong>Rental screen, not a full deal model</strong>
+              <p>
+                Use this to test rent, vacancy reserve, operating costs, property tax, insurance, maintenance reserve,
+                mortgage payment, monthly NOI, cap rate, monthly cash flow, and cash-on-cash return. It does not handle
+                depreciation, income tax, passive-loss limits, capex timing, rent control, tenant risk, appraisal rules,
+                lender rental-income worksheets, refinancing, or local landlord laws.
+              </p>
+              <p>
+                <span>
+                  Sources used for this review:{' '}
+                  <a href="https://www.irs.gov/taxtopics/tc414" rel="noreferrer" target="_blank">IRS Topic 414</a>,{' '}
+                  <a href="https://www.irs.gov/publications/p527" rel="noreferrer" target="_blank">IRS Publication 527</a>, and{' '}
+                  <a href="https://selling-guide.fanniemae.com/sel/b3-3.8-01/rental-income" rel="noreferrer" target="_blank">Fannie Mae rental income guidance</a>.
                 </span>
               </p>
             </>

@@ -139,6 +139,18 @@ const sourceLinks = {
     href: 'https://www.irs.gov/publications/p523',
     label: 'IRS Publication 523: Selling Your Home',
   },
+  irsRentalTopic414: {
+    href: 'https://www.irs.gov/taxtopics/tc414',
+    label: 'IRS Topic 414: Rental income and expenses',
+  },
+  irsPublication527: {
+    href: 'https://www.irs.gov/publications/p527',
+    label: 'IRS Publication 527: Residential Rental Property',
+  },
+  fannieRentalIncome: {
+    href: 'https://selling-guide.fanniemae.com/sel/b3-3.8-01/rental-income',
+    label: 'Fannie Mae Selling Guide: Rental income',
+  },
   cfpbServicerRules: {
     href: 'https://www.consumerfinance.gov/consumer-tools/mortgages/your-mortgage-servicer-must-comply-with-federal-rules/',
     label: 'CFPB: Mortgage servicer rules',
@@ -1168,7 +1180,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'rental-property-calculator') {
-    return [sourceLinks.cfpbMortgage, sourceLinks.consumerBudgetWorksheet];
+    return [sourceLinks.irsRentalTopic414, sourceLinks.irsPublication527, sourceLinks.fannieRentalIncome, sourceLinks.cfpbMortgage];
   }
 
   if (toolSlug === 'fha-loan-calculator') {
@@ -3081,27 +3093,29 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Salary Calculator for annual-to-hourly comparisons.', 'Use Income Tax Calculator for a broader federal tax estimate.'],
   },
   'rental-property-calculator': {
-    summary: 'Learn how rent, vacancy, operating costs, mortgage payment, NOI, cap rate, and cash-on-cash return fit together.',
+    summary: 'Learn how rent, vacancy, operating costs, mortgage payment, NOI, cap rate, cash flow, and cash-on-cash return fit together.',
     purpose:
-      'The Rental Property Calculator screens a rental deal. It separates the property performance before financing from the cash flow after the mortgage payment.',
+      'The Rental Property Calculator screens a rental deal before you spend hours in a spreadsheet. It separates property performance before financing from the cash flow after the mortgage payment.',
     enter: [
-      'Enter property price, down payment, loan rate, loan term, and monthly rent.',
-      'Enter vacancy percent, operating expenses, property tax, insurance, maintenance reserve, and closing costs.',
-      'Use realistic monthly expense numbers. A rental can look good only because repairs or vacancy were left out.',
+      'Enter property price, down payment, mortgage rate, loan term, and monthly rent.',
+      'Enter vacancy percent, monthly operating expenses, property tax, insurance, maintenance reserve, and closing costs.',
+      'Use boring, realistic numbers. A rental can look amazing only because vacancy, repairs, HOA, or management costs were left out.',
     ],
     example: [
-      '$300,000 property with $2,400 rent, vacancy reserve, expenses, taxes, insurance, maintenance, and a mortgage creates monthly NOI first.',
-      'The calculator subtracts mortgage payment from NOI for cash flow, then calculates cap rate and cash-on-cash return.',
+      '$300,000 property, $75,000 down, 6.75% loan, and $2,400 rent starts with a $225,000 mortgage.',
+      'After $120 vacancy, $260 operating costs, $300 property tax, $140 insurance, and $250 maintenance reserve, monthly NOI is $1,330. The estimated mortgage payment is $1,459.35, so the example shows a $129.35 monthly shortfall.',
     ],
     read: [
       'NOI means net operating income before loan payment.',
       'Cap rate compares annual NOI with property price before financing.',
-      'Cash-on-cash return compares annual cash flow after mortgage payment with cash invested.',
+      'Cash-on-cash return compares annual cash flow after the mortgage payment with down payment plus closing costs.',
+      'A negative cash-flow result is not a bug. It means the rent and assumptions you entered do not cover the estimated loan payment and operating costs.',
     ],
     mistakes: [
-      'Do not forget repairs, vacancy, property management, HOA, utilities, legal costs, local rules, rent control, and tenant risk.',
+      'Do not forget repairs, vacancy, property management, HOA, utilities, legal costs, capex reserves, local rules, rent control, and tenant risk.',
       'Do not treat cap rate and cash-on-cash return as the same thing.',
-      'Do not use this as tax advice because depreciation and tax treatment are not included.',
+      'Do not use this as tax advice. IRS rental rules can involve income, expenses, depreciation, personal-use rules, passive-loss limits, and records this quick calculator does not handle.',
+      'Do not use this as lender approval. Lenders use their own rental income worksheets, leases, history, appraisal notes, vacancy factors, and underwriting rules.',
     ],
     next: ['Use Real Estate Calculator for a sale-profit estimate.', 'Use Mortgage Calculator to inspect the loan payment separately.'],
   },

@@ -1878,7 +1878,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Rental Property Calculator',
     buttonLabel: 'Estimate rental',
     emptyHistory: 'Recent rental property estimates will appear here.',
-    privacyNote: 'Rental estimates are simplified and do not include tax depreciation, repairs timing, financing changes, or local landlord rules.',
+    privacyNote: 'Rental estimates stay in this browser tab. They are quick deal-screening math, not tax depreciation, lender underwriting, appraisal, or landlord-law advice.',
     modes: [
       {
         id: 'rental-property',
@@ -1899,9 +1899,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { propertyPrice: '300000', downPayment: '75000', annualRatePercent: '6.75', loanYears: '30', monthlyRent: '2400', vacancyPercent: '5', monthlyOperatingExpenses: '260', annualPropertyTax: '3600', monthlyInsurance: '140', maintenancePercent: '1', closingCosts: '7000' },
         examples: [
-          { label: 'Rental house', inputs: { propertyPrice: '300000', downPayment: '75000', annualRatePercent: '6.75', loanYears: '30', monthlyRent: '2400', vacancyPercent: '5', monthlyOperatingExpenses: '260', annualPropertyTax: '3600', monthlyInsurance: '140', maintenancePercent: '1', closingCosts: '7000' } },
-          { label: 'Condo', inputs: { propertyPrice: '220000', downPayment: '55000', annualRatePercent: '6.5', loanYears: '30', monthlyRent: '1750', vacancyPercent: '6', monthlyOperatingExpenses: '350', annualPropertyTax: '2400', monthlyInsurance: '95', maintenancePercent: '0.8', closingCosts: '5000' } },
-          { label: 'Higher rent', inputs: { propertyPrice: '420000', downPayment: '105000', annualRatePercent: '6.9', loanYears: '30', monthlyRent: '3400', vacancyPercent: '5', monthlyOperatingExpenses: '400', annualPropertyTax: '5200', monthlyInsurance: '180', maintenancePercent: '1', closingCosts: '9500' } },
+          { label: '$129.35 monthly shortfall', inputs: { propertyPrice: '300000', downPayment: '75000', annualRatePercent: '6.75', loanYears: '30', monthlyRent: '2400', vacancyPercent: '5', monthlyOperatingExpenses: '260', annualPropertyTax: '3600', monthlyInsurance: '140', maintenancePercent: '1', closingCosts: '7000' } },
+          { label: '$189.58 condo shortfall', inputs: { propertyPrice: '220000', downPayment: '55000', annualRatePercent: '6.5', loanYears: '30', monthlyRent: '1750', vacancyPercent: '6', monthlyOperatingExpenses: '350', annualPropertyTax: '2400', monthlyInsurance: '95', maintenancePercent: '0.8', closingCosts: '5000' } },
+          { label: '$552.08 monthly cash flow', inputs: { propertyPrice: '420000', downPayment: '105000', annualRatePercent: '6.9', loanYears: '30', monthlyRent: '4200', vacancyPercent: '5', monthlyOperatingExpenses: '400', annualPropertyTax: '5200', monthlyInsurance: '180', maintenancePercent: '1', closingCosts: '9500' } },
         ],
       },
     ],
@@ -4177,11 +4177,12 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           { label: 'Cash-on-cash return', value: percent(result.cashOnCashReturnPercent) },
         ],
         steps: [
-          'Subtract vacancy reserve and operating costs from rent to estimate NOI.',
+          'Subtract vacancy reserve, taxes, insurance, maintenance reserve, and operating costs from rent to estimate NOI.',
           'Estimate mortgage payment from loan amount, rate, and term.',
           'Subtract mortgage payment from NOI for cash flow.',
           'Compare NOI with property price and annual cash flow with cash invested.',
         ],
+        note: 'This does not include depreciation, income tax, passive-loss rules, capex timing, rent control, tenant quality, or lender rental-income worksheets.',
       };
     }
     case 'irr': {

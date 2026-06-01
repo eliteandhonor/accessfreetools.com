@@ -412,6 +412,18 @@ const toolArtMetadataOverrides = {
         'Take-Home-Paycheck Calculator guide artwork supports the walkthrough by showing salary, pay periods, deductions, tax estimates, FICA, and take-home pay as separate steps.',
     },
   },
+  'rental-property-calculator': {
+    tool: {
+      alt: 'Smoke mascot pointing between a rental house, tenant icons, rent coin stacks, expense icons, a gauge, NOI bowl, cash-flow rows, and a final money bag.',
+      caption:
+        'Rental Property Calculator artwork matches the live workflow: property price, rent, vacancy, operating costs, mortgage payment, NOI, cap rate, cash flow, and cash-on-cash return.',
+    },
+    guide: {
+      alt: 'Smoke mascot beside a rental-property flow with house cards, rent dots, expense buckets, loan columns, NOI bowl, coin stacks, and return gauge.',
+      caption:
+        'Rental Property Calculator guide artwork supports the walkthrough by showing rent, vacancy, expenses, loan payment, NOI, cash flow, cap rate, and cash-on-cash return as separate steps.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',
