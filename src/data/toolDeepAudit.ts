@@ -611,6 +611,11 @@ const cfpbPayoffAmount = {
   label: 'CFPB: Payoff amount vs. current balance',
 };
 
+const irsPublication523 = {
+  href: 'https://www.irs.gov/publications/p523',
+  label: 'IRS Publication 523: Selling Your Home',
+};
+
 const cfpbServicerRules = {
   href: 'https://www.consumerfinance.gov/consumer-tools/mortgages/your-mortgage-servicer-must-comply-with-federal-rules/',
   label: 'CFPB: Mortgage servicer rules',
@@ -3446,20 +3451,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'real-estate-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-5-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-01',
+    reviewedOn: '2026-06-01',
     scope: commonMathScope,
-    sources: [cfpbMortgage, investorCompound],
+    sources: [cfpbPayoffAmount, cfpbClosingDisclosure, irsPublication523, cfpbMortgage],
     findings: [
       'The calculator builds cash invested from down payment, buying costs, and improvements, then subtracts selling costs and loan payoff from sale price to estimate net sale proceeds.',
       'Profit, ROI, and equity multiple are labeled separately so a user can distinguish dollar gain from percentage return and proceeds multiple.',
-      'The guide now warns that tax basis, capital gains tax, depreciation, depreciation recapture, transfer taxes, and legal costs are not included.',
+      'DataForSEO showed the seed query "real estate calculator" also pulls mortgage-payment and rental/investment intent, so this page now states clearly that it is a sale-profit and net-proceeds calculator, not a mortgage payment, rental cash-flow, or capital-gains calculator.',
     ],
     improvements: [
-      'Added real-estate-specific guide detail and manually checked sale-profit math, loan-payoff language, examples, FAQ cautions, source coverage, related tools, SEO copy, and privacy note.',
+      'Rewrote title, meta description, examples, FAQ cautions, guide intro, quick start, result-reading language, trust block, source links, privacy note, calculator examples, and image alt/caption text around sale price, selling costs, loan payoff, net sale proceeds, cash invested, profit, ROI, and equity multiple.',
     ],
     followUps: [
-      'Add sale-tax and capital-gains modes only when the site has tax-law update coverage and stronger jurisdiction wording.',
+      'Add separate rental, mortgage-payment, tax-basis, and capital-gains modes only when each mode has its own inputs, source notes, jurisdiction wording, and proof gate.',
     ],
   },
   {
@@ -7823,7 +7828,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['real-estate', 'real estate'])) {
-      return sourceBackstop([cfpbMortgage, investorCompound]);
+      return sourceBackstop([cfpbPayoffAmount, cfpbClosingDisclosure, irsPublication523, cfpbMortgage]);
     }
 
     if (includesAny(key, ['take-home-paycheck', 'take home paycheck', 'paycheck'])) {

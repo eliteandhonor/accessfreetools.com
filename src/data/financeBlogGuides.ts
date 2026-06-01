@@ -135,6 +135,10 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-payoff-amount-and-is-it-the-same-as-my-current-balance-en-205/',
     label: 'CFPB: Payoff amount vs. current balance',
   },
+  irsPublication523: {
+    href: 'https://www.irs.gov/publications/p523',
+    label: 'IRS Publication 523: Selling Your Home',
+  },
   cfpbServicerRules: {
     href: 'https://www.consumerfinance.gov/consumer-tools/mortgages/your-mortgage-servicer-must-comply-with-federal-rules/',
     label: 'CFPB: Mortgage servicer rules',
@@ -1160,7 +1164,7 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'real-estate-calculator') {
-    return [sourceLinks.cfpbMortgage, sourceLinks.investorCompound];
+    return [sourceLinks.cfpbPayoffAmount, sourceLinks.cfpbClosingDisclosure, sourceLinks.irsPublication523, sourceLinks.cfpbMortgage];
   }
 
   if (toolSlug === 'rental-property-calculator') {
@@ -3024,29 +3028,30 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use IRA Calculator for contribution-style planning.', 'Use Retirement Calculator for a wider retirement savings estimate.'],
   },
   'real-estate-calculator': {
-    summary: 'Learn how purchase price, sale price, cash invested, selling costs, and loan payoff affect property profit and ROI.',
+    summary: 'Learn how purchase price, sale price, cash invested, selling costs, and loan payoff affect sale profit, net proceeds, and ROI.',
     purpose:
-      'The Real Estate Calculator is for a sale scenario. It compares money put into a property with estimated net sale proceeds so profit, ROI, and equity multiple are easier to read.',
+      'The Real Estate Calculator is for a property sale scenario. It keeps the sale math simple: what cash went in, what cash might come out after selling costs and loan payoff, and what that means for profit, ROI, and equity multiple.',
     enter: [
-      'Enter purchase price, down payment, buying costs, and improvements to build cash invested.',
-      'Enter selling price, selling costs, and loan payoff to estimate net sale proceeds.',
-      'If loan payoff is blank, use a careful estimate because it strongly changes the result.',
+      'Enter purchase price, cash down payment, buying costs, and improvements to build the cash invested line.',
+      'Enter selling price, selling costs, and loan payoff at sale to estimate net sale proceeds.',
+      'Use a real payoff quote when you have one. A payoff amount can differ from the current balance because interest and timing still matter.',
     ],
     example: [
-      '$350,000 purchase, $70,000 down, $20,000 improvements, $430,000 sale price, costs, and payoff are put into one sale picture.',
-      'The calculator subtracts selling costs and payoff from sale price, then compares the remainder with cash invested.',
+      '$350,000 purchase, $70,000 down, $8,000 buying costs, $15,000 improvements, $430,000 sale price, $25,800 selling costs, and $260,000 payoff make $93,000 cash invested.',
+      'Net sale proceeds are $430,000 - $25,800 - $260,000 = $144,200, so estimated profit is $51,200 before tax and other outside items.',
     ],
     read: [
       'Net sale proceeds is what is left after selling costs and payoff in this simplified model.',
       'Profit is net sale proceeds minus cash invested.',
       'ROI percent compares profit with cash invested, while equity multiple compares proceeds with cash invested.',
+      'A higher sale price can still leave a small profit if the payoff, seller credits, repairs, or closing costs are high.',
     ],
     mistakes: [
-      'Do not use this as a tax-basis or capital-gains calculator.',
-      'Do not forget depreciation, depreciation recapture, transfer taxes, agent commissions, legal costs, refinancing, rent history, and repairs.',
+      'Do not use this as a tax-basis or capital-gains calculator. IRS home-sale rules can depend on adjusted basis, ownership and use tests, prior exclusions, rental use, and depreciation.',
+      'Do not forget payoff quote timing, transfer taxes, agent agreements, seller credits, escrow prorations, attorney fees, rent history, refinancing, repairs, and local rules.',
       'Do not compare two properties unless cash invested is measured the same way.',
     ],
-    next: ['Use Rental Property Calculator for monthly cash-flow screening.', 'Use ROI Calculator for a simpler investment return check.'],
+    next: ['Use Rental Property Calculator for monthly cash-flow screening.', 'Use Mortgage Calculator to inspect the loan payment separately.'],
   },
   'take-home-paycheck-calculator': {
     summary: 'Learn how salary, pay frequency, pretax deductions, estimated taxes, and FICA affect net pay per paycheck.',

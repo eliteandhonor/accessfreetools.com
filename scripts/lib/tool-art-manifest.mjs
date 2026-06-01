@@ -388,6 +388,18 @@ const toolArtMetadataOverrides = {
         'RMD Calculator guide artwork supports the walkthrough by tying the visible savings jar, worksheet, and withdrawal bowl to the RMD balance, age, table-factor, and limit checks.',
     },
   },
+  'real-estate-calculator': {
+    tool: {
+      alt: 'Smoke mascot linking two houses, coin stacks, a calculator, a sale document, a handshake, and a rising chart for a property sale profit estimate.',
+      caption:
+        'Real Estate Calculator artwork matches the sale-profit workflow: purchase price, cash invested, selling price, selling costs, loan payoff, net proceeds, profit, ROI, and equity multiple.',
+    },
+    guide: {
+      alt: 'Smoke mascot pointing through a property sale flow with a house, coin stacks, cost blocks, proceeds bowl, rising chart, shielded home, and final document.',
+      caption:
+        'Real Estate Calculator guide artwork supports the walkthrough by showing the visible house, cost blocks, proceeds bowl, chart, and document behind the sale-profit and limit checks.',
+    },
+  },
   'depreciation-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a depreciation worksheet with $12,000 cost, $2,000 salvage value, 5-year useful life, 2-year age, $4,000 accumulated depreciation, and $8,000 book value.',

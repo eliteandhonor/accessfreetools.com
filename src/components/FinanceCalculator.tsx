@@ -1822,8 +1822,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
   'real-estate': {
     title: 'Real Estate Calculator',
     buttonLabel: 'Estimate return',
-    emptyHistory: 'Recent real estate return estimates will appear here.',
-    privacyNote: 'Real estate estimates are simplified and do not include taxes, depreciation recapture, financing changes, or local transaction rules.',
+    emptyHistory: 'Recent property sale estimates will appear here.',
+    privacyNote: 'Property sale estimates stay in this browser tab and do not include tax basis, capital gains tax, depreciation recapture, escrow prorations, or local transfer rules.',
     modes: [
       {
         id: 'real-estate',
@@ -1840,9 +1840,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { purchasePrice: '350000', downPayment: '70000', buyingCosts: '8000', improvements: '15000', sellingPrice: '430000', sellingCosts: '25800', loanPayoff: '260000' },
         examples: [
-          { label: 'Home sale', inputs: { purchasePrice: '350000', downPayment: '70000', buyingCosts: '8000', improvements: '15000', sellingPrice: '430000', sellingCosts: '25800', loanPayoff: '260000' } },
-          { label: 'Renovation', inputs: { purchasePrice: '240000', downPayment: '48000', buyingCosts: '6000', improvements: '35000', sellingPrice: '330000', sellingCosts: '19800', loanPayoff: '185000' } },
-          { label: 'Small gain', inputs: { purchasePrice: '500000', downPayment: '100000', buyingCosts: '12000', improvements: '10000', sellingPrice: '545000', sellingCosts: '32700', loanPayoff: '382000' } },
+          { label: '$51,200 home sale profit', inputs: { purchasePrice: '350000', downPayment: '70000', buyingCosts: '8000', improvements: '15000', sellingPrice: '430000', sellingCosts: '25800', loanPayoff: '260000' } },
+          { label: '$36,200 fix-up profit', inputs: { purchasePrice: '240000', downPayment: '48000', buyingCosts: '6000', improvements: '35000', sellingPrice: '330000', sellingCosts: '19800', loanPayoff: '185000' } },
+          { label: '$8,300 thin margin', inputs: { purchasePrice: '500000', downPayment: '100000', buyingCosts: '12000', improvements: '10000', sellingPrice: '545000', sellingCosts: '32700', loanPayoff: '382000' } },
         ],
       },
     ],
@@ -4112,12 +4112,12 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         metrics: [
           { label: 'Cash invested', value: money(result.cashInvested) },
           { label: 'Net sale proceeds', value: money(result.netSaleProceeds) },
-          { label: 'ROI', value: percent(result.roiPercent) },
-          { label: 'Equity multiple', value: `${formatCalculatorNumber(result.equityMultiple)}x` },
+          { label: 'ROI', value: roundedPercent(result.roiPercent, 1) },
+          { label: 'Equity multiple', value: `${formatCalculatorNumber(Number(result.equityMultiple.toFixed(2)))}x` },
         ],
         steps: [
           'Add down payment, buying costs, and improvements for cash invested.',
-          'Subtract selling costs and loan payoff from sale price.',
+          'Subtract selling costs and loan payoff from the selling price for net sale proceeds.',
           'Compare net sale proceeds with cash invested.',
         ],
       };

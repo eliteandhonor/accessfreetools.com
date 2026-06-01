@@ -1014,28 +1014,69 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'real-estate-calculator',
     name: 'Real Estate Calculator',
-    summary: 'Estimate property sale profit, ROI, and equity multiple from purchase and sale numbers.',
+    summary: 'Estimate sale profit, net proceeds, ROI, and equity multiple from a property sale scenario.',
     description:
-      'Use this free real estate calculator to estimate property sale profit, ROI, net sale proceeds, and equity multiple from purchase, cash invested, selling costs, and loan payoff.',
+      'Use this free real estate calculator to estimate sale profit, net sale proceeds, ROI, and equity multiple from purchase price, cash invested, selling costs, and loan payoff.',
+    seoTitle: 'Real Estate Calculator | Sale Profit, ROI & Net Proceeds',
     seoDescription:
-      'Estimate property profit, ROI, net sale proceeds, and equity multiple from purchase, sale, costs, cash invested, and loan payoff.',
+      'Estimate property sale profit, net sale proceeds, ROI, and equity multiple from purchase price, down payment, improvements, selling costs, and loan payoff.',
     icon: 'calculator-house-affordability',
+    aliases: [
+      'home sale profit calculator',
+      'net proceeds calculator',
+      'property ROI calculator',
+      'real estate sale calculator',
+    ],
     formula:
-      'The calculator adds cash invested, subtracts selling costs and loan payoff from sale price, then compares net sale proceeds with cash invested.',
+      'The calculator adds down payment, buying costs, and improvements for cash invested. It subtracts selling costs and loan payoff from selling price for net sale proceeds, then compares proceeds with cash invested.',
     limit:
-      'This does not include tax basis, depreciation, depreciation recapture, capital gains tax, rent history, refinancing, local transfer taxes, or legal costs.',
+      'This is a sale-profit estimate, not a tax return, closing statement, appraisal, or investment offer. It does not calculate adjusted tax basis, depreciation, depreciation recapture, capital gains tax, rent history, refinancing, local transfer taxes, escrow prorations, or legal costs.',
     useCases: [
-      'Estimate profit from a property sale.',
-      'Include improvements, buying costs, selling costs, and loan payoff.',
-      'Compare ROI against cash invested.',
-      'Screen a real estate scenario before a full spreadsheet.',
+      'Estimate what might be left after selling costs and mortgage payoff.',
+      'Include down payment, buying costs, improvements, sale price, selling costs, and loan payoff.',
+      'Compare sale profit with cash invested.',
+      'Screen a home sale or fix-up resale before building a full spreadsheet.',
     ],
     examples: [
-      { label: 'Home sale', expression: '$350k purchase to $430k sale', result: 'Estimated profit and ROI' },
-      { label: 'Renovation', expression: 'Purchase plus improvements', result: 'Cash invested comparison' },
-      { label: 'Small gain', expression: 'Higher loan payoff and selling costs', result: 'Net proceeds check' },
+      { label: 'Home sale', expression: '$350k purchase to $430k sale', result: '$51,200 estimated profit' },
+      { label: 'Fix-up resale', expression: '$48k down, $35k improvements, $330k sale', result: '$36,200 estimated profit' },
+      { label: 'Thin margin', expression: '$545k sale with $382k payoff', result: '$8,300 estimated profit' },
     ],
     relatedSlugs: ['rental-property-calculator', 'mortgage-calculator', 'rent-vs-buy-calculator'],
+    inputExplanations: [
+      { term: 'Purchase price', meaning: 'the price paid for the property, before later improvements or sale costs.' },
+      { term: 'Cash down payment', meaning: 'your cash put into the purchase, not the whole loan amount.' },
+      { term: 'Buying costs', meaning: 'cash closing costs and purchase fees you want to count as part of your investment.' },
+      { term: 'Improvements', meaning: 'money spent on upgrades you want to count in the sale-profit check.' },
+      { term: 'Selling price', meaning: 'the expected sale price before selling costs and mortgage payoff.' },
+      { term: 'Selling costs', meaning: 'agent fees, seller credits, repairs, closing costs, or other sale costs you want to subtract.' },
+      { term: 'Loan payoff at sale', meaning: 'the mortgage payoff estimate, which can differ from the current balance because payoff quotes include timing and interest.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this a home sale net proceeds calculator?',
+        answer:
+          'Yes, for a simple scenario. Net sale proceeds means selling price minus selling costs minus loan payoff. It does not replace the Closing Disclosure, escrow sheet, payoff quote, or tax records.',
+      },
+      {
+        question: 'Is ROI based on the whole purchase price?',
+        answer:
+          'No. This page compares profit with cash invested: down payment, buying costs, and improvements. That is useful for a cash-on-cash style check, but it is not the same as return on the full property value.',
+      },
+      {
+        question: 'Does this calculate capital gains tax?',
+        answer:
+          'No. IRS home-sale rules can depend on adjusted basis, selling expenses, ownership and use tests, prior exclusions, rental use, depreciation, and filing status. Use this page for sale math only, then check tax rules separately.',
+      },
+    ],
+    formulaCheck:
+      'For the default example: cash invested is $70,000 + $8,000 + $15,000 = $93,000. Net sale proceeds are $430,000 - $25,800 - $260,000 = $144,200. Estimated profit is $144,200 - $93,000 = $51,200.',
+    resultReading:
+      'Estimated profit or loss is the main answer. Cash invested shows the money compared against the result. Net sale proceeds shows the simplified cash left after sale costs and loan payoff. ROI and equity multiple help compare scenarios, but only if you measure cash invested the same way each time.',
+    doubleCheck:
+      'Check the payoff quote date, selling-cost estimate, improvements total, whether buying costs belong in your investment basis, and whether taxes, rent history, or depreciation matter for the property.',
+    limitFollowup:
+      'Before using the result for a real sale, compare it with the lender payoff quote, settlement estimate, Closing Disclosure, local tax rules, agent agreement, and IRS Publication 523 if it is a home sale.',
   },
   {
     slug: 'take-home-paycheck-calculator',

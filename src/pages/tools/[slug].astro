@@ -687,6 +687,13 @@ const financeToolInstructions = financeToolVariant
         'Calculate, then compare estimated RMD, Uniform table factor, age used, and balance after RMD.',
         'Check IRS rules, your custodian statement, inherited-account status, spouse age rules, account aggregation, withholding, penalties, and first-year timing before acting.',
       ]
+    : tool.slug === 'real-estate-calculator'
+    ? [
+        'Enter the purchase price, down payment, buying costs, and improvements to build the cash invested line.',
+        'Enter the expected selling price, selling costs, and loan payoff at sale.',
+        'Calculate, then compare estimated profit, net sale proceeds, ROI, and equity multiple.',
+        'Check the payoff quote, Closing Disclosure, local transfer costs, agent agreement, tax basis, and IRS home-sale rules before relying on the result.',
+      ]
     : tool.slug === 'canadian-mortgage-calculator'
     ? [
         'Enter the property price, down payment, nominal annual rate, amortization years, and payment frequency.',
@@ -2135,6 +2142,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Claiming-age check'
               : tool.slug === 'rmd-calculator'
               ? 'IRS table check'
+              : tool.slug === 'real-estate-calculator'
+              ? 'Sale-profit check'
               : 'Estimate, not advice'}
           </span>
           <span>
@@ -2174,6 +2183,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? '62, FRA, or 70'
               : tool.slug === 'rmd-calculator'
               ? 'Balance, age, factor'
+              : tool.slug === 'real-estate-calculator'
+              ? 'Proceeds, ROI, multiple'
               : 'Payment or total shown'}
           </span>
           <span>Example inputs</span>
@@ -3463,6 +3474,24 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                   <a href="https://www.irs.gov/rmd" rel="noreferrer" target="_blank">IRS required minimum distributions</a>,{' '}
                   <a href="https://www.irs.gov/retirement-plans/retirement-plan-and-ira-required-minimum-distributions-faqs" rel="noreferrer" target="_blank">IRS RMD FAQs</a>, and{' '}
                   <a href="https://www.irs.gov/publications/p590b" rel="noreferrer" target="_blank">IRS Publication 590-B</a>.
+                </span>
+              </p>
+            </>
+          ) : tool.slug === 'real-estate-calculator' ? (
+            <>
+              <strong>Sale-profit estimate, not a closing statement</strong>
+              <p>
+                Use this to test purchase price, cash invested, selling price, selling costs, loan payoff, net sale
+                proceeds, profit, ROI, and equity multiple. It does not calculate adjusted tax basis, capital gains
+                tax, depreciation recapture, rental history, escrow prorations, local transfer taxes, legal fees, or
+                the exact cash-to-close number from a settlement agent.
+              </p>
+              <p>
+                <span>
+                  Sources used for this review:{' '}
+                  <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-payoff-amount-and-is-it-the-same-as-my-current-balance-en-205/" rel="noreferrer" target="_blank">CFPB payoff amount guidance</a>,{' '}
+                  <a href="https://www.consumerfinance.gov/owning-a-home/closing-disclosure/" rel="noreferrer" target="_blank">CFPB Closing Disclosure notes</a>, and{' '}
+                  <a href="https://www.irs.gov/publications/p523" rel="noreferrer" target="_blank">IRS Publication 523</a>.
                 </span>
               </p>
             </>
