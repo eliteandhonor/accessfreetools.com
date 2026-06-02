@@ -369,6 +369,18 @@ const sourceLinks = {
     href: 'https://openstax.org/books/physics/pages/19-1-ohms-law',
     label: 'OpenStax Physics: Ohm\'s law',
   },
+  openStaxElectricPower: {
+    href: 'https://openstax.org/books/college-physics/pages/20-4-electric-power-and-energy',
+    label: 'OpenStax College Physics: Electric power and energy',
+  },
+  nistAmpere: {
+    href: 'https://www.nist.gov/pml/weights-and-measures/si-units-ampere',
+    label: 'NIST: SI unit of electric current',
+  },
+  esfiExtensionCordSafety: {
+    href: 'https://www.esfi.org/extension-cord-safety-tips/',
+    label: 'Electrical Safety Foundation International: Extension cord safety tips',
+  },
   openStaxMolarity: {
     href: 'https://openstax.org/books/chemistry-2e/pages/3-3-molarity',
     label: 'OpenStax Chemistry 2e: Molarity',
@@ -1445,25 +1457,31 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.usaceVoltageDrop, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
   },
   'watts-to-amps-calculator': {
-    summary: 'Learn how watts, volts, phase type, and power factor turn into estimated current.',
+    summary: 'Learn how watts, volts, phase type, and power factor turn into an amp estimate.',
     purpose:
-      'The Watts to Amps Calculator helps you understand current draw from a power rating. It is useful for learning the relationship between watts and amps, but not for final circuit design.',
+      'The Watts to Amps Calculator helps you understand current draw from a power rating. It is useful for label reading, homework, and rough planning, but not for final circuit design.',
     enter: [
-      'Enter the device watts.',
-      'Enter the supply voltage.',
-      'Choose DC, single-phase AC, or three-phase AC, then enter power factor.',
+      'Enter the real power in watts, such as 1,500 W or 60 W.',
+      'Enter the supply voltage, such as 12 V, 120 V, 240 V, or 208 V.',
+      'Choose DC, single-phase AC, or three-phase AC, then enter power factor if the load is AC.',
     ],
     read: [
       'The main answer is estimated current in amps.',
       'Phase factor shows whether the calculator used a direct, single-phase, or three-phase formula.',
-      'Power factor explains why some AC loads draw more current for the same watts.',
+      'Power factor explains why some AC loads draw more current for the same real watts.',
     ],
     mistakes: [
       'Do not guess power factor for real equipment sizing.',
       'Do not use DC math on three-phase AC loads.',
-      'Do not choose breakers or wire from this estimate alone.',
+      'Do not choose breakers, wire, extension cords, or safety gear from this estimate alone.',
     ],
-    sources: [sourceLinks.inchWattsToAmps, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
+    sources: [
+      sourceLinks.openStaxElectricPower,
+      sourceLinks.openStaxOhmsLaw,
+      sourceLinks.nistAmpere,
+      sourceLinks.nistUnits,
+      sourceLinks.esfiExtensionCordSafety,
+    ],
   },
   'amps-to-watts-calculator': {
     summary: 'Learn how amps and volts become watts for DC, single-phase AC, and three-phase AC.',

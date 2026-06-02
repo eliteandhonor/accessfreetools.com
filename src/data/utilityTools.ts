@@ -1224,14 +1224,23 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'watts-to-amps-calculator',
     name: 'Watts to Amps Calculator',
     category: 'calculators',
-    summary: 'Convert watts to amps for DC, single-phase AC, and three-phase AC loads.',
+    summary: 'Convert watts to amps with voltage, phase type, and power factor.',
     description:
-      'Use this free watts to amps calculator to estimate current from power, voltage, phase type, and power factor.',
+      'Use this free watts to amps calculator to estimate current draw from real power, supply voltage, phase type, and power factor.',
+    seoTitle: 'Watts to Amps Calculator | W to A Current Estimate',
+    seoDescription:
+      'Convert watts to amps for DC, single-phase AC, and three-phase AC loads with voltage, power factor, formula steps, examples, and safety limits.',
     icon: 'calculator-watts-to-amps',
+    aliases: [
+      'W to A Calculator',
+      'Watts to Amperes Calculator',
+      'Current Draw Calculator',
+      'Electrical Watts to Amps Calculator',
+    ],
     formula:
-      'The calculator divides watts by volts for DC/single-phase loads, or by volts x sqrt(3) for three-phase loads, then includes power factor.',
+      'For DC and single-phase AC, amps = watts / (volts x power factor). For three-phase AC, amps = watts / (volts x sqrt(3) x power factor).',
     limit:
-      'This is formula math only. Real electrical work needs correct voltage, power factor, breaker, wire, code, and qualified review.',
+      'This is formula math for learning and planning. Real electrical work needs the equipment nameplate, correct voltage, power factor, breaker, wire, code rules, and qualified review.',
     inputExplanations: [
       { term: 'Watts', meaning: 'real power used by the device or load.' },
       { term: 'Volts', meaning: 'the supply voltage feeding the load.' },
@@ -1249,17 +1258,29 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'No. This helps you understand the math, but breaker and wire choices need code rules, equipment instructions, continuous-load rules, temperature, and qualified electrical review.',
       },
+      {
+        question: 'What formula should I use for three-phase watts to amps?',
+        answer:
+          'Use amps = watts / (volts x 1.732 x power factor). The 1.732 is the square root of 3, which is part of the three-phase power formula.',
+      },
+      {
+        question: 'Should I use rated watts or starting watts?',
+        answer:
+          'Use the value that matches your question. Rated watts estimate normal running current. Starting watts or motor inrush can be much higher, so do not use this simple result as a final safety decision.',
+      },
     ],
     useCases: [
       'Estimate current from a device watt rating.',
-      'Compare DC, single-phase, and three-phase examples.',
-      'Understand why AC power factor changes amps.',
-      'Check rough load math before using more detailed electrical tools.',
+      'Compare 12 V DC, 120 V single-phase, 240 V single-phase, and 208 V three-phase examples.',
+      'Understand why AC power factor changes the amp estimate.',
+      'Check rough load math before using detailed tools such as voltage drop or Ohm\'s law.',
+      'Read appliance or equipment labels more carefully before asking for qualified electrical help.',
     ],
     examples: [
       { label: '120 V heater', expression: '1,500 W, 120 V, power factor 1', result: '12.5 A' },
       { label: 'Single-phase motor', expression: '2,200 W, 240 V, PF 0.9', result: 'About 10.19 A' },
       { label: 'Three-phase load', expression: '5,000 W, 208 V, PF 0.85', result: 'About 16.34 A' },
+      { label: '12 V DC device', expression: '60 W, 12 V, PF 1', result: '5 A' },
     ],
     relatedSlugs: ['amps-to-watts-calculator', 'voltage-drop-calculator', 'ohms-law-calculator', 'electricity-calculator'],
   }),

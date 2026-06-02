@@ -211,6 +211,16 @@ const nistSi = {
   label: 'NIST SP 811: Guide for the Use of the International System of Units',
 };
 
+const nistAmpere = {
+  href: 'https://www.nist.gov/pml/weights-and-measures/si-units-ampere',
+  label: 'NIST: SI unit of electric current',
+};
+
+const esfiExtensionCordSafety = {
+  href: 'https://www.esfi.org/extension-cord-safety-tips/',
+  label: 'Electrical Safety Foundation International: Extension cord safety tips',
+};
+
 const googleHelpfulContent = {
   href: 'https://developers.google.com/search/docs/fundamentals/creating-helpful-content',
   label: 'Google Search Central: Creating helpful, reliable, people-first content',
@@ -1984,6 +1994,11 @@ const openStaxMassWeight = {
 const openStaxOhmsLaw = {
   href: 'https://openstax.org/books/physics/pages/19-1-ohms-law',
   label: 'OpenStax Physics: Ohm\'s law',
+};
+
+const openStaxElectricPower = {
+  href: 'https://openstax.org/books/college-physics/pages/20-4-electric-power-and-energy',
+  label: 'OpenStax College Physics: Electric power and energy',
 };
 
 const openStaxMolarity = {
@@ -5378,20 +5393,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'watts-to-amps-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-electrical-power-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [inchWattsToAmps, openStaxOhmsLaw, nistSi],
+    sources: [openStaxElectricPower, openStaxOhmsLaw, nistAmpere, nistSi, esfiExtensionCordSafety, googleHelpfulContent],
     findings: [
-      'The calculator solves amps from watts, volts, phase factor, and power factor for DC, single-phase AC, and three-phase AC examples.',
-      'The FAQ explains power factor and warns against using the estimate as a breaker or wire sizing decision.',
-      'The guide tells users to avoid guessing power factor for real equipment and to avoid mixing DC and three-phase formulas.',
+      'DataForSEO paid evidence for the exact tool and guide targeted the `watts to amps calculator` search intent after balance and status gates passed.',
+      'OpenStax electric power guidance supports the core P = IV relationship, and NIST confirms the ampere, volt, and watt unit context.',
+      'The page now separates DC/single-phase math from three-phase math, adds a 12 V DC example, explains power factor, and keeps breaker, wire, and extension-cord choices outside the simple estimate.',
     ],
     improvements: [
-      'Manually checked watts-to-amps formulas, phase labels, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, aliases, formula text, examples, FAQ detail, guide source coverage, safety wording, audit record, modified dates, and image alt/caption text in smart-14 wording.',
     ],
     followUps: [
-      'Add common household voltage presets later if they do not make users treat the answer as code advice.',
+      'Add common voltage presets later only if the UI keeps equipment-nameplate and qualified-review warnings visible.',
     ],
   },
   {

@@ -100,6 +100,18 @@ const toolArtMetadataOverrides = {
         'Percent Error Calculator guide artwork supports the walkthrough by showing measured-versus-accepted values, same-unit checks, signed error, zero-value limits, and lab-report cautions.',
     },
   },
+  'watts-to-amps-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing 1,500 W at 120 V, 60 W at 12 V, 2,200 W at 240 V, and 5,000 W three-phase amp cards.',
+      caption:
+        'Watts to Amps Calculator artwork matches the live workflow: enter watts, voltage, phase type, and power factor, then estimate current for DC, single-phase, or three-phase loads.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining watts divided by volts, power factor, square-root-of-3 three-phase math, and breaker-safety caution cards.',
+      caption:
+        'Watts to Amps Calculator guide artwork supports the walkthrough by showing DC and AC formulas, power factor, three-phase math, example current draw, and safety limits.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',
