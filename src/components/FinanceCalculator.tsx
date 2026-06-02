@@ -2069,7 +2069,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'HELOC Calculator',
     buttonLabel: 'Estimate HELOC',
     emptyHistory: 'Recent HELOC estimates will appear here.',
-    privacyNote: 'HELOC estimates are simplified and do not include variable-rate changes, fees, minimum draws, or lender freezes.',
+    privacyNote:
+      'HELOC estimates use the numbers in this tab only. They do not include teaser rates, index and margin changes, annual fees, draw minimums, lender freezes, appraisal changes, balloon language, tax rules, or approval.',
     modes: [
       {
         id: 'heloc',
@@ -2086,9 +2087,9 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         ],
         defaultInputs: { homeValue: '450000', currentMortgageBalance: '260000', creditLine: '80000', currentDraw: '30000', annualRatePercent: '9', repaymentYears: '15', maxCombinedLoanToValuePercent: '85' },
         examples: [
-          { label: '$30k draw', inputs: { homeValue: '450000', currentMortgageBalance: '260000', creditLine: '80000', currentDraw: '30000', annualRatePercent: '9', repaymentYears: '15', maxCombinedLoanToValuePercent: '85' } },
-          { label: 'Large line', inputs: { homeValue: '600000', currentMortgageBalance: '350000', creditLine: '120000', currentDraw: '60000', annualRatePercent: '8.75', repaymentYears: '20', maxCombinedLoanToValuePercent: '85' } },
-          { label: 'Small draw', inputs: { homeValue: '380000', currentMortgageBalance: '210000', creditLine: '50000', currentDraw: '10000', annualRatePercent: '9.5', repaymentYears: '10', maxCombinedLoanToValuePercent: '80' } },
+          { label: '$225 interest-only', inputs: { homeValue: '450000', currentMortgageBalance: '260000', creditLine: '80000', currentDraw: '30000', annualRatePercent: '9', repaymentYears: '15', maxCombinedLoanToValuePercent: '85' } },
+          { label: '$437.50 interest-only', inputs: { homeValue: '600000', currentMortgageBalance: '350000', creditLine: '120000', currentDraw: '60000', annualRatePercent: '8.75', repaymentYears: '20', maxCombinedLoanToValuePercent: '85' } },
+          { label: '$79.17 interest-only', inputs: { homeValue: '380000', currentMortgageBalance: '210000', creditLine: '50000', currentDraw: '10000', annualRatePercent: '9.5', repaymentYears: '10', maxCombinedLoanToValuePercent: '80' } },
         ],
       },
     ],
@@ -4382,11 +4383,12 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           { label: 'Credit line', value: money(result.creditLine) },
         ],
         steps: [
-          'Estimate available equity from max combined LTV.',
-          'Calculate draw-period interest-only payment from current balance and rate.',
-          'Estimate repayment-period payment if the drawn balance is amortized.',
+          'Estimate available equity from home value, current mortgage balance, and max combined LTV.',
+          'Calculate the draw-period interest-only payment from the current draw and rate.',
+          'Estimate the repayment-period payment if the current draw is paid down over the repayment years.',
         ],
-        note: 'HELOCs often have variable rates, fees, draw rules, and payment changes after the draw period.',
+        note:
+          'HELOCs often have variable rates, fees, draw rules, lender freezes, and payment jumps after the draw period. The home can be at risk if payments are missed.',
       };
     }
     case 'down-payment': {

@@ -764,6 +764,13 @@ const financeToolInstructions = financeToolVariant
         'Calculate, then compare total monthly payment, base loan amount, funding-fee rate, funding-fee dollars, and loan-to-value.',
         'Check your Certificate of Eligibility, lender Loan Estimate, Closing Disclosure, appraisal, entitlement review, seller credits, and VA closing-cost rules before relying on the number.',
       ]
+    : tool.slug === 'heloc-calculator'
+    ? [
+        'Enter home value, current mortgage balance, credit line, current draw, interest rate, repayment years, and max combined LTV.',
+        'Use current draw for the amount already borrowed, not the full credit line.',
+        'Calculate, then compare interest-only payment, repayment payment estimate, available equity, credit line, and CLTV on the draw.',
+        'Check the lender disclosure, draw period, repayment period, variable-rate terms, fees, appraisal value, freeze rules, right to cancel, tax rules, and home-collateral risk before relying on the number.',
+      ]
     : tool.slug === 'ad-revenue-calculator'
     ? [
         'Enter daily page views as a one-day traffic estimate.',
@@ -2216,6 +2223,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Refinance comparison'
               : tool.slug === 'va-mortgage-calculator'
               ? 'VA purchase estimate'
+              : tool.slug === 'heloc-calculator'
+              ? 'HELOC draw estimate'
               : tool.slug === 'apr-calculator'
               ? 'Loan APR estimate'
               : 'Estimate, not advice'}
@@ -2237,6 +2246,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               ? 'Payment, MIP, and LTV'
               : tool.slug === 'va-mortgage-calculator'
               ? 'Payment, VA fee, and LTV'
+              : tool.slug === 'heloc-calculator'
+              ? 'Interest-only, repayment, CLTV'
               : tool.slug === 'loan-calculator'
               ? 'Payment, total paid, and interest'
               : tool.slug === 'finance-calculator'
@@ -3337,6 +3348,36 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
                 {', '}
                 <a href="https://consumer.ftc.gov/articles/home-equity-loans-home-equity-lines-credit" rel="noreferrer" target="_blank">
                   FTC home equity loan risks
+                </a>
+                {', and '}
+                <a href="https://www.irs.gov/publications/p936" rel="noreferrer" target="_blank">
+                  IRS Publication 936
+                </a>
+                .
+              </p>
+            </>
+          ) : tool.slug === 'heloc-calculator' ? (
+            <>
+              <strong>HELOC payment estimate, not lender approval</strong>
+              <p>
+                Use this to compare home value, current mortgage balance, credit line, current draw, rate,
+                repayment years, interest-only payment, repayment payment estimate, available equity, and CLTV.
+                A real HELOC can still change with variable rates, teaser rates, index and margin terms,
+                line freezes, appraisal changes, minimum draws, annual fees, transaction fees, balloon language,
+                repayment-period jumps, tax rules, and whether the home can be at risk if payments are missed.
+              </p>
+              <p>
+                Sources used for this review:{' '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-home-equity-line-of-credit-heloc-en-107/" rel="noreferrer" target="_blank">
+                  CFPB HELOC explainer
+                </a>
+                {', '}
+                <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-home-equity-loan-and-a-home-equity-line-of-credit-heloc-en-247/" rel="noreferrer" target="_blank">
+                  CFPB home equity loan vs. HELOC
+                </a>
+                {', '}
+                <a href="https://consumer.ftc.gov/articles/home-equity-loans-home-equity-lines-credit" rel="noreferrer" target="_blank">
+                  FTC home equity line risks
                 </a>
                 {', and '}
                 <a href="https://www.irs.gov/publications/p936" rel="noreferrer" target="_blank">

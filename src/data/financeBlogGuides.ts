@@ -727,6 +727,10 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-home-equity-line-of-credit-heloc-en-107/',
     label: 'CFPB: What is a HELOC?',
   },
+  cfpbHelocBooklet: {
+    href: 'https://files.consumerfinance.gov/f/documents/cfpb_heloc-brochure.pdf',
+    label: 'CFPB: What you should know about HELOCs',
+  },
   cfpbHomeEquity: {
     href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-home-equity-loan-en-106/',
     label: 'CFPB: What is a home equity loan?',
@@ -1271,7 +1275,13 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'heloc-calculator') {
-    return [sourceLinks.cfpbHeloc, sourceLinks.cfpbHomeEquity];
+    return [
+      sourceLinks.cfpbHeloc,
+      sourceLinks.cfpbHomeEquityVsHeloc,
+      sourceLinks.cfpbHelocBooklet,
+      sourceLinks.ftcHomeEquityLoans,
+      sourceLinks.irsPub936HomeMortgageInterest,
+    ];
   }
 
   if (toolSlug === 'down-payment-calculator') {
@@ -3377,27 +3387,34 @@ const guideDetails: Record<string, GuideDetail> = {
   'heloc-calculator': {
     summary: 'Learn how a HELOC draw, variable-rate assumption, equity limit, and repayment period affect payment estimates.',
     purpose:
-      'The HELOC Calculator separates the draw-period interest-only estimate from a later repayment estimate. That matters because HELOC payments can jump after the draw period ends.',
+      'The HELOC Calculator separates the draw-period interest-only estimate from the later repayment estimate. That matters because the cheap-looking draw payment can jump when principal has to be repaid.',
     enter: [
       'Enter home value, current mortgage balance, credit line, current draw, rate, repayment years, and max CLTV.',
-      'Use current draw for the amount already borrowed, not the full credit line.',
-      'Use the rate as a planning rate because many HELOCs are variable.',
+      'Use current draw for the amount already borrowed, not the full credit line. A $80,000 line with $30,000 drawn should not be treated like $80,000 of debt.',
+      'Use the rate as a planning rate because many HELOCs are variable. Check the index, margin, teaser period, and rate cap in the lender papers.',
     ],
     example: [
-      '$80,000 credit line with $30,000 drawn at 9% creates an interest-only draw-period estimate.',
-      'The same $30,000 draw is also amortized over the repayment years to estimate a later repayment payment.',
+      'Try this example: $450,000 home value, $260,000 mortgage balance, $80,000 credit line, $30,000 current draw, 9% rate, 15-year repayment, and 85% max CLTV.',
+      'The draw-period interest-only estimate is $225.00/month. If that same $30,000 draw is repaid over 15 years at 9%, the repayment estimate is about $304.28/month.',
+      'The available-equity estimate is $122,500 at an 85% CLTV cap, and the CLTV on the current draw is 64.44%.',
     ],
     read: [
       'Interest-only payment is based only on the current draw and rate.',
       'Repayment payment estimate shows what the drawn balance might cost if paid down over the repayment period.',
       'Combined LTV on draw uses current mortgage balance plus current draw, not the full credit line.',
+      'Available equity is a rough borrowing-room screen. A lender can still use a different appraisal, credit rule, income review, or CLTV cap.',
     ],
     mistakes: [
       'Do not treat the interest-only payment as the forever payment.',
-      'Do not ignore variable rates, freezes, minimum draws, fees, balloon payments, and lender line rules.',
+      'Do not ignore variable rates, teaser rates, index and margin terms, line freezes, minimum draws, annual fees, transaction fees, balloon payments, and lender line rules.',
       'Do not forget that missing payments can put the home at risk.',
+      'Do not assume HELOC interest is tax deductible unless the money use and IRS rules match.',
     ],
-    next: ['Use Home Equity Loan Calculator for a fixed lump-sum option.', 'Use APR Calculator if fees make a quote hard to compare.'],
+    next: [
+      'Use Home Equity Loan Calculator for a fixed lump-sum option.',
+      'Use APR Calculator if fees make a quote hard to compare.',
+      'Before signing, compare the lender disclosure, draw period, repayment period, variable-rate terms, right to cancel, fees, and what happens if the line is frozen.',
+    ],
   },
   'down-payment-calculator': {
     summary: 'Learn how home price, down payment percent, exact cash, and closing costs shape cash needed.',

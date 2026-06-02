@@ -160,6 +160,18 @@ const toolArtMetadataOverrides = {
         'VA Mortgage Calculator guide artwork supports the walkthrough by showing why funding-fee status, exemption proof, Loan Estimate details, closing costs, and payment math need checking together.',
     },
   },
+  'heloc-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking an $80,000 HELOC line with $30,000 drawn, interest-only payment, repayment estimate, available equity, and CLTV cards.',
+      caption:
+        'HELOC Calculator artwork matches the workflow: home value, mortgage balance, credit line, current draw, rate, interest-only payment, repayment estimate, available equity, and CLTV.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing a HELOC draw-period payment with repayment-period jump notes, variable-rate cards, fee slips, line-freeze warning, and home-collateral caution.',
+      caption:
+        'HELOC Calculator guide artwork supports the walkthrough by showing why draw amount, repayment timing, variable rates, fees, line freezes, and home-collateral risk need checking together.',
+    },
+  },
   'payment-calculator': {
     tool: {
       alt: 'Smoke mascot linking amount financed, interest-rate gauge, term calendar, and a row of monthly payment cards for the Payment Calculator.',

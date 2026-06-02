@@ -1688,11 +1688,21 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     summary: 'Estimate HELOC interest-only payment, repayment payment, available equity, and CLTV.',
     description:
       'Use this free HELOC calculator to estimate draw-period interest-only payment, repayment-period payment, available equity, and combined loan-to-value.',
+    seoTitle: 'HELOC Calculator | Interest-Only, Repayment & CLTV',
+    seoDescription:
+      'Estimate HELOC draw-period interest-only payment, repayment payment, available equity, and CLTV with clear variable-rate and home-collateral cautions.',
     icon: 'calculator-loan',
+    aliases: [
+      'heloc payment calculator',
+      'heloc amortization calculator',
+      'interest-only heloc calculator',
+      'home equity line of credit calculator',
+      'heloc cltv calculator',
+    ],
     formula:
-      'The calculator estimates available equity from max combined LTV, computes draw-period interest-only payment on the current draw, and estimates repayment payment over the entered years.',
+      'The calculator estimates available equity as home value times max CLTV minus current mortgage balance. It computes draw-period interest-only payment from current draw times monthly rate, then estimates repayment payment by amortizing the current draw over the entered repayment years.',
     limit:
-      'HELOCs often have variable rates, draws, fees, freezes, minimums, balloon payments, and repayment changes that this simple calculator does not model.',
+      'This is planning math only. HELOCs often have variable rates, teaser rates, index and margin terms, minimum draws, annual fees, transaction fees, lender freezes, balloon payments, repayment-period jumps, appraisal changes, tax limits, and home-collateral risk.',
     useCases: [
       'Estimate monthly interest-only payment on a current draw.',
       'Estimate repayment payment after the draw period.',
@@ -1700,11 +1710,82 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Compare HELOC with a fixed home equity loan.',
     ],
     examples: [
-      { label: '$30k draw', expression: '$80,000 line with $30,000 drawn', result: 'Interest-only and repayment estimates' },
-      { label: 'Large line', expression: '$120,000 line and $60,000 draw', result: 'HELOC estimate' },
-      { label: 'Small draw', expression: '$10,000 current draw', result: 'Payment estimate' },
+      { label: '$30k draw', expression: '$450,000 home, $260,000 mortgage, $80,000 line, $30,000 drawn, 9%, 15-year repayment, 85% CLTV cap', result: '$225.00 interest-only estimate, about $304.28 repayment estimate, $122,500 available equity, and 64.44% CLTV on the draw' },
+      { label: '$60k draw', expression: '$600,000 home, $350,000 mortgage, $120,000 line, $60,000 drawn, 8.75%, 20-year repayment, 85% CLTV cap', result: '$437.50 interest-only estimate, about $530.23 repayment estimate, $160,000 available equity, and 68.33% CLTV on the draw' },
+      { label: '$10k draw', expression: '$380,000 home, $210,000 mortgage, $50,000 line, $10,000 drawn, 9.5%, 10-year repayment, 80% CLTV cap', result: '$79.17 interest-only estimate, about $129.40 repayment estimate, $94,000 available equity, and 57.89% CLTV on the draw' },
     ],
     relatedSlugs: ['home-equity-loan-calculator', 'loan-calculator', 'mortgage-calculator'],
+    inputExplanations: [
+      { term: 'Home value', meaning: 'the property value you want to test before any lender appraisal changes it.' },
+      { term: 'Current mortgage balance', meaning: 'what you still owe on the first mortgage or other senior liens.' },
+      { term: 'Credit line', meaning: 'the maximum line size you want to compare with the available-equity estimate.' },
+      { term: 'Current draw', meaning: 'the amount already borrowed from the line, not the full line limit.' },
+      { term: 'Interest rate', meaning: 'the rate used for the monthly estimate. Many HELOC rates can move over time.' },
+      { term: 'Repayment period', meaning: 'the years used to estimate the later principal-and-interest payment.' },
+      { term: 'Max combined LTV', meaning: 'the cap used to estimate possible borrowing room after the current mortgage.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What is the main HELOC payment this calculator shows?',
+        answer:
+          'The headline answer is the interest-only estimate for the current draw. If you have drawn $30,000 at 9%, the estimate is $225.00 per month before fees. That is not the same as the later repayment payment.',
+      },
+      {
+        question: 'Why is the repayment payment higher than the interest-only payment?',
+        answer:
+          'During repayment, the calculator pays down the drawn balance over the repayment years. A $30,000 draw at 9% over 15 years is about $304.28 per month, which is higher than the $225.00 interest-only estimate because principal is being repaid too.',
+      },
+      {
+        question: 'Does the calculator use the full credit line or the current draw?',
+        answer:
+          'It uses the current draw for the payment estimates. The credit line is shown separately because a $80,000 line with only $30,000 drawn should not be treated like $80,000 of borrowed money.',
+      },
+      {
+        question: 'What does CLTV mean on a HELOC?',
+        answer:
+          'CLTV means combined loan-to-value. This page compares your current mortgage plus the current HELOC draw with the home value. It also estimates available equity from the max CLTV cap you enter.',
+      },
+      {
+        question: 'Can my HELOC payment change later?',
+        answer:
+          'Yes. CFPB and FTC guidance both warn that HELOCs often have variable rates and different draw and repayment periods. A rate change, draw change, fee, freeze, balloon payment, or repayment-period switch can move the real payment.',
+      },
+      {
+        question: 'Is HELOC interest tax deductible?',
+        answer:
+          'Do not assume it is. IRS Publication 936 says home equity loan or line interest is generally deductible only when the money is used to buy, build, or substantially improve the home securing the loan and the other rules are met.',
+      },
+    ],
+    formulaCheck:
+      'Available equity = home value x max CLTV - current mortgage balance. Interest-only payment = current draw x annual rate / 12. Repayment payment amortizes the current draw over the repayment years.',
+    resultReading:
+      'Read the interest-only estimate as a draw-period payment check, the repayment estimate as a later payment warning, and CLTV as a risk/borrowing-room screen.',
+    doubleCheck:
+      'Double-check the lender disclosure, draw period, repayment period, index and margin, rate cap, fees, minimum draw, appraisal value, freeze rules, balloon language, right to cancel, and whether the home is at risk if payments are missed.',
+    limitFollowup:
+      'Ask the lender how the payment changes if the rate rises, the draw grows, the draw period ends, or the line is frozen.',
+    extraFaq: [
+      {
+        question: 'Can a lender freeze or lower a HELOC line?',
+        answer:
+          'It can happen in some situations. CFPB notes that lenders may freeze access if home value drops significantly or the borrower situation changes. This calculator cannot predict that.',
+      },
+      {
+        question: 'Is a HELOC the same as a home equity loan?',
+        answer:
+          'No. A HELOC is a revolving line you may draw from more than once. A home equity loan is usually a lump sum. Use the Home Equity Loan Calculator when you want the fixed lump-sum version.',
+      },
+      {
+        question: 'Does this calculator include HELOC fees?',
+        answer:
+          'No. It does not add application fees, annual fees, transaction fees, appraisal fees, title costs, or closing costs. Compare the written lender terms before treating two offers as equal.',
+      },
+      {
+        question: 'Should I use a HELOC to pay off other debt?',
+        answer:
+          'Be careful. A HELOC can turn unsecured debt into debt backed by your home. A lower payment can be dangerous if the rate changes, the repayment period jumps, or missed payments put the home at risk.',
+      },
+    ],
   },
   {
     slug: 'down-payment-calculator',

@@ -1151,6 +1151,11 @@ const cfpbHeloc = {
   label: 'CFPB: What is a HELOC?',
 };
 
+const cfpbHelocBooklet = {
+  href: 'https://files.consumerfinance.gov/f/documents/cfpb_heloc-brochure.pdf',
+  label: 'CFPB: What you should know about HELOCs',
+};
+
 const cfpbClosingDisclosure = {
   href: 'https://www.consumerfinance.gov/owning-a-home/closing-disclosure/',
   label: 'CFPB: Closing Disclosure explainer',
@@ -3705,17 +3710,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'heloc-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-6-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'serpforge-heloc-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [cfpbHeloc, cfpbHomeEquity],
+    sources: [cfpbHeloc, cfpbHomeEquityVsHeloc, cfpbHelocBooklet, ftcHomeEquityLoans, irsPub936HomeMortgageInterest],
     findings: [
       'The calculator checks current draw against credit line, estimates available equity, computes draw-period interest-only payment, and estimates repayment-period payment for the drawn balance.',
-      'The guide now explains that current draw is different from the full credit line and that the interest-only payment is not the permanent payment.',
-      'The page warns about variable rates, lender freezes, draw minimums, fees, balloon payments, repayment-period jumps, and home-collateral risk.',
+      'DataForSEO evidence for the page centers on HELOC calculator, interest-only HELOC calculator, HELOC amortization calculator, and principal-and-interest payment intent.',
+      'Current CFPB and FTC source context supports visible warnings around draw periods, repayment periods, variable rates, line freezes, fees, right to cancel, and home-collateral risk.',
+      'IRS Publication 936 source context supports the warning that HELOC interest is generally deductible only when proceeds buy, build, or substantially improve the home securing the loan and other rules are met.',
     ],
     improvements: [
-      'Added HELOC-specific guide detail and manually checked draw handling, interest-only math, repayment estimate, examples, FAQ cautions, CFPB source coverage, related tools, SEO copy, and privacy behavior.',
+      'Added SEO title and description, DataForSEO-backed aliases, exact interest-only and repayment examples, input explanations, priority FAQs, source-backed trust notes, guide detail, specific image alt/caption text, and privacy/result notes.',
     ],
     followUps: [
       'Add a rate-change sensitivity table later because many HELOCs are variable-rate products.',
@@ -7956,7 +7962,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['heloc'])) {
-      return sourceBackstop([cfpbHeloc, cfpbHomeEquity]);
+      return sourceBackstop([cfpbHeloc, cfpbHomeEquityVsHeloc, cfpbHelocBooklet, ftcHomeEquityLoans, irsPub936HomeMortgageInterest]);
     }
 
     if (includesAny(key, ['down-payment', 'down payment'])) {
