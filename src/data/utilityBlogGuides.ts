@@ -97,6 +97,10 @@ const sourceLinks = {
     href: 'https://www.quikrete.com/calculator/main.asp',
     label: 'QUIKRETE: Concrete calculator reference',
   },
+  quickreteStepsRamps: {
+    href: 'https://www.quikrete.com/PDFs/Projects/ConcreteStepsAndRamps.pdf',
+    label: 'QUIKRETE: Concrete steps and ramps project guide',
+  },
   inchCalculatorSitemap: {
     href: 'https://www.inchcalculator.com/sitemap/',
     label: 'Inch Calculator sitemap: construction and home-project competitor reference',
@@ -3029,25 +3033,57 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchConcreteDriveway, sourceLinks.quickrete, sourceLinks.acpaPavementDesign, sourceLinks.nistUnits],
   },
   'concrete-steps-calculator': {
-    summary: 'Learn how step count, riser height, tread depth, width, landing, and waste estimate solid concrete steps.',
+    summary: 'Learn how step count, stair width, riser height, tread depth, landing depth, and waste estimate concrete yards and bag counts.',
     purpose:
-      'The Concrete Steps Calculator estimates a solid stair shape by stacking step volumes and adding an optional top landing. It helps with material planning before detailed formwork.',
+      'The Concrete Steps Calculator estimates a simple solid poured stair shape by stacking step blocks and adding an optional top landing. It helps with material planning before detailed formwork, not code approval or stair design.',
+    inputMatch:
+      'step count, stair width in feet, riser height in inches, tread depth in inches, optional landing depth in feet, and waste percent',
+    logicNote:
+      'The calculator converts riser and tread dimensions to feet, stacks the solid step volumes, adds the optional landing at full stair height, adds waste, divides by 27 for cubic yards, and rounds common bag counts up.',
+    referenceIntro:
+      'These references help keep the page honest about concrete bag estimating, step geometry, and unit conversion.',
     enter: [
-      'Enter the number of steps, step width, riser height, and tread depth.',
+      'Enter the number of risers, not the number of walking surfaces.',
+      'Enter step width in feet, then one-step riser height and tread depth in inches.',
       'Enter landing depth if there is a top landing, or 0 if there is not.',
-      'Add waste for form variation, spillage, and ordering cushion.',
+      'Add waste for form variation, low spots, spillage, and ordering cushion.',
     ],
     read: [
       'Cubic yards is the total adjusted concrete volume.',
-      'Stair volume and landing volume show the two major pieces of the estimate.',
-      'Bag counts are rounded up from common dry-mix bag yields.',
+      'Stair volume and landing volume show the two major pieces of the estimate before they are combined.',
+      'Bag counts are rounded up from common dry-mix bag yields and are most useful for small pours.',
+      'Large porch steps may be a ready-mix job even when the calculator can show bag counts.',
     ],
     mistakes: [
       'Do not use this for hollow, precast, or partly filled step forms without adjusting the volume.',
-      'Do not forget footings, frost depth, reinforcement, slope, nosing, handrails, and code.',
       'Do not enter total stair height as riser height; riser height is for one step.',
+      'Do not forget footings, frost depth, reinforcement, slope, nosing, landing size, handrails, and local code.',
     ],
-    sources: [sourceLinks.inchConcreteSteps, sourceLinks.quickrete, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Example: four porch steps with a landing',
+        paragraphs: [
+          'For 4 steps, 4 feet wide, 7 inch risers, 11 inch treads, a 3 foot landing, and 10% waste, the estimate is about 2.01 cubic yards.',
+          'That same volume is about 54.33 cubic feet. Using common 80 lb bag yield, it rounds to about 91 eighty-pound bags, which is a lot to mix by hand.',
+          'The useful check is not just the bag number. It is seeing how much the landing and waste cushion add before you talk to a supplier or contractor.',
+        ],
+      },
+      {
+        title: 'Why the calculator stacks the steps',
+        paragraphs: [
+          'A solid stair is not one flat slab. The bottom step supports the steps above it, so the shape acts like a stack of blocks.',
+          'That model works for simple solid poured steps. It does not work for hollow forms, precast units, thin caps, or steps poured over a separate filled base unless you adjust the volume.',
+        ],
+      },
+      {
+        title: 'Code and safety checks are separate',
+        paragraphs: [
+          'QUIKRETE notes that riser and tread size depends on step layout. This page estimates concrete from the dimensions you enter; it does not choose the legal or safest stair geometry.',
+          'Before pouring, check local rules for riser height, tread depth, landing size, handrails, slope, frost, footings, reinforcement, and whether the steps attach to a building.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.inchConcreteSteps, sourceLinks.quickrete, sourceLinks.quickreteStepsRamps, sourceLinks.nistUnits],
   },
   'concrete-weight-calculator': {
     summary: 'Learn how concrete volume and density estimate pounds and US tons.',

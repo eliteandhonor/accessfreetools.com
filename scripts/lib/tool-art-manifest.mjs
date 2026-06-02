@@ -268,6 +268,18 @@ const toolArtMetadataOverrides = {
         'Concrete Driveway Calculator guide artwork supports the walkthrough by showing how slab size, thickness, waste, bag counts, and material-only cost connect.',
     },
   },
+  'concrete-steps-calculator': {
+    tool: {
+      alt: 'Smoke mascot pointing at solid concrete porch steps with length, width, and riser arrows, plus a calculator, concrete blocks, and material bags.',
+      caption:
+        'Concrete Steps Calculator artwork matches the live workflow: enter step count, width, riser height, tread depth, landing depth, and waste to estimate yards and bags.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing stacked concrete step blocks, a top landing slab, measurement arrows, concrete blocks, aggregate, bags, and a calculator.',
+      caption:
+        'Concrete Steps Calculator guide artwork supports the walkthrough by showing how stacked steps, landing depth, waste, and bag counts connect.',
+    },
+  },
   'siding-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a house wall with window and door openings, siding panels, stacked siding squares, box coverage icons, and waste offcuts.',

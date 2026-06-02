@@ -2968,7 +2968,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Concrete Steps Calculator',
     buttonLabel: 'Estimate steps',
     emptyHistory: 'Recent concrete step estimates will appear here.',
-    privacyNote: 'Concrete steps estimates stay local and use a solid stair volume approximation.',
+    privacyNote: 'Concrete steps estimates stay local and use a simple solid-stair volume model.',
     modes: [
       {
         id: 'solid-steps',
@@ -2976,16 +2976,16 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         symbol: 'STEP',
         fields: [
           integerField('stepCount', 'Step count', '4'),
-          numberField('widthFeet', 'Step width feet', '4'),
-          numberField('riserHeightInches', 'Riser height inches', '7'),
-          numberField('treadDepthInches', 'Tread depth inches', '11'),
-          numberField('landingDepthFeet', 'Landing depth feet', '3'),
+          numberField('widthFeet', 'Step width (ft)', '4'),
+          numberField('riserHeightInches', 'Riser height (in)', '7'),
+          numberField('treadDepthInches', 'Tread depth (in)', '11'),
+          numberField('landingDepthFeet', 'Landing depth (ft)', '3'),
           numberField('wastePercent', 'Waste percent', '10'),
         ],
         defaultInputs: { stepCount: '4', widthFeet: '4', riserHeightInches: '7', treadDepthInches: '11', landingDepthFeet: '3', wastePercent: '10' },
         examples: [
-          { label: 'Four porch steps', inputs: { stepCount: '4', widthFeet: '4', riserHeightInches: '7', treadDepthInches: '11', landingDepthFeet: '3', wastePercent: '10' } },
-          { label: 'Three garden steps', inputs: { stepCount: '3', widthFeet: '5', riserHeightInches: '6', treadDepthInches: '12', landingDepthFeet: '0', wastePercent: '8' } },
+          { label: '4 porch steps + landing', inputs: { stepCount: '4', widthFeet: '4', riserHeightInches: '7', treadDepthInches: '11', landingDepthFeet: '3', wastePercent: '10' } },
+          { label: '3 garden steps, no landing', inputs: { stepCount: '3', widthFeet: '5', riserHeightInches: '6', treadDepthInches: '12', landingDepthFeet: '0', wastePercent: '8' } },
         ],
       },
     ],

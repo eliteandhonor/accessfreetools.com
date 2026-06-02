@@ -3833,31 +3833,84 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'concrete-steps-calculator',
     name: 'Concrete Steps Calculator',
     category: 'home-projects',
-    summary: 'Estimate concrete volume and bag counts for solid stair steps.',
+    summary: 'Estimate concrete yards and bag counts for solid steps with an optional landing.',
     description:
-      'Use this free concrete steps calculator to estimate cubic yards and bag counts from step count, width, riser height, tread depth, optional landing, and waste.',
+      'Use this free concrete steps calculator to estimate cubic yards, cubic feet, and 60 lb or 80 lb bag counts from step count, stair width, riser height, tread depth, optional landing depth, and waste.',
     icon: 'calculator-concrete-steps',
-    aliases: ['Concrete Stair Calculator', 'Cement Steps Calculator'],
+    seoTitle: 'Concrete Steps Calculator | Stairs, Landing & Bags',
+    seoDescription:
+      'Estimate concrete yards, cubic feet, and bag counts for solid concrete steps using step count, width, riser height, tread depth, landing depth, and waste.',
+    aliases: [
+      'Concrete Stair Calculator',
+      'Concrete Stairs Calculator',
+      'Concrete Step Calculator',
+      'Cement Steps Calculator',
+      'Concrete Steps With Landing Calculator',
+      'Concrete Step Volume Calculator',
+      'Stair Concrete Calculator Rise And Run',
+    ],
     formula:
-      'The calculator models solid steps as stacked rectangular volumes, adds optional landing volume, applies waste, converts to cubic yards, and rounds bag counts up.',
+      'The calculator converts riser height and tread depth from inches to feet, models solid steps as stacked rectangular blocks, adds an optional landing block at the full stair height, applies waste, converts cubic feet to cubic yards by dividing by 27, and rounds 60 lb and 80 lb bag counts up.',
     limit:
-      'This assumes solid concrete steps. Footings, reinforcement, forms, nosing, hollow shapes, frost, slope, handrails, and building code can change real material needs.',
+      'This assumes solid poured concrete steps. Hollow forms, precast steps, footings, reinforcement, forms, nosing, frost, slope, landings, handrails, drainage, and local building code can change the real design and material need.',
     inputExplanations: [
       { term: 'Step count', meaning: 'the number of risers in the solid stair shape.' },
-      { term: 'Riser height', meaning: 'the vertical height of each step.' },
-      { term: 'Tread depth', meaning: 'the front-to-back run of each tread.' },
-      { term: 'Landing depth', meaning: 'optional top landing depth; enter 0 if there is no landing.' },
+      { term: 'Step width', meaning: 'the side-to-side width of the stair in feet.' },
+      { term: 'Riser height', meaning: 'the vertical height of one step in inches, not total stair height.' },
+      { term: 'Tread depth', meaning: 'the front-to-back run of one tread in inches.' },
+      { term: 'Landing depth', meaning: 'optional top landing depth in feet; enter 0 if there is no landing.' },
+      { term: 'Waste percent', meaning: 'extra concrete for form variation, spillage, low spots, and a small cushion.' },
     ],
     extraFaq: [
+      {
+        question: 'How do I calculate concrete for steps?',
+        answer:
+          'For solid steps, estimate each step as a rectangular block, stack those blocks, add any landing, then add waste and divide cubic feet by 27 for cubic yards. This calculator does those steps for you.',
+      },
       {
         question: 'Why does the calculator use stacked steps?',
         answer:
           'Solid concrete stairs can be estimated as stacked rectangular blocks. Each higher step includes the volume below it.',
       },
       {
+        question: 'What is riser height?',
+        answer:
+          'Riser height is the height of one step. Do not enter total stair height there. Four steps with 7-inch risers have a total rise of 28 inches.',
+      },
+      {
+        question: 'What is tread depth?',
+        answer:
+          'Tread depth is the front-to-back walking surface of one step. It is part of the concrete volume and also affects whether the stair layout is comfortable and code-friendly.',
+      },
+      {
+        question: 'How does the landing depth work?',
+        answer:
+          'Landing depth adds a top rectangular block. Enter 0 when there is no landing. If the landing sits on another base or is hollow, adjust the estimate instead of trusting the simple block model.',
+      },
+      {
+        question: 'How many bags are in the porch step example?',
+        answer:
+          'The 4-step porch example is about 2.01 yd3, or about 91 eighty-pound bags using common dry-mix yield. That is why larger step pours often need ready-mix planning.',
+      },
+      {
         question: 'Can I use this for hollow formed steps?',
         answer:
           'Not directly. Hollow or filled forms need a different takeoff because only part of the stair shape is solid concrete.',
+      },
+      {
+        question: 'Does this choose legal stair rise and run?',
+        answer:
+          'No. It estimates concrete volume from the dimensions you enter. Stair rise, tread depth, landing size, handrails, and nosing rules are local code and safety questions.',
+      },
+      {
+        question: 'Does this include rebar, mesh, or footings?',
+        answer:
+          'No. It only estimates concrete volume and common bag counts. Reinforcement, footings, frost depth, forms, and base prep need separate planning.',
+      },
+      {
+        question: 'Can I use it for precast steps?',
+        answer:
+          'Not directly. Precast steps are usually bought as a unit or measured from product data. This page is for simple solid poured-in-place shapes.',
       },
     ],
     useCases: [
@@ -3865,13 +3918,21 @@ export const utilityTools: ToolDefinition[] = [
       'Include a simple top landing in the volume.',
       'Convert step dimensions to cubic yards.',
       'Compare different riser and tread layouts.',
+      'Check 60 lb and 80 lb bag counts for small step pours.',
+      'Separate concrete quantity from code, formwork, and handrail decisions.',
     ],
     examples: [
-      { label: 'Porch steps', expression: '4 steps, 4 ft wide, 7 in riser, 11 in tread, 3 ft landing', result: 'About 2.01 yd3' },
-      { label: 'Garden steps', expression: '3 steps, 5 ft wide, no landing', result: 'Solid step volume estimate' },
-      { label: 'Bag planning', expression: 'Add 10% waste', result: 'Rounded 60 lb and 80 lb bags' },
+      { label: 'Porch steps', expression: '4 steps, 4 ft wide, 7 in riser, 11 in tread, 3 ft landing, 10% waste', result: '2.01 yd3, about 91 eighty-pound bags' },
+      { label: 'Garden steps', expression: '3 steps, 5 ft wide, 6 in riser, 12 in tread, no landing, 8% waste', result: '0.60 yd3, about 27 eighty-pound bags' },
+      { label: 'Landing check', expression: 'Add a 3 ft top landing to 4 porch steps', result: 'Landing volume is included at the full stair height' },
+      { label: 'Riser check', expression: '4 steps x 7 in riser', result: '28 in total rise before any landing or base details' },
     ],
-    relatedSlugs: ['stair-calculator', 'concrete-calculator', 'concrete-footing-calculator'],
+    relatedSlugs: [
+      'stair-calculator',
+      'concrete-calculator',
+      'concrete-mix-calculator',
+      'concrete-footing-calculator',
+    ],
   }),
   makeUtilityTool({
     slug: 'concrete-weight-calculator',

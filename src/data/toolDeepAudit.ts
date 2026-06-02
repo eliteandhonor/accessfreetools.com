@@ -1811,6 +1811,11 @@ const quikreteConcrete = {
   label: 'QUIKRETE: Concrete calculator reference',
 };
 
+const quikreteStepsRamps = {
+  href: 'https://www.quikrete.com/PDFs/Projects/ConcreteStepsAndRamps.pdf',
+  label: 'QUIKRETE: Concrete steps and ramps project guide',
+};
+
 const doeInsulation = {
   href: 'https://www.energy.gov/energysaver/insulation',
   label: 'U.S. Department of Energy: Insulation guidance',
@@ -5119,20 +5124,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'concrete-steps-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-concrete-masonry-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [inchConcreteSteps, quikreteConcrete, nistSi],
+    sources: [inchConcreteSteps, quikreteConcrete, quikreteStepsRamps, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator models solid steps as stacked rectangular volumes, adds optional landing volume, applies waste, converts to cubic yards, and rounds bag counts.',
-      'The FAQ explains riser, tread, landing depth, and why hollow or precast steps need a different takeoff.',
-      'The guide warns about forms, footings, frost, reinforcement, slope, handrails, and building code.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `concrete steps calculator`, broad concrete calculator intent, concrete stair rise-and-run intent, and landing-adjacent intent after balance and status gates passed.',
+      'The calculator models solid poured steps as stacked rectangular blocks, adds an optional landing at full stair height, applies waste, converts cubic feet to cubic yards, and rounds common bag counts up.',
+      'The page now explains exact porch and garden-step examples while keeping hollow forms, precast units, footings, reinforcement, slope, nosing, handrails, landings, frost, and local building code outside the calculator result.',
     ],
     improvements: [
-      'Added concrete steps UI, formula tests, examples, supporting result metrics, plain-language guide, detailed FAQs, source coverage, and related pathways.',
+      'Refreshed metadata, aliases, formula text, examples, FAQ coverage, guide sections, source-backed limits, exact image alt/captions, modified dates, and UI labels in smart-14 wording.',
     ],
     followUps: [
-      'Consider a hollow-step mode later only with clear diagrams and test cases.',
+      'Consider a hollow-step or precast-step mode later only with clear diagrams, product-data inputs, and code/safety limits.',
     ],
   },
   {
