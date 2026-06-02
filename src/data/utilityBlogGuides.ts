@@ -505,6 +505,10 @@ const sourceLinks = {
     href: 'https://www.glengery.com/brick-sizes',
     label: 'Glen-Gery: Brick sizes and pieces per square foot',
   },
+  criResidentialCarpetInstallation: {
+    href: 'https://carpet-rug.org/wp-content/uploads/2019/03/CRI-105-STANDARD-For-INSTALLATION-of-RESIDENTIAL-CARPET.pdf',
+    label: 'Carpet and Rug Institute: CRI 105 residential carpet installation standard',
+  },
   biaBrickEstimating: {
     href: 'https://www.gobrick.com/media/file/10-dimensioning-and-estimating-brick-masonry.pdf',
     label: 'Brick Industry Association: Dimensioning and estimating brick masonry',
@@ -2070,25 +2074,26 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'carpet-calculator': {
-    summary: 'Learn how room dimensions become carpet square yards and approximate roll length.',
+    summary: 'Learn how room size, roll width, and waste become carpet square yards and rough roll length.',
     purpose:
-      'The Carpet Calculator estimates carpet area for one simple room. It reports adjusted square feet, square yards, and approximate linear feet from a roll width.',
+      'The Carpet Calculator estimates carpet material for one simple room. It reports adjusted square feet, square yards, and approximate linear feet from the roll width you enter.',
     enter: [
-      'Enter the room length and width in feet.',
-      'Enter the roll width, commonly 12 feet for many carpets.',
-      'Add waste for trimming, seams, closets, and layout constraints.',
+      'Enter the main room length and width in feet. Measure closets, hallways, landings, and stairs separately if they need carpet too.',
+      'Enter the roll width from the carpet product. Many rooms are planned around a 12 foot roll, but some products are wider.',
+      'Add waste for trimming, seams, closets, pile direction, pattern matching, and installer layout.',
     ],
     read: [
-      'Square yards is the common carpet area unit.',
+      'Square yards is the common carpet area unit. The calculator divides adjusted square feet by 9.',
       'Adjusted area includes the waste percentage.',
-      'Linear feet estimates how much length would be needed at the roll width entered.',
+      'Linear feet estimates how much length would be needed at the roll width entered. It is a planning number, not a cutting diagram.',
+      'A 15 ft by 12 ft room with a 12 ft roll and 10% waste is 198 adjusted square feet, 22 square yards, and about 16.5 linear feet.',
     ],
     mistakes: [
-      'Do not rely on this for final carpet ordering when seams or pattern direction matter.',
-      'Do not forget closets, doorways, and stairs.',
-      'Ask the installer how they will lay out the roll before buying.',
+      'Do not rely on this for final carpet ordering when seams, pile direction, or pattern matching matter.',
+      'Do not forget closets, doorways, stairs, landings, transitions, tack strips, padding, or removal costs.',
+      'Ask the installer how they will lay out the roll before buying, especially when the room is wider than the roll.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [sourceLinks.criResidentialCarpetInstallation, sourceLinks.nistConversionFactors, sourceLinks.nistUnits],
   },
   'flooring-calculator': {
     summary: 'Learn how square feet, waste percent, box coverage, and box price become a flooring order.',

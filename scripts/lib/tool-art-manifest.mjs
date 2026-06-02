@@ -124,6 +124,18 @@ const toolArtMetadataOverrides = {
         'Brick Calculator guide artwork supports the walkthrough by showing wall-area measurement, supplier brick dimensions, joint-size checks, waste, and masonry limits.',
     },
   },
+  'carpet-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 15 by 12 foot bedroom, a 12 foot carpet roll, 10 percent waste, 22 square yards, and 16.5 linear feet.',
+      caption:
+        'Carpet Calculator artwork matches the live workflow: enter room length, room width, roll width, and waste to estimate square yards and rough roll length.',
+    },
+    guide: {
+      alt: 'Smoke mascot checking carpet roll width, seam direction, closets, stairs, waste, and a 22 square yard bedroom example.',
+      caption:
+        'Carpet Calculator guide artwork supports the walkthrough by showing room measurement, roll-width checks, seam limits, waste, and installer-layout cautions.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

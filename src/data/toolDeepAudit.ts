@@ -551,6 +551,11 @@ const lowesFlooringPlanner = {
   label: 'Lowe\'s: Flooring project planner',
 };
 
+const criResidentialCarpetInstallation = {
+  href: 'https://carpet-rug.org/wp-content/uploads/2019/03/CRI-105-STANDARD-For-INSTALLATION-of-RESIDENTIAL-CARPET.pdf',
+  label: 'Carpet and Rug Institute: CRI 105 residential carpet installation standard',
+};
+
 const homeDepotFlooringInstall = {
   href: 'https://www.homedepot.com/catalog/pdfImages/c2/c274b7a0-d4cc-4196-9f09-da4ca69388e9.pdf',
   label: 'The Home Depot: Flooring installation instructions',
@@ -4560,20 +4565,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'carpet-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [nistSi, nistConversionFactors],
+    sources: [criResidentialCarpetInstallation, nistSi, nistConversionFactors, googleHelpfulContent],
     findings: [
-      'The calculator multiplies room length by width, adds waste, converts square feet to square yards, and estimates linear feet from roll width.',
-      'The guide explains roll width and square yards while warning that seams, stairs, closets, pile direction, and installer layout can change the order.',
-      'The result makes adjusted area and roll-length assumptions visible instead of giving only one carpet number.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `carpet calculator` intent after balance and status gates passed.',
+      'CRI 105 supports warning that carpet installation depends on measuring and planning, seams, pile direction, trimming, pattern matching, transitions, and installer layout.',
+      'The page now explains square feet to square yards, roll-width linear feet, 12 foot roll checks, waste, closets, stairs, padding, tack strips, and why the result is a planning estimate.',
     ],
     improvements: [
-      'Manually checked area conversion, square-yard conversion, roll-width logic, examples, FAQ cautions, guide clarity, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, safety limits, audit record, modified dates, related links, and image alt/caption text in smart-14 wording.',
     ],
     followUps: [
-      'Consider adding multi-room carpet entry after the core room-by-room pattern is tested.',
+      'Consider adding multi-room or seam-aware layout only if the UI can keep room names, roll orientation, and installer limits easy to understand on mobile.',
     ],
   },
   {

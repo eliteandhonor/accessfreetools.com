@@ -2195,31 +2195,75 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'carpet-calculator',
     name: 'Carpet Calculator',
     category: 'home-projects',
-    summary: 'Estimate carpet square yards and roll linear feet from room dimensions and waste.',
+    summary: 'Estimate carpet square yards, adjusted area, and roll length from room size, roll width, and waste.',
     description:
-      'Use this free carpet calculator to estimate carpet square yards, adjusted square feet, and linear feet from room size and roll width.',
+      'Use this free carpet calculator to estimate carpet square yards, adjusted square feet, and approximate roll length from room size, roll width, and waste.',
+    seoTitle: 'Carpet Calculator | Square Yards And Roll Length',
+    seoDescription:
+      'Estimate carpet square yards, adjusted square feet, and approximate roll length from room size, roll width, and waste with seam and pattern limits.',
     icon: 'calculator-carpet',
+    aliases: [
+      'Carpet Yardage Calculator',
+      'Carpet Square Yard Calculator',
+      'Carpet Roll Calculator',
+      'Carpet Room Calculator',
+    ],
     formula:
-      'The calculator multiplies room length by width, adds waste, divides by 9 for square yards, and divides by roll width for approximate linear feet.',
+      'The calculator uses floor area = length x width, adjusted area = floor area x (1 + waste percent / 100), square yards = adjusted area / 9, and approximate linear feet = adjusted area / roll width.',
     limit:
-      'Carpet orders depend on seam placement, stairs, closets, pile direction, pattern matching, roll width, and installer layout.',
+      'Carpet orders depend on seam placement, stairs, closets, hallways, doorway cuts, pile direction, pattern matching, roll width, tack strips, padding, transitions, dye lot, and installer layout.',
+    faqLanguage: {
+      expectedInputs: 'room length, room width, roll width, and waste percent',
+      examplePhrase: 'carpet room example',
+      doubleCheck:
+        'Also check whether the room needs more than one strip, whether the pile or pattern must run one direction, and whether closets, stairs, or hallways were measured separately.',
+    },
     inputExplanations: [
       { term: 'Room length and width', meaning: 'the simple rectangular floor area before closets, seams, or stairs are handled separately.' },
       { term: 'Roll width', meaning: 'the carpet roll width from the product, commonly 12 feet for many carpets.' },
       { term: 'Waste percent', meaning: 'extra carpet for trimming, seams, closets, pattern direction, and installer layout.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How do I turn square feet into square yards for carpet?',
+        answer:
+          'Divide square feet by 9 because one square yard is 3 feet by 3 feet. A 180 square foot room is 20 square yards before waste, then 22 square yards with 10% waste.',
+      },
+      {
+        question: 'Why does roll width matter?',
+        answer:
+          'Carpet comes from a fixed-width roll. A room that fits inside a 12 foot roll may need one piece, while a wider room may need seams or a different roll width. This calculator gives a simple roll-length estimate, not a full cutting diagram.',
+      },
+      {
+        question: 'Does this handle seams and pattern matching?',
+        answer:
+          'Only as a warning, not as a layout plan. Seam placement, pile direction, pattern repeat, and matching can change the order, so use the result as a planning number before an installer measures the room.',
+      },
+      {
+        question: 'Should I include closets and stairs?',
+        answer:
+          'Measure closets, stair runs, landings, and hallways separately. A simple rectangular room entry can miss extra cuts, nosing, turns, and trim waste.',
+      },
+      {
+        question: 'Does this include padding or installation cost?',
+        answer:
+          'No. It estimates carpet material area and roll length only. Padding, tack strips, transitions, delivery, furniture moving, old-carpet removal, and labor need separate pricing.',
+      },
     ],
     useCases: [
       'Estimate carpet for a simple rectangular room.',
       'Convert square feet into square yards.',
       'Estimate linear feet from common roll width.',
       'Add waste before talking with an installer.',
+      'Compare a 12 foot roll with a wider roll before asking for a quote.',
     ],
     examples: [
-      { label: 'Bedroom carpet', expression: '15 ft x 12 ft, 12 ft roll, 10% waste', result: 'Square yards and linear feet' },
-      { label: 'Large room', expression: '22 ft x 16 ft, 12 ft roll, 12% waste', result: 'Adjusted carpet area' },
-      { label: 'Small office', expression: '10 ft x 11 ft, 12 ft roll, 8% waste', result: 'Rough carpet order' },
+      { label: 'Bedroom carpet', expression: '15 ft x 12 ft, 12 ft roll, 10% waste', result: '22 sq yd and 16.5 linear ft' },
+      { label: 'Large room', expression: '22 ft x 16 ft, 12 ft roll, 12% waste', result: '43.8 sq yd and 32.9 linear ft' },
+      { label: 'Small office', expression: '10 ft x 11 ft, 12 ft roll, 8% waste', result: '13.2 sq yd and 9.9 linear ft' },
+      { label: 'Roll-width check', expression: '13 ft wide room, 12 ft roll', result: 'Installer seam check needed' },
     ],
-    relatedSlugs: ['square-footage-calculator', 'area-calculator', 'paint-calculator'],
+    relatedSlugs: ['flooring-calculator', 'tile-calculator', 'paint-calculator'],
   }),
   makeUtilityTool({
     slug: 'flooring-calculator',
