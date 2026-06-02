@@ -328,6 +328,18 @@ const toolArtMetadataOverrides = {
         'Retaining Wall Calculator guide artwork supports the walkthrough for courses, blocks per course, cap blocks, base gravel, waste, and construction safety limits.',
     },
   },
+  'rebar-weight-calculator': {
+    tool: {
+      alt: 'Smoke mascot weighing twelve 20 ft #4 rebar bars with a 10 percent waste card, 0.668 lb per foot note, and 176.352 lb result.',
+      caption:
+        'Rebar Weight Calculator artwork matches the live workflow: choose #3 to #8 bar size, enter length, quantity, and waste, then estimate pounds and US tons.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing #3 to #8 rebar weight-per-foot chart, #4 slab-bar example, cut waste, lap-splice caution, pounds, and US tons.',
+      caption:
+        'Rebar Weight Calculator guide artwork supports the walkthrough for weight-per-foot values, #4 and #5 examples, waste, hauling checks, and design limits.',
+    },
+  },
   'siding-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a house wall with window and door openings, siding panels, stacked siding squares, box coverage icons, and waste offcuts.',

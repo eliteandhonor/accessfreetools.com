@@ -4326,29 +4326,81 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate rebar weight from bar size, length, quantity, and waste.',
     description:
-      'Use this free rebar weight calculator to estimate pounds, tons, adjusted length, and weight per foot for common US rebar sizes.',
+      'Estimate rebar pounds, US tons, adjusted length, and weight per foot for common US rebar sizes from #3 through #8.',
+    seoTitle: 'Rebar Weight Calculator | Pounds, Tons, Chart',
+    seoDescription:
+      'Estimate rebar weight from bar size, length, quantity, and waste. See pounds, US tons, adjusted feet, and #3 to #8 weight-per-foot values.',
     icon: 'calculator-rebar-weight',
-    aliases: ['Rebar Weight Per Foot Calculator', 'Reinforcing Bar Weight Calculator'],
+    aliases: [
+      'Rebar Weight Per Foot Calculator',
+      'Reinforcing Bar Weight Calculator',
+      'Steel Rebar Weight Calculator',
+      'Rebar Weight Chart',
+      '#4 Rebar Weight Calculator',
+      '#5 Rebar Weight Calculator',
+      'Rebar Tons Calculator',
+      'Rebar Weight Calculator For Slab',
+    ],
     formula:
-      'The calculator multiplies length by quantity, adds waste, selects the nominal weight per foot for the rebar size, and converts total pounds to US tons.',
+      'The calculator multiplies length per bar by quantity, adds the waste percent, uses the nominal weight per foot for the selected rebar size, and divides total pounds by 2,000 for US tons.',
     limit:
-      'Nominal weights are planning values. Mill tolerances, coatings, cut lists, laps, supports, bundles, and structural design can change the real order.',
+      'This is ordering and hauling math only. Nominal weights are planning values, and mill tolerances, coatings, cut lists, lap splices, chairs, bundle rules, bar spacing, concrete cover, inspections, and structural design can change the real order.',
     inputExplanations: [
-      { term: 'Rebar size', meaning: 'the US bar size, such as #4, used to choose nominal weight per foot.' },
-      { term: 'Length per bar', meaning: 'the length of one bar or cut piece.' },
-      { term: 'Quantity', meaning: 'how many bars or pieces at that length.' },
-      { term: 'Waste percent', meaning: 'extra length for cuts, laps, layout changes, and damaged pieces.' },
+      { term: 'Rebar size', meaning: 'the US bar size, such as #4 or #5, used to choose nominal weight per foot.' },
+      { term: 'Length per bar', meaning: 'the length of one straight bar, stock bar, or cut piece in feet.' },
+      { term: 'Quantity', meaning: 'how many matching bars or pieces at that length.' },
+      { term: 'Waste percent', meaning: 'extra length for cuts, lap splices, layout changes, bent pieces, and damaged bars.' },
     ],
     extraFaq: [
       {
         question: 'What does #4 rebar mean?',
         answer:
-          '#4 is a common US rebar size with a nominal diameter of about 1/2 inch and a planning weight of about 0.668 lb per foot.',
+          '#4 is a common US rebar size with a nominal diameter of 1/2 inch and a planning weight of about 0.668 lb per foot.',
+      },
+      {
+        question: 'How much does #5 rebar weigh per foot?',
+        answer:
+          '#5 rebar weighs about 1.043 lb per foot. For example, eight 30-foot #5 bars with 8% waste come out to about 270.35 lb.',
+      },
+      {
+        question: 'How do I calculate total rebar weight?',
+        answer:
+          'Multiply length per bar by quantity, add waste, then multiply by the weight per foot for the bar size. The calculator also divides pounds by 2,000 to show US tons.',
+      },
+      {
+        question: 'Does this work as a rebar weight chart?',
+        answer:
+          'Yes. The rebar size menu shows the weight per foot for #3, #4, #5, #6, #7, and #8 bars. Use the calculator when you also know length and quantity.',
+      },
+      {
+        question: 'Can I use this for a concrete slab?',
+        answer:
+          'Yes, if you already know the bar size, bar length, and quantity. Use the separate Rebar Calculator first if you still need a slab grid count from spacing.',
+      },
+      {
+        question: 'Why does waste matter for rebar weight?',
+        answer:
+          'Waste covers cutoffs, overlaps, lap splices, bent bars, layout changes, and damaged pieces. A neat cut list may need little waste; a messy layout needs more.',
+      },
+      {
+        question: 'Does this include lap splice design?',
+        answer:
+          'No. It can add a waste allowance for laps, but lap length itself depends on bar size, concrete strength, grade, spacing, cover, and the project drawings.',
+      },
+      {
+        question: 'Can this estimate delivery or hauling weight?',
+        answer:
+          'It gives a good planning weight in pounds and US tons. Check supplier bundle counts, coatings, mill tolerances, and truck or trailer limits before hauling.',
+      },
+      {
+        question: 'Does epoxy-coated rebar weigh the same?',
+        answer:
+          'The steel weight is based on nominal bar size. Coatings, tags, bundling, and supplier packaging can add small differences to the delivered weight.',
       },
       {
         question: 'Is rebar weight the same as rebar design?',
         answer:
-          'No. Weight helps with ordering and hauling. Bar size, spacing, lap length, cover, and placement still need project-specific design.',
+          'No. Weight helps with ordering and hauling. Bar size, spacing, lap length, cover, support chairs, placement, and inspections still need project-specific design.',
       },
     ],
     useCases: [
@@ -4356,13 +4408,15 @@ export const utilityTools: ToolDefinition[] = [
       'Compare #3, #4, #5, and larger bars.',
       'Add waste for cut lists and lap planning.',
       'Convert total pounds to US tons.',
+      'Check a supplier list against a quick weight-per-foot chart.',
     ],
     examples: [
       { label: '#4 slab bars', expression: '12 bars, 20 ft each, 10% waste', result: '176.352 lb' },
-      { label: '#5 footing bars', expression: '8 bars, 30 ft each', result: 'Rebar weight estimate' },
-      { label: 'Waste check', expression: 'Increase waste percent', result: 'Adjusted length and weight' },
+      { label: '#5 footing bars', expression: '8 bars, 30 ft each, 8% waste', result: '270.346 lb' },
+      { label: '#3 light grid', expression: '20 bars, 10 ft each, no waste', result: '75.2 lb' },
+      { label: '#6 heavy bars', expression: '6 bars, 40 ft each, 5% waste', result: '378.504 lb, about 0.189 tons' },
     ],
-    relatedSlugs: ['rebar-calculator', 'concrete-reinforcing-mesh-calculator', 'concrete-calculator'],
+    relatedSlugs: ['rebar-calculator', 'concrete-reinforcing-mesh-calculator', 'concrete-calculator', 'concrete-weight-calculator'],
   }),
   makeUtilityTool({
     slug: 'concrete-footing-calculator',

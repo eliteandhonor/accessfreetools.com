@@ -3095,7 +3095,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Rebar Weight Calculator',
     buttonLabel: 'Estimate weight',
     emptyHistory: 'Recent rebar weight estimates will appear here.',
-    privacyNote: 'Rebar weight estimates stay local and use standard nominal US rebar weights.',
+    privacyNote: 'Rebar weight estimates stay local. This is ordering and hauling math, not reinforcement design.',
     modes: [
       {
         id: 'bar-weight',
@@ -3103,7 +3103,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         symbol: 'RBW',
         fields: [
           selectField('rebarSize', 'Rebar size', rebarSizeOptions),
-          numberField('lengthFeet', 'Length per bar feet', '20'),
+          numberField('lengthFeet', 'Length per bar (ft)', '20'),
           integerField('quantity', 'Quantity', '12'),
           numberField('wastePercent', 'Waste percent', '10'),
         ],

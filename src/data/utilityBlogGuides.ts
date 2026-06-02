@@ -245,9 +245,17 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/rebar-weight-calculator/',
     label: 'Inch Calculator: Rebar weight calculator reference',
   },
+  southernRebarWeight: {
+    href: 'https://www.southernrebar.com/reference/rebar-weight-per-linear-foot',
+    label: 'Southern Rebar: Rebar weight per linear foot',
+  },
   calcShedRebar: {
     href: 'https://calcshed.com/rebar-calculator/',
     label: 'CalcShed: Rebar calculator',
+  },
+  crsiLapSplices: {
+    href: 'https://www.crsi.org/reinforcing-basics/reinforcing-steel/splicing-bars/lap-splices/',
+    label: 'CRSI: Lap splices',
   },
   crsiSplicingBars: {
     href: 'https://www.crsi.org/reinforcing-basics/reinforcing-steel/splicing-bars/',
@@ -3338,25 +3346,80 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'rebar-weight-calculator': {
-    summary: 'Learn how rebar size, length, quantity, and waste estimate total steel weight.',
+    summary: 'Learn how rebar size, length, quantity, and waste estimate pounds, US tons, and weight per foot.',
+    metaDescription:
+      'Use the Rebar Weight Calculator with #4 and #5 examples. See the weight formula, #3 to #8 weight chart, slab tips, lap-splice cautions, and hauling limits.',
     purpose:
-      'The Rebar Weight Calculator estimates pounds and US tons from common US rebar sizes. It helps with ordering, hauling, and checking a cut list.',
+      'The Rebar Weight Calculator estimates pounds and US tons from common US rebar sizes. It helps with ordering, hauling, and checking a cut list before you call a supplier.',
+    intro:
+      'Pick the bar size, enter how long each piece is, enter how many pieces you need, and add a waste cushion. The result is weight planning, not a structural design.',
+    inputMatch: 'the bar size, length per piece, matching quantity, and waste cushion from your cut list or slab layout',
+    logicNote:
+      'For example, #4 rebar weighs about 0.668 lb per foot. Twelve 20-foot #4 bars make 240 feet. With 10% waste, that becomes 264 adjusted feet. Then 264 x 0.668 = 176.352 lb.',
+    readIntro:
+      'Use total pounds as the main buying and hauling number. Use adjusted length to check the cut list, weight per foot to check the bar size, and US tons when a supplier or truck limit is listed in tons.',
+    mistakeIntro:
+      'Most bad rebar-weight estimates come from using the wrong bar size, forgetting lap or cut waste, or treating weight math like an engineering plan.',
+    sidecarText:
+      'Open the Rebar Weight Calculator beside this guide. Try #4, 20 ft, 12 pieces, and 10% waste first; then replace the numbers with your cut list.',
+    bestUsesIntro: 'Best when you already know the bar size and count, and you need a quick weight check before buying, hauling, or comparing supplier numbers.',
+    referenceIntro:
+      'These references help check rebar weight-per-foot values, lap-splice limits, unit conversions, and why the page stays focused on useful people-first ordering math.',
     enter: [
-      'Choose the rebar size, such as #4 or #5.',
-      'Enter length per bar and quantity.',
-      'Add waste for cuts, laps, layout changes, and damaged pieces.',
+      'Choose the rebar size, such as #4 or #5. The size controls weight per foot.',
+      'Enter the length of one bar or cut piece in feet.',
+      'Enter how many matching pieces are in the set.',
+      'Add waste for cuts, lap splices, layout changes, bent bars, and damaged pieces.',
     ],
     read: [
       'Total pounds is adjusted length times nominal weight per foot.',
-      'Adjusted length includes quantity and waste percent.',
+      'Adjusted length includes length, quantity, and waste percent.',
+      'Weight per foot lets you check whether the chosen bar size matches the supplier chart.',
       'US tons is total pounds divided by 2,000.',
     ],
     mistakes: [
       'Do not use weight as a substitute for reinforcement design.',
-      'Do not ignore lap length, bar spacing, concrete cover, chairs, and placement drawings.',
-      'Check supplier bundle weights and mill tolerances when exact delivery weight matters.',
+      'Do not ignore lap length, bar spacing, concrete cover, support chairs, and placement drawings.',
+      'Do not enter a whole cut list as one bar unless every piece has the same length.',
+      'Check supplier bundle weights, coatings, and mill tolerances when exact delivery weight matters.',
     ],
-    sources: [sourceLinks.inchRebarWeight, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick #4 example',
+        paragraphs: [
+          'Say your slab list has twelve #4 bars, and each one is 20 feet long. That is 240 feet before waste.',
+          'With 10% waste, the adjusted length is 264 feet. #4 is about 0.668 lb per foot, so the result is 176.352 lb, or about 0.088 US tons.',
+        ],
+      },
+      {
+        title: 'Small weight chart check',
+        paragraphs: [
+          'The calculator uses common US planning weights: #3 is 0.376 lb/ft, #4 is 0.668 lb/ft, #5 is 1.043 lb/ft, #6 is 1.502 lb/ft, #7 is 2.044 lb/ft, and #8 is 2.670 lb/ft.',
+          'If your supplier chart shows a different product, use the supplier number for final ordering. Coatings and bundle packaging can make the delivery ticket slightly different from the simple steel-weight estimate.',
+        ],
+      },
+      {
+        title: 'Slab grid versus weight',
+        paragraphs: [
+          'If you already know the count and length, use this page. If you only know slab length, slab width, and bar spacing, use the Rebar Calculator first to estimate the grid.',
+          'After you have the grid count, come back here with the bar size and cut length to estimate pounds or tons.',
+        ],
+      },
+      {
+        title: 'What this does not design',
+        paragraphs: [
+          'This page does not choose the correct bar size, spacing, cover, lap splice length, grade, or placement. Those choices can affect safety and inspections.',
+          'CRSI notes that lap splice length depends on details such as concrete strength, rebar grade, size, and spacing, so use project drawings or a qualified professional when those details matter.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchRebarWeight,
+      sourceLinks.southernRebarWeight,
+      sourceLinks.crsiLapSplices,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'concrete-footing-calculator': {
     summary: 'Learn how footing length, width, depth, and waste become concrete yards and bag counts.',

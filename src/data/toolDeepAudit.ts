@@ -591,9 +591,19 @@ const inchRebarWeight = {
   label: 'Inch Calculator: Rebar weight calculator reference',
 };
 
+const southernRebarWeight = {
+  href: 'https://www.southernrebar.com/reference/rebar-weight-per-linear-foot',
+  label: 'Southern Rebar: Rebar weight per linear foot',
+};
+
 const calcShedRebar = {
   href: 'https://calcshed.com/rebar-calculator/',
   label: 'CalcShed: Rebar calculator',
+};
+
+const crsiLapSplices = {
+  href: 'https://www.crsi.org/reinforcing-basics/reinforcing-steel/splicing-bars/lap-splices/',
+  label: 'CRSI: Lap splices',
 };
 
 const crsiSplicingBars = {
@@ -5287,20 +5297,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'rebar-weight-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-concrete-masonry-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'all-pages-seo-dataforseo-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [inchRebarWeight, nistSi],
+    sources: [inchRebarWeight, southernRebarWeight, crsiLapSplices, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator selects nominal US rebar weight per foot, multiplies length by quantity, adds waste, and converts pounds to US tons.',
-      'The FAQ defines #4 rebar in plain language and separates ordering weight from reinforcement design.',
-      'The guide warns about lap length, spacing, cover, chairs, placement drawings, bundle weights, and mill tolerances.',
+      'DataForSEO paid evidence showed active U.S. intent around `rebar weight chart`, `rebar weight per foot`, `rebar weight calculator`, `steel rebar weight calculator`, and smaller metric or slab variants.',
+      'The calculator selects nominal US rebar weight per foot for #3 through #8, multiplies length by quantity, adds waste, and converts pounds to US tons.',
+      'The page and guide now separate ordering/hauling weight from structural reinforcement design, lap-splice design, spacing, cover, support chairs, placement drawings, bundle weights, coatings, and mill tolerances.',
     ],
     improvements: [
-      'Added rebar weight select input, formula tests, examples, guide article, detailed FAQs, source notes, related tools, SEO copy, privacy wording, and manual audit record.',
+      'Rebuilt metadata, aliases, formula text, examples, FAQ coverage, guide sections, source links, trust limits, modified dates, related links, audit record, and exact image alt/caption text around rebar weight-per-foot checks, pounds, US tons, #4/#5 examples, slab handoff, and waste.',
     ],
     followUps: [
-      'Add metric bar sizes only if the conversion table is sourced and tested.',
+      'Add metric bar sizes, #9 through #18, cost, or multi-line cut-list modes only if each mode gets sourced weights, UI labels, tests, and clear supplier-limit wording.',
     ],
   },
   {
