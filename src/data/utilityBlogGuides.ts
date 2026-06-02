@@ -105,6 +105,10 @@ const sourceLinks = {
     href: 'https://www.concrete.org/portals/0/files/pdf/ACI_Concrete_Terminology.pdf',
     label: 'ACI: Concrete Terminology',
   },
+  aciWwrPlacement: {
+    href: 'https://www.concrete.org/frequentlyaskedquestions/faqid/900.aspx',
+    label: 'ACI: Placement of welded wire reinforcement in slab-on-ground work',
+  },
   fhwaConcreteWeight: {
     href: 'https://www.fhwa.dot.gov/bridge/pubs/07022/chap04.cfm',
     label: 'FHWA: Normal-weight and lightweight concrete density',
@@ -3164,25 +3168,26 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'concrete-reinforcing-mesh-calculator': {
-    summary: 'Learn how slab area, sheet size, overlap, and waste estimate reinforcing mesh sheets.',
+    summary: 'Learn how slab area, mesh sheet size, overlap, and waste estimate welded wire mesh sheets.',
     purpose:
-      'The Concrete Mesh Calculator estimates how many mesh sheets or roll sections are needed to cover a rectangular slab, after overlap and waste are considered.',
+      'The Concrete Mesh Calculator estimates how many welded wire mesh sheets or roll sections are needed for a rectangular slab. It is a buying-list helper, not a reinforcement design.',
     enter: [
       'Enter slab length and width in feet.',
-      'Enter one mesh sheet length and width.',
-      'Enter overlap in inches and waste percent.',
+      'Enter one mesh sheet size. If you are cutting from a roll, use the planned cut length and roll width.',
+      'Enter overlap in inches, then add waste for cuts, damaged sheets, and small layout changes.',
     ],
     read: [
-      'Sheets needed is rounded up from adjusted slab area divided by effective sheet area.',
-      'Effective sheet area is smaller than sheet size when overlap is entered.',
-      'Adjusted area includes the waste percent.',
+      'Sheets needed is the adjusted slab area divided by effective sheet area, rounded up.',
+      'Effective sheet area is smaller than the sheet label when overlap is entered. A 10 x 5 ft sheet with 6 in overlap covers about 42.75 ft2 for estimating.',
+      'For a 30 x 20 ft slab using 10 x 5 ft sheets, 6 in overlap, and 10% waste, the calculator returns 16 sheets.',
     ],
     mistakes: [
-      'Do not treat sheet count as reinforcement design.',
-      'Do not ignore wire size, lap rules, cover, chairs, edge distance, and placement.',
-      'Do not enter overlap larger than the sheet dimensions.',
+      'Do not treat sheet count as a slab design. Wire size, layers, loads, joints, and local code are separate decisions.',
+      'Do not ignore support chairs, concrete cover, edge distance, lap rules, and placement height. ACI notes that welded wire reinforcement should be supported in position before concrete placement.',
+      'Do not enter overlap larger than the sheet dimensions; the calculator will stop because there is no usable sheet area left.',
+      'Do not assume the waste percent replaces drawing notes for laps or splices.',
     ],
-    sources: [sourceLinks.inchConcreteMesh, sourceLinks.nistUnits],
+    sources: [sourceLinks.inchConcreteMesh, sourceLinks.aciWwrPlacement, sourceLinks.crsiSplicingBars, sourceLinks.nistUnits],
   },
   'concrete-block-fill-calculator': {
     summary: 'Learn how block count and fill volume per block estimate concrete or grout fill.',

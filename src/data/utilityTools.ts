@@ -4037,45 +4037,103 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'concrete-reinforcing-mesh-calculator',
     name: 'Concrete Mesh Calculator',
     category: 'home-projects',
-    summary: 'Estimate reinforcing mesh sheets for a rectangular concrete slab.',
+    summary: 'Estimate welded wire mesh sheets for a rectangular concrete slab.',
     description:
-      'Use this free concrete reinforcing mesh calculator to estimate mesh sheet count from slab size, sheet size, overlap, and waste percent.',
+      'Estimate concrete mesh sheets for a slab. Enter slab size, sheet size, overlap, and waste to get effective coverage and sheets to buy.',
     icon: 'calculator-concrete-mesh',
-    aliases: ['Concrete Reinforcing Mesh Calculator', 'Wire Mesh Calculator', 'Reinforcement Mesh Calculator'],
+    aliases: [
+      'Concrete Reinforcing Mesh Calculator',
+      'Wire Mesh Calculator',
+      'Welded Wire Mesh Calculator',
+      'Remesh Calculator',
+      'WWR Calculator',
+      'Reinforcement Mesh Calculator',
+    ],
+    seoTitle: 'Concrete Mesh Calculator | Slab Sheet Count',
+    seoDescription:
+      'Estimate concrete mesh sheets for a rectangular slab. Enter slab size, mesh sheet size, overlap, and waste to get sheets to buy.',
     formula:
-      'The calculator finds slab area, reduces sheet coverage by overlap, adds waste, divides adjusted area by effective sheet area, and rounds up.',
+      'Slab area = length x width. Effective sheet area = (sheet length - overlap) x (sheet width - overlap). Adjusted area = slab area x (1 + waste percent / 100). Sheets = adjusted area / effective sheet area, rounded up.',
     limit:
-      'This is an area takeoff only. Wire size, chair height, cover, lap length, placement, slab design, loads, and code requirements need project-specific review.',
+      'This is a sheet-count takeoff only. It does not choose wire gauge, layers, lap length, chair spacing, concrete cover, placement height, slab design, loads, or code requirements.',
     inputExplanations: [
-      { term: 'Slab length and width', meaning: 'the rectangular slab area to cover.' },
-      { term: 'Sheet size', meaning: 'the length and width of one mesh sheet or roll section.' },
-      { term: 'Overlap', meaning: 'the amount sheets overlap, reducing usable coverage.' },
-      { term: 'Waste percent', meaning: 'extra mesh for trimming, edge cuts, overlaps, and mistakes.' },
+      { term: 'Slab length and width', meaning: 'the rectangular concrete area you want the mesh to cover.' },
+      { term: 'Sheet size', meaning: 'the length and width of one mesh sheet or one cut section from a roll.' },
+      { term: 'Overlap', meaning: 'the strip shared by two sheets; it reduces the new area each sheet covers.' },
+      { term: 'Waste percent', meaning: 'extra mesh for edge cuts, trimmed pieces, layout changes, and damaged sheets.' },
     ],
     extraFaq: [
       {
+        question: 'What does the Concrete Mesh Calculator count?',
+        answer:
+          'It counts whole mesh sheets or roll sections for a simple rectangular slab. It uses slab size, sheet size, overlap, and waste, then rounds up so you do not order a fraction of a sheet.',
+      },
+      {
         question: 'Why does overlap reduce sheet coverage?',
         answer:
-          'When two mesh sheets overlap, the overlapped strip does not cover new slab area. The calculator subtracts overlap from effective sheet dimensions.',
+          'When two sheets overlap, the shared strip does not cover fresh slab area. A 10 ft by 5 ft sheet with 6 in overlap behaves more like 9.5 ft by 4.5 ft for estimating coverage.',
+      },
+      {
+        question: 'Can I use this for wire mesh rolls?',
+        answer:
+          'Yes, if you treat one cut piece from the roll like a sheet. Enter the planned cut length and roll width as the sheet size, then add waste for offcuts.',
       },
       {
         question: 'Does this choose the right mesh size?',
         answer:
-          'No. It only estimates sheet count. The right reinforcement depends on slab purpose, thickness, soil, load, and local code.',
+          'No. It only estimates sheet count. Wire size, slab thickness, load, soil, cracks, spacing, and local code need the project drawing or a qualified concrete professional.',
+      },
+      {
+        question: 'Does this include two layers of mesh?',
+        answer:
+          'No. The result is for one layer. If your plan clearly calls for two layers, estimate one layer first and then double the sheet count before adding any project-specific layout changes.',
+      },
+      {
+        question: 'Should mesh sit on the ground before the pour?',
+        answer:
+          'No. Welded wire reinforcement is usually supported at the specified height before concrete is placed. Do not rely on pulling mesh up after the pour starts.',
+      },
+      {
+        question: 'How much waste should I add?',
+        answer:
+          'For a plain rectangle, 5% to 10% is a common planning range. Add more for odd corners, short offcuts, door openings, ramps, or a layout that wastes half-sheets.',
+      },
+      {
+        question: 'Does overlap replace lap rules on the drawing?',
+        answer:
+          'No. The overlap field is only for estimating coverage. Required laps and splice details can depend on the mesh type, spacing, cover, concrete, and project drawings.',
       },
     ],
     useCases: [
-      'Estimate mesh sheets for a slab or patio.',
-      'Compare sheet sizes and overlap allowances.',
-      'Add waste before buying mesh.',
-      'Plan mesh alongside concrete volume.',
+      'Estimate welded wire mesh sheets for a slab, patio, or pad.',
+      'Compare 10 x 5 ft sheets with a cut section from a roll.',
+      'See how 4 in, 6 in, or 12 in overlap changes the sheet count.',
+      'Add waste before ordering mesh from a supplier.',
+      'Plan mesh separately from concrete volume and rebar weight.',
     ],
     examples: [
-      { label: '30 x 20 slab', expression: '10 x 5 ft sheets, 6 in overlap, 10% waste', result: '16 sheets' },
-      { label: 'Small patio', expression: '18 x 12 ft slab, 4 in overlap', result: 'Mesh sheet estimate' },
-      { label: 'Overlap check', expression: 'Increase overlap', result: 'More sheets may be needed' },
+      {
+        label: '30 x 20 slab',
+        expression: '10 x 5 ft sheets, 6 in overlap, 10% waste',
+        result: '16 sheets, because each sheet covers about 42.75 ft2 after overlap',
+      },
+      {
+        label: 'Small patio',
+        expression: '18 x 12 ft slab, 10 x 5 ft sheets, 4 in overlap, 8% waste',
+        result: '6 sheets',
+      },
+      {
+        label: 'Garage pad roll cut',
+        expression: '24 x 24 ft slab, 20 x 8 ft roll sections, 6 in overlap, 10% waste',
+        result: '5 sections',
+      },
+      {
+        label: 'Overlap check',
+        expression: 'Raise overlap from 4 in to 12 in',
+        result: 'Effective sheet area drops, so the sheet count may rise',
+      },
     ],
-    relatedSlugs: ['concrete-calculator', 'rebar-calculator', 'concrete-driveway-calculator'],
+    relatedSlugs: ['concrete-calculator', 'rebar-calculator', 'concrete-weight-calculator', 'concrete-driveway-calculator'],
   }),
   makeUtilityTool({
     slug: 'concrete-block-fill-calculator',

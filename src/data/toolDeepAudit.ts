@@ -571,6 +571,11 @@ const inchConcreteMesh = {
   label: 'Inch Calculator: Concrete reinforcing mesh calculator reference',
 };
 
+const aciWwrPlacement = {
+  href: 'https://www.concrete.org/frequentlyaskedquestions/faqid/900.aspx',
+  label: 'ACI: Placement of welded wire reinforcement in slab-on-ground work',
+};
+
 const inchConcreteBlockFill = {
   href: 'https://www.inchcalculator.com/concrete-block-fill-calculator/',
   label: 'Inch Calculator: Concrete block fill calculator reference',
@@ -5177,20 +5182,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'concrete-reinforcing-mesh-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-concrete-masonry-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'page-by-page-seo-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [inchConcreteMesh, nistSi],
+    sources: [inchConcreteMesh, aciWwrPlacement, crsiSplicingBars, nistSi, googleHelpfulContent],
     findings: [
+      'DataForSEO page sprint was run for the exact tool and blog keyword; the exact related-keyword endpoint returned no keyword items, so no volume claims were added.',
       'The calculator finds slab area, reduces sheet coverage by overlap, adds waste, divides by effective sheet area, and rounds up sheet count.',
-      'The FAQ explains why overlap reduces coverage and states that wire size and reinforcement design are outside the tool.',
-      'The guide warns about lap rules, chairs, concrete cover, placement, loads, and code requirements.',
+      'ACI welded wire reinforcement guidance confirms mesh should be supported in position before concrete placement, so the copy warns against treating sheet count as placement design.',
+      'CRSI splice guidance confirms lap details depend on drawings and design variables, so the overlap field is framed as estimating coverage only.',
     ],
     improvements: [
-      'Added reinforcing mesh UI, overlap handling, validation for excessive overlap, formula tests, examples, guide article, FAQs, source links, and audit record.',
+      'Rebuilt title/meta, examples, FAQs, guide notes, source links, trust limits, image alt/caption, sitemap dates, and audit record around slab mesh sheet counts, overlap, waste, and placement limits.',
     ],
     followUps: [
-      'Add roll-length mode if user searches show demand for mesh rolls rather than sheets.',
+      'Add a separate roll-length mode if future Search Console or DataForSEO evidence shows demand for roll-first mesh planning.',
     ],
   },
   {

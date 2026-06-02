@@ -292,6 +292,18 @@ const toolArtMetadataOverrides = {
         'Concrete Weight Calculator guide artwork supports the walkthrough for cubic yards, density, waste, pounds, US tons, and mix-weight assumptions.',
     },
   },
+  'concrete-reinforcing-mesh-calculator': {
+    tool: {
+      alt: 'Smoke mascot holding a welded wire mesh sheet beside a slab grid, overlap strips, cut mesh pieces, and a stack of mesh sheets.',
+      caption:
+        'Concrete Mesh Calculator artwork matches the live workflow: enter slab size, sheet size, overlap, and waste to estimate welded wire mesh sheets.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing a slab, overlapping mesh panels, a cut-corner layout, arrows for overlap, and a stack of sheets to buy.',
+      caption:
+        'Concrete Mesh Calculator guide artwork supports the walkthrough for slab area, effective sheet coverage, overlap, waste, cuts, and sheet-count limits.',
+    },
+  },
   'siding-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a house wall with window and door openings, siding panels, stacked siding squares, box coverage icons, and waste offcuts.',
