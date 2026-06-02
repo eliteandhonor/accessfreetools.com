@@ -46,6 +46,11 @@ const openStaxPercent = {
   label: 'OpenStax: Understanding Percent',
 };
 
+const openStaxPercentApplications = {
+  href: 'https://openstax.org/books/prealgebra-2e/pages/6-2-solve-general-applications-of-percent',
+  label: 'OpenStax Prealgebra: Percent applications',
+};
+
 const openStaxMeasurement = {
   href: 'https://openstax.org/books/chemistry-2e/pages/1-5-measurement-uncertainty-accuracy-and-precision',
   label: 'OpenStax Chemistry: Measurement uncertainty, accuracy, and precision',
@@ -64,6 +69,11 @@ const khanFractions = {
 const khanOrderOfOperations = {
   href: 'https://www.khanacademy.org/math/pre-algebra/pre-algebra-arith-prop/pre-algebra-order-of-operations/v/order-operations-intro',
   label: 'Khan Academy: Order of operations introduction',
+};
+
+const khanPercentageChange = {
+  href: 'https://www.khanacademy.org/e/percentage-change-word-problems',
+  label: 'Khan Academy: Percentage change word problems',
 };
 
 const mdnArithmeticOperators = {
@@ -2093,20 +2103,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'percentage-calculator',
     status: 'deep-reviewed',
-    batch: 'math-foundations-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [openStaxPercent, openStaxMeasurement],
+    sources: [openStaxPercent, openStaxPercentApplications, khanPercentageChange, googleHelpfulContent],
     findings: [
-      'The percent-of, what-percent, change, add/subtract, and reverse-percent modes cover the common search intent.',
-      'The biggest user trap is mixing the original value and new value in percent change.',
-      'The FAQ explains reverse percentage clearly enough for everyday discount and tax use.',
+      'DataForSEO page evidence confirmed strong exact-match and related intent for percentage calculator, percentage increase calculator, percentage change calculator, percentage formula, percentage calculator difference, money, Excel, profit percentage, and marks searches.',
+      'The five live modes cover the main search jobs: percent of a number, what percent, percentage change, add or subtract percent, and reverse percent.',
+      'The biggest reader trap is still swapping the part and whole, or swapping the original and new value in a percent-change question.',
+      'The page now explains when to use narrower tools such as Percent Off, Sales Tax, Tip, and Percent Error calculators instead of forcing every percent job into one page.',
     ],
     improvements: [
-      'Reviewed percentage formulas, examples, FAQ, SEO title, related tools, and privacy notes.',
+      'Rewrote metadata, summary, use cases, examples, FAQ depth, blog hook, source and limits section, related-tool routing, image alt/caption text, and modified dates in smart-14 wording.',
     ],
     followUps: [
-      'Add a future tip/sales-tax shortcut if search data shows people expect those as presets.',
+      'Consider adding a small preset row for discount, tip, markup, and percent-change examples if users keep landing from those terms.',
     ],
   },
   {

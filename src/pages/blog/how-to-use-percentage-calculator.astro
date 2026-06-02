@@ -12,13 +12,13 @@ const examples = percentageCalculator?.examples ?? [];
 const articleStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'How to use the Percentage Calculator',
+  headline: 'Percentage Calculator Guide',
   description:
-    'Learn percentage problems with the Access Free Tools percentage calculator, including percent-of questions, what-percent questions, percentage change, discounts, markups, reverse percentages, history, privacy, and copying answers.',
+    'Use the Percentage Calculator for percent-of answers, percent change, discounts, markups, reverse percentages, formula checks, history, privacy, and copied answers.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-percentage-calculator/',
   image: guideImageUrl,
   datePublished: '2026-04-30',
-  dateModified: '2026-04-30',
+  dateModified: '2026-06-02',
   author: {
     '@type': 'Organization',
     name: 'Access Free Tools',
@@ -32,8 +32,8 @@ const articleStructuredData = {
 ---
 
 <BaseLayout
-  title="How to use the Percentage Calculator | Access Free Tools"
-  description="Learn percent of a number, what-percent questions, percentage change, discounts, markups, reverse percentages, and privacy."
+  title="Percentage Calculator Guide | Percent Change And Discounts"
+  description="Learn how to use the Percentage Calculator for percent of a number, percent change, discounts, markups, reverse percentages, copied answers, and common mistakes."
   path="/blog/how-to-use-percentage-calculator/"
   socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
   socialImageAlt={guideArt?.alt}
@@ -45,11 +45,11 @@ const articleStructuredData = {
 
     <header class="blog-article-header">
       <span>Percentage calculator guide</span>
-      <h1>How to use the Percentage Calculator</h1>
+      <h1>Percentage Calculator Guide</h1>
       <p>
-        The Percentage Calculator handles the percentage questions people ask most often:
-        percent of a number, what percent one number is of another, percentage increase or
-        decrease, adding or subtracting a percent, and reverse percentage problems.
+        Percent questions can look easy and still trip people up. The trick is knowing which
+        number is the part, which number is the whole, and which number came first. Double-check
+        that before trusting the answer.
       </p>
       <a class="button-primary" href="/tools/percentage-calculator/">Open the percentage calculator</a>
     </header>
@@ -59,33 +59,47 @@ const articleStructuredData = {
     <div class="blog-article-layout">
       <div class="blog-article-body">
         <section class="content-section">
-          <h2>Quick start</h2>
+          <h2>Quick answer</h2>
+          <p>
+            Use <a href="/tools/percentage-calculator/">Percentage Calculator</a> when you need a fast
+            answer for percent-of math, percent increase or decrease, a discount, a markup, or a
+            reverse percentage. Pick the mode first. Then type the numbers.
+          </p>
+          <p>
+            If the question is just a sale price, the <a href="/tools/percent-off-calculator/">Percent Off Calculator</a>
+            is faster. If you are adding tax after a price, use the
+            {' '}<a href="/tools/sales-tax-calculator/">Sales Tax Calculator</a>.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Start with the mode</h2>
           <ol class="instruction-list">
-            <li>Choose the percentage question you want to answer.</li>
-            <li>Enter the numbers shown for that mode.</li>
-            <li>Press Calculate percentage to get the answer.</li>
-            <li>Review the formula line and steps if you want to check the work.</li>
-            <li>Use examples, recent answers, or Copy answer while comparing values.</li>
+            <li>Choose the percentage question that matches your problem.</li>
+            <li>Type the numbers into the fields for that mode.</li>
+            <li>Press Calculate percentage.</li>
+            <li>Read the answer, formula line, and steps.</li>
+            <li>Copy the answer if you need it in notes, homework, a message, or a spreadsheet.</li>
           </ol>
         </section>
 
         <section class="content-section">
-          <h2>Choosing the right mode</h2>
+          <h2>Which mode should I pick?</h2>
           <div class="feature-list">
-            <p><strong>Percent of a number:</strong> use this for questions like 20% of 80.</p>
-            <p><strong>What percent:</strong> use this for questions like 25 is what percent of 200.</p>
-            <p><strong>Percentage change:</strong> use this to compare an original value and a new value.</p>
-            <p><strong>Add or subtract percent:</strong> use this for discounts, markups, tax, tips, or growth.</p>
-            <p><strong>Reverse percent:</strong> use this when you know the part and the percentage but need the original whole.</p>
+            <p><strong>Percent of a number:</strong> answers questions like 18% of 240.</p>
+            <p><strong>What percent?</strong> answers questions like 25 is what percent of 200.</p>
+            <p><strong>Percentage change:</strong> compares an original value with a new value.</p>
+            <p><strong>Add or subtract percent:</strong> handles discounts, markups, tax, tips, and growth.</p>
+            <p><strong>Reverse percent:</strong> works backward when you know the part and the percent.</p>
           </div>
         </section>
 
         <section class="content-section">
-          <h2>Percentage examples</h2>
+          <h2>Five examples that cover most searches</h2>
           <div class="shortcut-table" role="table" aria-label="Percentage calculator examples">
             <div role="row">
-              <strong role="cell">20% of 80</strong>
-              <span role="cell">Turns 20% into 0.20, then multiplies by 80 to get 16.</span>
+              <strong role="cell">18% of 240</strong>
+              <span role="cell">Turns 18% into 0.18, then multiplies 240 by 0.18 to get 43.2.</span>
             </div>
             <div role="row">
               <strong role="cell">25 is what % of 200</strong>
@@ -93,11 +107,11 @@ const articleStructuredData = {
             </div>
             <div role="row">
               <strong role="cell">160 to 116</strong>
-              <span role="cell">Finds a decrease of 44, then compares it with 160 to get 27.5% decrease.</span>
+              <span role="cell">Finds a drop of 44, then compares it with 160 to get a 27.5% decrease.</span>
             </div>
             <div role="row">
               <strong role="cell">120 plus 25%</strong>
-              <span role="cell">Finds 25% of 120, then adds 30 to get 150.</span>
+              <span role="cell">Finds 25% of 120, then adds 30, so the final value is 150.</span>
             </div>
             <div role="row">
               <strong role="cell">30 is 15% of what?</strong>
@@ -122,28 +136,58 @@ const articleStructuredData = {
         )}
 
         <section class="content-section">
-          <h2>Discounts, tips, and markups</h2>
+          <h2>Discounts, tips, tax, and markups</h2>
           <p>
             For a discount, choose Add or subtract percent, enter the original price, enter the
-            percentage, and choose Decrease. For tax, tips, markup, or growth, use the same mode
-            and choose Increase.
+            discount percent, and choose Decrease. A $120 item with 25% off becomes $90 because
+            25% of 120 is 30, and 120 - 30 = 90.
           </p>
           <p>
-            The result shows the final value. The formula line also shows the amount added or
-            subtracted, which makes it easier to check the math.
+            For tax, tips, markup, or growth, use the same mode and choose Increase. The result
+            shows the final value, and the formula line shows the amount added or subtracted.
           </p>
         </section>
 
         <section class="content-section">
-          <h2>Common mistakes to check</h2>
+          <h2>Percent change mistake to avoid</h2>
           <p>
-            If you are finding what percent one number is of another, the whole value cannot be
-            zero. If you are finding percentage change, the original value cannot be zero because
-            the calculator has nothing to compare against.
+            Percent change needs a starting point. If a price drops from 160 to 116, the original
+            value is 160. Avoid swapping the numbers. If you reverse them, you are asking how much
+            116 would need to rise to get back to 160.
           </p>
           <p>
-            For reverse percentages, the percentage cannot be zero. A question like "30 is 0% of
-            what?" does not have one useful original whole.
+            The whole value cannot be zero in a what-percent question. The original value cannot
+            be zero in a percentage-change question. For reverse percentages, the percent cannot
+            be zero. "30 is 0% of what?" does not have one useful whole.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>What the formula line means</h2>
+          <p>
+            The calculator shows the short math behind the answer. For percent-of questions, it
+            uses value x percent / 100. For what-percent questions, it uses part / whole x 100.
+            For percent change, it divides the change by the original value. Then it turns that
+            result into a percent.
+          </p>
+          <p>
+            This matches the school idea of percent as "per 100." OpenStax explains percent this
+            way. Khan Academy uses the same part, whole, increase, and decrease setup in percent
+            practice.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Double-check before using the result</h2>
+          <p>
+            Double-check the mode, the starting value, and the sign on the result. A decrease
+            should look like a decrease. A markup should make the number bigger. A discount should
+            make it smaller.
+          </p>
+          <p>
+            Avoid using this page as the final rule for a store, class, tax form, or business
+            policy. The calculator shows the math. The real rule still comes from the receipt,
+            teacher, spreadsheet, or official policy.
           </p>
         </section>
 
@@ -151,19 +195,34 @@ const articleStructuredData = {
           <h2>History, privacy, and copying</h2>
           <p>
             Recent percentage answers stay visible in the current page while you work. This is
-            useful when comparing discounts, prices, growth rates, or percentage changes. The
-            history is kept only in the current browser tab and is not sent to a server.
+            useful when comparing discounts, prices, growth rates, or percentage changes. The tool
+            keeps only a short list in the current browser tab. It is not sent to a server.
           </p>
           <p>
             Copy answer copies the displayed answer to your clipboard so you can paste it into
             notes, homework, a spreadsheet, or a message.
           </p>
         </section>
+
+        <section class="content-section">
+          <h2>Sources and limits</h2>
+          <p>
+            This guide checked the page against
+            {' '}<a href="https://openstax.org/books/contemporary-mathematics/pages/6-1-understanding-percent">OpenStax percent basics</a>,
+            {' '}<a href="https://openstax.org/books/prealgebra-2e/pages/6-2-solve-general-applications-of-percent">OpenStax percent applications</a>,
+            {' '}<a href="https://www.khanacademy.org/e/percentage-change-word-problems">Khan Academy percentage-change practice</a>, and
+            {' '}<a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content">Google's people-first content guidance</a>.
+          </p>
+          <p>
+            The calculator is for checking math. That is the limit. It does not decide the real store price, tax rule,
+            coupon rule, school grading rule, or business markup policy for you.
+          </p>
+        </section>
       </div>
 
       <aside class="article-sidecar">
         <h2>Open the tool</h2>
-        <p>Use the percentage calculator while you follow the guide.</p>
+        <p>Use the percentage calculator while the numbers are still in front of you.</p>
         <a class="button-primary" href="/tools/percentage-calculator/">Percentage Calculator</a>
       </aside>
     </div>

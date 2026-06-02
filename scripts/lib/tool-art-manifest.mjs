@@ -64,6 +64,18 @@ const toolArtMetadataOverrides = {
         'Basic Calculator guide artwork supports the walkthrough for percent checks, keyboard input, one-step math, copied answers, and common mistakes.',
     },
   },
+  'percentage-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing 18 percent of 240, 160 to 116 percent change, a 25 percent markup, and a reverse-percent card.',
+      caption:
+        'Percentage Calculator artwork matches the live modes: percent of a number, what percent, percent change, add or subtract percent, and reverse percent.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining percent change from 160 to 116 beside discount, markup, reverse-percent, and formula-step cards.',
+      caption:
+        'Percentage Calculator guide artwork supports the walkthrough for percent-of math, percent change, discounts, markups, reverse percentages, and common mistakes.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

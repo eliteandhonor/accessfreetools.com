@@ -124,24 +124,25 @@ const baseTools: ToolDefinition[] = [
     slug: 'percentage-calculator',
     name: 'Percentage Calculator',
     category: 'calculators',
-    summary: 'Find percentages, percent change, discounts, markups, and reverse percentages.',
+    summary: 'Find percent-of answers, percent change, discounts, markups, and reverse percentages.',
     description:
-      'Use this free percentage calculator for percent-of calculations, percentage change, percentage increase or decrease, discounts, markups, and reverse percentage questions.',
+      'Use this free percentage calculator to answer percent-of questions, compare percentage change, add or subtract a percent, and work backward from a known percent.',
     icon: 'calculator-percent',
-    seoTitle: 'Percentage Calculator | Free Online Percent Calculator',
+    seoTitle: 'Percentage Calculator | Percent Change, Discounts, Reverse',
     seoDescription:
-      'Find percent of a number, percentage change, discounts, markups, reverse percentages, and what-percent answers.',
+      'Use the free percentage calculator for percent of a number, percentage increase or decrease, discounts, markups, reverse percentages, and formula steps.',
+    aliases: ['Percent Calculator', 'Percentage Change Calculator', 'Percentage Increase Calculator'],
     useCases: [
-      'Find a discount, tip, tax amount, sale price, or markup.',
-      'Calculate what percent one number is of another number.',
-      'Check percentage increase or decrease between two values.',
-      'Work backward from a known value and percentage to find the original whole.',
+      'Find 18% of 240, 20% of 80, or another percent-of answer.',
+      'Check whether a value went up or down and by what percent.',
+      'Add or subtract a percent for discounts, markups, tax, tips, or growth.',
+      'Work backward when you know the part and the percent but not the original whole.',
     ],
     examples: [
       {
         label: 'Find percent of a number',
-        expression: '20% of 80',
-        result: '16',
+        expression: '18% of 240',
+        result: '43.2',
       },
       {
         label: 'Find what percent',
@@ -153,12 +154,22 @@ const baseTools: ToolDefinition[] = [
         expression: '160 to 116',
         result: '27.5% decrease',
       },
+      {
+        label: 'Add a markup',
+        expression: '120 plus 25%',
+        result: '150',
+      },
+      {
+        label: 'Reverse the percent',
+        expression: '30 is 15% of what?',
+        result: '200',
+      },
     ],
     faq: [
       {
         question: 'What can I use the Percentage Calculator for?',
         answer:
-          'Use it for common percentage questions: percent of a number, what percent one value is of another, percentage increase or decrease, adding or subtracting a percent, and reverse percentage problems.',
+          'Use it when the question has a percent sign in it: percent of a number, what percent one number is of another, percent increase or decrease, discounts, markups, tips, tax, and reverse percentage problems.',
       },
       {
         question: 'What do the main Percentage Calculator inputs mean?',
@@ -168,12 +179,12 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'How do I find a percentage of a number?',
         answer:
-          'Choose Percent of a number, enter the percentage and the value, then calculate. For example, 20% of 80 is 16 because 80 x 0.20 = 16.',
+          'Choose Percent of a number, enter the percentage and the value, then calculate. For example, 18% of 240 is 43.2 because 240 x 0.18 = 43.2.',
       },
       {
         question: 'How is percentage change calculated?',
         answer:
-          'Percentage change compares the difference between the new value and original value with the original value. The calculator shows whether the result is an increase or decrease.',
+          'Percentage change compares the difference with the original value: (new value - original value) / original value x 100. If 160 drops to 116, the change is -44, so the result is a 27.5% decrease.',
       },
       {
         question: 'Can this calculator handle discounts and markups?',
@@ -186,12 +197,22 @@ const baseTools: ToolDefinition[] = [
           'A reverse percentage works backward from a known value and percentage. For example, if 30 is 15% of a number, the original whole is 200.',
       },
       {
+        question: 'What mistake gives the wrong percent change?',
+        answer:
+          'Using the new value as the original value changes the answer. If a price moves from 160 to 116, 160 is the starting point. Reversing those numbers answers a different question.',
+      },
+      {
+        question: 'When should I use a different calculator?',
+        answer:
+          'Use the Percent Off Calculator for a quick sale-price check, the Sales Tax Calculator for tax after a price, the Tip Calculator for restaurant bills, and the Percent Error Calculator for lab or measurement comparisons.',
+      },
+      {
         question: 'Is my percentage history private?',
         answer:
-          'Yes. Recent percentage answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+          'Yes. Recent percentage answers stay only in the current browser tab while you use the page. They are not sent to a server, and refreshing or closing the tab clears the short history.',
       },
     ],
-    relatedSlugs: ['ratio-calculator', 'percent-error-calculator', 'fraction-calculator'],
+    relatedSlugs: ['percent-off-calculator', 'sales-tax-calculator', 'tip-calculator', 'percent-error-calculator'],
   },
   {
     slug: 'ratio-calculator',
