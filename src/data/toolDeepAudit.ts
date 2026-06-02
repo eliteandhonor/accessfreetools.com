@@ -1866,6 +1866,21 @@ const proBuilderFenceCalculator = {
   label: 'ProBuilderCalc: Fence material calculator',
 };
 
+const tallyardGravelCalculator = {
+  href: 'https://www.tallyard.com/gravel-calculator',
+  label: 'Tallyard: Gravel calculator',
+};
+
+const inchCalculatorGravelDriveway = {
+  href: 'https://www.inchcalculator.com/gravel-driveway-calculator/',
+  label: 'Inch Calculator: Gravel driveway calculator',
+};
+
+const calcipediaGravelDriveway = {
+  href: 'https://www.calcipedia.org/calculators/gravel-driveway-calculator/',
+  label: 'Calcipedia: Gravel driveway calculator',
+};
+
 const lowesSiding = {
   href: 'https://www.certainteed.com/products/documents-downloads',
   label: 'CertainTeed: Siding documents and installation resources',
@@ -4597,20 +4612,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'gravel-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [nistSi, nistConversionFactors],
+    sources: [tallyardGravelCalculator, inchCalculatorGravelDriveway, calcipediaGravelDriveway, nistSi, nistConversionFactors, googleHelpfulContent],
     findings: [
+      'DataForSEO paid evidence for the exact tool and guide targeted `gravel calculator` intent after balance and status gates passed.',
       'The calculator converts length, width, and depth into cubic yards, then multiplies by the user-entered tons-per-cubic-yard density.',
-      'The guide explains that density is supplier-specific and can change with stone type, compaction, and moisture.',
-      'The result separates volume from estimated tons so users can see whether the uncertainty is in geometry or density.',
+      'Current gravel estimator sources show users expect cubic yards, tons, depth, density, compaction, delivery rounding, and driveway-layer cautions, so the page now separates the simple rectangular estimate from real ordering checks.',
+      'The page now uses exact examples for a 20 ft by 10 ft driveway top-up, a 30 ft by 3 ft path, an 18 ft by 18 ft parking pad, and a 40 ft by 12 ft deep base layer.',
     ],
     improvements: [
-      'Manually checked rectangular-volume math, density input wording, examples, FAQ cautions, guide details, source coverage, related tools, SEO copy, privacy behavior, and material estimate labels.',
+      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, density/order cautions, audit record, modified dates, related links, and image alt/caption text in smart-14 wording.',
     ],
     followUps: [
-      'Add a small density note table only if maintained supplier-neutral defaults are added.',
+      'Add material presets, compaction allowance, driveway layer mode, and bag-versus-bulk comparison only if the UI keeps supplier-density limits clear.',
     ],
   },
   {

@@ -208,6 +208,18 @@ const toolArtMetadataOverrides = {
         'Fence Calculator guide artwork supports the walkthrough by showing gate subtraction, post counts, panel layout, and real-job cautions.',
     },
   },
+  'gravel-calculator': {
+    tool: {
+      alt: 'Smoke mascot estimating a 20 by 10 foot gravel area at 4 inches deep, showing 2.47 cubic yards and 3.46 tons.',
+      caption:
+        'Gravel Calculator artwork matches the live workflow: enter length, width, depth, and tons per cubic yard to estimate gravel yards and tons.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing gravel cubic yards, tons, depth, supplier density, compaction, delivery minimums, and driveway layers.',
+      caption:
+        'Gravel Calculator guide artwork supports the walkthrough by showing why yards, tons, depth, compaction, and supplier rules need separate checks.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

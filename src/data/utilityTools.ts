@@ -2144,28 +2144,86 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate gravel cubic yards and tons from length, width, depth, and density.',
     description:
       'Use this free gravel calculator to estimate cubic yards and tons for a rectangular gravel area.',
+    seoTitle: 'Gravel Calculator | Yards, Tons, Depth',
+    seoDescription:
+      'Estimate gravel cubic yards and tons from length, width, depth in inches, and supplier density before checking compaction and delivery rules.',
     icon: 'calculator-gravel',
+    aliases: [
+      'Gravel Yard Calculator',
+      'Gravel Tons Calculator',
+      'Driveway Gravel Calculator',
+      'Pea Gravel Calculator',
+      'Crushed Stone Calculator',
+      'Gravel Material Calculator',
+    ],
     formula:
-      'The calculator converts depth from inches to feet, multiplies length by width by depth, divides by 27 for cubic yards, then multiplies by tons per cubic yard.',
+      'The calculator uses cubic feet = length x width x depth inches / 12, cubic yards = cubic feet / 27, estimated tons = cubic yards x tons per cubic yard, and bag count = ceiling(cubic feet / bag cubic feet) when bag sizing is available.',
     limit:
-      'Stone type, compaction, moisture, supplier density, and delivery minimums can change the actual order amount.',
+      'This is a rectangular planning estimate. Real orders can change with stone type, moisture, compaction, loose versus compacted volume, driveway layers, drainage, edging, fabric, supplier density, truck access, delivery minimums, and local site conditions.',
+    faqLanguage: {
+      expectedInputs: 'length, width, depth in inches, tons per cubic yard, and optional bag size',
+      examplePhrase: 'gravel material example',
+      doubleCheck:
+        'Also check whether your supplier sells by cubic yard, by ton, or by bag, and ask how compaction, moisture, and delivery minimums affect the final order.',
+    },
     inputExplanations: [
       { term: 'Length, width, and depth', meaning: 'the rectangular gravel area and average finished depth.' },
-      { term: 'Tons per cubic yard', meaning: 'the supplier density used to convert volume into weight.' },
-      { term: 'Tons result', meaning: 'a weight estimate; delivery minimums and compaction can still change the order.' },
+      { term: 'Tons per cubic yard', meaning: 'the supplier density used to turn volume into weight. Use the yard or quarry number when you have it.' },
+      { term: 'Cubic yards result', meaning: 'the bulk volume number many landscape suppliers use for gravel, stone, and base material.' },
+      { term: 'Tons result', meaning: 'the weight estimate. It is not interchangeable with yards unless the density matches.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How do I calculate gravel cubic yards?',
+        answer:
+          'Multiply length by width by depth in feet to get cubic feet, then divide by 27. If depth is in inches, divide the depth by 12 first. The calculator does that conversion for you.',
+      },
+      {
+        question: 'Are gravel tons and cubic yards the same thing?',
+        answer:
+          'No. Cubic yards measure volume, while tons measure weight. One cubic yard of common crushed stone is often around 1.35 to 1.5 tons, but the right number depends on the material and supplier.',
+      },
+      {
+        question: 'What depth should I use for gravel?',
+        answer:
+          'Use the finished depth you want. Decorative beds may be around 2 inches, paths often use about 2 to 3 inches, and driveways or base layers can need more. Match the depth to the job, not just the cheapest order.',
+      },
+      {
+        question: 'Should I add extra gravel for compaction?',
+        answer:
+          'Often yes for crushed or base gravel. Loose gravel can settle or compact after spreading, so ask the supplier how much extra to order for the material and equipment you are using.',
+      },
+      {
+        question: 'Can I use this for pea gravel or river rock?',
+        answer:
+          'Yes for rough volume. For tons, change the tons-per-cubic-yard input because pea gravel, crushed stone, river rock, road base, and wet gravel can weigh different amounts.',
+      },
+      {
+        question: 'Does this plan driveway gravel layers?',
+        answer:
+          'No. It estimates one rectangular layer at one depth. A full driveway may need separate base, middle, and surface layers, each with its own material, depth, compaction, and drainage plan.',
+      },
+      {
+        question: 'What should I ask the supplier before ordering?',
+        answer:
+          'Ask whether they sell by the yard, ton, or bag; what density they use; the minimum delivery amount; dump-truck access needs; and whether they recommend an overage for compaction or spillage.',
+      },
     ],
     useCases: [
       'Estimate gravel for a path, pad, or driveway section.',
       'Convert cubic feet into cubic yards.',
       'Estimate tons from supplier density.',
       'Check how changing depth changes material needs.',
+      'Compare bulk yard orders with ton-based supplier quotes.',
+      'Plan a small bagged job before switching to bulk delivery.',
     ],
     examples: [
-      { label: 'Driveway bed', expression: '20 ft x 10 ft x 3 in, 1.4 tons/yd3', result: 'Cubic yards and tons' },
-      { label: 'Path', expression: '30 ft x 3 ft x 2 in', result: 'Material estimate' },
-      { label: 'Parking pad', expression: '18 ft x 18 ft x 4 in, 1.5 tons/yd3', result: 'Bulk gravel estimate' },
+      { label: 'Small driveway top-up', expression: '20 ft x 10 ft x 4 in, 1.4 tons/yd3', result: '2.47 yd3 and 3.46 tons' },
+      { label: 'Garden path', expression: '30 ft x 3 ft x 2 in, 1.35 tons/yd3', result: '0.56 yd3 and 0.75 tons' },
+      { label: 'Parking pad', expression: '18 ft x 18 ft x 4 in, 1.5 tons/yd3', result: '4.00 yd3 and 6.00 tons' },
+      { label: 'Deep base layer', expression: '40 ft x 12 ft x 6 in, 1.5 tons/yd3', result: '8.89 yd3 and 13.33 tons' },
     ],
-    relatedSlugs: ['mulch-calculator', 'volume-calculator', 'square-footage-calculator'],
+    relatedSlugs: ['cubic-yard-calculator', 'sand-calculator', 'paver-base-calculator'],
   }),
   makeUtilityTool({
     slug: 'paint-calculator',

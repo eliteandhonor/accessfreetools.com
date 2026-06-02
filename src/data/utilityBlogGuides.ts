@@ -553,6 +553,18 @@ const sourceLinks = {
     href: 'https://www.probuildercalc.com/calculators/fence-material',
     label: 'ProBuilderCalc: Fence material calculator',
   },
+  tallyardGravelCalculator: {
+    href: 'https://www.tallyard.com/gravel-calculator',
+    label: 'Tallyard: Gravel calculator',
+  },
+  inchCalculatorGravelDriveway: {
+    href: 'https://www.inchcalculator.com/gravel-driveway-calculator/',
+    label: 'Inch Calculator: Gravel driveway calculator',
+  },
+  calcipediaGravelDriveway: {
+    href: 'https://www.calcipedia.org/calculators/gravel-driveway-calculator/',
+    label: 'Calcipedia: Gravel driveway calculator',
+  },
   biaBrickEstimating: {
     href: 'https://www.gobrick.com/media/file/10-dimensioning-and-estimating-brick-masonry.pdf',
     label: 'Brick Industry Association: Dimensioning and estimating brick masonry',
@@ -2058,25 +2070,33 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'gravel-calculator': {
-    summary: 'Learn how dimensions and density estimate gravel cubic yards and tons.',
+    summary: 'Learn how dimensions, depth, and density estimate gravel cubic yards and tons.',
     purpose:
-      'The Gravel Calculator estimates volume and tonnage for a rectangular gravel area. It is most useful when you can enter your supplier tons-per-cubic-yard value.',
+      'The Gravel Calculator estimates volume and tonnage for one rectangular gravel layer. It is most useful when you can enter the supplier tons-per-cubic-yard value and then check compaction, delivery, and layer needs before ordering.',
     enter: [
-      'Enter length and width in feet.',
-      'Enter depth in inches.',
-      'Enter tons per cubic yard from your supplier when available.',
+      'Enter length and width in feet. Measure the area that will actually be covered, not the whole yard or driveway around it.',
+      'Enter depth in inches. Use finished depth for a top-up, path, bed, pad, or base layer, and estimate separate layers separately.',
+      'Enter tons per cubic yard from your supplier when available. If the quote is by the ton, this input is what connects the cubic-yard math to the weight order.',
     ],
     read: [
-      'Cubic yards is the volume estimate.',
-      'Estimated tons multiplies cubic yards by density.',
+      'Cubic yards is the bulk volume estimate. A 20 ft by 10 ft area at 4 inches deep comes out to about 2.47 cubic yards before any extra compaction or delivery allowance.',
+      'Estimated tons multiplies cubic yards by density. At 1.4 tons per cubic yard, that same 20 ft by 10 ft top-up is about 3.46 tons.',
       'Density used reminds you which conversion factor was applied.',
+      'The answer is a planning number, not a supplier guarantee. A quarry may round to full tons, half yards, full yards, or truck minimums.',
     ],
     mistakes: [
-      'Do not assume every gravel type weighs the same.',
-      'Do not ignore compaction and moisture.',
-      'Ask the supplier about delivery minimums and recommended overage.',
+      'Do not assume tons and cubic yards are the same. Cubic yards measure volume; tons measure weight.',
+      'Do not ignore compaction, moisture, stone shape, and loose-versus-compacted volume.',
+      'Do not use one layer for a whole driveway if the project needs base, middle, and surface gravel with different depths.',
+      'Ask the supplier about density, delivery minimums, truck access, dump location, and recommended overage before buying.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [
+      sourceLinks.tallyardGravelCalculator,
+      sourceLinks.inchCalculatorGravelDriveway,
+      sourceLinks.calcipediaGravelDriveway,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'paint-calculator': {
     summary: 'Learn how room size, openings, coats, and coverage estimate paint gallons.',
