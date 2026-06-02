@@ -193,6 +193,10 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/concrete-footing-calculator/',
     label: 'Inch Calculator: Concrete footing calculator reference',
   },
+  iccIrc2024Foundations: {
+    href: 'https://codes.iccsafe.org/content/IRC2024P2/chapter-4-foundations',
+    label: 'ICC: 2024 IRC foundations chapter',
+  },
   inchPostHoleConcrete: {
     href: 'https://www.inchcalculator.com/post-hole-concrete-calculator/',
     label: 'Inch Calculator: Post hole concrete calculator reference',
@@ -3422,25 +3426,80 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'concrete-footing-calculator': {
-    summary: 'Learn how footing length, width, depth, and waste become concrete yards and bag counts.',
+    summary: 'Learn how footing length, width, depth, and waste become cubic feet, cubic yards, and bag counts.',
+    metaDescription:
+      'Use the Concrete Footing Calculator with a 30 ft by 16 in by 8 in example. See cubic yards, 60/80 lb bags, waste, cost checks, and code limits.',
     purpose:
-      'The Concrete Footing Calculator estimates the amount of concrete for a straight rectangular footing. It is a material helper after you already know the footing size.',
+      'The Concrete Footing Calculator estimates concrete for a straight rectangular footing. It is a material helper after you already know the footing size.',
+    intro:
+      'Enter the footing run in feet, then enter width and depth in inches. The calculator turns that cross-section into cubic feet, cubic yards, and rounded bag counts.',
+    inputMatch: 'the straight footing run, planned footing width, planned footing depth, and waste cushion from your drawing, permit notes, or contractor plan',
+    logicNote:
+      'For example, a 30 ft footing that is 16 in wide and 8 in deep is 30 x 1.333 x 0.667 = about 26.67 cubic feet before waste. With 10% waste, it becomes 29.33 cubic feet, or about 1.09 cubic yards.',
+    readIntro:
+      'Use cubic yards when you are asking for ready-mix pricing. Use 60 lb or 80 lb bag counts only for small hand-mixed jobs because footings get heavy quickly.',
+    mistakeIntro:
+      'The easy mistake is using the calculator to pick the footing size. It only estimates concrete after the width and depth are already decided.',
+    sidecarText:
+      'Open the Concrete Footing Calculator beside this guide. Try 30 ft, 16 in, 8 in, and 10% waste first; then swap in your planned footing size.',
+    bestUsesIntro:
+      'Best for straight rectangular footing runs where the width and depth are already known and you need concrete volume or bag planning.',
+    referenceIntro:
+      'These references help check concrete volume math, bag-yield context, foundation safety limits, and unit conversions.',
     enter: [
       'Enter the total footing length in feet.',
       'Enter width and depth in inches because footing cross-sections are often measured that way.',
-      'Add waste for uneven trench bottoms, spillage, and a small ordering cushion.',
+      'Add waste for uneven trench bottoms, overdigging, spillage, and a small ordering cushion.',
     ],
     read: [
       'Cubic yards is the ready-mix style volume.',
       'Cubic feet shows the smaller volume unit before converting to yards.',
       '60 lb and 80 lb bag counts are rounded up for small bagged-concrete jobs.',
+      'Bag counts are material estimates, not a promise that hand-mixing is the best way to pour a long footing.',
     ],
     mistakes: [
       'Do not use the calculator to choose the footing size.',
       'Do not ignore frost depth, soil bearing, reinforcement, drainage, inspections, or local code.',
       'Do not forget that trench overdigging can increase concrete volume.',
+      'Do not include slab, pier, column, or wall concrete unless you calculate those parts separately.',
     ],
-    sources: [sourceLinks.inchConcreteFooting, sourceLinks.quickrete, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick footing example',
+        paragraphs: [
+          'Say a footing run is 30 feet long, 16 inches wide, and 8 inches deep. Convert width and depth to feet first: 16 inches is 1.333 feet, and 8 inches is 0.667 feet.',
+          'The raw volume is about 26.67 cubic feet. With 10% waste, the calculator shows about 29.33 cubic feet, 1.09 cubic yards, 49 eighty-pound bags, or 66 sixty-pound bags.',
+        ],
+      },
+      {
+        title: 'Why cubic yards matter',
+        paragraphs: [
+          'Ready-mix concrete is usually discussed in cubic yards. Bag counts are useful for small repairs, but a long footing can turn into dozens or hundreds of bags.',
+          'Use the bag count as a reality check. If the number looks huge, a supplier quote may be safer and less exhausting than hand mixing.',
+        ],
+      },
+      {
+        title: 'Cost checks without guessing',
+        paragraphs: [
+          'The page does not invent a concrete price because local ready-mix, short-load fees, delivery, taxes, forms, rebar, labor, and tools can change the real cost.',
+          'Use the cubic-yard result for supplier calls, or multiply the rounded bag count by your store price for a rough material-only check.',
+        ],
+      },
+      {
+        title: 'What this does not design',
+        paragraphs: [
+          'Footing width and depth are safety choices, not just calculator inputs. They can depend on loads, soil bearing value, frost protection, slope, drainage, reinforcement, and inspections.',
+          'The 2024 IRC foundation chapter ties footing width and thickness to foundation tables and soil load-bearing values, so check local rules or a qualified professional before relying on a footing size.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchConcreteFooting,
+      sourceLinks.quickrete,
+      sourceLinks.iccIrc2024Foundations,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'concrete-column-calculator': {
     summary: 'Learn how round column diameter, height, quantity, and waste estimate concrete volume.',

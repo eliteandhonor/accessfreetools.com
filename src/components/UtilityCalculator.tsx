@@ -3119,16 +3119,16 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Concrete Footing Calculator',
     buttonLabel: 'Estimate footing',
     emptyHistory: 'Recent footing concrete estimates will appear here.',
-    privacyNote: 'Concrete footing estimates stay local and use simple rectangular volume math.',
+    privacyNote: 'Concrete footing estimates stay local. This estimates material only, not footing design approval.',
     modes: [
       {
         id: 'footing-volume',
         label: 'Footing',
         symbol: 'FTG',
         fields: [
-          numberField('lengthFeet', 'Footing length feet', '30'),
-          numberField('widthInches', 'Footing width inches', '16'),
-          numberField('depthInches', 'Footing depth inches', '8'),
+          numberField('lengthFeet', 'Footing length (ft)', '30'),
+          numberField('widthInches', 'Footing width (in)', '16'),
+          numberField('depthInches', 'Footing depth (in)', '8'),
           numberField('wastePercent', 'Waste percent', '10'),
         ],
         defaultInputs: { lengthFeet: '30', widthInches: '16', depthInches: '8', wastePercent: '10' },

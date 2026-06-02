@@ -4424,24 +4424,76 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate concrete volume and bag counts for straight rectangular footings.',
     description:
-      'Use this free concrete footing calculator to estimate cubic feet, cubic yards, and common concrete bag counts from footing length, width, depth, and waste.',
+      'Estimate cubic feet, cubic yards, 60 lb bags, and 80 lb bags for straight rectangular concrete footings from length, width, depth, and waste.',
+    seoTitle: 'Concrete Footing Calculator | Yards And Bags',
+    seoDescription:
+      'Estimate concrete for straight footings. Enter footing length, width, depth, and waste to get cubic feet, cubic yards, 60 lb bags, and 80 lb bags.',
     icon: 'calculator-concrete-footing',
-    aliases: ['Footing Concrete Calculator', 'Foundation Footing Calculator'],
+    aliases: [
+      'Footing Concrete Calculator',
+      'Foundation Footing Calculator',
+      'Concrete Footing Cost Calculator',
+      'Concrete Footing Bags Calculator',
+      'Concrete Footing Cubic Yard Calculator',
+      'Concrete Foundation Footing Calculator',
+      'Free Concrete Footing Calculator',
+    ],
     formula:
-      'The calculator converts footing width and depth from inches to feet, multiplies length by width by depth, adds waste, converts cubic feet to cubic yards, and rounds bag counts up.',
+      'The calculator converts footing width and depth from inches to feet, multiplies length by width by depth, adds the waste percent, converts cubic feet to cubic yards, and rounds 60 lb and 80 lb bag counts up.',
     limit:
-      'Footing dimensions are structural decisions. Soil bearing, frost depth, reinforcement, drainage, inspections, and local code can change the real footing design.',
+      'This estimates concrete material after you already know the footing size. Soil bearing, loads, frost depth, reinforcement, drainage, slope, forms, inspections, and local code can change the real footing design.',
     inputExplanations: [
       { term: 'Footing length', meaning: 'the total straight run of the footing in feet.' },
-      { term: 'Width and depth', meaning: 'the footing cross-section in inches.' },
-      { term: 'Waste percent', meaning: 'extra concrete for uneven trenches, spillage, and a small ordering cushion.' },
-      { term: 'Bag counts', meaning: 'rounded estimates based on common dry-mix bag yields, useful for small jobs.' },
+      { term: 'Footing width', meaning: 'the planned cross-section width in inches, not the wall width unless they match your drawing.' },
+      { term: 'Footing depth', meaning: 'the planned concrete thickness in inches.' },
+      { term: 'Waste percent', meaning: 'extra concrete for uneven trench bottoms, overdigging, spillage, and a small ordering cushion.' },
+      { term: 'Bag counts', meaning: 'rounded estimates using common dry-mix yields, useful for small hand-mixed jobs.' },
     ],
     extraFaq: [
       {
         question: 'Why does the Concrete Footing Calculator show both cubic yards and bags?',
         answer:
           'Cubic yards are useful for ready-mix orders, while 60 lb and 80 lb bag counts are useful for smaller hand-mixed projects. Large footings are usually better handled with a concrete supplier or contractor.',
+      },
+      {
+        question: 'How do I calculate concrete for a footing?',
+        answer:
+          'Convert width and depth from inches to feet, multiply length x width x depth, add waste, then divide cubic feet by 27 to get cubic yards.',
+      },
+      {
+        question: 'How much concrete is in a 30 ft by 16 in by 8 in footing?',
+        answer:
+          'With 10% waste, that footing is about 29.33 cubic feet, 1.09 cubic yards, 49 eighty-pound bags, or 66 sixty-pound bags.',
+      },
+      {
+        question: 'Should I order bags or ready-mix for footings?',
+        answer:
+          'Small repairs can make sense with bags. Long footing runs usually become heavy fast, so cubic yards and a ready-mix quote are often easier to manage.',
+      },
+      {
+        question: 'Does this include rebar?',
+        answer:
+          'No. It estimates concrete volume only. Use the Rebar Calculator for grid or bar counts and the Rebar Weight Calculator if you need steel weight.',
+      },
+      {
+        question: 'Does this include footing cost?',
+        answer:
+          'Not directly. Use the cubic-yard result for ready-mix pricing or the rounded bag counts for store pricing, then add delivery, tools, forms, reinforcement, and labor separately.',
+      },
+      {
+        question: 'What waste percent should I use?',
+        answer:
+          'For neat forms, 5% to 10% is a common planning cushion. Rough trenches, overdigging, uneven bottoms, and hand mixing may need more.',
+      },
+      {
+        question: 'Can I use this for foundation footings?',
+        answer:
+          'Yes, for material volume after the footing size is chosen. It does not choose code-safe width, depth, reinforcement, frost depth, or soil-bearing design.',
+      },
+      {
+        question: 'Can I use this for pier or post footings?',
+        answer:
+          'Only if the footing is rectangular. Use the Concrete Column Calculator or Post Hole Concrete Calculator for round tube forms or post holes.',
       },
       {
         question: 'Can this tell me the correct footing size?',
@@ -4454,13 +4506,15 @@ export const utilityTools: ToolDefinition[] = [
       'Convert width and depth in inches into cubic yards.',
       'Compare ready-mix volume with common bag counts.',
       'Add a realistic waste cushion before pricing material.',
+      'Check a small footing repair against bag yield before shopping.',
     ],
     examples: [
-      { label: 'Garage footing run', expression: '30 ft long, 16 in wide, 8 in deep, 10% waste', result: 'About 1.09 cubic yards' },
-      { label: 'Garden wall footing', expression: '18 ft long, 12 in wide, 8 in deep, 8% waste', result: 'Concrete and bag estimate' },
-      { label: 'Small repair footing', expression: '8 ft long, 10 in wide, 6 in deep', result: 'Small-volume estimate' },
+      { label: 'Garage footing run', expression: '30 ft long, 16 in wide, 8 in deep, 10% waste', result: '29.33 ft3, about 1.09 yd3, 49 eighty-pound bags' },
+      { label: 'Garden wall footing', expression: '18 ft long, 12 in wide, 8 in deep, 8% waste', result: '12.96 ft3, about 0.48 yd3, 22 eighty-pound bags' },
+      { label: 'Small repair footing', expression: '8 ft long, 10 in wide, 6 in deep, 5% waste', result: '3.5 ft3, about 0.13 yd3, 6 eighty-pound bags' },
+      { label: 'Long foundation run', expression: '50 ft long, 24 in wide, 10 in deep, 10% waste', result: '91.67 ft3, about 3.4 yd3' },
     ],
-    relatedSlugs: ['concrete-calculator', 'rebar-calculator', 'cubic-yard-calculator'],
+    relatedSlugs: ['concrete-calculator', 'rebar-calculator', 'cubic-yard-calculator', 'concrete-column-calculator'],
   }),
   makeUtilityTool({
     slug: 'concrete-column-calculator',

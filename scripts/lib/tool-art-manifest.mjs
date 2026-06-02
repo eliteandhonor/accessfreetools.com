@@ -340,6 +340,18 @@ const toolArtMetadataOverrides = {
         'Rebar Weight Calculator guide artwork supports the walkthrough for weight-per-foot values, #4 and #5 examples, waste, hauling checks, and design limits.',
     },
   },
+  'concrete-footing-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',
+      caption:
+        'Concrete Footing Calculator artwork matches the live workflow: enter footing length, width, depth, and waste to estimate cubic yards and concrete bag counts.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing footing length, width, depth, trench overdigging, cubic yards, 60 and 80 lb bag counts, and soil or frost limit notes.',
+      caption:
+        'Concrete Footing Calculator guide artwork supports the walkthrough for straight footing volume, bag counts, waste, cost checks, and code or soil limits.',
+    },
+  },
   'siding-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a house wall with window and door openings, siding panels, stacked siding squares, box coverage icons, and waste offcuts.',

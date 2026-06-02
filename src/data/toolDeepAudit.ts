@@ -511,6 +511,11 @@ const inchConcreteFooting = {
   label: 'Inch Calculator: Concrete footing calculator reference',
 };
 
+const iccIrc2024Foundations = {
+  href: 'https://codes.iccsafe.org/content/IRC2024P2/chapter-4-foundations',
+  label: 'ICC: 2024 IRC foundations chapter',
+};
+
 const inchPostHoleConcrete = {
   href: 'https://www.inchcalculator.com/post-hole-concrete-calculator/',
   label: 'Inch Calculator: Post hole concrete calculator reference',
@@ -5316,20 +5321,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'concrete-footing-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-construction-materials-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'all-pages-seo-dataforseo-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [inchConcreteFooting, quikreteConcrete, nistSi],
+    sources: [inchConcreteFooting, quikreteConcrete, iccIrc2024Foundations, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator converts footing width and depth from inches to feet, multiplies rectangular volume, adds waste, converts to cubic yards, and rounds concrete bag counts up.',
-      'The FAQ explains cubic yards versus bag counts and clearly states the tool does not choose a structurally correct footing size.',
-      'The guide warns about frost depth, soil bearing, reinforcement, drainage, inspections, and local code.',
+      'DataForSEO paid evidence showed active U.S. intent around `concrete footing calculator`, concrete footing cost calculator, and adjacent slab, wall, app, mix, and block calculator searches.',
+      'The calculator converts footing width and depth from inches to feet, multiplies rectangular volume, adds waste, converts to cubic yards, and rounds 60 lb and 80 lb concrete bag counts up.',
+      'The page and guide now separate material quantity from footing design choices such as soil bearing, loads, frost depth, reinforcement, slope, drainage, inspections, and local code.',
     ],
     improvements: [
-      'Added a real footing calculator UI, examples, source-backed guide, detailed FAQ, related pathways, result steps, tests, and manual deep-review record.',
+      'Rebuilt metadata, aliases, formula text, examples, FAQ coverage, guide sections, source links, trust limits, modified dates, related links, audit record, and exact image alt/caption text around straight footing volume, cubic yards, bag counts, waste, cost checks, and code limits.',
     ],
     followUps: [
-      'Add metric footing inputs only if the unit switch can stay clear and tested.',
+      'Add metric footing inputs, cost fields, stepped footing, pier footing, or combined footing modes only if each mode gets sourced assumptions, UI labels, tests, and clear code-limit wording.',
     ],
   },
   {
