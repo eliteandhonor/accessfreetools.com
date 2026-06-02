@@ -172,6 +172,18 @@ const toolArtMetadataOverrides = {
         'Cubic Yard Calculator guide artwork supports the walkthrough by showing depth conversion, cubic-yard math, waste, and supplier-order cautions.',
     },
   },
+  'deck-cost-calculator': {
+    tool: {
+      alt: 'Smoke mascot pricing a 16 by 12 foot deck with 10 percent waste, $12 per square foot decking, 40 feet of railing, $750 stairs, and a $4,684.40 rough total.',
+      caption:
+        'Deck Cost Calculator artwork matches the live workflow: enter deck size, waste, decking price, railing, and stairs to estimate a rough project budget.',
+    },
+    guide: {
+      alt: 'Smoke mascot comparing deck surface cost, railing cost, stair allowance, local labor, permits, framing, footings, and contractor quote limits.',
+      caption:
+        'Deck Cost Calculator guide artwork supports the walkthrough by showing surface math, railing and stair allowances, and real-quote cautions.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

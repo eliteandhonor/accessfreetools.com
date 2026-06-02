@@ -1811,6 +1811,21 @@ const nistConversionFactors = {
   label: 'NIST SP 811: Conversion factors listed alphabetically',
 };
 
+const decksComDeckCost = {
+  href: 'https://www.decks.com/calculators/cost-to-build-a-deck',
+  label: 'Decks.com: Cost to build a deck calculator',
+};
+
+const trexDeckCostCalculator = {
+  href: 'https://www.trex.com/build-your-deck/planyourdeck/deck-cost-landing/productcalculator/',
+  label: 'Trex: Deck material cost calculator notes',
+};
+
+const homeAdvisorDeckCost = {
+  href: 'https://www.homeadvisor.com/cost/decks-and-porches/',
+  label: 'HomeAdvisor: Decking price guide',
+};
+
 const lowesSiding = {
   href: 'https://www.certainteed.com/products/documents-downloads',
   label: 'CertainTeed: Siding documents and installation resources',
@@ -4637,17 +4652,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'deck-cost-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [nistSi, openStaxGeometry],
+    sources: [decksComDeckCost, trexDeckCostCalculator, homeAdvisorDeckCost, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator estimates deck surface area with waste, multiplies by decking cost per square foot, then adds railing and stairs allowances.',
-      'The page avoids pretending to be a contractor quote and calls out framing, footings, fasteners, permits, labor, code, demolition, and local pricing.',
-      'The result separates decking cost, railing cost, stair allowance, and total so early budget assumptions are visible.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `deck cost calculator` intent after balance and status gates passed.',
+      'The calculator estimates deck surface area with waste, multiplies by the user-entered decking cost per square foot, then adds railing and stair allowances.',
+      'Current deck cost sources support warning that material, labor, geography, site conditions, seasonality, design complexity, framing, footings, railings, stairs, permits, demolition, and extras can change real deck quotes.',
+      'The page now uses exact examples for a 16 ft by 12 ft deck, a 24 ft by 14 ft deck, a no-railing platform, and a composite comparison so users can see which input drives the rough total.',
     ],
     improvements: [
-      'Manually checked deck-area math, waste and cost assumptions, examples, FAQ cautions, guide clarity, source coverage, related tools, SEO copy, privacy behavior, and result breakdown.',
+      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, quote limits, audit record, modified dates, related links, and image alt/caption text in smart-14 wording.',
     ],
     followUps: [
       'Add optional labor and permit fields only if the page can keep location-dependent pricing caveats clear.',

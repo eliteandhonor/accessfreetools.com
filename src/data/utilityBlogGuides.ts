@@ -509,6 +509,18 @@ const sourceLinks = {
     href: 'https://carpet-rug.org/wp-content/uploads/2019/03/CRI-105-STANDARD-For-INSTALLATION-of-RESIDENTIAL-CARPET.pdf',
     label: 'Carpet and Rug Institute: CRI 105 residential carpet installation standard',
   },
+  decksComDeckCost: {
+    href: 'https://www.decks.com/calculators/cost-to-build-a-deck',
+    label: 'Decks.com: Cost to build a deck calculator',
+  },
+  trexDeckCostCalculator: {
+    href: 'https://www.trex.com/build-your-deck/planyourdeck/deck-cost-landing/productcalculator/',
+    label: 'Trex: Deck material cost calculator notes',
+  },
+  homeAdvisorDeckCost: {
+    href: 'https://www.homeadvisor.com/cost/decks-and-porches/',
+    label: 'HomeAdvisor: Decking price guide',
+  },
   biaBrickEstimating: {
     href: 'https://www.gobrick.com/media/file/10-dimensioning-and-estimating-brick-masonry.pdf',
     label: 'Brick Industry Association: Dimensioning and estimating brick masonry',
@@ -2310,25 +2322,33 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'deck-cost-calculator': {
-    summary: 'Learn how deck size, decking price, railing, stairs, and waste build a rough budget.',
+    summary: 'Learn how deck size, waste, surface price, railing, and stairs build a rough budget.',
     purpose:
-      'The Deck Cost Calculator is a rough planning tool. It estimates a deck surface allowance, then adds railing and stairs so you can compare early scope ideas.',
+      'The Deck Cost Calculator is a rough planning tool. It prices the deck surface from your own cost per square foot, then adds railing and stairs so you can compare early scope ideas before asking for quotes.',
     enter: [
       'Enter deck length and width in feet.',
-      'Enter decking waste percent and a cost per square foot for the deck surface.',
+      'Enter decking waste percent and a cost per square foot for the deck surface. Use material-only pricing unless you intentionally have an installed-price number.',
       'Add railing linear feet, railing cost per foot, and a stair allowance if needed.',
     ],
     read: [
       'The main answer is the rough total cost from the entered allowances.',
-      'Decking area with waste shows how much surface the decking cost used.',
-      'Decking and railing cost separate the two largest visible assumptions.',
+      'Decking area with waste shows how much surface the decking cost used. A 16 ft by 12 ft deck is 192 square feet, or 211.2 square feet after 10% waste.',
+      'Decking and railing cost separate two visible assumptions so you can change one without hiding the other.',
+      'The default 16 ft by 12 ft example with $12/ft2 decking, 40 ft of $35/ft railing, and a $750 stair allowance comes out to $4,684.40.',
     ],
     mistakes: [
       'Do not treat this as a contractor quote.',
-      'Do not forget framing, footings, fasteners, permits, demolition, labor, railing rules, and stairs.',
+      'Do not forget framing, footings, posts, beams, joists, ledgers, fasteners, permits, demolition, labor, taxes, delivery, railing rules, and stairs.',
+      'Do not compare wood and composite prices unless the cost-per-square-foot number means the same thing in both runs.',
       'Use local prices and professional measurements before making purchase decisions.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [
+      sourceLinks.decksComDeckCost,
+      sourceLinks.trexDeckCostCalculator,
+      sourceLinks.homeAdvisorDeckCost,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'deck-board-calculator': {
     summary: 'Learn how deck size, board coverage, waste, and joist spacing estimate board and fastener needs.',

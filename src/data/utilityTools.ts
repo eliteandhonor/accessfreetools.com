@@ -2521,29 +2521,79 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate rough deck project cost from deck size, decking price, railing, stairs, and waste.',
     description:
       'Use this free deck cost calculator to estimate rough decking, railing, stair allowance, and total project cost from simple inputs.',
+    seoTitle: 'Deck Cost Calculator | Size, Railing, Stairs, Waste',
+    seoDescription:
+      'Estimate a rough deck project budget from deck size, decking cost per square foot, waste, railing length, railing cost, and stairs.',
     icon: 'calculator-deck',
-    aliases: ['Deck Calculator', 'Decking Cost Calculator'],
+    aliases: [
+      'Deck Calculator',
+      'Decking Cost Calculator',
+      'Deck Building Cost Calculator',
+      'Deck Estimate Calculator',
+      'Composite Deck Cost Calculator',
+      'Deck Material Cost Calculator',
+    ],
     formula:
-      'The calculator multiplies deck area by a waste factor and cost per square foot, then adds railing cost and stair allowance.',
+      'The calculator uses deck area = length x width, adjusted decking area = deck area x (1 + waste percent / 100), decking cost = adjusted decking area x deck cost per square foot, railing cost = railing linear feet x railing cost per foot, and rough total = decking cost + railing cost + stair allowance.',
     limit:
-      'Deck costs vary widely with framing, footings, fasteners, railing code, permits, demolition, labor, height, stairs, material grade, and location.',
+      'This is an early planning estimate, not a contractor quote. Framing, footings, posts, beams, joists, ledgers, fasteners, rail code, permits, demolition, height, stairs, labor, taxes, delivery, material grade, and location can change the real price a lot.',
+    faqLanguage: {
+      expectedInputs: 'deck length, width, waste percent, decking cost per square foot, railing length, railing cost, and stairs allowance',
+      examplePhrase: 'deck budget example',
+      doubleCheck:
+        'Also check whether your price per square foot is material-only or installed, because labor, framing, footings, permits, and demolition can be bigger than the visible decking surface.',
+    },
     inputExplanations: [
       { term: 'Decking waste percent', meaning: 'extra surface material for board cuts, layout choices, and mistakes.' },
-      { term: 'Decking cost per square foot', meaning: 'the surface material cost only, unless you intentionally include more in that number.' },
-      { term: 'Railing and stairs', meaning: 'separate rough allowances added after the deck surface estimate.' },
+      { term: 'Decking cost per square foot', meaning: 'the surface material cost only, unless you intentionally use an installed-price number.' },
+      { term: 'Railing and stairs', meaning: 'separate rough allowances added after the deck surface estimate because they often swing the budget.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does the Deck Cost Calculator include?',
+        answer:
+          'It includes the deck surface cost, railing cost, and a stair allowance from the numbers you enter. It does not automatically price framing, footings, permits, demolition, delivery, taxes, or contractor labor unless you build those into your inputs.',
+      },
+      {
+        question: 'Should deck cost per square foot be material-only or installed?',
+        answer:
+          'Use material-only pricing if you only want to estimate the visible decking surface. Use an installed-price number only when you already have one from a local contractor or supplier and want the calculator to act like a quick budget sheet.',
+      },
+      {
+        question: 'How does waste percent affect a deck estimate?',
+        answer:
+          'Waste adds extra square footage before the decking cost is multiplied. A 16 ft by 12 ft deck is 192 square feet; with 10% waste, the calculator prices 211.2 square feet of decking surface.',
+      },
+      {
+        question: 'Why are railings and stairs separate?',
+        answer:
+          'Railings and stairs can cost very different amounts from the main deck boards. A low platform might need no railing, while a raised deck with stairs can need posts, guards, hardware, landings, and more labor.',
+      },
+      {
+        question: 'Why can a contractor quote be much higher?',
+        answer:
+          'A real quote may include structure, permits, site work, demolition, footings, framing, hardware, rail code, stairs, cleanup, insurance, overhead, and local labor. The calculator is for early planning, not final ordering.',
+      },
+      {
+        question: 'Can this calculator compare wood and composite decking?',
+        answer:
+          'Yes. Run the same deck size twice with different cost-per-square-foot inputs. Keep the other inputs the same so you can see how much the surface material changes the rough total.',
+      },
     ],
     useCases: [
       'Create a rough deck material budget.',
       'Compare different decking cost assumptions.',
       'Add railing and stair allowances to a surface estimate.',
       'Discuss scope before requesting contractor quotes.',
+      'Test wood, composite, and railing choices before asking for bids.',
     ],
     examples: [
-      { label: 'Small deck', expression: '16 x 12 ft, $12/ft2 decking, 40 ft railing', result: 'Rough total cost' },
-      { label: 'Larger deck', expression: '24 x 14 ft, $18/ft2 decking, 58 ft railing', result: 'Expanded budget estimate' },
-      { label: 'No railing pad', expression: '12 x 10 ft, $10/ft2 decking, no railing', result: 'Simple platform estimate' },
+      { label: 'Small deck', expression: '16 x 12 ft, $12/ft2 decking, 10% waste, 40 ft railing at $35/ft, $750 stairs', result: '$4,684.40 rough total' },
+      { label: 'Larger deck', expression: '24 x 14 ft, $18/ft2 decking, 10% waste, 58 ft railing at $45/ft, $1,200 stairs', result: '$10,062.80 rough total' },
+      { label: 'No railing pad', expression: '12 x 10 ft, $10/ft2 decking, 5% waste, no railing, no stairs', result: '$1,260.00 rough total' },
+      { label: 'Composite comparison', expression: '16 x 12 ft, $22/ft2 decking, 10% waste, same railing and stairs', result: '$6,796.40 rough total' },
     ],
-    relatedSlugs: ['area-calculator', 'fence-calculator', 'board-foot-calculator'],
+    relatedSlugs: ['area-calculator', 'square-footage-calculator', 'fence-calculator'],
   }),
   makeUtilityTool({
     slug: 'deck-board-calculator',
