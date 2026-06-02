@@ -646,11 +646,11 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     wastePercent: 'Extra concrete for form variation, overfill, spillage, and ordering cushion.',
   },
   'post-hole-concrete': {
-    holeDiameterInches: 'Diameter of the round post hole in inches.',
-    holeDepthInches: 'Depth of the hole filled with concrete in inches.',
-    postDiameterInches: 'Diameter of the post sitting in the hole. This space is subtracted from the concrete.',
-    quantity: 'How many matching post holes to estimate.',
-    wastePercent: 'Extra concrete for uneven holes, overdigging, and spillage.',
+    holeDiameterInches: 'Width across the round post hole in inches.',
+    holeDepthInches: 'Depth filled with concrete in inches.',
+    postDiameterInches: 'Round-equivalent width of the post occupying the hole.',
+    quantity: 'How many matching holes to estimate.',
+    wastePercent: 'Extra concrete for uneven holes, overfill, spillage, and ordering cushion.',
   },
   plywood: {
     areaSquareFeet: 'Total area you want to cover before waste.',
@@ -3167,16 +3167,16 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Post Hole Concrete Calculator',
     buttonLabel: 'Estimate post holes',
     emptyHistory: 'Recent post hole estimates will appear here.',
-    privacyNote: 'Post hole concrete estimates stay local and subtract the post volume from each hole.',
+    privacyNote: 'Post hole concrete estimates stay local. This is material volume math, not a code or load check.',
     modes: [
       {
         id: 'post-holes',
         label: 'Post holes',
         symbol: 'POST',
         fields: [
-          numberField('holeDiameterInches', 'Hole diameter inches', '12'),
-          numberField('holeDepthInches', 'Hole depth inches', '30'),
-          numberField('postDiameterInches', 'Post diameter inches', '4'),
+          numberField('holeDiameterInches', 'Hole diameter (in)', '12'),
+          numberField('holeDepthInches', 'Concrete depth (in)', '30'),
+          numberField('postDiameterInches', 'Post diameter (in)', '4'),
           integerField('quantity', 'Hole quantity', '6'),
           numberField('wastePercent', 'Waste percent', '10'),
         ],
@@ -6503,7 +6503,7 @@ function calculateUtility(
       });
       return {
         label: 'Concrete needed',
-        expression: `${formatCalculatorNumber(result.quantity)} holes, ${formatCalculatorNumber(result.holeDiameterInches)} in diameter x ${formatCalculatorNumber(result.holeDepthInches)} in deep`,
+        expression: `${formatCalculatorNumber(result.quantity)} holes, ${formatCalculatorNumber(result.holeDiameterInches)} in diameter x ${formatCalculatorNumber(result.holeDepthInches)} in concrete depth`,
         answer: `${formatCalculatorNumber(result.eightyPoundBags)} eighty-pound bags`,
         metrics: [
           { label: 'Cubic yards', value: formatCalculatorNumber(result.cubicYards) },
@@ -6513,9 +6513,9 @@ function calculateUtility(
         steps: [
           'Find round hole volume from diameter and depth.',
           'Subtract the round post volume occupying the hole.',
-          'Multiply by hole count, add waste, and round bag counts up.',
+          'Multiply by hole count, add waste, convert to cubic yards, and round bag counts up.',
         ],
-        note: 'Hole depth should follow frost, soil, fence, deck, or code requirements. This only estimates concrete volume around the post.',
+        note: 'Hole depth and width should follow frost, soil, fence, deck, gate, product, inspection, or code requirements. This only estimates concrete volume around the post.',
       };
     }
     case 'plywood': {

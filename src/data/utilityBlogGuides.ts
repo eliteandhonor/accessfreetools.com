@@ -97,6 +97,14 @@ const sourceLinks = {
     href: 'https://www.quikrete.com/calculator/main.asp',
     label: 'QUIKRETE: Concrete calculator reference',
   },
+  quickreteSettingPosts: {
+    href: 'https://www.quikrete.com/athome/settingposts.asp',
+    label: 'QUIKRETE: Setting posts in concrete',
+  },
+  quickreteSettingPostsPdf: {
+    href: 'https://www.quikrete.com/PDFs/Projects/SettingPosts.pdf',
+    label: 'QUIKRETE: Setting posts project guide',
+  },
   quickreteTubePillarFoundations: {
     href: 'https://www.quikrete.com/PDFs/Projects/QuiktubePillarFoundations.pdf',
     label: 'QUIKRETE: QUIK-TUBE pillar foundations guide',
@@ -3575,9 +3583,20 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'post-hole-concrete-calculator': {
+    title: 'How to use the Post Hole Concrete Calculator',
     summary: 'Learn how hole size, post size, quantity, and waste estimate concrete bags.',
+    metaDescription:
+      'Use the Post Hole Concrete Calculator for fence, deck, gate, and mailbox posts. Learn how post displacement, bag counts, waste, and limits work.',
     purpose:
       'The Post Hole Concrete Calculator estimates concrete around posts by using round hole volume and subtracting the post volume inside each hole.',
+    intro:
+      'Post holes are easy to undercount because the post takes up space, but the hole is still round. This tool estimates the concrete that fills the space around the post.',
+    logicNote:
+      'The calculator finds the round hole volume, subtracts the round post volume, multiplies by the number of holes, adds waste, converts to cubic yards, and rounds bag counts up.',
+    readIntro:
+      'Use the 80 lb bag count as the quick shopping number, then check cubic feet per hole if one hole looks too big or too small.',
+    mistakeIntro:
+      'The big mistakes are using the wrong hole depth, forgetting the post takes up space, and trusting the calculator to choose a safe depth for the job.',
     enter: [
       'Enter hole diameter and depth in inches.',
       'Enter the post diameter so the tool can subtract the space occupied by the post.',
@@ -3587,13 +3606,45 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       '80 lb bags is the main quick shopping number for many small projects.',
       'Cubic yards and cubic feet show the total adjusted concrete volume.',
       'Concrete per hole helps you spot an unusually large or small entry.',
+      'For example, six 12 inch by 30 inch holes with 4 inch posts and 10% waste need about 11.52 cubic feet, or 20 eighty-pound bags.',
     ],
     mistakes: [
       'Do not make the post diameter larger than the hole diameter.',
       'Do not ignore frost depth, gate loads, deck loads, or fence manufacturer rules.',
       'Do not forget gravel bases or special footing shapes if your plan requires them.',
+      'Do not treat dry-setting, wet-mixing, or fast-setting instructions as the same for every product. Check the bag or manufacturer guide.',
     ],
-    sources: [sourceLinks.inchPostHoleConcrete, sourceLinks.quickrete, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick fence post example',
+        paragraphs: [
+          'Say you have six holes that are 12 inches wide and 30 inches deep. Each hole has a 4 inch post inside it, and you add 10% waste.',
+          'The calculator subtracts the post volume, so the total concrete is about 11.52 cubic feet. That is about 0.43 cubic yards, or 20 eighty-pound bags.',
+        ],
+      },
+      {
+        title: 'Why post volume matters',
+        paragraphs: [
+          'If you fill the whole hole as if the post was not there, the estimate is high. The post is already occupying part of the hole.',
+          'This matters more when you have many posts, larger posts, or deeper holes. It also helps when you are comparing bag counts before a store run.',
+        ],
+      },
+      {
+        title: 'What this does not decide',
+        paragraphs: [
+          'This page does not pick a safe hole depth or width. Fence height, gate size, deck loads, uplift, wind, soil, frost depth, drainage, and local code can all matter.',
+          'Use the approved plan, product instructions, or local professional guidance for the actual hole size. Use this calculator to estimate concrete after those dimensions are known.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchPostHoleConcrete,
+      sourceLinks.quickrete,
+      sourceLinks.quickreteSettingPosts,
+      sourceLinks.quickreteSettingPostsPdf,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'plywood-calculator': {
     summary: 'Learn how project area, sheet size, waste, and price become plywood sheet count.',

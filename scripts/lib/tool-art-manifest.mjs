@@ -352,6 +352,18 @@ const toolArtMetadataOverrides = {
         'Concrete Column Calculator guide artwork supports the walkthrough for round column volume, bag counts, waste, and structural-design limits.',
     },
   },
+  'post-hole-concrete-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring six 12 inch post holes filled 30 inches deep around 4 inch posts with 10 percent waste and 20 eighty-pound bags.',
+      caption:
+        'Post Hole Concrete Calculator artwork matches the live workflow: enter hole diameter, concrete depth, post diameter, quantity, and waste to estimate concrete bags.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing round post hole volume, post displacement, concrete per hole, cubic yards, 60 and 80 lb bag counts, and frost-depth limit notes.',
+      caption:
+        'Post Hole Concrete Calculator guide artwork supports the walkthrough for post displacement, concrete per hole, bag counts, waste, and code or load limits.',
+    },
+  },
   'concrete-footing-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',

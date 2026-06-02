@@ -1851,6 +1851,16 @@ const quikreteConcrete = {
   label: 'QUIKRETE: Concrete calculator reference',
 };
 
+const quikreteSettingPosts = {
+  href: 'https://www.quikrete.com/athome/settingposts.asp',
+  label: 'QUIKRETE: Setting posts in concrete',
+};
+
+const quikreteSettingPostsPdf = {
+  href: 'https://www.quikrete.com/PDFs/Projects/SettingPosts.pdf',
+  label: 'QUIKRETE: Setting posts project guide',
+};
+
 const quikreteTubePillarFoundations = {
   href: 'https://www.quikrete.com/PDFs/Projects/QuiktubePillarFoundations.pdf',
   label: 'QUIKRETE: QUIK-TUBE pillar foundations guide',
@@ -5369,20 +5379,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'post-hole-concrete-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-construction-materials-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'all-pages-seo-dataforseo-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [inchPostHoleConcrete, quikreteConcrete, nistSi],
+    sources: [inchPostHoleConcrete, quikreteConcrete, quikreteSettingPosts, quikreteSettingPostsPdf, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator estimates round hole volume, subtracts the post cylinder volume, multiplies by hole quantity, adds waste, and rounds common bag counts.',
-      'The UI rejects posts that are not smaller than the hole, avoiding a negative concrete-volume result.',
-      'The FAQ explains why post volume is subtracted and where square posts or code-driven depth require extra care.',
+      'DataForSEO paid evidence showed active U.S. intent around `bag concrete calculator`, `quikrete concrete calculator`, `sakrete concrete calculator`, `post hole concrete calculator`, and `post hole calculator` searches.',
+      'The calculator estimates round hole volume, subtracts the round-equivalent post volume, multiplies by hole quantity, adds waste, converts to cubic yards, and rounds 60 lb and 80 lb bag counts up.',
+      'The page and guide now separate concrete bag estimates from depth, frost, soil, deck, gate, product, inspection, and local code decisions.',
     ],
     improvements: [
-      'Added post-hole concrete inputs, examples, bag outputs, guide article, detailed FAQ, related fence/concrete links, tests, and manual review record.',
+      'Rebuilt metadata, aliases, formula text, examples, FAQ coverage, guide sections, source links, trust limits, modified dates, related links, audit record, and exact image alt/caption text around post-hole concrete, post displacement, bag counts, waste, and code or load limits.',
     ],
     followUps: [
-      'Add gravel-base allowance only if the field wording stays beginner-friendly.',
+      'Add gravel-base allowance, square-post geometry, metric inputs, cost fields, or fast-setting product yield overrides only if each mode gets sourced assumptions, UI labels, tests, and clear limit wording.',
     ],
   },
   {

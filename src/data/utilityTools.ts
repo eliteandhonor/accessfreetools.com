@@ -4622,18 +4622,30 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate concrete bag counts for fence, deck, and mailbox post holes.',
     description:
-      'Use this free post hole concrete calculator to estimate concrete volume and bag counts from hole diameter, hole depth, post diameter, quantity, and waste.',
+      'Estimate concrete for fence posts, deck posts, mailbox posts, and small round post holes. Enter hole size, post size, quantity, and waste to get concrete per hole, cubic yards, 60 lb bags, and 80 lb bags.',
     icon: 'calculator-post-hole-concrete',
-    aliases: ['Fence Post Concrete Calculator', 'Post Hole Calculator'],
+    seoTitle: 'Post Hole Concrete Calculator | Bags Per Hole',
+    seoDescription:
+      'Estimate concrete for fence, deck, and mailbox post holes. Enter hole diameter, depth, post diameter, quantity, and waste to get bag counts and concrete per hole.',
+    aliases: [
+      'Fence Post Concrete Calculator',
+      'Post Hole Calculator',
+      'Concrete Post Hole Calculator',
+      'Bag Concrete Calculator',
+      'Quikrete Concrete Calculator',
+      'Post Concrete Calculator',
+      'Post Hole Concrete Bags',
+    ],
     formula:
-      'The calculator finds the round hole volume, subtracts the round post volume inside the hole, multiplies by the number of holes, adds waste, and rounds bag counts up.',
+      'The calculator finds round hole volume, subtracts the round post volume inside the hole, multiplies the net fill by the number of holes, adds waste, converts to cubic yards, and rounds 60 lb and 80 lb bag counts up.',
     limit:
-      'Post depth, hole width, gravel base, frost depth, uplift, gate loads, deck loads, and local code can change what you actually need.',
+      'Post depth, hole width, gravel base, frost depth, uplift, gate loads, deck loads, soil, drainage, bracing, product instructions, and local code can change what you actually need.',
     inputExplanations: [
       { term: 'Hole diameter', meaning: 'the width across the round hole in inches.' },
-      { term: 'Hole depth', meaning: 'the filled depth in inches.' },
-      { term: 'Post diameter', meaning: 'the width of the post that takes up space inside the hole.' },
+      { term: 'Hole depth', meaning: 'the depth filled with concrete in inches.' },
+      { term: 'Post diameter', meaning: 'the round-equivalent width of the post that takes up space inside the hole.' },
       { term: 'Quantity', meaning: 'how many matching holes to estimate.' },
+      { term: 'Waste percent', meaning: 'extra concrete for uneven holes, overfill, spillage, and ordering cushion.' },
     ],
     extraFaq: [
       {
@@ -4646,6 +4658,51 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Use the closest equivalent diameter for a rough estimate or calculate the square post area separately. For big jobs, a contractor takeoff is safer.',
       },
+      {
+        question: 'How much concrete is needed for six 12 inch by 30 inch post holes?',
+        answer:
+          'With a 4 inch post in each hole and 10% waste, the default example needs about 11.52 cubic feet of concrete total, or 20 eighty-pound bags.',
+      },
+      {
+        question: 'How many 80 lb bags do I need per fence post?',
+        answer:
+          'The default 12 inch by 30 inch hole with a 4 inch post uses about 3.3 eighty-pound bags per hole after 10% waste, so six holes round up to 20 bags total.',
+      },
+      {
+        question: 'Should I include the post diameter?',
+        answer:
+          'Yes if the post sits in the concrete while the hole is filled. The post takes up space, so subtracting it keeps the bag count closer than filling the whole hole as solid concrete.',
+      },
+      {
+        question: 'What if the post is square?',
+        answer:
+          'A square post does not subtract perfectly with a round diameter field. For a quick estimate, enter the post width as the diameter. For important or expensive work, calculate the square post volume separately.',
+      },
+      {
+        question: 'Does this include gravel under the post?',
+        answer:
+          'No. If your plan uses gravel at the bottom, subtract that depth from the concrete depth or estimate the gravel separately.',
+      },
+      {
+        question: 'Can I use this for deck posts or gate posts?',
+        answer:
+          'Use it only for the concrete volume around the post. Deck and gate posts can need deeper holes, wider holes, bracing, uplift checks, frost protection, and inspections.',
+      },
+      {
+        question: 'Does this choose the right hole depth?',
+        answer:
+          'No. The calculator uses the depth you enter. Fence height, soil, frost line, wind, gate load, deck load, and local code can all change the depth.',
+      },
+      {
+        question: 'Why are bag counts rounded up?',
+        answer:
+          'Concrete bags are sold as whole bags. The calculator rounds up after waste because running short during a post pour is worse than having a little left over.',
+      },
+      {
+        question: 'Can I use fast-setting concrete numbers?',
+        answer:
+          'Yes, but use the yield printed on the product bag if it differs from the common 60 lb and 80 lb bag assumptions used by this calculator.',
+      },
     ],
     useCases: [
       'Estimate concrete bags for fence posts.',
@@ -4654,11 +4711,12 @@ export const utilityTools: ToolDefinition[] = [
       'Compare hole sizes before buying concrete.',
     ],
     examples: [
-      { label: 'Fence posts', expression: '12 in hole, 30 in deep, 4 in post, 6 holes, 10% waste', result: 'About 20 eighty-pound bags' },
-      { label: 'Deck posts', expression: '14 in hole, 36 in deep, 6 in post, 4 holes', result: 'Post concrete estimate' },
-      { label: 'Mailbox post', expression: '10 in hole, 24 in deep, 4 in post', result: 'Small bag estimate' },
+      { label: 'Fence posts', expression: '12 in hole, 30 in deep, 4 in post, 6 holes, 10% waste', result: '11.52 ft3 total, about 0.43 yd3, 20 eighty-pound bags' },
+      { label: 'Deck posts', expression: '14 in hole, 36 in deep, 6 in post, 4 holes, 10% waste', result: '11.52 ft3 total, about 0.43 yd3, 20 eighty-pound bags' },
+      { label: 'Mailbox post', expression: '10 in hole, 24 in deep, 4 in post, 5% waste', result: '0.96 ft3, about 2 eighty-pound bags' },
+      { label: 'Gate posts', expression: '16 in hole, 42 in deep, 6 in post, 2 holes, 10% waste', result: '9.24 ft3 total, about 16 eighty-pound bags' },
     ],
-    relatedSlugs: ['fence-calculator', 'concrete-footing-calculator', 'concrete-calculator'],
+    relatedSlugs: ['fence-calculator', 'concrete-column-calculator', 'concrete-footing-calculator', 'concrete-calculator'],
   }),
   makeUtilityTool({
     slug: 'plywood-calculator',
