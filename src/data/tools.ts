@@ -2221,44 +2221,71 @@ const baseTools: ToolDefinition[] = [
     slug: 'volume-calculator',
     name: 'Volume Calculator',
     category: 'calculators',
-    summary: 'Calculate volume for boxes, cubes, cylinders, spheres, and cones.',
+    summary: 'Find cubic volume for boxes, cubes, cylinders, spheres, and cones.',
     description:
-      'Use this free volume calculator to find cubic volume for rectangular prisms, cubes, cylinders, spheres, and cones with formula steps and examples.',
+      'Use this free volume calculator to find cubic volume for rectangular prisms, cubes, cylinders, spheres, and cones. Enter matching length units, then read the cubic-unit result.',
     icon: 'calculator-volume',
-    seoTitle: 'Volume Calculator | Free Solid Geometry Tool',
+    aliases: [
+      'Cylinder Volume Calculator',
+      'Rectangle Volume Calculator',
+      'Cube Volume Calculator',
+      'Sphere Volume Calculator',
+      'Cone Volume Calculator',
+      'Cubic Volume Calculator',
+      'Volume Calculator Gallons',
+      'Volume Calculator Litres',
+    ],
+    seoTitle: 'Volume Calculator | Cubes, Cylinders, Spheres',
     seoDescription:
-      'Calculate volume for rectangular prisms, cubes, cylinders, spheres, and cones with cubic units, examples, and formula steps.',
+      'Calculate cubic volume for a box, cube, cylinder, sphere, or cone with matching units, formula steps, examples, and clear limits.',
     useCases: [
-      'Find volume for common classroom solid geometry problems.',
-      'Estimate container, box, cylinder, sphere, or cone capacity.',
-      'Compare shape dimensions before copying a result into notes.',
-      'Check formula substitutions with clear step-by-step work.',
+      'Check a classroom solid-geometry answer before copying it into notes.',
+      'Estimate the inside space of a box, tube, ball-shaped object, or cone-shaped container.',
+      'Compare how changing radius, height, length, width, or side length changes volume.',
+      'Keep cubic units straight before converting to litres, gallons, or cubic yards in another tool.',
+      'Separate volume from surface area when a project needs capacity, not outside covering.',
     ],
     examples: [
-      { label: 'Rectangular prism', expression: '8 x 5 x 3', result: '120 cubic units' },
-      { label: 'Cylinder', expression: 'r=3, h=10', result: '282.743338823 cubic units' },
-      { label: 'Sphere', expression: 'r=4', result: '268.0825731063 cubic units' },
+      { label: 'Rectangular box', expression: '8 cm x 5 cm x 3 cm', result: '120 cm^3' },
+      { label: 'Cylinder can', expression: 'r = 3 cm, h = 10 cm', result: '282.74 cm^3' },
+      { label: 'Sphere', expression: 'r = 4 cm', result: '268.08 cm^3' },
+      { label: 'Cone', expression: 'r = 3 cm, h = 9 cm', result: '84.82 cm^3' },
     ],
     faq: [
       {
         question: 'Which shapes are supported?',
         answer:
-          'The Volume Calculator supports rectangular prism, cube, cylinder, sphere, and cone modes.',
+          'The Volume Calculator supports rectangular prism, cube, cylinder, sphere, and cone modes. Pick the shape first so the page only asks for the measurements that shape needs.',
       },
       {
         question: 'What units should I use?',
         answer:
-          'Use the same length unit for every measurement. The calculator reports volume in cubic units, such as cm^3 or in^3.',
+          'Use the same length unit for every measurement. If length is in centimeters, width and height should also be in centimeters, and the answer comes out in cubic centimeters.',
+      },
+      {
+        question: 'Does this convert cubic units to litres or gallons?',
+        answer:
+          'No. This page finds cubic volume for solid shapes. Use the Conversion Calculator after this if you need litres, gallons, cubic feet, or cubic yards.',
       },
       {
         question: 'What formula does cylinder volume use?',
         answer:
-          'Cylinder volume uses V = pi r^2 h, where r is radius and h is height.',
+          'Cylinder volume uses V = pi x r^2 x h, where r is radius and h is height. If you measured diameter, divide it by 2 before entering radius.',
       },
       {
         question: 'What formula does cone volume use?',
         answer:
-          'Cone volume uses V = pi r^2 h / 3, which is one third of a cylinder with the same radius and height.',
+          'Cone volume uses V = pi x r^2 x h / 3. That is one third of a cylinder with the same radius and height.',
+      },
+      {
+        question: 'Is volume the same as surface area?',
+        answer:
+          'No. Volume measures the space inside a solid in cubic units. Surface area measures the outside covering in square units.',
+      },
+      {
+        question: 'Can I use this for a tank or liquid amount?',
+        answer:
+          'Use it only as a shape-volume starting point. Real tanks, pools, and containers can have rounded corners, fill lines, slopes, caps, fittings, or labels that change the usable liquid amount.',
       },
       {
         question: 'Can I calculate surface area here?',
@@ -2271,7 +2298,7 @@ const baseTools: ToolDefinition[] = [
           'Yes. Recent volume answers stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['surface-area-calculator', 'area-calculator', 'circle-calculator'],
+    relatedSlugs: ['surface-area-calculator', 'area-calculator', 'circle-calculator', 'conversion-calculator'],
   },
   {
     slug: 'slope-calculator',

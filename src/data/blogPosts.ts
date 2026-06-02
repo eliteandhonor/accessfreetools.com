@@ -262,7 +262,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Volume Calculator',
     label: 'Volume calculator guide',
     summary:
-      'Learn how to calculate volume for rectangular prisms, cubes, cylinders, spheres, and cones with cubic units.',
+      'Learn how to use cubic units for boxes, cylinders, spheres, and cones, plus radius mistakes and conversion limits.',
   },
   {
     slug: 'how-to-use-slope-calculator',

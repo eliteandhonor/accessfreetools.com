@@ -256,6 +256,18 @@ const toolArtMetadataOverrides = {
         'Pool Volume Calculator guide artwork supports the walkthrough by showing how pool shape, average depth, cubic feet, and gallons connect.',
     },
   },
+  'volume-calculator': {
+    tool: {
+      alt: 'Smoke mascot beside a glowing sphere bowl, cylinder, and box showing the shapes used for volume calculations.',
+      caption:
+        'Volume Calculator artwork matches the live workflow: choose a box, cube, cylinder, sphere, or cone shape, then enter the matching dimensions.',
+    },
+    guide: {
+      alt: 'Smoke mascot pouring glowing volume into a round jar while a small sphere floats nearby.',
+      caption:
+        'Volume Calculator guide artwork supports the walkthrough by showing capacity, round-shape volume, and cubic-space thinking.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

@@ -606,6 +606,16 @@ const calculatorSoupSitemap = {
   label: 'CalculatorSoup sitemap: business and financial-ratio competitor gap reference',
 };
 
+const calculatorSoupVolume = {
+  href: 'https://www.calculatorsoup.com/calculators/geometry-solids/volume.php',
+  label: 'CalculatorSoup: Volume calculator formulas',
+};
+
+const calculatorNetVolume = {
+  href: 'https://www.calculator.net/volume-calculator.html',
+  label: 'Calculator.net: Volume calculator',
+};
+
 const sbaBreakEven = {
   href: 'https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point',
   label: 'U.S. Small Business Administration: Break-even point',
@@ -6493,20 +6503,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'volume-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [openStaxGeometry, nistSi],
+    sources: [openStaxGeometry, calculatorSoupVolume, calculatorNetVolume, nistSi, googleHelpfulContent],
     findings: [
-      'The volume page explains shape choice, cubic units, and why length units must match before calculating.',
-      'Examples cover common solid shapes and keep volume separate from surface area.',
-      'Related tools point users toward Surface Area, Concrete, and Cubic Yard calculators when the job is practical estimating.',
+      'DataForSEO showed 40,500 U.S. searches for `volume calculator`, with related demand for cylinder volume, gallons, litres, rectangular volume, liquid volume, and water tank volume.',
+      'OpenStax and current competitor volume references support the same core shape coverage: rectangular solid, cube, cone, sphere, and cylinder, with radius and height needed for round solids.',
+      'The page now separates cubic shape volume from litres, gallons, usable tank capacity, surface area, and real container fill-line limits.',
     ],
     improvements: [
-      'Manually checked volume formula wording, unit consistency, examples, FAQ clarity, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Rewrote metadata, aliases, examples, FAQs, static guide sections, audit record, sitemap dates, and image alt/caption text around cubic units, radius mistakes, cylinder intent, liquid-unit searches, and tank limits.',
     ],
     followUps: [
-      'Add liquid volume conversions later only with NIST-backed unit labels.',
+      'Add direct cubic-unit-to-litre/gallon conversion only if it can keep source-backed labels and avoid confusing shape volume with usable tank capacity.',
+      'Consider a tank-specific helper later for rectangular and cylindrical tanks if DataForSEO/GSC continues to show tank-intent demand.',
     ],
   },
   {

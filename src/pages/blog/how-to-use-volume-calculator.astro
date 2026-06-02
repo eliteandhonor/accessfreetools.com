@@ -7,37 +7,58 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="volume-calculator"
   label="Volume calculator guide"
   title="How to use the Volume Calculator"
-  description="Learn how to calculate volume for rectangular prisms, cubes, cylinders, spheres, and cones with cubic units."
+  description="Use the Volume Calculator for boxes, cubes, cylinders, spheres, and cones. See cubic units, radius mistakes, examples, and conversion limits."
   path="/blog/how-to-use-volume-calculator/"
-  intro="The Volume Calculator finds the space inside common solid shapes and shows the formula used for each shape."
+  intro="The Volume Calculator is for one job: find how much space is inside a simple 3D shape. Pick the shape, enter matching length units, then check the cubic-unit answer."
   quickStart={[
-    'Choose the solid shape you want to calculate.',
-    'Enter the required dimensions for that shape.',
-    'Use one length unit for all measurements.',
-    'Press Calculate volume and read the cubic-unit result.',
+    'Choose rectangular prism, cube, cylinder, sphere, or cone.',
+    'Enter the dimensions the selected shape asks for.',
+    'Use one length unit for every measurement.',
+    'Read the cubic-unit answer before converting it to another unit.',
   ]}
   sections={[
     {
       title: 'Supported volume shapes',
       paragraphs: [
-        'The calculator supports rectangular prisms, cubes, cylinders, spheres, and cones. Each mode shows only the fields needed for that shape.',
-        'Rectangular prism and cube modes use straight side lengths. Cylinder, sphere, and cone modes use radius, and cone and cylinder modes also use height.',
+        'The calculator supports rectangular prisms, cubes, cylinders, spheres, and cones. Each mode shows only the fields needed for that shape, so a sphere asks for radius but not height.',
+        'Rectangular prism and cube modes use straight side lengths. Cylinder, sphere, and cone modes use radius. Cylinder and cone modes also use height.',
       ],
     },
     {
       title: 'Understanding cubic units',
       paragraphs: [
-        'Volume is reported in cubic units because it measures three-dimensional space. If the input is in centimeters, the answer is in cm^3.',
-        'Use the unit label field to make copied answers easier to read in notes, homework, or planning examples.',
+        'Volume is reported in cubic units because it measures three-dimensional space. If the inputs are in centimeters, the answer is in cm^3. If the inputs are in inches, the answer is in in^3.',
+        'The unit label does not convert anything by itself. It just keeps the answer readable, so use the Conversion Calculator if you need litres, gallons, cubic feet, or cubic yards.',
+      ],
+    },
+    {
+      title: 'Quick examples',
+      paragraphs: [
+        'A rectangular box that is 8 cm long, 5 cm wide, and 3 cm high has 120 cm^3 of volume.',
+        'A cylinder with radius 3 cm and height 10 cm has about 282.74 cm^3. A cone with the same radius and a 9 cm height has about 84.82 cm^3 because the cone formula divides by 3.',
+      ],
+    },
+    {
+      title: 'Radius mistakes',
+      paragraphs: [
+        'The round-shape modes ask for radius, not diameter. If you measured straight across a circle, that is diameter. Divide it by 2 before typing the radius.',
+        'This matters a lot because the formula squares the radius. Doubling the radius does not double the volume; it makes the answer much bigger.',
       ],
     },
     {
       title: 'Volume versus surface area',
       paragraphs: [
-        'Volume measures the inside capacity of a solid. Surface area measures the outside area.',
-        'If you need wrapping, painting, or outside material estimates, use the Surface Area Calculator instead.',
+        'Volume measures the space inside a solid. Surface area measures the outside covering.',
+        'If you are filling a container, use volume. If you are wrapping, painting, or covering the outside, use the Surface Area Calculator instead.',
+      ],
+    },
+    {
+      title: 'Tank and liquid limits',
+      paragraphs: [
+        'People often use volume math for gallons, litres, tanks, and water tanks. This page can give the shape volume, but it does not know your fill line, rounded corners, fittings, or usable capacity.',
+        'For a real tank, pool, or chemical amount, treat the answer as a starting point and check the product label or a tank-specific calculator before making decisions.',
       ],
     },
   ]}
-  sidecarText="Use the Volume Calculator while you follow the guide."
+  sidecarText="Try the 8 x 5 x 3 box first. Then switch to cylinder, sphere, or cone and change one input at a time."
 />
