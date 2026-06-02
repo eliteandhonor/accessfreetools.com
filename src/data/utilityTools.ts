@@ -4422,28 +4422,90 @@ export const utilityTools: ToolDefinition[] = [
     name: 'Pool Volume Calculator',
     category: 'home-projects',
     summary: 'Estimate pool gallons from shape, length, width, and average depth.',
+    seoTitle: 'Pool Volume Calculator | Pool Gallons',
+    seoDescription:
+      'Estimate pool gallons from rectangular, round, or oval shape, length, width or diameter, and average water depth before checking chemicals or equipment.',
     description:
-      'Use this free pool volume calculator to estimate U.S. gallons for rectangular, round, or oval pools from simple measurements.',
+      'Use this free pool volume calculator to estimate U.S. gallons for rectangular, round, or oval pools from shape, measurements, and average water depth.',
     icon: 'calculator-pool',
+    aliases: [
+      'Pool Gallon Calculator',
+      'Swimming Pool Volume Calculator',
+      'Round Pool Volume Calculator',
+      'Oval Pool Volume Calculator',
+      'Pool Water Volume Calculator',
+      'Pool Litres Calculator',
+    ],
     formula:
-      'The calculator estimates pool cubic feet from the selected shape and average depth, then multiplies cubic feet by 7.48052 gallons per cubic foot.',
+      'Rectangle cubic feet = length x width x average depth. Round or oval cubic feet = length x width x average depth x pi / 4. U.S. gallons = cubic feet x 7.48052.',
     limit:
-      'Sloped bottoms, steps, benches, freeform shapes, rounded corners, waterline height, and measurement error can change real pool volume.',
+      'This is a shape-based estimate. Sloped bottoms, steps, benches, freeform shapes, kidney shapes, rounded corners, spas, waterline height, deep hoppers, and measurement error can change real pool volume and chemical dosing.',
     inputExplanations: [
       { term: 'Pool shape', meaning: 'the simple shape used for the volume formula: rectangle, round, or oval.' },
       { term: 'Length or diameter', meaning: 'the long measurement for rectangles and ovals, or the diameter for round pools.' },
-      { term: 'Average depth', meaning: 'the average water depth, useful when the shallow and deep ends differ.' },
+      { term: 'Width or diameter', meaning: 'the short measurement for rectangles and ovals, or the same diameter again for a round pool.' },
+      { term: 'Average depth', meaning: 'the average water depth, useful when the shallow and deep ends differ. Measure from the waterline, not the top of the wall.' },
+    ],
+    faqLanguage: {
+      expectedInputs: 'pool shape, length or diameter, width or diameter, and average water depth',
+      examplePhrase: 'real pool-gallon estimate',
+      doubleCheck:
+        'Double-check chemical dosing against product labels, water tests, and your pool professional when the pool shape is unusual or the dose matters.',
+    },
+    extraFaq: [
+      {
+        question: 'How do I calculate pool gallons?',
+        answer:
+          'Find cubic feet from the pool shape and average depth, then multiply by 7.48052. For a rectangle, that is length x width x average depth x 7.48052.',
+      },
+      {
+        question: 'How do I find average pool depth?',
+        answer:
+          'For a steady slope, add shallow depth and deep depth, then divide by 2. For example, 3 feet plus 6 feet is 9, divided by 2, so average depth is 4.5 feet.',
+      },
+      {
+        question: 'Should I use wall height or water depth?',
+        answer:
+          'Use actual water depth from the waterline to the floor. Wall height can overstate gallons if the water sits below the top rail or coping.',
+      },
+      {
+        question: 'How do I enter a round pool?',
+        answer:
+          'Choose round, then enter the diameter in both length and width fields. The calculator applies the pi / 4 shape factor for the circular surface.',
+      },
+      {
+        question: 'Why do pool calculators use 7.48 or 7.5?',
+        answer:
+          'One cubic foot is about 7.48052 U.S. gallons. Many pool charts round that to 7.5 for quick mental math, but this calculator uses 7.48052.',
+      },
+      {
+        question: 'Can I use this for an oval pool?',
+        answer:
+          'Yes, choose oval and enter the long and short measurements. The calculator uses the same pi / 4 surface factor as an ellipse-style oval estimate.',
+      },
+      {
+        question: 'Can I use this for a kidney or freeform pool?',
+        answer:
+          'Only as a rough starting point. For irregular pools, break the pool into simpler sections or compare the estimate with fill-meter, builder, or chemical-adjustment clues.',
+      },
+      {
+        question: 'Can I dose pool chemicals from this number?',
+        answer:
+          'Use it as the starting gallon estimate, then follow chemical labels and water-test results. A wrong gallon number can make chemical doses too weak or too strong.',
+      },
     ],
     useCases: [
       'Estimate gallons before adding pool chemicals.',
       'Compare rectangular, round, and oval pool volume.',
       'Use average depth for shallow and deep ends.',
       'Plan fill volume or rough equipment context.',
+      'Check whether a pool heater, pump, or filter estimate uses a realistic gallon number.',
     ],
     examples: [
-      { label: 'Rectangle pool', expression: '24 ft x 12 ft x 4.5 ft average depth', result: 'Gallons estimate' },
-      { label: 'Round pool', expression: '18 ft diameter, 4 ft depth', result: 'Circular pool gallons' },
-      { label: 'Oval pool', expression: '30 ft x 15 ft x 4.3 ft average depth', result: 'Oval volume estimate' },
+      { label: 'Rectangle pool', expression: '24 ft x 12 ft x 4.5 ft average depth', result: '9,695 gallons' },
+      { label: 'Round pool', expression: '18 ft diameter, 4 ft depth', result: '7,614 gallons' },
+      { label: 'Oval pool', expression: '30 ft x 15 ft x 4.3 ft average depth', result: '11,368 gallons' },
+      { label: 'Lap-style rectangle', expression: '12 ft x 24 ft x 5 ft average depth', result: '10,772 gallons' },
     ],
     relatedSlugs: ['volume-calculator', 'conversion-calculator', 'cubic-yard-calculator'],
   }),

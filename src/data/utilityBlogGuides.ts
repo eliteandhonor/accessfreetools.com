@@ -465,6 +465,18 @@ const sourceLinks = {
     href: 'https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8',
     label: 'NIST SP 811: Conversion factors listed alphabetically',
   },
+  poolVolumeReference: {
+    href: 'https://www.pool-volume.com/',
+    label: 'Pool Volume: pool volume formulas by shape',
+  },
+  bulkCalculatorPoolVolume: {
+    href: 'https://bulkcalculator.com/construction-calculators/calculators/pool-volume-calculator.html',
+    label: 'BulkCalculator: Pool volume calculator and formulas',
+  },
+  calcipediaPoolVolume: {
+    href: 'https://www.calcipedia.org/calculators/pool-volume-calculator/',
+    label: 'Calcipedia: Pool volume calculator',
+  },
   sherwinPaintCoverage: {
     href: 'https://www.sherwin-williams.com/en-us/color/color-tools/paint-calculator',
     label: 'Sherwin-Williams: Paint calculator coverage notes',
@@ -3281,25 +3293,50 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistConversionFactors, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'pool-volume-calculator': {
-    summary: 'Learn how pool shape, measurements, and average depth estimate gallons.',
+    summary: 'Learn how pool shape, measurements, and average depth become gallons.',
     purpose:
-      'The Pool Volume Calculator estimates gallons from simple pool measurements. It is meant for rough chemical, fill, and equipment context, not precise survey work.',
+      'The Pool Volume Calculator estimates U.S. gallons from simple pool measurements. It is useful for rough chemical, fill, heater, pump, and filter context, but it is still an estimate.',
     enter: [
       'Choose rectangle, round, or oval pool shape.',
       'Enter length and width, or use the diameter in both fields for a round pool.',
-      'Enter average depth, especially when the pool has shallow and deep ends.',
+      'Enter average water depth, especially when the pool has shallow and deep ends.',
     ],
     read: [
       'Gallons is the main volume estimate.',
       'Cubic feet shows the intermediate volume before gallon conversion.',
-      'Shape factor shows whether the calculator used a rectangle or rounded shape adjustment.',
+      'Shape factor shows whether the calculator used a rectangle factor of 1 or the rounded-shape factor.',
+      'Gallons per cubic foot shows the 7.48052 conversion used for U.S. gallons.',
     ],
     mistakes: [
-      'Do not use maximum depth when the pool has a shallow end; use average depth.',
+      'Do not use maximum depth when the pool has a shallow end. Use average water depth.',
       'Do not ignore benches, steps, curves, and waterline height.',
-      'Use measured water testing and product labels for chemical dosing decisions.',
+      'Do not measure from the top of the wall if the waterline sits lower.',
+      'Use measured water testing and product labels before making chemical dosing decisions.',
     ],
-    sources: [sourceLinks.nistUnits, sourceLinks.nistConversionFactors],
+    extraSections: [
+      {
+        title: 'Quick 24 by 12 pool example',
+        paragraphs: [
+          'A rectangular pool that is 24 feet long, 12 feet wide, and 4.5 feet deep on average has 1,296 cubic feet of water.',
+          'Multiply 1,296 by 7.48052 gallons per cubic foot. The estimate is about 9,695 U.S. gallons.',
+        ],
+      },
+      {
+        title: 'Average depth check',
+        paragraphs: [
+          'For a sloped pool, average depth usually means shallow depth plus deep depth, then divided by 2. A pool that runs from 3 feet to 6 feet averages 4.5 feet.',
+          'If the pool has a flat shallow section, a sudden deep hopper, steps, benches, or a freeform shape, break it into sections or treat the answer as a rough starting point.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.poolVolumeReference,
+      sourceLinks.bulkCalculatorPoolVolume,
+      sourceLinks.calcipediaPoolVolume,
+      sourceLinks.nistConversionFactors,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'sand-calculator': {
     summary: 'Learn how dimensions, depth, density, and waste estimate sand yards and tons.',

@@ -244,6 +244,18 @@ const toolArtMetadataOverrides = {
         'Paver Calculator guide artwork supports the walkthrough by showing how area, paver size, cuts, and waste become a rounded paver count.',
     },
   },
+  'pool-volume-calculator': {
+    tool: {
+      alt: 'Smoke mascot pointing at rectangular, round, and oval pool cards with depth arrows, water cubes, and a gallon jug for pool volume.',
+      caption:
+        'Pool Volume Calculator artwork matches the live workflow: choose pool shape, enter dimensions and average depth, then estimate U.S. gallons.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing pool shape cards, an average-depth waterline section, cubic-foot water blocks, and a gallon jug.',
+      caption:
+        'Pool Volume Calculator guide artwork supports the walkthrough by showing how pool shape, average depth, cubic feet, and gallons connect.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

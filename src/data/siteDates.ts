@@ -81,6 +81,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'golf-handicap-calculator': '2026-05-31',
   'mulch-calculator': '2026-06-02',
   'paver-calculator': '2026-06-02',
+  'pool-volume-calculator': '2026-06-02',
   'mileage-calculator': '2026-05-31',
   'asphalt-calculator': '2026-05-31',
   'board-foot-calculator': '2026-05-31',
@@ -230,6 +231,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-love-calculator': '2026-05-26',
   'how-to-use-mulch-calculator': '2026-06-02',
   'how-to-use-paver-calculator': '2026-06-02',
+  'how-to-use-pool-volume-calculator': '2026-06-02',
   'how-to-use-roofing-calculator': '2026-05-26',
   'how-to-use-triangle-calculator': '2026-05-31',
 };

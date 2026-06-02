@@ -1831,6 +1831,21 @@ const nistConversionFactors = {
   label: 'NIST SP 811: Conversion factors listed alphabetically',
 };
 
+const poolVolumeReference = {
+  href: 'https://www.pool-volume.com/',
+  label: 'Pool Volume: pool volume formulas by shape',
+};
+
+const bulkCalculatorPoolVolume = {
+  href: 'https://bulkcalculator.com/construction-calculators/calculators/pool-volume-calculator.html',
+  label: 'BulkCalculator: Pool volume calculator and formulas',
+};
+
+const calcipediaPoolVolume = {
+  href: 'https://www.calcipedia.org/calculators/pool-volume-calculator/',
+  label: 'Calcipedia: Pool volume calculator',
+};
+
 const decksComDeckCost = {
   href: 'https://www.decks.com/calculators/cost-to-build-a-deck',
   label: 'Decks.com: Cost to build a deck calculator',
@@ -5365,20 +5380,28 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'pool-volume-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [nistSi, nistConversionFactors],
+    sources: [
+      poolVolumeReference,
+      bulkCalculatorPoolVolume,
+      calcipediaPoolVolume,
+      nistSi,
+      nistConversionFactors,
+      googleHelpfulContent,
+    ],
     findings: [
-      'The calculator estimates rectangular, round, and oval pool cubic feet from shape and average depth, then converts cubic feet to U.S. gallons.',
-      'The guide explains average depth and shape factor so users do not use maximum depth for a sloped pool.',
-      'The caveats keep benches, steps, curves, rounded corners, waterline height, and chemical dosing decisions outside the rough volume estimate.',
+      'DataForSEO showed pool volume calculator intent has 18,100 U.S. searches and related demand for round, oval, kidney, irregular-shape, litre, and metric pool-volume estimates.',
+      'Current pool-volume references agree that rectangle pools use length x width x average depth, round and oval pools use a curved-shape factor, and cubic feet convert to U.S. gallons with about 7.48 gallons per cubic foot.',
+      'The guide now warns users not to use wall height or maximum depth when average water depth, steps, benches, freeform curves, deep hoppers, and chemical dosing accuracy matter.',
     ],
     improvements: [
-      'Manually checked pool-shape volume logic, gallon conversion, examples, FAQ cautions, NIST source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, aliases, formula, limits, examples, FAQs, guide sections, source notes, audit record, sitemap dates, and image alt/caption text around pool gallons, average depth, 7.48052 conversion, round and oval shape factors, and chemical-dose caution.',
     ],
     followUps: [
-      'Add shallow/deep-end average-depth helper if pool users need a clearer walkthrough.',
+      'Add a shallow/deep-end average-depth helper if pool users need a clearer walkthrough.',
+      'Consider an irregular-pool section splitter only if it can show assumptions without pretending freeform pools are exact.',
     ],
   },
   {
