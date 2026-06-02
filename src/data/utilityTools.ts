@@ -4231,20 +4231,32 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'retaining-wall-calculator',
     name: 'Retaining Wall Calculator',
     category: 'home-projects',
-    summary: 'Estimate retaining wall blocks, cap blocks, courses, and base gravel.',
+    summary: 'Estimate segmental retaining wall blocks, caps, courses, and base gravel.',
     description:
-      'Use this free retaining wall calculator to estimate wall blocks, cap blocks, courses, and base gravel volume from wall and block dimensions.',
+      'Estimate segmental retaining wall blocks, cap blocks, courses, and base gravel from wall size, block size, cap length, base trench size, and waste.',
+    seoTitle: 'Retaining Wall Calculator | Blocks, Caps, Base Gravel',
+    seoDescription:
+      'Estimate retaining wall blocks, cap blocks, courses, and base gravel. Enter wall size, block size, cap length, base trench size, and waste.',
     icon: 'calculator-retaining-wall',
-    aliases: ['Landscape Wall Calculator', 'Block Retaining Wall Calculator'],
+    aliases: [
+      'Retaining Wall Block Calculator',
+      'Retaining Wall Materials Calculator',
+      'Concrete Retaining Wall Calculator',
+      'Retaining Wall Base Calculator',
+      'Retaining Wall Square Feet Calculator',
+      'Landscape Wall Calculator',
+      'Block Retaining Wall Calculator',
+    ],
     formula:
-      'The calculator divides wall height by block height for courses, divides wall length by block length for blocks per course, adds waste, estimates cap blocks, and finds base trench volume.',
+      'Courses = ceiling(wall height x 12 / block height). Blocks per course = ceiling(wall length x 12 / block length). Wall blocks = courses x blocks per course x waste factor, rounded up. Cap blocks use wall length and cap length. Base gravel = wall length x base width x base depth x waste factor.',
     limit:
-      'Retaining walls can fail if drainage, soil, surcharge, setbacks, geogrid, base prep, frost, height limits, and permits are ignored. This is only a material estimate.',
+      'This counts materials for simple segmental wall planning. It does not design a safe retaining wall. Soil, drainage, surcharge loads, slopes, setback, embedment, geogrid, base compaction, frost, utilities, permits, and local code can change the real plan.',
     inputExplanations: [
-      { term: 'Wall length and height', meaning: 'the finished face size of the retaining wall.' },
-      { term: 'Block size', meaning: 'the face length and height of one wall block.' },
+      { term: 'Wall length and height', meaning: 'the finished face size of the retaining wall, measured before adding hidden buried courses or curves.' },
+      { term: 'Block size', meaning: 'the visible face length and height of one segmental wall block from the supplier label or product sheet.' },
       { term: 'Cap length', meaning: 'the length of one cap block along the top of the wall.' },
-      { term: 'Base depth and width', meaning: 'the gravel trench dimensions used for the base estimate.' },
+      { term: 'Base depth and width', meaning: 'the compacted gravel trench dimensions used for the base estimate, not the drainage stone behind the wall.' },
+      { term: 'Waste percent', meaning: 'extra blocks and gravel for cuts, broken units, end pieces, curves, base cleanup, and small measuring errors.' },
     ],
     extraFaq: [
       {
@@ -4253,23 +4265,60 @@ export const utilityTools: ToolDefinition[] = [
           'Segmental retaining walls usually sit on a compacted base. The calculator estimates the base trench volume so you can plan material separately from wall blocks.',
       },
       {
+        question: 'How does the Retaining Wall Calculator count blocks?',
+        answer:
+          'It rounds wall height up to whole courses, rounds wall length up to blocks per course, multiplies them, then adds the waste percent. This is a layout estimate, not a cut sheet.',
+      },
+      {
+        question: 'What does the 40 ft by 3 ft example mean?',
+        answer:
+          'With 16 by 6 inch blocks and 5% waste, the example needs 6 courses, 30 blocks per course, 189 wall blocks, 42 cap blocks, and about 1.17 cubic yards of base gravel.',
+      },
+      {
+        question: 'Does this calculate retaining wall square feet?',
+        answer:
+          'The wall face area is length times height, but the calculator uses courses and blocks because you buy whole blocks. Square feet alone can hide rounded rows, caps, cuts, and waste.',
+      },
+      {
+        question: 'Can I use this for a concrete retaining wall?',
+        answer:
+          'Use it for segmental concrete retaining wall blocks. It does not estimate poured concrete wall volume, footings, rebar, formwork, or structural design.',
+      },
+      {
+        question: 'Can it handle curved retaining walls?',
+        answer:
+          'Only as a rough material check. Enter the wall length along the face or centerline you are using, then add extra waste because curves usually need more cuts and cap fitting.',
+      },
+      {
+        question: 'Does the base gravel include drainage gravel behind the wall?',
+        answer:
+          'No. The base result is only the leveling/base trench. Drainage stone, drain pipe, filter fabric, geogrid, and backfill need their own takeoff.',
+      },
+      {
+        question: 'When should I ask an engineer or local building office?',
+        answer:
+          'Ask before relying on this for taller walls, slopes above or below the wall, driveways, fences, buildings, poor soil, water problems, terraced walls, or any wall that needs a permit.',
+      },
+      {
         question: 'Can this design a safe retaining wall?',
         answer:
-          'No. It only counts materials. Drainage, soil pressure, wall height, geogrid, surcharge loads, and local rules need proper design.',
+          'No. It only counts materials. Drainage, soil pressure, wall height, geogrid, surcharge loads, setback, embedment, and local rules need proper design.',
       },
     ],
     useCases: [
-      'Estimate block count for landscape retaining walls.',
+      'Estimate block count for simple segmental retaining walls.',
       'Plan cap blocks for the top course.',
       'Estimate gravel base volume.',
       'Compare block sizes before buying material.',
+      'Check a store material list before ordering blocks, caps, and base gravel.',
     ],
     examples: [
-      { label: 'Garden wall', expression: '40 ft long, 3 ft high, 16 x 6 in blocks, 5% waste', result: '189 wall blocks' },
-      { label: 'Short wall', expression: '24 ft long, 2 ft high', result: 'Blocks, caps, and base' },
-      { label: 'Base trench', expression: '18 in wide, 6 in deep', result: 'Cubic yards of base gravel' },
+      { label: 'Garden wall', expression: '40 ft long, 3 ft high, 16 x 6 in blocks, 5% waste', result: '189 wall blocks, 42 caps, about 1.17 yd3 base gravel' },
+      { label: 'Short landscape wall', expression: '24 ft long, 2 ft high, 12 x 4 in blocks, 8% waste', result: '156 wall blocks, 26 caps, about 0.43 yd3 base gravel' },
+      { label: 'Course check', expression: '3 ft wall height and 6 in block height', result: '6 courses' },
+      { label: 'Base trench', expression: '40 ft long, 18 in wide, 6 in deep, 5% waste', result: '31.5 ft3, about 1.17 yd3 base gravel' },
     ],
-    relatedSlugs: ['concrete-block-calculator', 'paver-calculator', 'gravel-calculator'],
+    relatedSlugs: ['concrete-block-calculator', 'gravel-calculator', 'concrete-block-fill-calculator', 'concrete-footing-calculator'],
   }),
   makeUtilityTool({
     slug: 'rebar-weight-calculator',

@@ -685,6 +685,22 @@ const sourceLinks = {
     href: 'https://www.cmha.org/resource/tek-03-08a/',
     label: 'CMHA: Concrete masonry construction guidance',
   },
+  cmhaSegmentalRetainingWallInstall: {
+    href: 'https://www.cmha.org/resource/srw-man-003/',
+    label: 'CMHA: Segmental Retaining Wall Installation Guide',
+  },
+  cmhaSegmentalRetainingWallGuide: {
+    href: 'https://www.cmha.org/resource/srw-tec-005/',
+    label: 'CMHA: Guide to Segmental Retaining Walls',
+  },
+  cmhaSegmentalRetainingWallDesign: {
+    href: 'https://www.cmha.org/resource/srw-tec-004/',
+    label: 'CMHA: Segmental Retaining Wall Design',
+  },
+  allanBlockRetainingWallPlanning: {
+    href: 'https://www.allanblock.com/docs/Commercial_Installation_Manual/retaining-wall-planning.html',
+    label: 'Allan Block: Retaining Wall Planning Guide',
+  },
   usgaScoreDifferential: {
     href: 'https://digital-pd.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---what-is-a-score-differential.html',
     label: 'USGA: What is a Score Differential',
@@ -3227,25 +3243,99 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'retaining-wall-calculator': {
-    summary: 'Learn how retaining wall dimensions and block size estimate wall blocks, caps, and base gravel.',
+    summary: 'Learn how wall size, block size, cap length, base trench size, and waste become retaining wall material counts.',
+    metaDescription:
+      'Use the Retaining Wall Calculator guide to estimate segmental wall blocks, cap blocks, courses, base gravel, waste, and limits before ordering.',
     purpose:
-      'The Retaining Wall Calculator estimates materials for a simple segmental retaining wall: wall blocks, cap blocks, courses, and base gravel volume.',
+      'The Retaining Wall Calculator estimates materials for a simple segmental retaining wall. It counts wall blocks, cap blocks, courses, blocks per course, and base gravel from the dimensions you enter.',
+    intro:
+      'Use it when you already know the wall size and the block style you plan to buy. It is good for a shopping check, not for deciding whether the wall is safe.',
+    inputMatch: 'wall length and height, segmental block face size, cap length, base trench size, and waste percent',
+    logicNote:
+      'The tool rounds height up to whole block courses, rounds length up to whole blocks per course, multiplies those counts, adds waste, then estimates cap blocks and base trench volume.',
+    readIntro:
+      'Read the wall block count first, then check courses and blocks per course so you can spot a strange block size or wall height entry.',
+    mistakeIntro:
+      'Most bad retaining-wall estimates come from using the wrong block face size, forgetting caps, treating base gravel as drainage gravel, or trusting material math as engineering.',
+    sidecarText:
+      'Open the Retaining Wall Calculator beside this guide. Try the 40 ft by 3 ft example, then swap in the block size printed on the product you plan to buy.',
+    bestUsesIntro:
+      'This guide works best for simple segmental block walls where you need a material count before comparing store lists, quotes, or delivery sizes.',
+    referenceIntro:
+      'These references help check segmental retaining wall terms, base and drainage cautions, and unit conversions used by the guide.',
     enter: [
-      'Enter wall length and height in feet.',
-      'Enter block length, block height, and cap length in inches.',
-      'Enter base trench depth, base width, and waste percent.',
+      'Enter the finished wall length and height in feet.',
+      'Enter the visible block face length and block height in inches from the supplier label or product sheet.',
+      'Enter cap length in inches so the top row is estimated separately.',
+      'Enter base trench depth and width in inches for the compacted base gravel estimate.',
+      'Add waste for cuts, broken units, end pieces, curves, base cleanup, and small measuring mistakes.',
     ],
     read: [
-      'Wall blocks is the rounded-up main block estimate.',
-      'Courses and blocks per course show the layout assumption.',
-      'Base gravel is shown in cubic yards for the trench volume.',
+      'Wall blocks is the rounded-up count after courses, blocks per course, and waste.',
+      'Courses shows how many block rows the wall height needs.',
+      'Blocks per course shows the straight-run layout before caps.',
+      'Cap blocks is based on wall length and cap length, then rounded up with waste.',
+      'Base gravel is the leveling/base trench volume in cubic feet and cubic yards.',
     ],
     mistakes: [
+      'Do not use square feet alone when whole courses, caps, and waste matter.',
       'Do not use this as a safety design for a retaining wall.',
-      'Do not forget drainage stone, geogrid, backfill, compaction, setbacks, and soil pressure.',
-      'Check permits and engineering rules, especially for taller walls or walls near loads.',
+      'Do not count the base gravel result as drainage gravel behind the wall.',
+      'Do not forget drainage stone, drain pipe, filter fabric, geogrid, backfill, compaction, setback, embedment, and soil pressure.',
+      'Check permits and engineering rules, especially for taller walls, slopes, driveways, fences, buildings, water problems, or weak soils.',
     ],
-    sources: [sourceLinks.inchRetainingWall, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick example',
+        paragraphs: [
+          'For a 40 ft long by 3 ft high wall using 16 by 6 inch blocks, the calculator rounds the wall to 6 courses and 30 blocks per course. With 5% waste, that becomes 189 wall blocks.',
+          'If the cap blocks are 12 inches long, the same wall needs 42 cap blocks with 5% waste. A 6 inch deep by 18 inch wide base trench for 40 ft needs 31.5 ft3 of base gravel, or about 1.17 yd3.',
+        ],
+      },
+      {
+        title: 'Why courses matter',
+        paragraphs: [
+          'A wall that is 3 ft high is 36 inches high. With 6 inch blocks, that is exactly 6 courses. If your wall height does not divide cleanly by the block height, the calculator rounds up because you cannot buy a fraction of a block row.',
+        ],
+      },
+      {
+        title: 'Square feet vs block count',
+        paragraphs: [
+          'Wall square feet is useful for a rough size check, but it is not the same as a block order. Block length, block height, caps, curves, cuts, and waste all change the count.',
+        ],
+      },
+      {
+        title: 'What the base result leaves out',
+        paragraphs: [
+          'The base gravel number is only for the leveling/base trench you enter. It does not include drainage stone behind the wall, drain pipe, geotextile fabric, reinforced backfill, geogrid, or extra excavation.',
+        ],
+      },
+      {
+        title: 'When the calculator is not enough',
+        paragraphs: [
+          'Retaining walls hold soil, so small material math can become a safety problem when the site is complicated. Get local guidance before relying on a simple estimate for tall walls, poor soil, slopes above or below the wall, driveways, fences, buildings, terraced walls, drainage problems, utilities, frost, or any wall that needs a permit.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'If you are also planning block walls, gravel, or core fill, use the related tools to keep each estimate separate instead of mixing every material into one number.',
+        ],
+        links: [
+          { href: '/tools/concrete-block-calculator/', label: 'Estimate concrete block wall units' },
+          { href: '/tools/gravel-calculator/', label: 'Estimate gravel by depth and density' },
+          { href: '/tools/concrete-block-fill-calculator/', label: 'Estimate CMU core fill separately' },
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchRetainingWall,
+      sourceLinks.cmhaSegmentalRetainingWallInstall,
+      sourceLinks.cmhaSegmentalRetainingWallGuide,
+      sourceLinks.cmhaSegmentalRetainingWallDesign,
+      sourceLinks.allanBlockRetainingWallPlanning,
+      sourceLinks.nistUnits,
+    ],
   },
   'rebar-weight-calculator': {
     summary: 'Learn how rebar size, length, quantity, and waste estimate total steel weight.',

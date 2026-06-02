@@ -316,6 +316,18 @@ const toolArtMetadataOverrides = {
         'Concrete Block Fill Calculator guide artwork supports the walkthrough for block count, core-fill volume, waste, cubic yards, bag counts, and masonry limits.',
     },
   },
+  'retaining-wall-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 40 ft by 3 ft segmental retaining wall with 16 by 6 inch blocks, cap blocks, base gravel, and a 189 block result card.',
+      caption:
+        'Retaining Wall Calculator artwork matches the live workflow: enter wall size, block size, cap length, base trench size, and waste to estimate blocks, caps, courses, and base gravel.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing retaining wall courses, blocks per course, cap blocks, base trench gravel, drainage cautions, and the 189 block example.',
+      caption:
+        'Retaining Wall Calculator guide artwork supports the walkthrough for courses, blocks per course, cap blocks, base gravel, waste, and construction safety limits.',
+    },
+  },
   'siding-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a house wall with window and door openings, siding panels, stacked siding squares, box coverage icons, and waste offcuts.',

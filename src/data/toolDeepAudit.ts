@@ -2046,6 +2046,26 @@ const cmhaConcreteMasonryConstruction = {
   label: 'CMHA: Concrete masonry construction guidance',
 };
 
+const cmhaSegmentalRetainingWallInstall = {
+  href: 'https://www.cmha.org/resource/srw-man-003/',
+  label: 'CMHA: Segmental Retaining Wall Installation Guide',
+};
+
+const cmhaSegmentalRetainingWallGuide = {
+  href: 'https://www.cmha.org/resource/srw-tec-005/',
+  label: 'CMHA: Guide to Segmental Retaining Walls',
+};
+
+const cmhaSegmentalRetainingWallDesign = {
+  href: 'https://www.cmha.org/resource/srw-tec-004/',
+  label: 'CMHA: Segmental Retaining Wall Design',
+};
+
+const allanBlockRetainingWallPlanning = {
+  href: 'https://www.allanblock.com/docs/Commercial_Installation_Manual/retaining-wall-planning.html',
+  label: 'Allan Block: Retaining Wall Planning Guide',
+};
+
 const ukBoardFoot = {
   href: 'https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/for9.htm',
   label: 'University of Kentucky Extension: Measuring farm timber',
@@ -5240,20 +5260,28 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'retaining-wall-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-concrete-masonry-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'all-pages-seo-dataforseo-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [inchRetainingWall, nistSi],
+    sources: [
+      inchRetainingWall,
+      cmhaSegmentalRetainingWallInstall,
+      cmhaSegmentalRetainingWallGuide,
+      cmhaSegmentalRetainingWallDesign,
+      allanBlockRetainingWallPlanning,
+      nistSi,
+      googleHelpfulContent,
+    ],
     findings: [
-      'The calculator estimates courses, blocks per course, wall blocks with waste, cap blocks, and base trench cubic yards.',
-      'The FAQ explains base gravel and states clearly that the tool does not design a safe retaining wall.',
-      'The guide calls out drainage, soil pressure, geogrid, setbacks, surcharge loads, permits, and engineering.',
+      'DataForSEO paid evidence showed active intent for retaining wall calculator, concrete retaining wall calculator, retaining wall calculation formula, square-foot checks, store-style calculators, and curved or 6x6 variants.',
+      'The calculator estimates whole courses, blocks per course, wall blocks with waste, cap blocks, and base trench cubic yards from segmental block inputs.',
+      'The page and guide now separate wall block math from safety design, drainage gravel, geogrid, backfill, poured concrete walls, timber walls, slopes, surcharges, permits, and local code.',
     ],
     improvements: [
-      'Added retaining wall calculator UI, tested block/base math, result steps, examples, guide, detailed FAQs, source-backed audit record, and related tools.',
+      'Rebuilt metadata, aliases, formula text, examples, FAQ coverage, guide sections, source links, trust limits, modified dates, related links, audit record, and exact image alt/caption text around segmental retaining wall blocks, caps, courses, base gravel, and the 40 ft by 3 ft example.',
     ],
     followUps: [
-      'Add drainage gravel and backfill modes later only with strong safety caveats.',
+      'Add drainage gravel, backfill stone, drain pipe, geogrid, curved-wall, or timber 6x6 modes only if each mode gets its own sourced assumptions, UI labels, tests, and safety caveats.',
     ],
   },
   {
