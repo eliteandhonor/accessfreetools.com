@@ -209,6 +209,14 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/rebar-weight-calculator/',
     label: 'Inch Calculator: Rebar weight calculator reference',
   },
+  calcShedRebar: {
+    href: 'https://calcshed.com/rebar-calculator/',
+    label: 'CalcShed: Rebar calculator',
+  },
+  crsiSplicingBars: {
+    href: 'https://www.crsi.org/reinforcing-basics/reinforcing-steel/splicing-bars/',
+    label: 'CRSI: Splicing reinforcing bars',
+  },
   lowesCountertopGuide: {
     href: 'https://www.lowes.com/pdf/kitchen_countertop_measure_guide.pdf',
     label: 'Lowe\'s: Kitchen countertop measurement guide',
@@ -2804,9 +2812,9 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'rebar-calculator': {
-    summary: 'Learn how slab size, bar spacing, stock length, and waste estimate a rebar grid.',
+    summary: 'Learn how slab size, spacing, stock length, and waste become rebar bars to buy.',
     purpose:
-      'The Rebar Calculator estimates a simple two-direction grid for rectangular slabs. It counts bars in both directions, totals linear feet, then converts that length into stock bars to buy.',
+      'The Rebar Calculator estimates a simple two-direction grid for rectangular slabs. It counts bars in both directions, totals linear feet, adds waste, then converts that length into stock bars to buy.',
     enter: [
       'Enter slab length and width in feet.',
       'Enter bar spacing in inches and stock bar length in feet.',
@@ -2819,10 +2827,34 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
     mistakes: [
       'Do not treat this as structural engineering.',
-      'Do not forget lap length, bar size, cover, chairs, edge distance, supports, and code requirements.',
-      'Use the concrete plan or a qualified professional for real reinforcement design.',
+      'Do not use diameter as spacing. Spacing is the distance between parallel bars.',
+      'Do not forget lap length, bar size, cover, chairs, edge distance, supports, delivery stock length, and code requirements.',
+      'Use the concrete plan, local code, or a qualified professional for real reinforcement design.',
     ],
-    sources: [sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'What the grid count means',
+        paragraphs: [
+          'A simple slab grid has bars running lengthwise and bars running widthwise. The calculator counts how many bars fit across each side using the spacing you entered.',
+          'For the default 20 ft by 12 ft slab at 18 inch spacing, the calculator counts 9 lengthwise bars and 14 widthwise bars. That is 348 raw linear feet before waste.',
+        ],
+      },
+      {
+        title: 'Why stock bar length matters',
+        paragraphs: [
+          'Suppliers sell bars in stock lengths, so the calculator divides adjusted linear feet by the stock bar length and rounds up. If you change from 20 ft bars to 10 ft bars, the whole-bar count changes even when the slab does not.',
+          'The result is a buying estimate. Real cuts, lap splices, bends, hooks, and delivery minimums can still change the order.',
+        ],
+      },
+      {
+        title: 'Weight, walls, and structural limits',
+        paragraphs: [
+          'People often need rebar weight too, but weight depends on bar size. Use the Rebar Weight Calculator after this page if you know the size, length, and quantity.',
+          'Walls, footings, beams, and heavy slabs can need different layers, cover, bar size, splice length, and inspection details. This page helps count material for a simple grid; it does not choose reinforcement for the job.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.calcShedRebar, sourceLinks.inchRebarWeight, sourceLinks.crsiSplicingBars, sourceLinks.nistUnits],
   },
   'concrete-mix-calculator': {
     summary: 'Learn how concrete volume and a cement:sand:gravel ratio become mix material estimates.',

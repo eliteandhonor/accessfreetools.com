@@ -556,6 +556,16 @@ const inchRebarWeight = {
   label: 'Inch Calculator: Rebar weight calculator reference',
 };
 
+const calcShedRebar = {
+  href: 'https://calcshed.com/rebar-calculator/',
+  label: 'CalcShed: Rebar calculator',
+};
+
+const crsiSplicingBars = {
+  href: 'https://www.crsi.org/reinforcing-basics/reinforcing-steel/splicing-bars/',
+  label: 'CRSI: Splicing reinforcing bars',
+};
+
 const lowesCountertopGuide = {
   href: 'https://www.lowes.com/pdf/kitchen_countertop_measure_guide.pdf',
   label: 'Lowe\'s: Kitchen countertop measurement guide',
@@ -5027,20 +5037,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'rebar-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [quikreteConcrete, nistSi],
+    sources: [calcShedRebar, inchRebarWeight, crsiSplicingBars, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator counts bars in both slab directions from spacing, totals linear feet, adds waste, and rounds up stock bars.',
-      'The guide explains bar spacing, stock bar length, and waste while avoiding structural design claims.',
-      'The limitation text warns about bar size, laps, cover, chairs, supports, edge distance, code, and professional review.',
+      'DataForSEO page evidence showed `rebar calculator` demand around 6,600 U.S. searches, with related intent for slab, weight, wall, square-foot, app, and Excel searches.',
+      'The calculator counts bars in both slab directions from spacing, totals linear feet, adds waste, divides by stock-bar length, and rounds up whole bars to buy.',
+      'The page now separates simple rectangular slab takeoff math from structural design, lap splices, bar size, cover, supports, edge distance, walls, footings, beams, and code requirements.',
     ],
     improvements: [
-      'Manually checked grid-count math, stock-bar rounding, examples, FAQ definitions, safety caveats, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, audit record, modified dates, related links, and exact image alt/caption text in smart-14 wording.',
     ],
     followUps: [
-      'Add lap-length fields only if structural-scope warnings stay prominent.',
+      'Add lap-length or wall/footing modes only if the UI keeps structural-scope warnings prominent and source-backed.',
     ],
   },
   {

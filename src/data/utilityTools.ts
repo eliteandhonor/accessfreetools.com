@@ -3501,11 +3501,22 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate rebar grid counts, linear feet, and stock bars from slab size and spacing.',
     description:
-      'Use this free rebar calculator to estimate a simple two-direction rebar grid from slab dimensions, bar spacing, stock bar length, and waste.',
+      'Use this free rebar calculator to estimate slab rebar grid counts, total linear feet, and stock bars to buy from slab size, spacing, bar length, and waste.',
     icon: 'calculator-rebar',
-    aliases: ['Rebar Grid Calculator', 'Reinforcement Bar Calculator'],
+    aliases: [
+      'Rebar Grid Calculator',
+      'Rebar Calculator for Slab',
+      'Rebar Spacing Calculator',
+      'Rebar Linear Feet Calculator',
+      'Rebar Calculator Weight',
+      'Rebar Calculator for Wall',
+      'Reinforcement Bar Calculator',
+    ],
+    seoTitle: 'Rebar Calculator | Slab Grid & Bar Count',
+    seoDescription:
+      'Estimate rebar for a simple slab grid. Enter slab size, spacing, stock bar length, and waste to get bar counts, linear feet, and stock bars.',
     formula:
-      'The calculator counts bars in both slab directions from spacing, totals linear feet, adds waste, divides by stock bar length, and rounds up.',
+      'Lengthwise bars = floor(slab width x 12 / spacing inches) + 1. Widthwise bars = floor(slab length x 12 / spacing inches) + 1. Total linear feet = lengthwise bars x slab length + widthwise bars x slab width. Add waste, divide by stock bar length, and round up.',
     limit:
       'This is a material takeoff, not structural design. Bar size, spacing, laps, cover, supports, edge distance, and code requirements need professional review.',
     inputExplanations: [
@@ -3514,18 +3525,69 @@ export const utilityTools: ToolDefinition[] = [
       { term: 'Stock bar length', meaning: 'the length of one purchased bar from the supplier.' },
       { term: 'Waste percent', meaning: 'extra length for cuts, lap planning, and small layout changes.' },
     ],
+    extraFaq: [
+      {
+        question: 'What does the Rebar Calculator count?',
+        answer:
+          'It counts a simple two-direction grid for a rectangular slab. It returns bars running each direction, adjusted linear feet, and whole stock bars to buy.',
+      },
+      {
+        question: 'Does this work for a concrete slab?',
+        answer:
+          'Yes, it is aimed at simple rectangular slab takeoffs. Enter slab length, slab width, bar spacing, stock bar length, and waste percent.',
+      },
+      {
+        question: 'Does this calculate rebar weight?',
+        answer:
+          'Not on this page. This page estimates grid length and bars to buy. Use the Rebar Weight Calculator if you need pounds or tons from bar size and quantity.',
+      },
+      {
+        question: 'Can I use this for a wall or footing?',
+        answer:
+          'Only as a rough material-count idea. Walls, footings, beams, and structural slabs can need different bar sizes, layers, bends, hooks, spacing, cover, and lap details.',
+      },
+      {
+        question: 'Why does smaller spacing increase the bar count?',
+        answer:
+          'Spacing is the distance between parallel bars. If the bars are closer together, more bars fit across the slab, so total linear feet and stock bars go up.',
+      },
+      {
+        question: 'Does the result include lap splices?',
+        answer:
+          'Only if you cover them with the waste percent. Real lap length depends on bar size, concrete strength, bar spacing, cover, grade, and the project drawings.',
+      },
+      {
+        question: 'Does this replace a concrete plan?',
+        answer:
+          'No. It is for estimating materials before ordering or comparing layouts. The actual reinforcement design should come from the plan, code requirements, or a qualified professional.',
+      },
+      {
+        question: 'What should I check before buying bars?',
+        answer:
+          'Check the drawing, required bar size, spacing, slab thickness, cover, chair/support needs, lap length, stock lengths, delivery minimums, and local code rules.',
+      },
+    ],
     useCases: [
       'Estimate stock rebar bars for a simple rectangular slab grid.',
       'Compare 12-inch, 18-inch, and 24-inch spacing.',
       'Add waste for cuts and lap planning.',
+      'Check adjusted linear feet before using a weight estimate.',
+      'Separate simple slab takeoff math from structural design decisions.',
       'Plan a rough material list before professional review.',
     ],
     examples: [
       { label: '20 x 12 slab', expression: '20 x 12 ft, 18 in spacing, 20 ft stock bars, 10% waste', result: '20 bars' },
-      { label: 'Garage pad', expression: '24 x 20 ft, 24 in spacing', result: 'Rebar grid estimate' },
-      { label: 'Spacing comparison', expression: 'Change spacing and bar length', result: 'Linear feet and bar count' },
+      { label: 'Garage pad', expression: '24 x 20 ft, 24 in spacing, 20 ft stock bars, 10% waste', result: '29 bars' },
+      { label: 'Tighter spacing', expression: '20 x 12 ft, 12 in spacing, 20 ft stock bars, 10% waste', result: '29 bars' },
+      { label: 'Small patio', expression: '12 x 10 ft, 18 in spacing, 20 ft stock bars, 5% waste', result: '10 bars' },
+      { label: 'Weight handoff', expression: 'Use adjusted linear feet with bar size', result: 'Check rebar weight separately' },
     ],
-    relatedSlugs: ['concrete-calculator', 'concrete-block-calculator', 'cubic-yard-calculator'],
+    relatedSlugs: [
+      'rebar-weight-calculator',
+      'concrete-reinforcing-mesh-calculator',
+      'concrete-footing-calculator',
+      'concrete-driveway-calculator',
+    ],
   }),
   makeUtilityTool({
     slug: 'concrete-mix-calculator',

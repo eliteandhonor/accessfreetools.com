@@ -256,6 +256,18 @@ const toolArtMetadataOverrides = {
         'Pool Volume Calculator guide artwork supports the walkthrough by showing how pool shape, average depth, cubic feet, and gallons connect.',
     },
   },
+  'rebar-calculator': {
+    tool: {
+      alt: 'Smoke mascot pointing at a rectangular slab rebar grid with measuring marks, cut bar pieces, and stacked stock bars.',
+      caption:
+        'Rebar Calculator artwork matches the live workflow: enter slab length, slab width, bar spacing, stock bar length, and waste to estimate grid counts and stock bars.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining panels that turn a concrete slab into one-way bars, a full rebar grid, cut pieces, and bundled stock bars.',
+      caption:
+        'Rebar Calculator guide artwork supports the walkthrough by showing slab layout, bar spacing, grid count, cut waste, and stock-bar buying limits.',
+    },
+  },
   'volume-calculator': {
     tool: {
       alt: 'Smoke mascot beside a glowing sphere bowl, cylinder, and box showing the shapes used for volume calculations.',
