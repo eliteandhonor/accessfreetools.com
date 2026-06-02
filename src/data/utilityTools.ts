@@ -2114,28 +2114,91 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate mulch cubic yards, cubic feet, and 2-cubic-foot bags from area and depth.',
     description:
       'Use this free mulch calculator to estimate bulk cubic yards or common bag counts from square feet, depth, and waste.',
+    seoTitle: 'Mulch Calculator | Yards, Bags, Depth',
+    seoDescription:
+      'Estimate mulch cubic yards, cubic feet, and bag count from square feet, depth in inches, bag size, and waste before buying bagged or bulk mulch.',
     icon: 'calculator-mulch',
+    aliases: [
+      'Mulch Yard Calculator',
+      'Mulch Bags Calculator',
+      'Mulch Cubic Yard Calculator',
+      'Landscape Mulch Calculator',
+      'Garden Mulch Calculator',
+      'Bark Mulch Calculator',
+    ],
     formula:
-      'The calculator converts depth from inches to feet, multiplies by area for cubic feet, adds waste, then divides by 27 for cubic yards.',
+      'The calculator uses cubic feet = area square feet x depth inches / 12, adjusted cubic feet = cubic feet x (1 + waste percent / 100), cubic yards = adjusted cubic feet / 27, and bags = ceiling(adjusted cubic feet / bag cubic feet).',
     limit:
-      'Mulch settles and bag fill can vary. Bed shape, old mulch, slope, and desired finished depth affect real material needs.',
+      'This is a planning estimate. Real mulch needs can change with old mulch depth, bed shape, slope, settling, mulch texture, moisture, bag fill, bulk delivery minimums, plant spacing, tree trunks, edging, wind, runoff, and supplier rounding.',
+    faqLanguage: {
+      expectedInputs: 'bed area in square feet, depth in inches, bag size, and waste percent',
+      examplePhrase: 'mulch bed example',
+      doubleCheck:
+        'Also check whether you are topping up old mulch, whether the bag size is 1.5, 2, or 3 cubic feet, and whether bulk delivery has a minimum order.',
+    },
     inputExplanations: [
       { term: 'Area square feet', meaning: 'the garden or landscape bed area you want to cover.' },
       { term: 'Depth inches', meaning: 'the finished mulch depth after spreading.' },
+      { term: 'Bag cubic feet', meaning: 'the volume printed on the mulch bag, often 1.5, 2, or 3 cubic feet.' },
       { term: 'Waste percent', meaning: 'extra mulch for settling, uneven beds, slopes, and spreading loss.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How do I calculate mulch cubic yards?',
+        answer:
+          'Multiply square feet by depth in inches, divide by 12 to get cubic feet, then divide by 27 to get cubic yards. The shortcut is square feet x depth inches / 324.',
+      },
+      {
+        question: 'How many 2 cubic foot bags are in one cubic yard?',
+        answer:
+          'One cubic yard is 27 cubic feet, so it equals 13.5 two-cubic-foot bags. The calculator rounds up because stores do not sell half bags.',
+      },
+      {
+        question: 'What mulch depth should I enter?',
+        answer:
+          'Use the finished depth you want after spreading. Two inches is a common light layer, 3 inches is common for many beds, and coarse mulch may be used deeper only when it fits the plant and site. Do not pile mulch against trunks or stems.',
+      },
+      {
+        question: 'Should I remove old mulch first?',
+        answer:
+          'If old mulch is still loose and thin, you may only need a top-up layer. If it is matted, sour, piled too deep, or touching trunks, rake it back or remove some before adding more.',
+      },
+      {
+        question: 'Why add waste percent for mulch?',
+        answer:
+          'Waste percent covers settling, uneven beds, spreading loss, edge cleanup, and small measuring mistakes. Use a small amount for simple beds and more for odd shapes or slopes.',
+      },
+      {
+        question: 'Can I use this for several beds?',
+        answer:
+          'Yes. Add the square footage for each bed, then enter the total area and the same depth. If different beds need different depths, run the calculator separately for each group.',
+      },
+      {
+        question: 'Does this work for circular tree rings?',
+        answer:
+          'Yes if you already know the square footage. For a circle, area is radius x radius x 3.14. Keep mulch pulled away from the tree trunk instead of making a mulch mound against the bark.',
+      },
+      {
+        question: 'Should I buy mulch by bags or bulk yards?',
+        answer:
+          'Use cubic yards for bulk quotes and bag count for store pickup. Bagged mulch is easier for small jobs, while bulk delivery can make sense for larger beds if the delivery fee and minimum order work for you.',
+      },
     ],
     useCases: [
       'Estimate mulch for a garden bed.',
       'Convert square feet and inches deep into cubic yards.',
-      'Estimate common 2-cubic-foot bag count.',
+      'Estimate 1.5, 2, or 3 cubic-foot bag count.',
       'Add a small waste buffer before buying.',
+      'Compare bagged mulch with a bulk-yard delivery quote.',
+      'Plan a top-up layer without burying plant stems or tree trunks.',
     ],
     examples: [
-      { label: 'Garden bed', expression: '200 ft2 at 3 in, 5% extra', result: 'About 1.94 yd3' },
-      { label: 'Refresh layer', expression: '150 ft2 at 2 in', result: 'Bulk and bag estimate' },
-      { label: 'Large bed', expression: '500 ft2 at 2.5 in, 10% extra', result: 'Cubic yards and bags' },
+      { label: 'Garden bed', expression: '200 ft2 at 3 in, 2 ft3 bags, 5% waste', result: '1.94 yd3 and 27 bags' },
+      { label: 'Refresh layer', expression: '150 ft2 at 2 in, 2 ft3 bags', result: '0.93 yd3 and 13 bags' },
+      { label: 'Large bed', expression: '500 ft2 at 2.5 in, 2 ft3 bags, 10% waste', result: '4.24 yd3 and 58 bags' },
+      { label: 'Tree ring group', expression: '80 ft2 at 3 in, 2 ft3 bags', result: '0.74 yd3 and 10 bags' },
     ],
-    relatedSlugs: ['gravel-calculator', 'square-footage-calculator', 'volume-calculator'],
+    relatedSlugs: ['soil-calculator', 'sand-calculator', 'gravel-calculator'],
   }),
   makeUtilityTool({
     slug: 'gravel-calculator',

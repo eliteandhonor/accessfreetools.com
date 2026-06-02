@@ -208,6 +208,18 @@ const toolArtMetadataOverrides = {
         'Fence Calculator guide artwork supports the walkthrough by showing gate subtraction, post counts, panel layout, and real-job cautions.',
     },
   },
+  'mulch-calculator': {
+    tool: {
+      alt: 'Smoke mascot pointing from an outlined garden bed and depth ruler to a mulch calculator form, mulch pile, cubic-yard cube, and filled bags.',
+      caption:
+        'Mulch Calculator artwork matches the live workflow: enter bed area, depth, bag size, and waste to estimate cubic yards and bags.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing a bed grid, mulch depth ruler, cubic-yard cube, mulch bags, and finished garden bed in a step-by-step flow.',
+      caption:
+        'Mulch Calculator guide artwork supports the walkthrough by showing how bed area and depth turn into cubic yards, bag count, and buying checks.',
+    },
+  },
   'gravel-calculator': {
     tool: {
       alt: 'Smoke mascot estimating a 20 by 10 foot gravel area at 4 inches deep, showing 2.47 cubic yards and 3.46 tons.',

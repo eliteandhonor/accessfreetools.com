@@ -565,6 +565,18 @@ const sourceLinks = {
     href: 'https://www.calcipedia.org/calculators/gravel-driveway-calculator/',
     label: 'Calcipedia: Gravel driveway calculator',
   },
+  homeDepotMulchCalculator: {
+    href: 'https://www.homedepot.com/calculator/mulch/',
+    label: 'The Home Depot: Mulch and top soil calculator',
+  },
+  inchCalculatorMulch: {
+    href: 'https://www.inchcalculator.com/mulch-calculator/',
+    label: 'Inch Calculator: Mulch calculator',
+  },
+  nrcsTexasMulching: {
+    href: 'https://www.nrcs.usda.gov/sites/default/files/2022-09/Texas_conservation_in_Your_Backyard_Mulching_Accessible.pdf',
+    label: 'USDA NRCS Texas: Mulching guide',
+  },
   biaBrickEstimating: {
     href: 'https://www.gobrick.com/media/file/10-dimensioning-and-estimating-brick-masonry.pdf',
     label: 'Brick Industry Association: Dimensioning and estimating brick masonry',
@@ -2049,25 +2061,49 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.lowesTile, sourceLinks.nistUnits],
   },
   'mulch-calculator': {
-    summary: 'Learn how square feet and depth become cubic yards of mulch.',
+    summary: 'Learn how bed area, depth, and bag size become mulch yards and bags.',
     purpose:
-      'The Mulch Calculator estimates bulk cubic yards, cubic feet, and common 2-cubic-foot bag count from area and depth.',
+      'The Mulch Calculator estimates bulk cubic yards, cubic feet, and bag count from bed area, mulch depth, bag size, and waste percent. It is useful before comparing bagged mulch with a bulk-yard delivery quote.',
     enter: [
       'Enter bed area in square feet.',
       'Enter desired mulch depth in inches.',
-      'Add a small waste percent if wanted.',
+      'Add waste percent for settling, uneven spreading, and odd-shaped beds.',
     ],
     read: [
       'Cubic yards is the bulk-order number.',
       'Cubic feet is useful for bag comparison.',
-      '2-cubic-foot bags estimates common retail bag count.',
+      'Bag count rounds up so you do not plan half a bag.',
+      'For example, 200 square feet at 3 inches deep with 5% waste is about 1.94 cubic yards or 27 two-cubic-foot bags.',
     ],
     mistakes: [
-      'Do not forget mulch settles.',
-      'Do not measure uneven beds as if they were perfect rectangles unless the area estimate is still close.',
-      'Check bag volume or supplier yard size before buying.',
+      'Do not pile mulch too deep around plant stems or tree trunks.',
+      'Do not treat every retail bag as 2 cubic feet; some bags are 1.5 or 3 cubic feet.',
+      'Do not measure uneven beds as perfect rectangles unless the square-foot estimate is still close.',
+      'Check whether old mulch should be counted, raked, or removed before adding a full new layer.',
     ],
-    sources: [sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick 200 square foot example',
+        paragraphs: [
+          'A 200 square foot bed at 3 inches deep needs 50 cubic feet before waste. Add 5% waste and the order estimate becomes 52.5 cubic feet.',
+          'That is about 1.94 cubic yards. If the store bags are 2 cubic feet each, round up to 27 bags.',
+        ],
+      },
+      {
+        title: 'Depth check before buying',
+        paragraphs: [
+          'Depth is the input that changes the answer fastest. One cubic yard covers about 324 square feet at 1 inch, 162 square feet at 2 inches, 108 square feet at 3 inches, or 81 square feet at 4 inches.',
+          'For plant beds, use the depth recommended for the mulch type and keep mulch away from stems and trunks. More mulch is not automatically better.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.homeDepotMulchCalculator,
+      sourceLinks.inchCalculatorMulch,
+      sourceLinks.nrcsTexasMulching,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'gravel-calculator': {
     summary: 'Learn how dimensions, depth, and density estimate gravel cubic yards and tons.',

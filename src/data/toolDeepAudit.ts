@@ -1881,6 +1881,21 @@ const calcipediaGravelDriveway = {
   label: 'Calcipedia: Gravel driveway calculator',
 };
 
+const homeDepotMulchCalculator = {
+  href: 'https://www.homedepot.com/calculator/mulch/',
+  label: 'The Home Depot: Mulch and top soil calculator',
+};
+
+const inchCalculatorMulch = {
+  href: 'https://www.inchcalculator.com/mulch-calculator/',
+  label: 'Inch Calculator: Mulch calculator',
+};
+
+const nrcsTexasMulching = {
+  href: 'https://www.nrcs.usda.gov/sites/default/files/2022-09/Texas_conservation_in_Your_Backyard_Mulching_Accessible.pdf',
+  label: 'USDA NRCS Texas: Mulching guide',
+};
+
 const lowesSiding = {
   href: 'https://www.certainteed.com/products/documents-downloads',
   label: 'CertainTeed: Siding documents and installation resources',
@@ -4593,20 +4608,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'mulch-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [nistSi, nistConversionFactors],
+    sources: [homeDepotMulchCalculator, inchCalculatorMulch, nrcsTexasMulching, nistSi, nistConversionFactors, googleHelpfulContent],
     findings: [
-      'The calculator converts area and finished depth into cubic feet, then cubic yards, and estimates common 2-cubic-foot bags.',
-      'The FAQ explains depth inches and waste percent as settling, uneven beds, slopes, and spreading loss rather than a random add-on.',
-      'The guide keeps bag volume and supplier yard size visible so users do not treat every retail bag as identical.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `mulch calculator` intent after balance and status gates passed.',
+      'The calculator converts bed area and depth into cubic feet, then cubic yards, and rounds bag count up from the entered bag cubic feet.',
+      'Current mulch estimator sources show users expect cubic yards, cubic feet, bag counts, depth warnings, top-up logic, and bag-versus-bulk comparisons.',
+      'The page now uses exact examples for a 200 square foot garden bed, a 150 square foot refresh layer, a 500 square foot large bed, and an 80 square foot tree-ring group.',
     ],
     improvements: [
-      'Manually checked depth conversion, cubic-yard conversion, bag estimate, examples, FAQ details, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, depth and trunk cautions, audit record, modified dates, related links, and image alt/caption text in smart-14 wording.',
     ],
     followUps: [
-      'Add circular-bed and custom-shape helpers later if garden users ask for shape-specific area entry.',
+      'Add circular-bed, multi-bed, bag-size comparison, and bulk-delivery cost helpers later only if the UI keeps the simple area-depth-yard math clear.',
     ],
   },
   {
