@@ -340,6 +340,18 @@ const toolArtMetadataOverrides = {
         'Rebar Weight Calculator guide artwork supports the walkthrough for weight-per-foot values, #4 and #5 examples, waste, hauling checks, and design limits.',
     },
   },
+  'concrete-column-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring three 18 inch round concrete column tubes filled 8 ft high with 10 percent waste, 1.73 cubic yards, and 78 eighty-pound bags.',
+      caption:
+        'Concrete Column Calculator artwork matches the live workflow: enter inside diameter, filled height, quantity, and waste to estimate cubic yards and concrete bag counts.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing inside tube diameter, filled height, radius formula, cubic yards, 60 and 80 lb bag counts, and bell-footing limit notes.',
+      caption:
+        'Concrete Column Calculator guide artwork supports the walkthrough for round column volume, bag counts, waste, and structural-design limits.',
+    },
+  },
   'concrete-footing-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',

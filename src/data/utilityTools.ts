@@ -4522,18 +4522,28 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate concrete for round columns, piers, and tube forms.',
     description:
-      'Use this free concrete column calculator to estimate cubic feet, cubic yards, and bag counts for round concrete columns or piers.',
+      'Estimate concrete for round columns, piers, and tube forms. Enter inside diameter, filled height, quantity, and waste to get cubic feet, cubic yards, 60 lb bags, and 80 lb bags.',
     icon: 'calculator-concrete-column',
-    aliases: ['Concrete Pier Calculator', 'Sonotube Concrete Calculator', 'Round Column Concrete Calculator'],
+    seoTitle: 'Concrete Column Calculator | Yards And Bags',
+    seoDescription:
+      'Estimate concrete for round columns and piers. Enter inside diameter, filled height, quantity, and waste to get cubic feet, cubic yards, 60 lb bags, and 80 lb bags.',
+    aliases: [
+      'Concrete Pier Calculator',
+      'Sonotube Concrete Calculator',
+      'Round Column Concrete Calculator',
+      'Concrete Column Calculator Bags',
+      'Circular Column Volume Calculator',
+      'Column Concrete Ratio',
+    ],
     formula:
-      'The calculator converts diameter to a radius in feet, uses pi times radius squared times height, multiplies by quantity, adds waste, and rounds bag counts up.',
+      'The calculator converts inside diameter from inches to feet, divides by two for radius, uses pi times radius squared times filled height, multiplies by quantity, adds waste, converts to cubic yards, and rounds bag counts up.',
     limit:
-      'This is volume math only. Footing bells, reinforcement, anchors, structural loads, form size, and code rules can change real material needs.',
+      'This is material volume math only. Footing bells, flared bases, reinforcement, anchors, structural loads, form bracing, vibration, soil, frost depth, inspections, and local code can change the real pour.',
     inputExplanations: [
-      { term: 'Diameter', meaning: 'the inside diameter of the round form or pier in inches.' },
-      { term: 'Height', meaning: 'the filled concrete height in feet.' },
+      { term: 'Inside diameter', meaning: 'the clear width across the inside of the round tube or form, measured in inches.' },
+      { term: 'Filled height', meaning: 'the height of concrete inside the form, measured in feet.' },
       { term: 'Quantity', meaning: 'how many matching round columns or piers are included.' },
-      { term: 'Waste percent', meaning: 'extra concrete for form variation, spillage, and ordering cushion.' },
+      { term: 'Waste percent', meaning: 'extra concrete for form variation, spillage, overfill, and ordering cushion.' },
     ],
     extraFaq: [
       {
@@ -4546,6 +4556,51 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'No. It estimates the straight round column only. If your pier has a widened base, calculate that extra concrete separately or ask the designer for the takeoff.',
       },
+      {
+        question: 'How much concrete is in an 18 inch by 8 foot round column?',
+        answer:
+          'One 18 inch diameter column filled 8 feet high is about 14.14 cubic feet before waste. Three matching columns with 10% waste need about 46.65 cubic feet, or 1.73 cubic yards.',
+      },
+      {
+        question: 'How many 80 lb bags are needed for three 18 inch by 8 foot columns?',
+        answer:
+          'Using the default 10% waste setting, three 18 inch by 8 foot round columns need about 78 eighty-pound bags. Bag yields vary, so check the bag label before buying.',
+      },
+      {
+        question: 'Should I enter the outside or inside diameter of a tube form?',
+        answer:
+          'Enter the inside diameter because concrete fills the empty space inside the form. If a product lists both sizes, use the inner size or the finished column diameter.',
+      },
+      {
+        question: 'Does this calculate square concrete columns?',
+        answer:
+          'No. This page is for round columns and piers. For a square or rectangular column, multiply length by width by height or use the regular Concrete Calculator with those dimensions.',
+      },
+      {
+        question: 'Does this design a reinforced concrete column?',
+        answer:
+          'No. It only estimates concrete volume. Reinforced concrete column design needs loads, rebar, ties, concrete strength, footing details, and local code review.',
+      },
+      {
+        question: 'Why does the calculator round bag counts up?',
+        answer:
+          'You cannot buy part of a bag, and shorting a column pour is painful. The calculator rounds 60 lb and 80 lb bag estimates up after adding the waste percent.',
+      },
+      {
+        question: 'What waste percent should I use for round column forms?',
+        answer:
+          'Small pours often use 5% to 10% waste for small spills, uneven height, and form variation. Use more if the forms are rough, the ground is uneven, or the pour will be hard to control.',
+      },
+      {
+        question: 'Does this include anchor bolts, rebar, or form bracing?',
+        answer:
+          'No. It estimates concrete only. Anchor bolts, rebar cages, ties, bracing, vibration, and finishing are separate planning items.',
+      },
+      {
+        question: 'Can I use this for deck piers?',
+        answer:
+          'Only for the straight round concrete volume. Deck pier size, depth, rebar, uplift, frost protection, and inspection rules can be code-sensitive, so use the approved plan for the actual dimensions.',
+      },
     ],
     useCases: [
       'Estimate concrete for round tube forms.',
@@ -4554,11 +4609,12 @@ export const utilityTools: ToolDefinition[] = [
       'Add waste before pricing ready-mix or bagged concrete.',
     ],
     examples: [
-      { label: 'Three round piers', expression: '18 in diameter, 8 ft high, 3 columns, 10% waste', result: 'About 1.73 cubic yards' },
-      { label: 'Porch column bases', expression: '12 in diameter, 3 ft high, 4 columns', result: 'Bag count estimate' },
-      { label: 'Deck support tubes', expression: '10 in diameter, 4 ft high, 6 tubes', result: 'Round concrete volume' },
+      { label: 'Three round piers', expression: '18 in inside diameter, 8 ft filled height, 3 columns, 10% waste', result: '46.65 ft3, about 1.73 yd3, 78 eighty-pound bags' },
+      { label: 'Porch column bases', expression: '12 in inside diameter, 3 ft filled height, 4 columns, 8% waste', result: '10.18 ft3, about 0.38 yd3, 17 eighty-pound bags' },
+      { label: 'Deck support tubes', expression: '10 in inside diameter, 4 ft filled height, 6 tubes, 8% waste', result: '14.14 ft3, about 0.52 yd3, 24 eighty-pound bags' },
+      { label: 'Single short pier', expression: '16 in inside diameter, 5 ft filled height, 1 pier, 5% waste', result: '7.33 ft3, about 0.27 yd3' },
     ],
-    relatedSlugs: ['concrete-footing-calculator', 'concrete-calculator', 'cubic-yard-calculator'],
+    relatedSlugs: ['concrete-footing-calculator', 'post-hole-concrete-calculator', 'concrete-calculator', 'cubic-yard-calculator'],
   }),
   makeUtilityTool({
     slug: 'post-hole-concrete-calculator',

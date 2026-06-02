@@ -516,6 +516,11 @@ const iccIrc2024Foundations = {
   label: 'ICC: 2024 IRC foundations chapter',
 };
 
+const maxiConcreteColumn = {
+  href: 'https://www.maxicalculator.com/construction/concrete-column-calculator',
+  label: 'Maxi Calculator: Concrete column calculator reference',
+};
+
 const inchPostHoleConcrete = {
   href: 'https://www.inchcalculator.com/post-hole-concrete-calculator/',
   label: 'Inch Calculator: Post hole concrete calculator reference',
@@ -1844,6 +1849,11 @@ const nistAlcoholCalculations = {
 const quikreteConcrete = {
   href: 'https://www.quikrete.com/calculator/main.asp',
   label: 'QUIKRETE: Concrete calculator reference',
+};
+
+const quikreteTubePillarFoundations = {
+  href: 'https://www.quikrete.com/PDFs/Projects/QuiktubePillarFoundations.pdf',
+  label: 'QUIKRETE: QUIK-TUBE pillar foundations guide',
 };
 
 const quikreteStepsRamps = {
@@ -5340,20 +5350,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'concrete-column-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-construction-materials-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'all-pages-seo-dataforseo-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [inchConcreteFooting, quikreteConcrete, nistSi],
+    sources: [maxiConcreteColumn, quikreteConcrete, quikreteTubePillarFoundations, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator uses cylinder volume for round columns, multiplies by quantity, adds waste, converts to cubic yards, and rounds bag counts up.',
-      'The FAQ explains diameter versus radius and excludes bell bottoms, wider footing bases, reinforcement, anchor bolts, and structural design.',
-      'The guide ties the result to concrete volume and bag planning without overstating code or engineering coverage.',
+      'DataForSEO paid evidence showed active U.S. intent around `concrete column calculator` with 320 searches, plus small but relevant bag-count, online-column, ratio, circular-column-volume, and reinforced-column-design variants.',
+      'The calculator uses inside diameter, converts it to radius in feet, applies cylinder volume, multiplies by quantity, adds waste, converts to cubic yards, and rounds 60 lb and 80 lb bag counts up.',
+      'The page and guide now separate material quantity from reinforced-column design, footing bells, flared bases, anchors, rebar cages, form bracing, soil, frost depth, inspections, and code rules.',
     ],
     improvements: [
-      'Added round-column calculator config, formula tests, guide article, detailed FAQs, source notes, SEO metadata, and privacy wording.',
+      'Rebuilt metadata, aliases, formula text, examples, FAQ coverage, guide sections, source links, trust limits, modified dates, related links, audit record, and exact image alt/caption text around round column volume, cubic yards, bag counts, waste, and structural-design limits.',
     ],
     followUps: [
-      'Consider a separate square-column mode later if competitor search demand appears.',
+      'Add square-column, bell-footing, cost, metric, or reinforced-column-design modes only if each mode gets sourced assumptions, UI labels, tests, and clear code-limit wording.',
     ],
   },
   {

@@ -640,10 +640,10 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     wastePercent: 'Extra concrete for uneven trenches, spillage, and ordering cushion.',
   },
   'concrete-column': {
-    diameterInches: 'Round form or pier diameter in inches.',
-    heightFeet: 'Concrete column or pier height in feet.',
+    diameterInches: 'Inside diameter of the round tube or form in inches.',
+    heightFeet: 'Filled concrete height inside the column form, in feet.',
     quantity: 'How many matching round columns or piers to pour.',
-    wastePercent: 'Extra concrete for form variation, spillage, and ordering cushion.',
+    wastePercent: 'Extra concrete for form variation, overfill, spillage, and ordering cushion.',
   },
   'post-hole-concrete': {
     holeDiameterInches: 'Diameter of the round post hole in inches.',
@@ -3143,15 +3143,15 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Concrete Column Calculator',
     buttonLabel: 'Estimate columns',
     emptyHistory: 'Recent concrete column estimates will appear here.',
-    privacyNote: 'Concrete column estimates stay local and use cylinder volume math.',
+    privacyNote: 'Concrete column estimates stay local. This is material volume math, not structural design approval.',
     modes: [
       {
         id: 'round-column',
         label: 'Round column',
         symbol: 'COL',
         fields: [
-          numberField('diameterInches', 'Diameter inches', '18'),
-          numberField('heightFeet', 'Height feet', '8'),
+          numberField('diameterInches', 'Inside diameter (in)', '18'),
+          numberField('heightFeet', 'Filled height (ft)', '8'),
           integerField('quantity', 'Quantity', '3'),
           numberField('wastePercent', 'Waste percent', '10'),
         ],
@@ -6478,7 +6478,7 @@ function calculateUtility(
       });
       return {
         label: 'Concrete needed',
-        expression: `${formatCalculatorNumber(result.quantity)} round columns, ${formatCalculatorNumber(result.diameterInches)} in diameter x ${formatCalculatorNumber(result.heightFeet)} ft high`,
+        expression: `${formatCalculatorNumber(result.quantity)} round columns, ${formatCalculatorNumber(result.diameterInches)} in inside diameter x ${formatCalculatorNumber(result.heightFeet)} ft filled height`,
         answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
         metrics: [
           { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
@@ -6486,11 +6486,11 @@ function calculateUtility(
           { label: '60 lb bags', value: formatCalculatorNumber(result.sixtyPoundBags) },
         ],
         steps: [
-          'Convert diameter to a radius in feet.',
-          'Use pi times radius squared times height for each column.',
-          'Multiply by quantity, add waste, and estimate bags.',
+          'Convert inside diameter to feet, then divide by two for radius.',
+          'Use pi times radius squared times filled height for each column.',
+          'Multiply by quantity, add waste, convert to cubic yards, and estimate bags.',
         ],
-        note: 'Round forms, bell bottoms, reinforcement, anchor bolts, structural loads, and code requirements are outside this material estimate.',
+        note: 'Bell bottoms, flared bases, reinforcement, anchor bolts, form bracing, structural loads, soil, frost depth, inspections, and code requirements are outside this material estimate.',
       };
     }
     case 'post-hole-concrete': {

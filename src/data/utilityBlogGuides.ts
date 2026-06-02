@@ -97,9 +97,17 @@ const sourceLinks = {
     href: 'https://www.quikrete.com/calculator/main.asp',
     label: 'QUIKRETE: Concrete calculator reference',
   },
+  quickreteTubePillarFoundations: {
+    href: 'https://www.quikrete.com/PDFs/Projects/QuiktubePillarFoundations.pdf',
+    label: 'QUIKRETE: QUIK-TUBE pillar foundations guide',
+  },
   quickreteStepsRamps: {
     href: 'https://www.quikrete.com/PDFs/Projects/ConcreteStepsAndRamps.pdf',
     label: 'QUIKRETE: Concrete steps and ramps project guide',
+  },
+  maxiConcreteColumn: {
+    href: 'https://www.maxicalculator.com/construction/concrete-column-calculator',
+    label: 'Maxi Calculator: Concrete column calculator reference',
   },
   aciConcreteTerminology: {
     href: 'https://www.concrete.org/portals/0/files/pdf/ACI_Concrete_Terminology.pdf',
@@ -3502,25 +3510,69 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'concrete-column-calculator': {
-    summary: 'Learn how round column diameter, height, quantity, and waste estimate concrete volume.',
+    title: 'How to use the Concrete Column Calculator',
+    summary: 'Learn how inside diameter, filled height, quantity, and waste estimate round column concrete.',
+    metaDescription:
+      'Use the Concrete Column Calculator for round piers and tube forms. Learn the cylinder formula, bag counts, 18 inch by 8 foot example, and what the estimate leaves out.',
     purpose:
       'The Concrete Column Calculator estimates concrete for round columns, piers, and tube forms using cylinder volume.',
+    intro:
+      'Round columns look simple, but one wrong number can change the bag count fast. The key is to use the inside diameter of the form, the filled height, and the number of matching columns.',
+    logicNote:
+      'The math is cylinder volume: pi times radius squared times height. The calculator converts the inside diameter from inches to feet, divides by two for radius, multiplies by filled height and quantity, then adds waste.',
+    readIntro:
+      'Use cubic yards for ready-mix checks and bag counts for small pours. If the column has a bell, wider footing, square base, or heavy reinforcement, estimate that part separately.',
+    mistakeIntro:
+      'Most column mistakes come from using outside tube diameter, forgetting waste, or treating a material estimate like a structural design.',
     enter: [
-      'Enter the round form diameter in inches, not the radius.',
-      'Enter filled height in feet and quantity of matching columns.',
-      'Add waste for form variation, spillage, and ordering cushion.',
+      'Enter the inside diameter of the round tube or form in inches, not the radius.',
+      'Enter the filled concrete height in feet.',
+      'Enter the number of matching round columns or piers.',
+      'Add waste for form variation, overfill, small spills, and ordering cushion.',
     ],
     read: [
-      'Cubic yards is the total adjusted concrete volume.',
-      'Cubic feet shows the same result before yard conversion.',
-      'Bag counts are rounded up from common bag yields.',
+      'Cubic feet shows the adjusted volume after waste.',
+      'Cubic yards is the same total divided by 27.',
+      '60 lb and 80 lb bag counts are rounded up to whole bags.',
+      'For example, three 18 inch columns filled 8 feet high with 10% waste need about 46.65 cubic feet, 1.73 cubic yards, and 78 eighty-pound bags.',
     ],
     mistakes: [
-      'Do not forget wider footing bases, bell bottoms, anchor bolts, or reinforcement.',
-      'Do not use this as a structural design for piers or columns.',
-      'Check form size, actual filled height, and project drawings before buying concrete.',
+      'Do not enter outside tube diameter if the inside diameter is smaller.',
+      'Do not forget wider footing bases, bell bottoms, anchor bolts, rebar cages, or form bracing.',
+      'Do not use this as a reinforced-column design calculator.',
+      'Check form size, filled height, frost depth, soil, inspections, and project drawings before buying concrete.',
     ],
-    sources: [sourceLinks.inchConcreteFooting, sourceLinks.quickrete, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick round pier example',
+        paragraphs: [
+          'Say you have three round piers, each with an 18 inch inside diameter and 8 feet of filled height. The radius is 9 inches, or 0.75 feet.',
+          'One pier is about 14.14 cubic feet before waste. Three piers with 10% waste come out near 46.65 cubic feet, which is about 1.73 cubic yards.',
+          'Using a common 0.60 cubic foot yield for an 80 lb bag, that rounds up to 78 eighty-pound bags. Always check the bag label because yields can vary.',
+        ],
+      },
+      {
+        title: 'When a column is not just a cylinder',
+        paragraphs: [
+          'This calculator is for the straight round part of a column or pier. It does not add a bell footing, flared base, square pad, pier cap, anchor hardware, or rebar cage.',
+          'If your plan has one of those pieces, calculate it separately or use the takeoff from the designer, engineer, permit drawing, or contractor.',
+        ],
+      },
+      {
+        title: 'Why the limit note matters',
+        paragraphs: [
+          'Concrete volume is not the same thing as column design. Loads, soil, frost depth, reinforcement, inspection rules, and local code decide whether a pier is safe.',
+          'Use this page to buy roughly the right amount of concrete. Use approved plans or a qualified professional to choose the actual pier size and reinforcement.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.quickrete,
+      sourceLinks.quickreteTubePillarFoundations,
+      sourceLinks.maxiConcreteColumn,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'post-hole-concrete-calculator': {
     summary: 'Learn how hole size, post size, quantity, and waste estimate concrete bags.',
