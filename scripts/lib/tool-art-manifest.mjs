@@ -136,6 +136,18 @@ const toolArtMetadataOverrides = {
         'Carpet Calculator guide artwork supports the walkthrough by showing room measurement, roll-width checks, seam limits, waste, and installer-layout cautions.',
     },
   },
+  'concrete-block-calculator': {
+    tool: {
+      alt: 'Smoke mascot counting a 40 by 8 foot CMU wall, 20 square foot opening, 8 by 16 inch blocks, 5 percent waste, 12 courses, and 355 blocks.',
+      caption:
+        'Concrete Block Calculator artwork matches the live workflow: enter wall size, openings, nominal block size, and waste to estimate blocks, courses, and blocks per course.',
+    },
+    guide: {
+      alt: 'Smoke mascot checking nominal CMU size, openings before waste, 8/9 square foot block face area, courses, corners, mortar, grout, rebar, and footing limits.',
+      caption:
+        'Concrete Block Calculator guide artwork supports the walkthrough by showing nominal block sizing, opening subtraction, waste, courses, and structural-limit cautions.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

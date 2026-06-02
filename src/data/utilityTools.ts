@@ -3032,30 +3032,76 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'concrete-block-calculator',
     name: 'Concrete Block Calculator',
     category: 'home-projects',
-    summary: 'Estimate concrete block count, courses, and blocks per course from wall dimensions.',
+    summary: 'Estimate CMU block count, courses, and blocks per course from wall size, openings, block size, and waste.',
     description:
-      'Use this free concrete block calculator to estimate CMU or concrete block count from wall length, height, block face size, openings, and waste.',
+      'Use this free concrete block calculator to estimate CMU block count, courses, and blocks per course from wall length, height, nominal block size, openings, and waste.',
+    seoTitle: 'Concrete Block Calculator | CMU Blocks Per Wall',
+    seoDescription:
+      'Estimate CMU block count, courses, and blocks per course from wall size, openings, nominal 8 by 16 blocks, waste, and layout limits.',
     icon: 'calculator-concrete-block',
-    aliases: ['CMU Calculator', 'Cinder Block Calculator', 'Block Wall Calculator'],
+    aliases: [
+      'CMU Calculator',
+      'CMU Block Calculator',
+      'Cinder Block Calculator',
+      'Block Wall Calculator',
+      '8x8x16 Block Calculator',
+      'Concrete Masonry Unit Calculator',
+    ],
     formula:
-      'The calculator multiplies wall length by height, subtracts openings, adds waste, divides by nominal block face area, and rounds up.',
+      'The calculator uses wall area = length x height, net area = wall area - openings, adjusted area = net area x (1 + waste percent / 100), nominal block face area = block length x block height / 144, and blocks needed = adjusted area / block face area rounded up.',
     limit:
-      'Block walls need professional review for footings, drainage, reinforcement, grout, lintels, mortar, corners, structural loads, and local code.',
+      'This is a block count estimate, not structural design. Block walls need professional review for footings, drainage, reinforcement, grout, lintels, mortar, bond pattern, corners, retaining-wall loads, permits, and local code.',
+    faqLanguage: {
+      expectedInputs: 'wall length, wall height, block length, block height, opening area, and waste percent',
+      examplePhrase: 'concrete block wall example',
+      doubleCheck:
+        'Also check whether the block size is nominal, whether openings were subtracted before waste, and whether corners, half blocks, reinforcement, mortar, grout, and footings were planned separately.',
+    },
     inputExplanations: [
       { term: 'Wall length and height', meaning: 'the finished wall face dimensions in feet.' },
-      { term: 'Nominal block size', meaning: 'the common module size used for layout, such as 16 by 8 inches.' },
+      { term: 'Nominal block size', meaning: 'the common wall-layout module, such as 16 by 8 inches, which usually includes the mortar-joint spacing.' },
       { term: 'Openings', meaning: 'door, window, or other areas subtracted before waste is added.' },
       { term: 'Waste percent', meaning: 'extra blocks for cuts, broken units, corners, and layout changes.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How many 8 by 8 by 16 blocks fit in a square foot?',
+        answer:
+          'A common nominal 8 by 16 inch block face covers about 8/9 square foot, so it takes about 1.125 blocks per square foot before waste. That is about 113 blocks for 100 square feet, or about 119 blocks with 5% waste.',
+      },
+      {
+        question: 'Should I use nominal or actual CMU size?',
+        answer:
+          'Use the nominal size for a wall-layout estimate unless your supplier tells you otherwise. The actual block is usually smaller because the nominal size includes the mortar joint space.',
+      },
+      {
+        question: 'Why subtract openings before adding waste?',
+        answer:
+          'A door or window removes wall area, so subtract openings first. Then add waste to the remaining wall area for cuts, broken blocks, corners, and layout changes.',
+      },
+      {
+        question: 'Does this include mortar, grout, rebar, or footings?',
+        answer:
+          'No. It estimates block count, courses, and blocks per course only. Mortar, grout, reinforcement, footings, lintels, drainage, and labor need their own estimate and code check.',
+      },
+      {
+        question: 'Can I use this for a retaining wall?',
+        answer:
+          'Use it only for a rough block count. Retaining walls need drainage, reinforcement, soil-load checks, permits, and local code review, so the calculator cannot approve the design.',
+      },
     ],
     useCases: [
       'Estimate block count for a simple wall.',
       'See approximate course count and blocks per course.',
       'Subtract large openings before adding waste.',
       'Compare common nominal block sizes.',
+      'Check a supplier quote against a simple wall-area estimate.',
     ],
     examples: [
       { label: '40 ft wall', expression: '40 x 8 ft, 16 x 8 in block, 20 ft2 openings, 5% waste', result: '355 blocks' },
-      { label: 'Short garden wall', expression: '24 x 3 ft, 16 x 8 in block', result: 'Block count estimate' },
+      { label: 'Short garden wall', expression: '24 x 3 ft, 16 x 8 in block, 5% waste', result: '86 blocks' },
+      { label: 'Small wall with opening', expression: '30 x 6 ft wall, 12 ft2 opening, 7% waste', result: '203 blocks' },
+      { label: 'Course check', expression: '8 ft wall height, 8 in nominal block height', result: '12 courses' },
       { label: 'Opening check', expression: 'Subtract door or window area', result: 'Net wall count' },
     ],
     relatedSlugs: ['brick-calculator', 'concrete-calculator', 'rebar-calculator'],

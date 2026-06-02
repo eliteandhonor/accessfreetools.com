@@ -517,6 +517,18 @@ const sourceLinks = {
     href: 'https://www.archtoolbox.com/cmu-sizes-shapes-finishes/',
     label: 'Archtoolbox: CMU sizes, nominal dimensions, and mortar joints',
   },
+  cmhaConcreteMasonryEstimating: {
+    href: 'https://www.cmha.org/resource/tek-04-02a/',
+    label: 'CMHA: Estimating concrete masonry materials',
+  },
+  cmhaModularConcreteMasonry: {
+    href: 'https://www.cmha.org/resource/tek-05-12/',
+    label: 'CMHA: Modular layout of concrete masonry',
+  },
+  cmhaConcreteMasonryConstruction: {
+    href: 'https://www.cmha.org/resource/tek-03-08a/',
+    label: 'CMHA: Concrete masonry construction guidance',
+  },
   usgaScoreDifferential: {
     href: 'https://digital-pd.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---what-is-a-score-differential.html',
     label: 'USGA: What is a Score Differential',
@@ -2588,25 +2600,32 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.biaBrickEstimating, sourceLinks.glenGeryBrickSizes, sourceLinks.nistUnits],
   },
   'concrete-block-calculator': {
-    summary: 'Learn how wall dimensions and nominal block face size estimate CMU count.',
+    summary: 'Learn how wall size, openings, nominal CMU size, and waste become a concrete block count.',
     purpose:
-      'The Concrete Block Calculator estimates CMU or concrete blocks for a simple wall. It uses the nominal block face size, which usually includes the mortar-joint layout module.',
+      'The Concrete Block Calculator estimates CMU or concrete blocks for a simple wall. It uses the nominal block face size, so an 8 by 16 inch unit is treated as the wall-layout module, not just the smaller actual block.',
     enter: [
-      'Enter wall length and height in feet.',
-      'Enter nominal block length and height in inches.',
-      'Subtract large openings and add waste for cuts or damage.',
+      'Enter wall length and height in feet. Measure each straight wall section separately when the layout turns a corner.',
+      'Enter nominal block length and height in inches. A common 8 by 16 inch CMU covers about 8/9 square foot before waste.',
+      'Subtract large door or window openings first, then add waste for cuts, broken units, corners, and layout changes.',
     ],
     read: [
-      'Blocks needed is the rounded-up material count.',
-      'Courses estimates how many horizontal rows fit the wall height.',
-      'Blocks per course estimates how many blocks fit along the wall length.',
+      'Blocks needed is the rounded-up material count after openings and waste.',
+      'Courses estimates how many horizontal rows fit the wall height from the nominal block height.',
+      'Blocks per course estimates how many blocks fit along the wall length from the nominal block length.',
+      'For example, a 40 ft by 8 ft wall with a 20 square foot opening and 5% waste comes out to about 355 blocks with 8 by 16 inch units.',
     ],
     mistakes: [
-      'Do not forget corners, half blocks, bond pattern, lintels, grout, mortar, rebar, and footings.',
-      'Do not use this as a structural design or retaining-wall safety check.',
-      'Check local code, drainage, reinforcement, and professional guidance before building.',
+      'Do not count the rough wall area and then forget to subtract big openings before adding waste.',
+      'Do not forget corners, half blocks, bond pattern, lintels, grout, mortar, rebar, wall ties, flashing, drainage, and footings.',
+      'Do not use this as a structural design, retaining-wall safety check, permit plan, or code approval.',
     ],
-    sources: [sourceLinks.archtoolboxCmu, sourceLinks.quickrete, sourceLinks.nistUnits],
+    sources: [
+      sourceLinks.cmhaConcreteMasonryEstimating,
+      sourceLinks.cmhaModularConcreteMasonry,
+      sourceLinks.cmhaConcreteMasonryConstruction,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'rebar-calculator': {
     summary: 'Learn how slab size, bar spacing, stock length, and waste estimate a rebar grid.',

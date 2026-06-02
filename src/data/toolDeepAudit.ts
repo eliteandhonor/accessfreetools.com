@@ -1831,6 +1831,21 @@ const archtoolboxCmu = {
   label: 'Archtoolbox: CMU sizes, nominal dimensions, and mortar joints',
 };
 
+const cmhaConcreteMasonryEstimating = {
+  href: 'https://www.cmha.org/resource/tek-04-02a/',
+  label: 'CMHA: Estimating concrete masonry materials',
+};
+
+const cmhaModularConcreteMasonry = {
+  href: 'https://www.cmha.org/resource/tek-05-12/',
+  label: 'CMHA: Modular layout of concrete masonry',
+};
+
+const cmhaConcreteMasonryConstruction = {
+  href: 'https://www.cmha.org/resource/tek-03-08a/',
+  label: 'CMHA: Concrete masonry construction guidance',
+};
+
 const ukBoardFoot = {
   href: 'https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/for9.htm',
   label: 'University of Kentucky Extension: Measuring farm timber',
@@ -4850,20 +4865,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'concrete-block-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [archtoolboxCmu, quikreteConcrete],
+    sources: [cmhaConcreteMasonryEstimating, cmhaModularConcreteMasonry, cmhaConcreteMasonryConstruction, archtoolboxCmu, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator uses nominal block face dimensions, subtracts openings, adds waste, and rounds up the block count.',
-      'The result includes courses and blocks per course, which helps users understand the layout assumption behind the total.',
-      'The guide strongly separates material count from structural design, retaining-wall safety, footings, drainage, grout, rebar, and local code.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `concrete block calculator` intent after balance and status gates passed.',
+      'CMHA estimating guidance supports the common 8 by 16 inch CMU face-area shortcut, the 8/9 square-foot face area, and waste math for simple block counts.',
+      'The page now explains nominal versus actual CMU size, openings before waste, courses, blocks per course, corners, half blocks, mortar, grout, rebar, footings, drainage, retaining-wall loads, permits, and code limits.',
     ],
     improvements: [
-      'Manually checked nominal CMU area math, opening subtraction, course estimates, examples, FAQ cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, safety limits, audit record, modified dates, and exact image alt/caption text in smart-14 wording.',
     ],
     followUps: [
-      'Add mortar/grout/rebar companion estimates only with clear structural-design boundaries.',
+      'Add mortar, grout, or rebar companion estimates only if the UI keeps structural-design, permit, and local-code limits visible.',
     ],
   },
   {
