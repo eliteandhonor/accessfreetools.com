@@ -537,6 +537,22 @@ const sourceLinks = {
     href: 'https://www.procore.com/library/calculators/drywall-calculator',
     label: 'Procore: Drywall calculator',
   },
+  lowesFenceCalculator: {
+    href: 'https://pdf.lowes.com/productdocuments/d27b01be-ea65-4de6-aa9c-7a485c4bab31/43237730.pdf',
+    label: 'Lowe\'s: Fence calculator worksheet',
+  },
+  lowesFenceLayout: {
+    href: 'https://www.lowes.com/pdf/1203_Fence_Installation_Tips_-_Layout_and_Digging_Post_Holes_V5.pdf',
+    label: 'Lowe\'s: Fence layout and post-hole tips',
+  },
+  tallyardFenceCalculator: {
+    href: 'https://www.tallyard.com/fence-calculator',
+    label: 'Tallyard: Fence calculator',
+  },
+  proBuilderFenceCalculator: {
+    href: 'https://www.probuildercalc.com/calculators/fence-material',
+    label: 'ProBuilderCalc: Fence material calculator',
+  },
   biaBrickEstimating: {
     href: 'https://www.gobrick.com/media/file/10-dimensioning-and-estimating-brick-masonry.pdf',
     label: 'Brick Industry Association: Dimensioning and estimating brick masonry',
@@ -2325,25 +2341,32 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'fence-calculator': {
-    summary: 'Learn how perimeter, panel width, post spacing, and gates estimate fence materials.',
+    summary: 'Learn how perimeter, panel width, post spacing, and gates estimate fence panels and posts.',
     purpose:
-      'The Fence Calculator gives a rough material count for simple panel fencing. It subtracts gate width, estimates panels, and counts line and gate posts.',
+      'The Fence Calculator gives a rough material count for simple panel fencing. It subtracts gate openings, estimates panels, and counts line and gate posts before you check pickets, rails, concrete, hardware, and local rules.',
     enter: [
-      'Enter the full fence perimeter or run length in feet.',
-      'Enter panel width and post spacing in feet.',
-      'Enter gate count and gate width so the calculator can remove gate openings.',
+      'Enter the full fence perimeter or run length in feet. Walk the fence line first so gates, corners, setbacks, and obstacles are not guesses.',
+      'Enter panel width and post spacing in feet. Use the panel, rail, or manufacturer spacing instead of stretching the span to save one post.',
+      'Enter gate count and gate width so the calculator can remove gate openings and add two gate posts per gate.',
     ],
     read: [
       'Panels needed rounds up the remaining fence run divided by panel width.',
       'Fence run after gates shows how much perimeter is still filled with panels.',
-      'Total posts includes line posts plus two posts per gate.',
+      'Total posts includes line posts plus two posts per gate. The default 120 ft example with one 4 ft gate leaves 116 ft of panel run, which rounds to 15 panels and 18 total posts.',
     ],
     mistakes: [
-      'Do not forget corner, end, brace, and terminal post requirements.',
-      'Do not ignore slope, soil, setbacks, utilities, and permits.',
-      'Gate hardware, latch clearance, and custom panel cuts need separate planning.',
+      'Do not treat line posts as a full post schedule. Corners, ends, brace posts, terminal posts, and gate loads may need extra or stronger posts.',
+      'Do not ignore slope, soil, setbacks, underground utilities, wind exposure, frost depth, and permits.',
+      'Pickets, rails, concrete, gravel, fasteners, post caps, gate hardware, latch clearance, and custom panel cuts need separate planning.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [
+      sourceLinks.lowesFenceCalculator,
+      sourceLinks.lowesFenceLayout,
+      sourceLinks.tallyardFenceCalculator,
+      sourceLinks.proBuilderFenceCalculator,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'deck-cost-calculator': {
     summary: 'Learn how deck size, waste, surface price, railing, and stairs build a rough budget.',

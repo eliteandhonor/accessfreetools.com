@@ -2546,29 +2546,86 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate fence panels and posts from perimeter, panel width, post spacing, and gates.',
     description:
       'Use this free fence calculator to estimate panels, line posts, gate posts, and fence run from a simple perimeter layout.',
+    seoTitle: 'Fence Calculator | Panels, Posts, Gates',
+    seoDescription:
+      'Estimate fence run after gates, panels, line posts, gate posts, and total posts from perimeter, panel width, post spacing, and gate openings.',
     icon: 'calculator-fence',
+    aliases: [
+      'Fence Material Calculator',
+      'Fence Panel Calculator',
+      'Fence Post Calculator',
+      'Wood Fence Calculator',
+      'Privacy Fence Calculator',
+      'Fence Estimate Calculator',
+    ],
     formula:
-      'The calculator subtracts gate width from total perimeter, divides the remaining run by panel width, estimates line posts from spacing, and adds two gate posts per gate.',
+      'The calculator uses fence run after gates = perimeter - gate count x gate width, panels needed = ceiling(fence run after gates / panel width), line posts = ceiling(fence run after gates / post spacing) + 1, gate posts = gate count x 2, and total posts = line posts + gate posts.',
     limit:
-      'Real fences need corner posts, end posts, bracing, slope handling, permits, setbacks, gate hardware, terrain checks, and local code review.',
+      'This is a rough panel-and-post count. Real fences also need corner posts, end posts, brace posts, terminal posts, pickets, rails, concrete, gravel, fasteners, post caps, gate hardware, slope handling, utility marking, permits, setbacks, wind exposure, soil checks, and local code review.',
+    faqLanguage: {
+      expectedInputs: 'fence perimeter, panel width, post spacing, gate count, and gate width',
+      examplePhrase: 'fence material example',
+      doubleCheck:
+        'Also check corner posts, end posts, brace posts, terminal posts, rails, pickets, concrete, fasteners, gate hardware, utilities, setbacks, and local code before buying.',
+    },
     inputExplanations: [
       { term: 'Perimeter', meaning: 'the total fence path length before gate openings are removed.' },
-      { term: 'Panel width', meaning: 'the width of one fence panel or bay.' },
-      { term: 'Post spacing', meaning: 'the maximum distance between line posts.' },
-      { term: 'Gate count and width', meaning: 'openings that reduce fence run and add gate posts.' },
+      { term: 'Panel width', meaning: 'the width of one fence panel or bay before cuts.' },
+      { term: 'Post spacing', meaning: 'the maximum distance between line posts based on the material or rail span.' },
+      { term: 'Gate count and width', meaning: 'openings that reduce panel run and usually need two gate posts per gate.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does the Fence Calculator include?',
+        answer:
+          'It estimates fence run after gates, panels needed, line posts, gate posts, and total posts. It does not directly count pickets, rails, concrete bags, screws, brackets, post caps, or gate hardware.',
+      },
+      {
+        question: 'How does gate width change the fence estimate?',
+        answer:
+          'Gate openings are subtracted from the panel run, so fewer panels may be needed. Each gate also adds two gate posts in this simple estimate, because a gate usually needs a post on each side.',
+      },
+      {
+        question: 'What post spacing should I enter?',
+        answer:
+          'Use the spacing allowed by the fence panel, rail, or manufacturer instructions. Eight feet is common for many wood layouts, but heavy gates, wind, slopes, and local rules can require a shorter span.',
+      },
+      {
+        question: 'Does this count corner, end, and brace posts?',
+        answer:
+          'Not separately. The line-post count is a simple run estimate. Corners, ends, brace assemblies, terminal posts, transitions, and gate loads may require extra or stronger posts.',
+      },
+      {
+        question: 'Does this estimate individual pickets and rails?',
+        answer:
+          'No. If you are building from loose pickets, use the panel result as a bay count, then calculate pickets from picket width, gap, fence height, rail layout, and waste.',
+      },
+      {
+        question: 'Should I add extra panels or posts?',
+        answer:
+          'Usually yes for real jobs. Extra material helps with cuts, damaged boards, bad pickets, layout changes, and small measuring mistakes. Keep the calculator result as the clean starting count.',
+      },
+      {
+        question: 'Does slope or uneven ground change the count?',
+        answer:
+          'It can. Stepped panels, racked panels, grade changes, short sections, and custom cuts can change panel count and post placement. Mark the real fence line before ordering.',
+      },
     ],
     useCases: [
       'Estimate panels for a backyard fence.',
       'Plan post counts from a chosen spacing.',
       'Account for one or more gates.',
       'Compare 6-foot and 8-foot panel layouts.',
+      'Separate panel and post counts from pickets, rails, concrete, and hardware.',
+      'Check whether gate openings change the number of panels needed.',
     ],
     examples: [
-      { label: 'Backyard fence', expression: '120 ft perimeter, 8 ft panels, 1 gate', result: 'Panels and posts' },
-      { label: 'Two gates', expression: '180 ft perimeter, 6 ft panels, 2 gates', result: 'Gate-adjusted estimate' },
-      { label: 'Small side yard', expression: '48 ft run, 8 ft panels, no gate', result: 'Simple run count' },
+      { label: 'Backyard fence', expression: '120 ft perimeter, 8 ft panels, 8 ft post spacing, 1 gate at 4 ft', result: '116 ft run, 15 panels, 18 total posts' },
+      { label: 'Two gates', expression: '180 ft perimeter, 6 ft panels, 6 ft post spacing, 2 gates at 4 ft', result: '172 ft run, 29 panels, 34 total posts' },
+      { label: 'Small side yard', expression: '48 ft run, 8 ft panels, 8 ft post spacing, no gate', result: '48 ft run, 6 panels, 7 total posts' },
+      { label: 'Long privacy run', expression: '150 ft perimeter, 8 ft panels, 8 ft post spacing, 2 gates at 4 ft', result: '142 ft run, 18 panels, 23 total posts' },
     ],
-    relatedSlugs: ['square-footage-calculator', 'distance-calculator', 'deck-cost-calculator'],
+    relatedSlugs: ['distance-calculator', 'square-footage-calculator', 'paint-calculator'],
   }),
   makeUtilityTool({
     slug: 'deck-cost-calculator',

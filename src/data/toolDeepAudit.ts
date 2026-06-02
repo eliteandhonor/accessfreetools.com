@@ -1846,6 +1846,26 @@ const procoreDrywallCalculator = {
   label: 'Procore: Drywall calculator',
 };
 
+const lowesFenceCalculator = {
+  href: 'https://pdf.lowes.com/productdocuments/d27b01be-ea65-4de6-aa9c-7a485c4bab31/43237730.pdf',
+  label: 'Lowe\'s: Fence calculator worksheet',
+};
+
+const lowesFenceLayout = {
+  href: 'https://www.lowes.com/pdf/1203_Fence_Installation_Tips_-_Layout_and_Digging_Post_Holes_V5.pdf',
+  label: 'Lowe\'s: Fence layout and post-hole tips',
+};
+
+const tallyardFenceCalculator = {
+  href: 'https://www.tallyard.com/fence-calculator',
+  label: 'Tallyard: Fence calculator',
+};
+
+const proBuilderFenceCalculator = {
+  href: 'https://www.probuildercalc.com/calculators/fence-material',
+  label: 'ProBuilderCalc: Fence material calculator',
+};
+
 const lowesSiding = {
   href: 'https://www.certainteed.com/products/documents-downloads',
   label: 'CertainTeed: Siding documents and installation resources',
@@ -4654,20 +4674,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'fence-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [nistSi, openStaxGeometry],
+    sources: [lowesFenceCalculator, lowesFenceLayout, tallyardFenceCalculator, proBuilderFenceCalculator, nistSi, googleHelpfulContent],
     findings: [
+      'DataForSEO paid evidence for the exact tool and guide targeted `fence calculator` intent after balance and status gates passed.',
       'The calculator subtracts gate openings from the fence run, then estimates panels and posts from panel width and post spacing.',
-      'The result separates fence run after gates, panels needed, line posts, gate posts, and total posts so users can spot which assumption changed.',
-      'The guide warns about corner, brace, terminal posts, slope, soil, setbacks, utilities, permits, and gate hardware.',
+      'Current fence estimator sources show users also expect pickets, rails, concrete, fasteners, gate hardware, post-hole layout, and local-rule cautions, so the page clearly keeps this tool to panel and post counts.',
+      'The page now uses exact examples for a 120 ft backyard fence, a 180 ft two-gate layout, a 48 ft side yard, and a 150 ft privacy run.',
     ],
     improvements: [
-      'Manually checked gate subtraction, panel rounding, post-count logic, examples, FAQ definitions, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, gate and post cautions, audit record, modified dates, related links, and image alt/caption text in smart-14 wording.',
     ],
     followUps: [
-      'Add separate corner/end post fields if future users need more detailed fence takeoffs.',
+      'Add separate corner/end/brace/terminal post fields and optional picket/rail/concrete outputs only if the UI can keep jobsite-code limits clear.',
     ],
   },
   {

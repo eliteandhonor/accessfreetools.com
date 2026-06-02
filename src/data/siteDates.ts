@@ -113,6 +113,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'deck-cost-calculator': '2026-06-02',
   'drywall-calculator': '2026-06-02',
   'estate-tax-calculator': '2026-05-26',
+  'fence-calculator': '2026-06-02',
   'fha-loan-calculator': '2026-05-26',
   'triangle-calculator': '2026-05-31',
 };
@@ -130,6 +131,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-cubic-yard-calculator': '2026-06-02',
   'how-to-use-deck-cost-calculator': '2026-06-02',
   'how-to-use-drywall-calculator': '2026-06-02',
+  'how-to-use-fence-calculator': '2026-06-02',
   'how-to-use-age-calculator': '2026-05-26',
   'how-to-use-auto-loan-calculator': '2026-05-26',
   'how-to-use-business-loan-calculator': '2026-05-26',

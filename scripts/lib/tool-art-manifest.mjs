@@ -196,6 +196,18 @@ const toolArtMetadataOverrides = {
         'Drywall Calculator guide artwork supports the walkthrough by showing panel math, opening cautions, finish supplies, and code-limit checks.',
     },
   },
+  'fence-calculator': {
+    tool: {
+      alt: 'Smoke mascot planning a 120 foot fence with one 4 foot gate, 116 feet of panel run, 15 panels, and 18 total posts.',
+      caption:
+        'Fence Calculator artwork matches the live workflow: enter perimeter, panel width, post spacing, gates, and gate width to estimate panels and posts.',
+    },
+    guide: {
+      alt: 'Smoke mascot checking fence gates, line posts, corner posts, brace posts, rails, pickets, concrete, hardware, slope, utilities, setbacks, and permits.',
+      caption:
+        'Fence Calculator guide artwork supports the walkthrough by showing gate subtraction, post counts, panel layout, and real-job cautions.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',
