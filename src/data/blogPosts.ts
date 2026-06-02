@@ -35,10 +35,10 @@ const blogPostCandidates: BlogPostDefinition[] = [
   },
   {
     slug: 'how-to-use-percent-error-calculator',
-    title: 'How to use the Percent Error Calculator',
+    title: 'Percent Error Calculator Guide',
     label: 'Percent error calculator guide',
     summary:
-      'Learn how to compare measured and accepted values, calculate percent error, read signed percent error, and avoid common lab-report mistakes.',
+      'Learn how to compare measured and accepted values, read signed percent error, match units, handle zero-value limits, and avoid lab-report mistakes.',
   },
   {
     slug: 'how-to-use-half-life-calculator',

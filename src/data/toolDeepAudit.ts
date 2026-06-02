@@ -56,6 +56,16 @@ const openStaxMeasurement = {
   label: 'OpenStax Chemistry: Measurement uncertainty, accuracy, and precision',
 };
 
+const openStaxPhysicsAccuracy = {
+  href: 'https://openstax.org/books/college-physics/pages/1-3-accuracy-precision-and-significant-figures',
+  label: 'OpenStax College Physics: Accuracy, precision, and significant figures',
+};
+
+const khanPercentError = {
+  href: 'https://www.khanacademy.org/math/7th-grade-math-eureka-squared-aligned/x314834f71a55c568%3Apercent-and-applications-of-percent/x314834f71a55c568%3Aapplying-percent-error/a/key-ideas-applying-percent-error',
+  label: 'Khan Academy: Applying percent error',
+};
+
 const openStaxFractions = {
   href: 'https://openstax.org/books/prealgebra-2e/pages/4-5-add-and-subtract-fractions-with-different-denominators',
   label: 'OpenStax Prealgebra: Add and subtract fractions with different denominators',
@@ -2138,20 +2148,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'percent-error-calculator',
     status: 'deep-reviewed',
-    batch: 'math-foundations-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [openStaxMeasurement, openStaxPercent],
+    sources: [openStaxMeasurement, openStaxPhysicsAccuracy, khanPercentError, googleHelpfulContent],
     findings: [
-      'The measured value, accepted value, absolute error, signed error, and unit notes match science-class use.',
-      'The accepted value cannot be zero because the percent comparison divides by it.',
-      'Showing signed percent error alongside absolute percent error helps users see whether a measurement was high or low.',
+      'DataForSEO paid evidence for the exact tool and guide targeted the `percent error calculator` search intent after balance and status gates passed.',
+      'OpenStax measurement guidance supports the page limit that percent error is only one part of accuracy, precision, and uncertainty.',
+      'The tool now explains same-unit checks, accepted-value zero limits, signed direction, absolute percent error, and practical lab-report examples.',
     ],
     improvements: [
-      'Reviewed science wording, zero-value guardrail, examples, FAQ, and related tools.',
+      'Rewrote metadata, summary, aliases, use cases, examples, FAQ details, blog hook, source section, modified dates, and image alt/caption text in smart-14 wording.',
     ],
     followUps: [
-      'Add a short uncertainty note for advanced lab reports later.',
+      'Watch Search Console queries for lab-report and homework phrasing before adding any extra classroom examples.',
     ],
   },
   {

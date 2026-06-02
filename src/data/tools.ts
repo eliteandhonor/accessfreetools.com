@@ -308,71 +308,88 @@ const baseTools: ToolDefinition[] = [
     slug: 'percent-error-calculator',
     name: 'Percent Error Calculator',
     category: 'calculators',
-    summary: 'Compare measured and accepted values with percent error, signed error, and steps.',
+    summary: 'Compare your measured value with the accepted value, then see percent error and direction.',
     description:
-      'Use this free percent error calculator to compare an experimental or measured value with an accepted value and see percent error, signed percent error, absolute error, relative error, and step-by-step work.',
+      'Use this free percent error calculator to check a lab result, class measurement, or estimate against an accepted value. It shows absolute percent error, signed percent error, absolute error, relative error, and clear steps.',
     icon: 'calculator-error',
-    seoTitle: 'Percent Error Calculator | Free Online Percentage Error Tool',
+    seoTitle: 'Percent Error Calculator | Measured vs Accepted Value',
     seoDescription:
-      'Compare measured and accepted values, then find absolute percent error, signed percent error, absolute error, and steps.',
+      'Enter measured and accepted values to find absolute percent error, signed percent error, absolute error, relative error, and step-by-step work.',
+    aliases: [
+      'Percentage Error Calculator',
+      'Percent Error Formula Calculator',
+      'Measured vs Accepted Value Calculator',
+      'Absolute Percent Error Calculator',
+    ],
     useCases: [
-      'Check lab results against an accepted, true, or theoretical value.',
-      'See whether a measured value is higher or lower than the accepted value.',
-      'Show percent error steps for chemistry, physics, math, and science homework.',
-      'Copy the answer with absolute error and signed percent error for notes or reports.',
+      'Check a chemistry or physics lab result against the accepted value from a table, teacher, or reference.',
+      'See whether your measured value was too high, too low, or exactly on target.',
+      'Show the percent error formula steps before adding the result to homework or a lab report draft.',
+      'Compare values only after the units match, such as grams with grams or centimeters with centimeters.',
+      'Copy the answer with absolute error and signed percent error for notes.',
     ],
     examples: [
       {
-        label: 'Density lab',
-        expression: 'Measured 2.45 vs accepted 2.70',
-        result: '9.25925925926% error',
+        label: 'Density lab check',
+        expression: 'Measured 2.45 g/cm3 vs accepted 2.70 g/cm3',
+        result: '9.2593% error, signed -9.2593%',
       },
       {
         label: 'Length measurement',
-        expression: 'Measured 48 vs accepted 50',
-        result: '4% error',
+        expression: 'Measured 48 cm vs accepted 50 cm',
+        result: '4% error, signed -4%',
       },
       {
-        label: 'High reading',
-        expression: 'Measured 105 vs accepted 100',
+        label: 'High volume reading',
+        expression: 'Measured 105 mL vs accepted 100 mL',
         result: '5% error, signed +5%',
+      },
+      {
+        label: 'Boiling point check',
+        expression: 'Measured 99.1 C vs accepted 100 C',
+        result: '0.9% error, signed -0.9%',
       },
     ],
     faq: [
       {
         question: 'What formula does the Percent Error Calculator use?',
         answer:
-          'It uses absolute percent error: absolute value of measured minus accepted, divided by the absolute value of the accepted value, multiplied by 100.',
+          'It uses absolute percent error: |measured value - accepted value| / |accepted value| x 100. The signed result keeps the plus or minus direction before the absolute value is taken.',
       },
       {
         question: 'What is the accepted value?',
         answer:
-          'The accepted value is the true, theoretical, reference, or expected value you are comparing against. In many science classes, this is the value from a table, textbook, or teacher-provided reference.',
+          'The accepted value is the reference value you are comparing against. In a lab, it might come from a textbook, a data table, a teacher-provided number, or a known standard.',
       },
       {
         question: 'What is the measured value?',
         answer:
-          'The measured value is the experimental result, observed result, or value you collected. The calculator compares this value with the accepted value.',
+          'The measured value is the number you observed, tested, calculated, or recorded. Put this in the first box, then put the reference value in the accepted-value box.',
       },
       {
         question: 'Can percent error be negative?',
         answer:
-          'Standard percent error is usually shown as a positive value because it uses absolute error. This calculator also shows signed percent error so you can see whether the measured value was high or low.',
+          'Standard percent error is usually positive because it uses absolute error. The signed percent error can be negative or positive. Negative means your measured value was low. Positive means it was high.',
       },
       {
         question: 'Why can the accepted value not be zero?',
         answer:
-          'Percent error divides by the accepted value. If the accepted value is zero, the percentage comparison is undefined, so the calculator will ask for a nonzero accepted value.',
+          'Percent error divides by the accepted value. If the accepted value is zero, the calculator cannot make a percentage comparison, so it asks for a nonzero accepted value.',
       },
       {
         question: 'Do the units matter?',
         answer:
-          'Yes. The measured value and accepted value should use the same unit before you calculate percent error. The unit label is optional and only helps make the answer easier to read.',
+          'Yes. Convert the values to the same unit first. Do not compare 48 cm with 0.5 m until they both use centimeters or both use meters. The unit label only helps you read the answer.',
+      },
+      {
+        question: 'Is percent error the same as uncertainty?',
+        answer:
+          'No. Percent error compares one result with an accepted value. Uncertainty explains how much trust to put in a measurement. In a serious lab report, include uncertainty if your class or lab asks for it.',
       },
       {
         question: 'Is my percent error history private?',
         answer:
-          'Yes. Recent percent error calculations stay only in the current browser tab while you use the page. They are not sent to a server.',
+          'Yes. Recent percent error calculations stay only in the current browser tab while you use the page. They are not sent to a server, and closing or refreshing the tab clears the short history.',
       },
     ],
     relatedSlugs: ['percentage-calculator', 'half-life-calculator', 'scientific-calculator'],

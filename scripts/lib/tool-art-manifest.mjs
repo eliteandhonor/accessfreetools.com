@@ -88,6 +88,18 @@ const toolArtMetadataOverrides = {
         'Ratio Calculator guide artwork supports the walkthrough by showing simplify, equivalent-ratio scaling, split-total math, decimal ratios, same-unit checks, and swapped-part mistakes.',
     },
   },
+  'percent-error-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing lab cards for 2.45 g/cm3 vs 2.70 g/cm3, 48 cm vs 50 cm, 105 mL vs 100 mL, and signed percent error direction.',
+      caption:
+        'Percent Error Calculator artwork matches the live workflow: compare measured and accepted values, keep units matched, find absolute percent error, and read whether the result was high or low.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining percent error formula steps with density, length, volume, and boiling-point examples beside high and low result arrows.',
+      caption:
+        'Percent Error Calculator guide artwork supports the walkthrough by showing measured-versus-accepted values, same-unit checks, signed error, zero-value limits, and lab-report cautions.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',
