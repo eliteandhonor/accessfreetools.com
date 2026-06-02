@@ -232,6 +232,18 @@ const toolArtMetadataOverrides = {
         'Gravel Calculator guide artwork supports the walkthrough by showing why yards, tons, depth, compaction, and supplier rules need separate checks.',
     },
   },
+  'paver-calculator': {
+    tool: {
+      alt: 'Smoke mascot pointing at a curved paver patio layout with single-paver size cards, cut-edge blocks, spare pavers, and a stacked buying count.',
+      caption:
+        'Paver Calculator artwork matches the live workflow: enter project area, paver size, and waste to estimate a whole-paver buying count.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing a paver patio outline, one paver size card, filled layout, cut pieces, adjusted area, and a stacked paver order.',
+      caption:
+        'Paver Calculator guide artwork supports the walkthrough by showing how area, paver size, cuts, and waste become a rounded paver count.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

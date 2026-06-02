@@ -117,6 +117,22 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/paver-base-calculator/',
     label: 'Inch Calculator: Paver base calculator reference',
   },
+  lowesPaverPlanning: {
+    href: 'https://www.lowes.com/n/how-to/planning-for-a-paver-patio-or-walkway',
+    label: 'Lowe\'s: Planning for a paver patio or walkway',
+  },
+  inchPaverCalculator: {
+    href: 'https://www.inchcalculator.com/paver-calculator/',
+    label: 'Inch Calculator: Paver calculator reference',
+  },
+  calcShedPaverCalculator: {
+    href: 'https://calcshed.com/paver-calculator/',
+    label: 'CalcShed: Paver calculator',
+  },
+  cmhaPaverConstruction: {
+    href: 'https://www.cmha.org/pav-tec-002/',
+    label: 'CMHA: Construction of interlocking concrete pavements',
+  },
   inchPolymericSand: {
     href: 'https://www.inchcalculator.com/polymeric-sand-calculator/',
     label: 'Inch Calculator: Polymeric sand calculator reference',
@@ -2517,25 +2533,49 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchBaluster, sourceLinks.nistUnits],
   },
   'paver-calculator': {
-    summary: 'Learn how project area, paver size, and waste estimate paver count.',
+    summary: 'Learn how area, paver size, and waste become a buying count.',
     purpose:
-      'The Paver Calculator estimates how many pavers cover a patio, walkway, or other simple area. It converts each paver into square feet before rounding up the count.',
+      'The Paver Calculator estimates how many whole pavers cover a patio, walkway, driveway pad, or simple path. It converts each paver into square feet, adds waste, then rounds up so the answer is a buyable count.',
     enter: [
       'Enter the project area in square feet.',
       'Enter the paver length and width in inches.',
-      'Add waste for cuts, broken pieces, edge pieces, and pattern layout.',
+      'Add waste for cuts, broken pieces, edge pieces, pattern layout, and a few matching spares.',
     ],
     read: [
       'The main answer is whole pavers needed.',
       'Each paver area shows the coverage of one piece.',
       'Area with waste shows the adjusted area used before rounding.',
+      'If your supplier sells by bundle, layer, or pallet, round the calculator count up again to match that package size.',
     ],
     mistakes: [
       'Do not forget base gravel, bedding sand, joint sand, edging, and compaction.',
       'Do not ignore pattern direction or cut-heavy borders.',
+      'Do not use this single-size count for a mixed-size pattern unless the pattern tells you how many of each paver is in one repeat.',
       'Check whether the supplier sells by piece, pallet, bundle, or square foot.',
     ],
-    sources: [sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick 10 by 10 patio example',
+        paragraphs: [
+          'A 10 by 10 foot patio is 100 square feet. A 4 by 8 inch paver covers 32 square inches, which is about 0.222 square feet.',
+          'With 10% waste, the adjusted area is 110 square feet. Divide 110 by 0.222 and round up. The calculator gives 495 pavers.',
+        ],
+      },
+      {
+        title: 'What the count leaves out',
+        paragraphs: [
+          'The paver count is only the top layer. A real patio or walkway also needs base material, bedding sand, joint sand, edge restraints, slope, drainage, and compaction.',
+          'Use the Paver Base Calculator for base and bedding material, then check the paver supplier package size before buying.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.lowesPaverPlanning,
+      sourceLinks.inchPaverCalculator,
+      sourceLinks.calcShedPaverCalculator,
+      sourceLinks.cmhaPaverConstruction,
+      sourceLinks.nistUnits,
+    ],
   },
   'paver-base-calculator': {
     summary: 'Learn how paver area and layer depths estimate base gravel and bedding sand.',

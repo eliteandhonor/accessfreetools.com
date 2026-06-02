@@ -441,6 +441,26 @@ const inchPaverBase = {
   label: 'Inch Calculator: Paver base calculator reference',
 };
 
+const lowesPaverPlanning = {
+  href: 'https://www.lowes.com/n/how-to/planning-for-a-paver-patio-or-walkway',
+  label: 'Lowe\'s: Planning for a paver patio or walkway',
+};
+
+const inchPaverCalculator = {
+  href: 'https://www.inchcalculator.com/paver-calculator/',
+  label: 'Inch Calculator: Paver calculator reference',
+};
+
+const calcShedPaverCalculator = {
+  href: 'https://calcshed.com/paver-calculator/',
+  label: 'CalcShed: Paver calculator',
+};
+
+const cmhaPaverConstruction = {
+  href: 'https://www.cmha.org/pav-tec-002/',
+  label: 'CMHA: Construction of interlocking concrete pavements',
+};
+
 const inchPolymericSand = {
   href: 'https://www.inchcalculator.com/polymeric-sand-calculator/',
   label: 'Inch Calculator: Polymeric sand calculator reference',
@@ -4803,20 +4823,28 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'paver-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [nistSi, openStaxGeometry],
+    sources: [
+      lowesPaverPlanning,
+      inchPaverCalculator,
+      calcShedPaverCalculator,
+      cmhaPaverConstruction,
+      nistSi,
+      googleHelpfulContent,
+    ],
     findings: [
-      'The calculator converts paver length and width from square inches to square feet, adds waste to project area, then rounds up whole pavers.',
-      'The guide explains waste percent as cuts, broken pieces, border pieces, and replacement stock rather than a vague cushion.',
-      'The limitations correctly keep base gravel, bedding sand, edging, joint sand, compaction, and supplier packaging outside the paver count.',
+      'DataForSEO showed paver calculator intent is strongly tied to buying and layout searches such as patio paver calculator, paver calculator square feet, 4x8 paver calculator, paver spacing, circles, and 12x12 pavers.',
+      'Current paver references agree on the core count: convert each paver from square inches to square feet, add waste to project area, divide by paver area, then round up to a whole-paver count.',
+      'Lowe\'s, Inch Calculator, CalcShed, and CMHA context show the count must stay honest about base gravel, bedding sand, joint sand, edge restraints, compaction, drainage, traffic load, and package-size rounding.',
     ],
     improvements: [
-      'Manually checked paver-area conversion, waste math, whole-piece rounding, examples, FAQ details, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, description, aliases, formula, limits, examples, FAQs, guide sections, source notes, related links, sitemap dates, and image alt/caption text around patio paver counts, 4x8 and 12x12 searches, waste, pattern cuts, and buying checks.',
     ],
     followUps: [
-      'Link paver estimates more strongly to sand and gravel calculators if a patio hub page is added.',
+      'Add a dedicated multi-size pattern estimator only if we can model supplier pattern ratios clearly without hiding assumptions.',
+      'Consider a circle-area helper for pavers after the page queue reaches the hardscape cluster again.',
     ],
   },
   {

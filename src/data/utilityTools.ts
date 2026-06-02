@@ -2966,31 +2966,91 @@ export const utilityTools: ToolDefinition[] = [
     name: 'Paver Calculator',
     category: 'home-projects',
     summary: 'Estimate paver count from project area, paver dimensions, and waste percentage.',
+    seoTitle: 'Paver Calculator | Count Patio Pavers',
+    seoDescription:
+      'Estimate how many pavers you need from square feet, paver length, paver width, and waste before buying patio, walkway, or driveway pavers.',
     description:
-      'Use this free paver calculator to estimate whole pavers from patio, path, or driveway area, paver size, and waste percentage.',
+      'Use this free paver calculator to estimate whole pavers from patio, walkway, path, or driveway-pad area, paver size, and waste percentage.',
     icon: 'calculator-paver',
-    aliases: ['Patio Paver Calculator', 'Paving Stone Calculator'],
+    aliases: [
+      'Patio Paver Calculator',
+      'Paving Stone Calculator',
+      'Paver Count Calculator',
+      'Paver Square Feet Calculator',
+      '4x8 Paver Calculator',
+      '12x12 Paver Calculator',
+    ],
     formula:
-      'The calculator converts paver dimensions from square inches to square feet, adds waste to project area, then rounds up adjusted area divided by paver area.',
+      'Paver area in square feet = paver length in inches x paver width in inches / 144. Adjusted area = project area x (1 + waste percent / 100). Pavers needed = ceiling(adjusted area / paver area).',
     limit:
-      'Paver projects also need base material, bedding sand, joint sand, edging, cuts, pattern planning, compaction, and drainage checks.',
+      'This is a top-layer buying count, not a full patio design. Paver projects also need base material, bedding sand, joint sand, edge restraints, cuts, pattern planning, compaction, slope, drainage, soil checks, traffic-load checks, and supplier package rounding.',
     inputExplanations: [
-      { term: 'Project area', meaning: 'the patio, path, or driveway surface area before extra pavers are added.' },
-      { term: 'Paver length and width', meaning: 'the visible dimensions of one paver in inches.' },
-      { term: 'Waste percent', meaning: 'extra pavers for cuts, breakage, border pieces, and future replacement.' },
+      { term: 'Project area', meaning: 'the finished patio, walkway, path, or driveway-pad surface area before extra pavers are added.' },
+      { term: 'Paver length and width', meaning: 'the visible size of one paver in inches. Use the real paver size from the product label when you have it.' },
+      { term: 'Waste percent', meaning: 'extra pavers for cuts, broken pieces, border pieces, color matching, and future replacement.' },
+    ],
+    faqLanguage: {
+      expectedInputs: 'the finished square footage, one paver size in inches, and a waste percent for cuts and spare pieces',
+      examplePhrase: 'real patio or walkway count',
+      doubleCheck:
+        'Double-check the final count against the supplier package size, layout pattern, and any base, sand, or edge-restraint plan before buying.',
+    },
+    extraFaq: [
+      {
+        question: 'How do I calculate how many pavers I need?',
+        answer:
+          'Find the project square footage, divide by the square-foot area of one paver, add waste, then round up. A 4 by 8 inch paver covers 32 square inches, or about 0.222 square feet.',
+      },
+      {
+        question: 'How many 4x8 pavers do I need for a 10 by 10 patio?',
+        answer:
+          'A 10 by 10 patio is 100 square feet. With 10% waste and 4 by 8 inch pavers, the estimate is 495 pavers.',
+      },
+      {
+        question: 'Should I include joint spacing in this paver count?',
+        answer:
+          'This calculator uses the paver face size only. If wide joints are part of the design, your exact paver count may be lower, but joint sand needs separate checking.',
+      },
+      {
+        question: 'What waste percent should I use for pavers?',
+        answer:
+          'Use about 10% for a simple rectangle. Use more for curves, diagonal patterns, herringbone layouts, many border cuts, or if you want spare matching pavers for later repairs.',
+      },
+      {
+        question: 'Can I use this for a circle patio or curved path?',
+        answer:
+          'Yes, if you already know the finished square footage. Curves usually need more cutting, so increase the waste percent and check the layout before ordering.',
+      },
+      {
+        question: 'Does this estimate paver base or bedding sand?',
+        answer:
+          'No. This calculator estimates paver pieces only. Use the Paver Base Calculator for compacted base and bedding sand, then check edge restraints and drainage separately.',
+      },
+      {
+        question: 'Can I use this for mixed-size paver patterns?',
+        answer:
+          'Only as a rough total-area check. A mixed-size pattern needs the ratio for each paver size in one pattern repeat, or the supplier layout chart.',
+      },
+      {
+        question: 'Why does the calculator round up?',
+        answer:
+          'You cannot buy part of a paver, and cut pieces are not always reusable. Rounding up keeps the estimate practical before package-size rounding.',
+      },
     ],
     useCases: [
       'Estimate paver count for a patio or walkway.',
       'Compare different paver sizes.',
       'Add waste for cuts and broken pieces.',
       'Prepare a rough count before checking box quantities.',
+      'Check whether 4x8, 12x12, or larger pavers change the piece count a lot.',
     ],
     examples: [
-      { label: 'Patio pavers', expression: '180 ft2, 8 x 4 in pavers, 10% waste', result: 'Pavers needed' },
-      { label: 'Large pavers', expression: '240 ft2, 12 x 12 in pavers, 8% waste', result: 'Lower piece count' },
-      { label: 'Walkway', expression: '75 ft2, 6 x 9 in pavers, 12% waste', result: 'Path estimate' },
+      { label: 'Patio pavers', expression: '180 ft2, 8 x 4 in pavers, 10% waste', result: '891 pavers' },
+      { label: 'Large pavers', expression: '240 ft2, 12 x 12 in pavers, 8% waste', result: '260 pavers' },
+      { label: 'Walkway', expression: '75 ft2, 6 x 9 in pavers, 12% waste', result: '224 pavers' },
+      { label: 'Small patio', expression: '100 ft2, 4 x 8 in pavers, 10% waste', result: '495 pavers' },
     ],
-    relatedSlugs: ['sand-calculator', 'gravel-calculator', 'area-calculator'],
+    relatedSlugs: ['paver-base-calculator', 'polymeric-sand-calculator', 'gravel-calculator'],
   }),
   makeUtilityTool({
     slug: 'paver-base-calculator',
