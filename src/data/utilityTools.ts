@@ -4005,26 +4005,71 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Convert length, width, depth, and waste into cubic feet and cubic yards.',
     description:
       'Use this free cubic yard calculator to estimate cubic feet and cubic yards from rectangular dimensions, depth, and waste percent.',
+    seoTitle: 'Cubic Yard Calculator | Feet, Inches, And Waste',
+    seoDescription:
+      'Estimate cubic feet, cubic yards, cubic meters, and waste from length, width, and depth in inches for soil, gravel, sand, mulch, or fill.',
     icon: 'calculator-cubic-yard',
+    aliases: [
+      'Cubic Yardage Calculator',
+      'Yardage Calculator',
+      'Cubic Feet To Cubic Yards Calculator',
+      'Material Yard Calculator',
+      'Bulk Material Calculator',
+    ],
     formula:
-      'The calculator converts depth from inches to feet, multiplies length by width by depth, adds waste, then divides cubic feet by 27 for cubic yards.',
+      'The calculator uses cubic feet = length x width x (depth inches / 12), adjusted cubic feet = cubic feet x (1 + waste percent / 100), cubic yards = adjusted cubic feet / 27, and cubic meters = adjusted cubic feet x 0.0283168.',
     limit:
-      'This is a simple rectangular-volume estimate. Uneven ground, compaction, slopes, forms, settling, and supplier rounding can change orders.',
+      'This is a simple rectangular-volume estimate, not a supplier order guarantee. Uneven ground, compaction, slopes, forms, settling, moisture, truck minimums, bag yield, and supplier rounding can change what you buy.',
+    faqLanguage: {
+      expectedInputs: 'length, width, depth in inches, and waste percent',
+      examplePhrase: 'cubic yard material example',
+      doubleCheck:
+        'Also check whether your supplier sells loose cubic yards, compacted cubic yards, tons, bags, or a minimum delivery amount.',
+    },
     inputExplanations: [
       { term: 'Length and width', meaning: 'the rectangular area to fill or cover.' },
       { term: 'Depth', meaning: 'the average material depth in inches.' },
       { term: 'Waste percent', meaning: 'extra material for uneven grade, compaction, settling, and ordering cushion.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How many cubic feet are in a cubic yard?',
+        answer:
+          'There are 27 cubic feet in one cubic yard because 1 yard is 3 feet, and 3 x 3 x 3 = 27. That is why the calculator divides adjusted cubic feet by 27.',
+      },
+      {
+        question: 'How do I calculate cubic yards from feet and inches?',
+        answer:
+          'Multiply length by width by depth in feet to get cubic feet, then divide by 27. If your depth is in inches, divide it by 12 first. For example, 3 inches is 0.25 foot.',
+      },
+      {
+        question: 'How many cubic yards are in a 20 by 10 area at 3 inches deep?',
+        answer:
+          'A 20 ft by 10 ft area at 3 inches deep is 50 cubic feet before waste. With 5% waste, it becomes 52.5 cubic feet, or about 1.94 cubic yards.',
+      },
+      {
+        question: 'Should I round cubic yards up when ordering material?',
+        answer:
+          'Usually yes, but do it based on the supplier rules. Some sellers round to the nearest half yard, some have a one-yard minimum, and some sell bags or tons instead of loose cubic yards.',
+      },
+      {
+        question: 'Can cubic yards be converted to tons?',
+        answer:
+          'Only when you know the material density. A cubic yard of loose mulch, wet sand, gravel, and concrete can weigh very different amounts, so use the supplier tons-per-yard number when weight matters.',
+      },
     ],
     useCases: [
       'Estimate cubic yards for fill, soil, mulch, sand, or gravel.',
       'Convert a shallow depth in inches into cubic yards.',
       'Add waste before ordering bulk material.',
       'Check the math behind material calculators.',
+      'Compare loose-yard bulk delivery with bagged material.',
     ],
     examples: [
-      { label: 'Material bed', expression: '20 ft x 10 ft x 3 in, 5% waste', result: 'Cubic yards' },
-      { label: 'Deep fill', expression: '12 ft x 8 ft x 6 in, 10% waste', result: 'Cubic feet and yards' },
-      { label: 'Small patch', expression: '6 ft x 4 ft x 2 in', result: 'Low-volume estimate' },
+      { label: 'Material bed', expression: '20 ft x 10 ft x 3 in, 5% waste', result: '52.5 ft3 and 1.94 yd3' },
+      { label: 'Deep fill', expression: '12 ft x 8 ft x 6 in, 10% waste', result: '52.8 ft3 and 1.96 yd3' },
+      { label: 'Small patch', expression: '6 ft x 4 ft x 2 in, no waste', result: '4 ft3 and 0.15 yd3' },
+      { label: 'Raised bed', expression: '8 ft x 4 ft x 12 in, no waste', result: '32 ft3 and 1.19 yd3' },
     ],
     relatedSlugs: ['soil-calculator', 'sand-calculator', 'gravel-calculator'],
   }),

@@ -160,6 +160,18 @@ const toolArtMetadataOverrides = {
         'Concrete Calculator guide artwork supports the walkthrough by showing slab volume math, bag-yield checks, waste, and ordering-limit cautions.',
     },
   },
+  'cubic-yard-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 20 by 10 foot material bed, 3 inch depth, 5 percent waste, 52.5 cubic feet, and 1.94 cubic yards.',
+      caption:
+        'Cubic Yard Calculator artwork matches the live workflow: enter length, width, inch depth, and waste to estimate cubic feet, cubic yards, and cubic meters.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining 27 cubic feet per cubic yard, inch-to-foot depth conversion, supplier rounding, loose material, bags, and tons.',
+      caption:
+        'Cubic Yard Calculator guide artwork supports the walkthrough by showing depth conversion, cubic-yard math, waste, and supplier-order cautions.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

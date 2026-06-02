@@ -5227,17 +5227,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'cubic-yard-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [nistSi, nistConversionFactors],
+    sources: [nistSi, nistConversionFactors, googleHelpfulContent],
     findings: [
-      'The calculator converts rectangular length, width, and depth into cubic feet and divides by 27 for cubic yards.',
-      'The guide explains depth inches, waste percent, compaction, settling, uneven grade, supplier rounding, and why cubic yards are common for bulk material.',
-      'The result separates raw cubic feet, cubic yards, and waste added so users can check each step.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `cubic yard calculator` intent after balance and status gates passed.',
+      'The calculator converts rectangular length, width, and depth inches into cubic feet, applies waste, divides by 27 for cubic yards, and shows cubic meters from the NIST cubic-foot conversion.',
+      'The page now uses exact examples for a 20 ft by 10 ft area at 3 inches deep with 5% waste, a 12 ft by 8 ft deep-fill example, a small patch, and an 8 ft by 4 ft raised bed.',
+      'The guide explains 27 cubic feet per cubic yard, 46,656 cubic inches per cubic yard, loose versus compacted material, supplier minimums, tons, bags, and rounding limits.',
     ],
     improvements: [
-      'Manually checked cubic-foot and cubic-yard math, waste handling, examples, FAQ cautions, NIST source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Manually checked cubic-foot and cubic-yard math, waste handling, examples, FAQ cautions, NIST source coverage, related tools, SEO copy, privacy behavior, result labels, DataForSEO proof, and image alt/caption text.',
     ],
     followUps: [
       'Use this as the general helper behind future soil, fill, and material-estimator pages.',

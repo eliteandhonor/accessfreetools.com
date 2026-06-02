@@ -3094,25 +3094,28 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'cubic-yard-calculator': {
-    summary: 'Learn how rectangular dimensions and depth estimate cubic yards.',
+    summary: 'Learn how feet, inch depth, and waste become cubic yards.',
     purpose:
-      'The Cubic Yard Calculator is the general volume helper behind many material estimates. It converts length, width, and depth into cubic feet and cubic yards.',
+      'The Cubic Yard Calculator is the general volume helper behind many material estimates. It converts length, width, depth in inches, and waste into cubic feet, cubic yards, and cubic meters.',
     enter: [
       'Enter length and width in feet.',
-      'Enter depth in inches.',
+      'Enter average depth in inches. A 3 inch layer is 0.25 foot in the formula.',
       'Add waste when material will settle, compact, spill, or need rounding up.',
     ],
     read: [
-      'Cubic yards is the bulk material number many suppliers use.',
-      'Cubic feet shows the raw volume before yard conversion.',
-      'Waste added confirms the extra percentage included in the result.',
+      'Cubic feet shows the raw rectangular volume before yard conversion.',
+      'Cubic yards is the bulk material number many soil, sand, mulch, gravel, and fill suppliers use. The calculator divides adjusted cubic feet by 27.',
+      'Cubic meters appears for conversion context, using the NIST cubic-foot conversion.',
+      'Waste added shows the extra volume included before you talk with a supplier.',
+      'A 20 ft by 10 ft area at 3 inches deep is 50 cubic feet before waste and about 1.94 cubic yards with 5% waste.',
     ],
     mistakes: [
       'Do not mix inches, feet, and yards without converting them.',
       'Do not ignore uneven depth or sloped ground.',
-      'Supplier minimums and rounding can change the purchase amount.',
+      'Do not assume loose material, compacted material, bags, and tons are the same thing.',
+      'Supplier minimums, half-yard rounding, truck delivery rules, and bag labels can change the purchase amount.',
     ],
-    sources: [sourceLinks.nistUnits, sourceLinks.nistConversionFactors],
+    sources: [sourceLinks.nistConversionFactors, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'pool-volume-calculator': {
     summary: 'Learn how pool shape, measurements, and average depth estimate gallons.',
