@@ -1826,6 +1826,26 @@ const homeAdvisorDeckCost = {
   label: 'HomeAdvisor: Decking price guide',
 };
 
+const certainteedDrywallCalculator = {
+  href: 'https://www.certainteed.com/drywall-calculator',
+  label: 'CertainTeed: Drywall calculator',
+};
+
+const usgMaterialEstimators = {
+  href: 'https://www.usg.com/content/usgcom/en/resource-center/tools/domedesigner.html',
+  label: 'USG: Material estimators',
+};
+
+const inchCalculatorDrywall = {
+  href: 'https://www.inchcalculator.com/drywall-calculator/',
+  label: 'Inch Calculator: Drywall calculator',
+};
+
+const procoreDrywallCalculator = {
+  href: 'https://www.procore.com/library/calculators/drywall-calculator',
+  label: 'Procore: Drywall calculator',
+};
+
 const lowesSiding = {
   href: 'https://www.certainteed.com/products/documents-downloads',
   label: 'CertainTeed: Siding documents and installation resources',
@@ -4576,20 +4596,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'drywall-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [nistSi, openStaxGeometry],
+    sources: [certainteedDrywallCalculator, usgMaterialEstimators, inchCalculatorDrywall, procoreDrywallCalculator, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator adds waste to measured wall or ceiling area and divides by drywall sheet area before rounding to whole sheets.',
-      'The page explains sheet length and width, waste percent, and why openings, sheet orientation, thickness, and local rules remain outside the simple count.',
-      'The guide is practical about broken corners, offcuts, ceiling lifts, moisture resistance, and fire-rated requirements.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `drywall calculator` intent after balance and status gates passed.',
+      'The calculator adds waste to measured wall or ceiling area, divides by drywall sheet area, and rounds up to whole sheets.',
+      'Current drywall estimator sources show users also expect tape, joint compound, screws, openings, ceilings, sheet sizes, and jobsite-condition cautions, so the page clearly says this tool is the sheet-count step only.',
+      'The page now uses exact examples for 480 square feet with 4 by 8 sheets, 720 square feet with 4 by 12 sheets, a ceiling section, and a small repair area.',
     ],
     improvements: [
-      'Manually checked sheet-area math, whole-sheet rounding, examples, FAQ details, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, opening/waste cautions, audit record, modified dates, related links, and image alt/caption text in smart-14 wording.',
     ],
     followUps: [
-      'Add room-dimension mode later if users want wall-by-wall drywall takeoffs.',
+      'Add room-dimension mode, ceiling toggle, and optional tape/mud/screw estimates only if the page can keep product-label and local-code limits clear.',
     ],
   },
   {

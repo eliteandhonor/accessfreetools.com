@@ -521,6 +521,22 @@ const sourceLinks = {
     href: 'https://www.homeadvisor.com/cost/decks-and-porches/',
     label: 'HomeAdvisor: Decking price guide',
   },
+  certainteedDrywallCalculator: {
+    href: 'https://www.certainteed.com/drywall-calculator',
+    label: 'CertainTeed: Drywall calculator',
+  },
+  usgMaterialEstimators: {
+    href: 'https://www.usg.com/content/usgcom/en/resource-center/tools/domedesigner.html',
+    label: 'USG: Material estimators',
+  },
+  inchCalculatorDrywall: {
+    href: 'https://www.inchcalculator.com/drywall-calculator/',
+    label: 'Inch Calculator: Drywall calculator',
+  },
+  procoreDrywallCalculator: {
+    href: 'https://www.procore.com/library/calculators/drywall-calculator',
+    label: 'Procore: Drywall calculator',
+  },
   biaBrickEstimating: {
     href: 'https://www.gobrick.com/media/file/10-dimensioning-and-estimating-brick-masonry.pdf',
     label: 'Brick Industry Association: Dimensioning and estimating brick masonry',
@@ -2078,25 +2094,33 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.sherwinPaintCoverage, sourceLinks.nistUnits],
   },
   'drywall-calculator': {
-    summary: 'Learn how project area, sheet size, and waste become a drywall sheet count.',
+    summary: 'Learn how project area, sheet size, and waste become a whole drywall sheet count.',
     purpose:
-      'The Drywall Calculator estimates whole sheets from wall or ceiling square footage. It works best after you already have a measured area or a rough takeoff from room dimensions.',
+      'The Drywall Calculator estimates whole sheets from wall or ceiling square footage. It works best after you already have a measured area or a rough takeoff from room dimensions, then want a quick panel count before checking tape, mud, screws, and code details.',
     enter: [
-      'Enter the wall or ceiling area in square feet.',
-      'Enter the drywall sheet length and width in feet.',
+      'Enter the wall or ceiling area in square feet. Add each wall length times height, and add ceiling length times width if you are hanging board overhead.',
+      'Enter the drywall sheet length and width in feet. Common sheet sizes are 4 by 8, 4 by 10, and 4 by 12 feet, but use the size you can deliver and lift safely.',
       'Add waste for cuts, broken corners, layout changes, and small offcuts.',
     ],
     read: [
       'The main answer is whole drywall sheets needed.',
       'Sheet area shows how many square feet one panel covers.',
-      'Area with waste shows the adjusted project area before rounding up sheets.',
+      'Area with waste shows the adjusted project area before rounding up sheets. A 480 square foot project with 10% waste becomes 528 square feet.',
+      'The default 480 square foot example with 4 by 8 sheets and 10% waste comes out to 17 sheets.',
     ],
     mistakes: [
-      'Do not forget windows, doors, closets, and ceiling areas when measuring.',
-      'Do not assume every room lays out cleanly with no offcuts.',
-      'Check thickness, moisture resistance, fire requirements, and local rules before buying.',
+      'Do not double-subtract doors or windows if your takeoff already removed them.',
+      'Do not assume every room lays out cleanly with no offcuts. Closets, ceilings, stairs, short returns, and broken corners can use extra sheets.',
+      'Check thickness, moisture resistance, fire requirements, screw schedule, tape, joint compound, corner bead, delivery, and local rules before buying.',
     ],
-    sources: [sourceLinks.nistUnits],
+    sources: [
+      sourceLinks.certainteedDrywallCalculator,
+      sourceLinks.usgMaterialEstimators,
+      sourceLinks.inchCalculatorDrywall,
+      sourceLinks.procoreDrywallCalculator,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'carpet-calculator': {
     summary: 'Learn how room size, roll width, and waste become carpet square yards and rough roll length.',

@@ -184,6 +184,18 @@ const toolArtMetadataOverrides = {
         'Deck Cost Calculator guide artwork supports the walkthrough by showing surface math, railing and stair allowances, and real-quote cautions.',
     },
   },
+  'drywall-calculator': {
+    tool: {
+      alt: 'Smoke mascot counting 480 square feet of drywall, 4 by 8 foot sheets, 10 percent waste, 528 adjusted square feet, and 17 whole panels.',
+      caption:
+        'Drywall Calculator artwork matches the live workflow: enter project area, sheet size, and waste to estimate a whole-panel count.',
+    },
+    guide: {
+      alt: 'Smoke mascot checking drywall sheet size, waste, ceilings, doors, windows, seams, tape, mud, screws, moisture rating, and fire rating limits.',
+      caption:
+        'Drywall Calculator guide artwork supports the walkthrough by showing panel math, opening cautions, finish supplies, and code-limit checks.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

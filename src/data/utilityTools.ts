@@ -2212,29 +2212,85 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate drywall sheet count from project area, sheet size, and waste percentage.',
     description:
       'Use this free drywall calculator to estimate whole drywall sheets from wall or ceiling square feet, sheet size, and waste percentage.',
+    seoTitle: 'Drywall Calculator | Sheets, Size, Waste',
+    seoDescription:
+      'Estimate whole drywall sheets from project square footage, panel size, and waste percent before checking tape, mud, screws, and code needs.',
     icon: 'calculator-drywall',
-    aliases: ['Sheetrock Calculator', 'Plasterboard Calculator'],
+    aliases: [
+      'Sheetrock Calculator',
+      'Plasterboard Calculator',
+      'Drywall Sheet Calculator',
+      'Drywall Material Calculator',
+      'Drywall Board Calculator',
+      'Drywall Panel Calculator',
+    ],
     formula:
-      'The calculator multiplies sheet length by width for sheet area, adds waste to the project area, then rounds up project area divided by sheet area.',
+      'The calculator uses sheet area = sheet length x sheet width, adjusted project area = project area x (1 + waste percent / 100), and whole sheets = ceiling(adjusted project area / sheet area).',
     limit:
-      'Drywall layout depends on openings, sheet orientation, seams, thickness, fire rating, moisture rating, ceiling lift, and local building requirements.',
+      'This estimates sheets only. Real drywall planning also depends on openings, ceilings, sheet orientation, seams, thickness, fire rating, moisture rating, screw schedule, tape, joint compound, corner bead, lift help, delivery, breakage, and local building rules.',
+    faqLanguage: {
+      expectedInputs: 'project square footage, sheet length, sheet width, and waste percent',
+      examplePhrase: 'drywall sheet example',
+      doubleCheck:
+        'Also check whether the area already removes doors and windows, and remember that tape, mud, screws, corner bead, thickness, moisture rating, and fire rating are separate buying decisions.',
+    },
     inputExplanations: [
-      { term: 'Wall or ceiling area', meaning: 'the measured surface area before extra sheets are added.' },
+      { term: 'Wall or ceiling area', meaning: 'the measured surface area you plan to board before extra sheets are added.' },
       { term: 'Sheet size', meaning: 'the drywall panel dimensions, such as 4 by 8 or 4 by 12 feet.' },
       { term: 'Waste percent', meaning: 'extra sheets for cuts, broken corners, offcuts, and layout mistakes.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does the Drywall Calculator include?',
+        answer:
+          'It estimates whole drywall panels from the area, sheet size, and waste percent you enter. It does not estimate tape, joint compound, screws, corner bead, labor, delivery, or finishing level.',
+      },
+      {
+        question: 'How do I get the wall or ceiling area?',
+        answer:
+          'For each wall, multiply wall length by wall height, then add the walls together. For a ceiling, multiply length by width. Enter the total square footage you want covered by drywall.',
+      },
+      {
+        question: 'Should I subtract doors and windows?',
+        answer:
+          'If your measured area already subtracts openings, enter that number. For rough buying, small openings may not reduce the whole-sheet count because panels are still cut around them and offcuts are not always reusable.',
+      },
+      {
+        question: 'Is 10% waste enough for drywall?',
+        answer:
+          'Ten percent is a common starting point for simple rectangular areas. Use more for ceilings, closets, stairs, lots of openings, awkward cuts, broken corners, or if returning for one missing sheet would slow the job.',
+      },
+      {
+        question: 'Which sheet size should I choose?',
+        answer:
+          '4 by 8 sheets are easier to carry. 4 by 10 and 4 by 12 sheets can reduce seams, but they are heavier and harder to move. Pick the size you can actually deliver, lift, and hang safely.',
+      },
+      {
+        question: 'Does this choose drywall thickness or type?',
+        answer:
+          'No. Choose thickness, fire-rated board, moisture-resistant board, cement board, or sound-rated board from the room use, local code, and product instructions. The calculator only counts panels.',
+      },
+      {
+        question: 'Does this estimate mud, tape, and screws?',
+        answer:
+          'No. Those depend on sheet count, seams, finish level, screw spacing, corners, and the product you buy. Use this page for the sheet count, then check the joint compound, tape, and screw labels or installer takeoff.',
+      },
     ],
     useCases: [
       'Estimate drywall sheets for a room or basement wall area.',
       'Compare 4x8, 4x10, and 4x12 sheet sizes.',
       'Add a waste allowance for cuts and broken sheets.',
       'Plan a rough material count before measuring openings and layout.',
+      'Check whether longer sheets reduce the panel count before buying.',
+      'Separate a sheet-count estimate from tape, mud, screws, and code choices.',
     ],
     examples: [
-      { label: '4x8 sheets', expression: '480 ft2, 4 x 8 sheet, 10% waste', result: 'Sheet count' },
-      { label: 'Long sheets', expression: '720 ft2, 4 x 12 sheet, 12% waste', result: 'Fewer sheets, larger panels' },
-      { label: 'Small repair area', expression: '96 ft2, 4 x 8 sheet, 5% waste', result: 'Repair sheet count' },
+      { label: '4x8 sheets', expression: '480 ft2, 4 x 8 sheet, 10% waste', result: '17 sheets' },
+      { label: 'Long sheets', expression: '720 ft2, 4 x 12 sheet, 12% waste', result: '17 sheets' },
+      { label: 'Ceiling section', expression: '240 ft2, 4 x 10 sheet, 10% waste', result: '7 sheets' },
+      { label: 'Small repair area', expression: '96 ft2, 4 x 8 sheet, 5% waste', result: '4 sheets' },
     ],
-    relatedSlugs: ['wallpaper-calculator', 'paint-calculator', 'square-footage-calculator', 'cubic-yard-calculator'],
+    relatedSlugs: ['paint-calculator', 'square-footage-calculator', 'wallpaper-calculator'],
   }),
   makeUtilityTool({
     slug: 'carpet-calculator',
