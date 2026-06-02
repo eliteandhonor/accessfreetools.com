@@ -244,6 +244,18 @@ const toolArtMetadataOverrides = {
         'Sand Calculator guide artwork supports the walkthrough by showing how area, depth, cubic volume, density, and bag or ton checks connect.',
     },
   },
+  'concrete-mix-calculator': {
+    tool: {
+      alt: 'Smoke mascot pointing from a concrete volume cube to a calculator, cement bag, sand buckets, gravel piles, and a mixed wheelbarrow.',
+      caption:
+        'Concrete Mix Calculator artwork matches the live workflow: enter concrete volume, ratio parts, bag yield, and waste to estimate cement bags, sand, and gravel.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing a concrete cube split into cement, sand, and gravel ratio steps before a final stack of cement bags.',
+      caption:
+        'Concrete Mix Calculator guide artwork supports the walkthrough by showing how volume, waste, ratio parts, and bag yield become a rough material list.',
+    },
+  },
   'siding-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a house wall with window and door openings, siding panels, stacked siding squares, box coverage icons, and waste offcuts.',

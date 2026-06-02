@@ -2917,23 +2917,23 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Concrete Mix Calculator',
     buttonLabel: 'Estimate mix',
     emptyHistory: 'Recent concrete mix estimates will appear here.',
-    privacyNote: 'Concrete mix estimates stay local and use simple ratio math for planning small batches.',
+    privacyNote: 'Concrete mix estimates stay local and use simple ratio math for small-batch planning.',
     modes: [
       {
         id: 'mix-ratio',
         label: 'Mix ratio',
         symbol: 'MIX',
         fields: [
-          numberField('cubicYards', 'Concrete volume yd3', '1'),
+          numberField('cubicYards', 'Concrete volume (yd3)', '1'),
           numberField('cementParts', 'Cement parts', '1'),
           numberField('sandParts', 'Sand parts', '2'),
           numberField('gravelParts', 'Gravel parts', '3'),
-          numberField('cementBagCubicFeet', 'Cement bag ft3', '1'),
+          numberField('cementBagCubicFeet', 'Cement bag yield (ft3)', '1'),
           numberField('wastePercent', 'Waste percent', '10'),
         ],
         defaultInputs: { cubicYards: '1', cementParts: '1', sandParts: '2', gravelParts: '3', cementBagCubicFeet: '1', wastePercent: '10' },
         examples: [
-          { label: '1 yd3, 1:2:3 mix', inputs: { cubicYards: '1', cementParts: '1', sandParts: '2', gravelParts: '3', cementBagCubicFeet: '1', wastePercent: '10' } },
+          { label: '1 yd3, 1:2:3, 10% waste', inputs: { cubicYards: '1', cementParts: '1', sandParts: '2', gravelParts: '3', cementBagCubicFeet: '1', wastePercent: '10' } },
           { label: 'Small 1:2:4 batch', inputs: { cubicYards: '0.25', cementParts: '1', sandParts: '2', gravelParts: '4', cementBagCubicFeet: '1', wastePercent: '8' } },
         ],
       },

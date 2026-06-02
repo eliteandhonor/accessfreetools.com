@@ -3652,18 +3652,28 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate cement, sand, and gravel from concrete volume and a mix ratio.',
     description:
-      'Use this free concrete mix calculator to estimate cement bags, sand, and gravel from cubic yards, mix ratio, bag yield, and waste percent.',
+      'Use this free concrete mix calculator to estimate cement bags, sand, and gravel from cubic yards, 1:2:3 or 1:2:4 ratio parts, bag yield, and waste percent.',
+    seoTitle: 'Concrete Mix Calculator | Cement, Sand & Gravel',
+    seoDescription:
+      'Estimate cement bags, sand, and gravel from concrete volume, 1:2:3 or 1:2:4 mix ratio parts, cement-bag yield, and waste.',
     icon: 'calculator-concrete-mix',
-    aliases: ['Concrete Ratio Calculator', 'Cement Sand Gravel Calculator'],
+    aliases: [
+      'Concrete Ratio Calculator',
+      'Cement Sand Gravel Calculator',
+      '1:2:3 Concrete Mix Calculator',
+      '1:2:4 Concrete Mix Calculator',
+      'Concrete Mix Calculator For Slab',
+      'Sand And Cement Calculator',
+    ],
     formula:
-      'The calculator converts cubic yards to cubic feet, adds waste, splits the adjusted volume by the cement:sand:gravel ratio, and rounds cement bags up.',
+      'The calculator converts cubic yards to cubic feet, adds waste, adds the cement, sand, and gravel parts, then gives each material its share of the adjusted volume. Cement bags are rounded up from the cement cubic feet and the bag yield you enter.',
     limit:
-      'Concrete strength depends on water, aggregate, cement type, moisture, additives, curing, and code requirements. This is a rough material planning tool, not a mix design.',
+      'Concrete strength depends on water, aggregate, cement type, moisture, additives, curing, placement, and code requirements. This is a rough material takeoff, not an engineered mix design or safety sign-off.',
     inputExplanations: [
       { term: 'Concrete volume', meaning: 'the final amount of concrete you want to make before waste is added.' },
-      { term: 'Mix ratio', meaning: 'cement, sand, and gravel parts, such as 1:2:3.' },
-      { term: 'Cement bag cubic feet', meaning: 'the approximate volume one cement bag contributes; use the bag or supplier label when available.' },
-      { term: 'Waste percent', meaning: 'extra material for spillage, uneven measuring, and small batch losses.' },
+      { term: 'Mix ratio', meaning: 'cement, sand, and gravel parts by volume, such as 1:2:3 or 1:2:4.' },
+      { term: 'Cement bag yield', meaning: 'how many cubic feet one cement bag contributes. Use the bag or supplier label when you have it.' },
+      { term: 'Waste percent', meaning: 'extra material for spills, uneven measuring, low spots, and small batch losses.' },
     ],
     extraFaq: [
       {
@@ -3672,23 +3682,55 @@ export const utilityTools: ToolDefinition[] = [
           'It means 1 part cement, 2 parts sand, and 3 parts gravel by volume. The calculator uses those parts to split the total adjusted volume.',
       },
       {
+        question: 'What does a 1:2:4 concrete mix mean?',
+        answer:
+          'It means 1 part cement, 2 parts sand, and 4 parts gravel by volume. It uses more gravel than a 1:2:3 mix, so check your project instructions before choosing it.',
+      },
+      {
+        question: 'Why does the calculator ask for cement bag yield?',
+        answer:
+          'Different bags and products can cover different volumes. The calculator divides cement cubic feet by the yield you enter, then rounds up to whole bags.',
+      },
+      {
+        question: 'Does this estimate water?',
+        answer:
+          'No. Water amount affects workability and strength, so follow the cement or concrete product directions instead of guessing from this material split.',
+      },
+      {
+        question: 'Can I use this as a sand and cement calculator?',
+        answer:
+          'Only if your job is still a concrete mix with a gravel part. This page requires cement, sand, and gravel parts; mortar-only or render mixes need a separate check.',
+      },
+      {
         question: 'Can this guarantee concrete strength?',
         answer:
           'No. Strength depends on the actual mix design, water ratio, aggregate, curing, and product instructions. Use a specified mix for structural work.',
+      },
+      {
+        question: 'Is this enough for a slab?',
+        answer:
+          'It can help with material planning for a simple slab batch, but slab thickness, base prep, reinforcement, joints, drainage, and local code still need separate checks.',
       },
     ],
     useCases: [
       'Plan cement, sand, and gravel for small concrete batches.',
       'Compare 1:2:3 and 1:2:4 style ratios.',
       'Add waste before buying bagged materials.',
-      'Turn cubic yards into practical material quantities.',
+      'Turn cubic yards into cubic feet, whole cement bags, sand, and gravel.',
+      'Check whether a slab batch estimate needs a ready-mix quote instead.',
     ],
     examples: [
-      { label: '1:2:3 mix', expression: '1 yd3, 1:2:3 ratio, 10% waste', result: '5 cement-bag cubic feet plus sand and gravel' },
-      { label: 'Small batch', expression: '0.25 yd3, 1:2:4 ratio', result: 'Split material estimate' },
-      { label: 'Waste check', expression: 'Change waste from 5% to 10%', result: 'Updated material quantities' },
+      { label: '1:2:3 mix', expression: '1 yd3, 1:2:3 ratio, 1 ft3 bag yield, 10% waste', result: '5 cement bags, 9.90 ft3 sand, 14.85 ft3 gravel' },
+      { label: 'Small 1:2:4 batch', expression: '0.25 yd3, 1:2:4 ratio, 1 ft3 bag yield, 8% waste', result: '2 cement bags, 2.08 ft3 sand, 4.17 ft3 gravel' },
+      { label: 'Waste check', expression: '1 yd3 with 5% waste vs 10% waste', result: '28.35 ft3 vs 29.70 ft3 adjusted concrete' },
+      { label: 'Bag yield check', expression: '4.95 ft3 cement, 0.75 ft3 bag yield', result: '7 cement bags' },
     ],
-    relatedSlugs: ['concrete-calculator', 'concrete-footing-calculator', 'cubic-yard-calculator'],
+    relatedSlugs: [
+      'concrete-driveway-calculator',
+      'concrete-footing-calculator',
+      'concrete-steps-calculator',
+      'post-hole-concrete-calculator',
+    ],
   }),
   makeUtilityTool({
     slug: 'concrete-driveway-calculator',

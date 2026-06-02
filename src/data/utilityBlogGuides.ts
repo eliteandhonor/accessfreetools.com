@@ -2926,23 +2926,24 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.calcShedRebar, sourceLinks.inchRebarWeight, sourceLinks.crsiSplicingBars, sourceLinks.nistUnits],
   },
   'concrete-mix-calculator': {
-    summary: 'Learn how concrete volume and a cement:sand:gravel ratio become mix material estimates.',
+    summary: 'Learn how concrete volume, waste, and a cement:sand:gravel ratio become a rough material list.',
     purpose:
-      'The Concrete Mix Calculator helps plan small batches by splitting an adjusted concrete volume into cement, sand, and gravel parts. It is useful when you know the volume and want a rough material list.',
+      'The Concrete Mix Calculator helps plan small batches by splitting an adjusted concrete volume into cement, sand, and gravel parts. It is useful when you know the volume and need a rough buying list before checking the bag label or project instructions.',
     enter: [
       'Enter the concrete volume in cubic yards.',
-      'Enter the cement, sand, and gravel ratio parts, such as 1, 2, and 3 for a 1:2:3 mix.',
-      'Enter the cement bag cubic-foot yield and add waste for spillage or measuring loss.',
+      'Enter the cement, sand, and gravel ratio parts, such as 1, 2, and 3 for a 1:2:3 mix or 1, 2, and 4 for a 1:2:4 mix.',
+      'Enter the cement bag cubic-foot yield from the bag or supplier label, then add waste for spills, uneven measuring, and low spots.',
     ],
     read: [
-      'Cement bags is rounded up from the cement cubic feet and bag yield you entered.',
-      'Sand and gravel are shown in cubic feet so you can compare material amounts.',
+      'Cement bags are rounded up from the cement cubic feet and bag yield you entered.',
+      'Sand and gravel are shown in cubic feet so you can compare the material amounts before buying.',
       'Adjusted concrete volume includes the waste percent before the ratio split.',
     ],
     mistakes: [
       'Do not use a rough ratio as a guaranteed strength mix.',
-      'Do not forget water, aggregate moisture, curing, additives, and product instructions.',
+      'Do not forget water, aggregate moisture, curing, additives, slab thickness, base prep, joints, and product instructions.',
       'Do not use this for structural concrete unless the mix is specified by a qualified source.',
+      'Do not treat this as a mortar-only sand and cement calculator. The live calculator needs cement, sand, and gravel parts.',
     ],
     extraSections: [
       {
@@ -2950,6 +2951,20 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         paragraphs: [
           'A ratio like 1:2:3 does not mean one bag, two bags, and three bags automatically. It means one volume part cement, two volume parts sand, and three volume parts gravel.',
           'The calculator adds all parts together, then gives each material its share of the adjusted concrete volume.',
+        ],
+      },
+      {
+        title: 'A quick 1:2:3 example',
+        paragraphs: [
+          'For 1 cubic yard with 10% waste, the adjusted volume is 29.70 cubic feet. A 1:2:3 mix has 6 total parts, so cement gets 4.95 cubic feet, sand gets 9.90 cubic feet, and gravel gets 14.85 cubic feet.',
+          'If your cement bag yield is 1 cubic foot, that cement amount rounds up to 5 bags. If the bag yield is smaller, the bag count goes up.',
+        ],
+      },
+      {
+        title: 'When to stop and check the product label',
+        paragraphs: [
+          'QUIKRETE notes that bag estimates are approximate and are rounded up for buying. That is the same practical idea here: round up, then check the exact product yield before you load the cart.',
+          'For slabs, footings, posts, or anything structural, use this as a planning check only. Mix design, water amount, reinforcement, curing, and local rules matter more than a simple ratio split.',
         ],
       },
     ],

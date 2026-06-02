@@ -5081,20 +5081,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'concrete-mix-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-concrete-masonry-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [inchConcreteMix, quikreteConcrete, nistSi],
+    sources: [inchConcreteMix, quikreteConcrete, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator converts cubic yards to cubic feet, adds waste, splits adjusted volume by the cement:sand:gravel ratio, and rounds cement bags up.',
-      'The FAQ explains what a 1:2:3 ratio means and warns that ratio math is not a guaranteed strength design.',
-      'The guide keeps water, aggregate moisture, curing, additives, and product instructions outside the simple material split.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `concrete mix calculator`, 1:2:4 ratio, slab, and sand/cement-adjacent intent after balance and status gates passed.',
+      'The calculator converts cubic yards to cubic feet, adds waste, splits adjusted volume by the cement:sand:gravel ratio, and rounds cement bags up from the entered bag yield.',
+      'The page now gives exact 1:2:3 and 1:2:4 examples, explains bag yield, keeps mortar-only searches out of scope, and warns that ratio math is not strength design.',
     ],
     improvements: [
-      'Added concrete mix formula tests, UI fields, examples, detailed FAQ, plain-language blog guide, source links, related tools, SEO copy, and privacy wording.',
+      'Refreshed metadata, aliases, formula text, examples, FAQ coverage, guide sections, source-backed limits, exact image alt/captions, modified dates, and UI labels in smart-14 wording.',
     ],
     followUps: [
-      'Add metric mix units only if the unit switch is tested and the ratio language remains clear.',
+      'Add a separate mortar/sand-cement calculator only if the UI and sources keep it separate from concrete strength and gravel-based mix ratios.',
     ],
   },
   {
