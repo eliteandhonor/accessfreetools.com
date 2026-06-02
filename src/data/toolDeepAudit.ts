@@ -2026,6 +2026,16 @@ const cmhaConcreteMasonryEstimating = {
   label: 'CMHA: Estimating concrete masonry materials',
 };
 
+const cmhaGroutConcreteMasonry = {
+  href: 'https://www.cmha.org/resource/tek-09-04a/',
+  label: 'CMHA: Grout for concrete masonry',
+};
+
+const cmhaGroutingWalls = {
+  href: 'https://www.cmha.org/resource/tek-03-02a/',
+  label: 'CMHA: Grouting concrete masonry walls',
+};
+
 const cmhaModularConcreteMasonry = {
   href: 'https://www.cmha.org/resource/tek-05-12/',
   label: 'CMHA: Modular layout of concrete masonry',
@@ -5202,17 +5212,26 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'concrete-block-fill-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-concrete-masonry-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'page-by-page-seo-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [inchConcreteBlockFill, quikreteConcrete, nistSi],
+    sources: [
+      inchConcreteBlockFill,
+      cmhaConcreteMasonryEstimating,
+      cmhaGroutConcreteMasonry,
+      cmhaGroutingWalls,
+      quikreteConcrete,
+      nistSi,
+      googleHelpfulContent,
+    ],
     findings: [
+      'DataForSEO returned live demand for concrete block fill calculator, concrete fill calculator, 8 block core fill calculator, 12 inch block fill calculator, QUIKRETE block fill calculator, and 8x8x16 block-fill questions.',
       'The calculator multiplies block count by fill cubic feet per block, adds waste, converts to cubic yards, and rounds common bag counts.',
-      'The FAQ defines fill cubic feet per block and separates core fill from mortar, bond beams, rebar, and footing concrete.',
-      'The guide warns that core shape, grout mix, rebar cells, cleanouts, and consolidation change real volume.',
+      'CMHA grout guidance frames masonry grout as fill for concrete masonry cores and cavities, so the page now avoids treating ordinary bag-yield math as structural approval.',
+      'The guide warns that CMU size, core shape, filled-cell pattern, grout mix, rebar cells, cleanouts, consolidation, and inspections change real volume.',
     ],
     improvements: [
-      'Added block fill tool page, tested fill-volume math, examples, detailed FAQ, guide article, source notes, related pathways, SEO copy, and privacy wording.',
+      'Rebuilt title/meta, aliases, examples, FAQs, guide notes, source links, trust limits, image alt/caption, sitemap dates, and audit record around CMU core fill, cubic feet, cubic yards, and bag counts.',
     ],
     followUps: [
       'Add a block-size lookup only if reliable fill-volume data can be kept clear and sourced.',

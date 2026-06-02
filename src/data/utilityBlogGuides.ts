@@ -669,6 +669,14 @@ const sourceLinks = {
     href: 'https://www.cmha.org/resource/tek-04-02a/',
     label: 'CMHA: Estimating concrete masonry materials',
   },
+  cmhaGroutConcreteMasonry: {
+    href: 'https://www.cmha.org/resource/tek-09-04a/',
+    label: 'CMHA: Grout for concrete masonry',
+  },
+  cmhaGroutingWalls: {
+    href: 'https://www.cmha.org/resource/tek-03-02a/',
+    label: 'CMHA: Grouting concrete masonry walls',
+  },
   cmhaModularConcreteMasonry: {
     href: 'https://www.cmha.org/resource/tek-05-12/',
     label: 'CMHA: Modular layout of concrete masonry',
@@ -3190,25 +3198,33 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchConcreteMesh, sourceLinks.aciWwrPlacement, sourceLinks.crsiSplicingBars, sourceLinks.nistUnits],
   },
   'concrete-block-fill-calculator': {
-    summary: 'Learn how block count and fill volume per block estimate concrete or grout fill.',
+    summary: 'Learn how block count, fill volume per block, and waste estimate CMU core fill.',
     purpose:
-      'The Concrete Block Fill Calculator estimates the grout or concrete volume needed to fill selected concrete block cores. It starts from the per-block fill volume you enter.',
+      'The Concrete Block Fill Calculator estimates grout or concrete needed for selected CMU cores. It starts from the fill volume per block or filled cell that you enter, so it can handle different block sizes without guessing.',
     enter: [
-      'Enter the number of blocks or block cells being filled.',
-      'Enter cubic feet of fill per block from product data or a takeoff.',
-      'Add waste for spillage, overfilled cells, and measuring differences.',
+      'Enter the number of CMU blocks, cells, or filled locations from your takeoff.',
+      'Enter cubic feet of fill per block or filled cell from block data, a masonry table, product notes, or the project drawing.',
+      'Add waste for spillage, pump loss, cleanouts, overfilled cells, and measuring differences.',
     ],
     read: [
-      'Cubic yards is the total adjusted fill volume.',
-      'Cubic feet is shown for smaller jobs and bag planning.',
-      '60 lb and 80 lb bag counts are rounded up from common bag yields.',
+      'Cubic feet is the adjusted block-fill volume after waste.',
+      'Cubic yards is cubic feet divided by 27, which helps when comparing ready-mix or grout orders.',
+      'For 120 blocks at 0.25 ft3 each with 10% waste, the calculator returns 33 ft3, about 1.22 yd3, and about 55 eighty-pound bags.',
     ],
     mistakes: [
-      'Do not assume every block has the same core volume.',
-      'Do not include mortar joints, bond beams, or footing concrete unless you calculate them separately.',
-      'Do not ignore rebar cells, cleanouts, grout mix, consolidation, or structural requirements.',
+      'Do not assume every 8 inch, 10 inch, or 12 inch block has the same core volume. Use the volume that matches the actual unit and filled-cell pattern.',
+      'Do not include mortar joints, bond beams, lintels, or footing concrete unless you calculate them separately.',
+      'Do not ignore rebar cells, cleanouts, grout mix, lift height, consolidation, inspections, or structural requirements.',
+      'Do not use ordinary bag-yield math as proof that the grout meets the plan or masonry code.',
     ],
-    sources: [sourceLinks.inchConcreteBlockFill, sourceLinks.quickrete, sourceLinks.nistUnits],
+    sources: [
+      sourceLinks.inchConcreteBlockFill,
+      sourceLinks.cmhaConcreteMasonryEstimating,
+      sourceLinks.cmhaGroutConcreteMasonry,
+      sourceLinks.cmhaGroutingWalls,
+      sourceLinks.quickrete,
+      sourceLinks.nistUnits,
+    ],
   },
   'retaining-wall-calculator': {
     summary: 'Learn how retaining wall dimensions and block size estimate wall blocks, caps, and base gravel.',

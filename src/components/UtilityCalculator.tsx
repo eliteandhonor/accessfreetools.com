@@ -3044,15 +3044,15 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Concrete Block Fill Calculator',
     buttonLabel: 'Estimate fill',
     emptyHistory: 'Recent block fill estimates will appear here.',
-    privacyNote: 'Block fill estimates stay local and use the per-block fill volume you enter.',
+    privacyNote: 'Block fill estimates stay local. Use the fill volume from your block data, masonry table, or plan.',
     modes: [
       {
         id: 'block-core-fill',
         label: 'Core fill',
         symbol: 'FILL',
         fields: [
-          integerField('blockCount', 'Block count', '120'),
-          numberField('fillCubicFeetPerBlock', 'Fill per block ft3', '0.25'),
+          integerField('blockCount', 'Blocks or filled cells', '120'),
+          numberField('fillCubicFeetPerBlock', 'Fill per block (ft3)', '0.25'),
           numberField('wastePercent', 'Waste percent', '10'),
         ],
         defaultInputs: { blockCount: '120', fillCubicFeetPerBlock: '0.25', wastePercent: '10' },

@@ -379,7 +379,7 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'concrete-calculator',
     name: 'Concrete Calculator',
     category: 'home-projects',
-    summary: 'Estimate slab concrete volume, cubic yards, cubic meters, and common 40 lb, 60 lb, and 80 lb bag counts.',
+    summary: 'Estimate slab volume, cubic yards, cubic meters, and common 40, 60, and 80 lb bag counts.',
     description:
       'Use this free concrete calculator to estimate slab concrete volume, cubic yards, cubic meters, and common bag counts from length, width, depth, and waste.',
     seoTitle: 'Concrete Calculator | Cubic Yards And Bag Count',
@@ -3478,7 +3478,7 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'concrete-block-calculator',
     name: 'Concrete Block Calculator',
     category: 'home-projects',
-    summary: 'Estimate CMU block count, courses, and blocks per course from wall size, openings, block size, and waste.',
+    summary: 'Estimate CMU wall units, courses, and layout waste from wall size, openings, and nominal unit size.',
     description:
       'Use this free concrete block calculator to estimate CMU block count, courses, and blocks per course from wall length, height, nominal block size, openings, and waste.',
     seoTitle: 'Concrete Block Calculator | CMU Blocks Per Wall',
@@ -4139,45 +4139,93 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'concrete-block-fill-calculator',
     name: 'Concrete Block Fill Calculator',
     category: 'home-projects',
-    summary: 'Estimate grout or concrete fill volume for concrete block cores.',
+    summary: 'Estimate grout or concrete for filling CMU block cores.',
     description:
-      'Use this free concrete block fill calculator to estimate cubic yards and bag counts from block count, fill volume per block, and waste percent.',
+      'Estimate concrete block core fill from block count, fill volume per block, and waste. Get cubic feet, cubic yards, and bag counts.',
     icon: 'calculator-concrete-block-fill',
-    aliases: ['CMU Fill Calculator', 'Block Core Fill Calculator', 'Grout Fill Calculator'],
+    aliases: [
+      'CMU Fill Calculator',
+      'Block Core Fill Calculator',
+      'Grout Fill Calculator',
+      'Concrete Fill Calculator',
+      '8 Block Core Fill Calculator',
+      '12 Inch Block Fill Calculator',
+      'QUIKRETE Block Fill Calculator',
+    ],
+    seoTitle: 'Concrete Block Fill Calculator | CMU Core Fill',
+    seoDescription:
+      'Estimate CMU block core fill. Enter block count, fill cubic feet per block, and waste to get cubic feet, cubic yards, and bags.',
     formula:
-      'The calculator multiplies block count by fill cubic feet per block, adds waste, converts to cubic yards, and rounds 60 lb and 80 lb bag counts up.',
+      'Adjusted cubic feet = block count x fill cubic feet per block x (1 + waste percent / 100). Cubic yards = adjusted cubic feet / 27. Bag counts use common 60 lb and 80 lb bag yields and round up.',
     limit:
-      'Actual fill depends on block core size, bond beams, rebar cells, grout mix, cleanouts, consolidation, spillage, and structural requirements.',
+      'Actual fill depends on CMU size, core shape, filled-cell pattern, bond beams, rebar cells, grout mix, cleanouts, consolidation, spillage, and structural requirements.',
     inputExplanations: [
-      { term: 'Block count', meaning: 'how many block cores you plan to fill.' },
-      { term: 'Fill per block', meaning: 'the cubic feet of grout or concrete needed per block.' },
-      { term: 'Waste percent', meaning: 'extra fill for spillage, overfilled cores, and measurement differences.' },
-      { term: 'Bag counts', meaning: 'rounded estimates using common dry-mix bag yields.' },
+      { term: 'Block count', meaning: 'how many CMU blocks or filled cells you plan to fill, depending on how your takeoff is written.' },
+      { term: 'Fill per block', meaning: 'the cubic feet of grout or concrete needed for one block or filled cell from product data, a drawing, or a takeoff.' },
+      { term: 'Waste percent', meaning: 'extra fill for spillage, overfilled cells, pump loss, cleanouts, and small measurement differences.' },
+      { term: 'Bag counts', meaning: 'rounded estimates using common dry-mix bag yields. Check the actual bag label before buying.' },
     ],
     extraFaq: [
       {
         question: 'What is fill cubic feet per block?',
         answer:
-          'It is the approximate grout or concrete volume needed to fill one block. Different block sizes and core shapes can need different amounts.',
+          'It is the approximate grout or concrete volume needed for one block or one filled cell, depending on your takeoff. Different 8 inch, 10 inch, and 12 inch CMUs can have different core volumes.',
+      },
+      {
+        question: 'How do I calculate concrete block fill?',
+        answer:
+          'Multiply the blocks or filled cells by the fill volume per block, add waste, then divide cubic feet by 27 for cubic yards. The calculator also rounds common bag counts up.',
+      },
+      {
+        question: 'How much fill is needed for 120 blocks at 0.25 ft3 each?',
+        answer:
+          'With 10% waste, 120 blocks at 0.25 ft3 each needs 33 ft3, or about 1.22 yd3. That is about 55 eighty-pound bags using the common 0.6 ft3 yield.',
+      },
+      {
+        question: 'Can I use this for 8x8x16 block fill?',
+        answer:
+          'Yes, if you enter the fill volume that matches your 8x8x16 block or cell pattern. Do not assume one universal number, because core shapes and filled-cell patterns vary.',
+      },
+      {
+        question: 'Can I use this for 12 inch block fill?',
+        answer:
+          'Yes. Enter the cubic feet per 12 inch block or filled cell from the block data, masonry table, or plan. Larger blocks usually need more fill than 8 inch units.',
+      },
+      {
+        question: 'Should I use concrete or masonry grout?',
+        answer:
+          'Follow the plan or product instructions. CMHA describes masonry grout as the material used to fill concrete masonry cores and cavities, and many structural walls call for grout that meets the project spec.',
       },
       {
         question: 'Does this include mortar between blocks?',
         answer:
           'No. It only estimates core fill. Mortar joints, bond beams, reinforcing steel, and footing concrete need separate estimates.',
       },
+      {
+        question: 'Does this know which cells get filled?',
+        answer:
+          'No. You enter the count. Some walls fill every cell, some fill rebar cells, and some include bond beams. Use the drawing or code requirement to decide the count first.',
+      },
+      {
+        question: 'Why add waste to block fill?',
+        answer:
+          'Core fill can be lost to spillage, pump hose waste, cleanouts, overfilled cells, consolidation, and small counting errors. Waste gives the estimate a practical cushion.',
+      },
     ],
     useCases: [
-      'Estimate fill for reinforced block cells.',
-      'Convert block fill volume to cubic yards.',
-      'Plan bag counts for small masonry jobs.',
-      'Add waste before ordering grout or concrete.',
+      'Estimate grout or concrete for CMU block cores.',
+      'Convert block core fill from cubic feet to cubic yards.',
+      'Plan 60 lb and 80 lb bag counts for small masonry jobs.',
+      'Compare 8 inch and 12 inch block fill takeoffs when you already know fill per block.',
+      'Add waste before ordering grout, bag mix, or ready-mix.',
     ],
     examples: [
-      { label: '120 filled blocks', expression: '0.25 ft3 per block, 10% waste', result: 'About 1.22 yd3' },
-      { label: 'Small wall fill', expression: '64 blocks, 0.22 ft3 each', result: 'Fill volume estimate' },
-      { label: 'Bag planning', expression: 'Fill volume divided by bag yield', result: 'Rounded bag counts' },
+      { label: '120 filled blocks', expression: '0.25 ft3 per block, 10% waste', result: '33 ft3, about 1.22 yd3, about 55 eighty-pound bags' },
+      { label: 'Small wall fill', expression: '64 blocks, 0.22 ft3 each, 8% waste', result: '15.21 ft3, about 0.56 yd3, about 26 eighty-pound bags' },
+      { label: 'Larger core check', expression: '200 blocks, 0.33 ft3 per block, 5% waste', result: '69.3 ft3, about 2.57 yd3' },
+      { label: 'Bag planning', expression: '33 ft3 divided by 0.6 ft3 per 80 lb bag', result: '55 eighty-pound bags' },
     ],
-    relatedSlugs: ['concrete-block-calculator', 'concrete-calculator', 'retaining-wall-calculator'],
+    relatedSlugs: ['concrete-block-calculator', 'concrete-calculator', 'retaining-wall-calculator', 'concrete-mix-calculator'],
   }),
   makeUtilityTool({
     slug: 'retaining-wall-calculator',

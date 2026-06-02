@@ -304,6 +304,18 @@ const toolArtMetadataOverrides = {
         'Concrete Mesh Calculator guide artwork supports the walkthrough for slab area, effective sheet coverage, overlap, waste, cuts, and sheet-count limits.',
     },
   },
+  'concrete-block-fill-calculator': {
+    tool: {
+      alt: 'Smoke mascot holding a calculator beside hollow CMU blocks, grout pouring into cores, a volume cube, bagged mix, and measurement lines.',
+      caption:
+        'Concrete Block Fill Calculator artwork matches the live workflow: enter blocks or filled cells, fill per block, and waste to estimate cubic yards and bags.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing CMU blocks, grout poured into one core, a volume cube, bagged mix, and arrows from calculator to fill result.',
+      caption:
+        'Concrete Block Fill Calculator guide artwork supports the walkthrough for block count, core-fill volume, waste, cubic yards, bag counts, and masonry limits.',
+    },
+  },
   'siding-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a house wall with window and door openings, siding panels, stacked siding squares, box coverage icons, and waste offcuts.',
