@@ -505,6 +505,10 @@ const sourceLinks = {
     href: 'https://www.glengery.com/brick-sizes',
     label: 'Glen-Gery: Brick sizes and pieces per square foot',
   },
+  biaBrickEstimating: {
+    href: 'https://www.gobrick.com/media/file/10-dimensioning-and-estimating-brick-masonry.pdf',
+    label: 'Brick Industry Association: Dimensioning and estimating brick masonry',
+  },
   archtoolboxCmu: {
     href: 'https://www.archtoolbox.com/cmu-sizes-shapes-finishes/',
     label: 'Archtoolbox: CMU sizes, nominal dimensions, and mortar joints',
@@ -2557,25 +2561,26 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.lowesSiding, sourceLinks.nistUnits],
   },
   'brick-calculator': {
-    summary: 'Learn how wall face area, brick size, mortar joint, and waste estimate brick count.',
+    summary: 'Learn how wall face area, brick size, mortar joint, openings, and waste estimate brick count.',
     purpose:
-      'The Brick Calculator estimates whole bricks for a simple wall face. It uses the face dimensions of one brick plus the mortar joint to estimate square-foot coverage.',
+      'The Brick Calculator estimates whole bricks for a simple wall face. It uses the visible face dimensions of one brick plus the mortar joint to estimate square-foot coverage, then rounds up after waste.',
     enter: [
-      'Enter the wall face area in square feet.',
-      'Enter brick length, brick height, mortar joint thickness, and waste percent.',
-      'Use actual brick dimensions when you have them from the supplier.',
+      'Enter the net wall face area in square feet after subtracting large doors or windows.',
+      'Enter brick length, brick height, mortar joint thickness, and waste percent. A 3/8 inch joint is common, but use your plan or supplier number.',
+      'Use actual brick face dimensions when you have them from the supplier, not just a nickname such as modular or queen.',
     ],
     read: [
       'Bricks needed is rounded up to whole units.',
       'Brick face area shows how much wall one brick covers with the joint included.',
       'Area with waste shows the adjusted wall face before division.',
+      'If a supplier table gives a different count, check whether it used 3/8 inch joints, 1/2 inch joints, nominal dimensions, or no waste.',
     ],
     mistakes: [
       'Do not ignore bond pattern, corners, openings, piers, cuts, and broken pieces.',
-      'Do not use this simple face estimate for structural wall design.',
-      'Estimate mortar, ties, lintels, flashing, and cleanup separately.',
+      'Do not use this simple face estimate for structural wall design, retaining walls, chimneys, or load-bearing masonry.',
+      'Estimate mortar, wall ties, lintels, flashing, weep holes, cleanup, and labor separately.',
     ],
-    sources: [sourceLinks.glenGeryBrickSizes, sourceLinks.nistUnits],
+    sources: [sourceLinks.biaBrickEstimating, sourceLinks.glenGeryBrickSizes, sourceLinks.nistUnits],
   },
   'concrete-block-calculator': {
     summary: 'Learn how wall dimensions and nominal block face size estimate CMU count.',

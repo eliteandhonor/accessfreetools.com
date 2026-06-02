@@ -2913,33 +2913,76 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'brick-calculator',
     name: 'Brick Calculator',
     category: 'home-projects',
-    summary: 'Estimate brick count from wall area, brick face dimensions, mortar joint, and waste.',
+    summary: 'Estimate bricks from wall area, brick face size, mortar joint, and waste.',
     description:
-      'Use this free brick calculator to estimate whole bricks from wall face area, brick dimensions, mortar joint thickness, and waste percentage.',
+      'Use this free brick calculator to estimate whole bricks from wall face area, brick face dimensions, mortar joint thickness, and waste percentage.',
+    seoTitle: 'Brick Calculator | Wall Brick Count With Mortar Joint',
+    seoDescription:
+      'Estimate bricks for a wall face from square footage, brick size, mortar joint, and waste with clear examples, formula notes, and limits.',
     icon: 'calculator-brick',
-    aliases: ['Brick Wall Calculator', 'Masonry Brick Calculator'],
+    aliases: [
+      'Brick Wall Calculator',
+      'Masonry Brick Calculator',
+      'Brick Count Calculator',
+      'Bricks Needed Calculator',
+    ],
     formula:
-      'The calculator adds the mortar joint to brick length and height, converts the face area to square feet, adds waste to wall area, and rounds up.',
+      'The calculator adds the mortar joint to the brick face length and height, converts that face area to square feet, multiplies wall area by the waste factor, divides by brick coverage, and rounds up.',
     limit:
-      'Brick counts can change with bond pattern, corners, openings, piers, cuts, wall thickness, damaged units, mortar, and professional masonry layout.',
+      'Brick counts can change with bond pattern, corners, openings, piers, returns, cuts, wall thickness, damaged units, mortar, ties, flashing, and professional masonry layout.',
+    faqLanguage: {
+      expectedInputs: 'the wall face area, brick face dimensions, mortar joint thickness, and waste percent',
+      examplePhrase: 'brick-wall example',
+      doubleCheck:
+        'Also check whether your brick dimensions are actual face dimensions, whether the joint is 3/8 inch or another size, and whether openings were already subtracted.',
+    },
     inputExplanations: [
       { term: 'Wall area', meaning: 'the visible wall face area, not the thickness or volume of the wall.' },
       { term: 'Brick dimensions', meaning: 'the visible face length and height of one brick in inches.' },
       { term: 'Mortar joint', meaning: 'the planned gap between bricks, included in the face coverage estimate.' },
       { term: 'Waste percent', meaning: 'extra bricks for cuts, breakage, corners, bond pattern, and color matching.' },
     ],
+    extraFaq: [
+      {
+        question: 'Should I use a 3/8 inch mortar joint?',
+        answer:
+          'Use 3/8 inch only if it matches your plan or supplier guidance. The Brick Industry Association tables often show 3/8 inch and 1/2 inch joint examples, and changing the joint changes brick coverage.',
+      },
+      {
+        question: 'Do I subtract doors and windows first?',
+        answer:
+          'Yes. Subtract large openings before entering wall area. Then add waste for cuts, corners, damage, and layout changes so the estimate is not too tight.',
+      },
+      {
+        question: 'Does this estimate mortar bags too?',
+        answer:
+          'No. This page estimates brick count. Mortar depends on brick type, joint thickness, bed depth, collar joints, waste, and the mortar product, so price and bag counts should be checked separately.',
+      },
+      {
+        question: 'Can I use this for patios or pavers?',
+        answer:
+          'Only for a rough face-count check. Patio and paver layouts often need base gravel, bedding sand, edge restraints, pattern cuts, and drainage planning, so use a paver-specific calculator for that job.',
+      },
+      {
+        question: 'Why is my answer different from a supplier table?',
+        answer:
+          'Supplier tables may use a different brick size, nominal dimension, joint width, wall type, or no waste. Match the exact brick face size and joint before comparing numbers.',
+      },
+    ],
     useCases: [
-      'Estimate brick count for a simple wall face.',
+      'Estimate brick count for a simple wall face after openings are removed.',
       'Use actual brick face dimensions and mortar joint thickness.',
       'Add waste for cuts and broken pieces.',
-      'Compare brick sizes for the same wall area.',
+      'Compare 3/8 inch and 1/2 inch mortar-joint assumptions.',
+      'Compare brick sizes before asking a supplier or mason to confirm the order.',
     ],
     examples: [
       { label: 'Modular brick wall', expression: '120 ft2, 7.625 x 2.25 in brick, 3/8 in joint, 10% waste', result: '906 bricks' },
-      { label: 'Garden wall face', expression: '64 ft2, modular brick, 12% waste', result: 'Brick estimate' },
-      { label: 'Veneer planning', expression: 'Measured wall face plus waste', result: 'Whole bricks to buy' },
+      { label: 'Small repair wall', expression: '42 ft2, 7.625 x 2.25 in brick, 3/8 in joint, 8% waste', result: '312 bricks' },
+      { label: 'Opening check', expression: '160 ft2 wall - 24 ft2 window area, then 10% waste', result: 'Net brick estimate' },
+      { label: 'Supplier check', expression: 'Compare 3/8 in vs 1/2 in joint', result: 'Different brick coverage' },
     ],
-    relatedSlugs: ['concrete-block-calculator', 'paver-calculator', 'square-footage-calculator'],
+    relatedSlugs: ['siding-calculator', 'paver-base-calculator', 'paint-calculator'],
   }),
   makeUtilityTool({
     slug: 'concrete-block-calculator',

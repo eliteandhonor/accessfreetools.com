@@ -112,6 +112,18 @@ const toolArtMetadataOverrides = {
         'Watts to Amps Calculator guide artwork supports the walkthrough by showing DC and AC formulas, power factor, three-phase math, example current draw, and safety limits.',
     },
   },
+  'brick-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 120 square foot wall, 7.625 by 2.25 inch bricks, 3/8 inch mortar joints, 10 percent waste, and a 906 brick result card.',
+      caption:
+        'Brick Calculator artwork matches the live workflow: enter net wall area, brick face dimensions, mortar joint, and waste, then round up the brick count.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining brick face area, net wall area after openings, 3/8 inch joint checks, waste, and separate mortar planning.',
+      caption:
+        'Brick Calculator guide artwork supports the walkthrough by showing wall-area measurement, supplier brick dimensions, joint-size checks, waste, and masonry limits.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

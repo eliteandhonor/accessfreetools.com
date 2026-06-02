@@ -1816,6 +1816,11 @@ const glenGeryBrickSizes = {
   label: 'Glen-Gery: Brick sizes and pieces per square foot',
 };
 
+const biaBrickEstimating = {
+  href: 'https://www.gobrick.com/media/file/10-dimensioning-and-estimating-brick-masonry.pdf',
+  label: 'Brick Industry Association: Dimensioning and estimating brick masonry',
+};
+
 const archtoolboxCmu = {
   href: 'https://www.archtoolbox.com/cmu-sizes-shapes-finishes/',
   label: 'Archtoolbox: CMU sizes, nominal dimensions, and mortar joints',
@@ -4821,20 +4826,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'brick-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [glenGeryBrickSizes, nistSi],
+    sources: [biaBrickEstimating, glenGeryBrickSizes, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator adds the mortar joint to brick face dimensions, converts square inches to square feet, adds waste, then rounds up whole bricks.',
-      'The guide explains wall face area, brick face dimensions, mortar joint, and waste percent in plain language.',
-      'The limitations keep bond pattern, corners, openings, piers, cuts, wall thickness, mortar, ties, lintels, and flashing outside the simple count.',
+      'DataForSEO paid evidence for the exact tool and guide targeted the `brick calculator` search intent after balance and status gates passed.',
+      'Brick Industry Association estimating tables support joint-sensitive brick counts, and Glen-Gery/NIST sources support brick-size and unit context.',
+      'The page now explains net wall face area, actual brick face dimensions, 3/8 inch versus other mortar joints, waste, supplier-table differences, and why mortar or structural layout are separate decisions.',
     ],
     improvements: [
-      'Manually checked brick-face area math, mortar joint handling, whole-brick rounding, examples, FAQ details, Glen-Gery/NIST source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, safety limits, audit record, modified dates, related links, and image alt/caption text in smart-14 wording.',
     ],
     followUps: [
-      'Add mortar estimating only if the masonry scope expands beyond brick count planning.',
+      'Add mortar estimating only if the masonry scope expands beyond brick count planning and keeps product, joint, and wall-type limits visible.',
     ],
   },
   {
