@@ -379,31 +379,76 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'concrete-calculator',
     name: 'Concrete Calculator',
     category: 'home-projects',
-    summary: 'Estimate concrete volume for a slab in cubic feet, cubic yards, and bags.',
+    summary: 'Estimate slab concrete volume, cubic yards, cubic meters, and common 40 lb, 60 lb, and 80 lb bag counts.',
     description:
-      'Use this free concrete calculator to estimate slab volume from length, width, depth, waste percentage, cubic yards, cubic meters, and bag counts.',
+      'Use this free concrete calculator to estimate slab concrete volume, cubic yards, cubic meters, and common bag counts from length, width, depth, and waste.',
+    seoTitle: 'Concrete Calculator | Cubic Yards And Bag Count',
+    seoDescription:
+      'Estimate concrete cubic yards, cubic feet, cubic meters, and 40 lb, 60 lb, and 80 lb bag counts from slab size, depth, and waste.',
     icon: 'calculator-concrete',
+    aliases: [
+      'Concrete Yard Calculator',
+      'Concrete Slab Calculator',
+      'Concrete Bag Calculator',
+      'Cubic Yard Concrete Calculator',
+      'Ready Mix Concrete Calculator',
+    ],
     formula:
-      'The calculator converts depth from inches to feet, multiplies length by width by depth, adds waste percentage, and converts cubic feet to cubic yards.',
+      'The calculator uses cubic feet = length x width x (depth inches / 12), adjusted cubic feet = cubic feet x (1 + waste percent / 100), cubic yards = adjusted cubic feet / 27, cubic meters = adjusted cubic feet x 0.0283168, and bag counts = adjusted cubic feet / bag yield rounded up.',
     limit:
-      'This is a planning estimate. Forms, uneven ground, compaction, reinforcement, waste, truck minimums, and exact bag yield can change what you need.',
+      'This is a planning estimate, not structural design or a supplier order guarantee. Forms, uneven ground, compaction, reinforcement, base prep, spillage, waste, truck minimums, weather, and exact bag yield can change what you need.',
+    faqLanguage: {
+      expectedInputs: 'length, width, depth, and waste percent',
+      examplePhrase: 'concrete slab example',
+      doubleCheck:
+        'Also check whether the depth is in inches, whether the slab shape is rectangular, whether the base is level, and whether you are ordering ready-mix cubic yards or buying bagged mix.',
+    },
     inputExplanations: [
       { term: 'Length and width', meaning: 'the inside form dimensions of the slab, pad, or walkway in feet.' },
       { term: 'Depth', meaning: 'the average concrete thickness in inches, such as 4 for a common small slab.' },
       { term: 'Extra waste', meaning: 'a cushion for uneven base, spillage, low spots, and ordering a little more than the exact volume.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How do I calculate cubic yards for concrete?',
+        answer:
+          'Multiply length by width by depth in feet to get cubic feet, then divide by 27 for cubic yards. For a 10 ft by 12 ft slab at 4 inches thick, the exact volume is 40 cubic feet before waste and about 1.63 cubic yards with 10% waste.',
+      },
+      {
+        question: 'Why does the calculator show 40 lb, 60 lb, and 80 lb bags?',
+        answer:
+          'Small jobs often use bagged concrete instead of a ready-mix truck. The bag counts use common approximate yields, then round up because you cannot buy part of a bag. Always check the yield printed on the exact bag before buying.',
+      },
+      {
+        question: 'How much concrete is needed for a 10 by 12 slab at 4 inches?',
+        answer:
+          'With 10% waste, a 10 ft by 12 ft slab at 4 inches thick is about 44 cubic feet, 1.63 cubic yards, or 74 common 80 lb bags using a 0.6 cubic foot yield.',
+      },
+      {
+        question: 'Should I order extra concrete?',
+        answer:
+          'Usually yes, but do it carefully. A small waste buffer helps with uneven base, form loss, spillage, and low spots. For ready-mix delivery, ask the supplier or contractor how much extra makes sense before ordering.',
+      },
+      {
+        question: 'Does this handle footings, posts, stairs, or round forms?',
+        answer:
+          'This page is for a simple rectangular slab, pad, or walkway. Use a footing, post-hole, column, or steps calculator when the shape is different, and get professional help for structural or code-sensitive work.',
+      },
     ],
     useCases: [
       'Estimate concrete for a simple slab, pad, walkway, or small project.',
       'Convert cubic feet to cubic yards before ordering ready-mix.',
       'Estimate common 40 lb, 60 lb, and 80 lb bag counts.',
       'Add waste percentage before buying materials.',
+      'Check whether a project is closer to bagged mix or ready-mix delivery.',
     ],
     examples: [
-      { label: '10 x 12 slab', expression: '10 ft x 12 ft x 4 in, 10% extra', result: 'About 1.63 cubic yards' },
-      { label: 'Walkway', expression: '24 ft x 3 ft x 4 in, 10% extra', result: 'About 0.98 cubic yards' },
-      { label: 'Small pad', expression: '6 ft x 6 ft x 3.5 in, 5% extra', result: 'About 0.41 cubic yards' },
+      { label: '10 x 12 slab', expression: '10 ft x 12 ft x 4 in, 10% extra', result: '1.63 yd3 and 74 80 lb bags' },
+      { label: 'Walkway', expression: '24 ft x 3 ft x 4 in, 10% extra', result: '0.98 yd3 and 44 80 lb bags' },
+      { label: 'Small pad', expression: '6 ft x 6 ft x 3.5 in, 5% extra', result: '0.41 yd3 and 19 80 lb bags' },
+      { label: 'Driveway bay', expression: '20 ft x 10 ft x 4 in, 10% extra', result: '2.72 yd3 and 123 80 lb bags' },
     ],
-    relatedSlugs: ['volume-calculator', 'area-calculator', 'wallpaper-calculator', 'conversion-calculator'],
+    relatedSlugs: ['rebar-calculator', 'gravel-calculator', 'square-footage-calculator'],
   }),
   makeUtilityTool({
     slug: 'subnet-calculator',

@@ -830,25 +830,26 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [],
   },
   'concrete-calculator': {
-    summary: 'Learn how to estimate concrete for a slab using length, width, depth, and waste.',
+    summary: 'Learn how length, width, depth, and waste become concrete cubic yards and bag counts.',
     purpose:
-      'The Concrete Calculator is a first-pass material estimator. It converts slab dimensions into cubic feet, cubic yards, cubic meters, and approximate bag counts.',
+      'The Concrete Calculator is a first-pass material estimator for a simple rectangular slab, pad, or walkway. It converts slab dimensions into cubic feet, cubic yards, cubic meters, and approximate bag counts.',
     enter: [
-      'Enter length and width in feet.',
-      'Enter slab depth in inches.',
-      'Add extra waste percentage when the site, forms, or ordering method need a buffer.',
+      'Enter length and width in feet using the inside edges of the form.',
+      'Enter slab depth in inches. The calculator converts that depth to feet before multiplying.',
+      'Add extra waste percentage when the site, forms, base, or ordering method need a buffer.',
     ],
     read: [
-      'Cubic yards is the common ready-mix ordering unit in the United States.',
+      'Cubic yards is the common ready-mix ordering unit in the United States. The calculator divides adjusted cubic feet by 27.',
       'Cubic feet helps with small projects and bag estimating.',
-      'Bag counts are rounded up because you cannot buy a partial bag.',
+      'Bag counts are rounded up because you cannot buy a partial bag, and the exact yield should be checked on the bag label.',
+      'A 10 ft by 12 ft slab at 4 inches thick is 40 cubic feet before waste and about 1.63 cubic yards with 10% waste.',
     ],
     mistakes: [
-      'Do not ignore uneven ground, form loss, or compaction.',
-      'Check the exact yield printed on the concrete bag.',
-      'Ask a qualified contractor or supplier for structural or code-sensitive work.',
+      'Do not use feet for depth when the field expects inches.',
+      'Do not ignore uneven ground, form loss, low spots, spillage, base prep, or compaction.',
+      'Ask a qualified contractor or supplier for structural work, code-sensitive pours, ready-mix truck minimums, and final ordering.',
     ],
-    sources: [sourceLinks.quickrete, sourceLinks.nistUnits],
+    sources: [sourceLinks.quickrete, sourceLinks.nistConversionFactors, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'subnet-calculator': {
     summary: 'Learn how IPv4 CIDR subnet math finds network, mask, broadcast, and usable range.',

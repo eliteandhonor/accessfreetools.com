@@ -148,6 +148,18 @@ const toolArtMetadataOverrides = {
         'Concrete Block Calculator guide artwork supports the walkthrough by showing nominal block sizing, opening subtraction, waste, courses, and structural-limit cautions.',
     },
   },
+  'concrete-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 10 by 12 foot slab, 4 inch depth, 10 percent waste, 1.63 cubic yards, and 74 common 80 lb concrete bags.',
+      caption:
+        'Concrete Calculator artwork matches the live workflow: enter slab length, width, depth, and waste to estimate cubic yards, cubic meters, and common bag counts.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining slab length, width, 4 inch depth, cubic feet, cubic yards, bag yield labels, uneven base waste, and ready-mix ordering limits.',
+      caption:
+        'Concrete Calculator guide artwork supports the walkthrough by showing slab volume math, bag-yield checks, waste, and ordering-limit cautions.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

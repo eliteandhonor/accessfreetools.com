@@ -2530,20 +2530,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'concrete-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-risk-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [quikreteConcrete, nistSi],
+    sources: [quikreteConcrete, nistConversionFactors, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator converts slab depth from inches to feet, multiplies length by width by depth, adds waste, and converts cubic feet to cubic yards and cubic meters.',
-      'The result includes rounded bag estimates using common dry-mix yields while warning users to check exact bag labels.',
-      'The guide explains waste percent, ready-mix cubic yards, bag counts, form loss, uneven ground, and code-sensitive work limits.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `concrete calculator` intent after balance and status gates passed.',
+      'QUIKRETE guidance supports using calculator results as approximate planning numbers because bag yields and uneven substrate, waste, and site conditions can change material needs.',
+      'The page now explains depth-in-inches conversion, cubic feet, cubic yards, cubic meters, 40 lb/60 lb/80 lb bag counts, 10% waste, ready-mix ordering, form loss, uneven base, low spots, truck minimums, and code-sensitive limits.',
     ],
     improvements: [
-      'Manually checked volume math, unit labels, waste handling, guide article, FAQ-style input explanations, related tools, and source notes.',
+      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, safety limits, audit record, modified dates, related links, and exact image alt/caption text in smart-14 wording.',
     ],
     followUps: [
-      'Add circular/footing modes later for users who need shapes beyond a simple slab.',
+      'Keep circular, footing, post-hole, column, and step shapes on their own calculator pages so the simple slab workflow stays easy to use.',
     ],
   },
   {
