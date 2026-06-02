@@ -76,6 +76,18 @@ const toolArtMetadataOverrides = {
         'Percentage Calculator guide artwork supports the walkthrough for percent-of math, percent change, discounts, markups, reverse percentages, and common mistakes.',
     },
   },
+  'ratio-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking ratio cards for 12:18 to 2:3, 4:7 to 20:35, 120 split by 2:3, and 1.5:2.25 to 2:3.',
+      caption:
+        'Ratio Calculator artwork matches the live workflow: simplify 12:18, scale 4:7 into 20:35, split 120 by 2:3, clear decimal ratios, and keep ratio parts in order.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining ordered ratio parts, same-unit checks, decimal clearing, 4:7 scaling, and 120 split into 48 and 72.',
+      caption:
+        'Ratio Calculator guide artwork supports the walkthrough by showing simplify, equivalent-ratio scaling, split-total math, decimal ratios, same-unit checks, and swapped-part mistakes.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

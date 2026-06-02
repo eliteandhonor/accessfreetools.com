@@ -28,10 +28,10 @@ const blogPostCandidates: BlogPostDefinition[] = [
   },
   {
     slug: 'how-to-use-ratio-calculator',
-    title: 'How to use the Ratio Calculator',
+    title: 'Ratio Calculator Guide',
     label: 'Ratio calculator guide',
     summary:
-      'Learn how to simplify ratios, make equivalent ratios, split totals by ratio parts, handle decimals, and check proportions.',
+      'Learn how to simplify ratios, scale equivalent ratios, split totals, handle decimals, check units, and avoid swapped-part mistakes.',
   },
   {
     slug: 'how-to-use-percent-error-calculator',

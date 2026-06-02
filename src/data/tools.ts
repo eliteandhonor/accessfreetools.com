@@ -218,18 +218,20 @@ const baseTools: ToolDefinition[] = [
     slug: 'ratio-calculator',
     name: 'Ratio Calculator',
     category: 'calculators',
-    summary: 'Simplify ratios, find equivalent ratios, and split totals by ratio parts.',
+    summary: 'Simplify ratios, scale matching ratios, and split totals by ratio parts.',
     description:
-      'Use this free ratio calculator to simplify two-part or three-part ratios, find equivalent ratios, split totals by a ratio, and see clear step-by-step work.',
+      'Use this free ratio calculator to simplify two-part or three-part ratios, scale equivalent ratios, split totals by a ratio, and see the work step by step.',
     icon: 'calculator-ratio',
-    seoTitle: 'Ratio Calculator | Free Online Ratio Solver',
+    seoTitle: 'Ratio Calculator | Simplify, Scale, Split Ratios',
     seoDescription:
-      'Use the free Access Free Tools ratio calculator to simplify ratios, find equivalent ratios, split totals by ratio parts, and see step-by-step work.',
+      'Use the free ratio calculator to simplify ratios, solve equivalent ratios, split totals by ratio parts, handle decimals, and check the steps.',
+    aliases: ['Ratio Solver', 'Simplify Ratio Calculator', 'Equivalent Ratio Calculator', '1:2 Ratio Calculator'],
     useCases: [
       'Simplify ratios such as 12:18 into lowest terms.',
-      'Find an equivalent ratio when one side changes.',
-      'Split a total amount into shares using ratio parts.',
-      'Compare recipes, mixtures, maps, classroom examples, and proportional relationships.',
+      'Scale a 1:2, 4:7, or 3-part ratio when one part changes.',
+      'Split a total amount into shares, such as 120 split by 2:3.',
+      'Compare recipes, mixtures, pixels, map sizes, classroom examples, and proportional relationships.',
+      'Clear decimals first, then check that every part still uses the same unit.',
     ],
     examples: [
       {
@@ -244,15 +246,25 @@ const baseTools: ToolDefinition[] = [
       },
       {
         label: 'Split a total',
-        expression: '100 split by 2:3',
-        result: '40, 60',
+        expression: '120 split by 2:3',
+        result: '48, 72',
+      },
+      {
+        label: 'Clear a decimal ratio',
+        expression: '1.5:2.25',
+        result: '2:3',
       },
     ],
     faq: [
       {
         question: 'What can I use the Ratio Calculator for?',
         answer:
-          'Use it to simplify ratios, scale a ratio into an equivalent ratio, or split a total amount into parts based on a ratio.',
+          'Use it to simplify ratios, scale a ratio into an equivalent ratio, or split a total amount into parts based on a ratio. It works best when all parts use the same unit.',
+      },
+      {
+        question: 'What do the Ratio Calculator inputs mean?',
+        answer:
+          'In Simplify mode, enter the ratio parts you already have. In Equivalent mode, enter the old ratio and the new known part. In Split total mode, enter the ratio parts and the total amount you want to divide.',
       },
       {
         question: 'How do I simplify a ratio?',
@@ -267,20 +279,30 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'How do I split a total by a ratio?',
         answer:
-          'Choose Split total, enter the ratio parts and the total. The calculator adds the ratio parts, finds the value of one part, then multiplies each part by that value.',
+          'Choose Split total, enter the ratio parts and the total. The calculator adds the ratio parts, finds the value of one part, then multiplies each part by that value. For 120 split by 2:3, one part is 24, so the shares are 48 and 72.',
       },
       {
         question: 'Can ratios include decimals?',
         answer:
-          'Yes. Decimal ratio parts are accepted in Simplify and Split total modes. The calculator converts them to whole-number parts before simplifying.',
+          'Yes. Decimal ratio parts are accepted in Simplify and Split total modes. The calculator converts them to whole-number parts before simplifying, so 1.5:2.25 becomes 150:225, then 2:3.',
+      },
+      {
+        question: 'What mistake changes a ratio answer?',
+        answer:
+          'Changing the order changes the meaning. A 2:3 mix is not the same as a 3:2 mix. Also convert units first, such as ml to ml or pixels to pixels, before simplifying.',
+      },
+      {
+        question: 'When should I use a different calculator?',
+        answer:
+          'Use the Percentage Calculator when the question asks for a percent, the Fraction Calculator when you need fraction arithmetic, and the Aspect Ratio Calculator when you are resizing images or screens by width and height.',
       },
       {
         question: 'Is my ratio history private?',
         answer:
-          'Yes. Recent ratio answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+          'Yes. Recent ratio answers stay only in the current browser tab while you use the page. They are not sent to a server, and closing or refreshing the tab clears the short history.',
       },
     ],
-    relatedSlugs: ['percentage-calculator', 'fraction-calculator', 'basic-calculator'],
+    relatedSlugs: ['percentage-calculator', 'fraction-calculator', 'aspect-ratio-calculator', 'unit-price-calculator'],
   },
   {
     slug: 'percent-error-calculator',

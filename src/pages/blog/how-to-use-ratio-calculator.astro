@@ -4,7 +4,6 @@ import BaseLayout from '../../components/BaseLayout.astro';
 import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import { getTool } from '../../data/tools';
 import { getToolArt } from '../../data/toolArt';
-
 const ratioCalculator = getTool('ratio-calculator');
 const guideArt = getToolArt('ratio-calculator', 'guide');
 const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
@@ -12,13 +11,13 @@ const examples = ratioCalculator?.examples ?? [];
 const articleStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'How to use the Ratio Calculator',
+  headline: 'Ratio Calculator Guide',
   description:
-    'Use the Access Free Tools ratio calculator for simplified ratios, equivalent ratios, splitting totals, decimals, history, and privacy.',
+    'Use the Access Free Tools ratio calculator to simplify ratios, scale equivalent ratios, split totals, check decimal ratios, and avoid swapped-part mistakes.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-ratio-calculator/',
   image: guideImageUrl,
   datePublished: '2026-04-30',
-  dateModified: '2026-04-30',
+  dateModified: '2026-06-02',
   author: {
     '@type': 'Organization',
     name: 'Access Free Tools',
@@ -32,8 +31,8 @@ const articleStructuredData = {
 ---
 
 <BaseLayout
-  title="How to use the Ratio Calculator | Access Free Tools"
-  description="Learn how to use the free Access Free Tools ratio calculator for simplified ratios, equivalent ratios, splitting totals, decimal ratios, steps, history, and privacy."
+  title="Ratio Calculator Guide | Simplify, Scale, Split Ratios"
+  description="Learn how to use the free ratio calculator to simplify ratios, scale equivalent ratios, split totals, handle decimals, and avoid swapped-part mistakes."
   path="/blog/how-to-use-ratio-calculator/"
   socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
   socialImageAlt={guideArt?.alt}
@@ -45,10 +44,10 @@ const articleStructuredData = {
 
     <header class="blog-article-header">
       <span>Ratio calculator guide</span>
-      <h1>How to use the Ratio Calculator</h1>
+      <h1>Ratio Calculator Guide</h1>
       <p>
-        The Ratio Calculator helps with three common proportional tasks: simplifying ratios,
-        finding equivalent ratios, and splitting a total into shares based on ratio parts.
+        Say a recipe uses 2 parts syrup to 3 parts water, but you need a bigger batch. Ratios keep
+        the parts in the same order while you simplify, scale, or split the total.
       </p>
       <a class="button-primary" href="/tools/ratio-calculator/">Open the ratio calculator</a>
     </header>
@@ -58,46 +57,62 @@ const articleStructuredData = {
     <div class="blog-article-layout">
       <div class="blog-article-body">
         <section class="content-section">
-          <h2>Quick start</h2>
-          <ol class="instruction-list">
-            <li>Choose Simplify, Equivalent, or Split total.</li>
-            <li>Enter the ratio parts or known values for the selected mode.</li>
-            <li>Press Calculate ratio.</li>
-            <li>Review the answer, scale factor or shares, and step-by-step work.</li>
-            <li>Use examples, recent answers, or Copy answer while checking proportions.</li>
-          </ol>
-        </section>
-
-        <section class="content-section">
-          <h2>Simplify mode</h2>
+          <h2>Quick answer</h2>
           <p>
-            Simplify mode reduces a two-part or three-part ratio to lowest terms. For 12:18, the
-            greatest common divisor is 6, so the simplified ratio is 2:3.
+            Start by choosing the job: Simplify, Equivalent, or Split total. Enter the numbers in
+            the same order they appear in the real problem. Then check the steps before using the
+            answer.
           </p>
           <p>
-            Decimal ratios are allowed. The calculator first clears the decimal places, then
-            simplifies the whole-number version.
+            For example, 12:18 simplifies to 2:3. A 4:7 ratio scaled so the first part becomes 20
+            becomes 20:35. A total of 120 split by 2:3 gives shares of 48 and 72.
           </p>
         </section>
 
         <section class="content-section">
-          <h2>Equivalent mode</h2>
+          <h2>Pick the right mode</h2>
+          <ul class="instruction-list">
+            <li><strong>Simplify:</strong> reduce 12:18, 1.5:2.25, or another ratio to lowest terms.</li>
+            <li><strong>Equivalent:</strong> scale a ratio when one new part is known, like 4:7 = 20:?.</li>
+            <li><strong>Split total:</strong> divide one amount by ratio parts, like 120 split by 2:3.</li>
+          </ul>
+        </section>
+
+        <section class="content-section">
+          <h2>Simplify a ratio</h2>
           <p>
-            Equivalent ratios keep the same relationship between parts. If 4:7 becomes 20:?, the
-            first part was multiplied by 5, so the second part is also multiplied by 5. The answer is
-            20:35.
+            Simplify mode reduces two-part or three-part ratios. The calculator divides every part
+            by the same greatest common divisor, so the relationship stays the same.
+          </p>
+          <p>
+            For 12:18, the greatest common divisor is 6. Divide both parts by 6 and the answer is
+            2:3. For 1.5:2.25, the calculator clears decimals first, so it becomes 150:225, then
+            simplifies to 2:3.
           </p>
         </section>
 
         <section class="content-section">
-          <h2>Split total mode</h2>
+          <h2>Scale an equivalent ratio</h2>
           <p>
-            Split total mode divides an amount by ratio parts. For 100 split by 2:3, there are 5
-            total parts. One part is 20, so the shares are 40 and 60.
+            Equivalent ratios use the same multiplier on every part. If 4:7 becomes 20:?, the first
+            part was multiplied by 5. Multiply the second part by 5 too. The answer is 20:35.
           </p>
           <p>
-            This is useful for recipes, classroom examples, group shares, mixtures, and simple
-            proportional planning.
+            This helps with recipes, classroom ratio tables, map comparisons, and any problem where
+            the relationship stays the same while the size changes.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Split a total by ratio parts</h2>
+          <p>
+            Split total mode adds the ratio parts, finds the value of one part, then multiplies each
+            part. For 120 split by 2:3, there are 5 total parts. One part is 24. The two shares are
+            48 and 72.
+          </p>
+          <p>
+            This is useful when the final amount is already known: group shares, simple mixtures,
+            classroom examples, budget splits, or ingredient planning.
           </p>
         </section>
 
@@ -117,33 +132,72 @@ const articleStructuredData = {
         )}
 
         <section class="content-section">
-          <h2>Common mistakes</h2>
+          <h2>Mistakes to avoid</h2>
           <p>
-            Keep ratio parts in the same order. A ratio of 2:3 is not the same as 3:2 because the
-            parts describe different shares.
+            Keep the order the same. A 2:3 mix is not the same as a 3:2 mix. If blue paint is first
+            and white paint is second, do not swap them halfway through the problem.
           </p>
           <p>
-            Do not mix units without converting first. For example, compare inches to inches or
-            centimeters to centimeters before simplifying a measurement ratio.
+            Keep units the same too. Do not simplify 2 feet : 18 inches until both sides use inches
+            or both sides use feet. For pixel sizes, use the <a href="/tools/aspect-ratio-calculator/">Aspect Ratio Calculator</a>
+            when you are resizing width and height.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Where the math comes from</h2>
+          <p>
+            A ratio can be written as “a to b,” “a:b,” or as a fraction. OpenStax explains ratios as
+            comparisons, and equivalent ratios as the same comparison scaled up or down. Khan
+            Academy ratio lessons use the same idea with tables, rates, and proportional word
+            problems.
+          </p>
+          <p>
+            The calculator does not decide whether your real-world setup is fair or safe. It only
+            does the ratio math from the numbers you enter.
           </p>
         </section>
 
         <section class="content-section">
           <h2>History, privacy, and copying</h2>
           <p>
-            Recent ratio answers stay visible in the page while you work. The history is kept only
-            in the current browser tab and is not sent to a server.
+            Recent ratio answers stay visible in the page while you work. That short history is kept
+            only in the current browser tab. It is not sent to a server.
           </p>
           <p>
-            Copy answer copies the ratio expression and result so you can paste it into notes,
-            homework, a message, or another document.
+            Copy answer copies the expression and result so you can paste it into notes, homework,
+            a recipe plan, or a message.
           </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Sources and limits</h2>
+          <ul class="instruction-list">
+            <li>
+              <a href="https://openstax.org/books/contemporary-mathematics/pages/5-4-ratios-and-proportions" rel="nofollow noopener">
+                OpenStax: Ratios and Proportions
+              </a>
+              for ratio notation, proportions, and unit-rate context.
+            </li>
+            <li>
+              <a href="https://openstax.org/books/prealgebra-2e/pages/5-6-ratios-and-rate" rel="nofollow noopener">
+                OpenStax Prealgebra: Ratios and Rate
+              </a>
+              for simplifying ratios and clearing decimal parts.
+            </li>
+            <li>
+              <a href="https://www.khanacademy.org/math/arithmetic/unit-conversion" rel="nofollow noopener">
+                Khan Academy: Ratios and rates
+              </a>
+              for equivalent-ratio and unit-rate practice.
+            </li>
+          </ul>
         </section>
       </div>
 
       <aside class="article-sidecar">
         <h2>Open the tool</h2>
-        <p>Use the ratio calculator while you follow the guide.</p>
+        <p>Use the calculator while you check the ratio order and units.</p>
         <a class="button-primary" href="/tools/ratio-calculator/">Ratio Calculator</a>
       </aside>
     </div>

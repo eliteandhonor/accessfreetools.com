@@ -111,6 +111,21 @@ const openStaxPrimeLcm = {
   label: 'OpenStax Prealgebra: Prime factorization and least common multiple',
 };
 
+const openStaxRatiosProportions = {
+  href: 'https://openstax.org/books/contemporary-mathematics/pages/5-4-ratios-and-proportions',
+  label: 'OpenStax Contemporary Mathematics: Ratios and proportions',
+};
+
+const openStaxRatiosRate = {
+  href: 'https://openstax.org/books/prealgebra-2e/pages/5-6-ratios-and-rate',
+  label: 'OpenStax Prealgebra: Ratios and rate',
+};
+
+const khanRatiosRates = {
+  href: 'https://www.khanacademy.org/math/arithmetic/unit-conversion',
+  label: 'Khan Academy: Ratios and rates',
+};
+
 const openStaxScientificNotation = {
   href: 'https://openstax.org/books/college-algebra-2e/pages/1-2-exponents-and-scientific-notation',
   label: 'OpenStax College Algebra: Exponents and scientific notation',
@@ -5735,20 +5750,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'ratio-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [openStaxFractions, openStaxPrimeLcm],
+    sources: [openStaxRatiosProportions, openStaxRatiosRate, khanRatiosRates, googleHelpfulContent],
     findings: [
-      'The ratio page explains simplify, equivalent ratio, and split-total modes as separate jobs so users know which inputs matter.',
-      'The examples cover lowest terms, scale factor, and sharing a total by parts, which matches the calculator behavior.',
-      'The FAQ explains that decimals are cleared before dividing ratio parts by the greatest common divisor.',
+      'DataForSEO evidence is page-specific for ratio calculator, 1:2 ratio calculator, ratio calculator 2 numbers, pixels, ml, grams, and percentage-to-ratio adjacent intent.',
+      'OpenStax and Khan Academy support explaining ratios as ordered comparisons, equivalent ratios as same-factor scaling, and split-total work as ratio parts multiplied by one-part value.',
+      'The page needs practical warnings about part order and unit consistency because swapping 2:3 into 3:2 or mixing feet with inches changes the answer.',
     ],
     improvements: [
-      'Manually checked ratio reduction, equivalent-ratio scaling, split-total wording, examples, guide article, FAQ detail, related links, SEO copy, and privacy behavior.',
+      'Rebuilt title/meta, aliases, examples, FAQ answers, guide title, guide meta, source-backed guide copy, unit/order cautions, image alt/caption, sitemap dates, and page-specific proof around simplify, equivalent, split-total, decimal, and same-unit ratio tasks.',
     ],
     followUps: [
-      'Add a recipe-style example later if search data shows users want cooking ratio help.',
+      'Add a dedicated percentage-to-ratio mode only if future tool-use data shows enough demand to justify a separate tested workflow.',
     ],
   },
   {
