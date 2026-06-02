@@ -549,6 +549,14 @@ const sourceLinks = {
     href: 'https://www.certainteed.com/products/documents-downloads',
     label: 'CertainTeed: Siding documents and installation resources',
   },
+  inchSidingCalculator: {
+    href: 'https://www.inchcalculator.com/siding-squares-calculator/',
+    label: 'Inch Calculator: Siding material calculator',
+  },
+  certainTeedMeasureVinylSiding: {
+    href: 'https://www.certainteed.com/how-measure-vinyl-siding',
+    label: 'CertainTeed: How to measure vinyl siding',
+  },
   glenGeryBrickSizes: {
     href: 'https://www.glengery.com/brick-sizes',
     label: 'Glen-Gery: Brick sizes and pieces per square foot',
@@ -2753,25 +2761,74 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchPlantCalculator, sourceLinks.nistUnits],
   },
   'siding-calculator': {
-    summary: 'Learn how exterior wall area becomes siding squares and optional material cost.',
+    summary: 'Learn how wall area, openings, gables, waste, and box coverage become siding squares and cost.',
+    metaDescription:
+      'Use the Siding Calculator with square-foot, siding-square, box, gable, vinyl, Hardie, lap siding, waste, and material-cost examples.',
     purpose:
-      'The Siding Calculator estimates siding in squares, where one square is 100 square feet of coverage. It is useful after you have measured exterior wall sections and opening areas.',
+      'The Siding Calculator estimates siding square feet, siding squares, rounded boxes, and material cost. It is useful after you have measured wall sections, opening areas, and any gable triangles.',
+    intro:
+      'Siding estimates get messy when a wall has gables, windows, doors, trim, and box coverage on the label. The calculator keeps the first job simple: find the coverage area, add waste, then turn it into siding squares.',
+    inputMatch: 'the wall area, opening area, waste percent, squares per box, and optional price per square',
+    logicNote:
+      'The calculator subtracts openings from wall area, adds waste, divides by 100 square feet per siding square, rounds ordering numbers up, and multiplies by price only when you enter one.',
+    readIntro:
+      'Read siding squares as the main supplier number. Read rounded squares or boxes as the safer buying number, because siding is not usually bought as a perfect decimal.',
+    mistakeIntro:
+      'The easy mistake is measuring only flat rectangles and forgetting gables, dormers, corners, starter strip, J-channel, trim, soffit, fascia, and product exposure. Those pieces can change the order even when the wall-area math is right.',
+    sidecarText:
+      'Open the Siding Calculator beside this guide. Try 1,200 square feet of wall area, 120 square feet of openings, 10% waste, 2 squares per box, and $180 per square.',
+    bestUsesIntro:
+      'Use this guide for a first material estimate for vinyl, fiber cement, Hardie-style lap siding, wood, or engineered siding before checking the product label or installer takeoff.',
+    referenceIntro:
+      'These references support the siding-square definition, gable/opening measurement cautions, and the accessory warning behind the calculator.',
     enter: [
-      'Enter total exterior wall area in square feet.',
-      'Enter door and window area to subtract, then choose a waste percent.',
-      'Add price per siding square only when you want an early material-cost estimate.',
+      'Enter total exterior wall area in square feet. Add rectangular wall sections together.',
+      'Add gables as triangle area: width times peak height divided by 2.',
+      'Enter door and window area to subtract, then choose a waste percent for cuts, gables, corners, and damaged pieces.',
+      'Enter squares per box and price per square only when you want a box or material-cost check.',
     ],
     read: [
-      'Siding squares is the main order-planning number.',
-      'Net wall area shows what remains after subtracting openings.',
-      'Area with waste shows the adjusted square footage before dividing by 100.',
+      'A 1,200 square foot exterior with 120 square feet of openings leaves 1,080 square feet before waste.',
+      'With 10% waste, the adjusted area is 1,188 square feet.',
+      'That is 11.88 siding squares, so the buying estimate rounds to 12 squares.',
+      'If a box covers 2 squares, 12 rounded squares becomes 6 boxes. At $180 per square, the material estimate is $2,160.',
     ],
     mistakes: [
       'Do not forget gables, dormers, trim-heavy sections, starter strips, corners, and channels.',
       'Do not treat price per square as installed price unless labor and accessories are included.',
-      'Check product exposure and box coverage because not every siding profile covers the same area.',
+      'Do not use the same waste for every house. Simple walls may be close with about 10%, but complex gables, repairs, and lots of cuts may need more.',
+      'Check product exposure and box coverage because not every vinyl, Hardie, lap, board, or panel profile covers the same area.',
     ],
-    sources: [sourceLinks.lowesSiding, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'How To Count A Gable Without Making It Hard',
+        paragraphs: [
+          'A simple triangular gable uses width times height divided by 2. A 20 ft wide gable with a 10 ft peak height is 100 square feet.',
+          'Since one siding square is 100 square feet, that gable is 1 square before waste. Add it to the rest of the wall area before you subtract openings and add waste.',
+        ],
+      },
+      {
+        title: 'Why Boxes And Squares Are Different',
+        paragraphs: [
+          'A siding square is a coverage unit. A box is the package you buy. Some vinyl siding boxes cover about 2 squares, but the real value is on the product label.',
+          'Use the calculator result as a bridge: square feet explain the measured area, squares help with supplier quotes, and boxes help with retail ordering.',
+        ],
+      },
+      {
+        title: 'What This Estimate Leaves Out',
+        paragraphs: [
+          'This page does not estimate J-channel, starter strip, corner posts, trim, soffit, fascia, fasteners, wrap, flashing, caulk, disposal, scaffolding, or labor.',
+          'It also does not decide whether the wall needs repair, weatherproofing, code review, or a specific installer layout. Use it as a clean first estimate, then check the product instructions.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchSidingCalculator,
+      sourceLinks.certainTeedMeasureVinylSiding,
+      sourceLinks.lowesSiding,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'brick-calculator': {
     summary: 'Learn how wall face area, brick size, mortar joint, openings, and waste estimate brick count.',

@@ -244,6 +244,18 @@ const toolArtMetadataOverrides = {
         'Sand Calculator guide artwork supports the walkthrough by showing how area, depth, cubic volume, density, and bag or ton checks connect.',
     },
   },
+  'siding-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a house wall with window and door openings, siding panels, stacked siding squares, box coverage icons, and waste offcuts.',
+      caption:
+        'Siding Calculator artwork matches the live workflow: measure wall area and openings, add waste, then estimate siding squares, boxes, and material cost.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing siding estimate steps from wall area to openings, siding panel stacks, box counts, and waste pieces.',
+      caption:
+        'Siding Calculator guide artwork supports the walkthrough by showing how wall area, gables, openings, waste, squares, and boxes connect.',
+    },
+  },
   'paver-calculator': {
     tool: {
       alt: 'Smoke mascot pointing at a curved paver patio layout with single-paver size cards, cut-edge blocks, spare pavers, and a stacked buying count.',

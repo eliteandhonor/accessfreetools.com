@@ -3316,31 +3316,88 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate siding squares from wall area, openings, waste, and optional price per square.',
     description:
-      'Use this free siding calculator to estimate exterior siding squares from wall square footage, door and window openings, waste, and optional price per square.',
+      'Use this free siding calculator to estimate siding square feet, siding squares, rounded boxes, and material cost from wall area, openings, waste, and price.',
     icon: 'calculator-siding',
-    aliases: ['Siding Squares Calculator', 'Vinyl Siding Calculator'],
+    aliases: [
+      'Siding Squares Calculator',
+      'Vinyl Siding Calculator',
+      'Hardie Siding Calculator',
+      'Lap Siding Calculator',
+      'Siding Calculator Square Feet',
+      'Siding Box Calculator',
+      'Siding Material Calculator',
+    ],
+    seoTitle: 'Siding Calculator | Squares, Boxes & Cost',
+    seoDescription:
+      'Estimate siding square feet, siding squares, rounded boxes, waste, and material cost from wall area, openings, and price per square.',
     formula:
-      'The calculator subtracts openings from wall area, adds waste, divides by 100 square feet per siding square, and rounds up.',
+      'Net wall area = wall area - door and window openings. Area with waste = net wall area x (1 + waste percent / 100). Siding squares = area with waste / 100. Rounded boxes = ceiling(squares / squares per box). Material cost = rounded squares x price per square.',
     limit:
-      'Siding projects also need gables, corners, starter strips, trim, channels, product exposure, color lots, installer layout, and local building review.',
+      'Siding projects also need gable measurements, corners, starter strips, J-channel, trim, box coverage, panel exposure, color lots, installer layout, weatherproofing, and local building review.',
     inputExplanations: [
       { term: 'Wall area', meaning: 'total exterior wall square footage before doors and windows are subtracted.' },
       { term: 'Doors/windows', meaning: 'the combined opening area removed before the siding waste allowance is added.' },
       { term: 'Siding square', meaning: 'a siding unit equal to 100 square feet of coverage.' },
       { term: 'Waste percent', meaning: 'extra siding for cuts, gables, corners, trim-heavy sections, and damaged pieces.' },
     ],
+    extraFaq: [
+      {
+        question: 'What does the Siding Calculator estimate?',
+        answer:
+          'It estimates net wall area, area after waste, siding squares, rounded whole squares, optional box count, and optional material cost.',
+      },
+      {
+        question: 'What is one square of siding?',
+        answer:
+          'One siding square means 100 square feet of installed coverage. The calculator divides adjusted square feet by 100 to estimate squares.',
+      },
+      {
+        question: 'Can I use this for vinyl siding?',
+        answer:
+          'Yes. Use it for a vinyl siding material estimate when you know the wall area, opening area, waste percent, and product coverage.',
+      },
+      {
+        question: 'Can I use this for Hardie or lap siding?',
+        answer:
+          'Yes for rough square-foot and square estimates. Check the product label because board exposure, profile, and box coverage can change the real order.',
+      },
+      {
+        question: 'How do I include gables?',
+        answer:
+          'Estimate each triangular gable as width times height divided by 2, then add that area to the wall area before subtracting openings and adding waste.',
+      },
+      {
+        question: 'Should I subtract doors and windows?',
+        answer:
+          'Subtract larger openings when you have their area. Small trim-heavy openings may still create cuts and waste, so do not subtract every tiny section too tightly.',
+      },
+      {
+        question: 'Does this calculate J-channel or trim?',
+        answer:
+          'No. It estimates siding coverage. J-channel, starter strip, corner posts, trim, soffit, fascia, fasteners, house wrap, and labor need separate checks.',
+      },
+      {
+        question: 'How much waste should I use?',
+        answer:
+          'A simple wall may use around 10% waste, while complex gables, corners, repairs, and many cuts may need more. Ask the supplier or installer if the layout is tricky.',
+      },
+    ],
     useCases: [
       'Estimate vinyl, fiber cement, wood, or engineered siding squares.',
       'Convert wall square footage into 100-square-foot siding squares.',
       'Subtract doors and windows before adding waste.',
       'Add optional price per square for an early material estimate.',
+      'Check whether a rounded box count makes sense before comparing product labels.',
+      'Keep siding coverage separate from trim, channel, soffit, fascia, wrap, and labor.',
     ],
     examples: [
-      { label: 'Small exterior', expression: '1,200 ft2 wall area, 120 ft2 openings, 10% waste', result: '12 squares' },
-      { label: 'One wall', expression: '240 ft2, 35 ft2 openings, 12% waste', result: 'Siding squares estimate' },
-      { label: 'Budget check', expression: 'Add price per square', result: 'Estimated material cost' },
+      { label: 'Small exterior', expression: '1,200 ft2 wall area, 120 ft2 openings, 10% waste', result: '11.88 squares, round to 12' },
+      { label: 'Gable add-on', expression: '20 ft wide gable, 10 ft peak height', result: '100 ft2, or 1 siding square before waste' },
+      { label: 'One wall', expression: '240 ft2 wall, 35 ft2 openings, 12% waste', result: '2.30 squares, round to 3' },
+      { label: 'Box check', expression: '12 rounded squares, 2 squares per box', result: '6 boxes' },
+      { label: 'Budget check', expression: '12 rounded squares at $180 per square', result: '$2,160 material estimate' },
     ],
-    relatedSlugs: ['paint-calculator', 'square-footage-calculator', 'roofing-calculator'],
+    relatedSlugs: ['square-footage-calculator', 'paint-calculator', 'roofing-calculator', 'insulation-calculator'],
   }),
   makeUtilityTool({
     slug: 'brick-calculator',

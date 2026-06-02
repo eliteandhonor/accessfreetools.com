@@ -1971,6 +1971,16 @@ const lowesSiding = {
   label: 'CertainTeed: Siding documents and installation resources',
 };
 
+const inchSidingCalculator = {
+  href: 'https://www.inchcalculator.com/siding-squares-calculator/',
+  label: 'Inch Calculator: Siding material calculator',
+};
+
+const certainTeedMeasureVinylSiding = {
+  href: 'https://www.certainteed.com/how-measure-vinyl-siding',
+  label: 'CertainTeed: How to measure vinyl siding',
+};
+
 const glenGeryBrickSizes = {
   href: 'https://www.glengery.com/brick-sizes',
   label: 'Glen-Gery: Brick sizes and pieces per square foot',
@@ -4995,20 +5005,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'siding-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [lowesSiding, nistSi],
+    sources: [inchSidingCalculator, certainTeedMeasureVinylSiding, lowesSiding, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator subtracts opening area, adds waste, divides by 100 square feet per siding square, and optionally estimates material cost.',
-      'The guide explains a siding square as 100 square feet and keeps price per square separate from installed price.',
-      'The caveats cover gables, dormers, trim, starter strips, corners, channels, exposure, color lots, and installer layout.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `siding calculator` intent with 8,100 U.S. searches plus vinyl siding, Hardie siding, lap siding, square-foot, box, and retail-style searches.',
+      'Current siding references support the 100-square-foot siding-square definition, triangular gable math, opening subtraction, and ordering overage for waste, cuts, and damage.',
+      'The page now separates simple siding coverage math from J-channel, starter strip, corner posts, trim, soffit, fascia, fasteners, wrap, flashing, product exposure, box coverage, installer layout, weatherproofing, and local building review.',
     ],
     improvements: [
-      'Manually checked siding-square math, opening subtraction, optional cost output, examples, FAQ details, Lowe\'s/NIST source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, audit record, modified dates, related links, and exact image alt/caption text in smart-14 wording.',
     ],
     followUps: [
-      'Add a wall-section table later if exterior users need gables and multiple elevations.',
+      'Add a wall-section table later if the UI can support multiple rectangular walls, gables, and openings without hiding the estimating assumptions.',
     ],
   },
   {
