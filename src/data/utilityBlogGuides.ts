@@ -101,6 +101,18 @@ const sourceLinks = {
     href: 'https://www.quikrete.com/PDFs/Projects/ConcreteStepsAndRamps.pdf',
     label: 'QUIKRETE: Concrete steps and ramps project guide',
   },
+  aciConcreteTerminology: {
+    href: 'https://www.concrete.org/portals/0/files/pdf/ACI_Concrete_Terminology.pdf',
+    label: 'ACI: Concrete Terminology',
+  },
+  fhwaConcreteWeight: {
+    href: 'https://www.fhwa.dot.gov/bridge/pubs/07022/chap04.cfm',
+    label: 'FHWA: Normal-weight and lightweight concrete density',
+  },
+  nrmcaLightweightConcrete: {
+    href: 'https://www.nrmca.org/wp-content/uploads/2021/01/36pr.pdf',
+    label: 'NRMCA: Structural lightweight concrete',
+  },
   inchCalculatorSitemap: {
     href: 'https://www.inchcalculator.com/sitemap/',
     label: 'Inch Calculator sitemap: construction and home-project competitor reference',
@@ -3086,25 +3098,70 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchConcreteSteps, sourceLinks.quickrete, sourceLinks.quickreteStepsRamps, sourceLinks.nistUnits],
   },
   'concrete-weight-calculator': {
-    summary: 'Learn how concrete volume and density estimate pounds and US tons.',
+    summary: 'Learn how cubic yards, density, and waste estimate concrete weight in pounds and US tons.',
     purpose:
-      'The Concrete Weight Calculator converts cubic yards into cubic feet, multiplies by density, and converts pounds into US tons. It is helpful for rough hauling, disposal, and planning checks.',
+      'The Concrete Weight Calculator converts cubic yards into cubic feet, multiplies by the density you enter, and converts pounds into US tons. It is helpful for hauling, disposal, trailer, and rough planning checks when you already know the concrete volume.',
+    inputMatch:
+      'Use the calculator after you know the concrete volume. If you only know length, width, and thickness, calculate cubic yards first with the Concrete Calculator or Cubic Yard Calculator.',
+    logicNote:
+      'The math is cubic yards x 27, then adjusted by waste, then multiplied by density in lb/ft3. The tons result is pounds divided by 2,000.',
+    referenceIntro:
+      'Concrete weight is a density problem. ACI defines normalweight concrete around 150 lb/ft3, and FHWA notes normal-weight concrete is often about 145 to 150 lb/ft3 while lightweight mixes can be lower.',
     enter: [
-      'Enter concrete volume in cubic yards.',
-      'Enter density in pounds per cubic foot.',
-      'Use waste percent only if you want weight after adding extra volume.',
+      'Enter concrete volume in cubic yards. Use the neat volume if you only want the shape weight.',
+      'Enter density in pounds per cubic foot. Use 145 to 150 lb/ft3 for a rough normal-weight estimate, or use supplier data when you have it.',
+      'Use waste percent only when you want the weight after adding an ordering cushion.',
     ],
     read: [
       'Total pounds is the main weight estimate.',
       'US tons is total pounds divided by 2,000.',
-      'Cubic feet shows the converted volume used in the weight formula.',
+      'Cubic feet shows the adjusted volume used in the weight formula.',
+      'Density used repeats the lb/ft3 value so you can spot a bad assumption quickly.',
     ],
     mistakes: [
       'Do not assume every concrete mix weighs the same.',
       'Do not use a rough density when hauling limits or structural loads need exact numbers.',
       'Do not include rebar weight unless you calculate it separately.',
+      'Do not mix up US tons and metric tonnes.',
+      'Do not use waste percent if you only want the exact neat-shape weight.',
     ],
-    sources: [sourceLinks.inchConcreteWeight, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Example: 2 cubic yards of normal concrete',
+        paragraphs: [
+          'Enter 2 cubic yards, 145 lb/ft3 density, and 0 percent waste. The calculator converts 2 cubic yards to 54 cubic feet.',
+          'Then it multiplies 54 by 145 to get 7,830 pounds. Dividing by 2,000 gives about 3.92 US tons.',
+        ],
+      },
+      {
+        title: 'Example: heavy estimate with waste',
+        paragraphs: [
+          'For 3.5 cubic yards at 150 lb/ft3 with 5 percent waste, the adjusted volume is 99.225 cubic feet.',
+          'That produces about 14,884 pounds, or about 7.44 US tons. This is the kind of check that helps before hauling or disposal planning.',
+        ],
+      },
+      {
+        title: 'Why density matters more than the calculator looks',
+        paragraphs: [
+          'Normal-weight concrete is often close enough to 145 to 150 lb/ft3 for a rough estimate, but lightweight concrete, air content, aggregate type, moisture, and reinforcement can change the real weight.',
+          'If the number affects a truck, trailer, crane, form, dumpster, disposal ticket, or structural load, use the supplier ticket, mix design, or project specification instead of a rough default.',
+        ],
+      },
+      {
+        title: 'Metric checks',
+        paragraphs: [
+          'People often ask for 1 m3 concrete weight in kg. A common normalweight estimate is about 2,400 kg per cubic meter.',
+          'This calculator stays in US units for now. Use a metric conversion check only as a rough comparison unless the project documents give a metric density.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchConcreteWeight,
+      sourceLinks.aciConcreteTerminology,
+      sourceLinks.fhwaConcreteWeight,
+      sourceLinks.nrmcaLightweightConcrete,
+      sourceLinks.nistUnits,
+    ],
   },
   'concrete-reinforcing-mesh-calculator': {
     summary: 'Learn how slab area, sheet size, overlap, and waste estimate reinforcing mesh sheets.',

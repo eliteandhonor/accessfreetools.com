@@ -600,7 +600,8 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
   },
   'concrete-weight': {
     cubicYards: 'Concrete volume in cubic yards.',
-    densityPoundsPerCubicFoot: 'Concrete density. Normal-weight concrete is often estimated near 145 to 150 lb/ft3.',
+    densityPoundsPerCubicFoot:
+      'Concrete density in pounds per cubic foot. Normal-weight concrete is often estimated around 145 to 150 lb/ft3; lightweight mixes can be lower.',
     wastePercent: 'Optional extra volume if you want weight after a waste allowance.',
   },
   'concrete-reinforcing-mesh': {
@@ -2994,21 +2995,21 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Concrete Weight Calculator',
     buttonLabel: 'Estimate weight',
     emptyHistory: 'Recent concrete weight estimates will appear here.',
-    privacyNote: 'Concrete weight estimates stay local and use the density you enter.',
+    privacyNote: 'Concrete weight estimates stay local and use the volume, density, and waste you enter.',
     modes: [
       {
         id: 'volume-weight',
-        label: 'Volume weight',
+        label: 'Yards to weight',
         symbol: 'WT',
         fields: [
-          numberField('cubicYards', 'Concrete volume yd3', '2'),
-          numberField('densityPoundsPerCubicFoot', 'Density lb/ft3', '145'),
+          numberField('cubicYards', 'Concrete volume (yd3)', '2'),
+          numberField('densityPoundsPerCubicFoot', 'Density (lb/ft3)', '145'),
           numberField('wastePercent', 'Waste percent', '0'),
         ],
         defaultInputs: { cubicYards: '2', densityPoundsPerCubicFoot: '145', wastePercent: '0' },
         examples: [
-          { label: '2 yd3 normal concrete', inputs: { cubicYards: '2', densityPoundsPerCubicFoot: '145', wastePercent: '0' } },
-          { label: 'Heavy estimate with cushion', inputs: { cubicYards: '3.5', densityPoundsPerCubicFoot: '150', wastePercent: '5' } },
+          { label: '2 yd3 at 145 lb/ft3', inputs: { cubicYards: '2', densityPoundsPerCubicFoot: '145', wastePercent: '0' } },
+          { label: '3.5 yd3 + 5% waste', inputs: { cubicYards: '3.5', densityPoundsPerCubicFoot: '150', wastePercent: '5' } },
         ],
       },
     ],
@@ -6339,7 +6340,8 @@ function calculateUtility(
           'Apply the optional waste allowance.',
           'Multiply cubic feet by the entered density and convert pounds to tons.',
         ],
-        note: 'Concrete density changes with mix, aggregate, air, moisture, and reinforcement. Use supplier data for hauling or structural decisions.',
+        note:
+          'Normal-weight concrete is often estimated around 145 to 150 lb/ft3, but density changes with mix, aggregate, air, moisture, lightweight materials, and reinforcement. Use supplier data for hauling or structural decisions.',
       };
     }
     case 'concrete-reinforcing-mesh': {

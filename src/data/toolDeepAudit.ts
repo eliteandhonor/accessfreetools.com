@@ -551,6 +551,21 @@ const inchConcreteWeight = {
   label: 'Inch Calculator: Concrete weight calculator reference',
 };
 
+const aciConcreteTerminology = {
+  href: 'https://www.concrete.org/portals/0/files/pdf/ACI_Concrete_Terminology.pdf',
+  label: 'ACI: Concrete Terminology',
+};
+
+const fhwaConcreteWeight = {
+  href: 'https://www.fhwa.dot.gov/bridge/pubs/07022/chap04.cfm',
+  label: 'FHWA: Normal-weight and lightweight concrete density',
+};
+
+const nrmcaLightweightConcrete = {
+  href: 'https://www.nrmca.org/wp-content/uploads/2021/01/36pr.pdf',
+  label: 'NRMCA: Structural lightweight concrete',
+};
+
 const inchConcreteMesh = {
   href: 'https://www.inchcalculator.com/concrete-reinforcing-mesh-calculator/',
   label: 'Inch Calculator: Concrete reinforcing mesh calculator reference',
@@ -5143,20 +5158,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'concrete-weight-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-concrete-masonry-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [inchConcreteWeight, nistSi],
+    sources: [inchConcreteWeight, aciConcreteTerminology, fhwaConcreteWeight, nrmcaLightweightConcrete, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator converts cubic yards to cubic feet, applies optional waste, multiplies by density, and converts pounds to US tons.',
-      'The FAQ explains typical normal-weight density while telling users to use supplier data when weight matters.',
-      'The guide separates concrete weight from rebar weight and hauling or structural decisions that need exact data.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `concrete weight calculator`, `concrete weight calculator by dimensions`, cured-concrete weight, and metric-weight variants after balance and status gates passed.',
+      'The calculator converts cubic yards to cubic feet, applies optional waste, multiplies by density, and converts pounds to US tons while repeating the density used in the result.',
+      'The page now explains normal-weight, lightweight, cured, hauling, disposal, trailer, rebar, and metric-weight limits without pretending one density fits every project.',
     ],
     improvements: [
-      'Added concrete weight calculator, default density guidance, examples, result steps, source-backed blog, FAQs, related links, tests, and manual audit record.',
+      'Refreshed metadata, aliases, formula text, examples, FAQ coverage, guide sections, source-backed density ranges, exact image alt/captions, modified dates, related links, and UI labels in smart-14 wording.',
     ],
     followUps: [
-      'Add metric tonnes only if global traffic justifies a unit toggle.',
+      'Consider a metric mode later because DataForSEO found small but real demand for 1 m3 concrete weight in kg and tons.',
     ],
   },
   {

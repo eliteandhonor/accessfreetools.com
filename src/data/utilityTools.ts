@@ -3938,45 +3938,100 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'concrete-weight-calculator',
     name: 'Concrete Weight Calculator',
     category: 'home-projects',
-    summary: 'Estimate concrete weight from cubic yards and density.',
+    summary: 'Estimate concrete weight in pounds and US tons from cubic yards, density, and waste.',
     description:
-      'Use this free concrete weight calculator to estimate pounds and US tons from concrete volume, density, and optional waste percent.',
+      'Use this free concrete weight calculator to estimate pounds and US tons from cubic yards, density, and optional waste. Normal-weight concrete is often around 145 to 150 lb/ft3, but the right density depends on the mix.',
+    seoTitle: 'Concrete Weight Calculator | Pounds, Tons & Density',
+    seoDescription:
+      'Estimate concrete weight in pounds and US tons from cubic yards, density, and waste. Includes normal-weight, lightweight, cured concrete, and hauling notes.',
     icon: 'calculator-concrete-weight',
-    aliases: ['Concrete Density Calculator', 'Concrete Tons Calculator'],
+    aliases: [
+      'Concrete Density Calculator',
+      'Concrete Tons Calculator',
+      'Concrete Weight Calculator by Dimensions',
+      'Cured Concrete Weight Calculator',
+      'Concrete Weight in Kg',
+    ],
     formula:
-      'The calculator converts cubic yards to cubic feet, applies the waste allowance, multiplies by density in pounds per cubic foot, and converts pounds to US tons.',
+      'The calculator multiplies cubic yards by 27 to get cubic feet, applies waste, multiplies adjusted cubic feet by density in pounds per cubic foot, and divides pounds by 2,000 to get US tons.',
     limit:
-      'Concrete density varies by mix, aggregate, reinforcement, moisture, and air content. Use supplier data for hauling, disposal, or engineering decisions.',
+      'Concrete density varies by mix, aggregate, reinforcement, moisture, air content, and lightweight or heavyweight material choices. Use supplier data for truck limits, crane picks, disposal tickets, forms, or engineering decisions.',
     inputExplanations: [
-      { term: 'Cubic yards', meaning: 'the concrete volume to weigh.' },
-      { term: 'Density', meaning: 'pounds per cubic foot. Normal-weight concrete is often estimated near 145 to 150 lb/ft3.' },
-      { term: 'Waste percent', meaning: 'optional extra volume if you want the weight after adding a cushion.' },
-      { term: 'US tons', meaning: 'pounds divided by 2,000.' },
+      { term: 'Cubic yards', meaning: 'the concrete volume you already measured or calculated from a slab, footing, column, or pour.' },
+      {
+        term: 'Density',
+        meaning:
+          'pounds per cubic foot. Normal-weight concrete is often estimated around 145 to 150 lb/ft3, while lightweight concrete can be much lower.',
+      },
+      { term: 'Waste percent', meaning: 'extra volume before weighing, useful when you want the weight after adding an ordering cushion.' },
+      { term: 'US tons', meaning: 'the total pounds divided by 2,000, useful for hauling and disposal estimates.' },
     ],
     extraFaq: [
       {
         question: 'What density should I use for concrete weight?',
         answer:
-          'For rough planning, many people use about 145 to 150 lb/ft3 for normal-weight concrete. Use supplier data when weight matters.',
+          'For rough planning, normal-weight concrete is commonly estimated around 145 to 150 lb/ft3. Use your supplier or project specs when hauling, disposal, lifting, or structural loads matter.',
+      },
+      {
+        question: 'How much does one cubic yard of concrete weigh?',
+        answer:
+          'At 150 lb/ft3, one cubic yard weighs about 4,050 lb, or about 2.03 US tons. At 145 lb/ft3, it weighs about 3,915 lb.',
+      },
+      {
+        question: 'How much does 2 cubic yards of concrete weigh?',
+        answer:
+          'At 145 lb/ft3, 2 cubic yards weighs 7,830 lb, or about 3.92 US tons. Change the density field if your mix is lighter or heavier.',
+      },
+      {
+        question: 'Does cured concrete weigh less than wet concrete?',
+        answer:
+          'It can. Water leaves the mix as concrete cures, but aggregate and mix design still control most of the weight. Use the density that matches the state you care about.',
+      },
+      {
+        question: 'Can this estimate concrete weight by dimensions?',
+        answer:
+          'This page starts with cubic yards. If you only have length, width, and thickness, use the Concrete Calculator or Cubic Yard Calculator first, then bring the cubic yards back here.',
+      },
+      {
+        question: 'What does 1 m3 of concrete weigh in kg?',
+        answer:
+          'Normalweight concrete is often about 2,400 kg per cubic meter. This calculator uses US units, so use the density field in lb/ft3 for the final estimate.',
+      },
+      {
+        question: 'Is lightweight concrete the same weight?',
+        answer:
+          'No. Structural lightweight concrete can be much lighter than normal-weight concrete, often around 90 to 120 lb/ft3 depending on the aggregate and mix.',
+      },
+      {
+        question: 'Why add waste percent to a weight estimate?',
+        answer:
+          'Waste raises the volume before weight is calculated. That helps when you want the weight of the amount you plan to order, not just the neat shape.',
       },
       {
         question: 'Does this include rebar weight?',
         answer:
           'No. It estimates concrete material only. Use the Rebar Weight Calculator if you also need reinforcing steel weight.',
       },
+      {
+        question: 'Can I use this for truck or trailer limits?',
+        answer:
+          'Use it only as a planning check. For real load limits, confirm the density, container weight, trailer rating, axle limits, and disposal or supplier ticket weights.',
+      },
     ],
     useCases: [
-      'Estimate concrete weight for hauling or disposal planning.',
-      'Convert cubic yards into pounds and tons.',
-      'Compare density assumptions.',
-      'Add waste volume before estimating weight.',
+      'Estimate concrete weight for hauling, disposal, or trailer planning.',
+      'Convert cubic yards into pounds and US tons.',
+      'Compare normal-weight, lightweight, and heavier density assumptions.',
+      'Add waste volume before estimating order weight.',
+      'Check concrete-only weight before adding rebar or formwork separately.',
     ],
     examples: [
-      { label: 'Normal concrete', expression: '2 yd3 at 145 lb/ft3', result: '7,830 lb' },
-      { label: 'Heavy estimate', expression: '3.5 yd3 at 150 lb/ft3', result: 'Weight with cushion' },
-      { label: 'Tonnage check', expression: 'Pounds divided by 2,000', result: 'US tons' },
+      { label: 'Normal concrete', expression: '2 yd3 at 145 lb/ft3', result: '7,830 lb, about 3.92 US tons' },
+      { label: 'One cubic yard check', expression: '1 yd3 at 150 lb/ft3', result: '4,050 lb, about 2.03 US tons' },
+      { label: 'Heavy estimate with cushion', expression: '3.5 yd3 at 150 lb/ft3 plus 5% waste', result: '14,884 lb, about 7.44 US tons' },
+      { label: 'Lightweight comparison', expression: '2 yd3 at 115 lb/ft3', result: '6,210 lb, about 3.11 US tons' },
     ],
-    relatedSlugs: ['cubic-yard-calculator', 'concrete-calculator', 'asphalt-calculator'],
+    relatedSlugs: ['cubic-yard-calculator', 'density-calculator', 'mass-calculator', 'weight-calculator'],
   }),
   makeUtilityTool({
     slug: 'concrete-reinforcing-mesh-calculator',

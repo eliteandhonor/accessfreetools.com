@@ -280,6 +280,18 @@ const toolArtMetadataOverrides = {
         'Concrete Steps Calculator guide artwork supports the walkthrough by showing how stacked steps, landing depth, waste, and bag counts connect.',
     },
   },
+  'concrete-weight-calculator': {
+    tool: {
+      alt: 'Smoke mascot pointing at concrete cubes, a scale, aggregate-density blocks, weight blocks, and a calculator for converting concrete volume into pounds.',
+      caption:
+        'Concrete Weight Calculator artwork matches the live workflow: enter cubic yards, density, and waste to estimate concrete pounds and US tons.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing concrete cube volume, stacked blocks, aggregate-density cubes, a scale, a calculator, and heavy weight icons.',
+      caption:
+        'Concrete Weight Calculator guide artwork supports the walkthrough for cubic yards, density, waste, pounds, US tons, and mix-weight assumptions.',
+    },
+  },
   'siding-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a house wall with window and door openings, siding panels, stacked siding squares, box coverage icons, and waste offcuts.',
