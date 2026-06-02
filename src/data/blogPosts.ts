@@ -17,7 +17,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Basic Calculator',
     label: 'Calculator guide',
     summary:
-      'Learn the keypad, keyboard shortcuts, percent button, copy result action, and calculation history using the Access Free Tools calculator.',
+      'Learn the keypad, keyboard shortcuts, percent discounts, one-step math behavior, copy result action, and tab-only calculation history.',
   },
   {
     slug: 'how-to-use-percentage-calculator',

@@ -37,63 +37,70 @@ const baseTools: ToolDefinition[] = [
     slug: 'basic-calculator',
     name: 'Basic Calculator',
     category: 'calculators',
-    summary: 'A large free online calculator for quick everyday math.',
+    summary: 'A clean browser calculator for quick arithmetic, percent checks, and copied results.',
     description:
-      'Use this free basic calculator online for addition, subtraction, multiplication, division, percentages, decimals, keyboard input, and quick result copying with a large easy-to-read keypad.',
+      'Use this free basic calculator online for addition, subtraction, multiplication, division, percent adjustments, decimals, keyboard input, result copying, and short tab-only history.',
     icon: 'calculator-plus',
     aliases: [
       'Free Online Calculator',
       'Basic Calculator Online Free',
+      'Basic Calculator Online',
       'Large Online Calculator',
       'Full Screen Calculator',
+      'Simple Basic Calculator',
     ],
-    seoTitle: 'Basic Calculator | Free Online Calculator',
+    seoTitle: 'Basic Calculator Online | Free Large Calculator',
     seoDescription:
-      'Use the free basic calculator online for everyday math, percentages, decimals, keyboard input, a large keypad, and quick result copying.',
+      'Use the free basic calculator online to add, subtract, multiply, divide, check percents, copy answers, and keep a short tab-only history.',
     useCases: [
-      'Check a total while shopping or planning a budget.',
-      'Work through simple homework or study calculations.',
-      'Calculate percentages, discounts, and quick comparisons.',
-      'Use a large browser calculator without installing an app.',
-      'Keep a short calculation history while comparing numbers.',
+      'Add receipt, invoice, or budget lines without opening a spreadsheet.',
+      'Subtract a discount, tax estimate, or quick percent adjustment.',
+      'Split a bill, order total, or homework answer into equal parts.',
+      'Use the keyboard or large buttons when you want a simple browser calculator.',
+      'Copy the current answer and keep the last few calculations visible in the same tab.',
     ],
     examples: [
       {
-        label: 'Add two amounts',
+        label: 'Add two receipt lines',
         expression: '48.50 + 12.25',
-        result: '60.75',
+        result: '60.75 total before tax',
       },
       {
-        label: 'Find a simple discount',
+        label: 'Take 20% off 80',
         expression: '80 - 20%',
-        result: '64',
+        result: '64 after the discount',
       },
       {
-        label: 'Split a total',
+        label: 'Split a 126 total',
         expression: '126 / 3',
-        result: '42',
+        result: '42 each',
       },
     ],
     faq: [
       {
         question: 'What can I use the Basic Calculator for?',
         answer:
-          'Use it for everyday arithmetic: adding totals, subtracting costs, multiplying quantities, dividing amounts, checking percentages, and copying quick answers.',
+          'Use it for everyday arithmetic: adding totals, subtracting costs, multiplying quantities, dividing amounts, checking simple percentages, copying answers, and keeping recent results in view.',
       },
       {
         question: 'How does the percent button work?',
         answer:
-          'For simple entries, percent turns the current number into a decimal percentage. During plus or minus calculations, it uses the first number as the base, so 80 - 20% becomes 64.',
+          'For a plain number, percent turns the current entry into a decimal percentage. During plus or minus calculations, it uses the first number as the base. In 80 - 20%, the percent key turns 20 into 16, then equals shows 64.',
       },
       {
         question: 'Can I use keyboard shortcuts?',
         answer:
-          'Yes. Use the number keys, +, -, *, /, x, Enter or =, decimal point, percent, Backspace, Escape, and Delete.',
+          'Yes. Use number keys, +, -, *, /, x, Enter or =, decimal point, percent, Backspace, Escape, and Delete. The on-screen buttons work the same way.',
+      },
+      {
+        question: 'Does it follow full order of operations?',
+        answer:
+          'No. This basic calculator works like a simple handheld calculator. It solves the current two-number step when you press the next operator or equals. Use the Scientific Calculator when you need parentheses, powers, trigonometry, or full expressions.',
       },
       {
         question: 'Can I use this as a large online calculator?',
         answer:
-          'Yes. The calculator is designed to be easy to read in the browser, with a large display, clear buttons, keyboard input, and no app install. Use your browser zoom or full-screen mode if you want the calculator to fill more of the screen.',
+          'Yes. The calculator is designed to be easy to read in the browser, with a large display, clear buttons, keyboard input, copy result, and no app install. Use browser zoom or full-screen mode if you want it bigger.',
       },
       {
         question: 'Is my calculation history private?',
@@ -105,8 +112,13 @@ const baseTools: ToolDefinition[] = [
         answer:
           'Use the Scientific Calculator for trigonometry, logarithms, roots, powers, and DEG/RAD angle work. Use this Basic Calculator for fast everyday math.',
       },
+      {
+        question: 'Why can a long decimal look shorter?',
+        answer:
+          'The display rounds long floating-point answers so they stay readable. If you need exact large-integer math, use the Big Number Calculator. If you need fractions, use the Fraction Calculator.',
+      },
     ],
-    relatedSlugs: ['percentage-calculator', 'fraction-calculator', 'scientific-calculator'],
+    relatedSlugs: ['percentage-calculator', 'fraction-calculator', 'scientific-calculator', 'big-number-calculator'],
   },
   {
     slug: 'percentage-calculator',

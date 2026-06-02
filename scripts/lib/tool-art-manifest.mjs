@@ -52,6 +52,18 @@ const categoryVisualCues = {
 };
 
 const toolArtMetadataOverrides = {
+  'basic-calculator': {
+    tool: {
+      alt: 'Smoke mascot holding a small calculator, surrounded by glowing plus, minus, multiply, and divide symbols.',
+      caption:
+        'Basic Calculator artwork matches the quick arithmetic workflow: add, subtract, multiply, divide, check percents, copy the answer, and compare recent results.',
+    },
+    guide: {
+      alt: 'Smoke mascot pointing at glowing plus, minus, multiply, and divide symbols while holding a calculator.',
+      caption:
+        'Basic Calculator guide artwork supports the walkthrough for percent checks, keyboard input, one-step math, copied answers, and common mistakes.',
+    },
+  },
   'annuity-calculator': {
     tool: {
       alt: 'Smoke mascot comparing annuity payment cards with $500 monthly payments, 5 percent rate, 20 years, ordinary timing, future value, and present value.',

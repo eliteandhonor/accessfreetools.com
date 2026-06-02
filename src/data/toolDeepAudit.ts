@@ -61,6 +61,16 @@ const khanFractions = {
   label: 'Khan Academy: Fractions arithmetic practice',
 };
 
+const khanOrderOfOperations = {
+  href: 'https://www.khanacademy.org/math/pre-algebra/pre-algebra-arith-prop/pre-algebra-order-of-operations/v/order-operations-intro',
+  label: 'Khan Academy: Order of operations introduction',
+};
+
+const mdnArithmeticOperators = {
+  href: 'https://developer.mozilla.org/docs/Web/JavaScript/Guide/Expressions_and_Operators',
+  label: 'MDN: JavaScript expressions and arithmetic operators',
+};
+
 const openStaxRadicals = {
   href: 'https://openstax.org/books/algebra-and-trigonometry/pages/1-3-radicals-and-rational-exponents',
   label: 'OpenStax Algebra and Trigonometry: Radicals and rational exponents',
@@ -5675,20 +5685,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'basic-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [openStaxPercent, openStaxFractions],
+    sources: [openStaxPercent, khanOrderOfOperations, mdnArithmeticOperators, googleHelpfulContent],
     findings: [
-      'The calculator page keeps the promise narrow: fast arithmetic, percentages, decimals, keyboard input, copying, and local history.',
-      'The FAQ explains the percent key behavior clearly, including the common 80 minus 20 percent style calculation.',
-      'Related links correctly send heavier work to Percentage, Fraction, and Scientific calculators instead of overloading the basic tool.',
+      'DataForSEO page evidence confirmed basic calculator intent, including basic calculator, basic calculator app, basic calculator online, basic calculator math, and simple basic calculator searches.',
+      'The calculator page now states the real scope: one-step handheld-style arithmetic, percent adjustments, decimals, keyboard input, result copying, and tab-only history.',
+      'The FAQ and guide explain the percent-key behavior with 80 - 20%, and they warn that the basic calculator does not parse full order-of-operations expressions.',
+      'Competitor gap review found room for clearer examples, original logic notes, and mistakes/limits copy without copying competitor wording.',
     ],
     improvements: [
-      'Manually checked basic arithmetic scope, percent wording, examples, FAQ clarity, related links, SEO copy, privacy behavior, and result history behavior.',
+      'Updated title, meta description, examples, FAQ answers, related links, guide sections, source links, mistakes, privacy wording, image alt/caption text, sitemap dates, and page-specific proof for the Basic Calculator sprint.',
     ],
     followUps: [
-      'If this becomes the highest traffic page, add visual keyboard-shortcut hints near the keypad without crowding mobile layout.',
+      'Add visual keyboard-shortcut hints near the keypad later only if they fit mobile without crowding the working calculator.',
     ],
   },
   {

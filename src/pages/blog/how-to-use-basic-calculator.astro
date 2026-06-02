@@ -14,11 +14,11 @@ const articleStructuredData = {
   '@type': 'Article',
   headline: 'How to use the Basic Calculator',
   description:
-    'A clear walkthrough for the Access Free Tools basic calculator, including keypad controls, keyboard shortcuts, percentages, history, and copying results.',
+    'A practical walkthrough for the Access Free Tools basic calculator, including percent checks, keyboard shortcuts, one-step math, history, copying results, and common mistakes.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-basic-calculator/',
   image: guideImageUrl,
   datePublished: '2026-04-30',
-  dateModified: '2026-04-30',
+  dateModified: '2026-06-02',
   author: {
     '@type': 'Organization',
     name: 'Access Free Tools',
@@ -32,8 +32,8 @@ const articleStructuredData = {
 ---
 
 <BaseLayout
-  title="How to use the Basic Calculator | Access Free Tools"
-  description="Learn how to use the free Access Free Tools basic calculator for everyday math, percentages, keyboard shortcuts, history, and copying results."
+  title="Basic Calculator Guide | Percent, Keyboard, History"
+  description="Learn how to use the free Basic Calculator for everyday arithmetic, percent discounts, keyboard shortcuts, copied answers, history, and common mistakes."
   path="/blog/how-to-use-basic-calculator/"
   socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
   socialImageAlt={guideArt?.alt}
@@ -44,12 +44,12 @@ const articleStructuredData = {
     <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Calculator Guide</p>
 
     <header class="blog-article-header">
-      <span>Calculator guide</span>
+      <span>Basic calculator guide</span>
       <h1>How to use the Basic Calculator</h1>
       <p>
-        The Access Free Tools basic calculator is built for quick everyday math in your browser.
-        You can click the keypad, use your keyboard, copy the result, and keep recent calculations
-        visible while you compare numbers.
+        Use the Basic Calculator when you need one fast number: a receipt total, a discount,
+        a split bill, or a quick homework check. It works like a simple handheld calculator,
+        with big buttons, keyboard input, a copy button, and a short history list in the same tab.
       </p>
       <a class="button-primary" href="/tools/basic-calculator/">Open the calculator</a>
     </header>
@@ -60,25 +60,43 @@ const articleStructuredData = {
       <div class="blog-article-body">
         <section class="content-section">
           <h2>Quick start</h2>
+          <p>
+            The calculator solves one step at a time. That keeps it fast and easy to check.
+            If you need parentheses, powers, roots, or trigonometry, use the
+            <a href="/tools/scientific-calculator/">Scientific Calculator</a> instead.
+          </p>
           <ol class="instruction-list">
             <li>Enter the first number using the on-screen keypad or your keyboard.</li>
             <li>Choose an operation: add, subtract, multiply, or divide.</li>
             <li>Enter the next number and press equals or Enter.</li>
-            <li>Use Copy result if you want to paste the answer somewhere else.</li>
-            <li>Check the Calculation History panel if you need to compare recent totals.</li>
+            <li>Use Copy result if you want to paste the answer into notes, chat, or a form.</li>
+            <li>Check Calculation History if you need to compare recent totals.</li>
           </ol>
         </section>
 
         <section class="content-section">
           <h2>What each button does</h2>
           <div class="feature-list">
-            <p><strong>AC</strong> clears the calculator and starts over.</p>
-            <p><strong>DEL</strong> removes the last digit you entered.</p>
-            <p><strong>%</strong> turns the current number into a percentage value. For plus or minus, it uses the first number as the base.</p>
+            <p><strong>AC</strong> clears the calculator and starts over from zero.</p>
+            <p><strong>DEL</strong> removes the last digit, which helps when one number is mistyped.</p>
+            <p><strong>%</strong> changes the current entry into a percentage. In plus or minus problems, it uses the first number as the base.</p>
             <p><strong>+/-</strong> switches the current number between positive and negative.</p>
             <p><strong>x</strong> multiplies two numbers.</p>
             <p><strong>/</strong> divides one number by another.</p>
           </div>
+        </section>
+
+        <section class="content-section">
+          <h2>How the percent key works</h2>
+          <p>
+            Percent is the button most people double-check. If you type <strong>80 - 20%</strong>,
+            the percent key turns 20 into 16 because 16 is 20 percent of 80. When you press equals,
+            the calculator subtracts 16 and shows <strong>64</strong>.
+          </p>
+          <p>
+            For a number by itself, percent is simpler. Typing <strong>20%</strong> changes the display
+            to <strong>0.2</strong>. That is useful when you want to multiply by a rate yourself.
+          </p>
         </section>
 
         <section class="content-section">
@@ -113,7 +131,7 @@ const articleStructuredData = {
 
         {examples.length > 0 && (
           <section class="content-section">
-            <h2>Worked examples for the Basic Calculator</h2>
+            <h2>Worked examples</h2>
             <div class="example-grid">
               {examples.map((example) => (
                 <article>
@@ -127,16 +145,44 @@ const articleStructuredData = {
         )}
 
         <section class="content-section">
+          <h2>Common mistakes to check</h2>
+          <div class="feature-list">
+            <p><strong>Do not type money symbols.</strong> Enter 48.50, not $48.50. The result can still mean dollars if that is what your number means.</p>
+            <p><strong>Put the base number first for discounts.</strong> Use 80 - 20%, not 20 - 80%, when you want 20 percent off 80.</p>
+            <p><strong>Do not expect hidden order of operations.</strong> This page solves the current step. Use the scientific calculator for full expressions.</p>
+            <p><strong>Do not divide by zero.</strong> The calculator blocks it because division by zero is not a normal number.</p>
+            <p><strong>Check very long decimals.</strong> The display rounds long answers so they stay readable.</p>
+          </div>
+        </section>
+
+        <section class="content-section">
           <h2>Using history and copy</h2>
           <p>
             After a calculation finishes, the result is added to the history panel. This is useful
-            when you are comparing totals, checking several discounts, or working through a few
-            quick numbers in a row.
+            when you are comparing totals, checking several discounts, or working through a few quick
+            numbers in a row.
           </p>
           <p>
             The Copy result button copies the current display value to your clipboard. The Clear
             history button clears only the visible history list; it does not change the current
             calculator result.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Sources and limits</h2>
+          <p>
+            This guide uses standard arithmetic and percent rules, plus the actual behavior of the
+            Access Free Tools calculator. For math background, OpenStax explains percent as parts per
+            100, Khan Academy covers order of operations, and MDN documents the browser arithmetic
+            operators used by JavaScript.
+          </p>
+          <p>
+            Useful references:
+            <a href="https://openstax.org/books/contemporary-mathematics/pages/6-1-understanding-percent" rel="noreferrer" target="_blank">OpenStax percent</a>,
+            <a href="https://www.khanacademy.org/math/pre-algebra/pre-algebra-arith-prop/pre-algebra-order-of-operations/v/order-operations-intro" rel="noreferrer" target="_blank">Khan Academy order of operations</a>,
+            and
+            <a href="https://developer.mozilla.org/docs/Web/JavaScript/Guide/Expressions_and_Operators" rel="noreferrer" target="_blank">MDN arithmetic operators</a>.
           </p>
         </section>
 
@@ -151,8 +197,9 @@ const articleStructuredData = {
 
       <aside class="article-sidecar">
         <h2>Open the tool</h2>
-        <p>Use the calculator while you follow the guide.</p>
+        <p>Use the calculator while you follow the percent and keyboard examples.</p>
         <a class="button-primary" href="/tools/basic-calculator/">Basic Calculator</a>
+        <a class="button-secondary" href="/tools/percentage-calculator/">Percentage Calculator</a>
       </aside>
     </div>
   </article>
