@@ -129,6 +129,18 @@ const sourceLinks = {
     href: 'https://calcshed.com/paver-calculator/',
     label: 'CalcShed: Paver calculator',
   },
+  inchSandCalculator: {
+    href: 'https://www.inchcalculator.com/sand-calculator/',
+    label: 'Inch Calculator: Sand calculator reference',
+  },
+  calcShedSandCalculator: {
+    href: 'https://calcshed.com/sand-calculator/',
+    label: 'CalcShed: Sand calculator',
+  },
+  calculatorSoupCubicYards: {
+    href: 'https://www.calculatorsoup.com/calculators/construction/cubic-yards-calculator.php',
+    label: 'CalculatorSoup: Cubic yards calculator',
+  },
   cmhaPaverConstruction: {
     href: 'https://www.cmha.org/pav-tec-002/',
     label: 'CMHA: Construction of interlocking concrete pavements',
@@ -3371,25 +3383,76 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'sand-calculator': {
-    summary: 'Learn how dimensions, depth, density, and waste estimate sand yards and tons.',
+    summary: 'Learn how length, width, sand depth, density, and waste become cubic yards and tons.',
+    metaDescription:
+      'Use the Sand Calculator with paver bedding, sandbox, bag, tons, and square-foot examples. See depth, density, waste, and supplier limits.',
     purpose:
-      'The Sand Calculator estimates volume and tonnage for a rectangular sand layer. It is useful for paver bedding, leveling layers, sandboxes, and small base projects.',
+      'The Sand Calculator estimates volume and tonnage for a rectangular sand layer. It is useful for paver bedding, leveling layers, sandboxes, pool-base checks, aquarium-bed rough math, and small base projects.',
+    intro:
+      'Sand estimates usually go wrong because the depth is guessed, the sand is wet, or a bag order gets mixed up with a bulk ton order. Measure the rectangle first, then use density as an estimate, not a promise.',
+    inputMatch: 'the sand bed length, width, depth, tons per cubic yard, and waste percent',
+    logicNote:
+      'The calculator turns depth inches into feet, finds cubic feet, adds waste, converts to cubic yards, then multiplies by tons per cubic yard.',
+    readIntro:
+      'Read cubic yards as the bulk volume number. Read estimated tons as the supplier conversation starter, because dry sand, wet sand, play sand, concrete sand, and compacted sand can weigh differently.',
+    mistakeIntro:
+      'The big mistake is treating every sand type like it has one fixed weight. Inch Calculator lists dry sand around 1.3 to 1.5 tons per cubic yard and wet sand around 1.5 to 1.7 tons, so supplier density matters.',
+    sidecarText:
+      'Open the Sand Calculator beside this guide. Try 10 feet by 10 feet, 1 inch deep, 10 percent waste, and 1.35 tons per cubic yard first.',
+    bestUsesIntro:
+      'Use this guide when you need a quick material estimate for a rectangular layer before checking the bag label, supplier density, delivery minimum, or project instructions.',
+    referenceIntro:
+      'These references back up the volume math, density caution, and cubic-yard conversion behind the calculator.',
     enter: [
       'Enter length and width in feet.',
-      'Enter depth in inches.',
+      'Enter sand depth in inches. For a paver bedding layer, that might be around 1 inch. For a sandbox, it might be much deeper.',
       'Enter tons per cubic yard from your supplier when you have it, then add waste if needed.',
     ],
     read: [
-      'Cubic yards is the bulk volume estimate.',
-      'Estimated tons multiplies cubic yards by the density you entered.',
+      'A 10 ft by 10 ft area at 1 inch deep is 8.33 cubic feet before waste.',
+      'With 10% waste, that becomes 9.17 cubic feet, or about 0.34 cubic yards.',
+      'At 1.35 tons per cubic yard, the estimate is about 0.46 tons.',
       'Density used reminds you how weight was estimated.',
     ],
     mistakes: [
       'Do not assume dry and wet sand weigh the same.',
       'Do not forget compaction and leveling loss.',
+      'Do not use this page as a full paver plan. Base gravel, bedding sand, joint sand, edge restraints, slope, drainage, and compaction are separate checks.',
+      'Do not use pool or aquarium search intent as water-volume advice. This page estimates sand material, not water gallons.',
       'Ask the supplier for material-specific density and delivery minimums.',
     ],
-    sources: [sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'How To Read A Small Paver-Sand Example',
+        paragraphs: [
+          'Say the bedding area is 10 feet by 10 feet and the sand layer is 1 inch deep. The raw volume is 8.33 cubic feet.',
+          'Add 10% waste for leveling and spreading loss. That gives about 9.17 cubic feet, or 0.34 cubic yards. At 1.35 tons per cubic yard, the rough weight is about 0.46 tons.',
+          'If you buy 50 lb bags, convert 0.46 tons to about 920 lb, then divide by 50. That is about 19 bags before you check the bag label.',
+        ],
+      },
+      {
+        title: 'Bags, Tons, And Supplier Density',
+        paragraphs: [
+          'The calculator does not output bag count because bags vary by weight and volume. Use the result as a bridge: tons help with bulk orders, cubic feet help with bag-volume labels, and pounds help with bag-weight labels.',
+          'If a supplier gives you a sand density, use that value. If not, keep the result as a planning estimate and expect moisture, compaction, and sand type to move the real order.',
+        ],
+      },
+      {
+        title: 'Pool, Aquarium, And Round-Area Limits',
+        paragraphs: [
+          'For pool sand, this page can estimate a rectangular sand base or help check a supplier density. It does not estimate pool water volume.',
+          'For aquarium sand, convert tank length and width to feet and use the desired sand depth in inches. Then check the product label because aquarium sand is usually bought by bag.',
+          'For a round area, calculate the circle area first or split the project into simpler pieces. The live Sand Calculator itself expects a rectangular length and width.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchSandCalculator,
+      sourceLinks.calcShedSandCalculator,
+      sourceLinks.calculatorSoupCubicYards,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'soil-calculator': {
     summary: 'Learn how bed area and depth estimate soil volume and bag counts.',

@@ -4577,29 +4577,89 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate sand cubic yards and tons from length, width, depth, density, and waste.',
     description:
-      'Use this free sand calculator to estimate cubic yards, cubic feet, and tons for sand beds, leveling layers, and small projects.',
+      'Use this free sand calculator to estimate cubic feet, cubic yards, and tons for paver bedding, leveling sand, sandboxes, and small rectangular sand beds.',
     icon: 'calculator-sand',
+    aliases: [
+      'Sand Yard Calculator',
+      'Sand Tons Calculator',
+      'Sand Calculator Bags',
+      'Sand Calculator Square Feet',
+      'Paver Sand Calculator',
+      'Sandbox Sand Calculator',
+      'Pool Sand Calculator',
+      'Aquarium Sand Calculator',
+    ],
+    seoTitle: 'Sand Calculator | Cubic Yards, Tons, Depth',
+    seoDescription:
+      'Estimate sand cubic feet, cubic yards, and tons from length, width, depth, density, and waste for pavers, sandboxes, and leveling layers.',
     formula:
-      'The calculator converts depth from inches to feet, multiplies length by width by depth, adds waste, divides by 27 for cubic yards, and multiplies by tons per cubic yard.',
+      'Cubic feet = length x width x depth inches / 12. Adjusted cubic feet = cubic feet x (1 + waste percent / 100). Cubic yards = adjusted cubic feet / 27. Estimated tons = cubic yards x tons per cubic yard.',
     limit:
-      'Sand density changes with moisture, material type, compaction, and supplier measurement. Ask your supplier for the best tons-per-yard value.',
+      'Sand density changes with moisture, sand type, compaction, and supplier measurement. This is a rectangular material estimate, not a paver, pool, aquarium, or drainage specification.',
     inputExplanations: [
+      { term: 'Length and width', meaning: 'the rectangular project size in feet.' },
       { term: 'Depth', meaning: 'the average sand depth in inches.' },
       { term: 'Tons per cubic yard', meaning: 'the supplier density used to turn volume into weight.' },
       { term: 'Waste percent', meaning: 'extra sand for leveling, spreading loss, compaction, and uneven areas.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does the Sand Calculator estimate?',
+        answer:
+          'It estimates a rectangular layer of sand in cubic feet, cubic yards, and tons. Enter length, width, depth, density, and waste percent.',
+      },
+      {
+        question: 'Can I use this for paver sand?',
+        answer:
+          'Yes for the bedding or leveling sand layer if the area is rectangular. Keep base gravel, edge restraints, slope, compaction, and joint sand as separate checks.',
+      },
+      {
+        question: 'Can I use this for a sandbox?',
+        answer:
+          'Yes. Enter the sandbox length and width in feet, then enter the fill depth in inches. Check play-sand bag weight or volume before buying bags.',
+      },
+      {
+        question: 'Does this calculate sand bags?',
+        answer:
+          'Not directly. It gives cubic yards and tons. To estimate bags, divide the estimated tons by the bag weight in tons, or compare cubic feet with the bag volume.',
+      },
+      {
+        question: 'Can I use this for pool sand?',
+        answer:
+          'Only for a rectangular sand base or filter-sand quantity check when the supplier gives the density. Use the Pool Volume Calculator for water gallons.',
+      },
+      {
+        question: 'Can I use this for aquarium sand?',
+        answer:
+          'Only as a rough bed-volume estimate after converting tank length and width to feet. Aquarium sand is usually bought by bag weight, so check the product label.',
+      },
+      {
+        question: 'Why does wet sand change the tons?',
+        answer:
+          'Water adds weight and packed sand can settle differently. That is why the tons-per-cubic-yard input matters more than one fixed internet number.',
+      },
+      {
+        question: 'Can this handle a round area?',
+        answer:
+          'Not by itself. For a circle, calculate the round area first, then use an equivalent square-foot area or split the project into simpler sections.',
+      },
     ],
     useCases: [
       'Estimate sand for paver bedding or leveling.',
       'Estimate sand volume for a sandbox or small base layer.',
       'Convert cubic yards into estimated tons.',
       'Compare different depth assumptions.',
+      'Check whether a bagged-sand order seems close before reading the bag label.',
+      'Separate bedding sand from gravel base, joint sand, pool water, and aquarium product limits.',
     ],
     examples: [
-      { label: 'Leveling sand', expression: '20 ft x 10 ft x 2 in, 1.35 tons/yd3', result: 'Yards and tons' },
-      { label: 'Sandbox', expression: '8 ft x 6 ft x 8 in, 1.25 tons/yd3', result: 'Fill estimate' },
-      { label: 'Path base', expression: '30 ft x 3 ft x 1 in', result: 'Small layer estimate' },
+      { label: 'Paver bedding layer', expression: '10 ft x 10 ft x 1 in, 10% waste, 1.35 tons/yd3', result: '0.34 yd3 and 0.46 tons' },
+      { label: 'Leveling sand', expression: '20 ft x 10 ft x 2 in, 10% waste, 1.35 tons/yd3', result: '1.36 yd3 and 1.83 tons' },
+      { label: 'Sandbox', expression: '8 ft x 6 ft x 8 in, 5% waste, 1.25 tons/yd3', result: '1.24 yd3 and 1.56 tons' },
+      { label: 'Path layer', expression: '30 ft x 3 ft x 1 in, 5% waste, 1.35 tons/yd3', result: '0.29 yd3 and 0.39 tons' },
+      { label: 'Bag check', expression: '0.46 tons from the paver example', result: 'About 19 bags at 50 lb each' },
     ],
-    relatedSlugs: ['paver-calculator', 'gravel-calculator', 'cubic-yard-calculator'],
+    relatedSlugs: ['paver-base-calculator', 'gravel-calculator', 'polymeric-sand-calculator', 'soil-calculator'],
   }),
   makeUtilityTool({
     slug: 'soil-calculator',

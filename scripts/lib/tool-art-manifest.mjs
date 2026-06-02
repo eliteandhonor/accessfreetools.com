@@ -232,6 +232,18 @@ const toolArtMetadataOverrides = {
         'Gravel Calculator guide artwork supports the walkthrough by showing why yards, tons, depth, compaction, and supplier rules need separate checks.',
     },
   },
+  'sand-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a rectangular sand bed with a depth cross-section, sand pile, cubic-yard cube, and scale.',
+      caption:
+        'Sand Calculator artwork matches the live workflow: enter length, width, sand depth, density, and waste to estimate cubic feet, cubic yards, and tons.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing sand-bed area, depth, rectangular volume, sand pile, and scale steps from measuring to weight.',
+      caption:
+        'Sand Calculator guide artwork supports the walkthrough by showing how area, depth, cubic volume, density, and bag or ton checks connect.',
+    },
+  },
   'paver-calculator': {
     tool: {
       alt: 'Smoke mascot pointing at a curved paver patio layout with single-paver size cards, cut-edge blocks, spare pavers, and a stacked buying count.',

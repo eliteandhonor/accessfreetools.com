@@ -456,6 +456,21 @@ const calcShedPaverCalculator = {
   label: 'CalcShed: Paver calculator',
 };
 
+const inchSandCalculator = {
+  href: 'https://www.inchcalculator.com/sand-calculator/',
+  label: 'Inch Calculator: Sand calculator reference',
+};
+
+const calcShedSandCalculator = {
+  href: 'https://calcshed.com/sand-calculator/',
+  label: 'CalcShed: Sand calculator',
+};
+
+const calculatorSoupCubicYards = {
+  href: 'https://www.calculatorsoup.com/calculators/construction/cubic-yards-calculator.php',
+  label: 'CalculatorSoup: Cubic yards calculator',
+};
+
 const cmhaPaverConstruction = {
   href: 'https://www.cmha.org/pav-tec-002/',
   label: 'CMHA: Construction of interlocking concrete pavements',
@@ -5427,20 +5442,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'sand-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [nistSi, nistConversionFactors],
+    sources: [inchSandCalculator, calcShedSandCalculator, calculatorSoupCubicYards, nistSi, nistConversionFactors, googleHelpfulContent],
     findings: [
-      'The calculator converts dimensions and average depth into cubic yards and multiplies by user-entered tons per cubic yard.',
-      'The guide explains that sand density changes with moisture, material type, compaction, and supplier measurement.',
-      'The result keeps volume and estimated tons separate so density uncertainty is visible.',
+      'DataForSEO showed sand calculator intent around cubic yards, tons, bags, pool sand, aquarium sand, circle areas, and square-foot depth estimates.',
+      'Current sand references agree the core math is rectangular volume, cubic feet to cubic yards, then density-based tonnage; dry sand and wet sand can have different tons-per-yard ranges.',
+      'The page now keeps bag count, pool water volume, aquarium product labels, round-area math, paver base gravel, bedding sand, and joint sand as separate checks instead of overclaiming one result.',
     ],
     improvements: [
-      'Manually checked sand volume math, density input, examples, FAQ cautions, guide details, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, aliases, formula, limits, examples, FAQs, guide sections, source notes, audit record, sitemap dates, related links, and image alt/caption text around sand cubic yards, tons, depth, bag handoff, supplier density, paver bedding, sandbox fill, pool/aquarium limits, and round-area caveats.',
     ],
     followUps: [
-      'Add supplier-density examples only if they remain clearly optional estimates.',
+      'Add a circle-area helper or bag-count output only if the UI can keep those assumptions visible and avoid confusing bulk tons with retail bags.',
     ],
   },
   {
