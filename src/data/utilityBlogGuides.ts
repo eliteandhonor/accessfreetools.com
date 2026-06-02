@@ -197,6 +197,10 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/concrete-driveway-calculator/',
     label: 'Inch Calculator: Concrete driveway calculator reference',
   },
+  acpaPavementDesign: {
+    href: 'https://www.acpa.org/download/1130/information-sheet/24426/design-of-concrete-pavement-for-streets-and-roads.pdf',
+    label: 'ACPA: Design of concrete pavement for streets and roads',
+  },
   inchConcreteSteps: {
     href: 'https://www.inchcalculator.com/concrete-steps-calculator/',
     label: 'Inch Calculator: Concrete steps calculator reference',
@@ -2971,25 +2975,58 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchConcreteMix, sourceLinks.quickrete, sourceLinks.nistUnits],
   },
   'concrete-driveway-calculator': {
-    summary: 'Learn how driveway length, width, thickness, and waste become concrete yards and rough cost.',
+    summary: 'Learn how driveway length, width, thickness, waste, and ready-mix price become concrete yards, bag counts, and rough material cost.',
     purpose:
-      'The Concrete Driveway Calculator estimates concrete volume for a rectangular driveway slab. It is a quantity and cost helper, not a full driveway design.',
+      'The Concrete Driveway Calculator estimates concrete volume for a rectangular driveway slab. It is a quantity and material-cost helper, not a driveway design, permit, or safety sign-off.',
+    inputMatch:
+      'driveway length and width in feet, slab thickness in inches, waste percent, and optional price per cubic yard',
+    logicNote:
+      'The calculator converts thickness from inches to feet, multiplies length x width x thickness, adds waste, divides by 27 for cubic yards, rounds common bag counts up, and multiplies by price per cubic yard only when you enter one.',
+    referenceIntro:
+      'These sources help keep the page honest about concrete volume, bag estimates, unit conversion, and pavement-design limits.',
     enter: [
-      'Enter driveway length and width in feet.',
-      'Enter slab thickness in inches and a waste percent.',
-      'Enter price per cubic yard only if you want a rough material cost.',
+      'Enter the driveway length and width in feet, measured inside the forms.',
+      'Enter the concrete slab thickness in inches. Do not include gravel base depth in this number.',
+      'Add waste for uneven forms, low spots, spillage, and a small ordering cushion.',
+      'Enter price per cubic yard only if you want a rough material-only cost.',
     ],
     read: [
-      'Cubic yards is the ready-mix ordering style number.',
-      'Cubic feet is the same volume before converting to yards.',
-      'Estimated cost appears only when you enter a price per cubic yard.',
+      'Cubic yards is the ready-mix style number most people need for ordering.',
+      'Cubic feet shows the slab volume before dividing by 27.',
+      '60 lb and 80 lb bag counts are rounded up, which is useful for tiny repairs but usually too many bags for a full driveway.',
+      'Estimated cost is material-only. It does not include labor, forms, base gravel, reinforcement, delivery, finishing, demolition, or permits.',
     ],
     mistakes: [
-      'Do not guess thickness if the driveway will carry heavy vehicles.',
-      'Do not forget base gravel, compaction, joints, drainage, forms, and reinforcement.',
-      'Do not treat bag counts as the best choice for large driveway pours.',
+      'Do not guess thickness if the driveway will carry heavy vehicles, RVs, delivery trucks, or work equipment.',
+      'Do not count gravel base depth as concrete thickness.',
+      'Do not forget base prep, compaction, joints, drainage, forms, reinforcement, curing, local code, and inspection rules.',
+      'Do not treat the bag count as a recommended buying plan for a large driveway pour.',
     ],
-    sources: [sourceLinks.inchConcreteDriveway, sourceLinks.quickrete, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Example: 40 by 12 feet at 4 inches',
+        paragraphs: [
+          'A 40 by 12 foot driveway has 480 square feet of surface area. At 4 inches thick, the raw concrete volume is 160 cubic feet.',
+          'With 10% waste, the adjusted volume is 176 cubic feet. Divide by 27 and you get about 6.52 cubic yards. If ready-mix is $160 per cubic yard, the material-only estimate is about $1,043.',
+          'The same volume would be about 294 eighty-pound bags. That number is useful as a check, but it also shows why a full driveway is usually a ready-mix job.',
+        ],
+      },
+      {
+        title: 'Why slab thickness changes the number fast',
+        paragraphs: [
+          'Thickness is part of the volume formula, so changing it changes the order. On the same driveway area, a 5-inch slab uses 25% more concrete than a 4-inch slab.',
+          'The calculator does not choose the right thickness. It only shows the concrete needed for the thickness you enter. Soil, base prep, loads, frost, drainage, reinforcement, and local rules still matter.',
+        ],
+      },
+      {
+        title: 'When to stop before ordering',
+        paragraphs: [
+          'QUIKRETE notes that concrete calculator bag counts are approximate and do not cover uneven substrate, waste, and similar jobsite changes. That is why this page keeps waste visible instead of hiding it.',
+          'Before ordering, check the product yield, ready-mix minimums, delivery fees, driveway apron rules, permits, drainage slope, and whether the slab needs reinforcement or saw-cut joints.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.inchConcreteDriveway, sourceLinks.quickrete, sourceLinks.acpaPavementDesign, sourceLinks.nistUnits],
   },
   'concrete-steps-calculator': {
     summary: 'Learn how step count, riser height, tread depth, width, landing, and waste estimate solid concrete steps.',

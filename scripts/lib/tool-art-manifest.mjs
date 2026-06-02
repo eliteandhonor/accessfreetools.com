@@ -256,6 +256,18 @@ const toolArtMetadataOverrides = {
         'Concrete Mix Calculator guide artwork supports the walkthrough by showing how volume, waste, ratio parts, and bag yield become a rough material list.',
     },
   },
+  'concrete-driveway-calculator': {
+    tool: {
+      alt: 'Smoke mascot pointing at a measured concrete driveway slab leading to a garage, with concrete blocks, material bags, coins, and a cost sheet beside it.',
+      caption:
+        'Concrete Driveway Calculator artwork matches the live workflow: enter driveway length, width, slab thickness, waste, and price to estimate yards, bags, and rough material cost.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing driveway length and width arrows, slab thickness, concrete blocks, material bags, coins, and a cost sheet.',
+      caption:
+        'Concrete Driveway Calculator guide artwork supports the walkthrough by showing how slab size, thickness, waste, bag counts, and material-only cost connect.',
+    },
+  },
   'siding-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a house wall with window and door openings, siding panels, stacked siding squares, box coverage icons, and waste offcuts.',

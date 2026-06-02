@@ -5100,20 +5100,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'concrete-driveway-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-concrete-masonry-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
+    reviewedOn: '2026-06-02',
     scope: commonMathScope,
-    sources: [inchConcreteDriveway, quikreteConcrete, nistSi],
+    sources: [inchConcreteDriveway, quikreteConcrete, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator uses rectangular slab volume, adds waste, converts to cubic yards, estimates bag counts, and optionally estimates cost.',
-      'The FAQ explains why thickness changes volume directly and separates concrete quantity from subbase, joints, drainage, and reinforcement.',
-      'The guide tells users to verify slab depth before ordering and avoids claiming driveway design coverage.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `concrete driveway calculator`, `concrete slab calculator`, `how much is a yard of concrete`, driveway cost, and driveway estimate intent after balance and status gates passed.',
+      'The calculator converts driveway thickness from inches to feet, multiplies length by width by thickness, adds waste, converts cubic feet to cubic yards, rounds common bag counts up, and optionally estimates material-only cost.',
+      'The page now explains 40 by 12 foot, 30 by 20 foot, small apron, and thickness-change examples while keeping driveway design, base prep, reinforcement, joints, drainage, permits, and inspections outside the calculator result.',
     ],
     improvements: [
-      'Added driveway concrete calculator UI, cost output, result steps, examples, guide article, detailed FAQs, source notes, tests, and manual audit record.',
+      'Refreshed metadata, aliases, formula text, examples, FAQ coverage, guide sections, source-backed limits, exact image alt/captions, modified dates, and UI labels in smart-14 wording.',
     ],
     followUps: [
-      'Add driveway subbase and joint-spacing companions only as separate scoped tools.',
+      'Add driveway subbase, joint-spacing, or reinforcement companions only as separate scoped tools with clear code and safety limits.',
     ],
   },
   {
