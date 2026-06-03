@@ -531,6 +531,16 @@ const inchPlywood = {
   label: 'Inch Calculator: Plywood calculator reference',
 };
 
+const apaPlywood = {
+  href: 'https://www.apawood.org/plywood',
+  label: 'APA: Plywood product applications and panel sizes',
+};
+
+const homeDepotPlywoodTypes = {
+  href: 'https://www.homedepot.com/c/ab/types-of-plywood/9ba683603be9fa5395fab909d37f448',
+  label: 'The Home Depot: Types of plywood',
+};
+
 const inchSod = {
   href: 'https://www.inchcalculator.com/sod-calculator/',
   label: 'Inch Calculator: Sod calculator reference',
@@ -5398,20 +5408,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'plywood-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-construction-materials-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'all-pages-seo-dataforseo-sprint-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [inchPlywood, nistSi, googleHelpfulContent],
+    sources: [inchPlywood, apaPlywood, homeDepotPlywoodTypes, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator divides adjusted project area by sheet coverage, rounds up whole sheets, and optionally estimates cost from price per sheet.',
-      'The FAQ explains that sheet count is area math, not a cut-layout plan, and calls out seams, framing layout, grain direction, thickness, and grade.',
-      'The guide uses actual sheet size and waste percent language that matches the tool fields.',
+      'DataForSEO paid evidence showed active U.S. intent around `plywood calculator` with 8,100 searches, plus roof, 4x8, cabinet, square-feet, floor, wall, and furniture modifiers.',
+      'The calculator divides adjusted project area by sheet coverage, rounds up whole sheets, shows total coverage bought, and optionally estimates cost from price per sheet.',
+      'The page and guide now separate area-based sheet count from roof sheathing rules, subfloor ratings, wall openings, cabinet cut lists, furniture grain direction, saw kerf, thickness, grade, fasteners, and code requirements.',
     ],
     improvements: [
-      'Added plywood sheet-count UI, examples, result labels, guide article, FAQs, source notes, related tools, tests, and audit record.',
+      'Rebuilt metadata, aliases, examples, FAQ coverage, guide sections, source links, trust limits, modified dates, audit record, related links, and exact image alt/caption text around 4x8 sheet count, waste, whole-sheet rounding, total coverage bought, and cut-layout limits.',
     ],
     followUps: [
-      'Add a multi-room sheet planner later only if layout complexity can be represented honestly.',
+      'Add a multi-room sheet planner, opening subtraction, metric panels, or cut-list optimizer later only if the new mode can represent layout complexity honestly and gets its own sourced assumptions, UI labels, tests, and browser proof.',
     ],
   },
   {

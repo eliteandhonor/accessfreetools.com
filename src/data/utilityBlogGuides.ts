@@ -221,6 +221,14 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/plywood-calculator/',
     label: 'Inch Calculator: Plywood calculator reference',
   },
+  apaPlywood: {
+    href: 'https://www.apawood.org/plywood',
+    label: 'APA: Plywood product applications and panel sizes',
+  },
+  homeDepotPlywoodTypes: {
+    href: 'https://www.homedepot.com/c/ab/types-of-plywood/9ba683603be9fa5395fab909d37f448',
+    label: 'The Home Depot: Types of plywood',
+  },
   inchSod: {
     href: 'https://www.inchcalculator.com/sod-calculator/',
     label: 'Inch Calculator: Sod calculator reference',
@@ -3647,25 +3655,56 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'plywood-calculator': {
-    summary: 'Learn how project area, sheet size, waste, and price become plywood sheet count.',
+    summary: 'Learn how project area, 4x8 sheet size, waste, and price become plywood sheet count.',
     purpose:
-      'The Plywood Calculator estimates how many plywood or sheet-good panels to buy for a simple area-based job.',
+      'The Plywood Calculator estimates how many plywood or sheet-good panels to buy for an area-based job, such as a floor, wall, roof deck, cabinet batch, or furniture project.',
     enter: [
-      'Enter the total square feet to cover.',
-      'Enter sheet width and length in feet, such as 4 and 8 for a common full sheet.',
-      'Add waste and optional price per sheet if you want a rough cost.',
+      'Enter the total square feet you want to cover. Subtract big openings first if they should not get plywood.',
+      'Enter sheet width and length in feet. Use 4 and 8 for a common full sheet, or the actual size printed on the panel you plan to buy.',
+      'Add waste for cuts, damaged edges, saw kerf, layout choices, and mistakes. Add optional price per sheet if you want a rough material cost.',
     ],
     read: [
-      'Sheets needed is rounded up because you cannot buy part of a sheet.',
-      'Adjusted area includes the waste percent.',
-      'Total coverage bought shows how much area the rounded sheet count can cover before layout limits.',
+      'Sheets needed is rounded up because stores sell whole sheets, not exact square feet.',
+      'Adjusted area includes the waste percent before the calculator divides by sheet coverage.',
+      'Total coverage bought shows how much area the rounded sheet count can cover before cut-layout, seams, and code rules change the plan.',
+      'For example, 420 square feet with 4 x 8 sheets and 10% waste becomes 462 adjusted square feet. A 4 x 8 sheet covers 32 square feet, so 462 / 32 = 14.4375 and the calculator rounds up to 15 sheets.',
     ],
     mistakes: [
-      'Do not treat area math as a cut-layout plan.',
-      'Do not ignore panel direction, seams, framing layout, grain, thickness, and fastener rules.',
-      'Check whether your project needs actual dimensions, rated sheathing, subfloor panels, or specialty plywood.',
+      'Do not treat area math as a cut-layout plan. Cabinets, shelves, and furniture need part sizes and grain direction checked on a sheet layout.',
+      'Do not ignore panel direction, seams, framing layout, joist spacing, thickness, grade, fastener rules, or local code.',
+      'Do not use a generic plywood sheet when the project needs rated roof sheathing, subfloor panels, exterior exposure rating, hardwood plywood, MDF, OSB, or another specialty sheet good.',
+      'Do not set waste to zero unless the project is very simple and you already know the offcuts will fit somewhere useful.',
     ],
-    sources: [sourceLinks.inchPlywood, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
+    extraSections: [
+      {
+        title: 'Quick 4x8 sheet example',
+        paragraphs: [
+          'A common 4 x 8 plywood sheet covers 32 square feet before cuts. If your subfloor area is 420 square feet and you add 10% waste, the adjusted area is 462 square feet.',
+          'Divide 462 by 32 and you get 14.4375. Since you cannot buy 0.4375 of a sheet, the calculator rounds up to 15 sheets, which gives 480 square feet of bought coverage before layout limits.',
+        ],
+      },
+      {
+        title: 'Roof, floor, wall, and cabinet notes',
+        paragraphs: [
+          'For roofs, floors, and walls, use the calculator only after you know the square footage. The page does not choose panel thickness, span rating, clip spacing, nail pattern, weather exposure, or inspection requirements.',
+          'For cabinets and furniture, the sheet count is only a budget check. A real cut list needs each part size, grain direction, kerf, edge banding, and which leftovers can actually be reused.',
+        ],
+      },
+      {
+        title: 'What this does not decide',
+        paragraphs: [
+          'This tool does not tell you which plywood grade to buy. Sanded plywood, hardwood plywood, sheathing, OSB, MDF, and project panels can all behave differently and fit different jobs.',
+          'Use the product label, project plans, local code, and installer or builder guidance for rated sheathing, subfloors, structural work, exterior exposure, and fastening details. Use this calculator for the rough sheet count after those choices are known.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchPlywood,
+      sourceLinks.apaPlywood,
+      sourceLinks.homeDepotPlywoodTypes,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'insulation-calculator': {
     summary: 'Learn how square footage, openings, pack coverage, waste, and R-value planning work together.',

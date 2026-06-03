@@ -4724,43 +4724,102 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate plywood sheet count, coverage, waste, and optional cost.',
     description:
-      'Use this free plywood calculator to estimate how many sheets to buy from project area, sheet size, waste percent, and optional price per sheet.',
+      'Use this free plywood calculator to estimate 4x8 sheet count, square-foot coverage, waste, and rough material cost before you buy panels.',
+    seoTitle: 'Plywood Calculator | 4x8 Sheet Count',
+    seoDescription:
+      'Estimate 4x8 plywood sheets from square feet, waste, sheet size, and price per sheet. Check roof, floor, wall, cabinet, and cut-layout limits.',
     icon: 'calculator-plywood',
-    aliases: ['Sheet Goods Calculator', 'Plywood Sheet Calculator'],
+    aliases: [
+      '4x8 Plywood Calculator',
+      'Plywood Sheet Calculator',
+      'Plywood Calculator Square Feet',
+      'Plywood Calculator For Roof',
+      'Plywood Calculator For Cabinets',
+      'Plywood Calculator For Floor',
+      'Plywood Calculator For Walls',
+      'Sheet Goods Calculator',
+    ],
     formula:
       'The calculator multiplies sheet width by sheet length for sheet coverage, adds waste to the project area, divides adjusted area by sheet coverage, and rounds up.',
     limit:
-      'Panel direction, seams, joist spacing, fastener rules, thickness, grade, subfloor code, and cut layout can change the final sheet count.',
+      'This is area math, not a cut plan or building approval. Roof pitch, subfloor rating, wall openings, cabinet cut lists, seams, grain, thickness, grade, fasteners, and local code can change what you actually buy.',
     inputExplanations: [
-      { term: 'Area', meaning: 'the total square feet you want to cover before waste.' },
-      { term: 'Sheet width and length', meaning: 'the actual sheet size in feet, commonly 4 by 8.' },
-      { term: 'Waste percent', meaning: 'extra sheet area for cuts, layout, mistakes, and damaged edges.' },
-      { term: 'Price per sheet', meaning: 'optional cost input used only for a rough material price.' },
+      { term: 'Project area', meaning: 'the floor, wall, roof deck, cabinet, or furniture square feet you want to cover before waste.' },
+      { term: 'Sheet width and length', meaning: 'the actual panel size in feet. A common full plywood sheet is 4 by 8 feet, or 32 square feet.' },
+      { term: 'Waste percent', meaning: 'extra sheet area for cuts, layout, damaged edges, saw kerf, and mistakes.' },
+      { term: 'Price per sheet', meaning: 'optional cost input used only for a rough panel-material price.' },
     ],
     extraFaq: [
+      {
+        question: 'How many square feet are in a 4x8 plywood sheet?',
+        answer:
+          'A 4 by 8 foot plywood sheet covers 32 square feet before cuts. The calculator uses width x length, so you can also enter 2 x 4 project panels, 4 x 10 panels, or another sheet size.',
+      },
+      {
+        question: 'How does the plywood calculator handle waste?',
+        answer:
+          'It multiplies the project area by 1 plus the waste percent. For 420 square feet with 10% waste, the adjusted area is 462 square feet before dividing by sheet coverage.',
+      },
       {
         question: 'Does plywood sheet count include the best cut layout?',
         answer:
           'No. It estimates sheets by area. Real layouts need seams on framing, grain direction, panel orientation, and leftover pieces checked before buying.',
       },
       {
+        question: 'Can I use this as a plywood calculator for a roof?',
+        answer:
+          'Yes for a rough roof-deck sheet count after you know the roof square footage. It does not choose sheathing thickness, panel rating, nail pattern, spacing, clips, underlayment, or code details.',
+      },
+      {
+        question: 'Can I use it for subfloor plywood?',
+        answer:
+          'Yes for quantity planning. For a real subfloor, check the span rating, tongue-and-groove type, panel orientation, fastening schedule, joist spacing, and local code before buying.',
+      },
+      {
+        question: 'Can I use it for cabinet plywood or furniture panels?',
+        answer:
+          'Use it for a rough panel budget, but do not treat it as a cut-list optimizer. Cabinets and furniture depend on part sizes, grain direction, kerf, edge banding, and which offcuts are usable.',
+      },
+      {
+        question: 'Should I subtract windows, doors, or other openings?',
+        answer:
+          'Subtract large openings from your project area before entering it. Then add waste because cuts around openings can still use more material than the net square footage suggests.',
+      },
+      {
         question: 'Should I enter nominal or actual sheet size?',
         answer:
           'Use the size printed for the sheet you will buy. Most full sheets are 4 by 8 feet, but project panels and specialty goods can be different.',
       },
+      {
+        question: 'What waste percent should I use for plywood?',
+        answer:
+          'For simple square areas, 10% is a common starting point. Use more for angled roofs, cut-up rooms, cabinet parts, visible grain matching, damaged edges, or layouts with many small pieces.',
+      },
+      {
+        question: 'Does the cost estimate include fasteners or delivery?',
+        answer:
+          'No. Price per sheet only multiplies whole sheets by the panel price. Screws, nails, adhesive, edge banding, underlayment, delivery, tax, and tool rental are outside this estimate.',
+      },
+      {
+        question: 'Can I use this for OSB, MDF, or other sheet goods?',
+        answer:
+          'Yes if you only need area-based sheet count. The material choice still matters because OSB, MDF, sanded plywood, hardwood plywood, and rated sheathing are used for different jobs.',
+      },
     ],
     useCases: [
-      'Estimate plywood sheets for subfloor or sheathing.',
-      'Compare 4x8 sheets with smaller project panels.',
-      'Add waste for cuts and layout.',
-      'Estimate rough sheet cost before shopping.',
+      'Estimate 4x8 plywood sheets for a subfloor or wall.',
+      'Plan rough roof sheathing sheet count from roof square footage.',
+      'Compare full sheets with smaller project panels.',
+      'Add waste for cuts, offcuts, and layout mistakes.',
+      'Estimate rough sheet cost before a store run.',
     ],
     examples: [
-      { label: 'Subfloor sheets', expression: '420 ft2, 4 x 8 ft sheets, 10% waste', result: '15 sheets' },
-      { label: 'Small wall sheathing', expression: '180 ft2, 12% waste', result: 'Sheet estimate' },
-      { label: 'Project panels', expression: '96 ft2, 2 x 4 ft panels', result: 'Panel count' },
+      { label: 'Subfloor sheets', expression: '420 ft2, 4 x 8 ft sheets, 10% waste', result: '462 adjusted ft2, 15 sheets, 480 ft2 bought' },
+      { label: 'Small wall sheathing', expression: '180 ft2, 4 x 8 ft sheets, 12% waste', result: '201.6 adjusted ft2, 7 sheets' },
+      { label: 'Roof deck', expression: '750 ft2, 4 x 8 ft sheets, 10% waste', result: '825 adjusted ft2, 26 sheets' },
+      { label: 'Project panels', expression: '96 ft2, 2 x 4 ft panels, 15% waste', result: '110.4 adjusted ft2, 14 panels' },
     ],
-    relatedSlugs: ['square-footage-calculator', 'flooring-calculator', 'wall-stud-calculator'],
+    relatedSlugs: ['roofing-calculator', 'drywall-calculator', 'flooring-calculator', 'carpet-calculator'],
   }),
   makeUtilityTool({
     slug: 'insulation-calculator',

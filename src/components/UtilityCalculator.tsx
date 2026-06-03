@@ -653,11 +653,11 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     wastePercent: 'Extra concrete for uneven holes, overfill, spillage, and ordering cushion.',
   },
   plywood: {
-    areaSquareFeet: 'Total area you want to cover before waste.',
-    sheetWidthFeet: 'Width of one plywood sheet in feet, often 4.',
-    sheetLengthFeet: 'Length of one plywood sheet in feet, often 8.',
-    wastePercent: 'Extra sheets for cuts, layout, damaged edges, and mistakes.',
-    pricePerSheet: 'Optional price for one sheet so the tool can estimate cost.',
+    areaSquareFeet: 'Floor, wall, roof, cabinet, or project-panel area before waste.',
+    sheetWidthFeet: 'Width of one plywood sheet in feet. A common full sheet is 4 ft wide.',
+    sheetLengthFeet: 'Length of one plywood sheet in feet. A common full sheet is 8 ft long.',
+    wastePercent: 'Extra sheet area for cuts, offcuts, damaged edges, saw kerf, and mistakes.',
+    pricePerSheet: 'Optional price for one sheet so the tool can estimate rough panel cost.',
   },
   insulation: {
     areaSquareFeet: 'Wall, ceiling, floor, or attic area before subtracting openings.',
@@ -3192,17 +3192,17 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Plywood Calculator',
     buttonLabel: 'Estimate plywood',
     emptyHistory: 'Recent plywood estimates will appear here.',
-    privacyNote: 'Plywood estimates stay local and use sheet coverage math.',
+    privacyNote: 'Plywood estimates stay in your browser and use sheet coverage math, not a cut diagram.',
     modes: [
       {
         id: 'sheet-count',
         label: 'Sheet count',
         symbol: 'PLY',
         fields: [
-          numberField('areaSquareFeet', 'Area ft2', '420'),
-          numberField('sheetWidthFeet', 'Sheet width feet', '4'),
-          numberField('sheetLengthFeet', 'Sheet length feet', '8'),
-          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('areaSquareFeet', 'Project area (ft2)', '420'),
+          numberField('sheetWidthFeet', 'Sheet width (ft)', '4'),
+          numberField('sheetLengthFeet', 'Sheet length (ft)', '8'),
+          numberField('wastePercent', 'Waste (%)', '10'),
           numberField('pricePerSheet', 'Price per sheet', '29.50'),
         ],
         defaultInputs: { areaSquareFeet: '420', sheetWidthFeet: '4', sheetLengthFeet: '8', wastePercent: '10', pricePerSheet: '29.50' },
@@ -6528,11 +6528,12 @@ function calculateUtility(
       });
       return {
         label: 'Plywood sheets',
-        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2 with ${formatCalculatorNumber(result.sheetWidthFeet)} x ${formatCalculatorNumber(result.sheetLengthFeet)} ft sheets`,
+        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2, ${formatCalculatorNumber(result.sheetWidthFeet)} x ${formatCalculatorNumber(result.sheetLengthFeet)} ft sheets, ${formatCalculatorNumber(result.wastePercent)}% waste`,
         answer: `${formatCalculatorNumber(result.sheetsNeeded)} sheets`,
         metrics: [
           { label: 'Adjusted area', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
           { label: 'Sheet coverage', value: `${formatCalculatorNumber(result.sheetAreaSquareFeet)} ft2` },
+          { label: 'Total coverage bought', value: `${formatCalculatorNumber(result.totalCoverageSquareFeet)} ft2` },
           { label: 'Estimated cost', value: result.estimatedCost === null ? 'Not entered' : money(result.estimatedCost) },
         ],
         steps: [
@@ -6540,7 +6541,7 @@ function calculateUtility(
           'Add waste to the project area.',
           'Divide adjusted area by sheet coverage and round up.',
         ],
-        note: 'Panel direction, seams, joist layout, grain direction, thickness, fasteners, and code requirements can change the final sheet plan.',
+        note: 'Roof decks, subfloors, wall sheathing, cabinets, and furniture all have layout rules. Check seams, grain direction, span rating, thickness, fasteners, and code before buying.',
       };
     }
     case 'insulation': {

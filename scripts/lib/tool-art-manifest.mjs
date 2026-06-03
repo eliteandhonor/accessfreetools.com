@@ -364,6 +364,18 @@ const toolArtMetadataOverrides = {
         'Post Hole Concrete Calculator guide artwork supports the walkthrough for post displacement, concrete per hole, bag counts, waste, and code or load limits.',
     },
   },
+  'plywood-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 420 square foot subfloor with 4 by 8 ft plywood sheets, 10 percent waste, 15 sheets, and a rough cost card.',
+      caption:
+        'Plywood Calculator artwork matches the live workflow: enter project area, sheet size, waste, and optional price to estimate whole plywood sheets and coverage bought.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing 4 by 8 plywood sheet area, 420 square feet, 10 percent waste, 15 sheets, seam and cut-layout caution cards.',
+      caption:
+        'Plywood Calculator guide artwork supports the walkthrough for 4 by 8 sheet math, roof or floor square footage, waste, whole-sheet rounding, and layout limits.',
+    },
+  },
   'concrete-footing-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',
