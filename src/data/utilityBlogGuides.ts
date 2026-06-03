@@ -153,6 +153,18 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/deck-stain-calculator/',
     label: 'Inch Calculator: Deck stain calculator reference',
   },
+  decksComStaining: {
+    href: 'https://www.decks.com/how-to/articles/how-to-stain-a-wood-deck',
+    label: 'Decks.com: How to stain a wood deck',
+  },
+  behrDeckPlusSolidStain: {
+    href: 'https://www.behr.com/consumer/products/wood-stains-finishes-cleaners-and-strippers/solid-color-wood-stains/behr-deckplus-solid-color-waterproofing-wood-stain',
+    label: 'BEHR: DECKplus solid color waterproofing wood stain',
+  },
+  rustOleumWolmanDurastain: {
+    href: 'https://www.rustoleum.com/product-catalog/consumer-brands/wolman/durastain-semi-transparent-stain/',
+    label: 'Rust-Oleum Wolman: DuraStain semi-transparent stain',
+  },
   inchBaluster: {
     href: 'https://www.inchcalculator.com/baluster-calculator/',
     label: 'Inch Calculator: Baluster calculator reference',
@@ -2826,25 +2838,91 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'deck-stain-calculator': {
+    title: 'Deck Stain Calculator Guide',
     summary: 'Learn how deck surface, rails, stairs, coats, coverage, and waste become gallons of stain.',
+    metaDescription:
+      'Use the Deck Stain Calculator guide to estimate stain gallons from deck size, rails, stairs, coats, label coverage, waste, and price per gallon.',
     purpose:
-      'The Deck Stain Calculator estimates how many gallons to buy by adding the surface areas that need coating, then applying coat count and coverage per gallon.',
+      'The Deck Stain Calculator estimates how many gallons to buy by adding the deck surface, railing faces, and stair tread/riser area, then applying waste, coat count, product-label coverage, and whole-gallon rounding.',
+    intro:
+      'Use it before you walk into the paint aisle with only a deck size in your head. The number on the stain label still matters most, because rough boards, old finish, rail details, sprayers, and weather can change real coverage.',
+    inputMatch: 'deck length, deck width, railing length, railing height, step count, step width, tread depth, riser height, coats, coverage per gallon, waste percent, and optional price per gallon',
+    logicNote:
+      'The calculator uses deck surface = deck length x deck width, railing area = railing length x railing height x 2, step area = step count x step width x ((step depth + riser height) / 12), surface with waste = total surface x (1 + waste percent / 100), coat-adjusted area = surface with waste x coats, exact gallons = coat-adjusted area / coverage per gallon, and gallons to buy = ceiling(exact gallons).',
+    readIntro:
+      'Read gallons to buy first because that is the purchase number. Then check surface with waste, coat-adjusted area, and exact gallons so you can see which assumption is pushing the result up.',
+    mistakeIntro:
+      'Most deck-stain estimates go wrong when someone counts only the floor boards, ignores the product label, forgets rails and stairs, or stains before the deck is clean, dry, and inside the weather window.',
     enter: [
-      'Enter deck length and width for the main surface.',
-      'Enter railing length and height if you plan to stain rails.',
-      'Enter stair details, coat count, label coverage, waste percent, and optional gallon price.',
+      'Enter deck length and width in feet for the flat walking surface.',
+      'Enter railing length and average railing height if you plan to stain rails. The calculator counts both sides because railings usually have an inside and outside face.',
+      'Enter stair details if the stairs are part of the same stain job. Step area counts each tread and riser together.',
+      'Enter the coat count and coverage per gallon from the stain label. If the label gives different first-coat and second-coat numbers, use the value that fits your wood condition and product directions.',
+      'Enter a waste percent for rough boards, rail edges, drips, overlap, sprayer loss, and touch-ups. Add price per gallon only if you want a stain-only cost estimate.',
     ],
     read: [
       'Gallons to buy rounds the exact gallon need up to a whole gallon.',
-      'Surface with waste shows the deck, rail, and stair area before coat count.',
-      'Coat-adjusted area shows how much coverage all coats require together.',
+      'Surface with waste shows the deck, rail, and stair area after the waste cushion is added but before coat count.',
+      'Coat-adjusted area shows how much coverage all coats require together. A two-coat job doubles this line.',
+      'Exact gallons shows the raw division before whole-gallon rounding. If it says 5.016, the buying answer rounds to 6 gallons.',
+      'Estimated stain cost is gallons to buy times price per gallon. It does not include cleaner, stripper, brushes, tape, tarps, sprayer supplies, or labor.',
     ],
     mistakes: [
       'Do not guess coverage when the product label gives a number.',
-      'Do not forget old, dry, rough, or weathered wood can soak up more stain.',
-      'Do not stain without checking weather, cleaning, drying, and prep instructions.',
+      'Do not forget railings, stair risers, lattice, benches, skirt boards, or extra trim if those surfaces need stain too.',
+      'Do not forget old, dry, rough, or weathered wood can soak up more stain than smooth boards.',
+      'Do not assume more coats are always better. Some stains need one coat, some need two thin coats, and some can fail when over-applied.',
+      'Do not stain without checking weather, cleaning, drying, moisture, and prep instructions for the exact product.',
     ],
-    sources: [sourceLinks.inchDeckStain, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick 16 x 12 deck stain example',
+        paragraphs: [
+          'Say the deck is 16 ft by 12 ft. The flat deck surface is 192 square feet. Add 40 ft of railing at 3 ft high, counted on both sides, and the railing adds 240 square feet. Four 4 ft wide steps with 11 inch treads and 7 inch risers add 24 square feet.',
+          'That makes 456 square feet before waste. With 10% waste, the calculator uses 501.6 square feet. Two coats make the coat-adjusted area 1,003.2 square feet. At 200 square feet per gallon, the exact need is 5.016 gallons, so the buying answer is 6 gallons. At $45 per gallon, the stain-only cost is $270.',
+        ],
+      },
+      {
+        title: 'Why the label coverage number matters',
+        paragraphs: [
+          'Deck stains do not all cover the same area. Some product pages list one-coat coverage. Others give different coverage for first and second coats, or different ranges for rough and smooth wood.',
+          'That is why this calculator asks for coverage instead of hiding a universal default. If your deck is rough, dry, cracked, previously stripped, or full of rail details, use the lower end of the label range or add waste.',
+        ],
+      },
+      {
+        title: 'Rails, stairs, and surfaces the calculator leaves out',
+        paragraphs: [
+          'The railing estimate is a simple rectangle: length times height times two faces. That catches the big surface, but it cannot perfectly count balusters, posts, caps, lattice, benches, pergolas, planter boxes, or built-in seating.',
+          'The stair estimate counts treads and risers. If you also plan to stain stringers, side trim, landings, or stair railings, measure those areas separately or add a larger waste cushion.',
+        ],
+      },
+      {
+        title: 'Prep and weather can change the real job',
+        paragraphs: [
+          'A gallon estimate does not tell you whether the deck is ready for stain. The wood may need cleaning, stripping, sanding, brightening, drying time, or a moisture check before the finish can perform well.',
+          'Weather matters too. Wind, heat, cold, rain risk, and direct sun can affect how fast stain dries and how evenly it soaks in. Use the calculator for quantity, then follow the stain label for prep, timing, tools, coats, and dry time.',
+        ],
+      },
+      {
+        title: 'Stain gallons are not a full project budget',
+        paragraphs: [
+          'The cost line is useful, but it is intentionally narrow. It only multiplies whole gallons by the price per gallon.',
+          'For a fuller deck project budget, keep stain separate from cleaner, stripper, brushes, rollers, sprayer supplies, tape, tarps, replacement boards, hardware, permits, and labor. If you are also planning boards or a broader project cost, the Deck Board Calculator and Deck Cost Calculator are better next steps.',
+        ],
+        links: [
+          { href: '/tools/deck-board-calculator/', label: 'Estimate deck boards before staining' },
+          { href: '/tools/deck-cost-calculator/', label: 'Build a rough deck project budget' },
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchDeckStain,
+      sourceLinks.decksComStaining,
+      sourceLinks.behrDeckPlusSolidStain,
+      sourceLinks.rustOleumWolmanDurastain,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'baluster-calculator': {
     summary: 'Learn how railing opening length, baluster width, and max gap estimate baluster count.',

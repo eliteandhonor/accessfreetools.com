@@ -441,6 +441,21 @@ const inchDeckStain = {
   label: 'Inch Calculator: Deck stain calculator reference',
 };
 
+const decksComStaining = {
+  href: 'https://www.decks.com/how-to/articles/how-to-stain-a-wood-deck',
+  label: 'Decks.com: How to stain a wood deck',
+};
+
+const behrDeckPlusSolidStain = {
+  href: 'https://www.behr.com/consumer/products/wood-stains-finishes-cleaners-and-strippers/solid-color-wood-stains/behr-deckplus-solid-color-waterproofing-wood-stain',
+  label: 'BEHR: DECKplus solid color waterproofing wood stain',
+};
+
+const rustOleumWolmanDurastain = {
+  href: 'https://www.rustoleum.com/product-catalog/consumer-brands/wolman/durastain-semi-transparent-stain/',
+  label: 'Rust-Oleum Wolman: DuraStain semi-transparent stain',
+};
+
 const inchBaluster = {
   href: 'https://www.inchcalculator.com/baluster-calculator/',
   label: 'Inch Calculator: Baluster calculator reference',
@@ -5020,20 +5035,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'deck-stain-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-deck-patio-landscaping-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'page-seo-gsc-refresh-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [inchDeckStain, nistSi],
+    sources: [inchDeckStain, decksComStaining, behrDeckPlusSolidStain, rustOleumWolmanDurastain, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator combines deck surface, railing faces, and stair tread/riser area before applying waste, coat count, and label coverage.',
-      'The result separates exact gallons, whole gallons to buy, coat-adjusted area, and optional cost.',
-      'The FAQ and guide warn that old wood, rough texture, previous finish, sprayer loss, product instructions, weather, cleaning, and drying can change real coverage.',
+      'The calculator combines deck surface, railing faces counted on both sides, and stair tread/riser area before applying waste, coat count, product-label coverage, and whole-gallon rounding.',
+      'Current page evidence targets deck stain calculator intent with exact examples for a 16 x 12 deck with rails, a platform deck, a large rough deck, and a rail-heavy refresh.',
+      'The tool and guide now explain label coverage, one-coat versus two-coat products, rough or weathered wood, sprayer loss, rail and stair assumptions, prep/weather limits, and stain-only cost limits.',
     ],
     improvements: [
-      'Manually checked surface math, stair area, whole-gallon rounding, examples, guide clarity, FAQ specificity, source notes, related links, SEO copy, and privacy note.',
+      'Updated Deck Stain metadata, UI labels, formula language, FAQ details, guide sections, source notes, related links, image copy, and freshness dates from DataForSEO, competitor, manufacturer, and workbench evidence.',
     ],
     followUps: [
-      'Add separate deck-sealer and deck-paint presets if future users ask for product-specific defaults.',
+      'Add separate deck-sealer, semi-transparent stain, solid stain, and deck-paint presets if future users ask for product-specific defaults.',
     ],
   },
   {
@@ -8575,6 +8590,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
     if (includesAny(key, ['deck-board', 'deck board', 'decking board', 'deck flooring'])) {
       return sourceBackstop([inchDeckFlooring, decksComDeckingCalculator, omniDecking, nistSi, googleHelpfulContent]);
+    }
+
+    if (includesAny(key, ['deck-stain', 'deck stain', 'deck sealer', 'deck paint'])) {
+      return sourceBackstop([inchDeckStain, decksComStaining, behrDeckPlusSolidStain, rustOleumWolmanDurastain, nistSi, googleHelpfulContent]);
     }
 
     if (includesAny(key, ['flooring'])) {

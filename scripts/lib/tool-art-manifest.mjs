@@ -460,6 +460,18 @@ const toolArtMetadataOverrides = {
         'Deck Board Calculator guide artwork supports the walkthrough for deck area, board coverage, actual board width, joist spacing, waste, screw counts, and board-only cost limits.',
     },
   },
+  'deck-stain-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 16 x 12 ft deck with railings, four steps, two stain coats, 200 sq ft per gallon coverage, 6 gallons, and a $270 stain cost.',
+      caption:
+        'Deck Stain Calculator artwork matches the live workflow: enter deck size, railings, stairs, coats, label coverage, waste, and optional gallon price to estimate stain gallons and cost.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing deck surface, railing faces, stair treads and risers, 501.6 sq ft with waste, 1,003.2 coat-adjusted sq ft, and 6 stain gallons.',
+      caption:
+        'Deck Stain Calculator guide artwork supports the walkthrough for deck surface area, railings, stairs, label coverage, waste, coat count, whole-gallon rounding, prep limits, and stain-only cost.',
+    },
+  },
   'concrete-footing-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',
