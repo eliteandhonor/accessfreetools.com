@@ -3,6 +3,7 @@ import {
   activityLevelFactors,
   addDaysToIsoDate,
   calculateBmi,
+  calculateArmyBodyFat,
   calculateNutritionPoints,
   calculateOverweightBmiCheck,
   calculateUnderweightBmiCheck,
@@ -396,27 +397,25 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
   },
   'army-body-fat': {
     title: 'Army Body Fat Calculator',
-    buttonLabel: 'Estimate tape body fat',
-    emptyHistory: 'Recent Army tape estimates will appear here.',
-    privacyNote: 'This educational tape estimate is not an official Army record, waiver, or pass/fail decision.',
+    buttonLabel: 'Estimate Army tape body fat',
+    emptyHistory: 'Recent Army one-site tape estimates will appear here.',
+    privacyNote: 'This educational one-site tape estimate is not an official Army record, waiver, or pass/fail decision.',
     modes: [
       {
         id: 'army-body-fat',
-        label: 'Tape estimate',
+        label: 'One-site tape',
         symbol: 'ABCP',
         fields: [
           selectField('sex', 'Sex used by formula', sexOptions),
-          numberField('heightCm', 'Height (cm)'),
-          numberField('weightKg', 'Weight (kg)'),
-          numberField('neckCm', 'Neck (cm)'),
-          numberField('waistCm', 'Abdomen or waist (cm)'),
-          numberField('hipCm', 'Hip (cm, required for female formula)'),
+          numberField('age', 'Age'),
+          numberField('weightLb', 'Weight (lb)'),
+          numberField('abdomenIn', 'Abdomen at navel (in)'),
         ],
-        defaultInputs: { sex: 'male', heightCm: '178', weightKg: '84', neckCm: '40', waistCm: '90', hipCm: '98' },
+        defaultInputs: { sex: 'male', age: '25', weightLb: '210', abdomenIn: '35' },
         examples: [
-          { label: 'Male tape', inputs: { sex: 'male', heightCm: '178', weightKg: '84', neckCm: '40', waistCm: '90', hipCm: '98' } },
-          { label: 'Female tape', inputs: { sex: 'female', heightCm: '165', weightKg: '66', neckCm: '34', waistCm: '76', hipCm: '96' } },
-          { label: 'Check trend', inputs: { sex: 'male', heightCm: '183', weightKg: '92', neckCm: '42', waistCm: '96', hipCm: '104' } },
+          { label: 'Male 210/35', inputs: { sex: 'male', age: '25', weightLb: '210', abdomenIn: '35' } },
+          { label: 'Female 165/30', inputs: { sex: 'female', age: '25', weightLb: '165', abdomenIn: '30' } },
+          { label: 'Male 190/36', inputs: { sex: 'male', age: '29', weightLb: '190', abdomenIn: '36' } },
         ],
       },
     ],
@@ -1088,8 +1087,7 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
         ],
       };
     }
-    case 'body-fat':
-    case 'army-body-fat': {
+    case 'body-fat': {
       const heightCm = parseNumber(inputs.heightCm, 'Height');
       const weightKg = parseNumber(inputs.weightKg, 'Weight', true);
       const neckCm = parseNumber(inputs.neckCm, 'Neck');
@@ -1097,7 +1095,7 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       const hipCm = sex === 'male' ? undefined : parseNumber(inputs.hipCm, 'Hip');
       const result = calculateNavyBodyFat({ sex, heightCm, weightKg, neckCm, waistCm, hipCm });
       return {
-        label: variant === 'army-body-fat' ? 'Tape estimate' : 'Body fat estimate',
+        label: 'Body fat estimate',
         expression: `${sex}, ${formatCalculatorNumber(heightCm)} cm height`,
         answer: `${formatCalculatorNumber(result.bodyFatPercent)}%`,
         metrics: [
@@ -1112,6 +1110,34 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
             : 'Use waist plus hip minus neck with height in the female equation.',
           'Treat the result as an estimate for trend tracking.',
         ],
+      };
+    }
+    case 'army-body-fat': {
+      const age = parseNumber(inputs.age, 'Age');
+      const weightLb = parseNumber(inputs.weightLb, 'Weight');
+      const abdomenIn = parseNumber(inputs.abdomenIn, 'Abdomen');
+      const result = calculateArmyBodyFat({ sex, age, weightLb, abdomenIn });
+      const referenceLabel =
+        result.referenceStatus === 'within-reference' ? 'At or below reference limit' : 'Above reference limit';
+
+      return {
+        label: 'Rounded one-site tape estimate',
+        expression: `${sex}, age ${formatCalculatorNumber(age)}, ${formatCalculatorNumber(weightLb)} lb, ${formatCalculatorNumber(abdomenIn)} in abdomen`,
+        answer: `${formatCalculatorNumber(result.roundedBodyFatPercent)}%`,
+        metrics: [
+          { label: 'Formula estimate', value: `${formatCalculatorNumber(result.bodyFatPercent)}%` },
+          { label: `Age ${result.ageGroup} reference limit`, value: `${formatCalculatorNumber(result.maxAllowedPercent)}%` },
+          { label: 'Reference comparison', value: referenceLabel },
+          { label: 'Fat mass estimate', value: `${formatCalculatorNumber(result.fatMassLb)} lb` },
+        ],
+        steps: [
+          'Use the current Army one-site equation with body weight in pounds and abdomen circumference in inches.',
+          sex === 'male'
+            ? 'Male formula: -26.97 - (0.12 x weight) + (1.99 x abdomen).'
+            : 'Female formula: -9.15 - (0.015 x weight) + (1.27 x abdomen).',
+          'Round the formula estimate to the nearest whole percent and compare it with the age-group reference limit.',
+        ],
+        note: 'This page is not an official Army record, DA Form 5500/5501 entry, waiver, flagging decision, or medical assessment.',
       };
     }
     case 'bmr': {

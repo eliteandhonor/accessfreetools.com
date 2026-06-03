@@ -139,6 +139,7 @@ import {
   calculateAmortizationSummary,
   calculateAutoLoanSummary,
   calculateBodySurfaceArea,
+  calculateArmyBodyFat,
   calculateBoerLeanBodyMass,
   calculateCaloriesBurned,
   calculateCompoundInterest,
@@ -1035,6 +1036,18 @@ describe('health and fitness helpers', () => {
   });
 
   it('estimates body composition with tape, lean mass, and ideal weight formulas', () => {
+    const armyMale = calculateArmyBodyFat({
+      sex: 'male',
+      age: 25,
+      weightLb: 210,
+      abdomenIn: 35,
+    });
+    const armyFemale = calculateArmyBodyFat({
+      sex: 'female',
+      age: 25,
+      weightLb: 165,
+      abdomenIn: 30,
+    });
     const bodyFat = calculateNavyBodyFat({
       sex: 'male',
       heightCm: 180,
@@ -1045,6 +1058,12 @@ describe('health and fitness helpers', () => {
     const leanMass = calculateBoerLeanBodyMass({ sex: 'female', age: 30, heightCm: 165, weightKg: 62 });
     const idealWeight = calculateDevineIdealWeight('female', 165);
 
+    expect(formatCalculatorNumber(armyMale.bodyFatPercent)).toBe('17.48');
+    expect(armyMale.roundedBodyFatPercent).toBe(17);
+    expect(armyMale.maxAllowedPercent).toBe(22);
+    expect(formatCalculatorNumber(armyFemale.bodyFatPercent)).toBe('26.475');
+    expect(armyFemale.roundedBodyFatPercent).toBe(26);
+    expect(armyFemale.maxAllowedPercent).toBe(32);
     expect(bodyFat.bodyFatPercent).toBeGreaterThan(15);
     expect(bodyFat.bodyFatPercent).toBeLessThan(25);
     expect(formatCalculatorNumber(leanMass)).toBe('45.369');

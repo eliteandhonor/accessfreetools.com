@@ -29,6 +29,8 @@ const extraSafetyNotes: Record<string, string> = {
     'BMI can show that a weight is below the adult 18.5 screening threshold, but it cannot diagnose anorexia, malnutrition, or any eating disorder. If eating, exercise, body image, or weight feels hard to control, use qualified professional support.',
   'overweight-calculator':
     'BMI can show an adult screening category, but it does not measure body composition, waist size, blood pressure, labs, medications, or personal health history.',
+  'army-body-fat-calculator':
+    'This is an educational one-site tape estimate. It is not an official Army record, not a DA Form 5500/5501 entry, not a waiver, and not a flagging or pass/fail decision.',
   'nutrition-points-calculator':
     'This is an original Access Free Tools label-reading score. It is not Weight Watchers Points, not affiliated with WW, and not a medical nutrition plan.',
   'bac-calculator':
@@ -91,6 +93,31 @@ function getSourceLinks(toolSlug: string) {
       label: 'National Academies / NCBI Bookshelf: Acceptable Macronutrient Distribution Range background',
     },
   ];
+
+  if (toolSlug === 'army-body-fat-calculator') {
+    return [
+      {
+        href: 'https://www.armyresilience.army.mil/abcp/index.html',
+        label: 'U.S. Army DPRR: Army Body Composition Program',
+      },
+      {
+        href: 'https://www.armyresilience.army.mil/abcp/BodyFatCalculator.html',
+        label: 'U.S. Army DPRR: ABCP body fat calculator',
+      },
+      {
+        href: 'https://www.armyresilience.army.mil/ard/images/pdf/Policy/ALARACT_0322025.pdf',
+        label: 'U.S. Army: ALARACT 032/2025 ABCP method update',
+      },
+      {
+        href: 'https://recruiting.army.mil/Portals/15/DA5500.pdf',
+        label: 'U.S. Army Recruiting: DA Form 5500 male worksheet',
+      },
+      {
+        href: 'https://recruiting.army.mil/Portals/15/DA5501.pdf',
+        label: 'U.S. Army Recruiting: DA Form 5501 female worksheet',
+      },
+    ];
+  }
 
   if (toolSlug === 'underweight-bmi-calculator') {
     return [...bmiSources, ...eatingDisorderSources];
@@ -424,26 +451,29 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'army-body-fat-calculator': {
-    summary: 'Learn how circumference inputs affect a military-style body-fat estimate.',
+    summary: 'Learn how the current Army one-site tape estimate uses body weight, abdomen circumference, and age-group reference limits.',
     purpose:
-      'The Army Body Fat Calculator provides an educational tape-method estimate. It is not an official record, waiver, or pass/fail decision.',
+      'The Army Body Fat Calculator provides an educational one-site tape estimate. It uses the current Army-style equation from the DA Form 5500/5501 worksheets, but it is not an official record, waiver, flagging decision, or pass/fail decision.',
     enter: [
-      'Enter height and the circumference fields requested for the selected formula.',
-      'Use a flexible tape and keep it level at every measurement site.',
-      'Repeat measurements the same way if you are comparing over time.',
+      'Enter sex, age, body weight in pounds, and abdomen circumference in inches.',
+      'Measure abdomen at the navel level with a non-stretch tape, then enter the average number you want the calculator to use.',
+      'Use age for the reference limit only; age does not change the body-fat equation itself.',
     ],
     example: [
-      'A male tape example uses height, neck, and abdomen measurements.',
-      'A female tape example also uses waist and hips because the equation needs a different circumference set.',
+      'For the male 210/35 example, the formula is -26.97 - (0.12 x 210) + (1.99 x 35).',
+      'That gives 17.48%, which rounds to 17% for the displayed tape estimate.',
+      'Because age 25 falls in the 21-27 group, the reference limit shown beside the result is 22% for the male table.',
     ],
     read: [
-      'Read the percent as a formula estimate based on tape sites.',
-      'Use the supporting details to see which measurements moved the result.',
+      'Start with the rounded percent, then look at the exact formula estimate if you want to see the decimal before rounding.',
+      'Use the age-group reference limit as context only. Access Free Tools cannot make an official Army compliance decision.',
+      'If you are comparing changes over time, keep the tape site, tape tension, and body-weight measurement as consistent as possible.',
     ],
     mistakes: [
       'Do not use this page for official military decisions.',
+      'Do not use the old neck, waist, hip, and height tape method for the current Army one-site estimate.',
       'Do not round or adjust measurements to force a preferred result.',
-      'Do not compare results if the tape sites changed.',
+      'Do not compare results if the abdomen site, tape tension, scale, or measurement timing changed.',
     ],
     next: [
       'Use Body Fat Calculator for a general tape estimate.',

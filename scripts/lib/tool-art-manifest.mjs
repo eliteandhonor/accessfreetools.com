@@ -52,6 +52,18 @@ const categoryVisualCues = {
 };
 
 const toolArtMetadataOverrides = {
+  'army-body-fat-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking an Army one-site tape estimate with 210 lb weight, 35 in abdomen, and a rounded 17 percent result card.',
+      caption:
+        'Army Body Fat Calculator artwork matches the live one-site workflow: enter sex, age, weight in pounds, and abdomen circumference in inches, then compare the rounded estimate with the age-group reference limit.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining the Army one-site tape formula beside 210 lb, 35 in abdomen, 17.48 percent, and 17 percent rounded cards.',
+      caption:
+        'Army Body Fat Calculator guide artwork supports the walkthrough for the one-site formula, abdomen measurement, age reference limits, official-use cautions, and common tape mistakes.',
+    },
+  },
   'basic-calculator': {
     tool: {
       alt: 'Smoke mascot holding a small calculator, surrounded by glowing plus, minus, multiply, and divide symbols.',

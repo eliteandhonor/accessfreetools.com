@@ -1856,6 +1856,31 @@ const armyBodyCompositionProgram = {
   label: 'U.S. Army: AR 600-9 Body Composition Program',
 };
 
+const armyAbcpProgram = {
+  href: 'https://www.armyresilience.army.mil/abcp/index.html',
+  label: 'U.S. Army DPRR: Army Body Composition Program',
+};
+
+const armyAbcpCalculator = {
+  href: 'https://www.armyresilience.army.mil/abcp/BodyFatCalculator.html',
+  label: 'U.S. Army DPRR: ABCP body fat calculator',
+};
+
+const armyAlaract0322025 = {
+  href: 'https://www.armyresilience.army.mil/ard/images/pdf/Policy/ALARACT_0322025.pdf',
+  label: 'U.S. Army: ALARACT 032/2025 ABCP method update',
+};
+
+const armyDa5500 = {
+  href: 'https://recruiting.army.mil/Portals/15/DA5500.pdf',
+  label: 'U.S. Army Recruiting: DA Form 5500 male worksheet',
+};
+
+const armyDa5501 = {
+  href: 'https://recruiting.army.mil/Portals/15/DA5501.pdf',
+  label: 'U.S. Army Recruiting: DA Form 5501 female worksheet',
+};
+
 const boerLeanBodyMass = {
   href: 'https://pubmed.ncbi.nlm.nih.gov/6496691/',
   label: 'PubMed: Boer lean body mass equation',
@@ -4518,20 +4543,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'army-body-fat-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [armyBodyCompositionProgram, cdcBmi],
+    sources: [armyAbcpProgram, armyAbcpCalculator, armyAlaract0322025, armyDa5500, armyDa5501, armyBodyCompositionProgram],
     findings: [
-      'The calculator uses tape-method body composition inputs and keeps the result educational instead of official.',
-      'The caution text clearly says the page is not an official Army determination, record, waiver, or pass/fail result.',
-      'The guide explains consistent measurement sites and sends official decisions back to official policy and trained personnel.',
+      'The calculator now uses the current Army one-site tape equation from the June 2023 DA Form 5500/5501 worksheets instead of the older multi-site Navy-style circumference equation.',
+      'The UI asks for sex, age, weight in pounds, and abdomen circumference in inches; age is used only for the AR 600-9 Table B-2 reference limit.',
+      'The caution text clearly says the page is not an official Army determination, DA Form entry, record, waiver, flagging decision, or pass/fail result.',
+      'The guide explains the one-site abdomen measurement, the formula examples, official-use limits, and the supplemental-assessment boundary from Army DPRR context.',
     ],
     improvements: [
-      'Manually checked tape-method wording, examples, official-use disclaimer, FAQ cautions, Army source coverage, related tools, SEO copy, and privacy behavior.',
+      'Replaced legacy height/neck/hip Army calculator inputs with the current one-site abdomen method, added exact 210 lb/35 in and 165 lb/30 in examples, expanded FAQs, updated official Army source links, refreshed guide copy, sitemap dates, and art alt/caption text.',
     ],
     followUps: [
-      'Review this page again if Army body composition policy changes from the current tape-method assumptions.',
+      'Review this page again if Army body composition policy changes from the current one-site circumference method, DA Form formulas, or Table B-2 reference limits.',
     ],
   },
   {
@@ -8589,6 +8615,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
   }
 
   if (tool.category === 'health-fitness') {
+    if (includesAny(key, ['army-body-fat', 'army body fat', 'abcp'])) {
+      return sourceBackstop([armyAbcpProgram, armyAbcpCalculator, armyAlaract0322025, armyDa5500, armyDa5501, armyBodyCompositionProgram]);
+    }
+
     if (includesAny(key, ['pregnancy', 'due-date', 'conception', 'ovulation', 'period'])) {
       return sourceBackstop([johnsHopkinsDueDate, cdcPregnancyWeight]);
     }

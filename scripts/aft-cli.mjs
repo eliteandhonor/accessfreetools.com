@@ -547,6 +547,7 @@ function findToolSource(slug) {
       faqCount:
         explicitQuestionCount +
         (!hasExplicitFaq && isUtilityFactoryBlock ? 5 : 0) +
+        (!hasExplicitFaq && isHealthFactoryBlock ? 7 : 0) +
         (!hasExplicitFaq && isFinanceFactoryBlock ? 7 : 0) +
         (!hasExplicitFaq && isAiFactoryBlock ? 7 : 0),
       exampleCount: countProperty(block, 'label'),

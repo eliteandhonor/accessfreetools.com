@@ -18,14 +18,19 @@ interface HealthToolSpec {
 function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const exampleUses = spec.useCases.slice(0, 2).join(' ');
   const isBmiCalculator = spec.slug === 'bmi-calculator';
+  const isArmyBodyFatCalculator = spec.slug === 'army-body-fat-calculator';
   const isTargetHeartRateCalculator = spec.slug === 'target-heart-rate-calculator';
   const inputAnswer = isBmiCalculator
     ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
+    : isArmyBodyFatCalculator
+      ? 'Enter sex, age, body weight in pounds, and abdomen circumference in inches. The current Army one-site method uses the abdomen measurement at the navel, not neck, hip, or height measurements. Use a non-stretch tape, keep it level, and do not pull it tight enough to dig into the skin.'
     : isTargetHeartRateCalculator
       ? 'Enter your age, choose the effort range, and add resting heart rate only if you want the heart-rate-reserve estimate. Age sets the rough maximum heart rate. The effort range turns that into beats per minute.'
     : 'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.';
   const readingAnswer = isBmiCalculator
     ? 'Read BMI as a quick adult screening number. It can miss important context such as pregnancy, high muscle mass, waist size, body composition, age, medical history, and ethnicity. Use it as a clue, not a final health answer.'
+    : isArmyBodyFatCalculator
+      ? 'Read the rounded percentage as an educational one-site tape estimate. The reference limit line uses the Army age-group table for context, but this website is not an official Army record, DA Form 5500/5501 entry, waiver, flagging decision, or medical assessment.'
     : isTargetHeartRateCalculator
       ? 'Read the answer as a training range in beats per minute, not a perfect target you must hit. If the range feels too hard, you feel pain, or a clinician gave you a different limit, slow down and use the safer guidance.'
     : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
@@ -48,6 +53,25 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       answer: readingAnswer,
     },
     ...(spec.extraFaq ?? []),
+    ...(isArmyBodyFatCalculator
+      ? [
+          {
+            question: 'Is this the current Army one-site tape formula?',
+            answer:
+              'Yes. This page uses the 2023 one-site equation shown on current DA Form 5500 and DA Form 5501: males use weight in pounds and abdomen circumference in inches; females use weight in pounds and abdomen circumference in inches. It does not use the older neck, hip, and height tape equation.',
+          },
+          {
+            question: 'Why does the Army calculator ask for age if age is not in the formula?',
+            answer:
+              'Age does not change the one-site body-fat equation. It changes the reference limit used for comparison: 17-20, 21-27, 28-39, or 40 and older. Treat that comparison as a reference note, not an official compliance decision.',
+          },
+          {
+            question: 'Where should I measure the abdomen?',
+            answer:
+              'Use the abdomen at the navel level. The official worksheets tell measurers to take the abdomen measurement three times, round down to the nearest 0.50 inch, and average the readings. This page gives a quick estimate from the number you enter.',
+          },
+        ]
+      : []),
     ...(isBmiCalculator
       ? [
           {
@@ -304,24 +328,27 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'army-body-fat-calculator',
     name: 'Army Body Fat Calculator',
-    summary: 'Estimate body fat with a circumference tape method.',
+    summary: 'Estimate Army one-site tape body fat from weight and abdomen circumference.',
     description:
-      'Use this free Army body fat calculator for an educational tape-method body fat estimate from height and circumference measurements.',
+      'Use this free Army body fat calculator for an educational one-site tape estimate from sex, age, body weight, and abdomen circumference.',
+    seoDescription:
+      'Estimate Army one-site tape body fat from weight and abdomen circumference. Includes age-group reference limits and official-use cautions.',
     icon: 'calculator-army-body-fat',
     formula:
-      'The calculator uses circumference equations with height, neck, and abdomen or waist measurements, plus hips for the female equation.',
+      'Male Army one-site estimate = -26.97 - (0.12 x weight in lb) + (1.99 x abdomen in in). Female estimate = -9.15 - (0.015 x weight in lb) + (1.27 x abdomen in in). The result is rounded to the nearest whole percent and compared with the age-group reference limit.',
     caution:
-      'This is not an official Army determination, record, waiver, or pass/fail result. Use official policy and trained personnel for official assessments.',
+      'This is not an official Army determination, DA Form 5500/5501 entry, record, waiver, flagging decision, or pass/fail result. Use official policy and trained personnel for official assessments.',
     useCases: [
-      'Estimate a tape-method body fat percentage.',
-      'Practice what measurements affect circumference estimates.',
-      'Track changes using the same measurement sites.',
-      'Avoid treating the page as an official military decision.',
+      'Estimate the current Army one-site tape body fat percentage.',
+      'Compare the rounded estimate with the age-group reference limit.',
+      'Practice how weight and abdomen circumference move the estimate.',
+      'Avoid treating a quick web estimate as an official military decision.',
     ],
     examples: [
-      { label: 'Male tape', expression: 'Height 178, neck 40, abdomen 90', result: 'Tape estimate' },
-      { label: 'Female tape', expression: 'Height 165, neck 34, waist 76, hips 96', result: 'Tape estimate' },
-      { label: 'Trend check', expression: 'Repeat measurements consistently', result: 'Compare estimated change' },
+      { label: 'Male 210/35', expression: 'Age 25, 210 lb, 35 in abdomen', result: '17.48%, rounded to 17%' },
+      { label: 'Female 165/30', expression: 'Age 25, 165 lb, 30 in abdomen', result: '26.475%, rounded to 26%' },
+      { label: 'Male 190/36', expression: 'Age 29, 190 lb, 36 in abdomen', result: '22.87%, rounded to 23%' },
+      { label: 'Reference check', expression: 'Male age 29 reference limit', result: '24% reference limit' },
     ],
     relatedSlugs: ['body-fat-calculator', 'lean-body-mass-calculator', 'bmi-calculator'],
   }),

@@ -2674,6 +2674,23 @@ export interface BodyFatResult {
   leanMassKg?: number;
 }
 
+export interface ArmyBodyFatInput {
+  sex: HealthSex;
+  age: number;
+  weightLb: number;
+  abdomenIn: number;
+}
+
+export interface ArmyBodyFatResult {
+  bodyFatPercent: number;
+  roundedBodyFatPercent: number;
+  maxAllowedPercent: number;
+  ageGroup: string;
+  referenceStatus: 'within-reference' | 'above-reference';
+  fatMassLb: number;
+  leanMassLb: number;
+}
+
 export interface BmrInput {
   sex: HealthSex;
   age: number;
@@ -2893,6 +2910,57 @@ export function calculateNavyBodyFat(input: BodyFatInput): BodyFatResult {
   const leanMassKg = input.weightKg ? input.weightKg - (fatMassKg ?? 0) : undefined;
 
   return { bodyFatPercent, fatMassKg, leanMassKg };
+}
+
+function getArmyBodyFatReference(sex: HealthSex, age: number) {
+  assertPositiveNumber(age, 'Age');
+
+  if (age < 17) {
+    throw new Error('Army body fat reference groups start at age 17');
+  }
+
+  if (age <= 20) {
+    return { ageGroup: '17-20', maxAllowedPercent: sex === 'male' ? 20 : 30 };
+  }
+
+  if (age <= 27) {
+    return { ageGroup: '21-27', maxAllowedPercent: sex === 'male' ? 22 : 32 };
+  }
+
+  if (age <= 39) {
+    return { ageGroup: '28-39', maxAllowedPercent: sex === 'male' ? 24 : 34 };
+  }
+
+  return { ageGroup: '40+', maxAllowedPercent: sex === 'male' ? 26 : 36 };
+}
+
+export function calculateArmyBodyFat(input: ArmyBodyFatInput): ArmyBodyFatResult {
+  assertPositiveNumber(input.weightLb, 'Weight');
+  assertPositiveNumber(input.abdomenIn, 'Abdomen');
+
+  const bodyFatPercent =
+    input.sex === 'male'
+      ? -26.97 - 0.12 * input.weightLb + 1.99 * input.abdomenIn
+      : -9.15 - 0.015 * input.weightLb + 1.27 * input.abdomenIn;
+
+  if (!Number.isFinite(bodyFatPercent) || bodyFatPercent <= 0) {
+    throw new Error('Army body fat estimate could not be calculated from those measurements');
+  }
+
+  const roundedBodyFatPercent = Math.round(bodyFatPercent);
+  const reference = getArmyBodyFatReference(input.sex, input.age);
+  const fatMassLb = input.weightLb * (bodyFatPercent / 100);
+
+  return {
+    bodyFatPercent,
+    roundedBodyFatPercent,
+    maxAllowedPercent: reference.maxAllowedPercent,
+    ageGroup: reference.ageGroup,
+    referenceStatus:
+      roundedBodyFatPercent <= reference.maxAllowedPercent ? 'within-reference' : 'above-reference',
+    fatMassLb,
+    leanMassLb: input.weightLb - fatMassLb,
+  };
 }
 
 export function calculateBoerLeanBodyMass(input: BmrInput) {
