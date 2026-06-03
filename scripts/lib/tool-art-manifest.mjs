@@ -88,6 +88,18 @@ const toolArtMetadataOverrides = {
         'Body Type Calculator guide artwork supports the walkthrough for top measurement, hip difference, waist definition, exact example outcomes, and style-only body-shape limits.',
     },
   },
+  'healthy-weight-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a healthy weight range with 170 cm, BMI 18.5-24.9, 53.47 kg, 71.96 kg, and adult-screening cards.',
+      caption:
+        'Healthy Weight Calculator artwork matches the live workflow: enter height, optionally add current weight, then read the adult BMI 18.5-24.9 weight range and screening cautions.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining healthy weight math with 170 cm, 1.70 m squared, BMI 18.5-24.9, and adult-only caution cards.',
+      caption:
+        'Healthy Weight Calculator guide artwork supports the walkthrough for height-squared BMI range math, exact example ranges, current BMI context, and adult-only limits.',
+    },
+  },
   'bmr-calculator': {
     tool: {
       alt: 'Smoke mascot presenting a BMR estimate with age, formula sex, height, weight, 1,763 kcal, and TDEE comparison cards.',

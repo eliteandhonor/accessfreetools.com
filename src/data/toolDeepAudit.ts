@@ -4597,20 +4597,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'healthy-weight-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [cdcBmi, nhlbiBmi],
+    sources: [cdcBmi, nhlbiBmi, googleHelpfulContent],
     findings: [
-      'The calculator converts a height into the adult BMI 18.5 to 24.9 weight range using height in meters squared.',
-      'The guide explains that the range is an adult screening reference, not a personal target or child/teen percentile.',
-      'The related-tool path points users to BMI, ideal weight, and body fat pages for context rather than one-number judgment.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `healthy weight calculator` intent and adjacent confusion around BMR, body fat, height weight calculator, ideal body weight, age weight, and pediatric formulas.',
+      'The calculator converts height into the adult BMI 18.5 to 24.9 weight range using height in meters squared and now rounds the displayed range and optional current BMI for readability.',
+      'The guide explains exact examples for 170 cm, 160 cm, and 183 cm, and separates adult BMI screening from children, teens, pregnancy, body fat, BMR, ideal weight, age/weight, and medical targets.',
     ],
     improvements: [
-      'Manually checked healthy BMI range math, examples, FAQ cautions, CDC/NHLBI source coverage, guide clarity, related tools, SEO copy, and privacy behavior.',
+      'Reworked formula wording, exact examples, FAQ cautions, guide sections, result display rounding, source-backed audit record, modified dates, related links, and art metadata around current paid keyword evidence and CDC/NHLBI adult BMI context.',
     ],
     followUps: [
       'Add child/teen BMI percentile routing only if the site creates a dedicated pediatric BMI page with CDC growth-chart support.',
+      'Keep BMR, body-fat, ideal-weight, and age/weight terms framed as separate calculator intents instead of expanding this page beyond adult BMI screening.',
     ],
   },
   {

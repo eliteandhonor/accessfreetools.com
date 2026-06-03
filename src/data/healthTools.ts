@@ -482,22 +482,45 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'healthy-weight-calculator',
     name: 'Healthy Weight Calculator',
-    summary: 'Find the adult healthy BMI weight range for a height.',
+    summary: 'Find the adult BMI 18.5 to 24.9 weight range for a height.',
     description:
-      'Use this free healthy weight calculator to find the adult BMI 18.5 to 24.9 weight range for a height and optional current BMI.',
+      'Use this free healthy weight calculator to find the adult BMI 18.5 to 24.9 weight range for a height, plus an optional current BMI comparison.',
     icon: 'calculator-healthy-weight',
-    formula: 'The calculator multiplies height in meters squared by BMI 18.5 and 24.9 to estimate a healthy adult BMI range.',
-    caution: estimateCaution,
+    formula: 'The calculator converts height from centimeters to meters, squares it, then multiplies by BMI 18.5 for the lower adult screening range and BMI 24.9 for the upper adult screening range. If current weight is entered, BMI = weight in kg divided by height in meters squared.',
+    caution:
+      'This is an adult BMI screening reference, not a medical target, diagnosis, child or teen growth chart, pregnancy range, body-fat test, BMR estimate, or ideal-weight prescription.',
     useCases: [
-      'Find a height-based adult BMI reference range.',
-      'Check an optional current BMI category.',
-      'Compare healthy weight range with ideal weight formulas.',
-      'Use as a screening estimate rather than a personal target.',
+      'Find a height-based adult BMI 18.5 to 24.9 reference range.',
+      'Check an optional current BMI number and category.',
+      'Compare this screening range with ideal weight, body fat, and BMR tools without mixing them up.',
+      'Keep pediatric, pregnancy, athlete, and medical context outside the simple BMI range.',
     ],
     examples: [
-      { label: '170 cm', expression: 'BMI 18.5-24.9', result: 'Healthy weight range' },
-      { label: '160 cm', expression: 'BMI 18.5-24.9', result: 'Healthy weight range' },
-      { label: '183 cm', expression: 'BMI 18.5-24.9', result: 'Healthy weight range' },
+      { label: '170 cm', expression: 'BMI 18.5-24.9', result: '53.47-71.96 kg' },
+      { label: '160 cm', expression: 'BMI 18.5-24.9', result: '47.36-63.74 kg' },
+      { label: '183 cm', expression: 'BMI 18.5-24.9', result: '61.95-83.39 kg' },
+    ],
+    extraFaq: [
+      {
+        question: 'Is the healthy weight range based on age?',
+        answer:
+          'No. This page uses the adult BMI 18.5 to 24.9 range for the height you enter. It does not use age-based child or teen BMI percentiles.',
+      },
+      {
+        question: 'Why is this different from an ideal weight calculator?',
+        answer:
+          'The Healthy Weight Calculator gives a BMI screening range. An ideal weight calculator usually uses a formula such as Devine and returns a single reference weight. They answer different questions.',
+      },
+      {
+        question: 'Does this calculator estimate body fat or BMR?',
+        answer:
+          'No. BMI uses only height and weight. It does not estimate body fat percentage, lean mass, resting calories, metabolism, or fitness.',
+      },
+      {
+        question: 'Can I use this for children, teens, or pregnancy?',
+        answer:
+          'No. Children and teens need age- and sex-specific growth-chart percentiles, and pregnancy weight guidance uses separate ranges. This page is only a simple adult BMI reference.',
+      },
     ],
     relatedSlugs: ['bmi-calculator', 'ideal-weight-calculator', 'body-fat-calculator'],
   }),

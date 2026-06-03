@@ -556,28 +556,33 @@ const guideDetails: Record<string, GuideDetail> = {
   'healthy-weight-calculator': {
     summary: 'Learn how the healthy-weight range is built from adult BMI 18.5 to 24.9.',
     purpose:
-      'The Healthy Weight Calculator shows the weight range that corresponds to adult BMI 18.5 to 24.9 for a chosen height.',
+      'The Healthy Weight Calculator shows the weight range that corresponds to adult BMI 18.5 to 24.9 for a chosen height, with an optional current BMI comparison.',
     enter: [
-      'Enter height accurately because the range is entirely height-based.',
-      'Optionally enter current weight if you want a current BMI comparison.',
-      'Use this for adult screening ranges, not child growth charts.',
+      'Enter height in centimeters accurately because the range is built from height squared.',
+      'Optionally enter current weight in kilograms if you want a current BMI number and category beside the range.',
+      'Use this for adult screening ranges, not child growth charts, pregnancy ranges, body-fat testing, or metabolic estimates.',
     ],
     example: [
-      'For a height example, the calculator squares height in meters and multiplies it by 18.5 and 24.9.',
-      'Those two calculations become the lower and upper ends of the range.',
+      'For 170 cm, the calculator uses 1.70 m squared, then multiplies by 18.5 and 24.9. The adult BMI range is about 53.47-71.96 kg.',
+      'If the optional current weight is 70 kg at 170 cm, the current BMI is about 24.22, which sits inside that adult BMI range.',
+      'For 160 cm, the same formula gives about 47.36-63.74 kg.',
+      'For 183 cm, the same formula gives about 61.95-83.39 kg.',
     ],
     read: [
       'The range is a reference zone, not a required personal target.',
-      'The optional current BMI helps place today’s weight next to the range.',
+      'The optional current BMI helps place today\'s weight next to the range, but BMI cannot see muscle, body fat, pregnancy, frame size, ethnicity, medical history, or athletic build.',
+      'Use BMI, ideal weight, body fat, BMR, and age/weight tools separately instead of blending their answers into one score.',
     ],
     mistakes: [
       'Do not use the range for pregnancy weight gain.',
       'Do not treat it as a complete health assessment.',
-      'Do not ignore body composition, age, and medical context.',
+      'Do not use it for children or teens; they need age- and sex-specific percentiles.',
+      'Do not ignore body composition, age, athletic build, and medical context.',
     ],
     next: [
       'Use BMI Calculator for the exact current BMI number.',
       'Use Ideal Weight Calculator if you want a formula comparison.',
+      'Use Body Fat Calculator or BMR Calculator only for their separate estimates, not as replacements for the adult BMI range.',
     ],
   },
   'calories-burned-calculator': {

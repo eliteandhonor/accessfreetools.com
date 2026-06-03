@@ -451,7 +451,8 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
     title: 'Healthy Weight Calculator',
     buttonLabel: 'Find healthy weight range',
     emptyHistory: 'Recent healthy weight ranges will appear here.',
-    privacyNote: 'Healthy-weight BMI ranges are screening ranges for adults, not personal medical targets.',
+    privacyNote:
+      'Healthy-weight BMI ranges are adult screening ranges, not child growth charts, pregnancy guidance, or personal medical targets.',
     modes: [
       {
         id: 'healthy-weight',
@@ -1254,17 +1255,20 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       return {
         label: 'Healthy weight range',
         expression: `${formatCalculatorNumber(heightCm)} cm height`,
-        answer: `${formatKg(result.healthyMinKg)}-${formatKg(result.healthyMaxKg)}`,
+        answer: `${formatRoundedKg(result.healthyMinKg)}-${formatRoundedKg(result.healthyMaxKg)}`,
         metrics: [
           { label: 'BMI range', value: '18.5-24.9' },
-          { label: 'Current BMI', value: currentWeight ? formatCalculatorNumber(result.bmi) : 'Add weight to check' },
+          { label: 'Current BMI', value: currentWeight ? formatRoundedNumber(result.bmi, 2) : 'Add weight to check' },
           { label: 'Current category', value: currentWeight ? result.category : 'Optional' },
         ],
         steps: [
-          'Convert height to meters.',
-          'Multiply height squared by BMI 18.5 and 24.9.',
-          'Use the range as an adult screening reference, not a personal diagnosis.',
+          'Convert height from centimeters to meters.',
+          'Square height in meters, then multiply by BMI 18.5 and 24.9.',
+          'If current weight is entered, divide weight by height squared to show the current BMI category.',
+          'Use the range as an adult screening reference, not a personal diagnosis, child percentile, or pregnancy guide.',
         ],
+        note:
+          'BMI does not measure body fat, muscle, frame size, athletic build, pregnancy needs, or medical history. Use it as one adult screening reference.',
       };
     }
     case 'calories-burned': {
