@@ -448,6 +448,18 @@ const toolArtMetadataOverrides = {
         'Paint Calculator guide artwork supports the walkthrough for wall area, doors, windows, coats, coverage, extra percent, and paint-label limits.',
     },
   },
+  'deck-board-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 16 x 12 ft deck with 16 ft boards, 5.5 in actual width, 10 percent waste, 29 boards, and 754 screws.',
+      caption:
+        'Deck Board Calculator artwork matches the live workflow: enter deck size, board length, actual board width, joist spacing, waste, and optional price to estimate boards, fastener rows, screws, and cost.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing deck area, board coverage, waste, joist spacing, 29 boards, 13 fastener rows, 754 screws, and a $522 board cost.',
+      caption:
+        'Deck Board Calculator guide artwork supports the walkthrough for deck area, board coverage, actual board width, joist spacing, waste, screw counts, and board-only cost limits.',
+    },
+  },
   'concrete-footing-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',

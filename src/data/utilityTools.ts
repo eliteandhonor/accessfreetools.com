@@ -2956,43 +2956,101 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate deck boards, fastener rows, deck screws, and optional board cost from deck and board dimensions.',
     description:
-      'Use this free deck board calculator to estimate deck board count, joist fastener rows, screw count, and optional board cost from your deck size and board dimensions.',
+      'Use this free deck board calculator to estimate deck board count, fastener rows, screw count, and optional board cost from deck size, actual board width, joist spacing, and waste.',
+    seoTitle: 'Deck Board Calculator | Boards, Screws, Cost',
+    seoDescription:
+      'Estimate deck boards, fastener rows, screws, and optional board cost from deck size, actual board width, joist spacing, and waste.',
     icon: 'calculator-deck-board',
-    aliases: ['Decking Calculator', 'Deck Flooring Calculator', 'Decking Board Calculator'],
+    aliases: [
+      'Decking Calculator',
+      'Deck Flooring Calculator',
+      'Decking Board Calculator',
+      'Deck Board Count Calculator',
+      'Decking Material Calculator',
+      'Deck Boards Needed Calculator',
+      '5/4 Deck Board Calculator',
+    ],
     formula:
-      'The calculator finds deck area, adds waste, divides by one board coverage, rounds up to whole boards, then estimates fasteners from joist spacing.',
+      'The calculator uses deck area = deck length x deck width, adjusted area = deck area x (1 + waste percent / 100), board coverage = board length x actual board width / 12, boards needed = ceiling(adjusted area / board coverage), fastener rows = floor(deck length x 12 / joist spacing) + 1, and screws = boards needed x fastener rows x 2.',
     limit:
-      'Deck board counts can change with board gaps, breaker boards, picture frames, stair boards, diagonal layouts, hidden fastener systems, local code, and supplier stock lengths.',
+      'This is a straight rectangular deck-surface estimate, not a full deck plan. Board gaps, diagonal layouts, picture frames, breaker boards, stairs, fascia, borders, hidden fastener clips, blocking, stock lengths, manufacturer rules, and local code can change the real material list.',
+    faqLanguage: {
+      expectedInputs: 'deck length, deck width, board length, actual board width, joist spacing, waste percent, and optional price per board',
+      inputFallback:
+        'Enter the rectangular deck size in feet, the purchased board length in feet, the actual board face width in inches, joist spacing in inches, and a waste percent for cuts and layout changes.',
+      examplePhrase: '16 x 12 deck example',
+      doubleCheck:
+        'Also check the board gap, picture-frame borders, breaker boards, stair boards, fascia, hidden fastener system, stock lengths, and local building rules before buying.',
+    },
     inputExplanations: [
       { term: 'Deck length and width', meaning: 'the rectangular deck surface area before waste is added.' },
-      { term: 'Board length and width', meaning: 'the actual coverage of one board. Use actual face width, not only the nominal board name.' },
+      { term: 'Board length and width', meaning: 'the coverage of one deck board. Use actual face width, not only the nominal board name.' },
       { term: 'Joist spacing', meaning: 'the on-center distance between joists, used to estimate fastener rows.' },
       { term: 'Waste percent', meaning: 'extra boards for cuts, starter pieces, layout changes, and damaged boards.' },
+      { term: 'Price per board', meaning: 'optional cost for one board, used only for the rough board-cost line.' },
     ],
     extraFaq: [
+      {
+        question: 'How many deck boards do I need for a 16 x 12 deck?',
+        answer:
+          'With 16 ft boards, 5.5 in actual board width, 16 in joist spacing, and 10% waste, the calculator estimates 29 boards. The same example shows 13 fastener rows, 754 deck screws, and $522 if each board costs $18.',
+      },
       {
         question: 'Why does the Deck Board Calculator ask for actual board width?',
         answer:
           'Deck boards are often sold with a nominal size that is not the exact face width. The calculator needs the width that actually covers the deck surface because a small width difference can change the board count on a large deck.',
       },
       {
+        question: 'Does this include the gap between deck boards?',
+        answer:
+          'Not as a separate field. The calculator divides by the actual board face width you enter. Board-gap layout still matters for the real installed surface, edge boards, and cut planning, so check the manufacturer gap instructions before ordering.',
+      },
+      {
+        question: 'What does joist spacing change?',
+        answer:
+          'Joist spacing changes the fastener-row and screw estimate. It does not change the board count in this tool, because board count comes from deck area, board coverage, and waste.',
+      },
+      {
         question: 'What does the screw count mean?',
         answer:
           'The screw count is a planning estimate using two screws at each board-and-joist crossing. Hidden fasteners, clips, perimeter boards, stairs, blocking, and manufacturer instructions can change the real fastener list.',
+      },
+      {
+        question: 'Can this estimate diagonal deck boards?',
+        answer:
+          'Use it only as a rough starting point for diagonal decking. Diagonal layouts usually create more angled cuts and can need a higher waste percent, different board lengths, or a detailed takeoff.',
+      },
+      {
+        question: 'Does this include picture-frame or breaker boards?',
+        answer:
+          'No. The count is for a simple field of straight boards across a rectangular surface. Picture frames, borders, breaker boards, fascia, stairs, and feature strips should be counted separately.',
+      },
+      {
+        question: 'Why add waste percent?',
+        answer:
+          'Waste covers board cuts, starter pieces, damaged boards, layout adjustments, and small measuring errors. A zero-waste estimate can look neat on screen but leave you short when boards need to be cut to fit.',
+      },
+      {
+        question: 'Is the estimated board cost a contractor quote?',
+        answer:
+          'No. The cost line is only boards needed times your price per board. It does not include framing, joists, posts, beams, railings, stairs, fasteners, delivery, tools, permits, labor, taxes, or code-required changes.',
       },
     ],
     useCases: [
       'Estimate deck boards for a simple rectangular deck.',
       'Compare 12-foot, 16-foot, and 20-foot board layouts.',
-      'Plan a rough deck screw or hidden fastener count.',
+      'Plan a rough deck screw count from joist spacing.',
       'Add a waste allowance before pricing boards.',
+      'Check whether a wider board changes the board count.',
+      'Estimate board-only material cost before using a full deck cost calculator.',
     ],
     examples: [
-      { label: '16 x 12 deck', expression: '16 x 12 ft deck, 16 ft boards, 5.5 in width, 10% waste', result: '29 boards' },
-      { label: 'Small landing', expression: '10 x 8 ft deck, 12 ft boards, 12% waste', result: 'Board estimate' },
-      { label: 'Wide boards', expression: '20 x 14 ft deck, 7.25 in boards, 8% waste', result: 'Board and fastener rows' },
+      { label: '16 x 12 deck', expression: '16 x 12 ft deck, 16 ft boards, 5.5 in actual width, 16 in joists, 10% waste, $18/board', result: '29 boards, 13 rows, 754 screws, $522' },
+      { label: 'Small landing', expression: '10 x 8 ft deck, 12 ft boards, 5.5 in actual width, 12% waste', result: '17 boards and 272 screws' },
+      { label: 'Wide boards', expression: '20 x 14 ft deck, 16 ft boards, 7.25 in actual width, 8% waste, $32/board', result: '32 boards, 16 rows, 1,024 screws, $1,024' },
+      { label: 'Tighter joists', expression: '16 x 16 ft deck, 16 ft boards, 5.5 in actual width, 12 in joists, 10% waste', result: '39 boards and 1,326 screws' },
     ],
-    relatedSlugs: ['deck-cost-calculator', 'board-foot-calculator', 'deck-stain-calculator'],
+    relatedSlugs: ['deck-cost-calculator', 'stair-calculator', 'plywood-calculator'],
   }),
   makeUtilityTool({
     slug: 'deck-stain-calculator',

@@ -426,6 +426,16 @@ const inchDeckFlooring = {
   label: 'Inch Calculator: Deck flooring calculator reference',
 };
 
+const decksComDeckingCalculator = {
+  href: 'https://www.decks.com/calculators/decking-calculator',
+  label: 'Decks.com: Deck board and materials calculator',
+};
+
+const omniDecking = {
+  href: 'https://www.omnicalculator.com/construction/decking',
+  label: 'Omni Calculator: Decking calculator reference',
+};
+
 const inchDeckStain = {
   href: 'https://www.inchcalculator.com/deck-stain-calculator/',
   label: 'Inch Calculator: Deck stain calculator reference',
@@ -4991,17 +5001,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'deck-board-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-deck-patio-landscaping-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'page-seo-gsc-refresh-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [inchDeckFlooring, nistSi],
+    sources: [inchDeckFlooring, decksComDeckingCalculator, omniDecking, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator estimates board count from deck area, actual board coverage, waste percent, and whole-board rounding.',
-      'The result adds joist-based fastener rows, hidden fastener count, screw estimate, and optional board cost without pretending to be a full deck plan.',
-      'The FAQ and guide explain actual board width, waste percent, screw-count limits, picture frames, breaker boards, gaps, and hidden fastener systems.',
+      'The calculator estimates board count from deck area, actual board coverage, waste percent, and whole-board rounding, then estimates fastener rows from joist spacing.',
+      'Current page evidence targets deck board calculator intent with exact examples for a 16 x 12 deck, a small landing, wider boards, and tighter joist spacing.',
+      'The tool and guide now explain actual board width, board-gap limits, waste percent, screw-count assumptions, picture frames, breaker boards, diagonal layouts, stairs, hidden fastener systems, and board-only cost limits.',
     ],
     improvements: [
-      'Manually checked the formula, 16 x 12 example, input labels, result metrics, guide copy, FAQ details, related tools, source notes, SEO title, and browser-only privacy wording.',
+      'Updated Deck Board metadata, UI labels, formula language, FAQ details, guide sections, source notes, related links, image copy, and freshness dates from DataForSEO, competitor, and workbench evidence.',
     ],
     followUps: [
       'Add diagonal-layout and picture-frame modes if users need more detailed deck takeoffs later.',
@@ -8561,6 +8571,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
   if (tool.category === 'home-projects') {
     if (includesAny(key, ['wallpaper'])) {
       return sourceBackstop([yorkWallpaperRoomChart, lowesWallpaperInstall, grahamBrownWallpaperAmount, grahamBrownWallpaperBatch, nistSi, googleHelpfulContent]);
+    }
+
+    if (includesAny(key, ['deck-board', 'deck board', 'decking board', 'deck flooring'])) {
+      return sourceBackstop([inchDeckFlooring, decksComDeckingCalculator, omniDecking, nistSi, googleHelpfulContent]);
     }
 
     if (includesAny(key, ['flooring'])) {
