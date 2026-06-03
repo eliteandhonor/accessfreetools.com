@@ -461,6 +461,26 @@ const inchBaluster = {
   label: 'Inch Calculator: Baluster calculator reference',
 };
 
+const decksComBalusterCalculator = {
+  href: 'https://www.decks.com/calculators/baluster-spacing-calculator/',
+  label: 'Decks.com: Deck baluster spacing calculator',
+};
+
+const decksComBalusterBasics = {
+  href: 'https://www.decks.com/resource-index/railing/balusters-explained/',
+  label: 'Decks.com: Baluster basics and spacing requirements',
+};
+
+const iccIrc2021GuardOpenings = {
+  href: 'https://codes.iccsafe.org/s/IRC2021P3/chapter-3-building-planning/IRC2021P3-Pt03-Ch03-SecR312.1.3',
+  label: 'ICC: 2021 IRC R312.1.3 guard opening limitations',
+};
+
+const awcDca6DeckGuide = {
+  href: 'https://web-media.awc.org/wp-content/uploads/2022/02/17210514/AWC-DCA62015-DeckGuide-1804.pdf',
+  label: 'AWC: DCA 6 Prescriptive Residential Wood Deck Construction Guide',
+};
+
 const inchPaverBase = {
   href: 'https://www.inchcalculator.com/paver-base-calculator/',
   label: 'Inch Calculator: Paver base calculator reference',
@@ -5054,20 +5074,29 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'baluster-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-deck-patio-landscaping-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [inchBaluster, nistSi],
+    sources: [
+      inchBaluster,
+      decksComBalusterCalculator,
+      decksComBalusterBasics,
+      iccIrc2021GuardOpenings,
+      awcDca6DeckGuide,
+      nistSi,
+      googleHelpfulContent,
+    ],
     findings: [
-      'The calculator subtracts post width from the rail run, rounds baluster count up to stay below the maximum open spacing, and reports actual equal spacing.',
-      'The page clearly frames the result as layout math rather than a railing-code decision.',
-      'The FAQ and guide explain why actual spacing is usually smaller than max spacing and why stair/guard rules need separate local review.',
+      'The calculator converts rail length to inches, subtracts post widths, rounds baluster count up with ceiling((clear opening - max open spacing) / (baluster width + max open spacing)), and reports actual equal spacing as the remaining open space divided by count plus one.',
+      'Current deck and guard-spacing sources support explaining a common 4 inch planning target while clearly saying local code, required guards, stair openings, bottom-rail gaps, handrails, product systems, and inspections still control.',
+      'The page now uses exact examples for a 10 ft deck rail bay, 8 ft metal baluster section, short stair-rail check, and tighter porch rail so users can verify count and spacing behavior.',
     ],
     improvements: [
-      'Manually checked spacing formula, example values, max-gap language, result labels, guide cautions, FAQ depth, related tools, source notes, SEO copy, and privacy wording.',
+      'Rewrote metadata, aliases, formula language, unit-specific input labels, examples, FAQ detail, guide sections, source notes, related links, image copy, freshness dates, and code-limit cautions around clear opening, equal gaps, post subtraction, and local guard rules.',
     ],
     followUps: [
-      'Add stair angle support only if we can present the extra geometry clearly.',
+      'Add stair angle support only if we can present the extra geometry, stair-opening rules, and centerline layout marks clearly without implying code approval.',
+      'Consider multi-section totals if users ask for a full deck perimeter count across several rail bays.',
     ],
   },
   {
@@ -8594,6 +8623,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
     if (includesAny(key, ['deck-stain', 'deck stain', 'deck sealer', 'deck paint'])) {
       return sourceBackstop([inchDeckStain, decksComStaining, behrDeckPlusSolidStain, rustOleumWolmanDurastain, nistSi, googleHelpfulContent]);
+    }
+
+    if (includesAny(key, ['baluster', 'spindle', 'railing spacing', 'picket spacing'])) {
+      return sourceBackstop([inchBaluster, decksComBalusterCalculator, decksComBalusterBasics, iccIrc2021GuardOpenings, awcDca6DeckGuide, nistSi, googleHelpfulContent]);
     }
 
     if (includesAny(key, ['flooring'])) {

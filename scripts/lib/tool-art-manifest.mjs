@@ -472,6 +472,18 @@ const toolArtMetadataOverrides = {
         'Deck Stain Calculator guide artwork supports the walkthrough for deck surface area, railings, stairs, label coverage, waste, coat count, whole-gallon rounding, prep limits, and stain-only cost.',
     },
   },
+  'baluster-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 10 ft deck rail with two 3.5 in posts, 1.5 in balusters, a 4 in max gap, 20 balusters, and 3.952 in spacing.',
+      caption:
+        'Baluster Calculator artwork matches the live workflow: enter rail length, post width, post count, baluster width, and max open spacing to estimate baluster count and equal gap.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing a 113 in clear rail opening, 20 balusters, 30 in of baluster width, 21 gaps, and 3.952 in actual open spacing.',
+      caption:
+        'Baluster Calculator guide artwork supports the walkthrough for clear opening, post subtraction, baluster count, rounded-up spacing, local code checks, and straight-rail limits.',
+    },
+  },
   'concrete-footing-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',

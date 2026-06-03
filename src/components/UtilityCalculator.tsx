@@ -2653,11 +2653,11 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         label: 'Spacing',
         symbol: 'RAIL',
         fields: [
-          numberField('railLengthFeet', 'Rail length ft', '10'),
-          numberField('postWidthInches', 'Post width inches', '3.5'),
+          numberField('railLengthFeet', 'Rail length (ft)', '10'),
+          numberField('postWidthInches', 'Post width (in)', '3.5'),
           integerField('postCount', 'Post count', '2'),
-          numberField('balusterWidthInches', 'Baluster width inches', '1.5'),
-          numberField('maxSpacingInches', 'Max open spacing inches', '4'),
+          numberField('balusterWidthInches', 'Baluster width (in)', '1.5'),
+          numberField('maxSpacingInches', 'Max open spacing (in)', '4'),
         ],
         defaultInputs: { railLengthFeet: '10', postWidthInches: '3.5', postCount: '2', balusterWidthInches: '1.5', maxSpacingInches: '4' },
         examples: [

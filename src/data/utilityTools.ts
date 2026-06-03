@@ -3157,21 +3157,38 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'baluster-calculator',
     name: 'Baluster Calculator',
     category: 'home-projects',
-    summary: 'Estimate railing baluster count and equal spacing from rail length, post width, baluster width, and max gap.',
+    summary: 'Estimate deck railing baluster count and equal open spacing after posts are subtracted from the rail run.',
+    seoTitle: 'Baluster Calculator | Deck Railing Spacing',
+    seoDescription:
+      'Estimate balusters for a straight rail section from rail length, post width, baluster width, and max open gap, then see the actual equal spacing.',
     description:
-      'Use this free baluster calculator to estimate how many balusters a rail opening needs and the actual equal spacing between them.',
+      'Use this free baluster calculator to estimate how many balusters a straight rail section needs and how much equal open space will be left between them.',
     icon: 'calculator-baluster',
-    aliases: ['Spindle Calculator', 'Railing Spacing Calculator', 'Baluster Spacing Calculator'],
-    formula:
-      'The calculator subtracts post widths from the rail run, fits balusters so each opening stays below the max spacing, and recalculates the equal open space.',
-    limit:
-      'Railing rules can be strict. Stair rails, guards, child-safety gaps, local code, post layout, and actual product dimensions need a real code check.',
-    inputExplanations: [
-      { term: 'Rail length', meaning: 'the full straight run you measured before subtracting posts.' },
-      { term: 'Post width and count', meaning: 'post space that is removed from the clear opening.' },
-      { term: 'Baluster width', meaning: 'the width of one spindle or picket.' },
-      { term: 'Max spacing', meaning: 'the largest open gap you want between balusters.' },
+    aliases: [
+      'Spindle Calculator',
+      'Railing Spacing Calculator',
+      'Baluster Spacing Calculator',
+      'Deck Baluster Calculator',
+      'Deck Railing Spacing Calculator',
+      'Baluster Gap Calculator',
+      'Picket Spacing Calculator',
     ],
+    formula:
+      'Clear opening in inches = rail length in feet x 12 - post count x post width. Balusters needed = ceiling((clear opening - max open spacing) / (baluster width + max open spacing)). Actual open spacing = (clear opening - balusters needed x baluster width) / (balusters needed + 1).',
+    limit:
+      'This is layout math for one straight rail section, not a permit, inspection, or structural railing design. Local code, stair guards, handrails, post strength, rail height, bottom-rail openings, product instructions, and inspector requirements still need a real code check.',
+    inputExplanations: [
+      { term: 'Rail length', meaning: 'the full straight rail run in feet before the calculator subtracts post widths.' },
+      { term: 'Post width and count', meaning: 'the posts inside that run. Their combined width is removed from the clear opening.' },
+      { term: 'Baluster width', meaning: 'the actual visible width of one spindle, picket, or metal baluster in inches.' },
+      { term: 'Max open spacing', meaning: 'the largest open gap you are willing to allow between balusters, usually entered as 4 inches or less after checking local rules.' },
+    ],
+    faqLanguage: {
+      expectedInputs: 'rail length in feet, post width and count, baluster width, and the largest open gap you want to allow',
+      examplePhrase: 'straight deck rail bay',
+      doubleCheck:
+        'Double-check the layout against local building code, stair rules, rail height, post attachment details, and the actual baluster product before building.',
+    },
     extraFaq: [
       {
         question: 'Why does actual spacing end up smaller than max spacing?',
@@ -3183,19 +3200,61 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'No. This is layout math only. Local code can control guard height, stair openings, handrails, post strength, and the size of any object that can pass through the railing.',
       },
+      {
+        question: 'Why do posts reduce the opening length?',
+        answer:
+          'Posts take up physical space inside the measured rail run. A 10 foot rail with two 3.5 inch posts starts at 120 inches, then loses 7 inches to posts, leaving 113 inches for balusters and gaps.',
+      },
+      {
+        question: 'What max spacing should I enter?',
+        answer:
+          'Many residential guard layouts use a 4 inch maximum open gap as the planning target, but code language and local adoption can vary. Enter the stricter number your local code, inspector, or product instructions require.',
+      },
+      {
+        question: 'Does this work for stair railings?',
+        answer:
+          'Use it only as a rough straight-run layout helper for stairs. Stair guards can have angle, tread, riser, triangle-opening, handrail, and local inspection rules that this simple straight-section calculator does not model.',
+      },
+      {
+        question: 'Should I measure baluster width or use the nominal size?',
+        answer:
+          'Measure the actual visible width when you can. A nominal 2 by 2 wood baluster may be closer to 1.5 inches wide, and that smaller real width changes the count and equal gap.',
+      },
+      {
+        question: 'Why are there gaps at both ends?',
+        answer:
+          'The calculator treats the clear opening as a repeated pattern: end gap, baluster, gap, baluster, and so on. That creates one more gap than the baluster count, which is why the spacing formula divides by balusters needed plus one.',
+      },
+      {
+        question: 'Can I use fewer balusters if I like wider spacing?',
+        answer:
+          'Only if the resulting open spaces still satisfy your code and safety requirements. For required guards, wider-looking spacing can fail inspection even if it looks balanced.',
+      },
+      {
+        question: 'What if the opening length comes out zero or negative?',
+        answer:
+          'That means the post widths are equal to or wider than the rail run you entered. Recheck the measured rail length, post count, and post width before trusting any layout.',
+      },
+      {
+        question: 'How do I mark the layout after calculating it?',
+        answer:
+          'Use the actual open spacing as the clear gap between adjacent balusters, then mark carefully from one end. For finish work, many builders make a spacer block that matches the calculated gap and still verify the last opening before fastening.',
+      },
     ],
     useCases: [
-      'Plan balusters for one straight deck rail bay.',
-      'Check equal spacing after post widths are removed.',
-      'Compare wood, metal, or narrow baluster widths.',
-      'Avoid gaps larger than the spacing you enter.',
+      'Plan balusters for one straight deck rail bay before buying materials.',
+      'Check equal spacing after post widths are removed from the measured rail run.',
+      'Compare wood, metal, composite, or narrow baluster widths.',
+      'Keep the calculated open gaps at or below the spacing limit you enter.',
+      'Turn a rough railing sketch into a count you can check against supplier packs.',
     ],
     examples: [
-      { label: 'Deck rail bay', expression: '10 ft rail, 2 posts, 1.5 in balusters, 4 in max gap', result: '20 balusters' },
-      { label: 'Metal balusters', expression: '8 ft rail, 0.75 in balusters', result: 'Baluster count and spacing' },
-      { label: 'Short stair rail', expression: '6 ft rail, 1.25 in balusters', result: 'Equal spacing estimate' },
+      { label: 'Deck rail bay', expression: '10 ft rail, two 3.5 in posts, 1.5 in balusters, 4 in max gap', result: '113 in opening, 20 balusters, 3.952 in actual spacing' },
+      { label: 'Metal rail section', expression: '8 ft rail, two 4 in posts, 0.75 in metal balusters, 4 in max gap', result: '88 in opening, 18 balusters, 3.921 in actual spacing' },
+      { label: 'Short stair rail check', expression: '6 ft straight rail run, two 3.5 in posts, 1.25 in balusters, 4 in max gap', result: '65 in opening, 12 balusters, 3.846 in actual spacing' },
+      { label: 'Tighter porch rail', expression: '14 ft rail, three 3.5 in posts, 1.5 in balusters, 3.5 in max gap', result: '157.5 in opening, 31 balusters, 3.469 in actual spacing' },
     ],
-    relatedSlugs: ['fence-calculator', 'deck-board-calculator', 'deck-cost-calculator'],
+    relatedSlugs: ['stair-calculator', 'deck-board-calculator', 'fence-calculator'],
   }),
   makeUtilityTool({
     slug: 'paver-calculator',

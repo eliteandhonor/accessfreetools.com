@@ -169,6 +169,22 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/baluster-calculator/',
     label: 'Inch Calculator: Baluster calculator reference',
   },
+  decksComBalusterCalculator: {
+    href: 'https://www.decks.com/calculators/baluster-spacing-calculator/',
+    label: 'Decks.com: Deck baluster spacing calculator',
+  },
+  decksComBalusterBasics: {
+    href: 'https://www.decks.com/resource-index/railing/balusters-explained/',
+    label: 'Decks.com: Baluster basics and spacing requirements',
+  },
+  iccIrc2021GuardOpenings: {
+    href: 'https://codes.iccsafe.org/s/IRC2021P3/chapter-3-building-planning/IRC2021P3-Pt03-Ch03-SecR312.1.3',
+    label: 'ICC: 2021 IRC R312.1.3 guard opening limitations',
+  },
+  awcDca6DeckGuide: {
+    href: 'https://web-media.awc.org/wp-content/uploads/2022/02/17210514/AWC-DCA62015-DeckGuide-1804.pdf',
+    label: 'AWC: DCA 6 Prescriptive Residential Wood Deck Construction Guide',
+  },
   inchPaverBase: {
     href: 'https://www.inchcalculator.com/paver-base-calculator/',
     label: 'Inch Calculator: Paver base calculator reference',
@@ -2925,25 +2941,91 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'baluster-calculator': {
-    summary: 'Learn how railing opening length, baluster width, and max gap estimate baluster count.',
+    title: 'Baluster Calculator Guide | Railing Spacing',
+    metaDescription:
+      'Learn how to estimate baluster count and equal open spacing from rail length, post width, baluster width, and max gap before laying out a deck rail.',
+    summary: 'Learn how clear railing opening length, baluster width, and max open gap become a baluster count and equal spacing.',
     purpose:
-      'The Baluster Calculator is a spacing helper for straight rail sections. It subtracts posts, fits enough balusters to stay under the max gap, and reports the actual equal spacing.',
+      'The Baluster Calculator is a spacing helper for one straight rail section. It subtracts posts from the rail run, fits enough balusters to stay at or below the max open gap you enter, and reports the actual equal spacing after rounding up.',
+    intro:
+      'Baluster layout looks simple until posts, nominal lumber sizes, and code spacing all meet in the same rail bay. This guide shows the exact math behind the Baluster Calculator so you can turn a measured rail run into a count, an equal gap, and a layout worth checking before you fasten anything.',
+    inputMatch: 'rail length, post width, post count, baluster width, and max open spacing',
+    logicNote:
+      'The calculator uses clear opening = rail length x 12 - post count x post width, balusters needed = ceiling((clear opening - max open spacing) / (baluster width + max open spacing)), and actual open spacing = (clear opening - baluster count x baluster width) / (baluster count + 1).',
+    readIntro:
+      'Read the result as a layout count for one straight bay, not as a building permit or inspection approval.',
+    mistakeIntro:
+      'Most bad baluster layouts come from mixing feet and inches, using nominal instead of actual baluster width, or treating a calculator result as a complete railing-code check.',
+    sidecarText:
+      'For the default bay, a 10 ft rail with two 3.5 in posts leaves 113 in of clear opening. With 1.5 in balusters and a 4 in max gap, the calculator fits 20 balusters and sets the equal open spacing at about 3.952 in.',
     enter: [
-      'Enter rail length in feet.',
-      'Enter post width, post count, and baluster width in inches.',
-      'Enter the largest open spacing you want between balusters.',
+      'Enter the full straight rail length in feet before subtracting posts.',
+      'Enter the actual post width, post count, and baluster width in inches.',
+      'Enter the largest open spacing you want to allow between balusters. Many deck guard layouts use 4 inches or less as the planning target, but local rules control.',
     ],
     read: [
-      'Balusters needed is rounded up so gaps do not exceed the max spacing.',
-      'Actual open spacing is the equal gap between balusters after rounding.',
-      'Opening length shows the rail space left after subtracting posts.',
+      'Balusters needed is rounded up so the calculated gaps do not exceed the max spacing you entered.',
+      'Actual open spacing is the equal gap between balusters after rounding up the count.',
+      'Opening length shows the rail space left after subtracting all posts from the measured rail run.',
+      'Baluster width used shows how many inches of the opening are occupied by balusters instead of gaps.',
     ],
     mistakes: [
-      'Do not treat this as a complete railing code check.',
-      'Do not forget stair railings and guards can have extra rules.',
-      'Measure actual post and baluster widths because small changes affect spacing.',
+      'Do not enter a 10 foot rail as 120. The rail length field expects feet, then the calculator converts it to inches.',
+      'Do not use nominal lumber size when the actual baluster width is different.',
+      'Do not treat this as a complete railing code check. Guard height, stair openings, bottom-rail gaps, handrails, post strength, and local amendments can still matter.',
+      'Do not forget that the gap between a post and the first baluster counts too.',
+      'Do not assume angled stair railings work exactly like a flat rail bay.',
     ],
-    sources: [sourceLinks.inchBaluster, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick 10 ft deck rail example',
+        paragraphs: [
+          'Say the rail section is 10 ft long. Two posts are inside that run, and each post is 3.5 in wide. The calculator converts 10 ft to 120 in, subtracts 7 in of posts, and leaves a 113 in clear opening.',
+          'With 1.5 in balusters and a 4 in max open gap, the calculator gives 20 balusters. Those balusters occupy 30 in total, leaving 83 in of open space. Because there are 21 gaps around 20 balusters, the actual equal spacing is 83 / 21, or about 3.952 in.',
+        ],
+      },
+      {
+        title: 'Why the calculator rounds up',
+        paragraphs: [
+          'If a rail bay almost fits with fewer balusters, the last little bit of open space has to go somewhere. Rounding down can push one or more gaps over the limit you entered.',
+          'Rounding up adds a baluster, then spreads the leftover space evenly. That is why the actual spacing is usually smaller than the max spacing. Smaller is expected; larger is the warning sign.',
+        ],
+      },
+      {
+        title: 'What to do with the 4 inch spacing target',
+        paragraphs: [
+          'Deck spacing guidance commonly talks about a 4 inch maximum opening for guards, and ICC model-code language uses a sphere test for required guard openings. The calculator lets you enter 4 in, 3.5 in, or any stricter number you need.',
+          'That does not make the page a code approval tool. Your city, county, state, product system, or inspector can apply specific guard, stair, and handrail rules, so check the local rule before building.',
+        ],
+        links: [
+          { href: '/tools/deck-board-calculator/', label: 'Estimate deck boards for the same project' },
+          { href: '/tools/deck-cost-calculator/', label: 'Build a rough deck project budget' },
+        ],
+      },
+      {
+        title: 'Posts, end gaps, and layout marks',
+        paragraphs: [
+          'Posts reduce the opening because they take up real space inside the measured run. If you forget a middle post, the calculator will spread balusters across too much length.',
+          'The equal-spacing result is the open gap, not the center-to-center mark. If you use a spacer block, cut or set it to the actual open spacing and still check the final gap before fastening the run.',
+        ],
+      },
+      {
+        title: 'Where this simple calculator stops',
+        paragraphs: [
+          'This tool handles one straight rail section. It does not model angled stair geometry, curved rails, cable deflection, glass panels, manufacturer bracket systems, structural post loads, or whether a guard is required at a specific deck height.',
+          'For required guards and stairs, use the result as a layout draft. Then compare it with your local code, product instructions, and any permit or inspection notes.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchBaluster,
+      sourceLinks.decksComBalusterCalculator,
+      sourceLinks.decksComBalusterBasics,
+      sourceLinks.iccIrc2021GuardOpenings,
+      sourceLinks.awcDca6DeckGuide,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'paver-calculator': {
     summary: 'Learn how area, paver size, and waste become a buying count.',
