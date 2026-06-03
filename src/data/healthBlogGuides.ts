@@ -1040,30 +1040,33 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'body-surface-area-calculator': {
-    summary: 'Learn how height and weight estimate body surface area with common formulas.',
+    summary: 'Learn how height and weight estimate adult body surface area with Mosteller and Du Bois formulas.',
     purpose:
-      'The Body Surface Area Calculator estimates BSA in square meters using Mosteller and comparison formulas.',
+      'The Body Surface Area Calculator estimates adult BSA in square meters from height and weight. It shows Mosteller as the main estimate and Du Bois as a comparison formula.',
     enter: [
-      'Enter height and weight in the units the tool asks for.',
-      'Use measured values rather than rounded guesses when possible.',
-      'Keep BSA separate from BMI; they answer different questions.',
+      'Enter height in centimeters and weight in kilograms.',
+      'Use measured values rather than rounded guesses when possible, because both formulas depend on the product of height and weight.',
+      'Keep BSA separate from BMI, body fat, and body weight; they answer different questions.',
     ],
     example: [
-      'For 170 cm and 70 kg, the Mosteller formula multiplies height by weight, divides by 3600, then takes the square root.',
-      'The result is about 1.82 m2.',
+      'For 170 cm and 70 kg, Mosteller multiplies 170 by 70, divides by 3600, then takes the square root.',
+      'The result is about 1.82 m2 by Mosteller and about 1.81 m2 by Du Bois.',
+      'For 180 cm and 85 kg, the calculator shows about 2.06 m2 by Mosteller and 2.05 m2 by Du Bois.',
+      'For 160 cm and 55 kg, both formulas round to about 1.56 m2.',
     ],
     read: [
-      'BSA is a clinical math reference, not a health grade.',
-      'Different formulas can produce slightly different estimates.',
+      'BSA is clinical math context, not a health grade, diagnosis, medication order, or treatment plan.',
+      'Different formulas can produce slightly different estimates, so read the Mosteller and Du Bois lines as close comparisons rather than exact body facts.',
     ],
     mistakes: [
-      'Do not use this page for medication dosing decisions.',
-      'Do not confuse square meters of BSA with body fat or BMI.',
-      'Do not ignore formula differences in clinical contexts.',
+      'Do not use this page for medication dosing, chemotherapy, burn, surgery, kidney, or treatment decisions.',
+      'Do not confuse square meters of BSA with body fat percentage, BMI, or body weight.',
+      'Do not use this as a child, neonatal, pet, burn, psoriasis, procedure-specific, or Schnur-scale calculator.',
     ],
     next: [
-      'Use GFR Calculator for kidney-equation education.',
-      'Ask a clinician before using BSA for care decisions.',
+      'Use GFR Calculator only for separate kidney-equation education.',
+      'Use BMI Calculator or Healthy Weight Calculator if you need adult weight-screening context instead of BSA.',
+      'Ask a clinician before using BSA for any care decision.',
     ],
   },
   'bac-calculator': {

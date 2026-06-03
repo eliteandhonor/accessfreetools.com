@@ -23,6 +23,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isArmyBodyFatCalculator = spec.slug === 'army-body-fat-calculator';
   const isBmrCalculator = spec.slug === 'bmr-calculator';
   const isTargetHeartRateCalculator = spec.slug === 'target-heart-rate-calculator';
+  const isBodySurfaceAreaCalculator = spec.slug === 'body-surface-area-calculator';
   const inputAnswer = isBmiCalculator
     ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
     : isBodyFatCalculator
@@ -33,6 +34,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter formula sex, age in years, height in centimeters, and weight in kilograms. The formula sex setting chooses the +5 or -161 Mifflin-St Jeor adjustment; it is a calculator input, not a full description of your body, health, or nutrition needs.'
     : isTargetHeartRateCalculator
       ? 'Enter your age, choose the effort range, and add resting heart rate only if you want the heart-rate-reserve estimate. Age sets the rough maximum heart rate. The effort range turns that into beats per minute.'
+    : isBodySurfaceAreaCalculator
+      ? 'Enter height in centimeters and weight in kilograms. The calculator uses those two measured values for adult human body surface area formulas. It does not ask for age, sex, body fat, diagnosis, procedure type, burn percentage, or medication details.'
     : 'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.';
   const readingAnswer = isBmiCalculator
     ? 'Read BMI as a quick adult screening number. It can miss important context such as pregnancy, high muscle mass, waist size, body composition, age, medical history, and ethnicity. Use it as a clue, not a final health answer.'
@@ -44,6 +47,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read BMR as an estimated resting-energy number in kcal per day. It is lower than total daily needs for most adults because it does not include walking, work, exercise, or daily movement. Use the sedentary and moderate TDEE lines as context before making calorie plans.'
     : isTargetHeartRateCalculator
       ? 'Read the answer as a training range in beats per minute, not a perfect target you must hit. If the range feels too hard, you feel pain, or a clinician gave you a different limit, slow down and use the safer guidance.'
+    : isBodySurfaceAreaCalculator
+      ? 'Read BSA as an estimated body surface area in square meters. The Mosteller and Du Bois lines can differ slightly because they are different formulas. Use the number as clinical math context only, not as a medication dose, diagnosis, burn estimate, or treatment plan.'
     : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
 
   return [
@@ -911,22 +916,41 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'body-surface-area-calculator',
     name: 'Body Surface Area Calculator',
-    summary: 'Estimate body surface area with Mosteller and Du Bois formulas.',
+    summary: 'Estimate adult body surface area with Mosteller and Du Bois formula results.',
     description:
-      'Use this free body surface area calculator to estimate BSA in square meters from height and weight.',
+      'Use this free body surface area calculator to estimate adult BSA in square meters from height and weight, with Mosteller and Du Bois formula results.',
     icon: 'calculator-bsa',
-    formula: 'The main result uses Mosteller: square root of height in cm times weight in kg divided by 3600. Du Bois is shown as a comparison.',
-    caution: estimateCaution,
+    formula: 'Mosteller BSA = square root of (height in cm times weight in kg divided by 3600). Du Bois BSA = 0.007184 x height^0.725 x weight^0.425. Both results are shown in square meters.',
+    caution:
+      'No. BSA is an educational clinical-math estimate, not medical advice, not a medication dose, and not a treatment plan. Ask a qualified clinician before using BSA for care, dosing, burns, surgery, chemotherapy, kidney equations, or other medical decisions.',
     useCases: [
-      'Estimate BSA from height and weight.',
-      'Compare Mosteller and Du Bois formulas.',
-      'Use as an educational clinical math reference.',
-      'Avoid using this page for medication dosing decisions.',
+      'Estimate adult BSA from height and weight.',
+      'Compare Mosteller and Du Bois formula results.',
+      'Check why two BSA formulas can differ slightly.',
+      'Keep dosing and treatment decisions with a qualified clinician.',
     ],
     examples: [
-      { label: 'Average adult', expression: '170 cm, 70 kg', result: 'BSA about 1.82 m2' },
-      { label: 'Taller adult', expression: '180 cm, 85 kg', result: 'BSA estimate' },
-      { label: 'Smaller adult', expression: '160 cm, 55 kg', result: 'BSA estimate' },
+      { label: 'Average adult', expression: '170 cm, 70 kg', result: 'Mosteller 1.82 m2; Du Bois 1.81 m2' },
+      { label: 'Taller adult', expression: '180 cm, 85 kg', result: 'Mosteller 2.06 m2; Du Bois 2.05 m2' },
+      { label: 'Smaller adult', expression: '160 cm, 55 kg', result: 'Mosteller 1.56 m2; Du Bois 1.56 m2' },
+      { label: 'Small adult', expression: '150 cm, 45 kg', result: 'Mosteller 1.37 m2; Du Bois 1.37 m2' },
+    ],
+    extraFaq: [
+      {
+        question: 'What is the difference between Mosteller and Du Bois BSA?',
+        answer:
+          'Mosteller is a simple square-root formula using height and weight. Du Bois uses height and weight with exponents. They usually stay close for ordinary adult inputs, but they are not identical, so this calculator shows both instead of pretending one estimate is perfect.',
+      },
+      {
+        question: 'Can this calculator handle children, burns, pets, or procedure-specific formulas?',
+        answer:
+          'No. This page is a simple adult human height-and-weight BSA reference. It is not a pediatric, neonatal, burn, veterinary, psoriasis, chemotherapy, surgery, or Schnur-scale calculator.',
+      },
+      {
+        question: 'Why is BSA shown in square meters?',
+        answer:
+          'Body surface area formulas usually report square meters, written here as m2. That unit is different from BMI, body fat percentage, or body weight, so do not compare the number as if it were one of those results.',
+      },
     ],
     relatedSlugs: ['gfr-calculator', 'bmi-calculator', 'healthy-weight-calculator'],
   }),

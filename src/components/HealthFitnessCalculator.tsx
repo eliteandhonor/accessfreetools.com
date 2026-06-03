@@ -852,7 +852,8 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
     title: 'Body Surface Area Calculator',
     buttonLabel: 'Calculate BSA',
     emptyHistory: 'Recent body surface area estimates will appear here.',
-    privacyNote: 'BSA is a clinical estimate and should not be used for medication dosing without professional guidance.',
+    privacyNote:
+      'BSA inputs stay in this browser tab. Use the result as clinical math context only, not for medication dosing or treatment decisions without professional guidance.',
     modes: [
       {
         id: 'body-surface-area',
@@ -864,6 +865,7 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
           { label: '170 cm, 70 kg', inputs: { heightCm: '170', weightKg: '70' } },
           { label: '180 cm, 85 kg', inputs: { heightCm: '180', weightKg: '85' } },
           { label: '160 cm, 55 kg', inputs: { heightCm: '160', weightKg: '55' } },
+          { label: '150 cm, 45 kg', inputs: { heightCm: '150', weightKg: '45' } },
         ],
       },
     ],
@@ -1552,17 +1554,19 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       return {
         label: 'Body surface area',
         expression: `${formatCalculatorNumber(heightCm)} cm, ${formatKg(weightKg)}`,
-        answer: `${formatCalculatorNumber(result.mosteller)} m2`,
+        answer: `${formatRoundedNumber(result.mosteller, 2)} m2`,
         metrics: [
-          { label: 'Mosteller', value: `${formatCalculatorNumber(result.mosteller)} m2` },
-          { label: 'Du Bois', value: `${formatCalculatorNumber(result.dubois)} m2` },
+          { label: 'Mosteller', value: `${formatRoundedNumber(result.mosteller, 2)} m2` },
+          { label: 'Du Bois', value: `${formatRoundedNumber(result.dubois, 2)} m2` },
           { label: 'Formula input', value: 'height and weight' },
         ],
         steps: [
-          'Mosteller BSA = square root of height in cm times weight in kg divided by 3600.',
-          'Du Bois gives a second common estimate.',
-          'Do not use this page for medication dosing decisions.',
+          'Mosteller BSA = square root of (height in cm times weight in kg divided by 3600).',
+          'Du Bois BSA = 0.007184 x height^0.725 x weight^0.425.',
+          'Both formulas are rounded to two decimals here because BSA is an estimate, not an exact body measurement.',
         ],
+        note:
+          'Do not use this page for medication dosing, chemotherapy, burn, surgery, kidney, pediatric, veterinary, or treatment decisions.',
       };
     }
     case 'bac': {

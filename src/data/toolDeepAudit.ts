@@ -4882,20 +4882,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'body-surface-area-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [bodySurfaceAreaNcbi, nistSi],
+    sources: [bodySurfaceAreaNcbi, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator shows Mosteller and Du Bois body surface area estimates from height and weight.',
-      'The guide explains that BSA is a clinical math reference and not a body-fat, BMI, or health-grade result.',
-      'The FAQ warns users not to use this page for medication dosing decisions.',
+      'The calculator shows adult Mosteller and Du Bois body surface area estimates from height and weight, rounded to two decimals for reader-friendly estimate display.',
+      'The guide explains that BSA is clinical math context and not a body-fat, BMI, health-grade, medication-dose, burn, procedure, pediatric, or veterinary result.',
+      'The FAQ answers Mosteller versus Du Bois differences, square-meter units, dosing limits, and scope exclusions surfaced by paid keyword evidence.',
     ],
     improvements: [
-      'Manually checked BSA formula outputs, units, comparison formula wording, examples, FAQ cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Manually checked BSA formula outputs, rounded result labels, exact examples, FAQ cautions, source coverage, related tools, SEO copy, privacy behavior, and medical-scope limits.',
     ],
     followUps: [
-      'Keep the dosing warning prominent if this page starts receiving medication-related search queries.',
+      'Keep dosing and procedure-specific warnings prominent if future Search Console queries include medication, chemotherapy, burn, child, pet, psoriasis, or Schnur-scale intent.',
     ],
   },
   {

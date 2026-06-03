@@ -112,6 +112,18 @@ const toolArtMetadataOverrides = {
         'Pace Calculator guide artwork supports the walkthrough for time divided by distance, pace versus speed, moving-time cautions, and exact race examples.',
     },
   },
+  'body-surface-area-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing a BSA estimate with 170 cm, 70 kg, 1.82 m2 Mosteller, 1.81 m2 Du Bois, and dosing-warning cards.',
+      caption:
+        'Body Surface Area Calculator artwork matches the live workflow: enter height and weight, compare Mosteller and Du Bois BSA estimates, and keep dosing decisions with a clinician.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining body surface area math beside 170 cm, 70 kg, square-root formula, 1.82 m2, and clinical-limit cards.',
+      caption:
+        'Body Surface Area Calculator guide artwork supports the walkthrough for Mosteller math, Du Bois comparison, square-meter units, exact examples, and clinical-limit cautions.',
+    },
+  },
   'army-body-fat-calculator': {
     tool: {
       alt: 'Smoke mascot checking an Army one-site tape estimate with 210 lb weight, 35 in abdomen, and a rounded 17 percent result card.',
