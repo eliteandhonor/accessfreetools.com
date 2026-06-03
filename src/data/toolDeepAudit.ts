@@ -1796,6 +1796,21 @@ const nhlbiBmi = {
   label: 'NHLBI: Healthy weight and BMI tools',
 };
 
+const navyBcaGuide = {
+  href: 'https://www.navyreserve.navy.mil/Portals/35/SSO%20Documents/Guide%2004-Body%20Composition%20Assessment-BCA-APR%202021.pdf',
+  label: 'U.S. Navy Reserve: Guide 4 Body Composition Assessment',
+};
+
+const ncbiMilitaryBodyCompositionMethods = {
+  href: 'https://www.ncbi.nlm.nih.gov/books/NBK235939/',
+  label: 'NCBI Bookshelf: Body composition standards and methods',
+};
+
+const ncbiNavyCircumferenceInputs = {
+  href: 'https://www.ncbi.nlm.nih.gov/books/NBK235943/',
+  label: 'NCBI Bookshelf: Navy circumference inputs background',
+};
+
 const fdaNutritionFacts = {
   href: 'https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/changes-nutrition-facts-label',
   label: 'FDA: Nutrition Facts label',
@@ -4467,17 +4482,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'body-fat-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [armyBodyCompositionProgram, cdcBmi],
+    sources: [navyBcaGuide, ncbiMilitaryBodyCompositionMethods, ncbiNavyCircumferenceInputs, cdcBmi, nhlbiBmi],
     findings: [
-      'The calculator uses circumference-style inputs and labels the result as an estimate, which fits tape-measure body composition methods better than diagnostic language.',
-      'The guide explains consistent tape placement, tape tension, and trend tracking so users do not over-read small changes.',
-      'The result separates estimated body fat percentage, fat mass, and lean mass for clearer interpretation.',
+      'The calculator uses the Navy-style circumference equation: male estimates use waist minus neck with height, while female estimates use waist plus hip minus neck with height.',
+      'The tool and guide now show exact examples: 165 cm, 68 kg, neck 34 cm, waist 78 cm, hips 98 cm returns about 29.74%, and 180 cm, 84 kg, neck 40 cm, waist 88 cm returns about 16.94%.',
+      'The copy separates estimated percentage, fat mass, and lean mass, and repeatedly frames the result as trend-tracking information rather than diagnosis, official testing, or a scan replacement.',
     ],
     improvements: [
-      'Manually checked circumference formula wording, measurement guidance, examples, FAQ cautions, source coverage, related tools, SEO copy, privacy behavior, and non-diagnostic framing.',
+      'Refreshed SEO title/meta copy, input labels, examples, FAQ cautions, guide sections, source links, privacy note, modified dates, art prompt metadata, DataForSEO evidence, competitor gap report, and non-diagnostic measurement guidance.',
     ],
     followUps: [
       'Add a visual measurement guide later if the tool gets traffic, because tape placement is the biggest practical error source.',
@@ -8617,6 +8632,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
   if (tool.category === 'health-fitness') {
     if (includesAny(key, ['army-body-fat', 'army body fat', 'abcp'])) {
       return sourceBackstop([armyAbcpProgram, armyAbcpCalculator, armyAlaract0322025, armyDa5500, armyDa5501, armyBodyCompositionProgram]);
+    }
+
+    if (includesAny(key, ['body-fat', 'body fat', 'navy-style tape', 'navy body fat'])) {
+      return sourceBackstop([navyBcaGuide, ncbiMilitaryBodyCompositionMethods, ncbiNavyCircumferenceInputs, cdcBmi, nhlbiBmi]);
     }
 
     if (includesAny(key, ['pregnancy', 'due-date', 'conception', 'ovulation', 'period'])) {

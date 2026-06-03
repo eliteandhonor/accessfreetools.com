@@ -301,7 +301,8 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
     title: 'Body Fat Calculator',
     buttonLabel: 'Estimate body fat',
     emptyHistory: 'Recent body fat estimates will appear here.',
-    privacyNote: 'Tape-method body fat estimates are best for trend tracking, not diagnosis.',
+    privacyNote:
+      'Navy-style tape estimates are best for consistent trend checks, not diagnosis or official body composition testing.',
     modes: [
       {
         id: 'body-fat',
@@ -310,16 +311,16 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
         fields: [
           selectField('sex', 'Sex used by formula', sexOptions),
           numberField('heightCm', 'Height (cm)'),
-          numberField('weightKg', 'Weight (kg)'),
-          numberField('neckCm', 'Neck (cm)'),
-          numberField('waistCm', 'Waist (cm)'),
-          numberField('hipCm', 'Hip (cm, required for female formula)'),
+          numberField('weightKg', 'Weight (kg, optional for fat/lean mass)'),
+          numberField('neckCm', 'Neck circumference (cm)'),
+          numberField('waistCm', 'Waist circumference (cm)'),
+          numberField('hipCm', 'Hip circumference (cm, female formula)'),
         ],
         defaultInputs: { sex: 'female', heightCm: '165', weightKg: '68', neckCm: '34', waistCm: '78', hipCm: '98' },
         examples: [
-          { label: 'Female example', inputs: { sex: 'female', heightCm: '165', weightKg: '68', neckCm: '34', waistCm: '78', hipCm: '98' } },
-          { label: 'Male example', inputs: { sex: 'male', heightCm: '180', weightKg: '84', neckCm: '40', waistCm: '88', hipCm: '96' } },
-          { label: 'Tracking check', inputs: { sex: 'female', heightCm: '170', weightKg: '72', neckCm: '35', waistCm: '82', hipCm: '101' } },
+          { label: 'Female 29.74%', inputs: { sex: 'female', heightCm: '165', weightKg: '68', neckCm: '34', waistCm: '78', hipCm: '98' } },
+          { label: 'Male 16.94%', inputs: { sex: 'male', heightCm: '180', weightKg: '84', neckCm: '40', waistCm: '88', hipCm: '96' } },
+          { label: 'Trend 31.41%', inputs: { sex: 'female', heightCm: '170', weightKg: '72', neckCm: '35', waistCm: '82', hipCm: '101' } },
         ],
       },
     ],
@@ -911,6 +912,14 @@ function formatKg(value: number) {
   return `${formatCalculatorNumber(value)} kg`;
 }
 
+function formatRoundedNumber(value: number, digits = 2) {
+  return formatCalculatorNumber(Number(value.toFixed(digits)));
+}
+
+function formatRoundedKg(value: number) {
+  return `${formatRoundedNumber(value)} kg`;
+}
+
 function formatLb(value: number) {
   return `${formatCalculatorNumber(value)} lb`;
 }
@@ -1097,18 +1106,18 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       return {
         label: 'Body fat estimate',
         expression: `${sex}, ${formatCalculatorNumber(heightCm)} cm height`,
-        answer: `${formatCalculatorNumber(result.bodyFatPercent)}%`,
+        answer: `${formatRoundedNumber(result.bodyFatPercent)}%`,
         metrics: [
-          { label: 'Fat mass', value: result.fatMassKg ? formatKg(result.fatMassKg) : 'Add weight to estimate' },
-          { label: 'Lean mass', value: result.leanMassKg ? formatKg(result.leanMassKg) : 'Add weight to estimate' },
-          { label: 'Method', value: 'Circumference tape' },
+          { label: 'Fat mass', value: result.fatMassKg ? formatRoundedKg(result.fatMassKg) : 'Add weight to estimate' },
+          { label: 'Lean mass', value: result.leanMassKg ? formatRoundedKg(result.leanMassKg) : 'Add weight to estimate' },
+          { label: 'Method', value: 'Navy-style tape' },
         ],
         steps: [
-          'Convert tape measurements to inches for the circumference equation.',
+          'Convert tape measurements to inches for the Navy-style circumference equation.',
           sex === 'male'
             ? 'Use waist minus neck with height in the male equation.'
             : 'Use waist plus hip minus neck with height in the female equation.',
-          'Treat the result as an estimate for trend tracking.',
+          'Treat the result as an estimate for consistent trend tracking, not diagnosis.',
         ],
       };
     }

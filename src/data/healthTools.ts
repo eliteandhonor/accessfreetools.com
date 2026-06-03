@@ -5,6 +5,7 @@ interface HealthToolSpec {
   name: string;
   summary: string;
   description: string;
+  seoTitle?: string;
   seoDescription?: string;
   icon: string;
   formula: string;
@@ -18,10 +19,13 @@ interface HealthToolSpec {
 function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const exampleUses = spec.useCases.slice(0, 2).join(' ');
   const isBmiCalculator = spec.slug === 'bmi-calculator';
+  const isBodyFatCalculator = spec.slug === 'body-fat-calculator';
   const isArmyBodyFatCalculator = spec.slug === 'army-body-fat-calculator';
   const isTargetHeartRateCalculator = spec.slug === 'target-heart-rate-calculator';
   const inputAnswer = isBmiCalculator
     ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
+    : isBodyFatCalculator
+      ? 'Enter formula sex, height, optional weight, neck, waist, and hip when the female equation is selected. The male equation uses waist minus neck with height. The female equation uses waist plus hip minus neck with height. Keep the tape level, snug, and consistent from one check to the next.'
     : isArmyBodyFatCalculator
       ? 'Enter sex, age, body weight in pounds, and abdomen circumference in inches. The current Army one-site method uses the abdomen measurement at the navel, not neck, hip, or height measurements. Use a non-stretch tape, keep it level, and do not pull it tight enough to dig into the skin.'
     : isTargetHeartRateCalculator
@@ -29,6 +33,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     : 'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.';
   const readingAnswer = isBmiCalculator
     ? 'Read BMI as a quick adult screening number. It can miss important context such as pregnancy, high muscle mass, waist size, body composition, age, medical history, and ethnicity. Use it as a clue, not a final health answer.'
+    : isBodyFatCalculator
+      ? 'Read the percentage as a Navy-style tape-method estimate, then use fat mass and lean mass as context if you entered weight. Small changes can come from tape placement, posture, breathing, or tension, so this is better for consistent trend checks than one-time diagnosis.'
     : isArmyBodyFatCalculator
       ? 'Read the rounded percentage as an educational one-site tape estimate. The reference limit line uses the Army age-group table for context, but this website is not an official Army record, DA Form 5500/5501 entry, waiver, flagging decision, or medical assessment.'
     : isTargetHeartRateCalculator
@@ -53,6 +59,25 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       answer: readingAnswer,
     },
     ...(spec.extraFaq ?? []),
+    ...(isBodyFatCalculator
+      ? [
+          {
+            question: 'What formula does this body fat calculator use?',
+            answer:
+              'It uses the common Navy-style circumference equations. Male estimates use waist minus neck with height. Female estimates use waist plus hip minus neck with height. The calculator converts centimeters to inches internally because the published equation constants are inch-based.',
+          },
+          {
+            question: 'Where should I measure neck, waist, and hips?',
+            answer:
+              'Use the same tape sites every time. For the neck, measure below the larynx without including shoulder muscles. For the waist, keep the tape level and measure after a normal relaxed exhale. For hips, measure around the widest part. A different site can change the answer quickly.',
+          },
+          {
+            question: 'Why is weight optional?',
+            answer:
+              'Weight is not part of the percentage equation, but it lets the calculator estimate fat mass and lean mass. For example, 29.74% at 68 kg is about 20.22 kg estimated fat mass and 47.78 kg estimated lean mass.',
+          },
+        ]
+      : []),
     ...(isArmyBodyFatCalculator
       ? [
           {
@@ -106,7 +131,7 @@ function makeHealthTool(spec: HealthToolSpec): ToolDefinition {
     summary: spec.summary,
     description: spec.description,
     icon: spec.icon,
-    seoTitle: `${spec.name} | Free Online Health Calculator`,
+    seoTitle: spec.seoTitle ?? `${spec.name} | Free Online Health Calculator`,
     seoDescription: spec.seoDescription ?? spec.description,
     useCases: spec.useCases,
     examples: spec.examples,
@@ -239,12 +264,15 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'body-fat-calculator',
     name: 'Body Fat Calculator',
-    summary: 'Estimate body fat percentage with a tape-measure method.',
+    summary: 'Estimate body fat percentage with a Navy-style tape method.',
     description:
-      'Use this free body fat calculator to estimate body fat percentage, fat mass, and lean mass from circumference measurements.',
+      'Use this free body fat calculator to estimate body fat percentage, fat mass, and lean mass from height, weight, neck, waist, and hip measurements.',
+    seoTitle: 'Body Fat Calculator | Navy-Style Tape Estimate',
+    seoDescription:
+      'Estimate body fat percentage, fat mass, and lean mass from height, weight, neck, waist, and hip measurements with a browser-side tape-method calculator.',
     icon: 'calculator-body-fat',
     formula:
-      'The calculator uses the common circumference method: height, neck, and waist for the male equation, and height, neck, waist, and hips for the female equation.',
+      'The calculator uses the common Navy-style circumference method: male estimate = 86.01 x log10(waist - neck) - 70.041 x log10(height) + 36.76; female estimate = 163.205 x log10(waist + hip - neck) - 97.684 x log10(height) - 78.387, with measurements converted to inches.',
     caution: estimateCaution,
     useCases: [
       'Estimate body fat percentage without a scale that measures body composition.',
@@ -253,9 +281,9 @@ export const healthTools: ToolDefinition[] = [
       'Use alongside BMI for a broader screening picture.',
     ],
     examples: [
-      { label: 'Female tape example', expression: '165 cm, neck 34, waist 78, hips 98', result: 'Estimated body fat percent' },
-      { label: 'Male tape example', expression: '180 cm, neck 40, waist 88', result: 'Estimated body fat percent' },
-      { label: 'Trend check', expression: 'Repeat the same tape sites', result: 'Compare estimated change' },
+      { label: 'Female tape example', expression: '165 cm, 68 kg, neck 34, waist 78, hips 98', result: 'About 29.74% body fat' },
+      { label: 'Male tape example', expression: '180 cm, 84 kg, neck 40, waist 88', result: 'About 16.94% body fat' },
+      { label: 'Trend check', expression: '170 cm, 72 kg, neck 35, waist 82, hips 101', result: 'About 31.41% body fat' },
     ],
     relatedSlugs: ['army-body-fat-calculator', 'lean-body-mass-calculator', 'bmi-calculator'],
   }),

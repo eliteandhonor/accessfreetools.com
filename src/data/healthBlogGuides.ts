@@ -31,6 +31,8 @@ const extraSafetyNotes: Record<string, string> = {
     'BMI can show an adult screening category, but it does not measure body composition, waist size, blood pressure, labs, medications, or personal health history.',
   'army-body-fat-calculator':
     'This is an educational one-site tape estimate. It is not an official Army record, not a DA Form 5500/5501 entry, not a waiver, and not a flagging or pass/fail decision.',
+  'body-fat-calculator':
+    'This is an educational Navy-style tape estimate. It is not a DEXA scan, medical diagnosis, official military record, or complete body composition assessment.',
   'nutrition-points-calculator':
     'This is an original Access Free Tools label-reading score. It is not Weight Watchers Points, not affiliated with WW, and not a medical nutrition plan.',
   'bac-calculator':
@@ -121,6 +123,24 @@ function getSourceLinks(toolSlug: string) {
 
   if (toolSlug === 'underweight-bmi-calculator') {
     return [...bmiSources, ...eatingDisorderSources];
+  }
+
+  if (toolSlug === 'body-fat-calculator') {
+    return [
+      {
+        href: 'https://www.navyreserve.navy.mil/Portals/35/SSO%20Documents/Guide%2004-Body%20Composition%20Assessment-BCA-APR%202021.pdf',
+        label: 'U.S. Navy Reserve: Guide 4 Body Composition Assessment',
+      },
+      {
+        href: 'https://www.ncbi.nlm.nih.gov/books/NBK235939/',
+        label: 'NCBI Bookshelf: Body composition standards and methods',
+      },
+      {
+        href: 'https://www.ncbi.nlm.nih.gov/books/NBK235943/',
+        label: 'NCBI Bookshelf: Navy circumference inputs background',
+      },
+      ...bmiSources,
+    ];
   }
 
   if (['bmi-calculator', 'overweight-calculator', 'healthy-weight-calculator', 'ideal-weight-calculator', 'body-fat-calculator', 'army-body-fat-calculator', 'lean-body-mass-calculator', 'body-type-calculator'].includes(toolSlug)) {
@@ -343,30 +363,33 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'body-fat-calculator': {
-    summary: 'Learn how tape measurements create a body-fat estimate and how to measure more consistently.',
+    summary: 'Learn how the Navy-style tape method creates a body-fat estimate and how to measure more consistently.',
     purpose:
-      'The Body Fat Calculator uses circumference measurements to estimate body fat percentage, fat mass, and lean mass. The value is most useful for consistent trend checks.',
+      'The Body Fat Calculator uses a Navy-style circumference equation to estimate body fat percentage, fat mass, and lean mass. The value is most useful for consistent trend checks, not diagnosis or official testing.',
     enter: [
-      'Measure height, neck, and waist; add hips when the selected formula requires it.',
-      'Keep the tape level, snug, and not digging into the skin.',
-      'Measure at the same time of day when comparing changes over time.',
+      'Enter formula sex, height, neck, waist, and hip when the female equation is selected.',
+      'Add weight if you want estimated fat mass and lean mass. Weight does not change the percentage equation.',
+      'Keep the tape level, snug, and not digging into the skin, then use the same sites when comparing changes over time.',
     ],
     example: [
-      'In the female tape example, height, neck, waist, and hips are used together because hip measurement changes the equation.',
-      'The result separates estimated fat mass from lean mass so the percentage is easier to understand.',
+      'For the female example, 165 cm height, 68 kg weight, 34 cm neck, 78 cm waist, and 98 cm hips returns about 29.74% body fat.',
+      'Because weight was entered, the same result shows about 20.22 kg estimated fat mass and 47.78 kg estimated lean mass.',
+      'For the male example, 180 cm height, 84 kg weight, 40 cm neck, and 88 cm waist returns about 16.94% body fat.',
     ],
     read: [
-      'Read the body fat percentage as an estimate, then look at fat mass and lean mass for context.',
-      'A small change can come from measurement placement, posture, or tape tension, not only body composition.',
+      'Read the body fat percentage as a tape-method estimate, then look at fat mass and lean mass for context if weight was entered.',
+      'A small change can come from measurement placement, posture, breathing, tape angle, or tape tension, not only body composition.',
+      'Use one method consistently when tracking a trend. Do not compare this number with a scale, caliper, or scan as if every method uses the same assumptions.',
     ],
     mistakes: [
-      'Do not compare one tape-method result with a scale or scan as if every method uses the same assumptions.',
+      'Do not switch waist sites between checks. The male equation is especially sensitive to waist minus neck.',
       'Do not pull the tape tighter on later measurements just to see a lower number.',
-      'Do not use the estimate as a diagnosis.',
+      'Do not use the estimate as a diagnosis, official record, sport weight-class decision, or medical body composition test.',
     ],
     next: [
-      'Use Army Body Fat Calculator if you want a military-style tape estimate.',
+      'Use Army Body Fat Calculator if you want the current Army one-site tape estimate instead.',
       'Use Lean Body Mass Calculator for a formula-based lean-mass comparison.',
+      'Use BMI Calculator if you want the simpler adult height-and-weight screening number beside this tape estimate.',
     ],
   },
   'bmr-calculator': {

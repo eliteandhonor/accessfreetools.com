@@ -64,6 +64,18 @@ const toolArtMetadataOverrides = {
         'Boat Loan Calculator guide artwork supports the walkthrough for amount financed, sales tax, APR versus interest-rate cautions, long-term interest, ownership-cost limits, and lender disclosure checks.',
     },
   },
+  'body-fat-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a Navy-style tape body fat estimate with height, neck, waist, hips, 29.74 percent, fat mass, and lean mass cards.',
+      caption:
+        'Body Fat Calculator artwork matches the live workflow: enter formula sex, height, weight, neck, waist, and hip when needed, then estimate body fat percentage, fat mass, and lean mass with tape-method cautions.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining Navy-style tape measurement beside neck, waist, hip, 29.74 percent, 16.94 percent, and trend-check cards.',
+      caption:
+        'Body Fat Calculator guide artwork supports the walkthrough for Navy-style circumference math, consistent tape sites, optional weight for fat and lean mass, trend tracking, and non-diagnostic limits.',
+    },
+  },
   'army-body-fat-calculator': {
     tool: {
       alt: 'Smoke mascot checking an Army one-site tape estimate with 210 lb weight, 35 in abdomen, and a rounded 17 percent result card.',
