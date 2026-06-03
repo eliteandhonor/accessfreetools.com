@@ -52,6 +52,18 @@ const categoryVisualCues = {
 };
 
 const toolArtMetadataOverrides = {
+  'boat-loan-calculator': {
+    tool: {
+      alt: 'Smoke mascot reviewing a boat loan estimate with $39,900 financed, $494.70 monthly payment, and $19,464.35 interest cards.',
+      caption:
+        'Boat Loan Calculator artwork matches the live workflow: enter boat price, down payment, trade-in credit, dealer fees, sales tax rate, loan rate, and term, then compare payment, amount financed, total paid, and interest.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining boat loan math with $45,000 price, $9,000 down, $1,200 fees, 6 percent tax, and $494.70 monthly payment cards.',
+      caption:
+        'Boat Loan Calculator guide artwork supports the walkthrough for amount financed, sales tax, APR versus interest-rate cautions, long-term interest, ownership-cost limits, and lender disclosure checks.',
+    },
+  },
   'army-body-fat-calculator': {
     tool: {
       alt: 'Smoke mascot checking an Army one-site tape estimate with 210 lb weight, 35 in abdomen, and a rounded 17 percent result card.',

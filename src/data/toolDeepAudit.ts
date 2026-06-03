@@ -3855,20 +3855,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'boat-loan-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-4-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [cfpbAprVsInterest, cfpbAutoFinancingOffers],
+    sources: [cfpbAutoLoanCompare, cfpbAutoTruthInLending, cfpbAprVsInterest, ftcAutoLease],
     findings: [
-      'The calculator uses the auto-loan summary helper to estimate taxable amount, sales tax, amount financed, fixed monthly payment, total paid, and total interest.',
-      'The guide now keeps boat-specific ownership costs visible, including storage, marina fees, maintenance, inspections, insurance, fuel, trailer costs, and registration.',
-      'The page warns against comparing only monthly payment, especially when boat loan terms can be long and total interest can grow quickly.',
+      'The calculator uses the auto-loan summary helper to estimate taxable amount from boat price minus trade-in credit, sales tax, amount financed, fixed monthly payment, total paid, and total interest.',
+      'The tool now uses exact examples, including a $45,000 boat with $9,000 down, $1,200 fees, 6% tax, 8.5%, and 10 years returning $39,900 financed, about $494.70/month, and about $19,464.35 interest.',
+      'The guide keeps boat-specific ownership costs visible and warns that the estimate is not a lender quote, official APR calculation, or Truth in Lending disclosure.',
     ],
     improvements: [
-      'Added boat-loan-specific guide detail and manually checked amount-financed math, examples, FAQ cautions, CFPB source coverage, related tools, SEO copy, and privacy behavior.',
+      'Added boat-loan-specific SEO title/description, aliases, exact examples, input explanations, FAQ cautions, result-reading guidance, FTC/CFPB source coverage, guide detail, modified date, and privacy/disclosure wording.',
     ],
     followUps: [
-      'Add ownership-cost add-ons only after deciding whether this remains a loan calculator or becomes a full boat affordability tool.',
+      'Consider a separate boat affordability or ownership-cost calculator only if storage, marina fees, insurance, maintenance, registration, trailer, winterization, and fuel assumptions can stay honest and location-aware.',
     ],
   },
   {
@@ -8402,7 +8402,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['boat-loan', 'boat loan'])) {
-      return sourceBackstop([cfpbAprVsInterest, cfpbAutoFinancingOffers]);
+      return sourceBackstop([cfpbAutoLoanCompare, cfpbAutoTruthInLending, cfpbAprVsInterest, ftcAutoLease]);
     }
 
     if (includesAny(key, ['debt-to-income', 'debt to income'])) {

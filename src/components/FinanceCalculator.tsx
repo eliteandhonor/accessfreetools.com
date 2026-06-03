@@ -1614,7 +1614,8 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
     title: 'Boat Loan Calculator',
     buttonLabel: 'Estimate boat loan',
     emptyHistory: 'Recent boat loan estimates will appear here.',
-    privacyNote: 'Boat loan estimates do not include registration, marina costs, insurance, maintenance, inspections, taxes beyond the entered rate, or lender approval.',
+    privacyNote:
+      'Boat loan estimates do not include registration, title, marina costs, insurance, maintenance, inspections, optional add-ons, taxes beyond the entered rate, lender approval, or official Truth in Lending disclosures.',
     modes: [
       {
         id: 'boat-loan',
@@ -1623,17 +1624,17 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
         fields: [
           numberField('purchasePrice', 'Boat price ($)'),
           numberField('downPayment', 'Down payment ($)'),
-          numberField('tradeIn', 'Trade-in value ($)'),
-          numberField('fees', 'Fees ($)'),
-          numberField('salesTaxPercent', 'Sales tax (%)'),
-          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('tradeIn', 'Trade-in credit ($)'),
+          numberField('fees', 'Dealer/seller fees ($)'),
+          numberField('salesTaxPercent', 'Sales tax rate (%)'),
+          numberField('annualRatePercent', 'Rate used for math (%)'),
           numberField('years', 'Loan term (years)'),
         ],
         defaultInputs: { purchasePrice: '45000', downPayment: '9000', tradeIn: '0', fees: '1200', salesTaxPercent: '6', annualRatePercent: '8.5', years: '10' },
         examples: [
-          { label: 'Used boat', inputs: { purchasePrice: '45000', downPayment: '9000', tradeIn: '0', fees: '1200', salesTaxPercent: '6', annualRatePercent: '8.5', years: '10' } },
-          { label: 'Smaller loan', inputs: { purchasePrice: '22000', downPayment: '4000', tradeIn: '2000', fees: '750', salesTaxPercent: '5.5', annualRatePercent: '9', years: '7' } },
-          { label: 'Long term', inputs: { purchasePrice: '85000', downPayment: '17000', tradeIn: '0', fees: '1800', salesTaxPercent: '6.25', annualRatePercent: '7.75', years: '15' } },
+          { label: '$494.70/mo used boat', inputs: { purchasePrice: '45000', downPayment: '9000', tradeIn: '0', fees: '1200', salesTaxPercent: '6', annualRatePercent: '8.5', years: '10' } },
+          { label: '$287.19/mo trade-in', inputs: { purchasePrice: '22000', downPayment: '4000', tradeIn: '2000', fees: '750', salesTaxPercent: '5.5', annualRatePercent: '9', years: '7' } },
+          { label: '$707.02/mo long term', inputs: { purchasePrice: '85000', downPayment: '17000', tradeIn: '0', fees: '1800', salesTaxPercent: '6.25', annualRatePercent: '7.75', years: '15' } },
         ],
       },
     ],
@@ -3898,7 +3899,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Use the amount financed in the fixed-payment loan formula.',
           'Total interest equals total paid minus amount financed.',
         ],
-        note: 'This does not include storage, maintenance, registration, insurance, inspections, or marina costs.',
+        note: 'This planning estimate is not a lender quote or Truth in Lending disclosure. Check official APR, finance charge, total of payments, title, registration, add-ons, insurance, storage, maintenance, inspections, fuel, and marina costs before signing.',
       };
     }
     case 'lease': {

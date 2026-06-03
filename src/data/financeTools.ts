@@ -5246,28 +5246,91 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'boat-loan-calculator',
     name: 'Boat Loan Calculator',
-    summary: 'Estimate boat loan payment, amount financed, tax, and interest.',
+    summary: 'Estimate monthly boat loan payment, amount financed, sales tax, and interest.',
     description:
-      'Use this free boat loan calculator to estimate monthly payment, amount financed, sales tax, total paid, and total interest from price, down payment, trade-in, fees, rate, and term.',
+      'Use this free boat loan calculator to estimate monthly payment, amount financed, sales tax, total paid, and total interest from boat price, down payment, trade-in credit, fees, rate, and term.',
+    seoTitle: 'Boat Loan Calculator | Payment, Tax & Interest',
     seoDescription:
-      'Estimate boat loan monthly payment, amount financed, sales tax, total paid, and interest from price, down payment, rate, and term.',
+      'Estimate boat loan payment, amount financed, sales tax, total paid, and interest from boat price, down payment, fees, rate, and term.',
     icon: 'calculator-boat-loan',
+    aliases: [
+      'boat payment calculator',
+      'marine loan calculator',
+      'boat financing calculator',
+      'used boat loan calculator',
+    ],
     formula:
-      'The calculator estimates taxable amount, adds sales tax and fees, subtracts down payment and trade-in value, then uses the fixed-payment loan formula.',
+      'Taxable amount is max(0, boat price - trade-in credit). Sales tax is taxable amount times the entered tax rate. Amount financed is boat price plus sales tax and fees minus down payment and trade-in credit, then the fixed-payment loan formula estimates monthly payment.',
     limit:
-      'This does not include registration, storage, marina fees, maintenance, inspections, insurance, fuel, taxes beyond the entered rate, or lender approval.',
+      'This is not a lender quote or Truth in Lending disclosure. It does not include registration, title, storage, marina fees, maintenance, inspections, insurance, fuel, taxes beyond the entered rate, optional add-ons, credit approval, or lender-specific APR rules.',
     useCases: [
-      'Estimate a monthly boat loan payment.',
-      'Include down payment, trade-in value, fees, and sales tax.',
-      'Compare loan terms for a recreational purchase.',
-      'See total interest before choosing a longer term.',
+      'Estimate a monthly boat loan payment before visiting a dealer or seller.',
+      'Include down payment, trade-in credit, seller fees, and sales tax in the amount financed.',
+      'Compare shorter and longer marine loan terms without looking only at payment.',
+      'See total interest before choosing a long recreational-vehicle loan.',
     ],
     examples: [
-      { label: 'Used boat', expression: '$45,000 price, $9,000 down, 8.5%, 10 years', result: 'Monthly payment and interest' },
-      { label: 'Smaller loan', expression: '$22,000 price with trade-in', result: 'Amount financed estimate' },
-      { label: 'Long term', expression: '$85,000 over 15 years', result: 'Lower payment, more interest' },
+      {
+        label: 'Used boat',
+        expression: '$45,000 price, $9,000 down, $1,200 fees, 6% tax, 8.5%, 10 years',
+        result: '$39,900 financed, about $494.70/month, and about $19,464.35 interest',
+      },
+      {
+        label: 'Trade-in credit',
+        expression: '$22,000 price, $4,000 down, $2,000 trade-in, $750 fees, 5.5% tax, 9%, 7 years',
+        result: '$17,850 financed and about $287.19/month',
+      },
+      {
+        label: 'Long term',
+        expression: '$85,000 price, $17,000 down, $1,800 fees, 6.25% tax, 7.75%, 15 years',
+        result: 'About $707.02/month and about $52,150.34 interest',
+      },
     ],
-    relatedSlugs: ['auto-loan-calculator', 'loan-calculator', 'personal-loan-calculator'],
+    relatedSlugs: ['auto-loan-calculator', 'loan-calculator', 'apr-calculator'],
+    inputExplanations: [
+      { term: 'Boat price', meaning: 'the agreed purchase price before financing, taxes, fees, down payment, or trade-in credit.' },
+      { term: 'Trade-in credit', meaning: 'the value credited for a boat or vehicle you trade. This calculator reduces both taxable amount and amount financed by that credit.' },
+      { term: 'Dealer/seller fees', meaning: 'fees you choose to include in the financed balance. Real paperwork may split title, documentation, registration, add-ons, and lender fees differently.' },
+      { term: 'Rate used for payment math', meaning: 'the yearly rate used in the fixed-payment formula. Use APR only when you are intentionally comparing offers by APR and understand what fees it includes.' },
+      { term: 'Loan term', meaning: 'how many years the loan runs. A longer term can lower the payment while raising total interest.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'How does the boat loan calculator handle a trade-in?',
+        answer:
+          'It subtracts the trade-in credit from the taxable amount and from the final amount financed. For example, a $22,000 boat with a $2,000 trade-in uses $20,000 as the taxable amount before sales tax is estimated.',
+      },
+      {
+        question: 'Should I enter interest rate or APR?',
+        answer:
+          'Use the number you are trying to compare. APR can include mandatory credit costs while a stated interest rate may not. If one quote gives APR and another gives only interest rate, read the lender disclosure before deciding which offer is cheaper.',
+      },
+      {
+        question: 'Why can a longer boat loan be expensive even with a lower payment?',
+        answer:
+          'A longer term spreads the balance across more months, so the payment can look easier. The tradeoff is more months of interest. In the long-term example here, the payment is about $707.02/month, but total interest is about $52,150.34.',
+      },
+    ],
+    formulaCheck:
+      'Amount financed = boat price + estimated sales tax + entered fees - down payment - trade-in credit. The payment then uses the standard fixed-payment loan formula.',
+    resultReading:
+      'Read monthly payment first, then check amount financed, sales tax, total interest, and total paid. A quote with a lower monthly payment can still cost more if the term is longer or fees are rolled into the balance.',
+    doubleCheck:
+      'Check the written offer for APR, finance charge, total of payments, title and registration fees, optional add-ons, prepayment rules, and whether taxes or fees are actually financed.',
+    limitFollowup:
+      'Boat ownership costs can be large. Keep insurance, storage, marina slip fees, winterization, maintenance, inspections, trailer costs, fuel, and registration outside this loan estimate unless the seller or lender specifically finances them.',
+    extraFaq: [
+      {
+        question: 'Does this estimate include boat ownership costs?',
+        answer:
+          'No. It estimates financing math only. Storage, marina fees, insurance, maintenance, fuel, inspections, winterization, registration, title, and trailer costs can change the real monthly budget.',
+      },
+      {
+        question: 'Is this a Truth in Lending disclosure?',
+        answer:
+          'No. It is a planning calculator. Use the lender or dealer disclosure for the official APR, finance charge, amount financed, payment schedule, total of payments, and contract terms.',
+      },
+    ],
   }),
   makeFinanceTool({
     slug: 'lease-calculator',

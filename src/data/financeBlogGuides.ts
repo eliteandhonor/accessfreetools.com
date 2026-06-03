@@ -1136,7 +1136,12 @@ function getSourceLinks(toolSlug: string) {
   }
 
   if (toolSlug === 'boat-loan-calculator') {
-    return [sourceLinks.cfpbAprVsInterest, sourceLinks.cfpbAutoFinancingOffers];
+    return [
+      sourceLinks.cfpbAutoLoanCompare,
+      sourceLinks.cfpbAutoTruthInLending,
+      sourceLinks.cfpbAprVsInterest,
+      sourceLinks.ftcAutoLease,
+    ];
   }
 
   if (toolSlug === 'depreciation-calculator') {
@@ -2922,29 +2927,37 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'boat-loan-calculator': {
-    summary: 'Learn how boat price, down payment, trade-in, tax, fees, rate, and term affect a boat loan payment.',
+    summary: 'Learn how boat price, down payment, trade-in credit, taxes, fees, rate, and term affect a boat loan payment.',
     purpose:
-      'The Boat Loan Calculator uses purchase-price financing math similar to an auto loan. It estimates amount financed, monthly payment, sales tax, total paid, and interest.',
+      'The Boat Loan Calculator is for checking a marine loan idea before you compare the written offer. It estimates amount financed, monthly payment, sales tax, total paid, and interest from the purchase price, trade-in credit, down payment, fees, rate, and term.',
     enter: [
-      'Enter boat price, down payment, trade-in value, fees, sales tax rate, loan rate, and term.',
-      'Use the tax and fee numbers from your location or seller when possible.',
-      'Use a realistic term because long terms can lower payment but raise interest.',
+      'Enter the boat price before financing, then add down payment and trade-in credit if they apply.',
+      'Enter dealer or seller fees only when you want them included in the financed balance.',
+      'Use the sales tax rate, rate used for payment math, and loan term from the quote you want to test.',
+      'If the lender gives APR and interest rate separately, use the number you are intentionally comparing and read the disclosure before deciding which offer is cheaper.',
     ],
     example: [
-      '$45,000 with $9,000 down is financed after tax, fees, and any trade-in adjustment.',
-      'The calculator then uses the fixed-payment loan formula to estimate monthly payment and total interest.',
+      '$45,000 with $9,000 down, $1,200 in fees, 6% sales tax, 8.5%, and 10 years creates $2,700 in estimated sales tax.',
+      'That leaves $39,900 financed before the payment formula runs.',
+      'The estimated payment is about $494.70/month, with about $19,464.35 in total interest over 120 payments.',
     ],
     read: [
       'Amount financed is the balance used in the payment formula.',
-      'Sales tax is estimated from the price and entered tax rate.',
-      'Total interest shows the borrowing cost before storage, insurance, fuel, or maintenance.',
+      'Sales tax is estimated from boat price minus trade-in credit, then multiplied by the entered tax rate.',
+      'Total interest shows the borrowing cost before ownership costs such as storage, insurance, fuel, maintenance, marina fees, trailer costs, or registration.',
+      'Total paid is monthly payment times the number of months. It is not the same thing as total cost of owning the boat.',
     ],
     mistakes: [
-      'Do not forget registration, marina fees, storage, maintenance, inspections, insurance, winterization, fuel, and trailer costs.',
-      'Do not compare only monthly payment when terms are different.',
-      'Do not assume boat trade-in tax treatment is the same everywhere.',
+      'Do not compare only monthly payment when the loan terms are different. A longer term can make the payment look easier while adding a lot of interest.',
+      'Do not forget registration, title, marina fees, storage, maintenance, inspections, winterization, insurance, fuel, and trailer costs.',
+      'Do not assume trade-in tax treatment, documentation fees, title fees, or optional add-ons are handled the same everywhere.',
+      'Do not treat this as a Truth in Lending disclosure. Use the lender paperwork for official APR, finance charge, total of payments, and contract terms.',
     ],
-    next: ['Use Loan Calculator for a plain loan estimate.', 'Use Personal Loan Calculator for non-collateral borrowing comparisons.'],
+    next: [
+      'Use Loan Calculator for a plain principal-rate-term estimate.',
+      'Use APR Calculator when fees make two loan offers hard to compare.',
+      'Use Auto Loan Calculator when the financing idea is closer to a car or truck purchase.',
+    ],
   },
   'lease-calculator': {
     summary: 'Learn how asset value, residual value, finance rate, term, upfront payment, and fees affect a lease estimate.',
