@@ -957,18 +957,22 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'weight-calculator',
     name: 'Weight Calculator',
     category: 'calculators',
-    summary: 'Calculate weight force from mass and gravity in newtons and pounds-force.',
+    summary: 'Calculate physics weight force from mass and gravity in newtons and pounds-force.',
     description:
-      'Use this free weight calculator to estimate weight force from mass in kilograms and gravity, with newtons, pounds-force, and mass pounds.',
+      'Use this free weight calculator to estimate physics weight force from mass in kilograms and gravity, with newtons, pounds-force, and mass pounds shown separately.',
+    seoTitle: 'Weight Calculator | Mass x Gravity Force',
+    seoDescription:
+      'Calculate weight force from mass and gravity in newtons and pounds-force. Learn why this physics tool is different from BMI, ideal weight, or body-weight charts.',
     icon: 'calculator-weight',
     formula:
-      'The calculator uses weight force = mass x gravity. Standard Earth gravity is about 9.80665 m/s2.',
+      'The calculator uses weight force = mass x gravity. It multiplies kilograms by m/s2 to get newtons, then converts newtons to pounds-force for comparison. Standard Earth gravity is about 9.80665 m/s2.',
     limit:
-      'In everyday speech weight and mass are often mixed. This tool separates mass from weight force and should not replace safety-rated load calculations.',
+      'In everyday speech weight and mass are often mixed. This physics tool is not a BMI, ideal weight, height-weight, age-weight, or safety-rated load calculator.',
     inputExplanations: [
       { term: 'Mass kg', meaning: 'the amount of matter in kilograms. Mass does not change just because gravity changes.' },
-      { term: 'Gravity m/s2', meaning: 'the gravitational acceleration. Earth standard gravity is about 9.80665 m/s2.' },
-      { term: 'Newtons', meaning: 'the SI force unit used for the main weight-force answer.' },
+      { term: 'Gravity m/s2', meaning: 'the gravitational acceleration at the location you want to model. Earth standard gravity is about 9.80665 m/s2, the Moon is about 1.62 m/s2, and Mars is about 3.71 m/s2.' },
+      { term: 'Newtons', meaning: 'the SI force unit used for the main weight-force answer after mass is multiplied by gravity.' },
+      { term: 'Pounds-force', meaning: 'a force-unit conversion from newtons. It is not the same idea as pounds of mass on a scale.' },
     ],
     extraFaq: [
       {
@@ -976,19 +980,35 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Mass is the amount of matter. Weight is the force gravity pulls on that mass. The same 70 kg mass has less weight force on the Moon because lunar gravity is smaller.',
       },
+      {
+        question: 'Is this a BMI or ideal weight calculator?',
+        answer:
+          'No. This Weight Calculator is for physics force: mass times gravity. If you want body-weight screening, use the BMI Calculator, Healthy Weight Calculator, or Ideal Weight Calculator instead.',
+      },
+      {
+        question: 'Which gravity value should I enter?',
+        answer:
+          'Use 9.80665 m/s2 for standard Earth gravity. Use a different value only when you intentionally want another location, such as about 1.62 m/s2 for the Moon or about 3.71 m/s2 for Mars.',
+      },
+      {
+        question: 'Why does the page show pounds-force and pounds mass?',
+        answer:
+          'Pounds-force is a force conversion from newtons. Pounds mass is a mass conversion from kilograms. They can look similar under standard Earth gravity, but they answer different questions.',
+      },
     ],
     useCases: [
       'Calculate force in newtons from mass and gravity.',
       'Compare Earth and Moon gravity examples.',
+      'Try a Mars gravity example without changing the object mass.',
       'Convert weight force into pounds-force for context.',
-      'Understand the difference between mass and weight force.',
+      'Understand why this page is different from BMI, ideal weight, and scale-weight tools.',
     ],
     examples: [
-      { label: 'Earth standard', expression: '70 kg x 9.80665 m/s2', result: '686.4655 N' },
-      { label: 'Moon example', expression: '70 kg x 1.62 m/s2', result: '113.4 N' },
-      { label: 'Small object', expression: '2.5 kg x 9.80665 m/s2', result: '24.516625 N' },
+      { label: 'Earth standard', expression: '70 kg x 9.80665 m/s2', result: '686.4655 N, about 154.32 lbf' },
+      { label: 'Moon example', expression: '70 kg x 1.62 m/s2', result: '113.4 N, about 25.49 lbf' },
+      { label: 'Mars example', expression: '80 kg x 3.71 m/s2', result: '296.8 N, about 66.72 lbf' },
     ],
-    relatedSlugs: ['mass-calculator', 'density-calculator', 'conversion-calculator'],
+    relatedSlugs: ['mass-calculator', 'conversion-calculator', 'bmi-calculator', 'ideal-weight-calculator'],
   }),
   makeUtilityTool({
     slug: 'speed-calculator',

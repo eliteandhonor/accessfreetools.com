@@ -1552,23 +1552,54 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits, sourceLinks.bipmSi],
   },
   'weight-calculator': {
-    summary: 'Learn the difference between mass and weight force, including newtons and pounds-force.',
+    summary: 'Use the physics Weight Calculator for mass times gravity, not BMI or ideal body weight.',
     purpose:
-      'The Weight Calculator estimates weight force from mass and gravity. In physics, weight is a force, while mass is the amount of matter.',
+      'The Weight Calculator estimates physics weight force from mass and gravity. In physics, weight is a force, while mass is the amount of matter. That is different from body-weight screening, BMI, or ideal-weight formulas.',
     enter: [
       'Enter mass in kilograms.',
-      'Use 9.80665 m/s2 for standard Earth gravity or enter another gravity value.',
+      'Use 9.80665 m/s2 for standard Earth gravity, or enter another gravity value such as about 1.62 m/s2 for the Moon or 3.71 m/s2 for Mars.',
       'Calculate to see newtons and pounds-force.',
+      'If you meant body weight, height-weight range, BMI, or ideal weight, use one of the health calculators instead.',
     ],
     read: [
       'Newtons is the main weight force result.',
       'Pounds-force gives a familiar force comparison.',
       'Mass in pounds is shown separately so mass and force are not confused.',
+      'For 70 kg at 9.80665 m/s2, the force is 686.4655 N, which is about 154.32 lbf.',
     ],
     mistakes: [
       'Do not use weight force as a safety-rated load calculation.',
       'Do not confuse pounds mass with pounds-force.',
       'Gravity changes by location, altitude, and planet or moon.',
+      'Do not use this page as a BMI, ideal body weight, or age-weight chart.',
+    ],
+    extraSections: [
+      {
+        title: 'Quick examples',
+        paragraphs: [
+          'A 70 kg mass under standard Earth gravity is 70 x 9.80665 = 686.4655 N. The same 70 kg mass under Moon gravity is 70 x 1.62 = 113.4 N. The mass did not change; the gravity value changed the force.',
+          'For a Mars-style example, 80 kg x 3.71 m/s2 = 296.8 N, or about 66.72 lbf. That kind of comparison is the reason this page asks for gravity instead of height, age, or body measurements.',
+        ],
+      },
+      {
+        title: 'If you meant body weight',
+        paragraphs: [
+          'Search data for "weight calculator" often mixes physics, BMI, height-weight, age-weight, and ideal-weight intent. This page keeps the physics meaning: mass times gravity.',
+          'Use BMI Calculator for body mass index, Healthy Weight Calculator for the adult BMI 18.5 to 24.9 height range, or Ideal Weight Calculator for a formula reference weight. Those pages are better fits for health-style weight questions.',
+        ],
+        links: [
+          { href: '/tools/bmi-calculator/', label: 'Check BMI from height and weight' },
+          { href: '/tools/healthy-weight-calculator/', label: 'Find an adult healthy-weight range' },
+          { href: '/tools/ideal-weight-calculator/', label: 'Compare an ideal-weight formula' },
+        ],
+      },
+      {
+        title: 'Why pounds-force can feel confusing',
+        paragraphs: [
+          'Under standard Earth gravity, 70 kg converts to about 154.32 pounds mass and also about 154.32 pounds-force. That matching number is why everyday speech blurs mass and weight.',
+          'When gravity changes, the difference becomes obvious: the same 70 kg is still about 154.32 pounds mass, but on the Moon it is only about 25.49 lbf of weight force.',
+        ],
+      },
     ],
     sources: [sourceLinks.nistUnits, sourceLinks.openStaxMassWeight],
   },

@@ -5832,17 +5832,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'weight-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-04',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
     sources: [openStaxMassWeight, nistSi],
     findings: [
-      'The calculator uses weight force = mass x gravity and separates newtons, pounds-force, and pounds mass.',
-      'The FAQ now explains why mass and weight are not the same idea in physics.',
-      'The limit language correctly avoids safety-rated load decisions and points out that gravity changes by location.',
+      'DataForSEO paid evidence for the exact tool and guide showed `weight calculator` intent overlaps with ideal weight, height-weight, BMI, age-weight, and body-weight searches.',
+      'The calculator uses weight force = mass x gravity and now separates newtons, pounds-force, pounds mass, and body-weight calculator intent more clearly.',
+      'The page and guide now include exact Earth, Moon, and Mars gravity examples while routing BMI, healthy-weight, and ideal-weight questions to the proper health tools.',
+      'The limit language avoids safety-rated load decisions and body-weight screening claims while explaining that gravity changes by location.',
     ],
     improvements: [
-      'Manually checked weight-force math, unit labels, examples, FAQ wording, guide clarity, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Manually checked weight-force math, unit labels, examples, FAQ wording, guide clarity, source coverage, related tools, SEO copy, privacy behavior, result labels, DataForSEO paid evidence, and Calculator.net topic-gap evidence.',
     ],
     followUps: [
       'Add preset gravity values for Moon, Mars, and Earth only if the UI can keep the educational framing clear.',

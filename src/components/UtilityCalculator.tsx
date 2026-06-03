@@ -1681,7 +1681,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Weight Calculator',
     buttonLabel: 'Calculate weight force',
     emptyHistory: 'Recent weight force calculations will appear here.',
-    privacyNote: 'Weight force estimates stay in this browser tab and use the gravity value shown.',
+    privacyNote: 'Weight force estimates stay in this browser tab. This physics tool is not a BMI or ideal-weight calculator.',
     modes: [
       {
         id: 'weight-force',
@@ -1692,7 +1692,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         examples: [
           { label: 'Earth standard', inputs: { massKg: '70', gravityMps2: '9.80665' } },
           { label: 'Moon example', inputs: { massKg: '70', gravityMps2: '1.62' } },
-          { label: 'Small object', inputs: { massKg: '2.5', gravityMps2: '9.80665' } },
+          { label: 'Mars example', inputs: { massKg: '80', gravityMps2: '3.71' } },
         ],
       },
     ],
@@ -5078,7 +5078,7 @@ function calculateUtility(
         steps: [
           'Use weight force = mass x gravity.',
           'Standard Earth gravity is about 9.80665 m/s2.',
-          'Convert newtons to pounds-force for comparison.',
+          'Convert newtons to pounds-force for comparison, and keep mass pounds separate from pounds-force.',
         ],
       };
     }

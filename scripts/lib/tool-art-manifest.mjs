@@ -100,6 +100,18 @@ const toolArtMetadataOverrides = {
         'Healthy Weight Calculator guide artwork supports the walkthrough for height-squared BMI range math, exact example ranges, current BMI context, and adult-only limits.',
     },
   },
+  'weight-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a physics weight-force estimate with 70 kg, Earth gravity 9.80665 m/s2, 686.4655 N, 154.32 lbf, and Moon comparison cards.',
+      caption:
+        'Weight Calculator artwork matches the live workflow: enter mass and gravity, then compare physics weight force in newtons, pounds-force, and mass pounds.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining mass times gravity with Earth, Moon, and Mars examples plus BMI and ideal-weight reminder cards.',
+      caption:
+        'Weight Calculator guide artwork supports the walkthrough for mass x gravity, newtons, pounds-force, planet gravity examples, and the difference from BMI or ideal-weight tools.',
+    },
+  },
   'bmr-calculator': {
     tool: {
       alt: 'Smoke mascot presenting a BMR estimate with age, formula sex, height, weight, 1,763 kcal, and TDEE comparison cards.',
