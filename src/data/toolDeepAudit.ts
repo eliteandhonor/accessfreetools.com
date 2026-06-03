@@ -1956,6 +1956,16 @@ const lowesTile = {
   label: 'Inch Calculator: Tile calculator reference',
 };
 
+const calculatorNetTile = {
+  href: 'https://www.calculator.net/tile-calculator.html',
+  label: 'Calculator.net: Tile calculator reference',
+};
+
+const omniTile = {
+  href: 'https://www.omnicalculator.com/construction/tile',
+  label: 'Omni Calculator: Tile calculator reference',
+};
+
 const sherwinPaintCoverage = {
   href: 'https://www.sherwin-williams.com/en-us/color/color-tools/paint-calculator',
   label: 'Sherwin-Williams: Paint calculator coverage notes',
@@ -2955,20 +2965,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'tile-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-top-25-completion-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'page-seo-gsc-refresh-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [lowesTile, nistSi],
+    sources: [lowesTile, calculatorNetTile, omniTile, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator converts tile dimensions from square inches to square feet, adds waste to project area, divides by tile area, and rounds to whole tiles.',
-      'The guide now explains waste percent, cuts, breakage, layout pattern, grout spacing limits, box coverage, and why final ordering may need a store or installer takeoff.',
-      'The tool content correctly frames grout spacing as an ordering/layout concern rather than a hidden formula input.',
+      'The calculator converts tile length and width from square inches to square feet, adds waste to measured project area, divides by tile area, and rounds up to a whole tile count.',
+      'DataForSEO page evidence found U.S. intent around tile calculator, tile calculator square feet, shower tile calculator, floor tile calculator, wall tile calculator, and tile calculator formula.',
+      'The tool and guide now explain floor, wall, shower, and backsplash measurement, 10% and higher waste cases, grout-spacing limits, box coverage, shade lots, metric conversion, and why final ordering may need a store or installer takeoff.',
     ],
     improvements: [
-      'Added a tile-specific estimating source and expanded the Tile guide with waste percent and grout-spacing explanation before marking the tool deep-reviewed.',
+      'Added Tile-specific SEO title and description, aliases, 13 visible FAQs, 4 exact examples, guide sections for the 120 ft2 example, floor/wall/shower measurement, boxes and grout checks, metric input limits, source links, modified dates, related links, and exact image alt/caption text.',
     ],
     followUps: [
-      'Add box-coverage and optional grout-width inputs when the home-project calculators get a second UI pass.',
+      'Add optional box-coverage, tiles-per-box, and grout-width inputs when the home-project calculators get a second UI pass.',
     ],
   },
   {

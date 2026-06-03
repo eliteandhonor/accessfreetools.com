@@ -424,6 +424,18 @@ const toolArtMetadataOverrides = {
         'Soil Calculator guide artwork supports the walkthrough for raised beds, topsoil depth, cubic yards, bag counts, settling, and retail bag-size limits.',
     },
   },
+  'tile-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 120 ft2 tile floor with 12 x 12 in tiles, 10 percent waste, 132 adjusted ft2, and 132 tiles.',
+      caption:
+        'Tile Calculator artwork matches the live workflow: enter project area, tile length, tile width, and waste percent to estimate a whole tile count.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing floor, wall, and shower tile areas, 12 x 12 tile size, 10 percent waste, 132 tiles, box coverage, and grout layout checks.',
+      caption:
+        'Tile Calculator guide artwork supports the walkthrough for square feet, tile size, waste, floor and shower measuring, box coverage, grout spacing, and layout limits.',
+    },
+  },
   'concrete-footing-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',

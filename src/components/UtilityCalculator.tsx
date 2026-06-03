@@ -406,9 +406,9 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     wastePercent: 'Extra shingles for cuts, starter strips, valleys, hips, ridge, and mistakes.',
   },
   tile: {
-    areaSquareFeet: 'Floor or wall surface area before waste. Measure the area, not the tile box coverage.',
-    tileLengthInches: 'Visible length of one tile in inches.',
-    tileWidthInches: 'Visible width of one tile in inches.',
+    areaSquareFeet: 'Floor, wall, backsplash, or shower surface area before waste. Measure the area, not the tile box coverage.',
+    tileLengthInches: 'Visible length of one tile in inches, such as 12 for a 12 x 24 tile.',
+    tileWidthInches: 'Visible width of one tile in inches, such as 24 for a 12 x 24 tile.',
     wastePercent: 'Extra tile for cuts, breakage, layout pattern, and future replacement pieces.',
   },
   mulch: {
@@ -2316,17 +2316,17 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Tile Calculator',
     buttonLabel: 'Estimate tile',
     emptyHistory: 'Recent tile estimates will appear here.',
-    privacyNote: 'Tile estimates stay local and use the tile size and waste percent you enter.',
+    privacyNote: 'Tile estimates stay local. Use the result as a planning count before checking box coverage, grout spacing, cuts, and installer layout.',
     modes: [
       {
         id: 'floor-tile',
         label: 'Area and tile',
         symbol: 'TILE',
         fields: [
-          numberField('areaSquareFeet', 'Area square feet', '120'),
-          numberField('tileLengthInches', 'Tile length inches', '12'),
-          numberField('tileWidthInches', 'Tile width inches', '12'),
-          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('areaSquareFeet', 'Project area (ft2)', '120'),
+          numberField('tileLengthInches', 'Tile length (in)', '12'),
+          numberField('tileWidthInches', 'Tile width (in)', '12'),
+          numberField('wastePercent', 'Waste (%)', '10'),
         ],
         defaultInputs: { areaSquareFeet: '120', tileLengthInches: '12', tileWidthInches: '12', wastePercent: '10' },
         examples: [{ label: '120 ft2, 12 x 12', inputs: { areaSquareFeet: '120', tileLengthInches: '12', tileWidthInches: '12', wastePercent: '10' } }],
@@ -5691,7 +5691,7 @@ function calculateUtility(
       const result = calculateTileEstimate(parseNumber(inputs.areaSquareFeet, 'Area'), parseNumber(inputs.tileLengthInches, 'Tile length'), parseNumber(inputs.tileWidthInches, 'Tile width'), parseNumber(inputs.wastePercent, 'Waste percent'));
       return {
         label: 'Tiles needed',
-        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2 with ${formatCalculatorNumber(result.tileLengthInches)} x ${formatCalculatorNumber(result.tileWidthInches)} in tile`,
+        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2 with ${formatCalculatorNumber(result.tileLengthInches)} x ${formatCalculatorNumber(result.tileWidthInches)} in tile and ${percent(result.wastePercent)} waste`,
         answer: formatCalculatorNumber(result.tilesNeeded),
         metrics: [
           { label: 'Each tile area', value: `${formatCalculatorNumber(result.tileAreaSquareFeet)} ft2` },
@@ -5703,6 +5703,8 @@ function calculateUtility(
           'Add waste to the project area.',
           'Divide adjusted area by tile area and round up to a whole tile.',
         ],
+        note:
+          'This is a tile-count estimate. Check grout joints, layout cuts, box coverage, shade lot, trim pieces, thinset, and installer guidance before buying.',
       };
     }
     case 'mulch': {

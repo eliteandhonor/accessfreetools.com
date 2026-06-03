@@ -2081,31 +2081,96 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'tile-calculator',
     name: 'Tile Calculator',
     category: 'home-projects',
-    summary: 'Estimate tile count from area, tile size, and waste percentage.',
+    summary: 'Estimate floor, wall, or shower tile count from square feet, tile size, and waste.',
     description:
-      'Use this free tile calculator to estimate how many tiles you need from project square feet and tile dimensions.',
+      'Use this free tile calculator to estimate whole tiles from project square feet, tile dimensions, and waste before checking box coverage.',
+    seoTitle: 'Tile Calculator | Floor, Wall, Shower Tile Count',
+    seoDescription:
+      'Estimate floor, wall, or shower tile count from square feet, tile dimensions, and waste percent before checking layout cuts and box coverage.',
     icon: 'calculator-tile',
+    aliases: [
+      'Tile Calculator Square Feet',
+      'Floor Tile Calculator',
+      'Shower Tile Calculator',
+      'Wall Tile Calculator',
+      'Tile Count Calculator',
+      'Tile Square Foot Calculator',
+      'Tile Calculator Formula',
+      'Tile Calculator Square Meters',
+    ],
     formula:
-      'The calculator converts tile length and width from square inches to square feet, adds waste to project area, then rounds up the tile count.',
+      'The calculator uses tile area = tile length inches x tile width inches / 144, adjusted area = project square feet x (1 + waste percent / 100), and tiles needed = ceiling(adjusted area / tile area).',
     limit:
-      'Real projects need layout planning, cuts, breakage, pattern matching, grout spacing, boxes, and product coverage checks.',
+      'This is a planning count, not a full installer takeoff. Real projects can change with grout joints, layout direction, cuts at edges, diagonal or herringbone patterns, broken pieces, spare tiles, box coverage, shade lots, trim, thinset, waterproofing, and store rounding.',
+    faqLanguage: {
+      expectedInputs: 'project square feet, tile length and width in inches, and the waste percent you want to add',
+      examplePhrase: 'tile-count example',
+      doubleCheck:
+        'Also check the tile box coverage, tiles per box, grout joint, layout pattern, shade lot, and whether floor, wall, or shower surfaces should be measured separately.',
+    },
     inputExplanations: [
-      { term: 'Area square feet', meaning: 'the floor or wall area you plan to cover before extra tile is added.' },
-      { term: 'Tile length and width', meaning: 'the visible dimensions of one tile in inches.' },
-      { term: 'Waste percent', meaning: 'extra tile for cuts, breakage, layout pattern, and future replacement pieces.' },
+      { term: 'Project area (ft2)', meaning: 'the floor, wall, backsplash, or shower surface area before extra tile is added.' },
+      { term: 'Tile length and width (in)', meaning: 'the visible face size of one tile, not the box size or carton coverage.' },
+      { term: 'Waste (%)', meaning: 'extra tile for cuts, breakage, pattern layout, chipped corners, and a few future repair pieces.' },
+      { term: 'Tiles needed', meaning: 'the rounded-up tile count before you convert it to boxes or cartons.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How many 12 x 12 tiles do I need for 120 square feet?',
+        answer:
+          'A 12 x 12 inch tile covers 1 square foot. For 120 square feet with 10% waste, the calculator uses 132 square feet and returns 132 tiles.',
+      },
+      {
+        question: 'Can I use this as a shower tile calculator?',
+        answer:
+          'Yes for a first count. Measure each shower wall or floor area, add the square feet together, and use a higher waste percent if there are niches, benches, plumbing cuts, mosaics, or many small pieces.',
+      },
+      {
+        question: 'Should I enter floor area or wall area?',
+        answer:
+          'Enter the surface you are actually tiling. For a floor, use floor square feet. For a wall, backsplash, or shower, measure each rectangle, subtract large openings when needed, and add the areas together.',
+      },
+      {
+        question: 'What waste percent should I use for tile?',
+        answer:
+          'Ten percent is a common starting point for simple straight layouts. Use more for diagonal layouts, herringbone, small rooms with many edge cuts, fragile tile, patterned tile, or hard-to-replace colors.',
+      },
+      {
+        question: 'Does grout spacing change the tile count?',
+        answer:
+          'It can change the final layout, especially across long runs. This calculator uses the tile face size you enter, so check grout joint width, starting lines, and cut rows before ordering exact boxes.',
+      },
+      {
+        question: 'How do I turn tiles needed into boxes?',
+        answer:
+          'Divide the tile count by the number of tiles per box and round up, or compare the adjusted square feet with the box coverage printed on the product label. Buy by the store rule, not by half boxes.',
+      },
+      {
+        question: 'Can I use square meters or centimeters?',
+        answer:
+          'This page expects square feet and inches. Convert square meters to square feet and centimeters to inches first, then enter the converted values. Keep all measurements in the same unit system.',
+      },
+      {
+        question: 'Why is the answer higher than the raw area?',
+        answer:
+          'The calculator adds your waste percent before dividing by tile area, then rounds up to a whole tile. That extra count is meant to cover cuts, breakage, and small layout surprises.',
+      },
     ],
     useCases: [
-      'Estimate floor or wall tile count.',
-      'Add a waste percentage before buying.',
-      'Compare tile sizes for the same room.',
+      'Estimate floor tile count from square feet.',
+      'Estimate wall, backsplash, or shower tile count.',
+      'Add a waste percentage before buying boxes.',
+      'Compare 12 x 12, 12 x 24, subway, and mosaic tile sizes.',
       'Convert tile dimensions into square feet per tile.',
+      'Get a quick count before checking carton coverage and layout cuts.',
     ],
     examples: [
       { label: '12 inch tile', expression: '120 ft2, 12 x 12 in tile, 10% waste', result: '132 tiles' },
-      { label: 'Large format tile', expression: '200 ft2, 12 x 24 in tile', result: 'Tile count estimate' },
-      { label: 'Small wall tile', expression: '60 ft2, 6 x 6 in tile, 12% waste', result: 'Tile quantity estimate' },
+      { label: 'Large floor tile', expression: '200 ft2, 12 x 24 in tile, 10% waste', result: '110 tiles' },
+      { label: 'Shower wall tile', expression: '84 ft2, 3 x 12 in tile, 15% waste', result: '387 tiles' },
+      { label: 'Backsplash tile', expression: '35 ft2, 4 x 4 in tile, 10% waste', result: '347 tiles' },
     ],
-    relatedSlugs: ['square-footage-calculator', 'area-calculator', 'conversion-calculator'],
+    relatedSlugs: ['square-footage-calculator', 'flooring-calculator', 'conversion-calculator'],
   }),
   makeUtilityTool({
     slug: 'mulch-calculator',

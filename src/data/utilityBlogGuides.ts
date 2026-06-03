@@ -589,6 +589,14 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/tile-calculator/',
     label: 'Inch Calculator: Tile calculator reference',
   },
+  calculatorNetTile: {
+    href: 'https://www.calculator.net/tile-calculator.html',
+    label: 'Calculator.net: Tile calculator reference',
+  },
+  omniTile: {
+    href: 'https://www.omnicalculator.com/construction/tile',
+    label: 'Omni Calculator: Tile calculator reference',
+  },
   ukBoardFoot: {
     href: 'https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/for9.htm',
     label: 'University of Kentucky Extension: Measuring farm timber',
@@ -2200,25 +2208,58 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'tile-calculator': {
-    summary: 'Learn how area, tile dimensions, and waste estimate tile count.',
+    summary: 'Learn how square feet, tile size, and waste become a whole tile count.',
     purpose:
-      'The Tile Calculator estimates whole tiles needed from project area and tile size. It is useful for early material planning before checking box coverage.',
+      'The Tile Calculator estimates whole tiles for a floor, wall, shower, or backsplash from project area, tile dimensions, and waste percent. It is useful before you convert the count into boxes or ask an installer for a final layout.',
+    metaDescription:
+      'Use the Tile Calculator with a 120 ft2, 12 x 12 in, 10% waste example that becomes 132 tiles before box coverage and layout checks.',
+    inputMatch:
+      'The calculator asks for project area in square feet, tile length in inches, tile width in inches, and waste percent. Those are the same numbers used in the guide examples.',
+    logicNote:
+      'Tile area = tile length inches x tile width inches / 144. Area with waste = project square feet x (1 + waste percent / 100). Tiles needed = adjusted area divided by tile area, rounded up.',
+    readIntro:
+      'Read the result as the tile count before box rounding. The supporting numbers show one-tile coverage, waste added, and the adjusted area used for the final division.',
+    mistakeIntro:
+      'Tile estimates go wrong when people measure the wrong surface, forget waste, or treat the calculator result as the exact store order.',
+    sidecarText:
+      'Tile count is the first buying number. The final order still depends on boxes, shade lots, grout joints, cut layout, and the tile pattern.',
+    bestUsesIntro:
+      'Use the Tile Calculator when you already have a rough measured area and want a quick count before comparing tile sizes, box coverage, and installer layout notes.',
+    referenceIntro:
+      'These references support the tile-count math, unit conversions, and reader-first limits used in this guide.',
     enter: [
-      'Enter project area in square feet.',
-      'Enter tile length and width in inches.',
-      'Enter waste percent.',
+      'Enter the floor, wall, backsplash, or shower surface area in square feet.',
+      'Enter the tile face length and width in inches. A 12 x 24 tile uses 12 and 24.',
+      'Enter waste percent for cuts, chipped pieces, layout changes, and a few future repair tiles.',
     ],
     read: [
-      'The main answer is whole tiles needed.',
-      'Each tile area shows the square-foot coverage of one tile.',
-      'Area with waste shows the adjusted project area.',
+      'Tiles needed is rounded up to a whole tile. Stores may still sell by the box.',
+      'Each tile area shows the square-foot coverage of one tile before grout joints.',
+      'Area with waste shows the adjusted project area before the tile count is rounded.',
+      'For example, 120 square feet with 12 x 12 inch tile and 10% waste becomes 132 square feet of adjusted area, so the result is 132 tiles.',
     ],
     mistakes: [
-      'Do not forget grout spacing and layout pattern.',
-      'Do not ignore cuts, breakage, and box quantities.',
-      'Measure irregular rooms carefully.',
+      'Do not enter box coverage as the tile size. The size fields are for one tile face.',
+      'Do not use room floor area for shower walls or backsplashes; measure the surface being tiled.',
+      'Do not ignore diagonal layouts, herringbone, niches, benches, drains, or many edge cuts.',
+      'Do not forget that tile is usually sold by full boxes, sometimes with shade-lot or return rules.',
+      'Do not rely on this count for grout, thinset, waterproofing, trim, transitions, or labor.',
     ],
     extraSections: [
+      {
+        title: 'Quick 120 square foot example',
+        paragraphs: [
+          'Say the project area is 120 square feet and the tile is 12 by 12 inches. One tile covers 1 square foot because 12 x 12 / 144 = 1.',
+          'With 10% waste, the adjusted area is 132 square feet. Divide 132 by 1 and round up, so the calculator returns 132 tiles before you convert the count into boxes.',
+        ],
+      },
+      {
+        title: 'Floor, wall, and shower areas',
+        paragraphs: [
+          'For a floor, length times width is usually the starting area. For a wall, backsplash, or shower, measure each rectangle separately, then add the areas together.',
+          'Shower tile often needs extra care because niches, benches, valves, drains, waterproofing edges, and small cut pieces can raise waste. Run separate estimates when the floor tile and wall tile are different sizes.',
+        ],
+      },
       {
         title: 'What waste percent means for tile',
         paragraphs: [
@@ -2227,14 +2268,27 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         ],
       },
       {
-        title: 'Why grout spacing is not in the tile count',
+        title: 'Boxes, grout, and layout checks',
         paragraphs: [
-          'The calculator uses the visible tile size you enter. Real grout joints can slightly change layout spacing, but final ordering usually depends more on box coverage, cuts, waste, and layout plan.',
-          'Use the product box, installer plan, or store calculator when you need exact carton counts, grout amount, thinset, transitions, or a professional takeoff.',
+          'After you get a tile count, check the product box. Some boxes list tiles per carton, some list square feet per carton, and some stores only sell full boxes.',
+          'Grout spacing is a layout check, not a hidden input here. Wider joints, starting lines, cut rows, trim pieces, and pattern direction can change the final order even when the rough count is right.',
+        ],
+      },
+      {
+        title: 'Metric measurements',
+        paragraphs: [
+          'This calculator expects square feet and inches. If your measurements are metric, convert square meters to square feet and centimeters to inches before entering them.',
+          'Keep every input in the same unit system. Mixing square meters with inch tile sizes without converting first is one of the easiest ways to get a bad tile count.',
         ],
       },
     ],
-    sources: [sourceLinks.lowesTile, sourceLinks.nistUnits],
+    sources: [
+      sourceLinks.lowesTile,
+      sourceLinks.calculatorNetTile,
+      sourceLinks.omniTile,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'mulch-calculator': {
     summary: 'Learn how bed area, depth, and bag size become mulch yards and bags.',
