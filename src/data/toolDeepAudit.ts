@@ -1971,6 +1971,16 @@ const sherwinPaintCoverage = {
   label: 'Sherwin-Williams: Paint calculator coverage notes',
 };
 
+const inchCalculatorPaint = {
+  href: 'https://www.inchcalculator.com/paint-calculator/',
+  label: 'Inch Calculator: Paint calculator reference',
+};
+
+const omniPaint = {
+  href: 'https://www.omnicalculator.com/construction/paint',
+  label: 'Omni Calculator: Paint calculator reference',
+};
+
 const nistConversionFactors = {
   href: 'https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8',
   label: 'NIST SP 811: Conversion factors listed alphabetically',
@@ -2946,17 +2956,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'paint-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-top-25-completion-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'page-seo-gsc-refresh-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [sherwinPaintCoverage, nistSi],
+    sources: [sherwinPaintCoverage, inchCalculatorPaint, omniPaint, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator finds wall area from room perimeter and height, subtracts standard doors/windows, multiplies by coats and extra percent, and rounds gallons up.',
-      'The guide explains coverage per gallon, coats, extra percent, doors/windows, and why surface texture, primer, color changes, and product label coverage matter.',
-      'The page keeps the result as a material estimate and does not pretend to replace a product label or paint-store recommendation.',
+      'The calculator finds wall area as 2 x (length + width) x height, subtracts 20 sq ft per door and 15 sq ft per window, multiplies by coats and extra percent, and rounds gallons up.',
+      'The page now gives exact room examples, stronger FAQs, and clearer warnings about ceilings, trim, primer, rough texture, and paint-label coverage ranges.',
+      'The guide uses competitor and source evidence without copying their wording, and keeps the result as a material estimate rather than a paint-store guarantee.',
     ],
     improvements: [
-      'Manually checked paint math, coverage labels, examples, guide detail, source notes, related tools, and visual/result wording.',
+      'Manually checked paint math, coverage labels, examples, FAQ depth, guide sections, source notes, related tools, browser-proof targets, and visual/result wording.',
     ],
     followUps: [
       'Add a single-wall or accent-wall mode so users do not have to force a whole-room estimate.',
@@ -8558,7 +8568,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['paint'])) {
-      return sourceBackstop([sherwinPaintCoverage, nistSi]);
+      return sourceBackstop([sherwinPaintCoverage, inchCalculatorPaint, omniPaint, nistSi, googleHelpfulContent]);
     }
 
     if (includesAny(key, ['tile'])) {

@@ -2359,19 +2359,73 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Estimate interior wall paint gallons from room size, openings, coats, coverage, and extra percent.',
     description:
-      'Use this free paint calculator to estimate wall paint gallons from room dimensions, doors, windows, coats, coverage, and extra percent.',
+      'Use this free paint calculator to estimate interior wall paint gallons from room dimensions, doors, windows, coats, paint-label coverage, and extra percent.',
+    seoTitle: 'Paint Calculator | Estimate Gallons For Room Walls',
+    seoDescription:
+      'Estimate interior wall paint gallons from room length, width, height, doors, windows, coats, coverage, and extra percent before you buy.',
     icon: 'calculator-paint',
-    aliases: ['Wall Paint Calculator', 'Room Paint Calculator'],
+    aliases: [
+      'Wall Paint Calculator',
+      'Room Paint Calculator',
+      'Interior Paint Calculator',
+      'Paint Gallon Calculator',
+      'Paint Coverage Calculator',
+    ],
     formula:
-      'The calculator finds wall area from room perimeter and height, subtracts estimated doors and windows, multiplies by coats and extra percent, then divides by square-foot coverage per gallon.',
+      'The calculator finds wall area as 2 x (length + width) x wall height, subtracts 20 square feet per door and 15 square feet per window, multiplies by coats and extra percent, then divides by square-foot coverage per gallon.',
     limit:
-      'Paint coverage depends on product, primer, surface texture, color change, application method, and how much paint remains in the can or tray.',
+      'This is an interior wall buying estimate. Paint coverage still depends on the product label, primer, surface texture, color change, application method, ceiling or trim work, and how much paint remains in the can or tray.',
+    faqLanguage: {
+      expectedInputs: 'room length, room width, wall height, doors, windows, coats, coverage in square feet per gallon, and extra percent',
+      inputFallback:
+        'Measure the room length, width, and wall height in feet, count doors and windows, then enter the coats and coverage from the paint can or product page.',
+      examplePhrase: 'paint gallon example',
+      doubleCheck:
+        'Also check whether you are painting ceilings, trim, closets, textured walls, patched drywall, dark color changes, or primer because those can change the final order.',
+    },
     inputExplanations: [
-      { term: 'Coverage per gallon', meaning: 'the square feet one gallon covers for one coat according to the paint label.' },
-      { term: 'Doors and windows', meaning: 'standard openings subtracted from the wall area before coats and extra paint are added.' },
-      { term: 'Extra percent', meaning: 'extra paint for texture, roller and tray loss, touchups, and small measurement errors.' },
+      { term: 'Room length, width, and wall height', meaning: 'the rectangular room dimensions used to estimate wall square footage.' },
+      { term: 'Doors and windows', meaning: 'standard openings subtracted before coats and extra paint are added. The calculator uses 20 sq ft per door and 15 sq ft per window.' },
+      { term: 'Coats', meaning: 'how many full wall coats you plan to apply. Two coats roughly doubles the paintable area before coverage is applied.' },
+      { term: 'Coverage per gallon', meaning: 'the square feet one gallon covers for one coat according to the paint label or product page.' },
+      { term: 'Extra percent', meaning: 'extra paint for texture, roller and tray loss, touchups, small measurement errors, and a safer shopping estimate.' },
     ],
     extraFaq: [
+      {
+        question: 'How many gallons of paint do I need for a 12 x 10 room?',
+        answer:
+          'With the default 8 foot walls, 1 door, 2 windows, 2 coats, 350 sq ft per gallon coverage, and 10% extra, the calculator estimates 302 paintable sq ft and 1.898 gallons before rounding. Buy about 2 gallons for that example.',
+      },
+      {
+        question: 'Does the Paint Calculator include ceilings and trim?',
+        answer:
+          'No. This calculator estimates interior wall paint for a simple rectangular room. Estimate ceilings, baseboards, doors, cabinets, and trim separately because they use different areas, products, finishes, or application methods.',
+      },
+      {
+        question: 'What coverage number should I enter?',
+        answer:
+          'Use the coverage number printed on the paint can or product page when you have it. If a label gives a range, use the lower end for rough, patched, porous, or dark-to-light color changes so the estimate is not too optimistic.',
+      },
+      {
+        question: 'Should I include primer as a coat?',
+        answer:
+          'Only include primer if you are buying primer by the same coverage assumption and want a rough material count. For a real shopping list, estimate primer and finish paint separately because their coverage and package sizes can differ.',
+      },
+      {
+        question: 'Why does the calculator subtract doors and windows?',
+        answer:
+          'Doors and windows are wall openings you usually do not paint with the wall color. This calculator subtracts 20 sq ft per door and 15 sq ft per window, which is a practical estimate rather than a custom opening measurement.',
+      },
+      {
+        question: 'Can I use floor square footage to estimate paint?',
+        answer:
+          'Not directly. Floor square footage is length times width, while wall paint uses the room perimeter times wall height. A 12 x 10 room has 120 sq ft of floor area but 352 sq ft of wall area before openings.',
+      },
+      {
+        question: 'Can this estimate one accent wall?',
+        answer:
+          'The current calculator is built for full room walls. For one accent wall, multiply that wall width by wall height, subtract any opening on that wall, then compare the area with the gallons result or use the Square Footage Calculator first.',
+      },
       {
         question: 'Can I use this paint estimate for wallpaper too?',
         answer:
@@ -2383,13 +2437,15 @@ export const utilityTools: ToolDefinition[] = [
       'Adjust for one or two coats before buying paint.',
       'Subtract common doors and windows from wall area.',
       'Compare coverage values from different paint labels.',
+      'Check how much rougher walls or a safer extra percent change the order.',
     ],
     examples: [
-      { label: 'Bedroom', expression: '12 x 10 x 8 ft, 1 door, 2 windows, 2 coats', result: 'Gallons to buy' },
-      { label: 'Living room', expression: '18 x 14 x 9 ft, 2 doors, 3 windows, 2 coats', result: 'Paintable area and gallons' },
-      { label: 'Accent wall planning', expression: '10 x 8 ft wall, 1 coat, 350 ft2/gal', result: 'Low paint estimate' },
+      { label: 'Small bedroom', expression: '12 x 10 x 8 ft, 1 door, 2 windows, 2 coats, 350 sq ft/gal, 10% extra', result: '302 sq ft paintable, buy 2 gallons' },
+      { label: 'Living room', expression: '18 x 14 x 9 ft, 2 doors, 3 windows, 2 coats, 375 sq ft/gal, 10% extra', result: '491 sq ft paintable, buy 3 gallons' },
+      { label: 'One-coat office', expression: '10 x 9 x 8 ft, 1 door, 1 window, 1 coat, 350 sq ft/gal, 5% extra', result: '269 sq ft paintable, buy 1 gallon' },
+      { label: 'Patchy room', expression: '14 x 12 x 8 ft, 1 door, 2 windows, 2 coats, 300 sq ft/gal, 15% extra', result: '366 sq ft paintable, buy 3 gallons' },
     ],
-    relatedSlugs: ['wallpaper-calculator', 'square-footage-calculator', 'drywall-calculator', 'tile-calculator'],
+    relatedSlugs: ['wallpaper-calculator', 'square-footage-calculator', 'drywall-calculator', 'flooring-calculator'],
   }),
   makeUtilityTool({
     slug: 'drywall-calculator',

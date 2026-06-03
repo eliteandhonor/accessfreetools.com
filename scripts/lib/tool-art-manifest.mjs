@@ -436,6 +436,18 @@ const toolArtMetadataOverrides = {
         'Tile Calculator guide artwork supports the walkthrough for square feet, tile size, waste, floor and shower measuring, box coverage, grout spacing, and layout limits.',
     },
   },
+  'paint-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 12 x 10 ft room with 8 ft walls, doors, windows, 2 coats, 350 sq ft/gal coverage, and 2 gallons.',
+      caption:
+        'Paint Calculator artwork matches the live workflow: enter room size, openings, coats, coverage, and extra percent to estimate paintable wall area and gallons to buy.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing wall area, door and window subtraction, paint-label coverage, 302 sq ft paintable, and 2 gallons.',
+      caption:
+        'Paint Calculator guide artwork supports the walkthrough for wall area, doors, windows, coats, coverage, extra percent, and paint-label limits.',
+    },
+  },
   'concrete-footing-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',

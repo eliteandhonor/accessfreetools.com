@@ -585,6 +585,14 @@ const sourceLinks = {
     href: 'https://www.sherwin-williams.com/en-us/color/color-tools/paint-calculator',
     label: 'Sherwin-Williams: Paint calculator coverage notes',
   },
+  inchCalculatorPaint: {
+    href: 'https://www.inchcalculator.com/paint-calculator/',
+    label: 'Inch Calculator: Paint calculator reference',
+  },
+  omniPaint: {
+    href: 'https://www.omnicalculator.com/construction/paint',
+    label: 'Omni Calculator: Paint calculator reference',
+  },
   lowesTile: {
     href: 'https://www.inchcalculator.com/tile-calculator/',
     label: 'Inch Calculator: Tile calculator reference',
@@ -2365,25 +2373,62 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'paint-calculator': {
+    title: 'Paint Calculator Guide',
     summary: 'Learn how room size, openings, coats, and coverage estimate paint gallons.',
+    metaDescription:
+      'Use the Paint Calculator guide to estimate wall paint gallons from room size, doors, windows, coats, coverage, and extra percent.',
     purpose:
-      'The Paint Calculator estimates interior wall paint for a simple room. It starts with wall area, subtracts typical door and window areas, then applies coats, coverage, and extra percent.',
+      'The Paint Calculator estimates interior wall paint for a simple rectangular room. It starts with wall area, subtracts standard door and window openings, then applies coats, paint-label coverage, and extra percent before rounding up whole gallons.',
+    intro:
+      'Use it before you buy wall paint for a bedroom, office, hallway, or living room. It is strongest when you know the paint label coverage and you are estimating walls only, not ceilings, trim, cabinets, or primer as a separate product.',
+    inputMatch: 'room length, room width, wall height, doors, windows, coats, coverage in sq ft per gallon, and extra percent',
+    logicNote:
+      'The calculator uses 2 x (length + width) x wall height for wall area, subtracts 20 sq ft per door and 15 sq ft per window, multiplies by coats and extra percent, then divides by paint-label coverage.',
+    readIntro:
+      'Read the whole gallons to buy first, then check paintable wall area and gallons before rounding. The before-rounding number explains whether the result is barely over a gallon or safely into the next can.',
+    mistakeIntro:
+      'Most bad paint estimates come from using floor square footage as wall area, forgetting a second coat, trusting a high coverage number on rough walls, or mixing ceilings and trim into the wall estimate.',
     enter: [
-      'Enter the room length, width, and wall height in feet.',
-      'Enter the number of doors, windows, coats, and paint coverage from the can or product page.',
-      'Use extra percent when the surface is textured, patched, or you want a safer buying estimate.',
+      'Enter the room length, width, and wall height in feet. Do not enter floor area unless you have already converted it into wall area another way.',
+      'Enter the number of doors and windows. The calculator subtracts 20 sq ft per door and 15 sq ft per window from the wall estimate.',
+      'Enter the number of coats and the paint coverage from the can or product page. Use the lower end of a coverage range for rough, patched, porous, or dark-to-light changes.',
+      'Use extra percent when the surface is textured, patched, absorbent, or you want a safer buying estimate for roller and tray loss.',
     ],
     read: [
-      'Gallons to buy rounds the calculated need up to whole gallons.',
-      'Paintable wall area shows the wall estimate after subtracting openings.',
+      'Gallons to buy rounds the calculated need up to whole gallons because most wall paint is sold by whole containers.',
+      'Gallons before rounding shows the math result before the shopping-friendly round-up. A result of 1.898 means the default example rounds to 2 gallons.',
+      'Paintable wall area shows the wall estimate after subtracting doors and windows but before coats, extra percent, and coverage are applied.',
       'Coverage used reminds you which square-feet-per-gallon assumption drove the result.',
     ],
     mistakes: [
       'Do not use floor square footage as wall square footage.',
       'Do not forget that two coats roughly doubles the paintable area.',
-      'Check the actual product label because coverage varies by paint, surface, color, and primer.',
+      'Do not treat ceilings, trim, doors, cabinets, or primer as automatically included in this wall estimate.',
+      'Check the actual product label because coverage varies by paint, surface, color, sheen, and primer.',
+      'Do not use the highest advertised coverage number on rough texture, patched drywall, bare surfaces, or strong color changes unless you are comfortable buying more later.',
     ],
     extraSections: [
+      {
+        title: 'Quick 12 x 10 room example',
+        paragraphs: [
+          'Say the room is 12 ft long, 10 ft wide, and 8 ft high. The wall area is 2 x (12 + 10) x 8, or 352 square feet before openings.',
+          'With 1 door and 2 windows, the calculator subtracts 50 square feet, leaving 302 paintable square feet. Two coats and 10% extra make 664.4 adjusted square feet. At 350 sq ft per gallon, that is 1.898 gallons before rounding, so the buying estimate is 2 gallons.',
+        ],
+      },
+      {
+        title: 'Coverage and coats',
+        paragraphs: [
+          'Coverage per gallon is not a universal constant. A smooth primed wall may get closer to the high end of the label range, while rough texture, fresh drywall, patches, or a dark color change can use more paint.',
+          'Coats multiply the wall area before coverage is applied. If you enter 2 coats, the calculator is assuming each paintable wall area gets painted twice, then it adds your extra percent.',
+        ],
+      },
+      {
+        title: 'Doors, windows, and what is left out',
+        paragraphs: [
+          'This calculator subtracts standard openings instead of asking for every door and window measurement. That keeps the estimate fast, but unusual openings, built-ins, half walls, closets, and wainscoting can move the real number.',
+          'Ceilings, trim, doors, cabinets, and primer are separate estimates. They often use different paint, finish, coverage, or prep assumptions, so putting everything into one wall number can make the answer look more exact than it is.',
+        ],
+      },
       {
         title: 'When paint math is not wallpaper math',
         paragraphs: [
@@ -2393,7 +2438,13 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         links: [{ href: '/tools/wallpaper-calculator/', label: 'Estimate wallpaper rolls with waste percent' }],
       },
     ],
-    sources: [sourceLinks.sherwinPaintCoverage, sourceLinks.nistUnits],
+    sources: [
+      sourceLinks.sherwinPaintCoverage,
+      sourceLinks.inchCalculatorPaint,
+      sourceLinks.omniPaint,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'drywall-calculator': {
     summary: 'Learn how project area, sheet size, and waste become a whole drywall sheet count.',

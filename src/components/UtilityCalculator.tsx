@@ -2387,7 +2387,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
           integerField('doors', 'Doors', '1'),
           integerField('windows', 'Windows', '2'),
           integerField('coats', 'Coats', '2'),
-          numberField('coverageSquareFeetPerGallon', 'Coverage ft2 per gallon', '350'),
+          numberField('coverageSquareFeetPerGallon', 'Coverage (sq ft/gal)', '350'),
           numberField('wastePercent', 'Extra percent', '10'),
         ],
         defaultInputs: { lengthFeet: '12', widthFeet: '10', wallHeightFeet: '8', doors: '1', windows: '2', coats: '2', coverageSquareFeetPerGallon: '350', wastePercent: '10' },
