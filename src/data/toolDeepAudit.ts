@@ -4501,20 +4501,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'bmr-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [mifflinStJeorEquation, cdcActivity],
+    sources: [mifflinStJeorEquation, cdcActivity, googleHelpfulContent],
     findings: [
-      'The calculator uses the Mifflin-St Jeor structure: weight, height, age, and sex adjustment to estimate resting energy needs.',
-      'The guide correctly separates BMR from TDEE so users do not mistake resting energy for total daily calories.',
-      'The caution language explains that BMR is not a diet target by itself and should not replace medical nutrition guidance.',
+      'The calculator uses the Mifflin-St Jeor structure: weight, height, age, and +5 or -161 formula-sex adjustment to estimate resting energy needs.',
+      'The tool and guide now show exact examples: 35-year-old male, 178 cm, 82 kg returns about 1,763 kcal/day BMR, and 29-year-old female, 164 cm, 61 kg returns about 1,329 kcal/day BMR.',
+      'The copy separates BMR from TDEE, showing that the 1,763 kcal/day BMR example becomes about 2,115 kcal/day with a sedentary factor and about 2,732 kcal/day with a moderate factor.',
     ],
     improvements: [
-      'Manually checked BMR formula wording, examples, FAQ cautions, guide clarity, Mifflin/CDC source coverage, related tools, SEO copy, and privacy behavior.',
+      'Ran GSC/DataForSEO page sprint with current paid evidence, Calculator.net competitor-gap evidence for topic gaps only, refreshed metadata, exact examples, FAQ cautions, guide sections, source-backed audit record, modified dates, art alt/captions, and browser-proof targets.',
     ],
     followUps: [
-      'Add alternate formula comparison only if the UI can clearly explain why equations differ.',
+      'Add alternate formula comparison only if the UI can clearly explain why equations differ and why BMR still is not a calorie prescription.',
     ],
   },
   {

@@ -76,6 +76,18 @@ const toolArtMetadataOverrides = {
         'Body Fat Calculator guide artwork supports the walkthrough for Navy-style circumference math, consistent tape sites, optional weight for fat and lean mass, trend tracking, and non-diagnostic limits.',
     },
   },
+  'bmr-calculator': {
+    tool: {
+      alt: 'Smoke mascot presenting a BMR estimate with age, formula sex, height, weight, 1,763 kcal, and TDEE comparison cards.',
+      caption:
+        'BMR Calculator artwork matches the live workflow: enter formula sex, age, height, and weight, then estimate resting calories and compare them with sedentary and moderate TDEE context.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining Mifflin-St Jeor BMR math beside 1,763 kcal, 1,329 kcal, and 2,732 kcal TDEE example cards.',
+      caption:
+        'BMR Calculator guide artwork supports the walkthrough for Mifflin-St Jeor inputs, exact example results, BMR versus TDEE context, and non-prescriptive calorie planning cautions.',
+    },
+  },
   'army-body-fat-calculator': {
     tool: {
       alt: 'Smoke mascot checking an Army one-site tape estimate with 210 lb weight, 35 in abdomen, and a rounded 17 percent result card.',

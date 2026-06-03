@@ -329,23 +329,23 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
     title: 'BMR Calculator',
     buttonLabel: 'Calculate BMR',
     emptyHistory: 'Recent BMR estimates will appear here.',
-    privacyNote: 'BMR equations estimate resting energy needs. Actual energy use varies by person.',
+    privacyNote: 'BMR estimates resting energy only. Use TDEE or calorie tools before turning it into a daily intake plan.',
     modes: [
       {
         id: 'bmr',
         label: 'BMR',
         symbol: 'BMR',
         fields: [
-          selectField('sex', 'Sex used by formula', sexOptions),
-          numberField('age', 'Age'),
+          selectField('sex', 'Formula sex', sexOptions),
+          numberField('age', 'Age (years)'),
           numberField('heightCm', 'Height (cm)'),
           numberField('weightKg', 'Weight (kg)'),
         ],
         defaultInputs: { sex: 'male', age: '35', heightCm: '178', weightKg: '82' },
         examples: [
-          { label: 'Male 35', inputs: { sex: 'male', age: '35', heightCm: '178', weightKg: '82' } },
-          { label: 'Female 29', inputs: { sex: 'female', age: '29', heightCm: '164', weightKg: '61' } },
-          { label: 'Female 45', inputs: { sex: 'female', age: '45', heightCm: '170', weightKg: '76' } },
+          { label: 'Male 1,763 kcal', inputs: { sex: 'male', age: '35', heightCm: '178', weightKg: '82' } },
+          { label: 'Female 1,329 kcal', inputs: { sex: 'female', age: '29', heightCm: '164', weightKg: '61' } },
+          { label: 'Female 1,437 kcal', inputs: { sex: 'female', age: '45', heightCm: '170', weightKg: '76' } },
         ],
       },
     ],
@@ -1156,7 +1156,7 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       const bmr = calculateMifflinStJeor({ sex, age, heightCm, weightKg });
       return {
         label: 'BMR estimate',
-        expression: `${sex}, age ${formatCalculatorNumber(age)}, ${formatKg(weightKg)}`,
+        expression: `${sex}, age ${formatCalculatorNumber(age)}, ${formatCalculatorNumber(heightCm)} cm, ${formatKg(weightKg)}`,
         answer: `${formatKcal(bmr)}/day`,
         metrics: [
           { label: 'Sedentary TDEE', value: `${formatKcal(calculateTdeeFromBmr(bmr, 'sedentary'))}/day` },
@@ -1165,9 +1165,10 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
         ],
         steps: [
           'Multiply weight by 10.',
-          'Multiply height by 6.25, subtract 5 times age, then apply the sex adjustment.',
-          'Use BMR as resting energy before activity is added.',
+          'Multiply height by 6.25, subtract 5 times age, then apply +5 or -161 from the formula sex setting.',
+          'Use BMR as resting energy before activity, work, and daily movement are added.',
         ],
+        note: 'BMR is not a calorie prescription. Compare it with TDEE before planning intake.',
       };
     }
     case 'ideal-weight': {

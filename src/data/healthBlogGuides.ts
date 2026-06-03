@@ -395,28 +395,31 @@ const guideDetails: Record<string, GuideDetail> = {
   'bmr-calculator': {
     summary: 'Learn what basal metabolic rate means and why it is the base for calorie planning.',
     purpose:
-      'The BMR Calculator estimates the calories your body may use at rest. It does not include exercise, work, steps, or daily movement until another activity factor is added.',
+      'The BMR Calculator estimates the calories your body may use at rest with the Mifflin-St Jeor equation. It does not include exercise, work, steps, or daily movement until an activity factor is added.',
     enter: [
-      'Enter age, formula sex, height, and weight.',
-      'Use current measurements for today, or consistent measurements if comparing changes.',
-      'Keep BMR separate from TDEE: BMR is rest, TDEE is rest plus activity.',
+      'Enter age in years, formula sex, height in centimeters, and weight in kilograms.',
+      'Use current measurements for today, or the same measurement routine if comparing changes over time.',
+      'Remember what the formula sex setting does: it chooses the +5 or -161 Mifflin-St Jeor adjustment. It does not describe your whole body or health picture.',
     ],
     example: [
-      'For a male example, the formula adds the weight and height terms, subtracts the age term, then applies the sex adjustment.',
-      'For a female example, the same structure is used with the female adjustment.',
+      'For a 35-year-old male at 178 cm and 82 kg, the estimate is 10 x 82 + 6.25 x 178 - 5 x 35 + 5, or about 1,763 kcal/day.',
+      'For a 29-year-old female at 164 cm and 61 kg, the same structure uses the -161 adjustment and returns about 1,329 kcal/day.',
+      'If the 1,763 kcal BMR example is multiplied by the moderate activity factor of 1.55, the TDEE context is about 2,732 kcal/day. That is why BMR and daily calorie needs are not the same number.',
     ],
     read: [
       'A higher BMR estimate usually reflects larger body size, taller height, younger age, or the formula sex setting.',
-      'Use BMR as a starting point, then move to TDEE or Calorie Calculator for daily planning.',
+      'Read the BMR line as resting energy only. The sedentary and moderate TDEE lines show what happens after broad activity factors are added.',
+      'Use BMR as a starting point, then move to TDEE Calculator or Calorie Calculator for daily planning.',
     ],
     mistakes: [
       'Do not eat at BMR just because it appears on the page; daily needs usually include activity.',
       'Do not compare BMR results across formulas without noting which formula was used.',
-      'Do not use BMR as medical nutrition advice.',
+      'Do not use BMR as pregnancy, child, eating-disorder, medical, or sports-nutrition advice.',
     ],
     next: [
       'Use TDEE Calculator to add activity.',
       'Use Calorie Calculator to compare maintenance and goal estimates.',
+      'Use Macro Calculator only after you have a calorie target you trust enough to split into protein, fat, and carbohydrate grams.',
     ],
   },
   'ideal-weight-calculator': {

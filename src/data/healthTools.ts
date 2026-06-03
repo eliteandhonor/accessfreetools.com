@@ -21,6 +21,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isBmiCalculator = spec.slug === 'bmi-calculator';
   const isBodyFatCalculator = spec.slug === 'body-fat-calculator';
   const isArmyBodyFatCalculator = spec.slug === 'army-body-fat-calculator';
+  const isBmrCalculator = spec.slug === 'bmr-calculator';
   const isTargetHeartRateCalculator = spec.slug === 'target-heart-rate-calculator';
   const inputAnswer = isBmiCalculator
     ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
@@ -28,6 +29,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter formula sex, height, optional weight, neck, waist, and hip when the female equation is selected. The male equation uses waist minus neck with height. The female equation uses waist plus hip minus neck with height. Keep the tape level, snug, and consistent from one check to the next.'
     : isArmyBodyFatCalculator
       ? 'Enter sex, age, body weight in pounds, and abdomen circumference in inches. The current Army one-site method uses the abdomen measurement at the navel, not neck, hip, or height measurements. Use a non-stretch tape, keep it level, and do not pull it tight enough to dig into the skin.'
+    : isBmrCalculator
+      ? 'Enter formula sex, age in years, height in centimeters, and weight in kilograms. The formula sex setting chooses the +5 or -161 Mifflin-St Jeor adjustment; it is a calculator input, not a full description of your body, health, or nutrition needs.'
     : isTargetHeartRateCalculator
       ? 'Enter your age, choose the effort range, and add resting heart rate only if you want the heart-rate-reserve estimate. Age sets the rough maximum heart rate. The effort range turns that into beats per minute.'
     : 'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.';
@@ -37,6 +40,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the percentage as a Navy-style tape-method estimate, then use fat mass and lean mass as context if you entered weight. Small changes can come from tape placement, posture, breathing, or tension, so this is better for consistent trend checks than one-time diagnosis.'
     : isArmyBodyFatCalculator
       ? 'Read the rounded percentage as an educational one-site tape estimate. The reference limit line uses the Army age-group table for context, but this website is not an official Army record, DA Form 5500/5501 entry, waiver, flagging decision, or medical assessment.'
+    : isBmrCalculator
+      ? 'Read BMR as an estimated resting-energy number in kcal per day. It is lower than total daily needs for most adults because it does not include walking, work, exercise, or daily movement. Use the sedentary and moderate TDEE lines as context before making calorie plans.'
     : isTargetHeartRateCalculator
       ? 'Read the answer as a training range in beats per minute, not a perfect target you must hit. If the range feels too hard, you feel pain, or a clinician gave you a different limit, slow down and use the safer guidance.'
     : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
@@ -290,22 +295,44 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'bmr-calculator',
     name: 'BMR Calculator',
-    summary: 'Estimate basal metabolic rate with the Mifflin-St Jeor equation.',
+    summary: 'Estimate resting calories with the Mifflin-St Jeor equation.',
     description:
-      'Use this free BMR calculator to estimate resting daily energy needs from age, sex, height, and weight.',
+      'Use this free BMR calculator to estimate resting daily energy needs from age, formula sex, height, and weight, then compare BMR with simple TDEE context.',
+    seoTitle: 'BMR Calculator | Mifflin-St Jeor Resting Calories',
+    seoDescription:
+      'Estimate BMR in kcal per day from age, formula sex, height, and weight. Includes Mifflin-St Jeor formula notes plus sedentary and moderate TDEE context.',
     icon: 'calculator-bmr',
-    formula: 'BMR uses the Mifflin-St Jeor equation: 10 x weight kg + 6.25 x height cm - 5 x age + sex adjustment.',
-    caution: estimateCaution,
+    formula:
+      'BMR uses the Mifflin-St Jeor equation: 10 x weight kg + 6.25 x height cm - 5 x age + 5 for the male formula setting, or -161 for the female formula setting.',
+    caution:
+      'BMR is an educational resting-energy estimate, not a calorie prescription, medical nutrition plan, pregnancy guideline, or eating-disorder advice. Talk with a qualified health professional before making important nutrition decisions.',
     useCases: [
       'Estimate resting energy needs before activity is added.',
-      'Compare BMR with TDEE and calorie targets.',
+      'Separate BMR from TDEE and calorie targets.',
       'Understand how height, weight, age, and formula sex affect the estimate.',
-      'Use as the base for nutrition planning tools.',
+      'Use BMR as the base input for TDEE and calorie planning tools.',
     ],
     examples: [
-      { label: 'Male example', expression: '35, 178 cm, 82 kg', result: 'BMR estimate' },
-      { label: 'Female example', expression: '29, 164 cm, 61 kg', result: 'BMR estimate' },
-      { label: 'Compare TDEE', expression: 'BMR x activity factor', result: 'Estimated daily expenditure' },
+      { label: 'Male 1,763 kcal', expression: '35-year-old male, 178 cm, 82 kg', result: 'About 1,763 kcal/day BMR' },
+      { label: 'Female 1,329 kcal', expression: '29-year-old female, 164 cm, 61 kg', result: 'About 1,329 kcal/day BMR' },
+      { label: 'Moderate TDEE context', expression: '1,763 kcal BMR x 1.55', result: 'About 2,732 kcal/day TDEE' },
+    ],
+    extraFaq: [
+      {
+        question: 'Is BMR the same as TDEE?',
+        answer:
+          'No. BMR estimates resting energy before activity is added. TDEE estimates total daily energy expenditure after an activity factor is applied. For example, a 1,763 kcal/day BMR becomes about 2,115 kcal/day with the sedentary factor and about 2,732 kcal/day with the moderate factor.',
+      },
+      {
+        question: 'Should I eat exactly my BMR?',
+        answer:
+          'Usually no. BMR is a resting-energy estimate, not a meal plan. Most adults burn more than BMR across a full day because movement, work, training, and daily tasks add energy use.',
+      },
+      {
+        question: 'Why does the formula sex setting change the BMR result?',
+        answer:
+          'The Mifflin-St Jeor equation uses one adjustment for the male formula setting and another for the female formula setting. That is a formula choice, not a complete judgment about body composition, hormones, health history, or personal nutrition needs.',
+      },
     ],
     relatedSlugs: ['tdee-calculator', 'calorie-calculator', 'macro-calculator'],
   }),
