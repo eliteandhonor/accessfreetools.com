@@ -400,6 +400,18 @@ const toolArtMetadataOverrides = {
         'Sod Calculator guide artwork supports the walkthrough for lawn area, roll coverage, pallet packaging, waste, cost, and supplier-size limits.',
     },
   },
+  'wall-stud-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 24 ft wall at 16 in on-center spacing with 2 openings, 10 percent waste, 19 layout studs, 6 plate pieces, and 36 boards.',
+      caption:
+        'Wall Stud Calculator artwork matches the live workflow: enter wall length, height, stud spacing, openings, extra corner studs, plate rows, board length, and waste to estimate studs and boards.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing a 24 ft framed wall, 16 in on-center stud layout, door and window openings, plate rows, 19 layout studs, and 36 boards.',
+      caption:
+        'Wall Stud Calculator guide artwork supports the walkthrough for stud spacing, openings, plate rows, waste, board count, and structural-plan limits.',
+    },
+  },
   'concrete-footing-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',

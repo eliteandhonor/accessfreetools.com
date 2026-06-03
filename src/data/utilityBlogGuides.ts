@@ -249,6 +249,14 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/framing-calculator/',
     label: 'Inch Calculator: Framing calculator reference',
   },
+  calcSummitFramingCalculator: {
+    href: 'https://calcsummit.com/calculators/construction/framing/',
+    label: 'CalcSummit: Framing calculator',
+  },
+  homeProjectStudCalculator: {
+    href: 'https://www.homeprojectcalculator.com/stud-calculator/',
+    label: 'Home Project Calculator: Stud calculator',
+  },
   inchConcreteMix: {
     href: 'https://www.inchcalculator.com/concrete-mix-calculator/',
     label: 'Inch Calculator: Concrete mix calculator reference',
@@ -3878,25 +3886,53 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'wall-stud-calculator': {
-    summary: 'Learn how wall length, stud spacing, openings, plate rows, and waste estimate framing boards.',
+    summary: 'Learn how wall length, stud spacing, openings, plate rows, board length, and waste estimate framing boards.',
     purpose:
-      'The Wall Stud Calculator estimates a simple stud-and-plate material count for a straight wall. It is a starting point before a real framing plan.',
+      'The Wall Stud Calculator estimates a simple stud-and-plate material count for a straight wall. It is useful for rough planning before a real framing plan or lumber takeoff.',
     enter: [
-      'Enter wall length and height in feet.',
-      'Enter on-center stud spacing in inches, commonly 16 or 24.',
-      'Add openings, extra corner studs, plate rows, board length, and waste.',
+      'Enter the straight wall length and planned framing height in feet.',
+      'Enter on-center stud spacing in inches, commonly 16 or 24 when the project plan allows it.',
+      'Add openings, extra corner studs, plate rows, board length, and waste for cuts or damaged boards.',
     ],
     read: [
+      'Layout studs is the spacing count before openings, corner allowance, and waste.',
       'Total pieces combines vertical studs with plate pieces.',
       'Vertical studs with waste includes layout studs, opening allowance, corner allowance, and waste.',
       'Linear feet with waste helps compare the board count with the total lumber length.',
     ],
     mistakes: [
       'Do not treat this as a structural framing plan.',
-      'Do not forget headers, jack studs, king studs, blocking, bracing, sheathing, treated plates, or code rules.',
-      'Check project drawings before buying lumber for load-bearing walls.',
+      'Do not treat the opening count as a full header, king-stud, jack-stud, sill, or cripple-stud takeoff.',
+      'Do not forget blocking, bracing, sheathing, treated plates, fasteners, metal-stud gauge or track, fire-rated assemblies, or code rules.',
+      'Check project drawings before buying lumber for load-bearing, exterior, tall, or engineered walls.',
     ],
-    sources: [sourceLinks.inchFraming, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
+    extraSections: [
+      {
+        title: 'Quick 24 ft wall example',
+        paragraphs: [
+          'For a 24 ft wall at 16 in on-center spacing, the layout count is 19 studs. Add 2 openings at 2 extra studs each and 4 extra corner studs to get 27 vertical studs before waste. With 10% waste, that rounds to 30 vertical studs. Two plate rows with 8 ft boards add 6 plate pieces, so the total is 36 boards.',
+        ],
+      },
+      {
+        title: 'Openings are only an allowance',
+        paragraphs: [
+          'The opening field is deliberately simple. It helps you remember that windows and doors need extra framing, but it does not size headers or count every jack, king, sill, cripple, trimmer, or blocking piece from a real drawing.',
+        ],
+      },
+      {
+        title: 'Metal studs and real plans',
+        paragraphs: [
+          'The spacing math can help with a rough metal-stud count, but metal framing also needs track, gauge, height limits, fasteners, and load or fire-rating details. Use the calculator as a first count, then verify the plan before ordering.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchFraming,
+      sourceLinks.calcSummitFramingCalculator,
+      sourceLinks.homeProjectStudCalculator,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'board-foot-calculator': {
     summary: 'Learn how lumber thickness, width, length, and quantity turn into board feet.',

@@ -683,14 +683,14 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     pricePerRoll: 'Optional material price per roll or slab. Delivery, soil prep, and labor are separate.',
   },
   'wall-stud': {
-    wallLengthFeet: 'Wall length in feet.',
-    wallHeightFeet: 'Wall height in feet.',
-    spacingInches: 'On-center spacing between studs, commonly 16 or 24 inches.',
-    openingsCount: 'Number of rough openings; the tool adds two extra studs per opening.',
-    extraCornerStuds: 'Extra vertical studs for corners, intersections, and blocking choices.',
-    plates: 'Number of horizontal plate rows along the wall, often 2 or 3.',
-    boardLengthFeet: 'Length of one purchased board, commonly 8, 10, or 12 feet.',
-    wastePercent: 'Extra boards for cuts, layout changes, and damaged pieces.',
+    wallLengthFeet: 'Straight wall length in feet. Estimate separate wall runs separately when the layout changes direction.',
+    wallHeightFeet: 'Planned framing height in feet, not the finished drywall height.',
+    spacingInches: 'On-center spacing between stud centers, commonly 16 or 24 inches when the plan allows it.',
+    openingsCount: 'Number of rough door or window openings. The tool adds two extra vertical studs per opening as a simple allowance.',
+    extraCornerStuds: 'Extra vertical studs for corners, intersections, tees, blocking choices, or plan-specific allowances.',
+    plates: 'Horizontal plate rows along the wall. Use 2 for a simple top-and-bottom plate or 3 when a double top plate is planned.',
+    boardLengthFeet: 'Length of one purchased board for rounding plate pieces, commonly 8, 9, 10, or 12 feet.',
+    wastePercent: 'Extra boards for cuts, damaged lumber, layout changes, blocking, and mistakes.',
   },
   'board-foot': {
     thicknessInches: 'Board thickness in inches. Use the seller measurement, not just the shelf label, when it matters.',
@@ -3294,21 +3294,21 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Wall Stud Calculator',
     buttonLabel: 'Estimate studs',
     emptyHistory: 'Recent wall stud estimates will appear here.',
-    privacyNote: 'Wall stud estimates stay local and are simple layout counts, not structural framing plans.',
+    privacyNote: 'Wall stud estimates stay local and are rough material counts, not structural framing plans.',
     modes: [
       {
         id: 'stud-count',
         label: 'Stud count',
         symbol: 'STUD',
         fields: [
-          numberField('wallLengthFeet', 'Wall length feet', '24'),
-          numberField('wallHeightFeet', 'Wall height feet', '8'),
-          numberField('spacingInches', 'Stud spacing inches', '16'),
+          numberField('wallLengthFeet', 'Wall length (ft)', '24'),
+          numberField('wallHeightFeet', 'Wall height (ft)', '8'),
+          numberField('spacingInches', 'Stud spacing (in)', '16'),
           integerField('openingsCount', 'Openings', '2'),
           integerField('extraCornerStuds', 'Extra corner studs', '4'),
           integerField('plates', 'Plate rows', '2'),
-          numberField('boardLengthFeet', 'Board length feet', '8'),
-          numberField('wastePercent', 'Waste percent', '10'),
+          numberField('boardLengthFeet', 'Board length (ft)', '8'),
+          numberField('wastePercent', 'Waste (%)', '10'),
         ],
         defaultInputs: { wallLengthFeet: '24', wallHeightFeet: '8', spacingInches: '16', openingsCount: '2', extraCornerStuds: '4', plates: '2', boardLengthFeet: '8', wastePercent: '10' },
         examples: [
@@ -6639,16 +6639,17 @@ function calculateUtility(
         expression: `${formatCalculatorNumber(result.wallLengthFeet)} ft wall at ${formatCalculatorNumber(result.spacingInches)} in on-center`,
         answer: `${formatCalculatorNumber(result.totalPieces)} boards`,
         metrics: [
+          { label: 'Layout studs', value: formatCalculatorNumber(result.layoutStuds) },
           { label: 'Vertical studs with waste', value: formatCalculatorNumber(result.verticalStudsWithWaste) },
           { label: 'Plate pieces', value: formatCalculatorNumber(result.platePieces) },
           { label: 'Linear feet with waste', value: `${formatCalculatorNumber(result.estimatedLinearFeetWithWaste)} ft` },
         ],
         steps: [
-          'Count layout studs from wall length and on-center spacing.',
-          'Add extra studs for openings and corners, then add waste.',
-          'Add top/bottom plate pieces based on wall length and board length.',
+          'Count layout studs from wall length in inches and on-center spacing.',
+          'Add two studs per opening plus your corner or intersection allowance, then add waste.',
+          'Add plate pieces from wall length, plate rows, and purchased board length.',
         ],
-        note: 'Headers, king/jack stud details, fire blocking, bracing, structural loads, pressure-treated plates, and code rules need a real framing plan.',
+        note: 'Headers, king and jack studs, cripple studs, fire blocking, bracing, structural loads, metal-stud gauge, pressure-treated plates, and code rules need a real framing plan.',
       };
     }
     case 'board-foot': {

@@ -5086,30 +5086,90 @@ export const utilityTools: ToolDefinition[] = [
     name: 'Wall Stud Calculator',
     category: 'home-projects',
     summary: 'Estimate wall studs, plate pieces, and framing board count from wall layout.',
+    seoTitle: 'Wall Stud Calculator | Studs, Plates, And Boards',
+    seoDescription:
+      'Estimate wall studs, plate pieces, total boards, and linear feet from wall length, height, stud spacing, openings, plate rows, board length, and waste.',
     description:
-      'Use this free wall stud calculator to estimate layout studs, extra opening studs, plate pieces, waste, and total boards for a simple wall.',
+      'Use this free wall stud calculator to estimate layout studs, opening allowance, plate pieces, waste, total boards, and linear feet for a simple straight wall.',
     icon: 'calculator-wall-stud',
-    aliases: ['Stud Calculator', 'Framing Stud Calculator'],
+    aliases: [
+      'Stud Calculator',
+      'Framing Stud Calculator',
+      'Wall Framing Calculator',
+      'Free Framing Calculator',
+      'Stud Count Calculator',
+      'Interior Wall Stud Calculator',
+      'Wall Framing Calculator With Door',
+      'Wall Framing Calculator With Windows And Doors',
+      'Metal Stud Calculator',
+      '2x4 Stud Calculator',
+    ],
     formula:
-      'The calculator counts studs from wall length and on-center spacing, adds two studs per opening plus extra corner studs, adds waste, then adds plate pieces from wall length and board length.',
+      'The calculator uses floor(wall length in inches / on-center spacing) + 1 for layout studs, adds two studs per opening plus extra corner studs, rounds vertical studs up after waste, then adds plate pieces from wall length, plate rows, and board length.',
     limit:
-      'This is a rough material count. Headers, jack studs, king studs, fire blocking, sheathing, bracing, loads, treated plates, and code rules need a real framing plan.',
+      'This is a rough material count for a simple straight wall. Headers, jack studs, king studs, cripple studs, fire blocking, sheathing, bracing, loads, metal-stud gauge, treated plates, and code rules need a real framing plan.',
     inputExplanations: [
-      { term: 'Wall length and height', meaning: 'the planned wall size in feet.' },
-      { term: 'Stud spacing', meaning: 'on-center spacing, commonly 16 or 24 inches.' },
-      { term: 'Openings', meaning: 'door or window openings; the tool adds two extra studs per opening as a simple allowance.' },
-      { term: 'Plate rows', meaning: 'horizontal top and bottom runs along the wall, often 2 or 3 rows.' },
+      { term: 'Wall length and height', meaning: 'the straight wall size in feet. Use the planned framing height, not the finished drywall height.' },
+      { term: 'Stud spacing', meaning: 'on-center spacing in inches, commonly 16 or 24 for many simple residential layouts.' },
+      { term: 'Openings', meaning: 'door or window openings; the tool adds two extra vertical studs per opening as a simple allowance.' },
+      { term: 'Plate rows', meaning: 'horizontal top and bottom runs along the wall, often 2 rows for a simple partition or 3 rows when a double top plate is planned.' },
+      { term: 'Board length', meaning: 'the purchased lumber or stud length used to round plate pieces up to whole boards.' },
     ],
     extraFaq: [
+      {
+        question: 'How many studs do I need for a 24 foot wall?',
+        answer:
+          'With 16 inch on-center spacing, a 24 ft wall has 19 layout studs before openings, corners, and waste. With the default 2 openings, 4 extra corner studs, 2 plate rows, 8 ft boards, and 10% waste, the calculator estimates 36 total boards.',
+      },
+      {
+        question: 'How does the Wall Stud Calculator count studs?',
+        answer:
+          'It converts wall length to inches, divides by on-center spacing, floors that number, and adds one end stud. Then it adds the opening and corner allowances you enter.',
+      },
       {
         question: 'What does on-center spacing mean?',
         answer:
           'On-center spacing is the distance from the center of one stud to the center of the next stud. A 16-inch layout means each stud center is about 16 inches apart.',
       },
       {
+        question: 'Can I use 24 inch on-center spacing?',
+        answer:
+          'Yes. Enter 24 for stud spacing when your plan allows it. Spacing depends on wall type, sheathing or drywall requirements, load, local code, and project drawings.',
+      },
+      {
+        question: 'Does this work with windows and doors?',
+        answer:
+          'It gives a rough allowance by adding two extra studs per opening. Real framed openings can need king studs, jack studs, headers, sills, cripples, and other pieces not counted by this simple mode.',
+      },
+      {
         question: 'Does this include headers for doors and windows?',
         answer:
           'No. It only adds a simple extra-stud allowance around openings. Header sizes, jack studs, king studs, and structural details depend on the wall design and code.',
+      },
+      {
+        question: 'Can I use this for metal studs?',
+        answer:
+          'Only as rough spacing math. Metal-stud projects also need the correct gauge, track, fasteners, wall height limits, and load or fire-rating details from the plan or supplier.',
+      },
+      {
+        question: 'What board length should I enter?',
+        answer:
+          'Enter the length of the boards you plan to buy for studs and plates, such as 8, 9, 10, or 12 ft. Plate pieces are rounded up from wall length and plate rows using this board length.',
+      },
+      {
+        question: 'Why are plate pieces separate from vertical studs?',
+        answer:
+          'Vertical studs run between the plates. Plates run horizontally along the wall, so the calculator counts them by wall length, plate rows, and board length instead of by spacing.',
+      },
+      {
+        question: 'What waste percent should I use for framing studs?',
+        answer:
+          'Five to ten percent is a common early planning range for simple walls. Use more if the wall has many cuts, layout changes, damaged boards, blocking, or extra pieces from the framing plan.',
+      },
+      {
+        question: 'Is this a structural framing plan?',
+        answer:
+          'No. It is a material-count helper. Load-bearing walls, exterior walls, tall walls, braced walls, fire-rated assemblies, and engineered layouts need project drawings and code checks.',
       },
     ],
     useCases: [
@@ -5117,13 +5177,15 @@ export const utilityTools: ToolDefinition[] = [
       'Compare 16-inch and 24-inch on-center spacing.',
       'Add plate pieces to vertical stud count.',
       'Add waste before buying framing boards.',
+      'Check a rough door or window opening allowance before a real takeoff.',
     ],
     examples: [
-      { label: 'Interior wall', expression: '24 ft wall, 8 ft high, 16 in spacing, 2 openings, 10% waste', result: '36 boards' },
-      { label: 'Garage wall', expression: '32 ft wall, 9 ft high, 16 in spacing, 3 plate rows', result: 'Stud and plate estimate' },
-      { label: 'Short partition', expression: '10 ft wall, 8 ft high, no openings', result: 'Small wall count' },
+      { label: 'Interior wall', expression: '24 ft wall, 8 ft high, 16 in spacing, 2 openings, 4 extra corner studs, 2 plate rows, 10% waste', result: '36 boards' },
+      { label: 'Garage wall', expression: '32 ft wall, 9 ft high, 16 in spacing, 1 opening, 6 extra corner studs, 3 plate rows, 10 ft boards, 10% waste', result: '47 boards' },
+      { label: 'Short partition', expression: '10 ft wall, 8 ft high, 16 in spacing, no openings, 2 extra corner studs, 5% waste', result: '14 boards' },
+      { label: 'Window and door wall', expression: '20 ft wall, 8 ft high, 16 in spacing, 3 openings, 3 plate rows, 10% waste', result: '37 boards' },
     ],
-    relatedSlugs: ['drywall-calculator', 'board-foot-calculator', 'square-footage-calculator'],
+    relatedSlugs: ['unit-price-calculator', 'discount-calculator', 'budget-calculator'],
   }),
   makeUtilityTool({
     slug: 'board-foot-calculator',

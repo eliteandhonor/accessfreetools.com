@@ -566,6 +566,16 @@ const inchFraming = {
   label: 'Inch Calculator: Framing calculator reference',
 };
 
+const calcSummitFramingCalculator = {
+  href: 'https://calcsummit.com/calculators/construction/framing/',
+  label: 'CalcSummit: Framing calculator',
+};
+
+const homeProjectStudCalculator = {
+  href: 'https://www.homeprojectcalculator.com/stud-calculator/',
+  label: 'Home Project Calculator: Stud calculator',
+};
+
 const inchConcreteMix = {
   href: 'https://www.inchcalculator.com/concrete-mix-calculator/',
   label: 'Inch Calculator: Concrete mix calculator reference',
@@ -5506,17 +5516,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'wall-stud-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-construction-materials-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'page-seo-gsc-refresh-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [inchFraming, nistSi, googleHelpfulContent],
+    sources: [inchFraming, calcSummitFramingCalculator, homeProjectStudCalculator, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator counts layout studs from wall length and on-center spacing, adds opening and corner allowances, applies waste, and adds plate pieces.',
-      'The FAQ explains on-center spacing and excludes headers, jack studs, king studs, blocking, bracing, treated plates, structural loads, and code details.',
-      'The result shows vertical studs, plate pieces, total boards, and linear feet so users can audit the count.',
+      'DataForSEO paid evidence showed primary demand for wall stud calculator plus smaller free framing calculator, metal stud, windows-and-doors, door, and interior-wall variants.',
+      'The calculator counts layout studs from wall length and on-center spacing, adds opening and corner allowances, applies waste, and adds plate pieces from wall length, plate rows, and board length.',
+      'The FAQ now explains on-center spacing, 16 vs 24 inch layouts, rough opening allowances, metal-stud limits, board length, plate rows, waste, and structural-plan exclusions.',
+      'The result shows layout studs, vertical studs with waste, plate pieces, total boards, and linear feet so users can audit the count.',
     ],
     improvements: [
-      'Added wall-stud calculator UI, examples, guide article, detailed FAQ, related construction tools, formula tests, and manual review record.',
+      'Added DataForSEO-backed SEO metadata and aliases, exact 24 ft wall examples, richer guide sections, competitor-backed source links, clearer calculator labels, layout-stud output, refreshed image alt/caption text, modified dates, and safer cost-related internal links.',
     ],
     followUps: [
       'Add header/jack stud templates only with clear non-structural boundaries and tests.',
