@@ -4993,21 +4993,63 @@ export const utilityTools: ToolDefinition[] = [
     name: 'Sod Calculator',
     category: 'home-projects',
     summary: 'Estimate sod rolls, pallets, adjusted area, and optional cost.',
+    seoTitle: 'Sod Calculator | Rolls, Pallets, And Cost',
+    seoDescription:
+      'Estimate sod rolls, pallets, adjusted lawn area, and rough cost from square feet, roll coverage, rolls per pallet, waste, and price per roll.',
     description:
-      'Use this free sod calculator to estimate rolls or slabs of sod from lawn area, coverage per roll, rolls per pallet, waste, and optional price.',
+      'Use this free sod calculator to estimate rolls, slabs, pallets, adjusted lawn area, and rough material cost from square feet, roll coverage, waste, and optional price.',
     icon: 'calculator-sod',
-    aliases: ['Grass Sod Calculator', 'Lawn Sod Calculator'],
+    aliases: [
+      'Grass Sod Calculator',
+      'Lawn Sod Calculator',
+      'Sod Roll Calculator',
+      'Sod Pallet Calculator',
+      'St Augustine Sod Calculator',
+      'Sod Square Foot Calculator',
+      'Sod Cost Calculator',
+      'Free Sod Calculator',
+    ],
     formula:
-      'The calculator adds waste to lawn area, divides by coverage per roll or slab, rounds up to whole rolls, and then rounds pallets up from rolls per pallet.',
+      'The calculator multiplies lawn area by 1 plus waste percent, divides adjusted area by coverage per roll or slab, rounds up to whole rolls, rounds pallets up from rolls per pallet, and multiplies by price when entered.',
     limit:
-      'Curves, slopes, damaged sod, soil prep, irrigation, seams, supplier roll sizes, pallet minimums, and delivery rules can change the final order.',
+      'Supplier roll and pallet sizes vary by farm, store, grass type, and moisture. Curves, slopes, damaged sod, soil prep, irrigation, seams, delivery, minimum orders, and install labor can change the final order.',
     inputExplanations: [
-      { term: 'Lawn area', meaning: 'the measured square feet you want to cover.' },
-      { term: 'Coverage per roll', meaning: 'the square feet one roll, slab, or piece covers.' },
-      { term: 'Rolls per pallet', meaning: 'supplier packaging used to estimate pallet count.' },
-      { term: 'Waste percent', meaning: 'extra sod for curved edges, trimming, damaged pieces, and small repairs.' },
+      { term: 'Lawn area', meaning: 'the final square feet that will receive sod after edging, grading, and section measurements.' },
+      { term: 'Coverage per roll', meaning: 'the square feet one roll, slab, or piece covers according to your supplier.' },
+      { term: 'Rolls per pallet', meaning: 'supplier packaging used to convert whole rolls into a pallet count.' },
+      { term: 'Waste percent', meaning: 'extra sod for curved edges, trimming around beds or sprinklers, damaged pieces, seams, and small repairs.' },
     ],
     extraFaq: [
+      {
+        question: 'How do I calculate how much sod I need?',
+        answer:
+          'Measure the lawn area in square feet, add a waste percent, divide by the square feet covered by one roll or slab, then round up to whole rolls. The calculator also rounds up pallets from rolls per pallet.',
+      },
+      {
+        question: 'What coverage per roll should I enter?',
+        answer:
+          'Use the coverage from the sod farm, garden center, or delivery quote you plan to buy from. Sod rolls and slabs are not universal, so the supplier number matters more than a generic average.',
+      },
+      {
+        question: 'How many square feet are in a pallet of sod?',
+        answer:
+          'A pallet is packaging, not a fixed unit. Multiply your supplier coverage per roll by rolls per pallet to estimate pallet coverage, then check the supplier minimum before ordering.',
+      },
+      {
+        question: 'What waste percent should I use for sod?',
+        answer:
+          'Five percent can work for a simple rectangle. Use more when the lawn has curves, beds, sidewalks, slopes, sprinkler heads, odd cuts, or if you want extra pieces for small repairs.',
+      },
+      {
+        question: 'Does this work for St. Augustine sod?',
+        answer:
+          'Yes. The math is the same for St. Augustine, Bermuda, zoysia, fescue, and other sod types as long as you enter the actual coverage per roll or slab from the supplier.',
+      },
+      {
+        question: 'How much sod do I need for 200 square feet?',
+        answer:
+          'With 10 ft2 rolls and 5% waste, 200 ft2 becomes 210 adjusted ft2, so you would plan for 21 rolls. Change the coverage and waste if your supplier or lawn shape is different.',
+      },
       {
         question: 'Why does the Sod Calculator add waste?',
         answer:
@@ -5018,19 +5060,26 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Measure the final area that will receive new sod. Soil prep, grading, and edging can slightly change the real area, so recheck before ordering.',
       },
+      {
+        question: 'Does the cost include delivery, soil prep, or installation?',
+        answer:
+          'No. The cost result only multiplies rolls by the price per roll you enter. Delivery, grading, soil amendments, removal, irrigation fixes, labor, and minimum-order fees are separate quote items.',
+      },
     ],
     useCases: [
       'Estimate sod rolls for a new lawn.',
       'Convert lawn square footage into pallets.',
       'Add waste for curved and trimmed areas.',
       'Estimate rough sod material cost.',
+      'Check a small 200 square foot repair against roll coverage.',
     ],
     examples: [
-      { label: 'Front lawn', expression: '1,800 ft2, 10 ft2 per roll, 50 rolls per pallet, 5% waste', result: '189 rolls, 4 pallets' },
-      { label: 'Repair patch', expression: '220 ft2, 10 ft2 per roll, 8% waste', result: 'Small roll count' },
-      { label: 'Backyard section', expression: '3,200 ft2, pallet packaging', result: 'Pallet estimate' },
+      { label: 'Front lawn', expression: '1,800 ft2, 10 ft2 per roll, 50 rolls per pallet, 5% waste, $4.50 per roll', result: '189 rolls, 4 pallets, $850.50' },
+      { label: 'Repair patch', expression: '220 ft2, 10 ft2 per roll, 8% waste, $5 per roll', result: '24 rolls, 1 pallet, $120' },
+      { label: 'Backyard section', expression: '3,200 ft2, 10 ft2 per roll, 50 rolls per pallet, 7% waste', result: '343 rolls, 7 pallets' },
+      { label: '200 ft2 spot', expression: '200 ft2, 10 ft2 per roll, 5% waste', result: '21 rolls, 1 pallet' },
     ],
-    relatedSlugs: ['square-footage-calculator', 'soil-calculator', 'cubic-yard-calculator'],
+    relatedSlugs: ['cubic-yard-calculator', 'unit-price-calculator', 'budget-calculator'],
   }),
   makeUtilityTool({
     slug: 'wall-stud-calculator',

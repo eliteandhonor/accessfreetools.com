@@ -233,6 +233,18 @@ const sourceLinks = {
     href: 'https://www.inchcalculator.com/sod-calculator/',
     label: 'Inch Calculator: Sod calculator reference',
   },
+  tallyardSodCalculator: {
+    href: 'https://www.tallyard.com/sod-calculator',
+    label: 'Tallyard: Sod calculator',
+  },
+  sodSolutionsPalletCoverage: {
+    href: 'https://sodsolutions.com/lawn-care-guides/square-feet-per-pallet/',
+    label: 'Sod Solutions: Square feet per pallet of sod',
+  },
+  calcShedSodCalculator: {
+    href: 'https://calcshed.com/sod-calculator/',
+    label: 'CalcShed: Sod calculator',
+  },
   inchFraming: {
     href: 'https://www.inchcalculator.com/framing-calculator/',
     label: 'Inch Calculator: Framing calculator reference',
@@ -3815,25 +3827,55 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'sod-calculator': {
-    summary: 'Learn how lawn area, roll coverage, pallet size, and waste estimate sod rolls.',
+    summary: 'Learn how lawn area, roll coverage, pallet size, waste, and price estimate sod rolls.',
     purpose:
-      'The Sod Calculator estimates rolls, slabs, or pieces of sod and converts that into pallet count using your supplier packaging.',
+      'The Sod Calculator estimates rolls, slabs, or pieces of sod, converts that count into pallets, and gives a rough material cost when you enter a price per roll.',
     enter: [
-      'Enter the final lawn area in square feet.',
-      'Enter coverage per roll or slab from your supplier.',
-      'Enter rolls per pallet and waste for trimming, curves, and damaged pieces.',
+      'Enter the final lawn area in square feet after grading and edging.',
+      'Enter coverage per roll or slab from the sod supplier, garden center, or delivery quote.',
+      'Enter rolls per pallet, waste for trimming, and price per roll when you want a rough material cost.',
     ],
     read: [
       'Rolls needed is rounded up to whole rolls or slabs.',
-      'Pallets is rounded up from rolls per pallet.',
       'Adjusted area includes the waste percent.',
+      'Pallet coverage is the roll coverage multiplied by rolls per pallet.',
+      'Pallets is rounded up from rolls per pallet.',
+      'Estimated cost only uses the roll price you entered.',
     ],
     mistakes: [
-      'Do not forget curved edges, sidewalks, sprinkler heads, slopes, and repair patches.',
+      'Do not forget curved edges, sidewalks, sprinkler heads, seams, slopes, and repair patches.',
       'Do not measure before final grading if the lawn edge will change.',
-      'Check supplier roll size, pallet minimums, delivery rules, soil prep, and watering instructions.',
+      'Do not assume every pallet covers the same square footage. Roll size and rolls per pallet vary by supplier and grass type.',
+      'Check pallet minimums, delivery rules, soil prep, irrigation fixes, installation labor, and watering instructions before ordering.',
     ],
-    sources: [sourceLinks.inchSod, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
+    extraSections: [
+      {
+        title: 'Quick sod roll example',
+        paragraphs: [
+          'For a 1,800 ft2 lawn with 10 ft2 rolls and 5% waste, the adjusted area is 1,890 ft2. Divide by 10 ft2 per roll to get 189 rolls. With 50 rolls per pallet, that rounds to 4 pallets. At $4.50 per roll, the rough material cost is $850.50.',
+        ],
+      },
+      {
+        title: 'Rolls, slabs, and pallets are supplier numbers',
+        paragraphs: [
+          'The calculator works for rolls, slabs, and pieces because the key input is square feet per piece. A pallet is just a packaging count, so use the supplier rolls-per-pallet number instead of assuming one fixed pallet size.',
+        ],
+      },
+      {
+        title: 'What the estimate does not include',
+        paragraphs: [
+          'The cost result does not include delivery, old grass removal, grading, soil amendments, irrigation repairs, installation labor, minimum-order fees, or extra watering. Treat the result as a material planning number before a real quote.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchSod,
+      sourceLinks.tallyardSodCalculator,
+      sourceLinks.sodSolutionsPalletCoverage,
+      sourceLinks.calcShedSodCalculator,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'wall-stud-calculator': {
     summary: 'Learn how wall length, stud spacing, openings, plate rows, and waste estimate framing boards.',

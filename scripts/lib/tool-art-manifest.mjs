@@ -388,6 +388,18 @@ const toolArtMetadataOverrides = {
         'Countertop Calculator guide artwork supports the walkthrough for kitchen counter square feet, backsplash area, cutouts, waste, and quote limits.',
     },
   },
+  'sod-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring a 1,800 ft2 lawn with 10 ft2 sod rolls, 5 percent waste, 189 rolls, 4 pallets, and an $850.50 cost card.',
+      caption:
+        'Sod Calculator artwork matches the live workflow: enter lawn area, roll coverage, rolls per pallet, waste, and price to estimate sod rolls, pallets, adjusted area, and cost.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing lawn square feet, sod roll coverage, pallet count, waste trimming, 189 rolls, 4 pallets, and watering caution cards.',
+      caption:
+        'Sod Calculator guide artwork supports the walkthrough for lawn area, roll coverage, pallet packaging, waste, cost, and supplier-size limits.',
+    },
+  },
   'concrete-footing-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',

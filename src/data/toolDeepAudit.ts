@@ -546,6 +546,21 @@ const inchSod = {
   label: 'Inch Calculator: Sod calculator reference',
 };
 
+const tallyardSodCalculator = {
+  href: 'https://www.tallyard.com/sod-calculator',
+  label: 'Tallyard: Sod calculator',
+};
+
+const sodSolutionsPalletCoverage = {
+  href: 'https://sodsolutions.com/lawn-care-guides/square-feet-per-pallet/',
+  label: 'Sod Solutions: Square feet per pallet of sod',
+};
+
+const calcShedSodCalculator = {
+  href: 'https://calcshed.com/sod-calculator/',
+  label: 'CalcShed: Sod calculator',
+};
+
 const inchFraming = {
   href: 'https://www.inchcalculator.com/framing-calculator/',
   label: 'Inch Calculator: Framing calculator reference',
@@ -5471,17 +5486,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'sod-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-construction-materials-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'page-seo-gsc-refresh-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [inchSod, nistSi, googleHelpfulContent],
+    sources: [inchSod, tallyardSodCalculator, sodSolutionsPalletCoverage, calcShedSodCalculator, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator adds waste to lawn area, divides by roll or slab coverage, rounds rolls up, and rounds pallets up from rolls per pallet.',
-      'The FAQ explains why waste matters for curves, sidewalks, sprinkler heads, damaged pieces, and repair patches.',
-      'The guide warns about supplier roll sizes, pallet minimums, delivery rules, grading, soil prep, slopes, and watering.',
+      'DataForSEO paid evidence showed primary demand for sod calculator plus smaller Home Depot, Lowe\'s, St. Augustine, formula, free calculator, and 200 square foot intent variants.',
+      'The calculator adds waste to lawn area, divides by supplier roll or slab coverage, rounds rolls up, rounds pallets up from rolls per pallet, and estimates roll-only material cost when entered.',
+      'The FAQ now covers roll coverage, pallet coverage, waste percent, St. Augustine sod, 200 ft2 repair math, and delivery or labor exclusions.',
+      'The guide warns about supplier roll sizes, pallet minimums, delivery rules, grading, soil prep, irrigation, slopes, seams, watering, and install-labor limits.',
     ],
     improvements: [
-      'Added sod roll and pallet estimator, examples, cost option, guide article, detailed FAQ, related tools, tests, and manual audit record.',
+      'Added DataForSEO-backed SEO metadata and aliases, exact roll/pallet/cost examples, richer guide sections, competitor-backed source links, clearer calculator labels, pallet coverage output, refreshed image alt/caption text, modified dates, and safer cost-related internal links.',
     ],
     followUps: [
       'Add shape-based lawn area helpers only if they reuse the existing area calculator logic.',

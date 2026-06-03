@@ -676,11 +676,11 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     pricePerSquareFoot: 'Optional material price per square foot for rough cost comparison.',
   },
   sod: {
-    lawnAreaSquareFeet: 'Measured lawn area before waste.',
-    rollCoverageSquareFeet: 'Square feet covered by one roll, slab, or piece of sod.',
-    rollsPerPallet: 'How many rolls or slabs the supplier puts on one pallet.',
-    wastePercent: 'Extra sod for curved edges, trimming, dead pieces, and repair patches.',
-    pricePerRoll: 'Optional price per roll or slab.',
+    lawnAreaSquareFeet: 'Final lawn square footage to cover after edging and grading. For irregular yards, measure sections and add them together.',
+    rollCoverageSquareFeet: 'Square feet covered by one roll, slab, or piece of sod from your supplier quote.',
+    rollsPerPallet: 'How many rolls or slabs the supplier puts on one pallet for delivery or pickup.',
+    wastePercent: 'Extra sod for curves, seams, trimming around beds or sprinklers, damaged pieces, and repair patches.',
+    pricePerRoll: 'Optional material price per roll or slab. Delivery, soil prep, and labor are separate.',
   },
   'wall-stud': {
     wallLengthFeet: 'Wall length in feet.',
@@ -3269,17 +3269,17 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Sod Calculator',
     buttonLabel: 'Estimate sod',
     emptyHistory: 'Recent sod estimates will appear here.',
-    privacyNote: 'Sod estimates stay local and use lawn area, roll coverage, pallet size, and waste.',
+    privacyNote: 'Sod estimates stay local and are ordering math, not a landscaping quote.',
     modes: [
       {
         id: 'roll-count',
         label: 'Roll count',
         symbol: 'SOD',
         fields: [
-          numberField('lawnAreaSquareFeet', 'Lawn area ft2', '1800'),
-          numberField('rollCoverageSquareFeet', 'Coverage per roll ft2', '10'),
+          numberField('lawnAreaSquareFeet', 'Lawn area (ft2)', '1800'),
+          numberField('rollCoverageSquareFeet', 'Roll coverage (ft2)', '10'),
           integerField('rollsPerPallet', 'Rolls per pallet', '50'),
-          numberField('wastePercent', 'Waste percent', '5'),
+          numberField('wastePercent', 'Waste (%)', '5'),
           numberField('pricePerRoll', 'Price per roll', '4.50'),
         ],
         defaultInputs: { lawnAreaSquareFeet: '1800', rollCoverageSquareFeet: '10', rollsPerPallet: '50', wastePercent: '5', pricePerRoll: '4.50' },
@@ -6611,15 +6611,16 @@ function calculateUtility(
         answer: `${formatCalculatorNumber(result.rollsNeeded)} rolls`,
         metrics: [
           { label: 'Adjusted area', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Pallet coverage', value: `${formatCalculatorNumber(result.rollCoverageSquareFeet * result.rollsPerPallet)} ft2` },
           { label: 'Pallets', value: formatCalculatorNumber(result.palletsNeeded) },
           { label: 'Estimated cost', value: result.estimatedCost === null ? 'Not entered' : money(result.estimatedCost) },
         ],
         steps: [
           'Add waste to the measured lawn area.',
           'Divide by the square feet one roll or slab covers.',
-          'Round up to whole rolls and whole pallets.',
+          'Round up to whole rolls, then round up to whole pallets from the supplier count.',
         ],
-        note: 'Curves, slopes, damaged sod, soil prep, irrigation, delivery minimums, and supplier roll sizes can change the final order.',
+        note: 'Roll and pallet sizes vary by farm, store, grass type, and moisture. Curves, slopes, damaged sod, soil prep, irrigation, delivery minimums, and install labor can change the final order.',
       };
     }
     case 'wall-stud': {
