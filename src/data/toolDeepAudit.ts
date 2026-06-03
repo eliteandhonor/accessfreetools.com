@@ -4520,17 +4520,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'ideal-weight-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [idealBodyWeightCommentary, nhlbiBmi],
+    sources: [idealBodyWeightCommentary, nhlbiBmi, cdcBmi, googleHelpfulContent],
     findings: [
-      'The calculator explains the Devine ideal body weight estimate while also showing the broader healthy BMI range.',
-      'The guide warns that "ideal" is a historical formula label, not a personal command or medical target.',
-      'The examples and FAQ keep frame size, muscle, age, pregnancy, and clinician context outside the formula boundaries.',
+      'The calculator explains the Devine ideal body weight estimate with formula sex, height, 50 kg or 45.5 kg 5-foot bases, and 2.3 kg per inch above 5 feet.',
+      'The tool and guide now show exact examples: 180 cm male formula returns 74.99 kg with a 59.94-80.68 kg adult healthy BMI range, and 165 cm female formula returns 56.91 kg with a 50.37-67.79 kg range.',
+      'The copy warns that ideal is a historical formula label, not a personal command, diagnosis, child growth chart, pregnancy guide, medical dosing rule, sports-nutrition plan, or body judgment.',
     ],
     improvements: [
-      'Manually checked Devine formula wording, healthy BMI comparison, examples, FAQ cautions, source coverage, related tools, SEO copy, privacy behavior, and non-prescriptive language.',
+      'Ran GSC/DataForSEO page sprint with current paid evidence, Calculator.net competitor-gap evidence for topic gaps only, refreshed metadata, exact examples, FAQ cautions, guide sections, source-backed audit record, modified dates, art alt/captions, and browser-proof targets.',
     ],
     followUps: [
       'Consider renaming visible copy to "reference weight" if search data shows users read "ideal" as a body judgment.',

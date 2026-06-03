@@ -143,7 +143,17 @@ function getSourceLinks(toolSlug: string) {
     ];
   }
 
-  if (['bmi-calculator', 'overweight-calculator', 'healthy-weight-calculator', 'ideal-weight-calculator', 'body-fat-calculator', 'army-body-fat-calculator', 'lean-body-mass-calculator', 'body-type-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'ideal-weight-calculator') {
+    return [
+      {
+        href: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8646317/',
+        label: 'PMC: Ideal body weight formula commentary',
+      },
+      ...bmiSources,
+    ];
+  }
+
+  if (['bmi-calculator', 'overweight-calculator', 'healthy-weight-calculator', 'body-fat-calculator', 'army-body-fat-calculator', 'lean-body-mass-calculator', 'body-type-calculator'].includes(toolSlug)) {
     return bmiSources;
   }
 
@@ -423,30 +433,33 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'ideal-weight-calculator': {
-    summary: 'Learn how ideal body weight formulas differ from healthy BMI ranges.',
+    summary: 'Learn how the Devine ideal body weight formula differs from an adult healthy BMI range.',
     purpose:
-      'The Ideal Weight Calculator gives a height-based formula reference and compares it with a healthy BMI range. It is a reference point, not a personal requirement.',
+      'The Ideal Weight Calculator gives a Devine formula reference from height and formula sex, then compares it with the adult healthy BMI range. It is a reference point, not a personal requirement.',
     enter: [
-      'Enter height and formula sex because the Devine formula uses both.',
-      'Use the healthy BMI range as a wider comparison beside the single formula estimate.',
-      'Remember that frame size, muscle, age, and health history are not included.',
+      'Enter height in centimeters and choose the formula sex setting because Devine uses different 5-foot base weights.',
+      'Use the adult healthy BMI range as a wider comparison beside the single Devine formula estimate.',
+      'Remember that frame size, muscle, age, pregnancy, training history, and health history are not included.',
     ],
     example: [
-      'For a 180 cm male example, the calculator converts height above 5 feet into inches and adds the Devine amount per inch.',
-      'The BMI range then shows a broader weight span for the same height.',
+      'For a 180 cm male formula example, the calculator starts at 50 kg and adds 2.3 kg for about 10.866 inches above 5 feet.',
+      'That gives 74.99 kg by the Devine formula, while the adult healthy BMI range for 180 cm is about 59.94-80.68 kg.',
+      'For a 165 cm female formula example, the calculator returns 56.91 kg and shows an adult healthy BMI range of about 50.37-67.79 kg.',
     ],
     read: [
-      'Treat the ideal weight number as one historical formula output.',
-      'The BMI range is usually more useful than a single target because bodies vary.',
+      'Treat the ideal weight number as one historical formula output, not a body judgment.',
+      'The BMI range is usually more useful than a single target because bodies vary and BMI itself is still only a screening reference.',
+      'If your height is at or below 5 feet, this calculator keeps the Devine inches-over-5-feet term at zero instead of subtracting below the base weight.',
     ],
     mistakes: [
       'Do not treat the word ideal as a command.',
-      'Do not use this for children, pregnancy, athletic performance, or medical dosing decisions.',
-      'Do not ignore how you feel, lab results, and clinician advice.',
+      'Do not use this for children, teen growth, pregnancy, athletic performance, eating-disorder concerns, or medication dosing decisions.',
+      'Do not ignore waist size, body composition, lab results, symptoms, or clinician advice just because one formula gives a tidy number.',
     ],
     next: [
       'Use Healthy Weight Calculator for BMI range only.',
       'Use BMI Calculator to compare current weight with adult BMI categories.',
+      'Use Body Fat Calculator if circumference and body-composition context matters more than a height-only formula.',
     ],
   },
   'pace-calculator': {

@@ -339,22 +339,45 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'ideal-weight-calculator',
     name: 'Ideal Weight Calculator',
-    summary: 'Estimate ideal body weight and compare it with healthy BMI range.',
+    summary: 'Estimate Devine ideal body weight and compare it with the adult healthy BMI range.',
     description:
-      'Use this free ideal weight calculator to estimate Devine ideal body weight and adult healthy BMI range from height.',
+      'Use this free ideal weight calculator to estimate a Devine formula reference weight from height and formula sex, then compare it with the adult healthy BMI range.',
+    seoTitle: 'Ideal Weight Calculator | Devine Formula & BMI Range',
+    seoDescription:
+      'Estimate Devine ideal body weight from height and formula sex, then compare the result with an adult healthy BMI range.',
     icon: 'calculator-ideal-weight',
-    formula: 'The Devine estimate starts at 50 kg for males or 45.5 kg for females at 5 feet, then adds 2.3 kg per inch over 5 feet.',
-    caution: estimateCaution,
+    formula:
+      'The Devine estimate starts at 50 kg for the male formula or 45.5 kg for the female formula at 5 feet, then adds 2.3 kg for each inch above 5 feet. This calculator does not subtract below the 5-foot base, and it shows the adult BMI 18.5 to 24.9 range separately.',
+    caution:
+      'This is a height-based reference formula, not a diagnosis, goal weight, medication-dose rule, sports-nutrition plan, pregnancy guide, child growth chart, or personal health target.',
     useCases: [
-      'Estimate a classic ideal body weight reference.',
-      'Compare a formula result with the healthy BMI range.',
-      'Use height-based weight references in planning notes.',
-      'Avoid treating one formula as a personal health target.',
+      'Estimate a classic Devine formula reference weight.',
+      'Compare one formula result with the adult healthy BMI range.',
+      'See how height above 5 feet changes the formula output.',
+      'Avoid treating the word ideal as a personal health command.',
     ],
     examples: [
-      { label: 'Male 180 cm', expression: 'Devine estimate', result: 'About 75 kg' },
-      { label: 'Female 165 cm', expression: 'Devine estimate', result: 'About 57 kg' },
-      { label: 'BMI range', expression: 'Height-based', result: 'Healthy BMI reference range' },
+      { label: 'Male 180 cm', expression: '50 + 2.3 x 10.866 in over 5 ft', result: '74.99 kg Devine; BMI range 59.94-80.68 kg' },
+      { label: 'Female 165 cm', expression: '45.5 + 2.3 x 4.961 in over 5 ft', result: '56.91 kg Devine; BMI range 50.37-67.79 kg' },
+      { label: 'Female 172 cm', expression: '45.5 + 2.3 x 7.717 in over 5 ft', result: '63.25 kg Devine; BMI range 54.73-73.66 kg' },
+      { label: 'At 5 ft tall', expression: 'No inches above 5 ft', result: '50 kg male base or 45.5 kg female base' },
+    ],
+    extraFaq: [
+      {
+        question: 'Is Devine ideal body weight the same as a healthy weight?',
+        answer:
+          'No. Devine gives one historical formula estimate from height and formula sex. The healthy BMI range is a wider adult screening range from height squared. Neither one can see body composition, frame size, pregnancy, age, training history, or medical context.',
+      },
+      {
+        question: 'Why does the calculator show a BMI range too?',
+        answer:
+          'A single Devine number can look more exact than it really is. The adult BMI 18.5 to 24.9 range gives a broader comparison for the same height, so you can see that one formula number is not the only possible reference point.',
+      },
+      {
+        question: 'What happens if height is 5 feet or shorter?',
+        answer:
+          'This calculator keeps the Devine inches-over-5-feet term at zero. That means the male formula stays at 50 kg and the female formula stays at 45.5 kg at or below 5 feet. Use that as a formula boundary, not as advice for children, very short adults, or medical dosing.',
+      },
     ],
     relatedSlugs: ['healthy-weight-calculator', 'bmi-calculator', 'body-fat-calculator'],
   }),

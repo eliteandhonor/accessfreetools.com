@@ -360,12 +360,12 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
         id: 'ideal-weight',
         label: 'Ideal weight',
         symbol: 'kg',
-        fields: [selectField('sex', 'Sex used by formula', sexOptions), numberField('heightCm', 'Height (cm)')],
+        fields: [selectField('sex', 'Formula sex', sexOptions), numberField('heightCm', 'Height (cm)')],
         defaultInputs: { sex: 'male', heightCm: '180' },
         examples: [
-          { label: 'Male 180 cm', inputs: { sex: 'male', heightCm: '180' } },
-          { label: 'Female 165 cm', inputs: { sex: 'female', heightCm: '165' } },
-          { label: 'Female 172 cm', inputs: { sex: 'female', heightCm: '172' } },
+          { label: 'Male 74.99 kg', inputs: { sex: 'male', heightCm: '180' } },
+          { label: 'Female 56.91 kg', inputs: { sex: 'female', heightCm: '165' } },
+          { label: 'Female 63.25 kg', inputs: { sex: 'female', heightCm: '172' } },
         ],
       },
     ],
@@ -1177,18 +1177,19 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       const range = calculateBmi(ideal, heightCm);
       return {
         label: 'Ideal weight estimate',
-        expression: `${sex}, ${formatCalculatorNumber(heightCm)} cm`,
-        answer: formatKg(ideal),
+        expression: `${sex} formula, ${formatCalculatorNumber(heightCm)} cm`,
+        answer: formatRoundedKg(ideal),
         metrics: [
-          { label: 'Healthy BMI range', value: `${formatKg(range.healthyMinKg)}-${formatKg(range.healthyMaxKg)}` },
+          { label: 'Healthy BMI range', value: `${formatRoundedKg(range.healthyMinKg)}-${formatRoundedKg(range.healthyMaxKg)}` },
           { label: 'Formula', value: 'Devine' },
           { label: 'Height', value: `${formatCalculatorNumber(heightCm)} cm` },
         ],
         steps: [
-          'Start with the Devine base weight for 5 feet of height.',
-          'Add 2.3 kg for each inch over 5 feet.',
-          'Compare with the adult healthy BMI screening range.',
+          'Start with 50 kg for the male formula or 45.5 kg for the female formula at 5 feet.',
+          'Add 2.3 kg for each inch above 5 feet; this calculator does not subtract below the 5-foot base.',
+          'Compare the Devine estimate with the adult BMI 18.5-24.9 screening range for the same height.',
         ],
+        note: 'Devine is a historical height-based formula, not a personal goal weight or medical target.',
       };
     }
     case 'pace': {

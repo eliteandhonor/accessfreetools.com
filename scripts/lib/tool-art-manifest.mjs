@@ -88,6 +88,18 @@ const toolArtMetadataOverrides = {
         'BMR Calculator guide artwork supports the walkthrough for Mifflin-St Jeor inputs, exact example results, BMR versus TDEE context, and non-prescriptive calorie planning cautions.',
     },
   },
+  'ideal-weight-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing a Devine ideal weight estimate with 74.99 kg, 56.91 kg, and adult BMI range cards.',
+      caption:
+        'Ideal Weight Calculator artwork matches the live workflow: enter formula sex and height, estimate Devine reference weight, and compare it with the adult healthy BMI range.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining Devine formula math beside 180 cm, 165 cm, 74.99 kg, 56.91 kg, and BMI range cards.',
+      caption:
+        'Ideal Weight Calculator guide artwork supports the walkthrough for Devine formula inputs, exact example results, adult BMI range context, and non-prescriptive ideal-weight cautions.',
+    },
+  },
   'army-body-fat-calculator': {
     tool: {
       alt: 'Smoke mascot checking an Army one-site tape estimate with 210 lb weight, 35 in abdomen, and a rounded 17 percent result card.',
