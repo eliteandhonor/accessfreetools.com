@@ -717,9 +717,11 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     wastePercent: 'Extra sand for leveling, spreading loss, compaction, and uneven areas.',
   },
   soil: {
-    areaSquareFeet: 'Bed or lawn area in square feet.',
-    depthInches: 'Added soil depth in inches.',
-    wastePercent: 'Extra soil for settling, uneven beds, and spreading loss.',
+    areaSquareFeet:
+      'Garden bed, raised bed, planter, or lawn patch area in square feet. Measure odd shapes separately and add them together.',
+    depthInches: 'Added soil depth in inches. Use only the depth you still need to fill or top off.',
+    wastePercent:
+      'Extra soil for settling, uneven beds, spreading loss, moisture or fill differences, and a small ordering cushion.',
   },
   asphalt: {
     lengthFeet: 'Paved area length in feet.',
@@ -3420,16 +3422,16 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Soil Calculator',
     buttonLabel: 'Estimate soil',
     emptyHistory: 'Recent soil estimates will appear here.',
-    privacyNote: 'Soil estimates stay local and use area, depth, and common bag sizes.',
+    privacyNote: 'Soil estimates stay local and are volume and bag planning numbers, not plant or soil-health advice.',
     modes: [
       {
         id: 'soil-volume',
         label: 'Area and depth',
         symbol: 'SOIL',
         fields: [
-          numberField('areaSquareFeet', 'Bed area ft2', '120'),
-          numberField('depthInches', 'Soil depth inches', '4'),
-          numberField('wastePercent', 'Extra percent', '10'),
+          numberField('areaSquareFeet', 'Bed area (ft2)', '120'),
+          numberField('depthInches', 'Soil depth (in)', '4'),
+          numberField('wastePercent', 'Extra (%)', '10'),
         ],
         defaultInputs: { areaSquareFeet: '120', depthInches: '4', wastePercent: '10' },
         examples: [
@@ -6737,7 +6739,7 @@ function calculateUtility(
       const result = calculateSoilEstimate(parseNumber(inputs.areaSquareFeet, 'Area'), parseNumber(inputs.depthInches, 'Depth'), parseNumber(inputs.wastePercent, 'Waste percent'));
       return {
         label: 'Soil needed',
-        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2 at ${formatCalculatorNumber(result.depthInches)} in`,
+        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2 at ${formatCalculatorNumber(result.depthInches)} in with ${formatCalculatorNumber(result.wastePercent)}% extra`,
         answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
         metrics: [
           { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
@@ -6749,7 +6751,7 @@ function calculateUtility(
           'Multiply bed area by depth and add extra percent.',
           'Convert to cubic yards and common bag counts.',
         ],
-        note: 'Soil settles. Raised beds, existing soil, compost mix, moisture, and bag fill can change the amount needed.',
+        note: 'Soil settles. Raised beds, existing soil, compost or potting mix, moisture, delivery minimums, and bag labels can change the amount needed.',
       };
     }
     case 'asphalt': {

@@ -2056,6 +2056,21 @@ const homeDepotMulchCalculator = {
   label: 'The Home Depot: Mulch and top soil calculator',
 };
 
+const calcShedTopsoilCalculator = {
+  href: 'https://calcshed.com/topsoil-calculator/',
+  label: 'CalcShed: Topsoil calculator',
+};
+
+const calcSummitTopsoilCalculator = {
+  href: 'https://calcsummit.com/calculators/construction/topsoil/',
+  label: 'CalcSummit: Topsoil calculator',
+};
+
+const vastCalcSoilCalculator = {
+  href: 'https://vastcalc.com/calculators/construction/soil',
+  label: 'VastCalc: Soil calculator',
+};
+
 const inchCalculatorMulch = {
   href: 'https://www.inchcalculator.com/mulch-calculator/',
   label: 'Inch Calculator: Mulch calculator',
@@ -5622,20 +5637,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'soil-calculator',
     status: 'deep-reviewed',
-    batch: 'home-project-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'page-seo-gsc-refresh-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [nistSi, nistConversionFactors],
+    sources: [calcShedTopsoilCalculator, calcSummitTopsoilCalculator, vastCalcSoilCalculator, nistSi, nistConversionFactors, googleHelpfulContent],
     findings: [
-      'The calculator converts bed area and depth into cubic feet and cubic yards, then estimates common 1.5- and 2-cubic-foot bag counts.',
-      'The FAQ explains extra percent as settling, uneven beds, and spreading loss rather than a random markup.',
-      'The guide cautions users to check bag volume, compost mix, moisture, existing soil depth, and plant needs.',
+      'DataForSEO showed high-volume soil calculator intent around topsoil, raised beds, potting soil, bag counts, square-foot depth estimates, and cubic-yard ordering.',
+      'The calculator converts bed area and added depth into cubic feet, adds extra percent, converts to cubic yards, then rounds up common 1.5- and 2-cubic-foot bag counts.',
+      'The refreshed examples pin the default raised-bed top-off to 120 ft2 at 4 in with 10% extra: 44 ft3, 1.63 yd3, 30 small bags, or 22 two-cubic-foot bags.',
+      'The guide now separates top-off depth, full-bed height, compost/fill layers, potting mix labels, settling, moisture, bag-size variation, and delivery minimums.',
     ],
     improvements: [
-      'Manually checked soil volume conversion, bag counts, examples, FAQ details, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Rewrote metadata, aliases, formula, limits, examples, FAQs, guide sections, source notes, audit record, sitemap dates, related links, image alt/caption text, and result labels around raised-bed soil, topsoil, potting soil, cubic yards, and bag counts.',
     ],
     followUps: [
-      'Add raised-bed shape presets later if gardening traffic becomes a priority.',
+      'Add shape presets or a bag-size selector later if soil traffic shows repeated square-foot, triangle, round-bed, or custom-bag-size searches.',
     ],
   },
   {

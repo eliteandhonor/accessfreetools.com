@@ -709,6 +709,18 @@ const sourceLinks = {
     href: 'https://www.homedepot.com/calculator/mulch/',
     label: 'The Home Depot: Mulch and top soil calculator',
   },
+  calcShedTopsoilCalculator: {
+    href: 'https://calcshed.com/topsoil-calculator/',
+    label: 'CalcShed: Topsoil calculator',
+  },
+  calcSummitTopsoilCalculator: {
+    href: 'https://calcsummit.com/calculators/construction/topsoil/',
+    label: 'CalcSummit: Topsoil calculator',
+  },
+  vastCalcSoilCalculator: {
+    href: 'https://vastcalc.com/calculators/construction/soil',
+    label: 'VastCalc: Soil calculator',
+  },
   inchCalculatorMulch: {
     href: 'https://www.inchcalculator.com/mulch-calculator/',
     label: 'Inch Calculator: Mulch calculator',
@@ -4144,25 +4156,75 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'soil-calculator': {
-    summary: 'Learn how bed area and depth estimate soil volume and bag counts.',
+    summary: 'Learn how bed area, soil depth, and settling extra turn into cubic yards, cubic feet, and bag counts.',
+    metaDescription:
+      'Use the Soil Calculator with a 120 ft2 raised-bed example. See cubic yards, cubic feet, bag counts, extra percent, and topsoil limits.',
     purpose:
-      'The Soil Calculator estimates garden soil, raised bed top-offs, and topsoil volume. It reports bulk cubic yards and common retail bag counts.',
+      'The Soil Calculator estimates garden soil, raised bed top-offs, topsoil, and potting soil volume. It reports bulk cubic yards, cubic feet, and common retail bag counts.',
+    intro:
+      'Soil estimates usually go wrong because the depth means the whole bed height in one person\'s head and only the top-off layer in someone else\'s. Start with the square footage, then enter only the soil depth you still need to add.',
+    inputMatch: 'the bed area in square feet, the added soil depth in inches, and the extra percent for settling or uneven spreading',
+    logicNote:
+      'The calculator turns inches into feet, multiplies by square feet, adds extra percent, converts cubic feet to cubic yards, then rounds up 1.5-cubic-foot and 2-cubic-foot bag counts.',
+    readIntro:
+      'Read cubic yards as the bulk-order number. Read cubic feet and bag counts when you are comparing retail bags, because bag sizes and fill can vary by product.',
+    mistakeIntro:
+      'The big mistake is using the full raised-bed height when the bed is already partly filled. Existing soil, compost, drainage layers, moisture, settling, and the exact bag label can all move the final buy.',
+    sidecarText:
+      'Open the Soil Calculator beside this guide. Try 120 square feet, 4 inches of added soil, and 10 percent extra first.',
+    bestUsesIntro:
+      'Use this guide when you need a planning number for raised beds, garden top-offs, lawn topdress, planters, or comparing bulk topsoil with bagged soil.',
+    referenceIntro:
+      'These references back up the volume math, competitor intent, cubic-yard conversion, and helpful-content review behind the calculator.',
     enter: [
-      'Enter bed area in square feet.',
-      'Enter soil depth in inches.',
-      'Add extra percent for settling, uneven beds, or a safer order.',
+      'Enter the bed, planter, or lawn patch area in square feet. For odd shapes, calculate each area first and add them together.',
+      'Enter only the soil depth you want to add in inches. A top-off depth is different from the full height of a raised bed.',
+      'Add extra percent for settling, uneven beds, moisture or fill differences, spreading loss, or a safer order.',
     ],
     read: [
-      'Cubic yards is useful for bulk soil orders.',
-      'Cubic feet helps compare bagged soil.',
-      'Bag counts show estimates for 1.5-cubic-foot and 2-cubic-foot bags.',
+      'A 120 ft2 raised-bed top-off at 4 inches deep is 40 cubic feet before extra.',
+      'With 10% extra, the estimate becomes 44 cubic feet.',
+      '44 cubic feet is about 1.63 cubic yards.',
+      'The same example rounds up to 30 bags at 1.5 cubic feet each or 22 bags at 2 cubic feet each.',
     ],
     mistakes: [
-      'Do not forget that soil settles after watering.',
-      'Do not ignore existing soil, compost mix, and bed shape.',
-      'Check the actual bag volume because retail bags vary.',
+      'Do not enter the full raised-bed height when you only need to top off the bed.',
+      'Do not forget that loose soil can settle after watering and spreading.',
+      'Do not mix compost, potting mix, fill material, and topsoil assumptions without checking the actual product.',
+      'Do not treat bag counts as exact. Retail bag volume, moisture, fill, and product mix can vary.',
+      'Check delivery minimums, plant needs, drainage, and existing soil before using the number as a final order.',
     ],
-    sources: [sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick Raised Bed Example',
+        paragraphs: [
+          'Say the area is 120 square feet and you want to add 4 inches of soil. Four inches is one-third of a foot, so the raw volume is 120 x 0.333, or 40 cubic feet.',
+          'Add 10% extra for settling and uneven spreading. That gives 44 cubic feet, which is about 1.63 cubic yards.',
+          'If you buy 2-cubic-foot bags, round 44 divided by 2 up to 22 bags. If the bags are 1.5 cubic feet, round 44 divided by 1.5 up to 30 bags.',
+        ],
+      },
+      {
+        title: 'Raised Beds, Topsoil, And Potting Soil',
+        paragraphs: [
+          'The volume math is the same for topsoil, garden soil, and potting soil, but the product choice is not. A vegetable bed, planter, lawn low spot, and deep raised bed may need different mixes.',
+          'If the bed is partly full, use only the missing depth. If you are building layers, calculate each layer separately instead of pretending one soil number covers compost, fill, drainage, and planting mix.',
+        ],
+      },
+      {
+        title: 'Bags Versus Bulk Delivery',
+        paragraphs: [
+          'Cubic yards are usually easier for bulk topsoil delivery. Cubic feet are easier when you are standing in front of bag labels.',
+          'Before buying, compare the calculator result with the exact bag volume, delivery minimum, return policy, moisture level, and how much extra you can store or use elsewhere.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.calcShedTopsoilCalculator,
+      sourceLinks.calcSummitTopsoilCalculator,
+      sourceLinks.vastCalcSoilCalculator,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'asphalt-calculator': {
     summary: 'Learn how pavement length, width, compacted depth, density, and waste turn into asphalt tons.',

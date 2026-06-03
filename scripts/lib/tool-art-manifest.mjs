@@ -412,6 +412,18 @@ const toolArtMetadataOverrides = {
         'Wall Stud Calculator guide artwork supports the walkthrough for stud spacing, openings, plate rows, waste, board count, and structural-plan limits.',
     },
   },
+  'soil-calculator': {
+    tool: {
+      alt: 'Smoke mascot filling a raised garden bed with 120 ft2 area, 4 in soil depth, 10 percent extra, 44 ft3, 1.63 yd3, and 22 two-cubic-foot bags.',
+      caption:
+        'Soil Calculator artwork matches the live workflow: enter bed area, soil depth, and extra percent to estimate cubic feet, cubic yards, and common bag counts.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing raised bed area, 4 in topsoil depth, settling extra, 44 ft3, 1.63 yd3, 30 small bags, and 22 two-cubic-foot bags.',
+      caption:
+        'Soil Calculator guide artwork supports the walkthrough for raised beds, topsoil depth, cubic yards, bag counts, settling, and retail bag-size limits.',
+    },
+  },
   'concrete-footing-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',
