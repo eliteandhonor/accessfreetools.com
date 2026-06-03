@@ -636,6 +636,11 @@ const lowesCountertopGuide = {
   label: 'Lowe\'s: Kitchen countertop measurement guide',
 };
 
+const slabWiseCountertopSquareFeet = {
+  href: 'https://slabwise.com/tools/sqft-calculator',
+  label: 'SlabWise: Countertop square footage calculator',
+};
+
 const lowesFlooringFootage = {
   href: 'https://pdf.lowes.com/productdocuments/3f70b1c9-8ab7-4125-a2e7-9a3d080d2861/08130541.pdf',
   label: 'Lowe\'s: Calculating correct hardwood flooring footage',
@@ -5446,20 +5451,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'countertop-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-construction-materials-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'all-pages-seo-dataforseo-sprint-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [lowesCountertopGuide, nistSi, googleHelpfulContent],
+    sources: [lowesCountertopGuide, slabWiseCountertopSquareFeet, nistSi, googleHelpfulContent],
     findings: [
-      'The calculator converts countertop depth and backsplash height to feet, adds top and backsplash area, subtracts cutouts, adds waste, and optionally prices square footage.',
-      'The FAQ explains why cutout area does not remove fabrication charges and why quotes can exceed simple square-foot math.',
-      'The guide mentions seams, edges, overhangs, slab minimums, templates, delivery, fabrication, and installation limits.',
+      'DataForSEO paid evidence showed U.S. search intent around countertop calculator, quartz countertop calculator, Home Depot countertop calculator, kitchen countertop calculator, granite countertop calculator, kitchen countertop measurement tool, laminate countertop calculator, and L-shaped countertop calculator.',
+      'The calculator converts countertop depth and backsplash height to feet, adds top and backsplash area, subtracts cutouts, adds waste, and optionally prices square footage for rough quartz, granite, laminate, and solid-surface planning.',
+      'The FAQ explains L-shaped sections, islands, backsplash, waste, material-only pricing, cutout labor, and why quotes can exceed simple square-foot math.',
+      'The guide now gives the 18 foot, 25.5 inch depth, 4 inch backsplash example that becomes 44.275 square feet after waste, plus notes for different depths and supplier quote limits.',
     ],
     improvements: [
-      'Added countertop area UI, backsplash/cutout fields, examples, result steps, detailed FAQ, guide coverage, tests, and audit record.',
+      'Added DataForSEO-backed SEO metadata and aliases, clearer calculator labels, net-before-waste output, L-shape and island guidance, source-backed guide sections, exact art alt/caption text, modified dates, and safer cost-related internal links.',
     ],
     followUps: [
-      'Add L-shaped segment mode later if it does not make the beginner flow bulky.',
+      'Consider a multi-section mode only if users need separate island, peninsula, and vanity rows without making the first-use flow bulky.',
     ],
   },
   {

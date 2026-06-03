@@ -4901,25 +4901,71 @@ export const utilityTools: ToolDefinition[] = [
     name: 'Countertop Calculator',
     category: 'home-projects',
     summary: 'Estimate countertop square footage, backsplash area, waste, and optional material cost.',
+    seoTitle: 'Countertop Calculator | Square Feet And Cost',
+    seoDescription:
+      'Estimate kitchen countertop square feet and cost for quartz, granite, or laminate from run length, depth, backsplash, cutouts, waste, and price per ft2.',
     description:
-      'Use this free countertop calculator to estimate countertop area from run length, depth, backsplash, cutouts, waste, and optional price per square foot.',
+      'Use this free countertop calculator to estimate kitchen countertop area and rough material cost from run length, depth, backsplash, cutouts, waste, and optional price per square foot.',
     icon: 'calculator-countertop',
-    aliases: ['Countertop Square Foot Calculator', 'Kitchen Countertop Calculator'],
+    aliases: [
+      'Countertop Square Foot Calculator',
+      'Kitchen Countertop Calculator',
+      'Quartz Countertop Calculator',
+      'Granite Countertop Calculator',
+      'Laminate Countertop Calculator',
+      'Countertop Measurement Tool',
+      'L-Shaped Countertop Calculator',
+    ],
     formula:
-      'The calculator converts depth and backsplash height to feet, finds top area plus backsplash area, subtracts cutouts, adds waste, and multiplies by price when entered.',
+      'The calculator converts depth and backsplash height to feet, multiplies each run by its depth, adds backsplash area, subtracts known cutouts, adds waste, and multiplies by price when entered.',
     limit:
-      'Real quotes can change for slab layout, seams, sink type, cutouts, edge profile, overhangs, templating, fabrication, install labor, and delivery.',
+      'Real quotes can change for slab layout, seams, sink type, cutout labor, edge profile, overhangs, templating, fabrication, install labor, delivery, and supplier minimums.',
     inputExplanations: [
-      { term: 'Length', meaning: 'the total countertop run length in feet.' },
-      { term: 'Depth', meaning: 'front-to-back countertop depth in inches.' },
-      { term: 'Backsplash', meaning: 'optional backsplash length and height added to the square footage.' },
-      { term: 'Cutouts', meaning: 'sink or cooktop areas subtracted before waste when you know them.' },
+      { term: 'Run length', meaning: 'the combined straight countertop runs in feet. Add matching-depth L-shape sections together, or estimate different depths separately.' },
+      { term: 'Depth', meaning: 'finished front-to-wall countertop depth in inches, including overhang when it is part of the top.' },
+      { term: 'Backsplash', meaning: 'optional backsplash run length and height added to the square footage.' },
+      { term: 'Cutouts', meaning: 'sink or cooktop areas subtracted before waste when you know them, while remembering labor charges usually remain.' },
     ],
     extraFaq: [
+      {
+        question: 'How do I calculate countertop square feet?',
+        answer:
+          'Multiply countertop run length by depth after converting depth from inches to feet. Add backsplash area, subtract any known cutout area, then add waste for layout and trimming.',
+      },
+      {
+        question: 'Does this work for quartz, granite, and laminate countertops?',
+        answer:
+          'Yes for rough square-foot planning. Quartz, granite, laminate, solid surface, butcher block, and other materials can use the same area math, but each supplier may price slabs, seams, edges, and labor differently.',
+      },
+      {
+        question: 'How do I use the calculator for an L-shaped countertop?',
+        answer:
+          'If both legs have the same depth, add the two straight runs and enter the total length. If one section is deeper, estimate each section separately and add the adjusted square-foot results.',
+      },
+      {
+        question: 'Should I include an island or peninsula?',
+        answer:
+          'Yes. Measure the island or peninsula as its own run. If it has a different depth than the wall counters, run the calculator once for each depth and add the results.',
+      },
+      {
+        question: 'Should I include backsplash in the countertop estimate?',
+        answer:
+          'Include backsplash when the backsplash uses the same countertop material and the supplier prices it by square foot. Enter 0 for backsplash length or height when there is none.',
+      },
       {
         question: 'Should I subtract sink and cooktop cutouts?',
         answer:
           'Only subtract them for a rough material area check. Many fabricators still charge for cutout work, templates, and the slab waste around the opening.',
+      },
+      {
+        question: 'What waste percent should I use for countertops?',
+        answer:
+          'Ten percent is a useful early planning number for simple layouts. Complex corners, slab direction, matching patterns, large islands, or supplier slab minimums can make real waste higher.',
+      },
+      {
+        question: 'Does the estimated cost include installation?',
+        answer:
+          'No. The cost result only multiplies adjusted square feet by the price you enter. Edge profiles, templates, sink cutouts, removal, plumbing, fabrication, delivery, and installation are separate quote items.',
       },
       {
         question: 'Why can a countertop quote be higher than the square-foot estimate?',
@@ -4931,14 +4977,16 @@ export const utilityTools: ToolDefinition[] = [
       'Estimate countertop square footage for a kitchen or vanity.',
       'Add backsplash area when the backsplash uses the same material.',
       'Subtract known cutout area for rough material planning.',
-      'Compare rough cost at different material prices.',
+      'Compare quartz, granite, laminate, or solid-surface rough cost at different material prices.',
+      'Plan L-shaped counters by adding matching-depth runs or estimating sections separately.',
     ],
     examples: [
-      { label: 'Kitchen run', expression: '18 ft run, 25.5 in depth, 4 in backsplash, 10% waste', result: 'About 44.28 ft2' },
-      { label: 'Bathroom vanity', expression: '6 ft run, 22 in depth, small sink cutout', result: 'Vanity area estimate' },
-      { label: 'No backsplash', expression: '12 ft run, 25 in depth, 0 backsplash', result: 'Top-only square feet' },
+      { label: 'Kitchen run', expression: '18 ft run, 25.5 in depth, 18 ft x 4 in backsplash, 4 ft2 cutouts, 10% waste', result: '44.275 ft2 after waste' },
+      { label: 'Bathroom vanity', expression: '6 ft run, 22 in depth, 6 ft x 4 in backsplash, 2 ft2 sink cutout, 8% waste', result: '11.88 ft2 after waste' },
+      { label: 'Kitchen island', expression: '7 ft island, 42 in depth, no backsplash, 8% waste', result: '26.46 ft2 after waste' },
+      { label: 'L-shaped counter', expression: '10 ft + 8 ft runs at 25.5 in depth, no backsplash, 10% waste', result: '42.075 ft2 after waste' },
     ],
-    relatedSlugs: ['square-footage-calculator', 'tile-calculator', 'unit-price-calculator'],
+    relatedSlugs: ['unit-price-calculator', 'discount-calculator', 'budget-calculator'],
   }),
   makeUtilityTool({
     slug: 'sod-calculator',

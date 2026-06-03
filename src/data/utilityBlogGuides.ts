@@ -293,6 +293,10 @@ const sourceLinks = {
     href: 'https://www.lowes.com/pdf/kitchen_countertop_measure_guide.pdf',
     label: 'Lowe\'s: Kitchen countertop measurement guide',
   },
+  slabWiseCountertopSquareFeet: {
+    href: 'https://slabwise.com/tools/sqft-calculator',
+    label: 'SlabWise: Countertop square footage calculator',
+  },
   lowesFlooringFootage: {
     href: 'https://pdf.lowes.com/productdocuments/3f70b1c9-8ab7-4125-a2e7-9a3d080d2861/08130541.pdf',
     label: 'Lowe\'s: Calculating correct hardwood flooring footage',
@@ -3760,13 +3764,15 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'countertop-calculator': {
-    summary: 'Learn how countertop run length, depth, backsplash, cutouts, waste, and price estimate square footage.',
+    summary:
+      'Learn how countertop run length, depth, backsplash, cutouts, waste, and price estimate kitchen countertop square footage.',
     purpose:
-      'The Countertop Calculator estimates a rough material area for kitchen counters, vanity tops, and backsplash pieces.',
+      'The Countertop Calculator estimates rough material area for kitchen counters, vanity tops, islands, peninsulas, and backsplash pieces.',
     enter: [
-      'Enter total countertop run length in feet.',
-      'Enter depth and backsplash height in inches.',
-      'Enter cutout square feet only when you want a rough material-area subtraction.',
+      'Enter the combined countertop run length in feet. For L-shaped counters with the same depth, add the straight runs together.',
+      'Enter finished depth in inches. If an island, peninsula, or vanity has a different depth, estimate that section separately.',
+      'Enter backsplash run length and height only when the backsplash uses the same material.',
+      'Enter cutout square feet only when you want a rough material-area subtraction, not a labor-price adjustment.',
     ],
     read: [
       'Adjusted area is the square footage after adding backsplash, subtracting cutouts, and adding waste.',
@@ -3778,7 +3784,35 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not forget seams, overhangs, edge profiles, sink cutouts, slab minimums, delivery, templates, or install labor.',
       'Ask the countertop supplier how they price cutouts and leftover slab material.',
     ],
-    sources: [sourceLinks.lowesCountertopGuide, sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
+    extraSections: [
+      {
+        title: 'Quick kitchen countertop example',
+        paragraphs: [
+          'Say a kitchen has 18 feet of counter at 25.5 inches deep, an 18 foot backsplash that is 4 inches high, 4 square feet of sink and cooktop cutouts, and 10% waste.',
+          'Top area is 18 x 25.5 / 12 = 38.25 square feet. Backsplash area is 18 x 4 / 12 = 6 square feet. After subtracting 4 square feet of cutouts, the net area is 40.25 square feet. With 10% waste, the planning estimate is 44.275 square feet.',
+        ],
+      },
+      {
+        title: 'L-shaped counters, islands, and different depths',
+        paragraphs: [
+          'For a simple L-shape where both legs use the same depth, add the two straight lengths and enter the combined run. A 10 foot leg plus an 8 foot leg becomes 18 feet.',
+          'If part of the kitchen is deeper, such as a 42 inch island or a peninsula, run that section separately. Add the adjusted square feet from each result before comparing material prices.',
+        ],
+      },
+      {
+        title: 'Why quotes can beat the square-foot number',
+        paragraphs: [
+          'The calculator is area math. A real countertop quote can include slab layout, seam placement, pattern matching, edge profiles, sink type, cutout labor, templating, removal, delivery, installation, and minimum slab purchase rules.',
+          'Use the result to compare early options, then ask the fabricator how they handle cutouts, backsplash, leftover material, edge upgrades, and minimum charges.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.lowesCountertopGuide,
+      sourceLinks.slabWiseCountertopSquareFeet,
+      sourceLinks.nistUnits,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
   'sod-calculator': {
     summary: 'Learn how lawn area, roll coverage, pallet size, and waste estimate sod rolls.',

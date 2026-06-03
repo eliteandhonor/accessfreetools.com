@@ -376,6 +376,18 @@ const toolArtMetadataOverrides = {
         'Plywood Calculator guide artwork supports the walkthrough for 4 by 8 sheet math, roof or floor square footage, waste, whole-sheet rounding, and layout limits.',
     },
   },
+  'countertop-calculator': {
+    tool: {
+      alt: 'Smoke mascot measuring an 18 ft countertop run at 25.5 in depth with 4 in backsplash, 4 ft2 cutouts, 10 percent waste, and 44.275 ft2.',
+      caption:
+        'Countertop Calculator artwork matches the live workflow: enter run length, depth, backsplash, cutouts, waste, and price to estimate adjusted square feet and rough material cost.',
+    },
+    guide: {
+      alt: 'Smoke mascot guide showing countertop run length, depth, backsplash strip, sink cutout, 44.275 ft2 result, seam and quote caution cards.',
+      caption:
+        'Countertop Calculator guide artwork supports the walkthrough for kitchen counter square feet, backsplash area, cutouts, waste, and quote limits.',
+    },
+  },
   'concrete-footing-calculator': {
     tool: {
       alt: 'Smoke mascot measuring a 30 ft concrete footing trench with 16 inch width, 8 inch depth, 10 percent waste, 1.09 cubic yards, and 49 eighty-pound bags.',

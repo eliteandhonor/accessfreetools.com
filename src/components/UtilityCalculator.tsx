@@ -667,13 +667,13 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     pricePerPack: 'Optional price per package so the tool can estimate cost.',
   },
   countertop: {
-    lengthFeet: 'Total countertop run length in feet.',
-    depthInches: 'Countertop depth from front edge to wall in inches.',
-    backsplashLengthFeet: 'Backsplash run length in feet. Use 0 if there is no backsplash.',
+    lengthFeet: 'Combined straight countertop runs in feet. For L-shapes with the same depth, add the runs; for different depths, estimate sections separately.',
+    depthInches: 'Finished front-to-wall depth in inches, including overhang when it will be countertop material.',
+    backsplashLengthFeet: 'Backsplash run length in feet. Use 0 if there is no backsplash or if it is a different material.',
     backsplashHeightInches: 'Backsplash height in inches. Use 0 if there is no backsplash.',
-    cutoutSquareFeet: 'Sink, cooktop, or other cutout area to subtract when needed.',
-    wastePercent: 'Extra area for seams, edge pieces, layout, and mistakes.',
-    pricePerSquareFoot: 'Optional material price per square foot.',
+    cutoutSquareFeet: 'Sink, cooktop, or other cutout area to subtract for material-area planning.',
+    wastePercent: 'Extra area for seams, edge pieces, pattern layout, trimming, and mistakes.',
+    pricePerSquareFoot: 'Optional material price per square foot for rough cost comparison.',
   },
   sod: {
     lawnAreaSquareFeet: 'Measured lawn area before waste.',
@@ -3242,20 +3242,20 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Countertop Calculator',
     buttonLabel: 'Estimate countertop',
     emptyHistory: 'Recent countertop estimates will appear here.',
-    privacyNote: 'Countertop estimates stay local and use square-foot area math.',
+    privacyNote: 'Countertop estimates stay in your browser and use square-foot area math, not a fabricator template.',
     modes: [
       {
         id: 'countertop-area',
         label: 'Countertop area',
         symbol: 'TOP',
         fields: [
-          numberField('lengthFeet', 'Countertop length feet', '18'),
-          numberField('depthInches', 'Depth inches', '25.5'),
-          numberField('backsplashLengthFeet', 'Backsplash length feet', '18'),
-          numberField('backsplashHeightInches', 'Backsplash height inches', '4'),
-          numberField('cutoutSquareFeet', 'Cutouts ft2', '4'),
-          numberField('wastePercent', 'Waste percent', '10'),
-          numberField('pricePerSquareFoot', 'Price per ft2', '75'),
+          numberField('lengthFeet', 'Countertop run (ft)', '18'),
+          numberField('depthInches', 'Depth (in)', '25.5'),
+          numberField('backsplashLengthFeet', 'Backsplash run (ft)', '18'),
+          numberField('backsplashHeightInches', 'Backsplash height (in)', '4'),
+          numberField('cutoutSquareFeet', 'Cutout area (ft2)', '4'),
+          numberField('wastePercent', 'Waste (%)', '10'),
+          numberField('pricePerSquareFoot', 'Material price ($/ft2)', '75'),
         ],
         defaultInputs: { lengthFeet: '18', depthInches: '25.5', backsplashLengthFeet: '18', backsplashHeightInches: '4', cutoutSquareFeet: '4', wastePercent: '10', pricePerSquareFoot: '75' },
         examples: [
@@ -6581,11 +6581,12 @@ function calculateUtility(
       });
       return {
         label: 'Countertop area',
-        expression: `${formatCalculatorNumber(result.lengthFeet)} ft run at ${formatCalculatorNumber(result.depthInches)} in depth`,
+        expression: `${formatCalculatorNumber(result.lengthFeet)} ft run at ${formatCalculatorNumber(result.depthInches)} in depth, ${formatCalculatorNumber(result.wastePercent)}% waste`,
         answer: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2`,
         metrics: [
           { label: 'Top area', value: `${formatCalculatorNumber(result.topAreaSquareFeet)} ft2` },
           { label: 'Backsplash area', value: `${formatCalculatorNumber(result.backsplashAreaSquareFeet)} ft2` },
+          { label: 'Net before waste', value: `${formatCalculatorNumber(result.netAreaSquareFeet)} ft2` },
           { label: 'Estimated cost', value: result.estimatedCost === null ? 'Not entered' : money(result.estimatedCost) },
         ],
         steps: [
@@ -6593,7 +6594,7 @@ function calculateUtility(
           'Add backsplash area and subtract cutouts if needed.',
           'Add waste and multiply by price per square foot when entered.',
         ],
-        note: 'Slab layout, seams, edge profile, overhangs, sink type, backsplashes, templates, fabrication, and installation rules can change the final quote.',
+        note: 'Quartz, granite, laminate, and solid-surface quotes can change for slab layout, seams, edge profile, overhangs, sink type, backsplashes, templates, fabrication, delivery, and installation rules.',
       };
     }
     case 'sod': {
