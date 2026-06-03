@@ -384,22 +384,44 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'pace-calculator',
     name: 'Pace Calculator',
-    summary: 'Calculate running, walking, or cycling pace from time and distance.',
+    summary: 'Calculate running, walking, or cycling pace and speed from time and distance.',
     description:
-      'Use this free pace calculator to convert distance and time into pace per kilometer or mile and speed per hour.',
+      'Use this free pace calculator to turn elapsed time and distance into pace per kilometer or mile, speed per hour, and workout or race comparisons.',
+    seoDescription:
+      'Calculate pace from distance and time. Get pace per kilometer or mile, speed per hour, examples, formula notes, and common timing mistakes.',
     icon: 'calculator-pace',
-    formula: 'Pace is total time divided by distance. Speed is distance divided by total time in hours.',
-    caution: 'This is a fitness planning calculator, not medical advice. Choose training intensity that fits your health and ability.',
+    formula:
+      'Pace = total elapsed seconds divided by distance. Speed = distance divided by total time in hours. The pace display rounds to the nearest second per selected distance unit.',
+    caution:
+      'This is a fitness planning calculator, not medical advice. Use total elapsed time or moving time consistently, and remember that hills, heat, terrain, stops, GPS error, and health limits can change effort.',
     useCases: [
       'Find pace per kilometer after a run or walk.',
       'Find pace per mile for race planning.',
       'Convert a workout time into speed per hour.',
-      'Compare training sessions with consistent distance units.',
+      'Compare training sessions only when the distance unit and time type match.',
     ],
     examples: [
-      { label: '5K run', expression: '5 km in 25:00', result: '5:00 per km' },
-      { label: '10K run', expression: '10 km in 55:30', result: '5:33 per km' },
-      { label: 'Three miles', expression: '3 mi in 30:00', result: '10:00 per mile' },
+      { label: '5K run', expression: '5 km in 25:00', result: '5:00 per km; 12.00 km/h' },
+      { label: '10K run', expression: '10 km in 55:30', result: '5:33 per km; 10.81 km/h' },
+      { label: 'Three miles', expression: '3 mi in 30:00', result: '10:00 per mile; 6.00 mi/h' },
+      { label: 'Marathon target', expression: '42.195 km in 4:00:00', result: '5:41 per km; 10.55 km/h' },
+    ],
+    extraFaq: [
+      {
+        question: 'What is the difference between pace and speed?',
+        answer:
+          'Pace is time per distance, such as 5:00 per kilometer, so a lower pace is faster. Speed is distance per hour, such as 12.00 km/h, so a higher speed is faster.',
+      },
+      {
+        question: 'Should I enter moving time or total elapsed time?',
+        answer:
+          'Use total elapsed time for races, official comparisons, and anything where stops count. Use moving time only when you intentionally want to remove pauses, and do not compare it with elapsed-time results.',
+      },
+      {
+        question: 'Why can pace look slightly rounded?',
+        answer:
+          'The calculator divides total seconds by distance, then rounds the displayed pace to the nearest second per mile or kilometer. Speed keeps more decimal detail so the two outputs can look slightly different after rounding.',
+      },
     ],
     relatedSlugs: ['calories-burned-calculator', 'target-heart-rate-calculator', 'one-rep-max-calculator'],
   }),

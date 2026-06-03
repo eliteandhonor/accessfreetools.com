@@ -463,30 +463,37 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'pace-calculator': {
-    summary: 'Learn how to convert workout distance and time into pace and speed.',
+    summary: 'Learn how to convert workout distance and time into pace per mile or kilometer and speed per hour.',
     purpose:
-      'The Pace Calculator turns a distance and elapsed time into pace per mile or kilometer, plus speed per hour. It is useful for running, walking, cycling, and race planning.',
+      'The Pace Calculator turns a distance and elapsed time into pace per mile or kilometer, plus speed per hour. It is useful for running, walking, cycling, race goals, and comparing training logs without doing time math by hand.',
     enter: [
       'Enter the total distance and choose miles or kilometers.',
-      'Enter the full elapsed time, including minutes and seconds.',
-      'Use the same distance unit when comparing workouts.',
+      'Enter the full elapsed time, including hours, minutes, and seconds. For races, use total elapsed time; for a private workout log, use moving time only if you mean to exclude stops.',
+      'Use the same distance unit and the same time type when comparing workouts.',
     ],
     example: [
       'For 5 km in 25:00, the calculator divides 25 minutes by 5.',
-      'The result is 5:00 per kilometer, and speed is the same effort expressed as distance per hour.',
+      'The result is 5:00 per kilometer, and speed is 12.00 km/h.',
+      'For 10 km in 55:30, the pace is 5:33 per kilometer and the speed is 10.81 km/h.',
+      'For 3 miles in 30:00, the pace is 10:00 per mile and the speed is 6.00 mi/h.',
+      'For a 4:00:00 marathon over 42.195 km, the pace is about 5:41 per kilometer and the speed is 10.55 km/h.',
     ],
     read: [
       'Lower pace means faster because it is time per distance.',
       'Higher speed means faster because it is distance per hour.',
+      'A pace like 5:00 per km is not the same as 5:00 per mile. Check the selected distance unit before comparing results.',
+      'The displayed pace is rounded to the nearest second per unit, so tiny decimal differences are normal.',
     ],
     mistakes: [
       'Do not mix moving time and total elapsed time when comparing sessions.',
       'Do not compare mile pace with kilometer pace without converting.',
       'Do not use pace alone to judge effort on hills, heat, or trails.',
+      'Do not use this as medical advice or as a push to train harder than your current health, recovery, or experience can support.',
     ],
     next: [
       'Use Calories Burned Calculator to estimate workout energy.',
       'Use Target Heart Rate Calculator to compare effort zones.',
+      'Use BMR Calculator when you need resting energy context instead of workout pace.',
     ],
   },
   'army-body-fat-calculator': {

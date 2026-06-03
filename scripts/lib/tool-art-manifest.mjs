@@ -100,6 +100,18 @@ const toolArtMetadataOverrides = {
         'Ideal Weight Calculator guide artwork supports the walkthrough for Devine formula inputs, exact example results, adult BMI range context, and non-prescriptive ideal-weight cautions.',
     },
   },
+  'pace-calculator': {
+    tool: {
+      alt: 'Smoke mascot timing a pace calculation with 5 km, 25:00, 5:00 per km, 12.00 km/h, and elapsed-time cards.',
+      caption:
+        'Pace Calculator artwork matches the live workflow: enter distance and elapsed time, then compare pace per unit, speed per hour, and consistent workout timing.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining pace math beside 5 km, 25:00, 10 km, 55:30, marathon target, and speed cards.',
+      caption:
+        'Pace Calculator guide artwork supports the walkthrough for time divided by distance, pace versus speed, moving-time cautions, and exact race examples.',
+    },
+  },
   'army-body-fat-calculator': {
     tool: {
       alt: 'Smoke mascot checking an Army one-site tape estimate with 210 lb weight, 35 in abdomen, and a rounded 17 percent result card.',

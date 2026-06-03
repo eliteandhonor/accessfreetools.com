@@ -4539,17 +4539,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'pace-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [cdcActivity, nistTimeDefinitions],
+    sources: [cdcActivity, nistTimeDefinitions, googleHelpfulContent],
     findings: [
-      'The calculator divides total time by distance for pace and divides distance by time for speed, with clear per-kilometer and per-mile examples.',
-      'The guide frames pace as training math, not medical advice, and cautions users to choose intensity that fits their ability.',
-      'The examples cover common 5K, 10K, and mile-based scenarios so users can sanity-check units.',
+      'The calculator divides total elapsed seconds by distance for pace and divides distance by total time in hours for speed, with rounding notes for the displayed pace.',
+      'The tool and guide now show exact examples for 5 km in 25:00, 10 km in 55:30, 3 miles in 30:00, and a 4:00:00 marathon target over 42.195 km.',
+      'The copy explains lower pace versus higher speed, warns against mixing moving time with elapsed time, and frames pace as training math rather than medical advice.',
     ],
     improvements: [
-      'Manually checked time/distance logic, unit wording, examples, FAQ cautions, CDC/NIST source coverage, related tools, SEO copy, and privacy behavior.',
+      'Ran GSC/DataForSEO page sprint with current paid evidence, Calculator.net competitor-gap evidence for topic gaps only, refreshed metadata, exact examples, FAQ cautions, guide sections, source-backed audit record, modified dates, and browser-proof targets.',
     ],
     followUps: [
       'Add split-table output later if runners ask for mile or kilometer splits across longer distances.',

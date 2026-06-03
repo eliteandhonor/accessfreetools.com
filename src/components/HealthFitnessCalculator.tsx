@@ -374,7 +374,8 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
     title: 'Pace Calculator',
     buttonLabel: 'Calculate pace',
     emptyHistory: 'Recent pace calculations will appear here.',
-    privacyNote: 'Pace results are simple time and distance math for training logs and planning.',
+    privacyNote:
+      'Pace inputs stay in this browser tab. Use the same time type, such as elapsed time or moving time, when comparing workouts.',
     modes: [
       {
         id: 'pace',
@@ -392,6 +393,7 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
           { label: '5K in 25:00', inputs: { distance: '5', unit: 'km', hours: '0', minutes: '25', seconds: '0' } },
           { label: '10K in 55:30', inputs: { distance: '10', unit: 'km', hours: '0', minutes: '55', seconds: '30' } },
           { label: '3 miles in 30:00', inputs: { distance: '3', unit: 'mi', hours: '0', minutes: '30', seconds: '0' } },
+          { label: '4h marathon', inputs: { distance: '42.195', unit: 'km', hours: '4', minutes: '0', seconds: '0' } },
         ],
       },
     ],
@@ -1210,10 +1212,13 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
           { label: 'Distance', value: `${formatCalculatorNumber(distance)} ${unit}` },
         ],
         steps: [
-          'Convert the entered time to total seconds.',
-          'Divide total seconds by distance.',
-          'Format the result as minutes and seconds per distance unit.',
+          'Convert hours, minutes, and seconds to total seconds.',
+          'Pace = total seconds divided by distance, rounded to the nearest second per selected unit.',
+          'Speed = distance divided by total hours, kept in the selected unit per hour.',
+          'Compare sessions only when the distance unit and time type match.',
         ],
+        note:
+          'Use elapsed time for races and official comparisons. Use moving time only when you intentionally want stops excluded; hills, heat, terrain, GPS rounding, and health limits can change effort.',
       };
     }
     case 'lean-body-mass': {
