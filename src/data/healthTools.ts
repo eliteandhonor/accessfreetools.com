@@ -893,23 +893,47 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'body-type-calculator',
     name: 'Body Type Calculator',
-    summary: 'Estimate body shape category from shoulder, bust, waist, and hip measurements.',
+    summary: 'Estimate a broad body-shape category from shoulder, bust, waist, and hip measurements.',
     description:
-      'Use this free body type calculator to estimate a broad body shape label from common body measurements.',
+      'Use this free body type calculator to compare shoulder, bust or chest, waist, and hip measurements for a broad body-shape estimate.',
     icon: 'calculator-body-type',
-    formula: 'The calculator compares shoulder or bust, waist, and hip measurements to estimate hourglass, triangle, inverted triangle, rectangle, or balanced categories.',
+    formula: 'The calculator uses the larger of shoulders or bust/chest as the top measurement. Top and hips within 5 cm with at least 20 cm of waist definition returns Hourglass. Hips 7+ cm wider returns Triangle or pear, top 7+ cm wider returns Inverted triangle, waist definition under 20 cm returns Rectangle, and the remaining close cases return Balanced.',
     caution:
-      'This is a style and measurement helper, not a health score. Body shape labels are broad estimates and do not rank bodies.',
+      'This is a style and measurement helper, not a health score, attractiveness score, diagnosis, 3D body scan, or height-and-weight body type test. Body-shape labels are broad estimates and do not rank bodies.',
     useCases: [
-      'Compare body measurements for style planning.',
-      'Estimate a broad body shape category.',
-      'Understand shoulder, bust, waist, and hip relationships.',
-      'Avoid treating body type as a health diagnosis.',
+      'Compare shoulder, bust or chest, waist, and hip measurements for style planning.',
+      'Estimate a broad hourglass, triangle, inverted triangle, rectangle, or balanced category.',
+      'Check why close measurements can change the body-shape label.',
+      'Keep body-shape labels separate from health, BMI, weight, and body-fat results.',
     ],
     examples: [
-      { label: 'Balanced', expression: 'Shoulders 100, waist 76, hips 101', result: 'Balanced or hourglass-style estimate' },
-      { label: 'Triangle', expression: 'Hips wider than top', result: 'Triangle or pear estimate' },
-      { label: 'Inverted', expression: 'Top wider than hips', result: 'Inverted triangle estimate' },
+      { label: 'Hourglass', expression: 'Shoulders 100 cm, bust 96 cm, waist 76 cm, hips 101 cm', result: 'Hourglass' },
+      { label: 'Triangle', expression: 'Shoulders 92 cm, bust 90 cm, waist 74 cm, hips 105 cm', result: 'Triangle or pear' },
+      { label: 'Inverted', expression: 'Shoulders 108 cm, bust 102 cm, waist 82 cm, hips 95 cm', result: 'Inverted triangle' },
+      { label: 'Rectangle', expression: 'Shoulders 98 cm, bust 95 cm, waist 86 cm, hips 100 cm', result: 'Rectangle' },
+      { label: 'Balanced', expression: 'Shoulders 100 cm, bust 99 cm, waist 78 cm, hips 106 cm', result: 'Balanced' },
+    ],
+    extraFaq: [
+      {
+        question: 'Does the calculator use shoulders or bust?',
+        answer:
+          'It uses both inputs, then treats the larger one as the top measurement. That keeps the result from depending on only one upper-body number when shoulders and bust or chest are different.',
+      },
+      {
+        question: 'Why can a small measurement change switch the body type result?',
+        answer:
+          'The labels use simple thresholds. A 5 cm top-versus-hip difference, a 7 cm wider side, or a 20 cm waist-definition line can move a close case from hourglass to balanced, rectangle, triangle, or inverted triangle.',
+      },
+      {
+        question: 'Is this a male or female body type calculator?',
+        answer:
+          'The calculator does not ask for sex. It only compares the four measurements you enter. Use the label as a loose style reference, not as a gender rule, health result, or body ranking.',
+      },
+      {
+        question: 'Does this body type calculator use height and weight?',
+        answer:
+          'No. Height and weight are useful for other calculators, but this body-shape estimate comes from shoulder, bust or chest, waist, and hip measurements only.',
+      },
     ],
     relatedSlugs: ['body-fat-calculator', 'healthy-weight-calculator', 'ideal-weight-calculator'],
   }),

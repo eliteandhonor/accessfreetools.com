@@ -1103,6 +1103,10 @@ describe('health and fitness helpers', () => {
     expect(gfr.egfr).toBeGreaterThan(70);
     expect(formatCalculatorNumber(bsa.mosteller)).toBe('1.8181186858');
     expect(classifyBodyType(96, 76, 101, 100)).toBe('Hourglass');
+    expect(classifyBodyType(90, 74, 105, 92)).toBe('Triangle or pear');
+    expect(classifyBodyType(102, 82, 95, 108)).toBe('Inverted triangle');
+    expect(classifyBodyType(95, 86, 100, 98)).toBe('Rectangle');
+    expect(classifyBodyType(99, 78, 106, 100)).toBe('Balanced');
     expect(formatCalculatorNumber(bac.bacPercent)).toBe('0.0364880515');
   });
 });

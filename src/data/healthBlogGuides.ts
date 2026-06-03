@@ -1013,30 +1013,36 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'body-type-calculator': {
-    summary: 'Learn how measurement relationships estimate a broad body-shape label.',
+    summary: 'Learn how shoulder, bust, waist, and hip measurements estimate a broad body-shape label.',
     purpose:
-      'The Body Type Calculator compares shoulders or bust, waist, and hips to estimate a broad style category.',
+      'The Body Type Calculator compares the larger of shoulders or bust/chest with waist and hips to estimate a broad style category.',
     enter: [
-      'Measure shoulders or bust, waist, and hips at the same unit.',
-      'Keep the tape level and relaxed.',
-      'Use the same measurement sites if comparing later.',
+      'Measure shoulders, bust or chest, waist, and hips in the same unit. The live tool uses centimeters.',
+      'Keep the tape level and relaxed, and do not pull it tight enough to change the number.',
+      'Use the same measurement sites if comparing later, because small changes can cross a category threshold.',
     ],
     example: [
-      'If hips are clearly wider than the top measurement, the tool may classify the shape as triangle-style.',
-      'If top and hips are close with a smaller waist, it may classify as balanced or hourglass-style.',
+      'For shoulders 100 cm, bust 96 cm, waist 76 cm, and hips 101 cm, the top and hips are within 5 cm and the waist is 24 cm smaller, so the tool returns Hourglass.',
+      'For shoulders 92 cm, bust 90 cm, waist 74 cm, and hips 105 cm, the hips are 13 cm wider than the top measurement, so the tool returns Triangle or pear.',
+      'For shoulders 108 cm, bust 102 cm, waist 82 cm, and hips 95 cm, the top measurement is 13 cm wider than the hips, so the tool returns Inverted triangle.',
+      'For shoulders 98 cm, bust 95 cm, waist 86 cm, and hips 100 cm, the top and hips are close but the waist definition is under 20 cm, so the tool returns Rectangle.',
+      'For shoulders 100 cm, bust 99 cm, waist 78 cm, and hips 106 cm, the hips are wider but not by 7 cm and the waist is still defined, so the tool returns Balanced.',
     ],
     read: [
-      'The label is a style helper, not a health score.',
-      'Close measurements can make categories overlap, so the result may be approximate.',
+      'The label is a style helper, not a health score, attractiveness score, or diagnosis.',
+      'The calculator does not use height, weight, sex, or a 3D scan. It only compares the four body measurements you entered.',
+      'Close measurements can make categories overlap, so read the result as an approximate label rather than a fixed identity.',
     ],
     mistakes: [
       'Do not rank bodies by category.',
       'Do not use clothing labels or vanity sizing as body measurements.',
-      'Do not treat the result as medical information.',
+      'Do not enter height and weight and expect a body-shape result; use the four circumference-style measurements instead.',
+      'Do not treat the result as medical information, body composition, BMI, or a fitness score.',
     ],
     next: [
       'Use Body Fat Calculator only if you want a separate body-composition estimate.',
       'Use Healthy Weight Calculator for an adult BMI range reference.',
+      'Use Ideal Weight Calculator only for a separate formula reference, not as a body-shape label.',
     ],
   },
   'body-surface-area-calculator': {

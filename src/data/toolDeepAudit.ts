@@ -4863,20 +4863,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'body-type-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-03',
+    reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [cdcBmi, nhlbiBmi],
+    sources: [cdcBmi, nhlbiBmi, googleHelpfulContent],
     findings: [
-      'The calculator compares shoulders or bust, waist, and hips to produce a broad style label, not a health score.',
-      'The guide explains that close measurements can overlap categories and that clothing style labels should not be treated as body ranking.',
-      'The result wording avoids medical claims and routes health context to separate BMI, body fat, and healthy weight tools.',
+      'DataForSEO paid evidence for the exact tool and guide targeted `body type calculator` intent, including body type calculator female, rectangle body shape, male body type, shoulder-based body type, 3D body shape, and height-and-weight body type queries.',
+      'The calculator uses the larger of shoulders or bust/chest as the top measurement, then applies visible 5 cm, 7 cm, and 20 cm thresholds for Hourglass, Triangle or pear, Inverted triangle, Rectangle, and Balanced labels.',
+      'The guide explains exact example outcomes and separates style labels from health, BMI, body fat, ideal weight, sex labels, 3D scan claims, and height-and-weight tests.',
     ],
     improvements: [
-      'Manually checked measurement relationship logic, style-only wording, examples, FAQ cautions, source coverage for health-boundary context, related tools, SEO copy, privacy behavior, and non-ranking language.',
+      'Reworked metadata, formula wording, examples, FAQ coverage, guide sections, result metrics, privacy note, source-backed audit record, modified dates, related links, and exact art metadata around the live threshold logic and current paid keyword evidence.',
     ],
     followUps: [
-      'Add an illustrated measuring guide later if users need help placing the tape consistently.',
+      'Add an illustrated measuring guide later if Search Console shows people need help placing shoulder, bust/chest, waist, or hip tape consistently.',
+      'Do not add sex-based, attractiveness-ranking, AI body-scan, or photo-upload claims unless the tool actually supports those workflows and has stronger privacy review.',
     ],
   },
   {

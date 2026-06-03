@@ -76,6 +76,18 @@ const toolArtMetadataOverrides = {
         'Body Fat Calculator guide artwork supports the walkthrough for Navy-style circumference math, consistent tape sites, optional weight for fat and lean mass, trend tracking, and non-diagnostic limits.',
     },
   },
+  'body-type-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing body-shape measurements with shoulders 100 cm, bust 96 cm, waist 76 cm, hips 101 cm, and Hourglass result cards.',
+      caption:
+        'Body Type Calculator artwork matches the live workflow: enter shoulders, bust or chest, waist, and hips, then estimate a broad style label with non-ranking measurement cautions.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining body type thresholds with top measurement, hips difference, 20 cm waist definition, Rectangle, and Balanced cards.',
+      caption:
+        'Body Type Calculator guide artwork supports the walkthrough for top measurement, hip difference, waist definition, exact example outcomes, and style-only body-shape limits.',
+    },
+  },
   'bmr-calculator': {
     tool: {
       alt: 'Smoke mascot presenting a BMR estimate with age, formula sex, height, weight, 1,763 kcal, and TDEE comparison cards.',

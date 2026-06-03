@@ -827,7 +827,8 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
     title: 'Body Type Calculator',
     buttonLabel: 'Estimate body type',
     emptyHistory: 'Recent body type estimates will appear here.',
-    privacyNote: 'Body-shape labels are general style and measurement categories, not health rankings.',
+    privacyNote:
+      'Body-shape labels are general style and measurement categories, not health rankings, diagnoses, or 3D scans.',
     modes: [
       {
         id: 'body-type',
@@ -841,9 +842,11 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
         ],
         defaultInputs: { shouldersCm: '100', bustCm: '96', waistCm: '76', hipsCm: '101' },
         examples: [
-          { label: 'Balanced', inputs: { shouldersCm: '100', bustCm: '96', waistCm: '76', hipsCm: '101' } },
+          { label: 'Hourglass', inputs: { shouldersCm: '100', bustCm: '96', waistCm: '76', hipsCm: '101' } },
           { label: 'Triangle', inputs: { shouldersCm: '92', bustCm: '90', waistCm: '74', hipsCm: '105' } },
           { label: 'Inverted', inputs: { shouldersCm: '108', bustCm: '102', waistCm: '82', hipsCm: '95' } },
+          { label: 'Rectangle', inputs: { shouldersCm: '98', bustCm: '95', waistCm: '86', hipsCm: '100' } },
+          { label: 'Balanced', inputs: { shouldersCm: '100', bustCm: '99', waistCm: '78', hipsCm: '106' } },
         ],
       },
     ],
@@ -1531,20 +1534,25 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       const waistCm = parseNumber(inputs.waistCm, 'Waist');
       const hipsCm = parseNumber(inputs.hipsCm, 'Hips');
       const bodyType = classifyBodyType(bustCm, waistCm, hipsCm, shouldersCm);
+      const topMeasurement = Math.max(shouldersCm, bustCm);
+      const waistDefinition = Math.min(topMeasurement, hipsCm) - waistCm;
+      const topHipDifference = topMeasurement - hipsCm;
       return {
         label: 'Body type estimate',
-        expression: `Shoulders ${formatCalculatorNumber(shouldersCm)}, waist ${formatCalculatorNumber(waistCm)}, hips ${formatCalculatorNumber(hipsCm)}`,
+        expression: `Shoulders ${formatCalculatorNumber(shouldersCm)} cm, bust/chest ${formatCalculatorNumber(bustCm)} cm, waist ${formatCalculatorNumber(waistCm)} cm, hips ${formatCalculatorNumber(hipsCm)} cm`,
         answer: bodyType,
         metrics: [
-          { label: 'Top measurement', value: `${formatCalculatorNumber(Math.max(shouldersCm, bustCm))} cm` },
-          { label: 'Waist difference', value: `${formatCalculatorNumber(Math.min(Math.max(shouldersCm, bustCm), hipsCm) - waistCm)} cm` },
-          { label: 'Hips', value: `${formatCalculatorNumber(hipsCm)} cm` },
+          { label: 'Top measurement', value: `${formatCalculatorNumber(topMeasurement)} cm` },
+          { label: 'Top minus hips', value: `${formatCalculatorNumber(topHipDifference)} cm` },
+          { label: 'Waist definition', value: `${formatCalculatorNumber(waistDefinition)} cm` },
         ],
         steps: [
-          'Compare shoulder or bust measurement with hip measurement.',
-          'Check how much smaller the waist is than the top and hips.',
-          'Assign a broad shape label from those measurement relationships.',
+          'Use the larger of shoulders or bust/chest as the top measurement.',
+          'Hourglass needs top and hips within 5 cm plus at least 20 cm of waist definition.',
+          'Hips 7+ cm wider returns Triangle or pear; top 7+ cm wider returns Inverted triangle; waist definition under 20 cm returns Rectangle; remaining close cases return Balanced.',
         ],
+        note:
+          'This is a loose body-shape label for style planning. It does not use height, weight, sex, or a 3D scan, and it is not a health score.',
       };
     }
     case 'body-surface-area': {
