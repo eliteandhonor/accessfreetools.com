@@ -7591,7 +7591,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     slug: 'aspect-ratio-calculator',
     status: 'deep-reviewed',
     batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
     sources: [mdnAspectRatio, nistSi],
     findings: [
@@ -7601,6 +7601,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     improvements: [
       'Manually checked aspect-ratio simplification, scale-by-width and scale-by-height behavior, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Added SEO title/meta copy, same-unit input explanations, extra aspect-ratio/resizing/cropping/rounding FAQs, exact 4K, vertical story, and social-preview examples, design-adjacent related links, and a 2026-06-04 modified date.',
     ],
     followUps: [
       'Add common platform presets only if each preset has a maintained source and visible date.',

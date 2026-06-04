@@ -7077,10 +7077,49 @@ export const utilityTools: ToolDefinition[] = [
       'Use this free aspect ratio calculator to simplify width and height ratios or resize a design, image, video, or screenshot without stretching it.',
     icon: 'tool-aspect-ratio',
     aliases: ['Image Ratio Calculator', 'Video Aspect Ratio Calculator'],
+    seoTitle: 'Aspect Ratio Calculator | Resize Images & Video',
+    seoDescription:
+      'Simplify width and height ratios, scale one dimension from another, and avoid stretched images, videos, thumbnails, and social graphics.',
     formula:
-      'The calculator divides width and height by their greatest common divisor for the ratio, then scales the missing dimension from the same width-to-height relationship.',
+      'The calculator scales decimal inputs to whole-number precision, divides width and height by their greatest common divisor to simplify the ratio, then uses width / height to calculate the missing scaled dimension.',
     limit:
-      'Use the exact upload specs for platforms, products, and print jobs. Rounding a scaled dimension can cause a one-pixel difference.',
+      'Aspect ratio preserves shape, not subject framing. Use exact upload specs for platforms, product images, video editors, and print jobs, and remember that rounding a scaled dimension can cause a one-pixel difference.',
+    faqLanguage: {
+      expectedInputs: 'the original width and height, plus either the new width or the new height when you are resizing',
+      inputFallback:
+        'Use the same unit for width and height. Pixels are common for screens, but inches, centimeters, or any matching unit can work when you only need the ratio.',
+      doubleCheck:
+        'Check whether the job needs resizing, cropping, padding, or a platform-specific preset because keeping the same ratio does not decide what part of the image stays visible.',
+    },
+    inputExplanations: [
+      { term: 'Width', meaning: 'the horizontal size of the image, video, screen, card, or design.' },
+      { term: 'Height', meaning: 'the vertical size of the same item, using the same unit as width.' },
+      { term: 'Simplified ratio', meaning: 'the width and height divided by their greatest common divisor, such as 1920 x 1080 becoming 16:9.' },
+      { term: 'Decimal', meaning: 'width divided by height, useful for comparing whether two sizes have the same shape.' },
+      { term: 'Scaled size', meaning: 'the matching width or height that keeps the original shape when one dimension changes.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What is an aspect ratio?',
+        answer:
+          'An aspect ratio is the relationship between width and height. A 16:9 image can be 1920 x 1080, 1280 x 720, or 3840 x 2160 because each size keeps the same width-to-height shape.',
+      },
+      {
+        question: 'How do I scale a 16:9 video to 1280 wide?',
+        answer:
+          'Enter 1920 width, 1080 height, choose Scale by width, and enter 1280 as the new width. The matching height is 720, so the scaled size is 1280 x 720.',
+      },
+      {
+        question: 'Why can the scaled answer be off by one pixel?',
+        answer:
+          'Some ratios produce fractional pixels after scaling. The calculator shows readable dimensions, but a platform or editor may round up or down differently, so check the final export size before uploading.',
+      },
+      {
+        question: 'Is resizing the same as cropping?',
+        answer:
+          'No. Resizing changes the dimensions while keeping the whole image. Cropping cuts away part of the image to fit a different shape. If a platform requires a new ratio, you may need crop or padding instead of only resizing.',
+      },
+    ],
     useCases: [
       'Simplify image, video, thumbnail, and screenshot dimensions.',
       'Resize a design to a new width while preserving height proportion.',
@@ -7088,11 +7127,11 @@ export const utilityTools: ToolDefinition[] = [
       'Compare landscape, square, and portrait formats before exporting.',
     ],
     examples: [
-      { label: 'HD video', expression: '1920 x 1080', result: '16:9' },
-      { label: 'Square post', expression: '1080 x 1080', result: '1:1' },
-      { label: 'Scale width', expression: '1920 x 1080 to 1280 wide', result: '1280 x 720' },
+      { label: '4K video', expression: '3840 x 2160', result: '16:9, decimal 1.7777777778' },
+      { label: 'Vertical story', expression: '1080 x 1920 to 720 wide', result: '720 x 1280' },
+      { label: 'Social preview', expression: '1200 x 630 to 600 wide', result: '600 x 315' },
     ],
-    relatedSlugs: ['color-contrast-checker', 'square-footage-calculator', 'conversion-calculator'],
+    relatedSlugs: ['color-contrast-checker', 'monitor-ppi-calculator', 'css-clamp-calculator'],
   }),
   makeUtilityTool({
     slug: 'utm-builder',
