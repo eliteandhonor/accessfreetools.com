@@ -27,6 +27,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isBodySurfaceAreaCalculator = spec.slug === 'body-surface-area-calculator';
   const isPregnancyCalculator = spec.slug === 'pregnancy-calculator';
   const isPregnancyConceptionCalculator = spec.slug === 'pregnancy-conception-calculator';
+  const isConceptionCalculator = spec.slug === 'conception-calculator';
   const inputAnswer = isBmiCalculator
     ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
     : isBodyFatCalculator
@@ -45,6 +46,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter the first day of the last menstrual period, not the last day bleeding occurred. Cycle length means the usual number of days from one period start to the next; use 28 only if that is close for you. If the LMP is uncertain, cycles are irregular, bleeding may not have been a true period, or a clinician has already dated the pregnancy, use the clinician or ultrasound date instead.'
     : isPregnancyConceptionCalculator
       ? 'Enter the estimated due date you were given by a clinician, ultrasound report, or earlier due-date calculation. This calculator works backward from that date only. If the due date changed after ultrasound, IVF dating, or clinician review, use the updated date instead of an older calendar estimate.'
+    : isConceptionCalculator
+      ? 'Enter the first day of the last period, your usual cycle length from one period start to the next, and luteal phase length if you know it. If you do not know luteal phase length, keep the default and read the answer as a rough cycle estimate. Irregular cycles, recent hormonal birth control, postpartum changes, illness, stress, or uncertain period dates can make the window less reliable.'
     : 'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.';
   const readingAnswer = isBmiCalculator
     ? 'Read BMI as a quick adult screening number. It can miss important context such as pregnancy, high muscle mass, waist size, body composition, age, medical history, and ethnicity. Use it as a clue, not a final health answer.'
@@ -64,6 +67,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the due date as an estimated delivery date from calendar math, not a guarantee of when birth will happen. Gestational age is counted from LMP, so it is usually about two weeks more than conception age. The conception and trimester lines are planning references, and an early ultrasound or clinician review can update the official date.'
     : isPregnancyConceptionCalculator
       ? 'Read the center date as a backward estimate from the due date, not proof of the exact day conception happened. The possible window is more honest than a single day because ovulation, fertilization, sperm survival, ultrasound dating, and due-date assumptions can all shift the real timing.'
+    : isConceptionCalculator
+      ? 'Read the answer as an ovulation-based conception estimate, not proof of an exact day, intercourse date, or biological parent. The fertile window is more useful than the center date because sperm may survive for several days, the egg survives for about a day after ovulation, and ovulation can shift from the calendar estimate.'
     : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
 
   return [
@@ -833,22 +838,47 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'conception-calculator',
     name: 'Conception Calculator',
-    summary: 'Estimate conception timing from cycle and ovulation assumptions.',
+    summary: 'Estimate conception date and fertile window from cycle details.',
     description:
-      'Use this free conception calculator to estimate conception date and fertile window from last period, cycle length, and luteal phase.',
+      'Use this free conception calculator to estimate conception date, fertile window, and next period from LMP, cycle length, and luteal phase.',
+    seoTitle: 'Conception Calculator | Date and Fertile Window',
+    seoDescription:
+      'Estimate conception date, fertile window, and next period from LMP, cycle length, and luteal phase. Learn why calendar math cannot prove an exact day.',
     icon: 'calculator-conception',
-    formula: 'The calculator estimates ovulation as next period date minus luteal phase length, then uses that as an approximate conception date.',
+    formula: 'The calculator estimates next period as LMP plus cycle length, estimates ovulation or conception as next period minus luteal phase length, and shows the fertile window as the five days before ovulation through ovulation day.',
     caution: estimateCaution,
     useCases: [
-      'Estimate conception timing from cycle data.',
+      'Estimate conception timing from LMP and cycle length.',
       'Find a fertile window for regular cycles.',
-      'Compare conception estimates with due-date estimates.',
-      'Understand that ovulation can vary month to month.',
+      'Compare a cycle-based conception estimate with due-date reverse math.',
+      'Understand why ovulation and fertile windows can shift month to month.',
     ],
     examples: [
-      { label: 'Typical cycle', expression: '28-day cycle, luteal 14', result: 'Approximate conception date' },
-      { label: 'Long cycle', expression: '32-day cycle', result: 'Later estimated ovulation' },
-      { label: 'Short luteal', expression: '27-day cycle, luteal 12', result: 'Cycle-based estimate' },
+      { label: 'LMP Apr 1, 2026', expression: '28-day cycle, luteal 14', result: 'Conception around Apr 15; fertile window Apr 10-Apr 15' },
+      { label: 'LMP Apr 2, 2026', expression: '32-day cycle, luteal 14', result: 'Conception around Apr 20; next period May 4' },
+      { label: 'LMP Apr 10, 2026', expression: '27-day cycle, luteal 12', result: 'Conception around Apr 25; fertile window Apr 20-Apr 25' },
+    ],
+    extraFaq: [
+      {
+        question: 'Is conception date the same as ovulation date?',
+        answer:
+          'This calculator places the estimated conception date near ovulation because fertilization can only happen after an egg is released. Sex and conception are not always the same day because sperm can survive for several days before ovulation.',
+      },
+      {
+        question: 'Can this tell when I got pregnant exactly?',
+        answer:
+          'No. It is a calendar estimate from cycle assumptions. Ovulation can come earlier or later than expected, fertilization timing can vary, and many people do not have the same cycle every month.',
+      },
+      {
+        question: 'Can this answer questions about two possible fathers?',
+        answer:
+          'No. Calendar math cannot prove parentage or separate close dates. If biological parentage matters, use appropriate medical or legal testing and professional guidance.',
+      },
+      {
+        question: 'What if I only know the due date?',
+        answer:
+          'Use the Pregnancy Conception Calculator instead. This Conception Calculator starts from LMP and cycle length, while the Pregnancy Conception Calculator works backward from an expected due date.',
+      },
     ],
     relatedSlugs: ['ovulation-calculator', 'pregnancy-conception-calculator', 'due-date-calculator'],
   }),

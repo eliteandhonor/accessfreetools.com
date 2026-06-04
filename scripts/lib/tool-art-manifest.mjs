@@ -136,6 +136,18 @@ const toolArtMetadataOverrides = {
         'Pregnancy Conception Calculator guide artwork supports the walkthrough for due-date backward math, exact examples, conception-window limits, estimated LMP, and parentage-proof cautions.',
     },
   },
+  'conception-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking LMP Apr 1, 2026, 28-day cycle, luteal 14, conception Apr 15, fertile window Apr 10-Apr 15, and next period Apr 29 cards.',
+      caption:
+        'Conception Calculator artwork matches the live workflow: enter LMP, cycle length, and luteal phase, then estimate conception date, fertile window, and next period with cycle-uncertainty cautions.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining conception cycle math with LMP plus cycle length, next period, minus luteal phase, Apr 15 conception estimate, fertile window, and proof-limit cards.',
+      caption:
+        'Conception Calculator guide artwork supports the walkthrough for LMP-based cycle math, luteal-phase assumptions, fertile-window reading, exact examples, and parentage-proof limits.',
+    },
+  },
   'healthy-weight-calculator': {
     tool: {
       alt: 'Smoke mascot checking a healthy weight range with 170 cm, BMI 18.5-24.9, 53.47 kg, 71.96 kg, and adult-screening cards.',

@@ -819,30 +819,33 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'conception-calculator': {
-    summary: 'Learn how cycle details estimate conception timing and why the date is approximate.',
+    summary: 'Learn how LMP, cycle length, and luteal phase estimate conception timing and fertile window.',
     purpose:
-      'The Conception Calculator estimates ovulation-based conception timing from last period, cycle length, and luteal phase.',
+      'The Conception Calculator estimates ovulation-based conception timing, fertile window, and next period from last period, cycle length, and luteal phase.',
     enter: [
-      'Enter the first day of the last period and usual cycle length.',
-      'Use luteal phase only if you know it; otherwise keep the default.',
-      'Read the fertile window beside the estimated conception date.',
+      'Enter the first day of the last period, not the last day bleeding occurred.',
+      'Enter the usual cycle length from one period start to the next period start.',
+      'Use luteal phase only if you know it; otherwise keep the 14-day default and read the result as a rough calendar estimate.',
     ],
     example: [
-      'For a typical 28-day cycle, the calculator estimates ovulation near day 14.',
-      'The estimated conception date is placed near ovulation, with a wider window for uncertainty.',
+      'For LMP Apr 1, 2026, a 28-day cycle, and a 14-day luteal phase, the calculator estimates conception around Apr 15, 2026.',
+      'It shows Apr 10-Apr 15 as the fertile window and Apr 29, 2026 as the next expected period.',
     ],
     read: [
-      'Conception timing is a range because ovulation, sperm survival, and fertilization timing vary.',
-      'A due-date-based estimate and a cycle-based estimate can differ.',
+      'Read the center date as an ovulation-based estimate, not proof of the exact day conception happened.',
+      'The fertile window is more useful than one date because sperm can survive for several days, the egg survives for about a day after ovulation, and ovulation can shift.',
+      'A due-date-based estimate and a cycle-based estimate can differ, especially when cycles are irregular or the due date came from ultrasound or clinician review.',
     ],
     mistakes: [
-      'Do not treat the date as proof of exactly when conception happened.',
-      'Do not use the tool when cycles are highly irregular without expecting uncertainty.',
+      'Do not treat the date as proof of exactly when conception happened or when intercourse happened.',
+      'Do not use the result to decide biological parentage, legal questions, or medical care.',
+      'Do not use the tool when cycles are highly irregular without expecting a wider uncertainty window.',
       'Do not confuse LMP date with ovulation date.',
     ],
     next: [
       'Use Ovulation Calculator for fertile-window planning.',
       'Use Pregnancy Conception Calculator when you only know the due date.',
+      'Use Due Date Calculator if you want to start from LMP and estimate an expected due date.',
     ],
   },
   'period-calculator': {

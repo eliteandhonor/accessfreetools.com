@@ -4741,20 +4741,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'conception-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-04',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
-    sources: [johnsHopkinsFertileWindow, johnsHopkinsDueDate],
+    sources: [johnsHopkinsFertileWindow, acogDueDateMethods, johnsHopkinsDueDate],
     findings: [
-      'The calculator estimates conception timing from last period, cycle length, and luteal-phase assumptions.',
-      'The guide says conception timing is approximate because ovulation, sperm survival, fertilization, and implantation do not follow a fixed clock.',
-      'The related-tool path properly points users to ovulation, pregnancy conception, and due date calculators for different starting information.',
+      'The calculator estimates next period from LMP plus cycle length, then estimates ovulation or conception as next period minus luteal phase length.',
+      'The guide explains that conception timing is approximate because ovulation can shift, sperm can survive for several days, the egg survives for about a day after ovulation, and fertilization timing is not a fixed clock.',
+      'The related-tool path properly points users to ovulation, pregnancy conception, and due date calculators depending on whether they start from cycle data or an expected due date.',
     ],
     improvements: [
-      'Manually checked cycle-based conception logic, fertile-window wording, examples, FAQ cautions, source coverage, related tools, SEO copy, privacy behavior, and calendar labels.',
+      'Reworked metadata, examples, FAQ answers, guide language, source-backed audit notes, modified dates, and art alt/caption text around exact LMP Apr 1, 2026, Apr 15 conception estimate, Apr 10-Apr 15 fertile window, next-period output, irregular-cycle cautions, due-date handoff, and parentage-proof limits.',
     ],
     followUps: [
-      'Revisit if a dedicated irregular-cycle guide is added, because irregular cycles need stronger uncertainty wording.',
+      'Revisit if a dedicated irregular-cycle or ovulation-test guide is added, because irregular cycles and confirmed ovulation data need stronger uncertainty and input-choice guidance.',
     ],
   },
   {
