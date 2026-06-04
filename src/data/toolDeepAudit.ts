@@ -7337,20 +7337,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'bandwidth-calculator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-04',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
     sources: [nistSi, googleHelpfulContent],
     findings: [
-      'The bandwidth helper converts decimal KB/MB/GB/TB to bits, converts Kbps/Mbps/Gbps to bits per second, then divides for transfer time.',
-      'Tests cover 5 GB at 100 Mbps returning 400 seconds.',
-      'The guide explains bits versus bytes and warns that Wi-Fi, congestion, server limits, and overhead can slow real transfers.',
+      'The bandwidth helper converts decimal KB/MB/GB/TB to bits, converts Kbps/Mbps/Gbps to bits per second, then divides total bits by bits per second for transfer time.',
+      'The page now makes the 5 GB at 100 Mbps example explicit: 40,000,000,000 bits divided by 100,000,000 bits per second equals 400 seconds, or about 6 minutes 40 seconds.',
+      'The FAQ explains bits versus bytes, upload versus download speed, decimal versus binary file-unit differences, and why Wi-Fi, congestion, server limits, throttling, retries, and overhead can slow real transfers.',
     ],
     improvements: [
-      'Manually checked transfer-time formula, decimal unit wording, seconds/minutes/hours output, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Reworked SEO title and description, aliases, input explanations, exact examples, FAQ depth, related links, modified date, and tool art alt/caption text around 5 GB at 100 Mbps, 700 MB at 25 Mbps, 50 GB at 20 Mbps, decimal units, and browser-only privacy.',
     ],
     followUps: [
-      'Add binary KiB/MiB/GiB units only if the UI makes decimal versus binary impossible to miss.',
+      'Add binary KiB/MiB/GiB units only if the UI makes decimal versus binary impossible to miss and keeps the guide examples separate.',
     ],
   },
   {

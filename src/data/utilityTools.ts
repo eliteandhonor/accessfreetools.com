@@ -6183,11 +6183,21 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate file transfer time from data size and network bandwidth.',
     description:
       'Use this free bandwidth calculator to estimate how long a file transfer takes from KB, MB, GB, or TB and Kbps, Mbps, or Gbps.',
+    seoTitle: 'Bandwidth Calculator | File Transfer Time',
+    seoDescription:
+      'Estimate download or upload time from file size and bandwidth. Convert KB, MB, GB, or TB with Kbps, Mbps, or Gbps and read real-world limits.',
     icon: 'calculator-bandwidth',
+    aliases: ['File Transfer Time Calculator', 'Data Transfer Calculator', 'Internet Bandwidth Calculator'],
     formula:
-      'The calculator converts data size to bits, converts speed to bits per second, then divides bits by bits per second for transfer time.',
+      'The calculator treats KB, MB, GB, and TB as decimal data-size units, converts bytes to bits by multiplying by 8, converts Kbps, Mbps, or Gbps to bits per second, then divides total bits by bits per second for transfer time.',
     limit:
-      'Real transfer time depends on Wi-Fi, server speed, congestion, overhead, protocol limits, and whether units are decimal or binary.',
+      'Real transfer time depends on Wi-Fi, server speed, upload caps, congestion, packet overhead, throttling, retries, and whether another app is sharing the connection.',
+    inputExplanations: [
+      { term: 'Data size', meaning: 'the file, backup, media, or transfer size you want to estimate.' },
+      { term: 'Data unit', meaning: 'the size unit for that amount. The calculator uses decimal KB, MB, GB, and TB.' },
+      { term: 'Bandwidth', meaning: 'the usable connection speed for the transfer, not always the advertised plan speed.' },
+      { term: 'Speed unit', meaning: 'Kbps, Mbps, or Gbps. Network speed is usually written in bits per second, not bytes per second.' },
+    ],
     useCases: [
       'Estimate download or upload time.',
       'Compare file sizes against connection speed.',
@@ -6196,10 +6206,37 @@ export const utilityTools: ToolDefinition[] = [
     ],
     examples: [
       { label: 'Large download', expression: '5 GB at 100 Mbps', result: 'About 6m 40s' },
-      { label: 'Medium file', expression: '700 MB at 25 Mbps', result: 'Transfer time estimate' },
-      { label: 'Backup upload', expression: '50 GB at 20 Mbps', result: 'Long transfer estimate' },
+      { label: 'Medium file', expression: '700 MB at 25 Mbps', result: 'About 3m 44s' },
+      { label: 'Backup upload', expression: '50 GB at 20 Mbps', result: 'About 5h 33m 20s' },
     ],
-    relatedSlugs: ['subnet-calculator', 'base64-encode-decode', 'url-encode-decode'],
+    extraFaq: [
+      {
+        question: 'Why does 5 GB at 100 Mbps take about 6 minutes 40 seconds?',
+        answer:
+          'The calculator converts 5 GB to 40,000,000,000 bits, then divides by 100,000,000 bits per second. That gives 400 seconds, which is about 6 minutes and 40 seconds before real-world slowdowns.',
+      },
+      {
+        question: 'Are Mbps and MB/s the same thing?',
+        answer:
+          'No. Mbps means megabits per second. MB/s means megabytes per second. One byte is 8 bits, so 100 Mbps is about 12.5 MB/s before overhead.',
+      },
+      {
+        question: 'Can I use this for upload time too?',
+        answer:
+          'Yes, if you enter your real upload speed. Many home plans have much lower upload bandwidth than download bandwidth, so a cloud backup can take far longer than a normal download.',
+      },
+      {
+        question: 'Why might my real transfer take longer?',
+        answer:
+          'Transfers can slow down because of Wi-Fi signal, server limits, router load, VPNs, packet overhead, congestion, throttling, retries, or other devices using the same connection.',
+      },
+      {
+        question: 'Does this use decimal or binary file units?',
+        answer:
+          'This calculator uses decimal units, where 1 GB is 1,000 MB. Some operating systems and storage tools use binary-style units behind the scenes, so exact file-manager numbers can differ slightly.',
+      },
+    ],
+    relatedSlugs: ['download-time-calculator', 'internet-speed-needs-calculator', 'streaming-bitrate-calculator'],
   }),
   makeUtilityTool({
     slug: 'gdp-calculator',

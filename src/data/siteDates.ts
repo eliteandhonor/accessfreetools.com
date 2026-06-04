@@ -147,6 +147,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'oven-temperature-converter': '2026-05-26',
   'image-to-text-ocr-tool': '2026-05-26',
   'gdp-calculator': '2026-05-26',
+  'bandwidth-calculator': '2026-06-04',
   'wallpaper-calculator': '2026-05-26',
   'watts-to-amps-calculator': '2026-06-02',
   'brick-calculator': '2026-06-02',

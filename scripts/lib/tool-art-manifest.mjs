@@ -88,6 +88,13 @@ const toolArtMetadataOverrides = {
         'Body Type Calculator guide artwork supports the walkthrough for top measurement, hip difference, waist definition, exact example outcomes, and style-only body-shape limits.',
     },
   },
+  'bandwidth-calculator': {
+    tool: {
+      alt: 'Smoke mascot timing a 5 GB file transfer at 100 Mbps with 400 seconds, 6 minutes 40 seconds, bits versus bytes, and Wi-Fi slowdown cards.',
+      caption:
+        'Bandwidth Calculator artwork matches the live workflow: enter data size and network speed, convert bytes to bits, estimate transfer time, and keep Wi-Fi, upload caps, server limits, and overhead in mind.',
+    },
+  },
   'lean-body-mass-calculator': {
     tool: {
       alt: 'Smoke mascot checking a Boer lean body mass estimate with formula sex, 180 cm, 82 kg, 62.23 kg LBM, fat mass, and lean percent cards.',
