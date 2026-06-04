@@ -5349,6 +5349,16 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     summary: 'Learn how to convert UTC dates to Unix timestamps and timestamps back to UTC time.',
     purpose:
       'The Unix Timestamp Converter is for log, API, database, and developer work where time is stored as a count from the Unix epoch. It uses UTC so the conversion does not silently depend on the viewer’s local time zone.',
+    intro:
+      'Start with a UTC instant, not a local calendar guess. Use date mode when you are preparing a value for logs or APIs, and use timestamp mode when you are checking stored epoch seconds or milliseconds.',
+    inputMatch:
+      'the UTC date, UTC time, timestamp number, and selected seconds-or-milliseconds unit your log, API, database, or browser code actually uses.',
+    logicNote:
+      'For example, 2026-04-30 12:00 UTC becomes 1777464000 Unix seconds or 1777464000000 milliseconds. Converting either value back should land on 2026-04-30T12:00:00.000Z.',
+    readIntro:
+      'Read the seconds, milliseconds, and UTC ISO lines together. Copy the unit your system expects instead of treating the two timestamp lengths as interchangeable.',
+    mistakeIntro:
+      'Most timestamp bugs are unit or time-zone bugs, so check those two things before changing the date itself.',
     enter: [
       'Use Date to timestamp mode when you have a UTC date and time.',
       'Use Timestamp to date mode when you have Unix seconds or milliseconds.',
@@ -5364,7 +5374,27 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not enter local time unless you have already converted it to UTC.',
       'Check application-specific time-zone rules before scheduling real events.',
     ],
-    sources: [sourceLinks.mdnDate, sourceLinks.isoDate],
+    extraSections: [
+      {
+        title: 'One quick UTC walkthrough',
+        paragraphs: [
+          'Enter 2026-04-30 and 12:00 in date mode. The converter reads that as noon UTC, counts from 1970-01-01T00:00:00Z, and returns 1777464000 seconds.',
+          'If another system gives you 1777464000000 milliseconds, switch to timestamp mode, choose milliseconds, and confirm that the ISO result is 2026-04-30T12:00:00.000Z.',
+        ],
+        bullets: [
+          'A 10-digit modern timestamp is usually seconds.',
+          'A 13-digit modern timestamp is usually milliseconds.',
+          'The same instant can display as another clock time after an app applies a local time zone.',
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Unix Timestamp Converter beside this guide. Try the 2026-04-30 noon UTC example first, then switch to timestamp mode and compare seconds with milliseconds.',
+    bestUsesIntro:
+      'Use this guide when a log, API response, database field, or JavaScript Date value needs a UTC sanity check before you copy the timestamp somewhere else.',
+    referenceIntro:
+      'These references help check JavaScript UTC date behavior, time definitions, and ISO 8601 timestamp formatting used by the guide.',
+    sources: [sourceLinks.mdnDate, sourceLinks.nistTime, sourceLinks.isoDate],
   },
   'color-contrast-checker': {
     summary: 'Learn how to compare two colors with the WCAG contrast ratio formula.',

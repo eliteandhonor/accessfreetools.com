@@ -7097,7 +7097,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The visible FAQ separates UTC timestamp math, seconds versus milliseconds, local time-zone display, and scheduling limits.',
     ],
     improvements: [
-      'Refreshed the SEO title/meta copy, UTC conversion formula, input explanations, exact examples, visible FAQ detail, source coverage, last-modified date, and local privacy wording for the tool page.',
+      'Refreshed the SEO title/meta copy, UTC conversion formula, input explanations, exact examples, visible FAQ detail, source coverage, last-modified dates, local privacy wording, and matching guide walkthrough for the timestamp pages.',
     ],
     followUps: [
       'Add ISO string parsing later only with strict invalid-date errors and tests.',
