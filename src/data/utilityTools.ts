@@ -7016,13 +7016,61 @@ export const utilityTools: ToolDefinition[] = [
     category: 'developer-tools',
     summary: 'Generate CSS clamp formulas for fluid font sizes, spacing, and responsive layout values.',
     description:
-      'Use this free CSS clamp calculator to create a responsive clamp() formula from minimum size, maximum size, and viewport range.',
+      'Use this free CSS clamp calculator to create a copy-ready responsive clamp() formula from minimum size, maximum size, viewport range, and root font size.',
     icon: 'tool-css-clamp',
     aliases: ['Fluid Typography Calculator', 'CSS Fluid Type Calculator', 'Clamp Generator'],
+    seoTitle: 'CSS Clamp Calculator | Fluid Type Formula Tool',
+    seoDescription:
+      'Generate a CSS clamp() formula for fluid typography, spacing, or layout values from min/max sizes, viewport range, and root font size.',
     formula:
-      'The calculator finds a viewport-based slope, calculates the rem intercept, then formats clamp(minimum, calc(intercept + vw), maximum).',
+      'Slope = (maximum size - minimum size) / (maximum viewport - minimum viewport) * 100. Intercept px = minimum size - slope * minimum viewport / 100. The calculator converts minimum size, intercept, and maximum size to rem with the root font size, then formats clamp(minRem, calc(interceptRem + slopevw), maxRem).',
     limit:
-      'Clamp formulas control numeric scaling only. Real layouts still need checks for text wrapping, readability, tap targets, and container width.',
+      'Clamp formulas control numeric scaling only. Real layouts still need browser checks for text wrapping, readability, zoom, root font-size changes, tap targets, and container width.',
+    inputExplanations: [
+      { term: 'Minimum size', meaning: 'The smallest value you want the CSS property to use, usually the mobile size in pixels.' },
+      { term: 'Maximum size', meaning: 'The largest value you want the CSS property to use, usually the desktop size in pixels.' },
+      { term: 'Minimum viewport', meaning: 'The viewport width where the value should stop shrinking.' },
+      { term: 'Maximum viewport', meaning: 'The viewport width where the value should stop growing.' },
+      { term: 'Root font size', meaning: 'The px value used to convert px values into rem. The browser default is usually 16px.' },
+      { term: 'Middle size', meaning: 'A quick midpoint check so you can see whether the scale feels reasonable before copying the CSS.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does CSS clamp() do?',
+        answer:
+          'CSS clamp() keeps a value between a minimum and a maximum. The middle value can be fluid, so a heading, spacing token, or layout value can grow with the viewport without extra media queries.',
+      },
+      {
+        question: 'Why does the preferred value use rem plus vw?',
+        answer:
+          'The vw part creates the viewport-based growth. The rem intercept anchors the line so the formula lands on your chosen minimum size at the minimum viewport and your chosen maximum size at the maximum viewport.',
+      },
+      {
+        question: 'Should I use px, rem, or vw in the final CSS?',
+        answer:
+          'This calculator asks for pixel inputs because design specs often use pixels, then returns rem endpoints and a rem-plus-vw preferred value. That keeps the formula friendlier to root font-size changes while still matching your design numbers.',
+      },
+      {
+        question: 'What viewport range should I choose?',
+        answer:
+          'Use the width range where you actually want the value to scale. A common pattern is a mobile width such as 360px or 375px and a desktop width such as 1200px, 1280px, or 1440px.',
+      },
+      {
+        question: 'Can I use this for spacing, not only font-size?',
+        answer:
+          'Yes. clamp() can work for font-size, margin, padding, gaps, widths, and other numeric CSS values. For spacing, still check small screens so the fluid value does not crowd content.',
+      },
+      {
+        question: 'Why can text still wrap badly after using clamp()?',
+        answer:
+          'clamp() only controls the numeric size. Long words, narrow containers, line height, font choice, and content length can still create awkward wrapping, so check the real component in a browser.',
+      },
+      {
+        question: 'Is this the same as container queries?',
+        answer:
+          'No. This formula scales with viewport width because it uses vw. Container queries respond to a component container. Use browser testing or container-query CSS when the component width matters more than the full viewport.',
+      },
+    ],
     useCases: [
       'Create fluid heading sizes that grow between mobile and desktop widths.',
       'Generate responsive spacing values without writing several media queries.',
@@ -7030,9 +7078,21 @@ export const utilityTools: ToolDefinition[] = [
       'Compare the middle size before placing the formula in a stylesheet.',
     ],
     examples: [
-      { label: 'Responsive heading', expression: '32px to 64px from 360px to 1280px', result: 'CSS clamp() formula' },
-      { label: 'Body text', expression: '16px to 20px from 375px to 1200px', result: 'Small fluid type rule' },
-      { label: 'Section padding', expression: '24px to 72px from 360px to 1440px', result: 'Fluid spacing formula' },
+      {
+        label: 'Responsive heading',
+        expression: '32px to 64px from 360px to 1280px, root 16px',
+        result: 'clamp(2rem, calc(1.217391rem + 3.478261vw), 4rem)',
+      },
+      {
+        label: 'Body text',
+        expression: '16px to 20px from 375px to 1200px, root 16px',
+        result: 'clamp(1rem, calc(0.886364rem + 0.484848vw), 1.25rem)',
+      },
+      {
+        label: 'Section padding',
+        expression: '24px to 72px from 360px to 1440px, root 16px',
+        result: 'clamp(1.5rem, calc(0.5rem + 4.444444vw), 4.5rem)',
+      },
     ],
     relatedSlugs: ['color-contrast-checker', 'aspect-ratio-calculator', 'markdown-table-generator'],
   }),

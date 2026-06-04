@@ -124,6 +124,18 @@ const toolArtMetadataOverrides = {
         'URL Encode / Decode guide artwork supports the walkthrough for component values, percent triplets, %20 versus plus spaces, double-encoding, and full-URL mistakes.',
     },
   },
+  'css-clamp-calculator': {
+    tool: {
+      alt: 'Smoke mascot building a CSS clamp formula with 32px to 64px, 360px to 1280px, clamp(2rem, calc(1.217391rem + 3.478261vw), 4rem), slope, intercept, and middle-size cards.',
+      caption:
+        'CSS Clamp Calculator artwork matches the live workflow: enter min and max sizes, viewport range, and root font size, then copy a clamp() formula with slope, intercept, and middle-size checks.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining CSS clamp guide math with 32px to 64px, 360px to 1280px, slope 3.478261vw, intercept 1.217391rem, and browser wrapping check cards.',
+      caption:
+        'CSS Clamp Calculator guide artwork supports the walkthrough for fluid type math, rem conversion, viewport ranges, exact clamp examples, and real browser layout checks.',
+    },
+  },
   'lean-body-mass-calculator': {
     tool: {
       alt: 'Smoke mascot checking a Boer lean body mass estimate with formula sex, 180 cm, 82 kg, 62.23 kg LBM, fat mass, and lean percent cards.',

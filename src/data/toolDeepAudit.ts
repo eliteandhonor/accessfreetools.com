@@ -7662,20 +7662,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'css-clamp-calculator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-04',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
     sources: [mdnCssClamp, wcagContrast],
     findings: [
-      'The CSS clamp helper calculates viewport slope, rem intercept, min/max rem values, and a copy-ready clamp formula.',
-      'Tests cover the expected clamp string and middle-size output.',
-      'The guide warns users to check text wrapping, line length, tap targets, readability, and real container widths after generating CSS.',
+      'The CSS clamp helper calculates viewport slope, rem intercept, min/max rem values, and a copy-ready clamp formula from min size, max size, viewport range, and root font size.',
+      'The page now shows exact formulas for responsive heading, body text, and section padding examples, including clamp(2rem, calc(1.217391rem + 3.478261vw), 4rem).',
+      'The FAQ and input notes explain rem plus vw, viewport range choices, spacing use, browser wrapping checks, zoom/root-font-size cautions, and how viewport-based clamp differs from container queries.',
     ],
     improvements: [
-      'Manually checked clamp formula math, viewport guardrails, rem conversion, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Updated SEO title and description, formula notes, input explanations, exact examples, FAQ coverage, tool art metadata, lastmod date, DataForSEO paid sprint evidence, competitor gap evidence, and workbench readiness checks.',
     ],
     followUps: [
-      'Add preview swatches only if they do not create a bulky tool UI.',
+      'Add preview swatches only if they remain compact and preserve the fast calculator workflow.',
     ],
   },
   {
