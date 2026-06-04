@@ -7673,6 +7673,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     improvements: [
       'Updated SEO title and description, formula notes, input explanations, exact examples, FAQ coverage, tool art metadata, lastmod date, DataForSEO paid sprint evidence, competitor gap evidence, and workbench readiness checks.',
+      'Updated the matching guide with exact 32px-to-64px clamp math, formula-part explanations, spacing examples, browser-check limits, contextual related links, source links, and modified date evidence.',
     ],
     followUps: [
       'Add preview swatches only if they remain compact and preserve the fast calculator workflow.',

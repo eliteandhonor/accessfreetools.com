@@ -5411,25 +5411,93 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.googleHelpfulContent],
   },
   'css-clamp-calculator': {
+    title: 'CSS Clamp Calculator Guide',
     summary: 'Learn how to make fluid CSS sizes with a clamp formula you can copy into a stylesheet.',
+    metaDescription:
+      'Use the CSS Clamp Calculator guide to enter min/max sizes, viewport range, and root font size, then copy and check a fluid clamp() formula.',
     purpose:
       'The CSS Clamp Calculator turns a minimum size, maximum size, and viewport range into a clamp() formula. This is useful for headings, spacing, and other responsive values that should grow smoothly between mobile and desktop widths.',
+    intro:
+      'Start with one real design decision, such as making an h1 32px on small screens and 64px on wide screens. The guide below shows what to enter, what the formula means, and what to test before you ship it.',
+    inputMatch:
+      'the minimum size, maximum size, minimum viewport, maximum viewport, and root font size from the same CSS design decision',
+    logicNote:
+      'For 32px to 64px across 360px to 1280px with a 16px root font size, the tool returns clamp(2rem, calc(1.217391rem + 3.478261vw), 4rem). At the middle of that viewport range, the value is about 48px, so the formula is easy to sanity-check before copying.',
+    readIntro:
+      'Copy the clamp() line first, then check the slope, intercept, and middle size. If the middle size feels too large or too small, change the min/max sizes or viewport range before adding the rule to CSS.',
+    mistakeIntro:
+      'Most bad clamp formulas come from using a viewport range that does not match the layout, forgetting the root font size, or trusting the number before checking real text wrapping in the component.',
+    bestUsesIntro:
+      'Best when you already know the mobile size, desktop size, and viewport range you want to scale across.',
+    referenceIntro:
+      'These references help check the CSS clamp() function and the readability/accessibility context behind the browser checks in this guide.',
     enter: [
-      'Enter the smallest size and largest size in pixels.',
-      'Enter the viewport width where scaling should start and stop.',
-      'Use your site root font size so the rem output matches your CSS setup.',
+      'Enter the smallest size and largest size in pixels, such as 32px and 64px for a fluid heading.',
+      'Enter the viewport width where scaling should start and stop, such as 360px and 1280px.',
+      'Use your site root font size, usually 16px unless your CSS changes html font-size.',
     ],
     read: [
-      'The main answer is the clamp() formula.',
-      'Slope explains the vw part of the formula.',
+      'The main answer is the clamp() formula to copy into CSS.',
+      'Slope explains the vw part of the formula, which is the part that grows with viewport width.',
+      'Intercept is the rem anchor that makes the preferred value hit your chosen min and max points.',
       'Middle size shows the approximate value halfway through the viewport range.',
     ],
     mistakes: [
       'Do not assume fluid type fixes every responsive design issue.',
-      'Check text wrapping, line length, and tap targets on real viewport sizes.',
+      'Do not use 100vw scaling when the component lives in a much narrower container unless you have tested that layout.',
+      'Do not forget to update root font size if your project changes the browser default.',
+      'Check text wrapping, line length, zoom behavior, and tap targets on real viewport sizes.',
       'Keep minimum and maximum sizes readable instead of scaling purely for visual drama.',
     ],
-    sources: [sourceLinks.mdnCssClamp],
+    extraSections: [
+      {
+        title: 'Quick example',
+        paragraphs: [
+          'Say your h1 should be 32px on a 360px phone layout and 64px on a 1280px desktop layout. With a 16px root font size, enter 32, 64, 360, 1280, and 16.',
+          'The calculator returns clamp(2rem, calc(1.217391rem + 3.478261vw), 4rem). That means the browser never goes below 2rem, grows through the rem-plus-vw middle value, and stops at 4rem.',
+        ],
+      },
+      {
+        title: 'What the formula parts mean',
+        paragraphs: [
+          'The first value is the floor. The last value is the ceiling. The middle value is the fluid part that grows as the viewport gets wider.',
+        ],
+        bullets: [
+          '2rem is the 32px minimum when the root font size is 16px.',
+          '3.478261vw is the viewport-based slope.',
+          '1.217391rem is the intercept that keeps the line aligned with the min and max points.',
+          '4rem is the 64px maximum.',
+        ],
+      },
+      {
+        title: 'Use it for spacing too',
+        paragraphs: [
+          'clamp() is not only for font-size. You can use the same idea for padding, margin, gaps, and other CSS values that should grow gently.',
+          'For example, 24px to 72px from 360px to 1440px with a 16px root gives clamp(1.5rem, calc(0.5rem + 4.444444vw), 4.5rem). For spacing, check small screens carefully so the formula does not crowd the content.',
+        ],
+      },
+      {
+        title: 'Browser checks before shipping',
+        paragraphs: [
+          'After you copy the formula, test the real component instead of only trusting the calculator. Resize the browser, zoom the page, and try the longest heading or label that might appear.',
+          'If the text wraps badly, the issue may be container width, line height, font choice, or content length. The clamp formula controls size, not the whole layout.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'When the formula is ready, check the surrounding design too. Fluid text still needs enough contrast, and layout media often needs a stable aspect ratio.',
+        ],
+        links: [
+          { href: '/tools/css-clamp-calculator/', label: 'Open the CSS Clamp Calculator' },
+          { href: '/tools/color-contrast-checker/', label: 'Check text color contrast' },
+          { href: '/tools/aspect-ratio-calculator/', label: 'Scale a width or height with the same ratio' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the CSS Clamp Calculator beside this guide. Try the 32px to 64px heading example first, then replace the sizes and viewport range with your own design values.',
+    sources: [sourceLinks.mdnCssClamp, sourceLinks.wcagContrast],
   },
   'ai-token-cost-calculator': {
     summary: 'Learn how input tokens, output tokens, request count, and current model prices turn into an AI usage estimate.',
