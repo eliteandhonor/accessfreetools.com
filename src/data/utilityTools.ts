@@ -6920,10 +6920,49 @@ export const utilityTools: ToolDefinition[] = [
       'Use this free Unix timestamp converter to convert UTC date-time values into Unix seconds and milliseconds or convert timestamps back to UTC ISO time.',
     icon: 'tool-timestamp',
     aliases: ['Epoch Converter', 'Timestamp Converter', 'Unix Time Converter'],
+    seoTitle: 'Unix Timestamp Converter | UTC Epoch Seconds & Milliseconds',
+    seoDescription:
+      'Convert UTC dates to Unix seconds or milliseconds, turn epoch timestamps back into ISO time, and catch seconds-vs-milliseconds mistakes.',
     formula:
-      'Date mode counts seconds and milliseconds since 1970-01-01T00:00:00Z. Timestamp mode reverses that count back to UTC date and time.',
+      'Date mode reads the entered date and clock time as UTC, uses Date.UTC to count milliseconds since 1970-01-01T00:00:00Z, then divides by 1,000 for Unix seconds. Timestamp mode reverses that by multiplying seconds by 1,000 or reading milliseconds directly before displaying the UTC ISO time.',
     limit:
-      'The converter uses UTC on purpose. Local time zones, daylight saving time, and application storage rules can change how a timestamp appears elsewhere.',
+      'The converter uses UTC on purpose. It does not guess your local time zone, daylight-saving rules, database storage format, or event-scheduling rules, so the same timestamp can appear as a different wall-clock time in another app.',
+    faqLanguage: {
+      expectedInputs: 'a UTC date and time, or a numeric Unix timestamp with the seconds or milliseconds unit selected',
+      inputFallback:
+        'Enter a UTC date and time when converting to a timestamp. Enter the timestamp digits and choose seconds or milliseconds when converting back to a date.',
+      examplePhrase: 'UTC timestamp example',
+      doubleCheck:
+        'Check the mode, confirm the time is already in UTC, and make sure you did not paste a millisecond timestamp while seconds is selected.',
+      privacy:
+        'Yes. The conversion runs in your browser tab with JavaScript date math, so the timestamp value does not need to be sent to a server.',
+    },
+    inputExplanations: [
+      {
+        term: 'Date to timestamp mode',
+        meaning: 'Use this when you have a UTC calendar date and UTC clock time and need Unix seconds plus milliseconds.',
+      },
+      {
+        term: 'Timestamp to date mode',
+        meaning: 'Use this when you have a stored epoch value and need to read the matching UTC date-time.',
+      },
+      {
+        term: 'UTC date',
+        meaning: 'The calendar date is read as UTC, not as your computer or phone time zone.',
+      },
+      {
+        term: 'UTC time',
+        meaning: 'The clock time is read as UTC. Convert local times to UTC first when the source time came from a local schedule.',
+      },
+      {
+        term: 'Timestamp',
+        meaning: 'Enter the epoch number only. Unix seconds are usually 10 digits for modern dates, while JavaScript-style milliseconds are usually 13 digits.',
+      },
+      {
+        term: 'Unit',
+        meaning: 'Choose seconds for compact Unix timestamps and milliseconds for JavaScript Date-style values.',
+      },
+    ],
     useCases: [
       'Convert a UTC date and time into Unix seconds for logs or APIs.',
       'Convert Unix seconds or milliseconds into an ISO UTC timestamp.',
@@ -6931,9 +6970,36 @@ export const utilityTools: ToolDefinition[] = [
       'Compare date-time values without local time-zone ambiguity.',
     ],
     examples: [
-      { label: 'Date to seconds', expression: '2026-04-30 12:00 UTC', result: 'Unix seconds' },
-      { label: 'Milliseconds', expression: '1777464000000 ms', result: 'UTC ISO date-time' },
-      { label: 'Unix epoch', expression: '0 seconds', result: '1970-01-01T00:00:00Z' },
+      { label: 'Date to seconds', expression: '2026-04-30 12:00 UTC', result: '1777464000 seconds' },
+      { label: 'Milliseconds', expression: '1777464000000 ms', result: '2026-04-30T12:00:00.000Z' },
+      { label: 'Unix epoch', expression: '0 seconds', result: '1970-01-01T00:00:00.000Z' },
+    ],
+    extraFaq: [
+      {
+        question: 'Are Unix timestamps seconds or milliseconds?',
+        answer:
+          'Both show up in real tools. Unix timestamp usually means seconds since the Unix epoch, while JavaScript Date values use milliseconds. For example, 1777464000 seconds and 1777464000000 milliseconds point to the same UTC instant.',
+      },
+      {
+        question: 'Does this converter use my local time zone?',
+        answer:
+          'No. It treats the date and time fields as UTC and displays converted timestamps as UTC ISO time. A local app can display the same instant differently after applying its own time-zone rules.',
+      },
+      {
+        question: 'What is the Unix epoch?',
+        answer:
+          'The Unix epoch is 1970-01-01T00:00:00.000Z. A timestamp of 0 seconds means that exact UTC instant, and positive values count forward from there.',
+      },
+      {
+        question: 'Why is my converted time off by hours?',
+        answer:
+          'The usual causes are using local time as if it were UTC, choosing seconds when the value is milliseconds, or reading the result in an app that applies a local time zone or daylight-saving rule.',
+      },
+      {
+        question: 'Can this schedule an event in a local time zone?',
+        answer:
+          'Not by itself. This converter shows one UTC instant. Scheduling real events needs the intended local time zone, daylight-saving behavior, recurrence rules, and the application rules that store or display the event.',
+      },
     ],
     relatedSlugs: ['time-zone-calculator', 'date-calculator', 'day-of-the-week-calculator'],
   }),

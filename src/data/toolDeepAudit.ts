@@ -7087,17 +7087,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'unix-timestamp-converter',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-tool-review-unix-timestamp-converter-tool-2026-06-04',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
-    sources: [nistTimeDefinitions, mdnDate],
+    sources: [isoDate, nistTimeDefinitions, mdnDate],
     findings: [
       'The timestamp helper converts UTC date and time to Unix seconds and back from seconds or milliseconds.',
-      'Tests cover round-tripping a timestamp to a date result.',
-      'The FAQ separates UTC timestamp math from local time display so users do not mistake offsets for changed instants.',
+      'Tests cover round-tripping a timestamp to a date result, and the refreshed examples use exact deterministic UTC outputs.',
+      'The visible FAQ separates UTC timestamp math, seconds versus milliseconds, local time-zone display, and scheduling limits.',
     ],
     improvements: [
-      'Manually checked Unix timestamp conversion wording, seconds versus milliseconds labels, examples, generated FAQ detail, guide coverage, source coverage, and privacy behavior.',
+      'Refreshed the SEO title/meta copy, UTC conversion formula, input explanations, exact examples, visible FAQ detail, source coverage, last-modified date, and local privacy wording for the tool page.',
     ],
     followUps: [
       'Add ISO string parsing later only with strict invalid-date errors and tests.',
