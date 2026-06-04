@@ -7142,10 +7142,56 @@ export const utilityTools: ToolDefinition[] = [
       'Use this free UTM builder to add campaign tracking parameters to a URL, preserve existing query values, and copy a clean analytics-ready link.',
     icon: 'tool-utm',
     aliases: ['Campaign URL Builder', 'UTM Link Builder', 'Google Analytics URL Builder'],
+    seoTitle: 'UTM Builder | Campaign URL Generator',
+    seoDescription:
+      'Build campaign URLs with utm_source, utm_medium, utm_campaign, optional content and term fields, and existing query parameters preserved.',
     formula:
-      'The builder validates the base URL, keeps existing query parameters, then sets utm_source, utm_medium, utm_campaign, and optional UTM fields.',
+      'The builder validates an http or https base URL, keeps existing query parameters, then sets utm_source, utm_medium, utm_campaign, and optional utm_content and utm_term values with URLSearchParams.',
     limit:
-      'UTM links only help analytics when the destination site is configured to collect campaign data and your team uses consistent naming rules.',
+      'UTM links only help analytics when the destination site is configured to collect campaign data and your team uses consistent naming rules. Different spelling, casing, or private data in a public URL can create messy or unsafe reports.',
+    faqLanguage: {
+      expectedInputs: 'the destination URL, campaign source, medium, campaign name, and any optional content or term labels you want to track',
+      inputFallback:
+        'Enter the destination URL first, then add source, medium, campaign, and optional content or term fields. Use short lower-case labels when your team does not already have a naming rule.',
+      examplePhrase: 'campaign URL example',
+      doubleCheck:
+        'Also check the final URL, existing query parameters, spelling, casing, and whether your analytics tool will read the values the way your team expects.',
+    },
+    inputExplanations: [
+      { term: 'Base URL', meaning: 'the page people should land on. It must start with http:// or https://.' },
+      { term: 'UTM source', meaning: 'where the click comes from, such as newsletter, google, instagram, or partner-site.' },
+      { term: 'UTM medium', meaning: 'the channel type, such as email, cpc, social, referral, or banner.' },
+      { term: 'UTM campaign', meaning: 'the shared campaign name that groups related links in reports.' },
+      { term: 'UTM content', meaning: 'an optional label for the link or creative version, such as hero-button or text-link.' },
+      { term: 'UTM term', meaning: 'an optional paid keyword, audience, or search term label.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Which UTM fields are required?',
+        answer:
+          'Use source, medium, and campaign for most campaign links. Source says where the click came from, medium says the channel type, and campaign says why the link exists. Content and term are optional detail fields.',
+      },
+      {
+        question: 'Does this work with Google Analytics 4?',
+        answer:
+          'Yes, the generated URL uses standard UTM parameter names that GA4 and many other analytics tools can read. The tool does not install analytics for you, so the destination site still needs its analytics setup working.',
+      },
+      {
+        question: 'Are UTM values case sensitive?',
+        answer:
+          'Analytics reports can split values when you use different casing or spellings, such as Email, email, and e-mail. Pick one naming style before sharing links so reports stay easier to group.',
+      },
+      {
+        question: 'What happens if my URL already has a question mark?',
+        answer:
+          'The builder keeps existing query parameters and adds the UTM values after them. For example, https://example.com/landing?page=1 becomes https://example.com/landing?page=1&utm_source=newsletter&utm_medium=email&utm_campaign=spring-tools.',
+      },
+      {
+        question: 'Can I put customer names or email addresses in UTM fields?',
+        answer:
+          'No. UTM values travel inside the public URL and may appear in analytics, logs, screenshots, shared links, or browser history. Use campaign labels, not personal data or private identifiers.',
+      },
+    ],
     useCases: [
       'Create campaign links for newsletters, social posts, partner links, and launch announcements.',
       'Keep source, medium, and campaign names consistent before sharing a URL.',
@@ -7153,9 +7199,21 @@ export const utilityTools: ToolDefinition[] = [
       'Copy one finished URL instead of hand-editing query parameters.',
     ],
     examples: [
-      { label: 'Newsletter link', expression: 'source newsletter, medium email, campaign spring-tools', result: 'URL with UTM parameters' },
-      { label: 'Social profile link', expression: 'source instagram, medium social, campaign calculator-tips', result: 'Tracked social URL' },
-      { label: 'Search campaign', expression: 'source google, medium cpc, campaign utility-tools', result: 'Campaign URL with term field' },
+      {
+        label: 'Newsletter link',
+        expression: 'https://accessfreetools.com/tools/ + newsletter / email / spring-tools',
+        result: 'https://accessfreetools.com/tools/?utm_source=newsletter&utm_medium=email&utm_campaign=spring-tools&utm_content=hero-button',
+      },
+      {
+        label: 'Social profile link',
+        expression: 'percentage tool + instagram / social / calculator-tips',
+        result: 'https://accessfreetools.com/tools/percentage-calculator/?utm_source=instagram&utm_medium=social&utm_campaign=calculator-tips&utm_content=bio-link',
+      },
+      {
+        label: 'Search campaign',
+        expression: 'source google, medium cpc, campaign utility-tools, term free calculators',
+        result: 'https://accessfreetools.com/tools/?utm_source=google&utm_medium=cpc&utm_campaign=utility-tools&utm_content=ad-a&utm_term=free+calculators',
+      },
     ],
     relatedSlugs: ['query-string-parser', 'url-encode-decode', 'slug-generator'],
   }),

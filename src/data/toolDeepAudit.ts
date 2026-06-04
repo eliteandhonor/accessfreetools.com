@@ -7612,7 +7612,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     slug: 'utm-builder',
     status: 'deep-reviewed',
     batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
     sources: [googleCampaignUrls, mdnUrlSearchParams],
     findings: [
@@ -7622,6 +7622,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     improvements: [
       'Manually checked UTM URL building, required field validation, existing-parameter handling, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Added SEO title/meta copy, field-level UTM input explanations, GA4 and case-consistency FAQs, existing-query and privacy cautions, exact generated URL examples, and a 2026-06-04 modified date.',
     ],
     followUps: [
       'Add naming-template presets only if the site later has admin settings or saved campaign rules.',

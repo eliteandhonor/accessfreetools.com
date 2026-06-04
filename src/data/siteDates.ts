@@ -131,6 +131,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'unix-timestamp-converter': '2026-06-04',
   'color-contrast-checker': '2026-06-04',
   'aspect-ratio-calculator': '2026-06-04',
+  'utm-builder': '2026-06-04',
   'asphalt-calculator': '2026-05-31',
   'board-foot-calculator': '2026-05-31',
   'height-calculator': '2026-05-26',
