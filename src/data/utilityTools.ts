@@ -1176,12 +1176,34 @@ export const utilityTools: ToolDefinition[] = [
     category: 'developer-tools',
     summary: 'Percent-encode URL component text or decode percent-encoded text.',
     description:
-      'Use this free URL encode/decode tool to percent-encode query values or decode URL-encoded text, with optional plus-for-spaces handling.',
+      'Use this free URL encode/decode tool to percent-encode URL component text, decode percent-encoded values, and choose plus-for-spaces handling for form-style query data.',
+    aliases: ['URL Encoder', 'URL Decoder', 'Percent Encoder', 'Percent Decoder', 'Query String Encoder'],
+    seoTitle: 'URL Encode / Decode | Percent Encoding Tool',
+    seoDescription:
+      'Encode URL component text, decode percent-encoded strings, compare %20 versus plus spaces, and avoid common full-URL and double-encoding mistakes.',
     icon: 'calculator-url',
     formula:
-      'The tool uses percent-encoding for URL components: reserved characters become percent signs followed by two hexadecimal digits.',
+      'The tool uses percent-encoding for URL components. Unsafe or reserved characters are converted to UTF-8 bytes, then each byte is written as a percent sign followed by two hexadecimal digits. Spaces can stay as %20 or become + when form-style plus-spaces mode is selected.',
     limit:
-      'Encode complete URLs and individual URL components differently. This tool is best for component values such as query parameters.',
+      'Encode complete URLs and individual URL components differently. This tool is best for component values such as query parameters, path pieces, and small text snippets, not for blindly encoding an entire URL, secret token, or already-encoded string.',
+    inputExplanations: [
+      {
+        term: 'Mode',
+        meaning: 'Choose Encode when you have readable text and want percent-encoded output. Choose Decode when you already have percent-encoded text.',
+      },
+      {
+        term: 'Input text',
+        meaning: 'Paste the exact value you want to convert. Ampersands, equals signs, spaces, slashes, and punctuation can change how a URL is read.',
+      },
+      {
+        term: 'Plus-spaces',
+        meaning: 'Turn this on for form-style query values where spaces are represented as + instead of %20.',
+      },
+      {
+        term: 'Component value',
+        meaning: 'A query value like price=10&tax=2 should be encoded differently from a complete URL such as https://example.com/?q=test.',
+      },
+    ],
     useCases: [
       'Encode a query value that contains &, =, spaces, or punctuation.',
       'Decode percent-encoded text back into readable text.',
@@ -1191,9 +1213,41 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Encode query value', expression: 'price=10&tax=2', result: 'price%3D10%26tax%3D2' },
       { label: 'Decode query value', expression: 'price%3D10%26tax%3D2', result: 'price=10&tax=2' },
-      { label: 'Form spaces', expression: 'hello tools', result: 'hello+tools when plus mode is on' },
+      { label: 'Space handling', expression: 'hello tools', result: 'hello%20tools or hello+tools in plus mode' },
     ],
-    relatedSlugs: ['base64-encode-decode', 'subnet-calculator', 'hex-calculator'],
+    extraFaq: [
+      {
+        question: 'Should I encode a whole URL or just one part?',
+        answer:
+          'Usually encode only the part you are inserting, such as a query value or path segment. Encoding a whole URL can turn ://, ?, &, and = into text, which may stop the URL from working.',
+      },
+      {
+        question: 'Why do spaces sometimes become %20 and sometimes +?',
+        answer:
+          '%20 is normal percent-encoding for a space. A plus sign is common in form-style query strings. Use plus-spaces only when the target system expects form-style values.',
+      },
+      {
+        question: 'What happens if I encode something twice?',
+        answer:
+          'Double-encoding changes percent signs too. For example, %20 can become %2520. Decode once and inspect the result before encoding again.',
+      },
+      {
+        question: 'Why did decoding fail or look strange?',
+        answer:
+          'Common causes include a broken percent triplet, copied whitespace, text that was not URL-encoded, or a plus sign that should stay as + instead of becoming a space.',
+      },
+      {
+        question: 'Can I paste login links, tokens, or private query strings?',
+        answer:
+          'Do not paste real secrets, access tokens, signed URLs, private query strings, or session links into any tool unless you fully understand the risk. Encoding does not make them safe.',
+      },
+      {
+        question: 'Is URL encoding the same as Base64?',
+        answer:
+          'No. URL encoding protects characters so they can travel inside URLs. Base64 changes bytes into printable text for a different set of use cases.',
+      },
+    ],
+    relatedSlugs: ['utm-builder', 'subnet-calculator', 'hex-calculator'],
   }),
   makeUtilityTool({
     slug: 'day-of-the-week-calculator',

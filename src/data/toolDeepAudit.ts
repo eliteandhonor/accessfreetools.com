@@ -7241,17 +7241,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'url-encode-decode',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-04',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
     sources: [rfc3986, mdnUrlSearchParams],
     findings: [
-      'The URL tool percent-encodes URL component text and can decode plus signs as spaces when form-style text needs it.',
-      'Tests cover reserved-character encoding and plus-as-space decoding.',
-      'The guide explains that whole URLs and individual components have different encoding needs.',
+      'The URL tool now explains percent-encoding as UTF-8 bytes written with % plus two hexadecimal digits, with optional plus-for-spaces handling for form-style query values.',
+      'The examples now include exact component encoding for price=10&tax=2, decoding back to the readable value, and %20 versus plus space behavior.',
+      'The FAQ now covers component versus whole-URL encoding, %20 versus + spaces, double-encoding, decode errors, private query strings, and the difference from Base64.',
     ],
     improvements: [
-      'Manually checked URL component encoding, plus-space option wording, invalid percent-encoding behavior, examples, FAQ detail, guide coverage, related links, and privacy behavior.',
+      'Refreshed URL percent-encoding logic notes, input explanations, exact examples, FAQ/schema coverage, related developer-tool links, SEO title/description, modified date, image alt/caption metadata, DataForSEO evidence, and competitor-gap notes.',
     ],
     followUps: [
       'Add full-URL normalization only as a separate mode with careful URL parser behavior.',

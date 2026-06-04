@@ -112,6 +112,13 @@ const toolArtMetadataOverrides = {
         'Base64 Encode / Decode guide artwork supports the walkthrough for UTF-8 bytes, Base64 6-bit groups, exact encode and decode examples, padding, invalid input, and why Base64 is not encryption.',
     },
   },
+  'url-encode-decode': {
+    tool: {
+      alt: 'Smoke mascot percent-encoding price=10&tax=2 into price%3D10%26tax%3D2 with %20 versus plus space and component-not-whole-URL warning cards.',
+      caption:
+        'URL Encode / Decode artwork matches the live workflow: encode URL component values, decode percent-encoded text, compare %20 with plus spaces, and avoid full-URL or double-encoding mistakes.',
+    },
+  },
   'lean-body-mass-calculator': {
     tool: {
       alt: 'Smoke mascot checking a Boer lean body mass estimate with formula sex, 180 cm, 82 kg, 62.23 kg LBM, fat mass, and lean percent cards.',
