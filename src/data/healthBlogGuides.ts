@@ -736,28 +736,30 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'pregnancy-conception-calculator': {
-    summary: 'Learn how a due date can be counted backward to estimate a conception window.',
+    summary: 'Learn how a due date can be counted backward to estimate conception date, window, and LMP.',
     purpose:
-      'The Pregnancy Conception Calculator starts from a due date and estimates conception timing, possible conception window, and LMP.',
+      'The Pregnancy Conception Calculator starts from an expected due date and estimates conception timing, possible conception window, and LMP.',
     enter: [
-      'Enter the due date you were given or estimated.',
-      'Use the window, not just the center date, when reading the result.',
-      'Remember that clinical dating may update the due date later.',
+      'Enter the due date you were given by a clinician, ultrasound report, IVF plan, or earlier due-date calculation.',
+      'Use the possible window, not just the center date, when reading the result.',
+      'If a clinician has updated the due date, use that newer date instead of an older calendar estimate.',
     ],
     example: [
-      'For a due date example, the calculator subtracts about 266 days to estimate conception.',
-      'It then shows a wider window because ovulation and fertilization vary.',
+      'For a due date of Jan 6, 2027, the calculator subtracts 266 days and estimates conception around Apr 15, 2026.',
+      'It shows Apr 10-Apr 20 as the possible window and Apr 1, 2026 as the estimated LMP, because the due date is also about 280 days after LMP.',
     ],
     read: [
-      'The center date is a best estimate, not proof.',
-      'The window is more honest than a single day because biology and dating methods are imperfect.',
+      'The center date is a backward calendar estimate, not proof of the exact day conception happened.',
+      'The window is more honest than a single day because ovulation, fertilization, sperm survival, and due-date assumptions can all shift the real timing.',
     ],
     mistakes: [
       'Do not use the estimate for legal, relationship, or medical proof.',
-      'Do not ignore ultrasound or clinician dating.',
+      'Do not use it to prove biological parentage or choose between two possible fathers.',
+      'Do not ignore ultrasound, IVF, or clinician dating.',
       'Do not assume conception and intercourse happened on the same day.',
     ],
     next: [
+      'Use Pregnancy Calculator if you want due date, gestational age, conception timing, and trimester together.',
       'Use Due Date Calculator if you want to start from LMP instead.',
       'Use Ovulation Calculator for forward cycle estimates.',
     ],

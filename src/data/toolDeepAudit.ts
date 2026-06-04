@@ -4703,20 +4703,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'pregnancy-conception-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-04',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
-    sources: [johnsHopkinsDueDate, johnsHopkinsFertileWindow],
+    sources: [acogDueDateMethods, johnsHopkinsDueDate, johnsHopkinsFertileWindow, cdcGestationDefinition],
     findings: [
-      'The calculator works backward from an estimated due date to an estimated conception date and a wider possible window.',
-      'The guide clearly says the result is not proof of an exact conception day and should not be used for legal, relationship, or medical certainty.',
-      'The wording separates gestational dating from conception timing, which is the common point of confusion.',
+      'The calculator works backward from an estimated due date to an estimated conception date, a possible conception window, and an estimated LMP using due date minus 266 days and due date minus 280 days.',
+      'The guide clearly says the result is not proof of an exact conception day, intercourse date, legal question, relationship question, medical certainty, or biological parentage.',
+      'The wording separates due-date backward math from ovulation, fertilization, sperm survival, ultrasound dating, IVF dating, and clinician-assigned due dates, which are the common points of confusion.',
     ],
     improvements: [
-      'Manually checked due-date back-counting, conception-window language, examples, FAQ cautions, Johns Hopkins source coverage, related tools, SEO copy, privacy behavior, and calendar-result labels.',
+      'Reworked metadata, exact examples, FAQs, guide sections, source links, audit notes, modified dates, art alt/caption text, and page-specific limits using current DataForSEO, competitor, ACOG, Johns Hopkins, ACOG fertility-awareness, and CDC/NCHS evidence.',
     ],
     followUps: [
-      'Add ultrasound-dating wording if the page starts receiving medical-adjacent search traffic.',
+      'Consider a future IVF transfer-date mode only if the tool can model embryo age and assumptions clearly.',
     ],
   },
   {

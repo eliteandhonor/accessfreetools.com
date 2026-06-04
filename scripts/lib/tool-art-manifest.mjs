@@ -124,6 +124,18 @@ const toolArtMetadataOverrides = {
         'Pregnancy Calculator guide artwork supports the walkthrough for LMP-based due-date math, cycle-length adjustment, gestational-age reading, conception uncertainty, and ultrasound or clinician-dating limits.',
     },
   },
+  'pregnancy-conception-calculator': {
+    tool: {
+      alt: 'Smoke mascot comparing due Jan 6, 2027, conception Apr 15, 2026, Apr 10-Apr 20 window, and estimated LMP Apr 1 cards.',
+      caption:
+        'Pregnancy Conception Calculator artwork matches the live workflow: enter an expected due date, then work backward to estimated conception date, possible window, and LMP with proof-limit cautions.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining due-date backward math with due Jan 6, 2027, due date minus 266 days, conception window, estimated LMP, and proof-limit cards.',
+      caption:
+        'Pregnancy Conception Calculator guide artwork supports the walkthrough for due-date backward math, exact examples, conception-window limits, estimated LMP, and parentage-proof cautions.',
+    },
+  },
   'healthy-weight-calculator': {
     tool: {
       alt: 'Smoke mascot checking a healthy weight range with 170 cm, BMI 18.5-24.9, 53.47 kg, 71.96 kg, and adult-screening cards.',

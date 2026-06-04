@@ -26,6 +26,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isTargetHeartRateCalculator = spec.slug === 'target-heart-rate-calculator';
   const isBodySurfaceAreaCalculator = spec.slug === 'body-surface-area-calculator';
   const isPregnancyCalculator = spec.slug === 'pregnancy-calculator';
+  const isPregnancyConceptionCalculator = spec.slug === 'pregnancy-conception-calculator';
   const inputAnswer = isBmiCalculator
     ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
     : isBodyFatCalculator
@@ -42,6 +43,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter height in centimeters and weight in kilograms. The calculator uses those two measured values for adult human body surface area formulas. It does not ask for age, sex, body fat, diagnosis, procedure type, burn percentage, or medication details.'
     : isPregnancyCalculator
       ? 'Enter the first day of the last menstrual period, not the last day bleeding occurred. Cycle length means the usual number of days from one period start to the next; use 28 only if that is close for you. If the LMP is uncertain, cycles are irregular, bleeding may not have been a true period, or a clinician has already dated the pregnancy, use the clinician or ultrasound date instead.'
+    : isPregnancyConceptionCalculator
+      ? 'Enter the estimated due date you were given by a clinician, ultrasound report, or earlier due-date calculation. This calculator works backward from that date only. If the due date changed after ultrasound, IVF dating, or clinician review, use the updated date instead of an older calendar estimate.'
     : 'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.';
   const readingAnswer = isBmiCalculator
     ? 'Read BMI as a quick adult screening number. It can miss important context such as pregnancy, high muscle mass, waist size, body composition, age, medical history, and ethnicity. Use it as a clue, not a final health answer.'
@@ -59,6 +62,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read BSA as an estimated body surface area in square meters. The Mosteller and Du Bois lines can differ slightly because they are different formulas. Use the number as clinical math context only, not as a medication dose, diagnosis, burn estimate, or treatment plan.'
     : isPregnancyCalculator
       ? 'Read the due date as an estimated delivery date from calendar math, not a guarantee of when birth will happen. Gestational age is counted from LMP, so it is usually about two weeks more than conception age. The conception and trimester lines are planning references, and an early ultrasound or clinician review can update the official date.'
+    : isPregnancyConceptionCalculator
+      ? 'Read the center date as a backward estimate from the due date, not proof of the exact day conception happened. The possible window is more honest than a single day because ovulation, fertilization, sperm survival, ultrasound dating, and due-date assumptions can all shift the real timing.'
     : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
 
   return [
@@ -736,22 +741,48 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'pregnancy-conception-calculator',
     name: 'Pregnancy Conception Calculator',
-    summary: 'Estimate conception date from an expected due date.',
+    summary: 'Estimate conception date, window, and LMP from a due date.',
     description:
-      'Use this free pregnancy conception calculator to estimate conception date, possible conception window, and LMP from a due date.',
+      'Use this free pregnancy conception calculator to estimate conception date, possible conception window, and LMP from an expected due date.',
+    seoTitle: 'Pregnancy Conception Calculator | Date Window',
+    seoDescription:
+      'Estimate conception date, possible conception window, and LMP from a due date. Learn why due-date backward math cannot prove an exact day or parentage.',
     icon: 'calculator-pregnancy-conception',
-    formula: 'The calculator estimates conception as about 266 days before the due date and shows a wider possible window.',
+    formula:
+      'The calculator estimates conception as due date minus 266 days, shows a possible window about five days before and after that estimate, and estimates LMP as due date minus 280 days.',
     caution: estimateCaution,
     useCases: [
-      'Estimate conception timing from a due date.',
-      'Find a possible conception window.',
-      'Back-calculate an estimated LMP.',
-      'Understand why conception dates are approximate.',
+      'Estimate conception timing from an expected due date.',
+      'Find a possible conception window instead of one exact day.',
+      'Back-calculate an estimated LMP from the due date.',
+      'Understand why the result cannot prove parentage or an intercourse date.',
     ],
     examples: [
-      { label: 'Due Jan 6', expression: 'Due date minus 266 days', result: 'Estimated conception date' },
-      { label: 'Possible window', expression: 'Conception estimate +/- 5 days', result: 'Approximate range' },
-      { label: 'Estimated LMP', expression: 'Due date minus 280 days', result: 'Estimated LMP' },
+      { label: 'Due Jan 6, 2027', expression: 'Due date minus 266 days', result: 'Conception around Apr 15, 2026; window Apr 10-Apr 20' },
+      { label: 'Due Oct 15, 2026', expression: 'Due date minus 266 days', result: 'Conception around Jan 22, 2026; estimated LMP Jan 8' },
+      { label: 'Due Mar 1, 2027', expression: 'Due date minus 266 days', result: 'Conception around Jun 8, 2026; window Jun 3-Jun 13' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does this calculator subtract 266 days?',
+        answer:
+          'A common due-date estimate counts about 280 days from the first day of the last menstrual period. Conception or ovulation is often estimated about 14 days after that in a 28-day cycle, so due date minus 266 days is a backward estimate of conception timing.',
+      },
+      {
+        question: 'Can this tell exactly when I got pregnant?',
+        answer:
+          'No. The center date and window are estimates. Ovulation can shift, sperm can survive for several days, fertilization timing can vary, and the due date itself may have been estimated. Use the result for planning context, not proof.',
+      },
+      {
+        question: 'Can this answer questions about two possible fathers?',
+        answer:
+          'No. A due-date calculator cannot prove biological parentage or separate close intercourse dates. If parentage matters, use appropriate medical or legal testing and professional guidance instead of calendar math.',
+      },
+      {
+        question: 'What if my due date came from ultrasound or IVF?',
+        answer:
+          'Use the official due date from your clinician if one has been assigned. IVF and early ultrasound dating can use different assumptions than simple LMP calendar math, so ask your care team how that date should be interpreted.',
+      },
     ],
     relatedSlugs: ['pregnancy-calculator', 'due-date-calculator', 'conception-calculator'],
   }),
