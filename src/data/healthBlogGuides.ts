@@ -190,15 +190,18 @@ function getSourceLinks(toolSlug: string) {
     ];
   }
 
-  if (['pregnancy-calculator', 'pregnancy-conception-calculator', 'due-date-calculator', 'ovulation-calculator', 'conception-calculator', 'period-calculator'].includes(toolSlug)) {
-    return pregnancySources;
-  }
-
   if (toolSlug === 'pregnancy-weight-gain-calculator') {
     return [
       { href: 'https://www.cdc.gov/maternal-infant-health/pregnancy-weight/index.html', label: 'CDC: Weight gain during pregnancy' },
-      ...pregnancySources,
+      {
+        href: 'https://www.acog.org/womens-health/experts-and-stories/ask-acog/how-much-weight-should-i-gain-during-pregnancy',
+        label: 'ACOG: How much weight should I gain during pregnancy?',
+      },
     ];
+  }
+
+  if (['pregnancy-calculator', 'pregnancy-conception-calculator', 'due-date-calculator', 'ovulation-calculator', 'conception-calculator', 'period-calculator'].includes(toolSlug)) {
+    return pregnancySources;
   }
 
   if (['macro-calculator', 'carbohydrate-calculator', 'protein-calculator', 'fat-intake-calculator'].includes(toolSlug)) {
@@ -709,29 +712,32 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'pregnancy-weight-gain-calculator': {
-    summary: 'Learn how pre-pregnancy BMI connects to pregnancy weight-gain guideline ranges.',
+    summary: 'Learn how pre-pregnancy BMI connects to singleton pregnancy weight-gain guideline ranges.',
     purpose:
-      'The Pregnancy Weight Gain Calculator compares current gain with BMI-based guideline ranges for singleton pregnancy planning.',
+      'The Pregnancy Weight Gain Calculator compares current gain, BMI category, total guideline range, and weekly reference rate for singleton pregnancy planning.',
     enter: [
       'Enter pre-pregnancy height and weight so the tool can estimate pre-pregnancy BMI.',
       'Enter current weight and pregnancy week.',
-      'Use the singleton/twin context shown by the tool carefully because guidance differs.',
+      'Use this tool for singleton pregnancy context only; twins, triplets, high-risk pregnancies, or care-team targets need different guidance.',
     ],
     example: [
-      'For week 24, the calculator finds the gain from pre-pregnancy weight to current weight.',
-      'It then compares that gain with the guideline range tied to the pre-pregnancy BMI category.',
+      'For week 24, 165 cm, 62 kg pre-pregnancy weight, and 70 kg current weight, the calculator shows 8 kg gained.',
+      'The pre-pregnancy BMI is about 22.77, so the tool uses the healthy-weight singleton range of about 11.34-15.88 kg total gain and about 0.36-0.45 kg per week in the second and third trimesters.',
     ],
     read: [
-      'The range is a conversation starter for prenatal care, not a judgment.',
-      'Week-by-week gain can vary, especially with nausea, fluid shifts, and medical needs.',
+      'The range is a conversation starter for prenatal care, not a judgment or diet rule.',
+      'Week-by-week gain can vary, especially with nausea, appetite changes, constipation, fluid shifts, swelling, and medical needs.',
+      'If your clinician gives you a different target, use that target over a general calculator range.',
     ],
     mistakes: [
       'Do not use adult weight-loss logic during pregnancy.',
       'Do not use the result to restrict food without a clinician.',
-      'Do not ignore twin, triplet, or high-risk pregnancy guidance.',
+      'Do not use singleton ranges for twins, triplets, or higher-order pregnancies.',
+      'Do not ignore swelling, blood pressure, diabetes, fetal growth, or other medical context.',
     ],
     next: [
       'Use Pregnancy Calculator to check due date and gestational age.',
+      'Use BMI Calculator if you want to double-check the pre-pregnancy BMI input outside this pregnancy page.',
       'Bring the result to prenatal care if you have concerns.',
     ],
   },

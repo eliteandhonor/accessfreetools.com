@@ -1374,12 +1374,12 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       const result = calculatePregnancyWeightGain(heightCm, preWeightKg, currentWeightKg);
       return {
         label: 'Pregnancy weight gain',
-        expression: `Week ${formatCalculatorNumber(week)}, pre-pregnancy BMI ${formatCalculatorNumber(result.bmi)}`,
+        expression: `Week ${formatCalculatorNumber(week)}, pre-pregnancy BMI ${formatRoundedNumber(result.bmi)}`,
         answer: `${formatKg(result.gainedKg)} gained`,
         metrics: [
-          { label: 'Recommended total', value: `${formatKg(result.minGainKg)}-${formatKg(result.maxGainKg)}` },
+          { label: 'Recommended total', value: `${formatRoundedKg(result.minGainKg)}-${formatRoundedKg(result.maxGainKg)}` },
           { label: 'BMI category', value: result.category },
-          { label: '2nd/3rd trimester rate', value: `${formatKg(result.weeklyMinKg)}-${formatKg(result.weeklyMaxKg)}/week` },
+          { label: '2nd/3rd trimester rate', value: `${formatRoundedKg(result.weeklyMinKg)}-${formatRoundedKg(result.weeklyMaxKg)}/week` },
         ],
         steps: [
           'Calculate pre-pregnancy BMI from height and pre-pregnancy weight.',

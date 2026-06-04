@@ -1951,6 +1951,11 @@ const cdcPregnancyWeight = {
   label: 'CDC: Weight gain during pregnancy',
 };
 
+const acogPregnancyWeightGain = {
+  href: 'https://www.acog.org/womens-health/experts-and-stories/ask-acog/how-much-weight-should-i-gain-during-pregnancy',
+  label: 'ACOG: How much weight should I gain during pregnancy?',
+};
+
 const macroAmdr = {
   href: 'https://www.ncbi.nlm.nih.gov/books/NBK610329/',
   label: 'National Academies / NCBI Bookshelf: Acceptable Macronutrient Distribution Range background',
@@ -4684,20 +4689,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'pregnancy-weight-gain-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-04',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
-    sources: [cdcPregnancyWeight, johnsHopkinsDueDate],
+    sources: [cdcPregnancyWeight, acogPregnancyWeightGain],
     findings: [
-      'The calculator uses pre-pregnancy BMI categories to choose singleton pregnancy weight-gain ranges and converts pounds to kilograms for the displayed result.',
-      'The guide says pregnancy weight-gain guidance must be personalized and does not treat the range as a diet command.',
-      'The result separates current gain, recommended total range, and weekly second/third-trimester range so the numbers are easier to read.',
+      'The calculator uses pre-pregnancy BMI categories to choose singleton pregnancy weight-gain ranges, converts pound-based guideline ranges to kilograms, and compares current gain from pre-pregnancy weight to current weight.',
+      'The guide says pregnancy weight-gain guidance must be personalized and does not treat the range as a diet command, weight-loss instruction, or substitute for prenatal care.',
+      'The result separates current gain, recommended total range, BMI category, and weekly second/third-trimester reference rate so users can bring a clearer question to prenatal care.',
     ],
     improvements: [
-      'Manually checked pre-pregnancy BMI logic, guideline-range wording, week interpretation, examples, FAQ cautions, CDC pregnancy source coverage, related tools, SEO copy, privacy behavior, and non-judgmental language.',
+      'Reworked metadata, exact examples, FAQ answers, guide language, source-backed audit notes, modified dates, component result formatting, and art alt/caption text around week 24, 165 cm, 62 kg to 70 kg, 8 kg gained, BMI 22.77, healthy-weight singleton range 11.34-15.88 kg, weekly 0.36-0.45 kg reference rate, twin/triplet limits, and clinician override.',
     ],
     followUps: [
-      'Add twin and higher-order pregnancy routing only if the tool later supports separate guideline ranges.',
+      'Add twin and higher-order pregnancy routing only if the tool later supports separate CDC/IOM multiple-pregnancy guideline ranges and makes the input mode explicit.',
     ],
   },
   {

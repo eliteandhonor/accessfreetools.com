@@ -28,6 +28,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isPregnancyCalculator = spec.slug === 'pregnancy-calculator';
   const isPregnancyConceptionCalculator = spec.slug === 'pregnancy-conception-calculator';
   const isConceptionCalculator = spec.slug === 'conception-calculator';
+  const isPregnancyWeightGainCalculator = spec.slug === 'pregnancy-weight-gain-calculator';
   const inputAnswer = isBmiCalculator
     ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
     : isBodyFatCalculator
@@ -48,6 +49,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter the estimated due date you were given by a clinician, ultrasound report, or earlier due-date calculation. This calculator works backward from that date only. If the due date changed after ultrasound, IVF dating, or clinician review, use the updated date instead of an older calendar estimate.'
     : isConceptionCalculator
       ? 'Enter the first day of the last period, your usual cycle length from one period start to the next, and luteal phase length if you know it. If you do not know luteal phase length, keep the default and read the answer as a rough cycle estimate. Irregular cycles, recent hormonal birth control, postpartum changes, illness, stress, or uncertain period dates can make the window less reliable.'
+    : isPregnancyWeightGainCalculator
+      ? 'Enter pre-pregnancy height and weight, current weight, and the pregnancy week. This calculator uses singleton pregnancy guideline ranges based on pre-pregnancy BMI. If you are carrying twins or more, have a high-risk pregnancy, have fluid retention, or were given a personal target by your care team, use that clinical guidance instead of this general estimate.'
     : 'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.';
   const readingAnswer = isBmiCalculator
     ? 'Read BMI as a quick adult screening number. It can miss important context such as pregnancy, high muscle mass, waist size, body composition, age, medical history, and ethnicity. Use it as a clue, not a final health answer.'
@@ -69,6 +72,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the center date as a backward estimate from the due date, not proof of the exact day conception happened. The possible window is more honest than a single day because ovulation, fertilization, sperm survival, ultrasound dating, and due-date assumptions can all shift the real timing.'
     : isConceptionCalculator
       ? 'Read the answer as an ovulation-based conception estimate, not proof of an exact day, intercourse date, or biological parent. The fertile window is more useful than the center date because sperm may survive for several days, the egg survives for about a day after ovulation, and ovulation can shift from the calendar estimate.'
+    : isPregnancyWeightGainCalculator
+      ? 'Read the total range as a prenatal-care reference, not a grade or diet rule. Healthy gain can be uneven by week, and your care team may care more about fetal growth, blood pressure, swelling, nausea, diabetes, or other medical details than the calculator line alone.'
     : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
 
   return [
@@ -724,11 +729,15 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'pregnancy-weight-gain-calculator',
     name: 'Pregnancy Weight Gain Calculator',
-    summary: 'Compare pregnancy weight gain with BMI-based guideline ranges.',
+    summary: 'Compare current pregnancy weight gain with BMI-based singleton ranges.',
     description:
-      'Use this free pregnancy weight gain calculator to compare current gain with BMI-based singleton pregnancy guideline ranges.',
+      'Use this free pregnancy weight gain calculator to compare current gain, BMI category, and weekly reference rate with singleton pregnancy guideline ranges.',
+    seoTitle: 'Pregnancy Weight Gain Calculator | BMI Range',
+    seoDescription:
+      'Compare current pregnancy weight gain with BMI-based singleton guideline ranges. See total range, weekly reference rate, and care-team cautions.',
     icon: 'calculator-pregnancy-weight',
-    formula: 'The calculator finds pre-pregnancy BMI, matches the BMI category to recommended total gain ranges, and compares current gain.',
+    formula:
+      'The calculator finds pre-pregnancy BMI from height and pre-pregnancy weight, matches that BMI category to singleton pregnancy total gain ranges, subtracts pre-pregnancy weight from current weight, and shows second/third trimester weekly reference rates.',
     caution: estimateCaution,
     useCases: [
       'Estimate pre-pregnancy BMI category.',
@@ -737,9 +746,31 @@ export const healthTools: ToolDefinition[] = [
       'Prepare questions for prenatal visits.',
     ],
     examples: [
-      { label: 'Week 24', expression: '165 cm, 62 kg to 70 kg', result: 'Gain compared with guideline range' },
-      { label: 'Week 30', expression: '170 cm, 78 kg to 86 kg', result: 'Gain compared with guideline range' },
-      { label: 'Week 18', expression: '160 cm, 52 kg to 57 kg', result: 'Gain compared with guideline range' },
+      { label: 'Week 24', expression: '165 cm, 62 kg to 70 kg', result: '8 kg gained; normal-BMI total range 11.34-15.88 kg' },
+      { label: 'Week 30', expression: '170 cm, 78 kg to 86 kg', result: '8 kg gained; overweight total range 6.8-11.34 kg' },
+      { label: 'Week 18', expression: '160 cm, 52 kg to 57 kg', result: '5 kg gained; normal-BMI total range 11.34-15.88 kg' },
+    ],
+    extraFaq: [
+      {
+        question: 'Does this work for twins or triplets?',
+        answer:
+          'No. The calculator uses singleton pregnancy ranges. CDC lists separate twin ranges for normal, overweight, and BMI 30-39.9 categories, and triplets or higher-order pregnancies need care-team guidance.',
+      },
+      {
+        question: 'What BMI ranges are used?',
+        answer:
+          'It uses pre-pregnancy BMI groups: underweight below 18.5, healthy weight 18.5-24.9, overweight 25.0-29.9, and BMI 30 or higher. The displayed kg ranges come from the pound-based guideline ranges converted to kilograms.',
+      },
+      {
+        question: 'Should I try to lose weight during pregnancy if I am above the range?',
+        answer:
+          'Do not start weight-loss dieting or restrict food because of this calculator. Bring the number to your OB-GYN, midwife, or qualified clinician so they can consider fetal growth, symptoms, nutrition, and your medical history.',
+      },
+      {
+        question: 'Why can my weekly gain look uneven?',
+        answer:
+          'Pregnancy weight can move unevenly because of nausea, appetite changes, constipation, fluid shifts, swelling, and fetal growth timing. The weekly rate is a reference for the second and third trimesters, not a daily rule.',
+      },
     ],
     relatedSlugs: ['pregnancy-calculator', 'due-date-calculator', 'bmi-calculator'],
   }),

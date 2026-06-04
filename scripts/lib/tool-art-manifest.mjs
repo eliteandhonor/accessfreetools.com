@@ -136,6 +136,18 @@ const toolArtMetadataOverrides = {
         'Pregnancy Conception Calculator guide artwork supports the walkthrough for due-date backward math, exact examples, conception-window limits, estimated LMP, and parentage-proof cautions.',
     },
   },
+  'pregnancy-weight-gain-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking pregnancy weight gain with 165 cm, 62 kg pre-pregnancy, 70 kg current, week 24, 8 kg gained, BMI 22.77, and 11.34-15.88 kg range cards.',
+      caption:
+        'Pregnancy Weight Gain Calculator artwork matches the live workflow: enter pre-pregnancy height and weight, current weight, and pregnancy week, then compare current gain with BMI-based singleton ranges and care-team cautions.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining pregnancy weight-gain math with pre-pregnancy BMI, 8 kg gained, healthy-weight singleton range 11.34-15.88 kg, weekly rate, and clinician-guidance cards.',
+      caption:
+        'Pregnancy Weight Gain Calculator guide artwork supports the walkthrough for pre-pregnancy BMI, current gain, singleton guideline ranges, weekly reference rates, twin/triplet limits, and clinician override.',
+    },
+  },
   'conception-calculator': {
     tool: {
       alt: 'Smoke mascot checking LMP Apr 1, 2026, 28-day cycle, luteal 14, conception Apr 15, fertile window Apr 10-Apr 15, and next period Apr 29 cards.',
