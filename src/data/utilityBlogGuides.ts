@@ -1677,13 +1677,25 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'base64-encode-decode': {
+    title: 'Base64 Encode / Decode Guide',
     summary: 'Learn how Base64 turns bytes into printable text and back again.',
+    metaDescription:
+      'Use the Base64 Encode / Decode guide to encode UTF-8 text, decode Base64, check padding, troubleshoot invalid input, and avoid treating Base64 as encryption.',
     purpose:
-      'The Base64 tool encodes text as UTF-8 bytes before converting to Base64. It can also decode Base64 back into UTF-8 text when the data is valid text.',
+      'The Base64 tool encodes readable text as UTF-8 bytes before converting those bytes to Base64. It can also decode Base64 back into UTF-8 text when the decoded bytes are valid readable text.',
+    intro:
+      'Use this guide when you need to turn a short text value into Base64, decode a Base64 sample back to text, or understand why the result sometimes ends with = padding.',
+    inputMatch: 'the mode, the exact text or Base64 string, and whether you expect readable UTF-8 text back',
+    logicNote:
+      'Base64 works on bytes. The tool turns text into UTF-8 bytes, groups those bytes into 6-bit chunks, maps each chunk to the Base64 alphabet, and adds = padding when the final chunk is short.',
+    readIntro:
+      'Read the converted text first, then check the input length, output length, and mode. A small change in spaces, line breaks, or punctuation can produce a different Base64 string.',
+    mistakeIntro:
+      'Most Base64 mistakes come from treating it like encryption, pasting real secrets, copying an extra space, using URL-safe Base64 without converting it, or decoding bytes that are not valid UTF-8 text.',
     enter: [
       'Choose Encode when starting with readable text.',
       'Choose Decode when starting with Base64.',
-      'Paste the text into the input field and run the tool.',
+      'Paste the exact text into the input field and run the tool.',
     ],
     read: [
       'The main answer is the encoded or decoded text.',
@@ -1695,7 +1707,37 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not paste secrets into tools unless you trust the environment.',
       'Decode mode expects Base64 that represents valid UTF-8 text.',
     ],
-    sources: [sourceLinks.rfc4648],
+    extraSections: [
+      {
+        title: 'Quick encode and decode example',
+        paragraphs: [
+          'If you choose Encode and enter `Hello tools`, the tool returns `SGVsbG8gdG9vbHM=`. If you switch to Decode and enter `SGVsbG8gdG9vbHM=`, it returns `Hello tools` again.',
+          'That round trip is a good sanity check. If your decoded text has an extra space, a missing character, or line breaks you did not expect, copy the input again and check the exact characters.',
+        ],
+      },
+      {
+        title: 'Why padding appears',
+        paragraphs: [
+          'Base64 reads bytes in groups and writes printable characters. When the last group is not full, the result may end with one or two `=` characters. For example, `Hi` encodes to `SGk=`.',
+          'Padding is not a warning and it is not encryption. It is just a way to finish the final Base64 group cleanly.',
+        ],
+      },
+      {
+        title: 'When decoding fails',
+        paragraphs: [
+          'Decode problems usually come from copied spaces, missing padding, URL-safe Base64 characters, invalid symbols, or data that was Base64 but was not text in the first place.',
+          'This page is meant for text. Binary files need a file-aware encoder with clear size limits and memory behavior.',
+        ],
+      },
+      {
+        title: 'Base64 is not secret',
+        paragraphs: [
+          'Base64 does not use a password or key. Anyone who has the Base64 string can decode it unless the original data was encrypted before it was encoded.',
+          'Use fake examples for API docs, headers, and Basic Auth practice. Do not paste real passwords, API keys, tokens, cookies, or private files into a browser tool unless you fully understand the risk.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.rfc4648, sourceLinks.mdnTextEncoder],
   },
   'url-encode-decode': {
     summary: 'Learn how URL percent-encoding protects reserved characters in URL components.',

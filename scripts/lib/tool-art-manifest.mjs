@@ -106,6 +106,11 @@ const toolArtMetadataOverrides = {
       caption:
         'Base64 Encode / Decode artwork matches the live workflow: choose encode or decode, turn UTF-8 text into Base64, decode valid Base64 back to text, and remember it is not encryption.',
     },
+    guide: {
+      alt: 'Smoke mascot explaining the Base64 guide with Hello tools, SGVsbG8gdG9vbHM=, Hi to SGk= padding, UTF-8 bytes, decode errors, and not-encryption cards.',
+      caption:
+        'Base64 Encode / Decode guide artwork supports the walkthrough for UTF-8 bytes, Base64 6-bit groups, exact encode and decode examples, padding, invalid input, and why Base64 is not encryption.',
+    },
   },
   'lean-body-mass-calculator': {
     tool: {
