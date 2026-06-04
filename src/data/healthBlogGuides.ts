@@ -81,8 +81,16 @@ function getSourceLinks(toolSlug: string) {
   ];
   const pregnancySources = [
     {
-      href: 'https://www.mayoclinic.org/healthy-lifestyle/getting-pregnant/in-depth/due-date-calculator/itt-20084986',
-      label: 'Mayo Clinic: Due date calculator',
+      href: 'https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2017/05/methods-for-estimating-the-due-date',
+      label: 'ACOG: Methods for estimating the due date',
+    },
+    {
+      href: 'https://www.hopkinsmedicine.org/health/wellness-and-prevention/calculating-a-due-date',
+      label: 'Johns Hopkins Medicine: Calculating a due date',
+    },
+    {
+      href: 'https://www.nichd.nih.gov/health/topics/factsheets/pregnancy',
+      label: 'NICHD: Pregnancy and trimesters',
     },
     {
       href: 'https://www.acog.org/womens-health/faqs/fertility-awareness-based-methods-of-family-planning',
@@ -672,29 +680,31 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'pregnancy-calculator': {
-    summary: 'Learn how LMP and cycle length estimate due date, gestational age, and trimester.',
+    summary: 'Learn how LMP and cycle length estimate due date, pregnancy week, and trimester.',
     purpose:
-      'The Pregnancy Calculator uses the first day of the last menstrual period and cycle length to estimate due date, gestational age today, conception timing, and trimester.',
+      'The Pregnancy Calculator uses the first day of the last menstrual period and cycle length to estimate due date, pregnancy week, gestational age today, conception timing, and trimester.',
     enter: [
       'Enter the first day of the last menstrual period, not the last day bleeding occurred.',
-      'Adjust cycle length if your usual cycle is shorter or longer than 28 days.',
+      'Enter your usual cycle length: the number of days from one period start to the next. Keep 28 only if that is close for you.',
       'Use the current date on the page to read gestational age today.',
     ],
     example: [
-      'For an LMP of Apr 1 with a 28-day cycle, the calculator adds about 280 days for the due date.',
-      'If the cycle is longer, ovulation is estimated later and the due date can shift later.',
+      'For an LMP of Apr 1, 2026 with a 28-day cycle, the calculator estimates a due date of Jan 6, 2027 and conception around Apr 15, 2026.',
+      'For an LMP of Mar 20, 2026 with a 32-day cycle, the estimate shifts to Dec 29, 2026 because ovulation is estimated later than the 28-day default.',
     ],
     read: [
       'Gestational age is counted from LMP, so it is usually about two weeks more than conception age.',
-      'Trimester labels are planning references and may change after clinical dating.',
+      'The due date, conception date, and trimester labels are planning references. An early ultrasound or clinician review can update the official date.',
     ],
     mistakes: [
       'Do not treat the estimated conception date as proof of one exact day.',
       'Do not use calendar dating instead of ultrasound or clinician guidance.',
-      'Do not forget to adjust for a cycle that is not 28 days.',
+      'Do not enter a last day of bleeding, an uncertain LMP, or a random bleeding date as if it were a confirmed period start.',
+      'Do not forget to adjust for a cycle that is not 28 days, especially if cycles are long, short, or irregular.',
     ],
     next: [
       'Use Due Date Calculator for a focused due-date page.',
+      'Use Pregnancy Conception Calculator when you already have a due date and want a backward estimate.',
       'Use Pregnancy Weight Gain Calculator for BMI-based gain references.',
     ],
   },

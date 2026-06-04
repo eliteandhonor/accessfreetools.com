@@ -112,6 +112,18 @@ const toolArtMetadataOverrides = {
         'Mass Calculator guide artwork supports the walkthrough for exact density-volume examples, unit matching, scale limits, weight-force routing, and chemistry mass boundaries.',
     },
   },
+  'pregnancy-calculator': {
+    tool: {
+      alt: 'Smoke mascot presenting pregnancy date cards for LMP Apr 1, 2026, due Jan 6, 2027, gestational age, conception estimate, and trimester.',
+      caption:
+        'Pregnancy Calculator artwork matches the live workflow: enter first day of last period and cycle length, then estimate due date, pregnancy week, conception timing, and trimester with clinician-dating cautions.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining pregnancy date math with LMP, 280 days, cycle-length adjustment, due date, conception estimate, and ultrasound caution cards.',
+      caption:
+        'Pregnancy Calculator guide artwork supports the walkthrough for LMP-based due-date math, cycle-length adjustment, gestational-age reading, conception uncertainty, and ultrasound or clinician-dating limits.',
+    },
+  },
   'healthy-weight-calculator': {
     tool: {
       alt: 'Smoke mascot checking a healthy weight range with 170 cm, BMI 18.5-24.9, 53.47 kg, 71.96 kg, and adult-screening cards.',

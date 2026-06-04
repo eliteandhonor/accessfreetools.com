@@ -25,6 +25,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isLeanBodyMassCalculator = spec.slug === 'lean-body-mass-calculator';
   const isTargetHeartRateCalculator = spec.slug === 'target-heart-rate-calculator';
   const isBodySurfaceAreaCalculator = spec.slug === 'body-surface-area-calculator';
+  const isPregnancyCalculator = spec.slug === 'pregnancy-calculator';
   const inputAnswer = isBmiCalculator
     ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
     : isBodyFatCalculator
@@ -39,6 +40,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter your age, choose the effort range, and add resting heart rate only if you want the heart-rate-reserve estimate. Age sets the rough maximum heart rate. The effort range turns that into beats per minute.'
     : isBodySurfaceAreaCalculator
       ? 'Enter height in centimeters and weight in kilograms. The calculator uses those two measured values for adult human body surface area formulas. It does not ask for age, sex, body fat, diagnosis, procedure type, burn percentage, or medication details.'
+    : isPregnancyCalculator
+      ? 'Enter the first day of the last menstrual period, not the last day bleeding occurred. Cycle length means the usual number of days from one period start to the next; use 28 only if that is close for you. If the LMP is uncertain, cycles are irregular, bleeding may not have been a true period, or a clinician has already dated the pregnancy, use the clinician or ultrasound date instead.'
     : 'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.';
   const readingAnswer = isBmiCalculator
     ? 'Read BMI as a quick adult screening number. It can miss important context such as pregnancy, high muscle mass, waist size, body composition, age, medical history, and ethnicity. Use it as a clue, not a final health answer.'
@@ -54,6 +57,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the answer as a training range in beats per minute, not a perfect target you must hit. If the range feels too hard, you feel pain, or a clinician gave you a different limit, slow down and use the safer guidance.'
     : isBodySurfaceAreaCalculator
       ? 'Read BSA as an estimated body surface area in square meters. The Mosteller and Du Bois lines can differ slightly because they are different formulas. Use the number as clinical math context only, not as a medication dose, diagnosis, burn estimate, or treatment plan.'
+    : isPregnancyCalculator
+      ? 'Read the due date as an estimated delivery date from calendar math, not a guarantee of when birth will happen. Gestational age is counted from LMP, so it is usually about two weeks more than conception age. The conception and trimester lines are planning references, and an early ultrasound or clinician review can update the official date.'
     : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
 
   return [
@@ -661,22 +666,48 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'pregnancy-calculator',
     name: 'Pregnancy Calculator',
-    summary: 'Estimate due date, gestational age, conception date, and trimester.',
+    summary: 'Estimate due date, pregnancy week, conception timing, and trimester from LMP.',
     description:
-      'Use this free pregnancy calculator to estimate due date, gestational age today, conception timing, and trimester from last period date.',
+      'Use this free pregnancy calculator to estimate due date, pregnancy week, gestational age today, conception timing, and trimester from LMP and cycle length.',
+    seoTitle: 'Pregnancy Calculator | Due Date and Weeks',
+    seoDescription:
+      'Estimate due date, pregnancy week, gestational age, conception timing, and trimester from LMP and cycle length. Learn when ultrasound dating can override it.',
     icon: 'calculator-pregnancy',
-    formula: 'The calculator starts with the first day of the last menstrual period, adds about 280 days, and adjusts for cycle length.',
+    formula:
+      'The calculator uses Naegele-style dating: due date = first day of LMP + 280 days + (cycle length - 28 days). It estimates ovulation or conception near LMP + cycle length - 14 days and counts gestational age from LMP to today.',
     caution: estimateCaution,
     useCases: [
-      'Estimate an expected due date from LMP.',
-      'Check gestational age today.',
+      'Estimate an expected due date from the first day of the last menstrual period.',
+      'Check pregnancy week and gestational age today.',
       'Estimate conception timing from cycle length.',
-      'Use a simple date reference before clinical dating is confirmed.',
+      'Use a simple planning date before clinical dating is confirmed.',
     ],
     examples: [
-      { label: 'LMP Apr 1', expression: '28-day cycle', result: 'Estimated due date' },
-      { label: 'Longer cycle', expression: '32-day cycle', result: 'Due date adjusted later' },
-      { label: 'Shorter cycle', expression: '26-day cycle', result: 'Due date adjusted earlier' },
+      { label: 'LMP Apr 1, 2026', expression: '28-day cycle', result: 'Due Jan 6, 2027; conception around Apr 15' },
+      { label: 'LMP Mar 20, 2026', expression: '32-day cycle', result: 'Due Dec 29, 2026; conception around Apr 7' },
+      { label: 'LMP Apr 10, 2026', expression: '26-day cycle', result: 'Due Jan 13, 2027; conception around Apr 22' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does pregnancy dating start before conception?',
+        answer:
+          'Pregnancy dating usually counts gestational age from the first day of the last menstrual period. That means the gestational-age number is often about two weeks ahead of the estimated conception age.',
+      },
+      {
+        question: 'What if my cycle is not 28 days?',
+        answer:
+          'The calculator shifts the due date by the difference from 28 days. A 32-day cycle moves the estimate about four days later, while a 26-day cycle moves it about two days earlier. Irregular cycles make calendar dating less reliable.',
+      },
+      {
+        question: 'Can this tell the exact conception date or biological parent?',
+        answer:
+          'No. The conception line is an estimate near ovulation, not proof of an exact day, intercourse date, or parentage. Fertilization timing, sperm survival, ovulation shifts, and dating uncertainty all matter.',
+      },
+      {
+        question: 'When should ultrasound or clinician dating override this calculator?',
+        answer:
+          'Use clinician dating when your care team gives you an official due date, especially after an early ultrasound, uncertain LMP, irregular cycles, bleeding that may not have been a true period, IVF, multiples, or medical concerns.',
+      },
     ],
     relatedSlugs: ['due-date-calculator', 'pregnancy-conception-calculator', 'ovulation-calculator'],
   }),

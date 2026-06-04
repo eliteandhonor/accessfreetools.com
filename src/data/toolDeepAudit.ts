@@ -1927,8 +1927,18 @@ const johnsHopkinsTargetHeartRate = {
 };
 
 const johnsHopkinsDueDate = {
-  href: 'https://www.mayoclinic.org/healthy-lifestyle/getting-pregnant/in-depth/due-date-calculator/itt-20084986',
-  label: 'Mayo Clinic: Due date calculator',
+  href: 'https://www.hopkinsmedicine.org/health/wellness-and-prevention/calculating-a-due-date',
+  label: 'Johns Hopkins Medicine: Calculating a due date',
+};
+
+const acogDueDateMethods = {
+  href: 'https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2017/05/methods-for-estimating-the-due-date',
+  label: 'ACOG: Methods for estimating the due date',
+};
+
+const cdcGestationDefinition = {
+  href: 'https://www.cdc.gov/nchs/hus/sources-definitions/gestation.htm',
+  label: 'CDC/NCHS: Gestation source and definition notes',
 };
 
 const johnsHopkinsFertileWindow = {
@@ -3022,20 +3032,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'pregnancy-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-top-25-completion-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-04',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
-    sources: [johnsHopkinsDueDate, cdcPregnancyWeight],
+    sources: [acogDueDateMethods, johnsHopkinsDueDate, cdcGestationDefinition],
     findings: [
-      'The calculator uses the same LMP plus 280 days and cycle-length adjustment as the due-date tool, then adds gestational age, estimated conception, and trimester labels.',
-      'The guide explains that gestational age is counted from LMP, so it is usually about two weeks more than conception age.',
-      'Health safety copy tells users that ultrasound or clinician dating can update the estimate and that the page is planning support, not medical advice.',
+      'The calculator uses LMP plus 280 days plus cycle-length adjustment, then adds pregnancy week, gestational age today, estimated conception, and trimester labels.',
+      'The guide explains that gestational age is counted from LMP, so it is usually about two weeks more than conception age, and it warns that uncertain LMP, irregular cycles, delayed ovulation, or bleeding can make calendar dating unreliable.',
+      'Health safety copy tells users that early ultrasound or clinician dating can update the official estimate and that the page is planning support, not medical advice, parentage proof, or a replacement for prenatal care.',
     ],
     improvements: [
-      'Manually checked pregnancy date math, trimester thresholds, guide language, examples, related tools, safety notes, and source coverage.',
+      'Reworked metadata, examples, FAQ answers, guide language, related-tool routing, source links, audit notes, and art alt/caption text around exact LMP examples, due dates, conception uncertainty, ultrasound override, and source-backed limits.',
     ],
     followUps: [
-      'Add a tooltip for LMP and cycle length in the pregnancy calculator UI.',
+      'Consider a future due-date-by-ultrasound or IVF mode only if the tool can handle those assumptions safely and clearly.',
     ],
   },
   {
@@ -8643,7 +8653,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
     }
 
     if (includesAny(key, ['pregnancy', 'due-date', 'conception', 'ovulation', 'period'])) {
-      return sourceBackstop([johnsHopkinsDueDate, cdcPregnancyWeight]);
+      return sourceBackstop([acogDueDateMethods, johnsHopkinsDueDate, cdcGestationDefinition]);
     }
 
     if (includesAny(key, ['gfr'])) {
