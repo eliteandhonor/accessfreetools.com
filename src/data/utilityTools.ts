@@ -6837,10 +6837,31 @@ export const utilityTools: ToolDefinition[] = [
       'Use this free hash generator to create SHA-256, SHA-384, or SHA-512 hex digests from text with the browser SubtleCrypto API.',
     icon: 'tool-hash',
     aliases: ['SHA-256 Generator', 'SHA Hash Generator', 'Text Hash Generator'],
+    seoTitle: 'Hash Generator | SHA-256, SHA-384, SHA-512',
+    seoDescription:
+      'Generate SHA-256, SHA-384, or SHA-512 text hashes in the browser, see input and digest byte counts, and avoid raw-hash password or authenticity mistakes.',
     formula:
-      'The tool encodes text as UTF-8 bytes, passes those bytes to browser SubtleCrypto for the selected SHA-2 digest, and formats digest bytes as hex.',
+      'The tool uses TextEncoder to turn text into UTF-8 bytes, calls browser crypto.subtle.digest() with SHA-256, SHA-384, or SHA-512, then writes each digest byte as two lowercase hexadecimal characters. SHA-256 returns 32 digest bytes, SHA-384 returns 48, and SHA-512 returns 64.',
     limit:
-      'A hash is not encryption. Do not use a raw digest as a password storage design, signature system, or proof of authenticity.',
+      'A hash is not encryption, a login design, or proof of who created text. Do not use raw hashes for password storage, signatures, API secrets, or authenticity checks; those need salts, key-derivation functions, HMACs, signatures, and security-specific code.',
+    inputExplanations: [
+      {
+        term: 'Algorithm',
+        meaning: 'Choose SHA-256 for the common 32-byte digest, SHA-384 for a 48-byte digest, or SHA-512 for a 64-byte digest.',
+      },
+      {
+        term: 'Text to hash',
+        meaning: 'Paste the exact text you want to digest. Case, spaces, punctuation, emoji, and line breaks all change the output.',
+      },
+      {
+        term: 'Input bytes',
+        meaning: 'This is the UTF-8 byte length of your text before hashing. It can be different from the character count when the text includes emoji or non-English characters.',
+      },
+      {
+        term: 'Hex digest',
+        meaning: 'The result is lowercase hexadecimal text. Two hex characters represent one digest byte.',
+      },
+    ],
     useCases: [
       'Create a quick SHA-256 digest for a text sample.',
       'Compare whether two pasted text values produce the same digest.',
@@ -6848,11 +6869,47 @@ export const utilityTools: ToolDefinition[] = [
       'Keep small text hashing local in the browser.',
     ],
     examples: [
-      { label: 'SHA-256 text', expression: 'Access Free Tools', result: '64-character hex digest' },
+      {
+        label: 'SHA-256 text',
+        expression: 'Access Free Tools',
+        result: 'bdcddc51dd9df0bad4c886a189a36bde524fd4c43f2ac196c7d8e2d4fe53076f',
+      },
       { label: 'SHA-384 note', expression: 'browser utility', result: '96-character hex digest' },
       { label: 'SHA-512 phrase', expression: 'local hash example', result: '128-character hex digest' },
     ],
-    relatedSlugs: ['uuid-generator', 'password-generator', 'json-formatter'],
+    extraFaq: [
+      {
+        question: 'Is a hash the same as encryption?',
+        answer:
+          'No. Encryption is designed to be reversed with a key. A SHA-2 hash is a one-way digest, so this page cannot decrypt the output back into the original text.',
+      },
+      {
+        question: 'Why does a tiny text change create a different hash?',
+        answer:
+          'Hash functions are built so small input changes create very different digests. Changing a capital letter, adding a trailing space, or changing a line break should produce a new hash.',
+      },
+      {
+        question: 'Why is a SHA-256 digest 64 hex characters?',
+        answer:
+          'SHA-256 returns 32 digest bytes. Hex uses two characters per byte, so 32 bytes become 64 lowercase hex characters. SHA-384 becomes 96 hex characters, and SHA-512 becomes 128.',
+      },
+      {
+        question: 'Can I use this for password storage?',
+        answer:
+          'No. Password storage needs a password-hashing design such as a modern salted key-derivation function with security parameters. A raw SHA digest is not enough.',
+      },
+      {
+        question: 'Can this page hash files?',
+        answer:
+          'No. This page is for text. File hashing needs a file picker, visible file-size limits, browser memory notes, and clear handling for large or binary files.',
+      },
+      {
+        question: 'Does a matching hash prove who wrote the text?',
+        answer:
+          'No. A matching digest can show that two exact text values match, but it does not prove the sender or owner. Authenticity checks need HMACs, digital signatures, or another trusted system.',
+      },
+    ],
+    relatedSlugs: ['base64-encode-decode', 'url-encode-decode', 'password-generator'],
   }),
   makeUtilityTool({
     slug: 'unix-timestamp-converter',
