@@ -7012,10 +7012,49 @@ export const utilityTools: ToolDefinition[] = [
       'Use this free color contrast checker to compare two hex colors, calculate contrast ratio, and see WCAG AA and AAA pass or fail results.',
     icon: 'tool-contrast',
     aliases: ['WCAG Contrast Checker', 'Accessibility Contrast Checker'],
+    seoTitle: 'Color Contrast Checker | WCAG AA Ratio Tool',
+    seoDescription:
+      'Check foreground and background hex colors, calculate the WCAG contrast ratio, and see AA or AAA pass states for normal and large text.',
     formula:
-      'The checker converts hex colors to sRGB, calculates relative luminance, then uses the WCAG contrast formula: (lighter + 0.05) / (darker + 0.05).',
+      'The checker normalizes #RGB or #RRGGBB hex colors, converts each sRGB channel to linear light, calculates relative luminance, then uses the WCAG contrast formula: (lighter luminance + 0.05) / (darker luminance + 0.05).',
     limit:
-      'Contrast ratio is one accessibility check. Also review font size, focus states, hover states, icons, disabled controls, and real page context.',
+      'Contrast ratio is one accessibility check. Also review actual font size and weight, focus states, hover states, selected states, icons, disabled controls, color-blind cues, and the real page background.',
+    faqLanguage: {
+      expectedInputs: 'the exact foreground text color and background color as #RGB or #RRGGBB hex values',
+      inputFallback:
+        'Text color is the foreground color you plan to use for letters, labels, icons, or button text. Background color is the color directly behind it. Enter both as #RGB or #RRGGBB hex values.',
+      doubleCheck:
+        'Also check the actual font size, font weight, state, theme, and page background because a color pair can pass in one component and fail in another.',
+    },
+    inputExplanations: [
+      { term: 'Text color', meaning: 'the foreground hex color for the text, icon, label, or button copy you want people to read.' },
+      { term: 'Background color', meaning: 'the exact hex color directly behind that foreground color, not a nearby surface color.' },
+      { term: 'Contrast ratio', meaning: 'the lighter relative luminance divided by the darker relative luminance after WCAG adds 0.05 to both sides.' },
+      { term: 'AA normal text', meaning: 'passes when the ratio is at least 4.5:1 for typical body text.' },
+      { term: 'AA large text', meaning: 'passes when the ratio is at least 3:1 for large or bold text that meets the WCAG large-text size rule.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What contrast ratio do I need for WCAG AA?',
+        answer:
+          'For most normal text, WCAG AA needs at least 4.5:1. Large text can pass AA at 3:1. If the result is close to the line, test the real font size, weight, and state before approving the color pair.',
+      },
+      {
+        question: 'What contrast ratio do I need for WCAG AAA?',
+        answer:
+          'WCAG AAA is stricter: 7:1 for normal text and 4.5:1 for large text. AAA can be hard to meet with some brand palettes, so use it as a stronger readability target when the design can support it.',
+      },
+      {
+        question: 'Why does #777777 on white fail normal AA text?',
+        answer:
+          '#777777 on #ffffff is about 4.4780894536:1. That is very close, but it is still below the 4.5:1 AA normal-text threshold, so the checker marks normal text as fail while large text can pass.',
+      },
+      {
+        question: 'Does a passing contrast ratio make the design accessible?',
+        answer:
+          'No. A passing ratio is important, but it does not check font size, line height, focus outlines, hover states, disabled controls, icons without text, color-only meaning, or whether the color sits on a gradient or image.',
+      },
+    ],
     useCases: [
       'Check text color against a page background before publishing.',
       'Compare brand colors against WCAG AA and AAA thresholds.',
@@ -7023,11 +7062,11 @@ export const utilityTools: ToolDefinition[] = [
       'Quickly reject low-contrast combinations during design work.',
     ],
     examples: [
-      { label: 'Dark on white', expression: '#101828 on #ffffff', result: 'High contrast ratio' },
-      { label: 'Muted text', expression: '#667085 on #f9fafb', result: 'AA pass/fail check' },
-      { label: 'Brand color', expression: '#0f766e on #ecfeff', result: 'Contrast ratio' },
+      { label: 'Dark on white', expression: '#101828 on #ffffff', result: '17.7465943159:1, AA and AAA normal pass' },
+      { label: 'Muted text', expression: '#667085 on #f9fafb', result: '4.7604112926:1, AA normal pass and AAA normal fail' },
+      { label: 'Near miss', expression: '#777777 on #ffffff', result: '4.4780894536:1, AA normal fail but large text passes' },
     ],
-    relatedSlugs: ['aspect-ratio-calculator', 'text-case-converter', 'word-counter'],
+    relatedSlugs: ['aspect-ratio-calculator', 'css-clamp-calculator', 'monitor-ppi-calculator'],
   }),
   makeUtilityTool({
     slug: 'aspect-ratio-calculator',

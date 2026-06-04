@@ -7180,6 +7180,7 @@ function calculateUtility(
           { label: 'AA normal text', value: result.passesAaNormal ? 'Pass' : 'Fail' },
           { label: 'AA large text', value: result.passesAaLarge ? 'Pass' : 'Fail' },
           { label: 'AAA normal text', value: result.passesAaaNormal ? 'Pass' : 'Fail' },
+          { label: 'AAA large text', value: result.passesAaaLarge ? 'Pass' : 'Fail' },
         ],
         steps: [
           'Convert each hex color to sRGB channel values.',
