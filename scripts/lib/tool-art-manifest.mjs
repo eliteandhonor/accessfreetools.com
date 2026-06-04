@@ -118,6 +118,11 @@ const toolArtMetadataOverrides = {
       caption:
         'URL Encode / Decode artwork matches the live workflow: encode URL component values, decode percent-encoded text, compare %20 with plus spaces, and avoid full-URL or double-encoding mistakes.',
     },
+    guide: {
+      alt: 'Smoke mascot explaining the URL Encode / Decode guide with price=10&tax=2, price%3D10%26tax%3D2, %20 versus plus spaces, and whole-URL caution cards.',
+      caption:
+        'URL Encode / Decode guide artwork supports the walkthrough for component values, percent triplets, %20 versus plus spaces, double-encoding, and full-URL mistakes.',
+    },
   },
   'lean-body-mass-calculator': {
     tool: {

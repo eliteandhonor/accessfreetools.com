@@ -1740,25 +1740,52 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.rfc4648, sourceLinks.mdnTextEncoder],
   },
   'url-encode-decode': {
+    title: 'How to Use the URL Encode / Decode Tool',
     summary: 'Learn how URL percent-encoding protects reserved characters in URL components.',
+    metaDescription:
+      'Use the URL Encode / Decode guide to encode query values, decode percent-encoded text, compare %20 with plus spaces, and avoid whole-URL mistakes.',
     purpose:
-      'The URL Encode / Decode tool is made for URL components, especially query values. It turns reserved characters into percent-encoded text and decodes them back.',
+      'The URL Encode / Decode tool is made for URL components, especially query values, path pieces, and small snippets that need to travel safely inside a URL. It turns reserved characters into percent-encoded text and decodes them back.',
+    intro:
+      'Use this guide when a query value, tracking parameter, API test URL, or copied link contains spaces, ampersands, equals signs, slashes, or percent codes and you want to know what the tool is changing.',
+    inputMatch: 'the mode, the exact text to encode or decode, and whether spaces should use %20 or plus signs',
+    logicNote:
+      'The tool treats the input as a URL component. In encode mode, reserved or unsafe characters are converted to UTF-8 bytes and written as % plus two hexadecimal digits. In decode mode, valid percent triplets are changed back into readable text. Plus-space mode uses + for spaces when you are working with form-style query values.',
+    readIntro:
+      'Read the output as the value you would paste into a query parameter, path piece, form body, or test request. Compare the input length and output length when the result looks surprising; extra spaces, copied punctuation, or an already-encoded percent sign can change the answer.',
+    mistakeIntro:
+      'The common mistakes are encoding an entire URL when only one value should be encoded, decoding the same value over and over, using plus mode where + should stay a literal plus sign, or pasting private tokens into a convenience tool.',
     enter: [
-      'Choose Encode for readable text or Decode for percent-encoded text.',
-      'Paste the URL component value, not necessarily a whole URL.',
-      'Turn on plus-spaces when working with form-style values.',
+      'Choose Encode for readable component text or Decode for text that already contains percent codes.',
+      'Paste the exact component value. For example, use price=10&tax=2 when you want that whole value protected inside a query parameter.',
+      'Turn on plus-spaces only for form-style query values where spaces should become + instead of %20.',
     ],
     read: [
-      'The main answer is the encoded or decoded text.',
-      'Spaces line shows whether spaces used %20 or plus signs.',
-      'Input and output length help spot accidental extra characters.',
+      'For price=10&tax=2, encode mode returns price%3D10%26tax%3D2 so the equals sign and ampersand stay part of the value instead of acting like URL separators.',
+      'For price%3D10%26tax%3D2, decode mode returns price=10&tax=2 so you can read the original value again.',
+      'For hello tools, normal URL-component encoding returns hello%20tools; plus-space mode can return hello+tools when the receiving system expects form-style spaces.',
     ],
     mistakes: [
-      'Do not encode a full URL the same way as one query value.',
-      'Do not decode the same value repeatedly unless you know it was double-encoded.',
-      'Use plus mode only for form-style values where plus means space.',
+      'Do not encode a full URL the same way as one query value. Encoding ://, ?, &, and = can stop the URL from working.',
+      'Do not decode the same value repeatedly unless you know it was double-encoded. For example, %2520 may become %20 after one decode, then a space after a second decode.',
+      'Do not paste real signed links, access tokens, passwords, session URLs, or private query strings unless you fully understand the risk. URL encoding is formatting, not secrecy.',
     ],
-    sources: [sourceLinks.rfc3986],
+    extraSections: [
+      {
+        title: 'Quick example',
+        paragraphs: [
+          'Say you need to place price=10&tax=2 inside one query value. If you leave it alone, the ampersand can be read as a separator between two parameters. Encode mode returns price%3D10%26tax%3D2, which keeps the equals sign and ampersand inside the value you are sending.',
+        ],
+      },
+      {
+        title: 'Whole URL versus one component',
+        paragraphs: [
+          'A complete URL such as https://example.com/?q=test already uses ://, ?, =, and & as structure. A component value such as price=10&tax=2 is different because those same characters are data. Encode the part you are inserting, not the whole address, unless your app specifically asks for an encoded full URL.',
+          'When a tool, API, or form mentions URLSearchParams, query string values, or application/x-www-form-urlencoded data, plus-space handling may matter. If it simply asks for a URI component, %20 is usually the clearer space marker.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.rfc3986, sourceLinks.mdnUrlSearchParams],
   },
   'day-of-the-week-calculator': {
     summary: 'Learn how to find the weekday for any valid calendar date.',
