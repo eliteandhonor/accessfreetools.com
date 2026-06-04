@@ -7602,6 +7602,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     improvements: [
       'Manually checked aspect-ratio simplification, scale-by-width and scale-by-height behavior, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
       'Added SEO title/meta copy, same-unit input explanations, extra aspect-ratio/resizing/cropping/rounding FAQs, exact 4K, vertical story, and social-preview examples, design-adjacent related links, and a 2026-06-04 modified date.',
+      'Expanded the matching guide with a stronger intro, same-unit input matching, exact 4K and vertical-story walkthroughs, resize/crop/padding guidance, MDN and NIST source links, and a 2026-06-04 guide modified date.',
     ],
     followUps: [
       'Add common platform presets only if each preset has a maintained source and visible date.',

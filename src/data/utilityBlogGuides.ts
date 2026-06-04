@@ -917,6 +917,10 @@ const sourceLinks = {
     href: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/clamp',
     label: 'MDN: CSS clamp()',
   },
+  mdnAspectRatio: {
+    href: 'https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio',
+    label: 'MDN: CSS aspect-ratio',
+  },
   githubGfmTables: {
     href: 'https://github.github.io/gfm/',
     label: 'GitHub Flavored Markdown Spec: Tables',
@@ -5469,25 +5473,73 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.wcagContrast, sourceLinks.wcagContrastMinimum],
   },
   'aspect-ratio-calculator': {
+    title: 'Aspect Ratio Calculator Guide',
     summary: 'Learn how to simplify image and video dimensions or resize while preserving proportions.',
+    metaDescription:
+      'Use the Aspect Ratio Calculator guide to simplify width and height, scale one dimension, and avoid stretched images, videos, and previews.',
     purpose:
-      'The Aspect Ratio Calculator keeps designs, screenshots, images, and video frames from stretching. It simplifies width and height into a ratio and can calculate a matching width or height for resizing.',
+      'The Aspect Ratio Calculator keeps designs, screenshots, images, thumbnails, and video frames from stretching when one dimension changes.',
+    intro:
+      'Start with the real width and height from the file, artboard, screen, or upload spec. The guide below shows how to simplify the shape, scale one dimension, and decide when you need resizing, cropping, or padding instead.',
+    inputMatch:
+      'the original width and height, using the same unit, plus either the new width or the new height when you are resizing',
+    logicNote:
+      'For example, 3840 x 2160 simplifies to 16:9 because both numbers divide down to 16 and 9. If a 1080 x 1920 vertical story needs to become 720 pixels wide, the matching height is 1280 pixels, so the file keeps the same shape.',
+    readIntro:
+      'Read the simplified ratio first, then check the decimal and scaled-size lines. If the answer is for an upload, design system, or video editor, compare the final rounded pixels with that platform before exporting.',
+    mistakeIntro:
+      'Most aspect-ratio mistakes come from mixing units, rounding too early, or resizing when the real job needs a crop or padded canvas.',
     enter: [
-      'Use Simplify ratio when you only need the width-to-height relationship.',
-      'Use Scale by width when you know the new width and need the matching height.',
+      'Use Simplify ratio when you only need the width-to-height relationship, such as 3840 x 2160 becoming 16:9.',
+      'Use Scale by width when you know the new width and need the matching height, such as a 1080 x 1920 story resized to 720 wide.',
       'Use Scale by height when you know the new height and need the matching width.',
+      'Keep width and height in the same unit. Pixels, inches, and centimeters can all work, but do not mix them in the same calculation.',
     ],
     read: [
-      'Ratio shows the simplified width-to-height relationship.',
-      'Decimal shows width divided by height.',
+      'Ratio shows the simplified width-to-height relationship, such as 16:9, 1:1, or 4:5.',
+      'Decimal shows width divided by height, which helps compare two sizes that may not look obviously related.',
       'Scaled size shows the missing dimension when you resize by width or height.',
+      'A one-pixel difference can happen after rounding when the exact scaled answer is a decimal pixel.',
     ],
     mistakes: [
       'Do not round too early when a platform needs exact pixels.',
       'Do not crop and resize as if they are the same thing; cropping changes what is visible.',
-      'Check the final export dimensions after compression or image editing.',
+      'Do not assume a ratio tells you which part of the image should stay in frame.',
+      'Check the final export dimensions after compression, image editing, or video rendering.',
     ],
-    sources: [],
+    extraSections: [
+      {
+        title: 'One vertical story example',
+        paragraphs: [
+          'Say a vertical design is 1080 x 1920 and you need a smaller copy that is 720 pixels wide. Choose Scale by width, enter 1080 as the original width, 1920 as the original height, and 720 as the new width.',
+          'The calculator returns 720 x 1280. That means the image is smaller, but it has not been squashed or stretched. If the destination requires a different shape, resize alone is not enough.',
+        ],
+        bullets: [
+          '1080 x 1920 simplifies to 9:16.',
+          '720 / 1080 = 0.666666..., so the height scales by the same factor.',
+          '1920 x 0.666666... = 1280.',
+        ],
+      },
+      {
+        title: 'Resize, crop, or pad?',
+        paragraphs: [
+          'Resizing keeps the whole image and changes its size. Cropping cuts away part of the image to fit a different shape. Padding keeps the whole image but adds empty space around it.',
+          'If your 1200 x 630 social preview needs to stay the same shape at 600 pixels wide, resizing gives 600 x 315. If a platform asks for a square, you need a crop or padded canvas instead of only a scaled size.',
+        ],
+        bullets: [
+          'Resize when the shape can stay the same.',
+          'Crop when the destination shape is different and losing edges is acceptable.',
+          'Pad when the destination shape is different but the whole image must stay visible.',
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Aspect Ratio Calculator beside this guide. Try 3840 x 2160 first, then scale the 1080 x 1920 story example to 720 wide.',
+    bestUsesIntro:
+      'Use this guide when you already know the original dimensions and need a clean resize, simplified ratio, or quick check before exporting an image, video, screenshot, or thumbnail.',
+    referenceIntro:
+      'These references help check the aspect-ratio concept and same-unit measurement context behind the guide examples.',
+    sources: [sourceLinks.mdnAspectRatio, sourceLinks.nistUnits],
   },
   'utm-builder': {
     summary: 'Learn how to build UTM campaign links without hand-editing URL parameters.',
