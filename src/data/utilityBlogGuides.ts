@@ -897,6 +897,10 @@ const sourceLinks = {
     href: 'https://www.w3.org/TR/WCAG22/',
     label: 'W3C: Web Content Accessibility Guidelines 2.2',
   },
+  wcagContrastMinimum: {
+    href: 'https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html',
+    label: 'W3C WAI: Understanding contrast minimum',
+  },
   googleCampaignUrls: {
     href: 'https://support.google.com/analytics/answer/10917952?hl=en',
     label: 'Google Analytics Help: Collect campaign data with custom URLs',
@@ -5397,25 +5401,72 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.mdnDate, sourceLinks.nistTime, sourceLinks.isoDate],
   },
   'color-contrast-checker': {
-    summary: 'Learn how to compare two colors with the WCAG contrast ratio formula.',
+    summary: 'Learn how to compare foreground and background colors with the WCAG contrast ratio formula.',
     purpose:
-      'The Color Contrast Checker helps you catch low-contrast text and background combinations before they become a design or accessibility problem. It reports WCAG AA and AAA pass or fail results.',
+      'The Color Contrast Checker helps you test a text color against the exact background behind it before a button, label, nav link, or body-text style becomes hard to read.',
+    intro:
+      'Start with the real foreground and background hex values from the component you are checking. A color pair can pass on a white page and fail on a tinted card, gradient, image, hover state, or disabled state.',
+    inputMatch:
+      'the exact foreground text color and background color as #RGB or #RRGGBB hex values, taken from the state and surface you plan to ship.',
+    logicNote:
+      'For example, #777777 on #ffffff is about 4.4780894536:1. That is close, but it is still below the 4.5:1 AA normal-text threshold, so normal text fails while large AA text can pass.',
+    readIntro:
+      'Read the ratio and all four pass/fail lines together. AA normal text, AA large text, AAA normal text, and AAA large text answer different design questions.',
+    mistakeIntro:
+      'Most contrast mistakes come from testing the wrong surface or treating one passing ratio as approval for every state.',
+    metaDescription:
+      'Learn how to check text and background hex colors, read WCAG AA and AAA contrast results, and avoid common near-miss accessibility mistakes.',
     enter: [
-      'Enter the text color as #RGB or #RRGGBB.',
-      'Enter the background color as #RGB or #RRGGBB.',
+      'Enter the foreground text, icon, label, or button-copy color as #RGB or #RRGGBB.',
+      'Enter the background color directly behind that foreground color, not a nearby surface color.',
       'Press Check contrast to calculate the ratio.',
+      'Repeat the check for hover, focus, selected, disabled, dark-theme, and light-theme states.',
     ],
     read: [
-      'The contrast ratio compares the lighter luminance with the darker luminance.',
-      'AA normal text should be at least 4.5:1.',
-      'AA large text should be at least 3:1.',
+      'The contrast ratio compares the lighter relative luminance with the darker relative luminance after WCAG adds 0.05 to both sides.',
+      'AA normal text passes at 4.5:1 or higher.',
+      'AA large text passes at 3:1 or higher.',
+      'AAA normal text passes at 7:1 or higher, while AAA large text passes at 4.5:1 or higher.',
     ],
     mistakes: [
-      'Do not check only the default state; hover, focus, disabled, and selected states matter too.',
+      'Do not check only the default state; hover, focus, disabled, selected, and dark-mode states matter too.',
+      'Do not test text on white if the real component sits on a tinted card, image, gradient, or translucent overlay.',
       'Do not rely on color alone to communicate state.',
-      'Do not assume a passing contrast ratio fixes all accessibility issues.',
+      'Do not assume a passing contrast ratio fixes font size, line height, focus outlines, icon meaning, or keyboard usability.',
     ],
-    sources: [sourceLinks.wcagContrast],
+    extraSections: [
+      {
+        title: 'One near-miss example',
+        paragraphs: [
+          'Try #777777 as the text color and #ffffff as the background. The checker returns 4.4780894536:1, which looks almost like an AA normal-text pass but is still below 4.5:1.',
+          'That tiny gap matters because WCAG contrast thresholds are pass/fail lines. You can darken the text slightly, lighten the background, increase the text size enough for the large-text rule, or choose a stronger brand shade.',
+        ],
+        bullets: [
+          '#101828 on #ffffff is 17.7465943159:1 and passes AA and AAA normal text.',
+          '#667085 on #f9fafb is 4.7604112926:1, so AA normal text passes but AAA normal text fails.',
+          '#777777 on #ffffff is 4.4780894536:1, so normal AA fails even though large text can pass.',
+        ],
+      },
+      {
+        title: 'What the formula is checking',
+        paragraphs: [
+          'The checker first expands valid short hex colors, then converts each red, green, and blue channel from sRGB into linear-light values. Those channel values produce relative luminance for the foreground and background.',
+          'The final WCAG ratio is (lighter luminance + 0.05) divided by (darker luminance + 0.05). The result has no unit; it is usually written as something like 4.5:1 or 7:1.',
+        ],
+        bullets: [
+          'Use the specified background that appears behind the text in normal use.',
+          'Anti-aliasing, font weight, and thin strokes can make text feel lighter than the math suggests.',
+          'A contrast checker does not decide whether color is the only cue, so still add labels, icons, borders, or state text where needed.',
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Color Contrast Checker beside this guide. Try the #777777 on white near-miss first, then test the exact component state you plan to ship.',
+    bestUsesIntro:
+      'Use this guide when you are choosing text, button, label, navigation, or icon colors and need to know whether the real foreground/background pair clears WCAG contrast thresholds.',
+    referenceIntro:
+      'These references explain the WCAG contrast thresholds, relative luminance formula, large-text exception, and why contrast is only one accessibility check.',
+    sources: [sourceLinks.wcagContrast, sourceLinks.wcagContrastMinimum],
   },
   'aspect-ratio-calculator': {
     summary: 'Learn how to simplify image and video dimensions or resize while preserving proportions.',

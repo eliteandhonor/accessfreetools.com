@@ -7581,6 +7581,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     improvements: [
       'Manually checked contrast formula, hex validation, AA/AAA thresholds, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
       'Added WCAG AA and AAA threshold FAQs, exact contrast-ratio examples, foreground/background input explanations, visible AAA large-text result output, stronger real-component limits, better design-related links, SEO title/meta copy, and a 2026-06-04 modified date.',
+      'Expanded the matching guide with a near-miss #777777 on white walkthrough, formula steps, AA and AAA reading guidance, state/background mistakes, source context, and a 2026-06-04 guide modified date.',
     ],
     followUps: [
       'Add color picker controls later if they stay compact and keyboard accessible.',

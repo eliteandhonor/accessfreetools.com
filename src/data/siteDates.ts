@@ -301,6 +301,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-css-clamp-calculator': '2026-06-04',
   'how-to-use-hash-generator': '2026-06-04',
   'how-to-use-unix-timestamp-converter': '2026-06-04',
+  'how-to-use-color-contrast-checker': '2026-06-04',
   'how-to-use-fuel-cost-calculator': '2026-05-26',
   'how-to-use-matrix-calculator': '2026-05-26',
   'how-to-use-date-calculator': '2026-05-26',
