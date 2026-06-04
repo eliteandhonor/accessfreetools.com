@@ -5813,17 +5813,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'mass-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-04',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
-    sources: [nistSi, nistConversionFactors],
+    sources: [nistSi, nistConversionFactors, openStaxMassWeight],
     findings: [
-      'The calculator correctly rearranges the density relationship as mass = density x volume.',
-      'The page now explains that this estimate is not the same as putting an object on a scale.',
-      'The guide keeps unit matching, density source quality, moisture, and material-specific density in view.',
+      'DataForSEO paid evidence for the exact tool and guide showed `mass calculator` intent plus related monoisotopic mass, chemistry, formula, physics, and mass-from-weight searches.',
+      'The calculator correctly rearranges the density relationship as mass = density x volume and now shows exact examples for 2.7 g/cm3 x 10 cm3, 1 g/mL x 250 mL, and 1600 kg/m3 x 0.5 m3.',
+      'The page and guide explain that this estimate is not a scale measurement, chemistry molar-mass tool, monoisotopic-mass tool, body-mass calculator, or weight-to-mass converter.',
+      'The guide keeps unit matching, density source quality, moisture, temperature, packing, and material-specific density in view.',
     ],
     improvements: [
-      'Manually checked mass-from-density math, examples, FAQ input wording, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Manually checked mass-from-density math, exact examples, FAQ input wording, guide cautions, source coverage, related tools, SEO copy, privacy behavior, result labels, DataForSEO paid evidence, and Calculator.net topic-gap evidence.',
     ],
     followUps: [
       'Consider a common-material density helper only if the values are clearly labeled as rough references.',

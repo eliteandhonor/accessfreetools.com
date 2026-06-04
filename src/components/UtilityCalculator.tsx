@@ -1661,17 +1661,18 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Mass Calculator',
     buttonLabel: 'Calculate mass',
     emptyHistory: 'Recent mass calculations will appear here.',
-    privacyNote: 'Mass calculations stay in this browser tab.',
+    privacyNote:
+      'Mass calculations stay in this browser tab. The unit label is text only, so convert density and volume units before calculating.',
     modes: [
       {
         id: 'density-volume',
         label: 'Density x volume',
         symbol: 'm',
-        fields: [numberField('density', 'Density'), numberField('volume', 'Volume'), textField('unitLabel', 'Unit label', 'kg')],
+        fields: [numberField('density', 'Density'), numberField('volume', 'Volume'), textField('unitLabel', 'Mass unit label', 'g, kg, lb')],
         defaultInputs: { density: '2.7', volume: '10', unitLabel: 'g' },
         examples: [
-          { label: 'Density sample', inputs: { density: '2.7', volume: '10', unitLabel: 'g' } },
-          { label: 'Water-like', inputs: { density: '1', volume: '250', unitLabel: 'g' } },
+          { label: 'Aluminum-like', inputs: { density: '2.7', volume: '10', unitLabel: 'g' } },
+          { label: 'Water-like liquid', inputs: { density: '1', volume: '250', unitLabel: 'g' } },
           { label: 'Bulk material', inputs: { density: '1600', volume: '0.5', unitLabel: 'kg' } },
         ],
       },
@@ -5058,7 +5059,10 @@ function calculateUtility(
           'Check that density and volume units match.',
           'Multiply density by volume.',
           'Label the result with the mass unit you entered.',
+          'Use a scale, chemistry calculator, or weight-force calculator when that is the actual task.',
         ],
+        note:
+          'Example: 2.7 g/cm3 x 10 cm3 = 27 g. This tool does not convert units inside the label.',
       };
     }
     case 'weight': {

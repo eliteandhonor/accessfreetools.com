@@ -920,18 +920,21 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'mass-calculator',
     name: 'Mass Calculator',
     category: 'calculators',
-    summary: 'Calculate mass from density and volume with clear formula steps.',
+    summary: 'Calculate mass from density and volume with unit-matching reminders.',
     description:
-      'Use this free mass calculator to multiply density by volume and estimate mass with formula steps and a custom unit label.',
+      'Use this free mass calculator to multiply density by volume, label the mass unit, and check exact formula examples for materials or classroom work.',
+    seoTitle: 'Mass Calculator | Density x Volume',
+    seoDescription:
+      'Calculate mass from density and volume with exact examples. Learn when to use a scale, Weight Calculator, or Molecular Weight Calculator instead.',
     icon: 'calculator-mass',
     formula:
-      'The calculator uses mass = density x volume. Density and volume must be in matching units for the result label to make sense.',
+      'The calculator uses mass = density x volume. If density is in g/cm3 and volume is in cm3, the result is grams. If density is in kg/m3 and volume is in m3, the result is kilograms.',
     limit:
-      'This is a formula helper, not a scale. Material density, temperature, moisture, and measurement precision can change real mass.',
+      'This is a density-and-volume formula helper, not a scale, chemistry molar-mass tool, monoisotopic-mass tool, body-mass calculator, or weight-to-mass converter. Material density, temperature, moisture, and measurement precision can change real mass.',
     inputExplanations: [
-      { term: 'Density', meaning: 'mass per volume, such as g/mL, kg/m3, lb/ft3, or a supplier density.' },
-      { term: 'Volume', meaning: 'the space the material fills, written in the matching volume unit for the density.' },
-      { term: 'Mass unit label', meaning: 'the label you want printed beside the answer, such as g, kg, or lb.' },
+      { term: 'Density', meaning: 'mass per volume, such as g/cm3, g/mL, kg/m3, lb/ft3, or a supplier density.' },
+      { term: 'Volume', meaning: 'the space the material fills, written in the matching volume unit for the density, such as cm3 when density is g/cm3.' },
+      { term: 'Mass unit label', meaning: 'plain text printed beside the answer, such as g, kg, or lb. The calculator does not convert that label.' },
     ],
     extraFaq: [
       {
@@ -939,19 +942,35 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'No. This estimates mass from a density value and a volume value. A real scale measures the object directly, while this calculator is only as good as the density and volume you enter.',
       },
+      {
+        question: 'Can I calculate mass from weight instead?',
+        answer:
+          'This page does not convert force or scale weight into mass. For physics weight force, use the Weight Calculator, which separates kilograms, newtons, pounds-force, and pounds mass.',
+      },
+      {
+        question: 'Is this a chemistry molar mass or monoisotopic mass calculator?',
+        answer:
+          'No. This page uses density times volume for physical samples. For chemical formulas, use the Molecular Weight Calculator instead; isotope-exact or monoisotopic mass needs a more specialized chemistry tool.',
+      },
+      {
+        question: 'Why does the unit label matter?',
+        answer:
+          'The unit label is text only. If you enter 2.7 g/cm3 and 10 cm3, label the answer g because cubic centimeters cancel. If you enter 1600 kg/m3 and 0.5 m3, label the answer kg.',
+      },
     ],
     useCases: [
       'Find mass when density and volume are known.',
       'Check science homework that rearranges density formulas.',
-      'Estimate material mass before using a weight-force calculator.',
+      'Estimate material mass before using a physics weight-force calculator.',
       'Compare density, mass, and volume relationships.',
+      'Route chemistry molar-mass and monoisotopic-mass searches to the right specialized tool.',
     ],
     examples: [
-      { label: 'Density sample', expression: '2.7 x 10', result: '27 mass units' },
-      { label: 'Water-like', expression: '1 x 250', result: '250 mass units' },
-      { label: 'Bulk material', expression: '1600 x 0.5', result: '800 mass units' },
+      { label: 'Aluminum-like sample', expression: '2.7 g/cm3 x 10 cm3', result: '27 g' },
+      { label: 'Water-like liquid', expression: '1 g/mL x 250 mL', result: '250 g' },
+      { label: 'Bulk material', expression: '1600 kg/m3 x 0.5 m3', result: '800 kg' },
     ],
-    relatedSlugs: ['density-calculator', 'weight-calculator', 'volume-calculator'],
+    relatedSlugs: ['density-calculator', 'volume-calculator', 'weight-calculator', 'molecular-weight-calculator'],
   }),
   makeUtilityTool({
     slug: 'weight-calculator',

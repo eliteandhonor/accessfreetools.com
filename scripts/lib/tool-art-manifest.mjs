@@ -100,6 +100,18 @@ const toolArtMetadataOverrides = {
         'Lean Body Mass Calculator guide artwork supports the walkthrough for Boer formula examples, lean percent context, and limits around body-fat tests, protein planning, TDEE, and clinical use.',
     },
   },
+  'mass-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking density times volume with 2.7 g/cm3, 10 cm3, 27 g, 1600 kg/m3, 0.5 m3, and 800 kg cards.',
+      caption:
+        'Mass Calculator artwork matches the live workflow: enter density, volume, and a mass unit label, then multiply density by volume with unit-matching reminders.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining mass equals density times volume with 27 g, 250 g, 800 kg, scale, weight-force, and chemistry boundary cards.',
+      caption:
+        'Mass Calculator guide artwork supports the walkthrough for exact density-volume examples, unit matching, scale limits, weight-force routing, and chemistry mass boundaries.',
+    },
+  },
   'healthy-weight-calculator': {
     tool: {
       alt: 'Smoke mascot checking a healthy weight range with 170 cm, BMI 18.5-24.9, 53.47 kg, 71.96 kg, and adult-screening cards.',

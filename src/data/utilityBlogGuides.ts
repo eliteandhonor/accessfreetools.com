@@ -1531,25 +1531,56 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits, sourceLinks.bipmSi],
   },
   'mass-calculator': {
-    summary: 'Learn how density multiplied by volume gives mass and when the estimate needs real measurements.',
+    summary: 'Learn how density multiplied by volume gives mass and why matching units matter.',
     purpose:
-      'The Mass Calculator rearranges the density formula. If density and volume are known, multiplying them gives mass.',
+      'The Mass Calculator uses the density formula in the mass direction. If density and volume are known in matching units, multiplying them gives an estimated mass.',
     enter: [
-      'Enter density.',
-      'Enter volume.',
-      'Enter the mass unit label you want to show.',
+      'Enter density as mass per volume, such as g/cm3, g/mL, kg/m3, or lb/ft3.',
+      'Enter volume in the matching volume unit, such as cm3 when density is g/cm3.',
+      'Enter the mass unit label you want to show. The label is text only, so convert units first if needed.',
     ],
     read: [
       'Mass is the main answer.',
       'Density and volume are repeated for checking.',
       'Formula shows density multiplied by volume.',
+      'For 2.7 g/cm3 and 10 cm3, the answer is 27 g because the cm3 units cancel.',
     ],
     mistakes: [
       'Do not use mismatched density and volume units.',
       'Remember that this is not a scale measurement.',
       'Use material-specific density when estimating real objects.',
+      'Do not use this page for chemistry molar mass, monoisotopic mass, body mass, or weight-force conversions.',
     ],
-    sources: [sourceLinks.nistUnits, sourceLinks.bipmSi],
+    extraSections: [
+      {
+        title: 'Quick examples',
+        paragraphs: [
+          'An aluminum-like sample with density 2.7 g/cm3 and volume 10 cm3 has an estimated mass of 27 g.',
+          'A water-like liquid with density 1 g/mL and volume 250 mL has an estimated mass of 250 g.',
+          'A bulk material with density 1600 kg/m3 and volume 0.5 m3 has an estimated mass of 800 kg.',
+        ],
+      },
+      {
+        title: 'If you meant another mass calculator',
+        paragraphs: [
+          'Searches for "mass calculator" can mean different jobs. This page is for density times volume. It does not calculate chemical molar mass, monoisotopic mass, body mass, or mass from a force reading.',
+          'Use Molecular Weight Calculator for chemical formula mass. Use Weight Calculator for physics weight force from mass and gravity. Use Conversion Calculator when you only need to convert between mass units.',
+        ],
+        links: [
+          { href: '/tools/molecular-weight-calculator/', label: 'Calculate molecular weight from a formula' },
+          { href: '/tools/weight-calculator/', label: 'Calculate physics weight force' },
+          { href: '/tools/conversion-calculator/', label: 'Convert mass units' },
+        ],
+      },
+      {
+        title: 'Why the estimate can differ from a real object',
+        paragraphs: [
+          'Published or supplier density values are often averages. Moisture, temperature, packing, air gaps, and measurement precision can all change the real mass.',
+          'For lab, shipping, structural, recipe, or safety decisions, use measured density, a calibrated scale, supplier data, or professional guidance instead of a rough lookup value.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.nistUnits, sourceLinks.bipmSi, sourceLinks.openStaxMassWeight],
   },
   'weight-calculator': {
     summary: 'Use the physics Weight Calculator for mass times gravity, not BMI or ideal body weight.',
