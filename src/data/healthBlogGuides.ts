@@ -527,30 +527,35 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'lean-body-mass-calculator': {
-    summary: 'Learn how lean body mass is estimated from height, weight, and formula sex.',
+    summary: 'Learn how the Boer formula estimates lean body mass from height, weight, and formula sex.',
     purpose:
-      'The Lean Body Mass Calculator estimates fat-free mass with the Boer equation. It is a simple formula reference, not a scan of your body composition.',
+      'The Lean Body Mass Calculator estimates fat-free mass with the Boer equation. It is a simple formula reference, not a DEXA scan, body-fat percentage test, muscle-mass scan, protein prescription, or clinical dosing rule.',
     enter: [
       'Enter height, weight, and formula sex.',
-      'Use current values if you want a current estimate.',
-      'Use the same formula when tracking changes.',
+      'Use current values if you want a current formula estimate.',
+      'Use the same formula and the same measurement units when tracking changes.',
+      'Do not enter body fat percentage here; this page is for the height-and-weight Boer equation.',
     ],
     example: [
-      'For 180 cm and 82 kg, the calculator applies the height and weight terms in the Boer equation.',
-      'The result estimates lean body mass, and the remaining weight is a rough implied fat mass.',
+      'For a male formula input at 180 cm and 82 kg, the Boer equation gives about 62.23 kg of lean body mass. The implied remaining weight is about 19.77 kg, and the lean percent is about 75.9%.',
+      'For a female formula input at 165 cm and 62 kg, the estimate is about 45.37 kg of lean body mass, about 16.63 kg implied fat mass, and about 73.18% lean.',
+      'For a female formula input at 172 cm and 70 kg, the estimate is about 50.70 kg of lean body mass and about 72.42% lean.',
     ],
     read: [
       'Lean body mass includes muscle, bone, organs, and water.',
-      'The estimate can be useful beside body fat percentage, but it is still formula-based.',
+      'Estimated fat mass is body weight minus the formula lean mass. Lean percent is lean mass divided by body weight.',
+      'The estimate can be useful beside body fat percentage, protein, or TDEE planning, but it is still formula-based and not a personalized plan.',
     ],
     mistakes: [
       'Do not read lean mass as muscle mass only.',
       'Do not compare formula estimates with DEXA or other methods as if they are identical.',
-      'Do not use it for medication or clinical decisions.',
+      'Do not use it for medication dosing, clinical lean body weight, pediatric formulas, or official body-composition decisions.',
+      'Do not treat it as a protein or TDEE prescription.',
     ],
     next: [
       'Use Body Fat Calculator for a tape-based estimate.',
       'Use BMR Calculator to see how body size affects resting energy estimates.',
+      'Use Protein Calculator or TDEE Calculator only for their separate nutrition estimates, not as replacements for body-composition testing.',
     ],
   },
   'healthy-weight-calculator': {

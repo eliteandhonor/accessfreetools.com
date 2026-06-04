@@ -427,7 +427,8 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
     title: 'Lean Body Mass Calculator',
     buttonLabel: 'Calculate lean mass',
     emptyHistory: 'Recent lean body mass estimates will appear here.',
-    privacyNote: 'Lean body mass equations estimate fat-free mass from height and weight.',
+    privacyNote:
+      'Lean body mass equations estimate fat-free mass from height and weight; they are not DEXA scans, protein prescriptions, or clinical dosing rules.',
     modes: [
       {
         id: 'lean-body-mass',
@@ -1234,17 +1235,20 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       return {
         label: 'Lean body mass',
         expression: `${sex}, ${formatKg(weightKg)}, ${formatCalculatorNumber(heightCm)} cm`,
-        answer: formatKg(leanMass),
+        answer: formatRoundedKg(leanMass),
         metrics: [
-          { label: 'Estimated fat mass', value: formatKg(Math.max(0, weightKg - leanMass)) },
-          { label: 'Lean percent', value: `${formatCalculatorNumber((leanMass / weightKg) * 100)}%` },
+          { label: 'Estimated fat mass', value: formatRoundedKg(Math.max(0, weightKg - leanMass)) },
+          { label: 'Lean percent', value: `${formatRoundedNumber((leanMass / weightKg) * 100, 2)}%` },
           { label: 'Formula', value: 'Boer' },
         ],
         steps: [
-          'Use height and weight in the Boer lean body mass equation.',
+          'Use height, weight, and formula sex in the Boer lean body mass equation.',
           'Subtract estimated lean mass from body weight for an approximate fat-mass comparison.',
-          'Use consistent measurements if tracking changes over time.',
+          'Divide lean mass by body weight for lean percent.',
+          'Keep protein, TDEE, clinical dosing, and scan results separate from this formula estimate.',
         ],
+        note:
+          'Lean body mass includes muscle, bone, organs, and water. It is not muscle mass only, and it is not a body-composition scan.',
       };
     }
     case 'healthy-weight': {

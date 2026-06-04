@@ -4578,17 +4578,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'lean-body-mass-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-04',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
     sources: [boerLeanBodyMass, cdcBmi],
     findings: [
-      'The calculator uses Boer lean body mass equations and labels the result as a rough estimate from height, weight, and formula sex.',
-      'The guide explains that lean mass is not the same thing as muscle mass and that formula estimates are not body scans.',
-      'The examples include lean percentage context without turning the result into a health diagnosis.',
+      'DataForSEO paid evidence for the exact tool and guide showed intent around `lean body mass calculator`, body-fat-percentage variants, charts, protein planning, TDEE planning, Reddit questions, and MDCalc-style lean body weight searches.',
+      'The calculator uses Boer lean body mass equations and now shows rounded lean mass, implied fat mass, and lean percent from height, weight, and formula sex.',
+      'The guide explains exact examples for male 180 cm/82 kg, female 165 cm/62 kg, and female 172 cm/70 kg, while separating lean body mass from muscle-only mass, DEXA scans, body-fat tests, protein prescriptions, TDEE prescriptions, and clinical dosing rules.',
     ],
     improvements: [
-      'Manually checked Boer formula wording, result labels, examples, FAQ cautions, source coverage, related tools, SEO copy, and privacy behavior.',
+      'Reworked Boer formula wording, exact examples, FAQ cautions, guide sections, result display rounding, source-backed audit record, modified dates, related links, and art metadata around paid keyword evidence and Calculator.net competitor-gap evidence.',
     ],
     followUps: [
       'Add formula comparison only if users need Boer versus James or Hume estimates.',

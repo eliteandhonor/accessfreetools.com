@@ -88,6 +88,18 @@ const toolArtMetadataOverrides = {
         'Body Type Calculator guide artwork supports the walkthrough for top measurement, hip difference, waist definition, exact example outcomes, and style-only body-shape limits.',
     },
   },
+  'lean-body-mass-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a Boer lean body mass estimate with formula sex, 180 cm, 82 kg, 62.23 kg LBM, fat mass, and lean percent cards.',
+      caption:
+        'Lean Body Mass Calculator artwork matches the live workflow: enter formula sex, height, and weight, then estimate Boer lean body mass, implied fat mass, and lean percent.',
+    },
+    guide: {
+      alt: 'Smoke mascot explaining Boer lean mass math with 180 cm, 82 kg, 62.23 kg LBM, body-fat, protein, TDEE, and scan-limit cards.',
+      caption:
+        'Lean Body Mass Calculator guide artwork supports the walkthrough for Boer formula examples, lean percent context, and limits around body-fat tests, protein planning, TDEE, and clinical use.',
+    },
+  },
   'healthy-weight-calculator': {
     tool: {
       alt: 'Smoke mascot checking a healthy weight range with 170 cm, BMI 18.5-24.9, 53.47 kg, 71.96 kg, and adult-screening cards.',

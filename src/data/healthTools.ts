@@ -22,6 +22,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isBodyFatCalculator = spec.slug === 'body-fat-calculator';
   const isArmyBodyFatCalculator = spec.slug === 'army-body-fat-calculator';
   const isBmrCalculator = spec.slug === 'bmr-calculator';
+  const isLeanBodyMassCalculator = spec.slug === 'lean-body-mass-calculator';
   const isTargetHeartRateCalculator = spec.slug === 'target-heart-rate-calculator';
   const isBodySurfaceAreaCalculator = spec.slug === 'body-surface-area-calculator';
   const inputAnswer = isBmiCalculator
@@ -32,6 +33,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter sex, age, body weight in pounds, and abdomen circumference in inches. The current Army one-site method uses the abdomen measurement at the navel, not neck, hip, or height measurements. Use a non-stretch tape, keep it level, and do not pull it tight enough to dig into the skin.'
     : isBmrCalculator
       ? 'Enter formula sex, age in years, height in centimeters, and weight in kilograms. The formula sex setting chooses the +5 or -161 Mifflin-St Jeor adjustment; it is a calculator input, not a full description of your body, health, or nutrition needs.'
+    : isLeanBodyMassCalculator
+      ? 'Enter formula sex, height in centimeters, and weight in kilograms. The formula sex setting chooses the Boer equation constants. The calculator does not ask for body fat percentage, age, training status, or scan results.'
     : isTargetHeartRateCalculator
       ? 'Enter your age, choose the effort range, and add resting heart rate only if you want the heart-rate-reserve estimate. Age sets the rough maximum heart rate. The effort range turns that into beats per minute.'
     : isBodySurfaceAreaCalculator
@@ -45,6 +48,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the rounded percentage as an educational one-site tape estimate. The reference limit line uses the Army age-group table for context, but this website is not an official Army record, DA Form 5500/5501 entry, waiver, flagging decision, or medical assessment.'
     : isBmrCalculator
       ? 'Read BMR as an estimated resting-energy number in kcal per day. It is lower than total daily needs for most adults because it does not include walking, work, exercise, or daily movement. Use the sedentary and moderate TDEE lines as context before making calorie plans.'
+    : isLeanBodyMassCalculator
+      ? 'Read lean body mass as a Boer formula estimate of fat-free mass. It includes muscle, bone, organs, and water, so it is not muscle mass only. The estimated fat mass and lean percent are rough comparisons, not a scan or diagnosis.'
     : isTargetHeartRateCalculator
       ? 'Read the answer as a training range in beats per minute, not a perfect target you must hit. If the range feels too hard, you feel pain, or a clinician gave you a different limit, slow down and use the safer guidance.'
     : isBodySurfaceAreaCalculator
@@ -460,24 +465,50 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'lean-body-mass-calculator',
     name: 'Lean Body Mass Calculator',
-    summary: 'Estimate lean body mass from height, weight, and formula sex.',
+    summary: 'Estimate Boer lean body mass from height, weight, and formula sex.',
     description:
-      'Use this free lean body mass calculator to estimate fat-free mass from height, weight, and formula sex using the Boer equation.',
+      'Use this free lean body mass calculator to estimate fat-free mass from height, weight, and formula sex using the Boer equation, with implied fat mass and lean percent for context.',
+    seoTitle: 'Lean Body Mass Calculator | Boer Formula',
+    seoDescription:
+      'Estimate lean body mass with the Boer formula from height, weight, and formula sex. See kg examples, lean percent, and key limits.',
     icon: 'calculator-lean-mass',
-    formula: 'The calculator uses Boer lean body mass equations based on height, weight, and formula sex.',
-    caution: estimateCaution,
+    formula: 'The calculator uses Boer lean body mass equations. Male LBM = 0.407 x weight kg + 0.267 x height cm - 19.2. Female LBM = 0.252 x weight kg + 0.473 x height cm - 48.3.',
+    caution:
+      'This is a formula estimate, not a DEXA scan, body-fat test, muscle-mass scan, protein prescription, TDEE prescription, clinical lean body weight order, pediatric formula, or medication-dosing rule.',
     useCases: [
-      'Estimate lean body mass for fitness planning.',
-      'Compare lean mass with body weight.',
+      'Estimate lean body mass for fitness context.',
+      'Compare lean mass, implied fat mass, and lean percent from the same inputs.',
       'Use a formula estimate when body fat percentage is unknown.',
-      'Track changes only as rough estimates.',
+      'Keep protein, TDEE, and clinical decisions separate from the simple formula output.',
     ],
     examples: [
-      { label: 'Male 180/82', expression: '180 cm, 82 kg', result: 'Lean body mass estimate' },
-      { label: 'Female 165/62', expression: '165 cm, 62 kg', result: 'Lean body mass estimate' },
-      { label: 'Lean percent', expression: 'LBM / body weight', result: 'Estimated lean percentage' },
+      { label: 'Male 180/82', expression: '180 cm, 82 kg', result: '62.23 kg LBM, 75.9% lean' },
+      { label: 'Female 165/62', expression: '165 cm, 62 kg', result: '45.37 kg LBM, 73.18% lean' },
+      { label: 'Female 172/70', expression: '172 cm, 70 kg', result: '50.70 kg LBM, 72.42% lean' },
     ],
-    relatedSlugs: ['body-fat-calculator', 'bmr-calculator', 'ideal-weight-calculator'],
+    extraFaq: [
+      {
+        question: 'Does this calculator use body fat percentage?',
+        answer:
+          'No. This page estimates lean body mass from height, weight, and formula sex. If you already know body fat percentage, lean body mass can also be estimated as body weight times one minus body fat percentage.',
+      },
+      {
+        question: 'Is lean body mass the same as muscle mass?',
+        answer:
+          'No. Lean body mass includes muscle, bone, organs, water, and other fat-free tissue. It is broader than muscle mass, so do not read this as a muscle-only score.',
+      },
+      {
+        question: 'Can I use this for protein or TDEE planning?',
+        answer:
+          'You can use the number as rough context, but it is not a protein prescription, fat-loss plan, bodybuilding target, or TDEE rule. Use dedicated nutrition tools and professional guidance when the decision matters.',
+      },
+      {
+        question: 'Is this the same as clinical lean body weight?',
+        answer:
+          'No. Clinical calculators may use specific dosing rules, pediatric formulas, adjusted body weight, or institution guidance. This page is an educational Boer formula estimate only.',
+      },
+    ],
+    relatedSlugs: ['body-fat-calculator', 'bmr-calculator', 'protein-calculator', 'tdee-calculator'],
   }),
   makeHealthTool({
     slug: 'healthy-weight-calculator',
