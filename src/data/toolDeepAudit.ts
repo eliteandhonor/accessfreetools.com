@@ -7632,7 +7632,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     slug: 'query-string-parser',
     status: 'deep-reviewed',
     batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
     sources: [whatwgUrl, mdnUrlSearchParams],
     findings: [
@@ -7642,6 +7642,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     improvements: [
       'Manually checked query extraction, duplicate-key grouping, build-mode encoding, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Added SEO title/meta copy, field-level query-string input explanations, repeated-key, plus-space, full-URL, URL-parser-scope, and array-format FAQs, more exact examples, and a 2026-06-04 modified date.',
     ],
     followUps: [
       'Add array-format options only if users need bracket, repeated-key, and comma styles explained separately.',

@@ -7226,20 +7226,90 @@ export const utilityTools: ToolDefinition[] = [
       'Use this free query string parser to decode URL parameters, group repeated keys, or build an encoded query string from one key-value pair per line.',
     icon: 'tool-query',
     aliases: ['URL Query Parser', 'Query Parameter Parser', 'Query String Builder'],
+    seoTitle: 'Query String Parser | URL Parameters To JSON',
+    seoDescription:
+      'Parse URL query strings, decode URL parameters, group repeated keys, and build encoded query strings from key=value lines.',
     formula:
-      'Parse mode extracts the query part and reads it with URLSearchParams. Build mode appends each key-value line with URLSearchParams encoding.',
+      'Parse mode extracts the query part from a full URL, raw query string, or question-mark string, removes hash fragments from raw input, reads the parameters with URLSearchParams, and groups repeated keys as arrays. Build mode reads one key=value line at a time, appends each pair with URLSearchParams, and returns a copy-ready encoded query string.',
     limit:
       'Query strings can be logged, shared, or indexed. Do not place passwords, private tokens, or sensitive identifiers in public URLs.',
+    inputExplanations: [
+      {
+        term: 'Parse query mode',
+        meaning:
+          'Paste a full URL, a raw query string, or text that starts with a question mark. The tool works on the query part after the question mark.',
+      },
+      {
+        term: 'Build query mode',
+        meaning:
+          'Enter one key=value pair per line. Blank values are allowed when the target app expects an empty parameter.',
+      },
+      {
+        term: 'Repeated keys',
+        meaning:
+          'The parser keeps repeated parameter names visible as arrays in JSON, and build mode lets you repeat the same key on multiple lines.',
+      },
+      {
+        term: 'Encoded characters',
+        meaning:
+          'URLSearchParams decodes query values in parse mode and encodes spaces and special characters when building the output.',
+      },
+      {
+        term: 'Private URL data',
+        meaning:
+          'Treat query strings as shareable URL text, not as a secret place to put tokens, passwords, or customer identifiers.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Can I paste a full URL instead of only the query string?',
+        answer:
+          'Yes. In parse mode you can paste a full URL such as https://example.com/products?tag=free&page=2, a raw string such as tag=free&page=2, or the same string with a leading question mark. The tool extracts and parses the query part.',
+      },
+      {
+        question: 'How does the parser handle repeated parameters?',
+        answer:
+          'Repeated keys stay visible. For tag=free&tag=calculator&page=2, the JSON output shows tag as an array with both values, and the duplicate-key count warns you that the same parameter name appeared more than once.',
+      },
+      {
+        question: 'Why did a space become a plus sign in the built query?',
+        answer:
+          'URLSearchParams serializes spaces in query values as plus signs. That is normal for form-style query strings, so q=calculator tools becomes ?q=calculator+tools when the builder returns the URL-ready query.',
+      },
+      {
+        question: 'Is this a complete URL parser?',
+        answer:
+          'No. It focuses on the query string: the part after the question mark. It does not break a URL into protocol, host, path, port, and hash fields except when it needs to extract the query section from a full URL.',
+      },
+      {
+        question: 'Can build mode create array-style query parameters?',
+        answer:
+          'It appends exactly the keys you enter. Use tag=free and tag=calculator on separate lines for repeated-key arrays, or enter bracket-style keys such as tag[]=free only when the target app expects that convention.',
+      },
+    ],
     useCases: [
       'Decode URL parameters while debugging filters, search pages, or app links.',
       'Group repeated keys so duplicate values are easy to spot.',
       'Build a correctly encoded query string from plain key-value lines.',
       'Compare UTM links, search URLs, and app-state URLs before sharing.',
+      'Turn search-filter URLs into readable JSON for support tickets, QA notes, or API tests.',
     ],
     examples: [
-      { label: 'Full URL', expression: 'https://example.com/?utm_source=newsletter&tag=a&tag=b', result: 'Decoded JSON with repeated tag values' },
-      { label: 'Raw query', expression: 'name=Access+Free+Tools&tool=json', result: 'Readable key-value output' },
-      { label: 'Build query', expression: 'utm_source=newsletter, utm_medium=email', result: '?utm_source=newsletter&utm_medium=email' },
+      {
+        label: 'Full URL with repeated tag',
+        expression: 'https://example.com/products?utm_source=newsletter&tag=free&tag=calculator&page=2',
+        result: '4 parameters, 1 duplicate key, and tag shown as ["free", "calculator"]',
+      },
+      {
+        label: 'Raw query with plus-space text',
+        expression: 'name=Access+Free+Tools&tool=json&empty=',
+        result: '3 parameters, name decoded as "Access Free Tools", and empty kept as a blank value',
+      },
+      {
+        label: 'Build search filters',
+        expression: 'q=calculator tools, category=developer tools, page=1',
+        result: '?q=calculator+tools&category=developer+tools&page=1',
+      },
     ],
     relatedSlugs: ['utm-builder', 'url-encode-decode', 'json-formatter'],
   }),
