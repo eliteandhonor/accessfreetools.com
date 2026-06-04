@@ -1097,24 +1097,78 @@ export const utilityTools: ToolDefinition[] = [
     category: 'developer-tools',
     summary: 'Encode UTF-8 text to Base64 or decode Base64 back to text.',
     description:
-      'Use this free Base64 encode/decode tool to convert text to Base64 and decode Base64 text back into UTF-8 locally in your browser.',
+      'Use this free Base64 encode/decode tool to convert UTF-8 text to Base64, decode Base64 back to readable text, and check padding locally in your browser.',
+    aliases: ['Base64 Encoder', 'Base64 Decoder', 'Base64 Converter', 'UTF-8 Base64 Tool'],
+    seoTitle: 'Base64 Encode / Decode | UTF-8 Text Tool',
+    seoDescription:
+      'Encode UTF-8 text to Base64 or decode Base64 back to readable text locally in your browser. Check padding, invalid input, and why Base64 is not encryption.',
     icon: 'calculator-base64',
     formula:
-      'Base64 represents bytes using 64 printable characters and padding. This tool converts text to UTF-8 bytes before encoding and decodes valid UTF-8 after Base64 decoding.',
+      'Base64 takes bytes, groups them into 6-bit chunks, maps each chunk to the A-Z, a-z, 0-9, +, and / alphabet, and uses = padding when the byte length does not fill the last group. This page encodes text as UTF-8 bytes first and decodes Base64 back to UTF-8 text when the bytes are valid text.',
     limit:
-      'Base64 is encoding, not encryption. Do not use it to hide secrets, passwords, tokens, or private data.',
+      'Base64 is encoding, not encryption. Anyone can decode it, and invalid Base64 or binary-only bytes may not turn into readable UTF-8 text. Do not paste passwords, API keys, tokens, private files, or sensitive data.',
+    inputExplanations: [
+      {
+        term: 'Mode',
+        meaning: 'Choose Encode when you have readable text and want Base64. Choose Decode when you already have Base64 and want readable text.',
+      },
+      {
+        term: 'Input text',
+        meaning: 'Paste the exact text or Base64 string you want to convert. Spaces, line breaks, and punctuation count.',
+      },
+      {
+        term: 'UTF-8 text',
+        meaning: 'Normal browser text is turned into UTF-8 bytes before Base64 encoding, then decoded back to UTF-8 when possible.',
+      },
+      {
+        term: 'Padding',
+        meaning: 'Trailing = characters help finish the last Base64 group when the input byte count is not a perfect fit.',
+      },
+    ],
     useCases: [
       'Encode a short text value into Base64.',
       'Decode a Base64 string back to readable text.',
-      'Check API examples, headers, payloads, and data snippets.',
+      'Check API examples, headers, payloads, and data snippets without pasting real secrets.',
       'Work locally without sending the text to a server.',
     ],
     examples: [
       { label: 'Encode text', expression: 'Hello tools', result: 'SGVsbG8gdG9vbHM=' },
       { label: 'Decode text', expression: 'SGVsbG8gdG9vbHM=', result: 'Hello tools' },
-      { label: 'Unicode text', expression: 'UTF-8 input', result: 'Base64 output with padding if needed' },
+      { label: 'Padding check', expression: 'Hi', result: 'SGk=' },
     ],
-    relatedSlugs: ['url-encode-decode', 'password-generator', 'hex-calculator'],
+    extraFaq: [
+      {
+        question: 'Is Base64 encryption?',
+        answer:
+          'No. Base64 only changes bytes into printable text. It does not use a key, and anyone with the Base64 string can decode it back unless the original bytes were already encrypted somewhere else.',
+      },
+      {
+        question: 'Why does Base64 sometimes end with =?',
+        answer:
+          'The = sign is padding. It fills the final Base64 group when the input byte count does not line up cleanly with the 6-bit chunks Base64 uses.',
+      },
+      {
+        question: 'Why did Base64 decoding fail?',
+        answer:
+          'Common causes include copied spaces, missing padding, URL-safe Base64 characters, invalid Base64 symbols, or bytes that are valid Base64 but not readable UTF-8 text.',
+      },
+      {
+        question: 'Can I encode passwords, API keys, or tokens here?',
+        answer:
+          'Do not paste real secrets into any browser tool unless you understand the risk. Base64 does not protect passwords, API keys, tokens, cookies, private files, or authorization headers.',
+      },
+      {
+        question: 'Does this Base64 tool support files?',
+        answer:
+          'This page is built for text. Binary files need a file-aware encoder with clear size limits, memory behavior, and privacy notes before the result is safe to trust.',
+      },
+      {
+        question: 'What does UTF-8 change in Base64 encoding?',
+        answer:
+          'Base64 works on bytes, not ideas or letters. UTF-8 is the byte format this page uses before encoding text, so readable text can round-trip back to the same characters when the decoded bytes are valid UTF-8.',
+      },
+    ],
+    relatedSlugs: ['url-encode-decode', 'hex-calculator', 'hash-generator'],
   }),
   makeUtilityTool({
     slug: 'url-encode-decode',

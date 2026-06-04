@@ -100,6 +100,13 @@ const toolArtMetadataOverrides = {
         'Bandwidth Calculator guide artwork supports the walkthrough for file size, bandwidth, bytes-to-bits math, 5 GB at 100 Mbps, upload-speed checks, and real-world transfer slowdowns.',
     },
   },
+  'base64-encode-decode': {
+    tool: {
+      alt: 'Smoke mascot encoding Hello tools into SGVsbG8gdG9vbHM= and decoding it back, with UTF-8 bytes, Base64 padding, and not-encryption warning cards.',
+      caption:
+        'Base64 Encode / Decode artwork matches the live workflow: choose encode or decode, turn UTF-8 text into Base64, decode valid Base64 back to text, and remember it is not encryption.',
+    },
+  },
   'lean-body-mass-calculator': {
     tool: {
       alt: 'Smoke mascot checking a Boer lean body mass estimate with formula sex, 180 cm, 82 kg, 62.23 kg LBM, fat mass, and lean percent cards.',

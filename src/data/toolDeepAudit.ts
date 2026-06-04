@@ -7222,17 +7222,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'base64-encode-decode',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-04',
+    reviewedOn: '2026-06-04',
     scope: commonMathScope,
     sources: [rfc4648, mdnTextEncoder],
     findings: [
-      'The Base64 tool encodes text as UTF-8 bytes before Base64 and decodes valid Base64 back to readable text.',
-      'Tests cover encoding and decoding the same sample string.',
-      'The guide and FAQ clearly state that Base64 is encoding, not encryption, so users should not use it to hide secrets.',
+      'The Base64 tool now explains that text is converted to UTF-8 bytes, mapped through the RFC 4648 alphabet, padded with = when needed, and decoded back only when the bytes are valid readable text.',
+      'The examples now include the exact Hello tools round trip and a Hi padding check so users can compare real output instead of a generic placeholder.',
+      'The FAQ now covers encryption limits, padding, decode failures, secrets, file-mode limits, UTF-8 behavior, browser privacy, and related developer tools.',
     ],
     improvements: [
-      'Manually checked Base64 padding behavior, UTF-8 wording, decode guardrails, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Refreshed Base64 logic notes, input explanations, exact examples, FAQ/schema coverage, related links, SEO title/description, tool lastmod, image alt/caption metadata, DataForSEO evidence, and competitor-gap notes.',
     ],
     followUps: [
       'Add file-to-Base64 mode only if size limits, memory behavior, and privacy copy are clear.',
