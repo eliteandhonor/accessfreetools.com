@@ -5542,24 +5542,98 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.mdnAspectRatio, sourceLinks.nistUnits],
   },
   'utm-builder': {
-    summary: 'Learn how to build UTM campaign links without hand-editing URL parameters.',
+    title: 'UTM Builder Guide',
+    summary: 'Learn how to build clean UTM campaign links without hand-editing URL parameters.',
+    metaDescription:
+      'Use the UTM Builder guide to create campaign URLs, choose source, medium, and campaign labels, preserve query values, and avoid messy reports.',
     purpose:
-      'The UTM Builder helps you create a campaign URL that analytics tools can read. Instead of manually typing question marks, ampersands, and encoded values, you enter the destination page plus source, medium, campaign, and optional detail fields. The tool then returns one copy-ready URL.',
+      'The UTM Builder turns a landing page and campaign labels into one copy-ready URL that analytics tools can read.',
+    intro:
+      'Start with the exact page people should visit, then name where the click comes from, what channel it uses, and which campaign it belongs to. The guide below shows how to keep those names consistent and how to check the finished URL before you share it.',
+    inputMatch:
+      'the exact landing page URL, the click source, the channel medium, the campaign name, and optional content or term labels when you need extra detail',
+    logicNote:
+      'For example, https://accessfreetools.com/tools/ with source newsletter, medium email, campaign spring-tools, and content hero-button becomes https://accessfreetools.com/tools/?utm_source=newsletter&utm_medium=email&utm_campaign=spring-tools&utm_content=hero-button. The builder uses URLSearchParams, so it handles the question mark, ampersands, and encoded spaces for you.',
+    readIntro:
+      'Read the campaign URL first, then check the UTM parameter count and the existing-parameters line. If the original URL already had a question mark, make sure those original values are still present before copying the link.',
+    mistakeIntro:
+      'Most UTM mistakes are naming mistakes: one campaign gets split across reports because the same idea was typed three different ways.',
+    bestUsesIntro:
+      'Use this guide when you are preparing newsletter links, paid ads, social profile links, partner links, launch announcements, or two versions of the same link that need separate reporting labels.',
+    referenceIntro:
+      'These references help check Google Analytics campaign URL guidance and the browser URL parameter logic behind the builder.',
     enter: [
-      'Enter the page URL people should visit.',
-      'Fill in UTM source, medium, and campaign because those are the core campaign labels.',
-      'Use content or term only when you need to tell two links apart.',
+      'Enter the full http or https landing page URL people should visit.',
+      'Fill in UTM source for where the click comes from, such as newsletter, google, instagram, or partner-site.',
+      'Fill in UTM medium for the channel type, such as email, cpc, social, referral, or banner.',
+      'Use UTM campaign for the shared campaign name, then use content or term only when you need to tell two links, ads, keywords, or audiences apart.',
     ],
     read: [
-      'Campaign URL is the full link you can copy.',
-      'UTM parameters tells you how many tracking fields were added.',
-      'Existing parameters shows whether the original URL already had query values.',
+      'Campaign URL is the full link you can copy into a post, email, ad, button, or partner note.',
+      'UTM parameters tells you how many tracking fields were added to the URL.',
+      'Existing parameters shows whether the original URL already had query values before the UTM labels were added.',
+      'Encoded spaces and special characters are normal in URLs; for example, free calculators can become free+calculators in a query parameter.',
     ],
     mistakes: [
-      'Do not use different spellings for the same source or campaign across links.',
-      'Do not add private customer data to campaign URLs.',
-      'Do not expect UTM values to appear in analytics unless the destination site is configured for campaign reporting.',
+      'Do not use different spellings or casing for the same source, medium, or campaign across links.',
+      'Do not put customer names, email addresses, order numbers, tokens, or private IDs in UTM fields because the values travel in the public URL.',
+      'Do not use content and term for every link just because the fields exist. Extra labels should answer a real reporting question.',
+      'Do not expect UTM values to appear in analytics unless the destination site is configured to collect campaign data.',
     ],
+    extraSections: [
+      {
+        title: 'Newsletter example',
+        paragraphs: [
+          'Say the landing page is https://accessfreetools.com/tools/ and the link is going in a spring newsletter. Enter newsletter as the source, email as the medium, spring-tools as the campaign, and hero-button as the content label.',
+          'The builder returns https://accessfreetools.com/tools/?utm_source=newsletter&utm_medium=email&utm_campaign=spring-tools&utm_content=hero-button. In a campaign report, that link can be grouped with other spring-tools links while still showing that this click came from the newsletter hero button.',
+        ],
+        bullets: [
+          'Source answers: where did the click come from?',
+          'Medium answers: what kind of channel was it?',
+          'Campaign answers: which effort or launch should this click belong to?',
+          'Content answers: which version of the link was clicked?',
+        ],
+      },
+      {
+        title: 'Pick names before you build links',
+        paragraphs: [
+          'A UTM builder cannot fix a messy naming plan after the links are already shared. Pick short, boring names before you publish so reports do not split the same campaign into near-duplicates.',
+          'For example, choose email instead of switching between Email, e-mail, newsletter, and newsletters for the same medium. The labels do not need to be pretty; they need to be consistent enough that your future report is readable.',
+        ],
+        bullets: [
+          'Use lower-case labels unless your team already has a different rule.',
+          'Use hyphens or underscores consistently instead of mixing both.',
+          'Use the same campaign name across every channel that belongs to the same launch.',
+        ],
+      },
+      {
+        title: 'Existing query values and encoded text',
+        paragraphs: [
+          'Some landing pages already have query values, such as https://example.com/landing?page=1. The builder keeps that page value and adds the UTM labels after it with ampersands.',
+          'The finished URL may encode spaces or punctuation so the link stays valid. That is why a paid-search term like free calculators can appear as free+calculators in the final URL.',
+        ],
+      },
+      {
+        title: 'What UTM links do not do',
+        paragraphs: [
+          'UTM parameters label a click. They do not install analytics, prove a sale happened, hide private data, or guarantee that every platform will keep the URL unchanged.',
+          'After copying a campaign URL, test one click if the link matters. Check that the landing page opens, the existing query values still work, and your analytics setup records campaign data the way your team expects.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'After you build the link, nearby URL tools can help you inspect or clean up the query string before sharing it.',
+        ],
+        links: [
+          { href: '/tools/utm-builder/', label: 'Open the UTM Builder' },
+          { href: '/tools/query-string-parser/', label: 'Inspect a finished query string' },
+          { href: '/tools/url-encode-decode/', label: 'Encode or decode URL text' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the UTM Builder beside this guide. Try the newsletter example first, then replace the source, medium, campaign, content, and term values with your own naming plan.',
     sources: [sourceLinks.googleCampaignUrls, sourceLinks.mdnUrlSearchParams],
   },
   'query-string-parser': {
