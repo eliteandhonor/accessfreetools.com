@@ -7551,7 +7551,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
     reviewedOn: '2026-06-04',
     scope: commonMathScope,
-    sources: [mdnSubtleCryptoDigest, nistFips180],
+    sources: [mdnTextEncoder, mdnSubtleCryptoDigest, nistFips180, nistPasswords],
     findings: [
       'The hash generator encodes text as UTF-8 and uses browser SubtleCrypto for SHA-256, SHA-384, or SHA-512 hex digests.',
       'Tests cover SHA-256 for "abc" using the known digest output.',
@@ -7560,6 +7560,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     improvements: [
       'Manually checked SHA algorithm options, digest byte length wording, hex output, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
       'Added exact SHA-256 example output, TextEncoder/SubtleCrypto/plain-hex logic, input-byte and digest-byte explanations, stronger raw-hash password/authenticity limits, six extra security-focused FAQs, related links to Base64, URL Encode / Decode, and Password Generator, and a 2026-06-04 modified date.',
+      'Expanded the matching guide with the exact `Access Free Tools` SHA-256 walkthrough, UTF-8 byte and hex-character checks, digest-change examples, security boundary notes, contextual related links, and source-backed password-storage cautions.',
     ],
     followUps: [
       'Add file hashing only with visible size limits and browser-memory warnings.',

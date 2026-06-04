@@ -5264,25 +5264,86 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.rfc9562],
   },
   'hash-generator': {
-    summary: 'Learn how to generate SHA-256, SHA-384, and SHA-512 text digests.',
+    title: 'Hash Generator Guide',
+    summary: 'Learn how to generate SHA-256, SHA-384, and SHA-512 text hashes and read the digest safely.',
+    metaDescription:
+      'Use the Hash Generator guide to choose SHA-256, SHA-384, or SHA-512, generate a browser-side text digest, and avoid password/authenticity mistakes.',
     purpose:
-      'The Hash Generator creates SHA-2 digests from text using the browser SubtleCrypto API. It is useful for learning, quick comparisons, and small debugging tasks.',
+      'The Hash Generator creates SHA-2 digests from text in your browser. It is useful when you need a quick checksum-style text hash for learning, comparing small strings, or debugging a workflow that expects a hexadecimal digest.',
+    intro:
+      'A good hash check starts with the exact text. One extra space, line break, capital letter, or different character encoding creates a different digest, so this guide focuses on the inputs, the byte count, and the limits before you copy the result.',
+    inputMatch:
+      'the exact text you want to hash, including spaces, punctuation, line breaks, and the SHA algorithm the receiving system expects',
+    logicNote:
+      'The tool converts the text to UTF-8 bytes with TextEncoder, sends those bytes to the browser SubtleCrypto digest function, then formats the returned bytes as lowercase hexadecimal. For `Access Free Tools` with SHA-256, the digest is `bdcddc51dd9df0bad4c886a189a36bde524fd4c43f2ac196c7d8e2d4fe53076f`.',
+    readIntro:
+      'Read the digest first, then check the input-byte and digest-byte lines. SHA-256 returns 32 digest bytes, shown as 64 hex characters. SHA-384 returns 48 bytes, and SHA-512 returns 64 bytes.',
+    mistakeIntro:
+      'Most hash surprises come from hashing a slightly different string or expecting a hash to do a job it cannot do by itself.',
+    bestUsesIntro:
+      'Best for small text checks, examples, demos, and debugging. For passwords, file integrity, API signatures, or trusted messages, use the security design your app or protocol requires.',
+    referenceIntro:
+      'These references help check the browser digest API, UTF-8 byte conversion, SHA-2 digest sizes, and password-storage limits behind the guide.',
     enter: [
-      'Choose SHA-256, SHA-384, or SHA-512.',
-      'Paste or type the text to hash.',
-      'Press Generate hash and copy the hexadecimal digest.',
+      'Choose SHA-256, SHA-384, or SHA-512 based on the format another system expects. Use SHA-256 when you only need a common modern text digest.',
+      'Paste the exact text to hash. Keep spaces, line breaks, punctuation, and capitalization exactly as they should be checked.',
+      'Press Generate hash, then copy the hexadecimal digest only after the input-byte and digest-byte counts look right.',
     ],
     read: [
-      'The output is the lowercase hexadecimal digest.',
-      'Input bytes shows the UTF-8 byte length of the text.',
+      'Hex digest is the lowercase text result you can compare or paste into a system that expects a plain hex SHA digest.',
+      'Input bytes is the UTF-8 byte length of the text you entered, not just the number of visible letters.',
       'Digest bytes changes by algorithm: SHA-256 is 32 bytes, SHA-384 is 48 bytes, and SHA-512 is 64 bytes.',
+      'If two digests do not match, compare the original text first. A trailing space is enough to change the whole result.',
     ],
     mistakes: [
       'Do not treat hashing as encryption; a hash cannot be decrypted.',
-      'Do not use a raw hash as a password storage design.',
-      'Do not use a hash alone as proof that a message came from a trusted sender.',
+      'Do not use a raw SHA hash as a password storage design. Real password systems need salts and a password-hashing or key-derivation function.',
+      'Do not use a hash alone as proof that a message came from a trusted sender. Use HMACs, digital signatures, or the protocol your system requires.',
+      'Do not compare text hashes if one system hashed a file, normalized line endings, trimmed whitespace, or used a different character encoding.',
     ],
-    sources: [sourceLinks.mdnSubtleCryptoDigest, sourceLinks.nistFips180],
+    extraSections: [
+      {
+        title: 'Quick SHA-256 example',
+        paragraphs: [
+          'Enter `Access Free Tools`, choose SHA-256, and press Generate hash. The tool returns `bdcddc51dd9df0bad4c886a189a36bde524fd4c43f2ac196c7d8e2d4fe53076f`.',
+          'That answer is 64 hex characters because SHA-256 returns 32 bytes and each byte is shown as two hex characters. The same text with an extra space at the end will produce a totally different digest.',
+        ],
+      },
+      {
+        title: 'What changes the digest',
+        paragraphs: [
+          'A hash is sensitive by design. The tool hashes bytes, not intentions, so visually small changes can be real input changes.',
+        ],
+        bullets: [
+          'Capital letters and lowercase letters are different bytes.',
+          'A copied trailing space changes the digest.',
+          'Line endings can differ between systems.',
+          'Emoji and many non-English characters can use multiple UTF-8 bytes.',
+        ],
+      },
+      {
+        title: 'What a text hash can and cannot prove',
+        paragraphs: [
+          'A matching digest can show that two pieces of text produced the same hash with the same algorithm. It does not prove who wrote the text, who sent it, or whether it was safe to trust.',
+          'For trusted messages, APIs, installers, or login systems, the missing part is usually a secret key, signature, salt, work factor, or protocol rule. This page helps you see the plain digest, not design the security system around it.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'Hashing is often confused with encoding, URL formatting, and password generation. Use the tool that matches the real job before copying the result into code or documentation.',
+        ],
+        links: [
+          { href: '/tools/hash-generator/', label: 'Open the Hash Generator' },
+          { href: '/tools/base64-encode-decode/', label: 'Encode or decode Base64 text' },
+          { href: '/tools/url-encode-decode/', label: 'Encode text for a URL' },
+          { href: '/tools/password-generator/', label: 'Generate a random password' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Hash Generator beside this guide. Try the `Access Free Tools` SHA-256 example first, then replace the text with the exact string you need to compare.',
+    sources: [sourceLinks.mdnTextEncoder, sourceLinks.mdnSubtleCryptoDigest, sourceLinks.nistFips180, sourceLinks.nistPasswords],
   },
   'unix-timestamp-converter': {
     summary: 'Learn how to convert UTC dates to Unix timestamps and timestamps back to UTC time.',
