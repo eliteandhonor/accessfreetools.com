@@ -7344,10 +7344,11 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     findings: [
       'The bandwidth helper converts decimal KB/MB/GB/TB to bits, converts Kbps/Mbps/Gbps to bits per second, then divides total bits by bits per second for transfer time.',
       'The page now makes the 5 GB at 100 Mbps example explicit: 40,000,000,000 bits divided by 100,000,000 bits per second equals 400 seconds, or about 6 minutes 40 seconds.',
-      'The FAQ explains bits versus bytes, upload versus download speed, decimal versus binary file-unit differences, and why Wi-Fi, congestion, server limits, throttling, retries, and overhead can slow real transfers.',
+      'The FAQ and guide explain bits versus bytes, upload versus download speed, decimal versus binary file-unit differences, and why Wi-Fi, congestion, server limits, throttling, retries, and overhead can slow real transfers.',
     ],
     improvements: [
       'Reworked SEO title and description, aliases, input explanations, exact examples, FAQ depth, related links, modified date, and tool art alt/caption text around 5 GB at 100 Mbps, 700 MB at 25 Mbps, 50 GB at 20 Mbps, decimal units, and browser-only privacy.',
+      'Reworked the matching guide around the exact 5 GB at 100 Mbps walkthrough, 100 Mbps versus 12.5 MB/s check, upload-speed caution, real-world slowdown limits, source links, and guide art alt/caption text.',
     ],
     followUps: [
       'Add binary KiB/MiB/GiB units only if the UI makes decimal versus binary impossible to miss and keeps the guide examples separate.',

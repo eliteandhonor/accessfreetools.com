@@ -4780,25 +4780,61 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.noaaDewPoint, sourceLinks.noaaHeatIndex],
   },
   'bandwidth-calculator': {
-    summary: 'Learn how data size and network speed estimate transfer time.',
+    summary: 'Learn how file size, bandwidth, and bits-versus-bytes math estimate download or upload time.',
     purpose:
-      'The Bandwidth Calculator estimates download or upload time by converting file size to bits and dividing by bits per second.',
+      'The Bandwidth Calculator estimates download or upload time by converting a file size to bits, converting network speed to bits per second, then dividing total bits by bits per second.',
+    intro:
+      'A transfer-time estimate is useful when you want to know whether a download, upload, backup, or media file fits into the time you actually have. The trick is that file sizes are usually written in bytes, while internet speeds are usually written in bits per second.',
+    inputMatch:
+      'the data amount, data unit, speed amount, and speed unit from the same transfer, using upload speed when you are estimating a backup or cloud upload',
+    logicNote:
+      'The calculator uses decimal KB, MB, GB, and TB, multiplies bytes by 8 to get bits, converts Kbps, Mbps, or Gbps to bits per second, then divides. For example, 5 GB at 100 Mbps becomes 40,000,000,000 bits divided by 100,000,000 bits per second, or 400 seconds.',
+    readIntro:
+      'Read the friendly duration first, then check seconds, minutes, and hours when you need a more exact planning number. The result is a clean math estimate before Wi-Fi, server, router, VPN, congestion, throttling, or retry slowdowns.',
+    mistakeIntro:
+      'Most bandwidth mistakes come from mixing Mbps with MB/s, using advertised download speed for an upload, or treating the estimate as a promise instead of a best-case transfer time.',
     enter: [
-      'Enter the data amount and unit.',
-      'Enter the connection speed and unit.',
-      'Calculate to see seconds, minutes, and hours.',
+      'Enter the file, backup, media, or transfer size and choose KB, MB, GB, or TB.',
+      'Enter the usable connection speed and choose Kbps, Mbps, or Gbps.',
+      'Use upload speed for cloud backups and file sends, because many home plans upload much slower than they download.',
+      'Calculate to see the readable duration plus seconds, minutes, and hours.',
     ],
     read: [
-      'The main answer is a readable duration.',
-      'Seconds is the exact base result.',
-      'Minutes and hours help with larger transfers.',
+      'The main answer is a readable duration, such as 6m 40s.',
+      'Seconds is the exact base result from the division.',
+      'Minutes and hours help with larger transfers, especially backups, game downloads, and long uploads.',
+      'If the result looks too neat, treat it as a best-case estimate and add time for real network overhead.',
     ],
     mistakes: [
-      'Do not confuse bits and bytes.',
-      'Do not expect real transfers to match perfectly.',
-      'Wi-Fi, server limits, congestion, and overhead can slow the result.',
+      'Do not confuse Mbps with MB/s. 100 Mbps is about 12.5 MB/s before overhead.',
+      'Do not use your plan download speed for an upload estimate unless the upload speed is actually the same.',
+      'Do not expect real transfers to match perfectly; Wi-Fi, server limits, congestion, packet overhead, throttling, retries, and other devices can slow the result.',
+      'Do not compare decimal GB and binary-style GiB numbers without expecting a small difference.',
     ],
-    sources: [sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Example: 5 GB at 100 Mbps',
+        paragraphs: [
+          'For a 5 GB file on a 100 Mbps connection, the calculator first treats 5 GB as 5,000,000,000 bytes. Multiplying by 8 gives 40,000,000,000 bits.',
+          'Then it divides 40,000,000,000 bits by 100,000,000 bits per second. The result is 400 seconds, which is about 6 minutes and 40 seconds before real-world slowdowns.',
+        ],
+      },
+      {
+        title: 'Bits versus bytes check',
+        paragraphs: [
+          'Internet speed plans usually use bits per second: Kbps, Mbps, or Gbps. File sizes usually use bytes: KB, MB, GB, or TB.',
+          'That one-letter difference matters. One byte is 8 bits, so a 100 Mbps connection is roughly 12.5 MB/s before protocol overhead and network slowdowns.',
+        ],
+      },
+      {
+        title: 'What the estimate leaves out',
+        paragraphs: [
+          'The calculator does not know your Wi-Fi signal, router load, server speed, VPN overhead, throttling, packet loss, or whether another device is using the same connection.',
+          'Use the result to plan the rough transfer window. If the transfer is important, give yourself extra time or test a smaller file first.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'gdp-calculator': {
     summary: 'Learn how the expenditure approach adds consumption, investment, government spending, and net exports into GDP.',

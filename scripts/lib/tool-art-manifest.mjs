@@ -94,6 +94,11 @@ const toolArtMetadataOverrides = {
       caption:
         'Bandwidth Calculator artwork matches the live workflow: enter data size and network speed, convert bytes to bits, estimate transfer time, and keep Wi-Fi, upload caps, server limits, and overhead in mind.',
     },
+    guide: {
+      alt: 'Smoke mascot explaining Bandwidth Calculator guide math with 5 GB, 100 Mbps, 40,000,000,000 bits, 400 seconds, 6 minutes 40 seconds, and Mbps versus MB/s cards.',
+      caption:
+        'Bandwidth Calculator guide artwork supports the walkthrough for file size, bandwidth, bytes-to-bits math, 5 GB at 100 Mbps, upload-speed checks, and real-world transfer slowdowns.',
+    },
   },
   'lean-body-mass-calculator': {
     tool: {
