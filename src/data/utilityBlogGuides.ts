@@ -5637,24 +5637,92 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.googleCampaignUrls, sourceLinks.mdnUrlSearchParams],
   },
   'query-string-parser': {
+    title: 'Query String Parser Guide',
     summary: 'Learn how to decode URL parameters or build an encoded query string from key-value lines.',
+    metaDescription:
+      'Use the Query String Parser guide to parse URL parameters, group repeated keys, build encoded query strings, and avoid private-token mistakes.',
     purpose:
       'The Query String Parser is for reading and building the part of a URL that comes after the question mark. It helps you see filters, campaign values, repeated keys, and app-state values without mentally decoding percent signs and plus signs.',
+    intro:
+      'Use it when a link is doing more than it looks like: search filters, page numbers, campaign labels, API test values, or repeated parameters that need to stay visible.',
+    inputMatch:
+      'a full URL, a raw query string, or one key=value pair per line depending on the mode you choose',
+    logicNote:
+      'Parse mode takes the query part after the question mark, removes any hash fragment, reads the parameters with URLSearchParams, decodes percent-encoded values, and groups repeated keys as arrays. Build mode reads one key=value line at a time and lets URLSearchParams encode spaces, ampersands, and punctuation for a valid URL query string.',
+    readIntro:
+      'Read the JSON first, then check duplicate keys and the built query string line so you can spot missing filters, repeated values, or an accidental private value before copying the URL.',
+    mistakeIntro:
+      'Query string mistakes usually come from treating a public URL like a private note, overlooking repeated keys, or hand-editing encoded characters until the link means something different.',
+    bestUsesIntro:
+      'Best when you need to inspect URL parameters, debug filters, compare campaign links, or build a small encoded query string without writing code.',
+    referenceIntro:
+      'These references help check URLSearchParams behavior and the URI syntax rules behind query strings.',
     enter: [
-      'Use Parse query when you have a full URL or a raw query string.',
-      'Use Build query when you have one key=value pair per line.',
-      'Keep private tokens and personal data out of the input when the URL might be shared.',
+      'Use Parse query when you have a full URL, a raw query string, or text that starts with a question mark.',
+      'Use Build query when you have one key=value pair per line, such as q=free calculator and page=2.',
+      'Keep private tokens, signed links, email addresses, and personal data out of the input when the URL might be shared or logged.',
     ],
     read: [
-      'Parsed output is shown as readable JSON.',
+      'Parsed output is shown as readable JSON with decoded values.',
       'Built output starts with a question mark and is encoded for use in a URL.',
-      'Duplicate keys tells you when the same parameter appears more than once.',
+      'Duplicate keys tells you when the same parameter appears more than once, such as tag=url and tag=developer.',
+      'A plus sign in a form-style query value usually means a space after decoding.',
     ],
     mistakes: [
       'Do not assume a query string is secret just because it appears after a question mark.',
       'Do not hand-convert spaces and special characters when the builder can encode them.',
       'Check repeated keys because some apps use them intentionally and others ignore later values.',
+      'Do not paste access tokens, session IDs, or signed URLs into a query parser when a harmless sample would answer the same question.',
     ],
+    extraSections: [
+      {
+        title: 'Quick parse example',
+        paragraphs: [
+          'Say you paste /search?q=free+calculator&tag=url&tag=developer&page=2. The parser shows q as free calculator, tag as two values, and page as 2.',
+          'That means the URL is carrying one search phrase, two tag filters, and a second-page state. If a page is showing the wrong results, those three decoded fields are the first things to check.',
+        ],
+        bullets: [
+          'There are 4 parameter entries in the raw query string.',
+          'There are 3 parameter names: q, tag, and page.',
+          'The repeated tag key keeps both url and developer instead of hiding one of them.',
+        ],
+      },
+      {
+        title: 'Build a small API test string',
+        paragraphs: [
+          'In Build query mode, enter one pair per line: q=free calculator, page=2, tag=url, and tag=developer. The tool returns ?q=free+calculator&page=2&tag=url&tag=developer.',
+          'Use that output when a test URL, docs example, or support note needs a clean query string. The builder handles the question mark, ampersands, and encoded space so you do not have to add them by hand.',
+        ],
+      },
+      {
+        title: 'Why duplicate keys matter',
+        paragraphs: [
+          'Some systems use repeated keys on purpose. A store page might use color=blue&color=green, while an API might accept tag=url&tag=developer as two filters.',
+          'Other systems only read the first value or the last value. The parser cannot know that product rule, but it makes the repeated values obvious so you can check the app, API, or analytics system you are working with.',
+        ],
+      },
+      {
+        title: 'Can I use this for API test links?',
+        paragraphs: [
+          'Yes, for harmless sample values. It is useful for checking whether a docs example, curl note, or browser test link is passing the values you meant to send.',
+          'Use fake IDs and sample text when possible. Real bearer tokens, signed download URLs, customer IDs, and reset links should stay out of public URLs and out of copied troubleshooting notes.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'After you inspect the query string, nearby URL tools can help you encode one value, build campaign labels, or turn the cleaned URL into a readable slug.',
+        ],
+        links: [
+          { href: '/tools/query-string-parser/', label: 'Open the Query String Parser' },
+          { href: '/tools/url-encode-decode/', label: 'Encode or decode one URL value' },
+          { href: '/tools/utm-builder/', label: 'Build campaign query parameters' },
+          { href: '/tools/slug-generator/', label: 'Make a clean page slug' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Query String Parser beside this guide. Try the /search?q=free+calculator&tag=url&tag=developer&page=2 example first, then test a harmless query string from your own link.',
     sources: [sourceLinks.mdnUrlSearchParams, sourceLinks.rfc3986],
   },
   'html-entity-encoder-decoder': {
