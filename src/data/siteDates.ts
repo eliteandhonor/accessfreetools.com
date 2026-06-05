@@ -137,6 +137,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'ai-token-cost-calculator': '2026-06-05',
   'prompt-token-estimator': '2026-06-05',
   'api-pricing-calculator': '2026-06-05',
+  'download-time-calculator': '2026-06-05',
   'asphalt-calculator': '2026-05-31',
   'board-foot-calculator': '2026-05-31',
   'height-calculator': '2026-05-26',

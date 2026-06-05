@@ -7780,16 +7780,20 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate how long a file, game, backup, or update will take to download.',
     description:
       'Use this free download time calculator to estimate transfer time from file size, Mbps speed, and a realistic efficiency percentage.',
+    seoTitle: 'Download Time Calculator | File Size to Time',
+    seoDescription:
+      'Estimate download time from file size, KB/MB/GB/TB units, Mbps speed, efficiency percent, effective Mbps, seconds, minutes, and hours.',
     icon: 'tool-download-time',
     aliases: ['File Download Calculator', 'Game Download Time Calculator', 'Download Speed Calculator'],
     formula:
-      'The calculator converts file size to bits, adjusts the Mbps speed by your efficiency percentage, then divides bits by effective bits per second.',
+      'The calculator uses decimal KB, MB, GB, and TB. Bytes = file size * unit bytes. Bits = bytes * 8. Effective Mbps = speed Mbps * efficiency percent / 100. Seconds = bits / (effective Mbps * 1,000,000).',
     limit:
-      'Real downloads can be slower because of Wi-Fi, server limits, congestion, VPNs, protocol overhead, device speed, and background traffic.',
+      'Real downloads can be slower because of Wi-Fi quality, server limits, congestion, VPNs, protocol overhead, retries, throttling, device storage speed, router load, and background traffic. It does not measure your live connection.',
     inputExplanations: [
       { term: 'File size', meaning: 'The size shown by the app store, cloud drive, download page, or backup tool.' },
-      { term: 'Speed Mbps', meaning: 'Megabits per second, which is different from megabytes per second.' },
-      { term: 'Efficiency', meaning: 'How much of the listed speed you realistically expect after overhead and network conditions.' },
+      { term: 'File unit', meaning: 'KB, MB, GB, or TB. The calculator uses decimal units, so 1 GB equals 1,000,000,000 bytes.' },
+      { term: 'Speed Mbps', meaning: 'Megabits per second, which is different from megabytes per second. Internet plans usually advertise bits.' },
+      { term: 'Efficiency percent', meaning: 'How much of the listed speed you realistically expect after overhead and network conditions.' },
     ],
     extraFaq: [
       {
@@ -7802,6 +7806,26 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Use 90% for a strong wired connection, 70% to 85% for normal Wi-Fi, and lower values when the connection is busy or the server is slow.',
       },
+      {
+        question: 'Does the calculator use GB or GiB?',
+        answer:
+          'It uses decimal GB, where 1 GB is 1,000,000,000 bytes. Some operating systems and storage tools use binary GiB instead, so very large files can differ slightly from what you see on disk.',
+      },
+      {
+        question: 'Can I use this for upload time?',
+        answer:
+          'Yes, if you enter your real upload speed instead of download speed. Do not use your advertised download speed for cloud backup, video upload, or file sharing unless that is also your upload speed.',
+      },
+      {
+        question: 'Why was my real download slower than the estimate?',
+        answer:
+          'The estimate cannot see server throttling, Wi-Fi interference, router load, VPN overhead, packet loss, background updates, storage speed, or other people sharing the connection.',
+      },
+      {
+        question: 'Does this include data caps?',
+        answer:
+          'No. It estimates time, not monthly data allowance. Check your plan data cap separately when downloading large games, backups, videos, or system images.',
+      },
     ],
     useCases: [
       'Estimate a game download before starting it.',
@@ -7810,9 +7834,9 @@ export const utilityTools: ToolDefinition[] = [
       'Explain bits versus bytes in plain language.',
     ],
     examples: [
-      { label: '50 GB game', expression: '50 GB at 100 Mbps, 85% efficiency', result: 'Download duration' },
-      { label: 'Small update', expression: '700 MB at 25 Mbps', result: 'Minutes estimate' },
-      { label: 'Cloud backup', expression: '2 TB at 500 Mbps', result: 'Hours estimate' },
+      { label: '50 GB game', expression: '50 GB at 100 Mbps, 85% efficiency', result: 'About 1h 18m 26s' },
+      { label: 'Small update', expression: '700 MB at 25 Mbps, 90% efficiency', result: 'About 4m 9s' },
+      { label: 'Cloud backup', expression: '2 TB at 500 Mbps, 90% efficiency', result: 'About 9h 52m 36s' },
     ],
     relatedSlugs: ['bandwidth-calculator', 'internet-speed-needs-calculator', 'streaming-bitrate-calculator'],
   }),

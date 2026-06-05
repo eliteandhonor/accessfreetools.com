@@ -7920,17 +7920,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'download-time-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-tech-ai-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-download-time-calculator-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
     sources: [calculatorInnSitemap, nistSi, googleHelpfulContent],
     findings: [
-      'CalculatorInn surfaced download time as a competitor gap, and the Access Free Tools version adds an efficiency input to keep the result realistic.',
-      'Formula review checked file size conversion to bits, Mbps speed, efficiency percentage, seconds, minutes, and hours.',
-      'FAQ and guide explain Mbps versus MB/s and why Wi-Fi, server throttling, VPNs, and overhead can change real downloads.',
+      'The download-time tool estimates file transfer time from decimal KB, MB, GB, or TB file sizes, Mbps speed, and a realistic efficiency percentage.',
+      'Formula review checked byte conversion, bit conversion, effective Mbps, seconds, minutes, and hours using the deterministic local calculator implementation.',
+      'FAQ and guide explain Mbps versus MB/s, decimal GB versus binary GiB, upload-speed use, data caps, and why Wi-Fi, server throttling, VPNs, packet loss, and overhead can change real downloads.',
     ],
     improvements: [
-      'Added download-time tool metadata, calculator UI, examples, source-backed guide, unit-specific FAQ, related bandwidth links, and formula tests.',
+      'Expanded the tool page with SEO title/meta description, exact decimal-byte/bit/effective-Mbps/seconds formula wording, file-unit and efficiency input explanations, extra FAQs for decimal units, uploads, real-world slowdowns, and data caps, three numeric game/update/backup examples, related bandwidth links, and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Consider adding upload-time wording later, but keep it separate enough that users do not confuse download and upload speeds.',
