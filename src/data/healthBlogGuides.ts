@@ -35,6 +35,8 @@ const extraSafetyNotes: Record<string, string> = {
     'This is an educational Navy-style tape estimate. It is not a DEXA scan, medical diagnosis, official military record, or complete body composition assessment.',
   'nutrition-points-calculator':
     'This is an original Access Free Tools label-reading score. It is not Weight Watchers Points, not affiliated with WW, and not a medical nutrition plan.',
+  'fat-intake-calculator':
+    'Fat gram targets are nutrition-planning estimates. They do not diagnose health, set an eating-disorder recovery plan, replace diabetes, heart, kidney, gallbladder, or pregnancy care, or decide the right saturated-fat limit for you.',
   'bac-calculator':
     'BAC estimates are especially uncertain because food, medication, drinking speed, tolerance, and body composition can change real-world results. Never use a BAC estimate to decide whether to drive.',
   'gfr-calculator':
@@ -101,6 +103,17 @@ function getSourceLinks(toolSlug: string) {
     {
       href: 'https://www.ncbi.nlm.nih.gov/books/NBK610329/',
       label: 'National Academies / NCBI Bookshelf: Acceptable Macronutrient Distribution Range background',
+    },
+  ];
+  const fatIntakeSources = [
+    ...macroSources,
+    {
+      href: 'https://www.fda.gov/food/nutrition-facts-label/how-understand-and-use-nutrition-facts-label',
+      label: 'FDA: How to understand and use the Nutrition Facts label',
+    },
+    {
+      href: 'https://www.dietaryguidelines.gov/',
+      label: 'Dietary Guidelines for Americans: Current nutrition guidance',
     },
   ];
 
@@ -204,7 +217,11 @@ function getSourceLinks(toolSlug: string) {
     return pregnancySources;
   }
 
-  if (['macro-calculator', 'carbohydrate-calculator', 'protein-calculator', 'fat-intake-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'fat-intake-calculator') {
+    return fatIntakeSources;
+  }
+
+  if (['macro-calculator', 'carbohydrate-calculator', 'protein-calculator'].includes(toolSlug)) {
     return macroSources;
   }
 
@@ -963,30 +980,35 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'fat-intake-calculator': {
-    summary: 'Learn how daily calories and fat percent become fat grams.',
+    summary: 'Learn how calories and fat percentage become daily dietary fat grams, with AMDR context and food-quality limits.',
     purpose:
-      'The Fat Intake Calculator converts a calorie target and fat percentage into grams per day.',
+      'The Fat Intake Calculator turns a calorie target and planned fat percentage into total dietary fat grams. It is useful for macro planning, label checks, and comparing scenarios, but it does not pick a personal fat goal or grade the types of fat in your food.',
     enter: [
-      'Enter daily calories.',
-      'Enter the percent of calories planned from fat.',
-      'Use a percentage that fits your nutrition context rather than chasing the lowest number.',
+      'Enter the calorie target you actually want to test, such as maintenance calories from TDEE or a clinician-approved plan.',
+      'Enter fat as a whole percent of calories, so type 30 for 30%, not 0.30.',
+      'Use broad AMDR-style ranges as context only; a personal target can change with age, pregnancy, medical conditions, sport goals, and clinician guidance.',
+      'Check whether you are planning total fat, saturated fat, or a food-label item. This calculator only uses total dietary fat.',
     ],
     example: [
-      'For 2000 calories at 30% fat, the calculator assigns 600 calories to fat.',
-      'It divides 600 by 9 calories per gram to show about 66.7 grams.',
+      'For 2,000 calories at 30% fat, first calculate 2,000 x 30 / 100 = 600 fat calories.',
+      'Then divide 600 by 9 calories per gram to get about 66.7 grams of fat per day.',
+      'For 2,200 calories at 20% fat, 440 fat calories divided by 9 gives about 48.9 grams, which shows why calorie target matters as much as percentage.',
     ],
     read: [
-      'The answer is total fat grams per day.',
-      'The calculator does not separate saturated, unsaturated, or trans fats.',
+      'The answer is total dietary fat grams per day for the calories and percent you entered, not a body-fat percentage or weight-change forecast.',
+      'Use it as a planning number beside food labels, then look separately at saturated fat, trans fat, fiber, protein, and overall food quality.',
+      'Very low or medically restricted fat targets need qualified nutrition or medical guidance, especially with eating concerns, pregnancy, diabetes, heart disease, gallbladder issues, or other health conditions.',
     ],
     mistakes: [
-      'Do not confuse fat grams with body fat.',
-      'Do not ignore fat quality and medical nutrition advice.',
-      'Do not use macro percentages without checking total calories.',
+      'Do not type 0.30 when you mean 30%; that turns the plan into 0.3% of calories.',
+      'Do not treat the 20% to 35% adult AMDR context as your personal prescription.',
+      'Do not use total fat grams as a saturated-fat limit, cholesterol plan, or proof that a food pattern is healthy.',
+      'Do not copy the result until you have checked the calorie target; 30% of 1,600 and 30% of 2,400 are very different gram targets.',
     ],
     next: [
-      'Use Macro Calculator to see protein, carb, and fat together.',
-      'Use Carbohydrate Calculator for the matching carb target.',
+      'Use Macro Calculator to see the same calories split across protein, carbs, and fat.',
+      'Use Protein Calculator and Carbohydrate Calculator for matching gram targets.',
+      'Use TDEE Calculator first if you still need a daily calorie estimate.',
     ],
   },
   'tdee-calculator': {

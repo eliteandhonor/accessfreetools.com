@@ -4891,6 +4891,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     improvements: [
       'Added calculator-intent SEO title and description, fat-grams and macro-fat aliases, exact formula steps, expanded examples, specific input/result FAQ language, AMDR context, food-quality and medical-nutrition limits, refreshed audit notes, and a 2026-06-05 modified date.',
+      'Expanded the matching guide with whole-percent input notes, exact 2,000 calorie and 2,200 calorie walkthroughs, calorie-target sensitivity, AMDR-as-context wording, FDA and Dietary Guidelines source links, food-label limits, and a 2026-06-05 guide modified date.',
     ],
     followUps: [
       'Add saturated-fat, trans-fat, fiber, and cholesterol context only if a dedicated nutrition-label or meal-planning tool is built with stronger health guidance.',
