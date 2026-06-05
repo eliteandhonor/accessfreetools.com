@@ -3288,18 +3288,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'currency-calculator',
     status: 'deep-reviewed',
-    batch: 'finance-manual-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
     sources: [federalReserveExchangeRates, googleHelpfulContent],
     findings: [
       'The calculator multiplies the source amount by the manual exchange rate and subtracts an optional fee percentage from the converted amount.',
-      'The guide clearly states that the tool does not fetch live market, bank, card, or transfer-service rates, so users must enter the rate they intend to use.',
-      'The fee and inverse-rate cautions address the two most likely mistakes for a manual currency converter.',
+      'The tool now states that the rate must be entered as target currency per 1 source currency and explains stale-rate, inverse-rate, provider-spread, fixed-fee, and percentage-fee limits.',
+      'DataForSEO and competitor-gap proof confirmed the page needs concrete manual-rate examples and clear limits without pretending to fetch live rates.',
     ],
     improvements: [
-      'Manually checked currency conversion math, fee handling, rate-label wording, guide article, FAQ cautions, source coverage, related tools, and privacy note.',
-      'Added a Federal Reserve exchange-rate source to the audit source coverage for currency-style finance pages.',
+      'Added calculator-intent SEO metadata, manual-rate and exchange-fee aliases, exact gross/fee/net formula wording, field explanations, visible FAQs for live rates, target-per-source direction, inverse rates, fixed fees, provider differences, mid-market rates, fee timing, and official-record limits, concrete examples with after-fee results, a fourth live example button, refreshed modified date, and fresh DataForSEO/page proof.',
     ],
     followUps: [
       'Only add live exchange rates later if there is a maintained source, clear timestamping, caching, and rate-source disclosure.',

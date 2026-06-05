@@ -75,6 +75,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'refinance-calculator': '2026-06-02',
   'va-mortgage-calculator': '2026-06-02',
   'interest-rate-calculator': '2026-05-27',
+  'currency-calculator': '2026-06-05',
   'loan-calculator': '2026-05-26',
   'love-calculator': '2026-05-26',
   'roofing-calculator': '2026-05-26',

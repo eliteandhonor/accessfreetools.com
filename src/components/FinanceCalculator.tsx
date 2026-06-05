@@ -531,6 +531,7 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
           { label: '100 at 1.25', inputs: { amount: '100', exchangeRate: '1.25', feePercent: '0' } },
           { label: 'Travel fee check', inputs: { amount: '500', exchangeRate: '0.92', feePercent: '2.5' } },
           { label: 'No-fee transfer', inputs: { amount: '1000', exchangeRate: '1.47', feePercent: '0' } },
+          { label: 'Fee comparison', inputs: { amount: '250', exchangeRate: '0.68', feePercent: '3' } },
         ],
       },
     ],

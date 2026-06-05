@@ -3100,21 +3100,94 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Convert money with a manual exchange rate and optional exchange fee.',
     description:
       'Use this free currency calculator to convert an amount with a manual exchange rate, subtract an optional exchange fee, and see clear conversion steps.',
+    seoTitle: 'Currency Calculator | Manual Rate And Fee Conversion',
+    seoDescription:
+      'Convert money with a manual exchange rate, optional exchange fee, and clear steps. Enter target currency per 1 source currency and see before-fee and after-fee results.',
     icon: 'calculator-currency',
+    aliases: [
+      'manual currency converter',
+      'exchange rate calculator',
+      'currency conversion calculator',
+      'foreign exchange fee calculator',
+      'travel money calculator',
+      'target per source exchange rate calculator',
+    ],
     formula:
-      'The calculator multiplies the source amount by the exchange rate you enter, then subtracts the optional fee percentage from the converted amount.',
+      'Gross converted amount = source amount x exchange rate. Fee amount = gross converted amount x fee percent / 100. Converted amount after fee = gross converted amount - fee amount.',
     limit:
-      'This tool does not fetch live exchange rates. Use the current rate from your bank, card, transfer service, or trusted rate source before relying on the conversion.',
+      'This tool does not fetch live exchange rates, guarantee bank/card/transfer-service pricing, or include spread, fixed fees, cash pickup fees, taxes, weekend markups, ATM charges, or rounding rules unless you enter them as part of the rate or fee. Use the current rate from your provider or a trusted source before relying on the conversion.',
+    formulaCheck:
+      'If the result seems too high or too low, first check whether the rate is written as target currency per 1 source currency or needs to be inverted.',
+    doubleCheck:
+      'Double-check the rate direction, rate timestamp, provider fee, fixed fee, card fee, transfer fee, and whether the provider uses a worse buy/sell rate than the public mid-market rate.',
+    limitFollowup:
+      'Real currency decisions can also depend on transfer timing, settlement dates, card-network rules, cash exchange rates, and provider-specific terms.',
+    inputExplanations: [
+      { term: 'Amount to convert', meaning: 'The source-currency amount before conversion. For 100 USD to another currency, enter 100.' },
+      {
+        term: 'Exchange rate',
+        meaning:
+          'Target currency per 1 source currency. If 1 source unit buys 1.25 target units, enter 1.25. If the quote is source per target, use the inverse rate.',
+      },
+      {
+        term: 'Exchange fee',
+        meaning:
+          'An optional percentage fee removed after conversion. Enter 2.5 for a 2.5% fee. Fixed fees need to be handled separately or baked into your comparison.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Does this currency calculator use live exchange rates?',
+        answer:
+          'No. It is a manual-rate calculator. Use a current rate from your bank, card, transfer service, cash exchange desk, or another trusted source, then enter that rate yourself.',
+      },
+      {
+        question: 'What does target per 1 source mean?',
+        answer:
+          'It means how many units of the currency you want you get for 1 unit of the currency you have. If 1 USD buys 1.25 target units, enter 1.25.',
+      },
+      {
+        question: 'What if my rate is written the opposite way?',
+        answer:
+          'Use the inverse. For example, if the quote says 1 target unit costs 0.80 source units, then target per 1 source is 1 / 0.80, or 1.25.',
+      },
+      {
+        question: 'Where should I enter a fixed transfer fee?',
+        answer:
+          'This tool has a percentage fee field, not a fixed-fee field. For a fixed fee, subtract it manually from the final target amount or compare it outside the calculator.',
+      },
+      {
+        question: 'Why is my bank or card result different?',
+        answer:
+          'Providers may use a spread, card-network rate, buy/sell rate, weekend markup, cash rate, fixed fee, ATM fee, transfer fee, or their own rounding rules. This page only follows the rate and percentage fee you enter.',
+      },
+      {
+        question: 'Can I use a mid-market rate from a search result?',
+        answer:
+          'You can use it for a rough estimate, but it may not be the rate you actually receive. For travel, card purchases, or transfers, check the provider rate and timestamp.',
+      },
+      {
+        question: 'Does the fee apply before or after conversion?',
+        answer:
+          'The calculator applies the percentage fee after the source amount is converted. Some providers apply fees differently, so compare the result with the actual quote when exact cents matter.',
+      },
+      {
+        question: 'Is this good for taxes, accounting, or official exchange records?',
+        answer:
+          'No. Use the official rate, date, and method required by your tax, accounting, invoice, payroll, or reporting rule. This page is a quick planning calculator.',
+      },
+    ],
     useCases: [
-      'Convert travel spending with a manual bank or card exchange rate.',
-      'Estimate the effect of an exchange fee before sending money.',
-      'Compare two exchange-rate quotes using the same amount.',
-      'Check a quick currency conversion without creating an account.',
+      'Convert travel spending with a manual bank, card, or cash exchange rate.',
+      'Estimate the effect of a percentage exchange fee before sending money.',
+      'Compare two exchange-rate quotes using the same source amount.',
+      'Check whether a quoted rate direction looks inverted before copying it.',
     ],
     examples: [
       { label: 'Simple conversion', expression: '100 at rate 1.25', result: '125 target units before fees' },
-      { label: 'Travel fee', expression: '500 at rate 0.92 with 2.5% fee', result: 'Converted amount after fee' },
-      { label: 'Large transfer', expression: '1,000 at rate 1.47', result: 'Manual exchange estimate' },
+      { label: 'Travel fee', expression: '500 at rate 0.92 with 2.5% fee', result: '448.5 target units after fee' },
+      { label: 'Large transfer', expression: '1,000 at rate 1.47', result: '1,470 target units before fees' },
+      { label: 'Fee comparison', expression: '250 at rate 0.68 with 3% fee', result: '164.9 target units after fee' },
     ],
     relatedSlugs: ['percentage-calculator', 'finance-calculator', 'sales-tax-calculator'],
   }),
