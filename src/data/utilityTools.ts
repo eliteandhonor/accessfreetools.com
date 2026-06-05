@@ -7976,18 +7976,22 @@ export const utilityTools: ToolDefinition[] = [
     name: 'Device Battery Life Calculator',
     category: 'everyday-tools',
     summary: 'Estimate battery runtime from mAh, voltage, device watts, and efficiency.',
+    seoTitle: 'Device Battery Life Calculator | mAh to Runtime',
+    seoDescription:
+      'Estimate device battery runtime from mAh, voltage, watts, and efficiency. See Wh, usable Wh, minutes, examples, and real-world battery limits.',
     description:
-      'Use this free device battery life calculator to convert mAh and voltage into watt-hours and estimate runtime for small electronics.',
+      'Use this free device battery life calculator to convert mAh and voltage into watt-hours, apply efficiency loss, and estimate runtime for small electronics.',
     icon: 'tool-battery-life',
     aliases: ['Battery Life Calculator', 'Power Bank Runtime Calculator', 'mAh to Hours Calculator'],
     formula:
-      'The calculator converts milliamp-hours and voltage into watt-hours, applies an efficiency percentage, then divides usable watt-hours by device watts.',
+      'Watt-hours = (mAh / 1,000) * volts. Usable Wh = watt-hours * efficiency / 100. Runtime hours = usable Wh / device watts. Runtime minutes = runtime hours * 60.',
     limit:
-      'Real battery life depends on battery age, temperature, power spikes, screen brightness, radio use, inverter losses, and manufacturer limits.',
+      'Real battery life depends on battery age, temperature, chemistry, discharge rate, screen brightness, radio use, power spikes, voltage-converter loss, inverter loss, cable loss, low-battery cutoff, and manufacturer limits.',
     inputExplanations: [
-      { term: 'mAh', meaning: 'Battery capacity in milliamp-hours from the label.' },
-      { term: 'Voltage', meaning: 'Nominal voltage used to convert capacity into watt-hours.' },
-      { term: 'Device watts', meaning: 'Average power draw of the device while it is running.' },
+      { term: 'Battery capacity mAh', meaning: 'The milliamp-hour rating from the battery, phone, power bank, or small electronics label.' },
+      { term: 'Voltage', meaning: 'The nominal battery voltage used to convert capacity into watt-hours. Use the pack or cell voltage from the spec sheet.' },
+      { term: 'Device watts', meaning: 'The average power draw of the device while it is running. If you only know amps, multiply volts by amps to estimate watts.' },
+      { term: 'Efficiency %', meaning: 'The usable energy after conversion losses, heat, cables, battery overhead, and safety cutoffs.' },
     ],
     extraFaq: [
       {
@@ -8000,6 +8004,36 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Use 80% to 90% for many USB power bank estimates. Use lower values when voltage conversion, heat, old batteries, or long cables waste more energy.',
       },
+      {
+        question: 'Can I use this for a USB power bank?',
+        answer:
+          'Yes. Use the mAh and nominal voltage listed for the pack. Many power banks advertise mAh at the internal cell voltage, often around 3.7 V, not the 5 V USB output.',
+      },
+      {
+        question: 'Is mAh the same as battery life?',
+        answer:
+          'No. mAh is a capacity label, not a runtime promise. Voltage, device watts, efficiency, and real usage decide how long the battery may run.',
+      },
+      {
+        question: 'Why does a high-power device run shorter than expected?',
+        answer:
+          'High loads can create heat, voltage sag, converter losses, and early cutoff. A device with startup spikes or bright screens may draw more than its average watt rating.',
+      },
+      {
+        question: 'Should I enter watts or amps?',
+        answer:
+          'This calculator uses watts because watt-hours divided by watts gives hours directly. If your device lists current, estimate watts with volts x amps before entering it.',
+      },
+      {
+        question: 'Can I compare two batteries by mAh alone?',
+        answer:
+          'Only when the batteries use the same voltage. For different voltages, compare watt-hours because watt-hours describe stored energy more directly.',
+      },
+      {
+        question: 'Will this predict phone or laptop battery life exactly?',
+        answer:
+          'No. Phones and laptops change power draw constantly as the screen, processor, radios, charging circuits, and battery health change. Treat the result as a planning estimate.',
+      },
     ],
     useCases: [
       'Estimate how long a power bank may run a tablet, light, router, or camera.',
@@ -8008,9 +8042,9 @@ export const utilityTools: ToolDefinition[] = [
       'Compare two batteries that use different voltages.',
     ],
     examples: [
-      { label: 'Power bank and tablet', expression: '10,000 mAh, 3.7 V, 8 W', result: 'Runtime estimate' },
-      { label: 'Small light', expression: '5,000 mAh, 3.7 V, 3 W', result: 'Longer runtime estimate' },
-      { label: 'Laptop pack', expression: '5,000 mAh, 11.1 V, 30 W', result: 'Watt-hour based runtime' },
+      { label: 'Power bank and tablet', expression: '10,000 mAh, 3.7 V, 8 W, 85% efficiency', result: '3h 55m 53s (31.45 usable Wh)' },
+      { label: 'Small light', expression: '5,000 mAh, 3.7 V, 3 W, 90% efficiency', result: '5h 33m 0s (16.65 usable Wh)' },
+      { label: 'Laptop pack', expression: '5,000 mAh, 11.1 V, 30 W, 88% efficiency', result: '1h 37m 41s (48.84 usable Wh)' },
     ],
     relatedSlugs: ['electricity-calculator', 'download-time-calculator', 'conversion-calculator'],
   }),

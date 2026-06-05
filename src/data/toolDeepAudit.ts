@@ -421,6 +421,11 @@ const calculatorNetBandwidth = {
   label: 'Calculator.net: Bandwidth calculator reference',
 };
 
+const graphCalcBatteryLife = {
+  href: 'https://www.graphcalc.com/battery-life-calculator/',
+  label: 'GraphCalc: Battery life calculator reference',
+};
+
 const inchCalculatorSitemap = {
   href: 'https://www.inchcalculator.com/sitemap/',
   label: 'Inch Calculator sitemap: competitor gap reference',
@@ -7982,17 +7987,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'device-battery-life-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-tech-ai-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-device-battery-life-calculator-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [calculatorInnSitemap, nistSi, googleHelpfulContent],
+    sources: [graphCalcBatteryLife, nistSi, googleHelpfulContent],
     findings: [
       'The battery life tool converts mAh and voltage into watt-hours before estimating runtime, so it does not compare batteries by mAh alone.',
-      'Formula review checked nominal energy, usable energy after efficiency, runtime hours, and runtime minutes.',
-      'FAQ and guide explain why voltage matters, how to choose an efficiency percentage, and why battery age, temperature, and power spikes change real runtime.',
+      'Formula review checked nominal energy, usable energy after efficiency, runtime hours, and runtime minutes using the deterministic local calculator implementation.',
+      'FAQ and guide explain why voltage matters, how to choose an efficiency percentage, how power bank labels can use internal cell voltage, and why age, temperature, discharge rate, high load, and power spikes change real runtime.',
     ],
     improvements: [
-      'Added battery runtime calculator UI, examples, watt-hour explanation, source-backed guide detail, FAQ depth, related tools, and tests.',
+      'Expanded the tool page with a calculator-intent SEO title/meta description, exact mAh-to-Wh, usable-Wh, runtime-hours, and runtime-minutes formula wording, field-level explanations for mAh, nominal voltage, device watts, and efficiency, extra FAQs for USB power banks, mAh versus battery life, high-power devices, watts versus amps, comparing batteries by Wh, and phone/laptop estimate limits, exact power-bank, small-light, and laptop-pack runtime examples, more relevant battery conversion related links, and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Add USB-C power delivery presets only with clear voltage/current labels and safety cautions.',
