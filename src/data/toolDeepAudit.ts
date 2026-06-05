@@ -426,6 +426,11 @@ const graphCalcBatteryLife = {
   label: 'GraphCalc: Battery life calculator reference',
 };
 
+const inchCalculatorPpi = {
+  href: 'https://www.inchcalculator.com/ppi-calculator/',
+  label: 'Inch Calculator: PPI calculator reference',
+};
+
 const inchCalculatorSitemap = {
   href: 'https://www.inchcalculator.com/sitemap/',
   label: 'Inch Calculator sitemap: competitor gap reference',
@@ -8006,17 +8011,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'monitor-ppi-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-tech-ai-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-monitor-ppi-calculator-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [calculatorInnSitemap, nistSi, googleHelpfulContent],
+    sources: [inchCalculatorPpi, nistSi, googleHelpfulContent],
     findings: [
       'The monitor PPI tool uses resolution and diagonal size together, which avoids the common mistake of judging sharpness from resolution alone.',
-      'Formula review checked pixel diagonal via the Pythagorean theorem, PPI, and simplified aspect ratio output.',
-      'FAQ and guide explain PPI versus DPI and why scaling, viewing distance, panel quality, subpixel layout, and eyesight also matter.',
+      'Formula review checked pixel diagonal via the Pythagorean theorem, PPI, and simplified aspect ratio output using deterministic local calculator examples.',
+      'FAQ coverage explains PPI versus DPI, diagonal-size effects, scaling, viewing distance, panel quality, subpixel layout, eyesight, and why PPI is only one display-comparison signal.',
     ],
     improvements: [
-      'Added monitor PPI calculator UI, common monitor examples, pixel-density outputs, source-backed guide, FAQ depth, related image tools, and tests.',
+      'Expanded the tool page with a calculator-intent SEO title/meta description, exact pixel-diagonal, PPI, and aspect-ratio formula wording, field-level explanations, extra FAQs for good PPI, diagonal size, text sizing, and phones/tablets/TVs, exact 1080p, 1440p, and 4K examples, related image/display links, and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Add common display presets later only if they remain small and do not crowd the calculator UI.',

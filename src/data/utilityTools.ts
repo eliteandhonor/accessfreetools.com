@@ -8052,18 +8052,22 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'monitor-ppi-calculator',
     name: 'Monitor PPI Calculator',
     category: 'image-tools',
+    seoTitle: 'Monitor PPI Calculator | Pixels Per Inch',
     summary: 'Calculate pixels per inch from screen resolution and diagonal size.',
+    seoDescription:
+      'Use the Monitor PPI Calculator to estimate screen pixel density from width pixels, height pixels, diagonal inches, pixel diagonal, and aspect ratio.',
     description:
-      'Use this free monitor PPI calculator to find screen pixel density, pixel diagonal, and simplified aspect ratio from resolution and diagonal inches.',
+      'Use this free monitor PPI calculator to find screen pixel density, pixel diagonal, and simplified aspect ratio from resolution and diagonal inches before comparing displays.',
     icon: 'tool-monitor-ppi',
     aliases: ['Screen PPI Calculator', 'Pixel Density Calculator', 'DPI Calculator'],
     formula:
-      'The calculator uses the Pythagorean theorem to find the pixel diagonal, then divides that by the screen diagonal in inches.',
+      'Pixel diagonal = sqrt(width pixels^2 + height pixels^2). PPI = pixel diagonal / screen diagonal inches. Aspect ratio is width pixels to height pixels simplified by their greatest common divisor.',
     limit:
-      'PPI is not the same as perceived sharpness. Viewing distance, scaling, panel quality, anti-aliasing, and eyesight also matter.',
+      'PPI is not the same as perceived sharpness. Viewing distance, operating-system scaling, panel quality, subpixel layout, anti-aliasing, eyesight, brightness, and content quality also matter.',
     inputExplanations: [
-      { term: 'Width and height pixels', meaning: 'The screen resolution, such as 1920 x 1080 or 2560 x 1440.' },
-      { term: 'Diagonal inches', meaning: 'The physical diagonal screen size from the monitor or laptop spec.' },
+      { term: 'Width pixels', meaning: 'The horizontal resolution from the screen spec, such as 1920, 2560, 3440, or 3840 pixels.' },
+      { term: 'Height pixels', meaning: 'The vertical resolution from the screen spec, such as 1080, 1440, 1600, or 2160 pixels.' },
+      { term: 'Diagonal inches', meaning: 'The physical diagonal screen size from the monitor, laptop, tablet, or TV spec.' },
     ],
     extraFaq: [
       {
@@ -8076,6 +8080,26 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'A smaller 4K screen has higher PPI than a larger 4K screen. Panel type, scaling, brightness, subpixel layout, and viewing distance also change how sharp it feels.',
       },
+      {
+        question: 'What is a good PPI for a monitor?',
+        answer:
+          'There is no single perfect PPI. Around 90 PPI can be comfortable for many desktop setups without much scaling, while higher-density screens often look sharper but may need operating-system scaling to keep text readable.',
+      },
+      {
+        question: 'Why does diagonal size matter?',
+        answer:
+          'The same resolution spread over a larger diagonal gives each pixel more physical space, so PPI goes down. That is why a 32 inch 4K screen has lower PPI than a 27 inch 4K screen.',
+      },
+      {
+        question: 'Does PPI decide text size?',
+        answer:
+          'PPI affects physical pixel density, but the final text size also depends on scaling, browser zoom, app settings, and viewing distance. Use PPI as a comparison number, not the whole readability answer.',
+      },
+      {
+        question: 'Can I use this for phones, tablets, or TVs?',
+        answer:
+          'Yes, if you know the pixel width, pixel height, and diagonal inches. The same math works, but viewing distance changes what feels sharp on a phone, desk monitor, or living-room TV.',
+      },
     ],
     useCases: [
       'Compare a 24-inch 1080p monitor with a 27-inch 1440p monitor.',
@@ -8084,9 +8108,9 @@ export const utilityTools: ToolDefinition[] = [
       'Explain why resolution and screen size both matter.',
     ],
     examples: [
-      { label: '24 inch 1080p', expression: '1920 x 1080, 24 inches', result: 'About 92 PPI' },
-      { label: '27 inch 1440p', expression: '2560 x 1440, 27 inches', result: 'Higher PPI estimate' },
-      { label: '32 inch 4K', expression: '3840 x 2160, 32 inches', result: 'High density monitor estimate' },
+      { label: '24 inch 1080p', expression: '1920 x 1080, 24 inches', result: '91.7878 PPI, 16:9 aspect ratio' },
+      { label: '27 inch 1440p', expression: '2560 x 1440, 27 inches', result: '108.7855 PPI, 16:9 aspect ratio' },
+      { label: '32 inch 4K', expression: '3840 x 2160, 32 inches', result: '137.6817 PPI, 16:9 aspect ratio' },
     ],
     relatedSlugs: ['aspect-ratio-calculator', 'streaming-bitrate-calculator', 'color-contrast-checker'],
   }),
