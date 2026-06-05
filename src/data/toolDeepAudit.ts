@@ -4880,20 +4880,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'fat-intake-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [macroAmdr, dietaryGuidelines],
+    sources: [macroAmdr, dietaryGuidelines, googleHelpfulContent],
     findings: [
-      'The calculator converts daily calories and fat percentage into grams using 9 kcal per gram.',
-      'The guide clearly says the tool estimates total fat grams and does not separate saturated, unsaturated, or trans fat.',
-      'The FAQ explains that fat grams are not body fat and that fat quality still matters.',
+      'DataForSEO paid evidence for the exact tool targeted `fat intake calculator` intent, and Calculator.net competitor evidence showed formula/logic and limits as the main topic gaps to strengthen.',
+      'The calculator converts daily calories and fat percentage into total dietary fat grams by calculating fat calories first, then dividing by 9 kcal per gram.',
+      'The tool copy now separates total dietary fat grams from body-fat percentage, saturated/trans fat limits, cholesterol planning, eating-disorder concerns, and clinician nutrition advice.',
     ],
     improvements: [
-      'Manually checked fat gram math, percent input wording, examples, FAQ cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Added calculator-intent SEO title and description, fat-grams and macro-fat aliases, exact formula steps, expanded examples, specific input/result FAQ language, AMDR context, food-quality and medical-nutrition limits, refreshed audit notes, and a 2026-06-05 modified date.',
     ],
     followUps: [
-      'Add saturated-fat context later if a dedicated nutrition-label planner is built.',
+      'Add saturated-fat, trans-fat, fiber, and cholesterol context only if a dedicated nutrition-label or meal-planning tool is built with stronger health guidance.',
     ],
   },
   {

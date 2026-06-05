@@ -7,6 +7,7 @@ interface HealthToolSpec {
   description: string;
   seoTitle?: string;
   seoDescription?: string;
+  aliases?: string[];
   icon: string;
   formula: string;
   caution: string;
@@ -25,6 +26,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isLeanBodyMassCalculator = spec.slug === 'lean-body-mass-calculator';
   const isTargetHeartRateCalculator = spec.slug === 'target-heart-rate-calculator';
   const isBodySurfaceAreaCalculator = spec.slug === 'body-surface-area-calculator';
+  const isFatIntakeCalculator = spec.slug === 'fat-intake-calculator';
   const isPregnancyCalculator = spec.slug === 'pregnancy-calculator';
   const isPregnancyConceptionCalculator = spec.slug === 'pregnancy-conception-calculator';
   const isConceptionCalculator = spec.slug === 'conception-calculator';
@@ -43,6 +45,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter your age, choose the effort range, and add resting heart rate only if you want the heart-rate-reserve estimate. Age sets the rough maximum heart rate. The effort range turns that into beats per minute.'
     : isBodySurfaceAreaCalculator
       ? 'Enter height in centimeters and weight in kilograms. The calculator uses those two measured values for adult human body surface area formulas. It does not ask for age, sex, body fat, diagnosis, procedure type, burn percentage, or medication details.'
+    : isFatIntakeCalculator
+      ? 'Enter the calorie target first, then enter the percent of those calories planned from fat. Type 30 for 30%, not 0.30. The calculator assumes dietary fat has 9 calories per gram and uses the calorie target you provide.'
     : isPregnancyCalculator
       ? 'Enter the first day of the last menstrual period, not the last day bleeding occurred. Cycle length means the usual number of days from one period start to the next; use 28 only if that is close for you. If the LMP is uncertain, cycles are irregular, bleeding may not have been a true period, or a clinician has already dated the pregnancy, use the clinician or ultrasound date instead.'
     : isPregnancyConceptionCalculator
@@ -66,6 +70,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the answer as a training range in beats per minute, not a perfect target you must hit. If the range feels too hard, you feel pain, or a clinician gave you a different limit, slow down and use the safer guidance.'
     : isBodySurfaceAreaCalculator
       ? 'Read BSA as an estimated body surface area in square meters. The Mosteller and Du Bois lines can differ slightly because they are different formulas. Use the number as clinical math context only, not as a medication dose, diagnosis, burn estimate, or treatment plan.'
+    : isFatIntakeCalculator
+      ? 'Read the answer as total dietary fat grams for the calorie target and percent you entered. It does not judge food quality, split saturated versus unsaturated fat, set a medical nutrition plan, or tell you anything about body-fat percentage.'
     : isPregnancyCalculator
       ? 'Read the due date as an estimated delivery date from calendar math, not a guarantee of when birth will happen. Gestational age is counted from LMP, so it is usually about two weeks more than conception age. The conception and trimester lines are planning references, and an early ultrasound or clinician review can update the official date.'
     : isPregnancyConceptionCalculator
@@ -168,6 +174,7 @@ function makeHealthTool(spec: HealthToolSpec): ToolDefinition {
     icon: spec.icon,
     seoTitle: spec.seoTitle ?? `${spec.name} | Free Online Health Calculator`,
     seoDescription: spec.seoDescription ?? spec.description,
+    ...(spec.aliases ? { aliases: spec.aliases } : {}),
     useCases: spec.useCases,
     examples: spec.examples,
     faq: makeFaq(spec),
@@ -1004,22 +1011,66 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'fat-intake-calculator',
     name: 'Fat Intake Calculator',
-    summary: 'Calculate fat grams from calories and fat percentage.',
+    summary: 'Calculate daily dietary fat grams from calories and fat percentage.',
     description:
-      'Use this free fat intake calculator to convert daily calories and fat percentage into grams per day.',
+      'Use this free fat intake calculator to convert daily calories and fat percentage into grams per day, with formula steps and nutrition-planning limits.',
+    seoTitle: 'Fat Intake Calculator | Fat Grams Per Day',
+    seoDescription:
+      'Convert calories and fat percentage into daily fat grams, see the 9 calories per gram formula, AMDR context, examples, and nutrition limits.',
+    aliases: [
+      'Fat Grams Calculator',
+      'Daily Fat Intake Calculator',
+      'Dietary Fat Calculator',
+      'Macro Fat Calculator',
+      'Fat Percentage to Grams Calculator',
+    ],
     icon: 'calculator-fat-intake',
-    formula: 'Fat grams = calories x fat percentage / 100 / 9.',
-    caution: estimateCaution,
+    formula: 'Fat calories = daily calories x fat percentage / 100. Fat grams = fat calories / 9 because dietary fat has about 9 calories per gram.',
+    caution:
+      'This calculator gives an educational total-fat gram estimate only. It is not medical nutrition therapy, an eating-disorder tool, a saturated-fat limit, a cholesterol plan, or personal clinician advice.',
     useCases: [
-      'Convert fat percentage into grams.',
-      'Compare targets against AMDR reference ranges.',
-      'Plan fat intake for a calorie target.',
-      'Use with macro and calorie calculators.',
+      'Convert a macro fat percentage into daily grams.',
+      'Compare a calorie target against common AMDR-style adult fat percentage context.',
+      'Plan total dietary fat grams before checking food labels or meal plans.',
+      'Use with macro, protein, carbohydrate, and calorie calculators.',
     ],
     examples: [
-      { label: '30% of 2000', expression: '2000 kcal x 30%', result: 'About 66.7 g fat' },
-      { label: '25% of 1800', expression: '1800 kcal x 25%', result: '50 g fat' },
-      { label: '35% of 2400', expression: '2400 kcal x 35%', result: 'About 93.3 g fat' },
+      { label: '30% of 2000', expression: '2000 kcal x 30% = 600 fat kcal; 600 / 9', result: 'About 66.7 g fat' },
+      { label: '25% of 1800', expression: '1800 kcal x 25% = 450 fat kcal; 450 / 9', result: '50 g fat' },
+      { label: '35% of 2400', expression: '2400 kcal x 35% = 840 fat kcal; 840 / 9', result: 'About 93.3 g fat' },
+      { label: '20% of 2200', expression: '2200 kcal x 20% = 440 fat kcal; 440 / 9', result: 'About 48.9 g fat' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the fat calculator divide by 9?',
+        answer:
+          'Dietary fat provides about 9 calories per gram. The calculator first finds fat calories, then divides by 9 to convert those calories into grams.',
+      },
+      {
+        question: 'Is 20% to 35% fat a personal goal?',
+        answer:
+          'No. The 20% to 35% adult AMDR range is broad public nutrition context, not a personal prescription. Your right target can change with age, medical conditions, sport goals, pregnancy, calorie needs, and clinician guidance.',
+      },
+      {
+        question: 'Does this calculator split saturated, unsaturated, and trans fat?',
+        answer:
+          'No. It estimates total dietary fat grams only. Food quality still matters, and nutrition labels or clinician guidance are needed when saturated fat, trans fat, cholesterol, or heart-health targets matter.',
+      },
+      {
+        question: 'Is dietary fat the same as body fat?',
+        answer:
+          'No. Dietary fat is a macronutrient in food. Body fat is stored tissue on the body. This calculator converts food calories and macro percentage into grams; it does not estimate body-fat percentage or weight change.',
+      },
+      {
+        question: 'What happens if my calorie target is wrong?',
+        answer:
+          'The fat gram result moves with the calorie target. For example, 30% of 2,000 calories is about 66.7 grams, while 30% of 1,600 calories is about 53.3 grams. Check calories first, then macro percentage.',
+      },
+      {
+        question: 'Can I use a very low fat percentage?',
+        answer:
+          'You can calculate one, but that does not make it a good plan. Very low fat targets can be inappropriate for some people, and medical conditions or eating concerns need qualified nutrition or medical guidance.',
+      },
     ],
     relatedSlugs: ['macro-calculator', 'carbohydrate-calculator', 'protein-calculator'],
   }),
