@@ -6705,9 +6705,22 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits, sourceLinks.usdaFoodDataCentral, sourceLinks.googleHelpfulContent],
   },
   'ingredient-cost-calculator': {
-    summary: 'Learn how package price and recipe amount become a realistic ingredient cost estimate.',
+    title: 'Ingredient Cost Calculator Guide',
+    summary: 'Learn how package price, recipe amount, unit conversion, and density become a realistic ingredient cost estimate.',
+    metaDescription:
+      'Calculate ingredient cost from package price, recipe amount, unit conversion, density, and real-world limits.',
     purpose:
       'The Ingredient Cost Calculator is useful when you want to know how much one ingredient contributes to a recipe cost. It can convert package units into recipe units first, then price only the amount you use.',
+    intro:
+      'Use it before shopping, pricing a bake-sale item, checking whether a homemade recipe is cheaper, or building a rough food-cost sheet one ingredient at a time.',
+    inputMatch:
+      'the amount used in the recipe, the recipe unit, the package amount and unit from the label, the package price, and density grams per cup when the recipe crosses between volume and weight',
+    logicNote:
+      'Check package amount converted first, especially when the label uses pounds or ounces but the recipe uses cups, tablespoons, or milliliters. If that converted package amount looks wrong, fix the unit or density before using the cost result.',
+    readIntro:
+      'Read the ingredient cost as the cost of the amount used, not the cost of the whole package. Then check the converted package amount and unit cost so you can spot a unit mismatch before you trust the estimate.',
+    mistakeIntro:
+      'Most wrong ingredient-cost answers come from one of three things: the package size was copied in the wrong unit, the recipe amount was rounded too much, or a volume-to-weight estimate used the wrong density.',
     enter: [
       'Enter the recipe amount needed and its unit.',
       'Enter the package amount, package unit, and package price.',
@@ -6723,7 +6736,45 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not mix volume and weight without checking ingredient density.',
       'Do not assume leftovers have no value if you will use them later.',
     ],
-    sources: [sourceLinks.nistUnits, sourceLinks.usdaFoodDataCentral],
+    extraSections: [
+      {
+        title: 'Example: flour from a 5 lb bag',
+        paragraphs: [
+          'Say the recipe needs 2 cups of flour, the bag is 5 lb, the bag costs $4.49, and you use 120 grams per cup. The calculator converts the 5 lb bag into about 18.8997 cups, then prices 2 cups from that package.',
+          'The result is about $0.47514 for the flour in the recipe. That does not mean the bag costs 48 cents. It means this recipe used roughly 48 cents of that bag.',
+        ],
+        links: [{ href: '/tools/ingredient-cost-calculator/', label: 'Try the flour example in the calculator' }],
+      },
+      {
+        title: 'Example: chocolate chips and milk',
+        paragraphs: [
+          'For chocolate chips, 170 g from a 12 oz bag at $3.99 costs about $1.99. This is a weight-to-weight conversion, so density is not needed.',
+          'For milk, 250 mL from a 1 gallon jug at $4.20 costs about $0.277381. This is volume-to-volume, so the result depends on the gallon-to-milliliter conversion and the price you entered, not on ingredient density.',
+        ],
+        links: [{ href: '/tools/cooking-measurement-converter/', label: 'Convert kitchen units before pricing' }],
+      },
+      {
+        title: 'How to build a whole recipe cost',
+        paragraphs: [
+          'This guide prices one ingredient at a time on purpose. Run flour, sugar, butter, milk, chocolate, spices, and any other ingredient separately, then add the ingredient costs together for the recipe total.',
+          'After that, divide by servings if you want a serving estimate. The Cost Per Serving Calculator is the cleaner place to do that second step because it keeps the batch cost and serving count visible.',
+        ],
+        links: [{ href: '/tools/cost-per-serving-calculator/', label: 'Turn a recipe total into cost per serving' }],
+      },
+      {
+        title: 'When this is not enough for menu pricing',
+        paragraphs: [
+          'Ingredient cost is only one part of menu or product pricing. A restaurant, bakery, or seller also has waste, trim loss, packaging, labor, rent, utilities, delivery fees, payment fees, taxes, and profit targets.',
+          'Use the calculator for the ingredient math, then add the business costs separately before setting a public price. If you only multiply ingredient cost by a simple markup, the number can look neat while still missing the real cost of selling the food.',
+        ],
+        links: [{ href: '/tools/unit-price-calculator/', label: 'Compare package prices before costing recipes' }],
+      },
+    ],
+    sidecarText:
+      'Open the Ingredient Cost Calculator beside this guide. Try 2 cups of flour from a 5 lb bag at $4.49, then change density to see why volume-to-weight ingredient pricing moves.',
+    referenceIntro:
+      'These references help check unit conversions, ingredient-density context, and the people-first source standards used in this guide.',
+    sources: [sourceLinks.nistUnits, sourceLinks.usdaFoodDataCentral, sourceLinks.googleHelpfulContent],
   },
   'unit-price-calculator': {
     summary: 'Learn how to compare two products fairly by price per shared unit.',
