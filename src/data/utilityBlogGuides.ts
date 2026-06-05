@@ -6777,25 +6777,85 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits, sourceLinks.usdaFoodDataCentral, sourceLinks.googleHelpfulContent],
   },
   'unit-price-calculator': {
-    summary: 'Learn how to compare two products fairly by price per shared unit.',
+    title: 'Unit Price Calculator Guide',
+    metaDescription:
+      'Learn how to compare price per ounce, pound, roll, count, sheet, or other shared unit before choosing a package.',
+    summary: 'Learn how to compare two products fairly by price per shared unit before you buy.',
     purpose:
-      'The Unit Price Calculator divides each product price by its package quantity. It helps you see whether the small package, family size, bulk pack, or sale item is actually cheaper per unit.',
+      'The Unit Price Calculator divides each product price by its package quantity. It helps you see whether the small package, family size, bulk pack, warehouse-club size, or sale item is actually cheaper per ounce, pound, roll, count, sheet, or other shared unit.',
+    intro:
+      'A bigger package can look like the better deal because the sticker price is larger and the label says family size. A sale tag can also make a small package look cheaper than it really is. Unit price cuts through that by turning both products into the same price-per-unit number.',
+    inputMatch:
+      'Use the price you will actually pay for each item, including sale prices, coupon adjustments, loyalty discounts, or membership prices when they apply. Enter both quantities in the same unit before comparing them.',
+    logicNote:
+      'Unit price = item price / item quantity. The lower unit price is the cheaper math option. Savings per unit = higher unit price - lower unit price, and savings percent = savings per unit / higher unit price x 100.',
+    readIntro:
+      'Read the result as a per-unit comparison, not a promise that the item is the best purchase. The lower number tells you which package is cheaper for each ounce, pound, roll, sheet, count, or other shared unit.',
+    mistakeIntro:
+      'Most bad unit-price comparisons happen because the units do not match, the wrong price was entered, or the products are not truly comparable.',
     enter: [
-      'Enter a name, price, and quantity for item A.',
+      'Enter a name, price, and quantity for item A so the result is easy to read.',
       'Enter the same details for item B.',
-      'Use the same shared unit for both quantities, such as oz, lb, count, roll, or sheet.',
+      'Use the same shared unit for both quantities, such as oz, lb, count, roll, sheet, fl oz, or tablet.',
     ],
     read: [
       'The main answer names the lower unit-price option.',
       'Each unit price shows how much that item costs per shared unit.',
-      'Savings per unit shows the difference between the higher and lower unit price.',
+      'Savings per unit shows the difference between the higher and lower unit price, with the percent savings in parentheses.',
     ],
     mistakes: [
       'Do not compare ounces to pounds until you convert them to one unit.',
-      'Do not ignore product quality, expiration dates, storage space, or coupons.',
-      'Check that both products are truly comparable before choosing only by price.',
+      'Do not use the regular shelf price if the actual checkout price includes a sale, coupon, or loyalty discount.',
+      'Do not ignore product quality, concentration, expiration dates, storage space, delivery fees, deposits, or membership costs.',
+      'Check that both products are truly comparable before choosing only by unit price.',
     ],
-    sources: [sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Example: cereal boxes',
+        paragraphs: [
+          'Say item A is a small cereal box for $4.49 with 12 oz. Its unit price is $4.49 / 12, or about $0.3742 per oz.',
+          'Item B is a family cereal box for $6.99 with 21 oz. Its unit price is $6.99 / 21, or about $0.3329 per oz. Item B is cheaper by about $0.0413 per oz, or 11.04% compared with the higher unit price.',
+        ],
+        links: [{ href: '/tools/unit-price-calculator/', label: 'Run the cereal example in the calculator' }],
+      },
+      {
+        title: 'Use the price you will actually pay',
+        paragraphs: [
+          'Unit price is only as useful as the price you enter. If item A has a coupon, enter the after-coupon price. If item B needs a membership, delivery fee, deposit, or minimum quantity, decide whether that cost belongs in the price before comparing.',
+          'For a quick sale check, run the calculator once with shelf prices and once with the real checkout prices. The winner can change when a coupon applies to only one package.',
+        ],
+        links: [{ href: '/tools/discount-calculator/', label: 'Convert a discount before comparing packages' }],
+      },
+      {
+        title: 'Convert mixed units before comparing',
+        paragraphs: [
+          'If one package is 12 oz and another is 1 lb, convert one side first. One pound is 16 ounces, so compare both as ounces or both as pounds.',
+          'The same idea applies to fluid ounces and milliliters, rolls and sheets, tablets and doses, or bags and pounds. The calculator does not guess conversions for you because the safest comparison starts with a shared unit you trust.',
+        ],
+        links: [{ href: '/tools/cooking-measurement-converter/', label: 'Convert kitchen units first' }],
+      },
+      {
+        title: 'Why bulk is not always better',
+        paragraphs: [
+          'A bulk package can have the lower unit price and still be the wrong buy if it expires, takes too much storage space, locks up cash you need for other groceries, or includes more than you can use.',
+          'For food, think about waste before trusting the cheaper per-unit number. A lower price per pound does not help if half the package spoils before you cook it.',
+        ],
+        links: [{ href: '/tools/ingredient-cost-calculator/', label: 'Estimate how much of a package a recipe uses' }],
+      },
+      {
+        title: 'When to ignore the lower unit price',
+        paragraphs: [
+          'Unit price compares math, not quality. A stronger detergent, thicker paper towel, better pet food, reusable item, or different brand may not be interchangeable with the cheaper package.',
+          'Use the result as a shopping clue. If the products are not equivalent, add your own judgment about quality, concentration, convenience, return policy, and whether you actually need the larger amount.',
+        ],
+        links: [{ href: '/tools/cost-per-serving-calculator/', label: 'Compare food cost after you know the batch size' }],
+      },
+    ],
+    sidecarText:
+      'Open the Unit Price Calculator beside this guide. Try $4.49 for 12 oz against $6.99 for 21 oz, then change the sale price to see how quickly the winner can flip.',
+    referenceIntro:
+      'These references support shared-unit conversion discipline and people-first calculator guidance.',
+    sources: [sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'cost-per-serving-calculator': {
     summary: 'Learn how to split a recipe or batch cost into a cost per serving.',
