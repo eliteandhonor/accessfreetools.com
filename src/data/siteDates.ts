@@ -327,6 +327,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-streaming-bitrate-calculator': '2026-06-05',
   'how-to-use-device-battery-life-calculator': '2026-06-05',
   'how-to-use-monitor-ppi-calculator': '2026-06-05',
+  'how-to-use-recipe-scaler': '2026-06-05',
   'how-to-use-fuel-cost-calculator': '2026-05-26',
   'how-to-use-matrix-calculator': '2026-05-26',
   'how-to-use-date-calculator': '2026-05-26',

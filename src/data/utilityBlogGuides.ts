@@ -6552,25 +6552,84 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'recipe-scaler': {
+    title: 'Recipe Scaler Guide',
     summary: 'Learn how to scale recipe ingredients from one serving count to another without hiding the math.',
+    metaDescription:
+      'Use the Recipe Scaler guide to resize ingredient amounts, read the scale factor, and avoid common serving-size rounding mistakes.',
     purpose:
       'The Recipe Scaler helps when a recipe makes the wrong number of servings for your plan. It works one ingredient line at a time so you can see the scale factor and catch mistakes before cooking.',
+    intro:
+      'It is useful when turning a 4-serving dinner into 10 servings, making a half batch, sizing party trays, or checking ingredient amounts before meal prep, bake sales, and family cooking.',
+    inputMatch:
+      'the ingredient name, original amount, unit, original servings, and desired servings from the recipe you are changing',
+    logicNote:
+      'Scale factor = desired servings / original servings. Scaled amount = original ingredient amount x scale factor. For 2 cups of flour from 4 servings to 10 servings, the scale factor is 10 / 4 = 2.5, so the scaled amount is 5 cups.',
+    readIntro:
+      'Read the scaled amount as the exact math answer first. Then decide whether a decimal answer needs kitchen judgment before you round it.',
+    mistakeIntro:
+      'Recipe scaling mistakes usually come from rounding too early, treating every ingredient as perfectly scalable, or changing the batch size without checking pan depth and cook time.',
     enter: [
-      'Enter the ingredient name, original amount, and unit from the recipe.',
-      'Enter how many servings the original recipe makes.',
-      'Enter how many servings you want to make now.',
+      'Enter the ingredient name, original amount, and unit from one recipe line, such as 2 cups flour, 300 g sugar, or 3 eggs.',
+      'Enter how many servings the original recipe makes before scaling.',
+      'Enter how many servings you want to make now, then repeat the same process for each ingredient line you care about.',
     ],
     read: [
-      'The main answer is the scaled ingredient amount.',
-      'Scale factor tells you how much bigger or smaller the batch is.',
+      'The main answer is the scaled ingredient amount in the same unit you entered.',
+      'Scale factor tells you how much bigger or smaller the batch is. A factor above 1 makes a bigger batch; a factor below 1 makes a smaller batch.',
       'Desired servings confirms the target serving count used in the math.',
     ],
     mistakes: [
-      'Do not assume seasonings, yeast, salt, gelatin, or thickener always scale perfectly.',
-      'Do not round eggs, packets, or small measurements without thinking about the recipe.',
-      'Do not forget that pan size and cook time may need adjustment when the batch size changes.',
+      'Do not assume seasonings, yeast, salt, leavening, gelatin, extracts, or thickener always scale perfectly.',
+      'Do not round eggs, packets, cans, or small teaspoons without thinking about the recipe.',
+      'Do not forget that pan size, food depth, stirring, doneness cues, and cook time may need adjustment when the batch size changes.',
+      'Do not use cups-to-grams guesses when exact baking measurements matter. Convert or weigh first when accuracy matters.',
     ],
-    sources: [sourceLinks.googleHelpfulContent],
+    extraSections: [
+      {
+        title: 'Example: scale dinner from 4 servings to 10',
+        paragraphs: [
+          'If the recipe calls for 2 cups of flour and makes 4 servings, but you want 10 servings, the scale factor is 10 / 4 = 2.5.',
+          'Multiply 2 cups by 2.5 and the answer is 5 cups flour. The unit stays cups because the tool scales the amount; it does not convert the measurement unit.',
+        ],
+      },
+      {
+        title: 'Examples for half batches and awkward ingredients',
+        paragraphs: [
+          'A 300 g sugar line from 12 servings to 6 servings has a scale factor of 0.5, so the scaled amount is 150 g sugar.',
+          'A 3 egg line from 8 servings to 20 servings has a scale factor of 2.5, so the exact result is 7.5 eggs before rounding. That is a prompt to think, not a command to crack half an egg in every recipe.',
+        ],
+      },
+      {
+        title: 'How to handle units and rounding',
+        paragraphs: [
+          'The scaler keeps the unit you type. If you enter cups, the answer is in cups. If you enter grams, the answer is in grams. Use the cooking measurement converter when you also need cups to grams, tablespoons to cups, or ounces to pounds.',
+          'Round late. First copy the exact scaled amount, then decide whether the recipe can tolerate rounding. Dry baking ingredients, leavening, salt, and extracts usually need more care than chopped vegetables or soup broth.',
+        ],
+        links: [{ href: '/tools/cooking-measurement-converter/', label: 'Convert recipe units separately' }],
+      },
+      {
+        title: 'What the calculator does not decide',
+        paragraphs: [
+          'A bigger batch can change pan depth, surface area, stirring, cooling, browning, and cook time. A smaller batch can cook faster or dry out if the pan is too wide.',
+          'Use the calculator for the ingredient math, then follow the recipe signs of doneness and food-safety guidance when temperature or doneness matters.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'Recipe scaling answers the ingredient-amount question. Use nearby kitchen tools when the next question is unit conversion, ingredient cost, cost per serving, or pan-size scaling.',
+        ],
+        links: [
+          { href: '/tools/recipe-scaler/', label: 'Open the Recipe Scaler' },
+          { href: '/tools/ingredient-cost-calculator/', label: 'Estimate one ingredient cost' },
+          { href: '/tools/cost-per-serving-calculator/', label: 'Split a batch cost by servings' },
+          { href: '/tools/baking-pan-conversion-calculator/', label: 'Compare baking pan areas' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Recipe Scaler beside this guide. Try the 2 cups flour, 4 servings to 10 servings example first, then repeat the same scale-factor check for each ingredient line in your recipe.',
+    sources: [sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'cooking-measurement-converter': {
     summary: 'Learn why cooking unit conversion is simple for similar units and trickier for cups-to-grams.',

@@ -64,6 +64,11 @@ const toolArtMetadataOverrides = {
         'Boat Loan Calculator guide artwork supports the walkthrough for amount financed, sales tax, APR versus interest-rate cautions, long-term interest, ownership-cost limits, and lender disclosure checks.',
     },
   },
+  'recipe-scaler': {
+    guide: {
+      alt: 'Guide image for Recipe Scaler showing one ingredient scaled from original servings to desired servings with example inputs and result notes.',
+    },
+  },
   'body-fat-calculator': {
     tool: {
       alt: 'Smoke mascot checking a Navy-style tape body fat estimate with height, neck, waist, hips, 29.74 percent, fat mass, and lean mass cards.',
