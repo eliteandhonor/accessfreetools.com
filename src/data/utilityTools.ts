@@ -2133,24 +2133,92 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'tire-size-calculator',
     name: 'Tire Size Calculator',
     category: 'everyday-tools',
-    summary: 'Calculate sidewall, diameter, circumference, and revs per mile from a metric tire size.',
+    summary: 'Calculate tire diameter, sidewall height, circumference, and revs per mile from a metric tire size.',
     description:
-      'Use this free tire size calculator for metric tire sizes such as 225/60R16 to estimate diameter, circumference, and revolutions per mile.',
+      'Use this free tire size calculator for metric tire sizes such as 225/60R16 to estimate diameter, sidewall height, circumference, and revolutions per mile.',
+    seoTitle: 'Tire Size Calculator | Diameter, Sidewall And Revs Per Mile',
+    seoDescription:
+      'Calculate tire diameter, sidewall height, circumference, and revs per mile from a metric size like 225/60R16, with fitment and speedometer cautions.',
     icon: 'calculator-tire-size',
+    aliases: [
+      'tire diameter calculator',
+      'tire sidewall calculator',
+      'tire revs per mile calculator',
+      'metric tire size calculator',
+      '225/60r16 calculator',
+      'tyre size calculator',
+    ],
     formula:
-      'The calculator multiplies width by aspect ratio for sidewall height, converts millimeters to inches, then adds two sidewalls to wheel diameter.',
+      'Sidewall inches = width mm x aspect ratio / 100 / 25.4. Tire diameter = wheel diameter + (2 x sidewall). Circumference = pi x diameter. Revs per mile = 63,360 / circumference.',
     limit:
-      'Tire changes can affect safety, fitment, load rating, speedometer readings, braking, and driver-assist systems. Follow manufacturer guidance.',
+      'This is a size-math estimate, not a fitment approval. Tire changes can affect clearance, load rating, speedometer readings, braking, gearing, ABS, traction control, and driver-assist systems. Follow the vehicle placard, owner manual, and tire manufacturer guidance.',
+    faqLanguage: {
+      expectedInputs: 'the section width in millimeters, aspect ratio percent, and wheel diameter in inches from a metric tire size such as 225/60R16',
+      inputFallback:
+        'Read 225/60R16 as 225 mm section width, 60 aspect ratio, and a 16 inch wheel. Enter those three numbers separately before calculating.',
+      examplePhrase: '225/60R16 example',
+      doubleCheck:
+        'Also check the actual tire sidewall, vehicle placard, owner manual, rim width, load index, speed rating, brake clearance, suspension clearance, and tire manufacturer guidance.',
+      privacy:
+        'No. The tire size math runs in your browser tab. Your recent answers stay only on the page while you use it, and they are not sent to a server.',
+    },
+    inputExplanations: [
+      { term: 'Width mm', meaning: 'The first number on a metric tire size. In 225/60R16, the tire is listed as 225 millimeters wide.' },
+      { term: 'Aspect ratio', meaning: 'The second number. It is sidewall height as a percent of width, so 60 means the sidewall is 60% of 225 mm.' },
+      { term: 'Wheel diameter inches', meaning: 'The number after R. In 225/60R16, the tire fits a 16 inch wheel.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How do I read a tire size like 225/60R16?',
+        answer:
+          'Use 225 for width, 60 for aspect ratio, and 16 for wheel diameter. The R means radial construction; this calculator uses the three numbers for size math.',
+      },
+      {
+        question: 'What does aspect ratio change?',
+        answer:
+          'Aspect ratio changes sidewall height. With the same width, a lower aspect ratio gives a shorter sidewall and usually a smaller tire diameter unless the wheel diameter increases.',
+      },
+      {
+        question: 'Why do revs per mile matter?',
+        answer:
+          'Revs per mile estimates how many times the tire turns over one mile. A tire with fewer revs per mile is usually larger, which can change speedometer reading, gearing feel, and driver-assist behavior.',
+      },
+      {
+        question: 'Will a different tire diameter change my speedometer?',
+        answer:
+          'Yes. A larger rolling diameter can make the speedometer read lower than actual road speed, while a smaller diameter can make it read higher. The calculator helps you spot the size change, not approve it.',
+      },
+      {
+        question: 'Does this calculator check whether the tire fits my car?',
+        answer:
+          'No. It does not check rim width, offset, fender clearance, suspension travel, brake clearance, load index, speed rating, or manufacturer rules. Use it before you check those fitment details.',
+      },
+      {
+        question: 'Why can the real measured diameter be different?',
+        answer:
+          'Published and calculated tire diameter can differ by tire model, tread depth, inflation pressure, load, and measuring method. Treat the answer as a close planning number.',
+      },
+      {
+        question: 'Can I use it for sizes like 33x12.50R15?',
+        answer:
+          'Not directly. This page is built for metric sizes such as 225/60R16. Flotation sizes already state the approximate outside diameter and need a separate comparison method.',
+      },
+      {
+        question: 'Is a close diameter enough when choosing replacement tires?',
+        answer:
+          'No. Diameter is only one check. Also match the vehicle placard, load and speed ratings, approved rim width, all-wheel-drive requirements, and any tire-shop or manufacturer guidance.',
+      },
+    ],
     useCases: [
-      'Decode a metric tire size.',
-      'Compare tire diameter and circumference.',
-      'Estimate revolutions per mile.',
-      'Understand how aspect ratio changes sidewall height.',
+      'Decode a metric tire size such as 225/60R16.',
+      'Estimate tire diameter, sidewall height, circumference, and revs per mile.',
+      'Compare rolling size before checking replacement tire fitment.',
+      'Understand how aspect ratio changes sidewall height and diameter.',
     ],
     examples: [
-      { label: 'Common size', expression: '225/60R16', result: 'Diameter and revs per mile' },
-      { label: 'Low profile comparison', expression: '235/45R18', result: 'Sidewall and diameter estimate' },
-      { label: 'Truck tire', expression: '275/65R18', result: 'Larger diameter estimate' },
+      { label: 'Common size', expression: '225/60R16', result: '26.63 in diameter, about 757 revs per mile' },
+      { label: 'Low profile comparison', expression: '235/45R18', result: '26.33 in diameter, about 766 revs per mile' },
+      { label: 'Truck tire', expression: '275/65R18', result: '32.07 in diameter, about 629 revs per mile' },
     ],
     relatedSlugs: ['conversion-calculator', 'speed-calculator', 'mileage-calculator'],
   }),

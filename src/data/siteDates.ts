@@ -151,6 +151,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'board-foot-calculator': '2026-05-31',
   'height-calculator': '2026-05-26',
   'sleep-calculator': '2026-05-26',
+  'tire-size-calculator': '2026-06-05',
   'ad-revenue-calculator': '2026-05-26',
   'half-life-calculator': '2026-05-26',
   'character-counter': '2026-05-26',

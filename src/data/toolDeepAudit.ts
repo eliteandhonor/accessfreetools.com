@@ -7358,17 +7358,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'tire-size-calculator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [nhtsaTireSize, nistSi],
+    sources: [nhtsaTireSize, nistSi, googleHelpfulContent],
     findings: [
       'The tire-size helper calculates sidewall height from width and aspect ratio, then adds two sidewalls to wheel diameter.',
       'Tests cover a 225/60R16 tire and diameter output.',
-      'The guide warns that tire changes affect safety, fitment, load rating, speedometer readings, braking, and driver-assist systems.',
+      'The tool now explains diameter, sidewall height, circumference, revs per mile, speedometer effects, and the difference between size math and real fitment approval.',
     ],
     improvements: [
-      'Manually checked tire sidewall formula, wheel-diameter conversion, circumference and revs-per-mile wording, examples, FAQ detail, guide cautions, related links, and privacy behavior.',
+      'Added tire-diameter SEO metadata, metric-size aliases, exact sidewall/diameter/circumference/revs-per-mile formula wording, field explanations for 225/60R16-style inputs, concrete 225/60R16, 235/45R18, and 275/65R18 examples, extra visible FAQs, stronger fitment/speedometer/load-rating limits, clearer UI labels, and fresh DataForSEO/page proof.',
     ],
     followUps: [
       'Add tire comparison mode later only with speedometer-difference and fitment caveats.',

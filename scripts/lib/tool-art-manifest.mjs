@@ -69,6 +69,18 @@ const toolArtMetadataOverrides = {
       alt: 'Guide image for Recipe Scaler showing one ingredient scaled from original servings to desired servings with example inputs and result notes.',
     },
   },
+  'tire-size-calculator': {
+    tool: {
+      alt: 'Illustration for Tire Size Calculator showing tire diameter, sidewall height, circumference, and revs per mile from a metric tire size.',
+      caption:
+        'Tire Size Calculator artwork matches the live workflow: enter section width, aspect ratio, and wheel diameter, then estimate tire diameter, sidewall height, circumference, and revs per mile.',
+    },
+    guide: {
+      alt: 'Guide image for Tire Size Calculator showing tire diameter, sidewall height, circumference, and revs per mile with example inputs and result notes.',
+      caption:
+        'Tire Size Calculator guide artwork supports the walkthrough for reading a metric tire size, interpreting sidewall height, checking diameter changes, and avoiding fitment mistakes.',
+    },
+  },
   'body-fat-calculator': {
     tool: {
       alt: 'Smoke mascot checking a Navy-style tape body fat estimate with height, neck, waist, hips, 29.74 percent, fat mass, and lean mass cards.',
