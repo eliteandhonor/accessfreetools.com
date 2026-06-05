@@ -27,6 +27,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isTargetHeartRateCalculator = spec.slug === 'target-heart-rate-calculator';
   const isBodySurfaceAreaCalculator = spec.slug === 'body-surface-area-calculator';
   const isFatIntakeCalculator = spec.slug === 'fat-intake-calculator';
+  const isTdeeCalculator = spec.slug === 'tdee-calculator';
   const isPregnancyCalculator = spec.slug === 'pregnancy-calculator';
   const isPregnancyConceptionCalculator = spec.slug === 'pregnancy-conception-calculator';
   const isConceptionCalculator = spec.slug === 'conception-calculator';
@@ -47,6 +48,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter height in centimeters and weight in kilograms. The calculator uses those two measured values for adult human body surface area formulas. It does not ask for age, sex, body fat, diagnosis, procedure type, burn percentage, or medication details.'
     : isFatIntakeCalculator
       ? 'Enter the calorie target first, then enter the percent of those calories planned from fat. Type 30 for 30%, not 0.30. The calculator assumes dietary fat has 9 calories per gram and uses the calorie target you provide.'
+    : isTdeeCalculator
+      ? 'Enter the formula sex setting, age, height in centimeters, weight in kilograms, and the activity level that best describes a normal week. The formula sex setting chooses the +5 or -161 Mifflin-St Jeor adjustment. The activity level multiplies BMR by a broad factor, so pick the average week rather than your best workout day.'
     : isPregnancyCalculator
       ? 'Enter the first day of the last menstrual period, not the last day bleeding occurred. Cycle length means the usual number of days from one period start to the next; use 28 only if that is close for you. If the LMP is uncertain, cycles are irregular, bleeding may not have been a true period, or a clinician has already dated the pregnancy, use the clinician or ultrasound date instead.'
     : isPregnancyConceptionCalculator
@@ -72,6 +75,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read BSA as an estimated body surface area in square meters. The Mosteller and Du Bois lines can differ slightly because they are different formulas. Use the number as clinical math context only, not as a medication dose, diagnosis, burn estimate, or treatment plan.'
     : isFatIntakeCalculator
       ? 'Read the answer as total dietary fat grams for the calorie target and percent you entered. It does not judge food quality, split saturated versus unsaturated fat, set a medical nutrition plan, or tell you anything about body-fat percentage.'
+    : isTdeeCalculator
+      ? 'Read TDEE as estimated maintenance calories per day for the inputs and activity factor you chose. It is not a promised weight-change number, medical diet order, pregnancy plan, eating-disorder recovery plan, or exact metabolism measurement. Real-world trends can move the useful target up or down.'
     : isPregnancyCalculator
       ? 'Read the due date as an estimated delivery date from calendar math, not a guarantee of when birth will happen. Gestational age is counted from LMP, so it is usually about two weeks more than conception age. The conception and trimester lines are planning references, and an early ultrasound or clinician review can update the official date.'
     : isPregnancyConceptionCalculator
@@ -1077,22 +1082,67 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'tdee-calculator',
     name: 'TDEE Calculator',
-    summary: 'Estimate total daily energy expenditure from BMR and activity.',
+    summary: 'Estimate daily maintenance calories from BMR and activity level.',
     description:
-      'Use this free TDEE calculator to estimate total daily energy expenditure using BMR and activity level.',
+      'Use this free TDEE calculator to estimate daily maintenance calories from age, formula sex, height, weight, and activity level, with formula steps and planning limits.',
+    seoTitle: 'TDEE Calculator | Maintenance Calories Per Day',
+    seoDescription:
+      'Estimate TDEE from Mifflin-St Jeor BMR and activity factors. See maintenance calories, examples, activity-level tips, and limits before planning intake.',
+    aliases: [
+      'Maintenance Calorie Calculator',
+      'Total Daily Energy Expenditure Calculator',
+      'Daily Energy Expenditure Calculator',
+      'Activity Factor Calculator',
+      'BMR to TDEE Calculator',
+    ],
     icon: 'calculator-tdee',
-    formula: 'TDEE is estimated by calculating BMR with Mifflin-St Jeor, then multiplying by the selected activity factor.',
-    caution: estimateCaution,
+    formula:
+      'BMR = 10 x weight kg + 6.25 x height cm - 5 x age + formula-sex adjustment (+5 or -161). TDEE = BMR x activity factor: 1.2 sedentary, 1.375 light, 1.55 moderate, 1.725 very active, or 1.9 extra active.',
+    caution:
+      'This calculator gives an educational maintenance-calorie estimate only. It is not a medical diet order, eating-disorder tool, pregnancy nutrition plan, sport fueling prescription, or guarantee of weight change.',
     useCases: [
-      'Estimate maintenance calories.',
-      'Compare activity levels.',
-      'Use TDEE as the base for calorie and macro planning.',
-      'Adjust estimates with real-world tracking over time.',
+      'Estimate maintenance calories before setting macro targets.',
+      'Compare sedentary, light, moderate, very active, and extra active activity factors.',
+      'Use TDEE as the base for calorie, protein, carbohydrate, and fat planning.',
+      'Adjust a starting estimate with real weight trends and intake tracking over time.',
     ],
     examples: [
-      { label: 'Moderate activity', expression: 'BMR x 1.55', result: 'Estimated TDEE' },
-      { label: 'Sedentary', expression: 'BMR x 1.2', result: 'Estimated TDEE' },
-      { label: 'Very active', expression: 'BMR x 1.725', result: 'Estimated TDEE' },
+      { label: 'Moderate activity', expression: 'Female formula, age 32, 165 cm, 68 kg: BMR 1,390.25 x 1.55', result: 'About 2,155 kcal/day' },
+      { label: 'Sedentary', expression: 'Male formula, age 45, 180 cm, 88 kg: BMR 1,785 x 1.2', result: '2,142 kcal/day' },
+      { label: 'Very active', expression: 'Female formula, age 27, 172 cm, 63 kg: BMR 1,409 x 1.725', result: 'About 2,431 kcal/day' },
+      { label: 'Moderate male check', expression: 'Male formula, age 35, 178 cm, 82 kg: BMR 1,762.5 x 1.55', result: 'About 2,732 kcal/day' },
+    ],
+    extraFaq: [
+      {
+        question: 'What activity factors does this TDEE calculator use?',
+        answer:
+          'It uses common planning factors: 1.2 for sedentary, 1.375 for light activity, 1.55 for moderate activity, 1.725 for very active, and 1.9 for extra active. These are broad multipliers, not wearable-tracker measurements.',
+      },
+      {
+        question: 'Is TDEE the same as BMR?',
+        answer:
+          'No. BMR estimates resting energy before normal movement and exercise. TDEE starts with BMR, then multiplies it by an activity factor to estimate total daily energy expenditure.',
+      },
+      {
+        question: 'How should I choose an activity level?',
+        answer:
+          'Choose the level that describes your usual week, not your hardest training day. If work, steps, workouts, or caregiving vary a lot, start conservative and compare the estimate with real weight and intake trends.',
+      },
+      {
+        question: 'Is TDEE my weight-loss target?',
+        answer:
+          'No. TDEE is the estimated maintenance anchor. A weight-loss, gain, or macro target should be chosen separately and carefully, especially if you have medical conditions, a history of disordered eating, pregnancy, or sport-performance needs.',
+      },
+      {
+        question: 'Why can my real maintenance calories be different?',
+        answer:
+          'Activity labels are broad, food tracking can be off, body composition varies, and weight changes include water and glycogen shifts. Use the calculator as a starting estimate, then adjust slowly with real-world evidence.',
+      },
+      {
+        question: 'Can I use TDEE for medical or pregnancy nutrition?',
+        answer:
+          'Use qualified medical or nutrition guidance for pregnancy, diabetes, kidney disease, heart disease, eating-disorder recovery, medication changes, or any plan where under-eating or over-eating could be unsafe.',
+      },
     ],
     relatedSlugs: ['calorie-calculator', 'bmr-calculator', 'macro-calculator'],
   }),

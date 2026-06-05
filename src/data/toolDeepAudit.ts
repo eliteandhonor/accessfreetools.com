@@ -4900,20 +4900,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'tdee-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [mifflinStJeorEquation, cdcActivity],
+    sources: [mifflinStJeorEquation, cdcActivity, googleHelpfulContent],
     findings: [
-      'The calculator estimates BMR with Mifflin-St Jeor and multiplies it by a selected activity factor to estimate total daily energy expenditure.',
-      'The guide explains that activity labels are broad and users should not double-count workouts.',
-      'The result language separates maintenance calories from a weight-loss or medical diet target.',
+      'DataForSEO paid evidence for the exact tool targeted `tdee calculator` intent, and Calculator.net competitor evidence showed concrete examples, formula logic, and limits as the main topic gaps to strengthen.',
+      'The calculator estimates BMR with Mifflin-St Jeor, then multiplies by a selected activity factor to estimate maintenance calories per day.',
+      'The result language now separates estimated maintenance calories from weight-loss targets, pregnancy nutrition, eating-disorder recovery, sport fueling, and medical diet orders.',
     ],
     improvements: [
-      'Manually checked BMR-to-TDEE logic, activity factor labels, examples, FAQ cautions, source coverage, related tools, SEO copy, privacy behavior, and result explanation.',
+      'Added calculator-intent SEO title and description, maintenance-calorie and activity-factor aliases, exact BMR and TDEE formula steps, activity-factor values, four numeric examples, specific input/result FAQ language, stronger medical and tracking limits, refreshed audit notes, and a 2026-06-05 modified date.',
     ],
     followUps: [
-      'Add activity-factor examples in the UI if users struggle to choose sedentary, light, moderate, very, or extra activity.',
+      'Add richer activity-factor examples in the UI if users still struggle to choose sedentary, light, moderate, very, or extra active from real weekly routines.',
     ],
   },
   {
