@@ -436,6 +436,11 @@ const inchCalculatorRecipeScale = {
   label: 'Inch Calculator: Recipe scale conversion calculator reference',
 };
 
+const inchCalculatorCookingConversion = {
+  href: 'https://www.inchcalculator.com/cooking-conversion-calculator/',
+  label: 'Inch Calculator: Cooking conversion calculator reference',
+};
+
 const inchCalculatorSitemap = {
   href: 'https://www.inchcalculator.com/sitemap/',
   label: 'Inch Calculator sitemap: competitor gap reference',
@@ -8054,17 +8059,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'cooking-measurement-converter',
     status: 'deep-reviewed',
-    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-cooking-measurement-converter-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [inchCalculatorSitemap, nistSi, usdaFoodDataCentral, googleHelpfulContent],
+    sources: [inchCalculatorCookingConversion, nistSi, usdaFoodDataCentral, googleHelpfulContent],
     findings: [
-      'Competitor research showed kitchen measurement conversion as a useful converter gap, especially cups-to-grams style searches.',
-      'Formula review checked fixed volume factors, fixed mass factors, and density-based volume-to-mass conversion.',
-      'FAQ and guide explain density grams per cup, ingredient variability, and why baking accuracy may need a scale.',
+      'Inch Calculator competitor-gap evidence confirmed cooking conversion, measuring-chart, cups-to-grams, tablespoons, milliliters, ounces, and ingredient-density topics as useful coverage areas to handle in original wording.',
+      'Formula review checked volume conversions through US cups, mass conversions through grams, and density-based crossings between volume and weight.',
+      'FAQ coverage explains density grams per cup, when density does and does not matter, ingredient variability, US cup and tablespoon constants, and why baking accuracy may need a scale.',
     ],
     improvements: [
-      'Added cooking unit converter UI, density field help, examples, source-backed guide, FAQ depth, converter category placement, and tests.',
+      'Expanded the tool page with a calculator-intent SEO title/meta description, exact volume and mass conversion constants, density-crossing formula wording, field-level explanations, extra FAQs, exact examples for cups-to-grams, mL-to-cups, ounces-to-grams, and tablespoons-to-mL, related kitchen links, refreshed audit notes, and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Add ingredient density presets only after they are source-linked and clearly labeled as approximate.',

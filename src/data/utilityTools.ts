@@ -8194,16 +8194,28 @@ export const utilityTools: ToolDefinition[] = [
     category: 'converters',
     summary: 'Convert recipe units, including approximate volume-to-weight conversions with ingredient density.',
     description:
-      'Use this free cooking measurement converter for teaspoons, tablespoons, cups, milliliters, grams, ounces, pounds, and ingredient-density conversions.',
+      'Use this free cooking measurement converter to change teaspoons, tablespoons, fluid ounces, cups, pints, quarts, gallons, milliliters, liters, grams, kilograms, ounces, and pounds for recipe work.',
+    seoTitle: 'Cooking Measurement Converter | Cups, Grams, Tbsp',
+    seoDescription:
+      'Convert cups, tablespoons, teaspoons, milliliters, grams, ounces, and pounds with optional ingredient density.',
     icon: 'tool-cooking-measure',
-    aliases: ['Kitchen Measurement Converter', 'Recipe Measurement Converter', 'Cups to Grams Converter'],
+    aliases: [
+      'Kitchen Measurement Converter',
+      'Recipe Measurement Converter',
+      'Cups to Grams Converter',
+      'Tablespoons to Cups Converter',
+      'Ounces to Grams Converter',
+      'Recipe Unit Converter',
+    ],
     formula:
-      'The converter uses fixed unit factors for volume-to-volume or weight-to-weight conversions. For volume-to-weight conversions, it uses grams per cup as the ingredient density.',
+      'Volume units convert through US cups: teaspoons / 48, tablespoons / 16, fluid ounces / 8, cups, pints x 2, quarts x 4, gallons x 16, milliliters / 236.5882365, and liters x 4.22675284. Mass units convert through grams: kilograms x 1000, ounces x 28.349523125, and pounds x 453.59237. When one side is volume and the other is weight, cups x density grams per cup gives grams; grams / density grams per cup gives cups before converting to the target unit.',
     limit:
-      'Volume-to-weight conversions are approximate because chopped, sifted, packed, and liquid ingredients can have different weights per cup.',
+      'Volume-to-weight conversions are approximate because chopped, sifted, packed, grated, melted, and liquid ingredients can have different weights per cup. Use a kitchen scale or source-specific ingredient data when baking accuracy, nutrition labels, or selling food depend on the number.',
     inputExplanations: [
-      { term: 'From and to units', meaning: 'The recipe unit you have and the unit you want.' },
-      { term: 'Density grams per cup', meaning: 'How many grams one US cup of that ingredient weighs.' },
+      { term: 'Amount', meaning: 'The number from the recipe, package, or measuring cup that you want to convert.' },
+      { term: 'From unit', meaning: 'The unit you already have, such as cups, tablespoons, milliliters, grams, ounces, or pounds.' },
+      { term: 'To unit', meaning: 'The unit you want the answer in.' },
+      { term: 'Density grams per cup', meaning: 'How many grams one level US cup of that ingredient weighs. It only changes answers when converting between volume and weight.' },
     ],
     extraFaq: [
       {
@@ -8212,9 +8224,34 @@ export const utilityTools: ToolDefinition[] = [
           'It means the weight of one level US cup of a specific ingredient. A cup of flour may be around 120 g, while a cup of water is about 237 g, so the same volume can weigh very different amounts.',
       },
       {
+        question: 'When does the density field matter?',
+        answer:
+          'It matters when one unit is volume and the other is weight, such as cups to grams or ounces to tablespoons. It does not change fixed volume-to-volume conversions like cups to tablespoons, or fixed weight-to-weight conversions like ounces to grams.',
+      },
+      {
+        question: 'Why are cups to grams only approximate?',
+        answer:
+          'A cup measures space, while grams measure weight. Flour, sugar, oats, chopped nuts, honey, oil, and cocoa can all weigh different amounts per cup, and scooping or packing changes the real amount.',
+      },
+      {
+        question: 'Can I convert milliliters to cups?',
+        answer:
+          'Yes. The converter treats 1 US cup as 236.5882365 milliliters, so 500 mL is about 2.1134 US cups.',
+      },
+      {
+        question: 'Can I convert tablespoons to milliliters?',
+        answer:
+          'Yes. The converter uses US cooking units, where 1 tablespoon is 1/16 cup, so 3 tablespoons is about 44.3603 mL.',
+      },
+      {
         question: 'Can I use this for exact baking science?',
         answer:
           'Use it as a helpful estimate, then prefer a kitchen scale for baking when accuracy matters. How an ingredient is scooped, sifted, chopped, or packed can change the true weight.',
+      },
+      {
+        question: 'Is this the same as the Butter Converter?',
+        answer:
+          'No. This converter is general. Use the Butter Converter when you specifically need sticks, cups, tablespoons, grams, ounces, and pounds of butter with common butter equivalents.',
       },
     ],
     useCases: [
@@ -8222,13 +8259,16 @@ export const utilityTools: ToolDefinition[] = [
       'Convert milliliters to cups for a recipe from another country.',
       'Change ounces to grams without using a separate generic converter.',
       'Explain why cups-to-grams depends on the ingredient.',
+      'Convert tablespoons to milliliters for small liquid or spice amounts.',
+      'Check whether a recipe unit conversion is fixed or density-based before scaling a batch.',
     ],
     examples: [
       { label: 'Flour cups to grams', expression: '2 cups, 120 g per cup', result: '240 g' },
-      { label: 'Milk mL to cups', expression: '500 mL to cups', result: 'About 2.11 cups' },
-      { label: 'Butter ounces to grams', expression: '4 oz to grams', result: 'About 113.4 g' },
+      { label: 'Milk mL to cups', expression: '500 mL to cups', result: 'About 2.1134 cups' },
+      { label: 'Butter ounces to grams', expression: '4 oz to grams', result: 'About 113.3981 g' },
+      { label: 'Tablespoons to mL', expression: '3 tablespoons to milliliters', result: 'About 44.3603 mL' },
     ],
-    relatedSlugs: ['recipe-scaler', 'butter-converter', 'conversion-calculator'],
+    relatedSlugs: ['recipe-scaler', 'butter-converter', 'ingredient-cost-calculator', 'baking-pan-conversion-calculator'],
   }),
   makeUtilityTool({
     slug: 'ingredient-cost-calculator',
