@@ -6205,8 +6205,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'molarity-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
     sources: [openStaxMolarity, nistSi, nistAtomicWeights],
     findings: [
@@ -6216,6 +6216,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     improvements: [
       'Manually checked molarity modes, grams-to-moles path, examples, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Added calculator-intent SEO title and description, aliases for molar concentration and moles per liter, final-solution-volume formula wording, a grams-to-moles example, FAQ coverage for grams, moles versus molarity, lab-instruction limits, and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Add dilution M1V1 mode later as a separate chemistry tool or mode.',

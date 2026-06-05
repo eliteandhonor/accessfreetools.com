@@ -1988,25 +1988,47 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'molarity-calculator',
     name: 'Molarity Calculator',
     category: 'school-study',
-    summary: 'Calculate molarity from moles and liters or from grams, molar mass, and liters.',
+    summary: 'Calculate molarity from moles and liters, or from grams, molar mass, and final solution volume.',
     description:
-      'Use this free molarity calculator to find mol/L concentration from moles or from grams and molar mass.',
+      'Use this free molarity calculator to find mol/L concentration from moles, or from grams, molar mass, and final solution volume.',
     icon: 'calculator-molarity',
+    aliases: ['Molar Concentration Calculator', 'Moles Per Liter Calculator', 'Solution Concentration Calculator'],
+    seoTitle: 'Molarity Calculator | Moles Per Liter And Grams To M',
+    seoDescription:
+      'Calculate molarity in mol/L from moles and liters, or convert grams with molar mass first. Includes final-volume guidance, examples, and lab limits.',
     formula:
-      'The calculator uses molarity = moles of solute / liters of solution. In grams mode, it first divides grams by molar mass to find moles.',
+      'The calculator uses M = moles of solute / liters of final solution. In grams mode, it first calculates moles = grams / molar mass, then divides by final solution volume in liters.',
     limit:
-      'Lab work needs correct significant figures, final solution volume, purity, hydration state, safety procedures, and teacher or lab instructions.',
+      'Lab work needs correct significant figures, final solution volume, solute purity, hydration state, safety procedures, and teacher or lab instructions. This is a classroom planning check, not a lab safety sign-off.',
     inputExplanations: [
       { term: 'Moles solute', meaning: 'the amount of dissolved substance in moles.' },
       { term: 'Grams solute', meaning: 'mass of the solute when you are starting from a weighed amount.' },
       { term: 'Molar mass', meaning: 'grams per mole for the substance, often found from the Molecular Weight Calculator.' },
-      { term: 'Volume liters', meaning: 'the final solution volume in liters, not just the solvent poured in first.' },
+      {
+        term: 'Volume liters',
+        meaning: 'the final solution volume in liters after the solute is dissolved and diluted to the mark, not just the solvent poured in first.',
+      },
     ],
     extraFaq: [
       {
         question: 'Why does final solution volume matter?',
         answer:
           'Molarity uses moles per liter of final solution. If you dissolve a solid and then fill to the final mark in a flask, use that final volume, not only the amount of water you started with.',
+      },
+      {
+        question: 'Can I calculate molarity from grams?',
+        answer:
+          'Yes, if you know the molar mass. The calculator converts grams to moles first, then divides by final solution volume in liters. For example, 5.844 g of NaCl at 58.44 g/mol is 0.1 mol.',
+      },
+      {
+        question: 'Is molarity the same as moles?',
+        answer:
+          'No. Moles tell you the amount of solute. Molarity tells you that amount per liter of final solution, so the same moles in a smaller volume gives a higher molarity.',
+      },
+      {
+        question: 'Can this replace my lab instructions?',
+        answer:
+          'No. Use it to check the math setup, then follow your teacher, lab protocol, safety sheet, purity label, and required significant figures.',
       },
     ],
     useCases: [
@@ -2016,8 +2038,8 @@ export const utilityTools: ToolDefinition[] = [
       'Use molecular weight output as a molar mass input.',
     ],
     examples: [
-      { label: 'Simple molarity', expression: '0.5 mol / 1 L', result: '0.5 M' },
-      { label: 'NaCl grams', expression: '58.44 g / 58.44 g/mol / 1 L', result: '1 M' },
+      { label: 'Simple molarity', expression: '0.5 mol / 1 L', result: '0.5 M, or 0.5 mol per liter' },
+      { label: 'NaCl grams', expression: '5.844 g / 58.44 g/mol / 0.5 L', result: '0.2 M' },
       { label: 'Dilute sample', expression: '0.25 mol / 0.5 L', result: '0.5 M' },
     ],
     relatedSlugs: ['molecular-weight-calculator', 'conversion-calculator', 'density-calculator'],
