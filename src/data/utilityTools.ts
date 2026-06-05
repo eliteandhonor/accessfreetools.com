@@ -8276,19 +8276,43 @@ export const utilityTools: ToolDefinition[] = [
     category: 'everyday-tools',
     summary: 'Estimate how much one recipe ingredient costs from package price and amount used.',
     description:
-      'Use this free ingredient cost calculator to convert package size into recipe units and estimate the cost of the ingredient amount you need.',
+      'Use this free ingredient cost calculator to convert package size into recipe units and estimate how much flour, sugar, butter, milk, chocolate, spices, or any other ingredient costs in one recipe.',
+    seoTitle: 'Ingredient Cost Calculator | Recipe Food Cost',
+    seoDescription:
+      'Estimate ingredient cost from package price, package size, recipe amount, unit conversion, and optional density.',
     icon: 'tool-ingredient-cost',
-    aliases: ['Recipe Ingredient Cost Calculator', 'Food Cost Calculator', 'Ingredient Price Calculator'],
+    aliases: [
+      'Recipe Ingredient Cost Calculator',
+      'Food Cost Calculator',
+      'Ingredient Price Calculator',
+      'Recipe Cost Calculator',
+      'Food Cost Per Ingredient Calculator',
+      'Baking Ingredient Cost Calculator',
+      'Menu Ingredient Cost Calculator',
+    ],
     formula:
-      'The calculator converts package amount into the needed unit, divides package price by converted package amount, then multiplies by the recipe amount.',
+      'First convert the package amount into the recipe unit. Unit cost = package price / package amount in the needed unit. Ingredient cost = amount needed x unit cost. If the package and recipe cross between volume and weight, the conversion uses density grams per cup before pricing the amount used.',
     limit:
-      'It does not include tax, spoilage, coupons, waste, or leftover value unless you include those costs yourself.',
+      'The estimate is only as accurate as the package price, unit conversion, density, and recipe amount you enter. It does not include tax, spoilage, coupons, trim waste, evaporation, packaging, labor, overhead, delivery fees, or leftover value unless you include those costs yourself.',
     inputExplanations: [
-      { term: 'Amount needed', meaning: 'How much of the ingredient your recipe uses.' },
-      { term: 'Package amount', meaning: 'How much ingredient is in the package you bought.' },
-      { term: 'Density grams per cup', meaning: 'Used only when converting between volume and weight units.' },
+      { term: 'Amount needed', meaning: 'How much of the ingredient your recipe uses, such as 2 cups, 170 g, or 250 mL.' },
+      { term: 'Needed unit', meaning: 'The unit used by the recipe amount.' },
+      { term: 'Package amount', meaning: 'How much ingredient is in the package you bought, such as 5 lb, 12 oz, 2 kg, or 1 gallon.' },
+      { term: 'Package unit', meaning: 'The unit printed on the package or receipt.' },
+      { term: 'Package price', meaning: 'The shelf price, sale price, or adjusted price you want the estimate to use.' },
+      { term: 'Density grams per cup', meaning: 'Used only when converting between volume and weight units, such as cups of flour from a pound bag.' },
     ],
     extraFaq: [
+      {
+        question: 'How does the calculator find ingredient cost?',
+        answer:
+          'It converts the package size into the same unit as the recipe amount, divides the package price by that converted package size, then multiplies by the amount the recipe needs.',
+      },
+      {
+        question: 'What does package amount converted mean?',
+        answer:
+          'It is the package size rewritten in the recipe unit. For example, a 5 lb flour bag is about 18.8997 cups when using 120 grams per cup, so the calculator can price 2 cups from that bag.',
+      },
       {
         question: 'Why does ingredient density matter for cost?',
         answer:
@@ -8299,19 +8323,42 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Include them in the package price if you want the estimate to reflect real spending. If you only want shelf-price math, enter the shelf price and leave waste out.',
       },
+      {
+        question: 'How do I account for waste or trim loss?',
+        answer:
+          'Raise the package price or amount needed to reflect the waste you expect. The calculator prices the numbers you enter; it does not automatically guess peel loss, spill loss, evaporation, or unusable leftovers.',
+      },
+      {
+        question: 'Can this price a whole recipe?',
+        answer:
+          'This page prices one ingredient at a time. Add each ingredient cost together for a whole recipe total, then use the Cost Per Serving Calculator if you want a per-serving result.',
+      },
+      {
+        question: 'Is this enough for menu pricing?',
+        answer:
+          'It is a useful ingredient-cost starting point, but menu pricing usually also needs packaging, labor, overhead, delivery fees, waste, target margin, and local price changes.',
+      },
+      {
+        question: 'Does density matter for ounces to grams?',
+        answer:
+          'No. Ounces by weight and grams are both weight units, so the conversion uses a fixed factor. Density matters when one side is volume and the other side is weight.',
+      },
     ],
     useCases: [
       'Estimate how much flour, sugar, butter, or chocolate costs in a recipe.',
       'Compare homemade cost with store-bought food.',
       'Build a simple bake sale or meal prep cost sheet.',
       'Convert package units before calculating cost.',
+      'Check one expensive ingredient before changing a recipe.',
+      'Turn grocery receipt prices into recipe-level costs.',
     ],
     examples: [
-      { label: 'Flour for recipe', expression: '2 cups from a 5 lb bag at $4.49', result: 'Estimated ingredient cost' },
-      { label: 'Chocolate chips', expression: '170 g from a 12 oz bag at $3.99', result: 'Recipe cost for chips' },
-      { label: 'Milk in batter', expression: '250 mL from a gallon at $4.20', result: 'Small recipe cost' },
+      { label: 'Flour for recipe', expression: '2 cups from a 5 lb bag at $4.49, 120 g/cup', result: 'About $0.47514' },
+      { label: 'Chocolate chips', expression: '170 g from a 12 oz bag at $3.99', result: 'About $1.99' },
+      { label: 'Milk in batter', expression: '250 mL from a 1 gallon jug at $4.20', result: 'About $0.277381' },
+      { label: 'Sugar by weight', expression: '300 g from a 2 kg bag at $3.80', result: '$0.57' },
     ],
-    relatedSlugs: ['recipe-scaler', 'cost-per-serving-calculator', 'unit-price-calculator'],
+    relatedSlugs: ['cooking-measurement-converter', 'recipe-scaler', 'cost-per-serving-calculator', 'unit-price-calculator'],
   }),
   makeUtilityTool({
     slug: 'unit-price-calculator',

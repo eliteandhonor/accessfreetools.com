@@ -441,6 +441,11 @@ const inchCalculatorCookingConversion = {
   label: 'Inch Calculator: Cooking conversion calculator reference',
 };
 
+const dishCostIngredientCost = {
+  href: 'https://dishcost.com/tools/ingredient-cost-calculator',
+  label: 'DishCost: ingredient cost calculator reference',
+};
+
 const inchCalculatorSitemap = {
   href: 'https://www.inchcalculator.com/sitemap/',
   label: 'Inch Calculator sitemap: competitor gap reference',
@@ -8078,17 +8083,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'ingredient-cost-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-ingredient-cost-calculator-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [inchCalculatorSitemap, nistSi, usdaFoodDataCentral, googleHelpfulContent],
+    sources: [dishCostIngredientCost, nistSi, usdaFoodDataCentral, googleHelpfulContent],
     findings: [
-      'The ingredient cost tool fills a competitor and user-value gap between recipe conversion and shopping math.',
-      'Formula review checked package conversion into recipe units, unit cost, and recipe amount cost.',
-      'FAQ and guide cover density, tax, waste, coupons, leftovers, and package-unit mismatch.',
+      'DishCost competitor-gap evidence confirmed ingredient-cost, recipe-cost, food-cost, package-size, menu-price, and FAQ-depth topics as useful coverage areas to handle in original wording.',
+      'Formula review checked package conversion into the recipe unit, unit cost as package price divided by converted package amount, and ingredient cost as amount needed times unit cost.',
+      'FAQ coverage explains package amount converted, density, tax, waste, whole-recipe limits, menu-pricing limits, and why weight-to-weight conversions do not use density.',
     ],
     improvements: [
-      'Added ingredient cost UI, cooking unit conversion support, examples, guide, detailed FAQ, related serving and unit-price pathways, and tests.',
+      'Expanded the tool page with a calculator-intent SEO title/meta description, exact formula wording, field-level explanations, extra FAQs, examples for flour, chocolate chips, milk, and sugar with expected costs, related Cooking Measurement, Recipe Scaler, Cost Per Serving, and Unit Price links, refreshed audit notes, and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Add a full recipe cost worksheet later if it can stay lightweight and mobile-friendly.',
