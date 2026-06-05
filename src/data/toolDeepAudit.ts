@@ -7863,17 +7863,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'ai-token-cost-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-tech-ai-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-ai-token-cost-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
     sources: [calculatorInnSitemap, openAiTokens, openAiTokenizer, googleHelpfulContent],
     findings: [
-      'CalculatorInn surfaced AI token cost as a Tech & AI gap, and the Access Free Tools version avoids stale hardcoded model prices by asking users to enter current input/output rates.',
-      'Formula review checked input tokens, output tokens, request count, price per 1 million tokens, total cost, and cost per request.',
-      'FAQ and guide explain what tokens mean, why prices must come from the provider rate card, and which billing rules are not included.',
+      'CalculatorInn originally surfaced AI token cost as a Tech & AI gap, and the Access Free Tools version avoids stale hardcoded model prices by asking users to enter current input/output rates.',
+      'Formula review checked input cost, output cost, total cost, and cost per request using request count, input tokens per request, output tokens per request, and separate prices per 1 million tokens.',
+      'FAQ and guide explain what tokens mean, why prices must come from the provider rate card, why input and output rates are separate, and which billing rules are not included.',
     ],
     improvements: [
-      'Added a real calculator, examples, related links, AI Tools placement, source-backed guide detail, token-specific FAQ, privacy note, tests, and honest manual audit record.',
+      'Expanded the tool page with SEO title/meta, request-count input explanation, exact input/output/total/per-request formula wording, three numeric cost examples, cached-token and plan-rule limits, model comparison guidance, and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Add provider presets only if they are dated, source-linked, and maintained so pricing does not become misleading.',
