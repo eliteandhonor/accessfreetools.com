@@ -105,6 +105,18 @@ const toolArtMetadataOverrides = {
         'Body Type Calculator guide artwork supports the walkthrough for top measurement, hip difference, waist definition, exact example outcomes, and style-only body-shape limits.',
     },
   },
+  'big-number-calculator': {
+    tool: {
+      alt: 'Illustration for Big Number Calculator showing add, subtract, multiply, and divide very large whole numbers exactly.',
+      caption:
+        'Big Number Calculator artwork matches the live tool workflow: add, subtract, multiply, and divide very large whole numbers exactly. Use it with the calculator, examples, and result notes.',
+    },
+    guide: {
+      alt: 'Guide image for Big Number Calculator showing add, subtract, multiply, and divide very large whole numbers exactly with example inputs and result notes.',
+      caption:
+        'Big Number Calculator guide artwork sits with the walkthrough for add, subtract, multiply, and divide very large whole numbers exactly, including inputs, examples, limits, and mistakes to check.',
+    },
+  },
   'gfr-calculator': {
     tool: {
       alt: 'Smoke mascot checking a kidney lab card with age, sex, serum creatinine, CKD-EPI equation notes, and eGFR range context.',

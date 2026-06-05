@@ -277,6 +277,7 @@ export default function BigNumberCalculator() {
         <section className="advanced-note">
           <h2>Input tips</h2>
           <p>Use whole numbers only. Commas, spaces, and underscores are accepted for readability.</p>
+          <p>Decimals, fractions, and scientific notation are not accepted in this exact-integer tool.</p>
           <p>Division returns an exact integer quotient and a remainder when needed.</p>
         </section>
       </aside>

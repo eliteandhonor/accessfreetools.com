@@ -9,6 +9,7 @@ const DEFAULT_BLOG_PUBLISHED_DATE = '2026-04-30';
 
 const toolLastmodOverrides: Record<string, string> = {
   'basic-calculator': '2026-06-02',
+  'big-number-calculator': '2026-06-05',
   'percentage-calculator': '2026-06-02',
   'ratio-calculator': '2026-06-02',
   'percent-error-calculator': '2026-06-02',

@@ -91,6 +91,11 @@ const mdnArithmeticOperators = {
   label: 'MDN: JavaScript expressions and arithmetic operators',
 };
 
+const mdnBigInt = {
+  href: 'https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt',
+  label: 'MDN: JavaScript BigInt',
+};
+
 const openStaxRadicals = {
   href: 'https://openstax.org/books/algebra-and-trigonometry/pages/1-3-radicals-and-rational-exponents',
   label: 'OpenStax Algebra and Trigonometry: Radicals and rational exponents',
@@ -6506,20 +6511,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'big-number-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-06',
+    reviewedOn: '2026-06-06',
     scope: commonMathScope,
-    sources: [openStaxScientificNotation, nistSi],
+    sources: [mdnBigInt, mdnArithmeticOperators, openStaxScientificNotation, googleHelpfulContent],
     findings: [
-      'The big-number page positions itself as large-value arithmetic support, not as a replacement for arbitrary-precision scientific software.',
-      'The examples and related links help users move between big numbers, exponents, and scientific notation.',
-      'The FAQ keeps the privacy note clear because large calculations stay in the current browser tab.',
+      'The big-number page now matches the live BigInt behavior: whole integers only, exact addition, subtraction, multiplication, integer quotient, and remainder output.',
+      'The examples show safe-integer overflow context, large multiplication, tiny differences between huge values, and division with a remainder.',
+      'The FAQ explains accepted separators, rejected decimals/fractions/scientific notation, result digit counts, browser responsiveness limits, and privacy behavior.',
     ],
     improvements: [
-      'Manually checked big-number scope, examples, FAQ clarity, source coverage, guide alignment, related links, SEO copy, and privacy behavior.',
+      'Updated SEO aliases, description, examples, FAQ detail, visible input tips, source coverage, related links, and modified date after DataForSEO, competitor-gap, and SEO-agent checks.',
     ],
     followUps: [
-      'Add explicit precision-limit messaging in the calculator UI if users report confusing very long decimals.',
+      'Add a separate decimal arbitrary-precision tool only if users need non-integer large-number math with clear rounding rules.',
     ],
   },
   {

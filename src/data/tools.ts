@@ -1573,18 +1573,26 @@ const baseTools: ToolDefinition[] = [
     slug: 'big-number-calculator',
     name: 'Big Number Calculator',
     category: 'calculators',
-    summary: 'Add, subtract, multiply, and divide very large whole numbers exactly.',
+    summary: 'Add, subtract, multiply, and divide very large whole numbers exactly, including division remainders.',
     description:
-      'Use this free big number calculator for exact whole-number addition, subtraction, multiplication, and division with remainders beyond normal safe integer limits.',
+      'Use this free big number calculator for exact whole-number addition, subtraction, multiplication, and division with quotient and remainder output beyond normal safe integer limits.',
     icon: 'calculator-big-number',
+    aliases: [
+      'Large Integer Calculator',
+      'BigInt Calculator',
+      'Arbitrary Precision Integer Calculator',
+      'Exact Whole Number Calculator',
+      'Huge Number Calculator',
+    ],
     seoTitle: 'Big Number Calculator | Exact Large Integer Calculator',
     seoDescription:
-      'Use the free Access Free Tools big number calculator to add, subtract, multiply, and divide very large whole numbers exactly with quotient and remainder output.',
+      'Use the free Access Free Tools big number calculator to add, subtract, multiply, and divide very large whole numbers exactly with quotient, remainder, and digit counts.',
     useCases: [
-      'Calculate with integers larger than normal calculator safe-number limits.',
-      'Add or multiply long whole numbers without losing digits.',
-      'Divide large integers and see quotient plus remainder.',
-      'Check coding, number theory, base conversion, and study examples.',
+      'Calculate with integers larger than JavaScript normal-number safe integer limits.',
+      'Add, subtract, or multiply long whole numbers without losing trailing digits.',
+      'Divide large integers and see a whole-number quotient plus any remainder.',
+      'Paste values with commas, spaces, or underscores and keep the integer digits exact.',
+      'Check coding, number theory, base conversion, and study examples before copying an answer.',
     ],
     examples: [
       {
@@ -1598,6 +1606,11 @@ const baseTools: ToolDefinition[] = [
         result: '123,456,789,012,345,678,900',
       },
       {
+        label: 'Tiny difference',
+        expression: '1,000,000,000,000,000,000,000 - 999,999,999,999,999,999,999',
+        result: '1',
+      },
+      {
         label: 'Large division',
         expression: '100,000,000,000,000,000,000 / 9',
         result: '11,111,111,111,111,111,111 remainder 1',
@@ -1607,27 +1620,42 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'What makes this a big number calculator?',
         answer:
-          'It uses exact BigInt integer arithmetic, so large whole-number results do not lose digits the way normal floating-point number math can.',
+          'It uses exact BigInt integer arithmetic. That means very large whole-number answers keep their digits instead of being rounded by normal floating-point number math.',
+      },
+      {
+        question: 'What numbers can I enter?',
+        answer:
+          'Enter whole integers only. Commas, spaces, and underscores are accepted for readability, so 1,000, 1 000, and 1_000 all read as the same integer.',
       },
       {
         question: 'When should I use this instead of the Basic Calculator?',
         answer:
-          'Use the Basic Calculator for everyday decimals and percentages. Use the Big Number Calculator when you need exact whole-number arithmetic with very large integers.',
+          'Use the Basic Calculator for everyday decimals, percentages, and quick totals. Use the Big Number Calculator when you need exact whole-number arithmetic with very large integers.',
       },
       {
-        question: 'Can I enter decimals?',
+        question: 'Can I enter decimals, fractions, or scientific notation?',
         answer:
-          'No. This tool is for whole numbers only. Decimal support belongs in normal calculators because BigInt works with integers.',
+          'No. This tool is for whole numbers only. It rejects decimals, fractions, and 1e notation because BigInt works with integers, not fractional quantities.',
       },
       {
         question: 'How does division work?',
         answer:
-          'Division returns a whole-number quotient. If the values do not divide evenly, the calculator also shows the remainder.',
+          'Division returns a whole-number quotient. If the values do not divide evenly, the calculator also shows the remainder, such as 100,000,000,000,000,000,000 / 9 = 11,111,111,111,111,111,111 remainder 1.',
+      },
+      {
+        question: 'What does result digits mean?',
+        answer:
+          'Result digits counts the digits in the answer, ignoring commas and the minus sign. It helps you spot whether a copied result is missing a digit.',
       },
       {
         question: 'How large can the numbers be?',
         answer:
-          'Very large whole numbers are supported, but browser memory and page responsiveness still matter. Extremely huge inputs may become slow.',
+          'Very large whole numbers are supported, but browser memory and page responsiveness still matter. Extremely huge pasted inputs can become slow or hard to copy cleanly.',
+      },
+      {
+        question: 'What mistake changes a big number result?',
+        answer:
+          'The easiest mistake is pasting a rounded value from another calculator. Check the original digits, signs, operation, and remainder before trusting or copying the answer.',
       },
       {
         question: 'Is my big number history private?',
@@ -1635,7 +1663,7 @@ const baseTools: ToolDefinition[] = [
           'Yes. Recent big number answers stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['scientific-notation-calculator', 'binary-calculator', 'hex-calculator'],
+    relatedSlugs: ['basic-calculator', 'scientific-notation-calculator', 'binary-calculator', 'hex-calculator'],
   },
   {
     slug: 'standard-deviation-calculator',
