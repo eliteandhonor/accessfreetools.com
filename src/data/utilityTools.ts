@@ -7604,7 +7604,7 @@ export const utilityTools: ToolDefinition[] = [
       'Use this free prompt token estimator to turn pasted prompt text into a rough token estimate, low-high range, character count, and word count.',
     icon: 'tool-prompt-token',
     aliases: ['Token Estimator', 'Prompt Length Estimator', 'AI Prompt Token Counter'],
-    seoTitle: 'Prompt Token Estimator | Rough AI Token Counter',
+    seoTitle: 'Prompt Token Estimator Calculator | AI Token Counter',
     seoDescription:
       'Estimate prompt tokens from text length, characters per token, low-high range, character count, and word count before checking a model tokenizer.',
     formula:
