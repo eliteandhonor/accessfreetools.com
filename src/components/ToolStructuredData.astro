@@ -53,6 +53,8 @@ const faqPage =
         mainEntity: tool.faq.slice(0, 6).map((item) => ({
           '@type': 'Question',
           name: item.question,
+          text: item.question,
+          answerCount: 1,
           acceptedAnswer: {
             '@type': 'Answer',
             text: item.answer,
