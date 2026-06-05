@@ -7,30 +7,102 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="big-number-calculator"
   label="Big number calculator guide"
   title="How to use the Big Number Calculator"
-  description="Learn how to use the free Access Free Tools big number calculator for exact whole-number arithmetic, large integers, and division remainders."
+  description="Use the Big Number Calculator guide to add, subtract, multiply, and divide huge whole numbers exactly, read digit counts, and handle remainders."
   path="/blog/how-to-use-big-number-calculator/"
-  intro="The Big Number Calculator adds, subtracts, multiplies, and divides very large whole numbers exactly. It is made for integer values that normal decimal calculators may round."
+  intro="A normal calculator can quietly round a very long whole number. The Big Number Calculator is for the times when one missing digit changes the answer: coding checks, number theory homework, base-conversion work, or any huge integer where the exact digits matter."
   quickStart={[
-    'Enter the left whole number and right whole number.',
+    'Enter the left whole number and right whole number. Commas, spaces, and underscores are okay.',
     'Choose add, subtract, multiply, or divide.',
     'Press Calculate big number.',
-    'Review the exact answer, digit count, quotient and remainder, steps, and recent answers.',
+    'For addition, subtraction, and multiplication, read the exact result and result digit count.',
+    'For division, read the whole-number quotient and the remainder.',
   ]}
+  bestUsesIntro="Use this guide when you need exact integer digits, not a rounded display number. These are the jobs where the Big Number Calculator is a better fit than a normal decimal calculator."
   sections={[
     {
-      title: 'Why exact integer math matters',
+      title: 'What the inputs mean',
       paragraphs: [
-        'Many everyday calculators use floating-point number math, which can lose precision with very large integers. This calculator uses BigInt integer arithmetic so whole-number digits stay exact.',
-        'That makes it useful for coding examples, number theory checks, large IDs, base conversions, and study problems where every digit matters.',
+        'The left number and right number are the two integers you want to combine. They must be whole numbers, so 1000 works, -1000 works, and 1,000 works, but 1.5, 3/4, and 1e6 do not belong in this exact-integer tool.',
+        'Separators are only for readability. The calculator reads 1,000, 1 000, and 1_000 as the same integer, then removes those separators before doing the math.',
+      ],
+      bullets: [
+        'Use add when you want one huge total.',
+        'Use subtract when you want the exact difference between two long values.',
+        'Use multiply when repeated groups or powers have created a result too long for a normal calculator display.',
+        'Use divide when you want a whole-number quotient and any leftover remainder.',
       ],
     },
     {
-      title: 'Division and limits',
+      title: 'How the calculator keeps the digits exact',
       paragraphs: [
-        'Division returns a whole-number quotient. If the division is not even, the calculator also shows the remainder.',
-        'The tool supports very large whole numbers, but browser memory and responsiveness still matter. Extremely huge inputs may become slow.',
+        'Many everyday calculators use floating-point number math. That is fine for normal decimal work, but very large integers can lose precision because the display has to round somewhere.',
+        'The Big Number Calculator uses JavaScript BigInt-style integer arithmetic. Addition, subtraction, and multiplication keep the whole-number digits exact. Division returns an integer quotient, and if the division is not even, the leftover amount appears as the remainder.',
+      ],
+      links: [
+        {
+          href: 'https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt',
+          label: 'MDN: JavaScript BigInt',
+        },
+        {
+          href: 'https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators',
+          label: 'MDN: JavaScript arithmetic operators',
+        },
+      ],
+    },
+    {
+      title: 'Example: one tiny difference in huge numbers',
+      paragraphs: [
+        'Try 1,000,000,000,000,000,000,000 minus 999,999,999,999,999,999,999. The exact answer is 1.',
+        'That example is boring in the best possible way. It shows why exact integer math matters: when two huge values are almost the same, a rounded input can hide the real difference.',
+      ],
+    },
+    {
+      title: 'Example: quotient and remainder',
+      paragraphs: [
+        'Try 100,000,000,000,000,000,000 divided by 9. The calculator gives 11,111,111,111,111,111,111 with remainder 1.',
+        'The quotient is how many whole groups of 9 fit. The remainder is what is left over after those whole groups are removed. If you need a decimal approximation instead, this is the wrong tool; use a normal calculator or a decimal-focused tool.',
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'Most bad big-number answers come from a messy input, not from the arithmetic itself. Check the original number before you copy the answer into code, notes, or homework.',
+      ],
+      bullets: [
+        'Do not paste a value that another calculator already rounded.',
+        'Do not use scientific notation such as 1e21 when you need exact digits.',
+        'Do not enter decimals or fractions; this page is for whole integers only.',
+        'Check negative signs carefully, especially when subtracting one huge value from another.',
+        'For extremely huge pasted inputs, expect the browser to slow down before the math becomes useful.',
+      ],
+    },
+    {
+      title: 'When another calculator fits better',
+      paragraphs: [
+        'Use the Basic Calculator when you need decimals, percentages, or everyday arithmetic. Use the Scientific Notation Calculator when you want compact powers-of-10 notation instead of every digit written out.',
+        'If you are checking computer-number formats, the Binary Calculator and Hex Calculator are better follow-up tools because they keep you close to base-conversion work.',
+      ],
+      links: [
+        { href: '/tools/basic-calculator/', label: 'Basic Calculator' },
+        { href: '/tools/scientific-notation-calculator/', label: 'Scientific Notation Calculator' },
+        { href: '/tools/binary-calculator/', label: 'Binary Calculator' },
+        { href: '/tools/hex-calculator/', label: 'Hex Calculator' },
+      ],
+    },
+    {
+      title: 'Sources and limits',
+      paragraphs: [
+        'This guide follows the calculator page, MDN BigInt behavior, and plain algebra ideas for exact integer operations. It is not a proof assistant, cryptography checker, database validator, or arbitrary-precision decimal calculator.',
+        'The page runs in your browser tab. Recent answers stay visible while you work, but you should still avoid pasting private keys, account IDs, or secrets into any public web tool.',
+      ],
+      links: [
+        {
+          href: 'https://openstax.org/books/algebra-and-trigonometry/pages/1-2-exponents-and-scientific-notation',
+          label: 'OpenStax Algebra and Trigonometry: exponents and scientific notation',
+        },
       ],
     },
   ]}
-  sidecarText="Use the Big Number Calculator while you follow the guide."
+  sidecarText="Open the Big Number Calculator beside this guide. Try the tiny-difference example first, then replace it with your own exact integers."
+  keepExploringIntro="If your number task is close but not quite this exact-integer job, stay near the same math family with these links."
 />
