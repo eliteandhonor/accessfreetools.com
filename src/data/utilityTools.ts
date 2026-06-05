@@ -8120,17 +8120,22 @@ export const utilityTools: ToolDefinition[] = [
     category: 'everyday-tools',
     summary: 'Scale one recipe ingredient from original servings to the servings you want to make.',
     description:
-      'Use this free recipe scaler to resize ingredient amounts from the original serving count to a smaller or larger batch.',
+      'Use this free recipe scaler to resize ingredient amounts from the original serving count to a smaller or larger batch, with the scale factor shown.',
+    seoTitle: 'Recipe Scaler | Adjust Servings',
+    seoDescription:
+      'Use the Recipe Scaler to resize an ingredient amount from original servings to desired servings and see the scale factor.',
     icon: 'tool-recipe-scale',
     aliases: ['Recipe Scaling Calculator', 'Recipe Converter', 'Serving Size Calculator'],
     formula:
-      'The scaler divides desired servings by original servings to get a scale factor, then multiplies the ingredient amount by that factor.',
+      'Scale factor = desired servings / original servings. Scaled amount = original ingredient amount x scale factor.',
     limit:
-      'Ingredient math scales cleanly, but flavor, salt, spices, yeast, thickener, pan size, and cook time may need real kitchen judgment.',
+      'Ingredient math scales cleanly, but eggs, packets, salt, spices, yeast, leavening, gelatin, thickeners, pan size, and cook time may need real kitchen judgment.',
     inputExplanations: [
-      { term: 'Original servings', meaning: 'How many servings the recipe normally makes.' },
+      { term: 'Ingredient', meaning: 'The ingredient line you are scaling, such as flour, sugar, eggs, butter, sauce, or oats.' },
+      { term: 'Original servings', meaning: 'How many servings the recipe normally makes before scaling.' },
       { term: 'Desired servings', meaning: 'How many servings you want to make now.' },
-      { term: 'Original amount', meaning: 'The amount from one ingredient line in the recipe.' },
+      { term: 'Original amount', meaning: 'The numeric amount from one ingredient line in the recipe.' },
+      { term: 'Unit', meaning: 'The recipe unit to keep with the answer, such as cups, grams, tablespoons, ounces, eggs, or packets.' },
     ],
     extraFaq: [
       {
@@ -8143,17 +8148,43 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Not always. Salt, hot spices, yeast, gelatin, thickeners, and extracts can taste too strong or behave differently when scaled. Use the answer as a starting point and adjust carefully.',
       },
+      {
+        question: 'What is the scale factor in a recipe?',
+        answer:
+          'The scale factor is desired servings divided by original servings. A recipe going from 4 servings to 10 servings has a scale factor of 2.5, so each ingredient amount is multiplied by 2.5.',
+      },
+      {
+        question: 'Why does the calculator show decimal eggs or packets?',
+        answer:
+          'The calculator shows the exact math first. If the answer is 7.5 eggs or 1.25 packets, decide how to round based on the recipe, ingredient size, texture, and how forgiving the dish is.',
+      },
+      {
+        question: 'Can I scale cups, grams, tablespoons, and ounces?',
+        answer:
+          'Yes. Enter the number and the unit from the recipe. The scaler keeps the same unit in the answer; use a cooking measurement converter when you also need to change cups to grams, tablespoons to cups, or ounces to pounds.',
+      },
+      {
+        question: 'Does cooking time scale with servings?',
+        answer:
+          'Not directly. A larger batch may need a different pan, deeper food, more stirring, or more time, while a thinner batch may cook faster. Use the scaled ingredients as the math step, then follow recipe doneness cues.',
+      },
+      {
+        question: 'Should I weigh ingredients before scaling?',
+        answer:
+          'For baking and dry ingredients, grams or ounces are usually easier to scale accurately than loosely measured cups. Volume measurements can vary when ingredients are packed, sifted, chopped, or heaped.',
+      },
     ],
     useCases: [
-      'Resize a recipe from 4 servings to 10 servings. ',
+      'Resize a recipe from 4 servings to 10 servings.',
       'Make a half batch when you do not need the full recipe.',
       'Scale party trays, meal prep, or bake sale batches one ingredient line at a time.',
+      'Check decimal answers before rounding eggs, packets, cans, or small teaspoons.',
       'Show the scale factor so the recipe math is easy to audit.',
     ],
     examples: [
-      { label: 'Dinner for 10', expression: '2 cups flour, 4 servings to 10 servings', result: '5 cups flour' },
-      { label: 'Half batch', expression: '300 g sugar, 12 servings to 6 servings', result: '150 g sugar' },
-      { label: 'Party tray', expression: '3 eggs, 8 servings to 20 servings', result: '7.5 eggs before rounding' },
+      { label: 'Dinner for 10', expression: '2 cups flour, 4 servings to 10 servings', result: 'Scale factor 2.5, 5 cups flour' },
+      { label: 'Half batch', expression: '300 g sugar, 12 servings to 6 servings', result: 'Scale factor 0.5, 150 g sugar' },
+      { label: 'Party tray', expression: '3 eggs, 8 servings to 20 servings', result: 'Scale factor 2.5, 7.5 eggs before rounding' },
     ],
     relatedSlugs: ['cooking-measurement-converter', 'ingredient-cost-calculator', 'cost-per-serving-calculator'],
   }),

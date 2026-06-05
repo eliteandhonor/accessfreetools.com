@@ -142,6 +142,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'streaming-bitrate-calculator': '2026-06-05',
   'device-battery-life-calculator': '2026-06-05',
   'monitor-ppi-calculator': '2026-06-05',
+  'recipe-scaler': '2026-06-05',
   'asphalt-calculator': '2026-05-31',
   'board-foot-calculator': '2026-05-31',
   'height-calculator': '2026-05-26',

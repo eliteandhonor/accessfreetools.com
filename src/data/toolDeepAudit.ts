@@ -431,6 +431,11 @@ const inchCalculatorPpi = {
   label: 'Inch Calculator: PPI calculator reference',
 };
 
+const inchCalculatorRecipeScale = {
+  href: 'https://www.inchcalculator.com/recipe-scale-conversion-calculator/',
+  label: 'Inch Calculator: Recipe scale conversion calculator reference',
+};
+
 const inchCalculatorSitemap = {
   href: 'https://www.inchcalculator.com/sitemap/',
   label: 'Inch Calculator sitemap: competitor gap reference',
@@ -8030,17 +8035,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'recipe-scaler',
     status: 'deep-reviewed',
-    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-recipe-scaler-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [inchCalculatorSitemap, googleHelpfulContent],
+    sources: [inchCalculatorRecipeScale, nistSi, googleHelpfulContent],
     findings: [
-      'Inch Calculator competitor research surfaced recipe scaling and serving conversion as a gap in the local library.',
-      'Formula review checked scale factor, original servings, desired servings, original amount, and scaled amount.',
-      'FAQ and guide explain one-line scaling, seasoning limits, rounding issues, and why pan size or cook time can still change.',
+      'Inch Calculator competitor-gap evidence confirmed recipe scaling, serving conversion, measurement conversion, and cooking-time caveats as user-helpful topics to cover in original wording.',
+      'Formula review checked scale factor as desired servings divided by original servings, then scaled amount as original ingredient amount multiplied by the scale factor.',
+      'FAQ coverage explains one-line scaling, decimal eggs or packets, cups/grams/tablespoon units, seasoning limits, measurement accuracy, and why pan size or cook time can still change.',
     ],
     improvements: [
-      'Added recipe scaling UI, examples, guide details, FAQ depth, related kitchen tools, browser-only privacy wording, and formula tests.',
+      'Expanded the tool page with a calculator-intent SEO title/meta description, exact scale-factor and scaled-amount formula wording, field-level explanations, extra FAQs for rounding and measurement limits, exact serving examples, related kitchen links, and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Consider a multi-ingredient table later only if the UI can keep each line easy to review and copy.',
