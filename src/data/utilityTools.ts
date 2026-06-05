@@ -7847,15 +7847,21 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate a household or workspace internet speed need from simultaneous activities.',
     description:
       'Use this free internet speed needs calculator to estimate recommended Mbps for streaming, gaming, video calls, smart devices, and a buffer.',
+    seoTitle: 'Internet Speed Needs Calculator | Mbps Plan Estimate',
+    seoDescription:
+      'Estimate recommended internet Mbps from simultaneous streams, gaming devices, video calls, smart devices, per-activity Mbps, and buffer percent.',
     icon: 'tool-speed-needs',
     aliases: ['Internet Speed Calculator', 'WiFi Speed Needs Calculator', 'Mbps Needs Calculator'],
     formula:
-      'The calculator multiplies each activity count by its Mbps estimate, adds the activity totals, then adds a buffer percentage.',
+      'The calculator multiplies video streams, gaming devices, video calls, and smart devices by their Mbps-per-device settings. Base Mbps = video load + gaming load + call load + smart-device load. Recommended Mbps = base Mbps * (1 + buffer percent / 100).',
     limit:
-      'Mbps is only one part of internet quality. Wi-Fi signal, latency, upload speed, router quality, and provider congestion can matter just as much.',
+      'Mbps is only one part of internet quality. Wi-Fi signal, latency, jitter, upload speed, router quality, provider congestion, data caps, and the plan speed that actually reaches the room can matter just as much.',
     inputExplanations: [
       { term: 'Video streams', meaning: 'Streams that may play at the same time, such as TV, YouTube, or class videos.' },
+      { term: 'Mbps per video stream', meaning: 'Use a rough per-stream value such as 8 Mbps for HD or 25 Mbps for 4K when you want a higher-quality estimate.' },
       { term: 'Gaming devices', meaning: 'Devices gaming online. Gaming often needs low latency more than huge Mbps.' },
+      { term: 'Video calls', meaning: 'Calls that may run at the same time. For remote work, check upload speed too, not only download speed.' },
+      { term: 'Smart devices', meaning: 'Background devices such as cameras, speakers, hubs, thermostats, or small connected devices.' },
       { term: 'Buffer percent', meaning: 'Extra speed so normal bursts and overhead do not fill the whole plan.' },
     ],
     extraFaq: [
@@ -7869,6 +7875,21 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Online games usually use modest data, but they care a lot about latency, jitter, packet loss, Wi-Fi interference, and overloaded routers.',
       },
+      {
+        question: 'Should I use download speed or upload speed for video calls?',
+        answer:
+          'The calculator estimates download speed need. Video calls also send your camera and microphone upstream, so check your plan upload speed when several people call, stream, or back up files at once.',
+      },
+      {
+        question: 'How much buffer should I add?',
+        answer:
+          'Start around 25% for normal home use. Use more when the router is far away, Wi-Fi is crowded, several people download large files, or you want the plan to feel comfortable during busy hours.',
+      },
+      {
+        question: 'Does this include monthly data caps?',
+        answer:
+          'No. Mbps is speed, not monthly data allowance. A plan can be fast enough for 4K streaming and still hit a data cap if the household watches or downloads a lot.',
+      },
     ],
     useCases: [
       'Estimate a family internet plan before comparing providers.',
@@ -7877,9 +7898,9 @@ export const utilityTools: ToolDefinition[] = [
       'Add a buffer instead of planning right at the limit.',
     ],
     examples: [
-      { label: 'Small household', expression: 'One stream, one gamer, one call', result: 'Recommended Mbps' },
-      { label: '4K evening', expression: 'Three 4K streams plus smart devices', result: 'Higher Mbps estimate' },
-      { label: 'Work from home', expression: 'Several video calls and light streaming', result: 'Buffered speed estimate' },
+      { label: 'Small household', expression: '1 HD stream, 1 gamer, 1 call, 4 smart devices, 25% buffer', result: '23.75 Mbps' },
+      { label: '4K evening', expression: '3 4K streams, 1 gamer, 8 smart devices, 30% buffer', result: '109.2 Mbps' },
+      { label: 'Work from home', expression: '1 HD stream, 3 video calls, 6 smart devices, 35% buffer', result: '31.05 Mbps' },
     ],
     relatedSlugs: ['download-time-calculator', 'bandwidth-calculator', 'streaming-bitrate-calculator'],
   }),

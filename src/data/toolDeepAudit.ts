@@ -7939,20 +7939,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'internet-speed-needs-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-tech-ai-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-internet-speed-needs-calculator-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
     sources: [calculatorInnSitemap, nistSi, googleHelpfulContent],
     findings: [
       'The internet speed needs tool estimates simultaneous activity load and adds buffer instead of pretending Mbps alone guarantees good internet.',
-      'Formula review checked activity counts, per-activity Mbps values, base Mbps, and buffered recommended speed.',
-      'FAQ and guide explain latency, jitter, upload speed, router quality, provider congestion, and why gaming can lag even when Mbps is enough.',
+      'Formula review checked video stream, gaming, video call, and smart-device counts, per-device Mbps settings, base Mbps, and buffered recommended speed using the deterministic local calculator implementation.',
+      'FAQ and guide explain latency, jitter, upload speed, data caps, router quality, provider congestion, Wi-Fi coverage, and why gaming or calls can feel bad even when Mbps looks high enough.',
     ],
     improvements: [
-      'Added speed-needs UI, household/work examples, activity metrics, realistic caveats, source-backed guide detail, and tests.',
+      'Expanded the tool page with SEO title/meta description, exact base-Mbps and buffer formula wording, per-activity input explanations, extra FAQs for upload speed, buffer choice, and data caps, numeric household/4K/work examples, related bandwidth links, and a 2026-06-05 modified date.',
     ],
     followUps: [
-      'Add upload-speed planning only when the UI can clearly separate download need from upload-heavy video calls, backups, and livestreaming.',
+      'Add a separate upload-speed planning mode only when the UI can clearly separate download need from upload-heavy video calls, backups, and livestreaming.',
     ],
   },
   {
