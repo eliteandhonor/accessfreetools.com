@@ -7873,7 +7873,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'FAQ and guide explain what tokens mean, why prices must come from the provider rate card, why input and output rates are separate, and which billing rules are not included.',
     ],
     improvements: [
-      'Expanded the tool page with SEO title/meta, request-count input explanation, exact input/output/total/per-request formula wording, three numeric cost examples, cached-token and plan-rule limits, model comparison guidance, and a 2026-06-05 modified date.',
+      'Expanded the tool page and matching guide with SEO title/meta, request-count input explanation, exact input/output/total/per-request formula wording, three numeric cost examples, cached-token and plan-rule limits, model comparison guidance, related AI planning links, and 2026-06-05 modified dates.',
     ],
     followUps: [
       'Add provider presets only if they are dated, source-linked, and maintained so pricing does not become misleading.',

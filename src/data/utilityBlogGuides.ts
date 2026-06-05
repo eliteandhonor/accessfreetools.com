@@ -5905,24 +5905,94 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.mdnCssClamp, sourceLinks.wcagContrast],
   },
   'ai-token-cost-calculator': {
+    title: 'AI Token Cost Calculator Guide',
     summary: 'Learn how input tokens, output tokens, request count, and current model prices turn into an AI usage estimate.',
+    metaDescription:
+      'Use the AI Token Cost Calculator guide to estimate LLM API spend from requests, input tokens, output tokens, and prices per 1M tokens.',
     purpose:
-      'The AI Token Cost Calculator helps you do model-budget math without pretending any one price is permanent. You enter your own current input and output prices, then the calculator shows total cost and cost per request.',
+      'The AI Token Cost Calculator helps you do model-budget math without pretending any one price is permanent. You enter your own current input and output prices, then the calculator shows input cost, output cost, total cost, and cost per request.',
+    intro:
+      'AI usage can feel cheap one request at a time, then get surprising when a feature runs thousands of times. This guide shows how to turn request count, token counts, and prices per 1M tokens into a cost estimate you can sanity-check before a prototype or budget conversation.',
+    inputMatch:
+      'the request count, average input tokens, average output tokens, and current input/output prices for the same model and billing plan',
+    logicNote:
+      'For 10,000 requests with 1,200 input tokens and 500 output tokens per request, $2 input per 1M tokens and $8 output per 1M tokens gives $24 input cost plus $40 output cost. The total is $64, or $0.0064 per request.',
+    readIntro:
+      'Read the total as a planning estimate. The input/output split tells you whether long prompts, retrieved context, or long answers are driving the cost.',
+    mistakeIntro:
+      'Most bad AI cost estimates come from stale price cards, mixing price units, forgetting hidden prompt/context tokens, or treating cached-token and batch pricing as if it were included automatically.',
+    bestUsesIntro:
+      'Best when you already have a rough request count, token estimate, and current provider price card for the model you plan to test.',
+    referenceIntro:
+      'These references help check token counting, tokenizer behavior, and the people-first writing standard behind this guide.',
     enter: [
-      'Enter how many input tokens one request usually sends, including instructions, context, and the user message.',
-      'Enter how many output tokens one response usually generates.',
-      'Enter request count and the current input/output price per 1 million tokens from your provider.',
+      'Enter the request count for the period you care about, such as one day, one month, or one prototype test.',
+      'Enter average input tokens per request, including system instructions, user text, retrieved context, chat history, and tool messages.',
+      'Enter average output tokens per request, which is the model response length you expect.',
+      'Enter current input and output prices per 1 million tokens from the provider rate card for the same model.',
     ],
     read: [
       'Total cost is the estimated bill for the requests you entered.',
       'Input token cost and output token cost are split so you can see which side drives the budget.',
       'Cost per request is useful when comparing models or deciding whether a feature can scale.',
+      'If cost per request looks tiny, multiply it by real traffic before deciding it is safe.',
     ],
     mistakes: [
       'Do not use old model prices from memory.',
       'Do not forget that long system prompts, retrieved context, and tool messages can be input tokens too.',
       'Do not assume cached tokens, batch discounts, free credits, taxes, or minimum charges are included.',
+      'Do not compare two models unless the request count and token assumptions are the same.',
+      'Do not treat a rough text token estimate as an exact bill. Check real usage logs once the feature runs.',
     ],
+    extraSections: [
+      {
+        title: 'Quick formula',
+        paragraphs: [
+          'The calculator keeps input and output separate because many AI providers charge different rates for each side.',
+          'Input cost = input tokens per request * request count / 1,000,000 * input price per 1M tokens. Output cost uses the same pattern with output tokens and output price. Total cost is both sides added together.',
+        ],
+      },
+      {
+        title: 'Example: support bot month',
+        paragraphs: [
+          'Say you expect 10,000 support-bot requests in a month. Each request sends about 1,200 input tokens and gets about 500 output tokens back. You enter $2 per 1M input tokens and $8 per 1M output tokens as example prices.',
+          'The input side is 12,000,000 tokens, so input cost is $24. The output side is 5,000,000 tokens, so output cost is $40. Total cost is $64, and cost per request is $0.0064.',
+        ],
+        bullets: [
+          'If output answers get longer, the output cost rises first.',
+          'If retrieved context or chat history grows, the input cost rises first.',
+          'If traffic doubles and everything else stays the same, the estimated bill doubles.',
+        ],
+      },
+      {
+        title: 'Two more sanity checks',
+        paragraphs: [
+          'A small prototype with 1,000 requests, 300 input tokens, 150 output tokens, $0.15 input, and $0.60 output per 1M comes out to $0.135 total. That is useful for a tiny test, but it does not predict production traffic.',
+          'A long-summary workflow with 2,000 requests, 8,000 input tokens, 700 output tokens, $1.25 input, and $5 output per 1M comes out to $27 total. That shows how long documents can make input cost the main driver.',
+        ],
+      },
+      {
+        title: 'Where estimates drift',
+        paragraphs: [
+          'Real bills can move away from the estimate when the model provider changes prices, your app adds hidden system text, users paste longer content, or the feature retries failed requests.',
+          'Cached-token pricing, batch jobs, free credits, plan minimums, taxes, image/audio/video tools, retrieval systems, hosting, and monitoring are separate from this token-only calculation unless you adjust the inputs yourself.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'AI cost planning often starts with token length, then expands into general API pricing and content workflow choices. Use the related tools when you need a rough prompt length, a provider-neutral API cost estimate, or a shorter text sample.',
+        ],
+        links: [
+          { href: '/tools/ai-token-cost-calculator/', label: 'Open the AI Token Cost Calculator' },
+          { href: '/tools/prompt-token-estimator/', label: 'Estimate prompt tokens first' },
+          { href: '/tools/api-pricing-calculator/', label: 'Estimate broader API costs' },
+          { href: '/tools/text-summarizer/', label: 'Shorten text before estimating' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the AI Token Cost Calculator beside this guide. Try the support-bot month example first, then replace the request count, token counts, and prices with your own model assumptions.',
     sources: [sourceLinks.openAiTokens, sourceLinks.openAiTokenizer, sourceLinks.googleHelpfulContent],
   },
   'prompt-token-estimator': {
