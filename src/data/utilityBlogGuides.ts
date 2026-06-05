@@ -6341,9 +6341,22 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'streaming-bitrate-calculator': {
+    title: 'Streaming Bitrate Calculator Guide',
     summary: 'Learn how bitrate and duration turn into estimated stream or recording data use.',
+    metaDescription:
+      'Use the Streaming Bitrate Calculator guide to estimate stream or recording data use from bitrate, duration, stream count, MB, GB, and variable-bitrate limits.',
     purpose:
       'The Streaming Bitrate Calculator helps creators, students, streamers, and site owners understand how much data a fixed bitrate can use over time.',
+    intro:
+      'It is useful before a livestream, class recording, camera setup, podcast export, or long video upload where a small bitrate choice can turn into several gigabytes.',
+    inputMatch:
+      'the bitrate, bitrate unit, hours, minutes, and stream count you want to test',
+    logicNote:
+      'Mbps = Kbps / 1,000 when needed. Total seconds = (hours * 3,600 + minutes * 60) * streams. Megabits = Mbps * total seconds. MB = megabits / 8. GB = MB / 1,000. A 6 Mbps stream for 2 hours uses about 5.4 GB.',
+    readIntro:
+      'Read gigabytes first if you care about storage, mobile data, or upload allowance. Use megabytes for smaller audio examples and megabits when you want to audit the raw bitrate math.',
+    mistakeIntro:
+      'The big mistake is treating bitrate like a perfect file-size promise. Variable bitrate, adaptive streaming, audio tracks, subtitles, chat, thumbnails, previews, retransmits, and platform processing can all move the real number.',
     enter: [
       'Enter the bitrate from your encoder, export settings, or stream dashboard.',
       'Choose Kbps or Mbps, then enter the stream or recording duration.',
@@ -6358,7 +6371,39 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not confuse bitrate with resolution.',
       'Do not expect variable bitrate files to match exactly.',
       'Do not forget audio tracks, adaptive streaming, chat, thumbnails, and platform overhead.',
+      'Do not use the data-use estimate as an upload-speed guarantee. Live streaming usually needs upload headroom above the stream bitrate.',
+      'Do not mix decimal GB from this calculator with binary GiB from a storage app without expecting a small difference.',
     ],
+    extraSections: [
+      {
+        title: 'Example: one 1080p stream',
+        paragraphs: [
+          'A 6 Mbps stream for 2 hours has 7,200 seconds. The calculator multiplies 6 Mbps by 7,200 seconds, giving 43,200 megabits. Divide by 8 to get 5,400 MB, then divide by 1,000 to get 5.4 GB.',
+          'That number is a planning estimate. It helps you check whether a data cap, mobile hotspot, storage card, or upload window is in the right range before the event starts.',
+        ],
+      },
+      {
+        title: 'Examples for audio and multiple cameras',
+        paragraphs: [
+          'A 320 Kbps audio stream for 3.5 hours uses about 504 MB, or 0.504 GB. Two cameras at 4.5 Mbps for 1 hour 45 minutes use about 7.0875 GB together because the stream count doubles the runtime load.',
+          'If each camera has a different bitrate, calculate each group separately and add the GB totals. That is safer than pretending every feed uses the same setting.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'Bitrate data use, download time, bandwidth conversion, and plan speed are connected but not identical. Use the related tools when your next question changes from file size to transfer time or internet plan speed.',
+        ],
+        links: [
+          { href: '/tools/streaming-bitrate-calculator/', label: 'Open the Streaming Bitrate Calculator' },
+          { href: '/tools/download-time-calculator/', label: 'Estimate a download time' },
+          { href: '/tools/bandwidth-calculator/', label: 'Compare bandwidth and transfer units' },
+          { href: '/tools/internet-speed-needs-calculator/', label: 'Estimate internet plan speed needs' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Streaming Bitrate Calculator beside this guide. Try the 6 Mbps, 2 hour example first, then change the bitrate, duration, unit, and stream count to match your encoder or recording setup.',
     sources: [sourceLinks.nistUnits],
   },
   'device-battery-life-calculator': {
