@@ -7911,22 +7911,46 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate stream or recording data use from bitrate, time, and stream count.',
     description:
       'Use this free streaming bitrate calculator to estimate megabytes and gigabytes used by a bitrate over a chosen duration.',
+    seoTitle: 'Streaming Bitrate Calculator | Data Use Estimate',
+    seoDescription:
+      'Estimate stream or recording data use from bitrate, duration, and stream count. See MB, GB, megabits, examples, and variable-bitrate limits.',
     icon: 'tool-streaming-bitrate',
     aliases: ['Video Bitrate Calculator', 'Stream Data Calculator', 'Recording Size Calculator'],
     formula:
-      'The calculator converts bitrate to megabits per second, multiplies by seconds and stream count, then divides by 8 for megabytes and by 1,000 for gigabytes.',
+      'Mbps = Kbps / 1,000 when needed. Total seconds = (hours * 3,600 + minutes * 60) * streams. Megabits = Mbps * total seconds. MB = megabits / 8. GB = MB / 1,000.',
     limit:
-      'Variable bitrate, adaptive streaming, audio tracks, chat, metadata, retransmits, and platform processing can make real data use different.',
+      'Variable bitrate, adaptive streaming, audio tracks, subtitles, chat, metadata, retransmits, previews, and platform processing can make real data use different.',
     inputExplanations: [
-      { term: 'Bitrate', meaning: 'Data rate from the encoder, export settings, or stream dashboard.' },
-      { term: 'Duration', meaning: 'How long the stream or recording runs.' },
-      { term: 'Streams', meaning: 'How many streams, cameras, or files use the same bitrate and duration.' },
+      { term: 'Bitrate', meaning: 'The video or audio data rate from the encoder, export setting, platform recommendation, or stream dashboard.' },
+      { term: 'Bitrate unit', meaning: 'Choose Kbps for small audio rates and Mbps for most video streams or recordings.' },
+      { term: 'Duration', meaning: 'How long the stream, upload, recording, lesson, event, or camera feed runs.' },
+      { term: 'Streams', meaning: 'How many streams, cameras, files, or simultaneous feeds use the same bitrate and duration.' },
     ],
     extraFaq: [
       {
         question: 'Is bitrate the same as resolution?',
         answer:
           'No. Resolution is pixel size, such as 1920 x 1080. Bitrate is how much data per second the video or audio uses.',
+      },
+      {
+        question: 'Should I enter video bitrate or audio bitrate?',
+        answer:
+          'Enter the total bitrate you want to estimate. For a video file or livestream, add video and audio bitrate together if your export or platform shows them separately.',
+      },
+      {
+        question: 'Does this tell me the upload speed I need?',
+        answer:
+          'It estimates data use from bitrate and time. For live streaming, your upload speed should usually be comfortably higher than the stream bitrate because overhead, Wi-Fi, and congestion can cause drops.',
+      },
+      {
+        question: 'Why are MB and GB decimal estimates?',
+        answer:
+          'The calculator uses decimal units: 1 GB = 1,000 MB. Some storage apps show binary GiB instead, so a saved file may look slightly different in your operating system.',
+      },
+      {
+        question: 'Can I use this for multiple cameras?',
+        answer:
+          'Yes. Use the Streams field for cameras or feeds that share the same bitrate and runtime. If each camera uses a different bitrate, calculate each group separately and add the results.',
       },
       {
         question: 'Why does my actual file size differ?',
@@ -7941,11 +7965,11 @@ export const utilityTools: ToolDefinition[] = [
       'Estimate multiple camera feeds with the same bitrate.',
     ],
     examples: [
-      { label: '2 hour 1080p stream', expression: '6 Mbps for 2 hours', result: 'Estimated GB' },
-      { label: 'Music stream', expression: '320 Kbps for 3.5 hours', result: 'Estimated MB' },
-      { label: 'Two cameras', expression: '4.5 Mbps for 1h 45m x 2', result: 'Combined data estimate' },
+      { label: '2 hour 1080p stream', expression: '6 Mbps for 2 hours x 1 stream', result: '5.4 GB' },
+      { label: 'Music stream', expression: '320 Kbps for 3.5 hours x 1 stream', result: '504 MB (0.504 GB)' },
+      { label: 'Two cameras', expression: '4.5 Mbps for 1h 45m x 2 streams', result: '7.0875 GB' },
     ],
-    relatedSlugs: ['download-time-calculator', 'internet-speed-needs-calculator', 'monitor-ppi-calculator'],
+    relatedSlugs: ['download-time-calculator', 'internet-speed-needs-calculator', 'bandwidth-calculator'],
   }),
   makeUtilityTool({
     slug: 'device-battery-life-calculator',

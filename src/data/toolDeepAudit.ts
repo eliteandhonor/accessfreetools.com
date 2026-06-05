@@ -416,6 +416,11 @@ const calculatorInnSitemap = {
   label: 'CalculatorInn sitemap: Tech & AI competitor gap reference',
 };
 
+const calculatorNetBandwidth = {
+  href: 'https://www.calculator.net/bandwidth-calculator.html',
+  label: 'Calculator.net: Bandwidth calculator reference',
+};
+
 const inchCalculatorSitemap = {
   href: 'https://www.inchcalculator.com/sitemap/',
   label: 'Inch Calculator sitemap: competitor gap reference',
@@ -7958,17 +7963,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'streaming-bitrate-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-tech-ai-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-streaming-bitrate-calculator-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [calculatorInnSitemap, nistSi, googleHelpfulContent],
+    sources: [calculatorNetBandwidth, nistSi, googleHelpfulContent],
     findings: [
       'The streaming bitrate tool converts bitrate and duration into estimated MB and GB for streams, recordings, or multiple camera feeds.',
-      'Formula review checked Kbps/Mbps conversion, duration seconds, stream count, megabits, megabytes, and gigabytes.',
-      'FAQ and guide distinguish bitrate from resolution and warn about variable bitrate, audio tracks, metadata, adaptive streaming, and overhead.',
+      'Formula review checked Kbps/Mbps conversion, duration seconds, stream count, megabits, megabytes, and decimal gigabytes using the deterministic local calculator implementation.',
+      'FAQ and guide distinguish bitrate from resolution and warn about variable bitrate, adaptive streaming, audio tracks, subtitles, metadata, retransmits, upload speed, and platform overhead.',
     ],
     improvements: [
-      'Added bitrate calculator UI, examples for video/audio/multiple streams, data-use outputs, source-backed guide, FAQ depth, and tests.',
+      'Expanded the tool page with a calculator-intent SEO title/meta description, exact Mbps/seconds/megabits/MB/GB formula wording, field-level explanations for bitrate unit and stream count, extra FAQs for video plus audio bitrate, upload-speed planning, decimal GB versus GiB, and multiple cameras, exact video/audio/two-camera examples, related bandwidth links, and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Add preset bitrate examples later only if they are clearly labeled as rough examples, not platform requirements.',
