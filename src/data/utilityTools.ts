@@ -7322,20 +7322,105 @@ export const utilityTools: ToolDefinition[] = [
       'Use this free HTML entity encoder and decoder to turn HTML characters into display-safe entity text or convert entity codes back to readable text.',
     icon: 'tool-html-entity',
     aliases: ['HTML Entity Encoder', 'HTML Entity Decoder', 'HTML Escape Tool'],
+    seoTitle: 'HTML Entity Encoder / Decoder | Escape HTML Text',
+    seoDescription:
+      'Encode HTML-sensitive characters, decode named or numeric entities, and copy safe display text for examples, docs, and snippets.',
     formula:
-      'Encode mode replaces &, <, >, quotes, and apostrophes with HTML entities. Decode mode converts supported named and numeric entities back to characters.',
+      'Encode mode replaces &, <, >, double quotes, and apostrophes with &amp;, &lt;, &gt;, &quot;, and &apos;. Decode mode converts the supported named entities amp, apos, copy, gt, lt, nbsp, quot, and reg, plus valid decimal entities such as &#36; and hexadecimal entities such as &#x26;, back to characters.',
     limit:
       'Entity encoding is useful for displaying code examples as text, but it is not a complete sanitizer for untrusted HTML or script content.',
+    inputExplanations: [
+      {
+        term: 'Encode characters mode',
+        meaning:
+          'Use this when you want text such as <strong>Free & fast</strong> to show as visible code instead of being interpreted as HTML markup.',
+      },
+      {
+        term: 'Decode entities mode',
+        meaning:
+          'Use this when copied text contains entity codes such as &lt;, &amp;, &quot;, &#36;, or &#x26; and you want to read the characters again.',
+      },
+      {
+        term: 'Entity count',
+        meaning:
+          'The result counts how many characters or entity codes were converted. For example, <strong>Free & fast</strong> changes 5 entities when encoded.',
+      },
+      {
+        term: 'Changed positions',
+        meaning:
+          'This is a quick difference check between input and output text. It helps confirm that encoding or decoding actually changed the snippet.',
+      },
+      {
+        term: 'Security boundary',
+        meaning:
+          'Encoding helps display code as text. It does not validate HTML, remove unsafe scripts, or make untrusted user input safe to render as real markup.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'What characters does encode mode change?',
+        answer:
+          'Encode mode changes ampersands, less-than signs, greater-than signs, double quotes, and apostrophes. Those become &amp;, &lt;, &gt;, &quot;, and &apos; so the snippet can be shown as text in HTML.',
+      },
+      {
+        question: 'Does this encode every possible symbol into an HTML entity?',
+        answer:
+          'No. It focuses on the characters that most often break visible HTML text or code examples. Regular letters, numbers, spaces, punctuation, and symbols that do not need escaping are left alone.',
+      },
+      {
+        question: 'Can decode mode handle numeric entities?',
+        answer:
+          'Yes. Decode mode supports valid decimal entities such as &#36; and hexadecimal entities such as &#x26; when the code point is in the valid Unicode range.',
+      },
+      {
+        question: 'Which named HTML entities are supported?',
+        answer:
+          'The compact decoder supports amp, apos, copy, gt, lt, nbsp, quot, and reg. Unknown named entities are left unchanged so you can spot text that needs a fuller entity reference.',
+      },
+      {
+        question: 'Why does an ampersand become &amp; before other text?',
+        answer:
+          'Ampersands start entity codes in HTML. Encoding a plain ampersand first prevents text such as A&B from being confused with an entity-like sequence when the snippet is displayed.',
+      },
+      {
+        question: 'Is HTML entity encoding the same as sanitizing HTML?',
+        answer:
+          'No. Entity encoding is useful for showing code examples as text. Sanitizing untrusted HTML is a separate security job that needs a maintained sanitizer and clear allowlist rules.',
+      },
+      {
+        question: 'When should I use URL encoding instead?',
+        answer:
+          'Use URL encoding for query strings, path values, and links. Use HTML entity encoding for text that will be displayed inside HTML. The two formats solve different problems.',
+      },
+    ],
     useCases: [
       'Show HTML code examples inside a blog post, guide, or documentation page.',
       'Decode copied entity text so it is easier to read.',
       'Escape short snippets before placing them in visible HTML text.',
       'Check whether a string changed after encoding or decoding.',
+      'Confirm whether numeric entities such as &#36; or &#x26; decode to the expected characters.',
     ],
     examples: [
-      { label: 'Encode tag text', expression: '<strong>Free & fast</strong>', result: '&lt;strong&gt;Free &amp; fast&lt;/strong&gt;' },
-      { label: 'Decode entities', expression: '&lt;strong&gt;Tools&lt;/strong&gt;', result: '<strong>Tools</strong>' },
-      { label: 'Quote cleanup', expression: 'title="Calculator" data-label="A&B"', result: 'Encoded quote and ampersand text' },
+      {
+        label: 'Encode tag text',
+        expression: '<strong>Free & fast</strong>',
+        result: '5 entities changed from 28 input characters: &lt;strong&gt;Free &amp; fast&lt;/strong&gt;',
+      },
+      {
+        label: 'Decode a quoted span',
+        expression: '&lt;span title=&quot;A&amp;B&quot;&gt;Save&lt;/span&gt;',
+        result: '7 entities changed into readable HTML text: <span title="A&B">Save</span>',
+      },
+      {
+        label: 'Quote cleanup',
+        expression: 'title="Calculator" data-label="A&B"',
+        result: 'title=&quot;Calculator&quot; data-label=&quot;A&amp;B&quot;',
+      },
+      {
+        label: 'Numeric entity decode',
+        expression: 'Price &#36;9.99 &#x26; no tracking',
+        result: '2 numeric entities changed: Price $9.99 & no tracking',
+      },
     ],
     relatedSlugs: ['json-formatter', 'url-encode-decode', 'text-case-converter'],
   }),

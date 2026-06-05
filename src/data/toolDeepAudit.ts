@@ -7651,17 +7651,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'html-entity-encoder-decoder',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
     sources: [whatwgHtmlNamedCharacters, googleHelpfulContent],
     findings: [
-      'The HTML entity tool encodes ampersands, angle brackets, quotes, and apostrophes and decodes supported named plus numeric entities.',
-      'Tests cover encoding an anchor snippet and decoding entity text back to visible tags.',
-      'The guide warns that entity encoding helps display examples but is not a complete sanitizer for untrusted HTML or script content.',
+      'The HTML entity tool encodes ampersands, angle brackets, double quotes, and apostrophes and decodes the supported named entities plus valid decimal and hexadecimal numeric entities.',
+      'The page now shows exact encode, decode, quote-cleanup, and numeric-entity examples, including the 5-entity <strong>Free & fast</strong> encode check.',
+      'The FAQ and input notes explain supported named entities, numeric entities, ampersand behavior, URL-encoding differences, privacy, and the sanitizer boundary.',
     ],
     improvements: [
       'Manually checked entity encode/decode behavior, numeric entity handling, supported named entity wording, examples, generated FAQ detail, guide cautions, related links, and privacy behavior.',
+      'Updated SEO title and description, exact formula notes, input explanations, seven extra FAQs, concrete examples, lastmod date, DataForSEO paid sprint evidence, competitor gap evidence, and workbench readiness checks.',
     ],
     followUps: [
       'Add a fuller named-entity table only if bundle size and UI search remain reasonable.',

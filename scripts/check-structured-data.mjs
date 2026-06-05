@@ -90,6 +90,24 @@ function flattenStructuredData(value) {
   return items;
 }
 
+function parseJsonLd(rawJson) {
+  try {
+    return JSON.parse(rawJson);
+  } catch (rawError) {
+    const decodedJson = decodeHtmlEntities(rawJson);
+
+    if (decodedJson !== rawJson) {
+      try {
+        return JSON.parse(decodedJson);
+      } catch (decodedError) {
+        throw decodedError;
+      }
+    }
+
+    throw rawError;
+  }
+}
+
 function requireString(item, property, label, htmlFile) {
   if (typeof item[property] !== 'string' || item[property].trim().length === 0) {
     issues.push(`${normalize(htmlFile)} ${label} is missing ${property}.`);
@@ -124,10 +142,10 @@ for (const htmlFile of htmlFiles) {
 
   for (const match of html.matchAll(jsonLdPattern)) {
     jsonLdCount += 1;
-    const rawJson = decodeHtmlEntities(match[1].trim());
+    const rawJson = match[1].trim();
 
     try {
-      const parsed = JSON.parse(rawJson);
+      const parsed = parseJsonLd(rawJson);
       const blockItems = flattenStructuredData(parsed);
 
       if (!blockItems.some((item) => item['@context'])) {

@@ -133,6 +133,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'aspect-ratio-calculator': '2026-06-04',
   'utm-builder': '2026-06-04',
   'query-string-parser': '2026-06-04',
+  'html-entity-encoder-decoder': '2026-06-05',
   'asphalt-calculator': '2026-05-31',
   'board-foot-calculator': '2026-05-31',
   'height-calculator': '2026-05-26',
