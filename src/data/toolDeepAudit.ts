@@ -7663,6 +7663,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     improvements: [
       'Manually checked entity encode/decode behavior, numeric entity handling, supported named entity wording, examples, generated FAQ detail, guide cautions, related links, and privacy behavior.',
       'Updated SEO title and description, exact formula notes, input explanations, seven extra FAQs, concrete examples, lastmod date, DataForSEO paid sprint evidence, competitor gap evidence, and workbench readiness checks.',
+      'Expanded the matching guide with the exact 28-character and 5-entity encode walkthrough, 7-entity decode example, numeric entity interpretation, sanitizer boundary, related checks, source links, and a 2026-06-05 guide modified date.',
     ],
     followUps: [
       'Add a fuller named-entity table only if bundle size and UI search remain reasonable.',

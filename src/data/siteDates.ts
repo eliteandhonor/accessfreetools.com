@@ -309,6 +309,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-aspect-ratio-calculator': '2026-06-04',
   'how-to-use-utm-builder': '2026-06-04',
   'how-to-use-query-string-parser': '2026-06-05',
+  'how-to-use-html-entity-encoder-decoder': '2026-06-05',
   'how-to-use-fuel-cost-calculator': '2026-05-26',
   'how-to-use-matrix-calculator': '2026-05-26',
   'how-to-use-date-calculator': '2026-05-26',

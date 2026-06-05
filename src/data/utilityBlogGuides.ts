@@ -5726,25 +5726,94 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.mdnUrlSearchParams, sourceLinks.rfc3986],
   },
   'html-entity-encoder-decoder': {
+    title: 'HTML Entity Encoder / Decoder Guide',
     summary: 'Learn how HTML entities turn code-sensitive characters into visible text and back again.',
+    metaDescription:
+      'Use the HTML Entity Encoder / Decoder guide to escape HTML snippets, decode named or numeric entities, read entity counts, and avoid sanitizer mistakes.',
     purpose:
       'The HTML Entity Encoder / Decoder helps with small snippets that need to be shown as text. If you want readers to see a tag instead of the browser treating it like markup, encode the sensitive characters. If you copied entity text and need to read it, decode it.',
+    intro:
+      'Start with the exact snippet you need to display or read. This guide shows what Encode mode changes, what Decode mode supports, and how to interpret the entity count before you paste the result anywhere important.',
+    inputMatch:
+      'the mode that matches your job, plus the small HTML or entity-text snippet you want to convert',
+    logicNote:
+      'Encode mode replaces five HTML-sensitive characters: &, <, >, double quotes, and apostrophes. Decode mode converts the supported named entities amp, apos, copy, gt, lt, nbsp, quot, and reg, plus valid decimal entities such as &#36; and hexadecimal entities such as &#x26;.',
+    readIntro:
+      'Read the main output first, then check entity count and changed positions. Entity count tells you how many characters or entity codes changed; changed positions is a quick difference signal between input and output.',
+    mistakeIntro:
+      'Most mistakes come from using the wrong kind of encoding, treating escaped text as a security sanitizer, or pasting decoded markup into a real page before reviewing it.',
+    bestUsesIntro:
+      'Best for short documentation snippets, examples, copied entity text, and quick checks before placing display-safe text in HTML.',
+    referenceIntro:
+      'These references explain character references and the people-first content context behind keeping examples clear and honest.',
     enter: [
       'Choose Encode when your text contains characters such as <, >, &, quotes, or apostrophes.',
-      'Choose Decode when your text contains entities such as &lt;, &amp;, or numeric entity codes.',
-      'Paste the snippet and run the tool.',
+      'Choose Decode when your text contains entities such as &lt;, &amp;, &quot;, &#36;, or &#x26;.',
+      'Paste a small snippet, run the tool, and copy the output only after the entity count looks reasonable.',
     ],
     read: [
       'The output is the copy-ready encoded or decoded text.',
       'Entity count shows how many entity replacements were found.',
       'Changed positions gives a quick signal for how much the output differs from the input.',
+      'If entity count is 0, either the snippet did not need conversion or the entity name was outside the compact supported set.',
     ],
     mistakes: [
       'Do not treat entity encoding as a full security sanitizer.',
       'Do not decode unknown HTML and paste it into a live page without reviewing it.',
       'Remember that this tool supports common entities and numeric entity codes, not every named entity ever defined.',
+      'Do not use HTML entities for URL query strings; use URL encoding for links and query values.',
     ],
-    sources: [sourceLinks.googleHelpfulContent],
+    extraSections: [
+      {
+        title: 'Quick encode example',
+        paragraphs: [
+          'Say you paste <strong>Free & fast</strong> in Encode mode. The input has 28 characters, and the tool changes 5 entities.',
+          'The output is &lt;strong&gt;Free &amp; fast&lt;/strong&gt;. That means the browser can show the tag text to a reader instead of treating strong as formatting.',
+        ],
+        bullets: [
+          '< becomes &lt; at the opening tag.',
+          '> becomes &gt; at the opening and closing tags.',
+          '& becomes &amp; between Free and fast.',
+          'The closing </strong> also has its angle brackets escaped.',
+        ],
+      },
+      {
+        title: 'Decode a quoted span',
+        paragraphs: [
+          'If you paste &lt;span title=&quot;A&amp;B&quot;&gt;Save&lt;/span&gt; in Decode mode, the tool changes 7 entities and returns <span title="A&B">Save</span>.',
+          'That result is easier to read, but it is also real-looking HTML. Review it before putting it into a page, editor, CMS field, or template.',
+        ],
+      },
+      {
+        title: 'Numeric entities are supported too',
+        paragraphs: [
+          'Named entities are only one style. Decimal and hexadecimal numeric entities can represent characters by code point.',
+          'For example, Price &#36;9.99 &#x26; no tracking decodes 2 numeric entities into Price $9.99 & no tracking. That tells you &#36; was a dollar sign and &#x26; was an ampersand.',
+        ],
+      },
+      {
+        title: 'What this tool does not sanitize',
+        paragraphs: [
+          'Encoding a snippet helps display it as text. It does not inspect whether a decoded snippet is safe, remove scripts, validate attributes, or decide which tags your site should allow.',
+          'If you are handling untrusted user HTML, use a maintained sanitizer with an allowlist. Treat this tool as a display and readability helper, not a security boundary.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'HTML entity work often sits beside other small developer text checks. Use the neighboring tools when the text belongs to a URL, JSON file, or plain-text cleanup task instead of visible HTML.',
+        ],
+        links: [
+          { href: '/tools/html-entity-encoder-decoder/', label: 'Open the HTML Entity Encoder / Decoder' },
+          { href: '/tools/url-encode-decode/', label: 'Encode a URL value instead' },
+          { href: '/tools/json-formatter/', label: 'Format JSON before sharing it' },
+          { href: '/tools/text-case-converter/', label: 'Clean up text casing' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the HTML Entity Encoder / Decoder beside this guide. Try <strong>Free & fast</strong> in Encode mode first, then decode a harmless entity snippet copied from your own docs.',
+    sources: [sourceLinks.mdnCharacterReference, sourceLinks.googleHelpfulContent],
   },
   'css-clamp-calculator': {
     title: 'CSS Clamp Calculator Guide',
