@@ -1012,30 +1012,37 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'tdee-calculator': {
-    summary: 'Learn how BMR and activity level estimate total daily energy expenditure.',
+    summary: 'Learn how BMR and activity level estimate maintenance calories, and how to avoid over-trusting a TDEE result.',
     purpose:
-      'The TDEE Calculator estimates maintenance calories by calculating BMR and multiplying it by an activity factor.',
+      'The TDEE Calculator estimates daily maintenance calories by calculating Mifflin-St Jeor BMR, then multiplying that resting estimate by a broad activity factor. It is useful as a planning anchor before calorie or macro targets, but it is not a diet order, exact metabolism test, or promise that weight will stay unchanged.',
     enter: [
-      'Enter age, formula sex, height, and weight.',
-      'Choose the activity level that describes your normal week.',
-      'Use the same activity setting when comparing changes over time.',
+      'Enter formula sex, age in years, height in centimeters, and weight in kilograms. The formula sex setting chooses the +5 or -161 Mifflin-St Jeor adjustment.',
+      'Choose the activity level that describes your normal week, not your best workout day.',
+      'Use the same activity setting when comparing changes over time so the difference comes from the body inputs, not a new multiplier.',
+      'If you are between two activity labels, start with the more honest lower one and adjust later from real weight, hunger, energy, and training trends.',
     ],
     example: [
-      'A moderate activity example estimates BMR first.',
-      'Then the calculator multiplies BMR by 1.55 to estimate total daily expenditure.',
+      'For a female-formula example at age 32, 165 cm, and 68 kg, BMR is 10 x 68 + 6.25 x 165 - 5 x 32 - 161 = 1,390.25 kcal/day.',
+      'With the moderate activity factor of 1.55, TDEE is 1,390.25 x 1.55 = 2,154.8875, or about 2,155 kcal/day.',
+      'For a male-formula example at age 45, 180 cm, 88 kg, and sedentary activity, BMR is 1,785 and TDEE is 1,785 x 1.2 = 2,142 kcal/day.',
     ],
     read: [
-      'TDEE is a maintenance estimate, not a fat-loss target by itself.',
-      'Real-world tracking can help refine the estimate because activity labels are broad.',
+      'Read the answer as estimated maintenance calories per day for the exact inputs and activity factor you chose.',
+      'TDEE is not a fat-loss target by itself. A Calorie Calculator can compare maintenance with smaller goal adjustments after you understand the maintenance estimate.',
+      'Real-world tracking can move the useful target up or down because activity labels, water weight, food logging, sleep, illness, menstrual cycles, and training blocks are not captured perfectly.',
+      'Use qualified guidance for pregnancy nutrition, eating-disorder recovery, medical diet orders, diabetes care, sport fueling, or any plan that could affect health or safety.',
     ],
     mistakes: [
       'Do not double-count exercise if your activity level already includes it.',
-      'Do not treat one day of activity as your normal week.',
-      'Do not use TDEE as medical nutrition advice.',
+      'Do not treat one unusually active day as your normal week.',
+      'Do not treat BMR and TDEE as the same number; BMR is the resting estimate before activity is added.',
+      'Do not copy the result into an aggressive diet plan without checking whether the goal, timeline, and health context are reasonable.',
+      'Do not use TDEE as medical nutrition advice, a pregnancy meal plan, or an eating-disorder recovery target.',
     ],
     next: [
       'Use Calorie Calculator to compare goal adjustments.',
       'Use Macro Calculator to turn calories into grams.',
+      'Use BMR Calculator if you want to inspect the resting-energy estimate before the activity factor is added.',
     ],
   },
   'gfr-calculator': {

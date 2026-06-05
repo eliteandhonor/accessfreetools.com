@@ -4911,6 +4911,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     improvements: [
       'Added calculator-intent SEO title and description, maintenance-calorie and activity-factor aliases, exact BMR and TDEE formula steps, activity-factor values, four numeric examples, specific input/result FAQ language, stronger medical and tracking limits, refreshed audit notes, and a 2026-06-05 modified date.',
+      'Expanded the matching guide with Mifflin-St Jeor input notes, exact female and male formula walkthroughs, activity-factor interpretation, BMR versus TDEE separation, safer weight-goal next steps, medical-nutrition limits, and a 2026-06-05 guide modified date.',
     ],
     followUps: [
       'Add richer activity-factor examples in the UI if users still struggle to choose sedentary, light, moderate, very, or extra active from real weekly routines.',
