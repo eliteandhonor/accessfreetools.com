@@ -7901,17 +7901,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'api-pricing-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-tech-ai-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-api-pricing-calculator-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
     sources: [calculatorInnSitemap, openAiTokens, googleHelpfulContent],
     findings: [
-      'The generic API pricing helper supports request count, units per request, price per unit, fixed fees, and retry or overhead cushion.',
-      'Formula review checked billable units, usage cost, total cost, and average cost per request without assuming one provider billing model.',
-      'FAQ and guide explain billable units, per-million token conversions, free-tier gaps, taxes, credits, and plan-specific rules.',
+      'The generic API pricing helper supports request count, units per request, price per unit, fixed fees, and retry or overhead cushion without assuming one provider billing model.',
+      'Formula review checked billable units, usage cost, total cost, and average cost per request using the deterministic local calculator implementation.',
+      'FAQ and guide explain billable units, per-thousand and per-million price conversion, fixed fees, overhead percent, free-tier gaps, tiered pricing, taxes, credits, and plan-specific rules.',
     ],
     improvements: [
-      'Added provider-neutral API pricing UI, examples for image/message/credit pricing, guide details, FAQ depth, related developer tools, and tests.',
+      'Expanded the tool page with SEO title/meta description, exact billable-unit/usage/total/average formula wording, price-per-unit and fixed-fee input explanations, practical overhead guidance, extra FAQs for unit conversion, free tiers, plan comparison, privacy, and three numeric image/message/credit examples, plus related AI and developer-tool links and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Add saved pricing templates only if there is a clear update workflow and no private API keys are stored.',

@@ -7704,14 +7704,19 @@ export const utilityTools: ToolDefinition[] = [
       'Use this free API pricing calculator to estimate usage cost, billable units, fixed fees, overhead, and average cost per request.',
     icon: 'tool-api-pricing',
     aliases: ['API Cost Calculator', 'Usage Pricing Calculator', 'SaaS API Cost Calculator'],
+    seoTitle: 'API Pricing Calculator | Estimate Usage Cost',
+    seoDescription:
+      'Estimate API usage cost from requests, billable units, price per unit, fixed fees, retry overhead, total cost, and average cost per request.',
     formula:
-      'The calculator multiplies requests by units per request, adds a retry or overhead percentage, multiplies by price per unit, and adds any fixed fee.',
+      'Billable units = requests * units per request * (1 + retry or overhead percent / 100). Usage cost = billable units * price per unit. Total cost = usage cost + fixed fee. Average cost per request = total cost / requests.',
     limit:
-      'Provider billing can include free tiers, regional prices, taxes, credits, minimums, rounding, rate limits, or special plan rules that this simple calculator does not know.',
+      'This is provider-neutral planning math, not a live bill. Provider billing can include free tiers, regional prices, taxes, credits, minimums, tiered prices, currency conversion, rounding, rate limits, failed-call rules, batch discounts, or special plan terms that this calculator does not know.',
     inputExplanations: [
-      { term: 'Requests', meaning: 'The number of API calls, jobs, messages, images, events, or tasks.' },
-      { term: 'Units per request', meaning: 'How many billable units each request uses.' },
-      { term: 'Retry or overhead percent', meaning: 'Extra cushion for retries, failed jobs, logs, or normal usage bursts.' },
+      { term: 'Requests', meaning: 'The number of API calls, jobs, messages, images, events, or tasks you want to estimate.' },
+      { term: 'Units per request', meaning: 'How many billable units each request uses, such as tokens, images, seconds, messages, credits, or GB.' },
+      { term: 'Price per unit', meaning: 'The cost for one billable unit. Convert provider prices to one unit before entering them.' },
+      { term: 'Fixed fee', meaning: 'An optional monthly fee, minimum charge, platform fee, or other fixed cost to include in the total.' },
+      { term: 'Retry or overhead percent', meaning: 'Extra cushion for retries, failed jobs, logging overhead, queue replays, or normal usage bursts.' },
     ],
     extraFaq: [
       {
@@ -7724,19 +7729,49 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'If a model price is listed per 1 million tokens, divide that price by 1,000,000 to get the price per token, or use the AI Token Cost Calculator for the token-specific version.',
       },
+      {
+        question: 'How do I convert a price per 1,000 or 1 million units?',
+        answer:
+          'Divide the listed price by the number of units in that price. A $2 price per 1 million units becomes $0.000002 per unit. A $0.50 price per 1,000 units becomes $0.0005 per unit.',
+      },
+      {
+        question: 'What should I put in fixed fee?',
+        answer:
+          'Use fixed fee for a monthly platform fee, minimum spend, support fee, base subscription, or other cost that does not change with request count. Leave it at 0 when the provider only charges for usage.',
+      },
+      {
+        question: 'What overhead percent should I use?',
+        answer:
+          'Use 0 when you only want exact planned requests. Add 3% to 10% when retries, failed calls, background jobs, logs, or normal traffic bursts are likely. Use a higher value only when your own logs justify it.',
+      },
+      {
+        question: 'Does this include free tiers or tiered pricing?',
+        answer:
+          'No. It uses one price per unit for the whole estimate. If a provider has a free tier, volume discounts, or tiered pricing, run the paid and free portions separately or use the blended unit price you trust.',
+      },
+      {
+        question: 'Can I compare two API plans with this calculator?',
+        answer:
+          'Yes. Keep requests, units per request, fixed fee, and overhead the same, then swap the price per unit. That compares cost only, not rate limits, latency, support, reliability, or data retention rules.',
+      },
+      {
+        question: 'Should I enter API keys or customer data?',
+        answer:
+          'No. The calculator only needs pricing numbers. Do not paste API keys, customer records, private payloads, or unreleased usage logs into the input fields.',
+      },
     ],
     useCases: [
-      'Estimate API cost before launching a feature.',
-      'Compare pricing plans with the same request assumptions.',
-      'Add a cushion for retries or failed requests.',
+      'Estimate API cost before launching a feature, automation, or internal workflow.',
+      'Compare pricing plans with the same request and billable-unit assumptions.',
+      'Add a cushion for retries, failed calls, logging overhead, or traffic bursts.',
       'Explain why cheap per-unit prices can still add up at volume.',
     ],
     examples: [
-      { label: 'Image API', expression: '1,000 requests x 1 image at $0.04', result: 'Usage cost plus overhead' },
-      { label: 'Message API', expression: '50,000 messages and a monthly fee', result: 'Average cost per request' },
-      { label: 'Credit bundle', expression: '20,000 jobs x 3 credits', result: 'Billable units and total cost' },
+      { label: 'Image API', expression: '1,000 requests x 1 image at $0.04 with 5% overhead', result: '1,050 billable units, $42 total' },
+      { label: 'Message API', expression: '50,000 messages at $0.002, $10 fixed fee, 3% overhead', result: '51,500 billable units, $113 total, about $0.00226 per request' },
+      { label: 'Credit bundle', expression: '20,000 jobs x 3 credits at $0.0005 with 10% overhead', result: '66,000 billable units, $33 total' },
     ],
-    relatedSlugs: ['ai-token-cost-calculator', 'utm-builder', 'query-string-parser'],
+    relatedSlugs: ['ai-token-cost-calculator', 'prompt-token-estimator', 'utm-builder', 'query-string-parser'],
   }),
   makeUtilityTool({
     slug: 'download-time-calculator',
