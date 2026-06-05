@@ -317,6 +317,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-ai-token-cost-calculator': '2026-06-05',
   'how-to-use-prompt-token-estimator': '2026-06-05',
   'how-to-use-api-pricing-calculator': '2026-06-05',
+  'how-to-use-download-time-calculator': '2026-06-05',
   'how-to-use-fuel-cost-calculator': '2026-05-26',
   'how-to-use-matrix-calculator': '2026-05-26',
   'how-to-use-date-calculator': '2026-05-26',

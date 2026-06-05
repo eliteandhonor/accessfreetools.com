@@ -6209,9 +6209,22 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.googleHelpfulContent, sourceLinks.openAiTokens],
   },
   'download-time-calculator': {
+    title: 'Download Time Calculator Guide',
     summary: 'Learn how file size, Mbps speed, and realistic efficiency estimate download time.',
+    metaDescription:
+      'Use the Download Time Calculator guide to estimate file transfer time from KB, MB, GB, or TB size, Mbps speed, and a realistic efficiency percent.',
     purpose:
       'The Download Time Calculator turns a file size into bits, adjusts your connection speed by an efficiency percentage, and estimates how long a game, app, video, or backup may take.',
+    intro:
+      'It is most useful before you start a large game download, cloud backup, video file, or system image and want to know whether the wait is closer to minutes or hours.',
+    inputMatch:
+      'the file size, file unit, download speed in Mbps, and efficiency percent you want to test',
+    logicNote:
+      'The guide and tool use decimal units: 1 GB is 1,000,000,000 bytes. A 50 GB game on a 100 Mbps connection at 85% efficiency is about 1h 18m 26s, while a 700 MB update at 25 Mbps and 90% efficiency is about 4m 9s.',
+    readIntro:
+      'Read the estimated duration first, then check effective Mbps. If effective Mbps is much lower than the advertised speed, the efficiency setting is doing the useful reality check.',
+    mistakeIntro:
+      'Most bad estimates come from mixing bits and bytes, using the wrong speed direction, or treating a perfect advertised speed as the speed the download server will actually deliver.',
     enter: [
       'Enter the file size and choose KB, MB, GB, or TB.',
       'Enter the real download speed in Mbps.',
@@ -6226,7 +6239,39 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not confuse Mbps with MB/s.',
       'Do not assume advertised internet speed is the same as real download speed.',
       'Do not expect the estimate to include server throttling, device storage speed, or background traffic.',
+      'Do not use download speed for cloud backup or file upload unless that number is really your upload speed.',
+      'Do not treat the time estimate as a data-cap check. A fast download can still use a large part of a monthly allowance.',
     ],
+    extraSections: [
+      {
+        title: 'Example: a 50 GB game update',
+        paragraphs: [
+          'Say the download is 50 GB, your speed test is close to 100 Mbps, and you use 85% efficiency because the connection is good but not perfect. The calculator converts 50 GB to bits, applies 85 Mbps as the effective speed, and estimates about 1h 18m 26s.',
+          'That answer is a planning estimate. If the game server is busy, your Wi-Fi drops, a VPN adds overhead, or another device starts streaming, the real wait can be longer.',
+        ],
+      },
+      {
+        title: 'When the estimate changes',
+        paragraphs: [
+          'Use a lower efficiency percent when the connection is on crowded Wi-Fi, the router is old, a VPN is on, the server is throttling, or other people are sharing the same connection.',
+          'Use your upload speed instead when you are sending files to cloud storage, uploading video, or backing up a computer. Many internet plans have much lower upload speed than download speed.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'Download time is only one network question. You may also need to compare bandwidth, estimate how much speed a household needs, or check video bitrate data use.',
+        ],
+        links: [
+          { href: '/tools/download-time-calculator/', label: 'Open the Download Time Calculator' },
+          { href: '/tools/bandwidth-calculator/', label: 'Compare bandwidth units' },
+          { href: '/tools/internet-speed-needs-calculator/', label: 'Estimate household internet speed needs' },
+          { href: '/tools/streaming-bitrate-calculator/', label: 'Estimate streaming bitrate data use' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Download Time Calculator beside this guide. Try the 50 GB game example first, then replace the file size, Mbps speed, and efficiency percent with your own download.',
     sources: [sourceLinks.nistUnits],
   },
   'internet-speed-needs-calculator': {
