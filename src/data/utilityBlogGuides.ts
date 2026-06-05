@@ -6094,24 +6094,118 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.openAiTokens, sourceLinks.openAiTokenizer, sourceLinks.googleHelpfulContent],
   },
   'api-pricing-calculator': {
+    title: 'API Pricing Calculator Guide',
     summary: 'Learn how requests, billable units, unit price, fixed fees, and overhead combine into an API cost estimate.',
+    metaDescription:
+      'Use the API Pricing Calculator guide to estimate request cost, billable units, fixed fees, retry overhead, total API spend, and average cost per request.',
     purpose:
       'The API Pricing Calculator is for provider-neutral cost planning. It works for APIs that bill by request, credit, image, second, message, GB, token, or any other simple unit.',
+    intro:
+      'API bills often look harmless because the unit price is tiny. The surprise comes when a feature runs thousands of jobs, retries failed calls, or adds a monthly platform fee. This guide shows how to turn those pricing pieces into one clear estimate before you ship the workflow.',
+    inputMatch:
+      'your expected request count, the billable units each request uses, the provider price converted to one unit, any fixed fee, and a realistic retry or overhead cushion',
+    logicNote:
+      'Billable units = requests x units per request x (1 + overhead percent / 100). Usage cost = billable units x price per unit. Total cost = usage cost + fixed fee. Average cost per request = total cost / requests.',
+    readIntro:
+      'Read the result as planning math, not a live invoice. It is best for comparing two API plans, checking whether a feature is in the right cost range, or deciding whether retries and background jobs need a bigger budget.',
+    mistakeIntro:
+      'Most bad API cost estimates come from mixing price units, forgetting fixed fees, leaving retries at zero, or treating free tiers and tiered pricing as if they are included automatically.',
+    bestUsesIntro:
+      'Best when you need a quick, private browser-side estimate before using a provider billing calculator, real usage logs, or an accounting export.',
+    referenceIntro:
+      'These references help explain token-style unit counting and why useful content should name pricing limits instead of pretending one generic calculator knows every provider rule.',
     enter: [
-      'Enter the number of requests or jobs you expect.',
-      'Enter how many billable units one request uses and the price for one unit.',
-      'Add a fixed fee or retry percentage when your plan needs a cushion.',
+      'Enter the number of API requests, jobs, messages, images, events, or tasks you expect.',
+      'Enter how many billable units one request uses. A request may use one image, three credits, many tokens, several seconds, or a measured amount of data.',
+      'Enter the price for one billable unit. If the provider lists a price per 1,000 units or per 1 million units, divide first so the field gets a single-unit price.',
+      'Add a fixed fee when there is a monthly platform fee, minimum spend, support fee, or base subscription.',
+      'Add a retry or overhead percent when failed calls, queue replays, logs, background jobs, or traffic bursts are realistic.',
     ],
     read: [
-      'Total cost includes usage cost plus any fixed fee.',
-      'Billable units shows the request count after units-per-request and overhead are applied.',
-      'Average cost per request helps compare pricing options at the same volume.',
+      'Billable units shows the request count after units per request and overhead are applied.',
+      'Usage cost is the variable cost before any fixed fee.',
+      'Total cost includes usage cost plus the fixed fee.',
+      'Average cost per request helps compare pricing options at the same volume, especially when one plan has a fixed fee and another does not.',
+      'If the average cost looks higher than expected, check whether the fixed fee or overhead percent is driving the result.',
     ],
     mistakes: [
-      'Do not mix price per 1,000 units, per 1 million units, and per single unit.',
-      'Do not ignore free tiers, taxes, credits, minimum charges, or plan-specific rounding.',
+      'Do not mix price per 1,000 units, per 1 million units, and per single unit in the same input.',
+      'Do not compare two plans unless the request count, units per request, fixed fee, and overhead assumptions are the same.',
+      'Do not ignore free tiers, taxes, credits, minimum charges, regional pricing, currency conversion, volume tiers, or plan-specific rounding.',
+      'Do not use a zero overhead value when retries, failed calls, queue replays, or logging jobs happen in normal use.',
       'Do not enter secret keys or customer data; only pricing numbers are needed.',
     ],
+    extraSections: [
+      {
+        title: 'Quick formula',
+        paragraphs: [
+          'The calculator separates usage cost from fixed cost so you can see which part is doing the damage. That matters because a plan with a cheap unit price can still be expensive when a fixed fee is spread across a small number of requests.',
+          'Billable units = requests x units per request x (1 + overhead percent / 100). Usage cost = billable units x price per unit. Total cost = usage cost + fixed fee. Average cost per request = total cost / requests.',
+        ],
+      },
+      {
+        title: 'Example: image API feature',
+        paragraphs: [
+          'Say a small feature expects 1,000 image requests. Each request creates 1 image, the provider price is $0.04 per image, and you add 5% overhead for retries or failed jobs.',
+          'The calculator estimates 1,050 billable units and a $42 total cost. The average cost is $0.042 per request. That extra 5% is small here, but it is still real money once volume grows.',
+        ],
+        bullets: [
+          'Requests: 1,000',
+          'Units per request: 1 image',
+          'Price per unit: $0.04',
+          'Overhead: 5%',
+          'Fixed fee: $0',
+        ],
+      },
+      {
+        title: 'Example: message API month',
+        paragraphs: [
+          'Now imagine an internal message workflow with 50,000 requests, 1 billable message per request, a $0.002 unit price, a $10 fixed monthly fee, and 3% overhead.',
+          'The calculator estimates 51,500 billable units, $103 in usage cost, $113 total cost, and about $0.00226 per request. The fixed fee is small in total, but it still changes the average cost.',
+        ],
+      },
+      {
+        title: 'Example: credit bundle automation',
+        paragraphs: [
+          'Some APIs charge credits instead of requests. If 20,000 jobs use 3 credits each, each credit costs $0.0005, and you add 10% overhead, the estimate becomes 66,000 billable units.',
+          'That produces a $33 total cost before any plan-specific discounts, taxes, or free credits. This is why units per request matters as much as request count.',
+        ],
+      },
+      {
+        title: 'Compare two plans without fooling yourself',
+        paragraphs: [
+          'To compare plans, keep the request count, units per request, fixed fee type, and overhead percent consistent. Then change only the price per unit or the fixed fee you are testing.',
+          'Cost is not the whole decision. Rate limits, latency, support, reliability, data retention, regional availability, and privacy terms can matter more than a tiny unit-price difference.',
+        ],
+        bullets: [
+          'Use the same volume for both plans.',
+          'Convert both prices to one unit before comparing.',
+          'Run a second estimate if one plan has a free tier or volume tier.',
+          'Check real logs once the feature is live.',
+        ],
+      },
+      {
+        title: 'Where the estimate stops',
+        paragraphs: [
+          'This guide does not know your provider contract. Free credits, tiered pricing, batch discounts, cached-token prices, failed-call rules, minimum spend, taxes, currency conversion, and invoice rounding can all change the final bill.',
+          'Use the calculator for planning and comparison. Use provider documentation, account usage dashboards, billing exports, or invoices when you need the exact number.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'API cost planning often starts with a general billable-unit estimate, then narrows into token cost, prompt length, campaign tracking, or request debugging. Use the matching tool when you want to test the numbers from this guide.',
+        ],
+        links: [
+          { href: '/tools/api-pricing-calculator/', label: 'Open the API Pricing Calculator' },
+          { href: '/tools/ai-token-cost-calculator/', label: 'Estimate AI token cost' },
+          { href: '/tools/prompt-token-estimator/', label: 'Estimate prompt tokens first' },
+          { href: '/tools/query-string-parser/', label: 'Inspect API query strings' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the API Pricing Calculator beside this guide. Try the image API example first, then replace the request count, unit price, fixed fee, and overhead with your own provider assumptions.',
     sources: [sourceLinks.googleHelpfulContent, sourceLinks.openAiTokens],
   },
   'download-time-calculator': {

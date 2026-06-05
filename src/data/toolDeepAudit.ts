@@ -7911,7 +7911,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'FAQ and guide explain billable units, per-thousand and per-million price conversion, fixed fees, overhead percent, free-tier gaps, tiered pricing, taxes, credits, and plan-specific rules.',
     ],
     improvements: [
-      'Expanded the tool page with SEO title/meta description, exact billable-unit/usage/total/average formula wording, price-per-unit and fixed-fee input explanations, practical overhead guidance, extra FAQs for unit conversion, free tiers, plan comparison, privacy, and three numeric image/message/credit examples, plus related AI and developer-tool links and a 2026-06-05 modified date.',
+      'Expanded the tool page and matching guide with SEO title/meta descriptions, exact billable-unit/usage/total/average formula wording, price-per-unit and fixed-fee input explanations, practical overhead guidance, extra FAQs for unit conversion, free tiers, plan comparison, privacy, and numeric image/message/credit examples, plus related AI and developer-tool links and 2026-06-05 modified dates.',
     ],
     followUps: [
       'Add saved pricing templates only if there is a clear update workflow and no private API keys are stored.',
