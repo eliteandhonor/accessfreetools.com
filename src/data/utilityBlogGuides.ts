@@ -6480,24 +6480,75 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'monitor-ppi-calculator': {
+    title: 'Monitor PPI Calculator Guide',
     summary: 'Learn how screen resolution and diagonal size combine into pixels per inch.',
+    metaDescription:
+      'Use the Monitor PPI Calculator guide to estimate screen pixel density, pixel diagonal, and aspect ratio from resolution and diagonal inches.',
     purpose:
       'The Monitor PPI Calculator helps compare display sharpness by using pixel resolution and physical diagonal size together. Resolution alone is not enough because screen size changes pixel density.',
+    intro:
+      'It is useful when comparing a 24-inch 1080p monitor, a 27-inch 1440p monitor, a 32-inch 4K monitor, a laptop screen, a tablet, or a TV before deciding whether the screen is dense enough for your viewing distance.',
+    inputMatch:
+      'the screen width pixels, height pixels, and physical diagonal inches from the display spec',
+    logicNote:
+      'Pixel diagonal = sqrt(width pixels^2 + height pixels^2). PPI = pixel diagonal / screen diagonal inches. Aspect ratio is width pixels to height pixels simplified by their greatest common divisor. A 1920 x 1080 screen at 24 inches has a pixel diagonal of about 2202.9072 pixels and returns 91.7878 PPI with a 16:9 aspect ratio.',
+    readIntro:
+      'Read PPI as a density comparison number. Higher PPI means more pixels fit into each physical inch, but text size and comfort still depend on scaling, viewing distance, and the screen itself.',
+    mistakeIntro:
+      'Display comparisons go wrong when resolution is judged without screen size, when PPI is treated like printer DPI, or when a high PPI number is treated as the whole answer for readability.',
     enter: [
-      'Enter width and height pixels from the display resolution.',
-      'Enter the diagonal screen size in inches.',
-      'Use examples for common 1080p, 1440p, and 4K monitor sizes.',
+      'Enter width pixels and height pixels from the display resolution, such as 1920 x 1080, 2560 x 1440, 3440 x 1440, or 3840 x 2160.',
+      'Enter the physical diagonal screen size in inches from the monitor, laptop, tablet, or TV spec.',
+      'Use the built-in examples for common 1080p, 1440p, and 4K monitor sizes, then replace the numbers with the display you are comparing.',
     ],
     read: [
-      'PPI is pixels per inch across the physical screen.',
-      'Pixel diagonal is the diagonal length in pixels found with the Pythagorean theorem.',
-      'Aspect ratio shows the simplified width-to-height shape.',
+      'PPI is pixels per inch across the physical screen. It is the main comparison number.',
+      'Pixel diagonal is the diagonal length in pixels found with the Pythagorean theorem before dividing by inches.',
+      'Aspect ratio shows the simplified width-to-height shape, such as 16:9 or 43:18 for many ultrawide screens.',
     ],
     mistakes: [
-      'Do not use PPI alone to judge a screen.',
+      'Do not use PPI alone to judge a screen because viewing distance, operating-system scaling, panel quality, subpixel layout, anti-aliasing, eyesight, brightness, and content quality also matter.',
       'Do not confuse screen PPI with printer DPI or mouse DPI.',
-      'Remember that scaling, viewing distance, panel quality, and eyesight affect perceived sharpness.',
+      'Do not assume a 4K monitor is always sharper than another 4K monitor. The smaller 4K screen has the higher PPI.',
+      'Do not use the marketing class alone, such as Full HD, QHD, or 4K, without entering the real diagonal size.',
     ],
+    extraSections: [
+      {
+        title: 'Example: 24-inch 1080p monitor',
+        paragraphs: [
+          'For a 1920 x 1080 screen at 24 inches, the pixel diagonal is sqrt(1920^2 + 1080^2), or about 2202.9072 pixels. Divide that by 24 inches and the result is 91.7878 PPI.',
+          'That is why a 24-inch 1080p monitor can feel normal for everyday desktop work, while the same resolution on a larger screen spreads the pixels farther apart.',
+        ],
+      },
+      {
+        title: 'Examples for 1440p, 4K, and ultrawide screens',
+        paragraphs: [
+          'A 2560 x 1440 screen at 27 inches returns 108.7855 PPI. A 3840 x 2160 screen at 32 inches returns 137.6817 PPI. A 3440 x 1440 ultrawide screen at 34 inches returns about 109.6834 PPI with a 43:18 aspect ratio.',
+          'Those numbers show why screen size matters. The 27-inch 1440p and 34-inch ultrawide examples are close in density even though their resolutions and shapes are different.',
+        ],
+      },
+      {
+        title: 'How to use PPI with scaling',
+        paragraphs: [
+          'Higher PPI can make text and edges look sharper, but it can also make unscaled text physically smaller. Operating-system scaling, browser zoom, app settings, and viewing distance decide how comfortable the screen feels.',
+          'Use PPI to compare density, then check whether your operating system can scale text and interface elements cleanly for the screen you are considering.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'PPI, aspect ratio, color contrast, and streaming bitrate answer different display questions. Use the neighboring tools when you need image shape, readable color combinations, or video data estimates rather than screen density.',
+        ],
+        links: [
+          { href: '/tools/monitor-ppi-calculator/', label: 'Open the Monitor PPI Calculator' },
+          { href: '/tools/aspect-ratio-calculator/', label: 'Simplify a screen or image ratio' },
+          { href: '/tools/color-contrast-checker/', label: 'Check text and background contrast' },
+          { href: '/tools/streaming-bitrate-calculator/', label: 'Estimate video stream data use' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Monitor PPI Calculator beside this guide. Try the 1920 x 1080, 24-inch example first, then compare it with a 27-inch 1440p screen, a 32-inch 4K screen, or the exact display spec you are considering.',
     sources: [sourceLinks.nistUnits],
   },
   'recipe-scaler': {
