@@ -6,11 +6,11 @@ Do not mark a page `approved` from a score alone. Approval means the user has re
 
 ## Progress Summary
 
-- Last updated: 2026-06-06T09:40:11+10:00
+- Last updated: 2026-06-06T09:42:18+10:00
 - Total tools: 299
 - Total page review units: 598 (tool page + blog page for each tool)
 - Approved/live-update review units recorded here: 366
-- Current page in progress: `wallpaper-calculator` tool.
+- Current page in progress: `wire-resistance-calculator` tool.
 - Page review units left after the Monitor PPI tool deployment: 255
 - Page review units left after the Monitor PPI blog deployment: 254
 - Page review units left after the Recipe Scaler tool deployment: 253
