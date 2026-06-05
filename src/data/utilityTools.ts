@@ -7604,14 +7604,34 @@ export const utilityTools: ToolDefinition[] = [
       'Use this free prompt token estimator to turn pasted prompt text into a rough token estimate, low-high range, character count, and word count.',
     icon: 'tool-prompt-token',
     aliases: ['Token Estimator', 'Prompt Length Estimator', 'AI Prompt Token Counter'],
-    seoTitle: 'Prompt Token Estimator Calculator | Free Token Counter',
+    seoTitle: 'Prompt Token Estimator | Rough AI Token Counter',
+    seoDescription:
+      'Estimate prompt tokens from text length, characters per token, low-high range, character count, and word count before checking a model tokenizer.',
     formula:
-      'The estimator counts characters and divides by the average characters-per-token value you choose, then shows a rough low-high range.',
+      'Estimated tokens = ceiling(character count / selected average characters per token). Low estimate = ceiling(character count / 5). High estimate = ceiling(character count / 3). Words are counted from letter and number groups so you can compare the token estimate with normal writing length.',
     limit:
-      'Real tokenizers split text by model vocabulary. Code, symbols, non-English text, emojis, and whitespace can change the true token count.',
+      'This is a rough planning estimate, not a model tokenizer or billing record. Real tokenizers split text by model vocabulary, and the provider may also count system prompts, chat history, retrieved context, tool messages, code, URLs, emojis, non-English text, and whitespace differently. Use the exact tokenizer or usage logs before relying on a context-window or cost number.',
     inputExplanations: [
-      { term: 'Prompt text', meaning: 'The text you plan to send to an AI model.' },
-      { term: 'Average characters per token', meaning: 'A rough planning assumption; 4 is common, but exact tokenizers vary.' },
+      {
+        term: 'Prompt text',
+        meaning:
+          'The text you plan to send to an AI model, such as a user prompt, system instruction, draft, code snippet, or retrieved context sample.',
+      },
+      {
+        term: 'Average characters per token',
+        meaning:
+          'The rough divider used for the main estimate. Four characters per token is a common planning default for plain English, but the tool lets you adjust it between 2 and 8.',
+      },
+      {
+        term: 'Low and high estimate',
+        meaning:
+          'A built-in range that divides the same character count by 5 and by 3 so you can see how much the rough estimate could move.',
+      },
+      {
+        term: 'Words and characters',
+        meaning:
+          'Supporting counts that help you compare prompt drafts in normal writing terms before you check the exact tokenizer.',
+      },
     ],
     extraFaq: [
       {
@@ -7624,6 +7644,31 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Different text splits differently. A paragraph of normal English often behaves differently from code, lists, URLs, punctuation-heavy text, or another language, so the range helps you avoid treating the estimate as exact.',
       },
+      {
+        question: 'What average characters per token should I use?',
+        answer:
+          'Use 4 for a quick plain-English estimate. Try a lower value when the prompt has code, URLs, symbols, dense punctuation, or many short fragments. Try a higher value only when you have evidence from the tokenizer or usage logs.',
+      },
+      {
+        question: 'Does this include system prompts, chat history, or retrieved context?',
+        answer:
+          'Only if you paste that text into the box. Real model calls may include hidden instructions, conversation history, retrieval snippets, tool schemas, or other context that the user never sees.',
+      },
+      {
+        question: 'Why can code, URLs, or emojis change the real token count?',
+        answer:
+          'Tokenizers use model-specific vocabulary pieces, not normal words. Code symbols, long URLs, emoji sequences, whitespace, and non-English text can split into tokens very differently from a plain English paragraph.',
+      },
+      {
+        question: 'Can I use this estimate for AI cost planning?',
+        answer:
+          'Yes, as a first pass. Estimate the prompt tokens here, estimate expected output tokens separately, then use the AI Token Cost Calculator with current model prices. Check real usage logs before making a budget decision.',
+      },
+      {
+        question: 'Does my prompt text leave the browser?',
+        answer:
+          'The estimator is designed as a browser-side utility. Still, avoid pasting private prompts, customer data, keys, or unreleased content into any convenience tool unless you are comfortable handling that data in the current browser session.',
+      },
     ],
     useCases: [
       'Quickly estimate whether a prompt is short, medium, or long before using a model.',
@@ -7632,11 +7677,23 @@ export const utilityTools: ToolDefinition[] = [
       'Explain why exact token counts need a provider tokenizer.',
     ],
     examples: [
-      { label: 'Short instruction', expression: 'Explain compound interest in plain language.', result: 'Rough token count' },
-      { label: 'System prompt', expression: 'Long assistant behavior instruction', result: 'Character-based estimate' },
-      { label: 'Blog task prompt', expression: 'Summarize and improve a draft', result: 'Low-high estimate range' },
+      {
+        label: 'Short instruction',
+        expression: '480 characters at 4 characters per token',
+        result: '120 estimated tokens, with a rough 96 to 160 range',
+      },
+      {
+        label: 'System prompt',
+        expression: '1,500 characters at 4 characters per token',
+        result: '375 estimated tokens, with a rough 300 to 500 range',
+      },
+      {
+        label: 'Long context prompt',
+        expression: '2,400 characters at 3.5 characters per token',
+        result: '686 estimated tokens, with a rough 480 to 800 range',
+      },
     ],
-    relatedSlugs: ['ai-token-cost-calculator', 'word-counter', 'text-summarizer'],
+    relatedSlugs: ['ai-token-cost-calculator', 'api-pricing-calculator', 'word-counter', 'text-summarizer'],
   }),
   makeUtilityTool({
     slug: 'api-pricing-calculator',

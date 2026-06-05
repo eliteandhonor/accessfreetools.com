@@ -7882,17 +7882,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'prompt-token-estimator',
     status: 'deep-reviewed',
-    batch: 'competitor-tech-ai-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-prompt-token-estimator-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
     sources: [openAiTokens, openAiTokenizer, googleHelpfulContent],
     findings: [
-      'The estimator is framed as a rough planning helper, not a replacement for the exact tokenizer of a chosen model.',
-      'Formula review checked character counting, average characters per token, and low/high estimate ranges for token uncertainty.',
-      'FAQ and guide warn about code, symbols, non-English text, emojis, hidden system messages, and provider-specific tokenization.',
+      'The estimator is framed as a rough planning helper, not a replacement for the exact tokenizer or usage logs of a chosen model.',
+      'Formula review checked Unicode-aware character counting, word counting, selected average characters per token, and the fixed low/high range based on character count divided by 5 and 3.',
+      'FAQ and guide warn about code, symbols, URLs, non-English text, emojis, hidden system messages, chat history, retrieved context, tool messages, and provider-specific tokenization.',
     ],
     improvements: [
-      'Added prompt text UI, rough range output, examples, source-backed guide, exact-tokenizer caveats, related AI cost pathway, and browser-only privacy wording.',
+      'Expanded the tool page with a stronger SEO title/meta description, exact estimate and range formula wording, field-level input explanations, six-plus practical FAQs, numeric examples, related AI cost and API pricing links, a 2026-06-05 modified date, and refreshed audit notes.',
     ],
     followUps: [
       'Add exact tokenizer support only when the chosen tokenizer package and model vocabulary size are tested for bundle impact.',
