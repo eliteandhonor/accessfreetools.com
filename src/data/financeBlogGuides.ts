@@ -791,6 +791,10 @@ const sourceLinks = {
     href: 'https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/',
     label: 'Bank of Canada: Policy interest rate',
   },
+  federalReserveH10: {
+    href: 'https://www.federalreserve.gov/releases/h10/current/',
+    label: 'Federal Reserve: Foreign exchange rates H.10',
+  },
   govUkMortgage: {
     href: 'https://www.gov.uk/algorithmic-transparency-records/money-and-pensions-service-mortgage-repayment-calculator',
     label: 'GOV.UK: Mortgage repayment calculator transparency record',
@@ -902,6 +906,10 @@ function getSourceLinks(toolSlug: string) {
       sourceLinks.investorGovCompoundCalculator,
       sourceLinks.consumerBudgetWorksheet,
     ];
+  }
+
+  if (toolSlug === 'currency-calculator') {
+    return [sourceLinks.federalReserveH10];
   }
 
   if (toolSlug === 'investment-calculator') {
@@ -2011,29 +2019,42 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Percent Off Calculator before tax when a sale price is involved.', 'Use Percentage Calculator to check rate math.', 'Use Auto Loan Calculator when vehicle price, tax, fees, and financing all matter.'],
   },
   'currency-calculator': {
-    summary: 'Learn how to convert currency with a manual exchange rate, optional fee, and clear conversion steps.',
+    summary: 'Learn how to convert currency with a manual exchange rate, optional provider fee, and target-per-source checks.',
     purpose:
-      'The Currency Calculator is for manual-rate conversions. It helps when you already have a rate from a bank, card, transfer service, or rate table and want to see the converted amount after an optional fee.',
+      'The Currency Calculator is for manual-rate conversions. It helps when you already have a rate from a bank, card, transfer service, cash desk, or rate table and want to see the converted amount before and after an optional percentage fee.',
     enter: [
-      'Enter the amount you want to convert.',
-      'Enter the exchange rate as target currency per 1 source currency.',
-      'Enter a fee percent only if your bank, card, or transfer service charges one.',
+      'Enter the amount you want to convert in the source currency, such as 500.',
+      'Enter the exchange rate as target currency per 1 source currency, such as 0.92 when 1 source unit buys 0.92 target units.',
+      'If your quote is written the other way around, invert it before entering the rate. A quote of 1 target unit = 0.80 source units becomes 1 / 0.80 = 1.25 target units per source unit.',
+      'Enter a fee percent only if your bank, card, cash exchange desk, or transfer service charges one. Type 2.5 for 2.5%, not 0.025.',
+      'Handle fixed transfer fees separately because this calculator only subtracts a percentage fee after conversion.',
     ],
     example: [
-      'If you convert 100 at a rate of 1.25, the before-fee result is 125 target units.',
-      'If a 2.5% fee applies, the calculator subtracts that percentage from the converted amount.',
+      'If you convert 100 at a rate of 1.25 with no fee, the before-fee and final result are both 125 target units.',
+      'If you convert 500 at a rate of 0.92, the before-fee result is 460 target units because 500 x 0.92 = 460.',
+      'With a 2.5% fee, the fee amount is 11.5 target units because 460 x 0.025 = 11.5.',
+      'The final after-fee result is 448.5 target units because 460 - 11.5 = 448.5.',
     ],
     read: [
-      'Converted amount is the final estimate after any fee.',
-      'Before fee shows the pure amount times rate calculation.',
-      'Fee amount shows how much the optional fee removed from the converted value.',
+      'Converted amount is the final estimate after any percentage fee.',
+      'Before fee shows the clean source amount times exchange rate calculation.',
+      'Fee amount shows how much the optional percentage fee removed from the converted value.',
+      'Rate used is the manual rate you entered, not a live bank, card, cash, or transfer-service quote fetched by the site.',
     ],
     mistakes: [
       'Do not use this as a live exchange-rate lookup.',
-      'Do not enter the inverse rate unless that is the rate you intend to use.',
-      'Do not forget that card networks, banks, and transfer services may use different rates.',
+      'Do not enter the inverse rate unless you have intentionally converted the quote direction.',
+      'Do not compare two providers unless you also compare spread, fixed fees, percentage fees, cash pickup fees, card fees, weekend markups, and rounding.',
+      'Do not assume a mid-market rate from a search result is the rate your provider will actually give you.',
+      'Do not use the result as an official tax, accounting, payroll, invoice, or customs exchange-rate record.',
+      'Do not forget that card networks, banks, cash desks, and transfer services may use different rates at different timestamps.',
     ],
-    next: ['Use Percentage Calculator if you need to compare fees.', 'Use Finance Calculator for general money projections.'],
+    next: [
+      'Use Percentage Calculator if you need to compare provider fee percentages.',
+      'Use Sales Tax Calculator when a purchase also needs local tax added after conversion.',
+      'Use Finance Calculator for general money projections that are not exchange-rate conversions.',
+      'Use the Currency Calculator again with the inverse rate only when you are converting in the opposite direction.',
+    ],
   },
   'mortgage-payoff-calculator': {
     summary: 'Learn how extra monthly principal or a one-time payment can shorten an early mortgage payoff estimate.',
@@ -4193,6 +4214,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const isIncomeTaxGuide = tool.slug === 'income-tax-calculator';
   const isMarriageTaxGuide = tool.slug === 'marriage-tax-calculator';
   const isInvestmentGuide = tool.slug === 'investment-calculator';
+  const isCurrencyGuide = tool.slug === 'currency-calculator';
 
   return {
     slug: `how-to-use-${tool.slug}`,
@@ -4295,6 +4317,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Marriage tax math is not about guessing whether marriage is good or bad. This guide shows the exact small comparison this tool makes: two single 2026 federal estimates versus one married filing jointly estimate.'
       : isInvestmentGuide
       ? 'An investment projection can look powerful, but it is still a what-if. This guide shows how starting money, monthly deposits, estimated return, and years turn into ending balance, contributions, and growth.'
+      : isCurrencyGuide
+      ? 'A currency conversion is only as good as the rate direction you enter. This guide shows how source amount, target-per-source exchange rate, and optional percentage fee turn into before-fee and after-fee results without pretending to fetch live market rates.'
       : `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
     quickStart: isMortgageGuide
       ? [
@@ -4672,6 +4696,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Enter an estimated annual return and the number of years.',
           'Calculate, then read ending balance, total contributions, estimated growth, and the warning notes together.',
         ]
+      : isCurrencyGuide
+      ? [
+          'Open the Currency Calculator.',
+          'Enter the source amount, such as 500.',
+          'Enter the exchange rate as target currency per 1 source currency, such as 0.92 if each source unit buys 0.92 target units.',
+          'Enter an exchange fee percent only if the provider charges it, such as 2.5 for 2.5%.',
+          'Calculate, then compare converted amount, before-fee amount, fee amount, and rate used before copying the estimate.',
+        ]
       : [
           `Open the ${tool.name}.`,
           detail.enter[0],
@@ -4749,6 +4781,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Use it when you want to see whether the numbers you enter create a rough federal marriage bonus, penalty, or no difference before you look at the bigger tax details.'
             : isInvestmentGuide
             ? 'Use it when you want to test a habit, like adding $250 a month, before deciding whether the goal needs more money, more time, or a lower-risk plan. It is projection math, not investment advice.'
+            : isCurrencyGuide
+            ? 'Use it before travel, a card purchase, a cash exchange, an international transfer, or a quick provider quote check. It is best when you already have the exact rate and fee you want to test.'
             : isFhaLoanGuide
             ? 'Use it before asking a lender for numbers, comparing FHA with a conventional mortgage, or seeing how much monthly MIP changes the payment. It is not an approval tool.'
             : isAdRevenueGuide
@@ -4829,6 +4863,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Marriage-tax comparisons get misleading when the two incomes, deductions, and credits are mashed together too early. Keep each single estimate separate, then compare it with the joint estimate.'
             : isInvestmentGuide
             ? 'Investment projections get misleading when a return guess is treated like a promise. Keep starting money, monthly deposits, estimated annual return, and years separate, then test a lower return before trusting the number.'
+            : isCurrencyGuide
+            ? 'Currency estimates break when the rate direction is flipped. Keep the source amount, target-per-source rate, percentage fee, and fixed fees separate so you can tell whether the rate or the fee moved the answer.'
             : isFhaLoanGuide
             ? 'FHA estimates are easy to undercount when upfront MIP, monthly MIP, tax, insurance, or county loan limits are left out. Keep those pieces separate before you compare the payment with another loan type.'
             : isSalesTaxGuide
@@ -4917,6 +4953,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               ? 'Try the starter example: an $18,000,000 estate with $500,000 in debts and expenses. The estate before exclusion is $17,500,000, the amount above the 2026 federal exclusion is $2,500,000, and the simplified estimate is $1,000,000.'
               : isInterestRateGuide
               ? 'Try the starter example: $25,000 principal, $483.32 per month, and 5 years. The estimate is about 6% annual interest, about 0.5% per month, about $28,999.20 total paid, and about $3,999.20 interest before any extra fees.'
+              : isCurrencyGuide
+              ? 'Try the starter example: 500 source units at a 0.92 exchange rate with a 2.5% fee. The before-fee result is 460 target units, the fee is 11.5 target units, and the final after-fee estimate is 448.5 target units.'
               : `Try the calculator example: ${primaryExampleText}. The example result is ${primaryExample.result}.`
             : 'Use one of the examples on the tool page to see a complete estimate before entering your own values.',
         ],
@@ -5000,6 +5038,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This is a screen, not a tax return. IRS Form 706 can involve detailed valuations, adjusted taxable gifts, credits, deductions, elections, portability, and supporting records that this page does not model.'
             : isInterestRateGuide
             ? 'The calculator is solving backward. It tests monthly rates until the fixed-payment formula matches the payment you entered, then multiplies the monthly rate by 12 to show an estimated nominal annual rate.'
+            : isCurrencyGuide
+            ? 'Start with the gross conversion: source amount times exchange rate. Then subtract any percentage fee from that converted value. If the quote is written as source currency per 1 target currency, invert the rate before using this page.'
             : 'If the estimate looks surprising, check the formula and inputs before using the answer in a budget, comparison, or planning note.',
         ],
       },
@@ -5074,6 +5114,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Start with the simplified federal estate tax estimate. Then check estate before exclusion, remaining basic exclusion, and amount above exclusion so you can see exactly where the number came from.'
             : isInterestRateGuide
             ? 'Start with the estimated annual rate, then check total interest and total paid. If those numbers look too high, the monthly payment may include fees, insurance, taxes, warranties, or add-ons.'
+            : isCurrencyGuide
+            ? 'Start with converted amount because that is the after-fee estimate. Then check before-fee amount, fee amount, and rate used so you can compare one provider quote with another without mixing rate spread and fee math.'
             : 'Start with the headline result. Then read the supporting lines to see what made the number larger or smaller, such as rates, time periods, costs, taxes, fees, discounts, or contributions.',
         ],
         bullets: detail.read,
@@ -5149,6 +5191,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'Most bad estate-tax estimates come from using a rough asset value, forgetting prior taxable gifts, treating spouse or charity transfers too casually, or acting like the calculator replaced Form 706.'
             : isInterestRateGuide
             ? 'Most bad rate estimates come from putting a fee-heavy payment into the calculator and then reading the answer like a clean loan rate. APR and written lender disclosures matter when fees are included.'
+            : isCurrencyGuide
+            ? 'Most bad currency estimates come from using a stale rate, flipping the rate direction, ignoring fixed transfer fees, comparing mid-market rates with provider buy/sell rates, or treating a planning estimate like an official exchange record.'
             : isCdGuide
             ? 'Most bad CD estimates come from mixing APY with a stated interest rate, using years when the page asks for term months, guessing penalty months, or forgetting renewal, grace-period, brokered-CD, callable-CD, insurance-limit, and tax details.'
             : isBondGuide
@@ -5212,6 +5256,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'A related tool can help when the estate-tax screen is only one part of the planning question, such as growth over time, income tax, or a wider finance scenario.'
             : isInterestRateGuide
             ? 'A related tool can help when the quote is missing a different piece. Use payment math when you know the rate, APR math when fees matter, or a full loan estimate when you want total interest.'
+            : isCurrencyGuide
+            ? 'A related tool can help when the exchange-rate estimate is only one part of the question, such as checking a provider fee percent, adding local tax after a converted purchase, or planning a wider money scenario.'
             : isStudentLoanGuide
             ? 'A related tool can help after the student-loan estimate. The next question is usually a plain fixed-loan payment, a fuller amortization schedule, or a general payoff test.'
             : isSocialSecurityGuide
@@ -5369,6 +5415,13 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
               { href: '/tools/apr-calculator/', label: 'Check fee-loaded APR math' },
               { href: '/tools/payment-calculator/', label: 'Run a plain payment check' },
             ]
+          : isCurrencyGuide
+          ? [
+              { href: '/tools/currency-calculator/', label: 'Open the Currency Calculator' },
+              { href: '/tools/percentage-calculator/', label: 'Compare provider fee percentages' },
+              { href: '/tools/sales-tax-calculator/', label: 'Add local tax after a purchase conversion' },
+              { href: '/tools/finance-calculator/', label: 'Run a broader money projection' },
+            ]
           : isStudentLoanGuide
           ? [
               { href: '/tools/student-loan-calculator/', label: 'Open the Student Loan Calculator' },
@@ -5478,6 +5531,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'IRS 2026 inflation-adjustment sources set the standard deductions and ordinary income bracket thresholds used here. IRS withholding sources, including Publication 15-T and Publication 505, are useful because tax owed, paycheck withholding, estimated tax, and refund size are different questions.'
             : isMarriageTaxGuide
             ? 'IRS 2026 inflation-adjustment sources set the standard deductions and ordinary bracket thresholds used here. IRS Publication 501 is useful because filing status rules matter before anyone treats a calculator result like a filing decision.'
+            : isCurrencyGuide
+            ? 'Federal Reserve H.10 exchange-rate data is useful context for public reference rates, but this calculator still depends on the exact provider rate and fee you enter. A bank, card network, cash desk, or transfer service can quote a different buy/sell rate, spread, markup, or timestamp.'
             : sourceLinks.length > 0
             ? 'This guide links to public financial, consumer, statistical, or tax references where they are useful for understanding the calculator context.'
             : 'This guide explains the calculator inputs, formula context, and estimate limits without treating the result as a final quote or professional recommendation.',
@@ -5547,6 +5602,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             ? 'This calculator still stays simple. It does not file a return, compare married filing separately, calculate state tax, payroll tax, capital gains, every credit, dependents, AMT, phaseouts, community-property rules, or benefit changes.'
             : isSocialSecurityGuide
             ? 'This calculator still stays simple. It does not sign in to SSA, rebuild your 35-year earnings history, check spouse or survivor benefits, model WEP or GPO, handle work earnings tests, price Medicare, calculate tax, or predict future COLA changes.'
+            : isCurrencyGuide
+            ? 'This calculator still stays simple. It does not fetch live rates, guarantee provider pricing, include fixed transfer fees unless you handle them separately, price ATM or cash pickup fees, choose tax/accounting exchange rates, or replace an official provider quote.'
             : 'Source links improve transparency, but they do not turn a quick calculator into professional advice or a final loan, tax, payroll, or investment answer.',
         ],
         links: sourceLinks,
@@ -5604,6 +5661,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Estate Tax Calculator open beside this guide. Try the $18,000,000 example first, then change only prior taxable gifts so you can see how the remaining exclusion moves.'
       : isInterestRateGuide
       ? 'Keep the Interest Rate Calculator open beside this guide. Try $25,000, $483.32/month, and 5 years first, then change only the payment so you can see how quickly the estimated rate moves.'
+      : isCurrencyGuide
+      ? 'Keep the Currency Calculator open beside this guide. Try 500 at 0.92 with a 2.5% fee first, then change only the rate or fee so you can see exactly what moved.'
       : isStudentLoanGuide
       ? 'Keep the Student Loan Calculator open beside this guide. Try $30,000 at 6.5% for 10 years first, then change only the extra monthly payment so you can see what actually moved.'
       : isCollegeCostGuide
