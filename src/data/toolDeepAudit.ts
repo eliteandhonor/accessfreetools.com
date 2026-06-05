@@ -2011,6 +2011,11 @@ const kidneyGfr = {
   label: 'National Kidney Foundation: CKD-EPI creatinine equation 2021',
 };
 
+const niddkAdultEgfr = {
+  href: 'https://www.niddk.nih.gov/research-funding/research-programs/kidney-clinical-research-epidemiology/laboratory/glomerular-filtration-rate-equations/adults',
+  label: 'NIDDK: eGFR equations for adults',
+};
+
 const bodySurfaceAreaNcbi = {
   href: 'https://www.ncbi.nlm.nih.gov/books/NBK559005/',
   label: 'NCBI Bookshelf: Body surface area formulas',
@@ -2984,7 +2989,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     batch: 'gsc-dataforseo-page-sprint-2026-06-05',
     reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [kidneyGfr, googleHelpfulContent],
+    sources: [kidneyGfr, niddkAdultEgfr, googleHelpfulContent],
     findings: [
       'DataForSEO paid evidence for the exact tool targeted `gfr calculator` intent, and Calculator.net competitor evidence showed formula/logic coverage and safety limits as the main topic gaps to strengthen.',
       'The calculator uses the 2021 CKD-EPI creatinine equation with age, sex used by the equation, and standardized serum creatinine in mg/dL, and explicitly does not use a race coefficient.',
@@ -2992,6 +2997,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     improvements: [
       'Added calculator-intent SEO title and description, eGFR, kidney-function, creatinine, CKD-EPI, 2021 CKD-EPI, and race-free aliases, exact CKD-EPI formula constants, four numeric examples, serum-creatinine unit guidance, race-coefficient FAQ language, children/pregnancy/transplant and acute-illness limits, lower-eGFR next-step guidance, corrected eGFR result unit spacing, refreshed audit notes, image-art alt/caption updates, and a 2026-06-05 modified date.',
+      'Expanded the matching guide with NKF and NIDDK source links, exact female and male CKD-EPI walkthroughs, no-race-coefficient language, mg/dL input cautions, low-eGFR follow-up context, medication-dose and emergency limits, and a 2026-06-05 guide modified date.',
     ],
     followUps: [
       'Add a creatinine-unit helper if the UI later supports umol/L entry for non-U.S. lab reports.',

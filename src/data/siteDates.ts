@@ -310,6 +310,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-pace-calculator': '2026-06-03',
   'how-to-use-fat-intake-calculator': '2026-06-05',
   'how-to-use-tdee-calculator': '2026-06-05',
+  'how-to-use-gfr-calculator': '2026-06-05',
   'how-to-use-body-surface-area-calculator': '2026-06-03',
   'how-to-use-body-type-calculator': '2026-06-03',
   'how-to-use-healthy-weight-calculator': '2026-06-03',

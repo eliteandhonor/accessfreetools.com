@@ -40,7 +40,7 @@ const extraSafetyNotes: Record<string, string> = {
   'bac-calculator':
     'BAC estimates are especially uncertain because food, medication, drinking speed, tolerance, and body composition can change real-world results. Never use a BAC estimate to decide whether to drive.',
   'gfr-calculator':
-    'eGFR depends on standardized lab creatinine and clinical context. A clinician may compare it with urine albumin, repeat labs, medications, age, and health history.',
+    'eGFR depends on standardized lab creatinine and clinical context. A clinician may compare it with urine albumin, repeat labs, symptoms, medications, age, pregnancy status, body size, and health history.',
   'pregnancy-calculator':
     'Pregnancy dating can change after ultrasound or clinician review. Treat calendar dates as planning estimates.',
   'due-date-calculator':
@@ -232,6 +232,7 @@ function getSourceLinks(toolSlug: string) {
   if (toolSlug === 'gfr-calculator') {
     return [
       { href: 'https://www.kidney.org/ckd-epi-creatinine-equation-2021-0', label: 'National Kidney Foundation: CKD-EPI creatinine equation 2021' },
+      { href: 'https://www.niddk.nih.gov/research-funding/research-programs/kidney-clinical-research-epidemiology/laboratory/glomerular-filtration-rate-equations/adults', label: 'NIDDK: eGFR equations for adults' },
     ];
   }
 
@@ -1046,30 +1047,36 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'gfr-calculator': {
-    summary: 'Learn what eGFR inputs mean and why kidney results need clinical context.',
+    summary: 'Learn how the GFR Calculator uses age, sex, and creatinine to estimate adult eGFR.',
     purpose:
-      'The GFR Calculator estimates adult eGFR from age, sex, and serum creatinine using the 2021 CKD-EPI creatinine equation.',
+      'The GFR Calculator estimates adult eGFR from age, sex used by the equation, and standardized serum creatinine in mg/dL using the 2021 CKD-EPI creatinine equation. It is useful for understanding a lab number, not for diagnosing kidney disease or deciding treatment.',
     enter: [
-      'Enter age and formula sex exactly as required by the equation.',
-      'Enter serum creatinine from a standardized lab result.',
-      'Use the creatinine unit shown by the tool and do not convert by guessing.',
+      'Enter age in years, not birth year or age range.',
+      'Choose the sex used by the equation, because the 2021 CKD-EPI constants differ by sex.',
+      'Enter standardized serum creatinine in mg/dL from a lab result. Do not type a micromoles-per-liter value, cystatin C, urine albumin, body weight, or an old creatinine result into that box.',
     ],
     example: [
-      'For a creatinine example, the calculator compares creatinine with the equation constant for the selected sex.',
-      'Age and sex factors then adjust the final eGFR estimate.',
+      'For a 50-year-old using the female equation with creatinine 0.9 mg/dL, the tool uses k = 0.7, alpha = -0.241, the 1.012 female multiplier, and age factor 0.9938^50. The result is about 77.88 mL/min/1.73 m2.',
+      'For a 60-year-old using the male equation with creatinine 1.1 mg/dL, the tool uses k = 0.9, alpha = -0.302, no female multiplier, and age factor 0.9938^60. The result is about 76.85 mL/min/1.73 m2.',
+      'For a 70-year-old using the female equation with creatinine 1.2 mg/dL, the estimate is about 48.7 mL/min/1.73 m2, which is a reason to check the real lab report with a clinician rather than self-diagnose from the calculator.',
+      'No race coefficient is used in these examples.',
     ],
     read: [
-      'eGFR is reported as mL/min/1.73 m2.',
-      'A clinician may compare eGFR with urine albumin, repeat labs, medications, and health history.',
+      'Read eGFR as an adult kidney-filtration estimate in mL/min/1.73 m2, not as an exact measured filtration test.',
+      'One result does not diagnose chronic kidney disease. Clinicians often look for repeated low eGFR, urine albumin, symptoms, diabetes, blood pressure, medications, imaging, and acute-illness context.',
+      'The estimate can be less reliable for children, pregnancy, transplant care, dialysis, acute kidney injury, very high or low muscle mass, amputation, severe illness, or medication-dosing decisions.',
     ],
     mistakes: [
-      'Do not use eGFR to diagnose yourself from one calculator result.',
-      'Do not enter non-standard or old lab values without checking units.',
-      'Do not use this for children or pregnancy without clinician guidance.',
+      'Do not enter creatinine in micromoles per liter unless the value has been converted to mg/dL by a reliable source.',
+      'Do not compare an old lab from a different illness, lab method, or hydration state as if it were today\'s kidney function.',
+      'Do not use the result to start, stop, or dose medication.',
+      'Do not use this adult creatinine equation as a child, pregnancy, transplant, emergency, or dialysis decision tool.',
+      'Do not ignore symptoms, abnormal urine tests, or clinician instructions because one calculator result looks reassuring.',
     ],
     next: [
-      'Bring lab questions to a qualified clinician.',
+      'Bring the actual lab report, date, creatinine unit, eGFR line, and urine albumin result if available to a qualified clinician.',
       'Use Body Surface Area Calculator only as a separate educational reference.',
+      'Use BMI Calculator or Healthy Weight Calculator only for separate adult weight-screening context, not kidney diagnosis.',
     ],
   },
   'body-type-calculator': {
