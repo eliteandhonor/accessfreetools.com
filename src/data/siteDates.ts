@@ -146,6 +146,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'cooking-measurement-converter': '2026-06-05',
   'ingredient-cost-calculator': '2026-06-05',
   'unit-price-calculator': '2026-06-05',
+  'cost-per-serving-calculator': '2026-06-05',
   'asphalt-calculator': '2026-05-31',
   'board-foot-calculator': '2026-05-31',
   'height-calculator': '2026-05-26',

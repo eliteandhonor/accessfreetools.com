@@ -446,6 +446,11 @@ const dishCostIngredientCost = {
   label: 'DishCost: ingredient cost calculator reference',
 };
 
+const dishCostCostPerServing = {
+  href: 'https://dishcost.com/tools/cost-per-serving-calculator',
+  label: 'DishCost: cost per serving calculator reference',
+};
+
 const calcipediaUnitPrice = {
   href: 'https://www.calcipedia.org/calculators/unit-price-calculator/',
   label: 'Calcipedia: unit price calculator reference',
@@ -8126,17 +8131,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'cost-per-serving-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-cost-per-serving-calculator-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [inchCalculatorSitemap, googleHelpfulContent],
+    sources: [dishCostCostPerServing, googleHelpfulContent],
     findings: [
-      'Cost per serving adds a simple but high-use food budgeting tool that connects recipe costs to meal-prep decisions.',
-      'Formula review checked main cost, extra cost, servings, total batch cost, and cost per serving.',
-      'FAQ and guide explain realistic serving counts, optional extras, package costs, and why portion size changes the answer.',
+      'DishCost competitor-gap evidence confirmed recipe cost, food cost per serving, menu pricing, packaging, labor, overhead, and FAQ-depth topics as useful coverage areas to handle in original wording.',
+      'Formula review checked cost per serving as main cost plus extra cost divided by servings, with total batch cost and extra cost kept visible in the result.',
+      'FAQ coverage explains realistic serving counts, main cost, optional packaging/labor/overhead, selling-price limits, uneven portions, ingredient-cost differences, unit-price differences, and why serving count changes the answer.',
     ],
     improvements: [
-      'Added serving-cost UI, examples, guide details, detailed FAQ, related kitchen shopping links, and formula tests.',
+      'Expanded the tool page with a calculator-intent SEO title/meta description, exact formula wording, field-level explanations, food-cost aliases, extra FAQs, examples for soup, meal prep, bake sale cupcakes, and family dinner with expected per-serving costs, related kitchen shopping links, refreshed audit notes, and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Add target selling-price support later if the site builds a small-business or bake-sale cluster.',

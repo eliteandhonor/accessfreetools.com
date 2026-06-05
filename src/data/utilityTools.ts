@@ -8456,16 +8456,32 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Split a recipe, meal prep, or food batch cost across the number of servings.',
     description:
       'Use this free cost per serving calculator to divide a total recipe or food batch cost by servings and include optional extra costs.',
+    seoTitle: 'Cost Per Serving Calculator | Recipe and Meal Cost',
+    seoDescription:
+      'Divide a recipe, meal prep batch, or bake sale cost by servings. Add packaging, toppings, or other extras and see cost per serving fast.',
     icon: 'tool-serving-cost',
-    aliases: ['Serving Cost Calculator', 'Meal Cost Calculator', 'Cost Per Portion Calculator'],
+    aliases: [
+      'Serving Cost Calculator',
+      'Meal Cost Calculator',
+      'Cost Per Portion Calculator',
+      'Recipe Cost Per Serving Calculator',
+      'Food Cost Per Serving Calculator',
+      'Meal Prep Cost Calculator',
+      'Bake Sale Cost Calculator',
+      'Cost Per Plate Calculator',
+    ],
     formula:
-      'The calculator adds main cost and extra cost, then divides total batch cost by servings.',
+      'Cost per serving = (main cost + extra cost) / servings. The calculator also keeps total batch cost and extra cost visible so you can see what was included before dividing.',
     limit:
-      'The answer is only as accurate as the total cost and serving count. Big portions, waste, leftovers, and different appetites can change real cost per person.',
+      'The answer is a planning estimate. It does not prove menu profit because it leaves out uneven portions, trim waste, leftovers, spoiled food, taxes, tips, labor, rent, utilities, payment fees, and the value of your time unless you include them in extra cost.',
     inputExplanations: [
-      { term: 'Main cost', meaning: 'The recipe, meal, or batch cost before optional extras.' },
-      { term: 'Extra cost', meaning: 'Optional packaging, topping, delivery fee, or side cost to include.' },
-      { term: 'Servings', meaning: 'How many portions the batch actually makes.' },
+      { term: 'Main cost', meaning: 'The recipe, meal, or batch cost before optional extras, usually the total ingredient cost.' },
+      {
+        term: 'Extra cost',
+        meaning:
+          'Optional packaging, toppings, sides, delivery fees, payment fees, estimated overhead, or labor cost you want included before dividing.',
+      },
+      { term: 'Servings', meaning: 'How many same-size portions the batch actually makes after cooking, cooling, cutting, or packing.' },
     ],
     extraFaq: [
       {
@@ -8474,9 +8490,39 @@ export const utilityTools: ToolDefinition[] = [
           'A serving is the portion size you choose to count. For meal prep, it might be one container. For a cake, it might be one slice. Keep the serving size realistic or the answer will be misleading.',
       },
       {
+        question: 'What should I enter as main cost?',
+        answer:
+          'Enter the total cost of the food batch before optional extras. If you already used the Ingredient Cost Calculator, add those ingredient costs together and use that total here.',
+      },
+      {
+        question: 'Should I include packaging, labor, or overhead?',
+        answer:
+          'Include them only if you want the per-serving result to reflect those costs. For home meal prep, you may leave extra cost at zero. For selling food, packaging, labels, kitchen time, rent, utilities, and payment fees can matter.',
+      },
+      {
+        question: 'Can I use this for pricing food I sell?',
+        answer:
+          'Use it as a cost starting point, not a final selling price. A real selling price also needs profit margin, unsold items, taxes, platform fees, labor, and local rules.',
+      },
+      {
+        question: 'What if servings are not equal?',
+        answer:
+          'The calculator assumes equal servings. If one container is much larger than another, weigh or portion the batch first, or treat the result as an average cost per serving.',
+      },
+      {
         question: 'Is this the same as ingredient cost?',
         answer:
           'No. Ingredient cost estimates one ingredient or a list you total yourself. Cost per serving takes the final batch total and spreads it across servings.',
+      },
+      {
+        question: 'How is this different from unit price?',
+        answer:
+          'Unit price compares packages by a shared unit such as ounces, pounds, rolls, or tablets. Cost per serving divides a finished recipe, meal, or batch by the portions you plan to serve.',
+      },
+      {
+        question: 'Why did my cost per serving change so much?',
+        answer:
+          'Small serving-count changes can move the result a lot. A $24 batch is $4 per serving at 6 servings, but $3 per serving at 8 servings, so realistic portions matter.',
       },
     ],
     useCases: [
@@ -8484,13 +8530,17 @@ export const utilityTools: ToolDefinition[] = [
       'Estimate bake sale cost before choosing a selling price.',
       'Compare homemade meals with takeout or store-bought food.',
       'Add packaging or topping costs before dividing by servings.',
+      'Turn a total recipe cost into a quick per-plate estimate.',
+      'Check whether a bigger batch actually lowers the per-serving cost.',
+      'Explain food budgeting math to students, families, or small sellers.',
     ],
     examples: [
-      { label: 'Soup batch', expression: '$18.50 ingredients + $2 extras, 8 servings', result: '$2.56 per serving' },
-      { label: 'Meal prep', expression: '$42 total, 10 servings', result: '$4.20 per serving' },
-      { label: 'Bake sale', expression: '$19 total, 24 cupcakes', result: 'Cost per cupcake' },
+      { label: 'Soup batch', expression: '$18.50 ingredients + $2.00 extras, 8 servings', result: '$2.56 per serving from a $20.50 batch.' },
+      { label: 'Meal prep', expression: '$42.00 main cost, 10 servings', result: '$4.20 per serving before containers or sauces.' },
+      { label: 'Bake sale cupcakes', expression: '$15.75 ingredients + $3.25 boxes, 24 cupcakes', result: 'About $0.79 per cupcake before your selling margin.' },
+      { label: 'Family dinner', expression: '$31.20 total, 6 plates', result: '$5.20 per plate if portions are equal.' },
     ],
-    relatedSlugs: ['ingredient-cost-calculator', 'recipe-scaler', 'unit-price-calculator'],
+    relatedSlugs: ['ingredient-cost-calculator', 'recipe-scaler', 'unit-price-calculator', 'discount-calculator'],
   }),
   makeUtilityTool({
     slug: 'oven-temperature-converter',
