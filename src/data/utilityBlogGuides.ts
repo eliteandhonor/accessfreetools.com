@@ -6275,9 +6275,22 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'internet-speed-needs-calculator': {
+    title: 'Internet Speed Needs Calculator Guide',
     summary: 'Learn how simultaneous streaming, gaming, calls, smart devices, and buffer produce a rough Mbps plan.',
+    metaDescription:
+      'Use the Internet Speed Needs Calculator guide to estimate household Mbps from simultaneous streams, gaming, video calls, smart devices, and buffer percent.',
     purpose:
       'The Internet Speed Needs Calculator estimates a household or workspace download-speed target by adding the activities that may happen at the same time, then adding a buffer.',
+    intro:
+      'It is most useful before comparing internet plans, moving homes, setting up a shared workspace, or trying to explain why the same plan can feel fine one night and crowded the next.',
+    inputMatch:
+      'the video streams, Mbps per stream, gaming devices, Mbps per gaming device, video calls, Mbps per call, smart devices, Mbps per smart device, and buffer percent you want to test',
+    logicNote:
+      'Base Mbps = video load + gaming load + call load + smart-device load. Recommended Mbps = base Mbps * (1 + buffer percent / 100). A small household example with 1 HD stream, 1 gamer, 1 call, 4 smart devices, and 25% buffer returns 23.75 Mbps.',
+    readIntro:
+      'Read recommended download speed first, then compare the base activity need and the activity-load metrics. Those smaller numbers show whether streaming, calls, gaming, or background devices are driving the estimate.',
+    mistakeIntro:
+      'Most bad plan estimates come from ignoring simultaneous use, upload speed, Wi-Fi coverage, latency, or data caps. Mbps is the size of the pipe, not a guarantee that every room and every app will feel good.',
     enter: [
       'Enter how many video streams, gaming devices, video calls, and smart devices may run at once.',
       'Adjust Mbps per activity if your use is lighter or heavier than the example.',
@@ -6292,7 +6305,39 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not treat Mbps as the only quality measure.',
       'Do not ignore upload speed for video calls, uploads, cloud backup, and live streaming.',
       'Do not blame the internet plan before checking Wi-Fi signal, router age, latency, jitter, and packet loss.',
+      'Do not treat a fast Mbps estimate as a monthly data-cap estimate. A fast plan can still run out of included data.',
+      'Do not compare plans only by the advertised download number if the upload speed is much lower.',
     ],
+    extraSections: [
+      {
+        title: 'Example: a small household',
+        paragraphs: [
+          'Say one HD stream uses 8 Mbps, one gaming device uses 5 Mbps, one video call uses 4 Mbps, and four smart devices use 0.5 Mbps each. The base need is 19 Mbps. With a 25% buffer, the recommended speed is 23.75 Mbps.',
+          'That does not mean a 25 Mbps plan will always feel perfect. Weak Wi-Fi, high latency, provider congestion, or a low upload speed can still make calls or games feel rough.',
+        ],
+      },
+      {
+        title: 'Examples for busier homes',
+        paragraphs: [
+          'A 4K evening with three 25 Mbps streams, one gaming device, eight smart devices, and a 30% buffer estimates 109.2 Mbps. A work-from-home setup with one HD stream, three video calls, six smart devices, and a 35% buffer estimates 31.05 Mbps.',
+          'Use those as planning examples, not universal rules. If your streaming quality, call platform, camera resolution, router, or plan upload speed is different, adjust the per-activity Mbps before comparing plans.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'Speed need, download time, bandwidth conversion, and streaming data use are connected but different questions. Use the neighboring tools when the next question is about file time or bitrate data use instead of plan size.',
+        ],
+        links: [
+          { href: '/tools/internet-speed-needs-calculator/', label: 'Open the Internet Speed Needs Calculator' },
+          { href: '/tools/download-time-calculator/', label: 'Estimate a download time' },
+          { href: '/tools/bandwidth-calculator/', label: 'Compare bandwidth and transfer units' },
+          { href: '/tools/streaming-bitrate-calculator/', label: 'Estimate streaming bitrate data use' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Internet Speed Needs Calculator beside this guide. Try the small household example first, then replace the activity counts, per-device Mbps values, and buffer percent with your own peak-use moment.',
     sources: [sourceLinks.nistUnits],
   },
   'streaming-bitrate-calculator': {
