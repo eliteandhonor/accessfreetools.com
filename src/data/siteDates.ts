@@ -125,6 +125,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'pregnancy-weight-gain-calculator': '2026-06-04',
   'fat-intake-calculator': '2026-06-05',
   'tdee-calculator': '2026-06-05',
+  'gfr-calculator': '2026-06-05',
   'volume-calculator': '2026-06-02',
   'mileage-calculator': '2026-05-31',
   'base64-encode-decode': '2026-06-04',

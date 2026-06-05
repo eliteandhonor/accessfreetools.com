@@ -1523,17 +1523,19 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       return {
         label: 'eGFR estimate',
         expression: `${sex}, age ${formatCalculatorNumber(age)}, creatinine ${formatCalculatorNumber(creatinine)} mg/dL`,
-        answer: `${formatCalculatorNumber(result.egfr)} mL/min/1.73m2`,
+        answer: `${formatCalculatorNumber(result.egfr)} mL/min/1.73 m2`,
         metrics: [
           { label: 'Interpretation range', value: result.note },
           { label: 'Equation', value: 'CKD-EPI 2021 creatinine' },
           { label: 'Race coefficient', value: 'Not used' },
         ],
         steps: [
-          'Use age, sex, and standardized serum creatinine.',
+          'Use age, sex used by the equation, and standardized serum creatinine in mg/dL.',
           'Apply the 2021 CKD-EPI creatinine equation.',
           'Interpret eGFR with urine tests, history, and clinician guidance.',
         ],
+        note:
+          'This is an adult education estimate, not a diagnosis, medication dose, transplant, pregnancy, pediatric, or emergency-care decision.',
       };
     }
     case 'body-type': {

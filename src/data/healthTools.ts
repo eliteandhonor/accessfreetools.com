@@ -28,6 +28,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isBodySurfaceAreaCalculator = spec.slug === 'body-surface-area-calculator';
   const isFatIntakeCalculator = spec.slug === 'fat-intake-calculator';
   const isTdeeCalculator = spec.slug === 'tdee-calculator';
+  const isGfrCalculator = spec.slug === 'gfr-calculator';
   const isPregnancyCalculator = spec.slug === 'pregnancy-calculator';
   const isPregnancyConceptionCalculator = spec.slug === 'pregnancy-conception-calculator';
   const isConceptionCalculator = spec.slug === 'conception-calculator';
@@ -50,6 +51,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter the calorie target first, then enter the percent of those calories planned from fat. Type 30 for 30%, not 0.30. The calculator assumes dietary fat has 9 calories per gram and uses the calorie target you provide.'
     : isTdeeCalculator
       ? 'Enter the formula sex setting, age, height in centimeters, weight in kilograms, and the activity level that best describes a normal week. The formula sex setting chooses the +5 or -161 Mifflin-St Jeor adjustment. The activity level multiplies BMR by a broad factor, so pick the average week rather than your best workout day.'
+    : isGfrCalculator
+      ? 'Enter age in years, sex used by the equation, and standardized serum creatinine in mg/dL from a lab result. Do not enter micromoles per liter, old lab values, cystatin C, urine albumin, or body weight in the creatinine box.'
     : isPregnancyCalculator
       ? 'Enter the first day of the last menstrual period, not the last day bleeding occurred. Cycle length means the usual number of days from one period start to the next; use 28 only if that is close for you. If the LMP is uncertain, cycles are irregular, bleeding may not have been a true period, or a clinician has already dated the pregnancy, use the clinician or ultrasound date instead.'
     : isPregnancyConceptionCalculator
@@ -77,6 +80,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the answer as total dietary fat grams for the calorie target and percent you entered. It does not judge food quality, split saturated versus unsaturated fat, set a medical nutrition plan, or tell you anything about body-fat percentage.'
     : isTdeeCalculator
       ? 'Read TDEE as estimated maintenance calories per day for the inputs and activity factor you chose. It is not a promised weight-change number, medical diet order, pregnancy plan, eating-disorder recovery plan, or exact metabolism measurement. Real-world trends can move the useful target up or down.'
+    : isGfrCalculator
+      ? 'Read eGFR as an adult kidney-filtration estimate in mL/min/1.73 m2. The range label is context only. Kidney disease, medication dosing, and next steps depend on repeat labs, urine albumin, symptoms, diagnosis, age, pregnancy status, body size, and clinician review.'
     : isPregnancyCalculator
       ? 'Read the due date as an estimated delivery date from calendar math, not a guarantee of when birth will happen. Gestational age is counted from LMP, so it is usually about two weeks more than conception age. The conception and trimester lines are planning references, and an early ultrasound or clinician review can update the official date.'
     : isPregnancyConceptionCalculator
@@ -1149,12 +1154,25 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'gfr-calculator',
     name: 'GFR Calculator',
-    summary: 'Estimate eGFR with the 2021 CKD-EPI creatinine equation.',
+    summary: 'Estimate adult eGFR from serum creatinine with the 2021 CKD-EPI race-free equation.',
     description:
-      'Use this free GFR calculator to estimate adult eGFR from age, sex, and serum creatinine using the 2021 CKD-EPI equation.',
+      'Use this free GFR calculator to estimate adult eGFR from age, sex used by the equation, and standardized serum creatinine in mg/dL with the 2021 CKD-EPI creatinine equation.',
+    seoTitle: 'GFR Calculator | 2021 CKD-EPI eGFR Estimate',
+    seoDescription:
+      'Estimate adult eGFR from age, sex used by the equation, and serum creatinine in mg/dL with the race-free 2021 CKD-EPI creatinine formula.',
+    aliases: [
+      'eGFR Calculator',
+      'Kidney Function Calculator',
+      'Creatinine GFR Calculator',
+      'CKD-EPI Calculator',
+      '2021 CKD-EPI Calculator',
+      'Race-Free GFR Calculator',
+    ],
     icon: 'calculator-gfr',
-    formula: 'The calculator uses the 2021 CKD-EPI creatinine equation with age, sex, and serum creatinine. It does not use a race coefficient.',
-    caution: estimateCaution,
+    formula:
+      'eGFR = 142 x min(Scr/k, 1)^alpha x max(Scr/k, 1)^-1.200 x 0.9938^age x sex factor. Scr is standardized serum creatinine in mg/dL. For this calculator, k is 0.7 and alpha is -0.241 for the female equation, k is 0.9 and alpha is -0.302 for the male equation, and the female equation uses a 1.012 multiplier. No race coefficient is used.',
+    caution:
+      'This educational eGFR estimate is not a kidney disease diagnosis, lab report, medication dosing instruction, transplant, pregnancy, pediatric, or emergency-care tool. Confirm kidney results with a clinician, especially if symptoms, abnormal urine tests, repeat low eGFR, diabetes, high blood pressure, medication changes, or acute illness are involved.',
     useCases: [
       'Estimate adult eGFR from a creatinine lab value.',
       'Use the 2021 CKD-EPI race-free equation.',
@@ -1162,9 +1180,42 @@ export const healthTools: ToolDefinition[] = [
       'Prepare questions for a clinician about kidney labs.',
     ],
     examples: [
-      { label: 'Female 50', expression: 'Creatinine 0.9 mg/dL', result: 'eGFR estimate' },
-      { label: 'Male 60', expression: 'Creatinine 1.1 mg/dL', result: 'eGFR estimate' },
-      { label: 'Female 70', expression: 'Creatinine 1.2 mg/dL', result: 'eGFR estimate' },
+      { label: 'Female 50', expression: 'Creatinine 0.9 mg/dL', result: 'About 77.88 mL/min/1.73 m2' },
+      { label: 'Male 60', expression: 'Creatinine 1.1 mg/dL', result: 'About 76.85 mL/min/1.73 m2' },
+      { label: 'Female 70', expression: 'Creatinine 1.2 mg/dL', result: 'About 48.7 mL/min/1.73 m2' },
+      { label: 'Male 45', expression: 'Creatinine 1.4 mg/dL', result: 'About 63.17 mL/min/1.73 m2' },
+    ],
+    extraFaq: [
+      {
+        question: 'What equation does this GFR calculator use?',
+        answer:
+          'It uses the 2021 CKD-EPI creatinine equation for adults. The inputs are age, sex used by the equation, and standardized serum creatinine in mg/dL. It does not use cystatin C, urine albumin, race, height, weight, or body surface area entered by the user.',
+      },
+      {
+        question: 'Does this eGFR calculator use a race coefficient?',
+        answer:
+          'No. This page uses the 2021 CKD-EPI creatinine equation without a race coefficient, matching the current race-free formula structure published for adult creatinine-based eGFR reporting.',
+      },
+      {
+        question: 'Why does serum creatinine need to be in mg/dL?',
+        answer:
+          'The equation on this page expects standardized serum creatinine in mg/dL. Some lab reports use micromoles per liter. Do not type a value from a different unit system unless the lab report or a clinician gives the mg/dL value.',
+      },
+      {
+        question: 'Does one eGFR result diagnose kidney disease?',
+        answer:
+          'No. A single estimate is not a diagnosis. Kidney disease assessment can depend on repeat eGFR, urine albumin, blood pressure, diabetes, medications, imaging, symptoms, acute illness, and clinician judgment.',
+      },
+      {
+        question: 'Can children, pregnant people, or transplant patients use this calculator?',
+        answer:
+          'Not as a decision tool. Pediatric, pregnancy, transplant, acute kidney injury, dialysis, amputation, unusually high or low muscle mass, and severe illness situations can need different clinical interpretation or formulas.',
+      },
+      {
+        question: 'What should I do if the eGFR looks low?',
+        answer:
+          'Do not panic from one calculator result. Check that age, sex, creatinine unit, and lab value were entered correctly, then discuss the lab report with a clinician, especially if the result is new, repeated, or paired with symptoms or abnormal urine tests.',
+      },
     ],
     relatedSlugs: ['body-surface-area-calculator', 'bmi-calculator', 'healthy-weight-calculator'],
   }),

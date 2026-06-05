@@ -105,6 +105,18 @@ const toolArtMetadataOverrides = {
         'Body Type Calculator guide artwork supports the walkthrough for top measurement, hip difference, waist definition, exact example outcomes, and style-only body-shape limits.',
     },
   },
+  'gfr-calculator': {
+    tool: {
+      alt: 'Smoke mascot checking a kidney lab card with age, sex, serum creatinine, CKD-EPI equation notes, and eGFR range context.',
+      caption:
+        'GFR Calculator artwork matches the live workflow: enter age, sex used by the equation, and serum creatinine in mg/dL, then read the 2021 CKD-EPI eGFR estimate with clinician-context limits.',
+    },
+    guide: {
+      alt: 'Guide image for GFR Calculator showing a kidney lab walkthrough with serum creatinine, 2021 CKD-EPI eGFR math, and clinician follow-up notes.',
+      caption:
+        'GFR Calculator guide artwork sits with the walkthrough for age, sex used by the equation, creatinine in mg/dL, eGFR range context, unit mistakes, and medical follow-up limits.',
+    },
+  },
   'bandwidth-calculator': {
     tool: {
       alt: 'Smoke mascot timing a 5 GB file transfer at 100 Mbps with 400 seconds, 6 minutes 40 seconds, bits versus bytes, and Wi-Fi slowdown cards.',
