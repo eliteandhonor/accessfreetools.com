@@ -6632,25 +6632,77 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'cooking-measurement-converter': {
-    summary: 'Learn why cooking unit conversion is simple for similar units and trickier for cups-to-grams.',
+    title: 'Cooking Measurement Converter Guide',
+    summary: 'Learn how to convert recipe cups, tablespoons, milliliters, grams, ounces, and pounds.',
+    metaDescription:
+      'Use the Cooking Measurement Converter guide to convert cups, tablespoons, milliliters, grams, ounces, and pounds with density notes.',
     purpose:
-      'The Cooking Measurement Converter handles common recipe units. It uses fixed factors when both units measure volume or both measure weight, and it uses ingredient density when crossing between volume and weight.',
+      'The Cooking Measurement Converter handles common recipe units for cooking and baking. It uses fixed factors when both units measure volume or both units measure weight, and it uses ingredient density when a conversion crosses between volume and weight.',
+    intro:
+      'Use it when a recipe says cups but your scale shows grams, when a package lists ounces but your recipe uses grams, or when you need to translate tablespoons and milliliters without doing the unit math by hand.',
+    inputMatch:
+      'the amount, from unit, to unit, and density grams per cup fields. Leave the density alone for volume-to-volume or weight-to-weight conversions, and change it only when one side is volume and the other side is weight.',
+    logicNote:
+      'For volume-only conversions, the guide routes through US cups: 1 cup is 16 tablespoons, 48 teaspoons, 8 fluid ounces, or 236.5882365 mL. For weight-only conversions, it routes through grams: 1 ounce is 28.349523125 g and 1 pound is 453.59237 g. For cups-to-grams style answers, it first turns the volume into cups, then multiplies by density grams per cup.',
+    readIntro:
+      'Read the converted amount first, then check whether the answer used fixed unit factors or a density estimate. If density was used, treat the number as a recipe estimate instead of a lab measurement.',
     enter: [
-      'Enter the amount and choose the starting unit.',
-      'Choose the unit you want to convert to.',
-      'Enter grams per cup when converting between volume and weight.',
+      'Enter the amount from the recipe, label, or measuring tool.',
+      'Choose the starting unit, such as cups, tablespoons, milliliters, grams, ounces, or pounds.',
+      'Choose the unit you want as the answer.',
+      'Enter grams per cup only when converting between volume and weight.',
     ],
     read: [
       'The main answer is the converted amount in the new unit.',
       'Input type and output type show whether the conversion used volume, weight, or both.',
-      'Density used matters only when cups, tablespoons, or mL are converted to grams, ounces, pounds, or the reverse.',
+      'Density used matters only when cups, tablespoons, fluid ounces, mL, or liters are converted to grams, ounces, pounds, or the reverse.',
+      'Fixed volume conversions such as tablespoons to mL do not change when density changes.',
+      'Fixed weight conversions such as ounces to grams do not change when density changes.',
     ],
     mistakes: [
       'Do not use one cups-to-grams number for every ingredient.',
       'Do not treat scooped, packed, sifted, chopped, and liquid ingredients as identical.',
+      'Do not confuse fluid ounces, which measure volume, with ounces by weight.',
+      'Do not copy a density value without checking whether the ingredient was packed, sifted, melted, chopped, or level.',
       'Use a kitchen scale when exact baking measurements matter.',
     ],
-    sources: [sourceLinks.nistUnits, sourceLinks.usdaFoodDataCentral],
+    extraSections: [
+      {
+        title: 'Example: 2 cups of flour to grams',
+        paragraphs: [
+          'If your flour estimate is 120 grams per US cup, 2 cups becomes 2 x 120 = 240 grams. The converter returns 240 g because this is a volume-to-weight conversion.',
+          'If you change the density to 130 grams per cup, the same 2 cups becomes 260 grams. That difference is the point: cups measure space, while grams measure weight, so the ingredient and measuring style matter.',
+        ],
+        links: [{ href: '/tools/cooking-measurement-converter/', label: 'Try 2 cups at 120 g per cup' }],
+      },
+      {
+        title: 'Example: 500 mL to cups and 3 tablespoons to mL',
+        paragraphs: [
+          'A 500 mL liquid amount is about 2.1134 US cups because the converter divides by 236.5882365 mL per cup. Density does not matter because both sides are volume units.',
+          'Three US tablespoons is 3/16 of a cup, which is about 44.3603 mL. This is useful for small liquid, extract, spice, or sauce amounts when a recipe mixes spoon and metric units.',
+        ],
+        links: [{ href: '/tools/oven-temperature-converter/', label: 'Convert the oven setting too' }],
+      },
+      {
+        title: 'How to choose density grams per cup',
+        paragraphs: [
+          'Use the most specific density you can find for the ingredient and preparation style. A level cup of flour, a packed cup of brown sugar, a chopped cup of nuts, and a cup of water should not share one number.',
+          'A package label, a trusted ingredient database, or your own weighed cup can give a better estimate. If the recipe is important, write down the density you used so you can repeat the result next time.',
+        ],
+        links: [{ href: '/tools/ingredient-cost-calculator/', label: 'Use density when pricing an ingredient' }],
+      },
+      {
+        title: 'When a kitchen scale is safer',
+        paragraphs: [
+          'Use the converter for planning, shopping, quick recipe translation, and rough batch checks. Use a scale when the recipe depends on texture, hydration, nutrition labels, selling food, or repeating the same bake accurately.',
+          'The converter can make a clear estimate, but it cannot know whether your cup was fluffed, scooped, sifted, packed, rounded, melted, or chopped. That measuring detail is often bigger than the calculator rounding.',
+        ],
+        links: [{ href: '/tools/recipe-scaler/', label: 'Scale the full recipe after converting units' }],
+      },
+    ],
+    sidecarText:
+      'Open the Cooking Measurement Converter beside this guide. Try 2 cups to grams at 120 g per cup, then change the density and notice why ingredient-specific cups-to-grams estimates move.',
+    sources: [sourceLinks.nistUnits, sourceLinks.usdaFoodDataCentral, sourceLinks.googleHelpfulContent],
   },
   'ingredient-cost-calculator': {
     summary: 'Learn how package price and recipe amount become a realistic ingredient cost estimate.',
