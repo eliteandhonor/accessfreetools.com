@@ -6407,13 +6407,26 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'device-battery-life-calculator': {
+    title: 'Device Battery Life Calculator Guide',
     summary: 'Learn how mAh, voltage, watts, and efficiency estimate battery runtime.',
+    metaDescription:
+      'Use the Device Battery Life Calculator guide to estimate battery runtime from mAh, voltage, device watts, efficiency loss, watt-hours, and usable Wh.',
     purpose:
       'The Device Battery Life Calculator converts battery capacity into watt-hours, applies a realistic efficiency loss, and divides by device power draw to estimate runtime.',
+    intro:
+      'It is useful before choosing a USB power bank, planning an off-grid device, checking a small camera setup, or comparing batteries that advertise capacity in different units.',
+    inputMatch:
+      'the battery capacity in mAh, nominal battery voltage, average device watts, and efficiency percent you want to test',
+    logicNote:
+      'Watt-hours = (mAh / 1,000) * volts. Usable watt-hours = watt-hours * efficiency / 100. Runtime hours = usable watt-hours / device watts. Runtime minutes = runtime hours * 60. A 10,000 mAh, 3.7 V battery running an 8 W device at 85% efficiency returns about 3h 55m 53s and 31.45 usable Wh.',
+    readIntro:
+      'Read runtime first, then check nominal energy and usable energy. Nominal Wh shows what the battery stores before losses; usable Wh is the number the calculator actually divides by the device watts.',
+    mistakeIntro:
+      'Battery runtime estimates go wrong when mAh is compared across different voltages, when device watts are guessed too low, or when the battery is treated like it can deliver its full label capacity in every condition.',
     enter: [
-      'Enter battery capacity in mAh and the nominal voltage from the product label.',
-      'Enter the device average power draw in watts.',
-      'Use efficiency to account for conversion loss, heat, cables, and imperfect battery use.',
+      'Enter battery capacity in mAh from the cell, pack, or power-bank label.',
+      'Enter the nominal voltage for that battery, not just the output port voltage unless the label only gives output-side data.',
+      'Enter the device average power draw in watts, then use efficiency to account for conversion loss, heat, cables, and imperfect battery use.',
     ],
     read: [
       'Estimated runtime is the main answer.',
@@ -6423,8 +6436,47 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     mistakes: [
       'Do not compare batteries by mAh alone when voltage is different.',
       'Do not assume a device draws the same watts all the time.',
+      'Do not enter peak watts if you want average runtime, or average watts if you are checking whether a short peak load will shut the battery down.',
+      'Do not ignore voltage converters, inverters, long cables, low-battery cutoff, or manufacturer discharge limits.',
       'Do not expect old, cold, hot, damaged, or heavily loaded batteries to match the estimate.',
     ],
+    extraSections: [
+      {
+        title: 'Example: USB power bank runtime',
+        paragraphs: [
+          'A 10,000 mAh power bank with 3.7 V cells stores 37 Wh before losses. At 85% efficiency, usable energy is 31.45 Wh. If the device averages 8 W, runtime is 31.45 / 8 = 3.93125 hours, or about 3h 55m 53s.',
+          'That is a better planning number than 10,000 mAh by itself because the device uses watts, and the USB conversion step loses some energy along the way.',
+        ],
+      },
+      {
+        title: 'Examples for small and larger packs',
+        paragraphs: [
+          'A 5,000 mAh, 3.7 V pack powering a 3 W device at 90% efficiency gives 16.65 usable Wh and about 5h 33m. A 5,000 mAh, 11.1 V pack powering a 30 W device at 88% efficiency gives 48.84 usable Wh and about 1h 37m 41s.',
+          'The second battery has the same mAh but a much higher voltage, so it stores much more watt-hour energy. That is why watt-hours are safer for comparing packs than mAh alone.',
+        ],
+      },
+      {
+        title: 'When the estimate can be wrong',
+        paragraphs: [
+          'Real runtime moves when the device cycles between idle and high load, the battery is old, the room is very cold or hot, or the battery management system cuts off early to protect the cells.',
+          'If the device has motors, radios, heaters, bright screens, inverters, or startup spikes, run a conservative version of the calculation too. A lower efficiency percent or a higher average watts value gives you a safer planning estimate.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'Battery runtime, electricity use, download time, and unit conversion are related but different questions. Use the neighboring tools when you need energy cost, transfer time, or a unit conversion rather than runtime from a battery pack.',
+        ],
+        links: [
+          { href: '/tools/device-battery-life-calculator/', label: 'Open the battery runtime calculator' },
+          { href: '/tools/electricity-calculator/', label: 'Estimate electricity use' },
+          { href: '/tools/download-time-calculator/', label: 'Estimate a download time' },
+          { href: '/tools/conversion-calculator/', label: 'Convert related units' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Device Battery Life Calculator beside this guide. Try the 10,000 mAh power-bank example first, then replace the mAh, voltage, watts, and efficiency with your own battery and device.',
     sources: [sourceLinks.nistUnits],
   },
   'monitor-ppi-calculator': {
