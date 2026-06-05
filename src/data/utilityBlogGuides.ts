@@ -5996,25 +5996,102 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.openAiTokens, sourceLinks.openAiTokenizer, sourceLinks.googleHelpfulContent],
   },
   'prompt-token-estimator': {
+    title: 'Prompt Token Estimator Guide',
     summary: 'Learn how to use a rough character-based token estimate before checking an exact model tokenizer.',
+    metaDescription:
+      'Use the Prompt Token Estimator guide to estimate AI prompt tokens from characters, words, average characters per token, and a low-high range.',
     purpose:
       'The Prompt Token Estimator is a fast planning tool. It counts characters and uses a simple average characters-per-token assumption so you can quickly compare prompt drafts before using an exact tokenizer.',
+    intro:
+      'A prompt can look short in the editor and still take more room than you expected once system instructions, examples, URLs, and pasted context are included. This guide shows how to use a rough prompt token estimate before you test the final text with the exact tokenizer for your model.',
+    inputMatch:
+      'the prompt text you plan to send, plus a realistic average characters-per-token value for the kind of text you are drafting',
+    logicNote:
+      'The rough estimate is character count divided by the selected average characters per token, rounded up. The guide range uses character count divided by 5 for the low estimate and divided by 3 for the high estimate, so a 1,500-character prompt at 4 characters per token estimates 375 tokens with a rough range of 300 to 500.',
+    readIntro:
+      'Read the result as a planning range, not a billing record. It is most useful for comparing two prompt drafts, checking whether hidden context may push a request higher, or deciding whether to shorten instructions before a real tokenizer check.',
+    mistakeIntro:
+      'Most bad prompt estimates happen when people paste only the visible user message and forget system prompts, chat history, retrieved context, examples, tool messages, code, URLs, emojis, or non-English text.',
+    bestUsesIntro:
+      'Best when you need a fast browser-side sanity check before opening a model-specific tokenizer, usage dashboard, or API cost calculator.',
+    referenceIntro:
+      'These references explain why tokens are model-specific and why helpful content should name limits instead of pretending a rough estimate is exact.',
     enter: [
       'Paste the prompt, instruction, or system message you want to estimate.',
       'Leave average characters per token at 4 for a normal rough estimate, or adjust it if you know your text behaves differently.',
-      'Use the examples to see how short instructions and longer system notes compare.',
+      'Include any reusable system instructions, few-shot examples, pasted context, or policy text if they will be sent with the request.',
+      'Use the examples to see how short instructions, longer system notes, and large context blocks compare.',
     ],
     read: [
-      'Estimated tokens is the main rough answer.',
-      'Low and high estimates show why this is not exact.',
-      'Characters and words help you compare prompt drafts in normal writing terms.',
+      'Estimated tokens is the main rough answer from your selected characters-per-token value.',
+      'Low and high estimates show the planning range so you can avoid treating one number as exact.',
+      'Characters and words help you compare prompt drafts in normal writing terms before checking the exact tokenizer.',
+      'If the range is already close to your budget or model context limit, shorten the prompt before relying on the exact tokenizer to save it.',
     ],
     mistakes: [
       'Do not use this as an exact billing tokenizer.',
       'Do not assume code, URLs, punctuation-heavy text, emojis, or non-English text splits like normal English.',
       'Do not forget that chat history and hidden system/tool messages may also count in a real request.',
+      'Do not compare two prompts unless you pasted the same kind of hidden context for both.',
+      'Do not use the estimate as proof that a prompt fits a model context window. Check the final request with the model tokenizer or usage logs.',
     ],
-    sources: [sourceLinks.openAiTokens, sourceLinks.openAiTokenizer],
+    extraSections: [
+      {
+        title: 'Quick formula',
+        paragraphs: [
+          'The estimator uses character count because it is fast, private, and easy to compare across drafts. It does not try to reproduce a provider tokenizer.',
+          'Estimated tokens = ceiling(character count / selected average characters per token). Low estimate = ceiling(character count / 5). High estimate = ceiling(character count / 3).',
+        ],
+      },
+      {
+        title: 'Example: short prompt draft',
+        paragraphs: [
+          'A 480-character instruction at the default 4 characters per token estimates 120 tokens. The rough range is 96 to 160 tokens.',
+          'That is a small prompt by itself, but the number changes if your app also adds a system prompt, chat history, retrieved notes, or tool instructions.',
+        ],
+        bullets: [
+          'Use this for comparing two small rewrites.',
+          'Do not assume the visible message is the whole request.',
+          'Check the exact tokenizer before final billing or context-window decisions.',
+        ],
+      },
+      {
+        title: 'Example: system prompt with rules',
+        paragraphs: [
+          'A 1,500-character system prompt at 4 characters per token estimates 375 tokens, with a range of 300 to 500. That range is wide on purpose because symbols, bullet formatting, and code-like text can tokenize differently.',
+          'If the prompt repeats across every request, multiply its token estimate by request count when you move into cost planning.',
+        ],
+      },
+      {
+        title: 'Example: large pasted context',
+        paragraphs: [
+          'A 2,400-character chunk of pasted context at 3.5 characters per token estimates 686 tokens, with a range of 480 to 800. The lower characters-per-token value is a useful caution when text contains dense names, URLs, or formatting.',
+          'If you are building retrieval or summarization workflows, run a few real samples through the exact tokenizer before picking chunk sizes.',
+        ],
+      },
+      {
+        title: 'Where estimates drift',
+        paragraphs: [
+          'Real token counts can drift because tokenizers split words, whitespace, symbols, code, non-English text, and emojis differently. Provider dashboards may also include system messages, tool calls, retries, retrieved context, and assistant output.',
+          'Use the estimator to plan and compare drafts. Use the model tokenizer, API response usage, or billing dashboard when the exact number matters.',
+        ],
+      },
+      {
+        title: 'Useful related checks',
+        paragraphs: [
+          'Prompt length is usually only the first planning question. Once you have a rough token count, estimate cost, compare API pricing, or shorten the source text before sending it.',
+        ],
+        links: [
+          { href: '/tools/prompt-token-estimator/', label: 'Open the Prompt Token Estimator' },
+          { href: '/tools/ai-token-cost-calculator/', label: 'Estimate AI token cost' },
+          { href: '/tools/api-pricing-calculator/', label: 'Compare broader API pricing' },
+          { href: '/tools/text-summarizer/', label: 'Shorten text before estimating' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Prompt Token Estimator beside this guide. Paste a short prompt, a system message, and a larger context block so you can see how the rough range changes before checking a model tokenizer.',
+    sources: [sourceLinks.openAiTokens, sourceLinks.openAiTokenizer, sourceLinks.googleHelpfulContent],
   },
   'api-pricing-calculator': {
     summary: 'Learn how requests, billable units, unit price, fixed fees, and overhead combine into an API cost estimate.',

@@ -7892,7 +7892,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'FAQ and guide warn about code, symbols, URLs, non-English text, emojis, hidden system messages, chat history, retrieved context, tool messages, and provider-specific tokenization.',
     ],
     improvements: [
-      'Expanded the tool page with a stronger SEO title/meta description, exact estimate and range formula wording, field-level input explanations, six-plus practical FAQs, numeric examples, related AI cost and API pricing links, a 2026-06-05 modified date, and refreshed audit notes.',
+      'Expanded the tool page and matching guide with a stronger SEO title/meta description, exact estimate and range formula wording, field-level input explanations, six-plus practical FAQs, numeric examples, related AI cost and API pricing links, tokenizer drift limits, a 2026-06-05 modified date, and refreshed audit notes.',
     ],
     followUps: [
       'Add exact tokenizer support only when the chosen tokenizer package and model vocabulary size are tested for bundle impact.',
