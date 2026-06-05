@@ -446,6 +446,11 @@ const dishCostIngredientCost = {
   label: 'DishCost: ingredient cost calculator reference',
 };
 
+const calcipediaUnitPrice = {
+  href: 'https://www.calcipedia.org/calculators/unit-price-calculator/',
+  label: 'Calcipedia: unit price calculator reference',
+};
+
 const inchCalculatorSitemap = {
   href: 'https://www.inchcalculator.com/sitemap/',
   label: 'Inch Calculator sitemap: competitor gap reference',
@@ -8102,17 +8107,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'unit-price-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-kitchen-shopping-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-tool-review-unit-price-calculator-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [inchCalculatorSitemap, nistSi, googleHelpfulContent],
+    sources: [calcipediaUnitPrice, nistSi, googleHelpfulContent],
     findings: [
-      'Unit price comparison is a practical shopping calculator gap that also supports grocery and household searches.',
-      'Formula review checked price divided by quantity for two products, cheaper option, savings per unit, and savings percent.',
-      'FAQ and guide explain shared units, ounces-versus-pounds mistakes, quality differences, coupons, and expiration limits.',
+      'Calcipedia competitor-gap evidence confirmed price-per-unit, unit-price, bulk-buy, grocery, ounces, pounds, sales, and comparison intent as useful coverage areas to handle in original wording.',
+      'Formula review checked unit price as item price divided by item quantity, the lower unit price choice, savings per shared unit, and savings percent against the higher unit price.',
+      'FAQ coverage explains same-unit comparisons, sale and coupon prices, bigger-package limits, different-brand caveats, delivery or tax adjustments, and price-per-ounce as one unit-price case.',
     ],
     improvements: [
-      'Added two-item comparison UI, examples, unit price outputs, guide detail, FAQ depth, related shopping links, and tests.',
+      'Expanded the tool page with a calculator-intent SEO title/meta description, exact formula wording, field-level explanations, shopping aliases, extra FAQs, examples for cereal, paper towels, pet food, and detergent with expected unit-price savings, refreshed audit notes, and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Consider a three-item comparison mode later if it does not make the first-use form feel crowded.',

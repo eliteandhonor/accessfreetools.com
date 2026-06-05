@@ -8367,18 +8367,46 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Compare two products by price per shared unit so the cheaper package is clearer.',
     description:
       'Use this free unit price calculator to compare two package sizes by price per ounce, pound, count, sheet, roll, or any shared unit.',
+    seoTitle: 'Unit Price Calculator | Price Per Unit',
+    seoDescription:
+      'Compare two package sizes by price per ounce, pound, roll, count, sheet, or other shared unit.',
     icon: 'tool-unit-price',
-    aliases: ['Price Per Unit Calculator', 'Unit Cost Calculator', 'Price Comparison Calculator'],
+    aliases: [
+      'Price Per Unit Calculator',
+      'Unit Cost Calculator',
+      'Price Comparison Calculator',
+      'Price Per Ounce Calculator',
+      'Price Per Pound Calculator',
+      'Grocery Unit Price Calculator',
+      'Price Per Roll Calculator',
+      'Bulk Price Calculator',
+    ],
     formula:
-      'The calculator divides each item price by its package quantity, compares both unit prices, and shows the cheaper option.',
+      "Unit price = item price / item quantity. The calculator finds each item's price per shared unit, identifies the lower unit price, then shows the savings per unit and savings percentage compared with the higher unit price.",
     limit:
-      'A lower unit price is not always the best choice if quality, expiration date, storage space, coupons, or product differences matter.',
+      'A lower unit price is not always the best choice if quality, expiration date, storage space, coupons, membership fees, delivery fees, sale limits, minimum quantities, or product differences matter. Make sure both items use the same unit and are actually comparable before choosing only by price.',
     inputExplanations: [
-      { term: 'Price', meaning: 'The shelf or sale price for each product.' },
-      { term: 'Quantity', meaning: 'Package size for each product in the same unit.' },
-      { term: 'Shared unit', meaning: 'The unit both products use, such as oz, lb, count, roll, or sheet.' },
+      { term: 'Item name', meaning: 'Optional labels that make the result easier to read, such as small box, family size, brand A, or bulk pack.' },
+      { term: 'Price', meaning: 'The shelf price, sale price, coupon-adjusted price, or receipt price you want to compare.' },
+      { term: 'Quantity', meaning: 'Package size for each product, entered in the same unit for a fair unit-price comparison.' },
+      { term: 'Shared unit', meaning: 'The unit both products use, such as oz, lb, count, roll, sheet, fl oz, mL, tablet, or bag.' },
     ],
     extraFaq: [
+      {
+        question: 'How do I calculate unit price?',
+        answer:
+          'Divide the item price by the package quantity. A $4.49 cereal box with 12 ounces costs about $0.3742 per ounce because 4.49 divided by 12 equals 0.374166....',
+      },
+      {
+        question: 'What does savings per unit mean?',
+        answer:
+          'Savings per unit is the difference between the higher unit price and the lower unit price. It shows how much cheaper the better item is for each ounce, pound, roll, count, or other shared unit.',
+      },
+      {
+        question: 'Should I use sale price or regular price?',
+        answer:
+          'Use the price you will actually pay. If a coupon, sale tag, loyalty discount, or membership price applies, enter that adjusted price so the comparison matches the real decision.',
+      },
       {
         question: 'What if one package uses ounces and the other uses pounds?',
         answer:
@@ -8389,17 +8417,35 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'A bigger package can cost more per unit, expire before you use it, or be different quality. Unit price tells you the math, but it does not judge whether the product is actually better for you.',
       },
+      {
+        question: 'Can I compare different brands?',
+        answer:
+          'Yes, if the products are close enough that price per unit is a fair comparison. If one item is higher quality, concentrated, organic, reusable, or packaged differently, treat the result as one clue instead of the whole decision.',
+      },
+      {
+        question: 'Does this include coupons, tax, or delivery fees?',
+        answer:
+          'Only if you include those amounts in the price fields. For real checkout math, adjust each item price for coupons, sales tax, shipping, delivery fees, deposits, or membership costs before comparing.',
+      },
+      {
+        question: 'Is price per ounce the same as unit price?',
+        answer:
+          'Price per ounce is one type of unit price. Unit price can also be price per pound, roll, sheet, count, fluid ounce, liter, tablet, or any other shared unit printed on the package.',
+      },
     ],
     useCases: [
-      'Compare small and family-size grocery packages.',
-      'Check whether bulk paper towels, pet food, or detergent are actually cheaper.',
-      'Convert sale prices into a fair per-unit comparison.',
-      'Teach price-per-unit shopping math in plain language.',
+      'Compare price per ounce for small and family-size grocery packages.',
+      'Check whether bulk paper towels, pet food, litter, or detergent are actually cheaper.',
+      'Convert sale, coupon, and loyalty prices into a fair per-unit comparison.',
+      'Compare price per roll, sheet, count, pound, fluid ounce, or tablet.',
+      'Decide whether a warehouse-club size is worth the storage space.',
+      'Teach price-per-unit and unit-rate shopping math in plain language.',
     ],
     examples: [
-      { label: 'Cereal boxes', expression: '$4.49 / 12 oz vs $6.99 / 21 oz', result: 'Cheaper price per oz' },
-      { label: 'Paper towels', expression: '$8.99 / 6 rolls vs $12.49 / 10 rolls', result: 'Cheaper per roll' },
-      { label: 'Pet food', expression: '$18.99 / 8 lb vs $35.99 / 18 lb', result: 'Cheaper per lb' },
+      { label: 'Cereal boxes', expression: '$4.49 / 12 oz vs $6.99 / 21 oz', result: 'Item B is about $0.3329/oz vs $0.3742/oz, saving about $0.0413/oz.' },
+      { label: 'Paper towels', expression: '$8.99 / 6 rolls vs $12.49 / 10 rolls', result: 'Item B is about $1.2490/roll vs $1.4983/roll, saving about $0.2493/roll.' },
+      { label: 'Pet food', expression: '$18.99 / 8 lb vs $35.99 / 18 lb', result: 'Item B is about $1.9994/lb vs $2.3737/lb, saving about $0.3743/lb.' },
+      { label: 'Detergent bottles', expression: '$15.99 / 92 fl oz vs $12.49 / 64 fl oz', result: 'Item A is about $0.1738/fl oz vs $0.1952/fl oz, saving about $0.0214/fl oz.' },
     ],
     relatedSlugs: ['ingredient-cost-calculator', 'discount-calculator', 'cost-per-serving-calculator'],
   }),
