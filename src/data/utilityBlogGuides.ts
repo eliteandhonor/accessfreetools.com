@@ -73,6 +73,10 @@ const sourceLinks = {
     href: 'https://fdc.nal.usda.gov/',
     label: 'USDA: FoodData Central',
   },
+  dishCostCostPerServing: {
+    href: 'https://dishcost.com/tools/cost-per-serving-calculator',
+    label: 'DishCost: cost per serving calculator reference',
+  },
   foodSafetyTemperatures: {
     href: 'https://www.fda.gov/food/buy-store-serve-safe-food/safe-food-handling',
     label: 'FDA: Safe food handling',
@@ -6858,25 +6862,88 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'cost-per-serving-calculator': {
-    summary: 'Learn how to split a recipe or batch cost into a cost per serving.',
+    title: 'Cost Per Serving Calculator Guide',
+    metaDescription:
+      'Learn how to divide a recipe, meal prep batch, or bake sale cost by servings. Includes the formula, examples, extras, and mistakes to avoid.',
+    summary: 'Learn how to turn a recipe, meal prep, or bake sale batch total into cost per serving.',
     purpose:
-      'The Cost Per Serving Calculator takes a total batch cost and divides it by the number of servings. It is helpful for meal prep, bake sales, food budgeting, and comparing homemade meals with store-bought choices.',
+      'The Cost Per Serving Calculator takes a batch total and divides it by the number of servings you actually plan to use. It is helpful for meal prep, family food budgeting, bake sales, and quick homemade-versus-store-bought comparisons.',
+    intro:
+      'A recipe can feel cheap until you split it into real portions. The useful question is not just "what did the batch cost?" It is "what does one container, slice, bowl, plate, or cupcake cost after the extra bits are included?"',
+    inputMatch:
+      'the real batch cost, any extras you want counted, and the serving count you will actually use',
+    logicNote:
+      'Cost per serving = (main cost + extra cost) / servings. Total batch cost = main cost + extra cost.',
+    readIntro:
+      'Read the result as an average cost per equal serving. It is a planning number, so it is strongest when the portions are close to the same size.',
+    mistakeIntro:
+      'Most bad serving-cost estimates come from an optimistic serving count or costs left outside the batch total.',
     enter: [
-      'Enter the recipe or food name so the result is easy to recognize.',
-      'Enter the main cost and any extra cost you want included.',
-      'Enter the number of servings the batch actually makes.',
+      'Enter the recipe, meal, or item name so the result is easy to recognize later.',
+      'Enter the main cost, usually the total ingredient cost for the batch.',
+      'Enter extra cost only for packaging, toppings, sides, delivery fees, labor, or overhead you want included.',
+      'Enter the number of same-size servings the batch actually makes after cooking, cutting, packing, or cooling.',
     ],
     read: [
-      'The main answer is cost per serving.',
-      'Total batch cost shows main cost plus extras.',
+      'Cost per serving is the average cost for one portion.',
+      'Total batch cost shows main cost plus extras, so you can see what was included before division.',
+      'Extra cost included confirms whether containers, toppings, or fees were counted.',
       'Servings confirms the divisor used in the estimate.',
     ],
     mistakes: [
       'Do not use a fantasy serving count just to make the cost look low.',
-      'Do not forget packaging, toppings, sauces, or delivery fees when they matter.',
-      'Remember that large and small portions change the real cost per person.',
+      'Do not leave out containers, labels, toppings, sauces, delivery fees, or payment fees when they change the decision.',
+      'Do not treat the result as a selling price. Profit, labor, taxes, spoilage, unsold items, and local rules are separate.',
+      'Do not trust the average when one serving is much larger than another.',
+      'Do not compare homemade food with takeout unless you are clear about which costs and portion sizes are included.',
     ],
-    sources: [sourceLinks.googleHelpfulContent],
+    extraSections: [
+      {
+        title: 'Example: soup batch',
+        paragraphs: [
+          'Say a soup costs $18.50 in ingredients and you want to include $2.00 for containers or toppings. The total batch cost is $20.50.',
+          'If the batch makes 8 servings, the cost per serving is $20.50 / 8, or about $2.56. That is the number to compare with a meal-prep container, a store soup cup, or the price you would need to charge before profit.',
+        ],
+        links: [{ href: '/tools/cost-per-serving-calculator/', label: 'Check a soup or meal-prep batch' }],
+      },
+      {
+        title: 'Use ingredient cost first when the total is fuzzy',
+        paragraphs: [
+          'If you do not know the batch total yet, price the ingredients before using this guide. A bag of flour, a carton of eggs, or a bottle of oil should be converted into the amount the recipe actually uses.',
+          'Once those ingredient costs are added together, put the total into the Cost Per Serving Calculator and divide by servings.',
+        ],
+        links: [{ href: '/tools/ingredient-cost-calculator/', label: 'Price one ingredient before dividing the batch' }],
+      },
+      {
+        title: 'Meal prep and food sales are different decisions',
+        paragraphs: [
+          'For home meal prep, a simple ingredient-only estimate may be enough. For a bake sale, side hustle, catering tray, or menu item, the cost per serving is only the starting point.',
+          'Selling food can also need packaging, labels, payment fees, failed batches, unsold items, kitchen time, delivery, taxes, and local rules. Add the costs you can estimate, then treat the result as cost, not profit.',
+        ],
+        links: [{ href: '/tools/discount-calculator/', label: 'Check a discount before buying supplies' }],
+      },
+      {
+        title: 'Uneven servings make the answer an average',
+        paragraphs: [
+          'The calculator assumes each serving is the same size. That is fine for 10 packed meal-prep bowls or 24 similar cupcakes, but it is weaker for random scoops, uneven cake slices, or a family dinner where portions vary.',
+          'If portion size matters, weigh or divide the batch first. Otherwise, read the result as a rough average per person.',
+        ],
+        links: [{ href: '/tools/recipe-scaler/', label: 'Scale the recipe before pricing servings' }],
+      },
+      {
+        title: 'Cost per serving is not unit price',
+        paragraphs: [
+          'Unit price compares packages by a shared unit such as ounces, pounds, rolls, or tablets. Cost per serving starts after you know the recipe or batch total.',
+          'Use unit price while shopping, ingredient cost while building the recipe total, then cost per serving when you want the per-portion answer.',
+        ],
+        links: [{ href: '/tools/unit-price-calculator/', label: 'Compare packages before buying ingredients' }],
+      },
+    ],
+    sidecarText:
+      'Open the Cost Per Serving Calculator beside this guide. Try $18.50 main cost, $2.00 extra cost, and 8 servings, then change the servings to see how quickly the per-serving cost moves.',
+    referenceIntro:
+      'These references support cost-per-serving topic checks and people-first calculator guidance.',
+    sources: [sourceLinks.dishCostCostPerServing, sourceLinks.googleHelpfulContent],
   },
   'oven-temperature-converter': {
     summary: 'Learn how to convert recipe oven settings between Fahrenheit, Celsius, gas mark, and fan oven starting points.',
