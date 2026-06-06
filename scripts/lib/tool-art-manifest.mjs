@@ -143,9 +143,9 @@ const toolArtMetadataOverrides = {
         'Molecular Weight Calculator artwork matches the live tool workflow for formula parsing, parentheses, hydrates, rounded atomic weights, g/mol molar mass, and element mass shares.',
     },
     guide: {
-      alt: 'Guide image for Molecular Weight Calculator showing estimate molecular weight from a chemical formula with element counts with example inputs and result notes.',
+      alt: 'Guide image for Molecular Weight Calculator showing H2O, Ca(OH)2, CuSO4.5H2O, rounded atomic weights, g/mol molar mass, and mass shares.',
       caption:
-        'Molecular Weight Calculator guide artwork sits with the walkthrough for estimate molecular weight from a chemical formula with element counts and mass shares, including inputs, examples, limits, and mistakes to check.',
+        'Molecular Weight Calculator guide artwork supports the walkthrough for formula parsing, parentheses, hydrates, atom counts, g/mol molar mass, and composition percentages.',
     },
   },
   'bandwidth-calculator': {

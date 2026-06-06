@@ -2281,25 +2281,88 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.openStaxMolarity, sourceLinks.bipmSi, sourceLinks.nistAtomicWeights],
   },
   'molecular-weight-calculator': {
-    summary: 'Learn how a chemical formula becomes an estimated molar mass.',
+    title: 'Molecular Weight Calculator Guide',
+    summary: 'Learn how a chemical formula becomes molar mass, atom counts, and element mass shares.',
+    metaDescription:
+      'Use the Molecular Weight Calculator guide with H2O, Ca(OH)2, and CuSO4.5H2O examples. Learn molar mass, parentheses, hydrates, and mass shares.',
     purpose:
-      'The Molecular Weight Calculator parses a common chemical formula, counts atoms, multiplies each count by a rounded atomic weight, and adds the parts.',
+      'The Molecular Weight Calculator parses a common chemical formula, counts atoms, multiplies each element count by a rounded atomic weight, and adds the parts to estimate molar mass in g/mol.',
+    intro:
+      'Use this guide when a chemistry problem gives you a formula and asks for molecular weight, formula weight, or molar mass. The calculator is best for common classroom formulas where you want the atom count and g/mol result without rebuilding the whole periodic-table sum by hand.',
+    bestUsesIntro:
+      'Use it for formulas such as H2O, C6H12O6, Ca(OH)2, and CuSO4.5H2O, especially when parentheses or hydrate dots make the count easy to miss.',
+    inputMatch: 'the chemical formula exactly as the problem writes it, including capitalization, subscripts, parentheses, and dot hydrate parts',
+    logicNote:
+      'The calculator removes spaces, splits dot hydrate parts at periods, applies any leading hydrate coefficient, parses element symbols and parentheses, then adds count x rounded atomic weight for each element. For H2O, it uses (2 x 1.008) + 15.999 = about 18.015 g/mol.',
+    readIntro:
+      'Read the g/mol answer first. Then check Atoms counted to catch missed subscripts, Elements to confirm the formula was understood, and Composition to see each element count and mass share.',
+    mistakeIntro:
+      'Most mistakes come from lowercase-only formulas, confusing CO with Co, forgetting that a number after parentheses multiplies the whole group, or entering a hydrate without the period and leading coefficient.',
+    sidecarText:
+      'Open the Molecular Weight Calculator beside this guide. Try H2O first, then Ca(OH)2, then CuSO4.5H2O so you can see how simple formulas, parentheses, and hydrates change the atom count.',
+    referenceIntro:
+      'These references support the SI molar-mass units, rounded atomic-weight context, and molarity handoff used in this guide.',
     enter: [
-      'Enter a formula such as H2O, C6H12O6, or Ca(OH)2.',
-      'Use normal element capitalization.',
+      'Enter a formula such as H2O, C6H12O6, Ca(OH)2, or CuSO4.5H2O.',
+      'Use normal element capitalization. CO is carbon plus oxygen, but Co is cobalt.',
+      'Put subscripts directly after the element or group they belong to.',
       'Use a period for dot hydrates, such as CuSO4.5H2O.',
     ],
     read: [
-      'The main answer is estimated grams per mole.',
-      'Atoms counted tells you whether subscripts and parentheses were read.',
-      'Composition shows the mass share by element.',
+      'The main answer is estimated grams per mole, written as g/mol.',
+      'Atoms counted tells you whether subscripts, parentheses, and hydrate coefficients were read.',
+      'Elements lists the element symbols the parser found.',
+      'Composition shows each element count and the percentage of the total molar mass it contributes.',
     ],
     mistakes: [
-      'Do not use lowercase-only formulas.',
+      'Do not use lowercase-only formulas. Element symbols need the right capital letters.',
+      'Do not skip parentheses. CaOH2 is not the same input as Ca(OH)2.',
+      'Do not forget hydrate water. CuSO4 and CuSO4.5H2O have different molar masses.',
       'Do not expect isotope-exact mass from rounded atomic weights.',
-      'Unsupported elements need a reference lookup before they can be calculated.',
+      'Do not use this for charges, structural formulas, isotope-exact mass, or unsupported elements without checking a chemistry reference.',
     ],
-    sources: [sourceLinks.bipmSi, sourceLinks.nistAtomicWeights],
+    extraSections: [
+      {
+        title: 'Quick example',
+        paragraphs: [
+          'For water, enter H2O. The calculator counts 2 hydrogen atoms and 1 oxygen atom. With the rounded values used by the tool, the estimate is (2 x 1.008) + 15.999 = about 18.015 g/mol.',
+          'That result means one mole of water molecules has a mass of about 18.015 grams using these rounded classroom atomic weights. The composition line also shows that oxygen supplies most of the mass even though hydrogen has two atoms.',
+        ],
+      },
+      {
+        title: 'How parentheses change the count',
+        paragraphs: [
+          'A number after parentheses multiplies everything inside the group. Ca(OH)2 means 1 calcium, 2 oxygen, and 2 hydrogen atoms. The tool adds 40.078 + (2 x 15.999) + (2 x 1.008) = about 74.092 g/mol.',
+          'This is why checking Atoms counted matters. If the count looks too small, the formula may be missing parentheses or a subscript.',
+        ],
+      },
+      {
+        title: 'How hydrates are handled',
+        paragraphs: [
+          'For hydrates, use a period before the water part. CuSO4.5H2O means the copper sulfate formula plus five water molecules. The leading 5 multiplies the H2O group before everything is added.',
+          'Do not treat CuSO4 and CuSO4.5H2O as the same compound for weighing or solution work. The hydrate water adds mass, so the g/mol value changes.',
+        ],
+      },
+      {
+        title: 'Where to use the result next',
+        paragraphs: [
+          'Molar mass is often the bridge between grams and moles. If a lab problem gives grams of solute and final solution volume, calculate the molar mass here, then use that g/mol value in the Molarity Calculator.',
+          'For unit conversions that are not chemistry-specific, use a conversion tool instead. Molecular weight is about formula units and moles, not density, force, or everyday weight.',
+        ],
+        links: [
+          { href: '/tools/molarity-calculator/', label: 'Use molar mass in the Molarity Calculator' },
+          { href: '/tools/conversion-calculator/', label: 'Convert regular units separately' },
+        ],
+      },
+      {
+        title: 'When the calculator is not enough',
+        paragraphs: [
+          'This is a rounded classroom molar-mass helper. It does not choose isotope abundances, calculate monoisotopic mass, understand charges, validate structural formulas, or replace lab instructions.',
+          'For real lab work, check the exact compound name, hydration state, purity, safety data sheet, and reference values your instructor or procedure requires.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.bipmSi, sourceLinks.nistAtomicWeights, sourceLinks.openStaxMolarity],
   },
   'sleep-calculator': {
     title: 'Sleep Calculator Guide',
