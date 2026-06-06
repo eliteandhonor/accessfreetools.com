@@ -2218,23 +2218,65 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [],
   },
   'molarity-calculator': {
-    summary: 'Learn how moles, grams, molar mass, and liters create molarity.',
+    summary: 'Learn how moles, grams, molar mass, and final solution volume create molarity.',
+    metaDescription:
+      'Use the Molarity Calculator guide to convert moles or grams into mol/L, check final solution volume, and avoid common molar-mass and lab mistakes.',
     purpose:
-      'The Molarity Calculator finds mol/L concentration. It can use moles directly, or it can convert grams to moles first when you know molar mass.',
+      'The Molarity Calculator finds mol/L concentration from moles and final solution volume. It can also start with grams when you know molar mass.',
+    intro:
+      'Use it when a chemistry problem asks for concentration and you need to decide between moles mode and grams mode. The key detail is final solution volume: if you dissolve a solute and fill the flask to 0.5 L, use 0.5 L, not just the water you poured in first.',
+    inputMatch:
+      'the calculation mode, moles or grams of solute, molar mass in g/mol when grams mode is used, and final solution volume in liters',
+    logicNote:
+      'Molarity is moles of solute divided by liters of final solution. In grams mode, divide grams by molar mass first. For example, 5.844 g NaCl / 58.44 g/mol = 0.1 mol; 0.1 mol / 0.5 L = 0.2 M.',
+    readIntro:
+      'Read the M value as moles per liter of final solution. Then check the moles line, and in grams mode check the molar mass line, so you know which conversion created the answer.',
+    mistakeIntro:
+      'Most molarity mistakes come from using solvent volume instead of final solution volume, skipping the grams-to-moles conversion, or using the wrong molar mass for a hydrate or compound.',
+    sidecarText:
+      'Keep the Molarity Calculator open beside this guide. Try the 5.844 g NaCl, 58.44 g/mol, 0.5 L example first, then replace one input at a time.',
+    bestUsesIntro:
+      'Use the guide when you are turning a homework or lab-planning problem into the exact calculator inputs.',
     enter: [
-      'Choose moles and volume when moles are already known.',
-      'Choose grams and molar mass when starting from a weighed amount.',
-      'Enter final solution volume in liters.',
+      'Choose moles and volume when the amount of solute is already in moles.',
+      'Choose grams and molar mass when the problem starts from a weighed amount.',
+      'Enter final solution volume in liters after the solute is dissolved and diluted to the mark.',
+      'Calculate to see molarity in M, which means mol per liter.',
     ],
     read: [
       'The main answer is molarity, written as M.',
+      'A result of 0.2 M means 0.2 mol of solute per liter of final solution.',
       'Moles shows the amount of solute used in the final division.',
-      'Molar mass appears when grams mode is used.',
+      'Molar mass appears when grams mode is used, so you can check the grams-to-moles step.',
     ],
     mistakes: [
       'Do not use solvent volume when the problem asks for final solution volume.',
       'Do not mix grams and moles without converting.',
-      'Check hydrate state and lab instructions.',
+      'Do not use a molar mass for the wrong compound or hydration state.',
+      'Check significant figures, solute purity, safety procedures, and lab instructions before using the number in real lab work.',
+    ],
+    extraSections: [
+      {
+        title: 'Example: NaCl grams to molarity',
+        paragraphs: [
+          'Say you have 5.844 g of NaCl, a molar mass of 58.44 g/mol, and a final solution volume of 0.5 L.',
+          'First convert grams to moles: 5.844 / 58.44 = 0.1 mol. Then divide by 0.5 L. The calculator returns 0.2 M, so the final solution has 0.2 mol of NaCl per liter.',
+        ],
+      },
+      {
+        title: 'Final solution volume check',
+        paragraphs: [
+          'Molarity uses the final volume of the whole solution, not just the starting solvent. In a volumetric flask, that usually means dissolving the solute first, then filling to the final mark.',
+          'This is why the same 0.1 mol can become 0.1 M in 1 L, 0.2 M in 0.5 L, or 1 M in 0.1 L. The moles did not change, but the liters did.',
+        ],
+      },
+      {
+        title: 'What the guide cannot sign off',
+        paragraphs: [
+          'This guide is good for checking the math and understanding the units. It does not replace your teacher, lab manual, chemical safety sheet, or required significant-figure rules.',
+          'For actual lab work, also check compound purity, hydrate state, measurement uncertainty, and whether your procedure says to prepare to volume or mix fixed liquid amounts.',
+        ],
+      },
     ],
     sources: [sourceLinks.openStaxMolarity, sourceLinks.bipmSi, sourceLinks.nistAtomicWeights],
   },

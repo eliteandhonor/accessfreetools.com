@@ -129,6 +129,13 @@ const toolArtMetadataOverrides = {
         'GFR Calculator guide artwork sits with the walkthrough for age, sex used by the equation, creatinine in mg/dL, eGFR range context, unit mistakes, and medical follow-up limits.',
     },
   },
+  'molarity-calculator': {
+    guide: {
+      alt: 'Guide image for Molarity Calculator showing moles, grams, molar mass, final solution volume, and a 0.2 M example.',
+      caption:
+        'Molarity Calculator guide artwork supports the walkthrough for moles, grams-to-moles conversion, final solution volume, mol/L results, and lab-limit checks.',
+    },
+  },
   'bandwidth-calculator': {
     tool: {
       alt: 'Smoke mascot timing a 5 GB file transfer at 100 Mbps with 400 seconds, 6 minutes 40 seconds, bits versus bytes, and Wi-Fi slowdown cards.',
