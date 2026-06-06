@@ -1053,23 +1053,63 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.isoDate, sourceLinks.mdnDate],
   },
   'time-calculator': {
-    summary: 'Learn how to add and subtract time durations in hours, minutes, and seconds.',
+    summary: 'Learn how to add or subtract time durations in hours, minutes, and seconds.',
+    metaDescription:
+      'Use the Time Calculator guide to add or subtract hours, minutes, and seconds, then read normalized H:M:S, total seconds, and decimal hours.',
     purpose:
-      'The Time Calculator is for duration math. It helps combine or compare blocks of time such as videos, workouts, tasks, study sessions, or logs.',
+      'The Time Calculator is for duration math, not clock scheduling. It helps combine or compare blocks of time such as videos, workouts, tasks, study sessions, playlists, or logs.',
+    intro:
+      'Open the calculator with one real duration beside you, decide whether the second duration should be added or subtracted, and use the Hours Calculator instead when your question starts with clock times like 9:15 AM to 5:40 PM.',
+    inputMatch:
+      'the two durations you want to combine or compare: first hours, minutes, seconds, operation, second hours, minutes, and seconds',
+    logicNote:
+      'For 2:45:30 + 1:20:45, the calculator converts the inputs to 9,930 seconds and 4,845 seconds, adds them to 14,775 seconds, then displays 4h 6m 15s and 4.1041666667 decimal hours.',
+    readIntro:
+      'The normalized H:M:S result is the human-readable answer. Total seconds is useful for systems and media work. Decimal hours is useful for sheets, logs, or rough invoices when your rule allows decimal-hour entry.',
+    mistakeIntro:
+      'Most wrong answers come from treating durations like clock times, using the wrong add/subtract mode, or entering minutes and seconds in a format that does not match the fields.',
     enter: [
-      'Enter the first duration as hours, minutes, and seconds.',
-      'Choose add or subtract.',
-      'Enter the second duration and calculate.',
+      'Enter the first duration as hours, minutes, and seconds, such as 2 hours, 45 minutes, and 30 seconds.',
+      'Choose add when combining durations or subtract when removing elapsed time from a planned amount.',
+      'Enter the second duration and calculate, keeping minutes and seconds in the 0 to 59 range.',
     ],
     read: [
       'The main answer normalizes the result into hours, minutes, and seconds.',
-      'Total seconds is useful for technical logs and media work.',
-      'Decimal hours is useful when a duration needs to be entered into another calculator.',
+      'Total seconds is useful for technical logs, media timelines, timers, scripts, or other tools that expect seconds.',
+      'Decimal hours is useful when a duration needs to be entered into a spreadsheet or another calculator.',
+      'A negative result means the subtracted duration was longer than the starting duration.',
     ],
     mistakes: [
-      'Do not use duration math as a time-zone calendar.',
-      'Keep minutes and seconds between 0 and 59.',
+      'Do not use duration math as a time-zone, calendar, appointment, or daylight-saving calculator.',
+      'Keep minutes and seconds between 0 and 59; convert 90 seconds to 1 minute 30 seconds before entering it.',
       'Use the Hours Calculator when you have clock start and end times.',
+      'Check payroll, billing, break, overtime, and rounding rules before using decimal hours for official records.',
+    ],
+    extraSections: [
+      {
+        title: 'Worked examples to compare',
+        paragraphs: [
+          'Use one of these examples before replacing the numbers with your own. They show the result format you should expect from the live calculator.',
+        ],
+        bullets: [
+          'Add two durations: 2:45:30 plus 1:20:45 becomes 4h 6m 15s, or 14,775 total seconds.',
+          'Clean up rollover seconds: 0:59:50 plus 0:00:25 becomes 1h 0m 15s because 75 seconds rolls into 1 minute 15 seconds.',
+          'Subtract elapsed time: 5:00:00 minus 1:35:15 leaves 3h 24m 45s.',
+          'Add a playlist total: 0:42:30 plus 0:18:45 becomes 1h 1m 15s.',
+        ],
+      },
+      {
+        title: 'When to switch tools',
+        paragraphs: [
+          'Use the Time Calculator when both inputs are durations. Switch tools when the question is about clock times, calendar dates, ages, or deadlines.',
+          'A duration is a length of time, such as 42 minutes and 30 seconds. A clock time is a point in a day, such as 9:15 AM.',
+        ],
+        links: [
+          { href: '/tools/hours-calculator/', label: 'Hours Calculator for start and end clock times' },
+          { href: '/tools/date-calculator/', label: 'Date Calculator for calendar day math' },
+          { href: '/tools/age-calculator/', label: 'Age Calculator for exact calendar age' },
+        ],
+      },
     ],
     sources: [sourceLinks.isoDate, sourceLinks.nistTime],
   },
