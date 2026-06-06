@@ -10,7 +10,7 @@ Do not mark a page `approved` from a score alone. Approval means the user has re
 - Total tools: 299
 - Total page review units: 598 (tool page + blog page for each tool)
 - Approved/live-update review units recorded here: 372
-- Current page in progress: `wallpaper-calculator` tool.
+- Current page in progress: `time-calculator` tool.
 - Page review units left after the Monitor PPI tool deployment: 255
 - Page review units left after the Monitor PPI blog deployment: 254
 - Page review units left after the Recipe Scaler tool deployment: 253
