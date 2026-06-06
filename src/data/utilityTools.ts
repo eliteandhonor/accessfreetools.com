@@ -278,14 +278,52 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'time-calculator',
     name: 'Time Calculator',
     category: 'date-time',
-    summary: 'Add or subtract hours, minutes, and seconds with normalized results.',
+    summary: 'Add or subtract hours, minutes, and seconds with normalized H:M:S, total seconds, and decimal hours.',
     description:
-      'Use this free time calculator to add or subtract durations and convert the result into hours, minutes, seconds, total seconds, and decimal hours.',
+      'Use this free time calculator to add or subtract time durations and convert the result into normalized hours, minutes, seconds, total seconds, and decimal hours.',
     icon: 'calculator-time',
+    aliases: ['Duration Calculator', 'Time Duration Calculator', 'Hours Minutes Seconds Calculator', 'Time Addition Calculator'],
+    seoTitle: 'Time Calculator | Add or Subtract Hours Minutes Seconds',
+    seoDescription:
+      'Add or subtract hours, minutes, and seconds. See normalized H:M:S, total seconds, and decimal hours for duration math.',
     formula:
-      'The calculator converts both durations to seconds, adds or subtracts them, then converts the result back to hours, minutes, and seconds.',
+      'The calculator converts both durations to total seconds, adds or subtracts the second duration, then converts the result back to normalized hours, minutes, and seconds. Decimal hours are total seconds divided by 3,600.',
     limit:
-      'This is duration math, not a time-zone or clock scheduling calculator. Use the Hours Calculator for start and end times.',
+      'This is duration math, not a time-zone, calendar, payroll, or clock scheduling calculator. Use the Hours Calculator for start and end times.',
+    inputExplanations: [
+      { term: 'First duration', meaning: 'the starting amount of time in hours, minutes, and seconds.' },
+      { term: 'Operation', meaning: 'choose add when combining durations or subtract when removing elapsed time from a planned amount.' },
+      { term: 'Second duration', meaning: 'the amount of time to add to or subtract from the first duration.' },
+      { term: 'Normalized result', meaning: 'the final answer with seconds and minutes rolled into the next larger unit when needed.' },
+      { term: 'Decimal hours', meaning: 'the same result as total seconds divided by 3,600, useful for rough logs or invoices.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Can I use this to find the time between two clock times?',
+        answer:
+          'Use the Hours Calculator for start and end clock times. This Time Calculator works with durations such as 2 hours 45 minutes 30 seconds, not with wall-clock times such as 9:00 AM to 5:30 PM.',
+      },
+      {
+        question: 'Can minutes or seconds be 60 or more?',
+        answer:
+          'Keep minutes and seconds from 0 to 59. If you have 90 seconds, enter it as 1 minute 30 seconds. The result will still normalize rollovers, such as 59 minutes 50 seconds plus 25 seconds becoming 1 hour 0 minutes 15 seconds.',
+      },
+      {
+        question: 'What does decimal hours mean?',
+        answer:
+          'Decimal hours are the total seconds divided by 3,600. A result of 4 hours 6 minutes 15 seconds is about 4.1042 decimal hours.',
+      },
+      {
+        question: 'Can the result be negative?',
+        answer:
+          'A subtract calculation can go negative when the second duration is larger than the first. If that is not what you expected, swap the durations or use add mode.',
+      },
+      {
+        question: 'Should I use this for payroll rounding?',
+        answer:
+          'Use it only for simple duration math. Payroll rounding, overtime, break rules, and employer policies need the Hours Calculator or your official timekeeping system.',
+      },
+    ],
     useCases: [
       'Add workout, study, video, podcast, or task durations.',
       'Subtract elapsed time from a planned duration.',
@@ -296,6 +334,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Add two durations', expression: '2:45:30 + 1:20:45', result: '4h 6m 15s' },
       { label: 'Subtract time', expression: '5:00:00 - 1:35:15', result: '3h 24m 45s' },
       { label: 'Seconds cleanup', expression: '0:59:50 + 0:00:25', result: '1h 0m 15s' },
+      { label: 'Playlist total', expression: '0:42:30 + 0:18:45', result: '1h 1m 15s' },
     ],
     relatedSlugs: ['hours-calculator', 'date-calculator', 'age-calculator'],
   }),

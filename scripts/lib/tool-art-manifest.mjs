@@ -148,6 +148,18 @@ const toolArtMetadataOverrides = {
         'Molecular Weight Calculator guide artwork supports the walkthrough for formula parsing, parentheses, hydrates, atom counts, g/mol molar mass, and composition percentages.',
     },
   },
+  'time-calculator': {
+    tool: {
+      alt: 'Illustration for Time Calculator showing add or subtract hours, minutes, and seconds with normalized H:M:S, total seconds, and decimal hours.',
+      caption:
+        'Time Calculator artwork matches the live tool workflow for duration addition, subtraction, normalized H:M:S, total seconds, and decimal hours.',
+    },
+    guide: {
+      alt: 'Guide image for Time Calculator showing duration addition, subtraction, normalized H:M:S, total seconds, and decimal hours.',
+      caption:
+        'Time Calculator guide artwork supports the walkthrough for adding and subtracting durations, reading normalized H:M:S, checking total seconds, and using decimal hours.',
+    },
+  },
   'bandwidth-calculator': {
     tool: {
       alt: 'Smoke mascot timing a 5 GB file transfer at 100 Mbps with 400 seconds, 6 minutes 40 seconds, bits versus bytes, and Wi-Fi slowdown cards.',
