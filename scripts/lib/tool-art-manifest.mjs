@@ -136,6 +136,18 @@ const toolArtMetadataOverrides = {
         'Molarity Calculator guide artwork supports the walkthrough for moles, grams-to-moles conversion, final solution volume, mol/L results, and lab-limit checks.',
     },
   },
+  'molecular-weight-calculator': {
+    tool: {
+      alt: 'Illustration for Molecular Weight Calculator showing H2O, glucose, Ca(OH)2, hydrate notation, element counts, and a g/mol result.',
+      caption:
+        'Molecular Weight Calculator artwork matches the live tool workflow for formula parsing, parentheses, hydrates, rounded atomic weights, g/mol molar mass, and element mass shares.',
+    },
+    guide: {
+      alt: 'Guide image for Molecular Weight Calculator showing estimate molecular weight from a chemical formula with element counts with example inputs and result notes.',
+      caption:
+        'Molecular Weight Calculator guide artwork sits with the walkthrough for estimate molecular weight from a chemical formula with element counts and mass shares, including inputs, examples, limits, and mistakes to check.',
+    },
+  },
   'bandwidth-calculator': {
     tool: {
       alt: 'Smoke mascot timing a 5 GB file transfer at 100 Mbps with 400 seconds, 6 minutes 40 seconds, bits versus bytes, and Wi-Fi slowdown cards.',

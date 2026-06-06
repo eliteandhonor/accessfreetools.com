@@ -128,6 +128,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'tdee-calculator': '2026-06-05',
   'gfr-calculator': '2026-06-05',
   'molarity-calculator': '2026-06-05',
+  'molecular-weight-calculator': '2026-06-05',
   'volume-calculator': '2026-06-02',
   'mileage-calculator': '2026-05-31',
   'base64-encode-decode': '2026-06-04',

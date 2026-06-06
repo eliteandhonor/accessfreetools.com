@@ -2048,24 +2048,44 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'molecular-weight-calculator',
     name: 'Molecular Weight Calculator',
     category: 'school-study',
-    summary: 'Estimate molecular weight from a chemical formula with element counts and mass shares.',
+    summary: 'Calculate molar mass from a chemical formula with element counts, parentheses, hydrates, and mass shares.',
     description:
-      'Use this free molecular weight calculator to parse common chemical formulas and estimate molar mass in grams per mole.',
+      'Use this free molecular weight calculator to parse common chemical formulas and calculate molar mass in grams per mole.',
     icon: 'calculator-molecular-weight',
+    aliases: ['Molar Mass Calculator', 'Formula Weight Calculator', 'Chemical Formula Weight Calculator'],
+    seoTitle: 'Molecular Weight Calculator | Molar Mass From Formula',
+    seoDescription:
+      'Calculate molecular weight or molar mass from a chemical formula. Supports subscripts, parentheses, hydrates, element counts, and mass shares.',
     formula:
-      'The calculator parses element symbols, subscripts, parentheses, and dot hydrate parts, then adds each element count times its rounded atomic weight.',
+      'The calculator parses element symbols, subscripts, parentheses, and dot hydrate parts, then adds each element count times its rounded atomic weight. For H2O, it adds two hydrogen atoms and one oxygen atom for about 18.015 g/mol.',
     limit:
-      'The atomic-weight table is rounded and supports common classroom elements. Isotopes, charges, exact masses, and unsupported elements need reference data.',
+      'The atomic-weight table is rounded and supports common classroom elements. Isotopes, charges, exact masses, structural formulas, and unsupported elements need reference data.',
     inputExplanations: [
-      { term: 'Chemical formula', meaning: 'the element symbols and counts, such as H2O, C6H12O6, Ca(OH)2, or CuSO4.5H2O.' },
+      { term: 'Chemical formula', meaning: 'element symbols and counts, such as H2O, C6H12O6, Ca(OH)2, or CuSO4.5H2O.' },
       { term: 'Subscripts', meaning: 'the numbers after element symbols or parentheses that multiply atom counts.' },
       { term: 'Dot hydrates', meaning: 'formula parts separated by a period, where a leading number multiplies the following hydrate group.' },
+      { term: 'Mass share', meaning: 'the percentage of the total molar mass contributed by each element.' },
     ],
     extraFaq: [
       {
         question: 'Why does capitalization matter in a formula?',
         answer:
           'Element symbols use one capital letter and sometimes one lowercase letter. CO means carbon and oxygen, but Co means cobalt. The calculator reads capitalization as part of the chemistry symbol.',
+      },
+      {
+        question: 'Is molecular weight the same as molar mass?',
+        answer:
+          'For classroom formula work, people often use the terms together. The calculator returns grams per mole, so the result is the molar mass you can use in stoichiometry or in the Molarity Calculator.',
+      },
+      {
+        question: 'How are parentheses handled?',
+        answer:
+          'A number after parentheses multiplies everything inside the group. Ca(OH)2 counts one calcium, two oxygens, and two hydrogens before the atomic weights are added.',
+      },
+      {
+        question: 'Can I enter hydrates like CuSO4.5H2O?',
+        answer:
+          'Yes. Use a period between the main formula and hydrate part. The leading 5 multiplies the H2O group, so the calculator includes five waters of hydration in the total.',
       },
     ],
     useCases: [
@@ -2075,9 +2095,10 @@ export const utilityTools: ToolDefinition[] = [
       'Use the result in the Molarity Calculator.',
     ],
     examples: [
-      { label: 'Water', expression: 'H2O', result: 'About 18.015 g/mol' },
-      { label: 'Glucose', expression: 'C6H12O6', result: 'About 180.156 g/mol' },
-      { label: 'Calcium hydroxide', expression: 'Ca(OH)2', result: 'Parentheses parsed' },
+      { label: 'Water', expression: 'H2O', result: 'About 18.015 g/mol: two H atoms plus one O atom' },
+      { label: 'Glucose', expression: 'C6H12O6', result: 'About 180.156 g/mol for the full formula unit' },
+      { label: 'Calcium hydroxide', expression: 'Ca(OH)2', result: 'About 74.092 g/mol, with the OH group counted twice' },
+      { label: 'Copper sulfate pentahydrate', expression: 'CuSO4.5H2O', result: 'Hydrate waters included in the total molar mass' },
     ],
     relatedSlugs: ['molarity-calculator', 'scientific-calculator', 'conversion-calculator'],
   }),

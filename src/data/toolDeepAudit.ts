@@ -6225,17 +6225,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'molecular-weight-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-05',
+    reviewedOn: '2026-06-05',
     scope: commonMathScope,
-    sources: [nistAtomicWeights, nistSi],
+    sources: [nistAtomicWeights, nistSi, openStaxMolarity],
     findings: [
       'The parser handles common element symbols, subscripts, parentheses, and period-separated hydrate parts.',
       'The FAQ now explains why capitalization matters for chemical formulas, such as CO versus Co.',
-      'The guide correctly frames the output as rounded classroom molar mass, not isotope-exact mass.',
+      'The page now frames molecular weight and molar mass as classroom formula work in g/mol, not isotope-exact mass.',
     ],
     improvements: [
       'Manually checked formula parsing behavior, common examples, composition output, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Added calculator-intent SEO title and description, aliases for molar mass and formula weight, H2O and Ca(OH)2 result interpretation, hydrate FAQ coverage, molecular-weight versus molar-mass wording, and a 2026-06-05 modified date.',
     ],
     followUps: [
       'Add clearer unsupported-element messaging in the UI if chemistry users report confusion.',
