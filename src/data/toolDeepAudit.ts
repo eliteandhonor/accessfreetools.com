@@ -6951,17 +6951,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'conversion-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [nistSi, nistConversionFactors],
     findings: [
       'The conversion utility is framed around unit conversion and asks users to keep category and unit labels straight.',
       'The generated FAQ explains that values, units, and modes must match the page examples before trusting the answer.',
+      'The June 11 refresh adds a visible temperature FAQ explaining why Fahrenheit, Celsius, and Kelvin need offset formulas instead of one multiply-or-divide factor.',
       'NIST source coverage supports the unit-conversion context used by the tool and guide.',
     ],
     improvements: [
-      'Manually checked conversion wording, unit-label cautions, examples, generated FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Manually checked conversion wording, unit-label cautions, examples, generated FAQ detail, guide coverage, related links, SEO copy, privacy behavior, and the six-FAQ standard.',
     ],
     followUps: [
       'Add more unit families only if each has tested conversion constants and clear labels.',

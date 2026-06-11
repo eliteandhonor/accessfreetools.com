@@ -615,6 +615,13 @@ export const utilityTools: ToolDefinition[] = [
       'Most conversions multiply by a fixed factor to a base unit, then divide by the target factor. Temperature conversions use Celsius as the intermediate value.',
     limit:
       'Use exact professional references for regulated, medical, lab, engineering, or legal measurement work that requires a specified standard.',
+    extraFaq: [
+      {
+        question: 'Why are temperature conversions different from length or weight conversions?',
+        answer:
+          'Length, mass, and volume conversions usually use one multiply-or-divide factor. Temperature scales have offsets, so Fahrenheit, Celsius, and Kelvin need their own formulas instead of a simple factor.',
+      },
+    ],
     useCases: [
       'Convert between metric and U.S. customary length units.',
       'Convert weight or mass between grams, kilograms, ounces, pounds, and tons.',
