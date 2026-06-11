@@ -345,22 +345,85 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Calculate hours worked between start and end times with breaks and optional pay.',
     description:
       'Use this free hours calculator to find shift length, decimal hours, overnight time, break deductions, and optional gross pay.',
+    seoTitle: 'Hours Calculator | Work Hours And Decimal Time',
+    seoDescription:
+      'Calculate hours worked from start time, end time, break minutes, overnight shifts, and optional hourly pay.',
     icon: 'calculator-hours',
-    aliases: ['Time Duration Calculator', 'Duration Calculator', 'Time Difference Calculator'],
+    aliases: [
+      'Work Hours Calculator',
+      'Hours Worked Calculator',
+      'Time Clock Calculator',
+      'Work Time Calculator',
+      'Decimal Hours Calculator',
+      'Time Duration Calculator',
+      'Duration Calculator',
+      'Time Difference Calculator',
+    ],
     formula:
-      'The calculator converts start and end clock times into seconds, handles overnight shifts, subtracts break minutes, and converts the result to decimal hours.',
+      'The calculator converts the start and end clock times into seconds after midnight. If the end time is earlier than the start time, it adds 24 hours for an overnight shift. Then it subtracts break minutes, divides worked seconds by 3,600 for decimal hours, and multiplies by hourly rate when one is entered.',
     limit:
-      'This is simple time-card math. Payroll rounding, overtime, split shifts, local labor rules, and employer policies can change paid hours.',
+      'This is simple time-card math, not payroll, legal, tax, or HR advice. Rounding rules, overtime, split shifts, paid breaks, local labor rules, and employer policies can change official paid hours.',
+    faqLanguage: {
+      expectedInputs: 'the start clock time, end clock time, unpaid break minutes, and optional hourly rate',
+      examplePhrase: 'shift example',
+      doubleCheck:
+        'Also check AM/PM, whether the shift crosses midnight, whether the break is unpaid, and whether your employer rounds time before payroll.',
+    },
+    inputExplanations: [
+      { term: 'Start time', meaning: 'the clock time the shift begins, such as 09:00 or 10:00 PM.' },
+      { term: 'End time', meaning: 'the clock time the shift ends. If it is earlier than the start time, the calculator treats it as next day.' },
+      { term: 'Break minutes', meaning: 'unpaid break time to subtract from the shift, entered as total minutes.' },
+      { term: 'Hourly rate', meaning: 'an optional pay rate used only for a simple gross pay estimate.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How do I calculate hours worked from start and end time?',
+        answer:
+          'Count the time from the start clock time to the end clock time, subtract unpaid break minutes, then convert the result to decimal hours. For 9:00 AM to 5:30 PM with a 30 minute break, the shift span is 8.5 hours and the worked time is 8.0 hours.',
+      },
+      {
+        question: 'Does the Hours Calculator handle overnight shifts?',
+        answer:
+          'Yes. If the end time is earlier than the start time, the calculator treats the end time as the next day. A 10:00 PM to 6:30 AM shift is 8.5 hours before breaks, not a negative duration.',
+      },
+      {
+        question: 'Why does 7 hours 30 minutes show as 7.5 hours?',
+        answer:
+          'Decimal hours turn minutes into a fraction of an hour. Thirty minutes is half of 60 minutes, so 7 hours 30 minutes becomes 7.5 hours on a time sheet or invoice.',
+      },
+      {
+        question: 'How do breaks change the result?',
+        answer:
+          'Break minutes are subtracted after the full shift span is found. For example, 8:15 AM to 4:00 PM is 7.75 hours with no break, but 7.25 hours if you subtract a 30 minute unpaid break.',
+      },
+      {
+        question: 'Can I use this for payroll?',
+        answer:
+          'Use it as a quick estimate only. Official payroll may use rounding, overtime thresholds, paid-break rules, job codes, time zones, or local labor rules that this simple calculator does not decide.',
+      },
+      {
+        question: 'Does this calculate overtime?',
+        answer:
+          'No. It calculates one shift length and optional gross pay from the hourly rate you type in. Use your employer rules or a time-card system for weekly overtime, daily overtime, holiday pay, and paid leave.',
+      },
+      {
+        question: 'What if the break is longer than the shift?',
+        answer:
+          'The calculator rejects that entry because worked time would become negative. Check whether the break was entered in minutes and whether the start and end times are the shift you meant.',
+      },
+    ],
     useCases: [
       'Calculate hours worked from start time, end time, and break minutes.',
       'Convert a shift into decimal hours for invoices or timesheets.',
       'Estimate gross pay from an hourly rate.',
       'Handle overnight shifts where the end time is after midnight.',
+      'Check whether a break entry makes the shift result look too high or too low.',
     ],
     examples: [
       { label: 'Day shift', expression: '9:00 AM to 5:30 PM, 30 min break', result: '8 hours' },
       { label: 'No break', expression: '8:15 AM to 4:00 PM', result: '7.75 hours' },
       { label: 'Overnight', expression: '10:00 PM to 6:30 AM, 45 min break', result: '7.75 hours' },
+      { label: 'With pay', expression: '1:20 PM to 6:50 PM, 15 min break, $18/hr', result: '5.25 hours and $94.50' },
     ],
     relatedSlugs: ['time-calculator', 'date-calculator', 'salary-calculator'],
   }),
