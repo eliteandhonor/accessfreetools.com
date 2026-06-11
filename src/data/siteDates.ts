@@ -178,7 +178,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'sales-tax-calculator': '2026-05-26',
   'flooring-calculator': '2026-05-26',
   'oven-temperature-converter': '2026-05-26',
-  'image-to-text-ocr-tool': '2026-05-26',
+  'image-to-text-ocr-tool': '2026-06-11',
   'gdp-calculator': '2026-05-26',
   'bandwidth-calculator': '2026-06-04',
   'wallpaper-calculator': '2026-05-26',

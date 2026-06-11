@@ -7765,8 +7765,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'image-to-text-ocr-tool',
     status: 'deep-reviewed',
-    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-gsc-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [tesseractJs, tesseractOcrDocs, googleHelpfulContent],
     findings: [
@@ -7776,6 +7776,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     improvements: [
       'Added a dedicated browser OCR UI, language selector, copyable text output, OCR confidence notes, source-backed FAQ, AI blog guide, related tools, explicit no-upload privacy wording, and self-hosted OCR asset paths.',
+      'Refreshed the OCR page with receipt, label, product-code, and tracking-code wording, a new tracking-label example, a receipt/code FAQ, and current modified-date evidence.',
     ],
     followUps: [
       'Watch Hostinger transfer and cache behavior before adding more OCR languages beyond the six shown in the interface.',

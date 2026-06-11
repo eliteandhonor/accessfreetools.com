@@ -81,24 +81,25 @@ export const aiTools: ToolDefinition[] = [
   makeAiTool({
     slug: 'image-to-text-ocr-tool',
     name: 'Image to Text OCR Tool',
-    summary: 'Copy text from screenshots, labels, and simple document images with browser OCR.',
+    summary: 'Copy text from screenshots, labels, receipts, and clear document images without uploading the image.',
     description:
-      'Use this free OCR tool to pull editable text from screenshots, labels, receipts, and simple document images in your browser.',
+      'Use this free OCR tool to turn clear screenshots, labels, receipts, and simple document photos into editable text in your browser.',
     seoTitle: 'Image to Text OCR Tool | Copy Text From Images',
     seoDescription:
-      'Copy text from screenshots, labels, receipts, and simple document images with browser OCR. Learn where OCR can miss numbers, columns, and handwriting.',
+      'Extract text from screenshots, labels, receipts, and simple document images with browser OCR. See privacy notes, best-image tips, and mistakes to check.',
     icon: 'tool-ai-ocr',
     modelNote: 'Uses self-hosted Tesseract.js OCR files in the browser after you choose an image and press Read text.',
     inputMeaning:
-      'Choose a sharp image with typed or printed text. Pick the language shown in the image, then crop out clutter if the screenshot has menus, shadows, or tiny side text.',
+      'Choose a sharp image with typed or printed text. Pick the language shown in the image, and crop out menus, shadows, and tiny side text when you can.',
     resultMeaning:
-      'Read the OCR output as a draft copy of the image text. It is useful for simple lines, but columns, punctuation, tiny letters, handwriting, and totals still need checking.',
+      'Read the OCR output as a draft copy of the image text. Simple lines usually work best; columns, punctuation, tiny letters, handwriting, and totals still need checking.',
     doubleCheck:
       'Check names, totals, dates, invoice numbers, email addresses, and codes against the original image. OCR can mix up 0/O, 1/l/I, 5/S, and 8/B.',
     useCases: [
       'Copy a clear screenshot line without retyping it.',
       'Turn a label, receipt, or typed note photo into editable text.',
       'Grab text from a simple document image for a draft or study note.',
+      'Pull a tracking number, product code, or receipt total into a draft before checking every character.',
       'Check whether a photo is sharp enough before you trust the OCR result.',
     ],
     examples: [
@@ -116,6 +117,11 @@ export const aiTools: ToolDefinition[] = [
         label: 'Study note photo',
         expression: 'Upload a sharp photo of typed notes with one heading and three lines',
         result: 'Copy the lines into a draft, then fix line breaks and punctuation.',
+      },
+      {
+        label: 'Tracking label',
+        expression: 'Upload a label that shows "ZX-1049-B" and a delivery date',
+        result: 'Check every letter, number, and dash before pasting the code anywhere official.',
       },
     ],
     faq: [
@@ -148,6 +154,11 @@ export const aiTools: ToolDefinition[] = [
         question: 'What should I double-check before copying the result?',
         answer:
           'Check names, totals, dates, invoice numbers, email addresses, and codes. OCR can confuse characters like 0/O, 1/l/I, 5/S, and 8/B.',
+      },
+      {
+        question: 'Can I use OCR for receipts, totals, or product codes?',
+        answer:
+          'Yes, but treat the result as a draft. Compare totals, decimal points, dates, invoice numbers, tracking codes, and product codes against the image before you paste or submit them.',
       },
       {
         question: 'What should I try if the OCR output is messy?',
