@@ -6958,7 +6958,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     findings: [
       'The conversion utility is framed around unit conversion and asks users to keep category and unit labels straight.',
       'The generated FAQ explains that values, units, and modes must match the page examples before trusting the answer.',
-      'The June 11 refresh adds a visible temperature FAQ explaining why Fahrenheit, Celsius, and Kelvin need offset formulas instead of one multiply-or-divide factor.',
+      'The June 11 refresh adds visible FAQs explaining why Fahrenheit, Celsius, and Kelvin need offset formulas and why volume-to-weight conversions need ingredient density or product-label context.',
       'NIST source coverage supports the unit-conversion context used by the tool and guide.',
     ],
     improvements: [

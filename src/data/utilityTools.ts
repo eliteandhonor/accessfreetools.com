@@ -621,6 +621,11 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Length, mass, and volume conversions usually use one multiply-or-divide factor. Temperature scales have offsets, so Fahrenheit, Celsius, and Kelvin need their own formulas instead of a simple factor.',
       },
+      {
+        question: 'Can I convert volume to weight with this calculator?',
+        answer:
+          'Not by unit labels alone. Volume and weight measure different things, so cups to grams, milliliters to ounces, or similar conversions need the ingredient density or product label before the answer is safe to use.',
+      },
     ],
     useCases: [
       'Convert between metric and U.S. customary length units.',
