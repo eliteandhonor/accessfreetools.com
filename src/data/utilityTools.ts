@@ -596,6 +596,11 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'No. The password is generated in your browser tab, is not added to recent answer history, and should be copied straight into a trusted password manager instead of being reused or stored in a note.',
       },
+      {
+        question: 'Should I memorize the generated password?',
+        answer:
+          'Usually no. Long random passwords are meant for a password manager, not memory. If you must type one by hand, use the length and ambiguous-character options to reduce mistakes without reusing that password anywhere else.',
+      },
     ],
     useCases: [
       'Create a unique password for a new account.',

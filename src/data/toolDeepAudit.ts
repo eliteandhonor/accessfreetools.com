@@ -2925,7 +2925,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The tool and guide explain length, character pool, entropy, unique passwords, ambiguous characters, browser-only generation, no recent-history storage, and password-manager storage.',
     ],
     improvements: [
-      'Added a visible no-save/no-send FAQ, refreshed tool and guide modified dates, and manually checked secure-random code, no-history behavior, UI options, guide article, FAQ cautions, and source notes.',
+      'Added visible no-save/no-send and password-manager-storage FAQs, refreshed tool and guide modified dates, and manually checked secure-random code, no-history behavior, UI options, guide article, FAQ cautions, and source notes.',
     ],
     followUps: [
       'Add a passphrase generator mode later for users who need easier manual typing.',
