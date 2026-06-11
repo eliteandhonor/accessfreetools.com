@@ -69,6 +69,13 @@ const toolArtMetadataOverrides = {
       alt: 'Guide image for Recipe Scaler showing one ingredient scaled from original servings to desired servings with example inputs and result notes.',
     },
   },
+  'sentiment-analyzer': {
+    guide: {
+      alt: 'Guide image for Sentiment Analyzer showing check whether text reads positive, negative, or uncertain in your browser with example inputs and result notes.',
+      caption:
+        'Sentiment Analyzer guide artwork sits with the walkthrough for check whether text reads positive, negative, or uncertain in your browser, including inputs, examples, limits, and mistakes to check.',
+    },
+  },
   'tire-size-calculator': {
     tool: {
       alt: 'Illustration for Tire Size Calculator showing tire diameter, sidewall height, circumference, and revs per mile from a metric tire size.',
