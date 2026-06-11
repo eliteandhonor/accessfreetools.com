@@ -2944,7 +2944,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The guide clearly limits the page to IPv4 CIDR planning and avoids implying it changes any live network settings.',
     ],
     improvements: [
-      'Added a visible /31 and /32 FAQ, refreshed tool and guide modified dates, and manually checked CIDR logic, examples, guide article, alias coverage, privacy note, related tools, and source references.',
+      'Added visible /31, /32, and subnet-size planning FAQs, refreshed tool and guide modified dates, and manually checked CIDR logic, examples, guide article, alias coverage, privacy note, related tools, and source references.',
     ],
     followUps: [
       'Add an IPv6 subnet calculator as a separate future tool rather than overloading this IPv4 page.',

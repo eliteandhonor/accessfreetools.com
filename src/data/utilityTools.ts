@@ -571,6 +571,11 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Most IPv4 subnets reserve the first address as the network address and the last address as broadcast. A /31 is commonly used for point-to-point links with two usable addresses, and a /32 represents one exact host address.',
       },
+      {
+        question: 'Can this calculator choose the best subnet size for me?',
+        answer:
+          'It shows the math for one IPv4 CIDR block, but it does not design the network. Pick a prefix after you know the device count, growth room, provider-reserved addresses, routing rules, firewall rules, and whether the environment treats network and broadcast addresses normally.',
+      },
     ],
     useCases: [
       'Find the network and broadcast address for an IPv4 CIDR block.',
