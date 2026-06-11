@@ -7040,6 +7040,13 @@ export const utilityTools: ToolDefinition[] = [
       'The generator creates random bytes in the browser, sets the UUID version and variant bits for UUID v4, then formats the identifier.',
     limit:
       'UUIDs are useful identifiers, but they do not prove identity, authorization, ordering, or secrecy by themselves.',
+    extraFaq: [
+      {
+        question: 'Are UUID v4 values sequential or sortable?',
+        answer:
+          'No. UUID v4 values are random identifiers, not timestamps or ordered numbers. They are good when you need a hard-to-guess unique-looking ID, but they should not be used when a database, log, or file list needs chronological order.',
+      },
+    ],
     useCases: [
       'Generate IDs for mock data, test records, fixtures, or local prototypes.',
       'Create one UUID or a small batch at once.',

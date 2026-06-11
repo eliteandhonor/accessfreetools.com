@@ -134,6 +134,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'volume-calculator': '2026-06-02',
   'mileage-calculator': '2026-05-31',
   'json-formatter': '2026-06-11',
+  'uuid-generator': '2026-06-11',
   'base64-encode-decode': '2026-06-04',
   'url-encode-decode': '2026-06-04',
   'css-clamp-calculator': '2026-06-04',

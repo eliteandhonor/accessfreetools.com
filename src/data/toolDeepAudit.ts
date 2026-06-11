@@ -7585,17 +7585,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'uuid-generator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-gsc-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [rfc9562, mdnCryptoRandomValues],
     findings: [
       'The UUID generator creates 16 random bytes, sets version and variant bits for UUID v4, and supports batch, uppercase, and no-hyphen output.',
       'Tests cover deterministic UUID v4 formatting and batch formatting options.',
       'The guide warns that UUIDs are identifiers, not passwords, authorization proof, or chronological timestamps.',
+      'The visible FAQ set now clarifies that UUID v4 values are random, not sequential, sortable, or timestamp-based.',
     ],
     improvements: [
-      'Manually checked UUID v4 bit setting, output formatting, quantity guardrails, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Manually checked UUID v4 bit setting, output formatting, quantity guardrails, examples, six visible FAQs, generated FAQ detail, guide cautions, related links, SEO copy, privacy behavior, and ordering limits.',
     ],
     followUps: [
       'Add UUID v7 only with timestamp wording and tests for ordering behavior.',
