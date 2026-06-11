@@ -7761,7 +7761,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The guide warns that Markdown rendering varies by platform and users should preview tables where they plan to publish them.',
     ],
     improvements: [
-      'Added a visible merged-cell and line-break limit FAQ, refreshed tool and guide modified dates, and manually checked table parsing, delimiter generation, alignment output, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Added visible merged-cell, line-break, pipe-character escaping, and quoted-CSV limit FAQs, refreshed tool and guide modified dates, and manually checked table parsing, delimiter generation, alignment output, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
     ],
     followUps: [
       'Add CSV paste cleanup later only if quote handling is implemented with tests.',

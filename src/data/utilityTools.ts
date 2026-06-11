@@ -9008,6 +9008,16 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Plain GitHub-flavored Markdown tables do not support merged cells, and multi-line cells can render differently by platform. For simple docs, keep one idea per cell. If you need a complex layout, test HTML table markup, line breaks, or a real spreadsheet/table editor where you plan to publish.',
       },
+      {
+        question: 'How do I include a pipe character inside a cell?',
+        answer:
+          'The generator escapes pipe characters inside cells so Markdown does not treat them as new columns. Still preview the table in your target editor, especially when a cell contains code, commands, or URLs with vertical bars.',
+      },
+      {
+        question: 'Can I paste CSV with quoted commas?',
+        answer:
+          'Use simple comma-separated or pipe-separated cells. This is a small Markdown table helper, not a full CSV parser, so quoted commas, escaped quotes, or spreadsheet exports may need cleanup before pasting. For a real CSV file, clean the columns in a spreadsheet first.',
+      },
     ],
     relatedSlugs: ['word-counter', 'character-counter', 'css-clamp-calculator'],
   }),

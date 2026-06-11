@@ -7303,6 +7303,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not assume every Markdown editor supports tables the same way.',
       'Preview the result where you will publish it.',
       'Keep tables short enough to read on mobile screens.',
+      'Clean up quoted commas, escaped quotes, or spreadsheet CSV exports before pasting; this helper is for simple comma-separated or pipe-separated cells.',
     ],
     sources: [sourceLinks.githubGfmTables],
   },
