@@ -7594,9 +7594,10 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'Tests cover deterministic UUID v4 formatting and batch formatting options.',
       'The guide warns that UUIDs are identifiers, not passwords, authorization proof, or chronological timestamps.',
       'The visible FAQ set now clarifies that UUID v4 values are random, not sequential, sortable, or timestamp-based.',
+      'The visible FAQ set also warns not to treat a UUID v4 as a password reset token, API key, login secret, or permission proof.',
     ],
     improvements: [
-      'Manually checked UUID v4 bit setting, output formatting, quantity guardrails, examples, six visible FAQs, generated FAQ detail, guide cautions, related links, SEO copy, privacy behavior, and ordering limits.',
+      'Manually checked UUID v4 bit setting, output formatting, quantity guardrails, examples, seven visible FAQs, generated FAQ detail, guide cautions, related links, SEO copy, privacy behavior, ordering limits, and secret-token limits.',
     ],
     followUps: [
       'Add UUID v7 only with timestamp wording and tests for ordering behavior.',

@@ -7046,6 +7046,11 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'No. UUID v4 values are random identifiers, not timestamps or ordered numbers. They are good when you need a hard-to-guess unique-looking ID, but they should not be used when a database, log, or file list needs chronological order.',
       },
+      {
+        question: 'Can I use a UUID v4 as a secret token?',
+        answer:
+          'Do not treat a UUID as a password reset token, login secret, API key, or proof of permission. For security workflows, use a purpose-built random token with enough entropy, short expiration, server-side storage or hashing, and checks that match your app threat model.',
+      },
     ],
     useCases: [
       'Generate IDs for mock data, test records, fixtures, or local prototypes.',
