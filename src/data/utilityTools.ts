@@ -565,6 +565,13 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts IPv4 octets to a 32-bit number, builds the CIDR subnet mask, then uses bitwise network and wildcard math.',
     limit:
       'This tool covers IPv4 CIDR math. It does not configure routers, validate a live network, or handle IPv6 subnets.',
+    extraFaq: [
+      {
+        question: 'Why do /31 and /32 subnets look different?',
+        answer:
+          'Most IPv4 subnets reserve the first address as the network address and the last address as broadcast. A /31 is commonly used for point-to-point links with two usable addresses, and a /32 represents one exact host address.',
+      },
+    ],
     useCases: [
       'Find the network and broadcast address for an IPv4 CIDR block.',
       'Convert a prefix length such as /24 into a dotted decimal subnet mask.',

@@ -2934,8 +2934,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'subnet-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-risk-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [rfc4632, rfc3986],
     findings: [
@@ -2944,7 +2944,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The guide clearly limits the page to IPv4 CIDR planning and avoids implying it changes any live network settings.',
     ],
     improvements: [
-      'Manually checked CIDR logic, examples, guide article, alias coverage, privacy note, related tools, and source references.',
+      'Added a visible /31 and /32 FAQ, refreshed tool and guide modified dates, and manually checked CIDR logic, examples, guide article, alias coverage, privacy note, related tools, and source references.',
     ],
     followUps: [
       'Add an IPv6 subnet calculator as a separate future tool rather than overloading this IPv4 page.',
