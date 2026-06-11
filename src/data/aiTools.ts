@@ -178,25 +178,25 @@ export const aiTools: ToolDefinition[] = [
     name: 'Sentiment Analyzer',
     summary: 'Check whether text reads positive, negative, or uncertain in your browser.',
     description:
-      'Use this free browser sentiment analyzer to classify short text as positive or negative with a local browser model and plain-language confidence notes.',
+      'Use this free browser sentiment analyzer to check 1 to 3 sentence reviews, comments, or draft replies for positive, negative, or uncertain tone.',
     icon: 'tool-ai-sentiment',
     modelNote: 'Uses a self-hosted Transformers.js text model only after you press Analyze sentiment.',
     inputMeaning:
-      'Paste the sentence, review, comment, or short paragraph you want to check. Longer text can mix different emotions, so use one focused passage for clearer results.',
+      'Paste one focused sentence, review, comment, or short paragraph. For example, use a 1 to 3 sentence support reply or product review instead of a full page, because longer text can mix different emotions.',
     resultMeaning:
-      'Read the label as the model prediction and the score as confidence for that prediction. A high score does not mean the model understands sarcasm, context, or intent.',
+      'Read the label as the model prediction and the score as confidence for that prediction. If positive is about 92% and negative is about 8%, the text probably reads positive, but the model still may miss sarcasm, context, or intent.',
     doubleCheck:
       'Check sarcasm, jokes, mixed reviews, slang, and sensitive topics manually. Sentiment models can miss tone when the words are positive but the meaning is negative.',
     useCases: [
-      'Check the emotional direction of a short review or comment.',
-      'Compare how two draft messages might read to someone else.',
-      'Spot strongly negative wording before publishing support or product copy.',
+      'Check the emotional direction of a 1 to 3 sentence review or comment.',
+      'Compare two draft messages before sending a customer reply.',
+      'Spot strongly negative wording before publishing support, product, or app-store copy.',
       'Practice understanding sentiment labels for school or data projects.',
     ],
     examples: [
-      { label: 'Positive review', expression: 'This saved me time and felt clear.', result: 'Likely positive' },
-      { label: 'Negative review', expression: 'The answer was confusing and I had to redo everything.', result: 'Likely negative' },
-      { label: 'Mixed message', expression: 'The idea is good, but the instructions need work.', result: 'Check manually' },
+      { label: 'Positive review', expression: 'This saved me 10 minutes and felt clear.', result: 'Likely positive, then check the confidence score.' },
+      { label: 'Negative review', expression: 'The answer was confusing and I had to redo everything twice.', result: 'Likely negative, but reread the full context.' },
+      { label: 'Mixed message', expression: 'The idea is good, but step 2 needs work.', result: 'Check manually because mixed text can split the score.' },
     ],
     relatedSlugs: ['tone-checker', 'keyword-extractor', 'reading-level-checker'],
   }),

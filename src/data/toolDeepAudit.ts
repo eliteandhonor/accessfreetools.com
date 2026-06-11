@@ -7790,8 +7790,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'sentiment-analyzer',
     status: 'deep-reviewed',
-    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-gsc-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [transformersJs, googleHelpfulContent],
     findings: [
@@ -7800,7 +7800,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The component lazy-loads a self-hosted MobileBERT zero-shot text model only after Analyze sentiment and includes a local fallback for graceful failure.',
     ],
     improvements: [
-      'Added an interactive sentiment analyzer, sample text buttons, copyable result, history kept only in-tab, source-backed guide, plain-language model-limit notes, and local-only model loading for the starter text classifier.',
+      'Added an interactive sentiment analyzer, sample text buttons, copyable result, history kept only in-tab, source-backed guide, plain-language model-limit notes, local-only model loading for the starter text classifier, concrete 1 to 3 sentence examples, confidence-score interpretation wording, and refreshed tool modified date.',
     ],
     followUps: [
       'Review real search-console queries later to decide whether neutral/mixed scoring deserves a separate calibrated model or clearer UI state.',
