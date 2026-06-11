@@ -7564,17 +7564,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'json-formatter',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-gsc-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [mdnJson, googleHelpfulContent],
     findings: [
       'The JSON formatter parses JSON, optionally sorts object keys recursively, and serializes the result with two-space indentation.',
       'Tests cover nested sorted keys and formatted output.',
       'The guide warns that valid JSON syntax does not prove an API schema, security rule, or business requirement is valid.',
+      'The tool FAQ now explicitly explains that formatting changes whitespace and optional key order, not the underlying JSON values after a successful parse.',
     ],
     improvements: [
-      'Manually checked JSON parse errors, sorted-key behavior, output labels, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Manually checked JSON parse errors, sorted-key behavior, output labels, examples, six visible FAQs, guide cautions, related links, SEO copy, privacy behavior, and value-preservation wording.',
     ],
     followUps: [
       'Add JSON schema validation only as a separate mode with clear schema input and error output.',

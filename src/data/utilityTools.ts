@@ -7002,6 +7002,13 @@ export const utilityTools: ToolDefinition[] = [
       'The tool parses JSON text in the browser, optionally sorts object keys recursively, then serializes the result with two-space indentation.',
     limit:
       'This checks JSON syntax, not whether the data matches an API schema, security rule, or business requirement.',
+    extraFaq: [
+      {
+        question: 'Does formatting change my JSON values?',
+        answer:
+          'A successful format keeps the JSON data values the same. The tool may change whitespace, indentation, and object key order if sorting is on, but strings, numbers, booleans, null values, arrays, and nested object values should still represent the same data.',
+      },
+    ],
     useCases: [
       'Pretty-print minified JSON before reading or sharing it.',
       'Check whether copied JSON has valid quotes, commas, braces, and brackets.',
@@ -7013,7 +7020,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Array data', expression: '[{"name":"Basic"},{"name":"Scientific"}]', result: 'Indented array' },
       { label: 'Sorted keys', expression: '{"z":3,"a":1}', result: 'Keys sorted alphabetically' },
     ],
-    relatedSlugs: ['base64-encode-decode', 'url-encode-decode', 'hash-generator'],
+    relatedSlugs: ['url-encode-decode', 'utm-builder', 'markdown-table-generator'],
   }),
   makeUtilityTool({
     slug: 'uuid-generator',
