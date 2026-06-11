@@ -389,6 +389,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-text-summarizer': '2026-06-11',
   'how-to-use-keyword-extractor': '2026-06-11',
   'how-to-use-image-classifier': '2026-06-11',
+  'how-to-use-tone-checker': '2026-06-11',
   'how-to-use-gdp-calculator': '2026-05-26',
   'how-to-use-golf-handicap-calculator': '2026-05-31',
   'how-to-use-gas-mileage-calculator': '2026-05-31',

@@ -214,24 +214,29 @@ const guideDetails: Record<string, AiGuideDetail> = {
   },
   'tone-checker': {
     summary:
-      'Learn how to use the browser tone checker for emails, support replies, and short messages without treating it as a final judgment.',
+      'Learn how to use the browser tone checker for short emails, support replies, captions, and chat messages without treating tone labels as proof of intent.',
     purpose:
-      'The Tone Checker reviews how a message may feel to a reader. It helps you spot friendly, formal, urgent, or unclear wording before sending or publishing.',
+      'The Tone Checker reviews how a short message may feel to a reader. It helps you spot friendly or helpful, formal or careful, urgent or direct, and unclear or mixed wording before you send an email, support reply, caption, or chat note.',
     enter: [
-      'Paste the message or draft you want to review.',
+      'Paste at least 12 characters from one short message or draft.',
+      'Use 1 to 5 sentences when possible so the tool has enough wording, punctuation, and context to compare.',
+      'Try low-risk examples first, such as "Thanks for waiting. I can help with that now." or "Please fix this immediately before launch."',
       'Press Check tone.',
-      'Read the likely tone and the writing notes.',
+      'Read the likely tone label and the writing notes.',
       'Adjust the wording based on your audience and situation.',
     ],
     read: [
-      'The tone label is writing feedback, not a judgment of the writer.',
-      'Notes point to words and patterns that may affect how the text feels.',
-      'The tool cannot know your relationship, culture, or full context.',
+      'The top label is the closest match among friendly or helpful, formal or careful, urgent or direct, and unclear or mixed.',
+      'A result such as urgent or direct at 64% means the wording may feel time-sensitive or blunt; it is not proof of the writer intent.',
+      'Notes point to words, punctuation, and phrasing patterns that may affect how the text feels to a reader.',
+      'The tool cannot know your audience, relationship, culture, humor, sarcasm, or full situation.',
     ],
     mistakes: [
       'Do not use tone output to accuse someone of intent.',
       'Do not ignore audience expectations or workplace style rules.',
-      'Do not paste private conflict messages unless you are comfortable processing them locally.',
+      'Do not use the result as evidence for HR issues, legal risk, mental health, customer-safety decisions, or personality judgments.',
+      'Do not paste private conflict messages unless you are comfortable processing them in your browser tab.',
+      'Do not assume a direct message is rude; a launch request like "Please fix this immediately before launch" may simply be time-sensitive.',
     ],
     sources: [sourceLinks.transformersJs, sourceLinks.googleHelpfulContent],
   },
