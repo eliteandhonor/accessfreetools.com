@@ -7751,8 +7751,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'markdown-table-generator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-gsc-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [githubGfmTables, googleHelpfulContent],
     findings: [
@@ -7761,7 +7761,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The guide warns that Markdown rendering varies by platform and users should preview tables where they plan to publish them.',
     ],
     improvements: [
-      'Manually checked table parsing, delimiter generation, alignment output, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Added a visible merged-cell and line-break limit FAQ, refreshed tool and guide modified dates, and manually checked table parsing, delimiter generation, alignment output, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
     ],
     followUps: [
       'Add CSV paste cleanup later only if quote handling is implemented with tests.',

@@ -9002,6 +9002,13 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Feature matrix', expression: 'Feature | Free | Notes', result: 'Pipe-style markdown table' },
       { label: 'Simple report', expression: 'Metric, Value with two rows', result: 'Right-aligned markdown table' },
     ],
+    extraFaq: [
+      {
+        question: 'Can Markdown tables have merged cells or line breaks?',
+        answer:
+          'Plain GitHub-flavored Markdown tables do not support merged cells, and multi-line cells can render differently by platform. For simple docs, keep one idea per cell. If you need a complex layout, test HTML table markup, line breaks, or a real spreadsheet/table editor where you plan to publish.',
+      },
+    ],
     relatedSlugs: ['word-counter', 'character-counter', 'css-clamp-calculator'],
   }),
 ];
