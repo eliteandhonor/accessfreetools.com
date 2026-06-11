@@ -1114,25 +1114,67 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.isoDate, sourceLinks.nistTime],
   },
   'hours-calculator': {
-    summary: 'Learn how to calculate hours worked from a start time, end time, and break.',
+    summary:
+      'Learn how to calculate hours worked, decimal hours, unpaid breaks, overnight shifts, and simple gross pay.',
+    metaDescription:
+      'Use the Hours Calculator guide to turn start time, end time, unpaid breaks, and optional hourly rate into worked hours, decimal hours, and gross pay.',
     purpose:
-      'The Hours Calculator turns a shift into decimal hours and an hours-minutes view. It can also estimate simple gross pay when an hourly rate is entered.',
+      'The Hours Calculator turns a start time, end time, and unpaid break into the hours you worked. It shows the answer as decimal hours for time sheets, hours and minutes for easy reading, and a simple gross pay estimate when you add an hourly rate.',
+    intro:
+      'This guide is for the moment when your shift log says 9:00 AM to 5:30 PM, your break was 30 minutes, and you need the number that goes on a time sheet or invoice. The calculator handles the time math, including overnight shifts, but it does not decide payroll rules for you.',
+    inputMatch: 'the start clock time, end clock time, unpaid break minutes, and optional hourly rate',
+    logicNote:
+      'For 9:00 AM to 5:30 PM with a 30 minute break, the calculator counts 8.5 hours from start to end, subtracts 0.5 hours, and returns 8.0 decimal hours. If you add $25/hour, gross pay is $200.00.',
+    readIntro:
+      'Read decimal hours when a payroll form, invoice, or spreadsheet needs one number. Read the hours-and-minutes line when you want the everyday version of the same duration.',
+    mistakeIntro:
+      'The biggest mistakes are small input mistakes: mixing up AM and PM, entering paid breaks as unpaid breaks, or forgetting that an overnight end time is on the next day. Official payroll rounding, overtime, and break rules still need the policy that applies to you.',
     enter: [
-      'Enter the shift start and end time.',
-      'Enter unpaid break minutes.',
-      'Add hourly rate only when you want a quick gross pay estimate.',
+      'Enter the clock time when the shift started.',
+      'Enter the clock time when the shift ended. If the shift crosses midnight, use the next-day end time you mean.',
+      'Enter only unpaid break minutes. Leave paid breaks out because they still count as worked time.',
+      'Add an hourly rate only when you want a quick gross pay estimate before taxes, deductions, overtime, or premiums.',
     ],
     read: [
-      'Decimal hours is the value usually used on time sheets.',
-      'Hours and minutes gives a more readable duration.',
-      'Gross pay multiplies decimal hours by the hourly rate you entered.',
+      'Decimal hours is the value usually used on time sheets. For example, 7 hours 30 minutes becomes 7.5 hours.',
+      'Hours and minutes gives a more readable duration so you can sanity-check the result.',
+      'Gross pay multiplies decimal hours by the hourly rate you entered. It is a simple estimate, not a final paycheck.',
+      'If the end time is earlier than the start time, the calculator treats it as an overnight shift and counts through midnight.',
     ],
     mistakes: [
-      'Do not treat this as payroll advice.',
-      'Check employer rounding, overtime, split-shift, and break rules separately.',
-      'For overnight shifts, make sure the end time is the next-day end time you intend.',
+      'Do not treat the result as payroll advice or a legal wage calculation.',
+      'Check employer rounding, overtime, split-shift, holiday, travel, and break rules separately.',
+      'Do not subtract paid breaks. Only subtract break time that should not count as work time.',
+      'Watch AM and PM. 8:00 AM to 4:30 PM is a normal day shift; 8:00 PM to 4:30 AM is overnight.',
+      'If a shift spans time zones, daylight saving changes, or manual clock edits, confirm the official timekeeping record.',
     ],
-    sources: [sourceLinks.isoDate],
+    extraSections: [
+      {
+        title: 'Worked shift examples to compare',
+        paragraphs: [
+          'Use these examples to check whether your own result feels right before you copy it into a time sheet, invoice, or notes app.',
+        ],
+        bullets: [
+          'Day shift: 9:00 AM to 5:30 PM with a 30 minute break spans 8.5 hours, subtracts 0.5 hours, and returns 8.0 hours.',
+          'No break: 8:15 AM to 4:00 PM returns 7.75 hours, which is 7 hours 45 minutes.',
+          'Overnight: 10:00 PM to 6:30 AM with a 45 minute break returns 7.75 hours.',
+          'With pay: 1:20 PM to 6:50 PM with a 15 minute break returns 5.25 hours; at $18/hour, gross pay is $94.50.',
+        ],
+      },
+      {
+        title: 'When this guide is not enough',
+        paragraphs: [
+          'Use this guide for clean time math. Use your employer policy, contract, payroll system, or local labor rules for decisions about rounding, overtime, unpaid breaks, paid breaks, shift premiums, and final pay.',
+          'If you are checking a whole week of shifts, a time-card workflow may be easier than one shift at a time. If you are turning pay into yearly or monthly income, use a salary tool after you know the hourly amount is right.',
+        ],
+        links: [
+          { href: '/tools/time-card-calculator/', label: 'Time Card Calculator for weekly shift totals' },
+          { href: '/tools/time-calculator/', label: 'Time Calculator for adding plain durations' },
+          { href: '/tools/salary-calculator/', label: 'Salary Calculator for pay-period estimates' },
+        ],
+      },
+    ],
+    sources: [sourceLinks.isoDate, sourceLinks.nistTime],
   },
   'gpa-calculator': {
     summary: 'Learn how credits, letter grades, grade points, and quality points create a GPA.',
