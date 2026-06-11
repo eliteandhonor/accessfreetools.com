@@ -2915,17 +2915,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'password-generator',
     status: 'deep-reviewed',
-    batch: 'priority-risk-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [nistPasswords, mdnCryptoRandomValues],
     findings: [
       'The generator uses browser cryptographic random values and rejects browsers without secure random support.',
       'Generated passwords are kept out of recent-answer history, which matches the privacy note and reduces accidental exposure.',
-      'The guide explains length, character pool, entropy, unique passwords, ambiguous characters, and password-manager storage.',
+      'The tool and guide explain length, character pool, entropy, unique passwords, ambiguous characters, browser-only generation, no recent-history storage, and password-manager storage.',
     ],
     improvements: [
-      'Manually checked secure-random code, no-history behavior, UI options, guide article, FAQ cautions, and source notes.',
+      'Added a visible no-save/no-send FAQ, refreshed tool and guide modified dates, and manually checked secure-random code, no-history behavior, UI options, guide article, FAQ cautions, and source notes.',
     ],
     followUps: [
       'Add a passphrase generator mode later for users who need easier manual typing.',

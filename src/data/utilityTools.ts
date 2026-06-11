@@ -590,6 +590,13 @@ export const utilityTools: ToolDefinition[] = [
       'The generator builds a character pool from your choices and uses browser cryptographic random values to choose each character.',
     limit:
       'Use a unique password for every account, store it in a trusted password manager, and follow the password rules for the service you are using.',
+    extraFaq: [
+      {
+        question: 'Does the Password Generator save or send my password?',
+        answer:
+          'No. The password is generated in your browser tab, is not added to recent answer history, and should be copied straight into a trusted password manager instead of being reused or stored in a note.',
+      },
+    ],
     useCases: [
       'Create a unique password for a new account.',
       'Generate longer passwords for password manager storage.',
