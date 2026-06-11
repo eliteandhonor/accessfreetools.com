@@ -144,7 +144,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'css-clamp-calculator': '2026-06-04',
   'hash-generator': '2026-06-04',
   'unix-timestamp-converter': '2026-06-11',
-  'color-contrast-checker': '2026-06-04',
+  'color-contrast-checker': '2026-06-11',
   'aspect-ratio-calculator': '2026-06-04',
   'utm-builder': '2026-06-04',
   'query-string-parser': '2026-06-04',

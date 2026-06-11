@@ -7628,8 +7628,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'color-contrast-checker',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-06-04',
+    batch: 'seo-tool-review-color-contrast-checker-tool-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [wcagContrast, googleHelpfulContent],
     findings: [
@@ -7641,6 +7641,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'Manually checked contrast formula, hex validation, AA/AAA thresholds, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
       'Added WCAG AA and AAA threshold FAQs, exact contrast-ratio examples, foreground/background input explanations, visible AAA large-text result output, stronger real-component limits, better design-related links, SEO title/meta copy, and a 2026-06-04 modified date.',
       'Expanded the matching guide with a near-miss #777777 on white walkthrough, formula steps, AA and AAA reading guidance, state/background mistakes, source context, and a 2026-06-04 guide modified date.',
+      'Fresh June 11 tool revalidation added practical state-testing and non-text UI contrast FAQs, refreshed the tool modified date, and kept the WCAG formula, exact examples, limits, and related links aligned with the live page.',
     ],
     followUps: [
       'Add color picker controls later if they stay compact and keyboard accessible.',

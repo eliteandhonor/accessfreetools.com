@@ -7327,6 +7327,16 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'No. A passing ratio is important, but it does not check font size, line height, focus outlines, hover states, disabled controls, icons without text, color-only meaning, or whether the color sits on a gradient or image.',
       },
+      {
+        question: 'Should I test hover, focus, selected, and disabled states separately?',
+        answer:
+          'Yes. A button, tab, link, or form field can change text color, border color, background color, or outline color in each state. Test the exact colors for the real state people will see, especially focus and selected states.',
+      },
+      {
+        question: 'Can I use this for icons, borders, and focus outlines?',
+        answer:
+          'You can use the ratio as a quick check, but decide whether the element is text, non-text UI, or decorative. Meaningful icons, focus outlines, and control borders often need their own contrast check against the adjacent color.',
+      },
     ],
     useCases: [
       'Check text color against a page background before publishing.',
