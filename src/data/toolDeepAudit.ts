@@ -7866,17 +7866,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'image-classifier',
     status: 'deep-reviewed',
-    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-gsc-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [transformersJs, googleHelpfulContent],
     findings: [
-      'The image classifier explains labels as model guesses and warns against identity, safety, medical, legal, authenticity, or moderation decisions.',
-      'The FAQ covers clear single-subject images, confidence scores, model label limits, privacy, first-run model loading, and why crowded images can be unreliable.',
-      'The component creates a local object URL for the selected image and revokes it after classification, with the model loaded only after the user action.',
+      'The image classifier explains top 5 labels as model guesses with confidence scores and warns against treating results as proof of breed, identity, product authenticity, safety, or moderation outcomes.',
+      'The visible guidance now names clear JPG, PNG, or WebP inputs, good light, simple backgrounds, pet, plant, vehicle, food, and household-object use cases, and crowded or low-light uncertainty.',
+      'The component creates a local object URL for the selected image, revokes it after classification, and loads the Xenova/vit-base-patch16-224 image-classification model only after the user action.',
     ],
     improvements: [
-      'Added browser image-classification UI, top-label output, source-backed guide, no-upload privacy language, related image tools, and common mistake guidance.',
+      'Refreshed the tool copy with concrete image examples, model-loading wording, top-label interpretation, consequential-use warnings, and the 2026-06-11 modified date.',
     ],
     followUps: [
       'Check mobile memory behavior again after deployment before adding image previews or larger vision models.',

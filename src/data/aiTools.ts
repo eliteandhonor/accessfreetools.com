@@ -299,25 +299,38 @@ export const aiTools: ToolDefinition[] = [
     name: 'Image Classifier',
     summary: 'Classify an uploaded image in your browser with model confidence notes.',
     description:
-      'Use this free browser image classifier to get likely labels for a photo or simple image without uploading the image to Access Free Tools.',
+      'Classify clear, low-stakes images in your browser with top model labels and confidence scores without uploading the file to Access Free Tools.',
     icon: 'tool-ai-image',
-    modelNote: 'Uses a Transformers.js image classification model after you choose an image and press Classify image.',
+    modelNote:
+      'Loads the Xenova/vit-base-patch16-224 image-classification model after you choose an image and press Classify image.',
     inputMeaning:
-      'Choose a photo or simple image with one main subject. The classifier works best when the image is clear, well lit, and not packed with many different objects.',
+      'Choose a JPG, PNG, or WebP image with one clear main subject, such as a pet, plant, vehicle, food, or household object. The classifier works best with good light, a simple background, and images that are not crowded or identity-sensitive.',
     resultMeaning:
-      'Read labels as model guesses and scores as confidence. The top label is not guaranteed, and the model can only choose from labels it learned during training.',
+      'Read the top 5 labels as model guesses and the percentages as confidence scores. A label such as golden retriever at 72% means the model found that training label most similar; it is not proof of breed, identity, product authenticity, or safety.',
     doubleCheck:
-      'Check important image labels manually. Do not use this tool for identity, safety, medical, legal, product authenticity, or moderation decisions.',
+      'Check important image labels manually, especially for rare objects, mixed scenes, brand names, animals, plants, and anything consequential. Do not use this tool for identity, safety, medical, legal, product-authenticity, or moderation decisions.',
     useCases: [
-      'Get a quick label guess for a simple image.',
-      'Compare model confidence across a few likely labels.',
+      'Get a quick label guess for a simple object photo before naming a file.',
+      'Compare confidence scores for a pet, plant, vehicle, food, or household item.',
       'Learn how image classification results are presented.',
-      'Check whether a photo has one clear main subject.',
+      'Spot when a crowded or low-light image produces uncertain guesses.',
     ],
     examples: [
-      { label: 'Single object photo', expression: 'Upload a clear image of one main object', result: 'Likely image labels' },
-      { label: 'Busy image', expression: 'Upload a crowded scene', result: 'Lower confidence labels' },
-      { label: 'Unusual object', expression: 'Upload a rare item', result: 'May need manual check' },
+      {
+        label: 'Clear pet photo',
+        expression: 'Choose a bright photo of one dog on a plain floor',
+        result: 'Top labels with confidence scores and a manual breed check',
+      },
+      {
+        label: 'Kitchen object',
+        expression: 'Choose a clear mug or bowl photo',
+        result: 'Object-like labels, not a product-authenticity result',
+      },
+      {
+        label: 'Crowded scene',
+        expression: 'Choose a busy desk or shelf photo',
+        result: 'Mixed or lower-confidence labels to verify manually',
+      },
     ],
     relatedSlugs: ['image-to-text-ocr-tool', 'color-contrast-checker', 'aspect-ratio-calculator'],
   }),
