@@ -7208,7 +7208,7 @@ export const utilityTools: ToolDefinition[] = [
       doubleCheck:
         'Check the mode, confirm the time is already in UTC, and make sure you did not paste a millisecond timestamp while seconds is selected.',
       privacy:
-        'Yes. The conversion runs in your browser tab with JavaScript date math, so the timestamp value does not need to be sent to a server.',
+        'No. The conversion runs in your browser tab with JavaScript date math, so the timestamp value does not need to be sent to a server.',
     },
     inputExplanations: [
       {

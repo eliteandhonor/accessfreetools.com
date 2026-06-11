@@ -7142,8 +7142,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'unix-timestamp-converter',
     status: 'deep-reviewed',
-    batch: 'seo-tool-review-unix-timestamp-converter-tool-2026-06-04',
-    reviewedOn: '2026-06-04',
+    batch: 'seo-tool-review-unix-timestamp-converter-tool-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [isoDate, nistTimeDefinitions, mdnDate],
     findings: [
@@ -7152,7 +7152,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The visible FAQ separates UTC timestamp math, seconds versus milliseconds, local time-zone display, and scheduling limits.',
     ],
     improvements: [
-      'Refreshed the SEO title/meta copy, UTC conversion formula, input explanations, exact examples, visible FAQ detail, source coverage, last-modified dates, local privacy wording, and matching guide walkthrough for the timestamp pages.',
+      'Refreshed the SEO title/meta copy, UTC conversion formula, input explanations, exact examples, visible FAQ detail, source coverage, last-modified dates, local privacy wording, and matching guide walkthrough for the timestamp pages; June 11 revalidation corrected the privacy FAQ answer to say the site does not save entered timestamp values.',
     ],
     followUps: [
       'Add ISO string parsing later only with strict invalid-date errors and tests.',
