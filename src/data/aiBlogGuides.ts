@@ -160,24 +160,27 @@ const guideDetails: Record<string, AiGuideDetail> = {
   },
   'keyword-extractor': {
     summary:
-      'Learn how to use the browser keyword extractor, read phrase counts, and avoid treating repeated words as a writing plan.',
+      'Learn how to use the browser keyword extractor on real drafts, read phrase counts, and avoid treating repeated words as search-volume data.',
     purpose:
-      'The Keyword Extractor finds repeated words and short phrases in pasted text. It is useful for drafts, notes, and content planning when you want to see what the text talks about most.',
+      'The Keyword Extractor finds repeated topic words and short phrases in pasted text. It is useful for 80 to 1,500 word blog drafts, class notes, product copy, meeting notes, and support replies when you want to see what the text talks about most.',
     enter: [
-      'Paste the text you want to inspect.',
+      'Paste a natural text sample, such as a 700-word guide about refund policy and shipping delays.',
+      'Use product copy, class notes, meeting notes, or a support article when you want a topic map.',
       'Press Extract keywords.',
-      'Review the top words and phrases.',
+      'Review repeated words and short phrases, then group close variants such as cost and costs by hand.',
       'Use the list as topic clues, then choose natural wording yourself.',
     ],
     read: [
-      'Higher counts mean a term appears more often in the pasted text.',
-      'Phrases can show repeated topics better than single words.',
-      'The result is not a search-volume or popularity tool.',
+      'Higher counts mean a term appears more often in the pasted text, not that people search for it.',
+      'A phrase like "refund policy" appearing 5 times means the draft repeats that phrase.',
+      'Phrases such as "shipping delay," "battery life," or "charging time" can show repeated topics better than single words.',
+      'The result is not search volume, keyword difficulty, or ranking advice.',
     ],
     mistakes: [
-      'Do not stuff every keyword into a page title.',
+      'Do not stuff every repeated phrase into a page title.',
       'Do not ignore the reader, the wording, or the actual question being answered.',
-      'Do not treat brand names and repeated filler words as automatically useful keywords.',
+      'Do not treat brand names, duplicate variants, or repeated filler words as automatically useful keywords.',
+      'Do not use the list as a final SEO plan without checking intent and reader language.',
     ],
     sources: [sourceLinks.googleHelpfulContent, sourceLinks.transformersJs],
   },
