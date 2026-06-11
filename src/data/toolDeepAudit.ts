@@ -7904,17 +7904,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'reading-level-checker',
     status: 'deep-reviewed',
-    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-gsc-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [fleschKincaidFormula, googleHelpfulContent],
     findings: [
-      'The reading-level checker uses explainable browser formulas and correctly says grade level is an estimate, not an official school score.',
-      'The FAQ explains pasted-text input, grade estimate, reading ease, sentence length, word difficulty, privacy, and why layout or subject matter still matters.',
-      'The component performs local word, sentence, syllable, and long-word analysis without a server model, keeping the result fast and private.',
+      'The Reading Level Checker uses explainable browser formulas and correctly says grade level is an estimate, not an official school score.',
+      'The refreshed copy explains the 40-character minimum, better 100 to 800 word sample range, grade estimate, reading ease, word count, sentence count, average sentence length, and long-word signals.',
+      'The component performs local word, sentence, syllable, average-sentence, and long-word analysis without a server model, keeping the result fast and private.',
     ],
     improvements: [
-      'Added readability metrics, examples, source-backed guide, copyable result, AI category placement, and plain-language notes about formula limits.',
+      'Refreshed examples around simple help text, 300-word guide drafts, jargon-heavy technical paragraphs, local formula scoring, audience/context limits, and the 2026-06-11 modified date.',
     ],
     followUps: [
       'Add a plain-language rewrite checklist later if users need help lowering the grade level after seeing the score.',

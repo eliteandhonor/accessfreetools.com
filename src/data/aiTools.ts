@@ -379,25 +379,37 @@ export const aiTools: ToolDefinition[] = [
     name: 'Reading Level Checker',
     summary: 'Estimate reading grade level, sentence length, and readability signals.',
     description:
-      'Use this free browser reading level checker to estimate grade level, reading ease, word count, sentence length, and plain-language signals.',
+      'Estimate the reading grade level, reading ease, word count, sentence length, and long-word signals for a pasted paragraph in your browser.',
     icon: 'tool-ai-reading',
     modelNote: 'Uses browser readability formulas, not a server model, so it runs locally and gives explainable scoring signals.',
     inputMeaning:
-      'Paste the text you want to check. The calculator looks at sentences, words, syllables, and long words to estimate how hard the text may be to read.',
+      'Paste at least 40 characters from one paragraph, help article, school note, blog draft, or instruction block. A 100 to 800 word sample usually gives a steadier estimate than a headline, menu label, or single sentence.',
     resultMeaning:
-      'Read the grade level as an estimate of text difficulty. It does not measure truth, quality, creativity, or whether the text is right for your exact audience.',
+      'Read the grade level as a Flesch-Kincaid-style estimate of text difficulty. The tool also shows reading ease, total words, sentence count, average sentence length, and long words of 7 or more letters so you can see why the score moved.',
     doubleCheck:
-      'Check jargon, audience age, subject difficulty, formatting, examples, and visuals manually. A short sentence can still be hard if the topic is complex.',
+      'Check jargon, audience age, subject difficulty, layout, examples, images, language mix, and required technical terms manually. A grade 6 estimate does not prove the text is accurate, useful, or right for every reader.',
     useCases: [
-      'Estimate whether a guide is easy enough for general readers.',
-      'Check sentence length before publishing a blog or help page.',
-      'Make school notes or instructions easier to read.',
-      'Compare a draft before and after simplifying it.',
+      'Estimate whether a help article is readable enough for general customers.',
+      'Check average sentence length before publishing a blog guide or product FAQ.',
+      'Make school notes, safety instructions, or onboarding text easier to scan.',
+      'Compare a 300-word draft before and after replacing jargon or splitting long sentences.',
     ],
     examples: [
-      { label: 'Simple help text', expression: 'Paste a short support paragraph', result: 'Reading grade estimate' },
-      { label: 'Blog draft', expression: 'Paste 300 words of a guide', result: 'Ease score and sentence stats' },
-      { label: 'Technical paragraph', expression: 'Paste jargon-heavy text', result: 'Higher difficulty warning' },
+      {
+        label: 'Simple help text',
+        expression: 'Enter your numbers, press calculate, and read the answer.',
+        result: 'About grade 6.3, reading ease 66.1, 9 words, 1 sentence, and 2 long words',
+      },
+      {
+        label: 'Blog draft sample',
+        expression: 'Paste 300 words from a how-to guide before publishing.',
+        result: 'Grade estimate, reading ease, words, sentences, and average sentence length',
+      },
+      {
+        label: 'Technical paragraph',
+        expression: 'Paste a jargon-heavy paragraph about implementation details.',
+        result: 'Higher difficulty warning from longer words and denser sentences',
+      },
     ],
     relatedSlugs: ['keyword-extractor', 'text-summarizer', 'word-counter'],
   }),

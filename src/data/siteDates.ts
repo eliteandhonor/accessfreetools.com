@@ -191,6 +191,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'keyword-extractor': '2026-06-11',
   'image-classifier': '2026-06-11',
   'tone-checker': '2026-06-11',
+  'reading-level-checker': '2026-06-11',
   'gdp-calculator': '2026-05-26',
   'bandwidth-calculator': '2026-06-04',
   'wallpaper-calculator': '2026-05-26',
