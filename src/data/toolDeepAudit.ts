@@ -7847,17 +7847,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'keyword-extractor',
     status: 'deep-reviewed',
-    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-gsc-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [googleHelpfulContent, transformersJs],
     findings: [
-      'The keyword extractor uses lightweight browser text analysis and correctly avoids claiming search volume, ranking difficulty, or guaranteed SEO performance.',
-      'The FAQ explains pasted-text input, repeated words, phrase counts, privacy, common keyword-stuffing mistakes, and how to use results as topic clues.',
-      'The component runs without a model download, making it a fast AI-category utility that still fits the browser-only privacy standard.',
+      'The keyword extractor uses count-based browser text analysis and correctly avoids claiming search volume, ranking difficulty, or guaranteed SEO performance.',
+      'The visible guidance explains 80 to 1,500 word pasted-text input, repeated terms, short phrase counts, brand-name checks, close duplicate variants, and browser-only privacy.',
+      'The examples cover a 700-word refund-policy guide, product copy with battery and warranty notes, and a 250-word photosynthesis class note so users can read counts as topic clues.',
     ],
     improvements: [
-      'Added count-based keyword and phrase extraction, examples, source-backed guide, related writing tools, copyable output, and plain-language SEO caveats.',
+      'Refreshed the tool copy with concrete input lengths, count interpretation, search-volume caveats, specific examples, and the 2026-06-11 modified date.',
     ],
     followUps: [
       'Add optional stop-word editing later only if it does not make the interface too bulky for beginners.',

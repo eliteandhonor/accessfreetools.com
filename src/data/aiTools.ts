@@ -259,25 +259,38 @@ export const aiTools: ToolDefinition[] = [
     name: 'Keyword Extractor',
     summary: 'Pull repeated and important words or phrases from pasted text.',
     description:
-      'Use this free browser keyword extractor to find repeated words, likely key phrases, and topic clues from pasted text without sending the text to a server.',
+      'Find repeated topic words and short phrases in pasted drafts, class notes, product copy, or support notes without sending text to Access Free Tools.',
     icon: 'tool-ai-keywords',
-    modelNote: 'Uses lightweight browser text analysis rather than a server model, so it runs fast and keeps text local.',
+    modelNote:
+      'Uses count-based browser text analysis, not search-volume data or a ranking model, so it runs fast and keeps pasted text local.',
     inputMeaning:
-      'Paste the page, paragraph, caption, notes, or draft you want to inspect. The tool removes common filler words and looks for repeated topic words and short phrases.',
+      'Paste 80 to 1,500 words when possible: a draft section, study notes, product copy, meeting notes, or a support reply. The tool lowercases the text, removes common filler words, counts repeated terms, and highlights short phrases that appear more than once.',
     resultMeaning:
-      'Read the keyword list as topic clues. Higher counts usually mean a word or phrase appears more often, not that it is automatically the best word to use.',
+      'Read the list as a map of what the text talks about. A phrase like "refund policy" appearing 5 times means the draft repeats that phrase; it does not mean people search for it or that it should be stuffed into a title.',
     doubleCheck:
-      'Check the real question, natural wording, duplicates, brand names, and context before using a keyword list in a title, blog, or product page.',
+      'Check intent, reader language, brand names, duplicate variants, and missing terms before using a keyword list in a title, blog, or product page. Merge close forms such as cost and costs manually.',
     useCases: [
-      'Find topic words in a blog draft or study passage.',
-      'Clean up repeated terms before writing a title or summary.',
-      'Compare what a page talks about against what you meant it to cover.',
-      'Create a first-pass keyword list without uploading text.',
+      'Find repeated topics in a 700-word blog draft before writing a title.',
+      'Check whether product copy mentions the same feature names customers use.',
+      'Pull vocabulary from class notes before making flashcards.',
+      'Spot accidental repetition in a support article or FAQ.',
     ],
     examples: [
-      { label: 'Blog draft', expression: 'Paste a 400-word article draft', result: 'Top words and phrases' },
-      { label: 'Product notes', expression: 'Paste feature notes', result: 'Repeated topic clues' },
-      { label: 'Class notes', expression: 'Paste study notes', result: 'Main vocabulary list' },
+      {
+        label: 'Blog draft',
+        expression: 'Paste a 700-word guide about refund policy and shipping delays',
+        result: 'Repeated phrases such as "refund policy" and "shipping delay"',
+      },
+      {
+        label: 'Product notes',
+        expression: 'Paste product copy with battery life, charging time, and warranty notes',
+        result: 'Topic list with counts for battery, charging, and warranty',
+      },
+      {
+        label: 'Class notes',
+        expression: 'Paste 250 words about photosynthesis and chlorophyll',
+        result: 'Main vocabulary such as chlorophyll, sunlight, and carbon dioxide',
+      },
     ],
     relatedSlugs: ['text-summarizer', 'reading-level-checker', 'slug-generator'],
   }),
