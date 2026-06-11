@@ -7642,6 +7642,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'Added WCAG AA and AAA threshold FAQs, exact contrast-ratio examples, foreground/background input explanations, visible AAA large-text result output, stronger real-component limits, better design-related links, SEO title/meta copy, and a 2026-06-04 modified date.',
       'Expanded the matching guide with a near-miss #777777 on white walkthrough, formula steps, AA and AAA reading guidance, state/background mistakes, source context, and a 2026-06-04 guide modified date.',
       'Fresh June 11 tool revalidation added practical state-testing and non-text UI contrast FAQs, refreshed the tool modified date, and kept the WCAG formula, exact examples, limits, and related links aligned with the live page.',
+      'Fresh June 11 guide revalidation removed a doubled punctuation mark in the rendered input-matching note and refreshed the guide modified date for the current review pass.',
     ],
     followUps: [
       'Add color picker controls later if they stay compact and keyboard accessible.',

@@ -5658,7 +5658,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     intro:
       'Start with the real foreground and background hex values from the component you are checking. A color pair can pass on a white page and fail on a tinted card, gradient, image, hover state, or disabled state.',
     inputMatch:
-      'the exact foreground text color and background color as #RGB or #RRGGBB hex values, taken from the state and surface you plan to ship.',
+      'the exact foreground text color and background color as #RGB or #RRGGBB hex values, taken from the state and surface you plan to ship',
     logicNote:
       'For example, #777777 on #ffffff is about 4.4780894536:1. That is close, but it is still below the 4.5:1 AA normal-text threshold, so normal text fails while large AA text can pass.',
     readIntro:
