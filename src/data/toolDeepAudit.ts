@@ -7809,8 +7809,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'language-detector',
     status: 'deep-reviewed',
-    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-gsc-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [francLanguageDetection, googleHelpfulContent],
     findings: [
@@ -7819,7 +7819,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The component imports franc-min from the run path and shows language code plus alternative matches so users can understand uncertainty.',
     ],
     improvements: [
-      'Added the Language Detector tool page, examples, guide, related tools, browser-only copy, and result explanation around top guesses and detection limits.',
+      'Added the Language Detector tool page, examples, guide, related tools, browser-only copy, result explanation around top guesses and detection limits, concrete support-note examples, close Romance-language warnings, short-text guidance, and refreshed tool modified date.',
     ],
     followUps: [
       'Add a larger language-name map later if users frequently paste languages outside the current common-code list.',

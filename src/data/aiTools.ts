@@ -205,25 +205,25 @@ export const aiTools: ToolDefinition[] = [
     name: 'Language Detector',
     summary: 'Guess the language of pasted text with browser-side language detection.',
     description:
-      'Use this free language detector to identify the likely language of a text sample in your browser, with alternatives and clear confidence limits.',
+      'Use this free browser language detector to check a sentence or short paragraph, see likely languages, and spot uncertain text.',
     icon: 'tool-ai-language',
     modelNote: 'Uses the open-source franc language detector in the browser after you press Detect language.',
     inputMeaning:
-      'Paste at least a few words, ideally a full sentence or paragraph. Language detection works better with natural text than with names, addresses, codes, or single words.',
+      'Paste one natural sentence or short paragraph, such as a support note, product review, or copied message. For example, a 5 to 50 word note is usually stronger than 1 or 2 loose words. Avoid single words, names, addresses, URLs, and tracking codes because they can look like many languages.',
     resultMeaning:
-      'Read the top language as the best guess and the alternatives as nearby matches. Unknown means the sample is too short, too mixed, or not clear enough for the detector.',
+      'Read the top language as the best guess and alternatives as nearby matches. If Spanish is high but Portuguese also appears, check the full sentence before translating or tagging it.',
     doubleCheck:
-      'Check short text, mixed-language text, romanized text, and technical strings manually. A language detector is a clue, not proof of the writer or location.',
+      'Check short text, mixed-language text, romanized words, names, addresses, URLs, and technical strings manually. A language detector is a clue, not proof of the writer, country, or location.',
     useCases: [
-      'Guess the language of a pasted sentence or paragraph.',
-      'Check whether a mixed note contains enough text for detection.',
-      'Compare top alternatives when two languages look similar.',
-      'Sort simple text samples before translation or research.',
+      'Check the likely language of a support note, comment, or short review before routing it.',
+      'Compare alternatives when Spanish, Portuguese, Italian, or French text looks similar.',
+      'Flag text that is too short, mixed, romanized, or code-heavy for a confident label.',
+      'Sort simple text samples before translation, research, or cleanup.',
     ],
     examples: [
-      { label: 'English sentence', expression: 'This calculator works in the browser.', result: 'Likely English' },
-      { label: 'Spanish sentence', expression: 'Esta herramienta funciona en el navegador.', result: 'Likely Spanish' },
-      { label: 'Short text', expression: 'Hola', result: 'Too short or uncertain' },
+      { label: 'English sentence', expression: 'This support note was clear and easy to follow.', result: 'Likely English, then check alternatives.' },
+      { label: 'Spanish sentence', expression: 'Esta herramienta funciona en el navegador.', result: 'Likely Spanish, but compare close Romance-language matches.' },
+      { label: 'Short text', expression: 'Hola', result: 'Too short or uncertain; paste a full sentence.' },
     ],
     relatedSlugs: ['text-summarizer', 'keyword-extractor', 'text-case-converter'],
   }),
