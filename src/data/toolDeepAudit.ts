@@ -7828,17 +7828,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'text-summarizer',
     status: 'deep-reviewed',
-    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-gsc-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [transformersJs, googleHelpfulContent],
     findings: [
-      'The summarizer is clearly marked as an experimental browser draft helper with strict text-length limits rather than a replacement for the original source.',
-      'The FAQ and guide warn that summaries can miss numbers, exceptions, quotes, health, legal, finance, and tax details that need manual checking.',
+      'The summarizer is clearly marked as an experimental browser draft helper for 120 to 900 words of pasted notes, article text, or support updates rather than a replacement for the original source.',
+      'The FAQ and guide warn that summaries can miss names, dates, dollar amounts, exceptions, quoted wording, health, legal, finance, and tax details that need manual checking.',
       'The component lazy-loads the summarization model after the button press and falls back to simple extractive sentences if the browser model cannot run.',
     ],
     improvements: [
-      'Added browser summarization UI, examples, copyable summary output, source-backed guide, privacy note, and wording that keeps AI output as a draft to verify.',
+      'Refreshed the tool copy with concrete study-note, support-update, and too-short examples, clearer 120 to 900 word input guidance, stronger result interpretation, and a 2026-06-11 modified date.',
     ],
     followUps: [
       'Measure built bundle and real-device first-run performance before adding larger summarization models or document-sized inputs.',

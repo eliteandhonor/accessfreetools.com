@@ -187,6 +187,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'image-to-text-ocr-tool': '2026-06-11',
   'sentiment-analyzer': '2026-06-11',
   'language-detector': '2026-06-11',
+  'text-summarizer': '2026-06-11',
   'gdp-calculator': '2026-05-26',
   'bandwidth-calculator': '2026-06-04',
   'wallpaper-calculator': '2026-05-26',

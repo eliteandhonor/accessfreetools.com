@@ -230,27 +230,27 @@ export const aiTools: ToolDefinition[] = [
   makeAiTool({
     slug: 'text-summarizer',
     name: 'Text Summarizer',
-    summary: 'Create a short browser-generated summary from pasted text.',
+    summary: 'Summarize pasted notes into a browser-generated draft.',
     description:
-      'Use this free browser text summarizer to shorten a passage into a quick draft summary, with strict length limits and experimental model notes.',
+      'Use this free browser text summarizer to condense 120 to 900 words of notes, article text, or support updates into a short draft summary you can check against the source.',
     icon: 'tool-ai-summary',
     modelNote: 'Uses a Transformers.js summarization model after you press Summarize text, with a simple extractive fallback if the model is not available.',
     inputMeaning:
-      'Paste a paragraph or short article section. The tool works best when the text has enough sentences to summarize and is not too long for your browser device.',
+      'Paste a paragraph or short section with enough context, usually 120 to 900 words. Notes, help docs, class material, and article excerpts work better than one sentence or a full document.',
     resultMeaning:
-      'Read the summary as a draft, not a replacement for the original. It should capture the main idea, but it may skip details, numbers, exceptions, or source context.',
+      'Read the result as a draft of the main point. If the source says a deadline is June 15 or a price is $42.50, check those details in the original before copying the summary.',
     doubleCheck:
-      'Compare the summary with the original before publishing or studying from it. Important claims, dates, prices, health details, legal details, and quotes need manual checking.',
+      'Compare the summary with the original before publishing, studying, or sending it. Names, dates, dollar amounts, quoted wording, health details, legal details, finance details, and tax details need manual checking.',
     useCases: [
-      'Turn a long note into a shorter study draft.',
-      'Summarize a blog section before rewriting it in your own words.',
-      'Create a quick preview of pasted research text.',
-      'Check whether a passage has a clear main point.',
+      'Condense a 300-word class note into a few review lines.',
+      'Summarize a support update before writing a reply or status note.',
+      'Preview a long article section before deciding whether to read it closely.',
+      'Check whether a passage has one clear main point or too many mixed ideas.',
     ],
     examples: [
-      { label: 'Study paragraph', expression: 'Paste 150 to 500 words of notes', result: 'Short summary draft' },
-      { label: 'Blog section', expression: 'Paste one article section', result: 'Main idea summary' },
-      { label: 'Too short', expression: 'Paste one tiny sentence', result: 'Needs more text' },
+      { label: 'Study note', expression: 'Paste 180 words about photosynthesis notes', result: 'Short draft summary of the main process' },
+      { label: 'Support update', expression: 'Paste a 300-word update with dates and owners', result: 'Summary draft, then verify each date and name' },
+      { label: 'Too short', expression: 'Paste one sentence: The meeting moved.', result: 'Add more context before trusting the summary.' },
     ],
     relatedSlugs: ['keyword-extractor', 'reading-level-checker', 'sentiment-analyzer'],
   }),
