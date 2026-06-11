@@ -339,25 +339,38 @@ export const aiTools: ToolDefinition[] = [
     name: 'Tone Checker',
     summary: 'Check whether pasted text sounds friendly, formal, urgent, or unclear.',
     description:
-      'Use this free browser tone checker to review the style of a message, email, caption, or support reply with local AI-assisted feedback.',
+      'Check the likely tone of a short email, support reply, caption, or chat message in your browser without uploading the text to Access Free Tools.',
     icon: 'tool-ai-tone',
-    modelNote: 'Uses a self-hosted browser text classifier after you press Check tone, with a simple local fallback if the model is not available.',
+    modelNote:
+      'Uses a self-hosted zero-shot browser text classifier after you press Check tone, then falls back to local wording and punctuation clues if the model is not available.',
     inputMeaning:
-      'Paste the message or draft you want to check. The tool reads word choice, punctuation, and phrasing to estimate tone labels such as friendly, formal, urgent, or unclear.',
+      'Paste at least 12 characters from one short message or draft. Emails, support replies, captions, and workplace chat notes work best when they are 1 to 5 sentences and still have enough context to show word choice, punctuation, and phrasing.',
     resultMeaning:
-      'Read the tone label as writing feedback, not a judgment of the person who wrote it. The notes explain which words or patterns may affect how the message feels.',
+      'Read the top label as the closest writing tone among friendly or helpful, formal or careful, urgent or direct, and unclear or mixed. A result such as urgent or direct at 64% means the wording may feel time-sensitive or blunt; it is not proof of the writer intent.',
     doubleCheck:
-      'Check audience, culture, relationship, sarcasm, and context yourself. A tone checker cannot know the full situation behind a message.',
+      'Check audience, role, culture, relationship, humor, sarcasm, and the real situation yourself. Do not use tone output to judge personality, intent, HR issues, legal risk, mental health, or customer-safety decisions.',
     useCases: [
-      'Review an email before sending it.',
-      'Make support copy sound clearer and calmer.',
-      'Compare a casual draft with a more formal rewrite.',
-      'Spot urgent or confusing wording in a short message.',
+      'Review a short email before sending it to a customer, teacher, or teammate.',
+      'Make a support reply sound calmer before it leaves the help desk.',
+      'Compare a casual caption with a more formal rewrite.',
+      'Spot wording that may feel urgent, blunt, or unclear in a chat message.',
     ],
     examples: [
-      { label: 'Friendly note', expression: 'Thanks for waiting, I can help with that now.', result: 'Likely friendly/helpful' },
-      { label: 'Urgent note', expression: 'Please fix this immediately before launch.', result: 'Likely urgent/direct' },
-      { label: 'Formal note', expression: 'We appreciate your patience and will review the request.', result: 'Likely formal' },
+      {
+        label: 'Friendly support reply',
+        expression: 'Thanks for waiting. I can help with that now.',
+        result: 'Likely friendly or helpful, with a quick check for missing detail',
+      },
+      {
+        label: 'Launch request',
+        expression: 'Please fix this immediately before launch.',
+        result: 'Likely urgent or direct, not automatically rude or wrong',
+      },
+      {
+        label: 'Formal client note',
+        expression: 'We appreciate your patience and will review the request.',
+        result: 'Likely formal or careful, with audience context still needed',
+      },
     ],
     relatedSlugs: ['sentiment-analyzer', 'reading-level-checker', 'text-case-converter'],
   }),

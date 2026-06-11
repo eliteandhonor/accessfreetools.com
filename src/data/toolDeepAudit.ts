@@ -7885,17 +7885,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'tone-checker',
     status: 'deep-reviewed',
-    batch: 'ai-tools-browser-only-manual-pass-1-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-gsc-refresh-2026-06-11',
+    reviewedOn: '2026-06-11',
     scope: commonMathScope,
     sources: [transformersJs, googleHelpfulContent],
     findings: [
-      'The tone checker is framed as educational writing feedback and avoids moderation, mental-health, personality, or intent judgment claims.',
-      'The FAQ covers message input, how to read tone labels, audience context, sarcasm, privacy, first-run model loading, and when not to rely on the output.',
-      'The component attempts the self-hosted browser zero-shot classifier after the button press and uses a transparent local heuristic fallback when the model is unavailable.',
+      'The tone checker is framed as educational writing feedback for short emails, support replies, captions, and chat messages, not moderation, mental-health, personality, HR, legal, safety, or intent judgment.',
+      'The visible guidance now explains the 12-character minimum, best fit for 1 to 5 sentence drafts, the four labels friendly/helpful, formal/careful, urgent/direct, and unclear/mixed, and why audience context still matters.',
+      'The component attempts the self-hosted browser zero-shot classifier after the button press and uses a transparent local wording and punctuation fallback when the model is unavailable.',
     ],
     improvements: [
-      'Added tone labels, examples, copyable output, browser-only privacy note, source-backed guide, local-only model loading, and wording that keeps the result focused on editing a draft.',
+      'Refreshed the tool copy with concrete email, support, caption, and chat examples, confidence-score interpretation, browser-only privacy wording, consequential-use warnings, and the 2026-06-11 modified date.',
     ],
     followUps: [
       'Consider adding rewrite suggestions only after careful review so the tool stays helpful without pretending to know the sender intent.',
