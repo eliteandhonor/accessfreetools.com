@@ -7008,6 +7008,11 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'A successful format keeps the JSON data values the same. The tool may change whitespace, indentation, and object key order if sorting is on, but strings, numbers, booleans, null values, arrays, and nested object values should still represent the same data.',
       },
+      {
+        question: 'Can this validate a JSON schema?',
+        answer:
+          'No. It checks whether the text is valid JSON syntax. It does not check required fields, allowed values, API-specific types, or business rules from a separate JSON schema file.',
+      },
     ],
     useCases: [
       'Pretty-print minified JSON before reading or sharing it.',

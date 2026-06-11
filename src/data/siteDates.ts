@@ -332,6 +332,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-conception-calculator': '2026-06-04',
   'how-to-use-pregnancy-weight-gain-calculator': '2026-06-04',
   'how-to-use-bandwidth-calculator': '2026-06-04',
+  'how-to-use-json-formatter': '2026-06-11',
   'how-to-use-base64-encode-decode': '2026-06-04',
   'how-to-use-url-encode-decode': '2026-06-04',
   'how-to-use-css-clamp-calculator': '2026-06-04',

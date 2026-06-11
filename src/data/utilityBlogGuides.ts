@@ -5492,6 +5492,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     mistakes: [
       'Do not paste private tokens or secrets unless you are comfortable viewing them in this tab.',
       'Do not confuse valid JSON syntax with valid API data.',
+      'Do not treat formatted JSON as schema-validated; required fields, allowed values, and API-specific types still need your schema or app rules.',
       'Check trailing commas, missing quotes, and mismatched braces when parsing fails.',
     ],
     sources: [],

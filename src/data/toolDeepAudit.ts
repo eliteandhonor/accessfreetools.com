@@ -7573,9 +7573,10 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'Tests cover nested sorted keys and formatted output.',
       'The guide warns that valid JSON syntax does not prove an API schema, security rule, or business requirement is valid.',
       'The tool FAQ now explicitly explains that formatting changes whitespace and optional key order, not the underlying JSON values after a successful parse.',
+      'The visible FAQ set also states that this is not a JSON schema validator for required fields, allowed values, API-specific types, or business rules.',
     ],
     improvements: [
-      'Manually checked JSON parse errors, sorted-key behavior, output labels, examples, six visible FAQs, guide cautions, related links, SEO copy, privacy behavior, and value-preservation wording.',
+      'Manually checked JSON parse errors, sorted-key behavior, output labels, examples, seven visible FAQs, guide cautions, related links, SEO copy, privacy behavior, value-preservation wording, and schema-validation limits.',
     ],
     followUps: [
       'Add JSON schema validation only as a separate mode with clear schema input and error output.',
