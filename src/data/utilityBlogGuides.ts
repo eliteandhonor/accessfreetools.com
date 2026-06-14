@@ -5607,7 +5607,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     intro:
       'Start with a UTC instant, not a local calendar guess. Use date mode when you are preparing a value for logs or APIs, and use timestamp mode when you are checking stored epoch seconds or milliseconds.',
     inputMatch:
-      'the UTC date, UTC time, timestamp number, and selected seconds-or-milliseconds unit your log, API, database, or browser code actually uses.',
+      'the UTC date, UTC time, timestamp number, and selected seconds-or-milliseconds unit your log, API, database, or browser code actually uses',
     logicNote:
       'For example, 2026-04-30 12:00 UTC becomes 1777464000 Unix seconds or 1777464000000 milliseconds. Converting either value back should land on 2026-04-30T12:00:00.000Z.',
     readIntro:
