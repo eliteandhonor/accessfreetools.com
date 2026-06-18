@@ -6683,6 +6683,29 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator converts the starting unit to watts, then divides by 745.6999 for mechanical horsepower or 735.4988 for metric horsepower.',
     limit:
       'Horsepower units are not all the same. Confirm whether your label means mechanical, metric, electric, boiler, or another horsepower standard.',
+    inputExplanations: [
+      { term: 'Power value', meaning: 'the number printed on the label, spec sheet, motor plate, or example you want to convert.' },
+      { term: 'Starting unit', meaning: 'the unit your number already uses, such as mechanical horsepower, metric horsepower, watts, or kilowatts.' },
+      { term: 'Mechanical horsepower', meaning: 'the common hp unit used in many US engine and motor examples, equal to about 745.6999 watts.' },
+      { term: 'Metric horsepower', meaning: 'a slightly smaller horsepower unit, equal to about 735.4988 watts.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Is mechanical horsepower the same as metric horsepower?',
+        answer:
+          'No. One mechanical horsepower is about 745.6999 watts. One metric horsepower is about 735.4988 watts. The difference is small, but it matters when you compare labels or spec sheets closely.',
+      },
+      {
+        question: 'Can this estimate engine horsepower from torque and RPM?',
+        answer:
+          'No. This page converts power units you already have. If you have torque and RPM, use the Engine Horsepower Calculator instead because it uses torque x RPM / 5252.1131.',
+      },
+      {
+        question: 'Why does the calculator show watts and kilowatts too?',
+        answer:
+          'Watts and kilowatts are standard power units on electrical and equipment labels. They make it easier to compare motors, tools, and engines even when one source lists hp and another lists kW.',
+      },
+    ],
     useCases: [
       'Convert horsepower to watts or kilowatts.',
       'Convert kilowatts into mechanical horsepower.',
