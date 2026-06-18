@@ -1302,17 +1302,17 @@ const baseTools: ToolDefinition[] = [
       {
         label: 'All factors',
         expression: 'Factors of 84',
-        result: '1, 2, 3, 4, 6, 7, 12, 14, 21, 28, 42, 84',
+        result: '12 factors; factor pairs include 1 x 84, 2 x 42, 3 x 28, 4 x 21, 6 x 14, and 7 x 12',
       },
       {
         label: 'Prime number',
         expression: 'Factors of 97',
-        result: '1, 97',
+        result: 'Only 1 and 97, so 97 is prime',
       },
       {
         label: 'Prime factorization',
         expression: '360',
-        result: '2^3 x 3^2 x 5',
+        result: '2^3 x 3^2 x 5, which multiplies back to 360',
       },
     ],
     faq: [
@@ -1325,6 +1325,21 @@ const baseTools: ToolDefinition[] = [
         question: 'What does the Factor Calculator show?',
         answer:
           'It shows all factors, factor pairs, prime factors, prime factor powers, and whether the input is prime.',
+      },
+      {
+        question: 'What do the main Factor Calculator inputs mean?',
+        answer:
+          'Enter one positive whole number. The calculator tests whole-number divisors, keeps only the divisors that leave no remainder, and pairs each divisor with the matching quotient.',
+      },
+      {
+        question: 'How should I read the Factor Calculator answer?',
+        answer:
+          'Start with the full factor list, then check the factor pairs. For 84, the pair 6 x 14 means both 6 and 14 divide 84 evenly. The prime factorization shows the same number broken into prime building blocks.',
+      },
+      {
+        question: 'What should I double-check before trusting the Factor Calculator?',
+        answer:
+          'Check that the input is a positive whole number and that you did not mean GCF, LCM, or prime factorization only. Decimals, negative signs, and comparing multiple numbers belong in a different workflow.',
       },
       {
         question: 'Is 1 a prime number?',
