@@ -1234,17 +1234,17 @@ const baseTools: ToolDefinition[] = [
       {
         label: 'Three numbers',
         expression: 'GCF of 24, 36, 60',
-        result: '12',
+        result: '12, so all three numbers can be split into equal groups of 12',
       },
       {
         label: 'Two numbers',
         expression: 'GCF of 48 and 180',
-        result: '12',
+        result: '12; 48 = 12 x 4 and 180 = 12 x 15',
       },
       {
         label: 'Larger list',
         expression: 'GCF of 81, 153, 225',
-        result: '9',
+        result: '9; each number divides evenly by 9 and no larger shared factor fits all three',
       },
     ],
     faq: [
@@ -1257,6 +1257,21 @@ const baseTools: ToolDefinition[] = [
         question: 'How does the GCF Calculator find the answer?',
         answer:
           'It uses the Euclidean algorithm to compare pairs of numbers, then carries the shared factor through the rest of the list.',
+      },
+      {
+        question: 'What do the main Greatest Common Factor Calculator inputs mean?',
+        answer:
+          'Enter at least two positive whole numbers. Commas, spaces, and semicolons only separate the numbers; the calculator compares the whole numbers themselves to find the largest divisor they all share.',
+      },
+      {
+        question: 'How should I read the Greatest Common Factor Calculator answer?',
+        answer:
+          'The headline GCF is the largest whole number that divides every input evenly. For 24, 36, and 60, a GCF of 12 means each number can be split into equal groups of 12 with nothing left over.',
+      },
+      {
+        question: 'What should I double-check before trusting the Greatest Common Factor Calculator?',
+        answer:
+          'Check that every entry is a positive whole number and that none of the numbers are missing. Decimals, negative numbers, zero, one-number factor lists, and common-multiple questions belong in a different workflow.',
       },
       {
         question: 'Can I find the GCF of more than two numbers?',
