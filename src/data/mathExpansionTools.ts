@@ -90,17 +90,17 @@ export const mathExpansionTools: ToolDefinition[] = [
       {
         label: 'Divide with a remainder',
         expression: '9876 / 24',
-        result: '411 R 12',
+        result: '411 R 12; check 411 x 24 + 12 = 9876',
       },
       {
         label: 'Find a decimal answer',
         expression: '1250 / 8',
-        result: '156 R 2, or 156.25',
+        result: '156 R 2, or 156.25 as a decimal',
       },
       {
         label: 'Divide evenly',
         expression: '1001 / 7',
-        result: '143 R 0',
+        result: '143 R 0, so 7 divides 1001 evenly',
       },
     ],
     faq: [
@@ -113,6 +113,21 @@ export const mathExpansionTools: ToolDefinition[] = [
         question: 'How do I type a long division problem?',
         answer:
           'Type it as dividend / divisor, such as 9876 / 24. You can also use the quick examples on the calculator.',
+      },
+      {
+        question: 'What do the main Long Division Calculator inputs mean?',
+        answer:
+          'Enter the dividend first, then the divisor after the slash. In 9876 / 24, 9876 is the number being split and 24 is the number you divide by. Use positive whole numbers for this calculator.',
+      },
+      {
+        question: 'How should I read the Long Division Calculator answer?',
+        answer:
+          'The quotient is the whole-number part, the remainder is what is left, and the decimal value shows the same division as a decimal. For 9876 / 24, 411 R 12 means 411 x 24 + 12 = 9876.',
+      },
+      {
+        question: 'What should I double-check before trusting the Long Division Calculator?',
+        answer:
+          'Make sure the divisor is not zero, the dividend and divisor are in the right order, and any remainder is smaller than the divisor. If you need to simplify a fractional remainder, use the Fraction Calculator after you know the division result.',
       },
       {
         question: 'How do I check the answer?',
