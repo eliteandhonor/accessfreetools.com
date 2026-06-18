@@ -7035,6 +7035,30 @@ export const utilityTools: ToolDefinition[] = [
       'The generator normalizes text, keeps letters and numbers, changes spaces and punctuation to hyphens, trims repeated hyphens, and applies an optional length limit.',
     limit:
       'A clean slug helps readability, but one canonical helpful page matters more than several thin pages with nearly identical slugs.',
+    faqLanguage: {
+      expectedInputs: 'the title, heading, tool name, phrase, and optional maximum length you want to turn into a draft URL slug',
+      inputFallback:
+        'Title or phrase is the text you want in the URL path. Max length is optional; leave it blank for the full slug, or use it when a CMS, style guide, or project rule needs shorter URLs.',
+      doubleCheck:
+        'Also check whether the slug lost an important word, ended after a cut-off phrase, changed an ampersand to and, or creates a near-duplicate URL for the same search intent.',
+    },
+    extraFaq: [
+      {
+        question: 'How does the Slug Generator handle punctuation and symbols?',
+        answer:
+          'It keeps word and number characters, changes spaces and most punctuation into hyphen breaks, turns ampersands into the word and, lowercases the result, and removes repeated or trailing hyphens. Review brand names, acronyms, and product codes before copying the slug.',
+      },
+      {
+        question: 'What happens when I set a maximum slug length?',
+        answer:
+          'The tool trims the generated slug to the maximum length and removes any trailing hyphen. That keeps the URL tidy, but it can cut off context, so check that the final slug still names the page clearly.',
+      },
+      {
+        question: 'Is a shorter SEO slug always better?',
+        answer:
+          'No. A short slug is easier to read, but it should still describe the page. Do not make separate pages for tiny slug variations such as calculator, free-calculator, and online-calculator when one useful canonical page would serve the same intent.',
+      },
+    ],
     useCases: [
       'Create draft URL paths for tool pages and blog guides.',
       'Shorten long titles into readable slugs.',
@@ -7044,7 +7068,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Blog title', expression: 'How to Use the Kawaii Calculator', result: 'how-to-use-the-kawaii-calculator' },
       { label: 'Tool name', expression: 'Color Contrast Checker', result: 'color-contrast-checker' },
-      { label: 'Long phrase', expression: 'Simple SEO-Friendly Guide for Free Online Utility Tools', result: 'Short hyphenated slug' },
+      { label: 'Numbered guide', expression: '2026 SEO Checklist & URL Tips', result: '2026-seo-checklist-and-url-tips' },
     ],
     relatedSlugs: ['text-case-converter', 'word-counter', 'json-formatter'],
   }),
