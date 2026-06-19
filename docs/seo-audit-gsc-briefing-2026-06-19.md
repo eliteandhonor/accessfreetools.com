@@ -9,6 +9,17 @@ Agent-facing note for SEO, indexing, internal-link, archive, and page-review wor
 - Google Search Console export supplied by the owner: `C:\Users\chamb\Downloads\https___accessfreetools.com_-Performance-on-Search-2026-06-18.zip`
 - Full generated analysis: `output/external-audits/2026-06-18-gsc-audit/analysis.md`
 - Machine summary and extracts: `output/external-audits/2026-06-18-gsc-audit/gsc-analysis.json`
+- Newer enterprise SEO audit supplied by the owner: `C:\Users\chamb\Downloads\AccessFreeTools_Enterprise_SEO_Audit_Report.pdf`
+- Enterprise audit agent briefing: `docs/enterprise-seo-audit-agent-briefing-2026-06-19.md`
+- Enterprise audit extracted text: `output/pdf/AccessFreeTools_Enterprise_SEO_Audit_Report-extracted.txt`
+
+## Newer Enterprise Audit Addendum
+
+- The newer 73-page enterprise audit is now summarized for agents in `docs/enterprise-seo-audit-agent-briefing-2026-06-19.md`.
+- It reports one critical crawler-access concern around hCDN, plus high-priority EEAT/schema/date/programmatic recommendations.
+- Current live bot-style probes from this repo did not reproduce the reported hCDN 403; Googlebot, Bingbot, and DuckDuckBot style requests returned HTTP 200 and real page HTML. Treat the hCDN item as a verify-first P0, not as proof to change hosting/WAF rules blindly.
+- Some report findings are already stale against current live/repo state, including `/tools/` missing metadata/schema. Use repo commands and fresh production checks as authoritative before acting.
+- Keep the controlled one-page review lane intact. The current `text-case-converter` blog still needs approved paid DataForSEO evidence before human approval, deployment, and live proof.
 
 ## GSC Snapshot
 
