@@ -113,6 +113,9 @@ describe('seo agent workbench', () => {
     expect(report.remainingGaps.map((gap) => gap.agent)).toContain('Search Intent And Keyword Agent');
     expect(report.remainingGaps.map((gap) => gap.agent)).toContain('Competitor Gap Analyst');
     expect(report.remainingGaps.map((gap) => gap.agent)).toContain('Browser Proof Reviewer');
+
+    const keywordEvaluation = report.evaluations.find((item) => item.agent === 'Search Intent And Keyword Agent');
+    expect(keywordEvaluation?.evidence).toBe('Paid DataForSEO evidence is missing for this page.');
   });
 
   it('allows the final judge to reach the human approval gate when every agent has evidence', () => {
@@ -148,5 +151,8 @@ describe('seo agent workbench', () => {
     expect(report.status).toBe('ready-for-human-approval');
     expect(report.remainingGaps).toHaveLength(0);
     expect(report.humanGate.status).toBe('waiting-human-approval');
+
+    const keywordEvaluation = report.evaluations.find((item) => item.agent === 'Search Intent And Keyword Agent');
+    expect(keywordEvaluation?.evidence).toBe('Paid DataForSEO evidence exists for this page.');
   });
 });

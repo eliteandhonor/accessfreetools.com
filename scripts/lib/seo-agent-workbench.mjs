@@ -556,7 +556,13 @@ export function buildSeoFinalJudgeReport(slug, options = {}) {
 
   const evaluations = [
     evaluateAgent('web-source-research', proof.sourceEvidence, 'Source-evidence report exists for this page.', 'Run node scripts/seo-agent-workbench.mjs sources <slug> <page>.'),
-    evaluateAgent('search-intent-keywords', !paidRequired || proof.paid, 'Paid DataForSEO evidence exists for this page.', 'Run approved paid DataForSEO for this exact page.'),
+    evaluateAgent(
+      'search-intent-keywords',
+      !paidRequired || proof.paid,
+      'Paid DataForSEO evidence exists for this page.',
+      'Run approved paid DataForSEO for this exact page.',
+      'Paid DataForSEO evidence is missing for this page.',
+    ),
     evaluateAgent('competitor-gap', proof.competitor, 'Competitor gap report exists.', 'Run competitor gap reports against approved competitor URLs.'),
     evaluateAgent('on-page-seo', proof.pageScore && pageScore !== null && pageScore >= 90, `Page score is ${pageScore ?? 'not enough data'}.`, 'Run npm run aft -- seo-page-score and fix SEO proof gaps.'),
     evaluateAgent('contextual-internal-links', linkAudit.status === 'pass', `Internal-link audit score is ${linkAudit.score}.`, 'Fix generic anchors or missing matching-page links.'),
@@ -608,14 +614,14 @@ export function buildSeoFinalJudgeReport(slug, options = {}) {
   return report;
 }
 
-function evaluateAgent(id, condition, evidence, fix) {
+function evaluateAgent(id, condition, evidence, fix, blockedEvidence = evidence) {
   const agent = SEO_AGENT_COUNCIL.find((item) => item.id === id);
   return {
     id,
     agent: agent?.agent ?? id,
     evaluator: agent?.evaluator ?? 'Evaluator',
     status: condition ? 'pass' : 'blocked',
-    evidence,
+    evidence: condition ? evidence : blockedEvidence,
     fix,
   };
 }
