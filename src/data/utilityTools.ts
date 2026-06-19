@@ -3934,6 +3934,11 @@ export const utilityTools: ToolDefinition[] = [
     ],
     extraFaq: [
       {
+        question: 'How should I read the Lawn Mowing Calculator answer?',
+        answer:
+          'Read the estimated mowing time first, then check the mowing rate and acre conversion. The estimate covers cutting the grass area, so add separate time for trimming, edging, bagging, blowing clippings, moving obstacles, and cleanup.',
+      },
+      {
         question: 'What is efficiency percent for mowing?',
         answer:
           'Efficiency percent lowers the perfect straight-line mowing rate to something closer to a real yard. A simple yard might use 80%, while a yard with trees, slopes, toys, gates, or tight turns may need 60% to 70%.',

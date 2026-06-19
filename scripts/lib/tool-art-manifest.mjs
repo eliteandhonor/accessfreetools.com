@@ -83,6 +83,13 @@ const toolArtMetadataOverrides = {
         'Grass Seed Calculator guide artwork supports the walkthrough for turning lawn area and seed label rates into pounds, rounded bags, and optional material cost before buying seed.',
     },
   },
+  'lawn-mowing-calculator': {
+    guide: {
+      alt: 'Guide image for Lawn Mowing Calculator showing mowable lawn area, mower width, mowing speed, efficiency percent, estimated time, and cleanup notes.',
+      caption:
+        'Lawn Mowing Calculator guide artwork supports the walkthrough for turning lawn area, mower width, speed, and efficiency into a rough mowing-time estimate before adding trimming and cleanup time.',
+    },
+  },
   'word-counter': {
     guide: {
       alt: 'Guide image for Word Counter showing word, character, sentence, paragraph, line, and reading-time checks with example inputs and result notes.',
