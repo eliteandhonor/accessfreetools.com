@@ -6,12 +6,13 @@ Do not mark a page `approved` from a score alone. Approval means the user has re
 
 ## Progress Summary
 
-- Last updated: 2026-06-19T21:09:12+10:00
+- Last updated: 2026-06-19T21:14:01+10:00
 - Latest external audit/GSC briefing: `docs/seo-audit-gsc-briefing-2026-06-19.md` plus the newer enterprise audit briefing in `docs/enterprise-seo-audit-agent-briefing-2026-06-19.md`. Future SEO agents should use both as sitewide context before continuing controlled page reviews.
 - Total tools: 299
 - Total page review units: 598 (tool page + blog page for each tool)
 - Approved/live-update review units recorded here: 419 generated review units after the Text Case Converter tool revalidation.
 - Current page in progress: `text-case-converter` blog has local copy cleanup, free competitor-gap proof, browser proof, link audit, and final judge saved after the approved tool-page deployment; final judge is blocked only on approved paid DataForSEO evidence before human approval, deployment, and live proof.
+- Sitewide Search Console technical follow-up: the available Coverage export at `output/search-console-coverage-export.json` reports bucket counts for 3 Google 5xx rows, 1 404 row, 22 crawled-not-indexed rows, and 59 discovered-not-indexed rows, but does not include the affected URL examples. No newer Coverage URL-example export was found in Downloads. A live sample check across 67 current GSC performance URLs found 0 bad statuses and 2 old URLs redirecting cleanly to canonical tool pages; proof is in `output/agent-tools/seo-console/live-url-status-sample-2026-06-19.md`. Future agents must export exact Coverage URL examples before matching Hostinger logs, adding redirects, or claiming the 5xx/404 rows are fixed.
 - Current remaining review units: 179 generated review units still need approval rows. Strict proof audits may also surface older approved rows that need fresh evidence normalization.
 - Page review units left after the Text Case Converter tool revalidation: 179
 - Page review units left after the Slug Generator blog revalidation: 180
