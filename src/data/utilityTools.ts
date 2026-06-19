@@ -7000,25 +7000,71 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'text-case-converter',
     name: 'Text Case Converter',
     category: 'text-tools',
-    summary: 'Convert text to uppercase, lowercase, title case, sentence case, camelCase, snake_case, and kebab-case.',
+    summary:
+      'Convert text across 8 case styles: uppercase, lowercase, title case, sentence case, camelCase, PascalCase, snake_case, and kebab-case.',
     description:
-      'Use this free text case converter to rewrite plain text into common writing, coding, and URL case styles without sending text to a server.',
+      'Use this free text case converter to switch headings, labels, filenames, and code-style names between 8 case styles in 1 browser tab without sending text to a server.',
+    seoTitle: 'Text Case Converter | Uppercase, Title Case, camelCase',
+    seoDescription:
+      'Convert text to uppercase, lowercase, title case, sentence case, camelCase, PascalCase, snake_case, and kebab-case in your browser.',
     icon: 'tool-text-case',
-    aliases: ['Case Converter', 'Title Case Converter', 'Uppercase Lowercase Converter'],
+    aliases: ['Case Converter', 'Title Case Converter', 'Uppercase Lowercase Converter', 'camelCase Converter'],
     formula:
-      'The tool reads plain text, tokenizes words for identifier-style modes, and applies the selected case transformation to produce copy-ready output.',
+      'The tool reads plain text, applies 4 writing cases for uppercase, lowercase, title case, or sentence case, and tokenizes words before joining them into 4 identifier cases for camelCase, PascalCase, snake_case, or kebab-case output.',
     limit:
-      'Title case rules vary by style guide, and identifier modes remove punctuation that may matter in the original wording.',
+      'After any 1-click conversion, check the result: title case rules vary by style guide, sentence case cannot know every proper noun, and identifier modes remove punctuation that may matter in the original wording.',
+    faqLanguage: {
+      expectedInputs: 'the exact text you want to convert and the case style you need for a heading, label, filename, URL idea, or code-style name',
+      inputFallback:
+        'Case style is the output format you want. Text to convert is the exact text you want rewritten. Changed positions tells you how many character spots differ from the original output check.',
+      doubleCheck:
+        'Also check proper nouns, acronyms, line breaks, punctuation, and the target style guide before pasting the converted text into a final page, document, filename, or codebase.',
+    },
+    inputExplanations: [
+      {
+        term: 'Case style',
+        meaning:
+          'Choose 1 of 8 output formats, such as Title Case for a heading, Sentence case for normal copy, camelCase or PascalCase for code names, or snake_case and kebab-case for technical labels.',
+      },
+      {
+        term: 'Text to convert',
+        meaning:
+          'Paste the exact words you want rewritten. Keep spaces, line breaks, acronyms, numbers, and punctuation in place until you can review the converted result.',
+      },
+      {
+        term: 'Changed positions',
+        meaning:
+          'Use this result as a quick difference check. A value of 0 means the output kept the same character slots; a high number means you should reread names, acronyms, and punctuation before copying.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Which case style should I choose for headings?',
+        answer:
+          'Use Title Case when your site, document, or client asks for headline-style capitalization. Use Sentence case when only the first word and proper nouns should be capitalized. Always review small words, acronyms, and brand names because style guides disagree.',
+      },
+      {
+        question: 'Can I use the converter for code variables or filenames?',
+        answer:
+          'Yes, for quick drafts. camelCase is common for many JavaScript variable names, PascalCase is common for component or class names, snake_case is useful in some data fields, and kebab-case is useful for many filenames and URL-style labels. Check your project rules before committing the result.',
+      },
+      {
+        question: 'Why did punctuation disappear in camelCase, snake_case, or kebab-case?',
+        answer:
+          'Identifier-style modes split the text into words and then join those words in a stricter format. That usually removes commas, quotes, slashes, and other punctuation. If a symbol is meaningful, copy it back by hand or choose a writing case instead.',
+      },
+    ],
     useCases: [
-      'Convert headings between uppercase, lowercase, title case, and sentence case.',
-      'Create camelCase, PascalCase, snake_case, or kebab-case labels.',
-      'Clean inconsistent capitalization in drafts.',
-      'Prepare quick variable names, file names, or URL text.',
+      'Convert page titles and section headings between uppercase, lowercase, title case, and sentence case.',
+      'Draft camelCase, PascalCase, snake_case, or kebab-case names for small code, data, and file-label tasks.',
+      'Clean inconsistent capitalization in drafts before pasting into a CMS, document, or email.',
+      'Prepare filename, URL, and label ideas before checking them in the target app.',
     ],
     examples: [
       { label: 'Title case', expression: 'access free tools utility website', result: 'Access Free Tools Utility Website' },
-      { label: 'kebab-case', expression: 'Kawaii Calculator Blog Guide', result: 'kawaii-calculator-blog-guide' },
-      { label: 'camelCase', expression: 'basic calculator result', result: 'basicCalculatorResult' },
+      { label: 'Sentence case', expression: 'FREE TOOLS FOR QUICK TEXT EDITS', result: 'Free tools for quick text edits' },
+      { label: 'kebab-case filename', expression: 'Kawaii Calculator Blog Guide', result: 'kawaii-calculator-blog-guide' },
+      { label: 'camelCase variable', expression: 'basic calculator result', result: 'basicCalculatorResult' },
     ],
     relatedSlugs: ['slug-generator', 'word-counter', 'character-counter'],
   }),

@@ -139,6 +139,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'password-generator': '2026-06-11',
   'subnet-calculator': '2026-06-11',
   'markdown-table-generator': '2026-06-11',
+  'text-case-converter': '2026-06-19',
   'base64-encode-decode': '2026-06-04',
   'url-encode-decode': '2026-06-04',
   'css-clamp-calculator': '2026-06-04',

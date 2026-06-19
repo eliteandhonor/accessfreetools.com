@@ -7527,17 +7527,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'text-case-converter',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-19',
+    reviewedOn: '2026-06-19',
     scope: commonMathScope,
     sources: [mdnTextEncoder, googleHelpfulContent],
     findings: [
       'The text case converter handles uppercase, lowercase, title case, sentence case, camelCase, PascalCase, snake_case, and kebab-case.',
       'Tests cover camelCase conversion from a simple phrase.',
-      'The guide warns that title case rules vary and identifier modes remove punctuation that may matter.',
+      'The tool copy now explains title-case variation, sentence-case proper nouns, and why identifier modes remove punctuation.',
     ],
     improvements: [
-      'Manually checked case-mode behavior, Unicode word tokenization, examples, generated FAQ detail, guide caveats, related links, SEO copy, and privacy behavior.',
+      'Updated SEO title/meta copy, aliases, formula notes, input explanations, exact examples, extra FAQs, privacy wording, modified dates, and DataForSEO/competitor-gap evidence for the tool page.',
     ],
     followUps: [
       'Add AP/Chicago title-case modes only if style-guide differences are explained clearly.',
