@@ -6951,6 +6951,11 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Editors can treat hyphenated terms, emojis, URLs, captions, footnotes, comments, or hidden formatting differently. Use this Word Counter for a fast browser check, then confirm inside the exact school, CMS, client, or social platform field when the limit is strict.',
       },
+      {
+        question: 'Should I count headings, captions, or footnotes too?',
+        answer:
+          'Count whatever the target asks for. If a teacher, client, CMS, or form includes headings, captions, notes, footnotes, or pasted URLs in the limit, paste those parts into the Word Counter too. If the target excludes them, count only the body text you will submit.',
+      },
     ],
     useCases: [
       'Check blog drafts, essays, product copy, and article sections before publishing.',

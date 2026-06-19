@@ -76,6 +76,13 @@ const toolArtMetadataOverrides = {
         'Slug Generator guide artwork supports the walkthrough for cleaning titles into lowercase hyphenated slugs, trimming length, and reviewing the result before using it in a URL.',
     },
   },
+  'word-counter': {
+    guide: {
+      alt: 'Guide image for Word Counter showing word, character, sentence, paragraph, line, and reading-time checks with example inputs and result notes.',
+      caption:
+        'Word Counter guide artwork supports the walkthrough for counting words, characters, sentences, paragraphs, lines, bytes, and rough reading time before checking strict platform limits.',
+    },
+  },
   'sentiment-analyzer': {
     guide: {
       alt: 'Guide image for Sentiment Analyzer showing check whether text reads positive, negative, or uncertain in your browser with example inputs and result notes.',

@@ -5378,10 +5378,26 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   },
   'word-counter': {
     summary: 'Learn how to count words, characters, sentences, paragraphs, and reading time from plain text.',
+    metaDescription:
+      'Learn how to use the Word Counter to count words, characters, sentences, paragraphs, lines, UTF-8 bytes, and rough reading time.',
     purpose:
       'The Word Counter helps writers, students, site owners, and editors understand the size of a draft before publishing. It is especially useful when a tool, class, search snippet, or platform has a practical length target.',
+    intro:
+      'Use it when a draft is almost ready but you need to know whether it fits an essay target, page snippet, social post, editor request, or reading-time plan. Paste the exact text you plan to use, count it, then check the target app if the limit is strict.',
+    inputMatch:
+      'the exact draft text you want to count, including headings, line breaks, captions, URLs, and notes you plan to keep',
+    logicNote:
+      'The browser looks for word-like groups, counts the surrounding characters, sentences, paragraphs, lines, and UTF-8 bytes, then estimates reading time at about 200 words per minute.',
+    readIntro:
+      'Read the word count first, then use the smaller lines to catch length problems that a single number hides. Character count helps with snippets and captions, paragraph and line counts help with formatting, and bytes help when a technical field cares about encoded size.',
+    mistakeIntro:
+      'Most word-count mistakes come from counting the wrong version of the draft. Copy the same text you will submit, including headings, captions, footnotes, URLs, emoji, and blank lines when those parts matter.',
+    sidecarText:
+      'Open the Word Counter beside this guide. Try the short sentence example first, then paste your own draft and compare words, characters, paragraphs, lines, bytes, and reading time.',
+    bestUsesIntro:
+      'Use the guide when length changes what you do next: trim a draft, expand a thin section, estimate reading time, or check whether a pasted version still matches the original.',
     enter: [
-      'Paste or type plain text into the text box.',
+      'Paste or type the exact plain-text draft you want to check.',
       'Use the examples when you want to see how sentence, paragraph, and line counts behave.',
       'Press Count words to refresh the result after editing.',
     ],
@@ -5395,7 +5411,38 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not optimize only for word count; helpful content still needs clear answers and useful examples.',
       'Check the target editor when a school, client, or social platform has a strict limit.',
     ],
-    sources: [sourceLinks.mdnCharacterReference],
+    extraSections: [
+      {
+        title: 'A quick word-count example',
+        paragraphs: [
+          'Paste this sentence: `Access Free Tools helps people finish quick browser tasks.` The tool counts 8 words and shows a tiny reading-time estimate because the text is shorter than a normal paragraph.',
+          'Now add a second paragraph or a URL. The word count, line count, character count, and byte count can move in different ways, which is why the guide asks you to check more than one result before submitting strict text.',
+        ],
+      },
+      {
+        title: 'When word count is not enough',
+        paragraphs: [
+          'A 900-word article can still feel thin if it dodges the question, and a 120-word answer can be enough when it solves the problem clearly. Use the count as a guardrail, then reread the draft for usefulness.',
+          'For search snippets, captions, bios, forms, and code fields, character count or byte length can matter more than words. The matching Character Counter is better when the target limit is a hard character number.',
+        ],
+        links: [{ href: '/tools/character-counter/', label: 'Open the Character Counter' }],
+      },
+      {
+        title: 'Strict-limit checklist',
+        paragraphs: [
+          'Before you submit to a school portal, CMS, client form, or social platform, paste the final text into the target field if you can. That final field may count rich text, emoji, URLs, footnotes, or hidden formatting differently from a browser-side draft checker.',
+        ],
+        bullets: [
+          'Count the final version, not an earlier draft.',
+          'Include headings, captions, footnotes, and URLs if the target field includes them.',
+          'Check whether the target asks for words, characters, characters without spaces, or bytes.',
+          'Treat reading time as a planning estimate, not a rule for every reader.',
+        ],
+      },
+    ],
+    referenceIntro:
+      'These references help explain character references, JavaScript string length, and UTF-8 byte encoding behind the non-word totals. Platform word-count rules can still differ, so use the final app for strict limits.',
+    sources: [sourceLinks.mdnCharacterReference, sourceLinks.mdnStringLength, sourceLinks.mdnTextEncoder],
   },
   'character-counter': {
     summary: 'Learn how to count characters with spaces, without spaces, by line, and by UTF-8 byte length.',
