@@ -5472,6 +5472,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         paragraphs: [
           'For a blog heading like `access free tools utility website`, Title Case becomes `Access Free Tools Utility Website`. For a filename like `Kawaii Calculator Blog Guide`, kebab-case becomes `kawaii-calculator-blog-guide`.',
           'Those two checks solve different jobs. Choose the style that matches where the text will go before copying the result.',
+          'For `FREE TOOLS FOR QUICK TEXT EDITS`, Sentence case becomes `Free tools for quick text edits`. Both strings have 31 characters, but Changed positions is 25 because most uppercase letters move to lowercase slots. That tells you the output needs a quick reread before you paste it.',
         ],
       },
       {
