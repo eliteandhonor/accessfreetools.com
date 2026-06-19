@@ -5481,6 +5481,18 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
           'Style guides disagree on small words in title case, and codebases often have their own naming rules. Treat the converter as a fast draft, then check proper nouns, acronyms, punctuation, and project conventions before you paste the final text.',
         ],
       },
+      {
+        title: 'Copy checklist before final use',
+        paragraphs: [
+          'Before you paste the result into a page, filename, URL, or codebase, do one last check in the place where the text will actually live.',
+        ],
+        bullets: [
+          'Check brand names, product names, acronyms, and people names after sentence case or title case.',
+          'Check the first word, final word, and line breaks if the original text had more than one line.',
+          'For camelCase, PascalCase, snake_case, and kebab-case, confirm that removed punctuation was not meaningful.',
+          'For code names, filenames, and URLs, test the result against the project or platform rule before you commit it.',
+        ],
+      },
     ],
     referenceIntro:
       'This guide follows the converter logic, visible input labels, examples, and FAQ text on the Text Case Converter tool page. If your style guide, CMS, codebase, or platform has its own naming rule, use that rule first.',
