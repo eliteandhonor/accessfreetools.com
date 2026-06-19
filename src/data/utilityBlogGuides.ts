@@ -5435,8 +5435,22 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   },
   'text-case-converter': {
     summary: 'Learn how to convert plain text into common writing, code, filename, and URL case styles.',
+    metaDescription:
+      'Learn how to use the Text Case Converter for uppercase, title case, sentence case, camelCase, PascalCase, snake_case, and kebab-case.',
     purpose:
       'The Text Case Converter saves small editing time by turning a phrase into uppercase, lowercase, title case, sentence case, camelCase, PascalCase, snake_case, or kebab-case.',
+    intro:
+      'Use it when a heading, filename, URL idea, or code-style name is close but the capitalization is wrong. Pick the case style, paste the exact text, then review names, acronyms, punctuation, and line breaks before copying.',
+    inputMatch:
+      'the exact words you want converted and the case style you need for a heading, label, filename, URL idea, or code-style name',
+    logicNote:
+      'Writing cases keep the text readable for humans. Identifier cases split the text into words, remove punctuation, and join the pieces as camelCase, PascalCase, snake_case, or kebab-case.',
+    readIntro:
+      'Compare the converted output with your original text before copying. The changed-positions count is a quick difference check; 0 means the character slots did not change, while a higher count means you should reread names, acronyms, and punctuation.',
+    mistakeIntro:
+      'Most text-case mistakes come from trusting the converted text too quickly. The tool can change capitalization and word joins, but it cannot know every brand name, style guide, or symbol that matters in your project.',
+    sidecarText:
+      'Open the Text Case Converter beside this guide. Try the title-case, kebab-case, or camelCase example first, then paste your own heading, filename, or code-style name.',
     enter: [
       'Choose the case style you need.',
       'Paste or type the text to convert.',
@@ -5452,6 +5466,23 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Identifier modes remove punctuation, so check names that need symbols.',
       'Review proper nouns and brand names after converting.',
     ],
+    extraSections: [
+      {
+        title: 'A quick text-case example',
+        paragraphs: [
+          'For a blog heading like `access free tools utility website`, Title Case becomes `Access Free Tools Utility Website`. For a filename like `Kawaii Calculator Blog Guide`, kebab-case becomes `kawaii-calculator-blog-guide`.',
+          'Those two checks solve different jobs. Choose the style that matches where the text will go before copying the result.',
+        ],
+      },
+      {
+        title: 'When to slow down before copying',
+        paragraphs: [
+          'Style guides disagree on small words in title case, and codebases often have their own naming rules. Treat the converter as a fast draft, then check proper nouns, acronyms, punctuation, and project conventions before you paste the final text.',
+        ],
+      },
+    ],
+    referenceIntro:
+      'This guide follows the converter logic, visible input labels, examples, and FAQ text on the Text Case Converter tool page. If your style guide, CMS, codebase, or platform has its own naming rule, use that rule first.',
     sources: [],
   },
   'slug-generator': {
