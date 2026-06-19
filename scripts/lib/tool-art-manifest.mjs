@@ -76,6 +76,13 @@ const toolArtMetadataOverrides = {
         'Slug Generator guide artwork supports the walkthrough for cleaning titles into lowercase hyphenated slugs, trimming length, and reviewing the result before using it in a URL.',
     },
   },
+  'grass-seed-calculator': {
+    guide: {
+      alt: 'Guide image for Grass Seed Calculator showing lawn area, seed label rate, waste percent, bag count, and optional cost checks with example inputs and result notes.',
+      caption:
+        'Grass Seed Calculator guide artwork supports the walkthrough for turning lawn area and seed label rates into pounds, rounded bags, and optional material cost before buying seed.',
+    },
+  },
   'word-counter': {
     guide: {
       alt: 'Guide image for Word Counter showing word, character, sentence, paragraph, line, and reading-time checks with example inputs and result notes.',
