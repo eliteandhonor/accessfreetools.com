@@ -3773,6 +3773,21 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'The gravel base supports the pavers, while the bedding sand helps level them. They are different layers, so it is easier to estimate them separately before ordering.',
       },
+      {
+        question: 'How should I read the Paver Base Calculator answer?',
+        answer:
+          'Read base cubic yards first because that is the main volume to order, then check base tons for weight and delivery planning. Bedding sand is a separate layer, so do not add it to the gravel base total.',
+      },
+      {
+        question: 'Should I round the cubic yards or tons up?',
+        answer:
+          'Usually yes for ordering. Supplier minimums, truck capacity, compaction, grading cleanup, and small measurement errors can make an exact decimal too tight, so compare the calculator result with the supplier package or delivery sizes.',
+      },
+      {
+        question: 'Does this replace a paver installation plan?',
+        answer:
+          'No. It estimates material quantities only. Soil type, drainage, slope, edge restraints, compaction method, freeze-thaw exposure, and vehicle traffic can change the required base design.',
+      },
     ],
     useCases: [
       'Estimate base gravel for a patio or walkway.',
@@ -3781,9 +3796,21 @@ export const utilityTools: ToolDefinition[] = [
       'Add waste for compaction and uneven ground.',
     ],
     examples: [
-      { label: 'Patio base', expression: '200 ft2, 4 in base, 1 in bedding, 10% waste', result: '2.716 yd3 base' },
-      { label: 'Walkway', expression: '80 ft2, 4 in base, 1 in bedding', result: 'Base and sand estimate' },
-      { label: 'Driveway base', expression: '420 ft2, 6 in base, 12% waste', result: 'Base tons' },
+      {
+        label: 'Patio base',
+        expression: '200 ft2, 4 in base, 1 in bedding, 10% waste, 1.5 tons/yd3',
+        result: '2.716 yd3 base, 4.07 tons, 0.679 yd3 bedding sand',
+      },
+      {
+        label: 'Walkway',
+        expression: '80 ft2, 4 in base, 1 in bedding, 10% waste, 1.5 tons/yd3',
+        result: '1.086 yd3 base, 1.63 tons, 0.272 yd3 bedding sand',
+      },
+      {
+        label: 'Driveway base',
+        expression: '420 ft2, 6 in base, 1 in bedding, 12% waste, 1.6 tons/yd3',
+        result: '8.711 yd3 base, 13.94 tons, 1.452 yd3 bedding sand',
+      },
     ],
     relatedSlugs: ['paver-calculator', 'gravel-calculator', 'sand-calculator'],
   }),
