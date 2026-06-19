@@ -3907,9 +3907,9 @@ export const utilityTools: ToolDefinition[] = [
       'Add optional bag price for material cost.',
     ],
     examples: [
-      { label: 'New lawn seed', expression: '5,000 ft2, 6 lb / 1,000 ft2, 5% waste', result: '31.5 lb' },
-      { label: 'Overseeding', expression: '3,000 ft2, 3 lb / 1,000 ft2', result: 'Seed pounds and bags' },
-      { label: 'Patch repair', expression: '400 ft2, 5 lb / 1,000 ft2, 3 lb bag', result: '1 bag' },
+      { label: 'New lawn seed', expression: '5,000 ft2, 6 lb / 1,000 ft2, 5% waste, 20 lb bag, $65/bag', result: '31.5 lb, 2 bags, about $130' },
+      { label: 'Overseeding', expression: '3,000 ft2, 3 lb / 1,000 ft2, 5% waste, 10 lb bag', result: '9.45 lb, 1 bag' },
+      { label: 'Patch repair', expression: '400 ft2, 5 lb / 1,000 ft2, 5% waste, 3 lb bag', result: '2.1 lb, 1 bag' },
     ],
     relatedSlugs: ['sod-calculator', 'lawn-mowing-calculator', 'area-calculator'],
   }),
