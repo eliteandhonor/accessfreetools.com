@@ -69,6 +69,13 @@ const toolArtMetadataOverrides = {
       alt: 'Guide image for Recipe Scaler showing one ingredient scaled from original servings to desired servings with example inputs and result notes.',
     },
   },
+  'slug-generator': {
+    guide: {
+      alt: 'Guide image for Slug Generator showing title text becoming a lowercase hyphenated URL slug with a length-limit check.',
+      caption:
+        'Slug Generator guide artwork supports the walkthrough for cleaning titles into lowercase hyphenated slugs, trimming length, and reviewing the result before using it in a URL.',
+    },
+  },
   'sentiment-analyzer': {
     guide: {
       alt: 'Guide image for Sentiment Analyzer showing check whether text reads positive, negative, or uncertain in your browser with example inputs and result notes.',

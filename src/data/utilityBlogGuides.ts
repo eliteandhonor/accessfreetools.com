@@ -5456,8 +5456,21 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   },
   'slug-generator': {
     summary: 'Learn how to turn titles and phrases into clean lowercase URL slugs.',
+    metaDescription:
+      'Learn how to use the Slug Generator to turn titles and headings into lowercase hyphenated URL slugs, check length, and avoid duplicate URL ideas.',
     purpose:
       'The Slug Generator turns a readable title into a URL-friendly draft path. It is useful for planning blog guides and tool pages while keeping one clear main page for each real topic.',
+    intro:
+      'Start here when a title looks good to a reader but too messy for a URL. Paste the title, add a max length only if your project needs one, then check whether the final slug still names the page clearly.',
+    inputMatch: 'the exact title, heading, tool name, or phrase you want to turn into a draft URL slug',
+    logicNote:
+      'The example cards on the generator page show how normal titles become lowercase hyphenated paths. Use them to check punctuation, ampersands, numbers, and length before copying your own result.',
+    readIntro:
+      'Read the generated slug as a draft URL path, not as a final SEO decision. The character count helps you spot long paths, and the max-length line tells you whether the tool had to trim the result.',
+    mistakeIntro:
+      'Slug mistakes usually come from cutting off context, keeping a near-duplicate URL idea, or making the path so short that the topic is no longer obvious.',
+    sidecarText:
+      'Open the Slug Generator beside this guide. Try the 2026 SEO checklist example first, then replace it with your own title.',
     enter: [
       'Paste a title, heading, or tool name.',
       'Add a maximum length only when you need a shorter slug.',
@@ -5472,6 +5485,15 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Do not create multiple near-duplicate pages just because several slug versions are possible.',
       'Do not remove important words if the slug becomes unclear.',
       'Keep slugs readable, but prioritize the page title and content quality first.',
+    ],
+    extraSections: [
+      {
+        title: 'Example: check a shorter slug before copying it',
+        paragraphs: [
+          'Say the title is `2026 SEO Checklist & URL Tips`. With no max length, the tool returns `2026-seo-checklist-and-url-tips`. That keeps the year, checklist topic, and URL tips together.',
+          'If you set a 22-character limit, the result becomes `2026-seo-checklist-and`. That is shorter, but it loses the URL tips part. In that case, raise the limit or rewrite the title before copying the slug.',
+        ],
+      },
     ],
     sources: [sourceLinks.googleSeoStarter],
   },
