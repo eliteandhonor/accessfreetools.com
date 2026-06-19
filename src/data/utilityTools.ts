@@ -6931,6 +6931,27 @@ export const utilityTools: ToolDefinition[] = [
       'The tool splits plain text into word-like groups, counts the surrounding text structure, and estimates reading time at about 200 words per minute.',
     limit:
       'Different editors and social platforms can count emojis, punctuation, links, line breaks, or hyphenated words differently.',
+    inputExplanations: [
+      {
+        term: 'Text to count',
+        meaning: 'Paste the exact draft you want checked, including headings, line breaks, captions, or notes you plan to keep.',
+      },
+      {
+        term: 'Words',
+        meaning: 'The count is based on word-like groups of letters and numbers, so punctuation alone does not become a word.',
+      },
+      {
+        term: 'Reading time',
+        meaning: 'The estimate uses about 200 words per minute, which is helpful for planning but not a promise about every reader.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Why can my word count differ from another editor?',
+        answer:
+          'Editors can treat hyphenated terms, emojis, URLs, captions, footnotes, comments, or hidden formatting differently. Use this Word Counter for a fast browser check, then confirm inside the exact school, CMS, client, or social platform field when the limit is strict.',
+      },
+    ],
     useCases: [
       'Check blog drafts, essays, product copy, and article sections before publishing.',
       'Estimate reading time from a rough word count.',
