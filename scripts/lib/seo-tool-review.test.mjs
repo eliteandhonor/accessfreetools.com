@@ -46,6 +46,26 @@ describe('seo tool/page review lane', () => {
     expect(report.entries.some((entry) => entry.slug === 'wallpaper-calculator')).toBe(false);
   });
 
+  it('keeps the matching page as the gate before a different slug starts', () => {
+    const report = buildSeoToolQueueReport({
+      trackerText: `
+| slug | page | status | approved by | approved at | proof | notes |
+| word-counter | tool | approved | human | 2026-06-19 | output/seo-tool-review/word-counter/tool/page-score.md | tool passed |
+`,
+      write: false,
+    });
+
+    expect(report.status).toBe('blocked');
+    expect(report.summary.firstPage).toBe('word-counter:blog');
+    expect(report.approvalGate).toMatchObject({
+      blocked: true,
+      slug: 'word-counter',
+      page: 'blog',
+      status: 'not-started',
+    });
+    expect(report.approvalGate.reason).toContain('matching word-counter blog page');
+  });
+
   it('surfaces an active approval gate before ranked future pages', () => {
     const report = buildSeoToolQueueReport({
       trackerText: `

@@ -500,7 +500,8 @@ export function buildSeoToolQueueReport(options = {}) {
   const trackerText =
     typeof options.trackerText === 'string' ? options.trackerText : readText(SEO_REVIEW_TRACKER_PATH);
   const approvalRows = parseApprovalRows(trackerText);
-  const approvalGate = activeApprovalGate(approvalRows);
+  const activeGate = activeApprovalGate(approvalRows);
+  const approvalGate = activeGate.blocked ? activeGate : matchingPageApprovalGate(approvalRows);
   const ranked = tools
     .map((tool) => ({
       ...tool,
@@ -1063,6 +1064,34 @@ function activeApprovalGate(rows) {
     proof: row.proof,
     notes: row.notes,
     reason: `Finish ${row.slug} ${row.page} and record explicit human approval before starting the next ranked page.`,
+  };
+}
+
+function matchingPageApprovalGate(rows) {
+  for (const row of rows) {
+    if (!pageKinds.has(row.page) || row.status.toLowerCase() !== 'approved') continue;
+
+    const currentState = approvalPageState(rows, row.slug, row.page);
+    if (!currentState.approved) continue;
+
+    const matchingPage = row.page === 'tool' ? 'blog' : 'tool';
+    const matchingState = approvalPageState(rows, row.slug, matchingPage);
+    if (matchingState.approved) continue;
+
+    return {
+      blocked: true,
+      slug: row.slug,
+      page: matchingPage,
+      status: matchingState.status,
+      proof: matchingState.proof,
+      notes: matchingState.notes,
+      reason: `Finish the matching ${row.slug} ${matchingPage} page before starting a different slug.`,
+    };
+  }
+
+  return {
+    blocked: false,
+    reason: '',
   };
 }
 
