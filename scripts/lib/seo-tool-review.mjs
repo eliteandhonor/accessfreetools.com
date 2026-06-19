@@ -468,6 +468,12 @@ function queueMarkdown(report) {
         `| ${entry.slug} | ${entry.page} | ${entry.status} | ${entry.priorityScore} | ${entry.url} | ${entry.priorityReasons.join('; ')} |`,
     )
     .join('\n');
+  const gate = report.approvalGate?.blocked
+    ? `- Active approval gate: ${report.approvalGate.slug} ${report.approvalGate.page} (${report.approvalGate.status})
+- Gate action: ${report.approvalGate.reason}
+- First ranked page after gate: ${report.entries[0]?.slug ?? 'none'} ${report.entries[0]?.page ?? ''}`
+    : `- Active approval gate: none
+- First page: ${report.entries[0]?.slug ?? 'none'} ${report.entries[0]?.page ?? ''}`;
 
   return `# SEO Tool Review Queue
 
@@ -476,7 +482,7 @@ Generated: ${report.generatedAt}
 - Tools: ${report.summary.tools}
 - Page review units: ${report.summary.pages}
 - Approval unit: ${report.summary.approvalUnit}
-- First page: ${report.entries[0]?.slug ?? 'none'} ${report.entries[0]?.page ?? ''}
+${gate}
 
 This generated queue is report-only. Human approvals are tracked in \`${SEO_REVIEW_TRACKER_PATH}\`.
 
@@ -489,6 +495,9 @@ ${rows}
 export function buildSeoToolQueueReport(options = {}) {
   const generatedAt = new Date().toISOString();
   const tools = extractToolRecords();
+  const trackerText =
+    typeof options.trackerText === 'string' ? options.trackerText : readText(SEO_REVIEW_TRACKER_PATH);
+  const approvalGate = activeApprovalGate(parseApprovalRows(trackerText));
   const ranked = tools
     .map((tool) => ({
       ...tool,
@@ -513,13 +522,18 @@ export function buildSeoToolQueueReport(options = {}) {
   const report = {
     generatedAt,
     kind: 'seo-tool-queue',
-    status: entries.length ? 'pass' : 'fail',
+    status: approvalGate.blocked ? 'blocked' : entries.length ? 'pass' : 'fail',
     summary: {
       approvalUnit: 'page',
-      firstPage: entries[0] ? `${entries[0].slug}:${entries[0].page}` : '',
+      firstPage: approvalGate.blocked
+        ? `${approvalGate.slug}:${approvalGate.page}`
+        : entries[0]
+          ? `${entries[0].slug}:${entries[0].page}`
+          : '',
       pages: entries.length,
       tools: tools.length,
     },
+    approvalGate,
     rules: [
       'Review exactly one URL at a time.',
       'Human approval is required separately for each tool page and each blog page.',
@@ -1007,6 +1021,29 @@ function splitMarkdownRow(line) {
     .split('|')
     .map((cell) => cell.trim())
     .filter(Boolean);
+}
+
+const activeApprovalStatuses = new Set(['researching', 'edited', 'waiting-human-approval']);
+
+function activeApprovalGate(rows) {
+  const row = rows.find((item) => pageKinds.has(item.page) && activeApprovalStatuses.has(item.status.toLowerCase()));
+
+  if (!row) {
+    return {
+      blocked: false,
+      reason: '',
+    };
+  }
+
+  return {
+    blocked: true,
+    slug: row.slug,
+    page: row.page,
+    status: row.status,
+    proof: row.proof,
+    notes: row.notes,
+    reason: `Finish ${row.slug} ${row.page} and record explicit human approval before starting the next ranked page.`,
+  };
 }
 
 function parseApprovalRows(markdown = '') {

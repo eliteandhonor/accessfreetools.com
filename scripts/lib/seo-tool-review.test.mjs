@@ -11,16 +11,41 @@ import {
 
 describe('seo tool/page review lane', () => {
   it('builds a page-level queue for every canonical tool and guide', () => {
-    const report = buildSeoToolQueueReport({ write: false });
+    const report = buildSeoToolQueueReport({ trackerText: '', write: false });
 
     expect(report.kind).toBe('seo-tool-queue');
+    expect(report.status).toBe('pass');
     expect(report.summary.tools).toBeGreaterThan(250);
     expect(report.summary.pages).toBe(report.summary.tools * 2);
     expect(report.summary.approvalUnit).toBe('page');
+    expect(report.summary.firstPage).toBe('wallpaper-calculator:tool');
+    expect(report.approvalGate.blocked).toBe(false);
 
     const wallpaperEntries = report.entries.filter((entry) => entry.slug === 'wallpaper-calculator');
     expect(wallpaperEntries.map((entry) => entry.page).sort()).toEqual(['blog', 'tool']);
     expect(wallpaperEntries.every((entry) => entry.approvalRequired)).toBe(true);
+    expect(report.entries[0].slug).toBe('wallpaper-calculator');
+  });
+
+  it('surfaces an active approval gate before ranked future pages', () => {
+    const report = buildSeoToolQueueReport({
+      trackerText: `
+| slug | page | status | approved by | approved at | proof | notes |
+| text-case-converter | tool | approved | human | 2026-06-19 | output/seo-tool-review/text-case-converter/tool/page-score.md | tool passed |
+| text-case-converter | blog | edited |  |  | output/seo-tool-review/text-case-converter/blog/page-score.md | blog still needs paid evidence and approval |
+`,
+      write: false,
+    });
+
+    expect(report.status).toBe('blocked');
+    expect(report.summary.firstPage).toBe('text-case-converter:blog');
+    expect(report.approvalGate).toMatchObject({
+      blocked: true,
+      slug: 'text-case-converter',
+      page: 'blog',
+      status: 'edited',
+    });
+    expect(report.approvalGate.reason).toContain('record explicit human approval');
     expect(report.entries[0].slug).toBe('wallpaper-calculator');
   });
 

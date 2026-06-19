@@ -1269,13 +1269,20 @@ function seoConsoleCommand(command) {
 
 function seoToolQueueCommand(command) {
   const report = buildSeoToolQueueReport();
+  const gateLines = report.approvalGate?.blocked
+    ? [
+        `- Active approval gate: ${report.approvalGate.slug} ${report.approvalGate.page} (${report.approvalGate.status})`,
+        `- Gate action: ${report.approvalGate.reason}`,
+        '- Next ranked pages after gate:',
+      ]
+    : ['- Active approval gate: none', '- Next pages:'];
   emit(command, report, [
     `SEO tool/page queue: ${report.status}`,
     `- Tools: ${report.summary.tools}`,
     `- Page review units: ${report.summary.pages}`,
     `- Approval unit: ${report.summary.approvalUnit}`,
     `- Saved report: ${report.paths.markdownPath}`,
-    '- Next pages:',
+    ...gateLines,
     ...report.entries.slice(0, 5).map((entry, index) => `  ${index + 1}. ${entry.slug} ${entry.page} - score ${entry.priorityScore}; ${entry.priorityReasons.join('; ')}`),
   ]);
 }
