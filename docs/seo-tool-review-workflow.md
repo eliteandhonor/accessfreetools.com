@@ -76,6 +76,10 @@ When the user says `PAID SEO SPRINT <slug> <tool|blog>`, treat that as approval 
 
 When the user says `SEO SPRINT <slug> <tool|blog>`, run the same complete workflow, including paid DataForSEO, unless they explicitly say "no paid" for that run.
 
+## Standing Owner Autonomy Directive
+
+On 2026-06-19, the owner approved autonomous targeted SEO/DataForSEO judgment for this controlled page-review lane. For exact page-level SEO sprint work, agents may run needed paid DataForSEO evidence after local account balance and service-status guardrails pass, record exact proof paths, and continue without asking for another paid-run confirmation. Broad or sitewide paid crawls still need the existing capped automation and cost guardrails. When paid evidence, rendered/browser proof, page score, link audit, final judge, and proof-check pass with no blocking gaps, agents may record approval as `user autonomous completion directive`, deploy, live-verify, and update `docs/seo-tool-review-queue.md` instead of stopping for a separate human review prompt.
+
 ## Review Rules
 
 1. Work on `codex/seo-tool-blog-review`.
@@ -84,7 +88,7 @@ When the user says `SEO SPRINT <slug> <tool|blog>`, run the same complete workfl
 4. Run `node scripts/seo-agent-workbench.mjs all <slug> <tool|blog>` first. For partial runs, at minimum run `plan`, `sources`, and `micro-plan` so every broad specialist, evaluator, and one-question micro-agent has a scoped job plus source evidence.
 5. Open the exact page in the internal browser. Use Playwright only if the internal browser is unavailable.
 6. Compare only approved competitor URLs. Default competitor sources are calculator.net, Inch Calculator, CalculatorSoup, CalculatorInn, and OmniCalc.
-7. Do not use paid DataForSEO SERP, keyword, or OnPage calls unless the user explicitly approves that paid run. The phrases `SEO steps`, `begin our SEO steps`, `do the SEO steps`, `PAID SEO SPRINT <slug> <tool|blog>`, and `SEO SPRINT <slug> <tool|blog>` count as paid approval unless the user also says "no paid".
+7. Do not use paid DataForSEO SERP, keyword, or OnPage calls unless the user explicitly approves that paid run or the Standing Owner Autonomy Directive applies. The phrases `SEO steps`, `begin our SEO steps`, `do the SEO steps`, `PAID SEO SPRINT <slug> <tool|blog>`, and `SEO SPRINT <slug> <tool|blog>` count as paid approval unless the user also says "no paid".
 8. Edit only the current page source, FAQ, metadata, related links, matching guide text, or proof docs.
 9. Run `npm run aft -- seo-page-score <slug> --page tool|blog`, `node scripts/seo-agent-workbench.mjs links <slug> <tool|blog>`, `node scripts/seo-agent-workbench.mjs judge <slug> <tool|blog>`, plus the page-specific checks listed in the research report.
 10. Present the exact URL, report paths, browser proof, final-judge gaps, and diff to the user.
@@ -98,7 +102,7 @@ After any approved page is committed, pushed, deployed, and live-verified:
 - Record the live URL, deployment/build id, commit id, and proof path in the Review Log.
 - Tell the user how many page review units are left.
 - Start the next page by marking it `researching`, generating the local research and page score, and loading the exact local URL in the internal browser.
-- Do not run paid DataForSEO for the next page until the user says `SEO steps` for the open page, or uses another paid SEO trigger phrase for that page.
+- Under the Standing Owner Autonomy Directive, continue to the next exact page-level SEO sprint when local account balance and service-status guardrails pass; otherwise wait for a fresh paid SEO trigger phrase.
 
 ## Approval Format
 
