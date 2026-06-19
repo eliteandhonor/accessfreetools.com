@@ -3943,6 +3943,11 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'A wider mower cuts a wider strip each pass. If speed and efficiency stay the same, doubling the cutting width roughly doubles the area cut per hour.',
       },
+      {
+        question: 'Does the estimate include trimming, edging, or bagging?',
+        answer:
+          'No. The calculator estimates mowing time for cutting the grass area. Use efficiency percent to account for slower mowing, then add separate time for trimming, edging, bagging, blowing clippings, moving toys, or opening gates.',
+      },
     ],
     useCases: [
       'Estimate how long mowing a lawn will take.',
@@ -3952,8 +3957,8 @@ export const utilityTools: ToolDefinition[] = [
     ],
     examples: [
       { label: 'Push mower lawn', expression: '10,000 ft2, 21 in mower, 3 mph, 80% efficiency', result: '27.06 minutes' },
-      { label: 'Small yard', expression: '3,500 ft2, 21 in mower, 75% efficiency', result: 'Mowing time' },
-      { label: 'Riding mower acre', expression: '1 acre, 42 in mower, 4.5 mph', result: 'Hours and minutes' },
+      { label: 'Small yard', expression: '3,500 ft2, 21 in mower, 3 mph, 75% efficiency', result: '10.10 minutes' },
+      { label: 'Riding mower acre', expression: '1 acre, 42 in mower, 4.5 mph, 85% efficiency', result: '36.97 minutes, about 0.62 hours' },
     ],
     relatedSlugs: ['grass-seed-calculator', 'sod-calculator', 'area-calculator'],
   }),
