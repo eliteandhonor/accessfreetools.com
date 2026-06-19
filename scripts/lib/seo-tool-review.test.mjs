@@ -17,6 +17,8 @@ describe('seo tool/page review lane', () => {
     expect(report.status).toBe('pass');
     expect(report.summary.tools).toBeGreaterThan(250);
     expect(report.summary.pages).toBe(report.summary.tools * 2);
+    expect(report.summary.remainingPages).toBe(report.summary.pages);
+    expect(report.summary.approvedPages).toBe(0);
     expect(report.summary.approvalUnit).toBe('page');
     expect(report.summary.firstPage).toBe('wallpaper-calculator:tool');
     expect(report.approvalGate.blocked).toBe(false);
@@ -25,6 +27,23 @@ describe('seo tool/page review lane', () => {
     expect(wallpaperEntries.map((entry) => entry.page).sort()).toEqual(['blog', 'tool']);
     expect(wallpaperEntries.every((entry) => entry.approvalRequired)).toBe(true);
     expect(report.entries[0].slug).toBe('wallpaper-calculator');
+  });
+
+  it('skips approved pages when choosing the next actionable queue item', () => {
+    const report = buildSeoToolQueueReport({
+      trackerText: `
+| slug | page | status | approved by | approved at | proof | notes |
+| wallpaper-calculator | tool | approved | human | 2026-06-16 | output/seo-tool-review/wallpaper-calculator/tool/page-score.md | tool passed |
+| wallpaper-calculator | blog | approved | human | 2026-06-16 | output/seo-tool-review/wallpaper-calculator/blog/page-score.md | blog passed |
+`,
+      write: false,
+    });
+
+    expect(report.status).toBe('pass');
+    expect(report.summary.approvedPages).toBe(2);
+    expect(report.summary.remainingPages).toBe(report.summary.pages - 2);
+    expect(report.summary.firstPage).not.toContain('wallpaper-calculator');
+    expect(report.entries.some((entry) => entry.slug === 'wallpaper-calculator')).toBe(false);
   });
 
   it('surfaces an active approval gate before ranked future pages', () => {

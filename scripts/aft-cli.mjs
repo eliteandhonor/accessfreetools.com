@@ -1280,6 +1280,8 @@ function seoToolQueueCommand(command) {
     `SEO tool/page queue: ${report.status}`,
     `- Tools: ${report.summary.tools}`,
     `- Page review units: ${report.summary.pages}`,
+    `- Approved page review units: ${report.summary.approvedPages}`,
+    `- Remaining page review units: ${report.summary.remainingPages}`,
     `- Approval unit: ${report.summary.approvalUnit}`,
     `- Saved report: ${report.paths.markdownPath}`,
     ...gateLines,

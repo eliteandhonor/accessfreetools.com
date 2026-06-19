@@ -481,6 +481,8 @@ Generated: ${report.generatedAt}
 
 - Tools: ${report.summary.tools}
 - Page review units: ${report.summary.pages}
+- Approved page review units: ${report.summary.approvedPages}
+- Remaining page review units: ${report.summary.remainingPages}
 - Approval unit: ${report.summary.approvalUnit}
 ${gate}
 
@@ -497,7 +499,8 @@ export function buildSeoToolQueueReport(options = {}) {
   const tools = extractToolRecords();
   const trackerText =
     typeof options.trackerText === 'string' ? options.trackerText : readText(SEO_REVIEW_TRACKER_PATH);
-  const approvalGate = activeApprovalGate(parseApprovalRows(trackerText));
+  const approvalRows = parseApprovalRows(trackerText);
+  const approvalGate = activeApprovalGate(approvalRows);
   const ranked = tools
     .map((tool) => ({
       ...tool,
@@ -505,19 +508,34 @@ export function buildSeoToolQueueReport(options = {}) {
     }))
     .sort((a, b) => b.priority.score - a.priority.score || a.category.localeCompare(b.category) || a.slug.localeCompare(b.slug));
 
-  const entries = ranked.flatMap((tool) =>
-    ['tool', 'blog'].map((page) => ({
-      approvalRequired: true,
-      name: tool.name,
-      page,
-      priorityReasons: tool.priority.reasons,
-      priorityScore: tool.priority.score,
-      slug: tool.slug,
-      source: sourceForPage(tool.slug, page, tool),
-      status: 'not-started',
-      url: urlFor(tool.slug, page),
-    })),
+  const allEntries = ranked.flatMap((tool) =>
+    ['tool', 'blog'].map((page) => {
+      const approval = approvalPageState(approvalRows, tool.slug, page);
+      return {
+        approvalRequired: true,
+        approval,
+        name: tool.name,
+        page,
+        priorityReasons: tool.priority.reasons,
+        priorityScore: tool.priority.score,
+        slug: tool.slug,
+        source: sourceForPage(tool.slug, page, tool),
+        status: approval.status,
+        url: urlFor(tool.slug, page),
+      };
+    }),
   );
+  const entries = allEntries
+    .filter((entry) => !entry.approval.approved)
+    .filter(
+      (entry) =>
+        !(
+          approvalGate.blocked &&
+          entry.slug === approvalGate.slug &&
+          entry.page === approvalGate.page
+        ),
+    );
+  const approvedPages = allEntries.length - entries.length - (approvalGate.blocked ? 1 : 0);
 
   const report = {
     generatedAt,
@@ -530,14 +548,16 @@ export function buildSeoToolQueueReport(options = {}) {
         : entries[0]
           ? `${entries[0].slug}:${entries[0].page}`
           : '',
-      pages: entries.length,
+      pages: allEntries.length,
+      remainingPages: entries.length + (approvalGate.blocked ? 1 : 0),
+      approvedPages,
       tools: tools.length,
     },
     approvalGate,
     rules: [
       'Review exactly one URL at a time.',
       'Human approval is required separately for each tool page and each blog page.',
-      'No paid DataForSEO competitor calls are allowed without explicit approval for that run.',
+      'Paid DataForSEO competitor calls require either explicit approval for that run or the standing owner autonomy directive.',
     ],
     entries,
   };
