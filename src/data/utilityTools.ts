@@ -4034,9 +4034,9 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Square rows', expression: '10 x 4 ft bed, 12 in spacing, square', result: '40 plants' },
       { label: 'Staggered rows', expression: '10 x 4 ft bed, 12 in spacing, triangular', result: '44 plants' },
-      { label: 'Ground cover', expression: '18 x 6 ft bed, 18 in spacing', result: 'Plant count estimate' },
+      { label: 'Ground cover', expression: '18 x 6 ft bed, 18 in spacing, triangular', result: '52 plants' },
     ],
-    relatedSlugs: ['mulch-calculator', 'grass-seed-calculator', 'area-calculator'],
+    relatedSlugs: ['square-footage-calculator', 'area-calculator', 'conversion-calculator'],
   }),
   makeUtilityTool({
     slug: 'siding-calculator',
