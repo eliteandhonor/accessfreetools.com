@@ -14,11 +14,11 @@ const articleStructuredData = {
   '@type': 'Article',
   headline: 'How to use the Kawaii Calculator',
   description:
-    'A friendly walkthrough for the Access Free Tools kawaii calculator, including cute design details, keypad controls, keyboard shortcuts, percentages, history, privacy, and copying results.',
+    'A friendly walkthrough for the Access Free Tools kawaii calculator, including cute design details, keypad controls, keyboard shortcuts, percent behavior, history, privacy, limits, and copying results.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-kawaii-calculator/',
   image: guideImageUrl,
   datePublished: '2026-04-30',
-  dateModified: '2026-04-30',
+  dateModified: '2026-06-20',
   author: {
     '@type': 'Organization',
     name: 'Access Free Tools',
@@ -33,7 +33,7 @@ const articleStructuredData = {
 
 <BaseLayout
   title="How to use the Kawaii Calculator | Access Free Tools"
-  description="Learn how to use the free Access Free Tools kawaii calculator for cute pastel everyday math, percentages, keyboard shortcuts, history, privacy, and copying results."
+  description="Learn how to use the free Kawaii Calculator for pastel everyday math, percentages, keyboard shortcuts, history, privacy, copying results, and limits."
   path="/blog/how-to-use-kawaii-calculator/"
   socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
   socialImageAlt={guideArt?.alt}
@@ -48,8 +48,8 @@ const articleStructuredData = {
       <h1>How to use the Kawaii Calculator</h1>
       <p>
         The Kawaii Calculator gives the same everyday math controls a softer pastel workspace.
-        Use it for quick totals, percentages, shopping math, study notes, and any moment where
-        a cute calculator makes the task feel a little lighter.
+        Use it for quick totals, percent discounts, shopping math, study notes, and any moment
+        where a cute calculator makes a plain task feel easier to start.
       </p>
       <a class="button-primary" href="/tools/kawaii-calculator/">Open the kawaii calculator</a>
     </header>
@@ -96,6 +96,7 @@ const articleStructuredData = {
             <p>Keep it open beside notes when a softer design helps the task feel less plain.</p>
             <p>Check discounts, split small totals, and compare recent answers in the history panel.</p>
             <p>Share copied results while keeping the calculations in your own browser session.</p>
+            <p>Use the same simple calculator behavior as the Basic Calculator with a softer visual style.</p>
           </div>
         </section>
 
@@ -139,6 +140,78 @@ const articleStructuredData = {
             </div>
           </section>
         )}
+
+        <section class="content-section">
+          <h2>How the percent key behaves</h2>
+          <p>
+            For a plain number, the percent key turns the entry into a decimal percentage. If you type
+            15 and press %, the calculator treats it as 0.15.
+          </p>
+          <p>
+            During plus or minus calculations, the percent key uses the first number as the base. For
+            the example <strong>45 - 15%</strong>, the calculator subtracts 15% of 45, which is 6.75,
+            and shows <strong>38.25 sale price</strong>.
+          </p>
+          <p>
+            That makes the Kawaii Calculator handy for quick discounts, tips, tax estimates, markups,
+            and "what is this small percent of my total?" checks. If you need several percent modes
+            with written formula steps, use the <a href="/tools/percentage-calculator/">Percentage Calculator</a>.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>How to read the answer</h2>
+          <p>
+            The big display is the current answer or the number you are entering. The small label above
+            it tells you whether the calculator is ready, waiting for the next number, or showing a
+            completed result.
+          </p>
+          <p>
+            Calculation History keeps recent completed steps nearby, so you can compare a stationery
+            total, a sale price, and a split total without retyping each one. If the answer looks too
+            short, it may be rounded so the cute display stays readable.
+          </p>
+          <p>
+            Copy result copies only the current display value. It does not copy your whole history, and
+            it does not send your calculation to Access Free Tools.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Mistakes to avoid</h2>
+          <div class="feature-list">
+            <p>
+              Do not expect full order of operations. The Kawaii Calculator works like a simple handheld
+              calculator and solves the current two-number step when you press the next operator or equals.
+            </p>
+            <p>
+              Check the percent base before trusting a discount. In 45 - 15%, the base is 45; reversing
+              the numbers answers a different question.
+            </p>
+            <p>
+              Use the sign-change key carefully for negative numbers. A small sign mistake can flip a
+              budget difference, score change, or split total.
+            </p>
+            <p>
+              Watch long decimals. The display may shorten them for readability, which is fine for quick
+              planning but not for exact fraction, large-integer, or high-precision work.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>When to use a different calculator</h2>
+          <p>
+            Use the <a href="/tools/basic-calculator/">Basic Calculator</a> when you want the same simple
+            math with a plain utility design. Use the <a href="/tools/scientific-calculator/">Scientific Calculator</a>
+            for parentheses, powers, roots, trigonometry, and expression order.
+          </p>
+          <p>
+            Use the <a href="/tools/fraction-calculator/">Fraction Calculator</a> when fractions matter,
+            and the <a href="/tools/big-number-calculator/">Big Number Calculator</a> when exact large
+            integers matter more than a cute everyday display.
+          </p>
+        </section>
 
         <section class="content-section">
           <h2>Privacy and history</h2>
