@@ -1613,11 +1613,46 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate a starting bra band and cup size from bust and underbust measurements.',
     description:
       'Use this free bra size calculator to estimate a US-style starting bra size from underbust and bust measurements in inches.',
+    seoTitle: 'Bra Size Calculator | US Band And Cup Estimate',
+    seoDescription:
+      'Estimate a US-style starting bra size from underbust and bust measurements. Includes band rounding, cup difference, sister-size, and brand-fit notes.',
     icon: 'calculator-bra-size',
+    aliases: ['Bra Cup Size Calculator', 'Bra Band Size Calculator', 'US Bra Size Calculator'],
     formula:
       'The calculator rounds underbust up to an even band size, subtracts band size from bust size, and maps the difference to an approximate cup label.',
     limit:
       'Bra sizing varies by brand, body shape, country, and style. Use this as a fitting starting point, not a guaranteed size.',
+    faqLanguage: {
+      expectedInputs: 'a snug underbust measurement and a full-bust measurement in inches',
+      examplePhrase: 'US-style bra-size example',
+      doubleCheck:
+        'Measure with a soft tape, keep the tape level, breathe normally, and compare the answer with the size chart for the exact brand or style you plan to try.',
+      privacy:
+        'No. The calculator runs in your browser tab. Your measurements and recent estimates stay only on the page while you use it, and they are not sent to a server.',
+    },
+    inputExplanations: [
+      { term: 'Underbust inches', meaning: 'the snug measurement around the rib cage directly under the bust.' },
+      { term: 'Bust inches', meaning: 'the measurement around the fullest part of the bust with the tape level and not pulled tight.' },
+      { term: 'Band', meaning: 'the even-numbered band size after the underbust measurement is rounded up.' },
+      { term: 'Cup', meaning: 'the approximate cup label from bust minus band size, using a simple US-style mapping.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why did my band size round up?',
+        answer:
+          'The page uses even-numbered US-style band sizes. For example, a 33 inch underbust rounds up to a 34 band before the cup difference is calculated.',
+      },
+      {
+        question: 'What if the estimate is close but not comfortable?',
+        answer:
+          'Try nearby sizes and sister sizes instead of treating one answer as final. For example, a 32D and 34C can feel related in cup volume, but band tension, strap placement, wire shape, and brand cut can change the fit.',
+      },
+      {
+        question: 'Does this work for every country or brand?',
+        answer:
+          'No. This is a US-style starting estimate. UK, EU, AU, and brand-specific systems can label cups and bands differently, so check the brand chart before buying.',
+      },
+    ],
     useCases: [
       'Get a quick starting size before checking brand charts.',
       'Understand the difference between band size and cup difference.',
@@ -1627,7 +1662,7 @@ export const utilityTools: ToolDefinition[] = [
     examples: [
       { label: 'Simple estimate', expression: '32 in underbust, 36 in bust', result: 'About 32D' },
       { label: 'Rounded band', expression: '33 in underbust, 36 in bust', result: 'About 34B' },
-      { label: 'Cup difference', expression: '34 in underbust, 39 in bust', result: 'Starting size estimate' },
+      { label: 'Cup difference', expression: '34 in underbust, 39 in bust', result: 'About 34DD/E' },
     ],
     relatedSlugs: ['body-type-calculator', 'body-surface-area-calculator', 'conversion-calculator'],
   }),
