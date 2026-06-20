@@ -498,11 +498,50 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Find the final exam grade needed to reach a desired course grade.',
     description:
       'Use this free grade calculator to estimate what score you need on a final exam based on current grade, final weight, and target grade.',
+    seoTitle: 'Grade Calculator | Final Exam Score Needed',
+    seoDescription:
+      'Calculate the final exam score needed for a target course grade from your current grade, final weight, and desired grade, with syllabus-weight reminders.',
     icon: 'calculator-grade',
+    aliases: ['Final Grade Calculator', 'Final Exam Grade Calculator', 'Course Grade Calculator', 'Needed Final Calculator'],
     formula:
       'The calculator multiplies current grade by the non-final weight, then solves for the final exam score needed to reach the desired course grade.',
     limit:
       'Use the weights from your syllabus. Extra credit, dropped grades, category weighting, curves, and school policies can change the official result.',
+    faqLanguage: {
+      expectedInputs:
+        'your current course grade before the final, the final exam weight from the syllabus, and the target course grade you want',
+      examplePhrase: 'final exam planning example',
+      doubleCheck:
+        'Also check whether your current grade already includes the final, whether the final is a single exam or a weighted category, and whether extra credit, drops, or curves apply.',
+    },
+    inputExplanations: [
+      { term: 'Current grade', meaning: 'your course percentage before the final exam is added.' },
+      { term: 'Final weight', meaning: 'the percent of the whole course grade that the final exam is worth.' },
+      { term: 'Desired course grade', meaning: 'the final overall course percentage you want after the final is counted.' },
+      { term: 'Needed final score', meaning: 'the exam percentage required to hit the target, assuming the entered weights are correct.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How do I calculate the final exam grade I need?',
+        answer:
+          'Convert the final weight to a decimal, multiply your current grade by the remaining course weight, subtract that from your target grade, then divide by the final weight. This calculator does that algebra for you.',
+      },
+      {
+        question: 'What does it mean if the needed final score is over 100%?',
+        answer:
+          'A needed score above 100% means the target is not reachable from the final exam alone under the weights you entered. You would need a lower target, extra credit, a curve, dropped work, or a different course policy.',
+      },
+      {
+        question: 'Should my current grade include the final exam?',
+        answer:
+          'No. Enter the current course grade before the final exam is counted. If your gradebook already includes a temporary or estimated final exam score, remove that effect or use your syllabus numbers carefully.',
+      },
+      {
+        question: 'Can this handle weighted assignment categories?',
+        answer:
+          'Use it when the final exam is one known percent of the whole course. If your class has categories such as homework, quizzes, projects, and exams, first use the gradebook or syllabus to find the current course grade before the final.',
+      },
+    ],
     useCases: [
       'Find the final exam score needed for a target course grade.',
       'See whether a goal is possible without extra credit.',
