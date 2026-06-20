@@ -671,11 +671,46 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Roll one or more virtual dice with custom sides and a modifier.',
     description:
       'Use this free dice roller to roll standard or custom dice, add a modifier, copy totals, and keep quick recent rolls in your browser tab.',
+    seoTitle: 'Dice Roller | Roll D6, D20, Percentile And Custom Dice',
+    seoDescription:
+      'Roll virtual dice for games, teaching, and quick picks. Supports dice count, sides, modifiers, per-die results, subtotals, totals, and recent rolls.',
     icon: 'random-dice',
+    aliases: ['Online Dice Roller', 'Virtual Dice Roller', 'D20 Roller', 'D6 Roller', 'Custom Dice Roller'],
     formula:
       'The roller generates each die as a random whole number from 1 through the number of sides, adds the rolls together, then applies the modifier.',
     limit:
       'Use it for everyday games, teaching, and quick picks. Do not use it for gambling, legal drawings, security, or audited randomness.',
+    faqLanguage: {
+      expectedInputs: 'the number of dice, the number of sides on each die, and an optional positive or negative modifier',
+      examplePhrase: 'dice-roll example such as 2d6, 1d20 + 5, or 4d10',
+      doubleCheck:
+        'Check whether your game or lesson needs one die, multiple dice, a special die such as d20 or d100, and whether the modifier should be added or subtracted.',
+      privacy:
+        'No. The roller runs in your browser tab. Your recent rolls stay only on the page while you use it, and they are not sent to a server.',
+    },
+    inputExplanations: [
+      { term: 'Dice count', meaning: 'how many dice to roll at once, from 1 through 50.' },
+      { term: 'Sides', meaning: 'the highest face number on each die, from 2 through 1,000.' },
+      { term: 'Modifier', meaning: 'an optional whole number added to or subtracted from the subtotal after the dice are rolled.' },
+      { term: 'Subtotal', meaning: 'the sum of the dice before the modifier changes the final total.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the answer change every time?',
+        answer:
+          'A dice roller is supposed to create a fresh random roll each time. The page shows the individual dice, subtotal, modifier, and final total so you can see exactly how that roll was built.',
+      },
+      {
+        question: 'What dice sizes can I roll?',
+        answer:
+          'You can roll 1 to 50 dice at a time, and each die can have 2 to 1,000 sides. That covers common dice such as d6, d8, d10, d12, d20, and d100, plus custom classroom or game examples.',
+      },
+      {
+        question: 'Can I use this for gambling or official drawings?',
+        answer:
+          'No. This page is for casual games, teaching, practice, and quick picks. Do not use it for gambling, security decisions, legal drawings, audits, or anything that needs certified randomness.',
+      },
+    ],
     useCases: [
       'Roll 1d6, 2d6, d20, percentile-style dice, or custom sided dice.',
       'Add a positive or negative modifier for tabletop game checks.',
