@@ -865,6 +865,10 @@ const sourceLinks = {
     href: 'https://csrc.nist.gov/glossary/term/random_number',
     label: 'NIST CSRC: Random number glossary',
   },
+  mdnCryptoGetRandomValues: {
+    href: 'https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues',
+    label: 'MDN: Crypto getRandomValues()',
+  },
   ftcWebAppsCollectInfo: {
     href: 'https://consumer.ftc.gov/articles/how-websites-apps-collect-use-your-information',
     label: 'FTC: How websites and apps collect and use your information',
@@ -1306,8 +1310,23 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   },
   'dice-roller': {
     summary: 'Learn how to roll custom dice, read each roll, and understand everyday randomness limits.',
+    metaDescription:
+      'Learn how to use the Dice Roller for 2d6, d20, percentile, and custom dice rolls. See what dice count, sides, modifiers, subtotals, and casual randomness limits mean.',
     purpose:
       'The Dice Roller is for quick, casual random rolls. It shows every die, the subtotal, the modifier, and the final total so the result is easy to check.',
+    intro:
+      'Use it for a board-game roll, tabletop check, classroom example, or quick custom die test. Pick the dice count, sides per die, and optional modifier, then read the individual rolls before trusting the total.',
+    inputMatch: 'the dice count, sides per die, and optional modifier your game, lesson, or example actually calls for',
+    logicNote:
+      'For example, 2d6 rolls two separate numbers from 1 through 6, adds them as the subtotal, then applies the modifier. A 1d20 + 5 check rolls one number from 1 through 20 and adds 5 after the die result.',
+    readIntro:
+      'Read the final total first, then check Rolls, Subtotal, and Modifier. If a game asks for the natural die result, use the individual roll; if it asks for the check total, use the final total.',
+    mistakeIntro:
+      'Dice rolls usually go wrong when the notation is misunderstood: 2d6 means two six-sided dice, d20 means one 20-sided die, and +5 is added after the die result.',
+    sidecarText:
+      'Open the Dice Roller beside this guide. Try 2d6, 1d20 + 5, and 4d10 once, then replace the dice count, sides, and modifier with your own game or lesson.',
+    bestUsesIntro:
+      'Use this guide when you know the roll notation but want to double-check what each part of the result means before using it.',
     enter: [
       'Enter how many dice you want to roll.',
       'Enter the number of sides per die.',
@@ -1323,7 +1342,33 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Check whether your game needs one die, multiple dice, or a modifier.',
       'Remember that random rolls can repeat and do not balance out in short runs.',
     ],
-    sources: [],
+    extraSections: [
+      {
+        title: '2d6, 1d20 + 5, and 4d10 examples',
+        paragraphs: [
+          'A 2d6 roll means two six-sided dice. If the rolls are 4 and 5, the subtotal is 9, and the final total is still 9 unless you add a modifier.',
+          'A 1d20 + 5 check means one 20-sided die plus a modifier of 5. If the die shows 13, the subtotal is 13 and the final total is 18.',
+          'A 4d10 roll means four ten-sided dice. That is useful when a game or lesson asks for several dice at once and you need to see each die, not just the total.',
+        ],
+      },
+      {
+        title: 'Why streaks can happen',
+        paragraphs: [
+          'Random does not mean even in the next few rolls. You can roll three low numbers in a row, repeat the same face twice, or miss a high number for a while, and that can still be normal casual randomness.',
+          'That is why the page shows every die result. If the total feels surprising, check the individual rolls and the modifier before assuming something went wrong.',
+        ],
+      },
+      {
+        title: 'When to use a different random tool',
+        paragraphs: [
+          'Use this page when the result should feel like dice: d6, d20, d100, multiple dice, or a modifier after the roll.',
+          'Use the Random Number Generator when you need numbers in a custom range, unique picks, sorting, or copied lists instead of dice-style notation.',
+        ],
+      },
+    ],
+    referenceIntro:
+      'These references explain browser random-number behavior, random-number language, and people-first limits behind the guide. They do not turn a casual dice roll into certified randomness.',
+    sources: [sourceLinks.mdnCryptoGetRandomValues, sourceLinks.nistRandomNumber, sourceLinks.googleHelpfulContent],
   },
   'fuel-cost-calculator': {
     title: 'Fuel Cost Calculator Guide',
