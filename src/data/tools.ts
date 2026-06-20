@@ -928,6 +928,7 @@ const baseTools: ToolDefinition[] = [
     description:
       'Use this kawaii calculator for everyday arithmetic, percentages, decimals, keyboard input, copy result, and calculation history in a softer pastel layout.',
     icon: 'calculator-heart',
+    aliases: ['Cute Calculator', 'Pastel Calculator', 'Aesthetic Calculator', 'Kawaii Online Calculator'],
     seoTitle: 'Kawaii Calculator | Cute Free Online Calculator',
     seoDescription:
       'Use the free Access Free Tools kawaii calculator for cute pastel everyday math, percentages, decimals, keyboard input, history, and quick result copying.',
@@ -936,22 +937,23 @@ const baseTools: ToolDefinition[] = [
       'Check totals, discounts, and simple math without opening a full spreadsheet.',
       'Use keyboard shortcuts while keeping a cheerful calculator page open.',
       'Copy results and keep recent calculations visible while comparing numbers.',
+      'Use the same simple calculator behavior as the Basic Calculator with a softer visual style.',
     ],
     examples: [
       {
         label: 'Add cute stationery costs',
         expression: '12.50 + 7.25',
-        result: '19.75',
+        result: '19.75 total',
       },
       {
         label: 'Find a pastel sale price',
         expression: '45 - 15%',
-        result: '38.25',
+        result: '38.25 sale price',
       },
       {
         label: 'Split a small group total',
         expression: '96 / 4',
-        result: '24',
+        result: '24 each',
       },
     ],
     faq: [
@@ -985,8 +987,18 @@ const baseTools: ToolDefinition[] = [
         answer:
           'No. The kawaii version uses the same everyday calculator behavior for arithmetic, percentages, decimals, keyboard input, copying, and session history. Only the visual style changes.',
       },
+      {
+        question: 'Does the Kawaii Calculator follow full order of operations?',
+        answer:
+          'No. It works like a simple handheld calculator: it solves the current two-number step when you press the next operator or equals. Use the Scientific Calculator when you need parentheses, powers, trigonometry, or full expression order.',
+      },
+      {
+        question: 'Why can a long decimal look shorter?',
+        answer:
+          'The display rounds long floating-point answers so they stay readable on the cute calculator screen. If you need exact large-integer math, use the Big Number Calculator. If you need fraction work, use the Fraction Calculator.',
+      },
     ],
-    relatedSlugs: ['basic-calculator', 'percentage-calculator', 'fraction-calculator'],
+    relatedSlugs: ['basic-calculator', 'percentage-calculator', 'fraction-calculator', 'scientific-calculator'],
   },
   {
     slug: 'scientific-calculator',
