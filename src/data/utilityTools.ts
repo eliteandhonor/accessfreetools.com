@@ -6969,11 +6969,75 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate engine horsepower from torque and RPM with optional drivetrain loss.',
     description:
       'Use this free engine horsepower calculator to estimate horsepower from pound-feet of torque and RPM, plus optional wheel horsepower after drivetrain loss.',
+    seoTitle: 'Engine Horsepower Calculator | Torque And RPM To HP',
+    seoDescription:
+      'Estimate engine horsepower from torque and RPM, plus wheel horsepower after drivetrain loss. Includes lb-ft, RPM, hp, kW, and dyno-limit notes.',
     icon: 'calculator-engine-horsepower',
+    aliases: ['Torque to Horsepower Calculator', 'RPM Horsepower Calculator', 'Wheel Horsepower Calculator'],
     formula:
       'The calculator uses horsepower = torque in lb-ft x RPM / 5252.1131, then applies optional drivetrain loss to estimate wheel horsepower.',
     limit:
       'This is formula math, not a certified dyno result. Real engine ratings depend on test standard, correction factor, drivetrain loss, and conditions.',
+    faqLanguage: {
+      expectedInputs:
+        'the torque in pound-feet, RPM, and optional drivetrain loss percent from the exact engine point or example you are checking',
+      inputFallback:
+        'Torque is the twisting force at that RPM. RPM is how fast the engine is spinning at the same point. Drivetrain loss is an optional estimate for the power lost before it reaches the wheels.',
+      examplePhrase: 'torque and RPM example',
+      doubleCheck:
+        'Also check that torque and RPM come from the same point on the curve. Mixing peak torque with peak RPM can create a horsepower number that the engine never actually makes.',
+      privacy:
+        'No. The calculation runs in your browser tab. Your torque, RPM, and drivetrain loss entries are not sent to a server.',
+    },
+    inputExplanations: [
+      {
+        term: 'Torque (lb-ft)',
+        meaning:
+          'the engine torque at the exact RPM point you want to check. Use pound-feet, not newton-meters, unless you convert first.',
+      },
+      {
+        term: 'RPM',
+        meaning:
+          'the engine speed that matches the torque value. Horsepower rises only when torque is being applied at a specific speed.',
+      },
+      {
+        term: 'Drivetrain loss %',
+        meaning:
+          'an optional estimate for power lost through the transmission, differential, tires, or other driveline parts before the wheels.',
+      },
+      {
+        term: 'Engine horsepower',
+        meaning:
+          'the formula estimate before drivetrain loss. It is useful for learning and rough comparisons, not a certified engine rating.',
+      },
+      {
+        term: 'Wheel horsepower',
+        meaning:
+          'the estimate after subtracting drivetrain loss. Real wheel horsepower needs a dyno test under known conditions.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Why do torque and RPM make horsepower?',
+        answer:
+          'Torque shows how much twisting force the engine makes. RPM shows how fast that force is applied. Horsepower combines both, which is why the same torque makes more horsepower at a higher RPM.',
+      },
+      {
+        question: 'What does drivetrain loss mean?',
+        answer:
+          'Drivetrain loss is the estimated percentage of engine power lost before it reaches the wheels. A 15% loss means the wheel horsepower estimate is 85% of the engine horsepower estimate.',
+      },
+      {
+        question: 'Is this the same as a dyno result?',
+        answer:
+          'No. This calculator uses a formula from torque and RPM. A dyno measures a real engine or vehicle under test conditions, and the result can change with correction factor, gear, temperature, tire setup, and the dyno type.',
+      },
+      {
+        question: 'Why is 5,252 used in the formula?',
+        answer:
+          'The 5,252 constant comes from the relationship between pound-feet, RPM, and mechanical horsepower. With lb-ft and RPM, horsepower equals torque times RPM divided by about 5,252.1131.',
+      },
+    ],
     useCases: [
       'Estimate horsepower from a torque and RPM point.',
       'Compare engine horsepower with wheel horsepower after estimated loss.',
