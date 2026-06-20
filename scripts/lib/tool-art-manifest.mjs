@@ -867,6 +867,13 @@ const toolArtMetadataOverrides = {
         'Paver Calculator guide artwork supports the walkthrough by showing how area, paver size, cuts, and waste become a rounded paver count.',
     },
   },
+  'paver-base-calculator': {
+    guide: {
+      alt: 'Smoke mascot guide showing paver area, compacted gravel base depth, bedding sand depth, waste percent, base cubic yards, base tons, and separate bedding sand volume.',
+      caption:
+        'Paver Base Calculator guide artwork supports the walkthrough for estimating compacted gravel base, base tons, and bedding sand while checking waste, compaction, drainage, soil, and ordering limits.',
+    },
+  },
   'pool-volume-calculator': {
     tool: {
       alt: 'Smoke mascot pointing at rectangular, round, and oval pool cards with depth arrows, water cubes, and a gallon jug for pool volume.',

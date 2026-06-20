@@ -3459,6 +3459,8 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   },
   'paver-base-calculator': {
     summary: 'Learn how paver area and layer depths estimate base gravel and bedding sand.',
+    metaDescription:
+      'Learn how paver area, compacted base depth, bedding sand depth, waste, and gravel density estimate base cubic yards, base tons, and bedding sand.',
     purpose:
       'The Paver Base Calculator estimates the material layers below a paver surface. It separates compacted gravel base from bedding sand so you can plan each material.',
     enter: [
