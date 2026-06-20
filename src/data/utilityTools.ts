@@ -818,6 +818,38 @@ export const utilityTools: ToolDefinition[] = [
       'Each day is calculated like a shift: end time minus start time minus unpaid break minutes. The weekly total adds every worked day.',
     limit:
       'This is simple arithmetic, not payroll advice. Overtime, rounding, paid breaks, meal rules, and employer policies can change paid time.',
+    faqLanguage: {
+      expectedInputs:
+        'the weekday start times, end times, unpaid break minutes, and optional hourly rate for the week you want to total',
+      inputFallback:
+        'Enter each worked weekday with a start time, end time, and only the unpaid break minutes you want subtracted. Leave unused weekdays blank, and add an hourly rate only when you want a simple gross pay estimate.',
+      examplePhrase: 'weekly time card example',
+      doubleCheck:
+        'Also check AM/PM, overnight shifts, blank days, unpaid versus paid breaks, payroll rounding, overtime rules, and employer or local policy before using the number for pay.',
+    },
+    inputExplanations: [
+      { term: 'Start time', meaning: 'the clock time the work period begins for that weekday.' },
+      { term: 'End time', meaning: 'the clock time the work period ends. If it is earlier than the start, the calculator treats it as crossing midnight.' },
+      { term: 'Break minutes', meaning: 'the unpaid break time to subtract from that weekday shift.' },
+      { term: 'Hourly rate', meaning: 'an optional rate used only for a simple gross pay estimate.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Should paid breaks go in the break minutes field?',
+        answer:
+          'Usually no. Enter only unpaid break minutes you want removed from worked time. Short paid rest breaks, interrupted meal periods, and employer-specific rules can change what counts as paid time, so check your payroll policy before subtracting break time.',
+      },
+      {
+        question: 'Does this calculate overtime pay automatically?',
+        answer:
+          'No. The calculator totals hours and multiplies by the optional hourly rate as straight-time arithmetic. Overtime depends on job status, workweek rules, state or local rules, and employer policy, so use the weekly hours as a starting number rather than a payroll decision.',
+      },
+      {
+        question: 'Can I enter an overnight shift or leave a day blank?',
+        answer:
+          'Yes. If an end time is earlier than the start time, the calculator treats that shift as crossing midnight. If a weekday was not worked, leave its start and end fields blank and it will not be counted.',
+      },
+    ],
     useCases: [
       'Add weekday start and end times into a weekly total.',
       'Subtract unpaid break minutes for each day.',
