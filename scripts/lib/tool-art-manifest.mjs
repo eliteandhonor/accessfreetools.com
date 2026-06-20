@@ -111,6 +111,11 @@ const toolArtMetadataOverrides = {
         'Sentiment Analyzer guide artwork sits with the walkthrough for check whether text reads positive, negative, or uncertain in your browser, including inputs, examples, limits, and mistakes to check.',
     },
   },
+  'shoe-size-conversion': {
+    guide: {
+      alt: 'Guide image for Shoe Size Conversion showing convert foot length into approximate US men, US women, UK, and EU adult shoe sizes with example inputs and result notes.',
+    },
+  },
   'tire-size-calculator': {
     tool: {
       alt: 'Illustration for Tire Size Calculator showing tire diameter, sidewall height, circumference, and revs per mile from a metric tire size.',

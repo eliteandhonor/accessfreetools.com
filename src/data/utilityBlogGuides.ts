@@ -2282,6 +2282,20 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     summary: 'Learn how measured foot length converts into approximate adult shoe sizes.',
     purpose:
       'The Shoe Size Conversion tool starts with foot length in centimeters and estimates US men, US women, UK, and EU adult sizes. It is best for orientation before checking a brand chart.',
+    intro:
+      'Use it when you measured a foot in centimeters and want a quick adult-size estimate before opening the manufacturer chart. The important move is to treat the answer as a fit starting point, not a promise that every brand will label the shoe the same way.',
+    inputMatch:
+      'the measured foot length in centimeters, then compare the US men, US women, UK, EU, and foot-inches lines against the brand chart you plan to use',
+    logicNote:
+      'For a 26 cm foot, the tool first converts 26 cm to about 10.24 inches. It then estimates about US men 8.71, US women 10.21, UK adult 8.21, and EU adult 41.25, which is why nearby half sizes and the brand chart still matter.',
+    readIntro:
+      'Read the US men line as the main estimate, then compare the US women, UK, and EU lines only as sizing-system translations. If the result lands between two half sizes, check both nearby sizes before choosing.',
+    mistakeIntro:
+      'Most shoe-size mistakes come from measuring loosely, mixing centimeters with inches, treating kids sizes like adult sizes, or trusting the calculator instead of the brand chart.',
+    sidecarText:
+      'Keep the Shoe Size Conversion open beside this guide. Try the 26 cm example first, then replace it with the measured foot length you actually plan to compare.',
+    bestUsesIntro:
+      'Best when you have a measured adult foot length and need a quick cross-system estimate before checking a store or manufacturer chart.',
     enter: [
       'Measure foot length in centimeters.',
       'Enter the length in the tool.',
