@@ -1882,24 +1882,55 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.rfc3986, sourceLinks.mdnUrlSearchParams],
   },
   'day-of-the-week-calculator': {
-    summary: 'Learn how to find the weekday for any valid calendar date.',
+    summary: 'Learn how to find the weekday name and ISO weekday number for a calendar date.',
+    metaDescription:
+      'Use the Day of the Week Calculator guide to find weekday names, ISO weekday numbers, and Sunday-based indexes for valid calendar dates.',
     purpose:
-      'The Day of the Week Calculator answers a simple date question: what weekday does this calendar date fall on?',
+      'The Day of the Week Calculator answers a simple calendar question: what weekday does this date fall on?',
+    intro:
+      'Use it for birthdays, deadlines, holidays, event planning, date labels, or a quick sanity check before you copy a date into a schedule.',
+    bestUsesIntro:
+      'Use this guide when the calendar date is the thing you know and the weekday label is the thing you need to check.',
+    inputMatch: 'one valid calendar date, usually entered as year, month, and day in the date field',
+    logicNote:
+      'For 2027-01-01, the guide example returns Friday. The supporting lines help you check the same date as ISO weekday 5 and Sunday-based index 5.',
     enter: [
-      'Choose a valid date.',
-      'Calculate to get the weekday name.',
-      'Use examples for today, future dates, and leap-day checks.',
+      'Choose the calendar date you want to check.',
+      'Calculate to get the weekday name, ISO weekday number, and Sunday-based index.',
+      'Compare your answer with the today, future-date, or leap-day examples before copying it.',
     ],
+    readIntro:
+      'Read the weekday name first. Then use the index numbers only if your schedule, spreadsheet, or code needs a numeric weekday.',
     read: [
       'The main answer is the weekday name.',
       'ISO weekday uses Monday as 1 and Sunday as 7.',
       'Sunday-based index uses Sunday as 0, matching many programming APIs.',
     ],
+    mistakeIntro:
+      'Most surprising answers are easy to avoid: double-check the year, month, and day, then check whether a time-zone edge near midnight changes the calendar date.',
     mistakes: [
       'Do not use this for historical calendar reform research.',
       'Check time zones separately when an event happens near midnight.',
       'Use the Date Calculator when you need days between two dates.',
     ],
+    extraSections: [
+      {
+        title: 'Example: checking New Year 2027',
+        paragraphs: [
+          'If you enter 2027-01-01, the calculator returns Friday. That is the answer most people need for a planner, invite, spreadsheet label, or quick event check.',
+          'The numeric lines add context: ISO weekday 5 and Sunday-based index 5. Those numbers are helpful when another system asks for a weekday number instead of the word Friday.',
+        ],
+      },
+      {
+        title: 'When the date needs extra checking',
+        paragraphs: [
+          'This page uses modern date math for the calendar date you enter. Treat that as a limit: double-check a history source when an old record comes from a place that changed calendars on a different date.',
+          'For events near midnight, the local time zone can matter. A live event, flight, or online meeting may fall on a different calendar date for someone in another time zone.',
+        ],
+      },
+    ],
+    referenceIntro:
+      'These references help check ISO weekday numbering, date notation, and the limits around calendar-date math.',
     sources: [sourceLinks.isoDate],
   },
   'height-calculator': {

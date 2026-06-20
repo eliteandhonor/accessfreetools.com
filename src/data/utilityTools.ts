@@ -1416,6 +1416,17 @@ export const utilityTools: ToolDefinition[] = [
       'The calculator reads the date as a UTC calendar date and returns the weekday name, Sunday-based index, and ISO weekday number.',
     limit:
       'This uses calendar-date math only. Historical calendars, local calendar reforms, and time-zone-specific date changes can require specialized references.',
+    faqLanguage: {
+      expectedInputs: 'one valid calendar date with the exact year, month, and day you want to check',
+      inputFallback:
+        'The main input is the calendar date. Choose the exact year, month, and day you want to check, then compare the result with the examples if the weekday looks surprising.',
+      examplePhrase: 'date example',
+      doubleCheck:
+        'Also double-check the exact year, month, day, local time-zone edge cases near midnight, and whether an old historical record used a different calendar.',
+    },
+    inputExplanations: [
+      { term: 'Date', meaning: 'the calendar date you want to turn into a weekday name and weekday number.' },
+    ],
     useCases: [
       'Find the weekday for a birthday, deadline, holiday, or event date.',
       'Check ISO weekday numbers for scheduling notes.',
