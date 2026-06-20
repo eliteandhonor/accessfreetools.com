@@ -1045,11 +1045,25 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Calculate tip, tax, total bill, and per-person split.',
     description:
       'Use this free tip calculator to calculate a tip amount, optional tax, total bill, and per-person split from a subtotal.',
+    seoTitle: 'Tip Calculator | Split Bill, Tax, And Tip Amount',
+    seoDescription:
+      'Calculate a restaurant tip, optional tax, total bill, and per-person split. Includes before-tax reminders, service-charge limits, and privacy notes.',
     icon: 'calculator-tip',
+    aliases: ['Restaurant Tip Calculator', 'Split Bill Calculator', 'Gratuity Calculator', 'Tip Percentage Calculator'],
     formula:
       'The calculator multiplies subtotal by the tip percent and optional tax percent, adds the amounts, then divides by people for a split bill.',
     limit:
       'Restaurant tax, service charges, included gratuity, discounts, and local customs can change what you actually owe.',
+    faqLanguage: {
+      expectedInputs: 'the bill subtotal, tip percent, optional tax percent, and number of people splitting the total',
+      inputFallback:
+        'Subtotal is the pre-tip bill amount. Tip percent is the gratuity rate you want to apply. Tax percent is optional. People is the number of equal shares for the split.',
+      examplePhrase: 'restaurant bill example',
+      doubleCheck:
+        'Also check whether the receipt already includes a service charge, whether you want to tip before or after tax, and whether the group is splitting the bill evenly.',
+      privacy:
+        'No. The math runs in your browser tab. Your subtotal, tip percent, tax percent, people count, and recent tip calculations are not sent to a server.',
+    },
     useCases: [
       'Calculate a restaurant tip quickly.',
       'Split a bill between people.',
@@ -1062,6 +1076,30 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Group split', expression: '$240, 20% tip, 8% tax, 6 people', result: '$51.20 each' },
     ],
     relatedSlugs: ['percentage-calculator', 'sales-tax-calculator', 'budget-calculator'],
+    inputExplanations: [
+      { term: 'Subtotal', meaning: 'the bill amount before tip. Use the pre-tip food and drink subtotal when that is what you want to tip on.' },
+      { term: 'Tip percent', meaning: 'the gratuity rate, such as 18, 20, or 22. The calculator turns it into a dollar tip amount.' },
+      { term: 'Tax percent', meaning: 'an optional estimate for sales tax. Enter 0 when tax is already included or you do not need it.' },
+      { term: 'People', meaning: 'the number of equal shares. For uneven orders or separate checks, calculate each person separately.' },
+      { term: 'Per person', meaning: 'the final estimated total divided evenly by the people count.' },
+    ],
+    extraFaq: [
+      {
+        question: 'Should I tip before tax or after tax?',
+        answer:
+          'Many people tip on the pre-tax subtotal, but customs and personal preference vary. If you want a before-tax tip, enter the pre-tax subtotal and add tax separately. If you want an after-tax tip, include the tax in the subtotal and set tax percent to 0.',
+      },
+      {
+        question: 'What if the receipt already includes gratuity or a service charge?',
+        answer:
+          'Check the receipt first. If gratuity or a service charge is already included, you may not need to add another full tip. Use the calculator only for the extra amount you actually want to add.',
+      },
+      {
+        question: 'Can this split uneven orders?',
+        answer:
+          'No. The per-person result is an even split. For uneven orders, shared appetizers, discounts, or people paying different amounts, calculate each share separately or use the result as a rough group estimate.',
+      },
+    ],
   }),
   makeUtilityTool({
     slug: 'mileage-calculator',
