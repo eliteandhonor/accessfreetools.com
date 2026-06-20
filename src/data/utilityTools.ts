@@ -434,11 +434,50 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Estimate GPA from course credits and letter grades on a common 4.0 scale.',
     description:
       'Use this free GPA calculator to estimate total credits, quality points, and grade point average from course grades and credits.',
+    seoTitle: 'GPA Calculator | Credits, Letter Grades, And 4.0 Scale',
+    seoDescription:
+      'Calculate a credit-weighted GPA from course credits and letter grades on a common 4.0 scale, with quality points and school-policy reminders.',
     icon: 'calculator-gpa',
+    aliases: ['Grade Point Average Calculator', 'College GPA Calculator', 'Credit Weighted GPA Calculator', '4.0 GPA Calculator'],
     formula:
       'Each course grade is converted to grade points, multiplied by credits for quality points, then total quality points are divided by total credits.',
     limit:
-      'Schools can use different grading scales, weighted courses, pass/fail rules, repeats, and plus/minus policies. Use your school scale for official GPA.',
+      'This is a planning estimate on a common unweighted 4.0 scale. Schools can use different grading scales, weighted courses, pass/fail rules, repeats, and plus/minus policies, so use your school scale or transcript for official GPA.',
+    faqLanguage: {
+      expectedInputs:
+        'each course credit value and letter grade you want included, plus your school scale if it differs from the common unweighted 4.0 scale',
+      examplePhrase: 'course schedule example',
+      doubleCheck:
+        'Also check whether your school weights honors, AP, IB, repeated, pass/fail, incomplete, or transfer courses before using the estimate as a planning number.',
+    },
+    inputExplanations: [
+      { term: 'Course credits', meaning: 'the credit hours or units for each class. Higher-credit classes change the GPA more.' },
+      { term: 'Course grade', meaning: 'the letter grade for that class, such as A, B+, C-, or F.' },
+      { term: 'Zero-credit rows', meaning: 'a row with 0 credits is ignored, which lets you calculate fewer than four classes.' },
+      { term: '4.0 scale', meaning: 'the calculator uses a common unweighted scale where A+ and A are 4.0, A- is 3.7, and F is 0.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How does a credit-weighted GPA work?',
+        answer:
+          'A credit-weighted GPA gives more influence to higher-credit classes. The calculator multiplies each class grade point value by its credits, adds those quality points, then divides by total credits.',
+      },
+      {
+        question: 'What grade points does this GPA Calculator use?',
+        answer:
+          'It uses a common unweighted 4.0 plus/minus scale: A+ and A count as 4.0, A- as 3.7, B+ as 3.3, B as 3.0, down through D- as 0.7 and F as 0. Your school may use a different table.',
+      },
+      {
+        question: 'Why does a 4-credit class affect GPA more than a 1-credit class?',
+        answer:
+          'Credits act like weight. A 4-credit A adds four times as many quality points as a 1-credit A, so changing the grade in a high-credit class moves the total GPA more.',
+      },
+      {
+        question: 'Can I use this for official transcript GPA?',
+        answer:
+          'Use it for planning and checking the math, not as an official record. Official GPA can depend on school-specific grade points, weighted classes, repeated courses, pass/fail classes, transfer credits, and transcript rules.',
+      },
+    ],
     useCases: [
       'Estimate term GPA from several courses.',
       'Compare how credit hours change the GPA impact of each grade.',
