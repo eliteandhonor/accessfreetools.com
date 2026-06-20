@@ -90,6 +90,13 @@ const toolArtMetadataOverrides = {
         'Lawn Mowing Calculator guide artwork supports the walkthrough for turning lawn area, mower width, speed, and efficiency into a rough mowing-time estimate before adding trimming and cleanup time.',
     },
   },
+  'plant-spacing-calculator': {
+    guide: {
+      alt: 'Guide image for Plant Spacing Calculator showing bed length, bed width, plant spacing, square rows, triangular layout, and border setback notes.',
+      caption:
+        'Plant Spacing Calculator guide artwork supports the walkthrough for turning bed size, center-to-center spacing, and square or triangular layout into a rough plant-count estimate.',
+    },
+  },
   'word-counter': {
     guide: {
       alt: 'Guide image for Word Counter showing word, character, sentence, paragraph, line, and reading-time checks with example inputs and result notes.',

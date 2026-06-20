@@ -3583,6 +3583,8 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   },
   'plant-spacing-calculator': {
     summary: 'Learn how bed dimensions, plant spacing, and planting pattern estimate plant count.',
+    metaDescription:
+      'Use the Plant Spacing Calculator guide to estimate plant count from bed size, plant spacing, square rows, triangular layout, row count, and border setbacks.',
     purpose:
       'The Plant Spacing Calculator turns a bed size and plant-tag spacing into a rough number of plants. It compares square rows with a triangular staggered layout.',
     enter: [
