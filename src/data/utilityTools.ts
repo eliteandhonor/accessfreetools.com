@@ -2137,6 +2137,23 @@ export const utilityTools: ToolDefinition[] = [
       { label: '24 cm foot', expression: '24 cm', result: 'Compare US, UK, and EU sizes' },
       { label: '28 cm foot', expression: '28 cm', result: 'Larger adult size estimate' },
     ],
+    extraFaq: [
+      {
+        question: 'Is this shoe size converter for adults or kids?',
+        answer:
+          'It is for approximate adult shoe sizes. Children, toddlers, and youth shoes use different size charts, so check the brand chart for kids sizes.',
+      },
+      {
+        question: 'What should I do if the answer is between two shoe sizes?',
+        answer:
+          'Compare the nearby half sizes and then check the manufacturer chart. Width, sock thickness, foot shape, and the shoe last can make the better fit different from the formula estimate.',
+      },
+      {
+        question: 'Why can EU size look different from US or UK size?',
+        answer:
+          'The tool estimates EU adult size from centimeter length with a fitting allowance, while US and UK estimates start from inches. Brand charts may round or label those systems differently.',
+      },
+    ],
     relatedSlugs: ['conversion-calculator', 'height-calculator', 'body-type-calculator'],
   }),
   makeUtilityTool({
