@@ -2028,24 +2028,62 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   },
   'bra-size-calculator': {
     summary: 'Learn how bust and underbust measurements create a starting bra size estimate.',
+    metaDescription:
+      'Use the Bra Size Calculator guide to measure underbust and bust inches, read band and cup estimates, check sister sizes, and avoid over-trusting one fit label.',
     purpose:
       'The Bra Size Calculator gives a practical starting point from two measurements. It helps explain band and cup math, while making it clear that real fit depends on brand, style, and body shape.',
+    intro:
+      'Use it when you want a calm first estimate before comparing brand charts, trying nearby sizes, or checking why the same label can feel different in another style.',
+    bestUsesIntro:
+      'Use this guide when you have two tape-measure numbers and need to understand how the page turns them into a US-style starting size.',
+    inputMatch: 'a snug underbust measurement and a full-bust measurement in inches',
+    logicNote:
+      'For 34 in underbust and 39 in bust, the calculator keeps the band at 34, subtracts 34 from 39, and maps the 5 inch difference to about 34DD/E.',
     enter: [
-      'Measure underbust in inches.',
-      'Measure around the fullest bust point in inches.',
-      'Calculate to get a starting band and cup estimate.',
+      'Measure underbust in inches with the tape snug and level under the bust.',
+      'Measure around the fullest bust point in inches without pulling the tape tight.',
+      'Calculate to get a US-style starting band and cup estimate.',
     ],
+    readIntro:
+      'Read the size as a starting point, not a verdict. The band comes from the underbust number first, and the cup comes from the bust-minus-band difference.',
     read: [
       'Band is based on the underbust measurement rounded to an even size.',
       'Cup is based on the difference between bust and band.',
-      'The tolerance note matters because the same label can fit differently across brands.',
+      'The fit note matters because the same label can feel different across brands, styles, wire shapes, and fabrics.',
     ],
+    mistakeIntro:
+      'Most bad estimates come from tilted tape, over-tight measuring, mixing country size systems, or buying from one number without checking the brand chart.',
     mistakes: [
       'Do not treat the estimate as a guaranteed size.',
       'Do not pull the tape so tight that the measurement changes.',
       'Check brand size charts and nearby sister sizes before buying.',
     ],
-    sources: [],
+    extraSections: [
+      {
+        title: 'Example: 34 in underbust and 39 in bust',
+        paragraphs: [
+          'If your underbust is 34 inches and your bust is 39 inches, the calculator starts with a 34 band. The difference is 39 - 34 = 5 inches, so the page shows about 34DD/E as the starting estimate.',
+          'That answer is useful for narrowing the first try-on size, but it is not the end of the fit check. If the band feels too tight, too loose, or the cup shape is wrong, nearby sister sizes and the brand chart matter more than forcing one label to work.',
+        ],
+      },
+      {
+        title: 'Why sister sizes come up',
+        paragraphs: [
+          'Sister sizes are nearby labels that can feel related in cup volume while changing band tension. For example, 32D and 34C are often discussed together, but the real fit still depends on the bra cut and your body shape.',
+          'Use sister sizes as a shopping shortcut, not a rule. A comfortable band, smooth cup shape, and stable straps are better signals than matching the first estimate perfectly.',
+        ],
+      },
+      {
+        title: 'Country and brand limits',
+        paragraphs: [
+          'This guide describes a simple US-style estimate. UK, EU, AU, and individual brand systems can label sizes differently, especially around double letters and larger cup progressions.',
+          'Before buying, compare the calculator answer with the size chart for the exact product. If the chart asks for centimeters, convert carefully instead of rounding from memory.',
+        ],
+      },
+    ],
+    referenceIntro:
+      'These references support the inch measurement language and the helpful-content standard behind the guide. Brand-specific size charts still decide the final shopping label.',
+    sources: [sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'voltage-drop-calculator': {
     summary: 'Learn how current, wire resistance, distance, and voltage affect voltage drop.',
