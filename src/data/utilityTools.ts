@@ -1427,6 +1427,23 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'New Year 2027', expression: '2027-01-01', result: 'Friday' },
       { label: 'Leap day', expression: '2024-02-29', result: 'Thursday' },
     ],
+    extraFaq: [
+      {
+        question: 'Why does the calculator use UTC date math?',
+        answer:
+          'It treats the entry as a calendar date, not a clock time. UTC date math keeps daylight-saving changes or your local browser time zone from shifting the date to the day before or after.',
+      },
+      {
+        question: 'What is the difference between ISO weekday and Sunday-based index?',
+        answer:
+          'ISO weekday numbers Monday as 1 through Sunday as 7. The Sunday-based index numbers Sunday as 0 through Saturday as 6, which matches many programming date APIs.',
+      },
+      {
+        question: 'Can I use this for very old historical dates?',
+        answer:
+          'Use caution. The tool uses modern calendar-date math, but older records may follow different local calendars or calendar-reform dates. Historical research can need a specialized calendar source.',
+      },
+    ],
     relatedSlugs: ['date-calculator', 'age-calculator', 'time-zone-calculator'],
   }),
   makeUtilityTool({
