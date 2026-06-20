@@ -1227,6 +1227,23 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Decode', expression: 'MMXXVI', result: '2026' },
       { label: 'Largest supported', expression: '3999', result: 'MMMCMXCIX' },
     ],
+    extraFaq: [
+      {
+        question: 'Why does the converter reject IIII, VX, or IC?',
+        answer:
+          'Those are nonstandard forms for this tool. Use the modern subtractive pairs IV for 4, IX for 9, XL for 40, XC for 90, CD for 400, and CM for 900.',
+      },
+      {
+        question: 'Can I enter lowercase Roman numerals?',
+        answer:
+          'Yes. The converter trims the input and reads lowercase letters as uppercase, so mmxxvi is treated as MMXXVI. It still rejects nonstandard Roman numeral order.',
+      },
+      {
+        question: 'Why does the converter stop at 3,999?',
+        answer:
+          'Standard Roman numerals without overlines top out at MMMCMXCIX, which is 3,999. Larger numbers need overline notation or another extended style that this page does not use.',
+      },
+    ],
     relatedSlugs: ['number-sequence-calculator', 'conversion-calculator', 'day-of-the-week-calculator'],
   }),
   makeUtilityTool({
