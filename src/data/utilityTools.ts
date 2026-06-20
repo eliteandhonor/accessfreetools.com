@@ -870,11 +870,53 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Convert a UTC date and time into a selected IANA time zone.',
     description:
       'Use this free time zone calculator to convert a UTC date and time into local date, local time, and UTC offset for common IANA time zones.',
+    seoTitle: 'Time Zone Calculator | UTC To Local Time Converter',
+    seoDescription:
+      'Convert a UTC date and time to local date, local time, and UTC offset for IANA zones. Includes DST cautions, date-change notes, and browser privacy.',
     icon: 'calculator-time-zone',
     formula:
       'The calculator treats the entered date and time as a UTC instant, then formats that instant in the selected IANA time zone using browser time zone data.',
     limit:
       'Time zone rules change over time. Confirm critical meetings, travel, legal deadlines, and daylight-saving cases with an official calendar or scheduling system.',
+    faqLanguage: {
+      expectedInputs: 'the UTC calendar date, UTC clock time, and target IANA time zone, such as America/New_York',
+      examplePhrase: 'UTC-to-local example',
+      doubleCheck:
+        'Also check the exact UTC date, 24-hour time, selected IANA zone, daylight-saving boundary, and whether the result moved to the previous or next local date.',
+      privacy:
+        'No. The conversion runs in your browser tab using browser time zone data. Your date, time, selected zone, and recent answers are not sent to a server.',
+    },
+    inputExplanations: [
+      {
+        term: 'UTC date',
+        meaning: 'the calendar date for the starting instant in UTC, not your local date unless your local time is already UTC',
+      },
+      {
+        term: 'UTC time',
+        meaning: 'the 24-hour clock time for that UTC instant, such as 12:00 for noon UTC or 00:00 for midnight UTC',
+      },
+      {
+        term: 'IANA time zone',
+        meaning: 'the named target zone, such as America/New_York or Asia/Tokyo, which is clearer than abbreviations like EST',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Why use an IANA time zone instead of an abbreviation?',
+        answer:
+          'Abbreviations can be confusing because the same letters can mean different places, and some zones switch offset during daylight-saving time. A named IANA zone, such as America/New_York, tells the calculator which rule set to use for the selected date.',
+      },
+      {
+        question: 'Why did the local date move to the previous or next day?',
+        answer:
+          'A time zone offset can cross midnight. For example, a UTC time in the afternoon can still be morning in New York, while a late UTC time can already be the next calendar day in parts of Asia or the Pacific.',
+      },
+      {
+        question: 'Can I use this for meetings, flights, or deadlines?',
+        answer:
+          'Use it as a quick check for the UTC instant, local time, and offset. For real meetings, flights, court dates, filing deadlines, or travel plans, confirm the final time in the official calendar, ticket, or scheduling system.',
+      },
+    ],
     useCases: [
       'Convert a UTC timestamp into a local time zone.',
       'Check the UTC offset for a selected date.',
@@ -882,9 +924,9 @@ export const utilityTools: ToolDefinition[] = [
       'Plan simple cross-time-zone examples without sending data to a server.',
     ],
     examples: [
-      { label: 'New York', expression: '2026-04-30 12:00 UTC', result: 'Local time in America/New_York' },
-      { label: 'London', expression: '2026-04-30 12:00 UTC', result: 'Local time in Europe/London' },
-      { label: 'Tokyo', expression: '2026-04-30 12:00 UTC', result: 'Local time in Asia/Tokyo' },
+      { label: 'New York', expression: '2026-04-30 12:00 UTC', result: '2026-04-30 08:00:00 in America/New_York, UTC-04:00' },
+      { label: 'London', expression: '2026-04-30 12:00 UTC', result: '2026-04-30 13:00:00 in Europe/London, UTC+01:00' },
+      { label: 'Tokyo', expression: '2026-04-30 12:00 UTC', result: '2026-04-30 21:00:00 in Asia/Tokyo, UTC+09:00' },
     ],
     relatedSlugs: ['time-calculator', 'date-calculator', 'day-of-the-week-calculator'],
   }),
