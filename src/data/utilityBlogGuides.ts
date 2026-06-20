@@ -1431,25 +1431,64 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.dolHours],
   },
   'time-zone-calculator': {
-    summary: 'Learn how to convert a UTC date and time into an IANA time zone.',
+    summary: 'Learn how to convert a UTC date and time into local time with an IANA time zone.',
+    metaDescription:
+      'Use the Time Zone Calculator guide to convert 2026-04-30 12:00 UTC to New York, London, Tokyo, or another IANA zone, with DST and date-change checks.',
     purpose:
-      'The Time Zone Calculator uses UTC as the starting point because UTC avoids ambiguity. It then shows the local date, local time, and offset for the selected time zone.',
+      'The Time Zone Calculator uses one UTC instant as the starting point because UTC avoids ambiguity. It then shows the local date, local time, and UTC offset for the selected IANA time zone.',
+    intro:
+      'Time zones get confusing when a source gives one UTC time and everyone reads it in a different place. This guide shows how to turn that one UTC instant into a local date, local clock time, and offset you can double-check before sharing it.',
+    inputMatch: 'one UTC calendar date, one UTC clock time, and the target IANA zone such as America/New_York',
+    logicNote:
+      'The calculator treats the date and time as UTC, then formats that same instant in the selected IANA time zone using the browser time-zone database. That matters because the UTC offset can change during daylight-saving periods.',
+    readIntro:
+      'Read the local date and time first, then check the UTC offset. If the local date changes, the event crossed midnight in that zone even though the UTC date stayed the same.',
+    mistakeIntro:
+      'The easiest mistake is entering a local time into the UTC fields. If your meeting invite already says 8:00 AM New York time, do not type 8:00 as UTC unless the invite explicitly says 08:00 UTC or 08:00Z.',
+    bestUsesIntro:
+      'Use this guide when you have a UTC timestamp from a calendar, launch note, server log, webinar, game event, or API response and need to read it in a real named time zone.',
     enter: [
-      'Enter the UTC calendar date.',
-      'Enter the UTC clock time.',
-      'Choose the target IANA time zone.',
+      'Enter the UTC calendar date from the source timestamp or schedule.',
+      'Enter the UTC clock time, usually in 24-hour form when the source says UTC or Z.',
+      'Choose the target IANA time zone, such as America/New_York, Europe/London, or Asia/Tokyo.',
     ],
     read: [
-      'The main answer shows the local date and time in the selected zone.',
-      'UTC offset shows how far that zone is from UTC at that instant.',
-      'The IANA zone name is shown so you can copy the exact zone identifier.',
+      '2026-04-30 12:00 UTC becomes 2026-04-30 08:00 in America/New_York with offset UTC-04:00.',
+      'The same UTC instant becomes 13:00 in Europe/London and 21:00 in Asia/Tokyo on that date.',
+      'The IANA zone name is shown so you can copy the exact zone identifier instead of an ambiguous abbreviation.',
     ],
     mistakes: [
       'Do not enter a local time and assume it is UTC.',
-      'Check daylight-saving dates carefully.',
-      'Use an official calendar invite or scheduling system for critical meetings.',
+      'Do not rely on short labels like EST, CST, or GMT when the date may be in daylight-saving time.',
+      'Use an official calendar invite, airline record, exchange notice, or scheduling system for critical meetings, flights, deadlines, and legal cutoffs.',
     ],
-    sources: [sourceLinks.ianaTimeZones],
+    extraSections: [
+      {
+        title: 'Example: 2026-04-30 12:00 UTC',
+        paragraphs: [
+          'Suppose a product launch note says the release is at 2026-04-30 12:00 UTC. Enter 2026-04-30 as the UTC date, 12:00 as the UTC time, and America/New_York as the target zone.',
+          'The calculator shows 2026-04-30 08:00:00 in America/New_York, UTC-04:00. That means a New York reader should think of the launch as 8:00 AM local time on the same calendar date.',
+          'Change the zone to Europe/London and the same instant reads 13:00, UTC+01:00. Change it to Asia/Tokyo and it reads 21:00, UTC+09:00. The UTC instant did not move; only the local display changed.',
+        ],
+      },
+      {
+        title: 'Why the IANA zone matters',
+        paragraphs: [
+          'IANA names are long on purpose. America/New_York tells the calculator which city rule set to use, including daylight-saving changes for that date.',
+          'A short abbreviation can be unclear. EST may mean Eastern Standard Time, but New York in late April is usually on daylight time, so the offset is UTC-04:00 instead of UTC-05:00.',
+        ],
+      },
+      {
+        title: 'When the local date changes',
+        paragraphs: [
+          'Some conversions cross midnight. If a UTC time is late in the day, a zone east of UTC may move to the next local date. If a UTC time is early, a zone west of UTC may move to the previous local date.',
+          'That date change is not an error. It is the main reason to check the local date as well as the local clock time before sending a meeting time, posting a deadline, or reading a server log.',
+        ],
+      },
+    ],
+    referenceIntro:
+      'These references explain the time-zone database, date-time formats, and browser date behavior behind the conversion.',
+    sources: [sourceLinks.ianaTimeZones, sourceLinks.isoDate, sourceLinks.mdnDate],
   },
   'gas-mileage-calculator': {
     summary: 'Learn how to calculate MPG from a fill-up, then read gallons per 100 miles and L/100 km without guessing.',
