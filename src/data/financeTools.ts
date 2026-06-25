@@ -5528,6 +5528,9 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Add monthly income, spending, debt, and savings to see leftover money and ratios.',
     description:
       'Use this free budget calculator to total monthly expenses, compare spending with income, estimate leftover money, and see expense and savings ratios.',
+    seoTitle: 'Budget Calculator | Monthly Spending & Savings Plan',
+    seoDescription:
+      'Add monthly income, spending, debt payments, and savings to estimate leftover money, expense ratio, savings rate, and the largest budget category.',
     icon: 'calculator-budget',
     formula:
       'The calculator adds each monthly category, subtracts total planned expenses from monthly income, then divides expenses and savings by income for quick ratios.',
@@ -5540,11 +5543,11 @@ export const financeTools: ToolDefinition[] = [
       'Compare housing, debt, savings, and other categories in one place.',
     ],
     examples: [
-      { label: 'Household budget', expression: '$5,200 income with housing, bills, debt, and savings', result: 'Leftover money and ratios' },
+      { label: 'Household budget', expression: '$5,200 income with housing, bills, debt, and savings', result: 'About $550 left, 89.42% expense ratio, and 11.54% savings rate' },
       { label: 'Lower debt', expression: '$4,300 income with small debt payments', result: 'Budget surplus estimate' },
       { label: 'Aggressive saving', expression: '$7,200 income and $1,200 savings', result: 'Savings-rate check' },
     ],
-    relatedSlugs: ['rent-calculator', 'debt-to-income-ratio-calculator', 'savings-calculator'],
+    relatedSlugs: ['savings-calculator', 'loan-calculator', 'finance-calculator'],
   }),
   ...remainingFinanceToolSpecs.map(makeFinanceTool),
 ];
