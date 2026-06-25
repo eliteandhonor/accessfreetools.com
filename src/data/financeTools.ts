@@ -2854,7 +2854,18 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate future cost and buying power from an annual inflation rate.',
     description:
       'Use this free inflation calculator to estimate future cost and present buying power from an amount, annual inflation rate, and number of years.',
+    seoTitle: 'Inflation Calculator | Future Cost & Buying Power',
+    seoDescription:
+      'Estimate future cost and present buying power from an amount, annual inflation rate, and years. See the increase and inflation multiplier.',
     icon: 'calculator-inflation',
+    aliases: [
+      'future cost calculator',
+      'buying power calculator',
+      'inflation adjustment calculator',
+      'cost of living inflation calculator',
+      'inflation rate calculator',
+      'present buying power calculator',
+    ],
     formula:
       'The calculator raises one plus the annual inflation rate to the number of years, then multiplies or divides the amount by that multiplier.',
     limit:
@@ -2866,11 +2877,63 @@ export const financeTools: ToolDefinition[] = [
       'Compare annual inflation-rate scenarios.',
     ],
     examples: [
-      { label: 'Future cost', expression: '$100 at 3% inflation for 10 years', result: 'About $134.39 future cost' },
-      { label: 'Buying power', expression: '$1,000 after 5 years at 4%', result: 'Lower present buying power' },
-      { label: 'Planning scenario', expression: '$2,500 monthly expenses at 2.5%', result: 'Future monthly estimate' },
+      { label: 'Future cost', expression: '$100 at 3% inflation for 10 years', result: 'About $134.39 future cost, $34.39 increase, and 1.343916x multiplier' },
+      { label: 'Buying power', expression: '$1,000 at 4% inflation for 5 years', result: 'About $1,216.65 future cost and $821.93 present buying power' },
+      { label: 'Planning scenario', expression: '$2,500 monthly expenses at 2.5% inflation for 15 years', result: 'About $3,620.75 future monthly cost' },
     ],
     relatedSlugs: ['investment-calculator', 'retirement-calculator', 'compound-interest-calculator'],
+    inputExplanations: [
+      { term: 'Amount', meaning: 'the cost, budget, savings amount, or fixed dollar figure you want to adjust for the chosen inflation rate.' },
+      { term: 'Inflation rate', meaning: 'the annual rate you want to test, entered as 3 for 3%, not 0.03.' },
+      { term: 'Years', meaning: 'how many years the same annual inflation rate is applied before the future-cost and buying-power results are shown.' },
+    ],
+    formulaCheck:
+      '$100 at 3% inflation for 10 years uses 1.03^10, or about 1.343916. The future cost is about $134.39, the increase is about $34.39, and the present buying power is about $74.41.',
+    resultReading:
+      'Estimated future cost shows what the entered amount could cost after the chosen rate and years. Present buying power shows what that same fixed amount is worth in today-style dollars. Increase is the added cost, and multiplier shows the inflation factor.',
+    doubleCheck:
+      'Check whether the amount is one-time, monthly, or yearly. Then check the inflation rate, the number of years, and whether you are modeling broad inflation or a specific item that may rise faster or slower.',
+    limitFollowup:
+      'Use BLS CPI tables, current local prices, contract terms, tax rules, wage assumptions, investment returns, and a real budget before treating an inflation estimate as a decision number.',
+    priorityFaq: [
+      {
+        question: 'What does future cost mean?',
+        answer:
+          'Future cost estimates what the amount may cost after applying the same annual inflation rate for the years entered. For example, $100 at 3% for 10 years becomes about $134.39.',
+      },
+      {
+        question: 'What does present buying power mean?',
+        answer:
+          'Present buying power works the other direction. It asks what a fixed future amount is worth in today-style dollars after inflation. In the default example, $100 has about $74.41 of present buying power after 10 years at 3%.',
+      },
+      {
+        question: 'Does this use historical CPI data?',
+        answer:
+          'No. This calculator uses the inflation rate you enter. It does not fetch historical CPI, city CPI, category CPI, or official forecasts. Use BLS inflation data when you need official price-index history.',
+      },
+      {
+        question: 'Can I enter negative inflation?',
+        answer:
+          'Yes, as long as the rate is greater than -100%. A negative rate models deflation for the chosen scenario. Real deflation can be uneven, so treat it as a what-if test.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Why can one item rise faster than the inflation result?',
+        answer:
+          'Broad inflation averages many prices. Rent, groceries, tuition, insurance, medical costs, and used cars can move differently from the overall rate, so one category can rise faster or slower.',
+      },
+      {
+        question: 'How should I choose an inflation rate?',
+        answer:
+          'Use an official CPI history source, a budget assumption, or a conservative scenario range. Testing 2%, 3%, and 5% can be more useful than pretending one rate is certain.',
+      },
+      {
+        question: 'Does this include taxes, fees, income growth, or investment returns?',
+        answer:
+          'No. It only adjusts the entered amount for the inflation rate and years. Taxes, fees, wages, investment returns, benefit increases, and changing spending habits can all change the real plan.',
+      },
+    ],
   }),
   makeFinanceTool({
     slug: 'finance-calculator',
