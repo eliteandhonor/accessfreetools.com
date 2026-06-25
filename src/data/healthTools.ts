@@ -27,6 +27,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isTargetHeartRateCalculator = spec.slug === 'target-heart-rate-calculator';
   const isBodySurfaceAreaCalculator = spec.slug === 'body-surface-area-calculator';
   const isBacCalculator = spec.slug === 'bac-calculator';
+  const isCalorieCalculator = spec.slug === 'calorie-calculator';
   const isFatIntakeCalculator = spec.slug === 'fat-intake-calculator';
   const isTdeeCalculator = spec.slug === 'tdee-calculator';
   const isGfrCalculator = spec.slug === 'gfr-calculator';
@@ -50,6 +51,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter height in centimeters and weight in kilograms. The calculator uses those two measured values for adult human body surface area formulas. It does not ask for age, sex, body fat, diagnosis, procedure type, burn percentage, or medication details.'
     : isBacCalculator
       ? 'Enter the formula sex setting, body weight in kilograms, number of drinks, drink size in milliliters, ABV percent, and hours since the first drink. Use the actual pour size and alcohol percentage when you know them. A strong mixed drink or large pour can count as more alcohol than one ordinary serving.'
+    : isCalorieCalculator
+      ? 'Enter the formula sex setting, age in years, height in centimeters, weight in kilograms, activity level, and planning goal. Formula sex chooses the +5 or -161 Mifflin-St Jeor adjustment. Activity level is a broad weekly average, so choose the closest normal week rather than one unusually hard or unusually quiet day.'
     : isFatIntakeCalculator
       ? 'Enter the calorie target first, then enter the percent of those calories planned from fat. Type 30 for 30%, not 0.30. The calculator assumes dietary fat has 9 calories per gram and uses the calorie target you provide.'
     : isTdeeCalculator
@@ -81,6 +84,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read BSA as an estimated body surface area in square meters. The Mosteller and Du Bois lines can differ slightly because they are different formulas. Use the number as clinical math context only, not as a medication dose, diagnosis, burn estimate, or treatment plan.'
     : isBacCalculator
       ? 'Read BAC as a rough educational estimate for the inputs you typed, not as a legal, medical, workplace, or driving decision. Real BAC can differ because food, drinking speed, medications, tolerance, health, body composition, and test timing all matter.'
+    : isCalorieCalculator
+      ? 'Read the answer as an estimated daily calorie target for the inputs and goal you selected. It is not a medical diet order, pregnancy plan, eating-disorder recovery target, sports-fueling prescription, or promise of weight change. Compare it with real-world trends and qualified guidance before making major nutrition changes.'
     : isFatIntakeCalculator
       ? 'Read the answer as total dietary fat grams for the calorie target and percent you entered. It does not judge food quality, split saturated versus unsaturated fat, set a medical nutrition plan, or tell you anything about body-fat percentage.'
     : isTdeeCalculator
@@ -302,9 +307,21 @@ export const healthTools: ToolDefinition[] = [
     summary: 'Estimate daily calories from BMR, activity level, and goal.',
     description:
       'Use this free calorie calculator to estimate maintenance calories and gentle loss or gain targets using BMR and activity level.',
+    seoTitle: 'Calorie Calculator | BMR, Activity & Goal Estimate',
+    seoDescription:
+      'Estimate maintenance calories and gentle loss or gain targets from age, formula sex, height, weight, activity level, and Mifflin-St Jeor BMR.',
+    aliases: [
+      'daily calorie calculator',
+      'maintenance calorie calculator',
+      'calorie needs calculator',
+      'bmr calorie calculator',
+      'weight loss calorie calculator',
+    ],
     icon: 'calculator-calorie',
-    formula: 'The calculator estimates BMR with the Mifflin-St Jeor equation, multiplies by an activity factor, then applies the selected goal adjustment.',
-    caution: estimateCaution,
+    formula:
+      'BMR = 10 x weight kg + 6.25 x height cm - 5 x age + formula-sex adjustment (+5 or -161). Maintenance calories = BMR x activity factor. The selected goal then applies a planning adjustment: maintain uses 0, gentle loss subtracts 500 kcal/day, and gentle gain adds 300 kcal/day.',
+    caution:
+      'This is an educational calorie estimate, not a medical nutrition plan, pregnancy meal plan, eating-disorder recovery target, sports-fueling prescription, or guarantee of weight change.',
     useCases: [
       'Estimate daily maintenance calories.',
       'Compare sedentary, light, moderate, and active calorie needs.',
@@ -312,9 +329,38 @@ export const healthTools: ToolDefinition[] = [
       'Cross-check TDEE and macro calculations.',
     ],
     examples: [
-      { label: 'Moderate maintenance', expression: '32, female, 165 cm, 68 kg', result: 'Maintenance calorie estimate' },
-      { label: 'Light activity loss', expression: '41, male, 178 cm, 86 kg', result: 'Gentle loss target' },
-      { label: 'Very active gain', expression: '27, female, 172 cm, 63 kg', result: 'Gentle gain target' },
+      {
+        label: 'Moderate maintenance',
+        expression: 'Female formula, 32, 165 cm, 68 kg, moderate activity',
+        result: 'BMR 1,390 kcal/day; maintenance about 2,155 kcal/day',
+      },
+      {
+        label: 'Light activity loss',
+        expression: 'Male formula, 41, 178 cm, 86 kg, light activity',
+        result: 'Maintenance about 2,437 kcal/day; gentle loss target about 1,937 kcal/day',
+      },
+      {
+        label: 'Very active gain',
+        expression: 'Female formula, 27, 172 cm, 63 kg, very active',
+        result: 'Maintenance about 2,431 kcal/day; gentle gain target about 2,731 kcal/day',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'What activity factors does this calorie calculator use?',
+        answer:
+          'It uses common TDEE activity factors: sedentary 1.2x, light 1.375x, moderate 1.55x, very active 1.725x, and extra active 1.9x. The factor is multiplied by estimated BMR before any selected goal adjustment is applied.',
+      },
+      {
+        question: 'Is the gentle loss target safe for everyone?',
+        answer:
+          'No. The gentle loss option subtracts 500 kcal/day as a rough planning estimate. It is not appropriate for everyone, especially during pregnancy, eating-disorder recovery, medical treatment, or intense training without qualified guidance.',
+      },
+      {
+        question: 'Why can my real maintenance calories differ from this estimate?',
+        answer:
+          'Real maintenance calories can differ because of tracking accuracy, body composition, medications, illness, sleep, stress, training load, digestion, and normal metabolism differences. Treat the result as a starting estimate, then compare it with real-world trends.',
+      },
     ],
     relatedSlugs: ['tdee-calculator', 'bmr-calculator', 'macro-calculator'],
   }),
