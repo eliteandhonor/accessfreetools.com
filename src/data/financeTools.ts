@@ -1871,7 +1871,11 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     summary: 'Compare simplified renting cost with buying and selling over a chosen time horizon.',
     description:
       'Use this free rent vs. buy calculator to compare projected rent cost with simplified home buying, ownership, and sale proceeds over time.',
+    seoTitle: 'Rent vs. Buy Calculator | Rent Cost vs Home Cost',
+    seoDescription:
+      'Compare renting with buying and selling after your time horizon. See total rent cost, net buying cost, estimated sale proceeds, and the gap.',
     icon: 'calculator-rent',
+    aliases: ['rent vs buy calculator', 'buy vs rent calculator', 'rent or buy calculator', 'home rent vs buy calculator'],
     formula:
       'The calculator projects rent with annual increases, estimates buying cash outflow, estimates sale proceeds after appreciation and selling costs, then compares net buying cost with rent cost.',
     limit:
@@ -1883,11 +1887,64 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Screen whether time horizon changes the answer.',
     ],
     examples: [
-      { label: 'Seven-year compare', expression: '$2,100 rent vs $420,000 home', result: 'Rent-vs-buy gap' },
-      { label: 'Short stay', expression: 'Three-year comparison', result: 'Short horizon estimate' },
-      { label: 'Higher rent market', expression: '$3,200 rent vs $650,000 home', result: 'Longer comparison' },
+      { label: 'Seven-year compare', expression: '$2,100 rent vs $420,000 home for 7 years', result: 'Buying lower by about $35,454.79' },
+      { label: 'Short stay', expression: '$1,800 rent vs $350,000 home for 3 years', result: 'Renting lower by about $17,067.74' },
+      { label: 'Higher rent market', expression: '$3,200 rent vs $650,000 home for 10 years', result: 'Buying lower by about $203,266.72' },
     ],
     relatedSlugs: ['rent-calculator', 'mortgage-calculator', 'real-estate-calculator'],
+    inputExplanations: [
+      { term: 'Monthly rent', meaning: 'today\'s rent before the calculator applies the annual rent increase.' },
+      { term: 'Annual rent increase', meaning: 'the percent rent grows each year in the renting side of the comparison.' },
+      { term: 'Home price and down payment', meaning: 'the purchase price and upfront cash used to estimate the loan amount.' },
+      { term: 'Mortgage rate and compare over years', meaning: 'the annual loan rate and the number of years you expect to keep the home before the modeled sale.' },
+      { term: 'Property tax, insurance, and maintenance', meaning: 'the recurring ownership costs added to the mortgage payment.' },
+      { term: 'Appreciation and selling cost', meaning: 'the home-value growth assumption and sale-cost percent used to estimate sale proceeds.' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does buy minus rent mean?',
+        answer:
+          'Buy minus rent is net buying cost minus total rent cost. If it is negative, the calculator shows buying lower by the difference. If it is positive, the calculator shows renting lower by the difference.',
+      },
+      {
+        question: 'Why can a short stay favor renting?',
+        answer:
+          'Selling costs, early mortgage interest, and the down payment can make buying look worse over a short horizon. A longer stay gives appreciation and loan payoff more time to affect the estimate.',
+      },
+      {
+        question: 'Does this include opportunity cost?',
+        answer:
+          'No. It does not estimate what the down payment, closing cash, or monthly difference might earn if invested elsewhere. Add that separately before treating the result as a final decision.',
+      },
+      {
+        question: 'Does this include PMI, HOA, repairs, or moving costs?',
+        answer:
+          'No. The simplified ownership side includes mortgage payment, property tax, insurance, and a maintenance percent. PMI, HOA dues, major repairs, moving costs, and local fees can change the result.',
+      },
+      {
+        question: 'Why does the calculator include sale proceeds?',
+        answer:
+          'The comparison assumes you sell after the entered time horizon. Estimated sale proceeds subtract selling costs and remaining loan balance from the appreciated home value, then reduce the buying cost.',
+      },
+      {
+        question: 'Is home appreciation guaranteed?',
+        answer:
+          'No. Appreciation is only an assumption. A lower appreciation rate, flat value, or price drop can move the comparison toward renting, especially if selling costs are high.',
+      },
+      {
+        question: 'Should I use a real mortgage quote?',
+        answer:
+          'Yes when you have one. A quoted rate, property tax estimate, insurance quote, PMI estimate, HOA dues, and repair budget will be more useful than broad defaults.',
+      },
+    ],
+    formulaCheck:
+      'For the default example, projected rent is about $193,094.05. Net buying cost is about $157,639.26 after estimated sale proceeds, so buying is lower by about $35,454.79 in this simplified model.',
+    resultReading:
+      'Read the headline first, then compare total rent cost with net buying cost. Estimated sale proceeds and remaining loan balance explain why the buy side changes so much with appreciation, selling cost, and time horizon.',
+    doubleCheck:
+      'Check the stay length, rent-growth assumption, mortgage rate, down payment, property tax, insurance, maintenance percent, appreciation rate, selling cost, and whether the built-in 30-year mortgage assumption fits your scenario.',
+    limitFollowup:
+      'Before making a real housing decision, also add PMI, HOA dues, closing costs, tax effects, investment opportunity cost, repair timing, moving costs, school/work constraints, and the value of flexibility.',
   },
   {
     slug: 'payback-period-calculator',
