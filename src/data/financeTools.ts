@@ -2008,7 +2008,11 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     summary: 'Estimate commission, split amount, and total pay from sales, rate, base pay, and bonus.',
     description:
       'Use this free commission calculator to estimate gross commission, split commission, and total pay from sales amount, commission rate, split, base pay, and bonus.',
+    seoTitle: 'Commission Calculator | Gross, Split & Total Pay',
+    seoDescription:
+      'Estimate gross commission, your split amount, and total pay from sales amount, commission rate, split percent, base pay, and bonus.',
     icon: 'calculator-margin',
+    aliases: ['sales commission calculator', 'commission pay calculator', 'split commission calculator', 'base plus commission calculator'],
     formula:
       'The calculator multiplies sales by commission rate, applies the split percentage, then adds base pay and bonus entered.',
     limit:
@@ -2020,11 +2024,63 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Check a simple commission plan before payroll.',
     ],
     examples: [
-      { label: 'Sales commission', expression: '$50,000 sale at 3%', result: 'Commission estimate' },
-      { label: 'Split commission', expression: '$750,000 sale at 2.5% with 50% split', result: 'Split amount' },
-      { label: 'Base plus bonus', expression: 'Commission plus base pay and bonus', result: 'Total pay estimate' },
+      { label: 'Sales commission', expression: '$50,000 sale at 3%', result: 'Gross commission is $1,500.00 and total pay is $1,500.00' },
+      { label: 'Split commission', expression: '$750,000 sale at 2.5% with 50% split', result: 'Gross commission is $18,750.00 and your split is $9,375.00' },
+      { label: 'Base plus bonus', expression: '$120,000 sale at 1.25% plus $2,500 base and $500 bonus', result: 'Total pay is $4,500.00' },
     ],
     relatedSlugs: ['salary-calculator', 'margin-calculator', 'take-home-paycheck-calculator'],
+    inputExplanations: [
+      { term: 'Sales amount', meaning: 'the sale, revenue, production value, or gross amount your commission plan is based on.' },
+      { term: 'Commission rate', meaning: 'the commission percent written as a normal percent, such as 3 for 3% rather than 0.03.' },
+      { term: 'Your split', meaning: 'the share of gross commission you keep when the commission is shared with another rep, team, broker, or company.' },
+      { term: 'Base pay', meaning: 'fixed pay you want added to the commission estimate for the same pay period.' },
+      { term: 'Bonus', meaning: 'an extra flat amount you want included with commission and base pay in the total-pay line.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'How do I calculate a 3% commission on $50,000?',
+        answer:
+          'Multiply $50,000 by 3%, or 0.03. The gross commission is $1,500. If your split is 100% and there is no base pay or bonus, the total pay estimate is also $1,500.',
+      },
+      {
+        question: 'What does split percent mean on a commission?',
+        answer:
+          'Split percent is the share of the gross commission you receive. If a sale creates $18,750 gross commission and your split is 50%, your split amount is $9,375 before base pay, bonus, tax, or company adjustments.',
+      },
+      {
+        question: 'Can I use this for base plus commission pay?',
+        answer:
+          'Yes. Enter the commission sale and rate first, then add base pay and bonus for the same pay period. The total-pay line adds your split commission, base pay, and bonus together.',
+      },
+      {
+        question: 'Does this handle tiered commission rates or accelerators?',
+        answer:
+          'No. This is a single-rate commission calculator. If your plan has quota tiers, accelerators, caps, draws, or different rates by product, calculate each tier separately or use the written plan formula.',
+      },
+      {
+        question: 'Does this include payroll tax or withholding?',
+        answer:
+          'No. The result is a gross pay estimate before payroll tax, withholding, benefit deductions, expense offsets, or local employer rules. Use a paycheck calculator when you need take-home pay.',
+      },
+      {
+        question: 'What if a sale is cancelled, refunded, or charged back?',
+        answer:
+          'This calculator does not decide chargebacks, clawbacks, cancellations, collections timing, or when a commission becomes payable. Check the written commission plan and payroll rules.',
+      },
+      {
+        question: 'Is the calculator result proof the commission is owed?',
+        answer:
+          'No. It is only the arithmetic for the numbers entered. Whether commission is earned, owed, payable, or recoverable depends on the actual agreement, company policy, and applicable rules.',
+      },
+    ],
+    formulaCheck:
+      'For example, $50,000 x 3% = $1,500 gross commission; if a 50% split applies, your split would be $750 before base pay or bonus.',
+    resultReading:
+      'Read gross commission first, then your split amount, then total pay. Gross commission shows the sale times the rate, split amount shows your share, and total pay adds any base pay or bonus you entered.',
+    doubleCheck:
+      'Check whether your plan uses booked sales, collected revenue, gross profit, net margin, product category, or paid invoices. Also check whether the rate should be entered as a normal percent such as 3 for 3%.',
+    limitFollowup:
+      'A written commission plan or payroll system can change the final amount, especially when there are tiers, draws, chargebacks, caps, or tax withholding.',
   },
   {
     slug: 'mortgage-calculator-uk',
