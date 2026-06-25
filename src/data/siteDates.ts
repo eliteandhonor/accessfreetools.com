@@ -118,6 +118,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'ideal-weight-calculator': '2026-06-03',
   'pace-calculator': '2026-06-03',
   'body-surface-area-calculator': '2026-06-03',
+  'bac-calculator': '2026-06-26',
   'body-type-calculator': '2026-06-03',
   'healthy-weight-calculator': '2026-06-03',
   'weight-calculator': '2026-06-04',

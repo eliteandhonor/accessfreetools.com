@@ -26,6 +26,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isLeanBodyMassCalculator = spec.slug === 'lean-body-mass-calculator';
   const isTargetHeartRateCalculator = spec.slug === 'target-heart-rate-calculator';
   const isBodySurfaceAreaCalculator = spec.slug === 'body-surface-area-calculator';
+  const isBacCalculator = spec.slug === 'bac-calculator';
   const isFatIntakeCalculator = spec.slug === 'fat-intake-calculator';
   const isTdeeCalculator = spec.slug === 'tdee-calculator';
   const isGfrCalculator = spec.slug === 'gfr-calculator';
@@ -47,6 +48,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter your age, choose the effort range, and add resting heart rate only if you want the heart-rate-reserve estimate. Age sets the rough maximum heart rate. The effort range turns that into beats per minute.'
     : isBodySurfaceAreaCalculator
       ? 'Enter height in centimeters and weight in kilograms. The calculator uses those two measured values for adult human body surface area formulas. It does not ask for age, sex, body fat, diagnosis, procedure type, burn percentage, or medication details.'
+    : isBacCalculator
+      ? 'Enter the formula sex setting, body weight in kilograms, number of drinks, drink size in milliliters, ABV percent, and hours since the first drink. Use the actual pour size and alcohol percentage when you know them. A strong mixed drink or large pour can count as more alcohol than one ordinary serving.'
     : isFatIntakeCalculator
       ? 'Enter the calorie target first, then enter the percent of those calories planned from fat. Type 30 for 30%, not 0.30. The calculator assumes dietary fat has 9 calories per gram and uses the calorie target you provide.'
     : isTdeeCalculator
@@ -76,6 +79,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the answer as a training range in beats per minute, not a perfect target you must hit. If the range feels too hard, you feel pain, or a clinician gave you a different limit, slow down and use the safer guidance.'
     : isBodySurfaceAreaCalculator
       ? 'Read BSA as an estimated body surface area in square meters. The Mosteller and Du Bois lines can differ slightly because they are different formulas. Use the number as clinical math context only, not as a medication dose, diagnosis, burn estimate, or treatment plan.'
+    : isBacCalculator
+      ? 'Read BAC as a rough educational estimate for the inputs you typed, not as a legal, medical, workplace, or driving decision. Real BAC can differ because food, drinking speed, medications, tolerance, health, body composition, and test timing all matter.'
     : isFatIntakeCalculator
       ? 'Read the answer as total dietary fat grams for the calorie target and percent you entered. It does not judge food quality, split saturated versus unsaturated fat, set a medical nutrition plan, or tell you anything about body-fat percentage.'
     : isTdeeCalculator
@@ -1313,8 +1318,13 @@ export const healthTools: ToolDefinition[] = [
     summary: 'Estimate blood alcohol concentration with a Widmark-style formula.',
     description:
       'Use this free BAC calculator for an educational blood alcohol concentration estimate from drinks, ABV, body weight, sex, and time.',
+    seoTitle: 'BAC Calculator | Widmark-Style Blood Alcohol Estimate',
+    seoDescription:
+      'Estimate blood alcohol concentration from drinks, ABV, body weight, sex, and time, with clear limits and no driving or legal advice.',
+    aliases: ['blood alcohol calculator', 'alcohol calculator', 'bac estimate', 'widmark calculator'],
     icon: 'calculator-bac',
-    formula: 'The calculator estimates grams of alcohol from drink volume and ABV, applies a Widmark-style body-water factor, then subtracts an average elimination rate.',
+    formula:
+      'The calculator estimates grams of alcohol from drink volume, ABV, drink count, and 0.789 g/mL ethanol density, applies a Widmark-style body-water factor, then subtracts 0.015 percentage points per hour as a rough elimination estimate.',
     caution:
       'No. This estimate is not legal, medical, or driving advice. Do not use it to decide whether to drive or perform safety-sensitive tasks.',
     useCases: [
@@ -1324,9 +1334,26 @@ export const healthTools: ToolDefinition[] = [
       'Avoid using estimates for legal or safety decisions.',
     ],
     examples: [
-      { label: 'Two beers', expression: '2 x 355 mL at 5%', result: 'Estimated BAC after time adjustment' },
-      { label: 'Wine', expression: '2 x 150 mL at 12%', result: 'Estimated BAC after time adjustment' },
-      { label: 'Spirit drink', expression: '45 mL at 40%', result: 'Estimated BAC after time adjustment' },
+      { label: 'Two beers', expression: 'Male, 80 kg, 2 x 355 mL at 5%, 1 hour', result: 'About 0.0365% BAC; estimated 2.43 hours to zero' },
+      { label: 'Wine example', expression: 'Female, 65 kg, 2 x 150 mL at 12%, 2 hours', result: 'About 0.0495% BAC; estimated 3.3 hours to zero' },
+      { label: 'Spirit drink', expression: 'Male, 90 kg, 1 x 45 mL at 40%, 1 hour', result: 'About 0.0082% BAC; estimated 0.55 hours to zero' },
+    ],
+    extraFaq: [
+      {
+        question: 'Can I use this BAC estimate to decide whether to drive?',
+        answer:
+          'No. Do not use this calculator to decide whether it is safe or legal to drive. Laws, enforcement tests, body differences, medication, food, timing, and impairment can all matter, so the safest practical answer is not to drive after drinking.',
+      },
+      {
+        question: 'What does Widmark-style mean on this page?',
+        answer:
+          'It means the calculator estimates grams of alcohol, divides by body weight and a broad body-water factor, then subtracts an average elimination amount for elapsed time. It is a learning estimate, not a breathalyzer, blood test, or legal standard.',
+      },
+      {
+        question: 'Why do drink size and ABV matter so much?',
+        answer:
+          'The alcohol grams come directly from volume and ABV. A large craft beer, heavy wine pour, or strong mixed drink can contain much more alcohol than a small standard serving, so entering the label and pour size matters more than the drink name.',
+      },
     ],
     relatedSlugs: ['calorie-calculator', 'bmi-calculator', 'body-surface-area-calculator'],
   }),
