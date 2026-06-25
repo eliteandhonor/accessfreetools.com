@@ -2291,11 +2291,22 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     summary: 'Calculate sale price, savings, effective discount, and tax after one or two percent-off discounts.',
     description:
       'Use this free percent off calculator to estimate final sale price, savings before tax, effective discount, and tax after one or two discounts.',
+    seoTitle: 'Percent Off Calculator | Sale Price, Savings & Tax',
+    seoDescription:
+      'Calculate final sale price, savings, effective discount, and optional tax after one or two percent-off discounts. See why stacked discounts do not simply add.',
     icon: 'calculator-discount',
+    aliases: [
+      'sale price calculator',
+      'percent off sale calculator',
+      'discount percent calculator',
+      'coupon discount calculator',
+      'stacked discount calculator',
+      'price after discount calculator',
+    ],
     formula:
-      'The calculator applies the first percent-off discount, applies an optional extra discount to the reduced price, then adds tax if entered.',
+      'The calculator subtracts the first discount from the original price, applies the optional second discount to that reduced subtotal, then adds tax to the discounted subtotal if a tax rate is entered.',
     limit:
-      'Retail totals can differ because of coupon exclusions, shipping, minimum spend rules, price matching, fees, and local tax treatment.',
+      'Retail totals can differ because of coupon exclusions, fixed-dollar coupons, shipping, minimum spend rules, price matching, fees, returns, rounding, and local tax treatment.',
     useCases: [
       'Calculate a final sale price.',
       'Stack two percent-off discounts correctly.',
@@ -2303,11 +2314,59 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'See total savings and effective discount.',
     ],
     examples: [
-      { label: 'Sale plus tax', expression: '$80 with 25% off, extra 10% off, and 7.5% tax', result: 'Final price' },
-      { label: 'Half off', expression: '$120 with 50% off', result: 'Sale price' },
-      { label: 'Stacked sale', expression: '$200 with 30% then 15% off', result: 'Effective discount' },
+      { label: 'Sale plus tax', expression: '$80 with 25% off, extra 10% off, and 7.5% tax', result: '$58.05 final price, $26.00 saved before tax, 32.5% effective discount' },
+      { label: 'Half off', expression: '$120 with 50% off, no extra discount, no tax', result: '$60.00 sale price and $60.00 saved before tax' },
+      { label: 'Stacked sale', expression: '$200 with 30% then 15% off and 6% tax', result: '$126.14 final price, $81.00 saved before tax, 40.5% effective discount' },
     ],
     relatedSlugs: ['discount-calculator', 'percentage-calculator', 'sales-tax-calculator'],
+    inputExplanations: [
+      { term: 'Original price', meaning: 'the tag price before the store applies the percent-off discount.' },
+      { term: 'Percent off', meaning: 'the first discount rate, entered as 25 for 25%, not 0.25.' },
+      { term: 'Extra percent off', meaning: 'an optional second discount applied to the already-reduced subtotal.' },
+      { term: 'Tax rate', meaning: 'an optional sales tax rate applied after the discounts, if you want an after-tax estimate.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Do two percent-off discounts add together?',
+        answer:
+          'Usually no. A 25% discount followed by an extra 10% discount is not 35% off the original price. The second discount applies to the reduced subtotal, so the $80 example becomes $54 before tax and saves $26, which is a 32.5% effective discount.',
+      },
+      {
+        question: 'Is tax calculated before or after the discount?',
+        answer:
+          'This calculator adds tax after the percent-off discounts. That matches many checkout totals, but local tax rules and store systems can vary, especially with coupons, fees, shipping, or special promotions.',
+      },
+      {
+        question: 'What is effective discount?',
+        answer:
+          'Effective discount is the real percent saved from the original price after all percent-off discounts are applied. It helps you compare stacked discounts without pretending each percent can be added directly.',
+      },
+      {
+        question: 'Can I use this for coupon stacking?',
+        answer:
+          'Use it for one or two percentage coupons. It does not handle fixed-dollar coupons, buy-one-get-one deals, reward credits, minimum-spend rules, or exclusions that remove an item from the promotion.',
+      },
+    ],
+    formulaCheck:
+      'For the $80 example, 25% off removes $20 and leaves $60. The extra 10% discount removes $6 from $60, leaving $54. Tax at 7.5% adds $4.05, so the final estimate is $58.05.',
+    resultReading:
+      'Read final sale price first if you care about checkout cost. Then check savings before tax and effective discount so you can see the real markdown before tax is added.',
+    doubleCheck:
+      'Check that you entered 25 for 25%, not 0.25, and that the second discount is supposed to stack. Also check whether tax, shipping, or fees should be included before copying the result.',
+    limitFollowup:
+      'Store rules can exclude brands, sale items, shipping, taxes, gift cards, or fixed-dollar coupons, so treat the calculator as a math check rather than proof of the final receipt.',
+    extraFaq: [
+      {
+        question: 'Why is the after-tax final price higher than the discounted subtotal?',
+        answer:
+          'The discounted subtotal is the price after percent-off discounts. If you enter a tax rate, the calculator adds tax to that subtotal, so the final price can be higher than the sale price shown before tax.',
+      },
+      {
+        question: 'Should I use this or the Discount Calculator?',
+        answer:
+          'Use this page for quick percent-off retail math with one or two percentage discounts. Use the Discount Calculator when you want broader discount wording or a more general comparison.',
+      },
+    ],
   },
 ];
 
