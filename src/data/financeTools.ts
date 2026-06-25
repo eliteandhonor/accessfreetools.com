@@ -2615,6 +2615,9 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate payoff time, total interest, and extra-payment savings.',
     description:
       'Use this free amortization calculator to estimate scheduled payment, payoff time, total interest, and savings from extra monthly payments.',
+    seoTitle: 'Amortization Calculator | Loan Payoff & Interest Savings',
+    seoDescription:
+      'Estimate a fixed loan amortization schedule, monthly payment, payoff time, total interest, and extra-payment savings before checking lender rules.',
     icon: 'calculator-amortization',
     aliases: ['Mortgage Amortization Calculator', 'Loan Amortization Calculator', 'Amortization Schedule Calculator'],
     formula:
@@ -2627,7 +2630,7 @@ export const financeTools: ToolDefinition[] = [
       'Understand how monthly interest affects principal reduction.',
     ],
     examples: [
-      { label: 'Extra payment', expression: '$200,000 at 6%, 30 years, +$100/month', result: 'Payoff time and interest saved' },
+      { label: 'Extra payment', expression: '$200,000 at 6%, 30 years, +$100/month', result: 'About 295 months, 65 months faster, and $49,138.41 interest saved' },
       { label: 'No extra payment', expression: '$50,000 at 8%, 6 years', result: 'Scheduled payoff estimate' },
       { label: 'Shorter term', expression: '$300,000 at 6.5%, 15 years', result: 'Faster payoff, lower interest' },
     ],
