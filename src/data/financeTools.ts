@@ -1984,11 +1984,21 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     summary: 'Estimate future value of a starting amount and regular payments.',
     description:
       'Use this free future value calculator to project a starting amount and regular payments forward with an entered rate, time period, and payment frequency.',
+    seoTitle: 'Future Value Calculator | Savings Growth & Payments',
+    seoDescription:
+      'Estimate future value from a starting amount, regular payments, annual rate, years, and payment frequency. See ending balance, contributions, and growth.',
     icon: 'calculator-finance',
+    aliases: [
+      'future value calculator',
+      'fv calculator',
+      'future savings calculator',
+      'savings future value calculator',
+      'investment future value calculator',
+    ],
     formula:
       'The calculator compounds the starting amount and compounds each regular payment using the selected payment frequency, then adds both future value parts.',
     limit:
-      'This assumes steady rate and payment timing. It does not include market volatility, tax, fees, missed payments, inflation, or account rules.',
+      'This assumes a steady rate and end-of-period payment timing. It does not include market volatility, taxes, fees, missed or changing payments, inflation, account rules, sequence risk, or investment advice.',
     useCases: [
       'Project a savings or investment balance.',
       'Compare payment frequencies and return assumptions.',
@@ -1996,11 +2006,58 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Use alongside present value for time-value math.',
     ],
     examples: [
-      { label: 'Monthly saving', expression: '$5,000 start plus $250 monthly for 10 years', result: 'Future value estimate' },
-      { label: 'No new payments', expression: '$20,000 compounded for 8 years', result: 'Lump-sum future value' },
-      { label: 'Annual contribution', expression: '$3,000 per year for 12 years', result: 'Future value estimate' },
+      { label: 'Monthly saving', expression: '$5,000 start plus $250 monthly for 10 years at 6%', result: 'About $50,066.82 future value, with $35,000.00 contributed' },
+      { label: 'No new payments', expression: '$20,000 compounded for 8 years at 5%', result: 'About $29,811.71 lump-sum future value' },
+      { label: 'Annual contribution', expression: '$10,000 start plus $3,000 per year for 12 years at 7%', result: 'About $76,187.27 future value, with $46,000.00 contributed' },
     ],
     relatedSlugs: ['present-value-calculator', 'compound-interest-calculator', 'investment-calculator'],
+    inputExplanations: [
+      { term: 'Starting amount', meaning: 'the balance you already have before new payments and modeled growth.' },
+      { term: 'Regular payment', meaning: 'the amount added each period. Match this to the selected payment frequency.' },
+      { term: 'Interest / return rate', meaning: 'the annual rate entered as a normal percent, such as 6 for 6%.' },
+      { term: 'Years', meaning: 'how long the projection runs. The calculator rounds the number of payment periods from years times payments per year.' },
+      { term: 'Payments per year', meaning: 'how often the regular payment is made, such as 12 for monthly or 1 for yearly.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What is future value?',
+        answer:
+          'Future value is the projected ending balance after a starting amount and any regular payments grow over time at the rate you enter. It is a planning estimate, not a promise of actual investment performance.',
+      },
+      {
+        question: 'How does this calculator handle regular payments?',
+        answer:
+          'It treats regular payments as end-of-period payments, similar to an ordinary annuity. A payment made at the beginning of each period would usually grow slightly more because it has one extra period to compound.',
+      },
+      {
+        question: 'Should I enter an annual rate or a monthly rate?',
+        answer:
+          'Enter the annual rate as a percent. The calculator divides that rate by the payment frequency, so monthly payments use one-twelfth of the annual rate in each monthly period.',
+      },
+      {
+        question: 'Does future value include inflation, taxes, or fees?',
+        answer:
+          'No. The result is a before-tax, before-fee projection in today-dollar terms. Inflation, taxes, account fees, contribution limits, and market losses can all change the real buying power or final account value.',
+      },
+      {
+        question: 'What is the difference between future value and present value?',
+        answer:
+          'Future value moves money forward to estimate a later balance. Present value moves future money backward to estimate what it is worth today at a chosen discount rate.',
+      },
+      {
+        question: 'Can I use this for investments as well as savings?',
+        answer:
+          'Yes, as a simple scenario test. For investing, treat the rate as an assumption and compare several rates because actual returns can move up, down, or arrive in a different order than the calculator assumes.',
+      },
+    ],
+    formulaCheck:
+      'For the default example, $5,000 plus $250 monthly for 10 years at 6% projects about $50,066.82, with $35,000.00 contributed and about $15,066.82 modeled growth.',
+    resultReading:
+      'Start with estimated future value, then compare principal growth, payment growth, total contributions, and estimated growth. That split shows whether the starting balance, the payment stream, or the rate assumption is carrying the result.',
+    doubleCheck:
+      'Check that the rate is annual, payment frequency matches the payment amount, years are entered as years, and the percent is entered as 6 for 6%, not 0.06.',
+    limitFollowup:
+      'For savings, compare the account APY and rules. For investing, compare taxes, fees, inflation, risk, contribution limits, and whether a steady return assumption is realistic.',
   },
   {
     slug: 'commission-calculator',
