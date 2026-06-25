@@ -3048,7 +3048,7 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
     example: [
       '$5,200 monthly income with housing, utilities, food, transport, debt, savings, and other spending creates a total expense number.',
-      'If total expenses are $4,850, the leftover is $350 and the category percentages show where the money is going.',
+      'If total planned expenses are $4,650, the leftover is $550 and the category percentages show where the money is going.',
     ],
     read: [
       'Leftover money is income minus everything you entered.',
