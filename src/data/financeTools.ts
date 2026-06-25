@@ -5317,11 +5317,21 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Calculate debt-to-income ratio from income, debts, and proposed housing payment.',
     description:
       'Use this free debt-to-income ratio calculator to estimate DTI from gross monthly income, existing monthly debts, and an optional proposed housing payment.',
+    seoTitle: 'Debt-to-Income Ratio Calculator | DTI With Housing',
+    seoDescription:
+      'Calculate debt-to-income ratio from gross monthly income, existing monthly debt payments, and a proposed housing payment. See total debt, DTI, and income left.',
     icon: 'calculator-dti',
+    aliases: [
+      'debt to income ratio calculator',
+      'dti calculator',
+      'mortgage dti calculator',
+      'monthly debt ratio calculator',
+      'debt ratio calculator',
+    ],
     formula:
       'The calculator adds existing monthly debt payments and proposed housing payment, divides by gross monthly income, then converts the result to a percentage.',
     limit:
-      'This is a simplified planning ratio. Lenders may count debts, income, housing costs, and qualifying rules differently.',
+      'This is a simplified planning ratio. It does not approve a loan, verify gross income, classify debts, split front-end and back-end ratios, include taxes, insurance, or HOA unless you enter them in housing payment, or replace lender underwriting.',
     useCases: [
       'Estimate DTI before a loan or mortgage conversation.',
       'See how a proposed housing payment changes the ratio.',
@@ -5329,11 +5339,46 @@ export const financeTools: ToolDefinition[] = [
       'Check a simple affordability signal before using lender tools.',
     ],
     examples: [
-      { label: 'Mortgage check', expression: '$6,000 income, $900 debts, $1,500 proposed housing', result: '40% DTI' },
-      { label: 'Debt only', expression: '$4,800 income and $650 debts', result: 'Debt-only DTI' },
-      { label: 'Higher payment', expression: '$8,000 income, $1,200 debts, $2,300 housing', result: 'DTI with housing' },
+      { label: 'Mortgage check', expression: '$6,000 income, $900 debts, $1,500 proposed housing', result: '40% DTI, with $2,400 total monthly debt and $3,600 income left after listed debts' },
+      { label: 'Debt only', expression: '$4,800 income and $650 debts', result: 'About 13.54% DTI, with $650 total monthly debt and $4,150 income left after listed debts' },
+      { label: 'Higher payment', expression: '$8,000 income, $1,200 debts, $2,300 housing', result: '43.75% DTI, with $3,500 total monthly debt and $4,500 income left after listed debts' },
     ],
     relatedSlugs: ['house-affordability-calculator', 'mortgage-calculator', 'loan-calculator'],
+    inputExplanations: [
+      { term: 'Gross monthly income', meaning: 'monthly income before taxes and deductions. DTI is usually discussed from gross income, not take-home pay.' },
+      { term: 'Monthly debt payments', meaning: 'recurring debt payments such as credit card minimums, auto loans, student loans, personal loans, and other listed debts.' },
+      { term: 'Proposed housing payment', meaning: 'the housing payment you want to test. Include taxes, insurance, HOA, or mortgage insurance here only if you want them counted in the ratio.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What counts as monthly debt payments?',
+        answer:
+          'Use recurring debt payments such as credit card minimums, auto loans, student loans, personal loans, child support if applicable, and other debts you want counted. Normal living costs like groceries and utilities are important for your budget, but they are not always counted the same way in a lender DTI check.',
+      },
+      {
+        question: 'Should I use gross income or take-home pay?',
+        answer:
+          'Use gross monthly income for this DTI estimate because lenders commonly discuss debt-to-income ratio from income before taxes and deductions. Use take-home pay for your personal budget check, because that shows what you actually have available each month.',
+      },
+      {
+        question: 'Should the housing payment include taxes, insurance, and HOA?',
+        answer:
+          'If you are testing a mortgage-style housing payment, include property tax, homeowners insurance, HOA dues, and mortgage insurance in the proposed housing payment when you want the ratio to reflect those costs. A lender may still count housing costs under its own rules.',
+      },
+      {
+        question: 'Does a low DTI mean I will be approved?',
+        answer:
+          'No. A lower DTI can be a good sign, but approval can also depend on credit, income stability, down payment, loan type, cash reserves, documentation, property details, and lender rules. This calculator only checks the simple ratio from the numbers you enter.',
+      },
+    ],
+    formulaCheck:
+      'For the default example, ($900 existing debts + $1,500 proposed housing) / $6,000 gross monthly income = 0.40, so the result is 40% DTI with $2,400 total monthly debt.',
+    resultReading:
+      'Read the debt-to-income ratio first, then check total monthly debt and income after listed debts. The remaining-income line is not a full budget because it does not subtract taxes, groceries, utilities, savings, insurance, or irregular costs.',
+    doubleCheck:
+      'Make sure all amounts are monthly, income is gross monthly income, existing debts are debt payments instead of total balances, and the housing payment includes escrow costs only if you want them in this estimate.',
+    limitFollowup:
+      'For a real loan or mortgage decision, compare lender definitions, front-end and back-end ratios, taxes, insurance, HOA dues, credit review, down payment, APR, and the written Loan Estimate or loan offer.',
   }),
   makeFinanceTool({
     slug: 'personal-loan-calculator',
