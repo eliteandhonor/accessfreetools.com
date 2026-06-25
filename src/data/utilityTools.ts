@@ -2275,6 +2275,11 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Stairs affect safety every time someone uses them. Code rules can cover riser limits, tread depth, uniformity, landings, headroom, handrails, guardrails, and local inspection requirements.',
       },
+      {
+        question: 'Why is tread count usually one fewer than riser count?',
+        answer:
+          'A simple straight stair usually has one fewer walking tread than vertical risers because the upper floor or landing acts as the final walking surface. Landings, turns, and deck layouts can change that count.',
+      },
     ],
     useCases: [
       'Estimate a simple straight stair layout.',
