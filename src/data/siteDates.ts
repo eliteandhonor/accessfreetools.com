@@ -66,6 +66,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'rmd-calculator': '2026-06-01',
   'real-estate-calculator': '2026-06-01',
   'take-home-paycheck-calculator': '2026-06-01',
+  'salary-calculator': '2026-06-26',
   'rental-property-calculator': '2026-06-01',
   'irr-calculator': '2026-06-01',
   'roi-calculator': '2026-06-01',

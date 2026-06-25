@@ -3403,7 +3403,17 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Convert annual salary to monthly, biweekly, weekly, daily, and hourly pay.',
     description:
       'Use this free salary calculator to convert annual salary into monthly, biweekly, weekly, daily, hourly, and pay period amounts with an optional simple tax-rate estimate.',
+    seoTitle: 'Salary Calculator | Annual, Monthly, Hourly Pay',
+    seoDescription:
+      'Convert annual salary to monthly, biweekly, weekly, daily, and hourly gross pay, with simple tax estimate notes and paycheck-limit warnings.',
     icon: 'calculator-salary',
+    aliases: [
+      'salary to hourly calculator',
+      'annual salary calculator',
+      'monthly salary calculator',
+      'gross pay calculator',
+      'yearly salary calculator',
+    ],
     formula:
       'The calculator divides annual salary by 12, 26, weeks per year, workdays, and annual hours. Optional tax is a simple percentage of annual salary.',
     limit:
@@ -3415,11 +3425,59 @@ export const financeTools: ToolDefinition[] = [
       'Compare job offers with different hours or weeks worked.',
     ],
     examples: [
-      { label: 'Full-time salary', expression: '$78,000, 40 hours/week, 52 weeks', result: '$37.50 gross hourly' },
-      { label: 'School-year job', expression: '$45,000, 37.5 hours/week, 40 weeks', result: 'Hourly equivalent' },
-      { label: 'Simple tax estimate', expression: '$60,000 with 20% tax estimate', result: 'Estimated monthly take-home' },
+      { label: 'Full-time salary', expression: '$78,000, 40 hours/week, 52 weeks', result: '$6,500 monthly, $3,000 biweekly, $37.50 gross hourly' },
+      { label: 'School-year job', expression: '$45,000, 37.5 hours/week, 40 weeks', result: '$1,125 weekly and $30 gross hourly' },
+      { label: 'Simple tax estimate', expression: '$60,000 with 20% tax estimate', result: '$5,000 gross monthly and $4,000 estimated monthly take-home' },
     ],
-    relatedSlugs: ['income-tax-calculator', 'finance-calculator', 'percentage-calculator'],
+    relatedSlugs: ['take-home-paycheck-calculator', 'income-tax-calculator', 'percentage-calculator'],
+    inputExplanations: [
+      { term: 'Annual salary', meaning: 'your yearly gross pay before taxes, benefits, deductions, bonuses, overtime, or unpaid time off.' },
+      { term: 'Hours per week', meaning: 'the normal weekly hours you want to use for the hourly equivalent.' },
+      { term: 'Paid weeks per year', meaning: 'how many paid workweeks the salary covers, such as 52 for year-round work or 40 for a school-year job.' },
+      { term: 'Simple tax estimate', meaning: 'one rough percent of annual salary to subtract for a quick after-tax view, not a payroll withholding table.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'Is this a salary-to-hourly calculator?',
+        answer:
+          'Yes. Enter annual salary, weekly hours, and paid weeks per year. For $78,000, 40 hours per week, and 52 paid weeks, the hourly equivalent is $37.50 before taxes and deductions.',
+      },
+      {
+        question: 'Why does paid weeks per year change hourly pay?',
+        answer:
+          'Hourly equivalent is annual salary divided by total paid hours. A $45,000 school-year salary over 37.5 hours per week and 40 paid weeks works out to $30 per hour, while the same salary spread over 52 weeks would be lower per hour.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Is monthly salary just annual salary divided by 12?',
+        answer:
+          'For gross monthly pay, yes. The calculator divides annual salary by 12. Real paychecks may use semi-monthly, biweekly, or weekly schedules, so monthly budget math and actual paycheck deposits can look different.',
+      },
+      {
+        question: 'Is biweekly pay the same as twice a month?',
+        answer:
+          'No. Biweekly pay usually means 26 paychecks per year. Twice-a-month pay is usually 24 paychecks per year. This page shows biweekly gross pay as annual salary divided by 26.',
+      },
+      {
+        question: 'Should I use this instead of the Take-Home-Paycheck Calculator?',
+        answer:
+          'Use this Salary Calculator when you need gross salary conversions and a very simple tax percent. Use the Take-Home-Paycheck Calculator when you want pay schedule, pretax deductions, income-tax percentages, and 2026 employee FICA in one estimate.',
+      },
+      {
+        question: 'Does this include overtime or bonuses?',
+        answer:
+          'No. It treats the annual salary as the amount to divide across time periods. Overtime, bonuses, commissions, unpaid leave, shift premiums, and payroll rules need a separate employer or payroll check.',
+      },
+    ],
+    formulaCheck:
+      'For $78,000, 40 hours per week, and 52 paid weeks: $78,000 / 12 = $6,500 monthly, $78,000 / 26 = $3,000 biweekly, and $78,000 / (40 x 52) = $37.50 hourly.',
+    resultReading:
+      'Read gross hourly for offer comparisons, then check monthly, biweekly, weekly, and the simple monthly take-home estimate. Gross pay is before deductions; the tax estimate is only the percent you entered.',
+    doubleCheck:
+      'Check whether the job is 52 paid weeks, a school-year schedule, or another paid-week count. Also check that the tax estimate is entered as 22 for 22%, not 0.22.',
+    limitFollowup:
+      'For actual paycheck planning, compare a paystub, employer payroll tool, official withholding calculator, or the Take-Home-Paycheck Calculator before relying on the number.',
   }),
   makeFinanceTool({
     slug: 'interest-rate-calculator',
