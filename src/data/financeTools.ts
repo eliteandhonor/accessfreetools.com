@@ -5683,9 +5683,20 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate a generic lease payment from asset value, residual, rate, term, fees, and upfront payment.',
     description:
       'Use this free lease calculator to estimate monthly lease payment, depreciation portion, finance portion, adjusted cost, and total lease cost.',
+    seoTitle: 'Lease Calculator | Payment, Residual & Total Cost',
+    seoDescription:
+      'Estimate a generic lease payment from asset value, residual value, finance rate, fees, upfront payment, and term. See depreciation and total cost.',
     icon: 'calculator-lease',
+    aliases: [
+      'lease payment calculator',
+      'equipment lease calculator',
+      'asset lease calculator',
+      'residual value lease calculator',
+      'monthly lease calculator',
+      'lease cost calculator',
+    ],
     formula:
-      'The calculator adjusts asset value for fees and upfront payment, spreads the amount above residual value across the term, then adds a monthly finance charge.',
+      'Adjusted cost = asset value + fees - upfront payment. Depreciation fee = (adjusted cost - residual value) / term months. Finance fee = (adjusted cost + residual value) x annual rate / 12. Monthly payment = depreciation fee + finance fee.',
     limit:
       'This is a generic lease estimate. It does not include contract-specific taxes, maintenance obligations, buyout rights, renewal options, insurance, or early termination costs.',
     useCases: [
@@ -5695,11 +5706,43 @@ export const financeTools: ToolDefinition[] = [
       'Check a lease quote before reading the contract details.',
     ],
     examples: [
-      { label: 'Equipment lease', expression: '$30,000 asset, $14,000 residual, 36 months', result: 'Monthly lease estimate' },
-      { label: 'Lower residual', expression: '$18,000 asset, $5,000 residual', result: 'Higher depreciation portion' },
-      { label: 'Short term', expression: '$10,000 asset over 24 months', result: 'Short lease estimate' },
+      { label: 'Equipment lease', expression: '$30,000 asset, $14,000 residual, 6% rate, 36 months, $1,500 upfront, $800 fees', result: 'About $641.50/month and $24,594.00 total lease cost' },
+      { label: 'Lower residual', expression: '$18,000 asset, $5,000 residual, 8% rate, 48 months, $1,000 upfront, $500 fees', result: 'About $410.42/month with a $260.42 depreciation fee' },
+      { label: 'Short term', expression: '$10,000 asset, $6,500 residual, 5% rate, 24 months, $500 upfront, $250 fees', result: 'About $203.13/month and $5,375.00 total lease cost' },
     ],
     relatedSlugs: ['auto-lease-calculator', 'business-loan-calculator', 'loan-calculator'],
+    inputExplanations: [
+      { term: 'Asset value', meaning: 'the starting value or negotiated cost of the leased item before this simple estimate adds fees and subtracts upfront payment.' },
+      { term: 'Residual value', meaning: 'the expected lease-end value in dollars. A higher residual usually lowers the depreciation part of the payment.' },
+      { term: 'Finance rate', meaning: 'the annual percent rate used by this generic calculator to estimate a monthly finance charge. Enter 6 for 6%, not 0.06.' },
+      { term: 'Lease term', meaning: 'the number of monthly payments in the lease. Use whole months such as 24, 36, or 48.' },
+      { term: 'Upfront payment and fees', meaning: 'money paid up front lowers adjusted cost, while fees added to the lease raise adjusted cost.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What is residual value in a lease?',
+        answer:
+          'Residual value is the expected value of the asset at the end of the lease. The calculator subtracts residual value from adjusted cost before spreading depreciation across the lease term.',
+      },
+      {
+        question: 'What is adjusted cost?',
+        answer:
+          'Adjusted cost is asset value plus fees minus upfront payment. In the default example, $30,000 asset value plus $800 fees minus $1,500 upfront payment gives a $29,300 adjusted cost.',
+      },
+      {
+        question: 'Does this use a money factor?',
+        answer:
+          'No. This generic Lease Calculator uses an annual finance rate percentage. Use the Auto Lease Calculator if your vehicle quote gives a money factor such as 0.0025.',
+      },
+    ],
+    formulaCheck:
+      'For the $30,000 example, adjusted cost is $29,300. Depreciation fee is ($29,300 - $14,000) / 36, or $425.00. Finance fee is ($29,300 + $14,000) x 0.06 / 12, or $216.50, for a $641.50 monthly estimate.',
+    resultReading:
+      'Read the monthly payment first, then check adjusted cost, depreciation fee, finance fee, and estimated total lease cost. A smaller monthly payment can still hide a larger upfront amount, lower residual assumption, or contract fee outside this estimate.',
+    doubleCheck:
+      'Check that residual value is in dollars, the finance rate is typed as a percent, the lease term is whole months, and fees or upfront payments match the quote. Ask for taxes, renewal terms, buyout rights, use limits, maintenance duties, insurance, and early-exit costs in writing.',
+    limitFollowup:
+      'Use this as lease math, not a contract review. The real lease can change with taxes, insurance, maintenance duties, purchase options, use limits, renewal rules, penalties, and local law.',
   }),
   makeFinanceTool({
     slug: 'refinance-calculator',
