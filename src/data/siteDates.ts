@@ -339,6 +339,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-hours-calculator': '2026-06-11',
   'how-to-use-conversion-calculator': '2026-06-11',
   'how-to-use-body-surface-area-calculator': '2026-06-03',
+  'how-to-use-bac-calculator': '2026-06-26',
   'how-to-use-body-type-calculator': '2026-06-03',
   'how-to-use-healthy-weight-calculator': '2026-06-03',
   'how-to-use-weight-calculator': '2026-06-04',
