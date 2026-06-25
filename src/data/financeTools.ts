@@ -2877,7 +2877,17 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Project retirement savings from current balance, monthly contributions, and return.',
     description:
       'Use this free retirement calculator to project future savings, total contributions, estimated growth, and the gap to a retirement target.',
+    seoTitle: 'Retirement Calculator | Savings Goal Projection',
+    seoDescription:
+      'Project retirement savings from current balance, monthly contributions, estimated return, and years. See total contributions, growth, and target gap.',
     icon: 'calculator-retirement',
+    aliases: [
+      'retirement savings calculator',
+      'retirement planning calculator',
+      'retirement calculator with monthly contributions',
+      'retirement goal calculator',
+      'retirement savings projection',
+    ],
     formula:
       'The calculator compounds current savings and monthly contributions at an estimated annual return, then compares the future value with your target amount.',
     limit:
@@ -2889,9 +2899,70 @@ export const financeTools: ToolDefinition[] = [
       'Use a consistent planning estimate while adjusting assumptions.',
     ],
     examples: [
-      { label: 'Early saver', expression: '$25,000 saved, $500/month, 7%, 25 years', result: 'Projected retirement balance' },
-      { label: 'Catch-up view', expression: '$80,000 saved, $900/month, 6%, 15 years', result: 'Target gap estimate' },
-      { label: 'Return sensitivity', expression: '5%, 7%, and 9% return assumptions', result: 'Different future balances' },
+      {
+        label: 'Early saver',
+        expression: '$25,000 saved, $500/month, 7%, 25 years',
+        result: 'About $548,171.30 projected, with a $451,828.70 gap to a $1,000,000 target',
+      },
+      {
+        label: 'Catch-up view',
+        expression: '$80,000 saved, $900/month, 6%, 15 years',
+        result: 'About $458,064.33 projected, with a $291,935.67 gap to a $750,000 target',
+      },
+      {
+        label: 'Conservative return',
+        expression: '$50,000 saved, $400/month, 4%, 20 years',
+        result: 'About $257,838.95 projected, with a $342,161.05 gap to a $600,000 target',
+      },
+    ],
+    inputExplanations: [
+      { term: 'Current savings', meaning: 'the retirement money already saved before this projection starts.' },
+      { term: 'Monthly contribution', meaning: 'the amount added at the end of each month in this simple model.' },
+      { term: 'Estimated return', meaning: 'the annual growth assumption. It is not guaranteed and real markets can lose money.' },
+      { term: 'Years to grow', meaning: 'how long the projection runs before comparing the balance with the target.' },
+      { term: 'Target amount', meaning: 'the savings goal used to show whether the projection is above target or still has a gap.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'How does the Retirement Calculator handle monthly contributions?',
+        answer:
+          'It converts the annual return assumption into monthly growth, compounds the current savings, then adds each monthly contribution at the end of the month. That timing makes the answer a planning estimate, not an account statement.',
+      },
+      {
+        question: 'Does this include inflation or withdrawals?',
+        answer:
+          'No. The projection shows a future balance from savings going in. It does not reduce the result for inflation, retirement spending, withdrawals, required minimum distributions, taxes, or account fees.',
+      },
+      {
+        question: 'What does the target gap mean?',
+        answer:
+          'The target gap is the target amount minus the projected balance. A gap does not mean the plan failed; it means the entered savings, contribution, return, and time assumptions do not reach that target in this simplified model.',
+      },
+    ],
+    formulaCheck:
+      'For the starter example, $25,000 plus $500 each month at a 7% annual return for 25 years projects about $548,171.30. The calculator shows $175,000.00 of contributions, about $373,171.30 of estimated growth, and a $451,828.70 target gap.',
+    resultReading:
+      'Start with projected retirement savings, then compare total contributions with estimated growth. The target gap or above-target line explains how far the projection is from the goal you entered.',
+    doubleCheck:
+      'Check current savings, monthly contribution, estimated return, years to grow, and target amount. Then separately review inflation, taxes, fees, contribution limits, withdrawals, market losses, Social Security, pensions, and account rules.',
+    limitFollowup:
+      'Use the Inflation Calculator to test buying power, the 401K Calculator for workplace contribution and match details, and an official account or adviser source before relying on the result.',
+    extraFaq: [
+      {
+        question: 'Is the estimated return guaranteed?',
+        answer:
+          'No. The return is only the rate you enter for scenario math. Real investments can rise, fall, charge fees, or produce very uneven yearly results.',
+      },
+      {
+        question: 'Should I include Social Security or pension income here?',
+        answer:
+          'No. This page projects a savings balance. Social Security, pension income, annuity payouts, retirement spending, taxes, and withdrawal timing need separate estimates.',
+      },
+      {
+        question: 'Can this tell me exactly how much I need to retire?',
+        answer:
+          'No. It can compare one savings scenario with one target. A real retirement number can depend on spending, location, health costs, taxes, inflation, investment risk, benefits, debt, and family needs.',
+      },
     ],
     relatedSlugs: ['investment-calculator', 'compound-interest-calculator', 'inflation-calculator'],
   }),

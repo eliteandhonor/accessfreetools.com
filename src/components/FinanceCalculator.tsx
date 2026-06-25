@@ -2741,7 +2741,8 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Add monthly contributions at the end of each month.',
           'Compare the projected balance with the target amount.',
         ],
-        note: 'This projection does not include taxes, bank fees, APY-vs-rate differences, balance tiers, minimum balances, withdrawals, exact deposit dates, changing rates, or account rules.',
+        note:
+          'This projection does not include taxes, account fees, contribution limits, inflation, withdrawals, market volatility, changing contribution amounts, Social Security, pension income, or plan rules.',
       };
     }
     case 'amortization': {
