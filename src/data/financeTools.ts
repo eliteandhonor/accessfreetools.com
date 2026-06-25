@@ -2968,10 +2968,21 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Estimate compound growth with deposits, rate, time, and compounding frequency.',
     description:
       'Use this free compound interest calculator to estimate future value, total contributions, and interest from principal, deposits, rate, time, and compounding frequency.',
+    seoTitle: 'Compound Interest Calculator | Deposits, Rate & Growth',
+    seoDescription:
+      'Estimate future value from principal, monthly deposits, annual rate, years, and compounding frequency. See contributions, interest, and effective annual rate.',
     icon: 'calculator-compound',
+    aliases: [
+      'compound interest calculator',
+      'monthly compound interest calculator',
+      'compound growth calculator',
+      'future value compound interest calculator',
+      'daily compound interest calculator',
+    ],
     formula:
       'The calculator converts the stated annual rate to an effective monthly growth rate from the selected compounding frequency, then compounds principal and monthly deposits.',
-    limit: financeLimit,
+    limit:
+      'This is a simple growth estimate. It does not include APY disclosures, taxes, fees, withdrawals, minimum balances, changing rates, investment losses, account limits, inflation, or bank-specific compounding rules.',
     useCases: [
       'Estimate how compound interest can grow savings over time.',
       'Compare monthly deposits with a starting amount.',
@@ -2979,11 +2990,48 @@ export const financeTools: ToolDefinition[] = [
       'Separate contributions from estimated interest earned.',
     ],
     examples: [
-      { label: 'Savings growth', expression: '$1,000, $100/month, 6%, 10 years', result: 'Projected future value' },
-      { label: 'Daily compounding', expression: '$5,000 at 4.5%, daily', result: 'Effective-rate estimate' },
-      { label: 'No deposits', expression: '$10,000 at 5% for 20 years', result: 'Compound-only balance' },
+      { label: 'Savings growth', expression: '$1,000, $100/month, 6%, 10 years', result: 'About $18,207.33 ending balance, with $13,000 contributed and about $5,207.33 interest' },
+      { label: 'Daily compounding', expression: '$5,000 at 4.5% for 10 years, daily', result: 'About $7,841.34 ending balance and about 4.60% effective annual rate' },
+      { label: 'No deposits', expression: '$10,000 at 5% for 20 years, monthly', result: 'About $27,126.40 ending balance and about $17,126.40 interest' },
     ],
     relatedSlugs: ['interest-calculator', 'investment-calculator', 'retirement-calculator'],
+    inputExplanations: [
+      { term: 'Initial amount', meaning: 'the starting balance before new deposits and compound growth.' },
+      { term: 'Monthly contribution', meaning: 'the amount added each month in this simple model. The calculator treats deposits as end-of-month additions.' },
+      { term: 'Annual rate', meaning: 'the stated yearly rate entered as a normal percent, such as 6 for 6%.' },
+      { term: 'Time', meaning: 'how many years the estimate runs. Use 0.5 for 6 months or 1.5 for 18 months.' },
+      { term: 'Compounding frequency', meaning: 'how often interest is added back to the balance before the monthly contribution timing is modeled.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'How does compound interest work in this calculator?',
+        answer:
+          'Interest is added back to the balance, then the larger balance can earn more interest later. The calculator first converts your annual rate through the compounding frequency you choose, then applies monthly growth and monthly deposits.',
+      },
+      {
+        question: 'Are monthly deposits added at the start or end of the month?',
+        answer:
+          'This model treats monthly deposits as end-of-month contributions. That is a clean planning assumption, but a real bank, brokerage, or savings app can use different timing.',
+      },
+      {
+        question: 'What is effective annual rate?',
+        answer:
+          'Effective annual rate shows the modeled one-year effect after compounding. For example, a stated 6% annual rate compounded monthly becomes about 6.17% effective annual growth before taxes, fees, or account rules.',
+      },
+      {
+        question: 'Is this the same as APY?',
+        answer:
+          'No. APY is the official account disclosure from a bank or credit union. This calculator estimates compounding from the numbers you enter, but the real APY, exact compounding, fees, balance tiers, and withdrawal rules come from the account agreement.',
+      },
+    ],
+    formulaCheck:
+      'For the default example, $1,000 plus $100 each month at a stated 6% annual rate for 10 years projects about $18,207.33, with $13,000 contributed and about $5,207.33 estimated interest.',
+    resultReading:
+      'Start with ending balance, then compare total contributions with estimated interest. Contributions are your money going in; estimated interest is the growth from the rate and compounding assumption.',
+    doubleCheck:
+      'Check that the rate is annual, the time is in years, the frequency matches the account or scenario, and the percent is entered as 6 for 6%, not 0.06.',
+    limitFollowup:
+      'For bank accounts, compare the official APY and account disclosure. For investing, compare fees, taxes, inflation, risk, and whether the return assumption is realistic.',
   }),
   makeFinanceTool({
     slug: 'salary-calculator',
