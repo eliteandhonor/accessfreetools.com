@@ -1960,11 +1960,21 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     summary: 'Estimate present value of a future lump sum and regular payment stream.',
     description:
       'Use this free present value calculator to discount a future lump sum and regular payments back to today using an entered rate and time period.',
+    seoTitle: 'Present Value Calculator | Discount Future Money',
+    seoDescription:
+      'Discount a future lump sum and regular payment stream back to today. See lump-sum present value, annuity present value, and rate/timing limits.',
     icon: 'calculator-investment',
+    aliases: [
+      'pv calculator',
+      'present value of money calculator',
+      'discounted cash flow calculator',
+      'annuity present value calculator',
+      'lump sum present value calculator',
+    ],
     formula:
-      'The calculator discounts a future lump sum and discounts regular payments as an annuity, then adds both present value parts.',
+      'The calculator discounts the future lump sum by the periodic discount rate, discounts regular payments as an ordinary annuity, then adds the lump-sum present value and payment-stream present value.',
     limit:
-      'Present value depends on the discount rate and timing assumption. It does not include tax, risk, liquidity, inflation surprises, or professional investment advice.',
+      'Present value depends heavily on the discount rate, payment frequency, and timing assumption. It does not include tax, fees, inflation surprises, default risk, liquidity needs, market volatility, changing cash flows, or professional investment advice.',
     useCases: [
       'Estimate what a future amount is worth today.',
       'Discount a regular payment stream.',
@@ -1972,11 +1982,58 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Use with future value and IRR for planning math.',
     ],
     examples: [
-      { label: 'Future plus payments', expression: '$10,000 future amount plus $200 monthly', result: 'Present value estimate' },
-      { label: 'Lump sum only', expression: '$50,000 in 10 years', result: 'Discounted value today' },
-      { label: 'Annual payments', expression: '$5,000 annual payments', result: 'Annuity present value' },
+      { label: 'Future plus payments', expression: '$10,000 future amount plus $200 monthly for 6 years at 5%', result: 'About $19,831.36 present value: $7,412.80 lump sum plus $12,418.56 payments' },
+      { label: 'Lump sum only', expression: '$50,000 in 10 years at 6% with monthly periods', result: 'About $27,481.64 present value today' },
+      { label: 'Annual payments', expression: '$5,000 annual payments for 8 years at 4%', result: 'About $33,663.72 annuity present value' },
     ],
     relatedSlugs: ['future-value-calculator', 'irr-calculator', 'investment-calculator'],
+    inputExplanations: [
+      { term: 'Future lump sum', meaning: 'the one-time future amount you want to discount back to today.' },
+      { term: 'Regular payment', meaning: 'the repeated payment amount in each period, such as monthly or yearly cash flow.' },
+      { term: 'Discount rate', meaning: 'the annual rate used to reduce future money to today dollars, entered as 5 for 5%.' },
+      { term: 'Years', meaning: 'how long the future lump sum and payment stream run.' },
+      { term: 'Payments per year', meaning: 'how often the regular payment occurs. Match this to the payment amount you enter.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What is present value?',
+        answer:
+          'Present value is an estimate of what future money is worth today after discounting it by the rate you choose. A higher discount rate usually makes the present value smaller.',
+      },
+      {
+        question: 'How does this calculator handle regular payments?',
+        answer:
+          'It treats regular payments as end-of-period payments, also called an ordinary annuity. Payments made at the beginning of each period would usually have a slightly higher present value.',
+      },
+      {
+        question: 'Should I enter an annual rate or a period rate?',
+        answer:
+          'Enter the annual discount rate as a percent. The calculator divides it by payments per year, so monthly payment streams use one-twelfth of the annual rate each month.',
+      },
+      {
+        question: 'Why does a higher discount rate lower present value?',
+        answer:
+          'A higher discount rate says future money has to clear a higher return, risk, or opportunity-cost hurdle. That makes the same future cash flow worth less in today dollars.',
+      },
+      {
+        question: 'Can present value prove an investment is good?',
+        answer:
+          'No. Present value is planning math. Real investments can change because of risk, fees, taxes, inflation, liquidity, missed payments, and changing market assumptions.',
+      },
+      {
+        question: 'What is the difference between present value and future value?',
+        answer:
+          'Present value moves future money backward to today. Future value moves today money or payments forward to a later balance.',
+      },
+    ],
+    formulaCheck:
+      'For the default example, $10,000 discounted for 72 monthly periods at 5% annual is about $7,412.80. The $200 monthly payment stream is about $12,418.56, so the combined present value is about $19,831.36.',
+    resultReading:
+      'Estimated present value is the combined today-dollar estimate. Lump-sum present value shows the one-time future amount by itself. Payment stream present value shows the ordinary-annuity part by itself.',
+    doubleCheck:
+      'Check that the payment amount matches the payment frequency, the discount rate is annual, the years value matches the cash-flow horizon, and the future lump sum is not being double-counted with the regular payments.',
+    limitFollowup:
+      'Use a full cash-flow model, exact payment dates, tax and fee assumptions, inflation expectations, risk review, liquidity needs, and professional advice before valuing a real contract, investment, loan, or settlement.',
   },
   {
     slug: 'future-value-calculator',
