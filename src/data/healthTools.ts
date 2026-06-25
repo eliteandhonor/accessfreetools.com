@@ -28,6 +28,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isBodySurfaceAreaCalculator = spec.slug === 'body-surface-area-calculator';
   const isBacCalculator = spec.slug === 'bac-calculator';
   const isCalorieCalculator = spec.slug === 'calorie-calculator';
+  const isCaloriesBurnedCalculator = spec.slug === 'calories-burned-calculator';
   const isFatIntakeCalculator = spec.slug === 'fat-intake-calculator';
   const isTdeeCalculator = spec.slug === 'tdee-calculator';
   const isGfrCalculator = spec.slug === 'gfr-calculator';
@@ -53,6 +54,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter the formula sex setting, body weight in kilograms, number of drinks, drink size in milliliters, ABV percent, and hours since the first drink. Use the actual pour size and alcohol percentage when you know them. A strong mixed drink or large pour can count as more alcohol than one ordinary serving.'
     : isCalorieCalculator
       ? 'Enter the formula sex setting, age in years, height in centimeters, weight in kilograms, activity level, and planning goal. Formula sex chooses the +5 or -161 Mifflin-St Jeor adjustment. Activity level is a broad weekly average, so choose the closest normal week rather than one unusually hard or unusually quiet day.'
+    : isCaloriesBurnedCalculator
+      ? 'Choose the activity MET estimate, enter body weight in kilograms, and enter the workout duration in minutes. MET is a rough intensity value: a brisk walk is lower than running, and the same activity can still feel different depending on pace, hills, fitness, heat, and breaks.'
     : isFatIntakeCalculator
       ? 'Enter the calorie target first, then enter the percent of those calories planned from fat. Type 30 for 30%, not 0.30. The calculator assumes dietary fat has 9 calories per gram and uses the calorie target you provide.'
     : isTdeeCalculator
@@ -86,6 +89,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read BAC as a rough educational estimate for the inputs you typed, not as a legal, medical, workplace, or driving decision. Real BAC can differ because food, drinking speed, medications, tolerance, health, body composition, and test timing all matter.'
     : isCalorieCalculator
       ? 'Read the answer as an estimated daily calorie target for the inputs and goal you selected. It is not a medical diet order, pregnancy plan, eating-disorder recovery target, sports-fueling prescription, or promise of weight change. Compare it with real-world trends and qualified guidance before making major nutrition changes.'
+    : isCaloriesBurnedCalculator
+      ? 'Read the answer as an exercise-energy estimate for the MET value, body weight, and duration you entered. It is not a lab measurement, wearable calibration, diet permission, injury advice, or exact energy-balance number. Real burn can shift with pace, terrain, form, fitness, weather, and rest breaks.'
     : isFatIntakeCalculator
       ? 'Read the answer as total dietary fat grams for the calorie target and percent you entered. It does not judge food quality, split saturated versus unsaturated fat, set a medical nutrition plan, or tell you anything about body-fat percentage.'
     : isTdeeCalculator
@@ -649,9 +654,21 @@ export const healthTools: ToolDefinition[] = [
     summary: 'Estimate exercise calories from MET, body weight, and duration.',
     description:
       'Use this free calories burned calculator to estimate exercise energy from activity intensity, body weight, and time.',
+    seoTitle: 'Calories Burned Calculator | MET Workout Estimate',
+    seoDescription:
+      'Estimate workout calories from MET intensity, body weight, and duration for walking, cycling, strength training, jogging, running, or swimming.',
+    aliases: [
+      'exercise calorie calculator',
+      'workout calorie calculator',
+      'MET calorie calculator',
+      'activity calorie calculator',
+      'calories burned walking calculator',
+    ],
     icon: 'calculator-calories-burned',
-    formula: 'Calories per minute are estimated as MET x 3.5 x weight in kg / 200, then multiplied by duration.',
-    caution: estimateCaution,
+    formula:
+      'Calories burned = MET x 3.5 x body weight in kg / 200 x duration in minutes. MET is an activity-intensity estimate, so the result changes when the selected activity, body weight, or session time changes.',
+    caution:
+      'This is an educational exercise-energy estimate, not a lab measurement, medical exercise prescription, injury guidance, wearable calibration, or exact calorie-balance plan.',
     useCases: [
       'Estimate calories burned during common activities.',
       'Compare walking, running, cycling, swimming, and strength sessions.',
@@ -659,9 +676,26 @@ export const healthTools: ToolDefinition[] = [
       'Use activity estimates without treating them as exact energy balance.',
     ],
     examples: [
-      { label: 'Brisk walk', expression: '3.8 MET, 70 kg, 45 min', result: 'About 210 kcal' },
+      { label: 'Brisk walk', expression: '3.8 MET, 70 kg, 45 min', result: 'About 209 kcal' },
       { label: 'Running', expression: '9.8 MET, 80 kg, 30 min', result: 'About 412 kcal' },
       { label: 'Strength', expression: '5 MET, 72 kg, 50 min', result: 'About 315 kcal' },
+    ],
+    extraFaq: [
+      {
+        question: 'What MET values are available in this calories burned calculator?',
+        answer:
+          'The built-in choices include walking briskly at 3.8 MET, easy cycling at 4 MET, strength training at 5 MET, jogging at 7 MET, swimming laps at 8 MET, and running at 9.8 MET. Pick the closest honest intensity for the session.',
+      },
+      {
+        question: 'Why can this estimate differ from my watch or treadmill?',
+        answer:
+          'Wearables, treadmills, and MET tables all estimate in different ways. Heart rate, pace, incline, stops, body composition, efficiency, and device calibration can move the number, so compare trends instead of treating one estimate as exact.',
+      },
+      {
+        question: 'Should I subtract exercise calories from my food target?',
+        answer:
+          'Be careful. Exercise calories are rough and can be easy to over-count. Use the number as context for activity planning, not as automatic permission to change a nutrition target, especially with medical conditions, pregnancy, or eating-disorder history.',
+      },
     ],
     relatedSlugs: ['pace-calculator', 'calorie-calculator', 'target-heart-rate-calculator'],
   }),
