@@ -130,6 +130,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'pregnancy-calculator': '2026-06-04',
   'pregnancy-conception-calculator': '2026-06-04',
   'due-date-calculator': '2026-06-26',
+  'ovulation-calculator': '2026-06-26',
   'conception-calculator': '2026-06-04',
   'pregnancy-weight-gain-calculator': '2026-06-04',
   'macro-calculator': '2026-06-26',

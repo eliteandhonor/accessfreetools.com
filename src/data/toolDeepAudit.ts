@@ -4775,17 +4775,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'ovulation-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-26',
+    reviewedOn: '2026-06-26',
     scope: commonMathScope,
-    sources: [johnsHopkinsFertileWindow, johnsHopkinsDueDate],
+    sources: [johnsHopkinsFertileWindow, johnsHopkinsDueDate, googleHelpfulContent],
     findings: [
       'The calculator estimates ovulation by using cycle length and luteal phase, then shows the fertile window around the estimated ovulation date.',
       'The guide explains that calendar estimates work best with regular cycles and are not reliable contraception.',
-      'The examples and FAQ define cycle length as period-start to next period-start, not days of bleeding.',
+      'The examples and FAQ define cycle length as period-start to next period-start, not days of bleeding, and explain why the fertile window is wider than a single ovulation day.',
     ],
     improvements: [
-      'Manually checked ovulation date logic, fertile-window wording, luteal-phase explanation, examples, FAQ cautions, source coverage, related tools, SEO copy, privacy behavior, and mobile date output.',
+      'Ran GSC/DataForSEO page sprint with current paid evidence and Calculator.net competitor-gap evidence; refreshed SEO title/meta copy, aliases, exact LMP Apr 1, Apr 4, and Apr 10 examples, luteal-phase and irregular-cycle FAQs, contraception caution, result-reading guidance, modified date, and browser-proof targets.',
     ],
     followUps: [
       'Add optional ovulation-test and basal-temperature education later without turning the tool into medical advice.',

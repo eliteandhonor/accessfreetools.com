@@ -39,6 +39,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isPregnancyCalculator = spec.slug === 'pregnancy-calculator';
   const isDueDateCalculator = spec.slug === 'due-date-calculator';
   const isPregnancyConceptionCalculator = spec.slug === 'pregnancy-conception-calculator';
+  const isOvulationCalculator = spec.slug === 'ovulation-calculator';
   const isConceptionCalculator = spec.slug === 'conception-calculator';
   const isPregnancyWeightGainCalculator = spec.slug === 'pregnancy-weight-gain-calculator';
   const inputAnswer = isBmiCalculator
@@ -81,6 +82,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter the first day of the last menstrual period, not the last day of bleeding. Cycle length means the usual number of days from one period start to the next. Use 28 only if that is close for you, and use clinician, ultrasound, or IVF dating if that has already been assigned.'
     : isPregnancyConceptionCalculator
       ? 'Enter the estimated due date you were given by a clinician, ultrasound report, or earlier due-date calculation. This calculator works backward from that date only. If the due date changed after ultrasound, IVF dating, or clinician review, use the updated date instead of an older calendar estimate.'
+    : isOvulationCalculator
+      ? 'Enter the first day of the last period, your usual cycle length from one period start to the next, and luteal phase length if you know it. If you do not know luteal phase length, keep the 14-day default and read the answer as a calendar estimate for regular cycles, not a confirmed ovulation test.'
     : isConceptionCalculator
       ? 'Enter the first day of the last period, your usual cycle length from one period start to the next, and luteal phase length if you know it. If you do not know luteal phase length, keep the default and read the answer as a rough cycle estimate. Irregular cycles, recent hormonal birth control, postpartum changes, illness, stress, or uncertain period dates can make the window less reliable.'
     : isPregnancyWeightGainCalculator
@@ -126,6 +129,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the due date as an estimated delivery date from LMP calendar math, not a guarantee of when birth will happen. The gestational-age, conception, and trimester lines are planning references only. An early ultrasound, IVF date, or clinician review can override the calculator.'
     : isPregnancyConceptionCalculator
       ? 'Read the center date as a backward estimate from the due date, not proof of the exact day conception happened. The possible window is more honest than a single day because ovulation, fertilization, sperm survival, ultrasound dating, and due-date assumptions can all shift the real timing.'
+    : isOvulationCalculator
+      ? 'Read the ovulation date as the center of a calendar estimate, not proof that ovulation will happen that day. The fertile window is the five days before estimated ovulation through ovulation day because sperm can survive for several days and the egg survives for about a day after release.'
     : isConceptionCalculator
       ? 'Read the answer as an ovulation-based conception estimate, not proof of an exact day, intercourse date, or biological parent. The fertile window is more useful than the center date because sperm may survive for several days, the egg survives for about a day after ovulation, and ovulation can shift from the calendar estimate.'
     : isPregnancyWeightGainCalculator
@@ -135,6 +140,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     ? 'Check that all numbers come from the same serving size and that sodium is in milligrams while fats, sugars, fiber, and protein are in grams. A common mistake is using total sugar instead of added sugar, or comparing one whole package with one serving.'
     : isOneRepMaxCalculator
       ? 'Check that the weight is in kilograms, the reps were completed with clean form, and the set was not a failure-heavy or assisted set. One accidental unit swap, partial rep, or high-rep endurance set can make the estimate look more precise than it really is.'
+    : isOvulationCalculator
+      ? 'Check that the date is the first day bleeding started, that cycle length means period start to next period start, and that luteal phase is in days. Do not enter period length, suspected ovulation date, or a positive test date into the last-period field.'
     : 'Check the units, date, and personal details before reading the answer. For example, pounds and kilograms, inches and centimeters, or a wrong activity level can change the result quickly. If the number feels surprising, rerun it slowly and compare it with the examples.';
 
   return [
@@ -1118,8 +1125,13 @@ export const healthTools: ToolDefinition[] = [
     summary: 'Estimate ovulation date and fertile window from cycle details.',
     description:
       'Use this free ovulation calculator to estimate ovulation date, fertile window, and next period from last period and cycle length.',
+    seoTitle: 'Ovulation Calculator | Fertile Window and Next Period',
+    seoDescription:
+      'Estimate ovulation date, fertile window, and next period from last period, cycle length, and luteal phase. Learn why calendar estimates can shift.',
+    aliases: ['fertile window calculator', 'ovulation date calculator', 'cycle ovulation calculator', 'luteal phase calculator'],
     icon: 'calculator-ovulation',
-    formula: 'The calculator estimates ovulation by subtracting luteal phase length from the next expected period date.',
+    formula:
+      'The calculator estimates next period as last period date plus cycle length, estimates ovulation as next period minus luteal phase length, and shows the fertile window as the five days before ovulation through ovulation day.',
     caution: estimateCaution,
     useCases: [
       'Estimate ovulation for regular cycles.',
@@ -1128,9 +1140,32 @@ export const healthTools: ToolDefinition[] = [
       'Avoid using calendar estimates as contraception.',
     ],
     examples: [
-      { label: '28-day cycle', expression: 'LMP Apr 1, luteal 14', result: 'Ovulation around day 14' },
-      { label: '30-day cycle', expression: 'LMP Apr 4, luteal 14', result: 'Ovulation around day 16' },
-      { label: 'Fertile window', expression: 'Five days before ovulation through ovulation', result: 'Estimated window' },
+      { label: '28-day cycle', expression: 'LMP Apr 1, 2026, cycle 28, luteal 14', result: 'Ovulation Apr 15; fertile window Apr 10-Apr 15; next period Apr 29' },
+      { label: '30-day cycle', expression: 'LMP Apr 4, 2026, cycle 30, luteal 14', result: 'Ovulation Apr 20; fertile window Apr 15-Apr 20; next period May 4' },
+      { label: '26-day cycle', expression: 'LMP Apr 10, 2026, cycle 26, luteal 12', result: 'Ovulation Apr 24; fertile window Apr 19-Apr 24; next period May 6' },
+      { label: 'Fertile window', expression: 'Five days before ovulation through ovulation day', result: 'Planning window, not a guarantee' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the calculator ask for luteal phase?',
+        answer:
+          'The luteal phase is the part of the cycle after ovulation and before the next period. Many quick calendars assume 14 days, but some people track a different pattern. The calculator subtracts that number from the expected next period to estimate ovulation.',
+      },
+      {
+        question: 'What if my cycles are irregular?',
+        answer:
+          'Calendar estimates are less reliable when cycles vary a lot, periods are missing, you recently stopped hormonal birth control, you are postpartum, or illness, stress, travel, or medication changed the cycle. Use the result as a rough planning note, not proof.',
+      },
+      {
+        question: 'Is the fertile window the same as ovulation day?',
+        answer:
+          'No. Ovulation day is the estimated egg-release day. The fertile window is wider because sperm can survive for several days before ovulation and the egg survives for about a day after ovulation.',
+      },
+      {
+        question: 'Can I use this calculator as contraception?',
+        answer:
+          'No. A simple calendar estimate is not reliable contraception by itself. If preventing pregnancy matters, use evidence-based contraception guidance from a qualified health professional.',
+      },
     ],
     relatedSlugs: ['conception-calculator', 'period-calculator', 'due-date-calculator'],
   }),
