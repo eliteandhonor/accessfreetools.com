@@ -7,30 +7,87 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="average-calculator"
   label="Average calculator guide"
   title="How to use the Average Calculator"
-  description="Learn how to use the free Access Free Tools average calculator to find arithmetic mean, sum, count, median, mode, and range."
+  description="Learn how to use the free Access Free Tools average calculator to find mean, sum, count, median, mode, range, and outlier context."
   path="/blog/how-to-use-average-calculator/"
-  intro="The Average Calculator finds the arithmetic mean of a list of numbers. It also shows the count, sum, median, mode, range, and sorted values so the average is easier to judge."
+  intro="Averages look simple until one unusually high or low number changes the story. The Average Calculator finds the arithmetic mean of a number list, then shows count, sum, median, mode, range, and sorted values so you can decide whether the average is a fair summary."
   quickStart={[
-    'Enter numbers separated by commas, spaces, semicolons, or new lines.',
+    'Enter one list of numbers in the same unit or same kind of measurement.',
+    'Separate values with commas, spaces, semicolons, or new lines.',
     'Press Calculate average.',
-    'Read the average in the result card.',
-    'Check the sum, count, median, mode, range, and steps for context.',
+    'Read the average in the result card, then check the sum and count.',
+    'Compare median, mode, range, and sorted values before you copy the answer.',
   ]}
   sections={[
     {
       title: 'Average in plain language',
       paragraphs: [
         'Average usually means arithmetic mean. Add all the values, then divide by how many values you entered.',
-        'For 10, 12, 12, 15, and 18, the sum is 67. There are 5 values, so the average is 67 / 5 = 13.4.',
+        'For 10, 12, 12, 15, and 18, the sum is 67. There are 5 values, so the average is 67 / 5 = 13.4. That result is useful because every value is the same kind of number: a score from the same set.',
       ],
     },
     {
-      title: 'Why the extra summary matters',
+      title: 'Why median and range matter',
       paragraphs: [
-        'A single large or small value can pull the average away from what most values look like. That is why the calculator also shows median, mode, and range.',
-        'Use the average for a quick center point, then glance at the range and sorted values before you decide what the data is really saying.',
+        'A single large or small value can pull the average away from what most values look like. In the list 8, 9, 10, 11, and 42, the average is 16, but the median is 10 and the range is 34.',
+        'That does not make the average wrong. It means the average is answering one question while the median and range warn you that one value is doing a lot of work.',
+      ],
+    },
+    {
+      title: 'What the answer leaves out',
+      paragraphs: [
+        'This is not a weighted average calculator. Every number you enter counts once unless you type the same value again, so a homework score, a product rating, and a monthly cost should not be mixed in one list.',
+        'Before you use the result in a report, homework answer, spreadsheet, or message, check the units, repeated values, negative signs, decimal points, and any number that looks much higher or lower than the rest.',
+      ],
+      bullets: [
+        'Use the same unit: minutes with minutes, dollars with dollars, scores with scores.',
+        'Repeat a value only when it really happened more than once.',
+        'Use median or range beside the average when an outlier changes the story.',
       ],
     },
   ]}
-  sidecarText="Use the Average Calculator while you follow the guide."
+  faqItems={[
+    {
+      question: 'What do the main Average Calculator inputs mean?',
+      answer:
+        'The main input is one list of numbers. Keep every value in the same unit or same kind of measurement, and type repeated values separately when each repeat should count.',
+    },
+    {
+      question: 'How should I read the Average Calculator answer?',
+      answer:
+        'Start with the average, then check the sum and count to see the formula. Compare median, mode, range, and sorted values when you need to know whether the average represents the whole list well.',
+    },
+    {
+      question: 'What formula does the Average Calculator use?',
+      answer:
+        'It uses average = sum / count. For 10, 12, 12, 15, and 18, the sum is 67 and the count is 5, so the average is 67 / 5 = 13.4.',
+    },
+    {
+      question: 'What should I double-check before trusting the Average Calculator?',
+      answer:
+        'Check that every value belongs in the same list, then look for missed numbers, extra repeats, negative signs, decimal points, and unusually high or low values.',
+    },
+    {
+      question: 'Why can the average feel different from the middle value?',
+      answer:
+        'The average uses every value, so one extreme number can pull it higher or lower. The median shows the middle of the sorted list, and the range shows how spread out the list is.',
+    },
+    {
+      question: 'Is this a weighted average calculator?',
+      answer:
+        'No. Every entered number has equal weight. If one grade, price, or measurement should count more than another, use a weighted-average workflow instead.',
+    },
+    {
+      question: 'Can I use decimals, negative numbers, or values on separate lines?',
+      answer:
+        'Yes. Decimals, negative numbers, commas, spaces, semicolons, and new lines work as long as each entry is a valid number.',
+    },
+    {
+      question: 'Is my number list private?',
+      answer:
+        'Yes. The calculation runs in your browser tab, and recent answers stay only in that tab while you use the page.',
+    },
+  ]}
+  bestUsesIntro="Use this guide when you need a quick mean but also want to catch the mistakes that make an average misleading."
+  keepExploringIntro="If you need more than a plain average, these nearby pages help you check spread, median, mode, or the right calculator category."
+  sidecarText="Try the examples in the Average Calculator, then replace them with your own same-unit number list."
 />

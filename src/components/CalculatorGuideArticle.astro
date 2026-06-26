@@ -18,6 +18,11 @@ interface GuideSection {
   }>;
 }
 
+interface GuideFaqItem {
+  question: string;
+  answer: string;
+}
+
 interface Props {
   toolSlug: string;
   label: string;
@@ -28,6 +33,7 @@ interface Props {
   quickStart: string[];
   sections: GuideSection[];
   sidecarText: string;
+  faqItems?: GuideFaqItem[];
   bestUsesIntro?: string;
   keepExploringIntro?: string;
 }
@@ -42,6 +48,7 @@ const {
   quickStart,
   sections,
   sidecarText,
+  faqItems: customFaqItems,
   bestUsesIntro,
   keepExploringIntro,
 } = Astro.props;
@@ -50,7 +57,7 @@ const category = tool ? getCategory(tool.category) : undefined;
 const examples = tool?.examples ?? [];
 const examplesHeading = tool ? `Worked examples for ${tool.name}` : 'Worked examples';
 const useCases = tool?.useCases ?? [];
-const faqItems = tool?.faq ?? [];
+const faqItems = customFaqItems ?? tool?.faq ?? [];
 const auditRecord = getDeepAuditRecord(toolSlug);
 const hasManualDeepReview = auditRecord?.status === 'deep-reviewed';
 const hasSourceSection = sections.some((section) => /research|reference|source/i.test(section.title));
