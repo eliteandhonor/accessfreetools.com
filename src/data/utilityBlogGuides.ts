@@ -2243,23 +2243,58 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   },
   'amp-hours-to-watt-hours-calculator': {
     title: 'Amp Hours to Watt Hours Guide',
-    summary: 'Learn why multiplying amp-hours by volts gives a better battery energy comparison.',
+    summary: 'Learn the Ah to Wh formula, a 12.8 V battery example, and the battery limits that change usable energy.',
+    metaDescription:
+      'Use the Amp Hours to Watt Hours guide to convert Ah and nominal volts into Wh and kWh, check a 12.8 V example, and avoid battery-energy mistakes.',
     purpose:
-      'The Amp Hours to Watt Hours Calculator converts a battery capacity label into stored energy. This helps you compare batteries even when their voltages differ.',
+      'The Amp Hours to Watt Hours Calculator converts a battery capacity label and nominal voltage into stored energy. This helps you compare batteries even when their voltages differ.',
+    intro:
+      'Start with the label values, then sanity-check the result with the 200 Ah at 12.8 V example before using the number for runtime, solar, power-station, or battery-bank planning.',
+    inputMatch: 'the amp-hour rating from the battery label and the nominal pack voltage, such as 12 V, 12.8 V, 24 V, or 48 V',
+    logicNote:
+      'For example, 200 Ah x 12.8 V = 2,560 Wh. Divide by 1,000 to read the same estimate as 2.56 kWh.',
+    readIntro:
+      'Read watt-hours first when comparing batteries. Read kilowatt-hours when the pack is large enough that a household-energy or electricity-cost comparison is easier in kWh.',
+    mistakeIntro:
+      'Most Ah-to-Wh mistakes come from using Ah alone, entering charging voltage instead of nominal voltage, or treating label energy as guaranteed usable runtime.',
     enter: [
-      'Enter the battery capacity in amp-hours.',
-      'Enter the nominal voltage.',
+      'Enter the battery capacity in amp-hours from the label or specification.',
+      'Enter the nominal voltage, not the higher charging voltage.',
       'Calculate to see watt-hours and kilowatt-hours.',
     ],
     read: [
       'Watt-hours is the main stored-energy estimate.',
       'Kilowatt-hours is the same energy in a larger unit.',
-      'Higher voltage means the same amp-hours represent more energy.',
+      'Higher nominal voltage means the same amp-hours represent more stored energy.',
+      'Use the result as a starting energy estimate before applying usable-capacity and efficiency limits.',
     ],
     mistakes: [
       'Do not compare batteries by Ah alone when voltage differs.',
+      'Do not use charging voltage when the job calls for nominal battery voltage.',
       'Do not expect all watt-hours to be usable after inverter or converter losses.',
-      'Do not ignore battery chemistry, age, temperature, and discharge rate.',
+      'Do not ignore battery chemistry, depth-of-discharge limits, age, temperature, and discharge rate.',
+    ],
+    extraSections: [
+      {
+        title: 'Quick 12.8 V battery example',
+        paragraphs: [
+          'Say a LiFePO4 battery bank is labeled 200 Ah at 12.8 V. Multiply 200 by 12.8 to get 2,560 Wh.',
+          'That same estimate is 2.56 kWh after dividing by 1,000. This is the number to compare against a 24 V or 48 V pack, because watt-hours include both capacity and voltage.',
+          'If a device uses 100 W, 2,560 Wh looks like 25.6 hours before losses. Real runtime is lower after inverter efficiency, battery protection limits, temperature, and age are considered.',
+        ],
+      },
+      {
+        title: 'Nominal voltage and usable energy limits',
+        paragraphs: [
+          'Use nominal voltage for the basic Ah to Wh conversion. A charging voltage can be higher than the battery rating, so using it can make the pack look larger than it really is.',
+          'The calculator estimates stored energy, not guaranteed usable energy. Battery management systems, chemistry, discharge rate, cold weather, old cells, and depth-of-discharge settings can all reduce what you can safely use.',
+        ],
+        bullets: [
+          'For battery comparison, convert every pack to Wh or kWh first.',
+          'For runtime, use the watt-hours result with the device load and an efficiency assumption.',
+          'For electrical safety, sizing, or installation work, use manufacturer data and a qualified professional.',
+        ],
+      },
     ],
     sources: [sourceLinks.inchAmpHoursToWattHours, sourceLinks.doeApplianceEnergy, sourceLinks.nistUnits],
   },
