@@ -4664,6 +4664,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/underweight-bmi-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/underweight-bmi-calculator-guide.webp",
+    "alt": "Guide image for Underweight BMI Calculator showing an adult BMI screening walkthrough with example inputs, result notes, and safety limits.",
+    "caption": "Underweight BMI Calculator guide artwork sits with the adult BMI screening walkthrough, including example inputs, result notes, safety limits, and mistakes to check.",
     "status": "approved",
     "qaStatus": "approved"
   },
