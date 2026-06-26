@@ -4870,20 +4870,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'protein-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-26',
+    reviewedOn: '2026-06-26',
     scope: commonMathScope,
     sources: [proteinDriReview, macroAmdr],
     findings: [
-      'The calculator multiplies body weight in kilograms by the selected grams-per-kilogram protein factor.',
-      'The guide explains the 0.8 g/kg reference and keeps higher training targets separate from medical nutrition advice.',
-      'The caution language warns users with kidney disease or clinician protein limits not to use a generic target as personal advice.',
+      'The calculator multiplies body weight in kilograms by the selected grams-per-kilogram protein factor and shows protein calories at 4 kcal per gram.',
+      'The tool copy now separates the 0.8 g/kg RDA-style adult reference from 1.2 g/kg active and 1.6 g/kg strength-training planning presets.',
+      'The caution language blocks medical nutrition therapy, kidney disease advice, pregnancy or lactation advice, eating-disorder guidance, muscle-gain guarantees, and clinician or dietitian plan overclaims.',
     ],
     improvements: [
-      'Manually checked protein factor math, unit conversion expectations, examples, FAQ cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Reworked metadata, aliases, examples, FAQ answers, formula wording, modified dates, and audit notes around exact 70 kg, 80 kg, 75 kg, and 90 kg examples, kilogram input expectations, g/kg factor selection, protein calories, pound conversion, kidney disease cautions, and meal-splitting limits.',
     ],
     followUps: [
-      'Add per-meal protein splitting later only as planning math, not a medical recommendation.',
+      'Add optional per-meal protein splitting later only as planning math, not a medical recommendation or meal-timing prescription.',
     ],
   },
   {

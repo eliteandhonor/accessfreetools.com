@@ -33,6 +33,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isMacroCalculator = spec.slug === 'macro-calculator';
   const isNutritionPointsCalculator = spec.slug === 'nutrition-points-calculator';
   const isCarbohydrateCalculator = spec.slug === 'carbohydrate-calculator';
+  const isProteinCalculator = spec.slug === 'protein-calculator';
   const isFatIntakeCalculator = spec.slug === 'fat-intake-calculator';
   const isTdeeCalculator = spec.slug === 'tdee-calculator';
   const isGfrCalculator = spec.slug === 'gfr-calculator';
@@ -71,6 +72,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter one serving from a Nutrition Facts label: calories, saturated fat in grams, added sugar in grams, sodium in milligrams, dietary fiber in grams, and protein in grams. Use saturated fat, not total fat; use added sugar, not total sugar; and keep serving sizes the same when comparing foods.'
     : isCarbohydrateCalculator
       ? 'Enter the calorie target first, then enter the percent of those calories planned from carbohydrate. Type 50 for 50%, not 0.50. The calculator assumes carbohydrate has 4 calories per gram and uses only the calorie target and carb percent you provide.'
+    : isProteinCalculator
+      ? 'Enter body weight in kilograms, then choose the protein factor in grams per kilogram. The presets are 0.8 g/kg for an RDA-style adult reference, 1.2 g/kg for an active planning target, and 1.6 g/kg for a strength-training planning target. Do not enter pounds in the kilogram field; convert pounds to kilograms first if needed.'
     : isFatIntakeCalculator
       ? 'Enter the calorie target first, then enter the percent of those calories planned from fat. Type 30 for 30%, not 0.30. The calculator assumes dietary fat has 9 calories per gram and uses the calorie target you provide.'
     : isTdeeCalculator
@@ -120,6 +123,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the points as a rough label-comparison score, not a food grade or diet-program target. Lower points usually means the food scored lighter by this formula. The moderation line shows points added by calories, saturated fat, added sugar, and sodium; the support-credit line shows what fiber and protein subtracted.'
     : isCarbohydrateCalculator
       ? 'Read the answer as total carbohydrate grams for the calorie target and percent you entered. It does not grade food quality, count fiber separately, set a diabetes plan, set a sports-fueling plan, or tell you how your blood sugar will respond.'
+    : isProteinCalculator
+      ? 'Read the answer as daily protein grams for the body weight and g/kg factor you selected. The protein-calorie line uses 4 kcal per gram. Higher targets can be appropriate for some active people, but the calculator does not know your age, kidney health, pregnancy or lactation status, medical history, total calories, food quality, or dietitian plan.'
     : isFatIntakeCalculator
       ? 'Read the answer as total dietary fat grams for the calorie target and percent you entered. It does not judge food quality, split saturated versus unsaturated fat, set a medical nutrition plan, or tell you anything about body-fat percentage.'
     : isTdeeCalculator
@@ -149,6 +154,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Check that the date is the first day bleeding started, that cycle length means period start to next period start, and that luteal phase is in days. Do not enter period length, suspected ovulation date, or a positive test date into the last-period field.'
     : isPeriodCalculator
       ? 'Check that the date is the first day bleeding started, that cycle length means start-to-start, and that period length means the number of bleeding days. Do not enter an ovulation date, expected end date, positive test date, or cycle-day number into the last-period field.'
+    : isProteinCalculator
+      ? 'Check that body weight is in kilograms and that the selected factor is grams per kilogram, not grams per pound. If you have kidney disease, pregnancy or lactation needs, an eating-disorder history, a clinician protein limit, or a registered dietitian target, use that personal guidance instead of a generic preset.'
     : 'Check the units, date, and personal details before reading the answer. For example, pounds and kilograms, inches and centimeters, or a wrong activity level can change the result quickly. If the number feels surprising, rerun it slowly and compare it with the examples.';
 
   return [
@@ -1429,20 +1436,65 @@ export const healthTools: ToolDefinition[] = [
     name: 'Protein Calculator',
     summary: 'Estimate protein grams per day from body weight and target factor.',
     description:
-      'Use this free protein calculator to estimate daily protein grams from body weight and common grams-per-kilogram targets.',
+      'Use this free protein calculator to estimate daily protein grams from body weight and common grams-per-kilogram targets, with protein calories and nutrition-planning limits.',
+    seoTitle: 'Protein Calculator | Grams Per Day Estimate',
+    seoDescription:
+      'Estimate daily protein grams from body weight and a g/kg target. See 0.8, 1.2, and 1.6 g/kg examples, protein calories, and nutrition limits.',
+    aliases: [
+      'Daily Protein Calculator',
+      'Protein Intake Calculator',
+      'Grams of Protein Calculator',
+      'Protein Per Kg Calculator',
+      'Protein Needs Calculator',
+    ],
     icon: 'calculator-protein',
-    formula: 'Protein target = body weight in kilograms x selected grams of protein per kilogram.',
-    caution: estimateCaution,
+    formula:
+      'Daily protein grams = body weight in kilograms x selected protein factor in grams per kilogram. Protein calories = daily protein grams x 4 kcal per gram.',
+    caution:
+      'This is educational nutrition planning math, not medical nutrition therapy, kidney disease advice, pregnancy or lactation nutrition advice, eating-disorder guidance, a muscle-gain guarantee, or a registered dietitian or clinician plan.',
     useCases: [
-      'Estimate the RDA-style 0.8 g/kg protein target.',
-      'Compare active and strength-training targets.',
-      'Convert body weight to daily protein grams.',
-      'Use with macro and calorie planning.',
+      'Estimate an RDA-style 0.8 g/kg adult protein reference from body weight.',
+      'Compare 1.2 g/kg active and 1.6 g/kg strength-training planning targets.',
+      'Convert body weight in kilograms to daily protein grams and protein calories.',
+      'Use with calorie, macro, carbohydrate, and fat tools before building a meal plan.',
     ],
     examples: [
-      { label: 'RDA', expression: '70 kg x 0.8 g/kg', result: '56 g protein' },
-      { label: 'Active', expression: '80 kg x 1.2 g/kg', result: '96 g protein' },
-      { label: 'Strength', expression: '75 kg x 1.6 g/kg', result: '120 g protein' },
+      { label: 'RDA-style 70 kg', expression: '70 kg x 0.8 g/kg', result: '56 g/day; 224 kcal from protein' },
+      { label: 'Active 80 kg', expression: '80 kg x 1.2 g/kg', result: '96 g/day; 384 kcal from protein' },
+      { label: 'Strength 75 kg', expression: '75 kg x 1.6 g/kg', result: '120 g/day; 480 kcal from protein' },
+      { label: 'Larger body weight', expression: '90 kg x 0.8 g/kg', result: '72 g/day; 288 kcal from protein' },
+    ],
+    extraFaq: [
+      {
+        question: 'What does 0.8 g/kg mean in the Protein Calculator?',
+        answer:
+          'It means 0.8 grams of protein for each kilogram of body weight. For example, 70 kg x 0.8 g/kg = 56 g/day. Treat it as a general adult reference, not a personalized diet order.',
+      },
+      {
+        question: 'What do the 1.2 g/kg and 1.6 g/kg presets mean?',
+        answer:
+          'They are simple planning factors for people comparing higher active or strength-training targets. They are not a sports nutrition prescription, muscle-gain guarantee, or proof that more protein is better for every body.',
+      },
+      {
+        question: 'Can I enter pounds instead of kilograms?',
+        answer:
+          'No. This calculator asks for kilograms because the factor is grams per kilogram. To convert pounds to kilograms, divide pounds by about 2.20462, then enter the kilogram value.',
+      },
+      {
+        question: 'Why does the calculator show calories from protein?',
+        answer:
+          'Protein provides about 4 calories per gram. The calculator multiplies the daily protein grams by 4 so you can compare the protein target with macro or calorie planning.',
+      },
+      {
+        question: 'Should people with kidney disease use this target?',
+        answer:
+          'Not as personal advice. Kidney disease, dialysis, pregnancy, lactation, eating-disorder recovery, illness, surgery recovery, and clinician protein limits all need individualized medical or dietitian guidance.',
+      },
+      {
+        question: 'Can I split the protein target across meals?',
+        answer:
+          'You can divide the daily gram target by meals as planning math, but the calculator does not decide meal timing, food quality, digestion, training recovery, or medical nutrition needs.',
+      },
     ],
     relatedSlugs: ['macro-calculator', 'carbohydrate-calculator', 'fat-intake-calculator'],
   }),
