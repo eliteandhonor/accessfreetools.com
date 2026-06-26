@@ -5975,20 +5975,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'amps-to-watts-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-electrical-power-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-refresh-electrical-power-batch-2026-06-26',
+    reviewedOn: '2026-06-26',
     scope: commonMathScope,
     sources: [inchAmpsToWatts, openStaxOhmsLaw, nistSi],
     findings: [
-      'The calculator multiplies amps, volts, phase factor, and power factor to estimate watts and kilowatts.',
-      'The FAQ explains why equal amperage can mean different watts when voltage, phase, or power factor changes.',
-      'The guide keeps this positioned as learning and planning math, not real equipment safety sizing.',
+      'The calculator now states the DC, single-phase AC, and three-phase AC formulas separately so users can see where power factor and sqrt(3) enter the estimate.',
+      'The examples show 12.5 A at 120 V, 10 A at 240 V with 0.9 power factor, and a 20 A three-phase shop load with watt and kilowatt readings.',
+      'The FAQ and limit copy make breaker, conductor, starting-current, duty-cycle, and equipment-nameplate safety limits visible on the tool page.',
     ],
     improvements: [
-      'Manually checked amps-to-watts formulas, kW metric, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+      'Refreshed amps-to-watts SEO title, meta description, aliases, formulas, input explanations, examples, FAQ detail, related safety cautions, and modified date.',
     ],
     followUps: [
-      'Consider a nameplate-reading example if search data shows users are comparing appliances.',
+      'Keep electrical installation, breaker, conductor, and code-sizing claims out of the calculator unless a qualified source-backed workflow is added.',
     ],
   },
   {

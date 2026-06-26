@@ -1924,41 +1924,55 @@ export const utilityTools: ToolDefinition[] = [
     name: 'Amps to Watts Calculator',
     category: 'calculators',
     summary: 'Convert amps to watts for DC, single-phase AC, and three-phase AC loads.',
+    seoTitle: 'Amps to Watts Calculator | DC, AC, and 3-Phase Watts',
+    seoDescription:
+      'Convert amps to watts for DC, single-phase AC, and three-phase AC loads. Check a 12.5 A at 120 V example, power factor, and safety limits.',
     description:
-      'Use this free amps to watts calculator to estimate power from current, voltage, phase type, and power factor.',
+      'Use this free amps to watts calculator to estimate real power from current, voltage, phase type, and power factor.',
+    aliases: ['amp to watt calculator', 'amps watts calculator', 'current to watts calculator', '3 phase amps to watts'],
     icon: 'calculator-amps-to-watts',
     formula:
-      'The calculator multiplies amps by volts for DC/single-phase loads, or by volts x sqrt(3) for three-phase loads, then includes power factor.',
+      'DC watts = amps x volts. Single-phase AC watts = amps x volts x power factor. Three-phase AC watts = amps x volts x sqrt(3) x power factor.',
     limit:
-      'This is a simplified electrical estimate. Use rated equipment data and qualified advice before sizing circuits or parts.',
+      'This is a simplified electrical estimate for planning and comparison. Starting surge, code rules, conductor size, breaker size, duty cycle, and equipment nameplate limits still need manufacturer data and qualified electrical review.',
     inputExplanations: [
-      { term: 'Amps', meaning: 'current drawn by the device or circuit.' },
-      { term: 'Volts', meaning: 'supply voltage.' },
+      { term: 'Amps', meaning: 'current drawn by the device or circuit, usually from a nameplate, meter, or specification.' },
+      { term: 'Volts', meaning: 'the supply voltage used by the load, such as 12 V DC, 120 V, 240 V, 208 V, or 480 V.' },
       { term: 'Phase', meaning: 'DC, single-phase AC, or three-phase AC formula selection.' },
-      { term: 'Power factor', meaning: 'AC correction factor used to estimate real watts.' },
+      { term: 'Power factor', meaning: 'AC correction factor used to estimate real watts from apparent volt-amps.' },
     ],
     extraFaq: [
       {
         question: 'Is amps to watts always amps times volts?',
         answer:
-          'For DC and simple single-phase estimates, watts are amps times volts, then power factor for AC. Three-phase estimates also multiply by the square root of 3.',
+          'For DC, watts are amps times volts. For single-phase AC, multiply amps by volts and power factor. For three-phase AC, also multiply by the square root of 3.',
       },
       {
         question: 'Why does the same amperage give different watts?',
         answer:
           'Voltage, phase, and power factor all change the answer. Ten amps at 12 volts is very different from ten amps at 240 volts or 480 volt three-phase service.',
       },
+      {
+        question: 'What power factor should I enter?',
+        answer:
+          'Use the power factor from the equipment nameplate or specification when you have it. If you do not know it, 1 is only a best-case estimate for AC loads and can overstate real-world power for motors and similar equipment.',
+      },
+      {
+        question: 'Can I size a breaker or wire from this result?',
+        answer:
+          'No. Use this as planning math only. Breaker, conductor, extension-cord, motor, and appliance sizing depends on code rules, starting current, duty cycle, temperature, and equipment instructions.',
+      },
     ],
     useCases: [
       'Estimate watts from a current draw.',
       'Convert a circuit amp value into rough power.',
       'Compare single-phase and three-phase examples.',
-      'Understand when power factor changes AC watts.',
+      'Understand when voltage, phase, or power factor changes AC watts.',
     ],
     examples: [
-      { label: '120 V load', expression: '12.5 A, 120 V, PF 1', result: '1,500 W' },
-      { label: 'Single-phase AC', expression: '10 A, 240 V, PF 0.9', result: '2,160 W' },
-      { label: 'Three-phase AC', expression: '20 A, 208 V, PF 0.85', result: 'About 6,124 W' },
+      { label: '120 V space heater', expression: '12.5 A x 120 V x PF 1', result: '1,500 W, or 1.5 kW' },
+      { label: 'Single-phase motor estimate', expression: '10 A x 240 V x PF 0.9', result: '2,160 W, or 2.16 kW' },
+      { label: 'Three-phase shop load', expression: '20 A x 208 V x sqrt(3) x PF 0.85', result: 'About 6,124 W, or 6.12 kW' },
     ],
     relatedSlugs: ['watts-to-amps-calculator', 'ohms-law-calculator', 'electricity-calculator'],
   }),
