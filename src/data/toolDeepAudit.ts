@@ -4488,17 +4488,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'underweight-bmi-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'health-seo-refresh-2026-06-26',
+    reviewedOn: '2026-06-26',
     scope: commonMathScope,
     sources: [cdcBmi, nimhEatingDisorders],
     findings: [
-      'The calculator uses adult BMI math and compares the result with the 18.5 underweight screening threshold without using harmful diagnostic wording.',
-      'The guide clearly says BMI cannot diagnose anorexia, malnutrition, or any eating disorder and sends serious concerns toward qualified professional support.',
-      'The result explanation includes the distance to BMI 18.5 so users understand the threshold without treating it as a goal.',
+      'The calculator uses adult BMI math and compares the result with the underweight threshold below 18.5 without using harmful diagnostic wording.',
+      'The tool and guide clearly say BMI cannot diagnose anorexia, malnutrition, or any eating disorder and send serious concerns toward qualified professional support.',
+      'The result explanation includes the distance to BMI 18.5 while clarifying that this boundary is a screening reference, not a self-directed weight goal.',
     ],
     improvements: [
-      'Manually checked BMI formula, underweight threshold language, safety FAQ, guide article, source coverage, related tools, SEO copy, privacy behavior, and non-shaming wording.',
+      'Refreshed SEO title, description, aliases, examples, input FAQ, result-reading FAQ, double-check guidance, screening-boundary FAQ, dateModified metadata, and non-shaming safety wording.',
     ],
     followUps: [
       'Keep eating-disorder support language visible if this page gains search traffic from unsafe "anorexic BMI" style searches.',

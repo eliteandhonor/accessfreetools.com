@@ -20,6 +20,7 @@ interface HealthToolSpec {
 function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const exampleUses = spec.useCases.slice(0, 2).join(' ');
   const isBmiCalculator = spec.slug === 'bmi-calculator';
+  const isUnderweightBmiCalculator = spec.slug === 'underweight-bmi-calculator';
   const isBodyFatCalculator = spec.slug === 'body-fat-calculator';
   const isArmyBodyFatCalculator = spec.slug === 'army-body-fat-calculator';
   const isBmrCalculator = spec.slug === 'bmr-calculator';
@@ -46,6 +47,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isPregnancyWeightGainCalculator = spec.slug === 'pregnancy-weight-gain-calculator';
   const inputAnswer = isBmiCalculator
     ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
+    : isUnderweightBmiCalculator
+      ? 'Enter adult height in centimeters and weight in kilograms. The calculator uses those two numbers only, so a pounds-versus-kilograms or inches-versus-centimeters mix-up can change the BMI category and the distance to the 18.5 threshold.'
     : isBodyFatCalculator
       ? 'Enter formula sex, height, optional weight, neck, waist, and hip when the female equation is selected. The male equation uses waist minus neck with height. The female equation uses waist plus hip minus neck with height. Keep the tape level, snug, and consistent from one check to the next.'
     : isArmyBodyFatCalculator
@@ -97,6 +100,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     : 'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.';
   const readingAnswer = isBmiCalculator
     ? 'Read BMI as a quick adult screening number. It can miss important context such as pregnancy, high muscle mass, waist size, body composition, age, medical history, and ethnicity. Use it as a clue, not a final health answer.'
+    : isUnderweightBmiCalculator
+      ? 'Read the answer as an adult BMI screening check, not a diagnosis or a personal weight goal. The category line compares BMI with the underweight threshold below 18.5, and the "To BMI 18.5" line shows how far the entered weight is from that reference boundary. Real health context still depends on symptoms, history, age, pregnancy status, eating patterns, medications, and professional care.'
     : isBodyFatCalculator
       ? 'Read the percentage as a Navy-style tape-method estimate, then use fat mass and lean mass as context if you entered weight. Small changes can come from tape placement, posture, breathing, or tension, so this is better for consistent trend checks than one-time diagnosis.'
     : isArmyBodyFatCalculator
@@ -148,6 +153,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
   const doubleCheckAnswer = isNutritionPointsCalculator
     ? 'Check that all numbers come from the same serving size and that sodium is in milligrams while fats, sugars, fiber, and protein are in grams. A common mistake is using total sugar instead of added sugar, or comparing one whole package with one serving.'
+    : isUnderweightBmiCalculator
+      ? 'Check that height is in centimeters, weight is in kilograms, and the page is being used for an adult BMI screen. Do not use the "To BMI 18.5" line as a self-directed weight target, and do not use BMI to diagnose anorexia, malnutrition, or recovery status.'
     : isOneRepMaxCalculator
       ? 'Check that the weight is in kilograms, the reps were completed with clean form, and the set was not a failure-heavy or assisted set. One accidental unit swap, partial rep, or high-rep endurance set can make the estimate look more precise than it really is.'
     : isOvulationCalculator
@@ -290,21 +297,49 @@ export const healthTools: ToolDefinition[] = [
     summary: 'Check adult BMI against the underweight screening threshold with careful safety notes.',
     description:
       'Use this free underweight BMI calculator to compare adult BMI with the BMI 18.5 screening threshold and healthy BMI reference range.',
+    seoTitle: 'Underweight BMI Calculator | Adult BMI 18.5 Screen',
+    seoDescription:
+      'Check adult BMI against the underweight threshold below 18.5, see the distance to BMI 18.5, and read eating-disorder safety limits.',
+    aliases: [
+      'adult underweight bmi calculator',
+      'bmi 18.5 calculator',
+      'underweight bmi screen',
+      'low bmi calculator',
+      'safe anorexic bmi alternative',
+    ],
     icon: 'calculator-underweight-bmi',
     formula:
-      'BMI is weight in kilograms divided by height in meters squared. The calculator compares the result with the adult underweight threshold of BMI less than 18.5.',
+      'BMI is weight in kilograms divided by height in meters squared. The calculator compares the result with the adult underweight threshold below 18.5 and shows the BMI 18.5 to 24.9 reference range for the same height.',
     caution:
       'BMI cannot diagnose anorexia, malnutrition, or any eating disorder. If eating, weight, exercise, or body image feels hard to control, talk with a qualified health professional.',
     useCases: [
       'Check whether an adult BMI is below 18.5.',
-      'See how far a weight is from the BMI 18.5 reference threshold.',
+      'See how far the entered weight is from the BMI 18.5 reference threshold.',
       'Read why BMI alone cannot diagnose an eating disorder.',
       'Use a safer alternative to harmful anorexic-BMI style pages.',
     ],
     examples: [
-      { label: 'Underweight screen', expression: '170 cm, 50 kg', result: 'BMI about 17.3' },
-      { label: 'Near threshold', expression: '160 cm, 47 kg', result: 'BMI about 18.4' },
-      { label: 'Taller adult', expression: '183 cm, 62 kg', result: 'BMI about 18.5' },
+      { label: 'Underweight screen', expression: '170 cm, 50 kg', result: 'BMI about 17.3; about 3.5 kg to BMI 18.5' },
+      { label: 'Near threshold', expression: '160 cm, 47 kg', result: 'BMI about 18.4; about 0.4 kg to BMI 18.5' },
+      { label: 'At threshold', expression: '183 cm, 62 kg', result: 'BMI about 18.5; already at the 18.5 boundary' },
+      { label: 'Healthy-range reference', expression: '170 cm, 54 kg', result: 'BMI about 18.7; above the underweight threshold' },
+    ],
+    extraFaq: [
+      {
+        question: 'Does BMI below 18.5 mean I have anorexia?',
+        answer:
+          'No. BMI below 18.5 is an adult screening category, not an anorexia diagnosis. Eating disorders are diagnosed from a bigger clinical picture, including behavior, distress, medical signs, and professional assessment.',
+      },
+      {
+        question: 'What does "To BMI 18.5" mean?',
+        answer:
+          'It shows the difference between the entered weight and the weight that would put the same height at BMI 18.5. Treat it as a reference boundary, not a personal target or treatment plan.',
+      },
+      {
+        question: 'Can children, teens, pregnant people, or athletes use this the same way?',
+        answer:
+          'No. Children and teens use BMI-for-age percentiles, pregnancy changes weight for a different reason, and athletes may have body composition that BMI cannot explain. Use qualified guidance for those situations.',
+      },
     ],
     relatedSlugs: ['bmi-calculator', 'healthy-weight-calculator', 'ideal-weight-calculator'],
   }),
