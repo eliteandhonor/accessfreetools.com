@@ -29,6 +29,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isBacCalculator = spec.slug === 'bac-calculator';
   const isCalorieCalculator = spec.slug === 'calorie-calculator';
   const isCaloriesBurnedCalculator = spec.slug === 'calories-burned-calculator';
+  const isOneRepMaxCalculator = spec.slug === 'one-rep-max-calculator';
   const isMacroCalculator = spec.slug === 'macro-calculator';
   const isNutritionPointsCalculator = spec.slug === 'nutrition-points-calculator';
   const isCarbohydrateCalculator = spec.slug === 'carbohydrate-calculator';
@@ -60,6 +61,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter the formula sex setting, age in years, height in centimeters, weight in kilograms, activity level, and planning goal. Formula sex chooses the +5 or -161 Mifflin-St Jeor adjustment. Activity level is a broad weekly average, so choose the closest normal week rather than one unusually hard or unusually quiet day.'
     : isCaloriesBurnedCalculator
       ? 'Choose the activity MET estimate, enter body weight in kilograms, and enter the workout duration in minutes. MET is a rough intensity value: a brisk walk is lower than running, and the same activity can still feel different depending on pace, hills, fitness, heat, and breaks.'
+    : isOneRepMaxCalculator
+      ? 'Enter the weight you lifted in kilograms and the number of clean reps you completed. Use a set with full range of motion and consistent form. Do not use failed reps, forced reps, partial reps, or a set above 30 reps as a clean input.'
     : isMacroCalculator
       ? 'Enter your daily calorie target first, then choose or enter the protein, fat, and carbohydrate percentages. Type whole percentages like 40 for 40%, not 0.40. The three percentages should add to 100, and the result is only as useful as the calorie target you start with.'
     : isNutritionPointsCalculator
@@ -103,6 +106,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the answer as an estimated daily calorie target for the inputs and goal you selected. It is not a medical diet order, pregnancy plan, eating-disorder recovery target, sports-fueling prescription, or promise of weight change. Compare it with real-world trends and qualified guidance before making major nutrition changes.'
     : isCaloriesBurnedCalculator
       ? 'Read the answer as an exercise-energy estimate for the MET value, body weight, and duration you entered. It is not a lab measurement, wearable calibration, diet permission, injury advice, or exact energy-balance number. Real burn can shift with pace, terrain, form, fitness, weather, and rest breaks.'
+    : isOneRepMaxCalculator
+      ? 'Read the Epley estimate as the main training estimate and the Brzycki line as a comparison. If the formulas disagree, treat the gap as uncertainty. Use the number for planning percentages, not as proof that a heavy single is safe today.'
     : isMacroCalculator
       ? 'Read the macro grams as daily planning targets for the calorie target and split you entered. Protein and carbohydrate use 4 calories per gram, and fat uses 9 calories per gram. The calculator does not judge food quality, build a meal plan, set a medical nutrition target, or guarantee body-composition change.'
     : isNutritionPointsCalculator
@@ -128,6 +133,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
   const doubleCheckAnswer = isNutritionPointsCalculator
     ? 'Check that all numbers come from the same serving size and that sodium is in milligrams while fats, sugars, fiber, and protein are in grams. A common mistake is using total sugar instead of added sugar, or comparing one whole package with one serving.'
+    : isOneRepMaxCalculator
+      ? 'Check that the weight is in kilograms, the reps were completed with clean form, and the set was not a failure-heavy or assisted set. One accidental unit swap, partial rep, or high-rep endurance set can make the estimate look more precise than it really is.'
     : 'Check the units, date, and personal details before reading the answer. For example, pounds and kilograms, inches and centimeters, or a wrong activity level can change the result quickly. If the number feels surprising, rerun it slowly and compare it with the examples.';
 
   return [
@@ -780,11 +787,16 @@ export const healthTools: ToolDefinition[] = [
     name: 'One Rep Max Calculator',
     summary: 'Estimate one-rep max from weight lifted and reps completed.',
     description:
-      'Use this free one rep max calculator to estimate 1RM with Epley and Brzycki formulas for strength training.',
+      'Use this free one rep max calculator to estimate 1RM from a clean rep set with Epley and Brzycki formulas for strength training.',
+    seoTitle: 'One Rep Max Calculator | Epley and Brzycki 1RM',
+    seoDescription:
+      'Estimate one-rep max from weight lifted and reps completed, compare Epley and Brzycki formulas, and use 80% training load context safely.',
+    aliases: ['1rm calculator', 'one rep max calculator', 'epley calculator', 'brzycki calculator', 'strength max calculator'],
     icon: 'calculator-one-rep-max',
-    formula: 'The main estimate uses Epley: one-rep max = weight x (1 + reps / 30). Brzycki is shown as a comparison.',
+    formula:
+      'Epley estimate = weight x (1 + reps / 30). Brzycki estimate = weight x 36 / (37 - reps), with the lifted weight used directly for a single rep. The page also shows 80% of the Epley estimate as training-load context.',
     caution:
-      'This is training math, not a safety guarantee. Do not attempt heavy max lifts without appropriate technique, equipment, and supervision.',
+      'This is training math, not a safety guarantee or coaching plan. Do not attempt heavy max lifts without appropriate technique, equipment, warm-up, spotter or safety setup, and supervision when needed.',
     useCases: [
       'Estimate a one-rep max without testing a true max.',
       'Compare Epley and Brzycki estimates.',
@@ -792,9 +804,42 @@ export const healthTools: ToolDefinition[] = [
       'Track strength changes over time.',
     ],
     examples: [
-      { label: 'Bench example', expression: '100 kg x 5', result: 'Estimated 1RM about 117 kg' },
-      { label: 'Squat example', expression: '140 kg x 3', result: 'Estimated 1RM about 154 kg' },
-      { label: 'Volume set', expression: '60 kg x 8', result: 'Estimated 1RM about 76 kg' },
+      { label: 'Bench example', expression: '100 kg x 5', result: 'Epley about 116.67 kg; Brzycki about 112.5 kg' },
+      { label: 'Squat example', expression: '140 kg x 3', result: 'Epley about 154 kg; Brzycki about 148.24 kg' },
+      { label: 'Volume set', expression: '60 kg x 8', result: 'Epley about 76 kg; Brzycki about 74.48 kg' },
+      { label: 'Deadlift double', expression: '180 kg x 2', result: 'Epley about 192 kg; Brzycki about 185.14 kg' },
+    ],
+    extraFaq: [
+      {
+        question: 'Which one-rep max formula should I trust?',
+        answer:
+          'Use Epley as the main estimate on this page and Brzycki as a comparison. If they are close, the estimate is more stable. If they are far apart, treat the range as uncertainty instead of chasing one exact number.',
+      },
+      {
+        question: 'Why does the calculator limit reps to 30 or fewer?',
+        answer:
+          'Very high-rep sets measure endurance, pacing, and fatigue as much as max strength. The calculator stops at 30 reps so the answer stays in a practical strength-estimate range.',
+      },
+      {
+        question: 'Should I use a failed rep or assisted rep?',
+        answer:
+          'No. Use only reps you completed with your own effort and clean form. Failed reps, forced reps, bouncing, shortened range of motion, or uneven technique can inflate the estimate.',
+      },
+      {
+        question: 'What does the 80% training range mean?',
+        answer:
+          'It is 80% of the Epley estimate, shown as a planning reference. It is not a required workout weight, beginner program, injury advice, or a guarantee that the load is safe for you.',
+      },
+      {
+        question: 'Why are Epley and Brzycki different?',
+        answer:
+          'They are different equations built from the same weight-and-reps idea. The difference reminds you that predicted 1RM is an estimate, especially when reps get higher.',
+      },
+      {
+        question: 'When should I avoid using a one-rep max estimate?',
+        answer:
+          'Avoid relying on it by itself if you are injured, new to lifting, returning after time off, lifting without safe equipment, or working under a coach, clinician, or rehab plan with different limits.',
+      },
     ],
     relatedSlugs: ['calories-burned-calculator', 'target-heart-rate-calculator', 'protein-calculator'],
   }),

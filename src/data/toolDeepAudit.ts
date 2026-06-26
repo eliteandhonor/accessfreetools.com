@@ -4699,20 +4699,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'one-rep-max-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-26',
+    reviewedOn: '2026-06-26',
     scope: commonMathScope,
-    sources: [aceOneRepMax, cdcActivity],
+    sources: [aceOneRepMax, cdcActivity, googleHelpfulContent],
     findings: [
-      'The calculator shows Epley and Brzycki one-rep max estimates and limits practical estimates to sets of 30 reps or fewer.',
-      'The guide explains that predicted 1RM is training math, not proof that a heavy single is safe to attempt.',
-      'The FAQ and examples warn against using failed reps, partial reps, or unsafe max testing as inputs.',
+      'The calculator shows Epley and Brzycki one-rep max estimates, rounds public kg display values, and limits practical estimates to sets of 30 reps or fewer.',
+      'The tool and guide explain that predicted 1RM is training math, not proof that a heavy single is safe to attempt.',
+      'The FAQs and examples warn against failed reps, forced reps, partial reps, high-rep endurance sets, and unsafe max testing as inputs.',
     ],
     improvements: [
-      'Manually checked 1RM formula behavior, rep guardrail, example math, safety wording, guide formula text, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Refreshed SEO title, description, aliases, exact Epley and Brzycki formula wording, four examples, six focused extra FAQs, guide walkthrough math, source coverage, sitemap dates, privacy/safety language, and result labels.',
     ],
     followUps: [
-      'Consider percentage-of-1RM training tables later, but keep them clearly educational and not a training prescription.',
+      'Consider percentage-of-1RM training tables later only if they stay clearly educational and do not become a training prescription.',
     ],
   },
   {

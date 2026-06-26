@@ -1304,11 +1304,11 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       return {
         label: 'Estimated one-rep max',
         expression: `${formatKg(weightKg)} x ${formatCalculatorNumber(reps)} reps`,
-        answer: formatKg(result.epleyKg),
+        answer: formatRoundedKg(result.epleyKg),
         metrics: [
-          { label: 'Epley', value: formatKg(result.epleyKg) },
-          { label: 'Brzycki', value: formatKg(result.brzyckiKg) },
-          { label: 'Training range 80%', value: formatKg(result.epleyKg * 0.8) },
+          { label: 'Epley', value: formatRoundedKg(result.epleyKg) },
+          { label: 'Brzycki', value: formatRoundedKg(result.brzyckiKg) },
+          { label: 'Training range 80%', value: formatRoundedKg(result.epleyKg * 0.8) },
         ],
         steps: [
           'Use the lifted weight and reps completed.',

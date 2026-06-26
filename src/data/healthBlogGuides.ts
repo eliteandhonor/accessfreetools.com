@@ -35,6 +35,8 @@ const extraSafetyNotes: Record<string, string> = {
     'This is an educational Navy-style tape estimate. It is not a DEXA scan, medical diagnosis, official military record, or complete body composition assessment.',
   'nutrition-points-calculator':
     'This is an original Access Free Tools label-reading score. It is not Weight Watchers Points, not affiliated with WW, and not a medical nutrition plan.',
+  'one-rep-max-calculator':
+    'One-rep max estimates are training math, not proof that a heavy single is safe today. Use qualified coaching, safe equipment, and a spotter or safety setup when needed.',
   'fat-intake-calculator':
     'Fat gram targets are nutrition-planning estimates. They do not diagnose health, set an eating-disorder recovery plan, replace diabetes, heart, kidney, gallbladder, or pregnancy care, or decide the right saturated-fat limit for you.',
   'bac-calculator':
@@ -117,6 +119,16 @@ function getSourceLinks(toolSlug: string) {
       label: 'Dietary Guidelines for Americans: Current nutrition guidance',
     },
   ];
+  const strengthSources = [
+    {
+      href: 'https://www.acefitness.org/resources/everyone/tools-calculators/weight-training-load-calculator/',
+      label: 'American Council on Exercise: Weight Training Load Calculator',
+    },
+    {
+      href: 'https://www.cdc.gov/physical-activity-basics/measuring/index.html',
+      label: 'CDC: Physical activity intensity and safety context',
+    },
+  ];
 
   if (toolSlug === 'army-body-fat-calculator') {
     return [
@@ -179,7 +191,11 @@ function getSourceLinks(toolSlug: string) {
     return bmiSources;
   }
 
-  if (['calorie-calculator', 'bmr-calculator', 'tdee-calculator', 'calories-burned-calculator', 'pace-calculator', 'one-rep-max-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'one-rep-max-calculator') {
+    return strengthSources;
+  }
+
+  if (['calorie-calculator', 'bmr-calculator', 'tdee-calculator', 'calories-burned-calculator', 'pace-calculator'].includes(toolSlug)) {
     return energySources;
   }
 
@@ -650,24 +666,25 @@ const guideDetails: Record<string, GuideDetail> = {
   'one-rep-max-calculator': {
     summary: 'Learn how rep sets estimate one-rep max without testing a true max.',
     purpose:
-      'The One Rep Max Calculator estimates strength from a weight you lifted for multiple reps. It helps plan training percentages without requiring a risky max attempt.',
+      'The One Rep Max Calculator estimates strength from a weight you lifted for clean reps. It helps compare Epley and Brzycki 1RM estimates and plan training percentages without requiring a risky max attempt.',
     enter: [
-      'Enter the weight lifted and the number of completed reps.',
-      'Use a set that was close to hard but performed with good form.',
-      'Keep reps in a normal estimating range; very high reps are less reliable.',
+      'Enter the weight lifted in kilograms and the number of completed reps.',
+      'Use a set that was hard but performed with full range of motion and consistent form.',
+      'Keep reps at 30 or fewer; very high-rep sets are more about endurance and fatigue than max strength.',
     ],
     example: [
-      'For 100 kg x 5, the Epley formula adds one sixth of the weight to the original load.',
-      'The result is an estimated 1RM of about 117 kg, with another formula shown for comparison.',
+      'For 100 kg x 5, Epley is 100 x (1 + 5 / 30), which is about 116.67 kg.',
+      'Brzycki gives a second estimate: 100 x 36 / (37 - 5), which is about 112.5 kg.',
+      'The 80% training reference from the Epley estimate is about 93.33 kg.',
     ],
     read: [
       'Use the estimate to plan percentages, not to prove what you must lift today.',
-      'If formulas disagree, treat the range as uncertainty.',
+      'If Epley and Brzycki disagree, treat the gap as uncertainty instead of pretending one number is exact.',
     ],
     mistakes: [
       'Do not test heavy singles without proper setup and supervision.',
-      'Do not use failed reps or partial reps as clean input.',
-      'Do not expect the same estimate across every lift.',
+      'Do not use failed reps, forced reps, or partial reps as clean input.',
+      'Do not expect the same estimate across every lift, rep range, fatigue level, or training block.',
     ],
     next: [
       'Use Protein Calculator for nutrition planning around training.',
