@@ -6549,20 +6549,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'average-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-26',
+    reviewedOn: '2026-06-26',
     scope: commonMathScope,
     sources: [openStaxStatisticsSpread, openStaxStandardNormal],
     findings: [
-      'The average page clearly defines average as arithmetic mean and also shows count, sum, median, mode, range, and sorted values.',
-      'The FAQ explains repeated values, extreme values, and why median or range can matter beside the average.',
-      'The page caps practical input length so browser output stays readable.',
+      'The average page defines arithmetic mean as sum divided by count and shows count, sum, median, mode, range, and sorted values beside the answer.',
+      'The examples now include a 10, 12, 12, 15, 18 score set, an outlier set, repeated values, and decimals so users can check how the result should be interpreted.',
+      'The FAQ explains equal weighting, outlier effects, repeated values, decimal and negative inputs, privacy, and the 1,000-number browser-readability cap.',
     ],
     improvements: [
-      'Manually checked arithmetic-mean wording, data parsing expectations, examples, FAQ detail, related links, guide coverage, SEO copy, and privacy behavior.',
+      'Refreshed Average Calculator metadata, examples, FAQ detail, outlier and weighted-average limits, audit notes, related-link context, guide coverage, SEO copy, and 2026-06-26 tool modified date.',
     ],
     followUps: [
       'Add weighted average as a separate tool if users need grade or finance weighting workflows.',
+      'Keep Statistics Calculator and Standard Deviation Calculator links available for users who need deeper spread or variance checks.',
     ],
   },
   {

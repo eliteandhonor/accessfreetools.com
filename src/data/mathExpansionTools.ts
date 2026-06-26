@@ -156,41 +156,51 @@ export const mathExpansionTools: ToolDefinition[] = [
     slug: 'average-calculator',
     name: 'Average Calculator',
     category: 'calculators',
-    summary: 'Find the average of a list, plus count, sum, median, mode, and range.',
+    summary: 'Find the average (arithmetic mean) of a number list, then compare median, mode, range, sum, and count.',
     description:
-      'Use this free average calculator to find the arithmetic mean of a list of numbers and review count, sum, median, mode, range, and sorted values.',
+      'Use this free average calculator to add a number list, divide by count, and check median, mode, range, sorted values, and outlier context.',
     icon: 'calculator-average',
-    seoTitle: 'Average Calculator | Free Mean and Data Summary Tool',
+    seoTitle: 'Average Calculator | Mean, Median, Mode, Range',
     seoDescription:
-      'Calculate the average of a data set with sum, count, median, mode, range, sorted values, and clear steps.',
+      'Calculate the average of a number list with sum, count, median, mode, range, sorted values, and a 10, 12, 12, 15, 18 example.',
     useCases: [
-      'Find the average score, cost, time, or measurement from a list.',
-      'Check homework that asks for arithmetic mean.',
-      'Compare average with median, mode, and range.',
-      'Quickly summarize a small data set without a spreadsheet.',
+      'Find the average test score, cost, time, rating, or measurement from one number list.',
+      'Check arithmetic mean homework with visible sum, count, and formula steps.',
+      'Compare mean with median, mode, and range when one value may be unusually high or low.',
+      'Summarize a small data set before copying the answer into notes or a spreadsheet.',
     ],
     examples: [
       {
         label: 'Average of scores',
         expression: '10, 12, 12, 15, 18',
-        result: 'Average 13.4',
+        result: 'Sum 67 / 5 values = average 13.4',
       },
       {
-        label: 'Average of measurements',
-        expression: '4, 8, 15, 16, 23, 42',
-        result: 'Average 18',
+        label: 'Outlier check',
+        expression: '8, 9, 10, 11, 42',
+        result: 'Average 16, median 10, range 34',
       },
       {
         label: 'Average with repeated values',
         expression: '72, 84, 84, 90, 93',
-        result: 'Average 84.6',
+        result: 'Average 84.6, mode 84',
+      },
+      {
+        label: 'Average of decimals',
+        expression: '1.5, 2, 2.5, 4',
+        result: 'Average 2.5',
       },
     ],
     faq: [
       {
         question: 'What does average mean in this calculator?',
         answer:
-          'Average means arithmetic mean. The calculator adds all values, then divides by how many values you entered.',
+          'Average means arithmetic mean. The calculator adds all values, then divides by how many values you entered: average = sum / count.',
+      },
+      {
+        question: 'What formula does the Average Calculator use?',
+        answer:
+          'It uses sum divided by count. For 10, 12, 12, 15, and 18, the sum is 67 and the count is 5, so the average is 67 / 5 = 13.4.',
       },
       {
         question: 'Can I enter values on separate lines?',
@@ -198,14 +208,34 @@ export const mathExpansionTools: ToolDefinition[] = [
           'Yes. Separate numbers with commas, spaces, semicolons, or new lines. The calculator reads them as one data set.',
       },
       {
+        question: 'Can I use decimals or negative numbers?',
+        answer:
+          'Yes. Decimals and negative numbers work as long as each entry is a valid number. The sum, average, median, mode, and range update from the exact list you enter.',
+      },
+      {
         question: 'Why does the calculator also show median and range?',
         answer:
           'The average can be pulled higher or lower by extreme values. Median and range help you see whether the average tells the full story.',
       },
       {
+        question: 'What if one value is much higher or lower than the rest?',
+        answer:
+          'That value still counts in the average, so it can pull the mean away from the middle of the group. Compare the average with the median and range before you summarize the data.',
+      },
+      {
+        question: 'What mistake should I avoid with averages?',
+        answer:
+          'Do not mix unlike values in one list. Keep the same unit and same kind of measurement, then double-check any extreme value before trusting the average as a fair summary.',
+      },
+      {
         question: 'What happens if a value repeats?',
         answer:
           'Repeated values count each time they appear. If 84 appears twice, it contributes twice to the sum and count.',
+      },
+      {
+        question: 'Is this a weighted average calculator?',
+        answer:
+          'No. This calculator gives every entered value equal weight. If grades, prices, or rates have different weights, use a weighted average workflow instead of treating every number as equal.',
       },
       {
         question: 'How many values can I enter?',
