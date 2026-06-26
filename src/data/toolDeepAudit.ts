@@ -4526,20 +4526,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'nutrition-points-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-26',
+    reviewedOn: '2026-06-26',
     scope: commonMathScope,
-    sources: [fdaNutritionFacts, dietaryGuidelines],
+    sources: [fdaNutritionFacts, dietaryGuidelines, googleHelpfulContent],
     findings: [
-      'The calculator uses an original transparent label-reading score and does not claim to be Weight Watchers Points or any proprietary diet-program formula.',
-      'The guide explains which label fields matter: calories, saturated fat, added sugar, sodium, fiber, and protein.',
-      'The caution language makes clear that this is a rough comparison score, not a nutrition diagnosis or medical diet plan.',
+      'The calculator uses an original transparent label-reading score: calories / 50 + saturated fat g x 1.5 + added sugar g / 5 + sodium mg / 600, then subtracts fiber g x 0.6 and protein g x 0.25 with a floor of 0.',
+      'The tool and guide now show exact same-serving examples, including the snack-label example at about 4.68 points, Greek yogurt at about 0.18 points, and a sweet drink at about 11.27 points.',
+      'The caution language separates this original Access Free Tools score from Weight Watchers/WW, proprietary diet-program targets, food grading, and medical nutrition advice.',
     ],
     improvements: [
-      'Manually checked score inputs, label wording, examples, proprietary-program disclaimer, FAQ cautions, FDA/Dietary Guidelines source coverage, related tools, SEO copy, and privacy behavior.',
+      'Ran GSC/DataForSEO page sprint with refreshed metadata, exact formula wording, same-serving input guidance, lower/moderate/higher thresholds, display rounding, source links, FAQ cautions, modified dates, related tools, and privacy behavior.',
     ],
     followUps: [
-      'Consider showing the score formula inline beside results if users ask how each nutrient changes the score.',
+      'If users ask for more food comparisons later, add a small side-by-side comparison table while keeping the formula clearly original and non-proprietary.',
     ],
   },
   {

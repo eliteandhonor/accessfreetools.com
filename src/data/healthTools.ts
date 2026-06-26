@@ -30,6 +30,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isCalorieCalculator = spec.slug === 'calorie-calculator';
   const isCaloriesBurnedCalculator = spec.slug === 'calories-burned-calculator';
   const isMacroCalculator = spec.slug === 'macro-calculator';
+  const isNutritionPointsCalculator = spec.slug === 'nutrition-points-calculator';
   const isCarbohydrateCalculator = spec.slug === 'carbohydrate-calculator';
   const isFatIntakeCalculator = spec.slug === 'fat-intake-calculator';
   const isTdeeCalculator = spec.slug === 'tdee-calculator';
@@ -61,6 +62,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Choose the activity MET estimate, enter body weight in kilograms, and enter the workout duration in minutes. MET is a rough intensity value: a brisk walk is lower than running, and the same activity can still feel different depending on pace, hills, fitness, heat, and breaks.'
     : isMacroCalculator
       ? 'Enter your daily calorie target first, then choose or enter the protein, fat, and carbohydrate percentages. Type whole percentages like 40 for 40%, not 0.40. The three percentages should add to 100, and the result is only as useful as the calorie target you start with.'
+    : isNutritionPointsCalculator
+      ? 'Enter one serving from a Nutrition Facts label: calories, saturated fat in grams, added sugar in grams, sodium in milligrams, dietary fiber in grams, and protein in grams. Use saturated fat, not total fat; use added sugar, not total sugar; and keep serving sizes the same when comparing foods.'
     : isCarbohydrateCalculator
       ? 'Enter the calorie target first, then enter the percent of those calories planned from carbohydrate. Type 50 for 50%, not 0.50. The calculator assumes carbohydrate has 4 calories per gram and uses only the calorie target and carb percent you provide.'
     : isFatIntakeCalculator
@@ -102,6 +105,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the answer as an exercise-energy estimate for the MET value, body weight, and duration you entered. It is not a lab measurement, wearable calibration, diet permission, injury advice, or exact energy-balance number. Real burn can shift with pace, terrain, form, fitness, weather, and rest breaks.'
     : isMacroCalculator
       ? 'Read the macro grams as daily planning targets for the calorie target and split you entered. Protein and carbohydrate use 4 calories per gram, and fat uses 9 calories per gram. The calculator does not judge food quality, build a meal plan, set a medical nutrition target, or guarantee body-composition change.'
+    : isNutritionPointsCalculator
+      ? 'Read the points as a rough label-comparison score, not a food grade or diet-program target. Lower points usually means the food scored lighter by this formula. The moderation line shows points added by calories, saturated fat, added sugar, and sodium; the support-credit line shows what fiber and protein subtracted.'
     : isCarbohydrateCalculator
       ? 'Read the answer as total carbohydrate grams for the calorie target and percent you entered. It does not grade food quality, count fiber separately, set a diabetes plan, set a sports-fueling plan, or tell you how your blood sugar will respond.'
     : isFatIntakeCalculator
@@ -121,6 +126,9 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     : isPregnancyWeightGainCalculator
       ? 'Read the total range as a prenatal-care reference, not a grade or diet rule. Healthy gain can be uneven by week, and your care team may care more about fetal growth, blood pressure, swelling, nausea, diabetes, or other medical details than the calculator line alone.'
     : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
+  const doubleCheckAnswer = isNutritionPointsCalculator
+    ? 'Check that all numbers come from the same serving size and that sodium is in milligrams while fats, sugars, fiber, and protein are in grams. A common mistake is using total sugar instead of added sugar, or comparing one whole package with one serving.'
+    : 'Check the units, date, and personal details before reading the answer. For example, pounds and kilograms, inches and centimeters, or a wrong activity level can change the result quickly. If the number feels surprising, rerun it slowly and compare it with the examples.';
 
   return [
     {
@@ -193,8 +201,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     },
     {
       question: 'What should I double-check before trusting the result?',
-      answer:
-        'Check the units, date, and personal details before reading the answer. For example, pounds and kilograms, inches and centimeters, or a wrong activity level can change the result quickly. If the number feels surprising, rerun it slowly and compare it with the examples.',
+      answer: doubleCheckAnswer,
     },
     {
       question: 'Does the site save my health inputs?',
@@ -303,11 +310,21 @@ export const healthTools: ToolDefinition[] = [
     summary: 'Create a transparent food-label score from calories, saturated fat, added sugar, sodium, fiber, and protein.',
     description:
       'Use this free nutrition points calculator to compare foods with an original transparent score based on common Nutrition Facts label fields.',
+    seoTitle: 'Nutrition Points Calculator | Transparent Food Label Score',
+    seoDescription:
+      'Compare one-serving Nutrition Facts labels with a transparent points score from calories, saturated fat, added sugar, sodium, fiber, and protein.',
+    aliases: [
+      'food points calculator',
+      'nutrition label points calculator',
+      'transparent nutrition score calculator',
+      'food label score calculator',
+      'healthy food points calculator',
+    ],
     icon: 'calculator-nutrition-points',
     formula:
-      'The calculator adds moderation points from calories, saturated fat, added sugar, and sodium, then subtracts support credits from fiber and protein.',
+      'Moderation points = calories / 50 + saturated fat g x 1.5 + added sugar g / 5 + sodium mg / 600. Support credits = fiber g x 0.6 + protein g x 0.25. Final points = moderation points minus support credits, with a minimum of 0.',
     caution:
-      'This is not Weight Watchers Points, not affiliated with WW, and not medical nutrition advice. It is a transparent educational score for rough comparisons.',
+      'This is not Weight Watchers Points, not affiliated with WW, and not medical nutrition advice. It is a transparent educational score for rough same-serving food-label comparisons.',
     useCases: [
       'Compare two packaged foods using the same label-based score.',
       'See how added sugar, saturated fat, sodium, fiber, and protein change a food score.',
@@ -315,9 +332,53 @@ export const healthTools: ToolDefinition[] = [
       'Practice reading Nutrition Facts labels more carefully.',
     ],
     examples: [
-      { label: 'Snack label', expression: '240 kcal, 2 g sat fat, 8 g added sugar', result: 'Moderate points' },
-      { label: 'Greek yogurt', expression: '150 kcal, 15 g protein', result: 'Lower points' },
-      { label: 'Sweet drink', expression: '180 kcal, 38 g added sugar', result: 'Higher points' },
+      {
+        label: 'Snack label',
+        expression: '240 kcal, 2 g sat fat, 8 g added sugar, 320 mg sodium, 5 g fiber, 9 g protein',
+        result: 'About 4.68 points, moderate',
+      },
+      {
+        label: 'Greek yogurt',
+        expression: '150 kcal, 0 g sat fat, 4 g added sugar, 75 mg sodium, 0 g fiber, 15 g protein',
+        result: 'About 0.18 points, lower',
+      },
+      {
+        label: 'Sweet drink',
+        expression: '180 kcal, 0 g sat fat, 38 g added sugar, 40 mg sodium, 0 g fiber, 0 g protein',
+        result: 'About 11.27 points, higher',
+      },
+      {
+        label: 'High-fiber cereal',
+        expression: '210 kcal, 0.5 g sat fat, 6 g added sugar, 190 mg sodium, 8 g fiber, 6 g protein',
+        result: 'About 0.17 points, lower',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Is this the same as Weight Watchers Points?',
+        answer:
+          'No. This is an original Access Free Tools label-reading score. It is not the WW formula, not affiliated with Weight Watchers or WW, and should not be compared with any proprietary program target.',
+      },
+      {
+        question: 'What makes points go up or down?',
+        answer:
+          'Calories, saturated fat, added sugar, and sodium increase the score. Dietary fiber and protein subtract support credits. The final score never goes below 0 because a rough food-label score should not create negative points.',
+      },
+      {
+        question: 'What do lower, moderate, and higher points mean?',
+        answer:
+          'Lower points means less than 3 by this formula. Moderate points means 3 to less than 7. Higher points means 7 or more. These labels are comparison hints, not a medical diet judgment.',
+      },
+      {
+        question: 'Should I enter total sugar or added sugar?',
+        answer:
+          'Use added sugar. The Nutrition Facts label can show total sugars and added sugars separately, and this score asks for added sugar because it is the field the formula uses.',
+      },
+      {
+        question: 'Why does serving size matter so much?',
+        answer:
+          'The score uses one serving. If one package has two servings, entering the whole package for one food and one serving for another will make the comparison unfair. Match serving sizes before deciding which score is lighter.',
+      },
     ],
     relatedSlugs: ['calorie-calculator', 'macro-calculator', 'protein-calculator'],
   }),

@@ -70,6 +70,7 @@ function getSourceLinks(toolSlug: string) {
   ];
   const nutritionLabelSources = [
     { href: 'https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/changes-nutrition-facts-label', label: 'FDA: Changes to the Nutrition Facts label' },
+    { href: 'https://www.dietaryguidelines.gov/', label: 'Dietary Guidelines for Americans' },
   ];
   const energySources = [
     {
@@ -349,18 +350,18 @@ const guideDetails: Record<string, GuideDetail> = {
   'nutrition-points-calculator': {
     summary: 'Learn how to use a transparent food-label score without copying proprietary diet-program points.',
     purpose:
-      'The Nutrition Points Calculator gives Access Free Tools its own visible formula for rough food comparisons. It uses label fields that people can actually find: calories, saturated fat, added sugar, sodium, dietary fiber, and protein.',
+      'The Nutrition Points Calculator gives Access Free Tools its own visible formula for rough same-serving food comparisons. It uses label fields that people can actually find: calories, saturated fat, added sugar, sodium, dietary fiber, and protein.',
     enter: [
       'Enter the values from one serving on the Nutrition Facts label.',
       'Use saturated fat and added sugar, not total fat and total sugar, because those are the fields this score asks for.',
       'Use the same serving size when comparing two foods.',
     ],
     example: [
-      'For the snack-label example, calories, saturated fat, added sugar, and sodium add moderation points.',
-      'Fiber and protein subtract support credits, then the calculator shows the remaining points and a plain category.',
+      'For 240 calories, 2 g saturated fat, 8 g added sugar, 320 mg sodium, 5 g fiber, and 9 g protein, moderation points are about 9.93.',
+      'Fiber and protein subtract 5.25 support credits, leaving about 4.68 points, which lands in the moderate range.',
     ],
     read: [
-      'Lower points usually means the food scored lighter by this formula.',
+      'Lower points means less than 3, moderate means 3 to less than 7, and higher means 7 or more by this formula.',
       'Moderation points show the part added by calories, saturated fat, added sugar, and sodium.',
       'Fiber/protein credits show the part subtracted for fiber and protein.',
     ],

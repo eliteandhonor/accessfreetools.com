@@ -1061,11 +1061,12 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       return {
         label: 'Nutrition points',
         expression: `${formatKcal(parseNumber(inputs.calories, 'Calories'))}, ${formatCalculatorNumber(parseNumber(inputs.proteinG, 'Protein'))} g protein`,
-        answer: `${formatCalculatorNumber(result.points)} points`,
+        answer: `${formatRoundedNumber(result.points)} points`,
         metrics: [
           { label: 'Category', value: result.category },
-          { label: 'Moderation points', value: formatCalculatorNumber(result.moderationPoints) },
-          { label: 'Fiber/protein credits', value: formatCalculatorNumber(result.supportCredits) },
+          { label: 'Moderation points', value: formatRoundedNumber(result.moderationPoints) },
+          { label: 'Fiber/protein credits', value: formatRoundedNumber(result.supportCredits) },
+          { label: 'Points per 100 kcal', value: formatRoundedNumber(result.pointsPer100Calories) },
         ],
         steps: [
           'Add moderation points from calories, saturated fat, added sugar, and sodium.',
