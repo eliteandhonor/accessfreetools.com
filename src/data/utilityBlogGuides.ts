@@ -2179,25 +2179,65 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'amps-to-watts-calculator': {
-    summary: 'Learn how amps and volts become watts for DC, single-phase AC, and three-phase AC.',
+    title: 'Amps to Watts Guide',
+    summary: 'Learn the amps to watts formula for DC, single-phase AC, and three-phase AC with a 12.5 A at 120 V example.',
+    metaDescription:
+      'Use the Amps to Watts guide to convert amps, volts, phase, and power factor into watts and kW, then avoid breaker and wire-sizing mistakes.',
     purpose:
-      'The Amps to Watts Calculator turns current into a real-power estimate. It is handy when you know current draw and voltage and want a rough watt or kilowatt number.',
+      'The Amps to Watts Calculator turns current, voltage, phase type, and power factor into a real-power estimate. It is handy when you know current draw and voltage and want a rough watt or kilowatt number.',
+    intro:
+      'Start by matching the formula to the type of power you have. A 12.5 A load at 120 V with power factor 1 is 1,500 W, but the answer changes when voltage, phase, or power factor changes.',
+    inputMatch: 'the current in amps, supply voltage, DC or AC phase type, and power factor from the device label or specification when it is available',
+    logicNote:
+      'For DC, watts = amps x volts. For single-phase AC, multiply by power factor. For three-phase AC, multiply by sqrt(3) and power factor.',
+    readIntro:
+      'Read watts as the estimated real power. Read kilowatts when the number is large enough that a 1.5 kW or 6.12 kW comparison is easier than a watt-only answer.',
+    mistakeIntro:
+      'Most amps-to-watts mistakes come from ignoring voltage, assuming every AC load has power factor 1, or using a simple power estimate as if it were a wiring approval.',
     enter: [
-      'Enter the current in amps.',
-      'Enter the supply voltage.',
-      'Choose the phase/current type and enter power factor for AC loads.',
+      'Enter the current in amps from the device label, meter, or specification.',
+      'Enter the supply voltage, such as 12 V DC, 120 V, 240 V, 208 V, or 480 V.',
+      'Choose DC, single-phase AC, or three-phase AC, then enter power factor for AC loads when you know it.',
     ],
     read: [
       'The main answer is estimated watts.',
       'The kilowatts metric is the same result divided by 1,000.',
       'Power factor and phase type explain why equal amps can create different watt values.',
+      'Use the result for comparison or planning before checking equipment instructions and safety requirements.',
     ],
     mistakes: [
       'Do not assume all AC loads have power factor 1.',
       'Do not compare amperage without checking voltage.',
-      'Do not use this as a final safety or code calculation.',
+      'Do not use this as a final breaker, wire, extension-cord, motor, appliance, or code calculation.',
     ],
-    sources: [sourceLinks.inchAmpsToWatts, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick 120 V example',
+        paragraphs: [
+          'Say a space heater draws 12.5 A on a 120 V circuit and the power factor is 1. Multiply 12.5 by 120 to get 1,500 W.',
+          'That is the same as 1.5 kW after dividing by 1,000. This is a useful comparison number when you are estimating load, energy use, or whether two devices are in the same power range.',
+        ],
+      },
+      {
+        title: 'Why phase and power factor change the answer',
+        paragraphs: [
+          'A 10 A single-phase motor at 240 V with 0.9 power factor is about 2,160 W. The same 10 A at a different voltage or power factor would not mean the same watts.',
+          'A 20 A three-phase load at 208 V with 0.85 power factor is about 6,124 W, or 6.12 kW. The three-phase formula includes sqrt(3), so using simple DC math would understate the result.',
+        ],
+        bullets: [
+          'Use DC math only for DC loads.',
+          'Use the equipment power factor when accuracy matters.',
+          'Use manufacturer data and a qualified professional for circuit sizing, code compliance, and electrical safety.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchAmpsToWatts,
+      sourceLinks.openStaxElectricPower,
+      sourceLinks.openStaxOhmsLaw,
+      sourceLinks.nistUnits,
+      sourceLinks.esfiExtensionCordSafety,
+    ],
   },
   'kilowatts-to-amps-calculator': {
     summary: 'Learn how kilowatts convert to amps when voltage, phase, power factor, and efficiency are known.',
