@@ -29,6 +29,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isBacCalculator = spec.slug === 'bac-calculator';
   const isCalorieCalculator = spec.slug === 'calorie-calculator';
   const isCaloriesBurnedCalculator = spec.slug === 'calories-burned-calculator';
+  const isCarbohydrateCalculator = spec.slug === 'carbohydrate-calculator';
   const isFatIntakeCalculator = spec.slug === 'fat-intake-calculator';
   const isTdeeCalculator = spec.slug === 'tdee-calculator';
   const isGfrCalculator = spec.slug === 'gfr-calculator';
@@ -56,6 +57,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter the formula sex setting, age in years, height in centimeters, weight in kilograms, activity level, and planning goal. Formula sex chooses the +5 or -161 Mifflin-St Jeor adjustment. Activity level is a broad weekly average, so choose the closest normal week rather than one unusually hard or unusually quiet day.'
     : isCaloriesBurnedCalculator
       ? 'Choose the activity MET estimate, enter body weight in kilograms, and enter the workout duration in minutes. MET is a rough intensity value: a brisk walk is lower than running, and the same activity can still feel different depending on pace, hills, fitness, heat, and breaks.'
+    : isCarbohydrateCalculator
+      ? 'Enter the calorie target first, then enter the percent of those calories planned from carbohydrate. Type 50 for 50%, not 0.50. The calculator assumes carbohydrate has 4 calories per gram and uses only the calorie target and carb percent you provide.'
     : isFatIntakeCalculator
       ? 'Enter the calorie target first, then enter the percent of those calories planned from fat. Type 30 for 30%, not 0.30. The calculator assumes dietary fat has 9 calories per gram and uses the calorie target you provide.'
     : isTdeeCalculator
@@ -91,6 +94,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the answer as an estimated daily calorie target for the inputs and goal you selected. It is not a medical diet order, pregnancy plan, eating-disorder recovery target, sports-fueling prescription, or promise of weight change. Compare it with real-world trends and qualified guidance before making major nutrition changes.'
     : isCaloriesBurnedCalculator
       ? 'Read the answer as an exercise-energy estimate for the MET value, body weight, and duration you entered. It is not a lab measurement, wearable calibration, diet permission, injury advice, or exact energy-balance number. Real burn can shift with pace, terrain, form, fitness, weather, and rest breaks.'
+    : isCarbohydrateCalculator
+      ? 'Read the answer as total carbohydrate grams for the calorie target and percent you entered. It does not grade food quality, count fiber separately, set a diabetes plan, set a sports-fueling plan, or tell you how your blood sugar will respond.'
     : isFatIntakeCalculator
       ? 'Read the answer as total dietary fat grams for the calorie target and percent you entered. It does not judge food quality, split saturated versus unsaturated fat, set a medical nutrition plan, or tell you anything about body-fat percentage.'
     : isTdeeCalculator
@@ -1064,20 +1069,65 @@ export const healthTools: ToolDefinition[] = [
     name: 'Carbohydrate Calculator',
     summary: 'Calculate carbohydrate grams from calories and carb percentage.',
     description:
-      'Use this free carbohydrate calculator to convert daily calories and carbohydrate percentage into grams per day.',
+      'Use this free carbohydrate calculator to convert daily calories and carbohydrate percentage into grams per day, with formula steps, AMDR context, examples, and nutrition limits.',
+    seoTitle: 'Carbohydrate Calculator | Carbs Grams Per Day',
+    seoDescription:
+      'Convert calories and carb percentage into daily carbohydrate grams, see the 4 calories per gram formula, AMDR context, examples, and nutrition limits.',
+    aliases: [
+      'Carb Calculator',
+      'Carbs Per Day Calculator',
+      'Daily Carbohydrate Calculator',
+      'Macro Carb Calculator',
+      'Carb Percentage to Grams Calculator',
+    ],
     icon: 'calculator-carbohydrate',
-    formula: 'Carbohydrate grams = calories x carbohydrate percentage / 100 / 4.',
-    caution: estimateCaution,
+    formula:
+      'Carbohydrate calories = daily calories x carbohydrate percentage / 100. Carbohydrate grams = carbohydrate calories / 4 because carbohydrate has about 4 calories per gram.',
+    caution:
+      'This calculator gives an educational total-carbohydrate gram estimate only. It is not diabetes care, blood-sugar treatment, medical nutrition therapy, an eating-disorder tool, a sports-fueling prescription, or clinician advice.',
     useCases: [
-      'Convert carb percentage into grams.',
-      'Compare targets against AMDR reference ranges.',
-      'Plan carbohydrate intake for a calorie target.',
-      'Use with macro and calorie calculators.',
+      'Convert a macro carbohydrate percentage into daily grams.',
+      'Compare a calorie target against common AMDR-style adult carbohydrate percentage context.',
+      'Plan total carbohydrate grams before checking food labels or meal plans.',
+      'Use with macro, protein, fat, and calorie calculators.',
     ],
     examples: [
-      { label: '50% of 2000', expression: '2000 kcal x 50%', result: '250 g carbohydrate' },
-      { label: '45% of 1800', expression: '1800 kcal x 45%', result: '202.5 g carbohydrate' },
-      { label: '60% of 2500', expression: '2500 kcal x 60%', result: '375 g carbohydrate' },
+      { label: '50% of 2000', expression: '2000 kcal x 50% = 1000 carb kcal; 1000 / 4', result: '250 g carbohydrate' },
+      { label: '45% of 1800', expression: '1800 kcal x 45% = 810 carb kcal; 810 / 4', result: '202.5 g carbohydrate' },
+      { label: '60% of 2500', expression: '2500 kcal x 60% = 1500 carb kcal; 1500 / 4', result: '375 g carbohydrate' },
+      { label: '40% of 2200', expression: '2200 kcal x 40% = 880 carb kcal; 880 / 4', result: '220 g carbohydrate' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the carbohydrate calculator divide by 4?',
+        answer:
+          'Carbohydrate provides about 4 calories per gram. The calculator first finds carbohydrate calories, then divides by 4 to convert those calories into grams.',
+      },
+      {
+        question: 'Should I type 50 or 0.50 for 50% carbohydrate?',
+        answer:
+          'Type 50 for 50%. The calculator treats the percent box as a normal percentage, so 0.50 means one-half of one percent and would make the carb grams much smaller than intended.',
+      },
+      {
+        question: 'Is 45% to 65% carbohydrate a personal goal?',
+        answer:
+          'No. The 45% to 65% adult AMDR range is broad public nutrition context, not a personal prescription. Your useful target can change with activity, diabetes care, sport goals, pregnancy, digestion, food preferences, and clinician guidance.',
+      },
+      {
+        question: 'Does this calculator count fiber and sugar separately?',
+        answer:
+          'No. It estimates total carbohydrate grams from calories and percent. Food labels, meal plans, or diabetes education materials are needed when fiber, added sugar, net carbs, or blood-glucose response matter.',
+      },
+      {
+        question: 'What happens if my calorie target is wrong?',
+        answer:
+          'The carbohydrate gram result moves with the calorie target. For example, 50% of 2,000 calories is 250 grams, while 50% of 1,600 calories is 200 grams. Check calories first, then macro percentage.',
+      },
+      {
+        question: 'Can I use a very low carbohydrate percentage?',
+        answer:
+          'You can calculate one, but that does not make it right for your body or health situation. Very low carbohydrate targets can be inappropriate for some people, and medical conditions or eating concerns need qualified nutrition or medical guidance.',
+      },
     ],
     relatedSlugs: ['macro-calculator', 'protein-calculator', 'fat-intake-calculator'],
   }),
