@@ -6032,17 +6032,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'amp-hours-to-watt-hours-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-electrical-power-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'electrical-power-seo-refresh-2026-06-26',
+    reviewedOn: '2026-06-26',
     scope: commonMathScope,
     sources: [inchAmpHoursToWattHours, doeApplianceEnergy, nistSi],
     findings: [
-      'The calculator multiplies amp-hours by nominal volts to estimate watt-hours and kilowatt-hours.',
-      'The FAQ explains why watt-hours are better than amp-hours for comparing batteries at different voltages.',
-      'The guide calls out battery chemistry, discharge rate, temperature, age, and conversion losses as limits.',
+      'The calculator multiplies amp-hours by nominal volts to estimate watt-hours and divides watt-hours by 1,000 for kilowatt-hours.',
+      'The FAQ explains why watt-hours are better than amp-hours for comparing batteries at different voltages and cautions users to use nominal voltage rather than charging voltage.',
+      'The tool and guide call out battery chemistry, discharge rate, temperature, age, depth-of-discharge limits, and inverter or converter losses as limits.',
     ],
     improvements: [
-      'Manually checked Ah-to-Wh math, kWh conversion, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+      'Refreshed SEO title, meta description, aliases, formula wording, input guidance, FAQ detail, and a 12.8 V LiFePO4 example while preserving related tools and privacy behavior.',
     ],
     followUps: [
       'Add runtime presets only if they point users to the dedicated battery-life calculator.',

@@ -2052,18 +2052,27 @@ export const utilityTools: ToolDefinition[] = [
     name: 'Amp Hours to Watt Hours Calculator',
     category: 'calculators',
     summary: 'Convert battery amp-hours and voltage into watt-hours and kilowatt-hours.',
+    seoTitle: 'Amp Hours to Watt Hours Calculator | Ah to Wh',
+    seoDescription:
+      'Convert battery amp-hours and voltage into watt-hours and kilowatt-hours. See Ah to Wh formula steps, 12 V and 48 V examples, and battery limits.',
     description:
-      'Use this free amp hours to watt hours calculator to estimate battery energy from Ah and nominal voltage.',
+      'Use this free amp hours to watt hours calculator to estimate battery energy from Ah and nominal voltage before comparing packs or planning runtime.',
+    aliases: ['Ah to Wh Calculator', 'Amp Hour to Watt Hour Calculator', 'Battery Watt Hours Calculator'],
     icon: 'calculator-ah-to-wh',
-    formula: 'The calculator multiplies amp-hours by volts to estimate watt-hours, then divides by 1,000 for kilowatt-hours.',
+    formula: 'Watt-hours = amp-hours x volts. Kilowatt-hours = watt-hours / 1,000.',
     limit:
-      'Battery labels are nominal. Real usable energy changes with chemistry, discharge rate, temperature, age, and conversion losses.',
+      'Battery labels use nominal voltage and rated capacity. Real usable energy changes with chemistry, discharge rate, temperature, age, depth-of-discharge limits, and inverter or converter losses.',
     inputExplanations: [
-      { term: 'Amp-hours', meaning: 'battery capacity rating at the listed voltage.' },
-      { term: 'Volts', meaning: 'nominal battery voltage.' },
-      { term: 'Watt-hours', meaning: 'energy estimate that is easier to compare across different voltages.' },
+      { term: 'Amp-hours', meaning: 'the Ah capacity rating from the battery label or pack specification.' },
+      { term: 'Volts', meaning: 'the nominal battery voltage, such as 12 V, 12.8 V, 24 V, or 48 V.' },
+      { term: 'Watt-hours', meaning: 'the stored-energy estimate that is easier to compare across different voltages.' },
     ],
     extraFaq: [
+      {
+        question: 'What is the Ah to Wh formula?',
+        answer:
+          'Multiply amp-hours by nominal volts. For example, 200 Ah x 12.8 V = 2,560 Wh, which is 2.56 kWh.',
+      },
       {
         question: 'Why are watt-hours better for comparing batteries?',
         answer:
@@ -2074,17 +2083,23 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'It gives stored energy before real losses. Use a battery-life or electricity tool when you also know the device watts and expected efficiency.',
       },
+      {
+        question: 'Should I use charging voltage or nominal voltage?',
+        answer:
+          'Use nominal battery voltage for the basic Ah to Wh estimate. Charging voltage can be higher than the battery rating and can overstate stored energy if you use it as the conversion input.',
+      },
     ],
     useCases: [
       'Convert battery Ah labels into watt-hours.',
       'Compare batteries with different voltages.',
       'Estimate kWh for larger battery packs.',
-      'Prepare inputs for battery runtime planning.',
+      'Prepare a stored-energy number before using a runtime or electricity-cost calculator.',
     ],
     examples: [
       { label: '12 V battery', expression: '300 Ah at 12 V', result: '3,600 Wh' },
       { label: '48 V pack', expression: '100 Ah at 48 V', result: '4,800 Wh' },
       { label: 'Small 24 V pack', expression: '20 Ah at 24 V', result: '480 Wh' },
+      { label: '12.8 V LiFePO4 bank', expression: '200 Ah at 12.8 V', result: '2,560 Wh, or 2.56 kWh' },
     ],
     relatedSlugs: ['watt-hours-to-amp-hours-calculator', 'device-battery-life-calculator', 'electricity-calculator'],
   }),
