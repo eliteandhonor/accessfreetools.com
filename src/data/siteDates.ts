@@ -360,6 +360,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-pregnancy-calculator': '2026-06-04',
   'how-to-use-pregnancy-conception-calculator': '2026-06-04',
   'how-to-use-due-date-calculator': '2026-06-26',
+  'how-to-use-ovulation-calculator': '2026-06-26',
   'how-to-use-conception-calculator': '2026-06-04',
   'how-to-use-pregnancy-weight-gain-calculator': '2026-06-04',
   'how-to-use-macro-calculator': '2026-06-26',
