@@ -34,6 +34,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isTdeeCalculator = spec.slug === 'tdee-calculator';
   const isGfrCalculator = spec.slug === 'gfr-calculator';
   const isPregnancyCalculator = spec.slug === 'pregnancy-calculator';
+  const isDueDateCalculator = spec.slug === 'due-date-calculator';
   const isPregnancyConceptionCalculator = spec.slug === 'pregnancy-conception-calculator';
   const isConceptionCalculator = spec.slug === 'conception-calculator';
   const isPregnancyWeightGainCalculator = spec.slug === 'pregnancy-weight-gain-calculator';
@@ -67,6 +68,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter age in years, sex used by the equation, and standardized serum creatinine in mg/dL from a lab result. Do not enter micromoles per liter, old lab values, cystatin C, urine albumin, or body weight in the creatinine box.'
     : isPregnancyCalculator
       ? 'Enter the first day of the last menstrual period, not the last day bleeding occurred. Cycle length means the usual number of days from one period start to the next; use 28 only if that is close for you. If the LMP is uncertain, cycles are irregular, bleeding may not have been a true period, or a clinician has already dated the pregnancy, use the clinician or ultrasound date instead.'
+    : isDueDateCalculator
+      ? 'Enter the first day of the last menstrual period, not the last day of bleeding. Cycle length means the usual number of days from one period start to the next. Use 28 only if that is close for you, and use clinician, ultrasound, or IVF dating if that has already been assigned.'
     : isPregnancyConceptionCalculator
       ? 'Enter the estimated due date you were given by a clinician, ultrasound report, or earlier due-date calculation. This calculator works backward from that date only. If the due date changed after ultrasound, IVF dating, or clinician review, use the updated date instead of an older calendar estimate.'
     : isConceptionCalculator
@@ -104,6 +107,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read eGFR as an adult kidney-filtration estimate in mL/min/1.73 m2. The range label is context only. Kidney disease, medication dosing, and next steps depend on repeat labs, urine albumin, symptoms, diagnosis, age, pregnancy status, body size, and clinician review.'
     : isPregnancyCalculator
       ? 'Read the due date as an estimated delivery date from calendar math, not a guarantee of when birth will happen. Gestational age is counted from LMP, so it is usually about two weeks more than conception age. The conception and trimester lines are planning references, and an early ultrasound or clinician review can update the official date.'
+    : isDueDateCalculator
+      ? 'Read the due date as an estimated delivery date from LMP calendar math, not a guarantee of when birth will happen. The gestational-age, conception, and trimester lines are planning references only. An early ultrasound, IVF date, or clinician review can override the calculator.'
     : isPregnancyConceptionCalculator
       ? 'Read the center date as a backward estimate from the due date, not proof of the exact day conception happened. The possible window is more honest than a single day because ovulation, fertilization, sperm survival, ultrasound dating, and due-date assumptions can all shift the real timing.'
     : isConceptionCalculator
@@ -934,20 +939,65 @@ export const healthTools: ToolDefinition[] = [
     name: 'Due Date Calculator',
     summary: 'Estimate pregnancy due date from LMP and cycle length.',
     description:
-      'Use this free due date calculator to estimate expected delivery date from the first day of the last period and cycle length.',
+      'Use this free due date calculator to estimate expected delivery date from the first day of the last menstrual period and usual cycle length, with conception timing and clinical-dating limits.',
+    seoTitle: 'Due Date Calculator | LMP Pregnancy Date Estimate',
+    seoDescription:
+      'Estimate pregnancy due date from LMP and cycle length. See the 280-day formula, conception timing, gestational age, examples, and ultrasound limits.',
+    aliases: [
+      'Pregnancy Due Date Calculator',
+      'EDD Calculator',
+      'LMP Due Date Calculator',
+      'Pregnancy Date Calculator',
+      'Estimated Delivery Date Calculator',
+    ],
     icon: 'calculator-due-date',
-    formula: 'The calculator uses Naegele-style dating: LMP plus 280 days, adjusted by the difference from a 28-day cycle.',
-    caution: estimateCaution,
+    formula:
+      'The calculator uses Naegele-style dating: due date = first day of LMP + 280 days + (cycle length - 28 days). It estimates conception near LMP + cycle length - 14 days and counts gestational age from LMP to today.',
+    caution:
+      'This calculator gives an educational pregnancy-date estimate only. It is not prenatal care, ultrasound dating, IVF dating, labor guidance, emergency advice, paternity proof, or clinician advice.',
     useCases: [
-      'Estimate a due date from last menstrual period.',
-      'Adjust the estimate for shorter or longer cycles.',
-      'Find estimated conception date alongside due date.',
-      'Use as a planning reference before clinical confirmation.',
+      'Estimate an expected due date from the first day of the last menstrual period.',
+      'Adjust the due-date estimate for shorter or longer usual cycle length.',
+      'See estimated conception timing, gestational age today, and trimester context.',
+      'Use a simple planning date before clinical dating is confirmed.',
     ],
     examples: [
-      { label: 'LMP Apr 1', expression: '28-day cycle', result: 'Estimated due date Jan 6, 2027' },
-      { label: '32-day cycle', expression: 'Due date moves later', result: 'Cycle-adjusted estimate' },
-      { label: '26-day cycle', expression: 'Due date moves earlier', result: 'Cycle-adjusted estimate' },
+      { label: 'LMP Apr 1, 2026', expression: '28-day cycle: Apr 1 + 280 days', result: 'Estimated due Jan 6, 2027; conception around Apr 15' },
+      { label: 'LMP Feb 14, 2026', expression: '32-day cycle: add 284 days', result: 'Estimated due Nov 25, 2026; conception around Mar 4' },
+      { label: 'LMP May 5, 2026', expression: '26-day cycle: add 278 days', result: 'Estimated due Feb 7, 2027; conception around May 17' },
+      { label: 'LMP Jun 10, 2026', expression: '35-day cycle: add 287 days', result: 'Estimated due Mar 24, 2027; conception around Jul 1' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the due date calculator add 280 days?',
+        answer:
+          'A common LMP-based pregnancy estimate counts about 280 days, or 40 weeks, from the first day of the last menstrual period. That is gestational-age dating, so it starts before estimated conception.',
+      },
+      {
+        question: 'Why does cycle length change the due date?',
+        answer:
+          'Cycle length shifts the estimated ovulation timing. A 32-day cycle moves the estimate about four days later than a 28-day cycle, while a 26-day cycle moves it about two days earlier. Irregular cycles make calendar dating less reliable.',
+      },
+      {
+        question: 'Should I enter the first or last day of my period?',
+        answer:
+          'Enter the first day bleeding started for the last menstrual period. The formula is built around the period start date, not the last bleeding day, ovulation day, positive test date, or appointment date.',
+      },
+      {
+        question: 'Is the estimated due date guaranteed?',
+        answer:
+          'No. It is a planning estimate. Many healthy pregnancies deliver before or after the due date, and medical details can change how your care team interprets timing.',
+      },
+      {
+        question: 'When should ultrasound, IVF, or clinician dating override this calculator?',
+        answer:
+          'Use the official date from your care team when one has been assigned, especially after early ultrasound, IVF transfer dating, uncertain LMP, irregular cycles, multiples, bleeding that may not have been a true period, or medical concerns.',
+      },
+      {
+        question: 'Can this prove the exact conception date or parentage?',
+        answer:
+          'No. The conception line is an estimate near ovulation, not proof of an exact day, intercourse date, or parentage. Ovulation shifts, sperm survival, fertilization timing, and dating uncertainty all matter.',
+      },
     ],
     relatedSlugs: ['pregnancy-calculator', 'pregnancy-conception-calculator', 'ovulation-calculator'],
   }),

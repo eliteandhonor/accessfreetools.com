@@ -2972,21 +2972,19 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'due-date-calculator',
     status: 'deep-reviewed',
-    batch: 'priority-risk-pass-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-26',
+    reviewedOn: '2026-06-26',
     scope: commonMathScope,
     sources: [johnsHopkinsDueDate, cdcPregnancyWeight],
     findings: [
-      'The calculator uses last menstrual period plus 280 days and adjusts for cycle length compared with a 28-day cycle.',
-      'The guide explains LMP versus conception estimate and warns that many healthy pregnancies deliver before or after the estimated due date.',
-      'Medical disclaimer language is visible so the result reads as planning support until clinical dating confirms it.',
+      'DataForSEO paid evidence for the exact tool targeted due-date calculator intent, and Calculator.net competitor evidence showed formula/logic coverage and mistakes/limits notes as the main gaps to strengthen.',
+      'The calculator uses the first day of the last menstrual period plus 280 days, adjusts for cycle length compared with a 28-day cycle, and estimates conception near LMP plus cycle length minus 14 days.',
+      'The tool now separates planning estimates from clinical dating by explaining that ultrasound, IVF, uncertain LMP, irregular cycles, multiples, bleeding concerns, or clinician review can override calendar math.',
     ],
     improvements: [
-      'Manually checked due-date math, cycle adjustment, guide article, pregnancy cautions, related tools, and source notes.',
+      'Added LMP-specific SEO title and description, EDD and pregnancy-date aliases, exact 28-day, 32-day, 26-day, and 35-day examples, first-day-of-period input guidance, 280-day formula language, ultrasound/IVF/clinician override FAQs, conception-parentage limits, updated modified dates, DataForSEO paid sprint evidence, competitor gap evidence, and workbench readiness checks.',
     ],
-    followUps: [
-      'Add a small note near the date picker explaining that LMP means the first day of the last period.',
-    ],
+    followUps: [],
   },
   {
     slug: 'gfr-calculator',
