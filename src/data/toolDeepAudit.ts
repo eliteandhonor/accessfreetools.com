@@ -4832,17 +4832,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'macro-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-26',
+    reviewedOn: '2026-06-26',
     scope: commonMathScope,
     sources: [macroAmdr, dietaryGuidelines],
     findings: [
       'The calculator enforces macro percentages adding to 100 and converts calories into grams using 4 kcal/g for protein and carbohydrate and 9 kcal/g for fat.',
-      'The guide explains that macro splits are planning templates, not medical diet instructions.',
-      'The result wording keeps food quality, fiber, alcohol calories, and medical conditions outside the simple macro math.',
+      'The tool copy now explains that users should enter whole percentages like 40 for 40%, start with a reliable calorie target, and read macro grams as planning targets rather than body-composition promises.',
+      'The guide and tool wording keep food quality, fiber, alcohol calories, diabetes care, eating-disorder treatment, pregnancy nutrition, sports fueling, and medical conditions outside the simple macro math.',
     ],
     improvements: [
-      'Manually checked macro-percent validation, gram conversion, examples, FAQ cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Reworked metadata, aliases, formula wording, examples, FAQ answers, modified dates, and audit notes around 2,000 calorie balanced, 2,400 calorie higher-protein, 1,800 calorie lower-carb, and 2,800 calorie training-day macro splits.',
     ],
     followUps: [
       'Add preset descriptions later if users want clearer differences between balanced, higher-protein, and lower-carb splits.',

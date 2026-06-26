@@ -29,6 +29,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isBacCalculator = spec.slug === 'bac-calculator';
   const isCalorieCalculator = spec.slug === 'calorie-calculator';
   const isCaloriesBurnedCalculator = spec.slug === 'calories-burned-calculator';
+  const isMacroCalculator = spec.slug === 'macro-calculator';
   const isCarbohydrateCalculator = spec.slug === 'carbohydrate-calculator';
   const isFatIntakeCalculator = spec.slug === 'fat-intake-calculator';
   const isTdeeCalculator = spec.slug === 'tdee-calculator';
@@ -58,6 +59,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter the formula sex setting, age in years, height in centimeters, weight in kilograms, activity level, and planning goal. Formula sex chooses the +5 or -161 Mifflin-St Jeor adjustment. Activity level is a broad weekly average, so choose the closest normal week rather than one unusually hard or unusually quiet day.'
     : isCaloriesBurnedCalculator
       ? 'Choose the activity MET estimate, enter body weight in kilograms, and enter the workout duration in minutes. MET is a rough intensity value: a brisk walk is lower than running, and the same activity can still feel different depending on pace, hills, fitness, heat, and breaks.'
+    : isMacroCalculator
+      ? 'Enter your daily calorie target first, then choose or enter the protein, fat, and carbohydrate percentages. Type whole percentages like 40 for 40%, not 0.40. The three percentages should add to 100, and the result is only as useful as the calorie target you start with.'
     : isCarbohydrateCalculator
       ? 'Enter the calorie target first, then enter the percent of those calories planned from carbohydrate. Type 50 for 50%, not 0.50. The calculator assumes carbohydrate has 4 calories per gram and uses only the calorie target and carb percent you provide.'
     : isFatIntakeCalculator
@@ -97,6 +100,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the answer as an estimated daily calorie target for the inputs and goal you selected. It is not a medical diet order, pregnancy plan, eating-disorder recovery target, sports-fueling prescription, or promise of weight change. Compare it with real-world trends and qualified guidance before making major nutrition changes.'
     : isCaloriesBurnedCalculator
       ? 'Read the answer as an exercise-energy estimate for the MET value, body weight, and duration you entered. It is not a lab measurement, wearable calibration, diet permission, injury advice, or exact energy-balance number. Real burn can shift with pace, terrain, form, fitness, weather, and rest breaks.'
+    : isMacroCalculator
+      ? 'Read the macro grams as daily planning targets for the calorie target and split you entered. Protein and carbohydrate use 4 calories per gram, and fat uses 9 calories per gram. The calculator does not judge food quality, build a meal plan, set a medical nutrition target, or guarantee body-composition change.'
     : isCarbohydrateCalculator
       ? 'Read the answer as total carbohydrate grams for the calorie target and percent you entered. It does not grade food quality, count fiber separately, set a diabetes plan, set a sports-fueling plan, or tell you how your blood sugar will respond.'
     : isFatIntakeCalculator
@@ -1097,20 +1102,65 @@ export const healthTools: ToolDefinition[] = [
     name: 'Macro Calculator',
     summary: 'Split daily calories into protein, fat, and carbohydrate grams.',
     description:
-      'Use this free macro calculator to convert daily calories into protein, fat, and carbohydrate targets for balanced or goal-based plans.',
+      'Use this free macro calculator to convert daily calories and a macro split into protein, fat, and carbohydrate grams, with formula steps and nutrition limits.',
+    seoTitle: 'Macro Calculator | Protein Fat Carb Grams',
+    seoDescription:
+      'Convert calories and macro percentages into daily protein, fat, and carbohydrate grams. See the 4/9 calorie formula, examples, and nutrition limits.',
+    aliases: [
+      'Macronutrient Calculator',
+      'Macro Split Calculator',
+      'Protein Fat Carb Calculator',
+      'Calories to Macros Calculator',
+      'Macro Grams Calculator',
+    ],
     icon: 'calculator-macro',
-    formula: 'The calculator applies a selected protein, fat, and carbohydrate percentage split, using 4 kcal per gram for protein and carbs and 9 kcal per gram for fat.',
-    caution: estimateCaution,
+    formula:
+      'Protein grams = daily calories x protein percentage / 100 / 4. Carbohydrate grams = daily calories x carbohydrate percentage / 100 / 4. Fat grams = daily calories x fat percentage / 100 / 9. The macro percentages should add to 100.',
+    caution:
+      'This calculator gives an educational macro-gram estimate only. It is not medical nutrition therapy, diabetes care, eating-disorder treatment, a sports-fueling prescription, a pregnancy nutrition plan, or clinician advice.',
     useCases: [
-      'Convert calories into macro grams.',
-      'Compare balanced, higher-protein, and lower-carb splits.',
-      'Plan meals with calorie and macro targets.',
-      'Cross-check carb, protein, and fat calculators.',
+      'Convert daily calories and macro percentages into grams.',
+      'Compare balanced, higher-protein, lower-carb, and training-day splits.',
+      'Check whether protein, fat, and carbohydrate percentages add up cleanly.',
+      'Use with calorie, carbohydrate, protein, and fat calculators before planning meals.',
     ],
     examples: [
-      { label: 'Balanced', expression: '2000 kcal', result: 'Carbs, protein, and fat grams' },
-      { label: 'Higher protein', expression: '2400 kcal', result: 'Higher protein gram target' },
-      { label: 'Lower carb', expression: '1800 kcal', result: 'Lower carbohydrate split' },
+      { label: 'Balanced 2000 kcal', expression: '50% carbs, 20% protein, 30% fat', result: '250 g carbs, 100 g protein, about 66.7 g fat' },
+      { label: 'Higher protein 2400 kcal', expression: '40% carbs, 30% protein, 30% fat', result: '240 g carbs, 180 g protein, 80 g fat' },
+      { label: 'Lower carb 1800 kcal', expression: '25% carbs, 35% protein, 40% fat', result: '112.5 g carbs, 157.5 g protein, 80 g fat' },
+      { label: 'Training day 2800 kcal', expression: '55% carbs, 25% protein, 20% fat', result: '385 g carbs, 175 g protein, about 62.2 g fat' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the macro calculator divide protein and carbs by 4 and fat by 9?',
+        answer:
+          'Protein and carbohydrate each provide about 4 calories per gram, while fat provides about 9 calories per gram. The calculator turns each macro percentage into calories first, then divides by the matching calories-per-gram value.',
+      },
+      {
+        question: 'Should the macro percentages add to 100?',
+        answer:
+          'Yes. Protein, fat, and carbohydrate percentages should describe the full calorie split, so they should add to 100. If they do not, the calculator cannot represent the whole calorie target cleanly.',
+      },
+      {
+        question: 'Should I type 40 or 0.40 for 40%?',
+        answer:
+          'Type 40 for 40%. The percent boxes use normal percentages, so 0.40 would mean less than one percent and would make the gram target much smaller than intended.',
+      },
+      {
+        question: 'Does this calculator set a weight-loss target?',
+        answer:
+          'No. It converts a calorie target into macro grams. If the calorie target is too high, too low, or not right for your body, the macro grams will inherit that problem.',
+      },
+      {
+        question: 'Can this replace medical nutrition advice?',
+        answer:
+          'No. Macro math is not medical nutrition therapy. Diabetes care, kidney disease, pregnancy, eating-disorder recovery, sport fueling, digestive conditions, and medication-related nutrition questions need qualified guidance.',
+      },
+      {
+        question: 'Why do the macro grams change when calories change?',
+        answer:
+          'The percentages are applied to the calorie target. For example, 30% protein at 2,000 calories is 150 g protein, while 30% protein at 2,400 calories is 180 g protein.',
+      },
     ],
     relatedSlugs: ['carbohydrate-calculator', 'protein-calculator', 'fat-intake-calculator'],
   }),
