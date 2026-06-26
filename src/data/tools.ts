@@ -780,32 +780,43 @@ const baseTools: ToolDefinition[] = [
     category: 'calculators',
     summary: 'Add, subtract, multiply, divide, and convert binary numbers.',
     description:
-      'Use this free binary calculator for base-2 addition, subtraction, multiplication, division with remainders, binary-to-decimal conversion, decimal-to-binary conversion, copy, and history.',
+      'Use this free binary calculator for base-2 addition, subtraction, multiplication, division with remainders, binary-to-decimal conversion, decimal-to-binary conversion, steps, copy, and history.',
     icon: 'calculator-binary',
     seoTitle: 'Binary Calculator | Free Online Base-2 Calculator',
     seoDescription:
-      'Use the free Access Free Tools binary calculator to add, subtract, multiply, divide, and convert binary numbers to decimal or decimal numbers to binary with steps.',
+      'Use the free Access Free Tools binary calculator to add, subtract, multiply, divide, and convert binary numbers with decimal checks, remainders, and steps.',
     useCases: [
-      'Check binary addition, subtraction, multiplication, and division homework.',
+      'Check that 1011 + 110 equals 10001, or 17 in decimal.',
       'Convert binary values such as 101010 into decimal numbers.',
       'Convert whole decimal numbers into grouped binary output.',
       'See quotient and remainder for binary division problems that do not divide evenly.',
+      'Use grouped bit strings such as 1111 0000 without changing the value.',
     ],
     examples: [
       {
         label: 'Binary addition',
         expression: '1011 + 110',
-        result: '10001',
+        result: '10001 (17 decimal)',
       },
       {
         label: 'Binary subtraction',
         expression: '10000 - 1',
-        result: '1111',
+        result: '1111 (15 decimal)',
+      },
+      {
+        label: 'Binary multiplication',
+        expression: '101 x 11',
+        result: '1111 (5 x 3 = 15 decimal)',
       },
       {
         label: 'Binary division',
         expression: '1101 / 10',
-        result: '110 remainder 1',
+        result: '110 remainder 1 (6 remainder 1 decimal)',
+      },
+      {
+        label: 'Binary to decimal',
+        expression: '101010',
+        result: '42 decimal',
       },
     ],
     faq: [
@@ -830,14 +841,29 @@ const baseTools: ToolDefinition[] = [
           'Binary division returns a whole-number quotient. If the division is not even, the calculator also shows the remainder in binary and decimal.',
       },
       {
+        question: 'How does the Binary Calculator check the math?',
+        answer:
+          'It reads each binary input as a base-2 whole number, performs the operation, then converts the result back to binary. The decimal answer is shown beside it so you can sanity-check the same value in base 10.',
+      },
+      {
         question: 'Does the calculator convert decimal to binary?',
         answer:
           'Yes. The quick conversions panel converts whole decimal numbers into binary and converts binary numbers back into decimal.',
       },
       {
+        question: 'Why does 1111 0000 equal 240 in decimal?',
+        answer:
+          'Spaces are only grouping helpers. The value is 11110000, which uses the 128, 64, 32, and 16 places: 128 + 64 + 32 + 16 = 240.',
+      },
+      {
         question: 'Can this calculator handle negative binary numbers?',
         answer:
           "Yes, you can use a leading minus sign for simple signed whole-number calculations. It does not use fixed-width two's complement notation yet.",
+      },
+      {
+        question: 'What should I double-check before trusting a binary result?',
+        answer:
+          'Check that binary inputs use only 0 and 1, that grouped spaces or underscores are only for readability, that decimal values are entered in the decimal conversion field, and that you are not expecting fixed-width overflow or two\'s complement behavior.',
       },
       {
         question: 'Is my binary calculation history private?',

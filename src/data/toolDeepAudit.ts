@@ -2725,17 +2725,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'binary-calculator',
     status: 'deep-reviewed',
-    batch: 'math-foundations-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-26',
+    reviewedOn: '2026-06-26',
     scope: commonMathScope,
     sources: [nasaNumberSystems, rfc4648],
     findings: [
       'The tool correctly frames binary as base 2 with place values based on powers of 2.',
       'Spaces and underscores are safe readability helpers because they do not change the value.',
       'The signed-number note is honest: this is simple signed whole-number math, not fixed-width two\'s complement.',
+      'The examples now pair binary answers with decimal checks so users can verify the same value in both bases.',
     ],
     improvements: [
-      'Reviewed base-2 wording, division remainder behavior, conversions, examples, FAQ, and related links.',
+      'Reviewed base-2 wording, division remainder behavior, conversions, examples, FAQ, related links, input mistakes, grouped-bit handling, and the two\'s-complement limit.',
     ],
     followUps: [
       'Add optional fixed-width two\'s complement mode later for developer and networking users.',

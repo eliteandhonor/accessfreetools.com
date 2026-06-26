@@ -213,6 +213,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'bandwidth-calculator': '2026-06-04',
   'wallpaper-calculator': '2026-05-26',
   'watts-to-amps-calculator': '2026-06-02',
+  'binary-calculator': '2026-06-26',
   'brick-calculator': '2026-06-02',
   'carpet-calculator': '2026-06-02',
   'concrete-block-calculator': '2026-06-02',
