@@ -4813,20 +4813,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'period-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-26',
+    reviewedOn: '2026-06-26',
     scope: commonMathScope,
     sources: [johnsHopkinsFertileWindow, johnsHopkinsDueDate],
     findings: [
-      'The calculator estimates the next period start from last period start plus average cycle length and estimates the end date from period length.',
-      'The guide correctly tells users to enter period start date, not the last day of bleeding.',
-      'The caution language says predictions can break down with irregular cycles, postpartum changes, illness, stress, or medication changes.',
+      'The calculator estimates the next upcoming period start by adding cycle length to the first day of the last period until the predicted start is in the future.',
+      'The tool copy now separates cycle length from period length: cycle length controls the next start date, while period length estimates the expected end date.',
+      'The caution language blocks diagnosis, contraception, fertility-test, pregnancy-test, late-period, missed-period, heavy-period, painful-period, and irregular-cycle overclaims.',
     ],
     improvements: [
-      'Manually checked period-date logic, cycle-length explanation, examples, FAQ cautions, source coverage, related tools, SEO copy, privacy behavior, and date output clarity.',
+      'Reworked metadata, aliases, examples, FAQ answers, formula wording, guide/tool modified dates, and audit notes around exact Apr 1, Apr 5, and Apr 12 examples, future-date skip-ahead behavior, start-to-start cycle counting, expected end-date logic, contraception limits, and late or missing period cautions.',
     ],
     followUps: [
-      'Add multi-cycle average support later if the tool becomes a bigger cycle-planning page.',
+      'Add multi-cycle average support later if the tool becomes a bigger cycle-planning page, because irregular cycles need stronger input-choice guidance than a single average cycle length can provide.',
     ],
   },
   {

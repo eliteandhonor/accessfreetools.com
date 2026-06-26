@@ -41,6 +41,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isPregnancyConceptionCalculator = spec.slug === 'pregnancy-conception-calculator';
   const isOvulationCalculator = spec.slug === 'ovulation-calculator';
   const isConceptionCalculator = spec.slug === 'conception-calculator';
+  const isPeriodCalculator = spec.slug === 'period-calculator';
   const isPregnancyWeightGainCalculator = spec.slug === 'pregnancy-weight-gain-calculator';
   const inputAnswer = isBmiCalculator
     ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
@@ -86,6 +87,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Enter the first day of the last period, your usual cycle length from one period start to the next, and luteal phase length if you know it. If you do not know luteal phase length, keep the 14-day default and read the answer as a calendar estimate for regular cycles, not a confirmed ovulation test.'
     : isConceptionCalculator
       ? 'Enter the first day of the last period, your usual cycle length from one period start to the next, and luteal phase length if you know it. If you do not know luteal phase length, keep the default and read the answer as a rough cycle estimate. Irregular cycles, recent hormonal birth control, postpartum changes, illness, stress, or uncertain period dates can make the window less reliable.'
+    : isPeriodCalculator
+      ? 'Enter the first day of the last period, your usual cycle length from one period start to the next, and period length in bleeding days. Use the start date, not the last day of bleeding. If cycles vary, use a recent average and read the answer as a planning estimate for regular-ish cycles.'
     : isPregnancyWeightGainCalculator
       ? 'Enter pre-pregnancy height and weight, current weight, and the pregnancy week. This calculator uses singleton pregnancy guideline ranges based on pre-pregnancy BMI. If you are carrying twins or more, have a high-risk pregnancy, have fluid retention, or were given a personal target by your care team, use that clinical guidance instead of this general estimate.'
     : 'Enter the body, activity, date, or lab values exactly in the units shown on the page. Height, weight, age, sex, time, and activity level can change health estimates a lot, so treat each label like a rule instead of a suggestion. If you are unsure which option fits, choose the closest honest match and read the result as a rough estimate.';
@@ -133,6 +136,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Read the ovulation date as the center of a calendar estimate, not proof that ovulation will happen that day. The fertile window is the five days before estimated ovulation through ovulation day because sperm can survive for several days and the egg survives for about a day after release.'
     : isConceptionCalculator
       ? 'Read the answer as an ovulation-based conception estimate, not proof of an exact day, intercourse date, or biological parent. The fertile window is more useful than the center date because sperm may survive for several days, the egg survives for about a day after ovulation, and ovulation can shift from the calendar estimate.'
+    : isPeriodCalculator
+      ? 'Read the next start, expected end, following period, and third period as calendar estimates. The calculator keeps adding cycle length until it reaches the next predicted start in the future, then uses period length only to estimate the end date. Stress, illness, medication changes, postpartum changes, travel, and normal variation can move real dates.'
     : isPregnancyWeightGainCalculator
       ? 'Read the total range as a prenatal-care reference, not a grade or diet rule. Healthy gain can be uneven by week, and your care team may care more about fetal growth, blood pressure, swelling, nausea, diabetes, or other medical details than the calculator line alone.'
     : 'Use the result as a learning number, not a final answer about your body or health. The supporting lines can show categories, ranges, calories, dates, or targets, but those numbers still need context like age, medical history, pregnancy status, training level, and advice from a qualified professional.';
@@ -142,6 +147,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Check that the weight is in kilograms, the reps were completed with clean form, and the set was not a failure-heavy or assisted set. One accidental unit swap, partial rep, or high-rep endurance set can make the estimate look more precise than it really is.'
     : isOvulationCalculator
       ? 'Check that the date is the first day bleeding started, that cycle length means period start to next period start, and that luteal phase is in days. Do not enter period length, suspected ovulation date, or a positive test date into the last-period field.'
+    : isPeriodCalculator
+      ? 'Check that the date is the first day bleeding started, that cycle length means start-to-start, and that period length means the number of bleeding days. Do not enter an ovulation date, expected end date, positive test date, or cycle-day number into the last-period field.'
     : 'Check the units, date, and personal details before reading the answer. For example, pounds and kilograms, inches and centimeters, or a wrong activity level can change the result quickly. If the number feels surprising, rerun it slowly and compare it with the examples.';
 
   return [
@@ -1221,20 +1228,65 @@ export const healthTools: ToolDefinition[] = [
     name: 'Period Calculator',
     summary: 'Predict upcoming period dates from cycle length and period length.',
     description:
-      'Use this free period calculator to estimate the next period start, expected end, and upcoming cycle dates.',
+      'Use this free period calculator to estimate the next period start, expected end, and upcoming cycle dates from last period date, cycle length, and period length.',
+    seoTitle: 'Period Calculator | Next Period Date Estimate',
+    seoDescription:
+      'Estimate your next period start, expected end, following period, and third period from last period date, cycle length, and period length.',
+    aliases: [
+      'Next Period Calculator',
+      'Period Date Calculator',
+      'Menstrual Cycle Calculator',
+      'Cycle Length Calculator',
+      'Period Tracker Calculator',
+    ],
     icon: 'calculator-period',
-    formula: 'The calculator adds cycle length to the first day of the last period until it finds the next expected period start date.',
-    caution: estimateCaution,
+    formula:
+      'Next period start = last period start plus cycle length. If that predicted start is not in the future, the calculator keeps adding cycle length until it reaches the next upcoming start. Expected end = next period start plus period length minus 1 day. Following periods add cycle length again.',
+    caution:
+      'This is an educational calendar estimate, not medical advice, contraception, a fertility test, a pregnancy test, or a diagnosis for late, missed, heavy, painful, or irregular periods.',
     useCases: [
-      'Estimate the next period start date.',
-      'Estimate expected period end date.',
-      'List upcoming cycles for planning.',
-      'Use calendar estimates while remembering cycles can change.',
+      'Estimate the next upcoming period start date from an older or recent last-period entry.',
+      'Estimate the expected end date from period length.',
+      'List following period dates for planning reminders, travel, or appointments.',
+      'Check start-to-start cycle math without using it as contraception or diagnosis.',
     ],
     examples: [
-      { label: '28-day cycle', expression: 'Last period Apr 1, 5 days long', result: 'Next period estimate' },
-      { label: '30-day cycle', expression: 'Last period Apr 5', result: 'Next cycle dates' },
-      { label: 'Short cycle', expression: '26-day cycle', result: 'Earlier next period estimate' },
+      { label: '28-day cycle', expression: 'LMP Apr 1, 2026, cycle 28, period length 5', result: 'Next start Apr 29; expected end May 3; following start May 27' },
+      { label: '30-day cycle', expression: 'LMP Apr 5, 2026, cycle 30, period length 6', result: 'Next start May 5; expected end May 10; following start Jun 4' },
+      { label: '26-day cycle', expression: 'LMP Apr 12, 2026, cycle 26, period length 4', result: 'Next start May 8; expected end May 11; following start Jun 3' },
+      { label: 'Old last-period entry', expression: 'A past predicted start has already gone by', result: 'The live result keeps adding cycle length until the next predicted start is upcoming' },
+    ],
+    extraFaq: [
+      {
+        question: 'Why does the Period Calculator skip ahead from an older last period?',
+        answer:
+          'The live result is meant to show the next upcoming predicted start. If the first cycle after the last period is already in the past, the calculator keeps adding the cycle length until the predicted start is still ahead of today.',
+      },
+      {
+        question: 'Should I count from period start or period end?',
+        answer:
+          'Use period start to period start. Cycle length means the number of days from the first day of one period to the first day of the next. Period length means how many bleeding days to use when estimating the expected end date.',
+      },
+      {
+        question: 'Why does period length change the end date but not the next start?',
+        answer:
+          'Cycle length controls the next start date. Period length only estimates the expected end by counting from the predicted start. A longer period does not automatically mean the next cycle starts later.',
+      },
+      {
+        question: 'What if my cycles are irregular?',
+        answer:
+          'Use the result as a rough planning note only. Calendar predictions are less reliable when cycle length changes a lot, periods are missing, birth control recently changed, postpartum cycles are returning, or stress, illness, travel, or medication affects timing.',
+      },
+      {
+        question: 'Can I use period prediction as contraception?',
+        answer:
+          'No. Period prediction is not contraception and does not confirm ovulation. If pregnancy prevention matters, use a reliable contraceptive method and qualified medical guidance instead of a calendar estimate.',
+      },
+      {
+        question: 'What if my period is late or missing?',
+        answer:
+          'This calculator cannot diagnose pregnancy, hormone changes, stress effects, illness, medication effects, or other causes of a late or missing period. Consider an appropriate pregnancy test or qualified care if the timing matters or symptoms are concerning.',
+      },
     ],
     relatedSlugs: ['ovulation-calculator', 'conception-calculator', 'due-date-calculator'],
   }),
