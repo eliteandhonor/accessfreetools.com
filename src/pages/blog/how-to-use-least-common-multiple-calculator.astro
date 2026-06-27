@@ -6,31 +6,131 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
 <CalculatorGuideArticle
   toolSlug="least-common-multiple-calculator"
   label="LCM calculator guide"
-  title="Least Common Multiple Calculator Guide"
-  description="Learn how to use the free Access Free Tools least common multiple calculator to find LCM answers, common denominators, repeating schedules, and exact steps."
+  title="How to use the Least Common Multiple Calculator"
+  description="Learn how to use the free Access Free Tools least common multiple calculator to find exact LCM answers, common denominators, schedule matches, and GCF-based steps."
   path="/blog/how-to-use-least-common-multiple-calculator/"
-  intro="The Least Common Multiple Calculator finds the smallest positive multiple shared by two or more whole numbers. It is useful for common denominators, repeated schedules, and divisibility practice."
+  intro="LCM is the number you look for when different counts need one shared landing place. The Least Common Multiple Calculator finds the smallest positive multiple shared by two or more whole numbers, then shows the GCF-based steps so the answer is easier to check."
   quickStart={[
-    'Enter at least two positive whole numbers separated by commas, spaces, or semicolons.',
+    'Enter at least two positive whole numbers separated by commas, spaces, semicolons, or new lines.',
     'Press Calculate LCM.',
-    'Read the exact least common multiple in the result card.',
-    'Review the steps, then copy the answer or compare it with recent calculations.',
+    'Read the least common multiple in the result card.',
+    'Check the pair-by-pair steps to see which shared factors were removed.',
+    'Use Copy answer or the recent-history list when you want to reuse the result.',
   ]}
   sections={[
     {
-      title: 'When LCM is useful',
+      title: 'Quick answer',
       paragraphs: [
-        'LCM is the number to reach for when different counts need one shared multiple. In fraction work, the LCM of denominators gives a common denominator. In schedule problems, it shows when repeating events line up again.',
-        'For example, the LCM of 12, 18, and 30 is 180 because 180 is the smallest positive number that all three divide into evenly.',
+        'For 12, 18, and 30, the least common multiple is 180. That means 180 is the first positive number that 12, 18, and 30 all divide into evenly.',
+        'Open the calculator, enter 12, 18, 30, and calculate. The answer card gives 180, and the steps show how the result is built without testing every multiple one at a time.',
+      ],
+      links: [
+        {
+          href: '/tools/least-common-multiple-calculator/',
+          label: 'Open the Least Common Multiple Calculator',
+        },
       ],
     },
     {
-      title: 'How the steps work',
+      title: 'What LCM means in plain language',
       paragraphs: [
-        'The calculator combines numbers using LCM(a,b) = a x b / GCF(a,b). That relationship keeps the result exact and avoids checking every possible multiple one by one.',
-        'Inputs must be positive whole numbers because LCM is normally defined as a positive shared multiple.',
+        'A multiple is what you get when you count by a number. Multiples of 6 include 6, 12, 18, 24, 30, and 36. Multiples of 9 include 9, 18, 27, and 36. The common multiples are numbers both lists share.',
+        'The least common multiple is the smallest positive common multiple. It is useful when fraction denominators need to match, when repeated schedules need their next overlap, or when you want to check divisibility across several numbers.',
+      ],
+    },
+    {
+      title: 'How to use the calculator',
+      paragraphs: [
+        'Type the numbers as one list. Commas, spaces, semicolons, and line breaks all work, so 4, 6, 9 and one number per line mean the same thing.',
+        'Use positive whole numbers only. Zero, negative numbers, and decimals do not fit the normal LCM definition used by this calculator, so the page asks you to correct those inputs before it gives an answer.',
+      ],
+      bullets: [
+        'Use denominator values when you are making fractions share one denominator.',
+        'Use repeating interval lengths when you are solving a schedule problem.',
+        'Use the result card for the final answer, then read the steps if you need to show work.',
+      ],
+    },
+    {
+      title: 'How the GCF step works',
+      paragraphs: [
+        'The calculator combines numbers with LCM(a,b) = a x b / GCF(a,b). The GCF part matters because shared factors should not be counted twice.',
+        'For 12 and 18, the GCF is 6, so 12 x 18 / 6 = 36. Then the calculator combines 36 with 30. The GCF of 36 and 30 is 6, so 36 x 30 / 6 = 180.',
+        'That pair-by-pair method keeps the answer exact even when the list has more than two numbers.',
+      ],
+    },
+    {
+      title: 'Fraction denominator example',
+      paragraphs: [
+        'Suppose a problem has denominators 4, 6, and 9. Enter 4, 6, 9. The calculator returns 36, so 36 is the smallest common denominator that works for all three fractions.',
+        'That does not finish the fraction problem by itself. It gives the denominator target. You still need to multiply each numerator by the same factor used to turn its denominator into 36.',
+      ],
+    },
+    {
+      title: 'Repeating schedule example',
+      paragraphs: [
+        'If one reminder repeats every 12 minutes and another repeats every 20 minutes, enter 12 and 20. The LCM is 60, so the reminders line up again after 60 minutes.',
+        'Keep the units consistent. Minutes with minutes is fine. Mixing minutes, hours, and calendar dates needs a separate unit conversion or a calendar-aware schedule check first.',
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'LCM answers are exact, but the setup still matters. Most mistakes come from entering the wrong kind of number or using LCM when the problem is actually asking for a greatest common factor.',
+      ],
+      bullets: [
+        'Do not enter zero, negative numbers, or decimals for this calculator.',
+        'Do not multiply every number together unless you know they have no shared factors.',
+        'Do not mix units without converting first.',
+        'Use GCF when you need the largest size that divides items into equal groups.',
+        'Use LCM when you need the first shared multiple or repeated overlap.',
+      ],
+    },
+    {
+      title: 'When not to rely on it by itself',
+      paragraphs: [
+        'Use the calculator as the arithmetic check, not as the whole explanation for every word problem. If a teacher, worksheet, or official form wants a specific method, copy the steps into that format.',
+        'For real calendars, time zones, school timetables, payroll cycles, or medication timing, the LCM can explain the repeating interval, but a real schedule can still have exceptions.',
       ],
     },
   ]}
-  sidecarText="Use the LCM calculator while you follow the guide."
+  faqItems={[
+    {
+      question: 'What does the Least Common Multiple Calculator do?',
+      answer:
+        'It finds the smallest positive whole number that every input divides into evenly. It also shows the GCF-based steps used to combine the numbers.',
+    },
+    {
+      question: 'What inputs can I enter?',
+      answer:
+        'Enter two or more positive whole numbers. You can separate them with commas, spaces, semicolons, or new lines.',
+    },
+    {
+      question: 'Why does the calculator use GCF?',
+      answer:
+        'It uses LCM(a,b) = a x b / GCF(a,b). Dividing by the greatest common factor removes the shared factor once, which prevents the LCM from being too large.',
+    },
+    {
+      question: 'How do I use LCM with fractions?',
+      answer:
+        'Enter the denominators. The LCM is the smallest common denominator, then each fraction still needs its numerator scaled by the matching denominator factor.',
+    },
+    {
+      question: 'How do I use LCM with schedules?',
+      answer:
+        'Enter the repeating intervals in the same unit. For 12 minutes and 20 minutes, the LCM is 60 minutes, so the events line up again after one hour.',
+    },
+    {
+      question: 'What if the numbers share no factors?',
+      answer:
+        'If the only shared factor is 1, the LCM is the product of the numbers. For 7, 11, and 13, the LCM is 1,001.',
+    },
+    {
+      question: 'Is my LCM history private?',
+      answer:
+        'Yes. The calculation runs in your browser tab, and the recent-history list stays in that tab while you use the page.',
+    },
+  ]}
+  bestUsesIntro="Use this guide when you need the LCM result and enough context to know whether it belongs in a fraction, schedule, or divisibility problem."
+  keepExploringIntro="If your number theory problem needs a nearby check, these related tools help with factors, greatest common factors, divisibility, and calculator practice."
+  sidecarText="Try the guide examples in the LCM Calculator, then replace them with your own denominator or schedule list."
 />
