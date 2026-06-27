@@ -7,37 +7,153 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="circle-calculator"
   label="Circle calculator guide"
   title="How to use the Circle Calculator"
-  description="Learn how to find radius, diameter, circumference, and area from one known circle measurement."
+  description="Learn how to use the Circle Calculator to find radius, diameter, circumference, and area from one known circle measurement with formula steps and unit checks."
   path="/blog/how-to-use-circle-calculator/"
-  intro="The Circle Calculator starts from one known circle measurement and finds the rest."
+  intro="If you know one circle measurement but need the rest, the Circle Calculator does the rearranging for you. Start with radius, diameter, circumference, or area, then use the result to check the drawing, homework problem, patio plan, or quick note before you copy it."
   quickStart={[
     'Choose radius, diameter, circumference, or area mode.',
     'Enter the known value.',
-    'Add a unit label if useful.',
-    'Press Calculate circle to find radius, diameter, circumference, and area.',
+    'Add a unit label such as cm, in, ft, or m if you want labeled results.',
+    'Press Calculate circle.',
+    'Read radius, diameter, circumference, and area together, then check whether the area unit is squared.',
   ]}
   sections={[
     {
+      title: 'Quick answer',
+      paragraphs: [
+        'The calculator finds radius first, then uses that radius to calculate every other full-circle measurement.',
+        'Radius and diameter are straight lengths. Circumference is the distance around the circle. Area is the flat space inside the circle, so its unit is squared.',
+      ],
+      links: [
+        {
+          href: '/tools/circle-calculator/',
+          label: 'Open the Circle Calculator while you read this guide',
+        },
+      ],
+    },
+    {
       title: 'Circle formulas used',
       paragraphs: [
-        'The calculator uses d = 2r, C = 2pi r, and A = pi r^2.',
-        'When you start from diameter, circumference, or area, it rearranges the formula to find radius first.',
+        'The formula map is simple once you know radius: diameter is d = 2r, circumference is C = 2pi r, and area is A = pi r^2.',
+        'If you start with diameter, the calculator uses r = d / 2. If you start with circumference, it uses r = C / (2pi). If you start with area, it uses r = sqrt(A / pi).',
+        'After radius is known, the same three formulas fill in diameter, circumference, and area so the results stay tied to one circle.',
       ],
     },
     {
-      title: 'Choosing a starting value',
+      title: 'What each starting value means',
       paragraphs: [
         'Use radius mode when you know the distance from the center to the edge.',
-        'Use diameter mode when you know the full width through the center. Use circumference or area mode when those measurements are already known.',
+        'Use diameter mode when you know the full width through the center. Diameter is twice the radius, so mixing those two up doubles or halves the rest of the answer.',
+        'Use circumference when you know the distance around the circle. Use area when you know the amount of flat space inside the circle.',
+      ],
+      bullets: [
+        'A 5 ft radius circle has a 10 ft diameter.',
+        'A 10 in diameter circle has a 5 in radius.',
+        'A circumference of about 31.4159 cm points back to a radius of about 5 cm.',
+        'An area of about 78.5398 m^2 points back to a radius of about 5 m.',
       ],
     },
     {
-      title: 'Reading units',
+      title: 'Example: start from radius',
       paragraphs: [
-        'Radius, diameter, and circumference use length units. Area uses square units.',
-        'If you enter cm as the unit label, the area result is shown as cm^2.',
+        'Suppose the known radius is 5 ft. The calculator doubles it for diameter, so d = 10 ft.',
+        'Then it uses C = 2pi r, so circumference is about 31.4159 ft. Area uses A = pi r^2, so area is about 78.5398 ft^2.',
+        'That result is useful when you need all measurements from one drawing dimension and want to keep the length and area labels straight.',
+      ],
+    },
+    {
+      title: 'Example: work backward from circumference',
+      paragraphs: [
+        'If the known circumference is 31.4159 cm, the calculator uses r = C / (2pi). That gives a radius close to 5 cm.',
+        'Once radius is found, diameter is about 10 cm and area is about 78.5398 cm^2.',
+        'This is the mode to use when someone measured around a circular object with tape and you need the inside formula values.',
+      ],
+    },
+    {
+      title: 'Example: work backward from area',
+      paragraphs: [
+        'If the known area is 78.5398 m^2, the calculator uses r = sqrt(A / pi). That gives a radius close to 5 m.',
+        'The diameter is then about 10 m and the circumference is about 31.4159 m.',
+        'Area mode is helpful when a problem gives square units first. The square root step is the part that turns square units back into a length.',
+      ],
+    },
+    {
+      title: 'How to read units',
+      paragraphs: [
+        'Radius, diameter, and circumference use length units such as ft, in, cm, or m. Area uses square units such as ft^2, in^2, cm^2, or m^2.',
+        'If you enter ft as the unit label, the area result is shown as ft^2 because area covers a surface, not a line.',
+        'Keep one unit system at a time. Do not enter radius in inches and read the area as square feet unless you convert first.',
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'The biggest mistake is entering diameter as radius. A 24 ft diameter patio has a 12 ft radius, not a 24 ft radius.',
+        'Another common mistake is forgetting that circumference and area are not interchangeable. Circumference is around the edge. Area is inside the circle.',
+      ],
+      bullets: [
+        'Check whether your known value crosses the full circle or stops at the center.',
+        'Do not drop the square unit on area results.',
+        'Round only after you finish the calculation if you need the closest answer.',
+        'Measure real objects twice if they may be oval, bent, or not perfectly round.',
+      ],
+    },
+    {
+      title: 'When not to rely on this alone',
+      paragraphs: [
+        'This guide covers full circles. It does not calculate arc length, sector area, rings, holes, ellipses, or partial-circle shapes.',
+        'For construction, manufacturing, safety, or school grading rules, use the calculator as a quick check and compare the final answer with the project requirement or teacher method.',
+      ],
+      links: [
+        {
+          href: '/tools/area-calculator/',
+          label: 'Use Area Calculator when you need several shape areas',
+        },
+        {
+          href: '/tools/surface-area-calculator/',
+          label: 'Use Surface Area Calculator for 3D surface problems',
+        },
       ],
     },
   ]}
-  sidecarText="Use the Circle Calculator while you follow the guide."
+  faqItems={[
+    {
+      question: 'What is the fastest way to use the Circle Calculator?',
+      answer:
+        'Choose the measurement you already know, enter the number, add a unit label if you want one, and press Calculate circle. The calculator solves radius first, then fills in diameter, circumference, and area.',
+    },
+    {
+      question: 'How do I know whether I have radius or diameter?',
+      answer:
+        'Radius goes from the center to the edge. Diameter goes all the way across the circle through the center. If your measurement crosses the whole circle, it is diameter, not radius.',
+    },
+    {
+      question: 'How does circumference mode find radius?',
+      answer:
+        'It uses r = C / (2pi). For example, a circumference of 31.4159 divided by 2pi is about 5, so the radius is about 5.',
+    },
+    {
+      question: 'Can I start from area instead of radius?',
+      answer:
+        'Yes. Area mode uses r = sqrt(A / pi). After the calculator gets radius, it calculates diameter and circumference from that radius.',
+    },
+    {
+      question: 'Why does the area answer use square units?',
+      answer:
+        'Area measures the flat space inside the circle, so it uses square units such as ft^2 or cm^2. Radius, diameter, and circumference are lengths, so they do not use square units.',
+    },
+    {
+      question: 'Can this guide help with arcs, sectors, or rings?',
+      answer:
+        'No. This Circle Calculator is for full circles. Arcs, sectors, rings, and partial-circle shapes need extra inputs and different formulas.',
+    },
+    {
+      question: 'What should I double-check before copying a circle result?',
+      answer:
+        'Check whether the known value is radius or diameter, confirm the unit label, keep area in square units, and remember that real objects may not be perfectly round.',
+    },
+  ]}
+  bestUsesIntro="This guide is best when you have one circle measurement and need the rest without doing the formula rearranging by hand."
+  keepExploringIntro="If your problem is close but not a full-circle measurement, use these nearby tools before trusting the answer."
+  sidecarText="Use the Circle Calculator while you follow the formula examples."
 />
