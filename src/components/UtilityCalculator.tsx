@@ -1936,9 +1936,9 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         ],
         defaultInputs: { kilowatts: '5', volts: '240', phase: 'single-phase', powerFactor: '0.9', efficiencyPercent: '90' },
         examples: [
-          { label: 'Motor estimate', inputs: { kilowatts: '5', volts: '240', phase: 'single-phase', powerFactor: '0.9', efficiencyPercent: '90' } },
-          { label: 'Three-phase load', inputs: { kilowatts: '15', volts: '480', phase: 'three-phase', powerFactor: '0.88', efficiencyPercent: '92' } },
-          { label: 'DC equipment', inputs: { kilowatts: '1.2', volts: '48', phase: 'dc', powerFactor: '1', efficiencyPercent: '100' } },
+          { label: 'Single-phase motor', inputs: { kilowatts: '5', volts: '240', phase: 'single-phase', powerFactor: '0.9', efficiencyPercent: '90' } },
+          { label: '480 V three-phase', inputs: { kilowatts: '15', volts: '480', phase: 'three-phase', powerFactor: '0.88', efficiencyPercent: '92' } },
+          { label: '48 V DC equipment', inputs: { kilowatts: '1.2', volts: '48', phase: 'dc', powerFactor: '1', efficiencyPercent: '100' } },
         ],
       },
     ],
@@ -5333,11 +5333,11 @@ function calculateUtility(
           { label: 'Efficiency', value: percent(result.efficiencyPercent) },
         ],
         steps: [
-          'Convert kilowatts to watts.',
-          'Account for efficiency when the output kW needs more input power.',
-          'Divide by voltage, phase factor, and power factor to estimate current.',
+          'Convert kW to watts, then divide by efficiency when the kW value is output power.',
+          'Use the phase factor: 1 for DC or single-phase AC, and sqrt(3) for three-phase AC.',
+          'Divide input watts by volts, phase factor, and power factor to estimate running current.',
         ],
-        note: 'Motors and AC equipment can behave differently while starting. Use equipment nameplates and professional electrical sizing for real installs.',
+        note: 'Use this as planning math only. Breakers, conductors, voltage drop, duty cycle, motor starting current, code rules, and nameplate limits need qualified electrical review.',
       };
     }
     case 'kva-to-amps': {

@@ -5996,20 +5996,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'kilowatts-to-amps-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-electrical-power-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-refresh-electrical-power-batch-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [inchKilowattsToAmps, openStaxOhmsLaw, nistSi],
     findings: [
-      'The calculator converts kW to watts, adjusts for efficiency, then divides by voltage, phase factor, and power factor.',
-      'The FAQ separates kW from kVA so users do not use the wrong conversion intent.',
-      'The guide calls out motor starting current and equipment nameplates as limits of the simple estimate.',
+      'The refreshed tool now states the efficiency-adjusted input-watts step plus the separate DC, single-phase AC, and three-phase AC kW-to-amps formulas.',
+      'The examples show the default 5 kW single-phase motor estimate, a 15 kW 480 V three-phase load, 48 V DC equipment, and the current change caused by 100% versus 90% efficiency.',
+      'The FAQ and limit copy separate kW from kVA and keep breaker, conductor, motor-starting, voltage-drop, code, and equipment-nameplate decisions outside the simplified estimate.',
     ],
     improvements: [
-      'Manually checked kW-to-amps math, efficiency handling, phase factors, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+      'Refreshed kW-to-amps SEO title, meta description, aliases, formula wording, input explanations, examples, FAQ detail, safety limits, related intent wording, and modified date.',
     ],
     followUps: [
-      'Add motor horsepower cross-links only after the wording stays clear about starting current.',
+      'Add motor horsepower cross-links later only if the wording stays clear about starting current and qualified electrical sizing limits.',
     ],
   },
   {

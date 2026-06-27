@@ -2007,41 +2007,80 @@ export const utilityTools: ToolDefinition[] = [
     name: 'Kilowatts to Amps Calculator',
     category: 'calculators',
     summary: 'Convert kilowatts to amps with voltage, phase, power factor, and efficiency.',
+    seoTitle: 'Kilowatts to Amps Calculator | kW to Amps',
+    seoDescription:
+      'Convert kilowatts to amps for DC, single-phase AC, and three-phase AC loads. Check 5 kW motor, 15 kW three-phase, and 48 V DC examples.',
     description:
-      'Use this free kilowatts to amps calculator to estimate current for DC, single-phase AC, and three-phase AC loads.',
+      'Use this free kilowatts to amps calculator to estimate current from kW, voltage, phase type, power factor, and efficiency.',
+    aliases: ['kW to amps calculator', 'kilowatt to amp calculator', '3 phase kW to amps', 'motor kW to amps'],
     icon: 'calculator-kw-to-amps',
     formula:
-      'The calculator converts kW to watts, adjusts for efficiency, then divides by voltage, phase factor, and power factor.',
+      'Input watts = kW x 1,000 / (efficiency / 100). DC amps = input watts / volts. Single-phase AC amps = input watts / (volts x power factor). Three-phase AC amps = input watts / (volts x sqrt(3) x power factor).',
     limit:
-      'Motors and AC equipment can behave differently while starting. Use equipment nameplates and professional electrical sizing for real installs.',
+      'This is a simplified electrical estimate for planning and comparison. Breaker size, conductor size, voltage drop, duty cycle, motor starting current, local code, and equipment-nameplate rules still need manufacturer data and qualified electrical review.',
     inputExplanations: [
-      { term: 'Kilowatts', meaning: 'real power in thousands of watts.' },
-      { term: 'Voltage', meaning: 'the supply voltage for the load.' },
-      { term: 'Power factor', meaning: 'AC correction factor for real power versus apparent power.' },
-      { term: 'Efficiency', meaning: 'how much input power becomes useful output power.' },
+      { term: 'Kilowatts', meaning: 'real power in thousands of watts, often shown as kW on equipment data.' },
+      { term: 'Voltage', meaning: 'the supply voltage used by the load, such as 48 V DC, 120 V, 240 V, 208 V, or 480 V.' },
+      { term: 'Phase', meaning: 'DC, single-phase AC, or three-phase AC formula selection.' },
+      { term: 'Power factor', meaning: 'AC correction factor between 0 and 1 for real power versus apparent power.' },
+      { term: 'Efficiency', meaning: 'the percent of input power that becomes useful output power; lower efficiency raises estimated input watts and amps.' },
     ],
     extraFaq: [
       {
+        question: 'What is the kW to amps formula?',
+        answer:
+          'First convert kW to watts, then adjust for efficiency when needed. For DC, divide input watts by volts. For single-phase AC, divide by volts times power factor. For three-phase AC, divide by volts times sqrt(3) times power factor.',
+      },
+      {
         question: 'Why does the calculator ask for efficiency?',
         answer:
-          'If kW describes output power, the equipment may need more input power because of losses. Lower efficiency increases the estimated input watts and therefore the amps.',
+          'If the kW value describes output power, the equipment may need more input power because of losses. For example, 5 kW at 90% efficiency uses about 5,555.56 input watts before the current calculation.',
+      },
+      {
+        question: 'What power factor should I enter?',
+        answer:
+          'Use the equipment nameplate, manual, or specification when you have it. A power factor of 1 is only a best-case AC assumption; motors and many larger AC loads are usually lower.',
       },
       {
         question: 'Should I use kW or kVA?',
         answer:
-          'Use kW when you know real power. Use the kVA to Amps Calculator when the rating is apparent power, such as many transformer or UPS ratings.',
+          'Use kW when you know real power. Use the kVA to Amps Calculator when the rating is apparent power, such as many transformer, UPS, and generator labels.',
+      },
+      {
+        question: 'Can I size a breaker or wire from this result?',
+        answer:
+          'No. Treat the result as planning math only. Real breaker and conductor sizing depends on code rules, continuous-load rules, temperature, insulation, run length, starting current, and equipment instructions.',
+      },
+      {
+        question: 'Why can motor amps be higher than the estimate?',
+        answer:
+          'The calculator estimates running current from steady power. Motors can draw much more current while starting, and the nameplate full-load amps can differ from a simple kW estimate.',
       },
     ],
     useCases: [
       'Estimate current for a kW-rated load.',
-      'Include simple motor efficiency and power factor assumptions.',
-      'Compare DC, single-phase, and three-phase examples.',
-      'Convert larger power ratings into current for planning conversation.',
+      'Turn a motor kW rating into a rough running-current estimate.',
+      'Compare DC, single-phase AC, and three-phase AC current.',
+      'See how power factor changes AC amperage.',
+      'See how lower efficiency raises input watts and current.',
+      'Check a 480 V three-phase planning example before reading the nameplate.',
+      'Decide whether a kW or kVA calculator matches the equipment label.',
     ],
     examples: [
-      { label: 'Motor estimate', expression: '5 kW, 240 V, PF 0.9, 90% efficiency', result: 'About 25.72 A' },
-      { label: 'Three-phase load', expression: '15 kW, 480 V, PF 0.88, 92% efficiency', result: 'About 22.27 A' },
-      { label: '48 V DC equipment', expression: '1.2 kW, 48 V', result: '25 A' },
+      {
+        label: 'Single-phase motor estimate',
+        expression: '5 kW, 240 V, PF 0.9, 90% efficiency',
+        result: '5,555.56 input W and about 25.72 A',
+      },
+      {
+        label: 'Three-phase 480 V load',
+        expression: '15 kW, 480 V, PF 0.88, 92% efficiency',
+        result: '16,304.35 input W and about 22.27 A',
+      },
+      { label: '48 V DC equipment', expression: '1.2 kW, 48 V, 100% efficiency', result: '25 A' },
+      { label: '120 V single-phase load', expression: '2 kW, 120 V, PF 1, 100% efficiency', result: 'About 16.67 A' },
+      { label: '208 V three-phase load', expression: '10 kW, 208 V, PF 0.85, 95% efficiency', result: 'About 34.38 A' },
+      { label: 'Efficiency check', expression: '5 kW at 100% vs 90% efficiency, 240 V, PF 0.9', result: 'About 23.15 A vs 25.72 A' },
     ],
     relatedSlugs: ['watts-to-amps-calculator', 'kva-to-amps-calculator', 'electricity-calculator'],
   }),
