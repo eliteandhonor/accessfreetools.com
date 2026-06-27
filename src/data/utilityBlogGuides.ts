@@ -2651,25 +2651,72 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.iecResistorCode, sourceLinks.teResistorCode],
   },
   'ohms-law-calculator': {
-    summary: 'Learn how voltage, current, resistance, and power fit together.',
+    title: 'Ohm\'s Law Calculator Guide',
+    summary: 'Learn how voltage, current, resistance, and power fit together, with V/I/R/P examples and safety limits.',
+    metaDescription:
+      'Use the Ohm\'s Law Calculator guide to solve voltage, current, resistance, and power from two known values, then avoid unit and circuit-safety mistakes.',
     purpose:
       'The Ohm\'s Law Calculator solves basic resistor and power relationships. Enter two known voltage, current, resistance, or power values and it fills in the rest.',
+    intro:
+      'Ohm\'s law is easiest when you start with the two values you actually know. If you know 12 V and 2 A, the calculator can show 6 ohms and 24 W. If you know 12 V and 24 W, it can work backward to 2 A and the same 6 ohms.',
+    inputMatch:
+      'the exact pair you know: voltage and current, voltage and resistance, current and resistance, voltage and power, current and power, or resistance and power',
+    logicNote:
+      'The core relationship is V = I x R. Power adds P = V x I, plus the rearranged checks P = I^2 x R and P = V^2 / R when power is one of the known values.',
+    readIntro:
+      'Read voltage, current, resistance, and power as one matched set for a simple DC or purely resistive circuit. The power line is especially useful for checking whether a resistor, LED setup, battery load, or test circuit might need a higher wattage rating.',
+    mistakeIntro:
+      'Most Ohm\'s law mistakes come from mixing milliamps with amps, kilohms with ohms, using a power rating as if it were a measured value, or applying simple resistor math to motors, speakers, capacitors, inductors, or other reactive AC loads.',
+    sidecarText:
+      'Open the Ohm\'s Law Calculator beside this guide. Try 12 V and 2 A first, then switch to V and P or R and P to see how the same circuit can be solved from different known values.',
+    bestUsesIntro:
+      'Use this guide when you are checking simple positive resistor math, electronics homework, LED current checks, breadboard examples, battery-load estimates, or quick power-rating sanity checks.',
     enter: [
-      'Choose the pair of values you know.',
-      'Enter the two values in the labels shown.',
-      'Calculate to get the remaining circuit values.',
+      'Choose the pair of values you know: V and I, V and R, I and R, V and P, I and P, or R and P.',
+      'Enter amps as amps and resistance as ohms. Convert 500 mA to 0.5 A or 2 kOhm to 2,000 ohms before you calculate.',
+      'Calculate to get the remaining voltage, current, resistance, and power values for the same simple circuit.',
     ],
     read: [
-      'Voltage is electrical potential difference.',
-      'Current is flow in amps.',
-      'Resistance is ohms, and power is watts.',
+      'Voltage is electrical potential difference, shown in volts.',
+      'Current is flow, shown in amps.',
+      'Resistance is opposition to current, shown in ohms.',
+      'Power is energy rate, shown in watts, and it matters for heat and component ratings.',
     ],
     mistakes: [
       'Do not use simple DC resistor math for every AC or reactive circuit.',
       'Do not ignore component power ratings and heat.',
+      'Do not mix mA, A, kOhm, and ohm values without converting first.',
       'Never test live circuits without proper training and equipment.',
     ],
-    sources: [sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick 12 V example',
+        paragraphs: [
+          'Say you know a simple load has 12 V across it and draws 2 A. Choose V and I, enter 12 and 2, and the calculator returns 6 ohms because R = V / I.',
+          'The same result also gives 24 W because P = V x I. That wattage is not just trivia: it tells you the load is turning energy into heat, light, motion, or another output at a 24-watt rate.',
+        ],
+      },
+      {
+        title: 'Solving from power values',
+        paragraphs: [
+          'If you know 12 V and 24 W, choose V and P. The calculator divides 24 W by 12 V to get 2 A, then divides 12 V by 2 A to get 6 ohms.',
+          'If you know 6 ohms and 24 W, choose R and P. The calculator uses I = sqrt(P / R), so sqrt(24 / 6) is 2 A, and then V = I x R gives 12 V.',
+        ],
+        bullets: [
+          'Use V and P when a supply voltage and wattage rating are known.',
+          'Use I and P when current and wattage are known but voltage is not.',
+          'Use R and P when resistance and wattage are known and you need the matching voltage and current.',
+        ],
+      },
+      {
+        title: 'When this guide is not enough',
+        paragraphs: [
+          'Ohm\'s law is a clean model for simple DC or purely resistive examples. Real electrical work can involve AC impedance, motors, speakers, capacitors, inductors, startup current, temperature, tolerance, duty cycle, code rules, and shock or fire hazards.',
+          'Use the guide to understand the math. Use manufacturer data, a multimeter when safe and appropriate, and qualified electrical help for live circuits, mains wiring, batteries that can deliver dangerous current, or any final design decision.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.openStaxOhmsLaw, sourceLinks.openStaxElectricPower, sourceLinks.nistUnits, sourceLinks.esfiExtensionCordSafety],
   },
   'electricity-calculator': {
     summary: 'Learn how watts and time turn into kWh and estimated electricity cost.',
