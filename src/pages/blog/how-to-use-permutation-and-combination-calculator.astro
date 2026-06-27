@@ -6,31 +6,160 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
 <CalculatorGuideArticle
   toolSlug="permutation-and-combination-calculator"
   label="Permutation combination guide"
-  title="Permutation and Combination Calculator Guide"
-  description="Learn how to use the free Access Free Tools permutation and combination calculator for nPr, nCr, order-matters problems, and exact integer answers."
+  title="How to use the Permutation and Combination Calculator"
+  description="Learn how to use the free Access Free Tools Permutation and Combination Calculator for nPr, nCr, order-matters choices, group selections, and exact examples."
   path="/blog/how-to-use-permutation-and-combination-calculator/"
-  intro="The Permutation and Combination Calculator finds nPr and nCr from the same n and r inputs so you can compare order-matters and order-does-not-matter counts."
+  intro="The Permutation and Combination Calculator is most useful when you know the total number of items and the number being chosen, but you are not sure whether order should change the answer. This guide shows how to read nPr and nCr side by side without turning the page into a formula maze."
   quickStart={[
     'Enter n, the total number of items.',
-    'Enter r, the number of items selected.',
+    'Enter r, the number of items selected or arranged.',
     'Press Calculate nPr and nCr.',
-    'Use the permutation answer when order matters and the combination answer when order does not matter.',
+    'Use nPr when first-second-third order, code order, or ranking order matters.',
+    'Use nCr when the same group counts once no matter how the items are arranged.',
   ]}
   sections={[
     {
-      title: 'Permutation vs combination',
+      title: 'Quick answer',
       paragraphs: [
-        'A permutation counts arrangements, so ABC and BAC are different outcomes. Use nPr when the order matters.',
-        'A combination counts groups, so ABC and BAC are the same group. Use nCr when the order does not matter.',
+        'Use nPr for ordered arrangements. Use nCr for unordered selections. The calculator shows both because many counting mistakes happen before the arithmetic starts.',
+        'For example, choosing 3 finalists from 10 people gives 10P3 = 720 if gold-silver-bronze order matters, but 10C3 = 120 if you only need the group of 3 people.',
+      ],
+      links: [
+        {
+          href: '/tools/permutation-and-combination-calculator/',
+          label: 'Open the Permutation and Combination Calculator while you read this guide',
+        },
       ],
     },
     {
-      title: 'Using counting in probability',
+      title: 'Permutation vs combination',
       paragraphs: [
-        'Many probability problems compare favorable outcomes with total possible outcomes.',
-        'Permutations and combinations help count those outcomes without listing every case one by one.',
+        'A permutation counts arrangements, so ABC and BAC are different outcomes. Use nPr when the first slot, second slot, third slot, or written order changes the meaning.',
+        'A combination counts groups, so ABC and BAC are the same group. Use nCr when the selected items matter but their order does not.',
+      ],
+      bullets: [
+        'Use nPr for podium finishes, passwords without repeated characters, ordered codes, seating order, or rankings.',
+        'Use nCr for committees, teams, card hands, lottery-style picks, or any group where rearranging the same items does not create a new result.',
+        'If you can swap two selected items and the outcome becomes different, use nPr. If the outcome stays the same, use nCr.',
+      ],
+    },
+    {
+      title: 'What n and r mean',
+      paragraphs: [
+        'n is the total pool. If there are 12 people, 52 cards, or 26 letters available, that number is n.',
+        'r is how many items you choose or arrange from that pool. If you need 4 committee members, a 5-card hand, or a 3-letter code, that number is r.',
+        'The calculator accepts whole numbers from 0 to 500 and requires r to be no larger than n. That keeps the result in the standard no-replacement nPr and nCr setup.',
+      ],
+    },
+    {
+      title: 'What the calculator is doing',
+      paragraphs: [
+        'For permutations, the calculator uses nPr = n! / (n - r)!. The exclamation point means factorial, so 5! means 5 x 4 x 3 x 2 x 1.',
+        'For combinations, the calculator uses nCr = n! / (r! x (n - r)!). The extra r! division removes duplicate orderings of the same selected group.',
+        'This is why nPr is usually larger than nCr. The permutation count treats ABC, ACB, BAC, BCA, CAB, and CBA as six different arrangements, while the combination count treats them as one group.',
+      ],
+    },
+    {
+      title: 'Example: ranking 3 from 10',
+      paragraphs: [
+        'Suppose 10 people enter a contest and you need first, second, and third place. Enter n = 10 and r = 3, then press Calculate nPr and nCr.',
+        'The calculator returns 10P3 = 720 and 10C3 = 120. For a ranked podium, use 720 because first-second-third order changes the result.',
+        'If the same 10 people are being narrowed to an unranked group of 3 finalists, use 120 because the group is the same no matter which finalist name you write first.',
+      ],
+    },
+    {
+      title: 'Example: cards and committees',
+      paragraphs: [
+        'A standard 5-card poker hand is a combination problem because the same five cards count as the same hand in any order. Enter n = 52 and r = 5. The combination answer is 2,598,960.',
+        'A 4-person committee from 12 people is also usually a combination problem. Enter n = 12 and r = 4. Use 12C4 = 495 unless the four seats have different roles.',
+        'If those 4 people must become president, vice president, secretary, and treasurer, order now matters. Use 12P4 = 11,880 because each role assignment is a different arrangement.',
+      ],
+    },
+    {
+      title: 'Using counts in probability',
+      paragraphs: [
+        'Many probability problems compare favorable outcomes with total possible outcomes. Permutations and combinations help count those outcomes without listing every case one by one.',
+        'The key is to use the same order rule on both sides of the probability fraction. Do not count the favorable outcomes as combinations and the total outcomes as permutations unless the problem truly changes the rules.',
+      ],
+      links: [
+        {
+          href: '/tools/probability-calculator/',
+          label: 'Use the Probability Calculator after you have the favorable and total counts',
+        },
+      ],
+    },
+    {
+      title: 'What this calculator does not cover',
+      paragraphs: [
+        'This calculator uses the standard no-replacement setup. Once an item is selected, it is not reused in the same count.',
+        'That means it is not the right model for PINs that allow repeated digits, coin flips, dice rolls, or drawing with replacement. Those problems use different counting rules, such as powers like 10^4 for a 4-digit PIN with repeated digits allowed.',
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'The biggest mistake is choosing the formula after looking at whichever answer feels nicer. Decide whether order matters before reading the result.',
+        'Another common mistake is mixing up the total pool with the selected amount. If 26 letters are available and you need a 3-letter code, n is 26 and r is 3, not the other way around.',
+      ],
+      bullets: [
+        'Do not use nPr for a group just because the number looks more impressive.',
+        'Do not use nCr for rankings, assigned seats, or named roles.',
+        'Do not use this no-replacement calculator when repeats are allowed.',
+        'Do not round or abbreviate huge integer counts before using them in a probability denominator.',
+      ],
+    },
+    {
+      title: 'Sources and reference checks',
+      paragraphs: [
+        'The guide follows the standard permutation and combination formulas used in introductory probability. The calculator also exposes both answers because the reader decision is usually about order, not arithmetic.',
+        'Use your class, contest, or project wording as the final authority. If it says order matters, assigned roles, arranged, ranked, or password, think nPr. If it says choose, committee, hand, or group, think nCr unless the wording adds order.',
+      ],
+      links: [
+        {
+          href: 'https://openstax.org/books/contemporary-mathematics/pages/7-6-probability-with-permutations-and-combinations',
+          label: 'OpenStax Contemporary Mathematics: probability with permutations and combinations',
+        },
       ],
     },
   ]}
+  faqItems={[
+    {
+      question: 'What is the fastest way to use the Permutation and Combination Calculator?',
+      answer:
+        'Enter n for the total pool, enter r for the number selected, and press Calculate nPr and nCr. Then choose the answer that matches whether order matters.',
+    },
+    {
+      question: 'How do I know whether to use nPr or nCr?',
+      answer:
+        'Use nPr when swapping two selected items changes the outcome. Use nCr when the same selected group counts once even if the items are written in a different order.',
+    },
+    {
+      question: 'Why are the nPr and nCr answers different?',
+      answer:
+        'nPr counts every order separately. nCr divides out the duplicate orderings of the same group, so it is smaller whenever r is greater than 1.',
+    },
+    {
+      question: 'Can r be zero in this calculator?',
+      answer:
+        'Yes. There is exactly one way to choose or arrange nothing, so nP0 and nC0 both equal 1. That result is normal in these formulas.',
+    },
+    {
+      question: 'Does this calculator allow repeated items or replacement?',
+      answer:
+        'No. It uses no-replacement nPr and nCr formulas. If an item can be reused, use a replacement-based counting method instead.',
+    },
+    {
+      question: 'Why does a 5-card hand use 52C5 instead of 52P5?',
+      answer:
+        'A normal 5-card hand is the same hand no matter which card you list first. Because the order does not change the hand, 52C5 is the right count.',
+    },
+    {
+      question: 'How do permutations and combinations connect to probability?',
+      answer:
+        'They often count favorable outcomes and total possible outcomes. Once those counts are clear, probability is usually favorable outcomes divided by total outcomes.',
+    },
+  ]}
+  bestUsesIntro="This guide is best when the hard part is deciding whether the same selected items should count once or many times."
+  keepExploringIntro="If your counting problem turns into probability or another statistics step, these nearby tools keep the workflow connected."
   sidecarText="Use the Permutation and Combination Calculator while you follow the guide."
 />

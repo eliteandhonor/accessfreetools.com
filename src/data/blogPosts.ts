@@ -224,10 +224,10 @@ const blogPostCandidates: BlogPostDefinition[] = [
   },
   {
     slug: 'how-to-use-permutation-and-combination-calculator',
-    title: 'Permutation and Combination Calculator Guide',
+    title: 'Permutation and Combination Guide',
     label: 'Permutation combination guide',
     summary:
-      'Learn when to use nPr or nCr, how order changes counting, and how exact integer answers are calculated.',
+      'Learn when to use nPr or nCr, how order changes counting, how no-replacement formulas work, and how to read exact examples.',
   },
   {
     slug: 'how-to-use-z-score-calculator',
