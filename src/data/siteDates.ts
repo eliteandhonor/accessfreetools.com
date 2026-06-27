@@ -177,6 +177,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'device-battery-life-calculator': '2026-06-05',
   'amps-to-watts-calculator': '2026-06-26',
   'kilowatts-to-amps-calculator': '2026-06-27',
+  'kva-to-amps-calculator': '2026-06-27',
   'amp-hours-to-watt-hours-calculator': '2026-06-26',
   'monitor-ppi-calculator': '2026-06-05',
   'recipe-scaler': '2026-06-05',

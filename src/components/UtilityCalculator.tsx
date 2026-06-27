@@ -752,7 +752,7 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
   },
   'kva-to-amps': {
     kilovoltAmps: 'Apparent power in kVA. One kVA is 1,000 volt-amps.',
-    volts: 'Line voltage for the equipment.',
+    volts: 'Equipment voltage for the calculation. For balanced three-phase systems, use line-to-line voltage.',
     phase: 'Choose single-phase or three-phase. kVA already describes apparent power, so no power factor input is needed.',
   },
   'amp-hours-to-watt-hours': {
@@ -1947,7 +1947,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'kVA to Amps Calculator',
     buttonLabel: 'Calculate amps',
     emptyHistory: 'Recent kVA-to-amp conversions will appear here.',
-    privacyNote: 'kVA conversion math stays local. Transformer and electrical sizing should be checked by a qualified professional.',
+    privacyNote: 'kVA conversion math stays local. Transformer, UPS, generator, and electrical sizing should be checked by a qualified professional.',
     modes: [
       {
         id: 'kva-current',
@@ -1955,14 +1955,14 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         symbol: 'kVA',
         fields: [
           numberField('kilovoltAmps', 'kVA', '25'),
-          numberField('volts', 'Volts', '220'),
+          numberField('volts', 'Volts', '480'),
           selectField('phase', 'Phase', acPhaseOptions),
         ],
-        defaultInputs: { kilovoltAmps: '25', volts: '220', phase: 'single-phase' },
+        defaultInputs: { kilovoltAmps: '25', volts: '480', phase: 'three-phase' },
         examples: [
-          { label: 'Single-phase equipment', inputs: { kilovoltAmps: '25', volts: '220', phase: 'single-phase' } },
-          { label: 'Three-phase transformer', inputs: { kilovoltAmps: '75', volts: '480', phase: 'three-phase' } },
-          { label: 'Small UPS', inputs: { kilovoltAmps: '3', volts: '120', phase: 'single-phase' } },
+          { label: '480 V transformer', inputs: { kilovoltAmps: '25', volts: '480', phase: 'three-phase' } },
+          { label: '240 V UPS', inputs: { kilovoltAmps: '10', volts: '240', phase: 'single-phase' } },
+          { label: '208 V panel', inputs: { kilovoltAmps: '75', volts: '208', phase: 'three-phase' } },
         ],
       },
     ],
@@ -5348,7 +5348,7 @@ function calculateUtility(
       });
       return {
         label: 'Estimated current',
-        expression: `${formatCalculatorNumber(result.kilovoltAmps)} kVA at ${formatCalculatorNumber(result.volts)} V`,
+        expression: `${formatCalculatorNumber(result.kilovoltAmps)} kVA at ${formatCalculatorNumber(result.volts)} V (${result.phase === 'three-phase' ? 'three-phase' : 'single-phase'})`,
         answer: `${formatCalculatorNumber(result.amps)} A`,
         metrics: [
           { label: 'Volt-amps', value: `${formatCalculatorNumber(result.kilovoltAmps * 1000)} VA` },
@@ -5356,11 +5356,11 @@ function calculateUtility(
           { label: 'Phase factor', value: formatCalculatorNumber(result.phaseFactor) },
         ],
         steps: [
-          'Convert kVA to volt-amps.',
-          'Use volts for single-phase, or volts times square root of 3 for three-phase.',
-          'Divide volt-amps by that voltage factor to estimate amps.',
+          'Convert kVA to volt-amps by multiplying by 1,000.',
+          'Use volts for single-phase, or line-to-line volts times sqrt(3) for three-phase.',
+          'Divide volt-amps by that voltage factor to estimate current.',
         ],
-        note: 'kVA is apparent power. Transformer, UPS, breaker, and conductor sizing still need the equipment instructions and qualified review.',
+        note: 'kVA is already apparent power, so no power factor input is needed here. Transformer, UPS, generator, breaker, and conductor sizing still need equipment instructions and qualified review.',
       };
     }
     case 'amp-hours-to-watt-hours': {

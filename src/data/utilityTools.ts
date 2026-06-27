@@ -2089,40 +2089,77 @@ export const utilityTools: ToolDefinition[] = [
     name: 'kVA to Amps Calculator',
     category: 'calculators',
     summary: 'Convert apparent power in kVA to amps for single-phase or three-phase systems.',
+    seoTitle: 'kVA to Amps Calculator | Single & Three Phase Current',
+    seoDescription:
+      'Convert kVA to amps for single-phase and three-phase systems. Check transformer, UPS, generator, 480 V, and 208 V examples with voltage and phase.',
     description:
-      'Use this free kVA to amps calculator to estimate current from kilovolt-amps, voltage, and phase type.',
+      'Use this free kVA to amps calculator to estimate current from kilovolt-amps, voltage, and phase type for transformer, UPS, and generator planning.',
+    aliases: [
+      'kVA to amps calculator',
+      'kilovolt amps to amps',
+      '3 phase kVA to amps',
+      'transformer kVA to amps',
+      'UPS kVA to amps',
+    ],
     icon: 'calculator-kva-to-amps',
     formula:
-      'The calculator converts kVA to volt-amps, then divides by volts for single-phase or by volts x sqrt(3) for three-phase.',
+      'VA = kVA x 1,000. Single-phase amps = VA / volts. Three-phase amps = VA / (volts x sqrt(3)). Use line-to-line voltage for balanced three-phase calculations.',
     limit:
-      'kVA is apparent power. Transformer, UPS, breaker, and conductor sizing still need equipment instructions and qualified review.',
+      'This is a simplified apparent-power estimate for planning and comparison. Transformer, UPS, generator, breaker, conductor, motor-starting, derating, and code decisions still need equipment instructions and qualified electrical review.',
     inputExplanations: [
-      { term: 'kVA', meaning: 'apparent power in kilovolt-amps.' },
-      { term: 'Volts', meaning: 'the equipment voltage used in the current calculation.' },
+      { term: 'kVA', meaning: 'apparent power in kilovolt-amps. One kVA equals 1,000 volt-amps.' },
+      { term: 'Volts', meaning: 'the equipment voltage used in the current calculation, such as 120 V, 208 V, 240 V, 480 V, or 600 V.' },
       { term: 'Phase', meaning: 'single-phase or three-phase formula selection.' },
+      { term: 'Line-to-line voltage', meaning: 'the voltage to use for a balanced three-phase kVA calculation.' },
+      { term: 'Amps', meaning: 'the estimated current after apparent power is divided by the voltage factor.' },
     ],
     extraFaq: [
+      {
+        question: 'What is the kVA to amps formula?',
+        answer:
+          'First multiply kVA by 1,000 to get volt-amps. For single-phase systems, divide volt-amps by volts. For three-phase systems, divide volt-amps by volts times the square root of 3.',
+      },
       {
         question: 'Why is there no power factor field?',
         answer:
           'kVA is already apparent power. Power factor is used when converting between real power in kW and apparent power in kVA, not when turning kVA directly into amps.',
       },
       {
+        question: 'How do I calculate three-phase kVA to amps?',
+        answer:
+          'Use amps = kVA x 1,000 / (volts x 1.732). The 1.732 is the square root of 3, and the voltage should be the line-to-line voltage for the three-phase system.',
+      },
+      {
         question: 'Is kVA the same as kW?',
         answer:
           'Not always. kW is real power and kVA is apparent power. They match only when power factor is 1, which is not true for many AC loads.',
       },
+      {
+        question: 'Can I size a breaker or wire from this kVA result?',
+        answer:
+          'No. Use the result as planning math only. Real breaker, conductor, transformer, UPS, and generator sizing depends on code rules, nameplate instructions, continuous loads, derating, temperature, and qualified electrical review.',
+      },
+      {
+        question: 'Should I use line-to-line or line-to-neutral voltage?',
+        answer:
+          'For a balanced three-phase kVA calculation, use line-to-line voltage, such as 208 V, 480 V, or 600 V. Mixing voltage types can change the amp estimate by a large amount.',
+      },
     ],
     useCases: [
-      'Estimate transformer or UPS current from a kVA rating.',
-      'Compare single-phase and three-phase current.',
+      'Estimate transformer current from a kVA rating.',
+      'Check rough UPS or generator current before reading the full specification.',
+      'Compare single-phase and three-phase current for the same kVA rating.',
       'Understand apparent power separately from real power.',
-      'Check a rough current number before professional equipment sizing.',
+      'Sanity-check an equipment label before asking for qualified electrical help.',
+      'Prepare a current estimate before using a voltage drop or load planning tool.',
     ],
     examples: [
-      { label: 'Single-phase equipment', expression: '25 kVA, 220 V', result: 'About 113.64 A' },
-      { label: 'Three-phase transformer', expression: '75 kVA, 480 V', result: 'About 90.21 A' },
-      { label: 'Small UPS', expression: '3 kVA, 120 V', result: '25 A' },
+      { label: '480 V three-phase transformer', expression: '25 kVA, 480 V, three-phase', result: 'About 30.07 A' },
+      { label: '240 V single-phase UPS', expression: '10 kVA, 240 V, single-phase', result: 'About 41.67 A' },
+      { label: '120 V single-phase load', expression: '5 kVA, 120 V, single-phase', result: 'About 41.67 A' },
+      { label: '208 V three-phase panel', expression: '75 kVA, 208 V, three-phase', result: 'About 208.18 A' },
+      { label: '480 V three-phase generator', expression: '15 kVA, 480 V, three-phase', result: 'About 18.04 A' },
+      { label: '600 V three-phase equipment', expression: '50 kVA, 600 V, three-phase', result: 'About 48.11 A' },
     ],
     relatedSlugs: ['kilowatts-to-amps-calculator', 'watts-to-amps-calculator', 'voltage-drop-calculator'],
   }),

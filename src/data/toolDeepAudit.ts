@@ -6015,20 +6015,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'kva-to-amps-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-electrical-power-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-refresh-electrical-power-batch-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [inchKvaToAmps, openStaxOhmsLaw, nistSi],
     findings: [
-      'The calculator converts kVA to volt-amps and divides by voltage for single-phase or voltage times sqrt(3) for three-phase.',
-      'The FAQ explains why kVA conversion does not ask for power factor and why kVA is not always kW.',
-      'The guide warns users not to mix line-to-line and line-to-neutral voltage context.',
+      'The refreshed tool states VA = kVA x 1,000 and separates the single-phase amps formula from the three-phase amps formula using volts x sqrt(3).',
+      'The examples now include 480 V three-phase transformer, 240 V single-phase UPS, 208 V three-phase panel, generator, and 600 V equipment cases.',
+      'The FAQ explains why kVA conversion does not ask for power factor, why kVA is not always kW, and why balanced three-phase calculations should use line-to-line voltage.',
     ],
     improvements: [
-      'Manually checked kVA-to-amps formulas, phase labels, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+      'Refreshed kVA-to-amps SEO title, meta description, aliases, formula wording, input guidance, examples, FAQ detail, safety limits, privacy note, result steps, and modified date.',
     ],
     followUps: [
-      'Add transformer examples later if they can stay non-prescriptive and code-neutral.',
+      'Keep transformer, UPS, generator, breaker, conductor, and code-sizing claims non-prescriptive unless a qualified source-backed sizing workflow is added.',
     ],
   },
   {
