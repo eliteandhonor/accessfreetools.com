@@ -7,30 +7,99 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="number-sequence-calculator"
   label="Number sequence guide"
   title="How to use the Number Sequence Calculator"
-  description="Learn how to use the free Access Free Tools number sequence calculator for arithmetic, geometric, and Fibonacci sequences."
+  description="Learn how to generate arithmetic, geometric, and Fibonacci-style sequences, read the formula, check limits, and copy the next terms."
   path="/blog/how-to-use-number-sequence-calculator/"
-  intro="The Number Sequence Calculator generates common sequences, shows the rule, and gives the next term so patterns are easier to check."
+  intro="A number pattern can look obvious until one sign, ratio, or starting value is off. This guide shows how to use the Number Sequence Calculator to build arithmetic, geometric, and Fibonacci-style sequences, then check the rule before you copy the terms."
   quickStart={[
-    'Choose Arithmetic, Geometric, or Fibonacci.',
-    'Enter the first values requested by that mode.',
-    'Choose how many terms to generate.',
-    'Press Generate sequence and review the rule and next term.',
+    'Choose Arithmetic, Geometric, or Fibonacci-style.',
+    'Enter the first term and the difference, ratio, or second starting term for that mode.',
+    'Set Terms to show from 2 to 30.',
+    'Select Generate sequence, then compare the formula, list of terms, and next terms.',
   ]}
+  bestUsesIntro="Use this guide when you know the rule type and want a fast list of terms, a formula check, or a copyable result."
   sections={[
     {
-      title: 'Choosing a sequence type',
+      title: 'Quick answer',
       paragraphs: [
-        'Arithmetic sequences add the same difference each time. Geometric sequences multiply by the same ratio each time.',
-        'Fibonacci-style sequences add the previous two terms to make the next term.',
+        'The Number Sequence Calculator is a rule-based generator. You choose the type of pattern, enter the starting values, and the page returns the sequence, the rule, and the next three terms.',
+        'Use it when you already know whether the pattern is arithmetic, geometric, or Fibonacci-style. It is not a hidden-pattern solver for a random pasted list.',
       ],
     },
     {
-      title: 'Checking a pattern',
+      title: 'What each mode means',
       paragraphs: [
-        'Use the first two values to define the pattern, then compare the generated terms with the sequence in your notes or assignment.',
-        'Copy the result when you need to paste the sequence into another document.',
+        'The mode controls what the second input means, so choose the mode before you judge the answer.',
+        'Arithmetic sequences add the same difference each time. Geometric sequences multiply by the same ratio each time. Fibonacci-style sequences start with two values, then add the previous two terms to make the next term.',
+      ],
+      bullets: [
+        'Arithmetic: first term plus the same common difference. The formula is a(n) = first + (n - 1) x difference.',
+        'Geometric: first term multiplied by the same common ratio. The formula is a(n) = first x ratio^(n - 1).',
+        'Fibonacci-style: two starting terms, then each new term is the sum of the two terms before it.',
+      ],
+    },
+    {
+      title: 'Walk through an arithmetic sequence',
+      paragraphs: [
+        'Suppose the first term is 3, the common difference is 4, and you want 5 terms. Choose Arithmetic, enter 3 and 4, then set Terms to show to 5.',
+        'The displayed sequence is 3, 7, 11, 15, 19. The next term would be 23 because the rule keeps adding 4. The formula line is a(n) = 3 + (n - 1) x 4.',
+        'That formula is useful when you need to show work instead of only copying the list.',
+      ],
+    },
+    {
+      title: 'Use decreases, decimals, and ratios carefully',
+      paragraphs: [
+        'A negative arithmetic difference makes the sequence go down. First 20 with difference -3 and 6 terms gives 20, 17, 14, 11, 8, 5.',
+        'A geometric ratio can be a decimal. First 64 with ratio 0.5 and 6 terms gives 64, 32, 16, 8, 4, 2.',
+        'The biggest check is whether you meant to add a value or multiply by a value. Difference -3 and ratio -3 are completely different rules.',
+      ],
+    },
+    {
+      title: 'Use Fibonacci-style mode when two starting values matter',
+      paragraphs: [
+        'Classic Fibonacci starts 1, 1, but the calculator also supports custom starts. If you enter 2 and 5 for 7 terms, the sequence is 2, 5, 7, 12, 19, 31, 50.',
+        'This mode is helpful when each term depends on the two terms before it. It is not the right mode for patterns that add one fixed number or multiply by one fixed ratio.',
+      ],
+    },
+    {
+      title: 'Common mistakes to check before copying',
+      paragraphs: [
+        'Most wrong answers come from choosing the wrong mode, swapping a difference for a ratio, or asking the calculator to infer a pattern it was not designed to infer.',
+      ],
+      bullets: [
+        'Check that the second input means difference, ratio, or second starting term for the mode you picked.',
+        'Remember that Terms to show must stay between 2 and 30.',
+        'Use a decimal ratio like 0.5 when you mean half each time, not a difference of 0.5.',
+        'Do not use this page to solve arbitrary pasted patterns with alternating signs, squares, cubes, or mixed rules.',
+      ],
+    },
+    {
+      title: 'When not to rely on it by itself',
+      paragraphs: [
+        'The calculator gives a clean result for the rule you choose. Your teacher, assignment, or answer key may still require a proof step, a specific formula format, or a different kind of pattern.',
+        'If a sequence changes by more than one rule, uses alternating signs, depends on powers, or has missing middle terms, check the problem instructions before treating the generated list as the answer.',
+      ],
+    },
+    {
+      title: 'Sources and related learning',
+      paragraphs: [
+        'The guide follows standard arithmetic, geometric, and recursive sequence definitions. Use these references if you want a textbook-style explanation of sequence notation or exponent rules used by geometric sequences.',
+      ],
+      links: [
+        {
+          href: 'https://openstax.org/books/intermediate-algebra-2e/pages/12-1-sequences',
+          label: 'OpenStax: Sequences',
+        },
+        {
+          href: 'https://openstax.org/books/college-algebra-2e/pages/1-2-exponents-and-scientific-notation',
+          label: 'OpenStax: Exponents and scientific notation',
+        },
+        {
+          href: '/tools/number-sequence-calculator/',
+          label: 'Try the Number Sequence Calculator with these examples',
+        },
       ],
     },
   ]}
+  keepExploringIntro="If the pattern needs more than one simple rule, these nearby tools can help you check related math."
   sidecarText="Use the Number Sequence Calculator while you follow the guide."
 />

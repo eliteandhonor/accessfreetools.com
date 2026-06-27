@@ -185,7 +185,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Number Sequence Calculator',
     label: 'Number sequence guide',
     summary:
-      'Learn how to generate arithmetic, geometric, and Fibonacci sequences, find the rule, and copy the next terms.',
+      'Learn how to generate arithmetic, geometric, and Fibonacci-style sequences, read formulas, check term limits, and avoid common pattern mistakes.',
   },
   {
     slug: 'how-to-use-sample-size-calculator',
