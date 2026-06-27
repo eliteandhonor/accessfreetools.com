@@ -6380,20 +6380,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'least-common-multiple-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-seo-refresh-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [openStaxPrimeLcm, openStaxFractions],
     findings: [
-      'The LCM helper requires at least two positive whole numbers and the test suite covers the 12, 18, and 30 example.',
-      'The tool description and FAQ tie LCM to multiples, denominators, schedules, and fraction work instead of using a vague math label.',
-      'Related links to GCF, Factor, and Prime Factorization match the way students usually move through this topic.',
+      'The LCM helper requires at least two positive whole numbers, rejects zero/negative/decimal inputs, and the test suite covers the 12, 18, and 30 example.',
+      'The tool page now explains LCM for common denominators, repeating schedules, relatively prime numbers, exact BigInt results, GCF-based pair reduction, and classroom-style input limits.',
+      'The live widget shows pair-by-pair GCF reduction steps for LCM inputs instead of a generic formula-only step list.',
+      'Related links to GCF, Factor, and Fraction pages match the way students usually move through this topic.',
     ],
     improvements: [
-      'Manually checked LCM input rules, multiple behavior, examples, FAQ wording, related links, guide coverage, SEO copy, and privacy behavior.',
+      'Expanded the tool SEO title, meta description, aliases, examples, FAQ coverage, visible widget steps, input tips, modified date, and privacy/trust wording for the 2026-06-27 page-by-page SEO sprint.',
     ],
     followUps: [
-      'Add a prime-factor step display later if users need more classroom-style work shown.',
+      'Consider adding an optional prime-factorization comparison panel later if users need a second classroom method beyond the GCF reduction steps.',
     ],
   },
   {

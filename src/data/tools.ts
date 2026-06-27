@@ -1280,18 +1280,21 @@ const baseTools: ToolDefinition[] = [
     slug: 'least-common-multiple-calculator',
     name: 'Least Common Multiple Calculator',
     category: 'calculators',
-    summary: 'Find the least common multiple of two or more whole numbers with steps.',
+    summary:
+      'Find the least common multiple of positive whole numbers for fractions, schedules, and divisibility checks.',
     description:
-      'Use this free least common multiple calculator to find the LCM of two or more positive whole numbers with exact integer math, examples, copy, history, and step-by-step notes.',
+      'Use this free least common multiple calculator to find the LCM of two or more positive whole numbers with exact integer math, common-denominator examples, schedule examples, copy, history, and step-by-step notes.',
     icon: 'calculator-lcm',
-    seoTitle: 'Least Common Multiple Calculator | Free Online LCM Calculator',
+    aliases: ['LCM Calculator', 'Common Multiple Calculator', 'Least Common Denominator Calculator'],
+    seoTitle: 'Least Common Multiple Calculator | LCM With Steps',
     seoDescription:
-      'Use the free Access Free Tools least common multiple calculator to find the LCM of two or more whole numbers with exact answers, examples, history, and steps.',
+      'Find the least common multiple of two or more positive whole numbers with exact LCM steps, fraction denominator examples, and schedule checks.',
     useCases: [
       'Find a common denominator before adding or comparing fractions.',
       'Solve schedule problems where events repeat at different intervals.',
       'Check school math problems involving multiples and divisibility.',
       'Compare two or more positive whole numbers with exact integer results.',
+      'See how pair-by-pair GCF checks combine a list into one LCM.',
     ],
     examples: [
       {
@@ -1309,32 +1312,72 @@ const baseTools: ToolDefinition[] = [
         expression: 'LCM of 6, 15, 25',
         result: '150',
       },
+      {
+        label: 'Fraction denominators',
+        expression: 'LCM of 4, 6, 9',
+        result: '36',
+      },
+      {
+        label: 'Repeating schedules',
+        expression: 'LCM of 12 and 20 minutes',
+        result: '60 minutes',
+      },
+      {
+        label: 'No shared factors',
+        expression: 'LCM of 7, 11, 13',
+        result: '1,001',
+      },
     ],
     faq: [
       {
         question: 'What is the least common multiple?',
         answer:
-          'The least common multiple is the smallest positive number that is a multiple of every number in the list.',
+          'The least common multiple is the smallest positive whole number that every entered number divides into evenly. For 12, 18, and 30, that smallest shared multiple is 180.',
       },
       {
         question: 'How does the LCM Calculator find the answer?',
         answer:
-          'It combines the numbers with the relationship LCM(a,b) = a x b / GCF(a,b). That keeps the answer exact while it moves through the list.',
+          'It combines the numbers from left to right with LCM(a,b) = a x b / GCF(a,b). That keeps the answer exact while avoiding a slow search through every possible multiple.',
+      },
+      {
+        question: 'Why does the formula use the GCF?',
+        answer:
+          'Multiplying two numbers counts their shared factors twice. Dividing by the GCF removes that duplicate factor, leaving the smallest multiple that still contains both numbers.',
       },
       {
         question: 'Can I enter more than two numbers?',
         answer:
-          'Yes. Enter at least two positive whole numbers separated by commas, spaces, or semicolons. The calculator finds one LCM for the whole list.',
+          'Yes. Enter at least two positive whole numbers separated by commas, spaces, or semicolons. The calculator combines the list pair by pair until one LCM remains.',
+      },
+      {
+        question: 'How do I use LCM for fractions?',
+        answer:
+          'Use the LCM of the denominators as a common denominator. For denominators 4, 6, and 9, the LCM is 36, so each fraction can be rewritten with denominator 36 before adding or comparing.',
+      },
+      {
+        question: 'How do I use LCM for schedules?',
+        answer:
+          'Use the repeating intervals as the inputs. If one reminder repeats every 12 minutes and another repeats every 20 minutes, the LCM is 60 minutes, so they line up again after one hour.',
+      },
+      {
+        question: 'What happens when numbers share no factors?',
+        answer:
+          'If the numbers are relatively prime, their LCM is their product. For 7, 11, and 13, the LCM is 1,001 because there are no shared factors to remove.',
       },
       {
         question: 'Why do the inputs need to be positive whole numbers?',
         answer:
-          'LCM is normally used for positive integers. Zero and negative values make the idea of the smallest positive shared multiple unclear for this everyday calculator.',
+          'LCM is normally used for positive integers. Zero has no positive multiples in the same useful sense, and decimals or negatives belong in a different math workflow.',
       },
       {
         question: 'When should I use the Greatest Common Factor Calculator instead?',
         answer:
           'Use GCF when you need the largest shared divisor. Use LCM when you need the smallest shared multiple, such as a common denominator.',
+      },
+      {
+        question: 'Can very large LCM answers be exact?',
+        answer:
+          'Yes. The calculator uses exact BigInt integer math for the LCM result instead of decimal rounding. Very large answers can still become long, so double-check that each input is the intended whole number.',
       },
       {
         question: 'Is my LCM history private?',

@@ -51,8 +51,8 @@ const variantConfig: Record<
     emptyHistory: 'Recent LCM answers will appear here.',
     examples: [
       { label: '12, 18, 30', value: '12, 18, 30' },
-      { label: '8, 14, 20', value: '8, 14, 20' },
-      { label: '6, 15, 25', value: '6, 15, 25' },
+      { label: '4, 6, 9', value: '4, 6, 9' },
+      { label: '7, 11, 13', value: '7, 11, 13' },
     ],
   },
   gcf: {
@@ -127,6 +127,33 @@ function formatPrimePowers(result: FactorizationResult) {
   return result.primeFactorPowers
     .map((item) => (item.exponent === 1 ? `${item.prime}` : `${item.prime}^${item.exponent}`))
     .join(' x ');
+}
+
+function buildLcmSteps(values: bigint[], answerValue: bigint) {
+  const steps = [
+    `Start with ${formatBigList(values)}.`,
+    'Combine the numbers from left to right using LCM(a,b) = a x b / GCF(a,b).',
+  ];
+
+  let current = values[0];
+  values.slice(1).forEach((value, index) => {
+    const sharedFactor = calculateGreatestCommonFactor([current, value]);
+    const combined = (current / sharedFactor) * value;
+
+    if (index < 4) {
+      steps.push(
+        `Combine ${formatBigInteger(current)} and ${formatBigInteger(value)}: their GCF is ${formatBigInteger(sharedFactor)}, so ${formatBigInteger(current)} x ${formatBigInteger(value)} / ${formatBigInteger(sharedFactor)} = ${formatBigInteger(combined)}.`,
+      );
+    } else if (index === 4) {
+      steps.push('Continue the same pair-by-pair reduction for the remaining values.');
+    }
+
+    current = combined;
+  });
+
+  steps.push(`The least common multiple is ${formatBigInteger(answerValue)}.`);
+
+  return steps;
 }
 
 function parseLongDivisionInput(input: string) {
@@ -218,12 +245,7 @@ function buildCalculation(variant: NumberTheoryVariant, input: string): NumberTh
     ],
     steps:
       variant === 'lcm'
-        ? [
-            `Start with ${formatBigList(values)}.`,
-            'Use each pair GCF to combine numbers without losing exact integer precision.',
-            'For two numbers, LCM(a,b) = a x b / GCF(a,b).',
-            `The least common multiple is ${formatBigInteger(answerValue)}.`,
-          ]
+        ? buildLcmSteps(values, answerValue)
         : [
             `Start with ${formatBigList(values)}.`,
             'Use the Euclidean algorithm to find the shared factor between each pair.',
@@ -366,6 +388,12 @@ export default function NumberTheoryCalculator({ variant }: Props) {
             <>
               <p>Enter the problem as dividend / divisor, such as 9876 / 24.</p>
               <p>The divisor must be a positive whole number. The result shows quotient, remainder, and decimal form.</p>
+            </>
+          ) : variant === 'lcm' ? (
+            <>
+              <p>Enter at least two positive whole numbers separated by commas, spaces, or semicolons.</p>
+              <p>Use denominator lists, repeating intervals, or divisibility checks. Zero, negative values, and decimals are rejected.</p>
+              <p>Large whole numbers stay exact because the calculation uses BigInt integer math.</p>
             </>
           ) : (
             <>
