@@ -59,7 +59,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Log Calculator',
     label: 'Log calculator guide',
     summary:
-      'Learn how to calculate logarithms with custom bases, use ln and log10, read change-of-base steps, and check answers with exponents.',
+      'Learn custom-base logs, ln, log10, change-of-base steps, valid input rules, negative log answers, exponent checks, and common mistakes.',
   },
   {
     slug: 'how-to-use-root-calculator',

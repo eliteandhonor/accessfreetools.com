@@ -9,16 +9,27 @@ const logCalculator = getTool('log-calculator');
 const guideArt = getToolArt('log-calculator', 'guide');
 const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
 const examples = logCalculator?.examples ?? [];
+const faqItems = logCalculator?.faq ?? [];
+const sourceLinks = [
+  {
+    href: 'https://openstax.org/books/college-algebra-corequisite-support-2e/pages/6-3-logarithmic-functions',
+    label: 'OpenStax College Algebra: logarithmic functions',
+  },
+  {
+    href: 'https://openstax.org/books/algebra-and-trigonometry/pages/1-3-radicals-and-rational-exponents',
+    label: 'OpenStax Algebra and Trigonometry: rational exponents background',
+  },
+];
 const articleStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: 'How to use the Log Calculator',
   description:
-    'Use the Access Free Tools log calculator with custom bases, ln, log10, change-of-base steps, exponent checks, history, and privacy notes.',
+    'Use the Access Free Tools log calculator with custom bases, ln, log10, change-of-base steps, exponent checks, valid input rules, history, and privacy notes.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-log-calculator/',
   image: guideImageUrl,
   datePublished: '2026-04-30',
-  dateModified: '2026-04-30',
+  dateModified: '2026-06-27',
   author: {
     '@type': 'Organization',
     name: 'Access Free Tools',
@@ -33,7 +44,7 @@ const articleStructuredData = {
 
 <BaseLayout
   title="How to use the Log Calculator | Access Free Tools"
-  description="Learn how to use the free Access Free Tools log calculator for custom-base logarithms, ln, log10, change-of-base steps, exponent checks, history, and privacy."
+  description="Learn custom-base logarithms, ln, log10, change-of-base steps, exponent checks, valid input rules, negative log answers, history, and privacy."
   path="/blog/how-to-use-log-calculator/"
   socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
   socialImageAlt={guideArt?.alt}
@@ -45,11 +56,12 @@ const articleStructuredData = {
 
     <header class="blog-article-header">
       <span>Log calculator guide</span>
+      <p class="article-meta-line">Updated June 27, 2026.</p>
       <h1>How to use the Log Calculator</h1>
       <p>
-        The Log Calculator finds logarithms with a custom base and shows the same value as ln and
-        log10. It also explains the change-of-base formula and gives a power check so the answer is
-        easier to trust.
+        The Log Calculator finds logarithms with custom bases, natural logs, common logs, change-of-base
+        steps, and an exponent check. Use it when you need to answer the question "what power makes
+        this base turn into this value?"
       </p>
       <a class="button-primary" href="/tools/log-calculator/">Open the log calculator</a>
     </header>
@@ -59,38 +71,61 @@ const articleStructuredData = {
     <div class="blog-article-layout">
       <div class="blog-article-body">
         <section class="content-section">
+          <h2>Quick answer</h2>
+          <p>
+            Enter the value, enter the base, and press Calculate log. For example, log_2(8) returns
+            3 because 2^3 = 8. The calculator also shows ln(value), log10(value), the
+            change-of-base formula, and a power check.
+          </p>
+          <p>
+            The value must be greater than 0. The base must be greater than 0 and cannot equal 1.
+            Type e in the base field when you want a natural-log base.
+          </p>
+        </section>
+
+        <section class="content-section">
           <h2>Quick start</h2>
           <ol class="instruction-list">
-            <li>Enter the value you want inside the logarithm.</li>
-            <li>Enter the base, such as 2, 10, or e.</li>
+            <li>Enter the value you want inside the logarithm, such as 8, 1000, or 0.01.</li>
+            <li>Enter the base, such as 2, 10, 5, or e.</li>
             <li>Press Calculate log.</li>
-            <li>Review the answer, ln(value), log10(value), power check, and steps.</li>
-            <li>Use examples, recent answers, or Copy answer while comparing log problems.</li>
+            <li>Review the main answer, ln(value), log10(value), power check, and steps.</li>
+            <li>Use the examples, recent answers, or Copy answer while comparing log problems.</li>
           </ol>
         </section>
 
         <section class="content-section">
-          <h2>What a logarithm means</h2>
+          <h2>What the inputs mean</h2>
           <p>
-            A logarithm answers an exponent question. If log base b of x equals y, then b^y equals
-            x. For example, log_2(8) equals 3 because 2^3 equals 8.
+            The value is the number you are trying to reach. In log_2(8), the value is 8. The base
+            is the number being raised to a power. In log_2(8), the base is 2.
           </p>
           <p>
-            This is why the calculator shows a power check beside the main answer. It gives a quick
-            way to confirm that the logarithm result matches the original value.
+            The answer is the exponent. If the calculator returns 3, it means the base raised to the
+            third power should match the value. That is why log_2(8) = 3 and 2^3 = 8 say the same
+            thing in two different forms.
+          </p>
+          <p>
+            This inverse relationship is the main idea to keep in your head. Exponents move from a
+            base to a value. Logarithms ask which exponent did that job.
           </p>
         </section>
 
         <section class="content-section">
-          <h2>Valid inputs</h2>
+          <h2>Valid values and bases</h2>
           <p>
-            The value inside a logarithm must be greater than zero. The base must also be greater
-            than zero, and the base cannot equal 1.
+            Real-number logarithms have strict input rules. The value must be greater than zero
+            because no positive base raised to a real exponent becomes zero or a negative number.
           </p>
           <p>
-            Log answers can be positive, zero, or negative. For a base greater than 1, values above
-            1 create positive answers, value 1 creates answer 0, and values between 0 and 1 create
-            negative answers.
+            The base must also be greater than zero, and it cannot be 1. A base of 1 never grows or
+            shrinks because 1 raised to any power is still 1, so it cannot point to one clear
+            exponent.
+          </p>
+          <p>
+            A logarithm answer can be positive, zero, or negative. For a base greater than 1, values
+            above 1 create positive answers, value 1 creates answer 0, and values between 0 and 1
+            create negative answers.
           </p>
         </section>
 
@@ -100,18 +135,71 @@ const articleStructuredData = {
             The calculator uses log_b(x) = ln(x) / ln(b). This lets it calculate logarithms for any
             valid base, even when the browser only gives direct natural-log and common-log math.
           </p>
+          <p>
+            The change-of-base step is also useful for checking homework. If your class asks for
+            log_3(81), the calculator can show that it is the same as ln(81) / ln(3), which returns
+            4 because 3^4 = 81.
+          </p>
         </section>
 
         <section class="content-section">
-          <h2>Common log and natural log</h2>
+          <h2>Common log, natural log, and custom base</h2>
           <p>
-            log10 means base 10. It is common in scientific notation, pH examples, decibels, and
-            powers of 10.
+            log10 means base 10. It is useful for powers of 10, orders of magnitude, scientific
+            notation comparisons, pH-style examples, decibels, and scale problems.
           </p>
           <p>
-            ln means natural log, which uses base e. Natural logs show up often in growth, decay,
-            calculus, and exponential models.
+            ln means natural log, which uses base e. Natural logs show up often in algebra, calculus,
+            growth, decay, compound interest models, and exponential formulas.
           </p>
+          <p>
+            A custom base lets you ask a more specific exponent question. Base 2 is common in
+            computer science. Base 3, 5, or another positive base can appear in algebra practice,
+            repeated-growth examples, or problem-specific models.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>How to check the result</h2>
+          <p>
+            The fastest check is to turn the logarithm back into an exponent. If log_b(x) = y, then
+            b^y should equal x. For log_10(1000), the answer is 3 because 10^3 = 1000.
+          </p>
+          <p>
+            Rounded decimal answers may not reproduce the value perfectly when you type them back
+            into another tool. That is normal. Use the exponent check as a reasonableness test, and
+            keep extra decimals if your class, spreadsheet, or project needs a tighter tolerance.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Examples</h2>
+          <div class="shortcut-table" role="table" aria-label="Log calculator examples">
+            <div role="row">
+              <strong role="cell">log_2(8)</strong>
+              <span role="cell">Returns 3 because 2^3 = 8.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">log_10(1000)</strong>
+              <span role="cell">Returns 3 because 10^3 = 1000.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">ln(e^3)</strong>
+              <span role="cell">Returns 3 because natural log uses base e.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">log_10(0.01)</strong>
+              <span role="cell">Returns -2 because 10^-2 = 0.01.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">log_5(625)</strong>
+              <span role="cell">Returns 4 because 5^4 = 625.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">log_3(81)</strong>
+              <span role="cell">Uses ln(81) / ln(3) and returns 4.</span>
+            </div>
+          </div>
         </section>
 
         {examples.length > 0 && (
@@ -128,6 +216,67 @@ const articleStructuredData = {
             </div>
           </section>
         )}
+
+        <section class="content-section">
+          <h2>Common mistakes to avoid</h2>
+          <ul class="guide-bullet-list">
+            <li>Do not put 0 or a negative number inside the log when you need a real-number answer.</li>
+            <li>Do not use base 1. It cannot identify one clear exponent.</li>
+            <li>Do not confuse log10 with ln. log10 uses base 10; ln uses base e.</li>
+            <li>Do not assume a negative log answer means something went wrong. log_10(0.01) = -2.</li>
+            <li>Do not round too early when the next step depends on the log answer.</li>
+            <li>Do not treat this numeric calculator as a symbolic algebra or graphing system.</li>
+          </ul>
+        </section>
+
+        <section class="content-section">
+          <h2>When not to rely on it alone</h2>
+          <p>
+            Use the Log Calculator for real-number numeric logarithms, quick study checks, input
+            validation, and copied results. It is not meant to simplify symbolic expressions, solve
+            logarithmic equations, graph log functions, or return complex logarithms.
+          </p>
+          <p>
+            If your class, lab, spreadsheet, or programming language has a required rounding rule,
+            use that rule. If your problem involves negative log inputs, branch cuts, or complex
+            values, use a complex-number tool or follow your course notes.
+          </p>
+          <p>
+            For nearby checks, try the <a href="/tools/exponent-calculator/">Exponent Calculator</a>
+            to reverse a log answer, the <a href="/tools/scientific-notation-calculator/">Scientific Notation Calculator</a>
+            for powers of 10, or the <a href="/tools/root-calculator/">Root Calculator</a> when the
+            exponent question turns into a root.
+          </p>
+        </section>
+
+        {faqItems.length > 0 && (
+          <section class="content-section">
+            <h2>FAQs from the log calculator</h2>
+            <div class="guide-question-list">
+              {faqItems.map((item) => (
+                <article>
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Research and references</h2>
+          <p>
+            These references shaped the logarithm definition, change-of-base explanation, inverse
+            exponent relationship, and real-number guardrails used in this guide.
+          </p>
+          <ul class="source-link-list">
+            {sourceLinks.map((link) => (
+              <li>
+                <a href={link.href} rel="noreferrer" target="_blank">{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         <section class="content-section">
           <h2>History, privacy, and copying</h2>

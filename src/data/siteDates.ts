@@ -248,6 +248,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-distance-calculator': '2026-06-27',
   'how-to-use-exponent-calculator': '2026-06-27',
   'how-to-use-hex-calculator': '2026-06-27',
+  'how-to-use-log-calculator': '2026-06-27',
   'how-to-use-percentage-calculator': '2026-06-02',
   'how-to-use-average-calculator': '2026-06-26',
   'how-to-use-ratio-calculator': '2026-06-02',
