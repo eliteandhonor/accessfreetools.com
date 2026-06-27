@@ -7,30 +7,163 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="confidence-interval-calculator"
   label="Confidence interval guide"
   title="How to use the Confidence Interval Calculator"
-  description="Learn how to use the free Access Free Tools confidence interval calculator for mean intervals, proportion intervals, z critical values, and margin of error."
+  description="Learn how to use the Confidence Interval Calculator for mean and proportion z intervals, margin of error, standard error, bounds, examples, and limits."
   path="/blog/how-to-use-confidence-interval-calculator/"
-  intro="The Confidence Interval Calculator builds z intervals for a mean or a proportion, showing the point estimate, margin of error, and lower and upper bounds."
+  intro="The Confidence Interval Calculator turns a sample mean or sample proportion into a z confidence interval. Use it when you need the point estimate, standard error, margin of error, lower bound, upper bound, and plain-language steps in one place."
   quickStart={[
     'Choose Mean interval or Proportion interval.',
-    'Choose a confidence level.',
-    'Enter the sample values requested by that mode.',
-    'Press Calculate interval and review the bounds and formula steps.',
+    'Choose the confidence level, such as 90%, 95%, or 99%.',
+    'For mean mode, enter the sample mean, standard deviation, and sample size.',
+    'For proportion mode, enter successes and the total sample size.',
+    'Press Calculate interval, then read the point estimate, standard error, margin of error, lower bound, and upper bound together.',
   ]}
   sections={[
     {
-      title: 'Mean intervals',
+      title: 'Quick answer',
       paragraphs: [
-        'Mean mode uses the sample mean, standard deviation, and sample size to estimate a range around the mean.',
-        'The calculator shows the standard error and z critical value used in the margin of error.',
+        'A confidence interval is the estimate plus and minus a margin of error. The calculator uses a z value for the confidence level, calculates standard error from your sample, and then builds the lower and upper bounds.',
+        'For a sample mean of 68, standard deviation of 3, sample size of 36, and 95% confidence, the interval is about 67.02 to 68.98. That means the sample points to a population mean near 68, with about 0.98 units of margin on each side under the z-interval assumptions.',
+      ],
+      links: [
+        {
+          href: '/tools/confidence-interval-calculator/',
+          label: 'Open the Confidence Interval Calculator while you read this guide',
+        },
       ],
     },
     {
-      title: 'Proportion intervals',
+      title: 'Choose the right mode',
       paragraphs: [
-        'Proportion mode uses successes divided by sample size as the point estimate.',
-        'The interval is clipped to stay within 0% and 100% because proportions cannot fall outside that range.',
+        'Use Mean interval when your sample result is an average: average score, average response time, average height, average weight, or another numeric measurement.',
+        'Use Proportion interval when your sample result is successes out of a total: yes responses, signups, defects, pass/fail outcomes, or people who chose one option.',
+      ],
+      bullets: [
+        'Mean mode asks for sample mean, standard deviation, and sample size.',
+        'Proportion mode asks for successes and sample size.',
+        'Do not enter 52% as the number of successes. Enter 52 successes and 100 sample size if the survey had 52 yes responses out of 100.',
+      ],
+    },
+    {
+      title: 'Mean interval formula',
+      paragraphs: [
+        'Mean mode starts with standard error = standard deviation / sqrt(sample size). Then it uses margin of error = z x standard error.',
+        'The final interval is sample mean - margin of error to sample mean + margin of error. For the 68, 3, 36, 95% example, standard error is 3 / sqrt(36), which is 0.5. The 95% z value is about 1.96, so the margin is about 0.98.',
+        'That gives 68 - 0.98 to 68 + 0.98, or 67.02 to 68.98.',
+      ],
+    },
+    {
+      title: 'Proportion interval formula',
+      paragraphs: [
+        'Proportion mode first calculates p-hat = successes / sample size. Then it uses standard error = sqrt(p-hat x (1 - p-hat) / sample size).',
+        'The margin of error is still z x standard error. The lower bound is p-hat minus the margin, and the upper bound is p-hat plus the margin.',
+        'For 52 successes out of 100 at 95% confidence, p-hat is 0.52. The margin is about 0.098, so the interval is about 0.422 to 0.618, or 42.2% to 61.8%.',
+      ],
+    },
+    {
+      title: 'Example: mean score interval',
+      paragraphs: [
+        'Imagine a class sample has an average score of 68, standard deviation of 3, and 36 students. Choose Mean interval, enter 68, 3, 36, and select 95%.',
+        'The calculator returns about 67.02 to 68.98. The center is the sample mean, and the margin of error is about 0.98 points.',
+        'A good note for this result is: the sample supports a 95% z confidence interval from about 67.02 to 68.98 for the population mean score, assuming the z interval is appropriate for the data.',
+      ],
+    },
+    {
+      title: 'Example: survey proportion interval',
+      paragraphs: [
+        'Suppose 52 people out of 100 say yes in a survey. Choose Proportion interval, enter 52 successes, 100 sample size, and select 95%.',
+        'The calculator returns about 42.2% to 61.8%. The point estimate is 52%, and the margin of error is about 9.8 percentage points.',
+        'A careful interpretation is: this sample points to a population proportion near 52%, but the plausible range is wide because the sample has only 100 responses.',
+      ],
+    },
+    {
+      title: 'What confidence level changes',
+      paragraphs: [
+        'The confidence level changes the z value. A higher confidence level uses a larger z value, so the interval gets wider.',
+        'With the same mean example, 90% gives about 67.1775 to 68.8225, 95% gives about 67.02 to 68.98, and 99% gives about 66.7121 to 69.2879.',
+        'Use the confidence level your assignment, report, or method requires. Do not choose a lower level only because it makes the interval look tighter.',
+      ],
+    },
+    {
+      title: 'How to read the result',
+      paragraphs: [
+        'Read the result as a method-based range, not as a guarantee about one already-calculated interval. The confidence level describes how the interval-building method behaves across repeated samples under its assumptions.',
+        'The point estimate is the middle of the work: a mean in mean mode or p-hat in proportion mode. The standard error measures sample-to-sample uncertainty. The margin of error is how far the interval extends from the point estimate.',
+        'If the interval feels too wide, the honest fix is usually more data or a better study design, not rounding harder.',
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'The most common mistake is mixing up standard deviation and standard error. Mean mode asks for standard deviation, and the calculator turns it into standard error by dividing by sqrt(sample size).',
+        'Another mistake is treating a 95% interval as a 95% probability that the fixed population value is inside this one finished interval. Use it as a repeated-sampling confidence method instead.',
+      ],
+      bullets: [
+        'Check that the mean and standard deviation came from the same sample.',
+        'Do not enter successes greater than sample size.',
+        'Keep percentage points separate from percent change. A margin of 9.8 percentage points around 52% is not the same thing as a 9.8% relative change.',
+        'Round at the end, especially when you need to show formula steps.',
+      ],
+    },
+    {
+      title: 'When the z interval is not enough',
+      paragraphs: [
+        'This calculator is a quick educational z-interval tool. Small mean samples often need a t interval when the population standard deviation is unknown. Very small or extreme proportion samples may need Wilson or exact intervals instead of the simple normal approximation.',
+        'Survey design can also matter. Nonrandom samples, nonresponse, clustering, weighting, repeated measures, and design effects can all make the simple interval look more certain than it really is.',
+      ],
+      links: [
+        {
+          href: '/tools/sample-size-calculator/',
+          label: 'Use the Sample Size Calculator when the interval is too wide',
+        },
+        {
+          href: '/tools/standard-deviation-calculator/',
+          label: 'Use the Standard Deviation Calculator before mean interval work',
+        },
+        {
+          href: '/tools/statistics-calculator/',
+          label: 'Use the Statistics Calculator for broader descriptive statistics',
+        },
       ],
     },
   ]}
+  faqItems={[
+    {
+      question: 'What is the fastest way to use the Confidence Interval Calculator?',
+      answer:
+        'Choose mean or proportion mode, enter the sample values requested by that mode, choose the confidence level, and press Calculate interval. Then read the point estimate, standard error, margin of error, lower bound, and upper bound together.',
+    },
+    {
+      question: 'What formula does mean mode use?',
+      answer:
+        'Mean mode uses standard error = standard deviation / sqrt(sample size), margin of error = z x standard error, and interval = sample mean plus or minus the margin of error.',
+    },
+    {
+      question: 'What formula does proportion mode use?',
+      answer:
+        'Proportion mode uses p-hat = successes / sample size, standard error = sqrt(p-hat x (1 - p-hat) / sample size), margin of error = z x standard error, and interval = p-hat plus or minus the margin.',
+    },
+    {
+      question: 'Why does 99% confidence make the interval wider?',
+      answer:
+        'A 99% confidence level uses a larger z value than 95% or 90%. The standard error stays the same, but the margin of error grows, so the lower and upper bounds move farther apart.',
+    },
+    {
+      question: 'When should I avoid this z interval?',
+      answer:
+        'Avoid treating it as final when the sample is tiny, the data are strongly skewed, the sample was not random, the population standard deviation is unknown and a t interval is expected, or a proportion is very close to 0% or 100%.',
+    },
+    {
+      question: 'Why can a proportion interval stop at 0% or 100%?',
+      answer:
+        'A proportion cannot be below 0% or above 100%, so the calculator clips simple z-interval bounds to that possible range. Edge cases may need Wilson or exact methods for a better statistical interval.',
+    },
+    {
+      question: 'What should I double-check before copying the result?',
+      answer:
+        'Check the mode, confidence level, sample size, standard deviation, successes, units, and rounding. Also check whether your assignment or report expects a z interval, t interval, Wilson interval, or exact method.',
+    },
+  ]}
+  bestUsesIntro="This guide is best when you need to explain where a z confidence interval came from, not just copy the final lower and upper bounds."
+  keepExploringIntro="If your problem needs a different statistics step, these nearby pages keep you in the same workflow."
   sidecarText="Use the Confidence Interval Calculator while you follow the guide."
 />

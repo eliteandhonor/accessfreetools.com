@@ -235,6 +235,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-big-number-calculator': '2026-06-05',
   'how-to-use-binary-calculator': '2026-06-27',
   'how-to-use-circle-calculator': '2026-06-27',
+  'how-to-use-confidence-interval-calculator': '2026-06-27',
   'how-to-use-percentage-calculator': '2026-06-02',
   'how-to-use-average-calculator': '2026-06-26',
   'how-to-use-ratio-calculator': '2026-06-02',
