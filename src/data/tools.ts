@@ -1995,7 +1995,7 @@ const baseTools: ToolDefinition[] = [
     description:
       'Use this free number sequence calculator to generate arithmetic sequences, geometric sequences, Fibonacci-style sequences, formulas, next terms, steps, copy, and recent tab history.',
     icon: 'calculator-sequence',
-    seoTitle: 'Number Sequence Calculator | Arithmetic, Geometric, Fibonacci Terms',
+    seoTitle: 'Number Sequence Calculator | Arithmetic & Geometric Terms',
     seoDescription:
       'Generate arithmetic, geometric, and Fibonacci-style number sequences with formulas, next terms, examples, steps, and copyable results.',
     useCases: [
