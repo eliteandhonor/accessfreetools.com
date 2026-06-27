@@ -52,7 +52,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Exponent Calculator',
     label: 'Exponent calculator guide',
     summary:
-      'Learn how to calculate powers, negative exponents, zero exponents, fraction exponents, scientific notation, and common exponent mistakes.',
+      'Learn how to calculate powers, negative and zero exponents, decimal and fraction exponents, scientific notation, 0^0 limits, and common exponent mistakes.',
   },
   {
     slug: 'how-to-use-log-calculator',

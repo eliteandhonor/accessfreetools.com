@@ -25,11 +25,11 @@ const articleStructuredData = {
   '@type': 'Article',
   headline: 'How to use the Exponent Calculator',
   description:
-    'Learn how the Access Free Tools exponent calculator handles bases, powers, zero exponents, negative exponents, fraction exponents, scientific notation, history, and privacy.',
+    'Learn how the Access Free Tools exponent calculator handles bases, powers, zero exponents, negative exponents, decimal and fraction exponents, scientific notation, 0^0, negative bases, history, and privacy.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-exponent-calculator/',
   image: guideImageUrl,
   datePublished: '2026-04-30',
-  dateModified: '2026-04-30',
+  dateModified: '2026-06-27',
   author: {
     '@type': 'Organization',
     name: 'Access Free Tools',
@@ -44,7 +44,7 @@ const articleStructuredData = {
 
 <BaseLayout
   title="How to use the Exponent Calculator | Access Free Tools"
-  description="Learn powers, negative and zero exponents, fraction exponents, scientific notation, history, and privacy."
+  description="Learn powers, negative and zero exponents, decimal and fraction exponents, scientific notation, 0^0, negative-base limits, history, and privacy."
   path="/blog/how-to-use-exponent-calculator/"
   socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
   socialImageAlt={guideArt?.alt}
@@ -56,11 +56,12 @@ const articleStructuredData = {
 
     <header class="blog-article-header">
       <span>Exponent calculator guide</span>
+      <p class="article-meta-line">Updated June 27, 2026.</p>
       <h1>How to use the Exponent Calculator</h1>
       <p>
-        The Exponent Calculator raises a base to a power and shows the result with scientific
-        notation and steps. It handles positive powers, zero exponents, negative exponents,
-        decimals, and simple fraction exponents such as 1/2.
+        The Exponent Calculator raises a base to a power and shows the answer in normal notation
+        and scientific notation. Use it for positive powers, zero exponents, negative exponents,
+        decimal exponents, and simple fraction exponents such as 1/2.
       </p>
       <a class="button-primary" href="/tools/exponent-calculator/">Open the exponent calculator</a>
     </header>
@@ -70,6 +71,20 @@ const articleStructuredData = {
     <div class="blog-article-layout">
       <div class="blog-article-body">
         <section class="content-section">
+          <h2>Quick answer</h2>
+          <p>
+            Enter the base, enter the exponent, and press Calculate exponent. For example, 2^8
+            returns 256. A negative exponent such as 5^-3 returns 0.008 because it means
+            1 / 5^3, not a negative answer.
+          </p>
+          <p>
+            The calculator also shows scientific notation, which helps when the result is very
+            large or very small. It focuses on real-number answers, so it blocks cases such as
+            0^-2, 0^0, and negative bases with non-whole-number exponents.
+          </p>
+        </section>
+
+        <section class="content-section">
           <h2>Quick start</h2>
           <ol class="instruction-list">
             <li>Enter the base, which is the number being raised to a power.</li>
@@ -78,6 +93,19 @@ const articleStructuredData = {
             <li>Review the answer, scientific notation, and steps.</li>
             <li>Use quick examples or copy the answer while comparing powers.</li>
           </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>What the inputs mean</h2>
+          <p>
+            The base is the number you start with. In 3^4, the base is 3. The exponent is the
+            small power instruction. In 3^4, the exponent is 4.
+          </p>
+          <p>
+            Whole-number exponents repeat multiplication. Decimal and fraction exponents can
+            represent roots and powers. Negative exponents use the reciprocal rule, which means
+            the answer moves to the denominator instead of becoming negative.
+          </p>
         </section>
 
         <section class="content-section">
@@ -96,6 +124,10 @@ const articleStructuredData = {
             fraction exponent can point to a root. A negative exponent moves the power into the
             denominator.
           </p>
+          <p>
+            An exponent of 1 leaves the base unchanged, so 7^1 equals 7. An exponent of 0 returns
+            1 for any nonzero base, so 9^0 equals 1.
+          </p>
         </section>
 
         <section class="content-section">
@@ -111,6 +143,11 @@ const articleStructuredData = {
             A common mistake is reading 5^-3 as a negative number. The negative sign belongs to the
             exponent, not the final answer. It means divide by the power instead of multiplying by
             it.
+          </p>
+          <p>
+            Zero needs extra care. The calculator rejects 0 with a negative exponent because that
+            would divide by zero. It also treats 0^0 as indeterminate instead of pretending there is
+            one simple answer for every context.
           </p>
         </section>
 
@@ -131,6 +168,10 @@ const articleStructuredData = {
             schoolwork, write down the rule instead of forcing a decimal answer that does not
             belong in the real-number system.
           </p>
+          <p>
+            Decimal exponents can work the same way when they match a real result. For example,
+            16^0.5 returns 4 because 0.5 is another way to enter 1/2.
+          </p>
         </section>
 
         <section class="content-section">
@@ -142,15 +183,23 @@ const articleStructuredData = {
             </div>
             <div role="row">
               <strong role="cell">10^6</strong>
-              <span role="cell">Shows a power of 10 and scientific notation.</span>
+              <span role="cell">Returns 1,000,000 and shows 1e+6 in scientific notation.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">9^0</strong>
+              <span role="cell">Returns 1 because any nonzero base to the power of 0 equals 1.</span>
             </div>
             <div role="row">
               <strong role="cell">5^-3</strong>
-              <span role="cell">Uses the reciprocal rule and returns 0.008.</span>
+              <span role="cell">Uses 1 / 5^3 and returns 0.008.</span>
             </div>
             <div role="row">
               <strong role="cell">81^(1/2)</strong>
               <span role="cell">Uses a fraction exponent and returns 9.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">16^0.5</strong>
+              <span role="cell">Returns 4 because 0.5 works like 1/2 for this input.</span>
             </div>
           </div>
         </section>
@@ -186,9 +235,9 @@ const articleStructuredData = {
 
         {faqItems.length > 0 && (
           <section class="content-section">
-            <h2>FAQ in plain language</h2>
+            <h2>FAQs from the exponent calculator</h2>
             <div class="guide-question-list">
-              {faqItems.slice(0, 8).map((item) => (
+              {faqItems.map((item) => (
                 <article>
                   <h3>{item.question}</h3>
                   <p>{item.answer}</p>
@@ -203,9 +252,30 @@ const articleStructuredData = {
           <ul class="guide-bullet-list">
             <li>Do not treat a negative exponent as a negative answer. It means reciprocal.</li>
             <li>Do not use 0 as the base with a negative exponent, because that would divide by zero.</li>
+            <li>Do not force 0^0 into one answer for every problem. The calculator marks it indeterminate.</li>
             <li>Keep negative bases to whole-number exponents if you want real-number answers.</li>
             <li>Use parentheses when you mean the whole negative number, such as (-3)^2 instead of -3^2.</li>
           </ul>
+        </section>
+
+        <section class="content-section">
+          <h2>When not to rely on it alone</h2>
+          <p>
+            Use the exponent calculator to check arithmetic, study exponent rules, compare powers,
+            and copy a clean result. It is not a symbolic algebra system and it does not explain
+            every complex-number case.
+          </p>
+          <p>
+            If your class, textbook, spreadsheet, or programming language uses a special convention
+            for 0^0, negative-base decimals, overflow, or rounding, follow that rule and use this
+            calculator as a quick check, not the final authority.
+          </p>
+          <p>
+            For nearby checks, try the <a href="/tools/root-calculator/">Root Calculator</a> for
+            roots, the <a href="/tools/scientific-notation-calculator/">Scientific Notation Calculator</a>
+            for notation practice, or the <a href="/tools/log-calculator/">Log Calculator</a> when
+            you need to reverse an exponent.
+          </p>
         </section>
 
         <section class="content-section">
