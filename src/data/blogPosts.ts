@@ -87,7 +87,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Hex Calculator',
     label: 'Hex calculator guide',
     summary:
-      'Learn how to add, subtract, multiply, divide, and convert hexadecimal numbers with base-16 digits, decimal checks, binary output, and remainders.',
+      'Learn how to add, subtract, multiply, divide, and convert hex numbers with decimal, binary, color-code, remainder, and signed-value checks.',
   },
   {
     slug: 'how-to-use-kawaii-calculator',

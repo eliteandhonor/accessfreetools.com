@@ -1,176 +1,169 @@
 ---
 export const prerender = true;
-import BaseLayout from '../../components/BaseLayout.astro';
-import ToolArtFigure from '../../components/ToolArtFigure.astro';
-import { getTool } from '../../data/tools';
-import { getToolArt } from '../../data/toolArt';
-
-const hexCalculator = getTool('hex-calculator');
-const guideArt = getToolArt('hex-calculator', 'guide');
-const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
-const examples = hexCalculator?.examples ?? [];
-const articleStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: 'How to use the Hex Calculator',
-  description:
-    'Use the Access Free Tools hex calculator to understand base-16 digits, hex arithmetic, division remainders, hex-to-decimal conversion, decimal-to-hex conversion, binary output, copying, history, and privacy.',
-  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-hex-calculator/',
-  image: guideImageUrl,
-  datePublished: '2026-04-30',
-  dateModified: '2026-04-30',
-  author: {
-    '@type': 'Organization',
-    name: 'Access Free Tools',
-    url: 'https://accessfreetools.com/about/',
-  },
-  publisher: {
-    '@type': 'Organization',
-    name: 'Access Free Tools',
-  },
-};
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
 ---
 
-<BaseLayout
-  title="How to use the Hex Calculator | Access Free Tools"
-  description="Learn hex addition, subtraction, multiplication, division remainders, decimal conversion, binary output, and privacy."
+<CalculatorGuideArticle
+  toolSlug="hex-calculator"
+  label="Hex calculator guide"
+  title="How to use the Hex Calculator"
+  description="Learn hex addition, subtraction, multiplication, division with remainders, decimal conversion, binary output, color-code checks, signed-value limits, and privacy."
   path="/blog/how-to-use-hex-calculator/"
-  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
-  socialImageAlt={guideArt?.alt}
->
-  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
-
-  <article class="blog-article">
-    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Hex Calculator Guide</p>
-
-    <header class="blog-article-header">
-      <span>Hex calculator guide</span>
-      <h1>How to use the Hex Calculator</h1>
-      <p>
-        The Hex Calculator works with base-16 whole numbers. It can add, subtract, multiply,
-        divide, convert hex to decimal, convert decimal to hex, show binary output, and explain
-        each answer with simple steps.
-      </p>
-      <a class="button-primary" href="/tools/hex-calculator/">Open the hex calculator</a>
-    </header>
-
-    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
-
-    <div class="blog-article-layout">
-      <div class="blog-article-body">
-        <section class="content-section">
-          <h2>Quick start</h2>
-          <ol class="instruction-list">
-            <li>Enter the first hex number using digits 0-9 and letters A-F.</li>
-            <li>Choose Add, Subtract, Multiply, or Divide.</li>
-            <li>Enter the second hex number.</li>
-            <li>Press Calculate hex.</li>
-            <li>Read the hex answer, decimal answer, binary answer, and steps.</li>
-          </ol>
-        </section>
-
-        <section class="content-section">
-          <h2>What hexadecimal means</h2>
-          <p>
-            Hexadecimal is base 16. It uses 0-9 for the first ten values and A-F for values 10
-            through 15. Each place value is a power of 16, so A3 means 10 x 16 plus 3, which
-            equals 163 in decimal.
-          </p>
-          <p>
-            The calculator accepts uppercase or lowercase letters. It also accepts an optional 0x
-            prefix, so 0xFF and FF mean the same value.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>Hex arithmetic</h2>
-          <p>
-            Addition, subtraction, and multiplication return a hex answer with matching decimal and
-            binary versions. For example, A3 + 1F equals C2, which is 194 in decimal.
-          </p>
-          <p>
-            Hex division returns a quotient. If the division is not even, the calculator also shows
-            the remainder. For example, 2F / A equals 4 remainder 7.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>Converting hex, decimal, and binary</h2>
-          <p>
-            Use the conversion panel when you only need to change number systems. Hex to decimal
-            turns a base-16 value such as 2A into 42. Decimal to hex turns a whole decimal number
-            such as 42 into 2A.
-          </p>
-          <p>
-            The same panel also shows hex to binary. This is helpful because one hex digit maps to
-            four binary bits, which makes hex a compact way to read binary values.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>Common examples</h2>
-          <div class="shortcut-table" role="table" aria-label="Hex calculator examples">
-            <div role="row">
-              <strong role="cell">A3 + 1F</strong>
-              <span role="cell">Adds two hexadecimal numbers and returns C2.</span>
-            </div>
-            <div role="row">
-              <strong role="cell">FF - 2A</strong>
-              <span role="cell">Subtracts 2A from FF and returns D5.</span>
-            </div>
-            <div role="row">
-              <strong role="cell">1A x 3</strong>
-              <span role="cell">Multiplies 26 by 3 and returns 4E.</span>
-            </div>
-            <div role="row">
-              <strong role="cell">2F / A</strong>
-              <span role="cell">Divides 47 by 10 and returns 4 remainder 7.</span>
-            </div>
-          </div>
-        </section>
-
-        {examples.length > 0 && (
-          <section class="content-section">
-            <h2>Examples from the hex calculator</h2>
-            <div class="example-grid">
-              {examples.map((example) => (
-                <article>
-                  <span>{example.label}</span>
-                  <strong>{example.expression}</strong>
-                  <p>{example.result}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <section class="content-section">
-          <h2>Signed values</h2>
-          <p>
-            You can type a leading minus sign for simple signed whole-number calculations, such as
-            -A + 2. This is useful for quick math, but it is not the same as fixed-width two's
-            complement notation.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>History, privacy, and copying</h2>
-          <p>
-            Recent hex answers stay visible in the page while you work. The history is kept only in
-            the current browser tab and is not sent to a server.
-          </p>
-          <p>
-            Copy answer copies the hex, decimal, and binary answer so you can paste it into notes,
-            homework, a message, or another document.
-          </p>
-        </section>
-      </div>
-
-      <aside class="article-sidecar">
-        <h2>Open the tool</h2>
-        <p>Use the hex calculator while you follow the guide.</p>
-        <a class="button-primary" href="/tools/hex-calculator/">Hex Calculator</a>
-      </aside>
-    </div>
-  </article>
-</BaseLayout>
+  intro="The Hex Calculator helps you add, subtract, multiply, divide, and convert base-16 whole numbers without losing track of the decimal and binary checks."
+  quickStart={[
+    'Enter the first hex number using digits 0-9 and letters A-F.',
+    'Choose Add, Subtract, Multiply, or Divide.',
+    'Enter the second hex number when the operation needs one.',
+    'Press Calculate hex.',
+    'Check the hex answer, decimal answer, binary answer, and written steps before copying.',
+  ]}
+  sections={[
+    {
+      title: 'Quick answer',
+      paragraphs: [
+        'Use the Hex Calculator when you have hexadecimal numbers and need a fast answer you can check in base 10 and binary.',
+        'For example, A3 + 1F returns C2. The same result is 194 in decimal and 1100 0010 in binary, so you can verify the answer three ways.',
+      ],
+      links: [
+        {
+          href: '/tools/hex-calculator/',
+          label: 'Open the Hex Calculator while you read this guide',
+        },
+      ],
+    },
+    {
+      title: 'What hexadecimal means',
+      paragraphs: [
+        'Hexadecimal is base 16. It uses 0-9 for values zero through nine, then A, B, C, D, E, and F for values ten through fifteen.',
+        'Each place is a power of 16. A3 means 10 x 16 plus 3, which equals 163 in decimal. FF means 15 x 16 plus 15, which equals 255.',
+        'The calculator accepts uppercase or lowercase letters. It also accepts an optional 0x prefix, so 0xFF and FF mean the same number.',
+      ],
+    },
+    {
+      title: 'What the inputs mean',
+      paragraphs: [
+        'First hex number is the left side of the calculation. Second hex number is the right side. The operation decides whether the calculator adds, subtracts, multiplies, or divides them.',
+        'You can use spaces or underscores to make a long value easier to read. The calculator cleans those separators before doing the math.',
+        'For conversion-only checks, use the quick conversion panel instead of the arithmetic boxes. That is faster when you only need hex to decimal, decimal to hex, or hex to binary.',
+      ],
+    },
+    {
+      title: 'Example: A3 plus 1F',
+      paragraphs: [
+        'A3 is 163 in decimal because A is 10, and 10 x 16 + 3 = 163. 1F is 31 in decimal because 1 x 16 + 15 = 31.',
+        'Add the decimal values and you get 194. Convert 194 back to hex and the answer is C2.',
+        'The calculator shows the same result as C2 hex, 194 decimal, and 1100 0010 binary. That makes this a useful byte-sized check.',
+      ],
+    },
+    {
+      title: 'Example: division with a remainder',
+      paragraphs: [
+        'Hex division can leave a remainder just like decimal division. For example, 2F / A means 47 / 10 in decimal.',
+        '47 divided by 10 gives a quotient of 4 with 7 left over. The calculator shows 4 remainder 7 instead of hiding the leftover part.',
+        'That is helpful when you are checking low-level math, byte offsets, simple programming examples, or homework that expects integer division.',
+      ],
+    },
+    {
+      title: 'Converting hex, decimal, and binary',
+      paragraphs: [
+        'Hex to decimal changes a base-16 value into the everyday base-10 number. For example, 0xFF becomes 255.',
+        'Decimal to hex goes the other direction. If you enter 42 as a decimal value, the calculator returns 2A in hex.',
+        'Hex to binary is especially neat because one hex digit maps to four binary bits. A byte such as FF is 1111 1111, and A3 is 1010 0011.',
+      ],
+    },
+    {
+      title: 'Color codes and byte checks',
+      paragraphs: [
+        'Hex shows up often in CSS colors because each color channel can use two hex digits. In a color like #FFAA33, FF is the red channel, AA is green, and 33 is blue.',
+        'The calculator can help you check the decimal value of a pair such as FF or 2A, but it does not preview colors or validate full CSS color syntax.',
+        'If your job is choosing a color, use the calculator for number checks and still use a color picker or browser preview before publishing the design.',
+      ],
+    },
+    {
+      title: 'Signed values and fixed-width limits',
+      paragraphs: [
+        'You can type a leading minus sign for simple signed whole-number math, such as -A + 2. That is normal arithmetic with a negative value.',
+        'That is not the same thing as fixed-width two\'s-complement notation. In an 8-bit system, FF can mean 255 as an unsigned byte or -1 as a signed byte, depending on the rule you are using.',
+        'This calculator reports plain integer values. If your class, chip, file format, or programming language uses 8-bit, 16-bit, 32-bit, or 64-bit wrapping, apply that rule separately.',
+      ],
+    },
+    {
+      title: 'Mistakes to check before trusting the answer',
+      paragraphs: [
+        'Most wrong hex answers come from mixing up decimal and hex, forgetting that F means 15, or expecting the calculator to know a fixed-width signed-number rule that was never entered.',
+        'Before copying, check the operation, the base, and the decimal output. If the decimal value looks strange, the hex input usually has the clue.',
+      ],
+      bullets: [
+        'Do not type G, H, or other non-hex letters. Hex digits stop at F.',
+        'Do not treat 10 hex as ten decimal. 10 hex equals 16 decimal.',
+        'Do not assume FF always means -1. It only means that under a fixed-width signed rule.',
+        'Do not use a color-code pair as a full color preview. It is only one number check.',
+        'Do not ignore the remainder when division is not even.',
+      ],
+    },
+    {
+      title: 'When not to use this alone',
+      paragraphs: [
+        'Use the Hex Calculator to check arithmetic, conversions, binary grouping, byte-sized values, and simple signed math. It is not a debugger, color picker, compiler, or fixed-width integer simulator.',
+        'For programming, confirm the rule your language uses for overflow, signed values, unsigned values, bit shifts, and formatting. For CSS colors, preview the actual color in the browser.',
+        'For homework, use the calculator as a check and still show the base-16 place-value steps your teacher expects.',
+      ],
+    },
+    {
+      title: 'Sources used for this guide',
+      paragraphs: [
+        'These references are useful if you want to compare the base-16 idea, binary grouping, or CSS color-code wording with an outside explanation.',
+      ],
+      links: [
+        {
+          href: 'https://www.khanacademy.org/math/algebra-home/alg-intro-to-algebra/algebra-alternate-number-bases/v/hexadecimal-number-system',
+          label: 'Khan Academy: Hexadecimal number system',
+        },
+        {
+          href: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Colors/Color_values',
+          label: 'MDN Web Docs: CSS color values and hexadecimal notation',
+        },
+      ],
+    },
+  ]}
+  faqItems={[
+    {
+      question: 'What is the fastest way to use the Hex Calculator?',
+      answer:
+        'Enter the first hex value, choose the operation, enter the second hex value when needed, and press Calculate hex. Then check the hex, decimal, binary, and step-by-step result.',
+    },
+    {
+      question: 'How does A3 become 163?',
+      answer:
+        'A is 10 in hex. A3 means 10 x 16 plus 3, which gives 163 in decimal.',
+    },
+    {
+      question: 'Why does one hex digit equal four binary bits?',
+      answer:
+        'One hex digit has 16 possible values, from 0 through F. Four binary bits also have 16 possible values, from 0000 through 1111.',
+    },
+    {
+      question: 'What does FF mean?',
+      answer:
+        'As a plain unsigned number, FF means 255. In a fixed-width signed system it may mean something else, such as -1 in 8-bit two\'s-complement math.',
+    },
+    {
+      question: 'Can I use it for CSS color codes?',
+      answer:
+        'You can use it to check pairs such as FF, AA, or 33, but it does not preview colors or validate a whole CSS color value like #FFAA33.',
+    },
+    {
+      question: 'Does it handle two\'s-complement overflow?',
+      answer:
+        'No. It reports plain integer math. Apply 8-bit, 16-bit, 32-bit, or 64-bit wrapping separately if your problem depends on fixed-width rules.',
+    },
+    {
+      question: 'What should I double-check before copying the result?',
+      answer:
+        'Check whether each value is really hex, whether the operation is correct, whether division has a remainder, and whether your problem needs unsigned or fixed-width signed interpretation.',
+    },
+  ]}
+  bestUsesIntro="This guide is best when you need to check a base-16 number, compare it with decimal or binary, and understand why the result looks that way."
+  keepExploringIntro="If your number-system problem is close but not exactly hex arithmetic, these nearby tools keep you in the right neighborhood."
+  sidecarText="Use the Hex Calculator while you follow the base-16 examples."
+/>
