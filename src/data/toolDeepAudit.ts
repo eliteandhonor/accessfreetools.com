@@ -5860,17 +5860,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'density-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [nistSi, nistConversionFactors],
     findings: [
-      'The calculator uses density = mass / volume and keeps the user-entered unit label visible so the ratio can be checked.',
-      'The FAQ now explains mass, volume, and unit labels instead of leaving users with generic number-field guidance.',
-      'The guide warns that density depends on matching units, measurement quality, temperature, and material condition.',
+      'The calculator uses density = mass / volume, keeps the user-entered unit label visible, and explains that the label is text only rather than a unit converter.',
+      'The tool page now covers lab sample, box material, water-like liquid, metal sample, and bulk material examples with matching density labels.',
+      'The FAQ explains matching units, non-converting labels, liquids versus solids, real-material density variance, and when to use Mass, Volume, Weight, or Conversion tools instead.',
     ],
     improvements: [
-      'Manually checked density formula behavior, examples, FAQ input wording, guide clarity, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Updated density metadata, SEO title and description, formula wording, limit note, examples, FAQ depth, modified date, and audit notes using NIST source context, Calculator.net competitor-gap evidence, SEO workbench checks, DataForSEO guardrails, and browser-proof requirements.',
     ],
     followUps: [
       'Add optional unit conversion presets later if users want g/mL, kg/m3, and lb/ft3 converted automatically.',

@@ -1248,16 +1248,19 @@ export const utilityTools: ToolDefinition[] = [
     category: 'calculators',
     summary: 'Calculate density from mass and volume with a custom unit label.',
     description:
-      'Use this free density calculator to divide mass by volume, show formula steps, and label the density unit for science or planning examples.',
+      'Use this free density calculator to divide mass by volume, show formula steps, label the density unit, and check examples for lab, classroom, liquid, material, or bulk-volume work.',
     icon: 'calculator-density',
+    seoTitle: 'Density Calculator | Mass / Volume Formula',
+    seoDescription:
+      'Calculate density from mass and volume with formula steps, custom unit labels, examples for g/mL and kg/m3, and unit-matching reminders.',
     formula:
-      'The calculator uses density = mass / volume. The mass and volume units should match the density unit you want to read.',
+      'The calculator uses density = mass / volume. It divides the mass number by the volume number and prints the unit label you entered, so the label should match the units behind the inputs.',
     limit:
-      'Use consistent units before calculating. Lab, engineering, and material decisions can require calibrated measurements and official standards.',
+      'Use consistent units before calculating because the unit label is text only. Lab, engineering, supplier, and material decisions can require calibrated measurements, temperature control, moisture checks, and official standards.',
     inputExplanations: [
       { term: 'Mass', meaning: 'how much matter the sample has, such as grams, kilograms, pounds, or another mass unit.' },
-      { term: 'Volume', meaning: 'how much space the sample takes up, such as mL, L, cm3, ft3, or another volume unit.' },
-      { term: 'Unit label', meaning: 'plain text for the answer, like g/mL. The calculator does not convert units inside that label.' },
+      { term: 'Volume', meaning: 'how much space the sample takes up, such as mL, L, cm3, m3, ft3, or another volume unit.' },
+      { term: 'Unit label', meaning: 'plain text for the answer, like g/mL, kg/m3, or lb/ft3. The calculator does not convert units inside that label.' },
     ],
     extraFaq: [
       {
@@ -1265,17 +1268,40 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Density is a ratio. If mass is in grams and volume is in milliliters, the answer is g/mL. If mass is in kilograms and volume is in cubic meters, the answer is kg/m3. Mixing units without converting first makes the label wrong even when the division is correct.',
       },
+      {
+        question: 'Does the unit label convert my answer?',
+        answer:
+          'No. The label is printed beside the answer so your notes make sense. Convert the mass and volume values first if you need a different density unit.',
+      },
+      {
+        question: 'Can I use this for liquids and solids?',
+        answer:
+          'Yes, if you know mass and volume in matching units. Liquids are often written as g/mL or kg/L, while solids and bulk materials may use g/cm3, kg/m3, or lb/ft3.',
+      },
+      {
+        question: 'Why might a real material density differ from the calculator?',
+        answer:
+          'Real density can change with temperature, air gaps, moisture, packing, impurities, measurement precision, and the exact material grade. Use measured or supplier density when the result matters.',
+      },
+      {
+        question: 'Can I work backward from density?',
+        answer:
+          'This page solves density from mass and volume. Use the Mass Calculator when density and volume are known, or the Volume Calculator when your task is finding space instead.',
+      },
     ],
     useCases: [
       'Find density from a measured mass and volume.',
       'Check a classroom density formula.',
       'Label results in g/mL, kg/m3, lb/ft3, or another unit.',
-      'Compare density with mass and weight tools.',
+      'Compare water-like, metal-like, box, and bulk material examples.',
+      'Use density as the starting point before mass, weight, or conversion checks.',
     ],
     examples: [
       { label: 'Lab sample', expression: '27 g / 10 mL', result: '2.7 g/mL' },
       { label: 'Box material', expression: '15 kg / 2 m3', result: '7.5 kg/m3' },
       { label: 'Liquid', expression: '997 g / 1000 mL', result: '0.997 g/mL' },
+      { label: 'Metal sample', expression: '54 g / 20 cm3', result: '2.7 g/cm3' },
+      { label: 'Bulk material', expression: '1600 kg / 1 m3', result: '1600 kg/m3' },
     ],
     relatedSlugs: ['mass-calculator', 'weight-calculator', 'conversion-calculator'],
   }),
