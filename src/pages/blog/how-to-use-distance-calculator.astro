@@ -7,37 +7,172 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="distance-calculator"
   label="Distance calculator guide"
   title="How to use the Distance Calculator"
-  description="Learn how to calculate distance between two points, delta x, delta y, and midpoint from coordinates."
+  description="Learn how to calculate straight-line distance between two coordinate points, read delta x, delta y, midpoint, units, examples, and limits."
   path="/blog/how-to-use-distance-calculator/"
-  intro="The Distance Calculator finds the straight-line distance and midpoint between two coordinate points."
+  intro="The Distance Calculator turns two coordinate points into straight-line distance, delta x, delta y, midpoint, and formula steps you can check."
   quickStart={[
     'Enter x1 and y1 for the first point.',
     'Enter x2 and y2 for the second point.',
-    'Add a unit label if the coordinates represent real measurements.',
+    'Add a unit label only if every coordinate uses that same unit.',
     'Press Calculate distance.',
+    'Check the delta values, midpoint, and formula line before copying the answer.',
   ]}
   sections={[
     {
-      title: 'Distance formula basics',
+      title: 'Quick answer',
       paragraphs: [
-        'The calculator uses d = sqrt((x2-x1)^2 + (y2-y1)^2). This is the coordinate version of the Pythagorean theorem.',
-        'Delta x and delta y show the horizontal and vertical changes before they are squared and combined.',
+        'Use the Distance Calculator when you have two points on a coordinate plane and need the direct length between them.',
+        'It is built for straight-line distance, not driving distance, walking routes, map paths, or GPS travel time.',
+      ],
+      links: [
+        {
+          href: '/tools/distance-calculator/',
+          label: 'Open the Distance Calculator while you read this guide',
+        },
       ],
     },
     {
-      title: 'Using midpoint',
+      title: 'Formula used',
       paragraphs: [
-        'The midpoint is the point halfway between the two coordinates. It is useful for graphing, geometry, and checking symmetry.',
-        'The midpoint formula averages the x-values and averages the y-values.',
+        'The calculator uses d = sqrt((x2 - x1)^2 + (y2 - y1)^2). This is the coordinate-plane version of the Pythagorean theorem.',
+        'First it finds delta x by subtracting x1 from x2. Then it finds delta y by subtracting y1 from y2. Those two changes act like the legs of a right triangle.',
+        'After squaring both changes, adding them, and taking the square root, the result is the straight-line distance between the points.',
       ],
     },
     {
-      title: 'Distance or slope',
+      title: 'What the four inputs mean',
       paragraphs: [
-        'Use distance when you need length between points.',
-        'Use slope when you need rise over run, steepness, or a line equation.',
+        'Point 1 is written as (x1, y1). Point 2 is written as (x2, y2). The x-values move left and right, and the y-values move up and down.',
+        'For example, point (1, 2) has x = 1 and y = 2. Point (4, 6) has x = 4 and y = 6.',
+        'The order of the two points does not change the final distance. It can change the signs of delta x and delta y, but the squared values lead to the same length.',
+      ],
+    },
+    {
+      title: 'Example: a 3-4-5 distance',
+      paragraphs: [
+        'Suppose the first point is (1, 2) and the second point is (4, 6). Delta x is 4 - 1 = 3, and delta y is 6 - 2 = 4.',
+        'The calculator uses sqrt(3^2 + 4^2), which is sqrt(9 + 16), so the distance is 5 units.',
+        'This is the same 3-4-5 right triangle pattern many geometry problems use, just written with coordinate points.',
+      ],
+    },
+    {
+      title: 'Example: negative and decimal coordinates',
+      paragraphs: [
+        'Negative coordinates work the same way. From (-3, 4) to (5, -2), delta x is 8 and delta y is -6. Squaring removes the sign, so the distance is sqrt(64 + 36) = 10 units.',
+        'Decimal coordinates also work. From (2.5, 1) to (6.5, 4), delta x is 4 and delta y is 3, so the distance is 5 units.',
+        'If your coordinates came from a drawing, map grid, or measurement table, keep the same unit scale for every coordinate before you trust the result.',
+      ],
+    },
+    {
+      title: 'Reading midpoint',
+      paragraphs: [
+        'The midpoint is the point exactly halfway between the two coordinates. The calculator finds it by averaging the x-values and averaging the y-values.',
+        'For (1, 2) and (4, 6), the midpoint is ((1 + 4) / 2, (2 + 6) / 2), which gives (2.5, 4).',
+        'Midpoint is useful when you need the center of a segment, a label position on a graph, or a quick check that two endpoints look balanced.',
+      ],
+    },
+    {
+      title: 'Units and rounding',
+      paragraphs: [
+        'The calculator can attach a unit label such as cm, ft, m, or miles, but it does not convert mixed units for you.',
+        'If x1 and x2 are in feet but y1 and y2 are in inches, convert first. Coordinate distance only makes sense when both axes use the same scale.',
+        'Round the final distance after the formula step if you need a cleaner answer. Rounding the inputs too early can move the result.',
+      ],
+    },
+    {
+      title: 'Distance, slope, and right triangles',
+      paragraphs: [
+        'Use distance when you need length between two points. Use slope when you need steepness, rise over run, or a line equation.',
+        'Use the Pythagorean Theorem Calculator when you already have the two right-triangle legs and only need the missing side.',
+        'The Distance Calculator is best when your information starts as coordinate points instead of side labels.',
+      ],
+      links: [
+        {
+          href: '/tools/slope-calculator/',
+          label: 'Use Slope Calculator for steepness from two points',
+        },
+        {
+          href: '/tools/pythagorean-theorem-calculator/',
+          label: 'Use Pythagorean Theorem Calculator for right-triangle side lengths',
+        },
+      ],
+    },
+    {
+      title: 'Mistakes to check before trusting the answer',
+      paragraphs: [
+        'Most wrong distance answers come from swapped coordinates, mixed units, or expecting map-route distance from a straight-line formula.',
+        'Read the formula line once before copying the result. If delta x or delta y looks surprising, check which point you entered first and whether each coordinate is in the right box.',
+      ],
+      bullets: [
+        'Do not put y-values in the x boxes or x-values in the y boxes.',
+        'Do not mix feet with inches, meters with centimeters, or grid units with real-world units.',
+        'Do not use this as a field survey, legal boundary, engineering, aviation, or safety measurement.',
+        'Do not expect 3D distance from this 2D calculator; it uses x and y only.',
+      ],
+    },
+    {
+      title: 'When not to use this alone',
+      paragraphs: [
+        'For roads, walking paths, flights, and GPS routes, a map tool is better because real paths bend, climb, detour, and follow roads or terrain.',
+        'For 3D points, you also need z-values and a 3D distance formula. This calculator intentionally stays with two-dimensional coordinate distance.',
+        'For homework, use the calculator as a check and still show the formula steps your teacher expects.',
+      ],
+    },
+    {
+      title: 'Sources used for this guide',
+      paragraphs: [
+        'The calculator uses standard coordinate geometry formulas for distance and midpoint. These sources are useful if you want to compare the formula wording with a classroom reference.',
+      ],
+      links: [
+        {
+          href: 'https://openstax.org/books/intermediate-algebra-2e/pages/11-1-distance-and-midpoint-formulas-circles',
+          label: 'OpenStax Intermediate Algebra: Distance, midpoint, and circles',
+        },
+        {
+          href: 'https://openstax.org/books/prealgebra-2e/pages/c-geometric-formulas',
+          label: 'OpenStax Prealgebra: Geometric formulas',
+        },
       ],
     },
   ]}
-  sidecarText="Use the Distance Calculator while you follow the guide."
+  faqItems={[
+    {
+      question: 'What is the fastest way to use the Distance Calculator?',
+      answer:
+        'Enter the first point as x1 and y1, enter the second point as x2 and y2, add a unit label only if both axes use the same unit, and press Calculate distance.',
+    },
+    {
+      question: 'What formula does this guide use?',
+      answer:
+        'It uses d = sqrt((x2 - x1)^2 + (y2 - y1)^2). The calculator also shows delta x, delta y, midpoint, and formula steps so you can check the work.',
+    },
+    {
+      question: 'Does point order matter?',
+      answer:
+        'No. Reversing the two points changes the signs of delta x and delta y, but the squared values still produce the same final distance.',
+    },
+    {
+      question: 'Can I use negative or decimal coordinates?',
+      answer:
+        'Yes. Negative and decimal coordinates are normal coordinate inputs. The important part is putting each x and y value in the correct box.',
+    },
+    {
+      question: 'Is this the same as slope?',
+      answer:
+        'No. Distance is the length between the points. Slope is the steepness of the line between the same points, which compares delta y with delta x.',
+    },
+    {
+      question: 'Can this calculate driving or GPS distance?',
+      answer:
+        'No. This is straight-line coordinate distance. Driving, walking, flight, and GPS routes need route data, terrain, roads, and map rules.',
+    },
+    {
+      question: 'What should I double-check before copying the result?',
+      answer:
+        'Check that x and y values are not swapped, units are consistent, the formula step matches the points, and the result is not being used as a survey or safety-critical measurement.',
+    },
+  ]}
+  bestUsesIntro="This guide is best when you have two coordinate points and want the straight-line length, midpoint, and formula steps without doing the square-root work by hand."
+  keepExploringIntro="If your problem is close but not exactly two-point distance, use these nearby guides and calculators before relying on the answer."
+  sidecarText="Use the Distance Calculator while you follow the formula examples."
 />

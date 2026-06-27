@@ -283,7 +283,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Distance Calculator',
     label: 'Distance calculator guide',
     summary:
-      'Learn how to calculate distance between two points, delta x, delta y, and midpoint from coordinates.',
+      'Learn how to calculate straight-line distance between two coordinate points, read delta x, delta y, midpoint, units, and limits.',
   },
   {
     slug: 'how-to-use-circle-calculator',
