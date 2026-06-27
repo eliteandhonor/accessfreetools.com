@@ -1990,49 +1990,85 @@ const baseTools: ToolDefinition[] = [
     slug: 'number-sequence-calculator',
     name: 'Number Sequence Calculator',
     category: 'calculators',
-    summary: 'Generate arithmetic, geometric, and Fibonacci-style number sequences.',
+    summary:
+      'Generate arithmetic, geometric, and Fibonacci-style sequences with formulas, next terms, and copyable results.',
     description:
-      'Use this free number sequence calculator to generate arithmetic sequences, geometric sequences, Fibonacci-style sequences, next terms, formulas, steps, copy, and history.',
+      'Use this free number sequence calculator to generate arithmetic sequences, geometric sequences, Fibonacci-style sequences, formulas, next terms, steps, copy, and recent tab history.',
     icon: 'calculator-sequence',
-    seoTitle: 'Number Sequence Calculator | Arithmetic, Geometric, Fibonacci',
+    seoTitle: 'Number Sequence Calculator | Arithmetic, Geometric, Fibonacci Terms',
     seoDescription:
-      'Use the free Access Free Tools number sequence calculator to generate arithmetic, geometric, and Fibonacci-style sequences with next terms and steps.',
+      'Generate arithmetic, geometric, and Fibonacci-style number sequences with formulas, next terms, examples, steps, and copyable results.',
     useCases: [
-      'Create arithmetic sequences from a first term and common difference.',
-      'Create geometric sequences from a first term and common ratio.',
-      'Generate Fibonacci-style sequences from two starting terms.',
-      'Check next terms and sequence formulas for study examples.',
+      'Create an arithmetic sequence from a first term and common difference.',
+      'Create a geometric sequence from a first term and common ratio.',
+      'Generate a Fibonacci-style sequence from two starting terms.',
+      'Check the visible formula before copying a sequence into homework notes.',
+      'Preview the next three terms after the list you asked to show.',
+      'Test decimals, negative differences, fractional ratios, and decreasing patterns.',
     ],
     examples: [
-      { label: 'Arithmetic', expression: 'First 3, difference 4', result: '3, 7, 11, 15, 19' },
-      { label: 'Geometric', expression: 'First 2, ratio 3', result: '2, 6, 18, 54, 162' },
-      { label: 'Fibonacci', expression: 'Start 1, 1', result: '1, 1, 2, 3, 5, 8, 13' },
+      { label: 'Arithmetic growth', expression: 'First 3, difference 4, 5 terms', result: '3, 7, 11, 15, 19' },
+      { label: 'Arithmetic decrease', expression: 'First 20, difference -3, 6 terms', result: '20, 17, 14, 11, 8, 5' },
+      { label: 'Geometric growth', expression: 'First 2, ratio 3, 5 terms', result: '2, 6, 18, 54, 162' },
+      { label: 'Geometric half-life style', expression: 'First 64, ratio 0.5, 6 terms', result: '64, 32, 16, 8, 4, 2' },
+      { label: 'Classic Fibonacci-style', expression: 'Start 1 and 1, 7 terms', result: '1, 1, 2, 3, 5, 8, 13' },
+      { label: 'Custom Fibonacci-style', expression: 'Start 2 and 5, 7 terms', result: '2, 5, 7, 12, 19, 31, 50' },
     ],
     faq: [
       {
         question: 'What sequence types are supported?',
         answer:
-          'The calculator supports arithmetic, geometric, and Fibonacci-style sequences. More sequence types can be added later.',
+          'The calculator supports arithmetic, geometric, and Fibonacci-style sequences. Choose the mode first so the second input means the right thing for that rule.',
       },
       {
         question: 'What is an arithmetic sequence?',
         answer:
-          'An arithmetic sequence changes by the same amount each time. That constant amount is called the common difference.',
+          'An arithmetic sequence changes by adding the same amount each time. The calculator uses a(n) = first + (n - 1) x difference.',
       },
       {
         question: 'What is a geometric sequence?',
         answer:
-          'A geometric sequence changes by multiplying by the same value each time. That value is called the common ratio.',
+          'A geometric sequence changes by multiplying by the same value each time. The calculator uses a(n) = first x ratio^(n - 1).',
       },
       {
         question: 'How does the Fibonacci-style mode work?',
         answer:
-          'It starts with two values, then adds the previous two terms to make each next term.',
+          'Fibonacci-style mode starts with two values, then adds the previous two terms to make each next term. Starting with 2 and 5 gives 2, 5, 7, 12, 19, and so on.',
+      },
+      {
+        question: 'What does the second field mean?',
+        answer:
+          'In arithmetic mode it is the common difference. In geometric mode it is the common ratio. In Fibonacci-style mode it is the second starting term.',
+      },
+      {
+        question: 'How many terms can I generate?',
+        answer:
+          'Terms to show must be a whole number from 2 to 30. The result also shows the next three terms after the displayed list.',
       },
       {
         question: 'Can I generate decimals or negative terms?',
         answer:
-          'Yes. The first term, common difference, common ratio, and second Fibonacci-style term can be decimals or negative numbers.',
+          'Yes. The first term, common difference, common ratio, and second Fibonacci-style term can be decimals or negative numbers, as long as the values stay finite.',
+      },
+      {
+        question: 'What is the difference between common difference and common ratio?',
+        answer:
+          'A common difference is added each time, such as +4. A common ratio is multiplied each time, such as x3 or x0.5.',
+      },
+      {
+        question: 'Why can geometric sequences get large so quickly?',
+        answer:
+          'Geometric sequences multiply by the ratio every step, so ratios larger than 1 can grow fast. Use fewer terms or a smaller ratio if the output becomes too large to read.',
+      },
+      {
+        question: 'Can this identify an unknown pattern from a pasted list?',
+        answer:
+          'No. This page generates sequences from the rule you choose. It does not infer arbitrary patterns from an existing list of numbers.',
+      },
+      {
+        question: 'What do next terms mean?',
+        answer:
+          'Next terms are the three values that would follow after the number of terms you asked to show, using the same rule.',
       },
       {
         question: 'Is my sequence history private?',

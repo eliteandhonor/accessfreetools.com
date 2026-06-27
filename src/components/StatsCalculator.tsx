@@ -506,7 +506,15 @@ function SequenceTool() {
         )}
       </div>
 
-      <HistoryPanel history={history} note={['Arithmetic sequences add a constant difference.', 'Geometric sequences multiply by a constant ratio.']} />
+      <HistoryPanel
+        history={history}
+        note={[
+          'Arithmetic sequences add a constant difference.',
+          'Geometric sequences multiply by a constant ratio.',
+          'Fibonacci-style sequences start with two terms and add the previous two.',
+          'Terms to show must be a whole number from 2 to 30.',
+        ]}
+      />
     </section>
   );
 }

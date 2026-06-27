@@ -164,6 +164,18 @@ const toolArtMetadataOverrides = {
         'Big Number Calculator guide artwork sits with the walkthrough for add, subtract, multiply, and divide very large whole numbers exactly, including inputs, examples, limits, and mistakes to check.',
     },
   },
+  'number-sequence-calculator': {
+    tool: {
+      alt: 'Illustration for Number Sequence Calculator showing arithmetic, geometric, and Fibonacci-style number sequences.',
+      caption:
+        'Number Sequence Calculator artwork matches the live tool workflow: generate arithmetic, geometric, and Fibonacci-style sequences with formulas, next terms, examples, and result notes.',
+    },
+    guide: {
+      alt: 'Guide image for Number Sequence Calculator showing arithmetic, geometric, and Fibonacci-style sequences with example inputs and result notes.',
+      caption:
+        'Number Sequence Calculator guide artwork supports the walkthrough for arithmetic, geometric, and Fibonacci-style sequences, including inputs, examples, limits, and mistakes to check.',
+    },
+  },
   'gfr-calculator': {
     tool: {
       alt: 'Smoke mascot checking a kidney lab card with age, sex, serum creatinine, CKD-EPI equation notes, and eGFR range context.',

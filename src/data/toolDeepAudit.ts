@@ -6635,19 +6635,19 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     slug: 'number-sequence-calculator',
     status: 'deep-reviewed',
     batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [openStaxSequences, openStaxScientificNotation],
     findings: [
-      'The sequence helper supports arithmetic, geometric, and Fibonacci-style sequences with tests covering all three modes.',
-      'The content explains that the common difference and common ratio mean different things.',
-      'The page links sequence work to scientific notation and pattern-focused math tools.',
+      'The sequence helper supports arithmetic, geometric, and Fibonacci-style sequences with formulas, next terms, copy behavior, and tests covering all three modes.',
+      'The visible examples now cover increasing arithmetic, decreasing arithmetic, geometric growth, fractional-ratio decay, classic Fibonacci-style, and custom Fibonacci-style inputs.',
+      'The FAQ distinguishes common difference from common ratio, names the 2 to 30 term limit, explains next terms, and honestly says the page generates chosen rules instead of inferring arbitrary pasted patterns.',
     ],
     improvements: [
-      'Manually checked sequence mode wording, term generation behavior, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Manually checked sequence mode wording, term generation behavior, formulas, examples, FAQ detail, guide coverage, related links, SEO copy, artwork alt text, modified date, and tab-only privacy behavior.',
     ],
     followUps: [
-      'Add nth-term formulas in the result panel later if users need more than generated terms.',
+      'Consider an optional pattern-recognition tool later as a separate page so this generator does not overpromise arbitrary sequence solving.',
     ],
   },
   {
