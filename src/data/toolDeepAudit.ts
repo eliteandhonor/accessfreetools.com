@@ -2591,20 +2591,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'log-calculator',
     status: 'deep-reviewed',
-    batch: 'math-foundations-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [openStaxLogarithms, openStaxRadicals],
     findings: [
-      'The change-of-base formula is appropriate for custom bases.',
-      'The FAQ correctly warns that log input must be positive and the base must be positive but not 1.',
-      'The most important plain-language idea is that a logarithm asks which exponent creates the value.',
+      'The change-of-base formula is appropriate for custom bases, and the calculator now lets users type e for the natural-log base.',
+      'The tool page explains that logarithms ask which exponent creates the value, then checks the answer with the matching exponential form.',
+      'The FAQ now separates input validity, base 1, natural log vs common log, negative log answers, long decimal results, complex-log limits, and tab-only privacy.',
     ],
     improvements: [
-      'Reviewed existing FAQ, examples, related links, and calculator copy against source-backed logarithm rules.',
+      'Updated Log Calculator metadata, aliases, use cases, six examples, FAQ depth, e-base input behavior, real-number guardrails, trust/privacy wording, modified date, and audit notes with current local proof requirements.',
     ],
     followUps: [
-      'Add a future graph-style explanation showing logarithms as inverse exponential functions.',
+      'Consider adding a future graph-style explanation showing logarithms as inverse exponential functions.',
     ],
   },
   {

@@ -33,7 +33,7 @@ const examples: LogExample[] = [
   },
   {
     label: 'Natural log',
-    inputs: { value: '20.0855369232', base: `${Math.E}` },
+    inputs: { value: '20.0855369232', base: 'e' },
   },
   {
     label: 'Base 5',
@@ -42,7 +42,8 @@ const examples: LogExample[] = [
 ];
 
 function parseNumber(value: string, label: string) {
-  const parsed = Number(value.trim());
+  const trimmed = value.trim();
+  const parsed = trimmed.toLowerCase() === 'e' ? Math.E : Number(trimmed);
 
   if (!Number.isFinite(parsed)) {
     throw new Error(`${label} must be a number`);
@@ -224,7 +225,7 @@ export default function LogCalculator() {
         <section className="log-note">
           <h2>Input tips</h2>
           <p>The value must be greater than zero.</p>
-          <p>The base must be greater than zero and cannot equal 1.</p>
+          <p>The base must be greater than zero and cannot equal 1. Enter e for a natural log base.</p>
         </section>
       </aside>
     </section>

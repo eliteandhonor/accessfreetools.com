@@ -616,37 +616,67 @@ const baseTools: ToolDefinition[] = [
     slug: 'log-calculator',
     name: 'Log Calculator',
     category: 'calculators',
-    summary: 'Calculate logarithms with custom bases, ln, log10, and change-of-base steps.',
+    summary: 'Calculate logarithms with custom bases, ln, log10, exponent checks, and change-of-base steps.',
     description:
-      'Use this free log calculator to find logarithms with any valid base, compare ln and log10 values, check the exponential form, and see change-of-base steps.',
+      'Use this free log calculator to find logarithms with any valid base, compare ln and log10 values, see change-of-base steps, check the matching exponent, and avoid invalid values such as zero, negative inputs, or base 1.',
     icon: 'calculator-log',
-    seoTitle: 'Log Calculator | Free Online Logarithm Calculator',
+    aliases: [
+      'Free Log Calculator',
+      'Logarithm Calculator',
+      'Natural Log Calculator',
+      'Common Log Calculator',
+      'Change of Base Calculator',
+      'Log Base Calculator',
+    ],
+    seoTitle: 'Log Calculator | Free Logarithm Calculator With Steps',
     seoDescription:
-      'Use the free Access Free Tools log calculator to calculate logarithms with custom bases, natural logs, common logs, exponential checks, and change-of-base steps.',
+      'Use the free Access Free Tools log calculator to calculate custom-base logarithms, ln, log10, change-of-base steps, exponent checks, and valid inputs.',
     useCases: [
       'Calculate log base 2, base 10, natural log, or another custom base.',
       'Check logarithm homework with change-of-base steps.',
       'Compare log, ln, and log10 values from one input.',
       'Confirm a logarithm by seeing the matching exponential power check.',
+      'See why zero, negative values, and base 1 are not valid real logarithm inputs.',
+      'Use the tab-only recent answer history while studying repeated log problems.',
     ],
     examples: [
       {
         label: 'Base 2 logarithm',
         expression: 'log_2(8)',
-        result: '3',
+        result: '3 because 2^3 = 8',
       },
       {
         label: 'Common logarithm',
         expression: 'log_10(1000)',
-        result: '3',
+        result: '3 because 10^3 = 1000',
       },
       {
         label: 'Natural logarithm',
         expression: 'ln(e^3)',
-        result: '3',
+        result: '3 because e^3 gives the input value',
+      },
+      {
+        label: 'Negative log answer',
+        expression: 'log_10(0.01)',
+        result: '-2 because 10^-2 = 0.01',
+      },
+      {
+        label: 'Custom base',
+        expression: 'log_5(625)',
+        result: '4 because 5^4 = 625',
+      },
+      {
+        label: 'Change of base',
+        expression: 'log_3(81)',
+        result: '4 using ln(81) / ln(3)',
       },
     ],
     faq: [
+      {
+        question: 'What does a logarithm mean?',
+        answer:
+          'A logarithm asks which exponent makes the base turn into the value. For example, log_2(8) = 3 because 2^3 = 8.',
+      },
       {
         question: 'What formula does the Log Calculator use?',
         answer:
@@ -663,6 +693,11 @@ const baseTools: ToolDefinition[] = [
           'log10 means base 10, ln means base e, and a custom log lets you choose another base such as 2, 3, or 5.',
       },
       {
+        question: 'Can I enter e as the base?',
+        answer:
+          'Yes. Type e in the base field to use the natural log base. The calculator also shows ln(value) automatically for every valid positive value.',
+      },
+      {
         question: 'How can I check a logarithm answer?',
         answer:
           'Rewrite it as an exponent. If log base b of x equals y, then b^y should equal x. The calculator shows this check in the result card.',
@@ -671,6 +706,31 @@ const baseTools: ToolDefinition[] = [
         question: 'Can logarithm answers be negative?',
         answer:
           'Yes. A logarithm can be negative when the value is between 0 and 1 for a base greater than 1, such as log_10(0.01) = -2.',
+      },
+      {
+        question: 'Why can the log value not be zero or negative?',
+        answer:
+          'In real-number logarithms, no positive base can be raised to a real exponent and produce zero or a negative value. Use a complex-number tool if your class or project needs complex logs.',
+      },
+      {
+        question: 'Why can the base not be 1?',
+        answer:
+          'A base of 1 never grows or shrinks. Since 1 raised to any power is still 1, log base 1 cannot tell you one clear exponent.',
+      },
+      {
+        question: 'When should I use log10 instead of ln?',
+        answer:
+          'Use log10 when the problem is built around powers of 10, such as orders of magnitude. Use ln when the problem is built around base e, which is common in algebra, calculus, growth, and decay formulas.',
+      },
+      {
+        question: 'Why is my answer a long decimal?',
+        answer:
+          'Many logarithms are irrational decimals. The calculator formats the result for practical checking, so use the exponent check when you need to see whether the rounded answer matches the original value.',
+      },
+      {
+        question: 'Can this replace a symbolic algebra system?',
+        answer:
+          'No. This page is for real-number numeric logarithms and quick study checks. It does not simplify symbolic expressions, solve equations, graph functions, or return complex logarithms.',
       },
       {
         question: 'Is my log calculation history private?',
