@@ -2329,25 +2329,69 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'kilowatts-to-amps-calculator': {
-    summary: 'Learn how kilowatts convert to amps when voltage, phase, power factor, and efficiency are known.',
+    title: 'Kilowatts to Amps Guide',
+    summary:
+      'Learn the kW to amps formula for DC, single-phase AC, and three-phase AC with efficiency, power factor, and a 5 kW motor example.',
+    metaDescription:
+      'Use the Kilowatts to Amps guide to convert kW, volts, phase, power factor, and efficiency into amps, then avoid motor and wiring-sizing mistakes.',
     purpose:
-      'The Kilowatts to Amps Calculator is for larger power ratings. It converts kW to watts, accounts for efficiency when needed, then estimates current.',
+      'The Kilowatts to Amps Calculator turns a power rating, voltage, phase type, power factor, and efficiency into an estimated running current in amps.',
+    intro:
+      'A 5 kW label is not an amp rating by itself. At 240 V single-phase, 0.9 power factor, and 90% efficiency, the same 5 kW load needs about 25.72 A as a running-current estimate.',
+    inputMatch:
+      'the kilowatt rating, supply voltage, DC or AC phase type, power factor, and efficiency from the equipment label or specification when it is available',
+    logicNote:
+      'First convert output power to input watts: input watts = kW x 1,000 / (efficiency / 100). For DC, amps = input watts / volts. For single-phase AC, amps = input watts / (volts x power factor). For three-phase AC, amps = input watts / (volts x sqrt(3) x power factor).',
+    readIntro:
+      'Read amps as an estimated running current. The input-watts line explains how efficiency changed the power value before the current formula was applied.',
+    mistakeIntro:
+      'Most kW-to-amps mistakes come from treating kW like kVA, guessing power factor or efficiency, or using a running-current estimate as if it were a final breaker or conductor size.',
     enter: [
-      'Enter the kilowatt rating.',
-      'Enter voltage and choose DC, single-phase AC, or three-phase AC.',
-      'Enter power factor and efficiency percentage.',
+      'Enter the kilowatt rating from the motor, inverter, heater, equipment label, or project note.',
+      'Enter the supply voltage and choose DC, single-phase AC, or three-phase AC.',
+      'Enter power factor for AC loads and efficiency when the kW rating is output power instead of input power.',
     ],
     read: [
-      'The main answer is estimated amps.',
-      'Input watts after efficiency shows the power the calculator used before solving current.',
-      'Efficiency and power factor should come from equipment data when accuracy matters.',
+      'The main answer is estimated running current in amps.',
+      'Input watts after efficiency shows the power value the calculator used before solving current.',
+      'Power factor, phase type, and efficiency explain why equal kW values can produce different amp estimates.',
+      'Use the result for comparison or planning before checking the equipment nameplate, manufacturer instructions, code rules, and a qualified reviewer.',
     ],
     mistakes: [
       'Do not confuse kW with kVA.',
-      'Do not ignore motor starting current.',
-      'Do not use a made-up efficiency value for real installation planning.',
+      'Do not assume power factor is 1 for every AC load.',
+      'Do not leave efficiency at 100% when the rating is output power and losses matter.',
+      'Do not use running current alone for breaker sizing, conductor sizing, voltage drop, motor starting current, duty cycle, or code compliance.',
     ],
-    sources: [sourceLinks.inchKilowattsToAmps, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick 5 kW motor example',
+        paragraphs: [
+          'Say a motor is rated 5 kW output, runs from 240 V single-phase power, has 0.9 power factor, and is 90% efficient. First divide 5,000 W by 0.9 to get 5,555.56 input W.',
+          'Then divide 5,555.56 by 240 x 0.9. The running-current estimate is about 25.72 A before you account for nameplate requirements, starting current, conductor rules, breaker rules, and the installation environment.',
+        ],
+      },
+      {
+        title: 'Three-phase and DC checks',
+        paragraphs: [
+          'For a 15 kW three-phase load at 480 V, 0.88 power factor, and 92% efficiency, input power is about 16,304.35 W. Divide by 480 x sqrt(3) x 0.88 to get about 22.27 A.',
+          'For a 1.2 kW DC load at 48 V and 100% efficiency, divide 1,200 W by 48 V to get 25 A. That quick DC check is useful for battery, inverter, and low-voltage equipment planning.',
+        ],
+        bullets: [
+          'Use DC math only for DC loads.',
+          'Use the three-phase formula with sqrt(3) for balanced three-phase line-to-line voltage.',
+          'Use a kVA calculator when the label gives apparent power instead of real power in kW.',
+          'Use manufacturer data and a qualified professional for circuit sizing and electrical safety decisions.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchKilowattsToAmps,
+      sourceLinks.openStaxElectricPower,
+      sourceLinks.openStaxOhmsLaw,
+      sourceLinks.nistUnits,
+      sourceLinks.esfiExtensionCordSafety,
+    ],
   },
   'kva-to-amps-calculator': {
     summary: 'Learn how apparent power in kVA turns into current for single-phase and three-phase systems.',
