@@ -136,7 +136,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Prime Factorization Calculator',
     label: 'Prime factorization guide',
     summary:
-      'Learn how to break a whole number into prime factors, read exponent form, and check whether a number is prime.',
+      'Learn how to read prime factors, exponent form, factor trees, special cases like 1, and GCF or LCM checks.',
   },
   {
     slug: 'how-to-use-long-division-calculator',

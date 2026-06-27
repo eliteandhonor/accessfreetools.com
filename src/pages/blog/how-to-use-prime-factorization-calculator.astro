@@ -7,30 +7,119 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="prime-factorization-calculator"
   label="Prime factorization guide"
   title="How to use the Prime Factorization Calculator"
-  description="Learn how to use the free Access Free Tools prime factorization calculator to break whole numbers into prime factors and exponent form."
+  description="Learn how to use the Prime Factorization Calculator to read prime factors, exponent form, 1 and prime inputs, and GCF or LCM checks."
   path="/blog/how-to-use-prime-factorization-calculator/"
-  intro="The Prime Factorization Calculator rewrites one whole number as prime numbers multiplied together. It also shows whether the number is prime and gives you related factor details for checking your work."
+  intro="Prime factorization is the number-theory version of taking something apart carefully. The calculator rewrites one positive whole number as prime factors, groups repeated factors as powers, and gives enough side information to check whether the answer makes sense."
   quickStart={[
     'Enter one positive whole number.',
     'Press Factor into primes.',
-    'Read the prime factorization in the result card.',
-    'Use the steps to check repeated factors, prime powers, and recent answers.',
+    'Read the prime factorization and prime or composite label in the result card.',
+    'Check the factor count and factor pairs if you need extra confidence.',
+    'Multiply the prime powers back together before copying the answer.',
   ]}
   sections={[
     {
-      title: 'What the answer means',
+      title: 'Quick answer',
       paragraphs: [
-        'Prime factorization is a clean way to break a number into building blocks. Prime numbers cannot be broken into smaller whole-number factors other than 1 and themselves.',
-        'For example, 360 becomes 2^3 x 3^2 x 5. That means 2 x 2 x 2 x 3 x 3 x 5. Multiplying those factors returns 360.',
+        'Enter the number, run the calculator, and read the prime-power line. If the result says 360 = 2^3 x 3^2 x 5, it means 360 is built from three 2s, two 3s, and one 5.',
+        'The fastest check is to multiply the factors back: 2^3 is 8, 3^2 is 9, and 8 x 9 x 5 = 360. If the multiplication returns your original number, the factorization is internally consistent.',
       ],
     },
     {
-      title: 'When to use it',
+      title: 'What prime factorization means',
       paragraphs: [
-        'Prime factorization helps when you are simplifying fractions, finding GCF or LCM, checking divisibility, or studying how numbers are built.',
-        'If you need every factor pair instead, use the Factor Calculator. If you only need the largest shared factor across several numbers, use the Greatest Common Factor Calculator.',
+        'A prime number is a whole number greater than 1 with exactly two positive factors: 1 and itself. Prime factorization breaks a composite number into those prime building blocks.',
+        'You can picture the process as a factor tree. Split the number into smaller whole-number factors, keep splitting composite branches, and stop when every branch is prime. The calculator does that work directly and then groups repeated primes with exponents.',
+      ],
+      bullets: [
+        '84 becomes 2^2 x 3 x 7 because 84 = 2 x 2 x 3 x 7.',
+        '1024 becomes 2^10 because it is ten 2s multiplied together.',
+        '999 becomes 3^3 x 37 because 999 = 3 x 3 x 3 x 37.',
+      ],
+    },
+    {
+      title: 'How to read prime powers',
+      paragraphs: [
+        'Exponent form is just shorthand for repeated multiplication. The factorization 2^4 x 3^2 x 5 means 2 x 2 x 2 x 2 x 3 x 3 x 5.',
+        'This compact form is easier to compare across numbers. For example, if one number has 2^4 and another has 2^2, you can quickly see which one contributes more powers of 2 to an LCM problem.',
+      ],
+      bullets: [
+        'Base: the prime factor, such as 2, 3, 5, 7, 11, or 37.',
+        'Exponent: how many times that prime appears.',
+        'Missing exponent: a prime written as 5 means 5^1.',
+      ],
+    },
+    {
+      title: 'Special cases to understand',
+      paragraphs: [
+        'The number 1 is not prime and not composite, so it has no prime factorization. The calculator says this directly because writing 1 as a prime factor would be misleading.',
+        'If the input is already prime, the result stays as that number. For example, 9973 is prime, so the calculator labels it as prime instead of forcing extra factors.',
+        'The tool is for positive whole numbers. Decimals, fractions, negative numbers, zero, and Infinity do not have the same positive-whole-number factorization workflow, so the calculator rejects them.',
+      ],
+    },
+    {
+      title: 'Using the result for GCF and LCM',
+      paragraphs: [
+        'Prime factorization is useful because it lets you compare numbers by their prime powers instead of guessing from a long factor list.',
+        'For GCF, keep only the prime powers shared by every number and use the smallest shared exponent. For LCM, keep every prime you need and use the largest exponent that appears.',
+      ],
+      bullets: [
+        'Example GCF idea: 84 = 2^2 x 3 x 7 and 360 = 2^3 x 3^2 x 5, so the shared part is 2^2 x 3 = 12.',
+        'Example LCM idea: using those same numbers, keep 2^3, 3^2, 5, and 7, then multiply them for the least common multiple.',
+        'Use the GCF Calculator or LCM Calculator when you want the comparison step done for multiple numbers.',
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'The most common mistake is stopping too early. If one of your factors is still composite, the factorization is not finished. For example, 360 = 8 x 45 is not prime factorization because 8 and 45 still break down.',
+        'Another mistake is losing a repeated factor. If you divide by 2 three times, the result should include 2^3, not just one 2.',
+      ],
+      bullets: [
+        'Do not treat 1 as a prime factor.',
+        'Do not mix prime factorization with the full list of factors.',
+        'Do not copy the answer until multiplying the prime powers returns the original number.',
       ],
     },
   ]}
-  sidecarText="Use the Prime Factorization Calculator while you follow the guide."
+  faqItems={[
+    {
+      question: 'What is prime factorization?',
+      answer:
+        'Prime factorization rewrites a whole number as prime numbers multiplied together. For example, 84 becomes 2^2 x 3 x 7.',
+    },
+    {
+      question: 'Why does 1 have no prime factorization?',
+      answer:
+        'The number 1 is not prime and not composite. It has only one positive factor, so the calculator reports that it has no prime factorization.',
+    },
+    {
+      question: 'How do I know the answer is right?',
+      answer:
+        'Multiply the prime powers back together. If the product matches the original input and every factor is prime, the factorization checks out.',
+    },
+    {
+      question: 'What does exponent form mean?',
+      answer:
+        'Exponent form groups repeated primes. For example, 2^5 means 2 x 2 x 2 x 2 x 2.',
+    },
+    {
+      question: 'Can this help with GCF or LCM?',
+      answer:
+        'Yes. GCF uses the shared prime powers with the smallest exponents. LCM uses all needed prime powers with the largest exponents.',
+    },
+    {
+      question: 'Can I enter decimals or negative numbers?',
+      answer:
+        'No. This calculator is for positive whole numbers only, so decimals, fractions, negatives, zero, and Infinity are rejected.',
+    },
+    {
+      question: 'Is the calculation private?',
+      answer:
+        'Yes. The calculation runs in your browser tab, and recent answers stay only in that tab while you use the page.',
+    },
+  ]}
+  bestUsesIntro="Prime factorization is most useful when the structure of the number matters, not just the final decimal or one divisor."
+  keepExploringIntro="If you are using prime factors as one step in a bigger problem, these nearby pages keep the workflow moving."
+  sidecarText="Use the Prime Factorization Calculator while you follow the examples and check your answer."
 />
