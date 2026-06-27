@@ -6817,17 +6817,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'distance-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [openStaxDistance, openStaxGeometry],
     findings: [
-      'The distance helper uses the 2D distance formula from two coordinate points and reports delta values for checking work.',
-      'Tests cover the 3-4-5 style coordinate example.',
-      'The FAQ keeps coordinate distance separate from driving distance, map routes, or GPS travel time.',
+      'The distance helper uses the 2D straight-line distance formula from two coordinate points and reports delta x, delta y, midpoint, and formula steps for checking work.',
+      'The tool page now covers 3-4-5, origin-to-point, negative-coordinate, same-x-value, and decimal-coordinate examples with clear unit-label expectations.',
+      'The FAQ explains coordinate inputs, delta values, midpoint, negative and decimal coordinates, same-point behavior, unit labels, the Pythagorean relationship, Slope Calculator differences, route/GPS limits, 3D-distance limits, and tab-only privacy.',
     ],
     improvements: [
-      'Manually checked coordinate-distance formula, input labels, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Updated distance metadata, SEO description, use cases, examples, FAQ depth, modified date, and audit notes with local SEO score, workbench, competitor-gap, rendered-page, paid DataForSEO, and browser-proof requirements.',
     ],
     followUps: [
       'Add 3D distance as a separate mode later if there is enough demand.',

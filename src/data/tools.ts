@@ -2551,49 +2551,87 @@ const baseTools: ToolDefinition[] = [
     slug: 'distance-calculator',
     name: 'Distance Calculator',
     category: 'calculators',
-    summary: 'Find distance, delta x, delta y, and midpoint from two coordinate points.',
+    summary: 'Calculate straight-line distance, deltas, midpoint, and formula steps.',
     description:
-      'Use this free distance calculator to enter two points and find straight-line distance, delta x, delta y, midpoint, and formula steps.',
+      'Use this free distance calculator to enter two coordinate points and find straight-line distance, delta x, delta y, midpoint, and distance-formula steps.',
     icon: 'calculator-distance',
     seoTitle: 'Distance Calculator | Distance Between Two Points',
     seoDescription:
-      'Calculate distance between two points with delta x, delta y, midpoint, optional units, examples, and formula steps.',
+      'Calculate straight-line distance between two coordinate points with delta x, delta y, midpoint, optional units, examples, and formula steps.',
     useCases: [
-      'Find straight-line distance between two coordinate points.',
-      'Calculate midpoint while checking coordinate geometry problems.',
-      'Compare distance with slope for the same pair of points.',
-      'Copy distance formula steps into notes or homework.',
+      'Find straight-line distance between two points on a coordinate plane.',
+      'Check delta x, delta y, and midpoint while working coordinate geometry problems.',
+      'Compare coordinate distance with slope, rise, run, and right-triangle side lengths.',
+      'Use the formula steps to spot sign mistakes before copying an answer into notes or homework.',
+      'Label the answer with the same unit as the coordinates, such as meters, feet, miles, or grid units.',
     ],
     examples: [
-      { label: '3-4-5 distance', expression: '(1, 2) to (4, 6)', result: '5 units' },
+      { label: '3-4-5 distance', expression: '(1, 2) to (4, 6)', result: 'delta x 3, delta y 4, distance 5 units' },
       { label: 'Origin to point', expression: '(0, 0) to (8, 15)', result: '17 units' },
       { label: 'Negative coordinates', expression: '(-3, 4) to (5, -2)', result: '10 units' },
+      { label: 'Same x-value', expression: '(3, -2) to (3, 7)', result: '9 units with midpoint (3, 2.5)' },
+      { label: 'Decimal coordinates', expression: '(2.5, 1) to (6.5, 4)', result: '5 units' },
     ],
     faq: [
       {
         question: 'What formula does the Distance Calculator use?',
         answer:
-          'It uses d = sqrt((x2 - x1)^2 + (y2 - y1)^2), the standard distance formula for two points in a plane.',
+          'It uses d = sqrt((x2 - x1)^2 + (y2 - y1)^2), the standard straight-line distance formula for two points in a flat coordinate plane.',
+      },
+      {
+        question: 'What do x1, y1, x2, and y2 mean?',
+        answer:
+          'x1 and y1 are the first point. x2 and y2 are the second point. Enter the coordinates in the same scale and unit so the distance label is meaningful.',
+      },
+      {
+        question: 'Why does the calculator show delta x and delta y?',
+        answer:
+          'Delta x is x2 - x1, and delta y is y2 - y1. They show the horizontal and vertical changes before the calculator squares them, which makes sign mistakes easier to catch.',
       },
       {
         question: 'Does it show midpoint?',
         answer:
-          'Yes. It shows midpoint as ((x1 + x2) / 2, (y1 + y2) / 2).',
+          'Yes. It shows midpoint as ((x1 + x2) / 2, (y1 + y2) / 2), so you can find the point halfway between the two coordinates.',
       },
       {
-        question: 'Can I use negative coordinates?',
+        question: 'Can I use negative or decimal coordinates?',
         answer:
-          'Yes. Negative x and y values are accepted as long as each coordinate is a valid number.',
+          'Yes. Negative numbers and decimals work as long as each coordinate is a valid number and all coordinates use the same scale.',
       },
       {
-        question: 'Should I use this or the Slope Calculator?',
+        question: 'What happens if the two points are the same?',
         answer:
-          'Use Distance Calculator for length between points. Use Slope Calculator for steepness, rise, run, and line equations.',
+          'The distance is 0 because there is no change in x or y. The midpoint is the same coordinate because both endpoints are identical.',
       },
       {
         question: 'What units does the answer use?',
         answer:
-          'The answer uses the unit label you enter. If your coordinates are in meters, the distance is in meters.',
+          'The answer uses the unit label you enter. If your coordinates are in meters, the distance is in meters. If they are grid units, the result is in grid units. The label is text only, not a unit converter.',
+      },
+      {
+        question: 'Should I use this or the Slope Calculator?',
+        answer:
+          'Use Distance Calculator for the straight-line length between points. Use Slope Calculator for steepness, rise, run, and line equations from the same pair of points.',
+      },
+      {
+        question: 'How is this related to the Pythagorean theorem?',
+        answer:
+          'The distance formula is the Pythagorean theorem applied to coordinate changes. Delta x and delta y act like the two legs of a right triangle, and the distance is the hypotenuse.',
+      },
+      {
+        question: 'Can this calculate driving distance or GPS route distance?',
+        answer:
+          'No. This is straight-line coordinate distance. It does not follow roads, trails, map routes, elevation changes, traffic, or GPS paths.',
+      },
+      {
+        question: 'Can it calculate 3D distance?',
+        answer:
+          'No. This page is for two-dimensional points only. A 3D distance formula also needs z1 and z2, which should be handled as a separate mode with clear labels.',
+      },
+      {
+        question: 'When should I not rely on this distance answer by itself?',
+        answer:
+          'Use it as a coordinate-geometry check, not an exact field survey, route estimate, construction measurement, or safety decision. Double-check the coordinate scale, signs, units, and rounding, and use calibrated measurement, GIS data, or professional plans when the limit matters.',
       },
       {
         question: 'Is my distance history private?',
