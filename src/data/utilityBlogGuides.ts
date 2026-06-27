@@ -1688,23 +1688,112 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.irsMileage, sourceLinks.irsMileageUpdate2026, sourceLinks.gsaPovMileage],
   },
   'density-calculator': {
-    summary: 'Learn how mass divided by volume gives density and why matching units matter.',
+    summary: 'Learn how mass divided by volume gives density, how to label the unit, and why matching units matter.',
+    metaDescription:
+      'Use the Density Calculator guide to divide mass by volume, label g/mL or kg/m3 results, check examples, and avoid unit-matching mistakes.',
     purpose:
-      'The Density Calculator is a direct formula helper for science, materials, and classroom examples where mass and volume are known.',
+      'The Density Calculator is a direct formula helper for science, materials, classroom examples, liquid checks, and bulk-volume estimates where mass and volume are known.',
+    intro:
+      'Most density mistakes are not from the division. They come from using one unit in the mass box, another unit in the volume box, and then giving the answer the wrong label.',
+    inputMatch:
+      'the measured mass, measured volume, and density unit label you want to read, such as grams with milliliters for g/mL or kilograms with cubic meters for kg/m3',
+    logicNote:
+      'The calculator does not convert the label for you. It divides the two numbers and prints the label you typed, so the unit work has to be right before you press calculate.',
+    readIntro:
+      'Read density as a ratio: how much mass fits into one unit of volume. Then check the repeated mass, volume, and formula line so you can catch a copied value or unit-label mistake before you use the answer.',
+    mistakeIntro:
+      'If a density answer looks wildly high or low, pause before changing the material. The likely issue is a unit mismatch, a wrong volume, or a label that says one thing while the inputs mean another.',
+    bestUsesIntro:
+      'Use this guide when you already measured mass and volume and need a quick density result you can explain.',
+    sidecarText:
+      'Open the Density Calculator beside this guide. Try the lab sample first, then replace the mass, volume, and unit label with your own values.',
     enter: [
-      'Enter mass.',
-      'Enter volume.',
-      'Enter a unit label such as g/mL or kg/m3 if it helps your notes.',
+      'Enter the mass number from your scale, problem, label, or supplier note.',
+      'Enter the matching volume number, such as mL, cm3, m3, L, or ft3.',
+      'Type the density unit label you want beside the result, such as g/mL, g/cm3, kg/m3, or lb/ft3.',
+      'Check that the mass and volume units behind the numbers actually match that label.',
+      'Press Calculate density and read the ratio, formula line, and examples together.',
     ],
     read: [
-      'Density is the main answer.',
-      'Mass and volume are repeated so you can check the formula.',
-      'The unit label is only text, so make sure the units match.',
+      'Density is the main answer, such as 2.7 g/mL or 1600 kg/m3.',
+      'Mass and volume are repeated so you can see exactly which numbers were divided.',
+      'The formula line should match density = mass / volume.',
+      'The unit label is only text, so it proves nothing unless the inputs were already in matching units.',
+      'Use the quick examples to sanity-check whether your answer is water-like, metal-like, or bulk-material-like.',
     ],
     mistakes: [
-      'Do not mix grams with cubic meters unless your density label reflects that.',
-      'Use calibrated measurements for lab or engineering work.',
-      'Temperature and material condition can affect real density.',
+      'Do not mix grams with cubic meters and label the answer g/mL.',
+      'Do not type kg/m3 as the label unless the mass is in kilograms and the volume is in cubic meters.',
+      'Do not assume the calculator converts g, kg, mL, cm3, m3, or ft3 inside the label box.',
+      'Use calibrated measurements for lab, supplier, engineering, or safety work.',
+      'Remember that temperature, moisture, packing, air gaps, impurities, and material condition can change real density.',
+    ],
+    extraSections: [
+      {
+        title: 'Quick answer',
+        paragraphs: [
+          'Density is mass divided by volume. If a sample has 27 g of mass and takes up 10 mL of volume, the density is 27 / 10 = 2.7 g/mL.',
+          'The calculator is fastest when the units are already lined up. If the mass is in grams and the volume is in milliliters, label the answer g/mL. If the mass is in kilograms and the volume is in cubic meters, label the answer kg/m3.',
+        ],
+        links: [
+          {
+            href: '/tools/density-calculator/',
+            label: 'Open the Density Calculator while you read this guide',
+          },
+        ],
+      },
+      {
+        title: 'What the inputs mean',
+        paragraphs: [
+          'Mass is how much matter is in the sample. For this calculator, it can be grams, kilograms, pounds, ounces, or another mass unit as long as you use a matching density label.',
+          'Volume is how much space the sample takes up. Common density examples use mL for liquids, cm3 for small solid samples, m3 for bulk material, and ft3 for some construction or shipping notes.',
+          'Unit label is the text printed beside the answer. It helps your notes make sense, but it is not a hidden unit converter.',
+        ],
+      },
+      {
+        title: 'Example: lab sample in g/mL',
+        paragraphs: [
+          'Say a small sample has mass 27 g and volume 10 mL. Enter 27 for mass, 10 for volume, and g/mL as the unit label.',
+          'The calculator returns 2.7 g/mL because 27 / 10 = 2.7. That means each 1 mL of this sample has about 2.7 g of mass.',
+          'This is also a good unit check. If your volume was really 10 cm3, the same number could be written as 2.7 g/cm3 because 1 cm3 equals 1 mL.',
+        ],
+      },
+      {
+        title: 'Example: liquid close to water',
+        paragraphs: [
+          'A liquid with mass 997 g and volume 1000 mL has density 997 / 1000 = 0.997 g/mL.',
+          'That result is close to 1 g/mL, which is a useful sanity check for many water-like examples. It does not prove the liquid is pure water, but it tells you the answer is in the expected neighborhood.',
+        ],
+      },
+      {
+        title: 'Example: bulk material in kg/m3',
+        paragraphs: [
+          'For a bulk material, suppose mass is 1600 kg and volume is 1 m3. Enter 1600, 1, and kg/m3.',
+          'The result is 1600 kg/m3. This kind of density is common when you are checking a supplier value, a school problem, or a rough material estimate before using a more specific tool.',
+        ],
+        links: [
+          { href: '/tools/mass-calculator/', label: 'Use Mass Calculator when density and volume are known' },
+          { href: '/tools/volume-calculator/', label: 'Use Volume Calculator when you need the space first' },
+        ],
+      },
+      {
+        title: 'When you need a conversion first',
+        paragraphs: [
+          'If your mass and volume are not already paired, convert before using the density calculator. For example, kilograms with liters gives kg/L, while kilograms with cubic meters gives kg/m3.',
+          'Do not fix a unit mismatch by changing only the label. The label should describe the units behind the two numbers you actually divided.',
+        ],
+        links: [
+          { href: '/tools/conversion-calculator/', label: 'Convert mass or volume units first' },
+          { href: '/tools/weight-calculator/', label: 'Use Weight Calculator for force from mass and gravity' },
+        ],
+      },
+      {
+        title: 'When not to rely on this alone',
+        paragraphs: [
+          'Use this page as formula help, not as a lab certification or supplier guarantee. Real density can shift with temperature, moisture, air pockets, compaction, impurities, grade, and measurement precision.',
+          'For lab reports, engineering work, shipping limits, structural estimates, or material purchases, use calibrated measurements, the method your class or workplace requires, or the supplier data sheet before trusting a quick result.',
+        ],
+      },
     ],
     sources: [sourceLinks.nistUnits, sourceLinks.bipmSi],
   },
