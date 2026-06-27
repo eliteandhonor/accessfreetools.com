@@ -226,6 +226,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'fha-loan-calculator': '2026-05-26',
   'gravel-calculator': '2026-06-02',
   'triangle-calculator': '2026-05-31',
+  'circle-calculator': '2026-06-27',
 };
 
 const blogModifiedOverrides: Record<string, string> = {

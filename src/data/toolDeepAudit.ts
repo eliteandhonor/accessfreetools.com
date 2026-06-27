@@ -6798,20 +6798,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'circle-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [openStaxGeometry, openStaxDistance],
     findings: [
-      'The circle helper can start from radius, diameter, circumference, or area and converts back to the full circle summary.',
+      'The circle helper can start from radius, diameter, circumference, or area and converts back to the full-circle radius, diameter, circumference, and area summary.',
       'Tests cover diameter input and zero-value validation.',
-      'The FAQ explains radius versus diameter and keeps square units separate from linear units.',
+      'The FAQ explains radius versus diameter, reverse formulas for circumference and area, square units versus length units, common input checks, full-circle limits, and privacy behavior.',
     ],
     improvements: [
-      'Manually checked circle input modes, area/circumference labels, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Updated Circle Calculator metadata, SEO description, use cases, examples, FAQ detail, trust/limit wording, modified date, and audit notes with local SEO workbench, competitor-gap, rendered-page, and paid DataForSEO sprint evidence.',
     ],
     followUps: [
-      'Add sector and arc modes later only if they have separate labels and examples.',
+      'Add sector, arc, ring, or partial-circle modes later only if they have separate labels, examples, and visible assumptions.',
     ],
   },
   {
