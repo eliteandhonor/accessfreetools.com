@@ -2340,23 +2340,26 @@ const baseTools: ToolDefinition[] = [
     slug: 'permutation-and-combination-calculator',
     name: 'Permutation and Combination Calculator',
     category: 'calculators',
-    summary: 'Calculate nPr and nCr for counting arrangements and selections.',
+    summary: 'Calculate nPr and nCr for order-matters and order-does-not-matter counting problems.',
     description:
-      'Use this free permutation and combination calculator to find nPr and nCr with exact integer answers, steps, examples, copy, and history.',
+      'Use this free permutation and combination calculator to find exact nPr and nCr counts, compare order-matters and group-selection problems, and check the formula steps.',
     icon: 'calculator-permutation',
-    seoTitle: 'Permutation and Combination Calculator | nPr and nCr',
+    seoTitle: 'Permutation and Combination Calculator | nPr nCr Tool',
     seoDescription:
-      'Use the free Access Free Tools permutation and combination calculator to calculate nPr and nCr exact integer answers for counting problems.',
+      'Calculate exact nPr and nCr counts for permutations, combinations, order-matters arrangements, and group selections.',
     useCases: [
-      'Find permutations when order matters.',
-      'Find combinations when order does not matter.',
-      'Check probability and counting homework examples.',
-      'Copy exact nPr and nCr results for notes or study.',
+      'Find permutations for rankings, podium finishes, codes, or ordered choices.',
+      'Find combinations for committees, card hands, teams, or unordered groups.',
+      'Compare nPr and nCr from the same n and r before choosing a probability denominator.',
+      'Copy exact integer nPr and nCr results for notes, homework, or study checks.',
     ],
     examples: [
       { label: 'Choose 3 from 10', expression: '10P3 and 10C3', result: '720 permutations, 120 combinations' },
       { label: 'Cards example', expression: '52C5', result: '2,598,960 combinations' },
       { label: 'Podium order', expression: '8P3', result: '336 permutations' },
+      { label: 'Four-person committee', expression: '12P4 and 12C4', result: '11,880 permutations, 495 combinations' },
+      { label: 'Two finalists', expression: '5P2 and 5C2', result: '20 permutations, 10 combinations' },
+      { label: 'Three-letter ordered code', expression: '26P3 and 26C3', result: '15,600 permutations, 2,600 combinations' },
     ],
     faq: [
       {
@@ -2372,7 +2375,17 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'What do n and r mean?',
         answer:
-          'n is the total number of items. r is the number of items selected or arranged.',
+          'n is the total number of available items. r is how many of those items are selected or arranged.',
+      },
+      {
+        question: 'What formulas does the calculator use?',
+        answer:
+          'It uses nPr = n! / (n - r)! for permutations and nCr = n! / (r! x (n - r)!) for combinations.',
+      },
+      {
+        question: 'What does factorial mean?',
+        answer:
+          'A factorial multiplies whole numbers downward. For example, 5! = 5 x 4 x 3 x 2 x 1. The calculator also treats 0! as 1, which is standard for these formulas.',
       },
       {
         question: 'What input range is supported?',
@@ -2380,9 +2393,29 @@ const baseTools: ToolDefinition[] = [
           'This calculator supports whole-number n values from 0 to 500 and r values from 0 to n.',
       },
       {
+        question: 'Can r be zero in this calculator?',
+        answer:
+          'Yes. There is exactly one way to choose or arrange nothing, so both nP0 and nC0 equal 1.',
+      },
+      {
+        question: 'Does this allow repeats or replacement?',
+        answer:
+          'No. This calculator uses the standard no-replacement nPr and nCr formulas. If an item can be reused, you need a replacement-based counting method.',
+      },
+      {
+        question: 'Why is nPr usually larger than nCr for the same n and r?',
+        answer:
+          'nPr counts every order separately. nCr groups those ordered arrangements together by dividing by r!, so ABC, ACB, BAC, BCA, CAB, and CBA count as one combination.',
+      },
+      {
         question: 'How does this connect to probability?',
         answer:
           'Many probability problems use combinations or permutations to count favorable outcomes and total possible outcomes.',
+      },
+      {
+        question: 'What should I double-check before using the answer?',
+        answer:
+          'Check whether order matters, whether repeats are allowed, whether every item is distinct, and whether the problem asks for arrangements, selections, or a probability built from those counts.',
       },
       {
         question: 'Is my counting history private?',

@@ -6691,17 +6691,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'permutation-and-combination-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [openStaxProbabilityCombinations, openStaxStatisticsSpread],
     findings: [
-      'The permutation/combination helper validates r between 0 and n and shows both ordered and unordered counts.',
-      'Tests cover 10 choose/permuted 3 and invalid r greater than n.',
-      'The FAQ explains the main difference in plain language: order matters for permutations, not combinations.',
+      'The permutation/combination helper validates whole-number n and r, enforces r between 0 and n, and shows exact ordered nPr and unordered nCr counts.',
+      'The examples cover choosing 3 from 10, card hands, podium order, committees, finalists, and ordered letter-code cases.',
+      'The FAQ explains nPr versus nCr, n and r, factorial formulas, 0 selections, no-replacement limits, why nPr is usually larger than nCr, probability use, and tab-only history privacy.',
     ],
     improvements: [
-      'Manually checked permutation and combination formulas, input guardrails, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Updated permutation/combination SEO copy, examples, FAQ depth, no-replacement scope, result-card labels, recent-answer history, modified date, and audit notes with current local proof requirements.',
     ],
     followUps: [
       'Add replacement versus no-replacement modes only after clear wording and tests are added.',

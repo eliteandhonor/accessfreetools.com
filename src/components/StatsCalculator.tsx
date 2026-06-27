@@ -733,7 +733,10 @@ function PermutationCombinationTool() {
     try {
       const result = calculatePermutationCombination(Number(n), Number(r));
       setCalculation(result);
-      addHistory({ expression: `n=${result.n}, r=${result.r}`, answer: `${formatBigInteger(result.combinations)} combinations` });
+      addHistory({
+        expression: `n=${result.n}, r=${result.r}`,
+        answer: `nPr ${formatBigInteger(result.permutations)}; nCr ${formatBigInteger(result.combinations)}`,
+      });
       setError('');
       setCopied(false);
     } catch (caughtError) {
@@ -790,6 +793,10 @@ function PermutationCombinationTool() {
                 <div>
                   <dt>Order matters</dt>
                   <dd>Permutation</dd>
+                </div>
+                <div>
+                  <dt>Order does not matter</dt>
+                  <dd>Combination</dd>
                 </div>
               </dl>
             </>

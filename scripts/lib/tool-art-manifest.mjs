@@ -88,6 +88,18 @@ const toolArtMetadataOverrides = {
         'P-value Calculator guide artwork supports the walkthrough for choosing a tail type, reading standard-normal p-values, checking examples, and avoiding over-strong conclusions.',
     },
   },
+  'permutation-and-combination-calculator': {
+    tool: {
+      alt: 'Illustration for Permutation and Combination Calculator showing nPr arrangements, nCr groups, and exact counting results.',
+      caption:
+        'Permutation and Combination Calculator artwork matches the live workflow: enter n and r, compare order-matters nPr with order-does-not-matter nCr, and check exact counting examples.',
+    },
+    guide: {
+      alt: 'Guide image for Permutation and Combination Calculator showing ordered arrangements, unordered groups, and nPr/nCr examples.',
+      caption:
+        'Permutation and Combination Calculator guide artwork supports the walkthrough for choosing nPr or nCr, reading exact counts, checking examples, and avoiding order-matters mistakes.',
+    },
+  },
   'recipe-scaler': {
     guide: {
       alt: 'Guide image for Recipe Scaler showing one ingredient scaled from original servings to desired servings with example inputs and result notes.',
