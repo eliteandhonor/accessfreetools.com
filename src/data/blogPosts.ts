@@ -220,7 +220,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'Mean, Median, Mode, Range Calculator Guide',
     label: 'Mean median mode range guide',
     summary:
-      'Learn how to find the main measures of center and spread: mean, median, mode, and range.',
+      'Learn how to enter a data set, check mean, median, mode, and range formulas, and spot outliers, ties, and no-mode cases.',
   },
   {
     slug: 'how-to-use-permutation-and-combination-calculator',

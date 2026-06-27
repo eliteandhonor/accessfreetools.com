@@ -7,30 +7,87 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="mean-median-mode-range-calculator"
   label="Mean median mode range guide"
   title="Mean, Median, Mode, Range Calculator Guide"
-  description="Learn how to use the free Access Free Tools mean, median, mode, range calculator for quick data summaries and sorted-value checks."
+  description="Learn how to use the free mean, median, mode, range calculator, check each formula, and read a data summary without missing outliers or repeated values."
   path="/blog/how-to-use-mean-median-mode-range-calculator/"
-  intro="The Mean, Median, Mode, Range Calculator focuses on the four statistics people usually need first when summarizing a small data set."
+  intro="A small list of numbers can still be confusing. The Mean, Median, Mode, Range Calculator turns the list into a quick summary, then shows the sorted values so you can check the middle, repeats, and spread."
   quickStart={[
     'Enter the numbers in your data set.',
     'Press Calculate summary.',
     'Read the mean, median, mode, and range.',
     'Check the sorted values when you want to verify the median or modes.',
   ]}
+  bestUsesIntro="This guide is for quick descriptive statistics: the first summary you check before you decide whether you need deeper analysis."
   sections={[
     {
-      title: 'What each answer means',
+      title: 'Quick answer',
       paragraphs: [
-        'Mean is the total divided by the count. Median is the middle sorted value. Mode is the most repeated value. Range is maximum minus minimum.',
-        'The calculator keeps repeated modes when more than one value ties for most frequent.',
+        'Use the mean when you want the arithmetic average, the median when the middle value matters, the mode when repeats matter, and the range when you want the distance between the smallest and largest values.',
+        'For a balanced data set, the mean and median often sit near each other. If one number is much larger or smaller than the rest, the median can describe the typical value better than the mean.',
+      ],
+    },
+    {
+      title: 'What to enter',
+      paragraphs: [
+        'Type the numbers from one data set. Keep every value in the same unit, such as points, dollars, minutes, or inches.',
+        'You can separate values with commas, spaces, or line breaks. Decimals and negative numbers are fine, but words, units, and labels should stay out of the input box.',
+      ],
+      bullets: [
+        'Good input: 72, 84, 84, 90, 93.',
+        'Also fine: -2, 0, 1.5, 1.5, 4.',
+        'Avoid mixing labels into the list, such as score: 72 or 84 points.',
+      ],
+    },
+    {
+      title: 'How the calculator checks the math',
+      paragraphs: [
+        'Mean is the sum divided by the count. Median is the middle value after sorting. Mode is the value or values that appear most often. Range is maximum minus minimum.',
+        'For 10, 12, 12, 15, 18, 21, 21, 21, 25, the sum is 155 and the count is 9, so the mean is 155 / 9 = 17.2222222222. The sorted middle value is 18, the most repeated value is 21, and the range is 25 - 10 = 15.',
+      ],
+      bullets: [
+        'Mean: add every value, then divide by how many values you entered.',
+        'Median: sort the values, then choose the middle value or average the two middle values.',
+        'Mode: count repeats and keep every value tied for the highest repeat count.',
+        'Range: subtract the smallest value from the largest value.',
+      ],
+    },
+    {
+      title: 'Mean versus median',
+      paragraphs: [
+        'Mean uses every value, so an outlier can pull it up or down. Median cares about position after sorting, so it is steadier when one value is extreme.',
+        'For 2, 3, 4, 5, 100, the mean is 22.8, but the median is 4. The mean is mathematically correct, but the median gives a better feel for the center of most values in that list.',
+      ],
+    },
+    {
+      title: 'Modes, ties, and no mode',
+      paragraphs: [
+        'A data set can have one mode, multiple modes, or no useful mode. If 3 and 7 both repeat twice, the calculator reports both modes instead of pretending there is only one.',
+        'If every value appears once, the calculator reports no mode. That usually means there is no repeated value to describe as the most common result.',
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'Most wrong summaries come from small input mistakes, not hard math. Before trusting the answer, compare the sorted values with the numbers you meant to enter.',
+      ],
+      bullets: [
+        'Do not mix units, such as minutes and hours, in the same list.',
+        'Do not drop repeated values. Repeats matter for mean, median, and mode.',
+        'Do not treat the range as the typical difference between values. It only uses the smallest and largest values.',
+        'Do not use a simple summary to prove a trend, cause, or prediction by itself.',
       ],
     },
     {
       title: 'When this tool is enough',
       paragraphs: [
-        'Use this calculator for homework, quick checks, scores, small samples, and everyday data summaries.',
-        'Use the full Statistics Calculator when you also need quartiles, variance, or standard deviation.',
+        'Use this calculator for homework, quiz scores, small samples, quick checks, and everyday data summaries where the first four descriptive statistics are enough.',
+        'Use the full Statistics Calculator when you also need quartiles, variance, or standard deviation. For grades, research, business reports, or official work, check the rounding rule and the data collection method before making a decision.',
+      ],
+      links: [
+        { href: '/tools/statistics-calculator/', label: 'Statistics Calculator' },
+        { href: '/tools/standard-deviation-calculator/', label: 'Standard Deviation Calculator' },
       ],
     },
   ]}
-  sidecarText="Use the Mean, Median, Mode, Range Calculator while you follow the guide."
+  keepExploringIntro="If this quick summary is only the first step, these nearby tools help you check spread, z-scores, and broader statistics."
+  sidecarText="Use the Mean, Median, Mode, Range Calculator while you follow the examples and compare the sorted values."
 />
