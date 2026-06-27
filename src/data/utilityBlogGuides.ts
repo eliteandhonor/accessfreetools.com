@@ -2394,25 +2394,78 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'kva-to-amps-calculator': {
-    summary: 'Learn how apparent power in kVA turns into current for single-phase and three-phase systems.',
+    title: 'kVA to Amps Guide',
+    summary:
+      'Learn the kVA to amps formula for single-phase and three-phase systems with transformer, UPS, generator, and line-to-line voltage examples.',
+    metaDescription:
+      'Use the kVA to Amps guide to convert kVA and volts into amps for single-phase or three-phase systems, then avoid kW and voltage mistakes.',
     purpose:
-      'The kVA to Amps Calculator converts an apparent-power rating into estimated current. It is useful for transformer, UPS, and equipment labels that use kVA.',
+      'The kVA to Amps Calculator converts an apparent-power rating into estimated current. It is useful for transformer, UPS, generator, panel, and equipment labels that give capacity in kVA.',
+    intro:
+      'Start with the kVA label, the equipment voltage, and the phase type. For example, a 25 kVA load at 480 V three-phase is about 30.07 A before nameplate rules, breaker sizing, conductor sizing, derating, or local code requirements.',
+    inputMatch:
+      'the kVA rating, equipment voltage, and single-phase or balanced three-phase mode from the transformer, UPS, generator, panel, or equipment label',
+    logicNote:
+      'First convert kVA to VA: VA = kVA x 1,000. For single-phase, amps = VA / volts. For balanced three-phase, amps = VA / (line-to-line volts x sqrt(3)). kVA is apparent power, so the direct kVA-to-amps step does not need a power factor input.',
+    readIntro:
+      'Read amps as an estimated current from apparent power. Then compare the result with manufacturer data, electrical code rules, conductor limits, breaker rules, and any professional design requirements.',
+    mistakeIntro:
+      'Most kVA-to-amps mistakes come from treating kVA like kW, using line-to-neutral voltage in a line-to-line three-phase calculation, or using the estimate as final sizing instead of a planning check.',
     enter: [
-      'Enter the kVA rating.',
-      'Enter the voltage.',
-      'Choose single-phase or three-phase.',
+      'Enter the kVA rating from the nameplate, specification sheet, transformer label, UPS label, or generator label.',
+      'Enter the voltage for the equipment. For balanced three-phase systems, use line-to-line voltage unless the manufacturer says otherwise.',
+      'Choose single-phase or three-phase. Do not add a power factor value, because kVA already describes apparent power.',
     ],
     read: [
-      'The main answer is estimated current in amps.',
-      'Volt-amps shows kVA converted to VA.',
-      'There is no power factor input because kVA already means apparent power.',
+      'The main answer is the estimated current in amps.',
+      'Volt-amps shows the kVA value after multiplying by 1,000.',
+      'The phase factor is 1 for single-phase and sqrt(3) for balanced three-phase.',
+      'Use the result as a planning estimate before checking nameplate limits, conductor sizing, breaker sizing, derating, and professional requirements.',
     ],
     mistakes: [
-      'Do not treat kVA and kW as always identical.',
-      'Do not use this alone to size a transformer, breaker, or conductor.',
-      'Do not mix line-to-line and line-to-neutral voltage without checking the equipment context.',
+      'Do not treat kVA and kW as identical unless the power factor is exactly 1.',
+      'Do not use line-to-neutral voltage when the calculation needs three-phase line-to-line voltage.',
+      'Do not use the result alone to size a transformer, UPS, generator, breaker, conductor, or panel.',
+      'Do not ignore starting current, continuous-load rules, derating, manufacturer instructions, local code, or qualified electrical review.',
     ],
-    sources: [sourceLinks.inchKvaToAmps, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick 25 kVA transformer example',
+        paragraphs: [
+          'A 25 kVA transformer on 480 V three-phase power is 25,000 VA after multiplying kVA by 1,000.',
+          'Divide 25,000 by 480 x sqrt(3). The estimate is about 30.07 A before code rules, loading, derating, or nameplate instructions are applied.',
+          'That makes the calculator useful for an early current check, but it is not a replacement for the transformer data sheet or electrical design work.',
+        ],
+      },
+      {
+        title: 'Single-phase, three-phase, and kW checks',
+        paragraphs: [
+          'A 10 kVA single-phase UPS at 240 V is 10,000 / 240 = 41.67 A.',
+          'A 75 kVA load on 208 V balanced three-phase power is 75,000 / (208 x sqrt(3)) = 208.18 A.',
+          'If the label gives kW instead of kVA, the job is different because kW is real power and power factor may matter.',
+        ],
+        bullets: [
+          'Use kVA directly when the label gives apparent power.',
+          'Use kW-to-amps math only when the label gives real power in kW.',
+          'Use line-to-line voltage for balanced three-phase calculations.',
+          'Use manufacturer data and a qualified professional for final electrical sizing.',
+        ],
+      },
+      {
+        title: 'When this estimate is not enough',
+        paragraphs: [
+          'The kVA-to-amps formula gives a clean apparent-power estimate. Real installations can need more checks: continuous-load factors, motor starting current, transformer impedance, generator behavior, conductor temperature ratings, voltage drop, breaker curves, and local electrical code.',
+          'Use the calculator to understand the scale of the current, then confirm final decisions with the equipment documentation and a qualified electrician or engineer.',
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.inchKvaToAmps,
+      sourceLinks.openStaxElectricPower,
+      sourceLinks.openStaxOhmsLaw,
+      sourceLinks.nistUnits,
+      sourceLinks.esfiExtensionCordSafety,
+    ],
   },
   'amp-hours-to-watt-hours-calculator': {
     title: 'Amp Hours to Watt Hours Guide',
