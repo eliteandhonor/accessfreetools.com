@@ -2653,7 +2653,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   'ohms-law-calculator': {
     summary: 'Learn how voltage, current, resistance, and power fit together.',
     purpose:
-      'The Ohms Law Calculator solves the basic resistor relationships. Enter two known values and it fills in voltage, current, resistance, and power.',
+      'The Ohm\'s Law Calculator solves basic resistor and power relationships. Enter two known voltage, current, resistance, or power values and it fills in the rest.',
     enter: [
       'Choose the pair of values you know.',
       'Enter the two values in the labels shown.',

@@ -2130,9 +2130,9 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     ],
   },
   'ohms-law': {
-    title: 'Ohms Law Calculator',
+    title: 'Ohm\'s Law Calculator',
     buttonLabel: 'Calculate circuit values',
-    emptyHistory: 'Recent Ohm law calculations will appear here.',
+    emptyHistory: 'Recent Ohm\'s law calculations will appear here.',
     privacyNote: 'This simple resistor math stays in your browser. Use proper electrical safety practices.',
     modes: [
       {
@@ -2158,6 +2158,30 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         fields: [numberField('firstValue', 'Current A', '2'), numberField('secondValue', 'Resistance ohms', '6')],
         defaultInputs: { firstValue: '2', secondValue: '6' },
         examples: [{ label: '2 A and 6 ohms', inputs: { firstValue: '2', secondValue: '6' } }],
+      },
+      {
+        id: 'voltage-power',
+        label: 'V and P',
+        symbol: 'VIP',
+        fields: [numberField('firstValue', 'Voltage V', '12'), numberField('secondValue', 'Power W', '24')],
+        defaultInputs: { firstValue: '12', secondValue: '24' },
+        examples: [{ label: '12 V and 24 W', inputs: { firstValue: '12', secondValue: '24' } }],
+      },
+      {
+        id: 'current-power',
+        label: 'I and P',
+        symbol: 'VIP',
+        fields: [numberField('firstValue', 'Current A', '2'), numberField('secondValue', 'Power W', '24')],
+        defaultInputs: { firstValue: '2', secondValue: '24' },
+        examples: [{ label: '2 A and 24 W', inputs: { firstValue: '2', secondValue: '24' } }],
+      },
+      {
+        id: 'resistance-power',
+        label: 'R and P',
+        symbol: 'RIP',
+        fields: [numberField('firstValue', 'Resistance ohms', '6'), numberField('secondValue', 'Power W', '24')],
+        defaultInputs: { firstValue: '6', secondValue: '24' },
+        examples: [{ label: '6 ohms and 24 W', inputs: { firstValue: '6', secondValue: '24' } }],
       },
     ],
   },
@@ -5535,7 +5559,7 @@ function calculateUtility(
           { label: 'Resistance', value: `${formatCalculatorNumber(result.resistance)} ohms` },
         ],
         steps: [
-          'Use Ohm law V = I x R to solve the missing core value.',
+          'Use Ohm\'s law V = I x R to solve the missing core value.',
           'Use power P = V x I after voltage and current are known.',
           'Show voltage, current, resistance, and power together for checking.',
         ],

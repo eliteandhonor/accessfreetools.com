@@ -32,6 +32,9 @@ function decodeHtmlEntities(value) {
     .replace(/&quot;/g, '"')
     .replace(/&#34;/g, '"')
     .replace(/&amp;/g, '&')
+    .replace(/&apos;/g, "'")
+    .replace(/&#39;/g, "'")
+    .replace(/&#x27;/gi, "'")
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>');
 }

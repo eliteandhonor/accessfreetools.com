@@ -9668,7 +9668,7 @@ export function calculateOhmsLaw(mode: string, firstValue: number, secondValue: 
       current = voltage / resistance;
       break;
     default:
-      throw new Error('Choose a supported Ohm law mode');
+      throw new Error('Choose a supported Ohm\'s law mode');
   }
 
   return {

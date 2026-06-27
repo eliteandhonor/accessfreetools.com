@@ -6173,19 +6173,19 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     slug: 'ohms-law-calculator',
     status: 'deep-reviewed',
     batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [openStaxOhmsLaw, nistSi],
     findings: [
-      'The calculator solves V, I, R, and P from supported two-value modes using V = I x R and P = V x I.',
-      'The FAQ now explains why two known values are enough for the simple resistor relationship.',
-      'The guide keeps AC circuits, impedance, heat, ratings, and live-circuit safety outside the simple classroom calculation.',
+      'The calculator solves voltage, current, resistance, and power from visible V/I, V/R, I/R, V/P, I/P, and R/P modes using V = I x R and P = V x I.',
+      'The examples now cover three core Ohm\'s law pairs plus voltage-power, current-power, and resistance-power checks.',
+      'The FAQ explains supported power modes, rejects zero or negative quick-calculator inputs, and keeps AC impedance, heat, ratings, and live-circuit safety outside the simple classroom calculation.',
     ],
     improvements: [
-      'Manually checked Ohm law modes, power output, examples, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Manually checked Ohm\'s law modes, power output, examples, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, modified date, artwork wording, and result labels.',
     ],
     followUps: [
-      'Add voltage-power, current-power, and resistance-power UI modes later if users need the already-supported library paths exposed.',
+      'Consider a separate AC impedance or power-factor calculator later so this page does not overpromise beyond simple DC or resistive-circuit math.',
     ],
   },
   {

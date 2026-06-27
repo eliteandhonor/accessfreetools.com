@@ -2453,7 +2453,7 @@ export const utilityTools: ToolDefinition[] = [
       'Decode a common 4-band resistor.',
       'See the tolerance range around the nominal resistance.',
       'Check a breadboard or electronics study example.',
-      'Compare resistor values before using Ohm law.',
+      'Compare resistor values before using Ohm\'s law.',
     ],
     examples: [
       { label: '1 kOhm', expression: 'brown black red gold', result: '1,000 ohms +/- 5%' },
@@ -2464,39 +2464,81 @@ export const utilityTools: ToolDefinition[] = [
   }),
   makeUtilityTool({
     slug: 'ohms-law-calculator',
-    name: 'Ohms Law Calculator',
+    name: 'Ohm\'s Law Calculator',
     category: 'calculators',
     summary: 'Solve voltage, current, resistance, and power from two known circuit values.',
     description:
-      'Use this free Ohms law calculator to solve V, I, R, and P from common voltage-current-resistance pairs.',
+      'Use this free Ohm\'s law calculator to solve voltage, current, resistance, and power from two known V, I, R, or P values.',
+    seoTitle: 'Ohm\'s Law Calculator | Voltage Current Resistance Power',
+    seoDescription:
+      'Solve voltage, current, resistance, and power with Ohm\'s law. Enter two known V, I, R, or P values and get steps, examples, and safety limits.',
     icon: 'calculator-ohms-law',
     formula:
-      'The calculator uses V = I x R and P = V x I after the missing voltage, current, or resistance value is solved.',
+      'The calculator uses V = I x R and P = V x I. Depending on the pair you choose, it can rearrange those relationships as I = V / R, R = V / I, P = V x I, and V = sqrt(P x R).',
     limit:
-      'This is simple DC or resistive-circuit math. AC circuits, impedance, heat, component ratings, and electrical safety require more care.',
+      'This is simple DC or resistive-circuit math. It is not a safety approval for live wiring, AC impedance, component heat, fuse sizing, battery limits, or code compliance.',
+    faqLanguage: {
+      expectedInputs: 'two positive values from the same simple DC or resistive circuit',
+      inputFallback:
+        'Choose the pair you know, then enter positive voltage, current, resistance, or power values using the labels shown on the calculator.',
+      doubleCheck:
+        'Also check that all values come from the same circuit, the mode matches the pair you know, and any real component can handle the calculated current, voltage, and power.',
+      privacy:
+        'No. The calculator runs in your browser tab. Your recent Ohm\'s law answers stay only on the page while you use it, and they are not sent to a server.',
+    },
     inputExplanations: [
       { term: 'Voltage V', meaning: 'electrical potential difference, measured in volts.' },
       { term: 'Current A', meaning: 'electrical flow through the circuit, measured in amps.' },
       { term: 'Resistance ohms', meaning: 'how much the component or circuit resists current flow.' },
-      { term: 'Power W', meaning: 'energy rate, calculated after voltage and current are known.' },
+      { term: 'Power W', meaning: 'energy rate in watts, equal to voltage times current for this simple calculation.' },
     ],
     extraFaq: [
       {
         question: 'Why do I only enter two values?',
         answer:
-          'Ohm law connects voltage, current, and resistance. If you know any valid pair, the calculator can solve the missing core value and then calculate power from voltage times current.',
+          'Ohm\'s law connects voltage, current, and resistance, and power connects voltage and current. If you know any supported positive pair, the calculator can solve the remaining values.',
+      },
+      {
+        question: 'Can I solve from power and one other value?',
+        answer:
+          'Yes. The visible modes include voltage and power, current and power, and resistance and power. For example, 12 V and 24 W gives 2 A and 6 ohms.',
+      },
+      {
+        question: 'Why are zero or negative values rejected?',
+        answer:
+          'The page is built for simple positive circuit quantities. Zero resistance, zero current, or negative values can mean a different kind of circuit model, a short circuit, or an invalid entry for this quick calculator.',
+      },
+      {
+        question: 'Can I use milliamps or kilohms?',
+        answer:
+          'Yes, but convert them first or stay consistent with the labels. For example, 500 mA is 0.5 A and 2 kOhm is 2,000 ohms. Mixing units without converting changes every answer.',
+      },
+      {
+        question: 'Does this handle AC impedance?',
+        answer:
+          'No. AC circuits can involve impedance, phase angle, frequency, RMS values, and power factor. Use this page for simple DC or purely resistive examples only.',
+      },
+      {
+        question: 'How should I use the watt result?',
+        answer:
+          'Treat watts as a heat and power-rating check. A calculated 24 W load needs parts, wiring, fuses, and power supplies rated for the real circuit, not just the math result.',
       },
     ],
     useCases: [
       'Find resistance from voltage and current.',
       'Find current from voltage and resistance.',
       'Find voltage from current and resistance.',
-      'Estimate power after the core values are known.',
+      'Find current and resistance from voltage and power.',
+      'Find voltage and resistance from current and power.',
+      'Check the watt result before comparing component ratings.',
     ],
     examples: [
       { label: 'Voltage and current', expression: '12 V and 2 A', result: '6 ohms and 24 W' },
       { label: 'Current and resistance', expression: '2 A and 6 ohms', result: '12 V and 24 W' },
       { label: 'Voltage and resistance', expression: '9 V and 3 ohms', result: '3 A and 27 W' },
+      { label: 'Voltage and power', expression: '12 V and 24 W', result: '2 A and 6 ohms' },
+      { label: 'Current and power', expression: '2 A and 24 W', result: '12 V and 6 ohms' },
+      { label: 'Resistance and power', expression: '6 ohms and 24 W', result: '12 V and 2 A' },
     ],
     relatedSlugs: ['watts-to-amps-calculator', 'resistor-calculator', 'voltage-drop-calculator', 'electricity-calculator'],
   }),

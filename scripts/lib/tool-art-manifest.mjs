@@ -64,6 +64,18 @@ const toolArtMetadataOverrides = {
         'Boat Loan Calculator guide artwork supports the walkthrough for amount financed, sales tax, APR versus interest-rate cautions, long-term interest, ownership-cost limits, and lender disclosure checks.',
     },
   },
+  'ohms-law-calculator': {
+    tool: {
+      alt: "Illustration for Ohm's Law Calculator showing voltage, current, resistance, and power solved from two known circuit values.",
+      caption:
+        "Ohm's Law Calculator artwork matches the live workflow: solve voltage, current, resistance, and power from two known circuit values, then check examples, result notes, and safety limits.",
+    },
+    guide: {
+      alt: "Guide image for Ohm's Law Calculator showing voltage, current, resistance, and power examples with circuit result notes.",
+      caption:
+        "Ohm's Law Calculator guide artwork supports the walkthrough for solving voltage, current, resistance, and power from two known circuit values, including inputs, examples, limits, and mistakes to check.",
+    },
+  },
   'recipe-scaler': {
     guide: {
       alt: 'Guide image for Recipe Scaler showing one ingredient scaled from original servings to desired servings with example inputs and result notes.',
