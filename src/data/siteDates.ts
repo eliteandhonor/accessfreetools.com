@@ -11,6 +11,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'basic-calculator': '2026-06-02',
   'big-number-calculator': '2026-06-05',
   'exponent-calculator': '2026-06-27',
+  'hex-calculator': '2026-06-27',
   'percentage-calculator': '2026-06-02',
   'average-calculator': '2026-06-26',
   'ratio-calculator': '2026-06-02',

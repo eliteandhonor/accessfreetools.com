@@ -924,34 +924,51 @@ const baseTools: ToolDefinition[] = [
     slug: 'hex-calculator',
     name: 'Hex Calculator',
     category: 'calculators',
-    summary: 'Add, subtract, multiply, divide, and convert hexadecimal numbers.',
+    summary: 'Add, subtract, multiply, divide, and convert hex numbers, then check decimal and binary output.',
     description:
-      'Use this free hex calculator for base-16 addition, subtraction, multiplication, division with remainders, hex-to-decimal conversion, decimal-to-hex conversion, hex-to-binary conversion, copy, and history.',
+      'Use this free hex calculator for base-16 addition, subtraction, multiplication, division with remainders, hex-to-decimal conversion, decimal-to-hex conversion, hex-to-binary conversion, optional 0x prefixes, copy, and current-tab history.',
     icon: 'calculator-hex',
     seoTitle: 'Hex Calculator | Free Online Hexadecimal Calculator',
     seoDescription:
-      'Use the free Access Free Tools hex calculator to add, subtract, multiply, divide, and convert hexadecimal numbers to decimal or binary with steps and remainders.',
+      'Use the free Access Free Tools hex calculator to add, subtract, multiply, divide, and convert hexadecimal numbers to decimal or binary with base-16 steps and remainders.',
     useCases: [
-      'Check hexadecimal addition, subtraction, multiplication, and division problems.',
-      'Convert hex values such as 2A or 0xFF into decimal numbers.',
-      'Convert whole decimal numbers into hexadecimal output.',
+      'Check hexadecimal addition, subtraction, multiplication, and division problems with decimal steps.',
+      'Convert hex values such as 2A, FF, or 0xFF into decimal numbers.',
+      'Convert whole decimal numbers into uppercase hexadecimal output.',
       'Compare hex, decimal, and binary answers while studying number systems or coding examples.',
+      'Read byte-sized values such as FF = 255 and see the matching binary bits.',
+      'Check simple signed whole-number hex math without assuming fixed-width two\'s complement behavior.',
     ],
     examples: [
       {
         label: 'Hex addition',
         expression: 'A3 + 1F',
-        result: 'C2',
+        result: 'C2 hex, 194 decimal, 1100 0010 binary',
       },
       {
         label: 'Hex subtraction',
         expression: 'FF - 2A',
-        result: 'D5',
+        result: 'D5 hex, 213 decimal',
+      },
+      {
+        label: 'Hex multiplication',
+        expression: '1A x 3',
+        result: '4E hex, because 26 x 3 = 78 decimal',
       },
       {
         label: 'Hex division',
         expression: '2F / A',
-        result: '4 remainder 7',
+        result: '4 remainder 7, because 47 / 10 leaves 7',
+      },
+      {
+        label: 'Hex to decimal',
+        expression: '0xFF',
+        result: '255 decimal',
+      },
+      {
+        label: 'Decimal to hex',
+        expression: '42',
+        result: '2A hex',
       },
     ],
     faq: [
@@ -963,7 +980,12 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'What can I use the Hex Calculator for?',
         answer:
-          'Use it to add, subtract, multiply, divide, and convert whole hexadecimal numbers. The calculator also shows decimal and binary versions of the answer.',
+          'Use it to add, subtract, multiply, divide, and convert whole hexadecimal numbers. The calculator also shows decimal and binary versions of the answer so you can check the same value in three bases.',
+      },
+      {
+        question: 'How is A3 converted to decimal?',
+        answer:
+          'A3 means 10 x 16 plus 3. That gives 160 + 3 = 163 in decimal. The calculator uses that same place-value idea before converting the answer back to hex.',
       },
       {
         question: 'Can I enter 0x before a hex number?',
@@ -973,7 +995,7 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'How does hex division work in this calculator?',
         answer:
-          'Hex division returns a whole-number quotient. If the division is not even, the calculator also shows the remainder in hex, decimal, and binary.',
+          'Hex division returns a whole-number quotient. If the division is not even, the calculator also shows the remainder in hex, decimal, and binary. For example, 2F / A is 4 remainder 7.',
       },
       {
         question: 'Does the calculator convert decimal to hex?',
@@ -981,9 +1003,34 @@ const baseTools: ToolDefinition[] = [
           'Yes. The quick conversions panel converts whole decimal numbers into hex and converts hex numbers back into decimal and binary.',
       },
       {
+        question: 'Why does one hex digit equal four binary bits?',
+        answer:
+          'One hex digit can show 16 possible values, from 0 through F. Four binary bits can also show 16 values, from 0000 through 1111, so each hex digit maps neatly to a four-bit group.',
+      },
+      {
+        question: 'Why does FF equal 255?',
+        answer:
+          'FF means 15 x 16 plus 15. That is 240 + 15 = 255, which is why FF often appears as the largest value in one byte.',
+      },
+      {
         question: 'Can this calculator handle lowercase hex letters?',
         answer:
           'Yes. You can enter uppercase or lowercase letters A-F. Results are shown in uppercase for cleaner reading.',
+      },
+      {
+        question: 'Can I use it for color-code checks?',
+        answer:
+          'You can use it to check individual hex byte values, such as FF = 255 or 80 = 128. It is not a full color picker, so remove the # symbol and check each pair when you are reading CSS-style color codes.',
+      },
+      {
+        question: 'Does it handle negative hex numbers?',
+        answer:
+          'Yes for simple signed whole-number math, such as -A + 2. It does not model fixed-width overflow or two\'s complement storage unless you manually interpret the result for a specific bit width.',
+      },
+      {
+        question: 'What should I double-check before trusting a hex result?',
+        answer:
+          'Check that the input uses only 0-9 and A-F, that any 0x prefix is intentional, that decimal values are entered in the decimal conversion field, and that you are not expecting fixed-width byte overflow.',
       },
       {
         question: 'Is my hex calculation history private?',

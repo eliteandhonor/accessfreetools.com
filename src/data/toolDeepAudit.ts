@@ -2745,17 +2745,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'hex-calculator',
     status: 'deep-reviewed',
-    batch: 'math-foundations-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [nasaNumberSystems, rfc4648],
     findings: [
       'The page correctly explains hexadecimal as base 16 with digits 0-9 and A-F.',
       'Accepting optional 0x prefixes matches developer expectations.',
       'Showing hex, decimal, and binary results together helps users catch base-conversion mistakes.',
+      'The current copy now makes byte-sized checks such as FF = 255 and four-bit hex-to-binary grouping explicit without pretending to be a full color picker or fixed-width two\'s complement tool.',
     ],
     improvements: [
-      'Reviewed base-16 wording, decimal and binary conversions, division remainder behavior, examples, FAQ, and related links.',
+      'Reviewed base-16 wording, decimal and binary conversions, division remainder behavior, examples, FAQ, related links, optional 0x prefixes, grouped readability separators, byte examples, color-code limits, simple signed-number behavior, and fixed-width overflow limits.',
     ],
     followUps: [
       'Add byte grouping and color-code examples later if developer-tool traffic grows.',
