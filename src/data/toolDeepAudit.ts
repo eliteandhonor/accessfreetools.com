@@ -2572,17 +2572,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'exponent-calculator',
     status: 'deep-reviewed',
-    batch: 'math-foundations-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [openStaxRadicals, openStaxLogarithms],
     findings: [
-      'The tool handles positive, zero, negative, decimal, and simple fraction exponents correctly for real-number use.',
-      'The biggest user trap is treating a negative exponent as a negative answer instead of a reciprocal.',
-      'The blog needed clearer guidance about negative bases with non-whole exponents and scientific notation.',
+      'The exponent helper handles positive, zero, first-power, negative, decimal, and simple fraction exponents for real-number use.',
+      'The tool page now explains negative exponents as reciprocals, supports power-of-ten and decimal-exponent examples, and warns about 0^0, zero with negative exponents, and negative bases with non-whole exponents.',
+      'The FAQ separates exponent meaning, zero exponent, first-power, negative exponent, fraction exponent, decimal exponent, scientific notation, notation parentheses, calculator range, and tab-only privacy.',
     ],
     improvements: [
-      'Expanded the Exponent Calculator guide with base/exponent definitions, mistake notes, FAQ, and research references.',
+      'Updated Exponent Calculator metadata, SEO description, use cases, six examples, FAQ depth, real-number guardrails, trust/privacy wording, modified date, and audit notes with current local proof requirements.',
     ],
     followUps: [
       'Consider adding optional complex-number output in a future advanced calculator mode.',

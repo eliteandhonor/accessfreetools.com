@@ -496,18 +496,20 @@ const baseTools: ToolDefinition[] = [
     slug: 'exponent-calculator',
     name: 'Exponent Calculator',
     category: 'calculators',
-    summary: 'Calculate powers with positive, negative, zero, decimal, and fraction exponents.',
+    summary: 'Calculate powers, zero and negative exponents, simple fraction exponents, and scientific notation.',
     description:
-      'Use this free exponent calculator to raise a base to a power and see the result, scientific notation, zero exponent rules, negative exponent steps, fractional exponent notes, examples, copy, and history.',
+      'Use this free exponent calculator to raise a base to a power and see the result, scientific notation, zero exponent rules, negative exponent reciprocal steps, fraction exponent notes, examples, copy, and tab-only history.',
     icon: 'calculator-power',
     seoTitle: 'Exponent Calculator | Free Online Power Calculator',
     seoDescription:
-      'Calculate powers with positive, negative, zero, decimal, and simple fraction exponents plus steps and scientific notation.',
+      'Calculate powers with positive, negative, zero, decimal, and simple fraction exponents, plus reciprocal steps and scientific notation.',
     useCases: [
       'Calculate squares, cubes, powers of 10, and larger powers.',
-      'Check zero exponent and negative exponent homework problems.',
-      'Use simple fraction exponents such as 1/2 for square-root style calculations.',
-      'Copy exponent answers and compare recent calculations while studying.',
+      'Check zero exponent, first-power, and negative exponent homework problems.',
+      'Turn negative exponents into reciprocal steps such as 5^-3 = 1 / 5^3.',
+      'Use simple fraction exponents such as 1/2 or 3/2 for root-style calculations.',
+      'Compare normal notation with scientific notation for very large or very small powers.',
+      'Copy exponent answers and compare recent calculations while studying in one tab.',
     ],
     examples: [
       {
@@ -516,14 +518,29 @@ const baseTools: ToolDefinition[] = [
         result: '256',
       },
       {
+        label: 'Power of ten',
+        expression: '10^6',
+        result: '1,000,000, shown as 1e+6 in scientific notation',
+      },
+      {
+        label: 'Zero exponent',
+        expression: '9^0',
+        result: '1 because any nonzero base to the power of 0 equals 1',
+      },
+      {
         label: 'Negative exponent',
         expression: '5^-3',
-        result: '0.008',
+        result: '0.008 because 5^-3 means 1 / 5^3',
       },
       {
         label: 'Fraction exponent',
         expression: '81^(1/2)',
-        result: '9',
+        result: '9 because exponent 1/2 works like a square root',
+      },
+      {
+        label: 'Decimal exponent',
+        expression: '16^0.5',
+        result: '4 because 0.5 is another way to enter 1/2',
       },
     ],
     faq: [
@@ -543,9 +560,19 @@ const baseTools: ToolDefinition[] = [
           'Any nonzero base raised to the power of 0 equals 1. The calculator will show this rule in the steps.',
       },
       {
+        question: 'What happens when the exponent is 1?',
+        answer:
+          'A base raised to the power of 1 stays the same. For example, 7^1 equals 7.',
+      },
+      {
         question: 'Can I use fraction exponents?',
         answer:
           'Yes. You can enter simple fraction exponents such as 1/2 or 3/2. Fractional exponents can represent roots and powers.',
+      },
+      {
+        question: 'Can I enter decimal exponents?',
+        answer:
+          'Yes. Decimal exponents are allowed when the result is a real number. For example, 16^0.5 returns 4 because 0.5 is the same as 1/2.',
       },
       {
         question: 'Why are some negative-base powers not supported?',
@@ -553,9 +580,29 @@ const baseTools: ToolDefinition[] = [
           'Negative bases with non-whole-number exponents can lead to complex numbers. This calculator focuses on real-number results, so negative bases need whole-number exponents.',
       },
       {
+        question: 'Can I calculate 0 to a negative exponent?',
+        answer:
+          'No. A negative exponent means a reciprocal, and 0 with a negative exponent would divide by zero.',
+      },
+      {
+        question: 'What about 0^0?',
+        answer:
+          'This calculator treats 0^0 as indeterminate instead of forcing one answer. Check your class, software, or math context if that special case appears.',
+      },
+      {
         question: 'Does the calculator show scientific notation?',
         answer:
           'Yes. The result card shows the normal result and a scientific-notation version, which is useful for very large or very small powers.',
+      },
+      {
+        question: 'Why do parentheses matter with negative bases?',
+        answer:
+          'Use a negative base only when the whole base should be negative. In written math, (-3)^2 and -3^2 are usually different expressions, so check the notation before entering the base.',
+      },
+      {
+        question: 'What if the result is too large?',
+        answer:
+          'If a power is outside the calculator range, the page asks you to check the inputs. Use scientific notation or a specialized high-precision tool for extreme powers.',
       },
       {
         question: 'Is my exponent history private?',
