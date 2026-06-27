@@ -76,6 +76,18 @@ const toolArtMetadataOverrides = {
         "Ohm's Law Calculator guide artwork supports the walkthrough for solving voltage, current, resistance, and power from two known circuit values, including inputs, examples, limits, and mistakes to check.",
     },
   },
+  'p-value-calculator': {
+    tool: {
+      alt: 'Illustration for P-value Calculator showing a z-score, normal-curve tail areas, and p-value result notes.',
+      caption:
+        'P-value Calculator artwork matches the live workflow: choose a tail type, enter a z-score, and compare the standard-normal tail areas. Use it with the calculator, examples, and result notes.',
+    },
+    guide: {
+      alt: 'Guide image for P-value Calculator showing z-score tail areas, p-value examples, and interpretation notes.',
+      caption:
+        'P-value Calculator guide artwork supports the walkthrough for choosing a tail type, reading standard-normal p-values, checking examples, and avoiding over-strong conclusions.',
+    },
+  },
   'recipe-scaler': {
     guide: {
       alt: 'Guide image for Recipe Scaler showing one ingredient scaled from original servings to desired servings with example inputs and result notes.',

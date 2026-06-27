@@ -254,61 +254,96 @@ export const mathExpansionTools: ToolDefinition[] = [
     slug: 'p-value-calculator',
     name: 'P-value Calculator',
     category: 'calculators',
-    summary: 'Estimate left-tailed, right-tailed, or two-tailed p-values from a z-score.',
+    summary: 'Estimate left-tailed, right-tailed, or two-tailed standard-normal p-values from a z-score.',
     description:
-      'Use this free p-value calculator to estimate a normal-curve p-value from a z-score, choose left-tailed, right-tailed, or two-tailed mode, and see the tail areas.',
+      'Use this free p-value calculator to estimate a standard-normal p-value from a z-score, choose left-tailed, right-tailed, or two-tailed mode, and see both tail areas.',
     icon: 'calculator-p-value',
     seoTitle: 'P-value Calculator | Free Z-score P-value Tool',
     seoDescription:
-      'Estimate p-values from z-scores with left-tailed, right-tailed, and two-tailed normal-curve options.',
+      'Calculate p-values from z-scores with left-tailed, right-tailed, and two-tailed standard-normal options.',
     useCases: [
-      'Estimate a p-value from a z-score in a statistics example.',
-      'Compare left-tailed, right-tailed, and two-tailed test choices.',
-      'See the left and right standard-normal tail areas.',
-      'Check introductory hypothesis-testing work before writing an interpretation.',
+      'Estimate a p-value from a z-score in an introductory statistics example.',
+      'Compare left-tailed, right-tailed, and two-tailed z-test choices.',
+      'See the left and right standard-normal tail areas before writing an interpretation.',
+      'Check a result against a significance level such as 0.05 without claiming proof by itself.',
     ],
     examples: [
       {
         label: 'Two-tailed z test',
         expression: 'z = 1.96',
-        result: 'p is about 0.05',
+        result: 'p is about 0.0500',
       },
       {
         label: 'Right-tailed example',
         expression: 'z = 1.645',
-        result: 'p is about 0.05',
+        result: 'right-tail p is about 0.0500',
       },
       {
         label: 'Left-tailed example',
         expression: 'z = -1.28',
-        result: 'p is about 0.10',
+        result: 'left-tail p is about 0.1003',
+      },
+      {
+        label: 'Stronger right-tail result',
+        expression: 'z = 2.33',
+        result: 'right-tail p is about 0.0099',
+      },
+      {
+        label: 'No distance from the mean',
+        expression: 'z = 0, two-tailed',
+        result: 'p is 1.0000',
+      },
+      {
+        label: 'Strong left-tail result',
+        expression: 'z = -2.58',
+        result: 'left-tail p is about 0.0049',
       },
     ],
     faq: [
       {
         question: 'What does this P-value Calculator use?',
         answer:
-          'It estimates p-values from a z-score using the standard normal curve. It is for z-test style examples, not every statistical test.',
+          'It estimates p-values from a z-score using the standard normal curve, where the mean is 0 and the standard deviation is 1. It is for z-test style examples, not every statistical test.',
       },
       {
         question: 'Which tail should I choose?',
         answer:
-          'Choose right-tailed when unusually high values matter, left-tailed when unusually low values matter, and two-tailed when differences in either direction matter.',
+          'Choose right-tailed when unusually high values support the alternative, left-tailed when unusually low values support it, and two-tailed when unusually high or low values both count as extreme.',
+      },
+      {
+        question: 'What do the main P-value Calculator inputs mean?',
+        answer:
+          'Tail type tells the calculator which part of the normal curve counts as extreme. Z-score tells it how many standard deviations your observed result is from the mean.',
+      },
+      {
+        question: 'How should I read the P-value Calculator answer?',
+        answer:
+          'Read the p-value as a tail-area estimate for the chosen z-score and tail type. Also check the left-tail and right-tail areas so you can see which side of the curve the result came from.',
       },
       {
         question: 'What does a smaller p-value mean?',
         answer:
-          'A smaller p-value means the observed z-score is farther into the tail of the comparison curve. It does not prove a claim by itself.',
-      },
-      {
-        question: 'Is this the same as a t-test p-value?',
-        answer:
-          'No. A t-test uses a t distribution and degrees of freedom. This calculator uses the standard normal distribution from a z-score.',
+          'A smaller p-value means the observed z-score is farther into the selected tail of the comparison curve. It is evidence to interpret with your study design, assumptions, and chosen significance level, not proof by itself.',
       },
       {
         question: 'Why is the two-tailed value doubled?',
         answer:
-          'A two-tailed test counts extreme results in both directions, so it doubles the smaller tail area while keeping the result no higher than 1.',
+          'A two-tailed test counts extreme results in both directions, so the calculator doubles the smaller tail area and caps the result at 1.',
+      },
+      {
+        question: 'Is this the same as a t-test p-value?',
+        answer:
+          'No. A t-test p-value uses a t distribution and degrees of freedom. This calculator uses the standard normal distribution from a z-score.',
+      },
+      {
+        question: 'What should I double-check before trusting the p-value?',
+        answer:
+          'Check the z-score sign, the selected tail, and whether your assignment or analysis actually calls for a normal z-test. Use a different calculator or statistics software for t, chi-square, F, exact, or regression p-values.',
+      },
+      {
+        question: 'Does a p-value prove the null hypothesis is false?',
+        answer:
+          'No. A p-value describes how unusual the observed z-score would be under the comparison model. It does not measure practical importance, study quality, or the chance that a claim is true.',
       },
       {
         question: 'Is my z-score history private?',

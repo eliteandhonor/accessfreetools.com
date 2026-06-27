@@ -6729,17 +6729,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'p-value-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [openStaxStandardNormal, openStaxProbabilityCombinations],
     findings: [
-      'The p-value page explicitly says it estimates p-values from a z-score using the standard normal curve.',
-      'Tests cover normal-curve p-values from z-scores.',
-      'The FAQ explains left-tailed, right-tailed, and two-tailed choices without claiming the p-value proves a hypothesis.',
+      'The p-value helper estimates left-tailed, right-tailed, and two-tailed standard-normal p-values from a z-score and shows both tail areas.',
+      'The examples cover two-tailed, right-tailed, left-tailed, zero-distance, and stronger-tail z-score cases with rounded p-value readings.',
+      'The FAQ explains tail choice, z-score scope, two-tailed doubling, t-test limits, interpretation limits, and private tab-only history without claiming a p-value proves a hypothesis.',
     ],
     improvements: [
-      'Manually checked p-value tail wording, z-score scope, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Updated p-value metadata, SEO description, examples, FAQ depth, standard-normal scope, image alt/caption text, modified date, and audit notes with current local proof requirements.',
     ],
     followUps: [
       'Add t-test support only as a separate calculator with degrees-of-freedom inputs and tests.',
