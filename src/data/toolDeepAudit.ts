@@ -171,6 +171,11 @@ const openStaxStatisticsSpread = {
   label: 'OpenStax Statistics: Measures of the spread of the data',
 };
 
+const openStaxStatisticsCenter = {
+  href: 'https://openstax.org/books/statistics/pages/2-5-measures-of-the-center-of-the-data',
+  label: 'OpenStax Statistics: Measures of the center of the data',
+};
+
 const openStaxStandardNormal = {
   href: 'https://openstax.org/books/introductory-statistics-2e/pages/6-1-the-standard-normal-distribution',
   label: 'OpenStax Introductory Statistics: Standard normal distribution',
@@ -6611,19 +6616,19 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     slug: 'mean-median-mode-range-calculator',
     status: 'deep-reviewed',
     batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
-    sources: [openStaxStatisticsSpread, openStaxStandardNormal],
+    sources: [openStaxStatisticsCenter, openStaxStatisticsSpread],
     findings: [
-      'The page keeps the four common classroom summaries together and explains what each one answers.',
-      'Examples show repeated values and sorted-list thinking, which are the usual places users make mistakes.',
-      'The FAQ contrasts mean with median so outliers do not make the result misleading.',
+      'The page keeps the four common classroom summaries together and now explains that mean, median, mode, and range answer different center and spread questions.',
+      'Examples cover repeated modes, no-mode lists, two-mode ties, decimals, negatives, exam scores, and repeated identical values so the visible copy matches the calculator behavior.',
+      'The FAQ now covers separators, decimals, negative numbers, multiple modes, no-mode data, mean-vs-median skew, and when to use the full Statistics Calculator.',
     ],
     improvements: [
-      'Manually checked mean, median, mode, and range explanations, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Manually checked mean, median, mode, and range explanations, examples, FAQ detail, guide coverage, related links, SEO copy, privacy behavior, source coverage, modified date, artwork text, and focused Calculate summary button wording.',
     ],
     followUps: [
-      'Add quartiles later as a separate expansion if data-summary traffic grows.',
+      'Keep quartiles, IQR, variance, and standard deviation in the full Statistics Calculator unless search or usage data shows this focused page needs a carefully tested expansion.',
     ],
   },
   {

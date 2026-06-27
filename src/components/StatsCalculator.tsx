@@ -313,7 +313,7 @@ function SummaryTool({ mode }: { mode: 'statistics' | 'mean-median-mode-range' |
 
         <div className="advanced-actions">
           <button className="button-primary" onClick={() => calculate()} type="button">
-            {averageMode ? 'Calculate average' : 'Calculate statistics'}
+            {averageMode ? 'Calculate average' : focused ? 'Calculate summary' : 'Calculate statistics'}
           </button>
           <button className="button-secondary" disabled={Boolean(error)} onClick={copyAnswer} type="button">
             {copied ? 'Copied' : 'Copy answer'}

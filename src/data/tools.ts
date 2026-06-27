@@ -2214,29 +2214,38 @@ const baseTools: ToolDefinition[] = [
     slug: 'mean-median-mode-range-calculator',
     name: 'Mean, Median, Mode, Range Calculator',
     category: 'calculators',
-    summary: 'Find the four headline descriptive statistics for a list of numbers.',
+    summary: 'Find mean, median, mode, range, sorted values, sum, count, min, max, and quick steps for a list of numbers.',
     description:
-      'Use this free mean, median, mode, range calculator to find the average, middle value, most frequent value, range, sorted data, steps, copy, and history.',
+      'Use this free mean, median, mode, range calculator to summarize a data set with the average, middle value, most frequent values, spread, sorted data, sum, count, min, max, steps, copy, and history.',
     icon: 'calculator-mean',
-    seoTitle: 'Mean, Median, Mode, Range Calculator | Free Data Summary',
+    seoTitle: 'Mean, Median, Mode, Range Calculator | Sort Data and Steps',
     seoDescription:
-      'Use the free Access Free Tools mean, median, mode, range calculator to find average, middle value, most frequent values, range, sorted data, and steps.',
+      'Use the free Access Free Tools mean, median, mode, range calculator to sort data and find average, middle value, modes, range, sum, count, min, max, and steps.',
     useCases: [
-      'Find the average, median, most frequent value, and range quickly.',
-      'Check small data sets for school, study, and everyday comparisons.',
-      'See sorted data so the median and range are easy to verify.',
-      'Copy the four headline statistics into notes or homework.',
+      'Find the arithmetic mean, median, mode, and range from one pasted data set.',
+      'Check class scores, survey values, measurements, practice problems, and small samples.',
+      'See sorted values, sum, count, min, and max so the median and range are easy to verify.',
+      'Catch no-mode and multiple-mode data sets before copying the answer.',
+      'Copy the four headline descriptive statistics into notes, spreadsheets, homework, or reports.',
     ],
     examples: [
-      { label: 'Repeated mode', expression: '10, 12, 12, 15, 18, 21, 21, 21, 25', result: 'Mode = 21' },
-      { label: 'No mode', expression: '4, 8, 15, 16, 23, 42', result: 'No mode' },
-      { label: 'Simple range', expression: '72, 84, 84, 90, 93', result: 'Range = 21' },
+      { label: 'Repeated mode', expression: '10, 12, 12, 15, 18, 21, 21, 21, 25', result: 'Mean = 17.2222222222, median = 18, mode = 21, range = 15' },
+      { label: 'No mode', expression: '4, 8, 15, 16, 23, 42', result: 'Mean = 18, median = 15.5, no mode, range = 38' },
+      { label: 'Exam scores', expression: '72, 84, 84, 90, 93', result: 'Mean = 84.6, median = 84, mode = 84, range = 21' },
+      { label: 'Two modes', expression: '3, 3, 5, 7, 7, 9', result: 'Mean = 5.6666666667, median = 6, modes = 3 and 7, range = 6' },
+      { label: 'Decimals and negatives', expression: '-2, 0, 1.5, 1.5, 4', result: 'Mean = 1, median = 1.5, mode = 1.5, range = 6' },
+      { label: 'Same value repeated', expression: '12, 12, 12', result: 'Mean = 12, median = 12, mode = 12, range = 0' },
     ],
     faq: [
       {
+        question: 'What does the Mean, Median, Mode, Range Calculator calculate?',
+        answer:
+          'It calculates mean, median, mode, range, sorted values, sum, count, min, and max for one list of numbers.',
+      },
+      {
         question: 'What is the mean?',
         answer:
-          'The mean is the arithmetic average. Add all values, then divide by how many values there are.',
+          'The mean is the arithmetic average. Add all values, then divide the sum by the count.',
       },
       {
         question: 'What is the median?',
@@ -2249,14 +2258,39 @@ const baseTools: ToolDefinition[] = [
           'The mode is the most frequent value. A data set can have one mode, multiple modes, or no mode.',
       },
       {
+        question: 'Can a data set have multiple modes?',
+        answer:
+          'Yes. If two or more values tie for the highest frequency, the calculator reports each tied mode.',
+      },
+      {
+        question: 'What if every value appears once?',
+        answer:
+          'The calculator reports no mode when every value appears only once, because no value is more frequent than the others.',
+      },
+      {
         question: 'What is the range?',
         answer:
-          'The range is the maximum value minus the minimum value.',
+          'The range is the maximum value minus the minimum value. It is a quick spread check, but it only uses the two extremes.',
+      },
+      {
+        question: 'What separators can I use?',
+        answer:
+          'You can separate values with commas, spaces, or line breaks. The calculator sorts the numeric values before finding the median and modes.',
+      },
+      {
+        question: 'Can I use decimals and negative numbers?',
+        answer:
+          'Yes. Decimal values and negative values are supported as long as each entry is a valid number.',
+      },
+      {
+        question: 'Why should I compare mean and median?',
+        answer:
+          'The mean uses every value, so very high or low outliers can pull it. The median is often steadier when a data set is skewed.',
       },
       {
         question: 'When should I use the full Statistics Calculator?',
         answer:
-          'Use the full Statistics Calculator when you also need quartiles, variance, standard deviation, count, or sum.',
+          'Use the full Statistics Calculator when you also need quartiles, IQR, variance, standard deviation, or a fuller spread summary.',
       },
       {
         question: 'Is my data history private?',

@@ -2788,6 +2788,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/mean-median-mode-range-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/mean-median-mode-range-calculator-guide.webp",
+    "alt": "Guide image for Mean, Median, Mode, Range Calculator showing sorted number blocks with mean, median, modes, range, and example result notes.",
+    "caption": "Mean, Median, Mode, Range Calculator guide artwork sits with the walkthrough for entering a data set, sorting values, checking repeated modes, and reading mean, median, mode, and range.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2796,6 +2798,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/mean-median-mode-range-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/mean-median-mode-range-calculator-tool.webp",
+    "alt": "Illustration for Mean, Median, Mode, Range Calculator showing sorted number blocks for mean, median, modes, and range.",
+    "caption": "Mean, Median, Mode, Range Calculator artwork matches the live tool workflow: enter a data list, sort the values, then read mean, median, mode, and range with steps and result notes.",
     "status": "approved",
     "qaStatus": "approved"
   },
