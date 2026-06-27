@@ -5,18 +5,18 @@ export const mathExpansionTools: ToolDefinition[] = [
     slug: 'prime-factorization-calculator',
     name: 'Prime Factorization Calculator',
     category: 'calculators',
-    summary: 'Break a whole number into prime factors and grouped prime powers.',
+    summary: 'Break a whole number into prime factors, prime powers, and factor checks.',
     description:
-      'Use this free prime factorization calculator to rewrite a positive whole number as prime factors, see repeated factors as exponents, and check whether the number is prime.',
+      'Use this free prime factorization calculator to rewrite a positive whole number as prime factors, group repeated factors as exponents, count factors, list factor pairs, and check whether the number is prime or composite.',
     icon: 'calculator-prime',
     seoTitle: 'Prime Factorization Calculator | Free Online Prime Factor Tool',
     seoDescription:
-      'Find prime factors, prime powers, factor count, factor pairs, and prime checks for positive whole numbers.',
+      'Find prime factors, prime powers, factor count, factor pairs, and prime or composite checks for positive whole numbers.',
     useCases: [
-      'Rewrite a number as prime factors for homework or study notes.',
-      'Check whether a number is prime or composite.',
-      'Compare prime factorization with factors, GCF, and LCM work.',
-      'Break down numbers before simplifying fractions or ratios.',
+      'Rewrite a number as prime factors for homework, notes, or answer checks.',
+      'Check whether a positive whole number is prime or composite before moving on.',
+      'Use prime powers before finding GCF, LCM, simplifying fractions, or comparing ratios.',
+      'Compare prime factorization with the full factor count and factor pairs.',
     ],
     examples: [
       {
@@ -33,6 +33,21 @@ export const mathExpansionTools: ToolDefinition[] = [
         label: 'Break down a highly composite number',
         expression: '5040',
         result: '2^4 x 3^2 x 5 x 7',
+      },
+      {
+        label: 'See repeated factors as powers',
+        expression: '1024',
+        result: '2^10',
+      },
+      {
+        label: 'Factor a smaller classroom number',
+        expression: '84',
+        result: '2^2 x 3 x 7',
+      },
+      {
+        label: 'Check a number with a larger prime factor',
+        expression: '999',
+        result: '3^3 x 37',
       },
     ],
     faq: [
@@ -57,9 +72,39 @@ export const mathExpansionTools: ToolDefinition[] = [
           'The Factor Calculator lists every factor and factor pair. This calculator focuses on the prime factors that multiply back to the original number.',
       },
       {
+        question: 'What does the calculator show for 1?',
+        answer:
+          'The number 1 has no prime factorization because it is not prime and not composite. The calculator will say that directly instead of forcing a fake prime factor.',
+      },
+      {
+        question: 'How do I check the prime factorization?',
+        answer:
+          'Multiply the prime powers back together. For 360, 2^3 x 3^2 x 5 means 8 x 9 x 5, which equals 360.',
+      },
+      {
+        question: 'Why are factor count and factor pairs shown?',
+        answer:
+          'They help you cross-check the result. Prime factorization explains the building blocks, while factor count and factor pairs show how many whole-number divisors the number has.',
+      },
+      {
+        question: 'Can I enter decimals or negative numbers?',
+        answer:
+          'No. This tool is for positive whole numbers. Decimals, fractions, negative values, zero, and Infinity are rejected so the result stays clear.',
+      },
+      {
+        question: 'How does prime factorization help with GCF and LCM?',
+        answer:
+          'For GCF, compare the shared prime powers. For LCM, combine the highest needed prime powers. This is why prime factors are useful before GCF and LCM work.',
+      },
+      {
         question: 'What numbers can I enter?',
         answer:
           'Enter one positive safe whole number up to 1,000,000,000,000. Very large factorization can be slow, so this browser calculator keeps a practical limit.',
+      },
+      {
+        question: 'What should I double-check before copying the answer?',
+        answer:
+          'Check that the input was a whole number, the prime factors multiply back to the original number, and any exponent form matches the repeated factors.',
       },
       {
         question: 'Is my number sent to a server?',

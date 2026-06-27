@@ -100,6 +100,18 @@ const toolArtMetadataOverrides = {
         'Permutation and Combination Calculator guide artwork supports the walkthrough for choosing nPr or nCr, reading exact counts, checking examples, and avoiding order-matters mistakes.',
     },
   },
+  'prime-factorization-calculator': {
+    tool: {
+      alt: 'Illustration for Prime Factorization Calculator showing a whole number split into prime factors, prime powers, and a prime/composite check.',
+      caption:
+        'Prime Factorization Calculator artwork matches the live workflow: enter a positive whole number, factor it into primes, group repeated primes as powers, and compare the factor count and factor pairs.',
+    },
+    guide: {
+      alt: 'Guide image for Prime Factorization Calculator showing a factor tree, grouped prime powers, and example whole-number inputs.',
+      caption:
+        'Prime Factorization Calculator guide artwork supports the walkthrough for prime factors, exponent form, factor pairs, input limits, and mistakes to avoid.',
+    },
+  },
   'recipe-scaler': {
     guide: {
       alt: 'Guide image for Recipe Scaler showing one ingredient scaled from original servings to desired servings with example inputs and result notes.',

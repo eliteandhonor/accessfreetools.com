@@ -6443,17 +6443,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'prime-factorization-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [openStaxPrimeLcm, openStaxFractions],
     findings: [
-      'The prime factorization page explains repeated prime factors as exponents and caps very large inputs for practical browser speed.',
-      'The examples cover a composite value, a prime value, and a highly composite value.',
-      'The related-tool path correctly points users to Factor, GCF, and LCM pages.',
+      'The prime factorization page explains prime factors, grouped prime powers, prime/composite status, factor count, factor pairs, and the practical browser input limit.',
+      'The examples cover composite values, a prime value, a highly composite value, a pure power, and a number with a larger prime factor.',
+      'The FAQ covers the meaning of prime factorization, the special case for 1, result checking, decimals and negatives, GCF/LCM use, factor-pair cross-checks, and privacy behavior.',
     ],
     improvements: [
-      'Manually checked prime-factor grouping, exponent wording, examples, FAQ detail, source coverage, related links, SEO copy, and privacy behavior.',
+      'Rechecked prime-factor grouping, exponent wording, input guardrails, examples, FAQ detail, source coverage, related links, SEO copy, art metadata, and browser-only privacy behavior for the all-pages SEO sprint.',
     ],
     followUps: [
       'Add a visual factor tree later if it can be generated accessibly.',
