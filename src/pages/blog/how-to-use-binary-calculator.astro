@@ -1,175 +1,128 @@
 ---
 export const prerender = true;
-import BaseLayout from '../../components/BaseLayout.astro';
-import ToolArtFigure from '../../components/ToolArtFigure.astro';
-import { getTool } from '../../data/tools';
-import { getToolArt } from '../../data/toolArt';
-
-const binaryCalculator = getTool('binary-calculator');
-const guideArt = getToolArt('binary-calculator', 'guide');
-const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
-const examples = binaryCalculator?.examples ?? [];
-const articleStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: 'How to use the Binary Calculator',
-  description:
-    'Learn binary math with the Access Free Tools binary calculator, including base-2 place values, binary arithmetic, division remainders, conversions, copying, history, and privacy.',
-  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-binary-calculator/',
-  image: guideImageUrl,
-  datePublished: '2026-04-30',
-  dateModified: '2026-04-30',
-  author: {
-    '@type': 'Organization',
-    name: 'Access Free Tools',
-    url: 'https://accessfreetools.com/about/',
-  },
-  publisher: {
-    '@type': 'Organization',
-    name: 'Access Free Tools',
-  },
-};
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
 ---
 
-<BaseLayout
-  title="How to use the Binary Calculator | Access Free Tools"
-  description="Learn binary addition, subtraction, multiplication, division remainders, decimal conversion, binary output, and privacy."
+<CalculatorGuideArticle
+  toolSlug="binary-calculator"
+  label="Binary calculator guide"
+  title="How to use the Binary Calculator"
+  description="Learn how to use the free Access Free Tools binary calculator for base-2 addition, subtraction, multiplication, division remainders, and decimal checks."
   path="/blog/how-to-use-binary-calculator/"
-  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
-  socialImageAlt={guideArt?.alt}
->
-  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
-
-  <article class="blog-article">
-    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Binary Calculator Guide</p>
-
-    <header class="blog-article-header">
-      <span>Binary calculator guide</span>
-      <h1>How to use the Binary Calculator</h1>
-      <p>
-        The Binary Calculator works with base-2 whole numbers. It can add, subtract, multiply,
-        divide, convert binary to decimal, convert decimal to binary, and show steps that make each
-        answer easier to check.
-      </p>
-      <a class="button-primary" href="/tools/binary-calculator/">Open the binary calculator</a>
-    </header>
-
-    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
-
-    <div class="blog-article-layout">
-      <div class="blog-article-body">
-        <section class="content-section">
-          <h2>Quick start</h2>
-          <ol class="instruction-list">
-            <li>Enter the first binary number using only 0 and 1.</li>
-            <li>Choose Add, Subtract, Multiply, or Divide.</li>
-            <li>Enter the second binary number.</li>
-            <li>Press Calculate binary.</li>
-            <li>Read the binary answer, decimal answer, and steps.</li>
-          </ol>
-        </section>
-
-        <section class="content-section">
-          <h2>What binary means</h2>
-          <p>
-            Binary is base 2. Instead of ten possible digits, binary uses only 0 and 1. Each place
-            value is a power of 2, so 1011 means 8 + 0 + 2 + 1, which equals 11 in decimal.
-          </p>
-          <p>
-            The calculator shows both forms so you can check a base-2 answer against the decimal
-            value you may already know.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>Binary arithmetic</h2>
-          <p>
-            Addition, subtraction, and multiplication return a binary answer and the same result in
-            decimal. For example, 1011 + 110 equals 10001, which is 17 in decimal.
-          </p>
-          <p>
-            Binary division returns a quotient. If the division is not even, the calculator also
-            shows the remainder. For example, 1101 / 10 equals 110 remainder 1.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>Converting binary and decimal</h2>
-          <p>
-            Use the conversion panel when you only need to change number systems. Binary to decimal
-            turns a base-2 number such as 101010 into 42. Decimal to binary turns a whole decimal
-            number such as 42 into 101010.
-          </p>
-          <p>
-            Spaces and underscores are ignored in binary inputs, so grouped values like 1111 0000
-            are accepted.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>Common examples</h2>
-          <div class="shortcut-table" role="table" aria-label="Binary calculator examples">
-            <div role="row">
-              <strong role="cell">1011 + 110</strong>
-              <span role="cell">Adds two binary numbers and returns 10001.</span>
-            </div>
-            <div role="row">
-              <strong role="cell">10000 - 1</strong>
-              <span role="cell">Subtracts one and returns 1111.</span>
-            </div>
-            <div role="row">
-              <strong role="cell">101 x 11</strong>
-              <span role="cell">Multiplies 5 by 3 and returns 1111.</span>
-            </div>
-            <div role="row">
-              <strong role="cell">1101 / 10</strong>
-              <span role="cell">Divides 13 by 2 and returns 110 remainder 1.</span>
-            </div>
-          </div>
-        </section>
-
-        {examples.length > 0 && (
-          <section class="content-section">
-            <h2>Examples from the binary calculator</h2>
-            <div class="example-grid">
-              {examples.map((example) => (
-                <article>
-                  <span>{example.label}</span>
-                  <strong>{example.expression}</strong>
-                  <p>{example.result}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <section class="content-section">
-          <h2>Signed numbers</h2>
-          <p>
-            You can type a leading minus sign for simple signed whole-number calculations, such as
-            -101 + 10. This is useful for quick math, but it is not the same as fixed-width two's
-            complement notation.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>History, privacy, and copying</h2>
-          <p>
-            Recent binary answers stay visible in the page while you work. The history is kept only
-            in the current browser tab and is not sent to a server.
-          </p>
-          <p>
-            Copy answer copies the binary result and decimal result so you can paste it into notes,
-            homework, a message, or another document.
-          </p>
-        </section>
-      </div>
-
-      <aside class="article-sidecar">
-        <h2>Open the tool</h2>
-        <p>Use the binary calculator while you follow the guide.</p>
-        <a class="button-primary" href="/tools/binary-calculator/">Binary Calculator</a>
-      </aside>
-    </div>
-  </article>
-</BaseLayout>
+  intro="Binary math gets confusing fast because every digit has to be either 0 or 1. The Binary Calculator lets you run base-2 addition, subtraction, multiplication, division, and conversions, then shows the decimal value beside the binary answer so you can catch mistakes before you copy it."
+  quickStart={[
+    'Enter the first binary number using only 0 and 1.',
+    'Choose Add, Subtract, Multiply, or Divide.',
+    'Enter the second binary number when the operation needs one.',
+    'Press Calculate binary.',
+    'Check the binary answer, decimal answer, and steps before you copy the result.',
+  ]}
+  sections={[
+    {
+      title: 'Quick answer',
+      paragraphs: [
+        'Use the Binary Calculator when you need base-2 whole-number math or a quick binary-to-decimal check. It reads each binary input as a value made from powers of 2, does the arithmetic, then converts the result back into binary.',
+        'For example, 1011 + 110 returns 10001. The decimal check shows 17, which helps you see that the result matches 11 + 6.',
+      ],
+      links: [
+        {
+          href: '/tools/binary-calculator/',
+          label: 'Try the Binary Calculator with the examples in this guide',
+        },
+      ],
+    },
+    {
+      title: 'What binary digits mean',
+      paragraphs: [
+        'Binary is base 2. Instead of ten possible digits, it uses only 0 and 1. Each place is worth twice the place to its right: 1, 2, 4, 8, 16, 32, and so on.',
+        'That is why 1011 means 8 + 0 + 2 + 1, which equals 11 in decimal. When you can see the place values, binary stops feeling like a secret code and starts feeling like normal math with fewer digits.',
+      ],
+    },
+    {
+      title: 'How the calculator checks the math',
+      paragraphs: [
+        'The calculator treats the binary input as a base-2 whole number first. Then it runs the selected operation and shows the result in binary and decimal.',
+        'This two-view result is the easiest sanity check. If 101 x 11 returns 1111, the decimal line should also make sense: 5 x 3 = 15. The binary answer and decimal answer are the same value written two different ways.',
+      ],
+      bullets: [
+        'Binary answer: the result written with 0 and 1.',
+        'Decimal answer: the same result written in everyday base-10 numbers.',
+        'Steps: the short explanation you can use to check the input and operation.',
+      ],
+    },
+    {
+      title: 'How to read division remainders',
+      paragraphs: [
+        'Binary division works like whole-number division. If the second number does not fit evenly into the first number, the calculator shows a quotient and a remainder.',
+        'For 1101 / 10, the decimal check is 13 / 2. The quotient is 6 and the remainder is 1, so the binary result is 110 remainder 1. That remainder is not an error. It is the part left over after the whole-number division.',
+      ],
+    },
+    {
+      title: 'Conversion examples',
+      paragraphs: [
+        'Use the conversion panel when you only need to move between number systems. Binary 101010 becomes decimal 42, and decimal 42 becomes binary 101010.',
+        'Grouped input is fine for readability. The calculator ignores spaces and underscores in binary values, so 1111 0000 is read as 11110000. Its decimal value is 240 because the 128, 64, 32, and 16 places are turned on.',
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'Most wrong binary answers come from one small input problem. A 2, decimal point, comma, or swapped operation can change the result completely.',
+        'The calculator accepts a simple leading minus sign for quick signed math, but it does not model fixed-width overflow or two\'s complement register behavior. If your homework, code, or hardware problem depends on bit width, check that rule separately.',
+      ],
+      bullets: [
+        'Use only 0 and 1 in binary fields.',
+        'Put decimal numbers in the decimal conversion field, not the binary field.',
+        'Use spaces or underscores only to group digits for readability.',
+        'Check whether your problem needs fixed-width two\'s complement rules.',
+      ],
+    },
+    {
+      title: 'When not to rely on it by itself',
+      paragraphs: [
+        'This guide and tool are for quick base-2 whole-number work. They are helpful for homework checks, coding notes, and number-system practice, but they are not a full CPU, floating-point, cryptography, or hardware simulator.',
+        'If the final answer depends on a teacher\'s required notation, a programming language\'s integer size, an embedded system register, or a protocol spec, use this result as a check and then compare it with that exact rule.',
+      ],
+    },
+  ]}
+  faqItems={[
+    {
+      question: 'What does the Binary Calculator do?',
+      answer:
+        'It adds, subtracts, multiplies, divides, and converts whole binary numbers. It also shows decimal checks and short steps so you can see whether the base-2 result makes sense.',
+    },
+    {
+      question: 'What logic does the Binary Calculator use?',
+      answer:
+        'It reads each input as a base-2 whole number, performs the selected operation, then converts the answer back to binary. The decimal answer beside it is the same value in base 10.',
+    },
+    {
+      question: 'Why does 1111 0000 equal 240 in decimal?',
+      answer:
+        'The spaces are ignored, so the value is 11110000. The turned-on places are 128, 64, 32, and 16, and those add up to 240.',
+    },
+    {
+      question: 'How should I read binary division with a remainder?',
+      answer:
+        'Read the first binary value as the dividend and the second as the divisor. If the division is not even, the calculator shows the whole-number quotient plus the left-over remainder.',
+    },
+    {
+      question: 'Can I enter spaces or underscores in a binary number?',
+      answer:
+        'Yes. Spaces and underscores are ignored so long binary values are easier to read. They do not change the value.',
+    },
+    {
+      question: 'Can this calculator handle negative binary numbers?',
+      answer:
+        'It can handle a simple leading minus sign for quick signed whole-number math. It does not apply fixed-width two\'s complement overflow rules.',
+    },
+    {
+      question: 'What should I double-check before trusting a binary result?',
+      answer:
+        'Check that the input uses only 0 and 1, the operation is the one you meant to choose, decimal values are in the decimal field, and your problem does not require a specific bit width.',
+    },
+  ]}
+  bestUsesIntro="Use this guide when you want the answer plus enough base-2 context to know whether the answer is believable."
+  keepExploringIntro="If the binary problem is part of a larger math or coding task, these nearby pages keep you in the same calculator library."
+  sidecarText="Try the guide examples in the Binary Calculator, then replace them with your own base-2 numbers."
+/>
