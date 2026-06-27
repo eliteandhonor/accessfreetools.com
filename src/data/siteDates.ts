@@ -256,6 +256,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-mean-median-mode-range-calculator': '2026-06-27',
   'how-to-use-number-sequence-calculator': '2026-06-27',
   'how-to-use-ohms-law-calculator': '2026-06-27',
+  'how-to-use-p-value-calculator': '2026-06-27',
   'how-to-use-percentage-calculator': '2026-06-02',
   'how-to-use-average-calculator': '2026-06-26',
   'how-to-use-ratio-calculator': '2026-06-02',

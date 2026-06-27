@@ -7,28 +7,100 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="p-value-calculator"
   label="P-value calculator guide"
   title="How to use the P-value Calculator"
-  description="Learn how to use the free Access Free Tools p-value calculator to estimate left-tailed, right-tailed, and two-tailed normal p-values from a z-score."
+  description="Learn how to use the free Access Free Tools P-value Calculator for z-score p-values, tail choice, worked examples, and careful interpretation."
   path="/blog/how-to-use-p-value-calculator/"
-  intro="The P-value Calculator estimates a p-value from a z-score using the standard normal curve. It is useful for introductory z-test examples where you already have the z-score."
+  intro="A p-value is easy to over-read. The P-value Calculator gives you a quick standard-normal tail area from a z-score, then shows the left-tail, right-tail, and selected p-value so you can check the direction before you write an interpretation."
   quickStart={[
     'Choose two-tailed, right-tailed, or left-tailed mode.',
-    'Enter the z-score.',
+    'Enter the z-score, including the minus sign if the result is below the mean.',
     'Press Calculate p-value.',
-    'Read the p-value and the left-tail and right-tail normal areas.',
+    'Read the p-value with the left-tail and right-tail normal areas beside it.',
+    'Compare the result with your chosen significance level only after checking that a z-test is the right model.',
   ]}
   sections={[
     {
+      title: 'Quick answer',
+      paragraphs: [
+        'Use this guide when you already have a z-score and need a left-tailed, right-tailed, or two-tailed p-value from the standard normal curve. The calculator is built for introductory z-test style examples where the comparison curve has mean 0 and standard deviation 1.',
+        'For example, z = 1.96 in two-tailed mode gives a p-value of about 0.0500. That means results at least that far from 0 in either direction take about 5% of the standard-normal curve.',
+      ],
+      links: [
+        {
+          href: '/tools/p-value-calculator/',
+          label: 'Open the P-value Calculator while you read this guide',
+        },
+      ],
+    },
+    {
       title: 'Choose the correct tail',
       paragraphs: [
-        'Use a right-tailed test when unusually high values matter. Use a left-tailed test when unusually low values matter. Use a two-tailed test when a difference in either direction matters.',
-        'A two-tailed p-value doubles the smaller tail area because it counts extreme results on both sides of the normal curve.',
+        'Tail choice is the part people most often rush. Use right-tailed mode when unusually high z-scores count as evidence. Use left-tailed mode when unusually low z-scores count as evidence. Use two-tailed mode when either direction would count as unusual.',
+        'The sign of the z-score matters. A right-tailed test with z = 1.645 gives a p-value near 0.0500, but a right-tailed test with z = -1.645 would be large because most of the curve is to the right of that negative score.',
+      ],
+      bullets: [
+        'Right-tailed: use the area to the right of z.',
+        'Left-tailed: use the area to the left of z.',
+        'Two-tailed: double the smaller tail area, then cap the result at 1.',
+      ],
+    },
+    {
+      title: 'What the calculator is doing',
+      paragraphs: [
+        'The calculator uses the standard normal curve. In plain language, it asks how much of that curve sits beyond your z-score in the tail you selected.',
+        'For left-tailed mode, the calculator uses the area to the left of z. For right-tailed mode, it uses 1 minus the left-tail area. For two-tailed mode, it doubles the smaller tail because extreme results on both sides count.',
+        'This is why z = 0 gives a two-tailed p-value of 1.0000. A z-score at the exact center is not extreme in either direction.',
+      ],
+    },
+    {
+      title: 'Example: two-tailed z result',
+      paragraphs: [
+        'Suppose your homework or report gives z = 1.96 and asks for a two-tailed p-value. Choose Two-tailed, enter 1.96, and press Calculate p-value.',
+        'The calculator returns about 0.0500. A careful note would be: under the standard-normal model, a z-score at least 1.96 units from the mean in either direction has about 5% tail area.',
+        'That sentence is stronger than just writing "significant" because it says what curve and tail rule produced the number.',
+      ],
+    },
+    {
+      title: 'Example: left-tailed result',
+      paragraphs: [
+        'Now suppose the result is z = -1.28 and only unusually low values count. Choose Left-tailed, enter -1.28, and calculate.',
+        'The p-value is about 0.1003. If your significance level is 0.05, this example would not pass that cutoff. The result is still useful because it tells you how close the evidence was to the chosen line.',
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'The biggest mistake is using the wrong tail after the z-score is already known. Another common mistake is forgetting the minus sign on a left-side z-score.',
+        'Do not round too early. A p-value near 0.0500 can move from one side of a cutoff to the other if you round the z-score or the result too aggressively.',
+      ],
+      bullets: [
+        'Check whether the question says left-tailed, right-tailed, or two-tailed before entering the score.',
+        'Keep z-score sign and tail choice separate; a negative z-score can still be used in any tail mode.',
+        'Compare the p-value with the significance level chosen before looking at the result.',
+        'Do not treat 0.05 as a magic truth line; it is a decision cutoff, not proof.',
       ],
     },
     {
       title: 'What this calculator can and cannot do',
       paragraphs: [
-        'This calculator uses the standard normal distribution. It is not a replacement for t tests, chi-square tests, ANOVA, exact tests, or software output that uses a different distribution.',
-        'A p-value helps describe how far into the comparison tail a result is. It does not prove a claim by itself, and it should be read with the study design, assumptions, and chosen significance level.',
+        'This calculator uses the standard normal distribution. It is not a replacement for a t test, chi-square test, ANOVA, exact test, regression output, or any method that needs degrees of freedom or a different distribution.',
+        'A p-value describes how unusual the observed z-score would be under the comparison model. It does not measure the size of the effect, the quality of the data, or the chance that a claim is true.',
+      ],
+      links: [
+        {
+          href: '/tools/z-score-calculator/',
+          label: 'Use the Z-score Calculator if you still need to find the z-score',
+        },
+        {
+          href: '/tools/confidence-interval-calculator/',
+          label: 'Use the Confidence Interval Calculator when you need a range, not just a p-value',
+        },
+      ],
+    },
+    {
+      title: 'Sources and reference checks',
+      paragraphs: [
+        'The guide follows standard-normal tail-area logic and keeps the interpretation cautious on purpose. If your class, software, or report uses another test family, use that method instead of forcing the number into a z-score p-value calculator.',
+        'These references are useful when you want to compare the normal-curve setup or see p-values used inside formal statistical testing documentation.',
       ],
       links: [
         {
@@ -42,5 +114,44 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
       ],
     },
   ]}
+  faqItems={[
+    {
+      question: 'What is the fastest way to use the P-value Calculator?',
+      answer:
+        'Choose the tail type, enter the z-score, and press Calculate p-value. Then read the selected p-value beside the left-tail and right-tail areas so you can confirm the direction.',
+    },
+    {
+      question: 'What formula does the calculator use?',
+      answer:
+        'It uses the standard normal curve. Left-tailed mode uses the area to the left of z, right-tailed mode uses the area to the right of z, and two-tailed mode doubles the smaller tail area.',
+    },
+    {
+      question: 'Why does z = 1.96 give about 0.05 in two-tailed mode?',
+      answer:
+        'A z-score of 1.96 leaves about 2.5% of the standard-normal curve above it and about 2.5% below -1.96. Two-tailed mode counts both sides, so the result is about 5%.',
+    },
+    {
+      question: 'Can I use this for a t test?',
+      answer:
+        'No. A t test needs a t distribution and degrees of freedom. This guide and calculator are for standard-normal z-score p-values.',
+    },
+    {
+      question: 'Does a small p-value prove the result matters?',
+      answer:
+        'No. A small p-value says the z-score is far into the selected comparison tail. It does not prove practical importance, data quality, or the truth of a claim.',
+    },
+    {
+      question: 'What should I check before comparing with 0.05?',
+      answer:
+        'Check the z-score sign, tail choice, test model, and whether 0.05 was chosen before looking at the result. A cutoff is a decision rule, not a proof line.',
+    },
+    {
+      question: 'What if I do not have a z-score yet?',
+      answer:
+        'Use the Z-score Calculator first if you have a raw value, mean, and standard deviation. Then bring the z-score here only if a standard-normal p-value is the right next step.',
+    },
+  ]}
+  bestUsesIntro="This guide is best for standard-normal z-score examples where the hard part is reading the tail choice clearly."
+  keepExploringIntro="If your statistics problem needs a nearby step, these pages keep you in the same normal-curve workflow."
   sidecarText="Use the P-value Calculator while you follow the guide."
 />

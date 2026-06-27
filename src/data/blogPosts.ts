@@ -241,7 +241,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the P-value Calculator',
     label: 'P-value calculator guide',
     summary:
-      'Learn how to estimate left-tailed, right-tailed, and two-tailed p-values from a z-score on the normal curve.',
+      'Learn how to choose the tail, enter a z-score, read standard-normal p-values, and avoid common interpretation mistakes.',
   },
   {
     slug: 'how-to-use-confidence-interval-calculator',
