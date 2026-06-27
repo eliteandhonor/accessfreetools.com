@@ -225,6 +225,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'fence-calculator': '2026-06-02',
   'fha-loan-calculator': '2026-05-26',
   'gravel-calculator': '2026-06-02',
+  'confidence-interval-calculator': '2026-06-27',
   'triangle-calculator': '2026-05-31',
   'circle-calculator': '2026-06-27',
 };

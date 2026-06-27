@@ -6741,20 +6741,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'confidence-interval-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-27',
+    reviewedOn: '2026-06-27',
     scope: commonMathScope,
     sources: [openStaxConfidenceIntervals, openStaxStandardNormal],
     findings: [
-      'The confidence-interval page ties the result to entered mean, standard deviation, sample size, and confidence level assumptions.',
-      'Tests cover confidence-interval output in the statistics helper group.',
-      'The FAQ avoids the common mistake of saying the probability is about one already-calculated fixed interval.',
+      'The confidence-interval page supports z intervals for one sample mean and one sample proportion, with point estimate, standard error, margin of error, z-score, lower bound, upper bound, copy, and tab-only history.',
+      'Tests cover mean and proportion confidence-interval output in the statistics helper group.',
+      'The FAQ explains the formulas, confidence-level width tradeoff, sample-size meaning, proportion clamping, z-interval limits, and the common mistake of over-reading one already-calculated fixed interval.',
     ],
     improvements: [
-      'Manually checked confidence-interval formula wording, sample-size input meaning, examples, FAQ detail, guide coverage, source coverage, SEO copy, and privacy behavior.',
+      'Updated confidence-interval metadata, examples, FAQ depth, formula wording, trust limits, modified date, and audit notes using OpenStax source context, Calculator.net competitor-gap evidence, SEO workbench checks, DataForSEO guardrails, and browser-proof requirements.',
     ],
     followUps: [
-      'Add proportion interval mode separately if survey traffic needs it.',
+      'Consider adding t-interval, Wilson interval, or exact proportion methods later as separate modes with clear assumptions instead of hiding them inside the current z-interval flow.',
     ],
   },
   {

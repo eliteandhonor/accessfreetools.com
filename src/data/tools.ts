@@ -2185,34 +2185,42 @@ const baseTools: ToolDefinition[] = [
     slug: 'confidence-interval-calculator',
     name: 'Confidence Interval Calculator',
     category: 'calculators',
-    summary: 'Calculate z confidence intervals for a mean or a proportion.',
+    summary: 'Calculate z confidence intervals for a sample mean or sample proportion.',
     description:
-      'Use this free confidence interval calculator to find z confidence intervals for a mean or proportion with margin of error, standard error, point estimate, steps, copy, and history.',
+      'Use this free confidence interval calculator to build a z interval for a sample mean or sample proportion, then check the point estimate, standard error, margin of error, lower bound, upper bound, copy result, and recent tab-only history.',
     icon: 'calculator-confidence',
     seoTitle: 'Confidence Interval Calculator | Mean and Proportion CI',
     seoDescription:
-      'Use the free Access Free Tools confidence interval calculator to calculate z confidence intervals for a mean or proportion with margin of error and steps.',
+      'Use the free Access Free Tools confidence interval calculator to calculate z confidence intervals for a sample mean or proportion with margin of error and steps.',
     useCases: [
-      'Calculate a confidence interval for a mean using standard deviation and sample size.',
-      'Calculate a confidence interval for a sample proportion.',
-      'Compare common confidence levels from 80% through 99%.',
-      'Copy the interval, margin of error, z-score, and point estimate.',
+      'Calculate a mean confidence interval from a sample mean, standard deviation, sample size, and confidence level.',
+      'Calculate a proportion confidence interval from successes, sample size, and confidence level.',
+      'Compare how 80%, 90%, 95%, 98%, and 99% confidence levels change the interval width.',
+      'Check the point estimate, standard error, margin of error, z-score, lower bound, and upper bound before copying the result.',
+      'Use the visible steps to check homework, survey, lab, or quick statistics notes without sending the history to a server.',
     ],
     examples: [
-      { label: 'Mean interval', expression: 'Mean 68, SD 3, n=36, 95%', result: '67.02 to 68.98' },
-      { label: 'Proportion interval', expression: '52 successes, n=100, 95%', result: '42.2% to 61.8%' },
-      { label: 'Narrower level', expression: 'Mean 68, SD 3, n=36, 90%', result: '67.1775 to 68.8225' },
+      { label: 'Mean interval', expression: 'Mean 68, SD 3, n = 36, 95%', result: '67.02 to 68.98 with margin about 0.98' },
+      { label: 'Proportion interval', expression: '52 successes, n = 100, 95%', result: '42.2% to 61.8% with margin about 9.8 points' },
+      { label: 'Narrower confidence level', expression: 'Mean 68, SD 3, n = 36, 90%', result: '67.1775 to 68.8225' },
+      { label: 'Wider confidence level', expression: 'Mean 68, SD 3, n = 36, 99%', result: '66.7121 to 69.2879' },
+      { label: 'Large survey check', expression: '610 successes, n = 1000, 95%', result: '58.0% to 64.0%' },
     ],
     faq: [
       {
         question: 'What is a confidence interval?',
         answer:
-          'A confidence interval is a range around a sample estimate that is built to capture a population value at a chosen confidence level.',
+          'A confidence interval is a range around a sample estimate. It gives a plausible range for the population mean or proportion using the confidence level and the sample information you entered.',
       },
       {
         question: 'What interval types are supported?',
         answer:
-          'This version supports z intervals for a single mean and a single proportion.',
+          'This page supports z intervals for one sample mean and one sample proportion. Mean mode uses sample mean, standard deviation, and sample size. Proportion mode uses successes and sample size.',
+      },
+      {
+        question: 'What formulas does the calculator use?',
+        answer:
+          'Mean mode uses standard error = standard deviation / sqrt(sample size), then margin of error = z x standard error. Proportion mode uses p-hat = successes / sample size, standard error = sqrt(p-hat x (1 - p-hat) / sample size), then margin of error = z x standard error.',
       },
       {
         question: 'What is margin of error?',
@@ -2222,12 +2230,32 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'Should I use mean or proportion mode?',
         answer:
-          'Use mean mode for numeric averages. Use proportion mode for successes out of a total, such as yes responses or defect counts.',
+          'Use mean mode for numeric averages, such as average score, height, time, or measurement. Use proportion mode for successes out of a total, such as yes responses, defect counts, signups, or pass/fail results.',
+      },
+      {
+        question: 'How does confidence level change the answer?',
+        answer:
+          'A higher confidence level uses a larger z value, so the interval gets wider. For the same sample, a 99% interval is wider than a 95% interval, and a 90% interval is narrower.',
+      },
+      {
+        question: 'What sample size should I enter?',
+        answer:
+          'Enter the number of observations in the sample. For mean mode, that is the count behind the sample mean and standard deviation. For proportion mode, it is the total trials or responses, and successes must be between 0 and that sample size.',
+      },
+      {
+        question: 'Why can a proportion interval stop at 0% or 100%?',
+        answer:
+          'The calculator clamps proportion bounds to the possible range of 0% to 100%. When the sample is small or the success rate is very close to 0% or 100%, a different method such as Wilson or exact intervals may be more appropriate.',
       },
       {
         question: 'Can this replace advanced statistical software?',
         answer:
-          'No. It is a quick educational calculator for common z intervals. Advanced studies may need t intervals, design effects, or exact methods.',
+          'No. It is a quick educational calculator for common z intervals. Advanced studies may need t intervals, paired data, design effects, finite population corrections, exact methods, or statistical review.',
+      },
+      {
+        question: 'What should I double-check before copying the interval?',
+        answer:
+          'Check that the mean and standard deviation came from the same sample, the sample size is correct, successes do not exceed sample size, and the confidence level matches your assignment or report.',
       },
       {
         question: 'Is my confidence interval history private?',
