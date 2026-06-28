@@ -2634,20 +2634,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'quadratic-formula-calculator',
     status: 'deep-reviewed',
-    batch: 'math-foundations-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-28',
+    reviewedOn: '2026-06-28',
     scope: commonMathScope,
     sources: [openStaxQuadratics, openStaxRadicals],
     findings: [
-      'The formula, discriminant explanation, and a cannot be zero guardrail match standard algebra guidance.',
-      'The page explains repeated, two-real, and complex root cases.',
-      'The graph details are useful but should always stay secondary to the roots and discriminant.',
+      'The calculator solves standard-form quadratics with positive, negative, zero, and decimal coefficients while preserving the a cannot be zero guardrail.',
+      'The page now separates two-real, repeated, complex, downward-opening, negative-constant, and decimal-coefficient examples.',
+      'The FAQ explains coefficient mapping, discriminant meaning, graph details, zero b or c terms, checking roots, factored-equation handling, graphing-tool limits, common sign/input mistakes, and tab-only privacy.',
     ],
     improvements: [
-      'Reviewed formula wording, examples, FAQ, graph details, and related calculator links.',
+      'Refreshed metadata, use cases, six examples, FAQ depth, graph-detail trust limits, modified date, and proof scope for the controlled all-pages SEO sprint.',
     ],
     followUps: [
-      'Add a small visual parabola preview after the calculator supports charts.',
+      'Add a small visual parabola preview later only if it stays secondary to exact roots, discriminant, and formula steps.',
     ],
   },
   {

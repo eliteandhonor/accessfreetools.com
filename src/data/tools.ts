@@ -812,24 +812,31 @@ const baseTools: ToolDefinition[] = [
     slug: 'quadratic-formula-calculator',
     name: 'Quadratic Formula Calculator',
     category: 'calculators',
-    summary: 'Solve ax^2 + bx + c = 0 with roots, discriminant, vertex, and steps.',
+    summary: 'Solve quadratic equations with real or complex roots, discriminant, graph details, and steps.',
     description:
-      'Use this free quadratic formula calculator to solve ax^2 + bx + c = 0, find real or complex roots, discriminant, vertex, axis of symmetry, steps, copy, and history.',
+      'Use this free quadratic formula calculator to solve ax^2 + bx + c = 0, read the discriminant, find real or complex roots, check vertex and axis details, copy steps, and review recent answers.',
     icon: 'calculator-quadratic',
     seoTitle: 'Quadratic Formula Calculator | Free Online Root Solver',
     seoDescription:
-      'Use the free Access Free Tools quadratic formula calculator to solve ax^2 + bx + c = 0 with real or complex roots, discriminant, vertex, steps, and examples.',
+      'Use the free Access Free Tools quadratic formula calculator to solve ax^2 + bx + c = 0 with roots, discriminant, vertex, graph details, steps, and examples.',
     useCases: [
-      'Solve quadratic equations in standard form ax^2 + bx + c = 0.',
-      'Check whether an equation has two real roots, one repeated root, or complex roots.',
-      'Find the discriminant, vertex, axis of symmetry, opening direction, and y-intercept.',
-      'Copy roots and steps for algebra homework, graphing, studying, or checking work.',
+      'Solve quadratic equations after you identify a, b, and c from standard form ax^2 + bx + c = 0.',
+      'Check whether the discriminant gives two real roots, one repeated real root, or complex roots.',
+      'Work through equations with negative coefficients, zero b or c terms, and decimal coefficients.',
+      'Find graph details such as the vertex, axis of symmetry, opening direction, and y-intercept.',
+      'Compare formula roots with a factoring answer or a graphing sketch before you turn in work.',
+      'Copy roots and formula steps while keeping recent answers private in the current browser tab.',
     ],
     examples: [
       {
         label: 'Two real roots',
         expression: 'x^2 - 3x + 2 = 0',
         result: 'x = 2, 1',
+      },
+      {
+        label: 'Negative constant',
+        expression: '2x^2 + 5x - 3 = 0',
+        result: 'x = 0.5, -3',
       },
       {
         label: 'Repeated root',
@@ -840,6 +847,16 @@ const baseTools: ToolDefinition[] = [
         label: 'Complex roots',
         expression: 'x^2 + 2x + 5 = 0',
         result: 'x = -1 +/- 2i',
+      },
+      {
+        label: 'Opens downward',
+        expression: '-16x^2 + 64x = 0',
+        result: 'x = 0, 4',
+      },
+      {
+        label: 'Decimal coefficients',
+        expression: '0.5x^2 - 3x + 4 = 0',
+        result: 'x = 4, 2',
       },
     ],
     faq: [
@@ -852,6 +869,11 @@ const baseTools: ToolDefinition[] = [
         question: 'What is the discriminant?',
         answer:
           'The discriminant is b^2 - 4ac. It tells you the root type: positive means two real roots, zero means one repeated real root, and negative means two complex conjugate roots.',
+      },
+      {
+        question: 'What do a, b, and c mean?',
+        answer:
+          'They are the coefficients from standard form ax^2 + bx + c = 0. The a value is attached to x^2, b is attached to x, and c is the constant term.',
       },
       {
         question: 'Why can coefficient a not be zero?',
@@ -869,9 +891,39 @@ const baseTools: ToolDefinition[] = [
           'Yes. It shows the vertex, axis of symmetry, y-intercept, and whether the parabola opens up or down.',
       },
       {
+        question: 'What if b or c is zero?',
+        answer:
+          'That is fine. Enter 0 for the missing x term or constant term, as long as a is not zero.',
+      },
+      {
+        question: 'Can I enter decimals or negative coefficients?',
+        answer:
+          'Yes. You can enter positive, negative, and decimal coefficients such as a = 0.5, b = -3, and c = 4.',
+      },
+      {
         question: 'What form should I enter the equation in?',
         answer:
           'Enter the coefficients from standard form ax^2 + bx + c = 0. For example, x^2 - 3x + 2 = 0 uses a = 1, b = -3, and c = 2.',
+      },
+      {
+        question: 'How can I check a root from the answer?',
+        answer:
+          'Substitute the root back into ax^2 + bx + c. A correct real root should make the expression equal 0, apart from small rounding differences.',
+      },
+      {
+        question: 'What if my equation is factored?',
+        answer:
+          'Expand it into standard form before using this calculator, or use the factor form to read the roots directly if each factor is already simple.',
+      },
+      {
+        question: 'Should I use this instead of a graphing calculator?',
+        answer:
+          'Use this for exact formula steps and root type. Use a graphing tool when you need a full visual curve, scale, intercept picture, or context from an applied problem.',
+      },
+      {
+        question: 'What mistakes should I check before trusting the roots?',
+        answer:
+          'Check that the equation is in standard form, the signs on b and c are correct, a is not zero, and any decimal coefficients were copied accurately.',
       },
       {
         question: 'Is my quadratic calculation history private?',
