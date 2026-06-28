@@ -6153,20 +6153,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'resistor-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-28',
+    reviewedOn: '2026-06-28',
     scope: commonMathScope,
     sources: [iecResistorCode, teResistorCode],
     findings: [
-      'The calculator decodes common 4-band resistor color codes into nominal resistance and tolerance range.',
-      'The FAQ now explains tolerance with a concrete 1,000 ohm +/- 5% example.',
-      'The guide warns about reading bands backward, faded colors, damaged parts, and checking with a multimeter when exact value matters.',
+      'The calculator decodes common 4-band resistor color codes into nominal resistance, tolerance, minimum, and maximum values.',
+      'The page now explains digit bands, multiplier bands including gold and silver fractional multipliers, tolerance position, and why band direction matters.',
+      'Expanded examples cover 220 ohm, 330 ohm, 1 kOhm, 4.7 kOhm, 10 kOhm, and 47 kOhm resistors with tolerance ranges.',
+      'The FAQ clearly limits this tool to 4-band resistors and reinforces multimeter checks plus powered-circuit safety.',
     ],
     improvements: [
-      'Manually checked resistor color-code logic, tolerance math, examples, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Refreshed resistor SEO copy, input explanations, examples, FAQ detail, 4-band scope notes, related-tool context, privacy behavior, and result labels for the controlled SEO sprint.',
     ],
     followUps: [
-      'Add 5-band resistor support later if electronics traffic needs more precision.',
+      'Add 5-band resistor support later if electronics traffic needs more precision or Search Console shows demand for that query family.',
     ],
   },
   {

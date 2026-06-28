@@ -76,6 +76,18 @@ const toolArtMetadataOverrides = {
         "Ohm's Law Calculator guide artwork supports the walkthrough for solving voltage, current, resistance, and power from two known circuit values, including inputs, examples, limits, and mistakes to check.",
     },
   },
+  'resistor-calculator': {
+    tool: {
+      alt: 'Illustration for Resistor Calculator showing 4-band resistor colors decoded into ohms, tolerance, minimum, and maximum values.',
+      caption:
+        'Resistor Calculator artwork matches the live workflow: choose digit, multiplier, and tolerance bands, then read ohms plus minimum and maximum tolerance values.',
+    },
+    guide: {
+      alt: 'Guide image for Resistor Calculator showing 4-band color-code examples, ohm values, tolerance range, and multimeter check notes.',
+      caption:
+        'Resistor Calculator guide artwork supports the walkthrough for band direction, multiplier color, tolerance math, examples, limits, and multimeter checks.',
+    },
+  },
   'p-value-calculator': {
     tool: {
       alt: 'Illustration for P-value Calculator showing a z-score, normal-curve tail areas, and p-value result notes.',

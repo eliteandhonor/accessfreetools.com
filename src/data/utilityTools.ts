@@ -2429,36 +2429,70 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'resistor-calculator',
     name: 'Resistor Calculator',
     category: 'calculators',
-    summary: 'Decode 4-band resistor color codes into ohms and tolerance range.',
+    summary: 'Decode 4-band resistor color codes into ohms, tolerance, minimum, and maximum values.',
     description:
-      'Use this free resistor calculator to convert common 4-band resistor color codes into resistance, tolerance, minimum, and maximum values.',
+      'Use this free resistor calculator to convert common 4-band color codes into resistance, tolerance percentage, minimum ohms, and maximum ohms.',
+    seoTitle: 'Resistor Calculator | 4-Band Color Code Ohms And Tolerance',
+    seoDescription:
+      'Decode 4-band resistor colors into ohms, tolerance, minimum, and maximum values with examples for 220 ohm, 1 kOhm, 4.7 kOhm, 10 kOhm, and 47 kOhm resistors.',
     icon: 'calculator-resistor',
     formula:
-      'The first two bands are digits, the third band is a multiplier, and the fourth band gives tolerance percentage.',
+      'Read the first two bands as digits, multiply by the third band, then apply the fourth band tolerance to get the minimum and maximum possible resistance.',
     limit:
-      'Use a multimeter and circuit safety practices for real parts. Color bands can be faded, damaged, or read in the wrong direction.',
+      'This is for common 4-band color-code math. Use a multimeter and proper circuit safety for real parts, especially when bands are faded, damaged, or hard to read.',
     inputExplanations: [
-      { term: 'First and second digit bands', meaning: 'the first two significant digits of a common 4-band resistor.' },
-      { term: 'Multiplier band', meaning: 'the power-of-ten multiplier that scales the first two digits.' },
-      { term: 'Tolerance band', meaning: 'the expected manufacturing range around the nominal resistance.' },
+      { term: 'First digit band', meaning: 'the first significant digit printed on a common 4-band resistor.' },
+      { term: 'Second digit band', meaning: 'the second significant digit before the multiplier is applied.' },
+      { term: 'Multiplier band', meaning: 'the scale factor that turns the two digits into ohms, including gold or silver for fractional multipliers.' },
+      { term: 'Tolerance band', meaning: 'the expected manufacturing range around the nominal resistance, such as gold for +/- 5%.' },
     ],
     extraFaq: [
       {
         question: 'What does resistor tolerance mean?',
         answer:
-          'Tolerance says how far the real part may be from the printed value. A 1,000 ohm resistor with +/- 5% tolerance may be roughly 950 to 1,050 ohms and still match its rating.',
+          'Tolerance says how far the real part may be from the printed value. A 1,000 ohm resistor with +/- 5% tolerance may be anywhere from about 950 to 1,050 ohms and still match its rating.',
+      },
+      {
+        question: 'Which end of the resistor should I read first?',
+        answer:
+          'Start from the end with the color bands grouped closer together, then read toward the tolerance band. The tolerance band is often gold or silver and usually sits slightly separated from the first three bands.',
+      },
+      {
+        question: 'Does this calculator support 5-band resistors?',
+        answer:
+          'No. This page is for common 4-band resistors with two digit bands, one multiplier band, and one tolerance band. A 5-band resistor uses three digit bands and needs a different decode pattern.',
+      },
+      {
+        question: 'Can gold and silver be multiplier bands?',
+        answer:
+          'Yes. Gold as a multiplier means x0.1 and silver means x0.01. Gold and silver are also common tolerance bands, so use the band position, not only the color, when reading the part.',
+      },
+      {
+        question: 'Why should I still check with a multimeter?',
+        answer:
+          'Color bands can fade, smear, or be read backward. A multimeter confirms the real resistance before you use the part in a circuit where the exact value matters.',
+      },
+      {
+        question: 'Can I use this result on a powered circuit?',
+        answer:
+          'Do not measure or swap resistors on a powered circuit unless you are trained and the circuit is made safe. The calculator explains the code on the part; it does not replace electrical safety checks.',
       },
     ],
     useCases: [
-      'Decode a common 4-band resistor.',
+      'Decode a common 4-band resistor before placing it on a breadboard.',
       'See the tolerance range around the nominal resistance.',
-      'Check a breadboard or electronics study example.',
+      'Check whether a 220 ohm, 1 kOhm, 4.7 kOhm, 10 kOhm, or 47 kOhm example looks right.',
       'Compare resistor values before using Ohm\'s law.',
+      'Turn faded color-band notes into an ohm range before checking with a multimeter.',
+      'Explain color-code homework without skipping the tolerance math.',
     ],
     examples: [
-      { label: '1 kOhm', expression: 'brown black red gold', result: '1,000 ohms +/- 5%' },
-      { label: '4.7 kOhm', expression: 'yellow violet red gold', result: '4,700 ohms +/- 5%' },
-      { label: '220 ohm', expression: 'red red brown gold', result: '220 ohms +/- 5%' },
+      { label: '1 kOhm', expression: 'brown black red gold', result: '1,000 ohms +/- 5% (950 to 1,050 ohms)' },
+      { label: '4.7 kOhm', expression: 'yellow violet red gold', result: '4,700 ohms +/- 5% (4,465 to 4,935 ohms)' },
+      { label: '220 ohm', expression: 'red red brown gold', result: '220 ohms +/- 5% (209 to 231 ohms)' },
+      { label: '10 kOhm', expression: 'brown black orange gold', result: '10,000 ohms +/- 5% (9,500 to 10,500 ohms)' },
+      { label: '330 ohm', expression: 'orange orange brown gold', result: '330 ohms +/- 5% (313.5 to 346.5 ohms)' },
+      { label: '47 kOhm', expression: 'yellow violet orange gold', result: '47,000 ohms +/- 5% (44,650 to 49,350 ohms)' },
     ],
     relatedSlugs: ['ohms-law-calculator', 'voltage-drop-calculator', 'electricity-calculator'],
   }),
