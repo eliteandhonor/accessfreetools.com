@@ -199,7 +199,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Probability Calculator',
     label: 'Probability calculator guide',
     summary:
-      'Learn how to calculate P(A and B), P(A or B), complements, independent-event intersections, and probability steps.',
+      'Learn how to read P(A or B), P(A and B), complements, independent-event overlap, impossible inputs, and probability limits.',
   },
   {
     slug: 'how-to-use-statistics-calculator',

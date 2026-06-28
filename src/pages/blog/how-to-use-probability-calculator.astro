@@ -7,30 +7,119 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="probability-calculator"
   label="Probability calculator guide"
   title="How to use the Probability Calculator"
-  description="Learn how to use the free Access Free Tools probability calculator for union, intersection, complements, independent events, and steps."
+  description="Learn how to use the Probability Calculator for P(A or B), P(A and B), complements, independent events, overlaps, and input checks."
   path="/blog/how-to-use-probability-calculator/"
-  intro="The Probability Calculator finds P(A and B), P(A or B), complements, and independent-event intersections from percentage inputs."
+  intro="Probability problems get easier when you separate the events, the overlap, and the result you actually need. The calculator takes P(A), P(B), and an optional P(A and B), then shows the union, intersection, complements, and formula steps in percentages."
   quickStart={[
     'Enter P(A) and P(B) as percentages.',
-    'Leave P(A and B) blank for independent events, or enter it when known.',
+    'Leave P(A and B) blank only when the events are independent.',
+    'Enter P(A and B) when you already know the overlap.',
     'Press Calculate probability.',
-    'Review the union, intersection, complements, and formula steps.',
+    'Review P(A or B), P(A and B), not A, not B, and the formula steps.',
+    'Fix the inputs if the calculator says the overlap or union is impossible.',
   ]}
   sections={[
     {
-      title: 'Independent events',
+      title: 'Quick answer',
       paragraphs: [
-        'When events are independent, one event does not change the chance of the other. The calculator uses P(A) times P(B) to estimate the intersection.',
-        'If you already know the overlap, type it into the intersection field instead of leaving it blank.',
+        'If you enter P(A) = 40% and P(B) = 25% and leave P(A and B) blank, the calculator treats the events as independent. It multiplies 40% by 25% to get a 10% overlap, then uses that overlap in the union formula.',
+        'The result is P(A or B) = 55%. That means the chance of A, B, or both happening is 55% under the numbers you entered.',
       ],
     },
     {
-      title: 'Union and complement',
+      title: 'What each input means',
       paragraphs: [
-        'P(A or B) includes event A, event B, or both. The calculator uses P(A) + P(B) - P(A and B).',
-        'The complement of A is the chance that A does not happen, which is 100% - P(A).',
+        'P(A) is the chance that event A happens. P(B) is the chance that event B happens. The optional P(A and B) field is the chance that both happen together.',
+        'All three fields use percentages. Enter 12.5 for 12.5%, not 0.125. Each value must be between 0% and 100%.',
+      ],
+      bullets: [
+        'Use P(A) for the first event, such as rain tomorrow.',
+        'Use P(B) for the second event, such as a delivery arriving late.',
+        'Use P(A and B) only when you know the overlap or joint chance.',
+      ],
+    },
+    {
+      title: 'Independent events versus known overlap',
+      paragraphs: [
+        'Independent events do not change each other. If A happening does not affect B, leaving the overlap blank is reasonable because the calculator can estimate P(A and B) with multiplication.',
+        'If the events are connected, do not leave the overlap blank unless the problem says they are independent. Type the known overlap into P(A and B) instead.',
+      ],
+      bullets: [
+        'Independent example: P(A)=40% and P(B)=25% gives P(A and B)=10%.',
+        'Known-overlap example: P(A)=60%, P(B)=30%, and P(A and B)=15% gives P(A or B)=75%.',
+        'Mutually exclusive example: if A and B cannot happen together, enter P(A and B)=0%.',
+      ],
+    },
+    {
+      title: 'How the union formula works',
+      paragraphs: [
+        'P(A or B) means A happens, B happens, or both happen. The calculator uses P(A or B) = P(A) + P(B) - P(A and B).',
+        'The subtraction matters because the overlap is included once in P(A) and once in P(B). Subtracting P(A and B) keeps the same outcomes from being counted twice.',
+      ],
+      bullets: [
+        'For 60%, 30%, and 15%, the union is 60% + 30% - 15% = 75%.',
+        'For 20%, 30%, and 0%, the union is 20% + 30% - 0% = 50%.',
+        'For 80%, 70%, and 60%, the union is 80% + 70% - 60% = 90%.',
+      ],
+    },
+    {
+      title: 'Complements and what they tell you',
+      paragraphs: [
+        'The complement is the chance that an event does not happen. If P(A) is 40%, not A is 60%. If P(B) is 25%, not B is 75%.',
+        'Complements are useful when a problem is easier to think about from the other side. Sometimes "at least one" is easier to solve by finding "none" first, then subtracting from 100%.',
+      ],
+    },
+    {
+      title: 'Mistakes and limits',
+      paragraphs: [
+        'The calculator rejects impossible probability combinations. P(A and B) cannot be larger than P(A) or P(B), and P(A or B) cannot be more than 100%.',
+        'The tool does not count dice rolls, cards, or combinations for you. First count favorable and total outcomes, turn that into a percentage, and then enter the probability. If the counting step is the hard part, use the Permutation and Combination Calculator first.',
+      ],
+      bullets: [
+        'Do not leave the overlap blank just because you do not know it.',
+        'Do not mix percentages and decimals in the input fields.',
+        'Do not treat the result as a promise about what will happen.',
       ],
     },
   ]}
-  sidecarText="Use the Probability Calculator while you follow the guide."
+  faqItems={[
+    {
+      question: 'What does P(A or B) mean?',
+      answer:
+        'P(A or B) is the chance that A happens, B happens, or both happen.',
+    },
+    {
+      question: 'What does P(A and B) mean?',
+      answer:
+        'P(A and B) is the overlap: the chance that both events happen together.',
+    },
+    {
+      question: 'When should I leave P(A and B) blank?',
+      answer:
+        'Leave it blank only when the events are independent or your problem tells you to multiply P(A) by P(B).',
+    },
+    {
+      question: 'What if I already know the overlap?',
+      answer:
+        'Enter the known P(A and B) value. That is more accurate than leaving the field blank and letting the calculator assume independence.',
+    },
+    {
+      question: 'What if A and B are mutually exclusive?',
+      answer:
+        'Enter 0 for P(A and B). Then the calculator adds P(A) and P(B) because the events cannot happen together.',
+    },
+    {
+      question: 'Can I enter decimal percentages?',
+      answer:
+        'Yes. Enter 12.5 for 12.5%. Do not enter 0.125 unless you mean 0.125%.',
+    },
+    {
+      question: 'Why did the calculator reject my inputs?',
+      answer:
+        'The inputs may contradict each other. For example, the overlap cannot be larger than either event, and the union cannot be greater than 100%.',
+    },
+  ]}
+  bestUsesIntro="The Probability Calculator is most useful when you already know the event chances and need the overlap, union, complements, or a quick consistency check."
+  keepExploringIntro="If your probability problem starts with counting, sampling, or statistics, these nearby tools can help with the earlier or next step."
+  sidecarText="Use the Probability Calculator while you follow the examples and check whether the overlap makes sense."
 />
