@@ -7,37 +7,136 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="pythagorean-theorem-calculator"
   label="Pythagorean theorem guide"
   title="How to use the Pythagorean Theorem Calculator"
-  description="Learn how to solve a missing right-triangle side with a^2 + b^2 = c^2."
+  description="Learn how to use the Pythagorean Theorem Calculator to find the hypotenuse, solve a missing leg, check impossible inputs, and read formula steps."
   path="/blog/how-to-use-pythagorean-theorem-calculator/"
-  intro="The Pythagorean Theorem Calculator solves one missing side of a right triangle."
+  intro="Right-triangle problems get much easier once you know which side is the hypotenuse and which two sides you already have. The Pythagorean Theorem Calculator uses a^2 + b^2 = c^2 to solve one missing side, show the formula steps, and warn you when the entered sides cannot make a right triangle."
   quickStart={[
     'Choose whether to find the hypotenuse, leg a, or leg b.',
-    'Enter the two known side lengths.',
-    'Add a unit label if useful.',
+    'Enter the two side lengths you already know.',
+    'Add a unit label such as cm, ft, or in if it helps your notes.',
     'Press Calculate side to solve the missing side.',
+    'Read the result card and formula steps before copying the answer.',
+    'Fix the inputs if the calculator says the hypotenuse is not the longest side.',
   ]}
   sections={[
     {
-      title: 'When the theorem applies',
+      title: 'Quick answer',
       paragraphs: [
-        'The Pythagorean theorem only works for right triangles. The hypotenuse is always the side opposite the 90-degree angle.',
-        'If the triangle is not a right triangle, use the Triangle Calculator instead.',
+        'If you know both legs, choose the hypotenuse mode. For a = 3 and b = 4, the calculator uses c = sqrt(3^2 + 4^2), so c = 5.',
+        'If you know the hypotenuse and one leg, choose the missing-leg mode. For b = 12 and c = 13, it uses a = sqrt(13^2 - 12^2), so a = 5.',
+      ],
+    },
+    {
+      title: 'What each side means',
+      paragraphs: [
+        'Leg a and leg b are the two shorter sides that meet at the 90-degree angle. The hypotenuse, usually called c, is the side across from the right angle.',
+        'The hypotenuse must be the longest side. If c is shorter than a known leg, the calculator rejects the input because that set of sides cannot describe a right triangle.',
+      ],
+      bullets: [
+        'Use a and b for the two sides that form the square corner.',
+        'Use c for the side across from the square corner.',
+        'Keep every side in the same unit before entering the numbers.',
       ],
     },
     {
       title: 'Finding the hypotenuse',
       paragraphs: [
-        'When both legs are known, the calculator uses c = sqrt(a^2 + b^2).',
-        'The hypotenuse should always be longer than either leg.',
+        'Use this mode when both legs are known and the diagonal side is missing. The calculator squares each leg, adds the squares, and takes the square root.',
+        'For a 6 ft by 8 ft rectangle corner, the diagonal is c = sqrt(6^2 + 8^2), which is 10 ft. This is the same 3-4-5 pattern scaled up by 2.',
+      ],
+      bullets: [
+        'a = 5.5 and b = 7.2 gives c about 9.06.',
+        'a = 8 and b = 15 gives c = 17.',
+        'a = 9 and b = 12 gives c = 15.',
       ],
     },
     {
       title: 'Finding a missing leg',
       paragraphs: [
-        'When the hypotenuse and one leg are known, the calculator subtracts the known leg squared from the hypotenuse squared, then takes the square root.',
-        'If the known leg is longer than the hypotenuse, the input cannot describe a real right triangle.',
+        'Use a missing-leg mode when you know the hypotenuse and one leg. The calculator subtracts the known leg squared from the hypotenuse squared, then takes the square root.',
+        'For a = 8 and c = 17, the missing leg is b = sqrt(17^2 - 8^2), which is 15. The subtraction step is why the hypotenuse must be known and must be longest.',
+      ],
+      bullets: [
+        'Find a when b and c are known.',
+        'Find b when a and c are known.',
+        'Do not use missing-leg mode if you only know the two legs.',
+      ],
+    },
+    {
+      title: 'Decimals, units, and rounding',
+      paragraphs: [
+        'Decimal side lengths work. The result may be a rounded decimal because many square roots do not land on a whole number.',
+        'The unit label is only a label. If you type ft, the result shows ft, but the calculator does not convert inches to feet or centimeters to meters for you.',
+      ],
+      bullets: [
+        'Enter 5.5 and 7.2 if both sides use the same unit.',
+        'Convert mixed units before calculating.',
+        'Use the formula steps when you need to show how the rounded answer was found.',
+      ],
+    },
+    {
+      title: 'Common mistakes and impossible inputs',
+      paragraphs: [
+        'The biggest mistake is mixing up the hypotenuse with a leg. The hypotenuse is not just the side you are solving for. It is specifically the side opposite the right angle.',
+        'Another mistake is using the theorem on a triangle that is not known to be a right triangle. If you only know three side lengths and need area, perimeter, or angle checks, use the Triangle Calculator or Right Triangle Calculator instead.',
+      ],
+      bullets: [
+        'Do not enter 0 or negative side lengths.',
+        'Do not make c shorter than a or b.',
+        'Do not use the formula for a triangle unless the 90-degree angle is part of the problem.',
+      ],
+    },
+    {
+      title: 'When not to rely on it alone',
+      paragraphs: [
+        'The calculator solves the numbers you enter. It does not prove that a real wall corner, deck frame, screen, ramp, or drawing is actually square.',
+        'For construction or layout work, measure carefully, keep units consistent, and use the result as a planning check. Local code, safety rules, material tolerances, and real-world measurement error still matter.',
+      ],
+      links: [
+        { href: '/tools/triangle-calculator/', label: 'Use the Triangle Calculator for any triangle from three sides.' },
+        { href: '/tools/right-triangle-calculator/', label: 'Use the Right Triangle Calculator when you also need area, perimeter, and angles.' },
+        { href: '/tools/distance-calculator/', label: 'Use the Distance Calculator when the problem is about two coordinate points.' },
       ],
     },
   ]}
-  sidecarText="Use the Pythagorean Theorem Calculator while you follow the guide."
+  faqItems={[
+    {
+      question: 'What is the Pythagorean theorem?',
+      answer:
+        'It is the right-triangle rule a^2 + b^2 = c^2. The two legs are a and b, and the hypotenuse is c.',
+    },
+    {
+      question: 'How do I know which side is c?',
+      answer:
+        'c is the hypotenuse, the side opposite the 90-degree angle. It should be longer than either leg.',
+    },
+    {
+      question: 'How do I find the hypotenuse?',
+      answer:
+        'Choose the hypotenuse mode, enter both legs, and the calculator adds a^2 and b^2 before taking the square root.',
+    },
+    {
+      question: 'How do I find a missing leg?',
+      answer:
+        'Choose the missing-leg mode, enter the hypotenuse and the known leg, and the calculator subtracts the known leg squared from c^2.',
+    },
+    {
+      question: 'Why did the calculator reject my sides?',
+      answer:
+        'The hypotenuse may be shorter than a leg, or a side may be zero, negative, missing, or not a number.',
+    },
+    {
+      question: 'Can I use decimals and units?',
+      answer:
+        'Yes. Decimals work, and the unit label is carried into the answer. Convert mixed units before calculating.',
+    },
+    {
+      question: 'Can this prove a real corner is square?',
+      answer:
+        'No. It only solves the side lengths you enter. Measure real corners carefully and use proper layout or safety checks when the result matters.',
+    },
+  ]}
+  bestUsesIntro="The Pythagorean Theorem Calculator is most useful when one side of a right triangle is missing and you already know the other two sides."
+  keepExploringIntro="If the problem is close but not exactly one missing right-triangle side, these nearby tools can handle the next shape or coordinate step."
+  sidecarText="Use the Pythagorean Theorem Calculator while you follow the examples and check which side is missing."
 />

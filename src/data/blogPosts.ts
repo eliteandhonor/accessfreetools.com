@@ -304,7 +304,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Pythagorean Theorem Calculator',
     label: 'Pythagorean theorem guide',
     summary:
-      'Learn how to solve a missing right-triangle side with a^2 + b^2 = c^2.',
+      'Learn how to find the hypotenuse, solve a missing leg, use decimals and units, and avoid impossible right-triangle inputs.',
   },
   {
     slug: 'how-to-use-right-triangle-calculator',

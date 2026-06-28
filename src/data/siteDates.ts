@@ -264,6 +264,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-permutation-and-combination-calculator': '2026-06-27',
   'how-to-use-prime-factorization-calculator': '2026-06-27',
   'how-to-use-probability-calculator': '2026-06-28',
+  'how-to-use-pythagorean-theorem-calculator': '2026-06-28',
   'how-to-use-percentage-calculator': '2026-06-02',
   'how-to-use-average-calculator': '2026-06-26',
   'how-to-use-ratio-calculator': '2026-06-02',
