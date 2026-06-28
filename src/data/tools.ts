@@ -3140,23 +3140,28 @@ const baseTools: ToolDefinition[] = [
     slug: 'pythagorean-theorem-calculator',
     name: 'Pythagorean Theorem Calculator',
     category: 'calculators',
-    summary: 'Solve a missing right-triangle side with a^2 + b^2 = c^2.',
+    summary: 'Solve hypotenuse or missing leg lengths with a^2 + b^2 = c^2 and formula steps.',
     description:
-      'Use this free Pythagorean theorem calculator to solve for the hypotenuse or a missing leg of a right triangle with steps and examples.',
+      'Use this free Pythagorean theorem calculator to find the hypotenuse, solve a missing leg, check impossible right-triangle inputs, copy steps, and keep recent answers in your browser tab.',
     icon: 'calculator-pythagorean',
     seoTitle: 'Pythagorean Theorem Calculator | Solve a Side',
     seoDescription:
-      'Solve a missing right-triangle side using a^2 + b^2 = c^2 with hypotenuse, leg, examples, and formula steps.',
+      'Solve a missing right-triangle side with a^2 + b^2 = c^2. Find the hypotenuse or a leg, check invalid inputs, and copy formula steps.',
     useCases: [
       'Find the hypotenuse when both legs are known.',
       'Find a missing leg when one leg and the hypotenuse are known.',
-      'Check right triangle side lengths for homework.',
-      'Copy formula steps for Pythagorean theorem practice.',
+      'Check classic triples such as 3-4-5, 5-12-13, and 8-15-17.',
+      'Work with decimal side lengths and optional unit labels.',
+      'Catch impossible inputs when the hypotenuse is not the longest side.',
+      'Copy formula steps or recent answers while checking right-triangle homework.',
     ],
     examples: [
       { label: 'Find c', expression: 'a=3, b=4', result: 'c = 5' },
+      { label: 'Find c with decimals', expression: 'a=5.5, b=7.2', result: 'c is about 9.06' },
       { label: 'Find a', expression: 'b=12, c=13', result: 'a = 5' },
       { label: 'Find b', expression: 'a=8, c=17', result: 'b = 15' },
+      { label: 'Construction check', expression: 'a=6 ft, b=8 ft', result: 'diagonal c = 10 ft' },
+      { label: 'Invalid side check', expression: 'a=9, c=7', result: 'invalid: c must be longest' },
     ],
     faq: [
       {
@@ -3165,9 +3170,19 @@ const baseTools: ToolDefinition[] = [
           'It uses the Pythagorean theorem: a^2 + b^2 = c^2, where c is the hypotenuse of a right triangle.',
       },
       {
+        question: 'How do I find the hypotenuse?',
+        answer:
+          'Choose the hypotenuse mode, enter both legs, and the calculator adds a^2 and b^2 before taking the square root.',
+      },
+      {
         question: 'Can it solve for a missing leg?',
         answer:
           'Yes. If you know the hypotenuse and one leg, it subtracts the known leg squared from the hypotenuse squared, then takes the square root.',
+      },
+      {
+        question: 'Which side is the hypotenuse?',
+        answer:
+          'The hypotenuse is the side opposite the 90-degree angle. It is always the longest side of a right triangle.',
       },
       {
         question: 'Does the Pythagorean theorem work for every triangle?',
@@ -3180,9 +3195,29 @@ const baseTools: ToolDefinition[] = [
           'That input is invalid for a right triangle. The hypotenuse must be the longest side.',
       },
       {
+        question: 'Can I use decimals or units?',
+        answer:
+          'Yes. Decimal side lengths work, and the optional unit label is carried into the result. Keep all side lengths in the same unit.',
+      },
+      {
+        question: 'Why is my answer rounded?',
+        answer:
+          'Many right-triangle side lengths are not whole numbers. The calculator shows a readable decimal result and the formula steps so you can see the exact operation.',
+      },
+      {
         question: 'Should I use the Right Triangle Calculator instead?',
         answer:
           'Use this tool when you only need a missing side. Use the Right Triangle Calculator when you also want area, perimeter, and angles.',
+      },
+      {
+        question: 'How is this related to the Distance Calculator?',
+        answer:
+          'The Distance Calculator uses the same idea on a coordinate plane, where the horizontal and vertical changes act like the two legs.',
+      },
+      {
+        question: 'Can this prove a real corner is square?',
+        answer:
+          'No. It only solves the numbers you enter. For layout or construction, measure carefully, keep every side in the same unit, and remember the theorem assumes a 90-degree corner.',
       },
       {
         question: 'Is my Pythagorean history private?',

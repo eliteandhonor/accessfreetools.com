@@ -6862,17 +6862,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'pythagorean-theorem-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-28',
+    reviewedOn: '2026-06-28',
     scope: commonMathScope,
     sources: [openStaxGeometry, openStaxRadicals],
     findings: [
-      'The Pythagorean helper solves for a hypotenuse or missing leg and rejects impossible leg/hypotenuse combinations.',
-      'Tests cover the 3-4-5 hypotenuse case and invalid hypotenuse behavior.',
-      'The FAQ explains that the theorem only applies to right triangles.',
+      'The Pythagorean helper solves for a hypotenuse or missing leg, carries optional unit labels, and rejects impossible leg/hypotenuse combinations.',
+      'The page now includes six examples covering whole-number triples, decimal sides, construction-style diagonals, and invalid side checks.',
+      'The FAQ explains hypotenuse identification, missing-leg math, right-triangle limits, decimal and unit handling, rounded answers, Distance Calculator overlap, and tab-only privacy.',
     ],
     improvements: [
-      'Manually checked Pythagorean modes, square-root behavior, impossible-input guardrails, examples, FAQ detail, guide coverage, and privacy behavior.',
+      'Refreshed the tool metadata, examples, FAQ detail, right-triangle trust limits, modified date, and proof scope for the controlled all-pages SEO sprint.',
     ],
     followUps: [
       'Add exact-radical display later only if it stays readable for non-student users.',

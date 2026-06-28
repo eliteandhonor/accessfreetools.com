@@ -20,6 +20,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'permutation-and-combination-calculator': '2026-06-27',
   'prime-factorization-calculator': '2026-06-27',
   'probability-calculator': '2026-06-28',
+  'pythagorean-theorem-calculator': '2026-06-28',
   'percentage-calculator': '2026-06-02',
   'average-calculator': '2026-06-26',
   'ratio-calculator': '2026-06-02',
