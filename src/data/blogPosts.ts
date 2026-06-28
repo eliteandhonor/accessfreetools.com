@@ -73,7 +73,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Quadratic Formula Calculator',
     label: 'Quadratic formula guide',
     summary:
-      'Learn how to solve ax^2 + bx + c = 0, read the discriminant, find real or complex roots, and use vertex details.',
+      'Learn coefficient signs, standard form, discriminants, real roots, repeated roots, complex roots, graph details, and answer checks.',
   },
   {
     slug: 'how-to-use-binary-calculator',

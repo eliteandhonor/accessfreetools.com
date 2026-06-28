@@ -1,162 +1,161 @@
 ---
 export const prerender = true;
-import BaseLayout from '../../components/BaseLayout.astro';
-import ToolArtFigure from '../../components/ToolArtFigure.astro';
-import { getTool } from '../../data/tools';
-import { getToolArt } from '../../data/toolArt';
-
-const quadraticCalculator = getTool('quadratic-formula-calculator');
-const guideArt = getToolArt('quadratic-formula-calculator', 'guide');
-const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
-const examples = quadraticCalculator?.examples ?? [];
-const articleStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: 'How to use the Quadratic Formula Calculator',
-  description:
-    'Use the Access Free Tools quadratic formula calculator for roots, discriminants, vertex, axis of symmetry, complex roots, examples, and privacy.',
-  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-quadratic-formula-calculator/',
-  image: guideImageUrl,
-  datePublished: '2026-04-30',
-  dateModified: '2026-04-30',
-  author: {
-    '@type': 'Organization',
-    name: 'Access Free Tools',
-    url: 'https://accessfreetools.com/about/',
-  },
-  publisher: {
-    '@type': 'Organization',
-    name: 'Access Free Tools',
-  },
-};
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
 ---
 
-<BaseLayout
-  title="How to use the Quadratic Formula Calculator | Access Free Tools"
-  description="Learn how to use the free Access Free Tools quadratic formula calculator to solve ax^2 + bx + c = 0, read the discriminant, find roots, and use graph details."
+<CalculatorGuideArticle
+  toolSlug="quadratic-formula-calculator"
+  label="Quadratic formula guide"
+  title="How to use the Quadratic Formula Calculator"
+  description="Learn how to use the Quadratic Formula Calculator for coefficient signs, discriminants, real roots, repeated roots, complex roots, graph details, and answer checks."
   path="/blog/how-to-use-quadratic-formula-calculator/"
-  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
-  socialImageAlt={guideArt?.alt}
->
-  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
-
-  <article class="blog-article">
-    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Quadratic Formula Guide</p>
-
-    <header class="blog-article-header">
-      <span>Quadratic formula guide</span>
-      <h1>How to use the Quadratic Formula Calculator</h1>
-      <p>
-        The Quadratic Formula Calculator solves equations in standard form ax^2 + bx + c = 0. It
-        shows real or complex roots, the discriminant, the vertex, the axis of symmetry, and the
-        steps used to reach the answer.
-      </p>
-      <a class="button-primary" href="/tools/quadratic-formula-calculator/">Open the quadratic calculator</a>
-    </header>
-
-    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
-
-    <div class="blog-article-layout">
-      <div class="blog-article-body">
-        <section class="content-section">
-          <h2>Quick start</h2>
-          <ol class="instruction-list">
-            <li>Rewrite your equation in standard form: ax^2 + bx + c = 0.</li>
-            <li>Enter the coefficient a from the x^2 term.</li>
-            <li>Enter the coefficient b from the x term.</li>
-            <li>Enter the constant c.</li>
-            <li>Press Calculate roots and review the roots, discriminant, vertex, axis, and steps.</li>
-          </ol>
-        </section>
-
-        <section class="content-section">
-          <h2>The quadratic formula</h2>
-          <p>
-            The calculator uses x = (-b +/- sqrt(b^2 - 4ac)) / 2a. The expression inside the
-            square root, b^2 - 4ac, is called the discriminant.
-          </p>
-          <p>
-            For x^2 - 3x + 2 = 0, the coefficients are a = 1, b = -3, and c = 2. The roots are
-            x = 2 and x = 1.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>Reading the discriminant</h2>
-          <div class="shortcut-table" role="table" aria-label="Quadratic discriminant guide">
-            <div role="row">
-              <strong role="cell">Positive</strong>
-              <span role="cell">The equation has two real roots.</span>
-            </div>
-            <div role="row">
-              <strong role="cell">Zero</strong>
-              <span role="cell">The equation has one repeated real root.</span>
-            </div>
-            <div role="row">
-              <strong role="cell">Negative</strong>
-              <span role="cell">The equation has two complex conjugate roots.</span>
-            </div>
-          </div>
-        </section>
-
-        {examples.length > 0 && (
-          <section class="content-section">
-            <h2>Examples from the quadratic calculator</h2>
-            <div class="example-grid">
-              {examples.map((example) => (
-                <article>
-                  <span>{example.label}</span>
-                  <strong>{example.expression}</strong>
-                  <p>{example.result}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <section class="content-section">
-          <h2>Graph details</h2>
-          <p>
-            The calculator also shows the vertex and axis of symmetry. The axis of symmetry is
-            x = -b / 2a, and the vertex is the point where the parabola reaches its maximum or
-            minimum value.
-          </p>
-          <p>
-            If a is positive, the parabola opens up. If a is negative, it opens down. The constant
-            c is the y-intercept.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>Common mistakes</h2>
-          <p>
-            Make sure the equation is equal to zero before entering coefficients. For example,
-            x^2 = 3x - 2 should be rewritten as x^2 - 3x + 2 = 0.
-          </p>
-          <p>
-            Coefficient a cannot be zero. If a is zero, the equation is linear, not quadratic, and
-            the quadratic formula does not apply.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>History, privacy, and copying</h2>
-          <p>
-            Recent quadratic answers stay visible in the current browser tab while you work. They
-            are not sent to a server.
-          </p>
-          <p>
-            Copy answer copies the equation and roots so you can paste the result into notes,
-            homework, a message, or another document.
-          </p>
-        </section>
-      </div>
-
-      <aside class="article-sidecar">
-        <h2>Open the tool</h2>
-        <p>Use the quadratic formula calculator while you follow the guide.</p>
-        <a class="button-primary" href="/tools/quadratic-formula-calculator/">Quadratic Formula Calculator</a>
-      </aside>
-    </div>
-  </article>
-</BaseLayout>
+  intro="Quadratic equations get messy when the signs move around or the roots are not whole numbers. The Quadratic Formula Calculator solves ax^2 + bx + c = 0, then shows the roots, discriminant, vertex, axis of symmetry, and formula steps so you can check the answer instead of just copying it."
+  quickStart={[
+    'Rewrite the equation so one side is zero: ax^2 + bx + c = 0.',
+    'Enter a from the x^2 term. It cannot be 0.',
+    'Enter b from the x term, including the sign.',
+    'Enter c from the constant term, including the sign.',
+    'Press Calculate roots.',
+    'Read the roots, discriminant, graph details, and formula steps before copying the answer.',
+  ]}
+  sections={[
+    {
+      title: 'Quick answer',
+      paragraphs: [
+        'For x^2 - 3x + 2 = 0, enter a = 1, b = -3, and c = 2. The calculator uses x = (-b +/- sqrt(b^2 - 4ac)) / 2a and gives x = 2 and x = 1.',
+        'Those roots mean the quadratic equals zero when x is 2 or 1. If you plug either value back into x^2 - 3x + 2, the result is 0.',
+      ],
+    },
+    {
+      title: 'What each coefficient means',
+      paragraphs: [
+        'The coefficient a is the number attached to x^2. The coefficient b is the number attached to x. The constant c is the number without x.',
+        'Signs matter. In x^2 - 3x + 2 = 0, b is -3, not 3. In 2x^2 + 5x - 3 = 0, c is -3, not 3.',
+      ],
+      bullets: [
+        'If there is no written number before x^2, a is 1.',
+        'If the equation starts with -x^2, a is -1.',
+        'If a term is missing, enter 0 for that coefficient.',
+      ],
+    },
+    {
+      title: 'Rewrite the equation first',
+      paragraphs: [
+        'The quadratic formula expects everything on one side and 0 on the other. If your problem says x^2 = 3x - 2, move the right side over first so it becomes x^2 - 3x + 2 = 0.',
+        'This step is where many wrong answers start. Moving a term across the equals sign changes its sign, so 3x becomes -3x and -2 becomes +2.',
+      ],
+      bullets: [
+        'x^2 = 3x - 2 becomes x^2 - 3x + 2 = 0.',
+        '2x^2 + 5x = 3 becomes 2x^2 + 5x - 3 = 0.',
+        'x^2 + 2x = -5 becomes x^2 + 2x + 5 = 0.',
+      ],
+    },
+    {
+      title: 'Read the discriminant',
+      paragraphs: [
+        'The discriminant is b^2 - 4ac. It tells you what kind of roots the equation has before you even read the final root line.',
+        'A positive discriminant gives two real roots. A zero discriminant gives one repeated real root. A negative discriminant gives two complex roots with i.',
+      ],
+      bullets: [
+        'For x^2 - 3x + 2 = 0, the discriminant is 1, so there are two real roots.',
+        'For x^2 - 4x + 4 = 0, the discriminant is 0, so x = 2 is repeated.',
+        'For x^2 + 2x + 5 = 0, the discriminant is -16, so the roots are complex.',
+      ],
+    },
+    {
+      title: 'Complex roots are not an error',
+      paragraphs: [
+        'If the discriminant is negative, the square root part uses i, the imaginary unit. That does not mean the calculator failed. It means the parabola does not cross the x-axis.',
+        'For x^2 + 2x + 5 = 0, the calculator reports x = -1 +/- 2i. The matching graph detail still gives the vertex and axis, but there are no real x-intercepts.',
+      ],
+    },
+    {
+      title: 'Use the graph details',
+      paragraphs: [
+        'The roots tell you where the graph crosses the x-axis when real roots exist. The vertex tells you where the parabola reaches its highest or lowest point.',
+        'The axis of symmetry is x = -b / 2a. If a is positive, the parabola opens up. If a is negative, it opens down. The constant c is the y-intercept.',
+      ],
+      bullets: [
+        'Use roots when you need the zero points.',
+        'Use the vertex when you need the maximum or minimum point.',
+        'Use the axis of symmetry when you are sketching or checking a graph.',
+      ],
+    },
+    {
+      title: 'Check the roots before trusting them',
+      paragraphs: [
+        'A calculator can solve the equation you entered, but it cannot know whether you copied the original problem correctly. The fastest check is to plug each root back into the equation.',
+        'For decimal roots, tiny rounding differences are normal. A result like 0.0000001 is usually rounding noise, not a new answer, as long as the exact steps match the problem.',
+      ],
+      bullets: [
+        'Check that a is not 0.',
+        'Check every sign after moving terms to one side.',
+        'Check one root by substitution before turning in the answer.',
+      ],
+    },
+    {
+      title: 'Common mistakes',
+      paragraphs: [
+        'The biggest mistake is entering b or c with the wrong sign. The second is using the formula before the equation is equal to 0.',
+        'Another mistake is treating a missing term as blank instead of 0. If the equation is x^2 - 9 = 0, b is 0 and c is -9.',
+      ],
+      bullets: [
+        'Do not enter 3 for b when the equation has -3x.',
+        'Do not use the quadratic formula for a linear equation where a = 0.',
+        'Do not assume complex roots are wrong just because they include i.',
+      ],
+    },
+    {
+      title: 'When not to rely on it alone',
+      paragraphs: [
+        'The calculator is a math helper, not a full algebra tutor. It shows the formula path and graph details, but you still need to choose the right equation and interpret the result for your class, model, or graphing task.',
+        'If your problem is really about simplifying radicals, checking powers, or graphing a larger equation, use the nearby tools below instead of forcing everything through the quadratic formula.',
+      ],
+      links: [
+        { href: '/tools/root-calculator/', label: 'Use the Root Calculator when the square-root part is the main problem.' },
+        { href: '/tools/exponent-calculator/', label: 'Use the Exponent Calculator when you are checking powers before substitution.' },
+        { href: '/tools/scientific-calculator/', label: 'Use the Scientific Calculator for extra expression checks.' },
+      ],
+    },
+  ]}
+  faqItems={[
+    {
+      question: 'What form does the calculator need?',
+      answer:
+        'Use standard form: ax^2 + bx + c = 0. Move all terms to one side before entering a, b, and c.',
+    },
+    {
+      question: 'What if there is no x term?',
+      answer:
+        'Enter 0 for b. For example, x^2 - 9 = 0 has a = 1, b = 0, and c = -9.',
+    },
+    {
+      question: 'What if there is no constant term?',
+      answer:
+        'Enter 0 for c. For example, x^2 - 4x = 0 has a = 1, b = -4, and c = 0.',
+    },
+    {
+      question: 'Why does a have to be nonzero?',
+      answer:
+        'If a is 0, the x^2 term disappears and the equation is linear, not quadratic. The quadratic formula no longer applies.',
+    },
+    {
+      question: 'What does a negative discriminant mean?',
+      answer:
+        'It means the roots are complex. The graph does not cross the x-axis, but the equation still has two complex conjugate roots.',
+    },
+    {
+      question: 'How do I check a root?',
+      answer:
+        'Substitute the root into the original equation. If the left side equals 0, or is very close because of rounding, the root checks out.',
+    },
+    {
+      question: 'Can I use decimals and negative coefficients?',
+      answer:
+        'Yes. Decimals and negative coefficients work as long as you enter the signs correctly and keep the equation in standard form.',
+    },
+  ]}
+  bestUsesIntro="The Quadratic Formula Calculator is most useful when factoring is slow, the roots are decimals, the discriminant might be negative, or you need formula steps to show your work."
+  keepExploringIntro="If the equation check turns into a roots, powers, or graphing question, these nearby tools keep the work moving without changing the problem by accident."
+  sidecarText="Use the Quadratic Formula Calculator while you follow the coefficient, discriminant, and complex-root examples."
+/>
