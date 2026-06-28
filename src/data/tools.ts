@@ -2138,23 +2138,28 @@ const baseTools: ToolDefinition[] = [
     slug: 'probability-calculator',
     name: 'Probability Calculator',
     category: 'calculators',
-    summary: 'Calculate event union, intersection, complements, and independent-event probability.',
+    summary: 'Calculate P(A or B), P(A and B), complements, and independent-event probability checks.',
     description:
-      'Use this free probability calculator to find P(A and B), P(A or B), complements, independent-event intersections, steps, copy, and history.',
+      'Use this free probability calculator to find P(A or B), P(A and B), not A, not B, independent-event intersections, formula steps, copy, and history.',
     icon: 'calculator-probability',
     seoTitle: 'Probability Calculator | Union, Intersection, Complement',
     seoDescription:
-      'Use the free Access Free Tools probability calculator to calculate P(A and B), P(A or B), complements, independent events, and probability steps.',
+      'Use the free Access Free Tools probability calculator to calculate P(A or B), P(A and B), complements, independent events, and probability steps.',
     useCases: [
-      'Find the chance of A or B happening using the union rule.',
-      'Calculate complements such as not A or not B.',
-      'Assume independent events when no intersection is entered.',
-      'Check classroom probability examples and quick planning estimates.',
+      'Find the chance that A or B happens when you know both event probabilities.',
+      'Enter a known overlap when two events can happen together.',
+      'Leave the overlap blank when the events are independent.',
+      'Calculate complements such as not A and not B.',
+      'Catch impossible probability assumptions before copying an answer.',
+      'Check classroom probability examples, survey scenarios, and quick planning estimates.',
     ],
     examples: [
-      { label: 'Independent events', expression: 'P(A)=40%, P(B)=25%', result: 'P(A or B)=55%' },
+      { label: 'Independent events', expression: 'P(A)=40%, P(B)=25%, blank overlap', result: 'P(A and B)=10%; P(A or B)=55%' },
       { label: 'Known overlap', expression: 'P(A)=60%, P(B)=30%, P(A and B)=15%', result: 'P(A or B)=75%' },
       { label: 'Complement', expression: 'P(A)=40%', result: 'P(not A)=60%' },
+      { label: 'Mutually exclusive events', expression: 'P(A)=20%, P(B)=30%, P(A and B)=0%', result: 'P(A or B)=50%' },
+      { label: 'Large overlap', expression: 'P(A)=80%, P(B)=70%, P(A and B)=60%', result: 'P(A or B)=90%' },
+      { label: 'Decimal percentages', expression: 'P(A)=12.5%, P(B)=20%, blank overlap', result: 'P(A and B)=2.5%; P(A or B)=30%' },
     ],
     faq: [
       {
@@ -2173,14 +2178,49 @@ const baseTools: ToolDefinition[] = [
           'The calculator assumes the events are independent and uses P(A and B) = P(A) x P(B).',
       },
       {
+        question: 'When should I enter P(A and B)?',
+        answer:
+          'Enter P(A and B) when you already know the overlap, such as the percent of people who fit both groups or the chance that both events happen together.',
+      },
+      {
+        question: 'What are independent events?',
+        answer:
+          'Independent events do not change each other. If A happening does not affect B, the calculator can multiply P(A) by P(B) to estimate P(A and B).',
+      },
+      {
         question: 'What is a complement?',
         answer:
           'The complement of A is not A. Its probability is 1 - P(A), or 100% minus P(A) when using percentages.',
       },
       {
+        question: 'Can I enter decimal percentages?',
+        answer:
+          'Yes. You can enter values such as 12.5 or 0.75. The inputs are percentages, so 12.5 means 12.5%, not 0.125%.',
+      },
+      {
+        question: 'Why can the intersection not be larger than A or B?',
+        answer:
+          'The overlap cannot include more outcomes than either event by itself. If P(A) is 40%, P(A and B) cannot be 50%.',
+      },
+      {
         question: 'Can probabilities be more than 100%?',
         answer:
           'No. Each probability must be between 0% and 100%, and the final union cannot be more than 100%.',
+      },
+      {
+        question: 'Why does the calculator reject some overlaps?',
+        answer:
+          'Some entered probabilities contradict each other. For example, if the union would be greater than 100%, at least one input or overlap assumption is not possible.',
+      },
+      {
+        question: 'Can this predict what will happen?',
+        answer:
+          'No. It only applies probability formulas to the numbers you enter. Real-world outcomes still depend on whether your assumptions are accurate.',
+      },
+      {
+        question: 'Does this count dice, cards, or combinations for me?',
+        answer:
+          'No. First count favorable and total outcomes, then enter the resulting probabilities. Use the Permutation and Combination Calculator when the counting step is the hard part.',
       },
       {
         question: 'Is my probability history private?',

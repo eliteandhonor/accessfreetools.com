@@ -6653,17 +6653,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'probability-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-28',
+    reviewedOn: '2026-06-28',
     scope: commonMathScope,
     sources: [openStaxProbabilityCombinations, openStaxStatisticsSpread],
     findings: [
-      'The probability helper validates probability ranges and prevents impossible union probabilities.',
-      'Tests cover union, intersection, complement, and invalid union behavior.',
-      'The FAQ keeps probability as an estimate from entered assumptions, not a promise that an event will happen.',
+      'The probability helper validates percentage ranges, rejects impossible intersections, and prevents impossible union probabilities.',
+      'The visible examples now cover independent events, known overlap, complements, mutually exclusive events, large overlap, and decimal percentages.',
+      'The FAQ explains independent-event assumptions, entered overlap, complements, decimal percent inputs, impossible assumptions, counting limits, and tab-only privacy.',
     ],
     improvements: [
-      'Manually checked probability input rules, union/intersection wording, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Manually checked probability input rules, union/intersection wording, result-card labels, examples, FAQ detail, guide coverage, related links, SEO copy, modified date, artwork alt text, and privacy behavior.',
     ],
     followUps: [
       'Add dice/card preset calculators later only as separate focused tools with their own examples.',

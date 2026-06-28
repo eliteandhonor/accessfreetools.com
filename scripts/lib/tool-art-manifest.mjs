@@ -112,6 +112,18 @@ const toolArtMetadataOverrides = {
         'Prime Factorization Calculator guide artwork supports the walkthrough for prime factors, exponent form, factor pairs, input limits, and mistakes to avoid.',
     },
   },
+  'probability-calculator': {
+    tool: {
+      alt: 'Illustration for Probability Calculator showing P(A), P(B), overlap, union, and complement result cards.',
+      caption:
+        'Probability Calculator artwork matches the live workflow: enter P(A), P(B), and optional P(A and B), then check union, intersection, complements, and impossible-input limits.',
+    },
+    guide: {
+      alt: 'Guide image for Probability Calculator showing event overlap, independent-event multiplication, complements, and formula steps.',
+      caption:
+        'Probability Calculator guide artwork supports the walkthrough for union, intersection, complements, independent-event assumptions, examples, and mistakes to avoid.',
+    },
+  },
   'recipe-scaler': {
     guide: {
       alt: 'Guide image for Recipe Scaler showing one ingredient scaled from original servings to desired servings with example inputs and result notes.',
