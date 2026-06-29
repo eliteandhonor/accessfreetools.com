@@ -192,7 +192,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Sample Size Calculator',
     label: 'Sample size guide',
     summary:
-      'Learn how confidence level, margin of error, population proportion, and finite population size affect survey sample size.',
+      'Learn how to estimate completed survey responses with confidence level, margin of error, population proportion, finite population correction, and response-rate planning.',
   },
   {
     slug: 'how-to-use-probability-calculator',

@@ -7,30 +7,161 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="sample-size-calculator"
   label="Sample size guide"
   title="How to use the Sample Size Calculator"
-  description="Learn how to use the free Access Free Tools sample size calculator for confidence level, margin of error, population proportion, and finite population correction."
+  description="Use the Sample Size Calculator for survey response targets, confidence level, margin of error, population proportion, finite population correction, and planning limits."
   path="/blog/how-to-use-sample-size-calculator/"
-  intro="The Sample Size Calculator estimates how many responses you need for a proportion survey based on confidence level, margin of error, and expected proportion."
+  intro="Survey sample size is easy to mix up with invite count. The Sample Size Calculator estimates the completed responses you need for a population proportion, then shows the z-score, raw n, and finite-population adjusted n so you can see where the number came from."
   quickStart={[
-    'Choose a confidence level.',
-    'Enter the margin of error as a percentage.',
-    'Enter the estimated population proportion, often 50% when unknown.',
-    'Add a finite population size only when the population is limited.',
+    'Choose a confidence level such as 90%, 95%, 98%, or 99%.',
+    'Enter the margin of error as a whole percentage. Type 5 for 5%, not 0.05.',
+    'Enter the expected population proportion as a whole percentage. Use 50% when you do not know it yet.',
+    'Add population size only when the full group is known and limited.',
+    'Press Calculate sample size, then read Required sample size, Z-score, Raw n, and Adjusted n together.',
   ]}
   sections={[
     {
-      title: 'What the inputs mean',
+      title: 'Quick answer',
       paragraphs: [
-        'Higher confidence levels usually require a larger sample. Smaller margins of error also require a larger sample.',
-        'The estimated proportion is the expected percent of people with the answer or trait you are measuring. If you do not know it, 50% is the conservative default.',
+        'For a common proportion survey at 95% confidence, 5% margin of error, and 50% expected proportion, the calculator returns 385 completed responses. That is the response count after rounding up from raw n = 384.16.',
+        'If the total population is only 1,000 people, the finite population correction lowers the answer to 278 completed responses. The tool shows both numbers so you can tell whether the population-size field changed the result.',
+      ],
+      links: [
+        {
+          href: '/tools/sample-size-calculator/',
+          label: 'Open the Sample Size Calculator while you follow this guide',
+        },
       ],
     },
     {
-      title: 'Finite population correction',
+      title: 'What each input means',
       paragraphs: [
-        'If the total population is small and known, enter it to apply a finite population adjustment.',
-        'If the audience is very large or unknown, leave population size blank and use the standard large-population estimate.',
+        'Confidence level controls the z-score. The calculator supports 80%, 85%, 90%, 95%, 98%, and 99%. Higher confidence uses a larger z-score, so it usually asks for more responses.',
+        'Margin of error is the plus-or-minus percentage points you can tolerate for the estimate. A 5% margin means about plus or minus 5 percentage points, not 5% more or less than the answer.',
+        'Population proportion is the expected share of people with the answer or trait you are measuring. If you have no earlier data, 50% is the conservative default because it usually gives the largest sample size.',
+      ],
+      bullets: [
+        'Use 95% confidence when your assignment or report does not specify another level.',
+        'Type 5 for a 5% margin of error.',
+        'Type 20 for a 20% expected yes rate.',
+        'Leave population size blank when the audience is large, unknown, or not truly limited.',
+      ],
+    },
+    {
+      title: 'Formula behind the result',
+      paragraphs: [
+        'The large-population formula is raw n = z^2 x p x (1 - p) / e^2. In that formula, p is the expected population proportion as a decimal, e is the margin of error as a decimal, and z comes from the confidence level.',
+        'For the 95%, 5%, 50% example, the calculator uses z = 1.96, p = 0.50, and e = 0.05. That gives raw n = 384.16, then the required sample size rounds up to 385.',
+        'When you enter a finite population size, the calculator uses adjusted n = raw n / (1 + (raw n - 1) / population size). The final required sample size rounds the adjusted n up.',
+      ],
+    },
+    {
+      title: 'Example: common 95% survey',
+      paragraphs: [
+        'Imagine you want a quick survey estimate and do not know the likely yes rate. Choose 95% confidence, enter 5 for margin of error, enter 50 for population proportion, and leave population size blank.',
+        'The calculator returns Required sample size = 385, Z-score = 1.96, and Raw n = 384.16. A careful note would be: this plan needs about 385 completed responses for a simple proportion estimate at 95% confidence and 5 percentage points of margin under the formula assumptions.',
+        'The word completed matters. If only one in four people usually finishes the survey, 385 completed responses may require about 1,540 invitations.',
+      ],
+    },
+    {
+      title: 'Example: finite population correction',
+      paragraphs: [
+        'Now suppose the total audience is 1,000 members. Use the same 95%, 5%, and 50% inputs, then enter 1000 for population size.',
+        'Raw n stays 384.16, but adjusted n becomes about 277.74, so the required sample size rounds up to 278. The correction matters because 278 responses are a large share of a 1,000-person group.',
+        'With a population of 300, the same settings give adjusted n about 168.70, so the required sample size is 169. When the population is small and known, the population-size field can change the planning number a lot.',
+      ],
+    },
+    {
+      title: 'How confidence and margin change the answer',
+      paragraphs: [
+        'Higher confidence makes the answer larger because the z-score gets larger. With 99% confidence, 5% margin, and 50% proportion, the calculator returns 664 instead of 385.',
+        'A wider margin of error makes the answer smaller because the estimate is allowed to be less precise. With 95% confidence, 10% margin, and 50% proportion, the calculator returns 97.',
+        'Do not choose a lower confidence level or wider margin only because the sample size is easier. Use the level your class, report, client, or research plan actually needs.',
+      ],
+    },
+    {
+      title: 'How the proportion estimate changes the answer',
+      paragraphs: [
+        'The 50% default is conservative for a yes/no or share estimate. It creates the most spread in p x (1 - p), so it usually asks for the most responses.',
+        'If earlier data suggests the true share is near 20%, use 20 instead. At 95% confidence and 5% margin, 20% proportion gives a required sample size of 246.',
+        'Use a real prior estimate when you have one. Use 50% when you are planning before any trustworthy clue exists.',
+      ],
+    },
+    {
+      title: 'Plan beyond the completed-response number',
+      paragraphs: [
+        'The calculator estimates completed responses. It does not estimate how many people you must invite, how many will qualify, or how many will drop out.',
+        'If you need 385 completed responses and expect a 25% response rate, divide 385 by 0.25. That gives about 1,540 invitations before you account for screening, bad addresses, or quota balancing.',
+        'Subgroups need their own planning too. If you need reliable results by region, age group, product tier, or customer type, make sure each subgroup has enough completed responses instead of trusting the total sample alone.',
+      ],
+      links: [
+        {
+          href: '/tools/confidence-interval-calculator/',
+          label: 'Use the Confidence Interval Calculator after the survey has results',
+        },
+        {
+          href: '/tools/statistics-calculator/',
+          label: 'Use the Statistics Calculator for a broader data summary',
+        },
+      ],
+    },
+    {
+      title: 'Common mistakes and limits',
+      paragraphs: [
+        'The most common input mistake is typing decimals into percentage fields. Type 5 for 5% margin of error and 50 for 50% proportion. Typing 0.05 means 0.05%, which asks for a much larger sample.',
+        'The biggest interpretation mistake is treating sample size as a guarantee of survey quality. A large sample can still be biased if the wrong people answer, if many people ignore the survey, or if the questions push people toward an answer.',
+      ],
+      bullets: [
+        'Do not use this calculator for sample means or averages. It is for population proportions.',
+        'Do not count partial, duplicate, screened-out, or low-quality responses as completed responses.',
+        'Do not ignore nonresponse, weighting, clustering, stratification, or design effects when your survey method needs them.',
+        'Do not use the finite population field unless the population size is real and limited.',
+      ],
+    },
+    {
+      title: 'When this calculator is not enough',
+      paragraphs: [
+        'This is a planning calculator for common proportion surveys. It is useful for quick response targets, classroom examples, polls, and simple yes/no or share estimates.',
+        'Professional survey design may need design effects, quota rules, weighting, stratified sampling, panel-quality checks, nonresponse adjustments, or different formulas. If the result affects a high-stakes decision, treat this calculator as a starting estimate, not the whole research plan.',
       ],
     },
   ]}
-  sidecarText="Use the Sample Size Calculator while you follow the guide."
+  faqItems={[
+    {
+      question: 'What is the fastest way to use the Sample Size Calculator?',
+      answer:
+        'Choose a confidence level, enter margin of error and expected proportion as whole percentages, optionally enter a finite population size, and calculate. Then read Required sample size, Raw n, and Adjusted n together.',
+    },
+    {
+      question: 'What formula does the guide use?',
+      answer:
+        'It uses raw n = z^2 x p x (1 - p) / e^2 for a population proportion. When population size is entered, it applies adjusted n = raw n / (1 + (raw n - 1) / population size).',
+    },
+    {
+      question: 'Should I enter 5 or 0.05 for margin of error?',
+      answer:
+        'Enter 5 for a 5% margin of error. The calculator fields use whole percent values, so 0.05 would mean 0.05%, not 5%.',
+    },
+    {
+      question: 'What is the difference between Raw n and Adjusted n?',
+      answer:
+        'Raw n is the large-population estimate. Adjusted n is the finite-population corrected estimate when you enter a known population size. The required sample size rounds the active estimate up.',
+    },
+    {
+      question: 'Does required sample size mean invitations?',
+      answer:
+        'No. It means completed responses. If you expect a 25% response rate, multiply the completed-response target by four before thinking about invitations.',
+    },
+    {
+      question: 'Why does 50% proportion usually give the largest answer?',
+      answer:
+        'A 50% proportion has the most uncertainty in p x (1 - p). Proportions closer to 0% or 100% have less spread, so the formula usually needs fewer responses.',
+    },
+    {
+      question: 'When should I not rely on this sample size alone?',
+      answer:
+        'Do not rely on it alone when the sample is biased, the survey has heavy nonresponse, subgroup estimates matter, or the design needs clustering, stratification, weighting, or a professional research plan.',
+    },
+  ]}
+  bestUsesIntro="Use this guide when you need a completed-response target for a proportion survey and want to understand how confidence, margin of error, expected proportion, and finite population size move the answer."
+  keepExploringIntro="If the sample-size estimate is only one step in your statistics workflow, these nearby tools help with the next check."
+  sidecarText="Use the Sample Size Calculator while you follow the examples and compare Raw n with Adjusted n."
 />
