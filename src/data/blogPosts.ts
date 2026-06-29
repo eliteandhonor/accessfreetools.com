@@ -66,7 +66,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Root Calculator',
     label: 'Root calculator guide',
     summary:
-      'Learn how to calculate square roots, cube roots, nth roots, exponent form, negative radicands, and real-number root checks.',
+      'Learn square roots, cube roots, nth roots, decimal radicands, exponent form, power checks, negative-root limits, and common mistakes.',
   },
   {
     slug: 'how-to-use-quadratic-formula-calculator',

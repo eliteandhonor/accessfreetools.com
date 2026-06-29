@@ -1,150 +1,146 @@
 ---
 export const prerender = true;
-import BaseLayout from '../../components/BaseLayout.astro';
-import ToolArtFigure from '../../components/ToolArtFigure.astro';
-import { getTool } from '../../data/tools';
-import { getToolArt } from '../../data/toolArt';
-
-const rootCalculator = getTool('root-calculator');
-const guideArt = getToolArt('root-calculator', 'guide');
-const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
-const examples = rootCalculator?.examples ?? [];
-const articleStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: 'How to use the Root Calculator',
-  description:
-    'Use the Access Free Tools root calculator for square roots, cube roots, nth roots, exponent form, negative radicands, history, and privacy.',
-  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-root-calculator/',
-  image: guideImageUrl,
-  datePublished: '2026-04-30',
-  dateModified: '2026-04-30',
-  author: {
-    '@type': 'Organization',
-    name: 'Access Free Tools',
-    url: 'https://accessfreetools.com/about/',
-  },
-  publisher: {
-    '@type': 'Organization',
-    name: 'Access Free Tools',
-  },
-};
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
 ---
 
-<BaseLayout
-  title="How to use the Root Calculator | Access Free Tools"
-  description="Learn how to use the free Access Free Tools root calculator for square roots, cube roots, nth roots, exponent form, negative radicands, steps, history, and privacy."
+<CalculatorGuideArticle
+  toolSlug="root-calculator"
+  label="Root calculator guide"
+  title="How to use the Root Calculator"
+  description="Learn how to calculate square roots, cube roots, nth roots, decimal roots, exponent form, power checks, and real-number negative-root limits."
   path="/blog/how-to-use-root-calculator/"
-  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
-  socialImageAlt={guideArt?.alt}
->
-  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
-
-  <article class="blog-article">
-    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Root Calculator Guide</p>
-
-    <header class="blog-article-header">
-      <span>Root calculator guide</span>
-      <h1>How to use the Root Calculator</h1>
-      <p>
-        The Root Calculator finds square roots, cube roots, and nth roots. It shows the exponent
-        form, a power check, and steps so the answer is easier to understand.
-      </p>
-      <a class="button-primary" href="/tools/root-calculator/">Open the root calculator</a>
-    </header>
-
-    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
-
-    <div class="blog-article-layout">
-      <div class="blog-article-body">
-        <section class="content-section">
-          <h2>Quick start</h2>
-          <ol class="instruction-list">
-            <li>Enter the radicand, which is the number inside the root.</li>
-            <li>Enter the root index, such as 2 for square root or 3 for cube root.</li>
-            <li>Press Calculate root.</li>
-            <li>Review the answer, exponent form, power check, and steps.</li>
-            <li>Use examples, recent answers, or Copy answer while checking root problems.</li>
-          </ol>
-        </section>
-
-        <section class="content-section">
-          <h2>What roots mean</h2>
-          <p>
-            A root asks what number can be raised to a power to return the radicand. For example,
-            root_2(144) equals 12 because 12^2 equals 144.
-          </p>
-          <p>
-            A cube root asks for a number that returns the radicand when cubed. root_3(125) equals
-            5 because 5^3 equals 125.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>Exponent form</h2>
-          <p>
-            Roots can be rewritten as rational exponents. The nth root of x is the same as x^(1/n).
-            That is why root_4(81) can also be written as 81^(1/4).
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>Negative radicands</h2>
-          <p>
-            Odd roots of negative numbers can have real-number answers. For example, root_3(-125)
-            equals -5 because -5 cubed equals -125.
-          </p>
-          <p>
-            Even roots of negative numbers are not real numbers. The calculator will show an error
-            for cases such as root_2(-16).
-          </p>
-        </section>
-
-        {examples.length > 0 && (
-          <section class="content-section">
-            <h2>Examples from the root calculator</h2>
-            <div class="example-grid">
-              {examples.map((example) => (
-                <article>
-                  <span>{example.label}</span>
-                  <strong>{example.expression}</strong>
-                  <p>{example.result}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <section class="content-section">
-          <h2>Common mistakes</h2>
-          <p>
-            Use a whole-number root index. Index 2 means square root, index 3 means cube root, and
-            larger whole numbers are nth roots.
-          </p>
-          <p>
-            Check whether the answer is exact or rounded. Some roots, such as root_2(2), are
-            irrational and will appear as a decimal approximation.
-          </p>
-        </section>
-
-        <section class="content-section">
-          <h2>History, privacy, and copying</h2>
-          <p>
-            Recent root answers stay visible in the page while you work. The history is kept only in
-            the current browser tab and is not sent to a server.
-          </p>
-          <p>
-            Copy answer copies the root expression and result so you can paste it into notes,
-            homework, a message, or another document.
-          </p>
-        </section>
-      </div>
-
-      <aside class="article-sidecar">
-        <h2>Open the tool</h2>
-        <p>Use the root calculator while you follow the guide.</p>
-        <a class="button-primary" href="/tools/root-calculator/">Root Calculator</a>
-      </aside>
-    </div>
-  </article>
-</BaseLayout>
+  intro="Use the Root Calculator when you need to undo a power and check what the answer really means. It works for square roots, cube roots, nth roots, decimal radicands, exponent form, and real-number rules for negative numbers."
+  quickStart={[
+    'Enter the radicand, which is the number inside the root.',
+    'Enter a whole-number root index of 2 or higher.',
+    'Use 2 for square root, 3 for cube root, 4 for fourth root, and so on.',
+    'Press Calculate root.',
+    'Read the answer, exponent form, power check, root type, and steps together.',
+    'If a negative number fails, check whether you used an even root index.',
+  ]}
+  sections={[
+    {
+      title: 'Quick answer',
+      paragraphs: [
+        'A root asks which number can be raised to a power to get back to the radicand. If the page says root_2(144) = 12, the check is 12^2 = 144.',
+        'The Root Calculator is useful because it does more than give the final number. It also shows exponent form and a power check, so you can see why the answer fits.',
+      ],
+    },
+    {
+      title: 'What the inputs mean',
+      paragraphs: [
+        'The radicand is the number inside the root. In root_3(125), the radicand is 125.',
+        'The root index tells which power you are undoing. Index 2 means square root, index 3 means cube root, index 5 means fifth root, and so on.',
+        'Keep the root index as a whole number. This calculator is built for real-number nth roots such as square roots, cube roots, fourth roots, and fifth roots, not decimal-index roots.',
+      ],
+    },
+    {
+      title: 'How the calculator math works',
+      paragraphs: [
+        'The calculator rewrites the nth root of x as x^(1/n). That is why the fourth root of 81 can also be read as 81^(1/4).',
+        'After it finds the answer, the power check raises the answer back to the root index. For root_5(32), the result is 2, and the check is 2^5 = 32.',
+        'This power check is the fastest way to catch a copied answer that looks right but does not actually return the starting number.',
+      ],
+    },
+    {
+      title: 'Example: square root of 144',
+      paragraphs: [
+        'Enter 144 as the radicand and 2 as the root index. The calculator returns 12 because 12^2 = 144.',
+        'This is an exact square root. The result does not need rounding, and the power check lands exactly back on the original radicand.',
+      ],
+    },
+    {
+      title: 'Example: cube root of a negative number',
+      paragraphs: [
+        'Enter -125 as the radicand and 3 as the root index. The result is -5 because (-5)^3 = -125.',
+        'Odd roots can keep the negative sign in real-number math. That is why cube roots, fifth roots, and other odd roots can work with negative radicands.',
+      ],
+    },
+    {
+      title: 'Example: decimal radicands and fifth roots',
+      paragraphs: [
+        'Decimal radicands are allowed when the result is a real number. For example, root_3(0.008) returns 0.2 because 0.2^3 = 0.008.',
+        'Fifth roots work the same way. root_5(32) returns 2 because 2^5 = 32. The index changes the power check, not the basic idea.',
+      ],
+    },
+    {
+      title: 'Even roots of negative numbers',
+      paragraphs: [
+        'An even power is never negative in real-number math. Squaring 4 gives 16, and squaring -4 also gives 16.',
+        'That is why root_2(-16) has no real-number answer on this page. If you need complex-number answers such as 4i, this simple real-number calculator is not the right mode yet.',
+      ],
+    },
+    {
+      title: 'Exact answers versus decimal approximations',
+      paragraphs: [
+        'Some roots land cleanly on whole numbers, like root_2(144) = 12 or root_4(81) = 3. These are exact roots.',
+        'Other roots do not land on a neat whole number. root_2(2) is about 1.41421356, so the calculator returns a decimal approximation. Use the power check and your assignment rules to decide how many decimals to keep.',
+      ],
+    },
+    {
+      title: 'Mistakes and limits to check',
+      paragraphs: [
+        'Most bad root answers come from a small input mismatch, not from hard math. Check these before copying the result.',
+      ],
+      bullets: [
+        'Do not type the exponent where the root index belongs. The root index is the small number on the root sign.',
+        'Use index 2 for square root even when the small 2 is not written in class notes.',
+        'Use an odd index for negative radicands when you need a real-number answer.',
+        'Do not round too early if the root is part of a longer problem.',
+        'Check decimal placement carefully. The cube root of 0.008 is 0.2, not 2.',
+        'Use the power check before trusting a pasted answer.',
+      ],
+    },
+    {
+      title: 'When another tool fits better',
+      paragraphs: [
+        'Use the Exponent Calculator when you already know the base and exponent and want to raise a number to a power.',
+        'Use the Scientific Calculator when the root is only one part of a longer expression with trig, logs, constants, or several operations.',
+      ],
+      links: [
+        { href: '/tools/exponent-calculator/', label: 'Exponent Calculator' },
+        { href: '/tools/scientific-calculator/', label: 'Scientific Calculator' },
+      ],
+    },
+  ]}
+  faqItems={[
+    {
+      question: 'What is the fastest way to check a root answer?',
+      answer:
+        'Raise the answer to the root index. If the result returns the radicand, the root answer matches the input.',
+    },
+    {
+      question: 'Why does the calculator show exponent form?',
+      answer:
+        'Exponent form shows the same root as a rational exponent. The nth root of x is x^(1/n), so it connects root notation with exponent rules.',
+    },
+    {
+      question: 'Can I use this for cube roots of negative numbers?',
+      answer:
+        'Yes. Odd roots of negative numbers can have real-number answers. For example, root_3(-125) returns -5.',
+    },
+    {
+      question: 'Why does an even root of a negative number fail?',
+      answer:
+        'Even powers do not create negative real numbers. That is why square roots and fourth roots of negative radicands are blocked on this real-number calculator.',
+    },
+    {
+      question: 'Can the radicand be a decimal?',
+      answer:
+        'Yes. Decimal radicands work when the root has a real-number answer, such as root_3(0.008) = 0.2.',
+    },
+    {
+      question: 'Can the root index be a decimal?',
+      answer:
+        'No. Use a whole-number index of 2 or higher, such as 2, 3, 4, or 5.',
+    },
+    {
+      question: 'When should I avoid relying on this result?',
+      answer:
+        'Do not rely on it for complex-number roots, proof-heavy algebra, or official work where your teacher, software, or form requires a specific rounding rule.',
+    },
+  ]}
+  sidecarText="Open the Root Calculator while you follow the examples, then compare each answer with the exponent form and power check."
+  bestUsesIntro="Use this guide when you need to understand the root answer, not just copy the final number."
+  keepExploringIntro="If the root is part of a bigger math task, these nearby tools keep you close to the same problem."
+/>
