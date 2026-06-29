@@ -2251,11 +2251,16 @@ const baseTools: ToolDefinition[] = [
       'Compare 90%, 95%, 98%, and 99% confidence levels.',
       'Use 50% estimated proportion for a conservative planning estimate.',
       'Apply finite population correction when the total population is known.',
+      'See how a wider margin of error lowers the required response count.',
+      'Plan rough response targets before accounting for nonresponse or screening.',
     ],
     examples: [
       { label: 'Common survey', expression: '95%, 5% margin, 50% proportion', result: '385' },
       { label: 'Finite population', expression: '95%, 5%, 50%, population 1,000', result: '278' },
       { label: 'Higher confidence', expression: '99%, 5%, 50%', result: '664' },
+      { label: 'Wider margin', expression: '95%, 10%, 50%', result: '97' },
+      { label: 'Estimated 20% yes rate', expression: '95%, 5%, 20% proportion', result: '246' },
+      { label: 'Small audience', expression: '95%, 5%, 50%, population 300', result: '169' },
     ],
     faq: [
       {
@@ -2264,9 +2269,29 @@ const baseTools: ToolDefinition[] = [
           'It estimates sample size for a population proportion, which is common for surveys, polls, yes/no questions, and percentage estimates.',
       },
       {
+        question: 'What do the main Sample Size Calculator inputs mean?',
+        answer:
+          'Confidence level controls the z-score, margin of error is the plus-or-minus percentage you can tolerate, population proportion is the expected yes/share percentage, and optional population size applies finite population correction.',
+      },
+      {
+        question: 'Should I enter 5 or 0.05 for margin of error?',
+        answer:
+          'Enter percentages as whole percent values. For a 5% margin of error, type 5. For an expected 20% response proportion, type 20.',
+      },
+      {
+        question: 'How should I read the Sample Size Calculator answer?',
+        answer:
+          'The required sample size is the completed response count after rounding up. Raw n is the open-population estimate, and adjusted n shows the finite-population corrected value when you enter a population size.',
+      },
+      {
         question: 'What should I enter for population proportion?',
         answer:
           'Use your best estimate. If you are unsure, use 50%, which gives the most conservative and usually largest sample size.',
+      },
+      {
+        question: 'Why does 50% give the largest sample size?',
+        answer:
+          'A 50% proportion has the most uncertainty for a yes/no estimate. Proportions closer to 0% or 100% have less spread, so the formula usually needs fewer responses.',
       },
       {
         question: 'What is margin of error?',
@@ -2274,9 +2299,19 @@ const baseTools: ToolDefinition[] = [
           'Margin of error is the maximum difference you are planning to tolerate between the sample estimate and the true population proportion.',
       },
       {
+        question: 'Why does a smaller margin of error need more responses?',
+        answer:
+          'A tighter margin of error asks the survey to estimate the true proportion more precisely. Precision costs sample size, so moving from 10% to 5% margin usually increases the required responses a lot.',
+      },
+      {
         question: 'What does finite population correction do?',
         answer:
           'When the total population is known, finite population correction can reduce the required sample size because the sample is a larger share of the whole group.',
+      },
+      {
+        question: 'What should I double-check before trusting the Sample Size Calculator?',
+        answer:
+          'Check that your sample will be reasonably random or representative, that you planned for nonresponse, that subgroups have enough responses, and that design effects or weighting are not needed for your survey method.',
       },
       {
         question: 'Can this replace professional survey design?',

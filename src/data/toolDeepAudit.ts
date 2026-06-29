@@ -6673,20 +6673,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'sample-size-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-29',
+    reviewedOn: '2026-06-29',
     scope: commonMathScope,
     sources: [openStaxConfidenceIntervals, openStaxStandardNormal],
     findings: [
-      'The sample-size helper supports common confidence levels, margin of error, response proportion, and optional finite-population correction.',
+      'The sample-size helper supports common confidence levels, margin of error, expected proportion, optional finite-population correction, raw n, adjusted n, and required completed responses.',
       'Tests cover open-population and finite-population results.',
-      'The FAQ explains that sample size depends on assumptions and is not proof that a survey is unbiased.',
+      'The examples now cover common 95% planning, finite population correction, 99% confidence, wider margin of error, lower expected proportion, and a small known audience.',
+      'The FAQ explains the main inputs, whole-percent entry, raw versus adjusted n, conservative 50% proportion, margin-of-error tradeoffs, nonresponse/design-effect cautions, and tab-only privacy.',
     ],
     improvements: [
-      'Manually checked sample-size formula assumptions, finite-population wording, examples, FAQ detail, guide coverage, source coverage, SEO copy, and privacy behavior.',
+      'Refreshed sample-size SEO examples, FAQ depth, result-reading language, double-check guidance, finite-population wording, modified date, artwork alt text, and current local proof requirements.',
     ],
     followUps: [
-      'Add survey-bias warnings near the result later if this page attracts research or polling traffic.',
+      'Add design-effect or response-rate planning modes only after adding clear UI copy and calculator tests.',
     ],
   },
   {

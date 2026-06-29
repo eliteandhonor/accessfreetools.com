@@ -24,6 +24,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'quadratic-formula-calculator': '2026-06-28',
   'root-calculator': '2026-06-29',
   'rounding-calculator': '2026-06-29',
+  'sample-size-calculator': '2026-06-29',
   'percentage-calculator': '2026-06-02',
   'average-calculator': '2026-06-26',
   'ratio-calculator': '2026-06-02',

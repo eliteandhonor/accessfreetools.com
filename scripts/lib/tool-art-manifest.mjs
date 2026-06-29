@@ -95,6 +95,18 @@ const toolArtMetadataOverrides = {
         'Rounding Calculator guide artwork supports the walkthrough for decimal places, significant figures, place values, method choices, examples, limits, and result notes.',
     },
   },
+  'sample-size-calculator': {
+    tool: {
+      alt: 'Illustration for Sample Size Calculator showing survey responses, confidence level, margin of error, and population proportion.',
+      caption:
+        'Sample Size Calculator artwork matches the live workflow: choose confidence level, margin of error, expected proportion, and optional population size, then read required responses, raw n, and adjusted n.',
+    },
+    guide: {
+      alt: 'Guide image for Sample Size Calculator showing survey sample planning, finite population correction, and response-count examples.',
+      caption:
+        'Sample Size Calculator guide artwork supports the walkthrough for confidence level, margin of error, expected proportion, finite population correction, examples, limits, and survey-planning cautions.',
+    },
+  },
   'p-value-calculator': {
     tool: {
       alt: 'Illustration for P-value Calculator showing a z-score, normal-curve tail areas, and p-value result notes.',
