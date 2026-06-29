@@ -744,34 +744,51 @@ const baseTools: ToolDefinition[] = [
     slug: 'root-calculator',
     name: 'Root Calculator',
     category: 'calculators',
-    summary: 'Calculate square roots, cube roots, nth roots, exponent form, and steps.',
+    summary: 'Calculate square roots, cube roots, nth roots, exponent form, real-number rules.',
     description:
-      'Use this free root calculator to find square roots, cube roots, and nth roots with real-number guardrails, exponent form, power checks, examples, and steps.',
+      'Use this free root calculator to find square roots, cube roots, and nth roots with real-number guardrails, exponent form, power checks, decimal examples, and steps.',
     icon: 'calculator-root',
     seoTitle: 'Root Calculator | Free Online Nth Root Calculator',
     seoDescription:
-      'Use the free Access Free Tools root calculator to calculate square roots, cube roots, and nth roots with exponent form, power checks, and step-by-step work.',
+      'Use the free Access Free Tools root calculator to calculate square roots, cube roots, and nth roots with exponent form, power checks, negative-number rules, and steps.',
     useCases: [
       'Find square roots and cube roots for math, science, and study problems.',
-      'Calculate nth roots such as fourth roots or fifth roots.',
+      'Calculate nth roots such as fourth roots, fifth roots, and higher whole-number roots.',
       'Convert root notation into rational exponent form.',
       'Check whether a negative radicand has a real-number root.',
+      'Check decimal roots such as the cube root of 0.008.',
+      'Raise the answer back to the root index to verify the power check.',
     ],
     examples: [
       {
         label: 'Square root',
         expression: 'root_2(144)',
-        result: '12',
+        result: '12 because 12^2 = 144',
       },
       {
         label: 'Cube root',
         expression: 'root_3(-125)',
-        result: '-5',
+        result: '-5 because (-5)^3 = -125',
       },
       {
         label: 'Fourth root',
         expression: 'root_4(81)',
-        result: '3',
+        result: '3 because 3^4 = 81',
+      },
+      {
+        label: 'Fifth root',
+        expression: 'root_5(32)',
+        result: '2 because 2^5 = 32',
+      },
+      {
+        label: 'Decimal cube root',
+        expression: 'root_3(0.008)',
+        result: '0.2 because 0.2^3 = 0.008',
+      },
+      {
+        label: 'Even root of a negative',
+        expression: 'root_2(-16)',
+        result: 'No real-number result',
       },
     ],
     faq: [
@@ -786,9 +803,19 @@ const baseTools: ToolDefinition[] = [
           'A square root uses index 2, so the answer squared returns the radicand. A cube root uses index 3, so the answer cubed returns the radicand.',
       },
       {
+        question: 'What do radicand and root index mean?',
+        answer:
+          'The radicand is the number inside the root. The root index tells which power to undo: index 2 is square root, index 3 is cube root, index 4 is fourth root, and so on.',
+      },
+      {
         question: 'Can this calculator handle negative numbers?',
         answer:
           'It can calculate real odd roots of negative numbers, such as root_3(-125) = -5. Even roots of negative numbers are not real numbers, so the calculator shows an error.',
+      },
+      {
+        question: 'Why does an even root of a negative number fail?',
+        answer:
+          'In real numbers, an even power is never negative. That is why root_2(-16) and root_4(-81) do not have real-number answers on this page.',
       },
       {
         question: 'How are roots related to exponents?',
@@ -796,9 +823,24 @@ const baseTools: ToolDefinition[] = [
           'A root can be rewritten as a rational exponent. The nth root of x is the same as x^(1/n).',
       },
       {
+        question: 'How can I check a root answer?',
+        answer:
+          'Raise the answer to the root index. If root_5(32) returns 2, check it by calculating 2^5, which gives 32.',
+      },
+      {
+        question: 'Why are some root answers decimals?',
+        answer:
+          'Some roots do not land on a whole number. For example, root_2(2) is about 1.41421356, so the calculator gives a decimal approximation.',
+      },
+      {
         question: 'Can the root index be a decimal?',
         answer:
-          'No. This calculator uses whole-number root indexes, such as 2, 3, 4, or 5.',
+          'No. This calculator uses positive whole-number root indexes of 2 or higher, such as 2, 3, 4, or 5.',
+      },
+      {
+        question: 'Can I enter decimal radicands?',
+        answer:
+          'Yes. Decimal radicands work when the root has a real-number answer. The cube root of 0.008 is 0.2 because 0.2^3 = 0.008.',
       },
       {
         question: 'Is my root calculation history private?',

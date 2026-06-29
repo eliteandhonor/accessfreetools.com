@@ -2615,17 +2615,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'root-calculator',
     status: 'deep-reviewed',
-    batch: 'math-foundations-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-29',
+    reviewedOn: '2026-06-29',
     scope: commonMathScope,
     sources: [openStaxRadicals, openStaxQuadratics],
     findings: [
-      'The calculator correctly treats roots as rational exponent relationships.',
-      'The real-number guardrail for even roots of negative numbers is important and should stay visible.',
-      'Examples cover square, cube, and fourth roots, which is enough for a first learning path.',
+      'The calculator correctly treats roots as rational exponent relationships and shows exponent form plus a power check.',
+      'The real-number guardrail for even roots of negative numbers is important and stays visible in the page copy and FAQ.',
+      'Examples now cover square, cube, fourth, fifth, decimal, and invalid even-negative root cases.',
     ],
     improvements: [
-      'Reviewed input terms, FAQ coverage, examples, and related links for real-number root behavior.',
+      'Updated Root Calculator metadata, use cases, six examples, FAQ depth, negative-radicand rules, decimal-radicand guidance, power-check wording, modified date, and audit notes with current paid competitor and DataForSEO evidence.',
     ],
     followUps: [
       'Consider adding complex even roots as an advanced mode later.',
