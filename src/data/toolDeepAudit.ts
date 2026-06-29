@@ -6882,17 +6882,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'right-triangle-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-06-29',
+    reviewedOn: '2026-06-29',
     scope: commonMathScope,
     sources: [openStaxGeometry, openStaxRadicals],
     findings: [
-      'The right-triangle helper supports leg/hypotenuse style solving and reports area, perimeter, and angle-adjacent information for the solved triangle.',
-      'Tests cover a 5-12-13 style right-triangle case.',
-      'The FAQ separates right-triangle work from general triangle solving.',
+      'The right-triangle helper supports two-leg and leg-plus-hypotenuse solving, rejects impossible hypotenuse inputs, and reports missing side, hypotenuse, area, perimeter, acute angles, and formula steps.',
+      'The page now includes six examples covering 9-12-15, 5-12-13, 3-4-5, construction diagonals, decimal sides, and invalid hypotenuse checks.',
+      'The FAQ explains formulas, angle estimates, area, perimeter, hypotenuse identification, units, rounding, Triangle Calculator/Pythagorean Calculator boundaries, real-corner limits, and tab-only privacy.',
     ],
     improvements: [
-      'Manually checked right-triangle inputs, solved side labels, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Refreshed the tool metadata, SEO title and description, use cases, examples, FAQ detail, trust limits, modified date, and proof scope for the controlled all-pages SEO sprint.',
     ],
     followUps: [
       'Add trigonometry angle modes later only with DEG/RAD wording and tests.',

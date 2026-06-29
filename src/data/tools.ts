@@ -3283,39 +3283,49 @@ const baseTools: ToolDefinition[] = [
     slug: 'right-triangle-calculator',
     name: 'Right Triangle Calculator',
     category: 'calculators',
-    summary: 'Solve right triangle sides, area, perimeter, and acute angles.',
+    summary: 'Solve a right triangle from two sides, including the missing side, area, perimeter, and acute angles.',
     description:
-      'Use this free right triangle calculator to enter two sides and find the missing side, area, perimeter, hypotenuse, and acute angles.',
+      'Use this free right triangle calculator to enter two known sides and find the missing side, hypotenuse, area, perimeter, acute angles, formula steps, and private recent answers.',
     icon: 'calculator-right-triangle',
-    seoTitle: 'Right Triangle Calculator | Sides, Area, Angles',
+    seoTitle: 'Right Triangle Calculator | Sides, Area, Perimeter, Angles',
     seoDescription:
-      'Solve right triangle sides, hypotenuse, area, perimeter, and acute angles from two known sides with formula steps.',
+      'Solve a right triangle from two sides. Find the missing side, hypotenuse, area, perimeter, angles, 3-4-5 checks, and formula steps.',
     useCases: [
       'Complete a right triangle from two known side lengths.',
       'Find hypotenuse, missing leg, area, perimeter, and angles together.',
       'Check 3-4-5, 5-12-13, and other right-triangle examples.',
+      'Compare side, area, perimeter, and angle results before copying homework notes.',
+      'Catch impossible leg-and-hypotenuse inputs before trusting a result.',
       'Copy right-triangle formula steps into notes or homework.',
     ],
     examples: [
-      { label: 'Two legs', expression: 'a=9, b=12', result: 'c = 15' },
-      { label: 'Leg and hypotenuse', expression: 'leg=5, c=13', result: 'missing leg = 12' },
-      { label: 'Classic 3-4-5', expression: 'a=3, b=4', result: 'Area = 6' },
+      { label: 'Two legs', expression: 'a=9, b=12', result: 'c = 15, area = 54, perimeter = 36' },
+      { label: 'Leg and hypotenuse', expression: 'leg=5, c=13', result: 'missing leg = 12, area = 30' },
+      { label: 'Classic 3-4-5', expression: 'a=3, b=4', result: 'angles are about 36.87 and 53.13 degrees' },
+      { label: 'Construction diagonal', expression: 'a=6 ft, b=8 ft', result: 'diagonal c = 10 ft' },
+      { label: 'Decimal sides', expression: 'a=7.5, b=10', result: 'c = 12.5, area = 37.5' },
+      { label: 'Invalid hypotenuse', expression: 'leg=9, c=7', result: 'invalid because c must be longest' },
     ],
     faq: [
       {
         question: 'What does the Right Triangle Calculator find?',
         answer:
-          'It finds the missing side, hypotenuse, area, perimeter, and the two acute angles for a right triangle.',
+          'It finds the missing side, hypotenuse, area, perimeter, and the two acute angles for a right triangle. The third angle is the fixed 90-degree angle.',
       },
       {
         question: 'What inputs can I use?',
         answer:
-          'Use two legs mode when both legs are known. Use leg and hypotenuse mode when you know one leg and the hypotenuse.',
+          'Use two legs mode when both legs are known. Use leg and hypotenuse mode when you know one leg and the hypotenuse. Keep every length in the same unit.',
+      },
+      {
+        question: 'What formulas does the calculator use?',
+        answer:
+          'For two legs, it uses a^2 + b^2 = c^2 to find the hypotenuse. For a missing leg, it subtracts the known leg squared from c^2, then takes the square root.',
       },
       {
         question: 'How are the angles calculated?',
         answer:
-          'After the sides are known, the calculator uses sine ratios to estimate the two acute angles. The third angle is always 90 degrees.',
+          'After the sides are known, the calculator uses trigonometry ratios to estimate the two acute angles. The two acute angles always add up to 90 degrees.',
       },
       {
         question: 'What formula is used for area?',
@@ -3323,9 +3333,44 @@ const baseTools: ToolDefinition[] = [
           'Right triangle area uses A = leg a x leg b / 2 because the two legs are perpendicular base and height.',
       },
       {
+        question: 'How is perimeter calculated?',
+        answer:
+          'Perimeter is the sum of all three side lengths: leg a + leg b + hypotenuse c. For a 9-12-15 triangle, the perimeter is 36.',
+      },
+      {
+        question: 'What if my hypotenuse is shorter than the leg?',
+        answer:
+          'That cannot make a right triangle. The hypotenuse must be the longest side because it is opposite the 90-degree angle.',
+      },
+      {
+        question: 'Can I enter decimals or units?',
+        answer:
+          'Yes. Decimal side lengths work, and the optional unit label is carried into the length, area, and perimeter results. Use one unit system at a time.',
+      },
+      {
+        question: 'Why are some answers rounded?',
+        answer:
+          'Many right-triangle side lengths and angles do not end neatly. The calculator rounds long decimals but keeps the formula steps visible so you can check the math.',
+      },
+      {
+        question: 'Which side is the hypotenuse?',
+        answer:
+          'The hypotenuse is the side opposite the 90-degree angle. It is always the longest side of a valid right triangle.',
+      },
+      {
         question: 'How is this different from the Pythagorean Theorem Calculator?',
         answer:
-          'The Pythagorean tool focuses on one missing side. This calculator also shows area, perimeter, and angles.',
+          'The Pythagorean Theorem Calculator focuses on one missing side. This calculator also shows area, perimeter, acute angles, and a fuller right-triangle summary.',
+      },
+      {
+        question: 'Should I use the general Triangle Calculator instead?',
+        answer:
+          'Use the Triangle Calculator when the triangle is not guaranteed to have a 90-degree angle or when you have three side lengths and need a general triangle check.',
+      },
+      {
+        question: 'Can this prove a real corner is square?',
+        answer:
+          'No. It only solves the measurements you enter. For real layout, measure carefully, keep units consistent, and confirm the corner is meant to be 90 degrees.',
       },
       {
         question: 'Is my right triangle history private?',
