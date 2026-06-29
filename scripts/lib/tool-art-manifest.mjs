@@ -88,6 +88,13 @@ const toolArtMetadataOverrides = {
         'Resistor Calculator guide artwork supports the walkthrough for band direction, multiplier color, tolerance math, examples, limits, and multimeter checks.',
     },
   },
+  'rounding-calculator': {
+    guide: {
+      alt: 'Guide image for Rounding Calculator showing decimal-place, significant-figure, and place-value examples with result notes.',
+      caption:
+        'Rounding Calculator guide artwork supports the walkthrough for decimal places, significant figures, place values, method choices, examples, limits, and result notes.',
+    },
+  },
   'p-value-calculator': {
     tool: {
       alt: 'Illustration for P-value Calculator showing a z-score, normal-curve tail areas, and p-value result notes.',

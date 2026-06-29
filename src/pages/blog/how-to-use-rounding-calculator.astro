@@ -14,21 +14,39 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
     'Choose Decimal places, Significant figures, or Place value.',
     'Choose the rounding method.',
     'Enter the value and precision.',
-    'Press Round value, then review the rounded answer, difference, and steps.',
+    'Press Round value, then review the rounded answer, difference, and steps before copying it.',
   ]}
   sections={[
     {
-      title: 'Choosing a rounding mode',
+      title: 'Choose the right rounding mode',
       paragraphs: [
-        'Decimal places count digits after the decimal point. Significant figures count meaningful digits in the whole number. Place value rounds by powers of 10, such as nearest ten, hundred, or thousand.',
-        'In place-value mode, exponent 2 means nearest 100 and exponent -2 means nearest 0.01.',
+        'Decimal places count digits after the decimal point. Use this for money-style display, spreadsheet formatting, measurements, or instructions like "round to two decimal places."',
+        'Significant figures count meaningful digits across the whole number. Use this for science measurements, lab answers, and values where leading zeros should not count as meaningful digits.',
+        'Place value rounds by powers of 10, such as nearest ten, hundred, or thousand. In place-value mode, exponent 2 means nearest 100 and exponent -2 means nearest 0.01.',
       ],
     },
     {
-      title: 'Choosing a method',
+      title: 'How the calculator rounds',
       paragraphs: [
-        'Nearest rounds to the closest value. Round up moves to the next higher rounded value, round down moves to the next lower rounded value, and truncate removes extra digits toward zero.',
-        'Use the examples when you want to quickly switch between common cases like two decimal places or three significant figures.',
+        'For decimal places and place values, the calculator turns your precision into a step size, compares the original number to the nearby steps, and then shows the rounded value. For example, two decimal places use a 0.01 step, while exponent 2 uses a 100 step.',
+        'For significant figures, the calculator finds the size of the first meaningful digit, keeps the number of meaningful digits you requested, and then rounds at that scale. That is why 98,765 to three significant figures becomes 98,800 instead of 98,765.000.',
+        'Nearest rounds to the closest step. Exact half values move away from zero, so 2.5 rounds to 3 and -2.5 rounds to -3 when rounding to zero decimal places.',
+      ],
+    },
+    {
+      title: 'Read the result with the example',
+      paragraphs: [
+        'If you enter 12.3456, choose Decimal places, set precision to 2, and use Nearest, the rounded answer is 12.35. The difference line shows how far the rounded answer moved from the original value.',
+        'If you enter 1,846, choose Place value, set exponent to 2, and use Nearest, the result is 1,800 because exponent 2 means nearest 100.',
+        'If you enter -12.349, choose Decimal places, set precision to 2, and use Truncate, the result is -12.34 because truncate drops extra digits toward zero.',
+      ],
+    },
+    {
+      title: 'Mistakes and limits to check',
+      paragraphs: [
+        'Do not round every step in a longer problem unless your teacher, form, or reporting rule tells you to. Keep extra precision while working, then round the final answer.',
+        'Round up, round down, and truncate are not the same for negative numbers. Round up moves toward positive infinity, round down moves toward negative infinity, and truncate moves toward zero.',
+        'The calculator is meant for everyday browser-number rounding. Decimal places can be 0 through 12, significant figures can be 1 through 15, and place-value exponents can be -6 through 12.',
       ],
     },
   ]}
