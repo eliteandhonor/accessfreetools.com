@@ -7,37 +7,99 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="right-triangle-calculator"
   label="Right triangle guide"
   title="How to use the Right Triangle Calculator"
-  description="Learn how to solve right triangle sides, area, perimeter, and acute angles from two known sides."
+  description="Learn how to solve a right triangle from two sides, read the missing side, area, perimeter, angles, and avoid impossible hypotenuse inputs."
   path="/blog/how-to-use-right-triangle-calculator/"
-  intro="The Right Triangle Calculator completes a right triangle from two known sides and adds area, perimeter, and angles."
+  intro="Use the Right Triangle Calculator when you know two sides of a 90-degree triangle. It fills in the missing side, hypotenuse, area, perimeter, acute angles, and formula steps."
   quickStart={[
     'Choose two legs mode or leg and hypotenuse mode.',
-    'Enter the known side lengths.',
-    'Add a unit label if useful.',
+    'Enter the known side lengths in one unit system.',
+    'Add a unit label such as cm, ft, or m if useful.',
     'Press Calculate right triangle.',
+    'Read the missing side, area, perimeter, angles, and formula steps together.',
   ]}
   sections={[
     {
       title: 'Choosing input mode',
       paragraphs: [
-        'Use two legs mode when both shorter sides are known. The calculator finds the hypotenuse.',
-        'Use leg and hypotenuse mode when one leg and the longest side are known. The calculator finds the missing leg.',
+        'Use two legs mode when both shorter sides are known. The calculator squares each leg, adds those squares, and takes the square root to find the hypotenuse.',
+        'Use leg and hypotenuse mode when one leg and the longest side are known. The calculator subtracts the known leg squared from the hypotenuse squared, then takes the square root to find the missing leg.',
+        'If the value entered as the hypotenuse is shorter than the known leg, stop and fix the inputs. The hypotenuse must be the longest side of a right triangle.',
       ],
     },
     {
       title: 'What the calculator returns',
       paragraphs: [
-        'The calculator returns side lengths, area, perimeter, and the two acute angles. The third angle is always 90 degrees.',
-        'Area is reported in square units, while perimeter and side lengths use the length unit you entered.',
+        'The result card returns all three side lengths, area, perimeter, and the two acute angles. The third angle is always 90 degrees, so the two acute angles always add up to 90 degrees.',
+        'Area is reported in square units, while perimeter and side lengths use the length unit you entered. A 9 cm by 12 cm right triangle gives c = 15 cm, area = 54 cm^2, and perimeter = 36 cm.',
+      ],
+    },
+    {
+      title: 'How to read a 3-4-5 style answer',
+      paragraphs: [
+        'A 3-4-5 triangle is the clean classroom example because 3^2 + 4^2 = 5^2. The side across from the right angle is 5, so it is the hypotenuse.',
+        'The calculator also estimates the acute angles. For a 3-4-5 triangle, they are about 36.87 degrees and 53.13 degrees. That makes the result more useful than a side-only Pythagorean check.',
+      ],
+    },
+    {
+      title: 'Mistakes and limits to check',
+      paragraphs: [
+        'Keep all side lengths in the same unit before you calculate. Do not mix inches with feet or centimeters with meters unless you convert first.',
+        'Avoid the common mistake of treating the shorter known side as the hypotenuse. The hypotenuse is always across from the 90-degree angle.',
+        'Round only after you check the formula steps. Rounding too early can make the area, perimeter, or angle notes look slightly different from your class example.',
+        'Do not use this page for triangles that are not known to contain a 90-degree angle. If you only have three side lengths and need to test the triangle type, use the general Triangle Calculator instead.',
+        'For construction, layout, and measurement checks, treat the answer as planning math. Real corners, boards, walls, and diagonals still need careful measuring and a separate square check.',
       ],
     },
     {
       title: 'When to use the simpler theorem tool',
       paragraphs: [
-        'Use the Pythagorean Theorem Calculator when you only need one missing side.',
-        'Use this right triangle tool when you also need area, perimeter, and angles.',
+        'Use the Pythagorean Theorem Calculator when you only need one missing side and do not need area, perimeter, or angles.',
+        'Use this right triangle tool when you want the full triangle summary in one place, especially for homework notes, diagonal checks, and comparing side, area, perimeter, and angle results.',
+      ],
+      links: [
+        { href: '/tools/pythagorean-theorem-calculator/', label: 'Pythagorean Theorem Calculator' },
+        { href: '/tools/triangle-calculator/', label: 'Triangle Calculator' },
       ],
     },
   ]}
-  sidecarText="Use the Right Triangle Calculator while you follow the guide."
+  faqItems={[
+    {
+      question: 'What should I enter first?',
+      answer:
+        'Choose the mode that matches what you know. Use two legs when both shorter sides are known, or leg and hypotenuse when one shorter side and the longest side are known.',
+    },
+    {
+      question: 'How does the calculator find the missing side?',
+      answer:
+        'It uses the Pythagorean theorem. For two legs it uses a^2 + b^2 = c^2. For a missing leg it uses c^2 minus the known leg squared, then takes the square root.',
+    },
+    {
+      question: 'How do I know which side is the hypotenuse?',
+      answer:
+        'The hypotenuse is opposite the 90-degree angle and is always the longest side. If the side marked c is not the longest, the input needs to be checked.',
+    },
+    {
+      question: 'Why does the answer include area and perimeter?',
+      answer:
+        'Many right-triangle problems need more than the missing side. Area uses leg a times leg b divided by 2, and perimeter adds both legs plus the hypotenuse.',
+    },
+    {
+      question: 'Can I use decimals and units?',
+      answer:
+        'Yes. Decimal side lengths are fine, and the optional unit label is copied into the result. Use one unit system at a time so the area and perimeter labels make sense.',
+    },
+    {
+      question: 'What if the calculator says the hypotenuse input is invalid?',
+      answer:
+        'That means the hypotenuse value is not longer than the known leg. A valid right triangle cannot have a hypotenuse that is shorter than either leg.',
+    },
+    {
+      question: 'When should I use the general Triangle Calculator instead?',
+      answer:
+        'Use the Triangle Calculator when the triangle is not guaranteed to be a right triangle, or when you need to test three side lengths without assuming a 90-degree angle.',
+    },
+  ]}
+  sidecarText="Open the Right Triangle Calculator while you follow the examples, then compare the formula steps with the guide."
+  bestUsesIntro="Use this guide when you know the problem is a right triangle and you want to understand the side, area, perimeter, and angle results rather than only copy the answer."
+  keepExploringIntro="If your triangle problem is close but not exactly a two-side right-triangle problem, stay in these nearby geometry tools."
 />

@@ -311,7 +311,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Right Triangle Calculator',
     label: 'Right triangle guide',
     summary:
-      'Learn how to solve right triangle sides, area, perimeter, and acute angles from two known sides.',
+      'Learn how to solve a right triangle from two sides, read area, perimeter, angles, and avoid impossible hypotenuse inputs.',
   },
   {
     slug: 'how-to-use-random-number-generator',
