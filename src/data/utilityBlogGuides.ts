@@ -2630,25 +2630,77 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.oshaStairs],
   },
   'resistor-calculator': {
-    summary: 'Learn how 4-band resistor colors decode into ohms and tolerance.',
+    title: 'Resistor Color Code Calculator Guide',
+    summary:
+      'Learn how 4-band resistor colors decode into ohms, tolerance, minimum value, and maximum value.',
+    metaDescription:
+      'Use the Resistor Calculator guide to decode 4-band resistor color codes into ohms and tolerance, with 1 kOhm, 4.7 kOhm, gold, silver, and multimeter checks.',
     purpose:
-      'The Resistor Calculator turns common 4-band color codes into a nominal resistance and tolerance range. It is made for electronics study and quick component identification.',
+      'The Resistor Calculator turns common 4-band resistor color codes into a nominal resistance, tolerance percentage, minimum resistance, and maximum resistance.',
+    intro:
+      'Start with the band direction, then decode the two digit bands, multiplier band, and tolerance band. For example, brown black red gold means 10 x 100 = 1,000 ohms with +/- 5% tolerance, so the part may still be correct from 950 to 1,050 ohms.',
+    inputMatch:
+      'the four color bands on one common 4-band resistor: first digit, second digit, multiplier, and tolerance',
+    logicNote:
+      'Read the first two bands as a two-digit number, multiply by the third band, then apply the fourth band tolerance. Yellow violet red gold becomes 47 x 100 = 4,700 ohms. Gold tolerance means +/- 5%, so the acceptable range is 4,465 to 4,935 ohms.',
+    readIntro:
+      'Read the nominal ohms first, then read the tolerance range before deciding whether the part is close enough for your lesson, breadboard, repair note, or component check.',
+    mistakeIntro:
+      'Most resistor color-code mistakes come from reading the bands backward, confusing a multiplier band with a tolerance band, or trusting faded colors without a multimeter check.',
+    sidecarText:
+      'Use the Resistor Calculator while you follow the examples. Try brown black red gold for 1 kOhm, then try yellow violet red gold for 4.7 kOhm.',
+    bestUsesIntro:
+      'Use this guide when the resistor is a common 4-band part and you want enough context to know whether the decoded ohm value is believable.',
     enter: [
-      'Choose the first digit color.',
-      'Choose the second digit color.',
-      'Choose multiplier and tolerance colors.',
+      'Find the reading direction. The tolerance band is often gold or silver and usually sits slightly apart from the first three bands.',
+      'Choose the first digit color and second digit color exactly as they appear on the resistor.',
+      'Choose the multiplier color, including gold for x0.1 or silver for x0.01 when those appear in the third band position.',
+      'Choose the tolerance color so the calculator can show the minimum and maximum likely resistance.',
     ],
     read: [
-      'The main answer is nominal resistance in ohms.',
-      'Tolerance shows the possible range around the nominal value.',
-      'Minimum and maximum help you understand what the tolerance means.',
+      'Nominal resistance is the printed or decoded target value in ohms.',
+      'Tolerance shows how far the real part may be from that target and still match its rating.',
+      'Minimum and maximum convert the tolerance into a practical range, such as 950 to 1,050 ohms for a 1 kOhm +/- 5% resistor.',
+      'Use the range as a color-code check, then use a multimeter when the exact part value matters.',
     ],
     mistakes: [
-      'Do not read the bands backward.',
-      'Do not trust faded colors without checking.',
-      'Use a multimeter when the exact part value matters.',
+      'Do not read the bands backward just because the resistor is rotated on the desk.',
+      'Do not treat gold or silver as tolerance every time; in the third band position, gold is x0.1 and silver is x0.01.',
+      'Do not use this 4-band guide for a 5-band, 6-band, SMD, or parallel-resistor problem.',
+      'Do not trust faded, scorched, or smeared colors without checking the part with a multimeter.',
+      'Do not measure or swap parts on a powered circuit unless you are trained and the circuit is made safe.',
     ],
-    sources: [sourceLinks.iecResistorCode, sourceLinks.teResistorCode],
+    extraSections: [
+      {
+        title: 'Quick 1 kOhm color-code example',
+        paragraphs: [
+          'Say the bands are brown, black, red, and gold. Brown is 1 and black is 0, so the first two bands make 10.',
+          'Red as the multiplier means x100. Multiply 10 by 100 to get 1,000 ohms, usually written as 1 kOhm.',
+          'Gold tolerance means +/- 5%. Five percent of 1,000 is 50, so the expected range is 950 to 1,050 ohms.',
+        ],
+      },
+      {
+        title: 'Gold, silver, 5-band, and SMD limits',
+        paragraphs: [
+          'Gold and silver can be confusing because they can appear as multiplier colors or tolerance colors. The position matters. In the multiplier slot, gold means x0.1 and silver means x0.01. In the tolerance slot, gold commonly means +/- 5% and silver commonly means +/- 10%.',
+          'This guide is for the common 4-band pattern only. A 5-band resistor uses three digit bands before the multiplier, and an SMD resistor uses printed numbers or letters instead of painted bands.',
+        ],
+        bullets: [
+          'Use this page for 4-band color-code decoding.',
+          'Use a 5-band-specific reference when there are three significant digit bands.',
+          'Use an SMD resistor-code reference when the part has printed markings instead of color bands.',
+          'Use a multimeter and safe handling when a real circuit depends on the value.',
+        ],
+      },
+      {
+        title: 'When the color-code answer is not enough',
+        paragraphs: [
+          'The calculator explains the code printed on the part. It does not prove the resistor is healthy, installed correctly, cool enough, or safe for the circuit.',
+          'For homework and breadboard checks, the decoded value is usually the answer you need. For repairs, power circuits, heat-sensitive parts, or anything connected to a live supply, verify the component and follow proper electrical safety practice.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.iecResistorCode, sourceLinks.teResistorCode, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
   },
   'ohms-law-calculator': {
     title: 'Ohm\'s Law Calculator Guide',
