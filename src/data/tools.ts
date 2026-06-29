@@ -1712,41 +1712,79 @@ const baseTools: ToolDefinition[] = [
     slug: 'rounding-calculator',
     name: 'Rounding Calculator',
     category: 'calculators',
-    summary: 'Round numbers by decimal places, significant figures, or place value.',
+    summary: 'Round decimals, significant figures, and place values using clear method steps.',
     description:
-      'Use this free rounding calculator to round numbers to decimal places, significant figures, or place values with nearest, up, down, and truncate methods.',
+      'Use this free rounding calculator to round numbers to decimal places, significant figures, or place values. Compare nearest, round up, round down, and truncate methods with steps, difference, and recent answers.',
     icon: 'calculator-round',
+    aliases: [
+      'Decimal Rounding Calculator',
+      'Significant Figures Calculator',
+      'Round to Nearest Hundred Calculator',
+      'Place Value Rounding Calculator',
+    ],
     seoTitle: 'Rounding Calculator | Decimal and Significant Figures',
     seoDescription:
-      'Use the free Access Free Tools rounding calculator to round numbers by decimal places, significant figures, or place value with steps and examples.',
+      'Round decimals, significant figures, place values, negative numbers, and half values with nearest, up, down, or truncate steps and examples.',
     useCases: [
-      'Round money, measurements, and everyday decimal values.',
-      'Round study answers to a required number of significant figures.',
-      'Round whole numbers to tens, hundreds, thousands, or decimal places.',
-      'Compare nearest, round up, round down, and truncate methods.',
+      'Round money, measurements, grades, and everyday decimal values without guessing where the answer changed.',
+      'Round study or lab answers to a required number of significant figures.',
+      'Round whole numbers to tens, hundreds, thousands, millions, or decimal place-value steps.',
+      'Compare nearest, round up, round down, and truncate methods on the same input.',
+      'Check how negative numbers behave when up, down, and truncate do different things.',
+      'Read the difference between the original value and rounded value before copying the result.',
     ],
     examples: [
       {
         label: 'Decimal places',
         expression: '12.3456 to 2 decimal places',
-        result: '12.35',
+        result: '12.35, with a difference of 0.0044',
       },
       {
         label: 'Significant figures',
         expression: '98,765 to 3 significant figures',
-        result: '98,800',
+        result: '98,800, keeping only the first 3 meaningful digits',
       },
       {
         label: 'Place value',
         expression: '1,846 to the nearest hundred',
-        result: '1,800',
+        result: '1,800 because place exponent 2 means nearest 100',
+      },
+      {
+        label: 'Round up',
+        expression: '12.341 up to 2 decimal places',
+        result: '12.35 because round up moves to the next higher 0.01 step',
+      },
+      {
+        label: 'Negative truncate',
+        expression: '-12.349 truncated to 2 decimal places',
+        result: '-12.34 because truncate drops extra digits toward zero',
+      },
+      {
+        label: 'Small significant figures',
+        expression: '0.004987 to 2 significant figures',
+        result: '0.005, preserving two meaningful digits after leading zeros',
+      },
+      {
+        label: 'Half value',
+        expression: '-2.5 to 0 decimal places with nearest',
+        result: '-3 because nearest half values move away from zero',
       },
     ],
     faq: [
       {
         question: 'What rounding modes are supported?',
         answer:
-          'The calculator supports decimal places, significant figures, and place value rounding.',
+          'The calculator supports decimal places, significant figures, and place value rounding. Use decimal places for a fixed number of digits after the decimal, significant figures for meaningful digits, and place value for tens, hundreds, thousands, or decimal place steps.',
+      },
+      {
+        question: 'How do I round to decimal places?',
+        answer:
+          'Choose Decimal places, enter the value, and enter the number of digits to keep after the decimal. For example, 12.3456 to 2 decimal places becomes 12.35 with nearest rounding.',
+      },
+      {
+        question: 'How do I round to significant figures?',
+        answer:
+          'Choose Significant figures and enter how many meaningful digits to keep. Leading zeros do not count, so 0.004987 to 2 significant figures becomes 0.005.',
       },
       {
         question: 'How do I round to a place value?',
@@ -1756,12 +1794,37 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'What is the difference between nearest, up, down, and truncate?',
         answer:
-          'Nearest rounds to the closest value. Up uses the next higher rounding value, down uses the next lower rounding value, and truncate drops extra digits toward zero.',
+          'Nearest rounds to the closest step. Up uses the next higher step, down uses the next lower step, and truncate drops extra digits toward zero.',
+      },
+      {
+        question: 'How are halfway values rounded?',
+        answer:
+          'Nearest mode moves exact half values away from zero. That means 2.5 rounds to 3, and -2.5 rounds to -3 when rounding to 0 decimal places.',
       },
       {
         question: 'Can I round negative numbers?',
         answer:
-          'Yes. The calculator accepts negative numbers. For nearest rounding, half values move away from zero.',
+          'Yes. Negative numbers work, but method names matter. Round up moves toward positive infinity, round down moves toward negative infinity, and truncate moves toward zero.',
+      },
+      {
+        question: 'What precision limits should I know?',
+        answer:
+          'Decimal places can be 0 through 12. Significant figures can be 1 through 15. Place-value exponents can be -6 through 12.',
+      },
+      {
+        question: 'What does the difference line mean?',
+        answer:
+          'Difference is the rounded value minus the original value. It helps you see how much the rounded answer moved from the input before you copy it.',
+      },
+      {
+        question: 'When should I use significant figures instead of decimal places?',
+        answer:
+          'Use significant figures when the rule is about meaningful digits, such as a science measurement. Use decimal places when the rule is about digits after the decimal point, such as cents or fixed display formatting.',
+      },
+      {
+        question: 'Should I round every step in a longer problem?',
+        answer:
+          'Usually no. Keep extra precision while working, then round the final answer to the rule your class, report, spreadsheet, or form requires.',
       },
       {
         question: 'Why can rounded decimals sometimes look surprising?',

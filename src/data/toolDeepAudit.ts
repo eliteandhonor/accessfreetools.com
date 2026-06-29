@@ -6482,20 +6482,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'rounding-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'math-seo-refresh-2026-06-29',
+    reviewedOn: '2026-06-29',
     scope: commonMathScope,
     sources: [openStaxScientificNotation, nistSi],
     findings: [
-      'The rounding page separates place-value rounding from scientific-notation or big-number work.',
-      'The examples and FAQ explain why rounding changes precision and why input scale matters.',
-      'Related tools route users to Big Number and Scientific Notation calculators for adjacent needs.',
+      'The rounding page separates decimal places, significant figures, and place-value exponents, then explains nearest, up, down, and truncate behavior.',
+      'The examples cover ordinary decimals, large-number significant figures, nearest hundred, round up, negative truncation, small significant figures, and half-away-from-zero rounding.',
+      'The FAQ documents exact precision limits, negative-number method behavior, difference output, significant-figure use cases, late-rounding advice, floating-point limits, and current-tab-only history.',
     ],
     improvements: [
-      'Manually checked rounding modes, place-value wording, examples, FAQ detail, related links, guide coverage, SEO copy, and privacy behavior.',
+      'Expanded the tool metadata, aliases, use cases, examples, FAQ detail, exact method wording, precision-limit coverage, modified date, and proof notes from paid and competitor SEO evidence.',
     ],
     followUps: [
-      'Add significant-figures mode later as a separate feature if science traffic asks for it.',
+      'Consider arbitrary-precision decimal support only if users need finance-grade decimal rounding beyond the current browser-number limits.',
     ],
   },
   {
