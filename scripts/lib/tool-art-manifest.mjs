@@ -107,6 +107,18 @@ const toolArtMetadataOverrides = {
         'Sample Size Calculator guide artwork supports the walkthrough for confidence level, margin of error, expected proportion, finite population correction, examples, limits, and survey-planning cautions.',
     },
   },
+  'statistics-calculator': {
+    tool: {
+      alt: 'Illustration for Statistics Calculator showing count, sum, mean, median, mode, range, quartiles, IQR, variance, sample SD, and population SD.',
+      caption:
+        'Statistics Calculator artwork matches the live tool workflow: count, sum, mean, median, mode, range, quartiles, IQR, variance, sample SD, and population SD. Use it with the calculator, examples, and result notes.',
+    },
+    guide: {
+      alt: 'Guide image for Statistics Calculator showing count, sum, mean, median, mode, range, quartiles, IQR, and result notes.',
+      caption:
+        'Statistics Calculator guide artwork supports the walkthrough for count, sum, mean, median, mode, range, quartiles, IQR, variance, sample SD, population SD, examples, limits, and mistakes to check.',
+    },
+  },
   'p-value-calculator': {
     tool: {
       alt: 'Illustration for P-value Calculator showing a z-score, normal-curve tail areas, and p-value result notes.',

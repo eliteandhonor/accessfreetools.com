@@ -6598,17 +6598,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'statistics-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-refresh-2026-07-01',
+    reviewedOn: '2026-07-01',
     scope: commonMathScope,
     sources: [openStaxStatisticsSpread, openStaxStandardNormal],
     findings: [
-      'The statistics page groups common summary measures instead of pretending one statistic tells the whole data story.',
-      'The FAQ and examples connect mean, median, mode, range, spread, and sorted data in understandable language.',
-      'Related tools lead users into standard deviation, z-score, and mean-median-mode-range pages for deeper work.',
+      'The refreshed statistics page keeps one data set in focus and visibly separates center, frequency, quartiles, sample spread, and population spread.',
+      'The result card now shows count, sum, min, max, Q1, Q3, IQR, population variance, population standard deviation, sample variance, and sample standard deviation instead of only naming those measures in metadata.',
+      'The FAQ and examples now cover separators, decimals, negatives, no-mode and multiple-mode data, sample versus population spread, mean-versus-median skew, copy checks, and research limits.',
     ],
     improvements: [
-      'Manually checked summary-statistic wording, examples, FAQ clarity, source coverage, guide alignment, related links, SEO copy, and privacy behavior.',
+      'Refreshed Statistics Calculator metadata, examples, FAQs, visible result fields, step wording, related statistics links, SEO copy, 2026-07-01 modified date, and audit notes.',
     ],
     followUps: [
       'Add histogram-style visualization later only after testing mobile layout and accessibility labels.',

@@ -31,6 +31,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'speed-calculator': '2026-07-01',
   'square-footage-calculator': '2026-07-01',
   'standard-deviation-calculator': '2026-07-01',
+  'statistics-calculator': '2026-07-01',
   'percentage-calculator': '2026-06-02',
   'average-calculator': '2026-06-26',
   'ratio-calculator': '2026-06-02',

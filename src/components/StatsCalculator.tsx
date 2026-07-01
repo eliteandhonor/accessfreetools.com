@@ -265,7 +265,7 @@ function SummaryTool({ mode }: { mode: 'statistics' | 'mean-median-mode-range' |
           ? `Average ${numberText(result.mean)}`
           : focused
             ? `Mean ${numberText(result.mean)}, range ${numberText(result.range)}`
-            : `Mean ${numberText(result.mean)}`,
+            : `Mean ${numberText(result.mean)}, sample SD ${numberText(result.sampleStandardDeviation)}, IQR ${numberText(result.iqr)}`,
       });
       setError('');
       setCopied(false);
@@ -280,7 +280,9 @@ function SummaryTool({ mode }: { mode: 'statistics' | 'mean-median-mode-range' |
     await navigator.clipboard.writeText(
       averageMode
         ? `Average ${numberText(statistics.mean)} from ${statistics.count} values`
-        : `Mean ${numberText(statistics.mean)}, median ${numberText(statistics.median)}, mode ${modesText(statistics.modes)}, range ${numberText(statistics.range)}`,
+        : focused
+          ? `Mean ${numberText(statistics.mean)}, median ${numberText(statistics.median)}, mode ${modesText(statistics.modes)}, range ${numberText(statistics.range)}`
+          : `Count ${statistics.count}, sum ${numberText(statistics.sum)}, mean ${numberText(statistics.mean)}, median ${numberText(statistics.median)}, mode ${modesText(statistics.modes)}, range ${numberText(statistics.range)}, IQR ${numberText(statistics.iqr)}, sample SD ${numberText(statistics.sampleStandardDeviation)}`,
     );
     setCopied(true);
   };
@@ -332,6 +334,18 @@ function SummaryTool({ mode }: { mode: 'statistics' | 'mean-median-mode-range' |
                   <dt>Mean</dt>
                   <dd>{numberText(statistics.mean)}</dd>
                 </div>
+                {!focused && (
+                  <>
+                    <div>
+                      <dt>Count</dt>
+                      <dd>{statistics.count}</dd>
+                    </div>
+                    <div>
+                      <dt>Sum</dt>
+                      <dd>{numberText(statistics.sum)}</dd>
+                    </div>
+                  </>
+                )}
                 <div>
                   <dt>Median</dt>
                   <dd>{numberText(statistics.median)}</dd>
@@ -347,12 +361,40 @@ function SummaryTool({ mode }: { mode: 'statistics' | 'mean-median-mode-range' |
                 {!focused && (
                   <>
                     <div>
-                      <dt>Sample SD</dt>
-                      <dd>{numberText(statistics.sampleStandardDeviation)}</dd>
+                      <dt>Min</dt>
+                      <dd>{numberText(statistics.min)}</dd>
+                    </div>
+                    <div>
+                      <dt>Max</dt>
+                      <dd>{numberText(statistics.max)}</dd>
+                    </div>
+                    <div>
+                      <dt>Q1</dt>
+                      <dd>{numberText(statistics.q1)}</dd>
+                    </div>
+                    <div>
+                      <dt>Q3</dt>
+                      <dd>{numberText(statistics.q3)}</dd>
                     </div>
                     <div>
                       <dt>IQR</dt>
                       <dd>{numberText(statistics.iqr)}</dd>
+                    </div>
+                    <div>
+                      <dt>Population variance</dt>
+                      <dd>{numberText(statistics.populationVariance)}</dd>
+                    </div>
+                    <div>
+                      <dt>Population SD</dt>
+                      <dd>{numberText(statistics.populationStandardDeviation)}</dd>
+                    </div>
+                    <div>
+                      <dt>Sample variance</dt>
+                      <dd>{numberText(statistics.sampleVariance)}</dd>
+                    </div>
+                    <div>
+                      <dt>Sample SD</dt>
+                      <dd>{numberText(statistics.sampleStandardDeviation)}</dd>
                     </div>
                   </>
                 )}
@@ -369,6 +411,15 @@ function SummaryTool({ mode }: { mode: 'statistics' | 'mean-median-mode-range' |
               <li>Add all values for sum {numberText(statistics.sum)} and divide by {statistics.count} to get the average.</li>
               <li>Use the middle value for the median and most frequent value for the mode.</li>
               <li>Subtract min {numberText(statistics.min)} from max {numberText(statistics.max)} for the range.</li>
+              {!focused && <li>Use Q3 minus Q1 for IQR: {numberText(statistics.q3)} - {numberText(statistics.q1)} = {numberText(statistics.iqr)}.</li>}
+              {!focused && (
+                <li>
+                  Average squared distances from the mean for population variance;{' '}
+                  {statistics.count > 1
+                    ? `divide by ${statistics.count - 1} for sample variance before taking the square root.`
+                    : 'sample variance needs at least two values.'}
+                </li>
+              )}
             </ol>
           </div>
         )}

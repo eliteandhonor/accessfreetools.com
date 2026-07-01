@@ -2573,34 +2573,50 @@ const baseTools: ToolDefinition[] = [
     slug: 'statistics-calculator',
     name: 'Statistics Calculator',
     category: 'calculators',
-    summary: 'Calculate count, sum, mean, median, mode, range, quartiles, variance, and standard deviation.',
+    summary: 'Calculate count, sum, mean, median, mode, range, quartiles, IQR, variance, and sample or population standard deviation.',
     description:
-      'Use this free statistics calculator to summarize a data set with count, sum, mean, median, mode, min, max, range, quartiles, IQR, variance, standard deviation, steps, copy, and history.',
+      'Use this free statistics calculator to summarize one data set with count, sum, mean, median, mode, min, max, range, quartiles, IQR, sample variance, population variance, standard deviation, steps, copy, and history.',
     icon: 'calculator-statistics',
     seoTitle: 'Statistics Calculator | Descriptive Statistics Summary',
     seoDescription:
-      'Use the free Access Free Tools statistics calculator to find mean, median, mode, range, quartiles, variance, standard deviation, count, sum, and steps.',
+      'Free statistics calculator for mean, median, mode, range, quartiles, IQR, sample/population variance, standard deviation, count, sum, and steps.',
     useCases: [
-      'Summarize a list of data values in one result card.',
-      'Find center, spread, quartiles, and standard deviation together.',
-      'Check homework, class data, survey responses, and measurement lists.',
-      'Copy descriptive statistics into notes or reports.',
+      'Summarize one list of data values in a result card before writing homework notes or reports.',
+      'Find center, spread, quartiles, sample standard deviation, and population standard deviation together.',
+      'Check class scores, survey responses, measurement lists, experiment trials, and spreadsheet columns.',
+      'Compare mean and median when a high or low outlier may be pulling the average.',
+      'Use Q1, Q3, and IQR to describe the middle half of a data set without relying only on the extremes.',
+      'Copy descriptive statistics into notes while keeping count, sum, mode, variance, and rounding visible.',
     ],
     examples: [
-      { label: 'Data summary', expression: '10, 12, 12, 15, 18, 21, 21, 21, 25', result: 'Mean = 17.2222222222' },
-      { label: 'No repeated values', expression: '4, 8, 15, 16, 23, 42', result: 'No mode' },
-      { label: 'Exam scores', expression: '72, 84, 84, 90, 93', result: 'Median = 84' },
+      { label: 'Data summary', expression: '10, 12, 12, 15, 18, 21, 21, 21, 25', result: 'Mean = 17.2222222222, median = 18, mode = 21, range = 15' },
+      { label: 'Classic spread check', expression: '2, 4, 4, 4, 5, 5, 7, 9', result: 'Mean = 5, median = 4.5, population SD = 2, sample SD = 2.1380899353' },
+      { label: 'No repeated values', expression: '4, 8, 15, 16, 23, 42', result: 'No mode; range = 38' },
+      { label: 'Exam scores', expression: '88, 92, 94, 94, 99', result: 'Mean = 93.4, median = 94, mode = 94, sample SD = 3.9749213829' },
+      { label: 'Two modes', expression: '3, 3, 5, 7, 7, 9', result: 'Modes = 3 and 7, median = 6, range = 6' },
+      { label: 'Decimals and negatives', expression: '-2, 0, 1.5, 1.5, 4', result: 'Mean = 1, mode = 1.5, range = 6' },
+      { label: 'Same value repeated', expression: '12, 12, 12', result: 'Range = 0, standard deviation = 0' },
     ],
     faq: [
       {
         question: 'What does the Statistics Calculator calculate?',
         answer:
-          'It calculates count, sum, mean, median, mode, min, max, range, quartiles, IQR, variance, and standard deviation.',
+          'It calculates count, sum, mean, median, mode, min, max, range, Q1, Q3, IQR, population variance, population standard deviation, sample variance, and sample standard deviation for one list of numbers.',
+      },
+      {
+        question: 'What separators can I use?',
+        answer:
+          'You can separate values with commas, spaces, or line breaks. The calculator sorts the valid numbers before finding medians, modes, quartiles, and spread.',
+      },
+      {
+        question: 'Can I use decimals and negative numbers?',
+        answer:
+          'Yes. Decimal values and negative values work as long as each entry is a valid finite number.',
       },
       {
         question: 'How is the mean calculated?',
         answer:
-          'The mean is the sum of all values divided by the number of values.',
+          'The mean is the sum of all values divided by the count. The page also shows the sum and count so you can check the average.',
       },
       {
         question: 'How is the median calculated?',
@@ -2610,12 +2626,37 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'Can a data set have no mode?',
         answer:
-          'Yes. This calculator reports no mode when every value appears only once.',
+          'Yes. This calculator reports no mode when every value appears only once. If two or more values tie for the highest frequency, it reports each tied mode.',
       },
       {
         question: 'What is IQR?',
         answer:
-          'IQR means interquartile range. It is Q3 minus Q1 and describes the spread of the middle half of the data.',
+          'IQR means interquartile range. It is Q3 minus Q1 and describes the spread of the middle half of the sorted data.',
+      },
+      {
+        question: 'Does the calculator show sample and population standard deviation?',
+        answer:
+          'Yes. Population variance and standard deviation divide by the count. Sample variance and standard deviation divide by count minus 1, so sample results need at least two values.',
+      },
+      {
+        question: 'Should I use sample or population spread?',
+        answer:
+          'Use population spread when the list is the whole group you care about. Use sample spread when the list is only part of a larger group, such as a survey, class sample, or experiment sample.',
+      },
+      {
+        question: 'Why should I compare mean and median?',
+        answer:
+          'The mean uses every value, so a very high or low outlier can pull it. The median is often steadier when the data is skewed.',
+      },
+      {
+        question: 'What should I check before copying the statistics?',
+        answer:
+          'Check that all values belong to one data set, the count matches what you expected, negative signs and decimals were pasted correctly, and your report uses the right rounding rule.',
+      },
+      {
+        question: 'Can this calculator prove a research conclusion?',
+        answer:
+          'No. It summarizes the numbers you entered. It does not prove the data is representative, normally distributed, unbiased, or enough for a research conclusion by itself.',
       },
       {
         question: 'Is my statistics history private?',
@@ -2623,7 +2664,7 @@ const baseTools: ToolDefinition[] = [
           'Yes. Recent statistics answers stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['mean-median-mode-range-calculator', 'standard-deviation-calculator', 'z-score-calculator'],
+    relatedSlugs: ['mean-median-mode-range-calculator', 'standard-deviation-calculator', 'z-score-calculator', 'confidence-interval-calculator'],
   },
   {
     slug: 'mean-median-mode-range-calculator',
