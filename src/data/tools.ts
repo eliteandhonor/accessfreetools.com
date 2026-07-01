@@ -2198,34 +2198,54 @@ const baseTools: ToolDefinition[] = [
     slug: 'standard-deviation-calculator',
     name: 'Standard Deviation Calculator',
     category: 'calculators',
-    summary: 'Calculate sample or population standard deviation, variance, mean, and count.',
+    summary: 'Calculate sample or population standard deviation with variance, mean, count, and steps.',
     description:
-      'Use this free standard deviation calculator to find sample standard deviation, population standard deviation, variance, mean, count, steps, copy, and history.',
+      'Use this free standard deviation calculator to paste a data set, choose sample or population mode, and see standard deviation, variance, mean, count, steps, copy, and tab-only history.',
     icon: 'calculator-standard-deviation',
     seoTitle: 'Standard Deviation Calculator | Sample and Population SD',
     seoDescription:
-      'Use the free Access Free Tools standard deviation calculator to calculate sample or population standard deviation, variance, mean, count, and steps.',
+      'Calculate sample or population standard deviation from a number list, with variance, mean, count, formula steps, examples, and copyable results.',
     useCases: [
-      'Measure how spread out a list of numbers is from its mean.',
-      'Compare sample standard deviation with population standard deviation.',
-      'Check statistics homework, study data, measurements, and class examples.',
-      'Copy the standard deviation, variance, mean, and count for notes.',
+      'Measure how far data values usually sit from the mean.',
+      'Compare sample standard deviation with population standard deviation from the same list.',
+      'Check variance, mean, count, and formula steps before copying a statistics answer.',
+      'Test classroom data, exam scores, survey numbers, measurements, or lab values.',
+      'Spot when one outlier is making the spread much larger than expected.',
+      'Keep recent answers in the current browser tab while comparing example data sets.',
     ],
     examples: [
       { label: 'Population data', expression: '2, 4, 4, 4, 5, 5, 7, 9', result: 'Population SD = 2' },
       { label: 'Sample data', expression: '2, 4, 4, 4, 5, 5, 7, 9', result: 'Sample SD = 2.1380899353' },
+      { label: 'Exam scores', expression: '88, 92, 94, 94, 99', result: 'Sample SD = 3.9749213829' },
       { label: 'Small data set', expression: '12, 15, 19, 21, 22, 26', result: 'Mean = 19.1666666667' },
+      { label: 'Same value repeated', expression: '12, 12, 12', result: 'Standard deviation = 0' },
+      { label: 'Decimal measurements', expression: '1.2, 1.4, 1.5, 1.7', result: 'Sample SD = 0.2081665999' },
     ],
     faq: [
       {
         question: 'What does standard deviation measure?',
         answer:
-          'Standard deviation measures how far data values typically are from the mean. A larger standard deviation means the values are more spread out.',
+          'Standard deviation measures the typical distance between the data values and the mean. A small standard deviation means the values sit close together. A larger standard deviation means the values are more spread out.',
       },
       {
         question: 'Should I use sample or population standard deviation?',
         answer:
-          'Use sample standard deviation when your data is a sample that estimates a larger population. Use population standard deviation when the data includes the whole group you care about.',
+          'Use sample standard deviation when your values are only part of a larger group, such as a survey sample or a few measurements from a process. Use population standard deviation when the list is the whole group you care about.',
+      },
+      {
+        question: 'What do the main Standard Deviation Calculator inputs mean?',
+        answer:
+          'Data values are the numbers in one data set. Separate them with commas, spaces, or line breaks. Sample mode divides squared differences by n - 1. Population mode divides by n because your list is treated as the full group.',
+      },
+      {
+        question: 'How should I read the Standard Deviation Calculator result?',
+        answer:
+          'Read the standard deviation first, then compare it with the mean and the original units. Variance is the squared-unit spread number behind the standard deviation, and count shows how many valid values were included.',
+      },
+      {
+        question: 'What formula does the calculator use?',
+        answer:
+          'It finds the mean, subtracts the mean from each value, squares those differences, averages the squared differences with the selected sample or population denominator, then takes the square root.',
       },
       {
         question: 'Why does sample standard deviation divide by n - 1?',
@@ -2235,7 +2255,7 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'How many values can I enter?',
         answer:
-          'You can enter up to 1,000 values separated by commas, spaces, semicolons, or new lines.',
+          'You can enter up to 1,000 values separated by commas, spaces, or new lines. Very long lists can be hard to review, so paste a smaller test set first when you are checking a new format.',
       },
       {
         question: 'Can the standard deviation be zero?',
@@ -2243,12 +2263,32 @@ const baseTools: ToolDefinition[] = [
           'Yes. Standard deviation is zero when every value in the data set is exactly the same.',
       },
       {
+        question: 'What does variance mean here?',
+        answer:
+          'Variance is the average squared distance from the mean. Standard deviation is the square root of variance, which brings the spread back toward the original unit scale.',
+      },
+      {
+        question: 'How do outliers affect standard deviation?',
+        answer:
+          'Outliers can raise the standard deviation quickly because differences from the mean are squared before they are averaged. If one value is unusual, compare the result with and without that value before interpreting the spread.',
+      },
+      {
+        question: 'Can this tell whether my data is normal or reliable?',
+        answer:
+          'No. This calculator measures spread for the values you enter. It does not prove the data is normally distributed, unbiased, representative, or ready for a research conclusion.',
+      },
+      {
+        question: 'What should I double-check before copying the Standard Deviation Calculator answer?',
+        answer:
+          'Check that all values belong to the same data set, the sample or population mode matches the problem, decimal points and negative signs pasted correctly, and the result is rounded to the precision your class, report, or spreadsheet expects.',
+      },
+      {
         question: 'Is my standard deviation history private?',
         answer:
           'Yes. Recent answers stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['statistics-calculator', 'mean-median-mode-range-calculator', 'z-score-calculator'],
+    relatedSlugs: ['statistics-calculator', 'mean-median-mode-range-calculator', 'z-score-calculator', 'confidence-interval-calculator'],
   },
   {
     slug: 'number-sequence-calculator',

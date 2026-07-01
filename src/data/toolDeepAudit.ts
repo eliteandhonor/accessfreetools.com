@@ -6579,20 +6579,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'standard-deviation-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-refresh-2026-07-01',
+    reviewedOn: '2026-07-01',
     scope: commonMathScope,
     sources: [openStaxStatisticsSpread, openStaxStandardNormal],
     findings: [
       'The standard-deviation helper handles sample and population modes and rejects sample deviation when only one value is entered.',
-      'Tests cover both population and sample outputs for the same data set.',
-      'The FAQ explains spread in plain language so users are not left with only a symbol-heavy answer.',
+      'The refreshed tool page now explains data values, sample versus population denominators, variance, mean, count, outlier effects, zero spread, and rounding checks in visible FAQ copy.',
+      'Examples cover the classic 2, 4, 4, 4, 5, 5, 7, 9 data set, exam scores, repeated identical values, decimal measurements, and the sample/population contrast.',
     ],
     improvements: [
-      'Manually checked sample versus population wording, input parsing, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Refreshed Standard Deviation Calculator metadata, examples, FAQs, trust/limit wording, 2026-07-01 modified date, related statistics links, audit notes, and the tool-page instruction copy.',
     ],
     followUps: [
-      'Add a small variance explanation near the result later if the result panel needs more teaching detail.',
+      'Consider a compact visual spread chart later only after checking mobile layout, screen-reader labels, and whether it helps more than the current formula steps.',
     ],
   },
   {
