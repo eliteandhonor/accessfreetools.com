@@ -1434,25 +1434,96 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'square-footage-calculator': {
-    summary: 'Learn how to calculate square footage for rooms, panels, and repeated rectangles.',
+    title: 'Square Footage Calculator Guide',
+    summary: 'Learn how length, width, quantity, and decimal feet turn into square footage you can actually use.',
+    metaDescription:
+      'Use the Square Footage Calculator guide to measure rooms, walls, panels, gardens, and repeated rectangles, with inch conversion and material-waste checks.',
     purpose:
-      'The Square Footage Calculator handles rectangular areas. It is useful for rooms, floors, walls, panels, garden beds, and repeated sections.',
+      'The Square Footage Calculator turns a rectangular measurement into square feet, square yards, and square meters. It is useful for rooms, floors, walls, panels, garden beds, closets, and repeated same-size sections.',
+    intro:
+      'Use this guide when you have a tape-measure number and need a clean area answer before buying flooring, paint, wallpaper, sod, tile, panels, or project material. The important choice is whether one rectangle is enough or whether the space should be split into smaller rectangles first.',
+    inputMatch:
+      'the length in feet, width in feet, and quantity of identical rectangles from the same room, wall, panel, bed, or section',
+    logicNote:
+      'The math is square feet = length in feet x width in feet x quantity. The guide examples keep every measurement in feet first, then use square yards = square feet / 9 and square meters = square feet / 10.7639 for comparison.',
+    readIntro:
+      'Read total square footage first because that is the measured area. Use each-item area when you are checking one repeated wall or panel, and use square yards or square meters only when a product, plan, or quote uses those units.',
+    mistakeIntro:
+      'Most square-footage mistakes come from mixing inches and feet, using quantity for different-size rooms, treating linear feet like area, or forgetting that material orders usually need waste, openings, and product coverage rules.',
+    bestUsesIntro:
+      'Use this guide when you are measuring a rectangular space, splitting an irregular space into rectangles, or checking a rough project area before moving to a material-specific calculator.',
     enter: [
-      'Enter length and width in feet.',
-      'Use quantity when the same rectangle repeats.',
-      'Keep all measurements in feet before calculating.',
+      'Enter the length and width of one rectangular section in feet.',
+      'Convert inches to decimal feet before entering a mixed measurement, such as 9 ft 6 in becoming 9.5 ft.',
+      'Use quantity only when the same rectangle repeats exactly, such as two matching walls or three identical panels.',
+      'Calculate once for each different-size room or section, then add those results separately.',
     ],
     read: [
-      'Total square feet is the main area answer.',
-      'Each item shows the area of one rectangle.',
-      'Square yards and square meters are shown for conversion context.',
+      'Total square feet is the main measured area answer.',
+      'Each item shows the square footage of one rectangle before quantity is applied.',
+      'Square yards helps when carpet, fabric, or yard-based material is quoted that way.',
+      'Square meters helps when a product sheet, plan, or assignment uses metric area.',
     ],
     mistakes: [
-      'Do not use a rectangle formula for irregular shapes without splitting them into sections.',
-      'Add waste separately for flooring, tile, paint, or cuts.',
-      'Check whether product coverage is listed per box, per roll, or per gallon.',
+      'Do not enter inches as whole feet. Six inches is 0.5 ft, not 6 ft.',
+      'Do not use quantity for different-size rooms, walls, or panels.',
+      'Do not use a rectangle formula for an L-shaped room without splitting it into rectangles first.',
+      'Do not treat square footage as the final purchase amount for flooring, tile, paint, wallpaper, or sod.',
+      'Check whether product coverage is listed per box, per roll, per gallon, per square, or per pallet.',
     ],
-    sources: [sourceLinks.nistUnits, sourceLinks.bipmSi],
+    extraSections: [
+      {
+        title: 'Example: a 12 ft by 10 ft bedroom',
+        paragraphs: [
+          'For a simple bedroom, enter 12 for length, 10 for width, and 1 for quantity. The result is 120 ft2 because 12 x 10 x 1 = 120.',
+          'That 120 ft2 is the measured floor footprint. If you are ordering flooring, you still need the product coverage, box rounding, cut waste, layout direction, and any installer guidance before you buy.',
+        ],
+      },
+      {
+        title: 'How to handle inches',
+        paragraphs: [
+          'The calculator asks for feet, so mixed measurements need to become decimal feet first. Divide inches by 12, then add that decimal to the feet.',
+          'For example, 9 ft 6 in becomes 9.5 ft because 6 / 12 = 0.5. A 9.5 ft by 10.25 ft section is 97.375 ft2 before any waste or product rounding.',
+        ],
+      },
+      {
+        title: 'When quantity helps',
+        paragraphs: [
+          'Quantity is useful when the same rectangle repeats. Two identical 12 ft by 8 ft walls are 12 x 8 x 2 = 192 ft2. Three 8 ft by 4 ft panels are 96 ft2.',
+          'If the walls, panels, rooms, or garden beds are different sizes, calculate each one separately. Quantity is not a shortcut for a mixed list of measurements.',
+        ],
+      },
+      {
+        title: 'Irregular rooms and openings',
+        paragraphs: [
+          'For an L-shaped room, split the shape into rectangles, calculate each rectangle, and add the square footage. This is usually more reliable than guessing one oversized rectangle and trying to subtract later.',
+          'For wall projects, calculate the wall rectangle first, then subtract doors, windows, or other openings when the material calls for it. Floor area usually starts with the floor footprint instead of door or window openings.',
+        ],
+      },
+      {
+        title: 'Square footage is not the whole material order',
+        paragraphs: [
+          'Square footage is the measured area. A real order may need extra material for cuts, breakage, pattern matching, overlap, room shape, stairs, seams, texture, and product coverage rules.',
+          'Use this page to get the area, then move to a material-specific calculator when you need boxes, gallons, rolls, pallets, or waste percent.',
+        ],
+        links: [
+          { href: '/tools/flooring-calculator/', label: 'Estimate flooring boxes and waste' },
+          { href: '/tools/paint-calculator/', label: 'Estimate paint gallons from wall area' },
+          { href: '/tools/wallpaper-calculator/', label: 'Estimate wallpaper rolls after wall area' },
+          { href: '/tools/sod-calculator/', label: 'Estimate sod from lawn square footage' },
+        ],
+      },
+      {
+        title: 'Square feet, square yards, and square meters',
+        paragraphs: [
+          'The main answer is square feet because the inputs are feet. Square yards divide that area by 9 because one square yard is 3 ft by 3 ft. Square meters divide by about 10.7639 because one square meter is about 10.7639 ft2.',
+          'Those conversions are for reading and comparing area. They do not add waste, change a product coverage rule, or turn a floor measurement into wall material by themselves.',
+        ],
+      },
+    ],
+    sidecarText:
+      'Open the Square Footage Calculator beside this guide. Try the 12 ft by 10 ft bedroom first, then replace it with one room, wall, panel, or garden bed from your own project.',
+    sources: [sourceLinks.nistUnits, sourceLinks.bipmSi, sourceLinks.googleHelpfulContent],
   },
   'time-card-calculator': {
     summary: 'Learn how to total work hours from daily start times, end times, and breaks.',
