@@ -7,30 +7,130 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="statistics-calculator"
   label="Statistics calculator guide"
   title="How to use the Statistics Calculator"
-  description="Learn how to use the free Access Free Tools statistics calculator for mean, median, mode, range, quartiles, variance, and standard deviation."
+  description="Use the free Statistics Calculator for count, sum, mean, median, mode, range, quartiles, IQR, variance, and sample or population standard deviation."
   path="/blog/how-to-use-statistics-calculator/"
-  intro="The Statistics Calculator summarizes one data set with measures of center, spread, quartiles, variance, and standard deviation."
+  intro="A statistics summary is only useful when you know which result answers the question. The Statistics Calculator turns one list of numbers into count, sum, center, spread, quartiles, variance, and sample or population standard deviation so you can check the story before copying it."
   quickStart={[
-    'Enter a list of numbers separated by commas, spaces, or line breaks.',
-    'Press Calculate statistics.',
-    'Review the mean, median, mode, range, quartiles, and standard deviation.',
-    'Copy the summary or choose an example to compare data sets quickly.',
+    'Enter one data set, with values separated by commas, spaces, or line breaks.',
+    'Press Calculate statistics and check that the count matches the number of values you meant to enter.',
+    'Read the center values first: mean, median, and mode.',
+    'Use range, Q1, Q3, IQR, variance, and standard deviation to understand spread.',
+    'Copy the answer only after choosing whether sample or population spread fits your situation.',
   ]}
+  bestUsesIntro="Use this guide when you have one list of numbers and need a clear descriptive-statistics summary before writing notes, checking homework, or comparing a column in a spreadsheet."
   sections={[
     {
-      title: 'Measures of center',
+      title: 'Quick answer',
       paragraphs: [
-        'Mean is the arithmetic average. Median is the middle value after sorting. Mode is the value or values that appear most often.',
-        'Different measures can tell different stories, especially when the data has outliers.',
+        'Paste one list of numbers into the Statistics Calculator, then use the result card as a descriptive statistics summary. It shows count, sum, minimum, maximum, mean, median, mode, range, Q1, Q3, IQR, population variance, population SD, sample variance, and sample SD.',
+        'For most quick reports, start with mean and median, then add range or IQR to show spread. Use standard deviation when you need a stronger spread measure around the mean.',
       ],
     },
     {
-      title: 'Measures of spread',
+      title: 'What the inputs mean',
       paragraphs: [
-        'Range shows the distance from the smallest value to the largest value. Quartiles divide sorted data into lower, middle, and upper portions.',
-        'Standard deviation and variance show how far values tend to sit from the mean.',
+        'The input box expects one data set. That could be one class score list, one survey question, one measurement column, or one set of experiment trials.',
+        'You can separate values with commas, spaces, or line breaks. Decimals and negative numbers are allowed, but every entry should be a real number from the same kind of measurement.',
+      ],
+      bullets: [
+        'Good input: 88, 92, 94, 94, 99.',
+        'Also good: one number per line from a spreadsheet column.',
+        'Risky input: mixing test scores, ages, and prices in one list.',
+        'Risky input: accidentally dropping a negative sign or decimal point while pasting.',
+      ],
+    },
+    {
+      title: 'How the results are calculated',
+      paragraphs: [
+        'Mean is the sum divided by the count. Median is the middle value after the list is sorted, or the average of the two middle values when the count is even. Mode is the most frequent value, and the calculator can show no mode or multiple tied modes.',
+        'Range is max minus min. Q1 and Q3 split the sorted values into lower and upper halves, and IQR is Q3 minus Q1. IQR is useful when the extremes are less important than the middle half of the data.',
+        'Variance and standard deviation measure spread around the mean. Population variance divides by n. Sample variance divides by n - 1, so sample variance and sample SD need at least two values.',
+      ],
+      bullets: [
+        'Use population SD when the list is the whole group you care about.',
+        'Use sample SD when the list is only part of a larger group, such as a survey sample or experiment sample.',
+        'Use IQR when outliers make the range feel too dramatic.',
+      ],
+    },
+    {
+      title: 'Example with real numbers',
+      paragraphs: [
+        'Try this list: 2, 4, 4, 4, 5, 5, 7, 9. The calculator returns mean = 5, median = 4.5, population SD = 2, and sample SD = 2.1380899353.',
+        'That tells a simple story. Most values sit near 4 or 5, the full range runs from 2 to 9, and the sample SD is a little larger because it uses n - 1 instead of n.',
+        'If you are writing a short note, you might say: The data has 8 values, a mean of 5, a median of 4.5, and a sample standard deviation of about 2.14. That is clearer than copying one average without spread.',
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'Most wrong statistics summaries come from input mistakes or from trusting the wrong measure for the question.',
+      ],
+      bullets: [
+        'Do not mix different units or different groups in the same list unless that is truly the question.',
+        'Check count first. If the count is wrong, every later result is suspect.',
+        'Do not read no mode as zero. It means no value repeats more than the others.',
+        'Do not use sample SD and population SD as if they were the same result.',
+        'Do not rely only on the mean when the median is far away from it.',
+        'Keep the rounding rule from your class, report, or spreadsheet if one is required.',
+      ],
+    },
+    {
+      title: 'When the summary is not enough',
+      paragraphs: [
+        'The calculator describes the numbers you entered. It does not prove that your data is representative, unbiased, normally distributed, or large enough for a research conclusion.',
+        'For a school worksheet, a quick report, or a spreadsheet check, this is usually enough. For formal research, medical, legal, financial, or policy work, use the summary as one check and follow the required method for that field.',
+      ],
+    },
+    {
+      title: 'Helpful next calculators',
+      paragraphs: [
+        'If you only need one spread measure, the Standard Deviation Calculator keeps the focus on variance and SD. If you are comparing an estimate from a sample to a likely population value, the Confidence Interval Calculator is a better next step.',
+      ],
+      links: [
+        { href: '/tools/statistics-calculator/', label: 'Open the Statistics Calculator' },
+        { href: '/tools/standard-deviation-calculator/', label: 'Standard Deviation Calculator' },
+        { href: '/tools/mean-median-mode-range-calculator/', label: 'Mean Median Mode Range Calculator' },
+        { href: '/tools/confidence-interval-calculator/', label: 'Confidence Interval Calculator' },
       ],
     },
   ]}
-  sidecarText="Use the Statistics Calculator while you follow the guide."
+  faqItems={[
+    {
+      question: 'What should I check before copying the statistics?',
+      answer:
+        'Check that all values belong to one data set, the count matches what you expected, negative signs and decimals pasted correctly, and you are using the right rounding rule.',
+    },
+    {
+      question: 'Should I use sample or population standard deviation?',
+      answer:
+        'Use population standard deviation when your list is the whole group. Use sample standard deviation when your list is only part of a larger group.',
+    },
+    {
+      question: 'What does IQR tell me?',
+      answer:
+        'IQR means interquartile range. It is Q3 minus Q1, so it shows the spread of the middle half of the sorted values.',
+    },
+    {
+      question: 'Can this calculator prove a research conclusion?',
+      answer:
+        'No. It summarizes the numbers you entered. It does not prove the data is representative, unbiased, normally distributed, or enough for a conclusion by itself.',
+    },
+    {
+      question: 'Can I paste values from a spreadsheet?',
+      answer:
+        'Yes. Paste one column or one row of numeric values, then check the count before trusting the results.',
+    },
+    {
+      question: 'Why are mean and median different?',
+      answer:
+        'The mean uses every value, so high or low outliers can pull it. The median is the middle of the sorted list and can be steadier for skewed data.',
+    },
+    {
+      question: 'Is my statistics history private?',
+      answer:
+        'Yes. Recent answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+    },
+  ]}
+  keepExploringIntro="Statistics questions often branch into spread, confidence, probability, or simple averages. These links keep the next check close."
+  sidecarText="Use the Statistics Calculator while you follow the guide, then copy the summary after checking count, spread, and sample versus population wording."
 />

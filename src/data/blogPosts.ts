@@ -206,7 +206,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Statistics Calculator',
     label: 'Statistics calculator guide',
     summary:
-      'Learn how to get mean, median, mode, range, quartiles, variance, and standard deviation from one list of values.',
+      'Learn how to read count, sum, mean, median, mode, range, quartiles, IQR, variance, and sample or population standard deviation.',
   },
   {
     slug: 'how-to-use-average-calculator',
