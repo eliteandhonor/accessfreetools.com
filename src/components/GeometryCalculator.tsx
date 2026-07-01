@@ -179,6 +179,8 @@ const geometryConfigs: Record<GeometryToolVariant, GeometryConfig> = {
           { label: '(1,2) to (5,10)', inputs: { x1: '1', y1: '2', x2: '5', y2: '10' } },
           { label: 'Negative slope', inputs: { x1: '-2', y1: '7', x2: '4', y2: '1' } },
           { label: 'Vertical line', inputs: { x1: '3', y1: '2', x2: '3', y2: '8' } },
+          { label: 'Horizontal line', inputs: { x1: '0', y1: '4', x2: '8', y2: '4' } },
+          { label: 'Decimal points', inputs: { x1: '1.5', y1: '-2', x2: '5.5', y2: '6' } },
         ],
       },
     ],

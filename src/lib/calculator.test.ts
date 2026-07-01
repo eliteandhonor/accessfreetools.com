@@ -556,6 +556,23 @@ describe('geometry helpers', () => {
     expect(calculateSlope(3, 2, 3, 8).slope).toBeNull();
   });
 
+  it('handles negative, horizontal, and decimal slope cases', () => {
+    const negative = calculateSlope(-2, 7, 4, 1);
+    const horizontal = calculateSlope(0, 4, 8, 4);
+    const decimal = calculateSlope(1.5, -2, 5.5, 6);
+
+    expect(formatCalculatorNumber(negative.slope ?? 0)).toBe('-1');
+    expect(formatCalculatorNumber(negative.yIntercept ?? 0)).toBe('5');
+    expect(formatCalculatorNumber(horizontal.slope ?? 1)).toBe('0');
+    expect(formatCalculatorNumber(horizontal.yIntercept ?? 0)).toBe('4');
+    expect(formatCalculatorNumber(decimal.slope ?? 0)).toBe('2');
+    expect(formatCalculatorNumber(decimal.yIntercept ?? 0)).toBe('-5');
+  });
+
+  it('rejects identical slope points', () => {
+    expect(() => calculateSlope(2, 3, 2, 3)).toThrow('The two points must be different');
+  });
+
   it('solves Pythagorean and right triangle values', () => {
     const pythagorean = calculatePythagorean('hypotenuse', { legA: 3, legB: 4 });
     const rightTriangle = calculateRightTriangle('leg-hypotenuse', { leg: 5, hypotenuse: 13 });

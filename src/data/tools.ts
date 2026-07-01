@@ -3069,21 +3069,33 @@ const baseTools: ToolDefinition[] = [
     category: 'calculators',
     summary: 'Find slope, rise, run, and a line equation from two points.',
     description:
-      'Use this free slope calculator to enter two coordinate points and find rise, run, slope, y-intercept, and a line equation with steps.',
+      'Use this free slope calculator to enter two coordinate points and find rise, run, slope, y-intercept, and a line equation with clear steps.',
     icon: 'calculator-slope',
     seoTitle: 'Slope Calculator | Find Slope from Two Points',
     seoDescription:
-      'Calculate slope from two points with rise, run, y-intercept, vertical-line handling, equation output, and steps.',
+      'Calculate slope from two points with rise, run, y-intercept, vertical-line handling, equation output, examples, and steps.',
+    aliases: [
+      'Rise Over Run Calculator',
+      'Slope from Two Points Calculator',
+      'Line Slope Calculator',
+      'Coordinate Slope Calculator',
+    ],
     useCases: [
       'Find slope from two coordinate points.',
       'Check rise over run for graphing and algebra homework.',
       'Identify vertical lines with undefined slope.',
       'Write a simple line equation from calculated slope and intercept.',
+      'Compare positive, negative, horizontal, and vertical line behavior.',
+      'Copy the slope steps into notes after checking decimal or negative coordinates.',
     ],
     examples: [
       { label: 'Positive slope', expression: '(1, 2) to (5, 10)', result: 'm = 2' },
       { label: 'Negative slope', expression: '(-2, 7) to (4, 1)', result: 'm = -1' },
       { label: 'Vertical line', expression: '(3, 2) to (3, 8)', result: 'Undefined slope' },
+      { label: 'Horizontal line', expression: '(0, 4) to (8, 4)', result: 'm = 0' },
+      { label: 'Decimal points', expression: '(1.5, -2) to (5.5, 6)', result: 'm = 2' },
+      { label: 'Fraction result', expression: '(-3, 1) to (9, 5)', result: 'm = 1/3, or 0.333333...' },
+      { label: 'Downward line', expression: '(2, -1) to (8, -10)', result: 'm = -1.5' },
     ],
     faq: [
       {
@@ -3102,9 +3114,39 @@ const baseTools: ToolDefinition[] = [
           'No. The two points must be different, or there is no single line direction to calculate.',
       },
       {
+        question: 'What does rise over run mean?',
+        answer:
+          'Rise is y2 - y1, the vertical change between the points. Run is x2 - x1, the horizontal change. Slope divides rise by run.',
+      },
+      {
+        question: 'What does a negative slope mean?',
+        answer:
+          'A negative slope means the line goes down as x increases. For example, a slope of -1 drops 1 unit for every 1 unit you move right.',
+      },
+      {
+        question: 'What is a horizontal line slope?',
+        answer:
+          'A horizontal line has a rise of zero, so its slope is 0. The line equation is y = a constant.',
+      },
+      {
         question: 'Does this calculator show the line equation?',
         answer:
           'Yes. For non-vertical lines it shows y = mx + b. For vertical lines it shows x = constant.',
+      },
+      {
+        question: 'Can I use decimals or negative coordinates?',
+        answer:
+          'Yes. Decimal and negative coordinates work as long as each value is a valid number and the two points are not identical.',
+      },
+      {
+        question: 'Does point order change the slope?',
+        answer:
+          'No. Swapping the first and second point changes both rise and run signs, so the final slope stays the same.',
+      },
+      {
+        question: 'Is slope the same as distance?',
+        answer:
+          'No. Slope measures steepness as rise divided by run. Distance measures how far apart the two points are along the segment.',
       },
       {
         question: 'Should I use the Distance Calculator instead?',
@@ -3117,7 +3159,7 @@ const baseTools: ToolDefinition[] = [
           'Yes. Recent slope answers stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['distance-calculator', 'right-triangle-calculator', 'triangle-calculator'],
+    relatedSlugs: ['distance-calculator', 'right-triangle-calculator', 'triangle-calculator', 'scientific-calculator'],
   },
   {
     slug: 'area-calculator',

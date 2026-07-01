@@ -6845,21 +6845,19 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'slope-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-07-01',
+    reviewedOn: '2026-07-01',
     scope: commonMathScope,
     sources: [openStaxDistance, openStaxGeometry],
     findings: [
-      'The slope helper calculates change in y divided by change in x and handles vertical lines without pretending the slope is a number.',
-      'Tests cover normal slope and vertical-line behavior.',
-      'The FAQ explains rise over run in plain language and points coordinate-distance users to the Distance Calculator.',
+      'The slope helper calculates change in y divided by change in x, handles vertical lines without pretending the slope is a number, and rejects identical points.',
+      'Tests cover positive, negative, horizontal, decimal, vertical-line, and identical-point behavior.',
+      'The FAQ explains rise over run, undefined slope, negative and horizontal slopes, decimal and negative coordinates, point order, line equations, distance differences, and tab-only privacy.',
     ],
     improvements: [
-      'Manually checked slope formula wording, vertical-line behavior, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Refreshed slope metadata, aliases, examples, FAQ depth, instructions, related links, modified date, audit notes, and regression tests for the controlled all-pages SEO sprint.',
     ],
-    followUps: [
-      'Add line-equation output later if paired with intercept examples and tests.',
-    ],
+    followUps: [],
   },
   {
     slug: 'pythagorean-theorem-calculator',
