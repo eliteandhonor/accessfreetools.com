@@ -269,7 +269,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Slope Calculator',
     label: 'Slope calculator guide',
     summary:
-      'Learn how to find slope from two points, read rise over run, identify vertical lines, and use line equations.',
+      'Learn how to find slope from two points, read rise over run, spot vertical and horizontal lines, and check line equation mistakes.',
   },
   {
     slug: 'how-to-use-area-calculator',
