@@ -2693,23 +2693,76 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchAmpHoursToWattHours, sourceLinks.doeApplianceEnergy, sourceLinks.nistUnits],
   },
   'watt-hours-to-amp-hours-calculator': {
-    summary: 'Learn how watt-hours divide by voltage to estimate battery amp-hours.',
+    summary:
+      'Learn how to convert watt-hours to amp-hours with Wh divided by V, nominal-voltage examples, and battery-runtime limits.',
+    metaDescription:
+      'Use the Watt Hours to Amp Hours Calculator guide to convert Wh to Ah with nominal voltage, 12.8 V, 24 V, 48 V, and 120 V examples, and battery runtime cautions.',
     purpose:
-      'The Watt Hours to Amp Hours Calculator is useful when a battery or power station lists energy in Wh and you need an Ah estimate at a chosen voltage.',
+      'The Watt Hours to Amp Hours Calculator is useful when a battery, power station, or energy label gives you watt-hours but another spec sheet or comparison needs amp-hours at a chosen nominal voltage.',
+    intro:
+      'A 5,000 Wh power station can sound like a giant amp-hour number until you choose the voltage. At 120 V, the same stored energy is about 41.67 Ah. At a lower battery voltage, the Ah number changes again, which is why the voltage field matters.',
+    inputMatch:
+      'stored watt-hours from the battery or power-station label, plus the nominal voltage you want the amp-hour estimate to use',
+    logicNote:
+      'The calculator divides watt-hours by volts. For example, 2,560 Wh / 12.8 V = 200 Ah, while 5,000 Wh / 120 V = about 41.67 Ah. The energy number did not disappear; the amp-hour label changed because the voltage changed.',
+    readIntro:
+      'Read the answer as an amp-hour estimate at the voltage you entered. If you are comparing batteries at different voltages, compare watt-hours first, then use Ah only after the voltage context is clear.',
+    mistakeIntro:
+      'Most Wh-to-Ah mistakes come from mixing internal battery voltage with output voltage, using charging voltage instead of nominal voltage, or treating amp-hours as runtime without checking the load watts and efficiency.',
+    sidecarText:
+      'Open the calculator and try 2,560 Wh at 12.8 V, then change only the voltage to 24 V. The watt-hours stay the same, but the amp-hours move because Ah is tied to voltage.',
+    bestUsesIntro:
+      'Use this guide when you want to translate a Wh label into an Ah-style number before comparing batteries, reading a spec sheet, or preparing a separate runtime estimate.',
     enter: [
-      'Enter watt-hours.',
-      'Enter nominal voltage.',
-      'Calculate to estimate amp-hours.',
+      'Enter watt-hours from the battery label, power-station label, or a previous energy calculation.',
+      'Enter the nominal voltage you want the Ah estimate at, such as 12 V, 12.8 V, 24 V, 48 V, or 120 V.',
+      'Calculate to estimate amp-hours, then keep the voltage beside the answer when you copy or compare it.',
     ],
     read: [
-      'The main answer is amp-hours at the voltage you entered.',
-      'Watt-hours stays the same energy number.',
-      'Changing voltage changes Ah because Ah is not a voltage-independent energy unit.',
+      'The main answer is amp-hours at the voltage you entered, not a voltage-free battery rating.',
+      'Watt-hours stays the same energy number, so use Wh when comparing packs with different voltages.',
+      'Changing voltage changes Ah because Ah is charge capacity at a voltage, not stored energy by itself.',
+      'A 5,000 Wh value at 120 V is an output-voltage comparison, not necessarily the internal battery-cell Ah rating.',
     ],
     mistakes: [
       'Do not compare Ah ratings across different voltages without converting to Wh.',
-      'Do not use the wrong battery voltage.',
+      'Do not use charging voltage when the comparison needs nominal battery voltage.',
+      'Do not mix a power station output voltage with the internal battery voltage unless that is the comparison you really want.',
       'Do not treat the result as guaranteed runtime without knowing load watts and efficiency.',
+    ],
+    extraSections: [
+      {
+        title: 'Why voltage changes the amp-hour number',
+        paragraphs: [
+          'Amp-hours describe charge capacity at a voltage. Watt-hours describe stored energy more directly. That is why the same Wh value can turn into different Ah values when you divide by 12 V, 24 V, 48 V, or 120 V.',
+          'For battery shopping, this matters because two batteries can show very different Ah labels while holding similar energy. A 12 V 100 Ah battery and a 24 V 50 Ah battery are both about 1,200 Wh before real-world losses.',
+        ],
+        bullets: [
+          'Use watt-hours when voltage is different.',
+          'Use amp-hours only after the voltage is named.',
+          'Keep chemistry, usable depth of discharge, age, and temperature out of the simple conversion unless your spec sheet gives those details.',
+        ],
+      },
+      {
+        title: 'Two quick examples to sanity-check your answer',
+        paragraphs: [
+          'For a LiFePO4-style label, 2,560 Wh at 12.8 V becomes 200 Ah. That is a label-style battery-capacity comparison because 12.8 V is a common nominal voltage for that kind of pack.',
+          'For a power station output comparison, 5,000 Wh at 120 V becomes about 41.67 Ah. That does not mean the internal battery pack is only 41.67 Ah; it means the energy is equivalent to about 41.67 amp-hours at 120 V.',
+        ],
+      },
+      {
+        title: 'When this is not enough for runtime',
+        paragraphs: [
+          'Amp-hours by themselves do not tell you how long a device will run. Runtime also needs the load in watts and a realistic efficiency assumption for the inverter, converter, wiring, or battery management system.',
+          'Use this guide to translate Wh and Ah cleanly. Then use a runtime calculator when you know the device watts and the losses you want to assume.',
+        ],
+        links: [
+          {
+            href: '/tools/device-battery-life-calculator/',
+            label: 'Estimate runtime with the Device Battery Life Calculator',
+          },
+        ],
+      },
     ],
     sources: [sourceLinks.inchWattHoursToAmpHours, sourceLinks.doeApplianceEnergy, sourceLinks.nistUnits],
   },
