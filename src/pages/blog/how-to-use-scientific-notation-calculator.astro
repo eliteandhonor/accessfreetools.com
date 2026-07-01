@@ -1,36 +1,255 @@
 ---
 export const prerender = true;
-import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+import BaseLayout from '../../components/BaseLayout.astro';
+import ToolArtFigure from '../../components/ToolArtFigure.astro';
+import { getTool } from '../../data/tools';
+import { getToolArt } from '../../data/toolArt';
+
+const scientificNotation = getTool('scientific-notation-calculator');
+const guideArt = getToolArt('scientific-notation-calculator', 'guide');
+const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
+const examples = scientificNotation?.examples ?? [];
+const faqItems = scientificNotation?.faq ?? [];
+const sourceLinks = [
+  {
+    href: 'https://openstax.org/books/college-algebra-2e/pages/1-2-exponents-and-scientific-notation',
+    label: 'OpenStax College Algebra: exponents and scientific notation',
+  },
+];
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to use the Scientific Notation Calculator',
+  description:
+    'Learn how to convert standard numbers to scientific notation, expand powers of 10, read E notation, handle zero and negative numbers, and check decimal moves.',
+  mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-scientific-notation-calculator/',
+  image: guideImageUrl,
+  datePublished: '2026-04-30',
+  dateModified: '2026-07-01',
+  author: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+    url: 'https://accessfreetools.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+  },
+};
 ---
 
-<CalculatorGuideArticle
-  toolSlug="scientific-notation-calculator"
-  label="Scientific notation guide"
-  title="How to use the Scientific Notation Calculator"
-  description="Learn how to use the free Access Free Tools scientific notation calculator to convert standard numbers to scientific notation and back."
+<BaseLayout
+  title="How to use the Scientific Notation Calculator | Access Free Tools"
+  description="Convert standard numbers to scientific notation, expand powers of 10, read E notation, handle zero and negative values, and check decimal moves."
   path="/blog/how-to-use-scientific-notation-calculator/"
-  intro="The Scientific Notation Calculator converts standard numbers into coefficient-times-power-of-10 form and converts scientific notation back to standard form."
-  quickStart={[
-    'Choose To scientific or To standard.',
-    'Enter the standard number, or enter the coefficient and exponent.',
-    'Press Convert notation.',
-    'Review the notation, standard form, coefficient, exponent, and steps.',
-  ]}
-  sections={[
-    {
-      title: 'Scientific notation basics',
-      paragraphs: [
-        'Scientific notation writes a number as a coefficient times a power of 10. In normalized form, the coefficient is at least 1 and less than 10, except when the original number is zero.',
-        'A positive exponent moves the decimal to the right in standard form. A negative exponent moves it to the left.',
-      ],
-    },
-    {
-      title: 'When to use it',
-      paragraphs: [
-        'Scientific notation is useful for very large and very small values in science, chemistry, physics, astronomy, and engineering examples.',
-        'If you need exact whole-number arithmetic with huge integers, use the Big Number Calculator instead.',
-      ],
-    },
-  ]}
-  sidecarText="Use the Scientific Notation Calculator while you follow the guide."
-/>
+  socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
+  socialImageAlt={guideArt?.alt}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Scientific Notation Calculator Guide</p>
+
+    <header class="blog-article-header">
+      <span>Scientific notation guide</span>
+      <p class="article-meta-line">Updated July 1, 2026.</p>
+      <h1>How to use the Scientific Notation Calculator</h1>
+      <p>
+        The Scientific Notation Calculator helps when a number is too long, too tiny, or written in
+        E notation. It converts standard numbers into coefficient-times-power-of-10 form and expands
+        a coefficient and exponent back into standard form, with the decimal moves shown plainly.
+      </p>
+      <a class="button-primary" href="/tools/scientific-notation-calculator/">Open the scientific notation calculator</a>
+    </header>
+
+    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick answer</h2>
+          <p>
+            Choose To scientific when you have a standard number like 4,500,000 or 0.00042. The
+            calculator returns 4.5 x 10^6 or 4.2 x 10^-4. Choose To standard when you already have a
+            coefficient and exponent, such as 7.5 and -3, and want 0.0075.
+          </p>
+          <p>
+            Positive exponents move the decimal right. Negative exponents move it left. The sign of
+            the original number stays on the coefficient, so -320,000 becomes -3.2 x 10^5.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Quick start</h2>
+          <ol class="instruction-list">
+            <li>Choose To scientific if you are starting with a normal decimal or whole number.</li>
+            <li>Choose To standard if you already know the coefficient and exponent.</li>
+            <li>Enter the number, or enter the coefficient and whole-number exponent.</li>
+            <li>Press Convert notation.</li>
+            <li>Check the notation, standard form, coefficient, exponent, and decimal-move steps.</li>
+          </ol>
+        </section>
+
+        <section class="content-section">
+          <h2>What the inputs mean</h2>
+          <p>
+            Scientific notation writes a number as a coefficient times a power of 10. In 4.5 x
+            10^6, the coefficient is 4.5 and the exponent is 6. The exponent tells how many places
+            the decimal point moves when you expand the number.
+          </p>
+          <p>
+            Normalized scientific notation keeps one nonzero digit to the left of the decimal point.
+            That is why 45 x 10^5 and 4.5 x 10^6 describe the same value, but 4.5 x 10^6 is the
+            normalized version.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>How decimal moves work</h2>
+          <p>
+            For a large number, move the decimal left until one nonzero digit is before the decimal.
+            Count the moves. That count becomes a positive exponent.
+          </p>
+          <p>
+            For a small decimal, move the decimal right until one nonzero digit is before the
+            decimal. Count the moves. That count becomes a negative exponent.
+          </p>
+          <div class="shortcut-table" role="table" aria-label="Scientific notation decimal move examples">
+            <div role="row">
+              <strong role="cell">4,500,000</strong>
+              <span role="cell">Move 6 places left, so the result is 4.5 x 10^6.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">0.00042</strong>
+              <span role="cell">Move 4 places right, so the result is 4.2 x 10^-4.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">-320,000</strong>
+              <span role="cell">Keep the negative sign and move 5 places left, so the result is -3.2 x 10^5.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Converting back to standard form</h2>
+          <p>
+            In To standard mode, enter the coefficient and exponent separately. A positive exponent
+            moves the decimal to the right. A negative exponent moves it to the left.
+          </p>
+          <p>
+            For example, 6.02 x 10^23 expands to 602,000,000,000,000,000,000,000. The value is the
+            same, but scientific notation makes it easier to read and compare.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>E notation</h2>
+          <p>
+            E notation is a compact way computers and spreadsheets write powers of 10. The input
+            1.2e-7 means 1.2 x 10^-7. The letter e is not Euler's number here. It means "times 10 to
+            the power of."
+          </p>
+          <p>
+            Use E notation when you paste a value from a spreadsheet, browser console, calculator,
+            or data table. The calculator reads it in To scientific mode and shows the clearer
+            power-of-10 form.
+          </p>
+        </section>
+
+        {examples.length > 0 && (
+          <section class="content-section">
+            <h2>Examples from the scientific notation calculator</h2>
+            <div class="example-grid">
+              {examples.map((example) => (
+                <article>
+                  <span>{example.label}</span>
+                  <strong>{example.expression}</strong>
+                  <p>{example.result}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {faqItems.length > 0 && (
+          <section class="content-section">
+            <h2>FAQs from the scientific notation calculator</h2>
+            <div class="guide-question-list">
+              {faqItems.map((item) => (
+                <article>
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Common mistakes to avoid</h2>
+          <ul class="guide-bullet-list">
+            <li>Do not lose the sign on a negative number. The coefficient should stay negative.</li>
+            <li>Do not reverse exponent direction. Positive exponents expand right; negative exponents expand left.</li>
+            <li>Do not leave the coefficient outside normalized form unless your class or source asks for that style.</li>
+            <li>Do not treat E notation as a different value. 1.2e-7 and 1.2 x 10^-7 mean the same thing.</li>
+            <li>Do not use scientific notation as a unit conversion. It changes number format, not units.</li>
+          </ul>
+        </section>
+
+        <section class="content-section">
+          <h2>When not to rely on it alone</h2>
+          <p>
+            This calculator is for notation, checking, and plain decimal moves. It uses normal
+            browser number limits, so it is not the right tool for exact arbitrary-precision
+            integer arithmetic.
+          </p>
+          <p>
+            For exact huge whole-number math, use the <a href="/tools/big-number-calculator/">Big Number Calculator</a>.
+            For powers and exponent rules, use the <a href="/tools/exponent-calculator/">Exponent Calculator</a>.
+            For calculator expressions that include scientific notation, use the
+            <a href="/tools/scientific-calculator/">Scientific Calculator</a>.
+          </p>
+          <p>
+            If you are deciding significant figures for a lab report, follow your class, lab, or
+            publication rules. This page can check the notation, but it does not decide rounding
+            policy or measurement uncertainty.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Research and references</h2>
+          <p>
+            This guide follows standard algebra notation for powers of 10, exponent signs, and
+            normalized scientific notation.
+          </p>
+          <ul class="source-link-list">
+            {sourceLinks.map((link) => (
+              <li>
+                <a href={link.href} rel="noreferrer" target="_blank">{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="content-section">
+          <h2>History, privacy, and copying</h2>
+          <p>
+            Recent notation conversions stay visible in the current browser tab while you use the
+            page. They are not sent to a server.
+          </p>
+          <p>
+            Copy answer copies the current conversion so you can paste it into notes, homework, a
+            spreadsheet comment, or a message. Check the exponent sign and the coefficient before
+            pasting it into final work.
+          </p>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Open the tool</h2>
+        <p>Use the scientific notation calculator while you follow the guide.</p>
+        <a class="button-primary" href="/tools/scientific-notation-calculator/">Scientific Notation Calculator</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
