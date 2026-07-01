@@ -178,7 +178,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Standard Deviation Calculator',
     label: 'Standard deviation guide',
     summary:
-      'Learn how to calculate sample or population standard deviation, variance, mean, range, and formula steps from a data set.',
+      'Learn how to calculate sample or population standard deviation, variance, mean, count, formula steps, examples, and practical limits from one data set.',
   },
   {
     slug: 'how-to-use-number-sequence-calculator',
