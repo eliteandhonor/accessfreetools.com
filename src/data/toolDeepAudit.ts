@@ -6921,20 +6921,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'surface-area-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-refresh-2026-07-01',
+    reviewedOn: '2026-07-01',
     scope: commonMathScope,
     sources: [openStaxGeometry, nistSi],
     findings: [
-      'The surface-area page explains that it measures outside area, not inside volume.',
-      'Examples and related links keep surface area distinct from Area, Volume, and Circle calculators.',
-      'The FAQ reinforces square-unit output and shape-specific formulas.',
+      'The surface-area page supports closed rectangular prism, cube, cylinder, sphere, and cone formulas with square-unit output.',
+      'Cone mode derives slant height from radius and vertical height before using the lateral-plus-base surface area formula.',
+      'The copy now separates closed-surface geometry answers from flat area, volume, open-top boxes, and rough material estimates that need waste or overlap added.',
     ],
     improvements: [
-      'Manually checked surface-area formula wording, unit labels, examples, FAQ clarity, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Refreshed metadata, use cases, examples, FAQ answers, modified date, and audit notes around closed solids, square units, slant height, material-estimate limits, and related geometry tools.',
     ],
     followUps: [
       'Add net diagrams later only if they can be kept lightweight and accessible.',
+      'Consider an open-top-box option later only if Search Console or DataForSEO evidence shows enough demand.',
     ],
   },
   {

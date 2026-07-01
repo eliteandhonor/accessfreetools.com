@@ -3508,21 +3508,26 @@ const baseTools: ToolDefinition[] = [
     category: 'calculators',
     summary: 'Calculate surface area for boxes, cubes, cylinders, spheres, and cones.',
     description:
-      'Use this free surface area calculator to find outside area for rectangular prisms, cubes, cylinders, spheres, and cones with formula steps.',
+      'Use this free surface area calculator to find outside area for boxes, cubes, cylinders, spheres, and cones with formulas, square-unit notes, and copyable steps.',
     icon: 'calculator-surface-area',
     seoTitle: 'Surface Area Calculator | Solid Geometry Tool',
     seoDescription:
-      'Calculate surface area for rectangular prisms, cubes, cylinders, spheres, and cones with square units, examples, and steps.',
+      'Calculate surface area for boxes, cubes, cylinders, spheres, and cones. See formulas, square-unit results, examples, and measurement checks.',
     useCases: [
-      'Find the outside area of common 3D solids.',
-      'Compare surface area for boxes, cylinders, spheres, and cones.',
+      'Find the outside area before wrapping, painting, or covering a simple solid.',
+      'Compare formulas for rectangular prisms, cubes, cylinders, spheres, and cones.',
       'Check square-unit answers for geometry homework.',
-      'Copy formulas and results into notes while comparing shapes.',
+      'Estimate material coverage for boxes, cans, balls, and cones before adding waste or overlap.',
+      'Keep surface area separate from volume and capacity problems.',
+      'Copy formula steps and recent answers into notes while comparing shapes.',
     ],
     examples: [
       { label: 'Rectangular prism', expression: '8 x 5 x 3', result: '158 square units' },
+      { label: 'Cube', expression: 's=6', result: '216 square units' },
       { label: 'Sphere', expression: 'r=4', result: '201.06192983 square units' },
       { label: 'Cylinder', expression: 'r=3, h=10', result: '245.04422698 square units' },
+      { label: 'Cone', expression: 'r=3, h=4', result: '75.39822369 square units' },
+      { label: 'Painted box check', expression: '12 x 8 x 6 in', result: '432 in^2 before waste' },
     ],
     faq: [
       {
@@ -3531,9 +3536,24 @@ const baseTools: ToolDefinition[] = [
           'The Surface Area Calculator supports rectangular prism, cube, cylinder, sphere, and cone modes.',
       },
       {
+        question: 'Which measurements do I need for each shape?',
+        answer:
+          'Rectangular prisms need length, width, and height. Cubes need side length. Cylinders and cones need radius and height. Spheres need radius.',
+      },
+      {
+        question: 'Should I enter radius or diameter?',
+        answer:
+          'Enter radius for cylinders, spheres, and cones. If you only know diameter, divide it by 2 first so the surface area is not four times too large.',
+      },
+      {
         question: 'What units should I use?',
         answer:
           'Use the same length unit for every measurement. The result is reported in square units, such as cm^2 or ft^2.',
+      },
+      {
+        question: 'Which formulas does the calculator use?',
+        answer:
+          'It uses 2lw + 2lh + 2wh for boxes, 6s^2 for cubes, 2pi r^2 + 2pi rh for cylinders, 4pi r^2 for spheres, and pi r(r + l) for cones.',
       },
       {
         question: 'How does cone surface area work?',
@@ -3549,6 +3569,16 @@ const baseTools: ToolDefinition[] = [
         question: 'Can this calculate flat 2D shapes?',
         answer:
           'Use the Area Calculator for flat shapes such as rectangles, triangles, circles, trapezoids, and parallelograms.',
+      },
+      {
+        question: 'Can I use this for paint, wrap, or material estimates?',
+        answer:
+          'Yes for a first closed-shape estimate, but add extra for waste, seams, overlap, texture, openings, and real object details the formula does not include.',
+      },
+      {
+        question: 'Does it handle open-top boxes or missing faces?',
+        answer:
+          'No. The built-in modes calculate closed standard solids. For an open-top box, subtract the missing face area from the rectangular prism result.',
       },
       {
         question: 'Is my surface area history private?',
