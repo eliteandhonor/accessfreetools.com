@@ -2372,19 +2372,28 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'watt-hours-to-amp-hours-calculator',
     name: 'Watt Hours to Amp Hours Calculator',
     category: 'calculators',
-    summary: 'Convert battery watt-hours into amp-hours at a selected voltage.',
+    summary: 'Convert battery watt-hours into amp-hours at a selected nominal voltage.',
+    seoTitle: 'Watt Hours to Amp Hours Calculator | Wh to Ah',
+    seoDescription:
+      'Convert watt-hours to amp-hours from Wh and nominal volts. See Wh to Ah formula steps, 12 V, 12.8 V, 24 V, 48 V, and 120 V examples, plus battery limits.',
     description:
-      'Use this free watt hours to amp hours calculator to convert stored energy into Ah at the battery voltage you choose.',
+      'Use this free watt hours to amp hours calculator to estimate amp-hours from stored energy and nominal voltage before comparing batteries or planning runtime.',
+    aliases: ['Wh to Ah Calculator', 'Watt Hour to Amp Hour Calculator', 'Battery Amp Hours Calculator'],
     icon: 'calculator-wh-to-ah',
-    formula: 'The calculator divides watt-hours by volts to estimate amp-hours.',
+    formula: 'Amp-hours = watt-hours / volts. Use nominal voltage for battery comparisons.',
     limit:
-      'Amp-hour ratings depend on voltage. Real usable capacity also changes with discharge rate, temperature, age, and conversion losses.',
+      'Amp-hour ratings depend on voltage. Real usable capacity and runtime also change with chemistry, discharge rate, temperature, age, depth-of-discharge limits, and inverter or converter losses.',
     inputExplanations: [
-      { term: 'Watt-hours', meaning: 'energy capacity of the battery or power station.' },
-      { term: 'Volts', meaning: 'nominal voltage used to convert energy into amp-hours.' },
-      { term: 'Amp-hours', meaning: 'capacity estimate at the selected voltage.' },
+      { term: 'Watt-hours', meaning: 'stored energy from the battery label, power-station label, or earlier Wh calculation.' },
+      { term: 'Volts', meaning: 'the nominal voltage you want the Ah estimate at, such as 12 V, 12.8 V, 24 V, 48 V, or 120 V.' },
+      { term: 'Amp-hours', meaning: 'charge-capacity estimate at the selected voltage, calculated from Wh divided by V.' },
     ],
     extraFaq: [
+      {
+        question: 'What is the Wh to Ah formula?',
+        answer:
+          'Divide watt-hours by volts. For example, 2,560 Wh / 12.8 V = 200 Ah.',
+      },
       {
         question: 'Why does voltage change amp-hours?',
         answer:
@@ -2395,17 +2404,37 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Only when the voltage is the same. For different battery voltages, compare watt-hours because it describes stored energy more directly.',
       },
+      {
+        question: 'Should I enter nominal voltage or charging voltage?',
+        answer:
+          'Use nominal voltage for a basic Wh to Ah comparison. Charging voltage can be higher than the battery rating and can make the Ah estimate look smaller than the label-style value.',
+      },
+      {
+        question: 'What does a 5,000 Wh power station at 120 V mean?',
+        answer:
+          'It means 5,000 Wh is equivalent to about 41.67 Ah at 120 V. That is an output-voltage comparison, not necessarily the internal battery-cell Ah rating.',
+      },
+      {
+        question: 'Does amp-hours tell me runtime?',
+        answer:
+          'Not by itself. Runtime needs the device watts and real efficiency. Use the device battery life calculator when you know load watts, battery voltage, and expected losses.',
+      },
     ],
     useCases: [
-      'Convert a Wh-rated power station into Ah.',
-      'Compare energy capacity at 12 V, 24 V, or 48 V.',
+      'Convert a Wh-rated battery or power station into Ah at a chosen voltage.',
+      'Compare capacity at 12 V, 12.8 V, 24 V, 48 V, or 120 V.',
       'Understand why Ah labels change with voltage.',
+      'Check a LiFePO4-style 12.8 V battery estimate.',
+      'Translate watt-hour labels before reading a battery spec sheet.',
       'Prepare battery numbers for runtime estimates.',
     ],
     examples: [
       { label: 'Power station', expression: '5,000 Wh at 120 V', result: 'About 41.67 Ah' },
       { label: '48 V battery', expression: '4,800 Wh at 48 V', result: '100 Ah' },
       { label: '12 V battery', expression: '1,200 Wh at 12 V', result: '100 Ah' },
+      { label: '12.8 V LiFePO4 bank', expression: '2,560 Wh at 12.8 V', result: '200 Ah' },
+      { label: '24 V battery', expression: '1,024 Wh at 24 V', result: 'About 42.67 Ah' },
+      { label: '48 V rack battery', expression: '3,840 Wh at 48 V', result: '80 Ah' },
     ],
     relatedSlugs: ['amp-hours-to-watt-hours-calculator', 'device-battery-life-calculator', 'electricity-calculator'],
   }),

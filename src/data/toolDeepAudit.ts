@@ -6060,20 +6060,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'watt-hours-to-amp-hours-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-electrical-power-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'seo-refresh-watt-hours-to-amp-hours-tool-2026-07-02',
+    reviewedOn: '2026-07-02',
     scope: commonMathScope,
     sources: [inchWattHoursToAmpHours, doeApplianceEnergy, nistSi],
     findings: [
-      'The calculator divides watt-hours by nominal volts to estimate amp-hours at that voltage.',
-      'The FAQ explains why Ah changes with voltage and why Wh is the better cross-voltage comparison.',
-      'The guide warns users not to treat Ah as guaranteed runtime without load watts and efficiency.',
+      'The calculator divides watt-hours by nominal volts to estimate amp-hours at that voltage and now states the formula directly as Ah = Wh / V.',
+      'The FAQ explains why Ah changes with voltage, why Wh is the better cross-voltage comparison, and why nominal voltage is safer than charging voltage for basic battery comparisons.',
+      'The tool page now separates output-voltage Ah comparisons, such as 5,000 Wh at 120 V, from internal battery-cell Ah ratings and points runtime questions toward load watts and efficiency.',
     ],
     improvements: [
-      'Manually checked Wh-to-Ah math, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+      'Refreshed Wh-to-Ah SEO title, meta description, aliases, formula wording, input guidance, FAQ detail, use cases, examples for 12 V, 12.8 V, 24 V, 48 V, and 120 V, modified date, and battery-limit wording while preserving the calculation engine and privacy behavior.',
     ],
     followUps: [
-      'Add battery-voltage presets later if they include a clear nominal-voltage reminder.',
+      'Add battery-voltage presets later only if they include a clear nominal-voltage reminder and avoid implying that Ah alone predicts runtime.',
     ],
   },
   {
