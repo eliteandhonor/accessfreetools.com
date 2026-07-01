@@ -289,6 +289,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-speed-calculator': '2026-07-01',
   'how-to-use-square-footage-calculator': '2026-07-01',
   'how-to-use-surface-area-calculator': '2026-07-02',
+  'how-to-use-voltage-drop-calculator': '2026-07-02',
   'how-to-use-standard-deviation-calculator': '2026-07-01',
   'how-to-use-statistics-calculator': '2026-07-01',
   'how-to-use-resistor-calculator': '2026-06-29',

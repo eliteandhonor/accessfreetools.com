@@ -2332,25 +2332,81 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits, sourceLinks.googleHelpfulContent],
   },
   'voltage-drop-calculator': {
-    summary: 'Learn how current, wire resistance, distance, and voltage affect voltage drop.',
+    title: 'Voltage Drop Calculator Guide',
+    summary:
+      'Learn how to estimate voltage drop from amps, one-way length, source voltage, copper AWG size, and circuit type.',
+    metaDescription:
+      'Use the Voltage Drop guide to estimate volts lost, percent drop, and load voltage, then avoid one-way length, low-voltage, and wire-sizing mistakes.',
     purpose:
-      'The Voltage Drop Calculator is for early planning and learning. It estimates the voltage lost across a copper conductor run, then shows the percent drop and load voltage.',
+      'The Voltage Drop Calculator estimates how much voltage may be lost in a simple copper AWG wire run. It is useful for early planning, homework, and sanity checks before a qualified electrical review.',
+    intro:
+      'Start with the source voltage, load current, one-way wire length, circuit type, and copper wire size. For example, 120 V, 15 A, 75 ft, and 12 AWG copper is about 3.573 V lost, or 2.98%, leaving about 116.427 V at the load.',
+    inputMatch:
+      'the source voltage, expected load current in amps, source-to-load one-way length in feet, copper AWG size, and single-phase/DC or balanced three-phase mode',
+    logicNote:
+      'The calculator uses voltage drop = current x copper resistance per foot x one-way length x circuit factor. Single-phase/DC uses factor 2 for the out-and-back path. Balanced three-phase uses sqrt(3).',
+    readIntro:
+      'Read volts dropped first, then percent drop, then load voltage. The percent drop is often the easiest warning sign because it scales the lost volts against the supply voltage.',
+    mistakeIntro:
+      'Most voltage-drop mistakes come from entering round-trip length, picking the wrong circuit type, forgetting that low-voltage systems are more sensitive, or treating one estimate as a final wiring decision.',
+    sidecarText:
+      'Open the Voltage Drop Calculator beside this guide. Try the 120 V, 15 A, 75 ft, 12 AWG example first, then change one input at a time so the percent drop makes sense.',
+    bestUsesIntro:
+      'Use this guide when you want to understand the estimate before checking equipment instructions, local code, and a qualified electrician or engineer.',
     enter: [
-      'Enter source voltage and current in amps.',
-      'Enter one-way wire length in feet.',
-      'Choose copper AWG size and phase type.',
+      'Enter the source voltage, such as 24 V, 120 V, 208 V, or 240 V.',
+      'Enter the load current in amps for the device or circuit you are checking.',
+      'Enter one-way length in feet from source to load, not round-trip distance.',
+      'Choose copper AWG size and circuit type: single-phase/DC or balanced three-phase.',
     ],
     read: [
-      'Voltage drop is the estimated volts lost in the conductor.',
-      'Percent drop compares that loss with source voltage.',
-      'Load voltage is the source voltage minus estimated drop.',
+      'Voltage drop is the estimated volts lost in the conductor run.',
+      'Percent drop compares that loss with the source voltage.',
+      'Load voltage is the source voltage minus the estimated drop.',
+      'Use the result as a planning signal before checking the allowed voltage range for the actual equipment.',
     ],
     mistakes: [
-      'Do not use this as a final wiring design.',
-      'Do not forget that conductor material, temperature, and installation method matter.',
-      'Ask a qualified electrician for real installations.',
+      'Do not enter round-trip length. The calculator already applies the circuit factor.',
+      'Do not use copper AWG results for aluminum wire without a separate source-backed check.',
+      'Do not treat a low percent drop as proof that breaker size, ampacity, temperature, insulation, terminals, or local code are acceptable.',
+      'Ask a qualified electrician or engineer for real installations and safety decisions.',
     ],
-    sources: [sourceLinks.usaceVoltageDrop, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
+    extraSections: [
+      {
+        title: 'Quick 120 V branch example',
+        paragraphs: [
+          'Say you are checking a 120 V branch run with 15 A of load current, 75 ft of one-way distance, single-phase/DC mode, and 12 AWG copper. The calculator estimates 3.573 V of drop.',
+          'That is 2.98% of 120 V, so the load voltage estimate is 116.427 V. This does not approve the wire, but it tells you whether the run deserves a closer design check.',
+        ],
+      },
+      {
+        title: 'Why low-voltage runs can surprise you',
+        paragraphs: [
+          'The same volt loss matters more when the source voltage is small. A 24 V run with 5 A, 40 ft one-way distance, and 10 AWG copper estimates 0.3996 V of drop.',
+          'That leaves about 23.6004 V at the load, and the percent drop is 1.67%. The volt number looks small, but the percent is the part that tells you how much of the supply you lost.',
+        ],
+        bullets: [
+          'Compare percent drop, not only volts dropped.',
+          'Check the device manual for the allowed input-voltage range.',
+          'Use manufacturer data and qualified electrical guidance before choosing wire or protection.',
+        ],
+      },
+      {
+        title: 'What this guide does not decide',
+        paragraphs: [
+          'Voltage drop is only one part of wiring. Real work can also need ampacity, insulation rating, conductor material, temperature adjustment, raceway fill, terminals, continuous-load rules, breaker rules, equipment instructions, and local code.',
+          'Use this guide to understand the scale of the voltage loss. Use the calculator result as a question to investigate, not as a wiring permit or safety sign-off.',
+        ],
+      },
+    ],
+    referenceIntro:
+      'These references support the voltage-drop concept, Ohm law background, units, and safety-limit wording. They do not replace equipment instructions, local code, or professional electrical review.',
+    sources: [
+      sourceLinks.usaceVoltageDrop,
+      sourceLinks.openStaxOhmsLaw,
+      sourceLinks.nistUnits,
+      sourceLinks.esfiExtensionCordSafety,
+    ],
   },
   'watts-to-amps-calculator': {
     summary: 'Learn how watts, volts, phase type, and power factor turn into an amp estimate.',
