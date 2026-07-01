@@ -197,6 +197,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'internet-speed-needs-calculator': '2026-06-05',
   'streaming-bitrate-calculator': '2026-06-05',
   'device-battery-life-calculator': '2026-06-05',
+  'voltage-drop-calculator': '2026-07-02',
   'amps-to-watts-calculator': '2026-06-26',
   'kilowatts-to-amps-calculator': '2026-06-27',
   'kva-to-amps-calculator': '2026-06-27',

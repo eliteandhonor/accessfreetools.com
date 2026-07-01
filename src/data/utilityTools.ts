@@ -1969,23 +1969,47 @@ export const utilityTools: ToolDefinition[] = [
     category: 'calculators',
     summary: 'Estimate voltage drop from current, wire length, voltage, phase, and copper AWG size.',
     description:
-      'Use this free voltage drop calculator to estimate voltage drop, percent drop, and load voltage for simple copper wire runs.',
+      'Use this free voltage drop calculator to estimate volts dropped, percent drop, and load voltage for simple copper AWG wire runs before a qualified code check.',
+    seoTitle: 'Voltage Drop Calculator | Copper AWG Wire Estimate',
+    seoDescription:
+      'Estimate voltage drop, percent drop, and load voltage from source voltage, amps, one-way length, phase, and copper AWG size. Planning estimate only.',
     icon: 'calculator-voltage-drop',
     formula:
-      'The calculator multiplies current by conductor resistance and one-way length. Single-phase/DC uses a 2x path factor; three-phase uses the square root of 3.',
+      'Voltage drop = current x copper resistance per foot x one-way length x circuit factor. Single-phase/DC uses factor 2; balanced three-phase uses sqrt(3).',
     limit:
-      'This is a simplified planning estimate. Real electrical work needs code checks, conductor temperature, material, installation method, and a qualified professional.',
+      'Planning math only. It does not choose breaker or wire size and does not check ampacity, insulation, temperature, raceway fill, equipment instructions, or local code.',
     inputExplanations: [
       { term: 'Source voltage', meaning: 'the voltage at the supply side before the wire run loses voltage.' },
-      { term: 'Current amps', meaning: 'the load current flowing through the conductor.' },
-      { term: 'One-way length', meaning: 'the distance from source to load. The calculator applies the circuit-path factor for the selected phase.' },
-      { term: 'Copper wire size', meaning: 'the AWG size used to look up approximate copper resistance.' },
+      { term: 'Current amps', meaning: 'the load current used for this estimate, not a breaker-size decision.' },
+      { term: 'One-way length', meaning: 'the source-to-load distance in feet. The calculator applies the return-path or three-phase factor.' },
+      { term: 'Copper wire size', meaning: 'the AWG size used to look up approximate copper resistance per 1,000 feet.' },
+      { term: 'Circuit type', meaning: 'single-phase/DC or balanced three-phase, which changes the circuit factor.' },
     ],
     extraFaq: [
       {
         question: 'Why does circuit type change voltage drop?',
         answer:
-          'A simple single-phase or DC run uses an out-and-back path, so the length factor is 2. A balanced three-phase estimate uses the square root of 3. Real installations can need more detailed impedance and code checks.',
+          'A simple single-phase or DC run uses an out-and-back path, so the factor is 2. A balanced three-phase estimate uses sqrt(3). Real installations can need more detailed impedance and code checks.',
+      },
+      {
+        question: 'Should I enter one-way length or round-trip length?',
+        answer:
+          'Enter one-way length from source to load. The calculator applies the circuit factor, so entering round-trip length would double-count the path for single-phase or DC runs.',
+      },
+      {
+        question: 'Does this choose the correct wire size?',
+        answer:
+          'No. It estimates voltage drop for the wire size you pick. Wire sizing also needs ampacity, insulation, conductor material, temperature, raceway fill, terminals, equipment instructions, and local code.',
+      },
+      {
+        question: 'Why can low-voltage runs show a high percent drop?',
+        answer:
+          'The same volt loss is a larger percentage of a small source voltage. A 0.4 V drop is small on 120 V, but much more noticeable on 12 V or 24 V systems.',
+      },
+      {
+        question: 'Does this include aluminum wire or temperature adjustment?',
+        answer:
+          'No. This version uses approximate copper AWG resistance values. Aluminum conductors, hot conductors, conduit fill, and AC impedance can change the real result.',
       },
     ],
     useCases: [
@@ -1993,11 +2017,16 @@ export const utilityTools: ToolDefinition[] = [
       'Compare common copper AWG wire sizes.',
       'Check percent voltage drop from source voltage.',
       'See load voltage after the estimated drop.',
+      'Explain why long, low-voltage, or high-current runs can lose more voltage.',
+      'Copy a planning result before checking equipment instructions and qualified electrical guidance.',
     ],
     examples: [
-      { label: 'Branch run', expression: '120 V, 15 A, 75 ft, 12 AWG copper', result: 'Voltage drop estimate' },
-      { label: 'Longer 240 V run', expression: '240 V, 30 A, 100 ft, 8 AWG copper', result: 'Percent drop estimate' },
-      { label: 'Three-phase run', expression: '208 V, 20 A, 150 ft, 6 AWG copper', result: 'Load voltage estimate' },
+      { label: '120 V branch', expression: '120 V, 15 A, 75 ft, 12 AWG copper', result: '3.573 V drop, 2.98% drop, 116.427 V load' },
+      { label: 'Longer 240 V run', expression: '240 V, 30 A, 100 ft, 8 AWG copper', result: '3.7692 V drop, 1.57% drop, 236.2308 V load' },
+      { label: 'Three-phase run', expression: '208 V, 20 A, 150 ft, 6 AWG copper', result: '2.0533 V drop, 0.99% drop, 205.9467 V load' },
+      { label: 'Low-voltage DC check', expression: '24 V, 5 A, 40 ft, 10 AWG copper', result: '0.3996 V drop, 1.67% drop, 23.6004 V load' },
+      { label: 'Long thin-wire check', expression: '120 V, 12 A, 150 ft, 14 AWG copper', result: '9.09 V drop, 7.58% drop, 110.91 V load' },
+      { label: 'Larger-wire comparison', expression: '120 V, 15 A, 75 ft, 10 AWG copper', result: '2.2478 V drop, 1.87% drop, 117.7523 V load' },
     ],
     relatedSlugs: ['watts-to-amps-calculator', 'ohms-law-calculator', 'electricity-calculator', 'resistor-calculator'],
   }),

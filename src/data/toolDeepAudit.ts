@@ -5945,20 +5945,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'voltage-drop-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-refresh-voltage-drop-tool-2026-07-02',
+    reviewedOn: '2026-07-02',
     scope: commonMathScope,
-    sources: [usaceVoltageDrop, openStaxOhmsLaw, nistSi],
+    sources: [usaceVoltageDrop, openStaxOhmsLaw, nistSi, esfiExtensionCordSafety, googleHelpfulContent],
     findings: [
       'The calculator uses current, conductor resistance, one-way length, and the selected circuit factor for a simplified voltage-drop estimate.',
-      'The FAQ now explains why single-phase/DC uses a 2x path factor and balanced three-phase uses sqrt(3).',
-      'The guide and result note keep code checks, conductor temperature, material, installation method, and qualified electrical review outside the simple estimate.',
+      'The page now gives six concrete examples with voltage drop, percent drop, and load voltage values, including a low-voltage DC check, a long thin-wire check, and a larger-wire comparison.',
+      'The FAQ explains one-way length, single-phase/DC versus balanced three-phase factors, low-voltage percent-drop sensitivity, copper-only resistance assumptions, and why this is not a wire-size approval.',
+      'The tool, examples, FAQ, and result note keep breakers, ampacity, conductor material, insulation, temperature, raceway fill, equipment instructions, local code, and qualified electrical review outside the simple estimate.',
     ],
     improvements: [
-      'Manually checked voltage-drop math, phase factors, AWG resistance labels, examples, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Refreshed voltage-drop metadata, SEO description, formula wording, input explanations, six use cases, six examples, custom FAQ detail, 2026-07-02 modified date, source coverage, related safety cautions, and deep-audit note while preserving the existing calculation engine.',
     ],
     followUps: [
-      'Add aluminum conductor and temperature adjustment modes only after the safety notes can be kept prominent.',
+      'Add aluminum conductor, temperature adjustment, or impedance modes only after the safety notes can stay prominent and source-backed.',
     ],
   },
   {
