@@ -297,7 +297,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Surface Area Calculator',
     label: 'Surface area guide',
     summary:
-      'Learn how to calculate surface area for rectangular prisms, cubes, cylinders, spheres, and cones.',
+      'Learn how to calculate surface area for boxes, cubes, cylinders, spheres, and cones, avoid radius mistakes, and read square-unit material estimates.',
   },
   {
     slug: 'how-to-use-pythagorean-theorem-calculator',

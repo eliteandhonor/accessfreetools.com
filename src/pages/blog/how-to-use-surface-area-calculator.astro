@@ -7,37 +7,127 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="surface-area-calculator"
   label="Surface area guide"
   title="How to use the Surface Area Calculator"
-  description="Learn how to calculate surface area for rectangular prisms, cubes, cylinders, spheres, and cones."
+  description="Use the Surface Area Calculator for boxes, cubes, cylinders, spheres, and cones. Learn square-unit formulas, radius checks, examples, and material limits."
   path="/blog/how-to-use-surface-area-calculator/"
-  intro="The Surface Area Calculator finds the outside area of common 3D solids."
+  intro="Surface area is the outside covering of a solid. Use it when you are checking wrap, paint, cardboard, labels, or geometry homework, and use volume only when you need inside capacity."
   quickStart={[
-    'Choose the solid shape you want to calculate.',
-    'Enter the required dimensions for that shape.',
-    'Use one length unit for every measurement.',
-    'Press Calculate surface area and read the square-unit result.',
+    'Choose rectangular prism, cube, cylinder, sphere, or cone.',
+    'Enter the dimensions that shape asks for, such as length, width, height, side length, or radius.',
+    'Use one length unit for every measurement before you calculate.',
+    'Check radius carefully for round shapes. If you measured diameter, divide it by 2 first.',
+    'Read the square-unit result, then add waste or overlap if you are estimating real material.',
   ]}
+  bestUsesIntro="Use the calculator when the outside covering matters more than the space inside the object. These are the jobs where surface area is the number you actually need."
   sections={[
     {
-      title: 'Supported surface area shapes',
+      title: 'Quick answer',
       paragraphs: [
-        'The calculator supports rectangular prisms, cubes, cylinders, spheres, and cones.',
-        'Cone mode asks for radius and vertical height, then calculates slant height before finding surface area.',
+        'Surface area measures the outside of a three-dimensional shape. A closed rectangular box, a cube, a can-shaped cylinder, a ball-shaped sphere, and a cone each use a different formula, but every answer is still an outside-area answer.',
+        'For example, a rectangular prism that is 8 units long, 5 units wide, and 3 units high has 158 square units of surface area. That is the outside covering, not the amount of space the box can hold.',
       ],
     },
     {
-      title: 'Square units',
+      title: 'Choosing the right shape mode',
       paragraphs: [
-        'Surface area is reported in square units because it measures the outside surface of a solid.',
-        'If the measurements are in inches, the surface area is shown in in^2.',
+        'Use rectangular prism mode for boxes, rooms, cartons, and solid blocks where length, width, and height can be measured separately. Use cube mode only when all six faces have the same side length.',
+        'Use cylinder mode for can-like objects, sphere mode for ball-like objects, and cone mode for cone shapes. The calculator treats these as clean standard solids, so it does not know about dents, handles, lips, holes, seams, or missing faces.',
       ],
     },
     {
-      title: 'Surface area versus volume',
+      title: 'What the inputs mean',
       paragraphs: [
-        'Surface area measures the outside of a solid. Volume measures how much space is inside.',
-        'Use the Volume Calculator for cubic-unit capacity or space problems.',
+        'Length, width, height, and side length are straight length measurements. Radius is the distance from the center of a circle to the outside edge. Diameter is the full distance across the circle, so diameter is twice the radius.',
+        'Cylinder, sphere, and cone modes ask for radius, not diameter. If you enter diameter as radius, the answer can become much too large because the formulas square the radius.',
+        'Cone mode asks for radius and vertical height. The calculator then finds the slant height before using the cone surface area formula.',
+      ],
+    },
+    {
+      title: 'Square units and formulas',
+      paragraphs: [
+        'Surface area is reported in square units because it measures a covering. If your inputs are inches, the answer is in in^2. If your inputs are centimeters, the answer is in cm^2.',
+        'The rectangular prism formula is SA = 2lw + 2lh + 2wh. Cube mode uses SA = 6s^2. Cylinder mode uses SA = 2pi r^2 + 2pi rh. Sphere mode uses SA = 4pi r^2. Cone mode uses SA = pi r(r + l), where l is the slant height.',
+      ],
+    },
+    {
+      title: 'Example: painted box check',
+      paragraphs: [
+        'Say you have a closed box that is 12 in by 8 in by 6 in. Rectangular prism mode uses 2lw + 2lh + 2wh, so the outside area is 2(12 x 8) + 2(12 x 6) + 2(8 x 6).',
+        'That gives 192 + 144 + 96 = 432 in^2 before waste. If you are buying paint, wrap, paper, or covering material, that 432 in^2 is the clean geometry estimate. Real projects usually need extra for overlap, cuts, seams, texture, or mistakes.',
+      ],
+    },
+    {
+      title: 'Common mistakes to check',
+      paragraphs: [
+        'The biggest mistake is using volume when you need surface area. Volume tells you capacity in cubic units. Surface area tells you outside covering in square units.',
+        'The second big mistake is mixing units. A box entered as 12 inches by 8 inches by 0.5 feet will not be meaningful unless you convert 0.5 feet to 6 inches first.',
+      ],
+      bullets: [
+        'For round shapes, enter radius instead of diameter.',
+        'For open-top boxes, subtract the missing top face from the closed rectangular-prism result.',
+        'For material orders, add waste after the calculator gives the clean surface area.',
+        'For real construction, packaging, safety, or code decisions, treat this as planning math, not approval.',
+      ],
+    },
+    {
+      title: 'When to use another calculator',
+      paragraphs: [
+        'Use the Area Calculator for flat 2D shapes such as rectangles, triangles, circles, trapezoids, and parallelograms. Use the Volume Calculator when you need cubic-unit capacity.',
+        'The Circle Calculator is better when you are switching between radius, diameter, circumference, and circle area before you use a cylinder, cone, or sphere formula.',
+      ],
+      links: [
+        { href: '/tools/area-calculator/', label: 'Area Calculator' },
+        { href: '/tools/volume-calculator/', label: 'Volume Calculator' },
+        { href: '/tools/circle-calculator/', label: 'Circle Calculator' },
+      ],
+    },
+    {
+      title: 'Sources used for this guide',
+      paragraphs: [
+        'The calculator uses standard solid-geometry formulas and square-unit labels. These references are useful if you want to compare formula wording or unit guidance.',
+      ],
+      links: [
+        { href: 'https://openstax.org/books/prealgebra-2e/pages/c-geometric-formulas', label: 'OpenStax Prealgebra: Geometric formulas' },
+        { href: 'https://www.nist.gov/publications/guide-use-international-system-units-si', label: 'NIST SP 811: Guide for the Use of the International System of Units' },
       ],
     },
   ]}
-  sidecarText="Use the Surface Area Calculator while you follow the guide."
+  faqItems={[
+    {
+      question: 'Which shapes does the Surface Area Calculator support?',
+      answer:
+        'It supports rectangular prisms, cubes, cylinders, spheres, and cones. Each mode asks only for the measurements needed for that shape.',
+    },
+    {
+      question: 'Is surface area different from volume?',
+      answer:
+        'Yes. Surface area measures the outside covering in square units. Volume measures inside space in cubic units.',
+    },
+    {
+      question: 'Should I enter radius or diameter?',
+      answer:
+        'Enter radius for cylinders, spheres, and cones. If you measured diameter, divide it by 2 first before typing the value.',
+    },
+    {
+      question: 'How do I handle an open-top box?',
+      answer:
+        'The built-in rectangular prism mode calculates a closed box. For an open-top box, calculate the closed box first, then subtract length times width for the missing top face.',
+    },
+    {
+      question: 'Can I use this for paint, wrap, or material estimates?',
+      answer:
+        'Yes for a first clean estimate. Add extra for waste, seams, overlap, texture, openings, and any real object details the formula does not include.',
+    },
+    {
+      question: 'Why is the result in square units?',
+      answer:
+        'Surface area measures a covering, so the answer is squared. Inch inputs give in^2, centimeter inputs give cm^2, and foot inputs give ft^2.',
+    },
+    {
+      question: 'Is my calculation history private?',
+      answer:
+        'Yes. Recent surface area answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+    },
+  ]}
+  keepExploringIntro="If the surface-area result makes you realize you need a flat shape, inside capacity, or circle measurement first, these nearby tools keep the math in the same family."
+  sidecarText="Try the 12 in by 8 in by 6 in box first, then switch to cylinder, sphere, or cone and watch how radius changes the square-unit answer."
 />
