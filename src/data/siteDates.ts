@@ -205,6 +205,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'resistor-calculator': '2026-06-28',
   'amp-hours-to-watt-hours-calculator': '2026-06-26',
   'watt-hours-to-amp-hours-calculator': '2026-07-02',
+  'wire-size-calculator': '2026-07-02',
   'monitor-ppi-calculator': '2026-06-05',
   'recipe-scaler': '2026-06-05',
   'cooking-measurement-converter': '2026-06-05',

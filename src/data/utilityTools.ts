@@ -2484,19 +2484,24 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'wire-size-calculator',
     name: 'Wire Size Calculator',
     category: 'calculators',
-    summary: 'Estimate a copper AWG size from current, length, voltage, phase, and voltage-drop target.',
+    summary: 'Estimate copper AWG size from a voltage-drop target.',
     description:
-      'Use this free wire size calculator to estimate a common copper AWG size that stays within a chosen voltage-drop percentage.',
+      'Use this free wire size calculator to estimate copper AWG size, voltage drop, percent drop, and load voltage from amps, length, source voltage, phase, and a drop limit.',
+    seoTitle: 'Wire Size Calculator | Copper AWG Voltage Drop Estimate',
+    seoDescription:
+      'Estimate copper AWG wire size from source voltage, amps, one-way length, phase, and voltage-drop percentage. Includes voltage drop and load voltage.',
+    aliases: ['awg wire size calculator', 'copper wire size calculator', 'voltage drop wire size calculator'],
     icon: 'calculator-wire-size',
     formula:
-      'The calculator tests common copper AWG sizes and returns the first size whose estimated voltage drop is within the selected percentage.',
+      'The calculator tests common copper AWG sizes from 14 AWG through 4/0 and returns the first size whose estimated voltage drop is within the selected percentage. Single/DC uses the out-and-back path; balanced three-phase uses the square-root-of-3 factor.',
     limit:
-      'This is not a code-complete wire sizing tool. Ampacity, insulation rating, terminals, raceway, temperature, material, and local code must be checked separately.',
+      'This is voltage-drop planning math for copper conductors only. It does not approve wire size or check ampacity, breaker size, insulation rating, terminals, raceway fill, temperature correction, aluminum conductors, equipment instructions, or local electrical code.',
     inputExplanations: [
-      { term: 'Source voltage', meaning: 'voltage before the wire run loses voltage.' },
-      { term: 'Current amps', meaning: 'load current for the voltage-drop estimate.' },
-      { term: 'One-way length', meaning: 'distance from source to load.' },
-      { term: 'Max voltage drop', meaning: 'the target percentage the estimate tries to stay under.' },
+      { term: 'Source voltage', meaning: 'the voltage at the supply side before the wire run loses voltage.' },
+      { term: 'Current amps', meaning: 'the expected load current used for the voltage-drop estimate.' },
+      { term: 'One-way length', meaning: 'the source-to-load distance in feet, not the full out-and-back loop length.' },
+      { term: 'Max voltage drop', meaning: 'the percentage limit the calculator tries to stay under, such as 3%.' },
+      { term: 'Circuit type', meaning: 'single/DC uses an out-and-back factor of 2; balanced three-phase uses sqrt(3).' },
     ],
     extraFaq: [
       {
@@ -2509,17 +2514,42 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Longer wire has more resistance. More resistance causes more voltage drop, so increasing wire size can reduce the estimated voltage lost along the run.',
       },
+      {
+        question: 'What does one-way length mean?',
+        answer:
+          'Enter the physical distance from the source to the load. The calculator applies the circuit factor internally, so do not double the length for a simple single-phase or DC run.',
+      },
+      {
+        question: 'Why does low voltage often need larger wire?',
+        answer:
+          'The same volt loss is a bigger percentage of a 12 V, 24 V, or 48 V system than it is of a 120 V or 240 V system. That can push the estimate toward a larger copper AWG size.',
+      },
+      {
+        question: 'Does this calculator handle aluminum wire?',
+        answer:
+          'No. This version uses approximate copper AWG resistance values only. Aluminum conductors, hot conductors, conduit fill, and AC impedance can change the real result.',
+      },
+      {
+        question: 'What if no supported wire size meets the target?',
+        answer:
+          'The run may need a shorter length, lower current, higher source voltage, a larger conductor than this simple list supports, or a qualified design review.',
+      },
     ],
     useCases: [
       'Estimate copper AWG size for a voltage-drop target.',
       'Compare branch-circuit and longer-run examples.',
       'See estimated voltage drop and load voltage together.',
       'Learn why current and length affect conductor choice.',
+      'Check low-voltage DC runs where percent drop is sensitive.',
+      'Compare single/DC and balanced three-phase voltage-drop assumptions.',
     ],
     examples: [
-      { label: '120 V branch', expression: '120 V, 15 A, 75 ft, max 3%', result: '12 AWG copper estimate' },
-      { label: '240 V run', expression: '240 V, 30 A, 100 ft, max 3%', result: 'Estimated AWG size' },
-      { label: 'Three-phase run', expression: '208 V, 20 A, 150 ft, max 3%', result: 'Estimated AWG size' },
+      { label: '120 V branch', expression: '120 V, 15 A, 75 ft, max 3%, single/DC', result: '12 AWG; 3.573 V drop, 2.9775% drop, 116.427 V load' },
+      { label: '240 V run', expression: '240 V, 30 A, 100 ft, max 3%, single/DC', result: '10 AWG; 5.994 V drop, 2.4975% drop, 234.006 V load' },
+      { label: '208 V three-phase', expression: '208 V, 20 A, 150 ft, max 3%, three-phase', result: '10 AWG; 5.1909562703 V drop, 2.495652053% drop, 202.80904373 V load' },
+      { label: '24 V low voltage', expression: '24 V, 5 A, 40 ft, max 3%, single/DC', result: '12 AWG; 0.6352 V drop, 2.6466666667% drop, 23.3648 V load' },
+      { label: 'Long 120 V check', expression: '120 V, 12 A, 150 ft, max 3%, single/DC', result: '10 AWG; 3.5964 V drop, 2.997% drop, 116.4036 V load' },
+      { label: '48 V DC run', expression: '48 V, 20 A, 80 ft, max 3%, single/DC', result: '6 AWG; 1.26432 V drop, 2.634% drop, 46.73568 V load' },
     ],
     relatedSlugs: ['wire-resistance-calculator', 'voltage-drop-calculator', 'electricity-calculator'],
   }),

@@ -6098,17 +6098,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'wire-size-calculator',
     status: 'deep-reviewed',
-    batch: 'competitor-electrical-power-batch-2026-05-01',
-    reviewedOn: '2026-05-01',
+    batch: 'all-pages-seo-gsc-refresh-wire-size-2026-07-02',
+    reviewedOn: '2026-07-02',
     scope: commonMathScope,
     sources: [inchWireSize, usaceVoltageDrop, openStaxOhmsLaw, nistSi],
     findings: [
-      'The calculator tests common copper AWG sizes from smaller to larger and returns the first size that meets the voltage-drop target.',
-      'The FAQ clearly says this is not an electrical code wire-size chart and lists ampacity, insulation, raceway, terminals, temperature, and material limits.',
-      'The guide explains why long runs may require larger wire because resistance and voltage drop rise with length.',
+      'The calculator tests common copper AWG sizes from 14 AWG through 4/0 and returns the first size that meets the selected voltage-drop percentage.',
+      'The tool record now gives six exact examples with AWG result, voltage drop, percent drop, and load voltage, including 120 V, 240 V, 208 V three-phase, 24 V, long 120 V, and 48 V runs.',
+      'The FAQ clearly separates voltage-drop planning from electrical approval and names ampacity, breaker size, insulation, terminals, raceway fill, temperature correction, aluminum conductors, equipment instructions, and local code as outside scope.',
     ],
     improvements: [
-      'Manually checked wire-size selection logic, AWG order, voltage-drop metrics, examples, FAQ detail, guide cautions, related tools, SEO copy, privacy behavior, and result labels.',
+      'Manually checked wire-size selection logic, AWG order, single/DC and balanced three-phase factors, exact examples, FAQ detail, guide cautions, related tools, SEO title/description, privacy behavior, and result labels.',
     ],
     followUps: [
       'Add ampacity-table education only if the page can avoid giving jurisdiction-specific code advice.',
