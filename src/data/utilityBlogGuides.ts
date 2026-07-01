@@ -1902,23 +1902,64 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits, sourceLinks.openStaxMassWeight],
   },
   'speed-calculator': {
-    summary: 'Learn how distance divided by time gives average speed.',
+    summary: 'Learn how distance divided by time gives average speed in mph, km/h, and m/s.',
+    metaDescription:
+      'Use the Speed Calculator guide for distance and elapsed time. Learn mph, km/h, m/s, decimal hours, stopped-time choices, and metric-distance checks.',
     purpose:
-      'The Speed Calculator finds average speed over a whole trip or activity. It converts the time fields into decimal hours before calculating mph.',
+      'The Speed Calculator finds average speed over a whole trip, run, ride, commute, or class problem. It combines hours, minutes, and seconds into total hours, divides miles by that time for mph, then converts the same speed to km/h and m/s.',
+    intro:
+      'Use this guide when you know a distance and an elapsed time, but you want the average speed without rebuilding the formula by hand. The key choice is whether your time should include stops, because that changes what the result means.',
+    inputMatch: 'the distance in miles and the elapsed hours, minutes, and seconds for the same trip or activity',
+    logicNote:
+      'The math is speed = distance / time. The page turns minutes and seconds into decimal hours first, then uses 1 mile = 1.609344 kilometers and 1 mph = 0.44704 m/s for the extra unit results.',
+    readIntro:
+      'Read mph first for the main answer, then use km/h or m/s when the assignment, road sign, race note, or science problem uses metric units. Decimal hours shows the exact time value used in the division.',
+    mistakeIntro:
+      'Most speed mistakes come from mixing units, entering kilometers as miles, forgetting to include or exclude stopped time, or reading average speed like it was the fastest speed reached.',
     enter: [
       'Enter distance in miles.',
       'Enter hours, minutes, and seconds for the elapsed time.',
-      'Use zero for unused time fields.',
+      'Use zero for unused time fields, but keep all time fields from the same trip or activity.',
     ],
     read: [
-      'MPH is the main average speed.',
-      'km/h and m/s are converted versions of the same speed.',
-      'Decimal hours shows the time value used in the division.',
+      'MPH is the main average speed from miles divided by decimal hours.',
+      'km/h and m/s are converted versions of the same speed, not separate measurements.',
+      'Decimal hours shows the time value used in the division, which helps check minute and second entries.',
     ],
     mistakes: [
-      'Do not use this as instant speed.',
+      'Do not use this as instant speed, top speed, or a GPS speedometer replacement.',
       'Include stops if you want whole-trip average speed.',
+      'Exclude stops only when you intentionally want moving average speed.',
       'Use matching distance and elapsed time from the same trip.',
+      'Convert kilometers or meters to miles before entering distance, then read the metric result after calculating.',
+    ],
+    extraSections: [
+      {
+        title: 'Example: 18 miles in 42 minutes',
+        paragraphs: [
+          'For a commute of 18 miles in 42 minutes, convert 42 minutes to 0.7 hours. Then 18 / 0.7 = 25.71 mph, which is the whole-trip average if those 42 minutes include traffic lights, turns, and waiting time.',
+          'That result does not mean the car stayed at 25.71 mph the whole way. It means the distance and total elapsed time work out to that average.',
+        ],
+      },
+      {
+        title: 'When the distance starts in kilometers or meters',
+        paragraphs: [
+          'The distance input expects miles. If your problem starts with kilometers or meters, convert the distance to miles first, then use the km/h and m/s result lines after calculating.',
+          'For a 100-meter sprint, enter about 0.0621371 miles and 12 seconds. The result is about 18.64 mph, or about 30 km/h.',
+        ],
+      },
+      {
+        title: 'Speed, pace, distance, and time are different questions',
+        paragraphs: [
+          'Use the Speed Calculator when distance and time are known and speed is missing. Use the Pace Calculator when you want minutes per mile or minutes per kilometer.',
+          'If speed is already known and you need the missing travel time or distance, the Time Calculator or Distance Calculator is the better match.',
+        ],
+        links: [
+          { href: '/tools/pace-calculator/', label: 'Convert speed into pace' },
+          { href: '/tools/time-calculator/', label: 'Solve elapsed time questions' },
+          { href: '/tools/distance-calculator/', label: 'Solve distance questions' },
+        ],
+      },
     ],
     sources: [sourceLinks.nistUnits, sourceLinks.openStaxSpeed],
   },

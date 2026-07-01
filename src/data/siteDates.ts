@@ -281,6 +281,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-rounding-calculator': '2026-06-29',
   'how-to-use-sample-size-calculator': '2026-06-29',
   'how-to-use-scientific-calculator': '2026-07-01',
+  'how-to-use-speed-calculator': '2026-07-01',
   'how-to-use-resistor-calculator': '2026-06-29',
   'how-to-use-percentage-calculator': '2026-06-02',
   'how-to-use-average-calculator': '2026-06-26',
