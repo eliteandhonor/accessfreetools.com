@@ -14,11 +14,11 @@ const articleStructuredData = {
   '@type': 'Article',
   headline: 'How to use the Scientific Calculator',
   description:
-    'A practical scientific calculator guide for DEG/RAD mode, expressions, trig, logs, roots, powers, constants, history, and privacy.',
+    'A practical scientific calculator guide for DEG/RAD mode, inverse trig, scientific notation, logs, roots, powers, constants, mistakes, limits, history, and privacy.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-scientific-calculator/',
   image: guideImageUrl,
   datePublished: '2026-04-30',
-  dateModified: '2026-04-30',
+  dateModified: '2026-07-01',
   author: {
     '@type': 'Organization',
     name: 'Access Free Tools',
@@ -33,7 +33,7 @@ const articleStructuredData = {
 
 <BaseLayout
   title="How to use the Scientific Calculator | Access Free Tools"
-  description="Use trig functions, logs, roots, powers, constants, DEG/RAD mode, history, privacy, and copy actions."
+  description="Use trig, inverse trig, logs, roots, powers, constants, scientific notation, DEG/RAD mode, mistakes, limits, history, privacy, and copy actions."
   path="/blog/how-to-use-scientific-calculator/"
   socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
   socialImageAlt={guideArt?.alt}
@@ -47,9 +47,11 @@ const articleStructuredData = {
       <span>Scientific calculator guide</span>
       <h1>How to use the Scientific Calculator</h1>
       <p>
-        The Scientific Calculator is built for expressions that need more than basic arithmetic:
-        trig functions, logs, roots, powers, constants, parentheses, DEG/RAD angle mode, and
-        reusable calculation history.
+        The Scientific Calculator is for the moment when a normal calculator is too small:
+        trig, inverse trig, logs, roots, powers, constants, parentheses, scientific notation,
+        DEG/RAD angle mode, and reusable calculation history. The main trick is not just
+        typing the expression. It is choosing the right angle mode and grouping the expression
+        the way your formula expects.
       </p>
       <a class="button-primary" href="/tools/scientific-calculator/">Open the scientific calculator</a>
     </header>
@@ -58,6 +60,16 @@ const articleStructuredData = {
 
     <div class="blog-article-layout">
       <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick answer</h2>
+          <p>
+            Use DEG mode for degree angles like 30, 45, and 90. Use RAD mode when the problem
+            gives radians or uses pi, such as sin(pi/6). Then type the whole expression, check
+            parentheses, and read the result as a numeric estimate. For example, asin(0.5) in
+            DEG mode returns 30, while 1.2e3 + 4.5e2 returns 1650.
+          </p>
+        </section>
+
         <section class="content-section">
           <h2>Quick start</h2>
           <ol class="instruction-list">
@@ -79,6 +91,7 @@ const articleStructuredData = {
           <p>
             Choose the angle mode before calculating a trigonometry expression. For example,
             sin(30) in DEG mode returns 0.5, while RAD mode treats 30 as radians.
+            That one switch can turn a correct-looking expression into the wrong answer.
           </p>
         </section>
 
@@ -89,6 +102,7 @@ const articleStructuredData = {
             <p><strong>Logs:</strong> log for base 10 and ln for natural log.</p>
             <p><strong>Roots:</strong> sqrt for square root and cbrt for cube root.</p>
             <p><strong>Powers:</strong> use x^y style expressions such as 2^5.</p>
+            <p><strong>Scientific notation:</strong> type 1e3 for 1000 or 2.5e-4 for 0.00025.</p>
             <p><strong>Constants:</strong> use pi and e inside expressions.</p>
             <p><strong>Grouping:</strong> use parentheses to control calculation order.</p>
           </div>
@@ -102,20 +116,20 @@ const articleStructuredData = {
               <span role="cell">Checks a simple trig identity in DEG mode.</span>
             </div>
             <div role="row">
-              <strong role="cell">log(1000)</strong>
-              <span role="cell">Finds the base 10 logarithm.</span>
+              <strong role="cell">asin(0.5)</strong>
+              <span role="cell">Returns 30 in DEG mode because the sine of 30 degrees is 0.5.</span>
             </div>
             <div role="row">
-              <strong role="cell">sqrt(25)+cbrt(8)</strong>
-              <span role="cell">Adds a square root and cube root result.</span>
+              <strong role="cell">log(1000)+ln(e)+2^5</strong>
+              <span role="cell">Combines logs and powers in one line.</span>
             </div>
             <div role="row">
-              <strong role="cell">2^5</strong>
-              <span role="cell">Calculates a power.</span>
+              <strong role="cell">sqrt(25)+cbrt(8)+abs(-4)</strong>
+              <span role="cell">Adds roots and absolute value.</span>
             </div>
             <div role="row">
-              <strong role="cell">ln(e)</strong>
-              <span role="cell">Uses the natural log constant.</span>
+              <strong role="cell">1.2e3+4.5e2</strong>
+              <span role="cell">Uses scientific notation input to get 1650.</span>
             </div>
           </div>
         </section>
@@ -134,6 +148,32 @@ const articleStructuredData = {
             </div>
           </section>
         )}
+
+        <section class="content-section">
+          <h2>Common mistakes to check</h2>
+          <p>
+            If an answer looks strange, check the angle mode first. Then check missing
+            parentheses, negative signs, exponent grouping, and whether you typed a valid
+            value for the function. Logs need positive inputs, square roots need non-negative
+            inputs, and asin or acos need a value from -1 to 1.
+          </p>
+          <p>
+            Error usually means the expression cannot be evaluated as typed. It does not mean
+            the formula is impossible. It usually means one part of the input needs to be
+            cleaned up before you try again.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>When not to rely on it alone</h2>
+          <p>
+            This page gives numeric results. It does not graph functions, solve symbolic
+            algebra, show every derivation step, or keep exact radical and fraction forms.
+            For classwork, use the format your teacher expects. For engineering or lab work,
+            treat this as a fast check before using the required calculator, spreadsheet, or
+            software for the final result.
+          </p>
+        </section>
 
         <section class="content-section">
           <h2>History, privacy, and copying</h2>
