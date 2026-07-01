@@ -2711,20 +2711,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'scientific-calculator',
     status: 'deep-reviewed',
-    batch: 'math-foundations-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-07-01',
+    reviewedOn: '2026-07-01',
     scope: commonMathScope,
     sources: [openStaxRadicals, openStaxLogarithms],
     findings: [
-      'The supported functions cover the expected scientific calculator basics: trig, logs, roots, powers, constants, and parentheses.',
-      'The DEG/RAD distinction is clear and important for avoiding wrong trig answers.',
-      'History privacy and direct expression typing are covered in the FAQ.',
+      'The supported functions cover the expected scientific calculator basics: trig, inverse trig, logs, roots, powers, constants, parentheses, and scientific notation input.',
+      'The DEG/RAD distinction is prominent in the tool, instructions, examples, and FAQs because a correct expression in the wrong angle mode can still be wrong.',
+      'History privacy, direct expression typing, Error causes, inverse trig limits, exactness limits, and graphing-calculator limits are covered in the visible FAQ copy.',
     ],
     improvements: [
-      'Reviewed scientific function list, DEG/RAD notes, examples, FAQ, and related calculators.',
+      'Expanded aliases, summary, description, use cases, examples, FAQs, instructions, related calculators, modified date, and regression tests for inverse trig and scientific notation input.',
     ],
     followUps: [
-      'Add inverse trig examples to the guide after the next visual pass.',
+      'Consider adding a small angle-mode comparison panel later if users often mix degrees and radians.',
     ],
   },
   {

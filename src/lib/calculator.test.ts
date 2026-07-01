@@ -362,6 +362,7 @@ describe('display helpers', () => {
 describe('calculateScientificExpression', () => {
   it('evaluates trigonometry in degree mode', () => {
     expect(formatCalculatorNumber(calculateScientificExpression('sin(30)+cos(60)', 'deg'))).toBe('1');
+    expect(formatCalculatorNumber(calculateScientificExpression('asin(0.5)', 'deg'))).toBe('30');
   });
 
   it('evaluates logs, roots, constants, and powers', () => {
@@ -373,6 +374,7 @@ describe('calculateScientificExpression', () => {
 
   it('supports typed x multiplication and rejects invalid math', () => {
     expect(formatCalculatorNumber(calculateScientificExpression('6x7'))).toBe('42');
+    expect(formatCalculatorNumber(calculateScientificExpression('1.2e3+4.5e2'))).toBe('1650');
     expect(() => calculateScientificExpression('1/0')).toThrow('Cannot divide by zero');
     expect(() => calculateScientificExpression('sqrt(-1)')).toThrow('Invalid square root');
   });

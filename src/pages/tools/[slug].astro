@@ -1838,10 +1838,11 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     ]
   : isScientificTool
   ? [
-      'Type an expression or use the scientific keypad.',
-      'Choose DEG or RAD before using trigonometry.',
-      'Use functions such as sin, cos, tan, log, ln, sqrt, cbrt, powers, pi, and e.',
-      'Press equals or Enter, then copy the result or reuse an expression from history.',
+      'Choose DEG or RAD before using trig or inverse trig functions.',
+      'Type an expression or use the keypad, such as sin(30)+cos(60), (3+5)^2, or 1.2e3+4.5e2.',
+      'Use functions such as sin, cos, tan, asin, acos, atan, log, ln, sqrt, cbrt, abs, powers, pi, and e.',
+      'Press equals or Enter, then check the answer against the selected angle mode.',
+      'Copy the result or reuse a recent expression from the page-session history while you compare answers.',
     ]
   : [
       'Enter your first number using the buttons or keyboard.',

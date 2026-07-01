@@ -1278,18 +1278,26 @@ const baseTools: ToolDefinition[] = [
     slug: 'scientific-calculator',
     name: 'Scientific Calculator',
     category: 'calculators',
-    summary: 'A free scientific calculator for trig, logs, roots, powers, and constants.',
+    summary: 'A free scientific calculator for trig, inverse trig, logs, roots, powers, constants, and DEG/RAD mode.',
     description:
-      'Use this free scientific calculator for trigonometry, logarithms, square roots, cube roots, powers, constants, DEG/RAD mode, expression history, and quick result copying.',
+      'Use this free scientific calculator for typed expressions, trigonometry, inverse trig, logarithms, square roots, cube roots, powers, constants, DEG/RAD mode, expression history, and quick result copying.',
     icon: 'calculator-fx',
+    aliases: [
+      'Online Scientific Calculator',
+      'Trigonometry Calculator',
+      'Degree Radian Calculator',
+      'Scientific Expression Calculator',
+    ],
     seoTitle: 'Scientific Calculator | Free Online Scientific Calculator',
     seoDescription:
-      'Use the free Access Free Tools scientific calculator for trigonometry, logarithms, roots, powers, constants, DEG/RAD mode, expression history, and copying results.',
+      'Use a free scientific calculator for trig, inverse trig, logs, roots, powers, constants, DEG/RAD mode, typed expressions, history, and result copying.',
     useCases: [
-      'Solve trigonometry problems with DEG or RAD angle mode.',
-      'Calculate logarithms, natural logs, square roots, cube roots, and powers.',
-      'Check science, math, engineering, and study expressions in one line.',
-      'Reuse recent expressions from the history panel while comparing answers.',
+      'Solve trigonometry problems in degrees or radians before copying the result.',
+      'Check inverse trig answers such as asin(0.5) and read them in the selected angle mode.',
+      'Calculate logarithms, natural logs, square roots, cube roots, powers, and absolute values.',
+      'Type full expressions with parentheses, pi, e, and scientific notation such as 1.2e3.',
+      'Compare homework, science, engineering, and quick study expressions in one browser tab.',
+      'Reuse recent expressions from the history panel while testing small formula changes.',
     ],
     examples: [
       {
@@ -1298,14 +1306,34 @@ const baseTools: ToolDefinition[] = [
         result: '1',
       },
       {
-        label: 'Common logarithm',
-        expression: 'log(1000)',
-        result: '3',
+        label: 'Radians with pi',
+        expression: 'sin(pi/6) + cos(pi/3) in RAD mode',
+        result: '1',
       },
       {
-        label: 'Roots together',
-        expression: 'sqrt(25) + cbrt(8)',
-        result: '7',
+        label: 'Inverse trig in degrees',
+        expression: 'asin(0.5) in DEG mode',
+        result: '30',
+      },
+      {
+        label: 'Logs and powers together',
+        expression: 'log(1000) + ln(e) + 2^5',
+        result: '36',
+      },
+      {
+        label: 'Roots and absolute value',
+        expression: 'sqrt(25) + cbrt(8) + abs(-4)',
+        result: '11',
+      },
+      {
+        label: 'Scientific notation input',
+        expression: '1.2e3 + 4.5e2',
+        result: '1650',
+      },
+      {
+        label: 'Parentheses and powers',
+        expression: '(3 + 5)^2 / 4',
+        result: '16',
       },
     ],
     faq: [
@@ -1317,12 +1345,27 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'Which functions are supported?',
         answer:
-          'The calculator supports sin, cos, tan, inverse trig functions, log, ln, sqrt, cbrt, abs, powers, parentheses, pi, e, and standard arithmetic.',
+          'The calculator supports sin, cos, tan, inverse trig functions, log, ln, sqrt, cbrt, abs, powers, parentheses, pi, e, scientific notation, and standard arithmetic.',
       },
       {
         question: 'Can I type expressions directly?',
         answer:
-          'Yes. You can click the keypad or type expressions such as sin(45)+log(100). Press Enter or the equals button to calculate.',
+          'Yes. You can click the keypad or type expressions such as sin(45)+log(100), (3+5)^2, or 1.2e3+4.5e2. Press Enter or the equals button to calculate.',
+      },
+      {
+        question: 'How do inverse trig functions work?',
+        answer:
+          'Use asin, acos, and atan for inverse trig. In DEG mode, asin(0.5) returns 30. In RAD mode, the same inverse trig answer is shown in radians. The input for asin and acos must be between -1 and 1.',
+      },
+      {
+        question: 'How do I enter powers and scientific notation?',
+        answer:
+          'Use ^ for powers, such as 2^5. Use e notation for powers of 10, such as 1e3 for 1000 or 2.5e-4 for 0.00025. Type pi or e by itself when you want the constants.',
+      },
+      {
+        question: 'Why did the calculator show Error?',
+        answer:
+          'Error usually means the expression has mismatched parentheses, a missing value, division by zero, a square root of a negative number, a log of zero or a negative number, or an inverse trig input outside its valid range.',
       },
       {
         question: 'Does the history leave my browser?',
@@ -1335,12 +1378,22 @@ const baseTools: ToolDefinition[] = [
           'Use it when you need trig functions, logs, roots, powers, constants, parentheses, or DEG/RAD angle mode. For plain totals and quick percentages, the Basic Calculator is simpler.',
       },
       {
+        question: 'Does this replace a graphing calculator or algebra system?',
+        answer:
+          'No. This page evaluates numeric expressions. It does not graph functions, solve symbolic algebra, keep exact radicals, or show a full step-by-step derivation. Use it as a fast check, then use a graphing or class-approved tool when the assignment asks for that.',
+      },
+      {
         question: 'What should I check before trusting a scientific result?',
         answer:
-          'Check parentheses, angle mode, negative signs, and whether your class or formula expects degrees or radians. A correct expression in the wrong mode can still give the wrong answer.',
+          'Check parentheses, angle mode, negative signs, exponent grouping, and whether your class or formula expects degrees or radians. A correct expression in the wrong mode can still give the wrong answer.',
+      },
+      {
+        question: 'Are the results exact?',
+        answer:
+          'The calculator uses browser number math and rounds long decimals for readability. For exact huge integer arithmetic, use the Big Number Calculator. For exact fraction work, use the Fraction Calculator.',
       },
     ],
-    relatedSlugs: ['log-calculator', 'root-calculator', 'quadratic-formula-calculator'],
+    relatedSlugs: ['log-calculator', 'root-calculator', 'exponent-calculator', 'scientific-notation-calculator'],
   },
   {
     slug: 'fraction-calculator',
