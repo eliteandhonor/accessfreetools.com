@@ -1424,22 +1424,58 @@ export const utilityTools: ToolDefinition[] = [
     category: 'calculators',
     summary: 'Calculate average speed from distance and time in mph, km/h, and m/s.',
     description:
-      'Use this free speed calculator to divide distance by travel time and show average speed in miles per hour, kilometers per hour, and meters per second.',
+      'Find average speed from distance and elapsed time, then compare mph, km/h, and m/s with examples and unit checks.',
     icon: 'calculator-speed',
     formula:
-      'The calculator converts hours, minutes, and seconds into decimal hours, then divides distance by time.',
+      'The calculator turns hours, minutes, and seconds into total hours, divides miles by that time to get mph, then converts the same speed to km/h and m/s using 1 mile = 1.609344 kilometers and 1 mph = 0.44704 m/s.',
     limit:
-      'This gives average speed over the whole distance. It does not show instant speed, stops, traffic, pace changes, or route conditions.',
+      'This gives average speed over the whole distance. It does not show instant speed, acceleration, traffic, hills, route conditions, or pace changes, and the distance input expects miles.',
     inputExplanations: [
-      { term: 'Distance miles', meaning: 'the total distance covered across the whole trip or activity.' },
-      { term: 'Hours, minutes, seconds', meaning: 'the full elapsed time for that same distance, including stops if you want whole-trip average speed.' },
-      { term: 'Average speed', meaning: 'distance divided by total time, not the fastest speed reached.' },
+      { term: 'Distance miles', meaning: 'the total distance covered across the whole trip or activity. Decimal miles are okay, such as 0.0621371 miles for 100 meters.' },
+      { term: 'Hours, minutes, seconds', meaning: 'the elapsed time for that same distance. Use zero for any unused field, but the total time must be more than zero.' },
+      { term: 'Average speed', meaning: 'distance divided by total time, not the fastest speed reached at one moment.' },
+      { term: 'Stops', meaning: 'include stops for whole-trip average speed, or leave them out when you only want moving average speed.' },
     ],
     extraFaq: [
       {
         question: 'Why is my average speed lower than my fastest speed?',
         answer:
           'Average speed spreads the whole distance over the whole time. Stops, slower sections, and waiting time all lower the average even if you were moving faster for part of the trip.',
+      },
+      {
+        question: 'Can I use kilometers or meters with this speed calculator?',
+        answer:
+          'The distance input is miles. Convert kilometers or meters to miles first, then enter that value. For example, 100 meters is about 0.0621371 miles, which is why the sprint example uses a small decimal distance.',
+      },
+      {
+        question: 'Should I include stops in the time?',
+        answer:
+          'Include stops when you want the average speed for the whole trip from start to finish. Leave stops out when you only want moving speed for the parts where you were actually traveling.',
+      },
+      {
+        question: 'Why does the result show mph, km/h, and m/s?',
+        answer:
+          'They are the same average speed in three common units. Miles per hour is common for road travel, kilometers per hour is common in many countries, and meters per second is common in science and physics problems.',
+      },
+      {
+        question: 'Is speed the same as pace?',
+        answer:
+          'No. Speed is distance divided by time, such as miles per hour. Pace is time divided by distance, such as minutes per mile. Use the Pace Calculator when you want running, walking, or cycling pace.',
+      },
+      {
+        question: 'Can this estimate arrival time?',
+        answer:
+          'This page starts with known distance and known time, then finds average speed. If you know speed and distance and need the missing time, use the Time Calculator or Distance Calculator instead.',
+      },
+      {
+        question: 'How do I enter a time that is only minutes or seconds?',
+        answer:
+          'Put 0 in the unused fields. For 42 minutes, enter 0 hours, 42 minutes, and 0 seconds. For a 12-second sprint, enter 0 hours, 0 minutes, and 12 seconds.',
+      },
+      {
+        question: 'How should I read the commute example?',
+        answer:
+          'An 18-mile commute in 42 minutes is about 25.71 mph because 42 minutes is 0.7 hours and 18 divided by 0.7 is 25.71. If those 42 minutes include lights or traffic, the result is a whole-trip average.',
       },
     ],
     useCases: [
@@ -1452,6 +1488,8 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Marathon', expression: '26.2 miles in 3h 45m', result: 'About 6.99 mph' },
       { label: 'Drive', expression: '180 miles in 3h', result: '60 mph' },
       { label: 'Sprint', expression: '100 m in 12 seconds', result: 'About 18.64 mph' },
+      { label: 'Commute', expression: '18 miles in 42 minutes', result: 'About 25.71 mph' },
+      { label: 'Walk', expression: '2.5 miles in 50 minutes', result: '3 mph' },
     ],
     relatedSlugs: ['pace-calculator', 'distance-calculator', 'time-calculator'],
   }),

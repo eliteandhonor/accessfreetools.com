@@ -5925,17 +5925,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'speed-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-gsc-refresh-speed-tool-2026-07-01',
+    reviewedOn: '2026-07-01',
     scope: commonMathScope,
     sources: [openStaxSpeedVelocity, nistSi],
     findings: [
-      'The calculator divides distance by elapsed time after converting hours, minutes, and seconds into decimal hours.',
-      'The FAQ now explains average speed versus fastest or instant speed.',
-      'The guide tells users to include stops only when they want whole-trip average speed, which avoids a common interpretation mistake.',
+      'The calculator divides distance by elapsed time after converting hours, minutes, and seconds into decimal hours, then explains the mph, km/h, and m/s conversion constants in plain language.',
+      'DataForSEO paid evidence and approved competitor-gap checks supported stronger FAQ coverage for miles, metric conversions, stopped time, pace versus speed, and result interpretation.',
+      'The page now gives 5 concrete examples and 13 visible FAQs, including the 18-mile commute example and the 100-meter sprint decimal-mile caution.',
+      'The guide and tool both separate average speed from instant speed, fastest speed, pace, arrival-time, and distance-solving intent.',
     ],
     improvements: [
-      'Manually checked average-speed math, mph/km-h/m-s conversions, examples, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Manually checked average-speed math, mph/km-h/m-s conversions, examples, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, result labels, DataForSEO paid evidence, and approved competitor topic-gap evidence.',
     ],
     followUps: [
       'Add kilometer input mode later if search data shows metric speed use is common.',
