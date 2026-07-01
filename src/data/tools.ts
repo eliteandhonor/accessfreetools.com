@@ -1980,18 +1980,27 @@ const baseTools: ToolDefinition[] = [
     slug: 'scientific-notation-calculator',
     name: 'Scientific Notation Calculator',
     category: 'calculators',
-    summary: 'Convert numbers to scientific notation or back to standard form.',
+    summary: 'Convert standard numbers to scientific notation or expand powers of 10 back to standard form.',
     description:
-      'Use this free scientific notation calculator to convert standard numbers into scientific notation or convert coefficient and exponent form back into standard form with steps.',
+      'Use this free scientific notation calculator to convert standard numbers into coefficient-times-power-of-10 form or expand a coefficient and exponent back into standard form with steps.',
     icon: 'calculator-scientific-notation',
+    aliases: [
+      'Scientific Notation Converter',
+      'Standard Form Calculator',
+      'Standard Form Converter',
+      'E Notation Converter',
+      'Power of 10 Calculator',
+    ],
     seoTitle: 'Scientific Notation Calculator | Standard Form Converter',
     seoDescription:
-      'Use the free Access Free Tools scientific notation calculator to convert numbers to scientific notation or back to standard form with examples and steps.',
+      'Use the free Access Free Tools scientific notation calculator to convert numbers to scientific notation, expand powers of 10, and check coefficient and exponent steps.',
     useCases: [
       'Rewrite very large or very small numbers in scientific notation.',
       'Convert a coefficient and power of 10 back into standard form.',
+      'Check whether the coefficient is normalized between 1 and 10.',
+      'Convert E notation inputs like 1.2e-7 into readable power-of-10 notation.',
       'Check science, chemistry, physics, astronomy, and math notation examples.',
-      'Compare coefficient, exponent, and standard-form output in one place.',
+      'Compare coefficient, exponent, standard-form output, and decimal-move steps in one place.',
     ],
     examples: [
       {
@@ -2005,9 +2014,29 @@ const baseTools: ToolDefinition[] = [
         result: '4.2 x 10^-4',
       },
       {
+        label: 'Negative number',
+        expression: '-320,000',
+        result: '-3.2 x 10^5',
+      },
+      {
+        label: 'E notation input',
+        expression: '1.2e-7',
+        result: '1.2 x 10^-7',
+      },
+      {
         label: 'Back to standard',
         expression: '6.02 x 10^23',
         result: '602,000,000,000,000,000,000,000',
+      },
+      {
+        label: 'Negative exponent',
+        expression: '7.5 x 10^-3',
+        result: '0.0075',
+      },
+      {
+        label: 'Zero',
+        expression: '0',
+        result: '0 x 10^0',
       },
     ],
     faq: [
@@ -2022,9 +2051,19 @@ const baseTools: ToolDefinition[] = [
           'Choose To scientific, enter the standard number, and calculate. The calculator moves the decimal point and counts those moves as the exponent.',
       },
       {
+        question: 'What does normalized scientific notation mean?',
+        answer:
+          'Normalized scientific notation keeps one nonzero digit to the left of the decimal point. For example, 45 x 10^5 is equivalent, but 4.5 x 10^6 is normalized.',
+      },
+      {
         question: 'How do I convert scientific notation to standard form?',
         answer:
           'Choose To standard, enter the coefficient and whole-number exponent, and calculate. Positive exponents move the decimal right; negative exponents move it left.',
+      },
+      {
+        question: 'Can I type E notation like 1.2e-7?',
+        answer:
+          'Yes. In To scientific mode, the standard-number box can read E notation such as 1.2e-7 and show it as 1.2 x 10^-7 with the standard decimal value.',
       },
       {
         question: 'Can scientific notation handle negative numbers?',
@@ -2032,9 +2071,24 @@ const baseTools: ToolDefinition[] = [
           'Yes. A negative number keeps a negative coefficient, such as -3.2 x 10^5.',
       },
       {
+        question: 'What happens with zero?',
+        answer:
+          'Zero does not have one nonzero digit to normalize, so this calculator shows it as 0 x 10^0 and keeps the standard form as 0.',
+      },
+      {
+        question: 'What mistakes should I check?',
+        answer:
+          'Check the exponent sign, decimal-point moves, and whether the coefficient should be between 1 and 10. A missed negative exponent can turn a tiny number into a huge one.',
+      },
+      {
         question: 'What is the difference between this and the Big Number Calculator?',
         answer:
           'Scientific notation is best for compact display and powers of 10. The Big Number Calculator is best for exact whole-number arithmetic with very large integers.',
+      },
+      {
+        question: 'When should I not rely on this calculator alone?',
+        answer:
+          'Use it as a notation and checking tool. It uses normal browser number limits, so do not rely on it for exact arbitrary-precision integer work, lab-significant-figure decisions, or unit conversions by itself.',
       },
       {
         question: 'Is my scientific notation history private?',
@@ -2042,7 +2096,7 @@ const baseTools: ToolDefinition[] = [
           'Yes. Recent notation conversions stay only in the current browser tab while you use the page. They are not sent to a server.',
       },
     ],
-    relatedSlugs: ['exponent-calculator', 'rounding-calculator', 'big-number-calculator'],
+    relatedSlugs: ['exponent-calculator', 'scientific-calculator', 'rounding-calculator', 'big-number-calculator'],
   },
   {
     slug: 'big-number-calculator',

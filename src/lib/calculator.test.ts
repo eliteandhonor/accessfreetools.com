@@ -710,11 +710,24 @@ describe('scientific notation helpers', () => {
     expect(result.notation).toBe('4.5 x 10^6');
   });
 
+  it('handles zero, negative values, and E notation inputs', () => {
+    expect(toScientificNotation(0).notation).toBe('0 x 10^0');
+    expect(toScientificNotation(-320000).notation).toBe('-3.2 x 10^5');
+    expect(toScientificNotation(1.2e-7).notation).toBe('1.2 x 10^-7');
+  });
+
   it('converts scientific notation to standard numbers', () => {
     const result = fromScientificNotation(6.02, 23);
 
     expect(result.notation).toBe('6.02 x 10^23');
     expect(formatCalculatorNumber(result.original)).toContain('e+');
+  });
+
+  it('converts negative scientific notation exponents to small decimals', () => {
+    const result = fromScientificNotation(7.5, -3);
+
+    expect(result.notation).toBe('7.5 x 10^-3');
+    expect(result.standard).toBe('0.0075');
   });
 
   it('rejects invalid scientific notation exponents', () => {

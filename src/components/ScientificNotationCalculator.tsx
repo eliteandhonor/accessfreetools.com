@@ -45,9 +45,24 @@ const examples: ScientificNotationExample[] = [
     inputs: { value: '0.00042' },
   },
   {
+    label: '-320,000',
+    mode: 'to-scientific',
+    inputs: { value: '-320000' },
+  },
+  {
+    label: '1.2e-7',
+    mode: 'to-scientific',
+    inputs: { value: '1.2e-7' },
+  },
+  {
     label: '6.02 x 10^23',
     mode: 'to-standard',
     inputs: { coefficient: '6.02', exponent: '23' },
+  },
+  {
+    label: '7.5 x 10^-3',
+    mode: 'to-standard',
+    inputs: { coefficient: '7.5', exponent: '-3' },
   },
 ];
 
@@ -262,6 +277,8 @@ export default function ScientificNotationCalculator() {
           <h2>Input tips</h2>
           <p>Scientific notation uses a coefficient times a power of 10.</p>
           <p>The coefficient should usually be at least 1 and less than 10 in normalized form.</p>
+          <p>Positive exponents move the decimal right. Negative exponents move it left.</p>
+          <p>For exact huge-integer arithmetic, use the Big Number Calculator instead.</p>
         </section>
       </aside>
     </section>

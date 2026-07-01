@@ -1818,9 +1818,10 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
   : isScientificNotationTool
   ? [
       'Choose To scientific or To standard mode.',
-      'Enter the standard number, or enter the coefficient and exponent.',
+      'Enter a standard number such as 4500000, 0.00042, -320000, or 1.2e-7.',
+      'For To standard mode, enter the coefficient and a whole-number exponent, such as 7.5 and -3.',
       'Press Convert notation to see scientific notation, standard form, coefficient, and exponent.',
-      'Use examples, recent answers, or copy answer while checking science notation.',
+      'Check the exponent sign, decimal moves, recent answers, and copy output while reviewing science notation.',
     ]
   : isBigNumberTool
   ? [

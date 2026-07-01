@@ -6501,17 +6501,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'scientific-notation-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-07-01',
+    reviewedOn: '2026-07-01',
     scope: commonMathScope,
     sources: [openStaxScientificNotation, nistSi],
     findings: [
-      'The scientific-notation page explains coefficient and power-of-ten form with examples for very large and very small values.',
-      'The content warns users not to confuse scientific notation with a different unit or a rounded measurement.',
-      'Related links connect to Exponent, Big Number, and Rounding calculators.',
+      'The scientific-notation page explains coefficient and power-of-ten form with examples for very large, very small, negative, zero, E-notation, and negative-exponent values.',
+      'The tool copy now warns users to check exponent sign, decimal-point moves, normalized coefficient range, browser-number limits, and lab significant-figure decisions.',
+      'Related links connect to Exponent, Scientific, Rounding, and Big Number calculators so users can choose between notation, expression math, rounding, and exact integer work.',
     ],
     improvements: [
-      'Manually checked scientific-notation conversion wording, examples, FAQ detail, related links, guide coverage, SEO copy, and privacy behavior.',
+      'Expanded aliases, summary, description, SEO description, use cases, seven examples, ten FAQs, widget examples, input tips, page instructions, modified date, and source proof notes after the controlled SEO sprint.',
     ],
     followUps: [
       'Add engineering-notation mode later only if it has its own clear examples and labels.',
