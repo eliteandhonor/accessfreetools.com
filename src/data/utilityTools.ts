@@ -893,13 +893,89 @@ export const utilityTools: ToolDefinition[] = [
     category: 'calculators',
     summary: 'Calculate square feet, square yards, and square meters from length, width, and quantity.',
     description:
-      'Use this free square footage calculator to find rectangular area for rooms, panels, flooring, walls, and repeated sections.',
+      'Use this free square footage calculator to measure rooms, walls, panels, flooring sections, gardens, and repeated rectangles.',
     icon: 'calculator-square-footage',
     formula:
       'The calculator multiplies length in feet by width in feet for one rectangle, then multiplies by quantity for repeated sections.',
     limit:
-      'For real material orders, add waste and account for openings, cuts, pattern matching, irregular shapes, and product coverage rules.',
+      'For real material orders, add waste and account for openings, cuts, pattern matching, irregular shapes, stairs, and product coverage rules.',
+    faqLanguage: {
+      expectedInputs:
+        'the length in feet, width in feet, and quantity of identical rectangles you want to total',
+      inputFallback:
+        'Enter the length and width of one rectangular section in feet. Use quantity only when the same size repeats, such as two matching walls or three identical panels.',
+      examplePhrase: 'square footage example',
+      doubleCheck:
+        'Also check whether your measurements are in feet or inches, whether the shape needs to be split into rectangles, whether openings should be subtracted, and whether your material needs extra waste.',
+    },
+    inputExplanations: [
+      {
+        term: 'Length in feet',
+        meaning:
+          'Use the longer side of one rectangle, converted to feet. For example, 9 ft 6 in becomes 9.5 feet.',
+      },
+      {
+        term: 'Width in feet',
+        meaning:
+          'Use the other side of the same rectangle in feet. Keep length and width in the same unit before multiplying.',
+      },
+      {
+        term: 'Quantity',
+        meaning:
+          'Use this for repeated equal rectangles, such as three panels. For different room sizes, calculate each rectangle separately and add the results.',
+      },
+      {
+        term: 'Square-foot result',
+        meaning:
+          'This is area, not linear length. The page also shows square yards and square meters for comparison.',
+      },
+    ],
     extraFaq: [
+      {
+        question: 'How do I calculate square footage?',
+        answer:
+          'Multiply length in feet by width in feet. If the same rectangle repeats, multiply that area by quantity. A 12 ft by 10 ft room is 120 ft2 because 12 x 10 = 120.',
+      },
+      {
+        question: 'What is the difference between square feet and linear feet?',
+        answer:
+          'Square feet measure area, such as a floor or wall surface. Linear feet measure one straight length. A 10 ft board is 10 linear feet, but a 10 ft by 4 ft panel covers 40 ft2.',
+      },
+      {
+        question: 'How do I enter inches in this square footage calculator?',
+        answer:
+          'Convert inches to decimal feet before entering the value. Divide inches by 12, then add the result to the feet. For example, 9 ft 6 in is 9.5 ft, and 10 ft 3 in is 10.25 ft.',
+      },
+      {
+        question: 'How should I measure an L-shaped room?',
+        answer:
+          'Split the room into smaller rectangles, calculate each rectangle, and add the square footage together. For example, calculate the main room area, then calculate the nook or hallway area separately.',
+      },
+      {
+        question: 'Should I subtract doors, windows, or openings?',
+        answer:
+          'Use the full rectangle first, then subtract openings only when the project calls for it. Paint, wallpaper, drywall, and wall coverings often need opening adjustments, while flooring area usually starts with the floor footprint.',
+      },
+      {
+        question: 'When should I use quantity?',
+        answer:
+          'Use quantity only for identical repeated sections, such as two same-size walls, three plywood sheets, or four matching garden beds. If the sections are different sizes, calculate each one separately.',
+      },
+      {
+        question: 'Can I use this for sod, mulch fabric, or garden planning?',
+        answer:
+          'Yes, if the space is rectangular or can be split into rectangles. Use square footage as the measured area, then check the product coverage, overlap, irregular edges, and any material-specific calculator before ordering.',
+      },
+      {
+        question: 'Does this calculator include waste for flooring, tile, paint, or wallpaper?',
+        answer:
+          'No. The result is the measured area. Material estimates usually need extra waste for cuts, damaged pieces, pattern matching, overlap, texture, product coverage, and openings.',
+      },
+      {
+        question: 'How are square yards and square meters converted?',
+        answer:
+          'One square yard is 9 ft2, so square yards equal square feet divided by 9. One square meter is about 10.7639 ft2, so square meters equal square feet divided by 10.7639.',
+      },
       {
         question: 'Can I use square footage for wallpaper estimates?',
         answer:
@@ -910,14 +986,20 @@ export const utilityTools: ToolDefinition[] = [
       'Find the area of a room, wall, garden bed, panel, or floor section.',
       'Multiply one section by quantity for repeated panels or rooms.',
       'Convert square feet to square yards and square meters.',
-      'Prepare numbers for flooring, paint, tile, or planning estimates.',
+      'Split irregular rooms into rectangles and total the pieces.',
+      'Prepare wall area before subtracting windows, doors, or openings.',
+      'Prepare numbers for flooring, paint, tile, wallpaper, sod, or planning estimates.',
     ],
     examples: [
       { label: 'Bedroom', expression: '12 ft x 10 ft', result: '120 ft2' },
       { label: 'Three panels', expression: '8 ft x 4 ft x 3', result: '96 ft2' },
       { label: 'Flooring area', expression: '22.5 ft x 14 ft', result: '315 ft2' },
+      { label: 'Closet', expression: '6 ft x 5 ft', result: '30 ft2' },
+      { label: 'Two identical walls', expression: '12 ft x 8 ft x 2', result: '192 ft2' },
+      { label: 'Garden bed', expression: '18 ft x 4 ft', result: '72 ft2' },
+      { label: 'Inches converted', expression: '9.5 ft x 10.25 ft', result: '97.375 ft2' },
     ],
-    relatedSlugs: ['area-calculator', 'wallpaper-calculator', 'concrete-calculator', 'conversion-calculator'],
+    relatedSlugs: ['area-calculator', 'flooring-calculator', 'paint-calculator', 'wallpaper-calculator'],
   }),
   makeUtilityTool({
     slug: 'time-card-calculator',

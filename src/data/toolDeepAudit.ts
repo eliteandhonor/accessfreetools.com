@@ -6940,17 +6940,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'square-footage-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-refresh-2026-07-01',
+    reviewedOn: '2026-07-01',
     scope: commonMathScope,
     sources: [openStaxGeometry, nistSi],
     findings: [
-      'The square-footage utility uses generated FAQ detail from formula, limit, examples, and input explanation fields.',
-      'The page keeps square footage as area, then points project users toward flooring, paint, roofing, and material-specific calculators.',
-      'The privacy FAQ confirms browser-first behavior like the rest of the utility tools.',
+      'The square-footage utility now explains length, width, quantity, and square-foot output in the visible FAQ so users keep area separate from linear feet.',
+      'The refreshed examples cover a bedroom, panels, flooring, a closet, repeated walls, a garden bed, and inch-to-decimal-foot conversion.',
+      'The page keeps square footage as measured area, warns that real material orders need waste and opening adjustments, and points project users toward flooring, paint, wallpaper, and area calculators.',
     ],
     improvements: [
-      'Manually checked square-footage formula wording, unit conversion expectations, examples, generated FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Manually checked square-footage formula wording, unit conversion expectations, examples, generated FAQ detail, material-order limits, related links, SEO copy, guide coverage, and privacy behavior.',
     ],
     followUps: [
       'Add room-list mode later if users need to total multiple spaces on one page.',
