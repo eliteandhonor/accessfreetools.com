@@ -143,6 +143,13 @@ const toolArtMetadataOverrides = {
         'Random Number Generator guide artwork supports the walkthrough for min and max ranges, quantity, unique results, exclusions, sorting, copy, history, and everyday randomness limits.',
     },
   },
+  'wind-chill-calculator': {
+    tool: {
+      alt: 'Illustration for Wind Chill Calculator showing air temperature, wind speed, Fahrenheit and Celsius wind chill results, and cold-weather limits.',
+      caption:
+        'Wind Chill Calculator artwork matches the live workflow: enter Fahrenheit temperature and mph wind speed, then read the NWS-formula wind chill result, Celsius conversion, example checks, and outdoor-safety limits.',
+    },
+  },
   'p-value-calculator': {
     tool: {
       alt: 'Illustration for P-value Calculator showing a z-score, normal-curve tail areas, and p-value result notes.',

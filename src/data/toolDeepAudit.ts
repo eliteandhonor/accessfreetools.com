@@ -6259,8 +6259,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'wind-chill-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-07-02',
+    reviewedOn: '2026-07-02',
     scope: commonMathScope,
     sources: [nwsWindChill, nistSi],
     findings: [
@@ -6271,6 +6271,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     improvements: [
       'Manually checked wind chill formula behavior, valid input range, examples, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
       'Added validation for temperatures above 50 F and wind speeds at or below 3 mph.',
+      'Refreshed the tool page with exact NWS-formula examples, formula-range wording, object-temperature limits, frostbite-alert cautions, SEO title/meta description, aliases, and 2026-07-02 proof targets.',
     ],
     followUps: [
       'Add local-alert links only if the site later supports location-aware weather content with clear privacy controls.',

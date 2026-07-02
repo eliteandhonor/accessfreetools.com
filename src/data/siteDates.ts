@@ -225,6 +225,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'markup-calculator': '2026-05-26',
   'payback-period-calculator': '2026-05-26',
   'heat-index-calculator': '2026-05-26',
+  'wind-chill-calculator': '2026-07-02',
   'dew-point-calculator': '2026-07-02',
   'electricity-calculator': '2026-07-02',
   'random-number-generator': '2026-07-02',

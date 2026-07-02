@@ -7254,12 +7254,16 @@ export const utilityTools: ToolDefinition[] = [
     category: 'everyday-tools',
     summary: 'Calculate wind chill from Fahrenheit temperature and wind speed using the NWS formula.',
     description:
-      'Use this free wind chill calculator to estimate what cold weather feels like from air temperature and wind speed.',
+      'Enter cold-weather air temperature and wind speed to estimate wind chill in Fahrenheit and Celsius.',
+    seoTitle: 'Wind Chill Calculator | NWS Feels-Like Temperature',
+    seoDescription:
+      'Calculate wind chill from Fahrenheit temperature and mph wind speed with the NWS formula. See Fahrenheit and Celsius results, examples, and cold-weather limits.',
     icon: 'calculator-wind-chill',
+    aliases: ['NWS wind chill calculator', 'feels like temperature calculator', 'wind chill chart', 'cold wind calculator'],
     formula:
-      'The calculator uses the National Weather Service wind chill equation with air temperature in Fahrenheit and wind speed in miles per hour.',
+      'The calculator uses the National Weather Service wind chill equation: 35.74 + 0.6215T - 35.75V^0.16 + 0.4275TV^0.16, where T is air temperature in Fahrenheit and V is wind speed in miles per hour.',
     limit:
-      'The formula is intended for cold temperatures with meaningful wind. Follow local alerts for frostbite and outdoor safety decisions.',
+      'The NWS formula is intended for air temperatures of 50 F or colder and wind speeds above 3 mph. Wind chill estimates cold stress on exposed skin, not the actual temperature of objects. Follow local weather alerts for frostbite and outdoor safety decisions.',
     inputExplanations: [
       { term: 'Temperature F', meaning: 'the air temperature in degrees Fahrenheit, intended for 50 F or colder.' },
       { term: 'Wind speed mph', meaning: 'the wind speed in miles per hour, intended for speeds above 3 mph.' },
@@ -7271,17 +7275,34 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'The NWS wind chill equation is designed for cold air and meaningful wind. Warm-weather comfort uses other ideas, like heat index and dew point.',
       },
+      {
+        question: 'Does wind chill change the real air temperature?',
+        answer:
+          'No. Wind chill is a feels-like estimate for exposed skin. A thermometer still reads the actual air temperature, and objects do not cool below the air temperature because of wind chill alone.',
+      },
+      {
+        question: 'Can I use this result for frostbite timing?',
+        answer:
+          'Use local weather alerts and official safety guidance first. Wind chill can support a quick check, but clothing, wet skin, exposure time, health, shelter, and local conditions change real risk.',
+      },
+      {
+        question: 'Why does a small wind speed fail validation?',
+        answer:
+          'The NWS wind chill equation is intended for wind speeds above 3 mph. At calm or very light wind, the feels-like effect is not in the formula range.',
+      },
     ],
     useCases: [
-      'Estimate wind chill before going outside.',
-      'Compare actual air temperature with feels-like temperature.',
-      'Convert the result to Celsius.',
-      'Understand wind chill limits and safety notes.',
+      'Estimate the feels-like cold before going outside.',
+      'Compare actual air temperature with wind chill temperature.',
+      'Convert the wind chill result to Celsius.',
+      'Check whether a temperature and wind speed are inside the NWS formula range.',
+      'Understand why wind chill is not the same as object temperature.',
     ],
     examples: [
-      { label: 'Cold windy day', expression: '30 F and 15 mph', result: 'Feels colder than 30 F' },
-      { label: 'Freezing wind', expression: '20 F and 25 mph', result: 'Wind chill estimate' },
-      { label: 'Very cold wind', expression: '5 F and 20 mph', result: 'Severe feels-like estimate' },
+      { label: 'Cold windy day', expression: '30 F and 15 mph', result: 'About 19.0 F wind chill' },
+      { label: 'Freezing wind', expression: '20 F and 25 mph', result: 'About 2.6 F wind chill' },
+      { label: 'Very cold wind', expression: '5 F and 20 mph', result: 'About -15.4 F wind chill' },
+      { label: 'Formula range check', expression: '40 F and 10 mph', result: 'About 33.6 F wind chill' },
     ],
     relatedSlugs: ['heat-index-calculator', 'dew-point-calculator', 'conversion-calculator'],
   }),
