@@ -13,7 +13,8 @@ npm run automation:env-check
 Latest verified result:
 
 - Status: ok
-- Repo cwd: `C:\Users\chamb\OneDrive\Desktop\accessfreetools.com`
+- Primary repo cwd: `C:\Users\chamb\OneDrive\Desktop\accessfreetools-main-live`
+- Legacy repo cwd still accepted while older automation records are migrated: `C:\Users\chamb\OneDrive\Desktop\accessfreetools.com`
 - Git branch: `main`
 - Node: `v24.14.1`
 - npm: `11.2.0`

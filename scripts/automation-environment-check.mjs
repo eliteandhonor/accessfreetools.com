@@ -3,10 +3,10 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { dirname, resolve } from 'node:path';
 import { getDataForSeoServiceStatus, getDataForSeoUserData, summarizeDataForSeoServiceStatus, summarizeDataForSeoUserData } from './lib/dataforseo.mjs';
 import { listHostingerWebsites, readHostingerLocalEnv, summarizeCollection } from './lib/hostinger-api.mjs';
+import { localRuntimePaths } from './lib/automation-environment.mjs';
 
 const outputJsonPath = resolve('output/automation-environment.json');
 const outputMarkdownPath = resolve('output/automation-environment.md');
-const expectedCwd = resolve('C:/Users/chamb/OneDrive/Desktop/accessfreetools.com');
 const searchConsoleTokenPath = resolve('.local/search-console-token.json');
 const defaultSearchConsoleClientSecretPath = resolve('.local/google-search-console-client-secret.json');
 
@@ -94,8 +94,9 @@ function markdown(report) {
     '## Local Runtime',
     '',
     `- Working directory: ${report.local.cwd}`,
-    `- Expected repo cwd: ${report.local.expectedCwd}`,
-    `- CWD match: ${report.local.cwdMatchesExpected ? 'yes' : 'no'}`,
+    `- Primary repo cwd: ${report.local.expectedCwd}`,
+    `- Approved repo cwd(s): ${report.local.expectedCwds.join('; ')}`,
+    `- CWD approved: ${report.local.cwdMatchesExpected ? 'yes' : 'no'}`,
     `- Git branch: ${report.local.gitBranch || 'unknown'}`,
     `- Git clean: ${report.local.gitClean ? 'yes' : 'no'}`,
     `- Node: ${report.local.nodeVersion}`,
@@ -146,14 +147,13 @@ async function main() {
   const gitBranch = run('git', ['branch', '--show-current']);
   const gitStatus = run('git', ['status', '--short']);
   const npm = npmVersion();
+  const localPaths = localRuntimePaths({ cwd });
 
   const report = {
     generatedAt: new Date().toISOString(),
     status: 'ok',
     local: {
-      cwd,
-      expectedCwd,
-      cwdMatchesExpected: cwd.toLowerCase() === expectedCwd.toLowerCase(),
+      ...localPaths,
       gitBranch: gitBranch.ok ? gitBranch.value : '',
       gitClean: gitStatus.ok ? gitStatus.value === '' : false,
       gitStatus: gitStatus.ok ? gitStatus.value : gitStatus.value,
