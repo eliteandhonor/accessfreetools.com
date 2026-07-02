@@ -12,6 +12,8 @@ const evidencePaths = {
   promotionQueue: 'docs/promotion-queue.md',
   seoEvaluation: 'output/seo-agent-self-evaluation.json',
   searchConsoleInspection: 'output/search-console-url-inspection.json',
+  searchConsoleDiscovery: 'output/search-console-discovery.json',
+  linkHelper: 'output/agent-tools/link-helper/latest.json',
   dataForSeoAccount: 'output/dataforseo-account.json',
   dataForSeoStatus: 'output/dataforseo-status.json',
   pinterestRss: 'output/promotion/pinterest-rss-report.json',
@@ -196,10 +198,104 @@ function recommendation(priority, title, reason, action, evidence, gate, proofNe
   };
 }
 
-function chooseRecommendations({ indexingGaps, queueRows, qualityReports, pinterestRss, duplicateBalanceOwnerActive, recognitionTracker }) {
+function qualityReportForChannel(channel, qualityReports) {
+  const normalized = String(channel).toLowerCase();
+  const label = normalized.includes('medium')
+    ? 'Medium'
+    : normalized.includes('reddit')
+      ? 'Reddit'
+      : normalized.includes('bluesky')
+        ? 'Bluesky'
+        : normalized.includes('quora')
+          ? 'Quora'
+          : normalized.includes('dev')
+            ? 'DEV Community'
+            : '';
+
+  return label ? qualityReports.find((report) => report.label === label) ?? null : null;
+}
+
+function qualityEvidencePath(label) {
+  if (label === 'Medium') return evidencePaths.mediumQuality;
+  if (label === 'Reddit') return evidencePaths.redditQuality;
+  if (label === 'Bluesky') return evidencePaths.blueskyQuality;
+  if (label === 'Quora') return evidencePaths.quoraQuality;
+  if (label === 'DEV Community') return evidencePaths.devtoQuality;
+  return null;
+}
+
+function approvedPromotionGate(item, qualityReports) {
+  const report = qualityReportForChannel(item.channel, qualityReports);
+
+  if (!report) return 'Run or confirm the relevant platform quality report before public posting.';
+  if (report.status === 'missing') return `Run the missing ${report.label} quality report first.`;
+  if (report.status === 'warnings') return `Review ${report.label} quality warnings before public posting.`;
+  if (report.status === 'passed') {
+    return `${report.label} quality report passed (${report.passed}/${report.total}); external-browser posting still needs public proof before marking live.`;
+  }
+
+  return `${report.label} quality report must pass before public posting.`;
+}
+
+function pathFromUrl(value) {
+  try {
+    return new URL(value).pathname;
+  } catch {
+    return String(value);
+  }
+}
+
+function linkHelperSuggestionForGap(gap, linkHelper) {
+  const targetPath = pathFromUrl(gap.url);
+  const suggestions = Array.isArray(linkHelper?.suggestions) ? linkHelper.suggestions : [];
+  return suggestions.find((suggestion) => suggestion.target === targetPath) ?? null;
+}
+
+function indexingRecommendation(topGap, linkHelper) {
+  const linkSuggestion = linkHelperSuggestionForGap(topGap, linkHelper);
+  const linkReason = linkSuggestion?.reason ?? '';
+  const awaitingGoogle = /manual request indexing|recheck after Google crawls/i.test(linkReason);
+
+  if (awaitingGoogle) {
+    return recommendation(
+      'High',
+      'Request indexing or recheck not-indexed priority pages',
+      `${topGap.url} is still ${topGap.state}. ${linkReason}`,
+      'Use Search Console URL Inspection to request indexing manually if available, then recheck after Google crawls. Keep promotion useful and avoid creating a duplicate thin page.',
+      [
+        'output/search-console-url-inspection.json',
+        'output/search-console-discovery.json',
+        'output/agent-tools/link-helper/latest.json',
+        'output/seo-agent-self-evaluation.json',
+        'docs/promotion-queue.md',
+      ],
+      'Do not add duplicate internal links unless new page-specific evidence shows the current link proof is insufficient.',
+      'Search Console state change, fresh URL Inspection after recrawl, or public promotion proof.',
+    );
+  }
+
+  return recommendation(
+    'High',
+    'Improve discovery for not-indexed priority pages',
+    `${topGap.url} is still ${topGap.state}. Search engines need stronger crawl and usefulness signals before more duplicate promotion.`,
+    'Add or verify contextual internal links from related indexed pages, then submit discovery and use one helpful promotion item if quality gates pass.',
+    ['output/search-console-url-inspection.json', 'output/seo-agent-self-evaluation.json', 'docs/promotion-queue.md'],
+    'Do not create a duplicate thin page. Improve the existing URL.',
+    'Search Console state change, sitemap/feed submission report, or public promotion proof.',
+  );
+}
+
+function chooseRecommendations({
+  indexingGaps,
+  queueRows,
+  qualityReports,
+  pinterestRss,
+  duplicateBalanceOwnerActive,
+  recognitionTracker,
+  linkHelper,
+}) {
   const recommendations = [];
   const failedQuality = qualityReports.find((report) => report.status === 'failed' || report.status === 'parse-error');
-  const missingQuality = qualityReports.find((report) => report.status === 'missing');
   const approvedQueue = queueRows.filter((row) => row.status === 'approved');
   const rssConnected = queueRows.filter((row) => row.status === 'rss-connected');
   const unverified = queueRows.filter((row) => row.status === 'unverified');
@@ -248,17 +344,7 @@ function chooseRecommendations({ indexingGaps, queueRows, qualityReports, pinter
 
   if (!failedQuality && indexingGaps.length) {
     const topGap = indexingGaps[0];
-    recommendations.push(
-      recommendation(
-        'High',
-        'Improve discovery for not-indexed priority pages',
-        `${topGap.url} is still ${topGap.state}. Search engines need stronger crawl and usefulness signals before more duplicate promotion.`,
-        'Add or verify contextual internal links from related indexed pages, then submit discovery and use one helpful promotion item if quality gates pass.',
-        ['output/search-console-url-inspection.json', 'output/seo-agent-self-evaluation.json', 'docs/promotion-queue.md'],
-        'Do not create a duplicate thin page. Improve the existing URL.',
-        'Search Console state change, sitemap/feed submission report, or public promotion proof.',
-      ),
-    );
+    recommendations.push(indexingRecommendation(topGap, linkHelper));
   }
 
   if (rssConnected.length) {
@@ -293,16 +379,16 @@ function chooseRecommendations({ indexingGaps, queueRows, qualityReports, pinter
 
   if (!failedQuality && approvedQueue.length && recommendations.length < 3) {
     const item = approvedQueue[0];
+    const relevantQuality = qualityReportForChannel(item.channel, qualityReports);
+    const platformEvidence = relevantQuality ? qualityEvidencePath(relevantQuality.label) : null;
     recommendations.push(
       recommendation(
         'Medium',
         `Prepare one approved ${item.channel} promotion item`,
         `${item.page} is approved for ${item.channel}, and platform quality gates are currently available for review.`,
         'Use the matching platform agent and the brand code. Post only if platform cadence and user approval still match, then verify the public URL.',
-        ['docs/promotion-queue.md', 'docs/brand-code.md'],
-        missingQuality
-          ? `Run the missing ${missingQuality.label} quality report first.`
-          : 'Run or confirm the relevant platform quality report before public posting.',
+        ['docs/promotion-queue.md', 'docs/brand-code.md', platformEvidence].filter(Boolean),
+        approvedPromotionGate(item, qualityReports),
         'Public URL or screenshot after posting.',
       ),
     );
@@ -389,6 +475,8 @@ const automationPlan = readText(evidencePaths.automationPlan);
 const promotionQueue = readText(evidencePaths.promotionQueue);
 const seoEvaluation = readJson(evidencePaths.seoEvaluation);
 const searchConsoleInspection = readJson(evidencePaths.searchConsoleInspection);
+const searchConsoleDiscovery = readJson(evidencePaths.searchConsoleDiscovery);
+const linkHelper = readJson(evidencePaths.linkHelper);
 const dataForSeoAccount = readJson(evidencePaths.dataForSeoAccount);
 const dataForSeoStatus = readJson(evidencePaths.dataForSeoStatus);
 const pinterestRss = readJson(evidencePaths.pinterestRss);
@@ -423,6 +511,7 @@ const recommendations = chooseRecommendations({
   pinterestRss,
   duplicateBalanceOwnerActive,
   recognitionTracker,
+  linkHelper,
 });
 
 const evidence = [
@@ -432,6 +521,8 @@ const evidence = [
   asEvidence('promotionQueue', evidencePaths.promotionQueue, promotionQueue),
   asEvidence('seoEvaluation', evidencePaths.seoEvaluation, seoEvaluation),
   asEvidence('searchConsoleInspection', evidencePaths.searchConsoleInspection, searchConsoleInspection),
+  asEvidence('searchConsoleDiscovery', evidencePaths.searchConsoleDiscovery, searchConsoleDiscovery),
+  asEvidence('linkHelper', evidencePaths.linkHelper, linkHelper),
   asEvidence('dataForSeoAccount', evidencePaths.dataForSeoAccount, dataForSeoAccount),
   asEvidence('dataForSeoStatus', evidencePaths.dataForSeoStatus, dataForSeoStatus),
   asEvidence('pinterestRss', evidencePaths.pinterestRss, pinterestRss),
