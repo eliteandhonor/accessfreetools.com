@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import {
   askAuditCases,
@@ -17,6 +17,7 @@ import {
 } from './agent-tools-report.mjs';
 
 const preservedFiles = new Map();
+const movedDirectories = [];
 
 function preserveAndWrite(relativePath, content) {
   const absolutePath = resolve(process.cwd(), relativePath);
@@ -31,10 +32,31 @@ function preserveAndWrite(relativePath, content) {
   writeFileSync(absolutePath, content);
 }
 
+function temporarilyRemoveDirectory(relativePath) {
+  const absolutePath = resolve(process.cwd(), relativePath);
+  if (!existsSync(absolutePath)) return;
+
+  const backupPath = resolve(process.cwd(), `.agent-tools-test-backup-${Date.now()}-${Math.random().toString(16).slice(2)}`);
+  renameSync(absolutePath, backupPath);
+  movedDirectories.push({ absolutePath, backupPath });
+}
+
+function removeDirectoryIfEmpty(relativePath) {
+  const absolutePath = resolve(process.cwd(), relativePath);
+  if (!existsSync(absolutePath)) return;
+  if (readdirSync(absolutePath).length === 0) rmSync(absolutePath, { force: true, recursive: true });
+}
+
 describe('agent tools reports', () => {
   afterEach(() => {
     rmSync(resolve(process.cwd(), 'dist/test-link-fixture'), { force: true, recursive: true });
+    removeDirectoryIfEmpty('dist');
     rmSync(resolve(process.cwd(), 'output/agent-tools/test-proof'), { force: true, recursive: true });
+    while (movedDirectories.length) {
+      const { absolutePath, backupPath } = movedDirectories.pop();
+      rmSync(absolutePath, { force: true, recursive: true });
+      if (existsSync(backupPath)) renameSync(backupPath, absolutePath);
+    }
     for (const [absolutePath, original] of preservedFiles.entries()) {
       if (original.existed) {
         mkdirSync(dirname(absolutePath), { recursive: true });
@@ -419,6 +441,57 @@ describe('agent tools reports', () => {
     expect(actionText).toContain('Search Console UI request-indexing was submitted');
     expect(actionText).toContain('recheck after Google crawls');
     expect(actionText).not.toContain('request indexing manually');
+  });
+
+  it('does not infer zero internal links when dist was intentionally cleaned', () => {
+    temporarilyRemoveDirectory('dist');
+    preserveAndWrite(
+      'output/search-console-url-inspection.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-02T15:15:00.000Z',
+          inspections: [
+            {
+              coverageState: 'Crawled - currently not indexed',
+              inspectionUrl: 'https://accessfreetools.com/tools/percentage-calculator/',
+              lastCrawlTime: '2026-07-01T00:00:00Z',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
+    preserveAndWrite(
+      'docs/search-console-indexing-requests.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-02T15:20:00.000Z',
+          requests: [
+            {
+              requestedAt: '2026-07-03T01:20:00+10:00',
+              result: 'indexing-requested',
+              url: 'https://accessfreetools.com/tools/percentage-calculator/',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
+
+    const seoConsoleReport = buildSeoConsoleReport();
+    const actionText = seoConsoleReport.actions.map((action) => action.task).join('\n');
+    const linkHelperReport = buildLinkHelperReport();
+    const suggestionText = linkHelperReport.suggestions.map((suggestion) => suggestion.reason).join('\n');
+
+    expect(actionText).toContain('Search Console UI request-indexing was submitted');
+    expect(actionText).toContain('built link proof is unavailable until npm run build');
+    expect(actionText).not.toContain('only 0 source pages');
+    expect(actionText).not.toContain('Improve contextual links');
+    expect(suggestionText).toContain('built link counts are unavailable until npm run build');
+    expect(suggestionText).not.toContain('only 0 built pages');
+    expect(suggestionText).not.toContain('add contextual support first');
   });
 
   it('does not turn monitor-only or completed CrawlScout rows into link tasks', () => {

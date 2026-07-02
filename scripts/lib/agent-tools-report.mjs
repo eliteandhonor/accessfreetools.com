@@ -1096,6 +1096,13 @@ function builtInternalLinkEvidence(targetPaths) {
   }
 
   const htmlFiles = walk(distRoot, (file) => file.endsWith('.html'));
+  if (htmlFiles.length === 0) {
+    return {
+      note: 'not enough data: dist has no built HTML files, so built internal links cannot be counted until after npm run build.',
+      byTarget,
+    };
+  }
+
   const seen = new Set();
   const anchorPattern = /<a\b[^>]*href=(["'])(.*?)\1[^>]*>([\s\S]*?)<\/a>/gi;
 
@@ -1137,6 +1144,7 @@ export function buildLinkHelperReport() {
     })
     .filter(Boolean);
   const linkEvidence = builtInternalLinkEvidence(gapTargets);
+  const hasBuiltLinkEvidence = !linkEvidence.note;
   if (linkEvidence.note) warnings.push(linkEvidence.note);
 
   for (const gap of searchConsole.gaps.slice(0, 10)) {
@@ -1162,10 +1170,14 @@ export function buildLinkHelperReport() {
           : 'URL inspection/discovery after deploy';
       suggestions.push({
         anchorIdea: url.pathname.replace(/^\/tools\/|^\/blog\/how-to-use-|\/$/g, '').replace(/-/g, ' '),
-        priority: hasEnoughInternalLinks ? 'medium' : 'high',
-        reason: hasEnoughInternalLinks
-          ? `Search Console state: ${gap.coverageState}; ${sourceCount} built pages already link here, so next proof step is ${nextProofStep}.`
-          : `Search Console state: ${gap.coverageState}; only ${sourceCount} built pages link here, so add contextual support first.`,
+        priority: hasBuiltLinkEvidence ? (hasEnoughInternalLinks ? 'medium' : 'high') : indexingRequest ? 'medium' : 'high',
+        reason: hasBuiltLinkEvidence
+          ? hasEnoughInternalLinks
+            ? `Search Console state: ${gap.coverageState}; ${sourceCount} built pages already link here, so next proof step is ${nextProofStep}.`
+            : `Search Console state: ${gap.coverageState}; only ${sourceCount} built pages link here, so add contextual support first.`
+          : indexingRequest
+            ? `Search Console state: ${gap.coverageState}; built link counts are unavailable until npm run build because dist is missing, but next proof step is ${nextProofStep}.`
+            : `Search Console state: ${gap.coverageState}; built link counts are unavailable until npm run build, so build first before deciding whether contextual link support is needed.`,
         target: url.pathname,
       });
     } catch {
@@ -1283,6 +1295,7 @@ export function buildSeoConsoleReport() {
     })
     .filter(Boolean);
   const linkEvidence = builtInternalLinkEvidence(gapTargets);
+  const hasBuiltLinkEvidence = !linkEvidence.note;
   if (linkEvidence.note) warnings.push(linkEvidence.note);
 
   const actions = [
@@ -1316,10 +1329,14 @@ export function buildSeoConsoleReport() {
       return {
         evidence:
           'output/search-console-url-inspection.json + output/search-console-discovery.json + docs/search-console-indexing-requests.json + output/agent-tools/link-helper/latest.md',
-        priority: hasEnoughInternalLinks ? 'medium' : 'high',
-        task: hasEnoughInternalLinks
-          ? `${followUpTask} for ${gap.url}; built link proof already shows ${sourceCount} source pages linking to it (${gap.coverageState}).`
-          : `Improve contextual links and clarity for ${gap.url}; built link proof shows only ${sourceCount} source pages linking to it (${gap.coverageState}).`,
+        priority: hasBuiltLinkEvidence ? (hasEnoughInternalLinks ? 'medium' : 'high') : indexingRequest ? 'medium' : 'high',
+        task: hasBuiltLinkEvidence
+          ? hasEnoughInternalLinks
+            ? `${followUpTask} for ${gap.url}; built link proof already shows ${sourceCount} source pages linking to it (${gap.coverageState}).`
+            : `Improve contextual links and clarity for ${gap.url}; built link proof shows only ${sourceCount} source pages linking to it (${gap.coverageState}).`
+          : indexingRequest
+            ? `${followUpTask} for ${gap.url}; built link proof is unavailable until npm run build, so do not infer 0 source links from the cleaned workspace (${gap.coverageState}).`
+            : `Run npm run build, then rerun link-helper before deciding contextual link work for ${gap.url}; built link proof is unavailable in the cleaned workspace (${gap.coverageState}).`,
       };
     }),
     ...coverageExport.actions.slice(0, 4).map((item) => ({
