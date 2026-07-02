@@ -468,6 +468,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-least-common-multiple-calculator': '2026-06-27',
   'how-to-use-amp-hours-to-watt-hours-calculator': '2026-06-26',
   'how-to-use-watt-hours-to-amp-hours-calculator': '2026-07-02',
+  'how-to-use-wire-size-calculator': '2026-07-02',
   'how-to-use-monitor-ppi-calculator': '2026-06-05',
   'how-to-use-recipe-scaler': '2026-06-05',
   'how-to-use-cooking-measurement-converter': '2026-06-05',

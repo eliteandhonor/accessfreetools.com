@@ -2788,23 +2788,84 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchWireSize, sourceLinks.usaceVoltageDrop, sourceLinks.nistUnits],
   },
   'wire-size-calculator': {
-    summary: 'Learn how current, length, voltage, and a voltage-drop target can suggest a copper AWG size.',
+    summary:
+      'Learn how current, one-way length, voltage, phase, and a voltage-drop target can point to a copper AWG size.',
+    metaDescription:
+      'Use the Wire Size Calculator guide to estimate copper AWG size from amps, one-way length, voltage, phase, and voltage-drop target with practical examples.',
     purpose:
-      'The Wire Size Calculator tests common copper AWG sizes and returns the first size that stays within the voltage-drop percentage you choose. It is a planning helper, not an electrical-code sizing tool.',
+      'The Wire Size Calculator tests common copper AWG sizes and returns the first size that stays within the voltage-drop percentage you choose. It is useful for early planning and comparison before a qualified electrical-code review.',
+    intro:
+      'Wire size estimates can look confusing because the answer changes when current, one-way distance, source voltage, phase, or allowed voltage drop changes. A 120 V, 15 A, 75 ft run with a 3% target lands on 12 AWG in this calculator, while longer or lower-voltage runs can need a larger copper size.',
+    inputMatch:
+      'source voltage, expected load current in amps, source-to-load one-way length in feet, maximum voltage-drop percentage, and single/DC or balanced three-phase mode',
+    logicNote:
+      'The calculator tests supported copper AWG sizes from 14 AWG through 4/0. For each size, it estimates voltage drop from current, copper resistance per foot, one-way length, and circuit factor. Single/DC uses the out-and-back factor of 2; balanced three-phase uses sqrt(3).',
+    readIntro:
+      'Read the answer as the first supported copper AWG size that meets the voltage-drop percentage you entered. Then check the supporting voltage-drop, percent-drop, and load-voltage lines before treating the result as useful.',
+    mistakeIntro:
+      'The big mistake is treating a voltage-drop estimate like final electrical approval. Real conductor sizing also needs ampacity, breaker size, insulation rating, terminals, raceway fill, temperature correction, conductor material, equipment instructions, and local code.',
+    sidecarText:
+      'Open the calculator and try 120 V, 15 A, 75 ft, max 3%, single/DC. Then change only the length to 150 ft so you can see why the suggested AWG size changes.',
+    bestUsesIntro:
+      'Use this guide when you want to understand why the calculator picked a copper AWG size and what still needs review before a real installation.',
     enter: [
-      'Enter source voltage, current amps, and one-way length.',
-      'Enter the maximum voltage-drop percentage.',
-      'Choose single/DC or three-phase circuit type.',
+      'Enter source voltage before the wire run loses voltage.',
+      'Enter expected load current in amps and the source-to-load one-way length in feet.',
+      'Enter the maximum voltage-drop percentage, such as 3%.',
+      'Choose single/DC or balanced three-phase circuit type so the voltage-drop factor matches the run.',
     ],
     read: [
-      'The main answer is the first common copper AWG size that meets the voltage-drop target.',
-      'Estimated drop and percent drop show why the size was selected.',
-      'Load voltage shows source voltage after the estimated drop.',
+      'The main answer is the first supported copper AWG size that meets the voltage-drop target.',
+      'Estimated drop and percent drop show why that size was selected.',
+      'Load voltage shows the source voltage after the estimated drop.',
+      'If the answer is near your limit, rerun with a tighter drop percentage or review a larger conductor with a qualified person.',
     ],
     mistakes: [
       'Do not treat voltage drop as the only wire-sizing rule.',
-      'Do not ignore ampacity, insulation, raceway, temperature, material, and local code.',
+      'Do not enter round-trip length when the calculator asks for one-way length.',
+      'Do not use copper AWG results for aluminum conductors without a separate source-backed calculation.',
+      'Do not ignore ampacity, breaker size, insulation, raceway fill, temperature, terminals, equipment instructions, and local code.',
       'Do not use this as a substitute for a licensed electrician.',
+    ],
+    extraSections: [
+      {
+        title: 'Why one-way length matters',
+        paragraphs: [
+          'The calculator asks for the physical distance from the source to the load. For a simple single-phase or DC run, it applies the out-and-back factor internally, so entering the round-trip length would double-count the distance.',
+          'For example, a 120 V, 15 A, 75 ft run with a 3% target returns 12 AWG with about 3.573 V of drop, 2.9775% drop, and about 116.427 V at the load.',
+        ],
+      },
+      {
+        title: 'Two examples that show why voltage changes the answer',
+        paragraphs: [
+          'A 240 V, 30 A, 100 ft single/DC run with a 3% target returns 10 AWG, about 5.994 V of drop, 2.4975% drop, and about 234.006 V at the load.',
+          'A 24 V, 5 A, 40 ft single/DC run with the same 3% target returns 12 AWG, about 0.6352 V of drop, 2.6466666667% drop, and about 23.3648 V at the load. Lower voltage makes each lost volt count more as a percentage.',
+        ],
+      },
+      {
+        title: 'Single/DC versus balanced three-phase',
+        paragraphs: [
+          'Single/DC mode uses the out-and-back factor of 2. Balanced three-phase mode uses sqrt(3), so it can return a different drop estimate from the same length and current.',
+          'For a 208 V, 20 A, 150 ft balanced three-phase run with a 3% target, this calculator returns 10 AWG with about 5.1909562703 V of drop, 2.495652053% drop, and about 202.80904373 V at the load.',
+        ],
+      },
+      {
+        title: 'What still needs a real electrical check',
+        paragraphs: [
+          'Voltage drop is only one part of wire sizing. A real installation needs ampacity checks, breaker sizing, conductor insulation rating, terminal temperature limits, raceway fill, ambient temperature correction, conductor material, equipment instructions, and local electrical code.',
+          'Use this calculator for planning and comparison. Use the result as a question to bring into a code-aware review, not as permission to install a conductor.',
+        ],
+        links: [
+          {
+            href: '/tools/voltage-drop-calculator/',
+            label: 'Check a specific copper AWG size with the Voltage Drop Calculator',
+          },
+          {
+            href: '/tools/wire-resistance-calculator/',
+            label: 'Estimate copper wire resistance directly',
+          },
+        ],
+      },
     ],
     sources: [sourceLinks.inchWireSize, sourceLinks.usaceVoltageDrop, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
   },
