@@ -11,6 +11,11 @@ interface GuideSection {
   }>;
 }
 
+interface GuideFaqItem {
+  question: string;
+  answer: string;
+}
+
 export interface UtilityGuideDefinition {
   slug: string;
   toolSlug: string;
@@ -22,6 +27,7 @@ export interface UtilityGuideDefinition {
   quickStart: string[];
   sections: GuideSection[];
   sidecarText: string;
+  faqItems?: GuideFaqItem[];
   bestUsesIntro?: string;
 }
 
@@ -42,6 +48,7 @@ interface UtilityGuideDetail {
   read: string[];
   mistakes: string[];
   extraSections?: GuideSection[];
+  faqItems?: GuideFaqItem[];
   sources: Array<{
     href: string;
     label: string;
@@ -5998,9 +6005,25 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'wind-chill-calculator': {
-    summary: 'Learn how the NWS wind chill formula estimates feels-like cold.',
+    summary: 'Learn how the NWS wind chill formula estimates feels-like cold from air temperature and wind speed.',
+    metaDescription:
+      'Learn how to use the Wind Chill Calculator with Fahrenheit temperature, mph wind speed, NWS formula limits, examples, and cold-weather cautions.',
     purpose:
       'The Wind Chill Calculator combines air temperature and wind speed to estimate how cold exposed skin may feel in cold, windy weather.',
+    intro:
+      'Use it when the air is 50 F or colder and the wind is stronger than a light breeze. The result helps you compare cold conditions before you stand outside, wait for a bus, walk a dog, or plan a short outdoor task.',
+    inputMatch:
+      'the actual Fahrenheit air temperature and the wind speed in miles per hour for the place and time you are checking',
+    logicNote:
+      'The National Weather Service formula is built for cold air and meaningful wind. It does not make objects colder than the real air temperature, and it does not replace local frostbite or winter-weather alerts.',
+    readIntro:
+      'Read the Fahrenheit wind chill first because that is the main feels-like number. Then use the Celsius line if you need metric context, and compare the original air temperature with the result so you can see how much the wind changed the feel.',
+    mistakeIntro:
+      'Wind chill mistakes usually come from using the formula outside its range, treating it like a thermometer reading, or ignoring local safety alerts.',
+    sidecarText:
+      'Open the Wind Chill Calculator beside this guide. Try 30 F and 15 mph first, then replace those values with the forecast temperature and wind speed you actually have.',
+    bestUsesIntro:
+      'Use this guide when you need a quick cold-weather estimate, not a full safety decision. These are the jobs the calculator is best at.',
     enter: [
       'Enter air temperature in Fahrenheit.',
       'Enter wind speed in miles per hour.',
@@ -6008,13 +6031,75 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
     read: [
       'The main answer is the wind chill temperature.',
-      'Celsius gives metric context.',
+      'Celsius gives metric context when you need it.',
       'Air temperature and wind speed confirm what went into the formula.',
+      'A result colder than the air temperature means wind is increasing exposed-skin heat loss.',
     ],
     mistakes: [
-      'Do not use wind chill for warm weather.',
+      'Do not use wind chill for warm weather, calm air, or wind speeds at or below 3 mph.',
       'Do not ignore local frostbite and cold-weather warnings.',
       'Remember wind chill affects people, not the actual temperature of objects.',
+      'Do not use the number as a guarantee that bare skin is safe for a certain number of minutes.',
+    ],
+    extraSections: [
+      {
+        title: 'Example: 30 F with a 15 mph wind',
+        paragraphs: [
+          'A 30 F day might sound only a little below freezing, but a 15 mph wind changes the feel. Enter 30 for temperature and 15 for wind speed.',
+          'The calculator gives about 19.0 F wind chill. That does not mean the air or your car has become 19 F. It means exposed skin can lose heat more like it would in calmer 19 F conditions.',
+        ],
+      },
+      {
+        title: 'Why the 50 F and 3 mph limits matter',
+        paragraphs: [
+          'The NWS wind chill formula is intended for air temperatures of 50 F or colder and wind speeds above 3 mph. Outside that range, the calculator should not pretend the formula is more precise than it is.',
+          'If it is warm, heat index or dew point may be the better comfort check. If the air is calm, the wind chill effect is too small for this formula range.',
+        ],
+      },
+      {
+        title: 'What wind chill cannot decide for you',
+        paragraphs: [
+          'Wind chill is one useful signal, but it is not a full outdoor-safety plan. Wet clothing, time outside, sun, shelter, gloves, health, age, and local conditions can change the real risk.',
+          'Use the calculator for a quick comparison, then check local weather alerts when frostbite, hypothermia, school closures, travel, pets, or outdoor work may be involved.',
+        ],
+      },
+    ],
+    faqItems: [
+      {
+        question: 'What does wind chill mean in plain language?',
+        answer:
+          'Wind chill is a feels-like cold estimate for exposed skin. It combines air temperature and wind speed to show how much faster wind can pull heat away from a person.',
+      },
+      {
+        question: 'Does wind chill change the real air temperature?',
+        answer:
+          'No. A thermometer still reads the real air temperature. Wind chill helps describe exposed-skin heat loss, not the temperature of cars, pipes, tools, or other objects.',
+      },
+      {
+        question: 'When should I not use the Wind Chill Calculator?',
+        answer:
+          'Do not use it for temperatures above 50 F, calm wind, wind speeds at or below 3 mph, or warm-weather comfort. In those cases, use the real temperature or a different weather measure.',
+      },
+      {
+        question: 'Can wind chill tell me exact frostbite time?',
+        answer:
+          'No. It can support a quick check, but frostbite risk also depends on exposure time, clothing, wet skin, age, health, shelter, and local alerts. Use official warnings for safety decisions.',
+      },
+      {
+        question: 'Why does 30 F and 15 mph become about 19 F?',
+        answer:
+          'The wind makes exposed skin lose heat faster. In the NWS formula, 30 F air with 15 mph wind feels close to 19.0 F for exposed skin.',
+      },
+      {
+        question: 'Should I enter gust speed or steady wind speed?',
+        answer:
+          'Use the steady wind speed when you want a normal estimate. If strong gusts are the real concern, run both the steady wind and gust values so you can see the range.',
+      },
+      {
+        question: 'Is Celsius supported?',
+        answer:
+          'Yes. The calculator uses Fahrenheit and mph for the NWS formula, then shows the wind chill result in Fahrenheit and Celsius so you can compare both units.',
+      },
     ],
     sources: [sourceLinks.nwsWindChill, sourceLinks.nistUnits],
   },
@@ -8576,6 +8661,7 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
     sidecarText:
       detail.sidecarText ??
       `Open the ${tool.name} beside this guide. Try one example first, then replace the ${guideLanguage.sidecarInputPhrase} with your own.`,
+    faqItems: detail.faqItems,
   };
 }
 

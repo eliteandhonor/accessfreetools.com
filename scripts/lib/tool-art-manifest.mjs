@@ -149,6 +149,11 @@ const toolArtMetadataOverrides = {
       caption:
         'Wind Chill Calculator artwork matches the live workflow: enter Fahrenheit temperature and mph wind speed, then read the NWS-formula wind chill result, Celsius conversion, example checks, and outdoor-safety limits.',
     },
+    guide: {
+      alt: 'Guide image for Wind Chill Calculator showing cold-weather planning with Fahrenheit temperature, mph wind speed, NWS wind chill result, Celsius conversion, and safety-limit checks.',
+      caption:
+        'Wind Chill Calculator guide artwork supports the walkthrough for checking 50 F-or-colder air, wind above 3 mph, exact example results, formula limits, and outdoor-safety cautions.',
+    },
   },
   'p-value-calculator': {
     tool: {

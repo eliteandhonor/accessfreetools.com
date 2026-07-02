@@ -36,5 +36,6 @@ const { guide } = Astro.props;
   quickStart={guide.quickStart}
   sections={guide.sections}
   sidecarText={guide.sidecarText}
+  faqItems={'faqItems' in guide ? guide.faqItems : undefined}
   bestUsesIntro={'bestUsesIntro' in guide ? guide.bestUsesIntro : undefined}
 />
