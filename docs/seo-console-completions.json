@@ -42,6 +42,23 @@
         "output/seo-agents/molarity-calculator/blog/final-judge.md"
       ],
       "note": "Completed the Molarity Calculator guide CTR follow-up for the 2026-07-02 GSC export: the rendered guide now has a formula/example-focused title and meta description, a 2026-07-03 modified date, exact visible FAQ questions, refreshed paid DataForSEO evidence, Calculator.net and Omni Calculator competitor-gap evidence, fresh browser proof, and a final SEO workbench judge with 0 remaining gaps."
+    },
+    {
+      "path": "/tools/mortgage-calculator-uk/",
+      "completedAt": "2026-07-03T00:23:15+10:00",
+      "evidence": [
+        "output/search-console/performance-latest.json",
+        "src/data/financeTools.ts",
+        "src/data/siteDates.ts",
+        "src/data/toolDeepAudit.ts",
+        "output/seo-tool-review/mortgage-calculator-uk/tool/page-score.md",
+        "output/seo-tool-review/mortgage-calculator-uk/tool/research.md",
+        "output/seo-tool-review/mortgage-calculator-uk/tool/dataforseo-paid.md",
+        "output/seo-tool-review/mortgage-calculator-uk/tool/competitor-gap.md",
+        "output/seo-tool-review/mortgage-calculator-uk/tool/browser-proof-mortgage-uk-tool-local-final-playwright-2026-07-03-summary.json",
+        "output/seo-agents/mortgage-calculator-uk/tool/final-judge.md"
+      ],
+      "note": "Completed the UK Mortgage Calculator tool CTR follow-up for the 2026-07-02 GSC export: the rendered tool now has tighter repayments/LTV/deposit title and meta wording, page-specific visible FAQ lead questions, a 2026-07-03 tool and structured-data modified date, refreshed paid DataForSEO evidence, Calculator.net and MortgageCalculator.uk competitor-gap evidence, fresh browser proof, and a final SEO workbench judge with 0 remaining gaps."
     }
   ]
 }

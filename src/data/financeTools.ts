@@ -15,6 +15,7 @@ interface FinanceToolSpec {
   examples: ToolExample[];
   relatedSlugs: string[];
   inputExplanations?: Array<{ term: string; meaning: string }>;
+  leadFaq?: ToolFaq[];
   priorityFaq?: ToolFaq[];
   extraFaq?: ToolFaq[];
   formulaCheck?: string;
@@ -34,14 +35,16 @@ function makeFaq(spec: FinanceToolSpec): ToolFaq[] {
       : 'Money tools are picky about labels. Dollar fields should be entered as dollar amounts, rate fields should be entered as percentages like 6.5 instead of 0.065, and term fields should match the page label such as months or years. If a field says monthly, do not enter a yearly total unless the tool specifically asks for it.';
 
   return [
-    {
-      question: `When should I use the ${spec.name}?`,
-      answer: `Use it when you want to test the exact inputs on this page: ${exampleUses} The result is a check against your assumptions, not proof that a lender, tax app, broker, platform, or provider will use the same number.`,
-    },
-    {
-      question: `What do the main ${spec.name} inputs mean?`,
-      answer: inputExplanation,
-    },
+    ...(spec.leadFaq ?? [
+      {
+        question: `When should I use the ${spec.name}?`,
+        answer: `Use it when you want to test the exact inputs on this page: ${exampleUses} The result is a check against your assumptions, not proof that a lender, tax app, broker, platform, or provider will use the same number.`,
+      },
+      {
+        question: `What do the main ${spec.name} inputs mean?`,
+        answer: inputExplanation,
+      },
+    ]),
     ...(spec.priorityFaq ?? []),
     {
       question: `What is the ${spec.name} doing with my numbers?`,
@@ -2258,10 +2261,10 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     name: 'Mortgage Calculator UK',
     summary: 'Estimate a UK repayment mortgage from property price, deposit, rate, term, and monthly fees.',
     description:
-      'Estimate a UK repayment mortgage payment from property price, deposit, rate, term, and monthly fees, with loan amount, LTV, and total interest.',
-    seoTitle: 'Mortgage Calculator UK | Repayment, Deposit, LTV & Interest',
+      'Estimate UK monthly mortgage repayments from property price, deposit, rate, term, and recurring fees, with loan amount, LTV, and total interest.',
+    seoTitle: 'Mortgage Calculator UK | Repayments, LTV & Deposit',
     seoDescription:
-      'Estimate a UK repayment mortgage from property price, deposit, rate, term, and monthly fees. See monthly payment, loan amount, LTV, and interest.',
+      'Estimate UK monthly mortgage repayments from price, deposit, rate and term. See a £300,000 example, LTV, total interest and key limits.',
     icon: 'calculator-mortgage',
     aliases: ['mortgage repayment calculator', 'simple mortgage calculator uk', 'mortgage calculator uk first time buyer', 'uk mortgage payment calculator'],
     formula:
@@ -2286,6 +2289,18 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       { term: 'Interest rate', meaning: 'the annual rate used for the repayment estimate, entered as a percent such as 5.2 for 5.2%.' },
       { term: 'Mortgage term', meaning: 'how many years the repayment is spread over. A longer term usually lowers the payment but raises total interest.' },
       { term: 'Monthly fees', meaning: 'optional recurring fees you want included in the monthly total, not one-off product, legal, survey, or stamp duty costs.' },
+    ],
+    leadFaq: [
+      {
+        question: 'When should I use this UK mortgage calculator?',
+        answer:
+          'Use it when you want a quick repayment estimate from property price, deposit, rate, term, and monthly fees. The £300,000 example shows the monthly repayment, loan amount, LTV, and total interest this page returns.',
+      },
+      {
+        question: 'What do the main UK mortgage calculator inputs mean?',
+        answer:
+          'Start with property price and deposit, then add the annual rate and repayment term. Add monthly fees only when the charge repeats every month; keep stamp duty, legal fees, surveys, insurance, and one-off product fees outside this field unless you are testing them separately.',
+      },
     ],
     priorityFaq: [
       {

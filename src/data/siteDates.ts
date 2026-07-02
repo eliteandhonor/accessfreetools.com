@@ -52,7 +52,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'investment-calculator': '2026-05-31',
   'marriage-tax-calculator': '2026-05-31',
   'mortgage-calculator': '2026-05-31',
-  'mortgage-calculator-uk': '2026-05-31',
+  'mortgage-calculator-uk': '2026-07-03',
   'mortgage-payoff-calculator': '2026-05-31',
   '401k-calculator': '2026-05-31',
   'house-affordability-calculator': '2026-05-31',

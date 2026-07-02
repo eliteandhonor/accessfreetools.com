@@ -4421,8 +4421,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'mortgage-calculator-uk',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
-    reviewedOn: '2026-05-31',
+    batch: 'gsc-ctr-followup-2026-07-03',
+    reviewedOn: '2026-07-03',
     scope: commonMathScope,
     sources: [moneyHelperMortgage, moneyHelperMortgageOptions, govUkBuyingHome, govUkSdltRates, govUkMortgage],
     findings: [
@@ -4430,9 +4430,11 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The 2026-05-31 sprint used page-specific DataForSEO evidence for mortgage repayment calculator intent, official MoneyHelper and GOV.UK source checks, competitor evidence, and in-app Browser proof.',
       'The result labels loan amount, loan-to-value, monthly repayment, total monthly payment, and total interest so deposit, term, and rate effects are visible.',
       'The guide separates repayment payment math from lender affordability checks, credit review, stamp duty or local land tax, product fees, valuation, survey, solicitor costs, leasehold costs, insurance, and interest-only products.',
+      'The 2026-07-03 CTR follow-up tightened title/meta wording, moved page-specific UK mortgage FAQs above generic finance FAQs, and rechecked the page with DataForSEO, competitor-gap, page-score, research, and rendered-page proof.',
     ],
     improvements: [
       'Added UK-mortgage-specific SEO metadata, aliases, exact payment examples, priority FAQs, guide sections, source links, sitemap dates, result note wording, and tool/guide art alt and caption text.',
+      'Refreshed the tool title, meta description, visible FAQ lead, tool modified date, and structured-data dateModified for the 2026-07-02 GSC high-impression zero-click row.',
     ],
     followUps: [
       'Add stamp-duty, local land-tax, or one-off product-fee fields only if the page can keep England, Northern Ireland, Scotland, and Wales rules clear and current.',
