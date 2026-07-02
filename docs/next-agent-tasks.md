@@ -8,17 +8,18 @@ Use this task board after `npm run aft -- status` and `npm run aft -- seo-consol
 
 - Branch: `main`.
 - Recovery PR `#55` merged as commit `6092a12d34b72ca30f1fb3d81c0304a3bf4a832b`.
-- Hostinger Node build `019f22f1-1fee-70b9-ab72-943ea88f35fe` completed with `entry=app.js`.
+- Final Hostinger Node build `019f22f6-9b54-7264-b899-486e4aa1b844` completed with `entry=app.js`.
 - `npm run check:live-ask`: pass; `/api/v1/ask` uses `access-free-tools-parser`, `/api/v1/tools` returns 20 tools, and MCP exposes `search_tools`, `get_tool_schema`, `run_tool`, and `fetch_tool_guide`.
 - `npm run aft -- ask-audit`, `npm run aft -- api-ready`, and `npm run aft -- mcp-smoke`: pass after deploy.
 - `npm run check:production-sitemap`: 646 OK URLs, 4 redirects, 0 hard failures after deploy.
-- `npm run aft -- status`: DataForSEO live balance 14.47 USD, Hostinger OK, promotion queue 67 rows, indexing gaps 0, GSC performance import present with 103 deindexed URLs and 25 high-impression zero-click pages.
+- `npm run aft -- status`: DataForSEO live balance 14.47 USD, Hostinger OK, promotion queue 67 rows, indexing gaps 3, GSC performance import present with 103 deindexed URLs and 25 high-impression zero-click pages.
 - `npm run aft -- seo-tool-queue`: pass, 598 approved page review units, 0 remaining, active gate none.
 - `npm run aft -- proof-check`: pass, no missing public proof on claimed rows.
 - `npm run aft -- seo-console`: attention, but completed recovery pages and the monitor-only `/sitemap/` row are suppressed.
 - `npm run maintenance:audit`: pass, dirty files none before this task-board refresh, safe cleanup candidates 451.19 MB.
 - `npm run check`: pass, 222 tests, build, links, site audit, structured data, performance budget, AI asset guard, image QA, gallery QA, secrets, and npm audit.
-- `npm run search-console:submit-discovery` and `npm run search-console:inspect-key-urls`: blocked because `.local/google-search-console-client-secret.json` is missing.
+- `npm run search-console:submit-discovery`: pass after restoring ignored local OAuth files; submitted `https://accessfreetools.com/sitemap.xml` and `https://accessfreetools.com/feed.xml`; sitemap API report shows 0 errors and 0 warnings.
+- `npm run search-console:inspect-key-urls`: pass; 11 key URLs are `PASS` / `Submitted and indexed`; 3 key URLs are `NEUTRAL` / `Crawled - currently not indexed`: `/tools/watts-to-amps-calculator/`, `/blog/how-to-use-ad-revenue-calculator/`, and `/blog/how-to-use-watts-to-amps-calculator/`.
 
 ## Completed Local Recovery Batches
 
@@ -27,22 +28,24 @@ Use this task board after `npm run aft -- status` and `npm run aft -- seo-consol
 - Follow-on deindexed batch: retaining wall tool, quadratic formula tool, concrete guide, annuity payout guide, pension guide, and UUID guide have final judges with 0 remaining gaps.
 - `/sitemap/` is intentionally `noindex,follow`, excluded from XML sitemaps, and should be monitored rather than rewritten as a search landing page.
 
-## Task 1: Restore Search Console OAuth And Submit Discovery
+## Task 1: Monitor Fresh Search Console Indexing
 
 Priority: High
 
 Work:
 
-- Restore the local Search Console OAuth client secret at `.local/google-search-console-client-secret.json`, set `GSC_CLIENT_SECRET_PATH`, pass `--client-secret=...`, or keep one `client_secret_*.json` file in `.local/`.
-- Run `npm run search-console:submit-discovery`.
-- Run `npm run search-console:inspect-key-urls`.
-- Inspect representative recovered URLs from Tier A, CTR, and follow-on deindexed batches.
+- Keep the restored local Search Console OAuth files in ignored `.local/` only; never commit the client secret or token.
+- Discovery was refreshed on 2026-07-02 at 23:25 Australia/Brisbane; rerun only after meaningful sitemap/content changes or if the report goes stale.
+- Track the 3 current neutral key URLs: `/tools/watts-to-amps-calculator/`, `/blog/how-to-use-ad-revenue-calculator/`, and `/blog/how-to-use-watts-to-amps-calculator/`.
+- If Search Console UI access is available, request indexing for those three URLs manually, then recheck after Google crawls.
+- Inspect representative recovered URLs from Tier A, CTR, and follow-on deindexed batches when choosing the next recovery batch.
 - Keep URL Inspection results separate from ranking/indexing claims; record exact status, fetch result, robots/indexing state, and canonical match.
 
 Definition of done:
 
 - Discovery submission report exists.
-- URL inspection report exists or records a new exact OAuth/access blocker.
+- URL inspection report exists.
+- The 3 current neutral URLs either become `PASS` / `Submitted and indexed` or have a newer exact Google reason recorded.
 - Recovery audit handoff names any URLs that still need manual request-indexing or follow-up.
 
 ## Task 2: Work The Next SEO Console Batch
@@ -77,7 +80,7 @@ Priority: Medium
 Work:
 
 - Run `npm run maintenance:clean:dry-run`.
-- Run `npm run maintenance:clean:safe` only after Search Console follow-up is restored or explicitly deferred.
+- Run `npm run maintenance:clean:safe` in a separate cleanup pass now that Search Console follow-up is restored, preserving proof paths and ignored secrets.
 - Preserve `output/`, `agents/`, `.local/`, Codex sessions, and proof artifacts.
 
 Definition of done:
@@ -120,6 +123,7 @@ Definition of done:
 ## Completed Release Work
 
 - Recovery PR `#55` merged to `main`.
-- Hostinger Node build `019f22f1-1fee-70b9-ab72-943ea88f35fe` completed with `entry=app.js`.
+- Final Hostinger Node build `019f22f6-9b54-7264-b899-486e4aa1b844` completed with `entry=app.js`.
 - Post-deploy live Ask/API/MCP checks passed.
 - Production sitemap has 0 hard failures.
+- Search Console discovery and key URL inspection are restored from ignored local OAuth files; three key URLs remain crawled but not indexed.
