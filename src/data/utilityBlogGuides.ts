@@ -505,6 +505,10 @@ const sourceLinks = {
     href: 'https://www.wpc.ncep.noaa.gov/html/dewrh.shtml',
     label: 'NOAA/NWS: Dew point and relative humidity calculator',
   },
+  nwsDewPointVsHumidity: {
+    href: 'https://www.weather.gov/arx/why_dewpoint_vs_humidity',
+    label: 'National Weather Service: Why dew point can explain humidity better',
+  },
   doeRoomAc: {
     href: 'https://www.energy.gov/energysaver/room-air-conditioners',
     label: 'U.S. Department of Energy: Room air conditioners',
@@ -5968,25 +5972,83 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.noaaHeatIndex, sourceLinks.nwsHeatSafety, sourceLinks.cdcHeatIllness, sourceLinks.nistUnits],
   },
   'dew-point-calculator': {
-    summary: 'Learn how temperature and relative humidity estimate dew point.',
+    summary: 'Learn how Fahrenheit temperature and relative humidity estimate dew point.',
+    metaDescription:
+      'Use the Dew Point Calculator guide to estimate dew point from Fahrenheit temperature and relative humidity, read comfort examples, and understand weather limits.',
     purpose:
-      'The Dew Point Calculator estimates the temperature at which air would become saturated with water vapor, using temperature and relative humidity.',
+      'The Dew Point Calculator estimates the temperature where the air would become saturated with water vapor from Fahrenheit temperature and relative humidity.',
+    intro:
+      'Use it when a weather app says 75 F and 60% relative humidity, but you want the moisture number that explains whether the air feels dry, comfortable, or muggy.',
+    inputMatch:
+      'the air temperature in Fahrenheit and the relative humidity percent from the same place and time',
+    logicNote:
+      'The calculator converts Fahrenheit to Celsius, uses the Magnus approximation with gamma = ln(RH / 100) + (17.625 x T_C) / (243.04 + T_C), solves dew point in Celsius, then converts the result back to Fahrenheit.',
+    readIntro:
+      'Read dew point F first if you are comparing U.S. weather notes. Check dew point C when you need metric context. A higher dew point usually means more actual moisture in the air, even when relative humidity by itself looks confusing.',
+    mistakeIntro:
+      'Most dew point mistakes come from mixing readings from different times or treating relative humidity alone as a comfort number.',
     enter: [
-      'Enter air temperature in Fahrenheit.',
-      'Enter relative humidity percent.',
-      'Calculate to see dew point in Fahrenheit and Celsius.',
+      'Enter the air temperature in Fahrenheit from the same room, forecast, or weather station reading.',
+      'Enter relative humidity as a percent from 1 to 100; zero humidity is not valid for this formula.',
+      'Calculate to see the estimated dew point in Fahrenheit and Celsius.',
     ],
     read: [
-      'The main answer is dew point.',
-      'Celsius gives metric context.',
-      'Dew point can explain comfort better than relative humidity alone.',
+      'The main answer is dew point in Fahrenheit.',
+      'Celsius gives metric context for weather notes, science class, or international forecasts.',
+      'A 60.2 F dew point from 75 F and 60% relative humidity points to mild humidity, not extreme muggy air.',
+      'A 73.3 F dew point from 82 F and 75% relative humidity is much stickier because the air contains more moisture.',
     ],
     mistakes: [
-      'Do not enter zero humidity.',
-      'Do not treat the approximation as an official instrument reading.',
-      'Use local weather data for safety-sensitive planning.',
+      'Do not enter zero humidity, because the logarithm in the formula needs relative humidity above 0%.',
+      'Do not combine an indoor temperature with an outdoor humidity reading and expect a meaningful result.',
+      'Do not treat the approximation as a calibrated weather station, indoor-air-quality report, mold-risk survey, or safety alert.',
+      'Use local weather data, weather alerts, and proper instruments for safety-sensitive planning.',
     ],
-    sources: [sourceLinks.noaaDewPoint, sourceLinks.noaaHeatIndex],
+    sidecarText:
+      'Open the Dew Point Calculator beside this guide. Try 75 F and 60% relative humidity first, then compare 70 F and 30% RH with a muggy 82 F and 75% RH reading.',
+    bestUsesIntro:
+      'This guide is best when you have temperature and relative humidity, but you want a clearer moisture number before comparing comfort, indoor air, or humid weather.',
+    referenceIntro:
+      'These references support the dew point, relative humidity, and heat-index context used in this guide.',
+    extraSections: [
+      {
+        title: 'Example: 75 F and 60% relative humidity',
+        paragraphs: [
+          'For a common mild-weather check, enter 75 for temperature and 60 for relative humidity. The calculator returns about 60.2 F dew point, or about 15.7 C.',
+          'That result is easier to compare than relative humidity alone. A 60 F dew point usually feels more humid than dry indoor air, but it is not the same as the sticky 70-plus F dew points people notice on muggy days.',
+        ],
+      },
+      {
+        title: 'Dry, mild, and muggy checks',
+        paragraphs: [
+          'Use these examples as quick sanity checks before trusting your own number. They show how the same formula reacts when humidity and temperature move together.',
+        ],
+        bullets: [
+          '70 F and 30% RH gives about 37.1 F dew point, which is much drier air.',
+          '75 F and 60% RH gives about 60.2 F dew point, a mild-to-humid reading.',
+          '82 F and 75% RH gives about 73.3 F dew point, which feels noticeably muggy.',
+          '90 F and 70% RH gives about 78.9 F dew point, a very humid heat check.',
+        ],
+      },
+      {
+        title: 'Dew point versus heat index',
+        paragraphs: [
+          'Dew point is about moisture in the air. Heat index is about how hot the air feels to people when temperature and humidity combine.',
+          'If your question is comfort or moisture, start with dew point. If your question is outdoor heat stress, compare the same weather reading with the Heat Index Calculator and local weather alerts.',
+        ],
+        links: [
+          { href: '/tools/heat-index-calculator/', label: 'Compare the same reading with the Heat Index Calculator' },
+        ],
+      },
+      {
+        title: 'When this guide is not enough',
+        paragraphs: [
+          'This calculator is a browser estimate from two inputs. It cannot inspect your HVAC system, walls, stored materials, breathing comfort, forecast alerts, or condensation risk by itself.',
+          'For mold, building damage, health symptoms, laboratory work, or weather safety, use proper instruments and local expert guidance. The calculator is best for a quick check, not a final decision.',
+        ],
+      },
+    ],
+    sources: [sourceLinks.noaaDewPoint, sourceLinks.nwsDewPointVsHumidity, sourceLinks.noaaHeatIndex],
   },
   'bandwidth-calculator': {
     summary: 'Learn how file size, bandwidth, and bits-versus-bytes math estimate download or upload time.',
