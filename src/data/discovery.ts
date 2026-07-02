@@ -25,7 +25,6 @@ export const staticSitemapEntries: SitemapEntry[] = [
   '/',
   '/tools/',
   '/ask/',
-  '/sitemap/',
   '/hubs/',
   '/categories/',
   '/blog/',

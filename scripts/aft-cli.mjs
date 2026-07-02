@@ -1,6 +1,6 @@
 import { spawnSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
-import { basename, join, relative, resolve } from 'node:path';
+import { basename, dirname, join, relative, resolve } from 'node:path';
 import { Command } from 'commander';
 import {
   buildApiReadyReport,
@@ -571,19 +571,38 @@ function findBuiltHtmlForTool(slug) {
 }
 
 function readSitemapUrls() {
-  const distRoots = [join(root, 'dist', 'client'), join(root, 'dist')].filter(existsSync);
   const urls = new Set();
+  const candidates = [join(root, 'dist', 'client', 'sitemap.xml'), join(root, 'dist', 'sitemap.xml'), join(root, 'public', 'sitemap.xml')];
+  const sitemapPath = candidates.find((candidate) => existsSync(candidate));
+  if (!sitemapPath) return urls;
 
-  for (const distRoot of distRoots) {
-    const sitemapFiles = walk(distRoot, (file) => /^sitemap.*\.xml$/i.test(basename(file)));
-    for (const sitemapFile of sitemapFiles) {
-      const text = readFileSync(sitemapFile, 'utf8');
-      for (const match of text.matchAll(/<loc>([\s\S]*?)<\/loc>/g)) {
-        urls.add(decodeHtml(match[1].trim()));
+  const baseDir = dirname(sitemapPath);
+  const visited = new Set();
+
+  function readSitemap(file) {
+    const normalized = resolve(file);
+    if (visited.has(normalized) || !existsSync(normalized)) return;
+    visited.add(normalized);
+
+    const text = readFileSync(normalized, 'utf8');
+    const locs = [...text.matchAll(/<loc>([\s\S]*?)<\/loc>/g)].map((match) => decodeHtml(match[1].trim()));
+
+    if (/<sitemapindex\b/i.test(text)) {
+      for (const loc of locs) {
+        try {
+          const url = new URL(loc);
+          readSitemap(join(baseDir, url.pathname.replace(/^\/+/, '')));
+        } catch {
+          // The hard site audit owns malformed sitemap URLs; this summary stays best-effort.
+        }
       }
+      return;
     }
+
+    for (const loc of locs) urls.add(loc);
   }
 
+  readSitemap(sitemapPath);
   return urls;
 }
 

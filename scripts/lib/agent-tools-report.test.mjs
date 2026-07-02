@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import {
   askAuditCases,
@@ -9,14 +9,41 @@ import {
   buildClaimCheckReport,
   buildContentQualityReport,
   buildEvidencePackReport,
+  buildLinkHelperReport,
   buildToolBriefReport,
   extractToolRecords,
   runClaimCheckReport,
 } from './agent-tools-report.mjs';
 
+const preservedFiles = new Map();
+
+function preserveAndWrite(relativePath, content) {
+  const absolutePath = resolve(process.cwd(), relativePath);
+  if (!preservedFiles.has(absolutePath)) {
+    preservedFiles.set(absolutePath, {
+      content: existsSync(absolutePath) ? readFileSync(absolutePath, 'utf8') : '',
+      existed: existsSync(absolutePath),
+    });
+  }
+
+  mkdirSync(dirname(absolutePath), { recursive: true });
+  writeFileSync(absolutePath, content);
+}
+
 describe('agent tools reports', () => {
   afterEach(() => {
     rmSync(resolve(process.cwd(), 'output/agent-tools/test-proof'), { force: true, recursive: true });
+    rmSync(resolve(process.cwd(), 'dist/test-link-fixture'), { force: true, recursive: true });
+    rmSync(resolve(process.cwd(), 'dist/client/test-link-fixture'), { force: true, recursive: true });
+    for (const [absolutePath, original] of preservedFiles.entries()) {
+      if (original.existed) {
+        mkdirSync(dirname(absolutePath), { recursive: true });
+        writeFileSync(absolutePath, original.content);
+      } else {
+        rmSync(absolutePath, { force: true });
+      }
+    }
+    preservedFiles.clear();
   });
 
   it('keeps Ask audit fixtures focused on deterministic tool-runner parity', () => {
@@ -200,6 +227,42 @@ describe('agent tools reports', () => {
     expect(report.checks.some((check) => check.id === 'aft-route-command')).toBe(true);
     expect(report.checks.some((check) => check.id === 'routing-rules-config' && check.ok)).toBe(true);
     expect(report.commands).toContain('npm run aft -- status');
+  });
+
+  it('does not count mirrored dist client HTML as fake public client routes', () => {
+    preserveAndWrite(
+      'output/search-console-url-inspection.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-03T00:00:00.000Z',
+          inspections: [
+            {
+              coverageState: 'Crawled - currently not indexed',
+              inspectionUrl: 'https://accessfreetools.com/tools/test-link-fixture-target/',
+              lastCrawlTime: '2026-07-01T00:00:00Z',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
+    const mirroredPath = resolve(process.cwd(), 'dist/client/test-link-fixture/source/index.html');
+    const publicPath = resolve(process.cwd(), 'dist/test-link-fixture/source/index.html');
+    mkdirSync(dirname(mirroredPath), { recursive: true });
+    mkdirSync(dirname(publicPath), { recursive: true });
+    writeFileSync(mirroredPath, '<a href="/tools/test-link-fixture-target/">Fixture target</a>\n');
+    writeFileSync(publicPath, '<a href="/tools/test-link-fixture-target/">Fixture target</a>\n');
+
+    const report = buildLinkHelperReport();
+    const rows = report.linkEvidence.byTarget['/tools/test-link-fixture-target/'];
+
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toEqual({
+      anchorText: 'Fixture target',
+      source: '/test-link-fixture/source/',
+    });
+    expect(JSON.stringify(rows)).not.toContain('/client/');
   });
 });
 

@@ -847,7 +847,8 @@ function analyticsSignals() {
 
 function routeFromBuiltHtml(filePath) {
   const distRoot = rootPath('dist');
-  const relativePath = unixPath(relative(distRoot, filePath));
+  let relativePath = unixPath(relative(distRoot, filePath));
+  if (relativePath.startsWith('client/')) relativePath = relativePath.slice('client/'.length);
   if (relativePath === 'index.html') return '/';
   if (relativePath.endsWith('/index.html')) return `/${relativePath.replace(/\/index\.html$/, '/')}`;
   return `/${relativePath.replace(/\.html$/, '/')}`;
