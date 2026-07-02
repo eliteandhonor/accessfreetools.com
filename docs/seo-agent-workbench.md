@@ -1,6 +1,6 @@
 # SEO Agent Workbench
 
-Use this workbench for every SEO task. Also use it when the user says `SEO steps`, `SEO seps`, or asks for a separate SEO agent team. It gives every SEO job one specialist agent, one evaluator agent, scoped micro-agents, and one final judge before human approval.
+Use this workbench for every SEO task. Also use it when the user says `SEO steps`, `SEO seps`, or asks for a separate SEO agent team. It gives every SEO job one specialist agent, one evaluator agent, scoped micro-agents, and one final judge before approval.
 
 The workbench is evidence-first. Every agent starts with source research, then uses the page-specific local, browser, competitor, or paid DataForSEO tool assigned to that role.
 
@@ -12,7 +12,7 @@ Use sources in this order:
 
 1. Google Search Central docs for real SEO guidance.
 2. Google Search Console data for Access Free Tools performance when available.
-3. DataForSEO for paid keyword, SERP, competitor, and OnPage evidence after explicit approval.
+3. DataForSEO for paid keyword, SERP, competitor, and OnPage evidence after explicit approval or under the Standing Owner Autonomy Directive in `docs/seo-tool-review-workflow.md`.
 4. Local Access Free Tools docs and generated reports.
 5. Local scores as guardrails only.
 
@@ -91,7 +91,7 @@ This keeps the agent list complete without forcing product, local, service, vide
 | Smart 14 Voice Editor | Make copy natural, specific, plain, and useful to a smart 14-year-old reader. | Reader Clarity Evaluator |
 | FAQ And Schema Specialist | Check visible FAQs, schema alignment, common mistakes, and honest limits. | FAQ Schema Evaluator |
 | Browser Proof Reviewer | Open the exact local page and save screenshot plus DOM proof. | Visual Proof Evaluator |
-| Final SEO Judge | Read all evidence, list remaining gaps, and decide whether the page can ask for human approval. | Human Approval Gatekeeper |
+| Final SEO Judge | Read all evidence, list remaining gaps, and decide whether the page can ask for approval. | Approval Gatekeeper |
 
 ## Final Judge Rules
 
@@ -108,4 +108,4 @@ The final judge must block the page when required evidence is missing:
 - FAQ score of 90 or higher when available
 - browser screenshot and DOM proof
 
-If all agents pass, the page is only `ready-for-human-approval`. It is not approved, live, or done until the user approves the exact page and the tracker records it.
+If all agents pass, the page is only `ready-for-human-approval`. It is not approved, live, or done until the exact page is approved and the tracker records it. Under the Standing Owner Autonomy Directive, a fully proven exact page-level run can be recorded as `user autonomous completion directive`.

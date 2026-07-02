@@ -19,7 +19,7 @@ Agent-facing note for SEO, indexing, internal-link, archive, and page-review wor
 - It reports one critical crawler-access concern around hCDN, plus high-priority EEAT/schema/date/programmatic recommendations.
 - Current live bot-style probes from this repo did not reproduce the reported hCDN 403; Googlebot, Bingbot, and DuckDuckBot style requests returned HTTP 200 and real page HTML. Treat the hCDN item as a verify-first P0, not as proof to change hosting/WAF rules blindly.
 - Some report findings are already stale against current live/repo state, including `/tools/` missing metadata/schema. Use repo commands and fresh production checks as authoritative before acting.
-- Keep the controlled one-page review lane intact. The current `text-case-converter` blog still needs approved paid DataForSEO evidence before human approval, deployment, and live proof.
+- Completion update from 2026-07-02: the controlled generated tool/blog review lane is complete with 598 approved page review units, 0 remaining, and no active approval gate. The earlier `text-case-converter` blog blocker is historical only. Use `docs/seo-tool-review-queue.md`, `npm run aft -- seo-tool-queue`, and `npm run aft -- proof-check` as the current source of truth.
 
 ## GSC Snapshot
 

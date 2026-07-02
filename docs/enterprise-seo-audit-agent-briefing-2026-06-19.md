@@ -29,13 +29,13 @@ Treat the report as useful strategic input, not current-state truth. The report 
 - hCDN bot challenge: The PDF claims Googlebot/Bingbot-style raw HTTP probes got HTTP 403 challenge pages. Current live checks from this repo on 2026-06-19 returned HTTP 200 for Googlebot on `/`, Bingbot on `/tools/text-case-converter/`, DuckDuckBot on `/blog/how-to-use-text-case-converter/`, and a normal request on `/tools/`. Body checks returned real Access Free Tools HTML, not a "Checking your browser" challenge. Agent action: do not change Hostinger or hCDN WAF from the PDF alone. Verify with Search Console URL Inspection, Crawl Stats, and server/Hostinger logs before any hosting or WAF change.
 - `/tools/` metadata: The PDF says `/tools/` was missing meta description, canonical, JSON-LD, and BreadcrumbList. Current live HTML now shows a meta description, canonical, BreadcrumbList, and CollectionPage schema. Agent action: mark this as likely fixed/stale unless a fresh checker contradicts it.
 - Sitemap counts: The PDF uses 1,241 declared URLs including image URLs and feed entries. Current `npm run aft -- site-sitemap` reports 649 built sitemap URLs, 300 tools, 300 guides, and 13 categories. Agent action: use current repo and production sitemap commands as authoritative for active implementation.
-- DataForSEO: Current account check is healthy with 42.94 USD balance, and service status is ok. Paid page-specific calls still require the normal explicit paid SEO trigger for the current page lane.
+- DataForSEO: The account was healthy when this briefing was written. Page-specific paid calls now follow the Standing Owner Autonomy Directive in `docs/seo-tool-review-workflow.md`: agents may run targeted exact page-level paid evidence after local balance and service-status guardrails pass, while broad/sitewide paid crawls still require capped automation and cost guardrails.
 - Automation environment: Current automation env check is ok. Search Console token is refreshable, Hostinger API is healthy, and DataForSEO is healthy. The repo is dirty only because of an unrelated `scripts/medium-promotion-agent.mjs` change.
 - Search Console fix console: Current `npm run aft -- seo-console` says attention is needed for 3 Google 5xx page examples, 1 404 sample, representative crawled-not-indexed URLs, and representative discovered-not-indexed URLs.
 
 ## Agent Priorities
 
-1. Keep the controlled page-review lane intact. Finish the current `text-case-converter` blog gate before moving to the next slug. Tool and blog approvals are separate. Do not deploy a blog page or mark it approved from this enterprise audit alone.
+1. Keep the controlled page-review lane intact. Completion update from 2026-07-02: the generated tool/blog review lane is complete with 598 approved page review units, 0 remaining, and no active approval gate. Tool and blog approvals remain separate for any future page-level SEO work. Do not deploy a page or mark it approved from this enterprise audit alone.
 2. Verify crawler access as a sitewide P0, but do not blindly apply WAF changes. Run bot-style live probes, Search Console URL Inspection, Crawl Stats, and Hostinger/server log checks. If a challenge reappears for verified search crawlers, escalate through `docs/hostinger-api-agent-guide.md` before any DNS, hosting, WAF, or deployment write.
 3. Export and investigate Search Console error samples. The current internal console reports 3 Google 5xx examples and 1 404 sample. Test each live URL, check Hostinger/runtime logs, redirect old useful URLs, and leave junk/typo traffic alone.
 4. Improve truthful EEAT signals. The report recommends Person author/reviewer schema, visible bylines, editorial policy, methodology pages, and SME review for YMYL-adjacent content. Do not invent authors, reviewers, credentials, ratings, or professional endorsements.
@@ -83,17 +83,17 @@ Internal linking:
 
 ## Current Page Workflow Impact
 
-The enterprise report does not replace the existing page-by-page evidence requirements. The current controlled lane remains:
+The enterprise report does not replace the existing page-by-page evidence requirements. Completion update from 2026-07-02:
 
-- Current slug: `text-case-converter`
-- Tool page: approved, deployed, and live-verified
-- Blog page: edited with free competitor-gap proof, local browser proof, content score, link audit, and final judge
-- Current blocker: final judge still needs approved paid DataForSEO evidence for the exact blog page before human approval, deployment, and live proof
-- Next allowed paid trigger examples: `SEO steps`, `SEO SPRINT text-case-converter blog`, or `PAID SEO SPRINT text-case-converter blog`
+- Generated review units: 598 approved / 0 remaining.
+- Active approval gate: none.
+- Final generated-lane closeout: `wind-chill-calculator` blog.
+- Current source of truth: `docs/seo-tool-review-queue.md`, `npm run aft -- seo-tool-queue`, and `npm run aft -- proof-check`.
+- Historical note: the earlier `text-case-converter` blog blocker in this briefing was resolved during the completed sprint and should not be revived.
 
 ## Recommended Next Agent Actions
 
-1. If the user gives the paid SEO trigger, run the exact `text-case-converter` blog paid DataForSEO step, rerun the final judge, then stop for human approval before deployment.
+1. Do not resume the old `text-case-converter` blocker. Before any new SEO work, run `npm run aft -- seo-tool-queue` and `npm run aft -- proof-check` to confirm the current gate state.
 2. In parallel only if explicitly authorized as sitewide work, investigate the Search Console 5xx/404 samples from `npm run aft -- seo-console`.
 3. Create a sitewide technical task for crawler-access verification that records the PDF claim, current live 200 checks, and required GSC/log proof before any Hostinger or hCDN action.
-4. Create separate backlog items for truthful author/reviewer schema, HowTo schema support, dateModified hygiene, and real rating UI/schema. Keep these out of the current one-page approval unless they directly affect the current page.
+4. Create separate backlog items for truthful author/reviewer schema, HowTo schema support, dateModified hygiene, and real rating UI/schema. Keep these out of page-level approvals unless they directly affect the current page.

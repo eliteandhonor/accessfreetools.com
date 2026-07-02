@@ -1,6 +1,6 @@
 # SEO Tool/Page Review Workflow
 
-Use this workflow for the long-lived `codex/seo-tool-blog-review` branch. It reviews one Access Free Tools URL at a time, compares the page with approved competitor evidence, improves weak copy in the Access Free Tools voice, then stops for human approval before the next page starts.
+Use this workflow for controlled Access Free Tools page-level SEO review branches. It reviews one Access Free Tools URL at a time, compares the page with approved competitor evidence, improves weak copy in the Access Free Tools voice, then records approval through either explicit human review or the Standing Owner Autonomy Directive before deployment or the next page starts.
 
 ## Real SEO Source Order
 
@@ -27,8 +27,8 @@ For internal links, Google's useful rule is descriptive, concise, relevant ancho
 - FAQ And Schema Specialist: checks visible FAQs, answer usefulness, schema alignment, and whether FAQ text is actually on the page.
 - Evidence Collector: records source URLs, proof paths, browser screenshots, and generated reports so SEO decisions are not memory-based.
 - Browser Proof Reviewer: opens the exact local or built URL in the internal browser and records layout/readability proof.
-- Final SEO Judge: reads every specialist and evaluator result, lists remaining gaps, and decides whether the page is ready for human approval.
-- Human Approval Gatekeeper: blocks the next page until approval for the current tool page or blog page is recorded in `docs/seo-tool-review-queue.md`.
+- Final SEO Judge: reads every specialist and evaluator result, lists remaining gaps, and decides whether the page is ready for approval.
+- Approval Gatekeeper: blocks the next page until approval for the current tool page or blog page is recorded in `docs/seo-tool-review-queue.md`. Under the Standing Owner Autonomy Directive, fully proven exact page-level work may be approved as `user autonomous completion directive`.
 
 ## Commands
 
@@ -62,7 +62,7 @@ When the user says `SEO steps`, `SEO seps`, `begin our SEO steps`, `begin our SE
 - Use paid DataForSEO for that exact page: keyword, difficulty, competitor, and SERP evidence, after checking account balance and service status.
 - Review contextual keyword internal links using Google's link guidance: link the first useful exact tool phrase, matching tool CTA, related same-category tools, and relevant hub/category pages with descriptive anchors. Do not link every generic repeat of words like "calculator".
 - Apply useful page/tool improvements, run verification, save in-app browser proof, update the tracker, then commit and push the branch to GitHub.
-- Stop at the human approval gate before deploying live or moving to another page.
+- Apply the approval gate before deploying live or moving to another page. Under the Standing Owner Autonomy Directive, fully proven exact page-level work may be recorded as `user autonomous completion directive`; otherwise stop for human approval.
 
 When the user says `PAID SEO SPRINT <slug> <tool|blog>`, treat that as approval to run the full one-page workflow for that exact page:
 
@@ -72,7 +72,7 @@ When the user says `PAID SEO SPRINT <slug> <tool|blog>`, treat that as approval 
 - tool-specific copy, FAQ, metadata, contextual keyword internal links, or calculator improvements;
 - verification checks and a fresh in-app browser proof;
 - commit and push the branch to GitHub;
-- stop at the human approval gate before deploying live or moving to another page.
+- apply the approval gate before deploying live or moving to another page. Under the Standing Owner Autonomy Directive, fully proven exact page-level work may be recorded as `user autonomous completion directive`; otherwise stop for human approval.
 
 When the user says `SEO SPRINT <slug> <tool|blog>`, run the same complete workflow, including paid DataForSEO, unless they explicitly say "no paid" for that run.
 
@@ -80,9 +80,13 @@ When the user says `SEO SPRINT <slug> <tool|blog>`, run the same complete workfl
 
 On 2026-06-19, the owner approved autonomous targeted SEO/DataForSEO judgment for this controlled page-review lane. For exact page-level SEO sprint work, agents may run needed paid DataForSEO evidence after local account balance and service-status guardrails pass, record exact proof paths, and continue without asking for another paid-run confirmation. Broad or sitewide paid crawls still need the existing capped automation and cost guardrails. When paid evidence, rendered/browser proof, page score, link audit, final judge, and proof-check pass with no blocking gaps, agents may record approval as `user autonomous completion directive`, deploy, live-verify, and update `docs/seo-tool-review-queue.md` instead of stopping for a separate human review prompt.
 
+## Completion Note
+
+As of 2026-07-02, the generated tool/blog review lane is complete: 598 page review units approved, 0 remaining, and no active approval gate. Use `docs/seo-tool-review-queue.md`, `npm run aft -- seo-tool-queue`, and `npm run aft -- proof-check` as the current source of truth. Older June audit notes that point to the `text-case-converter` blog as the active blocker are historical only.
+
 ## Review Rules
 
-1. Work on `codex/seo-tool-blog-review`.
+1. Work on the current SEO review branch shown by `git status --short --branch`. Historical branch names in older notes are not authoritative.
 2. Run `npm run aft -- seo-tool-queue` and choose the next page that is not approved.
 3. Run `npm run aft -- seo-tool-research <slug> --page tool|blog`.
 4. Run `node scripts/seo-agent-workbench.mjs all <slug> <tool|blog>` first. For partial runs, at minimum run `plan`, `sources`, and `micro-plan` so every broad specialist, evaluator, and one-question micro-agent has a scoped job plus source evidence.
@@ -101,7 +105,7 @@ After any approved page is committed, pushed, deployed, and live-verified:
 - Update the Progress Summary in `docs/seo-tool-review-queue.md`.
 - Record the live URL, deployment/build id, commit id, and proof path in the Review Log.
 - Tell the user how many page review units are left.
-- Start the next page by marking it `researching`, generating the local research and page score, and loading the exact local URL in the internal browser.
+- If `npm run aft -- seo-tool-queue` reports another unapproved page, start the next page by marking it `researching`, generating the local research and page score, and loading the exact local URL in the internal browser.
 - Under the Standing Owner Autonomy Directive, continue to the next exact page-level SEO sprint when local account balance and service-status guardrails pass; otherwise wait for a fresh paid SEO trigger phrase.
 
 ## Approval Format
