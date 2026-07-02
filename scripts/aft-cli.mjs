@@ -36,6 +36,7 @@ const evidencePaths = {
   seoEvaluation: 'output/seo-agent-self-evaluation.json',
   searchConsole: 'output/search-console-url-inspection.json',
   searchConsoleCoverageExport: 'output/search-console-coverage-export.json',
+  searchConsoleIndexingRequests: 'docs/search-console-indexing-requests.json',
   searchConsolePerformanceExport: 'output/search-console/performance-latest.json',
   dataForSeoAccount: 'output/dataforseo-account.json',
   dataForSeoStatus: 'output/dataforseo-status.json',
@@ -315,6 +316,53 @@ function getIndexingGaps() {
     const joined = `${item.verdict} ${item.state}`;
     return !/^PASS$/i.test(String(item.verdict)) && /unknown|not indexed|discovered|crawled/i.test(joined);
   });
+}
+
+function getSearchConsoleIndexingRequests() {
+  const report = readJson(evidencePaths.searchConsoleIndexingRequests);
+  const requests = Array.isArray(report?.requests) ? report.requests : [];
+
+  return {
+    generatedAt: report?.generatedAt ?? '',
+    requests,
+  };
+}
+
+function normalizeUrlForCompare(url) {
+  return String(url ?? '').replace(/\/+$/, '/');
+}
+
+function searchConsoleIndexingRequestForUrl(url, requestReport = getSearchConsoleIndexingRequests()) {
+  const normalizedUrl = normalizeUrlForCompare(url);
+  return requestReport.requests.find((request) => normalizeUrlForCompare(request?.url) === normalizedUrl) ?? null;
+}
+
+function formatIndexingRequestTime(request) {
+  if (!request?.requestedAt) return '';
+
+  const date = new Date(request.requestedAt);
+  if (Number.isNaN(date.getTime())) return request.requestedAt;
+
+  return date.toLocaleString('en-AU', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'Australia/Brisbane',
+  });
+}
+
+function indexingGapRecommendation(gaps, requestReport) {
+  if (!gaps.length) return 'No indexing gaps found in the current local snapshot.';
+
+  const requestedGaps = gaps.filter((gap) => searchConsoleIndexingRequestForUrl(gap.url, requestReport));
+  if (requestedGaps.length === gaps.length) {
+    return 'Recommended action: Search Console UI request-indexing is already submitted for every current gap; do not repeat clicks yet. Recheck URL Inspection after Google crawls.';
+  }
+
+  if (requestedGaps.length > 0) {
+    return `Recommended action: ${requestedGaps.length}/${gaps.length} gaps already have request-indexing proof; recheck those after Google crawls, and use link-helper/URL Inspection only for the remaining gaps.`;
+  }
+
+  return 'Recommended action: improve contextual internal links, submit discovery, and use one quality-passed promotion item when useful.';
 }
 
 function getCoverageExportSummary() {
@@ -831,11 +879,40 @@ function indexingGapsCommand(command) {
   const gaps = getIndexingGaps();
   const coverageExport = getCoverageExportSummary();
   const performanceExport = getPerformanceExportSummary();
-  const payload = { count: gaps.length, coverageExport, performanceExport, gaps: gaps.slice(0, 20) };
+  const indexingRequests = getSearchConsoleIndexingRequests();
+  const gapsWithRequestProof = gaps.map((gap) => {
+    const indexingRequest = searchConsoleIndexingRequestForUrl(gap.url, indexingRequests);
+
+    return {
+      ...gap,
+      indexingRequest: indexingRequest
+        ? {
+            requestedAt: indexingRequest.requestedAt ?? '',
+            result: indexingRequest.result ?? '',
+          }
+        : null,
+    };
+  });
+  const payload = {
+    count: gaps.length,
+    coverageExport,
+    gaps: gapsWithRequestProof.slice(0, 20),
+    indexingRequests: {
+      generatedAt: indexingRequests.generatedAt,
+      matchedCurrentGaps: gapsWithRequestProof.filter((gap) => gap.indexingRequest).length,
+      total: indexingRequests.requests.length,
+    },
+    performanceExport,
+  };
 
   emit(command, payload, [
     `Indexing gaps: ${gaps.length}`,
-    ...gaps.slice(0, 10).map((gap, index) => `${index + 1}. ${gap.url} - ${gap.state}${gap.lastCrawlTime ? ` (last crawl ${gap.lastCrawlTime})` : ''}`),
+    ...gapsWithRequestProof.slice(0, 10).map((gap, index) => {
+      const requestedAt = gap.indexingRequest ? formatIndexingRequestTime(gap.indexingRequest) : '';
+      return `${index + 1}. ${gap.url} - ${gap.state}${gap.lastCrawlTime ? ` (last crawl ${gap.lastCrawlTime})` : ''}${
+        requestedAt ? `; request-indexing submitted ${requestedAt}` : ''
+      }`;
+    }),
     coverageExport
       ? `Coverage export: latest ${coverageExport.latest?.date ?? 'unknown'} has ${coverageExport.totals?.latestIndexed ?? 'unknown'} indexed and ${coverageExport.totals?.latestNotIndexed ?? 'unknown'} not indexed; critical buckets total ${coverageExport.totals?.criticalPages ?? 'unknown'} pages.`
       : 'Coverage export: not imported yet. Run npm run search-console:import-coverage after downloading Google Coverage CSVs.',
@@ -850,9 +927,7 @@ function indexingGapsCommand(command) {
       : []),
     coverageExport?.actions?.length
       ? `Coverage action: ${coverageExport.actions[0].priority}: ${coverageExport.actions[0].task}`
-      : gaps.length
-        ? 'Recommended action: improve contextual internal links, submit discovery, and use one quality-passed promotion item when useful.'
-        : 'No indexing gaps found in the current local snapshot.',
+      : indexingGapRecommendation(gaps, indexingRequests),
   ]);
 }
 
