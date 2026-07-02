@@ -1,6 +1,6 @@
 # Hostinger API Agent Guide
 
-Last updated: 2026-05-13
+Last updated: 2026-07-02
 
 This guide explains how Access Free Tools agents should use the Hostinger API and MCP tooling. The purpose is hosting visibility first: check websites, DNS, logs, and deployment state without making risky infrastructure changes.
 
@@ -62,8 +62,9 @@ npm run hostinger:deploy-node
 npm run check:live-ask
 ```
 
-This starts a Hostinger JavaScript deployment with Node 22, build script `build`,
-output directory `dist`, and entry file `app.js`. The live check verifies that
+This starts a Hostinger JavaScript deployment with Node 24 by default, build script `build`,
+output directory `dist`, and entry file `app.js`. Override with `HOSTINGER_NODE_VERSION=22`
+or npm `--node-version=22` only for an intentional rollback test. The live check verifies that
 Ask/API/MCP traffic reaches the Astro Node runtime instead of any retired PHP
 route.
 

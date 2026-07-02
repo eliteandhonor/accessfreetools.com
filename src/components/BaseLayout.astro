@@ -1,6 +1,7 @@
 ---
 import SiteFooter from './SiteFooter.astro';
 import SiteHeader from './SiteHeader.astro';
+import { robotsContentForPath } from '../data/indexationPolicy';
 import { getArticleDatesFromPath, toIsoDateTime } from '../data/siteDates';
 import '../styles/global.css';
 
@@ -17,6 +18,7 @@ interface Props {
 const { title, description, path = '/', ogType, noindex = false, socialImagePath, socialImageAlt } = Astro.props;
 const site = Astro.site ?? 'https://accessfreetools.com';
 const canonical = new URL(path, site).toString();
+const robotsContent = robotsContentForPath(path, noindex);
 const defaultSocialImagePath = (() => {
   if (path === '/') return '/social/access-free-tools.png';
   if (path === '/tools/') return '/social/tools-library.png';
@@ -78,7 +80,7 @@ const siteStructuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex,follow" />}
+    {robotsContent && <meta name="robots" content={robotsContent} />}
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0d7c73" />
     <link rel="canonical" href={canonical} />

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import {
   askAuditCases,
@@ -9,14 +9,39 @@ import {
   buildClaimCheckReport,
   buildContentQualityReport,
   buildEvidencePackReport,
+  buildSeoConsoleReport,
   buildToolBriefReport,
   extractToolRecords,
   runClaimCheckReport,
 } from './agent-tools-report.mjs';
 
+const preservedFiles = new Map();
+
+function preserveAndWrite(relativePath, content) {
+  const absolutePath = resolve(process.cwd(), relativePath);
+  if (!preservedFiles.has(absolutePath)) {
+    preservedFiles.set(absolutePath, {
+      content: existsSync(absolutePath) ? readFileSync(absolutePath, 'utf8') : '',
+      existed: existsSync(absolutePath),
+    });
+  }
+
+  mkdirSync(dirname(absolutePath), { recursive: true });
+  writeFileSync(absolutePath, content);
+}
+
 describe('agent tools reports', () => {
   afterEach(() => {
     rmSync(resolve(process.cwd(), 'output/agent-tools/test-proof'), { force: true, recursive: true });
+    for (const [absolutePath, original] of preservedFiles.entries()) {
+      if (original.existed) {
+        mkdirSync(dirname(absolutePath), { recursive: true });
+        writeFileSync(absolutePath, original.content);
+      } else {
+        rmSync(absolutePath, { force: true });
+      }
+    }
+    preservedFiles.clear();
   });
 
   it('keeps Ask audit fixtures focused on deterministic tool-runner parity', () => {
@@ -182,6 +207,59 @@ describe('agent tools reports', () => {
     expect(report.searchConsole.url).toBe('https://accessfreetools.com/tools/percentage-calculator/');
     expect(report.nextProofCommands).toContain('npm run aft -- page-seo percentage-calculator');
     expect(report.nextProofCommands).toContain('npm run aft -- usage-summary');
+  });
+
+  it('does not recommend completed SEO recovery pages or monitor-only sitemap rows', () => {
+    preserveAndWrite(
+      'output/search-console/performance-latest.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-02T00:00:00.000Z',
+          totals: { deindexedRows: 2, pageClicks: 0, pageImpressions: 500 },
+          tierARecovery: [
+            {
+              action: 'recover',
+              evidenceFound: true,
+              path: '/blog/how-to-use-proved-calculator/',
+              rationale: 'already has final judge proof',
+            },
+          ],
+          opportunities: {
+            highImpressionZeroClickPages: [
+              { impressions: 235, path: '/sitemap/' },
+              { impressions: 200, path: '/tools/open-calculator/' },
+            ],
+          },
+        },
+        null,
+        2,
+      ),
+    );
+    preserveAndWrite(
+      'output/seo-agents/proved-calculator/blog/final-judge.json',
+      JSON.stringify(
+        {
+          remainingGaps: [],
+          route: '/blog/how-to-use-proved-calculator/',
+          status: 'ready-for-human-approval',
+        },
+        null,
+        2,
+      ),
+    );
+    preserveAndWrite('output/agent-tools/seo-console/latest.json', '{}\n');
+    preserveAndWrite('output/agent-tools/seo-console/latest.md', '# placeholder\n');
+
+    const report = buildSeoConsoleReport();
+    const actionText = report.actions.map((action) => action.task).join('\n');
+
+    expect(actionText).not.toContain('/blog/how-to-use-proved-calculator/');
+    expect(actionText).not.toContain('/sitemap/');
+    expect(actionText).toContain('/tools/open-calculator/');
+    expect(report.performanceExport.completed).toContainEqual(
+      expect.objectContaining({ path: '/blog/how-to-use-proved-calculator/' }),
+    );
+    expect(report.performanceExport.completed).toContainEqual(expect.objectContaining({ path: '/sitemap/' }));
   });
 
   it('recognizes generated utility blog guides in tool briefs', () => {

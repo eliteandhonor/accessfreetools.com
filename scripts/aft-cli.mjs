@@ -36,6 +36,7 @@ const evidencePaths = {
   seoEvaluation: 'output/seo-agent-self-evaluation.json',
   searchConsole: 'output/search-console-url-inspection.json',
   searchConsoleCoverageExport: 'output/search-console-coverage-export.json',
+  searchConsolePerformanceExport: 'output/search-console/performance-latest.json',
   dataForSeoAccount: 'output/dataforseo-account.json',
   dataForSeoStatus: 'output/dataforseo-status.json',
   hostingerStatus: 'output/hostinger/status.json',
@@ -326,6 +327,19 @@ function getCoverageExportSummary() {
     totals: report.totals ?? null,
     criticalIssues: report.criticalIssues ?? [],
     actions: report.actions ?? [],
+  };
+}
+
+function getPerformanceExportSummary() {
+  const report = readJson(evidencePaths.searchConsolePerformanceExport);
+  if (!report || report.parseError) return null;
+
+  return {
+    generatedAt: report.generatedAt ?? '',
+    totals: report.totals ?? null,
+    tierARecovery: report.tierARecovery ?? [],
+    highImpressionZeroClickPages: report.opportunities?.highImpressionZeroClickPages ?? [],
+    queryQuickWins: report.opportunities?.queryQuickWins ?? [],
   };
 }
 
@@ -692,6 +706,7 @@ function statusCommand(command) {
   const queueRows = parseQueueRows(readText(evidencePaths.promotionQueue));
   const qualityReports = platformQualityReports();
   const indexingGaps = getIndexingGaps();
+  const performanceExport = getPerformanceExportSummary();
   const balance = getDataForSeoBalance();
   const hostinger = getHostingerStatus();
   const marketingPlan = readJson(evidencePaths.marketingPlan);
@@ -711,6 +726,7 @@ function statusCommand(command) {
       unverified: queueRows.filter((row) => row.status === 'unverified').length,
     },
     indexingGaps: indexingGaps.length,
+    searchConsolePerformance: performanceExport,
     qualityReports,
   };
 
@@ -731,6 +747,9 @@ function statusCommand(command) {
       : '- Hostinger: not checked',
     `- Promotion queue: ${payload.promotionQueue.rows} rows, ${payload.promotionQueue.approved} approved, ${payload.promotionQueue.rssConnected} RSS-connected, ${payload.promotionQueue.unverified} unverified`,
     `- Indexing gaps: ${payload.indexingGaps}`,
+    performanceExport
+      ? `- GSC performance import: ${performanceExport.totals?.deindexedRows ?? 0} deindexed URLs, ${performanceExport.highImpressionZeroClickPages.length} high-impression zero-click pages`
+      : '- GSC performance import: not imported yet',
     `- Quality: ${qualityReports.map(formatQuality).join('; ')}`,
   ]);
 }
@@ -811,7 +830,8 @@ function promoteNextCommand(command) {
 function indexingGapsCommand(command) {
   const gaps = getIndexingGaps();
   const coverageExport = getCoverageExportSummary();
-  const payload = { count: gaps.length, coverageExport, gaps: gaps.slice(0, 20) };
+  const performanceExport = getPerformanceExportSummary();
+  const payload = { count: gaps.length, coverageExport, performanceExport, gaps: gaps.slice(0, 20) };
 
   emit(command, payload, [
     `Indexing gaps: ${gaps.length}`,
@@ -821,6 +841,12 @@ function indexingGapsCommand(command) {
       : 'Coverage export: not imported yet. Run npm run search-console:import-coverage after downloading Google Coverage CSVs.',
     ...(coverageExport?.criticalIssues?.length
       ? coverageExport.criticalIssues.map((issue) => `- ${issue.reason}: ${issue.pages} page(s), validation ${issue.validation}`)
+      : []),
+    performanceExport
+      ? `Performance/deindex export: ${performanceExport.totals?.deindexedRows ?? 0} deindexed URLs, ${performanceExport.totals?.pageImpressions ?? 'unknown'} page impressions, ${performanceExport.totals?.pageClicks ?? 'unknown'} page clicks.`
+      : 'Performance/deindex export: not imported yet. Run npm run search-console:import-performance after downloading Search Performance CSVs.',
+    ...(performanceExport?.tierARecovery?.length
+      ? [`Tier A recovery sample: ${performanceExport.tierARecovery.slice(0, 5).map((item) => item.path).join(', ')}`]
       : []),
     coverageExport?.actions?.length
       ? `Coverage action: ${coverageExport.actions[0].priority}: ${coverageExport.actions[0].task}`

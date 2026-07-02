@@ -815,6 +815,101 @@ function googleCoverageExportSignals() {
   };
 }
 
+function seoPageIdentityFromPath(path) {
+  const normalized = normalizeHrefToPath(path);
+  if (normalized.startsWith('/tools/')) {
+    return {
+      page: 'tool',
+      slug: normalized.replace(/^\/tools\//, '').replace(/\/$/, ''),
+    };
+  }
+
+  if (normalized.startsWith('/blog/how-to-use-')) {
+    return {
+      page: 'blog',
+      slug: normalized.replace(/^\/blog\/how-to-use-/, '').replace(/\/$/, ''),
+    };
+  }
+
+  return null;
+}
+
+function finalJudgeForPath(path) {
+  const identity = seoPageIdentityFromPath(path);
+  if (!identity?.slug || !identity?.page) return null;
+  return readJson(`output/seo-agents/${identity.slug}/${identity.page}/final-judge.json`);
+}
+
+function isSeoPageProofComplete(path) {
+  const judge = finalJudgeForPath(path);
+  if (!judge) return false;
+  return judge.status === 'ready-for-human-approval' && (judge.remainingGaps ?? []).length === 0;
+}
+
+function isSearchPerformanceMonitorOnly(path) {
+  return normalizeHrefToPath(path) === '/sitemap/';
+}
+
+function googlePerformanceExportSignals() {
+  const report = readJson('output/search-console/performance-latest.json');
+  if (!report) {
+    return {
+      actions: [],
+      note: 'not enough data: Search Console Performance/deindex export is missing. Run npm run search-console:import-performance after exporting Performance CSVs.',
+      totals: null,
+    };
+  }
+
+  const completed = [];
+  const completedPaths = new Set();
+  const recordCompleted = (item) => {
+    if (!item?.path || completedPaths.has(item.path)) return;
+    completedPaths.add(item.path);
+    completed.push(item);
+  };
+  const skipIfComplete = (item) => {
+    if (isSearchPerformanceMonitorOnly(item.path)) {
+      recordCompleted({
+        path: item.path,
+        evidence: 'src/data/indexationPolicy.ts + output/indexing-protection/latest report',
+        note: 'monitor-only: HTML sitemap is noindex,follow and excluded from XML sitemaps.',
+      });
+      return true;
+    }
+
+    if (!isSeoPageProofComplete(item.path)) return false;
+    const identity = seoPageIdentityFromPath(item.path);
+    recordCompleted({
+      path: item.path,
+      evidence: `output/seo-agents/${identity.slug}/${identity.page}/final-judge.json`,
+    });
+    return true;
+  };
+  const tierA = (report.tierARecovery ?? [])
+    .filter((item) => !skipIfComplete(item))
+    .slice(0, 8)
+    .map((item) => ({
+      evidence: 'output/search-console/performance-latest.json',
+      priority: item.evidenceFound ? 'high' : 'medium',
+      task: `${item.action ?? 'classify'} ${item.path}; ${item.rationale ?? 'confirm the right recovery action before broad page edits'}`,
+    }));
+  const ctr = (report.opportunities?.highImpressionZeroClickPages ?? [])
+    .filter((item) => !skipIfComplete(item))
+    .slice(0, 8)
+    .map((item) => ({
+      evidence: 'output/search-console/performance-latest.json',
+      priority: 'medium',
+      task: `Review title/meta, above-fold answer, internal links, and page-specific evidence for ${item.path} (${item.impressions} impressions, 0 clicks).`,
+    }));
+
+  return {
+    actions: [...tierA, ...ctr],
+    completed,
+    note: '',
+    totals: report.totals ?? null,
+  };
+}
+
 function analyticsSignals() {
   const eventsPath = resolve(process.cwd(), process.env.AFT_ANALYTICS_DIR ?? '.local/analytics', 'events.ndjson');
   if (!existsSync(eventsPath)) {
@@ -1043,6 +1138,7 @@ export function buildSeoConsoleReport() {
   const searchConsole = searchConsoleGaps();
   const searchConsoleDiscovery = readJson('output/search-console-discovery.json');
   const coverageExport = googleCoverageExportSignals();
+  const performanceExport = googlePerformanceExportSignals();
   const crawlScout = crawlScoutSignals();
   const sitemap = readSitemapUrls();
   const productionSitemap = readJson('output/production-sitemap-check.json');
@@ -1053,6 +1149,7 @@ export function buildSeoConsoleReport() {
   if (!marketing) warnings.push('not enough data: marketing orchestrator report is missing.');
   if (searchConsole.note) warnings.push(searchConsole.note);
   if (coverageExport.note) warnings.push(coverageExport.note);
+  if (performanceExport.note) warnings.push(performanceExport.note);
   if (crawlScout.note) warnings.push(crawlScout.note);
   if (sitemap.note) warnings.push(sitemap.note);
   if (!productionSitemap) warnings.push('not enough data: production sitemap check report is missing.');
@@ -1107,6 +1204,7 @@ export function buildSeoConsoleReport() {
       priority: item.priority ?? 'medium',
       task: item.task,
     })),
+    ...performanceExport.actions.slice(0, 8),
     ...(marketing?.actions ?? marketing?.recommendations ?? []).slice(0, 3).map((item) => ({
       evidence: 'output/marketing-orchestrator/daily-plan.json',
       priority: item.priority ?? 'medium',
@@ -1133,6 +1231,7 @@ export function buildSeoConsoleReport() {
       crawlScout: crawlScout.note ? 'not enough data' : 'present',
       dataForSeo: dataForSeo ? 'present' : 'not enough data',
       googleCoverageExport: coverageExport.note ? 'not enough data' : 'present',
+      googlePerformanceExport: performanceExport.note ? 'not enough data' : 'present',
       indexNow: indexNow ? 'present' : 'not enough data',
       marketing: marketing ? 'present' : 'not enough data',
       productionSitemap: productionSitemap ? 'present' : 'not enough data',
@@ -1142,6 +1241,7 @@ export function buildSeoConsoleReport() {
     },
     linkEvidence,
     coverageExport: { latest: coverageExport.latest, totals: coverageExport.totals },
+    performanceExport: { completed: performanceExport.completed ?? [], totals: performanceExport.totals },
     status: warnings.length || hasHighPriorityAction ? 'attention' : 'pass',
     warnings,
   };
@@ -1188,6 +1288,7 @@ const fallbackAgentLaneDefinitions = [
       'output/agent-tools/seo-console/latest.json',
       'output/agent-tools/link-helper/latest.json',
       'output/search-console-url-inspection.json',
+      'output/search-console/performance-latest.json',
       'output/seo-agent-self-evaluation.json',
     ],
   },

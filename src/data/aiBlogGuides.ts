@@ -66,9 +66,9 @@ const sourceLinks = {
 const guideDetails: Record<string, AiGuideDetail> = {
   'image-to-text-ocr-tool': {
     summary:
-      'Learn how to copy text from screenshots and image files, choose clearer OCR images, and catch common copy mistakes.',
+      'Learn how to copy text from screenshots and image files, improve image quality for OCR, and catch common copy mistakes.',
     purpose:
-      'The Image to Text OCR Tool turns a clear image of typed or printed words into editable text in your browser. Use it for screenshots, labels, receipts, and simple document photos when you want a draft copy without uploading the image to Access Free Tools.',
+      'The Image to Text OCR Tool turns a clear image of typed or printed words into editable text in your browser. Image quality changes the result, so use it for sharp screenshots, labels, receipts, and simple document photos when you want a draft copy without uploading the image to Access Free Tools.',
     enter: [
       'Choose a sharp screenshot or photo with typed or printed text.',
       'Pick the language shown in the image.',

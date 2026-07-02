@@ -7957,7 +7957,7 @@ export const utilityTools: ToolDefinition[] = [
     icon: 'tool-character-counter',
     aliases: ['Letter Counter', 'Online Character Counter', 'Character Count Online', 'Free Character Counter'],
     formula:
-      'The tool counts Unicode code points, removes whitespace for a no-spaces count, splits line breaks, counts word-like groups, and encodes the text as UTF-8 to estimate byte length.',
+      'The tool counts Unicode code points for characters, including spaces and line breaks. It removes whitespace for the no-spaces count, groups letter and number runs for words, splits line breaks for lines, and encodes the same text as UTF-8 for byte length. Emoji, accents, and symbols can use more bytes than the visible character count.',
     limit:
       'Hard limits can vary by app because some platforms count emoji sequences, links, rich text, spaces, or line breaks in their own way.',
     inputExplanations: [
@@ -7976,6 +7976,11 @@ export const utilityTools: ToolDefinition[] = [
     ],
     extraFaq: [
       {
+        question: 'Should I count spaces and line breaks for a limit?',
+        answer:
+          'Check the rules for the app or form you plan to use. This page shows total characters, characters without spaces, word count, line count, and UTF-8 bytes because title fields, SMS boxes, database fields, and platform bios can count spaces or line breaks in their own way.',
+      },
+      {
         question: 'Do emoji always count as one character?',
         answer:
           'No. Some emoji are built from more than one Unicode code point, and platforms can count those sequences differently. Use this counter for a fast draft check, then paste into the target app when the limit is strict.',
@@ -7993,9 +7998,21 @@ export const utilityTools: ToolDefinition[] = [
       'Review line and word counts while editing short text.',
     ],
     examples: [
-      { label: 'Page title', expression: 'Free Character Counter for Titles and Messages', result: '46 characters, 40 without spaces' },
-      { label: 'Short message', expression: 'Meeting moved to 2:30 PM. Bring notes.', result: '38 characters and 8 words' },
-      { label: 'Emoji line check', expression: 'Line one\nLine two with emoji 🙂', result: '30 characters, 33 UTF-8 bytes, 2 lines' },
+      {
+        label: 'Page title',
+        expression: 'Free Character Counter for Titles and Messages',
+        result: '46 characters, 40 without spaces; under a 60-character draft title limit.',
+      },
+      {
+        label: 'Short message',
+        expression: 'Meeting moved to 2:30 PM. Bring notes.',
+        result: '38 characters and 8 words; under a 160-character message field.',
+      },
+      {
+        label: 'Emoji line check',
+        expression: 'Line one\nLine two with emoji 🙂',
+        result: '30 characters, 33 UTF-8 bytes, 2 lines; the emoji adds byte length.',
+      },
     ],
     relatedSlugs: ['word-counter', 'text-case-converter', 'slug-generator'],
   }),
@@ -8904,7 +8921,7 @@ export const utilityTools: ToolDefinition[] = [
     formula:
       'Input cost = input tokens per request * request count / 1,000,000 * input price per 1M tokens. Output cost = output tokens per request * request count / 1,000,000 * output price per 1M tokens. Total cost = input cost + output cost. Cost per request = total cost / request count.',
     limit:
-      'This is a planning estimate, not a live provider bill. AI providers can change prices, count cached tokens differently, round usage, add batch discounts, include tool-call costs, or apply credits and taxes. Use the current provider rate card and your real usage logs for budgets that matter.',
+      'This is a planning estimate, not a live provider bill. AI providers can change prices, count cached tokens differently, round usage, add batch discounts, include tool-call costs, or apply credits and taxes. Use the current provider rate card and your real usage logs for budgets that matter. Budget with a cushion for retries, failed calls, and longer prompts.',
     inputExplanations: [
       { term: 'Requests', meaning: 'How many model calls you want to estimate, such as one day, one month, or one product test.' },
       { term: 'Input tokens per request', meaning: 'Tokens sent to the model each time, including instructions, prompt text, context, and tool messages.' },
@@ -8939,6 +8956,11 @@ export const utilityTools: ToolDefinition[] = [
           'Only if your token numbers came from the exact tokenizer or usage logs for the model. Rough text estimates can be useful for planning, but code, symbols, non-English text, whitespace, and tool messages can change the real token count.',
       },
       {
+        question: 'What can make my AI token cost estimate too low?',
+        answer:
+          'Retries, longer system prompts, tool messages, retrieval context, streamed follow-ups, and cached-token rules can change the bill. Pull average input and output tokens from provider logs when the app has traffic.',
+      },
+      {
         question: 'Can I compare two AI models with this calculator?',
         answer:
           'Yes. Keep the request count and token assumptions the same, then enter one model price card and compare it with another. This shows the pricing effect, not quality, latency, rate limits, or reliability.',
@@ -8959,17 +8981,17 @@ export const utilityTools: ToolDefinition[] = [
       {
         label: 'Support bot month',
         expression: '10,000 requests, 1,200 input tokens, 500 output tokens, $2 input and $8 output per 1M',
-        result: '$24 input + $40 output = $64 total, or $0.0064 per request',
+        result: '$24 input + $40 output = $64 total, or $0.0064 per request; output costs more in this setup.',
       },
       {
         label: 'Small prototype',
         expression: '1,000 requests, 300 input tokens, 150 output tokens, $0.15 input and $0.60 output per 1M',
-        result: '$0.045 input + $0.09 output = $0.135 total',
+        result: '$0.045 input + $0.09 output = $0.135 total, about $0.000135 per request.',
       },
       {
         label: 'Long summaries',
         expression: '2,000 requests, 8,000 input tokens, 700 output tokens, $1.25 input and $5 output per 1M',
-        result: '$20 input + $7 output = $27 total',
+        result: '$20 input + $7 output = $27 total; long prompts drive most of the cost.',
       },
     ],
     relatedSlugs: ['prompt-token-estimator', 'api-pricing-calculator', 'text-summarizer'],
@@ -9389,6 +9411,11 @@ export const utilityTools: ToolDefinition[] = [
           'Yes. Use the mAh and nominal voltage listed for the pack. Many power banks advertise mAh at the internal cell voltage, often around 3.7 V, not the 5 V USB output.',
       },
       {
+        question: 'Why can a power bank run fewer charges than the mAh number suggests?',
+        answer:
+          'Power banks often list mAh at the internal cell voltage, then lose energy while boosting voltage for USB output. Phone battery health, cable loss, heat, screen use, and charging overhead can reduce the real number of charges.',
+      },
+      {
         question: 'Is mAh the same as battery life?',
         answer:
           'No. mAh is a capacity label, not a runtime promise. Voltage, device watts, efficiency, and real usage decide how long the battery may run.',
@@ -9421,9 +9448,21 @@ export const utilityTools: ToolDefinition[] = [
       'Compare two batteries that use different voltages.',
     ],
     examples: [
-      { label: 'Power bank and tablet', expression: '10,000 mAh, 3.7 V, 8 W, 85% efficiency', result: '3h 55m 53s (31.45 usable Wh)' },
-      { label: 'Small light', expression: '5,000 mAh, 3.7 V, 3 W, 90% efficiency', result: '5h 33m 0s (16.65 usable Wh)' },
-      { label: 'Laptop pack', expression: '5,000 mAh, 11.1 V, 30 W, 88% efficiency', result: '1h 37m 41s (48.84 usable Wh)' },
+      {
+        label: 'Power bank and tablet',
+        expression: '10,000 mAh, 3.7 V, 8 W, 85% efficiency',
+        result: '3h 55m 53s (31.45 usable Wh); voltage and efficiency decide the runtime.',
+      },
+      {
+        label: 'Small light',
+        expression: '5,000 mAh, 3.7 V, 3 W, 90% efficiency',
+        result: '5h 33m 0s (16.65 usable Wh); the low 3 W load stretches runtime.',
+      },
+      {
+        label: 'Laptop pack',
+        expression: '5,000 mAh, 11.1 V, 30 W, 88% efficiency',
+        result: '1h 37m 41s (48.84 usable Wh); the 30 W load drains the pack faster.',
+      },
     ],
     relatedSlugs: ['electricity-calculator', 'download-time-calculator', 'conversion-calculator'],
   }),
