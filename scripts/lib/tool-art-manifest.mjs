@@ -136,6 +136,13 @@ const toolArtMetadataOverrides = {
       alt: 'Guide image for Electricity Calculator showing electricity use and cost from watts, hours, days, and rate per kWh with example inputs and result notes.',
     },
   },
+  'random-number-generator': {
+    guide: {
+      alt: 'Guide image for Random Number Generator showing custom ranges, unique picks, exclusions, sorted results, and copy-ready number lists.',
+      caption:
+        'Random Number Generator guide artwork supports the walkthrough for min and max ranges, quantity, unique results, exclusions, sorting, copy, history, and everyday randomness limits.',
+    },
+  },
   'p-value-calculator': {
     tool: {
       alt: 'Illustration for P-value Calculator showing a z-score, normal-curve tail areas, and p-value result notes.',
