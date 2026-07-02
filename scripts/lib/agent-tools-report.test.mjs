@@ -50,6 +50,7 @@ function removeDirectoryIfEmpty(relativePath) {
 describe('agent tools reports', () => {
   afterEach(() => {
     rmSync(resolve(process.cwd(), 'dist/test-link-fixture'), { force: true, recursive: true });
+    rmSync(resolve(process.cwd(), 'dist/client/test-link-fixture'), { force: true, recursive: true });
     removeDirectoryIfEmpty('dist');
     rmSync(resolve(process.cwd(), 'output/agent-tools/test-proof'), { force: true, recursive: true });
     while (movedDirectories.length) {
@@ -441,6 +442,62 @@ describe('agent tools reports', () => {
     expect(actionText).toContain('Search Console UI request-indexing was submitted');
     expect(actionText).toContain('recheck after Google crawls');
     expect(actionText).not.toContain('request indexing manually');
+  });
+
+  it('does not count mirrored dist client HTML as fake public client routes', () => {
+    temporarilyRemoveDirectory('dist');
+    preserveAndWrite(
+      'output/search-console-url-inspection.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-02T15:15:00.000Z',
+          inspections: [
+            {
+              coverageState: 'Crawled - currently not indexed',
+              inspectionUrl: 'https://accessfreetools.com/tools/percentage-calculator/',
+              lastCrawlTime: '2026-07-01T00:00:00Z',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
+    preserveAndWrite(
+      'docs/search-console-indexing-requests.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-02T15:20:00.000Z',
+          requests: [
+            {
+              requestedAt: '2026-07-03T01:20:00+10:00',
+              result: 'indexing-requested',
+              url: 'https://accessfreetools.com/tools/percentage-calculator/',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
+    preserveAndWrite(
+      'dist/test-link-fixture/source/index.html',
+      '<a href="/tools/percentage-calculator/">Percentage calculator</a>\n',
+    );
+    preserveAndWrite(
+      'dist/client/test-link-fixture/source/index.html',
+      '<a href="/tools/percentage-calculator/">Percentage calculator</a>\n',
+    );
+
+    const report = buildLinkHelperReport();
+    const rows = report.linkEvidence.byTarget['/tools/percentage-calculator/'];
+
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toEqual({
+      anchorText: 'Percentage calculator',
+      source: '/test-link-fixture/source/',
+    });
+    expect(JSON.stringify(rows)).not.toContain('/client/');
   });
 
   it('does not infer zero internal links when dist was intentionally cleaned', () => {
