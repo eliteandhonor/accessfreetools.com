@@ -103,6 +103,43 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
       ],
     },
   ]}
+  faqItems={[
+    {
+      question: 'What makes this a big number calculator?',
+      answer:
+        'It uses exact BigInt integer arithmetic. Very large whole-number answers keep their digits instead of being rounded by normal floating-point number math.',
+    },
+    {
+      question: 'What do the main Big Number Calculator inputs mean?',
+      answer:
+        'The left number and right number are the two whole integers you want to combine. The operation tells the calculator whether to add, subtract, multiply, or divide those exact integer values.',
+    },
+    {
+      question: 'How should I read a division answer?',
+      answer:
+        'Read the quotient as the whole number of groups that fit. Read the remainder as the amount left over, so 100,000,000,000,000,000,000 divided by 9 gives a quotient of 11,111,111,111,111,111,111 and remainder 1.',
+    },
+    {
+      question: 'Can I enter decimals, fractions, or scientific notation?',
+      answer:
+        'No. This guide is for exact whole-number math. Use digits, optional commas, spaces, underscores, and a minus sign when needed. Decimals, fractions, and 1e notation belong in a decimal or scientific-notation tool.',
+    },
+    {
+      question: 'Why use this instead of a normal calculator?',
+      answer:
+        'A normal calculator can round long integer values or switch to a short display format. Use this page when a missing digit changes the result, such as coding checks, number theory examples, or base-conversion work.',
+    },
+    {
+      question: 'What should I double-check before copying a huge result?',
+      answer:
+        'Check the original digits, negative signs, operation, result digit count, and remainder. If another calculator already rounded the input, go back to the source number before trusting the copied answer.',
+    },
+    {
+      question: 'Is my big number history private?',
+      answer:
+        'Recent answers stay in the current browser tab while you work. They are not sent to a server, but you should still avoid pasting private keys, account IDs, or secrets into any public web tool.',
+    },
+  ]}
   sidecarText="Open the Big Number Calculator beside this guide. Try the tiny-difference example first, then replace it with your own exact integers."
   keepExploringIntro="If your number task is close but not quite this exact-integer job, stay near the same math family with these links."
 />

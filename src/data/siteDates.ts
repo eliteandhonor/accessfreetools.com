@@ -271,7 +271,7 @@ const toolLastmodOverrides: Record<string, string> = {
 
 const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-basic-calculator': '2026-06-02',
-  'how-to-use-big-number-calculator': '2026-06-05',
+  'how-to-use-big-number-calculator': '2026-07-02',
   'how-to-use-binary-calculator': '2026-06-27',
   'how-to-use-circle-calculator': '2026-06-27',
   'how-to-use-confidence-interval-calculator': '2026-06-27',
