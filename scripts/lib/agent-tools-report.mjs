@@ -1205,6 +1205,7 @@ export function buildLinkHelperReport() {
   }
 
   const hasHighPriorityAction = suggestions.some((suggestion) => /^high$/i.test(String(suggestion.priority)));
+  const status = hasHighPriorityAction ? 'attention' : warnings.length ? 'not enough data' : 'pass';
   const report = {
     generatedAt,
     kind: 'link-helper',
@@ -1220,7 +1221,7 @@ export function buildLinkHelperReport() {
       },
     },
     linkEvidence,
-    status: warnings.length || hasHighPriorityAction ? 'attention' : 'pass',
+    status,
     suggestions,
     warnings,
   };
@@ -1388,6 +1389,7 @@ export function buildSeoConsoleReport() {
   }
 
   const hasHighPriorityAction = actions.some((action) => /^high$/i.test(String(action.priority)));
+  const status = hasHighPriorityAction ? 'attention' : warnings.length ? 'not enough data' : 'pass';
   const report = {
     actions,
     generatedAt,
@@ -1408,7 +1410,7 @@ export function buildSeoConsoleReport() {
     linkEvidence,
     coverageExport: { latest: coverageExport.latest, totals: coverageExport.totals },
     performanceExport: { completed: performanceExport.completed ?? [], totals: performanceExport.totals },
-    status: warnings.length || hasHighPriorityAction ? 'attention' : 'pass',
+    status,
     warnings,
   };
   const paths = writeReport(

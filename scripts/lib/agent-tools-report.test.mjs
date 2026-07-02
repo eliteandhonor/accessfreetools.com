@@ -573,9 +573,11 @@ describe('agent tools reports', () => {
     expect(actionText).toContain('built link proof is unavailable until npm run build');
     expect(actionText).not.toContain('only 0 source pages');
     expect(actionText).not.toContain('Improve contextual links');
+    expect(seoConsoleReport.status).toBe('not enough data');
     expect(suggestionText).toContain('built link counts are unavailable until npm run build');
     expect(suggestionText).not.toContain('only 0 built pages');
     expect(suggestionText).not.toContain('add contextual support first');
+    expect(linkHelperReport.status).toBe('not enough data');
   });
 
   it('does not turn monitor-only or completed CrawlScout rows into link tasks', () => {
