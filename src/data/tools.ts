@@ -2851,47 +2851,96 @@ const baseTools: ToolDefinition[] = [
     category: 'calculators',
     summary: 'Calculate a z-score and approximate standard normal percentile.',
     description:
-      'Use this free z-score calculator to standardize a value from its mean and standard deviation, see whether it is above or below average, and estimate percentile.',
+      'Use this free z-score calculator to standardize a value from its mean and standard deviation, see how far it is from the mean, and estimate the left-tail percentile under a standard normal curve.',
     icon: 'calculator-z-score',
     seoTitle: 'Z-score Calculator | Standard Score and Percentile',
     seoDescription:
-      'Use the free Access Free Tools z-score calculator to calculate standard score, distance from mean, and approximate standard normal percentile.',
+      'Calculate z-score, distance from the mean, and approximate standard normal percentile from value, mean, and standard deviation.',
     useCases: [
       'Standardize a value using mean and standard deviation.',
       'See how many standard deviations a value is above or below average.',
       'Estimate a percentile under the standard normal curve.',
-      'Check statistics, normal distribution, and study examples.',
+      'Check whether a value is at the mean, above the mean, or below the mean.',
+      'Compare classroom, quiz, lab, or normal-distribution examples.',
+      'Copy a quick result while keeping recent answers in the current browser tab.',
     ],
     examples: [
-      { label: 'Above average', expression: 'x=85, mean=70, SD=10', result: 'z = 1.5' },
-      { label: 'At the mean', expression: 'x=70, mean=70, SD=10', result: 'z = 0' },
-      { label: 'Below average', expression: 'x=55, mean=70, SD=10', result: 'z = -1.5' },
+      {
+        label: 'Above average',
+        expression: 'x=85, mean=70, SD=10',
+        result: 'z = 1.5; percentile 93.3192769023%; above mean',
+      },
+      {
+        label: 'At the mean',
+        expression: 'x=70, mean=70, SD=10',
+        result: 'z = 0; percentile about 50%; at mean',
+      },
+      {
+        label: 'Below average',
+        expression: 'x=55, mean=70, SD=10',
+        result: 'z = -1.5; percentile 6.6807230977%; below mean',
+      },
+      {
+        label: 'Two standard deviations up',
+        expression: 'x=92, mean=80, SD=6',
+        result: 'z = 2; percentile 97.7249937113%; above mean',
+      },
+      {
+        label: 'One standard deviation down',
+        expression: 'x=64, mean=72, SD=8',
+        result: 'z = -1; percentile 15.8655263832%; below mean',
+      },
     ],
     faq: [
       {
         question: 'What is a z-score?',
         answer:
-          'A z-score tells how many standard deviations a value is above or below the mean.',
+          'A z-score tells how many standard deviations a value is from the mean. A z-score of 1.5 means the value is 1.5 standard deviations above the mean; -1.5 means it is 1.5 standard deviations below.',
       },
       {
         question: 'What formula does the calculator use?',
         answer:
-          'It uses z = (x - mean) / standard deviation, then reports whether the value is above or below the mean.',
+          'It uses z = (x - mean) / standard deviation. For x = 85, mean = 70, and standard deviation = 10, the calculation is (85 - 70) / 10 = 1.5.',
+      },
+      {
+        question: 'What do the main Z-score Calculator inputs mean?',
+        answer:
+          'Value x is the number you want to standardize, mean is the average you are comparing against, and standard deviation is the spread of the comparison group. Use the same unit and scale for all three numbers.',
+      },
+      {
+        question: 'How should I read the Z-score Calculator answer?',
+        answer:
+          'Start with the z-score, then read the distance label and percentile together. The percentile is the approximate standard-normal area to the left of that z-score, so z = 1.5 is around the 93.3192769023rd percentile.',
+      },
+      {
+        question: 'What should I double-check before trusting the Z-score Calculator?',
+        answer:
+          'Double-check that the mean and standard deviation come from the same population or sample as the value. Also check that the standard deviation is positive and that you are not mixing units, such as points with percentages.',
       },
       {
         question: 'What does a negative z-score mean?',
         answer:
-          'A negative z-score means the value is below the mean. A positive z-score means it is above the mean.',
+          'A negative z-score means the value is below the mean. For example, x = 55, mean = 70, and standard deviation = 10 gives z = -1.5, which is about the 6.6807230977th percentile under the standard normal curve.',
       },
       {
         question: 'What does the percentile estimate mean?',
         answer:
-          'The percentile estimates the area to the left of the z-score on a standard normal curve.',
+          'The percentile estimates the area to the left of the z-score on a standard normal curve. It is most useful when a normal-distribution model is reasonable for the situation.',
+      },
+      {
+        question: 'Does a z-score prove the data is normally distributed?',
+        answer:
+          'No. A z-score standardizes one value against a mean and standard deviation. The percentile estimate assumes a standard normal curve, but the calculator does not test whether your real data is normal, representative, or unbiased.',
       },
       {
         question: 'Can the standard deviation be zero?',
         answer:
-          'No. A z-score divides by standard deviation, so the standard deviation must be greater than zero.',
+          'No. A z-score divides by standard deviation, so the standard deviation must be greater than zero. If every value is identical, there is no spread to use for this calculation.',
+      },
+      {
+        question: 'When should I use the Standard Deviation Calculator first?',
+        answer:
+          'Use the Standard Deviation Calculator first when you only have a list of data values. Use this z-score tool after you already know the value, mean, and standard deviation you want to compare.',
       },
       {
         question: 'Is my z-score history private?',

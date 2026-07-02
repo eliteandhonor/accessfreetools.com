@@ -53,6 +53,12 @@ function percentText(value: number) {
   return `${formatCalculatorNumber(value * 100)}%`;
 }
 
+function zScoreDistanceText(zScore: number) {
+  if (zScore > 0) return 'Above mean';
+  if (zScore < 0) return 'Below mean';
+  return 'At mean';
+}
+
 function listText(values: number[]) {
   return values.map((value) => formatCalculatorNumber(value)).join(', ');
 }
@@ -927,7 +933,7 @@ function ZScoreTool() {
                 </div>
                 <div>
                   <dt>Distance</dt>
-                  <dd>{calculation.zScore >= 0 ? 'Above mean' : 'Below mean'}</dd>
+                  <dd>{zScoreDistanceText(calculation.zScore)}</dd>
                 </div>
                 <div>
                   <dt>Mean</dt>

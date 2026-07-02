@@ -6714,20 +6714,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'z-score-calculator',
     status: 'deep-reviewed',
-    batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'all-pages-dataforseo-sprint-2026-07-02',
+    reviewedOn: '2026-07-02',
     scope: commonMathScope,
     sources: [openStaxStandardNormal, openStaxStatisticsSpread],
     findings: [
-      'The z-score helper checks value, mean, and standard deviation and explains distance from the mean in standard-deviation units.',
-      'Tests cover z-score output alongside confidence-interval behavior.',
-      'The FAQ keeps z-score interpretation separate from proving real-world importance.',
+      'The z-score helper checks value, mean, and positive standard deviation, then reports the z-score, standard-normal percentile estimate, distance label, mean, and tab-only recent-answer history.',
+      'The examples now cover above-mean, at-mean, below-mean, z = 2, and z = -1 cases with exact percentile outputs aligned to the shared normal-CDF approximation.',
+      'The FAQ separates z-score standardization from the normal-distribution assumption, representative-data questions, and real-world importance claims.',
     ],
     improvements: [
-      'Manually checked z-score formula wording, standard-deviation guardrails, examples, FAQ detail, guide coverage, related links, SEO copy, and privacy behavior.',
+      'Updated z-score metadata, use cases, examples, FAQ specificity, zero-distance result wording, modified date, and audit notes with current local proof requirements.',
     ],
     followUps: [
-      'Add percentile conversion later only if the normal-curve assumption is clearly shown.',
+      'Consider adding a small bell-curve visual only if it stays lightweight and keeps the normal-curve assumption visible.',
     ],
   },
   {

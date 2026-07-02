@@ -33,6 +33,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'surface-area-calculator': '2026-07-01',
   'standard-deviation-calculator': '2026-07-01',
   'statistics-calculator': '2026-07-01',
+  'z-score-calculator': '2026-07-02',
   'percentage-calculator': '2026-06-02',
   'average-calculator': '2026-06-26',
   'ratio-calculator': '2026-06-02',
