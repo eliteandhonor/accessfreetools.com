@@ -771,6 +771,34 @@ function searchConsoleGaps() {
   };
 }
 
+function searchConsoleIndexingRequests() {
+  const report = readJson('docs/search-console-indexing-requests.json');
+  const requests = Array.isArray(report?.requests) ? report.requests : [];
+
+  return {
+    generatedAt: report?.generatedAt ?? '',
+    requests,
+  };
+}
+
+function searchConsoleIndexingRequestForUrl(url, requestReport = searchConsoleIndexingRequests()) {
+  const normalizedUrl = String(url ?? '').replace(/\/+$/, '/');
+  return requestReport.requests.find((request) => String(request?.url ?? '').replace(/\/+$/, '/') === normalizedUrl);
+}
+
+function formatIndexingRequestTime(request) {
+  if (!request?.requestedAt) return '';
+
+  const date = new Date(request.requestedAt);
+  if (Number.isNaN(date.getTime())) return request.requestedAt;
+
+  return date.toLocaleString('en-AU', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'Australia/Brisbane',
+  });
+}
+
 function crawlScoutSignals() {
   const report = readJson('output/crawlscout/crawlscout-summary.json');
   if (!report) {
@@ -1051,6 +1079,7 @@ export function buildLinkHelperReport() {
   const sitemap = readSitemapUrls();
   const searchConsole = searchConsoleGaps();
   const searchConsoleDiscovery = readJson('output/search-console-discovery.json');
+  const indexingRequests = searchConsoleIndexingRequests();
   const crawlScout = crawlScoutSignals();
   const analytics = analyticsSignals();
   const warnings = [sitemap.note, searchConsole.note, crawlScout.note, analytics.note].filter(Boolean);
@@ -1081,11 +1110,18 @@ export function buildLinkHelperReport() {
             timeZone: 'Australia/Brisbane',
           })
         : '';
+      const indexingRequest = searchConsoleIndexingRequestForUrl(gap.url, indexingRequests);
+      const indexingRequestTime = formatIndexingRequestTime(indexingRequest);
+      const nextProofStep = indexingRequest
+        ? `Search Console UI request-indexing was submitted ${indexingRequestTime || 'recently'}; recheck after Google crawls`
+        : discoveryRefreshedAt
+          ? `manual request indexing or recheck after Google crawls because discovery was refreshed ${discoveryRefreshedAt}`
+          : 'URL inspection/discovery after deploy';
       suggestions.push({
         anchorIdea: url.pathname.replace(/^\/tools\/|^\/blog\/how-to-use-|\/$/g, '').replace(/-/g, ' '),
         priority: hasEnoughInternalLinks ? 'medium' : 'high',
         reason: hasEnoughInternalLinks
-          ? `Search Console state: ${gap.coverageState}; ${sourceCount} built pages already link here, so next proof step is ${discoveryRefreshedAt ? `manual request indexing or recheck after Google crawls because discovery was refreshed ${discoveryRefreshedAt}` : 'URL inspection/discovery after deploy'}.`
+          ? `Search Console state: ${gap.coverageState}; ${sourceCount} built pages already link here, so next proof step is ${nextProofStep}.`
           : `Search Console state: ${gap.coverageState}; only ${sourceCount} built pages link here, so add contextual support first.`,
         target: url.pathname,
       });
@@ -1122,6 +1158,10 @@ export function buildLinkHelperReport() {
       crawlScout: { note: crawlScout.note, opportunities: crawlScout.opportunities },
       searchConsole,
       searchConsoleDiscovery: searchConsoleDiscovery ? { generatedAt: searchConsoleDiscovery.generatedAt } : null,
+      searchConsoleIndexingRequests: {
+        count: indexingRequests.requests.length,
+        generatedAt: indexingRequests.generatedAt,
+      },
     },
     linkEvidence,
     status: warnings.length || hasHighPriorityAction ? 'attention' : 'pass',
@@ -1171,6 +1211,7 @@ export function buildSeoConsoleReport() {
   const marketing = readJson('output/marketing-orchestrator/daily-plan.json');
   const searchConsole = searchConsoleGaps();
   const searchConsoleDiscovery = readJson('output/search-console-discovery.json');
+  const indexingRequests = searchConsoleIndexingRequests();
   const coverageExport = googleCoverageExportSignals();
   const performanceExport = googlePerformanceExportSignals();
   const crawlScout = crawlScoutSignals();
@@ -1223,13 +1264,18 @@ export function buildSeoConsoleReport() {
       const discoveryTask = discoveryRefreshedAt
         ? `Search Console sitemap/feed discovery was refreshed ${discoveryRefreshedAt}; if URL Inspection still shows unknown, request indexing manually in Search Console and recheck after Google crawls`
         : 'Run URL inspection/discovery';
+      const indexingRequest = searchConsoleIndexingRequestForUrl(gap.url, indexingRequests);
+      const indexingRequestTime = formatIndexingRequestTime(indexingRequest);
+      const followUpTask = indexingRequest
+        ? `Search Console UI request-indexing was submitted ${indexingRequestTime || 'recently'}; recheck after Google crawls`
+        : discoveryTask;
 
       return {
         evidence:
-          'output/search-console-url-inspection.json + output/search-console-discovery.json + output/agent-tools/link-helper/latest.md',
+          'output/search-console-url-inspection.json + output/search-console-discovery.json + docs/search-console-indexing-requests.json + output/agent-tools/link-helper/latest.md',
         priority: hasEnoughInternalLinks ? 'medium' : 'high',
         task: hasEnoughInternalLinks
-          ? `${discoveryTask} for ${gap.url}; built link proof already shows ${sourceCount} source pages linking to it (${gap.coverageState}).`
+          ? `${followUpTask} for ${gap.url}; built link proof already shows ${sourceCount} source pages linking to it (${gap.coverageState}).`
           : `Improve contextual links and clarity for ${gap.url}; built link proof shows only ${sourceCount} source pages linking to it (${gap.coverageState}).`,
       };
     }),
@@ -1270,6 +1316,7 @@ export function buildSeoConsoleReport() {
       marketing: marketing ? 'present' : 'not enough data',
       productionSitemap: productionSitemap ? 'present' : 'not enough data',
       searchConsoleDiscovery: searchConsoleDiscovery ? 'present' : 'not enough data',
+      searchConsoleIndexingRequests: indexingRequests.requests.length ? 'present' : 'not enough data',
       searchConsole: searchConsole.note ? 'not enough data' : 'present',
       sitemap: sitemap.note ? 'not enough data' : 'present',
     },

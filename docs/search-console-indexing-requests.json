@@ -1,0 +1,24 @@
+{
+  "generatedAt": "2026-07-03T01:21:00+10:00",
+  "source": "Search Console UI",
+  "requests": [
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "requestedAt": "2026-07-03T01:20:00+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/watts-to-amps-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "requestedAt": "2026-07-03T01:20:00+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-ad-revenue-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "requestedAt": "2026-07-03T01:20:00+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-watts-to-amps-calculator/"
+    }
+  ]
+}

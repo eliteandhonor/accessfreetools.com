@@ -323,6 +323,56 @@ describe('agent tools reports', () => {
     expect(report.performanceExport.completed).not.toContainEqual(expect.objectContaining({ path: '/blog/' }));
   });
 
+  it('uses request-indexing proof before recommending repeated Search Console clicks', () => {
+    preserveAndWrite(
+      'output/search-console-url-inspection.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-02T15:15:00.000Z',
+          inspections: [
+            {
+              coverageState: 'Crawled - currently not indexed',
+              inspectionUrl: 'https://accessfreetools.com/tools/percentage-calculator/',
+              lastCrawlTime: '2026-07-01T00:00:00Z',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
+    preserveAndWrite(
+      'output/search-console-discovery.json',
+      JSON.stringify({ generatedAt: '2026-07-02T15:14:00.000Z' }, null, 2),
+    );
+    preserveAndWrite(
+      'docs/search-console-indexing-requests.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-02T15:20:00.000Z',
+          requests: [
+            {
+              requestedAt: '2026-07-03T01:20:00+10:00',
+              result: 'indexing-requested',
+              url: 'https://accessfreetools.com/tools/percentage-calculator/',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
+    preserveAndWrite('output/agent-tools/seo-console/latest.json', '{}\n');
+    preserveAndWrite('output/agent-tools/seo-console/latest.md', '# placeholder\n');
+
+    const report = buildSeoConsoleReport();
+    const actionText = report.actions.map((action) => action.task).join('\n');
+
+    expect(actionText).toContain('Search Console UI request-indexing was submitted');
+    expect(actionText).toContain('recheck after Google crawls');
+    expect(actionText).not.toContain('request indexing manually');
+  });
+
   it('recognizes generated utility blog guides in tool briefs', () => {
     const report = buildToolBriefReport('wallpaper-calculator');
 

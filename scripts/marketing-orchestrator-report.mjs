@@ -254,17 +254,21 @@ function linkHelperSuggestionForGap(gap, linkHelper) {
 function indexingRecommendation(topGap, linkHelper) {
   const linkSuggestion = linkHelperSuggestionForGap(topGap, linkHelper);
   const linkReason = linkSuggestion?.reason ?? '';
+  const indexingAlreadyRequested = /request-indexing was submitted/i.test(linkReason);
   const awaitingGoogle = /manual request indexing|recheck after Google crawls/i.test(linkReason);
 
   if (awaitingGoogle) {
     return recommendation(
       'High',
-      'Request indexing or recheck not-indexed priority pages',
+      indexingAlreadyRequested ? 'Recheck requested indexing after Google crawls' : 'Request indexing or recheck not-indexed priority pages',
       `${topGap.url} is still ${topGap.state}. ${linkReason}`,
-      'Use Search Console URL Inspection to request indexing manually if available, then recheck after Google crawls. Keep promotion useful and avoid creating a duplicate thin page.',
+      indexingAlreadyRequested
+        ? 'Do not repeat the request-indexing click yet. Recheck URL Inspection after Google crawls, and keep promotion useful without creating a duplicate thin page.'
+        : 'Use Search Console URL Inspection to request indexing manually if available, then recheck after Google crawls. Keep promotion useful and avoid creating a duplicate thin page.',
       [
         'output/search-console-url-inspection.json',
         'output/search-console-discovery.json',
+        'docs/search-console-indexing-requests.json',
         'output/agent-tools/link-helper/latest.json',
         'output/seo-agent-self-evaluation.json',
         'docs/promotion-queue.md',
