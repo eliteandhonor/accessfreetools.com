@@ -6,19 +6,23 @@ import { spawnSync } from 'node:child_process';
 import { codexHomeDenylist, formatBytes, listCleanupCandidates, pathSizeBytes, projectDenylist } from './lib/safe-cleanup.mjs';
 
 function runCommand(label, command, args, cwd) {
-  const executable = process.platform === 'win32' && command === 'npm' ? 'npm.cmd' : command;
-  const result = spawnSync(executable, args, {
+  const result = spawnSync(command, args, {
     cwd,
     encoding: 'utf8',
   });
+  const stderr = [result.stderr, result.error ? String(result.error.message ?? result.error) : ''].filter(Boolean).join('\n');
 
   return {
     label,
-    command: [command, ...args].join(' '),
-    exitCode: result.status ?? 0,
+    command: command === process.execPath ? ['node', ...args].join(' ') : [command, ...args].join(' '),
+    exitCode: typeof result.status === 'number' ? result.status : 1,
     stdout: String(result.stdout || '').trim(),
-    stderr: String(result.stderr || '').trim(),
+    stderr: String(stderr || '').trim(),
   };
+}
+
+function runAftCommand(label, args, cwd) {
+  return runCommand(label, process.execPath, ['scripts/aft-cli.mjs', ...args], cwd);
 }
 
 function topDirectorySizes(rootDir, limit = 20) {
@@ -141,8 +145,8 @@ ${projectDenylist.map((item) => `- ${item.path ?? item.pattern}`).join('\n')}
 const rootDir = process.cwd();
 const codexHomePath = resolve(process.env.CODEX_HOME || resolve(homedir(), '.codex'));
 const gitStatus = runCommand('Git status', 'git', ['status', '--short', '--branch'], rootDir);
-const seoQueue = runCommand('SEO tool queue', 'npm', ['run', 'aft', '--', 'seo-tool-queue'], rootDir);
-const seoApproval = runCommand('SEO approval status', 'npm', ['run', 'aft', '--', 'seo-approval-status', 'text-case-converter'], rootDir);
+const seoQueue = runAftCommand('SEO tool queue', ['seo-tool-queue'], rootDir);
+const seoApproval = runAftCommand('SEO approval status', ['seo-approval-status', 'text-case-converter'], rootDir);
 const cleanupCandidates = listCleanupCandidates(rootDir);
 
 const report = {

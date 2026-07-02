@@ -33,6 +33,7 @@ function preserveAndWrite(relativePath, content) {
 
 describe('agent tools reports', () => {
   afterEach(() => {
+    rmSync(resolve(process.cwd(), 'dist/test-link-fixture'), { force: true, recursive: true });
     rmSync(resolve(process.cwd(), 'output/agent-tools/test-proof'), { force: true, recursive: true });
     for (const [absolutePath, original] of preservedFiles.entries()) {
       if (original.existed) {
@@ -405,6 +406,12 @@ describe('agent tools reports', () => {
     );
     preserveAndWrite('output/agent-tools/seo-console/latest.json', '{}\n');
     preserveAndWrite('output/agent-tools/seo-console/latest.md', '# placeholder\n');
+    for (const index of [1, 2, 3]) {
+      preserveAndWrite(
+        `dist/test-link-fixture/source-${index}/index.html`,
+        '<a href="/tools/percentage-calculator/">Percentage calculator</a>\n',
+      );
+    }
 
     const report = buildSeoConsoleReport();
     const actionText = report.actions.map((action) => action.task).join('\n');
