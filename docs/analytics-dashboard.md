@@ -1,6 +1,6 @@
 # Access Free Tools Analytics Dashboard
 
-Last updated: 2026-05-15
+Last updated: 2026-07-03
 
 Access Free Tools uses a small first-party analytics system for owner-only usage checks. It is meant to answer simple questions:
 
@@ -10,6 +10,8 @@ Access Free Tools uses a small first-party analytics system for owner-only usage
 - Which referrers are sending visitors?
 
 Hostinger hPanel analytics should still be used for server logs, bandwidth, errors, and bot crawl checks. The site dashboard is cleaner for product decisions because it filters obvious bots and records anonymous browser events.
+
+Microsoft Clarity is also installed on public production pages for layout and session-quality review. The Clarity loader is guarded so it only runs on `accessfreetools.com` or `www.accessfreetools.com`, respects the same local analytics opt-out key, respects browser Do Not Track, and skips `/admin/` plus `/private-analytics/` pages.
 
 ## Private Dashboard
 
@@ -97,6 +99,7 @@ https://accessfreetools.com/private-analytics/
 - Do Not Track is respected.
 - Admin pages and API routes are not counted.
 - Users can opt out from the private dashboard controls, which set `access-free-tools-analytics-opt-out` in local storage.
+- Microsoft Clarity is third-party analytics and must stay disclosed in `/privacy-policy/`; it must not be added to private admin or analytics pages.
 
 ## Agent Commands
 
