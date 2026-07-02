@@ -2829,17 +2829,26 @@ export const utilityTools: ToolDefinition[] = [
     category: 'everyday-tools',
     summary: 'Estimate electricity use and cost from watts, hours, days, and rate per kWh.',
     description:
-      'Use this free electricity calculator to estimate kilowatt-hours and cost for an appliance or device from wattage and usage time.',
+      'Estimate appliance electricity use from watts, hours per day, days, and price per kWh, then see kWh and cost examples.',
+    seoTitle: 'Electricity Calculator | kWh And Appliance Cost',
+    seoDescription:
+      'Estimate electricity use and cost from watts, hours per day, days, and price per kWh. Includes kWh formula, appliance examples, and bill limits.',
     icon: 'calculator-electricity',
+    aliases: [
+      'Electricity Cost Calculator',
+      'kWh Calculator',
+      'Appliance Electricity Cost Calculator',
+      'Energy Cost Calculator',
+    ],
     formula:
-      'The calculator divides watts by 1,000 to get kilowatts, multiplies by hours and days for kWh, then multiplies by the rate per kWh.',
+      'The calculator divides watts by 1,000 to get kilowatts, then uses kWh = (watts / 1,000) x hours per day x days. Estimated cost = kWh x rate per kWh.',
     limit:
-      'Real bills include taxes, fees, tiered rates, demand charges, standby use, and variable device power draw.',
+      'This is an appliance-level estimate from the numbers you enter. Real bills can include taxes, fees, tiered rates, demand charges, standby use, cycling devices, seasonal changes, and variable power draw.',
     inputExplanations: [
-      { term: 'Watts', meaning: 'the device power draw. One kilowatt is 1,000 watts.' },
-      { term: 'Hours per day', meaning: 'how long the device runs on an average day.' },
-      { term: 'Days', meaning: 'how many days you want to estimate.' },
-      { term: 'Rate per kWh', meaning: 'your electricity price for one kilowatt-hour before any extra bill fees.' },
+      { term: 'Watts', meaning: 'the device power draw from a label, meter, or reasonable estimate. One kilowatt is 1,000 watts.' },
+      { term: 'Hours per day', meaning: 'how long the device actually runs on an average day, not always how long it is plugged in.' },
+      { term: 'Days', meaning: 'how many days are in the estimate window, such as 30 for a rough month or 365 for a year.' },
+      { term: 'Rate per kWh', meaning: 'your electricity price for one kilowatt-hour before taxes, fixed charges, or other bill fees.' },
     ],
     extraFaq: [
       {
@@ -2847,17 +2856,45 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'A kilowatt-hour is energy use. Running a 1,000 watt device for 1 hour uses 1 kWh. Running a 100 watt device for 10 hours also uses 1 kWh.',
       },
+      {
+        question: 'How do I estimate monthly electricity cost?',
+        answer:
+          'Use 30 or 31 days, enter the device watts, estimate average hours per day, and enter your rate per kWh. For example, 1,500 W for 4 hours a day over 30 days is 180 kWh, which costs $28.80 at $0.16/kWh.',
+      },
+      {
+        question: 'Why can my real bill be different from this estimate?',
+        answer:
+          'The calculator only estimates one device from watts, time, and rate. Your full bill can include fixed fees, taxes, tiered pricing, demand charges, fuel adjustments, standby loads, and other devices.',
+      },
+      {
+        question: 'What if the appliance cycles on and off?',
+        answer:
+          'Use average watts or average running time when you have it. Refrigerators, air conditioners, heaters, pumps, and dehumidifiers can cycle, so nameplate watts can overstate or understate real energy use.',
+      },
+      {
+        question: 'Is kW the same as kWh?',
+        answer:
+          'No. kW is power, or how fast energy is being used. kWh is energy over time, which is why bills usually charge by kilowatt-hour.',
+      },
+      {
+        question: 'Does standby power count?',
+        answer:
+          'Yes, if the device uses power while idle and you include that wattage and time. A plug-in power meter can help when the standby draw is small but runs all day.',
+      },
     ],
     useCases: [
       'Estimate appliance energy use.',
       'Compare a heater, AC, computer, or light over time.',
       'Turn watts and usage time into kWh.',
       'Multiply kWh by your local rate.',
+      'Check whether a device is worth measuring with a plug-in power meter.',
+      'Compare monthly and yearly energy-cost scenarios.',
     ],
     examples: [
-      { label: 'Space heater', expression: '1,500 W, 4 h/day, 30 days, $0.16/kWh', result: '$28.80' },
-      { label: 'LED bulb', expression: '10 W, 5 h/day, 365 days, $0.16/kWh', result: 'Low yearly estimate' },
-      { label: 'Gaming PC', expression: '450 W, 3 h/day, 30 days, $0.18/kWh', result: 'Monthly energy cost' },
+      { label: 'Space heater', expression: '1,500 W, 4 h/day, 30 days, $0.16/kWh', result: '180 kWh, about $28.80' },
+      { label: 'LED bulb', expression: '10 W, 5 h/day, 365 days, $0.16/kWh', result: '18.25 kWh, about $2.92' },
+      { label: 'Gaming PC', expression: '450 W, 3 h/day, 30 days, $0.18/kWh', result: '40.5 kWh, about $7.29' },
+      { label: 'Window AC', expression: '900 W, 8 h/day, 30 days, $0.16/kWh', result: '216 kWh, about $34.56' },
     ],
     relatedSlugs: ['watts-to-amps-calculator', 'btu-calculator', 'voltage-drop-calculator', 'ohms-law-calculator'],
   }),

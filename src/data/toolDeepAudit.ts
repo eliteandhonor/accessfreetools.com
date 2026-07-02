@@ -6199,17 +6199,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'electricity-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'remaining-seo-sprint-2026-07-02',
+    reviewedOn: '2026-07-02',
     scope: commonMathScope,
     sources: [eiaKwh, doeApplianceEnergy, nistSi],
     findings: [
-      'The calculator converts watts to kilowatts, multiplies by hours and days for kWh, then multiplies by the entered rate.',
-      'The FAQ now explains what a kilowatt-hour means with simple watt-hour examples.',
-      'The guide warns that real bills can include fees, taxes, tiered rates, demand charges, standby use, and variable power draw.',
+      'The calculator converts watts to kilowatts, multiplies by hours per day and days for kWh, then multiplies by the entered rate per kWh.',
+      'The tool now shows exact appliance examples for a space heater, LED bulb, gaming PC, and window AC, including both kWh and estimated cost.',
+      'The FAQ explains kilowatt-hour meaning, monthly cost setup, kW versus kWh, cycling appliances, standby power, and why full bills can differ from the estimate.',
+      'The limit wording keeps taxes, fees, tiered rates, demand charges, standby loads, cycling devices, seasonal changes, and variable power draw outside the simple appliance estimate.',
     ],
     improvements: [
-      'Manually checked kWh and cost math, examples, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Manually checked kWh and cost math, exact appliance examples, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, modified date, and result labels.',
     ],
     followUps: [
       'Add appliance presets later only if rates and wattages remain editable and clearly approximate.',
