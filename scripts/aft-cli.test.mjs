@@ -108,3 +108,45 @@ describe('aft CLI indexing gaps', () => {
     expect(result.stdout).toContain('improve contextual internal links, submit discovery');
   });
 });
+
+describe('aft CLI site sitemap', () => {
+  it('counts final sitemap URL entries without counting child sitemap index locs', () => {
+    const root = makeRoot();
+
+    writeFixture(
+      root,
+      'dist/client/sitemap.xml',
+      `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap><loc>https://accessfreetools.com/sitemap-tools.xml</loc></sitemap>
+  <sitemap><loc>https://accessfreetools.com/sitemap-blog.xml</loc></sitemap>
+</sitemapindex>`,
+    );
+    writeFixture(
+      root,
+      'dist/client/sitemap-tools.xml',
+      `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://accessfreetools.com/tools/percentage-calculator/</loc></url>
+</urlset>`,
+    );
+    writeFixture(
+      root,
+      'dist/client/sitemap-blog.xml',
+      `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://accessfreetools.com/blog/how-to-use-percentage-calculator/</loc></url>
+</urlset>`,
+    );
+
+    const result = spawnSync(process.execPath, [aftCli, 'site-sitemap'], {
+      cwd: root,
+      encoding: 'utf8',
+    });
+
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain('Built sitemap URLs: 2');
+    expect(result.stdout).toContain('Tools: 1; guides: 1; categories: 0');
+    expect(result.stdout).not.toContain('Built sitemap URLs: 4');
+  });
+});
