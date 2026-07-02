@@ -227,6 +227,7 @@ describe('agent tools reports', () => {
           opportunities: {
             highImpressionZeroClickPages: [
               { impressions: 235, path: '/sitemap/' },
+              { impressions: 316, path: '/blog/' },
               { impressions: 200, path: '/tools/open-calculator/' },
             ],
           },
@@ -247,6 +248,23 @@ describe('agent tools reports', () => {
         2,
       ),
     );
+    preserveAndWrite(
+      'docs/seo-console-completions.json',
+      JSON.stringify(
+        {
+          completed: [
+            {
+              completedAt: '2026-07-02T01:00:00.000Z',
+              evidence: ['output/seo-tool-review/blog-index/browser-proof.json'],
+              note: 'hub CTR proof covers this export',
+              path: '/blog/',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
     preserveAndWrite('output/agent-tools/seo-console/latest.json', '{}\n');
     preserveAndWrite('output/agent-tools/seo-console/latest.md', '# placeholder\n');
 
@@ -255,11 +273,54 @@ describe('agent tools reports', () => {
 
     expect(actionText).not.toContain('/blog/how-to-use-proved-calculator/');
     expect(actionText).not.toContain('/sitemap/');
+    expect(actionText).not.toContain('for /blog/ (316 impressions, 0 clicks)');
     expect(actionText).toContain('/tools/open-calculator/');
     expect(report.performanceExport.completed).toContainEqual(
       expect.objectContaining({ path: '/blog/how-to-use-proved-calculator/' }),
     );
     expect(report.performanceExport.completed).toContainEqual(expect.objectContaining({ path: '/sitemap/' }));
+    expect(report.performanceExport.completed).toContainEqual(expect.objectContaining({ path: '/blog/' }));
+  });
+
+  it('reopens tracked SEO console completions when a newer GSC export still shows the issue', () => {
+    preserveAndWrite(
+      'output/search-console/performance-latest.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-03T00:00:00.000Z',
+          totals: { pageClicks: 0, pageImpressions: 500 },
+          opportunities: {
+            highImpressionZeroClickPages: [{ impressions: 316, path: '/blog/' }],
+          },
+        },
+        null,
+        2,
+      ),
+    );
+    preserveAndWrite(
+      'docs/seo-console-completions.json',
+      JSON.stringify(
+        {
+          completed: [
+            {
+              completedAt: '2026-07-02T01:00:00.000Z',
+              evidence: ['output/seo-tool-review/blog-index/browser-proof.json'],
+              path: '/blog/',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
+    preserveAndWrite('output/agent-tools/seo-console/latest.json', '{}\n');
+    preserveAndWrite('output/agent-tools/seo-console/latest.md', '# placeholder\n');
+
+    const report = buildSeoConsoleReport();
+    const actionText = report.actions.map((action) => action.task).join('\n');
+
+    expect(actionText).toContain('for /blog/ (316 impressions, 0 clicks)');
+    expect(report.performanceExport.completed).not.toContainEqual(expect.objectContaining({ path: '/blog/' }));
   });
 
   it('recognizes generated utility blog guides in tool briefs', () => {

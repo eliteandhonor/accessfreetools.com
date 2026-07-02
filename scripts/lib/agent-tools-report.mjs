@@ -850,6 +850,27 @@ function isSearchPerformanceMonitorOnly(path) {
   return normalizeHrefToPath(path) === '/sitemap/';
 }
 
+function searchConsoleCompletions() {
+  const report = readJson('docs/seo-console-completions.json');
+  return Array.isArray(report?.completed) ? report.completed : [];
+}
+
+function completionCoversReport(completion, report) {
+  const completedTime = Date.parse(completion?.completedAt ?? '');
+  const reportTime = Date.parse(report?.generatedAt ?? '');
+
+  if (!Number.isFinite(completedTime) || !Number.isFinite(reportTime)) return true;
+  return reportTime <= completedTime;
+}
+
+function searchConsoleCompletionForPath(path, report) {
+  const normalizedPath = normalizeHrefToPath(path);
+  return searchConsoleCompletions().find((completion) => {
+    if (normalizeHrefToPath(completion?.path ?? '') !== normalizedPath) return false;
+    return completionCoversReport(completion, report);
+  });
+}
+
 function googlePerformanceExportSignals() {
   const report = readJson('output/search-console/performance-latest.json');
   if (!report) {
@@ -873,6 +894,19 @@ function googlePerformanceExportSignals() {
         path: item.path,
         evidence: 'src/data/indexationPolicy.ts + output/indexing-protection/latest report',
         note: 'monitor-only: HTML sitemap is noindex,follow and excluded from XML sitemaps.',
+      });
+      return true;
+    }
+
+    const trackedCompletion = searchConsoleCompletionForPath(item.path, report);
+    if (trackedCompletion) {
+      const evidence = Array.isArray(trackedCompletion.evidence)
+        ? trackedCompletion.evidence.join(' + ')
+        : trackedCompletion.evidence || 'docs/seo-console-completions.json';
+      recordCompleted({
+        path: item.path,
+        evidence,
+        note: trackedCompletion.note ?? 'tracked SEO console completion covers the current GSC export.',
       });
       return true;
     }

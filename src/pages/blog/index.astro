@@ -80,56 +80,61 @@ const guideTopicHubs = [
 ];
 const searchDemandGuides = [
   {
-    href: '/blog/how-to-use-ad-revenue-calculator/',
-    title: 'Ad revenue calculator',
-    text: 'Helpful for early searches around ad revenue, RPM, CPC, CTR, and pageview estimates.',
+    href: '/blog/how-to-use-interest-rate-calculator/',
+    title: 'Interest rate guide',
+    text: 'Estimate the annual rate hidden inside a fixed payment and check the loan inputs that change it.',
   },
   {
-    href: '/blog/how-to-use-amp-hours-to-watt-hours-calculator/',
-    title: 'Amp-hours to watt-hours',
-    text: 'Useful for battery capacity searches where voltage changes the real energy comparison.',
+    href: '/blog/how-to-use-sales-tax-calculator/',
+    title: 'Sales tax guide',
+    text: 'Calculate tax amount, final price, and reverse-tax checks from a before-tax or after-tax number.',
+  },
+  {
+    href: '/blog/how-to-use-ad-revenue-calculator/',
+    title: 'Ad revenue calculator',
+    text: 'Use pageviews, RPM, CPC, and CTR without treating a website earnings estimate like a payout.',
+  },
+  {
+    href: '/blog/how-to-use-big-number-calculator/',
+    title: 'Big number calculator guide',
+    text: 'Add, subtract, multiply, or divide very large whole numbers with exact quotient and remainder notes.',
+  },
+  {
+    href: '/blog/how-to-use-markup-calculator/',
+    title: 'Markup guide',
+    text: 'Compare markup, margin, selling price, cost, and profit without mixing up the formulas.',
+  },
+  {
+    href: '/blog/how-to-use-fraction-calculator/',
+    title: 'Fraction guide',
+    text: 'Enter mixed numbers, compare denominators, and read simplified fraction or decimal answers.',
+  },
+  {
+    href: '/blog/how-to-use-date-calculator/',
+    title: 'Date calculator guide',
+    text: 'Count days between dates, add or subtract days, and avoid calendar-range mistakes.',
+  },
+  {
+    href: '/blog/how-to-use-gas-mileage-calculator/',
+    title: 'Gas mileage guide',
+    text: 'Compare miles, gallons, MPG, trip cost, and fuel-price assumptions before you trust the number.',
   },
   {
     href: '/blog/how-to-use-watts-to-amps-calculator/',
-    title: 'Watts to amps',
-    text: 'Good for electrical searches that need watts, volts, current, and phase type explained clearly.',
+    title: 'Watts to amps guide',
+    text: 'Use watts, volts, phase, and power factor for current estimates, then check electrical limits.',
   },
   {
     href: '/tools/watts-to-amps-calculator/',
     title: 'Watts to amps calculator',
-    text: 'Open the actual calculator when you already know watts and voltage and need the current estimate.',
-  },
-  {
-    href: '/tools/wallpaper-calculator/',
-    title: 'Wallpaper calculator',
-    text: 'Estimate rolls from room size, openings, roll coverage, pattern repeat, and waste percent.',
-  },
-  {
-    href: '/blog/how-to-use-wallpaper-calculator/',
-    title: 'Wallpaper roll guide',
-    text: 'Explains waste percent, pattern repeat, roll coverage, and why the answer rounds up.',
-  },
-  {
-    href: '/blog/how-to-use-circle-calculator/',
-    title: 'Circle calculator',
-    text: 'Covers radius, diameter, circumference, area, and how those measurements connect.',
-  },
-  {
-    href: '/blog/how-to-use-carbohydrate-calculator/',
-    title: 'Carbohydrate calculator',
-    text: 'Explains calorie targets, carb percentages, grams, and the health limits of the estimate.',
-  },
-  {
-    href: '/blog/how-to-use-payment-calculator/',
-    title: 'Payment calculator',
-    text: 'Shows how payment estimates change with principal, rate, term, and fees that may be missing.',
+    text: 'Open the calculator when you know watts and voltage and need a current estimate.',
   },
 ];
 ---
 
 <BaseLayout
-  title="Calculator and Utility Guides | Access Free Tools"
-  description="Search practical calculator and utility guides with examples, formulas, input explanations, result limits, and links to the matching Access Free Tools pages."
+  title="Free Calculator Guides & Utility How-Tos | Access Free Tools"
+  description="Search 299 free calculator and utility guides with examples, formulas, input explanations, result limits, and links to the matching Access Free Tools pages."
   path="/blog/"
 >
   <BreadcrumbStructuredData
@@ -139,8 +144,8 @@ const searchDemandGuides = [
     ]}
   />
   <CollectionStructuredData
-    name="Calculator and Utility Guides"
-    description="Practical calculator and utility guides with examples, formulas, input explanations, result limits, and matching tool links."
+    name="Free Calculator Guides and Utility How-Tos"
+    description="Free calculator and utility guides with examples, formulas, input explanations, result limits, and matching tool links."
     path="/blog/"
     maxItems={100}
     items={blogPosts.map((post) => ({
@@ -153,10 +158,11 @@ const searchDemandGuides = [
   <section class="blog-hub">
     <div class="blog-hero">
       <p class="breadcrumb"><a href="/">Home</a> / Blog</p>
-      <h1>Utility Guides</h1>
+      <h1>Free calculator guides and utility how-tos</h1>
       <p>
-        Practical guides for the tools that are live on Access Free Tools, with examples,
-        formula notes, estimate limits, and links back to the matching calculator.
+        Find the guide behind each live Access Free Tools page. Browse calculators, converters,
+        browser AI tools, and home project estimators with examples, formulas, input notes, limits,
+        and links back to the matching tool.
       </p>
     </div>
 
@@ -165,9 +171,8 @@ const searchDemandGuides = [
         <p class="section-kicker">Reader-first guides</p>
         <h2 id="guide-feature-heading">Start with a guide that explains the result</h2>
         <p>
-          A good calculator page should not stop at the answer. These guides explain what the
-          inputs mean, how the result is calculated, what mistakes to avoid, and when the answer
-          should be treated as an estimate.
+          Use these guides to check what each input means, how the tool calculates the result,
+          which mistakes change the answer, and when you should treat the answer as an estimate.
         </p>
       </div>
       <div class="discovery-link-grid">
@@ -202,10 +207,10 @@ const searchDemandGuides = [
     <section class="guide-feature-panel" aria-labelledby="guide-demand-heading">
       <div>
         <p class="section-kicker">Useful starting points</p>
-        <h2 id="guide-demand-heading">Guides worth making easy to find</h2>
+        <h2 id="guide-demand-heading">Calculator guide shortcuts</h2>
         <p>
-          These guides answer common questions people bring to the site first, so they stay easy
-          to reach from the guide hub.
+          Start with guides for common calculator questions: interest, sales tax, ad revenue,
+          large numbers, dates, gas mileage, fractions, markup, and watts to amps.
         </p>
       </div>
       <div class="discovery-link-grid">

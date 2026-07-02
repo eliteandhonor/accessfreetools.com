@@ -1,0 +1,15 @@
+{
+  "completed": [
+    {
+      "path": "/blog/",
+      "completedAt": "2026-07-02T23:50:00+10:00",
+      "evidence": [
+        "output/search-console/performance-latest.json",
+        "src/pages/blog/index.astro",
+        "output/seo-tool-review/blog-index/browser-proof-blog-index-local-final-playwright-2026-07-02-summary.json",
+        "output/ai-crawler-visibility/2026-07-02/summary.md"
+      ],
+      "note": "Completed the /blog/ high-impression zero-click CTR pass for the 2026-07-02 GSC export: title, meta description, H1, above-fold copy, CollectionPage name/description, and guide shortcuts now match the free calculator guide intent."
+    }
+  ]
+}
