@@ -3174,8 +3174,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'random-number-generator',
     status: 'deep-reviewed',
-    batch: 'priority-top-25-completion-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-07-02',
+    reviewedOn: '2026-07-02',
     scope: commonMathScope,
     sources: [mdnCryptoRandomValues, mdnMathRandom],
     findings: [
@@ -3184,7 +3184,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The FAQ and guide now explain that this is for everyday picks and examples, not passwords, gambling, legal drawings, security decisions, or audited randomness.',
     ],
     improvements: [
-      'Clarified random-number FAQ and guide wording, then manually checked generator logic, examples, copy behavior, privacy history, and source coverage.',
+      'Clarified random-number FAQ and guide wording, added concrete inclusive-range, unique, sorted, excluded-number, and repeat examples, then manually checked generator logic, copy behavior, privacy history, and source coverage.',
     ],
     followUps: [
       'Add an audited-randomness explainer link if the site later adds raffle or contest content.',

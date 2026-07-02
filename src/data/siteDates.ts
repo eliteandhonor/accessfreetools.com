@@ -227,6 +227,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'heat-index-calculator': '2026-05-26',
   'dew-point-calculator': '2026-07-02',
   'electricity-calculator': '2026-07-02',
+  'random-number-generator': '2026-07-02',
   'insulation-calculator': '2026-05-26',
   'polymeric-sand-calculator': '2026-05-26',
   'fuel-cost-calculator': '2026-05-26',

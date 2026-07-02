@@ -3848,19 +3848,19 @@ const baseTools: ToolDefinition[] = [
     ],
     examples: [
       {
-        label: 'Pick one number',
-        expression: '1 to 10',
-        result: 'One random integer from 1 through 10',
+        label: 'Classroom pick',
+        expression: 'Minimum 1, maximum 30, quantity 1',
+        result: 'One student number from 1 through 30. If the answer is 18, use 18 as the pick and rerun only if your rules allow a new draw.',
       },
       {
-        label: 'Generate a list',
-        expression: '5 numbers from 1 to 100',
-        result: 'Five random integers, duplicates allowed',
+        label: 'Practice raffle list',
+        expression: '10 numbers from 1 to 100, unique on, sorted on',
+        result: 'Ten different numbers in order, which is easier to read aloud or compare with a numbered list.',
       },
       {
-        label: 'Unique sorted numbers',
-        expression: '6 unique numbers from 1 to 50',
-        result: 'A sorted list with no repeated numbers',
+        label: 'Skip excluded numbers',
+        expression: '6 unique numbers from 1 to 50, excluding 13 and 44',
+        result: 'A sorted list with no repeats and no excluded values, as long as the range still has enough allowed numbers.',
       },
     ],
     faq: [
@@ -3878,6 +3878,16 @@ const baseTools: ToolDefinition[] = [
         question: 'What does unique results mean?',
         answer:
           'Unique results means the same number will not appear twice in one generated list. If you turn off duplicates, the quantity must fit inside the available range after exclusions.',
+      },
+      {
+        question: 'Are the minimum and maximum numbers included?',
+        answer:
+          'Yes. The range is inclusive, so a 1 to 10 range can return 1, 10, or any whole number between them.',
+      },
+      {
+        question: 'Why did I get the same number more than once?',
+        answer:
+          'Repeats are normal when unique results is off. Turn on unique results when each number should appear only once in the generated list.',
       },
       {
         question: 'Can I exclude numbers?',
