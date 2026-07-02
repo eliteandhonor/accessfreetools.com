@@ -2870,23 +2870,96 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchWireSize, sourceLinks.usaceVoltageDrop, sourceLinks.openStaxOhmsLaw, sourceLinks.nistUnits],
   },
   'btu-calculator': {
-    summary: 'Learn how to estimate room cooling BTU from room size and simple adjustments.',
+    title: 'BTU Calculator Guide',
+    summary: 'Learn how to estimate room AC BTU/h from square feet, ceiling height, sunlight, people, and kitchen heat.',
+    metaDescription:
+      'Use the BTU Calculator guide to estimate room air conditioner BTU/h from square feet, ceiling height, sunlight, people, kitchen heat, and practical sizing limits.',
     purpose:
       'The BTU Calculator estimates room air conditioner cooling capacity. It starts with a room-size table and then adjusts for ceiling height, sunlight, extra people, and kitchen heat.',
+    intro:
+      'Use it when you are choosing a window or portable room air conditioner for one room, not designing a whole-home HVAC system. The goal is to get close enough for shopping, then sanity-check the room conditions before you buy.',
+    inputMatch:
+      'the room square footage, ceiling height, sunlight level, regular people count, and kitchen heat choice for the same room or open area',
+    logicNote:
+      'The calculator starts with an 8-foot-ceiling room-size BTU table, scales the base value by ceiling height divided by 8, subtracts 10% for shaded rooms, adds 10% for sunny rooms, adds 600 BTU/h for each regular person above two, adds 4,000 BTU/h for kitchen heat, and rounds to the nearest 500 BTU/h.',
+    readIntro:
+      'Read the rounded BTU/h recommendation first, then compare the base table value and adjusted estimate so you can see which input pushed the answer up or down.',
+    mistakeIntro:
+      'Most room AC sizing mistakes come from guessing square footage, ignoring a tall ceiling or strong sun, treating kitchen heat as a normal room, or buying the largest unit because it feels safer.',
+    sidecarText:
+      'Open the BTU Calculator beside this guide. Try the 180 ft2 bedroom first, then test the sunny living room and kitchen examples before replacing them with your own room.',
+    bestUsesIntro:
+      'Use this guide when you are sizing one room or one open area and want to understand why the calculator moves from base BTU to adjusted BTU.',
     enter: [
-      'Enter the room square footage.',
-      'Enter ceiling height and choose sunlight level.',
-      'Add people count and check kitchen only when the room has kitchen heat load.',
+      'Measure or estimate the room square footage. For irregular rooms, split the area into simple rectangles first, or use the Square Footage Calculator.',
+      'Enter the ceiling height in feet. Leave it at 8 only when the room is close to a normal 8-foot ceiling.',
+      'Choose shaded, normal, or sunny based on the room during the hot part of the day.',
+      'Enter the number of people who regularly use the room, not the largest party the room has ever held.',
+      'Turn on kitchen heat only when cooking appliances or an open kitchen are part of the area you are cooling.',
     ],
     read: [
-      'The main answer is the rounded BTU per hour estimate.',
-      'Base table value shows the starting point before adjustments.',
-      'Adjusted estimate shows the number before practical rounding.',
+      'Recommended BTU/h is the practical room AC size estimate after rounding to a 500 BTU/h step.',
+      'Base table value is the square-footage starting point for an 8-foot ceiling before the room-specific adjustments.',
+      'Adjusted estimate is the number before final rounding. It helps explain why a room landed near 6,000, 10,000, 13,000, or another common product label.',
+      'If the result sits between two available products, check humidity, insulation, window area, and manufacturer guidance before choosing the larger unit.',
     ],
     mistakes: [
-      'Do not assume bigger is always better.',
-      'Do not use one room estimate for a whole house.',
-      'Consider insulation, windows, climate, and humidity before buying.',
+      'Do not assume bigger is always better. Oversized room AC units can cool quickly but leave the room damp or clammy.',
+      'Do not use one room estimate for a whole house, central HVAC replacement, duct design, or a Manual J-style load calculation.',
+      'Do not forget kitchens, strong sun, west-facing windows, poor insulation, air leaks, or unusually high ceilings.',
+      'Do not measure only the easiest rectangle if the room has alcoves, connected spaces, or an open-plan doorway that the AC will also cool.',
+      'Do not copy a product label alone. Check voltage, outlet requirements, installation clearances, drainage, noise, and the manufacturer sizing notes.',
+    ],
+    extraSections: [
+      {
+        title: 'Quick bedroom example',
+        paragraphs: [
+          'Say the room is a 180 ft2 bedroom with an 8 ft ceiling, normal sun, and two regular occupants.',
+          'The square-footage table starts 180 ft2 at 6,000 BTU/h. The ceiling-height multiplier is 8 / 8, so the number stays 6,000. Normal sunlight and two people add nothing.',
+          'The calculator returns 6,000 BTU/h recommended. That is a clean room AC shopping estimate for a normal bedroom, not a promise about every house or climate.',
+        ],
+      },
+      {
+        title: 'Sunny living room example',
+        paragraphs: [
+          'Now try a 420 ft2 living room with a 9 ft ceiling, sunny exposure, and three regular occupants.',
+          'The table starts 420 ft2 at 10,000 BTU/h. A 9 ft ceiling scales that to 11,250 BTU/h. Sunny exposure adds 10%, bringing the estimate to 12,375 BTU/h. The third regular person adds 600 BTU/h, for 12,975 BTU/h before rounding.',
+          'The calculator rounds that to 13,000 BTU/h recommended. This example is useful because it shows why a room can move above the square-footage table without changing floor area.',
+        ],
+      },
+      {
+        title: 'Kitchen area example',
+        paragraphs: [
+          'For a 300 ft2 open kitchen area with an 8 ft ceiling, normal sun, and the kitchen heat box selected, the base table value is 7,000 BTU/h.',
+          'The ceiling and sunlight settings do not change the base in this example, and two people do not add extra occupant load. The kitchen heat adjustment adds 4,000 BTU/h.',
+          'The calculator returns 11,000 BTU/h recommended. That extra 4,000 BTU/h is why kitchen and open kitchen areas should not be treated like quiet bedrooms of the same square footage.',
+        ],
+      },
+      {
+        title: 'When the estimate is close between two AC sizes',
+        paragraphs: [
+          'Room air conditioners are sold in fixed capacity steps, so your exact estimate may land between two models. Do not round up automatically.',
+          'If the room has strong humidity, poor insulation, many windows, high heat from appliances, or an open connection to another space, compare manufacturer guidance carefully. If the room is shaded, well sealed, and rarely crowded, the smaller nearby size may feel better than an oversized unit.',
+          'The calculator gives the math conversation. The final purchase should also consider efficiency rating, noise, outlet requirements, window fit, installation quality, drainage, and whether the product can send airflow where the room needs it.',
+        ],
+        links: [
+          {
+            href: '/tools/square-footage-calculator/',
+            label: 'Measure irregular room area with the Square Footage Calculator',
+          },
+          {
+            href: '/tools/electricity-calculator/',
+            label: 'Estimate electrical usage after choosing an appliance wattage',
+          },
+        ],
+      },
+      {
+        title: 'When this guide is not enough',
+        paragraphs: [
+          'Use this page for room air conditioner shopping estimates. It is not a full load calculation for central air, heat pumps, ducted systems, additions, rentals with strict rules, or expensive equipment decisions.',
+          'A professional load calculation can include climate, orientation, insulation, window type, infiltration, humidity, internal gains, duct losses, zoning, and equipment performance. Those details are outside this quick browser calculator.',
+        ],
+      },
     ],
     sources: [sourceLinks.energyStarAc, sourceLinks.doeRoomAc, sourceLinks.doeAc],
   },
