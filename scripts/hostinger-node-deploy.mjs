@@ -7,6 +7,11 @@ const domain = process.env.HOSTINGER_DOMAIN || 'accessfreetools.com';
 const pollDelayMs = Number(process.env.HOSTINGER_DEPLOY_POLL_MS || 10000);
 const settleDelayMs = Number(process.env.HOSTINGER_DEPLOY_SETTLE_MS || 20000);
 const maxPolls = Number(process.env.HOSTINGER_DEPLOY_MAX_POLLS || 36);
+const nodeVersion = Number(process.env.HOSTINGER_NODE_VERSION || process.env.npm_config_node_version || 22);
+
+if (!Number.isInteger(nodeVersion) || ![18, 20, 22, 24].includes(nodeVersion)) {
+  throw new Error(`Unsupported Hostinger Node version: ${nodeVersion}. Expected one of 18, 20, 22, or 24.`);
+}
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -44,7 +49,7 @@ if (!website?.username) {
 }
 
 const buildOptions = {
-  node_version: 22,
+  node_version: nodeVersion,
   app_type: 'astro',
   root_directory: null,
   output_directory: 'dist',
