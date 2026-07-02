@@ -9,7 +9,14 @@ import { getToolSearchIndex } from '../../data/toolSearchIndex';
 import { tools } from '../../data/tools';
 
 const searchTools = getToolSearchIndex();
-const initialSearchTools = searchTools.slice(0, 96);
+const initialSearchTools = searchTools.slice(0, 96).map(({ slug, name, category, summary, icon }) => ({
+  slug,
+  name,
+  category,
+  summary,
+  icon,
+  searchText: [name, summary, category].join(' '),
+}));
 const toolsByInitial = Array.from(
   [...searchTools]
     .sort((a, b) => a.name.localeCompare(b.name))
