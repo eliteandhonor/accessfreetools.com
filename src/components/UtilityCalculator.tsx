@@ -2061,7 +2061,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'BTU Calculator',
     buttonLabel: 'Estimate BTU',
     emptyHistory: 'Recent BTU estimates will appear here.',
-    privacyNote: 'BTU estimates use room sizing assumptions in your browser and do not replace HVAC design.',
+    privacyNote: 'BTU estimates use room sizing assumptions in your browser and do not replace a professional HVAC load calculation.',
     modes: [
       {
         id: 'room-cooling',
@@ -2078,6 +2078,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         examples: [
           { label: 'Bedroom', inputs: { squareFeet: '180', ceilingHeightFeet: '8', sunlight: 'normal', people: '2', kitchen: 'false' } },
           { label: 'Sunny living room', inputs: { squareFeet: '420', ceilingHeightFeet: '9', sunlight: 'sunny', people: '3', kitchen: 'false' } },
+          { label: 'Kitchen area', inputs: { squareFeet: '300', ceilingHeightFeet: '8', sunlight: 'normal', people: '2', kitchen: 'true' } },
         ],
       },
     ],

@@ -119,6 +119,18 @@ const toolArtMetadataOverrides = {
         'Statistics Calculator guide artwork supports the walkthrough for count, sum, mean, median, mode, range, quartiles, IQR, variance, sample SD, population SD, examples, limits, and mistakes to check.',
     },
   },
+  'btu-calculator': {
+    tool: {
+      alt: 'Illustration for BTU Calculator showing room AC BTU/h sized from square feet, ceiling height, sunlight, people, and kitchen heat.',
+      caption:
+        'BTU Calculator artwork matches the live workflow: enter room size, ceiling height, sunlight, people, and kitchen heat, then compare base, adjusted, and rounded BTU/h estimates.',
+    },
+    guide: {
+      alt: 'Guide image for BTU Calculator showing room AC sizing examples with square feet, ceiling height, sunlight, people, and kitchen heat notes.',
+      caption:
+        'BTU Calculator guide artwork supports the walkthrough for square-footage BTU tables, ceiling height, sunlight, people, kitchen heat, examples, limits, and mistakes to check.',
+    },
+  },
   'p-value-calculator': {
     tool: {
       alt: 'Illustration for P-value Calculator showing a z-score, normal-curve tail areas, and p-value result notes.',

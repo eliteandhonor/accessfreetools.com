@@ -6117,17 +6117,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'btu-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-tool-review-refresh-2026-07-02',
+    reviewedOn: '2026-07-02',
     scope: commonMathScope,
     sources: [doeRoomAirConditioners, nistSi],
     findings: [
-      'The calculator starts from room area, adjusts for ceiling height, sunlight, extra people, and kitchen heat, then rounds to a practical BTU/h value.',
-      'The FAQ now explains why buying a larger room air conditioner is not automatically better.',
-      'The guide keeps this positioned as room AC shopping context, not whole-home HVAC design.',
+      'The calculator starts from a room-size BTU/h table, scales for ceiling height, adjusts shaded or sunny exposure, adds occupant and kitchen heat, then rounds to a practical 500 BTU/h increment.',
+      'Visible examples now show exact outputs for a 180 ft2 bedroom, 420 ft2 sunny living room, 300 ft2 kitchen area, shaded small room, and tall larger room.',
+      'The FAQs explain BTU/h meaning, square-foot table starting points, ceiling-height scaling, sunlight adjustment, kitchen heat, oversizing risk, and why this is not a full HVAC load calculation.',
     ],
     improvements: [
-      'Manually checked BTU estimate logic, sizing cautions, examples, FAQ detail, guide sources, related tools, SEO copy, privacy behavior, and result labels.',
+      'Manually refreshed BTU estimate logic notes, sizing cautions, exact examples, FAQ detail, related tools, SEO title/description, privacy behavior, UI example buttons, and result labels.',
     ],
     followUps: [
       'Add insulation/window/climate checklist later if this becomes a high-intent shopping page.',

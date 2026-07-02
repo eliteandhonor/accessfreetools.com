@@ -2557,37 +2557,76 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'btu-calculator',
     name: 'BTU Calculator',
     category: 'everyday-tools',
-    summary: 'Estimate room air conditioner BTU capacity from room size and simple adjustments.',
+    summary: 'Estimate room air conditioner BTU/h from room size, ceiling height, sun, people, and kitchen heat.',
     description:
-      'Use this free BTU calculator to estimate room cooling capacity from square feet, ceiling height, sunlight, people, and kitchen heat load.',
+      'Use this free BTU calculator to estimate room air conditioner cooling capacity from square feet, ceiling height, sunlight, people, and kitchen heat load.',
+    seoTitle: 'BTU Calculator | Room AC Size Estimate',
+    seoDescription:
+      'Estimate room air conditioner BTU/h from square feet, ceiling height, sunlight, people, and kitchen heat. See base BTU, adjusted BTU, and rounded capacity.',
+    aliases: ['Room BTU Calculator', 'AC BTU Calculator', 'Air Conditioner BTU Calculator', 'Room AC Size Calculator'],
     icon: 'calculator-btu',
     formula:
-      'The calculator starts with a room-size BTU table, adjusts for ceiling height, sunlight, extra people, and kitchen heat, then rounds to a practical BTU amount.',
+      'The calculator starts with a room-size BTU table for an 8-foot ceiling, scales for ceiling height, reduces shaded rooms by 10%, adds 10% for sunny rooms, adds 600 BTU/h for each regular person above two, adds 4,000 BTU/h for kitchen heat, then rounds to the nearest 500 BTU/h.',
     limit:
-      'This is a room AC shopping estimate, not a full HVAC load calculation. Insulation, climate, windows, ducts, and humidity matter.',
+      'This is a room AC shopping estimate, not a Manual J or whole-home HVAC load calculation. Insulation, climate, window area, air leakage, ducts, humidity, and equipment efficiency can change the real load.',
     inputExplanations: [
       { term: 'Room square feet', meaning: 'the floor area of the room you want to cool.' },
       { term: 'Ceiling height', meaning: 'the room height. Taller rooms have more air volume than a normal 8-foot room.' },
       { term: 'Sunlight', meaning: 'whether the room is normally shaded, average, or sunny.' },
+      { term: 'Regular people in room', meaning: 'the usual number of people in the room. The estimate adds heat load when more than two people regularly use it.' },
       { term: 'Kitchen heat load', meaning: 'extra cooling demand from cooking appliances and kitchen heat.' },
     ],
     extraFaq: [
+      {
+        question: 'What does BTU/h mean for an air conditioner?',
+        answer:
+          'BTU/h means British thermal units per hour. For a room air conditioner, it is a cooling-capacity rating: about how much heat the unit can remove from the room in one hour.',
+      },
+      {
+        question: 'How does room square footage affect the BTU estimate?',
+        answer:
+          'The calculator starts with a room-size table. For example, 180 square feet starts from 6,000 BTU/h, while 420 square feet starts from 10,000 BTU/h before sunlight, ceiling height, people, or kitchen adjustments.',
+      },
+      {
+        question: 'Why does ceiling height change the result?',
+        answer:
+          'A taller room has more air volume than an 8-foot room with the same floor area. The calculator scales the base estimate by ceiling height divided by 8.',
+      },
+      {
+        question: 'Why do sunny rooms need more BTU?',
+        answer:
+          'Direct sun can add heat through windows, walls, and the roof. This calculator adds 10% for sunny rooms and subtracts 10% for shaded rooms as a simple shopping adjustment.',
+      },
+      {
+        question: 'Why does kitchen heat add 4,000 BTU/h?',
+        answer:
+          'Cooking appliances, ovens, dishwashers, and extra activity can add a lot of heat. The calculator uses a simple 4,000 BTU/h kitchen adjustment so a kitchen or open kitchen area is not undersized.',
+      },
       {
         question: 'Why is a bigger BTU number not always better?',
         answer:
           'An oversized room air conditioner can cool the air quickly but cycle off before removing enough humidity. That can make the room feel cold and clammy instead of comfortable.',
       },
+      {
+        question: 'Is this a full HVAC load calculation?',
+        answer:
+          'No. It is a room air conditioner shopping estimate. Use a professional load calculation when the decision involves central HVAC, ducts, unusual insulation, many windows, high humidity, or expensive equipment.',
+      },
     ],
     useCases: [
-      'Estimate a window or room air conditioner size.',
-      'Adjust for sunny or shaded rooms.',
-      'Account for extra people and kitchen heat.',
-      'Avoid buying a unit that is wildly under- or oversized.',
+      'Estimate a window or portable room air conditioner size before shopping.',
+      'Compare bedroom, living-room, and kitchen cooling needs.',
+      'Adjust a room estimate for sunny or shaded exposure.',
+      'Account for extra regular occupants and kitchen heat.',
+      'Sanity-check an AC product label against the room you actually need to cool.',
+      'Decide when the room is unusual enough to need a professional load calculation.',
     ],
     examples: [
-      { label: 'Bedroom', expression: '180 ft2, 8 ft ceiling', result: 'Approximate room BTU' },
-      { label: 'Sunny room', expression: '420 ft2, 9 ft ceiling, sunny, 3 people', result: 'Adjusted BTU estimate' },
-      { label: 'Kitchen area', expression: '300 ft2, kitchen heat selected', result: 'Higher BTU estimate' },
+      { label: 'Bedroom', expression: '180 ft2, 8 ft ceiling, normal sun, 2 people', result: '6,000 BTU/h recommended' },
+      { label: 'Sunny living room', expression: '420 ft2, 9 ft ceiling, sunny, 3 people', result: '13,000 BTU/h recommended' },
+      { label: 'Kitchen area', expression: '300 ft2, 8 ft ceiling, kitchen heat selected', result: '11,000 BTU/h recommended' },
+      { label: 'Shaded small room', expression: '150 ft2, 8 ft ceiling, shaded', result: '4,500 BTU/h recommended' },
+      { label: 'Tall larger room', expression: '500 ft2, 10 ft ceiling, 4 people', result: '16,000 BTU/h recommended' },
     ],
     relatedSlugs: ['square-footage-calculator', 'electricity-calculator', 'area-calculator'],
   }),
