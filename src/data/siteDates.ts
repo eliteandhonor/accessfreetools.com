@@ -429,7 +429,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-carbohydrate-calculator': '2026-06-26',
   'how-to-use-tdee-calculator': '2026-06-05',
   'how-to-use-gfr-calculator': '2026-06-05',
-  'how-to-use-molarity-calculator': '2026-06-05',
+  'how-to-use-molarity-calculator': '2026-07-03',
   'how-to-use-molecular-weight-calculator': '2026-06-05',
   'how-to-use-time-calculator': '2026-06-05',
   'how-to-use-hours-calculator': '2026-06-11',

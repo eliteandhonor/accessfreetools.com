@@ -3287,13 +3287,14 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [],
   },
   'molarity-calculator': {
+    title: 'Molarity Calculator: Grams to M Example',
     summary: 'Learn how moles, grams, molar mass, and final solution volume create molarity.',
     metaDescription:
-      'Use the Molarity Calculator guide to convert moles or grams into mol/L, check final solution volume, and avoid common molar-mass and lab mistakes.',
+      'Use the Molarity Calculator guide to convert moles or grams into mol/L. See the 5.844 g NaCl example, final-volume check, and lab limits.',
     purpose:
       'The Molarity Calculator finds mol/L concentration from moles and final solution volume. It can also start with grams when you know molar mass.',
     intro:
-      'Use it when a chemistry problem asks for concentration and you need to decide between moles mode and grams mode. The key detail is final solution volume: if you dissolve a solute and fill the flask to 0.5 L, use 0.5 L, not just the water you poured in first.',
+      'Use it when a chemistry problem asks for concentration and you need to decide between moles mode and grams mode. The key detail is final solution volume: if you dissolve a solute and fill the flask to 0.5 L, use 0.5 L after dilution rather than the water you poured in first.',
     inputMatch:
       'the calculation mode, moles or grams of solute, molar mass in g/mol when grams mode is used, and final solution volume in liters',
     logicNote:
@@ -3335,8 +3336,8 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       {
         title: 'Final solution volume check',
         paragraphs: [
-          'Molarity uses the final volume of the whole solution, not just the starting solvent. In a volumetric flask, that usually means dissolving the solute first, then filling to the final mark.',
-          'This is why the same 0.1 mol can become 0.1 M in 1 L, 0.2 M in 0.5 L, or 1 M in 0.1 L. The moles did not change, but the liters did.',
+          'Molarity uses the final volume of the whole solution. In a volumetric flask, that usually means dissolving the solute first, then filling to the final mark.',
+          'The same 0.1 mol can become 0.1 M in 1 L, 0.2 M in 0.5 L, or 1 M in 0.1 L. The moles did not change, but the liters did.',
         ],
       },
       {
@@ -3345,6 +3346,43 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
           'This guide is good for checking the math and understanding the units. It does not replace your teacher, lab manual, chemical safety sheet, or required significant-figure rules.',
           'For actual lab work, also check compound purity, hydrate state, measurement uncertainty, and whether your procedure says to prepare to volume or mix fixed liquid amounts.',
         ],
+      },
+    ],
+    faqItems: [
+      {
+        question: 'What does molarity mean in this calculator?',
+        answer:
+          'Molarity means moles of solute per liter of final solution. A 0.2 M answer means the prepared solution has 0.2 mol of solute for every liter of solution.',
+      },
+      {
+        question: 'Which molarity mode should I choose?',
+        answer:
+          'Choose moles mode when the problem already gives moles of solute. Choose grams mode when the problem gives a weighed mass and a molar mass in g/mol.',
+      },
+      {
+        question: 'Why does final solution volume matter?',
+        answer:
+          'Molarity uses the final volume after the solute dissolves and the solution reaches the mark. Do not use only the starting water volume when the problem asks for final solution volume.',
+      },
+      {
+        question: 'How do I calculate molarity from grams of NaCl?',
+        answer:
+          'Convert grams to moles first. For 5.844 g NaCl at 58.44 g/mol, 5.844 / 58.44 = 0.1 mol. Then 0.1 mol / 0.5 L = 0.2 M.',
+      },
+      {
+        question: 'Is molarity the same as moles?',
+        answer:
+          'No. Moles tell you how much solute you have. Molarity tells you how concentrated the final solution is by dividing those moles by liters.',
+      },
+      {
+        question: 'Can this calculator plan a real lab solution?',
+        answer:
+          'Use it to check the math setup, then follow your teacher, lab manual, safety sheet, purity label, and required significant figures before preparing anything.',
+      },
+      {
+        question: 'What should I double-check before copying the answer?',
+        answer:
+          'Check the mode, grams versus moles, compound formula, molar mass, hydrate state, final liters, decimal place, and significant figures before copying the M value.',
       },
     ],
     sources: [sourceLinks.openStaxMolarity, sourceLinks.bipmSi, sourceLinks.nistAtomicWeights],

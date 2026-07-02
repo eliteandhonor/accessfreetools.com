@@ -24,6 +24,7 @@ Use this task board after `npm run aft -- status` and `npm run aft -- seo-consol
 - `node scripts/seo-agent-workbench.mjs judge flooring-calculator tool`: pass on the follow-up CTR review; page score 100, FAQ score 100, tone score 100, paid DataForSEO evidence present, competitor-gap evidence present, browser proof present, and 0 remaining gaps.
 - `/blog/` CTR hub pass: source update tightened the title, meta description, H1, above-fold copy, CollectionPage name/description, and guide shortcuts for the 316-impression zero-click GSC row. Proof: `docs/seo-console-completions.json`, `output/seo-tool-review/blog-index/browser-proof-blog-index-local-final-playwright-2026-07-02-summary.json`, `npm run check:links`, `npm run check:site`, `npm run check:structured-data`, and `npm run audit:ai-crawler`.
 - `/blog/how-to-use-big-number-calculator/` CTR pass: source update replaced generic rendered FAQ cards with exact Big Number Calculator questions, refreshed the guide modified date to 2026-07-02, and revalidated intent. Proof: `docs/seo-console-completions.json`, `output/seo-tool-review/big-number-calculator/blog/page-score.md`, `output/seo-tool-review/big-number-calculator/blog/dataforseo-paid.md`, `output/seo-tool-review/big-number-calculator/blog/competitor-gap.md`, `output/seo-tool-review/big-number-calculator/blog/browser-proof-big-number-calculator-blog-local-final-playwright-2026-07-02-summary.json`, and `output/seo-agents/big-number-calculator/blog/final-judge.md`.
+- `/blog/how-to-use-molarity-calculator/` CTR pass: source update tightened the title, meta description, visible FAQ set, and guide modified date around grams-to-M intent and the 0.2 M NaCl example. Proof: `docs/seo-console-completions.json`, `output/seo-tool-review/molarity-calculator/blog/page-score.md`, `output/seo-tool-review/molarity-calculator/blog/dataforseo-paid.md`, `output/seo-tool-review/molarity-calculator/blog/competitor-gap.md`, `output/seo-tool-review/molarity-calculator/blog/browser-proof-molarity-blog-local-final-playwright-2026-07-03-summary.json`, and `output/seo-agents/molarity-calculator/blog/final-judge.md`.
 
 ## Completed Local Recovery Batches
 
@@ -34,6 +35,7 @@ Use this task board after `npm run aft -- status` and `npm run aft -- seo-consol
 - Follow-up CTR proof: Flooring Calculator tool has refreshed paid evidence, competitor-gap evidence, page score, browser proof, approval status, and a final SEO workbench judge with 0 remaining gaps. No source edit was needed.
 - Follow-up CTR proof: `/blog/` has refreshed free-calculator-guide metadata, above-fold copy, and shortcut links based on the 2026-07-02 GSC performance export. It is tracked in `docs/seo-console-completions.json` so stale GSC data does not keep re-adding it to the SEO console.
 - Follow-up CTR proof: `/blog/how-to-use-big-number-calculator/` has refreshed visible FAQ copy, a 2026-07-02 modified date, paid DataForSEO evidence, Calculator.net and Defuse competitor-gap evidence, rendered content proof, browser proof, approval status, and a final SEO workbench judge with 0 remaining gaps. It is tracked in `docs/seo-console-completions.json` so stale GSC data does not keep re-adding it to the SEO console.
+- Follow-up CTR proof: `/blog/how-to-use-molarity-calculator/` has a refreshed formula/example-focused title and meta description, exact visible FAQ copy, a 2026-07-03 modified date, paid DataForSEO evidence, Calculator.net and Omni Calculator competitor-gap evidence, rendered content proof, browser proof, approval status, and a final SEO workbench judge with 0 remaining gaps. It is tracked in `docs/seo-console-completions.json` so stale GSC data does not keep re-adding it to the SEO console.
 - `/sitemap/` is intentionally `noindex,follow`, excluded from XML sitemaps, and should be monitored rather than rewritten as a search landing page.
 
 ## Task 1: Monitor Fresh Search Console Indexing
@@ -62,7 +64,6 @@ Priority: Medium
 
 Current targets from `npm run aft -- seo-console`:
 
-- `/blog/how-to-use-molarity-calculator/`
 - `/tools/mortgage-calculator-uk/`
 
 Work:
