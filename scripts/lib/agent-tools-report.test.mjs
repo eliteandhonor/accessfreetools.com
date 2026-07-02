@@ -324,6 +324,46 @@ describe('agent tools reports', () => {
     expect(report.performanceExport.completed).not.toContainEqual(expect.objectContaining({ path: '/blog/' }));
   });
 
+  it('keeps tracked SEO console completions closed when the same GSC export is reimported later', () => {
+    preserveAndWrite(
+      'output/search-console/performance-latest.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-03T00:00:00.000Z',
+          source: { dataDate: '2026-07-02' },
+          totals: { pageClicks: 0, pageImpressions: 500 },
+          opportunities: {
+            highImpressionZeroClickPages: [{ impressions: 316, path: '/blog/' }],
+          },
+        },
+        null,
+        2,
+      ),
+    );
+    preserveAndWrite(
+      'docs/seo-console-completions.json',
+      JSON.stringify(
+        {
+          completed: [
+            {
+              completedAt: '2026-07-02T23:50:00+10:00',
+              evidence: ['output/seo-tool-review/blog-index/browser-proof.json'],
+              path: '/blog/',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
+
+    const report = buildSeoConsoleReport();
+    const actionText = report.actions.map((action) => action.task).join('\n');
+
+    expect(actionText).not.toContain('for /blog/ (316 impressions, 0 clicks)');
+    expect(report.performanceExport.completed).toContainEqual(expect.objectContaining({ path: '/blog/' }));
+  });
+
   it('uses request-indexing proof before recommending repeated Search Console clicks', () => {
     preserveAndWrite(
       'output/search-console-url-inspection.json',

@@ -74,6 +74,7 @@ describe('Search Console performance import', () => {
     expect(report.totals.pageImpressions).toBe(1154);
     expect(report.totals.deindexedRows).toBe(2);
     expect(report.totals.deindexedOverlapWithPerformance).toBe(1);
+    expect(report.source.dataDate).toBe('2026-07-02');
     expect(report.searchAppearance).toEqual([]);
     expect(report.deindexedByKind.blog.count).toBe(1);
     expect(report.deindexedByKind['html-sitemap'].impressions).toBe(188);

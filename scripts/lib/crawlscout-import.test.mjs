@@ -41,6 +41,7 @@ describe('CrawlScout import', () => {
     const report = buildCrawlScoutReport({ csvFile, generatedAt: '2026-07-03T00:00:00.000Z' });
 
     expect(report.status).toBe('attention');
+    expect(report.source.dataDate).toBe('2026-07-02');
     expect(report.overview.rows).toBe(2);
     expect(report.overview.notIndexed).toBe(1);
     expect(report.overview.indexed).toBe(1);

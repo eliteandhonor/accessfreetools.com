@@ -80,6 +80,10 @@ function newestMatchingPath(directory, predicate) {
     .sort((left, right) => right.mtime - left.mtime)[0]?.fullPath ?? '';
 }
 
+function sourceDataDate(value) {
+  return basename(String(value ?? '')).match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? '';
+}
+
 export function newestCrawlScoutCsv(downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '') {
   return newestMatchingPath(
     downloads,
@@ -119,6 +123,7 @@ export function buildCrawlScoutReport({ csvFile, generatedAt = new Date().toISOS
     pageSample: topRows(nonIndexedRows),
     source: {
       csvFile,
+      dataDate: sourceDataDate(csvFile),
       fileName: basename(csvFile),
     },
     status: nonIndexedRows.length ? 'attention' : 'pass',

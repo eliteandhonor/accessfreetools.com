@@ -243,6 +243,14 @@ function newestMatchingPath(directory, predicate) {
     .sort((left, right) => right.mtime - left.mtime)[0]?.fullPath ?? '';
 }
 
+function isoDateFromName(value) {
+  return basename(String(value ?? '')).match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? '';
+}
+
+function sourceDataDate(...paths) {
+  return paths.map(isoDateFromName).find(Boolean) ?? '';
+}
+
 export function newestPerformanceExportDirectory(downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '') {
   return newestMatchingPath(
     downloads,
@@ -292,6 +300,7 @@ export function buildSearchConsolePerformanceReport({ deindexedFile = '', genera
     kind: 'search-console-performance-import',
     status: deindexed.length || topRows(pages, { onlyZeroClicks: true, minImpressions: 100 }).length ? 'attention' : 'pass',
     source: {
+      dataDate: sourceDataDate(performanceDir, deindexedFile),
       performanceDir,
       overviewFile,
       deindexedFile,

@@ -925,7 +925,10 @@ function searchConsoleCompletions() {
 
 function completionCoversReport(completion, report) {
   const completedTime = Date.parse(completion?.completedAt ?? '');
-  const reportTime = Date.parse(report?.generatedAt ?? '');
+  const sourceDataDate = report?.source?.dataDate;
+  const reportTime = /^\d{4}-\d{2}-\d{2}$/.test(String(sourceDataDate ?? ''))
+    ? Date.parse(`${sourceDataDate}T00:00:00+10:00`)
+    : Date.parse(report?.generatedAt ?? '');
 
   if (!Number.isFinite(completedTime) || !Number.isFinite(reportTime)) return true;
   return reportTime <= completedTime;
