@@ -56,20 +56,6 @@ const articleStructuredData = {
     name: 'Access Free Tools',
   },
 };
-const faqStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqItems.map((item) => ({
-    '@type': 'Question',
-    name: item.question,
-    text: item.question,
-    answerCount: 1,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: item.answer,
-    },
-  })),
-};
 ---
 
 <BaseLayout
@@ -80,7 +66,6 @@ const faqStructuredData = {
   socialImageAlt={guideArt?.alt}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
-  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
 
   <article class="blog-article">
     <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Random Number Generator Guide</p>

@@ -1,147 +1,131 @@
 # Access Free Tools Next Agent Tasks
 
-Generated: 2026-05-15
+Generated: 2026-07-02
 
-This is the current task board for Codex/agent work. Use it after `npm run aft -- status` and before starting new feature work.
+Use this task board after `npm run aft -- status` and `npm run aft -- seo-console`. Do not use older May or June notes as the source of truth for current SEO recovery.
 
 ## Evidence Snapshot
 
-- `npm run aft -- status`: DataForSEO live balance 37.07 USD, Hostinger OK, 67 promotion rows, 1 approved, 0 RSS-connected, 0 unverified.
-- `npm run aft -- indexing-gaps`: 1 gap remains.
-- `npm run aft -- seo-console`: pass, with Wallpaper Calculator as the high-priority discovery action.
-- `npm run aft -- link-helper`: pass, 10 suggestions, top suggestion is `/tools/wallpaper-calculator/`.
-- `npm run aft -- api-ready`: pass, 20 API-ready tools, next low-risk candidates listed.
-- `npm run aft -- ask-audit`: pass, 4 cases, 0 issues, 0 warnings.
+- Branch: `codex/gsc-indexation-recovery`.
+- Local recovery branch has uncommitted source changes and ignored proof artifacts; do not assume the fixes are live until the commit/push/deploy flow is complete.
+- `npm run aft -- status`: DataForSEO live balance 14.47 USD, Hostinger OK, promotion queue 67 rows, indexing gaps 0, GSC performance import present with 103 deindexed URLs and 25 high-impression zero-click pages.
+- `npm run aft -- seo-tool-queue`: pass, 598 approved page review units, 0 remaining, active gate none.
+- `npm run aft -- proof-check`: pass, no missing public proof on claimed rows.
+- `npm run aft -- seo-console`: attention, but completed recovery pages and the monitor-only `/sitemap/` row are suppressed.
+- `npm run maintenance:audit`: pass, safe cleanup candidates 451.21 MB.
+- `npm run check`: pass, 222 tests, build, links, site audit, structured data, performance budget, AI asset guard, image QA, gallery QA, secrets, and npm audit.
 
-## Task 1: Fix The Remaining Indexing Gap
+## Completed Local Recovery Batches
 
-Priority: High
+- Tier A recovery batch: 13 pages have targeted paid DataForSEO evidence, competitor-gap evidence, fresh render proof, refreshed page-score/research reports, and SEO workbench final judges with 0 remaining gaps.
+- First CTR batch plus follow-ons: 17 pages have exact-page proof and final SEO workbench judges with 0 remaining gaps.
+- Follow-on deindexed batch: retaining wall tool, quadratic formula tool, concrete guide, annuity payout guide, pension guide, and UUID guide have final judges with 0 remaining gaps.
+- `/sitemap/` is intentionally `noindex,follow`, excluded from XML sitemaps, and should be monitored rather than rewritten as a search landing page.
 
-Target:
-
-- `https://accessfreetools.com/tools/wallpaper-calculator/`
-
-Work:
-
-- Add or verify contextual internal links to the Wallpaper Calculator from related home-project pages, the Home & Projects category, relevant blog guides, and any guide where wallpaper/room-planning makes natural sense.
-- Make sure anchor text is human and specific, such as "estimate wallpaper rolls" or "plan wallpaper waste percent."
-- Re-run `npm run aft -- link-helper` and `npm run aft -- indexing-gaps`.
-- After deploy, run the Search Console discovery/inspection flow when OAuth is available.
-
-Definition of done:
-
-- Wallpaper Calculator no longer appears as an internal-link helper high-priority issue.
-- The page has at least 3 natural contextual internal links from related pages.
-- Search Console task is queued or completed with proof.
-
-## Task 2: Strengthen Wallpaper Calculator Content
+## Task 1: Release The Recovery Branch
 
 Priority: High
 
 Work:
 
-- Re-check the tool page, FAQ, and blog guide for the exact inputs users struggle with: waste percent, roll width, roll length, pattern repeat, windows/doors, wall height, and room perimeter.
-- Add clearer examples if the page still feels thin.
-- Explain when the estimate is useful and when users should check the wallpaper label or installer guidance.
+- Review the current diff and commit the recovery branch.
+- Push the branch or merge/push to the branch Hostinger builds from.
+- Run `npm run hostinger:deploy-node` only after the exact deployment action is approved or already covered by the active owner directive.
+- Hostinger deployment defaults to Node 24, `app.js`, output directory `dist`, build script `build`, and package manager `npm`.
+- If Node 24 deployment fails, use `HOSTINGER_NODE_VERSION=22` only as an explicit rollback path, then redeploy the verified Node 24 build when healthy.
 
 Definition of done:
 
-- FAQ includes plain-language detail for waste percent and pattern repeat.
-- Blog guide uses a realistic room example and links to the live tool.
-- `npm run aft -- content-score <file>` or the matching content quality command passes when applicable.
+- Latest GitHub commit contains the recovery changes.
+- Hostinger latest build uses `entry=app.js`.
+- `npm run check:live-ask`, `npm run aft -- ask-audit`, `npm run aft -- api-ready`, and `npm run aft -- mcp-smoke` pass after deploy.
+- `npm run check:production-sitemap` reports 0 hard failures.
 
-## Task 3: Expand API-Ready Tools From 20 To 25
+## Task 2: Submit Discovery And Inspect Priority URLs
 
-Priority: Medium
-
-Current recommended candidates from `npm run aft -- api-ready`:
-
-- Circle Calculator
-- Confidence Interval Calculator
-- Distance Calculator
-- Exponent Calculator
-- Factor Calculator
+Priority: High
 
 Work:
 
-- Add deterministic runners only if formulas are already clear and testable.
-- Add schema examples, warnings, steps, tool URL, and guide URL.
-- Add unit/API parity tests.
-- Re-run `npm run aft -- api-ready`, `npm run aft -- ask-audit`, and `npm run check:live-ask` after deployment.
+- Run `npm run search-console:submit-discovery` after the deployed build is live.
+- Run `npm run search-console:inspect-key-urls` when OAuth is available.
+- Inspect representative recovered URLs from Tier A, CTR, and follow-on deindexed batches.
+- Keep URL Inspection results separate from ranking/indexing claims; record exact status, fetch result, robots/indexing state, and canonical match.
 
 Definition of done:
 
-- API registry count reaches 25.
-- Ask/API/MCP parity stays green.
-- No model answer can override deterministic tool results.
+- Discovery submission report exists.
+- URL inspection report exists or records the OAuth/access blocker.
+- Recovery audit handoff names any URLs that still need manual request-indexing or follow-up.
 
-## Task 4: Make Ask Answers More User-Friendly
+## Task 3: Work The Next SEO Console Batch
 
 Priority: Medium
 
+Current targets from `npm run aft -- seo-console`:
+
+- `/blog/`
+- `/tools/mileage-calculator/`
+- `/tools/flooring-calculator/`
+- `/blog/how-to-use-big-number-calculator/`
+- `/blog/how-to-use-molarity-calculator/`
+- `/tools/mortgage-calculator-uk/`
+
 Work:
 
-- Improve formatting for time, money, percentages, and units in Ask answers.
-- Keep results grounded in the deterministic runner output.
-- Add more Ask audit cases for any new API-ready tools.
+- Use `node scripts/seo-agent-workbench.mjs all <slug> <tool|blog>` for page-level SEO work.
+- Use paid DataForSEO only where exact intent validation is useful.
+- Use competitor-gap checks for original topic-gap evidence, not copied wording.
+- Capture fresh browser proof and rerun the final judge before claiming a page is clear.
 
 Definition of done:
 
-- Download-time style answers show human time first, not long decimal minutes.
-- Every Ask response shows tool used, answer, steps, assumptions, warnings, and link.
-- `npm run aft -- ask-audit` passes with expanded cases.
+- Each worked page has page score/research, paid evidence when needed, competitor evidence when fetchable, browser proof, and final judge 0 gaps.
+- `npm run aft -- seo-console` no longer recommends the same page unless fresh GSC evidence still supports another action.
 
-## Task 5: Promotion Queue Follow-Up
+## Task 4: Cleanup After Release Proof
 
 Priority: Medium
 
-Current state:
+Work:
 
-- 1 approved promotion item.
-- 0 RSS-connected and 0 unverified rows.
+- Run `npm run maintenance:clean:dry-run`.
+- Run `npm run maintenance:clean:safe` only after deployment/Search Console follow-up is stable.
+- Preserve `output/`, `agents/`, `.local/`, Codex sessions, and proof artifacts.
+
+Definition of done:
+
+- Dry-run lists only allowlisted rebuildable artifacts.
+- Safe cleanup does not remove SEO proof, Codex state, secrets, source files, or generated evidence needed for the recovery handoff.
+- `npm run maintenance:audit` still passes afterward.
+
+## Task 5: Resume Promotion Only After Fresh Crawl Signals
+
+Priority: Medium
 
 Work:
 
-- Prepare the approved Quora item only if it is genuinely useful and matches the question or Space topic.
-- Use the brand code and platform quality gate before posting.
-- Do not mark anything complete without a live public URL or screenshot proof.
+- Do not amplify pages Google currently treats as uncertain until the deployed recovery branch has fresh crawl/index signals.
+- Use `npm run marketing:orchestrate` for current promotion priority.
+- Run platform quality gates before any Medium, Reddit, Bluesky, Quora, or DEV draft is used publicly.
+- Never mark a promotion row posted, updated, or done without a public URL or visible proof.
 
 Definition of done:
 
 - `npm run aft -- proof-check` stays clean.
-- Promotion queue is updated only with proof.
+- Promotion queue updates cite proof paths or public URLs.
 
-## Task 6: Original Data Asset Readiness
-
-Priority: Low until more real tool-use data exists
-
-Current analytics note:
-
-- 475 all-time visitors, 530 page views, 1 recorded tool use.
-
-Work:
-
-- Do not publish "what people use" reports yet because the data is too small.
-- Improve tracking proof so tool-use events are recorded reliably.
-- Revisit once there are enough real tool actions to make the report useful.
-
-Definition of done:
-
-- Tool-use tracking is verified on live calculator interactions.
-- Any public data report clearly says what the data includes and excludes.
-
-## Task 7: Deploy Proof Habit
+## Task 6: Keep API And MCP Runtime Stable
 
 Priority: Always
 
 Work:
 
-- Use `npm run hostinger:deploy-node` after API, Ask, MCP, or admin route changes.
-- Confirm the latest Hostinger build has `entry=app.js`.
-- Run `npm run check:live-ask`.
-- Refresh `/admin/agent-tools/` reports and confirm all report cards are readable.
+- Use `docs/ask-api-mcp-alpha.md` before Ask/API/MCP changes.
+- Do not add PHP fallback routes or duplicated PHP tool data.
+- Run `npm run check:live-ask` after Hostinger rebuilds.
 
 Definition of done:
 
-- `/api/v1/tools`, `/api/openapi.json`, `/mcp`, and `/admin/agent-tools/` return live Node responses after deployment.
+- `/api/v1/tools`, `/api/openapi.json`, `/api/v1/ask`, `/mcp`, and `/admin/agent-tools/` return live Node responses after deployment.
 - No static fallback is accepted for API/MCP/Admin report routes.

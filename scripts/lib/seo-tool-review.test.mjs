@@ -46,6 +46,31 @@ describe('seo tool/page review lane', () => {
     expect(report.entries.some((entry) => entry.slug === 'wallpaper-calculator')).toBe(false);
   });
 
+  it('reports pass when every page review unit is approved', () => {
+    const initial = buildSeoToolQueueReport({ trackerText: '', write: false });
+    const approvedRows = initial.entries
+      .map(
+        (entry) =>
+          `| ${entry.slug} | ${entry.page} | approved | test | 2026-07-02 | output/seo-tool-review/${entry.slug}/${entry.page}/page-score.md | test approval |`,
+      )
+      .join('\n');
+
+    const report = buildSeoToolQueueReport({
+      trackerText: `
+| slug | page | status | approved by | approved at | proof | notes |
+${approvedRows}
+`,
+      write: false,
+    });
+
+    expect(report.status).toBe('pass');
+    expect(report.summary.approvedPages).toBe(report.summary.pages);
+    expect(report.summary.remainingPages).toBe(0);
+    expect(report.summary.firstPage).toBe('');
+    expect(report.approvalGate.blocked).toBe(false);
+    expect(report.entries).toHaveLength(0);
+  });
+
   it('keeps the matching page as the gate before a different slug starts', () => {
     const report = buildSeoToolQueueReport({
       trackerText: `

@@ -352,6 +352,14 @@ for (const htmlFile of htmlFiles) {
     }
   }
 
+  if (!isIndexable && sitemap.urls.has(expectedUrl)) {
+    localHighIssues.push(`${issuePrefix} is noindex but present in sitemap.`);
+  }
+
+  if (canonical && !selfCanonical && sitemap.urls.has(expectedUrl)) {
+    localHighIssues.push(`${issuePrefix} is canonicalized to ${canonical} but present in sitemap as ${expectedUrl}.`);
+  }
+
   pageReports.push({
     path: pagePath,
     expectedUrl,

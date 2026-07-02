@@ -2142,7 +2142,7 @@ const baseTools: ToolDefinition[] = [
       {
         label: 'Large division',
         expression: '100,000,000,000,000,000,000 / 9',
-        result: '11,111,111,111,111,111,111 remainder 1',
+        result: '11,111,111,111,111,111,111 remainder 1, so 1 is left over after integer division',
       },
     ],
     faq: [
@@ -2150,6 +2150,11 @@ const baseTools: ToolDefinition[] = [
         question: 'What makes this a big number calculator?',
         answer:
           'It uses exact BigInt integer arithmetic. That means very large whole-number answers keep their digits instead of being rounded by normal floating-point number math.',
+      },
+      {
+        question: 'How does the calculator handle the four operations?',
+        answer:
+          'The calculator cleans commas, spaces, and underscores from the two whole-number inputs, then runs exact integer math. Addition, subtraction, and multiplication return one exact integer. Division returns a whole-number quotient and the remainder left over; division by zero returns an input error.',
       },
       {
         question: 'What numbers can I enter?',
@@ -3377,9 +3382,17 @@ const baseTools: ToolDefinition[] = [
       'Label the answer with the same unit as the coordinates, such as meters, feet, miles, or grid units.',
     ],
     examples: [
-      { label: '3-4-5 distance', expression: '(1, 2) to (4, 6)', result: 'delta x 3, delta y 4, distance 5 units' },
+      {
+        label: '3-4-5 distance',
+        expression: '(1, 2) to (4, 6)',
+        result: 'delta x 3, delta y 4, distance 5 units; this is the direct line, not a route',
+      },
       { label: 'Origin to point', expression: '(0, 0) to (8, 15)', result: '17 units' },
-      { label: 'Negative coordinates', expression: '(-3, 4) to (5, -2)', result: '10 units' },
+      {
+        label: 'Negative coordinates',
+        expression: '(-3, 4) to (5, -2)',
+        result: '10 units; signs change the deltas before squaring',
+      },
       { label: 'Same x-value', expression: '(3, -2) to (3, 7)', result: '9 units with midpoint (3, 2.5)' },
       { label: 'Decimal coordinates', expression: '(2.5, 1) to (6.5, 4)', result: '5 units' },
     ],
@@ -3387,7 +3400,7 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'What formula does the Distance Calculator use?',
         answer:
-          'It uses d = sqrt((x2 - x1)^2 + (y2 - y1)^2), the standard straight-line distance formula for two points in a flat coordinate plane.',
+          'The calculator subtracts x1 from x2 to get delta x, subtracts y1 from y2 to get delta y, squares both changes, adds the squares, then takes the square root: d = sqrt((x2 - x1)^2 + (y2 - y1)^2). This is the straight-line distance formula for two points in a flat coordinate plane.',
       },
       {
         question: 'What do x1, y1, x2, and y2 mean?',
@@ -3398,6 +3411,11 @@ const baseTools: ToolDefinition[] = [
         question: 'Why does the calculator show delta x and delta y?',
         answer:
           'Delta x is x2 - x1, and delta y is y2 - y1. They show the horizontal and vertical changes before the calculator squares them, which makes sign mistakes easier to catch.',
+      },
+      {
+        question: 'Can distance be negative?',
+        answer:
+          'No. Distance is a length, so it is zero or positive. Delta x or delta y can be negative, but the formula squares those changes before it takes the square root.',
       },
       {
         question: 'Does it show midpoint?',

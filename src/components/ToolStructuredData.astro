@@ -44,27 +44,9 @@ const webApplication = {
     priceCurrency: 'USD',
   },
 };
-const faqPage =
-  tool.faq.length > 0
-    ? {
-        '@type': 'FAQPage',
-        '@id': `${url}#faq`,
-        url,
-        mainEntity: tool.faq.slice(0, 6).map((item) => ({
-          '@type': 'Question',
-          name: item.question,
-          text: item.question,
-          answerCount: 1,
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: item.answer,
-          },
-        })),
-      }
-    : undefined;
 const structuredData = {
   '@context': 'https://schema.org',
-  '@graph': [webApplication, faqPage].filter(Boolean),
+  '@graph': [webApplication],
 };
 ---
 

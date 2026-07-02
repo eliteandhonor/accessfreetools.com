@@ -3,6 +3,7 @@ import { categories } from './categories';
 import { toolArtCategorySummaries, toolArtEntries } from './toolArt';
 import { topicalHubs } from './hubs';
 import { tools } from './tools';
+import { shouldIncludeInXmlSitemap } from './indexationPolicy';
 import {
   getBlogDates,
   getCategoryLastmod,
@@ -37,32 +38,35 @@ export const staticSitemapEntries: SitemapEntry[] = [
   '/advertising-disclosure/',
   '/privacy-policy/',
   '/terms/',
-].map((path) => ({
-  path,
-  lastmod: getStaticPageLastmod(path),
-}));
+]
+  .filter(shouldIncludeInXmlSitemap)
+  .map((path) => ({
+    path,
+    lastmod: getStaticPageLastmod(path),
+  }));
 
 export const toolSitemapEntries: SitemapEntry[] = tools.map((tool) => ({
   path: `/tools/${tool.slug}/`,
   lastmod: getToolLastmod(tool.slug),
-}));
+})).filter((entry) => shouldIncludeInXmlSitemap(entry.path));
 
 export const blogSitemapEntries: SitemapEntry[] = blogPosts.map((post) => ({
   path: `/blog/${post.slug}/`,
   lastmod: getBlogDates(post.slug).modified,
-}));
+})).filter((entry) => shouldIncludeInXmlSitemap(entry.path));
 
 export const categorySitemapEntries: SitemapEntry[] = categories
   .filter((category) => tools.some((tool) => tool.category === category.slug))
   .map((category) => ({
     path: `/categories/${category.slug}/`,
     lastmod: getCategoryLastmod(category.slug),
-  }));
+  }))
+  .filter((entry) => shouldIncludeInXmlSitemap(entry.path));
 
 export const hubSitemapEntries: SitemapEntry[] = topicalHubs.map((hub) => ({
   path: `/hubs/${hub.slug}/`,
   lastmod: getStaticPageLastmod(`/hubs/${hub.slug}/`),
-}));
+})).filter((entry) => shouldIncludeInXmlSitemap(entry.path));
 
 export const gallerySitemapEntries: SitemapEntry[] =
   toolArtEntries.length > 0
@@ -78,6 +82,7 @@ export const gallerySitemapEntries: SitemapEntry[] =
             lastmod: getCategoryLastmod(category.slug),
           })),
       ]
+        .filter((entry) => shouldIncludeInXmlSitemap(entry.path))
     : [];
 
 export function escapeXml(value: string) {

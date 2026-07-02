@@ -541,7 +541,7 @@ export function buildSeoToolQueueReport(options = {}) {
   const report = {
     generatedAt,
     kind: 'seo-tool-queue',
-    status: approvalGate.blocked ? 'blocked' : entries.length ? 'pass' : 'fail',
+    status: approvalGate.blocked ? 'blocked' : 'pass',
     summary: {
       approvalUnit: 'page',
       firstPage: approvalGate.blocked

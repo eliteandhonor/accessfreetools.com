@@ -83,7 +83,7 @@ export const aiTools: ToolDefinition[] = [
     name: 'Image to Text OCR Tool',
     summary: 'Copy text from screenshots, labels, receipts, and clear document images without uploading the image.',
     description:
-      'Use this free OCR tool to turn clear screenshots, labels, receipts, and simple document photos into editable text in your browser.',
+      'Use this free OCR tool to turn clear screenshots, labels, receipts, and simple document photos into editable text in your browser. Image quality matters, so start with sharp, straight, high-contrast text when you can.',
     seoTitle: 'Image to Text OCR Tool | Copy Text From Images',
     seoDescription:
       'Extract text from screenshots, labels, receipts, and simple document images with browser OCR. See privacy notes, best-image tips, and mistakes to check.',
@@ -138,7 +138,7 @@ export const aiTools: ToolDefinition[] = [
       {
         question: 'What kind of image gives the best OCR result?',
         answer:
-          'Use a sharp, straight, high-contrast image. Crop close to the text, avoid glare, and zoom in before taking a screenshot if the original text is tiny.',
+          'Image quality changes OCR accuracy. Use a sharp, straight, high-contrast image. Crop close to the text, avoid glare, and zoom in before taking a screenshot if the original text is tiny.',
       },
       {
         question: 'Can this read handwriting?',

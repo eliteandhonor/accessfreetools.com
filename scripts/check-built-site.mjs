@@ -234,6 +234,14 @@ for (const htmlFile of htmlFiles) {
     issues.push(`${normalize(htmlFile)} is indexable and self-canonical but missing from sitemap.xml.`);
   }
 
+  if (!isIndexable && sitemapUrls.has(expectedUrl)) {
+    issues.push(`${normalize(htmlFile)} is noindex but present in sitemap.xml.`);
+  }
+
+  if (canonical && !isSelfCanonical && sitemapUrls.has(expectedUrl)) {
+    issues.push(`${normalize(htmlFile)} is canonicalized to ${canonical} but present in sitemap.xml as ${expectedUrl}.`);
+  }
+
   if (h1Text.length !== 1) {
     issues.push(`${normalize(htmlFile)} should have exactly one readable h1, found ${h1Text.length}.`);
   }
