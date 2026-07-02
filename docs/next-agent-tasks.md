@@ -21,6 +21,7 @@ Use this task board after `npm run aft -- status` and `npm run aft -- seo-consol
 - `npm run search-console:submit-discovery`: pass after restoring ignored local OAuth files; submitted `https://accessfreetools.com/sitemap.xml` and `https://accessfreetools.com/feed.xml`; sitemap API report shows 0 errors and 0 warnings.
 - `npm run search-console:inspect-key-urls`: pass; 11 key URLs are `PASS` / `Submitted and indexed`; 3 key URLs are `NEUTRAL` / `Crawled - currently not indexed`: `/tools/watts-to-amps-calculator/`, `/blog/how-to-use-ad-revenue-calculator/`, and `/blog/how-to-use-watts-to-amps-calculator/`.
 - `node scripts/seo-agent-workbench.mjs judge mileage-calculator tool`: pass on the follow-up CTR review; page score 100, FAQ score 100, tone score 100, paid DataForSEO evidence present, competitor-gap evidence present, browser proof present, and 0 remaining gaps.
+- `node scripts/seo-agent-workbench.mjs judge flooring-calculator tool`: pass on the follow-up CTR review; page score 100, FAQ score 100, tone score 100, paid DataForSEO evidence present, competitor-gap evidence present, browser proof present, and 0 remaining gaps.
 
 ## Completed Local Recovery Batches
 
@@ -28,6 +29,7 @@ Use this task board after `npm run aft -- status` and `npm run aft -- seo-consol
 - First CTR batch plus follow-ons: 17 pages have exact-page proof and final SEO workbench judges with 0 remaining gaps.
 - Follow-on deindexed batch: retaining wall tool, quadratic formula tool, concrete guide, annuity payout guide, pension guide, and UUID guide have final judges with 0 remaining gaps.
 - Follow-up CTR proof: Mileage Calculator tool has refreshed paid evidence, competitor-gap evidence, page score, browser proof, approval status, and a final SEO workbench judge with 0 remaining gaps. No source edit was needed.
+- Follow-up CTR proof: Flooring Calculator tool has refreshed paid evidence, competitor-gap evidence, page score, browser proof, approval status, and a final SEO workbench judge with 0 remaining gaps. No source edit was needed.
 - `/sitemap/` is intentionally `noindex,follow`, excluded from XML sitemaps, and should be monitored rather than rewritten as a search landing page.
 
 ## Task 1: Monitor Fresh Search Console Indexing
@@ -57,7 +59,6 @@ Priority: Medium
 Current targets from `npm run aft -- seo-console`:
 
 - `/blog/`
-- `/tools/flooring-calculator/`
 - `/blog/how-to-use-big-number-calculator/`
 - `/blog/how-to-use-molarity-calculator/`
 - `/tools/mortgage-calculator-uk/`
