@@ -7,30 +7,161 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="z-score-calculator"
   label="Z-score calculator guide"
   title="How to use the Z-score Calculator"
-  description="Learn how to use the free Access Free Tools z-score calculator for standard score, distance from mean, and approximate normal percentile."
+  description="Learn how to calculate a z-score, read distance from the mean, estimate percentile, and avoid common normal-curve mistakes."
   path="/blog/how-to-use-z-score-calculator/"
-  intro="The Z-score Calculator standardizes a value by comparing it with the mean and standard deviation, then estimates its normal percentile."
+  intro="A raw score by itself can be hard to judge. The Z-score Calculator turns a value, mean, and standard deviation into one standard score so you can see whether the value is ordinary, high, or low compared with the group."
   quickStart={[
-    'Enter the value you want to standardize.',
-    'Enter the mean.',
-    'Enter the standard deviation.',
-    'Press Calculate z-score and review the direction and percentile.',
+    'Enter the value you want to compare, such as a test score, lab result, or measurement.',
+    'Enter the mean for the same group and unit.',
+    'Enter the standard deviation for that same group. It must be greater than zero.',
+    'Press Calculate z-score, then read the z-score, distance label, and percentile together.',
   ]}
+  bestUsesIntro="Use this guide when you already know the value, mean, and standard deviation and want to standardize the value without losing the plain-language meaning."
   sections={[
+    {
+      title: 'Quick answer',
+      paragraphs: [
+        'A z-score is calculated with z = (x - mean) / standard deviation. It tells you how many standard deviations the value is from the mean.',
+        'For example, if x = 85, mean = 70, and standard deviation = 10, the z-score is (85 - 70) / 10 = 1.5. In the calculator, that also shows an approximate left-tail percentile of 93.3192769023% under the standard normal curve.',
+      ],
+      bullets: [
+        'z = 0 means the value is exactly at the mean.',
+        'A positive z-score means the value is above the mean.',
+        'A negative z-score means the value is below the mean.',
+        'The percentile estimate assumes the standard normal curve is a reasonable model.',
+      ],
+    },
+    {
+      title: 'What each input means',
+      paragraphs: [
+        'Value x is the number you want to standardize. Mean is the average you are comparing against. Standard deviation is the spread of that same comparison group.',
+        'The three numbers need to describe the same kind of thing. Do not compare a quiz score in points with a mean in percent, or a sample standard deviation from one class with a value from a different class.',
+      ],
+      bullets: [
+        'Use the same unit for the value, mean, and standard deviation.',
+        'Use a positive standard deviation. Zero spread cannot produce a z-score.',
+        'Use the right group. A classroom mean, school-wide mean, and national mean can give different answers.',
+      ],
+    },
     {
       title: 'Reading a z-score',
       paragraphs: [
-        'A positive z-score means the value is above the mean. A negative z-score means the value is below the mean.',
-        'The size of the z-score tells how many standard deviations the value is from the mean.',
+        'Read the sign first, then the size. A z-score of 1.5 means the value is 1.5 standard deviations above the mean. A z-score of -1.5 means the value is 1.5 standard deviations below the mean.',
+        'The calculator shows a distance label beside the number. Above mean, At mean, and Below mean are there to keep the sign easy to read when you are moving fast.',
+      ],
+      bullets: [
+        'Small z-scores near 0 are close to average.',
+        'Large positive z-scores are unusually high compared with the group.',
+        'Large negative z-scores are unusually low compared with the group.',
+      ],
+    },
+    {
+      title: 'Example: a test score above average',
+      paragraphs: [
+        'Say a student scores 85 on a test. The class mean is 70 and the standard deviation is 10. Enter value x = 85, mean = 70, and standard deviation = 10.',
+        'The calculator returns z = 1.5. That means the score is 1.5 standard deviations above the class mean. Under the standard normal curve, the left-tail percentile is about 93.3192769023%.',
+        'Here is the useful part: the raw score says 85. The z-score says the score is not just higher than 70; it is meaningfully above the class average compared with the spread of the scores.',
+      ],
+    },
+    {
+      title: 'Example: a value at the mean',
+      paragraphs: [
+        'If x = 70, mean = 70, and standard deviation = 10, the calculator returns z = 0 and the distance label says At mean.',
+        'That does not mean the value is bad or good. It only means the value is exactly at the average for the comparison group. The normal-curve percentile estimate is about 50% because the value sits in the middle of the model.',
       ],
     },
     {
       title: 'Percentile estimate',
       paragraphs: [
-        'The percentile is an approximate area to the left of the z-score on a standard normal curve.',
-        'Use it as a quick estimate for normal-distribution examples, not as a substitute for a full statistics report.',
+        'The percentile is the approximate area to the left of the z-score on a standard normal curve. It is useful for homework, examples, and quick checks when a normal model is part of the problem.',
+        'This is not the same as proving your real data is normal. The calculator standardizes the value first, then gives a standard-normal percentile estimate. If the data is skewed, biased, tiny, or from the wrong group, the percentile can be misleading.',
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'The most common mistake is mixing inputs from different groups. A z-score only makes sense when the value, mean, and standard deviation belong together.',
+        'Another easy mistake is rounding too early. If you round the z-score before reading a percentile or comparing examples, you may lose detail that matters near a cutoff.',
+      ],
+      bullets: [
+        'Do not enter a standard deviation of 0.',
+        'Do not treat a positive z-score as automatically important. It only says above the mean.',
+        'Do not treat the percentile as a promise about the real world when the normal-curve assumption is weak.',
+        'Do not forget the minus sign on below-mean values.',
+      ],
+    },
+    {
+      title: 'When to use another statistics tool first',
+      paragraphs: [
+        'Use the Z-score Calculator after you already have the mean and standard deviation. If you only have a list of data values, calculate the spread first.',
+        'The nearby Standard Deviation Calculator can turn a list of values into a mean and standard deviation. The Statistics Calculator can help when you also want median, mode, range, and a broader summary before deciding whether a z-score is the right next step.',
+      ],
+      links: [
+        {
+          href: '/tools/standard-deviation-calculator/',
+          label: 'Use the Standard Deviation Calculator first',
+        },
+        {
+          href: '/tools/statistics-calculator/',
+          label: 'Summarize the data with the Statistics Calculator',
+        },
+      ],
+    },
+    {
+      title: 'Sources and method notes',
+      paragraphs: [
+        'The calculator uses the standard z-score formula and a standard normal CDF approximation for the percentile. The formula is simple, but the interpretation depends on the data and the model.',
+        'Use source material when you need to explain why the mean, standard deviation, and normal curve matter in a class, report, or study note.',
+      ],
+      links: [
+        {
+          href: 'https://openstax.org/books/introductory-statistics/pages/2-6-skewness-and-the-mean-median-and-mode',
+          label: 'OpenStax: mean, median, spread, and distribution shape',
+        },
+        {
+          href: 'https://openstax.org/books/introductory-statistics/pages/6-1-the-standard-normal-distribution',
+          label: 'OpenStax: standard normal distribution',
+        },
       ],
     },
   ]}
+  faqItems={[
+    {
+      question: 'What is the fastest way to calculate a z-score?',
+      answer:
+        'Enter the value, mean, and standard deviation, then press Calculate z-score. The calculator uses z = (x - mean) / standard deviation and shows the distance from the mean plus an approximate standard-normal percentile.',
+    },
+    {
+      question: 'What does z = 1.5 mean in plain language?',
+      answer:
+        'It means the value is 1.5 standard deviations above the mean. In the 85, 70, 10 example, the score is higher than average by one and a half units of spread.',
+    },
+    {
+      question: 'What does z = -1.5 mean?',
+      answer:
+        'It means the value is 1.5 standard deviations below the mean. The minus sign is part of the meaning, so do not drop it when copying the result.',
+    },
+    {
+      question: 'Why does z = 0 show At mean?',
+      answer:
+        'Because the value and mean are the same. The distance from the mean is zero, so the result is neither above nor below the mean.',
+    },
+    {
+      question: 'Can I use the percentile for any data set?',
+      answer:
+        'Use it carefully. The percentile assumes a standard normal curve. If your real data is strongly skewed, has outliers, or comes from a biased group, the percentile may not describe the real ranking well.',
+    },
+    {
+      question: 'Should I use sample or population standard deviation?',
+      answer:
+        'Use the version that matches your assignment or source data. Many class problems give you the standard deviation directly. If you are calculating it from a list, check whether the problem asks for sample or population standard deviation first.',
+    },
+    {
+      question: 'What should I check before sharing a z-score result?',
+      answer:
+        'Check that the value, mean, and standard deviation use the same unit and come from the same group. Then decide whether the normal-curve percentile is actually appropriate for the situation.',
+    },
+  ]}
   sidecarText="Use the Z-score Calculator while you follow the guide."
+  keepExploringIntro="If the z-score is only one part of the statistics problem, these links keep you near the same family of checks."
 />
