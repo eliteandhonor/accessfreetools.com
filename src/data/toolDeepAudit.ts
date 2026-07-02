@@ -2451,6 +2451,11 @@ const noaaDewPoint = {
   label: 'NOAA/NWS: Dew point and relative humidity calculator',
 };
 
+const nwsDewPointVsHumidity = {
+  href: 'https://www.weather.gov/arx/why_dewpoint_vs_humidity',
+  label: 'National Weather Service: Dew point vs humidity',
+};
+
 const doeRoomAirConditioners = {
   href: 'https://www.energy.gov/energysaver/room-air-conditioners',
   label: 'U.S. Department of Energy: Room air conditioners',
@@ -6292,17 +6297,17 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'dew-point-calculator',
     status: 'deep-reviewed',
-    batch: 'science-weather-electrical-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'gsc-dataforseo-page-sprint-2026-07-02',
+    reviewedOn: '2026-07-02',
     scope: commonMathScope,
-    sources: [noaaDewPoint, noaaHeatIndex],
+    sources: [noaaDewPoint, nwsDewPointVsHumidity, noaaHeatIndex, googleHelpfulContent],
     findings: [
-      'The calculator uses temperature and relative humidity to estimate dew point with a Magnus-style approximation.',
-      'The FAQ now explains why dew point can be easier to understand than relative humidity alone.',
-      'The guide warns that this is an approximation and not a replacement for official instrument readings or local forecasts.',
+      'The calculator uses Fahrenheit temperature and relative humidity to estimate dew point with a Magnus-style approximation, converts the result to Fahrenheit and Celsius, and rejects zero humidity.',
+      'The source-backed FAQ explains why dew point can be clearer than relative humidity, why 100% relative humidity makes dew point equal air temperature, and why heat index is a separate apparent-temperature calculation.',
+      'The page now includes exact 75 F / 60% RH, 70 F / 30% RH, 82 F / 75% RH, and 90 F / 70% RH examples plus instrument, forecast, indoor-air, and safety-limit cautions.',
     ],
     improvements: [
-      'Manually checked dew point math, zero-humidity guardrail, examples, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
+      'Updated SEO title and description, aliases, exact result examples, formula wording, input explanations, FAQ depth, source coverage, related-weather routing, generated image alt/caption text, modified date, and audit notes for the 2026-07-02 page sprint.',
     ],
     followUps: [
       'Add Celsius input mode later if weather traffic shows metric demand.',
