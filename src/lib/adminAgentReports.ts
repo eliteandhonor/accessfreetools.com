@@ -520,7 +520,9 @@ export function refreshSeoConsoleReport() {
   const warnings: string[] = [];
   const notes: string[] = [];
   const inspection = readJsonFile(rootPath('output', 'search-console-url-inspection.json'));
-  const crawlScout = readJsonFile(rootPath('output', 'crawlscout', 'latest.json'));
+  const crawlScout =
+    readJsonFile(rootPath('output', 'crawlscout', 'crawlscout-summary.json')) ??
+    readJsonFile(rootPath('output', 'crawlscout', 'latest.json'));
   if (!inspection) {
     notes.push('not enough data: fresh Search Console URL inspection output is a local OAuth report, not a production browser-admin file.');
   }
