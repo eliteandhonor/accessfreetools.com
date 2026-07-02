@@ -131,6 +131,11 @@ const toolArtMetadataOverrides = {
         'BTU Calculator guide artwork supports the walkthrough for square-footage BTU tables, ceiling height, sunlight, people, kitchen heat, examples, limits, and mistakes to check.',
     },
   },
+  'electricity-calculator': {
+    guide: {
+      alt: 'Guide image for Electricity Calculator showing electricity use and cost from watts, hours, days, and rate per kWh with example inputs and result notes.',
+    },
+  },
   'p-value-calculator': {
     tool: {
       alt: 'Illustration for P-value Calculator showing a z-score, normal-curve tail areas, and p-value result notes.',

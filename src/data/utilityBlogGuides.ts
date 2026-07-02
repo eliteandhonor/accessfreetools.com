@@ -3131,22 +3131,116 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   },
   'electricity-calculator': {
     summary: 'Learn how watts and time turn into kWh and estimated electricity cost.',
+    metaDescription:
+      'Use the Electricity Calculator guide to estimate appliance kWh and cost from watts, hours, days, and price per kWh, with heater, bulb, PC, and AC examples.',
     purpose:
-      'The Electricity Calculator estimates energy use and cost for a device. It is useful when you know wattage, daily hours, days used, and your rate per kWh.',
+      'The Electricity Calculator estimates energy use and cost for one device or appliance. It is useful when you know the wattage, average hours per day, days used, and your electricity price per kWh.',
+    intro:
+      'Use this guide when you are trying to answer a practical question such as "how much does this heater cost to run for a month?" or "is this old device worth measuring with a plug-in meter?" The calculator turns watts and time into kWh, then multiplies by your rate so the result feels closer to a bill line instead of just an electrical unit.',
+    inputMatch:
+      'the device watts, average hours used per day, number of days in the estimate window, and your electricity rate per kWh',
+    logicNote:
+      'The calculator first divides watts by 1,000 to get kilowatts. Then it uses kWh = kilowatts x hours per day x days. Finally, estimated cost = kWh x rate per kWh. A 1,500 W heater running 4 hours a day for 30 days uses 180 kWh; at $0.16/kWh, that is about $28.80.',
+    readIntro:
+      'Read the kWh line as the energy use, then read the cost line as the estimate from the rate you entered. If the number surprises you, change only one input at a time so you can see whether wattage, hours, days, or rate is doing most of the damage.',
+    mistakeIntro:
+      'Most electricity-cost mistakes come from using nameplate watts for a device that cycles on and off, forgetting standby power, mixing watts with kilowatts, or using the wrong price per kWh from the utility bill.',
+    sidecarText:
+      'Keep the Electricity Calculator open beside this guide. Try the 1,500 W heater example first, then replace the watts, hours, days, and rate with your own numbers.',
+    bestUsesIntro:
+      'Best for one-device estimates, quick appliance comparisons, and deciding whether a device is worth measuring more carefully.',
+    referenceIntro:
+      'These references support the kWh unit, appliance-estimation method, and SI unit wording used in the calculator and guide.',
     enter: [
-      'Enter the device wattage.',
-      'Enter hours per day and number of days.',
-      'Enter your electricity price per kWh.',
+      'Enter the device wattage from a label, manual, smart plug, or reasonable estimate.',
+      'Enter average hours per day. For a cycling device, use average running time or average watts when you have it.',
+      'Enter the number of days, such as 30 for a rough month or 365 for a year.',
+      'Enter your electricity price per kWh before taxes, fixed fees, or other bill add-ons.',
     ],
     read: [
       'kWh is the energy amount your bill commonly uses.',
-      'Cost multiplies kWh by the rate you entered.',
+      'Estimated cost multiplies kWh by the rate you entered.',
       'The rate line reminds you which price was used.',
+      'The same device can look cheap for one hour and expensive over a month, so always check the days field.',
     ],
     mistakes: [
-      'Do not forget that some devices cycle on and off.',
-      'Do not confuse watts with kilowatts.',
-      'Real bills can include fees, taxes, and tiered rates.',
+      'Do not forget that some devices cycle on and off instead of drawing full wattage all day.',
+      'Do not confuse watts with kilowatts. A kilowatt is 1,000 watts.',
+      'Do not use the full bill total as your price per kWh unless you mean to include fixed charges in a rough way.',
+      'Do not assume standby power is zero. Small idle loads can matter when they run all day.',
+      'Do not use this as a wiring, safety, code, or equipment-sizing sign-off.',
+    ],
+    extraSections: [
+      {
+        title: 'Example: space heater for a month',
+        paragraphs: [
+          'Say a small space heater is rated at 1,500 W and you run it 4 hours per day for 30 days. Your energy price is $0.16/kWh.',
+          'The calculator turns 1,500 W into 1.5 kW. Then 1.5 kW x 4 hours x 30 days = 180 kWh. At $0.16 per kWh, the estimate is about $28.80.',
+          'That result is useful because it shows why high-wattage heat can become noticeable fast, even when the heater is only used for part of the day.',
+        ],
+      },
+      {
+        title: 'Example: LED bulb for a year',
+        paragraphs: [
+          'Now compare a 10 W LED bulb used 5 hours per day for 365 days at the same $0.16/kWh rate.',
+          'The calculator uses 0.01 kW x 5 x 365 = 18.25 kWh. The estimated yearly cost is about $2.92.',
+          'This is why wattage matters so much. The heater and the bulb may both be common household devices, but their power draw is not even close.',
+        ],
+      },
+      {
+        title: 'Example: gaming PC or window AC',
+        paragraphs: [
+          'A 450 W gaming PC used 3 hours per day for 30 days uses 40.5 kWh. At $0.18/kWh, that is about $7.29.',
+          'A 900 W window AC used 8 hours per day for 30 days uses 216 kWh. At $0.16/kWh, that is about $34.56.',
+          'The AC example is the one to treat carefully because many air conditioners cycle. If the compressor is not running the whole time, average watts may be lower than the label wattage. If the room is very hot or poorly sealed, it may run more often.',
+        ],
+        links: [
+          {
+            href: '/tools/btu-calculator/',
+            label: 'Estimate room AC size with the BTU Calculator',
+          },
+        ],
+      },
+      {
+        title: 'Monthly versus yearly estimates',
+        paragraphs: [
+          'For a quick monthly estimate, 30 days is usually close enough. For a yearly estimate, use 365 days only if the device really runs that pattern all year.',
+          'Seasonal devices need a smaller window. A window AC might run hard for 60 to 120 days, while holiday lights, heaters, dehumidifiers, fans, and sump pumps can have very uneven use.',
+          'When comparing two devices, keep the days and rate the same so the wattage and hours are the only things changing.',
+        ],
+      },
+      {
+        title: 'When a device cycles or changes power',
+        paragraphs: [
+          'Refrigerators, dehumidifiers, heat pumps, air conditioners, pumps, and many heaters do not draw the same watts every minute. They cycle, ramp, or pause.',
+          'If you only have the nameplate wattage, treat the answer as a rough upper or planning estimate. For a closer number, use a plug-in power meter, a smart plug with energy tracking, or manufacturer energy-use data.',
+          'For computers, TVs, chargers, and network gear, power can also change with brightness, workload, sleep mode, radios, and connected devices. Average watts is better than peak watts when you can get it.',
+        ],
+        links: [
+          {
+            href: '/tools/device-battery-life-calculator/',
+            label: 'Compare watts and runtime with the Device Battery Life Calculator',
+          },
+        ],
+      },
+      {
+        title: 'When this guide is not enough',
+        paragraphs: [
+          'The guide is for appliance-level cost estimates. It does not replace your utility bill, a licensed electrician, product safety instructions, local electrical code, or a home energy audit.',
+          'Real bills can include fixed customer charges, taxes, delivery fees, fuel adjustments, tiered rates, time-of-use rates, demand charges, solar credits, and minimum bills. Those details can make the bill total different from a simple kWh x rate estimate.',
+          'For electrical safety, wiring, circuit capacity, breakers, extension cords, or equipment installation, use manufacturer instructions and qualified help instead of a cost calculator.',
+        ],
+        links: [
+          {
+            href: '/tools/watts-to-amps-calculator/',
+            label: 'Check watts and amps separately with the Watts to Amps Calculator',
+          },
+          {
+            href: '/tools/ohms-law-calculator/',
+            label: 'Use Ohm\'s Law for simple circuit math',
+          },
+        ],
+      },
     ],
     sources: [sourceLinks.eiaKwh, sourceLinks.doeApplianceEnergy, sourceLinks.nistUnits],
   },

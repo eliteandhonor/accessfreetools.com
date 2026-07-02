@@ -301,6 +301,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-z-score-calculator': '2026-07-02',
   'how-to-use-btu-calculator': '2026-07-02',
   'how-to-use-dew-point-calculator': '2026-07-02',
+  'how-to-use-electricity-calculator': '2026-07-02',
   'how-to-use-resistor-calculator': '2026-06-29',
   'how-to-use-percentage-calculator': '2026-06-02',
   'how-to-use-average-calculator': '2026-06-26',
