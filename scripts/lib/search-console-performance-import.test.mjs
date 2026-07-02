@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import {
   buildSearchConsolePerformanceReport,
+  newestDeindexedFile,
   parseCsv,
   writeSearchConsolePerformanceReport,
 } from './search-console-performance-import.mjs';
@@ -101,5 +102,12 @@ describe('Search Console performance import', () => {
     expect(paths.jsonPath.endsWith('performance-latest.json')).toBe(true);
     expect(paths.markdownPath.endsWith('performance-latest.md')).toBe(true);
     expect(paths.tierAPath.endsWith('tier-a-recovery-list.txt')).toBe(true);
+  });
+
+  it('finds duplicate-suffixed deindexed CSV exports', () => {
+    const root = makeRoot();
+    const deindexedFile = writeFixture(root, 'kifx0p91f5-deindexed-2026-07-02 (1).csv', 'URL,Status\n');
+
+    expect(newestDeindexedFile(root)).toBe(deindexedFile);
   });
 });

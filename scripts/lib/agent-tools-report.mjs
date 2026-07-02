@@ -803,12 +803,51 @@ function crawlScoutSignals() {
   const report = readJson('output/crawlscout/crawlscout-summary.json');
   if (!report) {
     return {
+      completed: [],
       note: 'not enough data: CrawlScout summary is missing. Export or review CrawlScout before using this source.',
       opportunities: [],
     };
   }
 
+  const completed = [];
+  const completedPaths = new Set();
+  const recordCompleted = (item, note, evidence) => {
+    if (!item?.path || completedPaths.has(item.path)) return;
+    completedPaths.add(item.path);
+    completed.push({
+      evidence,
+      note,
+      path: item.path,
+    });
+  };
+  const skipIfComplete = (item) => {
+    if (!item?.path) return false;
+    if (isSearchPerformanceMonitorOnly(item.path)) {
+      recordCompleted(
+        item,
+        'monitor-only: HTML sitemap is noindex,follow and excluded from XML sitemaps.',
+        'src/data/indexationPolicy.ts + output/indexing-protection/latest report',
+      );
+      return true;
+    }
+
+    const trackedCompletion = searchConsoleCompletionForPath(item.path, report);
+    if (trackedCompletion) {
+      const evidence = Array.isArray(trackedCompletion.evidence)
+        ? trackedCompletion.evidence.join(' + ')
+        : trackedCompletion.evidence || 'docs/seo-console-completions.json';
+      recordCompleted(item, trackedCompletion.note ?? 'tracked SEO console completion covers this CrawlScout export.', evidence);
+      return true;
+    }
+
+    if (!isSeoPageProofComplete(item.path)) return false;
+    const identity = seoPageIdentityFromPath(item.path);
+    recordCompleted(item, 'final SEO judge already has 0 remaining gaps for this page.', `output/seo-agents/${identity.slug}/${identity.page}/final-judge.json`);
+    return true;
+  };
+
   return {
+    completed,
     note: '',
     opportunities: [
       ...(report.topKeywordSignals ?? []).slice(0, 8).map((item) => ({
@@ -818,6 +857,7 @@ function crawlScoutSignals() {
       })),
       ...(report.pageSample ?? [])
         .filter((item) => Number(item.impressions) > 0 && Number(item.clicks) === 0)
+        .filter((item) => !skipIfComplete(item))
         .slice(0, 8)
         .map((item) => ({ label: item.path, metric: item.impressions, source: 'crawlscout-page' })),
     ],
@@ -1155,7 +1195,7 @@ export function buildLinkHelperReport() {
     sitemap: { note: sitemap.note, urlCount: sitemap.urls.length },
     sources: {
       analytics: { note: analytics.note, topPages: analytics.topPages, topTools: analytics.topTools },
-      crawlScout: { note: crawlScout.note, opportunities: crawlScout.opportunities },
+      crawlScout: { completed: crawlScout.completed, note: crawlScout.note, opportunities: crawlScout.opportunities },
       searchConsole,
       searchConsoleDiscovery: searchConsoleDiscovery ? { generatedAt: searchConsoleDiscovery.generatedAt } : null,
       searchConsoleIndexingRequests: {

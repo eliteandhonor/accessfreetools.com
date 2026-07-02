@@ -32,6 +32,7 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 
 - Use Google Search Console for real indexing, click, impression, CTR, and average-position data.
 - When the user provides a Google Coverage CSV export, run `npm run search-console:import-coverage` and use `output/search-console-coverage-export.json` as aggregate evidence. It finds the newest Access Free Tools Coverage export in Downloads; use `node scripts/import-google-coverage-export.mjs --dir="C:\path\to\export"` only when the folder is elsewhere. The export gives issue bucket counts, not exact URL samples, so do not invent affected URLs.
+- When the user provides a CrawlScout/deindexed URL CSV export, run `npm run crawlscout:import` for the newest matching file in Downloads, or `node scripts/import-crawlscout-export.mjs --file="C:\path\to\deindexed.csv"` when the file is elsewhere, and use `output/crawlscout/crawlscout-summary.json` as local evidence. This import records the provided URL sample only; do not treat it as a full crawl total unless the export contains full totals.
 - Use DataForSEO for competitor research, live SERP checks, keyword discovery, and domain/keyword baselines when the task involves SEO research.
 - Check `docs/google-search-central-notes.md` before changing indexing, redirect, sitemap, or content-quality SEO logic.
 - DataForSEO credentials must stay out of Git. They live in the local Codex MCP config or environment variables.

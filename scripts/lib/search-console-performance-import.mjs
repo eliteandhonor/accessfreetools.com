@@ -258,7 +258,10 @@ export function newestPerformanceOverviewFile(downloads = process.env.USERPROFIL
 }
 
 export function newestDeindexedFile(downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '') {
-  return newestMatchingPath(downloads, (entry) => entry.isFile() && /-deindexed-\d{4}-\d{2}-\d{2}\.csv$/i.test(entry.name));
+  return newestMatchingPath(
+    downloads,
+    (entry) => entry.isFile() && /-deindexed-\d{4}-\d{2}-\d{2}(?: \(\d+\))?\.csv$/i.test(entry.name),
+  );
 }
 
 export function buildSearchConsolePerformanceReport({ deindexedFile = '', generatedAt = new Date().toISOString(), overviewFile = '', performanceDir }) {

@@ -9,6 +9,7 @@ import {
   buildClaimCheckReport,
   buildContentQualityReport,
   buildEvidencePackReport,
+  buildLinkHelperReport,
   buildSeoConsoleReport,
   buildToolBriefReport,
   extractToolRecords,
@@ -371,6 +372,48 @@ describe('agent tools reports', () => {
     expect(actionText).toContain('Search Console UI request-indexing was submitted');
     expect(actionText).toContain('recheck after Google crawls');
     expect(actionText).not.toContain('request indexing manually');
+  });
+
+  it('does not turn monitor-only or completed CrawlScout rows into link tasks', () => {
+    preserveAndWrite(
+      'output/crawlscout/crawlscout-summary.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-02T00:00:00.000Z',
+          pageSample: [
+            { clicks: 0, impressions: 188, path: '/sitemap/', status: 'Not Indexed' },
+            { clicks: 0, impressions: 63, path: '/blog/how-to-use-proved-calculator/', status: 'Not Indexed' },
+            { clicks: 0, impressions: 55, path: '/tools/open-calculator/', status: 'Not Indexed' },
+          ],
+          topKeywordSignals: [],
+        },
+        null,
+        2,
+      ),
+    );
+    preserveAndWrite(
+      'output/seo-agents/proved-calculator/blog/final-judge.json',
+      JSON.stringify(
+        {
+          remainingGaps: [],
+          route: '/blog/how-to-use-proved-calculator/',
+          status: 'ready-for-human-approval',
+        },
+        null,
+        2,
+      ),
+    );
+
+    const report = buildLinkHelperReport();
+    const suggestionText = report.suggestions.map((suggestion) => suggestion.target).join('\n');
+
+    expect(suggestionText).not.toContain('/sitemap/');
+    expect(suggestionText).not.toContain('/blog/how-to-use-proved-calculator/');
+    expect(suggestionText).toContain('/tools/open-calculator/');
+    expect(report.sources.crawlScout.completed).toContainEqual(expect.objectContaining({ path: '/sitemap/' }));
+    expect(report.sources.crawlScout.completed).toContainEqual(
+      expect.objectContaining({ path: '/blog/how-to-use-proved-calculator/' }),
+    );
   });
 
   it('recognizes generated utility blog guides in tool briefs', () => {

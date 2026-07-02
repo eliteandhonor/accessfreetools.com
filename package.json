@@ -80,6 +80,7 @@
     "search-console:inspect-key-urls": "node scripts/search-console.mjs --inspect-key-urls",
     "search-console:import-coverage": "node scripts/import-google-coverage-export.mjs",
     "search-console:import-performance": "node scripts/import-search-console-performance-export.mjs",
+    "crawlscout:import": "node scripts/import-crawlscout-export.mjs",
     "seo:self-evaluate": "node scripts/seo-agent-self-evaluation.mjs",
     "seo:daily": "node scripts/dataforseo-account.mjs --min-balance=2 --warn-balance=10 && node scripts/dataforseo-status.mjs && node scripts/search-console.mjs --inspect-key-urls && node scripts/seo-agent-self-evaluation.mjs && node scripts/indexnow-submit.mjs --verify-key",
     "audit:local": "node scripts/deep-audit-local.mjs",

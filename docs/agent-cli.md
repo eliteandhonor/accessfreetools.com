@@ -169,28 +169,29 @@ The CLI can summarize proof, but it cannot create proof by itself. Public promot
 5. Run `npm run aft -- marketing` when choosing SEO, internal-link, content, or promotion work.
 6. Run `npm run aft -- hostinger` before Hostinger, DNS, deployment, or hosting-environment claims.
 7. If the user provides Google Coverage CSVs, run `npm run search-console:import-coverage` before indexing claims. It finds the newest Access Free Tools Coverage export in Downloads; use `node scripts/import-google-coverage-export.mjs --dir="C:\path\to\export"` only when the folder is somewhere else.
-8. Run `npm run aft -- indexing-protection` after Search Engine Land-style indexing, soft-404, or discovery work.
-9. Run `npm run aft -- ai-crawler` after hub, tool-page, or AI-search visibility work.
-10. Run `npm run aft -- hub-strength` after changing hub copy, category discovery, or internal-link pathways.
-11. Run `npm run aft -- semantic-depth` after changing priority tool pages, guides, FAQs, or audit wording.
-12. Run `npm run aft -- recognition` before claiming brand/promotion proof across public platforms.
-13. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
-14. Use `npm run aft -- usage-notes` before planning any public "what people are using" content.
-15. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
-16. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
-17. Use `npm run aft -- tool-brief <slug>` before planning broader work on a specific tool.
-18. Use `npm run aft -- content-score <file>` before Medium, DEV Community, Quora, Reddit, or longer promotion copy goes public.
-19. Use `npm run aft -- ask-audit` after Ask/API/MCP changes and before claiming live answer quality.
-20. Use `npm run aft -- api-ready` before expanding the public API registry.
-21. Use `npm run aft -- mcp-smoke` after MCP route changes.
-22. Use `npm run aft -- link-helper` before internal-link improvement batches.
-23. Use `npm run aft -- seo-console` before choosing indexing or discovery fixes.
-24. Use `npm run aft -- seo-tool-queue` before starting the controlled tool/blog review lane.
-25. Use `npm run aft -- seo-tool-research <slug> --page tool|blog`, then `npm run aft -- seo-page-score <slug> --page tool|blog`, for the current page only.
-26. Use `npm run aft -- seo-approval-status <slug>` before moving to the next slug.
-27. Use `npm run aft -- claim-check "<claim>"` before making any live/done/fixed claim in chat or docs. Add `--verify-urls` when the claim depends on a public URL that should be fetched now.
-28. Use `npm run aft -- proof-check` before changing promotion queue statuses.
-29. Use `npm run aft -- agent-doctor` after editing agent docs or helper command routing.
+8. If the user provides a CrawlScout/deindexed URL CSV, run `npm run crawlscout:import` for the newest matching Downloads file, or `node scripts/import-crawlscout-export.mjs --file="C:\path\to\deindexed.csv"` when the file is elsewhere, before using CrawlScout as evidence. It writes `output/crawlscout/crawlscout-summary.json` and `.md`; the report is a local URL sample unless the export itself includes full crawl totals.
+9. Run `npm run aft -- indexing-protection` after Search Engine Land-style indexing, soft-404, or discovery work.
+10. Run `npm run aft -- ai-crawler` after hub, tool-page, or AI-search visibility work.
+11. Run `npm run aft -- hub-strength` after changing hub copy, category discovery, or internal-link pathways.
+12. Run `npm run aft -- semantic-depth` after changing priority tool pages, guides, FAQs, or audit wording.
+13. Run `npm run aft -- recognition` before claiming brand/promotion proof across public platforms.
+14. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
+15. Use `npm run aft -- usage-notes` before planning any public "what people are using" content.
+16. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
+17. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.
+18. Use `npm run aft -- tool-brief <slug>` before planning broader work on a specific tool.
+19. Use `npm run aft -- content-score <file>` before Medium, DEV Community, Quora, Reddit, or longer promotion copy goes public.
+20. Use `npm run aft -- ask-audit` after Ask/API/MCP changes and before claiming live answer quality.
+21. Use `npm run aft -- api-ready` before expanding the public API registry.
+22. Use `npm run aft -- mcp-smoke` after MCP route changes.
+23. Use `npm run aft -- link-helper` before internal-link improvement batches.
+24. Use `npm run aft -- seo-console` before choosing indexing or discovery fixes.
+25. Use `npm run aft -- seo-tool-queue` before starting the controlled tool/blog review lane.
+26. Use `npm run aft -- seo-tool-research <slug> --page tool|blog`, then `npm run aft -- seo-page-score <slug> --page tool|blog`, for the current page only.
+27. Use `npm run aft -- seo-approval-status <slug>` before moving to the next slug.
+28. Use `npm run aft -- claim-check "<claim>"` before making any live/done/fixed claim in chat or docs. Add `--verify-urls` when the claim depends on a public URL that should be fetched now.
+29. Use `npm run aft -- proof-check` before changing promotion queue statuses.
+30. Use `npm run aft -- agent-doctor` after editing agent docs or helper command routing.
 
 ## Specialist Lens Router
 
