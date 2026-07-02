@@ -3,7 +3,10 @@ import { POST as askPost } from './ask';
 import { POST as runPost } from './run/[slug]';
 import { GET as toolsGet } from './tools/index';
 import { GET as toolGet } from './tools/[slug]';
+import { GET as openApiGet } from '../openapi.json';
 import { POST as mcpPost } from '../../mcp';
+
+const METADATA_CACHE_CONTROL = 'public, max-age=300, stale-while-revalidate=600';
 
 function request(body?: unknown, headers?: HeadersInit) {
   return new Request('https://accessfreetools.com/api/test', {
@@ -25,6 +28,7 @@ describe('Access Free Tools API routes', () => {
   it('lists API-ready tools', async () => {
     const response = await toolsGet({ request: request() } as never);
     const body = await response.json();
+    expect(response.headers.get('cache-control')).toBe(METADATA_CACHE_CONTROL);
     expect(body.ok).toBe(true);
     expect(body.tools.length).toBeGreaterThanOrEqual(20);
   });
@@ -32,8 +36,25 @@ describe('Access Free Tools API routes', () => {
   it('returns one tool schema', async () => {
     const response = await toolGet({ params: { slug: 'percentage-calculator' }, request: request() } as never);
     const body = await response.json();
+    expect(response.headers.get('cache-control')).toBe(METADATA_CACHE_CONTROL);
     expect(body.ok).toBe(true);
     expect(body.tool.slug).toBe('percentage-calculator');
+  });
+
+  it('keeps OpenAPI metadata cacheable without changing the document', async () => {
+    const response = await openApiGet({ request: request() } as never);
+    const body = await response.json();
+    expect(response.headers.get('cache-control')).toBe(METADATA_CACHE_CONTROL);
+    expect(body.openapi).toBe('3.1.0');
+    expect(body.paths['/api/v1/tools']).toBeTruthy();
+  });
+
+  it('does not cache missing metadata routes', async () => {
+    const response = await toolGet({ params: { slug: 'not-a-real-tool' }, request: request() } as never);
+    const body = await response.json();
+    expect(response.status).toBe(404);
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(body.ok).toBe(false);
   });
 
   it('runs a deterministic tool', async () => {
@@ -43,6 +64,7 @@ describe('Access Free Tools API routes', () => {
       request: request({ inputs: { mode: 'percent-of', percent: 18, value: 240 } }),
     } as never);
     const body = await response.json();
+    expect(response.headers.get('cache-control')).toBe('no-store');
     expect(body.ok).toBe(true);
     expect(body.run.answer).toContain('43.2');
   });
@@ -66,6 +88,7 @@ describe('Access Free Tools API routes', () => {
     } as never);
     const body = await response.json();
     expect(response.status).toBe(400);
+    expect(response.headers.get('cache-control')).toBe('no-store');
     expect(body.ok).toBe(false);
     expect(body.issues.length).toBeGreaterThan(0);
   });
@@ -76,6 +99,7 @@ describe('Access Free Tools API routes', () => {
       request: request({ message: 'Convert 600 watts to amps at 120 volts.' }),
     } as never);
     const body = await response.json();
+    expect(response.headers.get('cache-control')).toBe('no-store');
     expect(body.ok).toBe(true);
     expect(body.route.tool_slug).toBe('watts-to-amps-calculator');
     expect(body.run.warnings.join(' ')).toMatch(/electrical code/i);
@@ -113,6 +137,7 @@ describe('Access Free Tools API routes', () => {
     } as never);
     const body = await response.json();
     expect(response.status).toBe(200);
+    expect(response.headers.get('cache-control')).toBe('no-store');
     expect(JSON.stringify(body)).toContain('43.2');
   });
 });

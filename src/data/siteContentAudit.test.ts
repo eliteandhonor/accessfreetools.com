@@ -1073,6 +1073,14 @@ describe('site content audit guardrails', () => {
     expect(CONTACT_API_SOURCE).toContain('nodemailer.createTransport');
     expect(ASTRO_CONFIG_SOURCE).toContain("output: 'server'");
     expect(ASTRO_CONFIG_SOURCE).toContain("mode: 'standalone'");
+    expect(ASTRO_CONFIG_SOURCE).toContain('provider: memoryCache()');
+    expect(ASTRO_CONFIG_SOURCE).toContain("'/api/openapi.json': { maxAge: 300, swr: 600, tags: ['api-metadata'] }");
+    expect(ASTRO_CONFIG_SOURCE).toContain("'/api/v1/tools/[slug]': { maxAge: 300, swr: 600, tags: ['api-metadata'] }");
+    expect(ASTRO_CONFIG_SOURCE).toContain("allowedDomains: [{ hostname: 'accessfreetools.com' }, { hostname: 'www.accessfreetools.com' }]");
+    expect(ASTRO_CONFIG_SOURCE).not.toContain('allowedDomains: [{}]');
+    expect(ASTRO_CONFIG_SOURCE).toContain('validateSecrets: false');
+    expect(ASTRO_CONFIG_SOURCE).toContain('AFT_API_BETA_TOKEN');
+    expect(ASTRO_CONFIG_SOURCE).toContain('SMTP_PASS');
     expect(PACKAGE_JSON_SOURCE).toContain('"start": "node ./app.js"');
     expect(APP_JS_SOURCE).toContain("import('./dist/server/entry.mjs').catch");
     expect(APP_JS_SOURCE).toContain("process.env.PORT = '3000'");

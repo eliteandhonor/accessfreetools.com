@@ -2,6 +2,8 @@ import { getApiBetaToken } from './privateEnv';
 
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_MAX = 60;
+const METADATA_CACHE_SECONDS = 300;
+const METADATA_STALE_WHILE_REVALIDATE_SECONDS = 600;
 const rateLimitBuckets = new Map<string, { count: number; resetAt: number }>();
 
 export function jsonResponse(body: unknown, status = 200) {
@@ -11,6 +13,32 @@ export function jsonResponse(body: unknown, status = 200) {
       'cache-control': 'no-store',
       'content-type': 'application/json',
     },
+  });
+}
+
+export function cacheableMetadataJsonResponse(body: unknown, status = 200, space?: number) {
+  return new Response(JSON.stringify(body, null, space), {
+    status,
+    headers: {
+      'cache-control': `public, max-age=${METADATA_CACHE_SECONDS}, stale-while-revalidate=${METADATA_STALE_WHILE_REVALIDATE_SECONDS}`,
+      'content-type': 'application/json',
+    },
+  });
+}
+
+type MetadataCacheOptions = {
+  maxAge: number;
+  swr: number;
+  tags: string[];
+};
+
+export function setMetadataCache(cache: { enabled?: boolean; set?: (options: MetadataCacheOptions) => void } | undefined) {
+  if (!cache?.enabled || typeof cache.set !== 'function') return;
+
+  cache.set({
+    maxAge: METADATA_CACHE_SECONDS,
+    swr: METADATA_STALE_WHILE_REVALIDATE_SECONDS,
+    tags: ['api-metadata'],
   });
 }
 

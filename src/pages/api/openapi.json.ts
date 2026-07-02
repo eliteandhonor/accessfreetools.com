@@ -1,9 +1,12 @@
 import type { APIRoute } from 'astro';
 import { listApiTools } from '../../lib/apiToolRegistry';
+import { setMetadataCache } from '../../lib/apiHttp';
 
 export const prerender = false;
 
-export const GET: APIRoute = () => {
+export const GET: APIRoute = ({ cache }) => {
+  setMetadataCache(cache);
+
   const tools = listApiTools();
   const toolSlugEnum = tools.map((tool) => tool.slug);
   const toolSchemas = Object.fromEntries(
@@ -115,7 +118,7 @@ export const GET: APIRoute = () => {
     ),
     {
       headers: {
-        'cache-control': 'no-store',
+        'cache-control': 'public, max-age=300, stale-while-revalidate=600',
         'content-type': 'application/json',
       },
     },

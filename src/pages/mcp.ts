@@ -17,10 +17,22 @@ function mcpMethodNotAllowed() {
     {
       status: 405,
       headers: {
+        'cache-control': 'no-store',
         'content-type': 'application/json',
       },
     },
   );
+}
+
+function noStoreResponse(response: Response) {
+  const headers = new Headers(response.headers);
+  headers.set('cache-control', 'no-store');
+
+  return new Response(response.body, {
+    headers,
+    status: response.status,
+    statusText: response.statusText,
+  });
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -35,7 +47,7 @@ export const POST: APIRoute = async ({ request }) => {
     const response = await transport.handleRequest(request);
     await transport.close();
     await server.close();
-    return response;
+    return noStoreResponse(response);
   } catch {
     await transport.close();
     await server.close();
@@ -51,6 +63,7 @@ export const POST: APIRoute = async ({ request }) => {
       {
         status: 500,
         headers: {
+          'cache-control': 'no-store',
           'content-type': 'application/json',
         },
       },
