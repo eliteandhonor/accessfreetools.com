@@ -427,6 +427,21 @@ describe('agent tools reports', () => {
         2,
       ),
     );
+    preserveAndWrite(
+      'output/marketing-orchestrator/daily-plan.json',
+      JSON.stringify(
+        {
+          recommendations: [
+            {
+              priority: 'High',
+              title: 'Recheck requested indexing after Google crawls',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
     preserveAndWrite('output/agent-tools/seo-console/latest.json', '{}\n');
     preserveAndWrite('output/agent-tools/seo-console/latest.md', '# placeholder\n');
     for (const index of [1, 2, 3]) {
@@ -441,6 +456,18 @@ describe('agent tools reports', () => {
 
     expect(actionText).toContain('Search Console UI request-indexing was submitted');
     expect(actionText).toContain('recheck after Google crawls');
+    expect(report.actions).toContainEqual(
+      expect.objectContaining({
+        priority: 'monitor',
+        task: expect.stringContaining('do not repeat Search Console clicks'),
+      }),
+    );
+    expect(report.actions).not.toContainEqual(
+      expect.objectContaining({
+        priority: 'High',
+        task: 'Recheck requested indexing after Google crawls',
+      }),
+    );
     expect(actionText).not.toContain('request indexing manually');
   });
 

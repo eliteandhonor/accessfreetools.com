@@ -1298,6 +1298,34 @@ export function buildSeoConsoleReport() {
   const linkEvidence = builtInternalLinkEvidence(gapTargets);
   const hasBuiltLinkEvidence = !linkEvidence.note;
   if (linkEvidence.note) warnings.push(linkEvidence.note);
+  const allCurrentGapsHaveIndexingRequests =
+    searchConsole.gaps.length > 0 &&
+    searchConsole.gaps.every((gap) => searchConsoleIndexingRequestForUrl(gap.url, indexingRequests));
+  const marketingActions = (marketing?.actions ?? marketing?.recommendations ?? [])
+    .slice(0, 3)
+    .flatMap((item) => {
+      const task = item.title ?? item.action ?? JSON.stringify(item).slice(0, 160);
+      const isRequestedIndexingRecheck = /recheck requested indexing after google crawls/i.test(task);
+      if (isRequestedIndexingRecheck && allCurrentGapsHaveIndexingRequests) {
+        return [
+          {
+            evidence:
+              'output/marketing-orchestrator/daily-plan.json + docs/search-console-indexing-requests.json + output/agent-tools/link-helper/latest.md',
+            priority: 'monitor',
+            task:
+              'Monitor requested indexing after Google crawls; current URL Inspection gaps already have request-indexing proof, so do not repeat Search Console clicks.',
+          },
+        ];
+      }
+
+      return [
+        {
+          evidence: 'output/marketing-orchestrator/daily-plan.json',
+          priority: item.priority ?? 'medium',
+          task,
+        },
+      ];
+    });
 
   const actions = [
     ...searchConsole.gaps.slice(0, 5).map((gap) => {
@@ -1346,11 +1374,7 @@ export function buildSeoConsoleReport() {
       task: item.task,
     })),
     ...performanceExport.actions.slice(0, 8),
-    ...(marketing?.actions ?? marketing?.recommendations ?? []).slice(0, 3).map((item) => ({
-      evidence: 'output/marketing-orchestrator/daily-plan.json',
-      priority: item.priority ?? 'medium',
-      task: item.title ?? item.action ?? JSON.stringify(item).slice(0, 160),
-    })),
+    ...marketingActions,
   ];
 
   if (!actions.length) {
