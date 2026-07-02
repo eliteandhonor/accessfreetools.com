@@ -1030,11 +1030,11 @@ function usageSummaryCommand(command) {
     '- Top tools:',
     ...(summary.topTools.length
       ? summary.topTools.slice(0, 5).map((item, index) => `  ${index + 1}. ${item.label} - ${item.count} uses`)
-      : ['  No tool actions recorded yet.']),
+      : [`  No tool actions recorded in the last ${days} days.`]),
     '- Top pages:',
     ...(summary.topPages.length
       ? summary.topPages.slice(0, 5).map((item, index) => `  ${index + 1}. ${item.label} - ${item.count} views`)
-      : ['  No page views recorded yet.']),
+      : [`  No page views recorded in the last ${days} days.`]),
   ]);
 }
 

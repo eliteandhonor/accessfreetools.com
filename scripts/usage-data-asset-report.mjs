@@ -169,13 +169,13 @@ function renderDraft(report) {
     '',
     ...(report.topTools.length
       ? report.topTools.map((item, index) => `${index + 1}. ${item.label} (${item.count} uses) - ${item.path}`)
-      : ['No tool-use actions recorded yet.']),
+      : [`No tool-use actions recorded in the last ${report.days} days.`]),
     '',
     '## Most Viewed Pages',
     '',
     ...(report.topPages.length
       ? report.topPages.map((item, index) => `${index + 1}. ${item.label} (${item.count} views) - ${item.path}`)
-      : ['No page views recorded yet.']),
+      : [`No page views recorded in the last ${report.days} days.`]),
     '',
     '## Editorial Angles',
     '',
