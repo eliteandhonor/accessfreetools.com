@@ -7355,16 +7355,24 @@ main {
   padding-top: 28px;
 }
 
-.editorial-article .article-heading-link {
-  color: var(--primary-strong);
-  text-decoration: underline;
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.16em;
+.editorial-article .article-source-note {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  margin: -6px 0 18px;
 }
 
-.editorial-article .article-heading-link:hover,
-.editorial-article .article-heading-link:focus-visible {
+.editorial-article .article-source-note a {
+  color: var(--primary-strong);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.editorial-article .article-source-note a:hover,
+.editorial-article .article-source-note a:focus-visible {
   color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .article-sidecar {
