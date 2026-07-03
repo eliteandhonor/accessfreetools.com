@@ -7341,6 +7341,20 @@ main {
   min-width: 0;
 }
 
+.editorial-article .article-flow-section {
+  backdrop-filter: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  margin-top: 28px;
+  padding: 0;
+}
+
+.editorial-article .article-flow-section + .article-flow-section {
+  border-top: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+  padding-top: 28px;
+}
+
 .article-sidecar {
   position: sticky;
   top: 16px;
