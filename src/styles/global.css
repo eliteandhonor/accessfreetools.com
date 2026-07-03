@@ -7355,11 +7355,17 @@ main {
   padding-top: 28px;
 }
 
+.editorial-article .article-flow-section > h2 {
+  line-height: 1.14;
+  margin-bottom: 10px;
+  overflow-wrap: anywhere;
+}
+
 .editorial-article .article-source-note {
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.45;
-  margin: -6px 0 18px;
+  margin: 0 0 18px;
 }
 
 .editorial-article .article-source-note a {
