@@ -124,8 +124,14 @@ function reportStatusFromIssues(issues, warnings = []) {
   return 'pass';
 }
 
+function agentToolsOutputDir() {
+  if (process.env.AFT_AGENT_TOOLS_OUTPUT_DIR) return process.env.AFT_AGENT_TOOLS_OUTPUT_DIR;
+  if (process.env.VITEST) return 'output/agent-tools-test';
+  return AGENT_TOOLS_OUTPUT_DIR;
+}
+
 function writeReport(kind, report, markdown) {
-  const dir = rootPath(AGENT_TOOLS_OUTPUT_DIR, kind);
+  const dir = rootPath(agentToolsOutputDir(), kind);
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, 'latest.json'), `${JSON.stringify(report, null, 2)}\n`);
   writeFileSync(join(dir, 'latest.md'), `${markdown.trim()}\n`);
@@ -840,9 +846,13 @@ function crawlScoutSignals() {
       return true;
     }
 
-    if (!isSeoPageProofComplete(item.path)) return false;
+    if (!isSeoPageProofFreshForReport(item.path, report)) return false;
     const identity = seoPageIdentityFromPath(item.path);
-    recordCompleted(item, 'final SEO judge already has 0 remaining gaps for this page.', `output/seo-agents/${identity.slug}/${identity.page}/final-judge.json`);
+    recordCompleted(
+      item,
+      'final SEO judge is newer than this CrawlScout export and has 0 remaining gaps for this page.',
+      `output/seo-agents/${identity.slug}/${identity.page}/final-judge.json`,
+    );
     return true;
   };
 
@@ -914,6 +924,18 @@ function isSeoPageProofComplete(path) {
   return judge.status === 'ready-for-human-approval' && (judge.remainingGaps ?? []).length === 0;
 }
 
+function isSeoPageProofFreshForReport(path, report) {
+  if (!isSeoPageProofComplete(path)) return false;
+
+  const judge = finalJudgeForPath(path);
+  const judgeTime = Date.parse(judge?.generatedAt ?? judge?.completedAt ?? '');
+  const reportTime = reportTimeForEvidence(report);
+  if (reportTime === null) return true;
+  if (!Number.isFinite(judgeTime)) return false;
+
+  return reportTime <= judgeTime;
+}
+
 function isSearchPerformanceMonitorOnly(path) {
   return normalizeHrefToPath(path) === '/sitemap/';
 }
@@ -923,14 +945,20 @@ function searchConsoleCompletions() {
   return Array.isArray(report?.completed) ? report.completed : [];
 }
 
-function completionCoversReport(completion, report) {
-  const completedTime = Date.parse(completion?.completedAt ?? '');
+function reportTimeForEvidence(report) {
   const sourceDataDate = report?.source?.dataDate;
   const reportTime = /^\d{4}-\d{2}-\d{2}$/.test(String(sourceDataDate ?? ''))
     ? Date.parse(`${sourceDataDate}T00:00:00+10:00`)
     : Date.parse(report?.generatedAt ?? '');
 
-  if (!Number.isFinite(completedTime) || !Number.isFinite(reportTime)) return true;
+  return Number.isFinite(reportTime) ? reportTime : null;
+}
+
+function completionCoversReport(completion, report) {
+  const completedTime = Date.parse(completion?.completedAt ?? '');
+  const reportTime = reportTimeForEvidence(report);
+
+  if (!Number.isFinite(completedTime) || reportTime === null) return true;
   return reportTime <= completedTime;
 }
 
@@ -1045,8 +1073,13 @@ function analyticsSignals() {
   };
 }
 
-function routeFromBuiltHtml(filePath) {
-  const distRoot = rootPath('dist');
+function agentToolsDistRoot() {
+  return process.env.AFT_AGENT_TOOLS_DIST_ROOT
+    ? resolve(process.env.AFT_AGENT_TOOLS_DIST_ROOT)
+    : rootPath('dist');
+}
+
+function routeFromBuiltHtml(filePath, distRoot = agentToolsDistRoot()) {
   let relativePath = unixPath(relative(distRoot, filePath));
   if (relativePath.startsWith('client/')) relativePath = relativePath.slice('client/'.length);
   if (relativePath === 'index.html') return '/';
@@ -1082,8 +1115,19 @@ function stripHtml(value) {
     .trim();
 }
 
+function anchorIdeaForPath(path) {
+  const normalized = normalizeHrefToPath(path);
+  if (normalized.startsWith('/blog/how-to-use-')) {
+    return `${normalized.replace(/^\/blog\/how-to-use-/, '').replace(/\/$/, '').replace(/-/g, ' ')} guide`;
+  }
+  if (normalized.startsWith('/tools/')) {
+    return normalized.replace(/^\/tools\//, '').replace(/\/$/, '').replace(/-/g, ' ');
+  }
+  return normalized.replace(/^\/|\/$/g, '').replace(/-/g, ' ') || 'Access Free Tools page';
+}
+
 function builtInternalLinkEvidence(targetPaths) {
-  const distRoot = rootPath('dist');
+  const distRoot = agentToolsDistRoot();
   const targets = [...new Set(targetPaths.map(normalizeHrefToPath).filter(Boolean))];
   const byTarget = Object.fromEntries(targets.map((target) => [target, []]));
 
@@ -1109,7 +1153,7 @@ function builtInternalLinkEvidence(targetPaths) {
 
   for (const filePath of htmlFiles) {
     const html = readFileSync(filePath, 'utf8');
-    const source = routeFromBuiltHtml(filePath);
+    const source = routeFromBuiltHtml(filePath, distRoot);
     let match;
     while ((match = anchorPattern.exec(html))) {
       const target = normalizeHrefToPath(match[2]);
@@ -1144,7 +1188,11 @@ export function buildLinkHelperReport() {
       }
     })
     .filter(Boolean);
-  const linkEvidence = builtInternalLinkEvidence(gapTargets);
+  const analyticsTargets = analytics.topTools.slice(0, 8).map(([slug]) => `/tools/${slug}/`);
+  const crawlScoutTargets = crawlScout.opportunities
+    .slice(0, 8)
+    .map((item) => (item.label.startsWith('/') ? item.label : '/tools/'));
+  const linkEvidence = builtInternalLinkEvidence([...gapTargets, ...analyticsTargets, ...crawlScoutTargets]);
   const hasBuiltLinkEvidence = !linkEvidence.note;
   if (linkEvidence.note) warnings.push(linkEvidence.note);
 
@@ -1187,20 +1235,28 @@ export function buildLinkHelperReport() {
   }
 
   for (const [slug, count] of analytics.topTools.slice(0, 8)) {
+    const target = `/tools/${slug}/`;
+    const sourceCount = new Set((linkEvidence.byTarget[normalizeHrefToPath(target)] ?? []).map((item) => item.source)).size;
     suggestions.push({
       anchorIdea: slug.replace(/-/g, ' '),
       priority: 'medium',
-      reason: `First-party analytics recorded ${count} tool actions.`,
-      target: `/tools/${slug}/`,
+      reason: sourceCount
+        ? `First-party analytics recorded ${count} tool actions; built link proof already shows ${sourceCount} source pages.`
+        : `First-party analytics recorded ${count} tool actions.`,
+      target,
     });
   }
 
   for (const item of crawlScout.opportunities.slice(0, 8)) {
+    const target = item.label.startsWith('/') ? item.label : '/tools/';
+    const sourceCount = new Set((linkEvidence.byTarget[normalizeHrefToPath(target)] ?? []).map((link) => link.source)).size;
     suggestions.push({
-      anchorIdea: item.label,
+      anchorIdea: anchorIdeaForPath(target),
       priority: 'medium',
-      reason: `CrawlScout ${item.source} signal with ${item.metric} impressions.`,
-      target: item.label.startsWith('/') ? item.label : '/tools/',
+      reason: sourceCount
+        ? `CrawlScout ${item.source} signal with ${item.metric} impressions; built link proof already shows ${sourceCount} source pages.`
+        : `CrawlScout ${item.source} signal with ${item.metric} impressions.`,
+      target,
     });
   }
 

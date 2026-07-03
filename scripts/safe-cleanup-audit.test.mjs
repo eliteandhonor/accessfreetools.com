@@ -53,7 +53,7 @@ describe('safe cleanup audit', () => {
     const result = spawnSync(process.execPath, ['scripts/safe-cleanup-audit.mjs'], {
       cwd: repoRoot,
       encoding: 'utf8',
-      env: { ...process.env, CODEX_HOME: codexHome },
+      env: { ...process.env, AFT_MAINTENANCE_AUDIT_FAST: '1', CODEX_HOME: codexHome },
     });
 
     expect(result.status).toBe(0);

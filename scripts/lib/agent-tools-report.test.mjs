@@ -1,5 +1,5 @@
-import { afterEach, describe, expect, it } from 'vitest';
-import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import {
   askAuditCases,
@@ -17,7 +17,7 @@ import {
 } from './agent-tools-report.mjs';
 
 const preservedFiles = new Map();
-const movedDirectories = [];
+const preservedEnv = new Map();
 
 function preserveAndWrite(relativePath, content) {
   const absolutePath = resolve(process.cwd(), relativePath);
@@ -32,15 +32,6 @@ function preserveAndWrite(relativePath, content) {
   writeFileSync(absolutePath, content);
 }
 
-function temporarilyRemoveDirectory(relativePath) {
-  const absolutePath = resolve(process.cwd(), relativePath);
-  if (!existsSync(absolutePath)) return;
-
-  const backupPath = resolve(process.cwd(), `.agent-tools-test-backup-${Date.now()}-${Math.random().toString(16).slice(2)}`);
-  renameSync(absolutePath, backupPath);
-  movedDirectories.push({ absolutePath, backupPath });
-}
-
 function temporarilyRemoveFile(relativePath) {
   const absolutePath = resolve(process.cwd(), relativePath);
   if (!preservedFiles.has(absolutePath)) {
@@ -52,6 +43,15 @@ function temporarilyRemoveFile(relativePath) {
   rmSync(absolutePath, { force: true });
 }
 
+function preserveEnv(name, value) {
+  if (!preservedEnv.has(name)) preservedEnv.set(name, process.env[name]);
+  if (value === undefined) {
+    delete process.env[name];
+  } else {
+    process.env[name] = value;
+  }
+}
+
 function removeDirectoryIfEmpty(relativePath) {
   const absolutePath = resolve(process.cwd(), relativePath);
   if (!existsSync(absolutePath)) return;
@@ -59,16 +59,18 @@ function removeDirectoryIfEmpty(relativePath) {
 }
 
 describe('agent tools reports', () => {
+  beforeEach(() => {
+    preserveEnv('AFT_AGENT_TOOLS_DIST_ROOT', resolve(process.cwd(), '.agent-tools-test-dist'));
+  });
+
   afterEach(() => {
     rmSync(resolve(process.cwd(), 'dist/test-link-fixture'), { force: true, recursive: true });
     rmSync(resolve(process.cwd(), 'dist/client/test-link-fixture'), { force: true, recursive: true });
+    rmSync(resolve(process.cwd(), '.agent-tools-test-dist'), { force: true, recursive: true });
+    rmSync(resolve(process.cwd(), '.agent-tools-test-missing-dist'), { force: true, recursive: true });
     removeDirectoryIfEmpty('dist');
+    rmSync(resolve(process.cwd(), 'output/agent-tools-test'), { force: true, recursive: true });
     rmSync(resolve(process.cwd(), 'output/agent-tools/test-proof'), { force: true, recursive: true });
-    while (movedDirectories.length) {
-      const { absolutePath, backupPath } = movedDirectories.pop();
-      rmSync(absolutePath, { force: true, recursive: true });
-      if (existsSync(backupPath)) renameSync(backupPath, absolutePath);
-    }
     for (const [absolutePath, original] of preservedFiles.entries()) {
       if (original.existed) {
         mkdirSync(dirname(absolutePath), { recursive: true });
@@ -78,6 +80,14 @@ describe('agent tools reports', () => {
       }
     }
     preservedFiles.clear();
+    for (const [name, original] of preservedEnv.entries()) {
+      if (original === undefined) {
+        delete process.env[name];
+      } else {
+        process.env[name] = original;
+      }
+    }
+    preservedEnv.clear();
   });
 
   it('keeps Ask audit fixtures focused on deterministic tool-runner parity', () => {
@@ -173,7 +183,7 @@ describe('agent tools reports', () => {
     expect(report.docs).toContain('docs/ask-api-mcp-alpha.md');
     expect(report.commands).toContain('npm run aft -- ask-audit');
     expect(report.sources.some((source) => source.path === 'output/agent-tools/ask-audit/latest.json')).toBe(true);
-    expect(report.paths.markdownPath).toBe('output/agent-tools/evidence-pack/latest.md');
+    expect(report.paths.markdownPath).toBe('output/agent-tools-test/evidence-pack/latest.md');
   });
 
   it('claim-check fails done claims that do not include proof evidence', () => {
@@ -276,6 +286,7 @@ describe('agent tools reports', () => {
       'output/seo-agents/proved-calculator/blog/final-judge.json',
       JSON.stringify(
         {
+          generatedAt: '2026-07-02T01:00:00.000Z',
           remainingGaps: [],
           route: '/blog/how-to-use-proved-calculator/',
           status: 'ready-for-human-approval',
@@ -457,7 +468,7 @@ describe('agent tools reports', () => {
     preserveAndWrite('output/agent-tools/seo-console/latest.md', '# placeholder\n');
     for (const index of [1, 2, 3]) {
       preserveAndWrite(
-        `dist/test-link-fixture/source-${index}/index.html`,
+        `.agent-tools-test-dist/test-link-fixture/source-${index}/index.html`,
         '<a href="/tools/percentage-calculator/">Percentage calculator</a>\n',
       );
     }
@@ -483,7 +494,7 @@ describe('agent tools reports', () => {
   });
 
   it('does not count mirrored dist client HTML as fake public client routes', () => {
-    temporarilyRemoveDirectory('dist');
+    preserveEnv('AFT_AGENT_TOOLS_DIST_ROOT', resolve(process.cwd(), '.agent-tools-test-dist'));
     preserveAndWrite(
       'output/search-console-url-inspection.json',
       JSON.stringify(
@@ -519,11 +530,11 @@ describe('agent tools reports', () => {
       ),
     );
     preserveAndWrite(
-      'dist/test-link-fixture/source/index.html',
+      '.agent-tools-test-dist/test-link-fixture/source/index.html',
       '<a href="/tools/percentage-calculator/">Percentage calculator</a>\n',
     );
     preserveAndWrite(
-      'dist/client/test-link-fixture/source/index.html',
+      '.agent-tools-test-dist/client/test-link-fixture/source/index.html',
       '<a href="/tools/percentage-calculator/">Percentage calculator</a>\n',
     );
 
@@ -539,7 +550,7 @@ describe('agent tools reports', () => {
   });
 
   it('does not infer zero internal links when dist was intentionally cleaned', () => {
-    temporarilyRemoveDirectory('dist');
+    preserveEnv('AFT_AGENT_TOOLS_DIST_ROOT', resolve(process.cwd(), '.agent-tools-test-missing-dist'));
     temporarilyRemoveFile('output/search-console-coverage-export.json');
     temporarilyRemoveFile('output/marketing-orchestrator/daily-plan.json');
     preserveAndWrite(
@@ -614,6 +625,7 @@ describe('agent tools reports', () => {
       'output/seo-agents/proved-calculator/blog/final-judge.json',
       JSON.stringify(
         {
+          generatedAt: '2026-07-02T01:00:00.000Z',
           remainingGaps: [],
           route: '/blog/how-to-use-proved-calculator/',
           status: 'ready-for-human-approval',
@@ -631,6 +643,43 @@ describe('agent tools reports', () => {
     expect(suggestionText).toContain('/tools/open-calculator/');
     expect(report.sources.crawlScout.completed).toContainEqual(expect.objectContaining({ path: '/sitemap/' }));
     expect(report.sources.crawlScout.completed).toContainEqual(
+      expect.objectContaining({ path: '/blog/how-to-use-proved-calculator/' }),
+    );
+  });
+
+  it('reopens CrawlScout rows when only stale final judge proof exists', () => {
+    preserveAndWrite(
+      'output/crawlscout/crawlscout-summary.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-03T00:00:00.000Z',
+          pageSample: [{ clicks: 0, impressions: 57, path: '/blog/how-to-use-proved-calculator/', status: 'Not Indexed' }],
+          source: { dataDate: '2026-07-03' },
+          topKeywordSignals: [],
+        },
+        null,
+        2,
+      ),
+    );
+    preserveAndWrite(
+      'output/seo-agents/proved-calculator/blog/final-judge.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-01T23:00:00.000Z',
+          remainingGaps: [],
+          route: '/blog/how-to-use-proved-calculator/',
+          status: 'ready-for-human-approval',
+        },
+        null,
+        2,
+      ),
+    );
+
+    const report = buildLinkHelperReport();
+    const suggestionText = report.suggestions.map((suggestion) => suggestion.target).join('\n');
+
+    expect(suggestionText).toContain('/blog/how-to-use-proved-calculator/');
+    expect(report.sources.crawlScout.completed).not.toContainEqual(
       expect.objectContaining({ path: '/blog/how-to-use-proved-calculator/' }),
     );
   });

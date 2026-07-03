@@ -103,12 +103,12 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'ad-revenue-calculator',
     name: 'Ad Revenue Calculator',
-    summary: 'Estimate website ad revenue from page views, page CTR, average CPC, and page RPM.',
+    summary: 'Estimate website ad revenue from daily page views, CTR, CPC, monthly revenue, and page RPM.',
     description:
       'Estimate rough website ad revenue from daily page views, page CTR, and average CPC, then check daily revenue, monthly revenue, yearly revenue, estimated clicks, and page RPM.',
-    seoTitle: 'Ad Revenue Calculator | Website Ads, CTR, CPC & RPM',
+    seoTitle: 'Ad Revenue Calculator | Page Views, CTR, CPC And RPM',
     seoDescription:
-      'Estimate website ad revenue from page views, page CTR, and average CPC. See monthly revenue, daily revenue, yearly revenue, clicks, and page RPM.',
+      'Estimate website ad revenue from daily page views, CTR, and CPC. See monthly revenue, yearly revenue, estimated clicks, and page RPM.',
     icon: 'calculator-ad-revenue',
     aliases: ['AdSense earnings calculator', 'website ad revenue calculator', 'page RPM calculator', 'display ad revenue calculator'],
     formula:
@@ -116,6 +116,7 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
     limit:
       'This is not connected to Google AdSense and does not predict approved earnings, invalid traffic deductions, revenue-share changes, ad fill rate, advertiser demand, RPM changes, placement rules, policy status, or tax treatment.',
     useCases: [
+      'Test a simple AdSense-style earnings scenario before treating traffic as income.',
       'Estimate what a page might earn at a simple traffic and CPC level.',
       'Compare how page CTR changes a rough revenue forecast.',
       'Turn a daily traffic estimate into monthly and yearly planning numbers.',
@@ -3500,9 +3501,9 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Find the rate hidden inside a fixed loan payment quote.',
     description:
       'Enter the amount financed, fixed monthly payment, and loan term to estimate the annual interest rate behind the quote.',
-    seoTitle: 'Interest Rate Calculator | Estimate Rate From Payment',
+    seoTitle: 'Interest Rate Calculator | Find Rate From Payment',
     seoDescription:
-      'Estimate the annual interest rate hidden inside a loan payment quote from amount financed, monthly payment, and term, with APR fee warnings.',
+      'Estimate the annual interest rate from loan amount, monthly payment, and term. Check total interest, total paid, and APR fee warnings.',
     icon: 'calculator-rate',
     aliases: ['calculate interest rate from payment', 'loan rate calculator', 'implied interest rate calculator'],
     formula:
@@ -3510,6 +3511,7 @@ export const financeTools: ToolDefinition[] = [
     limit:
       'This is an estimated nominal annual rate. It does not calculate APR with fees, compounding disclosures, promotional terms, variable rates, or lender-specific rules.',
     useCases: [
+      'Find the rate when a loan quote gives you the payment but hides the percent.',
       'Estimate the rate implied by a loan payment offer.',
       'Compare payment quotes when the rate is missing.',
       'Check whether a payment is possible for a principal and term.',
@@ -3585,9 +3587,9 @@ export const financeTools: ToolDefinition[] = [
     summary: 'Find sales tax and final total from a subtotal and local rate.',
     description:
       'Enter the before-tax price and a local sales tax rate to estimate the tax amount, final total, and percent math behind the receipt.',
-    seoTitle: 'Sales Tax Calculator | Tax Amount And Total',
+    seoTitle: 'Sales Tax Calculator | Tax Amount, Rate And Total',
     seoDescription:
-      'Calculate sales tax amount and final total from a before-tax price and local tax rate, with receipt checks, rounding notes, and local-rate limits.',
+      'Calculate sales tax from price and rate. See tax amount, final total, receipt rounding notes, discount timing, and local-rate limits.',
     icon: 'calculator-sales-tax',
     aliases: ['tax calculator', 'sales tax rate calculator', 'receipt tax calculator', 'checkout tax calculator'],
     formula:
@@ -3595,6 +3597,7 @@ export const financeTools: ToolDefinition[] = [
     limit:
       'This is a manual-rate estimate. It does not look up current local rates, product exemptions, shipping rules, marketplace rules, tax holidays, or official filing amounts.',
     useCases: [
+      'Quickly answer how much sales tax adds to a purchase.',
       'Estimate sales tax before checkout when you already know the local rate.',
       'Convert a before-tax subtotal and percent rate into a final total.',
       'Check receipt math when the tax line looks a few cents off.',

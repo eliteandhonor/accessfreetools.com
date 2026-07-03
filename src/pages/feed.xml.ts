@@ -1,12 +1,14 @@
 export const prerender = true;
 import type { APIRoute } from 'astro';
 import { blogPosts } from '../data/blogPosts';
+import { editorialBlogPosts } from '../data/editorialBlogPosts';
 import { absoluteUrl, escapeXml, maxLastmod } from '../data/discovery';
 import { getBlogDates, RSS_ITEM_LIMIT, SITE_ORIGIN, toRfc822Date } from '../data/siteDates';
 import { DISCOVERY_CACHE_CONTROL } from '../lib/cacheHeaders';
 
 export const GET: APIRoute = () => {
-  const items = blogPosts
+  const feedPosts = [...editorialBlogPosts, ...blogPosts];
+  const items = feedPosts
     .map((post, index) => ({
       ...post,
       index,
@@ -27,15 +29,15 @@ export const GET: APIRoute = () => {
 </item>`;
     })
     .join('\n');
-  const latestDate = maxLastmod(blogPosts.map((post) => ({ lastmod: getBlogDates(post.slug).modified })));
+  const latestDate = maxLastmod(feedPosts.map((post) => ({ lastmod: getBlogDates(post.slug).modified })));
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-  <title>Access Free Tools Guides</title>
+  <title>Access Free Tools Guides and Owner Notes</title>
   <link>${SITE_ORIGIN}/blog/</link>
   <atom:link href="${SITE_ORIGIN}/feed.xml" rel="self" type="application/rss+xml" />
-  <description>Practical guides for Access Free Tools calculators and browser utilities.</description>
+  <description>Practical guides and owner notes for Access Free Tools calculators, browser utilities, and site-building lessons.</description>
   <language>en</language>
   <lastBuildDate>${toRfc822Date(latestDate)}</lastBuildDate>
   <ttl>60</ttl>

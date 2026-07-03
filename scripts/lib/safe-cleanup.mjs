@@ -102,7 +102,7 @@ export function pathSizeBytes(path) {
   return total;
 }
 
-export function validateCleanupCandidate(rootDir, relativePath) {
+export function validateCleanupCandidate(rootDir, relativePath, { measureSize = true } = {}) {
   const root = resolve(rootDir);
   const cleanPath = normalizeRelativePath(relativePath);
   const absolutePath = resolve(root, cleanPath);
@@ -124,17 +124,17 @@ export function validateCleanupCandidate(rootDir, relativePath) {
     exists: existsSync(absolutePath),
     relativePath: cleanPath,
     reasons,
-    sizeBytes: existsSync(absolutePath) ? pathSizeBytes(absolutePath) : 0,
+    sizeBytes: measureSize && existsSync(absolutePath) ? pathSizeBytes(absolutePath) : 0,
   };
 }
 
-export function listCleanupCandidates(rootDir = process.cwd()) {
+export function listCleanupCandidates(rootDir = process.cwd(), options = {}) {
   const root = resolve(rootDir);
   const candidates = [];
 
   for (const rule of cleanupAllowlist) {
     if (rule.type === 'exact') {
-      const candidate = validateCleanupCandidate(root, rule.path);
+      const candidate = validateCleanupCandidate(root, rule.path, options);
       if (candidate.exists) candidates.push(candidate);
       continue;
     }
@@ -142,7 +142,7 @@ export function listCleanupCandidates(rootDir = process.cwd()) {
     const matcher = globToRegExp(rule.pattern);
     for (const entry of readdirSync(root, { withFileTypes: true })) {
       if (matcher.test(entry.name)) {
-        const candidate = validateCleanupCandidate(root, entry.name);
+        const candidate = validateCleanupCandidate(root, entry.name, options);
         if (candidate.exists) candidates.push(candidate);
       }
     }

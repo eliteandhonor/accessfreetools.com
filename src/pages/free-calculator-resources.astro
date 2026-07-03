@@ -31,7 +31,12 @@ const resourceSections = [
       'compound-interest-calculator',
       'salary-calculator',
       'sales-tax-calculator',
+      'vat-calculator',
+      'currency-calculator',
       'budget-calculator',
+      'mortgage-payoff-calculator',
+      'fha-loan-calculator',
+      'va-mortgage-calculator',
       'retirement-calculator',
     ],
   },
@@ -46,6 +51,17 @@ const resourceSections = [
       'pace-calculator',
       'target-heart-rate-calculator',
       'due-date-calculator',
+    ],
+  },
+  {
+    title: 'For sports, games, and quick day checks',
+    text: 'Use these for light planning, score math, fair random choices, and quick date checks where the result should be easy to explain.',
+    slugs: [
+      'golf-handicap-calculator',
+      'dice-roller',
+      'age-calculator',
+      'day-of-the-week-calculator',
+      'time-zone-calculator',
     ],
   },
   {
@@ -66,6 +82,25 @@ const resourceSections = [
     ],
   },
   {
+    title: 'For driving, trips, and fuel checks',
+    text: 'Use these when miles, fuel, reimbursement rates, trip timing, or route distance need a quick estimate before you copy the number into a budget or claim.',
+    slugs: [
+      'gas-mileage-calculator',
+      'fuel-cost-calculator',
+      'mileage-calculator',
+      'distance-calculator',
+      'date-calculator',
+      'time-calculator',
+    ],
+    guides: [
+      {
+        href: '/blog/how-to-use-gas-mileage-calculator/',
+        title: 'Gas mileage guide',
+        text: 'Miles, gallons, MPG, gallons per 100 miles, L/100 km, and why several fill-ups beat one odd tank.',
+      },
+    ],
+  },
+  {
     title: 'For home projects and materials',
     text: 'Plan rough material amounts before a project, then double-check local building rules, supplier guidance, and waste factors before ordering.',
     slugs: [
@@ -75,6 +110,9 @@ const resourceSections = [
       'flooring-calculator',
       'wallpaper-calculator',
       'roofing-calculator',
+      'siding-calculator',
+      'brick-calculator',
+      'soil-calculator',
       'rebar-calculator',
     ],
     guides: [
@@ -110,9 +148,11 @@ const resourceSections = [
     slugs: [
       'word-counter',
       'character-counter',
+      'markdown-table-generator',
       'json-formatter',
       'url-encode-decode',
       'base64-encode-decode',
+      'ai-token-cost-calculator',
       'password-generator',
     ],
   },

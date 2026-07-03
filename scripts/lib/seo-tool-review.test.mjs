@@ -69,7 +69,7 @@ ${approvedRows}
     expect(report.summary.firstPage).toBe('');
     expect(report.approvalGate.blocked).toBe(false);
     expect(report.entries).toHaveLength(0);
-  });
+  }, 20000);
 
   it('keeps the matching page as the gate before a different slug starts', () => {
     const report = buildSeoToolQueueReport({

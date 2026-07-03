@@ -1,5 +1,6 @@
 import { blogPosts } from './blogPosts';
 import { categories } from './categories';
+import { editorialBlogPosts } from './editorialBlogPosts';
 import { toolArtCategorySummaries, toolArtEntries } from './toolArt';
 import { topicalHubs } from './hubs';
 import { tools } from './tools';
@@ -53,7 +54,9 @@ export const toolSitemapEntries: SitemapEntry[] = tools.map((tool) => ({
   lastmod: getToolLastmod(tool.slug),
 })).filter((entry) => shouldIncludeInXmlSitemap(entry.path));
 
-export const blogSitemapEntries: SitemapEntry[] = blogPosts.map((post) => ({
+const publicBlogPosts = [...editorialBlogPosts, ...blogPosts];
+
+export const blogSitemapEntries: SitemapEntry[] = publicBlogPosts.map((post) => ({
   path: `/blog/${post.slug}/`,
   lastmod: getBlogDates(post.slug).modified,
 })).filter((entry) => shouldIncludeInXmlSitemap(entry.path));

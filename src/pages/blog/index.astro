@@ -5,10 +5,13 @@ import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.
 import BlogSearch from '../../components/BlogSearch';
 import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
 import { blogPosts } from '../../data/blogPosts';
+import { editorialBlogPosts } from '../../data/editorialBlogPosts';
 import { getBlogSearchIndex } from '../../data/blogSearchIndex';
 
 const blogSearchIndex = getBlogSearchIndex();
 const initialBlogPosts = blogSearchIndex.slice(0, 96);
+const collectionItems = [...editorialBlogPosts, ...blogPosts];
+const editorialHighlights = editorialBlogPosts.slice(0, 3);
 const guideCollections = [
   {
     href: '/blog/how-to-use-basic-calculator/',
@@ -130,11 +133,73 @@ const searchDemandGuides = [
     text: 'Open the calculator when you know watts and voltage and need a current estimate.',
   },
 ];
+const recoveryGuideShortcuts = [
+  {
+    href: '/blog/how-to-use-va-mortgage-calculator/',
+    title: 'VA mortgage funding fee guide',
+    text: 'Check first-use, later-use, exemption, financed-fee, tax, and insurance assumptions before reading the payment.',
+  },
+  {
+    href: '/blog/how-to-use-currency-calculator/',
+    title: 'Currency conversion guide',
+    text: 'Use a manual exchange rate, fee percent, inverse-rate check, and provider-rate warning without treating it as live FX data.',
+  },
+  {
+    href: '/blog/how-to-use-fha-loan-calculator/',
+    title: 'FHA loan payment guide',
+    text: 'Compare down payment, upfront MIP, monthly MIP, tax, insurance, and FHA approval limits in plain language.',
+  },
+  {
+    href: '/blog/how-to-use-budget-calculator/',
+    title: 'Monthly budget guide',
+    text: 'Break income, spending, debt, and savings into a monthly snapshot with leftover-money and savings-rate checks.',
+  },
+  {
+    href: '/blog/how-to-use-markdown-table-generator/',
+    title: 'Markdown table guide',
+    text: 'Clean pasted rows, headers, separators, and alignment before using a table in docs, READMEs, or issue comments.',
+  },
+  {
+    href: '/blog/how-to-use-character-counter/',
+    title: 'Character counter guide',
+    text: 'Compare characters, no-space characters, words, lines, and UTF-8 bytes for titles, forms, snippets, and messages.',
+  },
+  {
+    href: '/blog/how-to-use-ai-token-cost-calculator/',
+    title: 'AI token cost guide',
+    text: 'Estimate prompt, completion, and model-cost scenarios without confusing tokens, words, and API billing units.',
+  },
+  {
+    href: '/blog/how-to-use-distance-calculator/',
+    title: 'Distance calculator guide',
+    text: 'Use coordinate distance, unit conversion, and route-estimate cautions when a straight-line answer is only a starting point.',
+  },
+  {
+    href: '/blog/how-to-use-device-battery-life-calculator/',
+    title: 'Device battery life guide',
+    text: 'Turn watt-hours, capacity, and power draw into a battery-runtime estimate while checking real-use limits.',
+  },
+  {
+    href: '/blog/how-to-use-soil-calculator/',
+    title: 'Soil calculator guide',
+    text: 'Estimate soil volume from area and depth, then account for compaction, settling, and ordering margin.',
+  },
+  {
+    href: '/blog/how-to-use-siding-calculator/',
+    title: 'Siding calculator guide',
+    text: 'Estimate siding area, waste, openings, and material quantities before asking a supplier or contractor to verify.',
+  },
+  {
+    href: '/blog/how-to-use-brick-calculator/',
+    title: 'Brick calculator guide',
+    text: 'Plan brick counts from wall size, brick size, mortar gap, waste, and layout assumptions before buying material.',
+  },
+];
 ---
 
 <BaseLayout
   title="Free Calculator Guides & Utility How-Tos | Access Free Tools"
-  description="Search 299 free calculator and utility guides with examples, formulas, input explanations, result limits, and links to the matching Access Free Tools pages."
+  description="Browse free calculator guides, utility how-tos, browser AI guides, and owner notes from Access Free Tools."
   path="/blog/"
 >
   <BreadcrumbStructuredData
@@ -145,10 +210,10 @@ const searchDemandGuides = [
   />
   <CollectionStructuredData
     name="Free Calculator Guides and Utility How-Tos"
-    description="Free calculator and utility guides with examples, formulas, input explanations, result limits, and matching tool links."
+    description="Free calculator and utility guides plus owner notes from Access Free Tools."
     path="/blog/"
     maxItems={100}
-    items={blogPosts.map((post) => ({
+    items={collectionItems.map((post) => ({
       name: post.title,
       path: `/blog/${post.slug}/`,
       description: post.summary,
@@ -162,9 +227,30 @@ const searchDemandGuides = [
       <p>
         Find the guide behind each live Access Free Tools page. Browse calculators, converters,
         browser AI tools, and home project estimators with examples, formulas, input notes, limits,
-        and links back to the matching tool.
+        links back to the matching tool, and a few owner notes about building the library.
       </p>
     </div>
+
+    {editorialHighlights.length > 0 && (
+      <section class="guide-feature-panel guide-feature-panel-soft" aria-labelledby="owner-notes-heading">
+        <div>
+          <p class="section-kicker">Owner notes</p>
+          <h2 id="owner-notes-heading">Field notes from building a free tools site</h2>
+          <p>
+            These posts explain what I am testing behind the scenes: useful software, search
+            lessons, writing checks, and safer ways to grow without turning the site into filler.
+          </p>
+        </div>
+        <div class="discovery-link-grid">
+          {editorialHighlights.map((post) => (
+            <a href={`/blog/${post.slug}/`}>
+              <strong>{post.title}</strong>
+              <span>{post.summary}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
 
     <section class="guide-feature-panel" aria-labelledby="guide-feature-heading">
       <div>
@@ -215,6 +301,25 @@ const searchDemandGuides = [
       </div>
       <div class="discovery-link-grid">
         {searchDemandGuides.map((guide) => (
+          <a href={guide.href}>
+            <strong>{guide.title}</strong>
+            <span>{guide.text}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="guide-feature-panel guide-feature-panel-soft" aria-labelledby="guide-detail-heading">
+      <div>
+        <p class="section-kicker">When details matter</p>
+        <h2 id="guide-detail-heading">Guides for assumptions, limits, and real examples</h2>
+        <p>
+          These guides are good starting points when the answer depends on an exchange rate,
+          loan rule, measurement method, material estimate, token price, or platform limit.
+        </p>
+      </div>
+      <div class="discovery-link-grid">
+        {recoveryGuideShortcuts.map((guide) => (
           <a href={guide.href}>
             <strong>{guide.title}</strong>
             <span>{guide.text}</span>

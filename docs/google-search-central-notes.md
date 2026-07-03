@@ -1,6 +1,6 @@
 # Google Search Central Notes
 
-Last reviewed: 2026-05-15
+Last reviewed: 2026-07-03
 
 These notes are the current SEO baseline for Access Free Tools. Use them before
 changing indexing, redirect, sitemap, content-quality, or promotion logic.
@@ -13,6 +13,11 @@ changing indexing, redirect, sitemap, content-quality, or promotion logic.
 - HTTP status codes, network errors, and Google Search: https://developers.google.com/search/docs/advanced/crawling/http-network-errors
 - Sitemaps overview: https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview
 - Page indexing report: https://support.google.com/webmasters/answer/7440203
+- AMP on Google Search: https://developers.google.com/search/docs/crawling-indexing/amp
+- AMP validation: https://developers.google.com/search/docs/crawling-indexing/amp/validate-amp
+- Mobile-first indexing best practices: https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing
+- Mobile indexing final update: https://developers.google.com/search/blog/2024/06/mobile-indexing-vlast-final-final.doc
+- Core Web Vitals: https://developers.google.com/search/docs/appearance/core-web-vitals
 
 ## Operating Rules
 
@@ -32,6 +37,37 @@ changing indexing, redirect, sitemap, content-quality, or promotion logic.
    discover important pages, but they do not guarantee indexing.
 7. Use Search Console as the source of truth for Google indexing, then use
    DataForSEO for market, query, and competitor context.
+8. Keep one responsive canonical URL per page. Do not add AMP pages,
+   `rel="amphtml"`, m-dot URLs, or mobile alternates unless a later
+   evidence-backed AMP pilot explicitly approves that surface.
+9. When mobile or AMP comes up, run `npm run audit:mobile-seo` after `npm run
+   build` and treat mobile Lighthouse as lab evidence. Search Console and CrUX
+   remain the field evidence for real users.
+
+## 2026-07-03 AMP And Mobile-First Decision
+
+Access Free Tools should not add AMP right now. Google indexes AMP pages under
+the same standards as other pages, and Google's mobile-first guidance keeps
+responsive design as the lowest-maintenance setup. This site already uses one
+canonical URL per page, a viewport meta tag, and responsive CSS, and it has no
+intentional AMP pages, `rel="amphtml"` tags, or separate mobile URLs.
+
+The chosen path is a mobile-first audit lane:
+
+```bash
+npm run build
+npm run audit:mobile-seo
+```
+
+That command writes `output/mobile-seo-audit/latest.md` and `.json`, checks the
+built HTML for viewport, canonical, robots, structured-data basics, accidental
+AMP tags, and mobile alternates, then uses Playwright to proof representative
+mobile and tablet layouts.
+
+Use Core Web Vitals targets as performance goals: LCP at or below 2.5 seconds,
+INP at or below 200 ms, and CLS at or below 0.1. If Lighthouse or Search
+Console shows a mobile weakness, record it as a responsive performance or page
+experience task, not as an AMP task.
 
 ## Current Access Free Tools Action
 

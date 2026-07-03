@@ -1,0 +1,321 @@
+---
+export const prerender = true;
+import BaseLayout from '../../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
+import { formatDisplayDate, getBlogDates } from '../../data/siteDates';
+
+const path = '/blog/free-ai-skills-open-source-tools-organic-growth/';
+const articleDates = getBlogDates('free-ai-skills-open-source-tools-organic-growth');
+const imagePath = '/social/free-ai-skills-open-source-tools-organic-growth.png';
+const imageUrl = `https://accessfreetools.com${imagePath}`;
+const title = "9 free AI skills I'm testing to grow Access Free Tools without spam";
+const description =
+  'Brendan Chambers explains how free AI skills and open-source agent tools can help Access Free Tools research, write, review, and grow without spam.';
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  mainEntityOfPage: `https://accessfreetools.com${path}`,
+  image: imageUrl,
+  datePublished: articleDates.published,
+  dateModified: articleDates.modified,
+  author: {
+    '@type': 'Person',
+    name: 'Brendan Chambers',
+    url: 'https://accessfreetools.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+    url: 'https://accessfreetools.com/',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://accessfreetools.com/favicon.svg',
+    },
+  },
+  citation: [
+    'https://www.youtube.com/watch?v=STH929HARLo',
+    'https://github.com/garrytan/gstack',
+    'https://github.com/hardikpandya/stop-slop',
+    'https://github.com/safishamsi/graphify',
+    'https://github.com/Egonex-AI/Understand-Anything',
+    'https://github.com/mvanhorn/last30days-skill',
+    'https://www.skills.sh/anthropics/skills/frontend-design',
+    'https://github.com/Leonxlnx/taste-skill',
+    'https://github.com/remotion-dev/remotion',
+    'https://github.com/heygen-com/hyperframes',
+  ],
+};
+const sourceLinks = [
+  { href: 'https://www.youtube.com/watch?v=STH929HARLo', label: 'Matt Wolfe video: 9 Free AI Skills That Feel Like Cheat Codes' },
+  { href: 'https://github.com/garrytan/gstack', label: 'GStack' },
+  { href: 'https://github.com/hardikpandya/stop-slop', label: 'Stop Slop' },
+  { href: 'https://github.com/safishamsi/graphify', label: 'Graphify' },
+  { href: 'https://github.com/Egonex-AI/Understand-Anything', label: 'Understand Anything' },
+  { href: 'https://github.com/mvanhorn/last30days-skill', label: 'Last 30 Days' },
+  { href: 'https://www.skills.sh/anthropics/skills/frontend-design', label: 'Anthropic Front End Design skill' },
+  { href: 'https://github.com/Leonxlnx/taste-skill', label: 'Taste Skill' },
+  { href: 'https://github.com/remotion-dev/remotion', label: 'Remotion' },
+  { href: 'https://github.com/heygen-com/hyperframes', label: 'HyperFrames' },
+];
+---
+
+<BaseLayout
+  title="9 Free AI Skills I'm Testing | Access Free Tools"
+  description={description}
+  path={path}
+  socialImagePath={imagePath}
+  socialImageAlt="Smoke-kawaii mascot beside a calculator, notes, and planning cards for an AI-assisted workflow."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Blog', path: '/blog/' },
+      { name: 'Free AI skills for organic growth', path },
+    ]}
+  />
+
+  <article class="blog-article">
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Owner notes</p>
+
+    <header class="blog-article-header">
+      <span>Owner notes</span>
+      <h1>{title}</h1>
+      <p class="article-meta-line">By Brendan Chambers. Updated {formatDisplayDate(articleDates.modified)}.</p>
+      <p>
+        I watched Matt Wolfe's video on free AI skills while I was planning the next round of
+        Access Free Tools work. The video gave me a useful question for this site: which free
+        skills help me build better pages without adding filler to the web?
+      </p>
+      <a class="button-primary" href="/categories/ai-tools/">Explore the browser AI tools</a>
+    </header>
+
+    <figure class="tool-art-figure">
+      <img
+        alt="Smoke-kawaii mascot beside a calculator, notes, and planning cards for an AI-assisted workflow."
+        decoding="async"
+        height="630"
+        loading="eager"
+        src={imagePath}
+        width="1200"
+      />
+      <figcaption>
+        <span>My rule for AI-assisted growth is simple: use tools to make the work clearer, then check the page like a human.</span>
+        <a href="/gallery/">See the gallery</a>
+      </figcaption>
+    </figure>
+
+    <div class="blog-article-layout">
+      <div class="blog-article-body">
+        <section class="content-section">
+          <h2>Quick answer</h2>
+          <p>
+            Free AI skills can help organic traffic when they improve the page a reader lands on.
+            A useful skill can catch vague copy, find recent questions, map a codebase, review a
+            layout, or help turn a guide into a short demo. It cannot replace source checks, user
+            intent, or the boring work of opening the page and reading it.
+          </p>
+          <p>
+            That is the standard I am using for Access Free Tools. If a skill helps me make a
+            calculator, converter, or guide clearer, it belongs on my testing list. If it helps me
+            publish more words without making the page better, I skip it.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>The job I care about</h2>
+          <p>
+            Access Free Tools grows when a page solves one small problem well. A mortgage page
+            should explain the payment. An OCR page should warn you about blur and glare. A
+            Markdown table page should help you fix pasted rows before you put them in a README.
+          </p>
+          <p>
+            That makes AI skills useful when they support the page craft: research, structure,
+            examples, design, proof, and cleanup. I want fewer rough drafts and more pages that a
+            normal person can trust.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Cleaner writing: Stop Slop</h2>
+          <p>
+            Stop Slop is the first one I would run on public copy. It is built to remove common AI
+            writing tells, such as fake drama, vague business language, and sentences that sound
+            polished while saying little.
+          </p>
+          <p>
+            That helps a free tools site because thin writing creates mistrust fast. If a guide
+            praises a calculator without explaining the input, the reader learns nothing. If the
+            guide says which input changes the answer and which mistake breaks it, the reader can
+            use the page.
+          </p>
+          <p>
+            I would use it on blog drafts, Medium drafts, tool explanations, and promotion copy
+            before anything goes public.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Better research: Last 30 Days</h2>
+          <p>
+            Last 30 Days is useful when I need recent context before I write. Search data tells me
+            what people type. Recent discussions can show the wording, complaints, and examples
+            people use right now.
+          </p>
+          <p>
+            I would use it for article ideas around browser AI tools, Markdown helpers, SEO cleanup,
+            and coding-agent workflows. I would still treat it as research notes, not a source of
+            final facts. The final page needs primary sources and a clear reason to exist.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Site memory: Graphify and Understand Anything</h2>
+          <p>
+            Graphify and Understand Anything both point at a pain I know well. Access Free Tools has
+            calculators, guides, sitemap rules, image rules, analytics notes, and promotion docs. A
+            coding agent can lose the thread when the repo gets large.
+          </p>
+          <p>
+            A knowledge graph can help an agent see connections before it edits. For this site, that
+            could mean fewer missed internal links, fewer stale assumptions, and a better sense of
+            which docs control which workflow.
+          </p>
+          <p>
+            I would test these in a sandbox first. Tools that build graph files can create large
+            artifacts, so I would keep outputs ignored, review them, and avoid letting generated
+            memory overwrite project rules.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Agent workflows: GStack</h2>
+          <p>
+            GStack caught my attention because it treats an AI coding setup like a small team with
+            roles. That is close to how this project already works. One pass might check content.
+            Another pass might check schema, performance, or release risk.
+          </p>
+          <p>
+            I would not copy a full system into Access Free Tools without review. The useful idea is
+            the role split: ask the right specialist to check the right thing, then require proof
+            before marking work done.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Design judgment: Front End Design and Taste Skill</h2>
+          <p>
+            Front End Design and Taste Skill both aim at a problem I see in AI-built pages: the page
+            can be correct and still feel generic. For Access Free Tools, the answer is not louder
+            design. A calculator page should stay calm, readable, and fast.
+          </p>
+          <p>
+            I would use these skills as a critique layer. Does the page hierarchy make sense on a
+            phone? Does the answer block stand out? Are buttons and examples easy to scan? Does the
+            layout fit a utility site instead of a marketing page?
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Future tutorial media: Remotion and HyperFrames</h2>
+          <p>
+            Remotion and HyperFrames are on my watch list for short tutorial media. A 20-second
+            visual walkthrough can explain a calculator input faster than a long paragraph, for
+            steps such as OCR image quality or Markdown table cleanup.
+          </p>
+          <p>
+            I would start small: one short demo for a tool that already earns search impressions but
+            needs a clearer first screen. Video should support the page. It should not become another
+            channel that creates work with no reader payoff.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>My testing rule</h2>
+          <p>
+            I do not want AI to make Access Free Tools sound bigger than it is. I want it to help me
+            notice missing examples, weak explanations, stale source notes, confusing layouts, and
+            pages that need a better next link.
+          </p>
+          <p>
+            The best version of this workflow is boring in a good way: choose one page, improve the
+            page, check it, then submit clean discovery signals. That beats a pile of generic posts
+            and weak backlinks.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Access Free Tools pages I would test this on</h2>
+          <ul class="guide-link-list">
+            <li>
+              <a href="/tools/image-to-text-ocr-tool/">Image to Text OCR Tool</a>
+              <span>Good for testing image-quality guidance, privacy notes, and short visual demos.</span>
+            </li>
+            <li>
+              <a href="/tools/keyword-extractor/">Keyword Extractor</a>
+              <span>Good for checking how research notes turn into clear keyword and phrase examples.</span>
+            </li>
+            <li>
+              <a href="/tools/reading-level-checker/">Reading Level Checker</a>
+              <span>Good for reviewing public copy before it becomes too stiff or too vague.</span>
+            </li>
+            <li>
+              <a href="/tools/markdown-table-generator/">Markdown Table Generator</a>
+              <span>Good for demos because the before and after are easy to see.</span>
+            </li>
+            <li>
+              <a href="/why-access-free-tools/">Why Access Free Tools exists</a>
+              <span>Good for checking whether the mission page still sounds like a person built it.</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="content-section">
+          <h2>The video that started my testing list</h2>
+          <p>
+            I found this topic through Matt Wolfe's video on nine free skills and plugins for AI
+            coding agents. I am not copying his workflow. I am using the video as a starting point
+            for a smaller Access Free Tools question: which tools help me publish better pages?
+          </p>
+          <div class="video-embed-shell">
+            <iframe
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              src="https://www.youtube-nocookie.com/embed/STH929HARLo"
+              title="Matt Wolfe video about free AI skills and plugins"
+            ></iframe>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Sources</h2>
+          <p>
+            These are the source pages I checked while making my testing list. They are useful if
+            you want to inspect the tools before adding them to your own agent setup.
+          </p>
+          <ul class="source-link-list">
+            {sourceLinks.map((source) => (
+              <li>
+                <a href={source.href} rel="noreferrer" target="_blank">{source.label}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+
+      <aside class="article-sidecar">
+        <h2>Try the related tools</h2>
+        <p>
+          I own Access Free Tools. The links below point to free pages on this site that match the
+          workflow in this article.
+        </p>
+        <a class="button-primary" href="/categories/ai-tools/">Browser AI tools</a>
+        <a class="button-secondary" href="/blog/">All guides</a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

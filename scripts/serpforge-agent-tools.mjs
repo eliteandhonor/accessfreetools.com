@@ -2464,16 +2464,23 @@ function lighthouseCommand(url, args, command) {
   const lighthouseReport = readJsonFile(lighthouseJsonPath);
   const categoryScores = lighthouseReport?.categories
     ? Object.fromEntries(
-        Object.entries(lighthouseReport.categories).map(([key, value]) => [key, Math.round(Number(value.score ?? 0) * 100)]),
+        Object.entries(lighthouseReport.categories).map(([key, value]) => [
+          key,
+          value.score == null ? null : Math.round(Number(value.score) * 100),
+        ]),
       )
     : null;
+  const runtimeError = lighthouseReport?.runtimeError ?? null;
+  const hasScoredCategories =
+    categoryScores && Object.values(categoryScores).every((score) => Number.isFinite(score));
   const payload = {
     generatedAt: new Date().toISOString(),
     url,
     preset,
-    status: lighthouseReport ? 'pass' : 'needs-attention',
+    status: lighthouseReport && !runtimeError && hasScoredCategories ? 'pass' : 'needs-attention',
     lighthouseJsonPath: rel(lighthouseJsonPath),
     categoryScores,
+    runtimeError,
     cleanupWarning: result.status !== 0 && lighthouseReport ? result.stderr : '',
     result,
   };
@@ -2490,8 +2497,17 @@ function lighthouseCommand(url, args, command) {
     '## Scores',
     '',
     ...(categoryScores
-      ? Object.entries(categoryScores).map(([key, value]) => `- ${key}: ${value}`)
+      ? Object.entries(categoryScores).map(([key, value]) => `- ${key}: ${value ?? 'not scored'}`)
       : ['- Lighthouse did not produce a readable JSON report.']),
+    runtimeError
+      ? [
+          '',
+          '## Runtime Error',
+          '',
+          `- Code: ${runtimeError.code ?? 'unknown'}`,
+          `- Message: ${runtimeError.message ?? 'unknown'}`,
+        ].join('\n\n')
+      : '',
     '',
     '## Note',
     '',
@@ -2505,7 +2521,7 @@ function lighthouseCommand(url, args, command) {
   console.log(`- Saved report: ${paths.markdownPath}`);
   console.log(`- Lighthouse JSON: ${payload.lighthouseJsonPath}`);
   if (categoryScores) {
-    for (const [key, value] of Object.entries(categoryScores)) console.log(`- ${key}: ${value}`);
+    for (const [key, value] of Object.entries(categoryScores)) console.log(`- ${key}: ${value ?? 'not scored'}`);
   }
   if (payload.status !== 'pass') process.exitCode = 1;
 }

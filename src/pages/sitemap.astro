@@ -5,6 +5,7 @@ import BreadcrumbStructuredData from '../components/BreadcrumbStructuredData.ast
 import CollectionStructuredData from '../components/CollectionStructuredData.astro';
 import { blogPosts } from '../data/blogPosts';
 import { categories } from '../data/categories';
+import { editorialBlogPosts } from '../data/editorialBlogPosts';
 import { gallerySitemapEntries, hubSitemapEntries, staticSitemapEntries } from '../data/discovery';
 import { topicalHubs } from '../data/hubs';
 import { tools } from '../data/tools';
@@ -25,6 +26,7 @@ const sitemapItems = [
   ...topicalHubs.map((hub) => ({ name: hub.title, path: `/hubs/${hub.slug}/` })),
   ...categoryGroups.map((category) => ({ name: category.name, path: `/categories/${category.slug}/` })),
   ...tools.map((tool) => ({ name: tool.name, path: `/tools/${tool.slug}/` })),
+  ...editorialBlogPosts.map((post) => ({ name: post.title, path: `/blog/${post.slug}/` })),
   ...blogPosts.map((post) => ({ name: post.title, path: `/blog/${post.slug}/` })),
 ];
 ---
@@ -68,6 +70,11 @@ const sitemapItems = [
         <span>Guides</span>
         <strong>{blogPosts.length}</strong>
         <p>How-to articles matched to live tools.</p>
+      </article>
+      <article>
+        <span>Owner notes</span>
+        <strong>{editorialBlogPosts.length}</strong>
+        <p>Editorial posts about building the Access Free Tools library.</p>
       </article>
       <article>
         <span>Categories</span>
@@ -176,6 +183,21 @@ const sitemapItems = [
   ))}
 
   <section class="section-band sitemap-section">
+    <div class="section-heading">
+      <h2>Owner notes</h2>
+      <p>Editorial posts about building, testing, and improving Access Free Tools.</p>
+    </div>
+    <div class="sitemap-link-grid">
+      {editorialBlogPosts.map((post) => (
+        <a href={`/blog/${post.slug}/`}>
+          <strong>{post.title}</strong>
+          <span>{post.summary}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-band section-band-soft sitemap-section">
     <div class="section-heading">
       <h2>Guides</h2>
       <p>Plain-language articles that explain examples, formulas, inputs, and result limits.</p>

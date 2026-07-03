@@ -2,14 +2,111 @@
   "completed": [
     {
       "path": "/blog/",
-      "completedAt": "2026-07-02T23:50:00+10:00",
+      "completedAt": "2026-07-03T20:58:22+10:00",
       "evidence": [
         "output/search-console/performance-latest.json",
+        "output/crawlscout/crawlscout-summary.json",
         "src/pages/blog/index.astro",
-        "output/seo-tool-review/blog-index/browser-proof-blog-index-local-final-playwright-2026-07-02-summary.json",
-        "output/ai-crawler-visibility/2026-07-02/summary.md"
+        "src/pages/free-calculator-resources.astro",
+        "src/data/siteDates.ts",
+        "output/indexing-protection/2026-07-03/summary.md",
+        "output/semantic-depth/2026-07-03/summary.json"
       ],
-      "note": "Completed the /blog/ high-impression zero-click CTR pass for the 2026-07-02 GSC export: title, meta description, H1, above-fold copy, CollectionPage name/description, and guide shortcuts now match the free calculator guide intent."
+      "note": "Refreshed the /blog/ high-impression zero-click CTR pass for the 2026-07-03 GSC and CrawlScout exports: added a reader-facing assumptions/limits guide shortcut section linking to the latest Tier A recovery guides, refreshed resource-hub links into the same clusters, updated lastmod metadata, and revalidated sitemap, indexing protection, structured data, built-site metadata, and semantic depth."
+    },
+    {
+      "path": "/tools/gas-mileage-calculator/",
+      "completedAt": "2026-07-03T20:58:22+10:00",
+      "evidence": [
+        "output/search-console/performance-latest.json",
+        "src/data/utilityTools.ts",
+        "src/pages/free-calculator-resources.astro",
+        "src/data/siteDates.ts",
+        "output/seo-agents/gas-mileage-calculator/tool/final-judge.md",
+        "output/indexing-protection/2026-07-03/summary.md",
+        "output/semantic-depth/2026-07-03/summary.json"
+      ],
+      "note": "Completed the Gas Mileage Calculator tool CTR follow-up for the 2026-07-03 GSC export: tightened the SEO title and description around MPG from miles and gallons, added stronger resource-hub discovery links for driving/fuel checks, updated sitemap lastmod metadata, and ran the SEO workbench final judge with 0 remaining gaps."
+    },
+    {
+      "path": "/blog/how-to-use-gas-mileage-calculator/",
+      "completedAt": "2026-07-03T20:58:22+10:00",
+      "evidence": [
+        "output/search-console/performance-latest.json",
+        "src/data/utilityBlogGuides.ts",
+        "src/pages/free-calculator-resources.astro",
+        "src/data/siteDates.ts",
+        "output/seo-agents/gas-mileage-calculator/blog/final-judge.md",
+        "output/indexing-protection/2026-07-03/summary.md",
+        "output/semantic-depth/2026-07-03/summary.json"
+      ],
+      "note": "Completed the Gas Mileage Calculator guide CTR follow-up for the 2026-07-03 GSC and CrawlScout exports: tightened the guide meta description around miles, gallons, MPG, gallons per 100 miles, L/100 km, and one-tank limits, added resource-hub discovery links, updated sitemap lastmod metadata, and ran the SEO workbench final judge with 0 remaining gaps."
+    },
+    {
+      "path": "/tools/interest-rate-calculator/",
+      "completedAt": "2026-07-03T21:17:29+10:00",
+      "evidence": [
+        "output/search-console/performance-latest.json",
+        "src/data/financeTools.ts",
+        "src/data/siteDates.ts",
+        "output/seo-agents/interest-rate-calculator/tool/final-judge.md"
+      ],
+      "note": "Completed the Interest Rate Calculator tool CTR follow-up for the 2026-07-03 GSC export: tightened the title and meta description around finding an interest rate from loan amount, monthly payment, and term; added clearer payment-quote use-case wording; updated sitemap lastmod metadata; and ran the SEO workbench final judge with 0 remaining gaps."
+    },
+    {
+      "path": "/blog/how-to-use-interest-rate-calculator/",
+      "completedAt": "2026-07-03T21:17:29+10:00",
+      "evidence": [
+        "output/search-console/performance-latest.json",
+        "src/data/financeBlogGuides.ts",
+        "src/data/siteDates.ts",
+        "output/seo-agents/interest-rate-calculator/blog/final-judge.md"
+      ],
+      "note": "Completed the Interest Rate Calculator guide CTR follow-up for the 2026-07-03 GSC export: tightened the guide summary around finding the annual rate from loan amount, monthly payment, and term; added a guide lastmod entry; and ran the SEO workbench final judge with 0 remaining gaps."
+    },
+    {
+      "path": "/tools/sales-tax-calculator/",
+      "completedAt": "2026-07-03T21:17:29+10:00",
+      "evidence": [
+        "output/search-console/performance-latest.json",
+        "src/data/financeTools.ts",
+        "src/data/siteDates.ts",
+        "output/seo-agents/sales-tax-calculator/tool/final-judge.md"
+      ],
+      "note": "Completed the Sales Tax Calculator tool CTR follow-up for the 2026-07-03 GSC export: tightened the title and meta description around tax amount, rate, final total, receipt rounding, and local-rate limits; added a direct purchase-tax use case; updated sitemap lastmod metadata; and ran the SEO workbench final judge with 0 remaining gaps."
+    },
+    {
+      "path": "/blog/how-to-use-sales-tax-calculator/",
+      "completedAt": "2026-07-03T21:17:29+10:00",
+      "evidence": [
+        "output/search-console/performance-latest.json",
+        "src/data/financeBlogGuides.ts",
+        "src/data/siteDates.ts",
+        "output/seo-agents/sales-tax-calculator/blog/final-judge.md"
+      ],
+      "note": "Completed the Sales Tax Calculator guide CTR follow-up for the 2026-07-03 GSC export: tightened the guide summary around sales tax, final total, and receipt rounding; updated sitemap lastmod metadata; and ran the SEO workbench final judge with 0 remaining gaps."
+    },
+    {
+      "path": "/tools/ad-revenue-calculator/",
+      "completedAt": "2026-07-03T21:17:29+10:00",
+      "evidence": [
+        "output/search-console/performance-latest.json",
+        "src/data/financeTools.ts",
+        "src/data/siteDates.ts",
+        "output/seo-agents/ad-revenue-calculator/tool/final-judge.md"
+      ],
+      "note": "Completed the Ad Revenue Calculator tool CTR follow-up for the 2026-07-03 GSC export: tightened the title and meta description around page views, CTR, CPC, monthly revenue, estimated clicks, and page RPM; added an AdSense-style scenario use case without overclaiming real earnings; updated sitemap lastmod metadata; and ran the SEO workbench final judge with 0 remaining gaps."
+    },
+    {
+      "path": "/blog/how-to-use-ad-revenue-calculator/",
+      "completedAt": "2026-07-03T21:17:29+10:00",
+      "evidence": [
+        "output/search-console/performance-latest.json",
+        "src/data/financeBlogGuides.ts",
+        "src/data/siteDates.ts",
+        "output/seo-agents/ad-revenue-calculator/blog/final-judge.md"
+      ],
+      "note": "Completed the Ad Revenue Calculator guide CTR follow-up for the 2026-07-03 GSC export: tightened the guide summary around daily page views, CTR, CPC, monthly revenue, and page RPM; updated sitemap lastmod metadata; and ran the SEO workbench final judge with 0 remaining gaps."
     },
     {
       "path": "/blog/how-to-use-big-number-calculator/",

@@ -16,6 +16,13 @@ Run the browser smoke lane for larger UI, navigation, or accessibility-sensitive
 npm run test:smoke
 ```
 
+Run the mobile-first SEO audit after layout, metadata, sitemap, or deployment
+changes:
+
+```bash
+npm run audit:mobile-seo
+```
+
 This must pass before release:
 
 - TypeScript check.
@@ -23,6 +30,7 @@ This must pass before release:
 - Astro production build.
 - Internal link validation across built HTML.
 - Built-site metadata, canonical, sitemap, social tag, image alt, and affiliate `rel` validation.
+- Mobile-first SEO validation with no AMP tags, no m-dot/mobile alternates, viewport metadata, canonical URLs, and mobile/tablet Playwright proof.
 - Semantic JSON-LD validation across built HTML.
 - Performance budget and AI lazy-asset validation.
 - Dependency vulnerability audit.
@@ -41,6 +49,7 @@ Open the local preview and check these pages:
 - A high-value finance tool, health tool, project estimator, developer tool, and calculator render their inputs, examples, FAQs, related tools, and guide links.
 - `/sitemap.xml`, `/sitemap-pages.xml`, `/sitemap-tools.xml`, `/sitemap-blog.xml`, `/sitemap-categories.xml`, `/robots.txt`, `/feed.xml`, and `/pinterest-feed.xml` load.
 - Footer text and links wrap normally on desktop and mobile widths.
+- The mobile SEO screenshots in `output/mobile-seo-audit/screenshots/` show visible H1/tool content and no horizontal overflow for representative phone and tablet widths.
 
 ## Production Proof
 
@@ -63,6 +72,26 @@ After Hostinger deploys the latest GitHub commit:
 - For Ask/API/MCP, production must be real Node data only. Run `npm run hostinger:deploy-node` after major API changes, then run `npm run check:live-ask`. The live check must show `/api/v1/ask` using `route.source: "parser"` or `route.source: "ollama"` and must not show `php-router`.
 - Confirm Hostinger has the contact form environment variables set and send one test message from `/contact/`.
 - Confirm old indexed URLs such as `/calculators`, `/deep-research`, and `/advanced-age-calculator` return 301 redirects. Keep those redirect rules in `public/.htaccess`, but do not add PHP API or MCP rewrites.
+
+## Mobile Performance Proof
+
+For larger mobile, template, or deployment changes, run mobile Lighthouse on the
+same representative live URLs used by `npm run audit:mobile-seo`:
+
+```bash
+npm run serpforge -- lighthouse https://accessfreetools.com/ mobile
+npm run serpforge -- lighthouse https://accessfreetools.com/tools/ mobile
+npm run serpforge -- lighthouse https://accessfreetools.com/free-calculator-resources/ mobile
+npm run serpforge -- lighthouse https://accessfreetools.com/tools/percentage-calculator/ mobile
+npm run serpforge -- lighthouse https://accessfreetools.com/blog/how-to-use-percentage-calculator/ mobile
+npm run serpforge -- lighthouse https://accessfreetools.com/categories/calculators/ mobile
+npm run serpforge -- lighthouse https://accessfreetools.com/gallery/finance/ mobile
+```
+
+Treat Lighthouse as lab evidence. Search Console and CrUX are the field sources
+for Core Web Vitals. Targets are LCP at or below 2.5 seconds, INP at or below
+200 ms, and CLS at or below 0.1. Do not add AMP as a workaround for normal
+responsive performance work.
 
 ## Search Console
 

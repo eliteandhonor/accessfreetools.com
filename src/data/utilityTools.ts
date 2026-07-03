@@ -1132,9 +1132,9 @@ export const utilityTools: ToolDefinition[] = [
     summary: 'Work out MPG from a real fill-up, plus gallons per 100 miles and L/100 km.',
     description:
       'Calculate gas mileage from miles driven and gallons used. See MPG, gallons per 100 miles, and liters per 100 km.',
-    seoTitle: 'Gas Mileage Calculator | MPG And Gallons Per 100 Miles',
+    seoTitle: 'Gas Mileage Calculator | MPG From Miles And Gallons',
     seoDescription:
-      'Calculate MPG from miles driven and gallons used. Includes gallons per 100 miles, L/100 km, fill-up tips, and clear limits.',
+      'Calculate MPG from miles and gallons, then compare gallons per 100 miles and L/100 km. Includes a fill-up example, averaging tips, and limits.',
     icon: 'calculator-gas-mileage',
     aliases: ['MPG Calculator', 'Fuel Economy Calculator', 'Miles Per Gallon Calculator'],
     formula:

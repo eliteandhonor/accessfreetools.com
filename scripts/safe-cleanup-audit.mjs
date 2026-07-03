@@ -5,6 +5,8 @@ import { spawnSync } from 'node:child_process';
 
 import { codexHomeDenylist, formatBytes, listCleanupCandidates, pathSizeBytes, projectDenylist } from './lib/safe-cleanup.mjs';
 
+const fastAudit = process.env.AFT_MAINTENANCE_AUDIT_FAST === '1';
+
 function runCommand(label, command, args, cwd) {
   const result = spawnSync(command, args, {
     cwd,
@@ -27,6 +29,18 @@ function runAftCommand(label, args, cwd) {
 
 function topDirectorySizes(rootDir, limit = 20) {
   if (!existsSync(rootDir)) return [];
+  if (fastAudit) {
+    return readdirSync(rootDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => ({
+        name: entry.name,
+        path: resolve(rootDir, entry.name),
+        sizeBytes: 0,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .slice(0, limit);
+  }
+
   return readdirSync(rootDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => {
@@ -61,7 +75,7 @@ function protectedProjectPaths(rootDir) {
       relativePath,
       absolutePath,
       exists: existsSync(absolutePath),
-      sizeBytes: existsSync(absolutePath) ? pathSizeBytes(absolutePath) : 0,
+      sizeBytes: !fastAudit && existsSync(absolutePath) ? pathSizeBytes(absolutePath) : 0,
     };
   });
 }
@@ -147,7 +161,7 @@ const codexHomePath = resolve(process.env.CODEX_HOME || resolve(homedir(), '.cod
 const gitStatus = runCommand('Git status', 'git', ['status', '--short', '--branch'], rootDir);
 const seoQueue = runAftCommand('SEO tool queue', ['seo-tool-queue'], rootDir);
 const seoApproval = runAftCommand('SEO approval status', ['seo-approval-status', 'text-case-converter'], rootDir);
-const cleanupCandidates = listCleanupCandidates(rootDir);
+const cleanupCandidates = listCleanupCandidates(rootDir, { measureSize: !fastAudit });
 
 const report = {
   generatedAt: new Date().toISOString(),

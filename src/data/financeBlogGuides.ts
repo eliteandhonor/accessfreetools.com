@@ -1967,7 +1967,7 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Income Tax Calculator for federal tax estimate context.', 'Use Percentage Calculator for raise or pay-change math.'],
   },
   'interest-rate-calculator': {
-    summary: 'Learn how to estimate the annual rate hidden inside a fixed loan payment quote.',
+    summary: 'Learn how to find the annual interest rate from a loan amount, monthly payment, and term.',
     purpose:
       'The Interest Rate Calculator is for the moment when a quote shows the payment but not a clear rate. It works backward from amount financed, monthly payment, and term to estimate the annual rate before extra fees.',
     enter: [
@@ -1992,7 +1992,7 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Loan Calculator once you know the rate.', 'Use APR Calculator if fees are part of the quote.', 'Use Auto Loan Calculator if the quote includes vehicle tax and fees.'],
   },
   'sales-tax-calculator': {
-    summary: 'Learn how to calculate sales tax amount and final total from a before-tax price and local rate.',
+    summary: 'Learn how to calculate sales tax, final total, and receipt rounding from price and rate.',
     purpose:
       'The Sales Tax Calculator is for quick receipt and checkout math. It does not look up rates. You bring the current local rate, then the calculator shows the tax amount and final total.',
     enter: [
@@ -2777,7 +2777,7 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use IRR Calculator for uneven cash flows.', 'Use ROI Calculator for a simpler gain-versus-cost check.'],
   },
   'ad-revenue-calculator': {
-    summary: 'Estimate website ad revenue from page views, page CTR, average CPC, and page RPM without treating the number like a confirmed payout.',
+    summary: 'Estimate website ad revenue from daily page views, CTR, CPC, monthly revenue, and page RPM.',
     purpose:
       'The Ad Revenue Calculator is for early website planning. It helps you test a simple question: if a page gets this many views, this click rate, and this average click value, what could the ad revenue look like?',
     enter: [

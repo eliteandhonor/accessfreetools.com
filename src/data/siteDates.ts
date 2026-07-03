@@ -103,13 +103,13 @@ const toolLastmodOverrides: Record<string, string> = {
   'boat-loan-calculator': '2026-06-03',
   'refinance-calculator': '2026-06-02',
   'va-mortgage-calculator': '2026-06-02',
-  'interest-rate-calculator': '2026-05-27',
+  'interest-rate-calculator': '2026-07-03',
   'currency-calculator': '2026-06-05',
   'conversion-calculator': '2026-06-11',
   'loan-calculator': '2026-05-26',
   'love-calculator': '2026-05-26',
   'roofing-calculator': '2026-05-26',
-  'gas-mileage-calculator': '2026-05-31',
+  'gas-mileage-calculator': '2026-07-03',
   'golf-handicap-calculator': '2026-05-31',
   'mulch-calculator': '2026-06-02',
   'paver-calculator': '2026-06-02',
@@ -219,7 +219,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'height-calculator': '2026-05-26',
   'sleep-calculator': '2026-05-26',
   'tire-size-calculator': '2026-06-05',
-  'ad-revenue-calculator': '2026-05-26',
+  'ad-revenue-calculator': '2026-07-03',
   'half-life-calculator': '2026-05-26',
   'character-counter': '2026-05-26',
   'markup-calculator': '2026-05-26',
@@ -237,7 +237,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'target-heart-rate-calculator': '2026-05-26',
   'area-calculator': '2026-05-26',
   'fraction-calculator': '2026-05-26',
-  'sales-tax-calculator': '2026-05-26',
+  'sales-tax-calculator': '2026-07-03',
   'flooring-calculator': '2026-05-26',
   'oven-temperature-converter': '2026-05-26',
   'image-to-text-ocr-tool': '2026-06-11',
@@ -270,6 +270,7 @@ const toolLastmodOverrides: Record<string, string> = {
 };
 
 const blogModifiedOverrides: Record<string, string> = {
+  'free-ai-skills-open-source-tools-organic-growth': '2026-07-03',
   'how-to-use-basic-calculator': '2026-06-02',
   'how-to-use-big-number-calculator': '2026-07-02',
   'how-to-use-binary-calculator': '2026-06-27',
@@ -385,7 +386,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-va-mortgage-calculator': '2026-06-02',
   'how-to-use-height-calculator': '2026-05-26',
   'how-to-use-sleep-calculator': '2026-05-26',
-  'how-to-use-ad-revenue-calculator': '2026-05-26',
+  'how-to-use-ad-revenue-calculator': '2026-07-03',
   'how-to-use-half-life-calculator': '2026-05-26',
   'how-to-use-character-counter': '2026-05-26',
   'how-to-use-markup-calculator': '2026-05-26',
@@ -495,7 +496,8 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-target-heart-rate-calculator': '2026-05-26',
   'how-to-use-area-calculator': '2026-05-26',
   'how-to-use-fraction-calculator': '2026-05-26',
-  'how-to-use-sales-tax-calculator': '2026-05-26',
+  'how-to-use-interest-rate-calculator': '2026-07-03',
+  'how-to-use-sales-tax-calculator': '2026-07-03',
   'how-to-use-flooring-calculator': '2026-05-26',
   'how-to-use-oven-temperature-converter': '2026-05-26',
   'how-to-use-image-to-text-ocr-tool': '2026-05-26',
@@ -508,7 +510,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-reading-level-checker': '2026-06-11',
   'how-to-use-gdp-calculator': '2026-05-26',
   'how-to-use-golf-handicap-calculator': '2026-05-31',
-  'how-to-use-gas-mileage-calculator': '2026-05-31',
+  'how-to-use-gas-mileage-calculator': '2026-07-03',
   'how-to-use-mileage-calculator': '2026-05-31',
   'how-to-use-asphalt-calculator': '2026-05-31',
   'how-to-use-board-foot-calculator': '2026-05-31',
@@ -526,6 +528,10 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-triangle-calculator': '2026-05-31',
 };
 
+const blogPublishedOverrides: Record<string, string> = {
+  'free-ai-skills-open-source-tools-organic-growth': '2026-07-03',
+};
+
 const staticPageLastmod: Record<string, string> = {
   '/': '2026-05-02',
   '/tools/': LAST_MAJOR_CONTENT_UPDATE,
@@ -533,8 +539,8 @@ const staticPageLastmod: Record<string, string> = {
   '/gallery/': '2026-05-16',
   '/hubs/': LAST_MAJOR_CONTENT_UPDATE,
   '/categories/': '2026-05-02',
-  '/blog/': LAST_MAJOR_CONTENT_UPDATE,
-  '/free-calculator-resources/': '2026-05-02',
+  '/blog/': '2026-07-03',
+  '/free-calculator-resources/': '2026-07-03',
   '/developers/mcp/': '2026-05-15',
   '/about/': '2026-05-10',
   '/why-access-free-tools/': '2026-05-09',
@@ -576,7 +582,7 @@ export function getBlogDates(slug: string) {
   ].includes(slug);
 
   return {
-    published: isEarlyHandwrittenGuide ? DEFAULT_BLOG_PUBLISHED_DATE : LAST_MAJOR_CONTENT_UPDATE,
+    published: blogPublishedOverrides[slug] ?? (isEarlyHandwrittenGuide ? DEFAULT_BLOG_PUBLISHED_DATE : LAST_MAJOR_CONTENT_UPDATE),
     modified: blogModifiedOverrides[slug] ?? LAST_MAJOR_CONTENT_UPDATE,
   };
 }

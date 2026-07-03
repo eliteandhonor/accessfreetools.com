@@ -130,6 +130,7 @@ function qualitySummary(report, label) {
 
   return {
     label,
+    generatedAt: report.generatedAt ?? '',
     status: errors === 0 && warnings === 0 ? 'passed' : errors > 0 ? 'failed' : 'warnings',
     passed,
     total,
@@ -137,6 +138,23 @@ function qualitySummary(report, label) {
     warnings,
     issues,
   };
+}
+
+function hasFreshPassingPromotionReview(qualityReports, now = new Date()) {
+  const weekMs = 7 * 24 * 60 * 60 * 1000;
+  return (
+    qualityReports.length >= 5 &&
+    qualityReports.every((report) => {
+      const generatedAt = report.generatedAt ? new Date(report.generatedAt) : null;
+      return (
+        report.status === 'passed' &&
+        report.total > 0 &&
+        generatedAt instanceof Date &&
+        Number.isFinite(generatedAt.getTime()) &&
+        now.getTime() - generatedAt.getTime() <= weekMs
+      );
+    })
+  );
 }
 
 function neutralIndexingItems(seoEvaluation, inspectionReport) {
@@ -394,6 +412,26 @@ function chooseRecommendations({
         ['docs/promotion-queue.md', 'docs/brand-code.md', platformEvidence].filter(Boolean),
         approvedPromotionGate(item, qualityReports),
         'Public URL or screenshot after posting.',
+      ),
+    );
+  }
+
+  if (!recommendations.length && hasFreshPassingPromotionReview(qualityReports)) {
+    recommendations.push(
+      recommendation(
+        'Monitor',
+        'No urgent promotion action after weekly review',
+        'The fresh weekly promotion review is already present and all platform quality reports pass.',
+        'Hold promotion changes until there is a new approved public-posting task, live-proof gap, or fresh Search Console priority.',
+        [
+          evidencePaths.mediumQuality,
+          evidencePaths.redditQuality,
+          evidencePaths.blueskyQuality,
+          evidencePaths.quoraQuality,
+          evidencePaths.devtoQuality,
+        ],
+        'Do not publish or mark promotion complete without public URL, profile/feed proof, or screenshot evidence.',
+        'Fresh generated quality reports are enough for the review cadence; public URL proof is only needed after live posting.',
       ),
     );
   }

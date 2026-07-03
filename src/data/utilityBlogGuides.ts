@@ -1620,7 +1620,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   'gas-mileage-calculator': {
     summary: 'Learn how to calculate MPG from a fill-up, then read gallons per 100 miles and L/100 km without guessing.',
     metaDescription:
-      'Use the Gas Mileage Calculator with a 350-mile, 12.5-gallon example. See MPG, gallons per 100 miles, L/100 km, and why one tank can mislead.',
+      'Calculate MPG from miles and gallons with a 350-mile, 12.5-gallon example. Compare gallons per 100 miles, L/100 km, and one-tank limits.',
     purpose:
       'The Gas Mileage Calculator turns a real tank or trip into MPG. It also shows gallons per 100 miles and liters per 100 km, which are fuel-used-per-distance numbers.',
     intro:
