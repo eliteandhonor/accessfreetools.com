@@ -59,6 +59,8 @@ const sourceLinks = [
   { href: 'https://github.com/remotion-dev/remotion', label: 'Remotion' },
   { href: 'https://github.com/heygen-com/hyperframes', label: 'HyperFrames' },
 ];
+const articleImageAlt =
+  'Smoke-kawaii mascot reviewing nine open-source AI skill cards around a laptop showing a free tools page, with search, writing, code, design, video, chart, and link icons.';
 ---
 
 <BaseLayout
@@ -66,7 +68,7 @@ const sourceLinks = [
   description={description}
   path={path}
   socialImagePath={imagePath}
-  socialImageAlt="Smoke-kawaii mascot beside a calculator, notes, and planning cards for an AI-assisted workflow."
+  socialImageAlt={articleImageAlt}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
   <BreadcrumbStructuredData
@@ -94,7 +96,7 @@ const sourceLinks = [
 
     <figure class="tool-art-figure">
       <img
-        alt="Smoke-kawaii mascot beside a calculator, notes, and planning cards for an AI-assisted workflow."
+        alt={articleImageAlt}
         decoding="async"
         height="630"
         loading="eager"
@@ -102,7 +104,7 @@ const sourceLinks = [
         width="1200"
       />
       <figcaption>
-        <span>My rule for AI-assisted growth is simple: use tools to make the work clearer, then check the page like a human.</span>
+        <span>My rule for AI-assisted growth is simple: test the source, improve the page, and keep the work useful.</span>
         <a href="/gallery/">See the gallery</a>
       </figcaption>
     </figure>
@@ -141,9 +143,10 @@ const sourceLinks = [
         <section class="content-section">
           <h2>Cleaner writing: Stop Slop</h2>
           <p>
-            Stop Slop is the first one I would run on public copy. It is built to remove common AI
-            writing tells, such as fake drama, vague business language, and sentences that sound
-            polished while saying little.
+            <a href="https://github.com/hardikpandya/stop-slop" rel="noreferrer" target="_blank">Stop Slop</a>{' '}
+            is the first one I would run on public copy. It is built to remove common AI writing
+            tells, such as fake drama, vague business language, and sentences that sound polished
+            while saying little.
           </p>
           <p>
             That helps a free tools site because thin writing creates mistrust fast. If a guide
@@ -160,9 +163,10 @@ const sourceLinks = [
         <section class="content-section">
           <h2>Better research: Last 30 Days</h2>
           <p>
-            Last 30 Days is useful when I need recent context before I write. Search data tells me
-            what people type. Recent discussions can show the wording, complaints, and examples
-            people use right now.
+            <a href="https://github.com/mvanhorn/last30days-skill" rel="noreferrer" target="_blank">Last 30 Days</a>{' '}
+            is useful when I need recent context before I write. Search data tells me what people
+            type. Recent discussions can show the wording, complaints, and examples people use
+            right now.
           </p>
           <p>
             I would use it for article ideas around browser AI tools, Markdown helpers, SEO cleanup,
@@ -174,9 +178,12 @@ const sourceLinks = [
         <section class="content-section">
           <h2>Site memory: Graphify and Understand Anything</h2>
           <p>
-            Graphify and Understand Anything both point at a pain I know well. Access Free Tools has
-            calculators, guides, sitemap rules, image rules, analytics notes, and promotion docs. A
-            coding agent can lose the thread when the repo gets large.
+            <a href="https://github.com/safishamsi/graphify" rel="noreferrer" target="_blank">Graphify</a>
+            {' '}and{' '}
+            <a href="https://github.com/Egonex-AI/Understand-Anything" rel="noreferrer" target="_blank">Understand Anything</a>
+            {' '}both point at a pain I know well. Access Free Tools has calculators, guides, sitemap
+            rules, image rules, analytics notes, and promotion docs. A coding agent can lose the
+            thread when the repo gets large.
           </p>
           <p>
             A knowledge graph can help an agent see connections before it edits. For this site, that
@@ -193,9 +200,10 @@ const sourceLinks = [
         <section class="content-section">
           <h2>Agent workflows: GStack</h2>
           <p>
-            GStack caught my attention because it treats an AI coding setup like a small team with
-            roles. That is close to how this project already works. One pass might check content.
-            Another pass might check schema, performance, or release risk.
+            <a href="https://github.com/garrytan/gstack" rel="noreferrer" target="_blank">GStack</a>{' '}
+            caught my attention because it treats an AI coding setup like a small team with roles.
+            That is close to how this project already works. One pass might check content. Another
+            pass might check schema, performance, or release risk.
           </p>
           <p>
             I would not copy a full system into Access Free Tools without review. The useful idea is
@@ -207,9 +215,12 @@ const sourceLinks = [
         <section class="content-section">
           <h2>Design judgment: Front End Design and Taste Skill</h2>
           <p>
-            Front End Design and Taste Skill both aim at a problem I see in AI-built pages: the page
-            can be correct and still feel generic. For Access Free Tools, the answer is not louder
-            design. A calculator page should stay calm, readable, and fast.
+            <a href="https://www.skills.sh/anthropics/skills/frontend-design" rel="noreferrer" target="_blank">Front End Design</a>
+            {' '}and{' '}
+            <a href="https://github.com/Leonxlnx/taste-skill" rel="noreferrer" target="_blank">Taste Skill</a>
+            {' '}both aim at a problem I see in AI-built pages: the page can be correct and still feel
+            generic. For Access Free Tools, the answer is not louder design. A calculator page
+            should stay calm, readable, and fast.
           </p>
           <p>
             I would use these skills as a critique layer. Does the page hierarchy make sense on a
@@ -221,9 +232,12 @@ const sourceLinks = [
         <section class="content-section">
           <h2>Future tutorial media: Remotion and HyperFrames</h2>
           <p>
-            Remotion and HyperFrames are on my watch list for short tutorial media. A 20-second
-            visual walkthrough can explain a calculator input faster than a long paragraph, for
-            steps such as OCR image quality or Markdown table cleanup.
+            <a href="https://github.com/remotion-dev/remotion" rel="noreferrer" target="_blank">Remotion</a>
+            {' '}and{' '}
+            <a href="https://github.com/heygen-com/hyperframes" rel="noreferrer" target="_blank">HyperFrames</a>
+            {' '}are on my watch list for short tutorial media. A 20-second visual walkthrough can
+            explain a calculator input faster than a long paragraph, for steps such as OCR image
+            quality or Markdown table cleanup.
           </p>
           <p>
             I would start small: one short demo for a tool that already earns search impressions but
