@@ -41,6 +41,17 @@ function temporarilyRemoveDirectory(relativePath) {
   movedDirectories.push({ absolutePath, backupPath });
 }
 
+function temporarilyRemoveFile(relativePath) {
+  const absolutePath = resolve(process.cwd(), relativePath);
+  if (!preservedFiles.has(absolutePath)) {
+    preservedFiles.set(absolutePath, {
+      content: existsSync(absolutePath) ? readFileSync(absolutePath, 'utf8') : '',
+      existed: existsSync(absolutePath),
+    });
+  }
+  rmSync(absolutePath, { force: true });
+}
+
 function removeDirectoryIfEmpty(relativePath) {
   const absolutePath = resolve(process.cwd(), relativePath);
   if (!existsSync(absolutePath)) return;
@@ -529,6 +540,8 @@ describe('agent tools reports', () => {
 
   it('does not infer zero internal links when dist was intentionally cleaned', () => {
     temporarilyRemoveDirectory('dist');
+    temporarilyRemoveFile('output/search-console-coverage-export.json');
+    temporarilyRemoveFile('output/marketing-orchestrator/daily-plan.json');
     preserveAndWrite(
       'output/search-console-url-inspection.json',
       JSON.stringify(

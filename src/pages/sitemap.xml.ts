@@ -1,5 +1,6 @@
 export const prerender = true;
 import type { APIRoute } from 'astro';
+import { DISCOVERY_CACHE_CONTROL } from '../lib/cacheHeaders';
 import {
   blogSitemapEntries,
   categorySitemapEntries,
@@ -27,6 +28,7 @@ export const GET: APIRoute = () => {
 
   return new Response(body, {
     headers: {
+      'Cache-Control': DISCOVERY_CACHE_CONTROL,
       'Content-Type': 'application/xml; charset=utf-8',
     },
   });

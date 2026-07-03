@@ -62,11 +62,11 @@ npm run hostinger:deploy-node
 npm run check:live-ask
 ```
 
-This starts a Hostinger JavaScript deployment with Node 24 by default, build script `build`,
-output directory `dist`, and entry file `app.js`. Override with `HOSTINGER_NODE_VERSION=22`
-or npm `--node-version=22` only for an intentional rollback test. The live check verifies that
-Ask/API/MCP traffic reaches the Astro Node runtime instead of any retired PHP
-route.
+This starts a Hostinger JavaScript deployment with Node 24, build script
+`build`, output directory `dist`, and entry file `app.js`. Do not override this
+to Node 22; Access Free Tools production deploys are Node 24-only. The live
+check verifies that Ask/API/MCP traffic reaches the Astro Node runtime instead
+of any retired PHP route.
 
 Optional VPS Docker checks need local IDs:
 

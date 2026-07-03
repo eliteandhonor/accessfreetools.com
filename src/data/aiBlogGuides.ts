@@ -78,7 +78,7 @@ const guideDetails: Record<string, AiGuideDetail> = {
     read: [
       'Treat the result as a draft copy, not a certified transcript.',
       'If the image says INV-10018 or $42.50, check those exact characters before pasting.',
-      'Columns, tiny text, blur, glare, and sideways photos can lower accuracy.',
+      'Columns, small text, blur, glare, and sideways photos can lower accuracy because OCR depends on image quality and careful cropping.',
       'If the output looks messy, crop closer, brighten the image, and run OCR again.',
     ],
     mistakes: [

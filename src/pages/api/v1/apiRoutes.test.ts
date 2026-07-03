@@ -31,6 +31,7 @@ describe('Access Free Tools API routes', () => {
     expect(response.headers.get('cache-control')).toBe(METADATA_CACHE_CONTROL);
     expect(body.ok).toBe(true);
     expect(body.tools.length).toBeGreaterThanOrEqual(20);
+    expect(response.headers.get('cache-control')).toMatch(/public/);
   });
 
   it('returns one tool schema', async () => {
@@ -39,6 +40,15 @@ describe('Access Free Tools API routes', () => {
     expect(response.headers.get('cache-control')).toBe(METADATA_CACHE_CONTROL);
     expect(body.ok).toBe(true);
     expect(body.tool.slug).toBe('percentage-calculator');
+    expect(response.headers.get('cache-control')).toMatch(/public/);
+  });
+
+  it('keeps missing tool schemas private instead of caching 404s', async () => {
+    const response = await toolGet({ params: { slug: 'missing-tool' }, request: request() } as never);
+    const body = await response.json();
+    expect(response.status).toBe(404);
+    expect(body.ok).toBe(false);
+    expect(response.headers.get('cache-control')).toBe('no-store');
   });
 
   it('keeps OpenAPI metadata cacheable without changing the document', async () => {

@@ -108,6 +108,7 @@ Every new public tool should include:
 - Chrome status note from 2026-05-10: when multiple Chrome extension backends are listed, use the backend whose `user.openTabs()` returns the user's real logged-in social tabs. Claim tabs with `chromeBrowser.user.claimTab(tabId)` before using Playwright-style locators. Bluesky public posting was verified by opening the public profile and extracting the visible post permalink before updating the queue.
 - About page lesson from 2026-05-10: `/about/` should read like the mission page for a growing free utility app website, with balanced visual layout and concrete tool-library goals. Do not let it collapse into a generic SEO/audit process page or duplicate `/why-access-free-tools/`.
 - Use `docs/promotion-account-launch-kit.md` for Pinterest Business, Reddit, and Medium setup details.
+- Use `docs/promotion-account-registry.md` before creating or updating promotion, directory, backlink, or brand profiles. It is the current source of truth for which accounts are live, blocked, deferred, or still need proof.
 - Use `docs/promotion-queue.md` as the working list of pages to promote and their status.
 - Use `docs/promotion-share-kit.md` for safe profile bios, draft posts, and approval checks.
 - The agent may draft posts, recommend pages, prepare helpful replies, run SEO checks, submit discovery signals, and report opportunities.

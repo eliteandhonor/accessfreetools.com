@@ -3,6 +3,7 @@ import type { APIRoute } from 'astro';
 import { blogPosts } from '../data/blogPosts';
 import { absoluteUrl, escapeXml, maxLastmod } from '../data/discovery';
 import { getBlogDates, RSS_ITEM_LIMIT, SITE_ORIGIN, toRfc822Date } from '../data/siteDates';
+import { DISCOVERY_CACHE_CONTROL } from '../lib/cacheHeaders';
 
 export const GET: APIRoute = () => {
   const items = blogPosts
@@ -44,6 +45,7 @@ export const GET: APIRoute = () => {
 
   return new Response(body, {
     headers: {
+      'Cache-Control': DISCOVERY_CACHE_CONTROL,
       'Content-Type': 'application/rss+xml; charset=utf-8',
     },
   });

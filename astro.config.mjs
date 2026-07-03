@@ -12,6 +12,10 @@ export default defineConfig({
     '/api/openapi.json': { maxAge: 300, swr: 600, tags: ['api-metadata'] },
     '/api/v1/tools': { maxAge: 300, swr: 600, tags: ['api-metadata'] },
     '/api/v1/tools/[slug]': { maxAge: 300, swr: 600, tags: ['api-metadata'] },
+    '/feed.xml': { maxAge: 300, swr: 3600, tags: ['discovery'] },
+    '/llms.txt': { maxAge: 300, swr: 3600, tags: ['discovery'] },
+    '/sitemap.xml': { maxAge: 300, swr: 3600, tags: ['sitemap'] },
+    '/sitemap-[name].xml': { maxAge: 300, swr: 3600, tags: ['sitemap'] },
   },
   redirects: {
     '/calculators': {

@@ -1,0 +1,18 @@
+export const verifiedOrganizationSameAs = [
+  'https://medium.com/@accessfreetools',
+  'https://au.pinterest.com/accessfreetools/',
+  'https://www.linkedin.com/company/access-free-tools/',
+  'https://github.com/access-free-tools',
+  'https://www.quora.com/profile/Access-Free-Tools',
+  'https://accessfreetoolssspace.quora.com/',
+  'https://bsky.app/profile/accessfreetools.bsky.social',
+  'https://linktr.ee/accessfreetools',
+  'https://gravatar.com/exactly664c9a321a',
+  'https://about.me/accessfreetools',
+  'https://gitlab.com/accessfreetools',
+  'https://codepen.io/accessfreetools',
+  'https://stackblitz.com/@access-free-tools',
+  'https://hashnode.com/@accessfreetools',
+  'https://www.crunchbase.com/organization/access-free-tools',
+  'https://www.slideshare.net/accessfreetools',
+] as const;

@@ -3,6 +3,7 @@ import type { APIRoute } from 'astro';
 import { toolArtEntries } from '../data/toolArt';
 import { absoluteUrl, escapeXml } from '../data/discovery';
 import { getBlogDates, getToolLastmod } from '../data/siteDates';
+import { DISCOVERY_CACHE_CONTROL } from '../lib/cacheHeaders';
 
 function lastmodForEntry(entry: (typeof toolArtEntries)[number]) {
   if (entry.kind === 'tool') return getToolLastmod(entry.slug);
@@ -31,6 +32,7 @@ export const GET: APIRoute = () => {
 
   return new Response(body, {
     headers: {
+      'Cache-Control': DISCOVERY_CACHE_CONTROL,
       'Content-Type': 'application/xml; charset=utf-8',
     },
   });

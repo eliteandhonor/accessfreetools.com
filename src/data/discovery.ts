@@ -22,6 +22,9 @@ export interface SitemapIndexEntry {
   lastmod: string;
 }
 
+const XML_SITEMAP_EXCLUDED_PATHS = new Set(['/sitemap/']);
+const XML_SITEMAP_EXCLUDED_PREFIXES = ['/admin/', '/api/'];
+
 export const staticSitemapEntries: SitemapEntry[] = [
   '/',
   '/tools/',
@@ -102,7 +105,28 @@ export function absoluteUrl(path: string) {
   return `${SITE_ORIGIN}${path}`;
 }
 
+export function assertXmlSitemapEntries(entries: SitemapEntry[]) {
+  for (const entry of entries) {
+    if (!entry.path.startsWith('/') || !entry.path.endsWith('/')) {
+      throw new Error(`XML sitemap entry must be a root-relative trailing-slash path: ${entry.path}`);
+    }
+
+    if (entry.path.includes('?') || entry.path.includes('#')) {
+      throw new Error(`XML sitemap entry must not include query strings or hashes: ${entry.path}`);
+    }
+
+    if (
+      XML_SITEMAP_EXCLUDED_PATHS.has(entry.path) ||
+      XML_SITEMAP_EXCLUDED_PREFIXES.some((prefix) => entry.path.startsWith(prefix))
+    ) {
+      throw new Error(`Non-indexable or internal path cannot appear in XML sitemap: ${entry.path}`);
+    }
+  }
+}
+
 export function renderUrlSet(entries: SitemapEntry[]) {
+  assertXmlSitemapEntries(entries);
+
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${entries

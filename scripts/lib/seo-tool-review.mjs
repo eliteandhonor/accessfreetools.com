@@ -541,7 +541,7 @@ export function buildSeoToolQueueReport(options = {}) {
   const report = {
     generatedAt,
     kind: 'seo-tool-queue',
-    status: approvalGate.blocked ? 'blocked' : 'pass',
+    status: approvalGate.blocked ? 'blocked' : entries.length ? 'pass' : 'complete',
     summary: {
       approvalUnit: 'page',
       firstPage: approvalGate.blocked
@@ -712,7 +712,7 @@ function competitorScoreFromHtml(url, html, tool) {
   const sections = {
     metadata: clamp((headings.title ? 35 : 0) + (headings.description ? 35 : 0) + (headings.h1.length ? 30 : 0)),
     headings: clamp(Math.min(100, (headings.h2.length + headings.h3.length) * 14)),
-    faq: clamp(Math.min(100, faqQuestions.length * 25 + (schemaTypes.includes('FAQPage') ? 15 : 0))),
+    faq: clamp(Math.min(100, faqQuestions.length * 25)),
     examples: clamp(Math.min(100, signals.examples * 24 + Math.min(35, signals.numbers * 4))),
     coverage: clamp(Math.min(100, signals.formulas * 10 + signals.mistakes * 15 + signals.toolWordHits * 8)),
     schema: clamp(schemaTypes.length ? 70 + Math.min(30, schemaTypes.length * 10) : 25),
@@ -979,7 +979,7 @@ export function buildSeoPageScoreReport(slug, options = {}) {
   const sections = {
     seoFit: clamp((tool.seoDescription ? 35 : 0) + (builtHeadings.title ? 25 : 0) + (builtHeadings.description ? 25 : 0) + (builtHeadings.h1.length ? 15 : 0)),
     toolSpecificity: clamp(45 + Math.min(20, signals.toolWordHits * 3 + signals.toolPhraseHits * 4) + Math.min(20, numberSignalCount(text)) + Math.min(15, tool.exampleCount * 5)),
-    faqQuality: clamp(Math.min(100, tool.faqCount * 14 + (built.exists && /FAQPage/i.test(built.html) ? 10 : 0))),
+    faqQuality: clamp(Math.min(100, tool.faqCount * 14)),
     internalLinks: clamp(Math.min(100, (built.exists ? countInternalLinks(built.html) : tool.relatedCount) * 12 + tool.relatedCount * 7)),
     tone: tone.score,
     trustAndLimits: clamp(50 + Math.min(25, signals.mistakes * 5) + Math.min(25, /\b(privacy|no sign|free|estimate|double-check|not financial|not medical|limit)\b/i.test(text) ? 25 : 0)),

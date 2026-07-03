@@ -163,6 +163,10 @@ for (const htmlFile of htmlFiles) {
 
   const typeNames = new Set(parsedBlocks.flatMap((item) => [...getTypeSet(item)]));
 
+  if (typeNames.has('FAQPage')) {
+    issues.push(`${normalize(htmlFile)} should keep visible FAQs but not emit FAQPage JSON-LD for this commercial site.`);
+  }
+
   if (!typeNames.has('Organization')) {
     issues.push(`${normalize(htmlFile)} is missing Organization structured data.`);
   }
@@ -177,6 +181,18 @@ for (const htmlFile of htmlFiles) {
     if (types.has('Organization')) {
       requireString(item, 'name', 'Organization', htmlFile);
       requireSiteUrl(item.url, 'Organization url', htmlFile);
+
+      if (item.sameAs !== undefined) {
+        if (!Array.isArray(item.sameAs) || item.sameAs.length < 3) {
+          issues.push(`${normalize(htmlFile)} Organization sameAs should be a useful array of verified public profiles.`);
+        } else {
+          for (const url of item.sameAs) {
+            if (typeof url !== 'string' || !url.startsWith('https://')) {
+              issues.push(`${normalize(htmlFile)} Organization sameAs entry must be an absolute HTTPS URL: ${url}`);
+            }
+          }
+        }
+      }
     }
 
     if (types.has('WebSite')) {

@@ -46,7 +46,7 @@ describe('seo tool/page review lane', () => {
     expect(report.entries.some((entry) => entry.slug === 'wallpaper-calculator')).toBe(false);
   });
 
-  it('reports pass when every page review unit is approved', () => {
+  it('reports complete when every page review unit is approved', () => {
     const initial = buildSeoToolQueueReport({ trackerText: '', write: false });
     const approvedRows = initial.entries
       .map(
@@ -63,7 +63,7 @@ ${approvedRows}
       write: false,
     });
 
-    expect(report.status).toBe('pass');
+    expect(report.status).toBe('complete');
     expect(report.summary.approvedPages).toBe(report.summary.pages);
     expect(report.summary.remainingPages).toBe(0);
     expect(report.summary.firstPage).toBe('');

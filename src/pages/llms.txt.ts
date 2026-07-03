@@ -3,6 +3,7 @@ import type { APIRoute } from 'astro';
 import { blogPosts } from '../data/blogPosts';
 import { categories } from '../data/categories';
 import { tools } from '../data/tools';
+import { DISCOVERY_CACHE_CONTROL } from '../lib/cacheHeaders';
 
 const SITE = 'https://accessfreetools.com';
 
@@ -78,6 +79,7 @@ ${featuredGuides}
 
   return new Response(body, {
     headers: {
+      'Cache-Control': DISCOVERY_CACHE_CONTROL,
       'Content-Type': 'text/plain; charset=utf-8',
     },
   });

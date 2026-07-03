@@ -24,7 +24,7 @@ import type { ToolSearchItem } from '../data/toolSearchIndex';
 
 type CategoryFilter = 'all' | ToolCategory['slug'];
 
-const INITIAL_VISIBLE_TOOL_LIMIT = 96;
+const INITIAL_VISIBLE_TOOL_LIMIT = 72;
 
 interface Props {
   categoryCounts: Partial<Record<ToolCategory['slug'], number>>;

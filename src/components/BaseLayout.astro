@@ -2,6 +2,7 @@
 import SiteFooter from './SiteFooter.astro';
 import SiteHeader from './SiteHeader.astro';
 import { robotsContentForPath } from '../data/indexationPolicy';
+import { verifiedOrganizationSameAs } from '../data/siteEntity';
 import { getArticleDatesFromPath, toIsoDateTime } from '../data/siteDates';
 import '../styles/global.css';
 
@@ -53,6 +54,7 @@ const siteStructuredData = {
       name: 'Access Free Tools',
       url: new URL('/', site).toString(),
       logo: new URL('/favicon.svg', site).toString(),
+      sameAs: verifiedOrganizationSameAs,
     },
     {
       '@type': 'WebSite',

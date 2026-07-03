@@ -30,9 +30,10 @@ const categoryGalleryNotes = [
   'Every card sends visitors back to the matching tool or guide page, so the image is connected to the thing it explains.',
   'The gallery shows approved images that match real tools and guides. Draft or placeholder images stay out of the public gallery.',
 ];
+const representativeEntries = category.entries.slice(0, 60);
 const imageStructuredData = {
   '@context': 'https://schema.org',
-  '@graph': category.entries.slice(0, 120).map((entry: ToolArtManifestEntry) => ({
+  '@graph': representativeEntries.map((entry: ToolArtManifestEntry) => ({
     '@type': 'ImageObject',
     name: `${entry.toolName} ${entry.kind} image`,
     description: entry.alt,
@@ -65,8 +66,8 @@ const imageStructuredData = {
     name={`${category.name} Smoke-Kawaii Gallery`}
     description={description}
     path={`/gallery/${category.slug}/`}
-    items={category.entries.map((entry: ToolArtManifestEntry) => ({ name: `${entry.toolName} ${entry.kind} image`, path: entry.pagePath }))}
-    maxItems={120}
+    items={representativeEntries.map((entry: ToolArtManifestEntry) => ({ name: `${entry.toolName} ${entry.kind} image`, path: entry.pagePath }))}
+    maxItems={representativeEntries.length}
   />
 
   <section class="page-intro gallery-hero">

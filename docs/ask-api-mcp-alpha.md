@@ -87,10 +87,9 @@ npm run hostinger:deploy-node
 npm run check:live-ask
 ```
 
-`npm run hostinger:deploy-node` defaults to Hostinger Node 24. For an emergency
-runtime rollback only, set `HOSTINGER_NODE_VERSION=22` or run npm with
-`--node-version=22`, then redeploy the verified commit again when Node 24 is
-healthy.
+`npm run hostinger:deploy-node` uses Hostinger Node 24 only. Do not set
+`HOSTINGER_NODE_VERSION` or npm `--node-version` to Node 22 for Access Free
+Tools production deploys.
 
 `check:live-ask` must show `/api/v1/ask` using `route.source: "parser"` or
 `route.source: "ollama"` and must never show `php-router`. Do not add PHP

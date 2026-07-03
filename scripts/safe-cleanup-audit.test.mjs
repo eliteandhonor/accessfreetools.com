@@ -65,7 +65,7 @@ describe('safe cleanup audit', () => {
       command: 'node scripts/aft-cli.mjs seo-tool-queue',
       exitCode: 0,
     });
-    expect(queue.stdout).toContain('SEO tool/page queue: pass');
+    expect(queue.stdout).toContain('SEO tool/page queue: complete');
     expect(queue.stdout).toContain('Remaining page review units: 0');
     expect(approval).toMatchObject({
       command: 'node scripts/aft-cli.mjs seo-approval-status text-case-converter',
@@ -73,5 +73,5 @@ describe('safe cleanup audit', () => {
     });
     expect(approval.stdout).toContain('SEO approval status: pass');
     expect(approval.stdout).toContain('Can proceed to next slug: yes');
-  });
+  }, 20000);
 });

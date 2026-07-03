@@ -8,12 +8,13 @@ describe('Hostinger deploy config', () => {
     expect(resolveHostingerNodeVersion({})).toBe(24);
   });
 
-  it('allows explicit rollback/runtime override values', () => {
-    expect(resolveHostingerNodeVersion({ HOSTINGER_NODE_VERSION: '22' })).toBe(22);
-    expect(resolveHostingerNodeVersion({ npm_config_node_version: '20' })).toBe(20);
+  it('allows only the Node 24 production runtime', () => {
+    expect(resolveHostingerNodeVersion({ HOSTINGER_NODE_VERSION: '24' })).toBe(24);
+    expect(resolveHostingerNodeVersion({ npm_config_node_version: '24' })).toBe(24);
   });
 
-  it('rejects unsupported Hostinger Node versions', () => {
-    expect(() => resolveHostingerNodeVersion({ HOSTINGER_NODE_VERSION: '23' })).toThrow(/Unsupported Hostinger Node version/);
+  it('rejects non-24 Hostinger Node versions', () => {
+    expect(() => resolveHostingerNodeVersion({ HOSTINGER_NODE_VERSION: '22' })).toThrow(/must be 24/);
+    expect(() => resolveHostingerNodeVersion({ npm_config_node_version: '20' })).toThrow(/must be 24/);
   });
 });

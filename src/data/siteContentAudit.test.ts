@@ -6,6 +6,14 @@ import { describe, expect, it } from 'vitest';
 import { aiBlogGuides } from './aiBlogGuides';
 import { aiTools } from './aiTools';
 import {
+  blogSitemapEntries,
+  categorySitemapEntries,
+  gallerySitemapEntries,
+  hubSitemapEntries,
+  staticSitemapEntries,
+  toolSitemapEntries,
+} from './discovery';
+import {
   blogGuideRedirects,
   getBlogGuideSlugForTool,
   isRedirectedBlogGuideSlug,
@@ -24,6 +32,7 @@ import {
 import { getCalculatorIconMark } from './toolIcons';
 import { tools } from './tools';
 import { utilityBlogGuides } from './utilityBlogGuides';
+import { verifiedOrganizationSameAs } from './siteEntity';
 
 const PAGE_TITLE_MAX = 70;
 const META_DESCRIPTION_MAX = 170;
@@ -655,7 +664,7 @@ describe('site content audit guardrails', () => {
   });
 
   it('keeps launchpad and structured data scalable as the library grows', () => {
-    expect(TOOLS_LAUNCHPAD_SOURCE).toContain('const INITIAL_VISIBLE_TOOL_LIMIT = 96');
+    expect(TOOLS_LAUNCHPAD_SOURCE).toContain('const INITIAL_VISIBLE_TOOL_LIMIT = 72');
     expect(TOOLS_LAUNCHPAD_SOURCE).toContain('Show all');
     expect(TOOLS_INDEX_SOURCE).toContain('maxItems={100}');
     expect(TOOLS_INDEX_SOURCE).toContain('client:load');
@@ -870,6 +879,61 @@ describe('site content audit guardrails', () => {
     expect(SITE_HEADER_SOURCE).toContain('/free-calculator-resources/');
     expect(LLMS_SOURCE).toContain('Resources hub: https://accessfreetools.com/free-calculator-resources/');
     expect(INDEXNOW_SUBMIT_SOURCE).toContain('/free-calculator-resources/');
+  });
+
+  it('keeps XML sitemap entries canonical, indexable, and alias-free', () => {
+    const entries = [
+      ...staticSitemapEntries,
+      ...toolSitemapEntries,
+      ...blogSitemapEntries,
+      ...categorySitemapEntries,
+      ...hubSitemapEntries,
+      ...gallerySitemapEntries,
+    ];
+    const paths = entries.map((entry) => entry.path);
+    const duplicatePaths = findDuplicates(paths);
+    const aliasPaths = new Set(toolAliases.map((alias) => `/tools/${alias.slug}/`));
+    const issues: string[] = [];
+
+    if (duplicatePaths.length > 0) {
+      issues.push(`duplicate sitemap paths: ${duplicatePaths.join(', ')}`);
+    }
+
+    for (const path of paths) {
+      if (!path.startsWith('/') || !path.endsWith('/')) {
+        issues.push(`${path} should be a root-relative trailing-slash path`);
+      }
+
+      if (path.includes('?') || path.includes('#')) {
+        issues.push(`${path} should not include a query string or fragment`);
+      }
+
+      if (path === '/sitemap/' || path.startsWith('/admin/') || path.startsWith('/api/')) {
+        issues.push(`${path} should not be in XML sitemaps`);
+      }
+
+      if (aliasPaths.has(path)) {
+        issues.push(`${path} is an alias page and should not be in XML sitemaps`);
+      }
+    }
+
+    expect(issues).toEqual([]);
+  });
+
+  it('keeps verified Organization sameAs links public and conservative', () => {
+    expect(ASTRO_CONFIG_SOURCE).toContain('allowedDomains');
+    expect(ASTRO_CONFIG_SOURCE).toContain("hostname: 'accessfreetools.com'");
+    expect(ASTRO_CONFIG_SOURCE).toContain("hostname: 'www.accessfreetools.com'");
+    expect(ASTRO_CONFIG_SOURCE).toContain('memoryCache()');
+    expect(verifiedOrganizationSameAs.length).toBeGreaterThanOrEqual(8);
+    expect(verifiedOrganizationSameAs).toContain('https://github.com/access-free-tools');
+    expect(verifiedOrganizationSameAs).toContain('https://www.linkedin.com/company/access-free-tools/');
+    expect(verifiedOrganizationSameAs).toContain('https://medium.com/@accessfreetools');
+
+    for (const url of verifiedOrganizationSameAs) {
+      expect(url).toMatch(/^https:\/\//);
+      expect(url).not.toContain('Pending');
+    }
   });
 
   it('keeps DataForSEO automation guarded by status, sandbox, and budget checks', () => {

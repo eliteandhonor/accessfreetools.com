@@ -6,12 +6,13 @@ const METADATA_CACHE_SECONDS = 300;
 const METADATA_STALE_WHILE_REVALIDATE_SECONDS = 600;
 const rateLimitBuckets = new Map<string, { count: number; resetAt: number }>();
 
-export function jsonResponse(body: unknown, status = 200) {
+export function jsonResponse(body: unknown, status = 200, headers: HeadersInit = {}) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
       'cache-control': 'no-store',
       'content-type': 'application/json',
+      ...headers,
     },
   });
 }
