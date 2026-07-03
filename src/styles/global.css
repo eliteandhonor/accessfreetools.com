@@ -7355,6 +7355,18 @@ main {
   padding-top: 28px;
 }
 
+.editorial-article .article-heading-link {
+  color: var(--primary-strong);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.16em;
+}
+
+.editorial-article .article-heading-link:hover,
+.editorial-article .article-heading-link:focus-visible {
+  color: var(--primary);
+}
+
 .article-sidecar {
   position: sticky;
   top: 16px;
