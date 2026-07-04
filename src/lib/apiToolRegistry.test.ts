@@ -5,8 +5,9 @@ import { ApiToolValidationError, listApiTools, runApiTool, searchApiTools } from
 describe('api tool registry', () => {
   it('lists starter tools with schemas and links', () => {
     const tools = listApiTools();
-    expect(tools.length).toBeGreaterThanOrEqual(21);
+    expect(tools.length).toBeGreaterThanOrEqual(22);
     expect(tools.find((tool) => tool.slug === 'absolute-value-calculator')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'ai-token-cost-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'percentage-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'binary-calculator')?.input_schema).toBeTruthy();
     expect(tools.every((tool) => tool.tool_url.startsWith('https://accessfreetools.com/tools/'))).toBe(true);
@@ -33,6 +34,15 @@ describe('api tool registry', () => {
   it('runs newly API-ready low-risk calculators', () => {
     expect(runApiTool('absolute-value-calculator', { value: -12.5 }).answer).toContain('12.5');
     expect(runApiTool('absolute-value-calculator', { comparisonValue: 57, value: 82 }).answer).toContain('25');
+    const tokenCost = runApiTool('ai-token-cost-calculator', {
+      inputPricePerMillion: 2,
+      inputTokensPerRequest: 1200,
+      outputPricePerMillion: 8,
+      outputTokensPerRequest: 500,
+      requests: 10000,
+    });
+    expect(tokenCost.answer).toContain('$64.00');
+    expect(JSON.stringify(tokenCost.result)).toContain('costPerRequest');
     expect(runApiTool('basic-calculator', { left: 18, operator: '+', right: 24 }).answer).toContain('42');
     expect(runApiTool('average-calculator', { values: [10, 12, 14] }).answer).toContain('12');
     expect(runApiTool('area-calculator', { length: 12, shape: 'rectangle', width: 10 }).answer).toContain('120');
@@ -107,6 +117,11 @@ describe('ask tool router parser', () => {
     await expect(answerUtilityQuestion('What is the absolute difference between 82 and 57?')).resolves.toMatchObject({
       route: { tool_slug: 'absolute-value-calculator' },
     });
+    const tokenCostAnswer = await answerUtilityQuestion(
+      'Estimate AI token cost for 10,000 requests with 1,200 input tokens, 500 output tokens, $2 input and $8 output per 1M tokens.',
+    );
+    expect(tokenCostAnswer.route.tool_slug).toBe('ai-token-cost-calculator');
+    expect(tokenCostAnswer.answer).toContain('$64.00');
   });
 });
 

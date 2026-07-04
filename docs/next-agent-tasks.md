@@ -9,7 +9,7 @@ Use this task board after `npm run aft -- status` and `npm run aft -- seo-consol
 - Branch: `main`.
 - Recovery PR `#55` merged as commit `6092a12d34b72ca30f1fb3d81c0304a3bf4a832b`.
 - Final Hostinger Node build `019f22f6-9b54-7264-b899-486e4aa1b844` completed with `entry=app.js`.
-- `npm run check:live-ask`: pass; `/api/v1/ask` uses `access-free-tools-parser`, `/api/v1/tools` returns 21 tools, and MCP exposes `search_tools`, `get_tool_schema`, `run_tool`, and `fetch_tool_guide`.
+- `npm run check:live-ask`: pass; `/api/v1/ask` uses `access-free-tools-parser`, `/api/v1/tools` returns 22 tools after the AI Token Cost Calculator API expansion, and MCP exposes `search_tools`, `get_tool_schema`, `run_tool`, and `fetch_tool_guide`.
 - `npm run aft -- ask-audit`, `npm run aft -- api-ready`, and `npm run aft -- mcp-smoke`: pass after deploy.
 - `npm run check:production-sitemap`: 646 OK URLs, 4 redirects, 0 hard failures after deploy.
 - `npm run aft -- status`: DataForSEO live balance 14.47 USD, Hostinger OK, promotion queue 67 rows, indexing gaps 3, GSC performance import present with 103 deindexed URLs and 25 high-impression zero-click pages.

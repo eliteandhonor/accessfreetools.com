@@ -86,6 +86,10 @@ function parseNumberList(message: string) {
   return [...message.matchAll(/-?\d+(?:\.\d+)?/g)].map((match) => Number(match[0]));
 }
 
+function parseLooseNumber(value: string) {
+  return Number(value.replace(/,/g, ''));
+}
+
 function normalizeOperator(value: string) {
   const normalized = value.toLowerCase().trim();
   if (normalized === 'x' || normalized === 'times') return '*';
@@ -116,6 +120,31 @@ function parseSupportedToolQuestion(message: string): ToolCallRoute | null {
       source: 'parser',
       tool_slug: 'percentage-calculator',
     };
+  }
+
+  if (lower.includes('token') && (lower.includes('cost') || lower.includes('price') || lower.includes('spend'))) {
+    const requestsMatch = lower.match(/(\d[\d,]*(?:\.\d+)?)\s*(?:requests|request|calls|call)\b/);
+    const inputTokensMatch = lower.match(/(\d[\d,]*(?:\.\d+)?)\s*(?:input|prompt)\s*tokens?\b/);
+    const outputTokensMatch = lower.match(
+      /(\d[\d,]*(?:\.\d+)?)\s*(?:output|completion|response)\s*tokens?\b/,
+    );
+    const inputPriceMatch = lower.match(/\$\s*(\d+(?:\.\d+)?)\s*(?:input|prompt)\b/);
+    const outputPriceMatch = lower.match(/\$\s*(\d+(?:\.\d+)?)\s*(?:output|completion|response)\b/);
+
+    if (requestsMatch && inputTokensMatch && outputTokensMatch && inputPriceMatch && outputPriceMatch) {
+      return {
+        confidence: 'high',
+        inputs: {
+          inputPricePerMillion: Number(inputPriceMatch[1]),
+          inputTokensPerRequest: parseLooseNumber(inputTokensMatch[1]),
+          outputPricePerMillion: Number(outputPriceMatch[1]),
+          outputTokensPerRequest: parseLooseNumber(outputTokensMatch[1]),
+          requests: parseLooseNumber(requestsMatch[1]),
+        },
+        source: 'parser',
+        tool_slug: 'ai-token-cost-calculator',
+      };
+    }
   }
 
   if (lower.includes('download') || lower.includes('mbps') || lower.includes('gb')) {

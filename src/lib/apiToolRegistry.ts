@@ -2,6 +2,7 @@ import { z } from 'zod';
 import {
   analyzeText,
   calculateAbsoluteValue,
+  calculateAiTokenCost,
   calculateBigIntegerOperation,
   calculateBinary,
   calculateBinaryIntegerOperation,
@@ -123,6 +124,15 @@ function money(value: number) {
   }).format(value);
 }
 
+function preciseMoney(value: number) {
+  return new Intl.NumberFormat('en-US', {
+    currency: 'USD',
+    maximumFractionDigits: value < 1 ? 6 : 2,
+    minimumFractionDigits: value < 1 ? 0 : 2,
+    style: 'currency',
+  }).format(value);
+}
+
 function withUrls(slug: string, result: Omit<ApiToolRunResult, 'tool_url' | 'guide_url'>): ApiToolRunResult {
   return {
     ...result,
@@ -167,6 +177,14 @@ const percentageInput = z.object({
 const absoluteValueInput = z.object({
   comparisonValue: z.number().optional(),
   value: z.number(),
+});
+
+const aiTokenCostInput = z.object({
+  inputPricePerMillion: z.number().nonnegative(),
+  inputTokensPerRequest: z.number().nonnegative(),
+  outputPricePerMillion: z.number().nonnegative(),
+  outputTokensPerRequest: z.number().nonnegative(),
+  requests: z.number().positive(),
 });
 
 const calculatorOperatorInput = z.enum(['+', '-', '*', '/']);
@@ -388,6 +406,66 @@ export const apiTools = [
         result,
         steps: [`Write the number with absolute value bars: |${formatNumber(input.value)}|`, `Distance from zero = ${formatNumber(result.absoluteValue)}`],
         warnings: [],
+      });
+    },
+  },
+  {
+    category: 'ai-tools',
+    description: 'Estimate LLM API spend from requests, input tokens, output tokens, and model prices per 1M tokens.',
+    examples: [
+      {
+        label: 'Support bot month',
+        inputs: {
+          inputPricePerMillion: 2,
+          inputTokensPerRequest: 1200,
+          outputPricePerMillion: 8,
+          outputTokensPerRequest: 500,
+          requests: 10000,
+        },
+      },
+      {
+        label: 'Small prototype run',
+        inputs: {
+          inputPricePerMillion: 0.15,
+          inputTokensPerRequest: 300,
+          outputPricePerMillion: 0.6,
+          outputTokensPerRequest: 150,
+          requests: 1000,
+        },
+      },
+    ],
+    inputSchema: aiTokenCostInput,
+    keywords: ['ai token cost', 'llm cost', 'model pricing', 'api pricing', 'tokens'],
+    name: 'AI Token Cost Calculator',
+    risk: 'low',
+    slug: 'ai-token-cost-calculator',
+    summary: 'Estimate AI model input cost, output cost, total cost, and cost per request.',
+    run(input) {
+      const result = calculateAiTokenCost(
+        input.inputTokensPerRequest,
+        input.outputTokensPerRequest,
+        input.requests,
+        input.inputPricePerMillion,
+        input.outputPricePerMillion,
+      );
+
+      return withUrls('ai-token-cost-calculator', {
+        answer: `Estimated AI token cost is ${preciseMoney(result.totalCost)} total, or ${preciseMoney(result.costPerRequest)} per request.`,
+        assumptions: [
+          'Prices are entered in USD per 1 million tokens.',
+          'Cached-token discounts, batch pricing, credits, taxes, and retries are not included unless you adjust the entered prices or request count.',
+        ],
+        result,
+        steps: [
+          `Input tokens: ${formatNumber(input.inputTokensPerRequest)} x ${formatNumber(input.requests)} = ${formatNumber(result.totalInputTokens)}`,
+          `Input cost: ${formatNumber(result.totalInputTokens)} / 1,000,000 x ${preciseMoney(input.inputPricePerMillion)} = ${preciseMoney(result.inputCost)}`,
+          `Output tokens: ${formatNumber(input.outputTokensPerRequest)} x ${formatNumber(input.requests)} = ${formatNumber(result.totalOutputTokens)}`,
+          `Output cost: ${formatNumber(result.totalOutputTokens)} / 1,000,000 x ${preciseMoney(input.outputPricePerMillion)} = ${preciseMoney(result.outputCost)}`,
+          `Total cost: ${preciseMoney(result.inputCost)} + ${preciseMoney(result.outputCost)} = ${preciseMoney(result.totalCost)}`,
+        ],
+        warnings: [
+          'This is a planning estimate. Check your provider rate card, cached-token rules, discounts, taxes, and real usage logs before budgeting.',
+        ],
       });
     },
   },

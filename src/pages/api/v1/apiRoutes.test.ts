@@ -31,8 +31,9 @@ describe('Access Free Tools API routes', () => {
     const body = await response.json();
     expect(response.headers.get('cache-control')).toBe(METADATA_CACHE_CONTROL);
     expect(body.ok).toBe(true);
-    expect(body.tools.length).toBeGreaterThanOrEqual(21);
+    expect(body.tools.length).toBeGreaterThanOrEqual(22);
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('absolute-value-calculator');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('ai-token-cost-calculator');
     expect(response.headers.get('cache-control')).toMatch(/public/);
   });
 
@@ -134,6 +135,27 @@ describe('Access Free Tools API routes', () => {
     expect(body.run.tool_url).toBe('https://accessfreetools.com/tools/absolute-value-calculator/');
   });
 
+  it('runs the AI token cost API tool', async () => {
+    const response = await runPost({
+      clientAddress: '127.0.0.1',
+      params: { slug: 'ai-token-cost-calculator' },
+      request: request({
+        inputs: {
+          inputPricePerMillion: 2,
+          inputTokensPerRequest: 1200,
+          outputPricePerMillion: 8,
+          outputTokensPerRequest: 500,
+          requests: 10000,
+        },
+      }),
+    } as never);
+    const body = await response.json();
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(body.ok).toBe(true);
+    expect(body.run.answer).toContain('$64.00');
+    expect(body.run.tool_url).toBe('https://accessfreetools.com/tools/ai-token-cost-calculator/');
+  });
+
   it('rejects invalid tool input', async () => {
     const response = await runPost({
       clientAddress: '127.0.0.1',
@@ -169,6 +191,21 @@ describe('Access Free Tools API routes', () => {
     expect(body.route.tool_slug).toBe('download-time-calculator');
     expect(body.run.answer).toContain('9m 16s');
     expect(body.run.answer).not.toMatch(/555\.?5{3,}/);
+  });
+
+  it('routes AI token cost Ask questions through the deterministic runner', async () => {
+    const response = await askPost({
+      clientAddress: '127.0.0.3',
+      request: request({
+        message:
+          'Estimate AI token cost for 10,000 requests with 1,200 input tokens, 500 output tokens, $2 input and $8 output per 1M tokens.',
+      }),
+    } as never);
+    const body = await response.json();
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(body.ok).toBe(true);
+    expect(body.route.tool_slug).toBe('ai-token-cost-calculator');
+    expect(body.run.answer).toContain('$64.00');
   });
 
   it('runs the same deterministic result through MCP run_tool', async () => {
