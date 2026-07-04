@@ -113,6 +113,34 @@ describe('Access Free Tools API routes', () => {
     expect(headerTokenBody.ok).toBe(true);
   });
 
+  it('accepts API beta tokens from bearer headers, not Ask query strings', async () => {
+    process.env.AFT_API_BETA_TOKEN = 'test-beta-token';
+
+    const queryTokenResponse = await askPost({
+      clientAddress: '127.0.0.1',
+      request: request(
+        { message: 'What is 18% of 240?' },
+        undefined,
+        'https://accessfreetools.com/api/v1/ask?token=test-beta-token',
+      ),
+    } as never);
+    const queryTokenBody = await queryTokenResponse.json();
+    expect(queryTokenResponse.status).toBe(401);
+    expect(queryTokenBody.ok).toBe(false);
+
+    const bearerTokenResponse = await askPost({
+      clientAddress: '127.0.0.1',
+      request: request(
+        { message: 'What is 18% of 240?' },
+        { authorization: 'Bearer test-beta-token' },
+      ),
+    } as never);
+    const bearerTokenBody = await bearerTokenResponse.json();
+    expect(bearerTokenResponse.status).toBe(200);
+    expect(bearerTokenBody.ok).toBe(true);
+    expect(bearerTokenBody.run.answer).toContain('43.2');
+  });
+
   it('runs a newly API-ready tool', async () => {
     const response = await runPost({
       clientAddress: '127.0.0.1',

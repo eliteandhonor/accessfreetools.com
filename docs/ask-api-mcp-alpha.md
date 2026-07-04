@@ -58,6 +58,10 @@ AFT_API_BETA_TOKEN=private-beta-token
 
 `.local` is ignored by Git. Never commit Ollama keys, beta tokens, prompts that
 contain secrets, or API response logs that include private user input.
+When `AFT_API_BETA_TOKEN` is set, API clients must send it with the
+`x-aft-api-token` header or an `Authorization: Bearer ...` header. Query-string
+tokens such as `?token=` are intentionally rejected so private tokens do not end
+up in browser history, logs, referrer headers, or shared URLs.
 
 ## Hostinger Environment
 
