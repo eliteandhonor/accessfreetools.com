@@ -5,9 +5,10 @@ import { ApiToolValidationError, listApiTools, runApiTool, searchApiTools } from
 describe('api tool registry', () => {
   it('lists starter tools with schemas and links', () => {
     const tools = listApiTools();
-    expect(tools.length).toBeGreaterThanOrEqual(22);
+    expect(tools.length).toBeGreaterThanOrEqual(23);
     expect(tools.find((tool) => tool.slug === 'absolute-value-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'ai-token-cost-calculator')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'amp-hours-to-watt-hours-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'percentage-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'binary-calculator')?.input_schema).toBeTruthy();
     expect(tools.every((tool) => tool.tool_url.startsWith('https://accessfreetools.com/tools/'))).toBe(true);
@@ -43,6 +44,9 @@ describe('api tool registry', () => {
     });
     expect(tokenCost.answer).toContain('$64.00');
     expect(JSON.stringify(tokenCost.result)).toContain('costPerRequest');
+    const wattHours = runApiTool('amp-hours-to-watt-hours-calculator', { ampHours: 300, volts: 12 });
+    expect(wattHours.answer).toContain('3600 Wh');
+    expect(JSON.stringify(wattHours.result)).toContain('kilowattHours');
     expect(runApiTool('basic-calculator', { left: 18, operator: '+', right: 24 }).answer).toContain('42');
     expect(runApiTool('average-calculator', { values: [10, 12, 14] }).answer).toContain('12');
     expect(runApiTool('area-calculator', { length: 12, shape: 'rectangle', width: 10 }).answer).toContain('120');
@@ -122,6 +126,9 @@ describe('ask tool router parser', () => {
     );
     expect(tokenCostAnswer.route.tool_slug).toBe('ai-token-cost-calculator');
     expect(tokenCostAnswer.answer).toContain('$64.00');
+    const wattHoursAnswer = await answerUtilityQuestion('Convert 300 Ah at 12 V to watt-hours.');
+    expect(wattHoursAnswer.route.tool_slug).toBe('amp-hours-to-watt-hours-calculator');
+    expect(wattHoursAnswer.answer).toContain('3600 Wh');
   });
 });
 

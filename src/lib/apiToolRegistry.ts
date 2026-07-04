@@ -3,6 +3,7 @@ import {
   analyzeText,
   calculateAbsoluteValue,
   calculateAiTokenCost,
+  calculateAmpHoursToWattHours,
   calculateBigIntegerOperation,
   calculateBinary,
   calculateBinaryIntegerOperation,
@@ -185,6 +186,11 @@ const aiTokenCostInput = z.object({
   outputPricePerMillion: z.number().nonnegative(),
   outputTokensPerRequest: z.number().nonnegative(),
   requests: z.number().positive(),
+});
+
+const ampHoursToWattHoursInput = z.object({
+  ampHours: z.number().positive(),
+  volts: z.number().positive(),
 });
 
 const calculatorOperatorInput = z.enum(['+', '-', '*', '/']);
@@ -743,6 +749,36 @@ export const apiTools = [
         result,
         steps: [`Formula: amps = watts / (volts x phase factor x power factor)`, `${formatNumber(input.watts)} / (${formatNumber(input.volts)} x ${formatNumber(result.phaseFactor)} x ${formatNumber(input.powerFactor)}) = ${formatNumber(result.amps)} amps`],
         warnings: ['This is a learning estimate, not electrical code or wiring approval. Ask a qualified electrician for safety-critical work.'],
+      });
+    },
+  },
+  {
+    category: 'electrical',
+    description: 'Convert battery amp-hours and nominal voltage into watt-hours and kilowatt-hours.',
+    examples: [
+      { label: '300 Ah at 12 V', inputs: { ampHours: 300, volts: 12 } },
+      { label: '200 Ah at 12.8 V', inputs: { ampHours: 200, volts: 12.8 } },
+    ],
+    inputSchema: ampHoursToWattHoursInput,
+    keywords: ['amp hours', 'watt hours', 'ah to wh', 'battery energy', 'volts'],
+    name: 'Amp Hours to Watt Hours Calculator',
+    risk: 'electrical',
+    slug: 'amp-hours-to-watt-hours-calculator',
+    summary: 'Estimate battery energy from amp-hours and nominal voltage.',
+    run(input) {
+      const result = calculateAmpHoursToWattHours(input);
+      return withUrls('amp-hours-to-watt-hours-calculator', {
+        answer: `${formatNumber(input.ampHours)} Ah at ${formatNumber(input.volts)} V is about ${formatNumber(result.wattHours)} Wh, or ${formatNumber(result.kilowattHours)} kWh.`,
+        assumptions: ['Use nominal battery voltage, such as 12 V, 12.8 V, 24 V, or 48 V.'],
+        result,
+        steps: [
+          `Formula: watt-hours = amp-hours x volts`,
+          `${formatNumber(input.ampHours)} Ah x ${formatNumber(input.volts)} V = ${formatNumber(result.wattHours)} Wh`,
+          `${formatNumber(result.wattHours)} Wh / 1,000 = ${formatNumber(result.kilowattHours)} kWh`,
+        ],
+        warnings: [
+          'Battery labels are nominal. Real usable energy changes with chemistry, discharge rate, temperature, age, depth-of-discharge limits, and conversion losses.',
+        ],
       });
     },
   },

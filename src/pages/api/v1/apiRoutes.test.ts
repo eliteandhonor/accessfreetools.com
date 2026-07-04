@@ -31,9 +31,10 @@ describe('Access Free Tools API routes', () => {
     const body = await response.json();
     expect(response.headers.get('cache-control')).toBe(METADATA_CACHE_CONTROL);
     expect(body.ok).toBe(true);
-    expect(body.tools.length).toBeGreaterThanOrEqual(22);
+    expect(body.tools.length).toBeGreaterThanOrEqual(23);
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('absolute-value-calculator');
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('ai-token-cost-calculator');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('amp-hours-to-watt-hours-calculator');
     expect(response.headers.get('cache-control')).toMatch(/public/);
   });
 
@@ -156,6 +157,19 @@ describe('Access Free Tools API routes', () => {
     expect(body.run.tool_url).toBe('https://accessfreetools.com/tools/ai-token-cost-calculator/');
   });
 
+  it('runs the amp hours to watt hours API tool', async () => {
+    const response = await runPost({
+      clientAddress: '127.0.0.1',
+      params: { slug: 'amp-hours-to-watt-hours-calculator' },
+      request: request({ inputs: { ampHours: 300, volts: 12 } }),
+    } as never);
+    const body = await response.json();
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(body.ok).toBe(true);
+    expect(body.run.answer).toContain('3600 Wh');
+    expect(body.run.tool_url).toBe('https://accessfreetools.com/tools/amp-hours-to-watt-hours-calculator/');
+  });
+
   it('rejects invalid tool input', async () => {
     const response = await runPost({
       clientAddress: '127.0.0.1',
@@ -206,6 +220,18 @@ describe('Access Free Tools API routes', () => {
     expect(body.ok).toBe(true);
     expect(body.route.tool_slug).toBe('ai-token-cost-calculator');
     expect(body.run.answer).toContain('$64.00');
+  });
+
+  it('routes amp hour battery energy Ask questions through the deterministic runner', async () => {
+    const response = await askPost({
+      clientAddress: '127.0.0.4',
+      request: request({ message: 'Convert 300 Ah at 12 V to watt-hours.' }),
+    } as never);
+    const body = await response.json();
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(body.ok).toBe(true);
+    expect(body.route.tool_slug).toBe('amp-hours-to-watt-hours-calculator');
+    expect(body.run.answer).toContain('3600 Wh');
   });
 
   it('runs the same deterministic result through MCP run_tool', async () => {

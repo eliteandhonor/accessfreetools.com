@@ -147,6 +147,26 @@ function parseSupportedToolQuestion(message: string): ToolCallRoute | null {
     }
   }
 
+  if (
+    (lower.includes('amp hour') || lower.includes('amp-hour') || /\bah\b/.test(lower)) &&
+    (lower.includes('watt hour') || lower.includes('watt-hour') || /\bwh\b/.test(lower))
+  ) {
+    const ampHoursMatch = lower.match(/(\d[\d,]*(?:\.\d+)?)\s*(?:amp[-\s]?hours?|ah)\b/);
+    const voltsMatch = lower.match(/(\d[\d,]*(?:\.\d+)?)\s*(?:v|volts?|volt)\b/);
+
+    if (ampHoursMatch && voltsMatch) {
+      return {
+        confidence: 'high',
+        inputs: {
+          ampHours: parseLooseNumber(ampHoursMatch[1]),
+          volts: parseLooseNumber(voltsMatch[1]),
+        },
+        source: 'parser',
+        tool_slug: 'amp-hours-to-watt-hours-calculator',
+      };
+    }
+  }
+
   if (lower.includes('download') || lower.includes('mbps') || lower.includes('gb')) {
     const match = lower.match(/(\d+(?:\.\d+)?)\s*(kb|mb|gb|tb).*?(\d+(?:\.\d+)?)\s*mbps/);
     if (match) {
